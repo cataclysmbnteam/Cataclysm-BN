@@ -5097,10 +5097,10 @@ void vehicle::place_spawn_items()
                         e.damage = rng( 1, MAX_ITEM_DAMAGE );
                     }
                     if( e.is_tool() || e.is_gun() || e.is_magazine() ) {
-                        bool spawn_ammo = rng( 0, 99 ) < spawn.with_ammo && e.ammo_remaining() == 0 && e.ammo_type() != "NULL";
+                        bool spawn_ammo = rng( 0, 99 ) < spawn.with_ammo && e.ammo_remaining() == 0;
                         bool spawn_mag  = rng( 0, 99 ) < spawn.with_magazine && !e.magazine_integral() && !e.magazine_current();
 
-                        if( spawn_mag || spawn_ammo ) {
+                        if( spawn_mag ) {
                             e.contents.emplace_back( e.magazine_default(), e.bday );
                         }
                         if( spawn_ammo ) {
