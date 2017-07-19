@@ -126,7 +126,7 @@ after_success:
   - if [ -n "${CODE_COVERAGE}" ]; then coveralls -b . -i src -e tests --gcov /usr/bin/gcov-4.8; fi
 
 before_deploy:
-  - tar zJf "cdda-0.C-${TRAVIS_BUILD_NUMBER}.tar.xz" data doc lang lua README.md $EXEC_NAME
+  - tar -cJf "cdda-0.C-${TRAVIS_BUILD_NUMBER}.tar.xz" data doc lang lua README.md $EXEC_NAME
 
 deploy:
   provider: releases
