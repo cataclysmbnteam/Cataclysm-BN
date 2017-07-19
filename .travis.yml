@@ -46,45 +46,45 @@ matrix:
     - env: TRAVIS_EMPTY_JOB_WORKAROUND=true
 
   include:
-    # coverage
-    - env: COMPILER=g++-4.8 CODE_COVERAGE=true
-      compiler: gcc
-      addons: &gcc48
-        apt:
-          packages: ["g++-4.8", "g++-4.8-multilib", "libc6-dbg", "libc6-dbg:i386", "lcov", "astyle"]
-          sources: *apt_sources
+    # # coverage
+    # - env: COMPILER=g++-4.8 CODE_COVERAGE=true
+      # compiler: gcc
+      # addons: &gcc48
+        # apt:
+          # packages: ["g++-4.8", "g++-4.8-multilib", "libc6-dbg", "libc6-dbg:i386", "lcov", "astyle"]
+          # sources: *apt_sources
 
-    # GCC 4.8
-    - env: COMPILER=g++-4.8
-      compiler: gcc
-      addons: &gcc48
-        apt:
-          packages: ["g++-4.8", "g++-4.8-multilib", "libc6-dbg", "libc6-dbg:i386"]
-          sources: *apt_sources
+    # # GCC 4.8
+    # - env: COMPILER=g++-4.8
+      # compiler: gcc
+      # addons: &gcc48
+        # apt:
+          # packages: ["g++-4.8", "g++-4.8-multilib", "libc6-dbg", "libc6-dbg:i386"]
+          # sources: *apt_sources
 
-    # GCC 4.9
-    - env: COMPILER=g++-4.9
-      compiler: gcc
-      addons: &gcc49
-        apt:
-          packages: ["g++-4.9", "g++-4.9-multilib", "libc6-dbg", "libc6-dbg:i386"]
-          sources: *apt_sources
+    # # GCC 4.9
+    # - env: COMPILER=g++-4.9
+      # compiler: gcc
+      # addons: &gcc49
+        # apt:
+          # packages: ["g++-4.9", "g++-4.9-multilib", "libc6-dbg", "libc6-dbg:i386"]
+          # sources: *apt_sources
 
-    # GCC 5
-    - env: COMPILER=g++-5
-      compiler: gcc
-      addons: &gcc5
-        apt:
-          packages: ["g++-5",   "g++-5-multilib",   "libc6-dbg", "libc6-dbg:i386"]
-          sources: *apt_sources
+    # # GCC 5
+    # - env: COMPILER=g++-5
+      # compiler: gcc
+      # addons: &gcc5
+        # apt:
+          # packages: ["g++-5",   "g++-5-multilib",   "libc6-dbg", "libc6-dbg:i386"]
+          # sources: *apt_sources
 
-    # GCC 6
-    - env: COMPILER=g++-6
-      compiler: gcc
-      addons: &gcc6
-        apt:
-          packages: ["g++-6",   "g++-6-multilib",   "libc6-dbg", "libc6-dbg:i386"]
-          sources: *apt_sources
+    # # GCC 6
+    # - env: COMPILER=g++-6
+      # compiler: gcc
+      # addons: &gcc6
+        # apt:
+          # packages: ["g++-6",   "g++-6-multilib",   "libc6-dbg", "libc6-dbg:i386"]
+          # sources: *apt_sources
 
     # GCC MinGW
     - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine' EXEC_NAME='cataclysm.exe'
@@ -93,27 +93,27 @@ matrix:
         apt:
           packages: ["wine"]
 
-    # Clang 3.8
-    - env: COMPILER=clang++-3.8 CXXFLAGS='-Wno-error=unused-command-line-argument -D__extern_always_inline="extern __always_inline"'
-      addons: &clang38
-        apt:
-          packages: ["clang-3.8", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
-          sources: *apt_sources
+    # # Clang 3.8
+    # - env: COMPILER=clang++-3.8 CXXFLAGS='-Wno-error=unused-command-line-argument -D__extern_always_inline="extern __always_inline"'
+      # addons: &clang38
+        # apt:
+          # packages: ["clang-3.8", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
+          # sources: *apt_sources
 
-    # Clang 3.9
-    - env: COMPILER=clang++-3.9 CXXFLAGS='-Wno-error=unused-command-line-argument -D__extern_always_inline="extern __always_inline"'
-      addons: &clang39
-        apt:
-          packages: ["clang-3.9", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
-          sources: *apt_sources
+    # # Clang 3.9
+    # - env: COMPILER=clang++-3.9 CXXFLAGS='-Wno-error=unused-command-line-argument -D__extern_always_inline="extern __always_inline"'
+      # addons: &clang39
+        # apt:
+          # packages: ["clang-3.9", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
+          # sources: *apt_sources
 
-    # Clang 4.0
-    - env: COMPILER=clang++-4.0 CXXFLAGS=-Wno-error=unused-command-line-argument
-      dist: trusty
-      addons: &clang40
-        apt:
-          packages: ["clang-4.0", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
-          sources: *apt_sources
+    # # Clang 4.0
+    # - env: COMPILER=clang++-4.0 CXXFLAGS=-Wno-error=unused-command-line-argument
+      # dist: trusty
+      # addons: &clang40
+        # apt:
+          # packages: ["clang-4.0", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
+          # sources: *apt_sources
 
 before_script:
   - ${COMPILER} --version
