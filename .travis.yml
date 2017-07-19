@@ -91,7 +91,7 @@ matrix:
       compiler: gcc
       addons: &gcc
         apt:
-          packages: ["wine"]
+          packages: ["wine", "lua5.2", "liblua5.2-dev"]
 
     # # Clang 3.8
     # - env: COMPILER=clang++-3.8 CXXFLAGS='-Wno-error=unused-command-line-argument -D__extern_always_inline="extern __always_inline"'
