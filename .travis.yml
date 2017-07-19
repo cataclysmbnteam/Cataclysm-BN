@@ -91,7 +91,7 @@ matrix:
       compiler: gcc
       addons: &gcc
         apt:
-          packages: ["wine", "libsdl2-dev", "libsdl-ttf2.0-dev", "libfreetype6-dev"]
+          packages: ["wine", "libsdl2-dev", "libsdl-ttf2.0-dev", "libfreetype6-dev", "liblua5.2-dev"]
 
     # # Clang 3.8
     # - env: COMPILER=clang++-3.8 CXXFLAGS='-Wno-error=unused-command-line-argument -D__extern_always_inline="extern __always_inline"'
