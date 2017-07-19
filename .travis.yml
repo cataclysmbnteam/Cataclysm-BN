@@ -87,7 +87,7 @@ matrix:
           # sources: *apt_sources
 
     # GCC MinGW
-    - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine' EXEC_NAME='cataclysm.exe' $BUILD_EXTRA="TILES=1 SOUND=1 LUA=1"
+    - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine' EXEC_NAME='cataclysm.exe' $BUILD_EXTRA="TILES=1 SOUND=1 LUA=1 LOCALIZE=1 LANGUAGES=all"
       compiler: gcc
       addons: &gcc
         apt:
