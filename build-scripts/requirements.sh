@@ -19,7 +19,7 @@ if [ -n "${MXE_TARGET}" ]; then
   sudo apt-get --yes install mxe-${MXE2_TARGET}-gcc mxe-${MXE2_TARGET}-gettext mxe-${MXE2_TARGET}-glib \
     mxe-${MXE2_TARGET}-sdl2 mxe-${MXE2_TARGET}-sdl2-gfx mxe-${MXE2_TARGET}-sdl2-image mxe-${MXE2_TARGET}-sdl2-ttf \
     mxe-${MXE2_TARGET}-sdl2-mixer \
-    mxe-${MXE2_TARGET}-freetype
+    mxe-${MXE2_TARGET}-freetype mxe-${MXE2_TARGET}-lua
   export PLATFORM='i686-w64-mingw32.static'
   export CROSS_COMPILATION='${MXE_DIR}/${PLATFORM}-'
 fi
