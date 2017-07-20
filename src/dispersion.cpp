@@ -1,6 +1,6 @@
 #include "dispersion.h"
 
-#include <math.h>
+#include <cmath>
 #include "rng.h"
 
 double dispersion_sources::roll() const {
