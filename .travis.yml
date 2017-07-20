@@ -136,6 +136,6 @@ deploy:
   file: ${RELEASE_PKG_FILE}
   skip_cleanup: true
   on:
-    branch: travis-deploy
+    branch: normal-aiming
     tags: false
     condition: $WINE = 'wine'

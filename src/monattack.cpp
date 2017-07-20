@@ -523,7 +523,7 @@ bool mattack::acid_accurate(monster *z)
     proj.proj_effects.insert( "NO_DAMAGE_SCALING" );
     proj.impact.add_damage( DT_ACID, rng( 3, 5 ) );
     // Make it arbitrarily less accurate at close ranges
-    projectile_attack( proj, z->pos(), target->pos(), { 8000.0 * (double)range }, z );
+    projectile_attack( proj, z->pos(), target->pos(), { 8000.0 / (double)range }, z );
 
     return true;
 }

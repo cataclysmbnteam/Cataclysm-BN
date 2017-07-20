@@ -654,13 +654,9 @@ static int print_ranged_chance( WINDOW *w, int line_number,
                                 double steadiness = 10000.0 )
 {
     const int window_width = getmaxx( w ) - 2; // Window width minus borders.
-    // This is a rough estimate of accuracy based on a linear distribution across min and max
-    // dispersion.  It is highly inaccurate probability-wise, but this is intentional, the player
-    // is not doing gaussian integration in their head while aiming.  The result gives the player
-    // correct relative measures of chance to hit, and corresponds with the actual distribution at
-    // min, max, and mean.
-    const double max_lateral_offset = iso_tangent( range, dispersion.max() );
-    const double confidence = 1 / ( max_lateral_offset / target_size );
+    const auto get_chance = [dispersion, range, target_size]( double acc ) {
+        return projectile_attack_chance( dispersion, range, acc, target_size );
+    };
 
     bool print_steadiness = steadiness < 1000.0;
     if( get_option<std::string>( "ACCURACY_DISPLAY" ) == "numbers" ) {
@@ -668,7 +664,7 @@ static int print_ranged_chance( WINDOW *w, int line_number,
         std::string confidence_s = enumerate_as_string( confidence_config.begin(), confidence_config.end(),
             [&]( const confidence_rating &config ) {
                 // @todo Consider not printing 0 chances, but only if you can print something (at least miss 100% or so)
-                int chance = std::min<int>( 100, 100.0 * ( config.aim_level * confidence ) ) - last_chance;
+                int chance = std::min<int>( 100, 100.0 * get_chance( config.aim_level ) ) - last_chance;
                 last_chance += chance;
                 return string_format( "%s: %3d%%", config.label.c_str(), chance );
             }, false );
@@ -685,10 +681,10 @@ static int print_ranged_chance( WINDOW *w, int line_number,
         std::vector<std::pair<double, char>> confidence_ratings;
         std::transform( confidence_config.begin(), confidence_config.end(), std::back_inserter( confidence_ratings ),
         [&]( const confidence_rating &config ) {
-            return std::make_pair( config.aim_level, config.symbol );
+            return std::make_pair( get_chance( config.aim_level ), config.symbol );
         } );
 
-        const std::string &confidence_bar = get_labeled_bar( confidence, window_width, _( "Confidence" ),
+        const std::string &confidence_bar = get_labeled_bar( 1.0, window_width, _( "Confidence" ),
                                                              confidence_ratings.begin(),
                                                              confidence_ratings.end() );
 
@@ -1535,7 +1531,7 @@ double player::gun_value( const item &weap, long ammo ) const
 
     item tmp = weap;
     tmp.ammo_set( weap.ammo_default() );
-    int total_dispersion = get_weapon_dispersion( tmp, RANGE_SOFT_CAP ).max() +
+    int total_dispersion = get_weapon_dispersion( tmp, RANGE_SOFT_CAP ).stddev() +
       effective_dispersion( tmp.sight_dispersion() );
 
     if( def_ammo_i != nullptr && def_ammo_i->ammo != nullptr ) {
