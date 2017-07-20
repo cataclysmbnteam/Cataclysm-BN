@@ -4,7 +4,7 @@
 #include "rng.h"
 
 double dispersion_sources::roll() const {
-    return std::abs( rng_normal( stddev() ) );
+    return std::abs( normal_roll( 0.0, stddev() ) );
 }
 
 double dispersion_sources::stddev() const

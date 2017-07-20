@@ -9,6 +9,13 @@ struct dealt_projectile_attack;
 struct projectile;
 struct tripoint;
 
+/** Aim result for a single projectile attack */
+struct projectile_attack_aim {
+    double missed_by;       ///< Hit quality, where 0.0 is a perfect hit and 1.0 is a miss
+    double missed_by_tiles; ///< Number of tiles the attack missed by
+    double dispersion;      ///< Dispersion of this particular shot in arcminutes
+};
+
 /**
  *  Fires a projectile at the target point from the source point with total_dispersion
  *  dispersion.
@@ -17,6 +24,8 @@ struct tripoint;
 dealt_projectile_attack projectile_attack( const projectile &proj, const tripoint &source,
                                            const tripoint &target, dispersion_sources dispersion,
                                            Creature *origin = nullptr, const vehicle *in_veh = nullptr );
+
+projectile_attack_aim projectile_attack_roll( dispersion_sources dispersion, double range, double target_size );
 
 double projectile_attack_chance( const dispersion_sources &dispersion_struct, double range,
                                  double accuracy, double target_size );
