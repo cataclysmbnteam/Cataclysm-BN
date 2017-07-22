@@ -13,7 +13,7 @@ double dispersion_sources::stddev() const
 }
 
 double dispersion_sources::cdf( double x ) const {
-    constexpr double sqrt2 = std::sqrt( 2.0 );
+    static const double sqrt2 = std::sqrt( 2.0 );
     return std::erf( x / ( stddev() * sqrt2 ) );
 }
 
