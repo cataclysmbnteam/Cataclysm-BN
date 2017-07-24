@@ -53,6 +53,14 @@ matrix:
         apt:
           packages: ["wine", "lua5.2", "liblua5.2-dev", "astyle"]
 
+    # GCC 4.8 with deployment
+    - env: COMPILER=g++-4.8 DEPLOY=1
+      compiler: gcc
+      addons: &gcc48
+        apt:
+          packages: ["g++-4.8", "g++-4.8-multilib", "libc6-dbg", "libc6-dbg:i386"]
+          sources: *apt_sources
+
     # coverage
     - env: COMPILER=g++-4.8 CODE_COVERAGE=true
       compiler: gcc
@@ -118,9 +126,10 @@ matrix:
 before_script:
   - ${COMPILER} --version
   - export CXX=${COMPILER}
+  - export VER="cth-${TRAVIS_BUILD_NUMBER}"
   - source build-scripts/requirements.sh
 
-script: make -j3 CCACHE=1 RELEASE=1 CROSS="$CROSS_COMPILATION" $BUILD_EXTRA && $WINE ./tests/cata_test
+script: make -j3 CCACHE=1 RELEASE=1 CROSS="$CROSS_COMPILATION" VERSION=$VER $BUILD_EXTRA && $WINE ./tests/cata_test
 
 after_success:
   - if [ -n "${CODE_COVERAGE}" ]; then coveralls -b . -i src -e tests --gcov /usr/bin/gcov-4.8; fi
