@@ -67,9 +67,13 @@ const efftype_id effect_took_xanax( "took_xanax" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weed_high( "weed_high" );
 
-static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
-static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_PROF_MED( "PROF_MED" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
+static const trait_id trait_PAINRESIST( "PAINRESIST" );
+static const trait_id trait_CENOBITE( "CENOBITE" );
+static const trait_id trait_MASOCHIST( "MASOCHIST" );
+static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 
 namespace
 {
@@ -970,26 +974,26 @@ bool player::install_bionics( const itype &type, int skill_level )
         return false;
     }
 
-    if( !get_option<bool>( "NO_CBM_PAINKILLERS" ) ) {
-        const int pk = get_painkiller();
-        int pain_cap = 100;
-        if( has_trait( trait_id( "PAINRESIST_TROGLO" ) ) ) {
-            pain_cap = pain_cap / 2;
-        } else if( has_trait( trait_id( "PAINRESIST" ) ) ) {
-            pain_cap = pain_cap / 1.5;
-        }
+    const int pk = get_painkiller();
+    int pain_cap = 100;
+    if( has_trait( trait_PAINRESIST_TROGLO ) ) {
+        pain_cap = pain_cap / 2;
+    } else if( has_trait( trait_PAINRESIST ) ) {
+        pain_cap = pain_cap / 1.5;
+    }
 
-        if( !has_trait( trait_id( "NOPAIN" ) ) && !has_trait( trait_id( "CENOBITE" ) ) ) {
-            if( pk == 0 ) {
-                popup( _( "You need to take painkillers to make installing bionics tolerable." ) );
-                return false;
-            } else if( pk < pain_cap / 2 ) {
-                popup( _( "You need to be a lot more numb to tolerate installing bionics.  Note that painkillers you've already taken might not be fully working yet." ) );
-                return false;
-            } else if( pk < pain_cap ) {
-                popup( _( "You aren't quite numb enough to tolerate installing bionics.  Note that painkillers you've already taken might not be fully working yet." ) );
-                return false;
-            }
+    if( !get_option<bool>( "NO_CBM_PAINKILLERS" ) &&
+        !has_trait( trait_NOPAIN ) && !has_trait( trait_CENOBITE ) &&
+        !has_trait( trait_MASOCHIST_MED ) && !has_bionic( bionic_id( "bio_painkiller" ) ) ) {
+        if( pk == 0 ) {
+            popup( _( "You need to take painkillers to make installing bionics tolerable." ) );
+            return false;
+        } else if( pk < pain_cap / 2 ) {
+            popup( _( "You need to be a lot more numb to tolerate installing bionics.  Note that painkillers you've already taken might not be fully working yet." ) );
+            return false;
+        } else if( pk < pain_cap ) {
+            popup( _( "You aren't quite numb enough to tolerate installing bionics.  Note that painkillers you've already taken might not be fully working yet." ) );
+            return false;
         }
     }
 
