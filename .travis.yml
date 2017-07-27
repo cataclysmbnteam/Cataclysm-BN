@@ -57,7 +57,7 @@ matrix:
       compiler: gcc
       addons: &gcc48
         apt:
-          packages: ["g++-4.8", "g++-4.8-multilib", "libc6-dbg", "libc6-dbg:i386", "lua5.2", "liblua5.2-dev", "astyle"]
+          packages: ["g++-4.8", "g++-4.8-multilib", "libc6-dbg", "libc6-dbg:i386", "lua5.2", "liblua5.2-dev", "astyle", "libsdl2-dev", "libsdl2-gfx-dev", "libsdl2-image-dev", "libsdl2-mixer-dev", "libsdl2-ttf-dev", "libfreetype6-dev"]
           sources: *apt_sources
 
     # GCC 4.8 with deployment, Linux 32 curses
