@@ -52,20 +52,20 @@ matrix:
         apt:
           packages: ["wine", "lua5.2", "liblua5.2-dev", "astyle"]
 
-    # GCC 4.8 with deployment, Linux tiles
+    # GCC 4.8 with deployment, Linux 32 tiles
     - env: COMPILER=g++-4.8 BUILD_EXTRA="TILES=1 SOUND=1 LUA=1 LOCALIZE=1 LANGUAGES=all" DEPLOY=1 BUILD_TYPE="tiles32"
       compiler: gcc
       addons: &gcc48
         apt:
-          packages: ["g++-4.8", "g++-4.8-multilib", "libc6-dbg", "libc6-dbg:i386"]
+          packages: ["g++-4.8", "g++-4.8-multilib", "libc6-dbg", "libc6-dbg:i386", "lua5.2", "liblua5.2-dev", "astyle"]
           sources: *apt_sources
 
-    # GCC 4.8 with deployment, Linux console
-    - env: COMPILER=g++-4.8 BUILD_EXTRA="LOCALIZE=1 LANGUAGES=all" DEPLOY=1 BUILD_TYPE="curses32"
+    # GCC 4.8 with deployment, Linux 32 curses
+    - env: COMPILER=g++-4.8 BUILD_EXTRA="LUA=1 LOCALIZE=1 LANGUAGES=all" DEPLOY=1 BUILD_TYPE="curses32"
       compiler: gcc
       addons: &gcc48
         apt:
-          packages: ["g++-4.8", "g++-4.8-multilib", "libc6-dbg", "libc6-dbg:i386"]
+          packages: ["g++-4.8", "g++-4.8-multilib", "libc6-dbg", "libc6-dbg:i386", "lua5.2", "liblua5.2-dev", "astyle"]
           sources: *apt_sources
 
     # coverage
