@@ -150,7 +150,7 @@ after_success:
   - if [ -n "${CODE_COVERAGE}" ]; then coveralls -b . -i src -e tests --gcov /usr/bin/gcov-4.8; fi
 
 before_deploy:
-  - make -j3 CCACHE=1 RELEASE=1 CROSS="$CROSS_COMPILATION" $BUILD_EXTRA bindist && export RELEASE_PKG_FILES=$(ls *.zip *.tar.gz)
+  - make -j3 CCACHE=1 RELEASE=1 CROSS="$CROSS_COMPILATION" VERSION="${VER}" $BUILD_EXTRA bindist && export RELEASE_PKG_FILES=$(ls *.zip *.tar.gz)
 
 deploy:
   provider: releases
