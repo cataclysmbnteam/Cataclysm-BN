@@ -1,8 +1,6 @@
 # this file is HEAVILY influenced by https://github.com/boostorg/hana/blob/master/.travis.yml
 
-# sudo is required for travis-ci to use ubuntu trusty
-# ubuntu trusty is required for libsdl2-dev
-sudo: required
+sudo: false
 dist: trusty
 language: c++
 
@@ -49,6 +47,7 @@ matrix:
     # GCC MinGW with deployment
     - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine' EXEC_NAME='cataclysm.exe' $BUILD_EXTRA="TILES=1 SOUND=1 LUA=1 LOCALIZE=1 LANGUAGES=all" DEPLOY=1
       compiler: gcc
+      sudo: required
       addons: &gcc
         apt:
           packages: ["wine", "lua5.2", "liblua5.2-dev", "astyle"]
@@ -100,6 +99,14 @@ matrix:
         apt:
           packages: ["g++-6",   "g++-6-multilib",   "libc6-dbg", "libc6-dbg:i386"]
           sources: *apt_sources
+
+    # GCC MinGW
+    - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine'
+      compiler: gcc
+      sudo: required
+      addons: &gcc
+        apt:
+          packages: ["wine"]
 
     # Clang 3.8
     - env: COMPILER=clang++-3.8 CXXFLAGS='-D__extern_always_inline="extern __always_inline"'
