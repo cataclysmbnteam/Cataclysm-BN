@@ -45,7 +45,7 @@ matrix:
 
   include:
     # GCC MinGW with deployment
-    - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine' BUILD_EXTRA="TILES=1 SOUND=1 LUA=1 LOCALIZE=1 LANGUAGES=all" DEPLOY=1 BUILD_TYPE="tiles32"
+    - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine' BUILD_EXTRA="TILES=1 SOUND=1 LUA=1 LOCALIZE=1 LANGUAGES=all" DEPLOY=1 BUILD_TYPE="win-tiles32"
       compiler: gcc
       sudo: required
       addons: &gcc
@@ -53,7 +53,7 @@ matrix:
           packages: ["wine", "lua5.2", "liblua5.2-dev", "astyle"]
 
     # GCC 4.8 with deployment, Linux 32 tiles
-    - env: COMPILER=g++-4.8 BUILD_EXTRA="TILES=1 SOUND=1 LUA=1 LOCALIZE=1 LANGUAGES=all" DEPLOY=1 BUILD_TYPE="tiles32"
+    - env: COMPILER=g++-4.8 BUILD_EXTRA="TILES=1 SOUND=1 LUA=1 LOCALIZE=1 LANGUAGES=all" DEPLOY=1 BUILD_TYPE="lin-tiles32"
       compiler: gcc
       addons: &gcc48
         apt:
@@ -61,7 +61,7 @@ matrix:
           sources: *apt_sources
 
     # GCC 4.8 with deployment, Linux 32 curses
-    - env: COMPILER=g++-4.8 BUILD_EXTRA="LUA=1 LOCALIZE=1 LANGUAGES=all" DEPLOY=1 BUILD_TYPE="curses32"
+    - env: COMPILER=g++-4.8 BUILD_EXTRA="LUA=1 LOCALIZE=1 LANGUAGES=all" DEPLOY=1 BUILD_TYPE="lin-curses32"
       compiler: gcc
       addons: &gcc48
         apt:
