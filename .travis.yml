@@ -177,5 +177,5 @@ deploy:
   skip_cleanup: true
   on:
     branch: experimental
-    tags: false
+    tags: true
     condition: $DEPLOY = '1'
