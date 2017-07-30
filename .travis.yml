@@ -68,6 +68,22 @@ matrix:
           packages: ["g++-4.8", "g++-4.8-multilib", "libc6-dbg", "libc6-dbg:i386", "lua5.2", "liblua5.2-dev", "astyle"]
           sources: *apt_sources
 
+    # GCC 4.8 with deployment, Linux 64 tiles
+    - env: COMPILER=g++-4.8 BUILD_EXTRA="TILES=1 SOUND=1 LUA=1 LOCALIZE=1 LANGUAGES=all NATIVE=linux64" DEPLOY=1 BUILD_TYPE="lin-tiles64"
+      compiler: gcc
+      addons: &gcc48
+        apt:
+          packages: ["g++-4.8", "g++-4.8-multilib", "libc6-dbg", "lua5.2", "liblua5.2-dev", "astyle", "libsdl2-dev", "libsdl2-gfx-dev", "libsdl2-image-dev", "libsdl2-mixer-dev", "libsdl2-ttf-dev", "libfreetype6-dev"]
+          sources: *apt_sources
+
+    # GCC 4.8 with deployment, Linux 64 curses
+    - env: COMPILER=g++-4.8 BUILD_EXTRA="LUA=1 LOCALIZE=1 LANGUAGES=all NATIVE=linux64" DEPLOY=1 BUILD_TYPE="lin-curses64"
+      compiler: gcc
+      addons: &gcc48
+        apt:
+          packages: ["g++-4.8", "g++-4.8-multilib", "libc6-dbg", "lua5.2", "liblua5.2-dev", "astyle"]
+          sources: *apt_sources
+
     # coverage
     - env: COMPILER=g++-4.8 CODE_COVERAGE=true
       compiler: gcc
