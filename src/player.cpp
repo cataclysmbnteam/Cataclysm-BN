@@ -4569,6 +4569,8 @@ void player::update_body( int from, int to )
 
     const int thirty_mins = ticks_between( from, to, MINUTES(30) );
     if( thirty_mins > 0 ) {
+        // Radiation kills health even at low doses
+        update_health( has_trait( trait_RADIOGENIC ) ? 0 : -radiation );
         get_sick();
     }
 
@@ -4587,11 +4589,6 @@ void player::update_body( int from, int to )
                 vitamin_mod( v.first, qty );
             }
         }
-    }
-
-    if( ticks_between( from, to, HOURS(6) ) ) {
-        // Radiation kills health even at low doses
-        update_health( has_trait( trait_RADIOGENIC ) ? 0 : -radiation );
     }
 }
 
@@ -4672,15 +4669,6 @@ void player::get_sick()
             add_env_effect( effect_common_cold, bp_mouth, 3, duration );
         }
     }
-}
-
-void player::update_health(int external_modifiers)
-{
-    if( has_artifact_with( AEP_SICK ) ) {
-        // Carrying a sickness artifact makes your health 50 points worse on average
-        external_modifiers -= 50;
-    }
-    Character::update_health( external_modifiers );
 }
 
 void player::check_needs_extremes()
@@ -9728,6 +9716,25 @@ const recipe_subset player::get_recipes_from_books( const inventory &crafting_in
     }
 
     return res;
+}
+
+const std::set<itype_id> player::get_books_for_recipe( const inventory &crafting_inv, const recipe *r ) const
+{
+    std::set<itype_id> book_ids;
+    auto &skill_level = get_skill_level( r->skill_used );
+    for( auto &book_lvl : r->booksets ) {
+        itype_id book_id = book_lvl.first;
+        int required_skill_level = book_lvl.second;
+        // NPCs don't need to identify books
+        if( is_player() && !items_identified.count( book_id ) ) {
+            continue;
+        }
+
+        if( skill_level >= required_skill_level && crafting_inv.amount_of( book_id ) > 0 ) {
+            book_ids.insert( book_id );
+        }
+    }
+    return book_ids;
 }
 
 const recipe_subset player::get_available_recipes( const inventory &crafting_inv, const std::vector<npc *> *helpers ) const

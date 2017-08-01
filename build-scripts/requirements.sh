@@ -22,4 +22,7 @@ if [ -n "${MXE_TARGET}" ]; then
     mxe-${MXE2_TARGET}-freetype mxe-${MXE2_TARGET}-lua
   export PLATFORM='i686-w64-mingw32.static'
   export CROSS_COMPILATION='${MXE_DIR}/${PLATFORM}-'
+  # Need to overwrite CXX to make the Makefile $CROSS logic work right.
+  export CXX="$COMPILER"
+  export CCACHE=1
 fi

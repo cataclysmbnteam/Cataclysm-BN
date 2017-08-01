@@ -726,8 +726,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /** Handles the chance to be infected by random diseases */
         void get_sick();
-        /** Handles health fluctuations over time, redirects into Creature::update_health */
-        void update_health(int external_modifiers = 0) override;
         /** Returns list of rc items in player inventory. **/
         std::list<item *> get_radio_items();
 
@@ -1221,6 +1219,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
           */
         const recipe_subset get_available_recipes( const inventory &crafting_inv,
                                                    const std::vector<npc *> *helpers = nullptr ) const;
+        /**
+          * Returns the set of book types in crafting_inv that provide the
+          * given recipe.
+          * @param crafting_inv Current available items that may contain readable books
+          * @param r Recipe to search for in the available books
+          */
+        const std::set<itype_id> get_books_for_recipe( const inventory &crafting_inv,
+                                                       const recipe *r ) const;
 
         // crafting.cpp
         float lighting_craft_speed_multiplier( const recipe & rec ) const;
