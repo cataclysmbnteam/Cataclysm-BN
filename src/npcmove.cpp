@@ -770,7 +770,7 @@ void npc::choose_target()
             continue;
         }
 
-        if( att == MATT_FPASSIVE ) {
+        if( att == MATT_FPASSIVE || att == MATT_ZLAVE ) {
             continue;
         }
 
