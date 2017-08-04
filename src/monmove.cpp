@@ -200,7 +200,8 @@ void monster::plan( const mfactions &factions )
     // 8.6f is rating for tank drone 60 tiles away, moose 16 or boomer 33
     float dist = !smart_planning ? 1000 : 8.6f;
     bool fleeing = false;
-    bool docile = friendly != 0 && has_effect( effect_docile );
+    bool is_friendly = friendly != 0 || effect_cache[PET];
+    bool docile = effect_cache[DOCILE] || effect_cache[PACIFIED];
     bool angers_hostile_weak = type->anger.find( MTRIG_HOSTILE_WEAK ) != type->anger.end();
     int angers_hostile_near =
         ( type->anger.find( MTRIG_HOSTILE_CLOSE ) != type->anger.end() ) ? 5 : 0;
@@ -210,15 +211,15 @@ void monster::plan( const mfactions &factions )
     auto mood = attitude();
 
     // If we can see the player, move toward them or flee.
-    if( friendly == 0 && sees( g->u ) ) {
+    if( sees( g->u ) ) {
         dist = rate_target( g->u, dist, smart_planning );
         fleeing = fleeing || is_fleeing( g->u );
         target = &g->u;
-        if( dist <= 5 ) {
+        if( !is_friendly && dist <= 5 ) {
             anger += angers_hostile_near;
             morale -= fears_hostile_near;
         }
-    } else if( friendly != 0 && !docile ) {
+    } else if( is_friendly && !docile ) {
         // Target unfriendly monsters, only if we aren't interacting with the player.
         for( int i = 0, numz = g->num_zombies(); i < numz; i++ ) {
             monster &tmp = g->zombie( i );
@@ -233,7 +234,7 @@ void monster::plan( const mfactions &factions )
     }
 
     if( docile ) {
-        if( friendly != 0 && target != nullptr ) {
+        if( is_friendly && target != nullptr ) {
             set_dest( target->pos() );
         }
 
@@ -264,7 +265,7 @@ void monster::plan( const mfactions &factions )
     }
 
     fleeing = fleeing || ( mood == MATT_FLEE );
-    if( friendly == 0 ) {
+    if( !is_friendly ) {
         for( const auto &fac : factions ) {
             auto faction_att = faction.obj().attitude( fac.first );
             if( faction_att == MFA_NEUTRAL || faction_att == MFA_FRIENDLY ) {
@@ -288,7 +289,7 @@ void monster::plan( const mfactions &factions )
 
     // Friendly monsters here
     // Avoid for hordes of same-faction stuff or it could get expensive
-    const auto actual_faction = friendly == 0 ? faction : mfaction_str_id( "player" );
+    const auto actual_faction = !is_friendly ? faction : mfaction_str_id( "player" );
     auto const &myfaction_iter = factions.find( actual_faction );
     if( myfaction_iter == factions.end() ) {
         DebugLog( D_ERROR, D_GAME ) << disp_name() << " tried to find faction "
