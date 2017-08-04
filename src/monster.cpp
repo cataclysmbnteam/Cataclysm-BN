@@ -105,6 +105,7 @@ const efftype_id effect_lightsnare( "lightsnare" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_paralyzepoison( "paralyzepoison" );
+const efftype_id effect_pet( "pet" );
 const efftype_id effect_poison( "poison" );
 const efftype_id effect_run( "run" );
 const efftype_id effect_shrieking( "shrieking" );
@@ -677,8 +678,8 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
 
 monster_attitude monster::attitude( const Character *u ) const
 {
-    if( friendly != 0 ) {
-        if( has_effect( effect_docile ) ) {
+    if( friendly != 0 || effect_cache[PET] ) {
+        if( effect_cache[DOCILE] ) {
             return MATT_FPASSIVE;
         }
         if( u == &g->u ) {
@@ -693,7 +694,7 @@ monster_attitude monster::attitude( const Character *u ) const
     if( effect_cache[FLEEING] ) {
         return MATT_FLEE;
     }
-    if( has_effect( effect_pacified ) ) {
+    if( effect_cache[PACIFIED] ) {
         return MATT_ZLAVE;
     }
 
@@ -1736,6 +1737,13 @@ void monster::process_effects()
                 }
             }
 
+            static const std::map<efftype_id, monster_effect_cache_fields> cached_effects = {{
+                { effect_run, FLEEING },
+                { effect_docile, DOCILE },
+                { effect_pacified, PACIFIED },
+                { effect_pet, PET }
+            }};
+
             const efftype_id &id = _effect_it.second.get_id();
             // MATERIALS-TODO: use fire resistance
             if( it.impairs_movement() ) {
@@ -1754,8 +1762,11 @@ void monster::process_effects()
                 } else {
                     it.set_duration( 0 );
                 }
-            } else if( id == effect_run ) {
-                effect_cache[FLEEING] = true;
+            } else {
+                auto iter = cached_effects.find( id );
+                if( iter != cached_effects.end() ) {
+                    effect_cache[iter->second] = true;
+                }
             }
         }
     }

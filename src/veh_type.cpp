@@ -473,7 +473,7 @@ void vpart_info::check()
         static const std::vector<std::string> handled = {{
             "ENABLED_DRAINS_EPOWER", "SECURITY", "ENGINE",
             "ALTERNATOR", "SOLAR_PANEL", "POWER_TRANSFER",
-            "REACTOR"
+            "REACTOR", "RECHARGE"
         }};
         if( part.epower != 0 &&
             std::none_of( handled.begin(), handled.end(), [&part]( const std::string &flag ) {
