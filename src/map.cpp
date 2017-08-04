@@ -4672,7 +4672,9 @@ static void process_vehicle_items( vehicle *cur_veh, int part )
             apply_in_fridge(n);
         }
     }
-    if( cur_veh->part_with_feature( part, VPFLAG_RECHARGE ) >= 0 && cur_veh->has_part( "RECHARGE", true ) ) {
+    const int charger_part = cur_veh->part_with_feature( part, VPFLAG_RECHARGE, true );
+    if( charger_part >= 0 ) {
+        const int per_charge = std::max( cur_veh->part_info( charger_part ).epower, 1 );
         for( auto &n : cur_veh->get_items( part ) ) {
             static const std::string recharge_s( "RECHARGE" );
             static const std::string ups_s( "USE_UPS" );
@@ -4680,7 +4682,7 @@ static void process_vehicle_items( vehicle *cur_veh, int part )
                 continue;
             }
             if( n.ammo_capacity() > n.ammo_remaining() ) {
-                constexpr int per_charge = 10;
+                
                 const int missing = cur_veh->discharge_battery( per_charge, false );
                 if( missing < per_charge &&
                     ( missing == 0 || x_in_y( per_charge - missing, per_charge ) ) ) {
