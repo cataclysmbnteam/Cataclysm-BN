@@ -22,10 +22,11 @@ struct projectile_attack_aim {
  *  Returns the rolled dispersion of the shot and the actually hit point.
  */
 dealt_projectile_attack projectile_attack( const projectile &proj, const tripoint &source,
-                                           const tripoint &target, dispersion_sources dispersion,
-                                           Creature *origin = nullptr, const vehicle *in_veh = nullptr );
+        const tripoint &target, dispersion_sources dispersion,
+        Creature *origin = nullptr, const vehicle *in_veh = nullptr );
 
-projectile_attack_aim projectile_attack_roll( dispersion_sources dispersion, double range, double target_size );
+projectile_attack_aim projectile_attack_roll( dispersion_sources dispersion, double range,
+        double target_size );
 
 double projectile_attack_chance( const dispersion_sources &dispersion_struct, double range,
                                  double accuracy, double target_size );

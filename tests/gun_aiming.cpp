@@ -27,11 +27,12 @@ static void test_distribution( const dispersion_sources &dispersion, int range, 
         CAPTURE( range );
         CAPTURE( dispersion.stddev() );
         CAPTURE( bins[i].first );
-        CHECK( projectile_attack_chance( dispersion, range, bins[i].first, target_size ) == Approx( ( double )bins[i].second / N ).epsilon( 0.01 ) );
+        CHECK( projectile_attack_chance( dispersion, range, bins[i].first,
+                                         target_size ) == Approx( ( double )bins[i].second / N ).epsilon( 0.01 ) );
     }
 }
 
-static void test_internal( const npc& who, const std::vector<item> &guns )
+static void test_internal( const npc &who, const std::vector<item> &guns )
 {
     WHEN( "the target is bigger" ) {
         THEN( "chance to hit is greater" ) {
@@ -53,7 +54,8 @@ static void test_internal( const npc& who, const std::vector<item> &guns )
     }
 }
 
-TEST_CASE( "gun ranges and hit chances are sensibly calculated", "[gun] [aim]" ) {
+TEST_CASE( "gun ranges and hit chances are sensibly calculated", "[gun] [aim]" )
+{
     const int gun_skill    = 4; // marksmanship
     const int weapon_skill = 4; // relevant weapon (eg. rifle)
 
