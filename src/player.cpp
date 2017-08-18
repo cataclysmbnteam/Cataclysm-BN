@@ -78,7 +78,7 @@
 #include <stdlib.h>
 #include <limits>
 
-const double MIN_RECOIL = 600;
+const double MAX_RECOIL = 600;
 
 const mtype_id mon_player_blob( "mon_player_blob" );
 const mtype_id mon_shadow_snake( "mon_shadow_snake" );
@@ -469,8 +469,6 @@ static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
 static const trait_id trait_WINGS_INSECT( "WINGS_INSECT" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
-stats player_stats;
-
 static const itype_id OPTICAL_CLOAK_ITEM_ID( "optical_cloak" );
 
 player_morale_ptr::player_morale_ptr( const player_morale_ptr &rhs ) :
@@ -602,7 +600,6 @@ player::player() : Character()
     }
 
     memorial_log.clear();
-    player_stats.reset();
 
     drench_capacity[bp_eyes] = 1;
     drench_capacity[bp_mouth] = 1;
@@ -2537,13 +2534,13 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
     //Lifetime stats
     memorial_file << _( "Lifetime Stats" ) << eol;
     memorial_file << indent << string_format( _( "Distance walked: %d squares" ),
-                  player_stats.squares_walked ) << eol;
+                  lifetime_stats.squares_walked ) << eol;
     memorial_file << indent << string_format( _( "Damage taken: %d damage" ),
-                  player_stats.damage_taken ) << eol;
+                  lifetime_stats.damage_taken ) << eol;
     memorial_file << indent << string_format( _( "Damage healed: %d damage" ),
-                  player_stats.damage_healed ) << eol;
+                  lifetime_stats.damage_healed ) << eol;
     memorial_file << indent << string_format( _( "Headshots: %d" ),
-                  player_stats.headshots ) << eol;
+                  lifetime_stats.headshots ) << eol;
     memorial_file << eol;
 
     //History
@@ -2622,25 +2619,6 @@ std::string player::dump_memorial() const
     }
 
     return output.str();
-}
-
-/**
- * Returns a pointer to the stat-tracking struct. Its fields should be edited
- * as necessary to track ongoing counters, which will be added to the memorial
- * file. For single events, rather than cumulative counters, see
- * add_memorial_log.
- * @return A pointer to the stats struct being used to track this player's
- *         lifetime stats.
- */
-stats *player::lifetime_stats()
-{
-    return &player_stats;
-}
-
-// copy of stats, for saving
-stats player::get_stats() const
-{
-    return player_stats;
 }
 
 void player::mod_stat( const std::string &stat, float modifier )
@@ -3440,12 +3418,7 @@ bool player::has_watch() const
 void player::pause()
 {
     moves = 0;
-    /** @EFFECT_STR increases recoil recovery speed */
-
-    /** @EFFECT_GUN increases recoil recovery speed */
-    recoil -= str_cur + 2 * get_skill_level( skill_gun );
-    recoil = std::max( MIN_RECOIL * 2, recoil );
-    recoil = recoil / 2;
+    recoil = MAX_RECOIL;
 
     // Train swimming if underwater
     if( !in_vehicle ) {
@@ -3767,6 +3740,7 @@ void player::on_dodge( Creature *source, float difficulty )
     // dodging throws of our aim unless we are either skilled at dodging or using a small weapon
     if( is_armed() && weapon.is_gun() ) {
         recoil += std::max( weapon.volume() / 250_ml - get_skill_level( skill_dodge ), 0 ) * rng( 0, 100 );
+        recoil = std::min( MAX_RECOIL, recoil );
     }
 
     // Even if we are not to train still call practice to prevent skill rust
@@ -4040,6 +4014,7 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
 
     // @todo Scale with damage in a way that makes sense for power armors, plate armor and naked skin.
     recoil += recoil_mul * weapon.volume() / 250_ml;
+    recoil = std::min( MAX_RECOIL, recoil );
     //looks like this should be based off of dealtdams, not d as d has no damage reduction applied.
     // Skip all this if the damage isn't from a creature. e.g. an explosion.
     if( source != nullptr ) {
@@ -4207,7 +4182,7 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
 
     hp_cur[hurtpart] -= dam;
     if (hp_cur[hurtpart] < 0) {
-        lifetime_stats()->damage_taken += hp_cur[hurtpart];
+        lifetime_stats.damage_taken += hp_cur[hurtpart];
         hp_cur[hurtpart] = 0;
     }
 
@@ -4216,7 +4191,7 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
         add_effect( effect_disabled, 1, hurt, true );
     }
 
-    lifetime_stats()->damage_taken += dam;
+    lifetime_stats.damage_taken += dam;
     if( dam > get_painkiller() ) {
         on_hurt( source );
     }
@@ -4274,10 +4249,10 @@ void player::heal(hp_part healed, int dam)
     if (hp_cur[healed] > 0) {
         hp_cur[healed] += dam;
         if (hp_cur[healed] > hp_max[healed]) {
-            lifetime_stats()->damage_healed -= hp_cur[healed] - hp_max[healed];
+            lifetime_stats.damage_healed -= hp_cur[healed] - hp_max[healed];
             hp_cur[healed] = hp_max[healed];
         }
-        lifetime_stats()->damage_healed += dam;
+        lifetime_stats.damage_healed += dam;
     }
 }
 
@@ -4298,9 +4273,9 @@ void player::hurtall(int dam, Creature *source, bool disturb /*= true*/)
         const hp_part bp = static_cast<hp_part>( i );
         // Don't use apply_damage here or it will annoy the player with 6 queries
         hp_cur[bp] -= dam;
-        lifetime_stats()->damage_taken += dam;
+        lifetime_stats.damage_taken += dam;
         if( hp_cur[bp] < 0 ) {
-            lifetime_stats()->damage_taken += hp_cur[bp];
+            lifetime_stats.damage_taken += hp_cur[bp];
             hp_cur[bp] = 0;
         }
     }
@@ -7259,7 +7234,7 @@ bool player::consume_med( item &target )
 
     long amount_used = 1;
     if( target.type->has_use() ) {
-        amount_used = target.type->invoke( this, &target, pos() );
+        amount_used = target.type->invoke( *this, target, pos() );
         if( amount_used <= 0 ) {
             return false;
         }
@@ -8841,7 +8816,7 @@ bool player::invoke_item( item* used, const tripoint &pt )
     }
 
     if( used->type->use_methods.size() < 2 ) {
-        const long charges_used = used->type->invoke( this, used, pt );
+        const long charges_used = used->type->invoke( *this, *used, pt );
         return used->is_tool() && consume_charges( *used, charges_used );
     }
 
@@ -8849,7 +8824,7 @@ bool player::invoke_item( item* used, const tripoint &pt )
     umenu.text = string_format( _("What to do with your %s?"), used->tname().c_str() );
     umenu.return_invalid = true;
     for( const auto &e : used->type->use_methods ) {
-        umenu.addentry( MENU_AUTOASSIGN, e.second.can_call( this, used, false, pt ),
+        umenu.addentry( MENU_AUTOASSIGN, e.second.can_call( *this, *used, false, pt ),
                         MENU_AUTOASSIGN, e.second.get_name() );
     }
 
@@ -8860,7 +8835,7 @@ bool player::invoke_item( item* used, const tripoint &pt )
     }
 
     const std::string &method = std::next( used->type->use_methods.begin(), choice )->first;
-    long charges_used = used->type->invoke( this, used, pt, method );
+    long charges_used = used->type->invoke( *this, *used, pt, method );
 
     return ( used->is_tool() || used->is_medication() || used->is_container() ) && consume_charges( *used, charges_used );
 }
@@ -8882,7 +8857,7 @@ bool player::invoke_item( item* used, const std::string &method, const tripoint 
                   method.c_str(), used->tname().c_str() );
     }
 
-    long charges_used = actually_used->type->invoke( this, actually_used, pt, method );
+    long charges_used = actually_used->type->invoke( *this, *actually_used, pt, method );
     return ( used->is_tool() || used->is_medication() || used->is_container() ) && consume_charges( *actually_used, charges_used );
 }
 
@@ -9052,6 +9027,27 @@ void player::gunmod_add( item &gun, item &mod )
     activity.values.push_back( roll ); // chance of success (%)
     activity.values.push_back( risk ); // chance of damage (%)
     activity.values.push_back( qty ); // tool charges
+}
+
+void player::toolmod_add( item &tool, item &mod )
+{
+    if( !has_item( tool ) && !has_item( mod ) ) {
+        debugmsg( "Tried toolmod installation but mod/tool not in player possession" );
+        return;
+    }
+    // first check at least the minimum requirements are met
+    if( !has_trait( trait_DEBUG_HS ) && !can_use( mod, tool ) ) {
+        return;
+    }
+
+    if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ), mod.tname().c_str(),
+                    tool.tname().c_str() ) ) {
+        add_msg_if_player( _( "Never mind." ) );
+        return; // player cancelled installation
+    }
+
+    assign_activity( activity_id( "ACT_TOOLMOD_ADD" ), 1, -1, get_item_position( &tool ) );
+    activity.values.push_back( get_item_position( &mod ) );
 }
 
 hint_rating player::rate_action_read( const item &it ) const
@@ -9657,7 +9653,7 @@ void player::do_read( item *book )
     // NPCs can't learn martial arts from manuals (yet).
     auto m = book->type->use_methods.find( "MA_MANUAL" );
     if( m != book->type->use_methods.end() ) {
-        m->second.call( this, book, false, pos() );
+        m->second.call( *this, *book, false, pos() );
     }
 
     activity.set_to_null();

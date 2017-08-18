@@ -304,7 +304,7 @@ item& item::ammo_set( const itype_id& ammo, long qty )
                 // as above call to magazine_default successful can infer minimum one option exists
                 auto iter = type->magazines.find( ammo_type() );
                 std::vector<itype_id> opts( iter->second.begin(), iter->second.end() );
-                std::sort( opts.begin(), opts.end(), [qty]( const itype_id &lhs, const itype_id &rhs ) {
+                std::sort( opts.begin(), opts.end(), []( const itype_id &lhs, const itype_id &rhs ) {
                     return find_type( lhs )->magazine->capacity < find_type( rhs )->magazine->capacity;
                 } );
                 mag = find_type( opts.back() );
@@ -3785,7 +3785,7 @@ bool item::is_tool_reversible() const
     if( is_tool() && type->tool->revert_to != "null" ) {
         item revert( type->tool->revert_to );
         npc n;
-        revert.type->invoke( &n, &revert, tripoint(-999, -999, -999) );
+        revert.type->invoke( n, revert, tripoint(-999, -999, -999) );
         return revert.is_tool() && typeId() == revert.typeId();
     }
     return false;
@@ -3992,7 +3992,7 @@ int item::sight_dispersion() const
         return 0;
     }
 
-    int res = has_flag( "DISABLE_SIGHTS" ) ? MIN_RECOIL : type->gun->sight_dispersion;
+    int res = has_flag( "DISABLE_SIGHTS" ) ? MAX_RECOIL : type->gun->sight_dispersion;
 
     for( const auto e : gunmods() ) {
         const auto mod = e->type->gunmod.get();
@@ -4100,7 +4100,7 @@ int item::gun_range( const player *p ) const
 
     // Reduce bow range until player has twice minimm required strength
     if( has_flag( "STR_DRAW" ) ) {
-        ret -= std::max( 0, type->min_str * 2 - p->get_str() );
+        ret += std::max( 0.0, ( p->get_str() - type->min_str ) * 0.5 );
     }
 
     return std::max( 0, ret );
@@ -5675,7 +5675,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
             }
 
             auto revert = type->tool->revert_to; // invoking the object can convert the item to another type
-            type->invoke( carrier != nullptr ? carrier : &g->u, this, pos );
+            type->invoke( carrier != nullptr ? *carrier : g->u, *this, pos );
             if( revert == "null" ) {
                 return true;
             } else {
@@ -5685,7 +5685,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
         }
     }
 
-    type->tick( carrier != nullptr ? carrier : &g->u, this, pos );
+    type->tick( carrier != nullptr ? *carrier : g->u, *this, pos );
     return false;
 }
 
@@ -5705,7 +5705,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate )
         }
     }
     if( activate ) {
-        return type->invoke( carrier != nullptr ? carrier : &g->u, this, pos );
+        return type->invoke( carrier != nullptr ? *carrier : g->u, *this, pos );
     }
     // How this works: it checks what kind of processing has to be done
     // (e.g. for food, for drying towels, lit cigars), and if that matches,
@@ -5725,7 +5725,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate )
     }
 
     if( item_counter == 0 && type->countdown_action ) {
-        type->countdown_action.call( carrier ? carrier : &g->u, this, false, pos );
+        type->countdown_action.call( carrier ? *carrier : g->u, *this, false, pos );
         if( type->countdown_destroy ) {
             return true;
         }
@@ -6025,5 +6025,5 @@ bool item::is_filthy() const
 
 bool item::on_drop( const tripoint &pos )
 {
-    return type->drop_action && type->drop_action.call( &g->u, this, false, pos );
+    return type->drop_action && type->drop_action.call( g->u, *this, false, pos );
 }
