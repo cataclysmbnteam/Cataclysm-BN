@@ -39,7 +39,7 @@ static void test_internal( const npc &who, const std::vector<item> &guns )
             for( const auto &gun : guns ) {
                 CAPTURE( gun.tname() );
                 double accuracy = 0.5;
-                double recoil = MIN_RECOIL;
+                double recoil = MAX_RECOIL;
                 double chance = 0.5;
                 double range = who.weapon.gun_range();
                 dispersion_sources dispersion( who.get_weapon_dispersion( gun, RANGE_SOFT_CAP ) + recoil );
