@@ -1682,6 +1682,7 @@ void npc::move_pause()
         pause();
     } else {
         aim();
+        moves = std::min( moves, 0 );
     }
 }
 
