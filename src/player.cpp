@@ -664,8 +664,6 @@ std::string player::skin_name() const
 
 void player::reset_stats()
 {
-    clear_miss_reasons();
-
     // Trait / mutation buffs
     if( has_trait( trait_THICK_SCALES ) ) {
         add_miss_reason( _( "Your thick scales get in the way." ), 2 );
@@ -823,6 +821,9 @@ void player::reset_stats()
 
 void player::process_turn()
 {
+    // Has to happen before reset_stats
+    clear_miss_reasons();
+
     Character::process_turn();
 
     // Didn't just pick something up
@@ -5867,7 +5868,8 @@ void player::suffer()
             }
             else focus_pool --;
         }
-        if( !( ( (worn_with_flag( "SUN_GLASSES" ) ) || worn_with_flag( "BLIND" ) ) && ( wearing_something_on( bp_eyes ) ) ) ) {
+        if( !( ( (worn_with_flag( "SUN_GLASSES" ) ) || worn_with_flag( "BLIND" ) ) && ( wearing_something_on( bp_eyes ) ) )
+            && !has_bionic( bionic_id( "bio_sunglasses" ) ) ) {
             add_msg( m_bad, _( "The sunlight is really irritating your eyes." ) );
             if( one_in(10) ) {
                 mod_pain(1);
@@ -7518,7 +7520,8 @@ item::reload_option player::select_ammo( const item &base, const std::vector<ite
 
             bool key( const input_event &event, int idx, uimenu * menu ) override {
                 auto cur_key = event.get_first_input();
-                if( default_to != -1 && cur_key == last_key ) {
+                //Prevent double RETURN '\n' to default to the first entry
+                if( default_to != -1 && cur_key == last_key && cur_key != '\n' ) {
                     // Select the first entry on the list
                     menu->ret = default_to;
                     return true;

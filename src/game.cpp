@@ -298,8 +298,6 @@ void game::load_static_data()
     // Therefore they can be loaded here.
     // If this changes (if they load data from json), they have to
     // be moved to game::load_mod or game::load_core_data
-    init_mapgen_builtin_functions();
-    init_savedata_translation_tables();
 
     get_auto_pickup().load_global();
     get_safemode().load_global();
@@ -10647,13 +10645,16 @@ void game::mend( int pos )
     }
 }
 
-bool add_or_drop_with_msg( player &u, item &it )
+bool add_or_drop_with_msg( player &u, item &it, const bool unloading = false )
 {
     if( it.made_of( LIQUID ) ) {
         g->consume_liquid( it, 1 );
         return it.charges <= 0;
     }
-    if( !u.can_pickVolume( it ) ) {
+    it.charges = u.i_add_to_container(it, unloading);
+    if( it.is_ammo() && it.charges == 0 ) {
+        return true;
+    } else if( !u.can_pickVolume( it ) ) {
         add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
                  it.tname().c_str() );
         g->m.add_item_or_charges( u.pos(), it );
@@ -10680,7 +10681,7 @@ bool game::unload( item &it )
         bool changed = false;
         it.contents.erase( std::remove_if( it.contents.begin(), it.contents.end(), [this, &changed]( item& e ) {
             long old_charges = e.charges;
-            const bool consumed = add_or_drop_with_msg( u, e );
+            const bool consumed = add_or_drop_with_msg( u, e, true );
             changed = changed || consumed || e.charges != old_charges;
             if( consumed ) {
                 u.mod_moves( -u.item_handling_cost( e ) );
@@ -10740,7 +10741,7 @@ bool game::unload( item &it )
         long qty = 0;
         target->contents.erase( std::remove_if( target->contents.begin(), target->contents.end(), [&]( item& e ) {
             int mv = u.item_reload_cost( *target, e, e.charges ) / 2;
-            if( !add_or_drop_with_msg( u, e ) ) {
+            if( !add_or_drop_with_msg( u, e, true ) ) {
                 return false;
             }
             qty += e.charges;
@@ -10751,7 +10752,7 @@ bool game::unload( item &it )
         if( target->is_ammo_belt() ) {
             if( target->type->magazine->linkage != "NULL" ) {
                 item link( target->type->magazine->linkage, calendar::turn, qty );
-                add_or_drop_with_msg( u, link );
+                add_or_drop_with_msg( u, link, true );
             }
             add_msg( _( "You disassemble your %s."), target->tname().c_str() );
         } else {
@@ -10760,7 +10761,7 @@ bool game::unload( item &it )
         return true;
 
     } else if( target->magazine_current() ) {
-        if( !add_or_drop_with_msg( u, *target->magazine_current() ) ) {
+        if( !add_or_drop_with_msg( u, *target->magazine_current(), true ) ) {
             return false;
         }
         // Eject magazine consuming half as much time as required to insert it
@@ -10794,7 +10795,7 @@ bool game::unload( item &it )
                 return false; // no liquid was moved
             }
 
-        } else if( !add_or_drop_with_msg( u, ammo ) ) {
+        } else if( !add_or_drop_with_msg( u, ammo, qty > 1 ) ) {
             return false;
         }
 
@@ -10885,24 +10886,44 @@ void game::chat()
     }
 
     uimenu nmenu;
-    nmenu.text = std::string( _("Who do you want to talk to?") );
-
+    nmenu.text = std::string( _( "Who do you want to talk to or yell at?" ) );
+    
     int i = 0;
+
     for( auto &elem : available ) {
         nmenu.addentry( i++, true, MENU_AUTOASSIGN, ( elem )->name );
     }
 
     nmenu.return_invalid = true;
-    nmenu.addentry( i++, true, 'a', _( "Yell" ) );
-    nmenu.addentry( i++, true, 'q', _( "Cancel" ) );
+
+    int yell, yell_sentence;
+
+    nmenu.addentry( yell = i++, true, 'a', _( "Yell" ) );
+    nmenu.addentry( yell_sentence = i++, true, 'b', _( "Yell a sentence" ) );
 
     nmenu.query();
-    if( nmenu.ret < 0 || nmenu.ret > (int)available.size() ) {
+    if( nmenu.ret < 0 ) {
         return;
-    } else if( nmenu.ret == (int)available.size() ) {
+    } else if( nmenu.ret == yell ) {
         u.shout();
-    } else {
+    } else if( nmenu.ret == yell_sentence ) {
+        std::string popupdesc = string_format( _( "Enter a sentence to yell" ) );
+        string_input_popup popup;
+        popup.title( string_format( _( "Yell a sentence" ) ) )
+        .width( 64 )
+        .description( popupdesc )
+        .identifier( "sentence" )
+        .max_length( 128 )
+        .query();
+
+        std::string sentence = popup.text();
+        add_msg( _( "You yell %s" ), sentence.c_str() );
+        u.shout();
+
+    } else if( nmenu.ret <= ( int )available.size() ) {
         available[nmenu.ret]->talk_to_u();
+    } else {
+        return;
     }
 
     u.moves -= 100;
