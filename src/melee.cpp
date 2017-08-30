@@ -73,7 +73,6 @@ static const trait_id trait_THORNS( "THORNS" );
 
 void player_hit_message(player* attacker, std::string message,
                         Creature &t, int dam, bool crit = false);
-void melee_practice( player &u, bool hit, bool unarmed, bool bashing, bool cutting, bool stabbing);
 int  stumble(player &u);
 std::string melee_message( const ma_technique &tech, player &p, const dealt_damage_instance &ddi );
 
@@ -328,7 +327,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
 
         // Practice melee and relevant weapon skill (if any) except when using CQB bionic
         if( !has_active_bionic( bio_cqb ) ) {
-            melee_train( *this, 5, 10 );
+            melee_train( *this, 2, 5 );
         }
 
         // Cap stumble penalty, heavy weapons are quite weak already
@@ -390,7 +389,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
 
             // Practice melee and relevant weapon skill (if any) except when using CQB bionic
             if( !has_active_bionic( bio_cqb ) ) {
-                melee_train( *this, 2, 5 );
+                melee_train( *this, 5, 10 );
             }
 
             if (dam >= 5 && has_artifact_with(AEP_SAP_LIFE)) {
