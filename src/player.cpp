@@ -3313,6 +3313,10 @@ int player::clairvoyance() const
         return MAX_CLAIRVOYANCE;
     }
 
+    if( vision_mode_cache[VISION_CLAIRVOYANCE_PLUS] ) {
+        return 8;
+    }
+
     if( vision_mode_cache[VISION_CLAIRVOYANCE] ) {
         return 3;
     }
@@ -4036,7 +4040,7 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
             } else {
                 add_effect( effect_bite, 1, bp, true );
             }
-            add_msg_if_player( "Filth from your clothing has implanted deep in the wound." );
+            add_msg_if_player( _( "Filth from your clothing has implanted deep in the wound." ) );
         }
     }
 
@@ -6724,8 +6728,8 @@ void player::process_active_items()
         }
     }
     if( cloak != nullptr ) {
-        if( ch_UPS >= 40 ) {
-            use_charges( "UPS", 40 );
+        if( ch_UPS >= 20 ) {
+            use_charges( "UPS", 20 );
             if( ch_UPS < 200 && one_in( 3 ) ) {
                 add_msg_if_player( m_warning, _( "Your optical cloak flickers for a moment!" ) );
             }

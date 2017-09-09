@@ -4172,7 +4172,7 @@ void game::debug()
             break;
 
         case 17: {
-            tripoint coord = look_debug();
+            look_debug();
         }
         break;
 
@@ -13809,6 +13809,10 @@ void game::add_artifact_messages(std::vector<art_effect_passive> effects)
             break;
 
         case AEP_CLAIRVOYANCE:
+            add_msg(m_good, _("You can see through walls!"));
+            break;
+
+        case AEP_CLAIRVOYANCE_PLUS:
             add_msg(m_good, _("You can see through walls!"));
             break;
 
