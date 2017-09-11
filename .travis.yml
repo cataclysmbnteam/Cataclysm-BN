@@ -45,8 +45,16 @@ matrix:
     - env: TRAVIS_EMPTY_JOB_WORKAROUND=true
 
   include:
-    # GCC MinGW with deployment
-    - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine' BUILD_EXTRA="TILES=1 SOUND=1 LUA=1 LOCALIZE=1 LANGUAGES=all" DEPLOY=1 BUILD_TYPE="win-tiles32"
+    # GCC MinGW 32 with deployment
+    - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' NATIVE="win32" WINE='wine' BUILD_EXTRA="TILES=1 SOUND=1 LUA=1 LOCALIZE=1 LANGUAGES=all" DEPLOY=1 BUILD_TYPE="win-tiles32"
+      compiler: gcc
+      sudo: required
+      addons: &gcc
+        apt:
+          packages: ["wine", "lua5.2", "liblua5.2-dev", "astyle"]
+
+    # GCC MinGW 64 with deployment
+    - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' NATIVE="win64" WINE='wine' BUILD_EXTRA="TILES=1 SOUND=1 LUA=1 LOCALIZE=1 LANGUAGES=all" DEPLOY=1 BUILD_TYPE="win-tiles64"
       compiler: gcc
       sudo: required
       addons: &gcc
