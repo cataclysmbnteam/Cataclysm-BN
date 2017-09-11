@@ -1,5 +1,6 @@
 #include "catch/catch.hpp"
 
+#include "ammo.h"
 #include "ballistics.h"
 #include "dispersion.h"
 #include "game.h"
@@ -88,7 +89,7 @@ TEST_CASE( "gun ranges and hit chances are sensibly calculated", "[gun] [aim]" )
                     if( !gun.magazine_integral() ) {
                         gun.emplace_back( gun.magazine_default() );
                     }
-                    gun.ammo_set( default_ammo( gun.ammo_type() ), gun.ammo_capacity() );
+                    gun.ammo_set( gun.ammo_type()->default_ammotype(), gun.ammo_capacity() );
 
                     who.set_skill_level( gun.gun_skill(), weapon_skill );
 
