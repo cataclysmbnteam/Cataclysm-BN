@@ -20,9 +20,6 @@ if [ -n "${MXE_TARGET}" ]; then
     mxe-${MXE2_TARGET}-sdl2 mxe-${MXE2_TARGET}-sdl2-gfx mxe-${MXE2_TARGET}-sdl2-image mxe-${MXE2_TARGET}-sdl2-ttf \
     mxe-${MXE2_TARGET}-sdl2-mixer \
     mxe-${MXE2_TARGET}-freetype mxe-${MXE2_TARGET}-lua
-  export PLATFORM='i686-w64-mingw32.static'
-  export CROSS_COMPILATION='${MXE_DIR}/${PLATFORM}-'
-  # Need to overwrite CXX to make the Makefile $CROSS logic work right.
-  export CXX="$COMPILER"
+  export CROSS_COMPILATION='${MXE_DIR}/${MXE_TARGET}-'
   export CCACHE=1
 fi

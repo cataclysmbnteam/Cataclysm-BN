@@ -54,7 +54,7 @@ matrix:
           packages: ["wine", "lua5.2", "liblua5.2-dev", "astyle"]
 
     # GCC MinGW 64 with deployment
-    - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' NATIVE="win64" WINE='wine' BUILD_EXTRA="TILES=1 SOUND=1 LUA=1 LOCALIZE=1 LANGUAGES=all" DEPLOY=1 BUILD_TYPE="win-tiles64"
+    - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='x86_64-w64-mingw32.static' NATIVE="win64" WINE='wine' BUILD_EXTRA="TILES=1 SOUND=1 LUA=1 LOCALIZE=1 LANGUAGES=all" DEPLOY=1 BUILD_TYPE="win-tiles64"
       compiler: gcc
       sudo: required
       addons: &gcc
@@ -174,7 +174,6 @@ matrix:
 before_script:
   - if [ -n "${CLANG}" ]; then COMPILER="$CLANG"; fi
   - ${COMPILER} --version
-  - export CXX="$COMPILER"
   - export VER="cth-${BUILD_TYPE}-${TRAVIS_BUILD_NUMBER}"
   - source build-scripts/requirements.sh
 
