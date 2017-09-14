@@ -36,7 +36,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
     if( effects.count( "SHATTER_SELF" ) ) {
         // Drop the contents, not the thrown item
         if( g->u.sees( pt ) ) {
-            add_msg( _("The %s shatters!"), drop_item.tname().c_str() );
+            add_msg( _( "The %s shatters!" ), drop_item.tname().c_str() );
         }
 
         for( const item &i : drop_item.contents ) {
@@ -44,7 +44,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         }
         // TODO: Non-glass breaking
         // TODO: Wine glass breaking vs. entire sheet of glass breaking
-        sounds::sound(pt, 16, _("glass breaking!"));
+        sounds::sound( pt, 16, _( "glass breaking!" ) );
         return;
     }
 
@@ -66,16 +66,16 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         // And if we deal enough damage
         // Item volume bumps up the required damage too
         embed = embed &&
-                 ( attack.dealt_dam.type_damage( DT_CUT ) / 2 ) +
-                   attack.dealt_dam.type_damage( DT_STAB ) >
-                     attack.dealt_dam.type_damage( DT_BASH ) +
-                     vol * 3 / 250_ml + rng( 0, 5 );
+                ( attack.dealt_dam.type_damage( DT_CUT ) / 2 ) +
+                attack.dealt_dam.type_damage( DT_STAB ) >
+                attack.dealt_dam.type_damage( DT_BASH ) +
+                vol * 3 / 250_ml + rng( 0, 5 );
     }
 
     if( embed ) {
         mon->add_item( dropped_item );
         if( g->u.sees( *mon ) ) {
-            add_msg( _("The %1$s embeds in %2$s!"),
+            add_msg( _( "The %1$s embeds in %2$s!" ),
                      dropped_item.tname().c_str(),
                      mon->disp_name().c_str() );
         }
@@ -92,9 +92,9 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 
         if( effects.count( "HEAVY_HIT" ) ) {
             if( g->m.has_flag( "LIQUID", pt ) ) {
-                sounds::sound( pt, 10, _("splash!") );
+                sounds::sound( pt, 10, _( "splash!" ) );
             } else {
-                sounds::sound( pt, 8, _("thud.") );
+                sounds::sound( pt, 8, _( "thud." ) );
             }
             const trap &tr = g->m.tr_at( pt );
             if( tr.triggered_by_item( dropped_item ) ) {
@@ -110,13 +110,14 @@ static size_t blood_trail_len( int damage )
         return 3;
     } else if( damage > 20 ) {
         return 2;
-    } else if ( damage > 0 ) {
+    } else if( damage > 0 ) {
         return 1;
     }
     return 0;
 }
 
-projectile_attack_aim projectile_attack_roll( dispersion_sources dispersion, double range, double target_size )
+projectile_attack_aim projectile_attack_roll( dispersion_sources dispersion, double range,
+        double target_size )
 {
     projectile_attack_aim aim;
 
@@ -143,8 +144,8 @@ projectile_attack_aim projectile_attack_roll( dispersion_sources dispersion, dou
 }
 
 dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tripoint &source,
-                                           const tripoint &target_arg, dispersion_sources dispersion,
-                                           Creature *origin, const vehicle *in_veh )
+        const tripoint &target_arg, dispersion_sources dispersion,
+        Creature *origin, const vehicle *in_veh )
 {
     const bool do_animation = get_option<bool>( "ANIMATIONS" );
 
@@ -152,8 +153,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
     Creature *target_critter = g->critter_at( target_arg );
     double target_size = target_critter != nullptr ?
-                             target_critter->ranged_target_size() :
-                             g->m.ranged_target_size( target_arg );
+                         target_critter->ranged_target_size() :
+                         g->m.ranged_target_size( target_arg );
     projectile_attack_aim aim = projectile_attack_roll( dispersion, range, target_size );
 
     // TODO: move to-hit roll back in here
@@ -170,9 +171,9 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     projectile &proj = attack.proj;
     const auto &proj_effects = proj.proj_effects;
 
-    const bool stream = proj_effects.count("STREAM") > 0 ||
-                        proj_effects.count("STREAM_BIG") > 0 ||
-                        proj_effects.count("JET") > 0;
+    const bool stream = proj_effects.count( "STREAM" ) > 0 ||
+                        proj_effects.count( "STREAM_BIG" ) > 0 ||
+                        proj_effects.count( "JET" ) > 0;
     const char bullet = stream ? '#' : '*';
     const bool no_item_damage = proj_effects.count( "NO_ITEM_DAMAGE" ) > 0;
     const bool do_draw_line = proj_effects.count( "DRAW_AS_LINE" ) > 0;
@@ -180,8 +181,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     // Determines whether it can penetrate obstacles
     const bool is_bullet = proj_arg.speed >= 200 && std::any_of( proj_arg.impact.damage_units.begin(),
                            proj_arg.impact.damage_units.end(),
-                           []( const damage_unit &dam )
-    {
+    []( const damage_unit & dam ) {
         return dam.type == DT_CUT;
     } );
 
@@ -206,8 +206,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         // @todo This should also represent the miss on z axis
         const int offset = std::min<int>( range, sqrtf( aim.missed_by_tiles ) );
         int new_range = no_overshoot ?
-                            range + rng( -offset, offset ) :
-                            rng( range - offset, proj_arg.range );
+                        range + rng( -offset, offset ) :
+                        rng( range - offset, proj_arg.range );
         new_range = std::max( new_range, 1 );
 
         target.x = source.x + roll_remainder( new_range * cos( rad ) );
@@ -222,7 +222,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         range = rl_dist( source, target );
         extend_to_range = range;
 
-        sfx::play_variant_sound( "bullet_hit", "hit_wall", sfx::get_heard_volume( target ), sfx::get_heard_angle( target ));
+        sfx::play_variant_sound( "bullet_hit", "hit_wall", sfx::get_heard_volume( target ),
+                                 sfx::get_heard_angle( target ) );
         // TODO: Z dispersion
         // If we missed, just draw a straight line.
         trajectory = line_to( source, target );
@@ -231,7 +232,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         trajectory = g->m.find_clear_path( source, target );
     }
 
-    add_msg( m_debug, "missed_by_tiles: %.2f; missed_by: %.2f; target (orig/hit): %d,%d,%d/%d,%d,%d", aim.missed_by_tiles, aim.missed_by,
+    add_msg( m_debug, "missed_by_tiles: %.2f; missed_by: %.2f; target (orig/hit): %d,%d,%d/%d,%d,%d",
+             aim.missed_by_tiles, aim.missed_by,
              target_arg.x, target_arg.y, target_arg.z,
              target.x, target.y, target.z );
 
@@ -250,13 +252,13 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         // Continue line is very "stiff" when the original range is short
         // @todo Make it use a more distant point for more realistic extended lines
         std::vector<tripoint> trajectory_extension = continue_line( trajectory,
-                                                                    extend_to_range - range );
+                extend_to_range - range );
         trajectory.reserve( trajectory.size() + trajectory_extension.size() );
         trajectory.insert( trajectory.end(), trajectory_extension.begin(), trajectory_extension.end() );
     }
     // Range can be 0
     size_t traj_len = trajectory.size();
-    while( traj_len > 0 && rl_dist( source, trajectory[traj_len-1] ) > proj_arg.range ) {
+    while( traj_len > 0 && rl_dist( source, trajectory[traj_len - 1] ) > proj_arg.range ) {
         --traj_len;
     }
 
@@ -283,10 +285,10 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         if( do_animation && !do_draw_line ) {
             // TODO: Make this draw thrown item/launched grenade/arrow
             if( projectile_skip_current_frame >= projectile_skip_calculation ) {
-                g->draw_bullet( tp, (int)i, trajectory, bullet );
+                g->draw_bullet( tp, ( int )i, trajectory, bullet );
                 projectile_skip_current_frame = 0;
                 // If we missed recalculate the skip factor so they spread out.
-                projectile_skip_calculation = std::max( (size_t)range, i ) * projectile_skip_multiplier;
+                projectile_skip_calculation = std::max( ( size_t )range, i ) * projectile_skip_multiplier;
             } else {
                 projectile_skip_current_frame++;
             }
@@ -306,10 +308,10 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             critter = nullptr;
         }
 
-        monster *mon = dynamic_cast<monster *>(critter);
+        monster *mon = dynamic_cast<monster *>( critter );
         // ignore non-point-blank digging targets (since they are underground)
         if( mon != nullptr && mon->digging() &&
-            rl_dist( source, tp ) > 1) {
+            rl_dist( source, tp ) > 1 ) {
             critter = nullptr;
             mon = nullptr;
         }
@@ -328,7 +330,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         // at the start, misses should stay as misses
         if( critter != nullptr && tp != target_arg ) {
             // Unintentional hit
-            cur_missed_by = std::max( rng_float( 0.1, 1.5 - aim.missed_by ) / critter->ranged_target_size(), 0.4 );
+            cur_missed_by = std::max( rng_float( 0.1, 1.5 - aim.missed_by ) / critter->ranged_target_size(),
+                                      0.4 );
         }
 
         if( critter != nullptr && cur_missed_by < 1.0 ) {
@@ -374,7 +377,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         g->draw_bullet( tp, int( traj_len-- ), trajectory, bullet );
     }
 
-    if( g->m.impassable(tp) ) {
+    if( g->m.impassable( tp ) ) {
         tp = prev_point;
     }
 
@@ -389,7 +392,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     // TODO: Move this outside now that we have hit point in return values?
     if( proj.proj_effects.count( "BOUNCE" ) ) {
         for( size_t i = 0; i < g->num_zombies(); i++ ) {
-            monster &z = g->zombie(i);
+            monster &z = g->zombie( i );
             if( z.is_dead() ) {
                 continue;
             }
@@ -413,7 +416,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 }
 
 // @todo Integrate with dispersion.h
-double projectile_attack_chance( const dispersion_sources &dispersion_struct, double range, double accuracy, double target_size )
+double projectile_attack_chance( const dispersion_sources &dispersion_struct, double range,
+                                 double accuracy, double target_size )
 {
     // This is essentially the inverse of what Creature::projectile_attack() does.
 
@@ -431,7 +435,7 @@ double projectile_attack_chance( const dispersion_sources &dispersion_struct, do
 
     //          T = (2*D**2 * (1 - cos V)) ** 0.5   (from iso_tangent)
     //      cos V = 1 - T**2 / (2*D**2)
-    double cosV = 1 - missed_by_tiles * missed_by_tiles / (2 * range * range);
+    double cosV = 1 - missed_by_tiles * missed_by_tiles / ( 2 * range * range );
     double shot_dispersion = ( cosV < -1.0 ? M_PI : acos( cosV ) ) * 180 * 60 / M_PI;
 
     // erf(x / (sigma * sqrt(2))) is the probability that a measurement
@@ -465,7 +469,8 @@ static double erfinv( double x )
     return z;
 }
 
-double effective_range( const dispersion_sources &dispersion_struct, unsigned chance, double accuracy, double target_size )
+double effective_range( const dispersion_sources &dispersion_struct, unsigned chance,
+                        double accuracy, double target_size )
 {
     double dispersion = dispersion_struct.stddev();
     double sigma = dispersion / dispersion_sigmas;
@@ -479,12 +484,14 @@ double effective_range( const dispersion_sources &dispersion_struct, unsigned ch
     // work backwards to range
     //   T = (2*D**2 * (1 - cos V)) ** 0.5   (from iso_tangent)
     //   D = (0.5*T**2 / (1 - cos V)) ** 0.5
-    double range = sqrt( 0.5 * missed_by_tiles * missed_by_tiles / ( 1 - cos( ARCMIN( max_dispersion ) ) ) );
+    double range = sqrt( 0.5 * missed_by_tiles * missed_by_tiles / ( 1 - cos( ARCMIN(
+                             max_dispersion ) ) ) );
 
     if( range > RANGE_SOFT_CAP ) {
         // This is a special case that is a pain to calculate since dispersion depends on range
         // Just interpolate linearly - the actual function is linear enough
-        return lerp_clamped( RANGE_SOFT_CAP, RANGE_HARD_CAP, 1.0 - dispersion / ( 180.0 / dispersion_sources::dispersion_sigmas ) );
+        return lerp_clamped( RANGE_SOFT_CAP, RANGE_HARD_CAP,
+                             1.0 - dispersion / ( 180.0 / dispersion_sources::dispersion_sigmas ) );
     }
 
     return range;
