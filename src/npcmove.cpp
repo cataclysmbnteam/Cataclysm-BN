@@ -1,5 +1,6 @@
 #include "npc.h"
 
+#include "ballistics.h"
 #include "dispersion.h"
 #include "rng.h"
 #include "game.h"
@@ -782,7 +783,7 @@ void npc::choose_target()
             continue;
         }
 
-        if( att == MATT_FPASSIVE ) {
+        if( att == MATT_FPASSIVE || att == MATT_ZLAVE ) {
             continue;
         }
 
@@ -1274,21 +1275,19 @@ int npc::confident_gun_mode_range( const item::gun_mode &gun, int at_recoil ) co
         return 0;
     }
 
-    double average_dispersion = get_weapon_dispersion( *( gun.target ) ).avg() + at_recoil;
-    double even_chance_range = range_with_even_chance_of_good_hit( average_dispersion );
-    // 5 round burst equivalent to ~2 individually aimed shots
-    even_chance_range /= std::max( sqrt( gun.qty / 1.5 ), 1.0 );
-    double confident_range = even_chance_range * confidence_mult();
-
+    dispersion_sources dispersion = get_weapon_dispersion( *gun.target );
+    dispersion.add_range( recoil_total() );
+    int chance = 50 * std::max( sqrt( gun.qty / 1.5 ), 1.0 ) / confidence_mult();
+    const int confident_range = effective_range( dispersion, chance, 0.5, 0.5 );
     add_msg( m_debug, "confident_gun_mode_range (%s=%d)", gun.mode.c_str(), (int)confident_range );
     return std::max<int>( confident_range, 1 );
 }
 
 int npc::confident_throw_range( const item &thrown, Creature *target ) const
 {
-    double average_dispersion = throwing_dispersion( thrown, target ) / 2.0;
-    double even_chance_range = ( target == nullptr ? 0.5 : target->ranged_target_size() ) / average_dispersion;
-    double confident_range = even_chance_range * confidence_mult();
+    dispersion_sources dispersion( throwing_dispersion( thrown, target ) );
+    const int confident_range = effective_range( dispersion, 50 / confidence_mult(), 0.5,
+                                                 target == nullptr ? 0.5 : target->ranged_target_size() );
     add_msg( m_debug, "confident_throw_range == %d", (int)confident_range );
     return (int)confident_range;
 }

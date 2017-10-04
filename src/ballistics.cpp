@@ -17,6 +17,9 @@
 
 #include <algorithm>
 
+constexpr double dispersion_sigmas = 2.4;
+static const double sqrt2 = std::sqrt( 2.0 );
+
 const efftype_id effect_bounced( "bounced" );
 
 static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
@@ -410,4 +413,77 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     }
 
     return attack;
+}
+
+// @todo Integrate with dispersion.h
+double projectile_attack_chance( const dispersion_sources &dispersion_struct, double range,
+                                 double accuracy, double target_size )
+{
+    // This is essentially the inverse of what Creature::projectile_attack() does.
+
+    double dispersion = dispersion_struct.stddev();
+    if( dispersion <= 0 ) {
+        // Perfect accuracy, always hits
+        return 1.0;
+    }
+
+    if( range == 0 ) {
+        return 1.0;
+    }
+
+    double missed_by_tiles = accuracy * target_size;
+
+    //          T = (2*D**2 * (1 - cos V)) ** 0.5   (from iso_tangent)
+    //      cos V = 1 - T**2 / (2*D**2)
+    double cosV = 1 - missed_by_tiles * missed_by_tiles / ( 2 * range * range );
+    double shot_dispersion = ( cosV < -1.0 ? M_PI : acos( cosV ) ) * 180 * 60 / M_PI;
+
+    // erf(x / (sigma * sqrt(2))) is the probability that a measurement
+    // of a normally distributed variable with standard deviation sigma
+    // lies in the range [-x..x]
+    return std::erf( shot_dispersion / ( dispersion * sqrt2 ) );
+}
+
+static double erfinv( double x )
+{
+    const double epsilon = 1e-6;
+    const double m_2_sqrtpi = 2 / sqrt( M_PI );
+    double z = 0.0;
+
+    // Shortcut the most common case
+    if( x == 0.5 ) {
+        return 0.47693627620446982;
+    }
+
+    // find erf(z) - x = 0 using Newton=Raphson
+    // d/dz ( erf(z) - x ) = 2/sqrt(pi) . e^(-z^2)
+
+    for( int n = 0; n < 50; ++n ) {
+        double step = ( std::erf( z ) - x ) / ( m_2_sqrtpi * exp( -z * z ) );
+        z -= step;
+        if( std::abs( step ) < epsilon ) {
+            break;
+        }
+    }
+
+    return z;
+}
+
+double effective_range( const dispersion_sources &dispersion_struct, unsigned chance,
+                        double accuracy, double target_size )
+{
+    double dispersion = dispersion_struct.stddev();
+    double sigma = dispersion;
+
+    // angle such that chance% of dispersion rolls are <= that angle
+    double max_dispersion = erfinv( chance / 100.0 ) * sqrt2 * sigma;
+
+    // required iso_tangent value
+    double missed_by_tiles = accuracy * target_size;
+
+    // work backwards to range
+    //   T = (2*D**2 * (1 - cos V)) ** 0.5   (from iso_tangent)
+    //   D = (0.5*T**2 / (1 - cos V)) ** 0.5
+    return sqrt( 0.5 * missed_by_tiles * missed_by_tiles / ( 1 - cos( ARCMIN(
+                 max_dispersion ) ) ) );
 }

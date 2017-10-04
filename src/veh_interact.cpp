@@ -373,19 +373,21 @@ void veh_interact::cache_tool_availability()
                 crafting_inv.has_components( "wheel_motorbike", 1 ) ||
                 crafting_inv.has_components( "wheel_small", 1 );
 
+    map_selector ms( g->u.pos(), PICKUP_RANGE );
+    vehicle_selector vs( g->u.pos(), PICKUP_RANGE, true, *veh );
     max_lift = std::max( { g->u.max_quality( LIFT ),
-                           map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( LIFT ),
-                           vehicle_selector(g->u.pos(), 2, true, *veh ).max_quality( LIFT ) } );
+                           ms.max_quality( LIFT ),
+                           vs.max_quality( LIFT ) } );
 
     max_jack = std::max( { g->u.max_quality( JACK ),
-                           map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( JACK ),
-                           vehicle_selector(g->u.pos(), 2, true, *veh ).max_quality( JACK ) } );
+                           ms.max_quality( JACK ),
+                           vs.max_quality( JACK ) } );
 
     const double qual = jack_qality( *veh );
 
     has_jack = g->u.has_quality( JACK, qual ) ||
-               map_selector( g->u.pos(), PICKUP_RANGE ).has_quality( JACK, qual ) ||
-               vehicle_selector( g->u.pos(), 2, true, *veh ).has_quality( JACK,  qual );
+               ms.has_quality( JACK, qual ) ||
+               vs.has_quality( JACK,  qual );
 }
 
 /**

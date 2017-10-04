@@ -1,39 +1,21 @@
 #include "dispersion.h"
 
+#include <cmath>
 #include "rng.h"
 
 double dispersion_sources::roll() const
 {
-    double this_roll = 0.0;
-    for( const double &source : linear_sources ) {
-        this_roll += rng_float( 0.0, source );
-    }
-    for( const double &source : normal_sources ) {
-        this_roll += rng_normal( source );
-    }
-    for( const double &source : multipliers ) {
-        this_roll *= source;
-    }
-    return this_roll;
+    return std::abs( normal_roll( 0.0, stddev() ) );
 }
 
-double dispersion_sources::max() const
+double dispersion_sources::stddev() const
 {
-    double sum = 0.0;
-    for( const double &source : linear_sources ) {
-        sum += source;
-    }
-    for( const double &source : normal_sources ) {
-        sum += source;
-    }
-    for( const double &source : multipliers ) {
-        sum *= source;
-    }
-    return sum;
+    return sdev * multiplier;
 }
 
-double dispersion_sources::avg() const
+double dispersion_sources::cdf( double x ) const
 {
-    return max() / 2.0;
+    static const double sqrt2 = std::sqrt( 2.0 );
+    return std::erf( x / ( stddev() * sqrt2 ) );
 }
 

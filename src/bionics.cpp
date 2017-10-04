@@ -27,6 +27,7 @@
 #include "output.h"
 #include "mutation.h"
 #include "requirements.h"
+#include "options.h"
 
 #include <algorithm> //std::min
 #include <sstream>
@@ -999,7 +1000,8 @@ bool player::install_bionics( const itype &type, int skill_level )
         fa_level = 5;
     }
 
-    if( !has_trait( trait_NOPAIN ) && !has_trait( trait_CENOBITE ) &&
+    if( !get_option<bool>( "NO_CBM_PAINKILLERS" ) &&
+        !has_trait( trait_NOPAIN ) && !has_trait( trait_CENOBITE ) &&
         !has_trait( trait_MASOCHIST_MED ) && !has_bionic( bionic_id( "bio_painkiller" ) ) ) {
         if( pk == 0 ) {
             popup( _( "You need to take painkillers to make installing bionics tolerable." ) );

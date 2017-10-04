@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/CleverRaven/Cataclysm-DDA.svg?branch=master)](https://travis-ci.org/CleverRaven/Cataclysm-DDA)
+[![Build Status](https://travis-ci.org/Coolthulhu/Cataclysm-DDA.svg?branch=experimental)](https://travis-ci.org/Coolthulhu/Cataclysm-DDA)
 [![Coverage Status](https://coveralls.io/repos/github/CleverRaven/Cataclysm-DDA/badge.svg?branch=master)](https://coveralls.io/github/CleverRaven/Cataclysm-DDA?branch=master)
 
 # Cataclysm: Dark Days Ahead

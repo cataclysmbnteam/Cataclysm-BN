@@ -681,15 +681,9 @@ static int print_steadiness( WINDOW *w, int line_number, double steadiness )
     return line_number;
 }
 
-static double confidence_estimate( int range, double target_size, dispersion_sources dispersion )
+static double confidence_estimate( int range, double target_size, double acc, dispersion_sources dispersion )
 {
-    // This is a rough estimate of accuracy based on a linear distribution across min and max
-    // dispersion.  It is highly inaccurate probability-wise, but this is intentional, the player
-    // is not doing gaussian integration in their head while aiming.  The result gives the player
-    // correct relative measures of chance to hit, and corresponds with the actual distribution at
-    // min, max, and mean.
-    const double max_lateral_offset = iso_tangent( range, dispersion.max() );
-    return 1 / ( max_lateral_offset / target_size );
+    return projectile_attack_chance( dispersion, range, acc, target_size );
 }
 
 static int print_ranged_chance( const player &p, WINDOW *w, int line_number, const item &gun,
@@ -716,7 +710,6 @@ static int print_ranged_chance( const player &p, WINDOW *w, int line_number, con
             current_dispersion.add_range( recoil );
         }
 
-        double confidence = confidence_estimate( range, target_size, current_dispersion );
         mvwprintw( w, line_number++, 1, _( "%s: Moves to fire: %d" ), label.c_str(),
                    p.gun_engagement_moves( gun, threshold, recoil ) + time_to_fire( p, *gun.type ) );
 
@@ -724,8 +717,9 @@ static int print_ranged_chance( const player &p, WINDOW *w, int line_number, con
             int last_chance = 0;
             std::string confidence_s = enumerate_as_string( confidence_config.begin(), confidence_config.end(),
                 [&]( const confidence_rating &config ) {
+                    double confidence = confidence_estimate( range, target_size, config.aim_level, current_dispersion );
                     // @todo Consider not printing 0 chances, but only if you can print something (at least miss 100% or so)
-                    int chance = std::min<int>( 100, 100.0 * ( config.aim_level * confidence ) ) - last_chance;
+                    int chance = std::min<int>( 100, 100.0 * confidence ) - last_chance;
                     last_chance += chance;
                     return string_format( "%s: %3d%%", config.label.c_str(), chance );
                 }, false );
@@ -735,10 +729,12 @@ static int print_ranged_chance( const player &p, WINDOW *w, int line_number, con
             // Extract pairs from tuples, because get_labeled_bar expects pairs
             std::vector<std::pair<double, char>> confidence_ratings;
             std::transform( confidence_config.begin(), confidence_config.end(), std::back_inserter( confidence_ratings ),
-                            [&]( const confidence_rating &config ) {
-                                return std::make_pair( config.aim_level, config.symbol );
-                            } );
-            const std::string &confidence_bar = get_labeled_bar( confidence, window_width, "",
+            [&]( const confidence_rating &config ) {
+                double confidence = confidence_estimate( range, target_size, config.aim_level, current_dispersion );
+                return std::make_pair( confidence, config.symbol );
+            } );
+
+            const std::string &confidence_bar = get_labeled_bar( 1.0, window_width, "",
                                                                  confidence_ratings.begin(),
                                                                  confidence_ratings.end() );
 
@@ -757,7 +753,6 @@ static int print_aim( const player &p, WINDOW *w, int line_number, item *weapon,
     // Dodge doesn't affect gun attacks
 
     dispersion_sources dispersion = p.get_weapon_dispersion( *weapon );
-    dispersion.add_range( p.recoil_vehicle() );
 
     const double min_dispersion = p.effective_dispersion( p.weapon.sight_dispersion() );
     const double steadiness_range = MAX_RECOIL - min_dispersion;
@@ -1601,7 +1596,7 @@ double player::gun_value( const item &weap, long ammo ) const
 
     item tmp = weap;
     tmp.ammo_set( weap.ammo_default() );
-    int total_dispersion = get_weapon_dispersion( tmp ).max() +
+    int total_dispersion = get_weapon_dispersion( tmp ).stddev() +
       effective_dispersion( tmp.sight_dispersion() );
 
     if( def_ammo_i != nullptr && def_ammo_i->ammo != nullptr ) {

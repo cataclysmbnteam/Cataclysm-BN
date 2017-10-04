@@ -217,7 +217,7 @@ double Character::aim_speed_skill_modifier( const skill_id &gun_skill ) const
     if( gun_skill == "pistol" ) {
         skill_mult = 2.0;
     } else if( gun_skill == "rifle" ) {
-        skill_mult = 0.9;
+        skill_mult = 0.5;
     }
     /** @EFFECT_PISTOL increases aiming speed for pistols */
     /** @EFFECT_SMG increases aiming speed for SMGs */
@@ -1624,14 +1624,13 @@ int Character::get_int_bonus() const
 
 int Character::ranged_dex_mod() const
 {
-    ///\EFFECT_DEX <20 increases ranged penalty
-    return std::max( ( 20.0 - get_dex() ) * 2.25, 0.0 );
+    return 0;
 }
 
 int Character::ranged_per_mod() const
 {
     ///\EFFECT_PER <20 increases ranged aiming penalty.
-    return std::max( ( 20.0 - get_per() ) * 2.25, 0.0 );
+    return std::max( ( 20.0 - get_per() ) * 3, 0.0 );
 }
 
 int Character::get_healthy() const

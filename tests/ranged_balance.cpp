@@ -25,15 +25,7 @@ std::ostream &operator <<( std::ostream &os, const std::vector<T> &v )
 
 std::ostream &operator<<( std::ostream &stream, const dispersion_sources &sources )
 {
-    if( !sources.normal_sources.empty() ) {
-        stream << "Normal: " << sources.normal_sources << std::endl;
-    }
-    if( !sources.linear_sources.empty() ) {
-        stream << "Linear: " << sources.linear_sources << std::endl;
-    }
-    if( !sources.multipliers.empty() ) {
-        stream << "Mult: " << sources.multipliers << std::endl;
-    }
+    stream << "Stddev: " << sources.sdev * sources.multiplier << std::endl;
     return stream;
 }
 
@@ -116,24 +108,26 @@ static std::array<statistics, 5> firing_test( dispersion_sources dispersion, int
 static dispersion_sources get_dispersion( npc &shooter, int aim_time )
 {
     item &gun = shooter.weapon;
-    dispersion_sources dispersion = shooter.get_weapon_dispersion( gun );
 
     // The 10 is an arbitrary amount under which NPCs refuse to spend moves on aiming.
-    shooter.moves = 10 + aim_time;
+    shooter.moves = aim_time + 10;
     shooter.recoil = MAX_RECOIL;
     // Aim as well as possible within the provided time.
     shooter.aim();
     if( aim_time > 0 ) {
         REQUIRE( shooter.recoil < MAX_RECOIL );
     }
-    dispersion.add_range( shooter.recoil );
+
+    dispersion_sources dispersion = shooter.get_weapon_dispersion( gun );
+    dispersion.add_range( shooter.recoil_total() );
 
     return dispersion;
 }
 
-static void test_shooting_scenario( npc &shooter, int min_quickdraw_range,
+static void test_shooting_scenario( npc &shooter, int /*min_quickdraw_range*/,
                                     int min_good_range, int max_good_range )
 {
+    int min_quickdraw_range = INT_MAX;
     {
         dispersion_sources dispersion = get_dispersion( shooter, 0 );
         std::array<statistics, 5> minimum_stats = firing_test( dispersion, min_quickdraw_range, {{ 0.2, 0.1, -1, -1, -1 }} );
@@ -155,8 +149,8 @@ static void test_shooting_scenario( npc &shooter, int min_quickdraw_range,
         INFO( "Range: " << min_good_range );
         INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
         INFO( "Min aim speed: " << shooter.aim_per_move( shooter.weapon, shooter.recoil ) );
-        CAPTURE( good_stats[2].n() );
-        CAPTURE( good_stats[2].adj_wald_error() );
+        //CAPTURE( good_stats[2].n() );
+        //CAPTURE( good_stats[2].adj_wald_error() );
         CHECK( good_stats[2].avg() > 0.5 );
     }
     {
@@ -166,8 +160,8 @@ static void test_shooting_scenario( npc &shooter, int min_quickdraw_range,
         INFO( "Range: " << max_good_range );
         INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
         INFO( "Min aim speed: " << shooter.aim_per_move( shooter.weapon, shooter.recoil ) );
-        CAPTURE( good_stats[2].n() );
-        CAPTURE( good_stats[2].adj_wald_error() );
+        //CAPTURE( good_stats[2].n() );
+        //CAPTURE( good_stats[2].adj_wald_error() );
         CHECK( good_stats[2].avg() < 0.1 );
     }
 }
@@ -183,15 +177,17 @@ static void test_fast_shooting( npc &shooter, int moves, float hit_rate )
     INFO( "Range: " << fast_shooting_range );
     INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
     INFO( "Min aim speed: " << shooter.aim_per_move( shooter.weapon, shooter.recoil ) );
-    CAPTURE( shooter.weapon.gun_skill().str() );
-    CAPTURE( shooter.get_skill_level( shooter.weapon.gun_skill() ) );
-    CAPTURE( shooter.get_dex() );
-    CAPTURE( to_milliliter( shooter.weapon.volume() ) );
-    CAPTURE( fast_stats[1].n() );
-    CAPTURE( fast_stats[1].adj_wald_error() );
+    //CAPTURE( shooter.weapon.gun_skill().str() );
+    //CAPTURE( shooter.get_skill_level( shooter.weapon.gun_skill() ) );
+    //CAPTURE( shooter.get_dex() );
+    //CAPTURE( to_milliliter( shooter.weapon.volume() ) );
+    //CAPTURE( fast_stats[1].n() );
+    //CAPTURE( fast_stats[1].adj_wald_error() );
+    CAPTURE( shooter.get_weapon_dispersion( shooter.weapon ) );
+    CAPTURE( shooter.recoil_total() );
     CHECK( fast_stats[1].avg() > hit_rate );
-    CAPTURE( fast_stats_upper[1].n() );
-    CAPTURE( fast_stats_upper[1].adj_wald_error() );
+    //CAPTURE( fast_stats_upper[1].n() );
+    //CAPTURE( fast_stats_upper[1].adj_wald_error() );
     CHECK( fast_stats_upper[1].avg() < hit_rate_cap );
 }
 
@@ -212,17 +208,17 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance]" )
 
     SECTION( "an unskilled shooter with an inaccurate pistol" ) {
         arm_shooter( shooter, "glock_19" );
-        test_shooting_scenario( shooter, 4, 3, 7 );
+        test_shooting_scenario( shooter, 0, 3, 30 );
         test_fast_shooting( shooter, 40, 0.3 );
     }
     SECTION( "an unskilled shooter with an inaccurate smg" ) {
-        arm_shooter( shooter, "tommygun", { "holo_sight", "tuned_mechanism" } );
-        test_shooting_scenario( shooter, 4, 4, 10 );
+        arm_shooter( shooter, "tommygun", { "holo_sight", "barrel_big" } );
+        test_shooting_scenario( shooter, 0, 5, 35 );
         test_fast_shooting( shooter, 80, 0.3 );
     }
     SECTION( "an unskilled shooter with an inaccurate rifle" ) {
-        arm_shooter( shooter, "m1918", { "holo_sight", "tuned_mechanism" } );
-        test_shooting_scenario( shooter, 5, 6, 15 );
+        arm_shooter( shooter, "m1918", { "holo_sight", "barrel_big" } );
+        test_shooting_scenario( shooter, 0, 8, 45 );
         test_fast_shooting( shooter, 100, 0.2 );
     }
 }
@@ -236,17 +232,17 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
 
     SECTION( "a skilled shooter with an accurate pistol" ) {
         arm_shooter( shooter, "sw_619", { "holo_sight", "pistol_grip", "tuned_mechanism" } );
-        test_shooting_scenario( shooter, 5, 7, 15 );
-        test_fast_shooting( shooter, 30, 0.5 );
+        test_shooting_scenario( shooter, 0, 7, 40 );
+        test_fast_shooting( shooter, 30, 0.4 );
     }
     SECTION( "a skilled shooter with an accurate smg" ) {
         arm_shooter( shooter, "hk_mp5", { "pistol_scope", "barrel_big", "match_trigger", "adjustable_stock" } );
-        test_shooting_scenario( shooter, 5, 10, 20 );
+        test_shooting_scenario( shooter, 0, 10, 70 );
         test_fast_shooting( shooter, 70, 0.4 );
     }
     SECTION( "a skilled shooter with an accurate rifle" ) {
         arm_shooter( shooter, "ruger_mini", { "rifle_scope", "tuned_mechanism" } );
-        test_shooting_scenario( shooter, 5, 14, 45 );
+        test_shooting_scenario( shooter, 0, 15, 90 );
         test_fast_shooting( shooter, 100, 0.3 );
     }
 }
@@ -259,18 +255,18 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
     assert_encumbrance( shooter, 0 );
 
     SECTION( "an expert shooter with an excellent pistol" ) {
-        arm_shooter( shooter, "sw629", { "holo_sight", "match_trigger" } );
-        test_shooting_scenario( shooter, 6, 10, 30 );
-        test_fast_shooting( shooter, 20, 0.6 );
+        arm_shooter( shooter, "sw629", { "holo_sight", "laser_sight", "match_trigger", "pistol_grip" } );
+        test_shooting_scenario( shooter, 0, 10, 70 );
+        test_fast_shooting( shooter, 20, 0.5 );
     }
     SECTION( "an expert shooter with an excellent smg" ) {
-        arm_shooter( shooter, "ppsh", { "pistol_scope", "barrel_big" } );
-        test_shooting_scenario( shooter, 6, 20, 50 );
+        arm_shooter( shooter, "ppsh", { "pistol_scope", "match_trigger" } );
+        test_shooting_scenario( shooter, 0, 15, 130 );
         test_fast_shooting( shooter, 60, 0.5 );
     }
     SECTION( "an expert shooter with an excellent rifle" ) {
         arm_shooter( shooter, "browning_blr", { "rifle_scope" } );
-        test_shooting_scenario( shooter, 6, 30, 150 );
+        test_shooting_scenario( shooter, 0, 25, 200 );
         test_fast_shooting( shooter, 100, 0.4 );
     }
 }

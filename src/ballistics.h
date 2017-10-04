@@ -31,4 +31,11 @@ dealt_projectile_attack projectile_attack( const projectile &proj, const tripoin
         const tripoint &target, dispersion_sources dispersion,
         Creature *origin = nullptr, const vehicle *in_veh = nullptr );
 
+
+double projectile_attack_chance( const dispersion_sources &dispersion_struct, double range,
+                                 double accuracy, double target_size );
+
+double effective_range( const dispersion_sources &dispersion_struct, unsigned chance,
+                        double accuracy, double target_size );
+
 #endif
