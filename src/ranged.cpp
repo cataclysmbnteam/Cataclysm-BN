@@ -10,7 +10,6 @@
 #include "line.h"
 #include "skill.h"
 #include "rng.h"
-#include "creature_tracker.h"
 #include "item.h"
 #include "options.h"
 #include "action.h"
@@ -686,15 +685,28 @@ static double confidence_estimate( int range, double target_size, double acc, di
     return projectile_attack_chance( dispersion, range, acc, target_size );
 }
 
-static int print_ranged_chance( const player &p, WINDOW *w, int line_number, const item &gun,
-                                dispersion_sources dispersion,
+static std::vector<aim_type> get_default_aim_type()
+{
+    std::vector<aim_type> aim_types;
+    aim_types.push_back( aim_type { "", "", "", false, 0 } ); // dummy aim type for unaimed shots
+    return aim_types;
+}
+
+static int print_ranged_chance( const player &p, WINDOW *w, int line_number, target_mode mode,
+                                const item &ranged_weapon, dispersion_sources dispersion,
                                 const std::vector<confidence_rating> &confidence_config,
                                 double range, double target_size, int recoil = 0 )
 {
     const int window_width = getmaxx( w ) - 2; // Window width minus borders.
     std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
 
-    std::vector<aim_type> aim_types = p.get_aim_types( gun );
+    std::vector<aim_type> aim_types;
+    if ( mode == TARGET_MODE_THROW ) {
+        aim_types = get_default_aim_type();
+    } else {
+        aim_types = p.get_aim_types( ranged_weapon );
+    }
+
     if( display_type != "numbers" ) {
         mvwprintw( w, line_number++, 1, _( "Symbols: * = Headshot + = Hit | = Graze" ) );
     }
@@ -710,8 +722,14 @@ static int print_ranged_chance( const player &p, WINDOW *w, int line_number, con
             current_dispersion.add_range( recoil );
         }
 
-        mvwprintw( w, line_number++, 1, _( "%s: Moves to fire: %d" ), label.c_str(),
-                   p.gun_engagement_moves( gun, threshold, recoil ) + time_to_fire( p, *gun.type ) );
+        int moves_to_fire;
+        if ( mode == TARGET_MODE_THROW ) {
+            moves_to_fire = throw_cost( p, ranged_weapon );
+        } else {
+            moves_to_fire = p.gun_engagement_moves( ranged_weapon, threshold, recoil ) + time_to_fire( p, *ranged_weapon.type );
+        }
+
+        mvwprintw( w, line_number++, 1, _( "%s: Moves to fire: %d" ), label.c_str(), moves_to_fire );
 
         if( display_type == "numbers" ) {
             int last_chance = 0;
@@ -773,7 +791,7 @@ static int print_aim( const player &p, WINDOW *w, int line_number, item *weapon,
 
     const double range = rl_dist( p.pos(), target.pos() );
     line_number = print_steadiness( w, line_number, steadiness );
-    return print_ranged_chance( p, w, line_number, *weapon, dispersion, confidence_config,
+    return print_ranged_chance( p, w, line_number, TARGET_MODE_FIRE, *weapon, dispersion, confidence_config,
                                 range, target_size, predicted_recoil );
 }
 
@@ -820,7 +838,7 @@ static int draw_throw_aim( const player &p, WINDOW *w, int line_number,
     const auto &confidence_config = target != nullptr ?
       confidence_config_critter : confidence_config_object;
 
-    return print_ranged_chance( p, w, line_number, *weapon, dispersion, confidence_config,
+    return print_ranged_chance( p, w, line_number, TARGET_MODE_THROW, *weapon, dispersion, confidence_config,
                                 range, target_size );
 }
 
@@ -832,8 +850,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, const targeting_dat
 
 std::vector<aim_type> Character::get_aim_types( const item &gun ) const
 {
-    std::vector<aim_type> aim_types;
-    aim_types.push_back( aim_type { "", "", "", false, 0 } ); // dummy aim type for unaimed shots
+    std::vector<aim_type> aim_types = get_default_aim_type();
     if( !gun.is_gun() ) {
         return aim_types;
     }
@@ -991,17 +1008,8 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     }
 
     const auto set_last_target = []( const tripoint &dst ) {
-        for( const auto &guy : g->active_npc ) {
-            if( guy->pos() == dst ) {
-                g->last_target = guy;
-                return;
-            }
-        }
-        const int mondex = g->mon_at( dst, true );
-        if( mondex >= 0 ) {
-            // @todo add and use a function in game that returns a
-            // shared_ptr<Creature>, as not to expose the Creature_tracker
-            g->last_target = g->critter_tracker->find( mondex );
+        if( const Creature *const critter_ptr = g->critter_at( dst, true ) ) {
+            g->last_target = g->shared_from( *critter_ptr );
         }
     };
 
@@ -1444,7 +1452,10 @@ static void cycle_action( item& weap, const tripoint &pos ) {
     const auto mag = weap.magazine_current();
     if( mag && mag->type->magazine->linkage != "NULL" ) {
         item linkage( mag->type->magazine->linkage, calendar::turn, 1 );
-        if( cargo.empty() ) {
+        if (weap.gunmod_find("brass_catcher")) {
+            g->u.inv.add_item(linkage, true, false);
+        }
+        else if( cargo.empty() ) {
             g->m.add_item_or_charges( eject, linkage );
         } else {
             veh->add_item( *cargo.front(), linkage );

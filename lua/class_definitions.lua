@@ -370,10 +370,6 @@ classes = {
             { name = "light_level", rval = "int", args = { "int" } },
             { name = "look_around", rval = "tripoint", args = { } },
             { name = "look_debug", rval = "tripoint", args = { } },
-            { name = "mon_at", rval = "int", args = { "tripoint" } },
-            { name = "mon_at", rval = "int", args = { "tripoint", "bool" } },
-            { name = "monster_at", rval = "monster&", args = { "tripoint" } },
-            { name = "monster_at", rval = "monster&", args = { "tripoint", "bool" } },
             { name = "natural_light_level", rval = "float", args = { "int" } },
             { name = "nuke", rval = nil, args = { "tripoint" } },
             { name = "num_zombies", rval = "int", args = { } },
@@ -383,14 +379,14 @@ classes = {
             { name = "plfire", rval = nil, args = { } },
             { name = "plswim", rval = nil, args = { "tripoint" } },
             { name = "refresh_all", rval = nil, args = { } },
-            { name = "remove_zombie", rval = nil, args = { "int" } },
+            { name = "remove_zombie", rval = nil, args = { "monster" } },
             { name = "resonance_cascade", rval = nil, args = { "tripoint" } },
             { name = "revive_corpse", rval = "bool", args = { "tripoint", "item" } },
             { name = "save", rval = "bool", args = { } },
             { name = "scrambler_blast", rval = nil, args = { "tripoint" } },
             { name = "shockwave", rval = nil, args = { "tripoint", "int", "int", "int", "int", "bool" } },
             { name = "spawn_hallucination", rval = "bool", args = { } },
-            { name = "summon_mon", rval = "bool", args = { "mtype_id", "tripoint" } },
+            { name = "summon_mon", rval = "monster&", args = { "mtype_id", "tripoint" } },
             { name = "swap_critters", rval = "bool", args = { "Creature", "Creature" } },
             { name = "teleport", rval = nil, args = { "player" } },
             { name = "teleport", rval = nil, args = { "player", "bool" } },
@@ -1355,7 +1351,6 @@ classes = {
 
         attributes = {
             close = { type = "ter_str_id", writable = true },
-            name = { type = "string",  writable = false },
             open = { type = "ter_str_id", writable = true },
             roof = { type = "ter_str_id", writable = true },
             transforms_into = { type = "ter_str_id", writable = true },
@@ -1365,6 +1360,7 @@ classes = {
         },
         functions = {
             { name = "color", rval = "int", args = { } },
+            { name = "name", rval = "string", args = { } },
             { name = "symbol", rval = "int", args = { } },
         }
     },
@@ -1377,13 +1373,13 @@ classes = {
             id = { type = "furn_str_id" },
             max_volume = { type = "volume", writable = true },
             movecost = { type = "int", writable = true },
-            name = { type = "string", writable = true },
             open = { type = "furn_str_id", writable = true },
             transparent = { type = "bool", writable = true },
             move_str_req = { type = "int", writable = true },
         },
         functions = {
             { name = "color", rval = "int", args = { } },
+            { name = "name", rval = "string", args = { } },
             { name = "symbol", rval = "int", args = { } },
         }
     },

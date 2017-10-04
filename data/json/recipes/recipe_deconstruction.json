@@ -517,21 +517,6 @@
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
   {
-    "result": "762_25typeP",
-    "type": "uncraft",
-    "skill_used": "gun",
-    "difficulty": 5,
-    "time": 500,
-    "tools": [ [ [ "puller", -1 ] ] ],
-    "components": [
-      [ [ "lead", 2 ] ],
-      [ [ "762_25_casing", 1 ] ],
-      [ [ "smpistol_primer", 1 ] ],
-      [ [ "gunpowder", 5 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
-  },
-  {
     "result": "9x18mm",
     "type": "uncraft",
     "skill_used": "gun",
@@ -1113,7 +1098,7 @@
     "type": "uncraft",
     "time": 1200,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "tools": [ [ [ "fire", -1 ], [ "toolset", 10 ] ] ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "copper", 200 ] ] ]
   },
   {

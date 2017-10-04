@@ -3848,8 +3848,7 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
         }
         for( int i = 0; i < snakes && !valid.empty(); i++ ) {
             const tripoint target = random_entry_removed( valid );
-            if( g->summon_mon( mon_shadow_snake, target ) ) {
-                monster *snake = g->monster_at( target );
+            if( monster * const snake = g->summon_mon( mon_shadow_snake, target ) ) {
                 snake->friendly = -1;
             }
         }
@@ -3870,8 +3869,7 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
         int numslime = 1;
         for( int i = 0; i < numslime && !valid.empty(); i++ ) {
             const tripoint target = random_entry_removed( valid );
-            if( g->summon_mon( mon_player_blob, target ) ) {
-                monster *slime = g->monster_at( target );
+            if( monster * const slime = g->summon_mon( mon_player_blob, target ) ) {
                 slime->friendly = -1;
             }
         }
@@ -7444,7 +7442,7 @@ item::reload_option player::select_ammo( const item &base, const std::vector<ite
                            last_key( _last_key ), default_to( _default_to )
             {}
 
-            bool key( const input_event &event, int idx, uimenu * menu ) override {
+            bool key( const input_context &, const input_event &event, int idx, uimenu * menu ) override {
                 auto cur_key = event.get_first_input();
                 //Prevent double RETURN '\n' to default to the first entry
                 if( default_to != -1 && cur_key == last_key && cur_key != '\n' ) {
@@ -7805,14 +7803,16 @@ class ma_style_callback : public uimenu_callback
 private:
     size_t offset;
     const std::vector<matype_id> &styles;
+
 public:
     ma_style_callback( int style_offset, const std::vector<matype_id> &selectable_styles )
         : offset( style_offset )
         , styles( selectable_styles )
     {}
 
-    bool key(const input_event &event, int entnum, uimenu *menu) override {
-        if( event.get_first_input() != '?' ) {
+    bool key(const input_context &ctxt, const input_event &event, int entnum, uimenu *menu) override {
+        const std::string action = ctxt.input_to_action( event );
+        if( action != "SHOW_DESCRIPTION" ) {
             return false;
         }
         matype_id style_selected;
@@ -7866,11 +7866,16 @@ bool player::pick_style() // Style selection menu
     const std::vector<matype_id> &real_styles = has_active_bionic( bio_cqb ) ? bio_cqb_styles : ma_styles;
     selectable_styles.insert( selectable_styles.end(), real_styles.begin(), real_styles.end() );
 
+    input_context ctxt( "MELEE_STYLE_PICKER" );
+    ctxt.register_action( "SHOW_DESCRIPTION" );
+
     uimenu kmenu;
     kmenu.return_invalid = true;
-    kmenu.text = _("Select a style (press ? for more info)");
+    kmenu.text = string_format( _( "Select a style. (press %s for more info)" ), ctxt.get_desc( "SHOW_DESCRIPTION" ).c_str() );
     ma_style_callback callback( ( size_t )STYLE_OFFSET, selectable_styles );
     kmenu.callback = &callback;
+    kmenu.input_category = "MELEE_STYLE_PICKER";
+    kmenu.additional_actions.emplace_back( "SHOW_DESCRIPTION", "" );
     kmenu.desc_enabled = true;
     kmenu.addentry_desc( KEEP_HANDS_FREE, true, 'h', keep_hands_free ? _( "Keep hands free (on)" ) : _( "Keep hands free (off)" ),
                          _( "When this is enabled, player won't wield things unless explicitly told to." ) );
@@ -9393,7 +9398,9 @@ void player::do_read( item *book )
             }
         }
 
-        add_msg(m_info, _("Requires intelligence of %d to easily read."), reading->intel);
+        if (reading->intel != 0) {
+            add_msg(m_info, _("Requires intelligence of %d to easily read."), reading->intel);
+        }
         if (reading->fun != 0) {
             add_msg(m_info, _("Reading this book affects your morale by %d"), reading->fun);
         }
@@ -9753,7 +9760,7 @@ void player::try_to_sleep()
         add_msg_if_player( ter_at_pos.obj().movecost <= 2 ?
                  _("It's a little hard to get to sleep on this %s.") :
                  _("It's hard to get to sleep on this %s."),
-                 ter_at_pos.obj().name.c_str() );
+                 ter_at_pos.obj().name().c_str() );
     }
     add_effect( effect_lying_down, 300);
 }
