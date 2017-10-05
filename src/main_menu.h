@@ -19,7 +19,8 @@ class main_menu
         bool opening_screen();
 
     private:
-        // ASCII art that says "Cataclysm Dark Days Ahead"
+        // ASCII art that says "Cataclysm Bright Nights"
+        // @todo Edit the art to actually say that and not DDA
         std::vector<std::string> mmenu_title;
         std::vector<std::string> mmenu_motd;
         std::vector<std::string> mmenu_credits;

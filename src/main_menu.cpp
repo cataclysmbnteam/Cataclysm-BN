@@ -66,7 +66,7 @@ void main_menu::print_menu( WINDOW *w_open, int iSel, const int iMenuOffsetX, in
     }
 
     center_print( w_open, window_height - 1, c_red,
-                  _( "Please report bugs to kevin.granade@gmail.com or post on the forums." ) );
+                  _( "Please report bugs to coolthulhu@gmail.com or post an issue on the github." ) );
 
     int iLine = 0;
     const int iOffsetX = ( window_width - FULL_SCREEN_WIDTH ) / 2;
@@ -139,7 +139,7 @@ void main_menu::init_strings()
 {
     // ASCII Art
     mmenu_title = load_file( PATH_INFO::find_translated_file( "titledir", ".title", "title" ),
-                             _( "Cataclysm: Dark Days Ahead" ) );
+                             _( "Cataclysm: Bright Nights" ) );
     // MOTD
     mmenu_motd = load_file( PATH_INFO::find_translated_file( "motddir", ".motd", "motd" ),
                             _( "No message today." ) );

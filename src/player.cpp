@@ -2282,7 +2282,7 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
 
     //Header
     std::string version = string_format( "%s", getVersionString() );
-    memorial_file << string_format( _( "Cataclysm - Dark Days Ahead version %s memorial file" ),
+    memorial_file << string_format( _( "Cataclysm - Bright Nights version %s memorial file" ),
                                     version.c_str() ) << eol;
     memorial_file << eol;
     memorial_file << string_format( _( "In memory of: %s" ), name.c_str() ) << eol;

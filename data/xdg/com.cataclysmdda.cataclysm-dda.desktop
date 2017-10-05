@@ -1,10 +1,10 @@
 [Desktop Entry]
-Name=Cataclysm: Dark Days Ahead
+Name=Cataclysm: Bright Nights
 GenericName=Post-apocalyptic roguelike
 Comment=A roguelike set in a post-apocalyptic world
-Icon=cataclysm-dda
+Icon=cataclysm-bn
 Type=Application
 Exec=cataclysm-tiles
 Categories=Game;RolePlaying;
-Keywords=zombie;rogue;roguelike;tiles;dda;
+Keywords=zombie;rogue;roguelike;tiles;bn;
 Terminal=false
