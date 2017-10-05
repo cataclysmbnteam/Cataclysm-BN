@@ -17,7 +17,6 @@
 
 #include <algorithm>
 
-constexpr double dispersion_sigmas = 2.4;
 static const double sqrt2 = std::sqrt( 2.0 );
 
 const efftype_id effect_bounced( "bounced" );
