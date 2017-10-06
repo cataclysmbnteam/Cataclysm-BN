@@ -165,7 +165,7 @@ after_success:
   - if [ -n "${CODE_COVERAGE}" ]; then bash <(curl -s https://codecov.io/bash); fi
 
 before_deploy:
-  - make -j3 CCACHE=1 RELEASE=1 CROSS="$CROSS_COMPILATION" VERSION="${VER}" $BUILD_EXTRA bindist && export RELEASE_PKG_FILES=$(ls *.zip *.tar.gz)
+  - make CCACHE=1 RELEASE=1 CROSS="$CROSS_COMPILATION" VERSION="${VER}" $BUILD_EXTRA bindist && export RELEASE_PKG_FILES=$(ls *.zip *.tar.gz)
 
 deploy:
   provider: releases
