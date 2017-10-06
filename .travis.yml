@@ -6,6 +6,9 @@ language: c++
 
 cache: ccache
 
+notifications:
+  email: false
+
 git:
   depth: 5
 
