@@ -3902,13 +3902,13 @@ void vehicle::operate_planter(){
                     sounds::sound( loc, rng(10,20), _("Clink"));
                 }
                 if( !i->count_by_charges() || i->charges == 1 ) {
-                    i->bday = calendar::turn;
+                    i->set_age( 0 );
                     g->m.add_item( loc, *i );
                     v.erase( i );
                 } else {
                     item tmp = *i;
                     tmp.charges = 1;
-                    tmp.bday = calendar::turn;
+                    tmp.set_age( 0 );
                     g->m.add_item( loc, tmp );
                     i->charges--;
                 }
@@ -4720,7 +4720,7 @@ void vehicle::handle_trap( const tripoint &p, int part )
         chance = 70;
         part_damage = 300;
         if (t == tr_shotgun_2) {
-            g->m.add_trap(p, tr_shotgun_1);
+            g->m.trap_set(p, tr_shotgun_1);
         } else {
             g->m.remove_trap(p);
             g->m.spawn_item(p, "shotgun_s");
@@ -4978,7 +4978,7 @@ void vehicle::place_spawn_items()
                         bool spawn_mag  = rng( 0, 99 ) < spawn.with_magazine && !e.magazine_integral() && !e.magazine_current();
 
                         if( spawn_mag ) {
-                            e.contents.emplace_back( e.magazine_default(), e.bday );
+                            e.contents.emplace_back( e.magazine_default(), e.birthday() );
                         }
                         if( spawn_ammo ) {
                             e.ammo_set( e.ammo_type()->default_ammotype() );

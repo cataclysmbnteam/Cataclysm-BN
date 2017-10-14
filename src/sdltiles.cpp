@@ -30,6 +30,7 @@
 #include "cata_utility.h"
 #include "color_loader.h"
 #include "font_loader.h"
+#include "loading_ui.h"
 
 #if (defined _WIN32 || defined WINDOWS)
 #   include "platform_win.h"
@@ -1204,6 +1205,7 @@ void CheckMessages()
 {
     SDL_Event ev;
     bool quit = false;
+    bool text_refresh = false;
     if(HandleDPad()) {
         return;
     }
@@ -1264,7 +1266,19 @@ void CheckMessages()
                     const unsigned lc = UTF8_getch( &c, &len );
                     last_input = input_event( lc, CATA_INPUT_KEYBOARD );
                     last_input.text = ev.text.text;
+                    text_refresh = true;
                 }
+            break;
+            case SDL_TEXTEDITING:
+            {
+                const char *c = ev.edit.text;
+                int len = strlen( ev.edit.text );
+                const unsigned lc = UTF8_getch( &c, &len );
+                last_input = input_event( lc, CATA_INPUT_KEYBOARD );
+                last_input.edit = ev.edit.text;
+                last_input.edit_refresh = true;
+                text_refresh = true;
+            }
             break;
             case SDL_JOYBUTTONDOWN:
                 last_input = input_event(ev.jbutton.button, CATA_INPUT_KEYBOARD);
@@ -1305,6 +1319,9 @@ void CheckMessages()
             case SDL_QUIT:
                 quit = true;
                 break;
+        }
+        if( text_refresh ) {
+            break;
         }
     }
     if (needupdate) {
@@ -2225,7 +2242,8 @@ void load_soundset() {
 
     current_soundpack_path = soundpack_path;
     try {
-        DynamicDataLoader::get_instance().load_data_from_path( soundpack_path, "core" );
+        loading_ui ui( false );
+        DynamicDataLoader::get_instance().load_data_from_path( soundpack_path, "core", ui );
     } catch( const std::exception &err ) {
         dbg( D_ERROR ) << "failed to load sounds: " << err.what();
     }

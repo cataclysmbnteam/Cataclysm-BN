@@ -5265,11 +5265,6 @@ item *map::item_from( vehicle *veh, int cargo_part, size_t index ) {
     }
 }
 
-void map::trap_set( const tripoint &p, const trap_id id)
-{
-    add_trap( p, id );
-}
-
 const trap &map::tr_at( const tripoint &p ) const
 {
     if( !inbounds( p.x, p.y, p.z ) ) {
@@ -5286,7 +5281,7 @@ const trap &map::tr_at( const tripoint &p ) const
     return current_submap->get_trap( lx, ly ).obj();
 }
 
-void map::add_trap( const tripoint &p, const trap_id t)
+void map::trap_set( const tripoint &p, const trap_id t)
 {
     if( !inbounds( p ) )
     {
@@ -6860,11 +6855,11 @@ void map::grow_plant( const tripoint &p )
     }
     const int plantEpoch = seed.get_plant_epoch();
 
-    if ( calendar::turn >= seed.bday + plantEpoch ) {
-        if (calendar::turn < seed.bday + plantEpoch * 2 ) {
+    if( seed.age() >= plantEpoch ) {
+        if( seed.age() < plantEpoch * 2 ) {
                 i_rem(p, 1);
                 furn_set(p, furn_str_id( "f_plant_seedling" ) );
-        } else if (calendar::turn < seed.bday + plantEpoch * 3 ) {
+        } else if( seed.age() < plantEpoch * 3 ) {
                 i_rem(p, 1);
                 furn_set(p, furn_str_id( "f_plant_mature" ) );
         } else {
