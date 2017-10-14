@@ -4675,7 +4675,7 @@ static void process_vehicle_items( vehicle *cur_veh, int part )
         }
     }
     const int charger_part = cur_veh->part_with_feature( part, VPFLAG_RECHARGE, true );
-    if( charger_part >= 0 ) {
+    if( charger_part >= 0 && cur_veh->parts[ charger_part ].enabled ) {
         const int per_charge = std::max( cur_veh->part_info( charger_part ).epower, 1 );
         for( auto &n : cur_veh->get_items( part ) ) {
             static const std::string recharge_s( "RECHARGE" );
