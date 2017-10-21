@@ -213,11 +213,11 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance]" )
     }
     SECTION( "an unskilled shooter with an inaccurate smg" ) {
         arm_shooter( shooter, "tommygun", { "holo_sight", "barrel_big" } );
-        test_shooting_scenario( shooter, 0, 5, 35 );
+        test_shooting_scenario( shooter, 0, 5, 40 );
         test_fast_shooting( shooter, 80, 0.3 );
     }
     SECTION( "an unskilled shooter with an inaccurate rifle" ) {
-        arm_shooter( shooter, "m1918", { "holo_sight", "barrel_big" } );
+        arm_shooter( shooter, "m1918", { "holo_sight", "pistol_grip" } );
         test_shooting_scenario( shooter, 0, 8, 45 );
         test_fast_shooting( shooter, 100, 0.2 );
     }
@@ -231,7 +231,7 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
     assert_encumbrance( shooter, 5 );
 
     SECTION( "a skilled shooter with an accurate pistol" ) {
-        arm_shooter( shooter, "sw_619", { "holo_sight", "pistol_grip", "tuned_mechanism" } );
+        arm_shooter( shooter, "sw_619", { "holo_sight" } );
         test_shooting_scenario( shooter, 0, 7, 40 );
         test_fast_shooting( shooter, 30, 0.4 );
     }
@@ -241,7 +241,7 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
         test_fast_shooting( shooter, 70, 0.4 );
     }
     SECTION( "a skilled shooter with an accurate rifle" ) {
-        arm_shooter( shooter, "ruger_mini", { "rifle_scope", "tuned_mechanism" } );
+        arm_shooter( shooter, "ruger_mini", { "rifle_scope", "match_trigger" } );
         test_shooting_scenario( shooter, 0, 15, 90 );
         test_fast_shooting( shooter, 100, 0.3 );
     }
