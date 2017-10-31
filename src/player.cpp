@@ -3,6 +3,7 @@
 #include "action.h"
 #include "coordinate_conversions.h"
 #include "profession.h"
+#include "string_formatter.h"
 #include "bionics.h"
 #include "mission.h"
 #include "game.h"
@@ -7221,7 +7222,7 @@ void player::rooted()
     }
 }
 
-item::reload_option player::select_ammo( const item &base, const std::vector<item::reload_option>& opts ) const
+item::reload_option player::select_ammo( const item &base, std::vector<item::reload_option> opts ) const
 {
     using reload_option = item::reload_option;
 
@@ -7322,7 +7323,7 @@ item::reload_option player::select_ammo( const item &base, const std::vector<ite
     // This is the entry that has out default
     int default_to = 0;
 
-    for( auto i = 0; i != ( int )opts.size(); ++i ) {
+    for( auto i = 0; i < ( int )opts.size(); ++i ) {
         const item& ammo = opts[ i ].ammo->is_ammo_container() ? opts[ i ].ammo->contents.front() : *opts[ i ].ammo;
 
         char hotkey = -1;
@@ -7364,12 +7365,12 @@ item::reload_option player::select_ammo( const item &base, const std::vector<ite
     struct reload_callback : public uimenu_callback {
         public:
             std::vector<item::reload_option> &opts;
-            const std::function<std::string( int )> &draw_row;
+            const std::function<std::string( int )> draw_row;
             int last_key;
-            int default_to;
+            const int default_to;
 
             reload_callback( std::vector<item::reload_option> &_opts,
-                             const std::function<std::string( int )> &_draw_row,
+                             std::function<std::string( int )> _draw_row,
                              int _last_key, int _default_to ) :
                            opts( _opts ), draw_row( _draw_row ),
                            last_key( _last_key ), default_to( _default_to )
@@ -7383,7 +7384,7 @@ item::reload_option player::select_ammo( const item &base, const std::vector<ite
                     menu->ret = default_to;
                     return true;
                 }
-                if( idx < 0 || idx > (int)opts.size() - 1 ) {
+                if( idx < 0 || idx >= (int)opts.size() ) {
                     return false;
                 }
                 auto &sel = opts[ idx ];
@@ -7400,8 +7401,7 @@ item::reload_option player::select_ammo( const item &base, const std::vector<ite
                 }
                 return false;
             }
-        // @todo Get rid of the const cast - it's fucking bullshit
-    } cb( const_cast<std::vector<item::reload_option> &>( opts ), draw_row, last_key, default_to );
+    } cb( opts, draw_row, last_key, default_to );
     menu.callback = &cb;
 
     menu.query();
@@ -7481,7 +7481,7 @@ item::reload_option player::select_ammo( const item& base, bool prompt ) const
         }
     }
 
-    return std::move( select_ammo( base, ammo_list ) );
+    return select_ammo( base, std::move( ammo_list ) );
 }
 
 bool player::can_wear( const item& it, bool alert ) const
