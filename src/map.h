@@ -10,21 +10,18 @@
 
 #include "game_constants.h"
 #include "cursesdef.h"
-#include "item.h"
 #include "lightmap.h"
 #include "item_stack.h"
-#include "active_item_cache.h"
 #include "int_id.h"
 #include "string_id.h"
-#include "rng.h"
 #include "enums.h"
-#include "pathfinding.h"
-#include "emit.h"
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define CAMPSIZE 1
 #define CAMPCHECK 3
 
+class emit;
+using emit_id = string_id<emit>;
 class player;
 class monster;
 class item;
@@ -40,12 +37,17 @@ class basecamp;
 class computer;
 struct itype;
 struct mapgendata;
+class map_cursor;
+class Character;
+class item_location;
 struct trap;
 struct oter_t;
-
+enum direction : unsigned;
+using itype_id = std::string;
 using trap_id = int_id<trap>;
 using oter_id = int_id<oter_t>;
-
+template<typename T>
+class visitable;
 struct regional_settings;
 struct mongroup;
 struct ter_t;
@@ -85,6 +87,7 @@ using mongroup_id = string_id<MonsterGroup>;
 class map;
 enum ter_bitflags : int;
 struct pathfinding_cache;
+struct pathfinding_settings;
 template<typename T>
 struct weighted_int_list;
 
@@ -498,12 +501,6 @@ class map
         */
         vehicle *veh_at( const tripoint &p );// checks if tile is occupied by vehicle
         const vehicle *veh_at( const tripoint &p ) const;
-        /**
-        * Vehicle-relative coordinates from reality bubble coordinates, if a vehicle
-        * actually exists here.
-        * Returns 0,0 if no vehicle exists there (use veh_at to check if it exists first)
-        */
-        point veh_part_coordinates( const tripoint &p );
         // put player on vehicle at x,y
         void board_vehicle( const tripoint &p, player *pl );
         void unboard_vehicle( const tripoint &p );//remove player from vehicle at p
@@ -1341,13 +1338,6 @@ class map
         // We want this visible in `game`, because we want it built earlier in the turn than the rest
         void build_floor_caches();
 
-        /** Get random tile on circumference of a circle */
-        tripoint random_perimeter( const tripoint &src, int radius ) const {
-            tripoint dst;
-            calc_ray_end( rng( 1, 360 ), radius, src, dst );
-            return dst;
-        }
-
     protected:
         void generate_lightmap( int zlev );
         void build_seen_cache( const tripoint &origin, int target_z );
@@ -1458,7 +1448,6 @@ class map
                               const tripoint &s, const tripoint &e, float luminance );
         void add_light_from_items( const tripoint &p, std::list<item>::iterator begin,
                                    std::list<item>::iterator end );
-        void calc_ray_end( int angle, int range, const tripoint &p, tripoint &out ) const;
         vehicle *add_vehicle_to_map( std::unique_ptr<vehicle> veh, bool merge_wrecks );
 
         // Internal methods used to bash just the selected features

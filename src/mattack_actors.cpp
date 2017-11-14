@@ -3,6 +3,7 @@
 #include "game.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "itype.h"
 #include "monster.h"
 #include "mattack_actors.h"
 #include "messages.h"
@@ -11,6 +12,7 @@
 #include "npc.h"
 #include "debug.h"
 #include "generic_factory.h"
+#include "line.h"
 
 const efftype_id effect_bite( "bite" );
 const efftype_id effect_infected( "infected" );
@@ -484,7 +486,7 @@ void gun_actor::shoot( monster &z, Creature &target, const std::string &mode ) c
 
     if( g->u.sees( z ) ) {
         add_msg( m_warning, _( description.c_str() ), z.name().c_str(),
-                 _( tmp.weapon.gun_type().c_str() ) );
+                 tmp.weapon.gun_type().name().c_str() );
     }
 
     z.ammo[ammo] -= tmp.fire_gun( target.pos(), gun.gun_current_mode().qty );

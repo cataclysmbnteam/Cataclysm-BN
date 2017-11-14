@@ -2,6 +2,7 @@
 #include "inventory.h"
 #include "game.h"
 #include "map.h"
+#include "iexamine.h"
 #include "debug.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -13,7 +14,7 @@
 #include "map_iterator.h"
 #include <algorithm>
 
-const invlet_wrapper inv_chars("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=@[\\]^_{|}");
+const invlet_wrapper inv_chars("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+.:;=@[\\]^_{|}");
 
 bool invlet_wrapper::valid( const long invlet ) const
 {

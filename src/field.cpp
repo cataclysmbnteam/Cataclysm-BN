@@ -14,10 +14,12 @@
 #include "npc.h"
 #include "trap.h"
 #include "itype.h"
+#include "emit.h"
 #include "vehicle.h"
 #include "submap.h"
 #include "mapdata.h"
 #include "mtype.h"
+#include "emit.h"
 #include "scent_map.h"
 
 #include <queue>

@@ -6,9 +6,11 @@
 #include "string_formatter.h"
 #include "output.h"
 #include "skill.h"
+#include "game_constants.h"
 
 #include <algorithm>
 #include <numeric>
+#include <math.h>
 
 recipe::recipe() : skill_used( "none" ) {}
 
