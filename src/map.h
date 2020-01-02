@@ -265,6 +265,11 @@ class map
             }
         }
 
+        bool check_seen_cache( const tripoint &p ) const {
+            std::bitset<MAPSIZE_X *MAPSIZE_Y> &memory_seen_cache =
+                get_cache( p.z ).map_memory_seen_cache;
+            return !memory_seen_cache[ static_cast<size_t>( p.x + p.y * MAPSIZE_Y ) ];
+        }
         bool check_and_set_seen_cache( const tripoint &p ) const {
             std::bitset<MAPSIZE_X *MAPSIZE_Y> &memory_seen_cache =
                 get_cache( p.z ).map_memory_seen_cache;
@@ -353,7 +358,7 @@ class map
          * the @ref mapbuffer can not deliver the requested submap (as it does
          * not exist on disc).
          * This must be called before the map can be used at all!
-         * @param p global coordinates of the submap at grid[0]. This
+         * @param w global coordinates of the submap at grid[0]. This
          * is in submap coordinates.
          * @param update_vehicles If true, add vehicles to the vehicle cache.
          */
@@ -581,7 +586,7 @@ class map
         void unboard_vehicle( const tripoint &p, bool dead_passenger = false );
         // Change vehicle coordinates and move vehicle's driver along.
         // WARNING: not checking collisions!
-        vehicle *displace_vehicle( tripoint &p, const tripoint &dp );
+        bool displace_vehicle( vehicle &veh, const tripoint &dp );
         // move water under wheels. true if moved
         bool displace_water( const tripoint &dp );
 
@@ -1325,9 +1330,8 @@ class map
         character_id place_npc( const point &p, const string_id<npc_template> &type,
                                 bool force = false );
         void apply_faction_ownership( const point &p1, const point &p2, faction_id id );
-        void add_spawn( const mtype_id &type, int count, const point &p,
-                        bool friendly = false,
-                        int faction_id = -1, int mission_id = -1,
+        void add_spawn( const mtype_id &type, int count, const tripoint &p,
+                        bool friendly = false, int faction_id = -1, int mission_id = -1,
                         const std::string &name = "NONE" ) const;
         void do_vehicle_caching( int z );
         // Note: in 3D mode, will actually build caches on ALL z-levels
@@ -1534,7 +1538,6 @@ class map
         void draw_temple( mapgendata &dat );
         void draw_mine( mapgendata &dat );
         void draw_spiral( mapgendata &dat );
-        void draw_sarcophagus( mapgendata &dat );
         void draw_fema( mapgendata &dat );
         void draw_anthill( mapgendata &dat );
         void draw_slimepit( mapgendata &dat );
@@ -1784,6 +1787,10 @@ class map
 
         void update_submap_active_item_status( const tripoint &p );
 
+        // Just exposed for unit test introspection.
+        const std::set<tripoint> &get_submaps_with_active_items() const {
+            return submaps_with_active_items;
+        }
         // Clips the area to map bounds
         tripoint_range points_in_rectangle( const tripoint &from, const tripoint &to ) const;
         tripoint_range points_in_radius( const tripoint &center, size_t radius, size_t radiusz = 0 ) const;
@@ -1826,8 +1833,15 @@ class tinymap : public map
     public:
         tinymap( int mapsize = 2, bool zlevels = false );
         bool inbounds( const tripoint &p ) const override;
-        bool fake_load( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type,
-                        int fake_map_z );
 };
 
+class fake_map : public tinymap
+{
+    private:
+        std::vector<std::unique_ptr<submap>> temp_submaps_;
+    public:
+        fake_map( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type,
+                  int fake_map_z );
+        ~fake_map() override;
+};
 #endif
