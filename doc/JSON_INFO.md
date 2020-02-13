@@ -1130,6 +1130,7 @@ Note that even though most statistics yield an integer, you should still use
 "fatigue_regen_modifier": 0.333, // Modifier for the rate at which fatigue and sleep deprivation drops when resting.
 "healing_awake": 1.0, // Healing rate per turn while awake.
 "healing_resting": 0.5, // Healing rate per turn while resting.
+"mending_modifier": 1.2 // Multiplier on how fast your limbs mend - This value would make your limbs mend 20% faster
 ```
 
 ### Vehicle Groups
@@ -1282,6 +1283,33 @@ See also VEHICLE_JSON.md
 "symbol": "[",                   // The item symbol as it appears on the map. Must be a Unicode string exactly 1 console cell width.
 "looks_like": "rag",              // hint to tilesets if this item has no tile, use the looks_like tile
 "description": "Socks. Put 'em on your feet.", // Description of the item
+"ascii_picture": [
+      "        ,,,,,,,,,,,,,",
+      "    .;;;;;;;;;;;;;;;;;;;,.",
+      " .;;;;;;;;;;;;;;;;;;;;;;;;,",
+      ".;;;;;;;;;;;;;;;;;;;;;;;;;;;;.",
+      ";;;;;@;;;;;;;;;;;;;;;;;;;;;;;;' .............",
+      ";;;;@@;;;;;;;;;;;;;;;;;;;;;;;;'.................",
+      ";;;;@@;;;;;;;;;;;;;;;;;;;;;;;;'...................`",
+      ";;;;@;;;;;;;;;;;;;;;@;;;;;;;'.....................",
+      " `;;;;;;;;;;;;;;;;;;;@@;;;;;'..................;....", // Ascii art that  will be displayed at the bottom of the item description. Array of string with each element being a line of the picture. Lines longer than 42 characters won't display properly.
+      "   `;;;;;;;;;;;;;;;;@@;;;;'....................;;...",
+      "     `;;;;;;;;;;;;;@;;;;'...;.................;;....",
+      "        `;;;;;;;;;;;;'   ...;;...............;.....",
+      "           `;;;;;;'        ...;;..................",
+      "              ;;              ..;...............",
+      "              `                  ............",
+      "             `                      ......",
+      "             `                         ..",
+      "           `                           '",
+      "          `                           '",
+      "         `                           '",
+      "        `                           `",
+      "        `                           `,",
+      "        `",
+      "         `",
+      "           `."
+    ],
 "phase": "solid",                // (Optional, default = "solid") What phase it is
 "weight": "350 g",               // Weight, weight in grams, mg and kg can be used - "50 mg", "5 g" or "5 kg". For stackable items (ammo, comestibles) this is the weight per charge.
 "volume": "250 ml",              // Volume, volume in ml and L can be used - "50 ml" or "2 L". For stackable items (ammo, comestibles) this is the volume of stack_size charges.
