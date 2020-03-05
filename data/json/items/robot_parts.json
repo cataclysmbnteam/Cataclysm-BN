@@ -22,7 +22,7 @@
   {
     "type": "GENERIC",
     "id": "identification_module",
-    "name": "identification module",
+    "name": { "str": "identification module" },
     "description": "This module continuously runs image recognition algorithms to identify friends from foe.",
     "copy-from": "robot_module_abstract"
   },
@@ -79,7 +79,7 @@
   {
     "type": "GENERIC",
     "id": "gun_module",
-    "name": "gun operating system",
+    "name": { "str": "gun operating system" },
     "description": "This system can operate most conventional weapons.",
     "copy-from": "robot_module_abstract"
   },

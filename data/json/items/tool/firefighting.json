@@ -23,7 +23,7 @@
   {
     "id": "extinguisher",
     "type": "TOOL",
-    "name": "large fire extinguisher",
+    "name": { "str": "large fire extinguisher" },
     "description": "This is an emergency fire extinguisher containing five gallons of fire retardant foam.  It would be useful for putting out adjacent fires.",
     "weight": "13813 g",
     "volume": "20000 ml",
@@ -41,7 +41,7 @@
   {
     "id": "fire_ax",
     "type": "TOOL",
-    "name": "fire axe",
+    "name": { "str": "fire axe" },
     "description": "This is a large, two-handed pickhead axe normally used by firefighters.  It makes a powerful melee weapon, but is a bit slow to recover between swings.",
     "weight": "2520 g",
     "volume": "2 L",
