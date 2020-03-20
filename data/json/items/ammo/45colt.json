@@ -18,7 +18,7 @@
     "casing": "45colt_casing",
     "range": 16,
     "//": "Base damage of 25, balance increase of two-nineths, plus 25% hollowpoint bonus.",
-    "damage": { "damage_type": "stab", "amount": 38 },
+    "damage": { "damage_type": "bullet", "amount": 38 },
     "dispersion": 50,
     "recoil": 600,
     "effects": [ "COOKOFF" ]
@@ -28,7 +28,7 @@
     "copy-from": "45colt_jhp",
     "type": "AMMO",
     "name": { "str": ".45 Colt JHP, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
