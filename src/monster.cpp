@@ -1340,6 +1340,8 @@ bool monster::is_immune_damage( const damage_type dt ) const
             return type->sp_defense == &mdefense::zapback ||
                    has_flag( MF_ELECTRIC ) ||
                    has_flag( MF_ELECTRIC_FIELD );
+        case DT_BULLET:
+            return false;
         default:
             return true;
     }
@@ -1602,6 +1604,7 @@ void monster::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, in
         // internal damage, like from smoke or poison
         case DT_CUT:
         case DT_STAB:
+        case DT_BULLET:
         case DT_HEAT:
         default:
             break;
@@ -1855,6 +1858,13 @@ int monster::get_armor_bash( bodypart_id bp ) const
     return static_cast<int>( type->armor_bash ) + armor_bash_bonus + get_worn_armor_val( DT_BASH );
 }
 
+int monster::get_armor_bullet( bodypart_id bp ) const
+{
+    ( void ) bp;
+    return static_cast<int>( type->armor_bullet ) + armor_bullet_bonus + get_worn_armor_val(
+               DT_BULLET );
+}
+
 int monster::get_armor_type( damage_type dt, bodypart_id bp ) const
 {
     int worn_armor = get_worn_armor_val( dt );
@@ -1867,6 +1877,8 @@ int monster::get_armor_type( damage_type dt, bodypart_id bp ) const
             return get_armor_bash( bp );
         case DT_CUT:
             return get_armor_cut( bp );
+        case DT_BULLET:
+            return get_armor_bullet( bp );
         case DT_ACID:
             return worn_armor + static_cast<int>( type->armor_acid );
         case DT_STAB:
