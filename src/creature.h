@@ -807,6 +807,7 @@ class Creature
 
         int armor_bash_bonus = 0;
         int armor_cut_bonus = 0;
+        int armor_bullet_bonus = 0;
         int speed_base = 0; // only speed needs a base, the rest are assumed at 0 and calculated off skills
 
         int speed_bonus = 0;

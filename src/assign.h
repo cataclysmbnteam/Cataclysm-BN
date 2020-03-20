@@ -943,6 +943,12 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
     // What we'll eventually be returning for the damage instance
     damage_instance out;
 
+    std::string id_err = "no id found";
+    // Grab the id for good error reporting
+    if( jo.has_string( "id" ) ) {
+        id_err = jo.get_string( "id" );
+    }
+
     if( jo.has_array( name ) ) {
         out = load_damage_instance_inherit( jo.get_array( name ), val );
     } else if( jo.has_object( name ) ) {
@@ -962,6 +968,12 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
         // And there may or may not be armor penetration
         if( jo.has_member( "pierce" ) ) {
             arpen = jo.get_float( "pierce" );
+        }
+
+        if( amount != 0.0f || arpen != 0.0f || dmg_mult != 1.0f ) {
+            // Give a load warning, it's likely anything loading damage this way
+            // is a gun, and as such is using the wrong damage type
+            debugmsg( "Warning: %s loads damage using legacy methods - damage type may be wrong", id_err );
         }
 
         out.add_damage( DT_STAB, amount, arpen, 1.0f, dmg_mult );
@@ -1007,6 +1019,10 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
             dmg_mult = relative.get_float( "prop_damage" );
         }
 
+        // Give a load warning, it's likely anything loading damage this way
+        // is a gun, and as such is using the wrong damage type
+        debugmsg( "Warning: %s loads damage using legacy methods - damage type may be wrong", id_err );
+
         assign_dmg_relative( out, val, damage_instance( DT_STAB, amt, arpen, 1.0f, dmg_mult ), strict );
     } else if( proportional.has_member( name ) || proportional.has_member( "pierce" ) ||
                proportional.has_member( "prop_damage" ) ) {
@@ -1027,6 +1043,10 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
             dmg_mult = proportional.get_float( "prop_damage" );
         }
 
+        // Give a load warning, it's likely anything loading damage this way
+        // is a gun, and as such is using the wrong damage type
+        debugmsg( "Warning: %s loads damage using legacy methods - damage type may be wrong", id_err );
+
         assign_dmg_proportional( proportional, name, out, val, damage_instance( DT_STAB, amt, arpen, 1.0f,
                                  dmg_mult ), strict );
     } else if( !jo.has_member( name ) && !jo.has_member( "prop_damage" ) ) {
@@ -1043,7 +1063,7 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
     }
 
     if( out.damage_units.empty() ) {
-        out = damage_instance( DT_STAB, 0.0f );
+        out = damage_instance( DT_BULLET, 0.0f );
     }
 
     // Now that we've verified everything in out is all good, set val to it
