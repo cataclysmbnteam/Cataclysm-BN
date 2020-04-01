@@ -1577,6 +1577,8 @@ CBMs can be defined like this:
 "spoils_in" : 0,            // A time duration: how long a comestible is good for. 0 = no spoilage.
 "use_action" : "CRACK",     // What effects a comestible has when used, see special definitions below
 "stim" : 40,                // Stimulant effect
+"fatigue_mod": 3,           // How much fatigue this comestible removes. (Negative values add fatigue)
+"radiation": 8,             // How much radiation you get from this comestible.
 "comestible_type" : "MED",  // Comestible type, used for inventory sorting
 "quench" : 0,               // Thirst quenched
 "heal" : -2,                // Health effects (used for sickness chances)
@@ -2048,6 +2050,12 @@ The contents of use_action fields can either be a string indicating a built-in f
 "use_action": {
     "type": "firestarter", // Start a fire, like with a lighter.
     "moves_cost": 15 // Number of moves it takes to start the fire.
+},
+"use_action": {
+    "type": "unpack", // unpack this item
+    "group": "gobag_contents", // itemgroup this unpacks into
+    "items_fit": true, // Do the armor items in this fit? Defaults to false.
+    "filthy_volume_threshold": "10 L" // If the items unpacked from this item have volume, and this item is filthy, at what amount of held volume should they become filthy
 },
 "use_action": {
     "type": "extended_firestarter", // Start a fire (like with magnifying glasses or a fire drill). This action can take many turns, not just some moves like firestarter, it can also be canceled (firestarter can't).
