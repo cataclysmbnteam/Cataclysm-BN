@@ -1,1 +1,3 @@
-See [https://github.com/roloa/Cataclysm-DDA_variant/tree/variant_sca](https://github.com/roloa/Cataclysm-DDA_variant/tree/variant_sca)
+See variant_jp branch
+
+[https://github.com/roloa/Cataclysm-DDA_variant/tree/variant_jp](https://github.com/roloa/Cataclysm-DDA_variant/tree/variant_jp)
