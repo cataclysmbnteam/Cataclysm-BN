@@ -126,7 +126,7 @@
     "ascii_picture": "ksg-25",
     "bashing": 9,
     "material": [ "steel", "plastic" ],
-    "ranged_damage": { "damage_type": "stab", "amount": 5 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 5 },
     "dispersion": 425,
     "sight_dispersion": 500,
     "durability": 7,
