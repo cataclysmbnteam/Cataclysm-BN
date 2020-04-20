@@ -297,10 +297,10 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
                         _( "Dexterity affects your chance to hit in melee combat, helps you steady your "
                            "gun for ranged combat, and enhances many actions that require finesse." ) );
         print_colored_text( w_info, point( 1, 3 ), col_temp, c_light_gray,
-                            string_format( _( "Melee to-hit bonus: <color_white>%+.1lf</color>" ), you.get_hit_base() ) );
+                            string_format( _( "Melee to-hit bonus: <color_white>%+.1lf</color>" ), you.get_melee_hit_base() ) );
         print_colored_text( w_info, point( 1, 4 ), col_temp, c_light_gray,
                             string_format( _( "Ranged penalty: <color_white>%+d</color>" ),
-                                           -abs( you.ranged_dex_mod() ) ) );
+                                           -std::abs( you.ranged_dex_mod() ) ) );
         print_colored_text( w_info, point( 1, 5 ), col_temp, c_light_gray,
                             string_format( _( "Throwing penalty per target's dodge: <color_white>%+d</color>" ),
                                            you.throw_dispersion_per_dodge( false ) ) );
@@ -1053,13 +1053,13 @@ static void draw_initial_windows( const catacurses::window &w_stats,
         line++;
     }
     if( you.get_thirst() > 40 ) {
-        pen = abs( player::thirst_speed_penalty( you.get_thirst() ) );
+        pen = std::abs( player::thirst_speed_penalty( you.get_thirst() ) );
         mvwprintz( w_speed, point( 1, line ), c_red,
                    pgettext( "speed penalty", "Thirst              -%2d%%" ), pen );
         line++;
     }
     if( you.kcal_speed_penalty() < 0 ) {
-        pen = abs( you.kcal_speed_penalty() );
+        pen = std::abs( you.kcal_speed_penalty() );
         const std::string inanition = you.get_bmi() < character_weight_category::underweight ?
                                       _( "Starving" ) : _( "Underfed" );
         //~ %s: Starving/Underfed (already left-justified), %2d: speed penalty
@@ -1317,8 +1317,8 @@ void player::disp_info()
     // Post-humanity trumps your pre-Cataclysm life.
     if( crossed_threshold() ) {
         std::string race;
-        for( auto &mut : my_mutations ) {
-            const auto &mdata = mut.first.obj();
+        for( const trait_id &mut : get_mutations() ) {
+            const mutation_branch &mdata = mut.obj();
             if( mdata.threshold ) {
                 race = mdata.name();
                 break;
@@ -1372,8 +1372,8 @@ void player::disp_info()
         nc_color col = ( speed_effect.second > 0 ? c_green : c_red );
         mvwprintz( w_speed, point( 1, line ), col, "%s", speed_effect.first );
         mvwprintz( w_speed, point( 21, line ), col, ( speed_effect.second > 0 ? "+" : "-" ) );
-        mvwprintz( w_speed, point( abs( speed_effect.second ) >= 10 ? 22 : 23, line ), col, "%d%%",
-                   abs( speed_effect.second ) );
+        mvwprintz( w_speed, point( std::abs( speed_effect.second ) >= 10 ? 22 : 23, line ), col, "%d%%",
+                   std::abs( speed_effect.second ) );
         line++;
     }
 
