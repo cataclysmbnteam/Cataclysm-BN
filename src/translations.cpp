@@ -207,6 +207,8 @@ void set_language()
     if( setlocale( LC_ALL, ".1252" ) == nullptr ) {
         DebugLog( D_WARNING, D_MAIN ) << "Error while setlocale(LC_ALL, '.1252').";
     }
+    DebugLog( D_INFO, DC_ALL ) << "[translations] C locale set to " << setlocale( LC_ALL, nullptr );
+    DebugLog( D_INFO, DC_ALL ) << "[translations] C++ locale set to " << std::locale().name();
 #endif
 
     // Step 2. Bind to gettext domain.
@@ -696,5 +698,12 @@ std::string operator+( const translation &lhs, const translation &rhs )
 
 bool localized_comparator::operator()( const std::string &l, const std::string &r ) const
 {
+#if defined(MACOSX)
+    CFStringRef lr = CFStringCreateWithCStringNoCopy( kCFAllocatorDefault, l.c_str(),
+                     kCFStringEncodingUTF8, kCFAllocatorNull );
+    CFStringRef rr = CFStringCreateWithCStringNoCopy( kCFAllocatorDefault, r.c_str(),
+                     kCFStringEncodingUTF8, kCFAllocatorNull );
+    return CFStringCompare( lr, rr, kCFCompareLocalized ) < 0;
+#endif
     return std::locale()( l, r );
 }
