@@ -892,8 +892,10 @@ int Character::swim_speed() const
         ret -= hand_bonus_mult * ( 20 + str_cur * 4 );
     }
     /** @EFFECT_STR increases swim speed bonus from swim_fins */
-    if( worn_with_flag( "FIN", bp_foot_l ) || worn_with_flag( "FIN", bp_foot_r ) ) {
-        if( worn_with_flag( "FIN", bp_foot_l ) && worn_with_flag( "FIN", bp_foot_r ) ) {
+    if( worn_with_flag( "FIN", bodypart_id( "foot_l" ) ) ||
+        worn_with_flag( "FIN", bodypart_id( "foot_r" ) ) ) {
+        if( worn_with_flag( "FIN", bodypart_id( "foot_l" ) ) &&
+            worn_with_flag( "FIN", bodypart_id( "foot_r" ) ) ) {
             ret -= ( 15 * str_cur );
         } else {
             ret -= ( 15 * str_cur ) / 2;
@@ -2902,11 +2904,11 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
 
     if( it.has_flag( flag_SPLINT ) ) {
         bool need_splint = false;
-        for( const body_part bp : all_body_parts ) {
-            if( !it.covers( bp ) ) {
+        for( const bodypart_id &bp : get_all_body_parts() ) {
+            if( !it.covers( bp->token ) ) {
                 continue;
             }
-            if( is_limb_broken( bp_to_hp( bp ) ) && !worn_with_flag( flag_SPLINT, bp ) ) {
+            if( is_limb_broken( bp_to_hp( bp->token ) ) && !worn_with_flag( flag_SPLINT, bp ) ) {
                 need_splint = true;
                 break;
             }
@@ -2999,7 +3001,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         !it.has_flag( flag_PERSONAL ) &&
         !it.has_flag( flag_AURA ) && !it.has_flag( flag_SEMITANGIBLE ) && !it.has_flag( flag_OVERSIZE ) &&
         is_wearing_helmet() ) {
-        return ret_val<bool>::make_failure( wearing_something_on( bp_head ),
+        return ret_val<bool>::make_failure( wearing_something_on( bodypart_id( "head" ) ),
                                             ( is_player() ? _( "You can't wear that with other headgear!" )
                                               : string_format( _( "%s can't wear that with other headgear!" ), name ) ) );
     }
@@ -3075,28 +3077,30 @@ bool Character::is_wearing( const itype_id &it ) const
     return false;
 }
 
-bool Character::is_wearing_on_bp( const itype_id &it, body_part bp ) const
+bool Character::is_wearing_on_bp( const itype_id &it, const bodypart_id &bp ) const
 {
     for( auto &i : worn ) {
-        if( i.typeId() == it && i.covers( bp ) ) {
+        if( i.typeId() == it && i.covers( bp->token ) ) {
             return true;
         }
     }
     return false;
 }
 
-bool Character::worn_with_flag( const std::string &flag, body_part bp ) const
+bool Character::worn_with_flag( const std::string &flag, const bodypart_id &bp ) const
 {
     return std::any_of( worn.begin(), worn.end(), [&flag, bp]( const item & it ) {
-        return it.has_flag( flag ) && ( bp == num_bp || it.covers( bp ) );
+        return it.has_flag( flag ) && ( bp == bodypart_id( "num_bp" ) || bp == bodypart_id() ||
+                                        it.covers( bp->token ) );
     } );
 }
 
-item Character::item_worn_with_flag( const std::string &flag, body_part bp ) const
+item Character::item_worn_with_flag( const std::string &flag, const bodypart_id &bp ) const
 {
     item it_with_flag;
     for( const item &it : worn ) {
-        if( it.has_flag( flag ) && ( bp == num_bp || it.covers( bp ) ) ) {
+        if( it.has_flag( flag ) && ( bp == bodypart_id( "num_bp" ) || bp == bodypart_id() ||
+                                     it.covers( bp->token ) ) ) {
             it_with_flag = it;
             break;
         }
@@ -3283,7 +3287,7 @@ bool Character::meets_requirements( const item &it, const item &context ) const
     return meets_stat_requirements( it ) && meets_skill_requirements( it.type->min_skills, ctx );
 }
 
-void Character::make_bleed( body_part bp, time_duration duration, int intensity,
+void Character::make_bleed( const bodypart_id &bp, time_duration duration, int intensity,
                             bool permanent, bool force, bool defferred )
 {
     int b_resist = 0;
@@ -3295,7 +3299,7 @@ void Character::make_bleed( body_part bp, time_duration duration, int intensity,
         return;
     }
 
-    add_effect( effect_bleed, duration, bp, permanent, intensity, force, defferred );
+    add_effect( effect_bleed, duration, bp->token, permanent, intensity, force, defferred );
 }
 
 void Character::normalize()
@@ -4444,7 +4448,7 @@ void Character::regen( int rate_multiplier )
     // include healing effects
     for( int i = 0; i < num_hp_parts; i++ ) {
         body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
-        float healing = healing_rate_medicine( rest, bp ) * to_turns<int>( 5_minutes );
+        float healing = healing_rate_medicine( rest, convert_bp( bp ).id() ) * to_turns<int>( 5_minutes );
 
         int healing_apply = roll_remainder( healing );
         healed_bp( i, healing_apply );
@@ -5701,7 +5705,7 @@ hp_part Character::body_window( const std::string &menu_header,
         const nc_color all_state_col = limb_color( bp, true, true, true );
         // Broken means no HP can be restored, it requires surgical attention.
         const bool limb_is_broken = is_limb_broken( hp );
-        const bool limb_is_mending = worn_with_flag( flag_SPLINT, bp_token );
+        const bool limb_is_mending = worn_with_flag( flag_SPLINT, bp );
 
         if( show_all ) {
             e.allowed = true;
@@ -6289,22 +6293,22 @@ bool Character::pour_into( vehicle &veh, item &liquid )
     return true;
 }
 
-resistances Character::mutation_armor( body_part bp ) const
+resistances Character::mutation_armor( bodypart_id bp ) const
 {
     resistances res;
     for( const trait_id &iter : get_mutations() ) {
-        res += iter->damage_resistance( bp );
+        res += iter->damage_resistance( bp->token );
     }
 
     return res;
 }
 
-float Character::mutation_armor( body_part bp, damage_type dt ) const
+float Character::mutation_armor( bodypart_id bp, damage_type dt ) const
 {
     return mutation_armor( bp ).type_resist( dt );
 }
 
-float Character::mutation_armor( body_part bp, const damage_unit &du ) const
+float Character::mutation_armor( bodypart_id bp, const damage_unit &du ) const
 {
     return mutation_armor( bp ).get_effective_resist( du );
 }
@@ -6600,7 +6604,7 @@ float Character::healing_rate( float at_rest_quality ) const
     return final_rate;
 }
 
-float Character::healing_rate_medicine( float at_rest_quality, const body_part bp ) const
+float Character::healing_rate_medicine( float at_rest_quality, const bodypart_id &bp ) const
 {
     float rate_medicine = 0.0f;
     float bandaged_rate = 0.0f;
@@ -6612,10 +6616,9 @@ float Character::healing_rate_medicine( float at_rest_quality, const body_part b
     if( !e_bandaged.is_null() ) {
         bandaged_rate += static_cast<float>( e_bandaged.get_amount( "HEAL_RATE" ) ) / to_turns<int>
                          ( 24_hours );
-        if( bp == bp_head ) {
             bandaged_rate *= e_bandaged.get_amount( "HEAL_HEAD" ) / 100.0f;
         }
-        if( bp == bp_torso ) {
+            if( bp == bodypart_id( "torso" ) ) {
             bandaged_rate *= e_bandaged.get_amount( "HEAL_TORSO" ) / 100.0f;
         }
     }
@@ -6796,7 +6799,7 @@ int Character::get_armor_type( damage_type dt, bodypart_id bp ) const
                 }
             }
 
-            ret += mutation_armor( bp->token, dt );
+            ret += mutation_armor( bp, dt );
             return ret;
         }
         case DT_NULL:
@@ -6824,7 +6827,7 @@ int Character::get_armor_bash_base( bodypart_id bp ) const
         }
     }
 
-    ret += mutation_armor( bp->token, DT_BASH );
+    ret += mutation_armor( bp, DT_BASH );
     return ret;
 }
 
@@ -6843,7 +6846,7 @@ int Character::get_armor_cut_base( bodypart_id bp ) const
         }
     }
 
-    ret += mutation_armor( bp->token, DT_CUT );
+    ret += mutation_armor( bp, DT_CUT );
     return ret;
 }
 
@@ -7714,7 +7717,6 @@ double Character::bonus_from_enchantments( double base, enchant_vals::mod value,
 
 void Character::passive_absorb_hit( const bodypart_id &bp, damage_unit &du ) const
 {
-    const body_part bp_token = bp->token;
     // >0 check because some mutations provide negative armor
     // Thin skin check goes before subdermal armor plates because SUBdermal
     if( du.amount > 0.0f ) {
@@ -7722,9 +7724,9 @@ void Character::passive_absorb_hit( const bodypart_id &bp, damage_unit &du ) con
         if( du.type == DT_STAB ) {
             damage_unit du_copy = du;
             du_copy.type = DT_CUT;
-            du.amount -= mutation_armor( bp_token, du_copy );
+            du.amount -= mutation_armor( bp, du_copy );
         } else {
-            du.amount -= mutation_armor( bp_token, du );
+            du.amount -= mutation_armor( bp, du );
         }
     }
     du.amount -= bionic_armor_bonus( bp, du.type ); //Check for passive armor bionics
@@ -8525,10 +8527,10 @@ void Character::rooted()
     }
 }
 
-bool Character::wearing_something_on( body_part bp ) const
+bool Character::wearing_something_on( const bodypart_id &bp ) const
 {
     for( auto &i : worn ) {
-        if( i.covers( bp ) ) {
+        if( i.covers( bp->token ) ) {
             return true;
         }
     }
@@ -8592,10 +8594,10 @@ int Character::head_cloth_encumbrance() const
 double Character::armwear_factor() const
 {
     double ret = 0;
-    if( wearing_something_on( bp_arm_l ) ) {
+    if( wearing_something_on( bodypart_id( "arm_l" ) ) ) {
         ret += .5;
     }
-    if( wearing_something_on( bp_arm_r ) ) {
+    if( wearing_something_on( bodypart_id( "arm_r" ) ) ) {
         ret += .5;
     }
     return ret;
@@ -8604,10 +8606,10 @@ double Character::armwear_factor() const
 double Character::footwear_factor() const
 {
     double ret = 0;
-    if( wearing_something_on( bp_foot_l ) ) {
+    if( wearing_something_on( bodypart_id( "foot_l" ) ) ) {
         ret += .5;
     }
-    if( wearing_something_on( bp_foot_r ) ) {
+    if( wearing_something_on( bodypart_id( "foot_r" ) ) ) {
         ret += .5;
     }
     return ret;
@@ -8616,10 +8618,10 @@ double Character::footwear_factor() const
 int Character::shoe_type_count( const itype_id &it ) const
 {
     int ret = 0;
-    if( is_wearing_on_bp( it, bp_foot_l ) ) {
+    if( is_wearing_on_bp( it, bodypart_id( "foot_l" ) ) ) {
         ret++;
     }
-    if( is_wearing_on_bp( it, bp_foot_r ) ) {
+    if( is_wearing_on_bp( it, bodypart_id( "foot_r" ) ) ) {
         ret++;
     }
     return ret;

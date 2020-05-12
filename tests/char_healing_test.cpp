@@ -263,16 +263,15 @@ TEST_CASE( "health effects on healing rate", "[heal][health]" )
 static float untreated_rate( const std::string bp_name, const float rest_quality )
 {
     avatar dummy;
-    const body_part bp = bodypart_id( bp_name )->token;
-    return dummy.healing_rate_medicine( rest_quality, bp );
+    return dummy.healing_rate_medicine( rest_quality, bodypart_id( bp_name ) );
 }
 
 // Return `healing_rate_medicine` for a `bandaged` body part at a given rest quality
 static float bandaged_rate( const std::string bp_name, const float rest_quality )
 {
     avatar dummy;
-    const body_part bp = bodypart_id( bp_name )->token;
-    dummy.add_effect( effect_bandaged, 1_turns, bp );
+    const bodypart_id &bp = bodypart_id( bp_name );
+    dummy.add_effect( effect_bandaged, 1_turns, bp->token );
     return dummy.healing_rate_medicine( rest_quality, bp );
 }
 
@@ -280,8 +279,8 @@ static float bandaged_rate( const std::string bp_name, const float rest_quality 
 static float disinfected_rate( const std::string bp_name, const float rest_quality )
 {
     avatar dummy;
-    const body_part bp = bodypart_id( bp_name )->token;
-    dummy.add_effect( effect_disinfected, 1_turns, bp );
+    const bodypart_id &bp = bodypart_id( bp_name );
+    dummy.add_effect( effect_disinfected, 1_turns, bp->token );
     return dummy.healing_rate_medicine( rest_quality, bp );
 }
 
@@ -289,9 +288,9 @@ static float disinfected_rate( const std::string bp_name, const float rest_quali
 static float together_rate( const std::string bp_name, const float rest_quality )
 {
     avatar dummy;
-    const body_part bp = bodypart_id( bp_name )->token;
-    dummy.add_effect( effect_bandaged, 1_turns, bp );
-    dummy.add_effect( effect_disinfected, 1_turns, bp );
+    const bodypart_id &bp = bodypart_id( bp_name );
+    dummy.add_effect( effect_bandaged, 1_turns, bp->token );
+    dummy.add_effect( effect_disinfected, 1_turns, bp->token );
     return dummy.healing_rate_medicine( rest_quality, bp );
 }
 
