@@ -392,7 +392,7 @@ gun_actor::gun_actor() : description( _( "The %1$s fires its %2$s!" ) ),
 
 void gun_actor::load_internal( const JsonObject &obj, const std::string & )
 {
-    gun_type = obj.get_string( "gun_type" );
+    obj.read( "gun_type", gun_type, true );
 
     obj.read( "ammo_type", ammo_type );
 

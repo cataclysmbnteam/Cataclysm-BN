@@ -18,8 +18,6 @@ template<typename T>
 class generic_factory;
 
 class item;
-
-using itype_id = std::string;
 class JsonObject;
 class avatar;
 class player;
@@ -30,7 +28,7 @@ class profession
         using StartingSkill = std::pair<skill_id, int>;
         using StartingSkillList = std::vector<StartingSkill>;
         struct itypedec {
-            std::string type_id;
+            itype_id type_id;
             /** Snippet id, @see snippet_library. */
             snippet_id snip_id;
             // compatible with when this was just a std::string

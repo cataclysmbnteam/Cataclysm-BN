@@ -71,6 +71,18 @@ static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_on_roof( "on_roof" );
 
+static const itype_id itype_12mm( "12mm" );
+static const itype_id itype_40x46mm( "40x46mm" );
+static const itype_id itype_40x53mm( "40x53mm" );
+static const itype_id itype_66mm( "66mm" );
+static const itype_id itype_84x246mm( "84x246mm" );
+static const itype_id itype_arrow( "arrow" );
+static const itype_id itype_bolt( "bolt" );
+static const itype_id itype_brass_catcher( "brass_catcher" );
+static const itype_id itype_flammable( "flammable" );
+static const itype_id itype_m235( "m235" );
+static const itype_id itype_metal_rail( "metal_rail" );
+static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
@@ -758,7 +770,7 @@ int player::fire_gun( const tripoint &target, const int max_shots, item &gun )
 
     // cap our maximum burst size by the amount of UPS power left
     if( !gun.has_flag( flag_VEHICLE ) && gun.get_gun_ups_drain() > 0 ) {
-        shots = std::min( shots, static_cast<int>( charges_of( "UPS" ) / gun.get_gun_ups_drain() ) );
+        shots = std::min( shots, static_cast<int>( charges_of( itype_UPS ) / gun.get_gun_ups_drain() ) );
     }
 
     if( shots <= 0 ) {
@@ -799,8 +811,8 @@ int player::fire_gun( const tripoint &target, const int max_shots, item &gun )
         cycle_action( gun, pos() );
 
         if( has_trait( trait_PYROMANIA ) && !has_morale( MORALE_PYROMANIA_STARTFIRE ) ) {
-            if( gun.ammo_current() == "flammable" || gun.ammo_current() == "66mm" ||
-                gun.ammo_current() == "84x246mm" || gun.ammo_current() == "m235" ) {
+            if( gun.ammo_current() == itype_flammable || gun.ammo_current() == itype_66mm ||
+                gun.ammo_current() == itype_84x246mm || gun.ammo_current() == itype_m235 ) {
                 add_msg_if_player( m_good, _( "You feel a surge of euphoria as flames roar out of the %s!" ),
                                    gun.tname() );
                 add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
@@ -814,7 +826,7 @@ int player::fire_gun( const tripoint &target, const int max_shots, item &gun )
         }
 
         if( !gun.has_flag( flag_VEHICLE ) ) {
-            use_charges( "UPS", gun.get_gun_ups_drain() );
+            use_charges( itype_UPS, gun.get_gun_ups_drain() );
         }
 
         if( shot.missed_by <= .1 ) {
@@ -1599,7 +1611,7 @@ static void cycle_action( item &weap, const tripoint &pos )
     const auto mag = weap.magazine_current();
     if( mag && mag->type->magazine->linkage ) {
         item linkage( *mag->type->magazine->linkage, calendar::turn, 1 );
-        if( weap.gunmod_find( "brass_catcher" ) ) {
+        if( weap.gunmod_find( itype_brass_catcher ) ) {
             linkage.set_flag( "CASING" );
             weap.put_in( linkage );
         } else if( cargo.empty() ) {
@@ -1635,21 +1647,21 @@ item::sound_data item::gun_noise( const bool burst ) const
 
     noise = std::max( noise, 0 );
 
-    if( ammo_current() == "40x46mm" || ammo_current() == "40x53mm" ) {
+    if( ammo_current() == itype_40x46mm || ammo_current() == itype_40x53mm ) {
         // Grenade launchers
         return { 8, _( "Thunk!" ) };
 
-    } else if( ammo_current() == "12mm" || ammo_current() == "metal_rail" ) {
+    } else if( ammo_current() == itype_12mm || ammo_current() == itype_metal_rail ) {
         // Railguns
         return { 24, _( "tz-CRACKck!" ) };
 
-    } else if( ammo_current() == "flammable" || ammo_current() == "66mm" ||
-               ammo_current() == "84x246mm" || ammo_current() == "m235" ) {
+    } else if( ammo_current() == itype_flammable || ammo_current() == itype_66mm ||
+               ammo_current() == itype_84x246mm || ammo_current() == itype_m235 ) {
         // Rocket launchers and flamethrowers
         return { 4, _( "Fwoosh!" ) };
-    } else if( ammo_current() == "arrow" ) {
+    } else if( ammo_current() == itype_arrow ) {
         return { noise, _( "whizz!" ) };
-    } else if( ammo_current() == "bolt" ) {
+    } else if( ammo_current() == itype_bolt ) {
         return { noise, _( "thonk!" ) };
     }
 
@@ -1776,14 +1788,14 @@ double player::gun_value( const item &weap, int ammo ) const
 
     const islot_gun &gun = *weap.type->gun;
     itype_id ammo_type;
-    if( weap.ammo_current() != "null" ) {
+    if( !weap.ammo_current().is_null() ) {
         ammo_type = weap.ammo_current();
     } else if( weap.magazine_current() ) {
         ammo_type = weap.common_ammo_default();
     } else {
         ammo_type = weap.ammo_default();
     }
-    const itype *def_ammo_i = ammo_type != "NULL" ?
+    const itype *def_ammo_i = !ammo_type.is_null() ?
                               item::find_type( ammo_type ) :
                               nullptr;
 
@@ -1876,7 +1888,7 @@ double player::gun_value( const item &weap, int ammo ) const
     double gun_value = damage_and_accuracy * capacity_factor;
 
     add_msg( m_debug, "%s as gun: %.1f total, %.1f dispersion, %.1f damage, %.1f capacity",
-             weap.type->get_id(), gun_value, dispersion_factor, damage_factor,
+             weap.type->get_id().str(), gun_value, dispersion_factor, damage_factor,
              capacity_factor );
     return std::max( 0.0, gun_value );
 }

@@ -103,7 +103,7 @@ void game::list_missions()
                                  miss->name() + for_npc );
 
             auto format_tokenized_description = []( const std::string & description,
-            const std::vector<std::pair<int, std::string>> &rewards ) {
+            const std::vector<std::pair<int, itype_id>> &rewards ) {
                 std::string formatted_description = description;
                 for( const auto &reward : rewards ) {
                     std::string token = "<reward_count:" + reward.second + ">";

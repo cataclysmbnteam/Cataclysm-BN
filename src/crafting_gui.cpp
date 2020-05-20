@@ -969,8 +969,8 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
     const avatar &u = get_avatar();
 
     auto compare_second =
-        []( const std::pair<std::string, std::string> &a,
-    const std::pair<std::string, std::string> &b ) {
+        []( const std::pair<itype_id, std::string> &a,
+    const std::pair<itype_id, std::string> &b ) {
         return localized_compare( a.second, b.second );
     };
 

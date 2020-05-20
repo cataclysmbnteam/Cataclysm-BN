@@ -158,9 +158,9 @@ const units::volume furnace_max_volume( 3_liter );
 
 // TODO: JSONize.
 const std::map<itype_id, int> plut_charges = {
-    { "plut_cell",         PLUTONIUM_CHARGES * 10 },
-    { "plut_slurry_dense", PLUTONIUM_CHARGES },
-    { "plut_slurry",       PLUTONIUM_CHARGES / 2 }
+    { itype_id( "plut_cell" ),         PLUTONIUM_CHARGES * 10 },
+    { itype_id( "plut_slurry_dense" ), PLUTONIUM_CHARGES },
+    { itype_id( "plut_slurry" ),       PLUTONIUM_CHARGES / 2 }
 };
 
 // TODO: Better name
@@ -444,7 +444,7 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         }
         if( result_it.typeId() != comest_it.typeId() ) {
             debugmsg( "When creating recipe result expected %s, got %s\n",
-                      comest_it.typeId(), result_it.typeId() );
+                      comest_it.typeId().str(), result_it.typeId().str() );
         }
         std::tie( this_min, this_max ) = compute_nutrient_range( result_it, rec, extra_flags );
         min_nutr.min_in_place( this_min );
@@ -672,7 +672,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
         }
     }
 
-    if( comest->tool != "null" ) {
+    if( !comest->tool.is_null() ) {
         const bool has = item::count_by_charges( comest->tool )
                          ? has_charges( comest->tool, 1 )
                          : has_amount( comest->tool, 1 );
@@ -1385,7 +1385,7 @@ bool Character::fuel_bionic_with( item &it )
     const bionic_id bio = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
 
     const int loadable = std::min( it.charges, get_fuel_capacity( it.typeId() ) );
-    const std::string str_loaded  = get_value( it.typeId() );
+    const std::string str_loaded  = get_value( it.typeId().str() );
     int loaded = 0;
     if( !str_loaded.empty() ) {
         loaded = std::stoi( str_loaded );
@@ -1395,7 +1395,7 @@ bool Character::fuel_bionic_with( item &it )
 
     it.charges -= loadable;
     // Type and amount of fuel
-    set_value( it.typeId(), new_charge );
+    set_value( it.typeId().str(), new_charge );
     update_fuel_storage( it.typeId() );
     add_msg_player_or_npc( m_info,
                            //~ %1$i: charge number, %2$s: item name, %3$s: bionics name

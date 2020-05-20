@@ -40,6 +40,7 @@ MAKE_NULL_ID( morale_type_data, "" )
         return id; \
     }
 
+MAKE_NULL_ID2( itype, "null" )
 MAKE_NULL_ID2( mtype, "mon_null" )
 MAKE_NULL_ID2( oter_t, "" )
 MAKE_NULL_ID2( oter_type_t, "" )

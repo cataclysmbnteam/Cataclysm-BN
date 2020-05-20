@@ -60,7 +60,7 @@ matype_id martial_art_learned_from( const itype &type )
 
     if( !type.book || type.book->martial_art.is_null() ) {
         debugmsg( "Item '%s' which claims to teach a martial art is missing martial_art",
-                  type.get_id() );
+                  type.get_id().str() );
         return {};
     }
 

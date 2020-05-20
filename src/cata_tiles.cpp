@@ -76,6 +76,8 @@
 
 static const efftype_id effect_ridden( "ridden" );
 
+static const itype_id itype_corpse( "corpse" );
+
 static const std::string ITEM_HIGHLIGHT( "highlight_item" );
 static const std::string ZOMBIE_REVIVAL_INDICATOR( "zombie_revival_indicator" );
 
@@ -2780,9 +2782,9 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
         } else {
             it_type = nullptr;
         }
-        if( it_type && it_id != "null" ) {
-            const std::string disp_id = it_id == "corpse" && mon_id ?
-                                        "corpse_" + mon_id.str() : it_id;
+        if( it_type && !it_id.is_null() ) {
+            const std::string disp_id = it_id == itype_corpse && mon_id ?
+                                        "corpse_" + mon_id.str() : it_id.str();
             const std::string it_category = it_type->get_item_type_string();
             const lit_level lit = it_overridden ? LL_LIT : ll;
             const bool nv = it_overridden ? false : nv_goggles_activated;

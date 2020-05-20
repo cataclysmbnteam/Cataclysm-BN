@@ -94,7 +94,7 @@ void item_contents::set_item_defaults()
 
 void item_contents::migrate_item( item &obj, const std::set<itype_id> &migrations )
 {
-    for( const std::string &c : migrations ) {
+    for( const itype_id &c : migrations ) {
         if( std::none_of( items.begin(), items.end(), [&]( const item & e ) {
         return e.typeId() == c;
         } ) ) {

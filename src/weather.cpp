@@ -44,6 +44,10 @@ static const efftype_id effect_glare( "glare" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_snow_glare( "snow_glare" );
 
+static const itype_id itype_water( "water" );
+static const itype_id itype_water_acid( "water_acid" );
+static const itype_id itype_water_acid_weak( "water_acid_weak" );
+
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_FEATHERS( "FEATHERS" );
 
@@ -231,7 +235,7 @@ void item::add_rain_to_container( bool acid, int charges )
             liq.charges += added;
         }
 
-        if( liq.typeId() == ret.typeId() || liq.typeId() == "water_acid_weak" ) {
+        if( liq.typeId() == ret.typeId() || liq.typeId() == itype_water_acid_weak ) {
             // The container already contains this liquid or weakly acidic water.
             // Don't do anything special -- we already added liquid.
         } else {

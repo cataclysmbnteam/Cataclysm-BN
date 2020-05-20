@@ -1166,15 +1166,15 @@ class jmapgen_loot : public jmapgen_piece
             if( group && !item_group::group_is_defined( group ) ) {
                 set_mapgen_defer( jsi, "group", "no such item group" );
             }
-            if( !name.empty() && !item::type_is_defined( name ) ) {
-                set_mapgen_defer( jsi, "item", "no such item type '" + name + "'" );
+            if( !ity.is_empty() && !item::type_is_defined( ity ) ) {
+                set_mapgen_defer( jsi, "item", "no such item type '" + ity.str() + "'" );
             }
 
             // All the probabilities are 100 because we do the roll in @ref apply.
             if( !group ) {
                 // Migrations are applied to item *groups* on load, but single item spawns must be
                 // migrated individually
-                result_group.add_item_entry( item_controller->migrate_id( name ), 100 );
+                result_group.add_item_entry( item_controller->migrate_id( ity ), 100 );
             } else {
                 result_group.add_group_entry( group, 100 );
             }
@@ -1650,7 +1650,7 @@ class jmapgen_sealed_item : public jmapgen_piece
                     const itype *spawned_type = item::find_type( item_spawner->type );
                     if( !spawned_type->seed ) {
                         debugmsg( "%s (with flag PLANT) spawns item type %s which is not a seed.",
-                                  summary, spawned_type->get_id() );
+                                  summary, spawned_type->get_id().str() );
                         return;
                     }
                 }

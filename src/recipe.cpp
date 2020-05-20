@@ -35,6 +35,8 @@
 static const std::string flag_FIT( "FIT" );
 static const std::string flag_VARSIZE( "VARSIZE" );
 
+static const itype_id itype_hotplate( "hotplate" );
+
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
 time_duration recipe::batch_duration( int batch, float multiplier, size_t assistants ) const
@@ -100,8 +102,8 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     if( abstract ) {
         ident_ = recipe_id( jo.get_string( "abstract" ) );
     } else {
-        result_ = jo.get_string( "result" );
-        ident_ = recipe_id( result_ );
+        jo.read( "result", result_, true );
+        ident_ = recipe_id( result_.str() );
     }
 
     if( jo.has_bool( "obsolete" ) ) {
@@ -244,7 +246,8 @@ void recipe::load( const JsonObject &jo, const std::string &src )
             }
             byproducts.clear();
             for( JsonArray arr : jo.get_array( "byproducts" ) ) {
-                byproducts[ arr.get_string( 0 ) ] += arr.size() == 2 ? arr.get_int( 1 ) : 1;
+                itype_id byproduct( arr.get_string( 0 ) );
+                byproducts[ byproduct ] += arr.size() == 2 ? arr.get_int( 1 ) : 1;
             }
         }
         assign( jo, "construction_blueprint", blueprint );
@@ -259,13 +262,13 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                                           provide.get_int( "amount", 1 ) ) );
             }
             // all blueprints provide themselves with needing it written in JSON
-            bp_provides.emplace_back( std::make_pair( result_, 1 ) );
+            bp_provides.emplace_back( std::make_pair( result_.str(), 1 ) );
             for( JsonObject require : jo.get_array( "blueprint_requires" ) ) {
                 bp_requires.emplace_back( std::make_pair( require.get_string( "id" ),
                                           require.get_int( "amount", 1 ) ) );
             }
             // all blueprints exclude themselves with needing it written in JSON
-            bp_excludes.emplace_back( std::make_pair( result_, 1 ) );
+            bp_excludes.emplace_back( std::make_pair( result_.str(), 1 ) );
             for( JsonObject exclude : jo.get_array( "blueprint_excludes" ) ) {
                 bp_excludes.emplace_back( std::make_pair( exclude.get_string( "id" ),
                                           exclude.get_int( "amount", 1 ) ) );
@@ -337,7 +340,7 @@ void recipe::finalize()
 
     deduped_requirements_ = deduped_requirement_data( requirements_, ident() );
 
-    if( contained && container == "null" ) {
+    if( contained && container.is_null() ) {
         container = item::find_type( result_ )->default_container.value_or( "null" );
     }
 
@@ -382,7 +385,7 @@ std::string recipe::get_consistency_error() const
         return "defines invalid byproducts";
     }
 
-    if( !contained && container != "null" ) {
+    if( !contained && !container.is_null() ) {
         return "defines container but not contained";
     }
 
@@ -740,7 +743,7 @@ bool recipe::hot_result() const
         const requirement_data::alter_tool_comp_vector &tool_lists = simple_requirements().get_tools();
         for( const std::vector<tool_comp> &tools : tool_lists ) {
             for( const tool_comp &t : tools ) {
-                if( t.type == "hotplate" ) {
+                if( t.type == itype_hotplate ) {
                     return true;
                 }
             }
