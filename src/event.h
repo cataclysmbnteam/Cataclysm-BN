@@ -17,14 +17,12 @@
 
 template <typename E> struct enum_traits;
 
-using itype_id = std::string;
-
 // An event is something to be passed via the event_bus to subscribers
 // interested in being notified about events.
 //
 // Each event is of a specific type, taken from the event_type enum.
 
-enum class event_type {
+enum class event_type : int {
     activates_artifact,
     activates_mininuke,
     administers_mutagen,
@@ -77,6 +75,8 @@ enum class event_type {
     npc_becomes_hostile,
     opens_portal,
     opens_temple,
+    player_fails_conduct,
+    player_gets_achievement,
     player_levels_spell,
     releases_subspace_specimens,
     removes_cbm,
@@ -139,7 +139,7 @@ struct event_spec_character {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 62,
+static_assert( static_cast<int>( event_type::num_event_types ) == 64,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -172,7 +172,7 @@ struct event_spec<event_type::avatar_moves> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 5> fields = {{
             { "mount", cata_variant_type::mtype_id },
             { "terrain", cata_variant_type::ter_id },
-            { "movement_mode", cata_variant_type::character_movemode },
+            { "movement_mode", cata_variant_type::move_mode_id },
             { "underwater", cata_variant_type::bool_ },
             { "z", cata_variant_type::int_ },
         }
@@ -485,6 +485,24 @@ struct event_spec<event_type::opens_temple> : event_spec_empty {};
 
 template<>
 struct event_spec<event_type::releases_subspace_specimens> : event_spec_empty {};
+
+template<>
+struct event_spec<event_type::player_fails_conduct> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
+            { "conduct", cata_variant_type::achievement_id },
+            { "achievements_enabled", cata_variant_type::bool_ },
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::player_gets_achievement> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
+            { "achievement", cata_variant_type::achievement_id },
+            { "achievements_enabled", cata_variant_type::bool_ },
+        }
+    };
+};
 
 template<>
 struct event_spec<event_type::player_levels_spell> {

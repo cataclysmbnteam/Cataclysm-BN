@@ -101,7 +101,7 @@ struct less<failure> {
 /**
  * Disabled temporarily because 3169 profession combinations do not work and need to be fixed in json
  */
-TEST_CASE( "starting_items", "[.][slow]" )
+TEST_CASE( "starting_items", "[slow]" )
 {
     // Every starting trait that interferes with food/clothing
     const std::vector<trait_id> mutations = {
@@ -110,13 +110,13 @@ TEST_CASE( "starting_items", "[.][slow]" )
         trait_id( "ANTIWHEAT" ),
         //trait_id( "ARM_TENTACLES" ),
         //trait_id( "BEAK" ),
-        trait_id( "CANNIBAL" ),
         //trait_id( "CARNIVORE" ),
         //trait_id( "HERBIVORE" ),
         //trait_id( "HOOVES" ),
         trait_id( "LACTOSE" ),
         //trait_id( "LEG_TENTACLES" ),
         trait_id( "MEATARIAN" ),
+        trait_id( "ASTHMA" ),
         //trait_id( "RAP_TALONS" ),
         //trait_id( "TAIL_FLUFFY" ),
         //trait_id( "TAIL_LONG" ),
@@ -184,7 +184,7 @@ TEST_CASE( "starting_items", "[.][slow]" )
     std::stringstream failure_messages;
     for( const failure &f : failures ) {
         failure_messages << f.prof.c_str() << " " << f.mut <<
-                         " " << f.item_name << ": " << f.reason << "\n";
+                         " " << f.item_name.str() << ": " << f.reason << "\n";
     }
     INFO( failure_messages.str() );
     REQUIRE( failures.empty() );

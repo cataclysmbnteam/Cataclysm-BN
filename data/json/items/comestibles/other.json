@@ -77,12 +77,12 @@
     "symbol": "%",
     "healthy": 1,
     "calories": 240,
-    "description": "A translucent hexagonal chunk of wax, filled with dense, milky jelly.  Though some hold it as a panacea, it doesn't have any medical benefit.  Still, it is delicious, and rich with the most beneficial substances the hive can produce.",
+    "description": "A translucent hexagonal chunk of wax, filled with dense, milky, bitter and acidic-tasting jelly.  Though some hold it as a panacea, it doesn't have any medical benefit.  Still it is rich with the most beneficial substances the hive can produce.",
     "price": 20000,
     "price_postapoc": 4000,
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
-    "fun": 7
+    "fun": -5
   },
   {
     "type": "COMESTIBLE",
@@ -466,6 +466,25 @@
     "addiction_potential": 1,
     "charges": 4,
     "fun": 2
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "foodplace_snack_bar",
+    "name": { "str_sp": "Foodplace's appropriate snack™" },
+    "weight": "12g",
+    "color": "magenta",
+    "comestible_type": "FOOD",
+    "container": "wrapper",
+    "symbol": "f",
+    "calories": 12,
+    "description": "Real foodstuff now in a pocket size format!",
+    "price": 50,
+    "price_postapoc": 500,
+    "material": "foodplace_foodstuff",
+    "volume": "12 ml",
+    "flags": [ "EDIBLE_FROZEN", "IRREPLACEABLE_CONSUMABLE" ],
+    "addiction_potential": 1,
+    "fun": 1
   },
   {
     "type": "COMESTIBLE",

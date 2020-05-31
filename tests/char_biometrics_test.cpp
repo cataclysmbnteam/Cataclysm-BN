@@ -63,7 +63,7 @@ static float bodyweight_kg_at_bmi( player &dummy, float bmi )
 }
 
 // Clear player traits and give them a single trait by name
-static void set_single_trait( player &dummy, std::string trait_name )
+static void set_single_trait( player &dummy, const std::string &trait_name )
 {
     dummy.clear_mutations();
     dummy.toggle_trait( trait_id( trait_name ) );
@@ -71,7 +71,7 @@ static void set_single_trait( player &dummy, std::string trait_name )
 }
 
 // Return player `metabolic_rate_base` with a given mutation
-static float metabolic_rate_with_mutation( player &dummy, std::string trait_name )
+static float metabolic_rate_with_mutation( player &dummy, const std::string &trait_name )
 {
     set_single_trait( dummy, trait_name );
     return dummy.metabolic_rate_base();
@@ -87,7 +87,8 @@ static int bmr_at_act_level( player &dummy, float activity_level )
 }
 
 // Return player `height()` with a given base height and size trait (SMALL, MEDIUM, LARGE, HUGE).
-static int height_with_base_and_size( player &dummy, int base_height, std::string size_trait )
+static int height_with_base_and_size( player &dummy, int base_height,
+                                      const std::string &size_trait )
 {
     clear_character( dummy );
     dummy.mod_base_height( base_height - dummy.base_height() );
@@ -314,7 +315,6 @@ TEST_CASE( "size and height determine body weight", "[biometrics][bodyweight]" )
             REQUIRE_FALSE( dummy.has_trait( trait_id( "HUGE" ) ) );
             REQUIRE( dummy.get_size() == MS_MEDIUM );
 
-
             THEN( "bodyweight varies from ~49-107kg" ) {
                 // BMI [16-35] is "Emaciated/Underweight" to "Obese/Very Obese"
                 CHECK( bodyweight_kg_at_bmi( dummy, 16.0 ) == Approx( 49.0 ).margin( 0.1f ) );
@@ -366,7 +366,6 @@ TEST_CASE( "size and height determine body weight", "[biometrics][bodyweight]" )
             REQUIRE_FALSE( dummy.has_trait( trait_id( "LARGE" ) ) );
             REQUIRE_FALSE( dummy.has_trait( trait_id( "HUGE" ) ) );
             REQUIRE( dummy.get_size() == MS_MEDIUM );
-
 
             THEN( "bodyweight varies from ~57-126kg" ) {
                 CHECK( bodyweight_kg_at_bmi( dummy, 16.0 ) == Approx( 57.8 ).margin( 0.1f ) );
