@@ -106,6 +106,8 @@ static const efftype_id effect_pkill2( "pkill2" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_teleglow( "teleglow" );
 
+static const itype_id itype_grapnel( "grapnel" );
+
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 static const skill_id skill_computer( "computer" );
@@ -4245,8 +4247,8 @@ void iexamine::ledge( player &p, const tripoint &examp )
     uilist cmenu;
     cmenu.text = _( "There is a ledge here.  What do you want to do?" );
     cmenu.addentry( 1, true, 'j', _( "Jump over." ) );
-    bool can_climb = g->m.has_zlevels() && g->m.valid_move( p.pos(), examp, false, true );
-    cmenu.addentry( 2, can_climb, 'c', _( "Climb down." ) );
+    cmenu.addentry( 2, true, 'c', _( "Climb down." ) );
+
     cmenu.query();
 
     switch( cmenu.ret ) {
@@ -4281,27 +4283,34 @@ void iexamine::ledge( player &p, const tripoint &examp )
 
             const int height = examp.z - where.z;
             if( height == 0 ) {
-                p.add_msg_if_player( _( "You can't climb down there" ) );
+                p.add_msg_if_player( _( "You can't climb down there." ) );
                 return;
             }
 
+            const bool has_grapnel = p.has_amount( itype_grapnel, 1 );
             const int climb_cost = p.climbing_cost( where, examp );
             const auto fall_mod = p.fall_damage_mod();
             std::string query_str = vgettext( "Looks like %d story.  Jump down?",
                                               "Looks like %d stories.  Jump down?",
                                               height );
+
             if( height > 1 && !query_yn( query_str.c_str(), height ) ) {
                 return;
             } else if( height == 1 ) {
                 std::string query;
-                if( climb_cost <= 0 && fall_mod > 0.8 ) {
-                    query = _( "You probably won't be able to get up and jumping down may hurt.  Jump?" );
-                } else if( climb_cost <= 0 ) {
-                    query = _( "You probably won't be able to get back up.  Climb down?" );
-                } else if( climb_cost < 200 ) {
-                    query = _( "You should be able to climb back up easily if you climb down there.  Climb down?" );
+
+                if( !has_grapnel ) {
+                    if( climb_cost <= 0 && fall_mod > 0.8 ) {
+                        query = _( "You probably won't be able to get up and jumping down may hurt.  Jump?" );
+                    } else if( climb_cost <= 0 ) {
+                        query = _( "You probably won't be able to get back up.  Climb down?" );
+                    } else if( climb_cost < 200 ) {
+                        query = _( "You should be able to climb back up easily if you climb down there.  Climb down?" );
+                    } else {
+                        query = _( "You may have problems climbing back up.  Climb down?" );
+                    }
                 } else {
-                    query = _( "You may have problems climbing back up.  Climb down?" );
+                    query = _( "Use your grappling hook to climb down?" );
                 }
 
                 if( !query_yn( query.c_str() ) ) {
@@ -4311,6 +4320,10 @@ void iexamine::ledge( player &p, const tripoint &examp )
 
             p.moves -= to_moves<int>( 1_seconds + 1_seconds * fall_mod );
             p.setpos( examp );
+
+            if( has_grapnel ) {
+                p.add_msg_if_player( _( "You tie the rope around your waist and begin to climb down." ) );
+            }
 
             if( climb_cost > 0 || rng_float( 0.8, 1.0 ) > fall_mod ) {
                 // One tile of falling less (possibly zero)
