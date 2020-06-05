@@ -62,7 +62,7 @@
         "    |----:--+-:----|4   "
       ],
       "palettes": [ "shelter" ],
-      "place_nested": [ { "chunks": [ [ "shelter_nest_base", 50 ], [ "shelter_nest_used", 50 ] ], "x": 0, "y": 0 } ]
+      "place_nested": [ { "chunks": [ [ "shelter_nest_base", 100 ] ], "x": 0, "y": 0 } ]
     }
   },
   {
@@ -146,7 +146,7 @@
         "    |----:--+-:----|    "
       ],
       "palettes": [ "shelter" ],
-      "place_nested": [ { "chunks": [ [ "shelter_1_nest_base", 50 ], [ "shelter_1_nest_used", 50 ] ], "x": 0, "y": 0 } ]
+      "place_nested": [ { "chunks": [ [ "shelter_1_nest_base", 100 ] ], "x": 0, "y": 0 } ]
     }
   },
   {
@@ -230,7 +230,7 @@
         "            |-:-+-:-|   "
       ],
       "palettes": [ "shelter" ],
-      "place_nested": [ { "chunks": [ [ "shelter_2_nest_base", 50 ], [ "shelter_2_nest_used", 50 ] ], "x": 0, "y": 0 } ],
+      "place_nested": [ { "chunks": [ [ "shelter_2_nest_base", 100 ] ], "x": 0, "y": 0 } ],
       "computers": {
         "6": {
           "name": "Evac shelter computer",
@@ -324,7 +324,7 @@
         "    |----:--+-:----|4   "
       ],
       "palettes": [ "shelter" ],
-      "place_nested": [ { "chunks": [ [ "shelter_nest_vandal", 100 ] ], "x": 0, "y": 0 } ]
+      "place_nested": [ { "chunks": [ [ "shelter_nest_vandal", 50 ], [ "shelter_nest_used", 50 ] ], "x": 0, "y": 0 } ]
     }
   },
   {
@@ -361,7 +361,7 @@
         "    |----:--+-:----|    "
       ],
       "palettes": [ "shelter" ],
-      "place_nested": [ { "chunks": [ [ "shelter_1_nest_vandal", 100 ] ], "x": 0, "y": 0 } ]
+      "place_nested": [ { "chunks": [ [ "shelter_1_nest_vandal", 50 ], [ "shelter_1_nest_used", 50 ] ], "x": 0, "y": 0 } ]
     }
   },
   {
@@ -398,7 +398,7 @@
         "            |-:-+-:-|   "
       ],
       "palettes": [ "shelter" ],
-      "place_nested": [ { "chunks": [ [ "shelter_2_nest_vandal", 100 ] ], "x": 0, "y": 0 } ],
+      "place_nested": [ { "chunks": [ [ "shelter_2_nest_vandal", 50 ], [ "shelter_2_nest_used", 50 ] ], "x": 0, "y": 0 } ],
       "computers": {
         "6": {
           "name": "Evac shelter computer",
