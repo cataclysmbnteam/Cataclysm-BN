@@ -179,6 +179,19 @@ enum sleep_deprivation_levels {
     SLEEP_DEPRIVATION_MASSIVE = 14 * 24 * 60
 };
 
+enum class blood_type {
+    blood_O,
+    blood_A,
+    blood_B,
+    blood_AB,
+    num_bt
+};
+
+template<>
+struct enum_traits<blood_type> {
+    static constexpr auto last = blood_type::num_bt;
+};
+
 // This tries to represent both rating and
 // character's decision to respect said rating
 enum edible_rating {
@@ -447,7 +460,7 @@ class Character : public Creature, public visitable<Character>
         int get_fat_to_hp() const;
 
         /** Get size class of character **/
-        m_size get_size() const override;
+        creature_size get_size() const override;
 
         /** Returns either "you" or the player's name. capitalize_first assumes
             that the character's name is already upper case and uses it only for
@@ -986,6 +999,8 @@ class Character : public Creature, public visitable<Character>
         float mabuff_tohit_bonus() const;
         /** Returns the dodge bonus from martial arts buffs */
         float mabuff_dodge_bonus() const;
+        /** Returns the blocking effectiveness bonus from martial arts buffs */
+        int mabuff_block_effectiveness_bonus() const;
         /** Returns the block bonus from martial arts buffs */
         int mabuff_block_bonus() const;
         /** Returns the speed bonus from martial arts buffs */
@@ -1147,6 +1162,9 @@ class Character : public Creature, public visitable<Character>
                                 const units::energy &power_lvl, int pl_skill );
         /**When a player fails the surgery*/
         void bionics_uninstall_failure( int difficulty, int success, float adjusted_skill );
+
+        /**When a critical failure occurs*/
+        void roll_critical_bionics_failure( body_part bp );
 
         /**Used by monster to perform surgery*/
         bool uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
@@ -1391,6 +1409,20 @@ class Character : public Creature, public visitable<Character>
          * Counts ammo and UPS charges (lower of) for a given gun on the character.
          */
         int ammo_count_for( const item &gun );
+
+        /**
+         * Whether a tool or gun is potentially reloadable (optionally considering a specific ammo)
+         * @param it Thing to be reloaded
+         * @param ammo if set also check item currently compatible with this specific ammo or magazine
+         * @note items currently loaded with a detachable magazine are considered reloadable
+         * @note items with integral magazines are reloadable if free capacity permits (+/- ammo matches)
+         */
+        bool can_reload( const item &it, const itype_id &ammo = itype_id() ) const;
+
+        /** Same as `Character::can_reload`, but checks for attached gunmods as well. */
+        hint_rating rate_action_reload( const item &it ) const;
+        /** Whether a tool or a gun can be unloaded. */
+        hint_rating rate_action_unload( const item &it ) const;
 
         /** Maximum thrown range with a given item, taking all active effects into account. */
         int throw_range( const item & ) const;
@@ -1684,6 +1716,10 @@ class Character : public Creature, public visitable<Character>
         int tank_plut;
         int reactor_plut;
         int slow_rad;
+        blood_type my_blood_type;
+        bool blood_rh_factor;
+        // Randomizes characters' blood type and Rh
+        void randomize_blood();
 
         int focus_pool;
         int cash;
@@ -2066,8 +2102,6 @@ class Character : public Creature, public visitable<Character>
          */
         item &get_consumable_from( item &it ) const;
 
-        hint_rating rate_action_eat( const item &it ) const;
-
         /** Get calorie & vitamin contents for a comestible, taking into
          * account character traits */
         /** Get range of possible nutrient content, for a particular recipe,
@@ -2102,10 +2136,6 @@ class Character : public Creature, public visitable<Character>
         /** Swap side on which item is worn; returns false on fail. If interactive is false, don't alert player or drain moves */
         bool change_side( item &it, bool interactive = true );
         bool change_side( item_location &loc, bool interactive = true );
-
-        /** Used to determine player feedback on item use for the inventory code.
-         *  rates usability lower for non-tools (books, etc.) */
-        hint_rating rate_action_change_side( const item &it ) const;
 
         bool get_check_encumbrance() {
             return check_encumbrance;
@@ -2240,7 +2270,7 @@ class Character : public Creature, public visitable<Character>
         /**height at character creation*/
         int init_height = 175;
         /** Size class of character. */
-        m_size size_class = MS_MEDIUM;
+        creature_size size_class = creature_size::medium;
 
         // the player's activity level for metabolism calculations
         float activity_level = NO_EXERCISE;
@@ -2385,7 +2415,7 @@ class Character : public Creature, public visitable<Character>
 };
 
 // Little size helper, exposed for use in deserialization code.
-m_size calculate_size( const Character &c );
+creature_size calculate_size( const Character &c );
 
 template<>
 struct enum_traits<Character::stat> {

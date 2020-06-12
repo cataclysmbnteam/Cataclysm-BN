@@ -559,10 +559,11 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
             return;
         }
     }
+    tripoint old_abs_pos = m.getabs( you.pos() );
     you.setpos( p );
     g->update_map( you );
 
-    cata_event_dispatch::avatar_moves( you, m, p );
+    cata_event_dispatch::avatar_moves( old_abs_pos, you, m );
 
     if( m.veh_at( you.pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
         m.board_vehicle( you.pos(), &you );
@@ -856,15 +857,9 @@ void avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret
     }
 
     g->temp_exit_fullscreen();
-    g->m.draw( g->w_terrain, you.pos() );
     target_handler::trajectory trajectory = target_handler::mode_turret_manual( you, turret );
 
     if( !trajectory.empty() ) {
-        // Recenter our view
-        g->draw_ter();
-        wrefresh( g->w_terrain );
-        g->draw_panels();
-
         turret.fire( you, trajectory.back() );
     }
     g->reenter_fullscreen();
@@ -972,7 +967,6 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     if( !loc ) {
         loc = game_menus::inv::titled_menu( you,  _( "Throw item" ),
                                             _( "You don't have any items to throw." ) );
-        g->refresh_all();
     }
 
     if( !loc ) {
@@ -1029,11 +1023,9 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     const tripoint original_player_position = you.pos();
     if( blind_throw_from_pos ) {
         you.setpos( *blind_throw_from_pos );
-        g->draw_ter();
     }
 
     g->temp_exit_fullscreen();
-    g->m.draw( g->w_terrain, you.pos() );
 
     target_handler::trajectory trajectory = target_handler::mode_throw( you, you.weapon,
                                             blind_throw_from_pos.has_value() );
@@ -1111,8 +1103,6 @@ void avatar_action::use_item( avatar &you, item_location &loc )
             }
         }
     }
-
-    g->refresh_all();
 
     if( use_in_place ) {
         update_lum( loc, false );

@@ -448,18 +448,18 @@ target_handler::trajectory target_handler::mode_spell( avatar &you, const spell_
     return mode_spell( you, you.magic.get_spell( sp ), no_fail, no_mana );
 }
 
-static double occupied_tile_fraction( m_size target_size )
+static double occupied_tile_fraction( creature_size target_size )
 {
     switch( target_size ) {
-        case MS_TINY:
+        case creature_size::tiny:
             return 0.1;
-        case MS_SMALL:
+        case creature_size::small:
             return 0.25;
-        case MS_MEDIUM:
+        case creature_size::medium:
             return 0.5;
-        case MS_LARGE:
+        case creature_size::large:
             return 0.75;
-        case MS_HUGE:
+        case creature_size::huge:
             return 1.0;
     }
 
@@ -470,15 +470,15 @@ double Creature::ranged_target_size() const
 {
     if( has_flag( MF_HARDTOSHOOT ) ) {
         switch( get_size() ) {
-            case MS_TINY:
-            case MS_SMALL:
-                return occupied_tile_fraction( MS_TINY );
-            case MS_MEDIUM:
-                return occupied_tile_fraction( MS_SMALL );
-            case MS_LARGE:
-                return occupied_tile_fraction( MS_MEDIUM );
-            case MS_HUGE:
-                return occupied_tile_fraction( MS_LARGE );
+            case creature_size::tiny:
+            case creature_size::small:
+                return occupied_tile_fraction( creature_size::tiny );
+            case creature_size::medium:
+                return occupied_tile_fraction( creature_size::small );
+            case creature_size::large:
+                return occupied_tile_fraction( creature_size::medium );
+            case creature_size::huge:
+                return occupied_tile_fraction( creature_size::large );
         }
     }
     return occupied_tile_fraction( get_size() );
@@ -1885,6 +1885,9 @@ target_handler::trajectory target_ui::run()
         draw_turret_lines = vturrets->size() == 1;
     }
 
+    on_out_of_scope cleanup( []() {
+        g->m.invalidate_map_cache( g->u.pos().z + g->u.view_offset.z );
+    } );
     restore_on_out_of_scope<tripoint> view_offset_prev( g->u.view_offset );
 
     shared_ptr_fast<game::draw_callback_t> target_ui_cb = make_shared_fast<game::draw_callback_t>(
@@ -2520,7 +2523,6 @@ void target_ui::set_view_offset( const tripoint &new_offset )
         // We need to do a bunch of cache updates since we're
         // looking at a different z-level.
         g->m.invalidate_map_cache( new_z );
-        g->refresh_all();
     }
 }
 
@@ -2788,7 +2790,7 @@ void target_ui::draw_ui_window()
         draw_controls_list( text_y );
     }
 
-    wrefresh( w_target );
+    wnoutrefresh( w_target );
 }
 
 std::string target_ui::uitext_title()
@@ -3118,7 +3120,7 @@ void target_ui::panel_fire_mode_aim( int &text_y )
     }
 
     const double target_size = dst_critter ? dst_critter->ranged_target_size() :
-                               occupied_tile_fraction( MS_MEDIUM );
+                               occupied_tile_fraction( creature_size::medium );
 
     text_y = print_aim( *you, w_target, text_y, ctxt, &*relevant->gun_current_mode(),
                         target_size, dst, predicted_recoil );

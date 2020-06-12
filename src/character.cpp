@@ -366,6 +366,28 @@ static const std::string flag_USE_UPS( "USE_UPS" );
 static const mtype_id mon_player_blob( "mon_player_blob" );
 static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
+namespace io
+{
+
+template<>
+std::string enum_to_string<blood_type>( blood_type data )
+{
+    switch( data ) {
+            // *INDENT-OFF*
+        case blood_type::blood_O: return "O";
+        case blood_type::blood_A: return "A";
+        case blood_type::blood_B: return "B";
+        case blood_type::blood_AB: return "AB";
+            // *INDENT-ON*
+        case blood_type::num_bt:
+            break;
+    }
+    debugmsg( "Invalid blood_type" );
+    abort();
+}
+
+} // namespace io
+
 // *INDENT-OFF*
 Character::Character() :
 
@@ -379,6 +401,7 @@ Character::Character() :
 {
     hp_cur.fill( 0 );
     hp_max.fill( 1 );
+    randomize_blood();
     str_max = 0;
     dex_max = 0;
     per_max = 0;
@@ -460,6 +483,12 @@ character_id Character::getID() const
     return this->id;
 }
 
+void Character::randomize_blood()
+{
+    my_blood_type = static_cast<blood_type>( rng( 0, static_cast<int>( blood_type::num_bt ) - 1 ) );
+    blood_rh_factor = one_in( 2 );
+}
+
 field_type_id Character::bloodType() const
 {
     if( has_trait( trait_ACIDBLOOD ) ) {
@@ -527,7 +556,7 @@ int Character::get_fat_to_hp() const
     return mut_fat_hp * ( get_bmi() - character_weight_category::normal );
 }
 
-m_size Character::get_size() const
+creature_size Character::get_size() const
 {
     return size_class;
 }
@@ -1094,7 +1123,7 @@ bool Character::check_mount_is_spooked()
     // / 2 if horse has full tack and saddle.
     // Monster in spear reach monster and average stat (8) player on saddled horse, 14% -2% -0.8% / 2 = ~5%
     if( mounted_creature && mounted_creature->type->has_fear_trigger( mon_trigger::HOSTILE_CLOSE ) ) {
-        const m_size mount_size = mounted_creature->get_size();
+        const creature_size mount_size = mounted_creature->get_size();
         const bool saddled = mounted_creature->has_effect( effect_monster_saddled );
         for( const monster &critter : g->all_monsters() ) {
             double chance = 1.0;
@@ -1251,7 +1280,6 @@ void Character::dismount()
         mounted_creature = nullptr;
         critter->mounted_player = nullptr;
         setpos( *pnt );
-        g->refresh_all();
         mod_moves( -100 );
         set_movement_mode( move_mode_id( "walk" ) );
     }
@@ -2110,6 +2138,8 @@ cata::optional<std::list<item>::iterator> Character::wear_item( const item &to_w
     std::list<item>::iterator position = position_to_wear_new_item( to_wear );
     std::list<item>::iterator new_item_it = worn.insert( position, to_wear );
 
+    g->events().send<event_type::character_wears_item>( getID(), last_item );
+
     if( interactive ) {
         add_msg_player_or_npc(
             _( "You put on your %s." ),
@@ -2274,8 +2304,8 @@ item *Character::try_add( item it, const item *avoid )
             }
         }
     } else {
-        pocket->add( it );
-        ret = &pocket->back();
+        // this will set ret to either it, or to stack where it was placed
+        pocket->add( it, &ret );
     }
 
     if( keep_invlet ) {
@@ -2424,9 +2454,7 @@ item Character::i_rem( int pos )
 {
     item tmp;
     if( pos == -1 ) {
-        tmp = weapon;
-        weapon = item();
-        return tmp;
+        return remove_weapon();
     } else if( pos < -1 && pos > worn_position_to_index( worn.size() ) ) {
         auto iter = worn.begin();
         std::advance( iter, worn_position_to_index( pos ) );
@@ -2556,6 +2584,7 @@ item Character::remove_weapon()
 {
     item tmp = weapon;
     weapon = item();
+    g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
     cached_info.erase( "weapon_value" );
     return tmp;
 }
@@ -3570,19 +3599,6 @@ int Character::extraEncumbrance( const layer_level level, const int bp ) const
     return encumbrance_cache[bp].layer_penalty_details[static_cast<int>( level )].total;
 }
 
-hint_rating Character::rate_action_change_side( const item &it ) const
-{
-    if( !is_worn( it ) ) {
-        return hint_rating::iffy;
-    }
-
-    if( !it.is_sided() ) {
-        return hint_rating::cant;
-    }
-
-    return hint_rating::good;
-}
-
 bool Character::change_side( item &it, bool interactive )
 {
     if( !it.swap_side() ) {
@@ -3900,13 +3916,13 @@ static void apply_mut_encumbrance( std::array<encumbrance_data, num_bp> &vals,
                                    const trait_id &mut,
                                    const body_part_set &oversize )
 {
-    for( const std::pair<const body_part, int> &enc : mut->encumbrance_always ) {
-        vals[enc.first].encumbrance += enc.second;
+    for( const std::pair<const bodypart_str_id, int> &enc : mut->encumbrance_always ) {
+        vals[enc.first->token].encumbrance += enc.second;
     }
 
-    for( const std::pair<const body_part, int> &enc : mut->encumbrance_covered ) {
-        if( !oversize.test( convert_bp( enc.first ) ) ) {
-            vals[enc.first].encumbrance += enc.second;
+    for( const std::pair<const bodypart_str_id, int> &enc : mut->encumbrance_covered ) {
+        if( !oversize.test( enc.first ) ) {
+            vals[enc.first->token].encumbrance += enc.second;
         }
     }
 }
@@ -3915,8 +3931,8 @@ void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) con
 {
 
     for( const bionic_id &bid : get_bionics() ) {
-        for( const std::pair<const body_part, int> &element : bid->encumbrance ) {
-            vals[element.first].encumbrance += element.second;
+        for( const std::pair<const bodypart_str_id, int> &element : bid->encumbrance ) {
+            vals[element.first->token].encumbrance += element.second;
         }
     }
 
@@ -4906,7 +4922,8 @@ void Character::update_needs( int rate_multiplier )
     }
 
     // Huge folks take penalties for cramming themselves in vehicles
-    if( in_vehicle && ( has_trait( trait_HUGE ) || has_trait( trait_HUGE_OK ) ) ) {
+    if( in_vehicle && ( ( has_trait( trait_HUGE ) || has_trait( trait_HUGE_OK ) ) )
+        && !( has_trait( trait_NOPAIN ) || has_effect( effect_narcosis ) ) ) {
         vehicle *veh = veh_pointer_or_null( g->m.veh_at( pos() ) );
         // it's painful to work the controls, but passengers in open topped vehicles are fine
         if( veh && ( veh->enclosed_at( pos() ) || veh->player_in_control( *this->as_player() ) ) ) {
@@ -4916,7 +4933,8 @@ void Character::update_needs( int rate_multiplier )
                 npc &as_npc = dynamic_cast<npc &>( *this );
                 as_npc.complain_about( "cramped_vehicle", 1_hours, "<cramped_vehicle>", false );
             }
-            mod_pain_noresist( 2 * rng( 2, 3 ) );
+
+            mod_pain( rng( 4, 6 ) );
             focus_pool -= 1;
         }
     }
@@ -6534,10 +6552,10 @@ float Character::active_light() const
     for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
         if( mut.second.powered ) {
             float curr_lum = 0.0f;
-            for( const std::pair<body_part, float> elem : mut.first->lumination ) {
+            for( const std::pair<bodypart_str_id, float> elem : mut.first->lumination ) {
                 int coverage = 0;
                 for( const item &i : worn ) {
-                    if( i.covers( convert_bp( elem.first ).id() ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
+                    if( i.covers( elem.first.id() ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
                         !i.has_flag( flag_SEMITANGIBLE ) &&
                         !i.has_flag( flag_PERSONAL ) && !i.has_flag( flag_AURA ) ) {
                         coverage += i.get_coverage();
@@ -6645,7 +6663,7 @@ resistances Character::mutation_armor( bodypart_id bp ) const
 {
     resistances res;
     for( const trait_id &iter : get_mutations() ) {
-        res += iter->damage_resistance( bp->token );
+        res += iter->damage_resistance( bp );
     }
 
     return res;
@@ -6700,6 +6718,80 @@ int Character::ammo_count_for( const item &gun )
     }
 
     return ret;
+}
+
+bool Character::can_reload( const item &it, const itype_id &ammo ) const
+{
+    if( !it.is_reloadable_with( ammo ) ) {
+        return false;
+    }
+
+    if( it.is_ammo_belt() ) {
+        const cata::optional<itype_id> &linkage = it.type->magazine->linkage;
+        if( linkage && !has_charges( *linkage, 1 ) ) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+hint_rating Character::rate_action_reload( const item &it ) const
+{
+    hint_rating res = hint_rating::cant;
+
+    // Guns may contain additional reloadable mods so check these first
+    for( const item *mod : it.gunmods() ) {
+        switch( rate_action_reload( *mod ) ) {
+            case hint_rating::good:
+                return hint_rating::good;
+
+            case hint_rating::cant:
+                continue;
+
+            case hint_rating::iffy:
+                res = hint_rating::iffy;
+        }
+    }
+
+    if( !it.is_reloadable() ) {
+        return res;
+    }
+
+    return can_reload( it ) ? hint_rating::good : hint_rating::iffy;
+}
+
+hint_rating Character::rate_action_unload( const item &it ) const
+{
+    if( it.is_container() && !it.contents.empty() &&
+        it.can_unload_liquid() ) {
+        return hint_rating::good;
+    }
+
+    if( it.has_flag( "NO_UNLOAD" ) ) {
+        return hint_rating::cant;
+    }
+
+    if( it.magazine_current() ) {
+        return hint_rating::good;
+    }
+
+    for( const item *e : it.gunmods() ) {
+        if( e->is_gun() && !e->has_flag( "NO_UNLOAD" ) &&
+            ( e->magazine_current() || e->ammo_remaining() > 0 || e->casings_count() > 0 ) ) {
+            return hint_rating::good;
+        }
+    }
+
+    if( it.ammo_types().empty() ) {
+        return hint_rating::cant;
+    }
+
+    if( it.ammo_remaining() > 0 || it.casings_count() > 0 ) {
+        return hint_rating::good;
+    }
+
+    return hint_rating::iffy;
 }
 
 float Character::rest_quality() const
@@ -7149,15 +7241,15 @@ std::string Character::height_string() const
 int Character::height() const
 {
     switch( get_size() ) {
-        case MS_TINY:
+        case creature_size::tiny:
             return init_height - 100;
-        case MS_SMALL:
+        case creature_size::small:
             return init_height - 50;
-        case MS_MEDIUM:
+        case creature_size::medium:
             return init_height;
-        case MS_LARGE:
+        case creature_size::large:
             return init_height + 50;
-        case MS_HUGE:
+        case creature_size::huge:
             return init_height + 100;
     }
 
@@ -8091,14 +8183,14 @@ void Character::set_highest_cat_level()
 
 void Character::drench_mut_calc()
 {
-    for( const body_part bp : all_body_parts ) {
+    for( const bodypart_id &bp : get_all_body_parts() ) {
         int ignored = 0;
         int neutral = 0;
         int good = 0;
 
         for( const trait_id &iter : get_mutations() ) {
             const mutation_branch &mdata = iter.obj();
-            const auto wp_iter = mdata.protection.find( bp );
+            const auto wp_iter = mdata.protection.find( bp.id() );
             if( wp_iter != mdata.protection.end() ) {
                 ignored += wp_iter->second.x;
                 neutral += wp_iter->second.y;
@@ -8106,9 +8198,9 @@ void Character::drench_mut_calc()
             }
         }
 
-        mut_drench[bp][WT_GOOD] = good;
-        mut_drench[bp][WT_NEUTRAL] = neutral;
-        mut_drench[bp][WT_IGNORED] = ignored;
+        mut_drench[bp->token][WT_GOOD] = good;
+        mut_drench[bp->token][WT_NEUTRAL] = neutral;
+        mut_drench[bp->token][WT_IGNORED] = ignored;
     }
 }
 

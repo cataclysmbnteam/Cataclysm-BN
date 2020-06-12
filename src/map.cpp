@@ -84,6 +84,7 @@
 #include "timed_event.h"
 #include "translations.h"
 #include "trap.h"
+#include "ui_manager.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -175,7 +176,7 @@ static submap null_submap;
 maptile map::maptile_at( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
-        return maptile( &null_submap, 0, 0 );
+        return maptile( &null_submap, point_zero );
     }
 
     return maptile_at_internal( p );
@@ -184,7 +185,7 @@ maptile map::maptile_at( const tripoint &p ) const
 maptile map::maptile_at( const tripoint &p )
 {
     if( !inbounds( p ) ) {
-        return maptile( &null_submap, 0, 0 );
+        return maptile( &null_submap, point_zero );
     }
 
     return maptile_at_internal( p );
@@ -681,7 +682,8 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     // Redraw scene
     // But only if the vehicle was seen before or after the move
     if( seen || sees_veh( g->u, veh, true ) ) {
-        g->draw();
+        g->invalidate_main_ui_adaptor();
+        ui_manager::redraw_invalidated();
         refresh_display();
     }
     return new_vehicle;
@@ -6592,7 +6594,6 @@ void map::vertical_shift( const int newz )
     set_abs_sub( tripoint( trp.xy(), newz ) );
 
     // TODO: Remove the function when it's safe
-    return;
 }
 
 // saven saves a single nonant.  worldx and worldy are used for the file
@@ -8348,7 +8349,7 @@ void map::update_pathfinding_cache( int zlev ) const
 
                     pf_special cur_value = PF_NORMAL;
 
-                    maptile tile( cur_submap, sx, sy );
+                    maptile tile( cur_submap, point( sx, sy ) );
 
                     const auto &terrain = tile.get_ter_t();
                     const auto &furniture = tile.get_furn_t();

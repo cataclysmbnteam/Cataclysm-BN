@@ -935,16 +935,6 @@ bool avatar::has_identified( const itype_id &item_id ) const
     return items_identified.count( item_id ) > 0;
 }
 
-hint_rating avatar::rate_action_read( const item &it ) const
-{
-    if( !it.is_book() ) {
-        return hint_rating::cant;
-    }
-
-    std::vector<std::string> dummy;
-    return get_book_reader( it, dummy ) == nullptr ? hint_rating::iffy : hint_rating::good;
-}
-
 void avatar::wake_up()
 {
     if( has_effect( effect_sleep ) ) {
@@ -1573,6 +1563,8 @@ bool avatar::wield( item &target, const int obtain_cost )
 
     weapon.on_wield( *this, mv );
 
+    g->events().send<event_type::character_wields_item>( getID(), last_item );
+
     inv.update_invlet( weapon );
     inv.update_cache_with_item( weapon );
 
@@ -1613,8 +1605,6 @@ bool avatar::invoke_item( item *used, const tripoint &pt )
     }
 
     const std::string &method = std::next( use_methods.begin(), choice )->first;
-
-    g->refresh_all();
 
     return invoke_item( used, method, pt );
 }
