@@ -3268,7 +3268,7 @@ void mapgen_lake_shore( mapgendata &dat )
         line_segments.push_back( { sw, nw } );
     }
 
-    static constexpr rectangle map_boundaries( nw_corner, se_corner );
+    static constexpr inclusive_rectangle map_boundaries( nw_corner, se_corner );
 
     // This will draw our shallow water coastline from the "from" point to the "to" point.
     // It buffers the points a bit for a thicker line. It also clears any furniture that might
@@ -3277,7 +3277,7 @@ void mapgen_lake_shore( mapgendata &dat )
         std::vector<point> points = line_to( from, to );
         for( auto &p : points ) {
             for( const point &bp : closest_points_first( p, 1 ) ) {
-                if( !map_boundaries.contains_inclusive( bp ) ) {
+                if( !map_boundaries.contains( bp ) ) {
                     continue;
                 }
                 // Use t_null for now instead of t_water_sh, because sometimes our extended terrain
@@ -3317,7 +3317,7 @@ void mapgen_lake_shore( mapgendata &dat )
     std::unordered_set<point> visited;
 
     const auto should_fill = [&]( const point & p ) {
-        if( !map_boundaries.contains_inclusive( p ) ) {
+        if( !map_boundaries.contains( p ) ) {
             return false;
         }
         return m->ter( p ) != t_null;

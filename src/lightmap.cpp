@@ -49,7 +49,7 @@ static constexpr int LIGHTMAP_CACHE_Y = MAPSIZE_Y;
 static constexpr point lightmap_boundary_min( point_zero );
 static constexpr point lightmap_boundary_max( LIGHTMAP_CACHE_X, LIGHTMAP_CACHE_Y );
 
-const rectangle lightmap_boundaries( lightmap_boundary_min, lightmap_boundary_max );
+const half_open_rectangle lightmap_boundaries( lightmap_boundary_min, lightmap_boundary_max );
 
 std::string four_quadrants::to_string() const
 {
@@ -421,7 +421,7 @@ void map::generate_lightmap( const int zlev )
                         // Apply light sources for external/internal divide
                         for( int i = 0; i < 4; ++i ) {
                             point neighbour = p.xy() + point( dir_x[i], dir_y[i] );
-                            if( lightmap_boundaries.contains_half_open( neighbour )
+                            if( lightmap_boundaries.contains( neighbour )
                                 && outside_cache[neighbour.x][neighbour.y]
                               ) {
                                 if( light_transparency( p ) > LIGHT_TRANSPARENCY_SOLID ) {
@@ -665,7 +665,7 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
         for( const offset_and_quadrants &oq : adjacent_offsets ) {
             const point neighbour = p.xy() + oq.offset;
 
-            if( !lightmap_boundaries.contains_half_open( neighbour ) ) {
+            if( !lightmap_boundaries.contains( neighbour ) ) {
                 continue;
             }
             if( is_opaque( neighbour ) ) {
@@ -1566,7 +1566,7 @@ void map::apply_light_ray( bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
             t += ay;
 
             // TODO: clamp coordinates to map bounds before this method is called.
-            if( lightmap_boundaries.contains_half_open( point( x, y ) ) ) {
+            if( lightmap_boundaries.contains( point( x, y ) ) ) {
                 float current_transparency = transparency_cache[x][y];
                 bool is_opaque = ( current_transparency == LIGHT_TRANSPARENCY_SOLID );
                 if( !lit[x][y] ) {
@@ -1598,7 +1598,7 @@ void map::apply_light_ray( bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
             y += dy;
             t += ax;
 
-            if( lightmap_boundaries.contains_half_open( point( x, y ) ) ) {
+            if( lightmap_boundaries.contains( point( x, y ) ) ) {
                 float current_transparency = transparency_cache[x][y];
                 bool is_opaque = ( current_transparency == LIGHT_TRANSPARENCY_SOLID );
                 if( !lit[x][y] ) {
