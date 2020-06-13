@@ -170,11 +170,8 @@ void game::unserialize( std::istream &fin )
     int tmpturn = 0;
     int tmpcalstart = 0;
     int tmprun = 0;
-    int levx = 0;
-    int levy = 0;
-    int levz = 0;
-    int comx = 0;
-    int comy = 0;
+    tripoint lev;
+    point com;
     JsonIn jsin( fin );
     try {
         JsonObject data = jsin.get_object();
@@ -198,13 +195,13 @@ void game::unserialize( std::istream &fin )
         data.read( "auto_travel_mode", auto_travel_mode );
         data.read( "run_mode", tmprun );
         data.read( "mostseen", mostseen );
-        data.read( "levx", levx );
-        data.read( "levy", levy );
-        data.read( "levz", levz );
-        data.read( "om_x", comx );
-        data.read( "om_y", comy );
+        data.read( "levx", lev.x );
+        data.read( "levy", lev.y );
+        data.read( "levz", lev.z );
+        data.read( "om_x", com.x );
+        data.read( "om_y", com.y );
 
-        load_map( tripoint( levx + comx * OMAPX * 2, levy + comy * OMAPY * 2, levz ) );
+        load_map( tripoint( lev.x + com.x * OMAPX * 2, lev.y + com.y * OMAPY * 2, lev.z ) );
 
         safe_mode = static_cast<safe_mode_type>( tmprun );
         if( get_option<bool>( "SAFEMODE" ) && safe_mode == SAFE_MODE_OFF ) {
