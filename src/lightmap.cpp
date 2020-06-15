@@ -44,8 +44,8 @@ static const bionic_id bio_night( "bio_night" );
 static const efftype_id effect_haslight( "haslight" );
 static const efftype_id effect_onfire( "onfire" );
 
-#define LIGHTMAP_CACHE_X MAPSIZE_X
-#define LIGHTMAP_CACHE_Y MAPSIZE_Y
+static constexpr int LIGHTMAP_CACHE_X = MAPSIZE_X;
+static constexpr int LIGHTMAP_CACHE_Y = MAPSIZE_Y;
 
 static constexpr point lightmap_boundary_min( point_zero );
 static constexpr point lightmap_boundary_max( LIGHTMAP_CACHE_X, LIGHTMAP_CACHE_Y );
