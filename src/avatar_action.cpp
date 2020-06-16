@@ -761,23 +761,24 @@ void avatar_action::mend( avatar &you, item_location loc )
 
 bool avatar_action::eat_here( avatar &you )
 {
+    map &here = get_map();
     if( ( you.has_active_mutation( trait_RUMINANT ) || you.has_active_mutation( trait_GRAZER ) ) &&
-        ( g->m.ter( you.pos() ) == t_underbrush || g->m.ter( you.pos() ) == t_shrub ) ) {
+        ( here.ter( you.pos() ) == t_underbrush || here.ter( you.pos() ) == t_shrub ) ) {
         item food( itype_underbrush, calendar::turn, 1 );
         if( you.get_stored_kcal() > you.max_stored_kcal() -
             food.get_comestible()->default_nutrition.kcal ) {
-            add_msg( _( "You're too full to eat the leaves from the %s." ), g->m.ter( you.pos() )->name() );
+            add_msg( _( "You're too full to eat the leaves from the %s." ), here.ter( you.pos() )->name() );
             return true;
         } else {
             you.moves -= 400;
-            g->m.ter_set( you.pos(), t_grass );
+            here.ter_set( you.pos(), t_grass );
             add_msg( _( "You eat the underbrush." ) );
             you.eat( food );
             return true;
         }
     }
-    if( you.has_active_mutation( trait_GRAZER ) && ( g->m.ter( you.pos() ) == t_grass ||
-            g->m.ter( you.pos() ) == t_grass_long || g->m.ter( you.pos() ) == t_grass_tall ) ) {
+    if( you.has_active_mutation( trait_GRAZER ) && ( here.ter( you.pos() ) == t_grass ||
+            here.ter( you.pos() ) == t_grass_long || here.ter( you.pos() ) == t_grass_tall ) ) {
         item food( item( itype_grass, calendar::turn, 1 ) );
         if( you.get_stored_kcal() > you.max_stored_kcal() -
             food.get_comestible()->default_nutrition.kcal ) {
@@ -787,24 +788,24 @@ bool avatar_action::eat_here( avatar &you )
             you.moves -= 400;
             add_msg( _( "You eat the grass." ) );
             you.eat( food );
-            if( g->m.ter( you.pos() ) == t_grass_tall ) {
-                g->m.ter_set( you.pos(), t_grass_long );
-            } else if( g->m.ter( you.pos() ) == t_grass_long ) {
-                g->m.ter_set( you.pos(), t_grass );
+            if( here.ter( you.pos() ) == t_grass_tall ) {
+                here.ter_set( you.pos(), t_grass_long );
+            } else if( here.ter( you.pos() ) == t_grass_long ) {
+                here.ter_set( you.pos(), t_grass );
             } else {
-                g->m.ter_set( you.pos(), t_dirt );
+                here.ter_set( you.pos(), t_dirt );
             }
             return true;
         }
     }
     if( you.has_active_mutation( trait_GRAZER ) ) {
-        if( g->m.ter( you.pos() ) == t_grass_golf ) {
+        if( here.ter( you.pos() ) == t_grass_golf ) {
             add_msg( _( "This grass is too short to graze." ) );
             return true;
-        } else if( g->m.ter( you.pos() ) == t_grass_dead ) {
+        } else if( here.ter( you.pos() ) == t_grass_dead ) {
             add_msg( _( "This grass is dead and too mangled for you to graze." ) );
             return true;
-        } else if( g->m.ter( you.pos() ) == t_grass_white ) {
+        } else if( here.ter( you.pos() ) == t_grass_white ) {
             add_msg( _( "This grass is tainted with paint and thus inedible." ) );
             return true;
         }
@@ -959,12 +960,13 @@ void avatar_action::plthrow( avatar &you, item_location loc,
 
 static void make_active( item_location loc )
 {
+    map &here = get_map();
     switch( loc.where() ) {
         case item_location::type::map:
-            g->m.make_active( loc );
+            here.make_active( loc );
             break;
         case item_location::type::vehicle:
-            g->m.veh_at( loc.position() )->vehicle().make_active( loc );
+            here.veh_at( loc.position() )->vehicle().make_active( loc );
             break;
         default:
             break;
@@ -975,7 +977,7 @@ static void update_lum( item_location loc, bool add )
 {
     switch( loc.where() ) {
         case item_location::type::map:
-            g->m.update_lum( loc, add );
+            get_map().update_lum( loc, add );
             break;
         default:
             break;
