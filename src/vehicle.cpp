@@ -160,7 +160,7 @@ class DefaultRemovePartHandler : public RemovePartHandler
             // TODO: maybe do this for all the nearby NPCs as well?
 
             if( g->u.get_grab_type() == OBJECT_VEHICLE && g->u.grab_point == veh.global_part_pos3( part ) ) {
-                if( veh.parts_at_relative( veh.parts[part].mount, false ).empty() ) {
+                if( veh.parts_at_relative( veh.part( part ).mount, false ).empty() ) {
                     add_msg( m_info, _( "The vehicle part you were holding has been destroyed!" ) );
                     g->u.grab( OBJECT_NONE );
                 }
@@ -234,9 +234,9 @@ void vehicle_stack::insert( const item &newitem )
 
 units::volume vehicle_stack::max_volume() const
 {
-    if( myorigin->part_flag( part_num, "CARGO" ) && !myorigin->parts[part_num].is_broken() ) {
+    if( myorigin->part_flag( part_num, "CARGO" ) && !myorigin->part( part_num ).is_broken() ) {
         // Set max volume for vehicle cargo to prevent integer overflow
-        return std::min( myorigin->parts[part_num].info().size, 10000_liter );
+        return std::min( myorigin->part( part_num ).info().size, 10000_liter );
     }
     return 0_ml;
 }
@@ -4938,15 +4938,15 @@ int traverse( StartPoint *start, int amount,
         connected_elements.pop();
 
         if( current.type == vehicle_or_grid<IsConst>::type_t::vehicle ) {
-            auto &current_veh = *current.veh;
+            const vehicle &current_veh = *current.veh;
             for( auto &p : current_veh.loose_parts ) {
                 if( !current_veh.part_info( p ).has_flag( "POWER_TRANSFER" ) ) {
                     // Ignore loose parts that aren't power transfer cables
                     continue;
                 }
 
-                const tripoint_abs_ms target_pos( current_veh.parts[p].target.second );
-                if( current_veh.parts[p].has_flag( vehicle_part::targets_grid ) ) {
+                const tripoint_abs_ms target_pos( current_veh.cpart( p ).target.second );
+                if( current_veh.cpart( p ).has_flag( vehicle_part::targets_grid ) ) {
                     if( process_grid( target_pos ) ) {
                         break;
                     }
@@ -6223,7 +6223,7 @@ bool vpart_position::is_inside() const
     // this should be called elsewhere and not in a function that intends to just query
     // it's also a no-op if the insides are up to date.
     vehicle().refresh_insides();
-    return vehicle().parts[part_index()].inside;
+    return vehicle().part( part_index() ).inside;
 }
 
 void vehicle::unboard_all()
@@ -6644,8 +6644,8 @@ std::set<tripoint> &vehicle::get_points( const bool force_refresh )
 
 vehicle_part &vpart_reference::part() const
 {
-    assert( part_index() < vehicle().parts.size() );
-    return vehicle().parts[part_index()];
+    assert( part_index() < static_cast<size_t>( vehicle().part_count() ) );
+    return vehicle().part( part_index() );
 }
 
 const vpart_info &vpart_reference::info() const
@@ -6660,7 +6660,7 @@ player *vpart_reference::get_passenger() const
 
 point vpart_position::mount() const
 {
-    return vehicle().parts[part_index()].mount;
+    return vehicle().part( part_index() ).mount;
 }
 
 tripoint vpart_position::pos() const
@@ -6947,6 +6947,45 @@ vehicle_part_range vehicle::get_all_parts() const
     return vehicle_part_range( const_cast<vehicle &>( *this ) );
 }
 
+int vehicle::part_count() const
+{
+    return static_cast<int>( parts.size() );
+}
+
+vehicle_part &vehicle::part( int part_num )
+{
+    return parts[part_num];
+}
+
+const vehicle_part &vehicle::cpart( int part_num ) const
+{
+    return const_cast<vehicle_part &>( parts[part_num] );
+}
+
+bool vehicle::valid_part( int part_num ) const
+{
+    return part_num >= 0 && part_num < static_cast<int>( parts.size() );
+}
+
+void vehicle::force_erase_part( int part_num )
+{
+    parts.erase( parts.begin() + part_num );
+}
+
+void vehicle::advance_precalc_mounts( const point &new_pos, int submap_z )
+{
+    for( vehicle_part &pt : parts ) {
+        pt.precalc[0] = pt.precalc[1];
+    }
+    pivot_anchor[0] = pivot_anchor[1];
+    pivot_rotation[0] = pivot_rotation[1];
+
+    pos = new_pos;
+    sm_pos.z = submap_z;
+    // Invalidate vehicle's point cache
+    occupied_cache_time = calendar::before_time_starts;
+}
+
 bool vehicle::refresh_zones()
 {
     if( zones_dirty ) {
@@ -6980,7 +7019,7 @@ bool vehicle::refresh_zones()
 template<>
 bool vehicle_part_with_feature_range<std::string>::matches( const size_t part ) const
 {
-    const vehicle_part &vp = this->vehicle().parts[part];
+    const vehicle_part &vp = this->vehicle().part( part );
     return vp.info().has_flag( feature_ ) &&
            !vp.removed &&
            ( !( part_status_flag::working & required_ ) || !vp.is_broken() ) &&
@@ -6991,7 +7030,7 @@ bool vehicle_part_with_feature_range<std::string>::matches( const size_t part ) 
 template<>
 bool vehicle_part_with_feature_range<vpart_bitflags>::matches( const size_t part ) const
 {
-    const vehicle_part &vp = this->vehicle().parts[part];
+    const vehicle_part &vp = this->vehicle().part( part );
     return vp.info().has_flag( feature_ ) &&
            !vp.removed &&
            ( !( part_status_flag::working & required_ ) || !vp.is_broken() ) &&

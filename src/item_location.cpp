@@ -416,14 +416,14 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             js.member( "type", "vehicle" );
             js.member( "pos", position() );
             js.member( "part", cur.part );
-            if( target() != &cur.veh.parts[ cur.part ].base ) {
+            if( target() != &cur.veh.part( cur.part ).base ) {
                 js.member( "idx", find_index( cur, target() ) );
             }
             js.end_object();
         }
 
         item *unpack( int idx ) const override {
-            return idx >= 0 ? retrieve_index( cur, idx ) : &cur.veh.parts[ cur.part ].base;
+            return idx >= 0 ? retrieve_index( cur, idx ) : &cur.veh.part( cur.part ).base;
         }
 
         type where() const override {
@@ -485,7 +485,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         }
 
         void remove_item() override {
-            item &base = cur.veh.parts[ cur.part ].base;
+            item &base = cur.veh.part( cur.part ).base;
             if( &base == target() ) {
                 cur.veh.remove_part( cur.part ); // vehicle_part::base
             } else {
@@ -671,7 +671,7 @@ void item_location::deserialize( JsonIn &js )
     } else if( type == "vehicle" ) {
         vehicle *const veh = veh_pointer_or_null( g->m.veh_at( pos ) );
         int part = obj.get_int( "part" );
-        if( veh && part >= 0 && part < static_cast<int>( veh->parts.size() ) ) {
+        if( veh && part >= 0 && part < veh->part_count() ) {
             ptr.reset( new impl::item_on_vehicle( vehicle_cursor( *veh, part ), idx ) );
         }
     } else if( type == "in_container" ) {
