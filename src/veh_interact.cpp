@@ -3007,7 +3007,7 @@ void veh_interact::complete_vehicle( player &p )
             for( const auto &sk : vpinfo.install_skills ) {
                 p.practice( sk.first, veh_utils::calc_xp_gain( vpinfo, sk.first, p ) );
             }
-
+            g->m.update_vehicle_cache( veh, veh->sm_pos.z );
             break;
         }
 
@@ -3147,6 +3147,7 @@ void veh_interact::complete_vehicle( player &p )
             // point because we don't want to put them back into the vehicle part
             // that just got removed).
             put_into_vehicle_or_drop( p, item_drop_reason::deliberate, resulting_items );
+            g->m.update_vehicle_cache( veh, veh->sm_pos.z );
             break;
         }
     }
