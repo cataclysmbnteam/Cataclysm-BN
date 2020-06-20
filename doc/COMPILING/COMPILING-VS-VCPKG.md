@@ -31,7 +31,7 @@ Steps from current guide were tested on Windows 10 and 11 (64 bit), Visual Studi
 ```cmd
 git clone https://github.com/Microsoft/vcpkg.git
 cd vcpkg
-.\bootstrap-vcpkg.bat
+.\bootstrap-vcpkg.bat -disableMetrics
 .\vcpkg integrate install
 ```
 
