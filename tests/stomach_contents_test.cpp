@@ -222,7 +222,7 @@ TEST_CASE( "Stomach calories become stored calories after less than 1 day", "[st
     dummy.set_stored_kcal( kcal_before );
     dummy.stomach.mod_calories( 1000 );
 
-    const time_point start = calendar::turn;
+    const time_point start = calendar::turn_zero;
     const time_point end = start + test_time;
     for( time_point now = start; now < end; now += 30_minutes ) {
         dummy.update_body( now, now + 30_minutes );
