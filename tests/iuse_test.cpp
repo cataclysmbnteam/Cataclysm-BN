@@ -325,7 +325,7 @@ TEST_CASE( "caffeine and atomic caffeine", "[iuse][caff][atomic_caff]" )
 TEST_CASE( "towel", "[iuse][towel]" )
 {
     avatar dummy;
-
+    dummy.set_body();
     item &towel = dummy.i_add( item( "towel", calendar::start_of_cataclysm,
                                      item::default_charges_tag{} ) );
 

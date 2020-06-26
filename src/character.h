@@ -591,6 +591,8 @@ class Character : public Creature, public visitable<Character>
 
         /** Recalculates HP after a change to max strength */
         void recalc_hp();
+        /** Sets hp for all body parts */
+        void calc_all_parts_hp( float hp_mod = 0.0, float hp_adjust = 0.0, int str_max = 0 );
         /** Modifies the player's sight values
          *  Must be called when any of the following change:
          *  This must be called when any of the following change:
@@ -788,11 +790,11 @@ class Character : public Creature, public visitable<Character>
         /** Returns the number of functioning legs */
         int get_working_leg_count() const;
         /** Returns true if the limb is disabled(12.5% or less hp)*/
-        bool is_limb_disabled( hp_part limb ) const;
+        bool is_limb_disabled( const bodypart_id &limb ) const;
         /** Returns true if the limb is hindered(40% or less hp) */
         bool is_limb_hindered( hp_part limb ) const;
         /** Returns true if the limb is broken */
-        bool is_limb_broken( hp_part limb ) const;
+        bool is_limb_broken( const bodypart_id &limb ) const;
         /** source of truth of whether a Character can run */
         bool can_run();
         /** Hurts all body parts for dam, no armor reduction */
@@ -802,9 +804,7 @@ class Character : public Creature, public visitable<Character>
         /** Handles effects that happen when the player is damaged and aware of the fact. */
         void on_hurt( Creature *source, bool disturb = true );
         /** Heals a body_part for dam */
-        void heal( body_part healed, int dam );
-        /** Heals an hp_part for dam */
-        void heal( hp_part healed, int dam );
+        void heal( const bodypart_id &healed, int dam );
         /** Heals all body parts for dam */
         void healall( int dam );
         /**
@@ -1580,7 +1580,7 @@ class Character : public Creature, public visitable<Character>
         bool male;
 
         std::list<item> worn;
-        std::array<int, num_hp_parts> hp_cur, hp_max, damage_bandaged, damage_disinfected;
+        std::array<int, num_hp_parts> damage_bandaged, damage_disinfected;
         bool nv_cached;
         // Means player sit inside vehicle on the tile he is now
         bool in_vehicle;
@@ -2078,11 +2078,6 @@ class Character : public Creature, public visitable<Character>
 
         // used in debugging all health
         int get_lowest_hp() const;
-
-        int get_hp( hp_part bp ) const override;
-        int get_hp() const override;
-        int get_hp_max( hp_part bp ) const override;
-        int get_hp_max() const override;
         bool has_weapon() const override;
         void shift_destination( const point &shift );
         // Auto move methods

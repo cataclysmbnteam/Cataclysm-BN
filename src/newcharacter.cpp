@@ -368,6 +368,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
         }
         loops++;
     }
+    set_body();
 }
 
 bool avatar::create( character_type type, const std::string &tempname )
@@ -419,7 +420,7 @@ bool avatar::create( character_type type, const std::string &tempname )
                              "Saving will override the already existing character.\n\n"
                              "Continue anyways?" ), name );
     };
-
+    set_body();
     const bool allow_reroll = type == character_type::RANDOM;
     tab_direction result = tab_direction::QUIT;
     do {
@@ -495,9 +496,6 @@ bool avatar::create( character_type type, const std::string &tempname )
     save_template( _( "Last Character" ), points );
 
     recalc_hp();
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        hp_cur[i] = hp_max[i];
-    }
 
     if( has_trait( trait_SMELLY ) ) {
         scent = 800;
@@ -510,7 +508,7 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     // Grab the skills from the profession, if there are any
     // We want to do this before the recipes
-    for( auto &e : prof->skills() ) {
+    for( const profession::StartingSkill &e : prof->skills() ) {
         mod_skill_level( e.first, e.second );
     }
 
@@ -578,7 +576,7 @@ bool avatar::create( character_type type, const std::string &tempname )
         addictions.push_back( *iter );
     }
 
-    for( auto &bio : prof->CBMs() ) {
+    for( const bionic_id &bio : prof->CBMs() ) {
         add_bionic( bio );
     }
     // Adjust current energy level to maximum
@@ -844,7 +842,8 @@ tab_direction set_stats( avatar &u, points_left &points )
                                _( "Increasing Str further costs 2 points." ) );
                 }
                 u.recalc_hp();
-                mvwprintz( w_description, point_zero, COL_STAT_NEUTRAL, _( "Base HP: %d" ), u.hp_max[0] );
+                mvwprintz( w_description, point_zero, COL_STAT_NEUTRAL, _( "Base HP: %d" ),
+                           u.get_part_hp_max( bodypart_id( "head" ) ) );
                 // NOLINTNEXTLINE(cata-use-named-point-constants)
                 mvwprintz( w_description, point( 0, 1 ), COL_STAT_NEUTRAL, _( "Carry weight: %.1f %s" ),
                            convert_weight( u.weight_capacity() ), weight_units() );

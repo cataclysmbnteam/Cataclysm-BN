@@ -674,8 +674,8 @@ bool spell::can_cast( const Character &guy ) const
         case stamina_energy:
             return guy.get_stamina() >= energy_cost( guy );
         case hp_energy: {
-            for( int i = 0; i < num_hp_parts; i++ ) {
-                if( energy_cost( guy ) < guy.hp_cur[i] ) {
+            for( const std::pair<const bodypart_str_id, bodypart> &elem : guy.get_body() ) {
+                if( energy_cost( guy ) < elem.second.get_hp_cur() ) {
                     return true;
                 }
             }
@@ -1473,8 +1473,8 @@ bool known_magic::has_enough_energy( const Character &guy, spell &sp ) const
         case stamina_energy:
             return guy.get_stamina() >= cost;
         case hp_energy:
-            for( int i = 0; i < num_hp_parts; i++ ) {
-                if( guy.hp_cur[i] > cost ) {
+            for( const std::pair<const bodypart_str_id, bodypart> &elem : guy.get_body() ) {
+                if( elem.second.get_hp_cur() > cost ) {
                     return true;
                 }
             }

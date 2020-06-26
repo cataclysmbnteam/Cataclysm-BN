@@ -877,7 +877,7 @@ void player::hardcoded_effects( effect &it )
                     _( "You dissolve into beautiful paroxysms of energy.  Life fades from your nebulae and you are no more." ) );
             }
             g->events().send<event_type::dies_from_drug_overdose>( getID(), id );
-            hp_cur[hp_torso] = 0;
+            set_part_hp_cur( bodypart_id( "torso" ), 0 );
         }
     } else if( id == effect_grabbed ) {
         set_num_blocks_bonus( get_num_blocks_bonus() - 1 );
@@ -1273,19 +1273,17 @@ void player::hardcoded_effects( effect &it )
             }
         }
     } else if( id == effect_mending ) {
-        if( !is_limb_broken( bp_to_hp( bp ) ) ) {
+        if( !is_limb_broken( convert_bp( bp ) ) ) {
             it.set_duration( 0_turns );
         }
     } else if( id == effect_disabled ) {
-        if( !is_limb_broken( bp_to_hp( bp ) ) ) {
+        if( !is_limb_broken( convert_bp( bp ) ) ) {
             // Just unpause, in case someone added it as a temporary effect (numbing poison etc.)
             it.unpause_effect();
         }
     } else if( id == effect_panacea ) {
         // restore health all body parts, dramatically reduce pain
-        for( int i = 0; i < num_hp_parts; i++ ) {
-            hp_cur[i] += 10;
-        }
+        healall( 1 );
         mod_pain( -10 );
     }
 }
