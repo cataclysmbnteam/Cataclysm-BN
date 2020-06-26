@@ -36,7 +36,7 @@ set(LINKER "" CACHE STRING "Custom Linker to use")
 include(CTest)
 
 include(GetGitRevisionDescription)
-git_describe(GIT_VERSION)
+git_describe(GIT_VERSION --tags --always --match "[0-9A-Z]*.[0-9A-Z]*")
 
 MESSAGE("\n * Cataclysm: Bright Nights is a roguelike set in a post-apocalyptic world.")
 MESSAGE("   _________            __                   .__                                ")
