@@ -121,7 +121,7 @@ static void check_vehicle_damage( const std::string &explosive_id, const std::st
                               -1, 0 );
     std::vector<int> before_hp = get_part_hp( target_vehicle );
 
-    while( g->m.veh_at( origin ) ) {
+    while( get_map().veh_at( origin ) ) {
         origin.x++;
     }
     origin.x += range;

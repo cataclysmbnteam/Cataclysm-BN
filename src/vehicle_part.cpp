@@ -66,6 +66,7 @@ void vehicle_part::set_base( const item &new_base )
 
 item vehicle_part::properties_to_item() const
 {
+    map &here = get_map();
     item tmp = base;
     tmp.unset_flag( "VEHICLE" );
 
@@ -82,8 +83,8 @@ item vehicle_part::properties_to_item() const
             tmp.active = false;
             tmp.charges = tmp.type->maximum_charges();
         } else {
-            const tripoint local_pos = g->m.getlocal( target.first );
-            if( !g->m.veh_at( local_pos ) ) {
+            const tripoint local_pos = here.getlocal( target.first );
+            if( !here.veh_at( local_pos ) ) {
                 // That vehicle ain't there no more.
                 tmp.set_flag( "NO_DROP" );
             }
