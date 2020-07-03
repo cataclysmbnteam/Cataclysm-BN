@@ -496,7 +496,7 @@
           "mx_prison_bus": 15
         }
       },
-      "bridge": { "chance": 5, "extras": { "mx_minefield": 100 } },
+      "bridgehead_ground": { "chance": 5, "extras": { "mx_minefield": 100 } },
       "build": {
         "chance": 90,
         "extras": {

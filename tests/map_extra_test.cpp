@@ -17,6 +17,9 @@
 #include "string_id.h"
 #include "type_id.h"
 
+// TODO: Fix these tests for z+1 bridges.
+// Cherry-picking from https://github.com/CleverRaven/Cataclysm-DDA/pull/41135 should do the trick.
+
 TEST_CASE( "mx_minefield real spawn", "[.][map_extra][overmap]" )
 {
     // Pick a point in the middle of the overmap so we don't generate quite so
