@@ -1047,7 +1047,7 @@ void map::board_vehicle( const tripoint &pos, player *p )
     }
 }
 
-void map::unboard_vehicle( const vpart_reference &vp, player *passenger, bool dead_passenger )
+void map::unboard_vehicle( const vpart_reference &vp, Character *passenger, bool dead_passenger )
 {
     // Mark the part as un-occupied regardless of whether there's a live passenger here.
     vp.part().remove_flag( vehicle_part::passenger_flag );

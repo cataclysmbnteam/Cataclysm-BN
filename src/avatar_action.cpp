@@ -361,7 +361,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                 add_msg( m_info, _( "%s to dive underwater." ),
                          press_x( ACTION_MOVE_DOWN ) );
             }
-            avatar_action::swim( g->m, g->u, dest_loc );
+            avatar_action::swim( get_map(), get_avatar(), dest_loc );
         }
 
         g->on_move_effects();
@@ -852,7 +852,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         return;
     }
     if( you.is_mounted() ) {
-        monster *mons = g->u.mounted_creature.get();
+        monster *mons = get_player_character().mounted_creature.get();
         if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
             if( !mons->check_mech_powered() ) {
                 add_msg( m_bad, _( "Your %s refuses to move as its batteries have been drained." ),
