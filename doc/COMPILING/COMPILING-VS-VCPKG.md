@@ -43,7 +43,7 @@ git checkout 6bc4362fb49e53f1fff7f51e4e27e1946755ecc6
 ``` 
 used to grab vcpkg version without font problems.
 
-4. Install a necessary pre-requisite package:
+4. (Optionally) Install (or upgrade) necessary packages with following command line:
 
 #### Install YASM-tool:
 
@@ -83,7 +83,7 @@ git clone https://github.com/cataclysmbnteam/Cataclysm-BN.git
 cd Cataclysm-BN
 ```
 
-2. Open the provided solution (`msvc-full-features\Cataclysm-vcpkg-static.sln`) in `Visual Studio`.
+2. Open the provided solution (`msvc-full-features\Cataclysm-vcpkg-static.sln`) in `Visual Studio`, select configuration (`Release` or `Debug`) and platform (`x64` or `x86`) and build it. All necessary dependencies will be built and cached for future use by vcpkg automatically.
 
 3. Open the `Build > Configuration Manager` menu and adjust `Active solution configuration` and `Active solution platform` to match your intended target.
 
