@@ -484,13 +484,14 @@ std::unique_ptr<iuse_actor> explosion_iuse::clone() const
 // They must also be passable.
 static std::vector<tripoint> points_for_gas_cloud( const tripoint &center, int radius )
 {
+    map &here = get_map();
     std::vector<tripoint> result;
-    for( const auto &p : closest_tripoints_first( center, radius ) ) {
-        if( g->m.impassable( p ) ) {
+    for( const auto &p : closest_points_first( center, radius ) ) {
+        if( here.impassable( p ) ) {
             continue;
         }
         if( p != center ) {
-            if( !g->m.clear_path( center, p, radius, 1, 100 ) ) {
+            if( !here.clear_path( center, p, radius, 1, 100 ) ) {
                 // Can not splatter gas from center to that point, something is in the way
                 continue;
             }

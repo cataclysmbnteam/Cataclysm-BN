@@ -44,7 +44,7 @@ static void check_lethality( const std::string &explosive_id, const int range, f
         // Spawn some monsters in a circle.
         tripoint origin( 30, 30, 0 );
         int num_subjects_this_time = 0;
-        for( const tripoint &monster_position : closest_tripoints_first( origin, range ) ) {
+        for( const tripoint &monster_position : closest_points_first( origin, range ) ) {
             if( rl_dist( monster_position, origin ) != range ) {
                 continue;
             }
@@ -164,7 +164,7 @@ TEST_CASE( "shrapnel behind wall", "[grenade],[explosion],[balance]" )
     REQUIRE( actor->explosion.radius <= 0 );
     REQUIRE( actor->explosion.fragment->range > 2 );
 
-    for( const tripoint &pt : closest_tripoints_first( origin, 2 ) ) {
+    for( const tripoint &pt : closest_points_first( origin, 2 ) ) {
         if( square_dist( origin, pt ) > 1 ) {
             g->m.ter_set( pt, t_wall_metal );
         }
@@ -216,14 +216,14 @@ TEST_CASE( "shrapnel at max grenade range", "[grenade],[explosion]" )
     REQUIRE( actor->explosion.fragment->range > 1 );
 
     const int range = actor->explosion.fragment->range;
-    for( const tripoint &pt : closest_tripoints_first( origin, range + 1 ) ) {
+    for( const tripoint &pt : closest_points_first( origin, range + 1 ) ) {
         spawn_test_monster( "mon_zombie", pt );
     }
 
     grenade.charges = 0;
     grenade.type->invoke( g->u, grenade, origin );
 
-    for( const tripoint &pt : closest_tripoints_first( origin, range + 1 ) ) {
+    for( const tripoint &pt : closest_points_first( origin, range + 1 ) ) {
         const monster *m = g->critter_at<monster>( pt );
         REQUIRE( m != nullptr );
         CAPTURE( m->pos() );

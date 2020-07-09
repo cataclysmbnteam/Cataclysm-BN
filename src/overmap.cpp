@@ -2364,7 +2364,7 @@ void overmap::place_forest_trailheads()
 
     const auto trailhead_close_to_road = [&]( const tripoint & trailhead ) {
         bool close = false;
-        for( const tripoint &nearby_point : closest_tripoints_first(
+        for( const tripoint &nearby_point : closest_points_first(
                  trailhead,
                  settings->forest_trail.trailhead_road_distance
              ) ) {
@@ -3246,14 +3246,14 @@ bool overmap::build_lab( const tripoint &p, lab &l, int s, std::vector<point> &l
         std::set<tripoint> finale_candidates;
         // This is for when we can't find any proper candidates
         std::set<tripoint> secondary_candidates;
-        for( const tripoint &c : closest_tripoints_first( p, s ) ) {
+        for( const tripoint &c : closest_points_first( p, s ) ) {
             if( ter( c ) == labt || ( !endgame_finale && ter( c ) == labt_core ) ) {
                 finale_candidates.insert( c );
             }
         }
 
         if( endgame_finale ) {
-            for( const tripoint &c : closest_tripoints_first( p, 2 * s + 1 ) ) {
+            for( const tripoint &c : closest_points_first( p, 2 * s + 1 ) ) {
                 if( is_ot_match( labt.id().str(), ter( c ), ot_match_type::contains ) ) {
                     for( const point &offset : four_adjacent_offsets ) {
                         if( inbounds( c + offset ) && ter( c + offset ) != labt_stairs ) {

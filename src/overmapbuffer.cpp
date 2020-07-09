@@ -1039,7 +1039,7 @@ std::vector<tripoint> overmapbuffer::find_all( const tripoint &origin,
     size_t num_overmaps = overmaps.size();
     size_t counter = 0;
 
-    for( const tripoint &loc : closest_tripoints_first( origin, min_dist, max_dist ) ) {
+    for( const tripoint &loc : closest_points_first( origin, min_dist, max_dist ) ) {
         if( is_findable_location( loc, params ) ) {
             result.push_back( loc );
         }
