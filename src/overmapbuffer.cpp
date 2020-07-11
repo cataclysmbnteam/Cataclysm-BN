@@ -725,7 +725,7 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
     const auto get_ter_at = [&]( const point & p ) {
         return ter( base + p );
     };
-    const auto estimate = [&]( const pf::node & cur, const pf::node * ) {
+    const auto estimate = [&]( const pf::node<point> &cur, const pf::node<point> * ) {
         const tripoint convert_result = base + tripoint( cur.pos, 0 );
         if( ptype.only_known_by_player && !seen( convert_result ) ) {
             return pf::rejected;
@@ -772,7 +772,7 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
 
         return res;
     };
-    pf::path route;
+    pf::path<point> route;
     if( ptype.only_road ) {
         route = pf::find_path_4dir( start, finish, O * 2, estimate );
     } else {
@@ -816,7 +816,7 @@ bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest,
         return false;
     }
 
-    const auto estimate = [&]( const pf::node & cur, const pf::node * ) {
+    const auto estimate = [&]( const pf::node<point> &cur, const pf::node<point> * ) {
         int res = 0;
 
         const oter_id oter = get_ter_at( cur.pos );

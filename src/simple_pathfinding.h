@@ -8,18 +8,20 @@
 
 #include "enums.h"
 #include "point.h"
+#include "point_traits.h"
 
 namespace pf
 {
 
 static const int rejected = std::numeric_limits<int>::min();
 
+template<typename Point = point>
 struct node {
-    point pos;
+    Point pos;
     int dir;
     int priority;
 
-    node( const point &p, int dir, int priority = 0 ) :
+    node( const Point &p, int dir, int priority = 0 ) :
         pos( p ),
         dir( dir ),
         priority( priority ) {}
@@ -30,8 +32,9 @@ struct node {
     }
 };
 
+template<typename Point>
 struct path {
-    std::vector<node> nodes;
+    std::vector<node<Point>> nodes;
 };
 
 /**
@@ -44,23 +47,28 @@ struct path {
  * if the node is unsuitable.
  * @param reporter void ProgressReporter() called on each step of the algorithm.
  */
-template<class Offsets, class BinaryPredicate, class ProgressReporter>
-path find_path( const point &source,
-                const point &dest,
-                const point &max,
-                Offsets offsets,
-                BinaryPredicate estimator,
-                ProgressReporter reporter )
+template<typename Point, class Offsets, class BinaryPredicate, class ProgressReporter>
+path<Point> find_path( const Point &source,
+                       const Point &dest,
+                       const Point &max,
+                       Offsets offsets,
+                       BinaryPredicate estimator,
+                       ProgressReporter reporter )
 {
-    const auto inbounds = [ max ]( const point & p ) {
-        return p.x >= 0 && p.x < max.x && p.y >= 0 && p.y < max.y;
+    static_assert( Point::dimension == 2, "This pathfinding function doesn't work for tripoints" );
+    using Traits = point_traits<Point>;
+    using Node = node<Point>;
+
+    const auto inbounds = [ max ]( const Point & p ) {
+        return Traits::x( p ) >= 0 && Traits::x( p ) < Traits::x( max ) &&
+               Traits::y( p ) >= 0 && Traits::y( p ) < Traits::y( max );
     };
 
-    const auto map_index = [ max ]( const point & p ) {
-        return p.y * max.x + p.x;
+    const auto map_index = [ max ]( const Point & p ) {
+        return Traits::y( p ) * Traits::x( max ) + Traits::x( p );
     };
 
-    path res;
+    path<Point> res;
 
     if( source == dest ) {
         return res;
@@ -70,18 +78,18 @@ path find_path( const point &source,
         return res;
     }
 
-    const node first_node( source, 5, 1000 );
+    const Node first_node( source, 5, 1000 );
 
     if( estimator( first_node, nullptr ) == rejected ) {
         return res;
     }
 
-    const size_t map_size = max.x * max.y;
+    const size_t map_size = Traits::x( max ) * Traits::y( max );
 
     std::vector<bool> closed( map_size, false );
     std::vector<int> open( map_size, 0 );
     std::vector<short> dirs( map_size, 0 );
-    std::priority_queue<node, std::vector<node>> nodes;
+    std::priority_queue<Node, std::vector<Node>> nodes;
 
     nodes.push( first_node );
     open[map_index( source )] = std::numeric_limits<int>::max();
@@ -90,7 +98,7 @@ path find_path( const point &source,
     while( !nodes.empty() ) {
         reporter();
 
-        const node mn( nodes.top() ); // get the best-looking node
+        const Node mn( nodes.top() ); // get the best-looking node
 
         nodes.pop();
         // mark it visited
@@ -98,7 +106,7 @@ path find_path( const point &source,
 
         // if we've reached the end, draw the path and return
         if( mn.pos == dest ) {
-            point p = mn.pos;
+            Point p = mn.pos;
 
             res.nodes.reserve( nodes.size() );
 
@@ -115,7 +123,7 @@ path find_path( const point &source,
         }
 
         for( size_t dir = 0; dir < offsets.size(); dir++ ) {
-            const point p = mn.pos + offsets[dir];
+            const Point p = mn.pos + offsets[dir];
             const int n = map_index( p );
             // don't allow:
             // * out of bounds
@@ -124,7 +132,7 @@ path find_path( const point &source,
                 continue;
             }
 
-            node cn( p, dir );
+            Node cn( p, dir );
             cn.priority = estimator( cn, &mn );
 
             if( cn.priority == rejected ) {
@@ -143,45 +151,46 @@ path find_path( const point &source,
     return res;
 }
 
-template<class BinaryPredicate>
-path find_path_4dir( const point &source,
-                     const point &dest,
-                     const point &max,
-                     BinaryPredicate estimator )
+template<typename Point, class BinaryPredicate>
+path<Point> find_path_4dir( const Point &source,
+                            const Point &dest,
+                            const Point &max,
+                            BinaryPredicate estimator )
 {
     return find_path( source, dest, max, four_adjacent_offsets, estimator, []() {} );
 }
 
-template<class BinaryPredicate, class ProgressReporter>
-path find_path_4dir( const point &source,
-                     const point &dest,
-                     const point &max,
-                     BinaryPredicate estimator,
-                     ProgressReporter reporter )
+template<typename Point, class BinaryPredicate, class ProgressReporter>
+path<Point> find_path_4dir( const Point &source,
+                            const Point &dest,
+                            const Point &max,
+                            BinaryPredicate estimator,
+                            ProgressReporter reporter )
 {
     return find_path( source, dest, max, four_adjacent_offsets, estimator, reporter );
 }
 
-template<class BinaryPredicate>
-path find_path_8dir( const point &source,
-                     const point &dest,
-                     const point &max,
-                     BinaryPredicate estimator )
+template<typename Point, class BinaryPredicate>
+path<Point> find_path_8dir( const Point &source,
+                            const Point &dest,
+                            const Point &max,
+                            BinaryPredicate estimator )
 {
     return find_path( source, dest, max, eight_adjacent_offsets, estimator, []() {} );
 }
 
-inline path straight_path( const point &source,
-                           int dir,
-                           size_t len )
+template<typename Point = point>
+inline path<Point> straight_path( const Point &source,
+                                  int dir,
+                                  size_t len )
 {
-    path res;
+    path<Point> res;
 
     if( len == 0 ) {
         return res;
     }
 
-    point p = source;
+    Point p = source;
 
     res.nodes.reserve( len );
 
