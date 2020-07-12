@@ -322,7 +322,7 @@ static std::map<const Creature *, int> shrapnel( const tripoint &src, const proj
     // TODO: Calculate range based on max effective range for projectiles.
     // Basically bisect between 0 and map diameter using shrapnel_calc().
     // Need to update shadowcasting to support limiting range without adjusting initial distance.
-    const tripoint_range area = g->m.points_on_zlevel( src.z );
+    const tripoint_range<tripoint> area = g->m.points_on_zlevel( src.z );
 
     g->m.build_obstacle_cache( area.min(), area.max() + tripoint_south_east, obstacle_cache );
 

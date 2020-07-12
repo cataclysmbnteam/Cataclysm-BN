@@ -6991,8 +6991,10 @@ static object_names_collection enumerate_objects_around_point( const tripoint &p
         std::unordered_set<tripoint> &ignored_points,
         std::unordered_set<const vehicle *> &vehicles_recorded )
 {
-    const tripoint_range bounds = g->m.points_in_radius( bounds_center_point, bounds_radius );
-    const tripoint_range points_in_radius = g->m.points_in_radius( point, radius );
+    map &here = get_map();
+    const tripoint_range<tripoint> bounds =
+        here.points_in_radius( bounds_center_point, bounds_radius );
+    const tripoint_range<tripoint> points_in_radius = here.points_in_radius( point, radius );
     int dist = rl_dist( camera_pos, point );
 
     bool item_found = false;
@@ -7143,7 +7145,8 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
 
     std::string timestamp = to_string( time_point( calendar::turn ) );
     int dist = rl_dist( camera_pos, aim_point );
-    const tripoint_range bounds = g->m.points_in_radius( aim_point, 2 );
+    map &here = get_map();
+    const tripoint_range<tripoint> bounds = here.points_in_radius( aim_point, 2 );
     extended_photo_def photo;
     bool need_store_weather = false;
     int outside_tiles_num = 0;
@@ -7561,7 +7564,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
         }
         tripoint aim_point = *aim_point_;
         bool incorrect_focus = false;
-        tripoint_range aim_bounds = g->m.points_in_radius( aim_point, 2 );
+        tripoint_range<tripoint> aim_bounds = g->m.points_in_radius( aim_point, 2 );
 
         std::vector<tripoint> trajectory = line_to( p->pos(), aim_point, 0, 0 );
         trajectory.push_back( aim_point );
