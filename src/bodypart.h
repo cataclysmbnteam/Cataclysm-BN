@@ -275,7 +275,7 @@ std::string body_part_name_as_heading( body_part bp, int number );
 std::string body_part_name_as_heading( const bodypart_id &bp, int number );
 
 /** Returns the body part text to be displayed in the HP bar */
-std::string body_part_hp_bar_ui_text( body_part bp );
+std::string body_part_hp_bar_ui_text( const bodypart_id &bp );
 
 /** Returns the matching encumbrance text for a given body_part token. */
 std::string encumb_text( body_part bp );

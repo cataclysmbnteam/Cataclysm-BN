@@ -339,9 +339,9 @@ std::string body_part_name_as_heading( const bodypart_id &bp, int number )
     return number > 1 ? bp->name_as_heading_multiple.translated() : bp->name_as_heading.translated();
 }
 
-std::string body_part_hp_bar_ui_text( body_part bp )
+std::string body_part_hp_bar_ui_text( const bodypart_id &bp )
 {
-    return _( get_bp( bp ).hp_bar_ui_text );
+    return _( bp->hp_bar_ui_text );
 }
 
 std::string encumb_text( body_part bp )
