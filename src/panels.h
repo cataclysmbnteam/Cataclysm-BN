@@ -7,6 +7,8 @@
 #include <string>
 #include <vector>
 
+#include "coordinates.h"
+
 class JsonIn;
 class JsonOut;
 class avatar;
@@ -28,7 +30,7 @@ enum face_type : int {
 namespace overmap_ui
 {
 void draw_overmap_chunk( const catacurses::window &w_minimap, const avatar &you,
-                         const tripoint &global_omt, const point &start, int width,
+                         const tripoint_abs_omt &global_omt, const point &start, int width,
                          int height );
 } // namespace overmap_ui
 

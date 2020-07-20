@@ -743,8 +743,6 @@ class player : public Character
          */
         void disarm( npc &target );
 
-        std::set<tripoint> camps;
-
     protected:
 
         void store( JsonOut &json ) const;

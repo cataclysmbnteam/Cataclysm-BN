@@ -4542,6 +4542,7 @@ std::string item::display_name( unsigned int quantity ) const
             sidetxt = string_format( " (%s)", _( "right" ) );
             break;
     }
+    avatar &player_character = get_avatar();
     int amount = 0;
     int max_amount = 0;
     bool has_item = is_container() && contents.num_item_stacks() == 1;
@@ -4600,8 +4601,12 @@ std::string item::display_name( unsigned int quantity ) const
 
     // HACK: This is a hack to prevent possible crashing when displaying maps as items during character creation
     if( is_map() && calendar::turn != calendar::turn_zero ) {
-        const city *c = overmap_buffer.closest_city( omt_to_sm_copy( get_var( "reveal_map_center_omt",
-                        g->u.global_omt_location() ) ) ).city;
+        // TODO: fix point types
+        tripoint map_pos_omt =
+            get_var( "reveal_map_center_omt", player_character.global_omt_location().raw() );
+        tripoint_abs_sm map_pos =
+            project_to<coords::scale::submap>( tripoint_abs_omt( map_pos_omt ) );
+        const city *c = overmap_buffer.closest_city( map_pos ).city;
         if( c != nullptr ) {
             name = string_format( "%s %s", c->name, name );
         }
