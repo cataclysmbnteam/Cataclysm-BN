@@ -3018,7 +3018,7 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
         map &here = get_map();
         // TODO: fix point types
         tripoint sm_tri = here.getlocal(
-                              project_to<coords::scale::map_square>( p->omt_path.back() ).raw() );
+                              project_to<coords::ms>( p->omt_path.back() ).raw() );
         tripoint centre_sub = sm_tri + point( SEEX, SEEY );
         if( !g->m.passable( centre_sub ) ) {
             tripoint_range<tripoint> candidates = g->m.points_in_radius( centre_sub, 2 );

@@ -633,8 +633,7 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
     //weather_report += "Across <region>, skies ranged from <cloudiest> to <clearest>.  ";
     // TODO: Add fake reports for nearby cities
     // TODO: fix point types
-    const tripoint abs_ms_pos =
-        tripoint( project_to<coords::scale::map_square>( abs_sm_pos ).raw(), 0 );
+    const tripoint abs_ms_pos = tripoint( project_to<coords::ms>( abs_sm_pos ).raw(), 0 );
 
     const time_point now_hour = calendar::turn - time_duration::from_minutes( minute_of_hour<int>
                                 ( calendar::turn ) );

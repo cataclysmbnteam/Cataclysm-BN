@@ -442,8 +442,7 @@ void teleport_overmap( bool specific_coordinates )
 
     g->place_player_overmap( where );
 
-    const tripoint_abs_om new_pos =
-        project_to<coords::scale::overmap>( g->u.global_omt_location() );
+    const tripoint_abs_om new_pos = project_to<coords::om>( g->u.global_omt_location() );
     add_msg( _( "You teleport to overmap %s." ), new_pos.to_string() );
 }
 
@@ -465,8 +464,8 @@ void spawn_nested_mapgen()
 
         map &here = get_map();
         const tripoint_abs_ms abs_ms( here.getabs( *where ) );
-        const tripoint_abs_omt abs_omt = project_to<coords::scale::overmap_terrain>( abs_ms );
-        const tripoint_abs_sm abs_sub = project_to<coords::scale::submap>( abs_ms );
+        const tripoint_abs_omt abs_omt = project_to<coords::omt>( abs_ms );
+        const tripoint_abs_sm abs_sub = project_to<coords::sm>( abs_ms );
 
         map target_map;
         target_map.load( abs_sub, true );
@@ -1848,7 +1847,7 @@ void debug()
             if( mx_choice >= 0 && mx_choice < static_cast<int>( mx_str.size() ) ) {
                 const tripoint_abs_omt where_omt( ui::omap::choose_point() );
                 if( where_omt != overmap::invalid_tripoint ) {
-                    tripoint_abs_sm where_sm = project_to<coords::scale::submap>( where_omt );
+                    tripoint_abs_sm where_sm = project_to<coords::sm>( where_omt );
                     tinymap mx_map;
                     // TODO: fix point types
                     mx_map.load( where_sm.raw(), false );

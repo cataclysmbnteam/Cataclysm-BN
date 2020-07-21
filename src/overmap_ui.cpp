@@ -298,7 +298,7 @@ static weather_type_id get_weather_at_point( const tripoint_abs_omt &pos )
     auto iter = weather_cache.find( pos );
     if( iter == weather_cache.end() ) {
         // TODO: fix point types
-        const tripoint abs_ms_pos = project_to<coords::scale::map_square>( pos ).raw();
+        const tripoint abs_ms_pos = project_to<coords::ms>( pos ).raw();
         const auto &wgen = overmap_buffer.get_settings( pos ).weather;
         auto weather = wgen.get_weather_conditions( abs_ms_pos, calendar::turn, g->get_seed() );
         iter = weather_cache.insert( std::make_pair( pos, weather ) ).first;
@@ -341,9 +341,9 @@ static void draw_city_labels( const catacurses::window &w, const tripoint_abs_om
     const point screen_center_pos( win_x_max / 2, win_y_max / 2 );
 
     for( const auto &element : overmap_buffer.get_cities_near(
-             project_to<coords::scale::submap>( center ), sm_radius ) ) {
+             project_to<coords::sm>( center ), sm_radius ) ) {
         const point_abs_omt city_pos =
-            project_to<coords::scale::overmap_terrain>( element.abs_sm_pos.xy() );
+            project_to<coords::omt>( element.abs_sm_pos.xy() );
         const point_rel_omt screen_pos( city_pos - center.xy() + screen_center_pos );
 
         const int text_width = utf8_width( element.city->name, true );
@@ -382,7 +382,7 @@ static void draw_camp_labels( const catacurses::window &w, const tripoint_abs_om
     const point screen_center_pos( win_x_max / 2, win_y_max / 2 );
 
     for( const auto &element : overmap_buffer.get_camps_near(
-             project_to<coords::scale::submap>( center ), sm_radius ) ) {
+             project_to<coords::sm>( center ), sm_radius ) ) {
         const point_abs_omt camp_pos( element.camp->camp_omt_pos().xy() );
         const point screen_pos( ( camp_pos - center.xy() ).raw() + screen_center_pos );
         const int text_width = utf8_width( element.camp->name, true );
@@ -792,7 +792,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar,
         const auto &zone = zones.get_zones()[data.iZoneIndex].get();
         sZoneName = zone.get_name();
         // TODO: fix point types
-        tripointZone = project_to<coords::scale::overmap_terrain>(
+        tripointZone = project_to<coords::omt>(
                            tripoint_abs_ms( zone.get_center_point() ) );
     }
 
@@ -1032,8 +1032,8 @@ void draw( const catacurses::window &w, const catacurses::window &wbar,
                 // Convert to position within overmap
                 point_abs_om abs_om;
                 point_om_omt omp_in_om;
-                std::tie( abs_om, omp_in_om ) = project_remain<coords::scale::overmap>( omp.xy() );
-                if( mgroup && project_to<coords::scale::overmap_terrain>( mgroup->target.xy() ) ==
+                std::tie( abs_om, omp_in_om ) = project_remain<coords::om>( omp.xy() );
+                if( mgroup && project_to<coords::omt>( mgroup->target.xy() ) ==
                     omp_in_om ) {
                     ter_color = c_red;
                     ter_sym = "x";
@@ -1098,7 +1098,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar,
                 }
                 // Highlight areas that already have been generated
                 // TODO: fix point types
-                if( MAPBUFFER.lookup_submap( project_to<coords::scale::submap>( omp ).raw() ) ) {
+                if( MAPBUFFER.lookup_submap( project_to<coords::sm>( omp ).raw() ) ) {
                     ter_color = red_background( ter_color );
                 }
             }
@@ -1261,7 +1261,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar,
             }
         } else {
             const auto &ter = ccur_ter.obj();
-            const auto sm_pos = project_to<coords::scale::submap>( center );
+            const auto sm_pos = project_to<coords::sm>( center );
 
             // NOLINTNEXTLINE(cata-use-named-point-constants)
             mvwputch( wbar, point( 1, 1 ), ter.get_color(), ter.get_symbol() );
@@ -1354,7 +1354,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar,
     point_abs_omt abs_omt = center.xy();
     point_abs_om om;
     point_om_omt omt;
-    std::tie( om, omt ) = project_remain<coords::scale::overmap>( abs_omt );
+    std::tie( om, omt ) = project_remain<coords::om>( abs_omt );
     mvwprintz( wbar, point( 1, getmaxy( wbar ) - 1 ), c_red,
                _( "LEVEL %i, %d'%d, %d'%d" ), center.z(), om.x(), omt.x(), om.y(), omt.y() );
 
@@ -1473,7 +1473,7 @@ static bool search( const ui_adaptor &om_ui, tripoint_abs_omt &curs, const tripo
 
         if( om_loc ) {
             tripoint_om_omt om_relative = om_loc.local;
-            point_abs_om om_cache = project_to<coords::scale::overmap>( p.xy() );
+            point_abs_om om_cache = project_to<coords::om>( p.xy() );
 
             if( std::find( overmap_checked.begin(), overmap_checked.end(),
                            om_cache ) == overmap_checked.end() ) {
