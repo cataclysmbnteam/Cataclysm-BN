@@ -20,7 +20,6 @@ class disease_type
         static const std::vector<disease_type> &get_all();
         static void check_disease_consistency();
         static void reset();
-        bool was_loaded;
 
         diseasetype_id id;
         time_duration min_duration = 1_turns;

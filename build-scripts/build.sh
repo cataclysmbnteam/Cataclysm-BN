@@ -44,7 +44,7 @@ ccache --zero-stats
 ccache -M 2G
 ccache --show-stats
 
-if [ -n "$CMAKE" ]
+if [ "$CMAKE" = "1" ]
 then
     bin_path="./"
     if [ "$RELEASE" = "1" ]

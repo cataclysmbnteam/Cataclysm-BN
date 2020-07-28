@@ -123,7 +123,7 @@ struct achievement_requirement {
     string_id<event_statistic> statistic;
     achievement_comparison comparison;
     int target;
-    bool becomes_false;
+    bool becomes_false = false;
 
     void deserialize( JsonIn &jin ) {
         const JsonObject &jo = jin.get_object();
