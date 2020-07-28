@@ -1,4 +1,5 @@
 #include "catch/catch.hpp"
+
 #include "shape.h"
 #include "shape_impl.h"
 #include "map.h"

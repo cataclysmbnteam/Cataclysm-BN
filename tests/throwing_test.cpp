@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <list>
 #include <memory>
@@ -8,7 +10,6 @@
 #include "avatar.h"
 #include "ballistics.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "damage.h"
 #include "dispersion.h"
 #include "game.h"

@@ -1,10 +1,11 @@
+#include "catch/catch.hpp"
+
 #include <memory>
 #include <set>
 #include <vector>
 
 #include "avatar.h"
 #include "ballistics.h"
-#include "catch/catch.hpp"
 #include "damage.h"
 #include "dispersion.h"
 #include "game.h"

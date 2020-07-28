@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <array>
 #include <cstddef>
@@ -5,10 +7,8 @@
 #include <vector>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "enums.h"
 #include "npc.h"
-
 
 static const efftype_id effect_sleep( "sleep" );
 

@@ -1,9 +1,10 @@
+#include "catch/catch.hpp"
+
 #include <memory>
 #include <set>
 #include <string>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"
 #include "itype.h"

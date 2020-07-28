@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <cstddef>
 #include <list>
 #include <map>
@@ -10,7 +12,6 @@
 #include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"

@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <cmath>
 #include <fstream>
 #include <sstream>
@@ -9,7 +11,6 @@
 #include <utility>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "game.h"
 #include "map.h"
 #include "map_helpers.h"
