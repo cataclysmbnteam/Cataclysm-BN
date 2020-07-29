@@ -396,7 +396,7 @@ TEST_CASE( "vehicle_find_efficiency", "[.]" )
 }
 
 /** This is even less of a test. It generates C++ lines for the actual test below */
-TEST_CASE( "vehicle_make_efficiency_case", "[.]" )
+TEST_CASE( "make_vehicle_efficiency_case", "[.]" )
 {
     for( const std::string &veh : vehs_to_test ) {
         print_test_strings( veh );
