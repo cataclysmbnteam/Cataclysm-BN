@@ -9,6 +9,7 @@
 #include "item.h"
 #include "itype.h"
 #include "ret_val.h"
+#include "math_defines.h"
 #include "units.h"
 #include "value_ptr.h"
 
