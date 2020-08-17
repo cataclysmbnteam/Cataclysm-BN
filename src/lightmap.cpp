@@ -238,36 +238,67 @@ void map::build_sunlight_cache( int zlev )
         return;
     }
 
+    // Replace this with a calculated shift based on time of day and date.
+    // At first compress the angle such that it takes no more than one tile of shift per level.
+    // To exceed that, we'll have to handle casting light from the side instead of the top.
+    point offset;
     const level_cache &prev_map_cache = get_cache_ref( zlev + 1 );
     const auto &prev_lm = prev_map_cache.lm;
     const auto &prev_transparency_cache = prev_map_cache.transparency_cache;
     const auto &prev_floor_cache = prev_map_cache.floor_cache;
     const auto &outside_cache = map_cache.outside_cache;
-    const float sight_penalty = weather::sight_penalty( g->weather.weather );
-    for( int x = 0; x < MAPSIZE_X; x++ ) {
-        for( int y = 0; y < MAPSIZE_Y; y++ ) {
-            // Very common case
-            if( prev_floor_cache[x][y] ) {
-                lm[x][y].fill( inside_light_level );
-                continue;
-            }
-
-            four_quadrants prev_light = prev_lm[x][y];
-            float prev_transparency = prev_transparency_cache[x][y];
-            // This is pretty gross, this cancels out the per-tile transparency effect
-            // derived from weather.
-            if( outside_cache[x][y] ) {
-                prev_transparency /= sight_penalty;
-            }
-            // The formula to apply transparency to the light rays doesn't handle full opacity,
-            // so handle that seperately.
-            if( prev_transparency > LIGHT_TRANSPARENCY_SOLID &&
-                prev_light[quadrant( 0 )] > 0.0 && outside_cache[x][y] ) {
-                lm[x][y].fill( std::max( inside_light_level,
-                                         prev_light[quadrant( 0 )] * static_cast<float>( LIGHT_TRANSPARENCY_OPEN_AIR )
-                                         / prev_transparency ) );
-            } else {
-                lm[x][y].fill( inside_light_level );
+    const float sight_penalty = get_weather().weather_id->sight_penalty;
+    // TODO: Replace these with a lookup inside the four_quadrants class.
+    constexpr std::array<point, 5> cardinals = {
+        { point_zero, point_north, point_west, point_east, point_south }
+    };
+    constexpr std::array<std::array<quadrant, 2>, 5> dir_quadrants = { {
+            {{ quadrant::NE, quadrant::NW }},
+            {{ quadrant::NE, quadrant::NW }},
+            {{ quadrant::SW, quadrant::NW }},
+            {{ quadrant::SE, quadrant::NE }},
+            {{ quadrant::SE, quadrant::SW }},
+        }
+    };
+    for( int x = 0; x < MAPSIZE_X; ++x ) {
+        for( int y = 0; y < MAPSIZE_Y; ++y ) {
+            // Fall back to minimal light level if we don't find anything.
+            lm[x][y].fill( inside_light_level );
+            // Check center, then four adjacent cardinals.
+            for( int i = 0; i < 5; ++i ) {
+                int prev_x = x + offset.x + cardinals[i].x;
+                int prev_y = y + offset.y + cardinals[i].y;
+                bool inbounds = prev_x >= 0 && prev_x < MAPSIZE_X &&
+                                prev_y >= 0 && prev_y < MAPSIZE_Y;
+                four_quadrants prev_light( outside_light_level );
+                float prev_transparency = static_cast<float>( LIGHT_TRANSPARENCY_OPEN_AIR );
+                bool prev_floor = false;
+                if( inbounds ) {
+                    prev_floor = prev_floor_cache[ prev_x ][ prev_y ];
+                    prev_light = prev_lm[ prev_x][ prev_y ];
+                    prev_transparency = prev_transparency_cache[ prev_x ][ prev_y ];
+                    // This is pretty gross, this cancels out the per-tile transparency effect
+                    // derived from weather.
+                    if( outside_cache[x][y] ) {
+                        prev_transparency /= sight_penalty;
+                    }
+                }
+                if( prev_transparency > LIGHT_TRANSPARENCY_SOLID &&
+                    !prev_floor && prev_light.max() > 0.0 ) {
+                    float light_level = std::max( inside_light_level,
+                                                  prev_light.max() * static_cast<float>( LIGHT_TRANSPARENCY_OPEN_AIR )
+                                                  / prev_transparency );
+                    if( i == 0 ) {
+                        lm[x][y].fill( light_level );
+                        break;
+                    } else {
+                        lm[x][y][dir_quadrants[i][0]] = light_level;
+                        lm[x][y][dir_quadrants[i][1]] = light_level;
+                    }
+                }
+                if( !inbounds ) {
+                    break;
+                }
             }
         }
     }
