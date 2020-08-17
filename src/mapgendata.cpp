@@ -137,12 +137,12 @@ int &mapgendata::dir( int dir_in )
     }
 }
 
-void mapgendata::square_groundcover( point p1, point p2 )
+void mapgendata::square_groundcover( const point &p1, const point &p2 ) const
 {
     m.draw_square_ter( default_groundcover, p1, p2 );
 }
 
-void mapgendata::fill_groundcover()
+void mapgendata::fill_groundcover() const
 {
     m.draw_fill_background( default_groundcover );
 }
@@ -158,7 +158,7 @@ bool mapgendata::is_groundcover( const ter_id &iid ) const
     return false;
 }
 
-ter_id mapgendata::groundcover()
+ter_id mapgendata::groundcover() const
 {
     const ter_id *tid = default_groundcover.pick();
     return tid != nullptr ? *tid : t_null;
