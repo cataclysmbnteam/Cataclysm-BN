@@ -1738,6 +1738,50 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
                 jump_limit--;
                 if( jump_limit <= 0 ) {
                     return ret;
+            const furn_t &furn = fid.obj();
+            looks_like = furn.looks_like;
+        } else if( category == C_TERRAIN ) {
+            const ter_str_id tid( looks_like );
+            if( !tid.is_valid() ) {
+                return nullptr;
+            }
+            const ter_t &ter = tid.obj();
+            looks_like = ter.looks_like;
+        } else if( category == C_FIELD ) {
+            const field_type_id fid( looks_like );
+            if( !fid.is_valid() ) {
+                return nullptr;
+            }
+            const field_type &ft = fid.obj();
+            looks_like = ft.looks_like;
+        } else if( category == C_MONSTER ) {
+            const mtype_id mid( looks_like );
+            if( !mid.is_valid() ) {
+                return nullptr;
+            }
+            const mtype &mt = mid.obj();
+            looks_like = mt.looks_like;
+        } else if( category == C_VEHICLE_PART ) {
+            // vehicle parts start with vp_ for their tiles, but not their IDs
+            const vpart_id new_vpid( looks_like.substr( 3 ) );
+            // check the base id for a vehicle with variant parts
+            vpart_id base_vpid;
+            std::string variant_id;
+            std::tie( base_vpid, variant_id ) = get_vpart_id_variant( new_vpid );
+            if( base_vpid.is_valid() ) {
+                looks_like = "vp_" + base_vpid.str();
+            } else {
+                if( !new_vpid.is_valid() ) {
+                    return nullptr;
+                }
+                const vpart_info &new_vpi = new_vpid.obj();
+                looks_like = "vp_" + new_vpi.looks_like;
+            }
+        } else if( category == C_ITEM ) {
+            if( !item::type_is_defined( itype_id( looks_like ) ) ) {
+                if( looks_like.substr( 0, 7 ) == "corpse_" ) {
+                    looks_like = "corpse";
+                    continue;
                 }
             }
 
@@ -2884,10 +2928,12 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
         // Gets the visible part, should work fine once tileset vp_ids are updated to work with the vehicle part json ids
         // get the vpart_id
         char part_mod = 0;
-        const vpart_id &vp_id = veh.part_id_string( veh_part, part_mod );
+        const std::string &vp_id = veh.part_id_string( veh_part, part_mod );
         const int subtile = part_mod == 1 ? open_ : part_mod == 2 ? broken : 0;
         const int rotation = std::round( to_degrees( veh.face.dir() ) );
         const std::string vpname = "vp_" + vp_id.str();
+        const int rotation = veh.face.dir();
+        const std::string vpname = "vp_" + vp_id;
         avatar &you = get_avatar();
         if( !veh.forward_velocity() && !veh.player_in_control( you ) &&
             here.check_seen_cache( p ) ) {

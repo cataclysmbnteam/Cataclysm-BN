@@ -1,6 +1,6 @@
 [
   {
-    "abstract": "door_abstract",
+    "id": "door",
     "breaks_into": "ig_vp_frame",
     "broken_color": "cyan",
     "broken_symbol": "&",
@@ -21,6 +21,7 @@
     },
     "size": 10,
     "symbol": "+",
+    "symbols": { "ne": "u", "nw": "y", "se": "b", "sw": "n", "vertical_left": "L", "vertical_right": "n", "front": "T", "rear": "B" },
     "type": "vehicle_part"
   },
   {
@@ -218,12 +219,6 @@
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "size": 150,
-    "symbol": "+",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "door_abstract",
-    "id": "door",
     "symbol": "+",
     "type": "vehicle_part"
   },
