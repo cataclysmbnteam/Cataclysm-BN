@@ -24,7 +24,7 @@
     "type": "vehicle_part"
   },
   {
-    "abstract": "door_opaque_abstract",
+    "id": "door_opaque",
     "breaks_into": "ig_vp_frame",
     "broken_color": "cyan",
     "broken_symbol": "&",
@@ -45,10 +45,11 @@
     },
     "size": 10,
     "symbol": "+",
+    "symbols": { "left": "+", "right": "+", "front": "+", "rear": "+" },
     "type": "vehicle_part"
   },
   {
-    "abstract": "hddoor_abstract",
+    "id": "hddoor",
     "breaks_into": "ig_vp_hdframe",
     "broken_color": "cyan",
     "broken_symbol": "&",
@@ -69,10 +70,11 @@
     },
     "size": 10,
     "symbol": "+",
+    "symbols": { "left": "+", "right": "+", "front": "+", "rear": "+" },
     "type": "vehicle_part"
   },
   {
-    "abstract": "hddoor_opaque_abstract",
+    "id": "hddoor_opaque",
     "breaks_into": "ig_vp_hdframe",
     "broken_color": "cyan",
     "broken_symbol": "&",
@@ -93,10 +95,11 @@
     },
     "size": 10,
     "symbol": "+",
+    "symbols": { "left": "+", "right": "+", "front": "+", "rear": "+" },
     "type": "vehicle_part"
   },
   {
-    "abstract": "door_internal_abstract",
+    "id": "door_internal",
     "breaks_into": "ig_vp_frame",
     "broken_color": "cyan",
     "broken_symbol": "&",
@@ -116,10 +119,11 @@
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "symbol": "+",
+    "symbols": { "left": "+", "right": "+", "front": "+", "rear": "+" },
     "type": "vehicle_part"
   },
   {
-    "abstract": "hatch_abstract",
+    "id": "hatch",
     "breaks_into": "ig_vp_frame",
     "broken_color": "light_gray",
     "broken_symbol": "&",
@@ -140,10 +144,11 @@
     },
     "size": 150,
     "symbol": "+",
+    "symbols": { "left": "+", "right": "+", "front": "+", "rear": "+" },
     "type": "vehicle_part"
   },
   {
-    "abstract": "hatch_opaque_abstract",
+    "id": "hatch_opaque",
     "breaks_into": "ig_vp_frame",
     "broken_color": "light_gray",
     "broken_symbol": "&",
@@ -164,10 +169,11 @@
     },
     "size": 150,
     "symbol": "+",
+    "symbols": { "left": "+", "right": "+", "front": "+", "rear": "+" },
     "type": "vehicle_part"
   },
   {
-    "abstract": "hdhatch_abstract",
+    "id": "hdhatch",
     "breaks_into": "ig_vp_hdframe",
     "broken_color": "dark_gray",
     "broken_symbol": "&",
@@ -188,10 +194,11 @@
     },
     "size": 150,
     "symbol": "+",
+    "symbols": { "left": "+", "right": "+", "front": "+", "rear": "+" },
     "type": "vehicle_part"
   },
   {
-    "abstract": "hdhatch_opaque_abstract",
+    "id": "hdhatch_opaque",
     "breaks_into": "ig_vp_hdframe",
     "broken_color": "dark_gray",
     "broken_symbol": "&",
@@ -266,6 +273,7 @@
     "copy-from": "hdhatch_opaque_abstract",
     "id": "hdhatch_opaque",
     "symbol": "+",
+    "symbols": { "left": "+", "right": "+", "front": "+", "rear": "+" },
     "type": "vehicle_part"
   },
   {

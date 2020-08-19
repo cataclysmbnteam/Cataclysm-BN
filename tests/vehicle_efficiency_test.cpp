@@ -445,6 +445,13 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
     test_vehicle( "tractor_plow", 723658, 681200, 681200, 132400, 132400 );
     test_vehicle( "apc", 5801619, 1626000, 1119000, 130800, 85590 );
     test_vehicle( "humvee", 5503245, 767900, 306900, 25620, 9171 );
+    test_vehicle( "ambulance", 1850228, 623000, 511100, 77700, 57910 );
+    test_vehicle( "fire_engine", 2606611, 1895000, 1585000, 337800, 261900 );
+    test_vehicle( "fire_truck", 6441903, 420800, 79990, 19080, 4063 );
+    test_vehicle( "truck_swat", 5994144, 682900, 130200, 29610, 7604 );
+    test_vehicle( "tractor_plow", 723658, 681200, 681200, 132700, 132700 );
+    test_vehicle( "apc", 5802483, 1626000, 1119000, 130800, 85590 );
+    test_vehicle( "humvee", 5503345, 767900, 306900, 25620, 9171 );
     test_vehicle( "road_roller", 8829220, 602500, 147100, 22760, 6925 );
     test_vehicle( "golf_cart", 444630, 37180, 27560, 14100, 5681 );
 
@@ -465,6 +472,15 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
     test_vehicle( "tractor_plow", 723658, 72240, 72240, 53610, 53610, 0, 0, true );
     test_vehicle( "apc", 5801619, 381500, 382100, 123600, 82000, 0, 0, true );
     test_vehicle( "humvee", 5503245, 89940, 89940, 25780, 9086, 0, 0, true );
+    test_vehicle( "scooter", 55941, 58790, 58790, 46320, 46320, 0, 0, true );
+    test_vehicle( "superbike", 242085, 18320, 10570, 13100, 8497, 0, 0, true );
+    test_vehicle( "ambulance", 1850228, 58460, 57740, 42480, 39100, 0, 0, true );
+    test_vehicle( "fire_engine", 2606611, 258000, 257800, 185600, 179400, 0, 0, true );
+    test_vehicle( "fire_truck", 6441903, 58760, 59170, 18580, 3447, 0, 0, true );
+    test_vehicle( "truck_swat", 5994144, 129300, 130100, 29350, 7668, 0, 0, true );
+    test_vehicle( "tractor_plow", 723658, 72490, 72490, 53700, 53700, 0, 0, true );
+    test_vehicle( "apc", 5802483, 381500, 382100, 123600, 82000, 0, 0, true );
+    test_vehicle( "humvee", 5503345, 89940, 89940, 25780, 9086, 0, 0, true );
     test_vehicle( "road_roller", 8829220, 97490, 97690, 22880, 6606, 0, 0, true );
     test_vehicle( "golf_cart", 444630, 37140, 11510, 14110, 4450, 0, 0, true );
 }
