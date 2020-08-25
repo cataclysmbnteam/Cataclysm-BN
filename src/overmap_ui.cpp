@@ -17,7 +17,11 @@
 
 #include "avatar.h"
 #include "basecamp.h"
+#include "cached_options.h"
 #include "calendar.h"
+#ifdef TILES
+#include "cata_tiles.h"
+#endif // TILES
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "clzones.h"
@@ -25,6 +29,7 @@
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "cursesdef.h"
+#include "cursesport.h"
 #include "distribution_grid.h"
 #include "enums.h"
 #include "game.h"
@@ -50,6 +55,7 @@
 #include "overmapbuffer.h"
 #include "regional_settings.h"
 #include "rng.h"
+#include "sdltiles.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -176,7 +182,7 @@ struct grids_draw_data {
 };
 
 // {note symbol, note color, offset to text}
-static std::tuple<char, nc_color, size_t> get_note_display_info( const std::string &note )
+std::tuple<char, nc_color, size_t> get_note_display_info( const std::string &note )
 {
     std::tuple<char, nc_color, size_t> result {'N', c_yellow, 0};
     bool set_color  = false;
@@ -286,7 +292,7 @@ static void update_note_preview( const std::string &note,
     wnoutrefresh( *w_preview_map );
 }
 
-static weather_type_id get_weather_at_point( const tripoint_abs_omt &pos )
+weather_type_id get_weather_at_point( const tripoint_abs_omt &pos )
 {
     // Weather calculation is a bit expensive, so it's cached here.
     static std::map<tripoint_abs_omt, weather_type_id> weather_cache;
@@ -753,25 +759,28 @@ static tripoint_abs_omt show_notes_manager( const tripoint_abs_omt &origin )
     return result;
 }
 
-void draw( const catacurses::window &w, const catacurses::window &wbar,
-           const tripoint_abs_omt &center,
-           const tripoint_abs_omt &orig, bool blink, bool show_explored, bool fast_scroll,
-           input_context *inp_ctxt,
-           const draw_data_t &data, grids_draw_data &grids_data )
+static void draw_ascii( const catacurses::window &w,
+                        const tripoint_abs_omt &center,
+                        const tripoint_abs_omt &orig,
+                        bool blink,
+                        bool show_explored,
+                        bool /*fast_scroll*/,
+                        input_context */*inp_ctxt*/,
+                        const draw_data_t &data,
+                        grids_draw_data &grids_data )
 {
-    const int om_map_width  = OVERMAP_WINDOW_WIDTH;
+
+    const int om_map_width = OVERMAP_WINDOW_WIDTH;
     const int om_map_height = OVERMAP_WINDOW_HEIGHT;
     const int om_half_width = om_map_width / 2;
     const int om_half_height = om_map_height / 2;
     const bool viewing_weather =
-        ( ( data.debug_weather || data.visible_weather ) && center.z() == 10 );
+        ( ( uistate.overmap_debug_weather || uistate.overmap_visible_weather ) && center.z() == 10 );
 
     avatar &player_character = get_avatar();
     // Target of current mission
     const tripoint_abs_omt target = player_character.get_active_mission_target();
     const bool has_target = target != overmap::invalid_tripoint;
-    // seen status & terrain of center position
-    bool csee = false;
     oter_id ccur_ter = oter_str_id::NULL_ID();
     // Debug vision allows seeing everything
     const bool has_debug_vision = player_character.has_trait( trait_DEBUG_NIGHTVISION );
@@ -799,7 +808,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar,
     // If we're debugging monster groups, find the monster group we've selected
     const mongroup *mgroup = nullptr;
     std::vector<mongroup *> mgroups;
-    if( data.debug_mongroup ) {
+    if( uistate.overmap_debug_mongroup ) {
         mgroups = overmap_buffer.monsters_at( center );
         for( const auto &mgp : mgroups ) {
             mgroup = mgp;
@@ -812,7 +821,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar,
     // A small LRU cache: most oter_id's occur in clumps like forests of swamps.
     // This cache helps avoid much more costly lookups in the full hashmap.
     constexpr size_t cache_size = 8; // used below to calculate the next index
-    std::array<std::pair<oter_id, oter_t const *>, cache_size> cache {{}};
+    std::array<std::pair<oter_id, oter_t const *>, cache_size> cache{ {} };
     size_t cache_next = 0;
 
     const auto set_color_and_symbol = [&]( const oter_id & cur_ter, const tripoint_abs_omt & omp,
@@ -886,7 +895,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar,
                 auto iter = npc_color.find( pos );
                 nc_color np_color = np->basic_symbol_color();
                 if( iter == npc_color.end() ) {
-                    npc_color[ pos ] = { np_color, 1 };
+                    npc_color[pos] = { np_color, 1 };
                 } else {
                     iter->second.count++;
                     // Randomly change to new NPC's color
@@ -930,7 +939,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar,
             auto iter = npc_color.find( pos );
             nc_color np_color = np->basic_symbol_color();
             if( iter == npc_color.end() ) {
-                npc_color[ pos ] = { np_color, 1 };
+                npc_color[pos] = { np_color, 1 };
             } else {
                 iter->second.count++;
                 // Randomly change to new NPC's color
@@ -944,7 +953,6 @@ void draw( const catacurses::window &w, const catacurses::window &wbar,
     for( int i = 0; i < om_map_width; ++i ) {
         for( int j = 0; j < om_map_height; ++j ) {
             const tripoint_abs_omt omp = corner + point( i, j );
-
             oter_id cur_ter = oter_str_id::NULL_ID();
             nc_color ter_color = c_black;
             std::string ter_sym = " ";
@@ -969,7 +977,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar,
                 // Display player pos, should always be visible
                 ter_color = player_character.symbol_color();
                 ter_sym = "@";
-            } else if( viewing_weather && ( data.debug_weather || los_sky ) ) {
+            } else if( viewing_weather && ( uistate.overmap_debug_weather || los_sky ) ) {
                 const weather_type_id type = get_weather_at_point( omp );
                 ter_color = type->map_color;
                 ter_sym = type->get_symbol();
@@ -991,15 +999,15 @@ void draw( const catacurses::window &w, const catacurses::window &wbar,
             } else if( !see ) {
                 // All cases above ignore the seen-status,
                 ter_color = c_dark_gray;
-                ter_sym   = "#";
+                ter_sym = "#";
                 // All cases below assume that see is true.
             } else if( blink && npc_color.count( omp ) != 0 ) {
                 // Visible NPCs are cached already
-                ter_color = npc_color[ omp ].color;
-                ter_sym   = "@";
+                ter_color = npc_color[omp].color;
+                ter_sym = "@";
             } else if( blink && mycount != 0 && g->debug_pathfinding ) {
                 ter_color = c_red;
-                ter_sym   = "!";
+                ter_sym = "!";
             } else if( blink && player_path_count ) {
                 ter_color = c_blue;
                 ter_sym = "!";
@@ -1007,14 +1015,14 @@ void draw( const catacurses::window &w, const catacurses::window &wbar,
                        overmap_buffer.get_horde_size( omp ) >= HORDE_VISIBILITY_SIZE ) {
                 // Display Hordes only when within player line-of-sight
                 ter_color = c_green;
-                ter_sym   = overmap_buffer.get_horde_size( omp ) > HORDE_VISIBILITY_SIZE * 2 ? "Z" : "z";
+                ter_sym = overmap_buffer.get_horde_size( omp ) > HORDE_VISIBILITY_SIZE * 2 ? "Z" : "z";
             } else if( blink && overmap_buffer.has_vehicle( omp ) ) {
                 // Display Vehicles only when player can see the location
                 ter_color = c_cyan;
-                ter_sym   = "c";
+                ter_sym = "c";
             } else if( !sZoneName.empty() && tripointZone.xy() == omp.xy() ) {
                 ter_color = c_yellow;
-                ter_sym   = "Z";
+                ter_sym = "Z";
             } else if( !uistate.overmap_show_forest_trails && cur_ter &&
                        is_ot_match( "forest_trail", cur_ter, ot_match_type::type ) ) {
                 // If forest trails shouldn't be displayed, and this is a forest trail, then
@@ -1026,7 +1034,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar,
             }
 
             // Are we debugging monster groups?
-            if( blink && data.debug_mongroup ) {
+            if( blink && uistate.overmap_debug_mongroup ) {
                 // Check if this tile is the target of the currently selected group
 
                 // Convert to position within overmap
@@ -1104,7 +1112,6 @@ void draw( const catacurses::window &w, const catacurses::window &wbar,
             }
 
             if( omp.xy() == center.xy() && !uistate.place_special ) {
-                csee = see;
                 ccur_ter = cur_ter;
                 mvwputch_hi( w, point( i, j ), ter_color, ter_sym );
             } else {
@@ -1196,7 +1203,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar,
         mvwputch( w, point( 1, corner_text.size() + 2 ), c_white, LINE_XXOO );
         const std::string spacer( maxlen, ' ' );
         for( size_t i = 0; i < corner_text.size(); i++ ) {
-            const auto &pr = corner_text[ i ];
+            const auto &pr = corner_text[i];
             // clear line, print line, print vertical line on each side.
             mvwputch( w, point( 1, i + 2 ), c_white, LINE_XOXO );
             mvwprintz( w, point( 2, i + 2 ), c_yellow, spacer );
@@ -1226,6 +1233,46 @@ void draw( const catacurses::window &w, const catacurses::window &wbar,
         mvwputch( w, point( length, om_map_height - 1 ), c_white, LINE_XOXO );
     }
 
+    // draw nice crosshair around the cursor
+    if( blink && !uistate.place_terrain && !uistate.place_special ) {
+        mvwputch( w, point( om_half_width - 1, om_half_height - 1 ), c_light_gray, LINE_OXXO );
+        mvwputch( w, point( om_half_width + 1, om_half_height - 1 ), c_light_gray, LINE_OOXX );
+        mvwputch( w, point( om_half_width - 1, om_half_height + 1 ), c_light_gray, LINE_XXOO );
+        mvwputch( w, point( om_half_width + 1, om_half_height + 1 ), c_light_gray, LINE_XOOX );
+    }
+    // Done with all drawing!
+    wmove( w, point( om_half_width, om_half_height ) );
+    wnoutrefresh( w );
+}
+
+static void draw_om_sidebar(
+    const catacurses::window &wbar, const tripoint_abs_omt &center,
+    const tripoint_abs_omt &orig, bool /* blink */, bool fast_scroll,
+    input_context *inp_ctxt, const draw_data_t &data )
+{
+    avatar &player_character = get_avatar();
+    // Debug vision allows seeing everything
+    const bool has_debug_vision = player_character.has_trait( trait_DEBUG_NIGHTVISION );
+    // sight_points is hoisted for speed reasons.
+    const int sight_points = !has_debug_vision ?
+                             player_character.overmap_sight_range( g->light_level( player_character.posz() ) ) :
+                             100;
+    oter_id ccur_ter = overmap_buffer.ter( center ).id().id();
+    const tripoint_abs_omt target = player_character.get_active_mission_target();
+    const bool has_target = target != overmap::invalid_tripoint;
+    const bool viewing_weather = uistate.overmap_debug_weather || uistate.overmap_visible_weather;
+
+    // If we're debugging monster groups, find the monster group we've selected
+    std::vector<mongroup *> mgroups;
+    if( uistate.overmap_debug_mongroup ) {
+        mgroups = overmap_buffer.monsters_at( center );
+        for( const auto &mgp : mgroups ) {
+            if( mgp->horde ) {
+                break;
+            }
+        }
+    }
+
     // Draw the vertical line
     for( int j = 0; j < TERMY; j++ ) {
         mvwputch( wbar, point( 0, j ), c_white, LINE_XOXO );
@@ -1240,7 +1287,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar,
 
     // Draw text describing the overmap tile at the cursor position.
     int lines = 1;
-    if( csee && !viewing_weather ) {
+    if( ( has_debug_vision || overmap_buffer.seen( center ) ) && !viewing_weather ) {
         if( !mgroups.empty() ) {
             int line_number = 6;
             for( const auto &mgroup : mgroups ) {
@@ -1269,7 +1316,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar,
                                     overmap_buffer.get_description_at( sm_pos ) );
         }
     } else if( viewing_weather ) {
-        const bool weather_is_visible = ( data.debug_weather ||
+        const bool weather_is_visible = ( uistate.overmap_debug_weather ||
                                           player_character.overmap_los( center, sight_points * 2 ) );
         if( weather_is_visible ) {
             // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -1352,6 +1399,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar,
         print_hint( "TOGGLE_EXPLORED", is_explored ? c_pink : c_magenta );
         print_hint( "TOGGLE_FAST_SCROLL", fast_scroll ? c_pink : c_magenta );
         print_hint( "TOGGLE_FOREST_TRAILS", uistate.overmap_show_forest_trails ? c_pink : c_magenta );
+        print_hint( "TOGGLE_OVERMAP_WEATHER", uistate.overmap_visible_weather ? c_pink : c_magenta );
         print_hint( "HELP_KEYBINDINGS" );
         print_hint( "QUIT" );
     }
@@ -1362,18 +1410,23 @@ void draw( const catacurses::window &w, const catacurses::window &wbar,
     std::tie( om, omt ) = project_remain<coords::om>( abs_omt );
     mvwprintz( wbar, point( 1, getmaxy( wbar ) - 1 ), c_red,
                _( "LEVEL %i, %d'%d, %d'%d" ), center.z(), om.x(), omt.x(), om.y(), omt.y() );
-
-    // draw nice crosshair around the cursor
-    if( blink && !uistate.place_terrain && !uistate.place_special ) {
-        mvwputch( w, point( om_half_width - 1, om_half_height - 1 ), c_light_gray, LINE_OXXO );
-        mvwputch( w, point( om_half_width + 1, om_half_height - 1 ), c_light_gray, LINE_OOXX );
-        mvwputch( w, point( om_half_width - 1, om_half_height + 1 ), c_light_gray, LINE_XXOO );
-        mvwputch( w, point( om_half_width + 1, om_half_height + 1 ), c_light_gray, LINE_XOOX );
-    }
-    // Done with all drawing!
     wnoutrefresh( wbar );
-    wmove( w, point( om_half_width, om_half_height ) );
-    wnoutrefresh( w );
+}
+
+void draw(
+    const catacurses::window &w, const catacurses::window &wbar, const tripoint_abs_omt &center,
+    const tripoint_abs_omt &orig, bool blink, bool show_explored, bool fast_scroll,
+    input_context *inp_ctxt, const draw_data_t &data, grids_draw_data &grids_data )
+{
+    draw_om_sidebar( wbar, center, orig, blink, fast_scroll, inp_ctxt, data );
+    if( !use_tiles ) {
+        draw_ascii( w, center, orig, blink, show_explored, fast_scroll, inp_ctxt, data, grids_data );
+    } else {
+#ifdef TILES
+        cata_cursesport::WINDOW *const win = w.get<cata_cursesport::WINDOW>();
+        tilecontext->draw_om( win->pos, center, blink );
+#endif // TILES
+    }
 }
 
 void create_note( const tripoint_abs_omt &curs )
@@ -1774,6 +1827,8 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
     ictxt.register_action( "CONFIRM" );
     ictxt.register_action( "LEVEL_UP" );
     ictxt.register_action( "LEVEL_DOWN" );
+    ictxt.register_action( "ZOOM_OUT" );
+    ictxt.register_action( "ZOOM_IN" );
     ictxt.register_action( "HELP_KEYBINDINGS" );
     ictxt.register_action( "MOUSE_MOVE" );
     ictxt.register_action( "SELECT" );
@@ -1793,6 +1848,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
     ictxt.register_action( "TOGGLE_CITY_LABELS" );
     ictxt.register_action( "TOGGLE_EXPLORED" );
     ictxt.register_action( "TOGGLE_FAST_SCROLL" );
+    ictxt.register_action( "TOGGLE_OVERMAP_WEATHER" );
     ictxt.register_action( "TOGGLE_FOREST_TRAILS" );
     ictxt.register_action( "MISSIONS" );
 
@@ -1846,6 +1902,10 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
             curs.z() -= 1;
         } else if( action == "LEVEL_UP" && curs.z() < OVERMAP_HEIGHT ) {
             curs.z() += 1;
+        } else if( action == "ZOOM_OUT" ) {
+            g->zoom_out();
+        } else  if( action == "ZOOM_IN" ) {
+            g->zoom_in();
         } else if( action == "CONFIRM" ) {
             ret = curs;
         } else if( action == "QUIT" ) {
@@ -1941,6 +2001,8 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
             uistate.overmap_show_city_labels = !uistate.overmap_show_city_labels;
         } else if( action == "TOGGLE_EXPLORED" ) {
             overmap_buffer.toggle_explored( curs );
+        } else if( action == "TOGGLE_OVERMAP_WEATHER" ) {
+            uistate.overmap_visible_weather = !uistate.overmap_visible_weather;
         } else if( action == "TOGGLE_FAST_SCROLL" ) {
             fast_scroll = !fast_scroll;
         } else if( action == "TOGGLE_FOREST_TRAILS" ) {
@@ -1976,26 +2038,29 @@ void ui::omap::display()
 void ui::omap::display_hordes()
 {
     overmap_ui::draw_data_t data;
-    data.debug_mongroup = true;
+    uistate.overmap_debug_mongroup = true;
     overmap_ui::display( get_player_character().global_omt_location(), data );
+    uistate.overmap_debug_mongroup = false;
 }
 
 void ui::omap::display_weather()
 {
     overmap_ui::draw_data_t data;
-    data.debug_weather = true;
+    uistate.overmap_debug_weather = true;
     tripoint_abs_omt pos = get_player_character().global_omt_location();
     pos.z() = 10;
     overmap_ui::display( pos, data );
+    uistate.overmap_debug_weather = false;
 }
 
 void ui::omap::display_visible_weather()
 {
     overmap_ui::draw_data_t data;
-    data.visible_weather = true;
+    uistate.overmap_visible_weather = true;
     tripoint_abs_omt pos = get_player_character().global_omt_location();
     pos.z() = 10;
     overmap_ui::display( pos, data );
+    uistate.overmap_visible_weather = false;
 }
 
 void ui::omap::display_scents()
