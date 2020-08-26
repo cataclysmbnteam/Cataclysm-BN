@@ -3889,7 +3889,7 @@ void iexamine::curtains( player &p, const tripoint &examp )
     window_menu.addentry( 1, true, 't', _( "Tear down the curtains." ) );
     window_menu.query();
     const int choice = window_menu.ret;
-
+    map &here = g->m;
     if( choice == 0 ) {
         // Peek
         g->peek( examp );
@@ -3903,7 +3903,29 @@ void iexamine::curtains( player &p, const tripoint &examp )
         } else if( ter == t_window_domestic_taped ) {
             g->m.ter_set( examp, t_window_no_curtains_taped );
         } else if( ter == t_window_bars_domestic || ter == t_window_bars_curtains ) {
-            g->m.ter_set( examp, t_window_bars );
+            here.ter_set( examp, t_window_bars );
+        }else if (ter == t_single_pane_glass_with_curtain_open_window_closed || ter == t_single_pane_glass_with_curtain ) {
+            here.ter_set(examp, t_single_pane_glass );
+        }else if (ter == t_reinforced_single_pane_glass_with_curtain_open_window_closed || ter == t_reinforced_single_pane_glass_with_curtain ) {
+            here.ter_set(examp, t_reinforced_single_pane_glass_open );
+        }else if (ter == t_double_pane_glass_with_curtain_open_window_closed || ter == t_double_pane_glass_with_curtain ) {
+            here.ter_set(examp, t_double_pane_glass );
+        }else if (ter == t_reinforced_double_pane_glass_with_curtain_open_window_closed || ter == t_reinforced_double_pane_glass_with_curtain ) {
+            here.ter_set(examp, t_reinforced_double_pane_glass );
+        }else if (ter == t_triple_pane_glass_with_curtain_open_window_closed || ter == t_triple_pane_glass_with_curtain ) {
+            here.ter_set(examp, t_triple_pane_glass );
+        }else if (ter == t_reinforced_triple_pane_glass_with_curtain_open_window_closed || ter == t_reinforced_triple_pane_glass_with_curtain ) {
+            here.ter_set(examp, t_reinforced_triple_pane_glass );
+        }else if (ter == t_quadruple_pane_glass_with_curtain_open_window_closed || ter == t_quadruple_pane_glass_with_curtain ) {
+            here.ter_set(examp, t_quadruple_pane_glass_open );
+        }else if (ter == t_reinforced_quadruple_double_pane_glass_with_curtain_open_window_closed || ter == t_reinforced_quadruple_pane_glass_with_curtain ) {
+            here.ter_set(examp, t_reinforced_quadruple_pane_glass );
+        }else if (ter == t_plastic_window_with_curtain_open_window_closed || ter == t_plastic_window_with_curtain ) {
+            here.ter_set(examp, t_plastic_window_open );
+        }else if (ter == t_reinforced_plastic_window_with_curtain_open_window_closed || ter == t_reinforced_plastic_window_with_curtain ) {
+            here.ter_set(examp, t_reinforced_plastic_window );
+        }else if (ter == t_tempered_glass_with_curtain_open_window_closed || ter == t_tempered_glass_with_curtain ) {
+            here.ter_set(examp, t_tempered_glass_window );
         }
 
         g->m.spawn_item( p.pos(), itype_nail, 1, 4, calendar::turn );

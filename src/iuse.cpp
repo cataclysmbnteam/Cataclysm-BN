@@ -2415,6 +2415,56 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
     }
     const pry_result *pry = nullptr;
     bool pry_furn;
+    const std::set<ter_id> allowed_ter_id {
+        t_door_locked,
+        t_door_locked_alarm,
+        t_door_locked_interior,
+        t_door_locked_peep,
+        t_door_c,
+        t_door_c_peep,
+        t_manhole_cover,
+        t_window_domestic,
+        t_curtains,
+        t_window_no_curtains,
+        t_metal_grate_window,
+        t_single_pane_glass,
+        t_single_pane_glass_with_curtain,
+        t_single_pane_glass_with_curtain_open_window_closed,
+        t_reinforced_single_pane_glass,
+        t_reinforced_single_pane_glass_with_curtain,
+        t_reinforced_single_pane_glass_with_curtain_open_window_closed,
+        t_double_pane_glass,
+        t_double_pane_glass_with_curtain,
+        t_double_pane_glass_with_curtain_open_window_closed,
+        t_reinforced_double_pane_glass,
+        t_reinforced_double_pane_glass_with_curtain,
+        t_reinforced_double_pane_glass_with_curtain_open_window_closed,
+        t_triple_pane_glass,
+        t_triple_pane_glass_with_curtain,
+        t_triple_pane_glass_with_curtain_open_window_closed,
+        t_reinforced_triple_pane_glass,
+        t_reinforced_triple_pane_glass_with_curtain,
+        t_reinforced_triple_pane_glass_with_curtain_open_window_closed,
+        t_quadruple_pane_glass,
+        t_quadruple_pane_glass_with_curtain,
+        t_quadruple_pane_glass_with_curtain_open_window_closed,
+        t_reinforced_quadruple_pane_glass,
+        t_reinforced_quadruple_pane_glass_with_curtain,
+        t_reinforced_quadruple_double_pane_glass_with_curtain_open_window_closed,
+        t_plastic_window,
+        t_plastic_window_with_curtain,
+        t_plastic_window_with_curtain_open_window_closed,
+        t_reinforced_plastic_window,
+        t_reinforced_plastic_window_with_curtain,
+        t_reinforced_plastic_window_with_curtain_open_window_closed,
+        t_tempered_glass_window,
+        t_tempered_glass_with_curtain,
+        t_tempered_glass_with_curtain_open_window_closed
+    };
+    const std::set<furn_id> allowed_furn_id {
+        f_crate_c,
+        f_coffin_c
+    };
 
     const std::function<bool( const tripoint & )> can_pry = [&p]( const tripoint & pnt ) {
         if( pnt == p->pos() ) {
