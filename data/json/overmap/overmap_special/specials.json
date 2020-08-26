@@ -7022,6 +7022,6 @@
     ],
     "locations": [ "lake_surface" ],
     "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC", "LAKE", "WILDERNESS" ]
+    "flags": [ "CLASSIC", "LAKE" ]
   }
 ]
