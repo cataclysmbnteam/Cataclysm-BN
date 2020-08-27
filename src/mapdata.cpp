@@ -1324,7 +1324,7 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
     for( const std::string &flag : flags ) {
         set_flag( flag );
     }
-    optional( jo, was_loaded, "curtain_transform", curtain_transform);
+    optional( jo, was_loaded, "curtain_transform", curtain_transform );
 }
 
 void ter_t::load( const JsonObject &jo, const std::string &src )
