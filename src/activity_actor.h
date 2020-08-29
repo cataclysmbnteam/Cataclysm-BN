@@ -8,6 +8,7 @@
 
 #include "clone_ptr.h"
 #include "item_location.h"
+#include "memory_fast.h"
 #include "optional.h"
 #include "pickup_token.h"
 #include "point.h"
@@ -15,6 +16,7 @@
 #include "units_energy.h"
 
 class Character;
+class Creature;
 class JsonIn;
 class JsonOut;
 class player_activity;
@@ -124,6 +126,13 @@ class aim_activity_actor : public activity_actor
          * Implies aborted = true
          */
         bool reload_requested = false;
+        /**
+         * A friendly creature may enter line of fire during aim-and-shoot,
+         * and that generates a warning to proceed/abort. If player decides to
+         * proceed, that creature is saved in this vector to prevent the same warning
+         * from popping up on the following turn(s).
+         */
+        std::vector<weak_ptr_fast<Creature>> acceptable_losses;
 
         aim_activity_actor();
 
