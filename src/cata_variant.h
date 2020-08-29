@@ -14,6 +14,7 @@
 #include "enum_conversions.h"
 #include "hash_utils.h"
 #include "pldata.h"
+#include "to_string_id.h"
 #include "type_id.h"
 
 class JsonIn;
@@ -113,6 +114,9 @@ struct convert_string {
     static T from_string( const std::string &v ) {
         return v;
     }
+    static bool is_valid( const std::string & ) {
+        return true;
+    }
 };
 
 // Inherit from this struct to easily implement convert specializations for any
@@ -125,6 +129,9 @@ struct convert_string_id {
     }
     static T from_string( const std::string &v ) {
         return T( v );
+    }
+    static bool is_valid( const std::string &v ) {
+        return from_string( v ).is_valid();
     }
 };
 
@@ -139,6 +146,9 @@ struct convert_int_id {
     static T from_string( const std::string &v ) {
         return T( v );
     }
+    static bool is_valid( const std::string &v ) {
+        return to_string_id_t<T>( v ).is_valid();
+    }
 };
 
 // Inherit from this struct to easily implement convert specializations for any
@@ -152,6 +162,9 @@ struct convert_enum {
     static T from_string( const std::string &v ) {
         return io::string_to_enum<T>( v );
     }
+    static bool is_valid( const std::string &v ) {
+        return io::enum_is_valid<T>( v );
+    }
 };
 
 // These are the specializations of convert for each value type.
@@ -162,6 +175,9 @@ static_assert( static_cast<int>( cata_variant_type::num_types ) == 24,
 template<>
 struct convert<cata_variant_type::void_> {
     using type = void;
+    static bool is_valid( const std::string &s ) {
+        return s.empty();
+    }
 };
 
 template<>
@@ -182,6 +198,11 @@ struct convert<cata_variant_type::bool_> {
     static bool from_string( const std::string &v ) {
         return std::stoi( v );
     }
+    static bool is_valid( const std::string &v ) {
+        // TODO: check for int-ness
+        int i = std::stoi( v );
+        return i >= 0 && i <= 1;
+    }
 };
 
 template<>
@@ -192,6 +213,10 @@ struct convert<cata_variant_type::character_id> {
     }
     static character_id from_string( const std::string &v ) {
         return character_id( std::stoi( v ) );
+    }
+    static bool is_valid( const std::string & ) {
+        // TODO: check for int-ness
+        return true;
     }
 };
 
@@ -215,6 +240,10 @@ struct convert<cata_variant_type::int_> {
     }
     static int from_string( const std::string &v ) {
         return std::stoi( v );
+    }
+    static bool is_valid( const std::string & ) {
+        // TODO: check for int-ness
+        return true;
     }
 };
 
@@ -312,6 +341,8 @@ class cata_variant
         const std::string &get_string() const {
             return value_;
         }
+
+        bool is_valid() const;
 
         std::pair<cata_variant_type, std::string> as_pair() const {
             return std::make_pair( type_, value_ );
