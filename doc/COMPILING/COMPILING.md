@@ -110,7 +110,7 @@ You should probably always build with `RELEASE=1` unless you experience segfault
 
 ## Compiling localization files
 
-Despite `LOCALIZE=1` is enabled by default, it may not tell `make` to compile localization files for you. So if you want to compile files for specific languages, you should add `LANGUAGES="<lang_id_1> [lang_id_2] [...]"` option to make command:
+`LOCALIZE` (enabled by default) only enables localization itself, but doesn't include any languages. If you want to compile files for specific languages, you should add `LANGUAGES="<lang_id_1> [lang_id_2] [...]"` option to make command:
 
     make LANGUAGES="zh_CN zh_TW"
 
