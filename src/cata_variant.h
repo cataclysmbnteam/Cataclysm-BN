@@ -287,7 +287,8 @@ template<>
 struct convert<cata_variant_type::mutagen_technique> : convert_enum<mutagen_technique> {};
 
 template<>
-struct convert<cata_variant_type::mutation_category_id> : convert_string<std::string> {};
+struct convert<cata_variant_type::mutation_category_id> :
+    convert_string_id<mutation_category_id> {};
 
 template<>
 struct convert<cata_variant_type::npc_template_id> : convert_string_id<npc_template_id> {};
