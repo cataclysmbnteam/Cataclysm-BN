@@ -1121,8 +1121,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     get_window_tile_counts( width, height, sx, sy );
 
     init_light();
-    g->m.update_visibility_cache( center.z );
-    const visibility_variables &cache = g->m.get_visibility_variables_cache();
+    map &here = get_map();
+    const visibility_variables &cache = here.get_visibility_variables_cache();
 
     const bool iso_mode = tile_iso;
 

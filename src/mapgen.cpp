@@ -5935,6 +5935,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const int d
         submap *place_on_submap = get_submap_at_grid( placed_vehicle->sm_pos );
         place_on_submap->vehicles.push_back( std::move( placed_vehicle_up ) );
         place_on_submap->is_uniform = false;
+        invalidate_max_populated_zlev( p.z );
 
         auto &ch = get_cache( placed_vehicle->sm_pos.z );
         ch.vehicle_list.insert( placed_vehicle );
