@@ -28,18 +28,13 @@ Please see [CONTRIBUTING.md](https://github.com/cataclysmbnteam//blob/master/.gi
 
 ## Community
 
-Forums:
-https://discourse.cataclysmdda.org
-
 Wiki:
 http://cddawiki.chezzo.com/cdda_wiki/index.php
 
 GitHub repo:
 https://github.com/cataclysmbnteam/Cataclysm-BN
 
-IRC:
-`irc.freenode.net` ; `#CataclysmDDA`
-http://webchat.freenode.net/?channels=#CataclysmDDA
+
 
 Official Discord:
 https://discord.gg/jFEc7Yp
