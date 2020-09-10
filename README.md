@@ -33,7 +33,7 @@ We also have the following build guides:
 Cataclysm: Bright Nights developed under Creative Commons Attribution ShareAlike 3.0 license. The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever. See http://creativecommons.org/licenses/by-sa/3.0/ for details.
 Some code distributed with the project is not part of the project and is released under different software licenses, the files covered by different software licenses have their own license notices.
 
-Please see [CONTRIBUTING.md](https://github.com/cataclysmbnteam//blob/master/.github/CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING.md](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/.github/CONTRIBUTING.md) for details.
 
 ## Community
 
