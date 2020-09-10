@@ -42,6 +42,7 @@ https://discord.gg/jFEc7Yp
 
 There are also BN channels on the following discords:
 https://discord.gg/nudv6B
+
 https://discord.gg/WDCZW7
 
 ## Frequently Asked Questions
