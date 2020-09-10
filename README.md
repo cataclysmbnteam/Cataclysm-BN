@@ -9,7 +9,7 @@ While some have described it as a "zombie game", there is far more to Cataclysm 
 Fight to defeat or escape from a wide variety of powerful monstrosities, from zombies to giant insects to killer robots and things far stranger and deadlier, and against the others like yourself, who want what you have.
 
 
-Find way to stop the Cataclysm ... or become one of its strongest monsters.
+Find a way to stop the Cataclysm ... or become one of its strongest monsters.
 
 
 ## Downloads
