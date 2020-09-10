@@ -62,12 +62,8 @@ Press the `?` key, followed by the `1` key to see the full list of key commands.
 
 #### I've found a bug. What should I do?
 
-Please submit an issue on [our GitHub page](https://github.com/CleverRaven/Cataclysm-DDA/issues/) using [bug report template](https://github.com/CleverRaven/Cataclysm-DDA/issues/new?template=bug_report.md). If you're not able to, send an email to `kevin.granade@gmail.com`.
+Please submit an issue on [our GitHub page](https://github.com/cataclysmbnteam/Cataclysm-BN/issues) using [bug report template](https://github.com/cataclysmbnteam/Cataclysm-BN/issues/new?template=bug_report.md).
 
 #### I would like to make a suggestion. What should I do?
 
-Please submit an issue on [our GitHub page](https://github.com/CleverRaven/Cataclysm-DDA/issues/) using [feature request template](https://github.com/CleverRaven/Cataclysm-DDA/issues/new?template=feature_request.md).
-
-You can also submit your suggestions or vote for existing suggestions on [our FeatHub page](https://feathub.com/CleverRaven/Cataclysm-DDA). Most voted suggestions are:
-
-[![Feature Requests](https://feathub.com/CleverRaven/Cataclysm-DDA?format=svg)](https://feathub.com/CleverRaven/Cataclysm-DDA)
+Please submit an issue on [our GitHub page](https://github.com/cataclysmbnteam/Cataclysm-BN/issues/) using [feature request template](https://github.com/cataclysmbnteam/Cataclysm-BN/issues/new?template=feature_request.md).
