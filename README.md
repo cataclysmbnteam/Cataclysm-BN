@@ -34,9 +34,6 @@ Please see [CONTRIBUTING.md](https://github.com/cataclysmbnteam//blob/master/.gi
 
 ## Community
 
-Wiki:
-http://cddawiki.chezzo.com/cdda_wiki/index.php
-
 GitHub repo:
 https://github.com/cataclysmbnteam/Cataclysm-BN
 
