@@ -37,9 +37,12 @@ Please see [CONTRIBUTING.md](https://github.com/cataclysmbnteam//blob/master/.gi
 GitHub repo:
 https://github.com/cataclysmbnteam/Cataclysm-BN
 
-
-Official Discord:
+Check out the BN channel on DDA discord:
 https://discord.gg/jFEc7Yp
+
+There are also BN channels on the following discords:
+https://discord.gg/nudv6B
+https://discord.gg/WDCZW7
 
 ## Frequently Asked Questions
 
