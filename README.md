@@ -1,43 +1,14 @@
-# Cataclysm: Dark Days Ahead
+# Cataclysm: Bright Nights
 
-Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world. While some have described it as a "zombie game", there is far more to Cataclysm than that. Struggle to survive in a harsh, persistent, procedurally generated world. Scavenge the remnants of a dead civilization for food, equipment, or, if you are lucky, a vehicle with a full tank of gas to get you the hell out of Dodge. Fight to defeat or escape from a wide variety of powerful monstrosities, from zombies to giant insects to killer robots and things far stranger and deadlier, and against the others like yourself, who want what you have...
+Cataclysm: Bright Nights is a roguelike with sci-fi elements set in a post-apocalyptic world. While some have described it as a "zombie game", there is far more to Cataclysm than that. Struggle to survive in a harsh, persistent, procedurally generated world. Scavenge the remnants of a dead civilization for food, equipment, or, if you are lucky, a vehicle with a full tank of gas to get you the hell out of Dodge. Fight to defeat or escape from a wide variety of powerful monstrosities, from zombies to giant insects to killer robots and things far stranger and deadlier, and against the others like yourself, who want what you have...
 
-<a href="https://repology.org/project/cataclysm-dda/versions">
-    <img src="https://repology.org/badge/vertical-allrepos/cataclysm-dda.svg" alt="Packaging Status" align="right">
-</a>
-
-[![Build Status](https://travis-ci.org/CleverRaven/Cataclysm-DDA.svg?branch=master)](https://travis-ci.org/CleverRaven/Cataclysm-DDA)
-[![Coverage Status](https://coveralls.io/repos/github/CleverRaven/Cataclysm-DDA/badge.svg?branch=master)](https://coveralls.io/github/CleverRaven/Cataclysm-DDA?branch=master)
-[![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/CleverRaven/Cataclysm-DDA.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/CleverRaven/Cataclysm-DDA/context:cpp)
-[![Open Source Helpers](https://www.codetriage.com/cleverraven/cataclysm-dda/badges/users.svg)](https://www.codetriage.com/cleverraven/cataclysm-dda)
-[![Commit Activity](https://img.shields.io/github/commit-activity/m/CleverRaven/Cataclysm-DDA)](https://github.com/CleverRaven/Cataclysm-DDA/graphs/contributors)
-[![Lines of Code](https://tokei.rs/b1/github/CleverRaven/Cataclysm-DDA?category=code)](https://github.com/XAMPPRocky/tokei)
 
 ## Downloads
 
-**Releases** - [Stable](https://cataclysmdda.org/releases/) | [Experimental](https://cataclysmdda.org/experimental/)
+**Releases** - (https://github.com/cataclysmbnteam/Cataclysm-BN/releases)
 
-**Source** - The source can be downloaded as a [.zip archive](https://github.com/CleverRaven/Cataclysm-DDA/archive/master.zip), or cloned from our [GitHub repo](https://github.com/CleverRaven/Cataclysm-DDA/).
+**Source** - The source can be downloaded as a [.zip archive](https://github.com/cataclysmbnteam/Cataclysm-BN/archive/master.zip), or cloned from our [GitHub repo](https://github.com/cataclysmbnteam/Cataclysm-BN/).
 
-### Packaging status
-
-#### Arch Linux
-
-Ncurses and tiles version available in [community repo](https://www.archlinux.org/packages/?q=cataclysm-dda).
-
-`sudo pacman -S cataclysm-dda`
-
-#### Fedora
-
-Ncurses and tiles version available in [official repos](https://src.fedoraproject.org/rpms/cataclysm-dda).
-
-`sudo dnf install cataclysm-dda`
-
-#### Debian / Ubuntu
-
-Ncurses and tiles version available in [official repos](https://tracker.debian.org/pkg/cataclysm-dda).
-
-`sudo apt install cataclysm-dda-curses cataclysm-dda-sdl`
 
 ## Compile
 
@@ -66,7 +37,7 @@ Wiki:
 http://cddawiki.chezzo.com/cdda_wiki/index.php
 
 GitHub repo:
-https://github.com/CleverRaven/Cataclysm-DDA
+https://github.com/cataclysmbnteam/Cataclysm-BN
 
 IRC:
 `irc.freenode.net` ; `#CataclysmDDA`
