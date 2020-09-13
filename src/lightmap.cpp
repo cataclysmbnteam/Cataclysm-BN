@@ -10,6 +10,7 @@
 
 #include "avatar.h"
 #include "calendar.h"
+#include "cata_utility.h"
 #include "character.h"
 #include "colony.h"
 #include "field.h"
@@ -168,9 +169,7 @@ bool map::build_vision_transparency_cache( const int zlev )
     for( const tripoint &loc : points_in_radius( p, 1 ) ) {
         if( loc == p ) {
             // The tile player is standing on should always be visible
-            if( ( has_furn( p ) && !furn( p )->transparent ) || !ter( p )->transparent ) {
-                vision_transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_CLEAR;
-            }
+            vision_transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
         } else if( is_crouching && coverage( loc ) >= 30 ) {
             // If we're crouching behind an obstacle, we can't see past it.
             vision_transparency_cache[loc.x][loc.y] = LIGHT_TRANSPARENCY_SOLID;
@@ -209,8 +208,8 @@ void map::build_sunlight_cache( int pzlev )
     const int zlev_min = zlevels ? -OVERMAP_DEPTH : pzlev;
     // Start at the topmost populated zlevel to avoid unnecessary raycasting
     // Plus one zlevel to prevent clipping inside structures
-    const int zlev_max = zlevels ? std::min( std::max( calc_max_populated_zlev() + 1, pzlev + 1 ),
-                         OVERMAP_HEIGHT ) : pzlev;
+    const int zlev_max = zlevels ? clamp( calc_max_populated_zlev() + 1, pzlev + 1,
+                                          OVERMAP_HEIGHT ) : pzlev;
 
     // true if all previous z-levels are fully transparent to light (no floors, transparency >= air)
     bool fully_outside = true;
@@ -333,9 +332,9 @@ void map::build_sunlight_cache( int pzlev )
                     if( prev_transparency > LIGHT_TRANSPARENCY_SOLID &&
                         !prev_floor_cache[prev_x][prev_y] &&
                         ( prev_light_max = prev_lm[prev_x][prev_y].max() ) > 0.0 ) {
-                        const float light_level = std::max( inside_light_level, prev_light_max *
-                                                            LIGHT_TRANSPARENCY_OPEN_AIR
-                                                            / prev_transparency );
+                        const float light_level = clamp( prev_light_max * LIGHT_TRANSPARENCY_OPEN_AIR / prev_transparency,
+                                                         inside_light_level, prev_light_max );
+
                         if( i == 0 ) {
                             lm[x][y].fill( light_level );
                             fully_inside &= light_level <= inside_light_level;
@@ -622,7 +621,8 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
     const bool obstructed = vis <= LIGHT_TRANSPARENCY_SOLID + 0.1;
 
     auto is_opaque = [&map_cache]( const point & p ) {
-        return map_cache.transparency_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID;
+        return map_cache.transparency_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID &&
+               map_cache.vision_transparency_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID;
     };
 
     const bool p_opaque = is_opaque( p.xy() );
@@ -717,7 +717,7 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     if( a.apparent_light > LIGHT_AMBIENT_LIT ) {
         return LL_LIT;
     }
-    if( a.apparent_light > cache.vision_threshold ) {
+    if( a.apparent_light >= cache.vision_threshold ) {
         return LL_LOW;
     } else {
         return LL_BLANK;
@@ -738,7 +738,7 @@ bool map::pl_sees( const tripoint &t, const int max_range ) const
     const apparent_light_info a = apparent_light_helper( map_cache, t );
     const float light_at_player = map_cache.lm[g->u.posx()][g->u.posy()].max();
     return !a.obstructed &&
-           ( a.apparent_light > g->u.get_vision_threshold( light_at_player ) ||
+           ( a.apparent_light >= g->u.get_vision_threshold( light_at_player ) ||
              map_cache.sm[t.x][t.y] > 0.0 );
 }
 
@@ -1052,7 +1052,7 @@ template<int xx, int xy, int yx, int yy, typename T, typename Out,
 void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
                 const T( &input_array )[MAPSIZE_X][MAPSIZE_Y],
                 const point &offset, int offsetDistance,
-                T numerator = 1.0,
+                T numerator = VISIBILITY_FULL,
                 int row = 1, float start = 1.0f, float end = 0.0f,
                 T cumulative_transparency = LIGHT_TRANSPARENCY_OPEN_AIR );
 
@@ -1218,7 +1218,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
     if( !fov_3d ) {
         std::uninitialized_fill_n(
             &seen_cache[0][0], map_dimensions, light_transparency_solid );
-        seen_cache[origin.x][origin.y] = LIGHT_TRANSPARENCY_CLEAR;
+        seen_cache[origin.x][origin.y] = VISIBILITY_FULL;
 
         castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
             seen_cache, transparency_cache, origin.xy(), 0 );
@@ -1236,7 +1236,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
                 &cur_cache.seen_cache[0][0], map_dimensions, light_transparency_solid );
         }
         if( origin.z == target_z ) {
-            get_cache( origin.z ).seen_cache[origin.x][origin.y] = LIGHT_TRANSPARENCY_CLEAR;
+            get_cache( origin.z ).seen_cache[origin.x][origin.y] = VISIBILITY_FULL;
         }
         cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
             seen_caches, transparency_caches, floor_caches, origin, 0, 1.0 );
