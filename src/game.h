@@ -144,8 +144,6 @@ struct w_map {
 
 bool is_valid_in_w_terrain( const point &p );
 
-
-
 // There is only one game instance, so losing a few bytes of memory
 // due to padding is not much of a concern.
 // NOLINTNEXTLINE(clang-analyzer-optin.performance.Padding)
