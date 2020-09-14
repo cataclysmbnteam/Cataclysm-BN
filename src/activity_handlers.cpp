@@ -2577,30 +2577,6 @@ void activity_handlers::lockpicking_finish( player_activity *act, player *p )
         act->set_to_null();
     }
 
-    //if( ter_type == t_chaingate_l ) {
-    //    new_ter_type = t_chaingate_c;
-    //    open_message = _( "With a satisfying click, the chain-link gate opens." );
-    //} else if( ter_type == t_door_locked || ter_type == t_door_locked_alarm ||
-    //           ter_type == t_door_locked_interior ) {
-    //    new_ter_type = t_door_c;
-    //    open_message = _( "With a satisfying click, the lock on the door opens." );
-    //} else if( ter_type == t_door_locked_peep ) {
-    //    new_ter_type = t_door_c_peep;
-    //    open_message = _( "With a satisfying click, the lock on the door opens." );
-    //} else if( ter_type == t_door_metal_pickable ) {
-    //    new_ter_type = t_door_metal_c;
-    //    open_message = _( "With a satisfying click, the lock on the door opens." );
-    //} else if( ter_type == t_door_bar_locked ) {
-    //    new_ter_type = t_door_bar_o;
-    //    //Bar doors auto-open (and lock if closed again) so show a different message)
-    //    open_message = _( "The door swings open…" );
-    //} else if( furn_type == f_gunsafe_ml ) {
-    //    new_furn_type = f_safe_o;
-    //    open_message = _( "With a satisfying click, the lock on the door opens." );
-    //} else {
-    //    act->set_to_null();
-    //}
-
     bool destroy = false;
 
     /** @EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes */
