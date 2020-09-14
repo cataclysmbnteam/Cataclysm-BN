@@ -761,21 +761,18 @@ bool Character::activate_bionic( int b, bool eff_only )
         furn_id new_furn_type = lr.new_furn_type;
         std::string open_message = lr.open_message;
 
-        if( new_ter_type != t_null || new_furn_type != f_null )
-        {
+        if( new_ter_type != t_null || new_furn_type != f_null ) {
             g->m.has_furn( *pnt ) ?
             g->m.furn_set( *pnt, new_furn_type ) :
             static_cast<void>( g->m.ter_set( *pnt, new_ter_type ) );
             used = true;
         }
 
-        if( used )
-        {
+        if( used ) {
             add_msg_activate();
             add_msg_if_player( m_good, open_message );
             mod_moves( -100 );
-        } else
-        {
+        } else {
             refund_power();
             add_msg_if_player( m_info, _( "There is nothing to lockpick nearby." ) );
             return false;
