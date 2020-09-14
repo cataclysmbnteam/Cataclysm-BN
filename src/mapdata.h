@@ -356,7 +356,7 @@ void set_ter_ids();
 void finalize_furn();
 void reset_furn_ter();
 /** Gets lockpicked object and message */
-lockpicking_open_result get_lockpicking_open_result(ter_id ter_type, furn_id furn_type);
+lockpicking_open_result get_lockpicking_open_result( ter_id ter_type, furn_id furn_type );
 
 /*
  * The terrain list contains the master list of  information and metadata for a given type of terrain.
