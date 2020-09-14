@@ -753,7 +753,7 @@ bool Character::activate_bionic( int b, bool eff_only )
     } else if( bio.id == bio_lockpick ) {
         g->refresh_all();
         bool used = false;
-        const cata::optional<tripoint> pnt = choose_adjacent(_("Use your bionic lockpick where?"));
+        const cata::optional<tripoint> pnt = choose_adjacent(_("Use your lockpick where?"));
         ter_id ter_type = g->m.ter(*pnt);
         furn_id furn_type = g->m.furn(*pnt);
         lockpicking_open_result lr = g->get_lockpicking_open_result(ter_type, furn_type);
