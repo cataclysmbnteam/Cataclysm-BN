@@ -753,29 +753,31 @@ bool Character::activate_bionic( int b, bool eff_only )
     } else if( bio.id == bio_lockpick ) {
         g->refresh_all();
         bool used = false;
-        const cata::optional<tripoint> pnt = choose_adjacent(_("Use your lockpick where?"));
-        ter_id ter_type = g->m.ter(*pnt);
-        furn_id furn_type = g->m.furn(*pnt);
-        lockpicking_open_result lr = g->get_lockpicking_open_result(ter_type, furn_type);
+        const cata::optional<tripoint> pnt = choose_adjacent( _( "Use your lockpick where?" ) );
+        ter_id ter_type = g->m.ter( *pnt );
+        furn_id furn_type = g->m.furn( *pnt );
+        lockpicking_open_result lr = g->get_lockpicking_open_result( ter_type, furn_type );
         ter_id new_ter_type = lr.new_ter_type;
         furn_id new_furn_type = lr.new_furn_type;
         std::string open_message = lr.open_message;
 
-        if (new_ter_type != t_null || new_furn_type != f_null) {
-            g->m.has_furn(*pnt) ?
-                g->m.furn_set(*pnt, new_furn_type) :
-                static_cast<void>(g->m.ter_set(*pnt, new_ter_type));
+        if( new_ter_type != t_null || new_furn_type != f_null )
+        {
+            g->m.has_furn( *pnt ) ?
+            g->m.furn_set( *pnt, new_furn_type ) :
+            static_cast<void>( g->m.ter_set( *pnt, new_ter_type ) );
             used = true;
         }
 
-        if (used) {
+        if( used )
+        {
             add_msg_activate();
-            add_msg_if_player(m_good, open_message);
-            mod_moves(-100);
-        }
-        else {
+            add_msg_if_player( m_good, open_message );
+            mod_moves( -100 );
+        } else
+        {
             refund_power();
-            add_msg_if_player(m_info, _("There is nothing to lockpick nearby."));
+            add_msg_if_player( m_info, _( "There is nothing to lockpick nearby." ) );
             return false;
         }
     } else if( bio.id == bio_flashbang ) {
