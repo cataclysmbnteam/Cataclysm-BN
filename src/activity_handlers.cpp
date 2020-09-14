@@ -2568,7 +2568,7 @@ void activity_handlers::lockpicking_finish( player_activity *act, player *p )
 
     const ter_id ter_type = g->m.ter( act->placement );
     const furn_id furn_type = g->m.furn( act->placement );
-    lockpicking_open_result lr = g -> get_lockpicking_open_result( ter_type, furn_type );
+    lockpicking_open_result lr = get_lockpicking_open_result( ter_type, furn_type );
     ter_id new_ter_type = lr.new_ter_type;
     furn_id new_furn_type = lr.new_furn_type;
     std::string open_message = lr.open_message;

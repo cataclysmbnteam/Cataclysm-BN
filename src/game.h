@@ -144,11 +144,7 @@ struct w_map {
 
 bool is_valid_in_w_terrain( const point &p );
 
-struct lockpicking_open_result {
-    ter_id new_ter_type;
-    furn_id new_furn_type;
-    std::string open_message;
-};
+
 
 // There is only one game instance, so losing a few bytes of memory
 // due to padding is not much of a concern.
@@ -344,8 +340,6 @@ class game
         bool spawn_hallucination( const tripoint &p );
         /** Swaps positions of two creatures */
         bool swap_critters( Creature &, Creature & );
-        /** Gets lockpicked object and message */
-        lockpicking_open_result get_lockpicking_open_result( ter_id ter_type, furn_id furn_typ );
 
     private:
         friend class monster_range;
