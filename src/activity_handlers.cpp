@@ -2574,8 +2574,7 @@ void activity_handlers::lockpicking_finish( player_activity *act, player *p )
     furn_id new_furn_type = lr.new_furn_type;
     std::string open_message = lr.open_message;
 
-    if( new_ter_type == t_null && new_furn_type == f_null )
-    {
+    if( new_ter_type == t_null && new_furn_type == f_null ) {
         act->set_to_null();
     }
 
