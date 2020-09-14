@@ -2561,8 +2561,7 @@ void activity_handlers::lockpicking_finish( player_activity *act, player *p )
 {
     item_location &loc = act->targets[ 0 ];
     item *it = loc.get_item();
-    if( it == nullptr )
-    {
+    if( it == nullptr ) {
         debugmsg( "lockpick item location lost" );
         return;
     }
