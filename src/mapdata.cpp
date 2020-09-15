@@ -956,7 +956,7 @@ lockpicking_open_result get_lockpicking_open_result( ter_id ter_type, furn_id fu
     } else if( ter_type == t_door_bar_locked ) {
         new_ter_type = t_door_bar_o;
         //Bar doors auto-open (and lock if closed again) so show a different message)
-        open_message = _( "The door swings open…" );
+        open_message = _( "The door swings openâ€¦" );
     } else if( furn_type == f_gunsafe_ml ) {
         new_furn_type = f_safe_o;
         open_message = _( "With a satisfying click, the lock on the door opens." );
