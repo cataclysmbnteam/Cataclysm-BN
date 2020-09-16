@@ -8652,7 +8652,7 @@ void game::reload_weapon( bool try_everything )
     reload_item();
 }
 
-bool game::unload( item_location &loc )
+bool game::unload( item_location loc )
 {
     return u.unload( loc );
 }
