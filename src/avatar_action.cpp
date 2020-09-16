@@ -1285,11 +1285,5 @@ void avatar_action::unload( avatar &you )
         return;
     }
 
-    //if( you.unload( *loc ) ) {
-    //    if( loc->has_flag( "MAG_DESTROY" ) && loc->ammo_remaining() == 0 ) {
-    //        loc.remove_item();
-    //    }
-    //}
-
-    you.unload(loc);
+    you.unload( loc );
 }

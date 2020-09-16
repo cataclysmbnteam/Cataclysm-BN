@@ -430,7 +430,7 @@ class player : public Character
         /** So far only called by unload() from game.cpp */
         bool add_or_drop_with_msg( item &it, bool unloading = false );
 
-        bool unload( item_location& loc );
+        bool unload( item_location loc );
 
         /**
          * Try to wield a contained item consuming moves proportional to weapon skill and volume.
@@ -489,7 +489,7 @@ class player : public Character
         /** last time we checked for sleep */
         time_point last_sleep_check = calendar::turn_zero;
         bool bio_soporific_powered_at_last_sleep_check;
-        bool unload_internal( item_location &loc );
+        bool unload_internal( item_location loc );
 
     public:
         /** Returns a value from 1.0 to 5.0 that acts as a multiplier

@@ -3095,7 +3095,7 @@ bool player::add_or_drop_with_msg( item &it, const bool unloading )
     return true;
 }
 
-bool player::unload( item_location &loc )
+bool player::unload( item_location loc )
 {
     unload_internal( loc );
     if( loc->has_flag( "MAG_DESTROY" ) && loc->ammo_remaining() == 0 ) {
@@ -3104,7 +3104,7 @@ bool player::unload( item_location &loc )
 }
 
 
-bool player::unload_internal( item_location &loc )
+bool player::unload_internal( item_location loc )
 {
     item &it = *loc.get_item();
     // Unload a container consuming moves per item successfully removed
@@ -3495,7 +3495,7 @@ bool player::gunmod_remove( item &gun, item &mod )
     }
 
     item_location loc = item_location( *this, &mod );
-    if ( mod.ammo_remaining() && !g->unload( loc ) ) {
+    if( mod.ammo_remaining() && !g->unload( loc ) ) {
         return false;
     }
 
