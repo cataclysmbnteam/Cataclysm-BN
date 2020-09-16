@@ -3097,10 +3097,12 @@ bool player::add_or_drop_with_msg( item &it, const bool unloading )
 
 bool player::unload( item_location loc )
 {
-    unload_internal( loc );
+    bool result = unload_internal( loc );
+
     if( loc->has_flag( "MAG_DESTROY" ) && loc->ammo_remaining() == 0 ) {
         loc.remove_item();
     }
+    return result;
 }
 
 
