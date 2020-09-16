@@ -3106,7 +3106,7 @@ bool player::unload( item_location loc )
 }
 
 
-bool player::unload_internal( item_location loc )
+inline bool unload_internal( item_location loc )
 {
     item &it = *loc.get_item();
     // Unload a container consuming moves per item successfully removed
