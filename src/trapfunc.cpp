@@ -607,6 +607,19 @@ bool trapfunc::snare_heavy( const tripoint &p, Creature *c, item * )
     return true;
 }
 
+static explosion_data get_basic_explosion_data()
+{
+    // equivalent of grenade explosion
+    explosion_data data;
+    data.damage = 40;
+    data.radius = 3;
+    projectile fragment;
+    fragment.range = 6;
+    fragment.speed = 1000;
+    fragment.impact.add_damage( DT_CUT, 80, 0, 3.0F );
+    data.fragment = fragment;
+}
+
 bool trapfunc::landmine( const tripoint &p, Creature *c, item * )
 {
     // tiny animals are too light to trigger land mines
@@ -631,19 +644,6 @@ bool trapfunc::boobytrap( const tripoint &p, Creature *c, item * )
     explosion_handler::explosion( p, get_basic_explosion_data() );
     g->m.remove_trap( p );
     return true;
-}
-
-explosion_data get_basic_explosion_data()
-{
-    // equivalent of grenade explosion
-    explosion_data data;
-    data.damage = 40;
-    data.radius = 3;
-    projectile fragment;
-    fragment.range = 6;
-    fragment.speed = 1000;
-    fragment.impact.add_damage( DT_CUT, 80, 0, 3.0F );
-    data.fragment = fragment;
 }
 
 bool trapfunc::telepad( const tripoint &p, Creature *c, item * )
