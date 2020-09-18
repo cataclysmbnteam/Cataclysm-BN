@@ -618,6 +618,7 @@ static explosion_data get_basic_explosion_data()
     fragment.speed = 1000;
     fragment.impact.add_damage( DT_CUT, 80, 0, 3.0F );
     data.fragment = fragment;
+    return data;
 }
 
 bool trapfunc::landmine( const tripoint &p, Creature *c, item * )
