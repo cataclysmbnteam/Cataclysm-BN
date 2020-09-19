@@ -51,7 +51,7 @@
     "color": "dark_gray",
     "location": "sights",
     "mod_targets": [ "bow" ],
-    "sight_dispersion": 0,
+    "sight_dispersion": 5,
     "aim_speed": 2,
     "min_skills": [ [ "archery", 3 ] ],
     "flags": [ "ZOOM" ]
