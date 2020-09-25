@@ -359,6 +359,11 @@ class generic_factory
         virtual void finalize() {
             DynamicDataLoader::get_instance().load_deferred( deferred );
             abstracts.clear();
+
+            inc_version();
+            for( size_t i = 0; i < list.size(); i++ ) {
+                list[i].id.set_cid_version( static_cast<int>( i ), version );
+            }
         }
 
         /**
@@ -386,6 +391,7 @@ class generic_factory
          * Postcondition: `size() == 0`
          */
         void reset() {
+            inc_version();
             list.clear();
             map.clear();
         }
