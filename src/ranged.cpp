@@ -476,8 +476,9 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         const vehicle *in_veh = has_effect( effect_on_roof ) ? veh_pointer_or_null( g->m.veh_at(
                                     pos() ) ) : nullptr;
         projectile projectile = make_gun_projectile( gun );
-        if( is_fake() /* And something else. */ )
+        if( is_fake() /* And something else. */ ) {
             projectile.proj_effects.insert( "NO_CRIT" );
+        }
         auto shot = projectile_attack( projectile, pos(), aim, dispersion, this, in_veh );
         curshot++;
 
