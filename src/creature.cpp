@@ -587,9 +587,9 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     body_part bp_hit;
     double hit_value = missed_by + rng_float( -0.5, 0.5 );
-    if( ( targetted_crit_allowed &&  goodhit < accuracy_critical && hit_value <= 0.2 ) || ( !magic && one_in( 6 ) ) ) { // Headshot if (normal rules) OR (if crit is disabled but we may randomly get hit to the head anyway, so head is not safe)
+    if ( goodhit < accuracy_critical && hit_value <= 0.2  && ( targetted_crit_allowed || one_in( 6 ) ) ) {
         bp_hit = bp_head;
-    } else if( hit_value <= 0.4 || magic ) {
+    } else if(  ( hit_value <= 0.4 || magic) && ( targetted_crit_allowed || !one_in( 5  ) ) ) {
         bp_hit = bp_torso;
     } else if( one_in( 4 ) ) {
         if( one_in( 2 ) ) {
