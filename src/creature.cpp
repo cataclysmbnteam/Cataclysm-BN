@@ -606,8 +606,8 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
             }
         }
     } else { // no crit logic for selecting bodypart
-        if( hit_value <= 0.4 && !one_in( 3 ) ) {
-            bp_hit = one_in( 3 ) ? bp_head : bp_torso;
+        if( hit_value <= 0.4 && !one_in( 4 ) ) {
+            bp_hit = hit_value <= 0.2 && one_in( 3 ) ? bp_head : bp_torso;
         } else if( one_in( 4 ) ) {
             if( one_in( 2 ) ) {
                 bp_hit = bp_leg_l;
