@@ -37,6 +37,7 @@ static const efftype_id effect_targeted( "targeted" );
 static const efftype_id effect_was_laserlocked( "was_laserlocked" );
 
 static const trait_id trait_TOXICFLESH( "TOXICFLESH" );
+static const trait_id trait_NORANGEDCRIT("NO_RANGED_CRIT");
 
 // Simplified version of the function in monattack.cpp
 static bool is_adjacent( const monster &z, const Creature &target )
@@ -547,6 +548,7 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
     tmp.set_fake( true );
     tmp.set_attitude( z.friendly ? NPCATT_FOLLOW : NPCATT_KILL );
     tmp.recoil = 0; // no need to aim
+    tmp.toggle_trait( trait_NORANGEDCRIT );
 
     for( const auto &pr : fake_skills ) {
         tmp.set_skill_level( pr.first, pr.second );
