@@ -6477,7 +6477,7 @@
     "id": "NO_RANGED_CRIT",
     "name": { "str": "No ranged crit" },
     "points": 0,
-    "description": "You are not intellectual shooter. Your ranged shots no longer able to crit and your shots more likely going to hit body or limbs rather then head.",
+    "description": "You are not intellectual shooter. Your ranged shots no longer able to crit and you more likely going to hit body or limbs rather than head.",
     "valid": false,
     "purifiable": false,
     "profession": false
