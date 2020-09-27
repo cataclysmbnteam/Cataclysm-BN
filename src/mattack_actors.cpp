@@ -445,6 +445,8 @@ void gun_actor::load_internal( const JsonObject &obj, const std::string & )
     obj.get_bool( "laser_lock", laser_lock );
 
     obj.read( "require_sunlight", require_sunlight );
+
+    no_crits = obj.get_bool( "no_crits", no_crits );
 }
 
 std::unique_ptr<mattack_actor> gun_actor::clone() const
@@ -548,7 +550,9 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
     tmp.set_fake( true );
     tmp.set_attitude( z.friendly ? NPCATT_FOLLOW : NPCATT_KILL );
     tmp.recoil = 0; // no need to aim
-    tmp.toggle_trait( trait_NORANGEDCRIT );
+    if( no_crits ) {
+        tmp.toggle_trait( trait_NORANGEDCRIT );
+    }
 
     for( const auto &pr : fake_skills ) {
         tmp.set_skill_level( pr.first, pr.second );
