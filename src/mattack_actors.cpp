@@ -37,7 +37,7 @@ static const efftype_id effect_targeted( "targeted" );
 static const efftype_id effect_was_laserlocked( "was_laserlocked" );
 
 static const trait_id trait_TOXICFLESH( "TOXICFLESH" );
-static const trait_id trait_NORANGEDCRIT("NO_RANGED_CRIT");
+static const trait_id trait_NORANGEDCRIT( "NO_RANGED_CRIT" );
 
 // Simplified version of the function in monattack.cpp
 static bool is_adjacent( const monster &z, const Creature &target )
