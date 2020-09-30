@@ -278,7 +278,13 @@ struct level_cache {
     // To prevent redundant ray casting into neighbors: precalculate bulk light source positions.
     // This is only valid for the duration of generate_lightmap
     float light_source_buffer[MAPSIZE_X][MAPSIZE_Y];
+
+    // if false, means tile is under the roof ("inside"), true means tile is "outside"
+    // "inside" tiles are protected from sun, rain, etc. (see "INDOORS" flag)
     bool outside_cache[MAPSIZE_X][MAPSIZE_Y];
+
+    // false, if corresponding terrain has flag "NO_FLOOR", true otherwise
+    // i.e. true == has floor
     bool floor_cache[MAPSIZE_X][MAPSIZE_Y];
     float transparency_cache[MAPSIZE_X][MAPSIZE_Y];
     float vision_transparency_cache[MAPSIZE_X][MAPSIZE_Y];
