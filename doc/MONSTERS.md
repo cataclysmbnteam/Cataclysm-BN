@@ -564,7 +564,7 @@ Move cost of targeting the player. Only applied if attacking the player and didn
 
 ### "no_crits"
 If true then attacking create will be unable to score ranged critical hit on target,
-also good hits no longer has high change to go to the head, instead there is high change to score hit to body and limbs.
+also good hits no longer has high change to go to the head, instead there is high change to score hit to the body and limbs.
 If false then default behavior used - critical hits are allowed and good hit has high chance to reach head.
 
 ### "laser_lock"
