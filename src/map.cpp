@@ -376,6 +376,7 @@ void map::on_vehicle_moved( const int smz )
     set_outside_cache_dirty( smz );
     set_transparency_cache_dirty( smz );
     set_floor_cache_dirty( smz );
+    set_floor_cache_dirty( smz + 1 );
     set_pathfinding_cache_dirty( smz );
 }
 
@@ -7800,6 +7801,7 @@ void map::do_vehicle_caching( int z )
     auto &outside_cache = ch.outside_cache;
     auto &transparency_cache = ch.transparency_cache;
     auto &floor_cache = ch.floor_cache;
+    bool process_floor_above = inbounds_z( z + 1 );
     for( vehicle *v : ch.vehicle_list ) {
         for( const vpart_reference &vp : v->get_all_parts() ) {
             const size_t part = vp.part_index();
@@ -7828,6 +7830,10 @@ void map::do_vehicle_caching( int z )
 
             if( vp.has_feature( VPFLAG_BOARDABLE ) && !vp.part().is_broken() ) {
                 floor_cache[px][py] = true;
+            }
+
+            if( process_floor_above && ( vp.has_feature( VPFLAG_OPAQUE ) || vp.has_feature( VPFLAG_ROOF ) ) ) {
+                get_cache( z + 1 ).floor_cache[px][py] = true;
             }
         }
     }
