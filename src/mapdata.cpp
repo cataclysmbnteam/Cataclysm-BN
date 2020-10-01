@@ -179,7 +179,8 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "RAMP",                     TFLAG_RAMP },           // Can be used to move up a z-level
         { "RAIL",                     TFLAG_RAIL },           // Rail tile (used heavily)
         { "THIN_OBSTACLE",            TFLAG_THIN_OBSTACLE },  // Passable by players and monsters. Vehicles destroy it.
-        { "SMALL_PASSAGE",            TFLAG_SMALL_PASSAGE }   // A small passage, that large or huge things cannot pass through
+        { "SMALL_PASSAGE",            TFLAG_SMALL_PASSAGE },   // A small passage, that large or huge things cannot pass through
+        { "SUN_ROOF_ABOVE",           TFLAG_SUN_ROOF_ABOVE }   // This furniture has a "fake roof" above, that blocks sunlight (see #44421).
     }
 };
 
