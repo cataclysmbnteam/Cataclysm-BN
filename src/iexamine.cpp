@@ -33,6 +33,7 @@
 #include "flag.h"
 #include "color.h"
 #include "construction.h"
+#include "construction_group.h"
 #include "coordinate_conversions.h"
 #include "craft_command.h"
 #include "creature.h"
@@ -3756,7 +3757,7 @@ void iexamine::trap( player &p, const tripoint &examp )
             }
             const construction &built = pc->id.obj();
             if( !query_yn( _( "Unfinished task: %s, %d%% complete here, continue construction?" ),
-                           built.description, pc->counter / 100000 ) ) {
+                           built.group->name(), pc->counter / 100000 ) ) {
                 if( query_yn( _( "Cancel construction?" ) ) ) {
                     here.disarm_trap( examp );
                     for( const item &it : pc->components ) {
