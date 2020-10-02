@@ -12,6 +12,7 @@
 
 #include "item.h"
 #include "optional.h"
+#include "translations.h"
 #include "type_id.h"
 
 class inventory;
@@ -50,7 +51,7 @@ struct construction {
         // How the action is displayed to the player
         std::string description;
         // Additional note displayed along with construction requirements.
-        std::string pre_note;
+        translation pre_note;
         // Beginning terrain for construction
         std::string pre_terrain;
         // Final terrain after construction
