@@ -69,6 +69,8 @@ class effect_type
 
         /** Returns true if an effect will only target main body parts (i.e., those with HP). */
         bool get_main_parts() const;
+        /** Returns the maximum duration of an effect. */
+        time_duration get_max_duration() const;
 
         bool is_show_in_info() const;
 
