@@ -193,7 +193,7 @@ standard_npc::standard_npc( const std::string &name, const tripoint &pos,
 
     for( item &e : worn ) {
         if( e.has_flag( "VARSIZE" ) ) {
-            e.item_tags.insert( "FIT" );
+            e.set_flag( "FIT" );
         }
     }
 }
@@ -568,7 +568,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
     who.worn.clear();
     for( item &it : ret ) {
         if( it.has_flag( "VARSIZE" ) ) {
-            it.item_tags.insert( "FIT" );
+            it.set_flag( "FIT" );
         }
         if( who.can_wear( it ).success() ) {
             it.on_wear( who );
@@ -622,7 +622,7 @@ void starting_inv( npc &who, const npc_class_id &type )
         item tmp = random_item_from( type, "misc" ).in_its_container();
         if( !tmp.is_null() ) {
             if( !one_in( 3 ) && tmp.has_flag( "VARSIZE" ) ) {
-                tmp.item_tags.insert( "FIT" );
+                tmp.set_flag( "FIT" );
             }
             if( who.can_pickVolume( tmp ) ) {
                 res.push_back( tmp );

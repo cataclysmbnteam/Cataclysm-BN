@@ -1,4 +1,4 @@
-﻿#include "iuse.h"
+#include "iuse.h"
 
 #include <algorithm>
 #include <array>
@@ -364,12 +364,12 @@ void remove_radio_mod( item &it, player &p )
     p.add_msg_if_player( _( "You remove the radio modification from your %s!" ), it.tname() );
     item mod( "radio_mod" );
     p.i_add_or_drop( mod, 1 );
-    it.item_tags.erase( "RADIO_ACTIVATION" );
-    it.item_tags.erase( "RADIO_MOD" );
-    it.item_tags.erase( "RADIOSIGNAL_1" );
-    it.item_tags.erase( "RADIOSIGNAL_2" );
-    it.item_tags.erase( "RADIOSIGNAL_3" );
-    it.item_tags.erase( "RADIOCARITEM" );
+    it.unset_flag( "RADIO_ACTIVATION" );
+    it.unset_flag( "RADIO_MOD" );
+    it.unset_flag( "RADIOSIGNAL_1" );
+    it.unset_flag( "RADIOSIGNAL_2" );
+    it.unset_flag( "RADIOSIGNAL_3" );
+    it.unset_flag( "RADIOCARITEM" );
 }
 
 // Checks that the player does not have an active item with LITCIG flag.
@@ -1677,10 +1677,10 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint & )
     p->add_msg_if_player(
         _( "You modify your %1$s to listen for %2$s activation signal on the radio." ),
         modded.tname(), colorname );
-    modded.item_tags.insert( "RADIO_ACTIVATION" );
-    modded.item_tags.insert( "RADIOCARITEM" );
-    modded.item_tags.insert( "RADIO_MOD" );
-    modded.item_tags.insert( newtag );
+    modded.set_flag( "RADIO_ACTIVATION" );
+    modded.set_flag( "RADIOCARITEM" );
+    modded.set_flag( "RADIO_MOD" );
+    modded.set_flag( newtag );
     return 1;
 }
 
@@ -5574,7 +5574,7 @@ int iuse::towel_common( player *p, item *it, bool t )
             }
 
             // WET, active items have their timer decremented every turn
-            it->item_tags.insert( "WET" );
+            it->set_flag( "WET" );
             it->active = true;
         }
     }
@@ -6077,7 +6077,7 @@ static void init_memory_card_with_random_stuff( item &it )
                                         it.has_flag( "MC_SCIENCE_STUFF" ) ) && !( it.has_flag( "MC_USED" ) ||
                                                 it.has_flag( "MC_HAS_DATA" ) ) ) {
 
-        it.item_tags.insert( "MC_HAS_DATA" );
+        it.set_flag( "MC_HAS_DATA" );
 
         bool encrypted = false;
 
@@ -7704,7 +7704,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
         mc.convert( "mobile_memory_card" );
         mc.clear_vars();
         mc.unset_flags();
-        mc.item_tags.insert( "MC_HAS_DATA" );
+        mc.set_flag( "MC_HAS_DATA" );
 
         mc.set_var( "MC_MONSTER_PHOTOS", it->get_var( "CAMERA_MONSTER_PHOTOS" ) );
         mc.set_var( "MC_EXTENDED_PHOTOS", it->get_var( "CAMERA_EXTENDED_PHOTOS" ) );
@@ -7723,7 +7723,7 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
     if( t ) {
 
         if( g->m.has_flag( "SWIMMABLE", pos.xy() ) ) {
-            it->item_tags.erase( "NO_UNWIELD" );
+            it->unset_flag( "NO_UNWIELD" );
             it->ammo_unset();
             it->active = false;
             add_msg( m_good, _( "%s automatically turned off!" ), it->tname() );
@@ -7733,7 +7733,7 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
         if( it->charges == 0 ) {
 
             sounds::sound( pos, 2, sounds::sound_t::combat, "Click.", true, "tools", "handcuffs" );
-            it->item_tags.erase( "NO_UNWIELD" );
+            it->unset_flag( "NO_UNWIELD" );
             it->active = false;
 
             if( p->has_item( *it ) && p->weapon.typeId() == "e_handcuffs" ) {
@@ -7748,7 +7748,7 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
                 one_in( 5 ) ) {
                 p->mod_power_level( -2_kJ );
 
-                it->item_tags.erase( "NO_UNWIELD" );
+                it->unset_flag( "NO_UNWIELD" );
                 it->ammo_unset();
                 it->active = false;
                 add_msg( m_good, _( "The %s crackle with electricity from your bionic, then come off your hands!" ),

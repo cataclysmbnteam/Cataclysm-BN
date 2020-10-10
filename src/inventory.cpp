@@ -447,7 +447,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             if( type != nullptr ) {
                 const itype *ammo = f.crafting_ammo_item_type();
                 item furn_item( type, calendar::turn, 0 );
-                furn_item.item_tags.insert( "PSEUDO" );
+                furn_item.set_flag( "PSEUDO" );
                 if( furn_item.has_flag( "USES_GRID_POWER" ) ) {
                     // TODO: The grid tracker should correspond to map!
                     auto &grid = get_distribution_grid_tracker().grid_at( m.getabs( p ) );
@@ -553,10 +553,10 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             add_item( hotplate );
 
             item pot( "pot", bday );
-            pot.item_tags.insert( "PSEUDO" );
+            pot.set_flag( "PSEUDO" );
             add_item( pot );
             item pan( "pan", bday );
-            pan.item_tags.insert( "PSEUDO" );
+            pan.set_flag( "PSEUDO" );
             add_item( pan );
         }
         if( weldpart ) {
@@ -588,7 +588,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
 
             item press( "press", bday );
             press.charges = veh->fuel_left( "battery", true );
-            press.item_tags.insert( "PSEUDO" );
+            press.set_flag( "PSEUDO" );
             add_item( press );
         }
         if( forgepart ) {

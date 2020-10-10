@@ -65,9 +65,7 @@ static DynamicDataLoader::deferred_json deferred;
 std::unique_ptr<Item_factory> item_controller = std::make_unique<Item_factory>();
 
 static item_category_id calc_category( const itype &obj );
-static void set_allergy_flags( itype &item_template );
 static void hflesh_to_flesh( itype &item_template );
-static void npc_implied_flags( itype &item_template );
 
 bool item_is_blacklisted( const std::string &id )
 {
@@ -125,6 +123,18 @@ static bool assign_coverage_from_json( const JsonObject &jo, const std::string &
     }
 }
 
+static bool is_physical( const itype &type )
+{
+    return !type.has_flag( "AURA" ) &&
+           !type.has_flag( "CORPSE" ) &&
+           !type.has_flag( "IRREMOVABLE" ) &&
+           !type.has_flag( "NO_DROP" ) &&
+           !type.has_flag( "NO_UNWIELD" ) &&
+           !type.has_flag( "PERSONAL" ) &&
+           !type.has_flag( "PSEUDO" ) &&
+           !type.has_flag( "ZERO_WEIGHT" );
+}
+
 void Item_factory::finalize_pre( itype &obj )
 {
     // TODO: separate repairing from reinforcing/enhancement
@@ -132,7 +142,7 @@ void Item_factory::finalize_pre( itype &obj )
         obj.item_tags.insert( "NO_REPAIR" );
     }
 
-    if( obj.item_tags.count( "STAB" ) || obj.item_tags.count( "SPEAR" ) ) {
+    if( obj.has_flag( "STAB" ) || obj.has_flag( "SPEAR" ) ) {
         std::swap( obj.melee[DT_CUT], obj.melee[DT_STAB] );
     }
 
@@ -347,7 +357,7 @@ void Item_factory::finalize_pre( itype &obj )
         const auto defmode_name = [&]() {
             if( obj.gun->clip == 1 ) {
                 return translate_marker( "manual" ); // break-type actions
-            } else if( obj.gun->skill_used == skill_id( "pistol" ) && obj.item_tags.count( "RELOAD_ONE" ) ) {
+            } else if( obj.gun->skill_used == skill_id( "pistol" ) && obj.has_flag( "RELOAD_ONE" ) ) {
                 return translate_marker( "revolver" );
             } else {
                 return translate_marker( "semi-auto" );
@@ -359,7 +369,7 @@ void Item_factory::finalize_pre( itype &obj )
                                 gun_modifier_data( defmode_name(), 1, std::set<std::string>() ) );
 
         // If a "gun" has a reach attack, give it an additional melee mode.
-        if( obj.item_tags.count( "REACH_ATTACK" ) ) {
+        if( obj.has_flag( "REACH_ATTACK" ) ) {
             obj.gun->modes.emplace( gun_mode_id( "MELEE" ),
                                     gun_modifier_data( translate_marker( "melee" ), 1,
             { "MELEE" } ) );
@@ -472,17 +482,17 @@ void Item_factory::finalize_pre( itype &obj )
         obj.drop_action.get_actor_ptr()->finalize( obj.id );
     }
 
-    if( obj.item_tags.count( "PERSONAL" ) ) {
+    if( obj.has_flag( "PERSONAL" ) ) {
         obj.layer = PERSONAL_LAYER;
-    } else if( obj.item_tags.count( "SKINTIGHT" ) ) {
+    } else if( obj.has_flag( "SKINTIGHT" ) ) {
         obj.layer = UNDERWEAR_LAYER;
-    } else if( obj.item_tags.count( "WAIST" ) ) {
+    } else if( obj.has_flag( "WAIST" ) ) {
         obj.layer = WAIST_LAYER;
-    } else if( obj.item_tags.count( "OUTER" ) ) {
+    } else if( obj.has_flag( "OUTER" ) ) {
         obj.layer = OUTER_LAYER;
-    } else if( obj.item_tags.count( "BELTED" ) ) {
+    } else if( obj.has_flag( "BELTED" ) ) {
         obj.layer = BELTED_LAYER;
-    } else if( obj.item_tags.count( "AURA" ) ) {
+    } else if( obj.has_flag( "AURA" ) ) {
         obj.layer = AURA_LAYER;
     } else {
         obj.layer = REGULAR_LAYER;
@@ -525,7 +535,7 @@ void Item_factory::finalize_post( itype &obj )
     } );
 
     // handle complex firearms as a special case
-    if( obj.gun && !obj.item_tags.count( "PRIMITIVE_RANGED_WEAPON" ) ) {
+    if( obj.gun && !obj.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
         std::copy( gun_tools.begin(), gun_tools.end(), std::inserter( obj.repair, obj.repair.begin() ) );
         return;
     }
@@ -1197,12 +1207,12 @@ void Item_factory::check_definitions() const
                     msg += "cannot specify clip_size or magazine without ammo type\n";
                 }
 
-                if( type->item_tags.count( "RELOAD_AND_SHOOT" ) ) {
+                if( type->has_flag( "RELOAD_AND_SHOOT" ) ) {
                     msg += "RELOAD_AND_SHOOT requires an ammo type to be specified\n";
                 }
 
             } else {
-                if( type->item_tags.count( "RELOAD_AND_SHOOT" ) && !type->magazines.empty() ) {
+                if( type->has_flag( "RELOAD_AND_SHOOT" ) && !type->magazines.empty() ) {
                     msg += "RELOAD_AND_SHOOT cannot be used with magazines\n";
                 }
                 for( const ammotype &at : type->gun->ammo ) {
@@ -1342,7 +1352,7 @@ void Item_factory::check_definitions() const
                                           ammo_variety.first.str() );
                 } else if( !mag_ptr->magazine->type.count( ammo_variety.first ) ) {
                     msg += string_format( "magazine \"%s\" does not take compatible ammo\n", magazine );
-                } else if( mag_ptr->item_tags.count( "SPEEDLOADER" ) &&
+                } else if( mag_ptr->has_flag( "SPEEDLOADER" ) &&
                            mag_ptr->magazine->capacity != type->gun->clip ) {
                     msg += string_format( "speedloader %s capacity (%d) does not match gun capacity (%d).\n", magazine,
                                           mag_ptr->magazine->capacity, type->gun->clip );
@@ -2203,7 +2213,7 @@ void Item_factory::load_generic( const JsonObject &jo, const std::string &src )
 
 // Adds allergy flags to items with allergenic materials
 // Set for all items (not just food and clothing) to avoid edge cases
-static void set_allergy_flags( itype &item_template )
+void Item_factory::set_allergy_flags( itype &item_template )
 {
     using material_allergy_pair = std::pair<material_id, std::string>;
     static const std::vector<material_allergy_pair> all_pairs = {{
@@ -2259,31 +2269,31 @@ void hflesh_to_flesh( itype &item_template )
     }
 }
 
-void npc_implied_flags( itype &item_template )
+void Item_factory::npc_implied_flags( itype &item_template )
 {
     if( item_template.use_methods.count( "explosion" ) > 0 ) {
         item_template.item_tags.insert( "DANGEROUS" );
     }
 
-    if( item_template.item_tags.count( "DANGEROUS" ) > 0 ) {
+    if( item_template.has_flag( "DANGEROUS" ) > 0 ) {
         item_template.item_tags.insert( "NPC_THROW_NOW" );
     }
 
-    if( item_template.item_tags.count( "BOMB" ) > 0 ) {
+    if( item_template.has_flag( "BOMB" ) > 0 ) {
         item_template.item_tags.insert( "NPC_ACTIVATE" );
     }
 
-    if( item_template.item_tags.count( "NPC_THROW_NOW" ) > 0 ) {
+    if( item_template.has_flag( "NPC_THROW_NOW" ) > 0 ) {
         item_template.item_tags.insert( "NPC_THROWN" );
     }
 
-    if( item_template.item_tags.count( "NPC_ACTIVATE" ) > 0 ||
-        item_template.item_tags.count( "NPC_THROWN" ) > 0 ) {
+    if( item_template.has_flag( "NPC_ACTIVATE" ) > 0 ||
+        item_template.has_flag( "NPC_THROWN" ) > 0 ) {
         item_template.item_tags.insert( "NPC_ALT_ATTACK" );
     }
 
-    if( item_template.item_tags.count( "DANGEROUS" ) > 0 ||
-        item_template.item_tags.count( "PSEUDO" ) > 0 ) {
+    if( item_template.has_flag( "DANGEROUS" ) > 0 ||
+        item_template.has_flag( "PSEUDO" ) > 0 ) {
         item_template.item_tags.insert( "TRADER_AVOID" );
     }
 }
@@ -2567,8 +2577,9 @@ void Item_factory::migrate_item( const itype_id &id, item &obj )
 {
     auto iter = migrations.find( id );
     if( iter != migrations.end() ) {
-        std::copy( iter->second.flags.begin(), iter->second.flags.end(), std::inserter( obj.item_tags,
-                   obj.item_tags.begin() ) );
+        for( const std::string &f : iter->second.flags ) {
+            obj.set_flag( f );
+        }
         if( iter->second.charges > 0 ) {
             obj.charges = iter->second.charges;
         }
