@@ -261,6 +261,28 @@ bool string_ends_with( const std::string &s1, const std::string &s2 );
  */
 std::string join( const std::vector<std::string> &strings, const std::string &joiner );
 
+/**
+ * Erases elements from a set that match given predicate function.
+ * Will work on vector, albeit not optimally performance-wise.
+ * @return true if set was changed
+ */
+//bool erase_if( const std::function<bool( const value_type & )> &predicate ) {
+template<typename Col, class Pred>
+bool erase_if( Col &set, Pred predicate )
+{
+    bool ret = false;
+    auto iter = set.begin();
+    for( ; iter != set.end(); ) {
+        if( predicate( *iter ) ) {
+            iter = set.erase( iter );
+            ret = true;
+        } else {
+            ++iter;
+        }
+    }
+    return ret;
+}
+
 int modulo( int v, int m );
 
 class on_out_of_scope
