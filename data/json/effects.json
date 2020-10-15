@@ -1616,7 +1616,7 @@
   },
   {
     "type": "effect_type",
-    "id": "mutation",
+    "id": "mutating",
     "name": [ "Crawling skin", "Crawling flesh", "Twisting flesh" ],
     "desc": [
       "Your body is altering itself occasionally.",
@@ -1624,7 +1624,9 @@
       "You feel your body shifting, mutating into new forms."
     ],
     "apply_message": "You start mutating!",
+    "max_duration": "8 d",
     "max_intensity": 3,
+    "int_dur_factor": "3 d",
     "rating": "bad"
   },
   {

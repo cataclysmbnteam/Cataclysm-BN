@@ -460,8 +460,15 @@ static void eff_fun_mutating( player &u, effect &it )
         u.vitamin_set( vitamin_mutant_toxin, 0 );
     }
 
-    int mutation_mult = std::pow( it.get_intensity(), 3 );
-    u.add_effect( effect_accumulated_mutagen, mutation_mult * 1_seconds, num_bp, true );
+    // At intensity 1
+    constexpr time_duration base_time_per_mut = 2_days;
+    int mutation_mult = it.get_intensity() * it.get_intensity();
+    float muts_per_second = mutation_mult / to_seconds<float>( base_time_per_mut );
+    float mgen_per_mut = to_seconds<float>( effect_accumulated_mutagen->get_int_dur_factor() );
+    float mgen_per_second = mgen_per_mut * muts_per_second;
+    // How much accumulated mutagen effect do we add per second
+    time_duration mgen_time_mult = 1_seconds * roll_remainder( mgen_per_second );
+    u.add_effect( effect_accumulated_mutagen, mgen_time_mult, num_bp, true );
     if( u.get_effect_int( effect_accumulated_mutagen ) > 1 ) {
         u.mutate();
     }
