@@ -278,8 +278,7 @@
     "color": "green",
     "covers": [ "TORSO" ],
     "coverage": 40,
-    "encumbrance": 5,
-    "max_encumbrance": 10,
+    "encumbrance": 7,
     "storage": "25 L",
     "material_thickness": 3,
     "flags": [ "BELTED", "TRADER_AVOID", "WATERPROOF", "STURDY", "NO_UNWIELD", "ONLY_ONE", "NO_REPAIR", "NO_SALVAGE" ]
