@@ -26,7 +26,8 @@
     "name": { "str": "steel bracer" },
     "weight": "770 g",
     "volume": "1250 ml",
-    "covers": [ "ARM_EITHER" ]
+    "covers": [ "ARMS" ],
+    "sided": true
   },
   {
     "copy-from": "mbracer_steel_single",
@@ -41,7 +42,11 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [ { "value": "ARMOR_CUT", "add": -2 }, { "value": "ARMOR_BASH", "add": -2 }, { "value": "ARMOR_STAB", "add": -2 } ]
+          "values": [
+            { "value": "ARMOR_CUT", "add": -2 },
+            { "value": "ARMOR_BASH", "add": -2 },
+            { "value": "ARMOR_STAB", "add": -2 }
+          ]
         }
       ]
     }
@@ -59,7 +64,11 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [ { "value": "ARMOR_CUT", "add": -4 }, { "value": "ARMOR_BASH", "add": -4 }, { "value": "ARMOR_STAB", "add": -4 } ]
+          "values": [
+            { "value": "ARMOR_CUT", "add": -4 },
+            { "value": "ARMOR_BASH", "add": -4 },
+            { "value": "ARMOR_STAB", "add": -4 }
+          ]
         }
       ]
     }
