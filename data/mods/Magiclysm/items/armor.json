@@ -4,7 +4,7 @@
     "name": "quiver",
     "copy-from": "quiver",
     "type": "ARMOR",
-    "use_action": { "type": "bandolier", "capacity": 20, "ammo": [ "arrow", "bolt", "arrow_orichalcum" ], "draw_cost": 20 }
+	"use_action": { "type": "bandolier", "capacity": 20, "ammo": [ "arrow", "bolt", "arrow_orichalcum" ], "draw_cost": 20 }
   },
   {
     "id": "quiver_large",
