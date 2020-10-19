@@ -15,18 +15,13 @@
     "volume": "4500 ml",
     "charges_per_use": 5,
     "ammo": "battery",
-	"magazines": [
+    "magazines": [
       [
         "battery",
-        [
-          "medium_battery_cell",
-          "medium_plus_battery_cell",
-          "medium_atomic_battery_cell",
-          "medium_disposable_cell"
-        ]
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-	"rigid": true,
+    "rigid": true,
     "magazine_well": 1,
     "use_action": {
       "type": "transform",
@@ -55,7 +50,7 @@
     "power_draw": 90000,
     "revert_to": "afs_cryopod_bodyglove",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "afs_cryopod_bodyglove" },
-	"magazine_well": 1,
+    "magazine_well": 1,
     "flags": [ "STURDY", "WATERPROOF", "THERMOMETER", "RAINPROOF", "CLIMATE_CONTROL" ]
   }
 ]

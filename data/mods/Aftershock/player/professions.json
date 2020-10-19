@@ -17,11 +17,7 @@
     "skills": [ { "level": 4, "name": "electronics" }, { "level": 2, "name": "launcher" } ],
     "items": {
       "both": {
-        "items": [ "hat_hard", "jumpsuit", "socks", "rope_30", "boots", "afs_herc_rig" ],
-        "entries": [
-          { "item": "afs_foamgun", "ammo-item": "afs_foamcrete", "charges": 30 },
-          { "item": "afs_foam_tank", "ammo-item": "afs_foamcrete", "charges": 30 }
-        ]
+        "items": [ "hat_hard", "jumpsuit", "socks", "rope_30", "boots", "afs_herc_rig" ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "boy_shorts" ]
@@ -180,7 +176,6 @@
         ],
         "entries": [
           { "item": "kukri", "container-item": "sheath" },
-          { "item": "afs_cam_spy", "ammo-item": "light_minus_atomic_battery_cell", "charges": 500 },
           { "item": "radiocontrol", "ammo-item": "light_atomic_battery_cell", "charges": 1000 },
           { "item": "afs_eidolon_derringer", "ammo-item": "5x50heavy", "charges": 4, "container-item": "holster" },
           { "item": "5x50heavy" }

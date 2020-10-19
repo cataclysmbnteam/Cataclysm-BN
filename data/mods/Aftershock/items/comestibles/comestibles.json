@@ -30,15 +30,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You feel AMAZING!",
-      "effects": [ { "id": "panacea", "duration": "1 m" }, { "id": "cureall" } ],
-      "damage_over_time": [
-        {
-          "damage_type": "none",
-          "duration": "1 m",
-          "amount": -10,
-          "bodyparts": [ "TORSO", "HEAD", "ARM_L", "LEG_L", "ARM_R", "LEG_R" ]
-        }
-      ]
+      "effects": [ { "id": "panacea", "duration": "1 m" }, { "id": "cureall" } ]
     },
     "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE" ]
   }

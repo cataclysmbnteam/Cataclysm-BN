@@ -90,7 +90,6 @@
     "dodge": 5,
     "armor_bash": 2,
     "armor_cut": 12,
-    "armor_bullet": 10,
     "armor_acid": 600,
     "vision_day": 30,
     "vision_night": 20,
@@ -120,7 +119,6 @@
     "melee_cut": 16,
     "armor_bash": 8,
     "armor_cut": 20,
-    "armor_bullet": 16,
     "special_attacks": [
       { "type": "bite", "cooldown": 10 },
       [ "scratch", 3 ],
@@ -141,7 +139,6 @@
     "melee_cut": 28,
     "armor_bash": 14,
     "armor_cut": 30,
-    "armor_bullet": 24,
     "dodge": 3,
     "//2": "Large means powerful, but it does not mean fast.",
     "speed": 100,

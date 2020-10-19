@@ -11,7 +11,6 @@
     "morale": 20,
     "fear_triggers": [ "HURT" ],
     "revert_to_itype": "bot_utilibot_beehive",
-    "biosignature": { "biosig_item": "honeycomb", "biosig_timer": 3600 },
     "//": [ "emit_bee_field" ],
     "special_attacks": [ [ "PARROT", 10 ] ],
     "death_drops": { "groups": [ [ "broken_robots", 1 ], [ "beehive", 1 ] ] }

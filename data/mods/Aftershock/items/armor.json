@@ -351,8 +351,7 @@
     "color": "dark_gray",
     "covers": [ "TORSO" ],
     "coverage": 20,
-    "encumbrance": 2,
-    "max_encumbrance": 15,
+    "encumbrance": 8,
     "material_thickness": 2,
 	"storage": "9 L",
 	"use_action": {

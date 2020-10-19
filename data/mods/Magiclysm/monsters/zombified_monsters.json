@@ -24,7 +24,6 @@
     "dodge": 5,
     "armor_bash": 36,
     "armor_cut": 24,
-    "armor_bullet": 30,
     "vision_night": 5,
     "harvest": "zombie_fur",
     "special_attacks": [ [ "HOWL", 10 ] ],
