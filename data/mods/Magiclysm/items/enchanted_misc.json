@@ -73,7 +73,7 @@
     "price": 0,
     "to_hit": 1,
     "bashing": 8,
-    "material": "wood",
+    "material": [ "wood" ],
     "symbol": "/",
     "color": "brown",
     "techniques": [ "WBLOCK_1" ],
@@ -108,7 +108,7 @@
   {
     "name": { "str": "endless flask" },
     "id": "mflask_hip_whiskey",
-    "type": "CONTAINER",
+    "type": "GENERIC",
     "copy-from": "flask_hip",
     "category": "clothing",
     "use_action": {
@@ -148,6 +148,7 @@
           "faux_fur",
           "nomex",
           "kevlar",
+          "kevlar_layered",
           "neoprene",
           "gutskin",
           "black_dragon_hide",
@@ -165,7 +166,7 @@
         "clothing_mods": [ "leather_padded", "steel_padded", "kevlar_padded", "furred", "wooled" ]
       }
     ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE", "NO_UNLOAD" ]
   },
   {
     "id": "mspider_box",

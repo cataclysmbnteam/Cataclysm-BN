@@ -1,0 +1,28 @@
+[
+  {
+    "id": "jury_rig",
+    "type": "requirement",
+    "components": [ [ [ "e_scrap", 2 ], [ "scrap", 1 ] ] ]
+  },
+  {
+    "id": "biotek_healing",
+    "type": "SPELL",
+    "name": "Jury Rig",
+    "description": "Heals a little bit of damage on the target.",
+    "valid_targets": [ "self" ],
+    "min_damage": -5,
+    "max_damage": -40,
+    "damage_increment": -1.0,
+    "max_level": 35,
+    "effect": "target_attack",
+    "base_casting_time": 500,
+    "base_energy_cost": 800,
+    "energy_increment": -20,
+    "final_energy_cost": 100,
+    "components": "jury_rig",
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "CONCENTRATE" ],
+    "spell_class": "BIOTEK",
+    "difficulty": 2,
+    "energy_source": "BIONIC"
+  }
+]
