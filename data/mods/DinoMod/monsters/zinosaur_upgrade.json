@@ -14,7 +14,6 @@
       "melee_cut": 2,
       "armor_bash": 4,
       "armor_cut": 6,
-      "armor_bullet": 5,
       "vision_night": 1
     },
     "upgrades": {  },
@@ -37,7 +36,6 @@
       "melee_cut": 2,
       "armor_bash": 4,
       "armor_cut": 6,
-      "armor_bullet": 5,
       "vision_night": 1
     },
     "upgrades": {  },
@@ -60,7 +58,6 @@
       "melee_cut": 2,
       "armor_bash": 4,
       "armor_cut": 6,
-      "armor_bullet": 5,
       "vision_night": 1
     },
     "upgrades": {  },
@@ -84,7 +81,6 @@
       "melee_cut": 2,
       "armor_bash": 4,
       "armor_cut": 6,
-      "armor_bullet": 5,
       "vision_night": 1
     },
     "upgrades": { "half_life": 21, "into_group": "GROUP_zyrannosaurus_BRUTE" },
@@ -108,7 +104,6 @@
       "melee_cut": 2,
       "armor_bash": 4,
       "armor_cut": 6,
-      "armor_bullet": 5,
       "vision_night": 1
     },
     "upgrades": {  },
@@ -131,7 +126,6 @@
       "melee_cut": 2,
       "armor_bash": 4,
       "armor_cut": 6,
-      "armor_bullet": 5,
       "vision_night": 1
     },
     "upgrades": {  },
@@ -154,7 +148,6 @@
       "melee_cut": 2,
       "armor_bash": 4,
       "armor_cut": 6,
-      "armor_bullet": 5,
       "vision_night": 1
     },
     "upgrades": {  },
@@ -177,7 +170,6 @@
       "melee_cut": 2,
       "armor_bash": 4,
       "armor_cut": 6,
-      "armor_bullet": 5,
       "vision_night": 1
     },
     "upgrades": { "half_life": 21, "into_group": "GROUP_zankylosaurus_BRUTE" },
@@ -200,7 +192,6 @@
       "melee_cut": 2,
       "armor_bash": 4,
       "armor_cut": 6,
-      "armor_bullet": 5,
       "vision_night": 1
     },
     "upgrades": {  },
@@ -223,7 +214,6 @@
       "melee_cut": 2,
       "armor_bash": 4,
       "armor_cut": 6,
-      "armor_bullet": 5,
       "vision_night": 1
     },
     "upgrades": {  },
@@ -246,7 +236,6 @@
       "melee_cut": 2,
       "armor_bash": 4,
       "armor_cut": 6,
-      "armor_bullet": 5,
       "vision_night": 1
     },
     "upgrades": {  },
@@ -269,7 +258,6 @@
       "melee_cut": 2,
       "armor_bash": 4,
       "armor_cut": 6,
-      "armor_bullet": 5,
       "vision_night": 1
     },
     "upgrades": {  },
@@ -292,7 +280,6 @@
       "melee_cut": 2,
       "armor_bash": 4,
       "armor_cut": 6,
-      "armor_bullet": 5,
       "vision_night": 1
     },
     "upgrades": {  },
@@ -316,7 +303,6 @@
       "melee_cut": 2,
       "armor_bash": 4,
       "armor_cut": 6,
-      "armor_bullet": 5,
       "vision_night": 1
     },
     "upgrades": {  },
@@ -339,7 +325,6 @@
       "melee_cut": 2,
       "armor_bash": 4,
       "armor_cut": 6,
-      "armor_bullet": 5,
       "vision_night": 1
     },
     "upgrades": {  },
@@ -362,7 +347,6 @@
       "melee_cut": 2,
       "armor_bash": 4,
       "armor_cut": 6,
-      "armor_bullet": 5,
       "vision_night": 1
     },
     "upgrades": {  },
@@ -385,7 +369,6 @@
       "melee_cut": 2,
       "armor_bash": 4,
       "armor_cut": 6,
-      "armor_bullet": 5,
       "vision_night": 1
     },
     "upgrades": {  },
@@ -408,7 +391,6 @@
       "melee_cut": 2,
       "armor_bash": 4,
       "armor_cut": 6,
-      "armor_bullet": 5,
       "vision_night": 1
     },
     "upgrades": {  },
@@ -431,7 +413,6 @@
       "melee_cut": 2,
       "armor_bash": 4,
       "armor_cut": 6,
-      "armor_bullet": 5,
       "vision_night": 1
     },
     "upgrades": {  },
@@ -454,7 +435,6 @@
       "melee_cut": 2,
       "armor_bash": 4,
       "armor_cut": 6,
-      "armor_bullet": 5,
       "vision_night": 1
     },
     "upgrades": {  },
@@ -477,7 +457,6 @@
       "melee_cut": 2,
       "armor_bash": 4,
       "armor_cut": 6,
-      "armor_bullet": 5,
       "vision_night": 1
     },
     "upgrades": {  },
@@ -501,7 +480,6 @@
       "melee_cut": 2,
       "armor_bash": 4,
       "armor_cut": 6,
-      "armor_bullet": 5,
       "vision_night": 1
     },
     "upgrades": {  },
@@ -631,7 +609,6 @@
       "melee_dice_sides": 5,
       "melee_cut": 7,
       "armor_cut": 22,
-      "armor_bullet": 30,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
@@ -657,7 +634,6 @@
       "melee_dice_sides": 5,
       "melee_cut": 7,
       "armor_cut": 22,
-      "armor_bullet": 30,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
@@ -683,7 +659,6 @@
       "melee_dice_sides": 5,
       "melee_cut": 7,
       "armor_cut": 22,
-      "armor_bullet": 30,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
@@ -709,7 +684,6 @@
       "melee_dice_sides": 5,
       "melee_cut": 7,
       "armor_cut": 22,
-      "armor_bullet": 30,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
@@ -734,7 +708,6 @@
       "melee_dice_sides": 5,
       "melee_cut": 7,
       "armor_cut": 22,
-      "armor_bullet": 30,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
@@ -759,7 +732,6 @@
       "melee_dice_sides": 5,
       "melee_cut": 7,
       "armor_cut": 22,
-      "armor_bullet": 30,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
@@ -784,7 +756,6 @@
       "melee_dice_sides": 5,
       "melee_cut": 7,
       "armor_cut": 22,
-      "armor_bullet": 30,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
@@ -810,7 +781,6 @@
       "melee_dice_sides": 5,
       "melee_cut": 7,
       "armor_cut": 22,
-      "armor_bullet": 30,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
@@ -854,7 +824,7 @@
     "color": "dark_gray_red",
     "luminance": 20,
     "proportional": { "hp": 1.5, "speed": 0.8 },
-    "relative": { "armor_bash": 30, "armor_cut": 37, "armor_bullet": 30, "armor_stab": 30, "armor_acid": 3 },
+    "relative": { "armor_bash": 30, "armor_cut": 37, "armor_stab": 30, "armor_acid": 3 },
     "extend": { "flags": [ "DRIPS_GASOLINE", "LOUDMOVES" ] },
     "special_attacks": [ [ "MULTI_ROBOT", 30 ] ],
     "upgrades": {  },
@@ -877,7 +847,7 @@
     "weight": "55000 kg",
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25 },
-    "relative": { "melee_dice": 1, "melee_cut": -4, "armor_bash": 4, "armor_cut": 6, "armor_bullet": 5 },
+    "relative": { "melee_dice": 1, "melee_cut": -4, "armor_bash": 4, "armor_cut": 6 },
     "special_attacks": [ [ "SMASH", 20 ] ]
   },
   {
@@ -891,7 +861,7 @@
     "weight": "55000 kg",
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25 },
-    "relative": { "melee_dice": 1, "melee_cut": -4, "armor_bash": 4, "armor_cut": 6, "armor_bullet": 5 },
+    "relative": { "melee_dice": 1, "melee_cut": -4, "armor_bash": 4, "armor_cut": 6 },
     "special_attacks": [ [ "SMASH", 20 ] ]
   }
 ]
