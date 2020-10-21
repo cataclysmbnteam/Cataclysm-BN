@@ -1,5 +1,5 @@
 # DinoMod
-A content addition mod for Cataclysm: DDA, adds dinosaurs to fight, befriend or just to add something fun and new. Intended to work with all other vanilla-DDA based mods, but probably not total conversions.
+A content addition mod for Cataclysm: BN, adds dinosaurs to fight, befriend or just to add something fun and new. Intended to work with all other vanilla-BN based mods, but probably not total conversions.
 
 # Takeaway Features
 Intended for all players and includes content of varying difficulty 
