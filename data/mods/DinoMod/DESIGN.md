@@ -9,7 +9,7 @@ Dinosaurs and content based around dinosaurs that for whatever reason can't just
 There is more space in mods for fun. In general the vanilla living dinos should be as realistic as possible to the science we know but the zombie, CBM, and fungal dinos can go anywhere as long as it's fun.
 
 # Adding, replacing, removing
-This mod is about adding content. In general it should have as light a touch on the vanilla game as possible. This helps us keep it working by itself and with other mods.
+This mod is about adding content. In general it should have as light a touch on the vanilla game as possible. This helps us keep it working by itself and with other mods and Cataclysm variants.
 
 # How to contribute
 This mod is distributed with the base game, so any content contributed will have to be submitted to the Github site. You can talk with the mod maintainers about your ideas on Discord.
@@ -35,3 +35,6 @@ monsters folder:
 * hatchling.json is where freshly hatched dinos go. Tiny dinos grow to adults directly, but larger ones (15 kg or greater) grow into...
 * juvenile.json is where juveniles go. They're five times bigger but still pretty tiny by dino standards. They grow to be adults in adult weight in kg divided by six days or one year, whichever is shorter.  Sauropods are they exception, they should be 1000 kg and L so they can defend themselves some.
 * zed-dinosaur.json is where new zombified dinos go. copy-from can be very helpful here.
+
+# DDA and BN
+As much as possible, there should be content and feature parity between both (all?) Cataclysm variants for the best player experience and easiest mod maintenance. As of October 2020 the only code differences between the two for DinoMod is DDA supports bullet armor and not the BLEEDS flag while BN supports BLEEDS and not bullet armor.
