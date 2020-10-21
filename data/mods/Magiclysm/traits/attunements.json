@@ -22,7 +22,6 @@
       "FORCE_MAGE",
       "GAIAS_CHOSEN",
       "GLACIER_MAGE",
-      "GOLEMANCER",
       "GRAVITY_MAGE",
       "OVERCLOCKER",
       "ICE_ELEMENTAL",
@@ -37,8 +36,7 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE"
-    ],
-    "flags": [ "ATTUNEMENT" ]
+    ]
   },
   {
     "id": "AURA_MAGE",
@@ -60,7 +58,6 @@
       "FORCE_MAGE",
       "GAIAS_CHOSEN",
       "GLACIER_MAGE",
-      "GOLEMANCER",
       "GRAVITY_MAGE",
       "OVERCLOCKER",
       "ILLUSIONIST",
@@ -74,8 +71,7 @@
       "VULCANIST",
       "SOULFIRE",
       "WITHER_MAGE"
-    ],
-    "flags": [ "ATTUNEMENT" ]
+    ]
   },
   {
     "id": "BIOTEK",
@@ -87,7 +83,7 @@
     "valid": false,
     "description": "The Biotek is quite simply the marriage of technology and flesh.  It was not even discovered as an attunement until recent times due to the great advancements in technology in the last 50 years.  The Biotek is unique as it is the only known attunement that warps the Aethereum in such a way as to allow cybernetics to coincide with magical abilities, to an extent.",
     "prereqs": [ "BIOMANCER", "TECHNOMANCER" ],
-    "spells_learned": [ [ "nitro_boost", 5 ], [ "biotek_healing", 5 ] ],
+    "spells_learned": [ [ "biotek_healing", 5 ] ],
     "bionic_mana_penalty": 0.5,
     "bionic_slot_bonuses": { "TORSO": 20 },
     "cancels": [
@@ -103,7 +99,6 @@
       "FORCE_MAGE",
       "GAIAS_CHOSEN",
       "GLACIER_MAGE",
-      "GOLEMANCER",
       "GRAVITY_MAGE",
       "OVERCLOCKER",
       "ICE_ELEMENTAL",
@@ -122,7 +117,7 @@
       "SOULFIRE",
       "WITHER_MAGE"
     ],
-    "flags": [ "ATTUNEMENT", "UNCANNY_DODGE" ]
+    "flags": [ "UNCANNY_DODGE" ]
   },
   {
     "id": "BLOOD_MAGE",
@@ -134,7 +129,7 @@
     "valid": false,
     "description": "Animists are known for their blood magic, and being a Biomancer you are able to take it another step further by strengthening your blood.  The dark arts have opened to you, and while dangerous, are incredible to behold.",
     "prereqs": [ "BIOMANCER", "ANIMIST" ],
-    "spells_learned": [ [ "banishment_greater", 5 ], [ "demonic_possession", 5 ] ],
+    "spells_learned": [ [ "demonic_possession", 5 ] ],
     "bleed_resist": 200,
     "cancels": [
       "AURA_MAGE",
@@ -146,7 +141,6 @@
       "FIRE_ELEMENTAL",
       "FORCE_MAGE",
       "GAIAS_CHOSEN",
-      "GOLEMANCER",
       "GRAVITY_MAGE",
       "ICE_ELEMENTAL",
       "ILLUSIONIST",
@@ -161,8 +155,7 @@
       "VOID_MAGE",
       "SOULFIRE",
       "WITHER_MAGE"
-    ],
-    "flags": [ "ATTUNEMENT" ]
+    ]
   },
   {
     "id": "BOREAL_MAGE",
@@ -186,7 +179,6 @@
       "FORCE_MAGE",
       "GAIAS_CHOSEN",
       "GLACIER_MAGE",
-      "GOLEMANCER",
       "GRAVITY_MAGE",
       "OVERCLOCKER",
       "ICE_ELEMENTAL",
@@ -201,8 +193,7 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE"
-    ],
-    "flags": [ "ATTUNEMENT" ]
+    ]
   },
   {
     "id": "CLEANSING_FLAME",
@@ -241,8 +232,7 @@
       "VULCANIST",
       "SOULFIRE",
       "WITHER_MAGE"
-    ],
-    "flags": [ "ATTUNEMENT" ]
+    ]
   },
   {
     "id": "CRUSADER",
@@ -268,7 +258,6 @@
       "FIRE_ELEMENTAL",
       "GAIAS_CHOSEN",
       "GLACIER_MAGE",
-      "GOLEMANCER",
       "GRAVITY_MAGE",
       "OVERCLOCKER",
       "ICE_ELEMENTAL",
@@ -281,8 +270,7 @@
       "TUNDRA_MAGE",
       "VULCANIST",
       "WITHER_MAGE"
-    ],
-    "flags": [ "ATTUNEMENT" ]
+    ]
   },
   {
     "id": "EARTH_ELEMENTAL",
@@ -311,7 +299,6 @@
       "FIRE_ELEMENTAL",
       "GAIAS_CHOSEN",
       "GLACIER_MAGE",
-      "GOLEMANCER",
       "GRAVITY_MAGE",
       "OVERCLOCKER",
       "ICE_ELEMENTAL",
@@ -324,8 +311,7 @@
       "TUNDRA_MAGE",
       "VULCANIST",
       "WITHER_MAGE"
-    ],
-    "flags": [ "ATTUNEMENT" ]
+    ]
   },
   {
     "id": "FIRE_ELEMENTAL",
@@ -366,8 +352,7 @@
       "VULCANIST",
       "SOULFIRE",
       "WITHER_MAGE"
-    ],
-    "flags": [ "ATTUNEMENT" ]
+    ]
   },
   {
     "id": "FORCE_MAGE",
@@ -390,7 +375,6 @@
       "FIRE_ELEMENTAL",
       "FORCE_MAGE",
       "GLACIER_MAGE",
-      "GOLEMANCER",
       "GRAVITY_MAGE",
       "OVERCLOCKER",
       "ICE_ELEMENTAL",
@@ -408,8 +392,7 @@
       "VULCANIST",
       "SOULFIRE",
       "WITHER_MAGE"
-    ],
-    "flags": [ "ATTUNEMENT" ]
+    ]
   },
   {
     "id": "GAIAS_CHOSEN",
@@ -433,7 +416,6 @@
       "FIRE_ELEMENTAL",
       "GAIAS_CHOSEN",
       "GLACIER_MAGE",
-      "GOLEMANCER",
       "GRAVITY_MAGE",
       "OVERCLOCKER",
       "ICE_ELEMENTAL",
@@ -446,8 +428,7 @@
       "TUNDRA_MAGE",
       "VULCANIST",
       "WITHER_MAGE"
-    ],
-    "flags": [ "ATTUNEMENT" ]
+    ]
   },
   {
     "id": "GLACIER_MAGE",
@@ -459,6 +440,7 @@
     "valid": false,
     "description": "The power of a Glacier Mage is backed by a thousand tons of ice and snow, with a brutal might in their spells.  While they are skilled with cold spells, their greatest strength is in offense.",
     "prereqs": [ "EARTHSHAPER", "KELVINIST" ],
+    "spells_learned": [ [ "ice_clave", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",
@@ -471,7 +453,6 @@
       "FORCE_MAGE",
       "GAIAS_CHOSEN",
       "GLACIER_MAGE",
-      "GOLEMANCER",
       "GRAVITY_MAGE",
       "OVERCLOCKER",
       "ICE_ELEMENTAL",
@@ -486,47 +467,7 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE"
-    ],
-    "flags": [ "ATTUNEMENT" ]
-  },
-  {
-    "id": "GOLEMANCER",
-    "type": "mutation",
-    "name": { "str": "Golemancer" },
-    "points": 8,
-    "starting_trait": false,
-    "purifiable": false,
-    "valid": false,
-    "description": "The Golemancer is the ancient myth of the clay golem, made reality from constant use of Animist summons and Earthshaper self-strengthening spells.  Takes some traits from the golems they create, such as immunity to slowing effects.",
-    "prereqs": [ "ANIMIST", "EARTHSHAPER" ],
-    "spells_learned": [ [ "golem_push", 5 ] ],
-    "cancels": [
-      "ARTIFICER",
-      "AURA_MAGE",
-      "BIOTEK",
-      "BLOOD_MAGE",
-      "BOREAL_MAGE",
-      "CRUSADER",
-      "EARTH_ELEMENTAL",
-      "FORCE_MAGE",
-      "GAIAS_CHOSEN",
-      "GLACIER_MAGE",
-      "GOLEMANCER",
-      "GRAVITY_MAGE",
-      "OVERCLOCKER",
-      "ILLUSIONIST",
-      "MAGNETISM_MAGE",
-      "PERMAFROST_MAGE",
-      "RADIATION_MAGE",
-      "SHAMAN",
-      "SHAPESHIFTER",
-      "SUN_MAGE",
-      "VOID_MAGE",
-      "VULCANIST",
-      "SOULFIRE",
-      "WITHER_MAGE"
-    ],
-    "flags": [ "ATTUNEMENT", "STEADY" ]
+    ]
   },
   {
     "id": "GRAVITY_MAGE",
@@ -550,7 +491,6 @@
       "FORCE_MAGE",
       "GAIAS_CHOSEN",
       "GLACIER_MAGE",
-      "GOLEMANCER",
       "GRAVITY_MAGE",
       "OVERCLOCKER",
       "ILLUSIONIST",
@@ -565,7 +505,7 @@
       "SOULFIRE",
       "WITHER_MAGE"
     ],
-    "flags": [ "ATTUNEMENT", "CLIMB_NO_LADDER" ]
+    "flags": [ "CLIMB_NO_LADDER" ]
   },
   {
     "id": "OVERCLOCKER",
@@ -578,7 +518,6 @@
     "description": "The Technomancer specializes in augmenting humans without actually modifying them; and the Overclocker takes the heat aptitude of a Kelvinist and puts that to work.  You are able to think significantly faster, and are able to align your leylines for spellcasting faster as a result.",
     "prereqs": [ "KELVINIST", "TECHNOMANCER" ],
     "passive_mods": { "int_mod": 5 },
-    "casting_time_multiplier": 0.75,
     "spells_learned": [ [ "overaccelerate", 5 ] ],
     "cancels": [
       "ARTIFICER",
@@ -592,7 +531,6 @@
       "FORCE_MAGE",
       "GAIAS_CHOSEN",
       "GLACIER_MAGE",
-      "GOLEMANCER",
       "GRAVITY_MAGE",
       "ICE_ELEMENTAL",
       "ILLUSIONIST",
@@ -606,8 +544,7 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE"
-    ],
-    "flags": [ "ATTUNEMENT" ]
+    ]
   },
   {
     "id": "ICE_ELEMENTAL",
@@ -648,8 +585,7 @@
       "VULCANIST",
       "SOULFIRE",
       "WITHER_MAGE"
-    ],
-    "flags": [ "ATTUNEMENT" ]
+    ]
   },
   {
     "id": "ILLUSIONIST",
@@ -673,7 +609,6 @@
       "FORCE_MAGE",
       "GAIAS_CHOSEN",
       "GLACIER_MAGE",
-      "GOLEMANCER",
       "GRAVITY_MAGE",
       "OVERCLOCKER",
       "ILLUSIONIST",
@@ -687,8 +622,7 @@
       "VULCANIST",
       "SOULFIRE",
       "WITHER_MAGE"
-    ],
-    "flags": [ "ATTUNEMENT" ]
+    ]
   },
   {
     "id": "MAGNETISM_MAGE",
@@ -713,7 +647,6 @@
       "FORCE_MAGE",
       "GAIAS_CHOSEN",
       "GLACIER_MAGE",
-      "GOLEMANCER",
       "GRAVITY_MAGE",
       "OVERCLOCKER",
       "ICE_ELEMENTAL",
@@ -728,8 +661,7 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE"
-    ],
-    "flags": [ "ATTUNEMENT" ]
+    ]
   },
   {
     "id": "PERMAFROST_MAGE",
@@ -750,7 +682,6 @@
       "FIRE_ELEMENTAL",
       "FORCE_MAGE",
       "GLACIER_MAGE",
-      "GOLEMANCER",
       "GRAVITY_MAGE",
       "OVERCLOCKER",
       "ICE_ELEMENTAL",
@@ -768,8 +699,7 @@
       "VULCANIST",
       "SOULFIRE",
       "WITHER_MAGE"
-    ],
-    "flags": [ "ATTUNEMENT" ]
+    ]
   },
   {
     "id": "RADIATION_MAGE",
@@ -791,7 +721,6 @@
       "FIRE_ELEMENTAL",
       "FORCE_MAGE",
       "GLACIER_MAGE",
-      "GOLEMANCER",
       "GRAVITY_MAGE",
       "OVERCLOCKER",
       "ICE_ELEMENTAL",
@@ -809,8 +738,7 @@
       "VULCANIST",
       "SOULFIRE",
       "WITHER_MAGE"
-    ],
-    "flags": [ "ATTUNEMENT" ]
+    ]
   },
   {
     "id": "SHAMAN",
@@ -832,7 +760,6 @@
       "FIRE_ELEMENTAL",
       "FORCE_MAGE",
       "GAIAS_CHOSEN",
-      "GOLEMANCER",
       "GRAVITY_MAGE",
       "ICE_ELEMENTAL",
       "ILLUSIONIST",
@@ -847,8 +774,7 @@
       "VOID_MAGE",
       "SOULFIRE",
       "WITHER_MAGE"
-    ],
-    "flags": [ "ATTUNEMENT" ]
+    ]
   },
   {
     "id": "SHAPESHIFTER",
@@ -872,7 +798,6 @@
       "FIRE_ELEMENTAL",
       "FORCE_MAGE",
       "GAIAS_CHOSEN",
-      "GOLEMANCER",
       "GRAVITY_MAGE",
       "ICE_ELEMENTAL",
       "ILLUSIONIST",
@@ -887,8 +812,7 @@
       "VOID_MAGE",
       "SOULFIRE",
       "WITHER_MAGE"
-    ],
-    "flags": [ "ATTUNEMENT" ]
+    ]
   },
   {
     "id": "SOULFIRE",
@@ -911,7 +835,6 @@
       "FIRE_ELEMENTAL",
       "FORCE_MAGE",
       "GLACIER_MAGE",
-      "GOLEMANCER",
       "GRAVITY_MAGE",
       "OVERCLOCKER",
       "ICE_ELEMENTAL",
@@ -928,8 +851,7 @@
       "VOID_MAGE",
       "VULCANIST",
       "WITHER_MAGE"
-    ],
-    "flags": [ "ATTUNEMENT" ]
+    ]
   },
   {
     "id": "STORM_ELEMENTAL",
@@ -970,8 +892,7 @@
       "VULCANIST",
       "SOULFIRE",
       "WITHER_MAGE"
-    ],
-    "flags": [ "ATTUNEMENT" ]
+    ]
   },
   {
     "id": "STORMCALLER",
@@ -1010,8 +931,7 @@
       "VULCANIST",
       "SOULFIRE",
       "WITHER_MAGE"
-    ],
-    "flags": [ "ATTUNEMENT" ]
+    ]
   },
   {
     "id": "SUN_MAGE",
@@ -1035,7 +955,6 @@
       "FIRE_ELEMENTAL",
       "FORCE_MAGE",
       "GLACIER_MAGE",
-      "GOLEMANCER",
       "GRAVITY_MAGE",
       "OVERCLOCKER",
       "ICE_ELEMENTAL",
@@ -1053,8 +972,7 @@
       "VULCANIST",
       "SOULFIRE",
       "WITHER_MAGE"
-    ],
-    "flags": [ "ATTUNEMENT" ]
+    ]
   },
   {
     "id": "TUNDRA_MAGE",
@@ -1094,8 +1012,7 @@
       "VULCANIST",
       "SOULFIRE",
       "WITHER_MAGE"
-    ],
-    "flags": [ "ATTUNEMENT" ]
+    ]
   },
   {
     "id": "VOID_MAGE",
@@ -1117,7 +1034,6 @@
       "FIRE_ELEMENTAL",
       "FORCE_MAGE",
       "GLACIER_MAGE",
-      "GOLEMANCER",
       "GRAVITY_MAGE",
       "OVERCLOCKER",
       "ICE_ELEMENTAL",
@@ -1135,8 +1051,7 @@
       "VULCANIST",
       "SOULFIRE",
       "WITHER_MAGE"
-    ],
-    "flags": [ "ATTUNEMENT" ]
+    ]
   },
   {
     "id": "VULCANIST",
@@ -1161,7 +1076,6 @@
       "FORCE_MAGE",
       "GAIAS_CHOSEN",
       "GLACIER_MAGE",
-      "GOLEMANCER",
       "GRAVITY_MAGE",
       "OVERCLOCKER",
       "ICE_ELEMENTAL",
@@ -1176,8 +1090,7 @@
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE"
-    ],
-    "flags": [ "ATTUNEMENT" ]
+    ]
   },
   {
     "id": "WITHER_MAGE",
@@ -1200,7 +1113,6 @@
       "FIRE_ELEMENTAL",
       "FORCE_MAGE",
       "GAIAS_CHOSEN",
-      "GOLEMANCER",
       "GRAVITY_MAGE",
       "ICE_ELEMENTAL",
       "ILLUSIONIST",
@@ -1215,7 +1127,6 @@
       "VOID_MAGE",
       "SOULFIRE",
       "WITHER_MAGE"
-    ],
-    "flags": [ "ATTUNEMENT" ]
+    ]
   }
 ]
