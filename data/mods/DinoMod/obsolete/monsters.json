@@ -15,7 +15,6 @@
     "melee_cut": 0,
     "armor_bash": 4,
     "armor_cut": 4,
-    "armor_bullet": 1,
     "hp": 50,
     "description": "The raggedly flying corpse  of a feathered reptile over three feet long, with short wings and a big colorful beak.",
     "upgrades": { "half_life": 14, "into": "mon_zimorphodon_brute" }
@@ -35,7 +34,6 @@
       "melee_cut": 2,
       "armor_bash": 4,
       "armor_cut": 6,
-      "armor_bullet": 5,
       "vision_night": 1
     },
     "upgrades": {  },
