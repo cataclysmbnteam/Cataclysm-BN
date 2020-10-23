@@ -41,3 +41,4 @@ As much as possible, there should be content and feature parity between both (al
 * Monsters folder - DDA supports bullet armor and biosignature and zombify_into and not the BLEEDS flag while BN supports BLEEDS and not bullet armor, biosignature, or zombify_into. These hit the monster folder. 
 * raptor mutagen recipe - "activity_level" is removed in BN.
 * cooking ingredients - "egg_bird_unfert"is removed in BN
+* lab locations - lots of content missing or different in BN, DDA DinoLabFinale is not yet compatible
