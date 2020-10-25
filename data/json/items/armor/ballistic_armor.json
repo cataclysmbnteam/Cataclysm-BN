@@ -18,7 +18,7 @@
     "coverage": 85,
     "encumbrance": 6,
     "warmth": 15,
-    "material_thickness": 6,
+    "material_thickness": 2,
     "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY" ]
   },
   {
@@ -29,8 +29,8 @@
     "description": "Ballistic armor with ESAPI ceramic armor plates.",
     "weight": "9911 g",
     "volume": "6 L",
-    "price": 280000,
-    "price_postapoc": 8000,
+    "price": 290000,
+    "price_postapoc": 3500,
     "material": [ "nylon", "ceramic" ],
     "symbol": "[",
     "looks_like": "modularvestceramic",
