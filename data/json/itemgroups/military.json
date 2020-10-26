@@ -486,7 +486,6 @@
       { "item": "jumpsuit", "prob": 20 },
       { "item": "kevlar", "prob": 10 },
       { "item": "modularvest", "prob": 27 },
-      { "item": "modularvestkevlar", "prob": 28 },
       { "item": "modularvestceramic", "prob": 34 },
       { "item": "kevlar_plate", "prob": 10 },
       { "item": "mask_gas", "prob": 10 },
