@@ -2621,5 +2621,39 @@
     "material": "ceramic",
     "symbol": ",",
     "color": "dark_gray"
+  },
+  {
+    "id": "modularvestkevlar",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "MBR vest (Kevlar plates)", "str_pl": "MBR vests (Kevlar plates)" },
+    "description": "A Modular Bullet Resistant Vest.  Kevlar plates have been inserted to improve its protection.  It has four pouches capable of carrying magazines.",
+    "weight": "5721 g",
+    "volume": "6 L",
+    "price": 39900,
+    "price_postapoc": 3000,
+    "to_hit": -3,
+    "bashing": 6,
+    "material": [ "kevlar", "kevlar_rigid" ],
+    "symbol": "[",
+    "looks_like": "vest",
+    "color": "light_gray",
+    "covers": [ "TORSO" ],
+    "coverage": 85,
+    "encumbrance": 12,
+    "storage": "1 L",
+    "warmth": 15,
+    "material_thickness": 6,
+    "use_action": {
+      "type": "holster",
+      "holster_prompt": "Stash ammo",
+      "holster_msg": "You stash your %s.",
+      "multi": 4,
+      "min_volume": "250 ml",
+      "max_volume": "1 L",
+      "draw_cost": 60,
+      "flags": [ "MAG_COMPACT" ]
+    },
+    "flags": [ "STURDY", "OUTER" ]
   }
 ]

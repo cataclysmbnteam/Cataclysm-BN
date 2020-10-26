@@ -2437,5 +2437,18 @@
     "autolearn": true,
     "components": [ [ [ "ballistic_vest_empty", 1 ] ], [ [ "esapi_plate", 2 ] ], [ [ "esbi_plate", 2 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "modularvestkevlar",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "time": "5 m",
+    "reversible": true,
+    "decomp_learn": 0,
+    "autolearn": true,
+    "components": [ [ [ "modularvest", 1 ] ], [ [ "kevlar_plate", 8 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]
