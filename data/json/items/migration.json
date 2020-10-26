@@ -1232,6 +1232,6 @@
   {
     "id": "esbi_plate",
     "type": "MIGRATION",
-    "replace": "ceramic_plate"
+    "replace": "ceramic_armor"
   }
 ]
