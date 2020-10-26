@@ -139,7 +139,7 @@
       { "item": "knee_pads", "prob": 85 },
       { "item": "helmet_army", "prob": 80 },
       { "item": "gloves_tactical", "prob": 60 },
-      { "item": "ballistic_vest_esapi", "prob": 90 },
+      { "item": "modularvestceramic", "prob": 90 },
       { "item": "molle_pack", "prob": 85 },
       { "group": "clothing_tactical_leg", "prob": 15 },
       {
@@ -165,7 +165,7 @@
       { "item": "knee_pads", "prob": 85 },
       { "collection": [ { "item": "helmet_army" }, { "item": "helmet_liner" } ], "prob": 80 },
       { "collection": [ { "item": "gloves_liner", "prob": 60 }, { "item": "winter_gloves_army" } ], "prob": 80 },
-      { "item": "ballistic_vest_esapi", "prob": 90 },
+      { "item": "modularvestceramic", "prob": 90 },
       { "item": "molle_pack", "prob": 85 },
       { "group": "clothing_tactical_leg", "prob": 15 },
       {
