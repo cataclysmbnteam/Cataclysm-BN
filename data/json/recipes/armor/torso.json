@@ -492,20 +492,6 @@
     ]
   },
   {
-    "result": "modularvest",
-    "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_TORSO",
-    "skill_used": "tailor",
-    "difficulty": 4,
-    "time": "30 m",
-    "reversible": true,
-    "decomp_learn": 4,
-    "autolearn": true,
-    "using": [ [ "sewing_standard", 30 ] ],
-    "components": [ [ [ "kevlar_plate", 24 ] ] ]
-  },
-  {
     "result": "modularvestceramic",
     "type": "recipe",
     "category": "CC_ARMOR",
