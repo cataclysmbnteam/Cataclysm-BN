@@ -2407,36 +2407,6 @@
   },
   {
     "type": "recipe",
-    "result": "modularvest",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "modularvestsuper",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "modularveststeel",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "modularvestkevlar",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "modularvesthard",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "modularvestceramic",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "shotcanister_scrap",
     "obsolete": true
   },
@@ -2454,5 +2424,18 @@
     "type": "recipe",
     "result": "shotcanister_pebble",
     "obsolete": true
+  },
+  {
+    "result": "ballistic_vest_esapi",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "time": "2 m",
+    "reversible": true,
+    "decomp_learn": 0,
+    "autolearn": true,
+    "components": [ [ [ "ballistic_vest_empty", 1 ] ], [ [ "esapi_plate", 2 ] ], [ [ "esbi_plate", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]
