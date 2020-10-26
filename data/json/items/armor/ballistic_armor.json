@@ -29,7 +29,7 @@
     "description": "Ballistic armor with ESAPI ceramic armor plates.",
     "weight": "9911 g",
     "volume": "6 L",
-    "price": 290000,
+    "price": 280000,
     "price_postapoc": 3500,
     "material": [ "nylon", "ceramic" ],
     "symbol": "[",
