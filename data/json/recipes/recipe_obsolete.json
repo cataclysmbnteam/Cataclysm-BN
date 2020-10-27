@@ -2454,5 +2454,20 @@
     "type": "recipe",
     "result": "bot_antimateriel",
     "obsolete": true
+  },
+  {
+    "result": "broken_turret_rifleuncraft",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "broken_crows_m240uncraft",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "broken_turret_bmguncraft",
+    "type": "recipe",
+    "obsolete": true
   }
 ]
