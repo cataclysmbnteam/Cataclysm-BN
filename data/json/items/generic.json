@@ -3040,5 +3040,32 @@
     "symbol": ".",
     "color": "white",
     "flags": [ "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_turret_light",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken light turret", "str_pl": "broken light turrets" },
+    "weight": "75 kg",
+    "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_turret_medium",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken medium turret", "str_pl": "broken medium turrets" },
+    "weight": "75 kg",
+    "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_turret_longrange",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken long range turret", "str_pl": "broken long range turrets" },
+    "weight": "100 kg",
+    "copy-from": "broken_turret"
   }
 ]

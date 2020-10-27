@@ -4020,5 +4020,68 @@
     "time": "6 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "splinter", 3 ] ] ]
+  },
+  {
+    "result": "broken_turret_light",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 4,
+    "time": "1 h",
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "hk_mp5", 1 ] ],
+      [ [ "turret_chassis", 1 ] ]
+    ]
+  },
+  {
+    "result": "broken_turret_medium",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 4,
+    "time": "1 h",
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "m240", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "turret_chassis", 1 ] ]
+    ]
+  },
+  {
+    "result": "broken_turret_longrange",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 4,
+    "time": "1 h",
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "m2browning", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "turret_chassis", 1 ] ]
+    ]
   }
 ]
