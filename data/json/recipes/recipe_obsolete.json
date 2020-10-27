@@ -2469,5 +2469,15 @@
     "result": "broken_turret_bmguncraft",
     "type": "recipe",
     "obsolete": true
+  },
+  {
+    "result": "bot_turret",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "broken_turretuncraft",
+    "type": "recipe",
+    "obsolete": true
   }
 ]
