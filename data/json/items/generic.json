@@ -3020,7 +3020,7 @@
     "symbol": ",",
     "color": "green",
     "name": { "str": "broken light turret", "str_pl": "broken light turrets" },
-    "weight": "75 kg",
+    "weight": "30 kg",
     "copy-from": "broken_turret"
   },
   {
@@ -3029,7 +3029,7 @@
     "symbol": ",",
     "color": "green",
     "name": { "str": "broken medium turret", "str_pl": "broken medium turrets" },
-    "weight": "75 kg",
+    "weight": "40 kg",
     "copy-from": "broken_turret"
   },
   {
@@ -3038,7 +3038,7 @@
     "symbol": ",",
     "color": "green",
     "name": { "str": "broken long range turret", "str_pl": "broken long range turrets" },
-    "weight": "100 kg",
+    "weight": "50 kg",
     "copy-from": "broken_turret"
   }
 ]
