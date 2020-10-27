@@ -137,14 +137,14 @@
     "vision_day": 50,
     "vision_night": 3,
     "revert_to_itype": "bot_turret_light",
-    "starting_ammo": { "9mm": 90 },
+    "starting_ammo": { "9mmfmj": 90 },
     "special_attacks": [
       {
         "type": "gun",
         "cooldown": 1,
         "move_cost": 150,
         "gun_type": "hk_mp5",
-        "ammo_type": "9mm",
+        "ammo_type": "9mmfmj",
         "fake_skills": [ [ "gun", 5 ], [ "smg", 5 ] ],
         "fake_dex": 12,
         "ranges": [ [ 0, 6, "AUTO" ], [ 7, 14, "DEFAULT" ]  ],
