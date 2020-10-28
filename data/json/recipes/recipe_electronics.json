@@ -2302,7 +2302,6 @@
       [ [ "power_supply", 1 ] ],
       [ [ "robot_controls", 1 ] ],
       [ [ "hk_mp5", 1 ] ],
-      [ [ "mp5mag", 1 ] ],
       [ [ "sheet_metal", 2 ] ],
       [ [ "pipe", 4 ] ],
       [ [ "spring", 2 ] ]
