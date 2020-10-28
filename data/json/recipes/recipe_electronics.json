@@ -1288,7 +1288,6 @@
       [ [ "turret_chassis", 1 ] ]
     ]
   },
-
   {
     "type": "recipe",
     "result": "bot_nursebot",
