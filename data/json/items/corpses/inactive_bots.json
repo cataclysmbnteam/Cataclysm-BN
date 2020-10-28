@@ -680,8 +680,8 @@
   {
     "id": "bot_turret_light",
     "type": "TOOL",
-    "name": { "str": "inactive autonomous light turret" },
-    "description": "This is an inactive light turret.  Using this item involves loading the unit with the factory-loaded 9x19mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 9x19mm you do NOT want to give the turret) turning it on, and placing it on the ground.  If reprogrammed and rewired successfully the turret will then identify you as a friendly, and attack all enemies with its SMG.",
+    "name": { "str": "inactive autonomous light SMG turret" },
+    "description": "This is an inactive light SMG turret.  Using this item involves loading the unit with the factory-loaded 9x19mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 9x19mm you do NOT want to give the turret) turning it on, and placing it on the ground.  If reprogrammed and rewired successfully the turret will then identify you as a friendly, and attack all enemies with its SMG.",
     "weight": "40750 g",
     "volume": "30 L",
     "price": 400000,
@@ -703,8 +703,8 @@
   {
     "id": "bot_turret_medium",
     "type": "TOOL",
-    "name": { "str": "inactive autonomous medium turret" },
-    "description": "This is an inactive medium turret.  Using this item involves loading the unit with the factory-loaded 5.56mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 5.56mm rounds you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully the turret will then identify you as a friendly, and attack all enemies with its gun.",
+    "name": { "str": "inactive autonomous medium milspec turret" },
+    "description": "This is an inactive medium milspec turret.  Using this item involves loading the unit with the factory-loaded 5.56x45mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 5.56mm rounds you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully the turret will then identify you as a friendly, and attack all enemies with its gun.",
     "weight": "172 kg",
     "volume": "30 L",
     "price": 500000,
@@ -726,8 +726,8 @@
   {
     "id": "bot_turret_longrange",
     "type": "TOOL",
-    "name": { "str": "inactive autonomous longrange turret" },
-    "description": "This is an inactive longrange turret.  Using this item involves loading the unit with the factory-loaded 7.62mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 7.62mm rounds you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully the turret will then identify you as a friendly, and attack all enemies with its gun.",
+    "name": { "str": "inactive autonomous longrange milspec turret" },
+    "description": "This is an inactive longrange milspec turret.  Using this item involves loading the unit with the factory-loaded 7.62x51mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 7.62mm rounds you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully the turret will then identify you as a friendly, and attack all enemies with its gun.",
     "weight": "172 kg",
     "volume": "30 L",
     "price": 500000,
