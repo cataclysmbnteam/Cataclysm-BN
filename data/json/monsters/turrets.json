@@ -228,7 +228,7 @@
     "id": "mon_turret_longrange",
     "type": "MONSTER",
     "name": { "str": "longrange turret" },
-    "description": "The General Atomics TX-7 Sniper, a long range counter sniper turret, armed with 7.62 gun.",
+    "description": "The General Atomics TX-7 Sniper, a long range turret, armed with 7.62 gun.",
     "default_faction": "military",
     "species": [ "ROBOT" ],
     "looks_like": "mon_turret_bmg",
