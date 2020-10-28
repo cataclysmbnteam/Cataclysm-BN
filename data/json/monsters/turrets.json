@@ -137,7 +137,7 @@
     "vision_day": 50,
     "vision_night": 3,
     "revert_to_itype": "bot_turret_light",
-    "starting_ammo": { "9mmfmj": 90 },
+    "starting_ammo": { "9mmfmj": 60 },
     "special_attacks": [
       {
         "type": "gun",
@@ -187,7 +187,7 @@
     "vision_day": 50,
     "vision_night": 3,
     "revert_to_itype": "bot_turret_medium",
-    "starting_ammo": { "556": 120 },
+    "starting_ammo": { "556": 30 },
     "special_attacks": [
       {
         "type": "gun",
@@ -247,7 +247,7 @@
     "vision_day": 50,
     "vision_night": 3,
     "revert_to_itype": "bot_turret_longrange",
-    "starting_ammo": { "762_51": 120 },
+    "starting_ammo": { "762_51": 20 },
     "special_attacks": [
       {
         "type": "gun",
