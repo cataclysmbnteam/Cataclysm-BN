@@ -168,7 +168,7 @@
     "id": "mon_turret_medium",
     "type": "MONSTER",
     "name": { "str": "medium turret" },
-    "description": "The General Atomics TX-5 Enforcer, a medium turret, armed with 5.56 gun.",
+    "description": "The General Atomics TX-5 Sentinel, a medium turret, armed with 5.56 gun.",
     "default_faction": "military",
     "species": [ "ROBOT" ],
     "looks_like": "mon_crows_m240",
