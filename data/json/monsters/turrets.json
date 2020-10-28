@@ -197,7 +197,7 @@
         "ammo_type": "556",
         "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
         "fake_dex": 12,
-        "ranges": [ [ 0, 36, "DEFAULT" ] ],
+        "ranges": [ [ 0, 30, "DEFAULT" ] ],
         "require_targeting_npc": true,
         "require_targeting_monster": true,
         "laser_lock": false,
