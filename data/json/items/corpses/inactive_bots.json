@@ -703,7 +703,7 @@
   {
     "id": "bot_turret_medium",
     "type": "TOOL",
-    "name": { "str": "inactive autonomous medium turret", "str_pl": "inactive autonomous medium turrets" },
+    "name": { "str": "inactive autonomous medium turret" },
     "description": "This is an inactive medium turret.  Using this item involves loading the unit with the factory-loaded 5.56mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 5.56mm rounds you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully the turret will then identify you as a friendly, and attack all enemies with its gun.",
     "weight": "172 kg",
     "volume": "30 L",
@@ -726,7 +726,7 @@
   {
     "id": "bot_turret_longrange",
     "type": "TOOL",
-    "name": { "str": "inactive autonomous longrange turret", "str_pl": "inactive autonomous longrange turrets" },
+    "name": { "str": "inactive autonomous longrange turret" },
     "description": "This is an inactive longrange turret.  Using this item involves loading the unit with the factory-loaded 7.62mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 7.62mm rounds you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully the turret will then identify you as a friendly, and attack all enemies with its gun.",
     "weight": "172 kg",
     "volume": "30 L",
