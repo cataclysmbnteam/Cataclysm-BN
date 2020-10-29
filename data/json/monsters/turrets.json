@@ -137,7 +137,7 @@
     "vision_day": 32,
     "vision_night": 3,
     "revert_to_itype": "bot_turret_light",
-    "starting_ammo": { "9mmfmj": 45 },
+    "starting_ammo": { "9mmfmj": 60 },
     "special_attacks": [
       {
         "type": "gun",
