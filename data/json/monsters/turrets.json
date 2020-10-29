@@ -168,7 +168,7 @@
     "id": "mon_turret_medium",
     "type": "MONSTER",
     "name": { "str": "medium milspec turret" },
-    "description": "The General Atomics TX-5 Sentinel, a medium, automated milspec 5.56mm gun turret.  Designed to efficiently take down enemy personnel with modern body armor at medium ranges.",
+    "description": "The General Atomics TX-5 Sentinel, an automated turret fitted with a 5.56mm gun.  Designed to efficiently take down enemy personnel with body armor at medium range.",
     "default_faction": "military",
     "species": [ "ROBOT" ],
     "looks_like": "mon_turret_rifle",
