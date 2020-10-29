@@ -391,8 +391,10 @@
     "copy-from": "m16a4",
     "type": "GUN",
     "name": { "str": "M16A4" },
-    "description": "If you see it- it is bug.",
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "2 rd.", 2 ] ]
+    "description": "If you see it - it is bug!",
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "2 rd.", 2 ] ],
+    "clip_size": 300,
+    "magazines": [ ]
   },
   {
     "id": "oa93",

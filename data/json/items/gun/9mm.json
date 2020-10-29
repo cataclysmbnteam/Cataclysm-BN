@@ -317,7 +317,9 @@
     "type": "GUN",
     "name": { "str_sp": "Kel-Tec SUB-2000" },
     "description": "If you see it - it is bug!",
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ]
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "clip_size": 300,
+    "magazines": [ ]
   },
   {
     "id": "m9",
