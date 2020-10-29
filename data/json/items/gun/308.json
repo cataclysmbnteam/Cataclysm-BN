@@ -111,7 +111,7 @@
     "name": { "str_sp": "M14 EBR-RI" },
     "description": "If you see it - it is bug!",
     "clip_size": 300,
-    "magazines": [ ]
+    "magazines": [  ]
   },
   {
     "id": "m1a",

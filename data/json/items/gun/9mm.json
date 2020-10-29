@@ -319,7 +319,7 @@
     "description": "If you see it - it is bug!",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "clip_size": 300,
-    "magazines": [ ]
+    "magazines": [  ]
   },
   {
     "id": "m9",

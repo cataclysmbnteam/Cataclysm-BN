@@ -394,7 +394,7 @@
     "description": "If you see it - it is bug!",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "2 rd.", 2 ] ],
     "clip_size": 300,
-    "magazines": [ ]
+    "magazines": [  ]
   },
   {
     "id": "oa93",
