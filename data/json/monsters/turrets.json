@@ -249,7 +249,7 @@
     "vision_day": 50,
     "vision_night": 3,
     "revert_to_itype": "bot_turret_longrange",
-    "starting_ammo": { "762_51": 40 },
+    "starting_ammo": { "762_51": 30 },
     "special_attacks": [
       {
         "type": "gun",
