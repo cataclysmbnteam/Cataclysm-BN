@@ -118,7 +118,7 @@
     "id": "mon_turret_light",
     "type": "MONSTER",
     "name": { "str": "light turret" },
-    "description": "The General Atomics TX-1 Guardian, an popular automated turret fitted with a 9mm carbine.  Designed mainly for corporate property protection and police needs. Hight quality targetting system allows it to engage targets even at medium range.",
+    "description": "The General Atomics TX-1 Guardian, an popular automated turret fitted with a 9mm carbine.  Initially it was designed mainly for corporate property protection and police needs, however due its popularity it ended up being used even for military needs.  Hight quality targetting system allows it to engage targets even at medium range.",
     "default_faction": "military",
     "species": [ "ROBOT" ],
     "looks_like": "mon_turret",
