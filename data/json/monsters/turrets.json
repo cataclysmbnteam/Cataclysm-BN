@@ -145,7 +145,7 @@
         "move_cost": 150,
         "gun_type": "ksub2000_turret_fake",
         "ammo_type": "9mmfmj",
-        "fake_skills": [ [ "gun", 5 ], [ "smg", 5 ] ],
+        "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
         "fake_dex": 12,
         "ranges": [ [ 0, 16, "AUTO" ], [ 17, 32, "DEFAULT" ] ],
         "require_targeting_npc": true,
