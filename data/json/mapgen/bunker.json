@@ -48,12 +48,12 @@
       },
       "furniture": { "#": "f_table" },
       "place_monster": [
-        { "monster": "mon_turret_light", "x": 9, "y": 10 },
-        { "monster": "mon_turret_light", "x": 14, "y": 10 },
-        { "monster": "mon_turret_light", "x": 9, "y": 12 },
-        { "monster": "mon_turret_light", "x": 14, "y": 12 },
-        { "monster": "mon_turret_light", "x": 9, "y": 14 },
-        { "monster": "mon_turret_light", "x": 14, "y": 14 }
+        { "monster": "mon_turret_medium", "x": 9, "y": 10 },
+        { "monster": "mon_turret_medium", "x": 14, "y": 10 },
+        { "monster": "mon_turret_medium", "x": 9, "y": 12 },
+        { "monster": "mon_turret_medium", "x": 14, "y": 12 },
+        { "monster": "mon_turret_medium", "x": 9, "y": 14 },
+        { "monster": "mon_turret_medium", "x": 14, "y": 14 }
       ]
     }
   },
