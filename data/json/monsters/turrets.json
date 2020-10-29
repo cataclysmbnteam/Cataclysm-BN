@@ -147,7 +147,7 @@
         "ammo_type": "9mmfmj",
         "fake_skills": [ [ "gun", 5 ], [ "smg", 5 ] ],
         "fake_dex": 12,
-        "ranges": [ [ 0, 15, "AUTO" ], [ 16, 32, "DEFAULT" ] ],
+        "ranges": [ [ 0, 16, "AUTO" ], [ 17, 32, "DEFAULT" ] ],
         "require_targeting_npc": true,
         "require_targeting_monster": true,
         "laser_lock": false,
