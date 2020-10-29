@@ -3954,7 +3954,7 @@
       [ [ "small_storage_battery", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "robot_controls", 1 ] ],
-      [ [ "hk_mp5", 1 ] ],
+      [ [ "ksub2000", 1 ] ],
       [ [ "turret_chassis", 1 ] ]
     ]
   },

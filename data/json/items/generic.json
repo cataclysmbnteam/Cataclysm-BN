@@ -3019,7 +3019,7 @@
     "id": "broken_turret_light",
     "symbol": ",",
     "color": "green",
-    "name": { "str": "broken light SMG turret" },
+    "name": { "str": "broken light turret" },
     "weight": "30 kg",
     "copy-from": "broken_turret"
   },
