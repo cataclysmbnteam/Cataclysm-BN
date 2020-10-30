@@ -5752,11 +5752,11 @@ void game::peek()
 
     if( p->z != 0 ) {
         const tripoint old_pos = u.pos();
-        vertical_move( p->z, false );
+        vertical_move( p->z, false, true );
 
         if( old_pos != u.pos() ) {
             look_around();
-            vertical_move( p->z * -1, false );
+            vertical_move( p->z * -1, false, true );
             draw_ter();
         }
         wrefresh( w_terrain );
@@ -10116,7 +10116,24 @@ static cata::optional<tripoint> point_selection_menu( const std::vector<tripoint
     return pts[ret];
 }
 
-void game::vertical_move( int movez, bool force )
+static cata::optional<tripoint> find_empty_spot_nearby( const tripoint &pos )
+{
+    for( const tripoint &p : g->m.points_in_radius( pos, 1 ) ) {
+        if( p == pos ) {
+            continue;
+        }
+        if( g->m.impassable( p ) ) {
+            continue;
+        }
+        if( g->critter_at( p ) ) {
+            continue;
+        }
+        return p;
+    }
+    return cata::nullopt;
+}
+
+void game::vertical_move( int movez, bool force, bool peeking )
 {
     if( u.is_mounted() ) {
         auto mons = u.mounted_creature.get();
@@ -10281,7 +10298,7 @@ void game::vertical_move( int movez, bool force )
     bool rope_ladder = false;
     // TODO: Remove the stairfinding, make the mapgen gen aligned maps
     if( !force && !climbing ) {
-        const cata::optional<tripoint> pnt = find_or_make_stairs( maybetmp, z_after, rope_ladder );
+        const cata::optional<tripoint> pnt = find_or_make_stairs( maybetmp, z_after, rope_ladder, peeking );
         if( !pnt ) {
             return;
         }
@@ -10378,17 +10395,7 @@ void game::vertical_move( int movez, bool force )
     if( !force ) {
         submap_shift = update_map( stairs.x, stairs.y );
     }
-    if( u.is_mounted() ) {
-        if( stored_mount ) {
-            assert( !m.has_zlevels() );
-            stored_mount->spawn( g->u.pos() );
-            if( critter_tracker->add( stored_mount ) ) {
-                u.mounted_creature = stored_mount;
-            }
-        } else {
-            u.mounted_creature->setpos( g->u.pos() );
-        }
-    }
+
     // if an NPC or monster is on the stiars when player ascends/descends
     // they may end up merged on th esame tile, do some displacement to resolve that.
     // if, in the weird case of it not being possible to displace;
@@ -10397,17 +10404,8 @@ void game::vertical_move( int movez, bool force )
     if( critter_at<npc>( u.pos(), true ) || critter_at<monster>( u.pos(), true ) ) {
         std::string crit_name;
         bool player_displace = false;
-        tripoint displace;
-        for( const tripoint &elem : m.points_in_radius( u.pos(), 1 ) ) {
-            if( elem == u.pos() ) {
-                continue;
-            }
-            if( !m.impassable( elem ) ) {
-                displace = elem;
-                break;
-            }
-        }
-        if( displace != tripoint_zero ) {
+        cata::optional<tripoint> displace = find_empty_spot_nearby( u.pos() );
+        if( displace.has_value() ) {
             npc *guy = g->critter_at<npc>( u.pos(), true );
             if( guy ) {
                 crit_name = guy->get_name();
@@ -10429,19 +10427,35 @@ void game::vertical_move( int movez, bool force )
             if( mon && !mon->mounted_player ) {
                 crit_name = mon->get_name();
                 if( mon->friendly == -1 ) {
-                    mon->setpos( displace );
+                    mon->setpos( *displace );
                     add_msg( _( "Your %s moves out of the way for you." ), mon->get_name() );
                 } else {
                     player_displace = true;
                 }
             }
             if( player_displace ) {
-                u.setpos( displace );
+                u.setpos( *displace );
                 u.moves -= 20;
                 add_msg( _( "You push past %s blocking the way." ), crit_name );
             }
+        } else {
+            debugmsg( "Failed to find a spot to displace into." );
         }
     }
+
+    // Now that we know the player's destination position, we can move their mount as well
+    if( u.is_mounted() ) {
+        if( stored_mount ) {
+            assert( !m.has_zlevels() );
+            stored_mount->spawn( g->u.pos() );
+            if( critter_tracker->add( stored_mount ) ) {
+                u.mounted_creature = stored_mount;
+            }
+        } else {
+            u.mounted_creature->setpos( g->u.pos() );
+        }
+    }
+
     if( !npcs_to_bring.empty() ) {
         // Would look nicer randomly scrambled
         std::vector<tripoint> candidates = closest_tripoints_first( u.pos(), 1 );
@@ -10542,7 +10556,8 @@ void game::start_hauling( const tripoint &pos )
                                         ) ) );
 }
 
-cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladder )
+cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladder,
+        bool peeking )
 {
     const int omtilesz = SEEX * 2;
     real_coords rc( m.getabs( point( u.posx(), u.posy() ) ) );
@@ -10578,8 +10593,26 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
 
     if( stairs.has_value() ) {
         if( Creature *blocking_creature = critter_at( stairs.value() ) ) {
-            add_msg( _( "There's a %s in the way!" ), blocking_creature->get_name() );
-            return cata::nullopt;
+            npc *guy = dynamic_cast<npc *>( blocking_creature );
+            monster *mon = dynamic_cast<monster *>( blocking_creature );
+            bool would_move = ( guy && !guy->is_enemy() ) || ( mon && mon->friendly == -1 );
+            bool can_displace = find_empty_spot_nearby( *stairs ).has_value();
+            std::string cr_name = blocking_creature->get_name();
+            std::string msg;
+            if( guy ) {
+                //~ %s is the name of hostile NPC
+                msg = string_format( _( "%s is in the way!" ), cr_name );
+            } else {
+                //~ %s is some monster
+                msg = string_format( _( "There's a %s in the way!" ), cr_name );
+            }
+
+            if( ( peeking && !would_move ) || !can_displace || ( !would_move && !query_yn(
+                        //~ %s is a warning about monster/hostile NPC in the way, e.g. "There's a zombie in the way!"
+                        _( "%s  Attempt to push past?  You may have to fight your way back up." ), msg ) ) ) {
+                add_msg( msg );
+                return cata::nullopt;
+            }
         }
         return stairs;
     }
