@@ -6896,7 +6896,11 @@ void map::grow_plant( const tripoint &p )
 
     if( seed == items.end() ) {
         // No seed there anymore, we don't know what kind of plant it was.
-        dbg( DL::Error ) << "a planted item at " << p << " has no seed data";
+        // TODO: Fix point types
+        const oter_id ot =
+            overmap_buffer.ter( ms_to_omt_copy( getabs( p ) ) );
+        dbg( DL::Error ) << "a planted item at " << p.x << "," << p.y << "," << p.z
+                         << " (within overmap terrain " << ot.id().str() << ") has no seed data";
         i_clear( p );
         furn_set( p, f_null );
         return;
