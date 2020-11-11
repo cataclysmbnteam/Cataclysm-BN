@@ -373,7 +373,6 @@ bool Character::activate_bionic( int b, bool eff_only )
             return false;
         }
 
-
         // We can actually activate now, do activation-y things
         mod_power_level( -bio.info().power_activate );
         if( bio.info().toggled || bio.info().charge_time > 0 ) {

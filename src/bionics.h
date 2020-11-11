@@ -114,7 +114,7 @@ struct bionic_data {
     /** bionic enchantments */
     std::vector<enchantment_id> enchantments;
 
-   cata::value_ptr<fake_spell> spell_on_activate;
+    cata::value_ptr<fake_spell> spell_on_activate;
 
     /**
      * Body part slots used to install this bionic, mapped to the amount of space required.
