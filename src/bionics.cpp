@@ -368,6 +368,12 @@ bool Character::activate_bionic( int b, bool eff_only )
             }
         }
 
+        if( !bio.activate_spell( *this ) ) {
+            // the spell this bionic uses was unable to be cast
+            return false;
+        }
+
+
         // We can actually activate now, do activation-y things
         mod_power_level( -bio.info().power_activate );
         if( bio.info().toggled || bio.info().charge_time > 0 ) {
@@ -2584,6 +2590,7 @@ void load_bionic( const JsonObject &jsobj )
     new_bionic.weight_capacity_modifier = jsobj.get_float( "weight_capacity_modifier", 1.0 );
 
     assign( jsobj, "enchantments", new_bionic.enchantments );
+    assign( jsobj, "spell_on_activation", new_bionic.spell_on_activate );
 
     assign( jsobj, "weight_capacity_bonus", new_bionic.weight_capacity_bonus, false, 0_gram );
     assign( jsobj, "exothermic_power_gen", new_bionic.exothermic_power_gen );
