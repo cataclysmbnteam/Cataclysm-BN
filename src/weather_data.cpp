@@ -18,14 +18,18 @@ weather_animation_t get_weather_animation( weather_type const type )
     static const std::map<weather_type, weather_animation_t> map {
         {WEATHER_ACID_DRIZZLE, weather_animation_t {0.01f, c_light_green, '.'}},
         {WEATHER_ACID_RAIN,    weather_animation_t {0.02f, c_light_green, ','}},
+        {WEATHER_ACID_STORM,   weather_animation_t {0.04f, c_light_green, ','}},
         {WEATHER_LIGHT_DRIZZLE, weather_animation_t{0.01f, c_light_blue, ','}},
         {WEATHER_DRIZZLE,      weather_animation_t {0.01f, c_light_blue,  '.'}},
         {WEATHER_RAINY,        weather_animation_t {0.02f, c_light_blue,  ','}},
         {WEATHER_THUNDER,      weather_animation_t {0.02f, c_light_blue,  '.'}},
         {WEATHER_LIGHTNING,    weather_animation_t {0.04f, c_light_blue,  ','}},
         {WEATHER_FLURRIES,     weather_animation_t {0.01f, c_white,   '.'}},
+        {WEATHER_DIAMONDDUST,  weather_animation_t {0.01f, c_white,   '.'}},
         {WEATHER_SNOW,         weather_animation_t {0.02f, c_white,   ','}},
-        {WEATHER_SNOWSTORM,    weather_animation_t {0.04f, c_white,   '*'}}
+        {WEATHER_SNOWSTORM,    weather_animation_t {0.04f, c_white,   '*'}},
+        {WEATHER_ACID_FLURRIES,weather_animation_t {0.02f, c_light_green,'.'}},
+        {WEATHER_ACID_SNOW,    weather_animation_t {0.02f, c_light_green,   ','}}
     };
 
     const auto it = map.find( type );
@@ -67,6 +71,14 @@ static weather_result weather_data_internal( weather_type const type )
                 PRECIP_NONE, false, false, &weather_effect::none
             },
             weather_datum {
+                translate_marker( "Rainbow" ), c_pink, c_pink_cyan, '=', 0, 1.01f, 0, 0, false,
+                PRECIP_VERY_LIGHT, true, false, &weather_effect::rainbow
+            },
+            weather_datum {
+                translate_marker( "Diamond Dust" ), c_white, c_white_cyan, '.', 2, 1.12f, -15, 2, false,
+                PRECIP_LIGHT, false, false, &weather_effect::diamond_dust
+            },
+            weather_datum {
                 translate_marker( "Light Drizzle" ), c_light_blue, h_light_blue, '.', 0, 1.01f, -10, 0, false,
                 PRECIP_VERY_LIGHT, true, false, &weather_effect::none
             },
@@ -95,6 +107,10 @@ static weather_result weather_data_internal( weather_type const type )
                 PRECIP_HEAVY, true, true, &weather_effect::acid
             },
             weather_datum {
+                translate_marker( "Acid Storm" ), c_green, c_yellow_green, '%', 4, 1.2f, -45, 6, true,
+                PRECIP_HEAVY, true, true, &weather_effect::acid_storm
+            },
+            weather_datum {
                 translate_marker( "Flurries" ), c_white, c_dark_gray_cyan, '.', 2, 1.12f, -15, 2, false,
                 PRECIP_LIGHT, false, false, &weather_effect::flurry
             },
@@ -105,8 +121,16 @@ static weather_result weather_data_internal( weather_type const type )
             weather_datum {
                 translate_marker( "Snowstorm" ), c_white, c_white_cyan, '%', 6, 1.2f, -30, 6, false,
                 PRECIP_HEAVY, false, false, &weather_effect::snowstorm
+            },
+            weather_datum {
+                translate_marker( "Acid Flurries" ), c_light_green, c_yellow_green, '.', 2, 1.12f, -15, 2, true,
+                PRECIP_LIGHT, false, false, &weather_effect::light_acid
+            },
+            weather_datum {
+                translate_marker( "Acid Snow" ), c_light_green, c_yellow_green, '*', 4, 1.13f, -20, 4, true,
+                PRECIP_HEAVY, false, false, &weather_effect::acid
             }
-        }};
+    }};
 
     const size_t i = static_cast<size_t>( type );
     if( i < NUM_WEATHER_TYPES ) {

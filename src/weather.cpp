@@ -1,39 +1,41 @@
 #include "weather.h"
 
-#include <algorithm>
 #include <array>
 #include <cmath>
-#include <memory>
 #include <string>
 #include <vector>
+#include <algorithm>
+#include <list>
+#include <memory>
 
 #include "avatar.h"
-#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
-#include "colony.h"
 #include "coordinate_conversions.h"
-#include "enums.h"
 #include "game.h"
 #include "game_constants.h"
-#include "item.h"
-#include "item_contents.h"
 #include "line.h"
 #include "map.h"
-#include "math_defines.h"
 #include "messages.h"
 #include "options.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "point.h"
-#include "regional_settings.h"
-#include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
-#include "units.h"
 #include "weather_gen.h"
+#include "bodypart.h"
+#include "enums.h"
+#include "item.h"
+#include "math_defines.h"
+#include "rng.h"
+#include "string_id.h"
+#include "units.h"
+#include "colony.h"
+#include "player_activity.h"
+#include "regional_settings.h"
+#include "morale_types.h"
 
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 
@@ -56,6 +58,11 @@ static const std::string flag_SUN_GLASSES( "SUN_GLASSES" );
 static bool is_player_outside()
 {
     return g->m.is_outside( point( g->u.posx(), g->u.posy() ) ) && g->get_levz() >= 0;
+}
+
+static bool is_creature_outside(const Creature *z)
+{
+    return g->m.is_outside( point( z->posx(), z->posy() ) ) && g->get_levz() >= 0;
 }
 
 #define THUNDER_CHANCE 50
@@ -125,6 +132,9 @@ inline void proc_weather_sum( const weather_type wtype, weather_sum &data,
             break;
         case WEATHER_ACID_RAIN:
             data.acid_amount += 8 * to_turns<int>( tick_size );
+            break;
+        case WEATHER_ACID_STORM:
+            data.acid_amount += 12 * to_turns<int>( tick_size );
             break;
         default:
             break;
@@ -490,25 +500,39 @@ void weather_effect::lightning()
  */
 void weather_effect::light_acid()
 {
-    if( calendar::once_every( 1_minutes ) && is_player_outside() ) {
-        if( g->u.weapon.has_flag( "RAIN_PROTECT" ) && !one_in( 3 ) ) {
-            add_msg( _( "Your %s protects you from the acidic drizzle." ), g->u.weapon.tname() );
-        } else {
-            if( g->u.worn_with_flag( "RAINPROOF" ) && !one_in( 4 ) ) {
-                add_msg( _( "Your clothing protects you from the acidic drizzle." ) );
-            } else {
-                bool has_helmet = false;
-                if( g->u.is_wearing_power_armor( &has_helmet ) && ( has_helmet || !one_in( 4 ) ) ) {
-                    add_msg( _( "Your power armor protects you from the acidic drizzle." ) );
-                } else {
-                    add_msg( m_warning, _( "The acid rain stings, but is mostly harmless for now…" ) );
-                    if( one_in( 10 ) && ( g->u.get_pain() < 10 ) ) {
-                        g->u.mod_pain( 1 );
-                    }
-                }
+    if( calendar::once_every( 10_turns ) && is_player_outside() ) {
+
+        // wielding unbrella does completely protects from acid drizzle
+        if( g->u.weapon.has_flag( "RAIN_PROTECT" ) ) {
+            if( one_in( 10 ) ) {
+                add_msg( _( "Your umbrella protects you from the acid rain." ) );
             }
+            return;
+        }
+        // wearing poewer armer with helmet does completely protects from acid drizzle
+        bool has_helmet = false;
+        if( g->u.is_wearing_power_armor( &has_helmet ) && ( has_helmet ) ) {
+            if( one_in( 10 ) ) {
+                add_msg( _( "Your power armor protects you from the acid rain." ) );
+            }
+            return;
+        }
+        // wearing RAINPROOF clothes completely protects from acid drizzle
+        if( g->u.worn_with_flag( "RAINPROOF" ) ) {
+            if( one_in( 10 ) ) {
+                add_msg( _( "Your clothing protects you from the acid rain." ) );
+            }
+            return;
+        }
+        if( one_in( 10 )) {
+            add_msg( m_warning, _( "The acid rain stings, but is mostly harmless for now…" ) );
+        }
+        // sightly pain, mostly harmless
+        if( one_in( 20 ) && ( g->u.get_pain() < 10 ) ) {
+            g->u.mod_pain( rng( 1, 5 ) );
         }
     }
+
 }
 
 /**
@@ -517,23 +541,131 @@ void weather_effect::light_acid()
  */
 void weather_effect::acid()
 {
-    if( calendar::once_every( 2_turns ) && is_player_outside() ) {
-        if( g->u.weapon.has_flag( "RAIN_PROTECT" ) && one_in( 4 ) ) {
-            add_msg( _( "Your umbrella protects you from the acid rain." ) );
-        } else {
-            if( g->u.worn_with_flag( "RAINPROOF" ) && one_in( 2 ) ) {
-                add_msg( _( "Your clothing protects you from the acid rain." ) );
-            } else {
-                bool has_helmet = false;
-                if( g->u.is_wearing_power_armor( &has_helmet ) && ( has_helmet || !one_in( 2 ) ) ) {
-                    add_msg( _( "Your power armor protects you from the acid rain." ) );
-                } else {
-                    add_msg( m_bad, _( "The acid rain burns!" ) );
-                    if( one_in( 2 ) && ( g->u.get_pain() < 100 ) ) {
-                        g->u.mod_pain( rng( 1, 5 ) );
-                    }
-                }
+    // effect for monster
+    if( calendar::once_every( 59_turns ) ){
+        for( monster &critter : g->all_monsters() ) {
+            if( one_in( 10 ) && is_creature_outside( &critter ) ) {
+                // 1 per about 590 turn
+                critter.apply_damage( nullptr, bp_torso, 1 );
             }
+        }
+    }
+
+    // effect for player
+    if( calendar::once_every( 10_turns ) && is_player_outside() ) {
+
+        // wielding unbrella does completely protects from normal acid rain
+        if( g->u.weapon.has_flag( "RAIN_PROTECT" ) ) {
+            if( one_in( 10 ) ) {
+                add_msg( _( "Your umbrella protects you from the acid rain." ) );
+            }
+            return;
+        }
+        // wearing poewer armer with helmet does completely protects from normal acid rain
+        bool has_helmet = false;
+        if( g->u.is_wearing_power_armor( &has_helmet ) && ( has_helmet ) ) {
+            if( one_in( 10 ) ) {
+                add_msg( _( "Your power armor protects you from the acid rain." ) );
+            }
+            return;
+        }
+        // wearing RAINPROOF clothes blocks 90% of normal acid rain
+        if( g->u.worn_with_flag( "RAINPROOF" ) && !one_in( 10 ) ) {
+            if( one_in( 10 ) ) {
+                add_msg( _( "Your clothing protects you from the acid rain." ) );
+            }
+            return;
+        }
+        if( one_in( 10 )) {
+            add_msg( m_bad, _( "The acid rain burns!" ) );
+        }
+        // pretty big pain ( up to about pain description color become light red )
+        // and slowly loses all body HP
+        if( one_in( 10 ) && ( g->u.get_pain() < 40 ) ) {
+            // 1 per about 33 turn
+            g->u.mod_pain( rng( 1, 5 ) );
+        }
+        if( one_in( 30 ) ) {
+            // 1 per about 300 turn
+            g->u.hurtall( 1, nullptr );
+            // XXX Hackey :(
+            // hurtall causes pain as same amount damage
+            // so i hope cancel it
+            g->u.mod_pain( -1 );
+        }
+    }
+}
+
+void weather_effect::acid_storm()
+{
+    // effect for monster
+    if( calendar::once_every( 59_turns ) ){
+        for( monster &critter : g->all_monsters() ) {
+            if( one_in( 10 ) && is_creature_outside( &critter ) ) {
+                // 1 per about 66 turn
+                critter.apply_damage( nullptr, bp_torso, 9 );
+            }
+        }
+    }
+
+    if( calendar::once_every( 10_turns ) && is_player_outside() ) {
+
+        // wielding unbrella blocks 90% of acid storm
+        if( g->u.weapon.has_flag( "RAIN_PROTECT" ) && !one_in( 10 )) {
+            if( one_in( 10 ) ) {
+                add_msg( _( "Your umbrella protects you from the acid rain." ) );
+            }
+            return;
+        }
+        // wearing poewer armer with helmet does completely protects from acid storm
+        bool has_helmet = false;
+        if( g->u.is_wearing_power_armor( &has_helmet ) && ( has_helmet ) ) {
+            if( one_in( 10 ) ) {
+                add_msg( _( "Your power armor protects you from the acid rain." ) );
+            }
+            return;
+        }
+        // wearing RAINPROOF clothes blocks 75% of acid storm
+        if( g->u.worn_with_flag( "RAINPROOF" ) && !one_in( 4 ) ) {
+            if( one_in( 10 ) ) {
+                add_msg( _( "Your clothing protects you from the acid rain." ) );
+            }
+            return;
+        }
+        if( one_in( 10 )) {
+            add_msg( m_bad, _( "The acid storm burns!" ) );
+        }
+        // about 10 times stronger than normal acid rain! RUN!
+        if( one_in( 3 ) && ( g->u.get_pain() < 100 ) ) {
+            // 1 per about 4 turn
+            g->u.mod_pain( rng( 5, 10 ) );
+        }
+        if( one_in( 3 ) ) {
+            // 1 per about 30 turn
+            g->u.hurtall( 1, nullptr );
+            // XXX Hackey :(
+            g->u.mod_pain( -1 );
+        }
+
+    }
+}
+
+void weather_effect::rainbow()
+{
+    if( calendar::once_every( 60_turns ) && is_player_outside() ) {
+        g->u.add_morale( MORALE_SAW_RAINBOW, 2, 20, 60_minutes, 30_minutes );
+        if( one_in( 5 ) ) {
+            add_msg( _( "Beautiful rainbow is coming out." ) );
+        }
+    }
+}
+
+void weather_effect::diamond_dust()
+{
+    if( calendar::once_every( 60_turns ) && is_player_outside() ) {
+        g->u.add_morale( MORALE_SAW_DIAMONDDUST, 2, 30, 60_minutes, 30_minutes );
+        if( one_in( 5 ) ) {
+            add_msg( _( "Beautiful Diamond dust is falling." ) );
         }
     }
 }
@@ -695,43 +827,45 @@ std::string print_pressure( double pressure, int decimals )
     return string_format( pgettext( "air pressure in kPa", "%s kPa" ), ret );
 }
 
-int get_local_windchill( double temperature_f, double humidity, double wind_mph )
+int get_local_windchill( double temperature, double humidity, double windpower )
 {
-    double windchill_f = 0;
+    double tmptemp = temperature;
+    double tmpwind = windpower;
+    double windchill = 0;
 
-    if( temperature_f < 50 ) {
+    if( tmptemp < 50 ) {
         /// Model 1, cold wind chill (only valid for temps below 50F)
         /// Is also used as a standard in North America.
 
         // Temperature is removed at the end, because get_local_windchill is meant to calculate the difference.
         // Source : http://en.wikipedia.org/wiki/Wind_chill#North_American_and_United_Kingdom_wind_chill_index
-        windchill_f = 35.74 + 0.6215 * temperature_f - 35.75 * std::pow( wind_mph,
-                      0.16 ) + 0.4275 * temperature_f * std::pow( wind_mph, 0.16 ) - temperature_f;
-        if( wind_mph < 3 ) {
-            // This model fails when wind is less than 3 mph
-            windchill_f = 0;
+        windchill = 35.74 + 0.6215 * tmptemp - 35.75 * pow( tmpwind,
+                    0.16 ) + 0.4275 * tmptemp * pow( tmpwind, 0.16 ) - tmptemp;
+        if( tmpwind < 4 ) {
+            // This model fails when there is 0 wind.
+            windchill = 0;
         }
     } else {
         /// Model 2, warm wind chill
 
         // Source : http://en.wikipedia.org/wiki/Wind_chill#Australian_Apparent_Temperature
         // Convert to meters per second.
-        double wind_meters_per_sec = wind_mph * 0.44704;
-        double temperature_c = temp_to_celsius( temperature_f );
+        tmpwind = tmpwind * 0.44704;
+        tmptemp = temp_to_celsius( tmptemp );
 
         // Cap the vapor pressure term to 50C of extra heat, as this term
         // otherwise grows logistically to an asymptotic value of about 2e7
         // for large values of temperature. This is presumably due to the
         // model being designed for reasonable ambient temperature values,
         // rather than extremely high ones.
-        double windchill_c = 0.33 * std::min<float>( 150.00, humidity / 100.00 * 6.105 *
-                             std::exp( 17.27 * temperature_c / ( 237.70 + temperature_c ) ) ) - 0.70 *
-                             wind_meters_per_sec - 4.00;
+        windchill = 0.33 * std::min<float>( 150.00, humidity / 100.00 * 6.105 *
+                                            exp( 17.27 * tmptemp / ( 237.70 + tmptemp ) ) ) - 0.70 *
+                    tmpwind - 4.00;
         // Convert to Fahrenheit, but omit the '+ 32' because we are only dealing with a piece of the felt air temperature equation.
-        windchill_f = windchill_c * 9 / 5;
+        windchill = windchill * 9 / 5;
     }
 
-    return std::ceil( windchill_f );
+    return windchill;
 }
 
 nc_color get_wind_color( double windpower )
@@ -773,19 +907,19 @@ std::string get_shortdirstring( int angle )
     int dirangle = angle;
     if( dirangle <= 23 || dirangle > 338 ) {
         dirstring = _( "N" );
-    } else if( dirangle <= 68 ) {
+    } else if( dirangle <= 68 && dirangle > 23 ) {
         dirstring = _( "NE" );
-    } else if( dirangle <= 113 ) {
+    } else if( dirangle <= 113 && dirangle > 68 ) {
         dirstring = _( "E" );
-    } else if( dirangle <= 158 ) {
+    } else if( dirangle <= 158 && dirangle > 113 ) {
         dirstring = _( "SE" );
-    } else if( dirangle <= 203 ) {
+    } else if( dirangle <= 203 && dirangle > 158 ) {
         dirstring = _( "S" );
-    } else if( dirangle <= 248 ) {
+    } else if( dirangle <= 248 && dirangle > 203 ) {
         dirstring = _( "SW" );
-    } else if( dirangle <= 293 ) {
+    } else if( dirangle <= 293 && dirangle > 248 ) {
         dirstring = _( "W" );
-    } else {
+    } else if( dirangle <= 338 && dirangle > 293 ) {
         dirstring = _( "NW" );
     }
     return dirstring;
@@ -798,19 +932,19 @@ std::string get_dirstring( int angle )
     int dirangle = angle;
     if( dirangle <= 23 || dirangle > 338 ) {
         dirstring = _( "North" );
-    } else if( dirangle <= 68 ) {
+    } else if( dirangle <= 68 && dirangle > 23 ) {
         dirstring = _( "North-East" );
-    } else if( dirangle <= 113 ) {
+    } else if( dirangle <= 113 && dirangle > 68 ) {
         dirstring = _( "East" );
-    } else if( dirangle <= 158 ) {
+    } else if( dirangle <= 158 && dirangle > 113 ) {
         dirstring = _( "South-East" );
-    } else if( dirangle <= 203 ) {
+    } else if( dirangle <= 203 && dirangle > 158 ) {
         dirstring = _( "South" );
-    } else if( dirangle <= 248 ) {
+    } else if( dirangle <= 248 && dirangle > 203 ) {
         dirstring = _( "South-West" );
-    } else if( dirangle <= 293 ) {
+    } else if( dirangle <= 293 && dirangle > 248 ) {
         dirstring = _( "West" );
-    } else {
+    } else if( dirangle <= 338 && dirangle > 293 ) {
         dirstring = _( "North-West" );
     }
     return dirstring;
@@ -819,24 +953,24 @@ std::string get_dirstring( int angle )
 std::string get_wind_arrow( int dirangle )
 {
     std::string wind_arrow;
-    if( dirangle < 0 || dirangle >= 360 ) {
-        wind_arrow.clear();
-    } else if( dirangle <= 23 || dirangle > 338 ) {
+    if( ( dirangle <= 23 && dirangle >= 0 ) || ( dirangle > 338 && dirangle < 360 ) ) {
         wind_arrow = "\u21D3";
-    } else if( dirangle <= 68 ) {
+    } else if( dirangle <= 68 && dirangle > 23 ) {
         wind_arrow = "\u21D9";
-    } else if( dirangle <= 113 ) {
+    } else if( dirangle <= 113 && dirangle > 68 ) {
         wind_arrow = "\u21D0";
-    } else if( dirangle <= 158 ) {
+    } else if( dirangle <= 158 && dirangle > 113 ) {
         wind_arrow = "\u21D6";
-    } else if( dirangle <= 203 ) {
+    } else if( dirangle <= 203 && dirangle > 158 ) {
         wind_arrow = "\u21D1";
-    } else if( dirangle <= 248 ) {
+    } else if( dirangle <= 248 && dirangle > 203 ) {
         wind_arrow = "\u21D7";
-    } else if( dirangle <= 293 ) {
+    } else if( dirangle <= 293 && dirangle > 248 ) {
         wind_arrow = "\u21D2";
-    } else {
+    } else if( dirangle <= 338 && dirangle > 293 ) {
         wind_arrow = "\u21D8";
+    } else {
+        wind_arrow.clear();
     }
     return wind_arrow;
 }

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_SRC_WEATHER_GEN_H
-#define CATA_SRC_WEATHER_GEN_H
+#ifndef WEATHER_GEN_H
+#define WEATHER_GEN_H
 
 #include <string>
 
@@ -19,6 +19,7 @@ struct w_point {
     std::string wind_desc;
     int winddirection = 0;
     bool acidic = false;
+    bool acidic_weak = false;
 };
 
 class weather_generator
@@ -57,6 +58,7 @@ class weather_generator
         w_point get_weather( const tripoint &, const time_point &, unsigned ) const;
         weather_type get_weather_conditions( const tripoint &, const time_point &, unsigned seed ) const;
         weather_type get_weather_conditions( const w_point & ) const;
+        weather_type get_variant_modded_weather_conditions( const w_point & ) const;
         int get_wind_direction( season_type ) const;
         int convert_winddir( int ) const;
         int get_water_temperature() const;
@@ -67,4 +69,4 @@ class weather_generator
         static weather_generator load( const JsonObject &jo );
 };
 
-#endif // CATA_SRC_WEATHER_GEN_H
+#endif

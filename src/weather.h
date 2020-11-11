@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_SRC_WEATHER_H
-#define CATA_SRC_WEATHER_H
+#ifndef WEATHER_H
+#define WEATHER_H
 
 #include "color.h"
 #include "optional.h"
@@ -45,6 +45,8 @@ enum weather_type : int {
     WEATHER_CLEAR,        //!< No effects
     WEATHER_SUNNY,        //!< Glare if no eye protection
     WEATHER_CLOUDY,       //!< No effects
+    WEATHER_RAINBOW,      //!< gain morale
+    WEATHER_DIAMONDDUST,  //!< more gain morale than rainbow
     WEATHER_LIGHT_DRIZZLE,//!< very Light rain
     WEATHER_DRIZZLE,      //!< Light rain
     WEATHER_RAINY,        //!< Lots of rain, sight penalties
@@ -52,9 +54,12 @@ enum weather_type : int {
     WEATHER_LIGHTNING,    //!< Rare lightning strikes!
     WEATHER_ACID_DRIZZLE, //!< No real effects; warning of acid rain
     WEATHER_ACID_RAIN,    //!< Minor acid damage
+    WEATHER_ACID_STORM,   //!< Massive acid damage
     WEATHER_FLURRIES,     //!< Light snow
     WEATHER_SNOW,         //!< snow glare effects
     WEATHER_SNOWSTORM,    //!< sight penalties
+    WEATHER_ACID_FLURRIES,//!< No real effect
+    WEATHER_ACID_SNOW,    //!< Minor acid damage
     NUM_WEATHER_TYPES     //!< Sentinel value
 };
 
@@ -117,6 +122,9 @@ void thunder();
 void lightning();
 void light_acid();
 void acid();
+void acid_storm();
+void rainbow();
+void diamond_dust();
 //!< Currently flurries have no additional effects.
 void flurry();
 void snow();
@@ -183,9 +191,7 @@ std::string print_temperature( double fahrenheit, int decimals = 0 );
 std::string print_humidity( double humidity, int decimals = 0 );
 std::string print_pressure( double pressure, int decimals = 0 );
 
-// Return windchill offset in degrees F, starting from given temperature, humidity and wind
-int get_local_windchill( double temperature_f, double humidity, double wind_mph );
-
+int get_local_windchill( double temperature, double humidity, double windpower );
 int get_local_humidity( double humidity, weather_type weather, bool sheltered = false );
 double get_local_windpower( double windpower, const oter_id &omter, const tripoint &location,
                             const int &winddirection,
@@ -264,4 +270,4 @@ class weather_manager
         void clear_temp_cache();
 };
 
-#endif // CATA_SRC_WEATHER_H
+#endif

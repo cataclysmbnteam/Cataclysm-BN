@@ -2,18 +2,19 @@
 
 #include <algorithm>
 #include <cmath>
-#include <ostream>
 #include <random>
 #include <string>
+#include <chrono>
 
-#include "cata_utility.h"
 #include "game_constants.h"
+#include "cata_utility.h"
 #include "json.h"
 #include "math_defines.h"
-#include "point.h"
 #include "rng.h"
 #include "simplexnoise.h"
 #include "weather.h"
+#include "point.h"
+#include "options.h"
 
 namespace
 {
@@ -56,7 +57,7 @@ static weather_gen_common get_common_data( const tripoint &location, const time_
     const double year_fraction( time_past_new_year( t ) /
                                 calendar::year_length() ); // [0,1)
 
-    result.cyf = std::cos( tau * ( year_fraction + .125 ) ); // [-1, 1]
+    result.cyf = cos( tau * ( year_fraction + .125 ) ); // [-1, 1]
     // We add one-eighth to line up `cyf` so that 1 is at
     // midwinter and -1 at midsummer. (Cataclsym DDA years
     // start when spring starts. Gregorian years start when
@@ -78,7 +79,7 @@ static double weather_temperature_from_common_data( const weather_generator &wg,
     // -1 in midwinter, +1 in midsummer
     const season_type season = common.season;
     const double dayFraction = time_past_midnight( t ) / 1_days;
-    const double dayv = std::cos( tau * ( dayFraction + .5 - coldest_hour / 24 ) );
+    const double dayv = cos( tau * ( dayFraction + .5 - coldest_hour / 24 ) );
     // -1 at coldest_hour, +1 twelve hours later
 
     // manually specified seasonal temp variation from region_settings.json
@@ -145,7 +146,7 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
         10 * ( -seasonality + 2 );
 
     // Wind power
-    W = std::max( 0, static_cast<int>( base_wind * rng( 1, 2 )  / std::pow( ( P + W ) / 1014.78, rng( 9,
+    W = std::max( 0, static_cast<int>( base_wind * rng( 1, 2 )  / pow( ( P + W ) / 1014.78, rng( 9,
                                        base_wind_distrib_peaks ) ) +
                                        -cyf / base_wind_season_variation * rng( 1, 2 ) ) );
     // Initial static variable
@@ -162,9 +163,11 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     }
     std::string wind_desc = get_wind_desc( W );
     // Acid rains
-    const double acid_content = base_acid * A;
+    int option_acid_frequency = get_option<int>( "ACID_RAIN" );
+    const double acid_content = A * option_acid_frequency / 100;
     bool acid = acid_content >= 1.0;
-    return w_point {T, H, P, W, wind_desc, current_winddir, acid};
+    bool acid_weak = acid_content >= 0.5;
+    return w_point {T, H, P, W, wind_desc, current_winddir, acid, acid_weak};
 }
 
 weather_type weather_generator::get_weather_conditions( const tripoint &location,
@@ -181,6 +184,10 @@ weather_type weather_generator::get_weather_conditions( const tripoint &location
 
 weather_type weather_generator::get_weather_conditions( const w_point &w ) const
 {
+    if( get_option<bool>( "VARIANT_WEATHER_PATTERN" )){
+        return get_variant_modded_weather_conditions( w );
+    }
+
     weather_type r( WEATHER_CLEAR );
     if( w.pressure > 1020 && w.humidity < 70 ) {
         r = WEATHER_SUNNY;
@@ -216,18 +223,153 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
         }
     }
 
-    if( r == WEATHER_DRIZZLE && w.acidic ) {
-        r = WEATHER_ACID_DRIZZLE;
+
+    if( w.acidic ){
+        switch( r ) {
+            case WEATHER_DRIZZLE:
+                r = WEATHER_ACID_DRIZZLE;
+                break;
+            case WEATHER_RAINY:
+                r = WEATHER_ACID_RAIN;
+                break;
+            case WEATHER_FLURRIES:
+                r = WEATHER_ACID_FLURRIES;
+                break;
+            case WEATHER_SNOW:
+                r = WEATHER_ACID_SNOW;
+                break;
+            case WEATHER_THUNDER:
+            case WEATHER_LIGHTNING:
+            case WEATHER_SNOWSTORM:
+                r = WEATHER_ACID_STORM;
+                break;
+            default:
+                break;
+        }
+    } else if( w.acidic_weak ) {
+        switch( r ) {
+            case WEATHER_DRIZZLE:
+            case WEATHER_RAINY:
+                r = WEATHER_ACID_DRIZZLE;
+                break;
+            case WEATHER_SNOW:
+                r = WEATHER_ACID_FLURRIES;
+                break;
+            case WEATHER_SNOWSTORM:
+                r = WEATHER_ACID_SNOW;
+                break;
+            case WEATHER_THUNDER:
+                r = WEATHER_ACID_RAIN;
+                break;
+            case WEATHER_LIGHTNING:
+                r = WEATHER_ACID_STORM;
+                break;
+            default:
+                break;
+        }
     }
-    if( r > WEATHER_DRIZZLE && w.acidic ) {
-        r = WEATHER_ACID_RAIN;
+    return r;
+}
+
+weather_type weather_generator::get_variant_modded_weather_conditions( const w_point &w ) const
+{
+
+    weather_type r( WEATHER_CLEAR );
+
+    if( 1020 < w.pressure && w.humidity < 70 ) {
+        r = WEATHER_SUNNY;
+    }
+    if( 75 < w.humidity && w.pressure < 1020 && ( w.pressure < 1015 || 94 < w.humidity ) ) {
+        r = WEATHER_CLOUDY;
+    }
+    if( 97 < w.humidity ) {
+        r = WEATHER_LIGHT_DRIZZLE;
+    }
+    if( 97 < w.humidity && w.humidity < 98 && 1020 < w.pressure && w.pressure < 1021 ) {
+        r = WEATHER_RAINBOW;
+    }
+    if( 80 < w.humidity && w.pressure < 1012 ) {
+        r = WEATHER_DRIZZLE;
+    }
+    if( 85 < w.humidity && w.pressure < 1010 ) {
+        r = WEATHER_RAINY;
+    }
+    if( 99 < w.humidity && w.pressure < 1009) {
+        r = WEATHER_THUNDER;
+    }
+    if( 90 < w.humidity && w.pressure < 1003) {
+        r = WEATHER_LIGHTNING;
+    }
+
+    if( w.temperature <= 32 ) {
+        if( r == WEATHER_DRIZZLE ) {
+            r = WEATHER_FLURRIES;
+        } else if (r == WEATHER_RAINBOW ) {
+            r = WEATHER_DIAMONDDUST;
+        } else if( r > WEATHER_DRIZZLE ) {
+            if( r >= WEATHER_THUNDER && w.windpower > 15 ) {
+                r = WEATHER_SNOWSTORM;
+            } else {
+                r = WEATHER_SNOW;
+            }
+        }
+    } else if( 99 < w.humidity && w.pressure < 1003) {
+        // eye of the storm ;)
+        r = WEATHER_SUNNY;
+    }
+
+
+    if( w.acidic ){
+        switch( r ) {
+            case WEATHER_DRIZZLE:
+                r = WEATHER_ACID_DRIZZLE;
+                break;
+            case WEATHER_RAINY:
+                r = WEATHER_ACID_RAIN;
+                break;
+            case WEATHER_FLURRIES:
+                r = WEATHER_ACID_FLURRIES;
+                break;
+            case WEATHER_SNOW:
+                r = WEATHER_ACID_SNOW;
+                break;
+            case WEATHER_THUNDER:
+            case WEATHER_LIGHTNING:
+            case WEATHER_SNOWSTORM:
+                r = WEATHER_ACID_STORM;
+                break;
+            default:
+                break;
+        }
+    } else if( w.acidic_weak ) {
+        switch( r ) {
+            case WEATHER_DRIZZLE:
+            case WEATHER_RAINY:
+                r = WEATHER_ACID_DRIZZLE;
+                break;
+            case WEATHER_SNOW:
+                r = WEATHER_ACID_FLURRIES;
+                break;
+            case WEATHER_SNOWSTORM:
+                r = WEATHER_ACID_SNOW;
+                break;
+            case WEATHER_THUNDER:
+                r = WEATHER_ACID_RAIN;
+                break;
+            case WEATHER_LIGHTNING:
+                r = WEATHER_ACID_STORM;
+                break;
+            default:
+                break;
+        }
     }
     return r;
 }
 
 int weather_generator::get_wind_direction( const season_type season ) const
 {
-    cata_default_random_engine &wind_dir_gen = rng_get_engine();
+    unsigned dirseed = std::chrono::system_clock::now().time_since_epoch().count();
+    cata_default_random_engine wind_dir_gen( dirseed );
     // Assign chance to angle direction
     if( season == SPRING ) {
         std::discrete_distribution<int> distribution {3, 3, 5, 8, 11, 10, 5, 2, 5, 6, 6, 5, 8, 10, 8, 6};
@@ -272,10 +414,10 @@ int weather_generator::get_water_temperature() const
     }
 
     // Temperature varies between 33.8F and 75.2F depending on the time of year. Day = 0 corresponds to the start of spring.
-    int annual_mean_water_temperature = 54.5 + 20.7 * std::sin( tau * ( day - season_length * 0.5 ) /
+    int annual_mean_water_temperature = 54.5 + 20.7 * sin( tau * ( day - season_length * 0.5 ) /
                                         ( season_length * 4.0 ) );
     // Temperature varies between +2F and -2F depending on the time of day. Hour = 0 corresponds to midnight.
-    int daily_water_temperature_varaition = 2.0 + 2.0 * std::sin( tau * ( hour - 6.0 ) / 24.0 );
+    int daily_water_temperature_varaition = 2.0 + 2.0 * sin( tau * ( hour - 6.0 ) / 24.0 );
 
     water_temperature = annual_mean_water_temperature + daily_water_temperature_varaition;
 
