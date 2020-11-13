@@ -1815,6 +1815,76 @@ int known_magic::select_spell( const Character &guy )
     return spell_menu.ret;
 }
 
+void known_magic::cast_spell( Character &guy, const spell_id &spell, int level_override, bool no_fail, bool no_mana )
+{
+    bool success = no_fail || rng_float( 0.0f, 1.0f ) >= spell_being_cast.spell_fail( guy );
+    int exp_gained = spell_being_cast.casting_exp( guy );
+    if( !success ) {
+        guy.add_msg_if_player( game_message_params{ m_bad, gmf_bypass_cooldown },
+                              _( "You lose your concentration!" ) );
+        if( !spell_being_cast.is_max_level() && level_override == -1 ) {
+            // still get some experience for trying
+            spell_being_cast.gain_exp( exp_gained / 5 );
+            guy.add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained / 5,
+                                  spell_being_cast.xp() );
+        }
+        return;
+    }
+
+    if( spell_being_cast.has_flag( spell_flag::VERBAL ) ) {
+        sounds::sound( guy.pos(), guy.get_shout_volume() / 2, sounds::sound_t::speech, _( "cast a spell" ),
+                       false );
+    }
+
+    guy.add_msg_if_player( spell_being_cast.message(), spell_being_cast.name() );
+
+    spell_being_cast.cast_all_effects( guy, target );
+
+    if( !no_mana ) {
+        // pay the cost
+        int cost = spell_being_cast.energy_cost( guy );
+        switch( spell_being_cast.energy_source() ) {
+            case mana_energy:
+                guy.magic.mod_mana( guy, -cost );
+                break;
+            case stamina_energy:
+                guy.mod_stamina( -cost );
+                break;
+            case bionic_energy:
+                guy.mod_power_level( -units::from_kilojoule( cost ) );
+                break;
+            case hp_energy:
+                blood_magic( p, cost );
+                break;
+            case fatigue_energy:
+                guy.mod_fatigue( cost );
+                break;
+            case none_energy:
+            default:
+                break;
+        }
+    }
+    if( level_override == -1 ) {
+        if( !spell_being_cast.is_max_level() ) {
+            // reap the reward
+            int old_level = spell_being_cast.get_level();
+            if( old_level == 0 ) {
+                spell_being_cast.gain_level();
+                p->add_msg_if_player( m_good,
+                                      _( "Something about how this spell works just clicked!  You gained a level!" ) );
+            } else {
+                spell_being_cast.gain_exp( exp_gained );
+                p->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained,
+                                      spell_being_cast.xp() );
+            }
+            if( spell_being_cast.get_level() != old_level ) {
+                g->events().send<event_type::player_levels_spell>( spell_being_cast.id(),
+                        spell_being_cast.get_level() );
+            }
+        }
+    }
+}
+
 void known_magic::on_mutation_gain( const trait_id &mid, Character &guy )
 {
     for( const std::pair<const spell_id, int> &sp : mid->spells_learned ) {

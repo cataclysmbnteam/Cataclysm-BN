@@ -1521,7 +1521,7 @@ bool bionic::activate_spell( Character &caster )
         return true;
     }
     spell sp = id->spell_on_activate->get_spell();
-    return assign_spellcasting( *caster.as_avatar(), sp, true );
+    return magic.cast_spell( *p, spell, level_override, no_fail, no_cost );
 }
 
 void game::open_consume_item_menu()

@@ -4680,72 +4680,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     }
 
     // no turning back now. it's all said and done.
-    bool success = no_fail || rng_float( 0.0f, 1.0f ) >= spell_being_cast.spell_fail( *p );
-    int exp_gained = spell_being_cast.casting_exp( *p );
-    if( !success ) {
-        p->add_msg_if_player( game_message_params{ m_bad, gmf_bypass_cooldown },
-                              _( "You lose your concentration!" ) );
-        if( !spell_being_cast.is_max_level() && level_override == -1 ) {
-            // still get some experience for trying
-            spell_being_cast.gain_exp( exp_gained / 5 );
-            p->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained / 5,
-                                  spell_being_cast.xp() );
-        }
-        return;
-    }
-
-    if( spell_being_cast.has_flag( spell_flag::VERBAL ) ) {
-        sounds::sound( p->pos(), p->get_shout_volume() / 2, sounds::sound_t::speech, _( "cast a spell" ),
-                       false );
-    }
-
-    p->add_msg_if_player( spell_being_cast.message(), spell_being_cast.name() );
-
-    spell_being_cast.cast_all_effects( *p, target );
-
-    if( !no_mana ) {
-        // pay the cost
-        int cost = spell_being_cast.energy_cost( *p );
-        switch( spell_being_cast.energy_source() ) {
-            case mana_energy:
-                p->magic.mod_mana( *p, -cost );
-                break;
-            case stamina_energy:
-                p->mod_stamina( -cost );
-                break;
-            case bionic_energy:
-                p->mod_power_level( -units::from_kilojoule( cost ) );
-                break;
-            case hp_energy:
-                blood_magic( p, cost );
-                break;
-            case fatigue_energy:
-                p->mod_fatigue( cost );
-                break;
-            case none_energy:
-            default:
-                break;
-        }
-    }
-    if( level_override == -1 ) {
-        if( !spell_being_cast.is_max_level() ) {
-            // reap the reward
-            int old_level = spell_being_cast.get_level();
-            if( old_level == 0 ) {
-                spell_being_cast.gain_level();
-                p->add_msg_if_player( m_good,
-                                      _( "Something about how this spell works just clicked!  You gained a level!" ) );
-            } else {
-                spell_being_cast.gain_exp( exp_gained );
-                p->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained,
-                                      spell_being_cast.xp() );
-            }
-            if( spell_being_cast.get_level() != old_level ) {
-                g->events().send<event_type::player_levels_spell>( spell_being_cast.id(),
-                        spell_being_cast.get_level() );
-            }
-        }
-    }
+    p->magic.cast_spell( *p, const spell_being_cast &, level_override, no_fail, no_mana );
 }
 
 void activity_handlers::study_spell_do_turn( player_activity *act, player *p )

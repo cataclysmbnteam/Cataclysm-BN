@@ -495,6 +495,8 @@ class known_magic
         // returns false if invlet is already used
         bool set_invlet( const spell_id &sp, int invlet, const std::set<int> &used_invlets );
         void rem_invlet( const spell_id &sp );
+        // actual results of casting the spell, separated from activity_handlers::spellcasting_finish
+        void cast_spell(Character &guy, const spell_id &spell, int level_override, bool no_fail, bool no_cost);
     private:
         // gets length of longest spell name
         int get_spellname_max_width();
