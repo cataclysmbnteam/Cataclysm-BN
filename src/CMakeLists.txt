@@ -7,12 +7,18 @@ SET(RESOURCE_RC ${CMAKE_SOURCE_DIR}/src/resource.rc)
 
 FILE(GLOB CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/*.cpp
+    ${CMAKE_SOURCE_DIR}/src/display/*.cpp
+    ${CMAKE_SOURCE_DIR}/src/utils/*.cpp
+    ${CMAKE_SOURCE_DIR}/src/world/*.cpp
 )
 
 LIST(REMOVE_ITEM CATACLYSM_DDA_SOURCES ${MAIN_CPP} ${MESSAGES_CPP})
 
 FILE(GLOB CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/*.h
+    ${CMAKE_SOURCE_DIR}/src/display/*.h
+    ${CMAKE_SOURCE_DIR}/src/utils/*.h
+    ${CMAKE_SOURCE_DIR}/src/world/*.h
 )
 
 # Get GIT version strings
@@ -31,6 +37,11 @@ ADD_CUSTOM_COMMAND (
       -P ${CMAKE_SOURCE_DIR}/src/version.cmake
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 )
+
+INCLUDE_DIRECTORIES("${CMAKE_SOURCE_DIR}/src/")
+INCLUDE_DIRECTORIES("${CMAKE_SOURCE_DIR}/src/display/")
+INCLUDE_DIRECTORIES("${CMAKE_SOURCE_DIR}/src/utils/")
+INCLUDE_DIRECTORIES("${CMAKE_SOURCE_DIR}/src/world/")
 
 # Build tiles version if requested
 IF(TILES)
