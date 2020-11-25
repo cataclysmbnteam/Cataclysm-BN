@@ -958,6 +958,8 @@ void tileset_loader::load_tilejson_from_file( const JsonObject &config )
                     curr_subtile.height_3d = t_h3d;
                     curr_tile.available_subtiles.push_back( s_id );
                 }
+            } else if( entry.has_array( "additional_tiles" ) ) {
+                entry.throw_error( "Additional tiles defined, but 'multitile' is not true." );
             }
             // write the information of the base tile to curr_tile
             curr_tile.multitile = t_multi;

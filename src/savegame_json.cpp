@@ -1470,6 +1470,7 @@ void npc::load( const JsonObject &data )
     data.read( "name", name );
     data.read( "marked_for_death", marked_for_death );
     data.read( "dead", dead );
+    data.read( "patience", patience );
     if( data.has_number( "myclass" ) ) {
         data.read( "myclass", classtmp );
         myclass = npc_class::from_legacy_int( classtmp );
@@ -4149,6 +4150,7 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "adv_inv_container_in_vehicle", adv_inv_container_in_vehicle );
     jo.read( "adv_inv_container_type", adv_inv_container_type );
     jo.read( "adv_inv_container_content_type", adv_inv_container_content_type );
+    jo.read( "editmap_nsa_viewmode", editmap_nsa_viewmode );
     jo.read( "overmap_blinking", overmap_blinking );
     jo.read( "overmap_show_overlays", overmap_show_overlays );
     jo.read( "overmap_show_map_notes", overmap_show_map_notes );
