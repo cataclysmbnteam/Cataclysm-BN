@@ -7,7 +7,7 @@
     "symbol": ".",
     "looks_like": "t_underbrush_harvested_spring_season_autumn",
     "color": "light_red",
-    "move_cost": 2,
+    "move_cost": 4,
     "coverage": 40,
     "flags": [ "DIGGABLE", "FLAT", "FLAMMABLE_ASH", "TRANSPARENT" ],
     "bash": { "str_min": 4, "str_max": 30, "sound": "splosh.", "sound_fail": "brush.", "ter_set": "t_ice" }
@@ -15,12 +15,12 @@
   {
     "type": "terrain",
     "id": "t_lichendirt",
-    "name": "lichen bed",
+    "name": "grass",
     "description": "Familiar, yet unfamiliar.  Lichens and moss cling to rocks and lifeless dirt here, providing a squishy but colorful grass.",
     "symbol": ",",
     "looks_like": "t_underbrush_harvested_spring_season_autumn",
     "color": "light_red",
-    "move_cost": 3,
+    "move_cost": 4,
     "coverage": 40,
     "flags": [ "DIGGABLE", "FLAT", "FLAMMABLE_ASH", "TRANSPARENT" ],
     "bash": { "str_min": 4, "str_max": 30, "sound": "splosh.", "sound_fail": "brush.", "ter_set": "t_deaddirt" }
@@ -33,7 +33,7 @@
     "description": "A small segment from the near planet-wide glacier of Salus IV.  Gets called 'ground' around these parts.",
     "symbol": ".",
     "color": "light_blue",
-    "move_cost": 2,
+    "move_cost": 4,
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "ROUGH" ],
     "bash": {
       "str_min": 50,
@@ -52,18 +52,9 @@
     "looks_like": "t_dirt_season_winter",
     "description": "A relatively flat area of black dirt with no observable growth on it, caked with shards of rock.  The only real ground besides the glacial ice.",
     "symbol": ".",
-    "color": "dark_gray",
-    "move_cost": 2,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "ROUGH" ],
-    "bash": {
-      "str_min": 50,
-      "str_max": 100,
-      "sound": "splosh!",
-      "sound_fail": "fweet!",
-      "ter_set": "t_null",
-      "str_min_supported": 100,
-      "bash_below": true
-    }
+    "color": "light_blue",
+    "move_cost": 4,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ]
   },
   {
     "type": "terrain",
