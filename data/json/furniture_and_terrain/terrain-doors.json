@@ -2540,7 +2540,7 @@
     "symbol": "+",
     "looks_like": "t_door_metal_o",
     "color": "light_gray",
-    "move_cost": 1,
+    "move_cost": 2,
     "coverage": 95,
     "roof": "t_metal_flat_roof",
     "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
