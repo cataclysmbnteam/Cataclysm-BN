@@ -1592,6 +1592,7 @@ void Character::recalc_hp()
         /** @EFFECT_STR_MAX increases base hp */
         elem = 60 + str_max * 3 + hp_adjustment;
         elem *= hp_mod;
+        elem = calculate_by_enchantment( elem, enchantment::mod::MAX_HP, true );
     }
     if( has_trait( trait_GLASSJAW ) ) {
         new_max_hp[hp_head] *= 0.8;
@@ -4732,6 +4733,8 @@ needs_rates Character::calc_needs_rates() const
         rates.thirst *= 0.25f;
     }
 
+    rates.fatigue = calculate_by_enchantment( rates.fatigue, enchantment::mod::FATIGUE, true );
+
     return rates;
 }
 
@@ -6547,6 +6550,8 @@ float Character::healing_rate( float at_rest_quality ) const
         final_rate *= 1.0f + primary_hp_mod;
     }
 
+    final_rate = calculate_by_enchantment( final_rate, enchantment::mod::REGEN_HP, true );
+
     return final_rate;
 }
 
@@ -6950,6 +6955,7 @@ void Character::update_stamina( int turns )
     // But mouth encumbrance interferes, even with mutated stamina.
     stamina_recovery += stamina_multiplier * std::max( 1.0f,
                         base_regen_rate - ( encumb( bp_mouth ) / 5.0f ) );
+    stamina_recovery = calculate_by_enchantment( stamina_recovery, enchantment::mod::REGEN_STAMINA, true );
     // TODO: recovering stamina causes hunger/thirst/fatigue.
     // TODO: Tiredness slowing recovery
 
