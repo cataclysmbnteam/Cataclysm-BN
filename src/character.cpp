@@ -6955,7 +6955,8 @@ void Character::update_stamina( int turns )
     // But mouth encumbrance interferes, even with mutated stamina.
     stamina_recovery += stamina_multiplier * std::max( 1.0f,
                         base_regen_rate - ( encumb( bp_mouth ) / 5.0f ) );
-    stamina_recovery = calculate_by_enchantment( stamina_recovery, enchantment::mod::REGEN_STAMINA, true );
+    stamina_recovery = calculate_by_enchantment( stamina_recovery, enchantment::mod::REGEN_STAMINA,
+                       true );
     // TODO: recovering stamina causes hunger/thirst/fatigue.
     // TODO: Tiredness slowing recovery
 
