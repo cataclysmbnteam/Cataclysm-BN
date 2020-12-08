@@ -121,5 +121,17 @@
       { "monster": "mon_uplifted_ape_zed", "freq": 10, "cost_multiplier": 5 },
       { "monster": "mon_zombie_oliphant", "freq": 1, "cost_multiplier": 50 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_LAB",
+    "default": "mon_zombie_scientist",
+    "monsters": [
+      { "monster": "mon_moxie_scavenger", "freq": 25, "cost_multiplier": 0, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_moxie_spartan", "freq": 25, "cost_multiplier": 0 },
+      { "monster": "mon_moxie_regenerator", "freq": 25, "cost_multiplier": 0, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_moxie_grabby", "freq": 25, "cost_multiplier": 0, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_human_biomachine", "freq": 25, "cost_multiplier": 0, "pack_size": [ 1, 4 ] }
+    ]
   }
 ]
