@@ -189,8 +189,9 @@
         {
           "has": "HELD",
           "condition": "ALWAYS",
+          "values": [ { "value": "REGEN_HP", "add": 99 } ],
           "mutations": [ "CARNIVORE" ],
-          "intermittent_activation": { "effects": [ { "frequency": "5 minutes", "spell_effects": [ { "id": "AEA_HEAL" } ] } ] }
+          "intermittent_activation": { "effects": [ { "frequency": "60 minutes", "spell_effects": [ { "id": "AEA_HEAL" } ] } ] }
         },
         {
           "has": "HELD",

@@ -1592,7 +1592,6 @@ void Character::recalc_hp()
         /** @EFFECT_STR_MAX increases base hp */
         elem = 60 + str_max * 3 + hp_adjustment;
         elem *= hp_mod;
-        elem = calculate_by_enchantment( elem, enchantment::mod::MAX_HP, true );
     }
     if( has_trait( trait_GLASSJAW ) ) {
         new_max_hp[hp_head] *= 0.8;
@@ -6550,9 +6549,7 @@ float Character::healing_rate( float at_rest_quality ) const
         final_rate *= 1.0f + primary_hp_mod;
     }
 
-    final_rate = calculate_by_enchantment( final_rate, enchantment::mod::REGEN_HP );
-
-    return final_rate;
+    return calculate_by_enchantment( final_rate, enchantment::mod::REGEN_HP );
 }
 
 float Character::healing_rate_medicine( float at_rest_quality, const body_part bp ) const
