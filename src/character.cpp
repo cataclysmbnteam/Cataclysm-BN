@@ -6521,6 +6521,7 @@ float Character::healing_rate( float at_rest_quality ) const
     }
     float awake_rate = heal_rate * mutation_value( "healing_awake" );
     float final_rate = 0.0f;
+    final_rate = calculate_by_enchantment( final_rate, enchantment::mod::REGEN_HP );
     if( awake_rate > 0.0f ) {
         final_rate += awake_rate;
     } else if( at_rest_quality < 1.0f ) {
@@ -6549,7 +6550,7 @@ float Character::healing_rate( float at_rest_quality ) const
         final_rate *= 1.0f + primary_hp_mod;
     }
 
-    return calculate_by_enchantment( final_rate, enchantment::mod::REGEN_HP );
+    return final_rate;
 }
 
 float Character::healing_rate_medicine( float at_rest_quality, const body_part bp ) const
