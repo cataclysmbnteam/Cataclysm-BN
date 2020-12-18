@@ -144,6 +144,8 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
     clear_avatar();
     REQUIRE( g->u.get_str() == 8 );
     REQUIRE( g->u.get_dex() == 8 );
+    REQUIRE( g->u.get_int() == 8 );
+    REQUIRE( g->u.get_per() == 8 );
     iteminfo_query q = q_vec( { iteminfo_parts::BASE_DAMAGE, iteminfo_parts::BASE_TOHIT,
                                 iteminfo_parts::BASE_MOVES
                               } );
