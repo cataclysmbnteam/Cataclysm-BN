@@ -48,7 +48,7 @@ TEST_CASE( "recipe_subset" )
 
             THEN( "it's in the subset" ) {
                 CHECK( subset.size() == 1 );
-                CHECK( subset.contains( r ) );
+                CHECK( subset.contains( *r ) );
             }
             THEN( "it has its default difficulty" ) {
                 CHECK( subset.get_custom_difficulty( r ) == r->difficulty );
@@ -70,7 +70,7 @@ TEST_CASE( "recipe_subset" )
 
                 THEN( "it's no longer in the subset" ) {
                     CHECK( subset.size() == 0 );
-                    CHECK_FALSE( subset.contains( r ) );
+                    CHECK_FALSE( subset.contains( *r ) );
                 }
             }
         }
@@ -179,7 +179,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
 
             AND_WHEN( "he searches for the recipe in the book" ) {
                 THEN( "he finds it!" ) {
-                    CHECK( dummy.get_recipes_from_books( dummy.inv ).contains( r ) );
+                    CHECK( dummy.get_recipes_from_books( dummy.inv ).contains( *r ) );
                 }
                 THEN( "it's easier in the book" ) {
                     CHECK( dummy.get_recipes_from_books( dummy.inv ).get_custom_difficulty( r ) == 2 );
@@ -192,7 +192,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
                 dummy.i_rem( &craftbook );
 
                 THEN( "he can't brew the recipe anymore" ) {
-                    CHECK_FALSE( dummy.get_recipes_from_books( dummy.inv ).contains( r ) );
+                    CHECK_FALSE( dummy.get_recipes_from_books( dummy.inv ).contains( *r ) );
                 }
             }
         }
@@ -209,7 +209,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
 
             AND_WHEN( "he searches for the recipe in the tablet" ) {
                 THEN( "he finds it!" ) {
-                    CHECK( dummy.get_recipes_from_books( dummy.inv ).contains( r2 ) );
+                    CHECK( dummy.get_recipes_from_books( dummy.inv ).contains( *r2 ) );
                 }
                 THEN( "he still hasn't the recipe memorized" ) {
                     CHECK_FALSE( dummy.knows_recipe( r2 ) );
@@ -219,7 +219,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
                 dummy.i_rem( &eink );
 
                 THEN( "he can't make the recipe anymore" ) {
-                    CHECK_FALSE( dummy.get_recipes_from_books( dummy.inv ).contains( r2 ) );
+                    CHECK_FALSE( dummy.get_recipes_from_books( dummy.inv ).contains( *r2 ) );
                 }
             }
         }
@@ -249,7 +249,7 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
         const auto helpers( dummy.get_crafting_helpers() );
 
         REQUIRE( std::find( helpers.begin(), helpers.end(), &who ) != helpers.end() );
-        REQUIRE_FALSE( dummy.get_available_recipes( dummy.inv, &helpers ).contains( r ) );
+        REQUIRE_FALSE( dummy.get_available_recipes( dummy.inv, &helpers ).contains( *r ) );
         REQUIRE_FALSE( who.knows_recipe( r ) );
 
         WHEN( "you have the required skill" ) {
@@ -259,7 +259,7 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
                 who.learn_recipe( r );
 
                 THEN( "he helps you" ) {
-                    CHECK( dummy.get_available_recipes( dummy.inv, &helpers ).contains( r ) );
+                    CHECK( dummy.get_available_recipes( dummy.inv, &helpers ).contains( *r ) );
                 }
             }
             AND_WHEN( "he has the cookbook in his inventory" ) {
@@ -269,7 +269,7 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
                 REQUIRE_FALSE( cookbook.type->book->recipes.empty() );
 
                 THEN( "he shows it to you" ) {
-                    CHECK( dummy.get_available_recipes( dummy.inv, &helpers ).contains( r ) );
+                    CHECK( dummy.get_available_recipes( dummy.inv, &helpers ).contains( *r ) );
                 }
             }
         }

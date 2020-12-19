@@ -180,6 +180,8 @@ const recipe *select_crafting_recipe( int &batch_size )
         return data;
     };
 
+    avatar &u = get_avatar();
+
     // always re-translate the category names in case the language has changed
     translate_all();
 
@@ -238,13 +240,15 @@ const recipe *select_crafting_recipe( int &batch_size )
     std::vector<const recipe *> current;
 
     struct availability {
-        availability( const recipe *r, int batch_size = 1 ) {
-            const inventory &inv = g->u.crafting_inventory();
+        availability( const recipe *r, int batch_size, bool known ) {
+            this->known = known;
+            const inventory &inv = get_avatar().crafting_inventory();
             auto all_items_filter = r->get_component_filter( recipe_filter_flags::none );
             auto no_rotten_filter = r->get_component_filter( recipe_filter_flags::no_rotten );
             const deduped_requirement_data &req = r->deduped_requirements();
-            can_craft = req.can_make_with_inventory(
-                            inv, all_items_filter, batch_size, craft_flags::start_only );
+            could_craft_if_knew = req.can_make_with_inventory(
+                                      inv, all_items_filter, batch_size, craft_flags::start_only );
+            can_craft = known && could_craft_if_knew;
             can_craft_non_rotten = req.can_make_with_inventory(
                                        inv, no_rotten_filter, batch_size, craft_flags::start_only );
             const requirement_data &simple_req = r->simple_requirements();
@@ -253,14 +257,20 @@ const recipe *select_crafting_recipe( int &batch_size )
         }
         bool can_craft;
         bool can_craft_non_rotten;
+        bool could_craft_if_knew;
         bool apparently_craftable;
+        bool known;
 
         nc_color selected_color() const {
-            return can_craft ? can_craft_non_rotten ? h_white : h_brown : h_dark_gray;
+            return can_craft
+                   ? ( can_craft_non_rotten ? h_white : h_brown )
+                   : ( could_craft_if_knew ? h_yellow : h_dark_gray );
         }
 
         nc_color color() const {
-            return can_craft ? can_craft_non_rotten ? c_white : c_brown : c_dark_gray;
+            return can_craft
+                   ? ( can_craft_non_rotten ? c_white : c_brown )
+                   : ( could_craft_if_knew ? c_yellow : c_dark_gray );
         }
     };
 
@@ -276,6 +286,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     bool done = false;
     bool batch = false;
     bool show_hidden = false;
+    bool show_unavailable = false;
     size_t num_hidden = 0;
     int num_recipe = 0;
     int batch_line = 0;
@@ -299,18 +310,26 @@ const recipe *select_crafting_recipe( int &batch_size )
     ctxt.register_action( "CYCLE_BATCH" );
     ctxt.register_action( "RELATED_RECIPES" );
     ctxt.register_action( "HIDE_SHOW_RECIPE" );
+    ctxt.register_action( "TOGGLE_UNAVAILABLE" );
 
-    const inventory &crafting_inv = g->u.crafting_inventory();
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const inventory &crafting_inv = u.crafting_inventory();
+    const std::vector<npc *> helpers = u.get_crafting_helpers();
     std::string filterstring;
 
-    const auto &available_recipes = g->u.get_available_recipes( crafting_inv, &helpers );
-    std::map<const recipe *, availability> availability_cache;
+    const auto &available_recipes = u.get_available_recipes( crafting_inv, &helpers );
+    std::unordered_map<const recipe *, availability> availability_cache( available_recipes.size() );
+
+    std::vector<const recipe *> all_recipes_flat;
+    for( const auto &pr : recipe_dict ) {
+        all_recipes_flat.emplace_back( &pr.second );
+    }
+    const auto &all_recipes = recipe_subset( {}, all_recipes_flat );
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         const TAB_MODE m = ( batch ) ? BATCH : ( filterstring.empty() ) ? NORMAL : FILTERED;
         draw_recipe_tabs( w_head, tab.cur(), m );
-        draw_recipe_subtabs( w_subhead, tab.cur(), subtab.cur(), available_recipes, m );
+        const auto &shown_recipes = show_unavailable ? all_recipes : available_recipes;
+        draw_recipe_subtabs( w_subhead, tab.cur(), subtab.cur(), shown_recipes, m );
 
         if( !show_hidden ) {
             draw_hidden_amount( w_head, num_hidden, num_recipe );
@@ -326,7 +345,8 @@ const recipe *select_crafting_recipe( int &batch_size )
                                    "D[<color_yellow>e</color>]scribe, [<color_yellow>F</color>]ind, "
                                    "[<color_red>R</color>]eset, [<color_yellow>m</color>]ode, "
                                    "[<color_yellow>s</color>]how/hide, Re[<color_yellow>L</color>]ated, "
-                                   "[<color_yellow>*</color>]Favorite, %s, [<color_yellow>?</color>]keybindings" ),
+                                   "[<color_yellow>*</color>]Favorite, %s, [<color_yellow>u</color>]navailable, "
+                                   "[<color_yellow>?</color>]keybindings" ),
                                 ( batch ) ? _( "<color_red>cancel</color> "
                                                "[<color_yellow>b</color>]atch" ) : _( "[<color_yellow>b</color>]atch" ) );
             } else {
@@ -335,7 +355,8 @@ const recipe *select_crafting_recipe( int &batch_size )
                                    "D[<color_yellow>e</color>]scribe, [<color_yellow>F</color>]ind, "
                                    "[<color_yellow>m</color>]ode, [<color_yellow>s</color>]how/hide, "
                                    "Re[<color_yellow>L</color>]ated, [<color_yellow>*</color>]Favorite, "
-                                   "%s, [<color_yellow>?</color>]keybindings" ),
+                                   "%s, [<color_yellow>u</color>]navailable, "
+                                   "[<color_yellow>?</color>]keybindings" ),
                                 ( batch ) ? _( "<color_red>cancel</color> "
                                                "[<color_yellow>b</color>]atch" ) : _( "[<color_yellow>b</color>]atch" ) );
             }
@@ -453,9 +474,11 @@ const recipe *select_crafting_recipe( int &batch_size )
             component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );
             component_print_buffer.insert( component_print_buffer.end(), comps.begin(), comps.end() );
 
-            if( !g->u.knows_recipe( current[line] ) ) {
+            if( !u.knows_recipe( current[line] ) ) {
                 component_print_buffer.push_back( _( "Recipe not memorized yet" ) );
-                auto books_with_recipe = g->u.get_books_for_recipe( crafting_inv, current[line] );
+                auto books_with_recipe = show_unavailable
+                                         ? crafting::get_books_for_recipe( current[line] )
+                                         : crafting::get_books_for_recipe( u, crafting_inv, current[line] );
                 std::string enumerated_books =
                     enumerate_as_string( books_with_recipe.begin(), books_with_recipe.end(),
                 []( itype_id type_id ) {
@@ -492,13 +515,13 @@ const recipe *select_crafting_recipe( int &batch_size )
                 print_colored_text(
                     w_data, point( xpos, ypos++ ), col, col,
                     string_format( _( "Primary skill: %s" ),
-                                   current[line]->primary_skill_string( &g->u, false ) ) );
+                                   current[line]->primary_skill_string( &u, false ) ) );
 
                 ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
                                         _( "Other skills: %s" ),
-                                        current[line]->required_skills_string( &g->u, false, false ) );
+                                        current[line]->required_skills_string( &u, false, false ) );
 
-                const int expected_turns = g->u.expected_time_to_craft( *current[line],
+                const int expected_turns = u.expected_time_to_craft( *current[line],
                                            count ) / to_moves<int>( 1_turns );
                 ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
                                         _( "Time to complete: <color_cyan>%s</color>" ),
@@ -525,11 +548,18 @@ const recipe *select_crafting_recipe( int &batch_size )
                                                "recipe <color_yellow>may appear to be craftable "
                                                "when it is not</color>." ) );
                 }
-                if( !available[line].can_craft && available[line].apparently_craftable ) {
+                if( !available[line].can_craft &&
+                    available[line].apparently_craftable &&
+                    available[line].known ) {
                     ypos += fold_and_print(
                                 w_data, point( xpos, ypos ), pane, col,
                                 _( "<color_red>Cannot be crafted because the same item is needed "
                                    "for multiple components</color>" ) );
+                }
+                if( !available[line].known ) {
+                    ypos += fold_and_print(
+                                w_data, point( xpos, ypos ), pane, col,
+                                _( "<color_red>Not known</color>" ) );
                 }
                 ypos += print_items( *current[line], w_data, point( xpos, ypos ), col, batch ? line + 1 : 1 );
             }
@@ -581,6 +611,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     } );
 
     do {
+        const auto &shown_recipes = show_unavailable ? all_recipes : available_recipes;
         if( recalc ) {
             // When we switch tabs, redraw the header
             recalc = false;
@@ -601,7 +632,8 @@ const recipe *select_crafting_recipe( int &batch_size )
                 current.clear();
                 for( int i = 1; i <= 50; i++ ) {
                     current.push_back( chosen );
-                    available.push_back( availability( chosen, i ) );
+                    available.push_back( availability( chosen, i,
+                                                       !show_unavailable || available_recipes.contains( *chosen ) ) );
                 }
             } else {
                 std::vector<const recipe *> picking;
@@ -609,7 +641,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                     auto qry = trim( filterstring );
                     size_t qry_begin = 0;
                     size_t qry_end = 0;
-                    recipe_subset filtered_recipes = available_recipes;
+                    recipe_subset filtered_recipes = shown_recipes;
                     do {
                         // Find next ','
                         qry_end = qry.find_first_of( ',', qry_begin );
@@ -654,12 +686,12 @@ const recipe *select_crafting_recipe( int &batch_size )
                                     break;
 
                                 case 'm': {
-                                    auto &learned = g->u.get_learned_recipes();
+                                    auto &learned = u.get_learned_recipes();
                                     recipe_subset temp_subset;
                                     if( query_is_yes( qry_filter_str ) ) {
-                                        temp_subset = available_recipes.intersection( learned );
+                                        temp_subset = shown_recipes.intersection( learned );
                                     } else {
-                                        temp_subset = available_recipes.difference( learned );
+                                        temp_subset = shown_recipes.difference( learned );
                                     }
                                     filtered_recipes = filtered_recipes.intersection( temp_subset );
                                     break;
@@ -676,14 +708,14 @@ const recipe *select_crafting_recipe( int &batch_size )
                     } while( qry_end != std::string::npos );
                     picking.insert( picking.end(), filtered_recipes.begin(), filtered_recipes.end() );
                 } else if( subtab.cur() == "CSC_*_FAVORITE" ) {
-                    picking = available_recipes.favorite();
+                    picking = shown_recipes.favorite();
                 } else if( subtab.cur() == "CSC_*_RECENT" ) {
-                    picking = available_recipes.recent();
+                    picking = shown_recipes.recent();
                 } else if( subtab.cur() == "CSC_*_HIDDEN" ) {
-                    current = available_recipes.hidden();
+                    current = shown_recipes.hidden();
                     show_hidden = true;
                 } else {
-                    picking = available_recipes.in_category( tab.cur(), subtab.cur() != "CSC_ALL" ? subtab.cur() : "" );
+                    picking = shown_recipes.in_category( tab.cur(), subtab.cur() != "CSC_ALL" ? subtab.cur() : "" );
                 }
 
                 if( !show_hidden ) {
@@ -699,9 +731,10 @@ const recipe *select_crafting_recipe( int &batch_size )
 
                 available.reserve( current.size() );
                 // cache recipe availability on first display
-                for( const auto e : current ) {
-                    if( !availability_cache.count( e ) ) {
-                        availability_cache.emplace( e, availability( e ) );
+                for( const recipe *e : current ) {
+                    if( availability_cache.count( e ) == 0 ) {
+                        availability_cache.emplace( e, availability( e, 1,
+                                                    !show_unavailable || available_recipes.contains( *e ) ) );
                     }
                 }
 
@@ -743,7 +776,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             std::string start = subtab.cur();
             do {
                 subtab.prev();
-            } while( subtab.cur() != start && available_recipes.empty_category( tab.cur(),
+            } while( subtab.cur() != start && shown_recipes.empty_category( tab.cur(),
                      subtab.cur() != "CSC_ALL" ? subtab.cur() : "" ) );
             recalc = true;
         } else if( action == "SCROLL_UP" ) {
@@ -759,7 +792,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             std::string start = subtab.cur();
             do {
                 subtab.next();
-            } while( subtab.cur() != start && available_recipes.empty_category( tab.cur(),
+            } while( subtab.cur() != start && shown_recipes.empty_category( tab.cur(),
                      subtab.cur() != "CSC_ALL" ? subtab.cur() : "" ) );
             recalc = true;
         } else if( action == "NEXT_TAB" ) {
@@ -774,7 +807,7 @@ const recipe *select_crafting_recipe( int &batch_size )
         } else if( action == "CONFIRM" ) {
             if( available.empty() || !available[line].can_craft ) {
                 popup( _( "You can't do that!  Press [<color_yellow>ESC</color>]!" ) );
-            } else if( !g->u.check_eligible_containers_for_crafting( *current[line],
+            } else if( !u.check_eligible_containers_for_crafting( *current[line],
                        ( batch ) ? line + 1 : 1 ) ) {
                 // popup is already inside check
             } else {
@@ -909,12 +942,16 @@ const recipe *select_crafting_recipe( int &batch_size )
                 recalc = true;
                 continue;
             }
-            std::string recipe_name = peek_related_recipe( current[line], available_recipes );
+            std::string recipe_name = peek_related_recipe( current[line], shown_recipes );
             if( recipe_name.empty() ) {
                 keepline = true;
             } else {
                 filterstring = recipe_name;
             }
+
+            recalc = true;
+        } else if( action == "TOGGLE_UNAVAILABLE" ) {
+            show_unavailable = !show_unavailable;
 
             recalc = true;
         }
@@ -930,6 +967,8 @@ const recipe *select_crafting_recipe( int &batch_size )
 
 std::string peek_related_recipe( const recipe *current, const recipe_subset &available )
 {
+    const avatar &u = get_avatar();
+
     auto compare_second =
         []( const std::pair<std::string, std::string> &a,
     const std::pair<std::string, std::string> &b ) {
@@ -954,9 +993,9 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
     } else { // use the contained item
         tid = tmp.contents.front().typeId();
     }
-    const std::set<const recipe *> &known_recipes = g->u.get_learned_recipes().of_component( tid );
-    for( const auto &b : known_recipes ) {
-        if( available.contains( b ) ) {
+    const std::set<const recipe *> &known_recipes = u.get_learned_recipes().of_component( tid );
+    for( const auto *b : known_recipes ) {
+        if( available.contains( *b ) ) {
             related_results.push_back( { b->result(), b->result_name() } );
         }
     }
@@ -1067,15 +1106,16 @@ static void draw_hidden_amount( const catacurses::window &w, int amount, int num
 // Anchors top-right
 static void draw_can_craft_indicator( const catacurses::window &w, const recipe &rec )
 {
+    const avatar &u = get_avatar();
     // Draw text
-    if( g->u.lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
+    if( u.lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
         right_print( w, 0, 1, i_red, _( "too dark to craft" ) );
-    } else if( crafting_speed_multiplier( g->u, rec, false ) <= 0.0f ) {
+    } else if( crafting_speed_multiplier( u, rec, false ) <= 0.0f ) {
         // Technically not always only too sad, but must be too sad
         right_print( w, 0, 1, i_red, _( "too sad to craft" ) );
-    } else if( crafting_speed_multiplier( g->u, rec, false ) < 1.0f ) {
+    } else if( crafting_speed_multiplier( u, rec, false ) < 1.0f ) {
         right_print( w, 0, 1, i_yellow, string_format( _( "crafting is slow %d%%" ),
-                     static_cast<int>( crafting_speed_multiplier( g->u, rec, false ) * 100 ) ) );
+                     static_cast<int>( crafting_speed_multiplier( u, rec, false ) * 100 ) ) );
     } else {
         right_print( w, 0, 1, i_green, _( "craftable" ) );
     }

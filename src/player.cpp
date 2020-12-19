@@ -3799,21 +3799,6 @@ recipe_subset player::get_recipes_from_books( const inventory &crafting_inv ) co
     return res;
 }
 
-std::set<itype_id> player::get_books_for_recipe( const inventory &crafting_inv,
-        const recipe *r ) const
-{
-    std::set<itype_id> book_ids;
-    const int skill_level = get_skill_level( r->skill_used );
-    for( auto &book_lvl : r->booksets ) {
-        itype_id book_id = book_lvl.first;
-        int required_skill_level = book_lvl.second;
-        if( skill_level >= required_skill_level && crafting_inv.amount_of( book_id ) > 0 ) {
-            book_ids.insert( book_id );
-        }
-    }
-    return book_ids;
-}
-
 recipe_subset player::get_available_recipes( const inventory &crafting_inv,
         const std::vector<npc *> *helpers ) const
 {
@@ -4190,7 +4175,7 @@ bool player::can_decomp_learn( const recipe &rec ) const
 
 bool player::knows_recipe( const recipe *rec ) const
 {
-    return get_learned_recipes().contains( rec );
+    return get_learned_recipes().contains( *rec );
 }
 
 int player::has_recipe( const recipe *r, const inventory &crafting_inv,
@@ -4205,7 +4190,7 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv,
     }
 
     const auto available = get_available_recipes( crafting_inv, &helpers );
-    return available.contains( r ) ? available.get_custom_difficulty( r ) : -1;
+    return available.contains( *r ) ? available.get_custom_difficulty( r ) : -1;
 }
 
 void player::learn_recipe( const recipe *const rec )

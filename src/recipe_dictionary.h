@@ -101,10 +101,8 @@ class recipe_subset
         }
 
         /** Check if the subset contains a recipe with the specified id. */
-        bool contains( const recipe *r ) const {
-            return std::any_of( recipes.begin(), recipes.end(), [r]( const recipe * elem ) {
-                return elem->ident() == r->ident();
-            } );
+        bool contains( const recipe &r ) const {
+            return ids.count( r.ident() ) != 0;
         }
 
         /**
@@ -166,6 +164,7 @@ class recipe_subset
             component.clear();
             category.clear();
             recipes.clear();
+            ids.clear();
         }
 
         std::set<const recipe *>::const_iterator begin() const {
@@ -181,6 +180,7 @@ class recipe_subset
         std::map<const recipe *, int> difficulties;
         std::map<std::string, std::set<const recipe *>> category;
         std::map<itype_id, std::set<const recipe *>> component;
+        std::unordered_set<recipe_id> ids;
 };
 
 void serialize( const recipe_subset &value, JsonOut &jsout );
