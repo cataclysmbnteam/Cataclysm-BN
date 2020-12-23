@@ -4,7 +4,7 @@
     "id": "f_autodoc",
     "name": "Autodoc Mk. XI",
     "symbol": "&",
-    "description": "A surgical apparatus used for installation and removal of bionics.  It supports automatic mode but first aid skill, computer skill and electronics skill required to set it up properly.  Good intellect also can help to figure procedure up by learning Autodoc user interface.",
+    "description": "A surgical apparatus used for installation and removal of bionics.  Correctly setting up the procedure requires intelligence, first aid skill, electronics skill and computer skill.",
     "color": "light_cyan",
     "looks_like": "f_robotic_arm",
     "move_cost_mod": -1,
