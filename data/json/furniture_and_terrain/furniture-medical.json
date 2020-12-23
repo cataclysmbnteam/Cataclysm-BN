@@ -12,7 +12,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "AUTODOC" ],
     "examine_action": "autodoc",
-    "surgery_skill_multiplier": 10.0,
+    "surgery_skill_multiplier": 8.0,
     "deconstruct": {
       "items": [
         { "item": "processor", "count": [ 1, 2 ] },
