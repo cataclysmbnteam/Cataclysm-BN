@@ -318,7 +318,8 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
                 def.looks_like = ab->second.id.str();
             }
         } else {
-            deferred.emplace_back( jo.str(), src );
+            deferred.emplace_back( jo.get_source_location(), src );
+            jo.allow_omitted_members();
             return;
         }
     }
