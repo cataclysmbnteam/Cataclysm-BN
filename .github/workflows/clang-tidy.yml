@@ -4,9 +4,25 @@ on:
   push:
     branches:
     - upload
+    paths:
+    - '**.cpp'
+    - '**.h'
+    - '**.c'
+    - '**/CMakeLists.txt'
+    - '**/Makefile'
+    - '**.hpp'
+    - '**.cmake'
   pull_request:
     branches:
     - upload
+    paths:
+    - '**.cpp'
+    - '**.h'
+    - '**.c'
+    - '**/CMakeLists.txt'
+    - '**/Makefile'
+    - '**.hpp'
+    - '**.cmake'
 
 jobs:
   build:
