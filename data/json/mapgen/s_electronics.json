@@ -327,7 +327,7 @@
     "om_terrain": [ "s_electronics_2" ],
     "weight": 300,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_region_groundcover_urban",
       "rows": [
         "  ____________________  ", 
         "  *___*___*______*___*  ",
@@ -343,21 +343,18 @@
         "  |D........CC......D|  ",
         "  |D................D|  ",
         "  |D............BBBBD|  ",
-        "  |-+----------------|  ",
-        " 4|..|..............#|  ",
-        "  |..|..............N|  ",
-        "  |..D..............N|  ",
-        "  |..|..............#|  ",
-        "  |..|-------G..AS#.G|  ",
-        "  |..D.....M|G..?.#.G|  ",
-        "  |D-|.....M|G......G|  ",
-        "  |..|.MMMMM|GGGGGGGG|  ",
+        "  ==+=================  ",
+        " 4=..|..............#=  ",
+        "  =..|..............N=  ",
+        "  =..D..............N=  ",
+        "  =..|..............#=  ",
+        "  =..|-------G..AS#.G=  ",
+        "  =..D.....M|G..?.#.G=  ",
+        "  =D-|.....M|G......G=  ",
+        "  =..|.MMMMM|GGGGGGGG=  ",
         "  ====================  " 
       ],
-      "place_terrain": [
-      ],
       "terrain": {
-        " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "*": "t_pavement_y",
         "+": "t_door_metal_pickable",
         "-": "t_concrete_wall",
@@ -365,10 +362,7 @@
         ":": "t_window_bars_alarm",
         "=": "t_strconc_wall",
         "_": "t_pavement",
-        "~": "t_thconc_floor",
         "H": "t_thconc_floor",
-        "s": "t_thconc_floor",
-        "l": "t_thconc_floor",
         "|": "t_concrete_wall",
         "D": "t_door_c",
         "<": "t_ladder_up",
@@ -406,9 +400,6 @@
         "A": "f_autodoc",
         "?": "f_autodoc_couch"
       },
-      "place_loot": [
-     
-      ],
       "place_monster": [ { "monster": "mon_turret_light", "x": 13, "y": 17 } ]
     }
   },
