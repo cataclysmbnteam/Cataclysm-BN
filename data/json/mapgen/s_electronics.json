@@ -388,11 +388,8 @@
         "C": { "item": "consumer_electronics", "chance": 75, "repeat": [ 1, 4 ] },
         "H": { "item": "elecsto_homapl", "chance": 75, "repeat": [ 1, 4 ] },
         "R": { "item": "elecsto_books", "chance": 50, "repeat": [ 1, 2 ] },
-        "B": { "item": "bionics_common", "chance": 50},
-        "G": [
-          { "item": "bionics_common", "chance": 20 },
-          { "item": "bionics", "chance": 10 }
-        ],
+        "B": { "item": "bionics_common", "chance": 50 },
+        "G": [ { "item": "bionics_common", "chance": 20 }, { "item": "bionics", "chance": 10 } ],
         "M": [
           { "item": "surgery", "chance": 40, "repeat": [ 1, 2 ] },
           { "item": "drugs_pharmacy", "chance": 10, "repeat": [ 1, 2 ] }
