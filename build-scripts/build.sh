@@ -41,7 +41,7 @@ fi
 
 ccache --zero-stats
 # Increase cache size because debug builds generate large object files
-ccache -M 2G
+ccache -M 5G
 ccache --show-stats
 
 if [ "$CMAKE" = "1" ]
@@ -224,5 +224,8 @@ else
     fi
 fi
 ccache --show-stats
+# Shrink the ccache back down to 2GB in preperation for pushing to shared storage.
+ccache -M 2G
+ccache -c
 
 # vim:tw=0
