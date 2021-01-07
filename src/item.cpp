@@ -4971,26 +4971,41 @@ int item::get_quality( const quality_id &id ) const
      * EXCEPTION: Items with quality BOIL only count as such if they are empty,
      * excluding items of their ammo type if they are tools.
      */
-    auto boil_filter = [this]( const item & itm ) {
+    auto not_boil_filter = [this]( const item & itm ) {
         if( itm.is_ammo() ) {
-            return ammo_types().count( itm.ammo_type() ) != 0;
+            return ammo_types().count( itm.ammo_type() ) == 0;
         } else if( itm.is_magazine() ) {
             for( const ammotype &at : ammo_types() ) {
                 for( const ammotype &mag_at : itm.ammo_types() ) {
-                    if( at == mag_at ) {
+                    if( at != mag_at ) {
                         return true;
                     }
                 }
             }
             return false;
         } else if( itm.is_toolmod() ) {
-            return true;
+            return false;
         }
         return false;
     };
+    /*
     if( id == quality_id( "BOIL" ) && ( !contents.empty() ||
                                         ( is_tool() && !has_item_with( boil_filter ) ) ) ) {
         return INT_MIN;
+    }
+    */
+    if( id == quality_id( "BOIL" ) ) {
+        if( contents.empty() ) {
+            // Nothing
+        } else {
+            if( is_tool() ) {
+                if( has_item_with( not_boil_filter ) ) {
+                    return INT_MIN;
+                }
+            } else {
+                return INT_MIN;
+            }
+        }
     }
 
     for( const std::pair<const quality_id, int> &quality : type->qualities ) {
