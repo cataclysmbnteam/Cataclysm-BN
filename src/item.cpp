@@ -4988,12 +4988,6 @@ int item::get_quality( const quality_id &id ) const
         }
         return false;
     };
-    /*
-    if( id == quality_id( "BOIL" ) && ( !contents.empty() ||
-                                        ( is_tool() && !has_item_with( boil_filter ) ) ) ) {
-        return INT_MIN;
-    }
-    */
     if( id == quality_id( "BOIL" ) ) {
         if( contents.empty() ) {
             // Nothing
