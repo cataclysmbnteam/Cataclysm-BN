@@ -4991,14 +4991,8 @@ int item::get_quality( const quality_id &id ) const
     if( id == quality_id( "BOIL" ) ) {
         if( contents.empty() ) {
             // Nothing
-        } else {
-            if( is_tool() ) {
-                if( has_item_with( not_boil_filter ) ) {
-                    return INT_MIN;
-                }
-            } else {
-                return INT_MIN;
-            }
+        } else if( is_tool() && has_item_with( not_boil_filter ) ) {
+            return INT_MIN;
         }
     }
 
