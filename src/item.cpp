@@ -4989,7 +4989,8 @@ int item::get_quality( const quality_id &id ) const
         }
         return false;
     };
-    //if it's empty, it's good to go. If it's not empty and it's not a tool (it's probably a container), it's out. If it's a tool, it gets an extra chance: if it's only contents are mods or batteries, it's still good.
+    // if it's empty, it's good to go. If it's not empty and it's not a tool (it's probably a container), it's out. If it's a tool, it gets an extra chance: if it's only contents are mods or batteries, it's still good.
+    // Also  we are using inverted filter, since we don't care about items that the filter likes, we only care if it find something it doesn't like.
     if( id == quality_id( "BOIL" ) && !contents.empty() &&
         ( !is_tool() || has_item_with( block_boil_filter ) ) ) {
         return INT_MIN;
