@@ -4988,12 +4988,9 @@ int item::get_quality( const quality_id &id ) const
         }
         return false;
     };
-    if( id == quality_id( "BOIL" ) ) {
-        if( contents.empty() ) {
-            // Nothing
-        } else if( is_tool() && has_item_with( not_boil_filter ) ) {
-            return INT_MIN;
-        }
+    if( id == quality_id( "BOIL" ) && !contents.empty() &&
+        ( !is_tool() || has_item_with( not_boil_filter ) ) ) {
+        return INT_MIN;
     }
 
     for( const std::pair<const quality_id, int> &quality : type->qualities ) {
