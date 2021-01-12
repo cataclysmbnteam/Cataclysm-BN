@@ -4974,7 +4974,7 @@ int item::get_quality( const quality_id &id ) const
     auto block_boil_filter = [this]( const item & itm ) {
         // We want to skip (do not block) only those : correct ammo, correct magazine, correct toolmod.Everything else should block.
         if( &itm == this ) {
-            // Do not block if checking itself - we are checking only item contents not item itself. 
+            // Do not block if checking itself - we are checking only item contents not item itself.
             return false;
         } else if( itm.is_ammo() ) {
             return ammo_types().count( itm.ammo_type() ) == 0;
