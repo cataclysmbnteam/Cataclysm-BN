@@ -4972,6 +4972,11 @@ int item::get_quality( const quality_id &id ) const
      * excluding items of their ammo type if they are tools.
      */
     auto block_boil_filter = [this]( const item & itm ) {
+        if( &itm == this ) {
+            // Do not block if checking itself - we are checking only contents
+            return false;
+        }
+
         if( itm.is_ammo() ) {
             return ammo_types().count( itm.ammo_type() ) == 0;
         } else if( itm.is_magazine() ) {
@@ -4987,9 +4992,9 @@ int item::get_quality( const quality_id &id ) const
         } else if( itm.is_toolmod() ) {
             return false;
         }
-        return false;
+        return true;
     };
-    // if it's has biol quality and it's empty, it's good to boil. If it's not empty and it's not a tool (it's probably a container), it's not good to boil. If it's a tool, it gets an extra chance: if it's only contents are mods or batteries, it's still good.
+    // if it's has bpil quality and it's empty, it's good to boil. If it's not empty and it's not a tool (it's probably a container), it's not good to boil. If it's a tool, it gets an extra chance: if it's only contents are mods or batteries, it's still good.
     // Also  we are using inverted filter, since we don't care about items that the filter likes, we only care if it find something it doesn't like.
     if( id == quality_id( "BOIL" ) && !contents.empty() &&
         ( !is_tool() || has_item_with( block_boil_filter ) ) ) {
