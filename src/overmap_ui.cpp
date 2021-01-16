@@ -257,7 +257,8 @@ static void update_note_preview( const std::string &note,
 
     werase( *w_preview_title );
     nc_color default_color = c_unset;
-    print_colored_text( *w_preview_title, point_zero, default_color, note_color, note_text );
+    print_colored_text( *w_preview_title, point_zero, default_color, note_color, note_text,
+                        report_color_error::no );
     int note_text_width = utf8_width( note_text );
     mvwputch( *w_preview_title, point( note_text_width, 0 ), c_white, LINE_XOXO );
     for( int i = 0; i < note_text_width; i++ ) {
@@ -501,6 +502,7 @@ static point draw_notes( const tripoint &origin )
     uilist nmenu;
     while( refresh ) {
         refresh = false;
+        nmenu.color_error( false );
         nmenu.init();
         nmenu.desc_enabled = true;
         nmenu.input_category = "OVERMAP_NOTES";
@@ -998,7 +1000,8 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             mvwputch( w, point( 1, i + 2 ), c_white, LINE_XOXO );
             mvwprintz( w, point( 2, i + 2 ), c_yellow, spacer );
             nc_color default_color = c_unset;
-            print_colored_text( w, point( 2, i + 2 ), default_color, pr.first, pr.second );
+            print_colored_text( w, point( 2, i + 2 ), default_color, pr.first, pr.second,
+                                report_color_error::no );
             mvwputch( w, point( maxlen + 2, i + 2 ), c_white, LINE_XOXO );
         }
         mvwputch( w, point( maxlen + 2, 1 ), c_white, LINE_OOXX );
