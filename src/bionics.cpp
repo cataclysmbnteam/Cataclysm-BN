@@ -2265,6 +2265,7 @@ void Character::perform_install( bionic_id bid, bionic_id upbid, int difficulty,
         float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
                                static_cast<float>( pl_skill ) - static_cast<float>( pl_skill ) / static_cast<float>
                                ( 10.0 ) );
+        add_msg( m_bad, _( "But something went wrong during installation!" ) );
         bionics_install_failure( bid, installer_name, difficulty, success, adjusted_skill, patient_pos );
     }
     g->m.invalidate_map_cache( g->get_levz() );
@@ -2284,7 +2285,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
     int failure_level = static_cast<int>( std::sqrt( success * 4.0 * difficulty / adjusted_skill ) );
     int fail_type = ( failure_level > 5 ? 5 : failure_level );
     bool drop_cbm = false;
-    add_msg( m_neutral, _( "The installation is a failure." ) );
+    add_msg( m_neutral, _( "Partial failure happened during installation!" ) );
 
     if( installer != "NOT_MED" ) {
         //~"Complications" is USian medical-speak for "unintended damage from a medical procedure".
@@ -2357,6 +2358,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
                     const bionic_id &id = random_entry( valid );
                     add_bionic( id );
                     g->events().send<event_type::installs_faulty_cbm>( getID(), id );
+                    add_msg(m_bad, _("Malfunctioned CBM part installed - %s.  Unistall it to clear the malfunction."), id.obj().name);
                 }
             }
             break;
