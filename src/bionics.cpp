@@ -2140,7 +2140,7 @@ bool Character::can_install_bionics( const itype &type, player &installer, bool 
         }
     } else {
         if( !g->u.query_yn(
-                _( "WARNING: %i percent chance of failure that may result in damage, pain, or a faulty installation!  Continue anyway?" ),
+                _( "WARNING: Installation of bionic is guranteed but there is %i percent chance of issue that may result in damage, pain, or a partially faulty installation!  Continue anyway?" ),
                 ( 100 - chance_of_success ) ) ) {
             return false;
         }
@@ -2241,11 +2241,11 @@ void Character::perform_install( bionic_id bid, bionic_id upbid, int difficulty,
     if( upbid != bionic_id( "" ) ) {
         remove_bionic( upbid );
         //~ %1$s - name of the bionic to be upgraded (inferior), %2$s - name of the upgraded bionic (superior).
-        add_msg( m_good, _( "Successfully upgraded %1$s to %2$s." ),
+        add_msg( m_good, _( "Upgraded %1$s to %2$s." ),
                  upbid.obj().name, bid.obj().name );
     } else {
         //~ %s - name of the bionic.
-        add_msg( m_good, _( "Successfully installed %s." ), bid.obj().name );
+        add_msg( m_good, _( "Installed %s." ), bid.obj().name );
     }
 
     add_bionic( bid );
@@ -2284,7 +2284,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
     int failure_level = static_cast<int>( std::sqrt( success * 4.0 * difficulty / adjusted_skill ) );
     int fail_type = ( failure_level > 5 ? 5 : failure_level );
     bool drop_cbm = false;
-    add_msg( m_bad, _( "Partial failure happened during installation!" ) );
+    add_msg( m_bad, _( "Issue happened during installation!" ) );
 
     if( installer != "NOT_MED" ) {
         //~"Complications" is USian medical-speak for "unintended damage from a medical procedure".
