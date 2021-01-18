@@ -2236,29 +2236,29 @@ void Character::perform_install( bionic_id bid, bionic_id upbid, int difficulty,
                                  int pl_skill, const std::string &installer_name,
                                  const std::vector<trait_id> &trait_to_rem, const tripoint &patient_pos )
 {
-    if( success > 0 ) {
-        g->events().send<event_type::installs_cbm>( getID(), bid );
-        if( upbid != bionic_id( "" ) ) {
-            remove_bionic( upbid );
-            //~ %1$s - name of the bionic to be upgraded (inferior), %2$s - name of the upgraded bionic (superior).
-            add_msg( m_good, _( "Successfully upgraded %1$s to %2$s." ),
-                     upbid.obj().name, bid.obj().name );
-        } else {
-            //~ %s - name of the bionic.
-            add_msg( m_good, _( "Successfully installed %s." ), bid.obj().name );
-        }
 
-        add_bionic( bid );
+    g->events().send<event_type::installs_cbm>( getID(), bid );
+    if( upbid != bionic_id( "" ) ) {
+        remove_bionic( upbid );
+        //~ %1$s - name of the bionic to be upgraded (inferior), %2$s - name of the upgraded bionic (superior).
+        add_msg( m_good, _( "Successfully upgraded %1$s to %2$s." ),
+                 upbid.obj().name, bid.obj().name );
+    } else {
+        //~ %s - name of the bionic.
+        add_msg( m_good, _( "Successfully installed %s." ), bid.obj().name );
+    }
 
-        if( !trait_to_rem.empty() ) {
-            for( const trait_id &tid : trait_to_rem ) {
-                if( has_trait( tid ) ) {
-                    remove_mutation( tid );
-                }
+    add_bionic( bid );
+
+    if( !trait_to_rem.empty() ) {
+        for( const trait_id &tid : trait_to_rem ) {
+            if( has_trait( tid ) ) {
+                remove_mutation( tid );
             }
         }
+    }
 
-    } else {
+    if( success <= 0 ) {
         g->events().send<event_type::fails_to_install_cbm>( getID(), bid );
 
         // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
@@ -2301,6 +2301,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
         drop_cbm = true;
     } else {
         std::set<body_part> bp_hurt;
+        fail_type = 5;
         switch( fail_type ) {
 
             case 1:
@@ -2361,6 +2362,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
             break;
         }
     }
+    /*
     if( drop_cbm ) {
         item cbm( bid.c_str() );
         cbm.set_flag( flag_NO_STERILE );
@@ -2368,6 +2370,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
         cbm.faults.emplace( fault_bionic_salvaged );
         g->m.add_item( patient_pos, cbm );
     }
+    */
 }
 
 std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro,
