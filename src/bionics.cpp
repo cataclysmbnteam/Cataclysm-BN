@@ -2357,7 +2357,8 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
                     const bionic_id &id = random_entry( valid );
                     add_bionic( id );
                     g->events().send<event_type::installs_faulty_cbm>( getID(), id );
-                    add_msg(m_bad, _("Malfunctioned CBM part installed - %s.  Unistall it to clear the malfunction."), id.obj().name);
+                    add_msg( m_bad, _( "Faulty CBM part installed - %s.  Unistall it to clear the malfunction." ),
+                             id.obj().name );
                 }
             }
             break;
