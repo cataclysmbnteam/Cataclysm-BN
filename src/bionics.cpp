@@ -2316,7 +2316,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
                             add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
                                                    body_part_name_accusative( enum_bp ) );
                         } else if( !infection_added ) {
-                            add_effect( effect_infected, 1_minutes, enum_bp );
+                            add_effect( effect_infected, 1_seconds, enum_bp );
                             add_msg_player_or_npc( m_bad, _( "Your %s is infected." ), _( "<npcname>'s %s is infected." ),
                                                    body_part_name_accusative( enum_bp ) );
                             infection_added = true;
