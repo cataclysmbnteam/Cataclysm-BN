@@ -1594,7 +1594,7 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
                               adjusted_skill ) );
     const int fail_type = std::min( 5, failure_level );
 
-    if( fail_type <= 0 ) {
+    if( fail_type <= 1 ) {
         add_msg( m_neutral, _( "The removal fails without incident." ) );
         return;
     }
@@ -1602,15 +1602,6 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
     add_msg( m_neutral, _( "The removal is a failure." ) );
     std::set<body_part> bp_hurt;
     switch( fail_type ) {
-        case 1:
-            if( !has_trait( trait_NOPAIN ) && !( has_effect( effect_narcosis ) ) )  {
-                add_msg_if_player( m_bad, _( "It really hurts!" ) );
-                mod_pain( rng( 10, 30 ) );
-            } else {
-                add_msg( m_neutral, _( "The removal fails without incident." ) );
-            }
-            break;
-
         case 2:
         case 3:
             for( const bodypart_id &bp : get_all_body_parts() ) {
@@ -2298,24 +2289,13 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
             fail_type = rng( 1, 3 );
         }
     }
-    if( fail_type <= 0 ) {
+    if( fail_type <= 1 ) {
         add_msg( m_neutral, _( "The installation issue ended up without serious incidents." ) );
         drop_cbm = true;
     } else {
         std::set<body_part> bp_hurt;
         fail_type = 3; //TODO -remove!
         switch( fail_type ) {
-
-            case 1:
-                if( !( has_trait( trait_NOPAIN ) && !( has_effect( effect_narcosis ) ) ) ) {
-                    add_msg_if_player( m_bad, _( "It really hurts!" ) );
-                    mod_pain_noresist( rng( 10, 30 ) );
-                } else {
-                    add_msg( m_neutral, _( "The installation issue ended up without serious incidents." ) );
-                }
-                drop_cbm = true;
-                break;
-
             case 2:
             case 3:
                 for( const bodypart_id &bp : get_all_body_parts() ) {
