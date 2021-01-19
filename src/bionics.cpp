@@ -2311,18 +2311,15 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
 
                         int damage = rng( 10, get_hp_max( hppart ) * 0.8 );
                         int hp = get_hp( hppart );
-                        if( damage >= hp &&  hppart != bp_head && hppart != bp_torso ) {
-                            if( !infection_added ) {
-                                add_effect( effect_infected, 1_minutes, enum_bp );
-                                add_msg_player_or_npc(m_bad, _("Your %s is infected."), _("<npcname>'s %s is infected."),
-                                    body_part_name_accusative(enum_bp));
-                                infection_added = true;
-                            }
-
-                        } else {
+                        if( hp > damage || ( hppart != bp_head && hppart != bp_torso ) ) {
                             apply_damage( this, bp, damage, true );
                             add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
                                                    body_part_name_accusative( enum_bp ) );
+                        } else if( !infection_added ) {
+                            add_effect( effect_infected, 1_minutes, enum_bp );
+                            add_msg_player_or_npc( m_bad, _( "Your %s is infected." ), _( "<npcname>'s %s is infected." ),
+                                                   body_part_name_accusative( enum_bp ) );
+                            infection_added = true;
                         }
 
                     }
