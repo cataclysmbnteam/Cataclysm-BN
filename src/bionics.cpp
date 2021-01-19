@@ -2342,7 +2342,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
                     add_bionic( id );
                     g->events().send<event_type::installs_faulty_cbm>( getID(), id );
                     add_msg( m_bad,
-                             _( "Errors in installation caused a malfunction - %s.  Unistall it to clear the malfunction." ),
+                             _( "Errors in installation caused a malfunction - %s.  Uninstall it to clear the malfunction." ),
                              id.obj().name );
                 }
             }
