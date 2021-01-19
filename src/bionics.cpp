@@ -118,6 +118,7 @@ static const efftype_id effect_took_xanax( "took_xanax" );
 static const efftype_id effect_under_op( "under_operation" );
 static const efftype_id effect_visuals( "visuals" );
 static const efftype_id effect_weed_high( "weed_high" );
+static const efftype_id effect_infected("infected");
 
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_sun_light( "sunlight" );
@@ -2289,25 +2290,39 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
             fail_type = rng( 1, 3 );
         }
     }
+    fail_type = 3; //TODO - remove!
     if( fail_type <= 1 ) {
         add_msg( m_neutral, _( "The installation issue ended up without serious incidents." ) );
         drop_cbm = true;
     } else {
         std::set<body_part> bp_hurt;
-        fail_type = 3; //TODO -remove!
         switch( fail_type ) {
             case 2:
             case 3:
                 for( const bodypart_id &bp : get_all_body_parts() ) {
                     const body_part enum_bp = bp->token;
+                    const hp_part hppart = bp_to_hp( enum_bp );
+                    bool infection_added = false;
                     if( has_effect( effect_under_op, enum_bp ) && enum_bp != num_bp ) {
                         if( bp_hurt.count( mutate_to_main_part( enum_bp ) ) > 0 ) {
                             continue;
                         }
                         bp_hurt.emplace( mutate_to_main_part( enum_bp ) );
-                        apply_damage( this, bp, rng( 15, 40 ), true );
-                        add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
-                                               body_part_name_accusative( enum_bp ) );
+
+                        int damage = rng( 10, get_hp_max( hppart ) * 0.8 );
+                        int hp = get_hp( hppart );
+                        if( damage >= hp &&  hppart != bp_head && hppart != bp_torso ) {
+                            if (!infection_added) {
+                                add_effect(effect_infected, 1_minutes, enum_bp);
+                                infection_added = true;
+                            }
+                                
+                        } else {
+                            apply_damage(this, bp, damage, true);
+                            add_msg_player_or_npc(m_bad, _("Your %s is damaged."), _("<npcname>'s %s is damaged."),
+                                body_part_name_accusative(enum_bp));
+                        }
+
                     }
                 }
                 drop_cbm = true;
