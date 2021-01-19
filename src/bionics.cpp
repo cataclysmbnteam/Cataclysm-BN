@@ -1634,7 +1634,7 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
                         continue;
                     }
                     bp_hurt.emplace( mutate_to_main_part( enum_bp ) );
-                    apply_damage( this, bp, rng( 30, 80 ), true );
+                    apply_damage( this, bp, rng( 15, 40 ), true );
                     add_msg_player_or_npc( m_bad, _( "Your %s is severely damaged." ),
                                            _( "<npcname>'s %s is severely damaged." ),
                                            body_part_name_accusative( enum_bp ) );
@@ -1722,7 +1722,7 @@ void Character::bionics_uninstall_failure( monster &installer, player &patient, 
                         continue;
                     }
                     bp_hurt.emplace( mutate_to_main_part( enum_bp ) );
-                    patient.apply_damage( this, bp, rng( 30, 80 ), true );
+                    patient.apply_damage( this, bp, rng( 15, 40 ), true );
                     if( u_see ) {
                         patient.add_msg_player_or_npc( m_bad, _( "Your %s is severely damaged." ),
                                                        _( "<npcname>'s %s is severely damaged." ),
@@ -2259,7 +2259,7 @@ void Character::perform_install( bionic_id bid, bionic_id upbid, int difficulty,
     }
 
     if( success <= 0 ) {
-        g->events().send<event_type::fails_to_install_cbm>( getID(), bid );
+        //g->events().send<event_type::fails_to_install_cbm>( getID(), bid );
 
         // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
         float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
@@ -2301,13 +2301,13 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
         drop_cbm = true;
     } else {
         std::set<body_part> bp_hurt;
-        fail_type = 1; //TODO -remove!
+        fail_type = 3; //TODO -remove!
         switch( fail_type ) {
 
             case 1:
                 if( !( has_trait( trait_NOPAIN ) ) ) {
                     add_msg_if_player( m_bad, _( "It really hurts!" ) );
-                    mod_pain( rng( 10, 30 ) );
+                    mod_pain_noresist( rng( 10, 30 ) );
                 }
                 drop_cbm = true;
                 break;
