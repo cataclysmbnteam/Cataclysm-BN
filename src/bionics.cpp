@@ -2259,7 +2259,7 @@ void Character::perform_install( bionic_id bid, bionic_id upbid, int difficulty,
     }
 
     if( success <= 0 ) {
-        //g->events().send<event_type::fails_to_install_cbm>( getID(), bid );
+        g->events().send<event_type::fails_to_install_cbm>( getID(), bid );
 
         // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
         float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
@@ -2321,7 +2321,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
                             continue;
                         }
                         bp_hurt.emplace( mutate_to_main_part( enum_bp ) );
-                        apply_damage( this, bp, rng( 30, 80 ), true );
+                        apply_damage( this, bp, rng( 15, 40 ), true );
                         add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
                                                body_part_name_accusative( enum_bp ) );
                     }
