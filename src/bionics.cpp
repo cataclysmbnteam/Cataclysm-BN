@@ -2297,7 +2297,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
         }
     }
     if( fail_type <= 0 ) {
-        add_msg( m_neutral, _( "The installation fails without incident." ) );
+        add_msg( m_neutral, _( "The installation issue ended up without serious incidents." ) );
         drop_cbm = true;
     } else {
         std::set<body_part> bp_hurt;
@@ -2331,7 +2331,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
 
             case 4:
             case 5: {
-                add_msg( m_bad, _( "The installation is faulty!" ) );
+                add_msg( m_bad, _( "Malfunction happened during installation!" ) );
                 std::vector<bionic_id> valid;
                 std::copy_if( begin( faulty_bionics ), end( faulty_bionics ), std::back_inserter( valid ),
                 [&]( const bionic_id & id ) {
