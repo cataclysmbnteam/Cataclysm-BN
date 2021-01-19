@@ -1603,7 +1603,10 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
     std::set<body_part> bp_hurt;
     switch( fail_type ) {
         case 1:
-            add_msg( m_neutral, _( "The removal fails without incident." ) );
+            if( !has_trait( trait_NOPAIN ) ) {
+                add_msg_if_player( m_bad, _( "It really hurts!" ) );
+                mod_pain( rng( 10, 30 ) );
+            }
             break;
 
         case 2:
@@ -2302,7 +2305,11 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
         switch( fail_type ) {
 
             case 1:
-                add_msg( m_neutral, _( "The installation issue ended up without serious incidents." ) );
+                if( !( has_trait( trait_NOPAIN ) ) ) {
+                    add_msg_if_player( m_bad, _( "It really hurts!" ) );
+                    mod_pain_noresist( rng( 10, 30 ) );
+                }
+                drop_cbm = true;
                 break;
 
             case 2:
