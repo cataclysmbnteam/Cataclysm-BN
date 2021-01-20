@@ -3607,12 +3607,12 @@ void activity_handlers::operation_finish( player_activity *act, player *p )
                            "success" );
         } else {
             if( act->str_values[0] == "install" ) {
-                add_msg( m_bad,
+                add_msg( m_warning,
                          _( "The Autodoc completes installation and activates bionic but reports about complications during operation." ) );
                 const std::list<tripoint> autodocs = g->m.find_furnitures_with_flag_in_radius( p->pos(), 1,
                                                      flag_AUTODOC );
                 sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
-                               _( "a sad beeping noise: \"Complications detected! Report to medical personnel immediately!\"" ),
+                               _( "a sad beeping noise: \"Complications detected!  Report to medical personnel immediately!\"" ),
                                true,
                                "Autodoc",
                                "failure" );
@@ -3634,7 +3634,7 @@ void activity_handlers::operation_finish( player_activity *act, player *p )
                      _( "The operation is a success." ) );
         } else {
             if( act->str_values[0] == "install" ) {
-                add_msg( m_bad,
+                add_msg( m_warning,
                          _( "Bionic was installed and activated but a complication happened during operation!" ) );
             } else {
                 add_msg( m_bad,
