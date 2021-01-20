@@ -1657,7 +1657,6 @@ void Character::bionics_uninstall_failure( monster &installer, player &patient, 
                 break;
         }
     }
-    std::set<body_part> bp_hurt;
     switch( fail_type ) {
         case 2:
         case 3:
@@ -2218,24 +2217,23 @@ void Character::do_damage_for_bionic_failure( int min_damage, int max_damage )
                 continue;
             }
             bp_hurt.emplace( mutate_to_main_part( enum_bp ) );
-
             int damage = rng( min_damage, max_damage );
             int hp = get_hp( hppart );
-            if( hp > damage || ( hppart != bp_head && hppart != bp_torso ) ) {
-                apply_damage( this, bp, damage, true );
-                if( damage > 15 )
-                    add_msg_player_or_npc( m_bad, _( "Your %s is severely damaged." ),
-                                           _( "<npcname>'s %s is severely damaged." ),
-                                           body_part_name_accusative( enum_bp ) );
-                else
-                    add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
-                                           body_part_name_accusative( enum_bp ) );
-            } else if( !infection_added ) {
+            if( damage >= hp && ( hppart == hp_head || hppart == hp_torso ) ) {
+                infection_added = true;
                 add_effect( effect_infected, 1_hours, enum_bp );
                 add_msg_player_or_npc( m_bad, _( "Your %s is infected." ), _( "<npcname>'s %s is infected." ),
                                        body_part_name_accusative( enum_bp ) );
-                infection_added = true;
+                damage = hp * 0.8f;
             }
+            apply_damage( this, bp, damage, true );
+            if( damage > 15 )
+                add_msg_player_or_npc( m_bad, _( "Your %s is severely damaged." ),
+                                       _( "<npcname>'s %s is severely damaged." ),
+                                       body_part_name_accusative( enum_bp ) );
+            else
+                add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
+                                       body_part_name_accusative( enum_bp ) );
 
         }
     }
@@ -2270,7 +2268,6 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
     if( fail_type <= 1 ) {
         add_msg( m_neutral, _( "The installation issue ended up without serious incidents." ) );
     } else {
-        std::set<body_part> bp_hurt;
         switch( fail_type ) {
             case 2:
             case 3:
