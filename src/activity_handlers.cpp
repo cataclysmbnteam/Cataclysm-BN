@@ -3635,7 +3635,7 @@ void activity_handlers::operation_finish( player_activity *act, player *p )
         } else {
             if( act->str_values[0] == "install" ) {
                 add_msg( m_bad,
-                         _( "Bionic was installed and activated but complication happened during operation!" ) );
+                         _( "Bionic was installed and activated but a complication happened during operation!" ) );
             } else {
                 add_msg( m_bad,
                          _( "The operation is a failure." ) );
