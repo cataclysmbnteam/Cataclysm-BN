@@ -2253,7 +2253,6 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
     // are more likely.
     int failure_level = static_cast<int>( std::sqrt( success * 4.0 * difficulty / adjusted_skill ) );
     int fail_type = ( failure_level > 5 ? 5 : failure_level );
-    add_msg( m_bad, _( "Complication happened during installation!" ) );
 
     if( installer != "NOT_MED" ) {
         //~"Complications" is USian medical-speak for "unintended damage from a medical procedure".
@@ -2265,49 +2264,47 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
             fail_type = rng( 1, 3 );
         }
     }
-    if( fail_type <= 1 ) {
-        add_msg( m_neutral, _( "The installation complication ended up without serious incidents." ) );
-    } else {
-        switch( fail_type ) {
-            case 2:
-            case 3:
-                do_damage_for_bionic_failure( 5, difficulty * 5 );
-                break;
-            case 4:
-            case 5: {
-                std::vector<bionic_id> valid;
-                std::copy_if( begin( faulty_bionics ), end( faulty_bionics ), std::back_inserter( valid ),
-                [&]( const bionic_id & id ) {
-                    return !has_bionic( id );
-                } );
 
-                // We've got all the bad bionics!
-                if( valid.empty() ) {
-                    if( has_max_power() ) {
-                        units::energy old_power = get_max_power_level();
-                        add_msg( m_bad, _( "%s lose power capacity!" ), disp_name() );
-                        set_max_power_level( units::from_kilojoule( rng( 0,
-                                             units::to_kilojoule( get_max_power_level() ) - 25 ) ) );
-                        if( is_player() ) {
-                            g->memorial().add(
-                                pgettext( "memorial_male", "Lost %d units of power capacity." ),
-                                pgettext( "memorial_female", "Lost %d units of power capacity." ),
-                                units::to_kilojoule( old_power - get_max_power_level() ) );
-                        }
-                    }
-                    // TODO: What if we can't lose power capacity?  No penalty?
-                } else {
-                    const bionic_id &id = random_entry( valid );
-                    add_bionic( id );
-                    g->events().send<event_type::installs_faulty_cbm>( getID(), id );
-                    add_msg( m_bad,
-                             _( "Complication in installation caused a malfunction - %s.  Uninstall it to clear the malfunction." ),
-                             id.obj().name );
-                }
-            }
+    switch( fail_type ) {
+        case 2:
+        case 3:
+            do_damage_for_bionic_failure( 5, difficulty * 5 );
             break;
+        case 4:
+        case 5: {
+            std::vector<bionic_id> valid;
+            std::copy_if( begin( faulty_bionics ), end( faulty_bionics ), std::back_inserter( valid ),
+            [&]( const bionic_id & id ) {
+                return !has_bionic( id );
+            } );
+
+            // We've got all the bad bionics!
+            if( valid.empty() ) {
+                if( has_max_power() ) {
+                    units::energy old_power = get_max_power_level();
+                    add_msg( m_bad, _( "%s lose power capacity!" ), disp_name() );
+                    set_max_power_level( units::from_kilojoule( rng( 0,
+                                         units::to_kilojoule( get_max_power_level() ) - 25 ) ) );
+                    if( is_player() ) {
+                        g->memorial().add(
+                            pgettext( "memorial_male", "Lost %d units of power capacity." ),
+                            pgettext( "memorial_female", "Lost %d units of power capacity." ),
+                            units::to_kilojoule( old_power - get_max_power_level() ) );
+                    }
+                }
+                // TODO: What if we can't lose power capacity?  No penalty?
+            } else {
+                const bionic_id &id = random_entry( valid );
+                add_bionic( id );
+                g->events().send<event_type::installs_faulty_cbm>( getID(), id );
+                add_msg( m_bad,
+                         _( "Complication in installation caused a malfunction - %s.  Uninstall it to clear the malfunction." ),
+                         id.obj().name );
+            }
         }
+        break;
     }
+
 }
 
 std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro,
