@@ -3612,7 +3612,8 @@ void activity_handlers::operation_finish( player_activity *act, player *p )
                 const std::list<tripoint> autodocs = g->m.find_furnitures_with_flag_in_radius( p->pos(), 1,
                                                      flag_AUTODOC );
                 sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
-                               _( "a sad beeping noise: \"Complications detected! Report to medical personnel immediately!\"" ), true,
+                               _( "a sad beeping noise: \"Complications detected! Report to medical personnel immediately!\"" ),
+                               true,
                                "Autodoc",
                                "failure" );
             } else {
@@ -3632,15 +3633,14 @@ void activity_handlers::operation_finish( player_activity *act, player *p )
             add_msg( m_good,
                      _( "The operation is a success." ) );
         } else {
-            if (act->str_values[0] == "install") {
-                add_msg(m_bad,
-                    _("Bionic was installed and activated but complication happened during operation!"));
+            if( act->str_values[0] == "install" ) {
+                add_msg( m_bad,
+                         _( "Bionic was installed and activated but complication happened during operation!" ) );
+            } else {
+                add_msg( m_bad,
+                         _( "The operation is a failure." ) );
             }
-            else {
-                add_msg(m_bad,
-                    _("The operation is a failure."));
-            }
-            
+
         }
     }
     p->remove_effect( effect_under_op );
