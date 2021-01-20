@@ -2253,7 +2253,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
     // are more likely.
     int failure_level = static_cast<int>( std::sqrt( success * 4.0 * difficulty / adjusted_skill ) );
     int fail_type = ( failure_level > 5 ? 5 : failure_level );
-    add_msg( m_bad, _( "Error happened during installation!" ) );
+    add_msg( m_bad, _( "Complication happened during installation!" ) );
 
     if( installer != "NOT_MED" ) {
         //~"Complications" is USian medical-speak for "unintended damage from a medical procedure".
@@ -2266,7 +2266,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
         }
     }
     if( fail_type <= 1 ) {
-        add_msg( m_neutral, _( "The installation error ended up without serious incidents." ) );
+        add_msg( m_neutral, _( "The installation complication ended up without serious incidents." ) );
     } else {
         switch( fail_type ) {
             case 2:
@@ -2301,7 +2301,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
                     add_bionic( id );
                     g->events().send<event_type::installs_faulty_cbm>( getID(), id );
                     add_msg( m_bad,
-                             _( "Errors in installation caused a malfunction - %s.  Uninstall it to clear the malfunction." ),
+                             _( "Complication in installation caused a malfunction - %s.  Uninstall it to clear the malfunction." ),
                              id.obj().name );
                 }
             }
