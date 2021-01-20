@@ -2224,8 +2224,8 @@ void Character::do_damage_for_bionic_failure( int min_damage, int max_damage )
             if( hp > damage || ( hppart != bp_head && hppart != bp_torso ) ) {
                 apply_damage( this, bp, damage, true );
                 if( damage > 15 )
-                    add_msg_player_or_npc( m_bad, _( "Your %s is severly damaged." ),
-                                           _( "<npcname>'s %s is severly damaged." ),
+                    add_msg_player_or_npc( m_bad, _( "Your %s is severely damaged." ),
+                                           _( "<npcname>'s %s is severely damaged." ),
                                            body_part_name_accusative( enum_bp ) );
                 else
                     add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
