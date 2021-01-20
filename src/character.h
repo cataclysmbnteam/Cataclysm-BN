@@ -1097,6 +1097,7 @@ class Character : public Creature, public visitable<Character>
         void perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success,
                               int pl_skill, const std::string &installer_name,
                               const std::vector<trait_id> &trait_to_rem, const tripoint &patient_pos );
+        void do_damage_for_bionic_failure( int min_damage, int max_damage );
         void bionics_install_failure( const bionic_id &bid, const std::string &installer, int difficulty,
                                       int success, float adjusted_skill, const tripoint &patient_pos );
 
