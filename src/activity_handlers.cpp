@@ -3539,7 +3539,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
 
             if( bid.is_valid() ) {
                 p->perform_install( bid, upbid, act->values[0], act->values[1], act->values[3],
-                                    act->str_values[installer_name], bid->canceled_mutations, p->pos() );
+                                    act->str_values[installer_name], bid->canceled_mutations );
             } else {
                 debugmsg( _( "%s is no a valid bionic_id" ), bid.c_str() );
                 p->remove_effect( effect_under_op );

@@ -2140,7 +2140,7 @@ bool Character::install_bionics( const itype &type, player &installer, bool auto
     int success = chance_of_success - rng( 0, 99 );
     if( installer.has_trait( trait_DEBUG_BIONICS ) ) {
         perform_install( bioid, upbioid, difficulty, success, pl_skill, "NOT_MED",
-                         bioid->canceled_mutations, pos() );
+                         bioid->canceled_mutations );
         return true;
     }
     assign_activity( ACT_OPERATION, to_moves<int>( difficulty * 20_minutes ) );
@@ -2170,7 +2170,7 @@ bool Character::install_bionics( const itype &type, player &installer, bool auto
 
 void Character::perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success,
                                  int pl_skill, const std::string &installer_name,
-                                 const std::vector<trait_id> &trait_to_rem, const tripoint &patient_pos )
+                                 const std::vector<trait_id> &trait_to_rem  )
 {
 
     g->events().send<event_type::installs_cbm>( getID(), bid );
@@ -2200,7 +2200,7 @@ void Character::perform_install( bionic_id bid, bionic_id upbid, int difficulty,
         float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
                                static_cast<float>( pl_skill ) - static_cast<float>( pl_skill ) / static_cast<float>
                                ( 10.0 ) );
-        bionics_install_failure( bid, installer_name, difficulty, success, adjusted_skill, patient_pos );
+        bionics_install_failure( installer_name, difficulty, success, adjusted_skill );
     }
     g->m.invalidate_map_cache( g->get_levz() );
 }
@@ -2249,8 +2249,8 @@ void Character::do_damage_for_bionic_failure( int min_damage, int max_damage )
 }
 
 
-void Character::bionics_install_failure( const bionic_id &bid, const std::string &installer,
-        int difficulty, int success, float adjusted_skill, const tripoint &patient_pos )
+void Character::bionics_install_failure( const std::string &installer,
+        int difficulty, int success, float adjusted_skill )
 {
     // "success" should be passed in as a negative integer representing how far off we
     // were for a successful install.  We use this to determine consequences for failing.
