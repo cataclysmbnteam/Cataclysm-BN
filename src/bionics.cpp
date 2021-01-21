@@ -2170,7 +2170,7 @@ bool Character::install_bionics( const itype &type, player &installer, bool auto
 
 void Character::perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success,
                                  int pl_skill, const std::string &installer_name,
-                                 const std::vector<trait_id> &trait_to_rem  )
+                                 const std::vector<trait_id> &trait_to_rem )
 {
 
     g->events().send<event_type::installs_cbm>( getID(), bid );
