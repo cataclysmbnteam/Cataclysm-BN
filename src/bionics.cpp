@@ -2210,32 +2210,41 @@ void Character::do_damage_for_bionic_failure( int min_damage, int max_damage )
     std::set<body_part> bp_hurt;
     for( const bodypart_id &bp : get_all_body_parts() ) {
         const body_part enum_bp = bp->token;
-        const hp_part hppart = bp_to_hp( enum_bp );
-        bool infection_added = false;
         if( has_effect( effect_under_op, enum_bp ) && enum_bp != num_bp ) {
             if( bp_hurt.count( mutate_to_main_part( enum_bp ) ) > 0 ) {
                 continue;
             }
             bp_hurt.emplace( mutate_to_main_part( enum_bp ) );
-            int damage = rng( min_damage, max_damage );
-            int hp = get_hp( hppart );
-            if( damage >= hp && ( hppart == hp_head || hppart == hp_torso ) ) {
-                infection_added = true;
-                add_effect( effect_infected, 1_hours, enum_bp );
-                add_msg_player_or_npc( m_bad, _( "Your %s is infected." ), _( "<npcname>'s %s is infected." ),
-                                       body_part_name_accusative( enum_bp ) );
-                damage = hp * 0.8f;
-            }
-            apply_damage( this, bp, damage, true );
-            if( damage > 15 )
-                add_msg_player_or_npc( m_bad, _( "Your %s is severely damaged." ),
-                                       _( "<npcname>'s %s is severely damaged." ),
-                                       body_part_name_accusative( enum_bp ) );
-            else
-                add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
-                                       body_part_name_accusative( enum_bp ) );
-
         }
+    }
+
+    if( bp_hurt.empty() ) {
+        // If no bodypart associetd with bionic- just damage torso.
+        // Special check for power storage - it does not belong to any body part.
+        bp_hurt.emplace( bp_torso );
+    }
+
+    for( const body_part enum_bp : bp_hurt ) {
+        const hp_part hppart = bp_to_hp( enum_bp );
+        bool infection_added = false;
+        int damage = rng( min_damage, max_damage );
+        int hp = get_hp( hppart );
+        if( damage >= hp && ( hppart == hp_head || hppart == hp_torso ) ) {
+            infection_added = true;
+            add_effect( effect_infected, 1_hours, enum_bp );
+            add_msg_player_or_npc( m_bad, _( "Your %s is infected." ), _( "<npcname>'s %s is infected." ),
+                                   body_part_name_accusative( enum_bp ) );
+            damage = hp * 0.8f;
+        }
+        apply_damage( this, bodypart_id( convert_bp( enum_bp ) ), damage, true );
+        if( damage > 15 )
+            add_msg_player_or_npc( m_bad, _( "Your %s is severely damaged." ),
+                                   _( "<npcname>'s %s is severely damaged." ),
+                                   body_part_name_accusative( enum_bp ) );
+        else
+            add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
+                                   body_part_name_accusative( enum_bp ) );
+
     }
 }
 
