@@ -2264,10 +2264,8 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
             fail_type = rng( 1, 3 );
         }
     }
+
     switch( fail_type ) {
-        case 1:
-            do_damage_for_bionic_failure( 2, 6 );
-            break;
         case 2:
         case 3:
             do_damage_for_bionic_failure( 5, difficulty * 5 );
