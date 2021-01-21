@@ -2265,6 +2265,11 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
         }
     }
 
+    if( fail_type <= 1 ) {
+        add_msg( m_neutral, _( "The complications was minor." ) );
+        return;
+    }
+
     switch( fail_type ) {
         case 2:
         case 3:
