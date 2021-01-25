@@ -2226,11 +2226,9 @@ void Character::do_damage_for_bionic_failure( int min_damage, int max_damage )
 
     for( const body_part enum_bp : bp_hurt ) {
         const hp_part hppart = bp_to_hp( enum_bp );
-        bool infection_added = false;
         int damage = rng( min_damage, max_damage );
         int hp = get_hp( hppart );
         if( damage >= hp && ( hppart == hp_head || hppart == hp_torso ) ) {
-            infection_added = true;
             add_effect( effect_infected, 1_hours, enum_bp );
             add_msg_player_or_npc( m_bad, _( "Your %s is infected." ), _( "<npcname>'s %s is infected." ),
                                    body_part_name_accusative( enum_bp ) );
