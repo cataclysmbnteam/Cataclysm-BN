@@ -2272,12 +2272,11 @@ void Character::bionics_install_failure( const std::string &installer,
         }
     }
 
-    if( fail_type <= 1 ) {
-        add_msg( m_neutral, _( "The complications were minor." ) );
-        return;
-    }
-
     switch( fail_type ) {
+        case 0:
+        case 1:
+            do_damage_for_bionic_failure( 2, 5 );
+            break;
         case 2:
         case 3:
             do_damage_for_bionic_failure( 5, difficulty * 5 );
