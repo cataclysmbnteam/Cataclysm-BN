@@ -200,6 +200,7 @@ else
 
     make -j "$num_jobs" RELEASE=1 CCACHE=1 BACKTRACE=1 LANGUAGES="all" CROSS="$CROSS_COMPILATION" LINTJSON=0 ${MAKE_TARGETS}
 
+    export UBSAN_OPTIONS=print_stacktrace=1
     if [ "$TRAVIS_OS_NAME" == "osx" ]
     then
         run_tests ./tests/cata_test
