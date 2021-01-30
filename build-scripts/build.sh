@@ -177,38 +177,37 @@ then
     fi
 
     cd android
-    # Keystore properties for signing the apk
-    if [[ -n $encrypted_1de50180da55_key && -n $encrypted_f0d9c067c540_key ]]
-    then
-        openssl aes-256-cbc -K $encrypted_1de50180da55_key -iv $encrypted_1de50180da55_iv -in keystore.properties.enc -out keystore.properties -d
-        openssl aes-256-cbc -K $encrypted_f0d9c067c540_key -iv $encrypted_f0d9c067c540_iv -in app/bn-release.keystore.enc -out app/bn-release.keystore -d
-    fi
     # Specify dumb terminal to suppress gradle's constant output of time spent building, which
     # fills the log with nonsense.
-    TERM=dumb ./gradlew assembleExperimentalRelease -Pj=$num_jobs $ANDROID_ABI -Poverride_version=${TRAVIS_BUILD_NUMBER} \
-        -Pdeps="${HOME}/build/${TRAVIS_REPO_SLUG}/android/app/deps.zip"
+    TERM=dumb ./gradlew assembleExperimentalRelease -Pj=$num_jobs -Plocalize=false -Pabi_arm_32=false -Pabi_arm_64=true -Pdeps=/home/travis/build/cataclysmbnteam/Cataclysm-BN/android/app/deps.zip
 else
-    if [ "$DEPLOY" == 1 -a "$NATIVE" == "osx" ]
+    if [ "$OS" == "macos-10.15" ]
     then
-        MAKE_TARGETS="all dmgdist"
-    elif [ "$DEPLOY" == 1 ]
-    then
-        MAKE_TARGETS="all bindist"
+        export NATIVE=osx
+        # if OSX_MIN we specify here is lower than 10.15 then linker is going
+        # to throw warnings because SDL and gettext libraries installed from 
+        # Homebrew are built with minimum target osx version 10.15
+        export OSX_MIN=10.15
     else
-        MAKE_TARGETS="all"
+        export BACKTRACE=1
     fi
-
-    make -j "$num_jobs" RELEASE=1 CCACHE=1 BACKTRACE=1 LANGUAGES="all" CROSS="$CROSS_COMPILATION" LINTJSON=0 ${MAKE_TARGETS}
+    make -j "$num_jobs" RELEASE=1 CCACHE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0
 
     export UBSAN_OPTIONS=print_stacktrace=1
-    if [ "$TRAVIS_OS_NAME" == "osx" ]
+    if [ "$TRAVIS_OS_NAME" == "osx" ] || [ "$OS" == "macos-10.15" ]
     then
         run_tests ./tests/cata_test
-    elif [ -n "$MODS" ]
-    then
-        run_tests ./tests/cata_test --user-dir=modded $MODS
     else
-        run_tests ./tests/cata_test
+        run_tests ./tests/cata_test &
+        pids[0]=$!
+        if [ -n "$MODS" ]
+        then
+            run_tests ./tests/cata_test --user-dir=modded $MODS 2>&1 | sed 's/^/MOD> /' &
+            pids[1]=$!
+        fi
+        for pid in ${pids[@]}; do
+            wait $pid
+        done
     fi
 
     if [ -n "$TEST_STAGE" ]
