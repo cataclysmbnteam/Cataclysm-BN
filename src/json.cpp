@@ -116,7 +116,7 @@ void JsonObject::report_unvisited() const
             if( !visited_members.count( name ) && !string_starts_with( name, "//" ) &&
                 name != "blueprint" ) {
                 try {
-                    throw_error( string_format( "Failed to visit member %s in JsonObject", name ), name );
+                    throw_error( string_format( "Invalid or misplaced field name \"%s\" in JSON data", name ), name );
                 } catch( const JsonError &e ) {
                     debugmsg( "\n%s", e.what() );
                 }
