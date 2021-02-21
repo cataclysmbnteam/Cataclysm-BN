@@ -41,7 +41,7 @@
         ]
       },
       { "group": "infantry_common_gear" },
-      { "group": "military_standard_guns", "prob": 10 },
+      { "group": "military_standard_guns", "prob": 10, "damage": [ 0, 1 ], "dirt": [ 1500, 7050 ] },
       { "group": "military_standard_grenades", "count": [ 1, 3 ], "prob": 10 },
       { "group": "military_patrol_food" },
       {
