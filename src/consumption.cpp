@@ -163,6 +163,46 @@ const std::map<itype_id, int> plut_charges = {
     { "plut_slurry",       PLUTONIUM_CHARGES / 2 }
 };
 
+// Returns if available (and possibly used)
+// Should return item_location instead, but it's really hard to get it from inventory
+static bool use_food_heater( Character &c )
+{
+    // Ugly
+    player &p = dynamic_cast<player &>( c );
+    // Also ugly, since we have two inventories
+    inventory map_inv;
+    // TODO: Cache!!! Or change to something else. Certainly don't merge.
+    map_inv.form_from_map( c.pos(), PICKUP_RANGE, &c );
+    inventory inv = c.crafting_inventory();
+    int best_fire = get_heat_radiation( c.pos(), true );
+    if( best_fire > 0 && inv.has_item_with( []( const item & it ) {
+    return it.has_flag( "HEATS_FOOD_USING_FIRE" );
+    } ) ) {
+        return true;
+    }
+    std::vector<item *> charged_heaters = inv.items_with( [&c]( const item & it ) {
+        return it.has_flag( "HEATS_FOOD_USING_CHARGES" ) &&
+               c.has_enough_charges( it, false );
+    } );
+    if( !charged_heaters.empty() ) {
+        item &it = *charged_heaters.front();
+        std::vector<tool_comp> comps = {tool_comp( it.typeId(), it.type->charges_to_use() )};
+        comp_selection<tool_comp> selected = p.select_tool_component( comps, 1, map_inv );
+        p.consume_tools( selected, it.type->charges_to_use() );
+        return true;
+    }
+    std::vector<item *> consumed_heaters = inv.items_with( []( const item & it ) {
+        return it.has_flag( "HEATS_FOOD_IS_CONSUMED" );
+    } );
+    if( !consumed_heaters.empty() ) {
+        std::vector<item_comp> comps = {item_comp( consumed_heaters.front()->typeId(), 1 )};
+        comp_selection<item_comp> selected = p.select_item_component( comps, 1, map_inv, true,
+                                             is_crafting_component );
+        return !p.consume_items( selected, 1, is_crafting_component ).empty();
+    }
+    return false;
+}
+
 static int compute_default_effective_kcal( const item &comest, const Character &you,
         const cata::flat_set<std::string> &extra_flags = {} )
 {
@@ -992,9 +1032,17 @@ void Character::modify_addiction( const islot_comestible &comest )
     }
 }
 
-void Character::modify_morale( item &food, const int )
+void Character::modify_morale( item &food, int nutr )
 {
     time_duration morale_time = 2_hours;
+    if( food.has_flag( flag_EATEN_HOT ) && use_food_heater( *this ) ) {
+        add_msg_player_or_npc( m_info,
+                               _( "You heat up your [foodname] using [your/nearby] [heatername]." ),
+                               _( "<npcname> heats up [foodname] using [their/nearby] [heatername]." ) );
+        morale_time = 3_hours;
+        int clamped_nutr = std::max( 5, std::min( 20, nutr / 10 ) );
+        add_morale( MORALE_FOOD_HOT, clamped_nutr, 20, morale_time, morale_time / 2 );
+    }
 
     std::pair<int, int> fun = fun_for( food );
     if( fun.first < 0 ) {

@@ -393,7 +393,8 @@
     "cutting": 1,
     "material": "plastic",
     "symbol": ";",
-    "color": "light_gray"
+    "color": "light_gray",
+    "flags": ["HEATS_FOOD_IS_CONSUMED"]
   },
   {
     "id": "heatpack_used",
