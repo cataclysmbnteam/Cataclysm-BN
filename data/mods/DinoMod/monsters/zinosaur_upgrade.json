@@ -574,7 +574,7 @@
     "color": "white",
     "material": [ "bone" ],
     "armor_bash": 0,
-    "description": "Monstrous columns of dense bone lifting sharp curved teeth dripping with black goo. A tall ridge runs down the back",
+    "description": "Monstrous columns of dense bone lifting sharp curved teeth dripping with black goo.  A tall ridge runs down the back",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
@@ -598,7 +598,7 @@
     "color": "white",
     "material": [ "bone" ],
     "armor_bash": 0,
-    "description": "Monstrous columns of dense bone lifting sharp teeth dripping with black goo. There are long claws and strong arms for grappling.",
+    "description": "Monstrous columns of dense bone lifting sharp teeth dripping with black goo.  There are long claws and strong arms for grappling.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
