@@ -1904,6 +1904,7 @@ bool Character::uninstall_bionic( const bionic_id &b_id, player &installer, bool
 void Character::perform_uninstall( bionic_id bid, int difficulty, int success,
                                    const units::energy &power_lvl, int pl_skill )
 {
+remove_bionic( bid );
     if( success > 0 ) {
         g->events().send<event_type::removes_cbm>( getID(), bid );
 
@@ -1911,7 +1912,7 @@ void Character::perform_uninstall( bionic_id bid, int difficulty, int success,
         add_msg_player_or_npc( m_neutral, _( "Your parts are jiggled back into their familiar places." ),
                                _( "<npcname>'s parts are jiggled back into their familiar places." ) );
         add_msg( m_good, _( "Successfully removed %s." ), bid.obj().name );
-        remove_bionic( bid );
+
 
         // remove power bank provided by bionic
         mod_max_power_level( -power_lvl );
