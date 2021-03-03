@@ -1146,7 +1146,7 @@
     "broken_color": "brown",
     "damage_modifier": 80,
     "durability": 350,
-    "size": 650,
+    "size": 1000,
     "item": "frame",
     "location": "center",
     "requirements": {
@@ -2711,7 +2711,7 @@
     "broken_symbol": "#",
     "broken_color": "dark_gray",
     "durability": 250,
-    "size": 1000,
+    "size": 2000,
     "item": "cargo_rack",
     "location": "center",
     "requirements": {
