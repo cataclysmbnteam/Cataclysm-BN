@@ -930,9 +930,11 @@ class Character : public Creature, public visitable<Character>
     public:
         // recalculates enchantment cache by iterating through all held, worn, and wielded items
         void recalculate_enchantment_cache();
-        // gets add and mult value from enchantment cache
-        double calculate_by_enchantment( double modify, enchant_vals::mod value,
-                                         bool round_output = false ) const;
+
+        /**
+         * Calculate bonus from enchantments for given base value.
+         */
+        double bonus_from_enchantments( double base, enchant_vals::mod value ) const;
 
         /** Returns true if the player has any martial arts buffs attached */
         bool has_mabuff( const mabuff_id &buff_id ) const;

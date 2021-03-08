@@ -1409,10 +1409,10 @@ void known_magic::mod_mana( const Character &guy, int add_mana )
 int known_magic::max_mana( const Character &guy ) const
 {
     const float int_bonus = ( ( 0.2f + guy.get_int() * 0.1f ) - 1.0f ) * mana_base;
-    const float unaugmented_mana = std::max( 0.0f,
-                                   ( ( mana_base + int_bonus ) * guy.mutation_value( "mana_multiplier" ) ) +
-                                   guy.mutation_value( "mana_modifier" ) - units::to_kilojoule( guy.get_power_level() ) );
-    return guy.calculate_by_enchantment( unaugmented_mana, enchant_vals::mod::MAX_MANA, true );
+    const float val = ( ( mana_base + int_bonus ) * guy.mutation_value( "mana_multiplier" ) ) +
+                      guy.mutation_value( "mana_modifier" ) - units::to_kilojoule( guy.get_power_level() );
+    const float ench_bonus = guy.bonus_from_enchantments( val, enchant_vals::mod::MAX_MANA );
+    return std::max( 0.0f, val + ench_bonus );
 }
 
 void known_magic::update_mana( const Character &guy, float turns )
@@ -1420,8 +1420,9 @@ void known_magic::update_mana( const Character &guy, float turns )
     // mana should replenish in 8 hours.
     const float full_replenish = to_turns<float>( 8_hours );
     const float ratio = turns / full_replenish;
-    mod_mana( guy, std::floor( ratio * guy.calculate_by_enchantment( max_mana( guy ) *
-                               guy.mutation_value( "mana_regen_multiplier" ), enchant_vals::mod::REGEN_MANA ) ) );
+    const float delta = max_mana( guy ) * guy.mutation_value( "mana_regen_multiplier" );
+    const float ench_bonus = guy.bonus_from_enchantments( delta, enchant_vals::mod::REGEN_MANA );
+    mod_mana( guy, std::floor( ratio * ( delta + ench_bonus ) ) );
 }
 
 std::vector<spell_id> known_magic::spells() const

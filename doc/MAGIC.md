@@ -353,6 +353,12 @@ bonus = add + base_value * multiply
 
 Thus, a `multiply` value of -0.8 is -80%, and a `multiply` of 2.5 is +250%.
 
+When multiple enchantments (e.g. one from an item and one from a bionic) modify the same value,
+their bonuses are added together before being applied.
+
+Since there's no limit on number of enchantments the character can have at a time,
+the final calculated values have hardcoded bounds to prevent unintended behavior.
+
 #### IDs of modifiable values
 
 ##### STRENGTH

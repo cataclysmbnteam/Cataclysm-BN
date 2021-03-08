@@ -2052,11 +2052,18 @@ class item : public visitable<item>
         const std::vector<comp_selection<tool_comp>> &get_cached_tool_selections() const;
 
         std::vector<enchantment> get_enchantments() const;
-        double calculate_by_enchantment( const Character &owner, double modify, enchant_vals::mod value,
-                                         bool round_value = false ) const;
-        // calculates the enchantment value as if this item were wielded.
-        double calculate_by_enchantment_wield( double modify, enchant_vals::mod value,
-                                               bool round_value = false ) const;
+
+        /**
+         * Calculate bonus from enchantments that affect this item only.
+         */
+        double bonus_from_enchantments( const Character &owner, double base,
+                                        enchant_vals::mod value ) const;
+
+        /**
+         * Calculate bonus from enchantments that affect this item only,
+         * assume it's wielded and all enchantments' conditions are satisfied.
+         */
+        double bonus_from_enchantments_wielded( double base, enchant_vals::mod value ) const;
 
     private:
         bool use_amount_internal( const itype_id &it, int &quantity, std::list<item> &used,

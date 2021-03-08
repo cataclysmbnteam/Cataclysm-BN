@@ -200,11 +200,6 @@ bool enchantment::is_active( const Character &guy, const bool active ) const
     return false;
 }
 
-bool enchantment::active_wield() const
-{
-    return active_conditions.first == has::HELD || active_conditions.first == has::WIELD;
-}
-
 void enchantment::add_activation( const time_duration &freq, const fake_spell &fake )
 {
     intermittent_activation[freq].emplace_back( fake );
@@ -411,6 +406,13 @@ double enchantment::get_value_multiply( const enchant_vals::mod value ) const
     return found->second;
 }
 
+double enchantment::calc_bonus( enchant_vals::mod value, double base ) const
+{
+    double add = get_value_add( value );
+    double mul = get_value_multiply( value );
+    return add + base * mul;
+}
+
 int enchantment::mult_bonus( enchant_vals::mod value_type, int base_value ) const
 {
     return get_value_multiply( value_type ) * base_value;
@@ -418,20 +420,12 @@ int enchantment::mult_bonus( enchant_vals::mod value_type, int base_value ) cons
 
 void enchantment::activate_passive( Character &guy ) const
 {
-    guy.mod_str_bonus( get_value_add( enchant_vals::mod::STRENGTH ) );
-    guy.mod_str_bonus( mult_bonus( enchant_vals::mod::STRENGTH, guy.get_str_base() ) );
+    guy.mod_str_bonus( calc_bonus( enchant_vals::mod::STRENGTH, guy.get_str_base() ) );
+    guy.mod_dex_bonus( calc_bonus( enchant_vals::mod::DEXTERITY, guy.get_dex_base() ) );
+    guy.mod_per_bonus( calc_bonus( enchant_vals::mod::PERCEPTION, guy.get_per_base() ) );
+    guy.mod_int_bonus( calc_bonus( enchant_vals::mod::INTELLIGENCE, guy.get_int_base() ) );
 
-    guy.mod_dex_bonus( get_value_add( enchant_vals::mod::DEXTERITY ) );
-    guy.mod_dex_bonus( mult_bonus( enchant_vals::mod::DEXTERITY, guy.get_dex_base() ) );
-
-    guy.mod_per_bonus( get_value_add( enchant_vals::mod::PERCEPTION ) );
-    guy.mod_per_bonus( mult_bonus( enchant_vals::mod::PERCEPTION, guy.get_per_base() ) );
-
-    guy.mod_int_bonus( get_value_add( enchant_vals::mod::INTELLIGENCE ) );
-    guy.mod_int_bonus( mult_bonus( enchant_vals::mod::INTELLIGENCE, guy.get_int_base() ) );
-
-    guy.mod_num_dodges_bonus( get_value_add( enchant_vals::mod::BONUS_DODGE ) );
-    guy.mod_num_dodges_bonus( mult_bonus( enchant_vals::mod::BONUS_DODGE, guy.get_num_dodges_base() ) );
+    guy.mod_num_dodges_bonus( calc_bonus( enchant_vals::mod::BONUS_DODGE, guy.get_num_dodges_base() ) );
 
     if( emitter ) {
         get_map().emit_field( guy.pos(), *emitter );

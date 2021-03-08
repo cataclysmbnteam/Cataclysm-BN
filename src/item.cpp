@@ -4819,10 +4819,11 @@ int item::lift_strength() const
 
 int item::attack_time() const
 {
-    int ret = 65 + ( volume() / 62.5_ml + weight() / 60_gram ) / count();
-    ret = calculate_by_enchantment_wield( ret, enchant_vals::mod::ITEM_ATTACK_SPEED,
-                                          true );
-    return ret;
+    int base = 65 + ( volume() / 62.5_ml + weight() / 60_gram ) / count();
+    int bonus = std::round(
+                    bonus_from_enchantments_wielded( base, enchant_vals::mod::ITEM_ATTACK_SPEED )
+                );
+    return std::max( 0, base + bonus );
 }
 
 int item::damage_melee( damage_type dt ) const
@@ -6498,42 +6499,31 @@ std::vector<enchantment> item::get_enchantments() const
     return relic_data->get_enchantments();
 }
 
-double item::calculate_by_enchantment( const Character &owner, double modify,
-                                       enchant_vals::mod value, bool round_value ) const
+double item::bonus_from_enchantments( const Character &owner, double base,
+                                      enchant_vals::mod value ) const
 {
-    double add_value = 0.0;
-    double mult_value = 1.0;
+    double add = 0.0;
+    double mul = 0.0;
     for( const enchantment &ench : get_enchantments() ) {
         if( ench.is_active( owner, *this ) ) {
-            add_value += ench.get_value_add( value );
-            mult_value += ench.get_value_multiply( value );
+            add += ench.get_value_add( value );
+            mul += ench.get_value_multiply( value );
         }
     }
-    modify += add_value;
-    modify *= mult_value;
-    if( round_value ) {
-        modify = std::round( modify );
-    }
-    return modify;
+    return add + base * mul;
 }
 
-double item::calculate_by_enchantment_wield( double modify, enchant_vals::mod value,
-        bool round_value ) const
+double item::bonus_from_enchantments_wielded( double base, enchant_vals::mod value ) const
 {
-    double add_value = 0.0;
-    double mult_value = 1.0;
+    double add = 0.0;
+    double mul = 0.0;
     for( const enchantment &ench : get_enchantments() ) {
-        if( ench.active_wield() ) {
-            add_value += ench.get_value_add( value );
-            mult_value += ench.get_value_multiply( value );
+        if( ench.is_active_when_wielded() ) {
+            add += ench.get_value_add( value );
+            mul += ench.get_value_multiply( value );
         }
     }
-    modify += add_value;
-    modify *= mult_value;
-    if( round_value ) {
-        modify = std::round( modify );
-    }
-    return modify;
+    return add + base * mul;
 }
 
 bool item::can_contain( const item &it ) const
