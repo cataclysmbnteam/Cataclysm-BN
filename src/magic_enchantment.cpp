@@ -169,14 +169,11 @@ bool enchantment::is_active( const Character &guy, const item &parent ) const
         return false;
     }
 
-    if( active_conditions.first == has::HELD &&
-        active_conditions.second == condition::ALWAYS ) {
-        return true;
+    if( active_conditions.first == has::WIELD && !guy.is_wielding( parent ) ) {
+        return false;
     }
 
-    if( !( active_conditions.first == has::HELD ||
-           ( active_conditions.first == has::WIELD && guy.is_wielding( parent ) ) ||
-           ( active_conditions.first == has::WORN && guy.is_worn( parent ) ) ) ) {
+    if( active_conditions.first == has::WORN && !guy.is_worn( parent ) ) {
         return false;
     }
 
