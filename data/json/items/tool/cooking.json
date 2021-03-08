@@ -394,24 +394,7 @@
     "material": "plastic",
     "symbol": ";",
     "color": "light_gray",
-    "flags": ["HEATS_FOOD_IS_CONSUMED"]
-  },
-  {
-    "id": "heatpack_used",
-    "type": "TOOL",
-    "category": "other",
-    "name": { "str": "used heat pack" },
-    "description": "This is a chemical heat pack.  It's used to treat sports injuries and heat food.  This one has been used and is chemically inert, rendering it useless.",
-    "weight": "226 g",
-    "volume": "250 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": 1,
-    "bashing": 1,
-    "cutting": 1,
-    "material": "plastic",
-    "symbol": ";",
-    "color": "light_gray"
+    "flags": [ "HEATS_FOOD_IS_CONSUMED" ]
   },
   {
     "id": "hobo_stove",

@@ -3118,6 +3118,17 @@
     "flags": [ "STURDY", "OUTER" ]
   },
   {
+    "id": "heatpack_used",
+    "type": "TOOL",
+    "category": "other",
+    "copy-from": "heatpack",
+    "name": { "str": "used heat pack" },
+    "description": "This is a chemical heat pack.  It's used to treat sports injuries and heat food.  This one has been used and is chemically inert, rendering it useless.",
+    "price": 0,
+    "price_postapoc": 0,
+    "flags": [  ]
+  },
+  {
     "id": "bot_rifleturret",
     "type": "TOOL",
     "name": { "str": "inactive autonomous M249 CROWS II", "str_pl": "inactive autonomous M249 CROWS II turrets" },
