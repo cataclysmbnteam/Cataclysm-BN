@@ -1297,7 +1297,7 @@ double item::effective_dps( const player &guy, const monster &mon ) const
     double crit_chance = guy.crit_chance( 0, 0, *this );
     double num_low_hits = std::max( 0.0, num_all_hits - num_high_hits );
 
-    double moves_per_attack = guy.attack_speed( *this );
+    double moves_per_attack = guy.attack_cost( *this );
     // attacks that miss do no damage but take time
     double total_moves = ( hit_trials - num_all_hits ) * moves_per_attack;
     double total_damage = 0.0;
@@ -3214,7 +3214,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
         if( parts->test( iteminfo_parts::BASE_MOVES ) ) {
             info.push_back( iteminfo( "BASE", _( "Moves per attack: " ), "",
-                                      iteminfo::lower_is_better, attack_time() ) );
+                                      iteminfo::lower_is_better, attack_cost() ) );
             info.emplace_back( "BASE", _( "Typical damage per second:" ), "" );
             const std::map<std::string, double> &dps_data = dps( true, false );
             std::string sep;
@@ -3275,7 +3275,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         g->u.roll_all_damage( false, non_crit, true, *this );
         damage_instance crit;
         g->u.roll_all_damage( true, crit, true, *this );
-        int attack_cost = g->u.attack_speed( *this );
+        int attack_cost = g->u.attack_cost( *this );
         insert_separation_line( info );
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG ) ) {
             info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Average melee damage</bold>:" ) ) );
@@ -4817,7 +4817,7 @@ int item::lift_strength() const
     return std::max( mass / 10000, 1 );
 }
 
-int item::attack_time() const
+int item::attack_cost() const
 {
     int base = 65 + ( volume() / 62.5_ml + weight() / 60_gram ) / count();
     int bonus = std::round(
