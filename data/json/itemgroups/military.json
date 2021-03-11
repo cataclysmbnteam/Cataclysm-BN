@@ -70,10 +70,7 @@
     "type": "item_group",
     "id": "infantry_officer_gear",
     "subtype": "collection",
-    "entries": [
-      { "item": "binoculars", "prob": 90 },
-      { "item": "id_military", "prob": 90 }
-    ]
+    "entries": [ { "item": "binoculars", "prob": 90 }, { "item": "id_military", "prob": 90 } ]
   },
   {
     "type": "item_group",
