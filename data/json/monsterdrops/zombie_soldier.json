@@ -13,7 +13,8 @@
         ]
       },
       { "group": "infantry_common_gear" },
-      { "group": "military_standard_guns", "prob": 50, "damage": [ 0, 1 ], "dirt": [ 1500, 7050 ] },
+      { "group": "military_standard_guns", "prob": 10, "damage": [ 0, 2 ], "dirt": [ 1500, 7050 ] },
+	  { "item": "holster", "contents-group": "military_standard_pistols", "prob": 30, "damage": [ 0, 2 ], "dirt": [ 1500, 7050 ] },
       { "group": "military_standard_grenades", "count": [ 1, 3 ], "prob": 20 },
       { "group": "military_patrol_food" },
       { "distribution": [ { "group": "infantry_officer_gear" }, { "group": "infantry_medical_gear" } ], "prob": 25 },
@@ -41,7 +42,8 @@
         ]
       },
       { "group": "infantry_common_gear" },
-      { "group": "military_standard_guns", "prob": 50, "damage": [ 0, 1 ], "dirt": [ 1500, 7050 ] },
+      { "group": "military_standard_guns", "prob": 10, "damage": [ 0, 2 ], "dirt": [ 1500, 7050 ] },
+	  { "item": "holster", "contents-group": "military_standard_pistols", "prob": 30, "damage": [ 0, 2 ], "dirt": [ 1500, 7050 ] },
       { "group": "military_standard_grenades", "count": [ 1, 3 ], "prob": 20 },
       { "group": "military_patrol_food" },
       {
@@ -56,7 +58,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "group": "military_standard_assault_rifles", "prob": 75 },
+      { "group": "military_standard_assault_rifles", "prob": 70 },
       { "group": "military_standard_lmgs", "prob": 10 },
       { "group": "military_standard_sniper_rifles", "prob": 10 },
       { "group": "military_standard_shotguns", "prob": 5 }
