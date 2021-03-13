@@ -862,12 +862,12 @@ def gettextify(string, context=None, plural=None):
     "Put the string in a fake gettext call, and add a newline."
     if context:
         if plural:
-            return "npgettext(%r, %r, %r, n)\n" % (context, string, plural)
+            return "vpgettext(%r, %r, %r, n)\n" % (context, string, plural)
         else:
             return "pgettext(%r, %r)\n" % (context, string)
     else:
         if plural:
-            return "ngettext(%r, %r, n)\n" % (string, plural)
+            return "vgettext(%r, %r, n)\n" % (string, plural)
         else:
             return "_(%r)\n" % string
 
