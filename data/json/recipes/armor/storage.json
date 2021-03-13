@@ -665,6 +665,36 @@
     "components": [ [ [ "straw_pile", 5 ], [ "birchbark", 7 ] ] ]
   },
   {
+    "result": "survivor_bigback",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 9,
+    "skills_required": [ "fabrication", 8 ],
+    "time": "2 h 20 m",
+    "autolearn": true,
+	"reversible": true,
+    "using": [ [ "sewing_standard", 400 ] ],
+    "components": [
+	[ [ "rag", 30 ] ],
+      [ [ "leather", 36 ], [ "tanned_hide", 6 ] ],
+      [ [ "bigback", 1 ] ],
+      [
+        [ "tacvest", 2 ],
+        [ "legrig", 2 ],
+        [ "vest", 2 ],
+        [ "tool_belt", 2 ],
+        [ "ragpouch", 8 ],
+        [ "leather_pouch", 4 ],
+        [ "dump_pouch", 2 ],
+        [ "purse", 4 ],
+        [ "fanny", 4 ]
+      ],
+      [ [ "duct_tape", 400 ] ]
+    ]
+  },
+  {
     "result": "survivor_duffel_bag",
     "type": "recipe",
     "category": "CC_ARMOR",

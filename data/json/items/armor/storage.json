@@ -851,6 +851,28 @@
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {
+    "id": "survivor_bigback",
+    "type": "ARMOR",
+    "name": { "str": "high-volume survival backpack" },
+    "description": "A custom-built high-volume backpack.  Durable and carefully crafted to hold as much stuff as possible.",
+    "weight": "4000 g",
+    "volume": "23000 ml",
+    "price": 30000,
+    "price_postapoc": 3500,
+    "rigid": false,
+    "material": [ "leather", "cotton" ],
+    "symbol": "[",
+    "looks_like": "bigback",
+    "color": "black",
+    "covers": [ "TORSO" ],
+    "coverage": 60,
+    "encumbrance": 10,
+    "max_encumbrance": 40,
+    "storage": "50 L",
+    "material_thickness": 2,
+    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ]
+  },
+  {
     "id": "survivor_duffel_bag",
     "type": "ARMOR",
     "name": { "str": "survivor duffel bag" },
