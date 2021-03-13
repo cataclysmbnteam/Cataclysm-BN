@@ -674,7 +674,7 @@
     "skills_required": [ "fabrication", 8 ],
     "time": "2 h 20 m",
     "autolearn": true,
-	"reversible": true,
+    "reversible": true,
     "using": [ [ "sewing_standard", 400 ] ],
     "components": [
 	[ [ "rag", 30 ] ],
