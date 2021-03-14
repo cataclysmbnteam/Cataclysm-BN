@@ -679,7 +679,7 @@
     "components": [
 	[ [ "rag", 30 ] ],
       [ [ "leather", 36 ], [ "tanned_hide", 6 ] ],
-      [ [ "bigback", 1 ] ],
+      [ [ "bigback", 2 ] ],
       [
         [ "tacvest", 1 ],
         [ "legrig", 1 ],
