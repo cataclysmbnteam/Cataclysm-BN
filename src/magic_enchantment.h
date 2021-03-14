@@ -29,7 +29,7 @@ enum class mod : int {
     INTELLIGENCE,
     SPEED,
     ATTACK_COST,
-    ATTACK_SPEED, // affects attack speed of item even if it's not the one you're wielding
+    ATTACK_SPEED,
     MOVE_COST,
     METABOLISM,
     MAX_MANA,
@@ -37,11 +37,11 @@ enum class mod : int {
     BIONIC_POWER,
     MAX_STAMINA,
     REGEN_STAMINA,
-    MAX_HP,        // for all limbs! use with caution
+    MAX_HP,
     REGEN_HP,
-    THIRST,        // cost or regen over time
-    FATIGUE,       // cost or regen over time
-    PAIN,          // cost or regen over time
+    THIRST,
+    FATIGUE,
+    PAIN,
     BONUS_DODGE,
     BONUS_BLOCK,
     BONUS_DAMAGE,
@@ -72,7 +72,7 @@ enum class mod : int {
     ITEM_DAMAGE_ELEC,
     ITEM_DAMAGE_ACID,
     ITEM_DAMAGE_BIO,
-    ITEM_DAMAGE_AP,      // armor piercing
+    ITEM_DAMAGE_AP,
     ITEM_ARMOR_BASH,
     ITEM_ARMOR_CUT,
     ITEM_ARMOR_STAB,

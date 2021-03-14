@@ -1,0 +1,21 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "test_relic_base",
+    "name": "TEST relic base",
+    "description": "A relic for test purposes",
+    "category": "spare_parts",
+    "weight": "1 kg",
+    "volume": "100 ml",
+    "material": [ "steel" ],
+    "color": "red",
+    "symbol": "*"
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_relic_gives_trait",
+    "copy-from": "test_relic_base",
+    "name": "TEST relic gives trait",
+    "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "mutations": [ "CARNIVORE" ] } ] }
+  }
+]
