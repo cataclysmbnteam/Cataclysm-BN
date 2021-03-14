@@ -355,16 +355,32 @@ Thus, a `multiply` value of -0.8 is -80%, and a `multiply` of 2.5 is +250%.
 
 #### IDs of modifiable values
 
+##### STRENGTH
+Strength stat.
+`base_value` here is the base stat value.
+The final value cannot go below 0.
+
+##### DEXTERITY
+Dexterity stat.
+`base_value` here is the base stat value.
+The final value cannot go below 0.
+
+##### PERCEPTION
+Perception stat.
+`base_value` here is the base stat value.
+The final value cannot go below 0.
+
+##### INTELLIGENCE
+Intelligence stat.
+`base_value` here is the base stat value.
+The final value cannot go below 0.
+
 ##### TODO
 
 TODO: docs for each
 
 TODO: some of these are broken/unimplemented
 
-* STRENGTH
-* DEXTERITY
-* PERCEPTION
-* INTELLIGENCE
 * SPEED
 * ATTACK_COST
 * ATTACK_SPEED

@@ -146,3 +146,76 @@ TEST_CASE( "Enchantments apply effects", "[magic][enchantment][effect]" )
         }
     }
 }
+
+static void tests_stats( Character &guy, int s_base, int d_base, int p_base, int i_base, int s_exp,
+                         int d_exp, int p_exp, int i_exp )
+{
+    guy.str_max = s_base;
+    guy.dex_max = d_base;
+    guy.per_max = p_base;
+    guy.int_max = i_base;
+
+    guy.recalculate_enchantment_cache();
+    advance_turn( guy );
+
+    auto check_stats = [&]( int s, int d, int p, int i ) {
+        REQUIRE( guy.get_str_base() == s_base );
+        REQUIRE( guy.get_dex_base() == d_base );
+        REQUIRE( guy.get_per_base() == p_base );
+        REQUIRE( guy.get_int_base() == i_base );
+
+        CHECK( guy.get_str() == s );
+        CHECK( guy.get_dex() == d );
+        CHECK( guy.get_per() == p );
+        CHECK( guy.get_int() == i );
+    };
+    auto check_stats_base = [&]() {
+        check_stats( s_base, d_base, p_base, i_base );
+    };
+
+    check_stats_base();
+
+    std::string s_relic = "test_relic_mods_stats";
+
+    WHEN( "Character receives relic" ) {
+        give_item( guy, s_relic );
+        THEN( "Stats remain unchanged" ) {
+            check_stats_base();
+        }
+        AND_WHEN( "Turn passes" ) {
+            advance_turn( guy );
+            THEN( "Stats are modified and don't overflow" ) {
+                check_stats( s_exp, d_exp, p_exp, i_exp );
+            }
+            AND_WHEN( "Character loses relic" ) {
+                clear_items( guy );
+                THEN( "Stats remain unchanged" ) {
+                    check_stats( s_exp, d_exp, p_exp, i_exp );
+                }
+                AND_WHEN( "Turn passes" ) {
+                    advance_turn( guy );
+                    THEN( "Stats return to normal" ) {
+                        check_stats_base();
+                    }
+                }
+            }
+        }
+    }
+}
+
+TEST_CASE( "Enchantments modify stats", "[magic][enchantment][character]" )
+{
+    clear_map();
+    Character &guy = get_player_character();
+    clear_character( *guy.as_player(), true );
+
+    SECTION( "base stats 8" ) {
+        tests_stats( guy, 8, 8, 8, 8, 20, 6, 5, 0 );
+    }
+    SECTION( "base stats 12" ) {
+        tests_stats( guy, 12, 12, 12, 12, 28, 10, 7, 1 );
+    }
+    SECTION( "base stats 4" ) {
+        tests_stats( guy, 4, 4, 4, 4, 12, 2, 3, 0 );
+    }
+}
