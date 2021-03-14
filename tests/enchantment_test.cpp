@@ -4,6 +4,7 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "item.h"
+#include "options.h"
 #include "player.h"
 #include "player_helpers.h"
 
@@ -408,5 +409,61 @@ TEST_CASE( "Enchantments modify move cost", "[magic][enchantment][move]" )
         SECTION( "tile move cost = 120" ) {
             tests_move_cost( guy, 120, 108, 97 );
         }
+    }
+}
+
+static void tests_metabolic_rate( Character &guy, float norm, float exp )
+{
+    guy.recalculate_enchantment_cache();
+    advance_turn( guy );
+
+    std::string s_relic = "test_relic_mods_metabolism";
+
+    REQUIRE( guy.metabolic_rate_base() == Approx( norm ) );
+
+    WHEN( "Character receives relic" ) {
+        give_item( guy, s_relic );
+        THEN( "Metabolic rate changes" ) {
+            CHECK( guy.metabolic_rate_base() == Approx( exp ) );
+            AND_WHEN( "Character loses relic" ) {
+                clear_items( guy );
+                THEN( "Metabolic rate goes back to normal" ) {
+                    CHECK( guy.metabolic_rate_base() == Approx( norm ) );
+                }
+            }
+        }
+    }
+    WHEN( "Character receives 15 relics" ) {
+        for( int i = 0; i < 15; i++ ) {
+            give_item( guy, s_relic );
+        }
+        THEN( "Metabolic rate does not go below 0" ) {
+            CHECK( guy.metabolic_rate_base() == Approx( 0.0f ) );
+        }
+    }
+}
+
+TEST_CASE( "Enchantments modify metabolic rate", "[magic][enchantment][metabolism]" )
+{
+    clear_map();
+    Character &guy = get_player_character();
+    clear_character( *guy.as_player(), true );
+
+    guy.recalculate_enchantment_cache();
+    advance_turn( guy );
+
+    const float normal_mr = get_option<float>( "PLAYER_HUNGER_RATE" );
+    REQUIRE( guy.metabolic_rate_base() == normal_mr );
+    REQUIRE( normal_mr == 1.0f );
+
+    SECTION( "Clean character" ) {
+        tests_metabolic_rate( guy, 1.0f, 0.9f );
+    }
+    SECTION( "Character with HUNGER trait" ) {
+        trait_id tr( "HUNGER" );
+        guy.set_mutation( tr );
+        REQUIRE( guy.has_trait( tr ) );
+
+        tests_metabolic_rate( guy, 1.5f, 1.35f );
     }
 }

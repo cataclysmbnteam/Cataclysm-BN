@@ -338,8 +338,9 @@ Syntax for single entry:
   // (required) Value ID to modify, refer to list below.
   "value": "VALUE_ID_STRING"
   
-  // Additive bonus. Optional, default is 0.
-  "add": 13.37,
+  // Additive bonus. Optional integer number, default is 0.
+  // May be ignored for some values.
+  "add": 13,
   
   // Multiplicative bonus. Optional, default is 0.
   "multiply": -0.3,
@@ -398,6 +399,12 @@ Movement cost.
 `base_value` here is tile movement cost including modifiers from clothing and traits.
 The final value cannot go below 20.
 
+##### METABOLISM
+Metabolic rate.
+This modifier ignores `add` field.
+`base_value` here is `PLAYER_HUNGER_RATE` modified by traits.
+The final value cannot go below 0.
+
 #### Item values
 
 ##### ITEM_ATTACK_COST
@@ -413,7 +420,6 @@ TODO: docs for each
 TODO: some of these are broken/unimplemented
 
 
-* METABOLISM
 * MAX_MANA
 * REGEN_MANA
 * BIONIC_POWER

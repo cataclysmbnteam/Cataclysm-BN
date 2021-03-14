@@ -407,7 +407,15 @@ double enchantment::get_value_multiply( const enchant_vals::mod value ) const
 
 double enchantment::calc_bonus( enchant_vals::mod value, double base ) const
 {
-    double add = get_value_add( value );
+    bool use_add = true;
+    switch( value ) {
+        case enchant_vals::mod::METABOLISM:
+            use_add = false;
+            break;
+        default:
+            break;
+    }
+    double add = use_add ? get_value_add( value ) : 0.0;
     double mul = get_value_multiply( value );
     return add + base * mul;
 }
