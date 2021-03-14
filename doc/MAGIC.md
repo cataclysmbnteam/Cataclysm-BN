@@ -393,6 +393,11 @@ Melee attack cost. The lower, the better.
 `base_value` here is attack cost for given weapon including modifiers from stats and skills.
 The final value cannot go below 25.
 
+##### MOVE_COST
+Movement cost.
+`base_value` here is tile movement cost including modifiers from clothing and traits.
+The final value cannot go below 20.
+
 #### Item values
 
 ##### ITEM_ATTACK_COST
@@ -407,7 +412,7 @@ TODO: docs for each
 
 TODO: some of these are broken/unimplemented
 
-* MOVE_COST
+
 * METABOLISM
 * MAX_MANA
 * REGEN_MANA

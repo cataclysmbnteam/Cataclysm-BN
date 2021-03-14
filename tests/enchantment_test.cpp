@@ -351,3 +351,62 @@ TEST_CASE( "Enchantments modify attack cost", "[magic][enchantment][melee]" )
         tests_attack_cost( guy, item( "test_relic_sword" ), 86, 82, 66 );
     }
 }
+
+static void tests_move_cost( Character &guy, int tile_move_cost, int move_cost, int exp_move_cost )
+{
+    guy.recalculate_enchantment_cache();
+    advance_turn( guy );
+
+    std::string s_relic = "test_relic_mods_mv_cost";
+
+    REQUIRE( guy.run_cost( tile_move_cost ) == move_cost );
+
+    WHEN( "Character receives relic" ) {
+        give_item( guy, s_relic );
+        THEN( "Move cost changes" ) {
+            CHECK( guy.run_cost( tile_move_cost ) == exp_move_cost );
+        }
+        AND_WHEN( "Character loses relic" ) {
+            clear_items( guy );
+            THEN( "Move cost goes back to normal" ) {
+                CHECK( guy.run_cost( tile_move_cost ) == move_cost );
+            }
+        }
+    }
+    WHEN( "Character receives 15 relics" ) {
+        for( int i = 0; i < 15; i++ ) {
+            give_item( guy, s_relic );
+        }
+        THEN( "Move cost does not drop below 20" ) {
+            CHECK( guy.run_cost( tile_move_cost ) == 20 );
+        }
+    }
+}
+
+TEST_CASE( "Enchantments modify move cost", "[magic][enchantment][move]" )
+{
+    clear_map();
+    Character &guy = get_player_character();
+    clear_character( *guy.as_player(), true );
+
+    SECTION( "Naked character" ) {
+        SECTION( "tile move cost = 100" ) {
+            tests_move_cost( guy, 100, 116, 104 );
+        }
+        SECTION( "tile move cost = 120" ) {
+            tests_move_cost( guy, 120, 136, 122 );
+        }
+    }
+    SECTION( "Naked character with PADDED_FEET" ) {
+        trait_id tr( "PADDED_FEET" );
+        guy.set_mutation( tr );
+        REQUIRE( guy.has_trait( tr ) );
+
+        SECTION( "tile move cost = 100" ) {
+            tests_move_cost( guy, 100, 90, 81 );
+        }
+        SECTION( "tile move cost = 120" ) {
+            tests_move_cost( guy, 120, 108, 97 );
+        }
+    }
+}

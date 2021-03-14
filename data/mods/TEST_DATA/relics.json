@@ -75,5 +75,14 @@
     "relic_data": {
       "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_ATTACK_COST", "add": -15 } ] } ]
     }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_relic_mods_mv_cost",
+    "copy-from": "test_relic_base",
+    "name": "TEST relic mods movement cost",
+    "relic_data": {
+      "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ] } ]
+    }
   }
 ]

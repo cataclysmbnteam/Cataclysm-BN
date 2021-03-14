@@ -9731,6 +9731,10 @@ int Character::run_cost( int base_cost, bool diag ) const
 
         movecost += bonus_from_enchantments( movecost, enchant_vals::mod::MOVE_COST );
         movecost /= stamina_move_cost_modifier();
+
+        if( movecost < 20.0 ) {
+            movecost = 20.0;
+        }
     }
 
     if( diag ) {
