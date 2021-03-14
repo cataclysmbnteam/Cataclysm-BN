@@ -2187,7 +2187,7 @@ int Character::attack_cost( const item &weap ) const
     move_cost -= dexbonus;
 
     move_cost += std::round(
-                     bonus_from_enchantments( move_cost, enchant_vals::mod::ATTACK_SPEED )
+                     bonus_from_enchantments( move_cost, enchant_vals::mod::ATTACK_COST )
                  );
     // Martial arts last. Flat has to be after mult, because comments say so.
     move_cost *= ma_mult;

@@ -304,3 +304,50 @@ TEST_CASE( "Enchantments modify speed", "[magic][enchantment][speed]" )
         tests_speed( guy, 120, 85 );
     }
 }
+
+static void tests_attack_cost( Character &guy, const item &weap, int item_atk_cost,
+                               int guy_atk_cost, int exp_guy_atk_cost )
+{
+    guy.recalculate_enchantment_cache();
+    advance_turn( guy );
+
+    REQUIRE( weap.attack_cost() == item_atk_cost );
+    REQUIRE( guy.attack_cost( weap ) == guy_atk_cost );
+
+    std::string s_relic = "test_relic_mods_atk_cost";
+
+    WHEN( "Character receives relic" ) {
+        give_item( guy, s_relic );
+        THEN( "Attack cost changes" ) {
+            CHECK( guy.attack_cost( weap ) == exp_guy_atk_cost );
+        }
+        AND_WHEN( "Character loses relic" ) {
+            clear_items( guy );
+            THEN( "Attack cost returns to normal" ) {
+                CHECK( guy.attack_cost( weap ) == guy_atk_cost );
+            }
+        }
+    }
+    WHEN( "Character receives 10 relics" ) {
+        for( int i = 0; i < 10; i++ ) {
+            give_item( guy, s_relic );
+        }
+        THEN( "Attack cost does not drop below 25" ) {
+            CHECK( guy.attack_cost( weap ) == 25 );
+        }
+    }
+}
+
+TEST_CASE( "Enchantments modify attack cost", "[magic][enchantment][melee]" )
+{
+    clear_map();
+    Character &guy = get_player_character();
+    clear_character( *guy.as_player(), true );
+
+    SECTION( "normal sword" ) {
+        tests_attack_cost( guy, item( "test_normal_sword" ), 101, 96, 77 );
+    }
+    SECTION( "normal sword + ITEM_ATTACK_COST" ) {
+        tests_attack_cost( guy, item( "test_relic_sword" ), 86, 82, 66 );
+    }
+}

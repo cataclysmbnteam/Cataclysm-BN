@@ -76,7 +76,6 @@ namespace io
             case enchant_vals::mod::INTELLIGENCE: return "INTELLIGENCE";
             case enchant_vals::mod::SPEED: return "SPEED";
             case enchant_vals::mod::ATTACK_COST: return "ATTACK_COST";
-            case enchant_vals::mod::ATTACK_SPEED: return "ATTACK_SPEED";
             case enchant_vals::mod::MOVE_COST: return "MOVE_COST";
             case enchant_vals::mod::METABOLISM: return "METABOLISM";
             case enchant_vals::mod::MAX_MANA: return "MAX_MANA";
@@ -131,7 +130,7 @@ namespace io
             case enchant_vals::mod::ITEM_ENCUMBRANCE: return "ITEM_ENCUMBRANCE";
             case enchant_vals::mod::ITEM_VOLUME: return "ITEM_VOLUME";
             case enchant_vals::mod::ITEM_COVERAGE: return "ITEM_COVERAGE";
-            case enchant_vals::mod::ITEM_ATTACK_SPEED: return "ITEM_ATTACK_SPEED";
+            case enchant_vals::mod::ITEM_ATTACK_COST: return "ITEM_ATTACK_COST";
             case enchant_vals::mod::ITEM_WET_PROTECTION: return "ITEM_WET_PROTECTION";
             case enchant_vals::mod::NUM_MOD: break;
         }

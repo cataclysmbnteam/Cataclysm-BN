@@ -330,7 +330,7 @@ Syntax:
 ```
 
 ### values
-(array) List of miscellaneous values to modify.
+(array) List of miscellaneous character/item values to modify.
 
 Syntax for single entry:
 ```c++
@@ -361,6 +361,8 @@ the final calculated values have hardcoded bounds to prevent unintended behavior
 
 #### IDs of modifiable values
 
+#### Character values
+
 ##### STRENGTH
 Strength stat.
 `base_value` here is the base stat value.
@@ -386,14 +388,25 @@ Character speed.
 `base_value` here is character speed including pain/hunger/weight penalties.
 Final speed value cannot go below 25% of base speed.
 
+##### ATTACK_COST
+Melee attack cost. The lower, the better.
+`base_value` here is attack cost for given weapon including modifiers from stats and skills.
+The final value cannot go below 25.
+
+#### Item values
+
+##### ITEM_ATTACK_COST
+Attack cost (melee or throwing) for this item.
+Ignores condition / location, and is always active.
+`base_value` here is base item attack cost.
+Note that the final value cannot go below 0.
+
 ##### TODO
 
 TODO: docs for each
 
 TODO: some of these are broken/unimplemented
 
-* ATTACK_COST
-* ATTACK_SPEED
 * MOVE_COST
 * METABOLISM
 * MAX_MANA
@@ -450,7 +463,6 @@ Effects for the item that has the enchantment:
 * ITEM_ENCUMBRANCE
 * ITEM_VOLUME
 * ITEM_COVERAGE
-* ITEM_ATTACK_SPEED
 * ITEM_WET_PROTECTION
 
 ## Examples

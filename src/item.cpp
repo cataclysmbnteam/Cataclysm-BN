@@ -4821,7 +4821,7 @@ int item::attack_cost() const
 {
     int base = 65 + ( volume() / 62.5_ml + weight() / 60_gram ) / count();
     int bonus = std::round(
-                    bonus_from_enchantments_wielded( base, enchant_vals::mod::ITEM_ATTACK_SPEED )
+                    bonus_from_enchantments_wielded( base, enchant_vals::mod::ITEM_ATTACK_COST )
                 );
     return std::max( 0, base + bonus );
 }

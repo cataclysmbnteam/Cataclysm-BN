@@ -46,5 +46,34 @@
     "relic_data": {
       "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": 25, "multiply": -0.5 } ] } ]
     }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_relic_mods_atk_cost",
+    "copy-from": "test_relic_base",
+    "name": "TEST relic mods attack cost",
+    "relic_data": {
+      "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "ATTACK_COST", "multiply": -0.2 } ] } ]
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_relic_sword",
+    "name": "TEST relic sword",
+    "description": "A relic sword for test purposes",
+    "category": "spare_parts",
+    "weight": "1250 g",
+    "to_hit": 1,
+    "color": "dark_gray",
+    "symbol": "/",
+    "material": [ "steel" ],
+    "volume": "1 L",
+    "bashing": 32,
+    "cutting": 32,
+    "price": 7500,
+    "price_postapoc": 300,
+    "relic_data": {
+      "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_ATTACK_COST", "add": -15 } ] } ]
+    }
   }
 ]

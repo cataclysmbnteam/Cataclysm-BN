@@ -29,7 +29,6 @@ enum class mod : int {
     INTELLIGENCE,
     SPEED,
     ATTACK_COST,
-    ATTACK_SPEED,
     MOVE_COST,
     METABOLISM,
     MAX_MANA,
@@ -85,7 +84,7 @@ enum class mod : int {
     ITEM_ENCUMBRANCE,
     ITEM_VOLUME,
     ITEM_COVERAGE,
-    ITEM_ATTACK_SPEED,
+    ITEM_ATTACK_COST,
     ITEM_WET_PROTECTION,
     NUM_MOD
 };
