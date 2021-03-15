@@ -677,7 +677,7 @@
     "reversible": true,
     "using": [ [ "sewing_standard", 300 ] ],
     "components": [
-    [ [ "rag", 30 ] ],
+      [ [ "rag", 30 ] ],
       [ [ "leather", 36 ], [ "tanned_hide", 6 ] ],
       [ [ "bigback", 2 ] ],
       [
