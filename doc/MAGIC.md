@@ -405,6 +405,17 @@ This modifier ignores `add` field.
 `base_value` here is `PLAYER_HUNGER_RATE` modified by traits.
 The final value cannot go below 0.
 
+##### MANA_CAP
+Mana capacity.
+`base_value` here is character's base mana capacity modified by traits.
+The final value cannot go below 0.
+
+##### MANA_REGEN
+Mana regeneration rate.
+This modifier ignores `add` field.
+`base_value` here is character's base mana gain rate modified by traits.
+The final value cannot go below 0.
+
 #### Item values
 
 ##### ITEM_ATTACK_COST
@@ -420,8 +431,6 @@ TODO: docs for each
 TODO: some of these are broken/unimplemented
 
 
-* MAX_MANA
-* REGEN_MANA
 * BIONIC_POWER
 * MAX_STAMINA
 * REGEN_STAMINA

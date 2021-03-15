@@ -1,5 +1,6 @@
 #include "catch/catch.hpp"
 
+#include "magic.h"
 #include "magic_enchantment.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -465,5 +466,91 @@ TEST_CASE( "Enchantments modify metabolic rate", "[magic][enchantment][metabolis
         REQUIRE( guy.has_trait( tr ) );
 
         tests_metabolic_rate( guy, 1.5f, 1.35f );
+    }
+}
+
+struct mana_test_case {
+    int idx;
+    int intellect;
+    units::energy power_level;
+    int norm_cap;
+    int exp_cap;
+    double norm_regen_amt_8h;
+    double exp_regen_amt_8h;
+};
+
+static const std::vector<mana_test_case> mana_test_data = {{
+        {0, 8, 0_kJ, 1000, 800, 1000.0, 560.0},
+        {1, 12, 0_kJ, 1400, 1080, 1400.0, 686.0},
+        {2, 8, 250_kJ, 750, 450, 750.0, 385.0},
+        {3, 12, 250_kJ, 1150, 830, 1150.0, 581.0},
+        {4, 8, 1250_kJ, 0, 0, 0.0, 0.0},
+        {5, 16, 1250_kJ, 550, 110, 550.0, 77.0},
+    }
+};
+
+static void tests_mana_pool( Character &guy, const mana_test_case &t )
+{
+    double norm_regen_rate = t.norm_regen_amt_8h / to_turns<double>( time_duration::from_hours( 8 ) );
+    double exp_regen_rate = t.exp_regen_amt_8h / to_turns<double>( time_duration::from_hours( 8 ) );
+
+    guy.recalculate_enchantment_cache();
+    advance_turn( guy );
+
+    guy.set_max_power_level( 2000_kJ );
+    REQUIRE( guy.get_max_power_level() == 2000_kJ );
+
+    guy.set_power_level( t.power_level );
+    REQUIRE( guy.get_power_level() == t.power_level );
+
+    guy.int_max = t.intellect;
+    guy.int_cur = guy.int_max;
+    REQUIRE( guy.get_int() == t.intellect );
+
+    REQUIRE( guy.magic->max_mana( guy ) == t.norm_cap );
+    REQUIRE( guy.magic->mana_regen_rate( guy ) == Approx( norm_regen_rate ) );
+
+    const std::string s_relic = "test_relic_mods_manapool";
+
+    WHEN( "Character receives relic" ) {
+        give_item( guy, s_relic );
+        THEN( "Mana pool capacity and regen rate change" ) {
+            CHECK( guy.magic->max_mana( guy ) == t.exp_cap );
+            CHECK( guy.magic->mana_regen_rate( guy ) == Approx( exp_regen_rate ) );
+            AND_WHEN( "Character loses relic" ) {
+                clear_items( guy );
+                THEN( "Mana pool capacity and regen rate go back to normal" ) {
+                    REQUIRE( guy.magic->max_mana( guy ) == t.norm_cap );
+                    REQUIRE( guy.magic->mana_regen_rate( guy ) == Approx( norm_regen_rate ) );
+                }
+            }
+        }
+    }
+    WHEN( "Character receives 10 relics" ) {
+        for( int i = 0; i < 10; i++ ) {
+            give_item( guy, s_relic );
+        }
+        THEN( "Mana pool capacity and regen rate don't drop below 0" ) {
+            REQUIRE( guy.magic->max_mana( guy ) == 0 );
+            REQUIRE( guy.magic->mana_regen_rate( guy ) == Approx( 0.0 ) );
+        }
+    }
+}
+
+static void tests_mana_pool_section( const mana_test_case &t )
+{
+    CAPTURE( t.idx );
+
+    clear_map();
+    Character &guy = get_player_character();
+    clear_character( *guy.as_player(), true );
+
+    tests_mana_pool( guy, t );
+}
+
+TEST_CASE( "Mana pool", "[magic][enchantment][mana][bionic]" )
+{
+    for( const mana_test_case &it : mana_test_data ) {
+        tests_mana_pool_section( it );
     }
 }

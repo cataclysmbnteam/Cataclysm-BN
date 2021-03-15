@@ -78,8 +78,8 @@ namespace io
             case enchant_vals::mod::ATTACK_COST: return "ATTACK_COST";
             case enchant_vals::mod::MOVE_COST: return "MOVE_COST";
             case enchant_vals::mod::METABOLISM: return "METABOLISM";
-            case enchant_vals::mod::MAX_MANA: return "MAX_MANA";
-            case enchant_vals::mod::REGEN_MANA: return "REGEN_MANA";
+            case enchant_vals::mod::MANA_CAP: return "MANA_CAP";
+            case enchant_vals::mod::MANA_REGEN: return "MANA_REGEN";
             case enchant_vals::mod::BIONIC_POWER: return "BIONIC_POWER";
             case enchant_vals::mod::MAX_STAMINA: return "MAX_STAMINA";
             case enchant_vals::mod::REGEN_STAMINA: return "REGEN_STAMINA";
@@ -410,6 +410,7 @@ double enchantment::calc_bonus( enchant_vals::mod value, double base ) const
     bool use_add = true;
     switch( value ) {
         case enchant_vals::mod::METABOLISM:
+        case enchant_vals::mod::MANA_REGEN:
             use_add = false;
             break;
         default:

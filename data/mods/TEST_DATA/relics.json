@@ -93,5 +93,20 @@
     "relic_data": {
       "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "METABOLISM", "multiply": -0.1 } ] } ]
     }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_relic_mods_manapool",
+    "copy-from": "test_relic_base",
+    "name": "TEST relic mods mana pool",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "HELD",
+          "condition": "ALWAYS",
+          "values": [ { "value": "MANA_CAP", "add": 100, "multiply": -0.3 }, { "value": "MANA_REGEN", "multiply": -0.3 } ]
+        }
+      ]
+    }
   }
 ]
