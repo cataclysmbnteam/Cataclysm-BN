@@ -1039,6 +1039,12 @@ bool Creature::add_env_effect( const efftype_id &eff_id, body_part vector, int s
         return false;
     }
 }
+
+void Creature::clear_effects_for_testing()
+{
+    effects->clear();
+}
+
 void Creature::clear_effects()
 {
     for( auto &elem : *effects ) {

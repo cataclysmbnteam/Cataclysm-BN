@@ -4399,6 +4399,7 @@ void player::environmental_revert_effect()
     set_pain( 0 );
     set_painkiller( 0 );
     set_rad( 0 );
+    set_sleep_deprivation( 0 );
 
     recalc_sight_limits();
     reset_encumbrance();
