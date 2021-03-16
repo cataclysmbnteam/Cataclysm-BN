@@ -127,7 +127,7 @@ class enchantment
         /**
          * Calculate bonus provided by this enchantment for given base value.
          */
-        double calc_bonus( enchant_vals::mod value, double base ) const;
+        double calc_bonus( enchant_vals::mod value, double base, bool round = false ) const;
 
         // this enchantment has a valid condition and is in the right location
         bool is_active( const Character &guy, const item &parent ) const;

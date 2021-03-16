@@ -2057,13 +2057,14 @@ class item : public visitable<item>
          * Calculate bonus from enchantments that affect this item only.
          */
         double bonus_from_enchantments( const Character &owner, double base,
-                                        enchant_vals::mod value ) const;
+                                        enchant_vals::mod value, bool round = false ) const;
 
         /**
          * Calculate bonus from enchantments that affect this item only,
          * assume it's wielded and all enchantments' conditions are satisfied.
          */
-        double bonus_from_enchantments_wielded( double base, enchant_vals::mod value ) const;
+        double bonus_from_enchantments_wielded( double base, enchant_vals::mod value,
+                                                bool round = false ) const;
 
     private:
         bool use_amount_internal( const itype_id &it, int &quantity, std::list<item> &used,

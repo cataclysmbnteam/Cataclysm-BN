@@ -4820,9 +4820,7 @@ int item::lift_strength() const
 int item::attack_cost() const
 {
     int base = 65 + ( volume() / 62.5_ml + weight() / 60_gram ) / count();
-    int bonus = std::round(
-                    bonus_from_enchantments_wielded( base, enchant_vals::mod::ITEM_ATTACK_COST )
-                );
+    int bonus = bonus_from_enchantments_wielded( base, enchant_vals::mod::ITEM_ATTACK_COST, true );
     return std::max( 0, base + bonus );
 }
 
@@ -6500,7 +6498,7 @@ std::vector<enchantment> item::get_enchantments() const
 }
 
 double item::bonus_from_enchantments( const Character &owner, double base,
-                                      enchant_vals::mod value ) const
+                                      enchant_vals::mod value, bool round ) const
 {
     double add = 0.0;
     double mul = 0.0;
@@ -6510,10 +6508,16 @@ double item::bonus_from_enchantments( const Character &owner, double base,
             mul += ench.get_value_multiply( value );
         }
     }
-    return add + base * mul;
+    // TODO: this part duplicates enchantment::calc_bonus()
+    double ret = add + base * mul;
+    if( round ) {
+        ret = trunc( ret );
+    }
+    return ret;
 }
 
-double item::bonus_from_enchantments_wielded( double base, enchant_vals::mod value ) const
+double item::bonus_from_enchantments_wielded( double base, enchant_vals::mod value,
+        bool round ) const
 {
     double add = 0.0;
     double mul = 0.0;
@@ -6523,7 +6527,12 @@ double item::bonus_from_enchantments_wielded( double base, enchant_vals::mod val
             mul += ench.get_value_multiply( value );
         }
     }
-    return add + base * mul;
+    // TODO: this part duplicates enchantment::calc_bonus()
+    double ret = add + base * mul;
+    if( round ) {
+        ret = trunc( ret );
+    }
+    return ret;
 }
 
 bool item::can_contain( const item &it ) const

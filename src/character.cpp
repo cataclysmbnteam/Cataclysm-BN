@@ -7701,9 +7701,9 @@ void Character::recalculate_enchantment_cache()
     }
 }
 
-double Character::bonus_from_enchantments( double base, enchant_vals::mod value ) const
+double Character::bonus_from_enchantments( double base, enchant_vals::mod value, bool round ) const
 {
-    return enchantment_cache->calc_bonus( value, base );
+    return enchantment_cache->calc_bonus( value, base, round );
 }
 
 void Character::passive_absorb_hit( body_part bp, damage_unit &du ) const

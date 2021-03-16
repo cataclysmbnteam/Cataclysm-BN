@@ -347,15 +347,17 @@ Syntax for single entry:
 }
 ```
 
-Additive bonus is applied before multiplicative, like so:
+Additive bonus is applied separately from multiplicative, like so:
 ```c++
 bonus = add + base_value * multiply
 ```
 
 Thus, a `multiply` value of -0.8 is -80%, and a `multiply` of 2.5 is +250%.
+When modifying integer values, final bonus is rounded towards 0 (truncated).
 
 When multiple enchantments (e.g. one from an item and one from a bionic) modify the same value,
-their bonuses are added together before being applied.
+their bonuses are added together without rounding, then the sum is rounded (if necessary)
+before being applied to the base value.
 
 Since there's no limit on number of enchantments the character can have at a time,
 the final calculated values have hardcoded bounds to prevent unintended behavior.
