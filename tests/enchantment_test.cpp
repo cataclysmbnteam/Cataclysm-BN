@@ -219,3 +219,88 @@ TEST_CASE( "Enchantments modify stats", "[magic][enchantment][character]" )
         tests_stats( guy, 4, 4, 4, 4, 12, 2, 3, 0 );
     }
 }
+
+static void tests_speed( Character &guy, int sp_base, int sp_exp )
+{
+    guy.recalculate_enchantment_cache();
+    guy.set_speed_base( sp_base );
+    guy.set_speed_bonus( 0 );
+
+    guy.set_moves( 0 );
+    advance_turn( guy );
+
+    std::string s_relic = "test_relic_mods_speed";
+
+    auto check_speed = [&]( int speed, int moves ) {
+        REQUIRE( guy.get_speed_base() == sp_base );
+        REQUIRE( guy.get_speed() == speed );
+        REQUIRE( guy.get_moves() == moves );
+    };
+    auto check_speed_is_base = [&] {
+        check_speed( sp_base, sp_base );
+    };
+
+    WHEN( "Character has no relics" ) {
+        THEN( "Speed and moves gain equel base" ) {
+            check_speed_is_base();
+        }
+    }
+    WHEN( "Character receives relic" ) {
+        give_item( guy, s_relic );
+        THEN( "Nothing changes" ) {
+            check_speed_is_base();
+        }
+        AND_WHEN( "Turn passes" ) {
+            guy.set_moves( 0 );
+            advance_turn( guy );
+            THEN( "Speed changes, moves gain changes" ) {
+                check_speed( sp_exp, sp_exp );
+            }
+            AND_WHEN( "Character loses relic" ) {
+                clear_items( guy );
+                THEN( "Nothing changes" ) {
+                    check_speed( sp_exp, sp_exp );
+                }
+                AND_WHEN( "Turn passes" ) {
+                    guy.set_moves( 0 );
+                    advance_turn( guy );
+                    THEN( "Speed and moves gain return to normal" ) {
+                        check_speed_is_base();
+                    }
+                }
+            }
+        }
+    }
+    WHEN( "Character receives 10 relics" ) {
+        for( int i = 0; i < 10; i++ ) {
+            give_item( guy, s_relic );
+        }
+        THEN( "Nothing changes" ) {
+            check_speed_is_base();
+        }
+        AND_WHEN( "Turn passes" ) {
+            guy.set_moves( 0 );
+            advance_turn( guy );
+            THEN( "Speed and moves gain do not fall below 25% of base" ) {
+                check_speed( sp_base / 4, sp_base / 4 );
+            }
+        }
+    }
+}
+
+TEST_CASE( "Enchantments modify speed", "[magic][enchantment][speed]" )
+{
+    clear_map();
+    Character &guy = get_player_character();
+    clear_character( *guy.as_player(), true );
+
+    SECTION( "base = 100" ) {
+        tests_speed( guy, 100, 75 );
+    }
+    SECTION( "base = 80" ) {
+        tests_speed( guy, 80, 65 );
+    }
+    SECTION( "base = 120" ) {
+        tests_speed( guy, 120, 85 );
+    }
+}

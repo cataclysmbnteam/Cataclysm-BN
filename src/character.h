@@ -2256,9 +2256,6 @@ class Character : public Creature, public visitable<Character>
          */
         bool is_visible_in_range( const Creature &critter, int range ) const;
 
-        // a cache of all active enchantment values.
-        // is recalculated every turn in Character::recalculate_enchantment_cache
-        pimpl<enchantment> enchantment_cache;
         player_activity destination_activity;
         // A unique ID number, assigned by the game class. Values should never be reused.
         character_id id;
@@ -2293,6 +2290,10 @@ class Character : public Creature, public visitable<Character>
         inventory cached_crafting_inventory;
 
     protected:
+        // a cache of all active enchantment values.
+        // is recalculated every turn in Character::recalculate_enchantment_cache
+        pimpl<enchantment> enchantment_cache;
+
         /** Amount of time the player has spent in each overmap tile. */
         std::unordered_map<point, time_duration> overmap_time;
 

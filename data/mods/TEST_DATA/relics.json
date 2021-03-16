@@ -37,5 +37,14 @@
         }
       ]
     }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_relic_mods_speed",
+    "copy-from": "test_relic_base",
+    "name": "TEST relic mods speed",
+    "relic_data": {
+      "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": 25, "multiply": -0.5 } ] } ]
+    }
   }
 ]

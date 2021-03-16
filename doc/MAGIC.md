@@ -375,13 +375,17 @@ Intelligence stat.
 `base_value` here is the base stat value.
 The final value cannot go below 0.
 
+##### SPEED
+Character speed.
+`base_value` here is character speed including pain/hunger/weight penalties.
+Final speed value cannot go below 25% of base speed.
+
 ##### TODO
 
 TODO: docs for each
 
 TODO: some of these are broken/unimplemented
 
-* SPEED
 * ATTACK_COST
 * ATTACK_SPEED
 * MOVE_COST
