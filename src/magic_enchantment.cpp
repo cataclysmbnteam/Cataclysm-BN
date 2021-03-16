@@ -140,6 +140,19 @@ namespace io
     // *INDENT-ON*
 } // namespace io
 
+static void migrate_ench_vals_enums( std::string &s )
+{
+    if( s == "ITEM_ATTACK_SPEED" ) {
+        s = "ITEM_ATTACK_COST";
+    } else if( s == "ATTACK_SPEED" ) {
+        s = "ATTACK_COST";
+    } else if( s == "MAX_MANA" ) {
+        s = "MANA_CAP";
+    } else if( s == "REGEN_MANA" ) {
+        s = "MANA_REGEN";
+    }
+}
+
 namespace
 {
 generic_factory<enchantment> spell_factory( "enchantment" );
@@ -244,8 +257,10 @@ void enchantment::load( const JsonObject &jo, const std::string & )
 
     if( jo.has_array( "values" ) ) {
         for( const JsonObject value_obj : jo.get_array( "values" ) ) {
-            const enchant_vals::mod value = io::string_to_enum<enchant_vals::mod>
-                                            ( value_obj.get_string( "value" ) );
+            std::string value_raw = value_obj.get_string( "value" );
+            migrate_ench_vals_enums( value_raw );
+            const enchant_vals::mod value = io::string_to_enum<enchant_vals::mod>( value_raw );
+
             const int add = value_obj.get_int( "add", 0 );
             const double mult = value_obj.get_float( "multiply", 0.0 );
             if( add != 0 ) {
