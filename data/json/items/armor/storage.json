@@ -853,7 +853,7 @@
   {
     "id": "survivor_hiking_backpack",
     "type": "ARMOR",
-    "name": { "str": "survivor backpack hiking" },
+    "name": { "str": "survivor hiking backpack" },
     "description": "A custom-built backpack hiking. Durable and carefully crafted to hold as much stuff as possible.",
     "weight": "2500 g",
     "volume": "15000 ml",
