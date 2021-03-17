@@ -348,8 +348,6 @@ class Creature
         virtual bool remove_effect( const efftype_id &eff_id, body_part bp = num_bp );
         /** Remove all effects. */
         void clear_effects();
-        /** Immediately remove all effects. For testing purposes only. */
-        void clear_effects_for_testing();
         /** Check if creature has the matching effect. bp = num_bp means to check if the Creature has any effect
          *  of the matching type, targeted or untargeted. */
         bool has_effect( const efftype_id &eff_id, body_part bp = num_bp ) const;
