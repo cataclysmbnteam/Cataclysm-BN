@@ -268,7 +268,7 @@ void enchantment::load( const JsonObject &jo, const std::string & )
             }
             if( mult != 0.0 ) {
                 // Limit precision to minimize inconsistencies between platforms / compilers
-                const double mul = static_cast<int>( std::round( mul * 100'000 ) ) / 100'000.0;
+                const double mul = static_cast<int>( std::round( mult * 100'000 ) ) / 100'000.0;
                 values_multiply.emplace( value, mul );
             }
         }
