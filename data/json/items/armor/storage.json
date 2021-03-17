@@ -851,7 +851,7 @@
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {
-    "id": "survivor_backpack_hiking",
+    "id": "survivor_hiking_backpack",
     "type": "ARMOR",
     "name": { "str": "survivor backpack hiking" },
     "description": "A custom-built backpack hiking. Durable and carefully crafted to hold as much stuff as possible.",
