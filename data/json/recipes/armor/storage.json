@@ -665,7 +665,7 @@
     "components": [ [ [ "straw_pile", 5 ], [ "birchbark", 7 ] ] ]
   },
   {
-    "result": "survivor_bigback",
+    "result": "survivor_backpack_hiking",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
@@ -678,7 +678,7 @@
     "components": [
       [ [ "rag", 30 ] ],
       [ [ "leather", 36 ], [ "tanned_hide", 6 ] ],
-      [ [ "bigback", 2 ] ],
+      [ [ "backpack_hiking", 2 ], [ "backpack_tactical_large", 1 ] ],
       [
         [ "tacvest", 1 ],
         [ "legrig", 1 ],
