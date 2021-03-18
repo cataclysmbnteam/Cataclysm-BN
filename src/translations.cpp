@@ -30,14 +30,6 @@ void invalidate_translations()
 
 #if defined(LOCALIZE)
 
-// MingW flips out if you don't define this before you try to statically link libintl.
-// This should prevent 'undefined reference to `_imp__libintl_gettext`' errors.
-#if (defined(_WIN32) || defined(__CYGWIN__)) && !defined(_MSC_VER)
-#  if !defined(LIBINTL_STATIC)
-#    define LIBINTL_STATIC
-#  endif
-#endif
-
 #include <libintl.h>
 
 const char *detail::_translate_internal( const char *msg )
