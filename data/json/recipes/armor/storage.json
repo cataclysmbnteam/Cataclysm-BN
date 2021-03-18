@@ -665,7 +665,7 @@
     "components": [ [ [ "straw_pile", 5 ], [ "birchbark", 7 ] ] ]
   },
   {
-    "result": "survivor_backpack_hiking",
+    "result": "survivor_hiking_backpack",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
