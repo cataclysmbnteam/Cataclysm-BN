@@ -51,6 +51,7 @@
 #include "type_id.h"
 #include "ui_manager.h"
 #include "units.h"
+#include "units_utility.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"

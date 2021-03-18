@@ -89,6 +89,7 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "units.h"
+#include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vitamin.h"

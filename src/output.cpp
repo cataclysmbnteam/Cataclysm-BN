@@ -36,6 +36,7 @@
 #include "string_input_popup.h"
 #include "ui_manager.h"
 #include "units.h"
+#include "units_utility.h"
 #include "point.h"
 #include "wcwidth.h"
 

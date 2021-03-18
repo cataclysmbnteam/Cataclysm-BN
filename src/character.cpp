@@ -78,6 +78,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
+#include "units_utility.h"
 #include "value_ptr.h"
 #include "veh_interact.h"
 #include "veh_type.h"
