@@ -1,3 +1,8 @@
+Cataclysm: Dark Days Ahead JSON Web Linting Tool
+This is a tool to help modders and editors of the open source game Cataclysm: Dark Days Ahead write JSON in the game's expected format.
+
+Paste some JSON into the field below and click "Lint" to run an autoformatter against it.
+
 [
   {
     "//": "All dinos over 23 kg should have a zombie version to zombify into",
@@ -917,7 +922,7 @@
     "type": "MONSTER",
     "id": "mon_zalamosaurus_juvenile",
     "name": { "str": "juvenile Alamosaurus zombie" },
-    "copy-from": "mon_zapatosaurus",
+    "copy-from": "mon_zapatosaurus_juvenile",
     "looks_like": "mon_apatosaurus",
     "armor_bash": 7,
     "armor_cut": 9,
