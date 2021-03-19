@@ -144,10 +144,8 @@ TEST_CASE( "translations_actually_translate", "[translations]" )
 
         set_language();
 
+        // Should return translated string (or original/same string for English)
         const char *translated = pgettext( test_msgctx, test_msgid );
-        // should return a stable address of translation that is different from the argument
-        CHECK( test_msgid != translated );
-        // translation should
         CHECK( test.second == translated );
     }
 
