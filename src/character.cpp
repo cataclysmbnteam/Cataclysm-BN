@@ -42,6 +42,7 @@
 #include "iuse_actor.h"
 #include "lightmap.h"
 #include "line.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
@@ -1317,146 +1318,233 @@ bool Character::can_run()
     return ( get_stamina() > get_stamina_max() * 0.1f ) && get_working_leg_count() >= 2;
 }
 
+void static try_remove_downed( Character &c )
+{
+
+    /** @EFFECT_DEX increases chance to stand up when knocked down */
+
+    /** @EFFECT_STR increases chance to stand up when knocked down, slightly */
+    if( rng( 0, 40 ) > c.get_dex() + c.get_str() / 2 ) {
+        c.add_msg_if_player( _( "You struggle to stand." ) );
+    } else {
+        c.add_msg_player_or_npc( m_good, _( "You stand up." ),
+                                 _( "<npcname> stands up." ) );
+        c.remove_effect( effect_downed );
+    }
+}
+
+void static try_remove_bear_trap( Character &c )
+{
+    /* Real bear traps can't be removed without the proper tools or immense strength; eventually this should
+       allow normal players two options: removal of the limb or removal of the trap from the ground
+       (at which point the player could later remove it from the leg with the right tools).
+       As such we are currently making it a bit easier for players and NPC's to get out of bear traps.
+    */
+    /** @EFFECT_STR increases chance to escape bear trap */
+    // If is riding, then despite the character having the effect, it is the mounted creature that escapes.
+    if( c.is_player() && c.is_mounted() ) {
+        auto mon = c.mounted_creature.get();
+        if( mon->type->melee_dice * mon->type->melee_sides >= 18 ) {
+            if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 200 ) ) {
+                mon->remove_effect( effect_beartrap );
+                c.remove_effect( effect_beartrap );
+                g->m.spawn_item( c.pos(), "beartrap" );
+                add_msg( _( "The %s escapes the bear trap!" ), mon->get_name() );
+            } else {
+                c.add_msg_if_player( m_bad,
+                                     _( "Your %s tries to free itself from the bear trap, but can't get loose!" ), mon->get_name() );
+            }
+        }
+    } else {
+        if( x_in_y( c.get_str(), 100 ) ) {
+            c.remove_effect( effect_beartrap );
+            c.add_msg_player_or_npc( m_good, _( "You free yourself from the bear trap!" ),
+                                     _( "<npcname> frees themselves from the bear trap!" ) );
+            item beartrap( "beartrap", calendar::turn );
+            g->m.add_item_or_charges( c.pos(), beartrap );
+        } else {
+            c.add_msg_if_player( m_bad,
+                                 _( "You try to free yourself from the bear trap, but can't get loose!" ) );
+        }
+    }
+}
+
+void static try_remove_lightsnare( Character &c )
+{
+    if( c.is_mounted() ) {
+        auto mon = c.mounted_creature.get();
+        if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 12 ) ) {
+            mon->remove_effect( effect_lightsnare );
+            c.remove_effect( effect_lightsnare );
+            g->m.spawn_item( c.pos(), "string_36" );
+            g->m.spawn_item( c.pos(), "snare_trigger" );
+            add_msg( _( "The %s escapes the light snare!" ), mon->get_name() );
+        }
+    } else {
+        /** @EFFECT_STR increases chance to escape light snare */
+
+        /** @EFFECT_DEX increases chance to escape light snare */
+        if( x_in_y( c.get_str(), 12 ) || x_in_y( c.get_dex(), 8 ) ) {
+            c.remove_effect( effect_lightsnare );
+            c.add_msg_player_or_npc( m_good, _( "You free yourself from the light snare!" ),
+                                     _( "<npcname> frees themselves from the light snare!" ) );
+            item string( "string_36", calendar::turn );
+            item snare( "snare_trigger", calendar::turn );
+            g->m.add_item_or_charges( c.pos(), string );
+            g->m.add_item_or_charges( c.pos(), snare );
+        } else {
+            c.add_msg_if_player( m_bad,
+                                 _( "You try to free yourself from the light snare, but can't get loose!" ) );
+        }
+    }
+}
+
+void static try_remove_heavysnare( Character &c )
+{
+    if( c.is_mounted() ) {
+        auto mon = c.mounted_creature.get();
+        if( mon->type->melee_dice * mon->type->melee_sides >= 7 ) {
+            if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 32 ) ) {
+                mon->remove_effect( effect_heavysnare );
+                c.remove_effect( effect_heavysnare );
+                g->m.spawn_item( c.pos(), "rope_6" );
+                g->m.spawn_item( c.pos(), "snare_trigger" );
+                add_msg( _( "The %s escapes the heavy snare!" ), mon->get_name() );
+            }
+        }
+    } else {
+        /** @EFFECT_STR increases chance to escape heavy snare, slightly */
+
+        /** @EFFECT_DEX increases chance to escape light snare */
+        if( x_in_y( c.get_str(), 32 ) || x_in_y( c.get_dex(), 16 ) ) {
+            c.remove_effect( effect_heavysnare );
+            c.add_msg_player_or_npc( m_good, _( "You free yourself from the heavy snare!" ),
+                                     _( "<npcname> frees themselves from the heavy snare!" ) );
+            item rope( "rope_6", calendar::turn );
+            item snare( "snare_trigger", calendar::turn );
+            g->m.add_item_or_charges( c.pos(), rope );
+            g->m.add_item_or_charges( c.pos(), snare );
+        } else {
+            c.add_msg_if_player( m_bad,
+                                 _( "You try to free yourself from the heavy snare, but can't get loose!" ) );
+        }
+    }
+}
+
+void static try_remove_crushed( Character &c )
+{
+    /** @EFFECT_STR increases chance to escape crushing rubble */
+
+    /** @EFFECT_DEX increases chance to escape crushing rubble, slightly */
+    if( x_in_y( c.get_str() + c.get_dex() / 4.0, 100 ) ) {
+        c.remove_effect( effect_crushed );
+        c.add_msg_player_or_npc( m_good, _( "You free yourself from the rubble!" ),
+                                 _( "<npcname> frees themselves from the rubble!" ) );
+    } else {
+        c.add_msg_if_player( m_bad, _( "You try to free yourself from the rubble, but can't get loose!" ) );
+    }
+}
+
+bool static try_remove_grab( Character &c )
+{
+    int zed_number = 0;
+    if( c.is_mounted() ) {
+        auto mon = c.mounted_creature.get();
+        if( mon->has_effect( effect_grabbed ) ) {
+            if( ( dice( mon->type->melee_dice + mon->type->melee_sides,
+                        3 ) < c.get_effect_int( effect_grabbed ) ) ||
+                !one_in( 4 ) ) {
+                add_msg( m_bad, _( "Your %s tries to break free, but fails!" ), mon->get_name() );
+                return false;
+            } else {
+                add_msg( m_good, _( "Your %s breaks free from the grab!" ), mon->get_name() );
+                c.remove_effect( effect_grabbed );
+                mon->remove_effect( effect_grabbed );
+            }
+        } else {
+            if( one_in( 4 ) ) {
+                add_msg( m_bad, _( "You are pulled from your %s!" ), mon->get_name() );
+                c.remove_effect( effect_grabbed );
+                c.forced_dismount();
+            }
+        }
+    } else {
+        for( auto&& dest : g->m.points_in_radius( c.pos(), 1, 0 ) ) { // *NOPAD*
+            const monster *const mon = g->critter_at<monster>( dest );
+            if( mon && mon->has_effect( effect_grabbing ) ) {
+                zed_number += mon->get_grab_strength();
+            }
+        }
+        if( zed_number == 0 ) {
+            c.add_msg_player_or_npc( m_good, _( "You find yourself no longer grabbed." ),
+                                     _( "<npcname> finds themselves no longer grabbed." ) );
+            c.remove_effect( effect_grabbed );
+
+            /** @EFFECT_STR increases chance to escape grab */
+        } else if( rng( 0, c.get_str() ) < rng( c.get_effect_int( effect_grabbed, bp_torso ), 8 ) ) {
+            c.add_msg_player_or_npc( m_bad, _( "You try break out of the grab, but fail!" ),
+                                     _( "<npcname> tries to break out of the grab, but fails!" ) );
+            return false;
+        } else {
+            c.add_msg_player_or_npc( m_good, _( "You break out of the grab!" ),
+                                     _( "<npcname> breaks out of the grab!" ) );
+            c.remove_effect( effect_grabbed );
+            for( auto&& dest : g->m.points_in_radius( c.pos(), 1, 0 ) ) { // *NOPAD*
+                monster *mon = g->critter_at<monster>( dest );
+                if( mon && mon->has_effect( effect_grabbing ) ) {
+                    mon->remove_effect( effect_grabbing );
+                }
+            }
+        }
+    }
+    return true;
+}
+
+void static try_remove_webs( Character &c )
+{
+    if( c.is_mounted() ) {
+        auto mon = c.mounted_creature.get();
+        if( x_in_y( mon->type->melee_dice * mon->type->melee_sides,
+                    6 * c.get_effect_int( effect_webbed ) ) ) {
+            add_msg( _( "The %s breaks free of the webs!" ), mon->get_name() );
+            mon->remove_effect( effect_webbed );
+            c.remove_effect( effect_webbed );
+        }
+        /** @EFFECT_STR increases chance to escape webs */
+    } else if( x_in_y( c.get_str(), 6 * c.get_effect_int( effect_webbed ) ) ) {
+        c.add_msg_player_or_npc( m_good, _( "You free yourself from the webs!" ),
+                                 _( "<npcname> frees themselves from the webs!" ) );
+        c.remove_effect( effect_webbed );
+    } else {
+        c.add_msg_if_player( _( "You try to free yourself from the webs, but can't get loose!" ) );
+    }
+}
+
 bool Character::move_effects( bool attacking )
 {
     if( has_effect( effect_downed ) ) {
-        /** @EFFECT_DEX increases chance to stand up when knocked down */
-
-        /** @EFFECT_STR increases chance to stand up when knocked down, slightly */
-        if( rng( 0, 40 ) > get_dex() + get_str() / 2 ) {
-            add_msg_if_player( _( "You struggle to stand." ) );
-        } else {
-            add_msg_player_or_npc( m_good, _( "You stand up." ),
-                                   _( "<npcname> stands up." ) );
-            remove_effect( effect_downed );
-        }
+        try_remove_downed( *this );
         return false;
     }
     if( has_effect( effect_webbed ) ) {
-        if( is_mounted() ) {
-            auto mon = mounted_creature.get();
-            if( x_in_y( mon->type->melee_dice * mon->type->melee_sides,
-                        6 * get_effect_int( effect_webbed ) ) ) {
-                add_msg( _( "The %s breaks free of the webs!" ), mon->get_name() );
-                mon->remove_effect( effect_webbed );
-                remove_effect( effect_webbed );
-            }
-            /** @EFFECT_STR increases chance to escape webs */
-        } else if( x_in_y( get_str(), 6 * get_effect_int( effect_webbed ) ) ) {
-            add_msg_player_or_npc( m_good, _( "You free yourself from the webs!" ),
-                                   _( "<npcname> frees themselves from the webs!" ) );
-            remove_effect( effect_webbed );
-        } else {
-            add_msg_if_player( _( "You try to free yourself from the webs, but can't get loose!" ) );
-        }
+        try_remove_webs( *this );
         return false;
     }
     if( has_effect( effect_lightsnare ) ) {
-        if( is_mounted() ) {
-            auto mon = mounted_creature.get();
-            if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 12 ) ) {
-                mon->remove_effect( effect_lightsnare );
-                remove_effect( effect_lightsnare );
-                g->m.spawn_item( pos(), "string_36" );
-                g->m.spawn_item( pos(), "snare_trigger" );
-                add_msg( _( "The %s escapes the light snare!" ), mon->get_name() );
-            }
-        } else {
-            /** @EFFECT_STR increases chance to escape light snare */
+        try_remove_lightsnare( *this );
+        return false;
 
-            /** @EFFECT_DEX increases chance to escape light snare */
-            if( x_in_y( get_str(), 12 ) || x_in_y( get_dex(), 8 ) ) {
-                remove_effect( effect_lightsnare );
-                add_msg_player_or_npc( m_good, _( "You free yourself from the light snare!" ),
-                                       _( "<npcname> frees themselves from the light snare!" ) );
-                item string( "string_36", calendar::turn );
-                item snare( "snare_trigger", calendar::turn );
-                g->m.add_item_or_charges( pos(), string );
-                g->m.add_item_or_charges( pos(), snare );
-            } else {
-                add_msg_if_player( m_bad,
-                                   _( "You try to free yourself from the light snare, but can't get loose!" ) );
-            }
-            return false;
-        }
     }
     if( has_effect( effect_heavysnare ) ) {
-        if( is_mounted() ) {
-            auto mon = mounted_creature.get();
-            if( mon->type->melee_dice * mon->type->melee_sides >= 7 ) {
-                if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 32 ) ) {
-                    mon->remove_effect( effect_heavysnare );
-                    remove_effect( effect_heavysnare );
-                    g->m.spawn_item( pos(), "rope_6" );
-                    g->m.spawn_item( pos(), "snare_trigger" );
-                    add_msg( _( "The %s escapes the heavy snare!" ), mon->get_name() );
-                }
-            }
-        } else {
-            /** @EFFECT_STR increases chance to escape heavy snare, slightly */
-
-            /** @EFFECT_DEX increases chance to escape light snare */
-            if( x_in_y( get_str(), 32 ) || x_in_y( get_dex(), 16 ) ) {
-                remove_effect( effect_heavysnare );
-                add_msg_player_or_npc( m_good, _( "You free yourself from the heavy snare!" ),
-                                       _( "<npcname> frees themselves from the heavy snare!" ) );
-                item rope( "rope_6", calendar::turn );
-                item snare( "snare_trigger", calendar::turn );
-                g->m.add_item_or_charges( pos(), rope );
-                g->m.add_item_or_charges( pos(), snare );
-            } else {
-                add_msg_if_player( m_bad,
-                                   _( "You try to free yourself from the heavy snare, but can't get loose!" ) );
-            }
-        }
+        try_remove_heavysnare( *this );
         return false;
     }
     if( has_effect( effect_beartrap ) ) {
-        /* Real bear traps can't be removed without the proper tools or immense strength; eventually this should
-           allow normal players two options: removal of the limb or removal of the trap from the ground
-           (at which point the player could later remove it from the leg with the right tools).
-           As such we are currently making it a bit easier for players and NPC's to get out of bear traps.
-        */
-        /** @EFFECT_STR increases chance to escape bear trap */
-        // If is riding, then despite the character having the effect, it is the mounted creature that escapes.
-        if( is_player() && is_mounted() ) {
-            auto mon = mounted_creature.get();
-            if( mon->type->melee_dice * mon->type->melee_sides >= 18 ) {
-                if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 200 ) ) {
-                    mon->remove_effect( effect_beartrap );
-                    remove_effect( effect_beartrap );
-                    g->m.spawn_item( pos(), "beartrap" );
-                    add_msg( _( "The %s escapes the bear trap!" ), mon->get_name() );
-                } else {
-                    add_msg_if_player( m_bad,
-                                       _( "Your %s tries to free itself from the bear trap, but can't get loose!" ), mon->get_name() );
-                }
-            }
-        } else {
-            if( x_in_y( get_str(), 100 ) ) {
-                remove_effect( effect_beartrap );
-                add_msg_player_or_npc( m_good, _( "You free yourself from the bear trap!" ),
-                                       _( "<npcname> frees themselves from the bear trap!" ) );
-                item beartrap( "beartrap", calendar::turn );
-                g->m.add_item_or_charges( pos(), beartrap );
-            } else {
-                add_msg_if_player( m_bad,
-                                   _( "You try to free yourself from the bear trap, but can't get loose!" ) );
-            }
-        }
+        try_remove_bear_trap( *this );
         return false;
     }
     if( has_effect( effect_crushed ) ) {
-        /** @EFFECT_STR increases chance to escape crushing rubble */
-
-        /** @EFFECT_DEX increases chance to escape crushing rubble, slightly */
-        if( x_in_y( get_str() + get_dex() / 4.0, 100 ) ) {
-            remove_effect( effect_crushed );
-            add_msg_player_or_npc( m_good, _( "You free yourself from the rubble!" ),
-                                   _( "<npcname> frees themselves from the rubble!" ) );
-        } else {
-            add_msg_if_player( m_bad, _( "You try to free yourself from the rubble, but can't get loose!" ) );
-        }
+        try_remove_crushed( *this );
         return false;
     }
     // Below this point are things that allow for movement if they succeed
@@ -1476,59 +1564,38 @@ bool Character::move_effects( bool attacking )
             remove_effect( effect_in_pit );
         }
     }
-    if( has_effect( effect_grabbed ) && !attacking ) {
-        int zed_number = 0;
-        if( is_mounted() ) {
-            auto mon = mounted_creature.get();
-            if( mon->has_effect( effect_grabbed ) ) {
-                if( ( dice( mon->type->melee_dice + mon->type->melee_sides,
-                            3 ) < get_effect_int( effect_grabbed ) ) ||
-                    !one_in( 4 ) ) {
-                    add_msg( m_bad, _( "Your %s tries to break free, but fails!" ), mon->get_name() );
-                    return false;
-                } else {
-                    add_msg( m_good, _( "Your %s breaks free from the grab!" ), mon->get_name() );
-                    remove_effect( effect_grabbed );
-                    mon->remove_effect( effect_grabbed );
-                }
-            } else {
-                if( one_in( 4 ) ) {
-                    add_msg( m_bad, _( "You are pulled from your %s!" ), mon->get_name() );
-                    remove_effect( effect_grabbed );
-                    forced_dismount();
-                }
-            }
-        } else {
-            for( auto &&dest : g->m.points_in_radius( pos(), 1, 0 ) ) { // *NOPAD*
-                const monster *const mon = g->critter_at<monster>( dest );
-                if( mon && mon->has_effect( effect_grabbing ) ) {
-                    zed_number += mon->get_grab_strength();
-                }
-            }
-            if( zed_number == 0 ) {
-                add_msg_player_or_npc( m_good, _( "You find yourself no longer grabbed." ),
-                                       _( "<npcname> finds themselves no longer grabbed." ) );
-                remove_effect( effect_grabbed );
-
-                /** @EFFECT_STR increases chance to escape grab */
-            } else if( rng( 0, get_str() ) < rng( get_effect_int( effect_grabbed, bp_torso ), 8 ) ) {
-                add_msg_player_or_npc( m_bad, _( "You try break out of the grab, but fail!" ),
-                                       _( "<npcname> tries to break out of the grab, but fails!" ) );
-                return false;
-            } else {
-                add_msg_player_or_npc( m_good, _( "You break out of the grab!" ),
-                                       _( "<npcname> breaks out of the grab!" ) );
-                remove_effect( effect_grabbed );
-                for( auto &&dest : g->m.points_in_radius( pos(), 1, 0 ) ) { // *NOPAD*
-                    monster *mon = g->critter_at<monster>( dest );
-                    if( mon && mon->has_effect( effect_grabbing ) ) {
-                        mon->remove_effect( effect_grabbing );
-                    }
-                }
-            }
-        }
+    if( has_effect( effect_grabbed ) && !attacking && !try_remove_grab( *this ) ) {
+        return false;
     }
     return true;
+}
+
+void Character::wait_effects()
+{
+    if( has_effect( effect_downed ) ) {
+        try_remove_downed( *this );
+        return;
+    }
+    if( has_effect( effect_beartrap ) ) {
+        try_remove_bear_trap( *this );
+        return;
+    }
+    if( has_effect( effect_lightsnare ) ) {
+        try_remove_lightsnare( *this );
+        return;
+    }
+    if( has_effect( effect_heavysnare ) ) {
+        try_remove_heavysnare( *this );
+        return;
+    }
+    if( has_effect( effect_webbed ) ) {
+        try_remove_webs( *this );
+        return;
+    }
+    if( has_effect( effect_grabbed ) ) {
+        try_remove_grab( *this );
+        return;
+    }
 }
 
 character_movemode Character::get_movement_mode() const
@@ -4483,7 +4550,7 @@ void Character::update_body( const time_point &from, const time_point &to )
     update_stomach( from, to );
     recalculate_enchantment_cache();
     if( ticks_between( from, to, 3_minutes ) > 0 ) {
-        magic.update_mana( *this->as_player(), to_turns<float>( 3_minutes ) );
+        magic->update_mana( *this->as_player(), to_turns<double>( 3_minutes ) );
     }
     const int five_mins = ticks_between( from, to, 5_minutes );
     if( five_mins > 0 ) {
@@ -4995,8 +5062,8 @@ void Character::update_bodytemp()
     /* Cache calls to g->get_temperature( player position ), used in several places in function */
     const auto player_local_temp = g->weather.get_temperature( pos() );
     // NOTE : visit weather.h for some details on the numbers used
-    // Converts temperature to Celsius/10
-    int Ctemperature = static_cast<int>( 100 * fahrenheit_to_celsius( player_local_temp ) );
+    // In Celsius / 100
+    int Ctemperature = static_cast<int>( 100 * units::fahrenheit_to_celsius( player_local_temp ) );
     const w_point weather = *g->weather.weather_precise;
     int vehwindspeed = 0;
     const optional_vpart_position vp = g->m.veh_at( pos() );
@@ -5017,8 +5084,8 @@ void Character::update_bodytemp()
     const bool has_climate_control = in_climate_control();
     const bool use_floor_warmth = can_use_floor_warmth();
     const cata::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
-    // Temperature norms
-    const int ambient_norm = 3100 - BODYTEMP_NORM;
+    // In bodytemp units
+    const int ambient_norm = 1900 - BODYTEMP_NORM;
 
     /**
      * Calculations that affect all body parts equally go here, not in the loop
@@ -5031,7 +5098,7 @@ void Character::update_bodytemp()
 
     const int lying_warmth = use_floor_warmth ? floor_warmth( pos() ) : 0;
     const int water_temperature_raw =
-        100 * fahrenheit_to_celsius( g->weather.get_water_temperature( pos() ) );
+        100 * units::fahrenheit_to_celsius( g->weather.get_water_temperature( pos() ) );
     // Rescale so that 0C is 0 (FREEZING) and 30C is 5k (NORM).
     const int water_temperature = water_temperature_raw * 5 / 3;
 
@@ -5170,8 +5237,8 @@ void Character::update_bodytemp()
         static const double change_mult_water = std::exp( -0.008 );
         const double change_mult = submerged_bp ? change_mult_water : change_mult_air;
         if( temp_cur[bp] != bp_conv ) {
-            temp_cur[bp] = static_cast<int>( temp_difference * change_mult + bp_conv +
-                                             rounding_error );
+            temp_cur[bp] = static_cast<int>( temp_difference * change_mult )
+                           + bp_conv + rounding_error;
         }
         int temp_after = temp_cur[bp];
         // PENALTIES
@@ -7599,12 +7666,12 @@ std::string Character::get_highest_category() const
 void Character::recalculate_enchantment_cache()
 {
     // start by resetting the cache
-    enchantment_cache = enchantment();
+    *enchantment_cache = enchantment();
 
     visit_items( [&]( const item * it ) {
         for( const enchantment &ench : it->get_enchantments() ) {
             if( ench.is_active( *this, *it ) ) {
-                enchantment_cache.force_add( ench );
+                enchantment_cache->force_add( ench );
             }
         }
         return VisitResponse::NEXT;
@@ -7617,7 +7684,7 @@ void Character::recalculate_enchantment_cache()
         for( const enchantment_id &ench_id : mut.enchantments ) {
             const enchantment &ench = ench_id.obj();
             if( ench.is_active( *this, mut.activated && mut_map.second.powered ) ) {
-                enchantment_cache.force_add( ench );
+                enchantment_cache->force_add( ench );
             }
         }
     }
@@ -7628,21 +7695,15 @@ void Character::recalculate_enchantment_cache()
         for( const enchantment_id &ench_id : bid->enchantments ) {
             const enchantment &ench = ench_id.obj();
             if( ench.is_active( *this, bio.powered && bid->toggled ) ) {
-                enchantment_cache.force_add( ench );
+                enchantment_cache->force_add( ench );
             }
         }
     }
 }
 
-double Character::calculate_by_enchantment( double modify, enchantment::mod value,
-        bool round_output ) const
+double Character::bonus_from_enchantments( double base, enchant_vals::mod value, bool round ) const
 {
-    modify += enchantment_cache.get_value_add( value );
-    modify *= 1.0 + enchantment_cache.get_value_multiply( value );
-    if( round_output ) {
-        modify = std::round( modify );
-    }
-    return modify;
+    return enchantment_cache->calc_bonus( value, base, round );
 }
 
 void Character::passive_absorb_hit( body_part bp, damage_unit &du ) const
@@ -7682,28 +7743,28 @@ static void item_armor_enchantment_adjust( Character &guy, damage_unit &du, item
 {
     switch( du.type ) {
         case DT_ACID:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchantment::mod::ITEM_ARMOR_ACID );
+            du.amount += armor.bonus_from_enchantments( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_ACID );
             break;
         case DT_BASH:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchantment::mod::ITEM_ARMOR_BASH );
+            du.amount += armor.bonus_from_enchantments( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_BASH );
             break;
         case DT_BIOLOGICAL:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchantment::mod::ITEM_ARMOR_BIO );
+            du.amount += armor.bonus_from_enchantments( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_BIO );
             break;
         case DT_COLD:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchantment::mod::ITEM_ARMOR_COLD );
+            du.amount += armor.bonus_from_enchantments( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_COLD );
             break;
         case DT_CUT:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchantment::mod::ITEM_ARMOR_CUT );
+            du.amount += armor.bonus_from_enchantments( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_CUT );
             break;
         case DT_ELECTRIC:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchantment::mod::ITEM_ARMOR_ELEC );
+            du.amount += armor.bonus_from_enchantments( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_ELEC );
             break;
         case DT_HEAT:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchantment::mod::ITEM_ARMOR_HEAT );
+            du.amount += armor.bonus_from_enchantments( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_HEAT );
             break;
         case DT_STAB:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchantment::mod::ITEM_ARMOR_STAB );
+            du.amount += armor.bonus_from_enchantments( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_STAB );
             break;
         default:
             return;
@@ -7717,28 +7778,28 @@ static void armor_enchantment_adjust( Character &guy, damage_unit &du )
 {
     switch( du.type ) {
         case DT_ACID:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchantment::mod::ARMOR_ACID );
+            du.amount += guy.bonus_from_enchantments( du.amount, enchant_vals::mod::ARMOR_ACID );
             break;
         case DT_BASH:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchantment::mod::ARMOR_BASH );
+            du.amount += guy.bonus_from_enchantments( du.amount, enchant_vals::mod::ARMOR_BASH );
             break;
         case DT_BIOLOGICAL:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchantment::mod::ARMOR_BIO );
+            du.amount += guy.bonus_from_enchantments( du.amount, enchant_vals::mod::ARMOR_BIO );
             break;
         case DT_COLD:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchantment::mod::ARMOR_COLD );
+            du.amount += guy.bonus_from_enchantments( du.amount, enchant_vals::mod::ARMOR_COLD );
             break;
         case DT_CUT:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchantment::mod::ARMOR_CUT );
+            du.amount += guy.bonus_from_enchantments( du.amount, enchant_vals::mod::ARMOR_CUT );
             break;
         case DT_ELECTRIC:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchantment::mod::ARMOR_ELEC );
+            du.amount += guy.bonus_from_enchantments( du.amount, enchant_vals::mod::ARMOR_ELEC );
             break;
         case DT_HEAT:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchantment::mod::ARMOR_HEAT );
+            du.amount += guy.bonus_from_enchantments( du.amount, enchant_vals::mod::ARMOR_HEAT );
             break;
         case DT_STAB:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchantment::mod::ARMOR_STAB );
+            du.amount += guy.bonus_from_enchantments( du.amount, enchant_vals::mod::ARMOR_STAB );
             break;
         default:
             return;
@@ -7943,13 +8004,13 @@ int Character::get_armor_fire( body_part bp ) const
 
 void Character::did_hit( Creature &target )
 {
-    enchantment_cache.cast_hit_you( *this, target );
+    enchantment_cache->cast_hit_you( *this, target );
 }
 
 void Character::on_hit( Creature *source, bodypart_id /*bp_hit*/,
                         float /*difficulty*/, dealt_projectile_attack const *const /*proj*/ )
 {
-    enchantment_cache.cast_hit_me( *this, source );
+    enchantment_cache->cast_hit_me( *this, source );
 }
 
 /*
@@ -9421,7 +9482,7 @@ void Character::on_effect_int_change( const efftype_id &eid, int intensity, body
 void Character::on_mutation_gain( const trait_id &mid )
 {
     morale->on_mutation_gain( mid );
-    magic.on_mutation_gain( mid, *this );
+    magic->on_mutation_gain( mid, *this );
     update_type_of_scent( mid );
     recalculate_enchantment_cache(); // mutations can have enchantments
 }
@@ -9429,7 +9490,7 @@ void Character::on_mutation_gain( const trait_id &mid )
 void Character::on_mutation_loss( const trait_id &mid )
 {
     morale->on_mutation_loss( mid );
-    magic.on_mutation_loss( mid );
+    magic->on_mutation_loss( mid );
     update_type_of_scent( mid, false );
     recalculate_enchantment_cache(); // mutations can have enchantments
 }
@@ -9668,8 +9729,12 @@ int Character::run_cost( int base_cost, bool diag ) const
             movecost += 10 * footwear_factor();
         }
 
-        movecost = calculate_by_enchantment( movecost, enchantment::mod::MOVE_COST );
+        movecost += bonus_from_enchantments( movecost, enchant_vals::mod::MOVE_COST );
         movecost /= stamina_move_cost_modifier();
+
+        if( movecost < 20.0 ) {
+            movecost = 20.0;
+        }
     }
 
     if( diag ) {

@@ -843,6 +843,9 @@ bool item::stacks_with( const item &rhs, bool check_components ) const
     if( type != rhs.type ) {
         return false;
     }
+    if( is_relic() && rhs.is_relic() && !( *relic_data == *rhs.relic_data ) ) {
+        return false;
+    }
     if( charges != 0 && rhs.charges != 0 && is_money() ) {
         // Dealing with nonempty cash cards
         return true;
@@ -1294,7 +1297,7 @@ double item::effective_dps( const player &guy, const monster &mon ) const
     double crit_chance = guy.crit_chance( 0, 0, *this );
     double num_low_hits = std::max( 0.0, num_all_hits - num_high_hits );
 
-    double moves_per_attack = guy.attack_speed( *this );
+    double moves_per_attack = guy.attack_cost( *this );
     // attacks that miss do no damage but take time
     double total_moves = ( hit_trials - num_all_hits ) * moves_per_attack;
     double total_damage = 0.0;
@@ -3211,7 +3214,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
         if( parts->test( iteminfo_parts::BASE_MOVES ) ) {
             info.push_back( iteminfo( "BASE", _( "Moves per attack: " ), "",
-                                      iteminfo::lower_is_better, attack_time() ) );
+                                      iteminfo::lower_is_better, attack_cost() ) );
             info.emplace_back( "BASE", _( "Typical damage per second:" ), "" );
             const std::map<std::string, double> &dps_data = dps( true, false );
             std::string sep;
@@ -3272,7 +3275,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         g->u.roll_all_damage( false, non_crit, true, *this );
         damage_instance crit;
         g->u.roll_all_damage( true, crit, true, *this );
-        int attack_cost = g->u.attack_speed( *this );
+        int attack_cost = g->u.attack_cost( *this );
         insert_separation_line( info );
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG ) ) {
             info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Average melee damage</bold>:" ) ) );
@@ -3858,10 +3861,10 @@ nc_color item::color_in_inventory() const
             static_cast<const learn_spell_actor *>( iuse->get_actor_ptr() );
         for( const std::string &spell_id_str : actor_ptr->spells ) {
             const spell_id sp_id( spell_id_str );
-            if( u.magic.knows_spell( sp_id ) && !u.magic.get_spell( sp_id ).is_max_level() ) {
+            if( u.magic->knows_spell( sp_id ) && !u.magic->get_spell( sp_id ).is_max_level() ) {
                 ret = c_yellow;
             }
-            if( !u.magic.knows_spell( sp_id ) && u.magic.can_learn_spell( u, sp_id ) ) {
+            if( !u.magic->knows_spell( sp_id ) && u.magic->can_learn_spell( u, sp_id ) ) {
                 return c_light_blue;
             }
         }
@@ -4814,12 +4817,11 @@ int item::lift_strength() const
     return std::max( mass / 10000, 1 );
 }
 
-int item::attack_time() const
+int item::attack_cost() const
 {
-    int ret = 65 + ( volume() / 62.5_ml + weight() / 60_gram ) / count();
-    ret = calculate_by_enchantment_wield( ret, enchantment::mod::ITEM_ATTACK_SPEED,
-                                          true );
-    return ret;
+    int base = 65 + ( volume() / 62.5_ml + weight() / 60_gram ) / count();
+    int bonus = bonus_from_enchantments_wielded( base, enchant_vals::mod::ITEM_ATTACK_COST, true );
+    return std::max( 0, base + bonus );
 }
 
 int item::damage_melee( damage_type dt ) const
@@ -6495,42 +6497,42 @@ std::vector<enchantment> item::get_enchantments() const
     return relic_data->get_enchantments();
 }
 
-double item::calculate_by_enchantment( const Character &owner, double modify,
-                                       enchantment::mod value, bool round_value ) const
+double item::bonus_from_enchantments( const Character &owner, double base,
+                                      enchant_vals::mod value, bool round ) const
 {
-    double add_value = 0.0;
-    double mult_value = 1.0;
+    double add = 0.0;
+    double mul = 0.0;
     for( const enchantment &ench : get_enchantments() ) {
         if( ench.is_active( owner, *this ) ) {
-            add_value += ench.get_value_add( value );
-            mult_value += ench.get_value_multiply( value );
+            add += ench.get_value_add( value );
+            mul += ench.get_value_multiply( value );
         }
     }
-    modify += add_value;
-    modify *= mult_value;
-    if( round_value ) {
-        modify = std::round( modify );
+    // TODO: this part duplicates enchantment::calc_bonus()
+    double ret = add + base * mul;
+    if( round ) {
+        ret = trunc( ret );
     }
-    return modify;
+    return ret;
 }
 
-double item::calculate_by_enchantment_wield( double modify, enchantment::mod value,
-        bool round_value ) const
+double item::bonus_from_enchantments_wielded( double base, enchant_vals::mod value,
+        bool round ) const
 {
-    double add_value = 0.0;
-    double mult_value = 1.0;
+    double add = 0.0;
+    double mul = 0.0;
     for( const enchantment &ench : get_enchantments() ) {
-        if( ench.active_wield() ) {
-            add_value += ench.get_value_add( value );
-            mult_value += ench.get_value_multiply( value );
+        if( ench.is_active_when_wielded() ) {
+            add += ench.get_value_add( value );
+            mul += ench.get_value_multiply( value );
         }
     }
-    modify += add_value;
-    modify *= mult_value;
-    if( round_value ) {
-        modify = std::round( modify );
+    // TODO: this part duplicates enchantment::calc_bonus()
+    double ret = add + base * mul;
+    if( round ) {
+        ret = trunc( ret );
     }
-    return modify;
+    return ret;
 }
 
 bool item::can_contain( const item &it ) const
