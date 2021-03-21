@@ -24,6 +24,7 @@
 #include "omdata.h"
 #include "optional.h"
 #include "overmap_types.h" // IWYU pragma: keep
+#include "pimpl.h"
 #include "point.h"
 #include "regional_settings.h"
 #include "string_id.h"
@@ -220,12 +221,12 @@ static const std::map<std::string, oter_flags> oter_flags_map = {
 class overmap
 {
     public:
-        overmap( const overmap & ) = default;
-        overmap( overmap && ) = default;
+        overmap( const overmap & );
+        overmap( overmap && );
         overmap( const point &p );
         ~overmap();
 
-        overmap &operator=( const overmap & ) = default;
+        overmap &operator=( const overmap & );
 
         /**
          * Create content in the overmap.
@@ -408,7 +409,7 @@ class overmap
          * (adding it to the creature tracker and putting it onto the map).
          * This stores each submap worth of monsters in a different bucket of the multimap.
          */
-        std::unordered_multimap<tripoint, monster> monster_map;
+        pimpl<std::unordered_multimap<tripoint, monster>> monster_map;
 
         // parse data in an opened overmap file
         void unserialize( std::istream &fin );

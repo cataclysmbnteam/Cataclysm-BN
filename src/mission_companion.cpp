@@ -1531,7 +1531,7 @@ bool talk_function::companion_om_combat_check( const std::vector<npc_ptr> &group
 
             const tripoint current_submap_loc( tripoint( 2 * om_tgt.x, 2 * om_tgt.y, om_tgt.z ) + point( x,
                                                y ) );
-            auto monster_bucket = omi.monster_map.equal_range( current_submap_loc );
+            auto monster_bucket = omi.monster_map->equal_range( current_submap_loc );
             std::for_each( monster_bucket.first,
             monster_bucket.second, [&]( std::pair<const tripoint, monster> &monster_entry ) {
                 monster &this_monster = monster_entry.second;

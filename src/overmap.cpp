@@ -1086,7 +1086,10 @@ overmap::overmap( const point &p ) : loc( p )
     init_layers();
 }
 
+overmap::overmap( const overmap & ) = default;
+overmap::overmap( overmap && ) = default;
 overmap::~overmap() = default;
+overmap &overmap::operator=( const overmap & ) = default;
 
 void overmap::populate( overmap_special_batch &enabled_specials )
 {
@@ -1245,7 +1248,7 @@ bool overmap::mongroup_check( const mongroup &candidate ) const
 
 bool overmap::monster_check( const std::pair<tripoint, monster> &candidate ) const
 {
-    const auto matching_range = monster_map.equal_range( candidate.first );
+    const auto matching_range = monster_map->equal_range( candidate.first );
     return std::find_if( matching_range.first, matching_range.second,
     [candidate]( const std::pair<tripoint, monster> &match ) {
         return candidate.second.pos() == match.second.pos() &&
@@ -2069,8 +2072,8 @@ void overmap::move_hordes()
 
         // Re-absorb zombies into hordes.
         // Scan over monsters outside the player's view and place them back into hordes.
-        auto monster_map_it = monster_map.begin();
-        while( monster_map_it != monster_map.end() ) {
+        auto monster_map_it = monster_map->begin();
+        while( monster_map_it != monster_map->end() ) {
             const auto &p = monster_map_it->first;
             auto &this_monster = monster_map_it->second;
 
@@ -2130,7 +2133,7 @@ void overmap::move_hordes()
             }
 
             // Delete the monster, continue iterating.
-            monster_map_it = monster_map.erase( monster_map_it );
+            monster_map_it = monster_map->erase( monster_map_it );
         }
     }
 }

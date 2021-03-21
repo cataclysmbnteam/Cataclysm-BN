@@ -36,7 +36,6 @@
 #include "item.h"
 #include "item_location.h"
 #include "memory_fast.h"
-#include "monster.h"
 #include "mtype.h"
 #include "optional.h"
 #include "pimpl.h"
@@ -63,6 +62,7 @@ class known_magic;
 class player;
 class player_morale;
 class vehicle;
+class monster;
 struct bionic;
 struct construction;
 struct dealt_projectile_attack;
