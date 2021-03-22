@@ -331,13 +331,13 @@ void iexamine::gaspump( player &p, const tripoint &examp )
 void iexamine::translocator( player &, const tripoint &examp )
 {
     const tripoint omt_loc = ms_to_omt_copy( g->m.getabs( examp ) );
-    const bool activated = g->u.translocators.knows_translocator( examp );
+    const bool activated = g->u.translocators->knows_translocator( examp );
     if( !activated ) {
-        g->u.translocators.activate_teleporter( omt_loc, examp );
+        g->u.translocators->activate_teleporter( omt_loc, examp );
         add_msg( m_info, _( "Translocator gate active." ) );
     } else {
         if( query_yn( _( "Do you want to deactivate this active Translocator?" ) ) ) {
-            g->u.translocators.deactivate_teleporter( omt_loc, examp );
+            g->u.translocators->deactivate_teleporter( omt_loc, examp );
         }
     }
 }

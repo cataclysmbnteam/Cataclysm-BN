@@ -849,7 +849,8 @@ void spell_effect::translocate( const spell &sp, Creature &caster, const tripoin
     if( you == nullptr ) {
         return;
     }
-    you->translocators.translocate( spell_effect_area( sp, target, spell_effect_blast, caster, true ) );
+    you->translocators->translocate( spell_effect_area( sp, target, spell_effect_blast, caster,
+                                     true ) );
 }
 
 void spell_effect::none( const spell &sp, Creature &, const tripoint & )
