@@ -38,6 +38,10 @@ void display_visible_weather();
  */
 void display_scents();
 /**
+ * Display overmap like with @ref display() and display distribution grids.
+ */
+void display_distribution_grids();
+/**
  * Display overmap like with @ref display() and display the given zone.
  */
 void display_zones( const tripoint &center, const tripoint &select, int iZoneIndex );
@@ -87,12 +91,16 @@ struct draw_data_t {
     bool debug_scent = false;
     // draw zone location.
     tripoint select = tripoint( -1, -1, -1 );
+    // draw location of a zone
     int iZoneIndex = -1;
+    // draw distribution grids
+    bool debug_grids = false;
 };
 
+struct grids_draw_data;
 void draw( const catacurses::window &w, const catacurses::window &wbar, const tripoint &center,
            const tripoint &orig, bool blink, bool show_explored, bool fast_scroll, input_context *inp_ctxt,
-           const draw_data_t &data );
+           const draw_data_t &data, grids_draw_data &grids_data );
 void create_note( const tripoint &curs );
 } // namespace overmap_ui
 #endif // CATA_SRC_OVERMAP_UI_H

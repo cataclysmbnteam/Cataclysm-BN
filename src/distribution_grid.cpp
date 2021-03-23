@@ -245,6 +245,18 @@ const distribution_grid &distribution_grid_tracker::grid_at( const tripoint &p )
                const_cast<distribution_grid_tracker *>( this )->grid_at( p ) );
 }
 
+std::uintptr_t distribution_grid_tracker::debug_grid_id( const tripoint &omp ) const
+{
+    tripoint sm_pos = omt_to_sm_copy( omp );
+    auto iter = parent_distribution_grids.find( sm_pos );
+    if( iter != parent_distribution_grids.end() ) {
+        distribution_grid *ret = iter->second.get();
+        return reinterpret_cast<std::uintptr_t>( ret );
+    } else {
+        return 0;
+    }
+}
+
 void distribution_grid_tracker::update( time_point to )
 {
     // TODO: Don't recalc this every update

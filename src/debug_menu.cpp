@@ -142,6 +142,7 @@ enum debug_menu_index {
     DEBUG_SHOW_SOUND,
     DEBUG_DISPLAY_WEATHER,
     DEBUG_DISPLAY_SCENTS,
+    DEBUG_DISPLAY_DISTRIBUTION_GRIDS,
     DEBUG_CHANGE_TIME,
     DEBUG_SET_AUTOMOVE,
     DEBUG_SHOW_MUT_CAT,
@@ -228,6 +229,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( DEBUG_SHOW_SOUND, true, 'c', _( "Show sound clustering" ) ) },
             { uilist_entry( DEBUG_DISPLAY_WEATHER, true, 'w', _( "Display weather" ) ) },
             { uilist_entry( DEBUG_DISPLAY_SCENTS, true, 'S', _( "Display overmap scents" ) ) },
+            { uilist_entry( DEBUG_DISPLAY_DISTRIBUTION_GRIDS, true, 'G', _( "Display overmap distribution grids" ) ) },
             { uilist_entry( DEBUG_DISPLAY_SCENTS_LOCAL, true, 's', _( "Toggle display local scents" ) ) },
             { uilist_entry( DEBUG_DISPLAY_SCENTS_TYPE_LOCAL, true, 'y', _( "Toggle display local scents type" ) ) },
             { uilist_entry( DEBUG_DISPLAY_TEMP, true, 'T', _( "Toggle display temperature" ) ) },
@@ -1601,6 +1603,9 @@ void debug()
             break;
         case DEBUG_DISPLAY_SCENTS:
             ui::omap::display_scents();
+            break;
+        case DEBUG_DISPLAY_DISTRIBUTION_GRIDS:
+            ui::omap::display_distribution_grids();
             break;
         case DEBUG_DISPLAY_SCENTS_LOCAL:
             g->display_toggle_overlay( ACTION_DISPLAY_SCENT );
