@@ -258,7 +258,7 @@ static void print_temperatures( const std::array<units::temperature, bodytemps.s
 {
     std::string s = "{{";
     for( auto &t : temperatures ) {
-        s += to_string( units::to_celsius( t ) ) + "_c,";
+        s += std::to_string( units::to_celsius( t ) ) + "_c,";
     }
     s += "}}\n";
     cata_printf( s );

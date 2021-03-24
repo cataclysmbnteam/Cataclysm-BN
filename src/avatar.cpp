@@ -22,7 +22,6 @@
 #include "character_martial_arts.h"
 #include "clzones.h"
 #include "color.h"
-#include "compatibility.h"
 #include "debug.h"
 #include "effect.h"
 #include "enums.h"
@@ -457,7 +456,7 @@ bool avatar::read( item_location loc, const bool continuous )
             const double penalty = static_cast<double>( time_taken ) / time_to_read( it, *reader, elem );
             learners.insert( {elem, elem == reader ? _( " (reading aloud to you)" ) : ""} );
             act.values.push_back( elem->getID().get_value() );
-            act.str_values.push_back( to_string( penalty ) );
+            act.str_values.push_back( std::to_string( penalty ) );
         } else {
             fun_learners.insert( {elem, elem == reader ? _( " (reading aloud to you)" ) : "" } );
             act.values.push_back( elem->getID().get_value() );

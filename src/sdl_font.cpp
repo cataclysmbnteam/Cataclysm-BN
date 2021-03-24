@@ -195,12 +195,12 @@ CachedTTFFont::CachedTTFFont(
 #if defined(_WIN32)
     const UINT buf_len = GetSystemWindowsDirectoryW( nullptr, 0 ) + 1;
     if( buf_len == 0 ) {
-        throw std::runtime_error( "GetSystemWindowsDirectory failed: " + to_string( GetLastError() ) );
+        throw std::runtime_error( "GetSystemWindowsDirectory failed: " + std::to_string( GetLastError() ) );
     }
     std::wstring buf( buf_len, '\0' );
     const UINT buf_fin = GetSystemWindowsDirectoryW( &buf[0], buf_len );
     if( buf_fin == 0 ) {
-        throw std::runtime_error( "GetSystemWindowsDirectory failed: " + to_string( GetLastError() ) );
+        throw std::runtime_error( "GetSystemWindowsDirectory failed: " + std::to_string( GetLastError() ) );
     }
     known_prefixes.emplace_back( wstr_to_utf8( buf ) + std::string( "\\fonts\\" ) );
 #elif defined(_APPLE_) && defined(_MACH_)

@@ -22,7 +22,6 @@
 #include "catacharset.h"
 #include "clzones.h"
 #include "color.h"
-#include "compatibility.h"
 #include "coordinate_conversions.h"
 #include "cursesdef.h"
 #include "enums.h"
@@ -386,7 +385,7 @@ class map_notes_callback : public uilist_callback
                         int amount = string_input_popup()
                                      .title( popupmsg )
                                      .width( 20 )
-                                     .text( to_string( 0 ) )
+                                     .text( std::to_string( 0 ) )
                                      .only_digits( true )
                                      .query_int();
                         if( amount > -1 && amount <= max_amount ) {

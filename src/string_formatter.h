@@ -8,8 +8,6 @@
 #include <typeinfo>
 #include <utility>
 
-// needed for the workaround for the std::to_string bug in some compilers
-#include "compatibility.h" // IWYU pragma: keep
 // TODO: replace with std::optional
 #include "optional.h"
 
@@ -129,7 +127,7 @@ inline typename std::enable_if < std::is_same<RT, const char *>::value &&is_nume
 &&!is_char<T>::value, const char * >::type convert( RT *, const string_formatter &sf, T &&value,
         int )
 {
-    return string_formatter_set_temp_buffer( sf, to_string( value ) );
+    return string_formatter_set_temp_buffer( sf, std::to_string( value ) );
 }
 template<typename RT, typename T>
 inline typename std::enable_if < std::is_same<RT, const char *>::value &&is_numeric<T>::value
@@ -242,8 +240,9 @@ class string_formatter
         /**@{*/
         template<typename RT, unsigned int current_index>
         RT get_nth_arg_as( const unsigned int requested ) const {
-            throw_error( "Requested argument " + to_string( requested ) + " but input has only " + to_string(
-                             current_index ) );
+            throw_error( "Requested argument " + std::to_string( requested ) +
+                         " but input has only " + std::to_string( current_index )
+                       );
         }
         template<typename RT, unsigned int current_index, typename T, typename ...Args>
         RT get_nth_arg_as( const unsigned int requested, T &&head, Args &&... args ) const {
@@ -352,11 +351,11 @@ class string_formatter
                 read_flags();
                 if( const cata::optional<int> width_argument_index = read_width() ) {
                     const int w = get_nth_arg_as<int, 0>( *width_argument_index, std::forward<Args>( args )... );
-                    current_format += to_string( w );
+                    current_format += std::to_string( w );
                 }
                 if( const cata::optional<int> precision_argument_index = read_precision() ) {
                     const int p = get_nth_arg_as<int, 0>( *precision_argument_index, std::forward<Args>( args )... );
-                    current_format += to_string( p );
+                    current_format += std::to_string( p );
                 }
                 const int arg = format_arg_index ? *format_arg_index : current_argument_index++;
                 read_conversion( arg, std::forward<Args>( args )... );
@@ -381,7 +380,7 @@ class string_formatter
  * a type that matches the type expected by the placeholder.
  * The placeholders look like this:
  * - `%s` expects an argument of type `const char*` or `std::string` or numeric (which is
- *   converted to a string via `to_string`), which is inserted as is.
+ *   converted to a string via `std::to_string`), which is inserted as is.
  * - `%d` expects an argument of an integer type (int, short, ...), which is formatted as
  *   decimal number.
  * - `%f` expects a numeric argument (integer / floating point), which is formatted as

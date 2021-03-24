@@ -8,7 +8,6 @@
 
 #include "avatar.h"
 #include "character.h"
-#include "compatibility.h"
 #include "coordinate_conversions.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -646,7 +645,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     wprintz( w, att.second, att.first );
 
     if( debug_mode ) {
-        wprintz( w, c_light_gray, _( " Difficulty " ) + to_string( type->difficulty ) );
+        wprintz( w, c_light_gray, _( " Difficulty " ) + std::to_string( type->difficulty ) );
     }
 
     if( sees( g->u ) ) {
@@ -680,7 +679,7 @@ std::string monster::extended_description() const
     std::string att_colored = colorize( att.first, att.second );
     std::string difficulty_str;
     if( debug_mode ) {
-        difficulty_str = _( "Difficulty " ) + to_string( type->difficulty );
+        difficulty_str = _( "Difficulty " ) + std::to_string( type->difficulty );
     } else {
         if( type->difficulty < 3 ) {
             difficulty_str = _( "<color_light_gray>Minimal threat.</color>" );

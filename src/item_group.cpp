@@ -5,7 +5,6 @@
 #include <set>
 
 #include "calendar.h"
-#include "compatibility.h"
 #include "debug.h"
 #include "enums.h"
 #include "flat_set.h"
@@ -633,7 +632,7 @@ static item_group_id get_unique_group_id()
     // names should not be seen anywhere.
     static const std::string unique_prefix = "\u01F7 ";
     while( true ) {
-        const item_group_id new_group = item_group_id( unique_prefix + to_string( next_id++ ) );
+        const item_group_id new_group = item_group_id( unique_prefix + std::to_string( next_id++ ) );
         if( !item_group::group_is_defined( new_group ) ) {
             return new_group;
         }

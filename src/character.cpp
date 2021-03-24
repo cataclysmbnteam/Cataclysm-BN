@@ -20,7 +20,6 @@
 #include "catacharset.h"
 #include "clzones.h"
 #include "colony.h"
-#include "compatibility.h"
 #include "construction.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
@@ -4413,7 +4412,7 @@ std::string Character::get_weight_string() const
 {
     double weight = convert_weight( bodyweight() );
     int display_weight = static_cast<int>( std::round( weight ) );
-    return to_string( display_weight ) + " " + weight_units();
+    return std::to_string( display_weight ) + " " + weight_units();
 }
 
 int Character::get_max_healthy() const
