@@ -3421,7 +3421,7 @@ bool mattack::searchlight( monster *z )
 
         for( int i = 0; i < max_lamp_count; i++ ) {
 
-            item settings( "processor", 0 );
+            item settings( "processor", calendar::start_of_cataclysm );
 
             settings.set_var( "SL_PREFER_UP", "TRUE" );
             settings.set_var( "SL_PREFER_DOWN", "TRUE" );
@@ -4684,7 +4684,7 @@ bool mattack::riotbot( monster *z )
         if( choice == ur_arrest ) {
             z->anger = 0;
 
-            item handcuffs( "e_handcuffs", 0 );
+            item handcuffs( "e_handcuffs", calendar::start_of_cataclysm );
             handcuffs.charges = handcuffs.type->maximum_charges();
             handcuffs.active = true;
             handcuffs.set_var( "HANDCUFFS_X", foe->posx() );

@@ -893,7 +893,7 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
     p.moves -= moves;
     if( !newmon.has_flag( MF_INTERIOR_AMMO ) ) {
         for( auto &amdef : newmon.ammo ) {
-            item ammo_item( amdef.first, 0 );
+            item ammo_item( amdef.first, calendar::start_of_cataclysm );
             const int available = p.charges_of( amdef.first );
             if( available == 0 ) {
                 amdef.second = 0;

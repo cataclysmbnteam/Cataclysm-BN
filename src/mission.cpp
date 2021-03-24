@@ -50,7 +50,7 @@ mission mission_type::create( const character_id &npc_id ) const
     if( deadline_low != 0_turns || deadline_high != 0_turns ) {
         ret.deadline = calendar::turn + rng( deadline_low, deadline_high );
     } else {
-        ret.deadline = 0;
+        ret.deadline = calendar::start_of_cataclysm;
     }
 
     return ret;
@@ -509,7 +509,7 @@ void mission::get_all_item_group_matches( std::vector<item *> &items,
 
 bool mission::has_deadline() const
 {
-    return deadline != 0;
+    return deadline != calendar::start_of_cataclysm;
 }
 
 time_point mission::get_deadline() const
@@ -583,7 +583,7 @@ void mission::process()
         return;
     }
 
-    if( deadline > 0 && calendar::turn > deadline ) {
+    if( deadline > calendar::start_of_cataclysm && calendar::turn > deadline ) {
         fail();
     } else if( !npc_id.is_valid() && is_complete( npc_id ) ) { // No quest giver.
         wrap_up();
@@ -681,7 +681,7 @@ std::string mission::dialogue_for_topic( const std::string &in_topic ) const
 }
 
 mission::mission()
-    : deadline( 0 )
+    : deadline( calendar::start_of_cataclysm )
 {
     type = nullptr;
     status = mission_status::yet_to_start;

@@ -1188,11 +1188,11 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                 vehicle &veh = vp->vehicle();
                 const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
                 if( weldpart ) {
-                    item welder( "welder", 0 );
+                    item welder( "welder", calendar::start_of_cataclysm );
                     welder.charges = veh.fuel_left( "battery", true );
                     welder.item_tags.insert( "PSEUDO" );
                     temp_inv.add_item( welder );
-                    item soldering_iron( "soldering_iron", 0 );
+                    item soldering_iron( "soldering_iron", calendar::start_of_cataclysm );
                     soldering_iron.charges = veh.fuel_left( "battery", true );
                     soldering_iron.item_tags.insert( "PSEUDO" );
                     temp_inv.add_item( soldering_iron );
@@ -1806,7 +1806,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
             for( auto it = requirement_map.begin(); it != requirement_map.end(); ) {
                 tripoint pos_here = std::get<0>( *it );
                 itype_id item_here = std::get<1>( *it );
-                item test_item = item( item_here, 0 );
+                item test_item = item( item_here, calendar::start_of_cataclysm );
                 if( test_item.has_quality( tool_qual, qual_level ) ) {
                     // it's just this spot that can fulfil the requirement on its own
                     final_map.push_back( std::make_tuple( pos_here, item_here, 1 ) );

@@ -54,7 +54,7 @@ void mission_start::place_dog( mission *miss )
         debugmsg( "Couldn't find NPC!  %d", miss->npc_id.get_value() );
         return;
     }
-    g->u.i_add( item( "dog_whistle", 0 ) );
+    g->u.i_add( item( "dog_whistle", calendar::start_of_cataclysm ) );
     add_msg( _( "%s gave you a dog whistle." ), dev->name );
 
     miss->target = house;
@@ -189,7 +189,7 @@ void mission_start::place_npc_software( mission *miss )
         debugmsg( "Couldn't find NPC!  %d", miss->npc_id.get_value() );
         return;
     }
-    g->u.i_add( item( "usb_drive", 0 ) );
+    g->u.i_add( item( "usb_drive", calendar::start_of_cataclysm ) );
     add_msg( _( "%s gave you a USB drive." ), dev->name );
 
     std::string type = "house";
@@ -535,7 +535,8 @@ void mission_start::ranch_scavenger_1( mission *miss )
 
     site = mission_util::target_om_ter_random( "ranch_camp_49", 1, miss, false, RANCH_SIZE );
     bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
-    bay.place_items( item_group_id( "mechanics" ), 65, point( 9, 13 ), point( 10, 16 ), true, 0 );
+    bay.place_items( item_group_id( "mechanics" ), 65, point( 9, 13 ), point( 10, 16 ), true,
+                     calendar::start_of_cataclysm );
     bay.draw_square_ter( t_chainfence, point( 0, 22 ), point( 7, 22 ) );
     bay.draw_square_ter( t_dirt, point( 2, 22 ), point( 3, 22 ) );
     bay.spawn_item( point( 7, 19 ), "30gal_drum" );

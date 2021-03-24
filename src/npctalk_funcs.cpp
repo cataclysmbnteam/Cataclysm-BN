@@ -485,7 +485,7 @@ void talk_function::bionic_remove( npc &p )
                 bio.id != bio_power_storage_mkII ) {
                 bionic_types.push_back( bio.id.str() );
                 if( item::type_is_defined( bio.id.str() ) ) {
-                    item tmp = item( bio.id.str(), 0 );
+                    item tmp = item( bio.id.str(), calendar::start_of_cataclysm );
                     bionic_names.push_back( tmp.tname() + " - " + format_money( 50000 + ( tmp.price( true ) / 4 ) ) );
                 } else {
                     bionic_names.push_back( bio.id.str() + " - " + format_money( 50000 ) );
@@ -504,7 +504,8 @@ void talk_function::bionic_remove( npc &p )
 
     signed int price;
     if( item::type_is_defined( bionic_types[bionic_index] ) ) {
-        price = 50000 + ( item( bionic_types[bionic_index], 0 ).price( true ) / 4 );
+        int tmp = item( bionic_types[bionic_index], calendar::start_of_cataclysm ).price( true );
+        price = 50000 + ( tmp / 4 );
     } else {
         price = 50000;
     }

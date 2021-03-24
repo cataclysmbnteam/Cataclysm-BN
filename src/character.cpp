@@ -3302,7 +3302,7 @@ void Character::normalize()
     Creature::normalize();
 
     martial_arts_data.reset_style();
-    weapon   = item( "null", 0 );
+    weapon = item( "null", calendar::start_of_cataclysm );
 
     recalc_hp();
 }
@@ -3314,15 +3314,15 @@ void Character::die( Creature *nkiller )
     set_killer( nkiller );
     set_time_died( calendar::turn );
     if( has_effect( effect_lightsnare ) ) {
-        inv.add_item( item( "string_36", 0 ) );
-        inv.add_item( item( "snare_trigger", 0 ) );
+        inv.add_item( item( "string_36", calendar::start_of_cataclysm ) );
+        inv.add_item( item( "snare_trigger", calendar::start_of_cataclysm ) );
     }
     if( has_effect( effect_heavysnare ) ) {
-        inv.add_item( item( "rope_6", 0 ) );
-        inv.add_item( item( "snare_trigger", 0 ) );
+        inv.add_item( item( "rope_6", calendar::start_of_cataclysm ) );
+        inv.add_item( item( "snare_trigger", calendar::start_of_cataclysm ) );
     }
     if( has_effect( effect_beartrap ) ) {
-        inv.add_item( item( "beartrap", 0 ) );
+        inv.add_item( item( "beartrap", calendar::start_of_cataclysm ) );
     }
     mission::on_creature_death( *this );
 }

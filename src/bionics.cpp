@@ -849,9 +849,9 @@ bool Character::activate_bionic( int b, bool eff_only )
         if( choice >= 0 && choice <= 1 ) {
             item ctr;
             if( choice == 0 ) {
-                ctr = item( "remotevehcontrol", 0 );
+                ctr = item( "remotevehcontrol", calendar::start_of_cataclysm );
             } else {
-                ctr = item( "radiocontrol", 0 );
+                ctr = item( "radiocontrol", calendar::start_of_cataclysm );
             }
             ctr.charges = units::to_kilojoule( get_power_level() );
             int power_use = invoke_item( &ctr );
@@ -1949,7 +1949,7 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
         return false;
     }
 
-    item bionic_to_uninstall = item( target_cbm.id.str(), 0 );
+    item bionic_to_uninstall = item( target_cbm.id.str(), calendar::start_of_cataclysm );
     const itype *itemtype = bionic_to_uninstall.type;
     int difficulty = itemtype->bionic->difficulty;
     int chance_of_success = bionic_manip_cos( adjusted_skill, difficulty + 2 );

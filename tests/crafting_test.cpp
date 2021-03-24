@@ -369,8 +369,8 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
         // - 10 charges of surface heat
 
         WHEN( "each tool has enough charges" ) {
-            tools.emplace_back( "hotplate", -1, 20 );
-            tools.emplace_back( "soldering_iron", -1, 20 );
+            tools.emplace_back( "hotplate", calendar::start_of_cataclysm, 20 );
+            tools.emplace_back( "soldering_iron", calendar::start_of_cataclysm, 20 );
 
             THEN( "crafting succeeds, and uses charges from each tool" ) {
                 int turns = actually_test_craft( recipe_id( "carver_off" ), tools, INT_MAX );
@@ -381,10 +381,10 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
         }
 
         WHEN( "multiple tools have enough combined charges" ) {
-            tools.emplace_back( "hotplate", -1, 5 );
-            tools.emplace_back( "hotplate", -1, 5 );
-            tools.emplace_back( "soldering_iron", -1, 5 );
-            tools.emplace_back( "soldering_iron", -1, 5 );
+            tools.emplace_back( "hotplate", calendar::start_of_cataclysm, 5 );
+            tools.emplace_back( "hotplate", calendar::start_of_cataclysm, 5 );
+            tools.emplace_back( "soldering_iron", calendar::start_of_cataclysm, 5 );
+            tools.emplace_back( "soldering_iron", calendar::start_of_cataclysm, 5 );
 
             THEN( "crafting succeeds, and uses charges from multiple tools" ) {
                 actually_test_craft( recipe_id( "carver_off" ), tools, INT_MAX );
@@ -394,13 +394,13 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
         }
 
         WHEN( "UPS-modded tools have enough charges" ) {
-            item hotplate( "hotplate", -1, 0 );
+            item hotplate( "hotplate", calendar::start_of_cataclysm, 0 );
             hotplate.put_in( item( "battery_ups" ) );
             tools.push_back( hotplate );
-            item soldering_iron( "soldering_iron", -1, 0 );
+            item soldering_iron( "soldering_iron", calendar::start_of_cataclysm, 0 );
             soldering_iron.put_in( item( "battery_ups" ) );
             tools.push_back( soldering_iron );
-            tools.emplace_back( "UPS_off", -1, 500 );
+            tools.emplace_back( "UPS_off", calendar::start_of_cataclysm, 500 );
 
             THEN( "crafting succeeds, and uses charges from the UPS" ) {
                 actually_test_craft( recipe_id( "carver_off" ), tools, INT_MAX );
@@ -411,13 +411,13 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
         }
 
         WHEN( "UPS-modded tools do not have enough charges" ) {
-            item hotplate( "hotplate", -1, 0 );
+            item hotplate( "hotplate", calendar::start_of_cataclysm, 0 );
             hotplate.put_in( item( "battery_ups" ) );
             tools.push_back( hotplate );
-            item soldering_iron( "soldering_iron", -1, 0 );
+            item soldering_iron( "soldering_iron", calendar::start_of_cataclysm, 0 );
             soldering_iron.put_in( item( "battery_ups" ) );
             tools.push_back( soldering_iron );
-            tools.emplace_back( "UPS_off", -1, 10 );
+            tools.emplace_back( "UPS_off", calendar::start_of_cataclysm, 10 );
 
             THEN( "crafting fails, and no charges are used" ) {
                 prep_craft( recipe_id( "carver_off" ), tools, false );
@@ -431,9 +431,9 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
 {
     SECTION( "clean_water" ) {
         std::vector<item> tools;
-        tools.emplace_back( "hotplate", -1, 20 );
+        tools.emplace_back( "hotplate", calendar::start_of_cataclysm, 20 );
         item plastic_bottle( "bottle_plastic" );
-        plastic_bottle.put_in( item( "water", -1, 2 ) );
+        plastic_bottle.put_in( item( "water", calendar::start_of_cataclysm, 2 ) );
         tools.push_back( plastic_bottle );
         tools.emplace_back( "pot" );
 
@@ -442,14 +442,14 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
     }
     SECTION( "clean_water_in_occupied_cooking_vessel" ) {
         std::vector<item> tools;
-        tools.emplace_back( "hotplate", -1, 20 );
+        tools.emplace_back( "hotplate", calendar::start_of_cataclysm, 20 );
         item plastic_bottle( "bottle_plastic" );
-        plastic_bottle.put_in( item( "water", -1, 2 ) );
+        plastic_bottle.put_in( item( "water", calendar::start_of_cataclysm, 2 ) );
         tools.push_back( plastic_bottle );
         item jar( "jar_glass" );
         // If it's not watertight the water will spill.
         REQUIRE( jar.is_watertight_container() );
-        jar.put_in( item( "water", -1, 2 ) );
+        jar.put_in( item( "water", calendar::start_of_cataclysm, 2 ) );
         tools.push_back( jar );
 
         prep_craft( recipe_id( "water_clean" ), tools, false );
@@ -517,7 +517,7 @@ TEST_CASE( "total crafting time with or without interruption", "[crafting][time]
         int actual_turns_taken;
 
         WHEN( "crafting begins, and continues until the craft is completed" ) {
-            tools.emplace_back( "scrap", -1, 1 );
+            tools.emplace_back( "scrap", calendar::start_of_cataclysm, 1 );
             actual_turns_taken = actually_test_craft( test_recipe, tools, INT_MAX );
 
             THEN( "it should take the expected number of turns" ) {
@@ -530,7 +530,7 @@ TEST_CASE( "total crafting time with or without interruption", "[crafting][time]
         }
 
         WHEN( "crafting begins, but is interrupted after 2 turns" ) {
-            tools.emplace_back( "scrap", -1, 1 );
+            tools.emplace_back( "scrap", calendar::start_of_cataclysm, 1 );
             actual_turns_taken = actually_test_craft( test_recipe, tools, 2 );
             REQUIRE( actual_turns_taken == 3 );
 

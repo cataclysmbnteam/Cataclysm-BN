@@ -235,7 +235,7 @@ monster::monster()
     ignoring = 0;
     upgrades = false;
     upgrade_time = -1;
-    last_updated = 0;
+    last_updated = calendar::start_of_cataclysm;
     udder_timer = calendar::turn;
     horde_attraction = MHA_NULL;
 }
@@ -263,7 +263,7 @@ monster::monster( const mtype_id &id ) : monster()
         itype_id mech_bat = itype_id( type->mech_battery );
         const itype &type = *item::find_type( mech_bat );
         int max_charge = type.magazine->capacity;
-        item mech_bat_item = item( mech_bat, 0 );
+        item mech_bat_item = item( mech_bat, calendar::start_of_cataclysm );
         mech_bat_item.ammo_consume( rng( 0, max_charge ), tripoint_zero );
         battery_item = cata::make_value<item>( mech_bat_item );
     }
@@ -2220,15 +2220,15 @@ void monster::die( Creature *nkiller )
     move_special_item_to_inv( tied_item );
 
     if( has_effect( effect_lightsnare ) ) {
-        add_item( item( "string_36", 0 ) );
-        add_item( item( "snare_trigger", 0 ) );
+        add_item( item( "string_36", calendar::start_of_cataclysm ) );
+        add_item( item( "snare_trigger", calendar::start_of_cataclysm ) );
     }
     if( has_effect( effect_heavysnare ) ) {
-        add_item( item( "rope_6", 0 ) );
-        add_item( item( "snare_trigger", 0 ) );
+        add_item( item( "rope_6", calendar::start_of_cataclysm ) );
+        add_item( item( "snare_trigger", calendar::start_of_cataclysm ) );
     }
     if( has_effect( effect_beartrap ) ) {
-        add_item( item( "beartrap", 0 ) );
+        add_item( item( "beartrap", calendar::start_of_cataclysm ) );
     }
     if( has_effect( effect_grabbing ) ) {
         remove_effect( effect_grabbing );

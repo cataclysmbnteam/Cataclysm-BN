@@ -381,7 +381,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     bool destroyAlarm = false;
 
     // More realistically it should be -5 days old
-    last_update = 0;
+    last_update = calendar::start_of_cataclysm;
 
     // veh_fuel_multiplier is percentage of fuel
     // 0 is empty, 100 is full tank, -1 is random 7% to 35%
