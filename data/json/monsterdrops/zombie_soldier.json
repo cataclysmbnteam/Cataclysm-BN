@@ -58,11 +58,11 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "group": "military_standard_smgs", "prob": 25 },
-      { "group": "military_standard_shotguns", "prob": 25 },
-      { "group": "military_standard_assault_rifles", "prob": 20 },
-      { "group": "military_standard_lmgs", "prob": 10 },
-      { "group": "military_standard_sniper_rifles", "prob": 10 }
+      { "group": "military_standard_smgs", "prob": 30 },
+      { "group": "military_standard_shotguns", "prob": 30 },
+      { "group": "military_standard_assault_rifles", "prob": 30 },
+      { "group": "military_standard_lmgs", "prob": 5 },
+      { "group": "military_standard_sniper_rifles", "prob": 5 }
     ]
   }
 ]
