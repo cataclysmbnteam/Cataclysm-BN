@@ -3,7 +3,9 @@
 #define CATA_SRC_POLY_SERIALIZED_PTR_H
 
 #include <memory>
-#include "json.h"
+
+class JsonIn;
+class JsonOut;
 
 namespace cata
 {
@@ -26,7 +28,8 @@ class poly_serialized : public std::unique_ptr<T>
             return *this;
         }
 
-        void serialize( JsonOut &jsout ) const {
+        template<typename Stream = JsonOut>
+        void serialize( Stream &jsout ) const {
             jsout.start_array();
             if( this->get() ) {
                 jsout.write( this->get()->get_type() );
@@ -39,7 +42,8 @@ class poly_serialized : public std::unique_ptr<T>
             jsout.end_array();
         }
 
-        void deserialize( JsonIn &jsin ) {
+        template<typename Stream = JsonIn>
+        void deserialize( Stream &jsin ) {
             jsin.start_array();
             if( jsin.test_null() ) {
                 this->reset();

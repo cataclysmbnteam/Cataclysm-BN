@@ -19,6 +19,7 @@
 
 #include "basecamp.h"
 #include "enums.h"
+#include "enum_conversions.h"
 #include "game_constants.h"
 #include "mongroup.h"
 #include "omdata.h"

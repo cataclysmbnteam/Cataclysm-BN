@@ -8,10 +8,10 @@
 
 #include "bodypart.h"
 #include "calendar.h"
-#include "json.h"
 #include "optional.h"
 #include "type_id.h"
 
+class JsonObject;
 class disease_type
 {
     public:

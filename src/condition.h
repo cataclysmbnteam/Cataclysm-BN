@@ -6,10 +6,9 @@
 #include <string>
 #include <unordered_set>
 
-#include "json.h"
-
 struct dialogue;
 struct mission_goal_condition_context;
+class JsonObject;
 
 namespace dialogue_data
 {

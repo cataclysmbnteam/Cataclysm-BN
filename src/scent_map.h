@@ -10,7 +10,6 @@
 #include "calendar.h"
 #include "enums.h" // IWYU pragma: keep
 #include "game_constants.h"
-#include "json.h"
 #include "optional.h"
 #include "point.h"
 #include "type_id.h"
@@ -19,6 +18,7 @@ static constexpr int SCENT_MAP_Z_REACH = 1;
 
 class game;
 class map;
+class JsonObject;
 
 namespace catacurses
 {

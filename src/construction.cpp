@@ -53,6 +53,7 @@
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
+#include "units_serde.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"

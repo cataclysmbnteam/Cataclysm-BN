@@ -6,6 +6,7 @@
 #include "catch/catch.hpp"
 #include "json.h"
 #include "units.h"
+#include "units_serde.h"
 
 TEST_CASE( "units_have_correct_ratios", "[units]" )
 {

@@ -10,12 +10,12 @@
 #include <vector>
 
 #include "dialogue_win.h"
-#include "json.h"
 #include "npc.h"
 #include "player.h"
 #include "translations.h"
 #include "type_id.h"
 
+class JsonObject;
 class martialart;
 class mission;
 struct dialogue;

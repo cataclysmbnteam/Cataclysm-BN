@@ -1,6 +1,7 @@
 #include "mtype.h"
 
 #include <algorithm>
+#include <cmath>
 #include <unordered_map>
 
 #include "behavior_strategy.h"

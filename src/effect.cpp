@@ -17,6 +17,7 @@
 #include "string_formatter.h"
 #include "string_id.h"
 #include "units.h"
+#include "units_serde.h"
 
 static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_beartrap( "beartrap" );

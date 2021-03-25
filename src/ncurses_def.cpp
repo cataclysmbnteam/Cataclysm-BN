@@ -13,6 +13,7 @@
 #include <curses.h>
 #endif
 
+#include <cstring>
 #include <langinfo.h>
 #include <stdexcept>
 
