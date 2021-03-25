@@ -18,7 +18,6 @@
 #include "color.h"
 #include "debug.h"
 #include "enums.h"
-#include "item.h"
 #include "line.h"
 #include "point.h"
 #include "string_formatter.h"
@@ -26,6 +25,7 @@
 #include "units.h"
 
 struct input_event;
+struct iteminfo;
 
 namespace catacurses
 {
@@ -494,20 +494,13 @@ struct item_info_data {
 
     public:
 
-        item_info_data() = default;
-
+        item_info_data();
+        ~item_info_data();
         item_info_data( const std::string &sItemName, const std::string &sTypeName,
-                        const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare )
-            : sItemName( sItemName ), sTypeName( sTypeName ),
-              vItemDisplay( vItemDisplay ), vItemCompare( vItemCompare ),
-              selected( 0 ), ptr_selected( &selected ) {}
-
+                        const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare );
         item_info_data( const std::string &sItemName, const std::string &sTypeName,
                         const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare,
-                        int &ptr_selected )
-            : sItemName( sItemName ), sTypeName( sTypeName ),
-              vItemDisplay( vItemDisplay ), vItemCompare( vItemCompare ),
-              ptr_selected( &ptr_selected ) {}
+                        int &ptr_selected );
 
         const std::string &get_item_name() const {
             return sItemName;

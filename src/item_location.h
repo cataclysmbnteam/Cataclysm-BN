@@ -5,11 +5,10 @@
 #include <memory>
 #include <string>
 
-#include "map_selector.h"
-
 struct tripoint;
 class item;
 class Character;
+class map_cursor;
 class vehicle_cursor;
 class JsonIn;
 class JsonOut;

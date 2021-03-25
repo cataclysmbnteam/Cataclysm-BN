@@ -22,7 +22,6 @@
 #include "item_contents.h"
 #include "item_location.h"
 #include "optional.h"
-#include "requirements.h"
 #include "safe_reference.h"
 #include "string_id.h"
 #include "type_id.h"
@@ -47,6 +46,7 @@ class recipe;
 class relic;
 struct islot_comestible;
 struct itype;
+struct item_comp;
 struct mtype;
 struct tripoint;
 template<typename T>

@@ -15,6 +15,7 @@
 #include "item_stack.h"
 #include "line.h"
 #include "map.h"
+#include "map_selector.h"
 #include "optional.h"
 #include "options.h"
 #include "output.h"

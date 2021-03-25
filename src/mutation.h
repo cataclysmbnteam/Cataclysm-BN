@@ -12,15 +12,17 @@
 
 #include "bodypart.h"
 #include "calendar.h"
-#include "character.h"
 #include "damage.h"
 #include "hash_utils.h"
+#include "memory_fast.h"
 #include "optional.h"
 #include "point.h"
+#include "pldata.h"
 #include "translations.h"
 #include "type_id.h"
 #include "value_ptr.h"
 
+class Character;
 class JsonObject;
 class Trait_group;
 class item;

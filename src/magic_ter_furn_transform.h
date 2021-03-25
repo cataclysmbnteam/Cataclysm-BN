@@ -11,6 +11,7 @@
 
 class Creature;
 class JsonObject;
+class map;
 struct tripoint;
 
 // this is a small class that contains the "results" of a terrain transform.

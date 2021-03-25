@@ -58,4 +58,23 @@ class addiction
         void deserialize( JsonIn &jsin );
 };
 
+struct social_modifiers {
+    int lie = 0;
+    int persuade = 0;
+    int intimidate = 0;
+
+    social_modifiers &operator+=( const social_modifiers &other ) {
+        this->lie += other.lie;
+        this->persuade += other.persuade;
+        this->intimidate += other.intimidate;
+        return *this;
+    }
+};
+
+inline social_modifiers operator+( social_modifiers lhs, const social_modifiers &rhs )
+{
+    lhs += rhs;
+    return lhs;
+}
+
 #endif // CATA_SRC_PLDATA_H

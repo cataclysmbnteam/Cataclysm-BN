@@ -14,6 +14,7 @@
 #include <vector>
 
 #include "assign.h"
+#include "basecamp.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character_id.h"

@@ -11,7 +11,6 @@
 
 #include "bodypart.h"
 #include "calendar.h"
-#include "character.h"
 #include "flat_set.h"
 #include "optional.h"
 #include "translations.h"
@@ -23,6 +22,8 @@ class JsonObject;
 class JsonOut;
 class Character;
 class player;
+
+enum class character_stat : char;
 
 using itype_id = std::string;
 

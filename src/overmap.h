@@ -17,7 +17,6 @@
 #include <utility>
 #include <vector>
 
-#include "basecamp.h"
 #include "enums.h"
 #include "enum_conversions.h"
 #include "game_constants.h"
@@ -33,6 +32,7 @@
 class JsonIn;
 class JsonObject;
 class JsonOut;
+class basecamp;
 class character_id;
 class map_extra;
 class monster;

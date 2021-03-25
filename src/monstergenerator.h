@@ -9,7 +9,6 @@
 
 #include "enum_bitset.h"
 #include "enums.h"
-#include "generic_factory.h"
 #include "mattack_common.h"
 #include "mtype.h"
 #include "pimpl.h"
@@ -21,6 +20,7 @@ class JsonObject;
 class monster;
 struct dealt_projectile_attack;
 template <typename T> class string_id;
+template<typename T> class generic_factory;
 
 using mon_action_death  = void ( * )( monster & );
 using mon_action_attack = bool ( * )( monster * );

@@ -235,19 +235,6 @@ struct special_attack {
     damage_instance damage;
 };
 
-struct social_modifiers {
-    int lie = 0;
-    int persuade = 0;
-    int intimidate = 0;
-
-    social_modifiers &operator+=( const social_modifiers &other ) {
-        this->lie += other.lie;
-        this->persuade += other.persuade;
-        this->intimidate += other.intimidate;
-        return *this;
-    }
-};
-
 struct consumption_event {
     time_point time;
     itype_id type_id;
@@ -261,12 +248,6 @@ struct consumption_event {
     void serialize( JsonOut &json ) const;
     void deserialize( JsonIn &jsin );
 };
-
-inline social_modifiers operator+( social_modifiers lhs, const social_modifiers &rhs )
-{
-    lhs += rhs;
-    return lhs;
-}
 
 enum class character_stat : char {
     STRENGTH,

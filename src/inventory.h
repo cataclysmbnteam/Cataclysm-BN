@@ -16,13 +16,13 @@
 #include <vector>
 
 #include "item.h"
-#include "item_stack.h"
 #include "units.h"
 #include "visitable.h"
 
 class Character;
 class JsonIn;
 class JsonOut;
+class item_stack;
 class map;
 class npc;
 class player;
