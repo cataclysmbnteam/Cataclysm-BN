@@ -22,10 +22,8 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "character_id.h"
-// needed for the workaround for the std::to_string bug in some compilers
 #include "clzones.h"
 #include "color.h"
-#include "compatibility.h" // IWYU pragma: keep
 #include "condition.h"
 #include "debug.h"
 #include "enums.h"

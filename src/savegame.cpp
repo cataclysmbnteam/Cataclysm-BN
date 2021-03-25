@@ -184,6 +184,13 @@ void game::unserialize( std::istream &fin )
             tmpturn *= 6;
             tmpcalstart *= 6;
         }
+        calendar::turn = calendar::turn_zero + time_duration::from_turns( tmpturn );
+        calendar::start_of_cataclysm = calendar::turn_zero + time_duration::from_turns( tmpcalstart );
+
+        if( !data.read( "game_start", calendar::start_of_game ) ) {
+            calendar::start_of_game = calendar::start_of_cataclysm;
+        }
+
         data.read( "auto_travel_mode", auto_travel_mode );
         data.read( "run_mode", tmprun );
         data.read( "mostseen", mostseen );
@@ -192,13 +199,6 @@ void game::unserialize( std::istream &fin )
         data.read( "levz", levz );
         data.read( "om_x", comx );
         data.read( "om_y", comy );
-
-        calendar::turn = tmpturn;
-        calendar::start_of_cataclysm = tmpcalstart;
-
-        if( !data.read( "game_start", calendar::start_of_game ) ) {
-            calendar::start_of_game = calendar::start_of_cataclysm;
-        }
 
         load_map( tripoint( levx + comx * OMAPX * 2, levy + comy * OMAPY * 2, levz ) );
 

@@ -8,7 +8,6 @@
 
 #include "avatar.h"
 #include "character.h"
-#include "compatibility.h"
 #include "coordinate_conversions.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -235,7 +234,7 @@ monster::monster()
     ignoring = 0;
     upgrades = false;
     upgrade_time = -1;
-    last_updated = 0;
+    last_updated = calendar::start_of_cataclysm;
     udder_timer = calendar::turn;
     horde_attraction = MHA_NULL;
 }
@@ -263,7 +262,7 @@ monster::monster( const mtype_id &id ) : monster()
         itype_id mech_bat = itype_id( type->mech_battery );
         const itype &type = *item::find_type( mech_bat );
         int max_charge = type.magazine->capacity;
-        item mech_bat_item = item( mech_bat, 0 );
+        item mech_bat_item = item( mech_bat, calendar::start_of_cataclysm );
         mech_bat_item.ammo_consume( rng( 0, max_charge ), tripoint_zero );
         battery_item = cata::make_value<item>( mech_bat_item );
     }
@@ -646,7 +645,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     wprintz( w, att.second, att.first );
 
     if( debug_mode ) {
-        wprintz( w, c_light_gray, _( " Difficulty " ) + to_string( type->difficulty ) );
+        wprintz( w, c_light_gray, _( " Difficulty " ) + std::to_string( type->difficulty ) );
     }
 
     if( sees( g->u ) ) {
@@ -680,7 +679,7 @@ std::string monster::extended_description() const
     std::string att_colored = colorize( att.first, att.second );
     std::string difficulty_str;
     if( debug_mode ) {
-        difficulty_str = _( "Difficulty " ) + to_string( type->difficulty );
+        difficulty_str = _( "Difficulty " ) + std::to_string( type->difficulty );
     } else {
         if( type->difficulty < 3 ) {
             difficulty_str = _( "<color_light_gray>Minimal threat.</color>" );
@@ -2220,15 +2219,15 @@ void monster::die( Creature *nkiller )
     move_special_item_to_inv( tied_item );
 
     if( has_effect( effect_lightsnare ) ) {
-        add_item( item( "string_36", 0 ) );
-        add_item( item( "snare_trigger", 0 ) );
+        add_item( item( "string_36", calendar::start_of_cataclysm ) );
+        add_item( item( "snare_trigger", calendar::start_of_cataclysm ) );
     }
     if( has_effect( effect_heavysnare ) ) {
-        add_item( item( "rope_6", 0 ) );
-        add_item( item( "snare_trigger", 0 ) );
+        add_item( item( "rope_6", calendar::start_of_cataclysm ) );
+        add_item( item( "snare_trigger", calendar::start_of_cataclysm ) );
     }
     if( has_effect( effect_beartrap ) ) {
-        add_item( item( "beartrap", 0 ) );
+        add_item( item( "beartrap", calendar::start_of_cataclysm ) );
     }
     if( has_effect( effect_grabbing ) ) {
         remove_effect( effect_grabbing );

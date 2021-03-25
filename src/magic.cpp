@@ -15,7 +15,6 @@
 #include "catacharset.h"
 #include "character.h"
 #include "color.h"
-#include "compatibility.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "damage.h"
@@ -840,7 +839,7 @@ std::string spell::energy_cost_string( const Character &guy ) const
         return _( "none" );
     }
     if( energy_source() == bionic_energy || energy_source() == mana_energy ) {
-        return colorize( to_string( energy_cost( guy ) ), c_light_blue );
+        return colorize( std::to_string( energy_cost( guy ) ), c_light_blue );
     }
     if( energy_source() == hp_energy ) {
         auto pair = get_hp_bar( energy_cost( guy ), guy.get_hp_max() / num_hp_parts );
@@ -851,7 +850,7 @@ std::string spell::energy_cost_string( const Character &guy ) const
         return colorize( pair.first, pair.second );
     }
     if( energy_source() == fatigue_energy ) {
-        return colorize( to_string( energy_cost( guy ) ), c_cyan );
+        return colorize( std::to_string( energy_cost( guy ) ), c_cyan );
     }
     debugmsg( "ERROR: Spell %s has invalid energy source.", id().c_str() );
     return _( "error: energy_type" );
@@ -863,10 +862,10 @@ std::string spell::energy_cur_string( const Character &guy ) const
         return _( "infinite" );
     }
     if( energy_source() == bionic_energy ) {
-        return colorize( to_string( units::to_kilojoule( guy.get_power_level() ) ), c_light_blue );
+        return colorize( std::to_string( units::to_kilojoule( guy.get_power_level() ) ), c_light_blue );
     }
     if( energy_source() == mana_energy ) {
-        return colorize( to_string( guy.magic->available_mana() ), c_light_blue );
+        return colorize( std::to_string( guy.magic->available_mana() ), c_light_blue );
     }
     if( energy_source() == stamina_energy ) {
         auto pair = get_hp_bar( guy.get_stamina(), guy.get_stamina_max() );
@@ -1662,9 +1661,9 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
                         string_format( "%s: %d", _( "Difficulty" ), sp.get_difficulty() ) );
 
     print_colored_text( w_menu, point( h_col1, line ), gray, gray,
-                        string_format( "%s: %s", _( "Current Exp" ), colorize( to_string( sp.xp() ), light_green ) ) );
+                        string_format( "%s: %s", _( "Current Exp" ), colorize( std::to_string( sp.xp() ), light_green ) ) );
     print_colored_text( w_menu, point( h_col2, line++ ), gray, gray,
-                        string_format( "%s: %s", _( "to Next Level" ), colorize( to_string( sp.exp_to_next_level() ),
+                        string_format( "%s: %s", _( "to Next Level" ), colorize( std::to_string( sp.exp_to_next_level() ),
                                        light_green ) ) );
 
     if( line <= win_height / 2 ) {
@@ -1756,7 +1755,8 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     print_colored_text( w_menu, point( h_col2, line++ ), gray, gray, aoe_string );
 
     print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
-                        string_format( "%s: %s", _( "Range" ), sp.range() <= 0 ? _( "self" ) : to_string( sp.range() ) ) );
+                        string_format( "%s: %s", _( "Range" ),
+                                       sp.range() <= 0 ? _( "self" ) : std::to_string( sp.range() ) ) );
 
     // todo: damage over time here, when it gets implemeted
 
@@ -1876,11 +1876,11 @@ void spellbook_callback::add_spell( const spell_id &sp )
 static std::string color_number( const int num )
 {
     if( num > 0 ) {
-        return colorize( to_string( num ), c_light_green );
+        return colorize( std::to_string( num ), c_light_green );
     } else if( num < 0 ) {
-        return colorize( to_string( num ), c_light_red );
+        return colorize( std::to_string( num ), c_light_red );
     } else {
-        return colorize( to_string( num ), c_white );
+        return colorize( std::to_string( num ), c_white );
     }
 }
 

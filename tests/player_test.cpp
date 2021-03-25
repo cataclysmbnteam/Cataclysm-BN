@@ -78,7 +78,7 @@ static int converge_temperature( player &p, size_t iters, int start_temperature 
 static void equip_clothing( player &p, const std::vector<std::string> &clothing )
 {
     for( const std::string &c : clothing ) {
-        const item article( c, 0 );
+        const item article( c, calendar::start_of_cataclysm );
         p.wear_item( article );
     }
 }
@@ -258,7 +258,7 @@ static void print_temperatures( const std::array<units::temperature, bodytemps.s
 {
     std::string s = "{{";
     for( auto &t : temperatures ) {
-        s += to_string( units::to_celsius( t ) ) + "_c,";
+        s += std::to_string( units::to_celsius( t ) ) + "_c,";
     }
     s += "}}\n";
     cata_printf( s );

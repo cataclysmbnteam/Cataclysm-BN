@@ -16,7 +16,6 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
-#include "compatibility.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
@@ -978,7 +977,7 @@ class read_inventory_preset: public inventory_selector_preset
                 const auto &book = get_book( loc );
                 const int unlearned = book.recipes.size() - get_known_recipes( book );
 
-                return unlearned > 0 ? to_string( unlearned ) : std::string();
+                return unlearned > 0 ? std::to_string( unlearned ) : std::string();
             }, _( "RECIPES" ), unknown );
             append_cell( [ &p ]( const item_location & loc ) -> std::string {
                 return good_bad_none( p.book_fun_for( *loc, p ) );

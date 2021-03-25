@@ -11,7 +11,6 @@
 #include "calendar.h"
 #include "character.h"
 #include "color.h"
-#include "compatibility.h"
 #include "construction.h"
 #include "crafting.h"
 #include "item.h"
@@ -160,7 +159,7 @@ static std::string craft_progress_message( const avatar &u, const player_activit
         int percent = static_cast<int>( p.first * 100 );
         if( first || percent != 100 ) {
             nc_color col = percent > 100 ? c_green : c_red;
-            std::string colorized = colorize( to_string( percent ) + '%', col );
+            std::string colorized = colorize( std::to_string( percent ) + '%', col );
             mults_desc += string_format( _( "%s: %s\n" ), p.second, colorized );
         }
         first = false;

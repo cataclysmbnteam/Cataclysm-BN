@@ -6,7 +6,6 @@
 #include <map>
 #include <utility>
 
-#include "compatibility.h"
 #include "debug.h"
 #include "json.h"
 #include "mutation.h"
@@ -44,7 +43,7 @@ static Trait_group_tag get_unique_trait_group_id()
     // names should not be seen anywhere.
     static const std::string unique_prefix = "\u01F7 ";
     while( true ) {
-        const Trait_group_tag new_group( unique_prefix + to_string( next_id++ ) );
+        const Trait_group_tag new_group( unique_prefix + std::to_string( next_id++ ) );
         if( !new_group.is_valid() ) {
             return new_group;
         }

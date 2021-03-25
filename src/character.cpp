@@ -20,7 +20,6 @@
 #include "catacharset.h"
 #include "clzones.h"
 #include "colony.h"
-#include "compatibility.h"
 #include "construction.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
@@ -3302,7 +3301,7 @@ void Character::normalize()
     Creature::normalize();
 
     martial_arts_data.reset_style();
-    weapon   = item( "null", 0 );
+    weapon = item( "null", calendar::start_of_cataclysm );
 
     recalc_hp();
 }
@@ -3314,15 +3313,15 @@ void Character::die( Creature *nkiller )
     set_killer( nkiller );
     set_time_died( calendar::turn );
     if( has_effect( effect_lightsnare ) ) {
-        inv.add_item( item( "string_36", 0 ) );
-        inv.add_item( item( "snare_trigger", 0 ) );
+        inv.add_item( item( "string_36", calendar::start_of_cataclysm ) );
+        inv.add_item( item( "snare_trigger", calendar::start_of_cataclysm ) );
     }
     if( has_effect( effect_heavysnare ) ) {
-        inv.add_item( item( "rope_6", 0 ) );
-        inv.add_item( item( "snare_trigger", 0 ) );
+        inv.add_item( item( "rope_6", calendar::start_of_cataclysm ) );
+        inv.add_item( item( "snare_trigger", calendar::start_of_cataclysm ) );
     }
     if( has_effect( effect_beartrap ) ) {
-        inv.add_item( item( "beartrap", 0 ) );
+        inv.add_item( item( "beartrap", calendar::start_of_cataclysm ) );
     }
     mission::on_creature_death( *this );
 }
@@ -4413,7 +4412,7 @@ std::string Character::get_weight_string() const
 {
     double weight = convert_weight( bodyweight() );
     int display_weight = static_cast<int>( std::round( weight ) );
-    return to_string( display_weight ) + " " + weight_units();
+    return std::to_string( display_weight ) + " " + weight_units();
 }
 
 int Character::get_max_healthy() const

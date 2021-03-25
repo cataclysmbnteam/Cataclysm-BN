@@ -2111,7 +2111,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             return;
         }
         case DRINK: {
-            item water( "water_clean", 0 );
+            item water( "water_clean", calendar::start_of_cataclysm );
             if( g->u.eat( water ) ) {
                 drain( "water_clean", 1 );
                 g->u.moves -= 250;

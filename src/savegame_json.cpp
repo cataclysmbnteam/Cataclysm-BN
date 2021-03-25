@@ -42,7 +42,6 @@
 #include "clone_ptr.h"
 #include "clzones.h"
 #include "colony.h"
-#include "compatibility.h"
 #include "computer.h"
 #include "construction.h"
 #include "craft_command.h"
@@ -555,7 +554,7 @@ void Character::load( const JsonObject &data )
         stashed_outbounds_backlog.migrate_item_position( *this );
     }
 
-    weapon = item( "null", 0 );
+    weapon = item( "null", calendar::start_of_cataclysm );
     data.read( "weapon", weapon );
 
     data.read( "move_mode", move_mode );
@@ -726,9 +725,9 @@ void Character::store( JsonOut &json ) const
 
     // npc; unimplemented
     if( power_level < 1_J ) {
-        json.member( "power_level", to_string( units::to_millijoule( power_level ) ) + " mJ" );
+        json.member( "power_level", std::to_string( units::to_millijoule( power_level ) ) + " mJ" );
     } else if( power_level < 1_kJ ) {
-        json.member( "power_level", to_string( units::to_joule( power_level ) ) + " J" );
+        json.member( "power_level", std::to_string( units::to_joule( power_level ) ) + " J" );
     } else {
         json.member( "power_level", units::to_kilojoule( power_level ) );
     }
@@ -1444,8 +1443,8 @@ void npc::load( const JsonObject &data )
     tripoint comp_miss_pt;
     std::string classid;
     std::string companion_mission_role;
-    time_point companion_mission_t = 0;
-    time_point companion_mission_t_r = 0;
+    time_point companion_mission_t = calendar::start_of_cataclysm;
+    time_point companion_mission_t_r = calendar::start_of_cataclysm;
     std::string act_id;
 
     data.read( "name", name );
@@ -1632,7 +1631,7 @@ void npc::load( const JsonObject &data )
         data.read( "misc_rules", rules );
         data.read( "combat_rules", rules );
     }
-    real_weapon = item( "null", 0 );
+    real_weapon = item( "null", calendar::start_of_cataclysm );
     data.read( "real_weapon", real_weapon );
     cbm_weapon_index = -1;
     data.read( "cbm_weapon_index", cbm_weapon_index );
@@ -1641,12 +1640,7 @@ void npc::load( const JsonObject &data )
         last_updated = calendar::turn;
     }
     complaints.clear();
-    for( const JsonMember member : data.get_object( "complaints" ) ) {
-        // TODO: time_point does not have a default constructor, need to read in the map manually
-        time_point p = 0;
-        member.read( p );
-        complaints.emplace( member.name(), p );
-    }
+    data.read( "complaints", complaints );
 }
 
 /*
@@ -2251,7 +2245,7 @@ void item::io( Archive &archive )
     // (item::charges -1 or 0 or anything else) to comestible (and thereby counted by charges),
     // old saves still have invalid charges, this fixes the charges value to the default charges.
     if( count_by_charges() && charges <= 0 ) {
-        charges = item( type, 0 ).charges;
+        charges = item( type, calendar::start_of_cataclysm ).charges;
     }
     if( is_food() ) {
         active = true;
@@ -3791,7 +3785,7 @@ void submap::store( JsonOut &jsout ) const
 void submap::load( JsonIn &jsin, const std::string &member_name, int version )
 {
     if( member_name == "turn_last_touched" ) {
-        last_touched = jsin.get_int();
+        last_touched = calendar::turn_zero + time_duration::from_turns( jsin.get_int() );
     } else if( member_name == "temperature" ) {
         temperature = jsin.get_int();
     } else if( member_name == "terrain" ) {

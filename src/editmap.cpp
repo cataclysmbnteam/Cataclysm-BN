@@ -17,7 +17,6 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "colony.h"
-#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
@@ -1452,7 +1451,7 @@ void editmap::edit_itm()
                     int retval = popup
                                  .title( "set:" )
                                  .width( 20 )
-                                 .text( to_string( intval ) )
+                                 .text( std::to_string( intval ) )
                                  .query_int();
                     if( popup.confirmed() ) {
                         switch( imenu.ret ) {

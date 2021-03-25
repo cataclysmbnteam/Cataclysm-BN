@@ -24,7 +24,6 @@
 #include "character.h"
 #include "colony.h"
 #include "color.h"
-#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "construction.h"
 #include "coordinate_conversions.h"
 #include "craft_command.h"
@@ -468,7 +467,7 @@ class atm_menu
             const int amount = string_input_popup()
                                .title( formatted )
                                .width( 20 )
-                               .text( to_string( max ) )
+                               .text( std::to_string( max ) )
                                .only_digits( true )
                                .query_int();
 
@@ -2910,7 +2909,7 @@ void iexamine::fvat_empty( player &p, const tripoint &examp )
         }
     }
     if( to_deposit ) {
-        item brew( brew_type, 0 );
+        item brew( brew_type, calendar::start_of_cataclysm );
         int charges_held = p.charges_of( brew_type );
         brew.charges = charges_on_ground;
         for( int i = 0; i < charges_held && !vat_full; i++ ) {
@@ -3115,7 +3114,7 @@ void iexamine::keg( player &p, const tripoint &examp )
         //Store liquid chosen in the keg
         itype_id drink_type = drink_types[ drink_index ];
         int charges_held = p.charges_of( drink_type );
-        item drink( drink_type, 0 );
+        item drink( drink_type, calendar::start_of_cataclysm );
         drink.set_relative_rot( drink_rot[ drink_index ] );
         drink.charges = 0;
         bool keg_full = false;
@@ -3302,7 +3301,7 @@ void iexamine::tree_hickory( player &p, const tripoint &examp )
 
 static item_location maple_tree_sap_container()
 {
-    const item maple_sap = item( "maple_sap", 0 );
+    const item maple_sap = item( "maple_sap", calendar::start_of_cataclysm );
     return g->inv_map_splice( [&]( const item & it ) {
         return it.get_remaining_capacity_for_liquid( maple_sap, true ) > 0;
     }, _( "Which container?" ), PICKUP_RANGE );
@@ -3551,7 +3550,7 @@ void iexamine::recycle_compactor( player &, const tripoint &examp )
     choose_output.text = string_format( _( "Compact %1$.3f %2$s of %3$s into:" ),
                                         convert_weight( sum_weight ), weight_units(), m.name() );
     for( auto &ci : m.compacts_into() ) {
-        auto it = item( ci, 0, item::solitary_tag{} );
+        auto it = item( ci, calendar::start_of_cataclysm, item::solitary_tag{} );
         const int amount = norm_recover_weight / it.weight();
         //~ %1$d: number of, %2$s: output item
         choose_output.addentry( string_format( _( "about %1$d %2$s" ), amount,
@@ -3576,7 +3575,7 @@ void iexamine::recycle_compactor( player &, const tripoint &examp )
     bool out_desired = false;
     bool out_any = false;
     for( auto it = m.compacts_into().begin() + o_idx; it != m.compacts_into().end(); ++it ) {
-        const units::mass ow = item( *it, 0, item::solitary_tag{} ).weight();
+        const units::mass ow = item( *it, calendar::start_of_cataclysm, item::solitary_tag{} ).weight();
         int count = sum_weight / ow;
         sum_weight -= count * ow;
         if( count > 0 ) {
@@ -3667,7 +3666,7 @@ void iexamine::water_source( player &p, const tripoint &examp )
 
 void iexamine::clean_water_source( player &, const tripoint &examp )
 {
-    item water = item( "water_clean", 0, item::INFINITE_CHARGES );
+    item water = item( "water_clean", calendar::start_of_cataclysm, item::INFINITE_CHARGES );
     liquid_handler::handle_liquid( water, nullptr, 0, &examp );
 }
 
@@ -3742,7 +3741,7 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
     int amount = string_input_popup()
                  .title( popupmsg )
                  .width( 20 )
-                 .text( to_string( max_amount ) )
+                 .text( std::to_string( max_amount ) )
                  .only_digits( true )
                  .query_int();
     if( amount <= 0 || amount > max_amount ) {
@@ -4123,7 +4122,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     amenu.addentry( refund, true, 'r', str_to_illiterate_str( _( "Refund cash." ) ) );
 
     std::string gaspumpselected = str_to_illiterate_str( _( "Current gas pump: " ) ) +
-                                  to_string( uistate.ags_pay_gas_selected_pump + 1 );
+                                  std::to_string( uistate.ags_pay_gas_selected_pump + 1 );
     amenu.addentry( 0, false, -1, gaspumpselected );
     amenu.addentry( choose_pump, true, 'p', str_to_illiterate_str( _( "Choose a gas pump." ) ) );
 
@@ -4145,7 +4144,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 
         for( int i = 0; i < pumpCount; i++ ) {
             amenu.addentry( i, true, -1,
-                            str_to_illiterate_str( _( "Pump " ) ) + to_string( i + 1 ) );
+                            str_to_illiterate_str( _( "Pump " ) ) + std::to_string( i + 1 ) );
         }
         amenu.query();
         choice = amenu.ret;
@@ -4178,7 +4177,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
         int liters = string_input_popup()
                      .title( popupmsg )
                      .width( 20 )
-                     .text( to_string( maximum_liters ) )
+                     .text( std::to_string( maximum_liters ) )
                      .only_digits( true )
                      .query_int();
         if( liters <= 0 ) {
@@ -4665,9 +4664,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 if( !patient.worn_with_flag( flag_SPLINT, part ) ) {
                     item splint;
                     if( i == hp_arm_l || i == hp_arm_r ) {
-                        splint = item( "arm_splint", 0 );
+                        splint = item( "arm_splint", calendar::start_of_cataclysm );
                     } else if( i == hp_leg_l || i == hp_leg_r ) {
-                        splint = item( "leg_splint", 0 );
+                        splint = item( "leg_splint", calendar::start_of_cataclysm );
                     }
                     item &equipped_splint = patient.i_add( splint );
                     cata::optional<std::list<item>::iterator> worn_item =
@@ -5038,7 +5037,7 @@ static void smoker_load_food( player &p, const tripoint &examp,
     int amount = string_input_popup()
                  .title( popupmsg )
                  .width( 20 )
-                 .text( to_string( max_count ) )
+                 .text( std::to_string( max_count ) )
                  .only_digits( true )
                  .query_int();
 
@@ -5146,7 +5145,7 @@ static void mill_load_food( player &p, const tripoint &examp,
     int amount = string_input_popup()
                  .title( popupmsg )
                  .width( 20 )
-                 .text( to_string( max_count ) )
+                 .text( std::to_string( max_count ) )
                  .only_digits( true )
                  .query_int();
 

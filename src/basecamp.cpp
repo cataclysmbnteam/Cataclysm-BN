@@ -13,7 +13,6 @@
 #include "character_id.h"
 #include "clzones.h"
 #include "color.h"
-#include "compatibility.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "faction_camp.h"
@@ -71,7 +70,7 @@ std::string base_camps::faction_encode_short( const std::string &type )
 
 std::string base_camps::faction_encode_abs( const expansion_data &e, int number )
 {
-    return faction_encode_short( e.type ) + to_string( number );
+    return faction_encode_short( e.type ) + std::to_string( number );
 }
 
 std::string base_camps::faction_decode( const std::string &full_type )
@@ -101,7 +100,7 @@ int base_camps::max_upgrade_by_type( const std::string &type )
     if( max_upgrade_cache.find( type ) == max_upgrade_cache.end() ) {
         int max = -1;
         const std::string faction_base = faction_encode_short( type );
-        while( recipe_id( faction_base + to_string( max + 1 ) ).is_valid() ) {
+        while( recipe_id( faction_base + std::to_string( max + 1 ) ).is_valid() ) {
             max += 1;
         }
         max_upgrade_cache[type] = max;
@@ -394,7 +393,7 @@ void basecamp::add_resource( const itype_id &camp_resource )
 {
     basecamp_resource bcp_r;
     bcp_r.fake_id = camp_resource;
-    item camp_item( bcp_r.fake_id, 0 );
+    item camp_item( bcp_r.fake_id, calendar::start_of_cataclysm );
     bcp_r.ammo_id = camp_item.ammo_default();
     resources.emplace_back( bcp_r );
     fuel_types.insert( bcp_r.ammo_id );
@@ -588,7 +587,7 @@ std::list<item> basecamp::use_charges( const itype_id &fake_id, int &quantity )
     }
     for( basecamp_resource &bcp_r : resources ) {
         if( bcp_r.fake_id == fake_id ) {
-            item camp_item( bcp_r.fake_id, 0 );
+            item camp_item( bcp_r.fake_id, calendar::start_of_cataclysm );
             camp_item.charges = std::min( bcp_r.available, quantity );
             quantity -= camp_item.charges;
             bcp_r.available -= camp_item.charges;
@@ -645,7 +644,7 @@ void basecamp::form_crafting_inventory( map &target_map )
     }
     for( basecamp_resource &bcp_r : resources ) {
         bcp_r.consumed = 0;
-        item camp_item( bcp_r.fake_id, 0 );
+        item camp_item( bcp_r.fake_id, calendar::start_of_cataclysm );
         camp_item.item_tags.insert( "PSEUDO" );
         if( bcp_r.ammo_id != "NULL" ) {
             for( basecamp_fuel &bcp_f : fuels ) {

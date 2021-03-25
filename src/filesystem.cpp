@@ -474,8 +474,8 @@ bool can_write_to_dir( const std::string &dir_path )
 std::string get_pid_string()
 {
 #if defined _WIN32
-    return to_string( GetCurrentProcessId() );
+    return std::to_string( GetCurrentProcessId() );
 #else
-    return to_string( getpid() );
+    return std::to_string( getpid() );
 #endif
 }

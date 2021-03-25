@@ -4079,12 +4079,12 @@ std::vector<item *> map::spawn_items( const tripoint &p, const std::vector<item>
 
 void map::spawn_artifact( const tripoint &p )
 {
-    add_item_or_charges( p, item( new_artifact(), 0 ) );
+    add_item_or_charges( p, item( new_artifact(), calendar::start_of_cataclysm ) );
 }
 
 void map::spawn_natural_artifact( const tripoint &p, artifact_natural_property prop )
 {
-    add_item_or_charges( p, item( new_natural_artifact( prop ), 0 ) );
+    add_item_or_charges( p, item( new_natural_artifact( prop ), calendar::start_of_cataclysm ) );
 }
 
 void map::spawn_item( const tripoint &p, const std::string &type_id,
@@ -4278,17 +4278,17 @@ item &map::add_item( const tripoint &p, item new_item )
 item map::water_from( const tripoint &p )
 {
     if( has_flag( "SALT_WATER", p ) ) {
-        return item( "salt_water", 0, item::INFINITE_CHARGES );
+        return item( "salt_water", calendar::start_of_cataclysm, item::INFINITE_CHARGES );
     }
 
     const ter_id terrain_id = ter( p );
     if( terrain_id == t_sewage ) {
-        item ret( "water_sewage", 0, item::INFINITE_CHARGES );
+        item ret( "water_sewage", calendar::start_of_cataclysm, item::INFINITE_CHARGES );
         ret.poison = rng( 1, 7 );
         return ret;
     }
 
-    item ret( "water", 0, item::INFINITE_CHARGES );
+    item ret( "water", calendar::start_of_cataclysm, item::INFINITE_CHARGES );
     // iexamine::water_source requires a valid liquid from this function.
     if( terrain_id.obj().examine == &iexamine::water_source ) {
         int poison_chance = 0;
@@ -4784,7 +4784,7 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
     if( itt != nullptr && itt->item_tags.count( flag_USES_GRID_POWER ) > 0 ) {
         const tripoint abspos = m->getabs( p );
         auto &grid = get_distribution_grid_tracker().grid_at( abspos );
-        item furn_item( itt, -1, grid.get_resource() );
+        item furn_item( itt, calendar::start_of_cataclysm, grid.get_resource() );
         if( filter( furn_item ) ) {
             quantity = -grid.mod_resource( -quantity );
         }
@@ -4796,7 +4796,7 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
             return i.typeId() == ammo;
         } );
         if( iter != stack.end() ) {
-            item furn_item( itt, -1, iter->charges );
+            item furn_item( itt, calendar::start_of_cataclysm, iter->charges );
             if( !filter( furn_item ) ) {
                 return;
             }
@@ -4883,7 +4883,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
             }
 
             // TODO: add a sane birthday arg
-            item tmp( type, 0 );
+            item tmp( type, calendar::start_of_cataclysm );
             tmp.charges = kpart->vehicle().drain( ftype, quantity );
             // TODO: Handle water poison when crafting starts respecting it
             quantity -= tmp.charges;
@@ -4903,7 +4903,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
                 ftype = "battery";
             }
             // TODO: add a sane birthday arg
-            item tmp( type, 0 );
+            item tmp( type, calendar::start_of_cataclysm );
             tmp.charges = weldpart->vehicle().drain( ftype, quantity );
             quantity -= tmp.charges;
             ret.push_back( tmp );
@@ -4927,7 +4927,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
             }
 
             // TODO: add a sane birthday arg
-            item tmp( type, 0 );
+            item tmp( type, calendar::start_of_cataclysm );
             tmp.charges = craftpart->vehicle().drain( ftype, quantity );
             quantity -= tmp.charges;
             ret.push_back( tmp );
@@ -4945,7 +4945,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
             }
 
             // TODO: add a sane birthday arg
-            item tmp( type, 0 );
+            item tmp( type, calendar::start_of_cataclysm );
             tmp.charges = forgepart->vehicle().drain( ftype, quantity );
             quantity -= tmp.charges;
             ret.push_back( tmp );
@@ -4963,7 +4963,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
             }
 
             // TODO: add a sane birthday arg
-            item tmp( type, 0 );
+            item tmp( type, calendar::start_of_cataclysm );
             tmp.charges = kilnpart->vehicle().drain( ftype, quantity );
             quantity -= tmp.charges;
             ret.push_back( tmp );
@@ -4985,7 +4985,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
             }
 
             // TODO: add a sane birthday arg
-            item tmp( type, 0 );
+            item tmp( type, calendar::start_of_cataclysm );
             tmp.charges = chempart->vehicle().drain( ftype, quantity );
             quantity -= tmp.charges;
             ret.push_back( tmp );
@@ -8023,9 +8023,9 @@ void map::add_corpse( const tripoint &p )
         body.item_tags.insert( "REVIVE_SPECIAL" );
     }
 
-    put_items_from_loc( item_group_id( "default_zombie_clothes" ), p, 0 );
+    put_items_from_loc( item_group_id( "default_zombie_clothes" ), p );
     if( one_in( 3 ) ) {
-        put_items_from_loc( item_group_id( "default_zombie_items" ), p, 0 );
+        put_items_from_loc( item_group_id( "default_zombie_items" ), p );
     }
 
     add_item_or_charges( p, body );

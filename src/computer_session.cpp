@@ -720,7 +720,7 @@ void computer_session::action_download_software()
             return;
         }
         g->u.moves -= 30;
-        item software( miss->get_item_id(), 0 );
+        item software( miss->get_item_id(), calendar::start_of_cataclysm );
         software.mission_id = comp.mission_id;
         usb->contents.clear_items();
         usb->put_in( software );
@@ -759,7 +759,7 @@ void computer_session::action_blood_anal()
                     print_line( _( "Pathogen bonded to erythrocytes and leukocytes." ) );
                     if( query_bool( _( "Download data?" ) ) ) {
                         if( item *const usb = pick_usb() ) {
-                            item software( "software_blood_data", 0 );
+                            item software( "software_blood_data", calendar::start_of_cataclysm );
                             usb->contents.clear_items();
                             usb->put_in( software );
                             print_line( _( "Software downloaded." ) );
