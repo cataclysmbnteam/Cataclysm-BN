@@ -1319,12 +1319,12 @@ bool monster::is_dead_state() const
     return hp <= 0;
 }
 
-bool monster::block_hit( Creature *, body_part &, damage_instance & )
+bool monster::block_hit( Creature *, bodypart_id &, damage_instance & )
 {
     return false;
 }
 
-void monster::absorb_hit( body_part, damage_instance &dam )
+void monster::absorb_hit( const bodypart_id &, damage_instance &dam )
 {
     for( auto &elem : dam.damage_units ) {
         add_msg( m_debug, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
@@ -1502,7 +1502,7 @@ void monster::melee_attack( Creature &target, float accuracy )
     if( total_dealt > 6 && stab_cut > 0 && has_flag( MF_BLEED ) ) {
         // Maybe should only be if DT_CUT > 6... Balance question
         if( target.is_player() || target.is_npc() ) {
-            target.as_character()->make_bleed( bp_hit, 6_minutes );
+            target.as_character()->make_bleed( convert_bp( bp_hit ).id(), 6_minutes );
         } else {
             target.add_effect( effect_bleed, 6_minutes, bp_hit );
         }
@@ -2817,8 +2817,9 @@ void monster::on_hit( Creature *source, bodypart_id,
     // TODO: Faction relations
 }
 
-void monster::on_damage_of_type( int amt, damage_type dt, body_part )
+void monster::on_damage_of_type( int amt, damage_type dt, const bodypart_id &bp )
 {
+    Creature::on_damage_of_type( amt, dt, bp );
     int full_hp = get_hp_max();
     if( has_effect( effect_grabbing ) && ( dt == DT_BASH || dt == DT_CUT || dt == DT_STAB ) &&
         x_in_y( amt * 10, full_hp ) ) {

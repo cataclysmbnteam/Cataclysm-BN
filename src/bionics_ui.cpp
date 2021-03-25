@@ -271,8 +271,8 @@ static void draw_connectors( const catacurses::window &win, const int start_y, c
     const int LIST_START_Y = 7;
     // first: pos_y, second: occupied slots
     std::vector<std::pair<int, size_t>> pos_and_num;
-    for( const auto &elem : bio_id->occupied_bodyparts ) {
-        pos_and_num.emplace_back( static_cast<int>( elem.first ) + LIST_START_Y, elem.second );
+    for( const std::pair<const bodypart_str_id, size_t> &elem : bio_id->occupied_bodyparts ) {
+        pos_and_num.emplace_back( static_cast<int>( elem.first->token ) + LIST_START_Y, elem.second );
     }
     if( pos_and_num.empty() || !get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
         return;
@@ -524,10 +524,10 @@ void player::power_bionics()
 
         int max_width = 0;
         std::vector<std::string> bps;
-        for( const body_part bp : all_body_parts ) {
+        for( const bodypart_id &bp : get_all_body_parts() ) {
             const int total = get_total_bionics_slots( bp );
             const std::string s = string_format( "%s: %d/%d",
-                                                 body_part_name_as_heading( bp, 1 ),
+                                                 body_part_name_as_heading( bp->token, 1 ),
                                                  total - get_free_bionics_slots( bp ), total );
             bps.push_back( s );
             max_width = std::max( max_width, utf8_width( s ) );
@@ -569,8 +569,8 @@ void player::power_bionics()
                                      pos_x - 2, bio_id );
 
                     // redraw highlighted (occupied) body parts
-                    for( auto &elem : bio_id->occupied_bodyparts ) {
-                        const int i = static_cast<int>( elem.first );
+                    for( const std::pair<const bodypart_str_id, size_t> &elem : bio_id->occupied_bodyparts ) {
+                        const int i = static_cast<int>( elem.first->token );
                         mvwprintz( wBio, point( pos_x, i + list_start_y ), c_yellow, bps[i] );
                     }
                 }

@@ -1314,7 +1314,7 @@ double item::effective_dps( const player &guy, const monster &mon ) const
         damage_instance base_damage;
         guy.roll_all_damage( crit, base_damage, true, *this );
         damage_instance dealt_damage = base_damage;
-        temp_mon.absorb_hit( bp_torso, dealt_damage );
+        temp_mon.absorb_hit( bodypart_id( "torso" ), dealt_damage );
         dealt_damage_instance dealt_dams;
         for( const damage_unit &dmg_unit : dealt_damage.damage_units ) {
             int cur_damage = 0;
@@ -1336,7 +1336,7 @@ double item::effective_dps( const player &guy, const monster &mon ) const
             for( damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
                 dmg_unit.damage_multiplier *= 0.66;
             }
-            temp_rs_mon.absorb_hit( bp_torso, dealt_rs_damage );
+            temp_rs_mon.absorb_hit( bodypart_id( "torso" ), dealt_rs_damage );
             dealt_damage_instance rs_dealt_dams;
             for( const damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
                 int cur_damage = 0;
@@ -4014,9 +4014,9 @@ void item::on_wear( Character &p )
         if( has_flag( flag_SPLINT ) ) {
             set_side( side::LEFT );
             if( ( covers( bp_leg_l ) && p.is_limb_broken( hp_leg_r ) &&
-                  !p.worn_with_flag( flag_SPLINT, bp_leg_r ) ) ||
+                  !p.worn_with_flag( flag_SPLINT, bodypart_id( "leg_r" ) ) ) ||
                 ( covers( bp_arm_l ) && p.is_limb_broken( hp_arm_r ) &&
-                  !p.worn_with_flag( flag_SPLINT, bp_arm_r ) ) ) {
+                  !p.worn_with_flag( flag_SPLINT, bodypart_id( "arm_r" ) ) ) ) {
                 set_side( side::RIGHT );
             }
         } else {

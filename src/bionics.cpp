@@ -223,12 +223,12 @@ const bionic_data &string_id<bionic_data>::obj() const
     return null_value;
 }
 
-std::vector<body_part> get_occupied_bodyparts( const bionic_id &bid )
+std::vector<bodypart_id> get_occupied_bodyparts( const bionic_id &bid )
 {
-    std::vector<body_part> parts;
-    for( const auto &element : bid->occupied_bodyparts ) {
+    std::vector<bodypart_id> parts;
+    for( const std::pair<const bodypart_str_id, size_t> &element : bid->occupied_bodyparts ) {
         if( element.second > 0 ) {
-            parts.push_back( element.first );
+            parts.push_back( element.first.id() );
         }
     }
     return parts;
@@ -1333,8 +1333,8 @@ void Character::heat_emission( int b, int fuel_energy )
         const int heat_spread = std::max( heat_prod / 10 - heat_level, 1 );
         g->m.emit_field( pos(), hotness, heat_spread );
     }
-    for( const std::pair<const body_part, size_t> &bp : bio.info().occupied_bodyparts ) {
-        add_effect( effect_heating_bionic, 2_seconds, bp.first, false, heat_prod );
+    for( const std::pair<const bodypart_str_id, size_t> &bp : bio.info().occupied_bodyparts ) {
+        add_effect( effect_heating_bionic, 2_seconds, bp.first->token, false, heat_prod );
     }
 }
 
@@ -1345,10 +1345,10 @@ float Character::get_effective_efficiency( int b, float fuel_efficiency )
     float effective_efficiency = fuel_efficiency;
     if( coverage_penalty ) {
         int coverage = 0;
-        const std::map< body_part, size_t > &occupied_bodyparts = bio.info().occupied_bodyparts;
-        for( const std::pair< const body_part, size_t > &elem : occupied_bodyparts ) {
+        const std::map< bodypart_str_id, size_t > &occupied_bodyparts = bio.info().occupied_bodyparts;
+        for( const std::pair< const bodypart_str_id, size_t > &elem : occupied_bodyparts ) {
             for( const item &i : worn ) {
-                if( i.covers( elem.first ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
+                if( i.covers( elem.first->token ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
                     !i.has_flag( flag_SEMITANGIBLE ) &&
                     !i.has_flag( flag_PERSONAL ) && !i.has_flag( flag_AURA ) ) {
                     coverage += i.get_coverage();
@@ -1894,8 +1894,8 @@ bool Character::uninstall_bionic( const bionic_id &b_id, player &installer, bool
     } else {
         activity.str_values.push_back( "false" );
     }
-    for( const std::pair<const body_part, size_t> &elem : b_id->occupied_bodyparts ) {
-        add_effect( effect_under_op, difficulty * 20_minutes, elem.first, true, difficulty );
+    for( const std::pair<const bodypart_str_id, size_t> &elem : b_id->occupied_bodyparts ) {
+        add_effect( effect_under_op, difficulty * 20_minutes, elem.first->token, true, difficulty );
     }
 
     return true;
@@ -2054,14 +2054,14 @@ bool Character::can_install_bionics( const itype &type, player &installer, bool 
         return false;
     }
 
-    const std::map<body_part, int> &issues = bionic_installation_issues( bioid );
+    const std::map<bodypart_id, int> &issues = bionic_installation_issues( bioid );
     // show all requirements which are not satisfied
     if( !issues.empty() ) {
         std::string detailed_info;
         for( auto &elem : issues ) {
             //~ <Body part name>: <number of slots> more slot(s) needed.
             detailed_info += string_format( _( "\n%s: %i more slot(s) needed." ),
-                                            body_part_name_as_heading( elem.first, 1 ),
+                                            body_part_name_as_heading( elem.first->token, 1 ),
                                             elem.second );
         }
         popup( _( "Not enough space for bionic installation!%s" ), detailed_info );
@@ -2161,8 +2161,8 @@ bool Character::install_bionics( const itype &type, player &installer, bool auto
     } else {
         activity.str_values.push_back( "false" );
     }
-    for( const std::pair<const body_part, size_t> &elem : bioid->occupied_bodyparts ) {
-        add_effect( effect_under_op, difficulty * 20_minutes, elem.first, true, difficulty );
+    for( const std::pair<const bodypart_str_id, size_t> &elem : bioid->occupied_bodyparts ) {
+        add_effect( effect_under_op, difficulty * 20_minutes, elem.first->token, true, difficulty );
     }
 
     return true;
@@ -2325,21 +2325,21 @@ std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro
         return "";
     }
     std::string desc = intro;
-    for( const auto &elem : bio_id->occupied_bodyparts ) {
+    for( const std::pair<const bodypart_str_id, size_t> &elem : bio_id->occupied_bodyparts ) {
         desc += ( each_bp_on_new_line ? "\n" : " " );
         //~ <Bodypart name> (<number of occupied slots> slots);
         desc += string_format( _( "%s (%i slots);" ),
-                               body_part_name_as_heading( elem.first, 1 ),
+                               body_part_name_as_heading( elem.first->token, 1 ),
                                elem.second );
     }
     return desc;
 }
 
-int Character::get_used_bionics_slots( const body_part bp ) const
+int Character::get_used_bionics_slots( const bodypart_id &bp ) const
 {
     int used_slots = 0;
     for( const bionic_id &bid : get_bionics() ) {
-        auto search = bid->occupied_bodyparts.find( bp );
+        auto search = bid->occupied_bodyparts.find( bp.id() );
         if( search != bid->occupied_bodyparts.end() ) {
             used_slots += search->second;
         }
@@ -2348,13 +2348,13 @@ int Character::get_used_bionics_slots( const body_part bp ) const
     return used_slots;
 }
 
-std::map<body_part, int> Character::bionic_installation_issues( const bionic_id &bioid )
+std::map<bodypart_id, int> Character::bionic_installation_issues( const bionic_id &bioid )
 {
-    std::map<body_part, int> issues;
+    std::map<bodypart_id, int> issues;
     if( !get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
         return issues;
     }
-    for( auto &elem : bioid->occupied_bodyparts ) {
+    for( const std::pair<const bodypart_str_id, size_t> &elem : bioid->occupied_bodyparts ) {
         const int lacked_slots = elem.second - get_free_bionics_slots( elem.first );
         if( lacked_slots > 0 ) {
             issues.emplace( elem.first, lacked_slots );
@@ -2363,12 +2363,12 @@ std::map<body_part, int> Character::bionic_installation_issues( const bionic_id 
     return issues;
 }
 
-int Character::get_total_bionics_slots( const body_part bp ) const
+int Character::get_total_bionics_slots( const bodypart_id &bp ) const
 {
-    return convert_bp( bp )->bionic_slots();
+    return bp->bionic_slots();
 }
 
-int Character::get_free_bionics_slots( const body_part bp ) const
+int Character::get_free_bionics_slots( const bodypart_id &bp ) const
 {
     return get_total_bionics_slots( bp ) - get_used_bionics_slots( bp );
 }
@@ -2604,7 +2604,7 @@ void load_bionic( const JsonObject &jsobj )
     }
 
     for( JsonArray ja : jsobj.get_array( "occupied_bodyparts" ) ) {
-        new_bionic.occupied_bodyparts.emplace( get_body_part_token( ja.get_string( 0 ) ),
+        new_bionic.occupied_bodyparts.emplace( bodypart_str_id( ja.get_string( 0 ) ),
                                                ja.get_int( 1 ) );
     }
 

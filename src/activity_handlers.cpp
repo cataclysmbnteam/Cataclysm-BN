@@ -3458,7 +3458,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
 
     const int difficulty = act->values.front();
 
-    const std::vector<body_part> bps = get_occupied_bodyparts( bid );
+    const std::vector<bodypart_id> bps = get_occupied_bodyparts( bid );
 
     const time_duration half_op_duration = difficulty * 10_minutes;
     const time_duration message_freq = difficulty * 2_minutes;
@@ -3480,22 +3480,21 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                                           _( "The Autodoc's failure damages <npcname> greatly." ) );
             }
             if( !bps.empty() ) {
-                for( const body_part bp : bps ) {
-                    const bodypart_id bpid = convert_bp( bp ).id();
+                for( const bodypart_id &bp : bps ) {
                     p->make_bleed( bp, 1_turns, difficulty, true );
-                    p->apply_damage( nullptr, bpid, 20 * difficulty );
+                    p->apply_damage( nullptr, bp, 20 * difficulty );
 
                     if( u_see ) {
                         p->add_msg_player_or_npc( m_bad, _( "Your %s is ripped open." ),
-                                                  _( "<npcname>'s %s is ripped open." ), body_part_name_accusative( bp ) );
+                                                  _( "<npcname>'s %s is ripped open." ), body_part_name_accusative( bp->token ) );
                     }
 
-                    if( bp == bp_eyes ) {
+                    if( bp == bodypart_id( "eyes" ) ) {
                         p->add_effect( effect_blind, 1_hours, num_bp );
                     }
                 }
             } else {
-                p->make_bleed( num_bp, 1_turns, difficulty, true );
+                p->make_bleed( bodypart_id( "num_bp" ), 1_turns, difficulty, true );
                 p->apply_damage( nullptr, bodypart_id( "torso" ), 20 * difficulty );
             }
         }
@@ -3503,12 +3502,12 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
 
     if( time_left > half_op_duration ) {
         if( !bps.empty() ) {
-            for( const body_part bp : bps ) {
+            for( const bodypart_id &bp : bps ) {
                 if( calendar::once_every( message_freq ) && u_see && autodoc ) {
                     p->add_msg_player_or_npc( m_info,
                                               _( "The Autodoc is meticulously cutting your %s open." ),
                                               _( "The Autodoc is meticulously cutting <npcname>'s %s open." ),
-                                              body_part_name_accusative( bp ) );
+                                              body_part_name_accusative( bp->token ) );
                 }
             }
         } else {
@@ -3548,12 +3547,12 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
         }
     } else if( act->values[1] > 0 ) {
         if( !bps.empty() ) {
-            for( const body_part bp : bps ) {
+            for( const bodypart_id &bp : bps ) {
                 if( calendar::once_every( message_freq ) && u_see && autodoc ) {
                     p->add_msg_player_or_npc( m_info,
                                               _( "The Autodoc is stitching your %s back up." ),
                                               _( "The Autodoc is stitching <npcname>'s %s back up." ),
-                                              body_part_name_accusative( bp ) );
+                                              body_part_name_accusative( bp->token ) );
                 }
             }
         } else {
