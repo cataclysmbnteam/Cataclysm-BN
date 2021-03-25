@@ -29,6 +29,7 @@
 #include "game.h"
 #include "game_constants.h"
 #include "game_ui.h"
+#include "hash_utils.h"
 #include "ime.h"
 #include "input.h"
 #include "int_id.h"
@@ -123,12 +124,7 @@ struct grids_draw_data {
             std::vector<tripoint> sorted( grid.begin(), grid.end() );
             std::sort( sorted.begin(), sorted.end() );
 
-            // Vector hashing code by https://stackoverflow.com/a/27216842
-            std::size_t id = sorted.size();
-            for( const auto &p : sorted ) {
-                std::size_t i = std::hash<tripoint> {}( p );
-                id ^= i + 0x9e3779b9 + ( id << 6 ) + ( id >> 2 );
-            }
+            std::size_t id = cata::range_hash{}( sorted );
 
             auto it = list_inactive.find( id );
             if( it != list_inactive.end() ) {
