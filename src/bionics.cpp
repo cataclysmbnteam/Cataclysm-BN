@@ -2399,7 +2399,7 @@ void Character::add_bionic( const bionic_id &b )
         add_bionic( inc_bid );
     }
 
-    for( const std::pair<spell_id, int> spell_pair : b->learned_spells ) {
+    for( const std::pair<const spell_id, int> &spell_pair : b->learned_spells ) {
         const spell_id learned_spell = spell_pair.first;
         if( learned_spell->spell_class != trait_id( "NONE" ) ) {
             const trait_id spell_class = learned_spell->spell_class;
@@ -2443,7 +2443,7 @@ void Character::remove_bionic( const bionic_id &b )
             continue;
         }
 
-        for( const std::pair<spell_id, int> &spell_pair : i.id->learned_spells ) {
+        for( const std::pair<const spell_id, int> &spell_pair : i.id->learned_spells ) {
             cbm_spells.emplace( spell_pair.first );
         }
 
@@ -2451,7 +2451,7 @@ void Character::remove_bionic( const bionic_id &b )
     }
 
     // any spells you learn from installing a bionic you forget.
-    for( const std::pair<spell_id, int> &spell_pair : b->learned_spells ) {
+    for( const std::pair<const spell_id, int> &spell_pair : b->learned_spells ) {
         if( cbm_spells.count( spell_pair.first ) == 0 ) {
             magic->forget_spell( spell_pair.first );
         }
