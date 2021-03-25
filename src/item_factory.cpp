@@ -430,6 +430,32 @@ void Item_factory::finalize_pre( itype &obj )
         }
     }
 
+    // Legacy food heating stuff
+    {
+        // Needs to be split into 2 functions + flag
+        if( obj.use_methods.count( "HOTPLATE" ) != 0 ) {
+            obj.use_methods.erase( "HOTPLATE" );
+            obj.use_methods["TOGGLE_HEATS_FOOD"] =
+                use_function( "TOGGLE_HEATS_FOOD", &iuse::toggle_heats_food );
+            cauterize_actor cauterize;
+            cauterize.flame = false;
+            obj.use_methods["cauterize"] = cauterize.clone();
+            obj.item_tags.emplace( "HEATS_FOOD_USING_CHARGES" );
+        }
+
+        if( obj.use_methods.count( "HEAT_FOOD" ) != 0 ) {
+            obj.use_methods.erase( "HEAT_FOOD" );
+            obj.item_tags.emplace( "HEATS_FOOD_USING_FIRE" );
+        }
+
+        if( obj.use_methods.count( "HEATPACK" ) != 0 ) {
+            obj.use_methods.erase( "HEATPACK" );
+            obj.use_methods["TOGGLE_HEATS_FOOD"] =
+                use_function( "TOGGLE_HEATS_FOOD", &iuse::toggle_heats_food );
+            obj.item_tags.emplace( "HEATS_FOOD_IS_CONSUMED" );
+        }
+    }
+
     for( auto &e : obj.use_methods ) {
         e.second.get_actor_ptr()->finalize( obj.id );
     }
@@ -903,6 +929,7 @@ void Item_factory::init()
     add_iuse( "THORAZINE", &iuse::thorazine );
     add_iuse( "THROWABLE_EXTINGUISHER_ACT", &iuse::throwable_extinguisher_act );
     add_iuse( "TOWEL", &iuse::towel );
+    add_iuse( "TOGGLE_HEATS_FOOD", &iuse::toggle_heats_food );
     add_iuse( "TRIMMER_OFF", &iuse::trimmer_off );
     add_iuse( "TRIMMER_ON", &iuse::trimmer_on );
     add_iuse( "UNFOLD_GENERIC", &iuse::unfold_generic );
@@ -922,8 +949,11 @@ void Item_factory::init()
     add_iuse( "WEATHER_TOOL", &iuse::weather_tool );
     add_iuse( "WEED_CAKE", &iuse::weed_cake );
     add_iuse( "XANAX", &iuse::xanax );
-    // Legacy
-    add_iuse( "HOTPLATE", &iuse::cauterize_hotplate );
+
+    // Obsolete - just dummies, won't be called
+    add_iuse( "HOTPLATE", &iuse::toggle_heats_food );
+    add_iuse( "HEAT_FOOD", &iuse::toggle_heats_food );
+    add_iuse( "HEATPACK", &iuse::toggle_heats_food );
 
     add_actor( std::make_unique<ammobelt_actor>() );
     add_actor( std::make_unique<bandolier_actor>() );

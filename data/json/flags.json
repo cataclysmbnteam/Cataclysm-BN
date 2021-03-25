@@ -240,6 +240,30 @@
     "info": "This clothing has a <info>hood</info> to keep your head warm if your head is unencumbered."
   },
   {
+    "id": "HEATS_FOOD",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "info": "This item will be used to <good>heat food</good> before eating food that is best eaten hot."
+  },
+  {
+    "id": "HEATS_FOOD_IS_CONSUMED",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "info": "This item can be used to <good>heat food</good>, but will <bad>be destroyed afterwards</bad>."
+  },
+  {
+    "id": "HEATS_FOOD_USING_CHARGES",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "info": "This item can be used to <good>heat food</good> using <info>charges</info>."
+  },
+  {
+    "id": "HEATS_FOOD_USING_FIRE",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "info": "This item will be used to <good>heat food</good> over <info>fire</info>."
+  },
+  {
     "id": "HYGROMETER",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],

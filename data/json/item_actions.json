@@ -81,6 +81,11 @@
   },
   {
     "type": "item_action",
+    "id": "HOTPLATE",
+    "name": { "str": "Heat up food (with it)" }
+  },
+  {
+    "type": "item_action",
     "id": "TOOLMOD_ATTACH",
     "name": { "str": "Attach as toolmod" }
   },
@@ -566,6 +571,16 @@
   },
   {
     "type": "item_action",
+    "id": "HEATPACK",
+    "name": { "str": "Use" }
+  },
+  {
+    "type": "item_action",
+    "id": "HEAT_FOOD",
+    "name": { "str": "Heat up food (in it)" }
+  },
+  {
+    "type": "item_action",
     "id": "HONEYCOMB",
     "name": { "str": "Consume" }
   },
@@ -883,6 +898,11 @@
     "type": "item_action",
     "id": "THROWABLE_EXTINGUISHER_ACT",
     "name": { "str": "Extinguish a fire" }
+  },
+  {
+    "type": "item_action",
+    "id": "TOGGLE_HEATS_FOOD",
+    "name": { "str": "Enable/disable food heating" }
   },
   {
     "type": "item_action",

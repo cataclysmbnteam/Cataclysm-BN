@@ -219,6 +219,7 @@ static cata::optional<prepared_item_consumption> find_food_heater( Character &c,
     }
     std::vector<const item *> charged_heaters = inv.items_with( [&c]( const item & it ) {
         return it.has_flag( "HEATS_FOOD_USING_CHARGES" ) &&
+               it.has_flag( "HEATS_FOOD" ) &&
                c.has_enough_charges( it, false );
     } );
     if( !charged_heaters.empty() ) {
@@ -226,6 +227,7 @@ static cata::optional<prepared_item_consumption> find_food_heater( Character &c,
     }
     std::vector<const item *> consumed_heaters = inv.items_with( []( const item & it ) {
         return it.has_flag( "HEATS_FOOD_IS_CONSUMED" ) &&
+               it.has_flag( "HEATS_FOOD" ) &&
                is_crafting_component( it );
     } );
     if( !consumed_heaters.empty() ) {
@@ -1068,8 +1070,8 @@ void Character::modify_morale( item &food, int nutr )
 {
     time_duration morale_time = 2_hours;
     if( food.has_flag( flag_EATEN_HOT ) ) {
-        auto heater = find_food_heater( *this, crafting_inventory(), get_heat_radiation( pos(),
-                                        true ) > 0 );
+        auto heater = find_food_heater( *this, crafting_inventory(),
+                                        get_map().has_nearby_fire( pos(), PICKUP_RANGE ) );
         if( heater && heater->consume( *this ) ) {
             add_msg_player_or_npc( m_good,
                                    _( "You heat up your %1$s using the %2$s." ),

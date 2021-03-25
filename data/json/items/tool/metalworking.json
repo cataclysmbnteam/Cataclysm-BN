@@ -265,6 +265,7 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": "HEAT_FOOD",
     "flags": [ "BELT_CLIP", "ALLOWS_REMOTE_USE" ]
   }
 ]
