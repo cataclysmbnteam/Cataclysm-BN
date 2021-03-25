@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_DISTRIBUTION_GRID_H
 #define CATA_SRC_DISTRIBUTION_GRID_H
 
+#include <cstdint>
 #include <vector>
 #include <map>
 #include "active_tile_data.h"
@@ -88,6 +89,12 @@ class distribution_grid_tracker
         distribution_grid &grid_at( const tripoint &p );
         const distribution_grid &grid_at( const tripoint &p ) const;
         /*@}*/
+
+        /**
+         * Identify grid at given overmap tile (for debug purposes).
+         * @returns 0 if there's no grid.
+         */
+        std::uintptr_t debug_grid_id( const tripoint &omp ) const;
 
         void update( time_point to );
         /**

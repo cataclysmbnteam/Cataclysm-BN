@@ -24,6 +24,7 @@
 #include "color.h"
 #include "coordinate_conversions.h"
 #include "cursesdef.h"
+#include "distribution_grid.h"
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
@@ -86,6 +87,94 @@ static const int npm_height = 3;
 
 namespace overmap_ui
 {
+// persistent data for distribution grid debug drawing
+struct grids_draw_data {
+    public:
+        cata::optional<char> get_active( const tripoint &omp ) {
+            uintptr_t id = get_distribution_grid_tracker().debug_grid_id( omp );
+            if( id == 0 ) {
+                return cata::nullopt;
+            }
+
+            auto it = list_active.find( id );
+            if( it != list_active.end() ) {
+                return it->second;
+            }
+
+            auto ch = pick_char( [this]( char c ) -> bool {
+                for( const auto &it : list_active ) {
+                    if( it.second == c ) {
+                        return false;
+                    }
+                }
+                return true;
+            } );
+
+            char c = ch.has_value() ? *ch : '?';
+            list_active.insert( std::make_pair( id, c ) );
+            return c;
+        }
+
+        cata::optional<char> get_inactive( const tripoint &omp ) {
+            std::set<tripoint> grid = overmap_buffer.electric_grid_at( omp );
+            if( grid.size() <= 1 ) {
+                return cata::nullopt;
+            }
+            std::vector<tripoint> sorted( grid.begin(), grid.end() );
+            std::sort( sorted.begin(), sorted.end() );
+
+            // Vector hashing code by https://stackoverflow.com/a/27216842
+            std::size_t id = sorted.size();
+            for( const auto &p : sorted ) {
+                std::size_t i = std::hash<tripoint> {}( p );
+                id ^= i + 0x9e3779b9 + ( id << 6 ) + ( id >> 2 );
+            }
+
+            auto it = list_inactive.find( id );
+            if( it != list_inactive.end() ) {
+                return it->second.second;
+            }
+
+            // There may be a lot of grids visible at the same time.
+            // We have no choice but to allow repeating symbols,
+            // but also have to make sure neighbouring grids don't receive same ones.
+            auto ch = pick_char( [omp, this]( char c ) {
+                for( const auto &it : list_inactive ) {
+                    if( it.second.second != c ) {
+                        continue;
+                    }
+                    for( const tripoint &p : it.second.first ) {
+                        tripoint delta = p - omp;
+                        if( abs( delta.x ) < 5 && abs( delta.y ) < 5 && abs( delta.z ) < 5 ) {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            } );
+
+            char c = ch.has_value() ? *ch : '?';
+            list_inactive.insert( std::make_pair( id, std::make_pair( sorted, c ) ) );
+            return c;
+        }
+
+    private:
+        // Fn(char) -> bool
+        template<typename Fn>
+        cata::optional<char> pick_char( Fn filter_func ) {
+            static std::string candidates( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" );
+            for( char c : candidates ) {
+                if( filter_func( c ) ) {
+                    return c;
+                }
+            }
+            return cata::nullopt;
+        }
+
+        std::unordered_map<std::uintptr_t, char> list_active;
+        std::unordered_map<std::size_t, std::pair<std::vector<tripoint>, char>> list_inactive;
+};
+
 // {note symbol, note color, offset to text}
 static std::tuple<char, nc_color, size_t> get_note_display_info( const std::string &note )
 {
@@ -476,7 +565,7 @@ static point draw_notes( const tripoint &origin )
 
 void draw( const catacurses::window &w, const catacurses::window &wbar, const tripoint &center,
            const tripoint &orig, bool blink, bool show_explored, bool fast_scroll, input_context *inp_ctxt,
-           const draw_data_t &data )
+           const draw_data_t &data, grids_draw_data &grids_data )
 {
     const int om_map_width  = OVERMAP_WINDOW_WIDTH;
     const int om_map_height = OVERMAP_WINDOW_HEIGHT;
@@ -772,6 +861,21 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
                         } else {
                             ter_color = c_blue;
                         }
+                    }
+                }
+            }
+
+            // Are we debugging distribution grids?
+            if( blink && data.debug_grids ) {
+                cata::optional<char> ch = grids_data.get_active( omp );
+                if( ch.has_value() ) {
+                    ter_sym = *ch;
+                    ter_color = c_light_blue_yellow;
+                } else {
+                    ch = grids_data.get_inactive( omp );
+                    if( ch.has_value() ) {
+                        ter_sym = *ch;
+                        ter_color = c_light_blue;
                     }
                 }
             }
@@ -1491,10 +1595,11 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
     int fast_scroll_offset = get_option<int>( "FAST_SCROLL_OFFSET" );
     cata::optional<tripoint> mouse_pos;
     std::chrono::time_point<std::chrono::steady_clock> last_blink = std::chrono::steady_clock::now();
+    grids_draw_data grids_data;
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         draw( g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays,
-              show_explored, fast_scroll, &ictxt, data );
+              show_explored, fast_scroll, &ictxt, data, grids_data );
     } );
 
     do {
@@ -1686,6 +1791,13 @@ void ui::omap::display_scents()
 {
     overmap_ui::draw_data_t data;
     data.debug_scent = true;
+    overmap_ui::display( g->u.global_omt_location(), data );
+}
+
+void ui::omap::display_distribution_grids()
+{
+    overmap_ui::draw_data_t data;
+    data.debug_grids = true;
     overmap_ui::display( g->u.global_omt_location(), data );
 }
 
