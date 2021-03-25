@@ -24,7 +24,6 @@
     "difficulty": 1,
     "time": "25 m",
     "autolearn": true,
-    "reversible": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "glass_shard", 4 ] ], [ [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
   },
@@ -249,7 +248,6 @@
     "difficulty": 1,
     "time": "15 m",
     "autolearn": true,
-    "reversible": true,
     "components": [ [ [ "soap", 5 ] ], [ [ "water_clean", 3 ] ], [ [ "wool_staple", 1 ] ] ]
   },
   {
@@ -277,7 +275,6 @@
     "difficulty": 2,
     "time": "1 h",
     "autolearn": true,
-    "reversible": true,
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_EASY" ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
@@ -462,8 +459,8 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "20 m",
-    "reversible": true,
     "autolearn": true,
+    "reversible": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "book_learn": [ [ "textbook_fabrication", 0 ], [ "manual_fabrication", 0 ], [ "mag_electronics", 0 ] ],
     "components": [
@@ -520,8 +517,8 @@
     "skills_required": [ "survival", 3 ],
     "difficulty": 2,
     "time": "20 m",
-    "reversible": true,
     "autolearn": true,
+    "reversible": true,
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -588,7 +585,6 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "reversible": true,
     "time": "20 m",
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "textbook_mechanics", 3 ], [ "welding_book", 5 ] ],
     "using": [ [ "welding_standard", 4 ] ],
@@ -602,7 +598,6 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "reversible": true,
     "time": "20 m",
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "textbook_mechanics", 3 ], [ "welding_book", 5 ] ],
     "using": [ [ "welding_standard", 2 ] ],
@@ -616,7 +611,6 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "reversible": true,
     "time": "24 m",
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "textbook_mechanics", 3 ], [ "welding_book", 5 ] ],
     "using": [ [ "welding_standard", 2 ] ],
@@ -675,7 +669,6 @@
     "skill_used": "survival",
     "time": "5 m",
     "autolearn": true,
-    "reversible": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "rock", 1 ] ], [ [ "filament", 100, "LIST" ], [ "cordage_short", 2, "LIST" ] ] ]
   },
@@ -687,7 +680,6 @@
     "skill_used": "survival",
     "time": "5 m",
     "autolearn": true,
-    "reversible": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
@@ -704,7 +696,6 @@
     "difficulty": 1,
     "time": "20 m",
     "autolearn": true,
-    "reversible": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ], [ "skewer_bone", 1 ] ] ]
   },
@@ -717,7 +708,6 @@
     "difficulty": 1,
     "time": "20 m",
     "autolearn": true,
-    "reversible": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "splinter", 1 ] ] ]
   },
@@ -743,7 +733,6 @@
     "skill_used": "survival",
     "time": "1 h",
     "autolearn": true,
-    "reversible": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ], [ "bone", 1 ], [ "bone_human", 1 ] ],
@@ -760,7 +749,6 @@
     "difficulty": 1,
     "time": "20 m",
     "autolearn": true,
-    "reversible": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
   },
@@ -774,7 +762,6 @@
     "difficulty": 2,
     "time": "1 h",
     "autolearn": true,
-    "reversible": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
@@ -790,7 +777,6 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "1 h",
-    "reversible": true,
     "autolearn": true,
     "book_learn": [ [ "mag_survival", 1 ], [ "atomic_survival", 1 ], [ "textbook_carpentry", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
@@ -811,7 +797,6 @@
     "difficulty": 3,
     "time": "1 h",
     "autolearn": true,
-    "reversible": true,
     "book_learn": [ [ "mag_survival", 1 ], [ "atomic_survival", 1 ], [ "textbook_carpentry", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [
@@ -830,7 +815,6 @@
     "difficulty": 2,
     "time": "1 h",
     "autolearn": true,
-    "reversible": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
@@ -888,7 +872,6 @@
     "difficulty": 1,
     "time": "3 m",
     "autolearn": true,
-    "reversible": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "skewer_bone", 2 ], [ "splinter", 2 ] ] ]
   },
@@ -928,7 +911,6 @@
     "difficulty": 2,
     "time": "30 m",
     "autolearn": true,
-    "reversible": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "fur", 6 ], [ "tanned_pelt", 1 ] ], [ [ "filament", 10, "LIST" ] ] ]
   },
@@ -969,7 +951,6 @@
     "difficulty": 1,
     "time": "5 m",
     "autolearn": true,
-    "reversible": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "jug_plastic", 1 ], [ "bottle_plastic", 3 ], [ "bottle_plastic_small", 6 ], [ "aluminum_foil", 6 ] ] ]
   },
@@ -1196,7 +1177,6 @@
     "skill_used": "survival",
     "time": "3 m",
     "autolearn": true,
-    "reversible": true,
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "rag_bloody", 1 ] ] ]
   },
@@ -1441,7 +1421,6 @@
     "skill_used": "fabrication",
     "time": "2 m",
     "autolearn": true,
-    "reversible": true,
     "using": [ [ "steel_tiny", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "duct_tape", 30 ], [ "2x4", 1 ], [ "stick", 1 ] ] ]
@@ -1456,7 +1435,6 @@
     "difficulty": 6,
     "time": "3 h",
     "autolearn": true,
-    "reversible": true,
     "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "SAW_M", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
@@ -1482,7 +1460,6 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "reversible": true,
     "time": "18 m",
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "textbook_chemistry", 3 ], [ "adv_chemistry", 3 ], [ "textbook_mechanics", 5 ] ],
     "using": [ [ "filament", 50 ] ],
@@ -1524,7 +1501,6 @@
     "difficulty": 1,
     "time": "30 s",
     "autolearn": true,
-    "reversible": true,
     "using": [ [ "cordage", 1 ] ],
     "components": [ [ [ "superglue", 1 ] ] ]
   },
@@ -1643,7 +1619,6 @@
     "skills_required": [ "mechanics", 3 ],
     "difficulty": 5,
     "time": "10 m",
-    "reversible": true,
     "book_learn": [ [ "manual_traps_mil", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -1693,7 +1668,6 @@
     "difficulty": 1,
     "time": "2 m",
     "autolearn": true,
-    "reversible": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "tools": [ [ [ "spike", -1 ], [ "sharp_rock", -1 ], [ "rebar", -1 ], [ "spear_rebar", -1 ] ] ],
     "components": [ [ [ "55gal_drum", 1 ] ] ]
@@ -1707,7 +1681,6 @@
     "difficulty": 1,
     "time": "2 m",
     "autolearn": true,
-    "reversible": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "tools": [ [ [ "spike", -1 ], [ "sharp_rock", -1 ], [ "rebar", -1 ], [ "spear_rebar", -1 ] ] ],
     "components": [ [ [ "30gal_drum", 1 ] ] ]
@@ -1764,7 +1737,6 @@
     "difficulty": 1,
     "time": "2 m",
     "autolearn": true,
-    "reversible": true,
     "components": [
       [ [ "rag", 10 ], [ "medical_gauze", 4 ] ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ], [ "medical_tape", 50 ] ],
@@ -1781,7 +1753,6 @@
     "difficulty": 1,
     "time": "1 m",
     "autolearn": true,
-    "reversible": true,
     "components": [
       [ [ "rag", 5 ], [ "medical_gauze", 2 ] ],
       [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ], [ "medical_tape", 25 ] ],
@@ -1798,7 +1769,6 @@
     "difficulty": 1,
     "time": "1 m",
     "autolearn": true,
-    "reversible": true,
     "components": [
       [ [ "rag", 10 ], [ "medical_gauze", 4 ] ],
       [ [ "cordage", 1, "LIST" ], [ "duct_tape", 100 ], [ "medical_tape", 50 ] ],
@@ -1815,7 +1785,6 @@
     "difficulty": 1,
     "time": "2 m",
     "autolearn": true,
-    "reversible": true,
     "components": [
       [ [ "rag", 10 ], [ "medical_gauze", 4 ] ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ], [ "medical_tape", 50 ] ],
@@ -1844,7 +1813,6 @@
     "difficulty": 1,
     "time": "30 m",
     "autolearn": true,
-    "reversible": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "duct_tape", 10 ] ], [ [ "bottle_plastic", 8 ], [ "bottle_plastic_small", 16 ] ] ]
   },
@@ -1857,7 +1825,6 @@
     "difficulty": 1,
     "time": "30 m",
     "autolearn": true,
-    "reversible": true,
     "using": [ [ "cordage", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "duct_tape", 50 ] ], [ [ "jug_plastic", 4 ] ] ]
@@ -1979,7 +1946,6 @@
     "skill_used": "fabrication",
     "skills_required": [ "cooking", 2 ],
     "time": "2 m",
-    "reversible": true,
     "decomp_learn": 0,
     "flags": [ "BLIND_EASY" ],
     "book_learn": [ [ "adv_chemistry", 1 ], [ "textbook_chemistry", 1 ] ],
@@ -2095,7 +2061,6 @@
     "skill_used": "electronics",
     "difficulty": 2,
     "time": "30 m",
-    "reversible": true,
     "decomp_learn": 2,
     "autolearn": [ [ "mechanics", 3 ], [ "electronics", 2 ] ],
     "book_learn": [ [ "manual_mechanics", 3 ], [ "textbook_mechanics", 2 ], [ "welding_book", 1 ] ],
@@ -2115,7 +2080,6 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "reversible": true,
     "time": "20 m",
     "book_learn": [ [ "fun_survival", 1 ], [ "manual_fabrication", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
@@ -2169,7 +2133,6 @@
     "difficulty": 2,
     "time": "45 m",
     "autolearn": true,
-    "reversible": true,
     "using": [ [ "earthenware_firing", 90 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 5 ] ] ]
   },
@@ -2224,7 +2187,6 @@
     "difficulty": 5,
     "time": "2 h",
     "autolearn": true,
-    "reversible": true,
     "using": [ [ "forging_standard", 12 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 2 } ],
     "tools": [ [ [ "tongs", -1 ] ] ],
@@ -2283,7 +2245,6 @@
     "difficulty": 2,
     "time": "1 h 30 m",
     "autolearn": true,
-    "reversible": true,
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "copper_scrap_equivalent", 20, "LIST" ] ], [ [ "tin", 30 ] ] ]
@@ -2298,7 +2259,6 @@
     "difficulty": 4,
     "time": "1 h 30 m",
     "autolearn": true,
-    "reversible": true,
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "electrolysis_kit", 10 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
@@ -2661,7 +2621,6 @@
     "skill_used": "fabrication",
     "time": "10 m",
     "autolearn": true,
-    "reversible": true,
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [ [ [ "bottle_glass", 1 ], [ "flask_glass", 1 ] ] ]
   },
@@ -2673,7 +2632,6 @@
     "skill_used": "cooking",
     "skills_required": [ "firstaid", 1 ],
     "difficulty": 4,
-    "reversible": true,
     "time": "1 m 12 s",
     "book_learn": [ [ "textbook_firstaid", 3 ], [ "adv_chemistry", 4 ], [ "emergency_book", 4 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
@@ -2688,7 +2646,6 @@
     "skill_used": "cooking",
     "skills_required": [ "firstaid", 1 ],
     "difficulty": 6,
-    "reversible": true,
     "time": "1 m 12 s",
     "book_learn": [ [ "textbook_firstaid", 8 ], [ "textbook_chemistry", 7 ], [ "adv_chemistry", 6 ], [ "emergency_book", 8 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
@@ -3000,7 +2957,6 @@
     "difficulty": 8,
     "time": "30 m",
     "autolearn": true,
-    "reversible": true,
     "using": [ [ "soldering_standard", 40 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "duct_tape", 200 ], [ "superglue", 4 ] ], [ [ "jerrycan", 12 ] ] ]
@@ -3026,7 +2982,6 @@
     "skill_used": "fabrication",
     "skills_required": [ "cooking", 4 ],
     "difficulty": 4,
-    "reversible": true,
     "time": "30 m",
     "book_learn": [ [ "glassblowing_book", 5 ] ],
     "result_mult": 4,
@@ -3225,7 +3180,6 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
     "difficulty": 6,
-    "reversible": true,
     "time": "2 h",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "book_learn": [ [ "recipe_caseless", 5 ] ],
@@ -3241,7 +3195,6 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
     "time": "1 m",
-    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "nail", 1 ] ] ]
@@ -3256,7 +3209,6 @@
     "difficulty": 1,
     "time": "2 m",
     "autolearn": true,
-    "reversible": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [
@@ -3278,7 +3230,6 @@
     "skill_used": "fabrication",
     "time": "1 m",
     "autolearn": true,
-    "reversible": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ] ] ]
   },
@@ -3289,7 +3240,6 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "survival",
     "difficulty": 2,
-    "reversible": true,
     "time": "10 m",
     "book_learn": [ [ "mag_survival", 2 ], [ "textbook_survival", 2 ], [ "survival_book", 1 ], [ "pocket_survival", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
@@ -3334,7 +3284,6 @@
     "difficulty": 3,
     "time": "1 h",
     "autolearn": false,
-    "reversible": true,
     "batch_time_factors": [ 75, 4 ],
     "book_learn": [ [ "concrete_book", 3 ], [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
@@ -3350,7 +3299,6 @@
     "difficulty": 4,
     "time": "1 h 30 m",
     "autolearn": false,
-    "reversible": true,
     "book_learn": [ [ "concrete_book", 4 ] ],
     "batch_time_factors": [ 75, 3 ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
@@ -3394,7 +3342,6 @@
     "difficulty": 5,
     "time": "2 h",
     "autolearn": true,
-    "reversible": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "sheet_metal", -1 ] ] ],
     "components": [ [ [ "splinter", 10 ], [ "stick", 4 ], [ "2x4", 4 ], [ "withered", 20 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ]
@@ -3471,7 +3418,6 @@
     "difficulty": 5,
     "time": "50 m",
     "autolearn": true,
-    "reversible": true,
     "batch_time_factors": [ 80, 4 ],
     "result_mult": 15,
     "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "CUT", "level": 1 } ],
@@ -3515,7 +3461,6 @@
     "time": "10 m",
     "batch_time_factors": [ 10, 1 ],
     "autolearn": true,
-    "reversible": true,
     "tools": [ [ [ "surface_heat", 4, "LIST" ] ], [ [ "mold_plastic", -1 ] ] ],
     "components": [
       [
@@ -3635,7 +3580,6 @@
     "difficulty": 4,
     "time": "20 m",
     "autolearn": true,
-    "reversible": true,
     "using": [ [ "soldering_standard", 25 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "cable", 100 ] ], [ [ "scrap", 4 ] ], [ [ "duct_tape", 50 ] ] ]
@@ -3650,7 +3594,6 @@
     "difficulty": 5,
     "time": "2 h",
     "autolearn": true,
-    "reversible": true,
     "using": [ [ "soldering_standard", 60 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "cable", 650 ] ], [ [ "scrap", 10 ] ], [ [ "duct_tape", 30 ] ], [ [ "hose", 2 ], [ "makeshift_hose", 2 ] ] ]
@@ -3733,7 +3676,6 @@
     "difficulty": 2,
     "time": "30 m",
     "autolearn": true,
-    "reversible": true,
     "using": [ [ "sewing_standard", 60 ] ],
     "components": [ [ [ "leather", 4 ], [ "tanned_hide", 1 ], [ "fur", 4 ], [ "tanned_pelt", 1 ] ] ]
   },
@@ -3747,7 +3689,6 @@
     "difficulty": 2,
     "time": "1 h",
     "autolearn": true,
-    "reversible": true,
     "components": [ [ [ "birchbark", 12 ] ], [ [ "adhesive", 1, "LIST" ] ] ]
   },
   {
@@ -3774,7 +3715,6 @@
     "difficulty": 1,
     "time": "5 m",
     "autolearn": true,
-    "reversible": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "salt_water", 1 ], [ "saline", 2 ], [ "salt", 2 ] ],
@@ -3791,7 +3731,6 @@
     "difficulty": 1,
     "time": "5 m",
     "autolearn": true,
-    "reversible": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "cured_pelt", 1 ] ] ]
   },
@@ -3806,7 +3745,6 @@
     "time": "48 m",
     "batch_time_factors": [ 20, 10 ],
     "autolearn": true,
-    "reversible": true,
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "COOK", "level": 2 },
@@ -3832,7 +3770,6 @@
     "difficulty": 1,
     "time": "5 m",
     "autolearn": true,
-    "reversible": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "salt_water", 1 ], [ "saline", 2 ], [ "salt", 2 ] ],
@@ -3850,7 +3787,6 @@
     "time": "48 m",
     "batch_time_factors": [ 20, 10 ],
     "autolearn": true,
-    "reversible": true,
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "COOK", "level": 2 },
@@ -3875,7 +3811,6 @@
     "skill_used": "cooking",
     "skills_required": [ "survival", 3 ],
     "difficulty": 4,
-    "reversible": true,
     "time": "20 m",
     "batch_time_factors": [ 50, 5 ],
     "book_learn": [ [ "textbook_survival", 6 ], [ "textbook_chemistry", 5 ], [ "modern_tanner", 4 ] ],
@@ -3897,7 +3832,6 @@
     "skill_used": "cooking",
     "skills_required": [ "survival", 3 ],
     "difficulty": 4,
-    "reversible": true,
     "time": "20 m",
     "batch_time_factors": [ 50, 5 ],
     "book_learn": [ [ "textbook_survival", 6 ], [ "textbook_chemistry", 5 ], [ "modern_tanner", 4 ] ],
@@ -3934,7 +3868,6 @@
     "difficulty": 1,
     "time": "8 m",
     "autolearn": true,
-    "reversible": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ], [ [ "2x4", 1 ], [ "stick", 1 ], [ "broom", 1 ] ] ]
   },
@@ -3947,7 +3880,6 @@
     "difficulty": 1,
     "time": "8 m",
     "autolearn": true,
-    "reversible": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 1 ] ], [ [ "2x4", 1 ], [ "stick", 1 ], [ "broom", 1 ] ] ]
   },
@@ -3961,7 +3893,6 @@
     "difficulty": 2,
     "time": "45 m",
     "autolearn": true,
-    "reversible": true,
     "using": [ [ "earthenware_firing", 90 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 5 ] ] ]
   },
@@ -3975,7 +3906,6 @@
     "difficulty": 2,
     "time": "35 m",
     "autolearn": true,
-    "reversible": true,
     "using": [ [ "earthenware_firing", 75 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 4 ] ] ]
   },
@@ -3989,7 +3919,6 @@
     "difficulty": 2,
     "time": "50 m",
     "autolearn": true,
-    "reversible": true,
     "using": [ [ "earthenware_firing", 100 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 8 ] ] ]
   },
@@ -4003,7 +3932,6 @@
     "difficulty": 2,
     "time": "20 m",
     "autolearn": true,
-    "reversible": true,
     "using": [ [ "earthenware_firing", 40 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 3 ] ] ]
   },
@@ -4016,7 +3944,6 @@
     "difficulty": 2,
     "time": "40 m",
     "autolearn": true,
-    "reversible": true,
     "batch_time_factors": [ 75, 4 ],
     "using": [ [ "earthenware_firing", 60 ] ],
     "components": [ [ [ "clay_lump", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
@@ -4030,7 +3957,6 @@
     "difficulty": 2,
     "time": "40 m",
     "autolearn": true,
-    "reversible": true,
     "batch_time_factors": [ 70, 4 ],
     "using": [ [ "earthenware_firing", 60 ] ],
     "components": [
@@ -4050,7 +3976,6 @@
     "difficulty": 2,
     "time": "10 m",
     "autolearn": true,
-    "reversible": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "frame_wood", -1 ], [ "frame_wood_light", -1 ] ] ],
     "batch_time_factors": [ 75, 4 ],
@@ -4133,7 +4058,6 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "10 m",
-    "reversible": true,
     "autolearn": true,
     "components": [ [ [ "oil_lamp", 1 ] ], [ [ "pilot_light", 1 ] ], [ [ "scrap", 3 ] ], [ [ "duct_tape", 50 ] ] ]
   },
@@ -4145,7 +4069,6 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "10 m",
-    "reversible": true,
     "autolearn": true,
     "components": [ [ [ "gasoline_lantern", 1 ] ], [ [ "pilot_light", 1 ] ], [ [ "scrap", 3 ] ], [ [ "duct_tape", 50 ] ] ]
   },
@@ -4318,7 +4241,6 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "cooking",
     "difficulty": 5,
-    "reversible": true,
     "time": "25 m",
     "book_learn": [ [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ] ],
     "result_mult": 9,
@@ -4342,7 +4264,6 @@
     "difficulty": 6,
     "time": "4 h",
     "autolearn": true,
-    "reversible": true,
     "using": [ [ "forging_standard", 4 ] ],
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 3 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
@@ -4358,7 +4279,6 @@
     "difficulty": 1,
     "time": "1 m",
     "autolearn": true,
-    "reversible": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "2x4", 1 ] ] ]
   },
@@ -4368,7 +4288,6 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "survival",
-    "reversible": true,
     "time": "1 s",
     "autolearn": true,
     "components": [ [ [ "washboard", 1 ] ], [ [ "sponge", 1 ], [ "rag", 1 ], [ "brush", 1 ] ] ]
@@ -4381,7 +4300,6 @@
     "skill_used": "survival",
     "time": "15 m",
     "autolearn": true,
-    "reversible": true,
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "splinter", 5 ], [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
@@ -4576,7 +4494,6 @@
     "book_learn": [ [ "textbook_fabrication", 4 ] ],
     "time": "2 h",
     "autolearn": true,
-    "reversible": true,
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "electrolysis_kit", 10 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
@@ -4662,7 +4579,6 @@
     "time": "10 m",
     "batch_time_factors": [ 90, 4 ],
     "autolearn": true,
-    "reversible": true,
     "using": [ [ "forging_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "tin", 12 ] ], [ [ "copper_scrap_equivalent", 2, "LIST" ] ] ]
@@ -4699,7 +4615,6 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "reversible": true,
     "book_learn": [
       [ "mag_fabrication", 1 ],
       [ "manual_fabrication", 1 ],

@@ -83,7 +83,6 @@
     "difficulty": 2,
     "time": "480 m",
     "autolearn": true,
-    "reversible": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "using": [ [ "welding_standard", 8 ] ],
     "components": [ [ [ "duct_tape", 50 ] ], [ [ "grip_hook", 1 ] ], [ [ "chain", 8 ] ], [ [ "cable", 10 ] ] ]
