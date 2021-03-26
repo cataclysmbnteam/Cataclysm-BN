@@ -16,6 +16,7 @@
 #include "color.h"
 #include "damage.h"
 #include "debug.h"
+#include "fstream_utils.h"
 #include "item_factory.h"
 #include "iuse.h"
 #include "json.h"

@@ -9,6 +9,7 @@
 #include "catacharset.h"
 #include "color.h"
 #include "cursesdef.h"
+#include "fstream_utils.h"
 #include "input.h"
 #include "optional.h"
 #include "output.h"

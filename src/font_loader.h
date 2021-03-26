@@ -3,13 +3,13 @@
 #define CATA_SRC_FONT_LOADER_H
 
 #include <algorithm>
-#include <fstream>
 #include <stdexcept>
 #include <string>
 #include <vector>
 
 #include "debug.h"
 #include "filesystem.h"
+#include "fstream_utils.h"
 #include "json.h"
 #include "path_info.h"
 #include "cata_utility.h"
@@ -42,7 +42,7 @@ class font_loader
     private:
         void load_throws( const std::string &path ) {
             try {
-                cata_ifstream stream = std::move( cata_ifstream().binary( true ).open( path ) );
+                cata_ifstream stream = std::move( cata_ifstream().mode( cata_ios_mode::binary ).open( path ) );
                 JsonIn json( *stream );
                 JsonObject config = json.get_object();
                 if( config.has_string( "typeface" ) ) {

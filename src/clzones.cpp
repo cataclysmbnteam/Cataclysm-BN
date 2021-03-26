@@ -13,6 +13,7 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "faction.h"
+#include "fstream_utils.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "iexamine.h"

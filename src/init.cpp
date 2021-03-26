@@ -37,6 +37,7 @@
 #include "fault.h"
 #include "field_type.h"
 #include "filesystem.h"
+#include "fstream_utils.h"
 #include "flag.h"
 #include "gates.h"
 #include "harvest.h"
@@ -428,7 +429,7 @@ void DynamicDataLoader::load_data_from_path( const std::string &path, const std:
     for( auto &files_i : files ) {
         const std::string &file = files_i;
         // open the file as a stream
-        cata_ifstream infile = std::move( cata_ifstream().binary( true ).open( file ) );
+        cata_ifstream infile = std::move( cata_ifstream().mode( cata_ios_mode::binary ).open( file ) );
         // and stuff it into ram
         std::istringstream iss(
             std::string(

@@ -25,6 +25,7 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "filesystem.h"
+#include "fstream_utils.h"
 #include "game.h"
 #include "game_constants.h"
 #include "ime.h"

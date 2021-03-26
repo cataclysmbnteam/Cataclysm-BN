@@ -14,6 +14,7 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "fstream_utils.h"
 #include "input.h"
 #include "json.h"
 #include "optional.h"

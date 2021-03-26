@@ -67,6 +67,7 @@
 #include "field.h"
 #include "field_type.h"
 #include "filesystem.h"
+#include "fstream_utils.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "game_ui.h"

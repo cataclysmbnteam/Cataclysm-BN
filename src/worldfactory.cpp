@@ -19,6 +19,7 @@
 #include "debug.h"
 #include "enums.h"
 #include "filesystem.h"
+#include "fstream_utils.h"
 #include "game.h"
 #include "ime.h"
 #include "input.h"
@@ -569,7 +570,8 @@ void worldfactory::remove_world( const std::string &worldname )
 
 void worldfactory::load_last_world_info()
 {
-    cata_ifstream file = std::move( cata_ifstream().binary( true ).open( PATH_INFO::lastworld() ) );
+    cata_ifstream file = std::move( cata_ifstream().mode( cata_ios_mode::binary ).open(
+                                        PATH_INFO::lastworld() ) );
     if( !file.is_open() ) {
         return;
     }

@@ -14,6 +14,7 @@
 #include "cursesport.h"
 #include "debug.h"
 #include "filesystem.h"
+#include "fstream_utils.h"
 #include "game.h"
 #include "game_constants.h"
 #include "input.h"
