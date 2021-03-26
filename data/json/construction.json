@@ -4117,7 +4117,7 @@
   {
     "type": "construction",
 	  "id": "constr_gridwelder",
-	  "description": "Place arc welder",
+	  "description": "Place Arc Welder",
 	  "category": "OTHER",
 	  "required_skills": [ [ "fabrication", 0 ] ],
 	  "time": "1 m",
