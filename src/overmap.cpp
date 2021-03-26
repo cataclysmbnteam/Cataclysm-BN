@@ -231,6 +231,12 @@ int city::get_distance_from( const tripoint &p ) const
 std::map<enum radio_type, std::string> radio_type_names =
 {{ {radio_type::MESSAGE_BROADCAST, "broadcast"}, {radio_type::WEATHER_RADIO, "weather"} }};
 
+radio_tower::radio_tower( const point &p, int S, const std::string &M, radio_type T ) :
+    pos( p ), strength( S ), type( T ), message( M )
+{
+    frequency = rng( 0, INT_MAX );
+}
+
 /** @relates string_id */
 template<>
 bool string_id<oter_type_t>::is_valid() const

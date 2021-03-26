@@ -27,7 +27,6 @@
 #include "overmap_types.h" // IWYU pragma: keep
 #include "point.h"
 #include "regional_settings.h"
-#include "rng.h"
 #include "string_id.h"
 #include "type_id.h"
 
@@ -121,10 +120,7 @@ struct radio_tower {
     std::string message;
     int frequency;
     radio_tower( const point &p, int S = -1, const std::string &M = "",
-                 radio_type T = radio_type::MESSAGE_BROADCAST ) :
-        pos( p ), strength( S ), type( T ), message( M ) {
-        frequency = rng( 0, INT_MAX );
-    }
+                 radio_type T = radio_type::MESSAGE_BROADCAST );
 };
 
 struct map_layer {
