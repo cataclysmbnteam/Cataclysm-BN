@@ -14,7 +14,6 @@
 #include <vector>
 
 #include "calendar.h"
-#include "cata_utility.h"
 #include "craft_command.h"
 #include "enums.h"
 #include "flat_set.h"

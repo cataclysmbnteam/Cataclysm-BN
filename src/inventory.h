@@ -15,7 +15,6 @@
 #include <utility>
 #include <vector>
 
-#include "cata_utility.h"
 #include "item.h"
 #include "item_stack.h"
 #include "units.h"

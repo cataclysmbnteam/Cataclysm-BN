@@ -19,9 +19,9 @@
 
 #include "bodypart.h"
 #include "calendar.h"
-#include "cata_utility.h"
 #include "colony.h"
 #include "enums.h"
+#include "filter_utils.h"
 #include "game_constants.h"
 #include "item.h"
 #include "item_stack.h"

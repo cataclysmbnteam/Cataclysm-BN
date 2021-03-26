@@ -22,7 +22,6 @@
 #include "action.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "cata_utility.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "color.h"
