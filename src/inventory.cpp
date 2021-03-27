@@ -13,6 +13,7 @@
 #include "distribution_grid.h"
 #include "game.h"
 #include "iexamine.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -438,6 +439,7 @@ void inventory::form_from_map( map &m, const tripoint &origin, int range, const 
 void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Character *pl,
                                bool assign_invlet )
 {
+    const time_point bday = calendar::start_of_cataclysm;
     items.clear();
     for( const tripoint &p : pts ) {
         if( m.has_furn( p ) ) {
@@ -471,7 +473,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         }
         // Kludges for now!
         if( m.has_nearby_fire( p, 0 ) ) {
-            item fire( "fire", 0 );
+            item fire( "fire", bday );
             fire.charges = 1;
             add_item( fire );
         }
@@ -535,7 +537,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
 
         if( faupart ) {
             for( const auto &it : veh->fuels_left() ) {
-                item fuel( it.first, 0 );
+                item fuel( it.first, bday );
                 if( fuel.made_of( LIQUID ) ) {
                     fuel.charges = it.second;
                     add_item( fuel );
@@ -544,69 +546,69 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         }
 
         if( kpart ) {
-            item hotplate( "hotplate", 0 );
+            item hotplate( "hotplate", bday );
             hotplate.charges = veh->fuel_left( "battery", true );
             hotplate.item_tags.insert( "PSEUDO" );
             add_item( hotplate );
 
-            item pot( "pot", 0 );
+            item pot( "pot", bday );
             pot.item_tags.insert( "PSEUDO" );
             add_item( pot );
-            item pan( "pan", 0 );
+            item pan( "pan", bday );
             pan.item_tags.insert( "PSEUDO" );
             add_item( pan );
         }
         if( weldpart ) {
-            item welder( "welder", 0 );
+            item welder( "welder", bday );
             welder.charges = veh->fuel_left( "battery", true );
             welder.item_tags.insert( "PSEUDO" );
             add_item( welder );
 
-            item soldering_iron( "soldering_iron", 0 );
+            item soldering_iron( "soldering_iron", bday );
             soldering_iron.charges = veh->fuel_left( "battery", true );
             soldering_iron.item_tags.insert( "PSEUDO" );
             add_item( soldering_iron );
         }
         if( craftpart ) {
-            item vac_sealer( "vac_sealer", 0 );
+            item vac_sealer( "vac_sealer", bday );
             vac_sealer.charges = veh->fuel_left( "battery", true );
             vac_sealer.item_tags.insert( "PSEUDO" );
             add_item( vac_sealer );
 
-            item dehydrator( "dehydrator", 0 );
+            item dehydrator( "dehydrator", bday );
             dehydrator.charges = veh->fuel_left( "battery", true );
             dehydrator.item_tags.insert( "PSEUDO" );
             add_item( dehydrator );
 
-            item food_processor( "food_processor", 0 );
+            item food_processor( "food_processor", bday );
             food_processor.charges = veh->fuel_left( "battery", true );
             food_processor.item_tags.insert( "PSEUDO" );
             add_item( food_processor );
 
-            item press( "press", 0 );
+            item press( "press", bday );
             press.charges = veh->fuel_left( "battery", true );
             press.item_tags.insert( "PSEUDO" );
             add_item( press );
         }
         if( forgepart ) {
-            item forge( "forge", 0 );
+            item forge( "forge", bday );
             forge.charges = veh->fuel_left( "battery", true );
             forge.item_tags.insert( "PSEUDO" );
             add_item( forge );
         }
         if( kilnpart ) {
-            item kiln( "kiln", 0 );
+            item kiln( "kiln", bday );
             kiln.charges = veh->fuel_left( "battery", true );
             kiln.item_tags.insert( "PSEUDO" );
             add_item( kiln );
         }
         if( chempart ) {
-            item chemistry_set( "chemistry_set", 0 );
+            item chemistry_set( "chemistry_set", bday );
             chemistry_set.charges = veh->fuel_left( "battery", true );
             chemistry_set.item_tags.insert( "PSEUDO" );
             add_item( chemistry_set );
 
-            item electrolysis_kit( "electrolysis_kit", 0 );
+            item electrolysis_kit( "electrolysis_kit", bday );
             electrolysis_kit.charges = veh->fuel_left( "battery", true );
             electrolysis_kit.item_tags.insert( "PSEUDO" );
             add_item( electrolysis_kit );

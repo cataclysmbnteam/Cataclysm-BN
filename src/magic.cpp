@@ -15,7 +15,6 @@
 #include "catacharset.h"
 #include "character.h"
 #include "color.h"
-#include "compatibility.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "damage.h"
@@ -598,6 +597,22 @@ void spell::gain_level()
     gain_exp( exp_to_next_level() );
 }
 
+void spell::gain_levels( int gains )
+{
+    if( gains < 1 ) {
+        return;
+    }
+    for( int gained = 0; gained < gains && !is_max_level(); gained++ ) {
+        gain_level();
+    }
+}
+
+void spell::set_level( int nlevel )
+{
+    experience = 0;
+    gain_levels( nlevel );
+}
+
 bool spell::is_max_level() const
 {
     return get_level() >= type->max_level;
@@ -655,7 +670,7 @@ bool spell::can_cast( const Character &guy ) const
 {
     switch( type->energy_source ) {
         case mana_energy:
-            return guy.magic.available_mana() >= energy_cost( guy );
+            return guy.magic->available_mana() >= energy_cost( guy );
         case stamina_energy:
             return guy.get_stamina() >= energy_cost( guy );
         case hp_energy: {
@@ -824,7 +839,7 @@ std::string spell::energy_cost_string( const Character &guy ) const
         return _( "none" );
     }
     if( energy_source() == bionic_energy || energy_source() == mana_energy ) {
-        return colorize( to_string( energy_cost( guy ) ), c_light_blue );
+        return colorize( std::to_string( energy_cost( guy ) ), c_light_blue );
     }
     if( energy_source() == hp_energy ) {
         auto pair = get_hp_bar( energy_cost( guy ), guy.get_hp_max() / num_hp_parts );
@@ -835,7 +850,7 @@ std::string spell::energy_cost_string( const Character &guy ) const
         return colorize( pair.first, pair.second );
     }
     if( energy_source() == fatigue_energy ) {
-        return colorize( to_string( energy_cost( guy ) ), c_cyan );
+        return colorize( std::to_string( energy_cost( guy ) ), c_cyan );
     }
     debugmsg( "ERROR: Spell %s has invalid energy source.", id().c_str() );
     return _( "error: energy_type" );
@@ -847,10 +862,10 @@ std::string spell::energy_cur_string( const Character &guy ) const
         return _( "infinite" );
     }
     if( energy_source() == bionic_energy ) {
-        return colorize( to_string( units::to_kilojoule( guy.get_power_level() ) ), c_light_blue );
+        return colorize( std::to_string( units::to_kilojoule( guy.get_power_level() ) ), c_light_blue );
     }
     if( energy_source() == mana_energy ) {
-        return colorize( to_string( guy.magic.available_mana() ), c_light_blue );
+        return colorize( std::to_string( guy.magic->available_mana() ), c_light_blue );
     }
     if( energy_source() == stamina_energy ) {
         auto pair = get_hp_bar( guy.get_stamina(), guy.get_stamina_max() );
@@ -1302,7 +1317,7 @@ void known_magic::learn_spell( const spell_type *sp, Character &guy, bool force 
         debugmsg( "Tried to learn invalid spell" );
         return;
     }
-    if( guy.magic.knows_spell( sp->id ) ) {
+    if( guy.magic->knows_spell( sp->id ) ) {
         // you already know the spell
         return;
     }
@@ -1408,20 +1423,33 @@ void known_magic::mod_mana( const Character &guy, int add_mana )
 
 int known_magic::max_mana( const Character &guy ) const
 {
-    const float int_bonus = ( ( 0.2f + guy.get_int() * 0.1f ) - 1.0f ) * mana_base;
-    const float unaugmented_mana = std::max( 0.0f,
-                                   ( ( mana_base + int_bonus ) * guy.mutation_value( "mana_multiplier" ) ) +
-                                   guy.mutation_value( "mana_modifier" ) - units::to_kilojoule( guy.get_power_level() ) );
-    return guy.calculate_by_enchantment( unaugmented_mana, enchantment::mod::MAX_MANA, true );
+    float int_bonus = ( ( 0.2f + guy.get_int() * 0.1f ) - 1.0f ) * mana_base;
+    float mut_mul = guy.mutation_value( "mana_multiplier" );
+    float mut_add = guy.mutation_value( "mana_modifier" );
+    int natural_cap = std::max( 0.0f, ( ( mana_base + int_bonus ) * mut_mul ) + mut_add );
+
+    int bp_penalty = units::to_kilojoule( guy.get_power_level() );
+    int ench_bonus = guy.bonus_from_enchantments( natural_cap, enchant_vals::mod::MANA_CAP, true );
+
+    return std::max( 0, natural_cap - bp_penalty + ench_bonus );
 }
 
-void known_magic::update_mana( const Character &guy, float turns )
+double known_magic::mana_regen_rate( const Character &guy ) const
 {
     // mana should replenish in 8 hours.
-    const float full_replenish = to_turns<float>( 8_hours );
-    const float ratio = turns / full_replenish;
-    mod_mana( guy, std::floor( ratio * guy.calculate_by_enchantment( max_mana( guy ) *
-                               guy.mutation_value( "mana_regen_multiplier" ), enchantment::mod::REGEN_MANA ) ) );
+    double full_replenish = to_turns<double>( 8_hours );
+    double capacity = max_mana( guy );
+    double mut_mul = guy.mutation_value( "mana_regen_multiplier" );
+    double natural_regen = std::max( 0.0, capacity * mut_mul / full_replenish );
+
+    double ench_bonus = guy.bonus_from_enchantments( natural_regen, enchant_vals::mod::MANA_REGEN );
+
+    return std::max( 0.0, natural_regen + ench_bonus );
+}
+
+void known_magic::update_mana( const Character &guy, double turns )
+{
+    mod_mana( guy, mana_regen_rate( guy ) * turns );
 }
 
 std::vector<spell_id> known_magic::spells() const
@@ -1504,7 +1532,7 @@ class spellcasting_callback : public uilist_callback
                 int invlet = 0;
                 invlet = popup_getkey( _( "Choose a new hotkey for this spell." ) );
                 if( inv_chars.valid( invlet ) ) {
-                    const bool invlet_set = g->u.magic.set_invlet( known_spells[entnum]->id(), invlet,
+                    const bool invlet_set = g->u.magic->set_invlet( known_spells[entnum]->id(), invlet,
                                             reserved_invlets );
                     if( !invlet_set ) {
                         popup( _( "Hotkey already used." ) );
@@ -1514,7 +1542,7 @@ class spellcasting_callback : public uilist_callback
                     }
                 } else {
                     popup( _( "Hotkey removed." ) );
-                    g->u.magic.rem_invlet( known_spells[entnum]->id() );
+                    g->u.magic->rem_invlet( known_spells[entnum]->id() );
                 }
                 return true;
             }
@@ -1633,9 +1661,9 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
                         string_format( "%s: %d", _( "Difficulty" ), sp.get_difficulty() ) );
 
     print_colored_text( w_menu, point( h_col1, line ), gray, gray,
-                        string_format( "%s: %s", _( "Current Exp" ), colorize( to_string( sp.xp() ), light_green ) ) );
+                        string_format( "%s: %s", _( "Current Exp" ), colorize( std::to_string( sp.xp() ), light_green ) ) );
     print_colored_text( w_menu, point( h_col2, line++ ), gray, gray,
-                        string_format( "%s: %s", _( "to Next Level" ), colorize( to_string( sp.exp_to_next_level() ),
+                        string_format( "%s: %s", _( "to Next Level" ), colorize( std::to_string( sp.exp_to_next_level() ),
                                        light_green ) ) );
 
     if( line <= win_height / 2 ) {
@@ -1727,7 +1755,8 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     print_colored_text( w_menu, point( h_col2, line++ ), gray, gray, aoe_string );
 
     print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
-                        string_format( "%s: %s", _( "Range" ), sp.range() <= 0 ? _( "self" ) : to_string( sp.range() ) ) );
+                        string_format( "%s: %s", _( "Range" ),
+                                       sp.range() <= 0 ? _( "self" ) : std::to_string( sp.range() ) ) );
 
     // todo: damage over time here, when it gets implemeted
 
@@ -1847,11 +1876,11 @@ void spellbook_callback::add_spell( const spell_id &sp )
 static std::string color_number( const int num )
 {
     if( num > 0 ) {
-        return colorize( to_string( num ), c_light_green );
+        return colorize( std::to_string( num ), c_light_green );
     } else if( num < 0 ) {
-        return colorize( to_string( num ), c_light_red );
+        return colorize( std::to_string( num ), c_light_red );
     } else {
-        return colorize( to_string( num ), c_white );
+        return colorize( std::to_string( num ), c_white );
     }
 }
 
@@ -2050,6 +2079,17 @@ spell fake_spell::get_spell( int min_level_override ) const
     return sp;
 }
 
+bool fake_spell::operator==( const fake_spell &rhs ) const
+{
+    return id == rhs.id &&
+           max_level == rhs.max_level &&
+           level == rhs.level &&
+           self == rhs.self &&
+           trigger_once_in == rhs.trigger_once_in &&
+           trigger_message == rhs.trigger_message &&
+           npc_trigger_message == rhs.npc_trigger_message;
+}
+
 void spell_events::notify( const cata::event &e )
 {
     switch( e.type() ) {
@@ -2062,7 +2102,7 @@ void spell_events::notify( const cata::event &e )
                 std::string learn_spell_id = it->first;
                 int learn_at_level = it->second;
                 if( learn_at_level == slvl ) {
-                    g->u.magic.learn_spell( learn_spell_id, g->u );
+                    g->u.magic->learn_spell( learn_spell_id, g->u );
                     spell_type spell_learned = spell_factory.obj( spell_id( learn_spell_id ) );
                     add_msg(
                         _( "Your experience and knowledge in creating and manipulating magical energies to cast %s have opened your eyes to new possibilities, you can now cast %s." ),

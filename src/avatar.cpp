@@ -22,7 +22,6 @@
 #include "character_martial_arts.h"
 #include "clzones.h"
 #include "color.h"
-#include "compatibility.h"
 #include "debug.h"
 #include "effect.h"
 #include "enums.h"
@@ -457,7 +456,7 @@ bool avatar::read( item_location loc, const bool continuous )
             const double penalty = static_cast<double>( time_taken ) / time_to_read( it, *reader, elem );
             learners.insert( {elem, elem == reader ? _( " (reading aloud to you)" ) : ""} );
             act.values.push_back( elem->getID().get_value() );
-            act.str_values.push_back( to_string( penalty ) );
+            act.str_values.push_back( std::to_string( penalty ) );
         } else {
             fun_learners.insert( {elem, elem == reader ? _( " (reading aloud to you)" ) : "" } );
             act.values.push_back( elem->getID().get_value() );
@@ -705,7 +704,7 @@ static void skim_book_msg( const item &book, avatar &u )
         add_msg( m_info, _( "A training session with this book takes %s" ),
                  to_string( time_duration::from_minutes( reading->time ) ) );
     } else {
-        add_msg( m_info, ngettext( "A chapter of this book takes %d minute to read.",
+        add_msg( m_info, vgettext( "A chapter of this book takes %d minute to read.",
                                    "A chapter of this book takes %d minutes to read.", reading->time ),
                  reading->time );
     }
@@ -720,7 +719,7 @@ static void skim_book_msg( const item &book, avatar &u )
     }
     if( !recipe_list.empty() ) {
         std::string recipe_line =
-            string_format( ngettext( "This book contains %1$zu crafting recipe: %2$s",
+            string_format( vgettext( "This book contains %1$zu crafting recipe: %2$s",
                                      "This book contains %1$zu crafting recipes: %2$s",
                                      recipe_list.size() ),
                            recipe_list.size(),
@@ -1142,14 +1141,14 @@ void avatar::reset_stats()
     if( has_trait( trait_CHITIN2 ) || has_trait( trait_CHITIN3 ) || has_trait( trait_CHITIN_FUR3 ) ) {
         add_miss_reason( _( "Your chitin gets in the way." ), 1 );
     }
-    if( has_trait( trait_COMPOUND_EYES ) && !wearing_something_on( bp_eyes ) ) {
+    if( has_trait( trait_COMPOUND_EYES ) && !wearing_something_on( bodypart_id( "eyes" ) ) ) {
         mod_per_bonus( 2 );
     }
     if( has_trait( trait_INSECT_ARMS ) ) {
         add_miss_reason( _( "Your insect limbs get in the way." ), 2 );
     }
     if( has_trait( trait_INSECT_ARMS_OK ) ) {
-        if( !wearing_something_on( bp_torso ) ) {
+        if( !wearing_something_on( bodypart_id( "torso" ) ) ) {
             mod_dex_bonus( 1 );
         } else {
             mod_dex_bonus( -1 );
@@ -1163,7 +1162,7 @@ void avatar::reset_stats()
         add_miss_reason( _( "Your arachnid limbs get in the way." ), 4 );
     }
     if( has_trait( trait_ARACHNID_ARMS_OK ) ) {
-        if( !wearing_something_on( bp_torso ) ) {
+        if( !wearing_something_on( bodypart_id( "torso" ) ) ) {
             mod_dex_bonus( 2 );
         } else if( !exclusive_flag_coverage( "OVERSIZE" ).test( bp_torso ) ) {
             mod_dex_bonus( -2 );
@@ -1243,10 +1242,10 @@ void avatar::reset_stats()
     mod_dodge_bonus( mabuff_dodge_bonus() -
                      ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 20.0f - encumb( bp_torso ) / 10.0f );
     // Whiskers don't work so well if they're covered
-    if( has_trait( trait_WHISKERS ) && !wearing_something_on( bp_mouth ) ) {
+    if( has_trait( trait_WHISKERS ) && !wearing_something_on( bodypart_id( "mouth" ) ) ) {
         mod_dodge_bonus( 1.5 );
     }
-    if( has_trait( trait_WHISKERS_RAT ) && !wearing_something_on( bp_mouth ) ) {
+    if( has_trait( trait_WHISKERS_RAT ) && !wearing_something_on( bodypart_id( "mouth" ) ) ) {
         mod_dodge_bonus( 3 );
     }
     // depending on mounts size, attacks will hit the mount and use their dodge rating.
@@ -1256,14 +1255,14 @@ void avatar::reset_stats()
     }
     // Spider hair is basically a full-body set of whiskers, once you get the brain for it
     if( has_trait( trait_CHITIN_FUR3 ) ) {
-        static const std::array<body_part, 5> parts{ { bp_head, bp_arm_r, bp_arm_l, bp_leg_r, bp_leg_l } };
-        for( auto bp : parts ) {
+        static const std::array<bodypart_id, 5> parts{ { bodypart_id( "head" ), bodypart_id( "arm_r" ), bodypart_id( "arm_l" ), bodypart_id( "leg_r" ), bodypart_id( "leg_l" ) } };
+        for( const bodypart_id &bp : parts ) {
             if( !wearing_something_on( bp ) ) {
                 mod_dodge_bonus( +1 );
             }
         }
         // Torso handled separately, bigger bonus
-        if( !wearing_something_on( bp_torso ) ) {
+        if( !wearing_something_on( bodypart_id( "torso" ) ) ) {
             mod_dodge_bonus( 4 );
         }
     }

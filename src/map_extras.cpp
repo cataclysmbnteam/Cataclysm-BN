@@ -1483,9 +1483,9 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
 
         //Place beds in a tent
         m.furn_set( { 21, 5, abs_sub.z }, f_makeshift_bed );
-        m.put_items_from_loc( item_group_id( "army_bed" ), { 21, 5, abs_sub.z }, 0 );
+        m.put_items_from_loc( item_group_id( "army_bed" ), { 21, 5, abs_sub.z } );
         m.furn_set( { 22, 6, abs_sub.z }, f_makeshift_bed );
-        m.put_items_from_loc( item_group_id( "army_bed" ), { 22, 6, abs_sub.z }, 0 );
+        m.put_items_from_loc( item_group_id( "army_bed" ), { 22, 6, abs_sub.z } );
 
         //Spawn 6-20 mines in the leftmost submap.
         //Spawn ordinary mine on asphalt, otherwise spawn buried mine

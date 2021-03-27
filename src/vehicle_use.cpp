@@ -1956,8 +1956,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     const int harness_part = avail_part_with_feature( interact_part, "ANIMAL_CTRL", true );
     const bool has_harness = harness_part >= 0;
     const bool has_bike_rack = bike_rack_part >= 0;
-    const bool has_planter = avail_part_with_feature( interact_part, "PLANTER", true ) >= 0 ||
-                             avail_part_with_feature( interact_part, "ADVANCED_PLANTER", true ) >= 0;
+    const bool has_planter = avail_part_with_feature( interact_part, "PLANTER", true ) >= 0;
 
     enum {
         EXAMINE, TRACK, HANDBRAKE, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET,
@@ -2112,7 +2111,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             return;
         }
         case DRINK: {
-            item water( "water_clean", 0 );
+            item water( "water_clean", calendar::start_of_cataclysm );
             if( g->u.eat( water ) ) {
                 drain( "water_clean", 1 );
                 g->u.moves -= 250;

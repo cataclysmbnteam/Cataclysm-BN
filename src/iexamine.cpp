@@ -24,7 +24,6 @@
 #include "character.h"
 #include "colony.h"
 #include "color.h"
-#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "construction.h"
 #include "coordinate_conversions.h"
 #include "craft_command.h"
@@ -468,7 +467,7 @@ class atm_menu
             const int amount = string_input_popup()
                                .title( formatted )
                                .width( 20 )
-                               .text( to_string( max ) )
+                               .text( std::to_string( max ) )
                                .only_digits( true )
                                .query_int();
 
@@ -503,7 +502,7 @@ class atm_menu
                 return false;
             }
 
-            const int amount = prompt_for_amount( ngettext(
+            const int amount = prompt_for_amount( vgettext(
                     "Deposit how much?  Max: %d cent.  (0 to cancel) ",
                     "Deposit how much?  Max: %d cents.  (0 to cancel) ", money ), money );
 
@@ -538,7 +537,7 @@ class atm_menu
                 return false;
             }
 
-            const int amount = prompt_for_amount( ngettext(
+            const int amount = prompt_for_amount( vgettext(
                     "Withdraw how much?  Max: %d cent.  (0 to cancel) ",
                     "Withdraw how much?  Max: %d cents.  (0 to cancel) ", u.cash ), u.cash );
 
@@ -1076,10 +1075,12 @@ void iexamine::chainfence( player &p, const tripoint &examp )
     } else if( g->m.has_flag( flag_CLIMB_SIMPLE, examp ) ) {
         add_msg( _( "You vault over the obstacle." ) );
         p.moves -= 300; // Most common move cost for barricades pre-change.
-    } else if( p.has_trait( trait_ARACHNID_ARMS_OK ) && !p.wearing_something_on( bp_torso ) ) {
+    } else if( p.has_trait( trait_ARACHNID_ARMS_OK ) &&
+               !p.wearing_something_on( bodypart_id( "torso" ) ) ) {
         add_msg( _( "Climbing this obstacle is trivial for one such as you." ) );
         p.moves -= 75; // Yes, faster than walking.  6-8 limbs are impressive.
-    } else if( p.has_trait( trait_INSECT_ARMS_OK ) && !p.wearing_something_on( bp_torso ) ) {
+    } else if( p.has_trait( trait_INSECT_ARMS_OK ) &&
+               !p.wearing_something_on( bodypart_id( "torso" ) ) ) {
         add_msg( _( "You quickly scale the fence." ) );
         p.moves -= 90;
     } else if( p.has_trait( trait_PARKOUR ) ) {
@@ -1643,7 +1644,7 @@ static bool can_drink_nectar( const player &p )
 {
     return ( p.has_active_mutation( trait_PROBOSCIS )  ||
              p.has_active_mutation( trait_BEAK_HUM ) ) &&
-           ( ( p.get_hunger() ) > 0 ) && ( !( p.wearing_something_on( bp_mouth ) ) );
+           ( ( p.get_hunger() ) > 0 ) && ( !( p.wearing_something_on( bodypart_id( "mouth" ) ) ) );
 }
 
 /**
@@ -2447,7 +2448,7 @@ void iexamine::kiln_full( player &, const tripoint &examp )
         int hours = to_hours<int>( time_left );
         int minutes = to_minutes<int>( time_left ) + 1;
         if( minutes > 60 ) {
-            add_msg( ngettext( "It will finish burning in about %d hour.",
+            add_msg( vgettext( "It will finish burning in about %d hour.",
                                "It will finish burning in about %d hours.",
                                hours ), hours );
         } else if( minutes > 30 ) {
@@ -2574,7 +2575,7 @@ void iexamine::arcfurnace_full( player &, const tripoint &examp )
         int hours = to_hours<int>( time_left );
         int minutes = to_minutes<int>( time_left ) + 1;
         if( minutes > 60 ) {
-            add_msg( ngettext( "It will finish burning in about %d hour.",
+            add_msg( vgettext( "It will finish burning in about %d hour.",
                                "It will finish burning in about %d hours.",
                                hours ), hours );
         } else if( minutes > 30 ) {
@@ -2910,7 +2911,7 @@ void iexamine::fvat_empty( player &p, const tripoint &examp )
         }
     }
     if( to_deposit ) {
-        item brew( brew_type, 0 );
+        item brew( brew_type, calendar::start_of_cataclysm );
         int charges_held = p.charges_of( brew_type );
         brew.charges = charges_on_ground;
         for( int i = 0; i < charges_held && !vat_full; i++ ) {
@@ -2978,7 +2979,7 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
             if( hours < 1 ) {
                 add_msg( _( "It will finish brewing in less than an hour." ) );
             } else {
-                add_msg( ngettext( "It will finish brewing in about %d hour.",
+                add_msg( vgettext( "It will finish brewing in about %d hour.",
                                    "It will finish brewing in about %d hours.",
                                    hours ), hours );
             }
@@ -3115,7 +3116,7 @@ void iexamine::keg( player &p, const tripoint &examp )
         //Store liquid chosen in the keg
         itype_id drink_type = drink_types[ drink_index ];
         int charges_held = p.charges_of( drink_type );
-        item drink( drink_type, 0 );
+        item drink( drink_type, calendar::start_of_cataclysm );
         drink.set_relative_rot( drink_rot[ drink_index ] );
         drink.charges = 0;
         bool keg_full = false;
@@ -3302,7 +3303,7 @@ void iexamine::tree_hickory( player &p, const tripoint &examp )
 
 static item_location maple_tree_sap_container()
 {
-    const item maple_sap = item( "maple_sap", 0 );
+    const item maple_sap = item( "maple_sap", calendar::start_of_cataclysm );
     return g->inv_map_splice( [&]( const item & it ) {
         return it.get_remaining_capacity_for_liquid( maple_sap, true ) > 0;
     }, _( "Which container?" ), PICKUP_RANGE );
@@ -3551,7 +3552,7 @@ void iexamine::recycle_compactor( player &, const tripoint &examp )
     choose_output.text = string_format( _( "Compact %1$.3f %2$s of %3$s into:" ),
                                         convert_weight( sum_weight ), weight_units(), m.name() );
     for( auto &ci : m.compacts_into() ) {
-        auto it = item( ci, 0, item::solitary_tag{} );
+        auto it = item( ci, calendar::start_of_cataclysm, item::solitary_tag{} );
         const int amount = norm_recover_weight / it.weight();
         //~ %1$d: number of, %2$s: output item
         choose_output.addentry( string_format( _( "about %1$d %2$s" ), amount,
@@ -3576,7 +3577,7 @@ void iexamine::recycle_compactor( player &, const tripoint &examp )
     bool out_desired = false;
     bool out_any = false;
     for( auto it = m.compacts_into().begin() + o_idx; it != m.compacts_into().end(); ++it ) {
-        const units::mass ow = item( *it, 0, item::solitary_tag{} ).weight();
+        const units::mass ow = item( *it, calendar::start_of_cataclysm, item::solitary_tag{} ).weight();
         int count = sum_weight / ow;
         sum_weight -= count * ow;
         if( count > 0 ) {
@@ -3667,7 +3668,7 @@ void iexamine::water_source( player &p, const tripoint &examp )
 
 void iexamine::clean_water_source( player &, const tripoint &examp )
 {
-    item water = item( "water_clean", 0, item::INFINITE_CHARGES );
+    item water = item( "water_clean", calendar::start_of_cataclysm, item::INFINITE_CHARGES );
     liquid_handler::handle_liquid( water, nullptr, 0, &examp );
 }
 
@@ -3742,7 +3743,7 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
     int amount = string_input_popup()
                  .title( popupmsg )
                  .width( 20 )
-                 .text( to_string( max_amount ) )
+                 .text( std::to_string( max_amount ) )
                  .only_digits( true )
                  .query_int();
     if( amount <= 0 || amount > max_amount ) {
@@ -4123,7 +4124,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     amenu.addentry( refund, true, 'r', str_to_illiterate_str( _( "Refund cash." ) ) );
 
     std::string gaspumpselected = str_to_illiterate_str( _( "Current gas pump: " ) ) +
-                                  to_string( uistate.ags_pay_gas_selected_pump + 1 );
+                                  std::to_string( uistate.ags_pay_gas_selected_pump + 1 );
     amenu.addentry( 0, false, -1, gaspumpselected );
     amenu.addentry( choose_pump, true, 'p', str_to_illiterate_str( _( "Choose a gas pump." ) ) );
 
@@ -4145,7 +4146,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 
         for( int i = 0; i < pumpCount; i++ ) {
             amenu.addentry( i, true, -1,
-                            str_to_illiterate_str( _( "Pump " ) ) + to_string( i + 1 ) );
+                            str_to_illiterate_str( _( "Pump " ) ) + std::to_string( i + 1 ) );
         }
         amenu.query();
         choice = amenu.ret;
@@ -4178,7 +4179,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
         int liters = string_input_popup()
                      .title( popupmsg )
                      .width( 20 )
-                     .text( to_string( maximum_liters ) )
+                     .text( std::to_string( maximum_liters ) )
                      .only_digits( true )
                      .query_int();
         if( liters <= 0 ) {
@@ -4285,7 +4286,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
 
             const int climb_cost = p.climbing_cost( where, examp );
             const auto fall_mod = p.fall_damage_mod();
-            std::string query_str = ngettext( "Looks like %d story.  Jump down?",
+            std::string query_str = vgettext( "Looks like %d story.  Jump down?",
                                               "Looks like %d stories.  Jump down?",
                                               height );
             if( height > 1 && !query_yn( query_str.c_str(), height ) ) {
@@ -4662,12 +4663,12 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                                                _( "The machine rapidly sets and splints <npcname>'s broken %s." ),
                                                body_part_name( part ) );
                 // TODO: fail here if unable to perform the action, i.e. can't wear more, trait mismatch.
-                if( !patient.worn_with_flag( flag_SPLINT, part ) ) {
+                if( !patient.worn_with_flag( flag_SPLINT, convert_bp( part ).id() ) ) {
                     item splint;
                     if( i == hp_arm_l || i == hp_arm_r ) {
-                        splint = item( "arm_splint", 0 );
+                        splint = item( "arm_splint", calendar::start_of_cataclysm );
                     } else if( i == hp_leg_l || i == hp_leg_r ) {
-                        splint = item( "leg_splint", 0 );
+                        splint = item( "leg_splint", calendar::start_of_cataclysm );
                     }
                     item &equipped_splint = patient.i_add( splint );
                     cata::optional<std::list<item>::iterator> worn_item =
@@ -5038,7 +5039,7 @@ static void smoker_load_food( player &p, const tripoint &examp,
     int amount = string_input_popup()
                  .title( popupmsg )
                  .width( 20 )
-                 .text( to_string( max_count ) )
+                 .text( std::to_string( max_count ) )
                  .only_digits( true )
                  .query_int();
 
@@ -5146,7 +5147,7 @@ static void mill_load_food( player &p, const tripoint &examp,
     int amount = string_input_popup()
                  .title( popupmsg )
                  .width( 20 )
-                 .text( to_string( max_count ) )
+                 .text( std::to_string( max_count ) )
                  .only_digits( true )
                  .query_int();
 
@@ -5290,7 +5291,7 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
                 pop = colorize( _( "There's a mill here.  It is turning and milling." ), c_green ) + "\n";
                 if( time_left > 0_turns ) {
                     if( minutes_left > 60 ) {
-                        pop += string_format( ngettext( "It will finish milling in about %d hour.",
+                        pop += string_format( vgettext( "It will finish milling in about %d hour.",
                                                         "It will finish milling in about %d hours.",
                                                         hours_left ), hours_left ) + "\n\n";
                     } else if( minutes_left > 30 ) {
@@ -5494,7 +5495,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                 pop += colorize( _( "There's a smoking rack here.  It is lit and smoking." ), c_green ) + "\n";
                 if( time_left > 0_turns ) {
                     if( minutes_left > 60 ) {
-                        pop += string_format( ngettext( "It will finish smoking in about %d hour.",
+                        pop += string_format( vgettext( "It will finish smoking in about %d hour.",
                                                         "It will finish smoking in about %d hours.",
                                                         hours_left ), hours_left ) + "\n\n";
                     } else if( minutes_left > 30 ) {

@@ -14,7 +14,6 @@
 #include <utility>
 #include <vector>
 
-#include "compatibility.h"
 #include "json.h"
 #include "translations.h"
 
@@ -473,6 +472,106 @@ inline constexpr value_type to_kusd( const quantity<value_type, money_in_cent_ta
     return to_usd( v ) / 1000.0;
 }
 
+constexpr double fahrenheit_to_celsius( double fahrenheit )
+{
+    return ( ( fahrenheit - 32.0 ) * 5.0 / 9.0 );
+}
+
+/**
+ * Convert a temperature from degrees Fahrenheit to Kelvin.
+ *
+ * @return Temperature in degrees K.
+ */
+constexpr double fahrenheit_to_kelvin( double fahrenheit )
+{
+    return fahrenheit_to_celsius( fahrenheit ) + 273.15;
+}
+
+/**
+ * Convert a temperature from Kelvin to degrees Fahrenheit.
+ *
+ * @return Temperature in degrees C.
+ */
+constexpr double kelvin_to_fahrenheit( double kelvin )
+{
+    return 1.8 * ( kelvin - 273.15 ) + 32;
+}
+
+/**
+ * Convert a temperature from Celsius to degrees Fahrenheit.
+ *
+ * @return Temperature in degrees F.
+ */
+constexpr double celsius_to_fahrenheit( double celsius )
+{
+    return celsius * 9 / 5 + 32;
+}
+
+class temperature_in_millidegree_celsius_tag
+{
+};
+
+using temperature = quantity<int, temperature_in_millidegree_celsius_tag>;
+
+const temperature temperature_min = units::temperature(
+                                        std::numeric_limits<units::temperature::value_type>::min(),
+                                        units::temperature::unit_type{} );
+
+const temperature temperature_max = units::temperature(
+                                        std::numeric_limits<units::temperature::value_type>::max(),
+                                        units::temperature::unit_type{} );
+
+template<typename value_type>
+inline constexpr quantity<value_type, temperature_in_millidegree_celsius_tag>
+from_millidegree_celsius(
+    const value_type v )
+{
+    return quantity<value_type, temperature_in_millidegree_celsius_tag>( v,
+            temperature_in_millidegree_celsius_tag{} );
+}
+
+template<typename value_type>
+inline constexpr quantity<value_type, temperature_in_millidegree_celsius_tag> from_celsius(
+    const value_type v )
+{
+    const value_type max_temperature_celsius = std::numeric_limits<value_type>::max() / 1000;
+    const value_type temperature = v > max_temperature_celsius ? max_temperature_celsius : v;
+    return from_millidegree_celsius<value_type>( temperature * 1000 );
+}
+
+template<typename value_type>
+inline constexpr quantity<value_type, temperature_in_millidegree_celsius_tag> from_fahrenheit(
+    const value_type v )
+{
+    // Explicit casts to silence warnings about lossy conversions
+    constexpr value_type max_temperature_fahrenheit = static_cast<value_type>( celsius_to_fahrenheit(
+                static_cast<double>( std::numeric_limits<value_type>::max() / 1000 ) ) );
+    const value_type temperature = v > max_temperature_fahrenheit ? max_temperature_fahrenheit : v;
+    return from_millidegree_celsius<value_type>(
+               static_cast<value_type>( fahrenheit_to_celsius( temperature ) * 1000 ) );
+}
+
+template<typename value_type>
+inline constexpr value_type to_millidegree_celsius( const
+        quantity<value_type, temperature_in_millidegree_celsius_tag> &v )
+{
+    return v / from_millidegree_celsius<value_type>( 1 );
+}
+
+template<typename value_type>
+inline constexpr value_type to_celsius( const
+                                        quantity<value_type, temperature_in_millidegree_celsius_tag> &v )
+{
+    return to_millidegree_celsius( v ) / 1000.0;
+}
+
+template<typename value_type>
+inline constexpr value_type to_fahrenheit( const
+        quantity<value_type, temperature_in_millidegree_celsius_tag> &v )
+{
+    return celsius_to_fahrenheit( to_millidegree_celsius( v ) / 1000.0 );
+}
+
 // Streaming operators for debugging and tests
 // (for UI output other functions should be used which render in the user's
 // chosen units)
@@ -496,6 +595,11 @@ inline std::ostream &operator<<( std::ostream &o, money_in_cent_tag )
     return o << "cent";
 }
 
+inline std::ostream &operator<<( std::ostream &o, temperature_in_millidegree_celsius_tag )
+{
+    return o << "mC";
+}
+
 template<typename value_type, typename tag_type>
 inline std::ostream &operator<<( std::ostream &o, const quantity<value_type, tag_type> &v )
 {
@@ -508,14 +612,14 @@ inline std::string display( const units::energy v )
     const int j = units::to_joule( v );
     // at least 1 kJ and there is no fraction
     if( kj >= 1 && float( j ) / kj == 1000 ) {
-        return to_string( kj ) + ' ' + pgettext( "energy unit: kilojoule", "kJ" );
+        return std::to_string( kj ) + ' ' + pgettext( "energy unit: kilojoule", "kJ" );
     }
     const int mj = units::to_millijoule( v );
     // at least 1 J and there is no fraction
     if( j >= 1 && float( mj ) / j  == 1000 ) {
-        return to_string( j ) + ' ' + pgettext( "energy unit: joule", "J" );
+        return std::to_string( j ) + ' ' + pgettext( "energy unit: joule", "J" );
     }
-    return to_string( mj ) + ' ' + pgettext( "energy unit: millijoule", "mJ" );
+    return std::to_string( mj ) + ' ' + pgettext( "energy unit: millijoule", "mJ" );
 }
 
 } // namespace units
@@ -643,6 +747,23 @@ inline constexpr units::quantity<double, units::money_in_cent_tag> operator"" _k
     return units::from_kusd( v );
 }
 
+inline constexpr units::temperature operator"" _mc( const unsigned long long v )
+{
+    // Cast to int because fahrenheit conversion needs it
+    // Rest gets it for consistency
+    return units::from_millidegree_celsius<int>( v );
+}
+
+inline constexpr units::temperature operator"" _c( const unsigned long long v )
+{
+    return units::from_celsius<int>( v );
+}
+
+inline constexpr units::temperature operator"" _f( const unsigned long long v )
+{
+    return units::from_fahrenheit<int>( v );
+}
+
 namespace units
 {
 static const std::vector<std::pair<std::string, energy>> energy_units = { {
@@ -666,6 +787,12 @@ static const std::vector<std::pair<std::string, money>> money_units = { {
 static const std::vector<std::pair<std::string, volume>> volume_units = { {
         { "ml", 1_ml },
         { "L", 1_liter }
+    }
+};
+static const std::vector<std::pair<std::string, temperature>> temperature_units = { {
+        { "mC", 1_mc },
+        { "C", 1_c },
+        { "F", 1_f }
     }
 };
 } // namespace units

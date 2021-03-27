@@ -19,7 +19,8 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
 {
     avatar dummy;
 
-    item &eyedrops = dummy.i_add( item( "saline", 0, item::default_charges_tag{} ) );
+    item &eyedrops = dummy.i_add( item( "saline", calendar::start_of_cataclysm,
+                                        item::default_charges_tag{} ) );
     int charges_before = eyedrops.charges;
     REQUIRE( charges_before > 0 );
 
@@ -56,7 +57,8 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
 TEST_CASE( "antifungal", "[iuse][antifungal]" )
 {
     avatar dummy;
-    item &antifungal = dummy.i_add( item( "antifungal", 0, item::default_charges_tag{} ) );
+    item &antifungal = dummy.i_add( item( "antifungal", calendar::start_of_cataclysm,
+                                          item::default_charges_tag{} ) );
     int charges_before = antifungal.charges;
     REQUIRE( charges_before > 0 );
 
@@ -98,7 +100,8 @@ TEST_CASE( "antifungal", "[iuse][antifungal]" )
 TEST_CASE( "antiparasitic", "[iuse][antiparasitic]" )
 {
     avatar dummy;
-    item &antiparasitic = dummy.i_add( item( "antiparasitic", 0, item::default_charges_tag{} ) );
+    item &antiparasitic = dummy.i_add( item( "antiparasitic", calendar::start_of_cataclysm,
+                                       item::default_charges_tag{} ) );
 
     int charges_before = antiparasitic.charges;
     REQUIRE( charges_before > 0 );
@@ -154,7 +157,8 @@ TEST_CASE( "antiparasitic", "[iuse][antiparasitic]" )
 TEST_CASE( "anticonvulsant", "[iuse][anticonvulsant]" )
 {
     avatar dummy;
-    item &anticonvulsant = dummy.i_add( item( "diazepam", 0, item::default_charges_tag{} ) );
+    item &anticonvulsant = dummy.i_add( item( "diazepam", calendar::start_of_cataclysm,
+                                        item::default_charges_tag{} ) );
 
     int charges_before = anticonvulsant.charges;
     REQUIRE( charges_before > 0 );
@@ -187,7 +191,8 @@ TEST_CASE( "anticonvulsant", "[iuse][anticonvulsant]" )
 TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
 {
     avatar dummy;
-    item &oxygen = dummy.i_add( item( "oxygen_tank", 0, item::default_charges_tag{} ) );
+    item &oxygen = dummy.i_add( item( "oxygen_tank", calendar::start_of_cataclysm,
+                                      item::default_charges_tag{} ) );
 
     int charges_before = oxygen.charges;
     REQUIRE( charges_before > 0 );
@@ -302,13 +307,15 @@ TEST_CASE( "caffeine and atomic caffeine", "[iuse][caff][atomic_caff]" )
     dummy.set_thirst( 100 );
 
     SECTION( "coffee reduces fatigue" ) {
-        item &coffee = dummy.i_add( item( "coffee", 0, item::default_charges_tag{} ) );
+        item &coffee = dummy.i_add( item( "coffee", calendar::start_of_cataclysm,
+                                          item::default_charges_tag{} ) );
         dummy.consume_item( coffee );
         CHECK( dummy.get_fatigue() == fatigue_before - coffee.get_comestible()->fatigue_mod );
     }
 
     SECTION( "atomic caffeine greatly reduces fatigue" ) {
-        item &atomic_coffee = dummy.i_add( item( "atomic_coffee", 0, item::default_charges_tag{} ) );
+        item &atomic_coffee = dummy.i_add( item( "atomic_coffee", calendar::start_of_cataclysm,
+                                           item::default_charges_tag{} ) );
         dummy.consume_item( atomic_coffee );
         CHECK( dummy.get_fatigue() == fatigue_before - atomic_coffee.get_comestible()->fatigue_mod );
         CHECK( dummy.get_stim() == atomic_coffee.get_comestible()->stim );
@@ -319,7 +326,8 @@ TEST_CASE( "towel", "[iuse][towel]" )
 {
     avatar dummy;
 
-    item &towel = dummy.i_add( item( "towel", 0, item::default_charges_tag{} ) );
+    item &towel = dummy.i_add( item( "towel", calendar::start_of_cataclysm,
+                                     item::default_charges_tag{} ) );
 
     GIVEN( "avatar is wet" ) {
         // Saturate torso, head, and both arms
@@ -440,7 +448,8 @@ TEST_CASE( "thorazine", "[iuse][thorazine]" )
 {
     avatar dummy;
     dummy.set_fatigue( 0 );
-    item &thorazine = dummy.i_add( item( "thorazine", 0, item::default_charges_tag{} ) );
+    item &thorazine = dummy.i_add( item( "thorazine", calendar::start_of_cataclysm,
+                                         item::default_charges_tag{} ) );
     int charges_before = thorazine.charges;
     REQUIRE( charges_before >= 2 );
 
@@ -487,7 +496,8 @@ TEST_CASE( "thorazine", "[iuse][thorazine]" )
 TEST_CASE( "prozac", "[iuse][prozac]" )
 {
     avatar dummy;
-    item &prozac = dummy.i_add( item( "prozac", 0, item::default_charges_tag{} ) );
+    item &prozac = dummy.i_add( item( "prozac", calendar::start_of_cataclysm,
+                                      item::default_charges_tag{} ) );
 
     SECTION( "prozac gives prozac and visible prozac effect" ) {
         REQUIRE_FALSE( dummy.has_effect( efftype_id( "took_prozac" ) ) );
@@ -511,7 +521,8 @@ TEST_CASE( "prozac", "[iuse][prozac]" )
 TEST_CASE( "inhaler", "[iuse][inhaler]" )
 {
     avatar dummy;
-    item &inhaler = dummy.i_add( item( "inhaler", 0, item::default_charges_tag{} ) );
+    item &inhaler = dummy.i_add( item( "inhaler", calendar::start_of_cataclysm,
+                                       item::default_charges_tag{} ) );
 
     GIVEN( "avatar is suffering from smoke inhalation" ) {
         dummy.add_effect( efftype_id( "smoke" ), 1_hours );
@@ -547,7 +558,8 @@ TEST_CASE( "inhaler", "[iuse][inhaler]" )
 TEST_CASE( "panacea", "[iuse][panacea]" )
 {
     avatar dummy;
-    item &panacea = dummy.i_add( item( "panacea", 0, item::default_charges_tag{} ) );
+    item &panacea = dummy.i_add( item( "panacea", calendar::start_of_cataclysm,
+                                       item::default_charges_tag{} ) );
 
     SECTION( "panacea gives cure-all effect" ) {
         REQUIRE_FALSE( dummy.has_effect( efftype_id( "cureall" ) ) );
@@ -560,7 +572,8 @@ TEST_CASE( "panacea", "[iuse][panacea]" )
 TEST_CASE( "xanax", "[iuse][xanax]" )
 {
     avatar dummy;
-    item &xanax = dummy.i_add( item( "xanax", 0, item::default_charges_tag{} ) );
+    item &xanax = dummy.i_add( item( "xanax", calendar::start_of_cataclysm,
+                                     item::default_charges_tag{} ) );
 
     SECTION( "xanax gives xanax and visible xanax effects" ) {
         REQUIRE_FALSE( dummy.has_effect( efftype_id( "took_xanax" ) ) );

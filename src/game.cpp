@@ -2720,7 +2720,7 @@ bool game::load( const save_t &name )
     u = avatar();
     u.name = name.player_name();
     // This should be initialized more globally (in player/Character constructor)
-    u.weapon = item( "null", 0 );
+    u.weapon = item( "null", calendar::start_of_cataclysm );
     if( !read_from_file( playerpath + SAVE_EXTENSION, std::bind( &game::unserialize, this, _1 ) ) ) {
         return false;
     }
@@ -4089,10 +4089,10 @@ void game::mon_info_update( )
     const tripoint view = u.pos() + u.view_offset;
     new_seen_mon.clear();
 
-    static int previous_turn = 0;
-    // TODO: change current_turn to time_point
-    const int current_turn = to_turns<int>( calendar::turn - calendar::turn_zero );
-    const int sm_ignored_turns = get_option<int>( "SAFEMODEIGNORETURNS" );
+    // TODO: no reason to have it static here
+    static time_point previous_turn = calendar::start_of_cataclysm;
+    const time_duration sm_ignored_time = time_duration::from_turns(
+            get_option<int>( "SAFEMODEIGNORETURNS" ) );
 
     for( Creature *c : u.get_visible_creatures( MAPSIZE_X ) ) {
         monster *m = dynamic_cast<monster *>( c );
@@ -4175,12 +4175,12 @@ void game::mon_info_update( )
                     if( critter.ignoring > 0 ) {
                         if( safe_mode != SAFE_MODE_ON ) {
                             critter.ignoring = 0;
-                        } else if( ( sm_ignored_turns == 0 || ( critter.lastseen_turn &&
-                                                                to_turn<int>( *critter.lastseen_turn ) > current_turn - sm_ignored_turns ) ) &&
+                        } else if( ( sm_ignored_time == 0_seconds || ( critter.lastseen_turn &&
+                                     *critter.lastseen_turn > calendar::turn - sm_ignored_time ) ) &&
                                    ( mon_dist > critter.ignoring / 2 || mon_dist < 6 ) ) {
                             passmon = true;
                         }
-                        critter.lastseen_turn = current_turn;
+                        critter.lastseen_turn = calendar::turn;
                     }
 
                     if( !passmon ) {
@@ -4240,9 +4240,9 @@ void game::mon_info_update( )
         if( safe_mode == SAFE_MODE_ON ) {
             set_safe_mode( SAFE_MODE_STOP );
         }
-    } else if( current_turn > previous_turn && get_option<bool>( "AUTOSAFEMODE" ) &&
+    } else if( calendar::turn > previous_turn && get_option<bool>( "AUTOSAFEMODE" ) &&
                newseen == 0 ) { // Auto-safe mode, but only if it's a new turn
-        turnssincelastmon += current_turn - previous_turn;
+        turnssincelastmon += to_turns<int>( calendar::turn - previous_turn );
         if( turnssincelastmon >= get_option<int>( "AUTOSAFEMODETURNS" ) && safe_mode == SAFE_MODE_OFF ) {
             set_safe_mode( SAFE_MODE_ON );
             add_msg( m_info, _( "Safe mode ON!" ) );
@@ -4253,7 +4253,7 @@ void game::mon_info_update( )
         set_safe_mode( SAFE_MODE_ON );
     }
 
-    previous_turn = current_turn;
+    previous_turn = calendar::turn;
     mostseen = newseen;
 }
 
@@ -4616,7 +4616,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
     } else if( u.pos() == tp ) {
         if( stun > 0 ) {
             u.add_effect( effect_stunned, 1_turns * stun );
-            add_msg( m_bad, ngettext( "You were stunned for %d turn!",
+            add_msg( m_bad, vgettext( "You were stunned for %d turn!",
                                       "You were stunned for %d turns!",
                                       stun ),
                      stun );
@@ -4627,12 +4627,12 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
                     if( u.has_effect( effect_stunned ) ) {
-                        add_msg( m_bad, ngettext( "You were stunned AGAIN for %d turn!",
+                        add_msg( m_bad, vgettext( "You were stunned AGAIN for %d turn!",
                                                   "You were stunned AGAIN for %d turns!",
                                                   force_remaining ),
                                  force_remaining );
                     } else {
-                        add_msg( m_bad, ngettext( "You were stunned for %d turn!",
+                        add_msg( m_bad, vgettext( "You were stunned for %d turn!",
                                                   "You were stunned for %d turns!",
                                                   force_remaining ),
                                  force_remaining );
@@ -4660,12 +4660,12 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
                     if( u.has_effect( effect_stunned ) ) {
-                        add_msg( m_bad, ngettext( "You were stunned AGAIN for %d turn!",
+                        add_msg( m_bad, vgettext( "You were stunned AGAIN for %d turn!",
                                                   "You were stunned AGAIN for %d turns!",
                                                   force_remaining ),
                                  force_remaining );
                     } else {
-                        add_msg( m_bad, ngettext( "You were stunned for %d turn!",
+                        add_msg( m_bad, vgettext( "You were stunned for %d turn!",
                                                   "You were stunned for %d turns!",
                                                   force_remaining ),
                                  force_remaining );
@@ -7982,7 +7982,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
 
     cata::optional<tripoint> trail_start;
     cata::optional<tripoint> trail_end;
-    bool trail_end_x;
+    bool trail_end_x = false;
     shared_ptr_fast<draw_callback_t> trail_cb = create_trail_callback( trail_start, trail_end,
             trail_end_x );
     add_draw_callback( trail_cb );
@@ -9671,7 +9671,7 @@ point game::place_player( const tripoint &dest_loc )
                 int and_the_rest = 0;
                 for( size_t i = 0; i < names.size(); ++i ) {
                     //~ number of items: "<number> <item>"
-                    std::string fmt = ngettext( "%1$d %2$s", "%1$d %2$s", counts[i] );
+                    std::string fmt = vgettext( "%1$d %2$s", "%1$d %2$s", counts[i] );
                     names[i] = string_format( fmt, counts[i], names[i] );
                     // Skip the first two.
                     if( i > 1 ) {
@@ -9685,7 +9685,7 @@ point game::place_player( const tripoint &dest_loc )
                 } else if( names.size() == 3 ) {
                     add_msg( _( "You see here %s, %s, and %s." ), names[0], names[1], names[2] );
                 } else if( and_the_rest < 7 ) {
-                    add_msg( ngettext( "You see here %s, %s and %d more item.",
+                    add_msg( vgettext( "You see here %s, %s and %d more item.",
                                        "You see here %s, %s and %d more items.",
                                        and_the_rest ),
                              names[0], names[1], and_the_rest );

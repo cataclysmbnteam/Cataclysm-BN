@@ -41,6 +41,7 @@
 #include "itype.h"
 #include "lightmap.h"
 #include "line.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -546,6 +547,9 @@ void player::recalc_speed_bonus()
         set_speed_bonus( static_cast<int>( get_speed() * 1.1 ) - get_speed_base() );
     }
 
+    double ench_bonus = enchantment_cache->calc_bonus( enchant_vals::mod::SPEED, get_speed() );
+    set_speed_bonus( get_speed() + ench_bonus - get_speed_base() );
+
     // Speed cannot be less than 25% of base speed, so minimal speed bonus is -75% base speed.
     const int min_speed_bonus = static_cast<int>( -0.75 * get_speed_base() );
     if( get_speed_bonus() < min_speed_bonus ) {
@@ -852,6 +856,7 @@ void player::pause()
     }
 
     search_surroundings();
+    wait_effects();
 }
 
 void player::search_surroundings()
@@ -977,8 +982,6 @@ void player::on_hit( Creature *source, bodypart_id bp_hit,
         return;
     }
 
-    const body_part bp_hit_token = bp_hit->token;
-
     bool u_see = g->u.sees( *this );
     if( has_active_bionic( bionic_id( "bio_ods" ) ) && get_power_level() > 5_kJ ) {
         if( is_player() ) {
@@ -996,7 +999,7 @@ void player::on_hit( Creature *source, bodypart_id bp_hit,
         // Should hit body part used for attack
         source->deal_damage( this, bodypart_id( "torso" ), ods_shock_damage );
     }
-    if( !wearing_something_on( bp_hit_token ) &&
+    if( !wearing_something_on( bp_hit ) &&
         ( has_trait( trait_SPINES ) || has_trait( trait_QUILLS ) ) ) {
         int spine = rng( 1, has_trait( trait_QUILLS ) ? 20 : 8 );
         if( !is_player() ) {
@@ -1014,7 +1017,7 @@ void player::on_hit( Creature *source, bodypart_id bp_hit,
         spine_damage.add_damage( DT_STAB, spine );
         source->deal_damage( this, bodypart_id( "torso" ), spine_damage );
     }
-    if( ( !( wearing_something_on( bp_hit_token ) ) ) && ( has_trait( trait_THORNS ) ) &&
+    if( ( !( wearing_something_on( bp_hit ) ) ) && ( has_trait( trait_THORNS ) ) &&
         ( !( source->has_weapon() ) ) ) {
         if( !is_player() ) {
             if( u_see ) {
@@ -1031,7 +1034,7 @@ void player::on_hit( Creature *source, bodypart_id bp_hit,
         // so safer to target the torso
         source->deal_damage( this, bodypart_id( "torso" ), thorn_damage );
     }
-    if( ( !( wearing_something_on( bp_hit_token ) ) ) && ( has_trait( trait_CF_HAIR ) ) ) {
+    if( ( !( wearing_something_on( bp_hit ) ) ) && ( has_trait( trait_CF_HAIR ) ) ) {
         if( !is_player() ) {
             if( u_see ) {
                 add_msg( _( "%1$s gets a load of %2$s's %3$s stuck in!" ), source->disp_name(),
@@ -1088,7 +1091,7 @@ bool player::immune_to( body_part bp, damage_unit dam ) const
         return true;
     }
 
-    passive_absorb_hit( bp, dam );
+    passive_absorb_hit( convert_bp( bp ).id(), dam );
 
     for( const item &cloth : worn ) {
         if( cloth.get_coverage() == 100 && cloth.covers( bp ) ) {
@@ -4398,6 +4401,7 @@ void player::environmental_revert_effect()
     set_pain( 0 );
     set_painkiller( 0 );
     set_rad( 0 );
+    set_sleep_deprivation( 0 );
 
     recalc_sight_limits();
     reset_encumbrance();

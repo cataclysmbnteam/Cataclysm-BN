@@ -36,6 +36,7 @@
 #include "distribution_grid.h"
 #include "filesystem.h"
 #include "game.h"
+#include "language.h"
 #include "loading_ui.h"
 #include "map.h"
 #include "options.h"
@@ -109,6 +110,10 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
 
     if( !assure_dir_exist( PATH_INFO::templatedir() ) ) {
         assert( !"Unable to make templates directory.  Check permissions." );
+    }
+
+    if( !init_language_system() ) {
+        DebugLog( D_ERROR, DC_ALL ) << "Failed to init language system.";
     }
 
     get_options().init();
@@ -291,6 +296,7 @@ int main( int argc, const char *argv[] )
     if( seed ) {
         rng_set_engine_seed( seed );
     }
+    DebugLog( D_INFO, DC_ALL ) << "Randomness seeded to: " << seed;
 
     try {
         // TODO: Only init game if we're running tests that need it.

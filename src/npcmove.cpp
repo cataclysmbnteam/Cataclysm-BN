@@ -2370,7 +2370,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
     } else if( !no_bashing && smash_ability() > 0 && g->m.is_bashable( p ) &&
                g->m.bash_rating( smash_ability(), p ) > 0 ) {
-        moves -= !is_armed() ? 80 : weapon.attack_time() * 0.8;
+        moves -= !is_armed() ? 80 : weapon.attack_cost() * 0.8;
         g->m.bash( p, smash_ability() );
     } else {
         if( attitude == NPCATT_MUG ||
@@ -3198,7 +3198,7 @@ void npc::drop_items( units::mass drop_weight, units::volume drop_volume, int mi
     // Finally, describe the action if u can see it
     if( g->u.sees( *this ) ) {
         if( num_items_dropped >= 3 ) {
-            add_msg( ngettext( "%s drops %d item.", "%s drops %d items.", num_items_dropped ), name,
+            add_msg( vgettext( "%s drops %d item.", "%s drops %d items.", num_items_dropped ), name,
                      num_items_dropped );
         } else {
             add_msg( _( "%1$s drops a %2$s." ), name, item_name );

@@ -37,7 +37,8 @@ TEST_CASE( "manhack", "[iuse_actor][manhack]" )
     player &dummy = g->u;
 
     g->clear_zombies();
-    item &test_item = dummy.i_add( item( "bot_manhack", 0, item::default_charges_tag{} ) );
+    item &test_item = dummy.i_add( item( "bot_manhack", calendar::start_of_cataclysm,
+                                         item::default_charges_tag{} ) );
 
     int test_item_pos = dummy.inv.position_by_item( &test_item );
     REQUIRE( test_item_pos != INT_MIN );

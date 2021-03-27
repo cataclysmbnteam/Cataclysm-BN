@@ -17,7 +17,6 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "colony.h"
-#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
@@ -796,7 +795,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
                         target_stack.begin()->tname() );
         off++;
         if( target_stack_size > 1 ) {
-            mvwprintw( w_info, point( 1, off ), ngettext( "There is %d other item there as well.",
+            mvwprintw( w_info, point( 1, off ), vgettext( "There is %d other item there as well.",
                        "There are %d other items there as well.",
                        target_stack_size - 1 ),
                        target_stack_size - 1 );
@@ -1452,7 +1451,7 @@ void editmap::edit_itm()
                     int retval = popup
                                  .title( "set:" )
                                  .width( 20 )
-                                 .text( to_string( intval ) )
+                                 .text( std::to_string( intval ) )
                                  .query_int();
                     if( popup.confirmed() ) {
                         switch( imenu.ret ) {

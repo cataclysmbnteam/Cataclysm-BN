@@ -304,7 +304,7 @@ ret_val<bool> iuse_transform::can_use( const Character &p, const item &, bool,
     [&]( const std::pair<quality_id, int> &unmet_req ) {
         return string_format( "%s %d", unmet_req.first.obj().name, unmet_req.second );
     } );
-    return ret_val<bool>::make_failure( ngettext( "You need a tool with %s.", "You need tools with %s.",
+    return ret_val<bool>::make_failure( vgettext( "You need a tool with %s.", "You need tools with %s.",
                                         unmet_reqs.size() ), unmet_reqs_string );
 }
 
@@ -893,7 +893,7 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
     p.moves -= moves;
     if( !newmon.has_flag( MF_INTERIOR_AMMO ) ) {
         for( auto &amdef : newmon.ammo ) {
-            item ammo_item( amdef.first, 0 );
+            item ammo_item( amdef.first, calendar::start_of_cataclysm );
             const int available = p.charges_of( amdef.first );
             if( available == 0 ) {
                 amdef.second = 0;
@@ -906,7 +906,7 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
             ammo_item.charges = std::min( available, amdef.second );
             p.use_charges( amdef.first, ammo_item.charges );
             //~ First %s is the ammo item (with plural form and count included), second is the monster name
-            p.add_msg_if_player( ngettext( "You load %1$d x %2$s round into the %3$s.",
+            p.add_msg_if_player( vgettext( "You load %1$d x %2$s round into the %3$s.",
                                            "You load %1$d x %2$s rounds into the %3$s.", ammo_item.charges ),
                                  ammo_item.charges, ammo_item.type_name( ammo_item.charges ),
                                  newmon.name() );
@@ -1617,7 +1617,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
         int amount = salvaged.second;
         item result( mat_name, calendar::turn );
         if( amount > 0 ) {
-            add_msg( m_good, ngettext( "Salvaged %1$i %2$s.", "Salvaged %1$i %2$s.", amount ),
+            add_msg( m_good, vgettext( "Salvaged %1$i %2$s.", "Salvaged %1$i %2$s.", amount ),
                      amount, result.display_name( amount ) );
             if( filthy ) {
                 result.item_tags.insert( "FILTHY" );
@@ -2388,8 +2388,8 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
         const spell_id sp_id( sp_id_str );
         sp_cb.add_spell( sp_id );
         uilist_entry entry( sp_id.obj().name.translated() );
-        if( p.magic.knows_spell( sp_id ) ) {
-            const spell sp = p.magic.get_spell( sp_id );
+        if( p.magic->knows_spell( sp_id ) ) {
+            const spell sp = p.magic->get_spell( sp_id );
             entry.ctxt = string_format( _( "Level %u" ), sp.get_level() );
             if( sp.is_max_level() ) {
                 entry.ctxt += _( " (Max)" );
@@ -2398,7 +2398,7 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
                 know_it_all = false;
             }
         } else {
-            if( p.magic.can_learn_spell( p, sp_id ) ) {
+            if( p.magic->can_learn_spell( p, sp_id ) ) {
                 entry.ctxt = _( "Study to Learn" );
                 know_it_all = false;
             } else {
@@ -2425,9 +2425,9 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
     if( action < 0 ) {
         return 0;
     }
-    const bool knows_spell = p.magic.knows_spell( spells[action] );
+    const bool knows_spell = p.magic->knows_spell( spells[action] );
     player_activity study_spell( ACT_STUDY_SPELL,
-                                 p.magic.time_to_learn_spell( p, spells[action] ) );
+                                 p.magic->time_to_learn_spell( p, spells[action] ) );
     study_spell.str_values = {
         "", // reserved for "until you gain a spell level" option [0]
         "learn"
@@ -2452,7 +2452,7 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
     if( study_spell.moves_total == 10100 ) {
         study_spell.str_values[0] = "gain_level";
         study_spell.values[0] = 0; // reserved for xp
-        study_spell.values[1] = p.magic.get_spell( spell_id( spells[action] ) ).get_level() + 1;
+        study_spell.values[1] = p.magic->get_spell( spell_id( spells[action] ) ).get_level() + 1;
     }
     study_spell.name = spells[action];
     p.assign_activity( study_spell, false );
@@ -2682,7 +2682,7 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
 
 void holster_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
-    std::string message = ngettext( "Can be activated to store a suitable item.",
+    std::string message = vgettext( "Can be activated to store a suitable item.",
                                     "Can be activated to store suitable items.", multi );
     dump.emplace_back( "DESCRIPTION", message );
     dump.emplace_back( "TOOL", _( "Num items: " ), "<num>", iteminfo::no_flags, multi );
@@ -2733,7 +2733,7 @@ void bandolier_actor::info( const item &, std::vector<iteminfo> &dump ) const
         }, enumeration_conjunction::or_ );
 
         dump.emplace_back( "TOOL", string_format(
-                               ngettext( "Can be activated to store a single round of ",
+                               vgettext( "Can be activated to store a single round of ",
                                          "Can be activated to store up to <stat>%i</stat> rounds of ", capacity ),
                                capacity ),
                            str );

@@ -703,7 +703,7 @@
       "items": [ { "item": "power_supply", "prob": 50 } ]
     }
   },
-    {
+  {
     "type": "furniture",
 	  "id": "f_gridwelder",
 	  "name": "grid welder",

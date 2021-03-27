@@ -5,10 +5,11 @@
 
 TEST_CASE( "revolver_reload_option", "[reload],[reload_option],[gun]" )
 {
+    const time_point bday = calendar::start_of_cataclysm;
     avatar dummy;
 
-    item &gun = dummy.i_add( item( "sw_619", 0, 0 ) );
-    item &ammo = dummy.i_add( item( "38_special", 0, gun.ammo_capacity() ) );
+    item &gun = dummy.i_add( item( "sw_619", bday, 0 ) );
+    item &ammo = dummy.i_add( item( "38_special", bday, gun.ammo_capacity() ) );
     item_location ammo_location( dummy, &ammo );
     REQUIRE( gun.has_flag( "RELOAD_ONE" ) );
     REQUIRE( gun.ammo_remaining() == 0 );
@@ -17,7 +18,7 @@ TEST_CASE( "revolver_reload_option", "[reload],[reload_option],[gun]" )
     REQUIRE( gun_option.qty() == 1 );
 
     ammo_location = item_location( dummy, &ammo );
-    item &speedloader = dummy.i_add( item( "38_speedloader", 0, 0 ) );
+    item &speedloader = dummy.i_add( item( "38_speedloader", bday, 0 ) );
     REQUIRE( speedloader.ammo_remaining() == 0 );
 
     const item::reload_option speedloader_option( &dummy, &speedloader, &speedloader,
@@ -33,10 +34,11 @@ TEST_CASE( "revolver_reload_option", "[reload],[reload_option],[gun]" )
 
 TEST_CASE( "magazine_reload_option", "[reload],[reload_option],[gun]" )
 {
+    const time_point bday = calendar::start_of_cataclysm;
     avatar dummy;
 
-    item &magazine = dummy.i_add( item( "glockmag", 0, 0 ) );
-    item &ammo = dummy.i_add( item( "9mm", 0, magazine.ammo_capacity() ) );
+    item &magazine = dummy.i_add( item( "glockmag", bday, 0 ) );
+    item &ammo = dummy.i_add( item( "9mm", bday, magazine.ammo_capacity() ) );
     item_location ammo_location( dummy, &ammo );
 
     const item::reload_option magazine_option( &dummy, &magazine, &magazine,
@@ -45,18 +47,19 @@ TEST_CASE( "magazine_reload_option", "[reload],[reload_option],[gun]" )
 
     magazine.put_in( ammo );
     item_location magazine_location( dummy, &magazine );
-    item &gun = dummy.i_add( item( "glock_19", 0, 0 ) );
+    item &gun = dummy.i_add( item( "glock_19", bday, 0 ) );
     const item::reload_option gun_option( &dummy, &gun, &gun, magazine_location );
     CHECK( gun_option.qty() == 1 );
 }
 
 TEST_CASE( "belt_reload_option", "[reload],[reload_option],[gun]" )
 {
+    const time_point bday = calendar::start_of_cataclysm;
     avatar dummy;
 
-    item &belt = dummy.i_add( item( "belt308", 0, 0 ) );
-    item &ammo = dummy.i_add( item( "308", 0, belt.ammo_capacity() ) );
-    dummy.i_add( item( "ammolink308", 0, belt.ammo_capacity() ) );
+    item &belt = dummy.i_add( item( "belt308", bday, 0 ) );
+    item &ammo = dummy.i_add( item( "308", bday, belt.ammo_capacity() ) );
+    dummy.i_add( item( "ammolink308", bday, belt.ammo_capacity() ) );
     item_location ammo_location( dummy, &ammo );
     // Belt is populated with "charges" rounds by the item constructor.
     belt.ammo_unset();
@@ -67,7 +70,7 @@ TEST_CASE( "belt_reload_option", "[reload],[reload_option],[gun]" )
 
     belt.put_in( ammo );
     item_location belt_location( dummy, &ammo );
-    item &gun = dummy.i_add( item( "m134", 0, 0 ) );
+    item &gun = dummy.i_add( item( "m134", bday, 0 ) );
 
     const item::reload_option gun_option( &dummy, &gun, &gun, belt_location );
 
@@ -78,7 +81,7 @@ TEST_CASE( "canteen_reload_option", "[reload],[reload_option],[liquid]" )
 {
     avatar dummy;
 
-    item &water = dummy.i_add( item( "water_clean", 0, 2 ) );
+    item &water = dummy.i_add( item( "water_clean", calendar::start_of_cataclysm, 2 ) );
     item &bottle = dummy.i_add( item( "bottle_plastic" ) );
     item_location water_location( dummy, &water );
 

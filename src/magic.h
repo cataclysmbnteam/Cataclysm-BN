@@ -115,6 +115,8 @@ struct fake_spell {
     // gets the spell with an additional override for minimum level (default 0)
     spell get_spell( int min_level_override = 0 ) const;
 
+    bool operator==( const fake_spell &rhs )const;
+
     void load( const JsonObject &jo );
     void serialize( JsonOut &json ) const;
     void deserialize( JsonIn &jsin );
@@ -322,6 +324,9 @@ class spell
         float exp_modifier( const Character &guy ) const;
         // level up!
         void gain_level();
+        // gains a number of levels, or until max. 0 or less just returns early.
+        void gain_levels( int gains );
+        void set_level( int nlevel );
         // is the spell at max level?
         bool is_max_level() const;
         // what is the max level of the spell
@@ -481,7 +486,9 @@ class known_magic
         int max_mana( const Character &guy ) const;
         void mod_mana( const Character &guy, int add_mana );
         void set_mana( int new_mana );
-        void update_mana( const Character &guy, float turns );
+        /** Mana regeneration rate (units per turn). */
+        double mana_regen_rate( const Character &guy ) const;
+        void update_mana( const Character &guy, double turns );
         // does the Character have enough energy to cast this spell?
         // not specific to mana
         bool has_enough_energy( const Character &guy, spell &sp ) const;

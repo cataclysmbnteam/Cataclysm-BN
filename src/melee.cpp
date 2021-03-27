@@ -419,12 +419,12 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
     }
     item &cur_weapon = allow_unarmed ? used_weapon() : weapon;
 
-    if( cur_weapon.attack_time() > attack_speed( cur_weapon ) * 20 ) {
+    if( cur_weapon.attack_cost() > attack_cost( cur_weapon ) * 20 ) {
         add_msg( m_bad, _( "This weapon is too unwieldy to attack with!" ) );
         return;
     }
 
-    int move_cost = attack_speed( cur_weapon );
+    int move_cost = attack_cost( cur_weapon );
 
     if( hit_spread < 0 ) {
         int stumble_pen = stumble( *this, cur_weapon );
@@ -634,7 +634,7 @@ void player::reach_attack( const tripoint &p )
     // Reset last target pos
     last_target_pos = cata::nullopt;
 
-    int move_cost = attack_speed( weapon );
+    int move_cost = attack_cost( weapon );
     int skill = std::min( 10, get_skill_level( skill_stabbing ) );
     int t = 0;
     std::vector<tripoint> path = line_to( pos(), p, t, 0 );
@@ -875,8 +875,8 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
     }
 
     if( unarmed ) {
-        const bool left_empty = !natural_attack_restricted_on( bp_hand_l );
-        const bool right_empty = !natural_attack_restricted_on( bp_hand_r ) &&
+        const bool left_empty = !natural_attack_restricted_on( bodypart_id( "hand_l" ) );
+        const bool right_empty = !natural_attack_restricted_on( bodypart_id( "hand_r" ) ) &&
                                  weap.is_null();
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
@@ -957,8 +957,8 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
 
     if( weap.is_unarmed_weapon() ) {
         // TODO: 1-handed weapons that aren't unarmed attacks
-        const bool left_empty = !natural_attack_restricted_on( bp_hand_l );
-        const bool right_empty = !natural_attack_restricted_on( bp_hand_r ) &&
+        const bool left_empty = !natural_attack_restricted_on( bodypart_id( "hand_l" ) );
+        const bool right_empty = !natural_attack_restricted_on( bodypart_id( "hand_r" ) ) &&
                                  weap.is_null();
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
@@ -1028,8 +1028,8 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average
     }
 
     if( weap.is_unarmed_weapon() ) {
-        const bool left_empty = !natural_attack_restricted_on( bp_hand_l );
-        const bool right_empty = !natural_attack_restricted_on( bp_hand_r ) &&
+        const bool left_empty = !natural_attack_restricted_on( bodypart_id( "hand_l" ) );
+        const bool right_empty = !natural_attack_restricted_on( bodypart_id( "hand_r" ) ) &&
                                  weap.is_null();
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
@@ -1481,7 +1481,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
             melee_attack( *c, false );
         }
 
-        t.add_msg_if_player( m_good, ngettext( "%d enemy hit!", "%d enemies hit!", count_hit ), count_hit );
+        t.add_msg_if_player( m_good, vgettext( "%d enemy hit!", "%d enemies hit!", count_hit ), count_hit );
         // Extra attacks are free of charge (otherwise AoE attacks would SUCK)
         moves = temp_moves;
         set_stamina( temp_stamina );
@@ -1529,7 +1529,7 @@ item &Character::best_shield()
     return *best;
 }
 
-bool Character::block_hit( Creature *source, body_part &bp_hit, damage_instance &dam )
+bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &dam )
 {
     // Shouldn't block if player is asleep
     if( in_sleep_state() || has_effect( effect_narcosis ) ) {
@@ -1600,30 +1600,30 @@ bool Character::block_hit( Creature *source, body_part &bp_hit, damage_instance 
     } else {
         //Choose which body part to block with, assume left side first
         if( martial_arts_data.can_leg_block( *this ) && martial_arts_data.can_arm_block( *this ) ) {
-            bp_hit = one_in( 2 ) ? bp_leg_l : bp_arm_l;
+            bp_hit = one_in( 2 ) ? bodypart_id( "leg_l" ) : bodypart_id( "arm_l" );
         } else if( martial_arts_data.can_leg_block( *this ) ) {
-            bp_hit = bp_leg_l;
+            bp_hit = bodypart_id( "leg_l" );
         } else {
-            bp_hit = bp_arm_l;
+            bp_hit = bodypart_id( "arm_l" );
         }
 
         // Check if we should actually use the right side to block
-        if( bp_hit == bp_leg_l ) {
+        if( bp_hit == bodypart_id( "leg_l" ) ) {
             if( hp_cur[hp_leg_r] > hp_cur[hp_leg_l] ) {
-                bp_hit = bp_leg_r;
+                bp_hit = bodypart_id( "leg_r" );
             }
         } else {
             if( hp_cur[hp_arm_r] > hp_cur[hp_arm_l] ) {
-                bp_hit = bp_arm_r;
+                bp_hit = bodypart_id( "arm_r" );
             }
         }
 
-        thing_blocked_with = body_part_name( bp_hit );
+        thing_blocked_with = body_part_name( bp_hit->token );
     }
 
     if( has_shield ) {
         // Does our shield cover the limb we blocked with? If so, add the block bonus.
-        block_score += shield.covers( bp_hit ) ? block_bonus : 0;
+        block_score += shield.covers( bp_hit->token ) ? block_bonus : 0;
     }
 
     // Map block_score to the logistic curve for a number between 1 and 0.
@@ -2161,9 +2161,9 @@ void player_hit_message( Character *attacker, const std::string &message,
     attacker->add_msg_player_or_npc( msgtype, msg, msg, t.disp_name() );
 }
 
-int Character::attack_speed( const item &weap ) const
+int Character::attack_cost( const item &weap ) const
 {
-    const int base_move_cost = weap.attack_time() / 2;
+    const int base_move_cost = weap.attack_cost() / 2;
     const int melee_skill = has_active_bionic( bionic_id( bio_cqb ) ) ? BIO_CQB_LEVEL : get_skill_level(
                                 skill_melee );
     /** @EFFECT_MELEE increases melee attack speed */
@@ -2186,7 +2186,8 @@ int Character::attack_speed( const item &weap ) const
     move_cost += skill_cost;
     move_cost -= dexbonus;
 
-    move_cost = calculate_by_enchantment( move_cost, enchantment::mod::ATTACK_SPEED, true );
+    move_cost += bonus_from_enchantments( move_cost, enchant_vals::mod::ATTACK_COST, true );
+
     // Martial arts last. Flat has to be after mult, because comments say so.
     move_cost *= ma_mult;
     move_cost += ma_move_cost;
@@ -2281,7 +2282,7 @@ void player::disarm( npc &target )
     int hitspread = target.deal_melee_attack( this, hit_roll() );
     if( hitspread < 0 ) {
         add_msg( _( "You lunge for the %s, but miss!" ), it.tname() );
-        mod_moves( -100 - stumble( *this, weapon ) - attack_speed( weapon ) );
+        mod_moves( -100 - stumble( *this, weapon ) - attack_cost( weapon ) );
         target.on_attacked( *this );
         return;
     }
@@ -2315,7 +2316,7 @@ void player::disarm( npc &target )
     }
 
     // Make their weapon fall on floor if we've rolled enough.
-    mod_moves( -100 - attack_speed( weapon ) );
+    mod_moves( -100 - attack_cost( weapon ) );
     if( my_roll >= their_roll ) {
         add_msg( _( "You smash %s with all your might forcing their %s to drop down nearby!" ),
                  target.name, it.tname() );

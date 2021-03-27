@@ -32,7 +32,6 @@
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "color.h"
-#include "compatibility.h"
 #include "coordinate_conversions.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -142,6 +141,7 @@ enum debug_menu_index {
     DEBUG_SHOW_SOUND,
     DEBUG_DISPLAY_WEATHER,
     DEBUG_DISPLAY_SCENTS,
+    DEBUG_DISPLAY_DISTRIBUTION_GRIDS,
     DEBUG_CHANGE_TIME,
     DEBUG_SET_AUTOMOVE,
     DEBUG_SHOW_MUT_CAT,
@@ -228,6 +228,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( DEBUG_SHOW_SOUND, true, 'c', _( "Show sound clustering" ) ) },
             { uilist_entry( DEBUG_DISPLAY_WEATHER, true, 'w', _( "Display weather" ) ) },
             { uilist_entry( DEBUG_DISPLAY_SCENTS, true, 'S', _( "Display overmap scents" ) ) },
+            { uilist_entry( DEBUG_DISPLAY_DISTRIBUTION_GRIDS, true, 'G', _( "Display overmap distribution grids" ) ) },
             { uilist_entry( DEBUG_DISPLAY_SCENTS_LOCAL, true, 's', _( "Toggle display local scents" ) ) },
             { uilist_entry( DEBUG_DISPLAY_SCENTS_TYPE_LOCAL, true, 'y', _( "Toggle display local scents type" ) ) },
             { uilist_entry( DEBUG_DISPLAY_TEMP, true, 'T', _( "Toggle display temperature" ) ) },
@@ -1295,7 +1296,7 @@ void debug()
 
             std::string s = _( "Location %d:%d in %d:%d, %s\n" );
             s += _( "Current turn: %d.\n%s\n" );
-            s += ngettext( "%d creature exists.\n", "%d creatures exist.\n", g->num_creatures() );
+            s += vgettext( "%d creature exists.\n", "%d creatures exist.\n", g->num_creatures() );
             popup_top(
                 s.c_str(),
                 u.posx(), g->u.posy(), g->get_levx(), g->get_levy(),
@@ -1422,7 +1423,7 @@ void debug()
             break;
 
         case DEBUG_SPAWN_CLAIRVOYANCE:
-            u.i_add( item( architects_cube(), calendar::turn ) );
+            u.i_add( item( "architect_cube", calendar::turn ) );
             break;
 
         case DEBUG_MAP_EDITOR:
@@ -1602,6 +1603,9 @@ void debug()
         case DEBUG_DISPLAY_SCENTS:
             ui::omap::display_scents();
             break;
+        case DEBUG_DISPLAY_DISTRIBUTION_GRIDS:
+            ui::omap::display_distribution_grids();
+            break;
         case DEBUG_DISPLAY_SCENTS_LOCAL:
             g->display_toggle_overlay( ACTION_DISPLAY_SCENT );
             break;
@@ -1634,7 +1638,7 @@ void debug()
                 const auto text = string_input_popup()
                                   .title( msg )
                                   .width( 20 )
-                                  .text( to_string( initial ) )
+                                  .text( std::to_string( initial ) )
                                   .only_digits( true )
                                   .query_string();
                 if( text.empty() ) {
@@ -1806,7 +1810,7 @@ void debug()
         }
         case DEBUG_PRINT_NPC_MAGIC: {
             for( npc &guy : g->all_npcs() ) {
-                const std::vector<spell_id> spells = guy.magic.spells();
+                const std::vector<spell_id> spells = guy.magic->spells();
                 if( spells.empty() ) {
                     std::cout << guy.disp_name() << " does not know any spells." << std::endl;
                     continue;
@@ -1888,14 +1892,14 @@ void debug()
                 add_msg( m_bad, _( "There are no spells to learn.  You must install a mod that adds some." ) );
             } else {
                 for( const spell_type &learn : spell_type::get_all() ) {
-                    g->u.magic.learn_spell( &learn, g->u, true );
+                    g->u.magic->learn_spell( &learn, g->u, true );
                 }
                 add_msg( m_good,
                          _( "You have become an Archwizardpriest!  What will you do with your newfound power?" ) );
             }
             break;
         case DEBUG_LEVEL_SPELLS: {
-            std::vector<spell *> spells = g->u.magic.get_spells();
+            std::vector<spell *> spells = g->u.magic->get_spells();
             if( spells.empty() ) {
                 add_msg( m_bad, _( "Try learning some spells first." ) );
                 return;

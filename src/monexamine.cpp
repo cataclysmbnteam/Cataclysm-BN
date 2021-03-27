@@ -12,7 +12,6 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
-#include "compatibility.h"
 #include "debug.h"
 #include "enums.h"
 #include "game.h"
@@ -385,7 +384,7 @@ static int prompt_for_amount( const char *const msg, const int max )
     const int amount = string_input_popup()
                        .title( formatted )
                        .width( 20 )
-                       .text( to_string( max ) )
+                       .text( std::to_string( max ) )
                        .only_digits( true )
                        .query_int();
 
@@ -412,7 +411,7 @@ bool monexamine::pay_bot( monster &z )
     switch( bot_menu.ret ) {
         case 1:
             amount = prompt_for_amount(
-                         ngettext( "How much friendship do you get?  Max: %d minute.  (0 to cancel)",
+                         vgettext( "How much friendship do you get?  Max: %d minute.  (0 to cancel)",
                                    "How much friendship do you get?  Max: %d minutes.", charge_count / 10 ), charge_count / 10 );
             if( amount > 0 ) {
                 time_duration time_bought = time_duration::from_minutes( amount );
@@ -680,7 +679,7 @@ void monexamine::kill_zslave( monster &z )
 
     if( !one_in( 3 ) ) {
         g->u.add_msg_if_player( _( "You tear out the pheromone ball from the zombie slave." ) );
-        item ball( "pheromone", 0 );
+        item ball( "pheromone", calendar::start_of_cataclysm );
         iuse pheromone;
         pheromone.pheromone( &g->u, &ball, true, g->u.pos() );
     }

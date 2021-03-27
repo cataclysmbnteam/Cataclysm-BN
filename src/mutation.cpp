@@ -24,6 +24,7 @@
 #include "item.h"
 #include "item_contents.h"
 #include "itype.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -108,7 +109,7 @@ std::string enum_to_string<mutagen_technique>( mutagen_technique data )
 
 bool Character::has_trait( const trait_id &b ) const
 {
-    return my_mutations.count( b ) || enchantment_cache.get_mutations().count( b );
+    return my_mutations.count( b ) || enchantment_cache->get_mutations().count( b );
 }
 
 bool Character::has_trait_flag( const std::string &b ) const
@@ -471,12 +472,12 @@ bool Character::can_use_heal_item( const item &med ) const
     return can_use;
 }
 
-bool Character::can_install_cbm_on_bp( const std::vector<body_part> &bps ) const
+bool Character::can_install_cbm_on_bp( const std::vector<bodypart_id> &bps ) const
 {
     bool can_install = true;
     for( const trait_id &mut : get_mutations() ) {
-        for( const body_part bp : bps ) {
-            if( mut.obj().no_cbm_on_bp.count( bp ) ) {
+        for( const bodypart_id &bp : bps ) {
+            if( mut.obj().no_cbm_on_bp.count( bp.id() ) ) {
                 can_install = false;
                 break;
             }

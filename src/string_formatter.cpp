@@ -163,51 +163,12 @@ void string_formatter::do_formating( const char *value )
 }
 } // namespace
 
-#if defined(CATA_NO_CPP11_STRING_CONVERSIONS)
-
-std::string to_string( const long n )
-{
-    return fmt::sprintf( "%ld", n );
-}
-
-std::string to_string( const unsigned long n )
-{
-    return fmt::sprintf( "%lu", n );
-}
-
-std::string to_string( const long long n )
-{
-    return fmt::sprintf( "%lld", n );
-}
-
-std::string to_string( const unsigned long long n )
-{
-    return fmt::sprintf( "%llu", n );
-}
-
-std::string to_string( const int n )
-{
-    return fmt::sprintf( "%d", n );
-}
-
-std::string to_string( unsigned const int n )
-{
-    return fmt::sprintf( "%u", n );
-}
-
-std::string to_string( const double n )
-{
-    return fmt::sprintf( "%f", n );
-}
-
-#endif // CATA_NO_CPP11_STRING_CONVERSIONS
-
 void cata_print_stdout( const std::string &s )
 {
-    std::cout << s;
+    fputs( s.c_str(), stdout );
 }
 
 void cata_print_stderr( const std::string &s )
 {
-    std::cerr << s;
+    fputs( s.c_str(), stderr );
 }

@@ -18,6 +18,7 @@
 #include "game.h"
 #include "item_contents.h"
 #include "itype.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "material.h"
 #include "messages.h"
@@ -516,9 +517,14 @@ bool Character::vitamin_set( const vitamin_id &vit, int qty )
 float Character::metabolic_rate_base() const
 {
     static const std::string hunger_rate_string( "PLAYER_HUNGER_RATE" );
-    float hunger_rate = get_option< float >( hunger_rate_string );
     static const std::string metabolism_modifier( "metabolism_modifier" );
-    return hunger_rate * ( 1.0f + mutation_value( metabolism_modifier ) );
+
+    float hunger_rate = get_option< float >( hunger_rate_string );
+    float mut_bonus = 1.0f + mutation_value( metabolism_modifier );
+    float with_mut = hunger_rate * mut_bonus;
+    float ench_bonus = bonus_from_enchantments( with_mut, enchant_vals::mod::METABOLISM );
+
+    return std::max( 0.0f, with_mut + ench_bonus );
 }
 
 // TODO: Make this less chaotic to let NPC retroactive catch up work here
@@ -1271,22 +1277,22 @@ bool Character::feed_furnace_with( item &it )
                                                 units::to_kilojoule( get_max_power_level() - get_power_level() ) );
         if( it.count_by_charges() ) {
             add_msg_player_or_npc( m_info,
-                                   ngettext( "You digest %d %s and recharge %d point of energy.",
+                                   vgettext( "You digest %d %s and recharge %d point of energy.",
                                              "You digest %d %s and recharge %d points of energy.",
                                              profitable_energy
                                            ),
-                                   ngettext( "<npcname> digests %d %s and recharges %d point of energy.",
+                                   vgettext( "<npcname> digests %d %s and recharges %d point of energy.",
                                              "<npcname> digests %d %s and recharges %d points of energy.",
                                              profitable_energy
                                            ), consumed_charges, it.tname(), profitable_energy
                                  );
         } else {
             add_msg_player_or_npc( m_info,
-                                   ngettext( "You digest your %s and recharge %d point of energy.",
+                                   vgettext( "You digest your %s and recharge %d point of energy.",
                                              "You digest your %s and recharge %d points of energy.",
                                              profitable_energy
                                            ),
-                                   ngettext( "<npcname> digests a %s and recharges %d point of energy.",
+                                   vgettext( "<npcname> digests a %s and recharges %d point of energy.",
                                              "<npcname> digests a %s and recharges %d points of energy.",
                                              profitable_energy
                                            ), it.tname(), profitable_energy
@@ -1324,10 +1330,10 @@ bool Character::fuel_bionic_with( item &it )
     update_fuel_storage( it.typeId() );
     add_msg_player_or_npc( m_info,
                            //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
-                           ngettext( "You load %1$i charge of %2$s in your %3$s.",
+                           vgettext( "You load %1$i charge of %2$s in your %3$s.",
                                      "You load %1$i charges of %2$s in your %3$s.", loadable ),
                            //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
-                           ngettext( "<npcname> load %1$i charge of %2$s in their %3$s.",
+                           vgettext( "<npcname> load %1$i charge of %2$s in their %3$s.",
                                      "<npcname> load %1$i charges of %2$s in their %3$s.", loadable ), loadable, it.tname(), bio->name );
     mod_moves( -250 );
     return true;

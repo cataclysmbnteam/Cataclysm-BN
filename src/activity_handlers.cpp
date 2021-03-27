@@ -2112,9 +2112,9 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
         return;
     }
     // TODO: Factor in how long it took to do the smashing.
-    p->add_msg_player_or_npc( ngettext( "The corpse is thoroughly pulped.",
+    p->add_msg_player_or_npc( vgettext( "The corpse is thoroughly pulped.",
                                         "The corpses are thoroughly pulped.", num_corpses ),
-                              ngettext( "<npcname> finished pulping the corpse.",
+                              vgettext( "<npcname> finished pulping the corpse.",
                                         "<npcname> finished pulping the corpses.", num_corpses ) );
 }
 
@@ -2264,18 +2264,18 @@ static bool magic_train( player_activity *act, player *p )
     }
     const spell_id &sp_id = spell_id( act->name );
     if( sp_id.is_valid() ) {
-        const bool knows = g->u.magic.knows_spell( sp_id );
+        const bool knows = g->u.magic->knows_spell( sp_id );
         if( knows ) {
-            spell &studying = p->magic.get_spell( sp_id );
+            spell &studying = p->magic->get_spell( sp_id );
             const int expert_multiplier = act->values.empty() ? 0 : act->values[0];
             const int xp = roll_remainder( studying.exp_modifier( *p ) * expert_multiplier );
             studying.gain_exp( xp );
             p->add_msg_if_player( m_good, _( "You learn a little about the spell: %s" ),
                                   sp_id->name );
         } else {
-            p->magic.learn_spell( act->name, *p );
+            p->magic->learn_spell( act->name, *p );
             // you can decline to learn this spell , as it may lock you out of other magic.
-            if( p->magic.knows_spell( sp_id ) ) {
+            if( p->magic->knows_spell( sp_id ) ) {
                 add_msg( m_good, _( "You learn %s." ), sp_id->name.translated() );
             } else {
                 act->set_to_null();
@@ -2469,18 +2469,18 @@ void activity_handlers::start_engines_finish( player_activity *act, player *p )
         //Some non-muscle engines tried to start
         if( non_muscle_attempted == non_muscle_started ) {
             //All of the non-muscle engines started
-            add_msg( ngettext( "The %s's engine starts up.",
+            add_msg( vgettext( "The %s's engine starts up.",
                                "The %s's engines start up.", non_muscle_started ), veh->name );
         } else if( non_muscle_started > 0 ) {
             //Only some of the non-muscle engines started
-            add_msg( ngettext( "One of the %s's engines start up.",
+            add_msg( vgettext( "One of the %s's engines start up.",
                                "Some of the %s's engines start up.", non_muscle_started ), veh->name );
         } else if( non_combustion_started > 0 ) {
             //Non-combustions "engines" started
             add_msg( _( "The %s is ready for movement." ), veh->name );
         } else {
             //All of the non-muscle engines failed
-            add_msg( m_bad, ngettext( "The %s's engine fails to start.",
+            add_msg( m_bad, vgettext( "The %s's engine fails to start.",
                                       "The %s's engines fail to start.", non_muscle_attempted ), veh->name );
         }
     }
@@ -3458,7 +3458,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
 
     const int difficulty = act->values.front();
 
-    const std::vector<body_part> bps = get_occupied_bodyparts( bid );
+    const std::vector<bodypart_id> bps = get_occupied_bodyparts( bid );
 
     const time_duration half_op_duration = difficulty * 10_minutes;
     const time_duration message_freq = difficulty * 2_minutes;
@@ -3480,22 +3480,21 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                                           _( "The Autodoc's failure damages <npcname> greatly." ) );
             }
             if( !bps.empty() ) {
-                for( const body_part bp : bps ) {
-                    const bodypart_id bpid = convert_bp( bp ).id();
+                for( const bodypart_id &bp : bps ) {
                     p->make_bleed( bp, 1_turns, difficulty, true );
-                    p->apply_damage( nullptr, bpid, 20 * difficulty );
+                    p->apply_damage( nullptr, bp, 20 * difficulty );
 
                     if( u_see ) {
                         p->add_msg_player_or_npc( m_bad, _( "Your %s is ripped open." ),
-                                                  _( "<npcname>'s %s is ripped open." ), body_part_name_accusative( bp ) );
+                                                  _( "<npcname>'s %s is ripped open." ), body_part_name_accusative( bp->token ) );
                     }
 
-                    if( bp == bp_eyes ) {
+                    if( bp == bodypart_id( "eyes" ) ) {
                         p->add_effect( effect_blind, 1_hours, num_bp );
                     }
                 }
             } else {
-                p->make_bleed( num_bp, 1_turns, difficulty, true );
+                p->make_bleed( bodypart_id( "num_bp" ), 1_turns, difficulty, true );
                 p->apply_damage( nullptr, bodypart_id( "torso" ), 20 * difficulty );
             }
         }
@@ -3503,12 +3502,12 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
 
     if( time_left > half_op_duration ) {
         if( !bps.empty() ) {
-            for( const body_part bp : bps ) {
+            for( const bodypart_id &bp : bps ) {
                 if( calendar::once_every( message_freq ) && u_see && autodoc ) {
                     p->add_msg_player_or_npc( m_info,
                                               _( "The Autodoc is meticulously cutting your %s open." ),
                                               _( "The Autodoc is meticulously cutting <npcname>'s %s open." ),
-                                              body_part_name_accusative( bp ) );
+                                              body_part_name_accusative( bp->token ) );
                 }
             }
         } else {
@@ -3548,12 +3547,12 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
         }
     } else if( act->values[1] > 0 ) {
         if( !bps.empty() ) {
-            for( const body_part bp : bps ) {
+            for( const bodypart_id &bp : bps ) {
                 if( calendar::once_every( message_freq ) && u_see && autodoc ) {
                     p->add_msg_player_or_npc( m_info,
                                               _( "The Autodoc is stitching your %s back up." ),
                                               _( "The Autodoc is stitching <npcname>'s %s back up." ),
-                                              body_part_name_accusative( bp ) );
+                                              body_part_name_accusative( bp->token ) );
                 }
             }
         } else {
@@ -4662,7 +4661,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 
     // if level is -1 then we know it's a player spell, otherwise we build it from the ground up
     spell temp_spell( sp );
-    spell &spell_being_cast = ( level_override == -1 ) ? p->magic.get_spell( sp ) : temp_spell;
+    spell &spell_being_cast = ( level_override == -1 ) ? p->magic->get_spell( sp ) : temp_spell;
 
     // if level != 1 then we need to set the spell's level
     if( level_override != -1 ) {
@@ -4737,7 +4736,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
         int cost = spell_being_cast.energy_cost( *p );
         switch( spell_being_cast.energy_source() ) {
             case mana_energy:
-                p->magic.mod_mana( *p, -cost );
+                p->magic->mod_mana( *p, -cost );
                 break;
             case stamina_energy:
                 p->mod_stamina( -cost );
@@ -4785,7 +4784,7 @@ void activity_handlers::study_spell_do_turn( player_activity *act, player *p )
         return;
     }
     if( act->get_str_value( 1 ) == "study" ) {
-        spell &studying = p->magic.get_spell( spell_id( act->name ) );
+        spell &studying = p->magic->get_spell( spell_id( act->name ) );
         if( act->get_str_value( 0 ) == "gain_level" ) {
             if( studying.get_level() < act->get_value( 1 ) ) {
                 act->moves_left = 1000000;
@@ -4807,10 +4806,10 @@ void activity_handlers::study_spell_finish( player_activity *act, player *p )
     if( act->get_str_value( 1 ) == "study" ) {
         p->add_msg_if_player( m_good, _( "You gained %i experience from your study session." ),
                               total_exp_gained );
-        const spell &sp = p->magic.get_spell( spell_id( act->name ) );
+        const spell &sp = p->magic->get_spell( spell_id( act->name ) );
         p->practice( sp.skill(), total_exp_gained, sp.get_difficulty() );
     } else if( act->get_str_value( 1 ) == "learn" && act->values[2] == 0 ) {
-        p->magic.learn_spell( act->name, *p );
+        p->magic->learn_spell( act->name, *p );
     }
     if( act->values[2] == -1 ) {
         p->add_msg_if_player( m_bad, _( "It's too dark to read." ) );

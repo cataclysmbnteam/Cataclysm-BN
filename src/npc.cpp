@@ -17,7 +17,6 @@
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "clzones.h"
-#include "compatibility.h"
 #include "coordinate_conversions.h"
 #include "damage.h"
 #include "debug.h"
@@ -318,7 +317,7 @@ void npc::randomize( const npc_class_id &type )
         setID( g->assign_npc_id() );
     }
 
-    weapon   = item( "null", 0 );
+    weapon   = item( "null", calendar::start_of_cataclysm );
     inv.clear();
     personality.aggression = rng( -10, 10 );
     personality.bravery    = rng( -3, 10 );
@@ -443,8 +442,8 @@ void npc::randomize( const npc_class_id &type )
     }
     // Add spells for magiclysm mod
     for( std::pair<spell_id, int> spell_pair : type->_starting_spells ) {
-        this->magic.learn_spell( spell_pair.first, *this, true );
-        spell &sp = this->magic.get_spell( spell_pair.first );
+        this->magic->learn_spell( spell_pair.first, *this, true );
+        spell &sp = this->magic->get_spell( spell_pair.first );
         while( sp.get_level() < spell_pair.second && !sp.is_max_level() ) {
             sp.gain_level();
         }
@@ -999,7 +998,7 @@ void npc::start_read( item_location loc, player *pl )
     const double penalty = static_cast<double>( time_taken ) / time_to_read( chosen, *pl );
     player_activity act( ACT_READ, time_taken, 0, pl->getID().get_value() );
     act.targets.emplace_back( loc );
-    act.str_values.push_back( to_string( penalty ) );
+    act.str_values.push_back( std::to_string( penalty ) );
     // push an identifier of martial art book to the action handling
     if( chosen.type->use_methods.count( "MA_MANUAL" ) ) {
         act.str_values.clear();

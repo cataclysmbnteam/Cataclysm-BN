@@ -5,6 +5,7 @@
 
 #include "catacharset.h"
 #include "catch/catch.hpp"
+#include "options_helpers.h"
 #include "translations.h"
 
 TEST_CASE( "utf8_width", "[catacharset]" )
@@ -36,30 +37,33 @@ TEST_CASE( "base64", "[catacharset]" )
 
 TEST_CASE( "utf8_to_wstr", "[catacharset]" )
 {
-    // std::mbstowcs' returning -1 workaround
-    setlocale( LC_ALL, "" );
+    if( !try_set_utf8_locale() ) {
+        // On platforms where we can't set the locale, ignore this test
+        WARN( "Skipped (unable to set locale)" );
+        return;
+    }
     std::string src( u8"Hello, 世界!" );
     std::wstring dest( L"Hello, 世界!" );
     CHECK( utf8_to_wstr( src ) == dest );
-    setlocale( LC_ALL, "C" );
 }
 
 TEST_CASE( "wstr_to_utf8", "[catacharset]" )
 {
-    // std::wcstombs' returning -1 workaround
-    setlocale( LC_ALL, "" );
+    if( !try_set_utf8_locale() ) {
+        // On platforms where we can't set the locale, ignore this test
+        WARN( "Skipped (unable to set locale)" );
+        return;
+    }
     std::wstring src( L"Hello, 世界!" );
     std::string dest( u8"Hello, 世界!" );
     CHECK( wstr_to_utf8( src ) == dest );
-    setlocale( LC_ALL, "C" );
 }
 
 TEST_CASE( "localized_compare", "[catacharset]" )
 {
-    try {
-        std::locale::global( std::locale( "en_US.UTF-8" ) );
-    } catch( std::runtime_error & ) {
+    if( !try_set_utf8_locale() ) {
         // On platforms where we can't set the locale, ignore this test
+        WARN( "Skipped (unable to set locale)" );
         return;
     }
     CAPTURE( setlocale( LC_ALL, nullptr ) );

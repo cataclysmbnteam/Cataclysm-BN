@@ -304,8 +304,8 @@ class monster : public Creature
         bool is_immune_effect( const efftype_id & ) const override;
         bool is_immune_damage( damage_type ) const override;
 
-        void absorb_hit( body_part bp, damage_instance &dam ) override;
-        bool block_hit( Creature *source, body_part &bp_hit, damage_instance &d ) override;
+        void absorb_hit( const bodypart_id &bp, damage_instance &dam ) override;
+        bool block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &d ) override;
         void melee_attack( Creature &target );
         void melee_attack( Creature &target, float accuracy );
         void melee_attack( Creature &p, bool ) = delete;
@@ -380,7 +380,7 @@ class monster : public Creature
         // Something hit us (possibly null source)
         void on_hit( Creature *source, bodypart_id bp_hit,
                      float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
-        void on_damage_of_type( int amt, damage_type dt, body_part bp ) override;
+        void on_damage_of_type( int amt, damage_type dt, const bodypart_id &bp ) override;
 
         /** Resets a given special to its monster type cooldown value */
         void reset_special( const std::string &special_name );

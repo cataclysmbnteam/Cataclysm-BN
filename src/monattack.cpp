@@ -2056,7 +2056,7 @@ bool mattack::impale( monster *z )
         target->on_hit( z, bodypart_id( "torso" ),  z->type->melee_skill );
         if( one_in( 60 / ( dam + 20 ) ) ) {
             if( target->is_player() || target->is_npc() ) {
-                target->as_character()->make_bleed( bp_torso, rng( 75_turns, 125_turns ), true );
+                target->as_character()->make_bleed( bodypart_id( "torso" ), rng( 75_turns, 125_turns ), true );
             } else {
                 target->add_effect( effect_bleed, rng( 75_turns, 125_turns ), bp_torso, true );
             }
@@ -3421,7 +3421,7 @@ bool mattack::searchlight( monster *z )
 
         for( int i = 0; i < max_lamp_count; i++ ) {
 
-            item settings( "processor", 0 );
+            item settings( "processor", calendar::start_of_cataclysm );
 
             settings.set_var( "SL_PREFER_UP", "TRUE" );
             settings.set_var( "SL_PREFER_DOWN", "TRUE" );
@@ -3603,7 +3603,7 @@ bool mattack::flamethrower( monster *z )
         if( target == nullptr ) {
             // Because that stupid oaf was in the way!
             if( boo_hoo > 0 && g->u.sees( *z ) ) {
-                add_msg( m_warning, ngettext( "Pointed in your direction, the %s emits an IFF warning beep.",
+                add_msg( m_warning, vgettext( "Pointed in your direction, the %s emits an IFF warning beep.",
                                               "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
                                               boo_hoo ),
                          z->name(), boo_hoo );
@@ -3741,7 +3741,7 @@ bool mattack::chickenbot( monster *z )
         target = z->auto_find_hostile_target( 38, boo_hoo );
         if( target == nullptr ) {
             if( boo_hoo > 0 && g->u.sees( *z ) ) { // because that stupid oaf was in the way!
-                add_msg( m_warning, ngettext( "Pointed in your direction, the %s emits an IFF warning beep.",
+                add_msg( m_warning, vgettext( "Pointed in your direction, the %s emits an IFF warning beep.",
                                               "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
                                               boo_hoo ),
                          z->name(), boo_hoo );
@@ -3823,7 +3823,7 @@ bool mattack::multi_robot( monster *z )
         target = z->auto_find_hostile_target( 48, boo_hoo );
         if( target == nullptr ) {
             if( boo_hoo > 0 && g->u.sees( *z ) ) { // because that stupid oaf was in the way!
-                add_msg( m_warning, ngettext( "Pointed in your direction, the %s emits an IFF warning beep.",
+                add_msg( m_warning, vgettext( "Pointed in your direction, the %s emits an IFF warning beep.",
                                               "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
                                               boo_hoo ),
                          z->name(), boo_hoo );
@@ -4390,7 +4390,7 @@ bool mattack::longswipe( monster *z )
                                        _( "The %1$s slashes at <npcname>'s neck, cutting their throat for %2$d damage!" ),
                                        z->name(), dam );
         if( target->is_player() || target->is_npc() ) {
-            target->as_character()->make_bleed( bp_head, 10_minutes );
+            target->as_character()->make_bleed( bodypart_id( "head" ), 10_minutes );
         } else {
             target->add_effect( effect_bleed, 10_minutes, bp_head );
         }
@@ -4684,7 +4684,7 @@ bool mattack::riotbot( monster *z )
         if( choice == ur_arrest ) {
             z->anger = 0;
 
-            item handcuffs( "e_handcuffs", 0 );
+            item handcuffs( "e_handcuffs", calendar::start_of_cataclysm );
             handcuffs.charges = handcuffs.type->maximum_charges();
             handcuffs.active = true;
             handcuffs.set_var( "HANDCUFFS_X", foe->posx() );
@@ -5233,7 +5233,7 @@ bool mattack::bio_op_impale( monster *z )
         target->add_msg_if_player( m_bad, _( "and deals %d damage!" ), t_dam );
 
         if( do_bleed ) {
-            target->as_character()->make_bleed( hit->token, rng( 75_turns, 125_turns ), true );
+            target->as_character()->make_bleed( hit, rng( 75_turns, 125_turns ), true );
         }
     } else {
         target->add_msg_player_or_npc( _( "but fails to penetrate your armor!" ),

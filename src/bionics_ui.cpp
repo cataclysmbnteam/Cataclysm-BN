@@ -7,7 +7,6 @@
 
 #include "bionics.h"
 #include "catacharset.h"
-#include "compatibility.h"
 #include "game.h"
 #include "input.h"
 #include "inventory.h"
@@ -110,19 +109,19 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
     const int joule = ( curr_power % units::to_millijoule( 1_kJ ) ) / units::to_millijoule( 1_J );
     const int milli = curr_power % units::to_millijoule( 1_J );
     if( kilo > 0 ) {
-        power_string = to_string( kilo );
+        power_string = std::to_string( kilo );
         if( joule > 0 ) {
-            power_string += pgettext( "decimal separator", "." ) + to_string( joule );
+            power_string += pgettext( "decimal separator", "." ) + std::to_string( joule );
         }
         power_string += pgettext( "energy unit: kilojoule", "kJ" );
     } else if( joule > 0 ) {
-        power_string = to_string( joule );
+        power_string = std::to_string( joule );
         if( milli > 0 ) {
-            power_string += pgettext( "decimal separator", "." ) + to_string( milli );
+            power_string += pgettext( "decimal separator", "." ) + std::to_string( milli );
         }
         power_string += pgettext( "energy unit: joule", "J" );
     } else {
-        power_string = to_string( milli ) + pgettext( "energy unit: millijoule", "mJ" );
+        power_string = std::to_string( milli ) + pgettext( "energy unit: millijoule", "mJ" );
     }
 
     const int pwr_str_pos = right_print( window, 1, 1, c_white,
@@ -272,8 +271,8 @@ static void draw_connectors( const catacurses::window &win, const int start_y, c
     const int LIST_START_Y = 7;
     // first: pos_y, second: occupied slots
     std::vector<std::pair<int, size_t>> pos_and_num;
-    for( const auto &elem : bio_id->occupied_bodyparts ) {
-        pos_and_num.emplace_back( static_cast<int>( elem.first ) + LIST_START_Y, elem.second );
+    for( const std::pair<const bodypart_str_id, size_t> &elem : bio_id->occupied_bodyparts ) {
+        pos_and_num.emplace_back( static_cast<int>( elem.first->token ) + LIST_START_Y, elem.second );
     }
     if( pos_and_num.empty() || !get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
         return;
@@ -525,10 +524,10 @@ void player::power_bionics()
 
         int max_width = 0;
         std::vector<std::string> bps;
-        for( const body_part bp : all_body_parts ) {
+        for( const bodypart_id &bp : get_all_body_parts() ) {
             const int total = get_total_bionics_slots( bp );
             const std::string s = string_format( "%s: %d/%d",
-                                                 body_part_name_as_heading( bp, 1 ),
+                                                 body_part_name_as_heading( bp->token, 1 ),
                                                  total - get_free_bionics_slots( bp ), total );
             bps.push_back( s );
             max_width = std::max( max_width, utf8_width( s ) );
@@ -570,8 +569,8 @@ void player::power_bionics()
                                      pos_x - 2, bio_id );
 
                     // redraw highlighted (occupied) body parts
-                    for( auto &elem : bio_id->occupied_bodyparts ) {
-                        const int i = static_cast<int>( elem.first );
+                    for( const std::pair<const bodypart_str_id, size_t> &elem : bio_id->occupied_bodyparts ) {
+                        const int i = static_cast<int>( elem.first->token );
                         mvwprintz( wBio, point( pos_x, i + list_start_y ), c_yellow, bps[i] );
                     }
                 }

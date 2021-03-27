@@ -116,7 +116,7 @@ struct bionic_data {
     /**
      * Body part slots used to install this bionic, mapped to the amount of space required.
      */
-    std::map<body_part, size_t> occupied_bodyparts;
+    std::map<bodypart_str_id, size_t> occupied_bodyparts;
     /**
      * Body part encumbered by this bionic, mapped to the amount of encumbrance caused.
      */
@@ -131,6 +131,12 @@ struct bionic_data {
      * E.g. enhanced optic bionic may cancel HYPEROPIC trait.
      */
     std::vector<trait_id> canceled_mutations;
+
+    /**
+     * The spells you learn when you install this bionic, and what level you learn them at.
+     */
+    std::map<spell_id, int> learned_spells;
+
     /**
      * Additional bionics that are installed automatically when this
      * bionic is installed. This can be used to install several bionics
@@ -201,7 +207,7 @@ class bionic_collection : public std::vector<bionic>
 };
 
 /**List of bodyparts occupied by a bionic*/
-std::vector<body_part> get_occupied_bodyparts( const bionic_id &bid );
+std::vector<bodypart_id> get_occupied_bodyparts( const bionic_id &bid );
 
 void check_bionics();
 void finalize_bionics();

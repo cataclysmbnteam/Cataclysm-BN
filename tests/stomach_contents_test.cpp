@@ -241,7 +241,7 @@ TEST_CASE( "Eating food fills up stomach calories", "[stomach]" )
     clear_stomach( dummy );
     dummy.set_stored_kcal( 100 );
     dummy.set_thirst( 500 );
-    item food( "protein_drink", 0, 10 );
+    item food( "protein_drink", calendar::start_of_cataclysm, 10 );
     REQUIRE( dummy.compute_effective_nutrients( food ).kcal == 100 );
     int attempts = 10;
     do {
@@ -256,7 +256,7 @@ TEST_CASE( "Eating above max kcal causes bloating", "[stomach]" )
     reset_time();
     clear_stomach( dummy );
     dummy.set_stored_kcal( dummy.max_stored_calories() );
-    item food( "protein_drink", 0, 10 );
+    item food( "protein_drink", calendar::start_of_cataclysm, 10 );
     REQUIRE( dummy.compute_effective_nutrients( food ).kcal > 0 );
     WHEN( "Character consumes calories above max" ) {
         dummy.eat( food, true );

@@ -29,6 +29,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "messages.h"
 #include "monster.h"
@@ -674,7 +675,7 @@ void Character::suffer_from_asthma( const int current_stim )
             if( charges == 0 ) {
                 add_msg_if_player( m_bad, _( "You use your last inhaler charge." ) );
             } else {
-                add_msg_if_player( m_info, ngettext( "You use your inhaler, "
+                add_msg_if_player( m_info, vgettext( "You use your inhaler, "
                                                      "only %d charge left.",
                                                      "You use your inhaler, "
                                                      "only %d charges left.", charges ),
@@ -688,7 +689,7 @@ void Character::suffer_from_asthma( const int current_stim )
                 add_msg_if_player( m_bad, _( "You breathe in last bit of oxygen "
                                              "from the tank." ) );
             } else {
-                add_msg_if_player( m_info, ngettext( "You take a deep breath from your oxygen "
+                add_msg_if_player( m_info, vgettext( "You take a deep breath from your oxygen "
                                                      "tank, only %d charge left.",
                                                      "You take a deep breath from your oxygen "
                                                      "tank, only %d charges left.", charges ),
@@ -707,7 +708,7 @@ void Character::suffer_from_asthma( const int current_stim )
 void Character::suffer_in_sunlight()
 {
     double sleeve_factor = armwear_factor();
-    const bool has_hat = wearing_something_on( bp_head );
+    const bool has_hat = wearing_something_on( bodypart_id( "head" ) );
     const bool leafy = has_trait( trait_LEAVES ) || has_trait( trait_LEAVES2 ) ||
                        has_trait( trait_LEAVES3 );
     const bool leafier = has_trait( trait_LEAVES2 ) || has_trait( trait_LEAVES3 );
@@ -789,7 +790,7 @@ void Character::suffer_from_albinism()
     }
     // Sunglasses can keep the sun off the eyes.
     if( !has_bionic( bio_sunglasses ) &&
-        !( wearing_something_on( bp_eyes ) &&
+        !( wearing_something_on( bodypart_id( "eyes" ) ) &&
            ( worn_with_flag( flag_SUN_GLASSES ) || worn_with_flag( flag_BLIND ) ) ) ) {
         add_msg_if_player( m_bad, _( "The sunlight is really irritating your eyes." ) );
         if( one_turn_in( 1_minutes ) ) {
@@ -1459,7 +1460,7 @@ void Character::suffer()
     suffer_without_sleep( sleep_deprivation );
     suffer_from_pain();
     //Suffer from enchantments
-    enchantment_cache.activate_passive( *this );
+    enchantment_cache->activate_passive( *this );
 
     if( calendar::once_every( 1_hours ) ) {
         add_effect( effect_accumulated_mutagen, 1_hours, num_bp, true );
@@ -1617,7 +1618,7 @@ void Character::mend( int rate_multiplier )
         }
 
         body_part part = hp_to_bp( static_cast<hp_part>( i ) );
-        if( needs_splint && !worn_with_flag( "SPLINT", part ) ) {
+        if( needs_splint && !worn_with_flag( "SPLINT", convert_bp( part ).id() ) ) {
             continue;
         }
 

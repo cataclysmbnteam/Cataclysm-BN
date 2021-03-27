@@ -56,10 +56,8 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
             add_msg( _( "The %s shatters!" ), drop_item.tname() );
         }
 
-        drop_item.visit_items( [&pt]( const item * it ) {
-            g->m.add_item_or_charges( pt, *it );
-            return VisitResponse::NEXT;
-        } );
+        // copies the drop item to spill the contents
+        item( drop_item ).spill_contents( pt );
 
         // TODO: Non-glass breaking
         // TODO: Wine glass breaking vs. entire sheet of glass breaking

@@ -16,7 +16,6 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
-#include "compatibility.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
@@ -835,7 +834,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
 
             if( !p.has_enough_charges( it, false ) ) {
                 return string_format(
-                           ngettext( "Needs at least %d charge",
+                           vgettext( "Needs at least %d charge",
                                      "Needs at least %d charges", loc->ammo_required() ),
                            loc->ammo_required() );
             }
@@ -978,7 +977,7 @@ class read_inventory_preset: public inventory_selector_preset
                 const auto &book = get_book( loc );
                 const int unlearned = book.recipes.size() - get_known_recipes( book );
 
-                return unlearned > 0 ? to_string( unlearned ) : std::string();
+                return unlearned > 0 ? std::to_string( unlearned ) : std::string();
             }, _( "RECIPES" ), unknown );
             append_cell( [ &p ]( const item_location & loc ) -> std::string {
                 return good_bad_none( p.book_fun_for( *loc, p ) );
@@ -1188,7 +1187,7 @@ class weapon_inventory_preset: public inventory_selector_preset
 
             append_cell( [ this ]( const item_location & loc ) {
                 if( deals_melee_damage( *loc ) ) {
-                    return string_format( "<color_yellow>%d</color>", this->p.attack_speed( *loc ) );
+                    return string_format( "<color_yellow>%d</color>", this->p.attack_cost( *loc ) );
                 }
                 return std::string();
             }, _( "MOVES" ) );

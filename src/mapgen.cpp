@@ -4102,8 +4102,9 @@ void map::draw_lab( mapgendata &dat )
                     int marker_x = center.x - 2 + 4 * rng( 0, 1 );
                     int marker_y = center.y + rng( -2, 2 );
                     if( one_in( 4 ) ) {
-                        spawn_item( point( marker_x, marker_y ),
-                                    "mininuke", 1, 1, 0, rng( 2, 4 ) );
+                        spawn_item(
+                            point( marker_x, marker_y ), "mininuke", 1, 1, calendar::start_of_cataclysm, rng( 2, 4 )
+                        );
                     } else {
                         item newliquid( "plut_slurry_dense", calendar::start_of_cataclysm );
                         newliquid.charges = 1;
@@ -5222,7 +5223,7 @@ void map::draw_spiral( mapgendata &dat )
             ter_set( point( orx + 3, ory + 3 ), t_rock );
             ter_set( point( orx + 2, ory + 3 ), t_rock_floor );
             place_items( item_group_id( "spiral" ), 60, point( orx + 2, ory + 3 ), point( orx + 2, ory + 3 ),
-                         false, 0 );
+                         false, calendar::start_of_cataclysm );
         }
     }
 }
@@ -5666,7 +5667,7 @@ void map::place_spawns( const mongroup_id &group, const int chance,
 
 void map::place_gas_pump( const point &p, int charges, const std::string &fuel_type )
 {
-    item fuel( fuel_type, 0 );
+    item fuel( fuel_type, calendar::start_of_cataclysm );
     fuel.charges = charges;
     add_item( p, fuel );
     ter_set( p, ter_id( fuel.fuel_pump_terrain() ) );
@@ -5674,7 +5675,7 @@ void map::place_gas_pump( const point &p, int charges, const std::string &fuel_t
 
 void map::place_toilet( const point &p, int charges )
 {
-    item water( "water", 0 );
+    item water( "water", calendar::start_of_cataclysm );
     water.charges = charges;
     add_item( p, water );
     furn_set( p, f_toilet );
@@ -6451,7 +6452,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                                             mapf::ter_bind( "- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass ),
                                             mapf::furn_bind( "c", f_counter ) );
                 m->place_items( item_group_id( "bionics_common" ), 70, point( biox, bioy ), point( biox, bioy ),
-                                false, 0 );
+                                false, calendar::start_of_cataclysm );
 
                 m->ter_set( point( biox - 2, bioy ), t_console );
                 computer *tmpcomp2 = m->add_computer( tripoint( biox - 2,  bioy, z ), _( "Bionic access" ), 2 );

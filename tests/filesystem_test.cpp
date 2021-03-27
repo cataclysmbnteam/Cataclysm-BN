@@ -30,7 +30,7 @@ static void filesystem_test_group( int serial, const std::string &s1, const std:
 
     // Make sure there's no interference from e.g. uncleaned old runs
     std::string base = g->get_world_base_save_path() + "/fs_test_" +
-                       get_pid_string() + "_" + to_string( serial ) + "/";
+                       get_pid_string() + "_" + std::to_string( serial ) + "/";
     REQUIRE( !dir_exist( base ) );
     REQUIRE( assure_dir_exist( base ) );
     REQUIRE( can_write_to_dir( base ) );

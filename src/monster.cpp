@@ -8,7 +8,6 @@
 
 #include "avatar.h"
 #include "character.h"
-#include "compatibility.h"
 #include "coordinate_conversions.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -235,7 +234,7 @@ monster::monster()
     ignoring = 0;
     upgrades = false;
     upgrade_time = -1;
-    last_updated = 0;
+    last_updated = calendar::start_of_cataclysm;
     udder_timer = calendar::turn;
     horde_attraction = MHA_NULL;
 }
@@ -263,7 +262,7 @@ monster::monster( const mtype_id &id ) : monster()
         itype_id mech_bat = itype_id( type->mech_battery );
         const itype &type = *item::find_type( mech_bat );
         int max_charge = type.magazine->capacity;
-        item mech_bat_item = item( mech_bat, 0 );
+        item mech_bat_item = item( mech_bat, calendar::start_of_cataclysm );
         mech_bat_item.ammo_consume( rng( 0, max_charge ), tripoint_zero );
         battery_item = cata::make_value<item>( mech_bat_item );
     }
@@ -646,7 +645,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     wprintz( w, att.second, att.first );
 
     if( debug_mode ) {
-        wprintz( w, c_light_gray, _( " Difficulty " ) + to_string( type->difficulty ) );
+        wprintz( w, c_light_gray, _( " Difficulty " ) + std::to_string( type->difficulty ) );
     }
 
     if( sees( g->u ) ) {
@@ -680,7 +679,7 @@ std::string monster::extended_description() const
     std::string att_colored = colorize( att.first, att.second );
     std::string difficulty_str;
     if( debug_mode ) {
-        difficulty_str = _( "Difficulty " ) + to_string( type->difficulty );
+        difficulty_str = _( "Difficulty " ) + std::to_string( type->difficulty );
     } else {
         if( type->difficulty < 3 ) {
             difficulty_str = _( "<color_light_gray>Minimal threat.</color>" );
@@ -1320,12 +1319,12 @@ bool monster::is_dead_state() const
     return hp <= 0;
 }
 
-bool monster::block_hit( Creature *, body_part &, damage_instance & )
+bool monster::block_hit( Creature *, bodypart_id &, damage_instance & )
 {
     return false;
 }
 
-void monster::absorb_hit( body_part, damage_instance &dam )
+void monster::absorb_hit( const bodypart_id &, damage_instance &dam )
 {
     for( auto &elem : dam.damage_units ) {
         add_msg( m_debug, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
@@ -1503,7 +1502,7 @@ void monster::melee_attack( Creature &target, float accuracy )
     if( total_dealt > 6 && stab_cut > 0 && has_flag( MF_BLEED ) ) {
         // Maybe should only be if DT_CUT > 6... Balance question
         if( target.is_player() || target.is_npc() ) {
-            target.as_character()->make_bleed( bp_hit, 6_minutes );
+            target.as_character()->make_bleed( convert_bp( bp_hit ).id(), 6_minutes );
         } else {
             target.add_effect( effect_bleed, 6_minutes, bp_hit );
         }
@@ -2220,15 +2219,15 @@ void monster::die( Creature *nkiller )
     move_special_item_to_inv( tied_item );
 
     if( has_effect( effect_lightsnare ) ) {
-        add_item( item( "string_36", 0 ) );
-        add_item( item( "snare_trigger", 0 ) );
+        add_item( item( "string_36", calendar::start_of_cataclysm ) );
+        add_item( item( "snare_trigger", calendar::start_of_cataclysm ) );
     }
     if( has_effect( effect_heavysnare ) ) {
-        add_item( item( "rope_6", 0 ) );
-        add_item( item( "snare_trigger", 0 ) );
+        add_item( item( "rope_6", calendar::start_of_cataclysm ) );
+        add_item( item( "snare_trigger", calendar::start_of_cataclysm ) );
     }
     if( has_effect( effect_beartrap ) ) {
-        add_item( item( "beartrap", 0 ) );
+        add_item( item( "beartrap", calendar::start_of_cataclysm ) );
     }
     if( has_effect( effect_grabbing ) ) {
         remove_effect( effect_grabbing );
@@ -2818,8 +2817,9 @@ void monster::on_hit( Creature *source, bodypart_id,
     // TODO: Faction relations
 }
 
-void monster::on_damage_of_type( int amt, damage_type dt, body_part )
+void monster::on_damage_of_type( int amt, damage_type dt, const bodypart_id &bp )
 {
+    Creature::on_damage_of_type( amt, dt, bp );
     int full_hp = get_hp_max();
     if( has_effect( effect_grabbing ) && ( dt == DT_BASH || dt == DT_CUT || dt == DT_STAB ) &&
         x_in_y( amt * 10, full_hp ) ) {
