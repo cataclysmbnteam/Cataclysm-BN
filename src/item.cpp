@@ -3419,7 +3419,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
 
     if( is_armor() && g->u.has_trait( trait_WOOLALLERGY ) &&
-            ( made_of( material_id( "wool" ) ) || has_own_flag( "wooled" ) ) ) {
+        ( made_of( material_id( "wool" ) ) || has_own_flag( "wooled" ) ) ) {
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "* This clothing will give you an <bad>allergic "
                                      "reaction</bad>." ) ) );

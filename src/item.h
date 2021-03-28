@@ -2135,8 +2135,9 @@ class item : public visitable<item>
         /** What faults (if any) currently apply to this item */
         std::set<fault_id> faults;
 
-    private:
+        // TODO: Move to private ASAP
         FlagsSetType item_tags; // generic item specific flags
+    private:
         safe_reference_anchor anchor;
         const itype *curammo = nullptr;
         std::map<std::string, std::string> item_vars;

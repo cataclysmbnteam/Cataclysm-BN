@@ -82,7 +82,7 @@ item vehicle_part::properties_to_item() const
             const tripoint local_pos = g->m.getlocal( target.first );
             if( !g->m.veh_at( local_pos ) ) {
                 // That vehicle ain't there no more.
-            tmp.set_flag( "NO_DROP" );
+                tmp.set_flag( "NO_DROP" );
             }
 
             tmp.set_var( "source_x", target.first.x );
