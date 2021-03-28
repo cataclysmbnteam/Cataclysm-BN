@@ -280,7 +280,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 15 ] ],
-    "flags": [ "STAB", "SHEATHE_KNIFE" ]
+    "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
     "id": "makeshift_machete",
@@ -1594,7 +1594,7 @@
     "charges_per_use": 0,
     "revert_to": "ecs_lajatang_off",
     "use_action": "ECS_LAJATANG_ON",
-    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
+    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
     "magazine_well": 4
   },
   {

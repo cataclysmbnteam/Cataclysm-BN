@@ -93,6 +93,11 @@
     "info": "This clothing has <info>built-in or attached climate control</info>, keeping you at a <good>comfortable temperature</good>."
   },
   {
+    "id": "CLOSES_PORTAL",
+    "type": "json_flag",
+    "context": [ "GENERIC" ]
+  },
+  {
     "id": "COLLAR",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -278,6 +283,11 @@
     "//": "Zombie-dropped clothing giving various penalties if Filthy mod is active.  Also CBMs harvested from zombies.",
     "craft_inherit": true,
     "info": "This item is <bad>filthy</bad>."
+  },
+  {
+    "id": "FLAMMABLE",
+    "type": "json_flag",
+    "context": [ "GENERIC" ]
   },
   {
     "id": "FLASH_PROTECTION",
@@ -569,21 +579,14 @@
     "context": [ "TOOL", "TOOL_ARMOR" ]
   },
   {
-    "id": "NO_PARASITES",
+    "id": "MILLABLE",
     "type": "json_flag",
     "context": [ "COMESTIBLE" ]
   },
   {
-    "id": "MUSHY",
+    "id": "NO_PARASITES",
     "type": "json_flag",
-    "context": [ "COMESTIBLE" ],
-    "info": "This food was frozen and is now <bad>mushy</bad> and tasteless and <bad>will go bad</bad> after freezing again."
-  },
-  {
-    "id": "FREEZERBURN",
-    "type": "json_flag",
-    "context": [ "COMESTIBLE" ],
-    "info": "This food was frozen and is now <bad>mushy</bad> and tasteless and <bad>will go bad</bad> after freezing again."
+    "context": [ "COMESTIBLE" ]
   },
   {
     "id": "PSYSHIELD_PARTIAL",
@@ -610,7 +613,7 @@
     "id": "REQUIRES_BALANCE",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "info": "This gear requires careful balance to use. Being hit while wearing it could make you <bad>fall down</bad>."
+    "info": "This gear requires careful balance to use.  Being hit while wearing it could make you <bad>fall down</bad>."
   },
   {
     "id": "ROLLER_ONE",
@@ -836,6 +839,18 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "info": "This clothing has a wool lining sewn into it to <good>increase</good> its overall <info>warmth</info>."
+  },
+  {
+    "id": "USES_GRID_POWER",
+    "type": "json_flag",
+    "context": [ "TOOL" ],
+    "info": "This item is uses power from an <info>electric grid</info>."
+  },
+  {
+    "id": "USES_GRID_POWER",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "info": "This item is uses power from an <info>electric grid</info>."
   },
   {
     "id": "UNARMED_WEAPON",

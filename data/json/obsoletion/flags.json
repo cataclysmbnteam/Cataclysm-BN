@@ -1,0 +1,7 @@
+[
+  {
+    "id": "FREEZERBURN",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ]
+  }
+]

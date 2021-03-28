@@ -49,12 +49,6 @@ const json_flag &flag_str_id::obj() const
     return json_flags_all.obj( *this );
 }
 
-template<>
-flag_id flag_str_id::id_or( const flag_id &fallback ) const
-{
-    return json_flags_all.convert( *this, fallback, false );
-}
-
 /** @relates string_id */
 template<>
 flag_id flag_str_id::id() const

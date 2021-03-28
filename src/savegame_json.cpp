@@ -2233,7 +2233,7 @@ void item::io( Archive &archive )
     // erase all invalid flags (not defined in flags.json), display warning about invalid flags
     erase_if( item_tags, [&]( const std::string & f ) {
         if( !json_flag::get( f ).id.is_valid() ) {
-            debugmsg( "item of type '%s' was loaded with undefined flag '%s'.", typeId().str(), f );
+            debugmsg( "item of type '%s' was loaded with undefined flag '%s'.", typeId().c_str(), f );
             return true;
         } else {
             return false;

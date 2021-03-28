@@ -123,18 +123,6 @@ static bool assign_coverage_from_json( const JsonObject &jo, const std::string &
     }
 }
 
-static bool is_physical( const itype &type )
-{
-    return !type.has_flag( "AURA" ) &&
-           !type.has_flag( "CORPSE" ) &&
-           !type.has_flag( "IRREMOVABLE" ) &&
-           !type.has_flag( "NO_DROP" ) &&
-           !type.has_flag( "NO_UNWIELD" ) &&
-           !type.has_flag( "PERSONAL" ) &&
-           !type.has_flag( "PSEUDO" ) &&
-           !type.has_flag( "ZERO_WEIGHT" );
-}
-
 void Item_factory::finalize_pre( itype &obj )
 {
     // TODO: separate repairing from reinforcing/enhancement
@@ -527,7 +515,7 @@ void Item_factory::finalize_post( itype &obj )
     erase_if( obj.item_tags, [&]( const std::string & f ) {
         if( !json_flag::get( f ).id.is_valid() ) {
             debugmsg( "itype '%s' uses undefined flag '%s'. Please add corresponding 'json_flag' entry to json.",
-                      obj.id.str(), f );
+                      obj.id.c_str(), f );
             return true;
         } else {
             return false;
