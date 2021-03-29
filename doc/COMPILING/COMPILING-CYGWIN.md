@@ -1,6 +1,6 @@
 # Compilation guide for 64 bit Windows (using CYGWIN)
 
-This guide contains steps required to allow compilation of Cataclysm-DDA on Windows under CYGWIN.
+This guide contains steps required to allow compilation of Cataclysm-BN on Windows under CYGWIN.
 
 Steps from current guide were tested on Windows 10 (64 bit) and CYGWIN (64 bit), but should work for other versions of Windows and also CYGWIN (32 bit) if you download 32 bit version of all files.
 
@@ -45,13 +45,13 @@ apt-cyg install git make astyle gcc-g++ libintl-devel libiconv-devel libSDL2_ima
 
 ## Cloning and compilation:
 
-1. Clone Cataclysm-DDA repository with following command line:
+1. Clone Cataclysm-BN repository with following command line:
 
-**Note:** This will download whole CDDA repository. If you're just testing you should probably add `--depth=1`.
+**Note:** This will download whole BN repository. If you're just testing you should probably add `--depth=1`.
 
 ```bash
-git clone https://github.com/CleverRaven/Cataclysm-DDA.git
-cd Cataclysm-DDA
+git clone https://github.com/cataclysmbnteam/Cataclysm-BN.git
+cd Cataclysm-BN
 ```
 
 2. Compile with following command line:

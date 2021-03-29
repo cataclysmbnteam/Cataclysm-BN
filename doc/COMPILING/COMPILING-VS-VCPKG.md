@@ -1,6 +1,6 @@
 # Compilation guide for Windows (using Visual Studio and vcpkg)
 
-This guide contains steps required to allow compilation of Cataclysm-DDA on Windows using Visual Studio and vcpkg.
+This guide contains steps required to allow compilation of Cataclysm-BN on Windows using Visual Studio and vcpkg.
 
 Steps from current guide were tested on Windows 10 (64 bit), Visual Studio 2019 (64 bit) and vcpkg, but should as well work with slight modifications for other versions of Windows and Visual Studio.
 
@@ -52,13 +52,13 @@ cd vcpkg
 
 ## Cloning and compilation:
 
-1. Clone Cataclysm-DDA repository with following command line:
+1. Clone Cataclysm-BN repository with following command line:
 
-**Note:** This will download whole CDDA repository. If you're just testing you should probably add `--depth=1`.
+**Note:** This will download whole CBN repository. If you're just testing you should probably add `--depth=1`.
 
 ```cmd
-git clone https://github.com/CleverRaven/Cataclysm-DDA.git
-cd Cataclysm-DDA
+git clone https://github.com/cataclysmbnteam/Cataclysm-BN.git
+cd Cataclysm-BN
 ```
 
 2. Open the provided solution (`msvc-full-features\Cataclysm-vcpkg-static.sln`) in `Visual Studio`, select configuration (`Release` or `Debug`) and platform (`x64` or `x86`) and build it.

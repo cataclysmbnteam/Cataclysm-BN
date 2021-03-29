@@ -122,7 +122,7 @@ Special note for MinGW: due to a [libintl bug](https://savannah.gnu.org/bugs/ind
 
 Instructions for compiling on a Debian-based system. The package names here are valid for Ubuntu 12.10 and may or may not work on your system.
 
-Building instructions, below, always assume you are running them from the Cataclysm:DDA source directory.
+Building instructions, below, always assume you are running them from the Cataclysm:BN source directory.
 
 ## Linux (native) ncurses builds
 
@@ -385,7 +385,7 @@ For a stable tiles build:
 
     brew install cataclysm
 
-For an experimental tiles build built from the current HEAD of [master](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/):
+For an experimental tiles build built from the current HEAD of [upload](https://github.com/cataclysmbnteam/Cataclysm-BN/tree/upload/):
 
     brew install cataclysm --HEAD
 
@@ -494,7 +494,7 @@ The Cataclysm source is compiled using `make`.
 * `RELEASE=1` build an optimized release version; omit for debug build.
 * `CLANG=1` build with [Clang](http://clang.llvm.org/), the compiler that's included with the latest Command Line Tools for Xcode; omit to build using gcc/g++.
 * `MACPORTS=1` build against dependencies installed via Macports, currently only `gettext` and `ncurses`.
-* `USE_HOME_DIR=1` places user files (config, saves, graveyard, etc) in the user's home directory. For curses builds, this is `/Users/<user>/.cataclysm-dda`, for SDL builds it is `/Users/<user>/Library/Application Support/Cataclysm`.
+* `USE_HOME_DIR=1` places user files (config, saves, graveyard, etc) in the user's home directory. For curses builds, this is `/Users/<user>/.cataclysm-bn`, for SDL builds it is `/Users/<user>/Library/Application Support/Cataclysm`.
 * `DEBUG_SYMBOLS=1` retains debug symbols when building an optimized release binary, making it easy for developers to spot the crash site.
 
 In addition to the options above, there is an `app` make target which will package the tiles build into `Cataclysm.app`, a complete tiles build in a Mac application that can run without Terminal.
@@ -597,7 +597,7 @@ Clang by default uses MSVC on Windows, but also supports the MinGW64 library. Si
 
 # BSDs
 
-There are reports of CDDA building fine on recent OpenBSD and FreeBSD machines (with appropriately recent compilers), and there is some work being done on making the `Makefile` "just work", however we're far from that and BSDs support is mostly based on user contributions. Your mileage may vary. So far essentially all testing has been on amd64, but there is no (known) reason that other architectures shouldn't work, in principle.
+There are reports of CBN building fine on recent OpenBSD and FreeBSD machines (with appropriately recent compilers), and there is some work being done on making the `Makefile` "just work", however we're far from that and BSDs support is mostly based on user contributions. Your mileage may vary. So far essentially all testing has been on amd64, but there is no (known) reason that other architectures shouldn't work, in principle.
 
 ### Building on FreeBSD/amd64 10.1 with the system compiler
 
