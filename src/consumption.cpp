@@ -26,6 +26,7 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
+#include "optional.h"
 #include "options.h"
 #include "pldata.h"
 #include "recipe.h"
@@ -162,6 +163,79 @@ const std::map<itype_id, int> plut_charges = {
     { "plut_slurry_dense", PLUTONIUM_CHARGES },
     { "plut_slurry",       PLUTONIUM_CHARGES / 2 }
 };
+
+// TODO: Better name
+enum class item_consumption_t {
+    none = 0,
+    tool,
+    component
+};
+
+// TODO: Better name
+struct prepared_item_consumption {
+    prepared_item_consumption( item_consumption_t type, const item &it )
+        : type( type )
+        , it( it )
+    { }
+    item_consumption_t type;
+    const item &it;
+
+    bool consume( Character &c ) {
+        // Ugly
+        player &p = dynamic_cast<player &>( c );
+        switch( type ) {
+            case item_consumption_t::none:
+                return true;
+            case item_consumption_t::tool: {
+                comp_selection<tool_comp> selection = comp_selection<tool_comp>();
+                selection.comp = tool_comp( it.typeId(), it.type->charges_to_use() );
+                selection.use_from = use_from_both;
+                p.consume_tools( selection, it.type->charges_to_use() );
+                return true;
+            }
+            case item_consumption_t::component: {
+                comp_selection<item_comp> selection = comp_selection<item_comp>();
+                selection.comp = item_comp( it.typeId(), 1 );
+                selection.use_from = use_from_both;
+                return !p.consume_items( selection, 1, is_crafting_component ).empty();
+            }
+        }
+
+        return false;
+    }
+};
+
+// Should return item_location instead, but it's really hard to get it from inventory
+static cata::optional<prepared_item_consumption> find_food_heater( Character &c,
+        const inventory &inv, bool has_fire )
+{
+    if( has_fire ) {
+        std::vector<const item *> fire_heaters = inv.items_with( []( const item & it ) {
+            return it.has_flag( "HEATS_FOOD_USING_FIRE" );
+        } );
+        if( !fire_heaters.empty() ) {
+            return prepared_item_consumption( item_consumption_t::none, *fire_heaters.front() );
+        }
+    }
+    std::vector<const item *> charged_heaters = inv.items_with( [&c]( const item & it ) {
+        return it.has_flag( "HEATS_FOOD_USING_CHARGES" ) &&
+               it.has_flag( "HEATS_FOOD" ) &&
+               c.has_enough_charges( it, false );
+    } );
+    if( !charged_heaters.empty() ) {
+        return prepared_item_consumption( item_consumption_t::tool, *charged_heaters.front() );
+    }
+    std::vector<const item *> consumed_heaters = inv.items_with( []( const item & it ) {
+        return it.has_flag( "HEATS_FOOD_IS_CONSUMED" ) &&
+               it.has_flag( "HEATS_FOOD" ) &&
+               is_crafting_component( it );
+    } );
+    if( !consumed_heaters.empty() ) {
+        return prepared_item_consumption( item_consumption_t::component, *consumed_heaters.front() );
+
+    }
+    return cata::nullopt;
+}
 
 static int compute_default_effective_kcal( const item &comest, const Character &you,
         const cata::flat_set<std::string> &extra_flags = {} )
@@ -992,9 +1066,22 @@ void Character::modify_addiction( const islot_comestible &comest )
     }
 }
 
-void Character::modify_morale( item &food, const int )
+void Character::modify_morale( item &food, int nutr )
 {
     time_duration morale_time = 2_hours;
+    if( food.has_flag( flag_EATEN_HOT ) ) {
+        auto heater = find_food_heater( *this, crafting_inventory(),
+                                        get_map().has_nearby_fire( pos(), PICKUP_RANGE ) );
+        if( heater && heater->consume( *this ) ) {
+            add_msg_player_or_npc( m_good,
+                                   _( "You heat up your %1$s using the %2$s." ),
+                                   _( "<npcname> heats up their %1$s using the %2$s." ),
+                                   food.tname(), heater->it.tname() );
+            morale_time = 3_hours;
+            int clamped_nutr = std::max( 5, std::min( 20, nutr / 10 ) );
+            add_morale( MORALE_FOOD_HOT, clamped_nutr, 20, morale_time, morale_time / 2 );
+        }
+    }
 
     std::pair<int, int> fun = fun_for( food );
     if( fun.first < 0 ) {

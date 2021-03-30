@@ -295,6 +295,7 @@ static const std::string flag_CURRENT( "CURRENT" );
 static const std::string flag_DIGGABLE( "DIGGABLE" );
 static const std::string flag_FISHABLE( "FISHABLE" );
 static const std::string flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
+static const std::string flag_HEATS_FOOD( "HEATS_FOOD" );
 static const std::string flag_PLANT( "PLANT" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
 
@@ -9710,11 +9711,19 @@ int iuse::magic_8_ball( player *p, item *it, bool, const tripoint & )
     return 0;
 }
 
-int iuse::cauterize_hotplate( player *p, item *it, bool t, const tripoint &pos )
+int iuse::toggle_heats_food( player *p, item *it, bool, const tripoint & )
 {
-    cauterize_actor dummy( "HOTPLATE" );
-    dummy.use( *p, *it, t, pos );
-    return it->type->charges_to_use();
+    if( it->item_tags.count( flag_HEATS_FOOD ) == 0 ) {
+        it->item_tags.insert( flag_HEATS_FOOD );
+        p->add_msg_if_player(
+            _( "You will try to use %s to heat food next time you eat something that should be eaten hot." ),
+            it->tname().c_str() );
+    } else {
+        it->item_tags.erase( flag_HEATS_FOOD );
+        p->add_msg_if_player( _( "You will no longer use %s to heat food." ), it->tname().c_str() );
+    }
+
+    return 0;
 }
 
 void use_function::dump_info( const item &it, std::vector<iteminfo> &dump ) const

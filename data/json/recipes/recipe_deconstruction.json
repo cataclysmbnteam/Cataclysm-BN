@@ -4064,6 +4064,13 @@
     "components": [ [ [ "plastic_scrap", 1 ] ] ]
   },
   {
+    "result": "heatpack_used",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "6 s",
+    "components": [ [ [ "plastic_scrap", 5 ] ] ]
+  },
+  {
     "result": "thermostat",
     "type": "uncraft",
     "skill_used": "fabrication",

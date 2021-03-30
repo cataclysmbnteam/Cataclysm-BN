@@ -1210,4 +1210,21 @@ class sew_advanced_actor : public iuse_actor
         int use( player &, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
+
+/**
+ * Make the food hot, for better morale bonus.
+ */
+class heat_food_actor : public iuse_actor
+{
+    public:
+        bool uses_fire;
+
+        heat_food_actor( const std::string &type = "heat_food" ) : iuse_actor( type ) {}
+
+        ~heat_food_actor() override = default;
+        void load( const JsonObject &obj ) override;
+        int use( player &, item &, bool, const tripoint & ) const override;
+        ret_val<bool> can_use( const Character &, const item &, bool, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+};
 #endif // CATA_SRC_IUSE_ACTOR_H

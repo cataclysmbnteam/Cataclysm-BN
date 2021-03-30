@@ -169,6 +169,7 @@ static const std::string flag_FIT( "FIT" );
 static const std::string flag_FLAMMABLE( "FLAMMABLE" );
 static const std::string flag_FLAMMABLE_ASH( "FLAMMABLE_ASH" );
 static const std::string flag_GIBBED( "GIBBED" );
+static const std::string flag_HEATS_FOOD( "HEATS_FOOD" );
 static const std::string flag_HELMET_COMPAT( "HELMET_COMPAT" );
 static const std::string flag_HIDDEN_HALLU( "HIDDEN_HALLU" );
 static const std::string flag_HIDDEN_POISON( "HIDDEN_POISON" );
@@ -4363,6 +4364,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
 
     if( is_tool() && has_flag( flag_USE_UPS ) ) {
         tagtext += _( " (UPS)" );
+    }
+    if( is_tool() && has_flag( flag_HEATS_FOOD ) ) {
+        tagtext += _( " (heats)" );
     }
 
     if( has_var( "NANOFAB_ITEM_ID" ) ) {

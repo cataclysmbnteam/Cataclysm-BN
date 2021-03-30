@@ -548,6 +548,8 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             item hotplate( "hotplate", bday );
             hotplate.charges = veh->fuel_left( "battery", true );
             hotplate.item_tags.insert( "PSEUDO" );
+            // TODO: Allow disabling
+            hotplate.item_tags.insert( "HEATS_FOOD" );
             add_item( hotplate );
 
             item pot( "pot", bday );

@@ -163,7 +163,8 @@
     "sub": "hotplate",
     "initial_charges": 50,
     "max_charges": 50,
-    "charges_per_use": 1
+    "charges_per_use": 1,
+    "use_action": "HOTPLATE"
   },
   {
     "id": "clay_pot",
@@ -181,6 +182,7 @@
     "color": "brown",
     "container_data": { "contains": "2 L", "watertight": true },
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
+    "use_action": "HEAT_FOOD",
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -232,6 +234,7 @@
     "ammo": "battery",
     "charges_per_use": 10,
     "qualities": [ [ "BOIL", 1 ] ],
+    "use_action": "HOTPLATE",
     "magazines": [
       [
         "battery",
@@ -305,7 +308,8 @@
     "sub": "hotplate",
     "initial_charges": 50,
     "max_charges": 50,
-    "charges_per_use": 1
+    "charges_per_use": 1,
+    "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
   },
   {
     "id": "flask_yeast",
@@ -377,7 +381,8 @@
     "sub": "hotplate",
     "initial_charges": 500,
     "max_charges": 500,
-    "charges_per_use": 1
+    "charges_per_use": 1,
+    "use_action": "HOTPLATE"
   },
   {
     "id": "heatpack",
@@ -393,24 +398,8 @@
     "cutting": 1,
     "material": "plastic",
     "symbol": ";",
-    "color": "light_gray"
-  },
-  {
-    "id": "heatpack_used",
-    "type": "TOOL",
-    "category": "other",
-    "name": { "str": "used heat pack" },
-    "description": "This is a chemical heat pack.  It's used to treat sports injuries and heat food.  This one has been used and is chemically inert, rendering it useless.",
-    "weight": "226 g",
-    "volume": "250 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": 1,
-    "bashing": 1,
-    "cutting": 1,
-    "material": "plastic",
-    "symbol": ";",
-    "color": "light_gray"
+    "color": "light_gray",
+    "use_action": "HEATPACK"
   },
   {
     "id": "hobo_stove",
@@ -428,7 +417,8 @@
     "color": "light_gray",
     "ammo": "tinder",
     "max_charges": 100,
-    "charges_per_use": 25
+    "charges_per_use": 25,
+    "use_action": "HOTPLATE"
   },
   {
     "id": "hotplate",
@@ -446,7 +436,7 @@
     "color": "green",
     "ammo": "battery",
     "charges_per_use": 5,
-    "use_action": { "type": "cauterize", "flame": false },
+    "use_action": "HOTPLATE",
     "magazines": [
       [
         "battery",
@@ -565,7 +555,7 @@
     "sub": "hotplate",
     "charges_per_use": 5,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": [ { "type": "cauterize", "flame": false } ],
+    "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
     "magazines": [
       [
         "battery",
@@ -589,7 +579,8 @@
     "material": "steel",
     "symbol": ")",
     "color": "light_gray",
-    "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
+    "use_action": "HEAT_FOOD"
   },
   {
     "id": "milk_cream_jar",
@@ -649,7 +640,7 @@
     "sub": "hotplate",
     "charges_per_use": 5,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": [ { "type": "cauterize", "flame": false } ],
+    "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
     "magazines": [
       [
         "battery",
@@ -725,7 +716,8 @@
     "sub": "hotplate",
     "initial_charges": 800,
     "max_charges": 800,
-    "charges_per_use": 1
+    "charges_per_use": 1,
+    "use_action": "HOTPLATE"
   },
   {
     "id": "pastaextruder",
@@ -785,7 +777,8 @@
     "sub": "hotplate",
     "initial_charges": 500,
     "max_charges": 500,
-    "charges_per_use": 1
+    "charges_per_use": 1,
+    "use_action": "HOTPLATE"
   },
   {
     "id": "pressure_cooker",
@@ -805,6 +798,7 @@
     "looks_like": "pot_canning",
     "container_data": { "contains": "2 L", "seals": true, "watertight": true },
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
+    "use_action": "HEAT_FOOD",
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -910,7 +904,8 @@
     "sub": "hotplate",
     "max_charges": 800,
     "charges_per_use": 1,
-    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ]
+    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
+    "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
   },
   {
     "id": "teapot",
