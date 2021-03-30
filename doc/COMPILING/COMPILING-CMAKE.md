@@ -2,7 +2,7 @@
 
 **WARNING**: CMake build is **NOT** official and should be used for *dev purposes ONLY*.
 
-For official way to build CataclysmDDA See:
+For official way to build CataclysmBN See:
   * [COMPILING.md](COMPILING.md)
 
 
@@ -17,12 +17,12 @@ For official way to build CataclysmDDA See:
     * [MSBuild, VisualStudio](#cmake-build-for-visual-studio--msbuild)
   * [Build Options](#build-options)
     * [CMake specific options](#cmake-specific-options)
-    * [CataclysmDDA specific options])(#cataclysmdda-specific-options)
+    * [CataclysmBN specific options])(#cataclysmbn-specific-options)
 
 # Prerequisites
 
 You'll need to have these libraries and their development headers installed in
-order to build CataclysmDDA:
+order to build CataclysmBN:
 
  * General
    * `cmake`                     >= 3.0.0
@@ -50,7 +50,7 @@ order to build CataclysmDDA:
 
 # Build Environment
 
-You can obtain the source code tarball for the latest version from [git](https://github.com/CleverRaven/Cataclysm-DDA).
+You can obtain the source code tarball for the latest version from [git](https://github.com/cataclysmbnteam/Cataclysm-BN).
 
 
 ## UNIX Environment
@@ -61,7 +61,7 @@ Obtain packages specified above with your system package manager.
 ## Windows Environment (MSYS2)
 
  1. Follow steps from here: https://msys2.github.io/
- 2. Install CataclysmDDA build deps:
+ 2. Install CataclysmBN build deps:
 
  ```
 	pacman -S mingw-w64-i686-toolchain msys/git \
@@ -95,13 +95,13 @@ Obtain packages specified above with your system package manager.
  is done using CMake itself, and the actual build is done using either `make`
  (for Makefiles generator) or build-system agnostic `cmake --build . ` .
 
- There are two ways to build CataclysmDDA with CMake: inside the source tree or
+ There are two ways to build CataclysmBN with CMake: inside the source tree or
  outside of it. Out-of-source builds have the advantage that you can have
  multiple builds with different options from one source directory.
 
  **WARNING**: Inside the source tree build is **NOT** supported.
 
- To build CataclysmDDA out of source:
+ To build CataclysmBN out of source:
 
  ```
 	$ mkdir build && cd build
@@ -111,7 +111,7 @@ Obtain packages specified above with your system package manager.
 
 The above example creates a build directory inside the source directory, but that's not required - you can just as easily create it in a completely different location.
 
- To install CataclysmDDA after building (as root using su or sudo if necessary):
+ To install CataclysmBN after building (as root using su or sudo if necessary):
 
  ```
 	# make install
@@ -142,7 +142,7 @@ The above example creates a build directory inside the source directory, but tha
   Example:
 
  ```
-	$ cd <Path-to-CataclysmDDA-Sources>
+	$ cd <Path-to-CataclysmBN-Sources>
 	$ mkdir build
 	$ cd build
 	$ cmake .. -G "MSYS Makefiles"
@@ -154,7 +154,7 @@ The above example creates a build directory inside the source directory, but tha
  Shared libraries:
 
  If you got `libgcc_s_dw2-1.dll not found` error you need to copy shared libraries
- to directory with CataclysmDDA executables.
+ to directory with CataclysmBN executables.
 
  **NOTE**: For `-DRELEASE=OFF` development builds, You can automate copy process with:
 
@@ -239,7 +239,7 @@ Open windows command line (or powershell), set the environment variables to poin
 
 Make a build directory and run cmake configuration step
 ```
-  > cd <path to cdda sources>
+  > cd <path to cbn sources>
   > mkdir build
   > cd build
   > cmake .. -DTILES=ON -DLOCALIZE=OFF -DBACKTRACE=OFF -DSOUND=ON
@@ -253,8 +253,8 @@ Build!
   The `-j 2` flag controls build parallelism - you can omit it if you wish. The `/p:Configuration=Release` flag is passed directly to MSBuild and
   controls optimizations. If you omit it, the `Debug` configuration would be built instead.  For powershell you'll need to have an extra ` -- ` after the first one.
 
-The resulting files will be put into a `Release` directory inside your source Cataclysm-DDA folder. To make them run you'd need to first move them to the
-source Cataclysm-DDA directory itself (so that the binary has access to the game data), and second put the required `.dll`s into the same folder -
+The resulting files will be put into a `Release` directory inside your source Cataclysm-BN folder. To make them run you'd need to first move them to the
+source Cataclysm-BN directory itself (so that the binary has access to the game data), and second put the required `.dll`s into the same folder -
 you can find those inside the directories for dev libraries under `lib/x86/` or `lib/x64/` (you likely need the `x86` ones even if you're on 64-bit machine).
 
 The copying of dlls is a one-time task, but you'd need to move the binary out of `Release/` each time it's built. To automate it a bit, you can configure cmake and set the desired binaries destination directory with `-DCMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE=`  option (and similar for `CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG`).
@@ -291,7 +291,7 @@ Run the game. Should work.
  Installation prefix for binaries, resources, and documentation files.
 
 
-## CataclysmDDA specific options
+## CataclysmBN specific options
 
  * CURSES=`<boolean>`
 
@@ -345,7 +345,7 @@ Run the game. Should work.
 
  Override default Git binary name or path.
 
- So a CMake command for building Cataclysm-DDA in release mode with tiles and sound support will look as follows, provided it is run in build directory located in the project.
+ So a CMake command for building Cataclysm-BN in release mode with tiles and sound support will look as follows, provided it is run in build directory located in the project.
 ```
 cmake ../ -DCMAKE_BUILD_TYPE=Release -DTILES=ON -DSOUND=ON
 ```

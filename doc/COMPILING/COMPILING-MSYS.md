@@ -1,6 +1,6 @@
 # Compilation guide for 64 bit Windows (using MSYS2)
 
-This guide contains steps required to allow compilation of Cataclysm-DDA on Windows under MSYS2.
+This guide contains steps required to allow compilation of Cataclysm-BN on Windows under MSYS2.
 
 Steps from current guide were tested on Windows 10 (64 bit) and MSYS2 (64 bit), but should work for other versions of Windows and also MSYS2 (32 bit) if you download 32 bit version of all files.
 
@@ -76,13 +76,13 @@ and
 
 ## Cloning and compilation:
 
-1. Clone Cataclysm-DDA repository with following command line:
+1. Clone Cataclysm-BN repository with following command line:
 
-**Note:** This will download whole CDDA repository. If you're just testing you should probably add `--depth=1`.
+**Note:** This will download whole CBN repository. If you're just testing you should probably add `--depth=1`.
 
 ```bash
-git clone https://github.com/CleverRaven/Cataclysm-DDA.git
-cd Cataclysm-DDA
+git clone https://github.com/cataclysmbnteam/Cataclysm-BN.git
+cd Cataclysm-BN
 ```
 
 2. Compile with following command line:
