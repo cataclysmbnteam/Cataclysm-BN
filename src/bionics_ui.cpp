@@ -7,6 +7,7 @@
 
 #include "bionics.h"
 #include "catacharset.h"
+#include "cata_utility.h"
 #include "game.h"
 #include "input.h"
 #include "inventory.h"

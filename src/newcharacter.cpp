@@ -25,6 +25,7 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "filesystem.h"
+#include "fstream_utils.h"
 #include "game.h"
 #include "game_constants.h"
 #include "ime.h"
@@ -59,6 +60,7 @@
 #include "type_id.h"
 #include "ui.h"
 #include "ui_manager.h"
+#include "units_utility.h"
 #include "veh_type.h"
 #include "worldfactory.h"
 

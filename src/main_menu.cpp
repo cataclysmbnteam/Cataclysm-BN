@@ -20,6 +20,7 @@
 #include "debug.h"
 #include "enums.h"
 #include "filesystem.h"
+#include "fstream_utils.h"
 #include "game.h"
 #include "gamemode.h"
 #include "get_version.h"

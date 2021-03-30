@@ -19,6 +19,7 @@
 #include "debug.h"
 #include "effect.h"
 #include "enums.h"
+#include "enum_conversions.h"
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"

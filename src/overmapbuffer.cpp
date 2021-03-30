@@ -1402,7 +1402,7 @@ void overmapbuffer::spawn_monster( const tripoint &p )
     const point omp = sm_to_om_remain( sm );
     overmap &om = get( omp );
     const tripoint current_submap_loc( tripoint( sm, p.z ) );
-    auto monster_bucket = om.monster_map.equal_range( current_submap_loc );
+    auto monster_bucket = om.monster_map->equal_range( current_submap_loc );
     std::for_each( monster_bucket.first, monster_bucket.second,
     [&]( std::pair<const tripoint, monster> &monster_entry ) {
         monster &this_monster = monster_entry.second;
@@ -1424,7 +1424,7 @@ void overmapbuffer::spawn_monster( const tripoint &p )
             placed->on_load();
         }
     } );
-    om.monster_map.erase( current_submap_loc );
+    om.monster_map->erase( current_submap_loc );
 }
 
 void overmapbuffer::despawn_monster( const monster &critter )
@@ -1435,7 +1435,7 @@ void overmapbuffer::despawn_monster( const monster &critter )
     const point omp = sm_to_om_remain( sm.x, sm.y );
     overmap &om = get( omp );
     // Store the monster using coordinates local to the overmap.
-    om.monster_map.insert( std::make_pair( sm, critter ) );
+    om.monster_map->insert( std::make_pair( sm, critter ) );
 }
 
 overmapbuffer::t_notes_vector overmapbuffer::get_notes( int z, const std::string *pattern )

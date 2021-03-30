@@ -15,6 +15,7 @@
 #include "line.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "monster.h"
 #include "point.h"
 #include "string_id.h"
 #include "test_statistics.h"

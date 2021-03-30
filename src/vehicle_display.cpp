@@ -18,6 +18,7 @@
 #include "veh_type.h"
 #include "vpart_position.h"
 #include "units.h"
+#include "units_utility.h"
 #include "color.h"
 #include "optional.h"
 

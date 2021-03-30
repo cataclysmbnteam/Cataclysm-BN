@@ -9,6 +9,7 @@
 #include "character.h"
 #include "debug.h"
 #include "enums.h"
+#include "enum_conversions.h"
 #include "morale_types.h"
 #include "rng.h"
 #include "translations.h"

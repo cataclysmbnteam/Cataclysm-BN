@@ -2,8 +2,6 @@
 #ifndef CATA_SRC_WEIGHTED_LIST_H
 #define CATA_SRC_WEIGHTED_LIST_H
 
-#include "rng.h"
-
 #include <climits>
 #include <cstdlib>
 #include <functional>
@@ -15,6 +13,11 @@ template <typename W, typename T> struct weighted_object {
     T obj;
     W weight;
 };
+
+namespace weighted_list_detail
+{
+unsigned int gen_rand_i();
+} // namespace weighted_list_detail
 
 template <typename W, typename T> struct weighted_list {
         weighted_list() : total_weight( 0 ) { }
@@ -96,7 +99,7 @@ template <typename W, typename T> struct weighted_list {
             }
         }
         const T *pick() const {
-            return pick( rng_bits() );
+            return pick( weighted_list_detail::gen_rand_i() );
         }
 
         /**
@@ -113,7 +116,7 @@ template <typename W, typename T> struct weighted_list {
             }
         }
         T *pick() {
-            return pick( rng_bits() );
+            return pick( weighted_list_detail::gen_rand_i() );
         }
 
         /**

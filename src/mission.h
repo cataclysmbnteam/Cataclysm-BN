@@ -8,7 +8,6 @@
 #include <utility>
 #include <vector>
 
-#include "basecamp.h"
 #include "calendar.h"
 #include "character_id.h"
 #include "enums.h"

@@ -17,22 +17,23 @@
 #include <utility>
 #include <vector>
 
-#include "basecamp.h"
 #include "enums.h"
+#include "enum_conversions.h"
 #include "game_constants.h"
 #include "mongroup.h"
 #include "omdata.h"
 #include "optional.h"
 #include "overmap_types.h" // IWYU pragma: keep
+#include "pimpl.h"
 #include "point.h"
 #include "regional_settings.h"
-#include "rng.h"
 #include "string_id.h"
 #include "type_id.h"
 
 class JsonIn;
 class JsonObject;
 class JsonOut;
+class basecamp;
 class character_id;
 class map_extra;
 class monster;
@@ -120,10 +121,7 @@ struct radio_tower {
     std::string message;
     int frequency;
     radio_tower( const point &p, int S = -1, const std::string &M = "",
-                 radio_type T = radio_type::MESSAGE_BROADCAST ) :
-        pos( p ), strength( S ), type( T ), message( M ) {
-        frequency = rng( 0, INT_MAX );
-    }
+                 radio_type T = radio_type::MESSAGE_BROADCAST );
 };
 
 struct map_layer {
@@ -223,12 +221,12 @@ static const std::map<std::string, oter_flags> oter_flags_map = {
 class overmap
 {
     public:
-        overmap( const overmap & ) = default;
-        overmap( overmap && ) = default;
+        overmap( const overmap & );
+        overmap( overmap && );
         overmap( const point &p );
         ~overmap();
 
-        overmap &operator=( const overmap & ) = default;
+        overmap &operator=( const overmap & );
 
         /**
          * Create content in the overmap.
@@ -411,7 +409,7 @@ class overmap
          * (adding it to the creature tracker and putting it onto the map).
          * This stores each submap worth of monsters in a different bucket of the multimap.
          */
-        std::unordered_multimap<tripoint, monster> monster_map;
+        pimpl<std::unordered_multimap<tripoint, monster>> monster_map;
 
         // parse data in an opened overmap file
         void unserialize( std::istream &fin );

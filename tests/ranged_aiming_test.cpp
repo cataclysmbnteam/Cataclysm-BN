@@ -12,6 +12,7 @@
 #include "game.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "monster.h"
 #include "npc.h"
 #include "item.h"
 #include "item_location.h"

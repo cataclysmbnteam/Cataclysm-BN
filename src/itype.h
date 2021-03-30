@@ -19,7 +19,6 @@
 #include "explosion.h"
 #include "game_constants.h"
 #include "iuse.h" // use_function
-#include "json.h"
 #include "optional.h"
 #include "pldata.h" // add_type
 #include "stomach.h"
@@ -30,6 +29,8 @@
 
 class Item_factory;
 class item;
+class JsonObject;
+class JsonIn;
 class player;
 class relic;
 struct tripoint;

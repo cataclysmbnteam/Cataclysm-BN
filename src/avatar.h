@@ -12,7 +12,6 @@
 #include "character.h"
 #include "enums.h"
 #include "item.h"
-#include "magic_teleporter_list.h"
 #include "player.h"
 #include "pldata.h"
 #include "point.h"
@@ -34,6 +33,7 @@ class mission_debug;
 struct mtype;
 struct points_left;
 struct targeting_data;
+class teleporter_list;
 
 // Monster visible in different directions (safe mode & compass)
 struct monster_visible_info {
@@ -178,7 +178,7 @@ class avatar : public player
          */
         void steal( npc &target );
 
-        teleporter_list translocators;
+        pimpl<teleporter_list> translocators;
 
         int get_str_base() const override;
         int get_dex_base() const override;

@@ -5673,6 +5673,11 @@ void map::place_gas_pump( const point &p, int charges, const std::string &fuel_t
     ter_set( p, ter_id( fuel.fuel_pump_terrain() ) );
 }
 
+void map::place_gas_pump( const point &p, int charges )
+{
+    place_gas_pump( p, charges, one_in( 4 ) ? "diesel" : "gasoline" );
+}
+
 void map::place_toilet( const point &p, int charges )
 {
     item water( "water", calendar::start_of_cataclysm );

@@ -7,6 +7,7 @@
 #include "catch/catch.hpp"
 #include "string_formatter.h"
 #include "type_id.h"
+#include "colony.h"
 
 template<typename T>
 void test_serialization( const T &val, const std::string &s )

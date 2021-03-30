@@ -18,6 +18,7 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "filesystem.h"
+#include "fstream_utils.h"
 #include "game.h"
 #include "help.h"
 #include "ime.h"

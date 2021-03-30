@@ -56,6 +56,7 @@
 #include "ui.h"
 #include "ui_manager.h"
 #include "units.h"
+#include "units_utility.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "veh_utils.h"
@@ -766,7 +767,7 @@ bool veh_interact::update_part_requirements()
         lvl = jack_quality( *veh );
         str = veh->lift_strength();
         use_aid = ( max_jack >= lvl ) || can_self_jack();
-        use_str = g->u.can_lift( *veh );
+        use_str = g->u.can_lift( str );
     } else if( get_option<bool>( "DISABLE_LIFTING" ) ) {
         use_aid = true;
         use_str = true;
@@ -777,7 +778,7 @@ bool veh_interact::update_part_requirements()
                          TOOL_LIFT_FACTOR );
         str = base.lift_strength();
         use_aid = max_lift >= lvl;
-        use_str = g->u.can_lift( base );
+        use_str = g->u.can_lift( base.lift_strength() );
     }
 
     if( !( use_aid || use_str ) ) {
@@ -1727,7 +1728,7 @@ bool veh_interact::can_remove_part( int idx, const player &p )
         lvl = jack_quality( *veh );
         str = veh->lift_strength();
         use_aid = ( max_jack >= lvl ) || can_self_jack();
-        use_str = g->u.can_lift( *veh );
+        use_str = g->u.can_lift( str );
     } else if( get_option<bool>( "DISABLE_LIFTING" ) ) {
         use_aid = true;
         use_str = true;
@@ -1738,7 +1739,7 @@ bool veh_interact::can_remove_part( int idx, const player &p )
                          TOOL_LIFT_FACTOR );
         str = base.lift_strength();
         use_aid = max_lift >= lvl;
-        use_str = g->u.can_lift( base );
+        use_str = g->u.can_lift( base.lift_strength() );
     }
 
     if( !( use_aid || use_str ) ) {

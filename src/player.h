@@ -15,7 +15,6 @@
 
 #include "bodypart.h"
 #include "calendar.h"
-#include "cata_utility.h"
 #include "character.h"
 #include "character_id.h"
 #include "color.h"
@@ -26,7 +25,6 @@
 #include "game_constants.h"
 #include "item.h"
 #include "item_location.h"
-#include "monster.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "point.h"
@@ -357,22 +355,8 @@ class player : public Character
         item::reload_option select_ammo( const item &base, std::vector<item::reload_option> opts ) const;
 
         /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
-        template <typename T>
-        bool can_lift( const T &obj ) const {
-            // avoid comparing by weight as different objects use differing scales (grams vs kilograms etc)
-            int str = get_str();
-            if( mounted_creature ) {
-                auto mons = mounted_creature.get();
-                str = mons->mech_str_addition() == 0 ? str : mons->mech_str_addition();
-            }
-            const int npc_str = get_lift_assist();
-            if( has_trait( trait_id( "STRONGBACK" ) ) ) {
-                str *= 1.35;
-            } else if( has_trait( trait_id( "BADBACK" ) ) ) {
-                str /= 1.35;
-            }
-            return str + npc_str >= obj.lift_strength();
-        }
+        bool can_lift( int lift_strength_required ) const;
+
         /**
          * Check player capable of taking off an item.
          * @param it Thing to be taken off

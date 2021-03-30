@@ -19,9 +19,9 @@
 
 #include "bodypart.h"
 #include "calendar.h"
-#include "cata_utility.h"
 #include "colony.h"
 #include "enums.h"
+#include "filter_utils.h"
 #include "game_constants.h"
 #include "item.h"
 #include "item_stack.h"
@@ -31,7 +31,6 @@
 #include "mapdata.h"
 #include "memory_fast.h"
 #include "point.h"
-#include "rng.h"
 #include "shadowcasting.h"
 #include "type_id.h"
 #include "units.h"
@@ -1446,9 +1445,7 @@ class map
                            bool individual = false, bool friendly = false, const std::string &name = "NONE",
                            int mission_id = -1 );
         void place_gas_pump( const point &p, int charges, const std::string &fuel_type );
-        void place_gas_pump( const point &p, int charges ) {
-            place_gas_pump( p, charges, one_in( 4 ) ? "diesel" : "gasoline" );
-        }
+        void place_gas_pump( const point &p, int charges );
         // 6 liters at 250 ml per charge
         void place_toilet( const point &p, int charges = 6 * 4 );
         void place_vending( const point &p, const item_group_id &type, bool reinforced = false );

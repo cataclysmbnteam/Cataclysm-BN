@@ -10,6 +10,7 @@
 #include "map.h"
 #include "memory_fast.h"
 #include "point.h"
+#include "rng.h"
 #include "translations.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -31,6 +32,11 @@ const VehicleGroup &string_id<VehicleGroup>::obj() const
         return dummy;
     }
     return iter->second;
+}
+
+int VehicleFacings::pick() const
+{
+    return random_entry( values );
 }
 
 point VehicleLocation::pick_point() const

@@ -1,10 +1,12 @@
 #include "cata_utility.h"
+#include "fstream_utils.h"
 
 #include <algorithm>
 #include <cctype>
 #include <cmath>
 #include <cstdio>
 #include <exception>
+#include <fstream>
 #include <iterator>
 #include <locale>
 #include <memory>
@@ -21,6 +23,10 @@
 #include "rng.h"
 #include "translations.h"
 #include "units.h"
+
+#if defined (_WIN32) && !defined (_MSC_VER)
+#include <ext/stdio_filebuf.h>
+#endif
 
 static double pow10( unsigned int n )
 {
@@ -178,114 +184,6 @@ int bound_mod_to_vals( int val, int mod, int max, int min )
     return mod;
 }
 
-const char *velocity_units( const units_type vel_units )
-{
-    if( get_option<std::string>( "USE_METRIC_SPEEDS" ) == "mph" ) {
-        return _( "mph" );
-    } else if( get_option<std::string>( "USE_METRIC_SPEEDS" ) == "t/t" ) {
-        //~ vehicle speed tiles per turn
-        return _( "t/t" );
-    } else {
-        switch( vel_units ) {
-            case VU_VEHICLE:
-                return _( "km/h" );
-            case VU_WIND:
-                return _( "m/s" );
-        }
-    }
-    return "error: unknown units!";
-}
-
-const char *weight_units()
-{
-    return get_option<std::string>( "USE_METRIC_WEIGHTS" ) == "lbs" ? _( "lbs" ) : _( "kg" );
-}
-
-const char *volume_units_abbr()
-{
-    const std::string vol_units = get_option<std::string>( "VOLUME_UNITS" );
-    if( vol_units == "c" ) {
-        return pgettext( "Volume unit", "c" );
-    } else if( vol_units == "l" ) {
-        return pgettext( "Volume unit", "L" );
-    } else {
-        return pgettext( "Volume unit", "qt" );
-    }
-}
-
-const char *volume_units_long()
-{
-    const std::string vol_units = get_option<std::string>( "VOLUME_UNITS" );
-    if( vol_units == "c" ) {
-        return _( "cup" );
-    } else if( vol_units == "l" ) {
-        return _( "liter" );
-    } else {
-        return _( "quart" );
-    }
-}
-
-double convert_velocity( int velocity, const units_type vel_units )
-{
-    const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
-    // internal units to mph conversion
-    double ret = static_cast<double>( velocity ) / 100;
-
-    if( type == "km/h" ) {
-        switch( vel_units ) {
-            case VU_VEHICLE:
-                // mph to km/h conversion
-                ret *= 1.609f;
-                break;
-            case VU_WIND:
-                // mph to m/s conversion
-                ret *= 0.447f;
-                break;
-        }
-    } else if( type == "t/t" ) {
-        ret /= 4;
-    }
-
-    return ret;
-}
-
-double convert_weight( const units::mass &weight )
-{
-    double ret = to_gram( weight );
-    if( get_option<std::string>( "USE_METRIC_WEIGHTS" ) == "kg" ) {
-        ret /= 1000;
-    } else {
-        ret /= 453.6;
-    }
-    return ret;
-}
-
-double convert_volume( int volume )
-{
-    return convert_volume( volume, nullptr );
-}
-
-double convert_volume( int volume, int *out_scale )
-{
-    double ret = volume;
-    int scale = 0;
-    const std::string vol_units = get_option<std::string>( "VOLUME_UNITS" );
-    if( vol_units == "c" ) {
-        ret *= 0.004;
-        scale = 1;
-    } else if( vol_units == "l" ) {
-        ret *= 0.001;
-        scale = 2;
-    } else {
-        ret *= 0.00105669;
-        scale = 2;
-    }
-    if( out_scale != nullptr ) {
-        *out_scale = scale;
-    }
-    return ret;
-}
-
 double clamp_to_width( double value, int width, int &scale )
 {
     return clamp_to_width( value, width, scale, nullptr );
@@ -341,6 +239,18 @@ float multi_lerp( const std::vector<std::pair<float, float>> &points, float x )
     return ( t * points[i].second ) + ( ( 1 - t ) * points[i - 1].second );
 }
 
+static std::ios_base::openmode cata_ios_mode_to_std( std::ios_base::openmode dir, cata_ios_mode m )
+{
+    std::ios_base::openmode ret = dir;
+    if( static_cast<int>( m ) & static_cast<int>( cata_ios_mode::binary ) ) {
+        ret |= std::ios_base::binary;
+    }
+    if( static_cast<int>( m ) & static_cast<int>( cata_ios_mode::app ) ) {
+        ret |= std::ios_base::app;
+    }
+    return ret;
+}
+
 #if defined (_WIN32) && !defined (_MSC_VER)
 // On Linux/MacOS, UTF-8 paths work out of the box, and we pass the string as is.
 // On Windows, narrow API does not recognize paths encoded with UTF-8,
@@ -353,28 +263,37 @@ float multi_lerp( const std::vector<std::pair<float, float>> &points, float x )
 // Although Windows 10 insider build 17035 (November 2017) enables narrow API to use UTF-8
 // paths, we can't rely on it here for backwards compatibility.
 
+static std::wstring cata_ios_mode_to_c( bool out, cata_ios_mode m )
+{
+    std::wstring ret;
+    if( out ) {
+        if( static_cast<int>( m ) & static_cast<int>( cata_ios_mode::app ) ) {
+            ret = L"a";
+        } else {
+            ret = L"w";
+        }
+    } else {
+        ret = L"r";
+    }
+    if( static_cast<int>( m ) & static_cast<int>( cata_ios_mode::binary ) ) {
+        ret += L"b";
+    }
+    return ret;
+}
+
 cata_ofstream &cata_ofstream::operator=( cata_ofstream &&x )
 {
     _stream = std::move( x._stream );
     _buffer = std::move( x._buffer );
     _file = x._file;
     x._file = nullptr;
-    _binary = x._binary;
-    _append = x._append;
+    _mode = x._mode;
     return *this;
 }
 
 cata_ofstream &cata_ofstream::open( const std::string &path )
 {
-    std::wstring mode;
-    if( _append ) {
-        mode = L"a";
-    } else {
-        mode = L"w";
-    }
-    if( _binary ) {
-        mode += L"b";
-    }
+    std::wstring mode = cata_ios_mode_to_c( true, _mode );
 
     _file = _wfopen( utf8_to_wstr( path ).c_str(), mode.c_str() );
     if( !_file ) {
@@ -382,13 +301,7 @@ cata_ofstream &cata_ofstream::open( const std::string &path )
         return *this;
     }
 
-    std::ios_base::openmode smode = std::ios_base::out;
-    if( _binary ) {
-        smode |= std::ios_base::binary;
-    }
-    if( _append ) {
-        smode |= std::ios_base::app;
-    }
+    std::ios_base::openmode smode = cata_ios_mode_to_std( std::ios_base::out, _mode );
 
     _buffer = std::make_unique<__gnu_cxx::stdio_filebuf<char>>( _file, smode );
     _stream = std::make_unique<std::ostream>( &*_buffer );
@@ -419,20 +332,13 @@ void cata_ofstream::close()
 cata_ofstream &cata_ofstream::operator=( cata_ofstream &&x )
 {
     _stream = std::move( x._stream );
-    _binary = x._binary;
-    _append = x._append;
+    _mode = x._mode;
     return *this;
 }
 
 cata_ofstream &cata_ofstream::open( const std::string &path )
 {
-    std::ios_base::openmode mode = std::ios_base::out;
-    if( _binary ) {
-        mode |= std::ios_base::binary;
-    }
-    if( _append ) {
-        mode |= std::ios_base::app;
-    }
+    std::ios_base::openmode mode = cata_ios_mode_to_std( std::ios_base::out, _mode );
 
 #if defined (_MSC_VER)
     _stream = std::make_unique<std::ofstream>( utf8_to_wstr( path ), mode );
@@ -457,6 +363,43 @@ void cata_ofstream::close()
 
 #endif // defined (_WIN32) && !defined (_MSC_VER)
 
+cata_ofstream::cata_ofstream() = default;
+
+cata_ofstream::cata_ofstream( cata_ofstream &&x )
+{
+    *this = std::move( x );
+}
+
+cata_ofstream::~cata_ofstream()
+{
+    close();
+}
+
+bool cata_ofstream::fail()
+{
+    return !_stream || _stream->fail();
+}
+
+bool cata_ofstream::bad()
+{
+    return !_stream || _stream->bad();
+}
+
+void cata_ofstream::flush()
+{
+    _stream->flush();
+}
+
+std::ostream &cata_ofstream::operator*()
+{
+    return *_stream;
+}
+
+std::ostream *cata_ofstream::operator->()
+{
+    return &*_stream;
+}
+
 #if defined (_WIN32) && !defined (_MSC_VER)
 
 cata_ifstream &cata_ifstream::operator=( cata_ifstream &&x )
@@ -465,16 +408,13 @@ cata_ifstream &cata_ifstream::operator=( cata_ifstream &&x )
     _buffer = std::move( x._buffer );
     _file = x._file;
     x._file = nullptr;
-    _binary = x._binary;
+    _mode = x._mode;
     return *this;
 }
 
 cata_ifstream &cata_ifstream::open( const std::string &path )
 {
-    std::wstring mode = L"r";
-    if( _binary ) {
-        mode += L"b";
-    }
+    std::wstring mode = cata_ios_mode_to_c( false, _mode );
 
     _file = _wfopen( utf8_to_wstr( path ).c_str(), mode.c_str() );
     if( !_file ) {
@@ -482,10 +422,7 @@ cata_ifstream &cata_ifstream::open( const std::string &path )
         return *this;
     }
 
-    std::ios_base::openmode smode = std::ios_base::in;
-    if( _binary ) {
-        smode |= std::ios_base::binary;
-    }
+    std::ios_base::openmode smode = cata_ios_mode_to_std( std::ios_base::in, _mode );
 
     _buffer = std::make_unique<__gnu_cxx::stdio_filebuf<char>>( _file, smode );
     _stream = std::make_unique<std::istream>( &*_buffer );
@@ -515,16 +452,13 @@ void cata_ifstream::close()
 cata_ifstream &cata_ifstream::operator=( cata_ifstream &&x )
 {
     _stream = std::move( x._stream );
-    _binary = x._binary;
+    _mode = x._mode;
     return *this;
 }
 
 cata_ifstream &cata_ifstream::open( const std::string &path )
 {
-    std::ios_base::openmode mode = std::ios_base::in;
-    if( _binary ) {
-        mode |= std::ios_base::binary;
-    }
+    std::ios_base::openmode mode = cata_ios_mode_to_std( std::ios_base::in, _mode );
 
 #if defined (_MSC_VER)
     _stream = std::make_unique<std::ifstream>( utf8_to_wstr( path ), mode );
@@ -549,10 +483,42 @@ void cata_ifstream::close()
 
 #endif // defined (_WIN32) && !defined (_MSC_VER)
 
+cata_ifstream::cata_ifstream() = default;
+
+cata_ifstream::cata_ifstream( cata_ifstream &&x )
+{
+    *this = std::move( x );
+}
+
+cata_ifstream::~cata_ifstream()
+{
+    close();
+}
+
+bool cata_ifstream::fail()
+{
+    return !_stream || _stream->fail();
+}
+
+bool cata_ifstream::bad()
+{
+    return !_stream || _stream->bad();
+}
+
+std::istream &cata_ifstream::operator*()
+{
+    return *_stream;
+}
+
+std::istream *cata_ifstream::operator->()
+{
+    return &*_stream;
+}
+
 void write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer )
 {
     // Any of the below may throw. ofstream_wrapper will clean up the temporary path on its own.
-    ofstream_wrapper fout( path, std::ios::binary );
+    ofstream_wrapper fout( path, cata_ios_mode::binary );
     writer( fout.stream() );
     fout.close();
 }
@@ -572,7 +538,7 @@ bool write_to_file( const std::string &path, const std::function<void( std::ostr
     }
 }
 
-ofstream_wrapper::ofstream_wrapper( const std::string &path, const std::ios::openmode mode )
+ofstream_wrapper::ofstream_wrapper( const std::string &path, const cata_ios_mode mode )
     : path( path )
 
 {
@@ -618,7 +584,7 @@ std::istream &safe_getline( std::istream &ins, std::string &str )
 bool read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader )
 {
     try {
-        cata_ifstream fin = std::move( cata_ifstream().binary( true ).open( path ) );
+        cata_ifstream fin = std::move( cata_ifstream().mode( cata_ios_mode::binary ).open( path ) );
         if( !fin.is_open() ) {
             throw std::runtime_error( "opening file failed" );
         }
@@ -674,7 +640,7 @@ bool read_from_file_optional( const std::string &path, JsonDeserializer &reader 
     } );
 }
 
-void ofstream_wrapper::open( const std::ios::openmode mode )
+void ofstream_wrapper::open( cata_ios_mode mode )
 {
     if( dir_exist( path ) ) {
         throw std::runtime_error( "target path is a directory" );
@@ -689,8 +655,7 @@ void ofstream_wrapper::open( const std::ios::openmode mode )
         remove_file( temp_path );
     }
 
-    file_stream = std::move( cata_ofstream().binary( mode & std::ios_base::binary ).append(
-                                 mode & std::ios_base::app ).open( temp_path ) );
+    file_stream = std::move( cata_ofstream().mode( mode ).open( temp_path ) );
     if( !file_stream.is_open() ) {
         throw std::runtime_error( "opening file failed" );
     }

@@ -22,7 +22,6 @@
 #include "action.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "cata_utility.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "color.h"
@@ -37,7 +36,6 @@
 #include "item.h"
 #include "item_location.h"
 #include "memory_fast.h"
-#include "monster.h"
 #include "mtype.h"
 #include "optional.h"
 #include "pimpl.h"
@@ -64,6 +62,7 @@ class known_magic;
 class player;
 class player_morale;
 class vehicle;
+class monster;
 struct bionic;
 struct construction;
 struct dealt_projectile_attack;
@@ -236,19 +235,6 @@ struct special_attack {
     damage_instance damage;
 };
 
-struct social_modifiers {
-    int lie = 0;
-    int persuade = 0;
-    int intimidate = 0;
-
-    social_modifiers &operator+=( const social_modifiers &other ) {
-        this->lie += other.lie;
-        this->persuade += other.persuade;
-        this->intimidate += other.intimidate;
-        return *this;
-    }
-};
-
 struct consumption_event {
     time_point time;
     itype_id type_id;
@@ -262,12 +248,6 @@ struct consumption_event {
     void serialize( JsonOut &json ) const;
     void deserialize( JsonIn &jsin );
 };
-
-inline social_modifiers operator+( social_modifiers lhs, const social_modifiers &rhs )
-{
-    lhs += rhs;
-    return lhs;
-}
 
 enum class character_stat : char {
     STRENGTH,

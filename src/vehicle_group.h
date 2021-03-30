@@ -9,7 +9,6 @@
 
 #include "mapgen.h"
 #include "optional.h"
-#include "rng.h"
 #include "string_id.h"
 #include "type_id.h"
 #include "weighted_list.h"
@@ -54,9 +53,7 @@ class VehicleGroup
 struct VehicleFacings {
     VehicleFacings( const JsonObject &jo, const std::string &key );
 
-    int pick() const {
-        return random_entry( values );
-    }
+    int pick() const;
 
     std::vector<int> values;
 };

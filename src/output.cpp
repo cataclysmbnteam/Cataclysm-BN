@@ -36,6 +36,7 @@
 #include "string_input_popup.h"
 #include "ui_manager.h"
 #include "units.h"
+#include "units_utility.h"
 #include "point.h"
 #include "wcwidth.h"
 
@@ -936,6 +937,22 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
 
     return buffer;
 }
+
+item_info_data::item_info_data() = default;
+item_info_data::~item_info_data() = default;
+
+item_info_data::item_info_data( const std::string &sItemName, const std::string &sTypeName,
+                                const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare )
+    : sItemName( sItemName ), sTypeName( sTypeName ),
+      vItemDisplay( vItemDisplay ), vItemCompare( vItemCompare ),
+      selected( 0 ), ptr_selected( &selected ) {}
+
+item_info_data::item_info_data( const std::string &sItemName, const std::string &sTypeName,
+                                const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare,
+                                int &ptr_selected )
+    : sItemName( sItemName ), sTypeName( sTypeName ),
+      vItemDisplay( vItemDisplay ), vItemCompare( vItemCompare ),
+      ptr_selected( &ptr_selected ) {}
 
 input_event draw_item_info( const catacurses::window &win, item_info_data &data )
 {

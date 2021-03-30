@@ -1,6 +1,7 @@
 #include "avatar.h"
 #include "game.h"
 #include "magic.h"
+#include "monster.h"
 
 #include "catch/catch.hpp"
 #include "player_helpers.h"

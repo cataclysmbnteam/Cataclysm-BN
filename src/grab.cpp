@@ -6,6 +6,7 @@
 #include "avatar.h"
 #include "map.h"
 #include "messages.h"
+#include "monster.h"
 #include "sounds.h"
 #include "vehicle.h"
 #include "vpart_position.h"

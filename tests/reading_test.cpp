@@ -13,6 +13,7 @@
 #include "item.h"
 #include "itype.h"
 #include "map.h"
+#include "map_selector.h"
 #include "map_helpers.h"
 #include "morale_types.h"
 #include "options.h"

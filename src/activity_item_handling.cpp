@@ -1286,7 +1286,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 const int lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
                                            TOOL_LIFT_FACTOR );
                 const bool use_aid = max_lift >= lvl;
-                const bool use_str = p.can_lift( base );
+                const bool use_str = p.can_lift( base.lift_strength() );
                 if( !( use_aid || use_str ) ) {
                     continue;
                 }

@@ -2,6 +2,7 @@
 
 #include "catch/catch.hpp"
 #include "filesystem.h"
+#include "fstream_utils.h"
 #include "string_formatter.h"
 #include "path_info.h"
 #include "game.h"

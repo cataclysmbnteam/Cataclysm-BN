@@ -38,6 +38,7 @@
 #include "itype.h"
 #include "iuse.h"
 #include "kill_tracker.h"
+#include "magic_teleporter_list.h"
 #include "map.h"
 #include "map_memory.h"
 #include "martialarts.h"

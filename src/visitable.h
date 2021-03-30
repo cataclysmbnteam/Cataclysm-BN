@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 
-#include "cata_utility.h"
+#include "filter_utils.h"
 #include "type_id.h"
 
 class item;

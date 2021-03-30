@@ -1,4 +1,5 @@
 #include "rng.h"
+#include "weighted_list.h"
 
 #include <cmath>
 #include <chrono>
@@ -135,3 +136,11 @@ void rng_set_engine_seed( unsigned int seed )
         rng_get_engine().seed( seed );
     }
 }
+
+namespace weighted_list_detail
+{
+unsigned int gen_rand_i()
+{
+    return rng_bits();
+}
+} // namespace weighted_list_detail

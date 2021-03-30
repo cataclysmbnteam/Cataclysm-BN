@@ -7,6 +7,7 @@
 #include "json.h"
 #include "map.h"
 #include "mapbuffer.h"
+#include "rng.h"
 #include "vehicle.h"
 #include "vpart_range.h"
 #include "weather.h"

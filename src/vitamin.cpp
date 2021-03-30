@@ -11,6 +11,7 @@
 #include "json.h"
 #include "string_id.h"
 #include "units.h"
+#include "units_serde.h"
 
 static std::map<vitamin_id, vitamin> vitamins_all;
 

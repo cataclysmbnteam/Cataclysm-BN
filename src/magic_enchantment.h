@@ -8,7 +8,6 @@
 #include <vector>
 
 #include "calendar.h"
-#include "json.h"
 #include "magic.h"
 #include "optional.h"
 #include "type_id.h"
@@ -16,6 +15,9 @@
 class Character;
 class Creature;
 class item;
+class JsonOut;
+class JsonIn;
+class JsonObject;
 
 namespace enchant_vals
 {

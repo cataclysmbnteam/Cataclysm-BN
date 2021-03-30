@@ -15,6 +15,7 @@
 #include "debug.h"
 #include "json.h"
 #include "units.h"
+#include "units_serde.h"
 
 namespace cata
 {

@@ -17,6 +17,7 @@
 #include "debug.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "fstream_utils.h"
 
 #if defined(_WIN32)
 #   include "platform_win.h"
@@ -413,7 +414,8 @@ std::vector<std::string> get_directories_with( const std::vector<std::string> &p
 
 bool copy_file( const std::string &source_path, const std::string &dest_path )
 {
-    cata_ifstream source_stream = std::move( cata_ifstream().binary( true ).open( source_path ) );
+    cata_ifstream source_stream = std::move( cata_ifstream().mode( cata_ios_mode::binary ).open(
+                                      source_path ) );
     if( !source_stream.is_open() ) {
         return false;
     }

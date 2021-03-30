@@ -14,12 +14,14 @@
 #include <vector>
 
 #include "assign.h"
+#include "basecamp.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character_id.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "flood_fill.h"
+#include "fstream_utils.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "json.h"
@@ -229,6 +231,12 @@ int city::get_distance_from( const tripoint &p ) const
 
 std::map<enum radio_type, std::string> radio_type_names =
 {{ {radio_type::MESSAGE_BROADCAST, "broadcast"}, {radio_type::WEATHER_RADIO, "weather"} }};
+
+radio_tower::radio_tower( const point &p, int S, const std::string &M, radio_type T ) :
+    pos( p ), strength( S ), type( T ), message( M )
+{
+    frequency = rng( 0, INT_MAX );
+}
 
 /** @relates string_id */
 template<>
@@ -1078,7 +1086,10 @@ overmap::overmap( const point &p ) : loc( p )
     init_layers();
 }
 
+overmap::overmap( const overmap & ) = default;
+overmap::overmap( overmap && ) = default;
 overmap::~overmap() = default;
+overmap &overmap::operator=( const overmap & ) = default;
 
 void overmap::populate( overmap_special_batch &enabled_specials )
 {
@@ -1237,7 +1248,7 @@ bool overmap::mongroup_check( const mongroup &candidate ) const
 
 bool overmap::monster_check( const std::pair<tripoint, monster> &candidate ) const
 {
-    const auto matching_range = monster_map.equal_range( candidate.first );
+    const auto matching_range = monster_map->equal_range( candidate.first );
     return std::find_if( matching_range.first, matching_range.second,
     [candidate]( const std::pair<tripoint, monster> &match ) {
         return candidate.second.pos() == match.second.pos() &&
@@ -2061,8 +2072,8 @@ void overmap::move_hordes()
 
         // Re-absorb zombies into hordes.
         // Scan over monsters outside the player's view and place them back into hordes.
-        auto monster_map_it = monster_map.begin();
-        while( monster_map_it != monster_map.end() ) {
+        auto monster_map_it = monster_map->begin();
+        while( monster_map_it != monster_map->end() ) {
             const auto &p = monster_map_it->first;
             auto &this_monster = monster_map_it->second;
 
@@ -2122,7 +2133,7 @@ void overmap::move_hordes()
             }
 
             // Delete the monster, continue iterating.
-            monster_map_it = monster_map.erase( monster_map_it );
+            monster_map_it = monster_map->erase( monster_map_it );
         }
     }
 }

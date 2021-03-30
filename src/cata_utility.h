@@ -2,22 +2,14 @@
 #ifndef CATA_SRC_CATA_UTILITY_H
 #define CATA_SRC_CATA_UTILITY_H
 
-#include <fstream>
 #include <functional>
 #include <string>
 #include <utility>
 #include <vector>
 #include <algorithm>
+#include <memory>
 #include <type_traits>
 
-#if defined (_WIN32) && !defined (_MSC_VER)
-#include <ext/stdio_filebuf.h>
-#endif
-
-#include "units.h"
-
-class JsonIn;
-class JsonOut;
 class translation;
 
 /**
@@ -38,15 +30,6 @@ struct pair_greater_cmp_first {
 struct null_deleter {
     template<typename T>
     void operator()( T * ) const {}
-};
-
-/**
- * Type of object that a measurement is taken on.  Used, for example, to display wind speed in m/s
- * while displaying vehicle speed in km/h.
- */
-enum units_type {
-    VU_VEHICLE,
-    VU_WIND
 };
 
 /**
@@ -76,16 +59,6 @@ template<typename T, typename std::enable_if<std::is_integral<T>::value, int>::t
 T divide_round_up( T num, T den )
 {
     return ( num + den - 1 ) / den;
-}
-
-/** Divide @p num by @p den, rounding up
- *
- * @p num must be non-negative, @p den must be positive, and @c num+den must not overflow.
- */
-template<typename T, typename U>
-T divide_round_up( units::quantity<T, U> num, units::quantity<T, U> den )
-{
-    return divide_round_up( num.value(), den.value() );
 }
 
 /**
@@ -177,80 +150,6 @@ double logarithmic_range( int min, int max, int pos );
 int bound_mod_to_vals( int val, int mod, int max, int min );
 
 /**
- * Create a units label for a velocity value.
- *
- * Gives the name of the velocity unit in the user selected unit system, either
- * "km/h", "ms/s" or "mph".  Used to add abbreviated unit labels to the output of
- * @ref convert_velocity.
- *
- * @param vel_units type of velocity desired (i.e. wind or vehicle)
- *
- * @return name of unit.
- */
-const char *velocity_units( units_type vel_units );
-
-/**
- * Create a units label for a weight value.
- *
- * Gives the name of the weight unit in the user selected unit system, either
- * "kgs" or "lbs".  Used to add unit labels to the output of @ref convert_weight.
- *
- * @return name of unit
- */
-const char *weight_units();
-
-/**
- * Create an abbreviated units label for a volume value.
- *
- * Returns the abbreviated name for the volume unit for the user selected unit system,
- * i.e. "c", "L", or "qt". Used to add unit labels to the output of @ref convert_volume.
- *
- * @return name of unit.
- */
-const char *volume_units_abbr();
-
-/**
- * Create a units label for a volume value.
- *
- * Returns the abbreviated name for the volume unit for the user selected unit system,
- * ie "cup", "liter", or "quart". Used to add unit labels to the output of @ref convert_volume.
- *
- * @return name of unit.
- */
-const char *volume_units_long();
-
-/**
- * Convert internal velocity units to units defined by user.
- *
- * @param velocity A velocity value in internal units.
- * @param vel_units General type of item this velocity is for (e.g. vehicles or wind)
- *
- * @returns Velocity in the user selected measurement system and in appropriate
- *          units for the object being measured.
- */
-double convert_velocity( int velocity, units_type vel_units );
-
-/**
- * Convert weight in grams to units defined by user (kg or lbs)
- *
- * @param weight to be converted.
- *
- * @returns Weight converted to user selected unit
- */
-double convert_weight( const units::mass &weight );
-
-/**
- * Convert volume from ml to units defined by user.
- */
-double convert_volume( int volume );
-
-/**
- * Convert volume from ml to units defined by user,
- * optionally returning the units preferred scale.
- */
-double convert_volume( int volume, int *out_scale );
-
-/**
  * Clamp (number and space wise) value to with,
  * taking into account the specified preferred scale,
  * returning the adjusted (shortened) scale that best fit the width,
@@ -331,196 +230,6 @@ class list_circularizer
         }
 };
 
-/**
- * Wrapper around std::ofstream that provides cross-platform support for UTF-8 paths.
- */
-struct cata_ofstream {
-    public:
-        cata_ofstream() {};
-        cata_ofstream( cata_ofstream &&x ) {
-            *this = std::move( x );
-        };
-        ~cata_ofstream() {
-            close();
-        }
-        cata_ofstream &operator=( cata_ofstream && );
-
-        inline cata_ofstream &binary( bool value ) {
-            _binary = value;
-            return *this;
-        }
-        inline cata_ofstream &append( bool value ) {
-            _append = value;
-            return *this;
-        }
-        cata_ofstream &open( const std::string &path );
-        bool is_open();
-        bool fail() {
-            return !_stream || _stream->fail();
-        }
-        bool bad() {
-            return !_stream || _stream->bad();
-        }
-        void flush() {
-            _stream->flush();
-        }
-        void close();
-
-        std::ostream &operator*() {
-            return *_stream;
-        }
-        std::ostream *operator->() {
-            return &*_stream;
-        }
-
-    private:
-        bool _binary = false;
-        bool _append = false;
-#if defined (_WIN32) && !defined (_MSC_VER)
-        std::unique_ptr<std::ostream> _stream;
-        std::unique_ptr<__gnu_cxx::stdio_filebuf<char>> _buffer;
-        FILE *_file = nullptr;
-#else
-        std::unique_ptr<std::ofstream> _stream;
-#endif
-};
-
-/**
- * Wrapper around std::ifstream that provides cross-platform support for UTF-8 paths.
- */
-struct cata_ifstream {
-    public:
-        cata_ifstream() {};
-        cata_ifstream( cata_ifstream &&x ) {
-            *this = std::move( x );
-        };
-        ~cata_ifstream() {
-            close();
-        }
-
-        cata_ifstream &operator=( cata_ifstream && );
-
-        inline cata_ifstream &binary( bool value ) {
-            _binary = value;
-            return *this;
-        }
-        cata_ifstream &open( const std::string &path );
-        bool is_open();
-        bool fail() {
-            return !_stream || _stream->fail();
-        }
-        bool bad() {
-            return !_stream || _stream->bad();
-        }
-        void close();
-
-        std::istream &operator*() {
-            return *_stream;
-        }
-        std::istream *operator->() {
-            return &*_stream;
-        }
-
-    private:
-        bool _binary = false;
-#if defined (_WIN32) && !defined (_MSC_VER)
-        std::unique_ptr<std::istream> _stream;
-        std::unique_ptr<__gnu_cxx::stdio_filebuf<char>> _buffer;
-        FILE *_file = nullptr;
-#else
-        std::unique_ptr<std::ifstream> _stream;
-#endif
-};
-
-/**
- * Open a file for writing, calls the writer on that stream.
- *
- * If the writer throws, or if the file could not be opened or if any I/O error
- * happens, the function shows a popup containing the
- * \p fail_message, the error text and the path.
- *
- * @return Whether saving succeeded (no error was caught).
- * @throw The void function throws when writing failes or when the @p writer throws.
- * The other function catches all exceptions and returns false.
- */
-///@{
-bool write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer,
-                    const char *fail_message );
-void write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer );
-///@}
-
-class JsonDeserializer;
-
-/**
- * Try to open and read from given file using the given callback.
- *
- * The file is opened for reading (binary mode), given to the callback (which does the actual
- * reading) and closed.
- * Any exceptions from the callbacks are caught and reported as `debugmsg`.
- * If the stream is in a fail state (other than EOF) after the callback returns, it is handled as
- * error as well.
- *
- * The callback can either be a generic `std::istream`, a @ref JsonIn stream (which has been
- * initialized from the `std::istream`) or a @ref JsonDeserializer object (in case of the later,
- * it's `JsonDeserializer::deserialize` method will be invoked).
- *
- * The functions with the "_optional" prefix do not show a debug message when the file does not
- * exist. They simply ignore the call and return `false` immediately (without calling the callback).
- * They can be used for loading legacy files.
- *
- * @return `true` is the file was read without any errors, `false` upon any error.
- */
-/**@{*/
-bool read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader );
-bool read_from_file_json( const std::string &path, const std::function<void( JsonIn & )> &reader );
-bool read_from_file( const std::string &path, JsonDeserializer &reader );
-
-bool read_from_file_optional( const std::string &path,
-                              const std::function<void( std::istream & )> &reader );
-bool read_from_file_optional_json( const std::string &path,
-                                   const std::function<void( JsonIn & )> &reader );
-bool read_from_file_optional( const std::string &path, JsonDeserializer &reader );
-/**@}*/
-/**
- * Wrapper around std::ofstream that handles error checking and throws on errors.
- *
- * Use like a normal ofstream: the stream is opened in the constructor and
- * closed via @ref close. Both functions check for success and throw std::exception
- * upon any error (e.g. when opening failed or when the stream is in an error state when
- * being closed).
- * Use @ref stream (or the implicit conversion) to access the output stream and to write
- * to it.
- *
- * @note: The stream is closed in the destructor, but no exception is throw from it. To
- * ensure all errors get reported correctly, you should always call `close` explicitly.
- *
- * @note: This uses exclusive I/O.
- */
-class ofstream_wrapper
-{
-    private:
-        cata_ofstream file_stream;
-        std::string path;
-        std::string temp_path;
-
-        void open( std::ios::openmode mode );
-
-    public:
-        ofstream_wrapper( const std::string &path, std::ios::openmode mode );
-        ~ofstream_wrapper();
-
-        std::ostream &stream() {
-            return *file_stream;
-        }
-        operator std::ostream &() {
-            return *file_stream;
-        }
-
-        void close();
-};
-
-std::istream &safe_getline( std::istream &ins, std::string &str );
-
 /** Apply fuzzy effect to a string like:
  * Hello, world! --> H##lo, wurl#!
  *
@@ -538,42 +247,6 @@ std::istream &safe_getline( std::istream &ins, std::string &str );
 std::string obscure_message( const std::string &str, std::function<char()> f );
 
 /**
- * @group JSON (de)serialization wrappers.
- *
- * The functions here provide a way to (de)serialize objects without actually
- * including "json.h". The `*_wrapper` function create the JSON stream instances
- * and therefor require "json.h", but the caller doesn't. Callers should just
- * forward the stream reference to the actual (de)serialization function.
- *
- * The inline function do this by calling `T::(de)serialize` (which is assumed
- * to exist with the proper signature).
- *
- * @throws std::exception Deserialization functions may throw upon malformed
- * JSON or unexpected/invalid content.
- */
-/**@{*/
-std::string serialize_wrapper( const std::function<void( JsonOut & )> &callback );
-void deserialize_wrapper( const std::function<void( JsonIn & )> &callback,
-                          const std::string &data );
-
-template<typename T>
-inline std::string serialize( const T &obj )
-{
-    return serialize_wrapper( [&obj]( JsonOut & jsout ) {
-        obj.serialize( jsout );
-    } );
-}
-
-template<typename T>
-inline void deserialize( T &obj, const std::string &data )
-{
-    deserialize_wrapper( [&obj]( JsonIn & jsin ) {
-        obj.deserialize( jsin );
-    }, data );
-}
-/**@}*/
-
-/**
  * \brief Returns true iff s1 starts with s2
  */
 bool string_starts_with( const std::string &s1, const std::string &s2 );
@@ -582,13 +255,6 @@ bool string_starts_with( const std::string &s1, const std::string &s2 );
  * \brief Returns true iff s1 ends with s2
  */
 bool string_ends_with( const std::string &s1, const std::string &s2 );
-
-/** Used as a default filter in various functions */
-template<typename T>
-bool return_true( const T & )
-{
-    return true;
-}
 
 /**
  * Joins a vector of `std::string`s into a single string with a delimiter/joiner

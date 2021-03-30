@@ -29,6 +29,7 @@
 #include "debug.h"
 #include "field.h"
 #include "field_type.h"
+#include "fstream_utils.h"
 #include "game.h"
 #include "game_constants.h"
 #include "int_id.h"

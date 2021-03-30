@@ -25,7 +25,6 @@
 #include "game_constants.h"
 #include "item_location.h"
 #include "memory_fast.h"
-#include "monster.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "point.h"
@@ -35,6 +34,7 @@
 class Character;
 class Creature_tracker;
 class item;
+class monster;
 class spell_events;
 
 #define DEFAULT_TILESET_ZOOM 16

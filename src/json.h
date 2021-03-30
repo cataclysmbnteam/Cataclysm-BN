@@ -15,7 +15,6 @@
 #include <utility>
 #include <vector>
 
-#include "colony.h"
 #include "enum_conversions.h"
 #include "string_id.h"
 
@@ -43,6 +42,8 @@ namespace cata
 {
 template<typename T>
 class optional;
+template<typename T, typename U, typename V>
+class colony;
 } // namespace cata
 
 class JsonError : public std::runtime_error
@@ -445,8 +446,8 @@ class JsonIn
 
         // special case for colony as it uses `insert()` instead of `push_back()`
         // and therefore doesn't fit with vector/deque/list
-        template <typename T>
-        bool read( cata::colony<T> &v, bool throw_on_error = false ) {
+        template <typename T, typename U, typename V>
+        bool read( cata::colony<T, U, V> &v, bool throw_on_error = false ) {
             if( !test_array() ) {
                 return error_or_false( throw_on_error, "Expected json array" );
             }
@@ -692,8 +693,8 @@ class JsonOut
         }
 
         // special case for colony, since it doesn't fit in other categories
-        template <typename T>
-        void write( const cata::colony<T> &container ) {
+        template <typename T, typename U, typename V>
+        void write( const cata::colony<T, U, V> &container ) {
             write_as_array( container );
         }
 

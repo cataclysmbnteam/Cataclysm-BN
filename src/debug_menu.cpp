@@ -87,6 +87,7 @@
 #include "ui.h"
 #include "ui_manager.h"
 #include "units.h"
+#include "units_utility.h"
 #include "vehicle.h"
 #include "veh_type.h"
 #include "vitamin.h"

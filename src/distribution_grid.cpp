@@ -1,5 +1,6 @@
 #include <unordered_set>
 
+#include "debug.h"
 #include "distribution_grid.h"
 #include "coordinate_conversions.h"
 #include "active_tile_data.h"
