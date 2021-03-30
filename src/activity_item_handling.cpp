@@ -2293,12 +2293,13 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
 
 static bool mine_activity( player &p, const tripoint &src_loc )
 {
+    map &here = get_map();
     std::vector<item *> mining_inv = p.items_with( []( const item & itm ) {
         return ( itm.has_flag( flag_DIG_TOOL ) && !itm.type->can_use( "JACKHAMMER" ) ) ||
                ( itm.type->can_use( "JACKHAMMER" ) && itm.ammo_sufficient() );
     } );
-    if( mining_inv.empty() || p.is_mounted() || p.is_underwater() || g->m.veh_at( src_loc ) ||
-        !g->m.has_flag( "MINEABLE", src_loc ) ) {
+    if( mining_inv.empty() || p.is_mounted() || p.is_underwater() || here.veh_at( src_loc ) ||
+        !here.has_flag( "MINEABLE", src_loc ) ) {
         return false;
     }
     item *chosen_item = nullptr;
@@ -2326,13 +2327,13 @@ static bool mine_activity( player &p, const tripoint &src_loc )
     if( !powered ) {
         moves += ( ( MAX_STAT + 4 ) - std::min( p.str_cur, MAX_STAT ) ) * to_moves<int>( 5_minutes );
     }
-    if( g->m.move_cost( src_loc ) == 2 ) {
+    if( here.move_cost( src_loc ) == 2 ) {
         // We're breaking up some flat surface like pavement, which is much easier
         moves /= 2;
     }
-    p.assign_activity( powered ? ACT_JACKHAMMER : ACT_PICKAXE, moves, -1,
-                       p.get_item_position( chosen_item ) );
-    p.activity.placement = g->m.getabs( src_loc );
+    p.assign_activity( powered ? ACT_JACKHAMMER : ACT_PICKAXE, moves );
+    p.activity.targets.push_back( item_location( p, chosen_item ) );
+    p.activity.placement = here.getabs( src_loc );
     return true;
 
 }
