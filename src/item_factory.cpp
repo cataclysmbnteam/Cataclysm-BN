@@ -2657,6 +2657,7 @@ void Item_factory::clear()
     repair_tools.clear();
     gun_tools.clear();
     repair_actions.clear();
+    migrations.clear();
 
     frozen = false;
 }
