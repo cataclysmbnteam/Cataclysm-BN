@@ -82,7 +82,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "480 m",
-	"reversible": true,
+    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "using": [ [ "welding_standard", 8 ] ],
