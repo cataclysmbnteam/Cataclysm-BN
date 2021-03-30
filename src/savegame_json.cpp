@@ -36,6 +36,7 @@
 #include "calendar.h"
 #include "cata_io.h"
 #include "cata_variant.h"
+#include "cata_utility.h"
 #include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
