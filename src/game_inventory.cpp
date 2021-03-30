@@ -1529,7 +1529,7 @@ void game_menus::inv::swap_letters( player &p )
         [ &p ]( const std::string::value_type & elem ) {
             if( p.inv.assigned_invlet.count( elem ) ) {
                 return c_yellow;
-            } else if( p.invlet_to_item( elem ) != nullptr ) {
+            } else if( p.invlet_to_position( elem ) != INT_MIN ) {
                 return c_white;
             } else {
                 return c_dark_gray;
