@@ -111,5 +111,14 @@
     "time": "10 s",
     "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_soil", 3 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "cargo_rack",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "1 h",
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "hdframe", 2 ] ], [ [ "scrap", 12 ] ] ]
   }
 ]

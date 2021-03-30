@@ -8,6 +8,7 @@
     "skills_required": [ "fabrication", 3 ],
     "difficulty": 5,
     "time": "360 m",
+    "reversible": true,
     "book_learn": [ [ "textbook_fabrication", 6 ], [ "textbook_mechanics", 5 ] ],
     "using": [ [ "welding_standard", 10 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
@@ -22,6 +23,7 @@
     "skills_required": [ "fabrication", 2 ],
     "difficulty": 2,
     "time": "60 m",
+    "reversible": true,
     "book_learn": [ [ "textbook_fabrication", 4 ], [ "textbook_mechanics", 2 ], [ "manual_mechanics", 2 ] ],
     "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
@@ -36,6 +38,7 @@
     "skills_required": [ "fabrication", 2 ],
     "difficulty": 2,
     "time": "60 m",
+    "reversible": true,
     "autolearn": true,
     "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
@@ -94,6 +97,7 @@
     "difficulty": 1,
     "time": "4 m",
     "autolearn": true,
+    "reversible": true,
     "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
     "components": [ [ [ "sheet_metal", 1 ], [ "steel_standard", 1, "LIST" ] ], [ [ "clockworks", 2 ], [ "lock", 1 ] ] ]
   },
@@ -107,6 +111,7 @@
     "difficulty": 4,
     "time": "60 m",
     "autolearn": true,
+    "reversible": true,
     "using": [ [ "rope_natural", 4 ], [ "welding_standard", 12 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "frame", 4 ] ], [ [ "pipe", 11 ] ] ]
@@ -122,6 +127,7 @@
     "difficulty": 4,
     "time": "30 m",
     "autolearn": true,
+    "reversible": true,
     "using": [ [ "welding_standard", 2 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "pipe", 12 ] ], [ [ "cargo_rack", 1 ] ] ]
@@ -136,6 +142,7 @@
     "difficulty": 4,
     "time": "60 m",
     "autolearn": true,
+    "reversible": true,
     "using": [ [ "rope_natural", 2 ], [ "welding_standard", 6 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "wire", 40 ] ], [ [ "pipe", 6 ] ] ]
@@ -151,6 +158,7 @@
     "id_suffix": "repurpose_wire_basket",
     "time": "25 m",
     "autolearn": true,
+    "reversible": true,
     "using": [ [ "welding_standard", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "pipe", 6 ] ], [ [ "basket", 1 ] ] ]
