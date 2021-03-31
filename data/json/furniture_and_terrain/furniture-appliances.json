@@ -728,9 +728,9 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "power_supply", "count": [ 1, 4 ] },
-  	    { "item": "scrap", "count": [ 0, 2 ] },
-  	    { "item": "cable", "charges": [ 1, 15 ] },
-  	    { "item": "plastic_chunk", "count": [ 1, 2 ] }
+        { "item": "scrap", "count": [ 0, 2 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "plastic_chunk", "count": [ 1, 2 ] }
       ]
     }
   },
@@ -762,8 +762,8 @@
   },
   {
     "type": "furniture",
-	  "id": "f_gridelectrolysis_kit",
-	  "name": "grid electrolysis kit",
+    "id": "f_gridelectrolysis_kit",
+    "name": "grid electrolysis kit",
     "symbol": "=",
     "description": "A electrolysis kit connected to a electrical grid.",
     "color": "blue",
