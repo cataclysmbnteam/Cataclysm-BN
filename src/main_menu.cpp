@@ -371,6 +371,7 @@ void main_menu::init_strings()
     vWorldSubItems.push_back( pgettext( "Main Menu|World", "<D|d>elete World" ) );
     vWorldSubItems.push_back( pgettext( "Main Menu|World", "<R|r>eset World" ) );
     vWorldSubItems.push_back( pgettext( "Main Menu|World", "<S|s>how World Mods" ) );
+    vWorldSubItems.push_back( pgettext( "Main Menu|World", "<E|e>dit World Mods" ) );
     vWorldSubItems.push_back( pgettext( "Main Menu|World", "<C|c>opy World Settings" ) );
     vWorldSubItems.push_back( pgettext( "Main Menu|World", "Character to <T|t>emplate" ) );
 
@@ -1296,7 +1297,16 @@ void main_menu::world_tab()
                 if( sel3 == 2 ) { // Active World Mods
                     WORLDPTR world = world_generator->get_world( all_worldnames[sel2 - 1] );
                     world_generator->show_active_world_mods( world->active_mod_order );
-
+                } else if( sel3 == 3 ) { // Edit World Mods
+                    if( query_yn( _(
+                                      "Editing mod list or mod load order may render the world unstable or completely unplayable.  "
+                                      "It is advised to manually back up world files before proceeding.  "
+                                      "If you have just started playing, consider creating new world instead.\n"
+                                      "Proceed?"
+                                  ) ) ) {
+                        WORLDPTR world = world_generator->get_world( all_worldnames[sel2 - 1] );
+                        world_generator->edit_active_world_mods( world );
+                    }
                 } else {
                     bool query_yes = false;
                     bool do_delete = false;
@@ -1310,10 +1320,10 @@ void main_menu::world_tab()
                             query_yes = true;
                             do_delete = false;
                         }
-                    } else if( sel3 == 3 ) { // Copy World settings
+                    } else if( sel3 == 4 ) { // Copy World settings
                         layer = 2;
                         world_generator->make_new_world( true, all_worldnames[sel2 - 1] );
-                    } else if( sel3 == 4 ) { // Character to Template
+                    } else if( sel3 == 5 ) { // Character to Template
                         layer = 4;
                         sel4 = 0;
                     }

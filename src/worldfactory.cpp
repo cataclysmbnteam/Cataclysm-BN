@@ -816,12 +816,48 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
     }
 }
 
+void worldfactory::edit_active_world_mods( WORLDPTR world )
+{
+    // set up window
+    catacurses::window wf_win;
+    ui_adaptor ui;
+
+    const auto init_windows = [&]( ui_adaptor & ui ) {
+        const int iMinScreenWidth = std::max( FULL_SCREEN_WIDTH, TERMX / 2 );
+        const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - iMinScreenWidth ) / 2 : 0;
+        wf_win = catacurses::newwin( TERMY, iMinScreenWidth, point( iOffsetX, 0 ) );
+        ui.position_from_window( wf_win );
+    };
+    init_windows( ui );
+    ui.on_screen_resize( init_windows );
+
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        draw_empty_worldgen_tabs( wf_win );
+        wnoutrefresh( wf_win );
+    } );
+
+    bool save_changes = false;
+    mod_manager::t_mod_list new_mod_order = world->active_mod_order;
+    show_modselection_window( wf_win, new_mod_order, [&save_changes]() {
+        save_changes = query_yn( _( "Save changes?" ) );
+        return true;
+    }, true );
+
+    if( save_changes ) {
+        world->active_mod_order = new_mod_order;
+        world->save();
+    }
+}
+
 int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win, WORLDPTR world,
         const std::function<bool()> &on_quit )
 {
-    // Use active_mod_order of the world,
-    // saves us from writing 'world->active_mod_order' all the time.
-    std::vector<mod_id> &active_mod_order = world->active_mod_order;
+    return show_modselection_window( win, world->active_mod_order, on_quit, false );
+}
+
+int worldfactory::show_modselection_window( const catacurses::window &win,
+        std::vector<mod_id> &active_mod_order, const std::function<bool()> &on_quit, bool standalone )
+{
     {
         std::vector<mod_id> tmp_mod_order;
         // clear active_mod_order and re-add all the mods, his ensures
@@ -840,8 +876,10 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "NEXT_CATEGORY_TAB" );
     ctxt.register_action( "PREV_CATEGORY_TAB" );
-    ctxt.register_action( "NEXT_TAB" );
-    ctxt.register_action( "PREV_TAB" );
+    if( !standalone ) {
+        ctxt.register_action( "NEXT_TAB" );
+        ctxt.register_action( "PREV_TAB" );
+    }
     ctxt.register_action( "CONFIRM", to_translation( "Activate / deactivate mod" ) );
     ctxt.register_action( "ADD_MOD" );
     ctxt.register_action( "REMOVE_MOD" );
@@ -995,8 +1033,12 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
     apply_filter( "" );
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        draw_worldgen_tabs( win, 0 );
-        draw_modselection_borders( win, ctxt );
+        if( standalone ) {
+            draw_empty_worldgen_tabs( win );
+        } else {
+            draw_worldgen_tabs( win, 0 );
+        }
+        draw_modselection_borders( win, ctxt, standalone );
 
         // Redraw headers
         for( size_t i = 0; i < headers.size(); ++i ) {
@@ -1181,7 +1223,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         } else if( action == "SAVE_DEFAULT_MODS" ) {
             if( mman->set_default_mods( active_mod_order ) ) {
                 popup( _( "Saved list of active mods as default" ) );
-                draw_modselection_borders( win, ctxt );
+                draw_modselection_borders( win, ctxt, standalone );
             }
         } else if( action == "VIEW_MOD_DESCRIPTION" ) {
             if( const MOD_INFORMATION *selmod = get_selected_mod() ) {
@@ -1354,7 +1396,7 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
 }
 
 void worldfactory::draw_modselection_borders( const catacurses::window &win,
-        const input_context &ctxtp )
+        const input_context &ctxtp, bool standalone )
 {
 
     const int iMinScreenWidth = std::max( FULL_SCREEN_WIDTH, TERMX / 2 );
@@ -1398,22 +1440,31 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win,
               LINE_XXOX ); // _|_
 
     // Add tips & hints
-    fold_and_print( win, point( 2, TERMY - 7 ), getmaxx( win ) - 4, c_light_gray,
-                    _( "[<color_yellow>%s</color>] = save <color_cyan>Mod Load Order</color> as default  "
-                       "[<color_yellow>%s</color>/<color_yellow>%s</color>] = switch Main-Tab  "
-                       "[<color_yellow>%s</color>/<color_yellow>%s</color>] = switch "
-                       "<color_cyan>Mod List</color> and <color_cyan>Mod Load Order</color>  "
-                       "[<color_yellow>%s</color>/<color_yellow>%s</color>] = switch <color_cyan>Mod List</color> Tab  "
-                       "[<color_yellow>%s</color>] = keybindings" ),
-                    ctxtp.get_desc( "SAVE_DEFAULT_MODS" ),
-                    ctxtp.get_desc( "PREV_TAB" ),
-                    ctxtp.get_desc( "NEXT_TAB" ),
-                    ctxtp.get_desc( "LEFT" ),
-                    ctxtp.get_desc( "RIGHT" ),
-                    ctxtp.get_desc( "PREV_CATEGORY_TAB" ),
-                    ctxtp.get_desc( "NEXT_CATEGORY_TAB" ),
-                    ctxtp.get_desc( "HELP_KEYBINDINGS" )
-                  );
+    std::vector<std::string> strings;
+    strings.push_back( string_format(
+                           _( "[<color_yellow>%s</color>] = save <color_cyan>Mod Load Order</color> as default" ),
+                           ctxtp.get_desc( "SAVE_DEFAULT_MODS" ) ) );
+    if( !standalone ) {
+        strings.push_back( string_format(
+                               _( "[<color_yellow>%s</color>/<color_yellow>%s</color>] = switch Main-Tab" ),
+                               ctxtp.get_desc( "PREV_TAB" ),
+                               ctxtp.get_desc( "NEXT_TAB" ) ) );
+    }
+    strings.push_back( string_format(
+                           _( "[<color_yellow>%s</color>/<color_yellow>%s</color>] = switch "
+                              "<color_cyan>Mod List</color> and <color_cyan>Mod Load Order</color>" ),
+                           ctxtp.get_desc( "LEFT" ),
+                           ctxtp.get_desc( "RIGHT" ) ) );
+    strings.push_back( string_format(
+                           _( "[<color_yellow>%s</color>/<color_yellow>%s</color>] = switch <color_cyan>Mod List</color> Tab" ),
+                           ctxtp.get_desc( "PREV_CATEGORY_TAB" ),
+                           ctxtp.get_desc( "NEXT_CATEGORY_TAB" ) ) );
+    strings.push_back( string_format(
+                           _( "[<color_yellow>%s</color>] = keybindings" ),
+                           ctxtp.get_desc( "HELP_KEYBINDINGS" ) ) );
+    std::string msg = join( strings, "  " );
+
+    fold_and_print( win, point( 2, TERMY - 7 ), getmaxx( win ) - 4, c_light_gray, msg );
     wnoutrefresh( win );
 }
 
@@ -1433,6 +1484,12 @@ void worldfactory::draw_worldgen_tabs( const catacurses::window &w, size_t curre
                    tab_strings_translated.end(), []( std::string & str )->void { str = _( str ); } );
 
     draw_tabs( w, tab_strings_translated, current );
+    draw_border_below_tabs( w );
+}
+
+void worldfactory::draw_empty_worldgen_tabs( const catacurses::window &w )
+{
+    draw_tabs( w, std::vector<std::string>(), 0 );
     draw_border_below_tabs( w );
 }
 
