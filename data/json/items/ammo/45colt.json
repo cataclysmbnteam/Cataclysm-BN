@@ -17,7 +17,8 @@
     "ammo_type": "45colt",
     "casing": "45colt_casing",
     "range": 16,
-    "damage": { "damage_type": "stab", "amount": 25, "armor_penetration": 2 },
+    "//": "Base damage of 25, balance increase of two-nineths, plus 25% hollowpoint bonus.",
+    "damage": { "damage_type": "stab", "amount": 38 },
     "dispersion": 50,
     "recoil": 600,
     "effects": [ "COOKOFF" ]

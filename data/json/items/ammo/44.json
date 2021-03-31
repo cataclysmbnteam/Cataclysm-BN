@@ -4,8 +4,9 @@
     "copy-from": "44magnum",
     "type": "AMMO",
     "name": { "str": ".44 Magnum FMJ" },
-    "description": "A brass-jacketed variant of the .44 Magnum round.  This increases penetration slightly at the cost of reduced damage from expansion.",
-    "relative": { "damage": { "damage_type": "stab", "amount": -4, "armor_penetration": 8 } }
+    "description": "A brass-jacketed variant of the .44 Magnum round.  This increases penetration at the cost of reduced damage from expansion.",
+    "//": "Base damage of 36, balance increase of one-nineth.",
+    "relative": { "damage": { "damage_type": "stab", "amount": -10, "armor_penetration": 23 } }
   },
   {
     "id": "44magnum",
@@ -25,7 +26,8 @@
     "ammo_type": "44",
     "casing": "44_casing",
     "range": 16,
-    "damage": { "damage_type": "stab", "amount": 40, "armor_penetration": 4 },
+    "//": "Hollowpoint bonus of 25%",
+    "damage": { "damage_type": "stab", "amount": 50 },
     "dispersion": 30,
     "recoil": 1570,
     "effects": [ "COOKOFF" ]
