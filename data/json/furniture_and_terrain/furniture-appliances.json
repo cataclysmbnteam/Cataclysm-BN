@@ -718,7 +718,7 @@
     "deconstruct": {
       "items": [
         { "item": "welder", "count": 1 },
-        { "item": "jumper_cable", "count": 1 }
+        { "item": "cable", "charges": 5 }
       ]
     },
     "bash": {
@@ -729,7 +729,7 @@
       "items": [
         { "item": "power_supply", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 0, 2 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "cable", "charges": [ 1, 4 ] },
         { "item": "plastic_chunk", "count": [ 1, 2 ] }
       ]
     }
@@ -749,7 +749,7 @@
     "deconstruct": {
       "items": [
         { "item": "forge", "count": 1 },
-        { "item": "jumper_cable", "count": 1 } 
+        { "item": "cable", "charges": 5 } 
       ] 
     },
     "bash": {
@@ -760,7 +760,7 @@
       "items": [
         { "item": "power_supply", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 0, 2 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "cable", "charges": [ 1, 4 ] },
         { "item": "element", "count": [ 2, 6 ] }
       ]
     }
@@ -780,7 +780,7 @@
     "deconstruct": { 
       "items": [ 
         { "item": "electrolysis_kit", "count": 1 },
-        { "item": "jumper_cable", "count": 1 } 
+        { "item": "cable", "charges": 5 } 
       ] 
     },
     "bash": {
@@ -790,7 +790,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 0, 2 ] },
-        { "item": "cable", "charges": [ 1, 15 ] }
+        { "item": "cable", "charges": [ 1, 4 ] }
       ]
     }
   }
