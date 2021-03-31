@@ -4123,7 +4123,7 @@
     "time": "1 m",
     "components": [
       [ [ "welder", 1 ] ],
-      [ [ "jumper_cable", 1 ] ]
+      [ [ "cable", 5 ] ]
     ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
@@ -4138,7 +4138,7 @@
     "time": "1 m",
     "components": [
       [ [ "forge", 1 ] ],
-      [ [ "jumper_cable", 1 ] ]
+      [ [ "cable", 5 ] ]
       ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
@@ -4153,7 +4153,7 @@
     "time": "1 m",
     "components": [
       [ [ "electrolysis_kit", 1 ] ],
-      [ [ "jumper_cable", 1 ] ]
+      [ [ "cable", 5 ] ]
       ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
