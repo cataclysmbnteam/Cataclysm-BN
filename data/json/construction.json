@@ -4139,7 +4139,7 @@
     "components": [
       [ [ "forge", 1 ] ],
       [ [ "cable", 5 ] ]
-      ],
+    ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_terrain": "f_gridforge"
@@ -4154,7 +4154,7 @@
     "components": [
       [ [ "electrolysis_kit", 1 ] ],
       [ [ "cable", 5 ] ]
-      ],
+    ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_terrain": "f_gridelectrolysis_kit"
