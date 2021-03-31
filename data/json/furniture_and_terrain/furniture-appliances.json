@@ -746,7 +746,12 @@
     "required_str": -1,
     "crafting_pseudo_item": "fake_gridforge",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "forge", "count": 1 }, { "item": "jumper_cable", "count": 1 } ] },
+    "deconstruct": {
+      "items": [
+        { "item": "forge", "count": 1 },
+        { "item": "jumper_cable", "count": 1 } 
+      ] 
+    },
     "bash": {
       "str_min": 8,
       "str_max": 30,
@@ -772,7 +777,12 @@
     "required_str": -1,
     "crafting_pseudo_item": "fake_gridelectrolysis_kit",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "electrolysis_kit", "count": 1 }, { "item": "jumper_cable", "count": 1 } ] },
+    "deconstruct": { 
+      "items": [ 
+        { "item": "electrolysis_kit", "count": 1 },
+        { "item": "jumper_cable", "count": 1 } 
+      ] 
+    },
     "bash": {
       "str_min": 8,
       "str_max": 30,
