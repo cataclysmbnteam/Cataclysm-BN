@@ -189,20 +189,20 @@
   },
   {
     "id": "fake_gridforge",
-	  "copy-from": "fake_item",
-	  "type": "TOOL",
-	  "name": { "str": "grid forge" },
-	  "sub": "forge",
-	  "max_charges": 2500,
-	  "flags": [ "USES_GRID_POWER" ]
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "grid forge" },
+    "sub": "forge",
+    "max_charges": 2500,
+    "flags": [ "USES_GRID_POWER" ]
   },
   {
     "id": "fake_gridelectrolysis_kit",
-	  "copy-from": "fake_item",
-	  "type": "TOOL",
-	  "name": { "str": "grid electrolysis kit" },
-	  "sub": "electrolysis_kit",
-	  "max_charges": 2500,
-	  "flags": [ "USES_GRID_POWER" ]
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "grid electrolysis kit" },
+    "sub": "electrolysis_kit",
+    "max_charges": 2500,
+    "flags": [ "USES_GRID_POWER" ]
   }
 ]
