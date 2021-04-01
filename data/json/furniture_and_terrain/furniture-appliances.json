@@ -729,7 +729,7 @@
       ]
     }
   },
-    {
+  {
     "type": "furniture",
     "id": "f_gridforge",
     "name": "grid forge",
@@ -773,10 +773,7 @@
       "str_max": 30,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap", "count": [ 0, 2 ] },
-        { "item": "cable", "charges": [ 1, 4 ] }
-      ]
+      "items": [ { "item": "scrap", "count": [ 0, 2 ] }, { "item": "cable", "charges": [ 1, 4 ] } ]
     }
   }
 ]
