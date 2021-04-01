@@ -715,12 +715,7 @@
     "required_str": -1,
     "crafting_pseudo_item": "fake_gridwelder",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": {
-      "items": [
-        { "item": "welder", "count": 1 },
-        { "item": "cable", "charges": 5 }
-      ]
-    },
+    "deconstruct": { "items": [ { "item": "welder", "count": 1 }, { "item": "cable", "charges": 5 } ] },
     "bash": {
       "str_min": 4,
       "str_max": 30,
@@ -746,12 +741,7 @@
     "required_str": -1,
     "crafting_pseudo_item": "fake_gridforge",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": {
-      "items": [
-        { "item": "forge", "count": 1 },
-        { "item": "cable", "charges": 5 } 
-      ] 
-    },
+    "deconstruct": { "items": [ { "item": "forge", "count": 1 }, { "item": "cable", "charges": 5 } ] },
     "bash": {
       "str_min": 8,
       "str_max": 30,
@@ -777,12 +767,7 @@
     "required_str": -1,
     "crafting_pseudo_item": "fake_gridelectrolysis_kit",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": { 
-      "items": [ 
-        { "item": "electrolysis_kit", "count": 1 },
-        { "item": "cable", "charges": 5 } 
-      ] 
-    },
+    "deconstruct": { "items": [ { "item": "electrolysis_kit", "count": 1 }, { "item": "cable", "charges": 5 } ] },
     "bash": {
       "str_min": 8,
       "str_max": 30,
