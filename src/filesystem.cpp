@@ -15,9 +15,9 @@
 #include <utility>
 
 #include "debug.h"
-#include "cata_utility.h"
 #include "catacharset.h"
 #include "fstream_utils.h"
+#include "string_utils.h"
 
 #if defined(_WIN32)
 #   include "platform_win.h"

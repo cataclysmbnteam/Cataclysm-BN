@@ -552,26 +552,6 @@ void draw_item_filter_rules( const catacurses::window &win, int starty, int heig
 char rand_char();
 int special_symbol( int sym );
 
-// Remove spaces from the start and the end of a string.
-std::string trim( const std::string &s );
-// Removes punctuation marks from the start and the end of a string.
-std::string trim_punctuation_marks( const std::string &s );
-// Converts the string to upper case.
-std::string to_upper_case( const std::string &s );
-// Converts the string to lower case.
-std::string to_lower_case( const std::string &s );
-
-// TODO: move these elsewhere
-// string manipulations.
-void replace_name_tags( std::string &input );
-void replace_city_tag( std::string &input, const std::string &name );
-
-void replace_substring( std::string &input, const std::string &substring,
-                        const std::string &replacement, bool all );
-
-std::string string_replace( std::string text, const std::string &before, const std::string &after );
-std::string replace_colors( std::string text );
-std::string &capitalize_letter( std::string &str, size_t n = 0 );
 size_t shortcut_print( const catacurses::window &w, const point &p, nc_color text_color,
                        nc_color shortcut_color, const std::string &fmt );
 size_t shortcut_print( const catacurses::window &w, nc_color text_color, nc_color shortcut_color,
@@ -931,11 +911,6 @@ class scrollingcombattext
 };
 
 extern scrollingcombattext SCT;
-
-std::string wildcard_trim_rule( const std::string &pattern_in );
-bool wildcard_match( const std::string &text_in, const std::string &pattern_in );
-std::vector<std::string> string_split( const std::string &text_in, char delim );
-int ci_find_substr( const std::string &str1, const std::string &str2 );
 
 std::string format_volume( const units::volume &volume );
 std::string format_volume( const units::volume &volume, int width, bool *out_truncated,

@@ -1,5 +1,6 @@
 #include "catch/catch.hpp"
 #include "cata_utility.h"
+#include "string_utils.h"
 #include "units_utility.h"
 #include "units.h"
 
@@ -39,4 +40,43 @@ TEST_CASE( "divide_round_up_units", "[utility]" )
     CHECK( divide_round_up( 4_ml, 5_ml ) == 1 );
     CHECK( divide_round_up( 5_ml, 5_ml ) == 1 );
     CHECK( divide_round_up( 6_ml, 5_ml ) == 2 );
+}
+
+TEST_CASE( "replace_all", "[utility]" )
+{
+    static const std::vector<std::array<std::string, 4>> data = {
+        {"aaaaaaa", "aa", "aaab", "aaabaaabaaaba"},
+        {"aaaaaaa", "bb", "aa", "aaaaaaa"},
+        {"", "", "", ""},
+        {"a", "a", "", ""},
+        {"", "a", "a", ""},
+        {"", "", "a", ""},
+        {"a", "", "a", "a"},
+    };
+
+    for( size_t i = 0; i < data.size(); i++ ) {
+        CAPTURE( i );
+        std::string res = replace_all( data[i][0], data[i][1], data[i][2] );
+        CHECK( res == data[i][3] );
+    }
+}
+
+TEST_CASE( "replace_first", "[utility]" )
+{
+    static const std::vector<std::array<std::string, 4>> data = {
+        {"aaaaaaa", "aa", "aaab", "aaabaaaaa"},
+        {"aaaaaaa", "bb", "aa", "aaaaaaa"},
+        {"", "", "", ""},
+        {"a", "a", "", ""},
+        {"", "a", "a", ""},
+        {"", "", "a", ""},
+        {"a", "", "a", "a"},
+    };
+
+    for( size_t i = 0; i < data.size(); i++ ) {
+        CAPTURE( i );
+        std::string text = data[i][0];
+        replace_first( text, data[i][1], data[i][2] );
+        CHECK( text == data[i][3] );
+    }
 }

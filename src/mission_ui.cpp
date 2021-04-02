@@ -14,6 +14,7 @@
 #include "npc.h"
 #include "output.h"
 #include "string_formatter.h"
+#include "string_utils.h"
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
@@ -106,8 +107,8 @@ void game::list_missions()
                 std::string formatted_description = description;
                 for( const auto &reward : rewards ) {
                     std::string token = "<reward_count:" + reward.second + ">";
-                    formatted_description = string_replace( formatted_description, token, string_format( "%d",
-                                                            reward.first ) );
+                    formatted_description = replace_all( formatted_description, token,
+                                                         string_format( "%d", reward.first ) );
                 }
                 return formatted_description;
             };

@@ -7,7 +7,6 @@
 #include <utility>
 
 #include "avatar.h"
-#include "cata_utility.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -26,6 +25,7 @@
 #include "point.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "string_utils.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"

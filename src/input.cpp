@@ -13,7 +13,6 @@
 #include <utility>
 
 #include "action.h"
-#include "cata_utility.h"
 #include "catacharset.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -30,6 +29,7 @@
 #include "popup.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "string_utils.h"
 #include "translations.h"
 #include "ui_manager.h"
 #include "color.h"

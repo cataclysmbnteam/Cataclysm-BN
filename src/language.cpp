@@ -1,5 +1,6 @@
 #include "language.h"
 
+#include <algorithm>
 #include <fstream>
 
 #if defined(LOCALIZE) && defined(__STRICT_ANSI__)
@@ -24,13 +25,12 @@
 #endif // LOCALIZE
 
 #include "cached_options.h"
-#include "cata_utility.h"
 #include "debug.h"
 #include "fstream_utils.h"
 #include "name.h"
 #include "options.h"
-#include "output.h"
 #include "path_info.h"
+#include "string_utils.h"
 #include "translations.h"
 #include "ui.h"
 #if defined(LOCALIZE)

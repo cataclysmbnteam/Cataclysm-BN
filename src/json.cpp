@@ -17,10 +17,10 @@
 #include <utility>
 #include <vector>
 
-#include "cata_utility.h"
 #include "cached_options.h"
 #include "debug.h"
 #include "string_formatter.h"
+#include "string_utils.h"
 
 // JSON parsing and serialization tools for Cataclysm-DDA.
 // For documentation, see the included header, json.h.

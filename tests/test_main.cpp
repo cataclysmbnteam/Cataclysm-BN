@@ -29,7 +29,6 @@
 
 #include "avatar.h"
 #include "calendar.h"
-#include "cata_utility.h"
 #include "catch/catch.hpp"
 #include "color.h"
 #include "debug.h"
@@ -47,6 +46,7 @@
 #include "pldata.h"
 #include "point.h"
 #include "rng.h"
+#include "string_utils.h"
 #include "string_formatter.h"
 #include "type_id.h"
 #include "weather.h"

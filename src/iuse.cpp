@@ -94,6 +94,7 @@
 #include "string_formatter.h"
 #include "string_id.h"
 #include "string_input_popup.h"
+#include "string_utils.h"
 #include "teleport.h"
 #include "text_snippets.h"
 #include "timed_event.h"

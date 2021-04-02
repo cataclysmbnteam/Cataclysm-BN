@@ -2,6 +2,7 @@
 #include "sdl_font.h"
 #include "output.h"
 #include "platform_win.h"
+#include "string_utils.h"
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 

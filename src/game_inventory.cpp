@@ -44,6 +44,7 @@
 #include "stomach.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "string_utils.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
