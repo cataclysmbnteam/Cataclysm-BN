@@ -45,13 +45,13 @@ TEST_CASE( "divide_round_up_units", "[utility]" )
 TEST_CASE( "replace_all", "[utility]" )
 {
     static const std::vector<std::array<std::string, 4>> data = {
-        {"aaaaaaa", "aa", "aaab", "aaabaaabaaaba"},
-        {"aaaaaaa", "bb", "aa", "aaaaaaa"},
-        {"", "", "", ""},
-        {"a", "a", "", ""},
-        {"", "a", "a", ""},
-        {"", "", "a", ""},
-        {"a", "", "a", "a"},
+        {{"aaaaaaa", "aa", "aaab", "aaabaaabaaaba"}},
+        {{"aaaaaaa", "bb", "aa", "aaaaaaa"}},
+        {{"", "", "", ""}},
+        {{"a", "a", "", ""}},
+        {{"", "a", "a", ""}},
+        {{"", "", "a", ""}},
+        {{"a", "", "a", "a"}},
     };
 
     for( size_t i = 0; i < data.size(); i++ ) {
@@ -64,13 +64,13 @@ TEST_CASE( "replace_all", "[utility]" )
 TEST_CASE( "replace_first", "[utility]" )
 {
     static const std::vector<std::array<std::string, 4>> data = {
-        {"aaaaaaa", "aa", "aaab", "aaabaaaaa"},
-        {"aaaaaaa", "bb", "aa", "aaaaaaa"},
-        {"", "", "", ""},
-        {"a", "a", "", ""},
-        {"", "a", "a", ""},
-        {"", "", "a", ""},
-        {"a", "", "a", "a"},
+        {{"aaaaaaa", "aa", "aaab", "aaabaaaaa"}},
+        {{"aaaaaaa", "bb", "aa", "aaaaaaa"}},
+        {{"", "", "", ""}},
+        {{"a", "a", "", ""}},
+        {{"", "a", "a", ""}},
+        {{"", "", "a", ""}},
+        {{"a", "", "a", "a"}},
     };
 
     for( size_t i = 0; i < data.size(); i++ ) {
