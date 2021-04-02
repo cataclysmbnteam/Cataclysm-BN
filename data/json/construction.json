@@ -4121,7 +4121,7 @@
     "category": "OTHER",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "1 m",
-    "components": [ [ [ "welder", 1 ] ], [ [ "cable", 5 ] ] ],
+    "components": [ [ [ "welder", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_terrain": "f_gridwelder"
@@ -4133,7 +4133,7 @@
     "category": "OTHER",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "1 m",
-    "components": [ [ [ "forge", 1 ] ], [ [ "cable", 5 ] ] ],
+    "components": [ [ [ "forge", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_terrain": "f_gridforge"
@@ -4145,7 +4145,7 @@
     "category": "OTHER",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "1 m",
-    "components": [ [ [ "electrolysis_kit", 1 ] ], [ [ "cable", 5 ] ] ],
+    "components": [ [ [ "electrolysis_kit", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_terrain": "f_gridelectrolysis_kit"
