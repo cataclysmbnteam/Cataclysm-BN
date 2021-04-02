@@ -42,43 +42,51 @@ TEST_CASE( "divide_round_up_units", "[utility]" )
     CHECK( divide_round_up( 6_ml, 5_ml ) == 2 );
 }
 
+struct repl_test_data {
+    size_t serial;
+    std::string input;
+    std::string what;
+    std::string with;
+    std::string expected;
+};
+
 TEST_CASE( "replace_all", "[utility]" )
 {
-    static const std::vector<std::array<std::string, 4>> data = {{
-            {{"aaaaaaa", "aa", "aaab", "aaabaaabaaaba"}},
-            {{"aaaaaaa", "bb", "aa", "aaaaaaa"}},
-            {{"", "", "", ""}},
-            {{"a", "a", "", ""}},
-            {{"", "a", "a", ""}},
-            {{"", "", "a", ""}},
-            {{"a", "", "a", "a"}},
+    static const std::vector<repl_test_data> data = {{
+            {0, "aaaaaaa", "aa", "aaab", "aaabaaabaaaba"},
+            {1, "aaaaaaa", "bb", "aa", "aaaaaaa"},
+            {2, "", "", "", ""},
+            {3, "a", "a", "", ""},
+            {4, "", "a", "a", ""},
+            {5, "", "", "a", ""},
+            {6, "a", "", "a", "a"},
         }
     };
 
-    for( size_t i = 0; i < data.size(); i++ ) {
-        CAPTURE( i );
-        std::string res = replace_all( data[i][0], data[i][1], data[i][2] );
-        CHECK( res == data[i][3] );
+    for( const repl_test_data &it : data ) {
+        CAPTURE( it.serial );
+        std::string res = replace_all( it.input, it.what, it.with );
+        CHECK( res == it.expected );
     }
 }
 
 TEST_CASE( "replace_first", "[utility]" )
 {
-    static const std::vector<std::array<std::string, 4>> data = {{
-            {{"aaaaaaa", "aa", "aaab", "aaabaaaaa"}},
-            {{"aaaaaaa", "bb", "aa", "aaaaaaa"}},
-            {{"", "", "", ""}},
-            {{"a", "a", "", ""}},
-            {{"", "a", "a", ""}},
-            {{"", "", "a", ""}},
-            {{"a", "", "a", "a"}},
+    static const std::vector<repl_test_data> data = {{
+            {0, "aaaaaaa", "aa", "aaab", "aaabaaaaa"},
+            {1, "aaaaaaa", "bb", "aa", "aaaaaaa"},
+            {2, "", "", "", ""},
+            {3, "a", "a", "", ""},
+            {4, "", "a", "a", ""},
+            {5, "", "", "a", ""},
+            {6, "a", "", "a", "a"},
         }
     };
 
-    for( size_t i = 0; i < data.size(); i++ ) {
-        CAPTURE( i );
-        std::string text = data[i][0];
-        replace_first( text, data[i][1], data[i][2] );
-        CHECK( text == data[i][3] );
+    for( const repl_test_data &it : data ) {
+        CAPTURE( it.serial );
+        std::string text = it.input;
+        replace_first( text, it.what, it.with );
+        CHECK( text == it.expected );
     }
 }
