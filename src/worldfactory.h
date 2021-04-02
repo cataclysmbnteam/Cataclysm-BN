@@ -128,6 +128,7 @@ class worldfactory
 
         static void draw_worldgen_tabs( const catacurses::window &w, size_t current );
         void show_active_world_mods( const std::vector<mod_id> &world_mods );
+        void edit_active_world_mods( WORLDPTR world );
 
     private:
         std::map<std::string, std::unique_ptr<WORLD>> all_worlds;
@@ -142,7 +143,11 @@ class worldfactory
         int show_worldgen_tab_confirm( const catacurses::window &win, WORLDPTR world,
                                        const std::function<bool()> &on_quit );
 
-        void draw_modselection_borders( const catacurses::window &win, const input_context &ctxtp );
+        int show_modselection_window( const catacurses::window &win, std::vector<mod_id> &active_mod_order,
+                                      const std::function<bool()> &on_quit, bool standalone );
+        void draw_modselection_borders( const catacurses::window &win, const input_context &ctxtp,
+                                        bool standalone );
+        static void draw_empty_worldgen_tabs( const catacurses::window &w );
         void draw_mod_list( const catacurses::window &w, int &start, size_t cursor,
                             const std::vector<mod_id> &mods, bool is_active_list, const std::string &text_if_empty,
                             const catacurses::window &w_shift );
