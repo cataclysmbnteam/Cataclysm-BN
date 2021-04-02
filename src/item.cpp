@@ -7111,8 +7111,13 @@ ammotype item::ammo_type() const
 
 itype_id item::ammo_default( bool conversion ) const
 {
-    if( !ammo_types( conversion ).empty() ) {
-        itype_id res = ammotype( *ammo_types( conversion ).begin() )->default_ammotype();
+    if( is_magazine() ) {
+        return type->magazine->default_ammo;
+    }
+
+    const std::set<ammotype> &atypes = ammo_types( conversion );
+    if( !atypes.empty() ) {
+        itype_id res = ammotype( *atypes.begin() )->default_ammotype();
         if( !res.empty() ) {
             return res;
         }
