@@ -11,7 +11,7 @@
 #include "math_defines.h"
 #include "translations.h"
 #include "string_formatter.h"
-#include "output.h"
+#include "string_utils.h"
 #include "enums.h"
 
 void bresenham( const point &p1, const point &p2, int t,

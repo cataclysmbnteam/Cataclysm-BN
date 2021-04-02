@@ -35,6 +35,7 @@
 #include "simple_pathfinding.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "string_utils.h"
 #include "translations.h"
 #include "vehicle.h"
 

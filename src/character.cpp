@@ -73,6 +73,7 @@
 #include "stomach.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "string_utils.h"
 #include "submap.h"
 #include "text_snippets.h"
 #include "translations.h"

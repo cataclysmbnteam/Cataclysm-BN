@@ -50,6 +50,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "string_utils.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"

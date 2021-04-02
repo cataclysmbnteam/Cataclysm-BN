@@ -35,6 +35,7 @@
 #include "rng.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "string_utils.h"
 #include "translations.h"
 #include "ui_manager.h"
 #include "weather.h"

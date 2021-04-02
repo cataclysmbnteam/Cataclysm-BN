@@ -32,6 +32,7 @@
 #include "requirements.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "string_utils.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"

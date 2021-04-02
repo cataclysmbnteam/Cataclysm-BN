@@ -50,6 +50,7 @@
 #include "rotatable_symbols.h"
 #include "simple_pathfinding.h"
 #include "string_formatter.h"
+#include "string_utils.h"
 #include "translations.h"
 
 static const efftype_id effect_pet( "pet" );

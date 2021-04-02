@@ -28,7 +28,6 @@
 #include "input.h"
 #include "item.h"
 #include "line.h"
-#include "name.h"
 #include "options.h"
 #include "popup.h"
 #include "rng.h"
@@ -779,47 +778,6 @@ input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, c
     return result;
 }
 
-std::string string_replace( std::string text, const std::string &before, const std::string &after )
-{
-    // Check if there's something to replace (mandatory) and it's necessary (optional)
-    // Second condition assumes that text is much longer than both &before and &after.
-    if( before.empty() || before == after ) {
-        return text;
-    }
-
-    const size_t before_len = before.length();
-    const size_t after_len = after.length();
-    size_t pos = 0;
-
-    while( ( pos = text.find( before, pos ) ) != std::string::npos ) {
-        text.replace( pos, before_len, after );
-        pos += after_len;
-    }
-
-    return text;
-}
-
-std::string replace_colors( std::string text )
-{
-    static const std::vector<std::pair<std::string, std::string>> info_colors = {
-        {"info", get_all_colors().get_name( c_cyan )},
-        {"stat", get_all_colors().get_name( c_light_blue )},
-        {"header", get_all_colors().get_name( c_magenta )},
-        {"bold", get_all_colors().get_name( c_white )},
-        {"dark", get_all_colors().get_name( c_dark_gray )},
-        {"good", get_all_colors().get_name( c_green )},
-        {"bad", get_all_colors().get_name( c_red )},
-        {"neutral", get_all_colors().get_name( c_yellow )}
-    };
-
-    for( auto &elem : info_colors ) {
-        text = string_replace( text, "<" + elem.first + ">", "<color_" + elem.second + ">" );
-        text = string_replace( text, "</" + elem.first + ">", "</color>" );
-    }
-
-    return text;
-}
-
 void draw_item_filter_rules( const catacurses::window &win, int starty, int height,
                              item_filter_type type )
 {
@@ -1125,63 +1083,6 @@ int special_symbol( int sym )
         default:
             return sym;
     }
-}
-
-template<typename Prep>
-std::string trim( const std::string &s, Prep prep )
-{
-    auto wsfront = std::find_if_not( s.begin(), s.end(), [&prep]( int c ) {
-        return prep( c );
-    } );
-    return std::string( wsfront, std::find_if_not( s.rbegin(),
-    std::string::const_reverse_iterator( wsfront ), [&prep]( int c ) {
-        return prep( c );
-    } ).base() );
-}
-
-std::string trim( const std::string &s )
-{
-    return trim( s, []( int c ) {
-        return isspace( c );
-    } );
-}
-
-std::string trim_punctuation_marks( const std::string &s )
-{
-    return trim( s, []( int c ) {
-        return ispunct( c );
-    } );
-}
-
-using char_t = std::string::value_type;
-std::string to_upper_case( const std::string &s )
-{
-    if( std::locale().name() != "en_US.UTF-8" && std::locale().name() != "C" ) {
-        const auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
-        std::wstring wstr = utf8_to_wstr( s );
-        f.toupper( &wstr[0], &wstr[0] + wstr.size() );
-        return wstr_to_utf8( wstr );
-    }
-    std::string res;
-    std::transform( s.begin(), s.end(), std::back_inserter( res ), []( char_t ch ) {
-        return std::use_facet<std::ctype<char_t>>( std::locale() ).toupper( ch );
-    } );
-    return res;
-}
-
-std::string to_lower_case( const std::string &s )
-{
-    if( std::locale().name() != "en_US.UTF-8" && std::locale().name() != "C" ) {
-        const auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
-        std::wstring wstr = utf8_to_wstr( s );
-        f.tolower( &wstr[0], &wstr[0] + wstr.size() );
-        return wstr_to_utf8( wstr );
-    }
-    std::string res;
-    std::transform( s.begin(), s.end(), std::back_inserter( res ), []( char_t ch ) {
-        return std::use_facet<std::ctype<char_t>>( std::locale() ).tolower( ch );
-    } );
-    return res;
 }
 
 // find the position of each non-printing tag in a string
@@ -1595,58 +1496,6 @@ void calcStartPos( int &iStartPos, const int iCurrentLine, const int iContentHei
     }
 }
 
-void replace_name_tags( std::string &input )
-{
-    // these need to replace each tag with a new randomly generated name
-    while( input.find( "<full_name>" ) != std::string::npos ) {
-        replace_substring( input, "<full_name>", Name::get( nameIsFullName ),
-                           false );
-    }
-    while( input.find( "<family_name>" ) != std::string::npos ) {
-        replace_substring( input, "<family_name>", Name::get( nameIsFamilyName ),
-                           false );
-    }
-    while( input.find( "<given_name>" ) != std::string::npos ) {
-        replace_substring( input, "<given_name>", Name::get( nameIsGivenName ),
-                           false );
-    }
-    while( input.find( "<town_name>" ) != std::string::npos ) {
-        replace_substring( input, "<town_name>", Name::get( nameIsTownName ),
-                           false );
-    }
-}
-
-void replace_city_tag( std::string &input, const std::string &name )
-{
-    replace_substring( input, "<city>", name, true );
-}
-
-void replace_substring( std::string &input, const std::string &substring,
-                        const std::string &replacement, bool all )
-{
-    if( all ) {
-        while( input.find( substring ) != std::string::npos ) {
-            replace_substring( input, substring, replacement, false );
-        }
-    } else {
-        size_t len = substring.length();
-        size_t offset = input.find( substring );
-        input.replace( offset, len, replacement );
-    }
-}
-
-//wrap if for i18n
-std::string &capitalize_letter( std::string &str, size_t n )
-{
-    char c = str[n];
-    if( !str.empty() && c >= 'a' && c <= 'z' ) {
-        c += 'A' - 'a';
-        str[n] = c;
-    }
-
-    return str;
-}
-
 //remove prefix of a string, between c1 and c2, i.e., "<prefix>remove it"
 std::string rm_prefix( std::string str, char c1, char c2 )
 {
@@ -2019,118 +1868,6 @@ nc_color msgtype_to_color( const game_message_type type, const bool bOldMsg )
     }
 
     return bOldMsg ? it->second.second : it->second.first;
-}
-
-/**
- * Match text containing wildcards (*)
- * @param text_in Text to check
- * @param pattern_in Pattern to check text_in against
- * Case insensitive search
- * Possible patterns:
- * *
- * wooD
- * wood*
- * *wood
- * Wood*aRrOW
- * wood*arrow*
- * *wood*arrow
- * *wood*hard* *x*y*z*arrow*
- **/
-bool wildcard_match( const std::string &text_in, const std::string &pattern_in )
-{
-    std::string text = text_in;
-
-    if( text.empty() ) {
-        return false;
-    } else if( text == "*" ) {
-        return true;
-    }
-
-    std::vector<std::string> pattern = string_split( wildcard_trim_rule( pattern_in ), '*' );
-
-    if( pattern.size() == 1 ) { // no * found
-        return ( text.length() == pattern[0].length() && ci_find_substr( text, pattern[0] ) != -1 );
-    }
-
-    for( auto it = pattern.begin(); it != pattern.end(); ++it ) {
-        if( it == pattern.begin() && !it->empty() ) {
-            if( text.length() < it->length() ||
-                ci_find_substr( text.substr( 0, it->length() ), *it ) == -1 ) {
-                return false;
-            }
-
-            text = text.substr( it->length(), text.length() - it->length() );
-        } else if( it == pattern.end() - 1 && !it->empty() ) {
-            if( text.length() < it->length() ||
-                ci_find_substr( text.substr( text.length() - it->length(),
-                                             it->length() ), *it ) == -1 ) {
-                return false;
-            }
-        } else {
-            if( !( *it ).empty() ) {
-                int pos = ci_find_substr( text, *it );
-                if( pos == -1 ) {
-                    return false;
-                }
-
-                text = text.substr( pos + static_cast<int>( it->length() ),
-                                    static_cast<int>( text.length() ) - pos );
-            }
-        }
-    }
-
-    return true;
-}
-
-std::string wildcard_trim_rule( const std::string &pattern_in )
-{
-    std::string pattern = pattern_in;
-    size_t pos = pattern.find( "**" );
-
-    //Remove all double ** in pattern
-    while( pos != std::string::npos ) {
-        pattern = pattern.substr( 0, pos ) + pattern.substr( pos + 1, pattern.length() - pos - 1 );
-        pos = pattern.find( "**" );
-    }
-
-    return pattern;
-}
-
-std::vector<std::string> string_split( const std::string &text_in, char delim_in )
-{
-    std::vector<std::string> elems;
-
-    if( text_in.empty() ) {
-        return elems; // Well, that was easy.
-    }
-
-    std::stringstream ss( text_in );
-    std::string item;
-    while( std::getline( ss, item, delim_in ) ) {
-        elems.push_back( item );
-    }
-
-    if( text_in.back() == delim_in ) {
-        elems.push_back( "" );
-    }
-
-    return elems;
-}
-
-// find substring (case insensitive)
-int ci_find_substr( const std::string &str1, const std::string &str2 )
-{
-    std::locale loc = std::locale();
-
-    std::string::const_iterator it = std::search( str1.begin(), str1.end(), str2.begin(), str2.end(),
-    [&]( const char str1_in, const char str2_in ) {
-        return std::toupper( str1_in, loc ) == std::toupper( str2_in, loc );
-    } );
-    if( it != str1.end() ) {
-        return it - str1.begin();
-    } else {
-        return -1;    // not found
-    }
 }
 
 /**

@@ -53,6 +53,7 @@
 #include "string_formatter.h"
 #include "string_id.h"
 #include "string_input_popup.h"
+#include "string_utils.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
@@ -1169,7 +1170,7 @@ void create_note( const tripoint &curs )
     for( const std::pair<std::string, std::string> &color_pair : get_note_color_names() ) {
         // The color index is not translatable, but the name is.
         color_notes += string_format( "%1$s:<color_%3$s>%2$s</color>, ", color_pair.first.c_str(),
-                                      _( color_pair.second ), string_replace( color_pair.second, " ", "_" ) );
+                                      _( color_pair.second ), replace_all( color_pair.second, " ", "_" ) );
     }
 
     std::string helper_text = string_format( ".\n\n%s\n%s\n%s\n",
