@@ -772,7 +772,11 @@
     "crafting_pseudo_item": "fake_gridelectrolysis_kit",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
     "deconstruct": {
-      "items": [ { "item": "electrolysis_kit", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
+      "items": [
+        { "item": "electrolysis_kit", "count": 1 },
+        { "item": "cable", "charges": 5 },
+        { "item": "power_supply", "count": 1 }
+      ]
     },
     "bash": {
       "str_min": 8,
