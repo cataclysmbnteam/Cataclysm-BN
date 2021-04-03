@@ -29,6 +29,7 @@
 #include "point.h"
 #include "popup.h"
 #include "ret_val.h"
+#include "string_utils.h"
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"

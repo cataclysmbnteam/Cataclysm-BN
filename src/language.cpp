@@ -1,36 +1,33 @@
 #include "language.h"
 
+#include <algorithm>
 #include <fstream>
-
-#if defined(LOCALIZE) && defined(__STRICT_ANSI__)
-#  undef __STRICT_ANSI__ // _putenv in minGW need that
-#  include <cstdlib>
-#  define __STRICT_ANSI__
-#endif
 
 #if defined(LOCALIZE)
 #  if defined(_WIN32)
-#  if 1 // Prevent IWYU reordering platform_win.h below mmsystem.h
-#    include "platform_win.h"
-#  endif
+#    if 1 // Prevent IWYU reordering platform_win.h below mmsystem.h
+#      include "platform_win.h"
+#    endif
 #    include "mmsystem.h"
-#  endif // _WIN32
+#  endif
+#
 #  if defined(MACOSX)
 #    include <CoreFoundation/CFLocale.h>
 #    include <CoreFoundation/CoreFoundation.h>
 #  endif
 #
+#  include <cstdlib>
 #  include <libintl.h>
 #endif // LOCALIZE
 
 #include "cached_options.h"
-#include "cata_utility.h"
+#include "catacharset.h"
 #include "debug.h"
 #include "fstream_utils.h"
 #include "name.h"
 #include "options.h"
-#include "output.h"
 #include "path_info.h"
+#include "string_utils.h"
 #include "translations.h"
 #include "ui.h"
 #if defined(LOCALIZE)

@@ -1,20 +1,17 @@
 #include "cata_utility.h"
 #include "fstream_utils.h"
 
-#include <algorithm>
 #include <cctype>
 #include <cmath>
 #include <cstdio>
 #include <exception>
 #include <fstream>
 #include <iterator>
-#include <locale>
 #include <memory>
 #include <sstream>
 #include <stdexcept>
 #include <string>
 
-#include "catacharset.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "json.h"
@@ -62,73 +59,6 @@ int modulo( int v, int m )
 bool isBetween( int test, int down, int up )
 {
     return test > down && test < up;
-}
-
-bool lcmatch( const std::string &str, const std::string &qry )
-{
-    if( std::locale().name() != "en_US.UTF-8" && std::locale().name() != "C" ) {
-        auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
-        std::wstring wneedle = utf8_to_wstr( qry );
-        std::wstring whaystack = utf8_to_wstr( str );
-
-        f.tolower( &whaystack[0], &whaystack[0] + whaystack.size() );
-        f.tolower( &wneedle[0], &wneedle[0] + wneedle.size() );
-
-        return whaystack.find( wneedle ) != std::wstring::npos;
-    }
-    std::string needle;
-    needle.reserve( qry.size() );
-    std::transform( qry.begin(), qry.end(), std::back_inserter( needle ), tolower );
-
-    std::string haystack;
-    haystack.reserve( str.size() );
-    std::transform( str.begin(), str.end(), std::back_inserter( haystack ), tolower );
-
-    return haystack.find( needle ) != std::string::npos;
-}
-
-bool lcmatch( const translation &str, const std::string &qry )
-{
-    return lcmatch( str.translated(), qry );
-}
-
-bool lcequal( const std::string &str1, const std::string &str2 )
-{
-    return to_lower_case( str1 ) == to_lower_case( str2 );
-}
-
-bool match_include_exclude( const std::string &text, std::string filter )
-{
-    size_t iPos;
-    bool found = false;
-
-    if( filter.empty() ) {
-        return false;
-    }
-
-    do {
-        iPos = filter.find( ',' );
-
-        std::string term = iPos == std::string::npos ? filter : filter.substr( 0, iPos );
-        const bool exclude = term.substr( 0, 1 ) == "-";
-        if( exclude ) {
-            term = term.substr( 1 );
-        }
-
-        if( ( !found || exclude ) && lcmatch( text, term ) ) {
-            if( exclude ) {
-                return false;
-            }
-
-            found = true;
-        }
-
-        if( iPos != std::string::npos ) {
-            filter = filter.substr( iPos + 1, filter.size() );
-        }
-    } while( iPos != std::string::npos );
-
-    return found;
 }
 
 // --- Library functions ---
@@ -734,28 +664,4 @@ void deserialize_wrapper( const std::function<void( JsonIn & )> &callback, const
     std::istringstream buffer( data );
     JsonIn jsin( buffer );
     callback( jsin );
-}
-
-bool string_starts_with( const std::string &s1, const std::string &s2 )
-{
-    return s1.compare( 0, s2.size(), s2 ) == 0;
-}
-
-bool string_ends_with( const std::string &s1, const std::string &s2 )
-{
-    return s1.size() >= s2.size() &&
-           s1.compare( s1.size() - s2.size(), s2.size(), s2 ) == 0;
-}
-
-std::string join( const std::vector<std::string> &strings, const std::string &joiner )
-{
-    std::ostringstream buffer;
-
-    for( auto a = strings.begin(); a != strings.end(); ++a ) {
-        if( a != strings.begin() ) {
-            buffer << joiner;
-        }
-        buffer << *a;
-    }
-    return buffer.str();
 }

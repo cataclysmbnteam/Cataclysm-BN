@@ -14,7 +14,8 @@
     "count": 25,
     "ammo_type": "36paper",
     "range": 15,
-    "damage": { "damage_type": "stab", "amount": 19 },
+    "//": "Base damage of 19, balance increase of one-third, plus 25% hollowpoint bonus.",
+    "damage": { "damage_type": "stab", "amount": 32 },
     "dispersion": 80,
     "recoil": 210,
     "effects": [ "COOKOFF", "MUZZLE_SMOKE", "BLACKPOWDER" ]

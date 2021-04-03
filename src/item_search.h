@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 
-#include "output.h"
+#include "string_utils.h"
 
 /**
  * Get a function that returns true if the value matches the query.

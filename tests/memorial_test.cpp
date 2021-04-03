@@ -11,9 +11,9 @@
 #include "game.h"
 #include "memorial_logger.h"
 #include "mutation.h"
-#include "output.h"
 #include "player_helpers.h"
 #include "pldata.h"
+#include "string_utils.h"
 #include "type_id.h"
 
 class event_bus;

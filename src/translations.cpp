@@ -3,12 +3,11 @@
 #include <algorithm>
 
 #include "cached_options.h"
-#include "cata_utility.h"
 #include "catacharset.h"
 #include "json.h"
 #include "language.h"
-#include "output.h"
 #include "rng.h"
+#include "string_utils.h"
 #include "text_style_check.h"
 
 // int version/generation that is incremented each time language is changed

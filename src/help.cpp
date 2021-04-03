@@ -22,6 +22,7 @@
 #include "path_info.h"
 #include "point.h"
 #include "string_formatter.h"
+#include "string_utils.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "ui_manager.h"
@@ -55,10 +56,10 @@ void help::deserialize( JsonIn &jsin )
 
         for( auto &line : messages ) {
             if( line == "<DRAW_NOTE_COLORS>" ) {
-                line = string_replace( line, "<DRAW_NOTE_COLORS>", note_colors );
+                line = replace_all( line, "<DRAW_NOTE_COLORS>", note_colors );
                 continue;
             } else if( line == "<HELP_DRAW_DIRECTIONS>" ) {
-                line = string_replace( line, "<HELP_DRAW_DIRECTIONS>", dir_grid );
+                line = replace_all( line, "<HELP_DRAW_DIRECTIONS>", dir_grid );
                 continue;
             }
         }
@@ -89,9 +90,11 @@ std::string help::get_dir_grid()
     for( auto dir : movearray ) {
         std::vector<char> keys = keys_bound_to( dir );
         for( size_t i = 0; i < 2; i++ ) {
-            movement = string_replace( movement, "<" + action_ident( dir ) + string_format( "_%d>", i ),
-                                       i < keys.size() ? string_format( "<color_light_blue>%s</color>", keys[i] )
-                                       : "<color_red>?</color>" );
+            std::string what = "<" + action_ident( dir ) + string_format( "_%d>", i );
+            std::string with = i < keys.size()
+                               ? string_format( "<color_light_blue>%s</color>", keys[i] )
+                               : "<color_red>?</color>";
+            movement = replace_all( movement, what, with );
         }
     }
 
@@ -188,7 +191,7 @@ void help::display_help()
                             if( replace.empty() ) {
                                 debugmsg( "Help json: Unknown action: %s", action );
                             } else {
-                                line_proc = string_replace( line_proc, "<press_" + action + ">", replace );
+                                line_proc = replace_all( line_proc, "<press_" + action + ">", replace );
                             }
 
                             pos = line_proc.find( "<press_", pos2, 7 );

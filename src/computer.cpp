@@ -9,6 +9,7 @@
 #include "enum_conversions.h"
 #include "json.h"
 #include "output.h"
+#include "string_utils.h"
 #include "translations.h"
 
 template <typename E> struct enum_traits;
@@ -116,7 +117,7 @@ void computer::load_legacy_data( const std::string &data )
 
     dump >> name >> security >> mission_id;
 
-    name = string_replace( name, "_", " " );
+    name = replace_all( name, "_", " " );
 
     // Pull in options
     int optsize;
@@ -134,7 +135,7 @@ void computer::load_legacy_data( const std::string &data )
         if( tmpaction == 15 ) {
             continue;
         }
-        add_option( string_replace( tmpname, "_", " " ), computer_action_from_legacy_enum( tmpaction ),
+        add_option( replace_all( tmpname, "_", " " ), computer_action_from_legacy_enum( tmpaction ),
                     tmpsec );
     }
 
@@ -154,7 +155,7 @@ void computer::load_legacy_data( const std::string &data )
     // isn't empty. This is to avoid the message becoming blank when people
     // load old saves.
     if( !tmp_access_denied.empty() ) {
-        access_denied = string_replace( tmp_access_denied, "_", " " );
+        access_denied = replace_all( tmp_access_denied, "_", " " );
     }
 }
 

@@ -67,6 +67,7 @@
 #include "string_formatter.h"
 #include "string_id.h"
 #include "string_input_popup.h"
+#include "string_utils.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "ui.h"

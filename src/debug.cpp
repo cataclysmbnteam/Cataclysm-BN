@@ -37,6 +37,7 @@
 #include "output.h"
 #include "path_info.h"
 #include "point.h"
+#include "string_utils.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"

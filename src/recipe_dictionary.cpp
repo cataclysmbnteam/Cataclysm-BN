@@ -19,6 +19,7 @@
 #include "requirements.h"
 #include "skill.h"
 #include "string_id.h"
+#include "string_utils.h"
 #include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"

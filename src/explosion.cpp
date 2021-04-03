@@ -579,26 +579,25 @@ void scrambler_blast( const tripoint &p )
 
 void emp_blast( const tripoint &p )
 {
-    // TODO: Implement z part
-    int x = p.x;
-    int y = p.y;
-    const bool sight = g->u.sees( p );
-    if( g->m.has_flag( "CONSOLE", point( x, y ) ) ) {
+    map &here = get_map();
+    Character &u = get_player_character();
+    const bool sight = u.sees( p );
+    if( g->m.has_flag( "CONSOLE", p ) ) {
         if( sight ) {
-            add_msg( _( "The %s is rendered non-functional!" ), g->m.tername( point( x, y ) ) );
+            add_msg( _( "The %s is rendered non-functional!" ), g->m.tername( p ) );
         }
-        g->m.ter_set( point( x, y ), t_console_broken );
+        here.ter_set( p, t_console_broken );
         return;
     }
     // TODO: More terrain effects.
-    if( g->m.ter( point( x, y ) ) == t_card_science || g->m.ter( point( x, y ) ) == t_card_military ||
-        g->m.ter( point( x, y ) ) == t_card_industrial ) {
+    if( here.ter( p ) == t_card_science || here.ter( p ) == t_card_military ||
+        here.ter( p ) == t_card_industrial ) {
         int rn = rng( 1, 100 );
         if( rn > 92 || rn < 40 ) {
             if( sight ) {
                 add_msg( _( "The card reader is rendered non-functional." ) );
             }
-            g->m.ter_set( point( x, y ), t_card_reader_broken );
+            here.ter_set( p, t_card_reader_broken );
         }
         if( rn > 80 ) {
             if( sight ) {
@@ -606,8 +605,9 @@ void emp_blast( const tripoint &p )
             }
             for( int i = -3; i <= 3; i++ ) {
                 for( int j = -3; j <= 3; j++ ) {
-                    if( g->m.ter( point( x + i, y + j ) ) == t_door_metal_locked ) {
-                        g->m.ter_set( point( x + i, y + j ), t_floor );
+                    tripoint p2 = p + tripoint( i, j, 0 );
+                    if( here.ter( p2 ) == t_door_metal_locked ) {
+                        here.ter_set( p2, t_floor );
                     }
                 }
             }
@@ -639,10 +639,10 @@ void emp_blast( const tripoint &p )
                 if( sight ) {
                     add_msg( _( "The %s beeps erratically and deactivates!" ), critter.name() );
                 }
-                g->m.add_item_or_charges( p, critter.to_item() );
+                here.add_item_or_charges( p, critter.to_item() );
                 for( auto &ammodef : critter.ammo ) {
                     if( ammodef.second > 0 ) {
-                        g->m.spawn_item( p, ammodef.first, 1, ammodef.second, calendar::turn );
+                        here.spawn_item( p, ammodef.first, 1, ammodef.second, calendar::turn );
                     }
                 }
                 g->remove_zombie( critter );
@@ -658,14 +658,18 @@ void emp_blast( const tripoint &p )
                 }
             }
         } else if( critter.has_flag( MF_ELECTRIC_FIELD ) ) {
-            if( sight && !critter.has_effect( effect_emp ) ) {
-                add_msg( m_good, _( "The %s's electrical field momentarily goes out!" ), critter.name() );
+            if( !critter.has_effect( effect_emp ) ) {
+                if( sight ) {
+                    add_msg( m_good, _( "The %s's electrical field momentarily goes out!" ), critter.name() );
+                }
                 critter.add_effect( effect_emp, 3_minutes );
-            } else if( sight && critter.has_effect( effect_emp ) ) {
+            } else if( critter.has_effect( effect_emp ) ) {
                 int dam = dice( 3, 5 );
-                add_msg( m_good, _( "The %s's disabled electrical field reverses polarity!" ),
-                         critter.name() );
-                add_msg( m_good, _( "It takes %d damage." ), dam );
+                if( sight ) {
+                    add_msg( m_good, _( "The %s's disabled electrical field reverses polarity!" ),
+                             critter.name() );
+                    add_msg( m_good, _( "It takes %d damage." ), dam );
+                }
                 critter.add_effect( effect_emp, 1_minutes );
                 critter.apply_damage( nullptr, bodypart_id( "torso" ), dam );
                 critter.check_dead_state();
@@ -674,25 +678,25 @@ void emp_blast( const tripoint &p )
             add_msg( _( "The %s is unaffected by the EMP blast." ), critter.name() );
         }
     }
-    if( g->u.posx() == x && g->u.posy() == y ) {
-        if( g->u.get_power_level() > 0_kJ ) {
+    if( u.pos() == p ) {
+        if( u.get_power_level() > 0_kJ ) {
             add_msg( m_bad, _( "The EMP blast drains your power." ) );
-            int max_drain = ( g->u.get_power_level() > 1000_kJ ? 1000 : units::to_kilojoule(
-                                  g->u.get_power_level() ) );
-            g->u.mod_power_level( units::from_kilojoule( -rng( 1 + max_drain / 3, max_drain ) ) );
+            int max_drain = ( u.get_power_level() > 1000_kJ ? 1000 : units::to_kilojoule(
+                                  u.get_power_level() ) );
+            u.mod_power_level( units::from_kilojoule( -rng( 1 + max_drain / 3, max_drain ) ) );
         }
         // TODO: More effects?
         //e-handcuffs effects
-        if( g->u.weapon.typeId() == "e_handcuffs" && g->u.weapon.charges > 0 ) {
-            g->u.weapon.unset_flag( "NO_UNWIELD" );
-            g->u.weapon.charges = 0;
-            g->u.weapon.active = false;
+        if( u.weapon.typeId() == "e_handcuffs" && u.weapon.charges > 0 ) {
+            u.weapon.unset_flag( "NO_UNWIELD" );
+            u.weapon.charges = 0;
+            u.weapon.active = false;
             add_msg( m_good, _( "The %s on your wrists spark briefly, then release your hands!" ),
-                     g->u.weapon.tname() );
+                     u.weapon.tname() );
         }
     }
     // Drain any items of their battery charge
-    for( auto &it : g->m.i_at( point( x, y ) ) ) {
+    for( auto &it : here.i_at( p ) ) {
         if( it.is_tool() && it.ammo_current() == "battery" ) {
             it.charges = 0;
         }

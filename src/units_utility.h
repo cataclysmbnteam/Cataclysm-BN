@@ -20,7 +20,9 @@ enum units_type {
 template<typename T, typename U>
 T divide_round_up( units::quantity<T, U> num, units::quantity<T, U> den )
 {
-    return divide_round_up( num.value(), den.value() );
+    T n = num.value();
+    T d = den.value();
+    return ( n + d - 1 ) / d;
 }
 
 /**

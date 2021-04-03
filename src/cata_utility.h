@@ -10,8 +10,6 @@
 #include <memory>
 #include <type_traits>
 
-class translation;
-
 /**
  * Greater-than comparison operator; required by the sort interface
  */
@@ -72,38 +70,6 @@ T divide_round_up( T num, T den )
  *         boundary, otherwise returns false.
  */
 bool isBetween( int test, int down, int up );
-
-/**
- * Perform case insensitive search for a query string inside a subject string.
- *
- * Searches for string given by qry inside a subject string given by str.
- *
- * @param str Subject to search for occurrence of the query string.
- * @param qry Query string to search for in str
- *
- * @return true if the query string is found at least once within the subject
- *         string, otherwise returns false
- */
-bool lcmatch( const std::string &str, const std::string &qry );
-bool lcmatch( const translation &str, const std::string &qry );
-
-/** Perform case insensitive comparison of 2 strings. */
-bool lcequal( const std::string &str1, const std::string &str2 );
-
-/**
- * Matches text case insensitive with the include/exclude rules of the filter
- *
- * Multiple includes/excludes are possible
- *
- * Examle: bank,-house,tank,-car
- * Will match text containing tank or bank while not containing house or car
- *
- * @param text String to be matched
- * @param filter String with include/exclude rules
- *
- * @return true if include/exclude rules pass. See Example.
- */
-bool match_include_exclude( const std::string &text, std::string filter );
 
 /**
  * Basic logistic function.
@@ -245,21 +211,6 @@ class list_circularizer
  */
 
 std::string obscure_message( const std::string &str, std::function<char()> f );
-
-/**
- * \brief Returns true iff s1 starts with s2
- */
-bool string_starts_with( const std::string &s1, const std::string &s2 );
-
-/**
- * \brief Returns true iff s1 ends with s2
- */
-bool string_ends_with( const std::string &s1, const std::string &s2 );
-
-/**
- * Joins a vector of `std::string`s into a single string with a delimiter/joiner
- */
-std::string join( const std::vector<std::string> &strings, const std::string &joiner );
 
 /**
  * Erases elements from a set that match given predicate function.

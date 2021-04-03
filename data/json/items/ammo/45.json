@@ -5,7 +5,8 @@
     "type": "AMMO",
     "name": { "str": ".45 ACP FMJ" },
     "description": ".45 ACP ammunition with 230gr FMJ bullets.  Noted for its stopping power, the .45 ACP round has been common for almost 150 years.",
-    "relative": { "damage": { "damage_type": "stab", "amount": -3, "armor_penetration": 6 } }
+    "//": "Base damage of 27, balance increase of two-nineths.",
+    "relative": { "damage": { "damage_type": "stab", "amount": -8, "armor_penetration": 18 } }
   },
   {
     "id": "45_jhp",
@@ -25,7 +26,7 @@
     "ammo_type": "45",
     "casing": "45_casing",
     "range": 16,
-    "damage": { "damage_type": "stab", "amount": 30, "armor_penetration": 2 },
+    "damage": { "damage_type": "stab", "amount": 41 },
     "dispersion": 50,
     "recoil": 600,
     "effects": [ "COOKOFF" ]
@@ -40,7 +41,8 @@
     "price_postapoc": 600,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 10,
-    "relative": { "damage": { "damage_type": "stab", "amount": 4, "armor_penetration": 4 }, "dispersion": -10, "recoil": 60 }
+    "relative": { "damage": { "damage_type": "stab", "armor_penetration": 18 }, "dispersion": -10 },
+    "proportional": { "recoil": 2.0 }
   },
   {
     "id": "bp_45_acp",

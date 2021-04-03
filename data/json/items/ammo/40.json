@@ -5,7 +5,8 @@
     "type": "AMMO",
     "name": { "str": ".40 S&W FMJ" },
     "description": ".40 S&W ammunition with 180gr FMJ bullets.  Designed to retain the 10mm Auto cartridge's power with lower recoil, the .40 S&W round became popular for law enforcement and personal defense.",
-    "relative": { "damage": { "damage_type": "stab", "amount": -3, "armor_penetration": 6 } }
+    "//": "Base damage of 23, balance increase of two-nineths.",
+    "relative": { "damage": { "damage_type": "stab", "amount": -7, "armor_penetration": 16 } }
   },
   {
     "id": "40sw",
@@ -25,7 +26,8 @@
     "ammo_type": "40",
     "casing": "40_casing",
     "range": 14,
-    "damage": { "damage_type": "stab", "amount": 26, "armor_penetration": 4 },
+    "//": "Hollowpoint bonus of 25%",
+    "damage": { "damage_type": "stab", "amount": 35 },
     "dispersion": 50,
     "recoil": 560,
     "effects": [ "COOKOFF" ]

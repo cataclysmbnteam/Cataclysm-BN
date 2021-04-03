@@ -60,6 +60,7 @@
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "string_utils.h"
 #include "text_snippets.h"
 #include "tileray.h"
 #include "trait_group.h"

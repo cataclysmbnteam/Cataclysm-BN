@@ -15,6 +15,7 @@
 #include "output.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "string_utils.h"
 #include "translations.h"
 #include "ui_manager.h"
 #include "item_group.h"

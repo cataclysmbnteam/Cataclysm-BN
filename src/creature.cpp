@@ -40,6 +40,7 @@
 #include "projectile.h"
 #include "rng.h"
 #include "string_id.h"
+#include "string_utils.h"
 #include "translations.h"
 #include "value_ptr.h"
 #include "vehicle.h"
@@ -1642,7 +1643,7 @@ const std::pair<translation, nc_color> &Creature::get_attitude_ui_data( Attitude
 
 std::string Creature::replace_with_npc_name( std::string input ) const
 {
-    replace_substring( input, "<npcname>", disp_name(), true );
+    replace_all( input, "<npcname>", disp_name() );
     return input;
 }
 
