@@ -2886,14 +2886,16 @@ void veh_interact::complete_vehicle( player &p )
         debugmsg( "Invalid activity ACT_VEHICLE values:%d", p.activity.values.size() );
         return;
     }
-    optional_vpart_position vp = g->m.veh_at( g->m.getlocal( tripoint( p.activity.values[0],
+
+    map &here = get_map();
+    optional_vpart_position vp = here.veh_at( here.getlocal( tripoint( p.activity.values[0],
                                  p.activity.values[1], p.posz() ) ) );
     if( !vp ) {
         // so the vehicle could have lost some of its parts from other NPCS works during this player/NPCs activity.
         // check the vehicle points that were stored at beginning of activity.
         if( !p.activity.coord_set.empty() ) {
             for( const auto pt : p.activity.coord_set ) {
-                vp = g->m.veh_at( g->m.getlocal( pt ) );
+                vp = here.veh_at( here.getlocal( pt ) );
                 if( vp ) {
                     break;
                 }
@@ -3134,10 +3136,13 @@ void veh_interact::complete_vehicle( player &p )
             if( veh->parts.size() < 2 ) {
                 p.add_msg_if_player( _( "You completely dismantle the %s." ), veh->name );
                 p.activity.set_to_null();
-                g->m.destroy_vehicle( veh );
+                int veh_z = veh->sm_pos.z;
+                here.destroy_vehicle( veh );
+                here.reset_vehicle_cache( veh_z );
             } else {
                 veh->remove_part( vehicle_part );
                 veh->part_removal_cleanup();
+                here.update_vehicle_cache( veh, veh->sm_pos.z );
             }
             // This will be part of an NPC "job" where they need to clean up the acitivty items afterwards
             if( p.is_npc() ) {
@@ -3149,7 +3154,6 @@ void veh_interact::complete_vehicle( player &p )
             // point because we don't want to put them back into the vehicle part
             // that just got removed).
             put_into_vehicle_or_drop( p, item_drop_reason::deliberate, resulting_items );
-            g->m.update_vehicle_cache( veh, veh->sm_pos.z );
             break;
         }
     }
