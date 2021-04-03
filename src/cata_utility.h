@@ -97,6 +97,17 @@ double logarithmic( double t );
 double logarithmic_range( int min, int max, int pos );
 
 /**
+ * Cumulative distribution function of a certain normal distribution.
+ *
+ * @param x point at which the CDF of the distribution is measured
+ * @param mean mean of the normal distribution
+ * @param stddev standard deviation of the normal distribution
+ *
+ * @return The probability that a random point from the distribution will be lesser than @param x
+ */
+double normal_cdf( double x, double mean, double stddev );
+
+/**
  * Clamp the value of a modifier in order to bound the resulting value
  *
  * Ensures that a modifier value will not cause a base value to exceed given

@@ -103,6 +103,11 @@ double logarithmic_range( int min, int max, int pos )
     return ( raw_logistic - LOGI_MIN ) / LOGI_RANGE;
 }
 
+double normal_cdf( double x, double mean, double stddev )
+{
+    return 0.5 * ( 1.0 + std::erf( ( x - mean ) / ( stddev * M_SQRT2 ) ) );
+}
+
 int bound_mod_to_vals( int val, int mod, int max, int min )
 {
     if( val + mod > max && max != 0 ) {
