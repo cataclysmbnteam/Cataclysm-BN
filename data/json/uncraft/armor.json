@@ -9,7 +9,6 @@
   {
     "result": "socks",
     "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
     "time": "30 m",
     "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
     "components": [ [ [ "thread", 35 ] ] ]
@@ -17,7 +16,6 @@
   {
     "result": "boxer_shorts",
     "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
     "time": "30 m",
     "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
     "components": [ [ [ "thread", 40 ] ] ]
@@ -25,7 +23,6 @@
   {
     "result": "boxer_briefs",
     "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
     "time": "30 m",
     "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
     "components": [ [ [ "thread", 40 ] ] ]
@@ -33,7 +30,6 @@
   {
     "result": "briefs",
     "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
     "time": "30 m",
     "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
     "components": [ [ [ "thread", 35 ] ] ]
@@ -41,7 +37,6 @@
   {
     "result": "panties",
     "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
     "time": "30 m",
     "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
     "components": [ [ [ "thread", 35 ] ] ]
@@ -49,7 +44,6 @@
   {
     "result": "boy_shorts",
     "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
     "time": "30 m",
     "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
     "components": [ [ [ "thread", 40 ] ] ]
