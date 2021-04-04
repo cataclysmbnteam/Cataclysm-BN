@@ -3053,7 +3053,6 @@
     "autolearn": true,
     "time": "2 m",
     "reversible": true,
-    "book_learn": [ [ "mag_survival", 4 ], [ "atomic_survival", 3 ], [ "textbook_survival", 2 ] ],
     "components": [ [ [ "rope_superior", 1, "LIST" ] ], [ [ "grip_hook", 4 ] ] ]
   },
   {
