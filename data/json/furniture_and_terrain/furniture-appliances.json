@@ -662,7 +662,7 @@
         { "item": "plastic_chunk", "count": 2 },
         { "item": "pipe", "count": 4 },
         { "item": "cable", "charges": [ 5, 10 ] },
-        { "item": "medium_storage_battery", "count": 1 }
+        { "item": "battery_charger", "count": 1 }
       ]
     },
     "bash": {
