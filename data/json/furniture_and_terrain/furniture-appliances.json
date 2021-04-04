@@ -715,7 +715,9 @@
     "required_str": -1,
     "crafting_pseudo_item": "fake_gridwelder",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "welder", "count": 1 }, { "item": "jumper_cable", "count": 1 } ] },
+    "deconstruct": {
+      "items": [ { "item": "welder", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
+    },
     "bash": {
       "str_min": 4,
       "str_max": 30,
@@ -724,9 +726,64 @@
       "items": [
         { "item": "power_supply", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 0, 2 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "cable", "charges": [ 1, 4 ] },
         { "item": "plastic_chunk", "count": [ 1, 2 ] }
       ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_gridforge",
+    "name": "grid forge",
+    "symbol": "U",
+    "description": "A portable electric forge connected to a electrical grid.",
+    "color": "red",
+    "move_cost_mod": -1,
+    "coverage": 10,
+    "required_str": -1,
+    "crafting_pseudo_item": "fake_gridforge",
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [ { "item": "forge", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "power_supply", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 0, 2 ] },
+        { "item": "cable", "charges": [ 1, 4 ] },
+        { "item": "element", "count": [ 2, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_gridelectrolysis_kit",
+    "name": "grid electrolysis kit",
+    "symbol": "=",
+    "description": "A electrolysis kit connected to a electrical grid.",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 10,
+    "required_str": -1,
+    "crafting_pseudo_item": "fake_gridelectrolysis_kit",
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "electrolysis_kit", "count": 1 },
+        { "item": "cable", "charges": 5 },
+        { "item": "power_supply", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "scrap", "count": [ 0, 2 ] }, { "item": "cable", "charges": [ 1, 4 ] } ]
     }
   }
 ]

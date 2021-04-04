@@ -4117,13 +4117,37 @@
   {
     "type": "construction",
     "id": "constr_gridwelder",
-    "description": "Place arc welder",
+    "description": "Place Arc Welder",
     "category": "OTHER",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "1 m",
-    "components": [ [ [ "welder", 1 ] ], [ [ "jumper_cable", 1 ] ] ],
+    "components": [ [ [ "welder", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_terrain": "f_gridwelder"
+  },
+  {
+    "type": "construction",
+    "id": "constr_gridforge",
+    "description": "Place Electric Forge",
+    "category": "OTHER",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 m",
+    "components": [ [ [ "forge", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_gridforge"
+  },
+  {
+    "type": "construction",
+    "id": "constr_gridelectrolysis_kit",
+    "description": "Place Electrolysis Kit",
+    "category": "OTHER",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 m",
+    "components": [ [ [ "electrolysis_kit", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_gridelectrolysis_kit"
   }
 ]
