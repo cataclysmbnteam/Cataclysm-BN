@@ -237,7 +237,7 @@ struct mutation_branch {
         std::set<itype_id> can_only_heal_with;
         std::set<itype_id> can_heal_with;
 
-        /**List of allowed mutatrion category*/
+        /** List of allowed mutation categories */
         std::set<std::string> allowed_category;
 
         /**List of body parts locked out of bionics*/
@@ -522,9 +522,19 @@ struct mutagen_attempt {
     int charges_used;
 };
 
+namespace mutations
+{
+
 mutagen_attempt mutagen_common_checks( Character &guy, const item &it, bool strong,
                                        mutagen_technique technique );
 
 void test_crossing_threshold( Character &guy, const mutation_category_trait &m_category );
+
+/** Calculate percentage chances for mutations */
+std::map<trait_id, float> mutation_chances( const Character &guy );
+
+std::set<std::string> allowed_categories( const std::vector<trait_id> &mutation_set );
+
+} // namespace mutations
 
 #endif // CATA_SRC_MUTATION_H

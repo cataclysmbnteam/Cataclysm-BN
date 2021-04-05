@@ -59,6 +59,7 @@
 #include "monster.h"
 #include "monstergenerator.h"
 #include "morale_types.h"
+#include "mutation.h"
 #include "mtype.h"
 #include "npc.h"
 #include "npc_class.h"
@@ -1719,11 +1720,19 @@ void debug()
             }
             break;
 
-        case DEBUG_SHOW_MUT_CHANCES:
-            for( const auto &elem : u.mutation_chances() ) {
-                add_msg( "%s: %.2f", elem.first.c_str(), elem.second );
+        case DEBUG_SHOW_MUT_CHANCES: {
+            const std::map<trait_id, float> trait_chances = mutations::mutation_chances( u );
+            std::vector<std::pair<trait_id, float>> sorted_chances( trait_chances.begin(),
+                                                 trait_chances.end() );
+            std::sort( sorted_chances.begin(), sorted_chances.end(),
+            []( const std::pair<trait_id, float> &left, const std::pair<trait_id, float> &right ) {
+                return left.second < right.second;
+            } );
+            for( const auto &elem : sorted_chances ) {
+                add_msg( "%s: %3.2f%%", elem.first.c_str(), 100.0f * elem.second );
             }
-            break;
+        }
+        break;
 
         case DEBUG_OM_EDITOR:
             ui::omap::display_editor();

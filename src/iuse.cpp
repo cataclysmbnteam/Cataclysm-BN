@@ -1109,7 +1109,7 @@ static void do_purify( player &p )
 int iuse::purifier( player *p, item *it, bool, const tripoint & )
 {
     mutagen_attempt checks =
-        mutagen_common_checks( *p, *it, false, mutagen_technique::consumed_purifier );
+        mutations::mutagen_common_checks( *p, *it, false, mutagen_technique::consumed_purifier );
     if( !checks.allowed ) {
         return checks.charges_used;
     }
@@ -1121,7 +1121,7 @@ int iuse::purifier( player *p, item *it, bool, const tripoint & )
 int iuse::purify_iv( player *p, item *it, bool, const tripoint & )
 {
     mutagen_attempt checks =
-        mutagen_common_checks( *p, *it, false, mutagen_technique::injected_purifier );
+        mutations::mutagen_common_checks( *p, *it, false, mutagen_technique::injected_purifier );
     if( !checks.allowed ) {
         return checks.charges_used;
     }
@@ -1163,7 +1163,7 @@ int iuse::purify_iv( player *p, item *it, bool, const tripoint & )
 int iuse::purify_smart( player *p, item *it, bool, const tripoint & )
 {
     mutagen_attempt checks =
-        mutagen_common_checks( *p, *it, false, mutagen_technique::injected_smart_purifier );
+        mutations::mutagen_common_checks( *p, *it, false, mutagen_technique::injected_smart_purifier );
     if( !checks.allowed ) {
         return checks.charges_used;
     }

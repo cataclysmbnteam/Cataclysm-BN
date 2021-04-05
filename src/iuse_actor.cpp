@@ -4332,7 +4332,7 @@ void mutagen_actor::load( const JsonObject &obj )
 int mutagen_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
     mutagen_attempt checks =
-        mutagen_common_checks( p, it, false, mutagen_technique::consumed_mutagen );
+        mutations::mutagen_common_checks( p, it, false, mutagen_technique::consumed_mutagen );
 
     if( !checks.allowed ) {
         return checks.charges_used;
@@ -4400,7 +4400,7 @@ void mutagen_iv_actor::load( const JsonObject &obj )
 int mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
     mutagen_attempt checks =
-        mutagen_common_checks( p, it, false, mutagen_technique::injected_mutagen );
+        mutations::mutagen_common_checks( p, it, false, mutagen_technique::injected_mutagen );
 
     if( !checks.allowed ) {
         return checks.charges_used;
@@ -4416,7 +4416,7 @@ int mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     // try to cross the threshold to be able to get post-threshold mutations this iv.
-    test_crossing_threshold( p, m_category );
+    mutations::test_crossing_threshold( p, m_category );
 
     // TODO: Remove the "is_player" part, implement NPC screams
     if( p.is_player() && !( p.has_trait( trait_NOPAIN ) ) && m_category.iv_sound ) {
@@ -4457,7 +4457,7 @@ int mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     // try crossing again after getting new in-category mutations.
-    test_crossing_threshold( p, m_category );
+    mutations::test_crossing_threshold( p, m_category );
 
     return it.type->charges_to_use();
 }

@@ -962,8 +962,6 @@ class Character : public Creature, public visitable<Character>
         bool mutate_towards( const trait_id &mut );
         /** Removes a mutation, downgrading to the previous level if possible */
         void remove_mutation( const trait_id &mut, bool silent = false );
-        /** Calculate percentage chances for mutations */
-        std::map<trait_id, float> mutation_chances() const;
         /** Returns true if the player has the entered mutation child flag */
         bool has_child_flag( const trait_id &flag ) const;
         /** Removes the mutation's child flag from the player's list */
