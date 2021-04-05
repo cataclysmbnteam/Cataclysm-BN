@@ -823,6 +823,8 @@ struct conditional_name {
 struct itype {
         friend class Item_factory;
 
+        using FlagsSetType = std::set<std::string>;
+
         /**
          * Slots for various item type properties. Each slot may contain a valid pointer or null, check
          * this before using it.
@@ -914,7 +916,6 @@ struct itype {
         /** Fields to emit when item is in active state */
         std::set<emit_id> emits;
 
-        std::set<std::string> item_tags;
         std::set<matec_id> techniques;
 
         // Minimum stat(s) or skill(s) to use the item
@@ -1024,6 +1025,8 @@ struct itype {
          */
         float solar_efficiency = 0;
 
+        FlagsSetType item_tags;
+
         std::string get_item_type_string() const {
             if( tool ) {
                 return "TOOL";
@@ -1096,6 +1099,12 @@ struct itype {
         int charges_per_volume( const units::volume &vol ) const;
 
         bool has_use() const;
+
+        bool has_flag( const std::string &flag ) const;
+
+        // returns read-only set of all item tags/flags
+        const FlagsSetType &get_flags() const;
+
         bool can_use( const std::string &iuse_name ) const;
         const use_function *get_use( const std::string &iuse_name ) const;
 

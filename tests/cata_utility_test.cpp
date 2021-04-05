@@ -1,4 +1,5 @@
 #include "catch/catch.hpp"
+#include "assertion_helpers.h"
 #include "cata_utility.h"
 #include "string_utils.h"
 #include "units_utility.h"

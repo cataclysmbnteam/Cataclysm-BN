@@ -688,7 +688,7 @@ void emp_blast( const tripoint &p )
         // TODO: More effects?
         //e-handcuffs effects
         if( u.weapon.typeId() == "e_handcuffs" && u.weapon.charges > 0 ) {
-            u.weapon.item_tags.erase( "NO_UNWIELD" );
+            u.weapon.unset_flag( "NO_UNWIELD" );
             u.weapon.charges = 0;
             u.weapon.active = false;
             add_msg( m_good, _( "The %s on your wrists spark briefly, then release your hands!" ),

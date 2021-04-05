@@ -1190,11 +1190,11 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                 if( weldpart ) {
                     item welder( "welder", calendar::start_of_cataclysm );
                     welder.charges = veh.fuel_left( "battery", true );
-                    welder.item_tags.insert( "PSEUDO" );
+                    welder.set_flag( "PSEUDO" );
                     temp_inv.add_item( welder );
                     item soldering_iron( "soldering_iron", calendar::start_of_cataclysm );
                     soldering_iron.charges = veh.fuel_left( "battery", true );
-                    soldering_iron.item_tags.insert( "PSEUDO" );
+                    soldering_iron.set_flag( "PSEUDO" );
                     temp_inv.add_item( soldering_iron );
                 }
             }

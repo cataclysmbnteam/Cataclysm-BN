@@ -973,7 +973,7 @@ void item::inherit_flags( const item &parent, const recipe &making )
         }
         //If item is crafted from perfect-fit components, the result is perfectly fitted too
         if( parent.has_flag( flag_FIT ) ) {
-            item_tags.insert( flag_FIT );
+            set_flag( flag_FIT );
         }
     }
     for( const std::string &f : parent.item_tags ) {
@@ -981,7 +981,7 @@ void item::inherit_flags( const item &parent, const recipe &making )
             set_flag( f );
         }
     }
-    for( const std::string &f : parent.type->item_tags ) {
+    for( const std::string &f : parent.type->get_flags() ) {
         if( json_flag::get( f ).craft_inherit() ) {
             set_flag( f );
         }
@@ -2160,11 +2160,11 @@ void player::complete_disassemble( item_location &target, const recipe &dis )
 
         // Refitted clothing disassembles into refitted components (when applicable)
         if( dis_item.has_flag( flag_FIT ) && act_item.has_flag( flag_VARSIZE ) ) {
-            act_item.item_tags.insert( flag_FIT );
+            act_item.set_flag( flag_FIT );
         }
 
         if( filthy ) {
-            act_item.item_tags.insert( "FILTHY" );
+            act_item.set_flag( "FILTHY" );
         }
 
         for( std::list<item>::iterator a = dis_item.components.begin(); a != dis_item.components.end();

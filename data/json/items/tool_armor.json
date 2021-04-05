@@ -870,7 +870,7 @@
     "coverage": 50,
     "encumbrance": 2,
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "STRAPPED" ]
+    "flags": [ "OVERSIZE", "BELTED" ]
   },
   {
     "id": "dimensional_anchor_on",
@@ -889,7 +889,7 @@
       "target": "dimensional_anchor"
     },
     "covers": [ "TORSO" ],
-    "flags": [ "DIMENSIONAL_ANCHOR", "OVERSIZE", "STRAPPED" ]
+    "flags": [ "DIMENSIONAL_ANCHOR", "OVERSIZE", "BELTED" ]
   },
   {
     "id": "phase_immersion_suit",

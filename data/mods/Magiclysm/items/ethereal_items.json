@@ -259,7 +259,6 @@
       "UNBREAKABLE_MELEE",
       "REACH_ATTACK",
       "SPEAR",
-      "REACH2",
       "NONCONDUCTIVE",
       "SHEATH_SPEAR",
       "ONLY_ONE",
@@ -292,8 +291,7 @@
       "ONLY_ONE",
       "NO_REPAIR",
       "NO_SALVAGE",
-      "NO_UNLOAD",
-      "NO_AMMO"
+      "NO_UNLOAD"
     ],
     "skill": "archery",
     "min_strength": 9,
