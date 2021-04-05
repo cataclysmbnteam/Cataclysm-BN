@@ -133,7 +133,7 @@
     "symbol": "#",
     "color": "red",
     "move_cost_mod": 2,
-    "required_str": -1,
+    "required_str": 10,
     "looks_like": "f_lab_bench",
     "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "FLAT_SURF" ],
     "deconstruct": {
@@ -234,7 +234,7 @@
     "bgcolor": "light_gray",
     "move_cost_mod": 2,
     "coverage": 40,
-    "required_str": -1,
+    "required_str": 5,
     "deployed_item": "tourist_table",
     "looks_like": "f_table",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
