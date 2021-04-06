@@ -1433,7 +1433,7 @@ bool game::do_turn()
                     }
                 }
                 sounds::process_sound_markers( &u );
-                if( !u.activity && !u.has_distant_destination() && uquit != QUIT_WATCH ) {
+                if( !u.activity && !u.has_distant_destination() && uquit != QUIT_WATCH && wait_popup ) {
                     wait_popup.reset();
                     ui_manager::redraw();
                 }

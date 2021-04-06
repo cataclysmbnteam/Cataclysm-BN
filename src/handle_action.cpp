@@ -9,6 +9,7 @@
 
 #include "action.h"
 #include "advanced_inv.h"
+#include "animation.h"
 #include "auto_note.h"
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -245,18 +246,24 @@ input_context game::get_player_input( std::string &action )
 
         ctxt.set_timeout( 125 );
 
+        bool animate_weather = bWeatherEffect && get_option<bool>( "ANIMATION_RAIN" );
+        bool animate_sct = !SCT.vSCT.empty() && uquit != QUIT_WATCH && get_option<bool>( "ANIMATION_SCT" );
+        bool animate_pixel_minimap = minimap_requires_animation();
+
         shared_ptr_fast<game::draw_callback_t> animation_cb =
         make_shared_fast<game::draw_callback_t>( [&]() {
-            draw_weather( wPrint );
-
-            if( uquit != QUIT_WATCH ) {
+            if( animate_weather ) {
+                draw_weather( wPrint );
+            }
+            if( animate_sct ) {
                 draw_sct();
             }
         } );
         add_draw_callback( animation_cb );
+        invalidate_main_ui_adaptor(); // We want to redraw at least once.
 
         do {
-            if( bWeatherEffect && get_option<bool>( "ANIMATION_RAIN" ) ) {
+            if( animate_weather ) {
                 /*
                 Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
                 Get tile information from above's weather information:
@@ -286,7 +293,7 @@ input_context game::get_player_input( std::string &action )
                 }
             }
             // don't bother calculating SCT if we won't show it
-            if( uquit != QUIT_WATCH && get_option<bool>( "ANIMATION_SCT" ) ) {
+            if( animate_sct ) {
                 invalidate_main_ui_adaptor();
 
                 SCT.advanceAllSteps();
@@ -316,6 +323,15 @@ input_context game::get_player_input( std::string &action )
                         }
                     }
                 }
+
+                // Stop animation when done
+                animate_sct = !SCT.vSCT.empty();
+            }
+            if( animate_pixel_minimap ) {
+                // TODO: we redraw *everything* just to animate a couple blinking dots on the minimap.
+                //       This is far from ideal, and can probably be done much cheaper
+                //       (update only part of the screen? draw static parts into a texture?)
+                invalidate_main_ui_adaptor();
             }
 
             std::unique_ptr<static_popup> deathcam_msg_popup;
@@ -331,6 +347,10 @@ input_context game::get_player_input( std::string &action )
                  && ( action != "TIMEOUT" || !current_turn.has_timeout_elapsed() ) );
         ctxt.reset_timeout();
     } else {
+        invalidate_main_ui_adaptor();
+        ui_manager::redraw_invalidated();
+        SCT.vSCT.clear();
+
         ctxt.set_timeout( 125 );
         while( handle_mouseview( ctxt, action ) ) {
             if( action == "TIMEOUT" && current_turn.has_timeout_elapsed() ) {

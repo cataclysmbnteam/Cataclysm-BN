@@ -96,18 +96,26 @@ SDL_Color get_map_color_at( const tripoint &p )
     return curses_color_to_SDL( m.ter( p )->color() );
 }
 
-SDL_Color get_critter_color( Creature *critter, int flicker, int mixture )
+bool is_critter_animated( Creature *critter )
 {
-    SDL_Color result = curses_color_to_SDL( critter->symbol_color() );
-
     if( const monster *m = dynamic_cast<monster *>( critter ) ) {
         //faction status (attacking or tracking) determines if red highlights get applied to creature
         const monster_attitude matt = m->attitude( &g->u );
 
         if( MATT_ATTACK == matt || MATT_FOLLOW == matt ) {
-            const SDL_Color red_pixel = SDL_Color{ 0xFF, 0x0, 0x0, 0xFF };
-            result = adjust_color_brightness( mix_colors( result, red_pixel, mixture ), flicker );
+            return true;
         }
+    }
+    return false;
+}
+
+SDL_Color get_critter_color( Creature *critter, int flicker, int mixture )
+{
+    SDL_Color result = curses_color_to_SDL( critter->symbol_color() );
+
+    if( is_critter_animated( critter ) ) {
+        const SDL_Color red_pixel = SDL_Color{ 0xFF, 0x0, 0x0, 0xFF };
+        result = adjust_color_brightness( mix_colors( result, red_pixel, mixture ), flicker );
     }
 
     return result;
@@ -505,6 +513,7 @@ void pixel_minimap::render_critters( const tripoint &center )
         std::max<int>( projector->get_tile_size().y *settings.beacon_size / 2, 2 )
     };
 
+    cached_has_animated_beacons = false;
     for( int y = 0; y < total_tiles_count.y; y++ ) {
         for( int x = 0; x < total_tiles_count.x; x++ ) {
             const tripoint p = tripoint{ start_x + x, start_y + y, center.z };
@@ -523,6 +532,7 @@ void pixel_minimap::render_critters( const tripoint &center )
             const point critter_pos = projector->get_tile_pos( { x, y }, total_tiles_count );
             const SDL_Rect critter_rect = SDL_Rect{ critter_pos.x, critter_pos.y, beacon_size.x, beacon_size.y };
             const SDL_Color critter_color = get_critter_color( critter, flicker, mixture );
+            cached_has_animated_beacons = cached_has_animated_beacons || is_critter_animated( critter );
 
             draw_beacon( critter_rect, critter_color );
         }
@@ -543,6 +553,11 @@ void pixel_minimap::draw( const SDL_Rect &screen_rect, const tripoint &center )
     set_screen_rect( screen_rect );
     process_cache( center );
     render( center );
+}
+
+bool pixel_minimap::has_animated_elements() const
+{
+    return settings.beacon_blink_interval && cached_has_animated_beacons;
 }
 
 void pixel_minimap::draw_beacon( const SDL_Rect &rect, const SDL_Color &color )

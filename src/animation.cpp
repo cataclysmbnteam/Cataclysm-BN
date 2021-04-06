@@ -989,3 +989,12 @@ void game::draw_monster_override( const tripoint &, const mtype_id &, const int,
 {
 }
 #endif
+
+bool minimap_requires_animation()
+{
+#if defined(TILES)
+    return tilecontext->minimap_requires_animation();
+#else
+    return false;
+#endif // TILES
+}

@@ -31,4 +31,6 @@ struct explosion_tile {
     nc_color color;
 };
 
+bool minimap_requires_animation();
+
 #endif // CATA_SRC_ANIMATION_H
