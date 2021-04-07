@@ -1003,8 +1003,10 @@ static void begin_alt_code()
 
 static bool add_alt_code( char c )
 {
-    if( alt_down && c >= '0' && c <= '9' ) {
-        alt_buffer = alt_buffer * 10 + ( c - '0' );
+    if( alt_down ) {
+        if( c >= '0' && c <= '9' ) {
+            alt_buffer = alt_buffer * 10 + ( c - '0' );
+        }
         return true;
     }
     return false;
