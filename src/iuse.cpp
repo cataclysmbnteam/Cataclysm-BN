@@ -1285,8 +1285,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
     } else if( effect <= 6 ) { // Radiation cleanse is below
         p.add_msg_if_player( m_good, _( "You feel better all over." ) );
         p.mod_painkiller( 30 );
-        iuse dummy;
-        dummy.purifier( &p, &it, false, p.pos() );
+        iuse::purifier( &p, &it, false, p.pos() );
         if( effect == 6 ) {
             p.set_rad( 0 );
         }
@@ -1422,7 +1421,7 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
                               _( "It tastes amazing, and you finish it quickly." ) );
         p->add_msg_if_player( m_good, _( "You feel better all over." ) );
         p->mod_painkiller( 30 );
-        this->purifier( p, it, t, pos ); // Clear out some of that goo you may have floating around
+        purifier( p, it, t, pos ); // Clear out some of that goo you may have floating around
         p->set_rad( 0 );
         p->healall( 4 ); // Can't make you a whole new person, but not for lack of trying
         p->add_msg_if_player( m_good,
@@ -9386,6 +9385,8 @@ washing_requirements washing_requirements_for_volume( const units::volume &vol )
     return { water, cleanser, time };
 }
 
+static int wash_items( player *p, bool soft_items, bool hard_items );
+
 int iuse::wash_soft_items( player *p, item *, bool, const tripoint & )
 {
     if( p->fine_detail_vision_mod() > 4 ) {
@@ -9446,7 +9447,7 @@ int iuse::wash_all_items( player *p, item *, bool, const tripoint & )
     return 0;
 }
 
-int iuse::wash_items( player *p, bool soft_items, bool hard_items )
+int wash_items( player *p, bool soft_items, bool hard_items )
 {
     if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );

@@ -680,8 +680,7 @@ void monexamine::kill_zslave( monster &z )
     if( !one_in( 3 ) ) {
         g->u.add_msg_if_player( _( "You tear out the pheromone ball from the zombie slave." ) );
         item ball( "pheromone", calendar::start_of_cataclysm );
-        iuse pheromone;
-        pheromone.pheromone( &g->u, &ball, true, g->u.pos() );
+        iuse::pheromone( &g->u, &ball, true, g->u.pos() );
     }
 }
 
