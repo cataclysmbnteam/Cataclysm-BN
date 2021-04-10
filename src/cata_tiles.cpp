@@ -221,7 +221,8 @@ void cata_tiles::on_options_changed()
     settings.mode = pixel_minimap_mode_from_string( get_option<std::string>( "PIXEL_MINIMAP_MODE" ) );
     settings.brightness = get_option<int>( "PIXEL_MINIMAP_BRIGHTNESS" );
     settings.beacon_size = get_option<int>( "PIXEL_MINIMAP_BEACON_SIZE" );
-    settings.beacon_blink_interval = get_option<int>( "PIXEL_MINIMAP_BLINK" );
+    settings.beacon_blink_interval = get_option<bool>( "ANIMATIONS" ) ?
+                                     get_option<int>( "PIXEL_MINIMAP_BLINK" ) : 0;
     settings.square_pixels = get_option<bool>( "PIXEL_MINIMAP_RATIO" );
     settings.scale_to_fit = get_option<bool>( "PIXEL_MINIMAP_SCALE_TO_FIT" );
 
@@ -1532,6 +1533,11 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 void cata_tiles::draw_minimap( const point &dest, const tripoint &center, int width, int height )
 {
     minimap->draw( SDL_Rect{ dest.x, dest.y, width, height }, center );
+}
+
+bool cata_tiles::minimap_requires_animation() const
+{
+    return minimap->has_animated_elements();
 }
 
 void cata_tiles::get_window_tile_counts( const int width, const int height, int &columns,

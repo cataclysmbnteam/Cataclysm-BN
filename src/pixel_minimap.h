@@ -41,6 +41,7 @@ class pixel_minimap
         void set_settings( const pixel_minimap_settings &settings );
 
         void draw( const SDL_Rect &screen_rect, const tripoint &center );
+        bool has_animated_elements() const;
 
     private:
         struct submap_cache;
@@ -76,6 +77,8 @@ class pixel_minimap
 
         //track the previous viewing area to determine if the minimap cache needs to be cleared
         tripoint cached_center_sm;
+        // track presence of animated beacons to determine whether the minimap needs to be animated
+        bool cached_has_animated_beacons;
 
         SDL_Rect screen_rect;
         SDL_Rect main_tex_clip_rect;
