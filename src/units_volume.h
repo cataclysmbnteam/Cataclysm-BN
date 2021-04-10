@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_UNITS_VOLUME_H
 #define CATA_SRC_UNITS_VOLUME_H
 
+#include <algorithm>
+
 #include "units_def.h"
 
 namespace units

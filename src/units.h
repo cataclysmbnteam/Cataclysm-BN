@@ -2,15 +2,8 @@
 #ifndef CATA_SRC_UNITS_H
 #define CATA_SRC_UNITS_H
 
-#include <algorithm>
-#include <cctype>
-#include <cstddef>
-#include <cstdint>
-#include <limits>
-#include <map>
 #include <ostream>
 #include <string>
-#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -85,12 +78,6 @@ static const std::vector<std::pair<std::string, money>> money_units = { {
 static const std::vector<std::pair<std::string, volume>> volume_units = { {
         { "ml", 1_ml },
         { "L", 1_liter }
-    }
-};
-static const std::vector<std::pair<std::string, temperature>> temperature_units = { {
-        { "mC", 1_mc },
-        { "C", 1_c },
-        { "F", 1_f }
     }
 };
 } // namespace units
