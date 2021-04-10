@@ -231,7 +231,7 @@ int towel_common( player *, item *, bool );
 
 // Helper for handling pesky wannabe-artists
 int handle_ground_graffiti( player &p, item *it, const std::string &prefix,
-                                   const tripoint &where );
+                            const tripoint &where );
 
 // Helper for wood chopping
 int chop_moves( Character &ch, item &tool );
