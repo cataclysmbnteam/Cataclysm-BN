@@ -1557,6 +1557,8 @@ class Character : public Creature, public visitable<Character>
         void pick_name( bool bUseDefault = false );
         /** Get the idents of all base traits. */
         std::vector<trait_id> get_base_traits() const;
+        /** Gets mutations that the character actually has, ignoring enchantments. */
+        std::set<trait_id> actual_mutations() const;
         /** Get the idents of all traits/mutations. */
         std::vector<trait_id> get_mutations( bool include_hidden = true ) const;
         const std::bitset<NUM_VISION_MODES> &get_vision_modes() const {

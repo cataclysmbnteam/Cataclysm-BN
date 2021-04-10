@@ -533,7 +533,10 @@ void test_crossing_threshold( Character &guy, const mutation_category_trait &m_c
 /** Calculate percentage chances for mutations */
 std::map<trait_id, float> mutation_chances( const Character &guy );
 
-std::set<std::string> allowed_categories( const std::vector<trait_id> &mutation_set );
+/**
+ * With given mutation set, which categories are allowed?
+ */
+std::set<std::string> allowed_categories( const std::set<trait_id> &mutation_set );
 
 } // namespace mutations
 
