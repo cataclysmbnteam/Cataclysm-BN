@@ -1,4 +1,4 @@
-# Translating Cataclysm: DDA
+# Translating Cataclysm: BN
 
 * [Translators](#translators)
   * [Getting Started](#getting-Started)
@@ -12,7 +12,7 @@
 
 ## Translators
 
-The official location for translating Cataclysm: DDA is the
+The official location for translating Cataclysm: BN is the
 [Transifex translations project][1].
 
 Some of the currently supported languages are:
@@ -39,13 +39,10 @@ Some of the currently supported languages are:
 Don't see your language in the list above? You can add it into the project at
 Transifex!
 
-If you have any questions or comments about translation, feel free to post in
-the [Translations Team Discussion][2] subforum.
-
 ### Getting Started
 
 To begin translating, head over the [translation project][1] and click on the
-"Help Translate Cataclysm: DDA" button.
+"Help Translate Cataclysm: BN" button.
 This should take you to a page where you can either create a free account on
 Transifex, or login using GitHub, Google+ or LinkedIn.
 
@@ -75,7 +72,7 @@ translating for that language as well.
 
 After clicking on the "Translate" button, you will be taken to the web editor.
 To begin, you need to choose a resource to translate. Most of the in-game text
-is contained in the `master-cataclysm-dda` resource, so click on it to start.
+is contained in the `cataclysm-bright-nights` resource, so click on it to start.
 
 ![Choose a resource](img/translating-resource.png)
 
@@ -86,7 +83,7 @@ Click on the "Save" button when you are satisfied with your translation.
 
 ![Web editor](img/translating-editor.png)
 
-See [Transifex's documentation][3] for more information.
+See [Transifex's documentation][2] for more information.
 
 ### Grammatical gender
 
@@ -118,23 +115,23 @@ don't be surprised to see other contexts appearing for other strings.
 
 ### Tips
 
-There are issues specific to Cataclysm: DDA which translators should be aware of.
+There are issues specific to Cataclysm: BN which translators should be aware of.
 These include the use of terms like `%s` and `%3$d` (leave them as they are),
 and the use of tags like `<name>`, which shouldn't be translated.
 
 Information about these and any other issues specific to individual languages,
-can be found in Cataclysm: DDA's [language notes folder][4].
+can be found in Cataclysm: BN's [language notes folder][3].
 
 General notes for all translators are in `README_all_translators.txt`,
 and notes specific to a language may be stored as `<lang_id>.txt`,
 for example `de.txt` for German.
 
-Cataclysm: DDA has more than 14000 translatable strings, but don't be discouraged.
+Cataclysm: BN has more than 14000 translatable strings, but don't be discouraged.
 The more translators there are, the easier it becomes 😄.
 
 ## Developers
 
-Cataclysm: DDA uses [GNU gettext][5] to display translated texts.
+Cataclysm: BN uses [GNU gettext][4] to display translated texts.
 
 Using `gettext` requires two actions:
 
@@ -348,7 +345,7 @@ issues reported by the `translation` class.
 
 ### Recommendations
 
-In Cataclysm: DDA, some classes, like `itype` and `mtype`, provide a wrapper
+In Cataclysm: BN, some classes, like `itype` and `mtype`, provide a wrapper
 for the translation functions, called `nname`.
 
 When an empty string is marked for translation, it is always translated into
@@ -362,7 +359,7 @@ Error and debug messages must not be marked for translation.
 When they appear, the player is expected to report them *exactly* as they are
 printed by the game.
 
-See the [gettext manual][6] for more information.
+See the [gettext manual][5] for more information.
 
 ## Maintainers
 
@@ -372,7 +369,7 @@ There are scripts available for these, so usually the process will be as follows
 
 1. Download the translations in `.po` format.
 2. Put them in `lang/incoming/`, ensuring they are named consistently with the files in `lang/po/`.
-3. Run `lang/update_pot.sh` to update `lang/po/cataclysm-dda.pot`.
+3. Run `lang/update_pot.sh` to update `lang/po/cataclysm-BN.pot`.
 4. Run `lang/merge_po.sh` to update `lang/po/*.po`. (This is only used to test translations locally as the project now uses Transifex for translation)
 
     This will also merge the translations from `lang/incoming/`.
@@ -390,9 +387,8 @@ If your system locale is different from the one you want to test, the easiest wa
 So for example if your local language is New Zealand English (en_NZ), and you want to test the Russian (ru) translation, the steps would be `lang/compile_mo.sh ru`, `mv lang/mo/ru lang/mo/en_NZ`, `./cataclysm`.
 
 
-[1]: https://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/
-[2]: https://discourse.cataclysmdda.org/c/game-talk/translations-team-discussion
-[3]: https://docs.transifex.com/
-[4]: ../lang/notes
-[5]: https://www.gnu.org/software/gettext/
-[6]: https://www.gnu.org/software/gettext/manual/index.html
+[1]: https://www.transifex.com/bn-team/cataclysm-bright-nights
+[2]: https://docs.transifex.com/
+[3]: ../lang/notes
+[4]: https://www.gnu.org/software/gettext/
+[5]: https://www.gnu.org/software/gettext/manual/index.html
