@@ -959,7 +959,7 @@ static bool handle_player_display_action( player &you, unsigned int &line,
     unsigned int line_end = 0;
     switch( curtab ) {
         case player_display_tab::stats:
-            line_end = 7;
+            line_end = 6;
             break;
         case player_display_tab::encumbrance: {
             const std::vector<std::pair<body_part, bool>> bps = list_and_combine_bps( you, nullptr );
