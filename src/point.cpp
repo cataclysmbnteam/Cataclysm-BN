@@ -12,6 +12,7 @@ std::string point::to_string() const
     os << *this;
     return os.str();
 }
+// and three comment
 
 std::string tripoint::to_string() const
 {

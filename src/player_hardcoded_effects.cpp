@@ -39,6 +39,7 @@
 #       include <SDL.h>
 #   endif
 #endif // TILES
+// it's second testing comment 
 
 #include <algorithm>
 #include <functional>
