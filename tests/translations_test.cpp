@@ -104,7 +104,7 @@ TEST_CASE( "translations_actually_translate", "[translations]" )
     const std::vector<std::pair<std::string, std::string>> test_cases = {{
             { "en", "Play <N|n>ow!" },
             { "fr", "Jouer <M|m>aintenant!" },
-            { "ru", "Сразу в игру!" },
+            { "ru_RU", "Сразу в игру!" },
         }
     };
 
@@ -128,6 +128,7 @@ TEST_CASE( "translations_actually_translate", "[translations]" )
     };
 
     for( const auto &test : test_cases ) {
+        CAPTURE( test.first );
         REQUIRE( has_lang( test.first ) );
     }
 
