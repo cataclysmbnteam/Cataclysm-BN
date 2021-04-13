@@ -1049,6 +1049,7 @@ static bool handle_player_display_action( player &you, unsigned int &line,
             }
         }
     } else if( action == "CHANGE_PROFESSION_NAME" ) {
+        // some comment
         string_input_popup popup;
         popup.title( _( "Profession Name: " ) )
         .width( 25 )
