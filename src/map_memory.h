@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_MAP_MEMORY_H
 #define CATA_SRC_MAP_MEMORY_H
 
+#include <map>
 #include <string>
 
 #include "game_constants.h"
