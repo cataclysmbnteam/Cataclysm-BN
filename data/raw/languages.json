@@ -91,7 +91,7 @@
     "lcids": [ 1046, 2070 ]
   },
   {
-    "id": "ru",
+    "id": "ru_RU",
     "name": "Русский",
     "locale": "ru_RU.UTF-8",
     "genders": [  ],
