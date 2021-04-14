@@ -355,14 +355,11 @@ static void draw_stats_tab( const catacurses::window &w_stats,
     display_stat( _( "Dexterity:" ), you.get_dex(), you.get_dex_base(), 2, line_color( 1 ) );
     display_stat( _( "Intelligence:" ), you.get_int(), you.get_int_base(), 3, line_color( 2 ) );
     display_stat( _( "Perception:" ), you.get_per(), you.get_per_base(), 4, line_color( 3 ) );
-    mvwprintz( w_stats, point( 1, 5 ), line_color( 4 ), _( "Weight:" ) );
-    mvwprintz( w_stats, point( 25 - utf8_width( you.get_weight_string() ), 5 ), line_color( 4 ),
-               you.get_weight_string() );
-    mvwprintz( w_stats, point( 1, 6 ), line_color( 5 ), _( "Height:" ) );
-    mvwprintz( w_stats, point( 25 - utf8_width( you.height_string() ), 6 ), line_color( 5 ),
+    mvwprintz( w_stats, point( 1, 5 ), line_color( 4 ), _( "Height:" ) );
+    mvwprintz( w_stats, point( 25 - utf8_width( you.height_string() ), 5 ), line_color( 4 ),
                you.height_string() );
-    mvwprintz( w_stats, point( 1, 7 ), line_color( 6 ), _( "Age:" ) );
-    mvwprintz( w_stats, point( 25 - utf8_width( you.age_string() ), 7 ), line_color( 6 ),
+    mvwprintz( w_stats, point( 1, 6 ), line_color( 5 ), _( "Age:" ) );
+    mvwprintz( w_stats, point( 25 - utf8_width( you.age_string() ), 6 ), line_color( 5 ),
                you.age_string() );
 
     wnoutrefresh( w_stats );
@@ -427,14 +424,12 @@ static void draw_stats_info( const catacurses::window &w_info,
                                 string_format( _( "Aiming penalty: <color_white>%+d</color>" ), -you.ranged_per_mod() ) );
         }
     } else if( line == 4 ) {
-        // TODO: Get rid of this block
-    } else if( line == 5 ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         const int lines = fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
                                           _( "Your height.  Simply how tall you are." ) );
         fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
                         you.height_string() );
-    } else if( line == 6 ) {
+    } else if( line == 5 ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         const int lines = fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
                                           _( "This is how old you are." ) );
@@ -964,7 +959,7 @@ static bool handle_player_display_action( player &you, unsigned int &line,
     unsigned int line_end = 0;
     switch( curtab ) {
         case player_display_tab::stats:
-            line_end = 7;
+            line_end = 6;
             break;
         case player_display_tab::encumbrance: {
             const std::vector<std::pair<body_part, bool>> bps = list_and_combine_bps( you, nullptr );
