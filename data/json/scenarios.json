@@ -509,7 +509,7 @@
     "type": "scenario",
     "id": "helicopter",
     "name": "Flight of the Valkyries",
-    "points": 0,
+    "points": 1,
     "description": "You manage to get to the chopper right when Cataclysm begins.  But are there safe places to land left in this world now?",
     "start_name": "Wilderness",
     "allowed_locs": [ "sloc_field", "sloc_forest" ],
