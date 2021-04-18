@@ -505,7 +505,7 @@
     "professions": [ "frat", "gangster", "lost_sub", "lawyer", "politician", "dancer", "bio_gangster" ],
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
-    {
+  {
     "type": "scenario",
     "id": "helicopter",
     "name": "Flight of the Valkyries",
