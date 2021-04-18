@@ -1580,7 +1580,7 @@ bool game::do_turn()
         first_redraw_since_waiting_started = true;
     }
 
-    u.update_bodytemp();
+    u.update_bodytemp( m, weather );
     u.update_body_wetness( *weather.weather_precise );
     u.apply_wetness_morale( weather.temperature );
 

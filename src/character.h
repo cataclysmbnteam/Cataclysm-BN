@@ -63,6 +63,7 @@ class player;
 class player_morale;
 class vehicle;
 class monster;
+class weather_manager;
 struct bionic;
 struct construction;
 struct dealt_projectile_attack;
@@ -501,7 +502,7 @@ class Character : public Creature, public visitable<Character>
         /** Returns if the player has hibernation mutation and is asleep and well fed */
         bool is_hibernating() const;
         /** Maintains body temperature */
-        void update_bodytemp();
+        void update_bodytemp( const map &m, weather_manager &weather );
 
         /** Equalizes heat between body parts */
         void temp_equalizer( const bodypart_id &bp1, const bodypart_id &bp2 );

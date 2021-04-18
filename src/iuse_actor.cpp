@@ -273,7 +273,8 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
     }
     if( p.is_worn( *obj ) ) {
         p.reset_encumbrance();
-        p.update_bodytemp();
+        // This is most likely wrong: it doubles temperature shift for the turn!
+        p.update_bodytemp( get_map(), g->weather );
         p.on_worn_item_transform( obj_copy, *obj );
     }
     obj->item_counter = countdown > 0 ? countdown : obj->type->countdown_interval;
