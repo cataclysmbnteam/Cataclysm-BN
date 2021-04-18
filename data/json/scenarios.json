@@ -504,5 +504,16 @@
     "allowed_locs": [ "sloc_private_resort" ],
     "professions": [ "frat", "gangster", "lost_sub", "lawyer", "politician", "dancer", "bio_gangster" ],
     "flags": [ "CHALLENGE", "LONE_START" ]
+  },
+    {
+    "type": "scenario",
+    "id": "helicopter",
+    "name": "Flight of the Valkyries",
+    "points": 0,
+    "description": "You manage to get to the chopper right when Cataclysm begins.  But are there safe places to land left in this world now?",
+    "start_name": "Wilderness",
+    "allowed_locs": [ "sloc_field", "sloc_forest" ],
+    "professions": [ "mili_pilot_blackhawk" ],
+    "flags": [ "LONE_START" ]
   }
 ]
