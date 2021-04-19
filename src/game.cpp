@@ -796,7 +796,7 @@ vehicle *game::place_vehicle_nearby( const vproto_id &id, const point &origin, i
     std::vector<std::string> search_types = omt_search_types;
     if( search_types.empty() ) {
         vehicle veh( id );
-        if( veh.max_ground_velocity() > 0 || veh.has_part( "ROTOR" ) ) {
+        if( veh.max_ground_velocity() > 0 || veh.is_helicopter() ) {
             search_types.push_back( "road" );
             search_types.push_back( "field" );
         } else if( veh.can_float() ) {
