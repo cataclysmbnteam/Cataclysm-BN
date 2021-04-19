@@ -797,7 +797,8 @@ vehicle *game::place_vehicle_nearby( const vproto_id &id, const point &origin, i
     if( search_types.empty() ) {
         vehicle veh( id );
         if( veh.is_helicopter() ) {
-            //Try to spawn helocpter in the field first since for helicopter it make sense.
+            // Try to spawn helocpter in the field first since for helicopter it make sense.
+            // Also this way it spawns closer to player.
             search_types.push_back( "field" );
             search_types.push_back( "road" );
         } else if( veh.max_ground_velocity() > 0 ) {
