@@ -508,7 +508,7 @@
   {
     "type": "scenario",
     "id": "helicopter",
-    "name": "Flight of the Valkyries",
+    "name": "Ride of the Valkyries",
     "points": 1,
     "description": "You manage to get to the chopper right when Cataclysm begins.  But are there safe places to land left in this world now?",
     "start_name": "Wilderness",
