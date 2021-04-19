@@ -796,7 +796,7 @@ vehicle *game::place_vehicle_nearby( const vproto_id &id, const point &origin, i
     std::vector<std::string> search_types = omt_search_types;
     if( search_types.empty() ) {
         vehicle veh( id );
-        if ( veh.is_helicopter() ) {
+        if( veh.is_helicopter() ) {
             //Try to spawn helocpter in the field first since for helicopter it make sense.
             search_types.push_back( "field" );
             search_types.push_back( "road" );
