@@ -585,7 +585,7 @@ bool game::start_game()
         if( omtstart == overmap::invalid_tripoint ) {
             if( query_yn(
                     _( "Try again?\n\nIt may require several attempts until the game finds a valid starting location." ) ) ) {
-                MAPBUFFER.reset();
+                MAPBUFFER.clear();
                 overmap_buffer.clear();
             } else {
                 return false;
@@ -1211,7 +1211,7 @@ bool game::cleanup_at_end()
     sfx::fade_audio_group( sfx::group::context_themes, 300 );
     sfx::fade_audio_group( sfx::group::fatigue, 300 );
 
-    MAPBUFFER.reset();
+    MAPBUFFER.clear();
     overmap_buffer.clear();
 
 #if defined(__ANDROID__)
@@ -11258,7 +11258,7 @@ void game::quickload()
 
     if( active_world->save_exists( save_t::from_player_name( u.name ) ) ) {
         if( moves_since_last_save != 0 ) { // See if we need to reload anything
-            MAPBUFFER.reset();
+            MAPBUFFER.clear();
             overmap_buffer.clear();
             try {
                 setup();
