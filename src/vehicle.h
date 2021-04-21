@@ -1339,10 +1339,7 @@ class vehicle
         bool is_flying_in_air() const;
         void set_flying( bool new_flying_value );
         bool is_rotorcraft() const;
-        /**
-        * is the vehicle helicopter (even if it can't fly for various reasons)?
-        */
-        bool is_helicopter() const;
+
         /**
          * Traction coefficient of the vehicle.
          * 1.0 on road. Outside roads, depends on mass divided by wheel area

@@ -4098,11 +4098,6 @@ bool vehicle::is_flying_in_air() const
     return is_flying;
 }
 
-bool vehicle::is_helicopter() const
-{
-    return has_part( "ROTOR" );
-}
-
 void vehicle::set_flying( bool new_flying_value )
 {
     is_flying = new_flying_value;
