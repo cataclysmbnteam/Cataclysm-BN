@@ -504,5 +504,16 @@
     "allowed_locs": [ "sloc_private_resort" ],
     "professions": [ "frat", "gangster", "lost_sub", "lawyer", "politician", "dancer", "bio_gangster" ],
     "flags": [ "CHALLENGE", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "helicopter",
+    "name": "Ride of the Valkyries",
+    "points": 1,
+    "description": "You managed to get to the chopper just in time.  But are there safe places to land left in this world now?",
+    "start_name": "Wilderness",
+    "allowed_locs": [ "sloc_field", "sloc_forest" ],
+    "professions": [ "mili_pilot_blackhawk" ],
+    "flags": [ "LONE_START" ]
   }
 ]
