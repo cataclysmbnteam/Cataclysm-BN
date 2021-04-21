@@ -796,17 +796,13 @@ vehicle *game::place_vehicle_nearby( const vproto_id &id, const point &origin, i
     std::vector<std::string> search_types = omt_search_types;
     if( search_types.empty() ) {
         vehicle veh( id );
-        if( veh.is_helicopter() ) {
-            // Try to spawn helicopter since fit should help to spawn helicopter closer to player.
-            // Also for helicopter landing in the field make sense.
-            search_types.push_back( "field" );
-            search_types.push_back( "road" );
-        } else if( veh.max_ground_velocity() > 0 ) {
-            search_types.push_back( "road" );
-            search_types.push_back( "field" );
-        } else if( veh.can_float() ) {
+        if( veh.can_float() ) {
             search_types.push_back( "river" );
             search_types.push_back( "lake" );
+        }
+        else {
+            search_types.push_back( "field" );
+            search_types.push_back( "road" );
         }
     }
     for( const std::string &search_type : search_types ) {
