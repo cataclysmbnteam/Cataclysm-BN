@@ -4114,7 +4114,7 @@
     "type": "profession",
     "id": "mili_pilot_blackhawk",
     "name": "UH-60 Blackhawk pilot",
-    "description": "You managed to make it to your UH-60.  Your co-pilot didn't.",
+    "description": "You managed to get to your UH-60.  Your co-pilot didn't.",
     "vehicle": "helicopter_blackhawk_3a",
     "points": 7,
     "copy-from": "mili_pilot"
