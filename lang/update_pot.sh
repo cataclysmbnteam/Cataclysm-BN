@@ -1,30 +1,33 @@
 #!/bin/sh
 
-if [ ! -d lang/po ]
+POT_DIRECTORY="lang/po"
+TEMP_POT_FROM_CODE="$POT_DIRECTORY/temp-code.pot"
+TEMP_POT_FROM_JSON="$POT_DIRECTORY/temp-json.pot"
+FINAL_POT_FILE="$POT_DIRECTORY/cataclysm-bn.pot"
+
+if [ ! -d $POT_DIRECTORY ]
 then
-    if [ -d ../lang/po ]
+    if [ -d ../$POT_DIRECTORY ]
     then
         cd ..
     else
-        echo "Error: Could not find lang/po subdirectory."
+        echo "Error: Could not find $POT_DIRECTORY subdirectory."
         exit 1
     fi
 fi
 
-# try to extract translatable strings from .json files
 echo "> Extracting strings from json"
-if ! lang/extract_json_strings.py
+if ! lang/bn_extract_json_strings.sh --output $TEMP_POT_FROM_JSON
 then
     echo "Error in extract_json_strings.py. Aborting"
     exit 1
 fi
 
-# Update cataclysm-bn.pot
-echo "> Running xgettext to create .pot file"
+echo "> Extracting strings from source code"
 xgettext --default-domain="cataclysm-bn" \
          --add-comments="~" \
          --sort-by-file \
-         --output="lang/po/cataclysm-bn.pot" \
+         --output="$TEMP_POT_FROM_CODE" \
          --keyword="_" \
          --keyword="pgettext:1c,2" \
          --keyword="vgettext:1,2" \
@@ -36,47 +39,45 @@ xgettext --default-domain="cataclysm-bn" \
          --keyword="pl_translation:1,2,2t" \
          --keyword="pl_translation:1c,2,3,3t" \
          --from-code="UTF-8" \
-         src/*.cpp src/*.h lang/json/*.py
+         src/*.cpp src/*.h
 if [ $? -ne 0 ]; then
     echo "Error in xgettext. Aborting"
     exit 1
 fi
 
-# Fix msgfmt errors
-if [ "`head -n1 lang/po/cataclysm-bn.pot`" = "# SOME DESCRIPTIVE TITLE." ]
+# Fix headers to allow compiling this .pot with msgfmt
+# 1. Remove first 6 strings (they contain default comments and "fizzy" marker)
+# 2. Configure 'Project-Id-Version' header
+# 3. Remove unconfigured 'Plural-Forms' header
+if [ "`head -n1 $TEMP_POT_FROM_CODE`" = "# SOME DESCRIPTIVE TITLE." ]
 then
     echo "> Fixing .pot file headers"
     package="cataclysm-bn"
     version=$(grep '^VERSION *= *' Makefile | tr -d [:space:] | cut -f 2 -d '=')
-    pot_file="lang/po/cataclysm-bn.pot"
+    pot_file="$TEMP_POT_FROM_CODE"
     sed -e "1,6d" \
     -e "s/^\"Project-Id-Version:.*\"$/\"Project-Id-Version: $package $version\\\n\"/1" \
     -e "/\"Plural-Forms:.*\"$/d" $pot_file > $pot_file.temp
     mv $pot_file.temp $pot_file
 fi
 
-# strip line-numbers from the .pot file
-echo "> Stripping .pot file from unneeded comments"
-if ! lang/strip_line_numbers.py lang/po/cataclysm-bn.pot
+echo "> Combining JSON and source code strings"
+if ! lang/concat_pot_files.py $TEMP_POT_FROM_JSON $TEMP_POT_FROM_CODE $FINAL_POT_FILE
 then
-    echo "Error in strip_line_numbers.py. Aborting"
+    echo "Error in concat_pot_files.py. Aborting"
     exit 1
 fi
 
-# convert line endings to unix
-if [[ $(uname -s) =~ ^\(CYGWIN|MINGW\)* ]]
+echo "> Resolving duplicates and conflicts"
+if ! lang/dedup_pot_file.py $FINAL_POT_FILE
 then
-    echo "> Converting line endings to Unix"
-    if ! sed -i -e 's/\r$//' lang/po/cataclysm-bn.pot
-    then
-        echo "Line ending conversion failed. Aborting."
-        exit 1
-    fi
+    echo "Error in dedup_pot_file.py. Aborting"
+    exit 1
 fi
 
 # Final compilation check
 echo "> Testing to compile the .pot file"
-if ! msgfmt -c -o /dev/null lang/po/cataclysm-bn.pot
+if ! msgfmt -c -o /dev/null $FINAL_POT_FILE
 then
     echo "Updated pot file contain gettext errors. Aborting."
     exit 1
@@ -84,10 +85,21 @@ fi
 
 # Check for broken Unicode symbols
 echo "> Checking for wrong Unicode symbols"
-if ! lang/unicode_check.py lang/po/cataclysm-bn.pot
+if ! lang/unicode_check.py $FINAL_POT_FILE
 then
     echo "Updated pot file contain broken Unicode symbols. Aborting."
     exit 1
+fi
+
+# Remove temporary files
+echo "> Cleaning up"
+if ! rm $TEMP_POT_FROM_CODE
+then
+    echo "Failed to remove $TEMP_POT_FROM_CODE"
+fi
+if ! rm $TEMP_POT_FROM_JSON
+then
+    echo "Failed to remove $TEMP_POT_FROM_JSON"
 fi
 
 echo "ALL DONE!"
