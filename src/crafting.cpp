@@ -2334,3 +2334,33 @@ bench_location find_best_bench( const player &p, const item &craft )
 
     return bench_location{best_type, best_loc};
 }
+
+namespace crafting
+{
+
+std::set<itype_id> get_books_for_recipe( const Character &c, const inventory &crafting_inv,
+        const recipe *r )
+{
+    std::set<itype_id> book_ids;
+    const int skill_level = c.get_skill_level( r->skill_used );
+    for( auto &book_lvl : r->booksets ) {
+        itype_id book_id = book_lvl.first;
+        int required_skill_level = book_lvl.second;
+        if( skill_level >= required_skill_level && crafting_inv.amount_of( book_id ) > 0 ) {
+            book_ids.insert( book_id );
+        }
+    }
+    return book_ids;
+}
+
+std::set<itype_id> get_books_for_recipe( const recipe *r )
+{
+    std::set<itype_id> book_ids;
+    std::transform( r->booksets.begin(), r->booksets.end(), std::inserter( book_ids, book_ids.end() ),
+    []( const std::pair<itype_id, int> &pr ) {
+        return pr.first;
+    } );
+    return book_ids;
+}
+
+} // namespace crafting

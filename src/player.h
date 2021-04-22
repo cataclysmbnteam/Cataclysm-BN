@@ -565,14 +565,6 @@ class player : public Character
           */
         recipe_subset get_available_recipes( const inventory &crafting_inv,
                                              const std::vector<npc *> *helpers = nullptr ) const;
-        /**
-          * Returns the set of book types in crafting_inv that provide the
-          * given recipe.
-          * @param crafting_inv Current available items that may contain readable books
-          * @param r Recipe to search for in the available books
-          */
-        std::set<itype_id> get_books_for_recipe( const inventory &crafting_inv,
-                const recipe *r ) const;
 
         // crafting.cpp
         float morale_crafting_speed_multiplier( const recipe &rec ) const;

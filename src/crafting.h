@@ -3,11 +3,16 @@
 #define CATA_SRC_CRAFTING_H
 
 #include <list>
+#include <set>
 #include "point.h"
 
+class Character;
+class inventory;
 class item;
 class player;
 class recipe;
+
+using itype_id = std::string;
 
 enum class craft_flags : int {
     none = 0,
@@ -46,5 +51,25 @@ float workbench_crafting_speed_multiplier( const item &craft, const bench_locati
 float crafting_speed_multiplier( const player &p, const recipe &rec, bool in_progress );
 float crafting_speed_multiplier( const player &p, const item &craft, const bench_location &bench );
 void complete_craft( player &p, item &craft, const bench_location &bench );
+
+namespace crafting
+{
+
+/**
+ * Returns the set of book types in crafting_inv that provide the
+ * given recipe.
+ * @param c Character whose skills are used to limit the available recipes
+ * @param crafting_inv Current available items that may contain readable books
+ * @param r Recipe to search for in the available books
+ */
+std::set<itype_id> get_books_for_recipe( const Character &c, const inventory &crafting_inv,
+        const recipe *r );
+
+/**
+ * Returns the set of book types that provide the given recipe.
+ */
+std::set<itype_id> get_books_for_recipe( const recipe *r );
+
+} // namespace crafting
 
 #endif // CATA_SRC_CRAFTING_H

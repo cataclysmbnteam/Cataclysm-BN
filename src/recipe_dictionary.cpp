@@ -513,6 +513,7 @@ void recipe_subset::include( const recipe *r, int custom_difficulty )
         }
         // insert the recipe
         recipes.insert( r );
+        ids.insert( r->ident() );
     }
 }
 
