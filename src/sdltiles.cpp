@@ -1007,7 +1007,11 @@ static bool add_alt_code( char c )
         if( c >= '0' && c <= '9' ) {
             alt_buffer = alt_buffer * 10 + ( c - '0' );
         }
-        return true;
+
+        // Hardcoded alt-tab check. TODO: Handle alt keys properly
+        if( c == '\t' ) {
+            return true;
+        }
     }
     return false;
 }
