@@ -93,13 +93,12 @@ participants.  This two pieces of initial configuration.
 
 1. The dialogue must have the relevant genders listed in the json file defining
    it.  See [the NPC docs](NPCs.md).
-2. Each language must specify the genders it wishes to use via the translation
-   of `grammatical gender list`.  This should be a space-separated list of
-   genders used in this language for such translations.  Don't add genders here
+2. Each language must specify the genders it wishes to use via `genders` list
+   of the language's entry in `data/raw/languages.json`. Don't add genders there
    until you're sure you will need them, because it will make more work for
-   you.  If you need different genders than are currently supported you must
-   add them to the `all_genders` lists in `lang/extract_json_strings.py` and
-   `src/translations.cpp`.
+   you. Current choices are: `m` (male), `f` (female), `n` (neuter).
+   If you need different genders than the ones currently supported, see
+   relevant note in `src/language.h`.
 
 Having done this, the relevant dialogue lines will appear multiple times for
 translation, with different genders specified in the message context.  For
@@ -108,7 +107,7 @@ conversation is male.
 
 Because of technical limitations, all supported genders will appear as
 contexts, but you only need to provide translations for the genders listed in
-`grammatical gender list` for your language.
+the grammatical gender list for your language.
 
 Other parts of the game have various ad hoc solutions to grammatical gender, so
 don't be surprised to see other contexts appearing for other strings.
@@ -369,7 +368,7 @@ There are scripts available for these, so usually the process will be as follows
 
 1. Download the translations in `.po` format.
 2. Put them in `lang/incoming/`, ensuring they are named consistently with the files in `lang/po/`.
-3. Run `lang/update_pot.sh` to update `lang/po/cataclysm-BN.pot`.
+3. Run `lang/update_pot.sh` to update `lang/po/cataclysm-BN.pot` (requires python with `polib` library installed).
 4. Run `lang/merge_po.sh` to update `lang/po/*.po`. (This is only used to test translations locally as the project now uses Transifex for translation)
 
     This will also merge the translations from `lang/incoming/`.
@@ -380,11 +379,11 @@ To compile the .po files into `.mo` files for use, run `lang/compile_mo.sh`. It 
 
 Also note that both `lang/merge_po.sh` and `lang/compile_mo.sh` accept arguments specifying which languages to merge or compile. So to compile only the translation for, say, Traditional Chinese (zh_TW), one would run `lang/compile_mo.sh zh_TW`.
 
-After compiling the appropriate .mo file, if your system is using that language, the translations will be automatically used when you run cataclysm.
+After compiling the appropriate .mo file, if the language has been selected in game settings, the translations will be automatically used when you run cataclysm.
 
-If your system locale is different from the one you want to test, the easiest way to do so is to find out your locale identifier, compile the translation you want to test, then rename the directory in `lang/mo/` to your locale identifier.
+When `System language` is selected in settings, the game tries to use language that matches system language based on language definitions file `data/raw/languages.json`.
 
-So for example if your local language is New Zealand English (en_NZ), and you want to test the Russian (ru) translation, the steps would be `lang/compile_mo.sh ru`, `mv lang/mo/ru lang/mo/en_NZ`, `./cataclysm`.
+If you're testing translations for a new language, or the language does not show up in settings, make sure it has its own entry in the definitions file.
 
 
 [1]: https://www.transifex.com/bn-team/cataclysm-bright-nights
