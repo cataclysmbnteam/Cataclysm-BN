@@ -40,7 +40,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 8 ] ], "time": "2 h", "using": [ [ "welding_standard", 20 ] ] },
       "removal": { "skills": [ [ "mechanics", 7 ] ], "time": "2 h", "using": [ [ "vehicle_weld_removal", 4 ] ] },
-      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "2 h", "using": [ [ "welding_standard", 20 ] ] }
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "2 h", "using": [ [ "welding_standard", 20 ] ] }
     },
     "durability": 100,
     "description": "A set of four military-grade helicopter rotor blades, used to provide lift by rotation.",
