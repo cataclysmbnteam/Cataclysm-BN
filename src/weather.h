@@ -34,6 +34,7 @@
 #include <utility>
 
 class item;
+class map;
 struct trap;
 struct rl_vec2d;
 
@@ -165,6 +166,9 @@ precip_class precip( weather_type type );
 bool rains( weather_type type );
 bool acidic( weather_type type );
 weather_effect_fn effect( weather_type type );
+
+bool is_sheltered( const map &m, const tripoint &p );
+bool is_in_sunlight( const map &m, const tripoint &p, weather_type weather );
 } // namespace weather
 
 std::string get_shortdirstring( int angle );

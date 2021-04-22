@@ -65,7 +65,7 @@ static int converge_temperature( player &p, size_t iters, int start_temperature 
         }
 
         history.emplace( p.temp_cur );
-        p.update_bodytemp();
+        p.update_bodytemp( get_map(), g->weather );
     }
 
     CAPTURE( iters );
@@ -384,7 +384,7 @@ static void hypothermia_check( player &p, int water_temperature, time_duration e
 
     int actual_time;
     for( actual_time = 0; actual_time < upper_bound * 2; actual_time++ ) {
-        p.update_bodytemp();
+        p.update_bodytemp( get_map(), g->weather );
         if( p.temp_cur[0] <= expected_temperature ) {
             break;
         }

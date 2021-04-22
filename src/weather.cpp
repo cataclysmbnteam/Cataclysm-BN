@@ -33,6 +33,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "units.h"
+#include "vpart_position.h"
 #include "weather_gen.h"
 
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
@@ -1058,6 +1059,27 @@ int weather_manager::get_water_temperature( const tripoint & )
 void weather_manager::clear_temp_cache()
 {
     temperature_cache.clear();
+}
+
+namespace weather
+{
+
+bool is_sheltered( const map &m, const tripoint &p )
+{
+    const optional_vpart_position vp = m.veh_at( p );
+
+    return ( !m.is_outside( p ) ||
+             p.z < 0 ||
+             ( vp && vp->is_inside() ) );
+}
+
+bool is_in_sunlight( const map &m, const tripoint &p, weather_type weather )
+{
+    // TODO: Remove that game reference and include light in weather data
+    return ( m.is_outside( p ) && g->light_level( p.z ) >= 40 &&
+             ( weather == WEATHER_CLEAR || weather == WEATHER_SUNNY ) );
+}
+
 }
 
 ///@}

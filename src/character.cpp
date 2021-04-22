@@ -5030,7 +5030,7 @@ Hurricane : 100 mph (920 hPa)
 HURRICANE : 185 mph (880 hPa) [Ref: Hurricane Wilma]
 */
 
-void Character::update_bodytemp()
+void Character::update_bodytemp( const map &m, weather_manager &weather )
 {
     if( has_trait( trait_DEBUG_NOTEMP ) ) {
         temp_cur.fill( BODYTEMP_NORM );
@@ -5038,22 +5038,22 @@ void Character::update_bodytemp()
         return;
     }
     /* Cache calls to g->get_temperature( player position ), used in several places in function */
-    const auto player_local_temp = g->weather.get_temperature( pos() );
+    const auto player_local_temp = weather.get_temperature( pos() );
     // NOTE : visit weather.h for some details on the numbers used
     // In Celsius / 100
     int Ctemperature = static_cast<int>( 100 * units::fahrenheit_to_celsius( player_local_temp ) );
-    const w_point weather = *g->weather.weather_precise;
+    const w_point weather_point = *weather.weather_precise;
     int vehwindspeed = 0;
-    const optional_vpart_position vp = g->m.veh_at( pos() );
+    const optional_vpart_position vp = m.veh_at( pos() );
     if( vp ) {
         vehwindspeed = std::abs( vp->vehicle().velocity / 100 ); // vehicle velocity in mph
     }
     const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
-    bool sheltered = g->is_sheltered( pos() );
-    double total_windpower = get_local_windpower( g->weather.windspeed + vehwindspeed, cur_om_ter,
+    bool sheltered = weather::is_sheltered( m, pos() );
+    double total_windpower = get_local_windpower( weather.windspeed + vehwindspeed, cur_om_ter,
                              pos(),
-                             g->weather.winddirection, sheltered );
-    int air_humidity = get_local_humidity( weather.humidity, g->weather.weather,
+                             weather.winddirection, sheltered );
+    int air_humidity = get_local_humidity( weather_point.humidity, weather.weather,
                                            sheltered );
     // Let's cache this not to check it num_bp times
     const bool has_bark = has_trait( trait_BARK );
@@ -5068,15 +5068,15 @@ void Character::update_bodytemp()
     /**
      * Calculations that affect all body parts equally go here, not in the loop
      */
-    const int sunlight_warmth = g->is_in_sunlight( pos() )
-                                ? ( g->weather.weather == WEATHER_SUNNY ? 1000 : 500 )
+    const int sunlight_warmth = weather::is_in_sunlight( m, pos(), weather.weather )
+                                ? ( weather.weather == WEATHER_SUNNY ? 1000 : 500 )
                                 : 0;
     const int best_fire = get_heat_radiation( pos(), true );
     const bool pyromania = has_trait( trait_PYROMANIA );
 
     const int lying_warmth = use_floor_warmth ? floor_warmth( pos() ) : 0;
     const int water_temperature_raw =
-        100 * units::fahrenheit_to_celsius( g->weather.get_water_temperature( pos() ) );
+        100 * units::fahrenheit_to_celsius( weather.get_water_temperature( pos() ) );
     // Rescale so that 0C is 0 (FREEZING) and 30C is 5k (NORM).
     const int water_temperature = water_temperature_raw * 5 / 3;
 
@@ -5091,9 +5091,9 @@ void Character::update_bodytemp()
     const int h_radiation = get_heat_radiation( pos(), false );
 
     // If you're standing in water, air temperature is replaced by water temperature. No wind.
-    const ter_id ter_at_pos = g->m.ter( pos() );
-    bool submerged = ter_at_pos->has_flag( TFLAG_DEEP_WATER );
-    bool submerged_low = submerged || ter_at_pos->has_flag( TFLAG_SWIMMABLE );
+    const ter_id ter_at_pos = m.ter( pos() );
+    const bool submerged = !in_vehicle && ter_at_pos->has_flag( TFLAG_DEEP_WATER );
+    const bool submerged_low = !in_vehicle && ( submerged || ter_at_pos->has_flag( TFLAG_SWIMMABLE ) );
 
     // EQUALIZATION
     // We run it outside the loop because we can and so we should
