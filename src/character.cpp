@@ -9282,7 +9282,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty,
             return res;
         }
         if( has_power() && has_active_bionic( bio_ups ) ) {
-            int bio = std::min( units::to_kilojoule( get_power_level() ), qty );
+            int bio = std::min<int>( units::to_kilojoule( get_power_level() ), qty );
             mod_power_level( units::from_kilojoule( -bio ) );
             qty -= std::min( qty, bio );
         }

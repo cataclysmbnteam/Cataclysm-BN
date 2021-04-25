@@ -1360,7 +1360,7 @@ bool Character::feed_furnace_with( item &it )
             _( "<npcname> digests a %s for energy, they're fully powered already, so the energy is wasted." ),
             it.tname() );
     } else {
-        const int profitable_energy = std::min( energy,
+        const int profitable_energy = std::min<int>( energy,
                                                 units::to_kilojoule( get_max_power_level() - get_power_level() ) );
         if( it.count_by_charges() ) {
             add_msg_player_or_npc( m_info,

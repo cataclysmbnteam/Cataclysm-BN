@@ -13,7 +13,7 @@ class energy_in_millijoule_tag
 {
 };
 
-using energy = quantity<int, energy_in_millijoule_tag>;
+using energy = quantity<unsigned long long, energy_in_millijoule_tag>;
 
 const energy energy_min = units::energy( std::numeric_limits<units::energy::value_type>::min(),
                           units::energy::unit_type{} );

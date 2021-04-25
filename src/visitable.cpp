@@ -881,7 +881,7 @@ int visitable<Character>::charges_of( const std::string &what, int limit,
 
     if( what == "toolset" ) {
         if( p && p->has_active_bionic( bio_tools ) ) {
-            return std::min( units::to_kilojoule( p->get_power_level() ), limit );
+            return std::min<int>( units::to_kilojoule( p->get_power_level() ), limit );
         } else {
             return 0;
         }
@@ -892,7 +892,7 @@ int visitable<Character>::charges_of( const std::string &what, int limit,
         qty = sum_no_wrap( qty, charges_of( "UPS_off" ) );
         qty = sum_no_wrap( qty, static_cast<int>( charges_of( "adv_UPS_off" ) / 0.6 ) );
         if( p && p->has_active_bionic( bio_ups ) ) {
-            qty = sum_no_wrap( qty, units::to_kilojoule( p->get_power_level() ) );
+            qty = sum_no_wrap<int>( qty, units::to_kilojoule( p->get_power_level() ) );
         }
         if( p && p->is_mounted() ) {
             auto mons = p->mounted_creature.get();
