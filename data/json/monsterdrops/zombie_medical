@@ -11,11 +11,8 @@
       { "group": "hazmat_gloves", "damage": [ 1, 4 ] },
       { "group": "hazmat_masks", "damage": [ 1, 4 ] },
       { "group": "gear_medical" },
-      { "group": "surgery", "prob": 30 },
-      { "group": "dissection", "prob": 30 },
       { "group": "bionics_common", "prob": 10 },
-      { "group": "doctors_books", "prob": 10 },
-      { "group": "record_patient", "prob": 5 }
+      { "group": "doctors_books", "prob": 10 }
     ]
   }
 ]
