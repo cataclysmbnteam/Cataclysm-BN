@@ -203,7 +203,7 @@
     "color": "brown",
     "volume": "1000 L",
     "weight": "1000 kg",
-    "hp": 750,
+    "hp": 200,
     "zombify_into": "mon_zamargasaurus_juvenile",
     "harvest": "mammal_large_leather",
     "upgrades": { "age_grow": 100, "into": "mon_amargasaurus" },
