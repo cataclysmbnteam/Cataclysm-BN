@@ -51,26 +51,5 @@
     "special_when_hit": [ "ZAPBACK", 75 ],
     "harvest": "CBM_ZINO_FEATHER",
     "upgrades": {  }
-  },
-  {
-    "id": "mon_obsoletefaction1",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "mon_obsoletefaction1",
-    "default_faction": "gallimimus"
-  },
-  {
-    "id": "mon_obsoletefaction2",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "mon_obsoletefaction2",
-    "default_faction": "pachycephalosaurus"
-  },
-  {
-    "id": "mon_obsoletefaction3",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "mon_obsoletefaction3",
-    "default_faction": "camptosaurus"
   }
 ]
