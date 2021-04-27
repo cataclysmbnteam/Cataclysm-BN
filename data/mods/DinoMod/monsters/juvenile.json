@@ -71,23 +71,19 @@
     "id": "mon_acrocanthosaurus_juvenile",
     "type": "MONSTER",
     "name": "brown and white two-legged juvenile",
-    "description": "A small bipedal meat-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
     "default_faction": "acrocanthosaurus_juvenile",
-    "copy-from": "mon_gallimimus_juvenile",
+    "copy-from": "mon_allosaurus_juvenile",
     "color": "brown_white",
-    "upgrades": { "age_grow": 365, "into": "mon_acrocanthosaurus" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATFOOD", "GUILT", "NO_BREED", "CANPLAY" ]
+    "upgrades": { "age_grow": 365, "into": "mon_acrocanthosaurus" }
   },
   {
     "id": "mon_siats_juvenile",
     "type": "MONSTER",
     "name": "brown and white two-legged juvenile",
-    "description": "A small bipedal meat-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
     "default_faction": "siats_juvenile",
-    "copy-from": "mon_gallimimus_juvenile",
+    "copy-from": "mon_allosaurus_juvenile",
     "color": "brown_white",
-    "upgrades": { "age_grow": 365, "into": "mon_siats" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATFOOD", "GUILT", "NO_BREED", "CANPLAY" ]
+    "upgrades": { "age_grow": 365, "into": "mon_siats" }
   },
   {
     "id": "mon_albertosaurus_juvenile",
@@ -104,14 +100,11 @@
   {
     "id": "mon_qianzhousaurus_juvenile",
     "type": "MONSTER",
-    "name": "Qianzhousaurus juvenile",
-    "copy-from": "mon_gallimimus_juvenile",
-    "description": "A juvenile Pinnochio Rex, It looks at you with fear and hatred at the same time.",
+    "name": "green two-legged juvenile",
+    "copy-from": "mon_albertosaurus_juvenile",
     "default_faction": "qianzhousaurus_juvenile",
     "color": "green",
-    "dodge": 6,
-    "upgrades": { "age_grow": 100, "into": "mon_qianzhousaurus" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATFOOD", "GUILT", "NO_BREED", "CANPLAY" ]
+    "upgrades": { "age_grow": 100, "into": "mon_qianzhousaurus" }
   },
   {
     "id": "mon_tyrannosaurus_juvenile",
@@ -119,9 +112,7 @@
     "default_faction": "tyrannosaurus_juvenile",
     "copy-from": "mon_albertosaurus_juvenile",
     "color": "red_white",
-    "dodge": 5,
-    "upgrades": { "age_grow": 365, "into": "mon_tyrannosaurus" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATFOOD", "GUILT", "NO_BREED", "CANPLAY" ]
+    "upgrades": { "age_grow": 365, "into": "mon_tyrannosaurus" }
   },
   {
     "id": "mon_gallimimus_juvenile",
