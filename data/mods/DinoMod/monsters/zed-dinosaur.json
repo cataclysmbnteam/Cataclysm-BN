@@ -865,6 +865,14 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zamargasaurus_juvenile",
+    "name": { "str": "juvenile sauropod zombie" },
+    "copy-from": "mon_zapatosaurus_juvenile",
+    "looks_like": "mon_apatosaurus",
+    "upgrades": { "half_life": 14, "into": "mon_zamargasaurus" }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zapatosaurus_juvenile",
     "name": { "str": "juvenile sauropod zombie" },
     "looks_like": "mon_apatosaurus",
