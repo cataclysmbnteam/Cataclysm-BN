@@ -351,6 +351,7 @@
   {
     "id": "mon_dimorphodon_hatchling",
     "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
     "name": "light gray and yellow hatchling",
     "default_faction": "dimorphodon",
     "//": "Adult dimorphodon is only 2 kg, 1.5 L",
