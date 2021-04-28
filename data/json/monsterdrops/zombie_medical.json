@@ -3,6 +3,6 @@
     "id": "mon_zombie_medical_death_drops",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "collection": "default_zombie_clothes" }, { "group": "gear_medical" } ]
+    "entries": [ { "group": "default_zombie_clothes" }, { "group": "gear_medical" } ]
   }
 ]
