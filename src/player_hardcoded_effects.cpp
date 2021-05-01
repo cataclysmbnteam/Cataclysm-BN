@@ -1000,12 +1000,8 @@ void player::hardcoded_effects( effect &it )
             }
         }
         if( !recovered ) {
-            // Death happens
-            if( dur > 1_days ) {
-                add_msg_if_player( m_bad, _( "You succumb to the infection." ) );
-                g->events().send<event_type::dies_of_infection>( getID() );
-                hurtall( 500, nullptr );
-            } else if( has_effect( effect_strong_antibiotic ) ) {
+            // Don't kill if the player is on antibiotics
+            if( has_effect( effect_strong_antibiotic ) ) {
                 it.mod_duration( -1_turns );
             } else if( has_effect( effect_antibiotic ) ) {
                 // No progression
@@ -1013,6 +1009,10 @@ void player::hardcoded_effects( effect &it )
                 if( calendar::once_every( 4_turns ) ) {
                     it.mod_duration( 1_turns );
                 }
+            } else if( dur > 1_days ) {
+                add_msg_if_player( m_bad, _( "You succumb to the infection." ) );
+                g->events().send<event_type::dies_of_infection>( getID() );
+                hurtall( 500, nullptr );
             } else {
                 it.mod_duration( 1_turns );
             }

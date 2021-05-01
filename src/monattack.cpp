@@ -2629,7 +2629,9 @@ bool mattack::grab( monster *z )
     if( !z->can_act() ) {
         return false;
     }
-    Creature *target = z->attack_target();
+    // Grabbing non-Characters not supported yet
+    player *target = dynamic_cast<player *>( z->attack_target() );
+    player *pl = target;
     if( target == nullptr || !is_adjacent( z, target, false ) ) {
         return false;
     }
@@ -2646,11 +2648,6 @@ bool mattack::grab( monster *z )
             target->on_dodge( z, z->type->melee_skill * 2 );
         }
 
-        return true;
-    }
-
-    player *pl = dynamic_cast<player *>( target );
-    if( pl == nullptr ) {
         return true;
     }
 
@@ -2682,6 +2679,8 @@ bool mattack::grab( monster *z )
                         prev_effect + z->get_grab_strength() );
     target->add_msg_player_or_npc( m_bad, _( "The %s grabs you!" ), _( "The %s grabs <npcname>!" ),
                                    z->name() );
+
+    // Only prevent bites in this turn
 
     return true;
 }
