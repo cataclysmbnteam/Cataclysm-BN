@@ -2636,10 +2636,10 @@ bool mattack::grab( monster *z )
         return false;
     }
 
-    z->moves -= 80;
     const bool uncanny = target->uncanny_dodge();
     const auto msg_type = target == &g->u ? m_warning : m_info;
     if( uncanny || dodge_check( z, target ) ) {
+        z->moves -= 40;
         target->add_msg_player_or_npc( msg_type, _( "The %s gropes at you, but you dodge!" ),
                                        _( "The %s gropes at <npcname>, but they dodge!" ),
                                        z->name() );
@@ -2653,7 +2653,7 @@ bool mattack::grab( monster *z )
 
     item &cur_weapon = pl->weapon;
     ///\EFFECT_DEX increases chance to avoid being grabbed
-    if( pl->can_grab_break( cur_weapon ) && pl->get_grab_resist() > 0 &&
+    if( pl->can_grab_break( cur_weapon ) &&
         rng( 0, pl->get_dex() ) > rng( 0, z->type->melee_sides + z->type->melee_dice ) ) {
         if( target->has_effect( effect_grabbed ) ) {
             target->add_msg_if_player( m_info, _( "The %s tries to grab you as well, but you bat it away!" ),
@@ -2680,7 +2680,12 @@ bool mattack::grab( monster *z )
     target->add_msg_player_or_npc( m_bad, _( "The %s grabs you!" ), _( "The %s grabs <npcname>!" ),
                                    z->name() );
 
-    // Only prevent bites in this turn
+    // A hit to use up our moves
+    z->melee_attack( *target );
+    // Set up a bite on the next turn
+    if( z->type->special_attacks.count( "BITE" ) != 0 ) {
+        z->set_special( "BITE", 1 );
+    }
 
     return true;
 }

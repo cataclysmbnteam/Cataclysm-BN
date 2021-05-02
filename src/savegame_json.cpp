@@ -2976,9 +2976,6 @@ void Creature::store( JsonOut &jsout ) const
     jsout.member( "block_bonus", block_bonus );
     jsout.member( "hit_bonus", hit_bonus );
 
-    jsout.member( "grab_resist", grab_resist );
-    jsout.member( "throw_resist", throw_resist );
-
     // fake is not stored, it's temporary anyway, only used to fire with a gun.
 }
 
@@ -3032,9 +3029,6 @@ void Creature::load( const JsonObject &jsin )
     jsin.read( "dodge_bonus", dodge_bonus );
     jsin.read( "block_bonus", block_bonus );
     jsin.read( "hit_bonus", hit_bonus );
-
-    jsin.read( "grab_resist", grab_resist );
-    jsin.read( "throw_resist", throw_resist );
 
     jsin.read( "underwater", underwater );
 

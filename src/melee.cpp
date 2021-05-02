@@ -1358,12 +1358,10 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
     move_cost += technique.move_cost_penalty( *this );
 
     if( technique.down_dur > 0 ) {
-        if( t.get_throw_resist() == 0 ) {
-            t.add_effect( effect_downed, rng( 1_turns, time_duration::from_turns( technique.down_dur ) ) );
-            auto &bash = get_damage_unit( di.damage_units, DT_BASH );
-            if( bash.amount > 0 ) {
-                bash.amount += 3;
-            }
+        t.add_effect( effect_downed, rng( 1_turns, time_duration::from_turns( technique.down_dur ) ) );
+        auto &bash = get_damage_unit( di.damage_units, DT_BASH );
+        if( bash.amount > 0 ) {
+            bash.amount += 3;
         }
     }
 

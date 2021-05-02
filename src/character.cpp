@@ -8158,8 +8158,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
             !source->has_effect( effect_grabbing ) ) {
             /** @EFFECT_DEX increases chance to avoid being grabbed */
 
-            if( has_grab_break_tec() && get_grab_resist() > 0 &&
-                ( rng( 0, get_dex() )  > rng( 0, 10 ) ) ) {
+            if( has_grab_break_tec() && ( rng( 0, get_dex() )  > rng( 0, 10 ) ) ) {
                 if( has_effect( effect_grabbed ) ) {
                     add_msg_if_player( m_warning, _( "The %s tries to grab you as well, but you bat it away!" ),
                                        source->disp_name() );

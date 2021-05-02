@@ -470,9 +470,7 @@ class Creature
         virtual float get_dodge_bonus() const;
         virtual float get_hit_bonus() const;
 
-        virtual int get_grab_resist() const;
         virtual bool has_grab_break_tec() const = 0;
-        virtual int get_throw_resist() const;
 
         /*
          * Setters for stats and bonuses
@@ -497,9 +495,6 @@ class Creature
 
         virtual void mod_dodge_bonus( float ndodge );
         virtual void mod_hit_bonus( float  nhit );
-
-        virtual void set_grab_resist( int ngrabres );
-        virtual void set_throw_resist( int nthrowres );
 
         virtual units::mass weight_capacity() const;
 
@@ -758,9 +753,6 @@ class Creature
         float dodge_bonus;
         int block_bonus;
         float hit_bonus;
-
-        int grab_resist;
-        int throw_resist;
 
         bool fake;
         Creature();
