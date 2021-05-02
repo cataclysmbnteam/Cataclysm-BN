@@ -32,22 +32,18 @@ target_include_directories(
     ${LLVM_INCLUDE_DIRS} ${CLANG_INCLUDE_DIRS})
 
 if ("${CATA_CLANG_TIDY_INCLUDE_DIR}" STREQUAL "")
-    SET(ctps_releases
-        https://github.com/jbytheway/clang-tidy-plugin-support/releases/download)
-    SET(ctps_version llvm-8.0.1-r12)
-    SET(ctps_src
-        ${CMAKE_CURRENT_BINARY_DIR}/clang-tidy-plugin-support)
+    set(CTPS_RELEASES https://github.com/jbytheway/clang-tidy-plugin-support/releases/download)
+    set(CTPS_VERSION llvm11.1.0-r4)
+    set(CTPS_SRC ${CMAKE_CURRENT_BINARY_DIR}/clang-tidy-plugin-support)
 
-    ExternalProject_Add(
-        clang-tidy-plugin-support
-        URL ${ctps_releases}/${ctps_version}/clang-tidy-plugin-support-${ctps_version}.tar.xz
-        URL_HASH SHA256=00ffab0df11250f394830735514c62ae787bd2eb6eb9d5e97471206d270c54e2
-        SOURCE_DIR ${ctps_src}
-        CONFIGURE_COMMAND ""
-        BUILD_COMMAND ""
-        INSTALL_COMMAND ""
-        TEST_COMMAND ""
-    )
+    ExternalProject_Add(clang-tidy-plugin-support
+            URL ${CTPS_RELEASES}/${CTPS_VERSION}/clang-tidy-plugin-support-${CTPS_VERSION}.tar.xz
+            URL_HASH SHA256=718c7a5bed9694ed3aa8e0cf629bdcfa304e12a995de56b9204bc8ab2af6a4aa
+            SOURCE_DIR ${CTPS_SRC}
+            CONFIGURE_COMMAND ""
+            BUILD_COMMAND ""
+            INSTALL_COMMAND ""
+            TEST_COMMAND "")
 
     add_dependencies(CataAnalyzerPlugin clang-tidy-plugin-support)
     target_include_directories(
