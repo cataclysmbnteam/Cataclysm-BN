@@ -1642,14 +1642,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "central_lab_entrance",
-    "copy-from": "central_lab_entrance",
-    "name": "forest",
-    "sym": "#",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "bunker",
     "copy-from": "bunker",
     "name": "military bunker",
