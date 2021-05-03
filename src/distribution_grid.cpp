@@ -177,13 +177,6 @@ distribution_grid &distribution_grid_tracker::make_distribution_grid_at( const t
     }
     shared_ptr_fast<distribution_grid> dist_grid = make_shared_fast<distribution_grid>
             ( submap_positions, mb );
-    if( dist_grid->empty() ) {
-        for( const tripoint &smp : submap_positions ) {
-            parent_distribution_grids.erase( smp );
-        }
-
-        return empty_grid;
-    }
     for( const tripoint &smp : submap_positions ) {
         parent_distribution_grids[smp] = dist_grid;
     }
