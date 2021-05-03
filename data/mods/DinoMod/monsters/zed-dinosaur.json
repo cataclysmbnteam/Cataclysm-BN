@@ -227,6 +227,16 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zyrannosaurus_chain",
+    "//": "Special monster for Old Guard questline",
+    "name": { "str": "chained Tyrannosaurus zombie" },
+    "copy-from": "mon_zyrannosaurus",
+    "description": "A massive dinosaur corpse with enormous teeth wrapped with heavy chains to allow some control.",
+    "upgrades": {  },
+    "aggression": 0
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zallimimus",
     "name": { "str": "Gallimimus zombie" },
     "looks_like": "mon_gallimimus",
@@ -677,6 +687,17 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zachycephalosaurus_chain",
+    "//": "Special monster for Old Guard questline",
+    "name": { "str": "chained Pachycephalosaurus zombie" },
+    "copy-from": "mon_zachycephalosaurus",
+    "description": "A feathered dinosaur corpse with a domed head with heavy chains to allow some control.",
+    "upgrades": {  },
+    "aggression": 0,
+    "speed": 80
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zachyrhinosaurus",
     "name": { "str": "Pachyrhinosaurus zombie" },
     "copy-from": "mon_zriceratops",
@@ -841,6 +862,14 @@
       "FILTHY",
       "HIT_AND_RUN"
     ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zamargasaurus_juvenile",
+    "name": { "str": "juvenile sauropod zombie" },
+    "copy-from": "mon_zapatosaurus_juvenile",
+    "looks_like": "mon_apatosaurus",
+    "upgrades": { "half_life": 14, "into": "mon_zamargasaurus" }
   },
   {
     "type": "MONSTER",
