@@ -1996,22 +1996,38 @@ void monster::reset_stats()
 
 void monster::reset_special( const std::string &special_name )
 {
-    set_special( special_name, type->special_attacks.at( special_name )->cooldown );
+    const auto iter = type->special_attacks.find( special_name );
+    if( iter != type->special_attacks.end() ) {
+        set_special( special_name, iter->second->cooldown );
+    }
 }
 
 void monster::reset_special_rng( const std::string &special_name )
 {
-    set_special( special_name, rng( 0, type->special_attacks.at( special_name )->cooldown ) );
+    const auto iter = type->special_attacks.find( special_name );
+    if( iter != type->special_attacks.end() ) {
+        set_special( special_name, rng( 0, iter->second->cooldown ) );
+    }
 }
 
 void monster::set_special( const std::string &special_name, int time )
 {
-    special_attacks[ special_name ].cooldown = time;
+    const auto iter = special_attacks.find( special_name );
+    if( iter != special_attacks.end() ) {
+        iter->second.cooldown = time;
+    } else {
+        debugmsg( "%s has no special attack %s", disp_name().c_str(), special_name.c_str() );
+    }
 }
 
 void monster::disable_special( const std::string &special_name )
 {
-    special_attacks.at( special_name ).enabled = false;
+    const auto iter = special_attacks.find( special_name );
+    if( iter != special_attacks.end() ) {
+        iter->second.enabled = false;
+    } else {
+        debugmsg( "%s has no special attack %s", disp_name().c_str(), special_name.c_str() );
+    }
 }
 
 int monster::shortest_special_cooldown() const

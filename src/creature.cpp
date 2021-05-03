@@ -131,9 +131,6 @@ void Creature::reset_bonuses()
     dodge_bonus = 0;
     block_bonus = 0;
     hit_bonus = 0;
-
-    grab_resist = 0;
-    throw_resist = 0;
 }
 
 void Creature::process_turn()
@@ -1440,15 +1437,6 @@ float Creature::get_hit_bonus() const
 {
     return hit_bonus; //base is 0
 }
-int Creature::get_grab_resist() const
-{
-    return grab_resist;
-}
-
-int Creature::get_throw_resist() const
-{
-    return throw_resist;
-}
 
 void Creature::mod_stat( const std::string &stat, float modifier )
 {
@@ -1523,15 +1511,6 @@ void Creature::mod_block_bonus( int nblock )
 void Creature::mod_hit_bonus( float nhit )
 {
     hit_bonus += nhit;
-}
-
-void Creature::set_grab_resist( int ngrabres )
-{
-    grab_resist = ngrabres;
-}
-void Creature::set_throw_resist( int nthrowres )
-{
-    throw_resist = nthrowres;
 }
 
 units::mass Creature::weight_capacity() const
