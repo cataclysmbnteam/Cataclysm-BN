@@ -272,7 +272,7 @@ void replace_name_tags( std::string &input )
 
 void replace_city_tag( std::string &input, const std::string &name )
 {
-    replace_all( input, "<city>", name );
+    input = replace_all( input, "<city>", name );
 }
 
 void replace_first( std::string &input, const std::string &what, const std::string &with )

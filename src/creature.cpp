@@ -1643,8 +1643,7 @@ const std::pair<translation, nc_color> &Creature::get_attitude_ui_data( Attitude
 
 std::string Creature::replace_with_npc_name( std::string input ) const
 {
-    replace_all( input, "<npcname>", disp_name() );
-    return input;
+    return replace_all( std::move( input ), "<npcname>", disp_name() );
 }
 
 void Creature::knock_back_from( const tripoint &p )
