@@ -119,17 +119,10 @@ void PATH_INFO::set_standard_filenames()
 std::string find_translated_file( const std::string &base_path, const std::string &extension,
                                   const std::string &fallback )
 {
-    std::string lang = get_language().id;
+    std::vector<std::string> opts = get_lang_path_substring( get_language().id );
 
-    // complete locale: en_NZ
-    const std::string local_path = base_path + lang + extension;
-    if( file_exist( local_path ) ) {
-        return local_path;
-    }
-    const size_t p = lang.find( '_' );
-    if( p != std::string::npos ) {
-        // only the first part: en
-        const std::string local_path = base_path + lang.substr( 0, p ) + extension;
+    for( const std::string &s : opts ) {
+        const std::string local_path = base_path + s + extension;
         if( file_exist( local_path ) ) {
             return local_path;
         }
@@ -137,6 +130,7 @@ std::string find_translated_file( const std::string &base_path, const std::strin
 
     return fallback;
 }
+
 std::string PATH_INFO::autopickup()
 {
     return autopickup_value;
