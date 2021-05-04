@@ -134,24 +134,36 @@ TEST_CASE( "translations_actually_translate", "[translations][i18n]" )
 
     // Back up current language (should be 'en')
     const static std::string USE_LANG( "USE_LANG" );
+    const static std::string MODULAR( "MODULAR_TRANSLATIONS" );
     std::string lang_default = get_option<std::string>( USE_LANG );
+    bool modular_default = get_option<bool>( MODULAR );
 
-    for( const auto &test : test_cases ) {
-        CAPTURE( test.first );
+    const auto test_system = [&]( const std::string modular ) {
+        for( const auto &test : test_cases ) {
+            CAPTURE( modular );
+            CAPTURE( test.first );
 
-        get_options().get_option( USE_LANG ).setValue( test.first );
-        get_options().save();
-        CHECK( get_option<std::string>( USE_LANG ) == test.first );
+            get_options().get_option( USE_LANG ).setValue( test.first );
+            get_options().get_option( MODULAR ).setValue( modular );
+            get_options().save();
+            CHECK( get_option<std::string>( USE_LANG ) == test.first );
 
-        set_language();
+            set_language();
 
-        // Should return translated string (or original/same string for English)
-        const char *translated = pgettext( test_msgctx, test_msgid );
-        CHECK( test.second == translated );
-    }
+            // Should return translated string (or original/same string for English)
+            const char *translated = pgettext( test_msgctx, test_msgid );
+            CHECK( test.second == translated );
+        }
+    };
+
+    // Test GNU libintl
+    test_system( "False" );
+    // Test cata_libintl
+    test_system( "True" );
 
     // Restore language
     get_options().get_option( USE_LANG ).setValue( lang_default );
+    get_options().get_option( MODULAR ).setValue( modular_default ? "True" : "False" );
     get_options().save();
     set_language();
 }
