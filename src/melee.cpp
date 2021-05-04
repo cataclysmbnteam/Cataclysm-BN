@@ -1687,30 +1687,33 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
         blocked_ratio = ( total_damage - damage_blocked ) / total_damage;
     }
     if( blocked_ratio < std::numeric_limits<float>::epsilon() ) {
-        //~ Adjective in "You block <adjective> of the damage with your <weapon>.
-        damage_blocked_description = _( "all" );
+        //~ Damage amount in "You block <damage amount> with your <weapon>."
+        damage_blocked_description = pgettext( "block amount", "all of the damage" );
     } else if( blocked_ratio < 0.2 ) {
-        //~ Adjective in "You block <adjective> of the damage with your <weapon>.
-        damage_blocked_description = _( "nearly all" );
+        //~ Damage amount in "You block <damage amount> with your <weapon>."
+        damage_blocked_description = pgettext( "block amount", "nearly all of the damage" );
     } else if( blocked_ratio < 0.4 ) {
-        //~ Adjective in "You block <adjective> of the damage with your <weapon>.
-        damage_blocked_description = _( "most" );
+        //~ Damage amount in "You block <damage amount> with your <weapon>."
+        damage_blocked_description = pgettext( "block amount", "most of the damage" );
     } else if( blocked_ratio < 0.6 ) {
-        //~ Adjective in "You block <adjective> of the damage with your <weapon>.
-        damage_blocked_description = _( "a lot" );
+        //~ Damage amount in "You block <damage amount> with your <weapon>."
+        damage_blocked_description = pgettext( "block amount", "a lot of the damage" );
     } else if( blocked_ratio < 0.8 ) {
-        //~ Adjective in "You block <adjective> of the damage with your <weapon>.
-        damage_blocked_description = _( "some" );
+        //~ Damage amount in "You block <damage amount> with your <weapon>."
+        damage_blocked_description = pgettext( "block amount", "some of the damage" );
     } else if( blocked_ratio > std::numeric_limits<float>::epsilon() ) {
-        //~ Adjective in "You block <adjective> of the damage with your <weapon>.
-        damage_blocked_description = _( "a little" );
+        //~ Damage amount in "You block <damage amount> with your <weapon>."
+        damage_blocked_description = pgettext( "block amount", "a little of the damage" );
     } else {
-        //~ Adjective in "You block <adjective> of the damage with your <weapon>.
-        damage_blocked_description = _( "none" );
+        //~ Damage amount in "You block <damage amount> with your <weapon>."
+        damage_blocked_description = pgettext( "block amount", "none of the damage" );
     }
-    add_msg_player_or_npc( _( "You block %1$s of the damage with your %2$s!" ),
-                           _( "<npcname> blocks %1$s of the damage with their %2$s!" ),
-                           damage_blocked_description, thing_blocked_with );
+    add_msg_player_or_npc(
+        //~ %1$s is damage amount string (e.g. "most of the damage"), %2$s is weapon name
+        _( "You block %1$s with your %2$s!" ),
+        //~ %1$s is damage amount string (e.g. "most of the damage"), %2$s is weapon name
+        _( "<npcname> blocks %1$s with their %2$s!" ),
+        damage_blocked_description, thing_blocked_with );
 
     // fire martial arts block-triggered effects
     martial_arts_data.ma_onblock_effects( *this );
