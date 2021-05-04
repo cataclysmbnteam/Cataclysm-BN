@@ -1989,6 +1989,11 @@ void options_manager::add_options_debug()
          translate_marker( "If true, enables somewhat unfinished electric grid system that may slow the game down." ),
          true
        );
+
+    add( "MODULAR_TRANSLATIONS", "debug", translate_marker( "Modular translation testing" ),
+         translate_marker( "If true, enables experimental translation system that allows mods to ship their own translation files." ),
+         false
+       );
 }
 
 void options_manager::add_options_world_default()
@@ -2842,7 +2847,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             } else if( iter.first == "TILES" || iter.first == "USE_TILES" ) {
                 used_tiles_changed = true;
 
-            } else if( iter.first == "USE_LANG" ) {
+            } else if( iter.first == "USE_LANG" || iter.first == "MODULAR_TRANSLATIONS" ) {
                 lang_changed = true;
 
             } else if( iter.first == "TERMINAL_X" || iter.first == "TERMINAL_Y" ) {

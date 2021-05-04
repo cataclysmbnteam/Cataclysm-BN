@@ -5,6 +5,9 @@
 #include <string>
 #include <vector>
 
+/** For experimental translations system. */
+extern bool gettext_use_modular;
+
 /**
  * Contains information on a language supported by the game.
  *
