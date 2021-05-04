@@ -8,7 +8,7 @@
 #include "options_helpers.h"
 #include "translations.h"
 
-TEST_CASE( "utf8_width", "[catacharset]" )
+TEST_CASE( "utf8_width", "[catacharset][i18n]" )
 {
     CHECK( utf8_width( "Hello, world!", false ) == 13 );
     CHECK( utf8_width( "你好，世界！", false ) == 12 );
@@ -20,7 +20,7 @@ TEST_CASE( "utf8_width", "[catacharset]" )
     CHECK( utf8_width( "à̸̠你⃫", false ) == 3 );
 }
 
-TEST_CASE( "utf8_display_split", "[catacharset]" )
+TEST_CASE( "utf8_display_split", "[catacharset][i18n]" )
 {
     CHECK( utf8_display_split( "你好" ) == std::vector<std::string> { "你", "好" } );
     CHECK( utf8_display_split( "à" ) == std::vector<std::string> { "à" } );
@@ -35,7 +35,7 @@ TEST_CASE( "base64", "[catacharset]" )
     CHECK( base64_decode( "#aGVsbG8=" ) == "hello" );
 }
 
-TEST_CASE( "utf8_to_wstr", "[catacharset]" )
+TEST_CASE( "utf8_to_wstr", "[catacharset][i18n]" )
 {
     if( !try_set_utf8_locale() ) {
         // On platforms where we can't set the locale, ignore this test
@@ -47,7 +47,7 @@ TEST_CASE( "utf8_to_wstr", "[catacharset]" )
     CHECK( utf8_to_wstr( src ) == dest );
 }
 
-TEST_CASE( "wstr_to_utf8", "[catacharset]" )
+TEST_CASE( "wstr_to_utf8", "[catacharset][i18n]" )
 {
     if( !try_set_utf8_locale() ) {
         // On platforms where we can't set the locale, ignore this test
@@ -59,7 +59,7 @@ TEST_CASE( "wstr_to_utf8", "[catacharset]" )
     CHECK( wstr_to_utf8( src ) == dest );
 }
 
-TEST_CASE( "localized_compare", "[catacharset]" )
+TEST_CASE( "localized_compare", "[catacharset][i18n]" )
 {
     if( !try_set_utf8_locale() ) {
         // On platforms where we can't set the locale, ignore this test
