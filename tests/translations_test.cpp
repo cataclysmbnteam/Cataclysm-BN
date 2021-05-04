@@ -102,8 +102,8 @@ TEST_CASE( "translations_macro_char_address_translated", "[.][translations][i18n
 TEST_CASE( "translations_actually_translate", "[translations][i18n]" )
 {
     const std::vector<std::pair<std::string, std::string>> test_cases = {{
-            { "en", "Play <N|n>ow!" },
-            { "fr", "Jouer <M|m>aintenant!" },
+            { "en_US", "Play <N|n>ow!" },
+            { "fr_FR", "Jouer <M|m>aintenant!" },
             { "ru_RU", "Сразу в игру!" },
         }
     };
