@@ -1463,7 +1463,7 @@ std::vector<skill_id> npc::skills_offered_to( const player &p ) const
 
 std::vector<matype_id> npc::styles_offered_to( const player &p ) const
 {
-    return p.martial_arts_data.get_unknown_styles( martial_arts_data );
+    return p.martial_arts_data->get_unknown_styles( *martial_arts_data );
 }
 
 void npc::decide_needs()

@@ -469,7 +469,7 @@ bool Character::activate_bionic( int b, bool eff_only )
     } else if( bio.id == bio_cqb ) {
         add_msg_activate();
         const avatar *you = as_avatar();
-        if( you && !martial_arts_data.pick_style( *you ) ) {
+        if( you && !martial_arts_data->pick_style( *you ) ) {
             bio.powered = false;
             add_msg_if_player( m_info, _( "You change your mind and turn it off." ) );
             return false;
@@ -999,7 +999,7 @@ bool Character::deactivate_bionic( int b, bool eff_only )
             invalidate_crafting_inventory();
         }
     } else if( bio.id == bio_cqb ) {
-        martial_arts_data.selected_style_check();
+        martial_arts_data->selected_style_check();
     } else if( bio.id == bio_remote ) {
         if( g->remoteveh() != nullptr && !has_active_item( "remotevehcontrol" ) ) {
             g->setremoteveh( nullptr );

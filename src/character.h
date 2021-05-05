@@ -23,7 +23,6 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "character_id.h"
-#include "character_martial_arts.h"
 #include "color.h"
 #include "creature.h"
 #include "cursesdef.h"
@@ -55,6 +54,7 @@ class JsonOut;
 class SkillLevel;
 class SkillLevelMap;
 class bionic_collection;
+class character_martial_arts;
 class faction;
 class ma_technique;
 class known_magic;
@@ -919,9 +919,7 @@ class Character : public Creature, public visitable<Character>
         /** Returns true if the player has any martial arts buffs attached */
         bool has_mabuff( const mabuff_id &buff_id ) const;
         /** Returns true if the player has a grab breaking technique available */
-        bool has_grab_break_tec() const override {
-            return martial_arts_data.has_grab_break_tec();
-        }
+        bool has_grab_break_tec() const override;
 
         /** Returns the to hit bonus from martial arts buffs */
         float mabuff_tohit_bonus() const;
@@ -1599,7 +1597,7 @@ class Character : public Creature, public visitable<Character>
 
         int scent;
         pimpl<bionic_collection> my_bionics;
-        character_martial_arts martial_arts_data;
+        pimpl<character_martial_arts> martial_arts_data;
 
         stomach_contents stomach;
         std::list<consumption_event> consumption_history;
