@@ -18,7 +18,6 @@
 #include "character.h"
 #include "character_id.h"
 #include "color.h"
-#include "craft_command.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "enums.h"
@@ -33,6 +32,7 @@
 #include "type_id.h"
 
 class basecamp;
+class craft_command;
 class effect;
 class faction;
 class inventory;

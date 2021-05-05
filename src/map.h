@@ -326,10 +326,11 @@ class map
     public:
         // Constructors & Initialization
         map( int mapsize = MAPSIZE, bool zlev = false );
-        map( bool zlev ) : map( MAPSIZE, zlev ) { }
+        explicit map( bool zlev ) : map( MAPSIZE, zlev ) { }
         virtual ~map();
 
-        map &operator=( map && ) = default;
+        map &operator=( const map & ) = delete;
+        map &operator=( map && );
 
         /**
          * Sets a dirty flag on the a given cache.

@@ -14,7 +14,6 @@
 #include <vector>
 
 #include "calendar.h"
-#include "craft_command.h"
 #include "enums.h"
 #include "flat_set.h"
 #include "gun_mode.h"
@@ -47,6 +46,9 @@ class relic;
 struct islot_comestible;
 struct itype;
 struct item_comp;
+template<typename CompType>
+struct comp_selection;
+struct tool_comp;
 struct mtype;
 struct tripoint;
 template<typename T>

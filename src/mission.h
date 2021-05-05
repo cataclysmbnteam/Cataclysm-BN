@@ -12,7 +12,6 @@
 #include "character_id.h"
 #include "enums.h"
 #include "game_constants.h"
-#include "mtype.h"
 #include "npc_favor.h"
 #include "omdata.h"
 #include "optional.h"

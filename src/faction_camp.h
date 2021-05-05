@@ -6,8 +6,6 @@
 #include <vector>
 #include <utility>
 
-#include "basecamp.h"
-
 namespace catacurses
 {
 class window;
@@ -16,6 +14,10 @@ class npc;
 struct point;
 struct tripoint;
 struct mission_entry;
+namespace base_camps
+{
+enum tab_mode : int;
+};
 
 enum class farm_ops {
     plow = 1,

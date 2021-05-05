@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "craft_command.h"
 #include "map.h"
 #include "player.h"
 #include "veh_type.h"

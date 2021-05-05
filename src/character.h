@@ -36,7 +36,6 @@
 #include "item.h"
 #include "item_location.h"
 #include "memory_fast.h"
-#include "mtype.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player_activity.h"
