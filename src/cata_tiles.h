@@ -282,7 +282,7 @@ class idle_animation_manager
             return enabled_;
         }
 
-        /** Current frame (0..59) */
+        /** Current animation frame (increments by approx. 60 per second) */
         inline int current_frame() const {
             return frame;
         }
