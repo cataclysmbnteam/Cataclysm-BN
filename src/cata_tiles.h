@@ -261,6 +261,43 @@ struct formatted_text {
     formatted_text( const std::string &text, int color, direction text_direction );
 };
 
+class idle_animation_manager
+{
+    private:
+        int frame = 0;
+        bool enabled_ = false;
+        bool present_ = false;
+
+    public:
+        /** Set whether idle animations are enabled. */
+        inline void set_enabled( bool enabled ) {
+            enabled_ = enabled;
+        }
+
+        /** Prepare for redraw (clear cache, advance frame) */
+        void prepare_for_redraw();
+
+        /** Whether idle animations are enabled */
+        inline bool enabled() const {
+            return enabled_;
+        }
+
+        /** Current frame (0..59) */
+        inline int current_frame() const {
+            return frame;
+        }
+
+        /** Mark presence of an idle animation on screen */
+        inline void mark_present() {
+            present_ = true;
+        }
+
+        /** Whether there are idle animations on screen */
+        inline bool present() const {
+            return present_;
+        }
+};
+
 /** type used for color blocks overlays.
  * first: The SDL blend mode used for the color.
  * second:
@@ -286,6 +323,8 @@ class cata_tiles
         void draw( const point &dest, const tripoint &center, int width, int height,
                    std::multimap<point, formatted_text> &overlay_strings,
                    color_block_overlay_container &color_blocks );
+
+        bool terrain_requires_animation() const;
 
         /** Minimap functionality */
         void draw_minimap( const point &dest, const tripoint &center, int width, int height );
@@ -516,6 +555,8 @@ class cata_tiles
         int screentile_height = 0;
         float tile_ratiox = 0.0f;
         float tile_ratioy = 0.0f;
+
+        idle_animation_manager idle_animations;
 
         bool in_animation = false;
 

@@ -998,3 +998,12 @@ bool minimap_requires_animation()
     return false;
 #endif // TILES
 }
+
+bool terrain_requires_animation()
+{
+#if defined(TILES)
+    return tilecontext->terrain_requires_animation();
+#else
+    return false;
+#endif // TILES
+}
