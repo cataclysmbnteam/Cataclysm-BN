@@ -1920,6 +1920,12 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
     // translate from player-relative to screen relative tile position
     const point screen_pos = player_to_screen( pos.xy() );
 
+    bool has_variations = display_tile.fg.size() > 1 || display_tile.bg.size() > 1;
+    bool variations_enabled = !display_tile.animated || idle_animations.enabled();
+    // with animated tiles, seed is used for stagger
+    bool seed_for_animation = has_variations && variations_enabled && display_tile.animated;
+    bool seed_from_map_coords = false;
+
     // seed the PRNG to get a reproducible random int
     // TODO: faster solution here
     unsigned int seed = 0;
@@ -1929,7 +1935,7 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
         case C_FIELD:
         case C_LIGHTING:
             // stationary map tiles, seed based on map coordinates
-            seed = g->m.getabs( pos ).x + g->m.getabs( pos ).y * 65536;
+            seed_from_map_coords = true;
             break;
         case C_VEHICLE_PART:
             // vehicle parts, seed based on coordinates within the vehicle
@@ -1973,6 +1979,11 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
         break;
         case C_ITEM:
         case C_TRAP:
+            if( seed_for_animation ) {
+                seed_from_map_coords = true;
+            }
+            // TODO: come up with ways to make random sprites consistent for these types
+            break;
         case C_NONE:
         case C_BULLET:
         case C_HIT_ENTITY:
@@ -2008,9 +2019,10 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
     unsigned int loc_rand = 0;
     // only bother mixing up a hash/random value if the tile has some sprites to randomly pick between
     // or has an idle animation and idle animations are enabled
-    bool has_variations = display_tile.fg.size() > 1 || display_tile.bg.size() > 1;
-    bool variations_enabled = !display_tile.animated || idle_animations.enabled();
     if( has_variations && variations_enabled ) {
+        if( seed_from_map_coords ) {
+            seed = g->m.getabs( pos ).x + g->m.getabs( pos ).y * 65536;
+        }
         static const auto rot32 = []( const unsigned int x, const int k ) {
             return ( x << k ) | ( x >> ( 32 - k ) );
         };
