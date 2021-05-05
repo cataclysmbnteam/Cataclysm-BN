@@ -2259,29 +2259,29 @@ void hflesh_to_flesh( itype &item_template )
 
 void Item_factory::npc_implied_flags( itype &item_template )
 {
-    if( item_template.use_methods.count( "explosion" ) > 0 ) {
+    if( item_template.use_methods.count( "explosion" ) ) {
         item_template.item_tags.insert( "DANGEROUS" );
     }
 
-    if( item_template.has_flag( "DANGEROUS" ) > 0 ) {
+    if( item_template.has_flag( "DANGEROUS" ) ) {
         item_template.item_tags.insert( "NPC_THROW_NOW" );
     }
 
-    if( item_template.has_flag( "BOMB" ) > 0 ) {
+    if( item_template.has_flag( "BOMB" ) ) {
         item_template.item_tags.insert( "NPC_ACTIVATE" );
     }
 
-    if( item_template.has_flag( "NPC_THROW_NOW" ) > 0 ) {
+    if( item_template.has_flag( "NPC_THROW_NOW" ) ) {
         item_template.item_tags.insert( "NPC_THROWN" );
     }
 
-    if( item_template.has_flag( "NPC_ACTIVATE" ) > 0 ||
-        item_template.has_flag( "NPC_THROWN" ) > 0 ) {
+    if( item_template.has_flag( "NPC_ACTIVATE" ) ||
+        item_template.has_flag( "NPC_THROWN" ) ) {
         item_template.item_tags.insert( "NPC_ALT_ATTACK" );
     }
 
-    if( item_template.has_flag( "DANGEROUS" ) > 0 ||
-        item_template.has_flag( "PSEUDO" ) > 0 ) {
+    if( item_template.has_flag( "DANGEROUS" ) ||
+        item_template.has_flag( "PSEUDO" ) ) {
         item_template.item_tags.insert( "TRADER_AVOID" );
     }
 }
