@@ -17,7 +17,7 @@ struct mission_entry;
 namespace base_camps
 {
 enum tab_mode : int;
-};
+}
 
 enum class farm_ops {
     plow = 1,
