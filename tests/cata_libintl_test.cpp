@@ -603,40 +603,6 @@ TEST_CASE( "load_all_base_game_mos", "[libintl][i18n]" )
     }
 }
 
-static std::string fmt_duration( int64_t ns )
-{
-    if( ns > 1'000'000 ) {
-        return string_format( "%.3f ms", static_cast<float>( ns ) / 1'000'000.0f );
-    } else if( ns > 1'000 ) {
-        return string_format( "%.3f mcs", static_cast<float>( ns ) / 1'000.0f );
-    } else {
-        return string_format( "%d ns", ns );
-    }
-}
-
-static void do_single_bench( const size_t iterations, const std::string &descr,
-                             std::function<void()> func )
-{
-    // Warm-up
-    func();
-
-    // Actual bench
-    auto start = std::chrono::steady_clock::now();
-    for( size_t i = 0; i < iterations; i++ ) {
-        func();
-    }
-    auto end = std::chrono::steady_clock::now();
-    auto dur = end - start;
-
-    int64_t ns = std::chrono::duration_cast<std::chrono::nanoseconds>( dur ).count();
-
-    cata_printf( "--- Bench report ---\n" );
-    cata_printf( " Discription:  %s\n", descr );
-    cata_printf( " Iterations:   %d\n", iterations );
-    cata_printf( " Time (total): %s\n", fmt_duration( ns ) );
-    cata_printf( " Time (avg):   %s\n", fmt_duration( ns / static_cast<int64_t>( iterations ) ) );
-}
-
 static std::string get_bench_file()
 {
     // Using Russian here because it's the largest one
@@ -651,7 +617,7 @@ static std::string get_bench_file()
 }
 
 // Measure how long it takes to find all strings in a MO file
-TEST_CASE( "bench_get_translated_string", "[libintl][i18n][.]" )
+TEST_CASE( "bench_get_translated_string", "[libintl][i18n][benchmark][.]" )
 {
     std::string data = get_bench_file();
     if( data.empty() ) {
@@ -672,50 +638,53 @@ TEST_CASE( "bench_get_translated_string", "[libintl][i18n][.]" )
     std::mt19937 g( rd() );
     std::shuffle( originals.begin(), originals.end(), g );
 
-    const auto run_once = [&]() {
+    cata_printf( "N strings: %d\n", originals.size() );
+    BENCHMARK( "get_all_strings" ) {
         for( const std::string &s : originals ) {
-            lib.get( s.c_str() );
+            volatile const char *res = lib.get( s.c_str() );
+            ( void )res;
         }
     };
-
-    do_single_bench( 100, string_format( "get %d strings", originals.size() ), run_once );
 }
 
 // Measure how long it takes to parse single MO file
-TEST_CASE( "bench_parse_mo", "[libintl][i18n][.]" )
+TEST_CASE( "bench_parse_mo", "[libintl][i18n][benchmark][.]" )
 {
     std::string data = get_bench_file();
     if( data.empty() ) {
         return;
     }
 
-    const auto run_once = [&]() {
-        trans_catalogue::load_from_memory( data );
+    int n_strings = trans_catalogue::load_from_memory( data ).get_num_strings();
+
+    cata_printf( "File size: %d bytes\n", data.size() );
+    cata_printf( "N strings: %d\n", n_strings );
+    BENCHMARK( "parse MO" ) {
+        volatile trans_catalogue res = trans_catalogue::load_from_memory( data );
+        ( void )res;
     };
-
-    int n = trans_catalogue::load_from_memory( data ).get_num_strings();
-
-    do_single_bench( 100, string_format( "parse MO file (%d bytes, %d strings)", data.size(), n ),
-                     run_once );
 }
 
 // Measure how long it takes to parse single MO file + assemble library
-TEST_CASE( "bench_asssemble_trans_lib", "[libintl][i18n][.]" )
+TEST_CASE( "bench_asssemble_trans_lib", "[libintl][i18n][benchmark][.]" )
 {
     std::string data = get_bench_file();
     if( data.empty() ) {
         return;
     }
 
-    const auto run_once = [&]() {
+    int n_strings = trans_catalogue::load_from_memory( data ).get_num_strings();
+
+    cata_printf( "File size: %d bytes\n", data.size() );
+    cata_printf( "N strings: %d\n", n_strings );
+    BENCHMARK( "parse MO + assemble lib" ) {
+        // We must parse MO from scratch on each iteration because
+        // trans_library takes ownership of all trans_catalogues,
+        // and trans_catalogue cannot be copied
         std::vector<trans_catalogue> list;
         list.push_back( trans_catalogue::load_from_memory( data ) );
-        trans_library::create( std::move( list ) );
+        volatile trans_library res = trans_library::create( std::move( list ) );
+        ( void ) res;
     };
-
-    int n = trans_catalogue::load_from_memory( data ).get_num_strings();
-
-    do_single_bench( 100, string_format( "parse MO file (%d bytes, %d strings) + assemble lib",
-                                         data.size(), n ), run_once );
 }
 #endif // LOCALIZE
