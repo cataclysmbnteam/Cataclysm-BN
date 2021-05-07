@@ -87,17 +87,6 @@ class mod_manager
          * Clear @ref mod_map and delete @ref dependency_tree.
          */
         void clear();
-        /**
-         * Copy the json files of the listed mods into the
-         * given folder (output_base_path)
-         * @param mods_to_copy A list (of idents) of mods whose
-         * json data should be copied.
-         * @param output_base_path The folder where to put the copies.
-         * The function creates a sub folder for each mod and
-         * puts the files there. The original folder structure is
-         * retained.
-         */
-        bool copy_mod_contents( const t_mod_list &mods_to_copy, const std::string &output_base_path );
 
         /**
          * Save list of mods that are active in that world to
