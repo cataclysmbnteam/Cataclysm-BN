@@ -47,6 +47,7 @@
 #include "item.h"
 #include "item_group.h"
 #include "item_location.h"
+#include "language.h"
 #include "magic.h"
 #include "map.h"
 #include "map_extras.h"
@@ -156,6 +157,7 @@ enum debug_menu_index {
     DEBUG_TRAIT_GROUP,
     DEBUG_SHOW_MSG,
     DEBUG_CRASH_GAME,
+    DEBUG_RELOAD_TRANSLATIONS,
     DEBUG_MAP_EXTRA,
     DEBUG_DISPLAY_NPC_PATH,
     DEBUG_PRINT_FACTION_INFO,
@@ -247,6 +249,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( DEBUG_TRAIT_GROUP, true, 't', _( "Test trait group" ) ) },
             { uilist_entry( DEBUG_SHOW_MSG, true, 'd', _( "Show debug message" ) ) },
             { uilist_entry( DEBUG_CRASH_GAME, true, 'C', _( "Crash game (test crash handling)" ) ) },
+            { uilist_entry( DEBUG_RELOAD_TRANSLATIONS, true, 'L', _( "Reload translations" ) ) },
             { uilist_entry( DEBUG_DISPLAY_NPC_PATH, true, 'n', _( "Toggle NPC pathfinding on map" ) ) },
             { uilist_entry( DEBUG_PRINT_FACTION_INFO, true, 'f', _( "Print faction info to console" ) ) },
             { uilist_entry( DEBUG_PRINT_NPC_MAGIC, true, 'M', _( "Print NPC magic info to console" ) ) },
@@ -1766,6 +1769,11 @@ void debug()
             break;
         case DEBUG_CRASH_GAME:
             raise( SIGSEGV );
+            break;
+        case DEBUG_RELOAD_TRANSLATIONS:
+#if defined(LOCALIZE)
+            l10n_data::reload_catalogues();
+#endif
             break;
         case DEBUG_MAP_EXTRA: {
             std::unordered_map<std::string, map_extra_pointer> FM = MapExtras::all_functions();

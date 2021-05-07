@@ -15,6 +15,9 @@
 The official location for translating Cataclysm: BN is the
 [Transifex translations project][1].
 
+If you're looking for a way to translate mods not included
+in game repository, see [TRANSLATING_MODS.md](TRANSLATING_MODS.md).
+
 Some of the currently supported languages are:
 
 * Arabic

@@ -16,7 +16,7 @@
 #define TRANSLATE_TRANSLATION(msg) to_translation( msg ).translated()
 #endif
 
-TEST_CASE( "translations_sanity_test", "[translations]" )
+TEST_CASE( "translations_sanity_test", "[translations][i18n]" )
 {
     const std::string test_string = "__untranslated_test_string__";
 
@@ -26,7 +26,7 @@ TEST_CASE( "translations_sanity_test", "[translations]" )
 
 // assuming [en] language is used for this test
 // test should succeed both with and without the LOCALIZE
-TEST_CASE( "translations_macro_string_stability", "[translations]" )
+TEST_CASE( "translations_macro_string_stability", "[translations][i18n]" )
 {
     std::vector<std::string> test_strings;
 
@@ -51,7 +51,7 @@ TEST_CASE( "translations_macro_string_stability", "[translations]" )
 
 // assuming [en] language is used for this test
 // test should succeed both with and without the LOCALIZE
-TEST_CASE( "translations_macro_char_address", "[translations]" )
+TEST_CASE( "translations_macro_char_address", "[translations][i18n]" )
 {
     SECTION( "address should be same when translation is absent" ) {
         const char *test_string = "__untranslated_string1__";
@@ -80,7 +80,7 @@ TEST_CASE( "translations_macro_char_address", "[translations]" )
 // this test will only succeed when LOCALIZE is enabled
 // assuming [en] language is used for this test
 // requires .mo file for "en" language
-TEST_CASE( "translations_macro_char_address_translated", "[.][translations]" )
+TEST_CASE( "translations_macro_char_address_translated", "[.][translations][i18n]" )
 {
     if( !try_set_utf8_locale() ) {
         // On platforms where we can't set the locale, ignore this test
@@ -99,11 +99,11 @@ TEST_CASE( "translations_macro_char_address_translated", "[.][translations]" )
 
 // this test will only succeed when LOCALIZE is enabled
 // requires .mo files for languages listed below
-TEST_CASE( "translations_actually_translate", "[translations]" )
+TEST_CASE( "translations_actually_translate", "[translations][i18n]" )
 {
     const std::vector<std::pair<std::string, std::string>> test_cases = {{
-            { "en", "Play <N|n>ow!" },
-            { "fr", "Jouer <M|m>aintenant!" },
+            { "en_US", "Play <N|n>ow!" },
+            { "fr_FR", "Jouer <M|m>aintenant!" },
             { "ru_RU", "Сразу в игру!" },
         }
     };
@@ -134,24 +134,36 @@ TEST_CASE( "translations_actually_translate", "[translations]" )
 
     // Back up current language (should be 'en')
     const static std::string USE_LANG( "USE_LANG" );
+    const static std::string MODULAR( "MODULAR_TRANSLATIONS" );
     std::string lang_default = get_option<std::string>( USE_LANG );
+    bool modular_default = get_option<bool>( MODULAR );
 
-    for( const auto &test : test_cases ) {
-        CAPTURE( test.first );
+    const auto test_system = [&]( const std::string modular ) {
+        for( const auto &test : test_cases ) {
+            CAPTURE( modular );
+            CAPTURE( test.first );
 
-        get_options().get_option( USE_LANG ).setValue( test.first );
-        get_options().save();
-        CHECK( get_option<std::string>( USE_LANG ) == test.first );
+            get_options().get_option( USE_LANG ).setValue( test.first );
+            get_options().get_option( MODULAR ).setValue( modular );
+            get_options().save();
+            CHECK( get_option<std::string>( USE_LANG ) == test.first );
 
-        set_language();
+            set_language();
 
-        // Should return translated string (or original/same string for English)
-        const char *translated = pgettext( test_msgctx, test_msgid );
-        CHECK( test.second == translated );
-    }
+            // Should return translated string (or original/same string for English)
+            const char *translated = pgettext( test_msgctx, test_msgid );
+            CHECK( test.second == translated );
+        }
+    };
+
+    // Test GNU libintl
+    test_system( "False" );
+    // Test cata_libintl
+    test_system( "True" );
 
     // Restore language
     get_options().get_option( USE_LANG ).setValue( lang_default );
+    get_options().get_option( MODULAR ).setValue( modular_default ? "True" : "False" );
     get_options().save();
     set_language();
 }

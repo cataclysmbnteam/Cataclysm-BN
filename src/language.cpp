@@ -22,6 +22,7 @@
 
 #include "cached_options.h"
 #include "catacharset.h"
+#include "cata_libintl.h"
 #include "debug.h"
 #include "fstream_utils.h"
 #include "name.h"
@@ -33,6 +34,10 @@
 #if defined(LOCALIZE)
 #  include "json.h"
 #  include "ui_manager.h"
+#  include "filesystem.h"
+#  include "mod_manager.h"
+#  include "path_info.h"
+#  include "worldfactory.h"
 #endif
 
 std::string to_valid_language( const std::string &lang );
@@ -49,6 +54,8 @@ static language_info const *system_language = nullptr;
 // gettext should be using.
 // May be nullptr if language hasn't been set yet.
 static language_info const *current_language = nullptr;
+
+bool gettext_use_modular = false;
 
 static language_info fallback_language = { "en", R"(English)", "en_US.UTF-8", { "n" }, "", { 1033 } };
 
@@ -83,7 +90,7 @@ static void reload_names()
 // (DebugLog does not append newlines, so we have to do it ourselves).
 #define dbg(lvl, ...) \
     if (!test_mode || lvl & D_ERROR ) { \
-        DebugLog(lvl, D_MAIN) << string_format(__VA_ARGS__); \
+        DebugLog(lvl, D_MAIN) << string_format(__VA_ARGS__) << std::flush; \
     } else { \
         cata_printf(__VA_ARGS__); \
         cata_printf("\n"); \
@@ -215,6 +222,26 @@ void set_language()
     } else {
         current_language = get_lang_info( lang_opt );
     }
+
+    // Step 1.2 Decide which translation system we're using
+    if( get_option<bool>( "MODULAR_TRANSLATIONS" ) ) {
+        dbg( D_INFO, "[lang] Using experimental system, language set to '%s'", lang_opt );
+
+        gettext_use_modular = true;
+
+        // Step 2. Setup locale
+        update_global_locale();
+
+        // Step 3. Load translations for game and, possibly, mods
+        l10n_data::reload_catalogues();
+
+        // Step 4. Finalize
+        reload_names();
+        return;
+    }
+
+    gettext_use_modular = false;
+    l10n_data::unload_catalogues();
 
     // Step 2. Setup locale & environment variables.
     // By default, gettext uses current locale to determine which language to use.
@@ -448,6 +475,24 @@ void update_global_locale()
     dbg( D_INFO, "[lang] C++ locale set to '%s'", std::locale().name() );
 }
 
+std::vector<std::string> get_lang_path_substring( const std::string &lang_id )
+{
+    std::vector<std::string> ret;
+
+    const size_t p = lang_id.find( '_' );
+    if( p == std::string::npos ) {
+        // Dialect-agnostic id ('en', 'fr', 'de', etc.)
+        ret.push_back( lang_id );
+    } else {
+        // Id with dialect specified ('en_US', 'fr_FR', etc.)
+        // First try loading exact resource, then try dialect-agnostic resource.
+        std::string lang_only = lang_id.substr( 0, p );
+        ret.push_back( lang_id );
+        ret.push_back( lang_only );
+    }
+    return ret;
+}
+
 bool localized_comparator::operator()( const std::string &l, const std::string &r ) const
 {
     // We need different implementations on each platform.  MacOS seems to not
@@ -482,3 +527,114 @@ bool localized_comparator::operator()( const std::wstring &l, const std::wstring
     return std::locale()( l, r );
 #endif
 }
+
+// ==============================================================================================
+// Translation files management
+// ==============================================================================================
+
+#if defined(LOCALIZE)
+using cata_libintl::trans_library;
+using cata_libintl::trans_catalogue;
+
+namespace l10n_data
+{
+static trans_library trans_lib_singleton;
+const trans_library &get_library()
+{
+    return trans_lib_singleton;
+}
+
+static void set_library( trans_library lib )
+{
+    trans_lib_singleton = std::move( lib );
+    invalidate_translations();
+}
+
+static void add_cat_if_exists( std::vector<trans_catalogue> &list, const std::string &lang_id,
+                               const std::string &path_start, const std::string &path_end )
+{
+    std::vector<std::string> opts = get_lang_path_substring( lang_id );
+    for( const std::string &s : opts ) {
+        std::string path = path_start + s + path_end;
+        if( !file_exist( path ) ) {
+            continue;
+        }
+        try {
+            list.push_back( trans_catalogue::load_from_file( path ) );
+        } catch( const std::runtime_error &err ) {
+            debugmsg( "Failed to load translation catalogue '%s': %s", path, err.what() );
+        }
+        break;
+    }
+}
+
+static void add_base_catalogue( std::vector<trans_catalogue> &list, const std::string &lang_id )
+{
+    // TODO: split source code strings from data strings
+    //       and load data translations from separate file(s)
+    add_cat_if_exists( list, lang_id,
+                       PATH_INFO::base_path() + "lang/mo/",
+                       "/LC_MESSAGES/cataclysm-bn.mo"
+                     );
+}
+
+static bool add_mod_catalogues( std::vector<trans_catalogue> &list, const std::string &lang_id )
+{
+    if( !world_generator || !world_generator->active_world ) {
+        return false;
+    }
+
+    const std::vector<mod_id> &mods = world_generator->active_world->active_mod_order;
+    for( const mod_id &mod : mods ) {
+        add_cat_if_exists( list, lang_id, mod.obj().path + "/lang/", ".mo" );
+    }
+    return true;
+}
+
+void reload_catalogues()
+{
+    if( !gettext_use_modular ) {
+        return;
+    }
+
+    std::vector<trans_catalogue> list;
+    add_base_catalogue( list, get_language().id );
+    add_mod_catalogues( list, get_language().id );
+    set_library( trans_library::create( std::move( list ) ) );
+}
+
+static bool mod_catalogues_loaded = false;
+
+void unload_catalogues()
+{
+    mod_catalogues_loaded = false;
+    set_library( trans_library::create( {} ) );
+}
+
+void load_mod_catalogues()
+{
+    if( !gettext_use_modular ) {
+        return;
+    }
+
+    assert( !mod_catalogues_loaded );
+    std::vector<trans_catalogue> list;
+    add_base_catalogue( list, get_language().id );
+    mod_catalogues_loaded = add_mod_catalogues( list, get_language().id );
+    set_library( trans_library::create( std::move( list ) ) );
+}
+
+void unload_mod_catalogues()
+{
+    if( !gettext_use_modular || !mod_catalogues_loaded ) {
+        return;
+    }
+
+    mod_catalogues_loaded = false;
+    std::vector<trans_catalogue> list;
+    add_base_catalogue( list, get_language().id );
+    set_library( trans_library::create( std::move( list ) ) );
+}
+
+} // namespace l10n_data
+#endif // LOCALIZE

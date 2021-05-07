@@ -1,14 +1,14 @@
 [
   {
     "//": "See language.h for documentation",
-    "id": "en",
+    "id": "en_US",
     "name": "English",
     "locale": "en_US.UTF-8",
     "genders": [ "n" ],
     "lcids": [ 1033, 2057, 3081, 4105, 5129, 6153, 7177, 8201, 9225, 10249, 11273 ]
   },
   {
-    "id": "de",
+    "id": "de_DE",
     "name": "Deutsch",
     "locale": "de_DE.UTF-8",
     "genders": [  ],
@@ -49,35 +49,35 @@
     ]
   },
   {
-    "id": "fr",
+    "id": "fr_FR",
     "name": "Français",
     "locale": "fr_FR.UTF-8",
     "genders": [  ],
     "lcids": [ 1036, 2060, 3084, 4108, 5132 ]
   },
   {
-    "id": "hu",
+    "id": "hu_HU",
     "name": "Magyar",
     "locale": "hu_HU.UTF-8",
     "genders": [  ],
     "lcids": [ 1038 ]
   },
   {
-    "id": "ja",
+    "id": "ja_JP",
     "name": "日本語",
     "locale": "ja_JP.UTF-8",
     "genders": [  ],
     "lcids": [ 1041 ]
   },
   {
-    "id": "ko",
+    "id": "ko_KR",
     "name": "한국어",
     "locale": "ko_KR.UTF-8",
     "genders": [  ],
     "lcids": [ 1042 ]
   },
   {
-    "id": "pl",
+    "id": "pl_PL",
     "name": "Polski",
     "locale": "pl_PL.UTF-8",
     "genders": [  ],

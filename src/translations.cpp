@@ -3,6 +3,7 @@
 #include <algorithm>
 
 #include "cached_options.h"
+#include "cata_libintl.h"
 #include "catacharset.h"
 #include "json.h"
 #include "language.h"
@@ -33,17 +34,29 @@ void invalidate_translations()
 
 const char *detail::_translate_internal( const char *msg )
 {
+    if( gettext_use_modular ) {
+        return l10n_data::get_library().get( msg );
+    }
+
     // translated empty string in MO files contains metadata we don't want to return here
     return msg[0] == '\0' ? msg : gettext( msg );
 }
 
 const char *vgettext( const char *msgid, const char *msgid_plural, unsigned long n )
 {
+    if( gettext_use_modular ) {
+        return l10n_data::get_library().get_pl( msgid, msgid_plural, n );
+    }
+
     return ngettext( msgid, msgid_plural, n );
 }
 
 const char *pgettext( const char *context, const char *msgid )
 {
+    if( gettext_use_modular ) {
+        return l10n_data::get_library().get_ctx( context, msgid );
+    }
+
     // need to construct the string manually,
     // to correctly handle strings loaded from json.
     // could probably do this more efficiently without using std::string.
@@ -67,6 +80,10 @@ const char *pgettext( const char *context, const char *msgid )
 const char *vpgettext( const char *const context, const char *const msgid,
                        const char *const msgid_plural, const unsigned long long n )
 {
+    if( gettext_use_modular ) {
+        return l10n_data::get_library().get_ctx_pl( context, msgid, msgid_plural, n );
+    }
+
     const std::string context_id = std::string( context ) + '\004' + msgid;
     const char *const msg_ctxt_id = context_id.c_str();
 #if defined(__ANDROID__)
