@@ -6689,6 +6689,18 @@ void map::saven( const tripoint &grid )
 
     dbg( D_INFO ) << "map::saven abs: " << abs
                   << "  gridn: " << gridn;
+
+    // An edge case: restock_fruits relies on last_touched, so we must call it before save
+    if( season_of_year( calendar::turn ) != season_of_year( submap_to_save->last_touched ) ) {
+        const time_duration time_since_last_actualize = calendar::turn - submap_to_save->last_touched;
+        for( int x = 0; x < SEEX; x++ ) {
+            for( int y = 0; y < SEEY; y++ ) {
+                const tripoint pnt = sm_to_ms_copy( grid ) + point( x, y );
+                restock_fruits( pnt, time_since_last_actualize );
+            }
+        }
+    }
+
     submap_to_save->last_touched = calendar::turn;
     MAPBUFFER.add_submap( abs, submap_to_save );
 }
@@ -7174,12 +7186,6 @@ void map::actualize( const tripoint &grid )
             decay_cosmetic_fields( pnt, time_since_last_actualize );
         }
     }
-    /*
-        for( const auto &pr : tmpsub->active_furniture ) {
-            const tripoint pnt = sm_to_ms_copy( grid ) + pr.first;
-            pr.second->update( tmpsub->last_touched, calendar::turn, *this, pnt );
-        }
-    */
 
     // the last time we touched the submap, is right now.
     tmpsub->last_touched = calendar::turn;
