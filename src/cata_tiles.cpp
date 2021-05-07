@@ -181,6 +181,24 @@ formatted_text::formatted_text( const std::string &text, const int color,
     }
 }
 
+void idle_animation_manager::prepare_for_redraw()
+{
+    // Forget about animations from previous frame
+    present_ = false;
+
+    if( !enabled_ ) {
+        frame = 0;
+        return;
+    }
+
+    // Use system clock to keep steady frame rate
+    auto now = std::chrono::system_clock::now();
+    auto now_ms = std::chrono::time_point_cast<std::chrono::milliseconds>( now );
+    auto value = now_ms.time_since_epoch();
+    // Aiming roughly at the standard 60 frames per second
+    frame = value.count() / 17;
+}
+
 cata_tiles::cata_tiles( const SDL_Renderer_Ptr &renderer, const GeometryRenderer_Ptr &geometry ) :
     renderer( renderer ),
     geometry( geometry ),
@@ -895,6 +913,7 @@ void tileset_loader::load_tilejson_from_file( const JsonObject &config )
             curr_tile.multitile = t_multi;
             curr_tile.rotates = t_rota;
             curr_tile.height_3d = t_h3d;
+            curr_tile.animated = entry.get_bool( "animated", false );
         }
     }
     dbg( D_INFO ) << "Tile Width: " << ts.tile_width << " Tile Height: " << ts.tile_height <<
@@ -1080,6 +1099,9 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         g->m.getabs( tripoint( min_mm_reg, center.z ) ),
         g->m.getabs( tripoint( max_mm_reg, center.z ) )
     );
+
+    idle_animations.set_enabled( get_option<bool>( "ANIMATIONS" ) );
+    idle_animations.prepare_for_redraw();
 
     //set up a default tile for the edges outside the render area
     visibility_type offscreen_type = VIS_DARK;
@@ -1530,6 +1552,11 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                   "SDL_RenderSetClipRect failed" );
 }
 
+bool cata_tiles::terrain_requires_animation() const
+{
+    return idle_animations.enabled() && idle_animations.present();
+}
+
 void cata_tiles::draw_minimap( const point &dest, const tripoint &center, int width, int height )
 {
     minimap->draw( SDL_Rect{ dest.x, dest.y, width, height }, center );
@@ -1893,6 +1920,12 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
     // translate from player-relative to screen relative tile position
     const point screen_pos = player_to_screen( pos.xy() );
 
+    bool has_variations = display_tile.fg.size() > 1 || display_tile.bg.size() > 1;
+    bool variations_enabled = !display_tile.animated || idle_animations.enabled();
+    // with animated tiles, seed is used for stagger
+    bool seed_for_animation = has_variations && variations_enabled && display_tile.animated;
+    bool seed_from_map_coords = false;
+
     // seed the PRNG to get a reproducible random int
     // TODO: faster solution here
     unsigned int seed = 0;
@@ -1902,7 +1935,7 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
         case C_FIELD:
         case C_LIGHTING:
             // stationary map tiles, seed based on map coordinates
-            seed = g->m.getabs( pos ).x + g->m.getabs( pos ).y * 65536;
+            seed_from_map_coords = true;
             break;
         case C_VEHICLE_PART:
             // vehicle parts, seed based on coordinates within the vehicle
@@ -1946,6 +1979,11 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
         break;
         case C_ITEM:
         case C_TRAP:
+            if( seed_for_animation ) {
+                seed_from_map_coords = true;
+            }
+            // TODO: come up with ways to make random sprites consistent for these types
+            break;
         case C_NONE:
         case C_BULLET:
         case C_HIT_ENTITY:
@@ -1980,7 +2018,11 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
 
     unsigned int loc_rand = 0;
     // only bother mixing up a hash/random value if the tile has some sprites to randomly pick between
-    if( display_tile.fg.size() > 1 || display_tile.bg.size() > 1 ) {
+    // or has an idle animation and idle animations are enabled
+    if( has_variations && variations_enabled ) {
+        if( seed_from_map_coords ) {
+            seed = g->m.getabs( pos ).x + g->m.getabs( pos ).y * 65536;
+        }
         static const auto rot32 = []( const unsigned int x, const int k ) {
             return ( x << k ) | ( x >> ( 32 - k ) );
         };
@@ -2002,6 +2044,17 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
         c ^= b;
         c -= rot32( b, 24 );
         loc_rand = c;
+
+        // idle tile animations:
+        if( display_tile.animated ) {
+            idle_animations.mark_present();
+            // offset by loc_rand so that everything does not blink at the same time:
+            int frame = idle_animations.current_frame() + loc_rand;
+            int frames_in_loop = display_tile.fg.get_weight();
+            // loc_rand is actually the weighed index of the selected tile, and
+            // for animations the "weight" is the number of frames to show the tile for:
+            loc_rand = frame % frames_in_loop;
+        }
     }
 
     //draw it!

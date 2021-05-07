@@ -248,7 +248,6 @@ input_context game::get_player_input( std::string &action )
 
         bool animate_weather = bWeatherEffect && get_option<bool>( "ANIMATION_RAIN" );
         bool animate_sct = !SCT.vSCT.empty() && uquit != QUIT_WATCH && get_option<bool>( "ANIMATION_SCT" );
-        bool animate_pixel_minimap = minimap_requires_animation();
 
         shared_ptr_fast<game::draw_callback_t> animation_cb =
         make_shared_fast<game::draw_callback_t>( [&]() {
@@ -327,8 +326,10 @@ input_context game::get_player_input( std::string &action )
                 // Stop animation when done
                 animate_sct = !SCT.vSCT.empty();
             }
-            if( animate_pixel_minimap ) {
-                // TODO: we redraw *everything* just to animate a couple blinking dots on the minimap.
+            // We don't cache these checks as their result may change after 1st redraw
+            if( minimap_requires_animation() || terrain_requires_animation() ) {
+                // TODO: we redraw *everything* just to animate a couple blinking dots
+                //       on the minimap or a few tiles.
                 //       This is far from ideal, and can probably be done much cheaper
                 //       (update only part of the screen? draw static parts into a texture?)
                 invalidate_main_ui_adaptor();
