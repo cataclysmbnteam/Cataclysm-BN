@@ -20,13 +20,13 @@
 #include "enums.h"
 #include "enum_conversions.h"
 #include "game_constants.h"
+#include "memory_fast.h"
 #include "mongroup.h"
 #include "omdata.h"
 #include "optional.h"
 #include "overmap_types.h" // IWYU pragma: keep
 #include "pimpl.h"
 #include "point.h"
-#include "regional_settings.h"
 #include "string_id.h"
 #include "type_id.h"
 
@@ -39,6 +39,7 @@ class map_extra;
 class monster;
 class npc;
 class overmap_connection;
+struct regional_settings;
 template <typename E> struct enum_traits;
 
 namespace pf
@@ -326,7 +327,7 @@ class overmap
 
         // TODO: Should depend on coordinates
         const regional_settings &get_settings() const {
-            return settings;
+            return *settings;
         }
 
         void clear_mon_groups();
@@ -393,7 +394,7 @@ class overmap
         // TODO: Should have individual instances grouped by placement (ie. 2 adjacent houses aren't one house)
         std::unordered_map<tripoint, overmap_special_id> overmap_special_placements;
 
-        regional_settings settings;
+        pimpl<regional_settings> settings;
 
         oter_id get_default_terrain( int z ) const;
 

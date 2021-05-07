@@ -1981,7 +1981,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_PICK_STYLE:
-                u.martial_arts_data.pick_style( u );
+                u.martial_arts_data->pick_style( u );
                 break;
 
             case ACTION_RELOAD_ITEM:

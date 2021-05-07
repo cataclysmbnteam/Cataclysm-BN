@@ -20,8 +20,6 @@
 #include "cursesdef.h"
 #include "damage.h"
 #include "enums.h"
-#include "item.h"
-#include "mtype.h"
 #include "optional.h"
 #include "pldata.h"
 #include "point.h"
@@ -34,6 +32,7 @@ class JsonIn;
 class JsonObject;
 class JsonOut;
 class effect;
+class item;
 class player;
 struct dealt_projectile_attack;
 struct pathfinding_settings;

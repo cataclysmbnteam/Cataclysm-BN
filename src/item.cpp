@@ -3248,7 +3248,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
     // display which martial arts styles character can use with this weapon
     if( parts->test( iteminfo_parts::DESCRIPTION_APPLICABLEMARTIALARTS ) ) {
-        const std::string valid_styles = g->u.martial_arts_data.enumerate_known_styles( typeId() );
+        const std::string valid_styles = g->u.martial_arts_data->enumerate_known_styles( typeId() );
         if( !valid_styles.empty() ) {
             insert_separation_line( info );
             info.push_back( iteminfo( "DESCRIPTION",
@@ -3994,7 +3994,7 @@ nc_color item::color_in_inventory() const
                 u.get_skill_level( tmp.skill ) < tmp.level ) {
                 ret = c_light_blue;
             } else if( type->can_use( "MA_MANUAL" ) &&
-                       !u.martial_arts_data.has_martialart( martial_art_learned_from( *type ) ) ) {
+                       !u.martial_arts_data->has_martialart( martial_art_learned_from( *type ) ) ) {
                 ret = c_light_blue;
             } else if( tmp.skill && // Book can't improve skill right now, but maybe later: pink
                        u.get_skill_level_object( tmp.skill ).can_train() &&
@@ -4115,8 +4115,8 @@ void item::on_wield( player &p, int mv )
     }
     p.add_msg_if_player( m_neutral, msg, tname() );
 
-    if( !p.martial_arts_data.selected_is_none() ) {
-        p.martial_arts_data.martialart_use_message( p );
+    if( !p.martial_arts_data->selected_is_none() ) {
+        p.martial_arts_data->martialart_use_message( p );
     }
 
     // Update encumbrance in case we were wearing it

@@ -12,6 +12,7 @@
 #include "bionics.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "craft_command.h"
 #include "debug.h"
 #include "enums.h"
 #include "flat_set.h"
