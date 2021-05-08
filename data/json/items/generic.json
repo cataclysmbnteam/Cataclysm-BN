@@ -2219,6 +2219,7 @@
     "id": "straw_pile",
     "symbol": ",",
     "color": "light_gray",
+    "spoils_in": "1 year",
     "name": { "str": "pile of straw", "str_pl": "piles of straw" },
     "category": "spare_parts",
     "description": "A pile of dry grass.  Can be used to craft a straw bed if there is nothing else to sleep on.",
