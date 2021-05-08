@@ -600,6 +600,7 @@
     "vitamins": [ [ "vitA", 20 ], [ "vitC", 45 ], [ "calcium", 5 ], [ "iron", 5 ] ],
     "fun": 5,
     "color": "brown",
+    "spoils_in": "2 years",
     "flags": [ "INEDIBLE", "CATTLE" ],
     "use_action": "CATTLEFODDER"
   },
