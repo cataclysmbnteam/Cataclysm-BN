@@ -1060,6 +1060,7 @@ ifdef OSXCROSS
 	dmg dmg Cataclysm-uncompressed.dmg CataclysmBN-$(VERSION).dmg
 	rm Cataclysm-uncompressed.dmg
 else
+	plutil -convert binary1 Cataclysm.app/Contents/Info.plist
 	dmgbuild -s build-data/osx/dmgsettings.py "Cataclysm BN" CataclysmBN-$(VERSION).dmg
 endif
 
