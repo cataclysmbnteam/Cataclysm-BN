@@ -16,7 +16,7 @@
     "sym": "S",
     "color": "i_brown"
   },
-    {
+  {
     "type": "overmap_terrain",
     "id": [ "pottery_cottage", "pottery_cottage_2nd", "pottery_cottage_roof" ],
     "copy-from": "generic_rural_building",
