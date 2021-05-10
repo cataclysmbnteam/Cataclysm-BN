@@ -759,7 +759,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "FEMA_Camp2",
+    "id": "FEMA_camp",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "FEMA_tlc_north" },
       { "point": [ 1, 0, 0 ], "overmap": "FEMA_te_north" },
