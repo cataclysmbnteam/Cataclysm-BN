@@ -18,25 +18,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "pottery_cottage", "pottery_cottage_2nd", "pottery_cottage_roof" ],
-    "copy-from": "generic_rural_building",
-    "name": "potters cottage",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "pottery_cottage_basement" ],
-    "copy-from": "generic_city_house_basement"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "pottery_cottage_field_2nd", "pottery_cottage_field_roof", "pottery_cottage_field" ],
-    "copy-from": "generic_rural_building",
-    "sym": ".",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "rural_road",
     "name": "rural road",
     "sym": "│",
