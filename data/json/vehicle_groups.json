@@ -57,8 +57,9 @@
       [ "food_truck", 50 ],
       [ "wienermobile", 5 ],
       [ "tatra_truck", 100 ],
-      [ "4x4_car", 500 ]
-    ]
+      [ "4x4_car", 500 ],
+      [ "car_sports_atomic", 15 ],
+      [ "bubble_car", 20 ]    ]
   },
   {
     "type": "vehicle_group",
