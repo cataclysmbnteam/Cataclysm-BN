@@ -241,7 +241,8 @@
       [ "food_truck", 20 ],
       [ "wienermobile", 5 ],
       [ "portable_generator", 50 ],
-      [ "4x4_car", 200 ]
+      [ "4x4_car", 200 ],
+      [ "bubble_car", 50 ]
     ]
   },
   {
