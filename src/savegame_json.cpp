@@ -543,14 +543,23 @@ void Character::load( const JsonObject &data )
         data.read( "hp_cur", hp_cur );
         std::array<int, 6> hp_max;
         data.read( "hp_max", hp_max );
-        set_part_hp_cur( bodypart_id( "head" ), hp_cur[0] );
         set_part_hp_max( bodypart_id( "head" ), hp_max[0] );
-        set_part_hp_cur( bodypart_id( "torso" ), hp_cur[1] );
+        set_part_hp_cur( bodypart_id( "head" ), hp_cur[0] );
+
         set_part_hp_max( bodypart_id( "torso" ), hp_max[1] );
+        set_part_hp_cur( bodypart_id( "torso" ), hp_cur[1] );
+
+        set_part_hp_max( bodypart_id( "arm_l" ), hp_max[2] );
         set_part_hp_cur( bodypart_id( "arm_l" ), hp_cur[2] );
+
         set_part_hp_max( bodypart_id( "arm_r" ), hp_max[3] );
+        set_part_hp_cur( bodypart_id( "arm_r" ), hp_cur[3] );
+
+        set_part_hp_max( bodypart_id( "leg_l" ), hp_max[4] );
         set_part_hp_cur( bodypart_id( "leg_l" ), hp_cur[4] );
+
         set_part_hp_max( bodypart_id( "leg_r" ), hp_max[5] );
+        set_part_hp_cur( bodypart_id( "leg_r" ), hp_cur[5] );
     }
 
 
