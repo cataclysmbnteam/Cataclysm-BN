@@ -619,7 +619,8 @@
       [ "superbike", 50 ],
       [ "motorcycle_sidecart", 50 ],
       [ "car_sports", 30 ],
-      [ "car_sports_atomic", 5 ]    ]
+      [ "car_sports_atomic", 5 ]
+    ]
   },
   {
     "type": "vehicle_group",
