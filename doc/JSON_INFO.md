@@ -461,7 +461,6 @@ This section describes each json file and their contents. Each json has their ow
     "cold_morale_mod": 2,
     "squeamish_penalty": 6,
     "base_hp": 60,
-    "stat_hp_mods": { "int_mod": 4.0, "dex_mod": 1.0, "str_mod": 1.0, "per_mod": 1.0, "health_mod": 1.0 },
     "bionic_slots": 80
   }
 ```
