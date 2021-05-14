@@ -4506,8 +4506,8 @@
       { "point": [ 4, 0, -4 ], "overmap": "microlab_generic_edge" },
       { "point": [ 5, 0, -4 ], "overmap": "microlab_generic_edge" },
       { "point": [ 6, 0, -4 ], "overmap": "microlab_rock_border" },
-      { "point": [ -1, 1, -4 ], "overmap": "microlab_reactor_west" },
-      { "point": [ 0, 1, -4 ], "overmap": "microlab_generic_edge_room_connector_west" },
+      { "point": [ -1, 1, -4 ], "overmap": "microlab_rock_border" },
+      { "point": [ 0, 1, -4 ], "overmap": "microlab_generic_edge" },
       { "point": [ 1, 1, -4 ], "overmap": "microlab_generic" },
       { "point": [ 2, 1, -4 ], "overmap": "microlab_generic" },
       { "point": [ 3, 1, -4 ], "overmap": "microlab_generic_hallway_start_south" },
@@ -4538,8 +4538,7 @@
       { "point": [ 4, 4, -4 ], "overmap": "microlab_rock_border" },
       { "point": [ 5, 4, -4 ], "overmap": "microlab_rock_border" },
       { "point": [ 6, 4, -4 ], "overmap": "microlab_rock_border" },
-      { "point": [ 3, 4, -5 ], "overmap": "microlab_generic_isolated_elevator_pit_north" },
-      { "point": [ -1, 1, -5 ], "overmap": "microlab_reactor_b_west" }
+      { "point": [ 3, 4, -5 ], "overmap": "microlab_generic_isolated_elevator_pit_north" }
     ],
     "locations": [ "land" ],
     "occurrences": [ 0, 2 ],
