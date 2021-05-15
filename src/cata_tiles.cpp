@@ -60,6 +60,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "string_utils.h"
 #include "submap.h"
 #include "tileray.h"
 #include "translations.h"
@@ -253,11 +254,56 @@ const tile_type *tileset::find_tile_type( const std::string &id ) const
     return iter != tile_ids.end() ? &iter->second : nullptr;
 }
 
+cata::optional<tile_lookup_res>
+tileset::find_tile_type_by_season( const std::string &id, season_type season ) const
+{
+    assert( season < season_type::NUM_SEASONS );
+    const auto iter = tile_ids_by_season[season].find( id );
+
+    if( iter == tile_ids_by_season[season].end() ) {
+        return cata::nullopt;
+    }
+    auto &res = iter->second;
+    if( res.season_tile ) {
+        return *res.season_tile;
+    } else if( res.default_tile ) { // can skip this check, but just in case
+        return tile_lookup_res( iter->first, *res.default_tile );
+    }
+    debugmsg( "empty record found in `tile_ids_by_season` for key: %s", id );
+    return cata::nullopt;
+}
+
 tile_type &tileset::create_tile_type( const std::string &id, tile_type &&new_tile_type )
 {
-    tile_type &result = tile_ids[id];
-    result = std::move( new_tile_type );
-    return result;
+    auto inserted = tile_ids.insert( std::make_pair( id, new_tile_type ) ).first;
+    const std::string &inserted_id = inserted->first;
+    tile_type &inserted_tile = inserted->second;
+
+    // populate cache by season
+    constexpr size_t suffix_len = 15;
+    constexpr char season_suffix[4][suffix_len] = {
+        "_season_spring", "_season_summer", "_season_autumn", "_season_winter"
+    };
+    bool has_season_suffix = false;
+    for( int i = 0; i < 4; i++ ) {
+        if( string_ends_with( id, season_suffix[i] ) ) {
+            has_season_suffix = true;
+            // key is id without _season suffix
+            season_tile_value &value = tile_ids_by_season[i][id.substr( 0,
+                                       id.size() - strlen( season_suffix[i] ) )];
+            // value stores reference to string id with _season suffix
+            value.season_tile = tile_lookup_res( inserted_id, inserted_tile );
+            break;
+        }
+    }
+    // tile doesn't have _season suffix, add it as "default" into all four seasons
+    if( !has_season_suffix ) {
+        for( int i = 0; i < 4; i++ ) {
+            tile_ids_by_season[i][id].default_tile = &inserted_tile;
+        }
+    }
+
+    return inserted_tile;
 }
 
 void cata_tiles::load_tileset( const std::string &tileset_id, const bool precheck,
@@ -892,7 +938,11 @@ void tileset_loader::load_tilejson_from_file( const JsonObject &config )
             ids = entry.get_string_array( "id" );
         }
         for( const std::string &t_id : ids ) {
-            tile_type &curr_tile = load_tile( entry, t_id );
+            tile_type *load_res = load_tile( entry, t_id );
+            if( !load_res ) {
+                continue;
+            }
+            tile_type &curr_tile = *load_res;
             curr_tile.offset = sprite_offset;
             bool t_multi = entry.get_bool( "multitile", false );
             bool t_rota = entry.get_bool( "rotates", t_multi );
@@ -902,7 +952,11 @@ void tileset_loader::load_tilejson_from_file( const JsonObject &config )
                 for( const JsonObject &subentry : entry.get_array( "additional_tiles" ) ) {
                     const std::string s_id = subentry.get_string( "id" );
                     const std::string m_id = t_id + "_" + s_id;
-                    tile_type &curr_subtile = load_tile( subentry, m_id );
+                    tile_type *load_res_subtile = load_tile( subentry, m_id );
+                    if( !load_res_subtile ) {
+                        continue;
+                    }
+                    tile_type &curr_subtile = *load_res_subtile;
                     curr_subtile.offset = sprite_offset;
                     curr_subtile.rotates = true;
                     curr_subtile.height_3d = t_h3d;
@@ -926,18 +980,23 @@ void tileset_loader::load_tilejson_from_file( const JsonObject &config )
  * The JSON data (loaded here) contains tile ids relative to the associated image.
  * They are translated into global ids by adding the @p offset, which is the number of
  * previously loaded tiles (excluding the tiles from the associated image).
- * @param id The id of the new tile definition (which is the key in @ref tileset::tile_ids). Any existing
- * definition of the same id is overridden.
- * @return A reference to the loaded tile inside the @ref tileset::tile_ids map.
+ * @param id The id of the new tile definition (which is the key in @ref tileset::tile_ids).
+ * @return Pointer to the loaded tile inside the @ref tileset::tile_ids map,
+ *         or nullptr if @p id already exists.
  */
-tile_type &tileset_loader::load_tile( const JsonObject &entry, const std::string &id )
+tile_type *tileset_loader::load_tile( const JsonObject &entry, const std::string &id )
 {
+    if( ts.find_tile_type( id ) ) {
+        ts.duplicate_ids.insert( id );
+        return nullptr;
+    }
+
     tile_type curr_subtile;
 
     load_tile_spritelists( entry, curr_subtile.fg, "fg" );
     load_tile_spritelists( entry, curr_subtile.bg, "bg" );
 
-    return ts.create_tile_type( id, std::move( curr_subtile ) );
+    return &ts.create_tile_type( id, std::move( curr_subtile ) );
 }
 
 void tileset_loader::load_tile_spritelists( const JsonObject &entry,
@@ -1579,109 +1638,104 @@ void cata_tiles::get_window_tile_counts( const int width, const int height, int 
     }
 }
 
-bool cata_tiles::draw_from_id_string( std::string id, const tripoint &pos, int subtile, int rota,
-                                      lit_level ll, bool apply_night_vision_goggles )
+bool cata_tiles::draw_from_id_string( const std::string &id, const tripoint &pos, int subtile,
+                                      int rota, lit_level ll, bool apply_night_vision_goggles )
 {
     int nullint = 0;
-    return cata_tiles::draw_from_id_string( std::move( id ), C_NONE, empty_string, pos, subtile, rota,
+    return cata_tiles::draw_from_id_string( id, C_NONE, empty_string, pos, subtile, rota,
                                             ll, apply_night_vision_goggles, nullint );
 }
 
-bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
+bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY category,
                                       const std::string &subcategory, const tripoint &pos,
-                                      int subtile, int rota, lit_level ll,
-                                      bool apply_night_vision_goggles )
+                                      int subtile, int rota, lit_level ll, bool apply_night_vision_goggles )
 {
     int nullint = 0;
     return cata_tiles::draw_from_id_string( id, category, subcategory, pos, subtile, rota,
                                             ll, apply_night_vision_goggles, nullint );
 }
 
-bool cata_tiles::draw_from_id_string( std::string id, const tripoint &pos, int subtile, int rota,
-                                      lit_level ll, bool apply_night_vision_goggles, int &height_3d )
+bool cata_tiles::draw_from_id_string( const std::string &id, const tripoint &pos, int subtile,
+                                      int rota, lit_level ll, bool apply_night_vision_goggles, int &height_3d )
 {
-    return cata_tiles::draw_from_id_string( std::move( id ), C_NONE, empty_string, pos, subtile, rota,
+    return cata_tiles::draw_from_id_string( id, C_NONE, empty_string, pos, subtile, rota,
                                             ll, apply_night_vision_goggles, height_3d );
 }
 
-const tile_type *cata_tiles::find_tile_with_season( std::string &id )
+cata::optional<tile_lookup_res>
+cata_tiles::find_tile_with_season( const std::string &id ) const
 {
-    constexpr size_t suffix_len = 15;
-    constexpr char season_suffix[4][suffix_len] = {
-        "_season_spring", "_season_summer", "_season_autumn", "_season_winter"
-    };
-
-    std::string seasonal_id = id + season_suffix[season_of_year( calendar::turn )];
-
-    const tile_type *tt = tileset_ptr->find_tile_type( seasonal_id );
-    if( tt ) {
-        id = seasonal_id;
-    } else {
-        tt = tileset_ptr->find_tile_type( id );
-    }
-    return tt;
+    const season_type season = season_of_year( calendar::turn );
+    return tileset_ptr->find_tile_type_by_season( id, season );
 }
 
-const tile_type *cata_tiles::find_tile_looks_like( std::string &id, TILE_CATEGORY category )
+template<typename T>
+cata::optional<tile_lookup_res>
+cata_tiles::find_tile_looks_like_by_string_id( const std::string &id, TILE_CATEGORY category,
+        const int looks_like_jumps_limit ) const
 {
-    std::string looks_like = id;
-    for( int cnt = 0; cnt < 10 && !looks_like.empty(); cnt++ ) {
-        const tile_type *lltt = find_tile_with_season( looks_like );
-        if( lltt ) {
-            id = looks_like;
-            return lltt;
-        }
-        if( category == C_FURNITURE ) {
-            const furn_str_id fid( looks_like );
-            if( !fid.is_valid() ) {
-                return nullptr;
-            }
-            const furn_t &furn = fid.obj();
-            looks_like = furn.looks_like;
-        } else if( category == C_TERRAIN ) {
-            const ter_str_id tid( looks_like );
-            if( !tid.is_valid() ) {
-                return nullptr;
-            }
-            const ter_t &ter = tid.obj();
-            looks_like = ter.looks_like;
-        } else if( category == C_FIELD ) {
-            const field_type_id fid( looks_like );
-            if( !fid.is_valid() ) {
-                return nullptr;
-            }
-            const field_type &ft = fid.obj();
-            looks_like = ft.looks_like;
-        } else if( category == C_MONSTER ) {
-            const mtype_id mid( looks_like );
-            if( !mid.is_valid() ) {
-                return nullptr;
-            }
-            const mtype &mt = mid.obj();
-            looks_like = mt.looks_like;
-        } else if( category == C_VEHICLE_PART ) {
-            // vehicle parts start with vp_ for their tiles, but not their IDs
-            const vpart_id new_vpid( looks_like.substr( 3 ) );
-            if( !new_vpid.is_valid() ) {
-                return nullptr;
-            }
-            const vpart_info &new_vpi = new_vpid.obj();
-            looks_like = "vp_" + new_vpi.looks_like;
-        } else if( category == C_ITEM ) {
-            if( !item::type_is_defined( looks_like ) ) {
-                if( looks_like.substr( 0, 7 ) == "corpse_" ) {
-                    looks_like = "corpse";
-                    continue;
-                }
-                return nullptr;
-            }
-            const itype *new_it = item::find_type( looks_like );
-            looks_like = new_it->looks_like;
-        } else {
-            return nullptr;
-        }
+    const string_id<T> s_id( id );
+    if( !s_id.is_valid() ) {
+        return cata::nullopt;
     }
-    return nullptr;
+    const T &obj = s_id.obj();
+    return find_tile_looks_like( obj.looks_like, category, looks_like_jumps_limit - 1 );
+}
+
+cata::optional<tile_lookup_res>
+cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
+                                  const int looks_like_jumps_limit ) const
+{
+    if( id.empty() || looks_like_jumps_limit <= 0 ) {
+        return cata::nullopt;
+    }
+
+    // Note on memory management:
+    // This method must returns pointers to the objects (std::string *id  and tile_type * tile)
+    // that are valid when this metod returns. Ideally they should have the lifetime
+    // that is equal or exceeds lifetime of `this` or `this::tileset_ptr`.
+    // For example, `id` argument may have shorter lifetime and thus should not be returned!
+    // The result of `find_tile_with_season` is OK to be returned, because it's guaranteed to
+    // return pointers to the keys and values that are stored inside the `tileset_ptr`.
+    const auto tile_with_season = find_tile_with_season( id );
+    if( tile_with_season ) {
+        return tile_with_season;
+    }
+
+    switch( category ) {
+        case C_FURNITURE:
+            return find_tile_looks_like_by_string_id<furn_t>( id, category, looks_like_jumps_limit );
+        case C_TERRAIN:
+            return find_tile_looks_like_by_string_id<ter_t>( id, category, looks_like_jumps_limit );
+        case C_FIELD:
+            return find_tile_looks_like_by_string_id<field_type>( id, category, looks_like_jumps_limit );
+        case C_MONSTER:
+            return find_tile_looks_like_by_string_id<mtype>( id, category, looks_like_jumps_limit );
+        case C_VEHICLE_PART: {
+            // vehicle parts start with vp_ for their tiles, but not their IDs
+            const vpart_id base_vpid( id.substr( 3 ) );
+            if( !base_vpid.is_valid() ) {
+                return cata::nullopt;
+            }
+            return find_tile_looks_like( "vp_" + base_vpid.obj().looks_like, category,
+                                         looks_like_jumps_limit - 1 );
+        }
+        case C_ITEM: {
+            if( !item::type_is_defined( itype_id( id ) ) ) {
+                if( string_starts_with( id, "corpse_" ) ) {
+                    return find_tile_looks_like(
+                               "corpse", category, looks_like_jumps_limit - 1
+                           );
+                }
+                return cata::nullopt;
+            }
+            const itype *new_it = item::find_type( itype_id( id ) );
+            return find_tile_looks_like( new_it->looks_like, category, looks_like_jumps_limit - 1 );
+        }
+
+        default:
+            return cata::nullopt;
+    }
 }
 
 bool cata_tiles::find_overlay_looks_like( const bool male, const std::string &overlay,
@@ -1692,10 +1746,10 @@ bool cata_tiles::find_overlay_looks_like( const bool male, const std::string &ov
     std::string looks_like;
     std::string over_type;
 
-    if( overlay.substr( 0, 5 ) == "worn_" ) {
+    if( string_starts_with( overlay, "worn_" ) ) {
         looks_like = overlay.substr( 5 );
         over_type = "worn_";
-    } else if( overlay.substr( 0, 8 ) == "wielded_" ) {
+    } else if( string_starts_with( overlay, "wielded_" ) ) {
         looks_like = overlay.substr( 8 );
         over_type = "wielded_";
     } else {
@@ -1713,20 +1767,20 @@ bool cata_tiles::find_overlay_looks_like( const bool male, const std::string &ov
             exists = true;
             break;
         }
-        if( looks_like.substr( 0, 16 ) == "mutation_active_" ) {
+        if( string_starts_with( looks_like, "mutation_active_" ) ) {
             looks_like = "mutation_" + looks_like.substr( 16 );
             continue;
         }
-        if( !item::type_is_defined( looks_like ) ) {
+        if( !item::type_is_defined( itype_id( looks_like ) ) ) {
             break;
         }
-        const itype *new_it = item::find_type( looks_like );
+        const itype *new_it = item::find_type( itype_id( looks_like ) );
         looks_like = new_it->looks_like;
     }
     return exists;
 }
 
-bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
+bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY category,
                                       const std::string &subcategory, const tripoint &pos,
                                       int subtile, int rota, lit_level ll,
                                       bool apply_night_vision_goggles, int &height_3d )
@@ -1744,34 +1798,39 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
         return false;
     }
 
-    const tile_type *tt = find_tile_looks_like( id, category );
+    cata::optional<tile_lookup_res> res = find_tile_looks_like( id, category );
+    const tile_type *tt = nullptr;
+    if( res ) {
+        tt = &( res->tile() );
+    }
+    const std::string &found_id = res ? ( res->id() ) : id;
 
     if( !tt ) {
         uint32_t sym = UNKNOWN_UNICODE;
         nc_color col = c_white;
         if( category == C_FURNITURE ) {
-            const furn_str_id fid( id );
+            const furn_str_id fid( found_id );
             if( fid.is_valid() ) {
                 const furn_t &f = fid.obj();
                 sym = f.symbol();
                 col = f.color();
             }
         } else if( category == C_TERRAIN ) {
-            const ter_str_id tid( id );
+            const ter_str_id tid( found_id );
             if( tid.is_valid() ) {
                 const ter_t &t = tid.obj();
                 sym = t.symbol();
                 col = t.color();
             }
         } else if( category == C_MONSTER ) {
-            const mtype_id mid( id );
+            const mtype_id mid( found_id );
             if( mid.is_valid() ) {
                 const mtype &mt = mid.obj();
                 sym = UTF8_getch( mt.sym );
                 col = mt.color;
             }
         } else if( category == C_VEHICLE_PART ) {
-            const vpart_id vpid( id.substr( 3 ) );
+            const vpart_id vpid( found_id.substr( 3 ) );
             if( vpid.is_valid() ) {
                 const vpart_info &v = vpid.obj();
 
@@ -1791,12 +1850,12 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
                 col = v.color;
             }
         } else if( category == C_FIELD ) {
-            const field_type_id fid = field_type_id( id );
+            const field_type_id fid = field_type_id( found_id );
             sym = fid.obj().get_codepoint();
             // TODO: field intensity?
             col = fid.obj().get_color();
         } else if( category == C_TRAP ) {
-            const trap_str_id tmp( id );
+            const trap_str_id tmp( found_id );
             if( tmp.is_valid() ) {
                 const trap &t = tmp.obj();
                 sym = t.sym;
@@ -1804,10 +1863,10 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
             }
         } else if( category == C_ITEM ) {
             item tmp;
-            if( 0 == id.compare( 0, 7, "corpse_" ) ) {
+            if( string_starts_with( found_id, "corpse_" ) ) {
                 tmp = item( "corpse", calendar::start_of_cataclysm );
             } else {
-                tmp = item( id, calendar::start_of_cataclysm );
+                tmp = item( found_id, calendar::start_of_cataclysm );
             }
             sym = tmp.symbol().empty() ? ' ' : tmp.symbol().front();
             col = tmp.color();
@@ -1911,9 +1970,9 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
         const auto end = std::end( display_subtiles );
         if( std::find( begin( display_subtiles ), end, multitile_keys[subtile] ) != end ) {
             // append subtile name to tile and re-find display_tile
-            return draw_from_id_string(
-                       std::move( id.append( "_", 1 ).append( multitile_keys[subtile] ) ),
-                       category, subcategory, pos, -1, rota, ll, apply_night_vision_goggles, height_3d );
+            return draw_from_id_string( found_id + "_" + multitile_keys[subtile],
+                                        category, subcategory, pos, -1, rota, ll, apply_night_vision_goggles,
+                                        height_3d );
         }
     }
 
@@ -1968,7 +2027,7 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
             // since we won't get the behavior that occurs where the tile constantly
             // changes when the player grabs the furniture and drags it, causing the
             // seed to change.
-            const furn_str_id fid( id );
+            const furn_str_id fid( found_id );
             if( fid.is_valid() ) {
                 const furn_t &f = fid.obj();
                 if( !f.is_movable() ) {
@@ -1998,12 +2057,12 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
             break;
         default:
             // player
-            if( id.substr( 7 ) == "player_" ) {
+            if( string_starts_with( found_id, "player_" ) ) {
                 seed = g->u.name[0];
                 break;
             }
             // NPC
-            if( id.substr( 4 ) == "npc_" ) {
+            if( string_starts_with( found_id, "npc_" ) ) {
                 if( npc *const guy = g->critter_at<npc>( pos ) ) {
                     seed = guy->getID().get_value();
                     break;
@@ -2404,7 +2463,7 @@ bool cata_tiles::has_terrain_memory_at( const tripoint &p ) const
 {
     if( g->u.should_show_map_memory() ) {
         const memorized_terrain_tile t = g->u.get_memorized_tile( g->m.getabs( p ) );
-        if( t.tile.substr( 0, 2 ) == "t_" ) {
+        if( string_starts_with( t.tile, "t_" ) ) {
             return true;
         }
     }
@@ -2415,7 +2474,7 @@ bool cata_tiles::has_furniture_memory_at( const tripoint &p ) const
 {
     if( g->u.should_show_map_memory() ) {
         const memorized_terrain_tile t = g->u.get_memorized_tile( g->m.getabs( p ) );
-        if( t.tile.substr( 0, 2 ) == "f_" ) {
+        if( string_starts_with( t.tile, "f_" ) ) {
             return true;
         }
     }
@@ -2426,7 +2485,7 @@ bool cata_tiles::has_trap_memory_at( const tripoint &p ) const
 {
     if( g->u.should_show_map_memory() ) {
         const memorized_terrain_tile t = g->u.get_memorized_tile( g->m.getabs( p ) );
-        if( t.tile.substr( 0, 3 ) == "tr_" ) {
+        if( string_starts_with( t.tile, "tr_" ) ) {
             return true;
         }
     }
@@ -2437,7 +2496,7 @@ bool cata_tiles::has_vpart_memory_at( const tripoint &p ) const
 {
     if( g->u.should_show_map_memory() ) {
         const memorized_terrain_tile t = g->u.get_memorized_tile( g->m.getabs( p ) );
-        if( t.tile.substr( 0, 3 ) == "vp_" ) {
+        if( string_starts_with( t.tile, "vp_" ) ) {
             return true;
         }
     }
@@ -2448,7 +2507,7 @@ memorized_terrain_tile cata_tiles::get_terrain_memory_at( const tripoint &p ) co
 {
     if( g->u.should_show_map_memory() ) {
         const memorized_terrain_tile t = g->u.get_memorized_tile( g->m.getabs( p ) );
-        if( t.tile.substr( 0, 2 ) == "t_" ) {
+        if( string_starts_with( t.tile, "t_" ) ) {
             return t;
         }
     }
@@ -2459,7 +2518,7 @@ memorized_terrain_tile cata_tiles::get_furniture_memory_at( const tripoint &p ) 
 {
     if( g->u.should_show_map_memory() ) {
         const memorized_terrain_tile t = g->u.get_memorized_tile( g->m.getabs( p ) );
-        if( t.tile.substr( 0, 2 ) == "f_" ) {
+        if( string_starts_with( t.tile, "f_" ) ) {
             return t;
         }
     }
@@ -2470,7 +2529,7 @@ memorized_terrain_tile cata_tiles::get_trap_memory_at( const tripoint &p ) const
 {
     if( g->u.should_show_map_memory() ) {
         const memorized_terrain_tile t = g->u.get_memorized_tile( g->m.getabs( p ) );
-        if( t.tile.substr( 0, 3 ) == "tr_" ) {
+        if( string_starts_with( t.tile, "tr_" ) ) {
             return t;
         }
     }
@@ -2481,7 +2540,7 @@ memorized_terrain_tile cata_tiles::get_vpart_memory_at( const tripoint &p ) cons
 {
     if( g->u.should_show_map_memory() ) {
         const memorized_terrain_tile t = g->u.get_memorized_tile( g->m.getabs( p ) );
-        if( t.tile.substr( 0, 3 ) == "vp_" ) {
+        if( string_starts_with( t.tile, "vp_" ) ) {
             return t;
         }
     }
@@ -3668,6 +3727,7 @@ void cata_tiles::do_tile_loading_report()
     tile_loading_report( vpart_info::all(), C_VEHICLE_PART, "vp_" );
     tile_loading_report<trap>( trap::count(), C_TRAP, "" );
     tile_loading_report<field_type>( field_type::count(), C_FIELD, "" );
+    tile_loading_report_dups();
 
     // needed until DebugLog ostream::flush bugfix lands
     DebugLog( D_INFO, DC_ALL );
@@ -3701,10 +3761,8 @@ void cata_tiles::lr_generic( Iter begin, Iter end, Func id_func, TILE_CATEGORY c
     for( ; begin != end; ++begin ) {
         const std::string id_string = id_func( begin );
 
-        std::string mutable_id_string = id_string;
-
         if( !tileset_ptr->find_tile_type( prefix + id_string ) &&
-            !find_tile_looks_like( mutable_id_string, category ) ) {
+            !find_tile_looks_like( id_string, category ) ) {
             missing_list.append( id_string + " " );
         } else if( !tileset_ptr->find_tile_type( prefix + id_string ) ) {
             missing_with_looks_like_list.append( id_string + " " );
@@ -3745,6 +3803,21 @@ void cata_tiles::tile_loading_report( const arraytype &array, int array_length,
     []( decltype( begin ) const v ) {
         return v->id;
     }, category, prefix );
+}
+
+void cata_tiles::tile_loading_report_dups()
+{
+    std::vector<std::string> dups_list;
+    const std::unordered_set<std::string> &dups_set = tileset_ptr->get_duplicate_ids();
+    std::copy( dups_set.begin(), dups_set.end(), std::back_inserter( dups_list ) );
+    std::sort( dups_list.begin(), dups_list.end() );
+
+    std::string res;
+    for( const std::string &s : dups_list ) {
+        res += s;
+        res += " ";
+    }
+    DebugLog( D_INFO, DC_ALL ) << "Have duplicates: " << res;
 }
 
 std::vector<options_manager::id_and_option> cata_tiles::build_renderer_list()
