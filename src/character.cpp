@@ -1663,7 +1663,8 @@ void Character::recalc_hp()
 
 void Character::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_max )
 {
-    for( std::pair<const bodypart_str_id, bodypart> &part : get_body() ) {
+    for( const std::pair<const bodypart_str_id, bodypart> &part : get_body() ) {
+        bodypart &bp = *get_part( part.first );
         int new_max = ( part.first->base_hp + str_max * 3 + hp_adjustment ) * hp_mod;
 
         if( has_trait( trait_id( "GLASSJAW" ) ) && part.first == bodypart_str_id( "head" ) ) {
@@ -1671,12 +1672,12 @@ void Character::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_ma
         }
 
         float max_hp_ratio = static_cast<float>( new_max ) /
-                             static_cast<float>( part.second.get_hp_max() );
+                             static_cast<float>( bp.get_hp_max() );
 
-        int new_cur = std::ceil( static_cast<float>( part.second.get_hp_cur() ) * max_hp_ratio );
+        int new_cur = std::ceil( static_cast<float>( bp.get_hp_cur() ) * max_hp_ratio );
 
-        part.second.set_hp_max( std::max( new_max, 1 ) );
-        part.second.set_hp_cur( std::max( std::min( new_cur, new_max ), 1 ) );
+        bp.set_hp_max( std::max( new_max, 1 ) );
+        bp.set_hp_cur( std::max( std::min( new_cur, new_max ), 1 ) );
     }
 }
 

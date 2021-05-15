@@ -1393,13 +1393,14 @@ void Creature::set_anatomy( anatomy_id anat )
     creature_anatomy = anat;
 }
 
-std::map<bodypart_str_id, bodypart> Creature::get_body() const
+const std::map<bodypart_str_id, bodypart> &Creature::get_body() const
 {
     return body;
 }
 
 void Creature::set_body()
 {
+    body.clear();
     for( const bodypart_id &bp : get_anatomy()->get_bodyparts() ) {
         body.emplace( bp.id(), bodypart( bp.id() ) );
     }
