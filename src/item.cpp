@@ -703,7 +703,12 @@ bool item::is_unarmed_weapon() const
 
 bool item::covers( const body_part bp ) const
 {
-    return get_covered_body_parts().test( bp );
+    return covers( convert_bp( bp ) );
+}
+
+bool item::covers( const bodypart_id &bp ) const
+{
+    return get_covered_body_parts().test( bp->token );
 }
 
 body_part_set item::get_covered_body_parts() const
@@ -4016,9 +4021,9 @@ void item::on_wear( Character &p )
     if( is_sided() && get_side() == side::BOTH ) {
         if( has_flag( flag_SPLINT ) ) {
             set_side( side::LEFT );
-            if( ( covers( bp_leg_l ) && p.is_limb_broken( hp_leg_r ) &&
+            if( ( covers( bodypart_id( "leg_l" ) ) && p.is_limb_broken( bodypart_id( "leg_r" ) ) &&
                   !p.worn_with_flag( flag_SPLINT, bodypart_id( "leg_r" ) ) ) ||
-                ( covers( bp_arm_l ) && p.is_limb_broken( hp_arm_r ) &&
+                ( covers( bodypart_id( "arm_l" ) ) && p.is_limb_broken( bodypart_id( "arm_r" ) ) &&
                   !p.worn_with_flag( flag_SPLINT, bodypart_id( "arm_r" ) ) ) ) {
                 set_side( side::RIGHT );
             }

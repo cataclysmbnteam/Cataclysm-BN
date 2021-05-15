@@ -56,6 +56,7 @@ TEST_CASE( "belt_reload_option", "[reload],[reload_option],[gun]" )
 {
     const time_point bday = calendar::start_of_cataclysm;
     avatar dummy;
+    dummy.set_body();
 
     item &belt = dummy.i_add( item( "belt308", bday, 0 ) );
     item &ammo = dummy.i_add( item( "308", bday, belt.ammo_capacity() ) );

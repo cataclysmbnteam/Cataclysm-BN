@@ -13,6 +13,9 @@
 #include "translations.h"
 
 class JsonObject;
+class JsonIn;
+class JsonOut;
+
 template <typename E> struct enum_traits;
 
 // The order is important ; pldata.h has to be in the same order
@@ -111,10 +114,10 @@ struct body_part_type {
         //Morale parameters
         float hot_morale_mod = 0;
         float cold_morale_mod = 0;
-
         float stylish_bonus = 0;
-
         int squeamish_penalty = 0;
+
+        int base_hp = 60;
 
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
@@ -134,6 +137,50 @@ struct body_part_type {
         }
     private:
         int bionic_slots_ = 0;
+};
+
+class bodypart
+{
+    private:
+        bodypart_str_id id;
+
+        int hp_cur;
+        int hp_max;
+
+        int healed_total = 0;
+        /** Not used yet*/
+        int damage_bandaged = 0;
+        int damage_disinfected = 0;
+
+    public:
+        bodypart(): id( bodypart_str_id( "num_bp" ) ), hp_cur( 0 ), hp_max( 0 ) {}
+        bodypart( bodypart_str_id id ): id( id ), hp_cur( id->base_hp ), hp_max( id->base_hp )  {}
+
+        bodypart_id get_id() const;
+
+        void set_hp_to_max();
+        bool is_at_max_hp() const;
+
+        int get_hp_cur() const;
+        int get_hp_max() const;
+        int get_healed_total() const;
+        int get_damage_bandaged() const;
+        int get_damage_disinfected() const;
+
+        void set_hp_cur( int set );
+        void set_hp_max( int set );
+        void set_healed_total( int set );
+        void set_damage_bandaged( int set );
+        void set_damage_disinfected( int set );
+
+        void mod_hp_cur( int mod );
+        void mod_hp_max( int mod );
+        void mod_healed_total( int mod );
+        void mod_damage_bandaged( int mod );
+        void mod_damage_disinfected( int mod );
+
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
 };
 
 class body_part_set
@@ -215,17 +262,20 @@ const std::array<size_t, 12> bp_aiOther = {{0, 1, 2, 3, 5, 4, 7, 6, 9, 8, 11, 10
 
 /** Returns the matching name of the body_part token. */
 std::string body_part_name( body_part bp, int number = 1 );
+std::string body_part_name( const bodypart_id &bp, int number = 1 );
 
 /** Returns the matching accusative name of the body_part token, i.e. "Shrapnel hits your X".
  *  These are identical to body_part_name above in English, but not in some other languages. */
 std::string body_part_name_accusative( body_part bp, int number = 1 );
+std::string body_part_name_accusative( const bodypart_id &bp, int number = 1 );
 
 /** Returns the name of the body parts in a context where the name is used as
  * a heading or title e.g. "Left Arm". */
 std::string body_part_name_as_heading( body_part bp, int number );
+std::string body_part_name_as_heading( const bodypart_id &bp, int number );
 
 /** Returns the body part text to be displayed in the HP bar */
-std::string body_part_hp_bar_ui_text( body_part bp );
+std::string body_part_hp_bar_ui_text( const bodypart_id &bp );
 
 /** Returns the matching encumbrance text for a given body_part token. */
 std::string encumb_text( body_part bp );

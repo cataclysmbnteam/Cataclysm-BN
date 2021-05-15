@@ -536,13 +536,32 @@ void Character::load( const JsonObject &data )
         on_item_wear( w );
     }
 
-    if( !data.read( "hp_cur", hp_cur ) ) {
-        debugmsg( "Error, incompatible hp_cur in save file '%s'", parray.str() );
+    if( data.has_array( "hp_cur" ) ) {
+        set_anatomy( anatomy_id( "human_anatomy" ) );
+        set_body();
+        std::array<int, 6> hp_cur;
+        data.read( "hp_cur", hp_cur );
+        std::array<int, 6> hp_max;
+        data.read( "hp_max", hp_max );
+        set_part_hp_max( bodypart_id( "head" ), hp_max[0] );
+        set_part_hp_cur( bodypart_id( "head" ), hp_cur[0] );
+
+        set_part_hp_max( bodypart_id( "torso" ), hp_max[1] );
+        set_part_hp_cur( bodypart_id( "torso" ), hp_cur[1] );
+
+        set_part_hp_max( bodypart_id( "arm_l" ), hp_max[2] );
+        set_part_hp_cur( bodypart_id( "arm_l" ), hp_cur[2] );
+
+        set_part_hp_max( bodypart_id( "arm_r" ), hp_max[3] );
+        set_part_hp_cur( bodypart_id( "arm_r" ), hp_cur[3] );
+
+        set_part_hp_max( bodypart_id( "leg_l" ), hp_max[4] );
+        set_part_hp_cur( bodypart_id( "leg_l" ), hp_cur[4] );
+
+        set_part_hp_max( bodypart_id( "leg_r" ), hp_max[5] );
+        set_part_hp_cur( bodypart_id( "leg_r" ), hp_cur[5] );
     }
 
-    if( !data.read( "hp_max", hp_max ) ) {
-        debugmsg( "Error, incompatible hp_max in save file '%s'", parray.str() );
-    }
 
     inv.clear();
     if( data.has_member( "inv" ) ) {
@@ -788,9 +807,6 @@ void player::store( JsonOut &json ) const
     json.member( "id", getID() );
 
     // potential incompatibility with future expansion
-    // TODO: consider ["parts"]["head"]["hp_cur"] instead of ["hp_cur"][head_enum_value]
-    json.member( "hp_cur", hp_cur );
-    json.member( "hp_max", hp_max );
     json.member( "damage_bandaged", damage_bandaged );
     json.member( "damage_disinfected", damage_disinfected );
     // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
@@ -2977,6 +2993,8 @@ void Creature::store( JsonOut &jsout ) const
     jsout.member( "block_bonus", block_bonus );
     jsout.member( "hit_bonus", hit_bonus );
 
+    jsout.member( "body", body );
+
     // fake is not stored, it's temporary anyway, only used to fire with a gun.
 }
 
@@ -3032,6 +3050,8 @@ void Creature::load( const JsonObject &jsin )
     jsin.read( "hit_bonus", hit_bonus );
 
     jsin.read( "underwater", underwater );
+
+    jsin.read( "body", body );
 
     fake = false; // see Creature::load
 
