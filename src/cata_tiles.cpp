@@ -938,11 +938,7 @@ void tileset_loader::load_tilejson_from_file( const JsonObject &config )
             ids = entry.get_string_array( "id" );
         }
         for( const std::string &t_id : ids ) {
-            tile_type *load_res = load_tile( entry, t_id );
-            if( !load_res ) {
-                continue;
-            }
-            tile_type &curr_tile = *load_res;
+            tile_type &curr_tile = load_tile( entry, t_id );
             curr_tile.offset = sprite_offset;
             bool t_multi = entry.get_bool( "multitile", false );
             bool t_rota = entry.get_bool( "rotates", t_multi );
@@ -952,11 +948,7 @@ void tileset_loader::load_tilejson_from_file( const JsonObject &config )
                 for( const JsonObject &subentry : entry.get_array( "additional_tiles" ) ) {
                     const std::string s_id = subentry.get_string( "id" );
                     const std::string m_id = t_id + "_" + s_id;
-                    tile_type *load_res_subtile = load_tile( subentry, m_id );
-                    if( !load_res_subtile ) {
-                        continue;
-                    }
-                    tile_type &curr_subtile = *load_res_subtile;
+                    tile_type &curr_subtile = load_tile( subentry, m_id );
                     curr_subtile.offset = sprite_offset;
                     curr_subtile.rotates = true;
                     curr_subtile.height_3d = t_h3d;
@@ -980,23 +972,18 @@ void tileset_loader::load_tilejson_from_file( const JsonObject &config )
  * The JSON data (loaded here) contains tile ids relative to the associated image.
  * They are translated into global ids by adding the @p offset, which is the number of
  * previously loaded tiles (excluding the tiles from the associated image).
- * @param id The id of the new tile definition (which is the key in @ref tileset::tile_ids).
- * @return Pointer to the loaded tile inside the @ref tileset::tile_ids map,
- *         or nullptr if @p id already exists.
+ * @param id The id of the new tile definition (which is the key in @ref tileset::tile_ids). Any existing
+ * definition of the same id is overridden.
+ * @return A reference to the loaded tile inside the @ref tileset::tile_ids map.
  */
-tile_type *tileset_loader::load_tile( const JsonObject &entry, const std::string &id )
+tile_type &tileset_loader::load_tile( const JsonObject &entry, const std::string &id )
 {
-    if( ts.find_tile_type( id ) ) {
-        ts.duplicate_ids.insert( id );
-        return nullptr;
-    }
-
     tile_type curr_subtile;
 
     load_tile_spritelists( entry, curr_subtile.fg, "fg" );
     load_tile_spritelists( entry, curr_subtile.bg, "bg" );
 
-    return &ts.create_tile_type( id, std::move( curr_subtile ) );
+    return ts.create_tile_type( id, std::move( curr_subtile ) );
 }
 
 void tileset_loader::load_tile_spritelists( const JsonObject &entry,
@@ -3727,7 +3714,6 @@ void cata_tiles::do_tile_loading_report()
     tile_loading_report( vpart_info::all(), C_VEHICLE_PART, "vp_" );
     tile_loading_report<trap>( trap::count(), C_TRAP, "" );
     tile_loading_report<field_type>( field_type::count(), C_FIELD, "" );
-    tile_loading_report_dups();
 
     // needed until DebugLog ostream::flush bugfix lands
     DebugLog( D_INFO, DC_ALL );
@@ -3803,21 +3789,6 @@ void cata_tiles::tile_loading_report( const arraytype &array, int array_length,
     []( decltype( begin ) const v ) {
         return v->id;
     }, category, prefix );
-}
-
-void cata_tiles::tile_loading_report_dups()
-{
-    std::vector<std::string> dups_list;
-    const std::unordered_set<std::string> &dups_set = tileset_ptr->get_duplicate_ids();
-    std::copy( dups_set.begin(), dups_set.end(), std::back_inserter( dups_list ) );
-    std::sort( dups_list.begin(), dups_list.end() );
-
-    std::string res;
-    for( const std::string &s : dups_list ) {
-        res += s;
-        res += " ";
-    }
-    DebugLog( D_INFO, DC_ALL ) << "Have duplicates: " << res;
 }
 
 std::vector<options_manager::id_and_option> cata_tiles::build_renderer_list()
