@@ -133,15 +133,8 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "farm_stills_3_basement", "ranch_camp_68_basement" ],
+    "id": [ "farm_stills_3_basement" ],
     "copy-from": "generic_city_house_basement"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "pottery_cottage_field_2nd", "pottery_cottage_field_roof", "pottery_cottage_field" ],
-    "copy-from": "generic_rural_building",
-    "sym": ".",
-    "color": "green"
   },
   {
     "type": "overmap_terrain",
