@@ -51,6 +51,7 @@ bool player_has_item_of_type( const std::string &type )
 
 void clear_character( player &dummy, bool debug_storage )
 {
+    dummy.set_body();
     dummy.normalize(); // In particular this clears martial arts style
 
     // Remove first worn item until there are none left.
@@ -105,6 +106,10 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.set_dex_bonus( 0 );
     dummy.set_int_bonus( 0 );
     dummy.set_per_bonus( 0 );
+    dummy.reset_bonuses();
+    dummy.set_speed_base( 100 );
+    dummy.set_speed_bonus( 0 );
+    dummy.set_all_parts_hp_to_max();
 
     dummy.cash = 0;
 

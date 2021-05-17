@@ -14,6 +14,8 @@
 #include "pldata.h"
 #include "type_id.h"
 
+static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
+
 side opposite_side( side s )
 {
     switch( s ) {
@@ -229,6 +231,8 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "hit_difficulty", hit_difficulty );
     mandatory( jo, was_loaded, "hit_size_relative", hit_size_relative );
 
+    mandatory( jo, was_loaded, "base_hp", base_hp );
+
     mandatory( jo, was_loaded, "legacy_id", legacy_id );
     token = legacy_id_to_enum( legacy_id );
 
@@ -301,31 +305,43 @@ void body_part_type::check() const
 
 std::string body_part_name( body_part bp, int number )
 {
-    const auto &bdy = get_bp( bp );
+    return body_part_name( convert_bp( bp ), number );
+}
+
+std::string body_part_name( const bodypart_id &bp, int number )
+{
     // See comments in `body_part_type::load` about why these two strings are
     // not a single translation object with plural enabled.
-    return number > 1 ? bdy.name_multiple.translated() : bdy.name.translated();
+    return number > 1 ? bp->name_multiple.translated() : bp->name.translated();
 }
 
 std::string body_part_name_accusative( body_part bp, int number )
 {
-    const auto &bdy = get_bp( bp );
+    return body_part_name_accusative( convert_bp( bp ), number );
+}
+
+std::string body_part_name_accusative( const bodypart_id &bp, int number )
+{
     // See comments in `body_part_type::load` about why these two strings are
     // not a single translation object with plural enabled.
-    return number > 1 ? bdy.accusative_multiple.translated() : bdy.accusative.translated();
+    return number > 1 ? bp->accusative_multiple.translated() : bp->accusative.translated();
 }
 
 std::string body_part_name_as_heading( body_part bp, int number )
 {
-    const auto &bdy = get_bp( bp );
-    // See comments in `body_part_type::load` about why these two strings are
-    // not a single translation object with plural enabled.
-    return number > 1 ? bdy.name_as_heading_multiple.translated() : bdy.name_as_heading.translated();
+    return body_part_name_as_heading( convert_bp( bp ), number );
 }
 
-std::string body_part_hp_bar_ui_text( body_part bp )
+std::string body_part_name_as_heading( const bodypart_id &bp, int number )
 {
-    return _( get_bp( bp ).hp_bar_ui_text );
+    // See comments in `body_part_type::load` about why these two strings are
+    // not a single translation object with plural enabled.
+    return number > 1 ? bp->name_as_heading_multiple.translated() : bp->name_as_heading.translated();
+}
+
+std::string body_part_hp_bar_ui_text( const bodypart_id &bp )
+{
+    return _( bp->hp_bar_ui_text );
 }
 
 std::string encumb_text( body_part bp )
@@ -353,4 +369,115 @@ body_part opposite_body_part( body_part bp )
 std::string get_body_part_id( body_part bp )
 {
     return get_bp( bp ).legacy_id;
+}
+
+bodypart_id bodypart::get_id() const
+{
+    return id;
+}
+
+void bodypart::set_hp_to_max()
+{
+    hp_cur = hp_max;
+}
+
+bool bodypart::is_at_max_hp() const
+{
+    return hp_cur == hp_max;
+}
+
+int bodypart::get_hp_cur() const
+{
+    return hp_cur;
+}
+
+int bodypart::get_hp_max() const
+{
+    return hp_max;
+}
+
+int bodypart::get_healed_total() const
+{
+    return healed_total;
+}
+
+int bodypart::get_damage_bandaged() const
+{
+    return damage_bandaged;
+}
+
+int bodypart::get_damage_disinfected() const
+{
+    return damage_disinfected;
+}
+
+void bodypart::set_hp_cur( int set )
+{
+    hp_cur = set;
+}
+
+void bodypart::set_hp_max( int set )
+{
+    hp_max = set;
+}
+
+void bodypart::set_healed_total( int set )
+{
+    healed_total = set;
+}
+
+void bodypart::set_damage_bandaged( int set )
+{
+    damage_bandaged = set;
+}
+
+void bodypart::set_damage_disinfected( int set )
+{
+    damage_disinfected = set;
+}
+
+void bodypart::mod_hp_cur( int mod )
+{
+    hp_cur += mod;
+}
+
+void bodypart::mod_hp_max( int mod )
+{
+    hp_max += mod;
+}
+
+void bodypart::mod_healed_total( int mod )
+{
+    healed_total += mod;
+}
+
+void bodypart::mod_damage_bandaged( int mod )
+{
+    damage_bandaged += mod;
+}
+
+void bodypart::mod_damage_disinfected( int mod )
+{
+    damage_disinfected += mod;
+}
+
+void bodypart::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "id", id );
+    json.member( "hp_cur", hp_cur );
+    json.member( "hp_max", hp_max );
+    json.member( "damage_bandaged", damage_bandaged );
+    json.member( "damage_disinfected", damage_disinfected );
+    json.end_object();
+}
+
+void bodypart::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    jo.read( "id", id, true );
+    jo.read( "hp_cur", hp_cur, true );
+    jo.read( "hp_max", hp_max, true );
+    jo.read( "damage_bandaged", damage_bandaged, true );
+    jo.read( "damage_disinfected", damage_disinfected, true );
 }

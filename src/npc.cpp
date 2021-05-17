@@ -180,15 +180,14 @@ standard_npc::standard_npc( const std::string &name, const tripoint &pos,
     int_cur = std::max( s_int, 0 );
     int_max = std::max( s_int, 0 );
 
+    set_body();
     recalc_hp();
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        hp_cur[i] = hp_max[i];
-    }
-    for( auto &e : Skill::skills ) {
+
+    for( const Skill &e : Skill::skills ) {
         set_skill_level( e.ident(), std::max( sk_lvl, 0 ) );
     }
 
-    for( const auto &e : clothing ) {
+    for( const std::string &e : clothing ) {
         wear_item( item( e ) );
     }
 
@@ -412,10 +411,9 @@ void npc::randomize( const npc_class_id &type )
     //players will vastly outclass npcs in trade without a little help.
     mod_skill_level( skill_barter, rng( 2, 4 ) );
 
+    set_body();
     recalc_hp();
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        hp_cur[i] = hp_max[i];
-    }
+
     starting_weapon( myclass );
     starting_clothes( *this, myclass, male );
     starting_inv( *this, myclass );
@@ -1053,7 +1051,8 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
         for( int i = 0; i < num_hp_parts; i++ ) {
             hp_part hpp = static_cast<hp_part>( i );
             body_part bp = player::hp_to_bp( hpp );
-            if( is_limb_broken( hpp ) && !has_effect( effect_mending, bp ) && it.covers( bp ) ) {
+            if( is_limb_broken( convert_bp( bp ) ) && !has_effect( effect_mending, bp ) &&
+                it.covers( convert_bp( bp ).id() ) ) {
                 reason = _( "Thanks, I'll wear that now." );
                 return !!wear_item( it, false );
             }
@@ -1077,7 +1076,7 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
         }
         // Otherwise, maybe we should take off one or more items and replace them
         bool took_off = false;
-        for( const body_part bp : all_body_parts ) {
+        for( const bodypart_id &bp : get_all_body_parts() ) {
             if( !it.covers( bp ) ) {
                 continue;
             }
@@ -1085,7 +1084,7 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
             auto iter = std::find_if( worn.begin(), worn.end(), [bp]( const item & armor ) {
                 return armor.covers( bp );
             } );
-            if( iter != worn.end() && !( is_limb_broken( bp_to_hp( bp ) ) && iter->has_flag( "SPLINT" ) ) ) {
+            if( iter != worn.end() && !( is_limb_broken( bp ) && iter->has_flag( "SPLINT" ) ) ) {
                 took_off = takeoff( *iter );
                 break;
             }
@@ -1230,11 +1229,13 @@ void npc::form_opinion( const player &u )
         op_of_u.fear -= 1;
     }
 
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        if( u.hp_cur[i] <= u.hp_max[i] / 2 ) {
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+        const int hp_max = elem.second.get_hp_max();
+        const int hp_cur = elem.second.get_hp_cur();
+        if( hp_cur <= hp_max / 2 ) {
             op_of_u.fear--;
         }
-        if( hp_cur[i] <= hp_max[i] / 2 ) {
+        if( hp_cur <= hp_max / 2 ) {
             op_of_u.fear++;
         }
     }
@@ -1295,8 +1296,8 @@ void npc::form_opinion( const player &u )
 
     // VALUE
     op_of_u.value = 0;
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        if( hp_cur[i] < hp_max[i] * 0.8f ) {
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+        if( elem.second.get_hp_cur() < elem.second.get_hp_max() * 0.8f ) {
             op_of_u.value++;
         }
     }

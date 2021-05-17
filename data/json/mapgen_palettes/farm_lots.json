@@ -53,8 +53,10 @@
       " ": [ [ "f_null", 198 ], [ "f_hay", 2 ] ],
       "/": "f_null"
     },
-    "sealed_item": { "#": { "item": { "item": "seed_corn", "chance": 70 }, "furniture": "f_plant_seedling" } },
-    "item": { ":": { "item": "corn", "repeat": [ 1, 20 ] } }
+    "item": {
+      "#": { "item": "cattlefodder", "chance": 5, "repeat": [ 1, 2 ] },
+      ":": { "item": "cattlefodder", "repeat": [ 1, 20 ] }
+    }
   },
   {
     "type": "palette",

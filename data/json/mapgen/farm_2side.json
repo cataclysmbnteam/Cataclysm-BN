@@ -241,7 +241,7 @@
       },
       "item": {
         "_": [ { "item": "straw_pile", "chance": 3 }, { "item": "cattlefodder", "chance": 2 } ],
-        "i": { "item": "corn", "chance": 40, "repeat": 10 }
+        "i": { "item": "cattlefodder", "chance": 40, "repeat": 10 }
       },
       "place_loot": [ { "item": "television", "x": 45, "y": 62, "chance": 100 }, { "item": "stereo", "x": 45, "y": 61, "chance": 50 } ],
       "place_items": [  ],

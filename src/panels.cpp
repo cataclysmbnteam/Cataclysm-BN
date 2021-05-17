@@ -877,16 +877,16 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
             wprintz( w, color, sym );
         }
     };
-    if( u.is_limb_broken( static_cast<hp_part>( limb_index ) ) && ( limb_index >= hp_arm_l &&
-            limb_index <= hp_leg_r ) ) {
+    const bodypart_id bp = convert_bp( avatar::hp_to_bp( static_cast<hp_part>( limb_index ) ) ).id();
+    if( u.is_limb_broken( bp.id() ) && ( limb_index >= hp_arm_l &&
+                                         limb_index <= hp_leg_r ) ) {
         //Limb is broken
         std::string limb = "~~%~~";
         nc_color color = c_light_red;
 
-        const auto bp = avatar::hp_to_bp( static_cast<hp_part>( limb_index ) );
-        if( u.worn_with_flag( "SPLINT", convert_bp( bp ).id() ) ) {
+        if( u.worn_with_flag( "SPLINT",  bp ) ) {
             static const efftype_id effect_mending( "mending" );
-            const auto &eff = u.get_effect( effect_mending, bp );
+            const auto &eff = u.get_effect( effect_mending, bp->token );
             const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
 
             if( is_self_aware || u.has_effect( effect_got_checked ) ) {
@@ -904,10 +904,12 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
         return;
     }
 
-    std::pair<std::string, nc_color> hp = get_hp_bar( u.hp_cur[limb_index], u.hp_max[limb_index] );
+    const int hp_cur = u.get_part_hp_cur( bp );
+    const int hp_max = u.get_part_hp_max( bp );
+    std::pair<std::string, nc_color> hp = get_hp_bar( hp_cur, hp_max );
 
     if( is_self_aware || u.has_effect( effect_got_checked ) ) {
-        wprintz( w, hp.second, "%3d  ", u.hp_cur[limb_index] );
+        wprintz( w, hp.second, "%3d  ", hp_cur );
     } else {
         wprintz( w, hp.second, hp.first );
 
@@ -926,7 +928,7 @@ static void draw_limb2( avatar &u, const catacurses::window &w )
     werase( w );
     // print limb health
     for( int i = 0; i < num_hp_parts; i++ ) {
-        const std::string str = body_part_hp_bar_ui_text( part[i]->token );
+        const std::string str = body_part_hp_bar_ui_text( part[i] );
         if( i % 2 == 0 ) {
             wmove( w, point( 0, i / 2 ) );
         } else {
@@ -1162,7 +1164,7 @@ static void draw_limb_narrow( avatar &u, const catacurses::window &w )
             nx = 19;
         }
 
-        std::string str = body_part_hp_bar_ui_text( part[i]->token );
+        std::string str = body_part_hp_bar_ui_text( part[i] );
         wmove( w, point( nx, ny ) );
         str = left_justify( str, 5 );
         wprintz( w, u.limb_color( part[i], true, true, true ), str + ":" );
@@ -1186,7 +1188,7 @@ static void draw_limb_wide( avatar &u, const catacurses::window &w )
         int ny = offset / 45;
         int nx = offset % 45;
         std::string str = string_format( " %s: ",
-                                         left_justify( body_part_hp_bar_ui_text( parts[i].first->token ), 5 ) );
+                                         left_justify( body_part_hp_bar_ui_text( parts[i].first ), 5 ) );
         nc_color part_color = u.limb_color( parts[i].first, true, true, true );
         print_colored_text( w, point( nx, ny ), part_color, c_white, str );
         draw_limb_health( u, w, parts[i].second );
@@ -1571,7 +1573,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
 
     // print limb health
     for( int i = 0; i < num_hp_parts; i++ ) {
-        const std::string str = body_part_hp_bar_ui_text( part[i]->token );
+        const std::string str = body_part_hp_bar_ui_text( part[i] );
         wmove( w, point( 8, i ) );
         wprintz( w, u.limb_color( part[i], true, true, true ), str );
         wmove( w, point( 14, i ) );

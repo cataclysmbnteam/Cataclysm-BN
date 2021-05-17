@@ -7,6 +7,7 @@
 #include <memory>
 #include <string>
 #include <tuple>
+#include <unordered_set>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -75,6 +76,21 @@ enum TILE_CATEGORY {
     C_WEATHER,
 };
 
+class tile_lookup_res
+{
+        // references are stored as pointers to support copy assignment of the class
+        const std::string *_id;
+        tile_type *_tile;
+    public:
+        tile_lookup_res( const std::string &id, tile_type &tile ): _id( &id ), _tile( &tile ) {}
+        inline const std::string &id() {
+            return *_id;
+        }
+        inline tile_type &tile() {
+            return *_tile;
+        }
+};
+
 class texture
 {
     private:
@@ -104,6 +120,11 @@ class texture
 class tileset
 {
     private:
+        struct season_tile_value {
+            tile_type *default_tile = nullptr;
+            cata::optional<tile_lookup_res> season_tile = cata::nullopt;
+        };
+
         std::string tileset_id;
 
         int tile_width;
@@ -118,7 +139,12 @@ class tileset
         std::vector<texture> overexposed_tile_values;
         std::vector<texture> memory_tile_values;
 
+        std::unordered_set<std::string> duplicate_ids;
+
         std::unordered_map<std::string, tile_type> tile_ids;
+        // caches both "default" and "_season_XXX" tile variants (to reduce the number of lookups)
+        // either variant can be either a `nullptr` or a pointer/reference to the real value (stored inside `tile_ids`)
+        std::unordered_map<std::string, season_tile_value> tile_ids_by_season[season_type::NUM_SEASONS];
 
         static const texture *get_if_available( const size_t index,
                                                 const decltype( shadow_tile_values ) &tiles ) {
@@ -156,9 +182,29 @@ class tileset
         const texture *get_memory_tile( const size_t index ) const {
             return get_if_available( index, memory_tile_values );
         }
+        const std::unordered_set<std::string> &get_duplicate_ids() const {
+            return duplicate_ids;
+        }
 
         tile_type &create_tile_type( const std::string &id, tile_type &&new_tile_type );
         const tile_type *find_tile_type( const std::string &id ) const;
+        /**
+         * Looks up tile by id + season suffix AND just raw id
+         * Example: if id == "t_tree_apple" and season == SPRING
+         *    will first look up "t_tree_apple_season_spring"
+         *    if not found, will look up "t_tree_apple"
+         *    if still nothing is found, will return cata::nullopt
+         * @param id : "raw" tile id (without season suffix)
+         * @param season : season suffix encoded as season_type enum
+         * @return cata::nullopt if no tile is found,
+         *    cata::optional with found id (e.g. "t_tree_apple_season_spring" or "t_tree_apple) and found tile.
+         *
+         * Note: this method is guaranteed to return pointers to the keys and values stored inside the
+         * `tileset::tile_ids` collection. I.e. result of this method call is invalidated when
+         *  the corresponding `tileset` is invalidated.
+         */
+        cata::optional<tile_lookup_res> find_tile_type_by_season( const std::string &id,
+                season_type season ) const;
 };
 
 class tileset_loader
@@ -196,14 +242,8 @@ class tileset_loader
         void add_ascii_subtile( tile_type &curr_tile, const std::string &t_id, int sprite_id,
                                 const std::string &s_id );
         void load_ascii_set( const JsonObject &entry );
-        /**
-         * Create a new tile_type, add it to tile_ids (using <B>id</B>).
-         * Set the fg and bg properties of it (loaded from the json object).
-         * Makes sure each is either -1, or in the interval [0,size).
-         * If it's in that interval, adds offset to it, if it's not in the
-         * interval (and not -1), throw an std::string error.
-         */
-        tile_type &load_tile( const JsonObject &entry, const std::string &id );
+
+        tile_type *load_tile( const JsonObject &entry, const std::string &id );
 
         void load_tile_spritelists( const JsonObject &entry, weighted_int_list<std::vector<int>> &vs,
                                     const std::string &objname );
@@ -311,12 +351,11 @@ class cata_tiles
     public:
         cata_tiles( const SDL_Renderer_Ptr &render, const GeometryRenderer_Ptr &geometry );
         ~cata_tiles();
-    public:
+
         /** Reload tileset, with the given scale. Scale is divided by 16 to allow for scales < 1 without risking
          *  float inaccuracies. */
         void set_draw_scale( int scale );
 
-    public:
         void on_options_changed();
 
         /** Draw to screen */
@@ -334,18 +373,29 @@ class cata_tiles
         /** How many rows and columns of tiles fit into given dimensions **/
         void get_window_tile_counts( int width, int height, int &columns, int &rows ) const;
 
-        const tile_type *find_tile_with_season( std::string &id );
-        const tile_type *find_tile_looks_like( std::string &id, TILE_CATEGORY category );
+        cata::optional<tile_lookup_res> find_tile_with_season( const std::string &id ) const;
+
+        cata::optional<tile_lookup_res>
+        find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
+                              int looks_like_jumps_limit = 10 ) const;
+
+        // this templated method is used only from it's own cpp file, so it's ok to declare it here
+        template<typename T>
+        cata::optional<tile_lookup_res>
+        find_tile_looks_like_by_string_id( const std::string &id, TILE_CATEGORY category,
+                                           int looks_like_jumps_limit ) const;
+
+
         bool find_overlay_looks_like( bool male, const std::string &overlay, std::string &draw_id );
 
-        bool draw_from_id_string( std::string id, const tripoint &pos, int subtile, int rota, lit_level ll,
-                                  bool apply_night_vision_goggles );
-        bool draw_from_id_string( std::string id, TILE_CATEGORY category,
+        bool draw_from_id_string( const std::string &id, const tripoint &pos, int subtile, int rota,
+                                  lit_level ll, bool apply_night_vision_goggles );
+        bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
                                   const std::string &subcategory, const tripoint &pos, int subtile, int rota,
                                   lit_level ll, bool apply_night_vision_goggles );
-        bool draw_from_id_string( std::string id, const tripoint &pos, int subtile, int rota, lit_level ll,
-                                  bool apply_night_vision_goggles, int &height_3d );
-        bool draw_from_id_string( std::string id, TILE_CATEGORY category,
+        bool draw_from_id_string( const std::string &id, const tripoint &pos, int subtile, int rota,
+                                  lit_level ll, bool apply_night_vision_goggles, int &height_3d );
+        bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
                                   const std::string &subcategory, const tripoint &pos, int subtile, int rota,
                                   lit_level ll, bool apply_night_vision_goggles, int &height_3d );
         bool draw_sprite_at(
@@ -539,6 +589,9 @@ class cata_tiles
         template<typename Iter, typename Func>
         void lr_generic( Iter begin, Iter end, Func id_func, TILE_CATEGORY category,
                          const std::string &prefix );
+
+        void tile_loading_report_dups();
+
         /** Lighting */
         void init_light();
 

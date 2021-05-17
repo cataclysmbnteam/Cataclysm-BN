@@ -4661,9 +4661,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         case BONESETTING: {
             int broken_limbs_count = 0;
             for( int i = 0; i < num_hp_parts; i++ ) {
-                const bool broken = patient.is_limb_broken( static_cast<hp_part>( i ) );
-                body_part part = player::hp_to_bp( static_cast<hp_part>( i ) );
-                effect &existing_effect = patient.get_effect( effect_mending, part );
+                const bodypart_id &part = convert_bp( player::hp_to_bp( static_cast<hp_part>( i ) ) ).id();
+                const bool broken = patient.is_limb_broken( part );
+                effect &existing_effect = patient.get_effect( effect_mending, part->token );
                 // Skip part if not broken or already healed 50%
                 if( !broken || ( !existing_effect.is_null() &&
                                  existing_effect.get_duration() >
@@ -4676,7 +4676,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                                                _( "The machine rapidly sets and splints <npcname>'s broken %s." ),
                                                body_part_name( part ) );
                 // TODO: fail here if unable to perform the action, i.e. can't wear more, trait mismatch.
-                if( !patient.worn_with_flag( flag_SPLINT, convert_bp( part ).id() ) ) {
+                if( !patient.worn_with_flag( flag_SPLINT, part ) ) {
                     item splint;
                     if( i == hp_arm_l || i == hp_arm_r ) {
                         splint = item( "arm_splint", calendar::start_of_cataclysm );
@@ -4687,8 +4687,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     cata::optional<std::list<item>::iterator> worn_item =
                         patient.wear( equipped_splint, false );
                 }
-                patient.add_effect( effect_mending, 0_turns, part, true );
-                effect &mending_effect = patient.get_effect( effect_mending, part );
+                patient.add_effect( effect_mending, 0_turns, part->token, true );
+                effect &mending_effect = patient.get_effect( effect_mending, part->token );
                 mending_effect.set_duration( mending_effect.get_max_duration() - 5_days );
             }
             if( broken_limbs_count == 0 ) {
@@ -5645,7 +5645,7 @@ void iexamine::dimensional_portal( player &p, const tripoint &pos )
         }
 
         case 1:
-            p.hp_cur[hp_torso] = 0;
+            p.set_all_parts_hp_cur( 0 );
             g->m.translate_radius( t_dimensional_portal, t_thconc_floor, 5, pos, true );
             g->win();
             break;
