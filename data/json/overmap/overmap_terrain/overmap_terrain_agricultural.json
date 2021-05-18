@@ -133,11 +133,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "farm_stills_3_basement" ],
-    "copy-from": "generic_city_house_basement"
-  },
-  {
-    "type": "overmap_terrain",
     "id": [
       "2farm_1",
       "2farm_10",
@@ -243,7 +238,6 @@
       "farm_isherwood_2",
       "2farm_11",
       "farm_stills_3",
-      "farm_stills_3_roof",
       "farm_dairy_twd_4",
       "2farm_roof_11"
     ],
