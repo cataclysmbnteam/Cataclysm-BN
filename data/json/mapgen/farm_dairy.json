@@ -84,8 +84,7 @@
         "$": "t_splitrail_fence",
         ".": [ "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt" ],
         ",": [ "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt" ]
-      },
-      "monsters": { ".": { "monster": "GROUP_ZOMBIE_BOVINE", "chance": 1, "density": 0.0005 } }
+      }
     }
   },
   {
