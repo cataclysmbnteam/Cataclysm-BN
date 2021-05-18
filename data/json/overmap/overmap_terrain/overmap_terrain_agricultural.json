@@ -253,7 +253,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "farm_stills_7", "farm_stills_7_roof" ],
+    "id": [ "farm_stills_7" ],
     "copy-from": "generic_rural_building",
     "name": "stills",
     "color": "brown"
