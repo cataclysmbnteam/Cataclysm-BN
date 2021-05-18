@@ -16,7 +16,7 @@ from sys import platform
 # 'options' variable is referenced in our defined functions below
 
 parser = OptionParser()
-parser.add_option("-p", "--project", action="store", dest="project_name", help="project name and (optionally) version")
+parser.add_option("-p", "--project", action="store", dest="project_name", help="project name and (optionally) version. If not specified, uses mod id from first encountered modinfo.")
 parser.add_option("-v", "--verbose", action="store_true", default=False, dest="verbose", help="be verbose")
 parser.add_option("-i", "--input", action="append",  dest="input_folders", help="list of input folders")
 parser.add_option("-e", "--exclude", action="append", default=[], dest="excluded_files", help="exclude individual files from scan")
@@ -26,9 +26,6 @@ parser.add_option("-s", "--suppress", action="append", default=[], dest="suppres
 parser.add_option("--warn-unused-types", action="store_true", default=False, dest="warn_unused_types", help="warn about types defined in script but unused in JSON")
 (options, args) = parser.parse_args()
 
-if not options.project_name:
-    print("Missing project name")
-    exit(1)
 if not options.input_folders or len(options.input_folders) == 0:
     print("Missing input list")
     exit(1)
@@ -36,10 +33,10 @@ if not options.output_file:
     print("Missing output file")
     exit(1)
 
-# Parsing
-class ParserState:
+class ExtractorState:
     current_source_file = '' # Source file being processed
     po_entries = []          # Collected entries
+    project_name = ''        # Project name for POT
 
 
 # Exceptions
@@ -968,6 +965,9 @@ def extract(state, item):
         raise WrongJSONItem("ERROR: Unrecognized object type '{}'!".format(object_type), item)
     if object_type not in known_types:
         print("WARNING: known_types does not contain object type '{}'".format(object_type))
+    # Use mod id as project name if project name is not specified
+    if object_type == "MOD_INFO" and not state.project_name:
+        state.project_name = item.get("id")
     wrote = False
     name = item.get("name") # Used in gettext comments below.
     # Don't extract any record with name = "none".
@@ -1145,10 +1145,10 @@ def prepare_git_file_list():
             git_files_list.add(os.path.normpath(f[:-1].decode('utf8')))
 
 
-def write_pot(entries, output_path):
+def write_pot(entries, output_path, project_name):
     pot = polib.POFile()
     pot.metadata = {
-        'Project-Id-Version': options.project_name,
+        'Project-Id-Version': project_name,
         'POT-Creation-Date': time.strftime('%Y-%m-%d %H:%M%z'),
         'Language': '',
         'MIME-Version': '1.0',
@@ -1183,7 +1183,8 @@ if options.tracked_only:
     print("==> Generating the list of all Git tracked files")
     prepare_git_file_list()
 
-state = ParserState()
+state = ExtractorState()
+state.project_name = options.project_name
 
 print("==> Parsing JSON")
 for i in sorted(directories):
@@ -1198,6 +1199,8 @@ if options.warn_unused_types:
         print("WARNING: type {} from needs_plural not found in any JSON objects".format(needs_plural - found_types))
 
 print("==> Writing POT")
-write_pot(state.po_entries, output_pot_file_name)
+if not state.project_name:
+    state.project_name = "Unknown Mod"
+write_pot(state.po_entries, output_pot_file_name, state.project_name)
 
 # done.
