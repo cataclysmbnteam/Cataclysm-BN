@@ -1277,7 +1277,9 @@ void known_magic::deserialize( JsonIn &jsin )
         std::string id = jo.get_string( "id" );
         spell_id sp = spell_id( id );
         int xp = jo.get_int( "xp" );
-        if( knows_spell( sp ) ) {
+        if( !sp.is_valid() ) {
+            debugmsg( "Skipping spell with invalid id: %s", sp.c_str() );
+        } else if( knows_spell( sp ) ) {
             spellbook[sp].set_exp( xp );
         } else {
             spellbook.emplace( sp, spell( sp, xp ) );
@@ -1391,10 +1393,11 @@ bool known_magic::can_learn_spell( const Character &guy, const spell_id &sp ) co
 spell &known_magic::get_spell( const spell_id &sp )
 {
     if( !knows_spell( sp ) ) {
+        static spell bugged_spell;
         debugmsg( "ERROR: Tried to get unknown spell" );
+        return bugged_spell;
     }
-    spell &temp_spell = spellbook[ sp ];
-    return temp_spell;
+    return spellbook.at( sp );
 }
 
 std::vector<spell *> known_magic::get_spells()
