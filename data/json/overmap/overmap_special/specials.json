@@ -419,7 +419,6 @@
       { "point": [ 3, 0, 0 ], "overmap": "farm_stills_1_north" },
       { "point": [ 0, 1, 0 ], "overmap": "farm_stills_8_north" },
       { "point": [ 1, 1, 0 ], "overmap": "farm_stills_7_north" },
-      { "point": [ 1, 1, 1 ], "overmap": "farm_stills_7_roof_north" },
       { "point": [ 2, 1, 0 ], "overmap": "farm_stills_6_north" },
       { "point": [ 3, 1, 0 ], "overmap": "farm_stills_5_north" },
       { "point": [ 0, 2, 0 ], "overmap": "farm_stills_12_north" },
