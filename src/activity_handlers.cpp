@@ -732,31 +732,32 @@ static void set_up_butchery_activity( player_activity &act, player &u, const but
     act.index = false;
 }
 
+static int size_factor_in_time_to_cut( m_size size )
+{
+    switch( size ) {
+        // Time (roughly) in turns to cut up the corpse
+        case MS_TINY:
+            return 150;
+        case MS_SMALL:
+            return 300;
+        case MS_MEDIUM:
+            return 450;
+        case MS_LARGE:
+            return 600;
+        case MS_HUGE:
+            return 1800;
+    }
+    return 0;
+}
+
 int butcher_time_to_cut( const inventory &inv, const item &corpse_item, const butcher_type action )
 {
     const mtype &corpse = *corpse_item.get_mtype();
-    const int factor = inv.max_quality( action == DISSECT ? qual_CUT_FINE : qual_BUTCHER );
+    const int initial_factor = inv.max_quality( action == DISSECT ? qual_CUT_FINE : qual_BUTCHER );
+    // Multiplier for dissection, since it uses different "quality units"
+    const int factor = action == DISSECT ? ( initial_factor * 15 ) : initial_factor;
 
-    int time_to_cut = 0;
-    switch( corpse.size ) {
-        // Time (roughly) in turns to cut up the corpse
-        case MS_TINY:
-            time_to_cut = 150;
-            break;
-        case MS_SMALL:
-            time_to_cut = 300;
-            break;
-        case MS_MEDIUM:
-            time_to_cut = 450;
-            break;
-        case MS_LARGE:
-            time_to_cut = 600;
-            break;
-        case MS_HUGE:
-            time_to_cut = 1800;
-            break;
-    }
-
+    int time_to_cut = size_factor_in_time_to_cut( corpse.size );
     // At factor 0, base 100 time_to_cut remains 100. At factor 50, it's 50 , at factor 75 it's 25
     time_to_cut *= std::max( 25, 100 - factor );
     if( time_to_cut < 3000 ) {
@@ -784,6 +785,7 @@ int butcher_time_to_cut( const inventory &inv, const item &corpse_item, const bu
             time_to_cut = std::max( 400, time_to_cut / 10 );
             break;
         case DISSECT:
+            time_to_cut *= 5;
             break;
     }
 
@@ -910,7 +912,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                     }
                     continue;
                 }
-                p.add_msg_if_player( m_warning,
+                p.add_msg_if_player( m_bad,
                                      _( "You notice there are bionics implanted in this corpse, that careful dissection might preserve." ) );
                 continue;
             }
