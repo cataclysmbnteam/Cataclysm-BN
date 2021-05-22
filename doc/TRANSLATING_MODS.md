@@ -78,32 +78,15 @@ You'll need Python 3 with `polib` library installed (available via `pip`).
 Scripts for string extraction can be found in the `lang` subdirectory of the repository:
 * `extract_json_strings.py` - main string extraction routines
 * `dedup_pot_file.py` - fixes errors in POT file produces by the 1st script
+* `extract_mod_strings.bat` (`extract_mod_strings.sh` for Linux/MacOS) - to automate the other 2 scripts
 
 ## Extracting strings
-To extract strings, you'll need to run these python scripts in the following order:
-```bash
-python extract_json_strings.py -i path/to/mod/ -o path/to/resulting/index.pot --project YourModName
-python dedup_pot_file.py path/to/resulting/index.pot
-```
+Copy these 3 scripts into the mod's folder and:
+* on Windows, double-click `extract_mod_strings.bat`
+* on Linux/MacOS, open terminal and run `./extract_mod_strings.sh`
 
-Replace `YourModName` with the mod's name.
-This is what translation software would use as project name for PO/POT,
-so it doesn't have to match actual mod name or id.
-
-Replace `path/to/resulting/index.pot` with output POT file name.
-
-Replace `path/to/mod/` with path to the mod's folder. 
-Resulting POT will remember which file each string comes from (including `path/to/mod/` part),
-and as such it's best to keep this path as short as possible
-(or even use `./` and run the scripts from the mod's directory)
-to keep the resulting references short, clean and easy for translators to understand.
-
-If the mod is under development and you plan on keeping translations up-to-date in the future,
-it may be worthwhile to create _another_ script (batch or bash, depending on your OS)
-that would take care of string extraction process for you.
-
-Extraction script itself (`extract_json_strings.py`) has a number of extra features
-not documented here; call it with `-h` flag (or see the code) for more info.
+If the process completed without errors, you'll see a new `lang` folder
+with `extracted_strings.pot` file inside.
 
 ## Creating new PO
 Before creating PO file, you need to choose language id.
@@ -164,7 +147,7 @@ mods/
             zh_CN.mo
 ```
 
-**Note:**  Storing your optional extraction script and POT/PO files
+**Note:**  Storing your POT/PO files
 in the same `lang` subdirectory may make it easier to keep track of them.
 The game ignores these files, and your mod folder structure will look like this:
 
@@ -173,8 +156,7 @@ mods/
     YourMod/
         modinfo.json
         lang/
-            extract.bat  (extract.sh on MacOS/Linux)
-            index.pot
+            extracted_strings.pot
             es.po
             es.mo
             pt_BR.po
@@ -231,4 +213,4 @@ all of them use single MO file, which is loaded at all times and always
 takes priority over 3-rd party translations.
 
 If you want a different translation from the one in the base game,
-add a translation context to the string.
+add a translation context to the string in the corresponding JSON object.
