@@ -99,6 +99,10 @@ endif ()
 
 if (${CMAKE_SYSTEM_NAME} MATCHES Darwin)
     set(_OS_DARWIN_ 1)
+    add_definitions(-DMACOSX)
+    if (${TILES})
+        add_definitions(-DOSX_SDL2_LIBS)
+    endif ()
 endif ()
 
 include(CheckCXXCompilerFlag)
