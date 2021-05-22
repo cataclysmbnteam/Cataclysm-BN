@@ -78,11 +78,7 @@
         "effect": { "npc_add_effect": "player_BGSS_SAIDYES" },
         "topic": "TALK_FRIEND"
       },
-      {
-        "text": "<end_talking>",
-        "effect": { "npc_add_effect": "player_BGSS_SAIDYES" },
-        "topic": "TALK_DONE"
-      }
+      { "text": "<end_talking>", "effect": { "npc_add_effect": "player_BGSS_SAIDYES" }, "topic": "TALK_DONE" }
     ]
   },
   {
