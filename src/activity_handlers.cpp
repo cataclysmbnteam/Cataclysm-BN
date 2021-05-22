@@ -473,7 +473,7 @@ static bool check_butcher_cbm( const int roll )
 }
 
 static void extract_or_wreck_cbms( const std::list<item *> &cbms, int roll,
-                                   const tripoint &pos )
+                                   player &p )
 {
     if( roll < 0 ) {
         return;
@@ -485,12 +485,10 @@ static void extract_or_wreck_cbms( const std::list<item *> &cbms, int roll,
         if( it.is_bionic() ) {
             if( check_butcher_cbm( roll ) ) {
                 add_msg( m_good, _( "You discover a %s!" ), it.tname() );
-                get_map().add_item( pos, it );
             } else {
                 // We convert instead of recreating so that it keeps flags and faults
                 it.convert( itype_id( "burnt_out_bionic" ) );
                 add_msg( m_bad, _( "You discover a %s!" ), it.tname() );
-                get_map().add_item( pos, it );
             }
         } else {
             if( !check_butcher_cbm( roll ) ) {
@@ -498,8 +496,18 @@ static void extract_or_wreck_cbms( const std::list<item *> &cbms, int roll,
                 continue;
             } else {
                 add_msg( m_good, _( "You discover a %s!" ), it.tname() );
-                get_map().add_item( pos, it );
             }
+        }
+
+        if( it.type->phase == LIQUID ) {
+            // TODO: smarter NPC liquid handling
+            if( p.is_npc() ) {
+                drop_on_map( p, item_drop_reason::deliberate, { it }, p.pos() );
+            } else {
+                liquid_handler::handle_all_liquid( it, 1 );
+            }
+        } else {
+            get_map().add_item( p.pos(), it );
         }
     }
 }
@@ -902,8 +910,8 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                     }
                     continue;
                 }
-                p.add_msg_if_player( m_bad,
-                                     _( "You suspect there might be bionics implanted in this corpse, that careful dissection might reveal." ) );
+                p.add_msg_if_player( m_warning,
+                                     _( "You notice there are bionics implanted in this corpse, that careful dissection might preserve." ) );
                 continue;
             }
             if( action == BUTCHER || action == BUTCHER_FULL || action == DISMEMBER ) {
@@ -930,16 +938,6 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 }
                 continue;
             }
-        }
-        if( action == DISSECT ) {
-            int roll = roll_butchery() - corpse_item->damage_level( 4 );
-            roll = roll < 0 ? 0 : roll;
-            roll = std::min( entry.max, roll );
-            add_msg( m_debug, _( "Roll penalty for corpse damage = %s" ), 0 - corpse_item->damage_level( 4 ) );
-            if( entry.type == "bionic" || entry.type == "bionic_group" ) {
-                extract_or_wreck_cbms( corpse_item->contents.all_items_top(), roll, p.pos() );
-            }
-            continue;
         }
 
         // Check if monster was gibbed, and handle accordingly
@@ -1028,7 +1026,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             }
         }
 
-        if( entry.type != "bionic_group" ) {
+        if( entry.type != "bionic" && entry.type != "bionic_group" ) {
             // divide total dropped weight by drop's weight to get amount
             if( entry.mass_ratio != 0.00f ) {
                 // apply skill before converting to items, but only if mass_ratio is defined
@@ -1282,17 +1280,11 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     // and the liquid handling was interrupted, then the activity was canceled,
     // therefore operations on this activities targets and values may be invalidated.
     // reveal hidden items / hidden content
-    if( action != F_DRESS && action != SKIN ) {
-        for( item *content : corpse_item.contents.all_items_top() ) {
-            if( ( roll_butchery() + 10 ) * 5 > rng( 0, 100 ) ) {
-                //~ %1$s - item name, %2$s - monster name
-                p->add_msg_if_player( m_good, _( "You discover a %1$s in the %2$s!" ), content->tname(),
-                                      corpse->nname() );
-                g->m.add_item_or_charges( p->pos(), *content );
-            } else if( content->is_bionic() ) {
-                g->m.spawn_item( p->pos(), "burnt_out_bionic", 1, 0, calendar::turn );
-            }
-        }
+    if( action == DISSECT ) {
+        int roll = roll_butchery() - corpse_item.damage_level( 4 );
+        roll = roll < 0 ? 0 : roll;
+        add_msg( m_debug, _( "Roll penalty for corpse damage = %s" ), 0 - corpse_item.damage_level( 4 ) );
+        extract_or_wreck_cbms( corpse_item.contents.all_items_top(), roll, *p );
     }
 
     //end messages and effects
