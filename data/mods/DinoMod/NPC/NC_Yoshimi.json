@@ -1,0 +1,117 @@
+[
+  {
+    "type": "npc",
+    "id": "yoshimi",
+    "name_unique": "Yoshimi",
+    "name_suffix": "DinoLab survivor",
+    "class": "dm_dinolab_survivor",
+    "attitude": 0,
+    "mission": 0,
+    "chat": "TALK_Yoshimi_1",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc_class",
+    "id": "dm_dinolab_survivor",
+    "name": "DinoLab survivor",
+    "job_description": "Need to learn what happened…",
+    "common": false,
+    "worn_override": "NC_SCIENTIST_coat",
+    "carry_override": "NC_DOCTOR_misc",
+    "weapon_override": "EMPTY_GROUP",
+    "traits": [
+      [ "PRETTY", 100 ],
+      [ "ANIMALEMPATH2", 100 ],
+      [ "QUICK", 100 ],
+      [ "LIZ_EYE", 100 ],
+      [ "SCALES", 100 ],
+      [ "NAILS", 100 ],
+      [ "RAP_TALONS", 100 ],
+      [ "THRESH_RAPTOR", 100 ],
+      [ "ARM_FEATHERS", 100 ]
+    ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -4 } ] } ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 4, 8 ] } }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "u_met_yoshimi"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Yoshimi_1",
+    "dynamic_line": {
+      "u_has_var": "u_met_yoshimi",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
+      "yes": [
+        "How can I help you survivor?",
+        "Seen any interesting specimens?  I mean dinosaurs.",
+        "I was just imagining you transforming into a tyrannosaurus rex.  Of course that's impossible.  Unless…"
+      ],
+      "no": "Please leave me be, I am but a humble muck farmer in this humble muck."
+    },
+    "responses": [
+      {
+        "text": "You are dressed like a scientist.  Are you a scientist?  You look like a dinosaur.  Are you a dinosaur?  Are you a scientist dinosaur?",
+        "effect": { "u_add_var": "u_met_yoshimi", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_yoshimi", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_yoshimi_firstmeet"
+      },
+      {
+        "text": "Die demon mutant!",
+        "effect": [ { "u_add_var": "u_met_yoshimi", "type": "general", "context": "meeting", "value": "yes" }, "insult_combat" ],
+        "condition": { "not": { "u_has_var": "u_met_sadie", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "How did you get here?",
+        "condition": { "and": [ { "u_has_var": "u_met_yoshimi", "type": "general", "context": "meeting", "value": "yes" } ] },
+        "topic": "TALK_yoshimi_ask_past"
+      },
+      {
+        "text": "How are things here?",
+        "condition": { "and": [ { "u_has_var": "u_met_yoshimi", "type": "general", "context": "meeting", "value": "yes" } ] },
+        "topic": "TALK_yoshimi_ask_mood"
+      },
+      { "text": "Goodbye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_yoshimi_firstmeet",
+    "dynamic_line": "You have seen through my ruse.  In retrospect I should have prepared a costume of some kind.  Unimportant!  You haven't attacked me or tried to seduce me so you aren't like the others.  Had any bad headaches recently, strange mood swings, strong urges, desire for human flesh?",
+    "responses": [
+      { "text": "Only the usual.  What are you really?", "topic": "TALK_yoshimi_what" },
+      { "text": "You are aware of the Cataclysm then?", "topic": "TALK_yoshimi_cataclysm" },
+      { "text": "I'd rather not say at this point.", "topic": "TALK_Yoshimi_1" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_yoshimi_what",
+    "dynamic_line": "I am a hard working professional in a challenging field adjusting to a recent change in circumstances.  That is all you need to know.",
+    "responses": [ { "text": "I should go.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_yoshimi_ask_past",
+    "dynamic_line": "My manager Dr. Tingle made some important mistakes and I have had to make some quick decisions I would rather not go into detail on.  In retrospect our faculties may have been influenced by external factors.  Suffice to say Dr. Tingle is no longer with us but died doing what they wanted most in the world.  And I escaped alive.",
+    "responses": [ { "text": "Let's talk about something else.", "topic": "TALK_Yoshimi_1" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_yoshimi_cataclysm",
+    "dynamic_line": "Look at me.  Yes, I am aware.  The question is what happens next.",
+    "responses": [ { "text": "Yes.  Let's talk about something else.", "topic": "TALK_Yoshimi_1" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_yoshimi_ask_mood",
+    "dynamic_line": "I just got here actually, I've found it wise to move a lot recently.  There may be some interesting specimens nearby.  I mean dinosaurs.",
+    "responses": [ { "text": "Interesting.", "topic": "TALK_Yoshimi_1" } ]
+  }
+]
