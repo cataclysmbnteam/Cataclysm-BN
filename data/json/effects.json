@@ -14,13 +14,15 @@
     "type": "effect_type",
     "id": "ridden",
     "name": [ "Ridden" ],
-    "desc": [ "AI tag for when critter is being ridden. This is a bug if you have it." ]
+    "desc": [ "AI tag for when critter is being ridden. This is a bug if you have it." ],
+    "permanent": true
   },
   {
     "type": "effect_type",
     "id": "npc_suspend",
     "name": [ "npc_suspend" ],
-    "desc": [ "AI tag for when an NPC needs to be rebooted after an infinite loop." ]
+    "desc": [ "AI tag for when an NPC needs to be rebooted after an infinite loop." ],
+    "permanent": true
   },
   {
     "type": "effect_type",
@@ -32,7 +34,8 @@
     "type": "effect_type",
     "id": "docile",
     "name": [ "Docile Monster" ],
-    "desc": [ "AI tag for when monsters are tamed.  This is a bug if you have it." ]
+    "desc": [ "AI tag for when monsters are tamed.  This is a bug if you have it." ],
+    "permanent": true
   },
   {
     "type": "effect_type",
@@ -175,13 +178,15 @@
     "id": "infection",
     "name": [ "Infection" ],
     "desc": [ "AI tag used for the infected NPC quest.  This is a bug if you have it." ],
-    "base_mods": { "speed_mod": [ -80 ] }
+    "base_mods": { "speed_mod": [ -80 ] },
+    "permanent": true
   },
   {
     "type": "effect_type",
     "id": "pet",
     "name": [ "Pet" ],
-    "desc": [ "AI tag used for pet critters.  This is a bug if you have it." ]
+    "desc": [ "AI tag used for pet critters.  This is a bug if you have it." ],
+    "permanent": true
   },
   {
     "type": "effect_type",
@@ -193,31 +198,36 @@
     "type": "effect_type",
     "id": "pacified",
     "name": [ "Pacified" ],
-    "desc": [ "AI tag used for pacified critters.  This is a bug if you have it." ]
+    "desc": [ "AI tag used for pacified critters.  This is a bug if you have it." ],
+    "permanent": true
   },
   {
     "type": "effect_type",
     "id": "has_bag",
     "name": [ "Has Bag" ],
-    "desc": [ "AI tag used for critters holding your bags.  This is a bug if you have it." ]
+    "desc": [ "AI tag used for critters holding your bags.  This is a bug if you have it." ],
+    "permanent": true
   },
   {
     "type": "effect_type",
     "id": "monster_armor",
     "name": [ "Has Armor" ],
-    "desc": [ "AI tag used for critters wearing armor.  This is a bug if you have it." ]
+    "desc": [ "AI tag used for critters wearing armor.  This is a bug if you have it." ],
+    "permanent": true
   },
   {
     "type": "effect_type",
     "id": "monster_saddled",
     "name": [ "Has Saddle" ],
-    "desc": [ "AI tag used for critters wearing a saddle.  This is a bug if you have it." ]
+    "desc": [ "AI tag used for critters wearing a saddle.  This is a bug if you have it." ],
+    "permanent": true
   },
   {
     "type": "effect_type",
     "id": "tied",
     "name": [ "Tied Up" ],
-    "desc": [ "AI tag used for tied up critters.  This is a bug if you have it." ]
+    "desc": [ "AI tag used for tied up critters.  This is a bug if you have it." ],
+    "permanent": true
   },
   {
     "type": "effect_type",
@@ -285,7 +295,8 @@
     "id": "darkness",
     "apply_message": "Your vision flickers and goes gray!",
     "remove_message": "The world flickers back to normality.",
-    "rating": "bad"
+    "rating": "bad",
+    "permanent": true
   },
   {
     "type": "effect_type",
@@ -316,7 +327,8 @@
     "name": [ "Riding" ],
     "desc": [ "You are riding an animal." ],
     "apply_message": "You mount your steed.",
-    "rating": "good"
+    "rating": "good",
+    "permanent": true
   },
   {
     "type": "effect_type",
@@ -338,7 +350,8 @@
     "name": [ "Unstable footing" ],
     "desc": [ "Your footing is unstable.  It's more difficult to fight while standing here." ],
     "apply_message": "You try to keep your balance.",
-    "rating": "bad"
+    "rating": "bad",
+    "permanent": true
   },
   {
     "type": "effect_type",
@@ -535,7 +548,8 @@
     "desc": [ "You can't move until you get free!" ],
     "apply_message": "You are caught!",
     "rating": "bad",
-    "show_in_info": true
+    "show_in_info": true,
+    "permanent": true
   },
   {
     "type": "effect_type",
@@ -666,6 +680,7 @@
     "id": "in_pit",
     "name": [ "Stuck in Pit" ],
     "desc": [ "You're stuck in a pit.  Sight distance is limited and you have to climb out." ],
+    "permanent": true,
     "show_in_info": true
   },
   {
@@ -688,7 +703,8 @@
     "name": [ "Poor sight" ],
     "desc": [ "You can't see very far from this spot." ],
     "apply_message": "Your sight distance is impaired.",
-    "rating": "bad"
+    "rating": "bad",
+    "permanent": true
   },
   {
     "type": "effect_type",
@@ -723,6 +739,7 @@
     "rating": "bad",
     "miss_messages": [ [ "The webs constrict your movement.", 4 ] ],
     "max_intensity": 3,
+    "permanent": true,
     "base_mods": { "speed_mod": [ -20 ] },
     "scaling_mods": { "speed_mod": [ -5 ] },
     "show_in_info": true
@@ -740,6 +757,7 @@
     "rating": "bad",
     "int_dur_factor": "30 m",
     "max_intensity": 2,
+    "permanent": true,
     "scaling_mods": {
       "dex_mod": [ -1, 0 ],
       "pain_chance_bot": [ 200 ],
@@ -761,6 +779,7 @@
     "rating": "bad",
     "int_dur_factor": "8 h",
     "max_intensity": 3,
+    "permanent": true,
     "base_mods": {
       "pain_chance": [ 2, 1 ],
       "pain_chance_bot": [ 200 ],
@@ -855,6 +874,7 @@
     "speed_name": "Fungal infection",
     "rating": "bad",
     "max_intensity": 3,
+    "permanent": true,
     "resist_traits": [ "POISRESIST" ],
     "base_mods": { "speed_mod": [ -10 ], "str_mod": [ -1 ], "dex_mod": [ -1 ] }
   },
@@ -940,6 +960,7 @@
     "desc": [ "Your %s is exposed to the cold.", "Your %s is very exposed to the cold.", "Your %s is dangerously cold!" ],
     "speed_name": "Cold",
     "max_intensity": 3,
+    "permanent": true,
     "part_descs": true,
     "base_mods": { "speed_mod": [ -2 ] },
     "scaling_mods": {
@@ -961,6 +982,7 @@
     "name": [ "Warm", "Hot", "Scorching" ],
     "desc": [ "Your %s feels warm.", "Your %s is sweating from the heat.", "Your %s is sweating profusely!" ],
     "max_intensity": 3,
+    "permanent": true,
     "part_descs": true,
     "base_mods": {
       "thirst_tick": [ 2400 ],
@@ -981,6 +1003,7 @@
     "desc": [ "The heat slows you down.", "You struggle to move in this heat.", "The heat is crushing you." ],
     "speed_name": "Heat slowdown",
     "max_intensity": 3,
+    "permanent": true,
     "part_descs": true,
     "base_mods": { "speed_mod": [ -2 ] },
     "scaling_mods": { "speed_mod": [ -4 ] }
@@ -994,6 +1017,7 @@
     "speed_name": "Frostbite",
     "dur_add_perc": 0,
     "max_intensity": 2,
+    "permanent": true,
     "scaling_mods": { "speed_mod": [ -5 ] }
   },
   {
@@ -1001,6 +1025,7 @@
     "id": "frostbite_recovery",
     "name": [ "Defrosting" ],
     "desc": [ "Your %s is starting to feel the damage cold has wrought." ],
+    "permanent": true,
     "part_descs": true,
     "base_mods": { "pain_max_val": [ 40 ], "pain_chance": [ 2 ], "pain_min": [ 1 ] }
   },
@@ -1025,7 +1050,8 @@
   },
   {
     "type": "effect_type",
-    "id": "dermatik"
+    "id": "dermatik",
+    "permanent": true
   },
   {
     "type": "effect_type",
@@ -1354,7 +1380,8 @@
     "type": "effect_type",
     "id": "crushed",
     "apply_message": "The ceiling collapses on you!",
-    "rating": "bad"
+    "rating": "bad",
+    "permanent": true
   },
   {
     "type": "effect_type",
@@ -1372,7 +1399,8 @@
   },
   {
     "type": "effect_type",
-    "id": "music"
+    "id": "music",
+    "permanent": true
   },
   {
     "type": "effect_type",
@@ -1388,12 +1416,14 @@
     "type": "effect_type",
     "id": "tapeworm",
     "rating": "bad",
+    "permanent": true,
     "base_mods": { "hunger_chance": [ 50 ], "hunger_min": [ 1 ] }
   },
   {
     "type": "effect_type",
     "id": "bloodworms",
     "rating": "bad",
+    "permanent": true,
     "base_mods": {
       "thirst_tick": [ 600 ],
       "thirst_min": [ 1 ],
@@ -1406,12 +1436,14 @@
     "type": "effect_type",
     "id": "brainworms",
     "rating": "bad",
+    "permanent": true,
     "base_mods": { "pain_chance": [ 512 ], "pain_min": [ 2 ], "pain_max": [ 8 ], "h_mod_chance": [ 512 ], "h_mod_min": [ -10 ] }
   },
   {
     "type": "effect_type",
     "id": "paincysts",
     "rating": "bad",
+    "permanent": true,
     "base_mods": { "pain_chance": [ 256 ], "pain_min": [ 1 ], "pain_max": [ 4 ], "fatigue_chance": [ 256 ], "fatigue_min": [ 1 ] }
   },
   {
@@ -1419,7 +1451,8 @@
     "id": "tetanus",
     "rating": "bad",
     "resist_effects": [ "valium" ],
-    "base_mods": { "dex_mod": [ -4, 0 ] }
+    "base_mods": { "dex_mod": [ -4, 0 ] },
+    "permanent": true
   },
   {
     "type": "effect_type",
@@ -1490,7 +1523,8 @@
   },
   {
     "type": "effect_type",
-    "id": "slept_through_alarm"
+    "id": "slept_through_alarm",
+    "permanent": true
   },
   {
     "type": "effect_type",
@@ -1546,7 +1580,8 @@
       [ "Your bones become stronger as your calcium deficiency improves.", "good" ]
     ],
     "max_intensity": 3,
-    "rating": "bad"
+    "rating": "bad",
+    "permanent": true
   },
   {
     "type": "effect_type",
@@ -1560,7 +1595,8 @@
       [ "Your feel stronger as your anemia starts to improve.", "good" ]
     ],
     "max_intensity": 3,
-    "rating": "bad"
+    "rating": "bad",
+    "permanent": true
   },
   {
     "type": "effect_type",
@@ -1574,7 +1610,8 @@
       [ "Your vision improves as your Vitamin A deficiency improves.", "good" ]
     ],
     "max_intensity": 3,
-    "rating": "bad"
+    "rating": "bad",
+    "permanent": true
   },
   {
     "type": "effect_type",
@@ -1588,7 +1625,8 @@
       [ "Your ability to heal returns as your Vitamin B12 deficiency improves.", "good" ]
     ],
     "max_intensity": 3,
-    "rating": "bad"
+    "rating": "bad",
+    "permanent": true
   },
   {
     "type": "effect_type",
@@ -1602,7 +1640,8 @@
       [ "Your scurvy lessens as your Vitamin C deficiency improves.", "good" ]
     ],
     "max_intensity": 3,
-    "rating": "bad"
+    "rating": "bad",
+    "permanent": true
   },
   {
     "type": "effect_type",
@@ -1611,7 +1650,8 @@
     "desc": [ "An excess of vitamins has badly affected your metabolism." ],
     "apply_message": "Your metabolism becomes unstable.",
     "remove_message": "Your metabolism becomes more stable.",
-    "rating": "bad"
+    "rating": "bad",
+    "permanent": true
   },
   {
     "type": "effect_type",
@@ -1625,7 +1665,8 @@
     ],
     "apply_message": "You feel weird.",
     "max_intensity": 4,
-    "rating": "bad"
+    "rating": "bad",
+    "permanent": true
   },
   {
     "type": "effect_type",
@@ -1663,7 +1704,8 @@
     "max_duration": "10 d",
     "int_dur_factor": "60 h",
     "max_intensity": 3,
-    "rating": "good"
+    "rating": "good",
+    "permanent": true
   },
   {
     "type": "effect_type",
@@ -1674,7 +1716,8 @@
     "apply_message": "Your limb breaks!",
     "remove_message": "The broken limb has mended.",
     "max_duration": "2 s",
-    "rating": "bad"
+    "rating": "bad",
+    "permanent": true
   },
   {
     "type": "effect_type",
@@ -1697,6 +1740,7 @@
     "desc": [ "You are under the influence of analgesic substances to relieve pain, but they may numb you a bit." ],
     "max_intensity": 30,
     "int_dur_factor": "10 s",
+    "permanent": true,
     "scaling_mods": { "speed_mod": [ -1 ] }
   },
   {
@@ -1718,6 +1762,7 @@
     ],
     "max_intensity": 25,
     "int_dur_factor": "10 s",
+    "permanent": true,
     "scaling_mods": { "speed_mod": [ 0.42 ], "str_mod": [ 0.06 ], "dex_mod": [ 0.05 ], "int_mod": [ 0.084 ], "per_mod": [ 0.1 ] }
   },
   {
@@ -1739,6 +1784,7 @@
     ],
     "max_intensity": 1000,
     "int_dur_factor": "10 s",
+    "permanent": true,
     "scaling_mods": { "speed_mod": [ -0.42 ], "str_mod": [ -0.06 ], "dex_mod": [ -0.05 ], "int_mod": [ -0.084 ], "per_mod": [ -0.1 ] },
     "miss_messages": [ [ "What's the point of fighting?", 1 ] ]
   },
@@ -1749,6 +1795,7 @@
     "desc": [ "You suffer symptoms of a radiation sickness that weakens your body." ],
     "max_intensity": 2000,
     "int_dur_factor": "10 s",
+    "permanent": true,
     "scaling_mods": { "speed_mod": [ -0.2 ], "str_mod": [ -0.125 ], "dex_mod": [ -0.09 ], "int_mod": [ -0.1 ], "per_mod": [ -0.083 ] }
   },
   {
@@ -1758,6 +1805,7 @@
     "desc": [ "You're very jittery and pumped up, probably from some stimulants." ],
     "max_intensity": 1000,
     "int_dur_factor": "1 s",
+    "permanent": true,
     "scaling_mods": { "speed_mod": [ 0.33 ], "dex_mod": [ 0.1 ], "per_mod": [ 0.14 ] }
   },
   {
@@ -1767,6 +1815,7 @@
     "desc": [ "You are under the influence of depressants, and in a bit of a daze." ],
     "max_intensity": 1000,
     "int_dur_factor": "1 s",
+    "permanent": true,
     "scaling_mods": { "speed_mod": [ -0.333 ], "dex_mod": [ -0.05 ], "per_mod": [ -0.05 ] },
     "miss_messages": [ [ "You feel woozy.", 1 ] ]
   },
@@ -1777,6 +1826,7 @@
     "desc": [ "You can't sit still as you feel your heart pounding out of your chest.  You probably overdosed on those stims." ],
     "max_intensity": 1000,
     "int_dur_factor": 1,
+    "permanent": true,
     "base_mods": { "dex_mod": [ -0.88 ], "per_mod": [ -0.25 ] },
     "scaling_mods": { "speed_mod": [ -0.25 ], "per_mod": [ -0.071 ] },
     "miss_messages": [ [ "You shake with the excess stimulation.", 1 ] ]
@@ -1908,11 +1958,13 @@
   },
   {
     "type": "effect_type",
-    "id": "has_og_comm_freq"
+    "id": "has_og_comm_freq",
+    "permanent": true
   },
   {
     "type": "effect_type",
-    "id": "has_prospectus"
+    "id": "has_prospectus",
+    "permanent": true
   },
   {
     "type": "effect_type",
@@ -1929,7 +1981,8 @@
     "id": "accumulated_mutagen",
     "max_intensity": 7,
     "max_duration": "22 d",
-    "int_dur_factor": "3 d"
+    "int_dur_factor": "3 d",
+    "permanent": true
   },
   {
     "type": "effect_type",

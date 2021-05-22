@@ -29,7 +29,7 @@ static void reset_player()
     REQUIRE( !g->u.in_vehicle );
     g->u.setpos( tripoint_zero );
     // Blind the player to avoid needless drawing-related overhead
-    g->u.add_effect( effect_blind, 1_turns, num_bp, true );
+    g->u.add_effect( effect_blind, 365_days, num_bp );
 }
 
 TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )

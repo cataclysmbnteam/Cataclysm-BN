@@ -1238,7 +1238,7 @@ void map::player_in_field( player &u )
             // Moving through multiple webs stacks the effect.
             if( !u.has_trait( trait_WEB_WALKER ) && !u.in_vehicle ) {
                 // Between 5 and 15 minus your current web level.
-                u.add_effect( effect_webbed, 1_turns, num_bp, true, cur.get_field_intensity() );
+                u.add_effect( effect_webbed, 1_turns, num_bp, cur.get_field_intensity() );
                 // It is spent.
                 cur.set_field_intensity( 0 );
                 continue;

@@ -76,6 +76,9 @@ class effect_type
 
         bool is_show_in_info() const;
 
+        /** Does the effect  */
+        bool is_permanent() const;
+
         /** Loading helper functions */
         bool load_mod_data( const JsonObject &jo, const std::string &member );
         bool load_miss_msgs( const JsonObject &jo, const std::string &member );
@@ -83,6 +86,9 @@ class effect_type
 
         /** Registers the effect in the global map */
         static void register_ma_buff_effect( const effect_type &eff );
+
+    private:
+        bool permanent = false;
 
     protected:
         int max_intensity = 0;
@@ -144,13 +150,13 @@ class effect
 {
     public:
         effect() : eff_type( nullptr ), duration( 0_turns ), bp( num_bp ),
-            permanent( false ), intensity( 1 ), start_time( calendar::turn_zero ),
+            intensity( 1 ), start_time( calendar::turn_zero ),
             removed( true ) {
         }
         effect( const effect_type *peff_type, const time_duration &dur, body_part part,
-                bool perm, int nintensity, const time_point &nstart_time ) :
+                int nintensity, const time_point &nstart_time ) :
             eff_type( peff_type ), duration( dur ), bp( part ),
-            permanent( perm ), intensity( nintensity ), start_time( nstart_time ),
+            intensity( nintensity ), start_time( nstart_time ),
             removed( false ) {
         }
         effect( const effect & ) = default;
@@ -203,10 +209,6 @@ class effect
 
         /** Returns true if an effect is permanent, i.e. it's duration does not decrease over time. */
         bool is_permanent() const;
-        /** Makes an effect permanent. Note: This pauses the duration, but does not otherwise change it. */
-        void pause_effect();
-        /** Makes an effect not permanent. Note: This un-pauses the duration, but does not otherwise change it. */
-        void unpause_effect();
 
         /** Returns the intensity of an effect. */
         int get_intensity() const;
@@ -302,7 +304,6 @@ class effect
         const effect_type *eff_type;
         time_duration duration;
         body_part bp;
-        bool permanent;
         int intensity;
         time_point start_time;
         bool removed;

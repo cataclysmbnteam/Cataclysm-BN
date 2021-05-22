@@ -577,11 +577,6 @@ class Character : public Creature, public visitable<Character>
 
         virtual void set_movement_mode( character_movemode mode ) = 0;
 
-        /** Performs any Character-specific modifications to the arguments before passing to Creature::add_effect(). */
-        void add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp = num_bp,
-                         bool permanent = false,
-                         int intensity = 0, bool force = false, bool deferred = false ) override;
-
         /**Determine if character is susceptible to dis_type and if so apply the symptoms*/
         void expose_to_disease( diseasetype_id dis_type );
         /**
@@ -1483,10 +1478,6 @@ class Character : public Creature, public visitable<Character>
         }
         // magic mod
         pimpl<known_magic> magic;
-
-        void make_bleed( const bodypart_id &bp, time_duration duration, int intensity = 1,
-                         bool permanent = false,
-                         bool force = false, bool defferred = false );
 
         /** Calls Creature::normalize()
          *  nulls out the player's weapon

@@ -64,7 +64,8 @@
   {
     "type": "effect_type",
     "id": "u_met_Jenny_Forcette",
-    "//": "Use this flag to indicate if the player has met this NPC before."
+    "//": "Use this flag to indicate if the player has met this NPC before.",
+    "permanent": true
   },
   {
     "type": "talk_topic",
@@ -78,7 +79,7 @@
       {
         "text": "Nice meeting you.  What are you doing on that computer?",
         "condition": { "and": [ { "days_since_cataclysm": 60 }, { "not": { "u_has_effect": "u_met_Jenny_Forcette" } } ] },
-        "effect": { "u_add_effect": "u_met_Jenny_Forcette", "duration": "PERMANENT" },
+        "effect": { "u_add_effect": "u_met_Jenny_Forcette" },
         "topic": "TALK_REFUGEE_JENNY_Project1_developed",
         "switch": true
       },
@@ -91,7 +92,7 @@
       {
         "text": "Nice meeting you.  What are you doing on that computer?",
         "condition": { "and": [ { "days_since_cataclysm": 30 }, { "not": { "u_has_effect": "u_met_Jenny_Forcette" } } ] },
-        "effect": { "u_add_effect": "u_met_Jenny_Forcette", "duration": "PERMANENT" },
+        "effect": { "u_add_effect": "u_met_Jenny_Forcette" },
         "topic": "TALK_REFUGEE_JENNY_Project1_early",
         "switch": true
       },
@@ -104,7 +105,7 @@
       {
         "text": "Nice meeting you.  What are you doing on that computer?",
         "condition": { "not": { "u_has_effect": "u_met_Jenny_Forcette" } },
-        "effect": { "u_add_effect": "u_met_Jenny_Forcette", "duration": "PERMANENT" },
+        "effect": { "u_add_effect": "u_met_Jenny_Forcette" },
         "topic": "TALK_REFUGEE_JENNY_Project1_veryearly",
         "switch": true
       },
@@ -117,7 +118,7 @@
       {
         "text": "Nice meeting you.  I'd best get going, though.",
         "condition": { "not": { "u_has_effect": "u_met_Jenny_Forcette" } },
-        "effect": { "u_add_effect": "u_met_Jenny_Forcette", "duration": "PERMANENT" },
+        "effect": { "u_add_effect": "u_met_Jenny_Forcette" },
         "topic": "TALK_DONE"
       },
       {

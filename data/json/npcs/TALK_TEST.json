@@ -414,7 +414,7 @@
       {
         "text": "This is a npc_add_effect - infection response",
         "topic": "TALK_DONE",
-        "effect": { "npc_add_effect": "infection", "duration": "PERMANENT" },
+        "effect": { "npc_add_effect": "infection" },
         "//": "Response 2"
       },
       {
@@ -465,7 +465,7 @@
         "topic": "TALK_DONE",
         "effect": [
           { "u_add_effect": "infected", "duration": 10 },
-          { "npc_add_effect": "infected", "duration": "PERMANENT" },
+          { "npc_add_effect": "infected" },
           { "u_add_trait": "PROF_SWAT" },
           { "npc_add_trait": "PROF_SWAT" },
           { "u_spend_cash": 1000 },

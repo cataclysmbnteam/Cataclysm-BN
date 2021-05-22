@@ -2420,7 +2420,7 @@ void npc::reboot()
     ai_cache.searched_tiles.clear();
     activity = player_activity();
     clear_destination();
-    add_effect( effect_npc_suspend, 24_hours, num_bp, true, 1 );
+    add_effect( effect_npc_suspend, 24_hours, num_bp, 1 );
 }
 
 void npc::die( Creature *nkiller )
@@ -2690,7 +2690,7 @@ void npc::on_load()
 
     // for spawned npcs
     if( g->m.has_flag( "UNSTABLE", pos() ) ) {
-        add_effect( effect_bouldering, 1_turns, num_bp, true );
+        add_effect( effect_bouldering, 1_turns, num_bp );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
     }

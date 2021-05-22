@@ -1480,7 +1480,7 @@ void monster::melee_attack( Creature &target, float accuracy )
     for( const auto &eff : type->atk_effs ) {
         if( x_in_y( eff.chance, 100 ) ) {
             const body_part affected_bp = eff.affect_hit_bp ? bp_hit : eff.bp;
-            target.add_effect( eff.id, time_duration::from_turns( eff.duration ), affected_bp, eff.permanent );
+            target.add_effect( eff.id, time_duration::from_turns( eff.duration ), affected_bp );
         }
     }
 
@@ -1505,7 +1505,7 @@ void monster::melee_attack( Creature &target, float accuracy )
     if( total_dealt > 6 && stab_cut > 0 && has_flag( MF_BLEED ) ) {
         // Maybe should only be if DT_CUT > 6... Balance question
         if( target.is_player() || target.is_npc() ) {
-            target.as_character()->make_bleed( convert_bp( bp_hit ).id(), 6_minutes );
+            target.add_effect( effect_bleed, 6_minutes, bp_hit );
         } else {
             target.add_effect( effect_bleed, 6_minutes, bp_hit );
         }
@@ -1778,10 +1778,10 @@ bool monster::move_effects( bool )
 }
 
 void monster::add_effect( const efftype_id &eff_id, const time_duration &dur, body_part/*bp*/,
-                          bool permanent, int intensity, bool force, bool deferred )
+                          int intensity, bool force, bool deferred )
 {
     // Effects are not applied to specific monster body part
-    Creature::add_effect( eff_id, dur, num_bp, permanent, intensity, force, deferred );
+    Creature::add_effect( eff_id, dur, num_bp, intensity, force, deferred );
 }
 
 std::string monster::get_effect_status() const

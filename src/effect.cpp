@@ -463,6 +463,10 @@ time_duration effect_type::get_max_duration() const
 {
     return max_duration;
 }
+bool effect_type::is_permanent() const
+{
+    return permanent;
+}
 bool effect_type::is_show_in_info() const
 {
     return show_in_info;
@@ -801,15 +805,7 @@ void effect::set_bp( body_part part )
 
 bool effect::is_permanent() const
 {
-    return permanent;
-}
-void effect::pause_effect()
-{
-    permanent = true;
-}
-void effect::unpause_effect()
-{
-    permanent = false;
+    return eff_type->is_permanent();
 }
 
 int effect::get_intensity() const
@@ -1317,6 +1313,7 @@ void load_effect_type( const JsonObject &jo )
 
     new_etype.main_parts_only = jo.get_bool( "main_parts_only", false );
     new_etype.show_in_info = jo.get_bool( "show_in_info", false );
+    new_etype.permanent = jo.get_bool( "permanent", false );
     new_etype.pkill_addict_reduces = jo.get_bool( "pkill_addict_reduces", false );
 
     new_etype.pain_sizing = jo.get_bool( "pain_sizing", false );
@@ -1361,7 +1358,6 @@ void effect::serialize( JsonOut &json ) const
     json.member( "eff_type", eff_type != nullptr ? eff_type->id.str() : "" );
     json.member( "duration", duration );
     json.member( "bp", static_cast<int>( bp ) );
-    json.member( "permanent", permanent );
     json.member( "intensity", intensity );
     json.member( "start_turn", start_time );
     json.end_object();
@@ -1373,7 +1369,6 @@ void effect::deserialize( JsonIn &jsin )
     eff_type = &id.obj();
     jo.read( "duration", duration );
     bp = static_cast<body_part>( jo.get_int( "bp" ) );
-    permanent = jo.get_bool( "permanent" );
     intensity = jo.get_int( "intensity" );
     start_time = calendar::turn_zero;
     jo.read( "start_turn", start_time );

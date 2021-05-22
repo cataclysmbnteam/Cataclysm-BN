@@ -338,7 +338,7 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
     for( const auto &eff : effects ) {
         if( x_in_y( eff.chance, 100 ) ) {
             const body_part affected_bp = eff.affect_hit_bp ? bp : eff.bp;
-            target.add_effect( eff.id, time_duration::from_turns( eff.duration ), affected_bp, eff.permanent );
+            target.add_effect( eff.id, time_duration::from_turns( eff.duration ), affected_bp );
         }
     }
 }
@@ -362,11 +362,11 @@ void bite_actor::on_damage( monster &z, Creature &target, dealt_damage_instance 
     if( target.has_effect( effect_grabbed ) && one_in( no_infection_chance - dealt.total_damage() ) ) {
         const body_part hit = dealt.bp_hit;
         if( target.has_effect( effect_bite, hit ) ) {
-            target.add_effect( effect_bite, 40_minutes, hit, true );
+            target.add_effect( effect_bite, 40_minutes, hit );
         } else if( target.has_effect( effect_infected, hit ) ) {
-            target.add_effect( effect_infected, 25_minutes, hit, true );
+            target.add_effect( effect_infected, 25_minutes, hit );
         } else {
-            target.add_effect( effect_bite, 1_turns, hit, true );
+            target.add_effect( effect_bite, 1_turns, hit );
         }
     }
     if( target.has_trait( trait_TOXICFLESH ) ) {

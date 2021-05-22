@@ -70,17 +70,17 @@
     "responses": [
       {
         "text": "What happened?",
-        "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT" },
+        "effect": { "npc_add_effect": "player_BGSS_SAIDYES" },
         "topic": "BGSS_LOST_PARTNER_2_STORY3"
       },
       {
         "text": "Never mind.  Sorry I brought it up.",
-        "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT" },
+        "effect": { "npc_add_effect": "player_BGSS_SAIDYES" },
         "topic": "TALK_FRIEND"
       },
       {
         "text": "<end_talking>",
-        "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT" },
+        "effect": { "npc_add_effect": "player_BGSS_SAIDYES" },
         "topic": "TALK_DONE"
       }
     ]

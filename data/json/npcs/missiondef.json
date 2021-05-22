@@ -83,7 +83,7 @@
     },
     "start": {
       "effect": [
-        { "npc_add_effect": "infection", "duration": "PERMANENT" },
+        { "npc_add_effect": "infection" },
         { "npc_remove_item_with": "antibiotics" },
         "assign_guard",
         { "clear_npc_rule": "investigate_noises" }

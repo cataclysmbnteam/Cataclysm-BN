@@ -1920,24 +1920,29 @@ void talk_effect_fun_t::set_add_effect( const JsonObject &jo, const std::string 
                                         bool is_npc )
 {
     std::string new_effect = jo.get_string( member );
-    bool permanent = false;
-    time_duration duration = 1000_turns;
+    time_duration duration = 1_turns;
     if( jo.has_string( "duration" ) ) {
         const std::string dur_string = jo.get_string( "duration" );
         if( dur_string == "PERMANENT" ) {
-            permanent = true;
+            // This is immensely ugly, we need json.just_warn_with_context
+            try {
+                jo.throw_error( "Effect permanence has been permanently moved to effect_type. Set permanence there." );
+                duration = 1_turns;
+            } catch( const JsonError &e ) {
+                debugmsg( "\n%s", e.what() );
+            }
         } else if( !dur_string.empty() && std::stoi( dur_string ) > 0 ) {
             duration = time_duration::from_turns( std::stoi( dur_string ) );
         }
     } else {
-        duration = time_duration::from_turns( jo.get_int( "duration" ) );
+        duration = time_duration::from_turns( jo.get_int( "duration", 1 ) );
     }
-    function = [is_npc, new_effect, duration, permanent]( const dialogue & d ) {
+    function = [is_npc, new_effect, duration]( const dialogue & d ) {
         player *actor = d.alpha;
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
         }
-        actor->add_effect( efftype_id( new_effect ), duration, num_bp, permanent );
+        actor->add_effect( efftype_id( new_effect ), duration, num_bp );
     };
 }
 
