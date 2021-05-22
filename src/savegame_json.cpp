@@ -1944,6 +1944,7 @@ void monster::load( const JsonObject &data )
     horde_attraction = static_cast<monster_horde_attraction>( data.get_int( "horde_attraction", 0 ) );
 
     data.read( "inv", inv );
+    data.read( "corpse_contents", corpse_contents );
     data.read( "dragged_foe_id", dragged_foe_id );
 
     if( data.has_int( "ammo" ) && !type->starting_ammo.empty() ) {
@@ -2037,6 +2038,7 @@ void monster::store( JsonOut &json ) const
         json.member( "horde_attraction", horde_attraction );
     }
     json.member( "inv", inv );
+    json.member( "corpse_contents", corpse_contents );
 
     json.member( "dragged_foe_id", dragged_foe_id );
     // storing the rider

@@ -902,17 +902,22 @@ void make_mon_corpse( monster &z, int damageLvl )
     if( z.has_effect( effect_no_ammo ) ) {
         corpse.set_var( "no_ammo", "no_ammo" );
     }
-    // Pre-gen bionic on death rather than on butcher
-    for( const harvest_entry &entry : *z.type->harvest ) {
-        if( entry.type == "bionic" || entry.type == "bionic_group" ) {
-            std::vector<item> contained_bionics =
-                entry.type == "bionic"
-                ? butcher_cbm_item( entry.drop, calendar::turn, entry.flags, entry.faults )
-                : butcher_cbm_group( item_group_id( entry.drop ), calendar::turn, entry.flags, entry.faults );
-            for( const item &it : contained_bionics ) {
-                corpse.put_in( it );
+    if( !z.no_extra_death_drops ) {
+        // Pre-gen bionic on death rather than on butcher
+        for( const harvest_entry &entry : *z.type->harvest ) {
+            if( entry.type == "bionic" || entry.type == "bionic_group" ) {
+                std::vector<item> contained_bionics =
+                    entry.type == "bionic"
+                    ? butcher_cbm_item( entry.drop, calendar::turn, entry.flags, entry.faults )
+                    : butcher_cbm_group( item_group_id( entry.drop ), calendar::turn, entry.flags, entry.faults );
+                for( const item &it : contained_bionics ) {
+                    corpse.put_in( it );
+                }
             }
         }
+    }
+    for( const item &it : z.corpse_contents ) {
+        corpse.put_in( it );
     }
     get_map().add_item_or_charges( z.pos(), corpse );
 }
