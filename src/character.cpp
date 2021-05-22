@@ -4688,8 +4688,7 @@ void Character::update_needs( int rate_multiplier )
             // 6 hours of sleep per day will let you avoid deprivation
             // 4 hours if on great bed plus melatonin
             // Math: 5 (fatigue to minutes), 3 (1:3 sleep to waking),
-            // 2 (legacy sleep non-linearity thing)
-            mod_sleep_deprivation( -rest_modifier * ( recovered * 3.0f * 5.0f / 2.0f ) );
+            mod_sleep_deprivation( -rest_modifier * ( recovered * 3.0f * 5.0f ) );
 
         }
     }
