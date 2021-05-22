@@ -1513,8 +1513,9 @@ bool Character::can_consume( const item &it ) const
         return true;
     }
     // Checking NO_RELOAD to prevent consumption of `battery` when contained in `battery_car` (#20012)
+    // Can't consume from corpses since they can contain pre-generated items which might be comestible
     return !it.is_container_empty() && !it.has_flag( flag_NO_RELOAD ) &&
-           can_consume_as_is( it.contents.front() );
+           !it.is_corpse() && can_consume_as_is( it.contents.front() );
 }
 
 item &Character::get_consumable_from( item &it ) const
