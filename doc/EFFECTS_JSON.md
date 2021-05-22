@@ -24,7 +24,6 @@ Notice the "effects" field. Each effect has four potential fields:
 "id" - Required
 "duration" - Required
 "bp" - This will cause the effect to target this body part specifically
-"permanent" - This means the placed effect will be permanent, and will never decrease in duration
 ```
 Valid "bp" entries are (no entry means the effect is untargeted):
 ```C++
@@ -243,6 +242,13 @@ This can be used to make effects automatically increase or decrease in intensity
 "int_dur_factor" overrides the other three intensities fields, and forces the intensity to be a number defined as
 intensity = duration / "int_dur_factor" rounded up (so from 0 to "int_dur_factor" is intensity 1).
 
+### Permanence
+An effect that is permanent does not lose duration with time.
+That is, even if its duration is 1 turn, it will last until removed.
+```C++
+    "permanent": true
+```
+
 ### Miss messages
 ```C++
     "miss_messages": [["Your blisters distract you", 1]]
@@ -350,7 +356,7 @@ Valid arguments:
 "pkill_tick"        - Defaults to every tick
 
 "stim_amount"       - Negatives cause depressants effect and positives cause stimulants effect.
-"stim_min"          - Minimal amount of stimulant, certain effect will give. 
+"stim_min"          - Minimal amount of stimulant, certain effect will give.
 "stim_max"          - if 0 or missing value will be exactly "stim_min"
 "stim_min_val"      - Defaults to 0, which means uncapped
 "stim_max_val"      - Defaults to 0, which means uncapped
@@ -359,7 +365,7 @@ Valid arguments:
 "stim_tick"         - Defaults to every tick
 
 "health_amount"     - Negatives decrease health and positives increase it. It's semi-hidden stat, which affects healing.
-"health_min"        - Minimal amount of health, certain effect will give/take. 
+"health_min"        - Minimal amount of health, certain effect will give/take.
 "health_max"        - if 0 or missing value will be exactly "health_min"
 "health_min_val"    - Defaults to 0, which means uncapped
 "health_max_val"    - Defaults to 0, which means uncapped
