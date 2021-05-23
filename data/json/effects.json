@@ -28,7 +28,8 @@
     "type": "effect_type",
     "id": "harnessed",
     "name": [ "Harnessed" ],
-    "desc": [ "AI tag for when critter is being harnessed by a vehicle. This is a bug if you have it." ]
+    "desc": [ "AI tag for when critter is being harnessed by a vehicle. This is a bug if you have it." ],
+    "permanent": true
   },
   {
     "type": "effect_type",
@@ -41,7 +42,8 @@
     "type": "effect_type",
     "id": "controlled",
     "name": [ "Controlled Monster" ],
-    "desc": [ "AI tag for when monsters are being controlled by another.  This is a bug if you have it." ]
+    "desc": [ "AI tag for when monsters are being controlled by another.  This is a bug if you have it." ],
+    "permanent": true
   },
   {
     "type": "effect_type",
@@ -53,7 +55,8 @@
     "type": "effect_type",
     "id": "dragging",
     "name": [ "Dragging" ],
-    "desc": [ "AI tag for when a monster is dragging you behind it.  This is a bug if you have it." ]
+    "desc": [ "AI tag for when a monster is dragging you behind it.  This is a bug if you have it." ],
+    "permanent": true
   },
   {
     "type": "effect_type",
@@ -71,7 +74,8 @@
     "type": "effect_type",
     "id": "no_ammo",
     "name": [ "No ammo" ],
-    "desc": [ "AI tag used to stop a monster reviving with ammo.  This is a bug if you have it." ]
+    "desc": [ "AI tag used to stop a monster reviving with ammo.  This is a bug if you have it." ],
+    "permanent": true
   },
   {
     "type": "effect_type",
@@ -369,6 +373,7 @@
     "id": "earphones",
     "name": [ "Wearing earphones" ],
     "desc": [ "You are wearing earphones and can't hear much from outside world." ],
+    "permanent": true,
     "rating": "bad"
   },
   {
@@ -2003,6 +2008,7 @@
     "desc": [ "You're weakened by thirst." ],
     "miss_messages": [ [ "You're weak from thirst.", 1 ] ],
     "//": "Speed penalty hardcoded, because it's not linear",
+    "permanent": true,
     "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "int_mod": [ -1 ], "per_mod": [ -1 ] },
     "scaling_mods": { "str_mod": [ -0.005 ], "dex_mod": [ -0.005 ], "int_mod": [ -0.005 ], "per_mod": [ -0.005 ] },
     "max_intensity": 1000,
