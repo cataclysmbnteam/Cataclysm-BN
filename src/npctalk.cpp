@@ -2388,10 +2388,10 @@ void talk_effect_fun_t::set_u_buy_monster( const std::string &monster_type_id, i
             monster &tmp = *mon_ptr;
             // Our monster is always a pet.
             tmp.friendly = -1;
-            tmp.add_effect( effect_pet, 1_turns, num_bp, true );
+            tmp.add_effect( effect_pet, 1_turns, num_bp );
 
             if( pacified ) {
-                tmp.add_effect( effect_pacified, 1_turns, num_bp, true );
+                tmp.add_effect( effect_pacified, 1_turns, num_bp );
             }
 
             if( !name.empty() ) {

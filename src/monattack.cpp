@@ -2359,7 +2359,7 @@ bool mattack::callblobs( monster *z )
         }
         ( *ally )->set_dest( post );
         if( !( *ally )->has_effect( effect_controlled ) ) {
-            ( *ally )->add_effect( effect_controlled, 1_turns, num_bp, true );
+            ( *ally )->add_effect( effect_controlled, 1_turns, num_bp );
         }
     }
     // This is telepathy, doesn't take any moves.
@@ -2395,7 +2395,7 @@ bool mattack::jackson( monster *z )
         }
         ( *ally )->set_dest( post );
         if( !( *ally )->has_effect( effect_controlled ) ) {
-            ( *ally )->add_effect( effect_controlled, 1_turns, num_bp, true );
+            ( *ally )->add_effect( effect_controlled, 1_turns, num_bp );
         }
     }
     // Did we convert anybody?
@@ -3023,7 +3023,7 @@ bool mattack::nurse_operate( monster *z )
             // Check if we successfully grabbed the target
             if( target->has_effect( effect_grabbed ) ) {
                 z->dragged_foe_id = target->getID();
-                z->add_effect( effect_dragging, 1_turns, num_bp, true );
+                z->add_effect( effect_dragging, 1_turns, num_bp );
                 return true;
             }
         }
@@ -5696,7 +5696,7 @@ bool mattack::zombie_fuse( monster *z )
                  z->name() );
     }
     z->moves -= 200;
-    z->add_effect( effect_grown_of_fuse, 10_days, num_bp, true,
+    z->add_effect( effect_grown_of_fuse, 10_days, num_bp,
                    critter->get_hp_max() + z->get_effect( effect_grown_of_fuse ).get_intensity() );
     z->heal( critter->get_hp(), true );
     critter->death_drops = false;
