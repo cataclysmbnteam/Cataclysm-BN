@@ -76,7 +76,7 @@ class effect_type
 
         bool is_show_in_info() const;
 
-        /** Does the effect  */
+        /** Returns true if an effect is permanent, i.e. it's duration does not decrease over time. */
         bool is_permanent() const;
 
         /** Loading helper functions */

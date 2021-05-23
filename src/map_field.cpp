@@ -131,7 +131,7 @@ int map::burn_body_part( player &u, field_entry &cur, body_part bp, const int sc
     }
     // Represents acid seeping in rather than being splashed on
     u.add_env_effect( effect_corroding, bp, 2 + intensity, time_duration::from_turns( rng( 2,
-                      1 + intensity ) ), bp, false, 0 );
+                      1 + intensity ) ), bp, 0 );
     return total_damage;
 }
 
@@ -1401,8 +1401,8 @@ void map::player_in_field( player &u )
         }
         if( ft == fd_fungal_haze ) {
             if( !u.has_trait( trait_M_IMMUNE ) && ( !inside || one_in( 4 ) ) ) {
-                u.add_env_effect( effect_fungus, bp_mouth, 4, 10_minutes, num_bp, true );
-                u.add_env_effect( effect_fungus, bp_eyes, 4, 10_minutes, num_bp, true );
+                u.add_env_effect( effect_fungus, bp_mouth, 4, 10_minutes, num_bp );
+                u.add_env_effect( effect_fungus, bp_eyes, 4, 10_minutes, num_bp );
             }
         }
         if( ft == fd_dazzling ) {
