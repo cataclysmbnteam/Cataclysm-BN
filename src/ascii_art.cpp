@@ -28,6 +28,11 @@ bool string_id<ascii_art>::is_valid() const
     return ascii_art_factory.is_valid( *this );
 }
 
+void ascii_art::reset()
+{
+    ascii_art_factory.reset();
+}
+
 void ascii_art::load_ascii_art( const JsonObject &jo, const std::string &src )
 {
     ascii_art_factory.load( jo, src );

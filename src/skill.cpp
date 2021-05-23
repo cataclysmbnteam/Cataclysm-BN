@@ -155,6 +155,11 @@ void SkillDisplayType::load( const JsonObject &jsobj )
     skillTypes.push_back( sk );
 }
 
+void SkillDisplayType::reset()
+{
+    skillTypes.clear();
+}
+
 const SkillDisplayType &SkillDisplayType::get_skill_type( const skill_displayType_id &id )
 {
     for( auto &i : skillTypes ) {

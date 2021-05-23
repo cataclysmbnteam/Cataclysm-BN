@@ -27,6 +27,11 @@ void disease_type::load_disease_type( const JsonObject &jo, const std::string &s
     disease_factory.load( jo, src );
 }
 
+void disease_type::reset()
+{
+    disease_factory.reset();
+}
+
 void disease_type::load( const JsonObject &jo, const std::string & )
 {
     disease_type new_disease;

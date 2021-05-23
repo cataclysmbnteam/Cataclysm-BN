@@ -1816,7 +1816,7 @@ void Creature::add_msg_player_or_say( const game_message_params &params, const t
     return add_msg_player_or_say( params, pc.translated(), npc.translated() );
 }
 
-std::vector <int> Creature::dispersion_for_even_chance_of_good_hit = { {
+static std::vector<int> default_dispersion_for_ecogh = { {
         1731, 859, 573, 421, 341, 286, 245, 214, 191, 175,
         151, 143, 129, 118, 114, 107, 101, 94, 90, 78,
         78, 78, 74, 71, 68, 66, 62, 61, 59, 57,
@@ -1825,10 +1825,16 @@ std::vector <int> Creature::dispersion_for_even_chance_of_good_hit = { {
         33, 33, 32, 30, 30, 30, 30, 29, 28
     }
 };
+std::vector<int> Creature::dispersion_for_even_chance_of_good_hit = default_dispersion_for_ecogh;
 
 void Creature::load_hit_range( const JsonObject &jo )
 {
     if( jo.has_array( "even_good" ) ) {
         jo.read( "even_good", dispersion_for_even_chance_of_good_hit );
     }
+}
+
+void Creature::reset_hit_range()
+{
+    dispersion_for_even_chance_of_good_hit = default_dispersion_for_ecogh;
 }

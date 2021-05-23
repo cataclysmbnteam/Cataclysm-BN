@@ -16,6 +16,11 @@ void load_mutation_type( const JsonObject &jsobj )
     mutation_types[new_type.id] = new_type;
 }
 
+void reset_mutation_types()
+{
+    mutation_types.clear();
+}
+
 bool mutation_type_exists( const std::string &id )
 {
     return mutation_types.find( id ) != mutation_types.end();

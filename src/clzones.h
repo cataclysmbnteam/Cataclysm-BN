@@ -48,6 +48,7 @@ class zone_type
         std::string name() const;
         std::string desc() const;
 
+        static void reset_zones();
         static void load_zones( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, const std::string & );
         /**

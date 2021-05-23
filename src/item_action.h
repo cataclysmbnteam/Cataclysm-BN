@@ -56,6 +56,7 @@ class item_action_generator
 
         void load_item_action( const JsonObject &jo );
         void check_consistency() const;
+        void reset();
 };
 
 #endif // CATA_SRC_ITEM_ACTION_H

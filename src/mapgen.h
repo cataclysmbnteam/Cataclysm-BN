@@ -237,6 +237,8 @@ class mapgen_palette
          * If "palette" field is specified, those palettes will be loaded recursively.
          */
         static void load( const JsonObject &jo, const std::string &src );
+        /** Unload all palettes. */
+        static void reset();
 
         /**
          * Returns a palette with given id. If not found, debugmsg and returns a dummy.
