@@ -5934,11 +5934,8 @@ bool Character::is_immune_effect( const efftype_id &eff ) const
     } else if( eff == effect_nausea ) {
         return has_trait( trait_STRONGSTOMACH );
     } else if( eff == effect_bleed ) {
-        return std::any_of( cached_mutations.begin(),
-        cached_mutations.end(), []( const mutation_branch * mut ) {
-            // Ugly, it was badly implemente and should be a flag
-            return mut->bleed_resist > 0;
-        } );
+        // Ugly, it was badly implemented and should be a flag
+        return mutation_value( "bleed_resist" ) > 0.0f;
     }
 
     return false;
@@ -6451,6 +6448,7 @@ mutation_value_map = {
     { "stamina_regen_modifier", calc_mutation_value<&mutation_branch::stamina_regen_modifier> },
     { "stealth_modifier", calc_mutation_value<&mutation_branch::stealth_modifier> },
     { "str_modifier", calc_mutation_value<&mutation_branch::str_modifier> },
+    { "bleed_resist", calc_mutation_value<&mutation_branch::bleed_resist> },
     { "dodge_modifier", calc_mutation_value_additive<&mutation_branch::dodge_modifier> },
     { "mana_modifier", calc_mutation_value_additive<&mutation_branch::mana_modifier> },
     { "mana_multiplier", calc_mutation_value_multiplicative<&mutation_branch::mana_multiplier> },
