@@ -63,17 +63,41 @@ void UnusedStaticsCheck::check( const MatchFinder::MatchResult &Result )
         return;
     }
 
-    decls_.push_back( ThisDecl );
+    clang::SourceRange Range{ThisDecl->getSourceRange()};
+    int SemiIndex = 1;
+    bool foundSemi = false;
+    while( !foundSemi ) {
+        clang::SourceLocation PastEndLoc{
+            ThisDecl->getSourceRange().getEnd().getLocWithOffset( SemiIndex )};
+        clang::SourceRange RangeForString{PastEndLoc};
+        CharSourceRange CSR = Lexer::makeFileCharRange(
+                                  CharSourceRange::getTokenRange( RangeForString ), *Result.SourceManager,
+                                  Result.Context->getLangOpts() );
+        std::string possibleSemi =
+            Lexer::getSourceText( CSR, *Result.SourceManager,
+                                  Result.Context->getLangOpts() )
+            .str();
+        if( possibleSemi == ";" ) {
+            // Found a ";" so expand the range for our fixit below.
+            Range.setEnd( PastEndLoc );
+            foundSemi = true;
+        } else {
+            SemiIndex++;
+        }
+    }
+
+    decls_.push_back( DeclarationWithRange( ThisDecl, Range ) );
 }
 
 void UnusedStaticsCheck::onEndOfTranslationUnit()
 {
-    for( const VarDecl *V : decls_ ) {
-        if( used_decls_.count( V ) ) {
+    for( const DeclarationWithRange &V : decls_ ) {
+        if( used_decls_.count( V.decl ) ) {
             continue;
         }
 
-        diag( V->getBeginLoc(), "Variable %0 declared but not used." ) << V;
+        diag( V.range.getBegin(), "Variable %0 declared but not used." ) << FixItHint::CreateRemoval(
+                    V.range );
     }
 }
 
