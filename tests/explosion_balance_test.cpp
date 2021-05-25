@@ -171,7 +171,7 @@ TEST_CASE( "shrapnel behind wall", "[grenade],[explosion],[balance]" )
     }
 
     // Not on the bomb because shrapnel always hits that square
-    const monster &m_in_range = spawn_test_monster( "mon_zombie", origin + point( 1, 0 ) );
+    const monster &m_in_range = spawn_test_monster( "mon_zombie", origin + point_east );
     const monster &m_behind_wall = spawn_test_monster( "mon_zombie", origin + point( 3, 0 ) );
 
     grenade.type->invoke( g->u, grenade, origin );
@@ -183,7 +183,7 @@ TEST_CASE( "shrapnel behind wall", "[grenade],[explosion],[balance]" )
 TEST_CASE( "shrapnel at huge range", "[grenade],[explosion]" )
 {
     clear_map_and_put_player_underground();
-    tripoint origin( 0, 0, 0 );
+    tripoint origin( tripoint_zero );
 
     item grenade( "debug_shrapnel_blast" );
     REQUIRE( grenade.get_use( "explosion" ) != nullptr );

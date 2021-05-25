@@ -1600,7 +1600,7 @@ template <typename T> int check( unformattable )
 {
     static_assert(
         formattable<T>(),
-        "Cannot format an argument. To make type T formattable provide a "
+        "Cannot format an argument.  To make type T formattable provide a "
         "formatter<T> specialization: https://fmt.dev/latest/api.html#udt" );
     return 0;
 }

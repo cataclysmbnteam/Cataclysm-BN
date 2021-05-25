@@ -27,7 +27,7 @@ static void update_body_for( Character &dude, time_duration time )
 
 TEST_CASE( "must_sleep_8_hours", "[fatigue]" )
 {
-    standard_npc dude( "sleeper", tripoint( -1, -1, 0 ) );
+    standard_npc dude( "sleeper", tripoint_north_west );
     dude.set_fatigue( 0 );
     WHEN( "The character is active for 16 hours" ) {
         update_body_for( dude, 16_hours );
@@ -52,7 +52,7 @@ TEST_CASE( "must_sleep_8_hours", "[fatigue]" )
 
 TEST_CASE( "sleep_deprivation_rate", "[fatigue]" )
 {
-    standard_npc dude( "sleeper", tripoint( -1, -1, 0 ) );
+    standard_npc dude( "sleeper", tripoint_north_west );
     dude.set_fatigue( 0 );
     dude.set_sleep_deprivation( 0 );
     WHEN( "The character is active for 18 hours" ) {

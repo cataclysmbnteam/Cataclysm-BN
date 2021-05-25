@@ -76,7 +76,7 @@ static inline void test_grid_veh( distribution_grid &grid, vehicle &veh, battery
 static void connect_grid_vehicle( map &m, vehicle &veh, vehicle_connector_tile &connector,
                                   const tripoint &connector_abs_pos )
 {
-    const point cable_part_pos = point( 0, 0 );
+    const point cable_part_pos = point_zero;
     vehicle_part source_part( vpart_id( "jumper_cable" ), cable_part_pos, item( "jumper_cable" ) );
     source_part.target.first = connector_abs_pos;
     source_part.target.second = connector_abs_pos;

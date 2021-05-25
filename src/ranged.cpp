@@ -964,7 +964,7 @@ static int draw_targeting_window( const catacurses::window &w_target, const std:
     }
 
     if( mode == TARGET_MODE_TURRET ) {
-        mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%c] to show/hide approx. lines of fire." ),
+        mvwprintz( w_target, point( 1, text_y++ ), c_white, _( "[%c] to show/hide approx.  lines of fire." ),
                    front_or( "TOGGLE_TURRET_LINES", ' ' ) );
     }
 
