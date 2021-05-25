@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_SRC_POLY_SERIALIZED_PTR_H
-#define CATA_SRC_POLY_SERIALIZED_PTR_H
+#ifndef CATA_SRC_POLY_SERIALIZED_H
+#define CATA_SRC_POLY_SERIALIZED_H
 
 #include <memory>
 
@@ -65,4 +65,4 @@ poly_serialized<T> make_poly_serialized( Args &&...args )
 
 } // namespace cata
 
-#endif // CATA_SRC_POLY_SERIALIZED_PTR_H
+#endif // CATA_SRC_POLY_SERIALIZED_H

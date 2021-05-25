@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_SRC_FILE_UTILITY_H
-#define CATA_SRC_FILE_UTILITY_H
+#ifndef CATA_SRC_FSTREAM_UTILS_H
+#define CATA_SRC_FSTREAM_UTILS_H
 
 #include <iosfwd>
 #include <string>
@@ -223,4 +223,4 @@ inline void deserialize( T &obj, const std::string &data )
 }
 /**@}*/
 
-#endif // CATA_SRC_FILE_UTILITY_H
+#endif // CATA_SRC_FSTREAM_UTILS_H

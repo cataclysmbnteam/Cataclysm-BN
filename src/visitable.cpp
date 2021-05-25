@@ -43,7 +43,6 @@ static const trait_id trait_TALONS( "TALONS" );
 
 static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_ups( "bio_ups" );
-
 /** @relates visitable */
 template <typename T>
 item *visitable<T>::find_parent( const item &it )
