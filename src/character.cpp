@@ -9666,7 +9666,7 @@ void Character::place_corpse()
             cbm.set_flag( "NO_STERILE" );
             cbm.set_flag( "NO_PACKED" );
             cbm.faults.emplace( fault_id( "fault_bionic_salvaged" ) );
-            body.put_in( cbm );
+            body.components.push_back( cbm );
         }
     }
 
