@@ -78,6 +78,7 @@ int radio_off( player *, item *, bool, const tripoint & );
 int radio_on( player *, item *, bool, const tripoint & );
 int noise_emitter_off( player *, item *, bool, const tripoint & );
 int noise_emitter_on( player *, item *, bool, const tripoint & );
+int note_bionics( player *, item *, bool, const tripoint & );
 int ma_manual( player *, item *, bool, const tripoint & );
 int crowbar( player *, item *, bool, const tripoint & );
 int makemound( player *, item *, bool, const tripoint & );

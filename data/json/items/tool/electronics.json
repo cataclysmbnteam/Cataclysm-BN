@@ -601,5 +601,57 @@
       ]
     ],
     "magazine_well": 1
+  },
+  {
+    "id": "bionic_scanner",
+    "type": "TOOL",
+    "name": { "str": "bionic scanner" },
+    "description": "A small metal scanner specialized in detecting bionic hardware.  Activate to start scanning nearby corpses for bionics.",
+    "weight": "141 g",
+    "volume": "250 ml",
+    "price": 10000,
+    "price_postapoc": 5000,
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ";",
+    "color": "magenta",
+    "ammo": "battery",
+    "use_action": {
+      "target": "bionic_scanner_on",
+      "msg": "You start scanning for bionics.",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The scanner doesn't have enough power.",
+      "type": "transform"
+    },
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_minus_disposable_cell",
+          "light_battery_cell",
+          "light_disposable_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
+  },
+  {
+    "id": "bionic_scanner_on",
+    "type": "TOOL",
+    "name": { "str": "bionic scanner (on)" },
+    "description": "A small metal scanner specialized in detecting bionic hardware.  Used automatically whenever you look at corpses that might contain bionics.  Consumes power proportional to number of bionics identified this way.",
+    "weight": "141 g",
+    "volume": "250 ml",
+    "price": 10000,
+    "price_postapoc": 5000,
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ";",
+    "color": "magenta",
+    "use_action": "NOTE_BIONICS",
+    "revert_to": "bionic_scanner",
+    "revert_msg": "The %s shuts down."
   }
 ]

@@ -2227,6 +2227,58 @@ int iuse::noise_emitter_on( player *p, item *it, bool t, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
+// Ugly and uses variables that shouldn't be public
+int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
+{
+    if( !t ) {
+        it->deactivate( p, true );
+        return 0;
+    }
+    if( !p->is_avatar() ) {
+        // Not supported at the moment
+        return 0;
+    }
+    map &here = get_map();
+
+    if( !it->ammo_sufficient() ) {
+        it->deactivate( p, true );
+        return 0;
+    }
+    for( const tripoint &pt : here.points_in_radius( pos, PICKUP_RANGE ) ) {
+        if( !here.has_items( pt ) || !p->sees( pt ) ) {
+            continue;
+        }
+        for( item &corpse : here.i_at( pt ) ) {
+            if( !corpse.is_corpse() ||
+                corpse.get_var( "bionics_scanned_by", -1 ) == p->getID().get_value() ) {
+                continue;
+            }
+
+            int cbm_count = std::distance( corpse.components.begin(), corpse.components.end() );
+            if( cbm_count > it->ammo_consume( cbm_count, pos ) ) {
+                it->deactivate( p, true );
+                return 0;
+            }
+
+            corpse.set_var( "bionics_scanned_by", p->getID().get_value() );
+            if( cbm_count > 0 ) {
+                std::string bionics_string =
+                    enumerate_as_string( corpse.components.begin(), corpse.components.end(),
+                []( const item & entry ) -> std::string {
+                    return entry.is_bionic() ? entry.display_name() : "";
+                }, enumeration_conjunction::none );
+                p->add_msg_if_player( m_good, _( "A %0s located %1s contains %2s" ),
+                                      corpse.display_name().c_str(),
+                                      direction_name( direction_from( pt, p->pos() ) ).c_str(),
+                                      bionics_string.c_str()
+                                    );
+            }
+        }
+    }
+
+    return 0;
+}
+
 int iuse::ma_manual( player *p, item *it, bool, const tripoint & )
 {
     // [CR] - should NPCs just be allowed to learn this stuff? Just like that?
