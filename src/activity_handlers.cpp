@@ -472,14 +472,13 @@ static bool check_butcher_cbm( const int roll )
     return !failed;
 }
 
-static void extract_or_wreck_cbms( const std::list<item *> &cbms, int roll,
+static void extract_or_wreck_cbms( const std::list<item> &cbms, int roll,
                                    player &p )
 {
     if( roll < 0 ) {
         return;
     }
-    for( const item *it_ptr : cbms ) {
-        item it( *it_ptr );
+    for( item it : cbms ) {
         // For some stupid reason, zombie pheromones are dropped using bionic type
         // This complicates things
         if( it.is_bionic() ) {
@@ -1286,7 +1285,11 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         int roll = roll_butchery() - corpse_item.damage_level( 4 );
         roll = roll < 0 ? 0 : roll;
         add_msg( m_debug, _( "Roll penalty for corpse damage = %s" ), 0 - corpse_item.damage_level( 4 ) );
-        extract_or_wreck_cbms( corpse_item.contents.all_items_top(), roll, *p );
+        std::list<item> cbms = corpse_item.components;
+        for( const item *it : corpse_item.contents.all_items_top() ) {
+            cbms.push_back( *it );
+        }
+        extract_or_wreck_cbms( cbms, roll, *p );
     }
 
     //end messages and effects

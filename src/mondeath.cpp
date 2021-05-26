@@ -848,31 +848,19 @@ void mdeath::broken_ammo( monster &z )
     mdeath::broken( z );
 }
 
-static std::vector<item> butcher_cbm_item( const std::string &what,
+static std::vector<item> butcher_cbm_item( const itype_id &what,
         const time_point &birthday, const std::vector<std::string> &flags,
         const std::vector<fault_id> &faults )
 {
-    if( item::find_type( itype_id( what ) )->bionic ) {
-        item cbm( what, birthday );
-        for( const std::string &flg : flags ) {
-            cbm.set_flag( flg );
-        }
-        for( const fault_id &flt : faults ) {
-            cbm.faults.emplace( flt );
-        }
-
-        return { cbm};
-    } else {
-        item something( what, birthday );
-        for( const std::string &flg : flags ) {
-            something.set_flag( flg );
-        }
-        for( const fault_id &flt : faults ) {
-            something.faults.emplace( flt );
-        }
-
-        return {something};
+    item something( what, birthday );
+    for( const std::string &flg : flags ) {
+        something.set_flag( flg );
     }
+    for( const fault_id &flt : faults ) {
+        something.faults.emplace( flt );
+    }
+
+    return {something};
 }
 
 static std::vector<item> butcher_cbm_group( const item_group_id &group,
@@ -911,13 +899,14 @@ void make_mon_corpse( monster &z, int damageLvl )
                     ? butcher_cbm_item( entry.drop, calendar::turn, entry.flags, entry.faults )
                     : butcher_cbm_group( item_group_id( entry.drop ), calendar::turn, entry.flags, entry.faults );
                 for( const item &it : contained_bionics ) {
-                    corpse.put_in( it );
+                    // Disgusting hack: use components instead of contents to hide stuff
+                    corpse.components.push_back( it );
                 }
             }
         }
     }
-    for( const item &it : z.corpse_contents ) {
-        corpse.put_in( it );
+    for( const item &it : z.corpse_components ) {
+        corpse.components.push_back( it );
     }
     get_map().add_item_or_charges( z.pos(), corpse );
 }

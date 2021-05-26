@@ -2963,7 +2963,8 @@ void item::component_info( std::vector<iteminfo> &info, const iteminfo_query *pa
     if( is_craft() ) {
         info.push_back( iteminfo( "DESCRIPTION", string_format( _( "Using: %s" ),
                                   _( components_to_string() ) ) ) );
-    } else {
+        // Ugly hack warning! Corpses have CBMs as their components
+    } else if( !is_corpse() ) {
         info.push_back( iteminfo( "DESCRIPTION", string_format( _( "Made from: %s" ),
                                   _( components_to_string() ) ) ) );
     }
@@ -6161,8 +6162,9 @@ bool item::is_brewable() const
 
 bool item::is_food_container() const
 {
-    return ( !contents.empty() && contents.front().is_food() ) || ( is_craft() &&
-            craft_data_->making->create_result().is_food_container() );
+    return ( !contents.empty() && contents.front().is_food() ) ||
+           ( is_craft() &&
+             craft_data_->making->create_result().is_food_container() );
 }
 
 bool item::is_med_container() const
