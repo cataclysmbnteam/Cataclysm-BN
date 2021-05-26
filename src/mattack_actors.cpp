@@ -494,7 +494,7 @@ bool gun_actor::call( monster &z ) const
     return false;
 }
 
-void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) const
+void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode, bool disable_targetting, int inital_recoil) const
 {
     if( require_sunlight && !g->is_in_sunlight( z.pos() ) ) {
         if( one_in( 3 ) && g->u.sees( z ) ) {
@@ -503,9 +503,9 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
         return;
     }
 
-    const bool require_targeting = ( require_targeting_player && target.is_player() ) ||
+    const bool require_targeting = !disable_targetting && ( ( require_targeting_player && target.is_player() ) ||
                                    ( require_targeting_npc && target.is_npc() ) ||
-                                   ( require_targeting_monster && target.is_monster() );
+                                   ( require_targeting_monster && target.is_monster() ) );
     const bool not_targeted = require_targeting && !z.has_effect( effect_targeted );
     const bool not_laser_locked = require_targeting && laser_lock &&
                                   !target.has_effect( effect_was_laserlocked );
@@ -550,7 +550,7 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
                       fake_str, fake_dex, fake_int, fake_per );
     tmp.set_fake( true );
     tmp.set_attitude( z.friendly ? NPCATT_FOLLOW : NPCATT_KILL );
-    tmp.recoil = 0; // no need to aim
+    tmp.recoil = inital_recoil; // no need to aim
     if( no_crits ) {
         tmp.toggle_trait( trait_NORANGEDCRIT );
     }
