@@ -2267,7 +2267,7 @@ int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
                 []( const item & entry ) -> std::string {
                     return entry.is_bionic() ? entry.display_name() : "";
                 }, enumeration_conjunction::none );
-                p->add_msg_if_player( m_good, _( "A %0s located %1s contains %2s" ),
+                p->add_msg_if_player( m_good, _( "A %0$s located %1$s contains %2$s" ),
                                       corpse.display_name().c_str(),
                                       direction_name( direction_from( pt, p->pos() ) ).c_str(),
                                       bionics_string.c_str()
