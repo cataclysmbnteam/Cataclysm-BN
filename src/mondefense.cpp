@@ -167,44 +167,15 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
 
     const tripoint fire_point = source->pos();
 
-    // Create a fake NPC which will actually fire
-   /* npc tmp;
-    tmp.set_fake( true );
-    tmp.setpos( m.pos() );*/
-
-    // We might be aiming at the player square, but we aren't totally sure where they are,
-    // so represent that with initial recoil.
-    //tmp.recoil = 150;
-
     for( const std::pair<const std::string, mtype_special_attack> &attack : m.type->special_attacks ) {
         if( attack.second->id == "gun" ) {
             sounds::sound( m.pos(), 50, sounds::sound_t::alert,
                            _( "Detected shots from unseen attacker, return fire mode engaged." ) );
-            //tmp.moves -= 150;
 
             const gun_actor *gunactor = dynamic_cast<const gun_actor *>( attack.second.get() );
 
             gunactor->shoot(m, *source, gun_mode_id("DEFAULT"), true, 150 );
-            // Set fake NPC's dexterity...
-            //tmp.dex_cur = gunactor->fake_dex;
-
-            //// ...skills...
-            //for( const std::pair<skill_id, int> skill : gunactor->fake_skills ) {
-            //    if( skill.first == skill_gun ) {
-            //        tmp.set_skill_level( skill_gun, skill.second );
-            //    }
-            //    if( skill.first == skill_rifle ) {
-            //        tmp.set_skill_level( skill_rifle, skill.second );
-            //    }
-            //}
-
-            //// ...and weapon, everything based on turret's properties
-            //tmp.weapon = item( gunactor->gun_type ).ammo_set( gunactor->ammo_type,
-            //             m.ammo[ gunactor->ammo_type ] );
-            //const int burst = std::max( tmp.weapon.gun_get_mode( gun_mode_id( "DEFAULT" ) ).qty, 1 );
-
-            //// Fire the weapon and consume ammo
-            //m.ammo[ gunactor->ammo_type ] -= tmp.fire_gun( fire_point, burst ) * tmp.weapon.ammo_required();
+           
         }
     }
 }
