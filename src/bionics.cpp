@@ -1048,7 +1048,8 @@ bool Character::burn_fuel( int b, bool start )
         if( !remote_fuel.empty() ) {
             fuel_available.emplace_back( remote_fuel );
             if( remote_fuel == fuel_type_sun_light ) {
-                effective_efficiency = item_worn_with_flag( "SOLARPACK_ON" ).type->solar_efficiency;
+                const item *pack = item_worn_with_flag( "SOLARPACK_ON" );
+                effective_efficiency = pack != nullptr ? pack->type->solar_efficiency : 0;
             }
             // TODO: check for available fuel in remote source
         } else if( !start ) {
