@@ -3430,6 +3430,7 @@ void Character::reset_stats()
 
 void Character::reset()
 {
+    recalculate_enchantment_cache();
     // TODO: Move reset_stats here, remove it from Creature
     Creature::reset();
 }
