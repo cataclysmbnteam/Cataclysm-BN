@@ -217,6 +217,26 @@
     }
   },
   {
+    "id": "debug_trait_enchantment",
+    "type": "TOOL",
+    "name": { "str_sp": "Trapezohedron of Edginess" },
+    "description": "This is a debug-only item for testing enchantment mutations.  Wield it to stay up all night, become stealthy, and to see in the dark.",
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "blue",
+    "weight": "400 g",
+    "volume": "500 ml",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WIELD",
+          "condition": "ALWAYS",
+          "mutations": [ "CRAFTY", "WAKEFUL3", "NIGHTVISION3" ]
+        }
+      ]
+    }
+  },
+  {
     "id": "e_tool",
     "type": "TOOL",
     "name": { "str": "entrenching tool" },

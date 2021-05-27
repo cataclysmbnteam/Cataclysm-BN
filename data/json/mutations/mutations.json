@@ -3243,7 +3243,6 @@
     "prereqs": [ "MASOCHIST_MED" ],
     "prereqs2": [ "PAINREC3", "ADDICTIVE" ],
     "threshreq": [ "THRESH_MEDICAL" ],
-    "//": "CENOBITE and NOPAIN also don't cancel each other.  By design.  Poor painless cenobites...",
     "category": [ "MEDICAL" ]
   },
   {
@@ -3258,7 +3257,6 @@
     "prereqs2": [ "PAINREC3" ],
     "cancels": [ "MORE_PAIN", "MORE_PAIN2", "MORE_PAIN3" ],
     "threshreq": [ "THRESH_MEDICAL" ],
-    "//": "MASOCHIST_MED, CENOBITE, and NOPAIN don't cancel each other.  By design.  Poor painless people...",
     "category": [ "MEDICAL" ]
   },
   {

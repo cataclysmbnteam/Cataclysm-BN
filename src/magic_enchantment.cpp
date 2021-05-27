@@ -14,6 +14,7 @@
 #include "generic_factory.h"
 #include "json.h"
 #include "map.h"
+#include "mutation.h"
 #include "point.h"
 #include "rng.h"
 #include "string_id.h"
@@ -170,9 +171,14 @@ bool string_id<enchantment>::is_valid() const
     return spell_factory.is_valid( *this );
 }
 
-void enchantment::load_enchantment( const JsonObject &jo, const std::string &src )
+enchantment_id enchantment::load_enchantment( const JsonObject &jo, const std::string &src )
 {
-    spell_factory.load( jo, src );
+    enchantment ench;
+    ench.load( jo, src );
+    // Ugly hack warning: we don't always have an id in json, but want to handle inheritance
+    spell_factory.handle_inheritance( ench, jo, src );
+    spell_factory.insert( ench );
+    return ench.id;
 }
 
 bool enchantment::is_active( const Character &guy, const item &parent ) const
@@ -219,7 +225,10 @@ void enchantment::add_activation( const time_duration &freq, const fake_spell &f
 
 void enchantment::load( const JsonObject &jo, const std::string & )
 {
-    optional( jo, was_loaded, "id", id, enchantment_id( "" ) );
+    if( !jo.read( "id", id ) ) {
+        id = enchantment_id( string_format( "inline_%zu", spell_factory.size() ) );
+        is_inline = true;
+    }
 
     jo.read( "hit_you_effect", hit_you_effect );
     jo.read( "hit_me_effect", hit_me_effect );
@@ -279,10 +288,10 @@ void enchantment::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
-    if( !id.is_empty() ) {
+    // Inline ID means it is defined in static data and doesn't need to be in saves
+    if( !is_inline ) {
         jsout.member( "id", id );
         jsout.end_object();
-        // if the enchantment has an id then it is defined elsewhere and does not need to be serialized.
         return;
     }
 
@@ -534,4 +543,65 @@ bool enchantment::operator==( const enchantment &rhs ) const
            hit_you_effect == rhs.hit_you_effect &&
            intermittent_activation == intermittent_activation &&
            active_conditions == rhs.active_conditions;
+}
+
+void enchantment::check_consistency()
+{
+    spell_factory.check();
+}
+
+namespace
+{
+
+template <float mutation_branch::*First>
+bool is_set_value( const trait_id &mut, float val )
+{
+    return ( *mut ).*First == val;
+}
+
+template <float mutation_branch::*First, float mutation_branch::* ...Rest,
+          typename std::enable_if<( sizeof...( Rest ) > 0 ), bool>::type NonEmpty = false >
+                  bool is_set_value( const trait_id &mut, float val )
+{
+    return ( *mut ).*First == val && is_set_value<Rest...>( mut, val );
+}
+
+} // namespace
+
+void enchantment::check() const
+{
+    // TODO: Where was it declared? CONTEXT!
+    const char *ench_desc = is_inline ? "An inline enchantment" : "Enchantment";
+    std::vector<std::string> problems;
+    for( const trait_id &mut : mutations ) {
+        if( !mut.is_valid() ) {
+            debugmsg( "%s %s has invalid mutation %s", ench_desc, id.c_str(), mut.c_str() );
+        }
+
+        // One enchantment is fine iif it's just us
+        if( mut->enchantments.size() > 1 ||
+            ( mut->enchantments.size() == 1 &&
+              std::count( mut->enchantments.begin(), mut->enchantments.end(), id ) == 0 ) ) {
+            problems.push_back(
+                string_format( "\nmutation %s which has other enchantments (not supported)", mut.str() ) );
+        }
+
+        // TODO: Implement or also list alpha-stat muts and slime perception
+        if( !mut->mods.empty() ) {
+            problems.push_back(
+                string_format( "\nmutation %s which has stat adjustments (not supported)", mut.str() ) );
+        }
+
+        // TODO: Implement or also list glass jaw
+        if( !is_set_value<&mutation_branch::hp_modifier, &mutation_branch::hp_modifier_secondary, &mutation_branch::hp_adjustment>
+            ( mut, 0.0f ) ) {
+            problems.push_back( string_format( "\nmutation %s which adjusts hp (not supported)",
+                                               mut.str() ) );
+        }
+    }
+
+    if( !problems.empty() ) {
+        debugmsg( "%s %s has: %s", ench_desc, id.c_str(),
+                  enumerate_as_string( problems, enumeration_conjunction::none ).c_str() );
+    }
 }

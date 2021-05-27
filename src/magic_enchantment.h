@@ -19,6 +19,9 @@ class JsonOut;
 class JsonIn;
 class JsonObject;
 
+template<typename T>
+class generic_factory;
+
 namespace enchant_vals
 {
 // the different types of values that can be modified by enchantments
@@ -97,6 +100,8 @@ enum class mod : int {
 class enchantment
 {
     public:
+        friend class generic_factory<enchantment>;
+
         // if a Character "has" an enchantment, it is viable to check for the condition
         enum has {
             WIELD,
@@ -113,8 +118,8 @@ class enchantment
             NUM_CONDITION
         };
 
-        static void load_enchantment( const JsonObject &jo, const std::string &src );
-        void load( const JsonObject &jo, const std::string &src = "" );
+        static enchantment_id load_enchantment( const JsonObject &jo, const std::string &src );
+        static void check_consistency();
 
         // attempts to add two like enchantments together.
         // if their conditions don't match, return false. else true.
@@ -164,7 +169,10 @@ class enchantment
         }
 
         bool operator==( const enchantment &rhs )const;
+
     private:
+        // TODO: Generic-factory it?
+        bool is_inline = false;
         std::set<trait_id> mutations;
         cata::optional<emit_id> emitter;
         std::map<efftype_id, int> ench_effects;
@@ -191,6 +199,10 @@ class enchantment
         // performs cooldown and distance checks before casting enchantment spells
         void cast_enchantment_spell( Character &caster, const Creature *target,
                                      const fake_spell &sp ) const;
+
+        void load( const JsonObject &jo, const std::string &src = "" );
+        // Checks data after load
+        void check() const;
 };
 
 #endif // CATA_SRC_MAGIC_ENCHANTMENT_H
