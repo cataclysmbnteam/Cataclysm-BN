@@ -1575,8 +1575,8 @@
     "skills": [ { "level": 4, "name": "computer" } ],
     "items": {
       "both": {
-        "items": [ "pants", "tshirt_text", "socks", "sneakers", "mbag", "laptop", "smart_phone", "caffeine" ],
-        "entries": [ { "item": "light_plus_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "portable_game" } ]
+        "items": [ "pants", "tshirt_text", "socks", "sneakers", "mbag", "smart_phone", "caffeine" ],
+        "entries": [ { "item": "light_plus_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "portable_game" }, { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "laptop" } ]
       },
       "male": [ "briefs" ],
       "female": [ "panties" ]
