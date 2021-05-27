@@ -458,14 +458,15 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
                 add_item( furn_item );
             }
         }
-        if( m.accessible_items( p ) ) {
+        if( m.has_items( p ) && m.accessible_items( p ) ) {
+            bool allow_liquids = m.has_flag_ter_or_furn( "LIQUIDCONT", p );
             for( auto &i : m.i_at( p ) ) {
                 // if it's *the* player requesting this from from map inventory
                 // then don't allow items owned by another faction to be factored into recipe components etc.
                 if( pl && !i.is_owned_by( *pl, true ) ) {
                     continue;
                 }
-                if( !i.made_of( LIQUID ) ) {
+                if( allow_liquids || !i.made_of( LIQUID ) ) {
                     add_item( i, false, assign_invlet );
                 }
             }
@@ -495,16 +496,6 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             }
             if( water != toilet.end() && water->charges > 0 ) {
                 add_item( *water );
-            }
-        }
-
-        // keg-kludge
-        if( m.furn( p ).obj().examine == &iexamine::keg ) {
-            auto liq_contained = m.i_at( p );
-            for( auto &i : liq_contained ) {
-                if( i.made_of( LIQUID ) ) {
-                    add_item( i );
-                }
             }
         }
 
