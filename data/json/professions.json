@@ -1572,12 +1572,10 @@
     "name": "Computer Hacker",
     "description": "Caffeine pills and all-nighters in front of a computer screen have given you skills in an area that seem, on the face of it, distinctly less-than-useful when the world has ended.  Unless you manage to find a military mainframe.",
     "points": 1,
-    "skills": [
-      { "level": 4, "name": "computer" }
-    ],
+    "skills": [ { "level": 4, "name": "computer" } ],
     "items": {
       "both": {
-        "items": [ "pants", "tshirt_text", "socks", "sneakers", "mbag", "smart_phone", "caffeine" ],
+        "items": [ "pants", "linuxtshirt", "socks", "sneakers", "mbag", "smart_phone", "caffeine" ],
         "entries": [
           { "item": "light_plus_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "portable_game" },
           { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "laptop" }
