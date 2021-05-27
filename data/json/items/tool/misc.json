@@ -227,13 +227,7 @@
     "weight": "400 g",
     "volume": "500 ml",
     "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WIELD",
-          "condition": "ALWAYS",
-          "mutations": [ "CRAFTY", "WAKEFUL3", "NIGHTVISION3" ]
-        }
-      ]
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "mutations": [ "CRAFTY", "WAKEFUL3", "NIGHTVISION3" ] } ]
     }
   },
   {
