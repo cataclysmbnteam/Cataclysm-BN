@@ -9,6 +9,7 @@
 #include <utility>
 #include <vector>
 
+#include "pimpl.h"
 #include "point.h"
 #include "regional_settings.h"
 #include "type_id.h"
@@ -19,6 +20,7 @@ class JsonObject;
 class map;
 class mapgendata;
 class mission;
+struct json_source_location;
 template <typename T> struct weighted_int_list;
 
 using building_gen_pointer = void ( * )( mapgendata & );
@@ -307,7 +309,7 @@ class mapgen_function_json_base
         bool has_vehicle_collision( mapgendata &dat, const point &offset ) const;
 
     private:
-        json_source_location jsrcloc;
+        pimpl<json_source_location> jsrcloc;
 
     protected:
         explicit mapgen_function_json_base( const json_source_location &jsrcloc );
