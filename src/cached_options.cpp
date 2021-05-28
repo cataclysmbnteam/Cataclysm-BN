@@ -2,6 +2,7 @@
 
 bool test_mode = false;
 bool debug_mode = false;
+bool json_report_unused_fields = true;
 bool use_tiles;
 bool log_from_top;
 int message_ttl;

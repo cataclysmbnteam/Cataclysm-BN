@@ -1909,12 +1909,17 @@ void options_manager::add_options_debug()
         debug_page_.items_.emplace_back();
     };
 
+    add( "REPORT_UNUSED_JSON_FIELDS", "debug", translate_marker( "Report unused JSON fields" ),
+         translate_marker( "If false, unused JSON fields are silently ignored.  Enabling this will make it easier to spot mistakes or typos during modding." ),
+         false
+       );
+
+    add_empty_line();
+
     add( "DISTANCE_INITIAL_VISIBILITY", "debug", translate_marker( "Distance initial visibility" ),
          translate_marker( "Determines the scope, which is known in the beginning of the game." ),
          3, 20, 15
        );
-
-    add_empty_line();
 
     add( "INITIAL_STAT_POINTS", "debug", translate_marker( "Initial stat points" ),
          translate_marker( "Initial points available to spend on stats on character generation." ),
@@ -2979,6 +2984,7 @@ std::string options_manager::migrateOptionValue( const std::string &name,
 
 void options_manager::cache_to_globals()
 {
+    json_report_unused_fields = ::get_option<bool>( "REPORT_UNUSED_JSON_FIELDS" );
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
