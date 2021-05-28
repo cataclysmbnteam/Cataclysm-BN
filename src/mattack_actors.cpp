@@ -487,25 +487,28 @@ bool gun_actor::call( monster &z ) const
     int dist = rl_dist( z.pos(), target->pos() );
     for( const auto &e : ranges ) {
         if( dist >= e.first.first && dist <= e.first.second ) {
-            shoot( z, *target, e.second );
+            if( try_target( z, *target ) ) {
+                shoot( z, *target, e.second );
+            }
+
             return true;
         }
     }
     return false;
 }
 
-void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode, bool disable_targetting, int inital_recoil) const
+bool gun_actor::try_target( monster &z, Creature &target ) const
 {
     if( require_sunlight && !g->is_in_sunlight( z.pos() ) ) {
         if( one_in( 3 ) && g->u.sees( z ) ) {
             add_msg( _( failure_msg ), z.name() );
         }
-        return;
+        return false;
     }
 
-    const bool require_targeting = !disable_targetting && ( ( require_targeting_player && target.is_player() ) ||
+    const bool require_targeting = ( require_targeting_player && target.is_player() ) ||
                                    ( require_targeting_npc && target.is_npc() ) ||
-                                   ( require_targeting_monster && target.is_monster() ) );
+                                   ( require_targeting_monster && target.is_monster() );
     const bool not_targeted = require_targeting && !z.has_effect( effect_targeted );
     const bool not_laser_locked = require_targeting && laser_lock &&
                                   !target.has_effect( effect_was_laserlocked );
@@ -526,9 +529,23 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode, bo
         }
 
         z.moves -= targeting_cost;
-        return;
+        return false;
     }
 
+    if( require_targeting ) {
+        z.add_effect( effect_targeted, time_duration::from_turns( targeting_timeout_extend ) );
+    }
+
+    if( laser_lock ) {
+        // To prevent spamming laser locks when the player can tank that stuff somehow
+        target.add_effect( effect_was_laserlocked, 5_turns );
+    }
+    return true;
+}
+
+void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode,
+                       int inital_recoil ) const
+{
     z.moves -= move_cost;
 
     item gun( gun_type );
@@ -536,7 +553,7 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode, bo
 
     itype_id ammo = ( ammo_type != "null" ) ? ammo_type : gun.ammo_default();
     if( ammo != "null" ) {
-        gun.ammo_set( ammo, z.ammo[ ammo ] );
+        gun.ammo_set( ammo, z.ammo[ammo] );
     }
 
     if( !gun.ammo_sufficient() ) {
@@ -550,7 +567,7 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode, bo
                       fake_str, fake_dex, fake_int, fake_per );
     tmp.set_fake( true );
     tmp.set_attitude( z.friendly ? NPCATT_FOLLOW : NPCATT_KILL );
-    tmp.recoil = inital_recoil; // no need to aim
+    tmp.recoil = inital_recoil; // set inital recoil
     if( no_crits ) {
         tmp.toggle_trait( trait_NORANGEDCRIT );
     }
@@ -568,12 +585,4 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode, bo
 
     z.ammo[ammo] -= tmp.fire_gun( target.pos(), gun.gun_current_mode().qty );
 
-    if( require_targeting ) {
-        z.add_effect( effect_targeted, time_duration::from_turns( targeting_timeout_extend ) );
-    }
-
-    if( laser_lock ) {
-        // To prevent spamming laser locks when the player can tank that stuff somehow
-        target.add_effect( effect_was_laserlocked, 5_turns );
-    }
 }

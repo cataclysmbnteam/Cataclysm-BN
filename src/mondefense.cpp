@@ -174,8 +174,8 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
 
             const gun_actor *gunactor = dynamic_cast<const gun_actor *>( attack.second.get() );
 
-            gunactor->shoot(m, *source, gun_mode_id("DEFAULT"), true, 150 );
-           
+            gunactor->shoot( m, *source, gun_mode_id( "DEFAULT" ), 150 );
+
         }
     }
 }
