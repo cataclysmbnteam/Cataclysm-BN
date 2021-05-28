@@ -654,6 +654,10 @@ int main( int argc, char *argv[] )
     }
 
 #if defined(TILES)
+    if( test_mode ) {
+        get_options().init();
+        get_options().load();
+    }
     set_language();
 #endif
 
