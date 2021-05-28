@@ -165,7 +165,7 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
         return;
     }
 
-    const tripoint fire_point = source->pos();
+    //const tripoint fire_point = source->pos(); //TODO remove
 
     for( const std::pair<const std::string, mtype_special_attack> &attack : m.type->special_attacks ) {
         if( attack.second->id == "gun" ) {
