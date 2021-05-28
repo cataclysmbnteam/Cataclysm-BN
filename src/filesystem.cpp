@@ -126,6 +126,21 @@ const char *cata_files::eol()
     return local_eol;
 }
 
+std::string read_entire_file( const std::string &path )
+{
+    cata_ifstream infile;
+    infile.mode( cata_ios_mode::binary ).open( path );
+    if( !infile.is_open() ) {
+        return "";
+    }
+    std::string ret = std::string( std::istreambuf_iterator<char>( *infile ),
+                                   std::istreambuf_iterator<char>() );
+    if( infile.fail() ) {
+        return "";
+    }
+    return ret;
+}
+
 namespace
 {
 
