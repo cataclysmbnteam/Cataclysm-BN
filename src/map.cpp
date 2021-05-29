@@ -4435,12 +4435,15 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
     }
 
     const int recharge_part_idx = cur_veh.part_with_feature( part, VPFLAG_RECHARGE, true );
-    vehicle_part recharge_part;
-    if( recharge_part_idx >= 0 && ( recharge_part = cur_veh.parts[recharge_part_idx] ) &&
-        !recharge_part.removed && !recharge_part.is_broken() &&
-        ( !recharge_part.info().has_flag( VPFLAG_ENABLED_DRAINS_EPOWER ) || recharge_part.enabled ) ) {
+    static const vehicle_part null_part;
+    const vehicle_part &recharge_part = recharge_part_idx >= 0 ?
+                                        cur_veh.parts[recharge_part_idx] :
+                                        null_part;
+    if( recharge_part_idx >= 0 && recharge_part.enabled &&
+        !recharge_part.removed && !recharge_part.is_broken() ) {
         for( item &outer : cur_veh.get_items( part ) ) {
-            outer.visit_items( [&cur_veh, &recharge_part]( item * it ) {
+            bool out_of_battery = false;
+            outer.visit_items( [&cur_veh, &recharge_part, &out_of_battery]( item * it ) {
                 item &n = *it;
                 if( !n.has_flag( flag_RECHARGE ) && !n.has_flag( flag_USE_UPS ) ) {
                     return VisitResponse::NEXT;
@@ -4450,13 +4453,14 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                     int power = recharge_part.info().bonus;
                     while( power >= 1000 || x_in_y( power, 1000 ) ) {
                         const int missing = cur_veh.discharge_battery( 1, false );
-                        // Around 85% efficient; a few of the discharges don't actually recharge
-                        if( missing == 0 && !one_in( 7 ) ) {
-                            if( n.is_battery() ) {
-                                n.set_energy( 1_kJ );
-                            } else {
-                                n.ammo_set( "battery", n.ammo_remaining() + 1 );
-                            }
+                        if( missing > 0 ) {
+                            out_of_battery = true;
+                            return VisitResponse::ABORT;
+                        }
+                        if( n.is_battery() ) {
+                            n.mod_energy( 1_kJ );
+                        } else {
+                            n.ammo_set( "battery", n.ammo_remaining() + 1 );
                         }
                         power -= 1000;
                     }
@@ -4465,6 +4469,9 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
 
                 return VisitResponse::SKIP;
             } );
+            if( out_of_battery ) {
+                break;
+            }
         }
     }
 }
