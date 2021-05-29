@@ -226,7 +226,7 @@ void enchantment::add_activation( const time_duration &freq, const fake_spell &f
 void enchantment::load( const JsonObject &jo, const std::string & )
 {
     if( !jo.read( "id", id ) ) {
-        id = enchantment_id( string_format( "inline_%zu", spell_factory.size() ) );
+        id = enchantment_id( string_format( "inline_%u", spell_factory.size() ) );
         is_inline = true;
     }
 
