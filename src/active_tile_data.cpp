@@ -209,7 +209,7 @@ void charger_tile::update_internal( time_point to, const tripoint &p, distributi
                     const int missing = grid.mod_resource( -1 );
                     if( missing == 0 ) {
                         if( n.is_battery() ) {
-                            n.set_energy( 1_kJ );
+                            n.mod_energy( 1_kJ );
                         } else {
                             n.ammo_set( "battery", n.ammo_remaining() + 1 );
                         }
