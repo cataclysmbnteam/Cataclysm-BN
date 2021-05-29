@@ -27,6 +27,7 @@
 #include "enums.h"
 #include "faction.h"
 #include "fault.h"
+#include "flag.h"
 #include "field_type.h"
 #include "game.h"
 #include "game_inventory.h"
@@ -258,8 +259,10 @@ player::player()
         vitamin_levels[ v.first ] = 0;
     }
 
-    recalc_sight_limits();
-    reset_encumbrance();
+    if( g != nullptr && json_flag::is_ready() ) {
+        recalc_sight_limits();
+        reset_encumbrance();
+    }
 }
 
 player::~player() = default;

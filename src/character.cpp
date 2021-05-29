@@ -3037,18 +3037,18 @@ bool Character::is_wearing_on_bp( const itype_id &it, const bodypart_id &bp ) co
 bool Character::worn_with_flag( const std::string &flag, const bodypart_id &bp ) const
 {
     return std::any_of( worn.begin(), worn.end(), [&flag, bp]( const item & it ) {
-        return it.has_flag( flag ) && ( bp == bodypart_id( "num_bp" ) || bp == bodypart_id() ||
+        return it.has_flag( flag ) && ( bp == bodypart_str_id::NULL_ID() ||
                                         it.covers( bp->token ) );
     } );
 }
 
-item Character::item_worn_with_flag( const std::string &flag, const bodypart_id &bp ) const
+const item *Character::item_worn_with_flag( const std::string &flag, const bodypart_id &bp ) const
 {
-    item it_with_flag;
+    const item *it_with_flag = nullptr;
     for( const item &it : worn ) {
-        if( it.has_flag( flag ) && ( bp == bodypart_id( "num_bp" ) || bp == bodypart_id() ||
+        if( it.has_flag( flag ) && ( bp == bodypart_str_id::NULL_ID() ||
                                      it.covers( bp->token ) ) ) {
-            it_with_flag = it;
+            it_with_flag = &it;
             break;
         }
     }
@@ -5646,7 +5646,7 @@ hp_part Character::body_window( const std::string &menu_header,
         const nc_color all_state_col = limb_color( bp, true, true, true );
         // Broken means no HP can be restored, it requires surgical attention.
         const bool limb_is_broken = is_limb_broken( bp );
-        const bool limb_is_mending = worn_with_flag( flag_SPLINT, bp );
+        const bool limb_is_mending = limb_is_broken && worn_with_flag( flag_SPLINT, bp );
 
         if( show_all ) {
             e.allowed = true;
