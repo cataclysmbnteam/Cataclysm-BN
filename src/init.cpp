@@ -58,7 +58,6 @@
 #include "martialarts.h"
 #include "material.h"
 #include "mission.h"
-#include "mod_tileset.h"
 #include "monfaction.h"
 #include "mongroup.h"
 #include "monstergenerator.h"
@@ -94,6 +93,10 @@
 #include "vehicle_group.h"
 #include "vitamin.h"
 #include "worldfactory.h"
+
+#if defined(TILES)
+#  include "mod_tileset.h"
+#endif
 
 DynamicDataLoader::DynamicDataLoader()
 {
@@ -436,8 +439,12 @@ void DynamicDataLoader::initialize()
     add( "event_statistic", &event_statistic::load_statistic );
     add( "score", &score::load_score );
     add( "achievement", &achievement::load_achievement );
-    // Read the jsons even if we can't use tiles, to make init consistent
+#if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
+#else
+    // No TILES - no tilesets
+    add( "mod_tileset", &load_ignored_type );
+#endif
 }
 
 void DynamicDataLoader::load_data_from_path( const std::string &path, const std::string &src,
@@ -561,7 +568,6 @@ void DynamicDataLoader::unload_data()
     reset_effect_types();
     reset_furn_ter();
     reset_mapgens();
-    reset_mod_tileset();
     reset_overlay_ordering();
     reset_recipe_categories();
     reset_region_settings();
@@ -586,6 +592,9 @@ void DynamicDataLoader::unload_data()
     vpart_info::reset();
 #if defined(LOCALIZE)
     l10n_data::unload_mod_catalogues();
+#endif
+#if defined(TILES)
+    reset_mod_tileset();
 #endif
 }
 
