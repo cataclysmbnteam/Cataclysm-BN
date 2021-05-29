@@ -906,7 +906,7 @@ static void wait()
     time_duration time_to_wait;
     if( as_m.ret == 13 ) {
         int minutes = string_input_popup()
-                      .title( _( "How long? (in minutes)" ) )
+                      .title( _( "How long?  (in minutes)" ) )
                       .identifier( "wait_duration" )
                       .query_int();
         time_to_wait = minutes * 1_minutes;

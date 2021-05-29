@@ -233,10 +233,10 @@ TEST_CASE( "Aiming at a target partially covered by a wall", "[.][ranged][aiming
     for( int rot = 0; rot < 4; rot++ ) {
         for( int x = 5; x < 30; x++ ) {
             for( int y = 5; y < 30; y++ ) {
-                point wall_offset = point( x, y ).rotate( rot, {0, 0} );
+                point wall_offset = point( x, y ).rotate( rot, point_zero );
                 const tripoint wall_pos = shooter_pos + wall_offset;
                 g->m.ter_set( wall_pos, t_wall );
-                point mon_offset = point( x, y + 1 ).rotate( rot, {0, 0} );
+                point mon_offset = point( x, y + 1 ).rotate( rot, point_zero );
                 const tripoint monster_pos = shooter_pos + mon_offset;
                 monster &z = spawn_test_monster( "debug_mon", monster_pos );
                 if( !shooter.sees( z ) ) {

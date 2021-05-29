@@ -127,7 +127,6 @@ static const std::string flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
 static const std::string flag_PLANT( "PLANT" );
 static const std::string flag_PLANTABLE( "PLANTABLE" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
-static const std::string flag_POWERED( "POWERED" );
 static const std::string flag_TREE( "TREE" );
 
 void cancel_aim_processing();

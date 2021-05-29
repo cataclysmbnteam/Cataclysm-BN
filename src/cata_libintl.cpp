@@ -566,7 +566,7 @@ void trans_catalogue::check_encoding( const meta_headers &headers )
             static const std::string expected = "Content-Transfer-Encoding: 8bit";
             if( entry != expected ) {
                 std::string e =
-                    string_format( "unrecognized value in Content-Transfer-Encoding header. Expected \"%s\"",
+                    string_format( "unrecognized value in Content-Transfer-Encoding header.  Expected \"%s\"",
                                    expected );
                 throw std::runtime_error( e );
             }

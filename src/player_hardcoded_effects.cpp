@@ -74,7 +74,6 @@ static const efftype_id effect_hot( "hot" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_mending( "mending" );
-static const efftype_id effect_motor_seizure( "motor_seizure" );
 static const efftype_id effect_mutating( "mutating" );
 static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_narcosis( "narcosis" );
@@ -107,7 +106,6 @@ static const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
 static const bionic_id bio_watch( "bio_watch" );
 
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
-static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );

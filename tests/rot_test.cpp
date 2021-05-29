@@ -96,7 +96,7 @@ TEST_CASE( "Items rot away" )
 
     SECTION( "Item on map rots away" ) {
         clear_map();
-        const tripoint loc = { 0, 0, 0 };
+        const tripoint loc = { tripoint_zero };
 
         if( calendar::turn <= calendar::start_of_cataclysm ) {
             calendar::turn = calendar::start_of_cataclysm + 1_minutes;

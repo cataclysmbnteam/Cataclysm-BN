@@ -1514,7 +1514,7 @@ static void fixup_labs( overmap &om )
             const tripoint & r ) {
                 return l.z < r.z;
             } );
-            debugmsg( _( "Endgame lab was generated with no finales. Lowest tile: (%d,%d,%d)." ),
+            debugmsg( _( "Endgame lab was generated with no finales.  Lowest tile: (%d,%d,%d)." ),
                       lowest_regular->x, lowest_regular->y, lowest_regular->z );
             continue;
         }

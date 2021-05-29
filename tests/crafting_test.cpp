@@ -567,14 +567,14 @@ TEST_CASE( "oven electric grid test", "[crafting][overmap][grids][slow]" )
         om.om->set_electric_grid_connections( om.local, {} );
 
         m.furn_set( start_pos + point( 10, 0 ), furn_str_id( "f_battery" ) );
-        m.furn_set( start_pos + point( 1, 0 ), furn_str_id( "f_oven" ) );
+        m.furn_set( start_pos + point_east, furn_str_id( "f_oven" ) );
 
         distribution_grid_tracker grid_tracker;
         grid_tracker.load( m );
         distribution_grid &grid = grid_tracker.grid_at( start_pos_abs + point( 10, 0 ) );
         REQUIRE( !grid.empty() );
         // We need the grid to be the same for both the oven and the battery
-        REQUIRE( &grid == &grid_tracker.grid_at( start_pos_abs + point( 1, 0 ) ) );
+        REQUIRE( &grid == &grid_tracker.grid_at( start_pos_abs + point_east ) );
         WHEN( "the grid is charged with 10 units of power" ) {
             grid.mod_resource( 10 );
             REQUIRE( grid.get_resource() == 10 );

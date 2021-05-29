@@ -14,8 +14,6 @@
 #include "pldata.h"
 #include "type_id.h"
 
-static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
-
 side opposite_side( side s )
 {
     switch( s ) {

@@ -15,7 +15,6 @@
 // TODO: Shouldn't use
 #include "submap.h"
 
-static const std::string flag_CABLE_SPOOL( "CABLE_SPOOL" );
 static const std::string flag_RECHARGE( "RECHARGE" );
 static const std::string flag_USE_UPS( "USE_UPS" );
 
