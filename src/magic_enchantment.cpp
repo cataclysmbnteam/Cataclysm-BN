@@ -602,6 +602,6 @@ void enchantment::check() const
 
     if( !problems.empty() ) {
         debugmsg( "%s %s has: %s", ench_desc, id.c_str(),
-                  enumerate_as_string( problems, enumeration_conjunction::none ).c_str() );
+                  enumerate_as_string( problems, enumeration_conjunction::none ) );
     }
 }
