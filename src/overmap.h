@@ -413,9 +413,9 @@ class overmap
         pimpl<std::unordered_multimap<tripoint, monster>> monster_map;
 
         // parse data in an opened overmap file
-        void unserialize( std::istream &fin );
+        void unserialize( std::istream &fin, const std::string &file_path );
         // Parse per-player overmap view data.
-        void unserialize_view( std::istream &fin );
+        void unserialize_view( std::istream &fin, const std::string &file_path );
         // Save data in an opened overmap file
         void serialize( std::ostream &fout ) const;
         // Save per-player overmap view data.

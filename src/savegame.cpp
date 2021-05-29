@@ -410,10 +410,10 @@ void overmap::load_legacy_monstergroups( JsonIn &jsin )
 }
 
 // throws std::exception
-void overmap::unserialize( std::istream &fin )
+void overmap::unserialize( std::istream &fin, const std::string &file_path )
 {
     chkversion( fin );
-    JsonIn jsin( fin );
+    JsonIn jsin( fin, file_path );
     jsin.start_object();
     while( !jsin.end_object() ) {
         const std::string name = jsin.get_member_name();
@@ -695,10 +695,10 @@ static void unserialize_array_from_compacted_sequence( JsonIn &jsin, bool ( &arr
 }
 
 // throws std::exception
-void overmap::unserialize_view( std::istream &fin )
+void overmap::unserialize_view( std::istream &fin, const std::string &file_path )
 {
     chkversion( fin );
-    JsonIn jsin( fin );
+    JsonIn jsin( fin, file_path );
     jsin.start_object();
     while( !jsin.end_object() ) {
         const std::string name = jsin.get_member_name();
