@@ -2136,12 +2136,23 @@ static void load_legacy_craft_data( io::JsonObjectOutputArchive &, T & )
 {
 }
 
-static std::set<itype_id> charge_removal_blacklist;
-
-void load_charge_removal_blacklist( const JsonObject &jo, const std::string &src );
-void load_charge_removal_blacklist( const JsonObject &jo, const std::string &/*src*/ )
+namespace charge_removal_blacklist
 {
-    charge_removal_blacklist = jo.get_tags( "list" );
+static std::set<itype_id> removal_list;
+
+const std::set<itype_id> &get()
+{
+    return removal_list;
+}
+void load( const JsonObject &jo )
+{
+    std::set<itype_id> d = jo.get_tags( "list" );
+    removal_list.insert( d.begin(), d.end() );
+}
+void reset()
+{
+    removal_list.clear();
+}
 }
 
 template<typename Archive>
@@ -2310,7 +2321,7 @@ void item::io( Archive &archive )
     if( charges != 0 && !type->can_have_charges() ) {
         // Types that are known to have charges, but should not have them.
         // We fix it here, but it's expected from bugged saves and does not require a message.
-        if( charge_removal_blacklist.count( type->get_id() ) == 0 ) {
+        if( charge_removal_blacklist::get().count( type->get_id() ) == 0 ) {
             debugmsg( "Item %s was loaded with charges, but can not have any!", type->get_id() );
         }
         charges = 0;

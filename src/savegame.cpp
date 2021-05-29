@@ -329,7 +329,12 @@ void overmap::load_obsolete_terrains( const JsonObject &jo )
     }
 }
 
-bool overmap::obsolete_terrain( const std::string &ter )
+void overmap::reset_obsolete_terrains()
+{
+    obsolete_terrains.clear();
+}
+
+bool overmap::is_obsolete_terrain( const std::string &ter )
 {
     return obsolete_terrains.find( ter ) != obsolete_terrains.end();
 }
@@ -432,7 +437,7 @@ void overmap::unserialize( std::istream &fin )
                             jsin.read( tmp_ter );
                             jsin.read( count );
                             jsin.end_array();
-                            if( obsolete_terrain( tmp_ter ) ) {
+                            if( is_obsolete_terrain( tmp_ter ) ) {
                                 for( int p = i; p < i + count; p++ ) {
                                     needs_conversion.emplace( tripoint( p, j, z - OVERMAP_DEPTH ),
                                                               tmp_ter );

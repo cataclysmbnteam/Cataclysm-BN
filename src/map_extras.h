@@ -73,6 +73,7 @@ void apply_function( const std::string &id, map &m, const tripoint &abs_sub );
 
 void load( const JsonObject &jo, const std::string &src );
 void check_consistency();
+void reset();
 
 void debug_spawn_test();
 

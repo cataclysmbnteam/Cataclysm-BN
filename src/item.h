@@ -2251,4 +2251,11 @@ inline bool is_crafting_component( const item &component )
            !component.is_filthy();
 }
 
+namespace charge_removal_blacklist
+{
+const std::set<itype_id> &get();
+void load( const JsonObject &jo );
+void reset();
+}
+
 #endif // CATA_SRC_ITEM_H
