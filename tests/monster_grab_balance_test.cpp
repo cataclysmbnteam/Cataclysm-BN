@@ -22,9 +22,6 @@
 // - Character::get_dodge_base, monster::get_dodge_base
 // - player::get_dodge, monster::get_dodge
 
-static const efftype_id effect_grabbed( "grabbed" );
-static const efftype_id effect_grabbing( "grabbing" );
-
 TEST_CASE( "Monster losing grabbing effect", "[player][melee][grab]" )
 {
     clear_map();

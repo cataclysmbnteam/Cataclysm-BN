@@ -67,8 +67,6 @@ static const efftype_id effect_teleglow( "teleglow" );
 static const std::string flag_BLIND( "BLIND" );
 static const std::string flag_FLASH_PROTECTION( "FLASH_PROTECTION" );
 
-static const itype_id fuel_type_none( "null" );
-
 static const species_id ROBOT( "ROBOT" );
 
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );

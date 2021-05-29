@@ -155,24 +155,29 @@ static void migrate_ench_vals_enums( std::string &s )
 
 namespace
 {
-generic_factory<enchantment> spell_factory( "enchantment" );
+generic_factory<enchantment> enchant_factory( "enchantment" );
 } // namespace
 
 template<>
 const enchantment &string_id<enchantment>::obj() const
 {
-    return spell_factory.obj( *this );
+    return enchant_factory.obj( *this );
 }
 
 template<>
 bool string_id<enchantment>::is_valid() const
 {
-    return spell_factory.is_valid( *this );
+    return enchant_factory.is_valid( *this );
 }
 
 void enchantment::load_enchantment( const JsonObject &jo, const std::string &src )
 {
-    spell_factory.load( jo, src );
+    enchant_factory.load( jo, src );
+}
+
+void enchantment::reset()
+{
+    enchant_factory.reset();
 }
 
 bool enchantment::is_active( const Character &guy, const item &parent ) const

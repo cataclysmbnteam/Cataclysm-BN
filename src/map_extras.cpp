@@ -2983,6 +2983,11 @@ void check_consistency()
     extras.check();
 }
 
+void reset()
+{
+    extras.reset();
+}
+
 void debug_spawn_test()
 {
     uilist mx_menu;

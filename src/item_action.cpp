@@ -223,6 +223,11 @@ void item_action_generator::check_consistency() const
     }
 }
 
+void item_action_generator::reset()
+{
+    item_actions.clear();
+}
+
 void game::item_action_menu()
 {
     const auto &gen = item_action_generator::generator();

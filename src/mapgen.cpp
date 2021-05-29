@@ -2128,6 +2128,11 @@ void mapgen_palette::load( const JsonObject &jo, const std::string &src )
     palettes[ ret.id ] = ret;
 }
 
+void mapgen_palette::reset()
+{
+    palettes.clear();
+}
+
 const mapgen_palette &mapgen_palette::get( const palette_id &id )
 {
     const auto iter = palettes.find( id );

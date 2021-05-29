@@ -227,8 +227,6 @@ void DynamicDataLoader::add( const std::string &type, std::function<void( const 
     }
 }
 
-void load_charge_removal_blacklist( const JsonObject &jo, const std::string &src );
-
 void DynamicDataLoader::initialize()
 {
     // all of the applicable types that can be loaded, along with their loading functions
@@ -357,7 +355,7 @@ void DynamicDataLoader::initialize()
         item_controller->load_migration( jo );
     } );
 
-    add( "charge_removal_blacklist", load_charge_removal_blacklist );
+    add( "charge_removal_blacklist", charge_removal_blacklist::load );
 
     add( "MONSTER", []( const JsonObject & jo, const std::string & src ) {
         MonsterGenerator::generator().load_monster( jo, src );
@@ -526,13 +524,18 @@ void DynamicDataLoader::unload_data()
     ammo_effects::reset();
     ammunition_type::reset();
     anatomy::reset();
+    ascii_art::reset();
     behavior::reset();
     body_part_type::reset();
+    charge_removal_blacklist::reset();
     clear_techniques_and_martial_arts();
     clothing_mods::reset();
     construction_categories::reset();
+    Creature::reset_hit_range();
+    disease_type::reset();
     dreams.clear();
     emit::reset();
+    enchantment::reset();
     event_statistic::reset();
     event_transformation::reset();
     faction_template::reset();
@@ -540,10 +543,14 @@ void DynamicDataLoader::unload_data()
     field_types::reset();
     gates::reset();
     harvest_list::reset();
+    item_action_generator::generator().reset();
     item_controller->reset();
     json_flag::reset();
+    MapExtras::reset();
+    mapgen_palette::reset();
     materials::reset();
     mission_type::reset();
+    monfactions::reset();
     MonsterGenerator::generator().reset();
     MonsterGroupManager::ClearMonsterGroups();
     morale_type_data::reset();
@@ -557,9 +564,9 @@ void DynamicDataLoader::unload_data()
     overmap_locations::reset();
     overmap_specials::reset();
     overmap_terrains::reset();
+    overmap::reset_obsolete_terrains();
     profession::reset();
     quality::reset();
-    reset_monster_adjustment();
     recipe_dictionary::reset();
     recipe_group::reset();
     requirement_data::reset();
@@ -568,6 +575,8 @@ void DynamicDataLoader::unload_data()
     reset_effect_types();
     reset_furn_ter();
     reset_mapgens();
+    reset_monster_adjustment();
+    reset_mutation_types();
     reset_overlay_ordering();
     reset_recipe_categories();
     reset_region_settings();
@@ -577,19 +586,22 @@ void DynamicDataLoader::unload_data()
     scenario::reset();
     scent_type::reset();
     score::reset();
-    Skill::reset();
     skill_boost::reset();
+    Skill::reset();
+    SkillDisplayType::reset();
     SNIPPET.clear_snippets();
     spell_type::reset_all();
     start_locations::reset();
+    ter_furn_transform::reset_all();
     trap::reset();
     unload_talk_topics();
+    vehicle_prototype::reset();
     VehicleGroup::reset();
     VehiclePlacement::reset();
     VehicleSpawn::reset();
-    vehicle_prototype::reset();
     vitamin::reset();
     vpart_info::reset();
+    zone_type::reset_zones();
 #if defined(LOCALIZE)
     l10n_data::unload_mod_catalogues();
 #endif
@@ -669,7 +681,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Harvest lists" ), &harvest_list::finalize_all },
             { _( "Anatomies" ), &anatomy::finalize_all },
             { _( "Mutations" ), &mutation_branch::finalize },
-            { _( "Achivements" ), &achievement::finalize },
+            { _( "Achievements" ), &achievement::finalize },
 #if defined(LOCALIZE)
             {_( "Localization" ), &l10n_data::load_mod_catalogues },
 #endif
@@ -764,7 +776,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Statistics" ), &event_statistic::check_consistency },
             { _( "Scent types" ), &scent_type::check_scent_consistency },
             { _( "Scores" ), &score::check_consistency },
-            { _( "Achivements" ), &achievement::check_consistency },
+            { _( "Achievements" ), &achievement::check_consistency },
             { _( "Disease types" ), &disease_type::check_disease_consistency },
             { _( "Factions" ), &faction_template::check_consistency },
         }

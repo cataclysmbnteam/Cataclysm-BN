@@ -115,6 +115,7 @@ class enchantment
 
         static void load_enchantment( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, const std::string &src = "" );
+        static void reset();
 
         // attempts to add two like enchantments together.
         // if their conditions don't match, return false. else true.

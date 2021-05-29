@@ -111,8 +111,8 @@ bool map_memory::prepare_region( const tripoint &p1, const tripoint &p2 )
     assert( p1.z == p2.z );
     assert( p1.x <= p2.x && p1.y <= p2.y );
 
-    tripoint sm_p1 = coord_pair( p1 ).sm - point( 1, 1 );
-    tripoint sm_p2 = coord_pair( p2 ).sm + point( 1, 1 );
+    tripoint sm_p1 = coord_pair( p1 ).sm - point_south_east;
+    tripoint sm_p2 = coord_pair( p2 ).sm + point_south_east;
 
     tripoint sm_pos = sm_p1;
     point sm_size = sm_p2.xy() - sm_p1.xy();
