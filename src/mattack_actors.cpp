@@ -488,7 +488,7 @@ bool gun_actor::call( monster &z ) const
     for( const auto &e : ranges ) {
         if( dist >= e.first.first && dist <= e.first.second ) {
             if( try_target( z, *target ) ) {
-                shoot( z, *target, e.second );
+                shoot( z, target->pos(), e.second );
             }
 
             return true;
@@ -543,7 +543,7 @@ bool gun_actor::try_target( monster &z, Creature &target ) const
     return true;
 }
 
-void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode,
+void gun_actor::shoot( monster &z, const tripoint& target, const gun_mode_id &mode,
                        int inital_recoil ) const
 {
     z.moves -= move_cost;
@@ -583,6 +583,6 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode,
         add_msg( m_warning, _( description ), z.name(), tmp.weapon.tname() );
     }
 
-    z.ammo[ammo] -= tmp.fire_gun( target.pos(), gun.gun_current_mode().qty );
+    z.ammo[ammo] -= tmp.fire_gun( target, gun.gun_current_mode().qty );
 
 }
