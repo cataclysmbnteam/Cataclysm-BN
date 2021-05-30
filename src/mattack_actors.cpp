@@ -543,7 +543,7 @@ bool gun_actor::try_target( monster &z, Creature &target ) const
     return true;
 }
 
-void gun_actor::shoot( monster &z, const tripoint& target, const gun_mode_id &mode,
+void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mode,
                        int inital_recoil ) const
 {
     z.moves -= move_cost;
