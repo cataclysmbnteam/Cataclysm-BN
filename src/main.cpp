@@ -609,6 +609,7 @@ int main( int argc, char *argv[] )
 
     check_dir_good( PATH_INFO::user_dir() );
     check_dir_good( PATH_INFO::config_dir() );
+    check_dir_good( PATH_INFO::savedir() );
 
     setupDebug( DebugOutput::file );
 

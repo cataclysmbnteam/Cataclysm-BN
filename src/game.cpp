@@ -363,6 +363,10 @@ bool game::check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui )
         world_generator->init();
         const std::vector<mod_id> mods_empty;
         WORLDPTR test_world = world_generator->make_new_world( mods_empty );
+        if( !test_world ) {
+            std::cerr << "Failed to generate test world." << std::endl;
+            return false;
+        }
         world_generator->set_active_world( test_world );
 
         if( !e.is_valid() ) {
