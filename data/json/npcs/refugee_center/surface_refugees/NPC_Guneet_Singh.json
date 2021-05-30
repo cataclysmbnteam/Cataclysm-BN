@@ -40,7 +40,8 @@
       { "item": "tshirt_text" },
       { "item": "jeans_red" },
       { "item": "turban" },
-      { "item": "sneakers" }
+      { "item": "sneakers" },
+      { "group": "REFUGEE_Guneet_wield" }
     ]
   },
   {
