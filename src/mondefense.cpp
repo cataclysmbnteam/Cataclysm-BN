@@ -152,7 +152,7 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
     }
 
     // No return fire from dead monsters.
-    if (m.is_dead_state()) {
+    if( m.is_dead_state() ) {
         return;
     }
 
@@ -160,20 +160,20 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
     int dispersion = 150;
 
     // Low speed prjectiles (likely throwing pbjects) harder to detect
-    if (proj != nullptr && proj->proj.speed < 100) {
+    if( proj != nullptr && proj->proj.speed < 100 ) {
         dispersion *= 2;
     }
 
     const player *const foe = dynamic_cast<player *>( source );
     // Return fire against throwing or quiet wepon are less accurate
-    // TODO Check below is sompeltely wrong. It checks current wepon of shooterm but it make no selse if player throws somethins instead of shooting
+    // TODO Check below is compeltely wrong. It checks current weapon of shooter but it make no selse if player throws somethins instead of shooting
     // Should I get rid of it?
     if( foe == nullptr || foe->weapon.gun_noise().volume < rl_dist( m.pos(), source->pos() ) ) {
         dispersion *= 2;
     }
 
-    
-    
+
+
 
     for( const std::pair<const std::string, mtype_special_attack> &attack : m.type->special_attacks ) {
         if( attack.second->id == "gun" ) {
@@ -182,7 +182,7 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
 
             const gun_actor *gunactor = dynamic_cast<const gun_actor *>( attack.second.get() );
 
-            gunactor->shoot( m, fire_point, gun_mode_id( "DEFAULT" ), dispersion);
+            gunactor->shoot( m, fire_point, gun_mode_id( "DEFAULT" ), dispersion );
 
         }
     }
