@@ -157,7 +157,7 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
     }
 
     //No return fire if attacker is seen
-    if (m.sees(*source)) {
+    if( m.sees( *source ) ) {
         return;
     }
 
