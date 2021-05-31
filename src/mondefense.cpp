@@ -15,6 +15,9 @@
 #include "bodypart.h"
 #include "creature.h"
 #include "damage.h"
+#include "game.h"
+#include "map.h"
+#include "map_iterator.h"
 #include "dispersion.h"
 #include "enums.h"
 #include "gun_mode.h"
@@ -161,21 +164,29 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
         return;
     }
 
-    tripoint fire_point = source->pos();
-    int dispersion = 150;
+    // Simple universal rule for now
+    tripoint fire_point = one_in( 2 ) ? source->pos() : random_entry( g->m.points_in_radius(
+                              source->pos(), 2 ) );
+
+
+    int dispersion = 50;
+
+    //TODO implement source and sound dependent system
 
     // Low speed prjectiles (likely throwing pbjects) harder to detect
-    if( proj != nullptr && proj->proj.speed < 100 ) {
+    // Get rid of ot if for now
+    /*if( proj != nullptr && proj->proj.speed < 100 ) {
         dispersion *= 2;
-    }
+    }*/
 
-    const player *const foe = dynamic_cast<player *>( source );
+    //const player *const foe = dynamic_cast<player *>( source );
     // Return fire against throwing or quiet wepon are less accurate
     // TODO Check below is compeltely wrong. It checks current weapon of shooter but it make no selse if player throws somethins instead of shooting
     // Should I get rid of it?
-    if( foe == nullptr || foe->weapon.gun_noise().volume < rl_dist( m.pos(), source->pos() ) ) {
-        dispersion *= 2;
-    }
+    // Get rid of ot if for now
+    /* if( foe == nullptr || foe->weapon.gun_noise().volume < rl_dist( m.pos(), source->pos() ) ) {
+         dispersion *= 2;
+     }*/
 
 
 
