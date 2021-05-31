@@ -160,6 +160,7 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
     }
 
     // If target actually was not damaged - then do not bother
+    // Also it covers potential exploit - peek throwing potential can be used to exhaust turret ammo
     if( proj->dealt_dam.total_damage() == 0 ) {
         return;
     }
