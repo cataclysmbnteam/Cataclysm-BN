@@ -156,6 +156,11 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
         return;
     }
 
+    //No return fire if attacker is seen
+    if (m.sees(*source)) {
+        return;
+    }
+
     tripoint fire_point = source->pos();
     int dispersion = 150;
 
