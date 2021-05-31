@@ -169,12 +169,13 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
     if( m.sees( *source ) ) {
         return;
     }
-
+    ;
     // Simple universal rule for now
     // TODO implement complex rule, dependent on sound and projectile (throwing/bullet)
-    tripoint fire_point = rl_dist( m.pos(), source->pos() ) < 3 ||
-                          one_in( 2 )  ? source->pos() : random_entry( g->m.points_in_radius(
-                                      source->pos(), 2 ) );
+    int distance_to_source = rl_dist( m.pos(), source->pos() );
+    tripoint fire_point = distance_to_source < 3/* ||
+                          one_in( 2 )*/ ? source->pos() : move_along_line( m.pos(),
+                                  get_map().find_clear_path( m.pos(), source->pos() ), distance_to_source + 3 );
     // Add some innacuracy since it is blind fire
     int dispersion = 50;
     for( const std::pair<const std::string, mtype_special_attack> &attack : m.type->special_attacks ) {
