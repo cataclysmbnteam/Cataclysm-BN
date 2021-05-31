@@ -186,6 +186,7 @@ class gun_actor : public mattack_actor
         bool try_target( monster &z, Creature &target ) const;
         void shoot( monster &z, const tripoint &target, const gun_mode_id &mode,
                     int inital_recoil = 0 ) const;
+        int get_max_range() const;
 
         gun_actor();
         ~gun_actor() override = default;

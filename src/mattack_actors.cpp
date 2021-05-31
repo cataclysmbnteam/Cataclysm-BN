@@ -455,15 +455,21 @@ std::unique_ptr<mattack_actor> gun_actor::clone() const
     return std::make_unique<gun_actor>( *this );
 }
 
+int gun_actor::get_max_range()  const
+{
+    int max_range = 0;
+    for( const auto &e : ranges ) {
+        max_range = std::max( std::max( max_range, e.first.first ), e.first.second );
+    }
+    return max_range;
+}
+
 bool gun_actor::call( monster &z ) const
 {
     Creature *target;
 
     if( z.friendly ) {
-        int max_range = 0;
-        for( const auto &e : ranges ) {
-            max_range = std::max( std::max( max_range, e.first.first ), e.first.second );
-        }
+        int max_range = get_max_range();
 
         int hostiles; // hostiles which cannot be engaged without risking friendly fire
         target = z.auto_find_hostile_target( max_range, hostiles );
