@@ -192,7 +192,6 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
 
             // We only return fire once with one gun.
             return;
-
         }
     }
 }
