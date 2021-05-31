@@ -171,8 +171,9 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
     }
 
     // Simple universal rule for now
-    tripoint fire_point = one_in( 2 ) ? source->pos() : random_entry( g->m.points_in_radius(
-                              source->pos(), 2 ) );
+    tripoint fire_point = rl_dist( m.pos(), source->pos() ) < 3 ||
+                          one_in( 2 )  ? source->pos() : random_entry( g->m.points_in_radius(
+                                      source->pos(), 2 ) );
 
 
     int dispersion = 50;
