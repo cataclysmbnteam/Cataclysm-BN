@@ -174,30 +174,8 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
     tripoint fire_point = rl_dist( m.pos(), source->pos() ) < 3 ||
                           one_in( 2 )  ? source->pos() : random_entry( g->m.points_in_radius(
                                       source->pos(), 2 ) );
-
-
+    // Add some innacuracy since it is blind fire
     int dispersion = 50;
-
-    //TODO implement source and sound dependent system
-
-    // Low speed prjectiles (likely throwing pbjects) harder to detect
-    // Get rid of ot if for now
-    /*if( proj != nullptr && proj->proj.speed < 100 ) {
-        dispersion *= 2;
-    }*/
-
-    //const player *const foe = dynamic_cast<player *>( source );
-    // Return fire against throwing or quiet wepon are less accurate
-    // TODO Check below is compeltely wrong. It checks current weapon of shooter but it make no selse if player throws somethins instead of shooting
-    // Should I get rid of it?
-    // Get rid of ot if for now
-    /* if( foe == nullptr || foe->weapon.gun_noise().volume < rl_dist( m.pos(), source->pos() ) ) {
-         dispersion *= 2;
-     }*/
-
-
-
-
     for( const std::pair<const std::string, mtype_special_attack> &attack : m.type->special_attacks ) {
         if( attack.second->id == "gun" ) {
             sounds::sound( m.pos(), 50, sounds::sound_t::alert,
