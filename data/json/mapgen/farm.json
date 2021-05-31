@@ -250,7 +250,7 @@
         "FF                    F "
       ],
       "monster": { "7": { "monster": "mon_chicken" }, "8": { "monster": "mon_chicken_chick" } },
-      "sealed_item": { "D": { "item": { "item": "seed_corn" }, "furniture": "f_plant_seedling" }, "chance": 70 },
+      "sealed_item": { "D": { "item": { "item": "seed_corn" }, "furniture": "f_plant_seedling" } },
       "place_item": [
         { "item": "straw_pile", "x": 12, "y": 3, "chance": 75 },
         { "item": "straw_pile", "x": 14, "y": 3, "chance": 75 },
