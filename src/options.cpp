@@ -61,24 +61,18 @@ options_manager &get_options()
     return single_instance;
 }
 
-options_manager::options_manager() :
-    general_page_( "general", to_translation( "General" ) ),
-    interface_page_( "interface", to_translation( "Interface" ) ),
-    graphics_page_( "graphics", to_translation( "Graphics" ) ),
-    debug_page_( "debug", to_translation( "Debug" ) ),
-    world_default_page_( "world_default", to_translation( "World Defaults" ) ),
-    android_page_( "android", to_translation( "Android" ) )
+options_manager::options_manager()
 {
-    pages_.emplace_back( general_page_ );
-    pages_.emplace_back( interface_page_ );
-    pages_.emplace_back( graphics_page_ );
+    pages_.emplace_back( "general", to_translation( "General" ) );
+    pages_.emplace_back( "interface", to_translation( "Interface" ) );
+    pages_.emplace_back( "graphics", to_translation( "Graphics" ) );
     // when sharing maps only admin is allowed to change these.
     if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isAdmin() ) {
-        pages_.emplace_back( world_default_page_ );
-        pages_.emplace_back( debug_page_ );
+        pages_.emplace_back( "world_default", to_translation( "World Defaults" ) );
+        pages_.emplace_back( "debug", to_translation( "Debug" ) );
     }
 #if defined(__ANDROID__)
-    pages_.emplace_back( android_page_ );
+    pages_.emplace_back( "android", to_translation( "Android" ) );
 #endif
 
     mMigrateOption = { {"DELETE_WORLD", { "WORLD_END", { {"no", "keep" }, {"yes", "delete"} } } } };
@@ -409,6 +403,16 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
     addOptionToPage( sNameIn, sPageIn );
 
     options[sNameIn] = thisOpt;
+}
+
+void options_manager::add_empty_line( const std::string &sPageIn )
+{
+    for( Page &p : pages_ ) {
+        if( p.id_ == sPageIn ) {
+            p.items_.emplace_back();
+            break;
+        }
+    }
 }
 
 void options_manager::cOpt::setPrerequisites( const std::string &sOption,
@@ -1067,7 +1071,7 @@ void options_manager::init()
 void options_manager::add_options_general()
 {
     const auto add_empty_line = [&]() {
-        general_page_.items_.emplace_back();
+        this->add_empty_line( "general" );
     };
 
     add( "DEF_CHAR_NAME", "general", translate_marker( "Default character name" ),
@@ -1301,7 +1305,7 @@ void options_manager::add_options_general()
 void options_manager::add_options_interface()
 {
     const auto add_empty_line = [&]() {
-        interface_page_.items_.emplace_back();
+        this->add_empty_line( "interface" );
     };
 
     std::vector<options_manager::id_and_option> lang_options = {
@@ -1612,7 +1616,7 @@ void options_manager::add_options_interface()
 void options_manager::add_options_graphics()
 {
     const auto add_empty_line = [&]() {
-        graphics_page_.items_.emplace_back();
+        this->add_empty_line( "graphics" );
     };
 
     add( "ANIMATIONS", "graphics", translate_marker( "Animations" ),
@@ -1906,7 +1910,7 @@ void options_manager::add_options_graphics()
 void options_manager::add_options_debug()
 {
     const auto add_empty_line = [&]() {
-        debug_page_.items_.emplace_back();
+        this->add_empty_line( "debug" );
     };
 
     add( "REPORT_UNUSED_JSON_FIELDS", "debug", translate_marker( "Report unused JSON fields" ),
@@ -2004,7 +2008,7 @@ void options_manager::add_options_debug()
 void options_manager::add_options_world_default()
 {
     const auto add_empty_line = [&]() {
-        world_default_page_.items_.emplace_back();
+        this->add_empty_line( "world_default" );
     };
 
     add( "CORE_VERSION", "world_default", translate_marker( "Core version data" ),
@@ -2175,7 +2179,7 @@ void options_manager::add_options_android()
 {
 #if defined(__ANDROID__)
     const auto add_empty_line = [&]() {
-        android_page_.items_.emplace_back();
+        this->add_empty_line( "android" );
     };
 
     add( "ANDROID_QUICKSAVE", "android", translate_marker( "Quicksave on app lose focus" ),
@@ -2488,7 +2492,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                                    const std::function<bool()> &on_quit )
 {
     const int iWorldOptPage = std::find_if( pages_.begin(), pages_.end(), [&]( const Page & p ) {
-        return &p == &world_default_page_;
+        return p.id_ == "world_default";
     } ) - pages_.begin();
 
     // temporary alias so the code below does not need to be changed
@@ -2663,7 +2667,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                              _( "Current world" ) );
                 } else {
                     wprintz( w_options_header, iCurrentPage == i ? hilite( c_light_green ) : c_light_green,
-                             "%s", pages_[i].get().name_ );
+                             "%s", pages_[i].name_ );
                 }
                 wprintz( w_options_header, c_white, "]" );
                 wputch( w_options_header, BORDER_COLOR, LINE_OXOX );

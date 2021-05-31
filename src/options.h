@@ -288,14 +288,10 @@ class options_manager
                 Page( const std::string &id, const translation &name ) : id_( id ), name_( name ) { }
         };
 
-        Page general_page_;
-        Page interface_page_;
-        Page graphics_page_;
-        Page debug_page_;
-        Page world_default_page_;
-        Page android_page_;
+        std::vector<Page> pages_;
 
-        std::vector<std::reference_wrapper<Page>> pages_;
+        /** Add empty line to page. */
+        void add_empty_line( const std::string &sPageIn );
 };
 
 bool use_narrow_sidebar(); // short-circuits to on if terminal is too small
