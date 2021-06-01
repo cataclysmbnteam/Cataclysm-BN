@@ -172,8 +172,7 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
 
     const int distance_to_source = rl_dist( m.pos(), source->pos() );
 
-    // Simple universal rule for now
-    // TODO implement different rule, dependent on sound and probably some other things
+    // TODO: implement different rule, dependent on sound and probably some other things
     const tripoint fire_point = source->pos();
     // Add some innacuracy since it is blind fire
     int dispersion = 150;
