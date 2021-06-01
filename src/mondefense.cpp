@@ -174,7 +174,7 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
 
     // Simple universal rule for now
     // TODO implement different rule, dependent on sound and probably some other things
-    tripoint fire_point = source->pos();
+    const tripoint fire_point = source->pos();
     // Add some random innacuracy since it is blind fire
     int dispersion = 150;
 
