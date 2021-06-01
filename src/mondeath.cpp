@@ -24,6 +24,7 @@
 #include "game.h"
 #include "harvest.h"
 #include "item.h"
+#include "item_group.h"
 #include "item_stack.h"
 #include "itype.h"
 #include "iuse.h"
@@ -847,6 +848,37 @@ void mdeath::broken_ammo( monster &z )
     mdeath::broken( z );
 }
 
+static std::vector<item> butcher_cbm_item( const itype_id &what,
+        const time_point &birthday, const std::vector<std::string> &flags,
+        const std::vector<fault_id> &faults )
+{
+    item something( what, birthday );
+    for( const std::string &flg : flags ) {
+        something.set_flag( flg );
+    }
+    for( const fault_id &flt : faults ) {
+        something.faults.emplace( flt );
+    }
+
+    return {something};
+}
+
+static std::vector<item> butcher_cbm_group( const item_group_id &group,
+        const time_point &birthday, const std::vector<std::string> &flags,
+        const std::vector<fault_id> &faults )
+{
+    std::vector<item> spawned = item_group::items_from( group, birthday );
+    for( item &it : spawned ) {
+        for( const std::string &flg : flags ) {
+            it.set_flag( flg );
+        }
+        for( const fault_id &flt : faults ) {
+            it.faults.emplace( flt );
+        }
+    }
+    return spawned;
+}
+
 void make_mon_corpse( monster &z, int damageLvl )
 {
     item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name, z.get_upgrade_time() );
@@ -858,7 +890,25 @@ void make_mon_corpse( monster &z, int damageLvl )
     if( z.has_effect( effect_no_ammo ) ) {
         corpse.set_var( "no_ammo", "no_ammo" );
     }
-    g->m.add_item_or_charges( z.pos(), corpse );
+    if( !z.no_extra_death_drops ) {
+        // Pre-gen bionic on death rather than on butcher
+        for( const harvest_entry &entry : *z.type->harvest ) {
+            if( entry.type == "bionic" || entry.type == "bionic_group" ) {
+                std::vector<item> contained_bionics =
+                    entry.type == "bionic"
+                    ? butcher_cbm_item( entry.drop, calendar::turn, entry.flags, entry.faults )
+                    : butcher_cbm_group( item_group_id( entry.drop ), calendar::turn, entry.flags, entry.faults );
+                for( const item &it : contained_bionics ) {
+                    // Disgusting hack: use components instead of contents to hide stuff
+                    corpse.components.push_back( it );
+                }
+            }
+        }
+    }
+    for( const item &it : z.corpse_components ) {
+        corpse.components.push_back( it );
+    }
+    get_map().add_item_or_charges( z.pos(), corpse );
 }
 
 void mdeath::preg_roach( monster &z )

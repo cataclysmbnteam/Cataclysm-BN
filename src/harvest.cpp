@@ -138,11 +138,15 @@ void harvest_list::check_consistency()
         auto error_func = [&]( const harvest_entry & entry ) {
             std::string errorlist;
             bool item_valid = true;
+            if( ( entry.type == "bionic" || entry.type == "bionic_group" ) && entry.mass_ratio != 0.0f ) {
+                errorlist += string_format( "\"mass_ratio\" != 0.0, but type %s", entry.type.c_str() );
+            }
             if( !( item::type_is_defined( entry.drop ) || ( entry.type == "bionic_group" &&
                     item_group::group_is_defined( item_group_id( entry.drop ) ) ) ) ) {
                 item_valid = false;
                 errorlist += entry.drop;
             }
+
             // non butchery harvests need to be excluded
             if( hl_id.substr( 0, 14 ) != "harvest_inline" ) {
                 if( entry.type == "null" ) {

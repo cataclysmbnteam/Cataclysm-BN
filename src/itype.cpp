@@ -89,21 +89,12 @@ const use_function *itype::get_use( const std::string &iuse_name ) const
     return iter != use_methods.end() ? &iter->second : nullptr;
 }
 
-int itype::tick( player &p, item &it, const tripoint &pos ) const
+void itype::tick( player &p, item &it, const tripoint &pos ) const
 {
-    // Note: can go higher than current charge count
     // Maybe should move charge decrementing here?
-    int charges_to_use = 0;
     for( auto &method : use_methods ) {
-        const int val = method.second.call( p, it, true, pos );
-        if( charges_to_use < 0 || val < 0 ) {
-            charges_to_use = -1;
-        } else {
-            charges_to_use += val;
-        }
+        method.second.call( p, it, true, pos );
     }
-
-    return charges_to_use;
 }
 
 int itype::invoke( player &p, item &it, const tripoint &pos ) const

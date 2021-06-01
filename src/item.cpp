@@ -2963,9 +2963,18 @@ void item::component_info( std::vector<iteminfo> &info, const iteminfo_query *pa
     if( is_craft() ) {
         info.push_back( iteminfo( "DESCRIPTION", string_format( _( "Using: %s" ),
                                   _( components_to_string() ) ) ) );
-    } else {
+        // Ugly hack warning! Corpses have CBMs as their components
+    } else if( !is_corpse() ) {
         info.push_back( iteminfo( "DESCRIPTION", string_format( _( "Made from: %s" ),
                                   _( components_to_string() ) ) ) );
+    } else if( get_var( "bionics_scanned_by", -1 ) == get_avatar().getID().get_value() ) {
+        // TODO: Extract into a more proper place (function in namespace)
+        std::string bionics_string = enumerate_as_string( components.begin(), components.end(),
+        []( const item & entry ) -> std::string {
+            return entry.is_bionic() ? entry.display_name() : "";
+        }, enumeration_conjunction::none );
+        info.push_back( iteminfo( "DESCRIPTION", string_format( _( "Contains: %s" ),
+                                  bionics_string ) ) );
     }
 }
 
@@ -6161,8 +6170,9 @@ bool item::is_brewable() const
 
 bool item::is_food_container() const
 {
-    return ( !contents.empty() && contents.front().is_food() ) || ( is_craft() &&
-            craft_data_->making->create_result().is_food_container() );
+    return ( !contents.empty() && contents.front().is_food() ) ||
+           ( is_craft() &&
+             craft_data_->making->create_result().is_food_container() );
 }
 
 bool item::is_med_container() const

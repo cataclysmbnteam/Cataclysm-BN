@@ -465,77 +465,49 @@ static bool check_butcher_cbm( const int roll )
     // Failure rates for dissection rolls
     // 90% at roll 0, 72% at roll 1, 60% at roll 2, 51% @ 3, 45% @ 4, 40% @ 5, ... , 25% @ 10
     // Roll is roughly a rng(0, -3 + 1st_aid + fine_cut_quality + 1/2 electronics + small_dex_bonus)
-    // Roll is reduced by corpse damage level, but to no less then 0
+    // Roll is reduced by corpse damage level, but to no less than 0
     add_msg( m_debug, _( "Roll = %i" ), roll );
     add_msg( m_debug, _( "Failure chance = %f%%" ), ( 9.0f / ( 10.0f + roll * 2.5f ) ) * 100.0f );
     const bool failed = x_in_y( 9, ( 10 + roll * 2.5 ) );
     return !failed;
 }
 
-static void butcher_cbm_item( const std::string &what, const tripoint &pos,
-                              const time_point &age, const int roll, const std::vector<std::string> &flags,
-                              const std::vector<fault_id> &faults )
+static void extract_or_wreck_cbms( const std::list<item> &cbms, int roll,
+                                   player &p )
 {
     if( roll < 0 ) {
         return;
     }
-    if( item::find_type( itype_id( what ) )->bionic ) {
-        item cbm( check_butcher_cbm( roll ) ? what : "burnt_out_bionic", age );
-        for( const std::string &flg : flags ) {
-            cbm.set_flag( flg );
-        }
-        for( const fault_id &flt : faults ) {
-            cbm.faults.emplace( flt );
-        }
-        add_msg( m_good, _( "You discover a %s!" ), cbm.tname() );
-        g->m.add_item( pos, cbm );
-    } else if( check_butcher_cbm( roll ) ) {
-        item something( what, age );
-        for( const std::string &flg : flags ) {
-            something.set_flag( flg );
-        }
-        for( const fault_id &flt : faults ) {
-            something.faults.emplace( flt );
-        }
-        add_msg( m_good, _( "You discover a %s!" ), something.tname() );
-        g->m.add_item( pos, something );
-    } else {
-        add_msg( m_bad, _( "You discover only damaged organs." ) );
-    }
-}
-
-static void butcher_cbm_group( const item_group_id &group, const tripoint &pos,
-                               const time_point &age, const int roll, const std::vector<std::string> &flags,
-                               const std::vector<fault_id> &faults )
-{
-    if( roll < 0 ) {
-        return;
-    }
-
-    //To see if it spawns a random additional CBM
-    if( check_butcher_cbm( roll ) ) {
-        //The CBM works
-        const std::vector<item *> spawned = g->m.put_items_from_loc( group, pos, age );
-        for( item *it : spawned ) {
-            for( const std::string &flg : flags ) {
-                it->set_flag( flg );
+    for( item it : cbms ) {
+        // For some stupid reason, zombie pheromones are dropped using bionic type
+        // This complicates things
+        if( it.is_bionic() ) {
+            if( check_butcher_cbm( roll ) ) {
+                add_msg( m_good, _( "You discover a %s!" ), it.tname() );
+            } else {
+                // We convert instead of recreating so that it keeps flags and faults
+                it.convert( itype_id( "burnt_out_bionic" ) );
+                add_msg( m_bad, _( "You discover a %s!" ), it.tname() );
             }
-            for( const fault_id &flt : faults ) {
-                it->faults.emplace( flt );
+        } else {
+            if( !check_butcher_cbm( roll ) ) {
+                add_msg( m_bad, _( "You discover only damaged organs." ) );
+                continue;
+            } else {
+                add_msg( m_good, _( "You discover a %s!" ), it.tname() );
             }
-            add_msg( m_good, _( "You discover a %s!" ), it->tname() );
         }
-    } else {
-        //There is a burnt out CBM
-        item cbm( "burnt_out_bionic", age );
-        for( const std::string &flg : flags ) {
-            cbm.set_flag( flg );
+
+        if( it.type->phase == LIQUID ) {
+            // TODO: smarter NPC liquid handling
+            if( p.is_npc() ) {
+                drop_on_map( p, item_drop_reason::deliberate, { it }, p.pos() );
+            } else {
+                liquid_handler::handle_all_liquid( it, 1 );
+            }
+        } else {
+            get_map().add_item( p.pos(), it );
         }
-        for( const fault_id &flt : faults ) {
-            cbm.faults.emplace( flt );
-        }
-        add_msg( m_good, _( "You discover a %s!" ), cbm.tname() );
-        g->m.add_item( pos, cbm );
     }
 }
 
@@ -759,31 +731,32 @@ static void set_up_butchery_activity( player_activity &act, player &u, const but
     act.index = false;
 }
 
+static int size_factor_in_time_to_cut( m_size size )
+{
+    switch( size ) {
+        // Time (roughly) in turns to cut up the corpse
+        case MS_TINY:
+            return 150;
+        case MS_SMALL:
+            return 300;
+        case MS_MEDIUM:
+            return 450;
+        case MS_LARGE:
+            return 600;
+        case MS_HUGE:
+            return 1800;
+    }
+    return 0;
+}
+
 int butcher_time_to_cut( const inventory &inv, const item &corpse_item, const butcher_type action )
 {
     const mtype &corpse = *corpse_item.get_mtype();
-    const int factor = inv.max_quality( action == DISSECT ? qual_CUT_FINE : qual_BUTCHER );
+    const int initial_factor = inv.max_quality( action == DISSECT ? qual_CUT_FINE : qual_BUTCHER );
+    // Multiplier for dissection, since it uses different "quality units"
+    const int factor = action == DISSECT ? ( initial_factor * 15 ) : initial_factor;
 
-    int time_to_cut = 0;
-    switch( corpse.size ) {
-        // Time (roughly) in turns to cut up the corpse
-        case MS_TINY:
-            time_to_cut = 150;
-            break;
-        case MS_SMALL:
-            time_to_cut = 300;
-            break;
-        case MS_MEDIUM:
-            time_to_cut = 450;
-            break;
-        case MS_LARGE:
-            time_to_cut = 600;
-            break;
-        case MS_HUGE:
-            time_to_cut = 1800;
-            break;
-    }
-
+    int time_to_cut = size_factor_in_time_to_cut( corpse.size );
     // At factor 0, base 100 time_to_cut remains 100. At factor 50, it's 50 , at factor 75 it's 25
     time_to_cut *= std::max( 25, 100 - factor );
     if( time_to_cut < 3000 ) {
@@ -811,6 +784,7 @@ int butcher_time_to_cut( const inventory &inv, const item &corpse_item, const bu
             time_to_cut = std::max( 400, time_to_cut / 10 );
             break;
         case DISSECT:
+            time_to_cut *= 5;
             break;
     }
 
@@ -938,7 +912,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                     continue;
                 }
                 p.add_msg_if_player( m_bad,
-                                     _( "You suspect there might be bionics implanted in this corpse, that careful dissection might reveal." ) );
+                                     _( "You notice there are bionics implanted in this corpse, that careful dissection might preserve." ) );
                 continue;
             }
             if( action == BUTCHER || action == BUTCHER_FULL || action == DISMEMBER ) {
@@ -965,19 +939,6 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 }
                 continue;
             }
-        }
-        if( action == DISSECT ) {
-            int roll = roll_butchery() - corpse_item->damage_level( 4 );
-            roll = roll < 0 ? 0 : roll;
-            roll = std::min( entry.max, roll );
-            add_msg( m_debug, _( "Roll penalty for corpse damage = %s" ), 0 - corpse_item->damage_level( 4 ) );
-            if( entry.type == "bionic" ) {
-                butcher_cbm_item( entry.drop, p.pos(), calendar::turn, roll, entry.flags, entry.faults );
-            } else if( entry.type == "bionic_group" ) {
-                butcher_cbm_group( item_group_id( entry.drop ), p.pos(), calendar::turn, roll, entry.flags,
-                                   entry.faults );
-            }
-            continue;
         }
 
         // Check if monster was gibbed, and handle accordingly
@@ -1066,7 +1027,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             }
         }
 
-        if( entry.type != "bionic_group" ) {
+        if( entry.type != "bionic" && entry.type != "bionic_group" ) {
             // divide total dropped weight by drop's weight to get amount
             if( entry.mass_ratio != 0.00f ) {
                 // apply skill before converting to items, but only if mass_ratio is defined
@@ -1320,17 +1281,15 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     // and the liquid handling was interrupted, then the activity was canceled,
     // therefore operations on this activities targets and values may be invalidated.
     // reveal hidden items / hidden content
-    if( action != F_DRESS && action != SKIN ) {
-        for( item *content : corpse_item.contents.all_items_top() ) {
-            if( ( roll_butchery() + 10 ) * 5 > rng( 0, 100 ) ) {
-                //~ %1$s - item name, %2$s - monster name
-                p->add_msg_if_player( m_good, _( "You discover a %1$s in the %2$s!" ), content->tname(),
-                                      corpse->nname() );
-                g->m.add_item_or_charges( p->pos(), *content );
-            } else if( content->is_bionic() ) {
-                g->m.spawn_item( p->pos(), "burnt_out_bionic", 1, 0, calendar::turn );
-            }
+    if( action == DISSECT ) {
+        int roll = roll_butchery() - corpse_item.damage_level( 4 );
+        roll = roll < 0 ? 0 : roll;
+        add_msg( m_debug, _( "Roll penalty for corpse damage = %s" ), 0 - corpse_item.damage_level( 4 ) );
+        std::list<item> cbms = corpse_item.components;
+        for( const item *it : corpse_item.contents.all_items_top() ) {
+            cbms.push_back( *it );
         }
+        extract_or_wreck_cbms( cbms, roll, *p );
     }
 
     //end messages and effects
