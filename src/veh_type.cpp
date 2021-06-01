@@ -318,7 +318,8 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
                 def.looks_like = ab->second.id.str();
             }
         } else {
-            deferred.emplace_back( jo.str(), src );
+            deferred.emplace_back( jo.get_source_location(), src );
+            jo.allow_omitted_members();
             return;
         }
     }
@@ -983,6 +984,11 @@ void vehicle_prototype::load( const JsonObject &jo )
         pt.part = vpart_id( part );
         vproto.parts.push_back( pt );
     };
+
+    if( jo.has_member( "blueprint" ) ) {
+        // currently unused, read to suppress unvisited members warning
+        jo.get_array( "blueprint" );
+    }
 
     for( JsonObject part : jo.get_array( "parts" ) ) {
         point pos = point( part.get_int( "x" ), part.get_int( "y" ) );

@@ -609,6 +609,7 @@ int main( int argc, char *argv[] )
 
     check_dir_good( PATH_INFO::user_dir() );
     check_dir_good( PATH_INFO::config_dir() );
+    check_dir_good( PATH_INFO::savedir() );
 
     setupDebug( DebugOutput::file );
 
@@ -654,6 +655,10 @@ int main( int argc, char *argv[] )
     }
 
 #if defined(TILES)
+    if( test_mode ) {
+        get_options().init();
+        get_options().load();
+    }
     set_language();
 #endif
 

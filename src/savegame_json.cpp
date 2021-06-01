@@ -145,6 +145,7 @@ static void serialize( const weak_ptr_fast<monster> &obj, JsonOut &jsout )
 static void deserialize( weak_ptr_fast<monster> &obj, JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
+    data.allow_omitted_members();
     tripoint temp_pos;
 
     obj.reset();
@@ -180,6 +181,7 @@ void item_contents::serialize( JsonOut &json ) const
 void item_contents::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
+    data.allow_omitted_members();
     data.read( "items", items );
 }
 
@@ -212,6 +214,7 @@ void player_activity::serialize( JsonOut &json ) const
 void player_activity::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
+    data.allow_omitted_members();
     std::string tmptype;
     int tmppos = 0;
     if( !data.read( "type", tmptype ) ) {
@@ -280,6 +283,7 @@ void requirement_data::serialize( JsonOut &json ) const
 void requirement_data::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
+    data.allow_omitted_members();
 
     data.read( "blacklisted", blacklisted );
 
@@ -305,6 +309,7 @@ void SkillLevel::serialize( JsonOut &json ) const
 void SkillLevel::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
+    data.allow_omitted_members();
     data.read( "level", _level );
     data.read( "exercise", _exercise );
     data.read( "istraining", _isTraining );
@@ -346,6 +351,7 @@ void Character::trait_data::serialize( JsonOut &json ) const
 void Character::trait_data::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
+    data.allow_omitted_members();
     data.read( "key", key );
     data.read( "charge", charge );
     data.read( "powered", powered );
@@ -363,6 +369,7 @@ void consumption_event::serialize( JsonOut &json ) const
 void consumption_event::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
+    jo.allow_omitted_members();
     jo.read( "time", time );
     jo.read( "type_id", type_id );
     jo.read( "component_hash", component_hash );
@@ -373,6 +380,7 @@ void consumption_event::deserialize( JsonIn &jsin )
  */
 void Character::load( const JsonObject &data )
 {
+    data.allow_omitted_members();
     Creature::load( data );
 
     if( !data.read( "posx", position.x ) ) {  // uh-oh.
@@ -432,6 +440,7 @@ void Character::load( const JsonObject &data )
     }
 
     JsonObject vits = data.get_object( "vitamin_levels" );
+    vits.allow_omitted_members();
     for( const std::pair<const vitamin_id, vitamin> &v : vitamin::all() ) {
         int lvl = vits.get_int( v.first.str(), 0 );
         lvl = std::max( std::min( lvl, v.first.obj().max() ), v.first.obj().min() );
@@ -636,6 +645,7 @@ void Character::load( const JsonObject &data )
 
     known_traps.clear();
     for( JsonObject pmap : data.get_array( "known_traps" ) ) {
+        pmap.allow_omitted_members();
         const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
         const std::string t = pmap.get_string( "trap" );
         known_traps.insert( trap_map::value_type( p, t ) );
@@ -910,6 +920,7 @@ void player::load( const JsonObject &data )
 
     if( data.has_array( "faction_warnings" ) ) {
         for( JsonObject warning_data : data.get_array( "faction_warnings" ) ) {
+            warning_data.allow_omitted_members();
             std::string fac_id = warning_data.get_string( "fac_warning_id" );
             int warning_num = warning_data.get_int( "fac_warning_num" );
             time_point warning_time = calendar::before_time_starts;
@@ -939,6 +950,7 @@ void player::load( const JsonObject &data )
     data.read( "destination_point", destination_point );
     camps.clear();
     for( JsonObject bcdata : data.get_array( "camps" ) ) {
+        bcdata.allow_omitted_members();
         tripoint bcpt;
         bcdata.read( "pos", bcpt );
         camps.insert( bcpt );
@@ -1023,6 +1035,7 @@ void avatar::store( JsonOut &json ) const
 void avatar::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
+    data.allow_omitted_members();
     load( data );
 }
 
@@ -1227,6 +1240,7 @@ void npc_follower_rules::serialize( JsonOut &json ) const
 void npc_follower_rules::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
+    data.allow_omitted_members();
     int tmpeng = 0;
     data.read( "engagement", tmpeng );
     engagement = static_cast<combat_engagement>( tmpeng );
@@ -1317,6 +1331,7 @@ void npc_chatbin::serialize( JsonOut &json ) const
 void npc_chatbin::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
+    data.allow_omitted_members();
 
     if( data.has_int( "first_topic" ) ) {
         int tmptopic = 0;
@@ -1354,6 +1369,7 @@ void npc_chatbin::deserialize( JsonIn &jsin )
 void npc_personality::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
+    data.allow_omitted_members();
     int tmpagg = 0;
     int tmpbrav = 0;
     int tmpcol = 0;
@@ -1384,6 +1400,7 @@ void npc_personality::serialize( JsonOut &json ) const
 void npc_opinion::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
+    data.allow_omitted_members();
     data.read( "trust", trust );
     data.read( "fear", fear );
     data.read( "value", value );
@@ -1405,6 +1422,7 @@ void npc_opinion::serialize( JsonOut &json ) const
 void npc_favor::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
+    jo.allow_omitted_members();
     type = static_cast<npc_favor_type>( jo.get_int( "type" ) );
     jo.read( "value", value );
     jo.read( "itype_id", item_id );
@@ -1437,6 +1455,7 @@ void job_data::deserialize( JsonIn &jsin )
 {
     if( jsin.test_object() ) {
         JsonObject jo = jsin.get_object();
+        jo.allow_omitted_members();
         jo.read( "task_priorities", task_priorities );
     }
 }
@@ -1470,6 +1489,7 @@ void npc::load( const JsonObject &data )
     data.read( "name", name );
     data.read( "marked_for_death", marked_for_death );
     data.read( "dead", dead );
+    data.read( "patience", patience );
     if( data.has_number( "myclass" ) ) {
         data.read( "myclass", classtmp );
         myclass = npc_class::from_legacy_int( classtmp );
@@ -1766,6 +1786,7 @@ void inventory::json_load_invcache( JsonIn &jsin )
     try {
         std::unordered_map<itype_id, std::string> map;
         for( JsonObject jo : jsin.get_array() ) {
+            jo.allow_omitted_members();
             for( const JsonMember member : jo ) {
                 std::string invlets;
                 for( const int i : member.get_array() ) {
@@ -1810,6 +1831,7 @@ void inventory::json_load_items( JsonIn &jsin )
 void monster::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
+    data.allow_omitted_members();
     load( data );
 }
 
@@ -1891,6 +1913,7 @@ void monster::load( const JsonObject &data )
     if( data.has_object( "special_attacks" ) ) {
         for( const JsonMember member : data.get_object( "special_attacks" ) ) {
             JsonObject saobject = member.get_object();
+            saobject.allow_omitted_members();
             auto &entry = special_attacks[member.name()];
             entry.cooldown = saobject.get_int( "cooldown" );
             entry.enabled = saobject.get_bool( "enabled" );
@@ -2113,6 +2136,7 @@ void item::craft_data::deserialize( JsonIn &jsin )
 
 void item::craft_data::deserialize( const JsonObject &obj )
 {
+    obj.allow_omitted_members();
     making = &recipe_id( obj.get_string( "making" ) ).obj();
     obj.read( "comps_used", comps_used );
     next_failure_point = obj.get_int( "next_failure_point", -1 );
@@ -2124,6 +2148,7 @@ void item::craft_data::deserialize( const JsonObject &obj )
 template<typename T>
 static void load_legacy_craft_data( io::JsonObjectInputArchive &archive, T &value )
 {
+    archive.allow_omitted_members();
     if( archive.has_member( "making" ) ) {
         value = cata::make_value<typename T::element_type>();
         value->deserialize( archive );
@@ -2331,6 +2356,7 @@ void item::io( Archive &archive )
 void item::deserialize( JsonIn &jsin )
 {
     const JsonObject data = jsin.get_object();
+    data.allow_omitted_members();
     io::JsonObjectInputArchive archive( data );
     io( archive );
     // made for fast forwarding time from 0.D to 0.E
@@ -2369,6 +2395,7 @@ void item::serialize( JsonOut &json ) const
 void vehicle_part::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
+    data.allow_omitted_members();
     vpart_id pid;
     data.read( "id", pid );
 
@@ -2541,6 +2568,7 @@ void vehicle_part::serialize( JsonOut &json ) const
 static void deserialize( label &val, JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
+    data.allow_omitted_members();
     data.read( "x", val.x );
     data.read( "y", val.y );
     data.read( "text", val.text );
@@ -2561,6 +2589,7 @@ static void serialize( const label &val, JsonOut &json )
 void vehicle::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
+    data.allow_omitted_members();
 
     int fdir = 0;
     int mdir = 0;
@@ -2690,6 +2719,7 @@ void vehicle::deserialize( JsonIn &jsin )
     point p;
     zone_data zd;
     for( JsonObject sdata : data.get_array( "zones" ) ) {
+        sdata.allow_omitted_members();
         sdata.read( "point", p );
         sdata.read( "zone", zd );
         loot_zones.emplace( p, zd );
@@ -2794,6 +2824,7 @@ void vehicle::serialize( JsonOut &json ) const
 void mission::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
+    jo.allow_omitted_members();
 
     if( jo.has_int( "type_id" ) ) {
         type = &mission_type::from_legacy( jo.get_int( "type_id" ) ).obj();
@@ -2916,6 +2947,7 @@ void mission::serialize( JsonOut &json ) const
 void faction::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
+    jo.allow_omitted_members();
 
     jo.read( "id", id );
     jo.read( "name", name );
@@ -3011,6 +3043,7 @@ void Creature::store( JsonOut &jsout ) const
 
 void Creature::load( const JsonObject &jsin )
 {
+    jsin.allow_omitted_members();
     jsin.read( "moves", moves );
     jsin.read( "pain", pain );
 
@@ -3072,6 +3105,7 @@ void Creature::load( const JsonObject &jsin )
 void player_morale::morale_point::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
+    jo.allow_omitted_members();
     if( !jo.read( "type", type ) ) {
         type = morale_type_data::convert_legacy( jo.get_int( "type_enum" ) );
     }
@@ -3107,6 +3141,7 @@ void player_morale::store( JsonOut &jsout ) const
 
 void player_morale::load( const JsonObject &jsin )
 {
+    jsin.allow_omitted_members();
     jsin.read( "morale", points );
 }
 
@@ -3327,6 +3362,7 @@ void addiction::serialize( JsonOut &json ) const
 void addiction::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
+    jo.allow_omitted_members();
     type = static_cast<add_type>( jo.get_int( "type_enum" ) );
     intensity = jo.get_int( "intensity" );
     jo.read( "sated", sated );
@@ -3375,6 +3411,7 @@ static void serialize( const tool_comp &value, JsonOut &jsout )
 static void deserialize( item_comp &value, JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
+    jo.allow_omitted_members();
     jo.read( "type", value.type );
     jo.read( "count", value.count );
     jo.read( "recoverable", value.recoverable );
@@ -3383,6 +3420,7 @@ static void deserialize( item_comp &value, JsonIn &jsin )
 static void deserialize( tool_comp &value, JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
+    jo.allow_omitted_members();
     jo.read( "type", value.type );
     jo.read( "count", value.count );
     jo.read( "recoverable", value.recoverable );
@@ -3402,6 +3440,7 @@ static void serialize( const quality_requirement &value, JsonOut &jsout )
 static void deserialize( quality_requirement &value, JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
+    jo.allow_omitted_members();
     jo.read( "type", value.type );
     jo.read( "count", value.count );
     jo.read( "level", value.level );
@@ -3460,10 +3499,12 @@ void basecamp::serialize( JsonOut &json ) const
 void basecamp::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
+    data.allow_omitted_members();
     data.read( "name", name );
     data.read( "pos", omt_pos );
     data.read( "bb_pos", bb_pos );
     for( JsonObject edata : data.get_array( "expansions" ) ) {
+        edata.allow_omitted_members();
         expansion_data e;
         point dir;
         if( edata.has_string( "dir" ) ) {
@@ -3480,6 +3521,7 @@ void basecamp::deserialize( JsonIn &jsin )
         if( edata.has_array( "provides" ) ) {
             e.cur_level = -1;
             for( JsonObject provide_data : edata.get_array( "provides" ) ) {
+                provide_data.allow_omitted_members();
                 std::string id = provide_data.get_string( "id" );
                 int amount = provide_data.get_int( "amount" );
                 e.provides[ id ] = amount;
@@ -3491,6 +3533,7 @@ void basecamp::deserialize( JsonIn &jsin )
             e.provides[ initial_provide ] = 1;
         }
         for( JsonObject in_progress_data : edata.get_array( "in_progress" ) ) {
+            in_progress_data.allow_omitted_members();
             std::string id = in_progress_data.get_string( "id" );
             int amount = in_progress_data.get_int( "amount" );
             e.in_progress[ id ] = amount;
@@ -3502,6 +3545,7 @@ void basecamp::deserialize( JsonIn &jsin )
         }
     }
     for( JsonObject edata : data.get_array( "fortifications" ) ) {
+        edata.allow_omitted_members();
         tripoint restore_pos;
         edata.read( "pos", restore_pos );
         fortifications.push_back( restore_pos );
@@ -3530,6 +3574,7 @@ void kill_tracker::serialize( JsonOut &jsout ) const
 void kill_tracker::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
+    data.allow_omitted_members();
     for( const JsonMember member : data.get_object( "kills" ) ) {
         kills[mtype_id( member.name() )] = member.get_int();
     }
@@ -3567,6 +3612,7 @@ void event_multiset::serialize( JsonOut &jsout ) const
 void event_multiset::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
+    jo.allow_omitted_members();
     std::vector<std::pair<cata::event::data_type, int>> copy;
     jo.read( "event_counts", copy );
     counts_ = { copy.begin(), copy.end() };
@@ -3583,6 +3629,7 @@ void stats_tracker::serialize( JsonOut &jsout ) const
 void stats_tracker::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
+    jo.allow_omitted_members();
     jo.read( "data", data );
     for( std::pair<const event_type, event_multiset> &d : data ) {
         d.second.set_type( d.first );
@@ -4160,6 +4207,7 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "adv_inv_container_in_vehicle", adv_inv_container_in_vehicle );
     jo.read( "adv_inv_container_type", adv_inv_container_type );
     jo.read( "adv_inv_container_content_type", adv_inv_container_content_type );
+    jo.read( "editmap_nsa_viewmode", editmap_nsa_viewmode );
     jo.read( "overmap_blinking", overmap_blinking );
     jo.read( "overmap_show_overlays", overmap_show_overlays );
     jo.read( "overmap_show_map_notes", overmap_show_map_notes );
