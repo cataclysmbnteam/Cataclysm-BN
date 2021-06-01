@@ -170,7 +170,7 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
         return;
     }
 
-    int distance_to_source = rl_dist( m.pos(), source->pos() );
+    const int distance_to_source = rl_dist( m.pos(), source->pos() );
 
     // Simple universal rule for now
     // TODO implement different rule, dependent on sound and probably some other things
