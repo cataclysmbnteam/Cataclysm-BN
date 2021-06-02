@@ -6,7 +6,7 @@
   },
   {
     "type": "item_group",
-    "id": "ammo_rifle_reloaded",
+    "id": "ammo_rifle_modern_handloads",
     "items": [ [ "reloaded_654", 10 ] ]
   },
   {

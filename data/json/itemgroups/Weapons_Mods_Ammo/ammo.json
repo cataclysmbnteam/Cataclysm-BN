@@ -74,10 +74,19 @@
   {
     "type": "item_group",
     "id": "ammo_pistol_reloaded",
-    "//": "Reloaded pistol ammo balanced according to rarity.  Blackpowder loads should comprise roughly 25% of total weight.",
+    "//": "Reloaded pistol ammo, black powder loads roughly a quarter of the time.",
     "subtype": "distribution",
     "entries": [
-      { "group": "ammo_pistol_blackpowder", "prob": 440 },
+      { "group": "ammo_pistol_modern_handloads", "prob": 75 },
+      { "group": "ammo_pistol_blackpowder_handloads", "prob": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_pistol_modern_handloads",
+    "//": "Reloaded pistol ammo balanced according to rarity.",
+    "subtype": "distribution",
+    "entries": [
       { "item": "reloaded_10mm_fmj", "prob": 10 },
       { "item": "reloaded_32_acp", "prob": 50 },
       { "item": "reloaded_38_fmj", "prob": 30 },
@@ -116,29 +125,29 @@
   },
   {
     "type": "item_group",
-    "id": "ammo_pistol_blackpowder",
-    "//": "Blackpowder pistol ammo balanced according to rarity.",
+    "id": "ammo_pistol_blackpowder_handloads",
+    "//": "Blackpowder pistol ammo balanced according to rarity, additional weight for calibers that have common, manual-action firearms available in that chambering.",
     "subtype": "distribution",
     "entries": [
       { "item": "bp_10mm_fmj", "prob": 10 },
       { "item": "bp_32_acp", "prob": 50 },
-      { "item": "bp_38_fmj", "prob": 30 },
-      { "item": "bp_38_special", "prob": 80 },
-      { "item": "bp_357mag_fmj", "prob": 30 },
-      { "item": "bp_357mag_jhp", "prob": 30 },
+      { "item": "bp_38_fmj", "prob": 55 },
+      { "item": "bp_38_special", "prob": 105 },
+      { "item": "bp_357mag_fmj", "prob": 55 },
+      { "item": "bp_357mag_jhp", "prob": 55 },
       { "item": "bp_380_JHP", "prob": 10 },
       { "item": "bp_380_FMJ", "prob": 15 },
       { "item": "bp_40fmj", "prob": 20 },
       { "item": "bp_40sw", "prob": 50 },
-      { "item": "bp_44magnum", "prob": 60 },
-      { "item": "bp_44fmj", "prob": 30 },
+      { "item": "bp_44magnum", "prob": 85 },
+      { "item": "bp_44fmj", "prob": 55 },
       { "item": "bp_45_acp", "prob": 80 },
       { "item": "bp_45_jhp", "prob": 100 },
       { "item": "bp_46mm", "prob": 20 },
-      { "item": "bp_454_Casull", "prob": 5 },
+      { "item": "bp_454_Casull", "prob": 30 },
       { "item": "bp_460_fmj", "prob": 5 },
       { "item": "bp_460_rowland", "prob": 5 },
-      { "item": "bp_500_Magnum", "prob": 5 },
+      { "item": "bp_500_Magnum", "prob": 30 },
       { "item": "bp_57mm", "prob": 50 },
       { "item": "bp_9mm", "prob": 160 },
       { "item": "bp_9mmfmj", "prob": 80 },
@@ -255,10 +264,16 @@
   {
     "type": "item_group",
     "id": "ammo_rifle_reloaded",
-    "//": "Reloaded rifle ammo balanced according to rarity.  Blackpowder loads should comprise roughly 25% of total weight.",
+    "//": "Reloaded rifle ammo, black powder loads roughly a quarter of the time.",
+    "subtype": "distribution",
+    "entries": [ { "group": "ammo_rifle_modern_handloads", "prob": 75 }, { "group": "ammo_rifle_blackpowder_handloads", "prob": 25 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_rifle_modern_handloads",
+    "//": "Reloaded rifle ammo balanced according to rarity.",
     "subtype": "distribution",
     "entries": [
-      { "group": "ammo_rifle_blackpowder", "prob": 150 },
       { "item": "reloaded_223", "prob": 60 },
       { "item": "reloaded_22_cphp", "prob": 20 },
       { "item": "reloaded_22_lr", "prob": 70 },
@@ -282,24 +297,24 @@
   },
   {
     "type": "item_group",
-    "id": "ammo_rifle_blackpowder",
-    "//": "Blackpowder rifle ammo balanced according to rarity.",
+    "id": "ammo_rifle_blackpowder_handloads",
+    "//": "Blackpowder rifle ammo balanced according to rarity, additional weight for calibers that have common, manual-action firearms available in that chambering.",
     "subtype": "distribution",
     "entries": [
       { "item": "bp_223", "prob": 60 },
-      { "item": "bp_22_cphp", "prob": 20 },
-      { "item": "bp_22_lr", "prob": 70 },
-      { "item": "bp_270win_jsp", "prob": 15 },
-      { "item": "bp_300_winmag", "prob": 15 },
-      { "item": "bp_3006", "prob": 70 },
-      { "item": "bp_3006fmj", "prob": 10 },
-      { "item": "bp_3006_incendiary", "prob": 5 },
-      { "item": "bp_308", "prob": 40 },
+      { "item": "bp_22_cphp", "prob": 45 },
+      { "item": "bp_22_lr", "prob": 95 },
+      { "item": "bp_270win_jsp", "prob": 40 },
+      { "item": "bp_300_winmag", "prob": 40 },
+      { "item": "bp_3006", "prob": 95 },
+      { "item": "bp_3006fmj", "prob": 35 },
+      { "item": "bp_3006_incendiary", "prob": 30 },
+      { "item": "bp_308", "prob": 65 },
       { "item": "bp_556", "prob": 10 },
       { "item": "bp_556_incendiary", "prob": 5 },
-      { "item": "reloaded_4570_bp", "prob": 35 },
-      { "item": "bp_762_51", "prob": 10 },
-      { "item": "bp_762_51_incendiary", "prob": 5 },
+      { "item": "reloaded_4570_bp", "prob": 60 },
+      { "item": "bp_762_51", "prob": 35 },
+      { "item": "bp_762_51_incendiary", "prob": 30 },
       { "item": "bp_300blk", "prob": 10 }
     ]
   },
@@ -355,7 +370,16 @@
     "//": "Reloaded shotgun ammo balanced according to rarity.  Blackpowder loads should comprise roughly 25% of total weight.",
     "subtype": "distribution",
     "entries": [
-      { "group": "ammo_shotgun_blackpowder", "prob": 130 },
+      { "group": "ammo_shotgun_modern_handloads", "prob": 75 },
+      { "group": "ammo_shotgun_blackpowder_handloads", "prob": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_shotgun_modern_handloads",
+    "//": "Reloaded shotgun ammo balanced according to rarity.",
+    "subtype": "distribution",
+    "entries": [
       { "item": "reloaded_shot_00", "prob": 200 },
       { "item": "reloaded_shot_bird", "prob": 30 },
       { "item": "reloaded_shot_dragon", "prob": 20 },
@@ -367,15 +391,15 @@
   },
   {
     "type": "item_group",
-    "id": "ammo_shotgun_blackpowder",
-    "//": "Blackpowder shotgun ammo balanced according to rarity.",
+    "id": "ammo_shotgun_blackpowder_handloads",
+    "//": "Blackpowder rifle ammo balanced according to rarity, additional weight for calibers that have common, manual-action firearms available in that chambering.",
     "subtype": "distribution",
     "entries": [
       { "item": "bp_shot_00", "prob": 200 },
       { "item": "bp_shot_bird", "prob": 30 },
       { "item": "bp_shot_dragon", "prob": 20 },
       { "item": "bp_shot_flechette", "prob": 5 },
-      { "item": "bp_shot_slug", "prob": 30 }
+      { "item": "bp_shot_slug", "prob": 55 }
     ]
   },
   {
