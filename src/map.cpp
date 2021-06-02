@@ -106,7 +106,7 @@ static const std::string flag_RECHARGE( "RECHARGE" );
 static const std::string flag_USE_UPS( "USE_UPS" );
 static const std::string flag_USES_GRID_POWER( "USES_GRID_POWER" );
 
-#define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),DC::Map)
 
 static cata::colony<item> nulitems;          // Returned when &i_at() is asked for an OOB value
 static field              nulfield;          // Returned when &field_at() is asked for an OOB value
@@ -158,7 +158,7 @@ map::map( int mapsize, bool zlev )
         ptr = std::make_unique<pathfinding_cache>();
     }
 
-    dbg( D_INFO ) << "map::map(): my_MAPSIZE: " << my_MAPSIZE << " z-levels enabled:" << zlevels;
+    dbg( DL::Info ) << "map::map(): my_MAPSIZE: " << my_MAPSIZE << " z-levels enabled:" << zlevels;
     traplocs.resize( trap::count() );
 }
 
@@ -1102,8 +1102,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp )
     if( !inbounds( p2 ) ) {
         veh.stop();
         // Silent debug
-        dbg( D_ERROR ) << "map:displace_vehicle: Stopping vehicle, displaced dp=("
-                       << dp.x << ", " << dp.y << ", " << dp.z << ")";
+        dbg( DL::Error ) << "map:displace_vehicle: Stopping vehicle, displaced dp=" << dp;
         return true;
     }
 
@@ -2314,8 +2313,7 @@ int map::bash_rating_internal( const int str, const furn_t &furniture,
 bool map::is_bashable( const tripoint &p, const bool allow_floor ) const
 {
     if( !inbounds( p ) ) {
-        DebugLog( D_WARNING, D_MAP ) << "Looking for out-of-bounds is_bashable at "
-                                     << p.x << ", " << p.y << ", " << p.z;
+        dbg( DL::Warn ) << "Looking for out-of-bounds is_bashable at " << p;
         return false;
     }
 
@@ -2378,8 +2376,7 @@ int map::bash_resistance( const tripoint &p, const bool allow_floor ) const
 int map::bash_rating( const int str, const tripoint &p, const bool allow_floor ) const
 {
     if( !inbounds( p ) ) {
-        DebugLog( D_WARNING, D_MAP ) << "Looking for out-of-bounds is_bashable at "
-                                     << p.x << ", " << p.y << ", " << p.z;
+        dbg( DL::Warn ) << "Looking for out-of-bounds is_bashable at " << p;
         return -1;
     }
 
@@ -2582,9 +2579,9 @@ void map::decay_fields_and_scent( const time_duration &amount )
             if( to_proc < 1 ) {
                 if( to_proc < 0 ) {
                     cur_submap->field_count = 0;
-                    dbg( D_ERROR ) << "map::decay_fields_and_scent: submap at "
-                                   << abs_sub.x + smx << "," << abs_sub.y + smy << "," << abs_sub.z
-                                   << "has " << to_proc << " field_count";
+                    dbg( DL::Error ) << "map::decay_fields_and_scent: submap at "
+                                     << ( abs_sub + tripoint( smx, smy, 0 ) )
+                                     << "has " << to_proc << " field_count";
                 }
                 get_cache( smz ).field_cache.reset( smx + ( smy * MAPSIZE ) );
                 // This submap has no fields
@@ -2622,10 +2619,10 @@ void map::decay_fields_and_scent( const time_duration &amount )
 
             if( to_proc > 0 ) {
                 cur_submap->field_count = cur_submap->field_count - to_proc;
-                dbg( D_ERROR ) << "map::decay_fields_and_scent: submap at "
-                               << abs_sub.x + smx << "," << abs_sub.y + smy << "," << abs_sub.z
-                               << "has " << cur_submap->field_count - to_proc << "fields, but "
-                               << cur_submap->field_count << " field_count";
+                dbg( DL::Error ) << "map::decay_fields_and_scent: submap at "
+                                 << abs_sub + tripoint( smx, smy, 0 )
+                                 << "has " << cur_submap->field_count - to_proc << "fields, but "
+                                 << cur_submap->field_count << " field_count";
             }
         }
     }
@@ -4141,7 +4138,8 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
     // Checks if item would not be destroyed if added to this tile
     auto valid_tile = [&]( const tripoint & e ) {
         if( !inbounds( e ) ) {
-            dbg( D_INFO ) << e; // should never happen
+            // should never happen
+            debugmsg( "add_item_or_charges: tripoint %s is out of bounds", e.to_string() );
             return false;
         }
 
@@ -6675,14 +6673,12 @@ void map::vertical_shift( const int newz )
 // in grid[0].
 void map::saven( const tripoint &grid )
 {
-    dbg( D_INFO ) << "map::saven(worldx[" << abs_sub.x << "], worldy[" << abs_sub.y << "], worldz[" <<
-                  abs_sub.z
-                  << "], gridx[" << grid.x << "], gridy[" << grid.y << "], gridz[" << grid.z << "])";
+    dbg( DL::Debug ) << "map::saven( world=" << abs_sub << ", grid=" << grid << " )";
     const int gridn = get_nonant( grid );
     submap *submap_to_save = getsubmap( gridn );
     if( submap_to_save == nullptr || submap_to_save->get_ter( point_zero ) == t_null ) {
         // This is a serious error and should be signaled as soon as possible
-        debugmsg( "map::saven grid (%d,%d,%d) %s!", grid.x, grid.y, grid.z,
+        debugmsg( "map::saven grid (%s) %s!", grid.to_string(),
                   submap_to_save == nullptr ? "null" : "uninitialized" );
         return;
     }
@@ -6694,8 +6690,7 @@ void map::saven( const tripoint &grid )
                   abs.x, abs.y, abs_sub.z, abs.x, abs.y, grid.z );
     }
 
-    dbg( D_INFO ) << "map::saven abs: " << abs
-                  << "  gridn: " << gridn;
+    dbg( DL::Debug ) << "map::saven abs: " << abs << "  gridn: " << gridn;
 
     // An edge case: restock_fruits relies on last_touched, so we must call it before save
     if( season_of_year( calendar::turn ) != season_of_year( submap_to_save->last_touched ) ) {
@@ -6716,8 +6711,8 @@ void map::saven( const tripoint &grid )
 // Does not create or require a temporary map and does its own saving
 static void generate_uniform( const tripoint &p, const ter_id &terrain_type )
 {
-    dbg( D_INFO ) << "generate_uniform p: " << p
-                  << "  terrain_type: " << terrain_type.id().str();
+    dbg( DL::Info ) << "generate_uniform p: " << p
+                    << "  terrain_type: " << terrain_type.id().str();
 
     for( int xd = 0; xd <= 1; xd++ ) {
         for( int yd = 0; yd <= 1; yd++ ) {
@@ -6736,13 +6731,18 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
     static const oter_id rock( "empty_rock" );
     static const oter_id air( "open_air" );
 
-    dbg( D_INFO ) << "map::loadn(game[" << g.get() << "], worldx[" << abs_sub.x
-                  << "], worldy[" << abs_sub.y << "], grid " << grid << ")";
+    /*
+    dbg( DL::Debug ) << "map::loadn( game=" << g.get()
+                     << ", world=" << abs_sub
+                     << ", grid=" << grid << " )";
+    */
 
     const tripoint grid_abs_sub = abs_sub.xy() + grid;
     const size_t gridn = get_nonant( grid );
 
-    dbg( D_INFO ) << "map::loadn grid_abs_sub: " << grid_abs_sub << "  gridn: " << gridn;
+    /*
+    dbg( DL::Debug ) << "map::loadn grid_abs_sub: " << grid_abs_sub << "  gridn: " << gridn;
+    */
 
     const int old_abs_z = abs_sub.z; // Ugly, but necessary at the moment
     abs_sub.z = grid.z;
@@ -6750,7 +6750,7 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
     submap *tmpsub = MAPBUFFER.lookup_submap( grid_abs_sub );
     if( tmpsub == nullptr ) {
         // It doesn't exist; we must generate it!
-        dbg( D_INFO | D_WARNING ) << "map::loadn: Missing mapbuffer data.  Regenerating.";
+        dbg( DL::Info ) << "map::loadn: Missing mapbuffer data.  Regenerating.";
 
         // Each overmap square is two nonants; to prevent overlap, generate only at
         //  squares divisible by 2.
@@ -6773,7 +6773,6 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
         // This is the same call to MAPBUFFER as above!
         tmpsub = MAPBUFFER.lookup_submap( grid_abs_sub );
         if( tmpsub == nullptr ) {
-            dbg( D_ERROR ) << "failed to generate a submap at " << grid_abs_sub;
             debugmsg( "failed to generate a submap at %s", grid_abs_sub.to_string() );
             return;
         }
@@ -6907,7 +6906,7 @@ void map::grow_plant( const tripoint &p )
 
     if( seed == items.end() ) {
         // No seed there anymore, we don't know what kind of plant it was.
-        dbg( D_ERROR ) << "a planted item at " << p.x << "," << p.y << "," << p.z << " has no seed data";
+        dbg( DL::Error ) << "a planted item at " << p << " has no seed data";
         i_clear( p );
         furn_set( p, f_null );
         return;
@@ -7289,9 +7288,8 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
         if( !allow_on_terrain( upper_left ) ||
             ( !ignore_inside_checks && has_flag_ter_or_furn( TFLAG_INDOORS, upper_left ) ) ) {
             const tripoint glp = getabs( gp );
-            dbg( D_WARNING ) << "Empty locations for group " << group.type.str() <<
-                             " at uniform submap " << gp.x << "," << gp.y << "," << gp.z <<
-                             " global " << glp.x << "," << glp.y << "," << glp.z;
+            dbg( DL::Warn ) << "Empty locations for group " << group.type.str()
+                            << " at uniform submap " << gp << " global " << glp;
             return;
         }
 
@@ -7328,9 +7326,8 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
         // TODO: what now? there is no possible place to spawn monsters, most
         // likely because the player can see all the places.
         const tripoint glp = getabs( gp );
-        dbg( D_WARNING ) << "Empty locations for group " << group.type.str() <<
-                         " at " << gp.x << "," << gp.y << "," << gp.z <<
-                         " global " << glp.x << "," << glp.y << "," << glp.z;
+        dbg( DL::Warn ) << "Empty locations for group " << group.type.str()
+                        << " at " << gp << " global " << glp;
         // Just kill the group. It's not like we're removing existing monsters
         // Unless it's a horde - then don't kill it and let it spawn behind a tree or smoke cloud
         if( !group.horde ) {

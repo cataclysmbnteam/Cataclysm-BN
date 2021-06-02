@@ -68,7 +68,7 @@ static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
 class map_extra;
 
-#define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLogFL((x),DC::MapGen)
 
 #define BUILDINGCHANCE 4
 #define MIN_ANT_SIZE 8
@@ -381,8 +381,7 @@ void overmap_land_use_code::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "sym", symbol, unicode_codepoint_from_symbol_reader, NULL_UNICODE );
 
     if( symbol == NULL_UNICODE ) {
-        DebugLog( D_ERROR, D_GAME ) << "`sym` node is not defined properly for `land_use_code`: "
-                                    << id.c_str() << " (" << name << ")";
+        debugmsg( "sym is not defined properly for land_use_code %s (%s)", id.c_str(), name );
     }
 
     assign( jo, "color", color, strict );
@@ -609,8 +608,7 @@ void oter_type_t::load( const JsonObject &jo, const std::string &src )
         }
     } else {
         if( symbol == NULL_UNICODE && !jo.has_string( "abstract" ) ) {
-            DebugLog( D_ERROR, D_MAP_GEN ) << "sym is not defined for overmap_terrain: "
-                                           << id.c_str() << " (" << name << ")";
+            debugmsg( "sym is not defined for overmap_terrain %s (%s)", id.c_str(), name );
         }
         if( !jo.has_string( "sym" ) && jo.has_number( "sym" ) ) {
             debugmsg( "sym is defined as number instead of string for overmap_terrain %s (%s)", id.c_str(),
@@ -1533,11 +1531,11 @@ void overmap::generate( const overmap *north, const overmap *east,
                         overmap_special_batch &enabled_specials )
 {
     if( g->gametype() == SGAME_DEFENSE ) {
-        dbg( D_INFO ) << "overmap::generate skipped in Defense special game mode!";
+        dbg( DL::Info ) << "overmap::generate skipped in Defense special game mode!";
         return;
     }
 
-    dbg( D_INFO ) << "overmap::generate start…";
+    dbg( DL::Info ) << "overmap::generate start";
 
     clear_labs();
 
@@ -1578,7 +1576,7 @@ void overmap::generate( const overmap *north, const overmap *east,
     // Place the monsters, now that the terrain is laid out
     place_mongroups();
     place_radios();
-    dbg( D_INFO ) << "overmap::generate done";
+    dbg( DL::Info ) << "overmap::generate done";
 }
 
 bool overmap::generate_sub( const int z )
@@ -4645,7 +4643,8 @@ void overmap::add_mon_group( const mongroup &group )
                 pop_here = ( static_cast<double>( rad - dist ) / rad ) * pop / total_area;
             }
             if( pop_here > pop || pop_here < 0 ) {
-                DebugLog( D_ERROR, D_GAME ) << group.type.str() << ": invalid population here: " << pop_here;
+                dbg( DL::Error ) << "overmap::add_mon_group: " << group.type.str()
+                                 << " - invalid population here: " << pop_here;
             }
             int p = std::max( 0, static_cast<int>( std::floor( pop_here ) ) );
             if( pop_here - p != 0 ) {

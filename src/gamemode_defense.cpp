@@ -238,7 +238,7 @@ void defense_game::init_map()
         case DEFLOC_NULL:
         case NUM_DEFENSE_LOCATIONS:
             defloc_special = overmap_special_id( "house_two_story_basement" );
-            DebugLog( D_ERROR, D_GAME ) << "defense location is invalid: " << location;
+            debugmsg( "Invalid defense location %d", location );
             break;
 
         case DEFLOC_HOSPITAL:
@@ -316,7 +316,7 @@ void defense_game::init_to_style( defense_style new_style )
 
     switch( new_style ) {
         case NUM_DEFENSE_STYLES:
-            DebugLog( D_ERROR, D_GAME ) << "invalid defense style: " << new_style;
+            debugmsg( "invalid defense style: %d", new_style );
             break;
         case DEFENSE_EASY:
         // fall through to custom
@@ -1135,7 +1135,7 @@ std::vector<itype_id> caravan_items( caravan_category cat )
             break;
 
         case NUM_CARAVAN_CATEGORIES:
-            DebugLog( D_ERROR, D_GAME ) << "invalid caravan category: " << cat;
+            debugmsg( "Invalid caravan category %d", cat );
             return ret;
     }
 

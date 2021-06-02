@@ -72,7 +72,7 @@
 #include "weather.h"
 #include "weighted_list.h"
 
-#define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLogFL((x),DC::SDL)
 
 static const efftype_id effect_ridden( "ridden" );
 
@@ -357,10 +357,10 @@ static void get_tile_information( const std::string &config_path, std::string &j
                 getline( fin, sOption );
             } else if( sOption.find( "JSON" ) != std::string::npos ) {
                 fin >> json_path;
-                dbg( D_INFO ) << "JSON path set to [" << json_path << "].";
+                dbg( DL::Info ) << "JSON path set to [" << json_path << "].";
             } else if( sOption.find( "TILESET" ) != std::string::npos ) {
                 fin >> tileset_path;
-                dbg( D_INFO ) << "TILESET path set to [" << tileset_path << "].";
+                dbg( DL::Info ) << "TILESET path set to [" << tileset_path << "].";
             } else {
                 getline( fin, sOption );
             }
@@ -374,11 +374,11 @@ static void get_tile_information( const std::string &config_path, std::string &j
 
     if( json_path.empty() ) {
         json_path = default_json;
-        dbg( D_INFO ) << "JSON set to default [" << json_path << "].";
+        dbg( DL::Info ) << "JSON set to default [" << json_path << "].";
     }
     if( tileset_path.empty() ) {
         tileset_path = default_tileset;
-        dbg( D_INFO ) << "TILESET set to default [" << tileset_path << "].";
+        dbg( DL::Info ) << "TILESET set to default [" << tileset_path << "].";
     }
 }
 
@@ -517,8 +517,9 @@ void tileset_loader::load_tileset( const std::string &img_path )
 
     if( info.max_texture_width == 0 ) {
         info.max_texture_width = sprite_width * min_tile_xcount;
-        DebugLog( D_INFO, DC_ALL ) << "SDL_RendererInfo max_texture_width was set to 0.  Changing it to " <<
-                                   info.max_texture_width;
+        dbg( DL::Info ) <<
+                        "SDL_RendererInfo max_texture_width was set to 0.  Changing it to " <<
+                        info.max_texture_width;
     } else {
         throwErrorIf( info.max_texture_width < sprite_width,
                       "Maximal texture width is smaller than tile width" );
@@ -526,8 +527,9 @@ void tileset_loader::load_tileset( const std::string &img_path )
 
     if( info.max_texture_height == 0 ) {
         info.max_texture_height = sprite_height * min_tile_ycount;
-        DebugLog( D_INFO, DC_ALL ) << "SDL_RendererInfo max_texture_height was set to 0.  Changing it to "
-                                   << info.max_texture_height;
+        dbg( DL::Info ) <<
+                        "SDL_RendererInfo max_texture_height was set to 0.  Changing it to "
+                        << info.max_texture_height;
     } else {
         throwErrorIf( info.max_texture_height < sprite_height,
                       "Maximal texture height is smaller than tile height" );
@@ -606,12 +608,12 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
     const auto tset_iter = TILESETS.find( tileset_id );
     if( tset_iter != TILESETS.end() ) {
         tileset_root = tset_iter->second;
-        dbg( D_INFO ) << '"' << tileset_id << '"' << " tileset: found config file path: " << tileset_root;
+        dbg( DL::Info ) << '"' << tileset_id << '"' << " tileset: found config file path: " << tileset_root;
         get_tile_information( tileset_root + '/' + PATH_INFO::tileset_conf(),
                               json_conf, tileset_path );
-        dbg( D_INFO ) << "Current tileset is: " << tileset_id;
+        dbg( DL::Info ) << "Current tileset is: " << tileset_id;
     } else {
-        dbg( D_ERROR ) << "Tileset \"" << tileset_id << "\" from options is invalid";
+        dbg( DL::Error ) << "Tileset \"" << tileset_id << "\" from options is invalid";
         json_conf = PATH_INFO::defaulttilejson();
         tileset_path = PATH_INFO::defaulttilepng();
     }
@@ -619,7 +621,7 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
     std::string json_path = tileset_root + '/' + json_conf;
     std::string img_path = tileset_root + '/' + tileset_path;
 
-    dbg( D_INFO ) << "Attempting to Load JSON file " << json_path;
+    dbg( DL::Info ) << "Attempting to Load JSON file " << json_path;
     std::ifstream config_file( json_path.c_str(), std::ifstream::in | std::ifstream::binary );
 
     if( !config_file.good() ) {
@@ -658,10 +660,10 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
         json_path = mts.get_full_path();
 
         if( !mts.is_compatible( tileset_id ) ) {
-            dbg( D_ERROR ) << "Mod tileset in \"" << json_path << "\" is not compatible.";
+            dbg( DL::Info ) << "Mod tileset in \"" << json_path << "\" is not compatible.";
             continue;
         }
-        dbg( D_INFO ) << "Attempting to Load JSON file " << json_path;
+        dbg( DL::Info ) << "Attempting to Load JSON file " << json_path;
         std::ifstream mod_config_file( json_path.c_str(), std::ifstream::in | std::ifstream::binary );
 
         if( !mod_config_file.good() ) {
@@ -702,7 +704,7 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
         process_variations_after_loading( td.bg );
         // All tiles need at least foreground or background data, otherwise they are useless.
         if( td.bg.empty() && td.fg.empty() ) {
-            dbg( D_ERROR ) << "tile " << it->first << " has no (valid) foreground nor background";
+            dbg( DL::Warn ) << "tile " << it->first << " has no (valid) foreground nor background";
             ts.tile_ids.erase( it++ );
         } else {
             ++it;
@@ -710,7 +712,7 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
     }
 
     if( !ts.find_tile_type( "unknown" ) ) {
-        dbg( D_ERROR ) << "The tileset you're using has no 'unknown' tile defined!";
+        dbg( DL::Warn ) << "The tileset you're using has no 'unknown' tile defined!";
     }
     ensure_default_item_highlight();
 
@@ -741,7 +743,7 @@ void tileset_loader::load_internal( const JsonObject &config, const std::string 
             sprite_offset.x = tile_part_def.get_int( "sprite_offset_x", 0 );
             sprite_offset.y = tile_part_def.get_int( "sprite_offset_y", 0 );
             // First load the tileset image to get the number of available tiles.
-            dbg( D_INFO ) << "Attempting to Load Tileset file " << tileset_image_path;
+            dbg( DL::Info ) << "Attempting to Load Tileset file " << tileset_image_path;
             load_tileset( tileset_image_path );
             load_tilejson_from_file( tile_part_def );
             if( tile_part_def.has_member( "ascii" ) ) {
@@ -759,7 +761,7 @@ void tileset_loader::load_internal( const JsonObject &config, const std::string 
         G = -1;
         B = -1;
         // old system, no tile file path entry, only one array of tiles
-        dbg( D_INFO ) << "Attempting to Load Tileset file " << img_path;
+        dbg( DL::Info ) << "Attempting to Load Tileset file " << img_path;
         load_tileset( img_path );
         load_tilejson_from_file( config );
         offset = size;
@@ -976,8 +978,8 @@ void tileset_loader::load_tilejson_from_file( const JsonObject &config )
             curr_tile.animated = entry.get_bool( "animated", false );
         }
     }
-    dbg( D_INFO ) << "Tile Width: " << ts.tile_width << " Tile Height: " << ts.tile_height <<
-                  " Tile Definitions: " << ts.tile_ids.size();
+    dbg( DL::Info ) << "Tile Width: " << ts.tile_width << " Tile Height: " << ts.tile_height <<
+                    " Tile Definitions: " << ts.tile_ids.size();
 }
 
 /**
@@ -3705,7 +3707,7 @@ void cata_tiles::get_tile_values( const int t, const int *tn, int &subtile, int 
 
 void cata_tiles::do_tile_loading_report()
 {
-    DebugLog( D_INFO, DC_ALL ) << "Loaded tileset: " << get_option<std::string>( "TILES" );
+    DebugLog( DL::Info, DC::Main ) << "Loaded tileset: " << get_option<std::string>( "TILES" );
 
     if( !g->is_core_data_loaded() ) {
         // There's nothing to do anymore without the core data.
@@ -3728,9 +3730,6 @@ void cata_tiles::do_tile_loading_report()
     tile_loading_report( vpart_info::all(), C_VEHICLE_PART, "vp_" );
     tile_loading_report<trap>( trap::count(), C_TRAP, "" );
     tile_loading_report<field_type>( field_type::count(), C_FIELD, "" );
-
-    // needed until DebugLog ostream::flush bugfix lands
-    DebugLog( D_INFO, DC_ALL );
 }
 
 point cata_tiles::player_to_screen( const point &p ) const
@@ -3768,9 +3767,9 @@ void cata_tiles::lr_generic( Iter begin, Iter end, Func id_func, TILE_CATEGORY c
             missing_with_looks_like_list.append( id_string + " " );
         }
     }
-    DebugLog( D_INFO, DC_ALL ) << "Missing " << TILE_CATEGORY_IDS[category] << ": " << missing_list;
-    DebugLog( D_INFO, DC_ALL ) << "Missing " << TILE_CATEGORY_IDS[category] <<
-                               " (but looks_like tile exists): " << missing_with_looks_like_list;
+    DebugLog( DL::Info, DC::Main ) << "Missing " << TILE_CATEGORY_IDS[category] << ": " << missing_list;
+    DebugLog( DL::Info, DC::Main ) << "Missing " << TILE_CATEGORY_IDS[category] <<
+                                   " (but looks_like tile exists): " << missing_with_looks_like_list;
 }
 
 template <typename maptype>
@@ -3817,11 +3816,11 @@ std::vector<options_manager::id_and_option> cata_tiles::build_renderer_list()
         { "opengles2", translate_marker( "opengles2" ) },
     };
     int numRenderDrivers = SDL_GetNumRenderDrivers();
-    DebugLog( D_INFO, DC_ALL ) << "Number of render drivers on your system: " << numRenderDrivers;
+    DebugLog( DL::Info, DC::Main ) << "Number of render drivers on your system: " << numRenderDrivers;
     for( int ii = 0; ii < numRenderDrivers; ii++ ) {
         SDL_RendererInfo ri;
         SDL_GetRenderDriverInfo( ii, &ri );
-        DebugLog( D_INFO, DC_ALL ) << "Render driver: " << ii << "/" << ri.name;
+        DebugLog( DL::Info, DC::Main ) << "Render driver: " << ii << "/" << ri.name;
         // First default renderer name we will put first on the list. We can use it later as default value.
         if( ri.name == default_renderer_names.front().first ) {
             renderer_names.emplace( renderer_names.begin(), default_renderer_names.front() );

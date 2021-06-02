@@ -79,8 +79,8 @@ class font_loader
             if( !file_exist( user_fontconfig ) ) {
                 if( !copy_file( fontconfig, user_fontconfig ) ) {
                     try_user = false;
-                    DebugLog( D_ERROR, D_SDL ) << "failed to create user font config file "
-                                               << user_fontconfig;
+                    DebugLog( DL::Error, DC::SDL ) << "failed to create user font config file "
+                                                   << user_fontconfig;
                 }
             }
             if( try_user ) {
@@ -89,14 +89,14 @@ class font_loader
                     load_throws( user_fontconfig );
                     return;
                 } catch( const std::exception &e ) {
-                    DebugLog( D_ERROR, D_SDL ) << e.what();
+                    DebugLog( DL::Error, DC::SDL ) << e.what();
                 }
                 *this = copy;
             }
             try {
                 load_throws( fontconfig );
             } catch( const std::exception &e ) {
-                DebugLog( D_ERROR, D_SDL ) << e.what();
+                DebugLog( DL::Error, DC::SDL ) << e.what();
                 abort();
             }
         }

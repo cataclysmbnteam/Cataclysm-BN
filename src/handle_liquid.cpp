@@ -38,8 +38,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
-#define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-
 // All serialize_liquid_source functions should add the same number of elements to the vectors of
 // the activity. This makes it easier to distinguish the values of the source and the values of the target.
 static void serialize_liquid_source( player_activity &act, const vehicle &veh, const int part_num,
@@ -161,7 +159,6 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
                                liquid_dest_opt &target )
 {
     if( !liquid.made_of( LIQUID ) ) {
-        dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
         debugmsg( "Tried to handle_liquid a non-liquid!" );
         // "canceled by the user" because we *can* not handle it.
         return false;
@@ -307,7 +304,6 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
 {
     bool transfer_ok = false;
     if( !liquid.made_of( LIQUID ) ) {
-        dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
         debugmsg( "Tried to handle_liquid a non-liquid!" );
         // "canceled by the user" because we *can* not handle it.
         return transfer_ok;
@@ -401,7 +397,6 @@ bool handle_liquid( item &liquid, item *const source, const int radius,
                     const monster *const source_mon )
 {
     if( liquid.made_of( SOLID ) ) {
-        dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
         debugmsg( "Tried to handle_liquid a non-liquid!" );
         // "canceled by the user" because we *can* not handle it.
         return false;

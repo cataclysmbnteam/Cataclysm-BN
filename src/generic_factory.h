@@ -708,7 +708,7 @@ struct handler<std::bitset<N>> {
 template<typename E>
 struct handler<enum_bitset<E>> {
     void clear( enum_bitset<E> &container ) const {
-        container.reset();
+        container.clear_all();
     }
     template<typename T>
     void insert( enum_bitset<E> &container, const T &data ) const {
@@ -716,7 +716,7 @@ struct handler<enum_bitset<E>> {
     }
     template<typename T>
     void erase( enum_bitset<E> &container, const T &data ) const {
-        container.reset( data );
+        container.clear( data );
     }
     static constexpr bool is_container = true;
 };

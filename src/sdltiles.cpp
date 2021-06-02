@@ -82,7 +82,7 @@
 #include "worldfactory.h"
 #endif
 
-#define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLogFL((x),DC::SDL)
 
 //***********************************
 //Globals                           *
@@ -319,7 +319,7 @@ static void WinCreate()
         SDL_GetRenderDriverInfo( i, &ri );
         if( renderer_name == ri.name ) {
             renderer_id = i;
-            DebugLog( D_INFO, DC_ALL ) << "Active renderer: " << renderer_id << "/" << ri.name;
+            DebugLog( DL::Info, DC::Main ) << "Active renderer: " << renderer_id << "/" << ri.name;
             break;
         }
     }
@@ -331,7 +331,7 @@ static void WinCreate()
     SDL_SetHint( SDL_HINT_RENDER_BATCHING, get_option<bool>( "RENDER_BATCHING" ) ? "1" : "0" );
 #endif
     if( !software_renderer ) {
-        dbg( D_INFO ) << "Attempting to initialize accelerated SDL renderer.";
+        dbg( DL::Info ) << "Attempting to initialize accelerated SDL renderer.";
 
         renderer.reset( SDL_CreateRenderer( ::window.get(), renderer_id, SDL_RENDERER_ACCELERATED |
                                             SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE ) );
@@ -339,8 +339,8 @@ static void WinCreate()
                           "Failed to initialize accelerated renderer, falling back to software rendering" ) ) {
             software_renderer = true;
         } else if( !SetupRenderTarget() ) {
-            dbg( D_ERROR ) <<
-                           "Failed to initialize display buffer under accelerated rendering, falling back to software rendering.";
+            dbg( DL::Error ) << "Failed to initialize display buffer under accelerated rendering, "
+                             "falling back to software rendering.";
             software_renderer = true;
             display_buffer.reset();
             renderer.reset();
@@ -387,8 +387,8 @@ static void WinCreate()
 
     if( get_option<bool>( "ENABLE_JOYSTICK" ) && numjoy >= 1 ) {
         if( numjoy > 1 ) {
-            dbg( D_WARNING ) <<
-                             "You have more than one gamepads/joysticks plugged in, only the first will be used.";
+            dbg( DL::Warn ) << "You have more than one gamepads/joysticks plugged in, "
+                            "only the first will be used.";
         }
         joystick = SDL_JoystickOpen( 0 );
         printErrorIf( joystick == nullptr, "SDL_JoystickOpen failed" );
@@ -403,8 +403,8 @@ static void WinCreate()
     // Set up audio mixer.
     init_sound();
 
-    DebugLog( D_INFO, DC_ALL ) << "USE_COLOR_MODULATED_TEXTURES is set to " <<
-                               get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" );
+    dbg( DL::Info ) << "USE_COLOR_MODULATED_TEXTURES is set to " <<
+                    get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" );
     //initialize the alternate rectangle texture for replacing SDL_RenderFillRect
     if( get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" ) && !software_renderer ) {
         geometry = std::make_unique<ColorModulatedGeometryRenderer>( renderer );
@@ -2880,7 +2880,7 @@ static void init_term_size_and_scaling_factor()
                 max_height = current_display.h;
             }
         } else {
-            dbg( D_WARNING ) << "Failed to get current Display Mode, assuming infinite display size.";
+            dbg( DL::Warn ) << "Failed to get current Display Mode, assuming infinite display size.";
             max_width = INT_MAX;
             max_height = INT_MAX;
         }
@@ -2888,7 +2888,7 @@ static void init_term_size_and_scaling_factor()
         if( terminal_x * fontwidth > max_width ||
             FULL_SCREEN_WIDTH * fontwidth * scaling_factor > max_width ) {
             if( FULL_SCREEN_WIDTH * fontwidth * scaling_factor > max_width ) {
-                dbg( D_WARNING ) << "SCALING_FACTOR set too high for display size, resetting to 1";
+                dbg( DL::Warn ) << "SCALING_FACTOR set too high for display size, resetting to 1";
                 scaling_factor = 1;
                 terminal_x = max_width / fontwidth;
                 terminal_y = max_height / fontheight;
@@ -2901,7 +2901,7 @@ static void init_term_size_and_scaling_factor()
         if( terminal_y * fontheight > max_height ||
             FULL_SCREEN_HEIGHT * fontheight * scaling_factor > max_height ) {
             if( FULL_SCREEN_HEIGHT * fontheight * scaling_factor > max_height ) {
-                dbg( D_WARNING ) << "SCALING_FACTOR set too high for display size, resetting to 1";
+                dbg( DL::Warn ) << "SCALING_FACTOR set too high for display size, resetting to 1";
                 scaling_factor = 1;
                 terminal_x = max_width / fontwidth;
                 terminal_y = max_height / fontheight;
@@ -2961,12 +2961,12 @@ void catacurses::init_interface()
 
     WinCreate();
 
-    dbg( D_INFO ) << "Initializing SDL Tiles context";
+    dbg( DL::Info ) << "Initializing SDL Tiles context";
     tilecontext = std::make_unique<cata_tiles>( renderer, geometry );
     try {
         tilecontext->load_tileset( get_option<std::string>( "TILES" ), true );
     } catch( const std::exception &err ) {
-        dbg( D_ERROR ) << "failed to check for tileset: " << err.what();
+        dbg( DL::Error ) << "failed to check for tileset: " << err.what();
         // use_tiles is the cached value of the USE_TILES option.
         // most (all?) code refers to this to see if cata_tiles should be used.
         // Setting it to false disables this from getting used.

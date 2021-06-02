@@ -2,6 +2,8 @@
 #include "sdl_geometry.h"
 #include "debug.h"
 
+#define dbg(x) DebugLogFL((x),DC::SDL)
+
 void GeometryRenderer::horizontal_line( const SDL_Renderer_Ptr &renderer, const point &pos, int x2,
                                         int thickness, const SDL_Color &color ) const
 {
@@ -56,10 +58,10 @@ ColorModulatedGeometryRenderer::ColorModulatedGeometryRenderer( const SDL_Render
         if( !tex_enable ) {
             tex.reset();
         }
-        DebugLog( D_INFO, DC_ALL ) << "ColorModulatedGeometryRenderer constructor() = " <<
-                                   ( tex_enable ? "FAIL" : "SUCCESS" ) << ". tex_enable = " << tex_enable;
+        dbg( DL::Info ) << "ColorModulatedGeometryRenderer constructor() = " <<
+                        ( tex_enable ? "FAIL" : "SUCCESS" ) << ". tex_enable = " << tex_enable;
     } else {
-        DebugLog( D_ERROR, DC_ALL ) << "CreateRGBSurface failed: " << SDL_GetError();
+        dbg( DL::Error ) << "CreateRGBSurface failed: " << SDL_GetError();
     }
 }
 

@@ -59,7 +59,7 @@
 #       include "mingw.thread.h"
 #   endif
 
-#   define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
+#   define dbg(x) DebugLogFL((x),DC::SDL)
 #endif
 
 weather_type previous_weather;
@@ -621,7 +621,7 @@ bool sfx::is_channel_playing( channel channel )
 void sfx::stop_sound_effect_fade( channel channel, int duration )
 {
     if( Mix_FadeOutChannel( static_cast<int>( channel ), duration ) == -1 ) {
-        dbg( D_ERROR ) << "Failed to stop sound effect: " << Mix_GetError();
+        dbg( DL::Error ) << "Failed to stop sound effect: " << Mix_GetError();
     }
 }
 
@@ -1039,11 +1039,11 @@ void sfx::generate_melee_sound( const tripoint &source, const tripoint &target, 
                 the_thread.detach();
             }
         } catch( std::system_error &err ) {
-            dbg( D_ERROR ) << "Failed to detach melee sound thread: std::system_error: " << err.what();
+            dbg( DL::Error ) << "Failed to detach melee sound thread: std::system_error: " << err.what();
         }
     } catch( std::system_error &err ) {
         // not a big deal, just skip playing the sound.
-        dbg( D_ERROR ) << "Failed to create melee sound thread: std::system_error: " << err.what();
+        dbg( DL::Error ) << "Failed to create melee sound thread: std::system_error: " << err.what();
     }
 }
 

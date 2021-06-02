@@ -101,8 +101,6 @@
 
 static const efftype_id effect_sheared( "sheared" );
 
-#define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
@@ -1829,7 +1827,6 @@ void activity_handlers::hotwire_finish( player_activity *act, player *p )
             add_msg( _( "The red wire always starts the engine, doesn't it?" ) );
         }
     } else {
-        dbg( D_ERROR ) << "game:process_activity: ACT_HOTWIRE_CAR: vehicle not found";
         debugmsg( "process_activity ACT_HOTWIRE_CAR: vehicle not found" );
     }
     act->set_to_null();
@@ -2296,8 +2293,6 @@ void activity_handlers::vehicle_finish( player_activity *act, player *p )
     act->set_to_null();
     if( !p->is_npc() ) {
         if( act->values.size() < 7 ) {
-            dbg( D_ERROR ) << "game:process_activity: invalid ACT_VEHICLE values: "
-                           << act->values.size();
             debugmsg( "process_activity invalid ACT_VEHICLE values:%d",
                       act->values.size() );
         } else {
@@ -2310,7 +2305,6 @@ void activity_handlers::vehicle_finish( player_activity *act, player *p )
                 }
                 return;
             } else {
-                dbg( D_ERROR ) << "game:process_activity: ACT_VEHICLE: vehicle not found";
                 debugmsg( "process_activity ACT_VEHICLE: vehicle not found" );
             }
         }
