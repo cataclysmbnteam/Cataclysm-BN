@@ -464,9 +464,9 @@ void monster::plan()
     const auto actual_faction = friendly == 0 ? faction : mfaction_str_id( "player" );
     const auto &myfaction_iter = factions.find( actual_faction );
     if( myfaction_iter == factions.end() ) {
-        DebugLog( D_ERROR, D_GAME ) << disp_name() << " tried to find faction "
-                                    << actual_faction.id().str()
-                                    << " which wasn't loaded in game::monmove";
+        DebugLog( DL::Error, DC::Game ) << disp_name() << " tried to find faction "
+                                        << actual_faction.id().str()
+                                        << " which wasn't loaded in game::monmove";
         swarms = false;
         group_morale = false;
     }

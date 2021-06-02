@@ -18,14 +18,14 @@
 #   endif
 #endif // TILES
 
-#define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLogFL((x),DC::SDL)
 
 bool printErrorIf( const bool condition, const char *const message )
 {
     if( !condition ) {
         return false;
     }
-    dbg( D_ERROR ) << message << ": " << SDL_GetError();
+    dbg( DL::Error ) << message << ": " << SDL_GetError();
     return true;
 }
 
@@ -41,11 +41,11 @@ void RenderCopy( const SDL_Renderer_Ptr &renderer, const SDL_Texture_Ptr &textur
                  const SDL_Rect *srcrect, const SDL_Rect *dstrect )
 {
     if( !renderer ) {
-        dbg( D_ERROR ) << "Tried to render to a null renderer";
+        dbg( DL::Error ) << "Tried to render to a null renderer";
         return;
     }
     if( !texture ) {
-        dbg( D_ERROR ) << "Tried to render a null texture";
+        dbg( DL::Error ) << "Tried to render a null texture";
         return;
     }
     printErrorIf( SDL_RenderCopy( renderer.get(), texture.get(), srcrect, dstrect ) != 0,
@@ -56,7 +56,7 @@ SDL_Texture_Ptr CreateTexture( const SDL_Renderer_Ptr &renderer, Uint32 format, 
                                int w, int h )
 {
     if( !renderer ) {
-        dbg( D_ERROR ) << "Tried to create texture with a null renderer";
+        dbg( DL::Error ) << "Tried to create texture with a null renderer";
         return SDL_Texture_Ptr();
     }
     SDL_Texture_Ptr result( SDL_CreateTexture( renderer.get(), format, access, w, h ) );
@@ -68,11 +68,11 @@ SDL_Texture_Ptr CreateTextureFromSurface( const SDL_Renderer_Ptr &renderer,
         const SDL_Surface_Ptr &surface )
 {
     if( !renderer ) {
-        dbg( D_ERROR ) << "Tried to create texture with a null renderer";
+        dbg( DL::Error ) << "Tried to create texture with a null renderer";
         return SDL_Texture_Ptr();
     }
     if( !surface ) {
-        dbg( D_ERROR ) << "Tried to create texture from a null surface";
+        dbg( DL::Error ) << "Tried to create texture from a null surface";
         return SDL_Texture_Ptr();
     }
     SDL_Texture_Ptr result( SDL_CreateTextureFromSurface( renderer.get(), surface.get() ) );
@@ -84,7 +84,7 @@ void SetRenderDrawColor( const SDL_Renderer_Ptr &renderer, const Uint8 r, const 
                          const Uint8 b, const Uint8 a )
 {
     if( !renderer ) {
-        dbg( D_ERROR ) << "Tried to use a null renderer";
+        dbg( DL::Error ) << "Tried to use a null renderer";
         return;
     }
     printErrorIf( SDL_SetRenderDrawColor( renderer.get(), r, g, b, a ) != 0,
@@ -99,7 +99,7 @@ void RenderDrawPoint( const SDL_Renderer_Ptr &renderer, const point &p )
 void RenderFillRect( const SDL_Renderer_Ptr &renderer, const SDL_Rect *const rect )
 {
     if( !renderer ) {
-        dbg( D_ERROR ) << "Tried to use a null renderer";
+        dbg( DL::Error ) << "Tried to use a null renderer";
         return;
     }
     printErrorIf( SDL_RenderFillRect( renderer.get(), rect ) != 0, "SDL_RenderFillRect failed" );
@@ -108,7 +108,7 @@ void RenderFillRect( const SDL_Renderer_Ptr &renderer, const SDL_Rect *const rec
 void FillRect( const SDL_Surface_Ptr &surface, const SDL_Rect *const rect, Uint32 color )
 {
     if( !surface ) {
-        dbg( D_ERROR ) << "Tried to use a null surface";
+        dbg( DL::Error ) << "Tried to use a null surface";
         return;
     }
     printErrorIf( SDL_FillRect( surface.get(), rect, color ) != 0, "SDL_FillRect failed" );
@@ -117,7 +117,7 @@ void FillRect( const SDL_Surface_Ptr &surface, const SDL_Rect *const rect, Uint3
 void SetTextureBlendMode( const SDL_Texture_Ptr &texture, SDL_BlendMode blendMode )
 {
     if( !texture ) {
-        dbg( D_ERROR ) << "Tried to use a null texture";
+        dbg( DL::Error ) << "Tried to use a null texture";
     }
 
     throwErrorIf( SDL_SetTextureBlendMode( texture.get(), blendMode ) != 0,
@@ -127,7 +127,7 @@ void SetTextureBlendMode( const SDL_Texture_Ptr &texture, SDL_BlendMode blendMod
 bool SetTextureColorMod( const SDL_Texture_Ptr &texture, Uint32 r, Uint32 g, Uint32 b )
 {
     if( !texture ) {
-        dbg( D_ERROR ) << "Tried to use a null texture";
+        dbg( DL::Error ) << "Tried to use a null texture";
         return true;
     }
     return printErrorIf( SDL_SetTextureColorMod( texture.get(), r, g, b ) != 0,
@@ -137,7 +137,7 @@ bool SetTextureColorMod( const SDL_Texture_Ptr &texture, Uint32 r, Uint32 g, Uin
 void SetRenderDrawBlendMode( const SDL_Renderer_Ptr &renderer, const SDL_BlendMode blendMode )
 {
     if( !renderer ) {
-        dbg( D_ERROR ) << "Tried to use a null renderer";
+        dbg( DL::Error ) << "Tried to use a null renderer";
         return;
     }
     printErrorIf( SDL_SetRenderDrawBlendMode( renderer.get(), blendMode ) != 0,
@@ -147,7 +147,7 @@ void SetRenderDrawBlendMode( const SDL_Renderer_Ptr &renderer, const SDL_BlendMo
 void GetRenderDrawBlendMode( const SDL_Renderer_Ptr &renderer, SDL_BlendMode &blend_mode )
 {
     if( !renderer ) {
-        dbg( D_ERROR ) << "Tried to use a null renderer";
+        dbg( DL::Error ) << "Tried to use a null renderer";
         return;
     }
     printErrorIf( SDL_GetRenderDrawBlendMode( renderer.get(), &blend_mode ) != 0,
@@ -168,7 +168,7 @@ SDL_Surface_Ptr load_image( const char *const path )
 void SetRenderTarget( const SDL_Renderer_Ptr &renderer, const SDL_Texture_Ptr &texture )
 {
     if( !renderer ) {
-        dbg( D_ERROR ) << "Tried to use a null renderer";
+        dbg( DL::Error ) << "Tried to use a null renderer";
         return;
     }
     // a null texture is fine for SDL
@@ -179,7 +179,7 @@ void SetRenderTarget( const SDL_Renderer_Ptr &renderer, const SDL_Texture_Ptr &t
 void RenderClear( const SDL_Renderer_Ptr &renderer )
 {
     if( !renderer ) {
-        dbg( D_ERROR ) << "Tried to use a null renderer";
+        dbg( DL::Error ) << "Tried to use a null renderer";
         return;
     }
     printErrorIf( SDL_RenderClear( renderer.get() ) != 0, "SDL_RenderCopy failed" );

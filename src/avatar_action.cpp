@@ -87,7 +87,7 @@ static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
 static const std::string flag_RESTRICT_HANDS( "RESTRICT_HANDS" );
 static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 
-#define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x), DC::SDL)
 
 bool can_fire_turret( avatar &you, const map &m, const turret_data &turret );
 
@@ -233,9 +233,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         }
     }
 
-    dbg( D_PEDANTIC_INFO ) << "game:plmove: From (" <<
-                           you.posx() << "," << you.posy() << "," << you.posz() << ") to (" <<
-                           dest_loc.x << "," << dest_loc.y << "," << dest_loc.z << ")";
+    dbg( DL::Debug ) << "game:plmove: From " << you.pos() << " to " << dest_loc;
 
     if( g->disable_robot( dest_loc ) ) {
         return false;
@@ -496,8 +494,6 @@ bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
 void avatar_action::swim( map &m, avatar &you, const tripoint &p )
 {
     if( !m.has_flag( flag_SWIMMABLE, p ) ) {
-        dbg( D_ERROR ) << "game:plswim: Tried to swim in "
-                       << m.tername( p ) << "!";
         debugmsg( "Tried to swim in %s!", m.tername( p ) );
         return;
     }

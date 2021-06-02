@@ -7,6 +7,11 @@
 
 #include "enum_traits.h"
 
+namespace io
+{
+template<typename E> std::string enum_to_string( E );
+}
+
 template<typename E>
 class enum_bitset
 {
@@ -52,18 +57,35 @@ class enum_bitset
             return *this;
         }
 
-        enum_bitset &reset( E e ) {
+        enum_bitset &set_all() {
+            bits.set();
+            return *this;
+        }
+
+        enum_bitset &clear( E e ) {
             bits.reset( get_pos( e ) );
             return *this;
         }
 
-        enum_bitset &reset() {
+        enum_bitset &clear_all() {
             bits.reset();
             return *this;
         }
 
         bool test( E e ) const {
             return bits.test( get_pos( e ) );
+        }
+
+        bool test_all() const {
+            return bits.all();
+        }
+
+        bool test_any() const {
+            return bits.any();
+        }
+
+        size_t count() const {
+            return bits.count();
         }
 
         static constexpr size_t size() noexcept {
@@ -75,7 +97,6 @@ class enum_bitset
             return static_cast<size_t>( static_cast<typename std::underlying_type<E>::type>( e ) );
         }
 
-    private:
         std::bitset<enum_bitset<E>::size()> bits;
 };
 

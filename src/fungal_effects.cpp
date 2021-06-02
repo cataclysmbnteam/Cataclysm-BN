@@ -28,6 +28,8 @@
 #include "translations.h"
 #include "type_id.h"
 
+#define dbg(x) DebugLogFL((x), DC::Game)
+
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_spores( "spores" );
 static const efftype_id effect_stunned( "stunned" );
@@ -229,8 +231,7 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
                 return it.is_seed();
             } );
             if( seed == items.end() || !seed->is_seed() ) {
-                DebugLog( D_ERROR, DC_ALL ) << "No seed item in the PLANT terrain at position " <<
-                                            string_format( "%d,%d,%d.", p.x, p.y, p.z );
+                dbg( DL::Warn ) << "No seed item in the PLANT terrain at position " << p;
             } else {
                 *seed = item( "fungal_seeds", calendar::turn );
             }

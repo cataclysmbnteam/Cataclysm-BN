@@ -223,8 +223,8 @@ void worldfactory::set_active_world( WORLDPTR world )
 bool WORLD::save( const bool is_conversion ) const
 {
     if( !assure_dir_exist( folder_path() ) ) {
-        DebugLog( D_ERROR, DC_ALL ) << "Unable to create or open world[" << world_name <<
-                                    "] directory for saving";
+        DebugLog( DL::Error, DC::Main ) << "Unable to create or open world[" << world_name
+                                        << "] directory for saving";
         return false;
     }
 
@@ -1609,6 +1609,10 @@ void load_external_option( const JsonObject &jo )
         opt.setValue( jo.get_string( "value" ) );
     } else {
         jo.throw_error( "Unknown or unsupported stype for external option", "stype" );
+    }
+    // Just visit this member if it exists
+    if( jo.has_member( "info" ) ) {
+        jo.get_string( "info" );
     }
 }
 

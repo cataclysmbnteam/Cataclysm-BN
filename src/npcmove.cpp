@@ -4140,10 +4140,9 @@ void npc::set_omt_destination()
         return;
     }
 
-    DebugLog( D_INFO, DC_ALL ) << "npc::set_omt_destination - new goal for NPC [" << get_name() <<
-                               "] with [" << get_need_str_id( needs.front() ) <<
-                               "] is [" << dest_type <<
-                               "] in [" << goal.x << "," << goal.y << "," << goal.z << "].";
+    DebugLog( DL::Info, DC::Main ) << "npc::set_omt_destination - new goal for NPC [" << get_name()
+                                   << "] with [" << get_need_str_id( needs.front() )
+                                   << "] is [" << dest_type << "] in " << goal << ".";
 }
 
 void npc::go_to_omt_destination()

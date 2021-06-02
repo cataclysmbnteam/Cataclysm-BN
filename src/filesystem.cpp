@@ -31,6 +31,8 @@
 #   include <unistd.h>
 #endif
 
+#define dbg(x) DebugLog((x), DC::Main)
+
 #if defined _WIN32
 static bool do_mkdir( const std::string &path )
 {
@@ -126,6 +128,21 @@ const char *cata_files::eol()
     return local_eol;
 }
 
+std::string read_entire_file( const std::string &path )
+{
+    cata_ifstream infile;
+    infile.mode( cata_ios_mode::binary ).open( path );
+    if( !infile.is_open() ) {
+        return "";
+    }
+    std::string ret = std::string( std::istreambuf_iterator<char>( *infile ),
+                                   std::istreambuf_iterator<char>() );
+    if( infile.fail() ) {
+        return "";
+    }
+    return ret;
+}
+
 namespace
 {
 
@@ -151,7 +168,7 @@ void for_each_dir_entry( const std::string &path, Function function )
     const dir_ptr root = opendir( path.c_str() );
     if( !root ) {
         const auto e_str = strerror( errno );
-        DebugLog( D_WARNING, D_MAIN ) << "opendir [" << path << "] failed with \"" << e_str << "\".";
+        dbg( DL::Warn ) << "opendir [" << path << "] failed with \"" << e_str << "\".";
         return;
     }
 
@@ -168,7 +185,7 @@ std::string resolve_path( const std::string &full_path )
     const auto result_str = realpath( full_path.c_str(), nullptr );
     if( !result_str ) {
         const auto e_str = strerror( errno );
-        DebugLog( D_WARNING, D_MAIN ) << "realpath [" << full_path << "] failed with \"" << e_str << "\".";
+        dbg( DL::Warn ) << "realpath [" << full_path << "] failed with \"" << e_str << "\".";
         return {};
     }
 
@@ -194,7 +211,7 @@ bool is_directory_stat( const std::string &full_path )
 #endif
     if( stat_ret != 0 ) {
         const auto e_str = strerror( errno );
-        DebugLog( D_WARNING, D_MAIN ) << "stat [" << full_path << "] failed with \"" << e_str << "\".";
+        dbg( DL::Warn ) << "stat [" << full_path << "] failed with \"" << e_str << "\".";
         return false;
     }
 

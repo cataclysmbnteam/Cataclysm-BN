@@ -585,6 +585,7 @@
       [ "bronze_medal", 3 ],
       [ "silver_medal", 2 ],
       [ "gold_medal", 1 ],
+      [ "bionic_scanner", 5 ],
       { "group": "tinware", "prob": 10 }
     ]
   },

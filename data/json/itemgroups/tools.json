@@ -441,7 +441,8 @@
       [ "toolbox", 5 ],
       [ "tool_belt", 10 ],
       [ "clamp", 10 ],
-      [ "wrench", 10 ]
+      [ "wrench", 10 ],
+      [ "bionic_scanner", 5 ]
     ]
   },
   {

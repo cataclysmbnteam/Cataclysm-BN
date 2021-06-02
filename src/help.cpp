@@ -64,6 +64,7 @@ void help::deserialize( JsonIn &jsin )
             }
         }
 
+        jo.get_string( "type" ); // Mark as visited
         std::string name = jo.get_string( "name" );
         help_texts[jo.get_int( "order" )] = std::make_pair( name, messages );
         hotkeys.push_back( get_hotkeys( name ) );

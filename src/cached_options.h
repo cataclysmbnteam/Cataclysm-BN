@@ -7,8 +7,9 @@
 // They should be updated when the corresponding option is changed (in options.cpp).
 
 /**
- * Set to true when running unit tests.
- * Not a game option, but it's frequently used in the anyway.
+ * Set to true when running in test mode (e.g. unit tests, checking mods).
+ * Does not correspond to any game option, but still requires
+ * caching due to heavy usage.
  */
 extern bool test_mode;
 
@@ -18,6 +19,11 @@ extern bool test_mode;
  * and other windows might have verbose display (e.g. vehicle window).
  */
 extern bool debug_mode;
+
+/**
+ * Report unused JSON fields in regular (non-test) mode.
+ */
+extern bool json_report_unused_fields;
 
 /**
  * Use tiles for display. Always false for ncurses build,

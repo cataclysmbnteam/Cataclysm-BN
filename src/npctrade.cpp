@@ -51,7 +51,7 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &give
         }
 
         if( ip.loc.get_item() == nullptr ) {
-            DebugLog( D_ERROR, D_NPC ) << "Null item being traded in npc_trading::transfer_items";
+            debugmsg( "Null item being traded in npc_trading::transfer_items" );
             continue;
         }
 

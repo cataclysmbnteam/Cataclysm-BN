@@ -13,7 +13,7 @@ const int mm_submap::default_symbol = 0;
 
 #define MM_SIZE (MAPSIZE * 2)
 
-#define dbg(x) DebugLog((x),D_MMAP) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),DC::MapMem)
 
 static std::string find_legacy_mm_file()
 {
@@ -124,7 +124,7 @@ bool map_memory::prepare_region( const tripoint &p1, const tripoint &p2 )
         }
     }
 
-    dbg( D_INFO ) << "Preparing memory map for area: pos: " << sm_pos << " size: " << sm_size;
+    dbg( DL::Info ) << "Preparing memory map for area: pos: " << sm_pos << " size: " << sm_size;
 
     cache_pos = sm_pos;
     cache_size = sm_size;
@@ -158,7 +158,7 @@ shared_ptr_fast<mm_submap> map_memory::allocate_submap( const tripoint &sm_pos )
     shared_ptr_fast<mm_submap> ret;
     tripoint reg = reg_coord_pair( sm_pos ).reg;
 
-    dbg( D_INFO ) << "Allocated mm_region " << reg << " [" << mmr_to_sm_copy( reg ) << "]";
+    dbg( DL::Info ) << "Allocated mm_region " << reg << " [" << mmr_to_sm_copy( reg ) << "]";
 
     for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
         for( size_t x = 0; x < MM_REG_SIZE; x++ ) {
@@ -215,7 +215,7 @@ shared_ptr_fast<mm_submap> map_memory::load_submap( const tripoint &sm_pos )
         return nullptr;
     }
 
-    dbg( D_INFO ) << "Loaded mm_region " << p.reg << " [" << mmr_to_sm_copy( p.reg ) << "]";
+    dbg( DL::Info ) << "Loaded mm_region " << p.reg << " [" << mmr_to_sm_copy( p.reg ) << "]";
 
     shared_ptr_fast<mm_submap> ret;
 
@@ -278,14 +278,14 @@ void map_memory::load( const tripoint &pos )
 
     coord_pair p( pos );
     tripoint start = p.sm - tripoint( MM_SIZE / 2, MM_SIZE / 2, 0 );
-    dbg( D_INFO ) << "[LOAD] Loading memory map around " << p.sm << ". Loading submaps within " << start
-                  << "->" << start + tripoint( MM_SIZE, MM_SIZE, 0 );
+    dbg( DL::Info ) << "[LOAD] Loading memory map around " << p.sm << ". Loading submaps within "
+                    << start << "->" << start + tripoint( MM_SIZE, MM_SIZE, 0 );
     for( int dy = 0; dy < MM_SIZE; dy++ ) {
         for( int dx = 0; dx < MM_SIZE; dx++ ) {
             fetch_submap( start + tripoint( dx, dy, 0 ) );
         }
     }
-    dbg( D_INFO ) << "[LOAD] Done.";
+    dbg( DL::Info ) << "[LOAD] Done.";
 }
 
 bool map_memory::save( const tripoint &pos )
@@ -296,7 +296,7 @@ bool map_memory::save( const tripoint &pos )
 
     clear_cache();
 
-    dbg( D_INFO ) << "N submaps before save: " << submaps.size();
+    dbg( DL::Info ) << "N submaps before save: " << submaps.size();
 
     // Since mm_submaps are always allocated in regions,
     // we are certain that each region will be filled.
@@ -310,8 +310,8 @@ bool map_memory::save( const tripoint &pos )
     constexpr point MM_HSIZE_P = point( MM_SIZE / 2, MM_SIZE / 2 );
     rectangle rect_keep( sm_center.xy() - MM_HSIZE_P, sm_center.xy() + MM_HSIZE_P );
 
-    dbg( D_INFO ) << "[SAVE] Saving memory map around " << sm_center << ". Keeping submaps within " <<
-                  rect_keep.p_min << "->" << rect_keep.p_max;
+    dbg( DL::Info ) << "[SAVE] Saving memory map around " << sm_center << ". Keeping submaps within "
+                    << rect_keep.p_min << "->" << rect_keep.p_max;
 
     bool result = true;
 
@@ -338,7 +338,7 @@ bool map_memory::save( const tripoint &pos )
         tripoint regp_sm = mmr_to_sm_copy( regp );
         rectangle rect_reg( regp_sm.xy(), regp_sm.xy() + point( MM_REG_SIZE, MM_REG_SIZE ) );
         if( rect_reg.overlaps_half_open( rect_keep ) ) {
-            dbg( D_INFO ) << "Keeping mm_region " << regp << " [" << regp_sm << "]";
+            dbg( DL::Info ) << "Keeping mm_region " << regp << " [" << regp_sm << "]";
             // Put submaps back
             for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
                 for( size_t x = 0; x < MM_REG_SIZE; x++ ) {
@@ -348,12 +348,12 @@ bool map_memory::save( const tripoint &pos )
                 }
             }
         } else {
-            dbg( D_INFO ) << "Dropping mm_region " << regp << " [" << regp_sm << "]";
+            dbg( DL::Info ) << "Dropping mm_region " << regp << " [" << regp_sm << "]";
         }
     }
 
-    dbg( D_INFO ) << "[SAVE] Done.";
-    dbg( D_INFO ) << "N submaps after save: " << submaps.size();
+    dbg( DL::Info ) << "[SAVE] Done.";
+    dbg( DL::Info ) << "N submaps after save: " << submaps.size();
 
     return result;
 }

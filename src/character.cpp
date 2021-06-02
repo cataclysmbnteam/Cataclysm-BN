@@ -1652,7 +1652,7 @@ void Character::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_ma
         int new_cur = std::ceil( static_cast<float>( bp.get_hp_cur() ) * max_hp_ratio );
 
         bp.set_hp_max( std::max( new_max, 1 ) );
-        bp.set_hp_cur( std::max( std::min( new_cur, new_max ), 1 ) );
+        bp.set_hp_cur( std::max( std::min( new_cur, new_max ), 0 ) );
     }
 }
 
@@ -9647,17 +9647,17 @@ void Character::place_corpse()
             cbm.set_flag( "NO_STERILE" );
             cbm.set_flag( "NO_PACKED" );
             cbm.faults.emplace( fault_id( "fault_bionic_salvaged" ) );
-            body.put_in( cbm );
+            body.components.push_back( cbm );
         }
     }
 
     // Restore amount of installed pseudo-modules of Power Storage Units
     std::pair<int, int> storage_modules = amount_of_storage_bionics();
     for( int i = 0; i < storage_modules.first; ++i ) {
-        body.put_in( item( "bio_power_storage" ) );
+        body.components.push_back( item( "bio_power_storage" ) );
     }
     for( int i = 0; i < storage_modules.second; ++i ) {
-        body.put_in( item( "bio_power_storage_mkII" ) );
+        body.components.push_back( item( "bio_power_storage_mkII" ) );
     }
     g->m.add_item_or_charges( pos(), body );
 }

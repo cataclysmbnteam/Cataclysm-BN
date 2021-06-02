@@ -115,7 +115,8 @@ void game::serialize( std::ostream &fout )
 
 std::string scent_map::serialize( bool is_type ) const
 {
-    std::stringstream rle_out;
+    std::ostringstream rle_out;
+    rle_out.imbue( std::locale::classic() );
     if( is_type ) {
         rle_out << typescent.str();
     } else {
@@ -255,6 +256,7 @@ void game::unserialize( std::istream &fin )
 void scent_map::deserialize( const std::string &data, bool is_type )
 {
     std::istringstream buffer( data );
+    buffer.imbue( std::locale::classic() );
     if( is_type ) {
         std::string str;
         buffer >> str;
@@ -415,10 +417,10 @@ void overmap::load_legacy_monstergroups( JsonIn &jsin )
 }
 
 // throws std::exception
-void overmap::unserialize( std::istream &fin )
+void overmap::unserialize( std::istream &fin, const std::string &file_path )
 {
     chkversion( fin );
-    JsonIn jsin( fin );
+    JsonIn jsin( fin, file_path );
     jsin.start_object();
     while( !jsin.end_object() ) {
         const std::string name = jsin.get_member_name();
@@ -700,10 +702,10 @@ static void unserialize_array_from_compacted_sequence( JsonIn &jsin, bool ( &arr
 }
 
 // throws std::exception
-void overmap::unserialize_view( std::istream &fin )
+void overmap::unserialize_view( std::istream &fin, const std::string &file_path )
 {
     chkversion( fin );
-    JsonIn jsin( fin );
+    JsonIn jsin( fin, file_path );
     jsin.start_object();
     while( !jsin.end_object() ) {
         const std::string name = jsin.get_member_name();
@@ -1126,7 +1128,9 @@ void mongroup::io( Archive &archive )
 
 void mongroup::deserialize( JsonIn &data )
 {
-    io::JsonObjectInputArchive archive( data );
+    JsonObject jo = data.get_object();
+    jo.allow_omitted_members();
+    io::JsonObjectInputArchive archive( jo );
     io( archive );
 }
 

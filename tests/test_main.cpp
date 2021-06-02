@@ -113,7 +113,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     }
 
     if( !init_language_system() ) {
-        DebugLog( D_ERROR, DC_ALL ) << "Failed to init language system.";
+        DebugLog( DL::Error, DC::Main ) << "Failed to init language system.";
     }
 
     get_options().init();
@@ -296,7 +296,7 @@ int main( int argc, const char *argv[] )
     if( seed ) {
         rng_set_engine_seed( seed );
     }
-    DebugLog( D_INFO, DC_ALL ) << "Randomness seeded to: " << seed;
+    DebugLog( DL::Info, DC::Main ) << "Randomness seeded to: " << seed;
 
     try {
         // TODO: Only init game if we're running tests that need it.
@@ -331,7 +331,7 @@ int main( int argc, const char *argv[] )
 
     if( seed ) {
         // Also print the seed at the end so it can be easily found
-        DebugLog( D_INFO, DC_ALL ) << "Randomness seeded to: " << seed;
+        DebugLog( DL::Info, DC::Main ) << "Randomness seeded to: " << seed;
     }
 
     if( error_during_initialization ) {

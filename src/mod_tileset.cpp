@@ -1,3 +1,4 @@
+#if defined(TILES)
 #include "mod_tileset.h"
 
 #include <algorithm>
@@ -10,7 +11,11 @@ std::vector<mod_tileset> all_mod_tilesets;
 void load_mod_tileset( const JsonObject &jsobj, const std::string &, const std::string &base_path,
                        const std::string &full_path )
 {
-    // This function didn't loads image data actually, loads when tileset loading.
+    // This function only checks whether mod tileset is compatible.
+    // Actual sprites are loaded when the main tileset is loaded.
+    // As such, most JSON members are skipped here.
+    jsobj.allow_omitted_members();
+
     int new_num_in_file = 1;
     // Check mod tileset num in file
     for( const mod_tileset &mts : all_mod_tilesets ) {
@@ -21,15 +26,8 @@ void load_mod_tileset( const JsonObject &jsobj, const std::string &, const std::
 
     all_mod_tilesets.emplace_back( base_path, full_path, new_num_in_file );
     std::vector<std::string> compatibility = jsobj.get_string_array( "compatibility" );
-#if defined(TILES)
     for( const std::string &compatible_tileset_id : compatibility ) {
         all_mod_tilesets.back().add_compatible_tileset( compatible_tileset_id );
-    }
-#endif
-    if( jsobj.has_member( "tiles-new" ) ) {
-        // tiles-new is read when initializing graphics, inside `tileset_loader::load`.
-        // calling get_array here to suppress warnings in the unit test.
-        jsobj.get_array( "tiles-new" );
     }
 }
 
@@ -48,3 +46,4 @@ void mod_tileset::add_compatible_tileset( const std::string &tileset_id )
 {
     compatibility.push_back( tileset_id );
 }
+#endif // TILES

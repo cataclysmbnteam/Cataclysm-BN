@@ -1248,8 +1248,8 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
     // choose and do a valid attack
     const int attack_index = get_random_index( valid_attack_count );
     switch( valid_attacks[attack_index] ) {
-        default :
-            DebugLog( D_WARNING, D_GAME ) << "Bad enum value in science.";
+        default:
+            debugmsg( "Bad attack enum value %d", valid_attacks[attack_index] );
             break;
         case att_shock :
             z->moves -= att_cost_shock;

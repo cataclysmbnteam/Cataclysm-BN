@@ -609,6 +609,7 @@ int main( int argc, char *argv[] )
 
     check_dir_good( PATH_INFO::user_dir() );
     check_dir_good( PATH_INFO::config_dir() );
+    check_dir_good( PATH_INFO::savedir() );
 
     setupDebug( DebugOutput::file );
 
@@ -619,17 +620,17 @@ int main( int argc, char *argv[] )
 #if defined(TILES)
     SDL_version compiled;
     SDL_VERSION( &compiled );
-    DebugLog( D_INFO, DC_ALL ) << "SDL version used during compile is "
-                               << static_cast<int>( compiled.major ) << "."
-                               << static_cast<int>( compiled.minor ) << "."
-                               << static_cast<int>( compiled.patch );
+    DebugLog( DL::Info, DC::Main ) << "SDL version used during compile is "
+                                   << static_cast<int>( compiled.major ) << "."
+                                   << static_cast<int>( compiled.minor ) << "."
+                                   << static_cast<int>( compiled.patch );
 
     SDL_version linked;
     SDL_GetVersion( &linked );
-    DebugLog( D_INFO, DC_ALL ) << "SDL version used during linking and in runtime is "
-                               << static_cast<int>( linked.major ) << "."
-                               << static_cast<int>( linked.minor ) << "."
-                               << static_cast<int>( linked.patch );
+    DebugLog( DL::Info, DC::Main ) << "SDL version used during linking and in runtime is "
+                                   << static_cast<int>( linked.major ) << "."
+                                   << static_cast<int>( linked.minor ) << "."
+                                   << static_cast<int>( linked.patch );
 #endif
 
 #if !defined(TILES)
@@ -648,12 +649,16 @@ int main( int argc, char *argv[] )
         } catch( const std::exception &err ) {
             // can't use any curses function as it has not been initialized
             std::cerr << "Error while initializing the interface: " << err.what() << std::endl;
-            DebugLog( D_ERROR, DC_ALL ) << "Error while initializing the interface: " << err.what() << "\n";
+            DebugLog( DL::Error, DC::Main ) << "Error while initializing the interface: " << err.what();
             return 1;
         }
     }
 
 #if defined(TILES)
+    if( test_mode ) {
+        get_options().init();
+        get_options().load();
+    }
     set_language();
 #endif
 
