@@ -127,12 +127,12 @@ void options_manager::addOptionToPage( const std::string &name, const std::strin
     for( Page &p : pages_ ) {
         if( p.id_ == page ) {
             // Don't add duplicate options to the page
-            for( const cata::optional<std::string> &i : p.items_ ) {
-                if( i.has_value() && i.value() == name ) {
+            for( const PageItem &i : p.items_ ) {
+                if( i.type == ItemType::Option && i.data == name ) {
                     return;
                 }
             }
-            p.items_.emplace_back( name );
+            p.items_.emplace_back( ItemType::Option, name, adding_to_group_ );
             return;
         }
     }
@@ -409,10 +409,56 @@ void options_manager::add_empty_line( const std::string &sPageIn )
 {
     for( Page &p : pages_ ) {
         if( p.id_ == sPageIn ) {
-            p.items_.emplace_back();
+            p.items_.emplace_back( ItemType::BlankLine, "", adding_to_group_ );
             break;
         }
     }
+}
+
+void options_manager::add_option_group( const std::string &page_id,
+                                        const options_manager::Group &group,
+                                        std::function<void( const std::string & )> entries )
+{
+    if( !adding_to_group_.empty() ) {
+        // Nested groups are not allowed
+        debugmsg( "Tried to create option group '%s' from within group '%s'.",
+                  group.id_, adding_to_group_ );
+        return;
+    }
+    for( Group &g : groups_ ) {
+        if( g.id_ == group.id_ ) {
+            debugmsg( "Option group with id '%s' already exists", group.id_ );
+            return;
+        }
+    }
+    groups_.push_back( group );
+    adding_to_group_ = groups_.back().id_;
+
+    for( Page &p : pages_ ) {
+        if( p.id_ == page_id ) {
+            p.items_.emplace_back( ItemType::GroupHeader, group.id_, adding_to_group_ );
+            break;
+        }
+    }
+
+    entries( page_id );
+
+    adding_to_group_.clear();
+}
+
+const options_manager::Group &options_manager::find_group( const std::string &id ) const
+{
+    static Group null_group;
+    if( id.empty() ) {
+        return null_group;
+    }
+    for( const Group &g : groups_ ) {
+        if( g.id_ == id ) {
+            return g;
+        }
+    }
+    debugmsg( "Option group with id '%d' does not exist.", id );
+    return null_group;
 }
 
 void options_manager::cOpt::setPrerequisites( const std::string &sOption,
@@ -1030,8 +1076,9 @@ bool android_get_default_setting( const char *settings_name, bool default_value 
 
 void options_manager::Page::removeRepeatedEmptyLines()
 {
-    const auto empty = [&]( const cata::optional<std::string> &v ) -> bool {
-        return !v || get_options().get_option( *v ).is_hidden();
+    const auto empty = [&]( const PageItem & it ) -> bool {
+        return it.type == ItemType::BlankLine ||
+        ( it.type == ItemType::Option && get_options().get_option( it.data ).is_hidden() );
     };
 
     while( !items_.empty() && empty( items_.front() ) ) {
@@ -2457,7 +2504,7 @@ static void refresh_tiles( bool, bool, bool )
 #endif // TILES
 
 static void draw_borders_external(
-    const catacurses::window &w, int horizontal_level, const std::map<int, bool> &mapLines,
+    const catacurses::window &w, int horizontal_level, const std::set<int> &vert_lines,
     const bool world_options_only )
 {
     if( !world_options_only ) {
@@ -2466,18 +2513,16 @@ static void draw_borders_external(
     // intersections
     mvwputch( w, point( 0, horizontal_level ), BORDER_COLOR, LINE_XXXO ); // |-
     mvwputch( w, point( getmaxx( w ) - 1, horizontal_level ), BORDER_COLOR, LINE_XOXX ); // -|
-    for( auto &mapLine : mapLines ) {
-        if( mapLine.second ) {
-            mvwputch( w, point( mapLine.first + 1, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_XXOX ); // _|_
-        }
+    for( auto &x : vert_lines ) {
+        mvwputch( w, point( x + 1, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_XXOX ); // _|_
     }
     wnoutrefresh( w );
 }
 
-static void draw_borders_internal( const catacurses::window &w, std::map<int, bool> &mapLines )
+static void draw_borders_internal( const catacurses::window &w, std::set<int> &vert_lines )
 {
     for( int i = 0; i < getmaxx( w ); ++i ) {
-        if( mapLines[i] ) {
+        if( vert_lines.count( i ) != 0 ) {
             // intersection
             mvwputch( w, point( i, 0 ), BORDER_COLOR, LINE_OXXX );
         } else {
@@ -2487,6 +2532,59 @@ static void draw_borders_internal( const catacurses::window &w, std::map<int, bo
     }
     wnoutrefresh( w );
 }
+
+std::string
+options_manager::PageItem::fmt_tooltip( const Group &group,
+                                        const options_manager::options_container &cont ) const
+{
+    switch( type ) {
+        case ItemType::BlankLine:
+            return "";
+        case ItemType::GroupHeader: {
+            return group.tooltip_.translated();
+        }
+        case ItemType::Option: {
+            const std::string &opt_name = data;
+            const cOpt &opt = cont.find( opt_name )->second;
+            std::string ret = string_format( "%s #%s",
+                                             opt.getTooltip(),
+                                             opt.getDefaultText() );
+#if defined(TILES) || defined(_WIN32)
+            if( opt_name == "TERMINAL_X" ) {
+                int new_window_width = 0;
+                new_window_width = projected_window_width();
+
+                ret += " -- ";
+                ret += string_format(
+                           vgettext( "The window will be %d pixel wide with the selected value.",
+                                     "The window will be %d pixels wide with the selected value.",
+                                     new_window_width ), new_window_width );
+            } else if( opt_name == "TERMINAL_Y" ) {
+                int new_window_height = 0;
+                new_window_height = projected_window_height();
+
+                ret += " -- ";
+                ret += string_format(
+                           vgettext( "The window will be %d pixel tall with the selected value.",
+                                     "The window will be %d pixels tall with the selected value.",
+                                     new_window_height ), new_window_height );
+            }
+#endif
+            return ret;
+        }
+        default:
+            abort();
+    }
+}
+
+/** String with color */
+struct string_col {
+    std::string s;
+    nc_color col;
+
+    string_col() : col( c_black ) { }
+    string_col( const std::string &s, nc_color col ) : s( s ), col( col ) { }
+};
 
 std::string options_manager::show( bool ingame, const bool world_options_only,
                                    const std::function<bool()> &on_quit )
@@ -2507,13 +2605,20 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         ingame = false;
     }
 
-    std::map<int, bool> mapLines;
-    mapLines[4] = true;
-    mapLines[60] = true;
+    std::set<int> vert_lines;
+    vert_lines.insert( 4 );
+    vert_lines.insert( 60 );
 
     int iCurrentPage = world_options_only ? iWorldOptPage : 0;
     int iCurrentLine = 0;
     int iStartPos = 0;
+
+    std::unordered_map<std::string, bool> groups_state;
+    groups_state.emplace( "", true ); // Non-existent group
+    for( const Group &g : groups_ ) {
+        // Start collapsed
+        groups_state.emplace( g.id_, false );
+    }
 
     input_context ctxt( "OPTIONS" );
     ctxt.register_cardinal();
@@ -2571,36 +2676,104 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
     ui.on_screen_resize( init_windows );
     init_windows( ui );
     ui.on_redraw( [&]( const ui_adaptor & ) {
+        werase( w_options_header );
+        werase( w_options_border );
+        werase( w_options_tooltip );
+        werase( w_options );
+
         if( world_options_only ) {
             worldfactory::draw_worldgen_tabs( w_options_border, 1 );
         }
 
-        draw_borders_external( w_options_border, iTooltipHeight + 1 + iWorldOffset, mapLines,
+        draw_borders_external( w_options_border, iTooltipHeight + 1 + iWorldOffset, vert_lines,
                                world_options_only );
-        draw_borders_internal( w_options_header, mapLines );
-
-        Page &page = pages_[iCurrentPage];
-        auto &page_items = page.items_;
+        draw_borders_internal( w_options_header, vert_lines );
 
         auto &cOPTIONS = ( ingame || world_options_only ) && iCurrentPage == iWorldOptPage ?
                          ACTIVE_WORLD_OPTIONS : OPTIONS;
 
-        //Clear the lines
-        for( int i = 0; i < iContentHeight; i++ ) {
-            for( int j = 0; j < iMinScreenWidth - 2; j++ ) {
-                if( mapLines[j] ) {
-                    mvwputch( w_options, point( j, i ), BORDER_COLOR, LINE_XOXO );
-                } else {
-                    mvwputch( w_options, point( j, i ), c_black, ' ' );
-                }
+        const Page &page = pages_[iCurrentPage];
+        const std::vector<PageItem> &page_items = page.items_;
 
-                if( i < iTooltipHeight ) {
-                    mvwputch( w_options_tooltip, point( j, i ), c_black, ' ' );
+        // Cache visible entries
+        std::vector<int> visible_items;
+        visible_items.reserve( page_items.size() );
+        int curr_line_visible = 0;
+        const auto is_visible = [&]( int i ) -> bool {
+            const PageItem &it = page_items[i];
+            switch( it.type )
+            {
+                case ItemType::GroupHeader:
+                    return true;
+                case ItemType::BlankLine:
+                case ItemType::Option:
+                    return groups_state[it.group];
+                default:
+                    abort();
+            }
+        };
+        for( int i = 0; i < static_cast<int>( page_items.size() ); i++ ) {
+            if( is_visible( i ) ) {
+                visible_items.push_back( i );
+                if( i == iCurrentLine ) {
+                    curr_line_visible = static_cast<int>( visible_items.size() );
                 }
             }
         }
 
-        calcStartPos( iStartPos, iCurrentLine, iContentHeight, page_items.size() );
+        // Format name & value strings for given entry
+        const auto fmt_name_value = [&]( const PageItem & it, bool is_selected )
+        -> std::pair<string_col, string_col> {
+            const char *IN_GROUP_PREFIX = ": ";
+            switch( it.type )
+            {
+                case ItemType::BlankLine: {
+                    std::string name = it.group.empty() ? "" : IN_GROUP_PREFIX;
+                    return { string_col( name, c_white ), string_col() };
+                }
+                case ItemType::GroupHeader: {
+                    bool expanded = groups_state[it.group];
+                    std::string name = expanded ? "- " : "+ ";
+                    name += find_group( it.group ).name_.translated();
+                    return std::make_pair( string_col( name, c_white ), string_col() );
+                }
+                case options_manager::ItemType::Option: {
+                    const cOpt &opt = cOPTIONS.find( it.data )->second;
+                    const bool hasPrerequisite = opt.hasPrerequisite();
+                    const bool hasPrerequisiteFulfilled = opt.checkPrerequisite();
+
+                    std::string name_prefix = it.group.empty() ? "" : IN_GROUP_PREFIX;
+                    string_col name( name_prefix + opt.getMenuText(), !hasPrerequisite ||
+                                     hasPrerequisiteFulfilled ? c_white : c_light_gray );
+
+                    nc_color cLineColor;
+                    if( hasPrerequisite && !hasPrerequisiteFulfilled ) {
+                        cLineColor = c_light_gray;
+                    } else if( opt.getValue() == "false" || opt.getValue() == "disabled" || opt.getValue() == "off" ) {
+                        cLineColor = c_light_red;
+                    } else {
+                        cLineColor = c_light_green;
+                    }
+
+                    string_col value( opt.getValueName(), is_selected ? hilite( cLineColor ) : cLineColor );
+
+                    return std::make_pair( name, value );
+                }
+                default:
+                    abort();
+            }
+        };
+
+        // Draw separation lines
+        for( int x : vert_lines ) {
+            for( int y = 0; y < iContentHeight; y++ ) {
+                mvwputch( w_options, point( x, y ), BORDER_COLOR, LINE_XOXO );
+            }
+        }
+
+        // Update scroll position
+        calcStartPos( iStartPos, curr_line_visible, iContentHeight,
+                      static_cast<int>( visible_items.size() ) );
 
         // where the column with the names starts
         const size_t name_col = 5;
@@ -2609,52 +2782,33 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         // 2 for the space between name and value column, 3 for the ">> "
         const size_t name_width = value_col - name_col - 2 - 3;
         const size_t value_width = getmaxx( w_options ) - value_col;
-        //Draw options
-        size_t iBlankOffset = 0; // Offset when blank line is printed.
+        // Draw options
         for( int i = iStartPos;
-             i < iStartPos + ( iContentHeight > static_cast<int>( page_items.size() ) ?
-                               static_cast<int>( page_items.size() ) : iContentHeight ); i++ ) {
+             i < iStartPos + ( iContentHeight > static_cast<int>( visible_items.size() ) ?
+                               static_cast<int>( visible_items.size() ) : iContentHeight ); i++ ) {
 
             int line_pos = i - iStartPos; // Current line position in window.
 
-            mvwprintz( w_options, point( 1, line_pos ), c_white, "%d", i + 1 - iBlankOffset );
+            mvwprintz( w_options, point( 1, line_pos ), c_white, "%d", visible_items[i] + 1 );
 
-            if( iCurrentLine == i ) {
-                mvwprintz( w_options, point( name_col, line_pos ), c_yellow, ">> " );
-            } else {
-                mvwprintz( w_options, point( name_col, line_pos ), c_yellow, "   " );
+            bool is_selected = visible_items[i] == iCurrentLine;
+            if( is_selected ) {
+                mvwprintz( w_options, point( name_col, line_pos ), c_yellow, ">>" );
             }
 
-            const auto &opt_name = page_items[i];
-            if( !opt_name ) {
-                continue;
-            }
+            const PageItem &curr_item = page_items[visible_items[i]];
+            auto name_value = fmt_name_value( curr_item, is_selected );
 
-            nc_color cLineColor = c_light_green;
-            const cOpt &current_opt = cOPTIONS[*opt_name];
-            const bool hasPrerequisite = current_opt.hasPrerequisite();
-            const bool hasPrerequisiteFulfilled = current_opt.checkPrerequisite();
+            const std::string name = utf8_truncate( name_value.first.s, name_width );
+            mvwprintz( w_options, point( name_col + 3, line_pos ), name_value.first.col, name );
 
-            const std::string name = utf8_truncate( current_opt.getMenuText(), name_width );
-            mvwprintz( w_options, point( name_col + 3, line_pos ), !hasPrerequisite ||
-                       hasPrerequisiteFulfilled ? c_white : c_light_gray, name );
-
-            if( hasPrerequisite && !hasPrerequisiteFulfilled ) {
-                cLineColor = c_light_gray;
-
-            } else if( current_opt.getValue() == "false" || current_opt.getValue() == "disabled" ||
-                       current_opt.getValue() == "off" ) {
-                cLineColor = c_light_red;
-            }
-
-            const std::string value = utf8_truncate( current_opt.getValueName(), value_width );
-            mvwprintz( w_options, point( value_col, line_pos ),
-                       iCurrentLine == i ? hilite( cLineColor ) : cLineColor,
-                       value );
+            const std::string value = utf8_truncate( name_value.second.s, value_width );
+            mvwprintz( w_options, point( value_col, line_pos ), name_value.second.col, value );
         }
 
         draw_scrollbar( w_options_border, iCurrentLine, iContentHeight,
-                        page_items.size(), point( 0, iTooltipHeight + 2 + iWorldOffset ), BORDER_COLOR );
+                        static_cast<int>( visible_items.size() ),
+                        point( 0, iTooltipHeight + 2 + iWorldOffset ), BORDER_COLOR );
         wnoutrefresh( w_options_border );
 
         //Draw Tabs
@@ -2676,47 +2830,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
 
         wnoutrefresh( w_options_header );
 
-        const std::string &opt_name = *page_items[iCurrentLine];
-        cOpt &current_opt = cOPTIONS[opt_name];
-
-#if defined(TILES) || defined(_WIN32)
-        if( opt_name == "TERMINAL_X" ) {
-            int new_terminal_x = 0;
-            int new_window_width = 0;
-            std::stringstream value_conversion( current_opt.getValueName() );
-
-            value_conversion >> new_terminal_x;
-            new_window_width = projected_window_width();
-
-            fold_and_print( w_options_tooltip, point_zero, iMinScreenWidth - 2, c_white,
-                            vgettext( "%s #%s -- The window will be %d pixel wide with the selected value.",
-                                      "%s #%s -- The window will be %d pixels wide with the selected value.",
-                                      new_window_width ),
-                            current_opt.getTooltip(),
-                            current_opt.getDefaultText(),
-                            new_window_width );
-        } else if( opt_name == "TERMINAL_Y" ) {
-            int new_terminal_y = 0;
-            int new_window_height = 0;
-            std::stringstream value_conversion( current_opt.getValueName() );
-
-            value_conversion >> new_terminal_y;
-            new_window_height = projected_window_height();
-
-            fold_and_print( w_options_tooltip, point_zero, iMinScreenWidth - 2, c_white,
-                            vgettext( "%s #%s -- The window will be %d pixel tall with the selected value.",
-                                      "%s #%s -- The window will be %d pixels tall with the selected value.",
-                                      new_window_height ),
-                            current_opt.getTooltip(),
-                            current_opt.getDefaultText(),
-                            new_window_height );
-        } else
-#endif
-        {
-            fold_and_print( w_options_tooltip, point_zero, iMinScreenWidth - 2, c_white, "%s #%s",
-                            current_opt.getTooltip(),
-                            current_opt.getDefaultText() );
-        }
+        const PageItem &curr_item = page_items[iCurrentLine];
+        std::string tooltip = curr_item.fmt_tooltip( find_group( curr_item.group ), cOPTIONS );
+        fold_and_print( w_options_tooltip, point_zero, iMinScreenWidth - 2, c_white, tooltip );
 
         if( ingame && iCurrentPage == iWorldOptPage ) {
             mvwprintz( w_options_tooltip, point( 3, 3 ), c_light_red, "%s", _( "Note: " ) );
@@ -2737,9 +2853,6 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         auto &cOPTIONS = ( ingame || world_options_only ) && iCurrentPage == iWorldOptPage ?
                          ACTIVE_WORLD_OPTIONS : OPTIONS;
 
-        const std::string &opt_name = *page_items[iCurrentLine];
-        cOpt &current_opt = cOPTIONS[opt_name];
-
         const std::string action = ctxt.handle_input();
 
         if( world_options_only && ( action == "NEXT_TAB" || action == "PREV_TAB" ||
@@ -2747,15 +2860,77 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             return action;
         }
 
-        bool hasPrerequisite = current_opt.hasPrerequisite();
-        bool hasPrerequisiteFulfilled = current_opt.checkPrerequisite();
+        const PageItem &curr_item = page_items[iCurrentLine];
 
-        if( hasPrerequisite && !hasPrerequisiteFulfilled &&
-            ( action == "RIGHT" || action == "LEFT" || action == "CONFIRM" ) ) {
-            popup( _( "Prerequisite for this option not met!\n(%s)" ),
-                   get_options().get_option( current_opt.getPrerequisite() ).getMenuText() );
-            continue;
-        }
+        const auto on_select_option = [&]() {
+            cOpt &current_opt = cOPTIONS[curr_item.data];
+
+            bool hasPrerequisite = current_opt.hasPrerequisite();
+            bool hasPrerequisiteFulfilled = current_opt.checkPrerequisite();
+
+            if( hasPrerequisite && !hasPrerequisiteFulfilled ) {
+                popup( _( "Prerequisite for this option not met!\n(%s)" ),
+                       get_options().get_option( current_opt.getPrerequisite() ).getMenuText() );
+                return;
+            }
+
+            if( action == "LEFT" ) {
+                current_opt.setPrev();
+            } else if( action == "RIGHT" ) {
+                current_opt.setNext();
+            } else {
+                assert( action == "CONFIRM" );
+                if( current_opt.getType() == "bool" || current_opt.getType() == "string_select" ||
+                    current_opt.getType() == "string_input" || current_opt.getType() == "int_map" ) {
+                    current_opt.setNext();
+                } else {
+                    const bool is_int = current_opt.getType() == "int";
+                    const bool is_float = current_opt.getType() == "float";
+                    const std::string old_opt_val = current_opt.getValueName();
+                    const std::string opt_val = string_input_popup()
+                                                .title( current_opt.getMenuText() )
+                                                .width( 10 )
+                                                .text( old_opt_val )
+                                                .only_digits( is_int )
+                                                .query_string();
+                    if( !opt_val.empty() && opt_val != old_opt_val ) {
+                        if( is_float ) {
+                            std::istringstream ssTemp( opt_val );
+                            // This uses the current locale, to allow the users
+                            // to use their own decimal format.
+                            float tmpFloat;
+                            ssTemp >> tmpFloat;
+                            if( ssTemp ) {
+                                current_opt.setValue( tmpFloat );
+
+                            } else {
+                                popup( _( "Invalid input: not a number" ) );
+                            }
+                        } else {
+                            // option is of type "int": string_input_popup
+                            // has taken care that the string contains
+                            // only digits, parsing is done in setValue
+                            current_opt.setValue( opt_val );
+                        }
+                    }
+                }
+            }
+        };
+
+        const auto is_selectable = [&]( int i ) -> bool {
+            const PageItem &curr_item = page_items[i];
+            switch( curr_item.type )
+            {
+                case ItemType::BlankLine:
+                    return false;
+                case ItemType::GroupHeader:
+                    return true;
+                case ItemType::Option:
+                    return groups_state[curr_item.group];
+                default:
+                    abort();
+            }
+        };
 
         if( action == "DOWN" ) {
             do {
@@ -2763,18 +2938,14 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                 if( iCurrentLine >= static_cast<int>( page_items.size() ) ) {
                     iCurrentLine = 0;
                 }
-            } while( !page_items[iCurrentLine] );
+            } while( !is_selectable( iCurrentLine ) );
         } else if( action == "UP" ) {
             do {
                 iCurrentLine--;
                 if( iCurrentLine < 0 ) {
                     iCurrentLine = page_items.size() - 1;
                 }
-            } while( !page_items[iCurrentLine] );
-        } else if( action == "RIGHT" ) {
-            current_opt.setNext();
-        } else if( action == "LEFT" ) {
-            current_opt.setPrev();
+            } while( !is_selectable( iCurrentLine ) );
         } else if( action == "NEXT_TAB" ) {
             iCurrentLine = 0;
             iStartPos = 0;
@@ -2791,40 +2962,23 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                 iCurrentPage = pages_.size() - 1;
             }
             sfx::play_variant_sound( "menu_move", "default", 100 );
-        } else if( action == "CONFIRM" ) {
-            if( current_opt.getType() == "bool" || current_opt.getType() == "string_select" ||
-                current_opt.getType() == "string_input" || current_opt.getType() == "int_map" ) {
-                current_opt.setNext();
-            } else {
-                const bool is_int = current_opt.getType() == "int";
-                const bool is_float = current_opt.getType() == "float";
-                const std::string old_opt_val = current_opt.getValueName();
-                const std::string opt_val = string_input_popup()
-                                            .title( current_opt.getMenuText() )
-                                            .width( 10 )
-                                            .text( old_opt_val )
-                                            .only_digits( is_int )
-                                            .query_string();
-                if( !opt_val.empty() && opt_val != old_opt_val ) {
-                    if( is_float ) {
-                        std::istringstream ssTemp( opt_val );
-                        // This uses the current locale, to allow the users
-                        // to use their own decimal format.
-                        float tmpFloat;
-                        ssTemp >> tmpFloat;
-                        if( ssTemp ) {
-                            current_opt.setValue( tmpFloat );
-
-                        } else {
-                            popup( _( "Invalid input: not a number" ) );
-                        }
-                    } else {
-                        // option is of type "int": string_input_popup
-                        // has taken care that the string contains
-                        // only digits, parsing is done in setValue
-                        current_opt.setValue( opt_val );
-                    }
+        } else if( action == "RIGHT" || action == "LEFT" || action == "CONFIRM" ) {
+            switch( curr_item.type ) {
+                case ItemType::Option: {
+                    on_select_option();
+                    break;
                 }
+                case ItemType::GroupHeader: {
+                    bool &state = groups_state[curr_item.data];
+                    state = !state;
+                    break;
+                }
+                case ItemType::BlankLine: {
+                    // Should never happen
+                    break;
+                }
+                default:
+                    abort();
             }
         } else if( action == "QUIT" ) {
             break;
@@ -2929,11 +3083,11 @@ void options_manager::serialize( JsonOut &json ) const
     json.start_array();
 
     for( const Page &p : pages_ ) {
-        for( const cata::optional<std::string> &opt_name : p.items_ ) {
-            if( !opt_name ) {
+        for( const PageItem &it : p.items_ ) {
+            if( it.type != ItemType::Option ) {
                 continue;
             }
-            const auto iter = options.find( *opt_name );
+            const auto iter = options.find( it.data );
             if( iter != options.end() ) {
                 const auto &opt = iter->second;
 
