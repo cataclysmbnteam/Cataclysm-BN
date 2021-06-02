@@ -455,15 +455,21 @@ std::unique_ptr<mattack_actor> gun_actor::clone() const
     return std::make_unique<gun_actor>( *this );
 }
 
+int gun_actor::get_max_range()  const
+{
+    int max_range = 0;
+    for( const auto &e : ranges ) {
+        max_range = std::max( std::max( max_range, e.first.first ), e.first.second );
+    }
+    return max_range;
+}
+
 bool gun_actor::call( monster &z ) const
 {
     Creature *target;
 
     if( z.friendly ) {
-        int max_range = 0;
-        for( const auto &e : ranges ) {
-            max_range = std::max( std::max( max_range, e.first.first ), e.first.second );
-        }
+        int max_range = get_max_range();
 
         int hostiles; // hostiles which cannot be engaged without risking friendly fire
         target = z.auto_find_hostile_target( max_range, hostiles );
@@ -487,20 +493,23 @@ bool gun_actor::call( monster &z ) const
     int dist = rl_dist( z.pos(), target->pos() );
     for( const auto &e : ranges ) {
         if( dist >= e.first.first && dist <= e.first.second ) {
-            shoot( z, *target, e.second );
+            if( try_target( z, *target ) ) {
+                shoot( z, target->pos(), e.second );
+            }
+
             return true;
         }
     }
     return false;
 }
 
-void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) const
+bool gun_actor::try_target( monster &z, Creature &target ) const
 {
     if( require_sunlight && !g->is_in_sunlight( z.pos() ) ) {
         if( one_in( 3 ) && g->u.sees( z ) ) {
             add_msg( _( failure_msg ), z.name() );
         }
-        return;
+        return false;
     }
 
     const bool require_targeting = ( require_targeting_player && target.is_player() ) ||
@@ -526,9 +535,23 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
         }
 
         z.moves -= targeting_cost;
-        return;
+        return false;
     }
 
+    if( require_targeting ) {
+        z.add_effect( effect_targeted, time_duration::from_turns( targeting_timeout_extend ) );
+    }
+
+    if( laser_lock ) {
+        // To prevent spamming laser locks when the player can tank that stuff somehow
+        target.add_effect( effect_was_laserlocked, 5_turns );
+    }
+    return true;
+}
+
+void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mode,
+                       int inital_recoil ) const
+{
     z.moves -= move_cost;
 
     item gun( gun_type );
@@ -536,7 +559,7 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
 
     itype_id ammo = ( ammo_type != "null" ) ? ammo_type : gun.ammo_default();
     if( ammo != "null" ) {
-        gun.ammo_set( ammo, z.ammo[ ammo ] );
+        gun.ammo_set( ammo, z.ammo[ammo] );
     }
 
     if( !gun.ammo_sufficient() ) {
@@ -550,7 +573,7 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
                       fake_str, fake_dex, fake_int, fake_per );
     tmp.set_fake( true );
     tmp.set_attitude( z.friendly ? NPCATT_FOLLOW : NPCATT_KILL );
-    tmp.recoil = 0; // no need to aim
+    tmp.recoil = inital_recoil; // set inital recoil
     if( no_crits ) {
         tmp.toggle_trait( trait_NORANGEDCRIT );
     }
@@ -566,14 +589,6 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
         add_msg( m_warning, _( description ), z.name(), tmp.weapon.tname() );
     }
 
-    z.ammo[ammo] -= tmp.fire_gun( target.pos(), gun.gun_current_mode().qty );
+    z.ammo[ammo] -= tmp.fire_gun( target, gun.gun_current_mode().qty );
 
-    if( require_targeting ) {
-        z.add_effect( effect_targeted, time_duration::from_turns( targeting_timeout_extend ) );
-    }
-
-    if( laser_lock ) {
-        // To prevent spamming laser locks when the player can tank that stuff somehow
-        target.add_effect( effect_was_laserlocked, 5_turns );
-    }
 }
