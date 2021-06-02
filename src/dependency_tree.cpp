@@ -390,7 +390,7 @@ void dependency_tree::check_for_strongly_connected_components()
     for( auto &elem : strongly_connected_components ) {
         if( elem.size() > 1 ) {
             for( auto &elem_node : elem ) {
-                DebugLog( D_PEDANTIC_INFO, DC_ALL ) << "--" << elem_node->key.str() << "\n";
+                //DebugLog( DL::Debug, DC::Game ) << "--" << elem_node->key.str() << "\n";
                 in_circular_connection.insert( elem_node );
             }
 

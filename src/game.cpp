@@ -177,7 +177,7 @@ class computer;
 #   include <tchar.h>
 #endif
 
-#define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLogFL((x),DC::Game)
 
 const int core_version = 6;
 static constexpr int DANGEROUS_PROXIMITY = 5;
@@ -2584,7 +2584,7 @@ bool game::is_game_over()
             uquit = QUIT_DIED;
         } else {
             // Something funky happened here, just die.
-            dbg( D_ERROR ) << "no deathcam option given to options, defaulting to QUIT_DIED";
+            dbg( DL::Error ) << "no deathcam option given to options, defaulting to QUIT_DIED";
             uquit = QUIT_DIED;
         }
         return is_game_over();
@@ -3022,14 +3022,11 @@ void game::write_memorial_file( std::string sLastWords )
 
     //Check if both dirs exist. Nested assure_dir_exist fails if the first dir of the nested dir does not exist.
     if( !assure_dir_exist( memorial_dir ) ) {
-        dbg( D_ERROR ) << "game:write_memorial_file: Unable to make memorial directory.";
         debugmsg( "Could not make '%s' directory", memorial_dir );
         return;
     }
 
     if( !assure_dir_exist( memorial_active_world_dir ) ) {
-        dbg( D_ERROR ) <<
-                       "game:write_memorial_file: Unable to make active world directory in memorial directory.";
         debugmsg( "Could not make '%s' directory", memorial_active_world_dir );
         return;
     }
@@ -4303,12 +4300,10 @@ void game::monmove()
     for( monster &critter : all_monsters() ) {
         // Critters in impassable tiles get pushed away, unless it's not impassable for them
         if( !critter.is_dead() && m.impassable( critter.pos() ) && !critter.can_move_to( critter.pos() ) ) {
-            dbg( D_ERROR ) << "game:monmove: " << critter.name()
-                           << " can't move to its location!  (" << critter.posx()
-                           << ":" << critter.posy() << ":" << critter.posz() << "), "
-                           << m.tername( critter.pos() );
-            add_msg( m_debug, "%s can't move to its location!  (%d,%d,%d), %s", critter.name(),
-                     critter.posx(), critter.posy(), critter.posz(), m.tername( critter.pos() ) );
+            std::string msg = string_format( "%s can't move to its location!  %s  %s", critter.name(),
+                                             critter.pos().to_string(), m.tername( critter.pos() ) );
+            dbg( DL::Error ) << msg;
+            add_msg( m_debug, msg );
             bool okay = false;
             for( const tripoint &dest : m.points_in_radius( critter.pos(), 3 ) ) {
                 if( critter.can_move_to( dest ) && is_empty( dest ) ) {
@@ -4721,9 +4716,7 @@ void game::use_computer( const tripoint &p )
         if( m.has_flag( "CONSOLE", p ) ) { //Console without map data
             add_msg( m_bad, _( "The console doesn't display anything coherent." ) );
         } else {
-            dbg( D_ERROR ) << "game:use_computer: Tried to use computer at (" <<
-                           p.x << ", " << p.y << ", " << p.z << ") - none there";
-            debugmsg( "Tried to use computer at (%d, %d, %d) - none there", p.x, p.y, p.z );
+            debugmsg( "Tried to use computer at %s - none there", p.to_string() );
         }
         return;
     }
@@ -6751,8 +6744,6 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
         } );
         ui->mark_resize();
     }
-
-    dbg( D_PEDANTIC_INFO ) << ": calling handle_input()";
 
     std::string action;
     input_context ctxt( "LOOK" );

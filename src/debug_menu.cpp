@@ -111,7 +111,6 @@ extern std::map<std::string, weighted_int_list<std::shared_ptr<mapgen_function_j
 #include "sdl_wrappers.h"
 #endif
 
-#define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 namespace debug_menu
 {
 
@@ -1210,18 +1209,18 @@ void benchmark( const int max_difference, bench_kind kind )
         draw_counter++;
     }
 
-    DebugLog( D_INFO, DC_ALL ) << bench_name << ":\n" <<
-                               "\n| USE_TILES |  RENDERER | FRAMEBUFFER_ACCEL | USE_COLOR_MODULATED_TEXTURES | FPS |" <<
-                               "\n|:---:|:---:|:---:|:---:|:---:|\n| " <<
-                               get_option<bool>( "USE_TILES" ) << " | " <<
+    DebugLog( DL::Info, DC::Main ) << bench_name << ":\n" <<
+                                   "\n| USE_TILES |  RENDERER | FRAMEBUFFER_ACCEL | USE_COLOR_MODULATED_TEXTURES | FPS |" <<
+                                   "\n|:---:|:---:|:---:|:---:|:---:|\n| " <<
+                                   get_option<bool>( "USE_TILES" ) << " | " <<
 #if !defined(__ANDROID__)
-                               get_option<std::string>( "RENDERER" ) << " | " <<
+                                   get_option<std::string>( "RENDERER" ) << " | " <<
 #else
-                               get_option<bool>( "SOFTWARE_RENDERING" ) << " | " <<
+                                   get_option<bool>( "SOFTWARE_RENDERING" ) << " | " <<
 #endif
-                               get_option<bool>( "FRAMEBUFFER_ACCEL" ) << " | " <<
-                               get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" ) << " | " <<
-                               static_cast<int>( 1000.0 * draw_counter / static_cast<double>( difference ) ) << " |\n";
+                                   get_option<bool>( "FRAMEBUFFER_ACCEL" ) << " | " <<
+                                   get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" ) << " | " <<
+                                   static_cast<int>( 1000.0 * draw_counter / static_cast<double>( difference ) ) << " |\n";
 
     std::string msg_txt;
     switch( kind ) {
@@ -1305,7 +1304,7 @@ void debug()
                 mfus += string_format( "%s;%d\n", io::enum_to_string<m_flag>( m_flag_stat.first ),
                                        m_flag_stat.second );
             }
-            DebugLog( D_INFO, DC_ALL ) << "Monster flag usage statistics:\nFLAG;COUNT\n" << mfus;
+            DebugLog( DL::Info, DC::Main ) << "Monster flag usage statistics:\nFLAG;COUNT\n" << mfus;
             std::fill( MonsterGenerator::generator().m_flag_usage_stats.begin(),
                        MonsterGenerator::generator().m_flag_usage_stats.end(), 0 );
             popup_top( "Monster flag usage statistics were dumped to debug.log and cleared." );
@@ -1355,8 +1354,7 @@ void debug()
 
         case DEBUG_SPAWN_VEHICLE:
             if( m.veh_at( u.pos() ) ) {
-                dbg( D_ERROR ) << "game:load: There's already vehicle here";
-                debugmsg( "There's already vehicle here" );
+                add_msg( m_bad, "There's already vehicle here." );
             } else {
                 // Vector of name, id so that we can sort by name
                 std::vector<std::pair<std::string, vproto_id>> veh_strings;
@@ -1901,7 +1899,7 @@ void debug()
             // generate a game report, useful for bug reporting.
             std::string report = game_info::game_report();
             // write to log
-            DebugLog( DL_ALL, DC_ALL ) << " GAME REPORT:\n" << report;
+            DebugLog( DL::Info, DC::Main ) << " GAME REPORT:\n" << report;
             std::string popup_msg = _( "Report written to debug.log" );
 #if defined(TILES)
             // copy to clipboard

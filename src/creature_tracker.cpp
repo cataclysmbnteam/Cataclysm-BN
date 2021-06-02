@@ -14,7 +14,7 @@
 #include "string_formatter.h"
 #include "type_id.h"
 
-#define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLogFL((x),DC::Game)
 
 Creature_tracker::Creature_tracker() = default;
 
@@ -265,9 +265,9 @@ bool Creature_tracker::kill_marked_for_death()
         if( !critter.is_dead() ) {
             continue;
         }
-        dbg( D_INFO ) << string_format( "cleanup_dead: critter %d,%d,%d hp:%d %s",
-                                        critter.posx(), critter.posy(), critter.posz(),
-                                        critter.get_hp(), critter.name() );
+        dbg( DL::Info ) << string_format( "cleanup_dead: critter %s hp:%d %s",
+                                          critter.pos().to_string(), critter.get_hp(), critter.name() );
+
         critter.die( nullptr );
         monster_is_dead = true;
     }

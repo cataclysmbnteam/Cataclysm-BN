@@ -114,8 +114,6 @@ static std::map<std::string, json_talk_topic> json_talk_topics;
 // Every OWED_VAL that the NPC owes you counts as +1 towards convincing
 #define OWED_VAL 1000
 
-#define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-
 int topic_category( const talk_topic &the_topic );
 
 const talk_topic &special_talk( char ch );
@@ -1408,7 +1406,7 @@ int talk_trial::calc_chance( const dialogue &d ) const
     int chance = difficulty;
     switch( type ) {
         case NUM_TALK_TRIALS:
-            dbg( D_ERROR ) << "called calc_chance with invalid talk_trial value: " << type;
+            debugmsg( "Called calc_chance with invalid talk_trial value %d", type );
             break;
         case TALK_TRIAL_LIE:
             chance += u.talk_skill() - p.talk_skill() + p.op_of_u.trust * 3;

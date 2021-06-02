@@ -37,7 +37,7 @@
 #include "veh_type.h"
 #include "vpart_position.h"
 
-#define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLogFL((x),DC::Map)
 
 static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_animal( "animal" );
@@ -1427,8 +1427,7 @@ vehicle *vehicle::act_on_map()
 {
     const tripoint pt = global_pos3();
     if( !g->m.inbounds( pt ) ) {
-        dbg( D_INFO ) << "stopping out-of-map vehicle.  (x,y,z)=(" << pt.x << "," << pt.y << "," << pt.z <<
-                      ")";
+        dbg( DL::Info ) << "stopping out-of-map vehicle at global pos " << pt;
         stop( false );
         of_turn = 0;
         is_falling = false;

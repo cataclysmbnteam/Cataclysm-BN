@@ -176,6 +176,10 @@ class messages_impl
                 return;
             }
 
+            if( type == m_debug ) {
+                DebugLog( DL::Info, DC::DebugModeMsg ) << msg;
+            }
+
             game_message m = game_message( std::move( msg ), type );
 
             refresh_cooldown( m, flags );

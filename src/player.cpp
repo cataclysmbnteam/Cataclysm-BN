@@ -1944,8 +1944,7 @@ int player::invlet_to_position( const int linvlet ) const
     }
     const char invlet = static_cast<char>( linvlet );
     if( is_npc() ) {
-        DebugLog( D_WARNING,  D_GAME ) << "Why do you need to call player::invlet_to_position on npc " <<
-                                       name;
+        debugmsg( "Called player::invlet_to_position on NPC (%s)", name );
     }
     if( weapon.invlet == invlet ) {
         return -1;

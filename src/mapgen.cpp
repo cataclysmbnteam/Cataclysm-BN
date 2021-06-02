@@ -94,7 +94,7 @@ static const mongroup_id GROUP_ZOMBIE_COP( "GROUP_ZOMBIE_COP" );
 
 static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
 
-#define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLogFL((x),DC::MapGen)
 
 #define MON_RADIUS 3
 
@@ -105,8 +105,8 @@ static void build_mine_room( room_type type, const point &p1, const point &p2, m
 // x%2 and y%2 must be 0!
 void map::generate( const tripoint &p, const time_point &when )
 {
-    dbg( D_INFO ) << "map::generate( g[" << g.get() << "], p[" << p << "], "
-                  "when[" << to_string( when ) << "] )";
+    dbg( DL::Info ) << "map::generate( g[" << g.get() << "], p[" << p <<
+                    "], when[" << to_string( when ) << "] )";
 
     set_abs_sub( p );
 
@@ -194,7 +194,7 @@ void map::generate( const tripoint &p, const time_point &when )
     // And finally save used submaps and delete the rest.
     for( int i = 0; i < my_MAPSIZE; i++ ) {
         for( int j = 0; j < my_MAPSIZE; j++ ) {
-            dbg( D_INFO ) << "map::generate: submap (" << i << "," << j << ")";
+            dbg( DL::Info ) << "map::generate: submap (" << i << "," << j << ")";
 
             const tripoint pos( i, j, p.z );
             if( i <= 1 && j <= 1 ) {
@@ -5866,8 +5866,8 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const int d
         return nullptr;
     }
     if( !inbounds( p ) ) {
-        dbg( D_WARNING ) << string_format( "Out of bounds add_vehicle t=%s d=%d p=%d,%d,%d", type.c_str(),
-                                           dir, p.x, p.y, p.z );
+        dbg( DL::Warn ) << string_format( "Out of bounds add_vehicle t=%s d=%d p=%s",
+                                          type.c_str(), dir, p.to_string() );
         return nullptr;
     }
 
