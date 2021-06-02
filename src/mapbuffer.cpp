@@ -87,8 +87,6 @@ void mapbuffer::remove_submap( tripoint addr )
 
 submap *mapbuffer::lookup_submap( const tripoint &p )
 {
-    //DebugLog( DL::Debug, DC::Map ) << "mapbuffer::lookup_submap " << p;
-
     const auto iter = submaps.find( p );
     if( iter == submaps.end() ) {
         try {

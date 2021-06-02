@@ -6731,18 +6731,8 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
     static const oter_id rock( "empty_rock" );
     static const oter_id air( "open_air" );
 
-    /*
-    dbg( DL::Debug ) << "map::loadn( game=" << g.get()
-                     << ", world=" << abs_sub
-                     << ", grid=" << grid << " )";
-    */
-
     const tripoint grid_abs_sub = abs_sub.xy() + grid;
     const size_t gridn = get_nonant( grid );
-
-    /*
-    dbg( DL::Debug ) << "map::loadn grid_abs_sub: " << grid_abs_sub << "  gridn: " << gridn;
-    */
 
     const int old_abs_z = abs_sub.z; // Ugly, but necessary at the moment
     abs_sub.z = grid.z;
