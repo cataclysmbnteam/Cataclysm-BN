@@ -1693,7 +1693,7 @@ class jmapgen_sealed_item : public jmapgen_piece
             // 100% chance = always generate, otherwise scale by item spawn rate.
             // (except is capped at 1)
             const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
-            if( !x_in_y( ( c == 100 ) ? 1 : c * spawn_rate / 100.0f, 1 ) ) {
+            if( c != 100 && !x_in_y( c * spawn_rate / 100.0f, 1 ) ) {
                 return;
             }
 
