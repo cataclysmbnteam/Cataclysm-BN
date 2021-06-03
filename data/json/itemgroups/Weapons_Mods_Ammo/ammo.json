@@ -74,11 +74,11 @@
   {
     "type": "item_group",
     "id": "ammo_pistol_reloaded",
-    "//": "Reloaded pistol ammo, black powder loads roughly a quarter of the time.",
+    "//": "Reloaded pistol ammo, black powder loads roughly half of the time.",
     "subtype": "distribution",
     "entries": [
-      { "group": "ammo_pistol_modern_handloads", "prob": 75 },
-      { "group": "ammo_pistol_blackpowder_handloads", "prob": 25 }
+      { "group": "ammo_pistol_modern_handloads", "prob": 50 },
+      { "group": "ammo_pistol_blackpowder_handloads", "prob": 50 }
     ]
   },
   {
@@ -264,9 +264,9 @@
   {
     "type": "item_group",
     "id": "ammo_rifle_reloaded",
-    "//": "Reloaded rifle ammo, black powder loads roughly a quarter of the time.",
+    "//": "Reloaded rifle ammo, black powder loads roughly half of the time.",
     "subtype": "distribution",
-    "entries": [ { "group": "ammo_rifle_modern_handloads", "prob": 75 }, { "group": "ammo_rifle_blackpowder_handloads", "prob": 25 } ]
+    "entries": [ { "group": "ammo_rifle_modern_handloads", "prob": 50 }, { "group": "ammo_rifle_blackpowder_handloads", "prob": 50 } ]
   },
   {
     "type": "item_group",
@@ -367,11 +367,11 @@
   {
     "type": "item_group",
     "id": "ammo_shotgun_reloaded",
-    "//": "Reloaded shotgun ammo balanced according to rarity.  Blackpowder loads should comprise roughly 25% of total weight.",
+    "//": "Reloaded shotgun ammo, black powder loads roughly half of the time.",
     "subtype": "distribution",
     "entries": [
-      { "group": "ammo_shotgun_modern_handloads", "prob": 75 },
-      { "group": "ammo_shotgun_blackpowder_handloads", "prob": 25 }
+      { "group": "ammo_shotgun_modern_handloads", "prob": 50 },
+      { "group": "ammo_shotgun_blackpowder_handloads", "prob": 50 }
     ]
   },
   {
