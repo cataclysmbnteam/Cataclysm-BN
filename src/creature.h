@@ -343,9 +343,6 @@ class Creature
                              body_part bp = num_bp, int intensity = 1,
                              bool force = false );
 
-        // Deleted variant of add_effect, to make sure calls to it don't get re-introduced during porting
-        virtual void add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp,
-                                 bool REMOVED, int intensity = 0, bool force = false, bool deferred = false ) = delete;
         // Deleted variant of add_env_effect, to make sure calls to it don't get re-introduced during porting
         bool add_env_effect( const efftype_id &eff_id, body_part vector, int strength,
                              const time_duration &dur,
