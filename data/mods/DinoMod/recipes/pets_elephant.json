@@ -58,7 +58,7 @@
     "time": "400 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 400 ] ],
-    "components": [ [ [ "kevlar_plate", 100 ] ], [ [ "rag", 100 ] ], [ [ "leather", 50 ], [ "tanned_hide", 50 ] ] ]
+    "components": [ [ [ "kevlar_plate", 100 ] ], [ [ "rag", 100 ] ], [ [ "leather", 50 ], [ "tanned_hide", 7 ] ] ]
   },
   {
     "result": "leather_armor_elephant",
