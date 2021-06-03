@@ -1372,6 +1372,15 @@ void effect::deserialize( JsonIn &jsin )
     intensity = jo.get_int( "intensity" );
     start_time = calendar::turn_zero;
     jo.read( "start_turn", start_time );
+    // Legacy
+    if( jo.has_bool( "permanent" ) ) {
+        const bool was_permanent = jo.get_bool( "permanent" );
+        if( was_permanent != eff_type->is_permanent() && json_report_unused_fields ) {
+            // TODO: to_string( bool )
+            debugmsg( "Effect instance of type %s had \"permanent\": %s, but its type had \"permanent\": %s. Value for type will be used.",
+                      id.str(), was_permanent ? "true" : "false", eff_type->is_permanent() ? "true" : "false" );
+        }
+    }
     // Removed effects should never be saved
     removed = false;
 }
