@@ -2156,8 +2156,7 @@ void mapgen_palette::check()
         }
     }
 
-    for( const std::pair<const map_key, std::vector<shared_ptr_fast<const jmapgen_piece>>> &p :
-         format_placings ) {
+    for( const auto &p : format_placings ) {
         for( const shared_ptr_fast<const jmapgen_piece> &j : p.second ) {
             j->check( context );
         }
