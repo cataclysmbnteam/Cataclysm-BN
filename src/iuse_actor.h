@@ -233,6 +233,8 @@ struct effect_data {
     efftype_id id;
     time_duration duration;
     body_part bp;
+    // TODO: Remove
+    bool permanent = false;
 
     effect_data( const efftype_id &nid, const time_duration &dur, body_part nbp ) :
         id( nid ), duration( dur ), bp( nbp ) {}

@@ -308,6 +308,15 @@ class effect
         time_point start_time;
         bool removed;
 
+        // TODO: REMOVE!
+        bool permanent = false;
+    public:
+        /**
+         * Legacy compatibility TODO: Remove
+         * No set un-permanent, because no use case
+         */
+        void set_permanent();
+
 };
 
 void load_effect_type( const JsonObject &jo );

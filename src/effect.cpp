@@ -805,7 +805,11 @@ void effect::set_bp( body_part part )
 
 bool effect::is_permanent() const
 {
-    return eff_type->is_permanent();
+    return permanent || eff_type->is_permanent();
+}
+void effect::set_permanent()
+{
+    permanent = true;
 }
 
 int effect::get_intensity() const
@@ -1360,6 +1364,10 @@ void effect::serialize( JsonOut &json ) const
     json.member( "bp", static_cast<int>( bp ) );
     json.member( "intensity", intensity );
     json.member( "start_turn", start_time );
+    // Legacy
+    if( permanent && !eff_type->is_permanent() ) {
+        json.member( "permanent", true );
+    }
     json.end_object();
 }
 void effect::deserialize( JsonIn &jsin )
@@ -1372,15 +1380,7 @@ void effect::deserialize( JsonIn &jsin )
     intensity = jo.get_int( "intensity" );
     start_time = calendar::turn_zero;
     jo.read( "start_turn", start_time );
-    // Legacy
-    if( jo.has_bool( "permanent" ) ) {
-        const bool was_permanent = jo.get_bool( "permanent" );
-        if( was_permanent != eff_type->is_permanent() && json_report_unused_fields ) {
-            // TODO: to_string( bool )
-            debugmsg( "Effect instance of type %s had \"permanent\": %s, but its type had \"permanent\": %s. Value for type will be used.",
-                      id.str(), was_permanent ? "true" : "false", eff_type->is_permanent() ? "true" : "false" );
-        }
-    }
+    permanent = jo.get_bool( "permanent", false );
     // Removed effects should never be saved
     removed = false;
 }

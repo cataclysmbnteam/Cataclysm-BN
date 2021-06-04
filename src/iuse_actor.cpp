@@ -690,8 +690,23 @@ static effect_data load_effect_data( const JsonObject &e )
     } else {
         time = time_duration::from_turns( e.get_int( "duration", 0 ) );
     }
-    return effect_data( efftype_id( e.get_string( "id" ) ), time,
-                        get_body_part_token( e.get_string( "bp", "NUM_BP" ) ) );
+    if( e.get_bool( "permanent", false ) ) {
+        effect_data ret( efftype_id( e.get_string( "id" ) ), time,
+                         get_body_part_token( e.get_string( "bp", "NUM_BP" ) ) );
+        ret.permanent = true;
+        if( test_mode || json_report_unused_fields ) {
+            try {
+                e.throw_error( "Effect permanence has been moved to effect_type. Set permanence there.",
+                               "permanent" );
+            } catch( const JsonError &ex ) {
+                debugmsg( "\n%s", ex.what() );
+            }
+        }
+        return ret;
+    } else {
+        return effect_data( efftype_id( e.get_string( "id" ) ), time,
+                            get_body_part_token( e.get_string( "bp", "NUM_BP" ) ) );
+    }
 }
 
 void consume_drug_iuse::load( const JsonObject &obj )
@@ -780,6 +795,9 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
             dur *= 1.2;
         }
         p.add_effect( eff.id, dur, eff.bp );
+        if( eff.permanent ) {
+            p.get_effect( eff.id, eff.bp ).set_permanent();
+        }
     }
     for( const auto &stat_adjustment : stat_adjustments ) {
         p.mod_stat( stat_adjustment.first, stat_adjustment.second );
@@ -3714,6 +3732,9 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
 
     for( const auto &eff : effects ) {
         patient.add_effect( eff.id, eff.duration, eff.bp );
+        if( eff.permanent ) {
+            patient.get_effect( eff.id, eff.bp ).set_permanent();
+        }
     }
 
     if( !used_up_item_id.empty() ) {
@@ -4863,6 +4884,9 @@ int change_scent_iuse::use( player &p, item &it, bool, const tripoint & ) const
     // Apply the various effects.
     for( const auto &eff : effects ) {
         p.add_effect( eff.id, eff.duration, eff.bp );
+        if( eff.permanent ) {
+            p.get_effect( eff.id, eff.bp ).set_permanent();
+        }
     }
     return charges_to_use;
 }

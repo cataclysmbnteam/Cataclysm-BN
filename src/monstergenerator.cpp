@@ -644,10 +644,20 @@ void MonsterGenerator::load_monster( const JsonObject &jo, const std::string &sr
 
 mon_effect_data load_mon_effect_data( const JsonObject &e )
 {
+    bool permanent = e.get_bool( "permanent", false );
+    if( permanent && ( test_mode || json_report_unused_fields ) ) {
+        try {
+            e.throw_error( "Effect permanence has been moved to effect_type. Set permanence there.",
+                           "permanent" );
+        } catch( const JsonError &ex ) {
+            debugmsg( "\n%s", ex.what() );
+        }
+    }
     return mon_effect_data( efftype_id( e.get_string( "id" ) ), e.get_int( "duration", 0 ),
                             e.get_bool( "affect_hit_bp", false ),
                             get_body_part_token( e.get_string( "bp", "NUM_BP" ) ),
-                            e.get_int( "chance", 100 ) );
+                            e.get_int( "chance", 100 ),
+                            permanent );
 }
 
 class mon_attack_effect_reader : public generic_typed_reader<mon_attack_effect_reader>

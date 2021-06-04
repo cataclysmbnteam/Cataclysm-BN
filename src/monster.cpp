@@ -1481,6 +1481,9 @@ void monster::melee_attack( Creature &target, float accuracy )
         if( x_in_y( eff.chance, 100 ) ) {
             const body_part affected_bp = eff.affect_hit_bp ? bp_hit : eff.bp;
             target.add_effect( eff.id, time_duration::from_turns( eff.duration ), affected_bp );
+            if( eff.permanent ) {
+                target.get_effect( eff.id, affected_bp ).set_permanent();
+            }
         }
     }
 
