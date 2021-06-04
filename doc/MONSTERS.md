@@ -420,10 +420,6 @@ Whether the effect should be applied to the hit body part instead of the one set
 
 The body part that where the effect is applied. The default is to apply the effect to the whole body. Note that some effects may require a specific body part (e.g. "hot") and others may require the whole body (e.g. "meth").
 
-### "permanent"
-(boolean, optional)
-
-Whether the effect is permanent, in which case the "duration" will be ignored. The default is non-permanent.
 
 ### "chance"
 (integer, optional)

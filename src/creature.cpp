@@ -673,7 +673,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         if( z ) {
             const item &drop_item = proj.get_drop();
             if( !drop_item.is_null() ) {
-                z->add_effect( effect_tied, 1_turns, num_bp, true );
+                z->add_effect( effect_tied, 1_turns, num_bp );
                 z->tied_item = cata::make_value<item>( drop_item );
             } else {
                 add_msg( m_debug, "projectile with TANGLE effect, but no drop item specified" );
@@ -895,12 +895,12 @@ void Creature::set_fake( const bool fake_value )
 
 void Creature::add_effect( const effect &eff, bool force, bool deferred )
 {
-    add_effect( eff.get_id(), eff.get_duration(), eff.get_bp(), eff.is_permanent(), eff.get_intensity(),
+    add_effect( eff.get_id(), eff.get_duration(), eff.get_bp(), eff.get_intensity(),
                 force, deferred );
 }
 
 void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp,
-                           bool permanent, int intensity, bool force, bool deferred )
+                           int intensity, bool force, bool deferred )
 {
     // Check our innate immunity
     if( !force && is_immune_effect( eff_id ) ) {
@@ -940,10 +940,6 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, b
             // Limit to max duration
             if( e.get_max_duration() > 0_turns && e.get_duration() > e.get_max_duration() ) {
                 e.set_duration( e.get_max_duration() );
-            }
-            // Adding a permanent effect makes it permanent
-            if( e.is_permanent() ) {
-                e.pause_effect();
             }
             // int_dur_factor overrides all other intensity settings
             // ...but it's handled in set_duration, so explicitly do nothing here
@@ -985,7 +981,7 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, b
         }
 
         // Now we can make the new effect for application
-        effect e( &type, dur, bp, permanent, intensity, calendar::turn );
+        effect e( &type, dur, bp, intensity, calendar::turn );
         // Bound to max duration
         if( e.get_max_duration() > 0_turns && e.get_duration() > e.get_max_duration() ) {
             e.set_duration( e.get_max_duration() );
@@ -1019,7 +1015,7 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, b
     }
 }
 bool Creature::add_env_effect( const efftype_id &eff_id, body_part vector, int strength,
-                               const time_duration &dur, body_part bp, bool permanent, int intensity, bool force )
+                               const time_duration &dur, body_part bp, int intensity, bool force )
 {
     if( !force && is_immune_effect( eff_id ) ) {
         return false;
@@ -1028,7 +1024,7 @@ bool Creature::add_env_effect( const efftype_id &eff_id, body_part vector, int s
     if( dice( strength, 3 ) > dice( get_env_resist( convert_bp( vector ).id() ), 3 ) ) {
         // Only add the effect if we fail the resist roll
         // Don't check immunity (force == true), because we did check above
-        add_effect( eff_id, dur, bp, permanent, intensity, true );
+        add_effect( eff_id, dur, bp, intensity, true );
         return true;
     } else {
         return false;

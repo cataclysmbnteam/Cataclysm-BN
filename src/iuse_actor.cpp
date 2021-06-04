@@ -690,8 +690,23 @@ static effect_data load_effect_data( const JsonObject &e )
     } else {
         time = time_duration::from_turns( e.get_int( "duration", 0 ) );
     }
-    return effect_data( efftype_id( e.get_string( "id" ) ), time,
-                        get_body_part_token( e.get_string( "bp", "NUM_BP" ) ), e.get_bool( "permanent", false ) );
+    if( e.get_bool( "permanent", false ) ) {
+        effect_data ret( efftype_id( e.get_string( "id" ) ), time,
+                         get_body_part_token( e.get_string( "bp", "NUM_BP" ) ) );
+        ret.permanent = true;
+        if( test_mode || json_report_unused_fields ) {
+            try {
+                e.throw_error( "Effect permanence has been moved to effect_type. Set permanence there.",
+                               "permanent" );
+            } catch( const JsonError &ex ) {
+                debugmsg( "\n%s", ex.what() );
+            }
+        }
+        return ret;
+    } else {
+        return effect_data( efftype_id( e.get_string( "id" ) ), time,
+                            get_body_part_token( e.get_string( "bp", "NUM_BP" ) ) );
+    }
 }
 
 void consume_drug_iuse::load( const JsonObject &obj )
@@ -779,7 +794,10 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
         } else if( p.has_trait( trait_LIGHTWEIGHT ) ) {
             dur *= 1.2;
         }
-        p.add_effect( eff.id, dur, eff.bp, eff.permanent );
+        p.add_effect( eff.id, dur, eff.bp );
+        if( eff.permanent ) {
+            p.get_effect( eff.id, eff.bp ).set_permanent();
+        }
     }
     for( const auto &stat_adjustment : stat_adjustments ) {
         p.mod_stat( stat_adjustment.first, stat_adjustment.second );
@@ -935,7 +953,7 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
         }
         newmon.friendly = -1;
         if( is_pet ) {
-            newmon.add_effect( effect_pet, 1_turns, num_bp, true );
+            newmon.add_effect( effect_pet, 1_turns, num_bp );
         }
     }
     // TODO: add a flag instead of monster id or something?
@@ -1824,7 +1842,7 @@ bool cauterize_actor::cauterize_effect( player &p, item &it, bool force )
         }
         const body_part bp = player::hp_to_bp( hpart );
         if( p.has_effect( effect_bite, bp ) ) {
-            p.add_effect( effect_bite, 260_minutes, bp, true );
+            p.add_effect( effect_bite, 260_minutes, bp );
         }
 
         p.moves = 0;
@@ -2293,7 +2311,7 @@ int musical_instrument_actor::use( player &p, item &it, bool t, const tripoint &
 
     if( p.get_effect_int( effect_playing_instrument ) <= speed_penalty ) {
         // Only re-apply the effect if it wouldn't lower the intensity
-        p.add_effect( effect_playing_instrument, 2_turns, num_bp, false, speed_penalty );
+        p.add_effect( effect_playing_instrument, 2_turns, num_bp, speed_penalty );
     }
 
     std::string desc = "music";
@@ -3713,7 +3731,10 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
     }
 
     for( const auto &eff : effects ) {
-        patient.add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
+        patient.add_effect( eff.id, eff.duration, eff.bp );
+        if( eff.permanent ) {
+            patient.get_effect( eff.id, eff.bp ).set_permanent();
+        }
     }
 
     if( !used_up_item_id.empty() ) {
@@ -4356,7 +4377,7 @@ int mutagen_actor::use( player &p, item &it, bool, const tripoint & ) const
 
     if( balanced && no_category ) {
         for( int i = ( is_strong ? 1 : 0 ) + ( is_weak ? 0 : 1 ); i > 0; i-- ) {
-            p.add_effect( effect_accumulated_mutagen, 2_days, num_bp, true );
+            p.add_effect( effect_accumulated_mutagen, 2_days, num_bp );
         }
     }
     const mutation_category_trait &m_category = mutation_category_trait::get_category(
@@ -4373,7 +4394,7 @@ int mutagen_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_msg_player_or_npc( m_bad,
                                  _( "You suddenly feel dizzy, and collapse to the ground." ),
                                  _( "<npcname> suddenly collapses to the ground!" ) );
-        p.add_effect( effect_downed, 1_turns, num_bp, false, 0, true );
+        p.add_effect( effect_downed, 20_turns, num_bp, 0 );
     }
 
     int mut_count = 1 + ( is_strong ? one_in( 3 ) : 0 );
@@ -4855,14 +4876,17 @@ int change_scent_iuse::use( player &p, item &it, bool, const tripoint & ) const
     if( waterproof ) {
         p.set_value( "waterproof_scent", "true" );
     }
-    p.add_effect( efftype_id( "masked_scent" ), duration, num_bp, false, scent_mod );
+    p.add_effect( efftype_id( "masked_scent" ), duration, num_bp, scent_mod );
     p.set_type_of_scent( scenttypeid );
     p.mod_moves( -moves );
     add_msg( m_info, _( "You use the %s to mask your scent" ), it.tname() );
 
     // Apply the various effects.
     for( const auto &eff : effects ) {
-        p.add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
+        p.add_effect( eff.id, eff.duration, eff.bp );
+        if( eff.permanent ) {
+            p.get_effect( eff.id, eff.bp ).set_permanent();
+        }
     }
     return charges_to_use;
 }

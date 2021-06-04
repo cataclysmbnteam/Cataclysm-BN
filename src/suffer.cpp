@@ -296,9 +296,9 @@ void Character::suffer_while_awake( const int current_stim )
     if( !has_trait( trait_DEBUG_STORAGE ) &&
         ( weight_carried() > 4 * weight_capacity() ) ) {
         if( has_effect( effect_downed ) ) {
-            add_effect( effect_downed, 1_turns, num_bp, false, 0, true );
+            add_effect( effect_downed, 1_turns, num_bp, 0 );
         } else {
-            add_effect( effect_downed, 2_turns, num_bp, false, 0, true );
+            add_effect( effect_downed, 2_turns, num_bp, 0 );
         }
     }
     if( has_trait( trait_CHEMIMBALANCE ) ) {
@@ -1218,7 +1218,7 @@ void Character::suffer_from_bad_bionics()
                            _( "Your malfunctioning bionic causes you to spasm and fall to the floor!" ) );
         mod_pain( 1 );
         add_effect( effect_stunned, 1_turns );
-        add_effect( effect_downed, 1_turns, num_bp, false, 0, true );
+        add_effect( effect_downed, 10_turns, num_bp, 0 );
         sfx::play_variant_sound( "bionics", "elec_crackle_high", 100 );
     }
     if( has_bionic( bio_shakes ) && get_power_level() > 24_kJ && one_turn_in( 2_hours ) ) {
@@ -1407,7 +1407,7 @@ void Character::suffer()
     // TODO: Remove this section and encapsulate hp_cur
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         if( elem.second.get_hp_cur() <= 0 ) {
-            add_effect( effect_disabled, 1_turns, elem.first->token, true );
+            add_effect( effect_disabled, 1_turns, elem.first->token );
         }
     }
 
@@ -1462,7 +1462,7 @@ void Character::suffer()
     enchantment_cache->activate_passive( *this );
 
     if( calendar::once_every( 1_hours ) ) {
-        add_effect( effect_accumulated_mutagen, 1_hours, num_bp, true );
+        add_effect( effect_accumulated_mutagen, 1_hours, num_bp );
     }
 }
 
@@ -1623,7 +1623,7 @@ void Character::mend( int rate_multiplier )
         const time_duration dur_inc = 1_turns * roll_remainder( rate_multiplier * healing_factor );
         auto &eff = get_effect( effect_mending, bp->token );
         if( eff.is_null() ) {
-            add_effect( effect_mending, dur_inc, bp->token, true );
+            add_effect( effect_mending, dur_inc, bp->token );
             continue;
         }
 

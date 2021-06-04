@@ -6,6 +6,7 @@
     "desc": [ "You can't move until you get free!" ],
     "apply_message": "You are snared!",
     "rating": "bad",
+    "permanent": true,
     "show_in_info": true
   },
   {
@@ -15,6 +16,7 @@
     "desc": [ "You can't move until you get free!" ],
     "apply_message": "You are snared!",
     "rating": "bad",
+    "permanent": true,
     "show_in_info": true
   }
 ]

@@ -58,19 +58,15 @@
     "responses": [
       {
         "text": "How did you get out of there?",
-        "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT" },
+        "effect": { "npc_add_effect": "player_BGSS_SAIDYES" },
         "topic": "BGSS_HOSPITAL_2_STORY3"
       },
       {
         "text": "<done_conversation_section>",
-        "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT" },
+        "effect": { "npc_add_effect": "player_BGSS_SAIDYES" },
         "topic": "TALK_FRIEND"
       },
-      {
-        "text": "<end_talking>",
-        "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT" },
-        "topic": "TALK_DONE"
-      }
+      { "text": "<end_talking>", "effect": { "npc_add_effect": "player_BGSS_SAIDYES" }, "topic": "TALK_DONE" }
     ]
   },
   {

@@ -164,9 +164,9 @@ struct mutation_branch {
         float movecost_swim_modifier = 1.0f;
         float noise_modifier = 1.0f;
         float scent_modifier = 1.0f;
+        float bleed_resist = 0;
         cata::optional<int> scent_intensity;
         cata::optional<int> scent_mask;
-        int bleed_resist = 0;
 
         int butchering_quality = 0;
 

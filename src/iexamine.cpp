@@ -4685,7 +4685,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     cata::optional<std::list<item>::iterator> worn_item =
                         patient.wear( equipped_splint, false );
                 }
-                patient.add_effect( effect_mending, 0_turns, part->token, true );
+                patient.add_effect( effect_mending, 0_turns, part->token );
                 effect &mending_effect = patient.get_effect( effect_mending, part->token );
                 mending_effect.set_duration( mending_effect.get_max_duration() - 5_days );
             }

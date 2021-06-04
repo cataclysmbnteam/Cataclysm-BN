@@ -31,6 +31,8 @@
 
 class item;
 
+static const efftype_id effect_bleed( "bleed" );
+
 namespace
 {
 generic_factory<start_location> all_start_locations( "start locations" );
@@ -411,7 +413,7 @@ void start_location::handle_heli_crash( player &u ) const
             // Damage + Bleed
             case 1:
             case 2:
-                u.make_bleed( bp, 6_minutes );
+                u.add_effect( effect_bleed, 6_minutes, bp->token );
             /* fallthrough */
             case 3:
             case 4:

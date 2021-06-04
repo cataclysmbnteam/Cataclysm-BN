@@ -1435,7 +1435,7 @@ completed when you wake up for the first time after 24 hours into the game.
 "healing_awake": 1.0, // Healing rate per turn while awake.
 "healing_resting": 0.5, // Healing rate per turn while resting.
 "mending_modifier": 1.2 // Multiplier on how fast your limbs mend - This value would make your limbs mend 20% faster
-"stamina_regen_modifier": 0.5 // Extra stamina regeneration rate multiplier. 1.0 doubles regen, -0.5 halves. 
+"stamina_regen_modifier": 0.5 // Extra stamina regeneration rate multiplier. 1.0 doubles regen, -0.5 halves.
 "max_stamina_modifier": 1.5 // Multiplier on maximum stamina.  Stamina regeneration is proportionally modified by the same rate, so this includes stamina_regen_modifier implicitly. See Character::update_stamina in Character.cpp.
 "transform": { "target": "BIOLUM1", // Trait_id of the mutation this one will transfomr into
                "msg_transform": "You turn your photophore OFF.", // message displayed upon transformation
@@ -2244,7 +2244,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "charges_to_use": 2, // Charges consumed when the item is used.  (Default: 1)
     "scent_mod": 150, // Modifier added to the scent intensity.  (Default: 0)
     "duration": "6 m", // How long does the effect last.
-    "effects": [ { "id": "fetid_goop", "duration": 360, "bp": "TORSO", "permanent": true } ], // List of effects with their id, duration, bodyparts, and permanent bool
+    "effects": [ { "id": "fetid_goop", "duration": 360, "bp": "TORSO" } ], // List of effects with their id, duration, and bodyparts
     "waterproof": true, // Is the effect waterproof.  (Default: false)
     "moves": 500 // Number of moves required in the process.
 },

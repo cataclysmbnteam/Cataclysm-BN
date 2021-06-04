@@ -69,7 +69,6 @@
     "type": "vitamin",
     "vit_type": "counter",
     "name": { "str": "Disgusting Diet" },
-    "excess": "bad_food_ennui",
     "min": 0,
     "max": 40,
     "rate": "4 h",

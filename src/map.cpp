@@ -3452,7 +3452,7 @@ void map::crush( const tripoint &p )
                                          dam * .05 ) );
 
             // Pin whoever got hit
-            crushed_player->add_effect( effect_crushed, 1_turns, num_bp, true );
+            crushed_player->add_effect( effect_crushed, 1_turns, num_bp );
             crushed_player->check_dead_state();
         }
     }
@@ -3462,7 +3462,7 @@ void map::crush( const tripoint &p )
         monhit->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( DT_BASH, rng( 0, 25 ) ) );
 
         // Pin whoever got hit
-        monhit->add_effect( effect_crushed, 1_turns, num_bp, true );
+        monhit->add_effect( effect_crushed, 1_turns, num_bp );
         monhit->check_dead_state();
     }
 
