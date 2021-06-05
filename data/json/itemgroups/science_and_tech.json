@@ -125,7 +125,8 @@
       [ "chem_muriatic_acid", 2 ],
       [ "chem_hexamine", 2 ],
       [ "denat_alcohol", 1 ],
-      [ "remotevehcontrol", 5 ]
+      [ "remotevehcontrol", 5 ],
+      [ "bionic_scanner", 5 ]
     ]
   },
   {
@@ -422,7 +423,8 @@
       [ "bfipowder", 15 ],
       [ "quikclot", 10 ],
       [ "anesthetic", 20 ],
-      [ "anesthetic_kit", 10 ]
+      [ "anesthetic_kit", 10 ],
+      [ "bionic_scanner", 5 ]
     ]
   },
   {
@@ -465,7 +467,8 @@
       [ "rack_test_tube", 5 ],
       [ "flask_glass", 10 ],
       [ "beaker", 10 ],
-      [ "test_tube", 10 ]
+      [ "test_tube", 10 ],
+      [ "bionic_scanner", 5 ]
     ]
   }
 ]

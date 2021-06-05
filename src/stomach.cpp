@@ -9,11 +9,6 @@
 #include "stomach.h"
 #include "vitamin.h"
 
-static const trait_id trait_GIZZARD( "GIZZARD" );
-static const trait_id trait_GOURMAND( "GOURMAND" );
-static const trait_id trait_HIBERNATE( "HIBERNATE" );
-static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
-
 void nutrients::min_in_place( const nutrients &r )
 {
     kcal = std::min( kcal, r.kcal );

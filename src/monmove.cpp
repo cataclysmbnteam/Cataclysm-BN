@@ -464,9 +464,9 @@ void monster::plan()
     const auto actual_faction = friendly == 0 ? faction : mfaction_str_id( "player" );
     const auto &myfaction_iter = factions.find( actual_faction );
     if( myfaction_iter == factions.end() ) {
-        DebugLog( D_ERROR, D_GAME ) << disp_name() << " tried to find faction "
-                                    << actual_faction.id().str()
-                                    << " which wasn't loaded in game::monmove";
+        DebugLog( DL::Error, DC::Game ) << disp_name() << " tried to find faction "
+                                        << actual_faction.id().str()
+                                        << " which wasn't loaded in game::monmove";
         swarms = false;
         group_morale = false;
     }
@@ -1580,13 +1580,13 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     }
 
     if( g->m.has_flag( "UNSTABLE", destination ) && on_ground ) {
-        add_effect( effect_bouldering, 1_turns, num_bp, true );
+        add_effect( effect_bouldering, 1_turns, num_bp );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
     }
 
     if( g->m.has_flag_ter_or_furn( TFLAG_NO_SIGHT, destination ) && on_ground ) {
-        add_effect( effect_no_sight, 1_turns, num_bp, true );
+        add_effect( effect_no_sight, 1_turns, num_bp );
     } else if( has_effect( effect_no_sight ) ) {
         remove_effect( effect_no_sight );
     }

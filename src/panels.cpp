@@ -57,7 +57,6 @@
 #include "vpart_position.h"
 #include "weather.h"
 
-static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );

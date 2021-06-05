@@ -25,8 +25,6 @@
 #include "translations.h"
 #include "ui_manager.h"
 
-#define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
-
 static std::string find_quad_path( const std::string &dirname, const tripoint &om_addr )
 {
     return string_format( "%s/%d.%d.%d.map", dirname, om_addr.x, om_addr.y, om_addr.z );
@@ -80,7 +78,7 @@ void mapbuffer::remove_submap( tripoint addr )
 {
     auto m_target = submaps.find( addr );
     if( m_target == submaps.end() ) {
-        debugmsg( "Tried to remove non-existing submap %d,%d,%d", addr.x, addr.y, addr.z );
+        debugmsg( "Tried to remove non-existing submap %s", addr.to_string() );
         return;
     }
     delete m_target->second;
@@ -89,14 +87,12 @@ void mapbuffer::remove_submap( tripoint addr )
 
 submap *mapbuffer::lookup_submap( const tripoint &p )
 {
-    dbg( D_INFO ) << "mapbuffer::lookup_submap( x[" << p.x << "], y[" << p.y << "], z[" << p.z << "])";
-
     const auto iter = submaps.find( p );
     if( iter == submaps.end() ) {
         try {
             return unserialize_submaps( p );
         } catch( const std::exception &err ) {
-            debugmsg( "Failed to load submap (%d,%d,%d): %s", p.x, p.y, p.z, err.what() );
+            debugmsg( "Failed to load submap %s: %s", p.to_string(), err.what() );
         }
         return nullptr;
     }

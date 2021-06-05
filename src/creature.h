@@ -336,12 +336,18 @@ class Creature
         /** Adds or modifies an effect. If intensity is given it will set the effect intensity
             to the given value, or as close as max_intensity values permit. */
         virtual void add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp = num_bp,
-                                 bool permanent = false, int intensity = 0, bool force = false, bool deferred = false );
+                                 int intensity = 0, bool force = false, bool deferred = false );
         /** Gives chance to save via environmental resist, returns false if resistance was successful. */
         bool add_env_effect( const efftype_id &eff_id, body_part vector, int strength,
                              const time_duration &dur,
-                             body_part bp = num_bp, bool permanent = false, int intensity = 1,
+                             body_part bp = num_bp, int intensity = 1,
                              bool force = false );
+
+        // Deleted variant of add_env_effect, to make sure calls to it don't get re-introduced during porting
+        bool add_env_effect( const efftype_id &eff_id, body_part vector, int strength,
+                             const time_duration &dur,
+                             body_part bp, bool REMOVED, int intensity = 1,
+                             bool force = false ) = delete;
         /** Removes a listed effect. bp = num_bp means to remove all effects of
          * a given type, targeted or untargeted. Returns true if anything was
          * removed. */
@@ -796,6 +802,7 @@ class Creature
         body_part select_body_part( Creature *source, int hit_roll ) const;
 
         static void load_hit_range( const JsonObject & );
+        static void reset_hit_range();
         // Empirically determined by "synthetic_range_test" in tests/ranged_balance.cpp.
         static std::vector <int> dispersion_for_even_chance_of_good_hit;
         /**

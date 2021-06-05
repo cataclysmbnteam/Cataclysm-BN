@@ -7,7 +7,7 @@
       {
         "text": "How did you survive after that?",
         "condition": { "not": { "days_since_cataclysm": 90 } },
-        "effect": { "npc_add_effect": "BGSS_EVACUEE_3_earlymeeting", "duration": "PERMANENT" },
+        "effect": { "npc_add_effect": "BGSS_EVACUEE_3_earlymeeting" },
         "//": "If you talk to this NPC any time before day 90, the game flags him as an NPC you met 'early' and never gives you the 'late' convo options",
         "topic": "BGSS_EVACUEE_3_STORY2"
       },
@@ -23,7 +23,8 @@
   {
     "type": "effect_type",
     "id": "BGSS_EVACUEE_3_earlymeeting",
-    "//": "Defined here because this should be the only time this effect is referenced."
+    "//": "Defined here because this should be the only time this effect is referenced.",
+    "permanent": true
   },
   {
     "id": "BGSS_EVACUEE_3_STORY2",

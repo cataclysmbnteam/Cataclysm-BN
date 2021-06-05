@@ -170,10 +170,10 @@ distribution_grid &distribution_grid_tracker::make_distribution_grid_at( const t
                 sm_pos ) );
     std::vector<tripoint> submap_positions;
     for( const tripoint &omp : overmap_positions ) {
-        submap_positions.emplace_back( omt_to_sm_copy( omp ) + point( 0, 0 ) );
-        submap_positions.emplace_back( omt_to_sm_copy( omp ) + point( 1, 0 ) );
-        submap_positions.emplace_back( omt_to_sm_copy( omp ) + point( 0, 1 ) );
-        submap_positions.emplace_back( omt_to_sm_copy( omp ) + point( 1, 1 ) );
+        submap_positions.emplace_back( omt_to_sm_copy( omp ) + point_zero );
+        submap_positions.emplace_back( omt_to_sm_copy( omp ) + point_east );
+        submap_positions.emplace_back( omt_to_sm_copy( omp ) + point_south );
+        submap_positions.emplace_back( omt_to_sm_copy( omp ) + point_south_east );
     }
     shared_ptr_fast<distribution_grid> dist_grid = make_shared_fast<distribution_grid>
             ( submap_positions, mb );

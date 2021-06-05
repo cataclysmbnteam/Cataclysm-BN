@@ -14,8 +14,6 @@
 #include "pldata.h"
 #include "type_id.h"
 
-static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
-
 side opposite_side( side s )
 {
     switch( s ) {
@@ -186,7 +184,7 @@ const bodypart_str_id &convert_bp( body_part bp )
         bodypart_str_id( "leg_r" ),
         bodypart_str_id( "foot_l" ),
         bodypart_str_id( "foot_r" ),
-        bodypart_str_id( "num_bp" ),
+        bodypart_str_id::NULL_ID()
     };
     if( bp > num_bp || bp < bp_torso ) {
         debugmsg( "Invalid body part token %d", bp );

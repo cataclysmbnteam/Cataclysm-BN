@@ -403,7 +403,7 @@ static void add_effect_to_target( const tripoint &target, const spell &sp )
     if( guy ) {
         for( const body_part bp : all_body_parts ) {
             if( sp.bp_is_affected( bp ) ) {
-                guy->add_effect( spell_effect, dur_td, bp, sp.has_flag( spell_flag::PERMANENT ) );
+                guy->add_effect( spell_effect, dur_td, bp );
                 bodypart_effected = true;
             }
         }

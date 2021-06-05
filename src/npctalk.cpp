@@ -114,8 +114,6 @@ static std::map<std::string, json_talk_topic> json_talk_topics;
 // Every OWED_VAL that the NPC owes you counts as +1 towards convincing
 #define OWED_VAL 1000
 
-#define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-
 int topic_category( const talk_topic &the_topic );
 
 const talk_topic &special_talk( char ch );
@@ -1408,7 +1406,7 @@ int talk_trial::calc_chance( const dialogue &d ) const
     int chance = difficulty;
     switch( type ) {
         case NUM_TALK_TRIALS:
-            dbg( D_ERROR ) << "called calc_chance with invalid talk_trial value: " << type;
+            debugmsg( "Called calc_chance with invalid talk_trial value %d", type );
             break;
         case TALK_TRIAL_LIE:
             chance += u.talk_skill() - p.talk_skill() + p.op_of_u.trust * 3;
@@ -1916,28 +1914,42 @@ void talk_effect_fun_t::set_companion_mission( const std::string &role_id )
     };
 }
 
+// TODO: Remove after effect permanence change
+#include "effect.h"
 void talk_effect_fun_t::set_add_effect( const JsonObject &jo, const std::string &member,
                                         bool is_npc )
 {
-    std::string new_effect = jo.get_string( member );
+    efftype_id new_effect( jo.get_string( member ) );
+    time_duration duration = 1_turns;
     bool permanent = false;
-    time_duration duration = 1000_turns;
     if( jo.has_string( "duration" ) ) {
         const std::string dur_string = jo.get_string( "duration" );
         if( dur_string == "PERMANENT" ) {
             permanent = true;
+            if( test_mode || json_report_unused_fields ) {
+                // This is immensely ugly, we need json.just_warn_with_context
+                try {
+                    jo.throw_error( "Effect permanence has been moved to effect_type. Set permanence there.",
+                                    "duration" );
+                } catch( const JsonError &e ) {
+                    debugmsg( "\n%s", e.what() );
+                }
+            }
         } else if( !dur_string.empty() && std::stoi( dur_string ) > 0 ) {
             duration = time_duration::from_turns( std::stoi( dur_string ) );
         }
     } else {
-        duration = time_duration::from_turns( jo.get_int( "duration" ) );
+        duration = time_duration::from_turns( jo.get_int( "duration", 1 ) );
     }
     function = [is_npc, new_effect, duration, permanent]( const dialogue & d ) {
         player *actor = d.alpha;
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
         }
-        actor->add_effect( efftype_id( new_effect ), duration, num_bp, permanent );
+        actor->add_effect( new_effect, duration, num_bp );
+        if( permanent ) {
+            actor->get_effect( new_effect, num_bp ).set_permanent();
+        }
     };
 }
 
@@ -2383,10 +2395,10 @@ void talk_effect_fun_t::set_u_buy_monster( const std::string &monster_type_id, i
             monster &tmp = *mon_ptr;
             // Our monster is always a pet.
             tmp.friendly = -1;
-            tmp.add_effect( effect_pet, 1_turns, num_bp, true );
+            tmp.add_effect( effect_pet, 1_turns, num_bp );
 
             if( pacified ) {
-                tmp.add_effect( effect_pacified, 1_turns, num_bp, true );
+                tmp.add_effect( effect_pacified, 1_turns, num_bp );
             }
 
             if( !name.empty() ) {

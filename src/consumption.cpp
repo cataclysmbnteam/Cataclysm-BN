@@ -98,12 +98,10 @@ static const trait_id trait_SABER_TEETH( "SABER_TEETH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
-static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_SHARKTEETH( "SHARKTEETH" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STIMBOOST( "STIMBOOST" );
-static const trait_id trait_TABLEMANNERS( "TABLEMANNERS" );
 static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
 static const trait_id trait_THRESH_CATTLE( "THRESH_CATTLE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
@@ -113,7 +111,6 @@ static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
-static const std::string flag_EATEN_COLD( "EATEN_COLD" );
 static const std::string flag_HIDDEN_HALLU( "HIDDEN_HALLU" );
 static const std::string flag_ALLERGEN_EGG( "ALLERGEN_EGG" );
 static const std::string flag_ALLERGEN_FRUIT( "ALLERGEN_FRUIT" );
@@ -966,7 +963,7 @@ bool player::eat( item &food, bool force )
     }
 
     if( food.has_flag( flag_FUNGAL_VECTOR ) && !has_trait( trait_M_IMMUNE ) ) {
-        add_effect( effect_fungus, 1_turns, num_bp, true );
+        add_effect( effect_fungus, 1_turns, num_bp );
     }
 
     // Chance to become parasitised
@@ -975,18 +972,18 @@ bool player::eat( item &food, bool force )
             one_in( food.get_comestible()->parasites ) ) {
             switch( rng( 0, 3 ) ) {
                 case 0:
-                    add_effect( effect_tapeworm, 1_turns, num_bp, true );
+                    add_effect( effect_tapeworm, 1_turns, num_bp );
                     break;
                 case 1:
                     if( !has_trait( trait_ACIDBLOOD ) ) {
-                        add_effect( effect_bloodworms, 1_turns, num_bp, true );
+                        add_effect( effect_bloodworms, 1_turns, num_bp );
                     }
                     break;
                 case 2:
-                    add_effect( effect_brainworms, 1_turns, num_bp, true );
+                    add_effect( effect_brainworms, 1_turns, num_bp );
                     break;
                 case 3:
-                    add_effect( effect_paincysts, 1_turns, num_bp, true );
+                    add_effect( effect_paincysts, 1_turns, num_bp );
             }
         }
     }

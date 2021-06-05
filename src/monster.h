@@ -339,7 +339,6 @@ class monster : public Creature
         bool move_effects( bool attacking ) override;
         /** Performs any monster-specific modifications to the arguments before passing to Creature::add_effect(). */
         void add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp = num_bp,
-                         bool permanent = false,
                          int intensity = 0, bool force = false, bool deferred = false ) override;
         /** Returns a std::string containing effects for descriptions */
         std::string get_effect_status() const;
@@ -443,6 +442,7 @@ class monster : public Creature
         tripoint wander_pos; // Wander destination - Just try to move in that direction
         int wandf;           // Urge to wander - Increased by sound, decrements each move
         std::vector<item> inv; // Inventory
+        std::vector<item> corpse_components; // Hack to make bionic corpses generate CBMs on death
         Character *mounted_player = nullptr; // player that is mounting this creature
         character_id mounted_player_id; // id of player that is mounting this creature ( for save/load )
         character_id dragged_foe_id; // id of character being dragged by the monster

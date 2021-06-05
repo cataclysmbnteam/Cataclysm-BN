@@ -4,7 +4,7 @@
 #include "platform_win.h"
 #include "string_utils.h"
 
-#define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLogFL((x),DC::SDL)
 
 // bitmap font size test
 // return face index that has this size or below
@@ -56,7 +56,7 @@ std::unique_ptr<Font> Font::load_font( SDL_Renderer_Ptr &renderer, SDL_PixelForm
                                                   palette,
                                                   PATH_INFO::fontdir() + typeface ) );
                 } catch( std::exception &err ) {
-                    dbg( D_ERROR ) << "Failed to load font " << typeface << ": " << err.what();
+                    dbg( DL::Error ) << "Failed to load font " << typeface << ": " << err.what();
                     // Continue to load as truetype font
                 }
             }
@@ -67,7 +67,7 @@ std::unique_ptr<Font> Font::load_font( SDL_Renderer_Ptr &renderer, SDL_PixelForm
         return std::unique_ptr<Font>( std::make_unique<CachedTTFFont>( width, height,
                                       palette, typeface, fontsize, fontblending ) );
     } catch( std::exception &err ) {
-        dbg( D_ERROR ) << "Failed to load font " << typeface << ": " << err.what();
+        dbg( DL::Error ) << "Failed to load font " << typeface << ": " << err.what();
     }
     return nullptr;
 }
@@ -247,10 +247,10 @@ CachedTTFFont::CachedTTFFont(
 
     for( const std::string &tf : typefaces ) {
         if( !file_exist( tf ) ) {
-            DebugLog( D_WARNING, DC_ALL ) << "Truetype font not found at " << tf;
+            dbg( DL::Warn ) << "Truetype font not found at " << tf;
             continue;
         }
-        DebugLog( D_INFO, DC_ALL ) << "Loading truetype font " << tf;
+        dbg( DL::Info ) << "Loading truetype font " << tf;
         typeface = tf;
         break;
     }
@@ -276,7 +276,7 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( SDL_Renderer_Ptr &renderer, const s
     const auto function = fontblending ? TTF_RenderUTF8_Blended : TTF_RenderUTF8_Solid;
     SDL_Surface_Ptr sglyph( function( font.get(), ch.c_str(), windowsPalette[color] ) );
     if( !sglyph ) {
-        dbg( D_ERROR ) << "Failed to create glyph for " << ch << ": " << TTF_GetError();
+        dbg( DL::Error ) << "Failed to create glyph for " << ch << ": " << TTF_GetError();
         return nullptr;
     }
     /* SDL interprets each pixel as a 32-bit number, so our masks must depend
@@ -365,7 +365,7 @@ BitmapFont::BitmapFont(
     const std::string &typeface_path )
     : Font( w, h, palette )
 {
-    dbg( D_INFO ) << "Loading bitmap font [" + typeface_path + "].";
+    dbg( DL::Info ) << "Loading bitmap font [" + typeface_path + "].";
     SDL_Surface_Ptr asciiload = load_image( typeface_path.c_str() );
     assert( asciiload );
     if( asciiload->w * asciiload->h < ( width * height * 256 ) ) {

@@ -104,7 +104,6 @@ static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
-static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_STIMBOOST( "STIMBOOST" );
 static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
 static const trait_id trait_WEBBED( "WEBBED" );
@@ -1177,7 +1176,7 @@ void avatar::reset_stats()
         }
 
         if( eff.is_null() && dur > 0_turns ) {
-            add_effect( type, dur, num_bp, true );
+            add_effect( type, dur, num_bp );
         } else if( dur > 0_turns ) {
             eff.set_duration( dur );
         } else {

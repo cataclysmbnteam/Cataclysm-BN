@@ -20,6 +20,7 @@
 #include "behavior.h"
 #include "bionics.h"
 #include "bodypart.h"
+#include "cata_utility.h"
 #include "clothing_mod.h"
 #include "clzones.h"
 #include "construction.h"
@@ -47,6 +48,7 @@
 #include "json.h"
 #include "language.h"
 #include "loading_ui.h"
+#include "lru_cache.h"
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "magic_ter_furn_transform.h"
@@ -56,7 +58,6 @@
 #include "martialarts.h"
 #include "material.h"
 #include "mission.h"
-#include "mod_tileset.h"
 #include "monfaction.h"
 #include "mongroup.h"
 #include "monstergenerator.h"
@@ -93,6 +94,10 @@
 #include "vitamin.h"
 #include "worldfactory.h"
 
+#if defined(TILES)
+#  include "mod_tileset.h"
+#endif
+
 DynamicDataLoader::DynamicDataLoader()
 {
     initialize();
@@ -118,30 +123,62 @@ void DynamicDataLoader::load_object( const JsonObject &jo, const std::string &sr
     it->second( jo, src, base_path, full_path );
 }
 
+struct DynamicDataLoader::cached_streams {
+    lru_cache<std::string, shared_ptr_fast<std::istringstream>> cache;
+};
+
+shared_ptr_fast<std::istream> DynamicDataLoader::get_cached_stream( const std::string &path )
+{
+    assert( !finalized && "Cannot open data file after finalization." );
+    assert( stream_cache && "Stream cache is only available during finalization" );
+    shared_ptr_fast<std::istringstream> cached = stream_cache->cache.get( path, nullptr );
+    // Create a new stream if the file is not opened yet, or if some code is still
+    // using the previous stream (in such case, `cached` and `stream_cache` have
+    // two references to the stream, hence the test for > 2).
+    if( !cached ) {
+        cached = make_shared_fast<std::istringstream>( read_entire_file( path ) );
+    } else if( cached.use_count() > 2 ) {
+        cached = make_shared_fast<std::istringstream>( cached->str() );
+    }
+    stream_cache->cache.insert( 8, path, cached );
+    return cached;
+}
+
 void DynamicDataLoader::load_deferred( deferred_json &data )
 {
     while( !data.empty() ) {
         const size_t n = data.size();
         auto it = data.begin();
         for( size_t idx = 0; idx != n; ++idx ) {
-            try {
-                std::istringstream str( it->first );
-                JsonIn jsin( str );
-                JsonObject jo = jsin.get_object();
-                load_object( jo, it->second );
-            } catch( const std::exception &err ) {
-                debugmsg( "Error loading data from json: %s", err.what() );
+            if( !it->first.path ) {
+                debugmsg( "JSON source location has null path, data may load incorrectly" );
+            } else {
+                try {
+                    shared_ptr_fast<std::istream> stream = get_cached_stream( *it->first.path );
+                    JsonIn jsin( *stream, it->first );
+                    JsonObject jo = jsin.get_object();
+                    load_object( jo, it->second );
+                } catch( const JsonError &err ) {
+                    debugmsg( "(json-error)\n%s", err.what() );
+                }
             }
             ++it;
         }
         data.erase( data.begin(), it );
         if( data.size() == n ) {
-            std::string discarded;
             for( const auto &elem : data ) {
-                discarded += elem.first;
+                if( !elem.first.path ) {
+                    debugmsg( "JSON source location has null path when reporting circular dependency" );
+                } else {
+                    try {
+                        shared_ptr_fast<std::istream> stream = get_cached_stream( *it->first.path );
+                        JsonIn jsin( *stream, elem.first );
+                        jsin.error( "JSON contains circular dependency, this object is discarded" );
+                    } catch( const JsonError &err ) {
+                        debugmsg( "(json-error)\n%s", err.what() );
+                    }
+                }
             }
-            debugmsg( "JSON contains circular dependency.  Discarded %i objects:\n%s",
-                      data.size(), discarded );
             data.clear();
             return; // made no progress on this cycle so abort
         }
@@ -189,8 +226,6 @@ void DynamicDataLoader::add( const std::string &type, std::function<void( const 
         debugmsg( "tried to insert a second handler for type %s into the DynamicDataLoader", type.c_str() );
     }
 }
-
-void load_charge_removal_blacklist( const JsonObject &jo, const std::string &src );
 
 void DynamicDataLoader::initialize()
 {
@@ -320,7 +355,7 @@ void DynamicDataLoader::initialize()
         item_controller->load_migration( jo );
     } );
 
-    add( "charge_removal_blacklist", load_charge_removal_blacklist );
+    add( "charge_removal_blacklist", charge_removal_blacklist::load );
 
     add( "MONSTER", []( const JsonObject & jo, const std::string & src ) {
         MonsterGenerator::generator().load_monster( jo, src );
@@ -402,8 +437,12 @@ void DynamicDataLoader::initialize()
     add( "event_statistic", &event_statistic::load_statistic );
     add( "score", &score::load_score );
     add( "achievement", &achievement::load_achievement );
-    // Read the jsons even if we can't use tiles, to make init consistent
+#if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
+#else
+    // No TILES - no tilesets
+    add( "mod_tileset", &load_ignored_type );
+#endif
 }
 
 void DynamicDataLoader::load_data_from_path( const std::string &path, const std::string &src,
@@ -440,10 +479,10 @@ void DynamicDataLoader::load_data_from_path( const std::string &path, const std:
         );
         try {
             // parse it
-            JsonIn jsin( iss );
+            JsonIn jsin( iss, file );
             load_all_from_json( jsin, src, ui, path, file );
         } catch( const JsonError &err ) {
-            throw std::runtime_error( file + ": " + err.what() );
+            throw std::runtime_error( err.what() );
         }
     }
 }
@@ -485,13 +524,18 @@ void DynamicDataLoader::unload_data()
     ammo_effects::reset();
     ammunition_type::reset();
     anatomy::reset();
+    ascii_art::reset();
     behavior::reset();
     body_part_type::reset();
+    charge_removal_blacklist::reset();
     clear_techniques_and_martial_arts();
     clothing_mods::reset();
     construction_categories::reset();
+    Creature::reset_hit_range();
+    disease_type::reset();
     dreams.clear();
     emit::reset();
+    enchantment::reset();
     event_statistic::reset();
     event_transformation::reset();
     faction_template::reset();
@@ -499,10 +543,14 @@ void DynamicDataLoader::unload_data()
     field_types::reset();
     gates::reset();
     harvest_list::reset();
+    item_action_generator::generator().reset();
     item_controller->reset();
     json_flag::reset();
+    MapExtras::reset();
+    mapgen_palette::reset();
     materials::reset();
     mission_type::reset();
+    monfactions::reset();
     MonsterGenerator::generator().reset();
     MonsterGroupManager::ClearMonsterGroups();
     morale_type_data::reset();
@@ -516,9 +564,9 @@ void DynamicDataLoader::unload_data()
     overmap_locations::reset();
     overmap_specials::reset();
     overmap_terrains::reset();
+    overmap::reset_obsolete_terrains();
     profession::reset();
     quality::reset();
-    reset_monster_adjustment();
     recipe_dictionary::reset();
     recipe_group::reset();
     requirement_data::reset();
@@ -527,7 +575,8 @@ void DynamicDataLoader::unload_data()
     reset_effect_types();
     reset_furn_ter();
     reset_mapgens();
-    reset_mod_tileset();
+    reset_monster_adjustment();
+    reset_mutation_types();
     reset_overlay_ordering();
     reset_recipe_categories();
     reset_region_settings();
@@ -537,21 +586,27 @@ void DynamicDataLoader::unload_data()
     scenario::reset();
     scent_type::reset();
     score::reset();
-    Skill::reset();
     skill_boost::reset();
+    Skill::reset();
+    SkillDisplayType::reset();
     SNIPPET.clear_snippets();
     spell_type::reset_all();
     start_locations::reset();
+    ter_furn_transform::reset_all();
     trap::reset();
     unload_talk_topics();
+    vehicle_prototype::reset();
     VehicleGroup::reset();
     VehiclePlacement::reset();
     VehicleSpawn::reset();
-    vehicle_prototype::reset();
     vitamin::reset();
     vpart_info::reset();
+    zone_type::reset_zones();
 #if defined(LOCALIZE)
     l10n_data::unload_mod_catalogues();
+#endif
+#if defined(TILES)
+    reset_mod_tileset();
 #endif
 }
 
@@ -566,6 +621,13 @@ void DynamicDataLoader::finalize_loaded_data()
 void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
 {
     assert( !finalized && "Can't finalize the data twice." );
+    assert( !stream_cache && "Expected stream cache to be null before finalization" );
+
+    on_out_of_scope reset_stream_cache( [this]() {
+        stream_cache.reset();
+    } );
+    stream_cache = std::make_unique<cached_streams>();
+
     ui.new_context( _( "Finalizing" ) );
 
     using named_entry = std::pair<std::string, std::function<void()>>;
@@ -619,7 +681,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Harvest lists" ), &harvest_list::finalize_all },
             { _( "Anatomies" ), &anatomy::finalize_all },
             { _( "Mutations" ), &mutation_branch::finalize },
-            { _( "Achivements" ), &achievement::finalize },
+            { _( "Achievements" ), &achievement::finalize },
 #if defined(LOCALIZE)
             {_( "Localization" ), &l10n_data::load_mod_catalogues },
 #endif
@@ -715,7 +777,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Statistics" ), &event_statistic::check_consistency },
             { _( "Scent types" ), &scent_type::check_scent_consistency },
             { _( "Scores" ), &score::check_consistency },
-            { _( "Achivements" ), &achievement::check_consistency },
+            { _( "Achievements" ), &achievement::check_consistency },
             { _( "Disease types" ), &disease_type::check_disease_consistency },
             { _( "Factions" ), &faction_template::check_consistency },
         }

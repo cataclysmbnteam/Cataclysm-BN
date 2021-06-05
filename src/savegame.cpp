@@ -115,7 +115,8 @@ void game::serialize( std::ostream &fout )
 
 std::string scent_map::serialize( bool is_type ) const
 {
-    std::stringstream rle_out;
+    std::ostringstream rle_out;
+    rle_out.imbue( std::locale::classic() );
     if( is_type ) {
         rle_out << typescent.str();
     } else {
@@ -255,6 +256,7 @@ void game::unserialize( std::istream &fin )
 void scent_map::deserialize( const std::string &data, bool is_type )
 {
     std::istringstream buffer( data );
+    buffer.imbue( std::locale::classic() );
     if( is_type ) {
         std::string str;
         buffer >> str;
@@ -329,7 +331,12 @@ void overmap::load_obsolete_terrains( const JsonObject &jo )
     }
 }
 
-bool overmap::obsolete_terrain( const std::string &ter )
+void overmap::reset_obsolete_terrains()
+{
+    obsolete_terrains.clear();
+}
+
+bool overmap::is_obsolete_terrain( const std::string &ter )
 {
     return obsolete_terrains.find( ter ) != obsolete_terrains.end();
 }
@@ -410,10 +417,10 @@ void overmap::load_legacy_monstergroups( JsonIn &jsin )
 }
 
 // throws std::exception
-void overmap::unserialize( std::istream &fin )
+void overmap::unserialize( std::istream &fin, const std::string &file_path )
 {
     chkversion( fin );
-    JsonIn jsin( fin );
+    JsonIn jsin( fin, file_path );
     jsin.start_object();
     while( !jsin.end_object() ) {
         const std::string name = jsin.get_member_name();
@@ -432,7 +439,7 @@ void overmap::unserialize( std::istream &fin )
                             jsin.read( tmp_ter );
                             jsin.read( count );
                             jsin.end_array();
-                            if( obsolete_terrain( tmp_ter ) ) {
+                            if( is_obsolete_terrain( tmp_ter ) ) {
                                 for( int p = i; p < i + count; p++ ) {
                                     needs_conversion.emplace( tripoint( p, j, z - OVERMAP_DEPTH ),
                                                               tmp_ter );
@@ -695,10 +702,10 @@ static void unserialize_array_from_compacted_sequence( JsonIn &jsin, bool ( &arr
 }
 
 // throws std::exception
-void overmap::unserialize_view( std::istream &fin )
+void overmap::unserialize_view( std::istream &fin, const std::string &file_path )
 {
     chkversion( fin );
-    JsonIn jsin( fin );
+    JsonIn jsin( fin, file_path );
     jsin.start_object();
     while( !jsin.end_object() ) {
         const std::string name = jsin.get_member_name();
@@ -1121,7 +1128,9 @@ void mongroup::io( Archive &archive )
 
 void mongroup::deserialize( JsonIn &data )
 {
-    io::JsonObjectInputArchive archive( data );
+    JsonObject jo = data.get_object();
+    jo.allow_omitted_members();
+    io::JsonObjectInputArchive archive( jo );
     io( archive );
 }
 

@@ -120,7 +120,7 @@ static const std::string flag_RELOAD_ONE( "RELOAD_ONE" );
 
 static const std::string flag_SLEEP_IGNORE( "SLEEP_IGNORE" );
 
-#define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLogFL((x),DC::Game)
 
 #if defined(__ANDROID__)
 extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
@@ -430,7 +430,6 @@ static void pldrive( const tripoint &p )
         remote = false;
     }
     if( !veh ) {
-        dbg( D_ERROR ) << "game::pldrive: can't find vehicle!  Drive mode is now off.";
         debugmsg( "game::pldrive error: can't find vehicle!  Drive mode is now off." );
         u.in_vehicle = false;
         return;
@@ -906,7 +905,7 @@ static void wait()
     time_duration time_to_wait;
     if( as_m.ret == 13 ) {
         int minutes = string_input_popup()
-                      .title( _( "How long? (in minutes)" ) )
+                      .title( _( "How long?  (in minutes)" ) )
                       .identifier( "wait_duration" )
                       .query_int();
         time_to_wait = minutes * 1_minutes;
@@ -2480,7 +2479,7 @@ bool game::handle_action()
     gamemode->post_action( act );
 
     u.movecounter = ( !u.is_dead_state() ? ( before_action_moves - u.moves ) : 0 );
-    dbg( D_INFO ) << string_format( "%s: [%d] %d - %d = %d", action_ident( act ),
-                                    to_turn<int>( calendar::turn ), before_action_moves, u.movecounter, u.moves );
+    dbg( DL::Info ) << string_format( "%s: [%d] %d - %d = %d", action_ident( act ),
+                                      to_turn<int>( calendar::turn ), before_action_moves, u.movecounter, u.moves );
     return ( !u.is_dead_state() );
 }

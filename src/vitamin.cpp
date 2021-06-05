@@ -7,6 +7,7 @@
 
 #include "calendar.h"
 #include "debug.h"
+#include "effect.h"
 #include "enum_conversions.h"
 #include "json.h"
 #include "string_id.h"
@@ -105,9 +106,15 @@ void vitamin::check_consistency()
         if( !( v.second.deficiency_.is_null() || v.second.deficiency_.is_valid() ) ) {
             debugmsg( "vitamin %s has unknown deficiency %s", v.second.id_.c_str(),
                       v.second.deficiency_.c_str() );
+        } else if( !v.second.deficiency_.is_null() && !v.second.deficiency_->is_permanent() ) {
+            debugmsg( "vitamin %s has non-permanent deficiency effect %s", v.second.id_.c_str(),
+                      v.second.deficiency_.c_str() );
         }
         if( !( v.second.excess_.is_null() || v.second.excess_.is_valid() ) ) {
             debugmsg( "vitamin %s has unknown excess %s", v.second.id_.c_str(), v.second.excess_.c_str() );
+        } else if( !v.second.excess_.is_null() && !v.second.excess_->is_permanent() ) {
+            debugmsg( "vitamin %s has non-permanent excess effect %s", v.second.id_.c_str(),
+                      v.second.excess_.c_str() );
         }
     }
 }

@@ -191,13 +191,14 @@ struct mon_effect_data {
     int duration;
     bool affect_hit_bp;
     body_part bp;
-    bool permanent;
     int chance;
+    // TODO: Remove
+    bool permanent;
 
-    mon_effect_data( const efftype_id &nid, int dur, bool ahbp, body_part nbp, bool perm,
-                     int nchance ) :
-        id( nid ), duration( dur ), affect_hit_bp( ahbp ), bp( nbp ), permanent( perm ),
-        chance( nchance ) {}
+    mon_effect_data( const efftype_id &nid, int dur, bool ahbp, body_part nbp,
+                     int nchance, bool perm ) :
+        id( nid ), duration( dur ), affect_hit_bp( ahbp ), bp( nbp ),
+        chance( nchance ), permanent( perm ) {}
 };
 
 struct mtype {

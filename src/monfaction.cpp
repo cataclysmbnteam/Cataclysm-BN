@@ -121,6 +121,12 @@ mf_attitude monfaction::attitude( const mfaction_id &other ) const
     return MFA_FRIENDLY;
 }
 
+void monfactions::reset()
+{
+    faction_list.clear();
+    faction_map.clear();
+}
+
 void monfactions::finalize()
 {
     if( faction_list.empty() ) {

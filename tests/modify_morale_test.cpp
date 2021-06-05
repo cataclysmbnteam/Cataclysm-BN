@@ -14,10 +14,7 @@
 #include "point.h"
 #include "type_id.h"
 
-static const std::string flag_ALLERGEN_JUNK( "ALLERGEN_JUNK" );
 static const std::string flag_CANNIBALISM( "CANNIBALISM" );
-static const std::string flag_EATEN_HOT( "EATEN_HOT" );
-static const std::string flag_HOT( "HOT" );
 static const std::string flag_URSINE_HONEY( "URSINE_HONEY" );
 
 static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
@@ -38,8 +35,6 @@ static const trait_id trait_PROJUNK2( "PROJUNK2" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
-static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
-static const trait_id trait_TABLEMANNERS( "TABLEMANNERS" );
 static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_URSINE_FUR( "URSINE_FUR" );

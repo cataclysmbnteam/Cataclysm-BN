@@ -31,8 +31,6 @@
 #include "string_formatter.h"
 #include "translations.h"
 
-#define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-
 mission mission_type::create( const character_id &npc_id ) const
 {
     mission ret;
@@ -77,7 +75,6 @@ mission *mission::find( int id )
     if( iter != world_missions.end() ) {
         return &iter->second;
     }
-    dbg( D_ERROR ) << "requested mission with uid " << id << " does not exist";
     debugmsg( "requested mission with uid %d does not exist", id );
     return nullptr;
 }

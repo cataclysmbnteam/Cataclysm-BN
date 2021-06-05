@@ -901,6 +901,7 @@ void Item_factory::init()
     add_iuse( "MYCUS", &iuse::mycus );
     add_iuse( "NOISE_EMITTER_OFF", &iuse::noise_emitter_off );
     add_iuse( "NOISE_EMITTER_ON", &iuse::noise_emitter_on );
+    add_iuse( "NOTE_BIONICS", &iuse::note_bionics );
     add_iuse( "OXYGEN_BOTTLE", &iuse::oxygen_bottle );
     add_iuse( "OXYTORCH", &iuse::oxytorch );
     add_iuse( "PACK_CBM", &iuse::pack_cbm );
@@ -1382,6 +1383,10 @@ void Item_factory::check_definitions() const
             }
         }
 
+        if( type->relic_data ) {
+            type->relic_data->check();
+        }
+
         for( const auto &elem : type->use_methods ) {
             const iuse_actor *actor = elem.second.get_actor_ptr();
 
@@ -1537,7 +1542,8 @@ bool Item_factory::load_definition( const JsonObject &jo, const std::string &src
         return true;
     }
 
-    deferred.emplace_back( jo.str(), src );
+    deferred.emplace_back( jo.get_source_location(), src );
+    jo.allow_omitted_members();
     return false;
 }
 

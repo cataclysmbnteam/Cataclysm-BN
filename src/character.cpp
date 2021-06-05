@@ -115,7 +115,6 @@ static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_blisters( "blisters" );
 static const efftype_id effect_bloated( "bloated" );
 static const efftype_id effect_boomered( "boomered" );
-static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_controlled( "controlled" );
@@ -190,10 +189,6 @@ static const trait_id trait_ANTLERS( "ANTLERS" );
 static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
-static const trait_id trait_HUGE( "HUGE" );
-static const trait_id trait_HUGE_OK( "HUGE_OK" );
-static const trait_id trait_SMALL2( "SMALL2" );
-static const trait_id trait_SMALL_OK( "SMALL_OK" );
 static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
@@ -225,22 +220,14 @@ static const bionic_id bio_synaptic_regen( "bio_synaptic_regen" );
 static const bionic_id bio_tattoo_led( "bio_tattoo_led" );
 static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_ups( "bio_ups" );
-static const bionic_id str_bio_cloak( "bio_cloak" );
 static const bionic_id str_bio_night( "bio_night" );
 // Aftershock stuff!
 static const bionic_id afs_bio_linguistic_coprocessor( "afs_bio_linguistic_coprocessor" );
 
-static const trait_id trait_BADTEMPER( "BADTEMPER" );
 static const trait_id trait_BARK( "BARK" );
 static const trait_id trait_BIRD_EYE( "BIRD_EYE" );
 static const trait_id trait_CEPH_EYES( "CEPH_EYES" );
-static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
-static const trait_id trait_CHEMIMBALANCE( "CHEMIMBALANCE" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
-static const trait_id trait_COLDBLOOD( "COLDBLOOD" );
-static const trait_id trait_COLDBLOOD2( "COLDBLOOD2" );
-static const trait_id trait_COLDBLOOD3( "COLDBLOOD3" );
-static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_DEAF( "DEAF" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_LS( "DEBUG_LS" );
@@ -250,13 +237,9 @@ static const trait_id trait_DEBUG_STORAGE( "DEBUG_STORAGE" );
 static const trait_id trait_DISORGANIZED( "DISORGANIZED" );
 static const trait_id trait_DOWN( "DOWN" );
 static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
-static const trait_id trait_ELFA_FNV( "ELFA_FNV" );
-static const trait_id trait_ELFA_NV( "ELFA_NV" );
 static const trait_id trait_FASTLEARNER( "FASTLEARNER" );
-static const trait_id trait_FEL_NV( "FEL_NV" );
 static const trait_id trait_GILLS( "GILLS" );
 static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
-static const trait_id trait_GLASSJAW( "GLASSJAW" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
@@ -287,7 +270,6 @@ static const trait_id trait_PAWS_LARGE( "PAWS_LARGE" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
-static const trait_id trait_QUICK( "QUICK" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_RADIOGENIC( "RADIOGENIC" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
@@ -1020,8 +1002,8 @@ void Character::mount_creature( monster &z )
         add_msg( m_debug, "mount_creature(): monster not found in critter_tracker" );
         return;
     }
-    add_effect( effect_riding, 1_turns, num_bp, true );
-    z.add_effect( effect_ridden, 1_turns, num_bp, true );
+    add_effect( effect_riding, 1_turns, num_bp );
+    z.add_effect( effect_ridden, 1_turns, num_bp );
     if( z.has_effect( effect_tied ) ) {
         z.remove_effect( effect_tied );
         if( z.tied_item ) {
@@ -1205,7 +1187,7 @@ void Character::forced_dismount()
             }
             check_dead_state();
         }
-        add_effect( effect_downed, 5_turns, num_bp, true );
+        add_effect( effect_downed, 5_turns, num_bp );
     } else {
         add_msg( m_debug, "Forced_dismount could not find a square to deposit player" );
     }
@@ -1605,12 +1587,6 @@ bool Character::movement_mode_is( const character_movemode mode ) const
     return move_mode == mode;
 }
 
-void Character::add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp,
-                            bool permanent, int intensity, bool force, bool deferred )
-{
-    Creature::add_effect( eff_id, dur, bp, permanent, intensity, force, deferred );
-}
-
 void Character::expose_to_disease( const diseasetype_id dis_type )
 {
     const cata::optional<int> &healt_thresh = dis_type->health_threshold;
@@ -1620,12 +1596,11 @@ void Character::expose_to_disease( const diseasetype_id dis_type )
     const std::set<body_part> &bps = dis_type->affected_bodyparts;
     if( !bps.empty() ) {
         for( const body_part &bp : bps ) {
-            add_effect( dis_type->symptoms, rng( dis_type->min_duration, dis_type->max_duration ), bp, false,
+            add_effect( dis_type->symptoms, rng( dis_type->min_duration, dis_type->max_duration ), bp,
                         rng( dis_type->min_intensity, dis_type->max_intensity ) );
         }
     } else {
         add_effect( dis_type->symptoms, rng( dis_type->min_duration, dis_type->max_duration ), num_bp,
-                    false,
                     rng( dis_type->min_intensity, dis_type->max_intensity ) );
     }
 }
@@ -1677,7 +1652,7 @@ void Character::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_ma
         int new_cur = std::ceil( static_cast<float>( bp.get_hp_cur() ) * max_hp_ratio );
 
         bp.set_hp_max( std::max( new_max, 1 ) );
-        bp.set_hp_cur( std::max( std::min( new_cur, new_max ), 1 ) );
+        bp.set_hp_cur( std::max( std::min( new_cur, new_max ), 0 ) );
     }
 }
 
@@ -3055,18 +3030,18 @@ bool Character::is_wearing_on_bp( const itype_id &it, const bodypart_id &bp ) co
 bool Character::worn_with_flag( const std::string &flag, const bodypart_id &bp ) const
 {
     return std::any_of( worn.begin(), worn.end(), [&flag, bp]( const item & it ) {
-        return it.has_flag( flag ) && ( bp == bodypart_id( "num_bp" ) || bp == bodypart_id() ||
+        return it.has_flag( flag ) && ( bp == bodypart_str_id::NULL_ID() ||
                                         it.covers( bp->token ) );
     } );
 }
 
-item Character::item_worn_with_flag( const std::string &flag, const bodypart_id &bp ) const
+const item *Character::item_worn_with_flag( const std::string &flag, const bodypart_id &bp ) const
 {
-    item it_with_flag;
+    const item *it_with_flag = nullptr;
     for( const item &it : worn ) {
-        if( it.has_flag( flag ) && ( bp == bodypart_id( "num_bp" ) || bp == bodypart_id() ||
+        if( it.has_flag( flag ) && ( bp == bodypart_str_id::NULL_ID() ||
                                      it.covers( bp->token ) ) ) {
-            it_with_flag = it;
+            it_with_flag = &it;
             break;
         }
     }
@@ -3250,21 +3225,6 @@ bool Character::meets_requirements( const item &it, const item &context ) const
 {
     const auto &ctx = !context.is_null() ? context : it;
     return meets_stat_requirements( it ) && meets_skill_requirements( it.type->min_skills, ctx );
-}
-
-void Character::make_bleed( const bodypart_id &bp, time_duration duration, int intensity,
-                            bool permanent, bool force, bool defferred )
-{
-    int b_resist = 0;
-    for( const trait_id &mut : get_mutations() ) {
-        b_resist += mut.obj().bleed_resist;
-    }
-
-    if( b_resist > intensity ) {
-        return;
-    }
-
-    add_effect( effect_bleed, duration, bp->token, permanent, intensity, force, defferred );
 }
 
 void Character::normalize()
@@ -5218,25 +5178,25 @@ void Character::update_bodytemp( const map &m, weather_manager &weather )
         int temp_after = temp_cur[bp->token];
         // PENALTIES
         if( temp_cur[bp->token] < BODYTEMP_FREEZING ) {
-            add_effect( effect_cold, 1_turns, bp->token, true, 3 );
+            add_effect( effect_cold, 1_turns, bp->token, 3 );
         } else if( temp_cur[bp->token] < BODYTEMP_VERY_COLD ) {
-            add_effect( effect_cold, 1_turns, bp->token, true, 2 );
+            add_effect( effect_cold, 1_turns, bp->token, 2 );
         } else if( temp_cur[bp->token] < BODYTEMP_COLD ) {
-            add_effect( effect_cold, 1_turns, bp->token, true, 1 );
+            add_effect( effect_cold, 1_turns, bp->token, 1 );
         } else if( temp_cur[bp->token] > BODYTEMP_SCORCHING ) {
-            add_effect( effect_hot, 1_turns, bp->token, true, 3 );
+            add_effect( effect_hot, 1_turns, bp->token, 3 );
             if( bp->main_part.id() == bp ) {
-                add_effect( effect_hot_speed, 1_turns, bp->token, true, 3 );
+                add_effect( effect_hot_speed, 1_turns, bp->token, 3 );
             }
         } else if( temp_cur[bp->token] > BODYTEMP_VERY_HOT ) {
-            add_effect( effect_hot, 1_turns, bp->token, true, 2 );
+            add_effect( effect_hot, 1_turns, bp->token, 2 );
             if( bp->main_part.id() == bp ) {
-                add_effect( effect_hot_speed, 1_turns, bp->token, true, 2 );
+                add_effect( effect_hot_speed, 1_turns, bp->token, 2 );
             }
         } else if( temp_cur[bp->token] > BODYTEMP_HOT ) {
-            add_effect( effect_hot, 1_turns, bp->token, true, 1 );
+            add_effect( effect_hot, 1_turns, bp->token, 1 );
             if( bp->main_part.id() == bp ) {
-                add_effect( effect_hot_speed, 1_turns, bp->token, true, 1 );
+                add_effect( effect_hot_speed, 1_turns, bp->token, 1 );
             }
         } else {
             if( temp_cur[bp->token] >= BODYTEMP_COLD ) {
@@ -5365,14 +5325,14 @@ void Character::update_bodytemp( const map &m, weather_manager &weather )
             }
             // Frostbite, no recovery possible
             if( frostbite_timer[bp->token] >= 3600 ) {
-                add_effect( effect_frostbite, 1_turns, bp->token, true, 2 );
+                add_effect( effect_frostbite, 1_turns, bp->token, 2 );
                 remove_effect( effect_frostbite_recovery, bp->token );
                 // Else frostnip, add recovery if we were frostbitten
             } else if( frostbite_timer[bp->token] >= 1800 ) {
                 if( intense == 2 ) {
-                    add_effect( effect_frostbite_recovery, 1_turns, bp->token, true );
+                    add_effect( effect_frostbite_recovery, 1_turns, bp->token );
                 }
-                add_effect( effect_frostbite, 1_turns, bp->token, true, 1 );
+                add_effect( effect_frostbite, 1_turns, bp->token, 1 );
                 // Else fully recovered
             } else if( frostbite_timer[bp->token] == 0 ) {
                 remove_effect( effect_frostbite, bp->token );
@@ -5665,7 +5625,7 @@ hp_part Character::body_window( const std::string &menu_header,
         const nc_color all_state_col = limb_color( bp, true, true, true );
         // Broken means no HP can be restored, it requires surgical attention.
         const bool limb_is_broken = is_limb_broken( bp );
-        const bool limb_is_mending = worn_with_flag( flag_SPLINT, bp );
+        const bool limb_is_mending = limb_is_broken && worn_with_flag( flag_SPLINT, bp );
 
         if( show_all ) {
             e.allowed = true;
@@ -5974,6 +5934,9 @@ bool Character::is_immune_effect( const efftype_id &eff ) const
         return is_immune_damage( DT_ACID ) || has_trait( trait_SLIMY ) || has_trait( trait_VISCOUS );
     } else if( eff == effect_nausea ) {
         return has_trait( trait_STRONGSTOMACH );
+    } else if( eff == effect_bleed ) {
+        // Ugly, it was badly implemented and should be a flag
+        return mutation_value( "bleed_resist" ) > 0.0f;
     }
 
     return false;
@@ -6486,6 +6449,7 @@ mutation_value_map = {
     { "stamina_regen_modifier", calc_mutation_value<&mutation_branch::stamina_regen_modifier> },
     { "stealth_modifier", calc_mutation_value<&mutation_branch::stealth_modifier> },
     { "str_modifier", calc_mutation_value<&mutation_branch::str_modifier> },
+    { "bleed_resist", calc_mutation_value<&mutation_branch::bleed_resist> },
     { "dodge_modifier", calc_mutation_value_additive<&mutation_branch::dodge_modifier> },
     { "mana_modifier", calc_mutation_value_additive<&mutation_branch::mana_modifier> },
     { "mana_multiplier", calc_mutation_value_multiplicative<&mutation_branch::mana_multiplier> },
@@ -7458,7 +7422,7 @@ void Character::vomit()
     }
 
     if( !has_effect( effect_nausea ) ) {  // Prevents never-ending nausea
-        const effect dummy_nausea( &effect_nausea.obj(), 0_turns, num_bp, false, 1, calendar::turn );
+        const effect dummy_nausea( &effect_nausea.obj(), 0_turns, num_bp, 1, calendar::turn );
         add_effect( effect_nausea, std::max( dummy_nausea.get_max_duration() *
                                              stomach.get_calories() / 100, dummy_nausea.get_int_dur_factor() ) );
     }
@@ -7843,8 +7807,7 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
                 destroy = armor.burn( frd );
                 int fuel = roll_remainder( frd.fuel_produced );
                 if( fuel > 0 ) {
-                    add_effect( effect_onfire, time_duration::from_turns( fuel + 1 ), bp->token, false, 0, false,
-                                true );
+                    add_effect( effect_onfire, time_duration::from_turns( fuel + 1 ), bp->token, 0, false, true );
                 }
             }
 
@@ -8167,7 +8130,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
                 }
             } else {
                 int prev_effect = get_effect_int( effect_grabbed );
-                add_effect( effect_grabbed, 2_turns, bp_torso, false, prev_effect + 2 );
+                add_effect( effect_grabbed, 2_turns, bp_torso, prev_effect + 2 );
                 source->add_effect( effect_grabbing, 2_turns );
                 add_msg_player_or_npc( m_bad, _( "You are grabbed by %s!" ), _( "<npcname> is grabbed by %s!" ),
                                        source->disp_name() );
@@ -8192,11 +8155,11 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
             const int infection_chance = ( combined_dam * sum_cover ) / 100;
             if( x_in_y( infection_chance, 100 ) ) {
                 if( has_effect( effect_bite, bp->token ) ) {
-                    add_effect( effect_bite, 40_minutes, bp->token, true );
+                    add_effect( effect_bite, 40_minutes, bp->token );
                 } else if( has_effect( effect_infected, bp->token ) ) {
-                    add_effect( effect_infected, 25_minutes, bp->token, true );
+                    add_effect( effect_infected, 25_minutes, bp->token );
                 } else {
-                    add_effect( effect_bite, 1_turns, bp->token, true );
+                    add_effect( effect_bite, 1_turns, bp->token );
                 }
                 add_msg_if_player( _( "Filth from your clothing has implanted deep in the wound." ) );
             }
@@ -8410,14 +8373,14 @@ void Character::update_vitamins( const vitamin_id &vit )
         if( has_effect( def, num_bp ) ) {
             get_effect( def, num_bp ).set_intensity( lvl, true );
         } else {
-            add_effect( def, 1_turns, num_bp, true, lvl );
+            add_effect( def, 1_turns, num_bp, lvl );
         }
     }
     if( lvl < 0 ) {
         if( has_effect( exc, num_bp ) ) {
             get_effect( exc, num_bp ).set_intensity( -lvl, true );
         } else {
-            add_effect( exc, 1_turns, num_bp, true, -lvl );
+            add_effect( exc, 1_turns, num_bp, -lvl );
         }
     }
 }
@@ -9698,17 +9661,17 @@ void Character::place_corpse()
             cbm.set_flag( "NO_STERILE" );
             cbm.set_flag( "NO_PACKED" );
             cbm.faults.emplace( fault_id( "fault_bionic_salvaged" ) );
-            body.put_in( cbm );
+            body.components.push_back( cbm );
         }
     }
 
     // Restore amount of installed pseudo-modules of Power Storage Units
     std::pair<int, int> storage_modules = amount_of_storage_bionics();
     for( int i = 0; i < storage_modules.first; ++i ) {
-        body.put_in( item( "bio_power_storage" ) );
+        body.components.push_back( item( "bio_power_storage" ) );
     }
     for( int i = 0; i < storage_modules.second; ++i ) {
-        body.put_in( item( "bio_power_storage_mkII" ) );
+        body.components.push_back( item( "bio_power_storage_mkII" ) );
     }
     g->m.add_item_or_charges( pos(), body );
 }

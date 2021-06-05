@@ -57,8 +57,6 @@ static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 
-static const efftype_id effect_assisted( "assisted" );
-
 static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
 
 static const skill_id skill_computer( "computer" );
@@ -581,7 +579,10 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return p.can_consume( *loc );
+            // If an item was inserted into a non-container, we can't eat it.
+            // For example, we couldn't eat an item mod made of meat
+            return p.can_consume( *loc ) &&
+                   ( loc.where() != item_location::type::container || loc.parent_item()->is_container() );
         }
 
         std::string get_denial( const item_location &loc ) const override {

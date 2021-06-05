@@ -129,7 +129,6 @@ static const activity_id ACT_GENERIC_GAME( "ACT_GENERIC_GAME" );
 static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
 static const activity_id ACT_HAIRCUT( "ACT_HAIRCUT" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
-static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
 static const activity_id ACT_MIND_SPLICER( "ACT_MIND_SPLICER" );
@@ -146,7 +145,6 @@ static const efftype_id effect_antibiotic( "antibiotic" );
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_attention( "attention" );
 static const efftype_id effect_beartrap( "beartrap" );
-static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bloodworms( "bloodworms" );
@@ -236,7 +234,6 @@ static const skill_id skill_survival( "survival" );
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
 static const trait_id trait_ALCMET( "ALCMET" );
-static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_EATDEAD( "EATDEAD" );
 static const trait_id trait_GILLS( "GILLS" );
@@ -248,8 +245,6 @@ static const trait_id trait_MARLOSS( "MARLOSS" );
 static const trait_id trait_MARLOSS_AVOID( "MARLOSS_AVOID" );
 static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
 static const trait_id trait_MARLOSS_YELLOW( "MARLOSS_YELLOW" );
-static const trait_id trait_MASOCHIST( "MASOCHIST" );
-static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_POISRESIST( "POISRESIST" );
@@ -262,8 +257,6 @@ static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
-static const trait_id trait_NORANGEDCRIT( "NO_RANGED_CRIT" );
-
 static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_DIG( "DIG" );
 
@@ -288,9 +281,6 @@ static const mtype_id mon_wasp( "mon_wasp" );
 
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_shock( "bio_shock" );
-static const bionic_id bio_tools( "bio_tools" );
-
-static const std::string flag_EATEN_COLD( "EATEN_COLD" );
 static const std::string flag_ACID( "ACID" );
 static const std::string flag_CURRENT( "CURRENT" );
 static const std::string flag_DIGGABLE( "DIGGABLE" );
@@ -844,7 +834,7 @@ int iuse::antiasthmatic( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( m_good,
                           _( "You no longer need to worry about asthma attacks, at least for a while." ) );
-    p->add_effect( effect_took_antiasthmatic, 1_days, num_bp, true );
+    p->add_effect( effect_took_antiasthmatic, 1_days, num_bp );
     return it->type->charges_to_use();
 }
 
@@ -1514,7 +1504,7 @@ static int feedpet( player &p, monster &mon, item &it, m_flag food_flag, const c
     if( mon.has_flag( food_flag ) ) {
         p.add_msg_if_player( m_good, message, mon.get_name() );
         mon.friendly = -1;
-        mon.add_effect( effect_pet, 1_turns, num_bp, true );
+        mon.add_effect( effect_pet, 1_turns, num_bp );
         p.consume_charges( it, 1 );
         return 0;
     } else {
@@ -2235,6 +2225,58 @@ int iuse::noise_emitter_on( player *p, item *it, bool t, const tripoint &pos )
         it->convert( "noise_emitter" ).active = false;
     }
     return it->type->charges_to_use();
+}
+
+// Ugly and uses variables that shouldn't be public
+int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
+{
+    if( !t ) {
+        it->deactivate( p, true );
+        return 0;
+    }
+    if( !p->is_avatar() ) {
+        // Not supported at the moment
+        return 0;
+    }
+    map &here = get_map();
+
+    if( !it->ammo_sufficient() ) {
+        it->deactivate( p, true );
+        return 0;
+    }
+    for( const tripoint &pt : here.points_in_radius( pos, PICKUP_RANGE ) ) {
+        if( !here.has_items( pt ) || !p->sees( pt ) ) {
+            continue;
+        }
+        for( item &corpse : here.i_at( pt ) ) {
+            if( !corpse.is_corpse() ||
+                corpse.get_var( "bionics_scanned_by", -1 ) == p->getID().get_value() ) {
+                continue;
+            }
+
+            int cbm_count = std::distance( corpse.components.begin(), corpse.components.end() );
+            if( cbm_count > it->ammo_consume( cbm_count, pos ) ) {
+                it->deactivate( p, true );
+                return 0;
+            }
+
+            corpse.set_var( "bionics_scanned_by", p->getID().get_value() );
+            if( cbm_count > 0 ) {
+                std::string bionics_string =
+                    enumerate_as_string( corpse.components.begin(), corpse.components.end(),
+                []( const item & entry ) -> std::string {
+                    return entry.is_bionic() ? entry.display_name() : "";
+                }, enumeration_conjunction::none );
+                p->add_msg_if_player( m_good, _( "A %1$s located %2$s contains %3$s" ),
+                                      corpse.display_name().c_str(),
+                                      direction_name( direction_from( pt, p->pos() ) ).c_str(),
+                                      bionics_string.c_str()
+                                    );
+            }
+        }
+    }
+
+    return 0;
 }
 
 int iuse::ma_manual( player *p, item *it, bool, const tripoint & )
@@ -4530,7 +4572,7 @@ int iuse::dog_whistle( player *p, item *it, bool, const tripoint & )
                 if( u_see ) {
                     p->add_msg_if_player( _( "Your %s goes docile." ), critter.name() );
                 }
-                critter.add_effect( effect_docile, 1_turns, num_bp, true );
+                critter.add_effect( effect_docile, 1_turns, num_bp );
             }
         }
     }
@@ -5296,7 +5338,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                     for( int j = 0; j < num; j++ ) {
                         if( monster *const b = g->place_critter_around( bug, p->pos(), 1 ) ) {
                             b->friendly = -1;
-                            b->add_effect( effect_pet, 1_turns, num_bp, true );
+                            b->add_effect( effect_pet, 1_turns, num_bp );
                         }
                     }
                 }
@@ -5667,7 +5709,7 @@ int iuse::jet_injector( player *p, item *it, bool, const tripoint & )
     } else {
         p->add_msg_if_player( _( "You inject yourself with the jet injector." ) );
         // Intensity is 2 here because intensity = 1 is the comedown
-        p->add_effect( effect_jetinjector, 20_minutes, num_bp, false, 2 );
+        p->add_effect( effect_jetinjector, 20_minutes, num_bp, 2 );
         p->mod_painkiller( 20 );
         p->mod_stim( 10 );
         p->healall( 20 );
@@ -5695,7 +5737,7 @@ int iuse::stimpack( player *p, item *it, bool, const tripoint & )
     } else {
         p->add_msg_if_player( _( "You inject yourself with the stimulants." ) );
         // Intensity is 2 here because intensity = 1 is the comedown
-        p->add_effect( effect_stimpack, 25_minutes, num_bp, false, 2 );
+        p->add_effect( effect_stimpack, 25_minutes, num_bp, 2 );
         p->mod_painkiller( 2 );
         p->mod_stim( 20 );
         p->mod_fatigue( -100 );
@@ -6042,7 +6084,7 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
                 if( critter.friendly != 0 && critter.type->in_species( ROBOT ) ) {
                     p->add_msg_if_player( _( "A following %s goes into passive mode." ),
                                           critter.name() );
-                    critter.add_effect( effect_docile, 1_turns, num_bp, true );
+                    critter.add_effect( effect_docile, 1_turns, num_bp );
                     f = 1;
                 }
             }
@@ -8282,7 +8324,7 @@ static bool multicooker_hallu( player &p )
                 add_msg( m_warning, _( "The multi-cooker runs away!" ) );
                 if( monster *const m = g->place_critter_around( mon_hallu_multicooker, p.pos(), 1 ) ) {
                     m->hallucination = true;
-                    m->add_effect( effect_run, 1_turns, num_bp, true );
+                    m->add_effect( effect_run, 100_turns, num_bp );
                 }
             } else {
                 p.add_msg_if_player( m_info, _( "You're surrounded by aggressive multi-cookers!" ) );

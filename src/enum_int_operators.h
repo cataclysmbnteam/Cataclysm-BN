@@ -69,4 +69,4 @@
         return static_cast<int>(t);\
     }
 
-#endif
+#endif // CATA_SRC_ENUM_INT_OPERATORS_H

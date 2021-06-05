@@ -31,7 +31,7 @@
 #include "sdl_wrappers.h"
 #include "sounds.h"
 
-#define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLogFL((x),DC::SDL)
 
 using id_and_variant = std::pair<std::string, std::string>;
 struct sound_effect_resource {
@@ -119,7 +119,7 @@ bool init_sound()
 
             sound_init_success = true;
         } else {
-            dbg( D_ERROR ) << "Failed to open audio mixer, sound won't work: " << Mix_GetError();
+            dbg( DL::Error ) << "Failed to open audio mixer, sound won't work: " << Mix_GetError();
         }
     }
 
@@ -146,12 +146,12 @@ static void play_music_file( const std::string &filename, int volume )
     const std::string path = ( current_soundpack_path + "/" + filename );
     current_music = Mix_LoadMUS( path.c_str() );
     if( current_music == nullptr ) {
-        dbg( D_ERROR ) << "Failed to load audio file " << path << ": " << Mix_GetError();
+        dbg( DL::Error ) << "Failed to load audio file " << path << ": " << Mix_GetError();
         return;
     }
     Mix_VolumeMusic( volume * get_option<int>( "MUSIC_VOLUME" ) / 100 );
     if( Mix_PlayMusic( current_music, 0 ) != 0 ) {
-        dbg( D_ERROR ) << "Starting playlist " << path << " failed: " << Mix_GetError();
+        dbg( DL::Error ) << "Starting playlist " << path << " failed: " << Mix_GetError();
         return;
     }
     Mix_HookMusicFinished( musicFinished );
@@ -271,7 +271,7 @@ static Mix_Chunk *load_chunk( const std::string &path )
     Mix_Chunk *result = Mix_LoadWAV( path.c_str() );
     if( result == nullptr ) {
         // Failing to load a sound file is not a fatal error worthy of a backtrace
-        dbg( D_WARNING ) << "Failed to load sfx audio file " << path << ": " << Mix_GetError();
+        dbg( DL::Warn ) << "Failed to load sfx audio file " << path << ": " << Mix_GetError();
         result = make_null_chunk();
     }
     return result;
@@ -460,7 +460,7 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
                      selected_sound_effect.volume * get_option<int>( "SOUND_EFFECT_VOLUME" ) * volume / ( 100 * 100 ) );
     bool failed = ( Mix_PlayChannel( static_cast<int>( channel::any ), effect_to_play, 0 ) == -1 );
     if( failed ) {
-        dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError();
+        dbg( DL::Warn ) << "Failed to play sound effect: " << Mix_GetError();
     }
 }
 
@@ -493,18 +493,18 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
                                 effect_to_play ) == 0 ) {
             // We'll be unable to de-allocate the chunk, stop the playback right now.
             failed = true;
-            dbg( D_WARNING ) << "Mix_RegisterEffect failed: " << Mix_GetError();
+            dbg( DL::Warn ) << "Mix_RegisterEffect failed: " << Mix_GetError();
             Mix_HaltChannel( channel );
         }
     }
     if( !failed ) {
         if( Mix_SetPosition( channel, static_cast<Sint16>( angle ), 1 ) == 0 ) {
             // Not critical
-            dbg( D_INFO ) << "Mix_SetPosition failed: " << Mix_GetError();
+            dbg( DL::Info ) << "Mix_SetPosition failed: " << Mix_GetError();
         }
     }
     if( failed ) {
-        dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError();
+        dbg( DL::Error ) << "Failed to play sound effect: " << Mix_GetError();
         if( is_pitched ) {
             cleanup_when_channel_finished( channel, effect_to_play );
         }
@@ -544,12 +544,12 @@ void sfx::play_ambient_variant_sound( const std::string &id, const std::string &
         if( Mix_RegisterEffect( ch, empty_effect, cleanup_when_channel_finished, effect_to_play ) == 0 ) {
             // We'll be unable to de-allocate the chunk, stop the playback right now.
             failed = true;
-            dbg( D_WARNING ) << "Mix_RegisterEffect failed: " << Mix_GetError();
+            dbg( DL::Warn ) << "Mix_RegisterEffect failed: " << Mix_GetError();
             Mix_HaltChannel( ch );
         }
     }
     if( failed ) {
-        dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError();
+        dbg( DL::Error ) << "Failed to play sound effect: " << Mix_GetError();
         if( is_pitched ) {
             cleanup_when_channel_finished( ch, effect_to_play );
         }
@@ -565,20 +565,21 @@ void load_soundset()
 
     // Get current soundpack and it's directory path.
     if( current_soundpack.empty() ) {
-        dbg( D_ERROR ) << "Soundpack not set in options or empty.";
+        dbg( DL::Error ) << "Soundpack not set in options or empty.";
         soundpack_path = default_path;
         current_soundpack = default_soundpack;
     } else {
-        dbg( D_INFO ) << "Current soundpack is: " << current_soundpack;
+        dbg( DL::Info ) << "Current soundpack is: " << current_soundpack;
         soundpack_path = SOUNDPACKS[current_soundpack];
     }
 
     if( soundpack_path.empty() ) {
-        dbg( D_ERROR ) << "Soundpack with name " << current_soundpack << " can't be found or empty string";
+        dbg( DL::Error ) << "Soundpack with name " << current_soundpack
+                         << " can't be found or empty string";
         soundpack_path = default_path;
         current_soundpack = default_soundpack;
     } else {
-        dbg( D_INFO ) << '"' << current_soundpack << '"' << " soundpack: found path: " << soundpack_path;
+        dbg( DL::Info ) << '"' << current_soundpack << '"' << " soundpack: found path: " << soundpack_path;
     }
 
     current_soundpack_path = soundpack_path;
@@ -586,7 +587,7 @@ void load_soundset()
         loading_ui ui( false );
         DynamicDataLoader::get_instance().load_data_from_path( soundpack_path, "core", ui );
     } catch( const std::exception &err ) {
-        dbg( D_ERROR ) << "failed to load sounds: " << err.what();
+        dbg( DL::Error ) << "failed to load sounds: " << err.what();
     }
 
     // Preload sound effects

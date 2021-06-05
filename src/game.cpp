@@ -177,7 +177,7 @@ class computer;
 #   include <tchar.h>
 #endif
 
-#define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLogFL((x),DC::Game)
 
 const int core_version = 6;
 static constexpr int DANGEROUS_PROXIMITY = 5;
@@ -197,7 +197,6 @@ static const efftype_id effect_accumulated_mutagen( "accumulated_mutagen" );
 static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
 static const efftype_id effect_assisted( "assisted" );
 static const efftype_id effect_blind( "blind" );
-static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_controlled( "controlled" );
@@ -364,6 +363,10 @@ bool game::check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui )
         world_generator->init();
         const std::vector<mod_id> mods_empty;
         WORLDPTR test_world = world_generator->make_new_world( mods_empty );
+        if( !test_world ) {
+            std::cerr << "Failed to generate test world." << std::endl;
+            return false;
+        }
         world_generator->set_active_world( test_world );
 
         if( !e.is_valid() ) {
@@ -714,12 +717,12 @@ bool game::start_game()
     u.set_highest_cat_level();
     //Calculate mutation drench protection stats
     u.drench_mut_calc();
-    u.add_effect( effect_accumulated_mutagen, 27_days, num_bp, true );
+    u.add_effect( effect_accumulated_mutagen, 27_days, num_bp );
     if( scen->has_flag( "FIRE_START" ) ) {
         start_loc.burn( omtstart, 3, 3 );
     }
     if( scen->has_flag( "INFECTED" ) ) {
-        u.add_effect( effect_infected, 1_turns, random_body_part(), true );
+        u.add_effect( effect_infected, 1_turns, random_body_part() );
     }
     if( scen->has_flag( "BAD_DAY" ) ) {
         u.add_effect( effect_flu, 1000_minutes );
@@ -770,7 +773,7 @@ bool game::start_game()
     for( const mtype_id &elem : u.starting_pets ) {
         if( monster *const mon = place_critter_around( elem, u.pos(), 5 ) ) {
             mon->friendly = -1;
-            mon->add_effect( effect_pet, 1_turns, num_bp, true );
+            mon->add_effect( effect_pet, 1_turns, num_bp );
         } else {
             add_msg( m_debug, "cannot place starting pet, no space!" );
         }
@@ -1877,7 +1880,7 @@ void game::validate_mounted_npcs()
             }
             mounted_pl->mounted_creature = shared_from( m );
             mounted_pl->setpos( m.pos() );
-            mounted_pl->add_effect( effect_riding, 1_turns, num_bp, true );
+            mounted_pl->add_effect( effect_riding, 1_turns, num_bp );
             m.mounted_player = mounted_pl;
         }
     }
@@ -2581,7 +2584,7 @@ bool game::is_game_over()
             uquit = QUIT_DIED;
         } else {
             // Something funky happened here, just die.
-            dbg( D_ERROR ) << "no deathcam option given to options, defaulting to QUIT_DIED";
+            dbg( DL::Error ) << "no deathcam option given to options, defaulting to QUIT_DIED";
             uquit = QUIT_DIED;
         }
         return is_game_over();
@@ -3019,14 +3022,11 @@ void game::write_memorial_file( std::string sLastWords )
 
     //Check if both dirs exist. Nested assure_dir_exist fails if the first dir of the nested dir does not exist.
     if( !assure_dir_exist( memorial_dir ) ) {
-        dbg( D_ERROR ) << "game:write_memorial_file: Unable to make memorial directory.";
         debugmsg( "Could not make '%s' directory", memorial_dir );
         return;
     }
 
     if( !assure_dir_exist( memorial_active_world_dir ) ) {
-        dbg( D_ERROR ) <<
-                       "game:write_memorial_file: Unable to make active world directory in memorial directory.";
         debugmsg( "Could not make '%s' directory", memorial_active_world_dir );
         return;
     }
@@ -4300,12 +4300,10 @@ void game::monmove()
     for( monster &critter : all_monsters() ) {
         // Critters in impassable tiles get pushed away, unless it's not impassable for them
         if( !critter.is_dead() && m.impassable( critter.pos() ) && !critter.can_move_to( critter.pos() ) ) {
-            dbg( D_ERROR ) << "game:monmove: " << critter.name()
-                           << " can't move to its location!  (" << critter.posx()
-                           << ":" << critter.posy() << ":" << critter.posz() << "), "
-                           << m.tername( critter.pos() );
-            add_msg( m_debug, "%s can't move to its location!  (%d,%d,%d), %s", critter.name(),
-                     critter.posx(), critter.posy(), critter.posz(), m.tername( critter.pos() ) );
+            std::string msg = string_format( "%s can't move to its location!  %s  %s", critter.name(),
+                                             critter.pos().to_string(), m.tername( critter.pos() ) );
+            dbg( DL::Error ) << msg;
+            add_msg( m_debug, msg );
             bool okay = false;
             for( const tripoint &dest : m.points_in_radius( critter.pos(), 3 ) ) {
                 if( critter.can_move_to( dest ) && is_empty( dest ) ) {
@@ -4718,9 +4716,7 @@ void game::use_computer( const tripoint &p )
         if( m.has_flag( "CONSOLE", p ) ) { //Console without map data
             add_msg( m_bad, _( "The console doesn't display anything coherent." ) );
         } else {
-            dbg( D_ERROR ) << "game:use_computer: Tried to use computer at (" <<
-                           p.x << ", " << p.y << ", " << p.z << ") - none there";
-            debugmsg( "Tried to use computer at (%d, %d, %d) - none there", p.x, p.y, p.z );
+            debugmsg( "Tried to use computer at %s - none there", p.to_string() );
         }
         return;
     }
@@ -5076,11 +5072,14 @@ bool game::revive_corpse( const tripoint &p, item &it )
     }
 
     critter.no_extra_death_drops = true;
-    critter.add_effect( effect_downed, 5_turns, num_bp, true );
+    critter.add_effect( effect_downed, 5_turns, num_bp );
+    for( const item &component : it.components ) {
+        critter.corpse_components.push_back( component );
+    }
 
     if( it.get_var( "zlave" ) == "zlave" ) {
-        critter.add_effect( effect_pacified, 1_turns, num_bp, true );
-        critter.add_effect( effect_pet, 1_turns, num_bp, true );
+        critter.add_effect( effect_pacified, 1_turns, num_bp );
+        critter.add_effect( effect_pet, 1_turns, num_bp );
     }
 
     if( it.get_var( "no_ammo" ) == "no_ammo" ) {
@@ -5136,7 +5135,7 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
         tmp->spawn_at_precise( { get_levx(), get_levy() }, couch_pos );
         overmap_buffer.insert_npc( tmp );
         tmp->hurtall( dmg_lvl * 10, nullptr );
-        tmp->add_effect( effect_downed, rng( 1_turns, 4_turns ), num_bp, false, 0, true );
+        tmp->add_effect( effect_downed, rng( 1_turns, 4_turns ), num_bp, 0, true );
         load_npcs();
 
     } else {
@@ -6745,8 +6744,6 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
         } );
         ui->mark_resize();
     }
-
-    dbg( D_PEDANTIC_INFO ) << ": calling handle_input()";
 
     std::string action;
     input_context ctxt( "LOOK" );
@@ -8978,7 +8975,7 @@ bool game::disable_robot( const tripoint &p )
                                  critter.name() );
                     }
                 } else {
-                    critter.add_effect( effect_docile, 1_turns, num_bp, true );
+                    critter.add_effect( effect_docile, 1_turns, num_bp );
                     if( one_in( 3 ) ) {
                         add_msg( _( "The %s lets out a whirring noise and starts to follow you." ),
                                  critter.name() );
@@ -9436,18 +9433,18 @@ point game::place_player( const tripoint &dest_loc )
                          m.has_flag_ter( "SHARP", dest_loc ) ? m.tername( dest_loc ) : m.furnname(
                              dest_loc ) );
                 if( !u.has_trait( trait_INFRESIST ) ) {
-                    u.add_effect( effect_tetanus, 1_turns, num_bp, true );
+                    u.add_effect( effect_tetanus, 1_turns, num_bp );
                 }
             }
         }
     }
     if( m.has_flag( "UNSTABLE", dest_loc ) && !u.is_mounted() ) {
-        u.add_effect( effect_bouldering, 1_turns, num_bp, true );
+        u.add_effect( effect_bouldering, 1_turns, num_bp );
     } else if( u.has_effect( effect_bouldering ) ) {
         u.remove_effect( effect_bouldering );
     }
     if( m.has_flag_ter_or_furn( TFLAG_NO_SIGHT, dest_loc ) ) {
-        u.add_effect( effect_no_sight, 1_turns, num_bp, true );
+        u.add_effect( effect_no_sight, 1_turns, num_bp );
     } else if( u.has_effect( effect_no_sight ) ) {
         u.remove_effect( effect_no_sight );
     }

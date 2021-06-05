@@ -27,6 +27,8 @@
 #include "cached_options.h"
 #include "color.h"
 #include "cursesdef.h"
+#include "enum_bitset.h"
+#include "enum_conversions.h"
 #include "filesystem.h"
 #include "get_version.h"
 #include "input.h"
@@ -81,19 +83,57 @@
 // Static defines                                                   {{{1
 // ---------------------------------------------------------------------
 
-#if (defined(DEBUG) || defined(_DEBUG)) && !defined(NDEBUG)
-static int debugLevel = DL_ALL;
-static int debugClass = DC_ALL;
-#else
-static int debugLevel = D_ERROR;
-static int debugClass = D_MAIN;
-#endif
+static enum_bitset<DL> debugLevel;
+static enum_bitset<DC> debugClass;
 
 /** True during game startup, when debugmsgs cannot be displayed yet. */
 static bool buffering_debugmsgs = true;
 
 /** Set to true when any error is logged. */
 static bool error_observed = false;
+
+/** If true, debug messages will be captured,
+ * used to test debugmsg calls in the unit tests
+ */
+static bool capturing = false;
+/** сaptured debug messages */
+static std::string captured;
+
+/**
+ * Class for capturing debugmsg,
+ * used by capture_debugmsg_during.
+ */
+class capture_debugmsg
+{
+    public:
+        capture_debugmsg();
+        std::string dmsg();
+        ~capture_debugmsg();
+};
+
+std::string capture_debugmsg_during( const std::function<void()> &func )
+{
+    capture_debugmsg capture;
+    func();
+    return capture.dmsg();
+}
+
+capture_debugmsg::capture_debugmsg()
+{
+    capturing = true;
+    captured = "";
+}
+
+std::string capture_debugmsg::dmsg()
+{
+    capturing = false;
+    return captured;
+}
+
+capture_debugmsg::~capture_debugmsg()
+{
+    capturing = false;
+}
 
 bool debug_has_error_been_observed()
 {
@@ -248,8 +288,11 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
     assert( line != nullptr );
     assert( funcname != nullptr );
 
-    DebugLog( D_ERROR, D_MAIN ) << filename << ":" << line << " [" << funcname << "] " << text <<
-                                std::flush;
+    if( capturing ) {
+        captured += text;
+    } else {
+        *detail::realDebugLog( DL::Error, DC::DebugMsg, filename, line, funcname ) << text;
+    }
 
     if( test_mode ) {
         return;
@@ -266,16 +309,63 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
 // Normal functions                                                 {{{1
 // ---------------------------------------------------------------------
 
-void limitDebugLevel( int level_bitmask )
+template<typename E>
+static std::string fmt_mask( const enum_bitset<E> &mask )
 {
-    DebugLog( DL_ALL, DC_ALL ) << "Set debug level to: " << level_bitmask;
-    debugLevel = level_bitmask;
+    if( mask.test_all() ) {
+        return "ALL";
+    } else if( !mask.test_any() ) {
+        return "NONE";
+    } else {
+        std::stringstream ss;
+        ss << "[";
+        bool first = true;
+        for( size_t i = 0; i < enum_bitset<E>::size(); i++ ) {
+            E &&e = static_cast<E>( i );
+            if( !mask.test( e ) ) {
+                continue;
+            }
+            if( first ) {
+                first = false;
+            } else {
+                ss << " ";
+            }
+            ss << io::enum_to_string<E>( e );
+        }
+        ss << "]";
+        return ss.str();
+    }
 }
 
-void limitDebugClass( int class_bitmask )
+void setDebugLogLevels( const enum_bitset<DL> &mask, bool silent )
 {
-    DebugLog( DL_ALL, DC_ALL ) << "Set debug class to: " << class_bitmask;
-    debugClass = class_bitmask;
+    if( mask == debugLevel ) {
+        return;
+    }
+    if( !silent ) {
+        DebugLog( DL::Info, DC::Main ) << "Set debug levels to: " << fmt_mask( mask );
+    }
+    debugLevel = mask;
+}
+
+void setDebugLogClasses( const enum_bitset<DC> &mask, bool silent )
+{
+    if( mask == debugClass ) {
+        return;
+    }
+    if( !silent ) {
+        DebugLog( DL::Info, DC::Main ) << "Set debug classes to: " << fmt_mask( mask );
+    }
+    debugClass = mask;
+}
+
+static bool checkDebugLevelClass( DL lev, DC cl )
+{
+    if( lev == DL::Error || cl == DC::DebugMsg ) {
+        return true;
+    } else {
+        return debugClass.test( cl ) && debugLevel.test( lev );
+    }
 }
 
 // Debug only                                                       {{{1
@@ -381,7 +471,6 @@ DebugFile::~DebugFile()
 void DebugFile::deinit()
 {
     if( file && file.get() != &std::cerr ) {
-        *file << "\n";
         *file << get_time() << " : Log shutdown.\n";
         *file << "-----------------------------------------\n\n";
     }
@@ -419,14 +508,14 @@ void DebugFile::init( DebugOutput output_mode, const std::string &filename )
             file = std::make_shared<std::ofstream>(
                        filename.c_str(), std::ios::out | std::ios::app );
             *file << "\n\n-----------------------------------------\n";
-            *file << get_time() << " : Starting log.";
-            DebugLog( D_INFO, D_MAIN ) << "Cataclysm DDA version " << getVersionString();
+            *file << get_time() << " : Starting log.\n";
+            DebugLog( DL::Info, DC::Main ) << "Cataclysm BN version " << getVersionString();
             if( rename_failed ) {
-                DebugLog( D_ERROR, DC_ALL ) << "Moving the previous log file to "
-                                            << oldfile << " failed.\n"
-                                            << "Check the file permissions.  This "
-                                            "program will continue to use the "
-                                            "previous log file.";
+                DebugLog( DL::Info, DC::Main ) << "Moving the previous log file to "
+                                               << oldfile << " failed.\n"
+                                               << "Check the file permissions.  This "
+                                               "program will continue to use the "
+                                               "previous log file.";
             }
         }
         break;
@@ -443,50 +532,8 @@ void DebugFile::init( DebugOutput output_mode, const std::string &filename )
 
 void setupDebug( DebugOutput output_mode )
 {
-    int level = 0;
-
-#if defined(DEBUG_INFO)
-    level |= D_INFO;
-#endif
-
-#if defined(DEBUG_WARNING)
-    level |= D_WARNING;
-#endif
-
-#if defined(DEBUG_ERROR)
-    level |= D_ERROR;
-#endif
-
-#if defined(DEBUG_PEDANTIC_INFO)
-    level |= D_PEDANTIC_INFO;
-#endif
-
-    if( level != 0 ) {
-        limitDebugLevel( level );
-    }
-
-    int cl = 0;
-
-#if defined(DEBUG_ENABLE_MAIN)
-    cl |= D_MAIN;
-#endif
-
-#if defined(DEBUG_ENABLE_MAP)
-    cl |= D_MAP;
-#endif
-
-#if defined(DEBUG_ENABLE_MAP_GEN)
-    cl |= D_MAP_GEN;
-#endif
-
-#if defined(DEBUG_ENABLE_GAME)
-    cl |= D_GAME;
-#endif
-
-    if( cl != 0 ) {
-        limitDebugClass( cl );
-    }
-
+    setDebugLogLevels( enum_bitset<DL>().set( DL::Info ).set( DL::Warn ).set( DL::Error ), true );
+    setDebugLogClasses( enum_bitset<DC>().set( DC::Main ).set( DC::DebugMsg ), true );
     debugFile().init( output_mode, PATH_INFO::debug() );
 }
 
@@ -498,52 +545,47 @@ void deinitDebug()
 // OStream Operators                                                {{{2
 // ---------------------------------------------------------------------
 
-static std::ostream &operator<<( std::ostream &out, DebugLevel lev )
+namespace io
 {
-    if( lev != DL_ALL ) {
-        if( lev & D_INFO ) {
-            out << "INFO ";
-        }
-        if( lev & D_WARNING ) {
-            out << "WARNING ";
-        }
-        if( lev & D_ERROR ) {
-            out << "ERROR ";
-        }
-        if( lev & D_PEDANTIC_INFO ) {
-            out << "PEDANTIC ";
-        }
+template<>
+std::string enum_to_string<DL>( DL x )
+{
+    switch( x ) {
+        // *INDENT-OFF*
+        case DL::Info: return "INFO";
+        case DL::Warn: return "WARNING";
+        case DL::Error: return "ERROR";
+        case DL::Debug: return "DEBUG";
+        // *INDENT-ON*
+        case DL::Num:
+            break;
     }
-    return out;
+    debugmsg( "Invalid debug level" );
+    abort();
 }
 
-static std::ostream &operator<<( std::ostream &out, DebugClass cl )
+template<>
+std::string enum_to_string<DC>( DC x )
 {
-    if( cl != DC_ALL ) {
-        if( cl & D_MAIN ) {
-            out << "MAIN ";
-        }
-        if( cl & D_MAP ) {
-            out << "MAP ";
-        }
-        if( cl & D_MAP_GEN ) {
-            out << "MAP_GEN ";
-        }
-        if( cl & D_NPC ) {
-            out << "NPC ";
-        }
-        if( cl & D_GAME ) {
-            out << "GAME ";
-        }
-        if( cl & D_SDL ) {
-            out << "SDL ";
-        }
-        if( cl & D_MMAP ) {
-            out << "MMAP ";
-        }
+    switch( x ) {
+        // *INDENT-OFF*
+        case DC::DebugMsg: return "DEBUGMSG";
+        case DC::DebugModeMsg: return "DMODE";
+        case DC::Game: return "GAME";
+        case DC::Main: return "MAIN";
+        case DC::Map: return "MAP";
+        case DC::MapGen: return "MAPGEN";
+        case DC::MapMem: return "MAPMEM";
+        case DC::NPC: return "NPC";
+        case DC::SDL: return "SDL";
+        // *INDENT-ON*
+        case DC::Num:
+            break;
     }
-    return out;
+    debugmsg( "Invalid debug class" );
+    abort();
 }
+} // namespace io
 
 #if defined(BACKTRACE)
 #if !defined(_WIN32) && !defined(__CYGWIN__)
@@ -983,30 +1025,47 @@ void debug_write_backtrace( std::ostream &out )
 }
 #endif
 
-std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
+detail::DebugLogGuard::~DebugLogGuard()
 {
-    if( lev & D_ERROR ) {
+    *s << std::endl;
+}
+
+detail::DebugLogGuard detail::realDebugLog( DL lev, DC cl, const char *filename,
+        const char *line, const char *funcname )
+{
+    if( lev == DL::Error ) {
         error_observed = true;
     }
 
-    // Error are always logged, they are important,
-    // Messages from D_MAIN come from debugmsg and are equally important.
-    if( ( lev & debugLevel && cl & debugClass ) || lev & D_ERROR || cl & D_MAIN ) {
+    if( checkDebugLevelClass( lev, cl ) ) {
         std::ostream &out = debugFile().get_file();
-        out << std::endl;
         out << get_time() << " ";
-        out << lev;
-        if( cl != debugClass ) {
-            out << cl;
+        out << io::enum_to_string<DL>( lev ) << " ";
+        if( cl != DC::Main ) {
+            out << io::enum_to_string<DC>( cl ) << " ";
         }
         out << ": ";
+        if( filename ) {
+            out << filename;
+            if( line ) {
+                out << ":" << line;
+            }
+            if( funcname ) {
+                out << " ";
+            } else {
+                out << ": ";
+            }
+        }
+        if( funcname ) {
+            out << "[" << funcname << "] ";
+        }
 
         // Backtrace on error.
 #if defined(BACKTRACE)
         // Push the first retrieved value back by a second so it won't match.
         static time_t next_backtrace = time( nullptr ) - 1;
         time_t now = time( nullptr );
-        if( lev == D_ERROR && now >= next_backtrace ) {
+        if( lev == DL::Error && now >= next_backtrace ) {
             out << "(error message will follow backtrace)";
             debug_write_backtrace( out );
             time_t after = time( nullptr );
@@ -1016,12 +1075,12 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
         }
 #endif
 
-        return out;
+        return DebugLogGuard( out );
     }
 
     static NullBuf nullBuf;
     static std::ostream nullStream( &nullBuf );
-    return nullStream;
+    return DebugLogGuard( nullStream );
 }
 
 std::string game_info::operating_system()

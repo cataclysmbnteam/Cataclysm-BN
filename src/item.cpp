@@ -132,8 +132,6 @@ static const bionic_id bio_digestion( "bio_digestion" );
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
-static const trait_id trait_SMALL_OK( "SMALL_OK" );
-static const trait_id trait_SMALL2( "SMALL2" );
 static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
@@ -145,9 +143,7 @@ static const std::string flag_BIPOD( "BIPOD" );
 static const std::string flag_BYPRODUCT( "BYPRODUCT" );
 static const std::string flag_CABLE_SPOOL( "CABLE_SPOOL" );
 static const std::string flag_CANNIBALISM( "CANNIBALISM" );
-static const std::string flag_CASING( "CASING" );
 static const std::string flag_CHARGEDIM( "CHARGEDIM" );
-static const std::string flag_COLD( "COLD" );
 static const std::string flag_COLLAPSIBLE_STOCK( "COLLAPSIBLE_STOCK" );
 static const std::string flag_CONDUCTIVE( "CONDUCTIVE" );
 static const std::string flag_CONSUMABLE( "CONSUMABLE" );
@@ -530,7 +526,7 @@ item &item::activate()
     return *this;
 }
 
-units::energy item::set_energy( const units::energy &qty )
+units::energy item::mod_energy( const units::energy &qty )
 {
     if( !is_battery() ) {
         debugmsg( "Tried to set energy of non-battery item" );
@@ -2967,9 +2963,18 @@ void item::component_info( std::vector<iteminfo> &info, const iteminfo_query *pa
     if( is_craft() ) {
         info.push_back( iteminfo( "DESCRIPTION", string_format( _( "Using: %s" ),
                                   _( components_to_string() ) ) ) );
-    } else {
+        // Ugly hack warning! Corpses have CBMs as their components
+    } else if( !is_corpse() ) {
         info.push_back( iteminfo( "DESCRIPTION", string_format( _( "Made from: %s" ),
                                   _( components_to_string() ) ) ) );
+    } else if( get_var( "bionics_scanned_by", -1 ) == get_avatar().getID().get_value() ) {
+        // TODO: Extract into a more proper place (function in namespace)
+        std::string bionics_string = enumerate_as_string( components.begin(), components.end(),
+        []( const item & entry ) -> std::string {
+            return entry.is_bionic() ? entry.display_name() : "";
+        }, enumeration_conjunction::none );
+        info.push_back( iteminfo( "DESCRIPTION", string_format( _( "Contains: %s" ),
+                                  bionics_string ) ) );
     }
 }
 
@@ -6165,8 +6170,9 @@ bool item::is_brewable() const
 
 bool item::is_food_container() const
 {
-    return ( !contents.empty() && contents.front().is_food() ) || ( is_craft() &&
-            craft_data_->making->create_result().is_food_container() );
+    return ( !contents.empty() && contents.front().is_food() ) ||
+           ( is_craft() &&
+             craft_data_->making->create_result().is_food_container() );
 }
 
 bool item::is_med_container() const

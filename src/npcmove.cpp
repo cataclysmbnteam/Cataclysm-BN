@@ -1013,7 +1013,7 @@ void npc::execute_action( npc_action action )
                 move_pause();
                 if( !has_effect( effect_lying_down ) ) {
                     activate_bionic_by_id( bio_soporific );
-                    add_effect( effect_lying_down, 30_minutes, num_bp, false, 1 );
+                    add_effect( effect_lying_down, 30_minutes, num_bp, 1 );
                     if( g->u.sees( *this ) && !g->u.in_sleep_state() ) {
                         add_msg( _( "%s lies down to sleep." ), name );
                     }
@@ -2398,13 +2398,13 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             }
         }
         if( g->m.has_flag( "UNSTABLE", pos() ) ) {
-            add_effect( effect_bouldering, 1_turns, num_bp, true );
+            add_effect( effect_bouldering, 1_turns, num_bp );
         } else if( has_effect( effect_bouldering ) ) {
             remove_effect( effect_bouldering );
         }
 
         if( g->m.has_flag_ter_or_furn( TFLAG_NO_SIGHT, pos() ) ) {
-            add_effect( effect_no_sight, 1_turns, num_bp, true );
+            add_effect( effect_no_sight, 1_turns, num_bp );
         } else if( has_effect( effect_no_sight ) ) {
             remove_effect( effect_no_sight );
         }
@@ -4140,10 +4140,9 @@ void npc::set_omt_destination()
         return;
     }
 
-    DebugLog( D_INFO, DC_ALL ) << "npc::set_omt_destination - new goal for NPC [" << get_name() <<
-                               "] with [" << get_need_str_id( needs.front() ) <<
-                               "] is [" << dest_type <<
-                               "] in [" << goal.x << "," << goal.y << "," << goal.z << "].";
+    DebugLog( DL::Info, DC::Main ) << "npc::set_omt_destination - new goal for NPC [" << get_name()
+                                   << "] with [" << get_need_str_id( needs.front() )
+                                   << "] is [" << dest_type << "] in " << goal << ".";
 }
 
 void npc::go_to_omt_destination()

@@ -1048,7 +1048,8 @@ bool Character::burn_fuel( int b, bool start )
         if( !remote_fuel.empty() ) {
             fuel_available.emplace_back( remote_fuel );
             if( remote_fuel == fuel_type_sun_light ) {
-                effective_efficiency = item_worn_with_flag( "SOLARPACK_ON" ).type->solar_efficiency;
+                const item *pack = item_worn_with_flag( "SOLARPACK_ON" );
+                effective_efficiency = pack != nullptr ? pack->type->solar_efficiency : 0;
             }
             // TODO: check for available fuel in remote source
         } else if( !start ) {
@@ -1335,7 +1336,7 @@ void Character::heat_emission( int b, int fuel_energy )
         g->m.emit_field( pos(), hotness, heat_spread );
     }
     for( const std::pair<const bodypart_str_id, size_t> &bp : bio.info().occupied_bodyparts ) {
-        add_effect( effect_heating_bionic, 2_seconds, bp.first->token, false, heat_prod );
+        add_effect( effect_heating_bionic, 2_seconds, bp.first->token, heat_prod );
     }
 }
 
@@ -1896,7 +1897,7 @@ bool Character::uninstall_bionic( const bionic_id &b_id, player &installer, bool
         activity.str_values.push_back( "false" );
     }
     for( const std::pair<const bodypart_str_id, size_t> &elem : b_id->occupied_bodyparts ) {
-        add_effect( effect_under_op, difficulty * 20_minutes, elem.first->token, true, difficulty );
+        add_effect( effect_under_op, difficulty * 20_minutes, elem.first->token, difficulty );
     }
 
     return true;
@@ -2163,7 +2164,7 @@ bool Character::install_bionics( const itype &type, player &installer, bool auto
         activity.str_values.push_back( "false" );
     }
     for( const std::pair<const bodypart_str_id, size_t> &elem : bioid->occupied_bodyparts ) {
-        add_effect( effect_under_op, difficulty * 20_minutes, elem.first->token, true, difficulty );
+        add_effect( effect_under_op, difficulty * 20_minutes, elem.first->token, difficulty );
     }
 
     return true;

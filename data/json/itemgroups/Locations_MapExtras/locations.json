@@ -205,7 +205,8 @@
       [ "chem_hydrogen_peroxide", 5 ],
       [ "strong_antibiotic", 1 ],
       [ "antibiotics", 5 ],
-      [ "weak_antibiotic", 15 ]
+      [ "weak_antibiotic", 15 ],
+      [ "bionic_scanner", 5 ]
     ]
   },
   {

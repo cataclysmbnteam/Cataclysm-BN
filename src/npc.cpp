@@ -1229,12 +1229,19 @@ void npc::form_opinion( const player &u )
         op_of_u.fear -= 1;
     }
 
-    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+    // is your health low
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_player_character().get_body() ) {
         const int hp_max = elem.second.get_hp_max();
         const int hp_cur = elem.second.get_hp_cur();
         if( hp_cur <= hp_max / 2 ) {
             op_of_u.fear--;
         }
+    }
+
+    // is my health low
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+        const int hp_max = elem.second.get_hp_max();
+        const int hp_cur = elem.second.get_hp_cur();
         if( hp_cur <= hp_max / 2 ) {
             op_of_u.fear++;
         }
@@ -1302,7 +1309,7 @@ void npc::form_opinion( const player &u )
         }
     }
     decide_needs();
-    for( auto &i : needs ) {
+    for( const npc_need &i : needs ) {
         if( i == need_food || i == need_drink ) {
             op_of_u.value += 2;
         }
@@ -2420,7 +2427,7 @@ void npc::reboot()
     ai_cache.searched_tiles.clear();
     activity = player_activity();
     clear_destination();
-    add_effect( effect_npc_suspend, 24_hours, num_bp, true, 1 );
+    add_effect( effect_npc_suspend, 24_hours, num_bp, 1 );
 }
 
 void npc::die( Creature *nkiller )
@@ -2690,7 +2697,7 @@ void npc::on_load()
 
     // for spawned npcs
     if( g->m.has_flag( "UNSTABLE", pos() ) ) {
-        add_effect( effect_bouldering, 1_turns, num_bp, true );
+        add_effect( effect_bouldering, 1_turns, num_bp );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
     }

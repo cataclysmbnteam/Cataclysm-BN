@@ -159,6 +159,11 @@ void zone_type::load_zones( const JsonObject &jo, const std::string &src )
     zone_type_factory.load( jo, src );
 }
 
+void zone_type::reset_zones()
+{
+    zone_type_factory.reset();
+}
+
 void zone_type::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name_ );
@@ -1131,6 +1136,7 @@ void zone_data::serialize( JsonOut &json ) const
 void zone_data::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
+    data.allow_omitted_members();
     data.read( "name", name );
     data.read( "type", type );
     if( data.has_member( "faction" ) ) {

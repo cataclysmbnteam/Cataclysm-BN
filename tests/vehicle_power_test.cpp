@@ -29,7 +29,7 @@ static void reset_player()
     REQUIRE( !g->u.in_vehicle );
     g->u.setpos( tripoint_zero );
     // Blind the player to avoid needless drawing-related overhead
-    g->u.add_effect( effect_blind, 1_turns, num_bp, true );
+    g->u.add_effect( effect_blind, 365_days, num_bp );
 }
 
 TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
@@ -193,7 +193,7 @@ TEST_CASE( "Vehicle charging station", "[vehicle][power]" )
         REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) > 1000 );
         veh_ptr->update_time( calendar::turn_zero );
 
-        auto cargo_part_index = veh_ptr->part_with_feature( {0, 0}, "CARGO", true );
+        auto cargo_part_index = veh_ptr->part_with_feature( point_zero, "CARGO", true );
         REQUIRE( cargo_part_index >= 0 );
         vehicle_part &cargo_part = veh_ptr->parts[ cargo_part_index ];
 

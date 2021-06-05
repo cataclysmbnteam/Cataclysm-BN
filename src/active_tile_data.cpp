@@ -15,7 +15,6 @@
 // TODO: Shouldn't use
 #include "submap.h"
 
-static const std::string flag_CABLE_SPOOL( "CABLE_SPOOL" );
 static const std::string flag_RECHARGE( "RECHARGE" );
 static const std::string flag_USE_UPS( "USE_UPS" );
 
@@ -209,7 +208,7 @@ void charger_tile::update_internal( time_point to, const tripoint &p, distributi
                     const int missing = grid.mod_resource( -1 );
                     if( missing == 0 ) {
                         if( n.is_battery() ) {
-                            n.set_energy( 1_kJ );
+                            n.mod_energy( 1_kJ );
                         } else {
                             n.ammo_set( "battery", n.ammo_remaining() + 1 );
                         }

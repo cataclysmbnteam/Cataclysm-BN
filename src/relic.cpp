@@ -36,8 +36,12 @@ void relic::load( const JsonObject &jo )
     }
     if( jo.has_array( "passive_effects" ) ) {
         for( JsonObject jobj : jo.get_array( "passive_effects" ) ) {
-            enchantment_id ench = enchantment::load_enchantment( jobj, "" );
-            add_passive_effect( ench.obj() );
+            enchantment ench;
+            ench.load( jobj );
+            if( !ench.id.is_empty() ) {
+                ench = ench.id.obj();
+            }
+            add_passive_effect( ench );
         }
     }
     jo.read( "name", item_name_override );
@@ -107,4 +111,11 @@ std::string relic::name() const
 std::vector<enchantment> relic::get_enchantments() const
 {
     return passive_effects;
+}
+
+void relic::check() const
+{
+    for( const enchantment &ench : passive_effects ) {
+        ench.check();
+    }
 }

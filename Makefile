@@ -115,21 +115,6 @@ DEBUGSYMS = -g
 # Tells ccache to keep comments, as they can be meaningful to the compiler (as to suppress warnings).
 export CCACHE_COMMENTS=1
 
-# Disable debug. Comment this out to get logging.
-#DEFINES = -DENABLE_LOGGING
-
-# Limit debug to level. Comment out all for all levels.
-#DEFINES += -DDEBUG_INFO
-#DEFINES += -DDEBUG_WARNING
-#DEFINES += -DDEBUG_ERROR
-#DEFINES += -DDEBUG_PEDANTIC_INFO
-
-# Limit debug to section. Comment out all for all levels.
-#DEFINES += -DDEBUG_ENABLE_MAIN
-#DEFINES += -DDEBUG_ENABLE_MAP
-#DEFINES += -DDEBUG_ENABLE_MAP_GEN
-#DEFINES += -DDEBUG_ENABLE_GAME
-
 # Explicitly let 'char' to be 'signed char' to fix #18776
 OTHERS += -fsigned-char
 

@@ -131,7 +131,7 @@ int map::burn_body_part( player &u, field_entry &cur, body_part bp, const int sc
     }
     // Represents acid seeping in rather than being splashed on
     u.add_env_effect( effect_corroding, bp, 2 + intensity, time_duration::from_turns( rng( 2,
-                      1 + intensity ) ), bp, false, 0 );
+                      1 + intensity ) ), bp, 0 );
     return total_damage;
 }
 
@@ -1238,7 +1238,7 @@ void map::player_in_field( player &u )
             // Moving through multiple webs stacks the effect.
             if( !u.has_trait( trait_WEB_WALKER ) && !u.in_vehicle ) {
                 // Between 5 and 15 minus your current web level.
-                u.add_effect( effect_webbed, 1_turns, num_bp, true, cur.get_field_intensity() );
+                u.add_effect( effect_webbed, 1_turns, num_bp, cur.get_field_intensity() );
                 // It is spent.
                 cur.set_field_intensity( 0 );
                 continue;
@@ -1401,8 +1401,8 @@ void map::player_in_field( player &u )
         }
         if( ft == fd_fungal_haze ) {
             if( !u.has_trait( trait_M_IMMUNE ) && ( !inside || one_in( 4 ) ) ) {
-                u.add_env_effect( effect_fungus, bp_mouth, 4, 10_minutes, num_bp, true );
-                u.add_env_effect( effect_fungus, bp_eyes, 4, 10_minutes, num_bp, true );
+                u.add_env_effect( effect_fungus, bp_mouth, 4, 10_minutes, num_bp );
+                u.add_env_effect( effect_fungus, bp_eyes, 4, 10_minutes, num_bp );
             }
         }
         if( ft == fd_dazzling ) {
@@ -1640,7 +1640,7 @@ void map::monster_in_field( monster &z )
         const field_type_id cur_field_type = cur.get_field_type();
         if( cur_field_type == fd_web ) {
             if( !z.has_flag( MF_WEBWALK ) ) {
-                z.add_effect( effect_webbed, 1_turns, num_bp, true, cur.get_field_intensity() );
+                z.add_effect( effect_webbed, 1_turns, num_bp, cur.get_field_intensity() );
                 cur.set_field_intensity( 0 );
             }
         }

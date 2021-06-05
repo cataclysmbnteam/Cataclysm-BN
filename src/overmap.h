@@ -413,9 +413,9 @@ class overmap
         pimpl<std::unordered_multimap<tripoint, monster>> monster_map;
 
         // parse data in an opened overmap file
-        void unserialize( std::istream &fin );
+        void unserialize( std::istream &fin, const std::string &file_path );
         // Parse per-player overmap view data.
-        void unserialize_view( std::istream &fin );
+        void unserialize_view( std::istream &fin, const std::string &file_path );
         // Save data in an opened overmap file
         void serialize( std::ostream &fout ) const;
         // Save per-player overmap view data.
@@ -432,7 +432,7 @@ class overmap
         void process_mongroups();
         void move_hordes();
 
-        static bool obsolete_terrain( const std::string &ter );
+        static bool is_obsolete_terrain( const std::string &ter );
         void convert_terrain( const std::unordered_map<tripoint, std::string> &needs_conversion );
 
         // Overall terrain
@@ -530,6 +530,7 @@ class overmap
         void save_monster_groups( JsonOut &jo ) const;
     public:
         static void load_obsolete_terrains( const JsonObject &jo );
+        static void reset_obsolete_terrains();
 };
 
 bool is_river( const oter_id &ter );

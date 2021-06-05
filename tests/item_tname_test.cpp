@@ -11,14 +11,10 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
-static const std::string flag_COLD( "COLD" );
 static const std::string flag_DIAMOND( "DIAMOND" );
 static const std::string flag_FILTHY( "FILTHY" );
-static const std::string flag_FROZEN( "FROZEN" );
 static const std::string flag_HIDDEN_HALLU( "HIDDEN_HALLU" );
 static const std::string flag_HIDDEN_POISON( "HIDDEN_POISON" );
-static const std::string flag_HOT( "HOT" );
-static const std::string flag_MELTS( "MELTS" );
 static const std::string flag_WET( "WET" );
 
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );

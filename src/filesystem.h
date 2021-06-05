@@ -48,6 +48,12 @@ bool copy_file( const std::string &source_path, const std::string &dest_path );
 /** Get process id string. Used for temporary file paths. */
 std::string get_pid_string();
 
+/**
+ * Read entire file to string.
+ * @return empty string on failure.
+ */
+std::string read_entire_file( const std::string &path );
+
 namespace cata_files
 {
 const char *eol();

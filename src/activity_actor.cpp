@@ -39,11 +39,7 @@
 #include "uistate.h"
 #include "units.h"
 
-static const bionic_id bio_fingerhack( "bio_fingerhack" );
-
 static const skill_id skill_computer( "computer" );
-
-static const trait_id trait_ILLITERATE( "ILLITERATE" );
 
 void hacking_activity_actor::start( player_activity &act, Character & )
 {

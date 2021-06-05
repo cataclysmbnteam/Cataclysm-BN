@@ -1108,5 +1108,10 @@
     "type": "item_action",
     "id": "CRAFT",
     "name": { "str": "Work on craft" }
+  },
+  {
+    "type": "item_action",
+    "id": "NOTE_BIONICS",
+    "name": { "str": "Turn off" }
   }
 ]

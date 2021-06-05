@@ -10,7 +10,6 @@
 #include <map>
 #include <memory>
 #include <set>
-#include <sstream>
 #include <stdexcept>
 #include <unordered_map>
 
@@ -95,7 +94,7 @@ static const mongroup_id GROUP_ZOMBIE_COP( "GROUP_ZOMBIE_COP" );
 
 static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
 
-#define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLogFL((x),DC::MapGen)
 
 #define MON_RADIUS 3
 
@@ -106,8 +105,8 @@ static void build_mine_room( room_type type, const point &p1, const point &p2, m
 // x%2 and y%2 must be 0!
 void map::generate( const tripoint &p, const time_point &when )
 {
-    dbg( D_INFO ) << "map::generate( g[" << g.get() << "], p[" << p << "], "
-                  "when[" << to_string( when ) << "] )";
+    dbg( DL::Info ) << "map::generate( g[" << g.get() << "], p[" << p <<
+                    "], when[" << to_string( when ) << "] )";
 
     set_abs_sub( p );
 
@@ -195,7 +194,7 @@ void map::generate( const tripoint &p, const time_point &when )
     // And finally save used submaps and delete the rest.
     for( int i = 0; i < my_MAPSIZE; i++ ) {
         for( int j = 0; j < my_MAPSIZE; j++ ) {
-            dbg( D_INFO ) << "map::generate: submap (" << i << "," << j << ")";
+            dbg( DL::Info ) << "map::generate: submap (" << i << "," << j << ")";
 
             const tripoint pos( i, j, p.z );
             if( i <= 1 && j <= 1 ) {
@@ -436,8 +435,10 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base, const p
             jio.throw_error( "function does not exist", "name" );
         }
     } else if( mgtype == "json" ) {
-        const std::string jstr = jio.get_object( "object" ).str();
-        ret = std::make_shared<mapgen_function_json>( jstr, mgweight, offset );
+        JsonObject jo = jio.get_object( "object" );
+        const json_source_location jsrc = jo.get_source_location();
+        jo.allow_omitted_members();
+        ret = std::make_shared<mapgen_function_json>( jsrc, mgweight, offset );
         oter_mapgen.add( id_base, ret );
     } else {
         jio.throw_error( R"(invalid value: must be "builtin" or "json")", "method" );
@@ -452,8 +453,9 @@ static void load_nested_mapgen( const JsonObject &jio, const std::string &id_bas
         if( jio.has_object( "object" ) ) {
             int weight = jio.get_int( "weight", 1000 );
             JsonObject jo = jio.get_object( "object" );
-            std::string jstr = jo.str();
-            nested_mapgen[id_base].add( std::make_shared<mapgen_function_json_nested>( jstr ), weight );
+            const json_source_location jsrc = jo.get_source_location();
+            jo.allow_omitted_members();
+            nested_mapgen[id_base].add( std::make_shared<mapgen_function_json_nested>( jsrc ), weight );
         } else {
             debugmsg( "Nested mapgen: Invalid mapgen function (missing \"object\" object)", id_base.c_str() );
         }
@@ -469,9 +471,10 @@ static void load_update_mapgen( const JsonObject &jio, const std::string &id_bas
     if( mgtype == "json" ) {
         if( jio.has_object( "object" ) ) {
             JsonObject jo = jio.get_object( "object" );
-            std::string jstr = jo.str();
+            const json_source_location jsrc = jo.get_source_location();
+            jo.allow_omitted_members();
             update_mapgen[id_base].push_back(
-                std::make_unique<update_mapgen_function_json>( jstr ) );
+                std::make_unique<update_mapgen_function_json>( jsrc ) );
         } else {
             debugmsg( "Update mapgen: Invalid mapgen function (missing \"object\" object)",
                       id_base.c_str() );
@@ -578,8 +581,8 @@ bool mapgen_function_json_base::check_inbounds( const jmapgen_int &x, const jmap
     return common_check_bounds( x, y, mapgensize, jso );
 }
 
-mapgen_function_json_base::mapgen_function_json_base( const std::string &s )
-    : jdata( s )
+mapgen_function_json_base::mapgen_function_json_base( const json_source_location &jsrcloc )
+    : jsrcloc( jsrcloc )
     , do_format( false )
     , is_ready( false )
     , mapgensize( SEEX * 2, SEEY * 2 )
@@ -589,10 +592,10 @@ mapgen_function_json_base::mapgen_function_json_base( const std::string &s )
 
 mapgen_function_json_base::~mapgen_function_json_base() = default;
 
-mapgen_function_json::mapgen_function_json( const std::string &s, const int w,
+mapgen_function_json::mapgen_function_json( const json_source_location &jsrcloc, const int w,
         const point &grid_offset )
     : mapgen_function( w )
-    , mapgen_function_json_base( s )
+    , mapgen_function_json_base( jsrcloc )
     , fill_ter( t_null )
     , rotation( 0 )
 {
@@ -601,8 +604,8 @@ mapgen_function_json::mapgen_function_json( const std::string &s, const int w,
     objects = jmapgen_objects( m_offset, mapgensize );
 }
 
-mapgen_function_json_nested::mapgen_function_json_nested( const std::string &s )
-    : mapgen_function_json_base( s )
+mapgen_function_json_nested::mapgen_function_json_nested( const json_source_location &jsrcloc )
+    : mapgen_function_json_base( jsrcloc )
     , rotation( 0 )
 {
 }
@@ -2125,6 +2128,11 @@ void mapgen_palette::load( const JsonObject &jo, const std::string &src )
     palettes[ ret.id ] = ret;
 }
 
+void mapgen_palette::reset()
+{
+    palettes.clear();
+}
+
 const mapgen_palette &mapgen_palette::get( const palette_id &id )
 {
     const auto iter = palettes.find( id );
@@ -2308,8 +2316,13 @@ void mapgen_function_json_base::setup_common()
     if( is_ready ) {
         return;
     }
-    std::istringstream iss( jdata );
-    JsonIn jsin( iss );
+    if( !jsrcloc->path ) {
+        debugmsg( "null json source location path" );
+        return;
+    }
+    shared_ptr_fast<std::istream> stream = DynamicDataLoader::get_instance().get_cached_stream(
+            *jsrcloc->path );
+    JsonIn jsin( *stream, *jsrcloc );
     JsonObject jo = jsin.get_object();
     mapgen_defer::defer = false;
     if( !setup_common( jo ) ) {
@@ -5853,8 +5866,8 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const int d
         return nullptr;
     }
     if( !inbounds( p ) ) {
-        dbg( D_WARNING ) << string_format( "Out of bounds add_vehicle t=%s d=%d p=%d,%d,%d", type.c_str(),
-                                           dir, p.x, p.y, p.z );
+        dbg( DL::Warn ) << string_format( "Out of bounds add_vehicle t=%s d=%d p=%s",
+                                          type.c_str(), dir, p.to_string() );
         return nullptr;
     }
 
@@ -6930,8 +6943,8 @@ void add_corpse( map *m, const point &p )
 }
 
 //////////////////// mapgen update
-update_mapgen_function_json::update_mapgen_function_json( const std::string &s ) :
-    mapgen_function_json_base( s )
+update_mapgen_function_json::update_mapgen_function_json( const json_source_location &jsrcloc ) :
+    mapgen_function_json_base( jsrcloc )
 {
 }
 
@@ -7024,7 +7037,7 @@ mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer )
         return update_function;
     }
 
-    update_mapgen_function_json json_data( "" );
+    update_mapgen_function_json json_data( json_source_location{} );
     mapgen_defer::defer = defer;
     if( !json_data.setup_update( jo ) ) {
         const auto null_function = []( const tripoint &, mission * ) {

@@ -156,29 +156,29 @@ static void migrate_ench_vals_enums( std::string &s )
 
 namespace
 {
-generic_factory<enchantment> spell_factory( "enchantment" );
+generic_factory<enchantment> enchant_factory( "enchantment" );
 } // namespace
 
 template<>
 const enchantment &string_id<enchantment>::obj() const
 {
-    return spell_factory.obj( *this );
+    return enchant_factory.obj( *this );
 }
 
 template<>
 bool string_id<enchantment>::is_valid() const
 {
-    return spell_factory.is_valid( *this );
+    return enchant_factory.is_valid( *this );
 }
 
-enchantment_id enchantment::load_enchantment( const JsonObject &jo, const std::string &src )
+void enchantment::load_enchantment( const JsonObject &jo, const std::string &src )
 {
-    enchantment ench;
-    ench.load( jo, src );
-    // Ugly hack warning: we don't always have an id in json, but want to handle inheritance
-    spell_factory.handle_inheritance( ench, jo, src );
-    spell_factory.insert( ench );
-    return ench.id;
+    enchant_factory.load( jo, src );
+}
+
+void enchantment::reset()
+{
+    enchant_factory.reset();
 }
 
 bool enchantment::is_active( const Character &guy, const item &parent ) const
@@ -225,10 +225,7 @@ void enchantment::add_activation( const time_duration &freq, const fake_spell &f
 
 void enchantment::load( const JsonObject &jo, const std::string & )
 {
-    if( !jo.read( "id", id ) ) {
-        id = enchantment_id( string_format( "inline_%u", spell_factory.size() ) );
-        is_inline = true;
-    }
+    optional( jo, was_loaded, "id", id, enchantment_id( "" ) );
 
     jo.read( "hit_you_effect", hit_you_effect );
     jo.read( "hit_me_effect", hit_me_effect );
@@ -288,10 +285,10 @@ void enchantment::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
-    // Inline ID means it is defined in static data and doesn't need to be in saves
-    if( !is_inline ) {
+    if( !id.is_empty() ) {
         jsout.member( "id", id );
         jsout.end_object();
+        // if the enchantment has an id then it is defined elsewhere and does not need to be serialized.
         return;
     }
 
@@ -473,7 +470,7 @@ void enchantment::activate_passive( Character &guy ) const
         get_map().emit_field( guy.pos(), *emitter );
     }
     for( const std::pair<efftype_id, int> eff : ench_effects ) {
-        guy.add_effect( eff.first, 1_seconds, num_bp, false, eff.second );
+        guy.add_effect( eff.first, 1_seconds, num_bp, eff.second );
     }
     for( const std::pair<const time_duration, std::vector<fake_spell>> &activation :
          intermittent_activation ) {
@@ -545,11 +542,6 @@ bool enchantment::operator==( const enchantment &rhs ) const
            active_conditions == rhs.active_conditions;
 }
 
-void enchantment::check_consistency()
-{
-    spell_factory.check();
-}
-
 namespace
 {
 
@@ -571,7 +563,7 @@ template <float mutation_branch::*First, float mutation_branch::* ...Rest,
 void enchantment::check() const
 {
     // TODO: Where was it declared? CONTEXT!
-    const char *ench_desc = is_inline ? "An inline enchantment" : "Enchantment";
+    const char *ench_desc = id.is_empty() ? "An inline enchantment" : "Enchantment";
     std::vector<std::string> problems;
     for( const trait_id &mut : mutations ) {
         if( !mut.is_valid() ) {
@@ -604,4 +596,9 @@ void enchantment::check() const
         debugmsg( "%s %s has: %s", ench_desc, id.c_str(),
                   enumerate_as_string( problems, enumeration_conjunction::none ) );
     }
+}
+
+void enchantment::check_consistency()
+{
+    enchant_factory.check();
 }
