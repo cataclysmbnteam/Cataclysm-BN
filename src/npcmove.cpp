@@ -3394,11 +3394,12 @@ bool npc::wield_better_weapon()
     // Fists aren't checked below
     compare_weapon( null_item_reference() );
 
-    visit_items( [&compare_weapon]( item * node ) {
+    visit_items( [&compare_weapon, this]( item * node ) {
         // Only compare melee weapons, guns, or holstered items
         if( node->is_melee() || node->is_gun() ) {
             compare_weapon( *node );
-        } else if( node->get_use( "holster" ) && !node->contents.empty() ) {
+        } else if( node->get_use( "holster" ) && !node->contents.empty() && node != &weapon ) {
+            // TODO: special case for "wield from wielded holster"
             const item &holstered = node->get_contained();
             if( holstered.is_melee() || holstered.is_gun() ) {
                 compare_weapon( holstered );
