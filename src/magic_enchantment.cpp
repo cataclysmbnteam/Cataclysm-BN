@@ -14,6 +14,7 @@
 #include "generic_factory.h"
 #include "json.h"
 #include "map.h"
+#include "mutation.h"
 #include "point.h"
 #include "rng.h"
 #include "string_id.h"
@@ -539,4 +540,65 @@ bool enchantment::operator==( const enchantment &rhs ) const
            hit_you_effect == rhs.hit_you_effect &&
            intermittent_activation == intermittent_activation &&
            active_conditions == rhs.active_conditions;
+}
+
+namespace
+{
+
+template <float mutation_branch::*First>
+bool is_set_value( const trait_id &mut, float val )
+{
+    return ( *mut ).*First == val;
+}
+
+template <float mutation_branch::*First, float mutation_branch::* ...Rest,
+          typename std::enable_if<( sizeof...( Rest ) > 0 ), bool>::type NonEmpty = false >
+                  bool is_set_value( const trait_id &mut, float val )
+{
+    return ( *mut ).*First == val && is_set_value<Rest...>( mut, val );
+}
+
+} // namespace
+
+void enchantment::check() const
+{
+    // TODO: Where was it declared? CONTEXT!
+    const char *ench_desc = id.is_empty() ? "An inline enchantment" : "Enchantment";
+    std::vector<std::string> problems;
+    for( const trait_id &mut : mutations ) {
+        if( !mut.is_valid() ) {
+            debugmsg( "%s %s has invalid mutation %s", ench_desc, id.c_str(), mut.c_str() );
+        }
+
+        // One enchantment is fine iif it's just us
+        if( mut->enchantments.size() > 1 ||
+            ( mut->enchantments.size() == 1 &&
+              std::count( mut->enchantments.begin(), mut->enchantments.end(), id ) == 0 ) ) {
+            problems.push_back(
+                string_format( "\nmutation %s which has other enchantments (not supported)", mut.str() ) );
+        }
+
+        // TODO: Implement or also list alpha-stat muts and slime perception
+        if( !mut->mods.empty() ) {
+            problems.push_back(
+                string_format( "\nmutation %s which has stat adjustments (not supported)", mut.str() ) );
+        }
+
+        // TODO: Implement or also list glass jaw
+        if( !is_set_value<&mutation_branch::hp_modifier, &mutation_branch::hp_modifier_secondary, &mutation_branch::hp_adjustment>
+            ( mut, 0.0f ) ) {
+            problems.push_back( string_format( "\nmutation %s which adjusts hp (not supported)",
+                                               mut.str() ) );
+        }
+    }
+
+    if( !problems.empty() ) {
+        debugmsg( "%s %s has: %s", ench_desc, id.c_str(),
+                  enumerate_as_string( problems, enumeration_conjunction::none ) );
+    }
+}
+
+void enchantment::check_consistency()
+{
+    enchant_factory.check();
 }

@@ -112,3 +112,10 @@ std::vector<enchantment> relic::get_enchantments() const
 {
     return passive_effects;
 }
+
+void relic::check() const
+{
+    for( const enchantment &ench : passive_effects ) {
+        ench.check();
+    }
+}

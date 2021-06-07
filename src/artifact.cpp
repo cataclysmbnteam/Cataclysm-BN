@@ -1148,6 +1148,7 @@ void it_artifact_tool::deserialize( const JsonObject &jo )
     melee[DT_CUT] = jo.get_int( "melee_cut" );
     m_to_hit = jo.get_int( "m_to_hit" );
     item_tags = jo.get_tags( "item_flags" );
+    jo.read( "techniques", techniques );
 
     tool->max_charges = jo.get_int( "max_charges" );
     tool->def_charges = jo.get_int( "def_charges" );
@@ -1256,6 +1257,7 @@ void it_artifact_armor::deserialize( const JsonObject &jo )
     melee[DT_CUT] = jo.get_int( "melee_cut" );
     m_to_hit = jo.get_int( "m_to_hit" );
     item_tags = jo.get_tags( "item_flags" );
+    jo.read( "techniques", techniques );
 
     jo.read( "covers", armor->covers );
     armor->encumber = jo.get_int( "encumber" );

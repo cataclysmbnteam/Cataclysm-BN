@@ -165,7 +165,7 @@ void Character::set_mutation( const trait_id &trait )
         return;
     }
     my_mutations.emplace( trait, trait_data{} );
-    cached_mutations.push_back( &trait.obj() );
+    rebuild_mutation_cache();
     mutation_effect( trait, false );
     recalc_sight_limits();
     reset_encumbrance();
@@ -181,9 +181,7 @@ void Character::unset_mutation( const trait_id &trait_ )
     if( iter == my_mutations.end() ) {
         return;
     }
-    const mutation_branch &mut = *trait;
-    cached_mutations.erase( std::remove( cached_mutations.begin(), cached_mutations.end(), &mut ),
-                            cached_mutations.end() );
+    rebuild_mutation_cache();
     my_mutations.erase( iter );
     mutation_loss_effect( trait );
     recalc_sight_limits();

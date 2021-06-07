@@ -3390,6 +3390,7 @@ void Character::reset_stats()
 
 void Character::reset()
 {
+    recalculate_enchantment_cache();
     // TODO: Move reset_stats here, remove it from Creature
     Creature::reset();
 }
@@ -7629,6 +7630,19 @@ void Character::recalculate_enchantment_cache()
                 enchantment_cache->force_add( ench );
             }
         }
+    }
+
+    rebuild_mutation_cache();
+}
+
+void Character::rebuild_mutation_cache()
+{
+    cached_mutations.clear();
+    for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
+        cached_mutations.push_back( &mut.first.obj() );
+    }
+    for( const trait_id &mut : enchantment_cache->get_mutations() ) {
+        cached_mutations.push_back( &mut.obj() );
     }
 }
 

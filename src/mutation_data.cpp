@@ -13,6 +13,7 @@
 #include "debug.h"
 #include "generic_factory.h"
 #include "json.h"
+#include "magic_enchantment.h"
 #include "memory_fast.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -570,6 +571,9 @@ void mutation_branch::check_consistency()
         }
         if( s_id && !s_id.value().is_valid() ) {
             debugmsg( "mutation %s refers to undefined scent type %s", mid.c_str(), s_id.value().c_str() );
+        }
+        for( const enchantment_id &ench : mdata.enchantments ) {
+            ench->check();
         }
         ::check_consistency( mdata.prereqs, mid, "prereq" );
         ::check_consistency( mdata.prereqs2, mid, "prereqs2" );

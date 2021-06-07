@@ -1383,6 +1383,10 @@ void Item_factory::check_definitions() const
             }
         }
 
+        if( type->relic_data ) {
+            type->relic_data->check();
+        }
+
         for( const auto &elem : type->use_methods ) {
             const iuse_actor *actor = elem.second.get_actor_ptr();
 

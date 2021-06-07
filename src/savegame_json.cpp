@@ -2353,6 +2353,11 @@ void item::io( Archive &archive )
         }
         charges = 0;
     }
+
+    // Relic check. Kinda late, but that's how relics have to be
+    if( relic_data ) {
+        relic_data->check();
+    }
 }
 
 void item::deserialize( JsonIn &jsin )

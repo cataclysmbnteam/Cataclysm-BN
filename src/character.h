@@ -905,6 +905,7 @@ class Character : public Creature, public visitable<Character>
     public:
         // recalculates enchantment cache by iterating through all held, worn, and wielded items
         void recalculate_enchantment_cache();
+        void rebuild_mutation_cache();
 
         /**
          * Calculate bonus from enchantments for given base value.

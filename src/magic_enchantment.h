@@ -164,7 +164,10 @@ class enchantment
             return mutations;
         }
 
-        bool operator==( const enchantment &rhs )const;
+        bool operator==( const enchantment &rhs ) const;
+
+        static void check_consistency();
+        void check() const;
     private:
         std::set<trait_id> mutations;
         cata::optional<emit_id> emitter;
