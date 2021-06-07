@@ -4139,7 +4139,8 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
     auto valid_tile = [&]( const tripoint & e ) {
         if( !inbounds( e ) ) {
             // should never happen
-            debugmsg( "add_item_or_charges: tripoint %s is out of bounds", e.to_string() );
+            debugmsg( "add_item_or_charges: %s is out of bounds (adding item '%s' [%d])",
+                      e.to_string(), obj.typeId().c_str(), obj.charges );
             return false;
         }
 
