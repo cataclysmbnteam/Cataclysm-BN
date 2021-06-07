@@ -373,7 +373,7 @@
     "id": "earphones",
     "name": [ "Wearing earphones" ],
     "desc": [ "You are wearing earphones and can't hear much from outside world." ],
-    "permanent": true,
+    "max_duration": "1 s",
     "rating": "bad"
   },
   {
@@ -526,6 +526,7 @@
     "name": [ "Sleep Deprived" ],
     "desc": [ "Your sleep debt has been steadily increasing for a while.  You should get some rest." ],
     "rating": "bad",
+    "permanent": true,
     "max_intensity": 100,
     "int_dur_factor": 480,
     "resist_effects": [ "meth" ],
@@ -1405,7 +1406,7 @@
   {
     "type": "effect_type",
     "id": "music",
-    "permanent": true
+    "max_duration": "1 s"
   },
   {
     "type": "effect_type",
