@@ -84,7 +84,7 @@
         "..............................................%.@.,,,,,,,,,,,,,...%.............................",
         "..............................................%...,,,,,,,,,,,,,.@.%............................."
       ],
-      "sealed_item": { "#": { "item": { "item": "seed_corn", "chance": 100 }, "furniture": "f_plant_seedling" } },
+      "sealed_item": { "#": { "item": { "item": "seed_corn" }, "furniture": "f_plant_seedling" } },
       "terrain": {
         ".": [ [ "t_region_groundcover", 99 ], [ "t_shrub", 1 ] ],
         ",": [ [ "t_dirt", 200 ], [ "t_railroad_rubble", 15 ], [ "t_region_groundcover", 55 ] ],
