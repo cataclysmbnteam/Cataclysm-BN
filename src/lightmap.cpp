@@ -182,7 +182,7 @@ bool map::build_vision_transparency_cache( const int zlev )
     return dirty;
 }
 
-void map::apply_character_light( player &p )
+void map::apply_character_light( Character &p )
 {
     if( p.has_effect( effect_onfire ) ) {
         apply_light_source( p.pos(), 8 );
@@ -290,7 +290,7 @@ void map::build_sunlight_cache( int pzlev )
         const auto &prev_transparency_cache = prev_map_cache.transparency_cache;
         const auto &prev_floor_cache = prev_map_cache.floor_cache;
         const auto &outside_cache = map_cache.outside_cache;
-        const float sight_penalty = get_weather().weather_id->sight_penalty;
+        const float sight_penalty = weather::sight_penalty( g->weather.weather );
         // TODO: Replace these with a lookup inside the four_quadrants class.
         constexpr std::array<point, 5> cardinals = {
             {point_zero, point_north, point_west, point_east, point_south}
