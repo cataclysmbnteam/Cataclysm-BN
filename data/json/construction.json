@@ -4160,6 +4160,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_gridkiln",
+    "description": "Place Electric Kiln",
+    "category": "OTHER",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 m",
+    "components": [ [ [ "kiln", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_gridkiln"
+  },
+  {
+    "type": "construction",
     "id": "constr_gridelectrolysis_kit",
     "description": "Place Electrolysis Kit",
     "category": "OTHER",
@@ -4169,5 +4181,41 @@
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_terrain": "f_gridelectrolysis_kit"
+  },
+  {
+    "type": "construction",
+    "id": "constr_griddehydrator",
+    "description": "Place Food Dehydrator",
+    "category": "OTHER",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 m",
+    "components": [ [ [ "dehydrator", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_griddehydrator"
+  },
+  {
+    "type": "construction",
+    "id": "constr_gridfood_processor",
+    "description": "Place Food Processor",
+    "category": "OTHER",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 m",
+    "components": [ [ [ "food_processor", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_gridfood_processor"
+  },
+  {
+    "type": "construction",
+    "id": "constr_gridvac_sealer",
+    "description": "Place Vaccuum Sealer",
+    "category": "OTHER",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 m",
+    "components": [ [ [ "vac_sealer", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_gridvac_sealer"
   }
 ]

@@ -197,6 +197,42 @@
     "flags": [ "USES_GRID_POWER" ]
   },
   {
+    "id": "fake_gridkiln",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "grid kiln" },
+    "sub": "kiln",
+    "max_charges": 2500,
+    "flags": [ "USES_GRID_POWER" ]
+  },
+  {
+    "id": "fake_griddehydrator",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "grid food dehydrator" },
+    "sub": "dehydrator",
+    "max_charges": 2500,
+    "flags": [ "USES_GRID_POWER" ]
+  },
+  {
+    "id": "fake_gridfood_processor",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "grid food processor" },
+    "sub": "food_processor",
+    "max_charges": 2500,
+    "flags": [ "USES_GRID_POWER" ]
+  },
+  {
+    "id": "fake_gridvac_sealer",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "grid vacuum sealer" },
+    "sub": "vac_sealer",
+    "max_charges": 2500,
+    "flags": [ "USES_GRID_POWER" ]
+  },
+  {
     "id": "fake_gridelectrolysis_kit",
     "copy-from": "fake_item",
     "type": "TOOL",
