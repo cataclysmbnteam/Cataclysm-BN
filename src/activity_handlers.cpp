@@ -478,19 +478,20 @@ static void extract_or_wreck_cbms( const std::list<item> &cbms, int roll,
         return;
     }
     for( item it : cbms ) {
+        static const itype_id burn_out_bionic( "burnt_out_bionic" );
         // For some stupid reason, zombie pheromones are dropped using bionic type
         // This complicates things
         if( it.is_bionic() ) {
-            if( check_butcher_cbm( roll ) ) {
+            if( check_butcher_cbm( roll ) || it.typeId() == burn_out_bionic ) {
                 add_msg( m_good, _( "You discover a %s!" ), it.tname() );
             } else {
                 // We convert instead of recreating so that it keeps flags and faults
-                it.convert( itype_id( "burnt_out_bionic" ) );
-                add_msg( m_bad, _( "You discover a %s!" ), it.tname() );
+                it.convert( burn_out_bionic );
+                add_msg( m_bad, _( "Your imprecise surgery damaged a bionic, producing a %s." ), it.tname() );
             }
         } else {
             if( !check_butcher_cbm( roll ) ) {
-                add_msg( m_bad, _( "You discover only damaged organs." ) );
+                add_msg( m_bad, _( "Your imprecise surgery destroyed some organs." ) );
                 continue;
             } else {
                 add_msg( m_good, _( "You discover a %s!" ), it.tname() );
