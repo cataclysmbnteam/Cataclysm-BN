@@ -2254,14 +2254,20 @@ int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
                 continue;
             }
 
-            int cbm_count = std::distance( corpse.components.begin(), corpse.components.end() );
-            if( cbm_count > it->ammo_consume( cbm_count, pos ) ) {
+            std::vector<const item *> cbms;
+            for( const item &maybe_cbm : corpse.components ) {
+                if( maybe_cbm.is_bionic() ) {
+                    cbms.push_back( &maybe_cbm );
+                }
+            }
+
+            if( static_cast<int>( cbms.size() ) > it->ammo_consume( cbms.size(), pos ) ) {
                 it->deactivate( p, true );
                 return 0;
             }
 
             corpse.set_var( "bionics_scanned_by", p->getID().get_value() );
-            if( cbm_count > 0 ) {
+            if( cbms.size() > 0 ) {
                 std::string bionics_string =
                     enumerate_as_string( corpse.components.begin(), corpse.components.end(),
                 []( const item & entry ) -> std::string {
