@@ -2269,9 +2269,9 @@ int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
             corpse.set_var( "bionics_scanned_by", p->getID().get_value() );
             if( cbms.size() > 0 ) {
                 std::string bionics_string =
-                    enumerate_as_string( corpse.components.begin(), corpse.components.end(),
-                []( const item & entry ) -> std::string {
-                    return entry.is_bionic() ? entry.display_name() : "";
+                    enumerate_as_string( cbms.begin(), cbms.end(),
+                []( const item * entry ) -> std::string {
+                    return entry->display_name();
                 }, enumeration_conjunction::none );
                 p->add_msg_if_player( m_good, _( "A %1$s located %2$s contains %3$s" ),
                                       corpse.display_name().c_str(),
