@@ -819,7 +819,7 @@
   {
     "type": "furniture",
     "id": "f_gridfood_processor",
-    "name": "grid foid pricessor",
+    "name": "grid food processor",
     "symbol": "U",
     "description": "A food processor connected to a electrical grid.  Capable of slicing, chopping, shredding, grinding, pureeing and mixing.",
     "color": "blue",
