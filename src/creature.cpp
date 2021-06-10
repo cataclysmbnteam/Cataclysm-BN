@@ -936,7 +936,8 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, b
             effect &e = found_effect->second;
             const int prev_int = e.get_intensity();
             // If we do, mod the duration, factoring in the mod value
-            e.mod_duration( dur * e.get_dur_add_perc() / 100 );
+            e.mod_duration( time_duration::from_turns( static_cast<int>(
+                                to_turns<int64_t>( dur ) * e.get_dur_add_perc() / 100 ) ) );
             // Limit to max duration
             if( e.get_max_duration() > 0_turns && e.get_duration() > e.get_max_duration() ) {
                 e.set_duration( e.get_max_duration() );
