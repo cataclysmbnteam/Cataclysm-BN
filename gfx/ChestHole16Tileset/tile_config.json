@@ -37811,7 +37811,7 @@
           ]
         },
         {
-          "id": "footstep",
+          "id": ["footstep", "footstep_above", "footstep_below"],
           "fg": 1945,
           "bg": 633,
           "rotates": false

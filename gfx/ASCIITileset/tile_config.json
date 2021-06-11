@@ -72,7 +72,7 @@
           ]
         },
         { "id": "animation_hit", "bg": 1579 },
-        { "id": "footstep", "fg": 1679, "rotates": false },
+        { "id": ["footstep", "footstep_above", "footstep_below"], "fg": 1679, "rotates": false },
         {
           "id": "explosion_medium",
           "fg": 1802,

@@ -1206,7 +1206,7 @@
           "fg": 245
         },
         {
-          "id": ["footstep" ],
+          "id": ["footstep", "footstep_above", "footstep_below"],
           "fg": 246
         },
         {
