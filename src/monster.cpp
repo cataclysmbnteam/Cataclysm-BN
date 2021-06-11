@@ -1507,12 +1507,7 @@ void monster::melee_attack( Creature &target, float accuracy )
 
     if( total_dealt > 6 && stab_cut > 0 && has_flag( MF_BLEED ) ) {
         // Maybe should only be if DT_CUT > 6... Balance question
-        if( target.is_player() || target.is_npc() ) {
-            target.add_effect( effect_bleed, 6_minutes, bp_hit );
-        } else {
-            target.add_effect( effect_bleed, 6_minutes, bp_hit );
-        }
-
+        target.add_effect( effect_bleed, 6_minutes, bp_hit );
     }
 }
 
