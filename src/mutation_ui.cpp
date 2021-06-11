@@ -75,6 +75,25 @@ void player::power_mutations()
         return;
     }
 
+    // Mutation selection UI obscures the terrain,
+    // but some mutations may ask to select a tile when activated.
+    // As such, we must (de-)activate only after destroying the UI.
+    power_mut_ui_result res = power_mutations_ui();
+
+    switch( res.cmd ) {
+        case power_mut_ui_cmd::Exit:
+            break;
+        case power_mut_ui_cmd::Deactivate:
+            deactivate_mutation( res.mut );
+            break;
+        case power_mut_ui_cmd::Activate:
+            activate_mutation( res.mut );
+            break;
+    }
+}
+
+player::power_mut_ui_result player::power_mutations_ui()
+{
     std::vector<trait_id> passive;
     std::vector<trait_id> active;
     for( std::pair<const trait_id, trait_data> &mut : my_mutations ) {
@@ -270,6 +289,7 @@ void player::power_mutations()
         }
     } );
 
+    power_mut_ui_result ret;
     bool exit = false;
     while( !exit ) {
         recalc_max_scroll_position();
@@ -333,9 +353,8 @@ void player::power_mutations()
                                 } else {
                                     add_msg_if_player( m_neutral, _( "You stop using your %s." ), mut_data.name() );
                                 }
-
-                                deactivate_mutation( mut_id );
-                                // Action done, leave screen
+                                ret.cmd = power_mut_ui_cmd::Deactivate;
+                                ret.mut = mut_id;
                                 exit = true;
                             } else if( ( !mut_data.hunger || get_kcal_percent() >= 0.8f ) &&
                                        ( !mut_data.thirst || get_thirst() <= thirst_levels::dehydrated ) &&
@@ -345,9 +364,8 @@ void player::power_mutations()
                                 } else {
                                     add_msg_if_player( m_neutral, _( "You activate your %s." ), mut_data.name() );
                                 }
-
-                                activate_mutation( mut_id );
-                                // Action done, leave screen
+                                ret.cmd = power_mut_ui_cmd::Activate;
+                                ret.mut = mut_id;
                                 exit = true;
                             } else {
                                 popup( _( "You don't have enough in you to activate your %s!" ), mut_data.name() );
@@ -387,8 +405,11 @@ void player::power_mutations()
                             mutation_menu_mode::examining : mutation_menu_mode::activating;
                 examine_id = cata::nullopt;
             } else if( action == "QUIT" ) {
+                ret.cmd = power_mut_ui_cmd::Exit;
                 exit = true;
             }
         }
     }
+
+    return ret;
 }
