@@ -119,6 +119,11 @@ const language_info &get_language();
  */
 std::vector<std::string> get_lang_path_substring( const std::string &lang_id );
 
+/**
+ * Check whether language has translation files compiled for it.
+ */
+bool translations_exists_for_lang( const std::string &lang_id );
+
 #if defined(LOCALIZE)
 namespace cata_libintl
 {
