@@ -21,6 +21,7 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "point.h"
+#include "player_helpers.h"
 #include "string_formatter.h"
 #include "test_statistics.h"
 #include "type_id.h"
@@ -38,6 +39,7 @@ static void clear_game( const ter_id &terrain )
 {
     // Set to turn 0 to prevent solars from producing power
     calendar::turn = calendar::turn_zero;
+    clear_avatar();
     clear_creatures();
     clear_npcs();
     clear_vehicles();

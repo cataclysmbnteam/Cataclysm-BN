@@ -87,6 +87,10 @@ TEST_CASE( "translations_macro_char_address_translated", "[.][translations][i18n
         WARN( "Skipped (unable to set locale)" );
         return;
     }
+    if( !translations_exists_for_lang( "en_US" ) ) {
+        WARN( "Skipped (translation files not found)" );
+        return;
+    }
 
     set_language();
     // translated string
@@ -128,8 +132,13 @@ TEST_CASE( "translations_actually_translate", "[translations][i18n]" )
     };
 
     for( const auto &test : test_cases ) {
-        CAPTURE( test.first );
-        REQUIRE( has_lang( test.first ) );
+        const std::string &lang = test.first;
+        CAPTURE( lang );
+        REQUIRE( has_lang( lang ) );
+        if( !translations_exists_for_lang( lang ) ) {
+            WARN( string_format( "Skipped (translation files not found for lang '%s')", lang ) );
+            return;
+        }
     }
 
     // Back up current language (should be 'en')
