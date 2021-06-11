@@ -706,6 +706,7 @@
   {
     "type": "furniture",
     "id": "f_gridwelder",
+    "looks_like": "welder",
     "name": "grid welder",
     "symbol": "#",
     "description": "A portable welder connected to a electrical grid.",
@@ -734,6 +735,7 @@
   {
     "type": "furniture",
     "id": "f_gridforge",
+    "looks_like": "forge",
     "name": "grid forge",
     "symbol": "U",
     "description": "A portable electric forge connected to a electrical grid.",
@@ -762,6 +764,7 @@
   {
     "type": "furniture",
     "id": "f_gridkiln",
+    "looks_like": "kiln",
     "name": "grid kiln",
     "symbol": "U",
     "description": "A portable electric kiln connected to a electrical grid.",
@@ -790,6 +793,7 @@
   {
     "type": "furniture",
     "id": "f_griddehydrator",
+    "looks_like": "dehydrator",
     "name": "grid food dehydrator",
     "symbol": "U",
     "description": "A portable food dehydrator connected to a electrical grid, that could be useful for preserving food.",
@@ -819,6 +823,7 @@
   {
     "type": "furniture",
     "id": "f_gridfood_processor",
+    "looks_like": "food_processor",
     "name": "grid food processor",
     "symbol": "U",
     "description": "A food processor connected to a electrical grid.  Capable of slicing, chopping, shredding, grinding, pureeing and mixing.",
@@ -848,6 +853,7 @@
   {
     "type": "furniture",
     "id": "f_gridvac_sealer",
+    "looks_like": "vac_sealer",
     "name": "grid vacuum sealer",
     "symbol": "U",
     "description": "A portable heat sealer unit, connected to a electrical grid.  It could be used for vacuum-packing food to preserve it.",
@@ -877,6 +883,7 @@
   {
     "type": "furniture",
     "id": "f_gridelectrolysis_kit",
+    "looks_like": "electrolysis_kit",
     "name": "grid electrolysis kit",
     "symbol": "=",
     "description": "A electrolysis kit connected to a electrical grid.",
