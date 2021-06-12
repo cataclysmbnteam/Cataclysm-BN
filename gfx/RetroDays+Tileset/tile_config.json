@@ -21,7 +21,7 @@
         { "id": [ "highlight", "line_target", "line_trail", "cursor" ], "fg": 12 },
         { "id": "highlight_item", "fg": 13, "rotates": false },
         { "id": "unknown", "fg": 14, "rotates": false },
-        { "id": "footstep", "fg": 15, "rotates": false },
+        { "id": ["footstep", "footstep_above", "footstep_below"], "fg": 15, "rotates": false },
         { "id": "infrared_creature", "fg": 16, "rotates": false },
         {
           "id": "explosion",

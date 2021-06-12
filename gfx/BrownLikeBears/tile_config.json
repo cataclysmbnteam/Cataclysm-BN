@@ -274,7 +274,7 @@
           ],
           "rotates": false
         },
-        { "id": "footstep", "fg": 147, "rotates": false },
+        { "id": ["footstep", "footstep_above", "footstep_below"], "fg": 147, "rotates": false },
         { "id": "highlight_item", "fg": 148, "rotates": false },
         { "id": "lighting_boomered_dark", "fg": 150, "rotates": false },
         { "id": "lighting_boomered_light", "fg": 149, "rotates": false },
