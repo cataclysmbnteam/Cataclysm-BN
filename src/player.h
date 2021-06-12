@@ -464,6 +464,17 @@ class player : public Character
         bool can_sleep();
 
     private:
+        enum class power_mut_ui_cmd {
+            Exit,
+            Activate,
+            Deactivate,
+        };
+        struct power_mut_ui_result {
+            power_mut_ui_cmd cmd;
+            trait_id mut;
+        };
+        power_mut_ui_result power_mutations_ui();
+
         /** last time we checked for sleep */
         time_point last_sleep_check = calendar::turn_zero;
         bool bio_soporific_powered_at_last_sleep_check;

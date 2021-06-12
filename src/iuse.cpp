@@ -3273,7 +3273,8 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
     }
     moves = moves * ( 10 - helpers.size() ) / 10;
 
-    p->assign_activity( ACT_JACKHAMMER, moves, -1, p->get_item_position( it ) );
+    p->assign_activity( ACT_JACKHAMMER, moves );
+    p->activity.targets.push_back( item_location( *p, it ) );
     p->activity.placement = g->m.getabs( pnt );
     p->add_msg_if_player( _( "You start drilling into the %1$s with your %2$s." ),
                           g->m.tername( pnt ), it->tname() );

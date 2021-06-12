@@ -437,7 +437,8 @@ void activity_handlers::burrow_do_turn( player_activity *act, player * )
 
 void activity_handlers::burrow_finish( player_activity *act, player *p )
 {
-    const tripoint &pos = act->placement;
+    tripoint pos = act->placement; // make a copy to avoid use-after-free
+    act->set_to_null(); // kill activity before inflicting pain
     if( g->m.is_bashable( pos ) && g->m.has_flag( flag_SUPPORTS_ROOF, pos ) &&
         g->m.ter( pos ) != t_tree ) {
         // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
@@ -455,8 +456,6 @@ void activity_handlers::burrow_finish( player_activity *act, player *p )
     }
     p->add_msg_if_player( m_good, _( "You finish burrowing." ) );
     g->m.destroy( pos, true );
-
-    act->set_to_null();
 }
 
 static bool check_butcher_cbm( const int roll )
