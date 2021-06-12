@@ -548,3 +548,42 @@ TEST_CASE( "nv_range_math_correct", "[vision]" )
         CHECK( range == i );
     }
 }
+
+TEST_CASE( "vision_single_tile_skylight", "[shadowcasting][vision]" )
+{
+    /**
+     * Light shines through the single-tile hole in the roof. Apparent light should be symmetrical.
+     */
+    vision_test_case t {
+        {
+            "-----------",
+            "-#########-",
+            "-#-------#-",
+            "-#-------#-",
+            "-#-------#-",
+            "-#---U---#-",
+            "-#-------#-",
+            "-#-------#-",
+            "-#-------#-",
+            "-#########-",
+            "-----------",
+        },
+        {
+            "66666666666",
+            "66611111666",
+            "66111111166",
+            "61111111116",
+            "61111411116",
+            "61114441116",
+            "61111411116",
+            "61111111116",
+            "66111111166",
+            "66611111666",
+            "66666666666",
+        },
+        midday,
+        vision_test_flags::none
+    };
+
+    t.test_all();
+}

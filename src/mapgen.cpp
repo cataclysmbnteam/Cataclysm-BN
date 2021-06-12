@@ -96,7 +96,7 @@ static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
 
 #define dbg(x) DebugLogFL((x),DC::MapGen)
 
-#define MON_RADIUS 3
+static constexpr int MON_RADIUS = 3;
 
 static void science_room( map *m, const point &p1, const point &p2, int z, int rotate );
 static void build_mine_room( room_type type, const point &p1, const point &p2, mapgendata &dat );
@@ -5935,6 +5935,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const int d
         submap *place_on_submap = get_submap_at_grid( placed_vehicle->sm_pos );
         place_on_submap->vehicles.push_back( std::move( placed_vehicle_up ) );
         place_on_submap->is_uniform = false;
+        invalidate_max_populated_zlev( p.z );
 
         auto &ch = get_cache( placed_vehicle->sm_pos.z );
         ch.vehicle_list.insert( placed_vehicle );

@@ -332,8 +332,8 @@ TEST_CASE( "squares_closer_to_test" )
     CHECK( actual == expected );
 }
 
-#define RANDOM_TEST_NUM 1000
-#define COORDINATE_RANGE 99
+static constexpr int RANDOM_TEST_NUM = 1000;
+static constexpr int COORDINATE_RANGE = 99;
 
 static void line_to_comparison( const int iterations )
 {

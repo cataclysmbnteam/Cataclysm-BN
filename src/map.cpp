@@ -1177,6 +1177,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp )
         dst_submap->vehicles.push_back( std::move( *src_submap_veh_it ) );
         src_submap->vehicles.erase( src_submap_veh_it );
         dst_submap->is_uniform = false;
+        invalidate_max_populated_zlev( dst.z );
     }
     update_vehicle_cache( &veh, src.z );
     if( need_update ) {
@@ -1342,6 +1343,8 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
         set_floor_cache_dirty( p.z );
         set_seen_cache_dirty( p );
     }
+    invalidate_max_populated_zlev( p.z );
+
     set_memory_seen_cache_dirty( p );
 
     // TODO: Limit to changes that affect move cost, traps and stairs
@@ -1601,6 +1604,8 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
         support_cache_dirty.insert( p );
         set_seen_cache_dirty( p );
     }
+    invalidate_max_populated_zlev( p.z );
+
     set_memory_seen_cache_dirty( p );
 
     // TODO: Limit to changes that affect move cost, traps and stairs
@@ -4269,6 +4274,8 @@ item &map::add_item( const tripoint &p, item new_item )
     }
 
     current_submap->is_uniform = false;
+    invalidate_max_populated_zlev( p.z );
+
     current_submap->update_lum_add( l, new_item );
 
     const map_stack::iterator new_pos = current_submap->get_items( l ).insert( new_item );
@@ -5339,6 +5346,7 @@ bool map::add_field( const tripoint &p, const field_type_id &type, int intensity
     point l;
     submap *const current_submap = get_submap_at( p, l );
     current_submap->is_uniform = false;
+    invalidate_max_populated_zlev( p.z );
 
     if( current_submap->get_field( l ).add_field( type, intensity, age ) ) {
         //Only adding it to the count if it doesn't exist.
@@ -6636,11 +6644,6 @@ void map::shift( const point &sp )
 
     if( !support_cache_dirty.empty() ) {
         shift_tripoint_set( support_cache_dirty, shift_offset_pt, boundaries_2d );
-    }
-    // TODO: Shift instead of rebuilding
-    //parent_distribution_grids.clear();
-    if( zlevels ) {
-        calc_max_populated_zlev();
     }
 }
 
@@ -8331,7 +8334,6 @@ level_cache::level_cache()
     std::fill_n( &visibility_cache[0][0], map_dimensions, LL_DARK );
     veh_in_active_range = false;
     std::fill_n( &veh_exists_at[0][0], map_dimensions, false );
-    max_populated_zlev = OVERMAP_HEIGHT;
 }
 
 pathfinding_cache::pathfinding_cache()
@@ -8507,8 +8509,13 @@ bool map::is_cornerfloor( const tripoint &p ) const
     return false;
 }
 
-void map::calc_max_populated_zlev()
+int map::calc_max_populated_zlev()
 {
+    // cache is filled and valid, skip recalculation
+    if( max_populated_zlev && max_populated_zlev->first == get_abs_sub() ) {
+        return max_populated_zlev->second;
+    }
+
     // We'll assume ground level is populated
     int max_z = 0;
 
@@ -8528,9 +8535,15 @@ void map::calc_max_populated_zlev()
             }
         }
     }
-    // This will be the same for every zlevel in the cache, so just put it in all of them
-    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-        get_cache( z ).max_populated_zlev = max_z;
+
+    max_populated_zlev = std::pair<tripoint, int>( get_abs_sub(), max_z );
+    return max_z;
+}
+
+void map::invalidate_max_populated_zlev( int zlev )
+{
+    if( max_populated_zlev && max_populated_zlev->second < zlev ) {
+        max_populated_zlev->second = zlev;
     }
 }
 
