@@ -246,6 +246,15 @@
     "looks_like": "leather_belt",
     "color": "yellow",
     "covers": [ "TORSO" ],
+    "use_action": {
+      "type": "holster",
+      "holster_prompt": "Stick what into your belt",
+      "holster_msg": "You tuck your %s into your %s",
+      "max_volume": "1 L",
+      "max_weight": "1200 g",
+      "draw_cost": 60,
+      "flags": [ "BELT_CLIP" ]
+    },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   }
 ]
