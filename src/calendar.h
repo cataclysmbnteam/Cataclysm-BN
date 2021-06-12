@@ -149,6 +149,9 @@ constexpr time_duration operator*( T lhs, const time_duration &rhs );
 template<typename T>
 inline time_duration &operator*=( time_duration &lhs, T rhs );
 
+// seconds per full turn
+static constexpr int seconds_per_turn = 6;
+
 /**
  * A duration defined as a number of specific time units.
  * Currently it stores the number (as integer) of turns.
@@ -205,7 +208,7 @@ class time_duration
         }
         template<typename T>
         static constexpr time_duration from_minutes( const T m ) {
-            return from_turns( m * 60 );
+            return from_turns( m * 60 / seconds_per_turn );
         }
         template<typename T>
         static constexpr time_duration from_hours( const T h ) {
@@ -242,19 +245,19 @@ class time_duration
         }
         template<typename T>
         friend constexpr T to_minutes( const time_duration &duration ) {
-            return static_cast<T>( duration.turns_ ) / static_cast<T>( 60 );
+            return static_cast<T>( duration.turns_ ) / static_cast<T>( 60 / seconds_per_turn );
         }
         template<typename T>
         friend constexpr T to_hours( const time_duration &duration ) {
-            return static_cast<T>( duration.turns_ ) / static_cast<T>( 60 * 60 );
+            return static_cast<T>( duration.turns_ ) / static_cast<T>( 60 * 60 / seconds_per_turn );
         }
         template<typename T>
         friend constexpr T to_days( const time_duration &duration ) {
-            return static_cast<T>( duration.turns_ ) / static_cast<T>( 60 * 60 * 24 );
+            return static_cast<T>( duration.turns_ ) / static_cast<T>( 60 * 60 * 24 / seconds_per_turn );
         }
         template<typename T>
         friend constexpr T to_weeks( const time_duration &duration ) {
-            return static_cast<T>( duration.turns_ ) / static_cast<T>( 60 * 60 * 24 * 7 );
+            return static_cast<T>( duration.turns_ ) / static_cast<T>( 60 * 60 * 24 * 7 / seconds_per_turn );
         }
         template<typename T>
         friend constexpr T to_moves( const time_duration &duration ) {
