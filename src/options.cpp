@@ -2159,7 +2159,7 @@ void options_manager::add_options_debug()
        );
 
     add("SECONDS_PER_TURN", "debug", translate_marker("Number os second per full turn"),
-        translate_marker("Number os second per full turn"),
+        translate_marker("Number os second per full turn (100 moves)"),
         1, 1000, 1
     );
 }
