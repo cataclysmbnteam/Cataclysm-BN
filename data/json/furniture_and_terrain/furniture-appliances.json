@@ -706,6 +706,7 @@
   {
     "type": "furniture",
     "id": "f_gridwelder",
+    "looks_like": "welder",
     "name": "grid welder",
     "symbol": "#",
     "description": "A portable welder connected to a electrical grid.",
@@ -734,6 +735,7 @@
   {
     "type": "furniture",
     "id": "f_gridforge",
+    "looks_like": "forge",
     "name": "grid forge",
     "symbol": "U",
     "description": "A portable electric forge connected to a electrical grid.",
@@ -761,7 +763,127 @@
   },
   {
     "type": "furniture",
+    "id": "f_gridkiln",
+    "looks_like": "kiln",
+    "name": "grid kiln",
+    "symbol": "U",
+    "description": "A portable electric kiln connected to a electrical grid.",
+    "color": "light_red",
+    "move_cost_mod": -1,
+    "coverage": 10,
+    "required_str": -1,
+    "crafting_pseudo_item": "fake_gridkiln",
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [ { "item": "kiln", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "power_supply", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 0, 2 ] },
+        { "item": "cable", "charges": [ 1, 4 ] },
+        { "item": "element", "count": [ 2, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_griddehydrator",
+    "looks_like": "dehydrator",
+    "name": "grid food dehydrator",
+    "symbol": "U",
+    "description": "A portable food dehydrator connected to a electrical grid, that could be useful for preserving food.",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 10,
+    "required_str": -1,
+    "crafting_pseudo_item": "fake_griddehydrator",
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [ { "item": "dehydrator", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 16,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "power_supply", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 0, 4 ] },
+        { "item": "plastic_chunk", "count": [ 0, 9 ] },
+        { "item": "cable", "charges": [ 1, 4 ] },
+        { "item": "element", "count": [ 2, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_gridfood_processor",
+    "looks_like": "food_processor",
+    "name": "grid food processor",
+    "symbol": "U",
+    "description": "A food processor connected to a electrical grid.  Capable of slicing, chopping, shredding, grinding, pureeing and mixing.",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 10,
+    "required_str": -1,
+    "crafting_pseudo_item": "fake_gridfood_processor",
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [ { "item": "food_processor", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 16,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "power_supply", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 0, 4 ] },
+        { "item": "plastic_chunk", "count": [ 0, 9 ] },
+        { "item": "cable", "charges": [ 1, 4 ] },
+        { "item": "element", "count": [ 2, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_gridvac_sealer",
+    "looks_like": "vac_sealer",
+    "name": "grid vacuum sealer",
+    "symbol": "U",
+    "description": "A portable heat sealer unit, connected to a electrical grid.  It could be used for vacuum-packing food to preserve it.",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 10,
+    "required_str": -1,
+    "crafting_pseudo_item": "fake_gridvac_sealer",
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [ { "item": "vac_sealer", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 16,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "power_supply", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 0, 4 ] },
+        { "item": "plastic_chunk", "count": [ 0, 9 ] },
+        { "item": "cable", "charges": [ 1, 4 ] },
+        { "item": "element", "count": [ 2, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_gridelectrolysis_kit",
+    "looks_like": "electrolysis_kit",
     "name": "grid electrolysis kit",
     "symbol": "=",
     "description": "A electrolysis kit connected to a electrical grid.",
