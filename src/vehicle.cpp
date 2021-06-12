@@ -5164,6 +5164,11 @@ void vehicle::slow_leak()
         point q = coord_translate( p.mount );
         const tripoint dest = global_pos3() + tripoint( q, 0 );
 
+        if( fuel != fuel_type_battery && !g->m.inbounds( dest ) ) {
+            // Don't try to leak off the edge of the world
+            continue;
+        }
+
         // damaged batteries self-discharge without leaking, plutonium leaks slurry
         if( fuel != fuel_type_battery && fuel != fuel_type_plutonium_cell ) {
             item leak( fuel, calendar::turn, qty );
