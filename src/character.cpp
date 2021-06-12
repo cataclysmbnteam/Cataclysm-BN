@@ -4554,7 +4554,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         // Digest nutrients in stomach
         food_summary digested_to_body = stomach.digest( rates, five_mins );
         // Apply nutrients, unless this is an NPC and NO_NPC_FOOD is enabled.
-        if( !is_npc() || !get_option<bool>( "NO_NPC_FOOD" ) ) {
+        if( !npc_no_food ) {
             mod_stored_kcal( digested_to_body.nutr.kcal );
             vitamins_mod( digested_to_body.nutr.vitamins, false );
         }
@@ -4567,6 +4567,12 @@ void Character::update_stomach( const time_point &from, const time_point &to )
     if( !foodless && rates.thirst > 0.0f ) {
         mod_thirst( roll_remainder( rates.thirst * five_mins ) );
     }
+
+    if( npc_no_food ) {
+        set_thirst( static_cast<int>( thirst_levels::hydrated ) );
+        set_stored_kcal( get_healthy_kcal() );
+    }
+
     // Mycus and Metabolic Rehydration makes thirst unnecessary
     // since water is not limited by intake but by absorption, we can just set thirst to zero
     if( mycus || mouse ) {
