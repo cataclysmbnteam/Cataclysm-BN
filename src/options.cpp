@@ -2157,6 +2157,11 @@ void options_manager::add_options_debug()
          translate_marker( "If true, enables experimental translation system that allows mods to ship their own translation files." ),
          false
        );
+
+    add("SECONDS_PER_TURN", "debug", translate_marker("Number os second per full turn"),
+        translate_marker("Number os second per full turn"),
+        1, 1000, 1
+    );
 }
 
 void options_manager::add_options_world_default()
