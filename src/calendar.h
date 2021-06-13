@@ -149,7 +149,12 @@ constexpr time_duration operator*( T lhs, const time_duration &rhs );
 template<typename T>
 inline time_duration &operator*=( time_duration &lhs, T rhs );
 
-// seconds per full turn
+/**
+ * Represents seconds per full turn. Currently the only supported value is 1
+ * In future that value may be changed
+ * TODO: Reserach option to move it to game options
+ * Changing it to something else than 1 will require checking and fixing other mechanics
+ */
 static constexpr int seconds_per_turn = 6;
 
 /**
