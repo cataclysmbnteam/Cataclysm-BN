@@ -680,6 +680,7 @@ void vpart_info::check()
 
 void vpart_info::reset()
 {
+    deferred.clear();
     vpart_info_all.clear();
     abstract_parts.clear();
 }

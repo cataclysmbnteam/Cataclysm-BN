@@ -2649,20 +2649,22 @@ void Item_factory::reset()
 
 void Item_factory::clear()
 {
-    m_template_groups.clear();
-
     iuse_function_list.clear();
 
-    m_templates.clear();
+    deferred.clear();
+    m_abstracts.clear();
     m_runtimes.clear();
+    m_template_groups.clear();
+    m_templates.clear();
 
-    item_blacklist.clear();
-
-    tool_subtypes.clear();
-
-    repair_tools.clear();
     gun_tools.clear();
     repair_actions.clear();
+    repair_tools.clear();
+    tool_subtypes.clear();
+
+    item_blacklist.clear();
+    migrated_ammo.clear();
+    migrated_magazines.clear();
     migrations.clear();
 
     frozen = false;
