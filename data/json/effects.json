@@ -1587,7 +1587,9 @@
     ],
     "max_intensity": 3,
     "rating": "bad",
-    "permanent": true
+    "permanent": true,
+    "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "pain_min": [ 1 ], "pain_chance": [ 30 ], "health_min": [ -1 ] },
+    "scaling_mods": { "str_mod": [ -2], "dex_mod": [ -1 ], "pain_min": [ 2 ], "pain_chance": [ 30 ], "health_min": [ -1 ] }
   },
   {
     "type": "effect_type",
@@ -1602,7 +1604,9 @@
     ],
     "max_intensity": 3,
     "rating": "bad",
-    "permanent": true
+    "permanent": true,
+    "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "int_mod": [ -1 ], "stamina_min": [ -1 ], "stamina_chance": [ 2 ], "health_min": [ -1 ] },
+    "scaling_mods": { "str_mod": [ -2], "dex_mod": [ -2 ], "int_mod": [ -2 ], "stamina_min": [ -1 ], "stamina_chance": [ 2 ], "health_min": [ -1 ] }
   },
   {
     "type": "effect_type",
@@ -1617,7 +1621,9 @@
     ],
     "max_intensity": 3,
     "rating": "bad",
-    "permanent": true
+    "permanent": true,
+    "base_mods": {  "per_mod": [ -1 ], "health_min": [ -1 ] },
+    "scaling_mods": { "per_mod": [ -2 ], "health_min": [ -1 ] }
   },
   {
     "type": "effect_type",
@@ -1632,7 +1638,9 @@
     ],
     "max_intensity": 3,
     "rating": "bad",
-    "permanent": true
+    "permanent": true,
+    "base_mods": { "healing_rate": [ -1 ], "health_min": [ -1 ] },
+    "scaling_mods": { "healing_rate": [ -2 ], "health_min": [ -1 ] }
   },
   {
     "type": "effect_type",
@@ -1647,7 +1655,9 @@
     ],
     "max_intensity": 3,
     "rating": "bad",
-    "permanent": true
+    "permanent": true,
+    "base_mods": {  "str_mod": [ -1 ], "dex_mod": [ -1 ], "stamina_min": [ -1 ], "stamina_chance": [ 2 ], "health_min": [ -1 ] },
+    "scaling_mods": { "str_mod": [ -2 ], "dex_mod": [ -1 ], "stamina_min": [ -1 ], "stamina_chance": [ 2 ], "health_min": [ -1 ] }
   },
   {
     "type": "effect_type",
@@ -1657,7 +1667,8 @@
     "apply_message": "Your metabolism becomes unstable.",
     "remove_message": "Your metabolism becomes more stable.",
     "rating": "bad",
-    "permanent": true
+    "permanent": true,
+    "base_mods": { "hunger_chance": [ 40 ], "hunger_min": [ 1 ], "int_mod": [ -2 ], "health_min": [ -1 ] }
   },
   {
     "type": "effect_type",
