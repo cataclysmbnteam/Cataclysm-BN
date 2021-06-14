@@ -1589,7 +1589,7 @@
     "rating": "bad",
     "permanent": true,
     "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "pain_min": [ 1 ], "pain_chance": [ 30 ], "health_min": [ -1 ] },
-    "scaling_mods": { "str_mod": [ -2 ], "dex_mod": [ -1 ], "pain_min": [ 2 ], "pain_chance": [ 30 ], "health_min": [ -1 ] }
+    "scaling_mods": { "str_mod": [ -2 ], "dex_mod": [ -2 ], "pain_min": [ 2 ], "pain_chance": [ 30 ], "health_min": [ -1 ] }
   },
   {
     "type": "effect_type",
@@ -1671,7 +1671,7 @@
     "rating": "bad",
     "permanent": true,
     "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "stamina_min": [ -1 ], "stamina_chance": [ 2 ], "health_min": [ -1 ] },
-    "scaling_mods": { "str_mod": [ -2 ], "dex_mod": [ -1 ], "stamina_min": [ -1 ], "stamina_chance": [ 2 ], "health_min": [ -1 ] }
+    "scaling_mods": { "str_mod": [ -2 ], "dex_mod": [ -2 ], "stamina_min": [ -1 ], "stamina_chance": [ 2 ], "health_min": [ -1 ] }
   },
   {
     "type": "effect_type",
