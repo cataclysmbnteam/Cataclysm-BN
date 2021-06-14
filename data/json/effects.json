@@ -1589,7 +1589,7 @@
     "rating": "bad",
     "permanent": true,
     "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "pain_min": [ 1 ], "pain_chance": [ 30 ], "health_min": [ -1 ] },
-    "scaling_mods": { "str_mod": [ -2], "dex_mod": [ -1 ], "pain_min": [ 2 ], "pain_chance": [ 30 ], "health_min": [ -1 ] }
+    "scaling_mods": { "str_mod": [ -2 ], "dex_mod": [ -1 ], "pain_min": [ 2 ], "pain_chance": [ 30 ], "health_min": [ -1 ] }
   },
   {
     "type": "effect_type",
@@ -1605,8 +1605,22 @@
     "max_intensity": 3,
     "rating": "bad",
     "permanent": true,
-    "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "int_mod": [ -1 ], "stamina_min": [ -1 ], "stamina_chance": [ 2 ], "health_min": [ -1 ] },
-    "scaling_mods": { "str_mod": [ -2], "dex_mod": [ -2 ], "int_mod": [ -2 ], "stamina_min": [ -1 ], "stamina_chance": [ 2 ], "health_min": [ -1 ] }
+    "base_mods": {
+      "str_mod": [ -1 ],
+      "dex_mod": [ -1 ],
+      "int_mod": [ -1 ],
+      "stamina_min": [ -1 ],
+      "stamina_chance": [ 2 ],
+      "health_min": [ -1 ]
+    },
+    "scaling_mods": {
+      "str_mod": [ -2 ],
+      "dex_mod": [ -2 ],
+      "int_mod": [ -2 ],
+      "stamina_min": [ -1 ],
+      "stamina_chance": [ 2 ],
+      "health_min": [ -1 ]
+    }
   },
   {
     "type": "effect_type",
@@ -1622,7 +1636,7 @@
     "max_intensity": 3,
     "rating": "bad",
     "permanent": true,
-    "base_mods": {  "per_mod": [ -1 ], "health_min": [ -1 ] },
+    "base_mods": { "per_mod": [ -1 ], "health_min": [ -1 ] },
     "scaling_mods": { "per_mod": [ -2 ], "health_min": [ -1 ] }
   },
   {
@@ -1656,7 +1670,7 @@
     "max_intensity": 3,
     "rating": "bad",
     "permanent": true,
-    "base_mods": {  "str_mod": [ -1 ], "dex_mod": [ -1 ], "stamina_min": [ -1 ], "stamina_chance": [ 2 ], "health_min": [ -1 ] },
+    "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "stamina_min": [ -1 ], "stamina_chance": [ 2 ], "health_min": [ -1 ] },
     "scaling_mods": { "str_mod": [ -2 ], "dex_mod": [ -1 ], "stamina_min": [ -1 ], "stamina_chance": [ 2 ], "health_min": [ -1 ] }
   },
   {
