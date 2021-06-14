@@ -191,6 +191,47 @@
     "result": "hickory_nut_unshelled",
     "obsolete": true
   },
+
+  {
+    "type": "recipe",
+    "result": "hickory_nutuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hazelnutuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chestnutuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "almonduncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "pistachiouncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "pecanuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "walnutuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "peanutuncraft",
+    "obsolete": true
+  },
   {
     "type": "recipe",
     "result": "bag_meat_vac",

@@ -1248,5 +1248,45 @@
     "id": "reloaded_22_fmj",
     "type": "MIGRATION",
     "replace": "reloaded_22_cphp"
+  },
+  {
+    "id": "hickory_nut_unshelled",
+    "type": "MIGRATION",
+    "replace": "hickory_nut"
+  },
+  {
+    "id": "hazelnut_unshelled",
+    "type": "MIGRATION",
+    "replace": "hazelnut"
+  },
+  {
+    "id": "chestnut_unshelled",
+    "type": "MIGRATION",
+    "replace": "chestnut"
+  },
+  {
+    "id": "almond_unshelled",
+    "type": "MIGRATION",
+    "replace": "almond"
+  },
+  {
+    "id": "pistachio_unshelled",
+    "type": "MIGRATION",
+    "replace": "pistachio"
+  },
+  {
+    "id": "pecan_unshelled",
+    "type": "MIGRATION",
+    "replace": "pecan"
+  },
+  {
+    "id": "walnut_unshelled",
+    "type": "MIGRATION",
+    "replace": "walnut"
+  },
+  {
+    "id": "peanut_unshelled",
+    "type": "MIGRATION",
+    "replace": "peanut"
   }
 ]
