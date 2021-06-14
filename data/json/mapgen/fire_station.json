@@ -13,7 +13,7 @@
         "| c#O_,_______,_______,_",
         "| ##|_,_______,_______,_",
         "|r  L_,_______,_______,_",
-        "|r  |_,_______,_______,_",
+        "|r  |_,_______,_______,I",
         "|w ^|_,_______,_______,_",
         "|-M----MMMMMMM-MMMMMMM--",
         "|w    w               w|",
@@ -39,6 +39,7 @@
         ",": "t_pavement_y",
         "-": "t_brick_wall",
         ".": "t_grass",
+        "I": "t_column",
         "L": "t_door_locked",
         "M": "t_door_metal_locked",
         "O": "t_window",
@@ -80,6 +81,7 @@
         { "item": "fireman_mask", "x": [ 18, 18 ], "y": [ 21, 21 ], "chance": 70 },
         { "item": "fireman_gear", "x": [ 20, 20 ], "y": [ 21, 21 ], "chance": 70 }
       ],
+      "place_loot": [ { "item": "american_flag", "x": 23, "y": 5, "chance": 75 } ],
       "place_monsters": [ { "monster": "GROUP_FIRE", "x": [ 2, 21 ], "y": [ 9, 21 ], "chance": 1 } ],
       "place_vehicles": [ { "vehicle": "fire_engine", "x": 11, "y": 13, "chance": 30, "rotation": 270 } ]
     }
@@ -145,9 +147,9 @@
         "_||+++++++|+++++++||_s__",
         "_|6.......t.......6|_s__",
         "_|t.......t.......t|_s_S",
-        "_|t.......t.......t|_s__",
-        "_|t.......t.......t|_s_a",
-        "_|t.......t.......t|_s__",
+        "_|t.......t.......t|ss__",
+        "_|t.......t.......t|Is_a",
+        "_|t.......t.......t|ss__",
         "_|t.......t.......t|_s_S",
         "_|t.......t.......t|_s__",
         "_|t.......t.......t|_s_a",
@@ -174,6 +176,7 @@
         "6": "t_gates_control_brick",
         "C": "t_console_broken",
         "D": "t_door_metal_c",
+        "I": "t_column",
         "P": "t_pavement_y",
         "S": "t_shrub_rose",
         "T": "t_thconc_floor",
@@ -242,6 +245,7 @@
         { "item": "bed", "x": 21, "y": 19, "chance": 70 },
         { "item": "bed", "x": 19, "y": 19, "chance": 70 }
       ],
+      "place_loot": [ { "item": "american_flag", "x": 20, "y": 4, "chance": 75 } ],
       "place_monsters": [ { "monster": "GROUP_FIRE", "x": 10, "y": 16, "chance": 1 } ],
       "place_vehicles": [
         { "vehicle": "fire_truck", "x": 5, "y": 5, "rotation": 270, "chance": 20 },
