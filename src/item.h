@@ -21,6 +21,7 @@
 #include "item_contents.h"
 #include "item_location.h"
 #include "optional.h"
+#include "pimpl.h"
 #include "safe_reference.h"
 #include "string_id.h"
 #include "type_id.h"
@@ -46,6 +47,7 @@ class relic;
 struct islot_comestible;
 struct itype;
 struct item_comp;
+class item_drop_token;
 template<typename CompType>
 struct comp_selection;
 struct tool_comp;
@@ -2216,6 +2218,12 @@ class item : public visitable<item>
         bool has_clothing_mod() const;
         float get_clothing_mod_val( clothing_mod_type type ) const;
         void update_clothing_mod_val();
+
+        /**
+         * Two items are dropped in same "batch" if they have identical drop tokens
+         * Ideally, this would be stored outside item class.
+         */
+        pimpl<item_drop_token> drop_token;
 };
 
 bool item_compare_by_charges( const item &left, const item &right );
