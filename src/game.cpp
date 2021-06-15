@@ -763,6 +763,12 @@ bool game::start_game()
     for( auto &e : u.inv_dump() ) {
         e->set_owner( g->u );
     }
+    // Place vehicles spawned by scenario or profession.
+    if( u.starting_vehicle &&
+        !place_vehicle_nearby( u.starting_vehicle, u.global_omt_location().xy(), 1, 30,
+                               std::vector<std::string> {} ) ) {
+        debugmsg( "could not place starting vehicle" );
+    }
     // Now that we're done handling coordinates, ensure the player's submap is in the center of the map
     update_map( u );
     // Profession pets
@@ -773,11 +779,6 @@ bool game::start_game()
         } else {
             add_msg( m_debug, "cannot place starting pet, no space!" );
         }
-    }
-    if( u.starting_vehicle &&
-        !place_vehicle_nearby( u.starting_vehicle, u.global_omt_location().xy(), 1, 30,
-                               std::vector<std::string> {} ) ) {
-        debugmsg( "could not place starting vehicle" );
     }
     // Assign all of this scenario's missions to the player.
     for( const mission_type_id &m : scen->missions() ) {
@@ -826,6 +827,7 @@ vehicle *game::place_vehicle_nearby( const vproto_id &id, const point &origin, i
                 veh->sm_pos =  ms_to_sm_remain( abs_local );
                 veh->pos = abs_local.xy();
                 overmap_buffer.add_vehicle( veh );
+                veh->tracking_on = true;
                 target_map.save();
                 return veh;
             }
