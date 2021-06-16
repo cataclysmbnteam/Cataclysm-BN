@@ -516,7 +516,7 @@ bool main_menu::opening_screen()
 
         if( layer == 1 ) {
             if( sel1 == 0 ) { // Print MOTD.
-                display_text( mmenu_motd, "MOTD", sel_line );
+                display_text( mmenu_motd, "testingtesting", sel_line );
             } else if( sel1 == 7 ) { // Print Credits.
                 display_text( mmenu_credits, "Credits", sel_line );
             }
