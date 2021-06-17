@@ -246,7 +246,7 @@ class time_duration
         }
         template<typename T>
         friend constexpr T to_seconds( const time_duration &duration ) {
-            return duration.turns_;
+            return duration.turns_* seconds_per_turn;
         }
         template<typename T>
         friend constexpr T to_minutes( const time_duration &duration ) {
