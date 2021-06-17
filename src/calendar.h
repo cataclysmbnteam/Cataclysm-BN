@@ -155,7 +155,7 @@ inline time_duration &operator*=( time_duration &lhs, T rhs );
  * In future seconds per full turn may be changed
  * TODO: Research possibility to move it to game options
  */
-static constexpr int seconds_per_turn = 6;
+static constexpr int seconds_per_turn = 1;
 
 /**
  * A duration defined as a number of specific time units.
