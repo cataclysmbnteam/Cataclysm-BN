@@ -18,6 +18,12 @@ class item_drop_token
             , drop_number( drop_number )
             , parent_number( parent_number )
         {}
+
+        bool operator==( const item_drop_token &other ) const {
+            return turn == other.turn
+                   && drop_number == other.drop_number
+                   && parent_number == other.parent_number;
+        }
 };
 
 namespace drop_token
