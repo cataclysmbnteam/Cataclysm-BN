@@ -213,7 +213,7 @@ class time_duration
         }
         template<typename T>
         static constexpr time_duration from_minutes( const T m ) {
-            return from_seconds( m * 60 );
+            return from_turns( m * 60 / seconds_per_turn );
         }
         template<typename T>
         static constexpr time_duration from_hours( const T h ) {
