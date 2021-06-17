@@ -6,9 +6,10 @@
     "name_suffix": "DinoLab survivor",
     "class": "dm_dinolab_survivor",
     "attitude": 0,
-    "mission": 0,
+    "mission": 7,
     "chat": "TALK_Yoshimi_1",
-    "faction": "no_faction"
+    "faction": "no_faction",
+    "mission_offered": "MISSION_DinoLab_Yos_1"
   },
   {
     "type": "npc_class",
@@ -77,6 +78,7 @@
         "condition": { "and": [ { "u_has_var": "u_met_yoshimi", "type": "general", "context": "meeting", "value": "yes" } ] },
         "topic": "TALK_yoshimi_ask_mood"
       },
+      { "text": "You look like you need help. Can I do something for you?", "topic": "TALK_MISSION_LIST" },
       { "text": "Goodbye.", "topic": "TALK_DONE" }
     ]
   },
@@ -113,5 +115,45 @@
     "id": "TALK_yoshimi_ask_mood",
     "dynamic_line": "I just got here actually, I've found it wise to move a lot recently.  There may be some interesting specimens nearby.  I mean dinosaurs.",
     "responses": [ { "text": "Interesting.", "topic": "TALK_Yoshimi_1" } ]
+  },
+  {
+    "id": "MISSION_DinoLab_Yos_1",
+    "type": "mission_definition",
+    "name": { "str": "First we need some supplies" },
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 1000,
+    "item": "chemistry_set",
+    "start": {
+      "assign_mission_target": { "om_terrain": "lab basement", "reveal_radius": 1, "random": true, "search_range": 120 },
+      "update_mapgen": [
+        {
+          "om_terrain": "lab basement",
+          "z": -1,
+          "place_item": [ { "item": "chemistry_set", "x": 19, "y": 20 } ],
+          "place_monster": [ { "group": "GROUP_DINOSAUR_ZOMBIE", "x": 12, "y": 12 } ]
+        }
+      ],
+      "effect": { "u_add_var": "Yos_chemistry", "type": "mission", "context": "flag", "value": "in_progress" },
+      "end": {
+        "effect": [
+          { "u_add_var": "Yos_chemistry", "type": "mission", "context": "flag", "value": "yes" },
+          { "u_adjust_var": "DinoLab_power", "type": "counter", "context": "DinoLab", "adjustment": 2 },
+          { "npc_add_effect": "Yoshimi_can_cook", "duration": "PERMANENT" }
+        ]
+      },
+      "origins": [ "ORIGIN_SECONDARY" ],
+      "dialogue": {
+        "describe": "I think I might know where a decent chemistry set is…",
+        "offer": "I need a full chemistry set to do my work properly. I could use some help.",
+        "accepted": "So much to do.",
+        "rejected": "Fine, you'll probably be dead soon anyway.",
+        "advice": "It might be too dangerous now, any working full chemistry set is fine.  There is a good chance something got out.",
+        "inquire": "Do you have the set yet?",
+        "success": "Let's get started.",
+        "success_lie": "Very convincing.  I do need an actual chemistry set to work though.",
+        "failure": "It's fine, I'll make something work."
+      }
+    }
   }
 ]
