@@ -643,6 +643,13 @@ bool game::start_game()
     }
     start_loc.prepare_map( omtstart );
 
+    // Place vehicles spawned by scenario or profession, has to be placed very early to avoid bugs.
+    if( u.starting_vehicle &&
+        !place_vehicle_nearby( u.starting_vehicle, omtstart.xy(), 0, 30,
+                               std::vector<std::string> {} ) ) {
+        debugmsg( "could not place starting vehicle" );
+    }
+
     if( scen->has_map_extra() ) {
         // Map extras can add monster spawn points and similar and should be done before the main
         // map is loaded.
@@ -762,12 +769,6 @@ bool game::start_game()
     }
     for( auto &e : u.inv_dump() ) {
         e->set_owner( g->u );
-    }
-    // Place vehicles spawned by scenario or profession.
-    if( u.starting_vehicle &&
-        !place_vehicle_nearby( u.starting_vehicle, u.global_omt_location().xy(), 1, 30,
-                               std::vector<std::string> {} ) ) {
-        debugmsg( "could not place starting vehicle" );
     }
     // Now that we're done handling coordinates, ensure the player's submap is in the center of the map
     update_map( u );
