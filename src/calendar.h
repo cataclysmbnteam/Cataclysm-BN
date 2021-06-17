@@ -155,7 +155,7 @@ inline time_duration &operator*=( time_duration &lhs, T rhs );
  * In future seconds per full turn may be changed
  * TODO: Research possibility to move it to game options
  */
-static constexpr int seconds_per_turn = 6;
+static constexpr int seconds_per_turn = 1;
 
 /**
  * A duration defined as a number of specific time units.
@@ -209,7 +209,7 @@ class time_duration
         }
         template<typename T>
         static constexpr time_duration from_seconds( const T t ) {
-            return time_duration( t ) / seconds_per_turn;
+            return time_duration( t );
         }
         template<typename T>
         static constexpr time_duration from_minutes( const T m ) {
@@ -246,7 +246,7 @@ class time_duration
         }
         template<typename T>
         friend constexpr T to_seconds( const time_duration &duration ) {
-            return duration.turns_ * seconds_per_turn;
+            return duration.turns_ / seconds_per_turn;
         }
         template<typename T>
         friend constexpr T to_minutes( const time_duration &duration ) {
