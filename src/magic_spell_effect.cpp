@@ -392,12 +392,18 @@ static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &ta
 
 static void add_effect_to_target( const tripoint &target, const spell &sp )
 {
-    const int dur_moves = sp.duration();
-    const time_duration dur_td = 1_turns * dur_moves / 100;
-
     Creature *const critter = g->critter_at<Creature>( target );
     Character *const guy = g->critter_at<Character>( target );
     efftype_id spell_effect( sp.effect_data() );
+
+    // TODO: migrate duration from moves to time_duration
+    const int dur_turns = sp.duration() / 100;
+    // Ensure permanent effect has at last 1 second of duration,
+    // so it won't be instantly removed as expired.
+    time_duration dur_td = ( spell_effect->is_permanent() && dur_turns == 0 )
+                           ? 1_seconds
+                           : 1_turns * dur_turns;
+
     bool bodypart_effected = false;
 
     if( guy ) {
