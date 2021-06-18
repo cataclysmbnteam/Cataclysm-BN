@@ -80,7 +80,7 @@
         "topic": "TALK_yoshimi_ask_mood"
       },
       {
-        "text": "You look like you need help. Can I do something for you?",
+        "text": "You look like you need help.  Can I do something for you?",
         "condition": { "and": [ { "u_has_var": "u_met_yoshimi", "type": "general", "context": "meeting", "value": "yes" } ] },
         "topic": "TALK_MISSION_LIST"
       },
