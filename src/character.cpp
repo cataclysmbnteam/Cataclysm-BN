@@ -2292,7 +2292,9 @@ item *Character::invlet_to_item( const int linvlet )
             invlet_item = it;
             return VisitResponse::ABORT;
         }
-        return VisitResponse::NEXT;
+        // Visit top-level items only as UIs don't support nested items.
+        // Also, inventory restack logic depends on this.
+        return VisitResponse::SKIP;
     } );
     return invlet_item;
 }
