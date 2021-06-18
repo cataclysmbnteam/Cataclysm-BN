@@ -2282,10 +2282,6 @@ item *Character::invlet_to_item( const int linvlet )
         return nullptr;
     }
     const char invlet = static_cast<char>( linvlet );
-    if( is_npc() ) {
-        // This should be called only for UIs and avatar inventory management
-        debugmsg( "Called Character::invlet_to_item() on NPC (%s)", name );
-    }
     item *invlet_item = nullptr;
     visit_items( [&invlet, &invlet_item]( item * it ) {
         if( it->invlet == invlet ) {
