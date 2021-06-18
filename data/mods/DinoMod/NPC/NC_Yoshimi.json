@@ -51,7 +51,8 @@
       "yes": [
         "How can I help you survivor?",
         "Seen any interesting specimens?  I mean dinosaurs.",
-        "I was just imagining you transforming into a tyrannosaurus rex.  Of course that's impossible.  Unless…"
+        "I was just imagining you transforming into a tyrannosaurus rex.  Of course that's impossible.  Unless…",
+        "Let's do some science."
       ],
       "no": "Please leave me be, I am but a humble muck farmer in this humble muck."
     },
@@ -65,12 +66,12 @@
       {
         "text": "Die demon mutant!",
         "effect": [ { "u_add_var": "u_met_yoshimi", "type": "general", "context": "meeting", "value": "yes" }, "insult_combat" ],
-        "condition": { "not": { "u_has_var": "u_met_sadie", "type": "general", "context": "meeting", "value": "yes" } },
+        "condition": { "not": { "u_has_var": "u_met_yoshimi", "type": "general", "context": "meeting", "value": "yes" } },
         "topic": "TALK_DONE"
       },
       {
         "text": "How did you get here?",
-        "condition": { "and": [ { "u_has_var": "u_met_yoshimi", "type": "general", "context": "meeting", "value": "yes" } ] },
+        "condition": { "and": [ { "u_has_var": "Yos_chemistry", "type": "mission", "context": "flag", "value": "yes" } ] },
         "topic": "TALK_yoshimi_ask_past"
       },
       {
@@ -78,7 +79,11 @@
         "condition": { "and": [ { "u_has_var": "u_met_yoshimi", "type": "general", "context": "meeting", "value": "yes" } ] },
         "topic": "TALK_yoshimi_ask_mood"
       },
-      { "text": "You look like you need help. Can I do something for you?", "topic": "TALK_MISSION_LIST" },
+      {
+        "text": "You look like you need help. Can I do something for you?",
+        "condition": { "and": [ { "u_has_var": "u_met_yoshimi", "type": "general", "context": "meeting", "value": "yes" } ] },
+        "topic": "TALK_MISSION_LIST"
+      },
       { "text": "Goodbye.", "topic": "TALK_DONE" }
     ]
   },
@@ -101,7 +106,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_yoshimi_ask_past",
-    "dynamic_line": "My manager Dr. Tingle made some important mistakes and I have had to make some quick decisions I would rather not go into detail on.  In retrospect our faculties may have been influenced by external factors.  Suffice to say Dr. Tingle is no longer with us but died doing what they wanted most in the world.  And I escaped alive.",
+    "dynamic_line": "My manager Dr. Tingle made some important mistakes and I have had to make some quick decisions I would rather not go into detail on.  In retrospect our faculties may have been influenced by external factors.  Suffice to say Dr. Tingle is no longer with us but died happy.  And I escaped alive.",
     "responses": [ { "text": "Let's talk about something else.", "topic": "TALK_Yoshimi_1" } ]
   },
   {
@@ -152,6 +157,46 @@
         "inquire": "Do you have the set yet?",
         "success": "Let's get started.",
         "success_lie": "Very convincing.  I do need an actual chemistry set to work though.",
+        "failure": "It's fine, I'll make something work."
+      }
+    }
+  },
+  {
+    "id": "MISSION_DinoLab_Yos_2",
+    "type": "mission_definition",
+    "name": { "str": "Kiernan consult" },
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 1000,
+    "item": "kiernans_notes",
+    "start": {
+      "assign_mission_target": { "om_terrain": "dinoexhibit", "reveal_radius": 1, "random": true, "search_range": 120 },
+      "update_mapgen": [
+        {
+          "om_terrain": "dinoexhibit",
+          "place_item": [ { "item": "kiernans_notes", "x": 19, "y": 20 }, { "item": "portal", "x": 19, "y": 20 } ],
+          "place_monster": [
+            { "monster": "mon_zombie_scientist", "name": "Kiernan", "x": 12, "y": 12 },
+            { "monster": "mon_zeinonychus_bio_op", "x": [ 9, 15 ], "y": [ 9, 15 ] }
+          ]
+        }
+      ],
+      "end": {
+        "effect": [
+          { "u_buy_item": "kiernans_notes" },
+          { "u_adjust_var": "DinoLab_power", "type": "counter", "context": "DinoLab", "adjustment": 2 }
+        ]
+      },
+      "origins": [ "ORIGIN_SECONDARY" ],
+      "dialogue": {
+        "describe": "I need some expert advice…",
+        "offer": "I don't have access to standard lab procedures here.  Find Dr. Kiernan and get some notes on the basics.  I can work from there.",
+        "accepted": "So much to do.",
+        "rejected": "Ugh.",
+        "advice": "Kiernan is probably still at the old field office.  It should be fine as long as the emergency power is still working.  You may have to do some kind of stupid task before Kiernan talks.  Try not to get violent.  If Kiernan is dead try and find some notes or books.",
+        "inquire": "Do you have the information yet?",
+        "success": "Let's get started.  Oh, I'll make you a copy just in case.",
+        "success_lie": "Very convincing.  I do need the information to work though.",
         "failure": "It's fine, I'll make something work."
       }
     }
