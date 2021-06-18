@@ -148,6 +148,7 @@
         ]
       },
       "origins": [ "ORIGIN_SECONDARY" ],
+      "followup": "MISSION_DinoLab_Yos_2",
       "dialogue": {
         "describe": "I think I might know where a decent chemistry set is…",
         "offer": "I need a full chemistry set to do my work properly. I could use some help.",
