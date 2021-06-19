@@ -22,8 +22,8 @@ jobs:
       - name: Generate environmental variables
         id: generate_env_vars
         run: |
-          echo "::set-output name=tag_name::cdda-experimental-${{ steps.get-timestamp.outputs.time }}"
-          echo "::set-output name=release_name::Cataclysm-DDA experimental build ${{ steps.get-timestamp.outputs.time }}"
+          echo "::set-output name=tag_name::cbn-experimental-${{ steps.get-timestamp.outputs.time }}"
+          echo "::set-output name=release_name::Cataclysm-BN experimental build ${{ steps.get-timestamp.outputs.time }}"
       - name: Check if there is existing git tag
         id: tag_check
         uses: mukunku/tag-exists-action@v1.0.0
@@ -152,7 +152,7 @@ jobs:
         run: |
           HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ccache parallel
           pip3 install dmgbuild==1.4.2 biplist
-      - name: Build CDDA (linux)
+      - name: Build CBN (linux)
         if: runner.os == 'Linux' && matrix.mxe == 'none' && matrix.android == 'none' 
         run: |
           cat >VERSION.txt <<EOL
@@ -162,8 +162,8 @@ jobs:
           commit url: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
           EOL
           make -j$((`nproc`+0)) TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 bindist
-          mv cataclysmdda-0.E.tar.gz cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.tar.gz
-      - name: Build CDDA (windows)
+          mv cataclysmbn.tar.gz cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.tar.gz
+      - name: Build CBN (windows)
         if: matrix.mxe != 'none'
         env:
           PLATFORM: /usr/lib/mxe/usr/bin/${{ matrix.mxe }}-w64-mingw32.static-
@@ -175,8 +175,8 @@ jobs:
           commit url: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
           EOL
           make -j$((`nproc`+0)) CROSS="${PLATFORM}" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 bindist
-          mv cataclysmdda-0.E.zip cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.zip
-      - name: Build CDDA (osx)
+          mv cataclysmbn.zip cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.zip
+      - name: Build CBN (osx)
         if: runner.os == 'macOS'
         env:
           USE_HOME_DIR: 1
@@ -188,7 +188,7 @@ jobs:
           commit url: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
           EOL
           make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 dmgdist
-          mv Cataclysm.dmg cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.dmg
+          mv CataclysmBN.dmg cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.dmg
       - name: Set up JDK 8 (android)
         if: runner.os == 'Linux' && matrix.android != 'none' && matrix.mxe == 'none'
         uses: actions/setup-java@v2
@@ -206,7 +206,7 @@ jobs:
           EOL
           sudo apt-get update
           sudo apt-get install gettext          
-      - name: Build CDDA (android)
+      - name: Build CBN (android)
         if: runner.os == 'Linux' && matrix.android != 'none' && matrix.mxe == 'none'
         working-directory: ./android
         run: | 
@@ -219,15 +219,15 @@ jobs:
           if [ ${{ matrix.android }} = arm64 ]
           then
                ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_32=false assembleExperimentalRelease
-               mv ./app/build/outputs/apk/experimental/release/*.apk ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.apk
+               mv ./app/build/outputs/apk/experimental/release/*.apk ../cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.apk
           elif [ ${{ matrix.android }} = arm32 ]
           then
                ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_64=false assembleExperimentalRelease
-               mv ./app/build/outputs/apk/experimental/release/*.apk ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.apk 
+               mv ./app/build/outputs/apk/experimental/release/*.apk ../cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.apk 
           elif [ ${{ matrix.android }} = bundle ]
           then
                ./gradlew -Pj=$((`nproc`+0)) bundleExperimentalRelease
-               mv ./app/build/outputs/bundle/experimentalRelease/*.aab ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.aab     
+               mv ./app/build/outputs/bundle/experimentalRelease/*.aab ../cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.aab     
           fi
       - name: Upload release asset
         id: upload-release-asset 
@@ -236,6 +236,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.release.outputs.upload_url }} 
-          asset_path: cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }}
-          asset_name: cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }}
+          asset_path: cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }}
+          asset_name: cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }}
           asset_content_type: ${{ matrix.content }}
