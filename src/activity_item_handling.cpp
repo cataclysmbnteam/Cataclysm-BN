@@ -533,7 +533,7 @@ std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &dr
                                      - p.volume_capacity() + dropped_worn_storage;
     if( excessive_volume > 0_ml ) {
         invslice old_inv = p.inv.slice();
-        for( size_t i = 0; i < old_inv.size(); i++ ) {
+        for( size_t i = 0; i < old_inv.size() && excessive_volume > 0_ml; i++ ) {
             // TODO: Reimplement random dropping?
             if( inv_indices.count( i ) != 0 ) {
                 continue;
@@ -543,8 +543,10 @@ std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &dr
                 act_item to_drop = act_item( item_location( p, &*iter ), iter->count(), 0 );
                 inv.push_back( to_drop );
                 excessive_volume -= to_drop.loc->volume();
+                if( excessive_volume <= 0_ml ) {
+                    break;
+                }
             }
-
         }
     }
 
