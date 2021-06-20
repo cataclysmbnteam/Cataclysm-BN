@@ -1,5 +1,4 @@
 name: "Experimental Release"
-environment: Release
 concurrency: release
 on:
   push:
