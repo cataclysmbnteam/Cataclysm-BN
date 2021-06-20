@@ -3,7 +3,7 @@ concurrency: release
 on:
   push:
     branches:
-      - master
+      - upload
 jobs:
   release:
     name: Create Release
@@ -214,7 +214,7 @@ jobs:
           gpg -d --passphrase "${{ secrets.KEYSTORE_PASSWORD }}" --batch release.keystore.asc > app/release.keystore 
           echo "${{ secrets.KEYSTORE_PROPERTIES }}" > keystore.properties.asc   
           gpg -d --passphrase "${{ secrets.KEYSTORE_PASSWORD }}" --batch keystore.properties.asc > keystore.properties
-          export UPSTREAM_BUILD_NUMBER="$((11581 + ${{ github.run_number }}))"
+          export UPSTREAM_BUILD_NUMBER="$((2037 + ${{ github.run_number }}))"
           chmod +x gradlew
           if [ ${{ matrix.android }} = arm64 ]
           then
