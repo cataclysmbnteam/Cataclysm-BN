@@ -28,7 +28,7 @@ jobs:
         id: tag_check
         uses: mukunku/tag-exists-action@v1.0.0
         with:
-          tag: ${{ steps.generate_env_vars.outputs.tag_name }}  
+          tag: ${{ steps.generate_env_vars.outputs.tag_name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/checkout@v2
@@ -115,7 +115,7 @@ jobs:
             android: arm32
             artifact: android-x32
             ext: apk
-            content: application/apk 
+            content: application/apk
           - name: Android Bundle
             os: ubuntu-latest
             mxe: none
@@ -142,7 +142,7 @@ jobs:
           sudo apt update
           sudo apt install mxe-{i686,x86-64}-w64-mingw32.static-{sdl2,sdl2-ttf,sdl2-image,sdl2-mixer,gettext}
       - name: Install dependencies (Linux)
-        if: runner.os == 'Linux' && matrix.mxe == 'none' && matrix.android == 'none' 
+        if: runner.os == 'Linux' && matrix.mxe == 'none' && matrix.android == 'none'
         run: |
           sudo apt-get update
           sudo apt-get install libncursesw5-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev \
@@ -153,7 +153,7 @@ jobs:
           HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ccache parallel
           pip3 install dmgbuild==1.4.2 biplist
       - name: Build CBN (linux)
-        if: runner.os == 'Linux' && matrix.mxe == 'none' && matrix.android == 'none' 
+        if: runner.os == 'Linux' && matrix.mxe == 'none' && matrix.android == 'none'
         run: |
           cat >VERSION.txt <<EOL
           build type: ${{ matrix.artifact }}
@@ -194,7 +194,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '8'
-          distribution: 'adopt'   
+          distribution: 'adopt'
       - name: Setup Build and Dependencies (android)
         if: runner.os == 'Linux' && matrix.android != 'none' && matrix.mxe == 'none'
         run: |
@@ -205,14 +205,14 @@ jobs:
           commit url: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
           EOL
           sudo apt-get update
-          sudo apt-get install gettext          
+          sudo apt-get install gettext
       - name: Build CBN (android)
         if: runner.os == 'Linux' && matrix.android != 'none' && matrix.mxe == 'none'
         working-directory: ./android
-        run: | 
-          echo "${{ secrets.KEYSTORE }}" > release.keystore.asc   
-          gpg -d --passphrase "${{ secrets.KEYSTORE_PASSWORD }}" --batch release.keystore.asc > app/release.keystore 
-          echo "${{ secrets.KEYSTORE_PROPERTIES }}" > keystore.properties.asc   
+        run: |
+          echo "${{ secrets.KEYSTORE }}" > release.keystore.asc
+          gpg -d --passphrase "${{ secrets.KEYSTORE_PASSWORD }}" --batch release.keystore.asc > app/release.keystore
+          echo "${{ secrets.KEYSTORE_PROPERTIES }}" > keystore.properties.asc
           gpg -d --passphrase "${{ secrets.KEYSTORE_PASSWORD }}" --batch keystore.properties.asc > keystore.properties
           export UPSTREAM_BUILD_NUMBER="$((2037 + ${{ github.run_number }}))"
           chmod +x gradlew
@@ -223,19 +223,19 @@ jobs:
           elif [ ${{ matrix.android }} = arm32 ]
           then
                ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_64=false assembleExperimentalRelease
-               mv ./app/build/outputs/apk/experimental/release/*.apk ../cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.apk 
+               mv ./app/build/outputs/apk/experimental/release/*.apk ../cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.apk
           elif [ ${{ matrix.android }} = bundle ]
           then
                ./gradlew -Pj=$((`nproc`+0)) bundleExperimentalRelease
-               mv ./app/build/outputs/bundle/experimentalRelease/*.aab ../cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.aab     
+               mv ./app/build/outputs/bundle/experimentalRelease/*.aab ../cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.aab
           fi
       - name: Upload release asset
-        id: upload-release-asset 
+        id: upload-release-asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ needs.release.outputs.upload_url }} 
+          upload_url: ${{ needs.release.outputs.upload_url }}
           asset_path: cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }}
           asset_name: cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }}
           asset_content_type: ${{ matrix.content }}
