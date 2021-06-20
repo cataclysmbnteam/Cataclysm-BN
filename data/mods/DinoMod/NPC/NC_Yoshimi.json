@@ -101,7 +101,7 @@
     "type": "talk_topic",
     "id": "TALK_yoshimi_what",
     "dynamic_line": "I am a hard working professional in a challenging field adjusting to a recent change in circumstances.  That is all you need to know.",
-    "responses": [ { "text": "I should go.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "Fair enough.", "topic": "TALK_Yoshimi_1" } ]
   },
   {
     "type": "talk_topic",
@@ -130,10 +130,10 @@
     "value": 1000,
     "item": "chemistry_set",
     "start": {
-      "assign_mission_target": { "om_terrain": "lab basement", "reveal_radius": 1, "random": true, "search_range": 120, "z": -1 },
+      "assign_mission_target": { "om_terrain": "basement_hidden_lab_stairs", "reveal_radius": 1, "random": true, "search_range": 120, "z": -1 },
       "update_mapgen": [
         {
-          "om_terrain": "lab basement",
+          "om_terrain": "basement_hidden_lab_stairs",
           "place_item": [ { "item": "chemistry_set", "x": 19, "y": 20 } ],
           "place_monster": [ { "group": "GROUP_DINOSAUR_ZOMBIE", "x": 12, "y": 12 } ]
         }
@@ -173,10 +173,10 @@
       "update_mapgen": [
         {
           "om_terrain": "dinoexhibit",
-          "place_item": [ { "item": "kiernans_notes", "x": 19, "y": 20 }, { "item": "portal", "x": 19, "y": 20 } ],
+          "place_item": [ { "item": "kiernans_notes", "x": 20, "y": 9 }, { "item": "portal", "x": 20, "y": 9 } ],
           "place_monster": [
-            { "monster": "mon_zombie_scientist", "name": "Kiernan", "x": 12, "y": 12 },
-            { "monster": "mon_zeinonychus_bio_op", "x": [ 9, 15 ], "y": [ 9, 15 ] }
+            { "monster": "mon_zombie_scientist", "name": "Kiernan", "x": 20, "y": 9 },
+            { "monster": "mon_zeinonychus_bio_op", "x": 21, "y": 9 }
           ]
         }
       ]
