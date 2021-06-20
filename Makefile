@@ -119,7 +119,7 @@ export CCACHE_COMMENTS=1
 OTHERS += -fsigned-char
 
 ifndef VERSION
-  VERSION = the-fork
+  VERSION = unstable
 endif
 
 TARGET_NAME = cataclysm
@@ -1042,10 +1042,10 @@ ifdef OSXCROSS
 	cp build-data/osx/dmgback.png Cataclysm/.background.png
 	ln -s /Applications Cataclysm/Applications
 	genisoimage -quiet -D -V "Cataclysm DDA" -no-pad -r -apple -o Cataclysm-uncompressed.dmg Cataclysm/
-	dmg dmg Cataclysm-uncompressed.dmg Cataclysm-$(VERSION).dmg
+	dmg dmg Cataclysm-uncompressed.dmg CataclysmBN-$(VERSION).dmg
 	rm Cataclysm-uncompressed.dmg
 else
-	dmgbuild -s build-data/osx/dmgsettings.py "Cataclysm DDA" Cataclysm-$(VERSION).dmg
+	dmgbuild -s build-data/osx/dmgsettings.py "Cataclysm DDA" CataclysmBN-$(VERSION).dmg
 endif
 
 endif  # ifeq ($(NATIVE), osx)
