@@ -643,6 +643,13 @@ bool game::start_game()
     }
     start_loc.prepare_map( omtstart );
 
+    // Place vehicles spawned by scenario or profession, has to be placed very early to avoid bugs.
+    if( u.starting_vehicle &&
+        !place_vehicle_nearby( u.starting_vehicle, omtstart.xy(), 0, 30,
+                               std::vector<std::string> {} ) ) {
+        debugmsg( "could not place starting vehicle" );
+    }
+
     if( scen->has_map_extra() ) {
         // Map extras can add monster spawn points and similar and should be done before the main
         // map is loaded.
@@ -774,11 +781,6 @@ bool game::start_game()
             add_msg( m_debug, "cannot place starting pet, no space!" );
         }
     }
-    if( u.starting_vehicle &&
-        !place_vehicle_nearby( u.starting_vehicle, u.global_omt_location().xy(), 1, 30,
-                               std::vector<std::string> {} ) ) {
-        debugmsg( "could not place starting vehicle" );
-    }
     // Assign all of this scenario's missions to the player.
     for( const mission_type_id &m : scen->missions() ) {
         const auto mission = mission::reserve_new( m, character_id() );
@@ -826,6 +828,7 @@ vehicle *game::place_vehicle_nearby( const vproto_id &id, const point &origin, i
                 veh->sm_pos =  ms_to_sm_remain( abs_local );
                 veh->pos = abs_local.xy();
                 overmap_buffer.add_vehicle( veh );
+                veh->tracking_on = true;
                 target_map.save();
                 return veh;
             }
