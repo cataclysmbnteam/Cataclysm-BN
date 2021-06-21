@@ -1466,6 +1466,10 @@ void avatar::set_movement_mode( character_movemode new_mode )
             return;
         }
     }
+    if( move_mode == CMM_CROUCH || new_mode == CMM_CROUCH ) {
+        // crouching affects visibility
+        get_map().set_seen_cache_dirty( pos().z );
+    }
     move_mode = new_mode;
 }
 

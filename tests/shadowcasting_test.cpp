@@ -50,7 +50,7 @@ static void oldCastLight( float ( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY
 
             //check if it's within the visible area and mark visible if so
             if( rl_dist( tripoint_zero, delta ) <= radius ) {
-                output_cache[currentX][currentY] = LIGHT_TRANSPARENCY_CLEAR;
+                output_cache[currentX][currentY] = VISIBILITY_FULL;
             }
 
             if( blocked ) {
@@ -116,7 +116,7 @@ static void randomly_fill_transparency(
             if( rng() < numerator ) {
                 square = LIGHT_TRANSPARENCY_SOLID;
             } else {
-                square = LIGHT_TRANSPARENCY_CLEAR;
+                square = LIGHT_TRANSPARENCY_OPEN_AIR;
             }
         }
     }
@@ -405,9 +405,9 @@ static void shadowcasting_3d_2d( const int iterations )
 
 // T, O and V are 'T'ransparent, 'O'paque and 'V'isible.
 // X marks the player location, which is not set to visible by this algorithm.
-static constexpr float T = LIGHT_TRANSPARENCY_CLEAR;
+static constexpr float T = LIGHT_TRANSPARENCY_OPEN_AIR;
 static constexpr float O = LIGHT_TRANSPARENCY_SOLID;
-static constexpr float V = LIGHT_TRANSPARENCY_CLEAR;
+static constexpr float V = LIGHT_TRANSPARENCY_OPEN_AIR;
 static constexpr float X = LIGHT_TRANSPARENCY_SOLID;
 
 const point ORIGIN( 65, 65 );
@@ -478,7 +478,7 @@ static void run_spot_check( const grid_overlay &test_case, const grid_overlay &e
 
 TEST_CASE( "shadowcasting_slope_inversion_regression_test", "[shadowcasting]" )
 {
-    grid_overlay test_case( { 7, 8 }, LIGHT_TRANSPARENCY_CLEAR );
+    grid_overlay test_case( { 7, 8 }, LIGHT_TRANSPARENCY_OPEN_AIR );
     test_case.data = {
         {T, T, T, T, T, T, T, T, T, T},
         {T, O, T, T, T, T, T, T, T, T},
@@ -493,7 +493,7 @@ TEST_CASE( "shadowcasting_slope_inversion_regression_test", "[shadowcasting]" )
         {T, T, T, T, T, T, T, T, T, T}
     };
 
-    grid_overlay expected_results( { 7, 8 }, LIGHT_TRANSPARENCY_CLEAR );
+    grid_overlay expected_results( { 7, 8 }, LIGHT_TRANSPARENCY_OPEN_AIR );
     expected_results.data = {
         {O, O, O, V, V, V, V, V, V, V},
         {O, V, V, O, V, V, V, V, V, V},
@@ -513,7 +513,7 @@ TEST_CASE( "shadowcasting_slope_inversion_regression_test", "[shadowcasting]" )
 
 TEST_CASE( "shadowcasting_pillar_behavior_cardinally_adjacent", "[shadowcasting]" )
 {
-    grid_overlay test_case( { 1, 4 }, LIGHT_TRANSPARENCY_CLEAR );
+    grid_overlay test_case( { 1, 4 }, LIGHT_TRANSPARENCY_OPEN_AIR );
     test_case.data = {
         {T, T, T, T, T, T, T, T, T},
         {T, T, T, T, T, T, T, T, T},
@@ -526,7 +526,7 @@ TEST_CASE( "shadowcasting_pillar_behavior_cardinally_adjacent", "[shadowcasting]
         {T, T, T, T, T, T, T, T, T}
     };
 
-    grid_overlay expected_results( { 1, 4 }, LIGHT_TRANSPARENCY_CLEAR );
+    grid_overlay expected_results( { 1, 4 }, LIGHT_TRANSPARENCY_OPEN_AIR );
     expected_results.data = {
         {V, V, V, V, V, V, V, O, O},
         {V, V, V, V, V, V, O, O, O},
@@ -545,7 +545,7 @@ TEST_CASE( "shadowcasting_pillar_behavior_cardinally_adjacent", "[shadowcasting]
 TEST_CASE( "shadowcasting_pillar_behavior_2_1_diagonal_gap", "[shadowcasting]" )
 {
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    grid_overlay test_case( { 1, 1 }, LIGHT_TRANSPARENCY_CLEAR );
+    grid_overlay test_case( { 1, 1 }, LIGHT_TRANSPARENCY_OPEN_AIR );
     test_case.data = {
         {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
         {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
@@ -559,7 +559,7 @@ TEST_CASE( "shadowcasting_pillar_behavior_2_1_diagonal_gap", "[shadowcasting]" )
     };
 
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    grid_overlay expected_results( { 1, 1 }, LIGHT_TRANSPARENCY_CLEAR );
+    grid_overlay expected_results( { 1, 1 }, LIGHT_TRANSPARENCY_OPEN_AIR );
     expected_results.data = {
         {V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V},
         {V, X, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V},
@@ -577,7 +577,7 @@ TEST_CASE( "shadowcasting_pillar_behavior_2_1_diagonal_gap", "[shadowcasting]" )
 
 TEST_CASE( "shadowcasting_vision_along_a_wall", "[shadowcasting]" )
 {
-    grid_overlay test_case( { 8, 2 }, LIGHT_TRANSPARENCY_CLEAR );
+    grid_overlay test_case( { 8, 2 }, LIGHT_TRANSPARENCY_OPEN_AIR );
     test_case.data = {
         {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
         {T, O, O, O, O, O, O, O, O, O, O, O, O, O, O, O, O, T},
@@ -590,7 +590,7 @@ TEST_CASE( "shadowcasting_vision_along_a_wall", "[shadowcasting]" )
         {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T}
     };
 
-    grid_overlay expected_results( { 8, 2 }, LIGHT_TRANSPARENCY_CLEAR );
+    grid_overlay expected_results( { 8, 2 }, LIGHT_TRANSPARENCY_OPEN_AIR );
     expected_results.data = {
         {O, O, O, O, O, O, O, O, O, O, O, O, O, O, O, O, O, O},
         {V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V},

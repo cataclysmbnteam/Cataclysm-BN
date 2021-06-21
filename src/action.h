@@ -315,6 +315,8 @@ enum action_id : int {
     ACTION_DISPLAY_LIGHTING,
     /** Toggle radiation map */
     ACTION_DISPLAY_RADIATION,
+    /** Toggle transparency map */
+    ACTION_DISPLAY_TRANSPARENCY,
     /** Toggle submap grid overlay */
     ACTION_DISPLAY_SUBMAP_GRID,
     /** Toggle timing of the game hours */
