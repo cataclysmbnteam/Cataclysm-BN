@@ -394,6 +394,8 @@ class generic_factory
             inc_version();
             list.clear();
             map.clear();
+            abstracts.clear();
+            deferred.clear();
         }
         /**
          * Returns all the loaded objects. It can be used to iterate over them.
