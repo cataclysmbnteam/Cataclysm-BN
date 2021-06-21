@@ -78,6 +78,7 @@ static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 
 static constexpr int UILIST_MAP_NOTE_DELETED = -2047;
 static constexpr int UILIST_MAP_NOTE_EDITED = -2048;
+static constexpr int UILIST_CHANGE_SORT = -2049;
 
 static constexpr int max_note_length = 450;
 static constexpr int max_note_display_length = 45;
@@ -403,11 +404,42 @@ static void draw_camp_labels( const catacurses::window &w, const tripoint &cente
     }
 }
 
+static bool query_confirm_delete( bool &ask_when_deleting )
+{
+    if( !ask_when_deleting ) {
+        return true;
+    }
+
+    uilist qry;
+    qry.text = _( "Really delete note?" );
+    qry.addentry( 1, true, 'Y', _( "Yes." ) );
+    qry.addentry( 2, true, 'I', _( "Yes, and don't ask again." ) );
+    qry.addentry( 3, true, 'N', _( "No." ) );
+    qry.query();
+    switch( qry.ret ) {
+        case 1:
+            return true;
+        case 2:
+            ask_when_deleting = false;
+            return true;
+        default:
+            return false;
+    }
+}
+
+struct note_cached {
+    tripoint p;
+    nc_color col;
+    std::string symbol;
+    std::string text;
+    std::string text_nocolor;
+    int dist_from_pl;
+};
+
 class map_notes_callback : public uilist_callback
 {
     private:
-        overmapbuffer::t_notes_vector _notes;
-        int _z;
+        std::vector<note_cached> const *_notes;
         int _selected = 0;
 
         catacurses::window w_preview;
@@ -416,15 +448,13 @@ class map_notes_callback : public uilist_callback
         std::tuple<catacurses::window *, catacurses::window *, catacurses::window *> preview_windows;
         ui_adaptor ui;
 
-        point point_selected() {
-            return _notes[_selected].first;
-        }
         tripoint note_location() {
-            return tripoint( point_selected(), _z );
+            return ( *_notes )[_selected].p;
         }
     public:
-        map_notes_callback( const overmapbuffer::t_notes_vector &notes, int z )
-            : _notes( notes ), _z( z ) {
+        bool ask_when_deleting = true;
+
+        map_notes_callback( std::vector<note_cached> const *notes ) : _notes( notes ) {
             ui.on_screen_resize( [this]( ui_adaptor & ui ) {
                 w_preview = catacurses::newwin( npm_height + 2, max_note_display_length - npm_width - 1,
                                                 point( npm_width + 2, 2 ) );
@@ -437,7 +467,7 @@ class map_notes_callback : public uilist_callback
             ui.mark_resize();
 
             ui.on_redraw( [this]( const ui_adaptor & ) {
-                if( _selected >= 0 && static_cast<size_t>( _selected ) < _notes.size() ) {
+                if( _selected >= 0 && static_cast<size_t>( _selected ) < _notes->size() ) {
                     const tripoint note_pos = note_location();
                     const auto map_around = get_overmap_neighbors( note_pos );
                     update_note_preview( overmap_buffer.note( note_pos ), map_around, preview_windows );
@@ -446,16 +476,25 @@ class map_notes_callback : public uilist_callback
                 }
             } );
         }
+
         bool key( const input_context &ctxt, const input_event &event, int, uilist *menu ) override {
+            const std::string &action = ctxt.input_to_action( event );
+            if( action == "CHANGE_SORT" ) {
+                menu->ret = UILIST_CHANGE_SORT;
+                return true;
+            }
+            if( action == "CLEAR_FILTER" ) {
+                menu->clear_filter();
+                return true;
+            }
             _selected = menu->selected;
-            if( _selected >= 0 && _selected < static_cast<int>( _notes.size() ) ) {
-                const std::string &action = ctxt.input_to_action( event );
+            if( _selected >= 0 && _selected < static_cast<int>( _notes->size() ) ) {
                 if( action == "DELETE_NOTE" ) {
                     if( overmap_buffer.has_note( note_location() ) &&
-                        query_yn( _( "Really delete note?" ) ) ) {
+                        query_confirm_delete( ask_when_deleting ) ) {
                         overmap_buffer.delete_note( note_location() );
+                        menu->ret = UILIST_MAP_NOTE_DELETED;
                     }
-                    menu->ret = UILIST_MAP_NOTE_DELETED;
                     return true;
                 }
                 if( action == "EDIT_NOTE" ) {
@@ -483,31 +522,78 @@ class map_notes_callback : public uilist_callback
                     } else if( overmap_buffer.is_marked_dangerous( note_location() ) &&
                                query_yn( _( "Remove dangerous mark?" ) ) ) {
                         overmap_buffer.mark_note_dangerous( note_location(), 0, false );
+                        menu->ret = UILIST_MAP_NOTE_EDITED;
+                        return true;
                     }
                 }
             }
             return false;
         }
+
         void select( uilist *menu ) override {
             _selected = menu->selected;
             ui.invalidate_ui();
         }
 };
 
-static point draw_notes( const tripoint &origin )
-{
-    point result = point_min;
+enum class SortMode : int {
+    Name,
+    Distance,
+    Symbol,
+    Num,
+};
 
-    bool refresh = true;
+static bool sortfunc_dist( const note_cached &a, const note_cached &b )
+{
+    if( a.dist_from_pl == b.dist_from_pl ) {
+        // Compare points to get stable order
+        return a.p < b.p;
+    } else {
+        return a.dist_from_pl < b.dist_from_pl;
+    }
+};
+
+static bool sortfunc_name( const note_cached &a, const note_cached &b )
+{
+    if( a.text_nocolor == b.text_nocolor ) {
+        return sortfunc_dist( a, b );
+    } else {
+        return localized_compare( a.text_nocolor, b.text_nocolor );
+    }
+};
+
+static bool sortfunc_symbol( const note_cached &a, const note_cached &b )
+{
+    if( a.symbol == b.symbol ) {
+        return sortfunc_name( a, b );
+    } else {
+        // Not using lexicographic comparator here because it's case-insensitive
+        return a.symbol < b.symbol;
+    }
+};
+
+static tripoint show_notes_manager( const tripoint &origin )
+{
+    tripoint result = tripoint_min;
+
+    bool ask_when_deleting = true;
     uilist nmenu;
-    while( refresh ) {
-        refresh = false;
-        nmenu.color_error( false );
+    std::string filter;
+    tripoint selected = origin;
+    SortMode sort_mode = SortMode::Name;
+
+    const tripoint p_player = g->u.global_omt_location();
+
+    bool quit = false;
+    while( !quit ) {
         nmenu.init();
+        nmenu.color_error( false );
         nmenu.desc_enabled = true;
         nmenu.input_category = "OVERMAP_NOTES";
         nmenu.additional_actions.emplace_back( "DELETE_NOTE", translation() );
         nmenu.additional_actions.emplace_back( "EDIT_NOTE", translation() );
+        nmenu.additional_actions.emplace_back( "CHANGE_SORT", translation() );
+        nmenu.additional_actions.emplace_back( "CLEAR_FILTER", translation() );
         nmenu.additional_actions.emplace_back( "MARK_DANGER", translation() );
         const input_context ctxt( nmenu.input_category );
         nmenu.text = string_format(
@@ -518,45 +604,140 @@ static point draw_notes( const tripoint &origin )
                          colorize( ctxt.key_bound_to( "DELETE_NOTE" ), c_yellow ),
                          colorize( "ESCAPE", c_yellow )
                      );
-        int row = 0;
-        overmapbuffer::t_notes_vector notes = overmap_buffer.get_all_notes( origin.z );
-        nmenu.title = string_format( _( "Map notes (%d)" ), notes.size() );
-        for( const auto &point_with_note : notes ) {
-            const point p = point_with_note.first;
-            if( p.x == origin.x && p.y == origin.y ) {
-                nmenu.selected = row;
+
+        std::vector<note_cached> notes;
+        for( int zlev = -OVERMAP_DEPTH; zlev <= OVERMAP_HEIGHT; zlev++ ) {
+            overmapbuffer::t_notes_vector notes_raw = overmap_buffer.get_all_notes( zlev );
+            notes.reserve( notes.size() + notes_raw.size() );
+            for( const auto &it : notes_raw ) {
+                auto om_symbol = get_note_display_info( it.second );
+                note_cached n;
+                n.p = tripoint( it.first, zlev );
+                n.col = std::get<1>( om_symbol );
+                n.symbol = std::string( 1, std::get<0>( om_symbol ) );
+                n.text = it.second.substr( std::get<2>( om_symbol ), std::string::npos );
+                n.text_nocolor = remove_color_tags( n.text );
+                n.dist_from_pl = rl_dist( p_player, n.p );
+                notes.push_back( std::move( n ) );
             }
-            const std::string &note = point_with_note.second;
-            auto om_symbol = get_note_display_info( note );
-            const nc_color note_color = std::get<1>( om_symbol );
-            const std::string note_symbol = std::string( 1, std::get<0>( om_symbol ) );
-            const std::string note_text = note.substr( std::get<2>( om_symbol ), std::string::npos );
-            point p_omt( p );
-            const point p_player = g->u.global_omt_location().xy();
-            const int distance_player = rl_dist( p_player, p_omt );
-            const point sm_pos = omt_to_sm_copy( p_omt );
-            const point p_om = omt_to_om_remain( p_omt );
-            const std::string location_desc =
-                overmap_buffer.get_description_at( tripoint( sm_pos, origin.z ) );
-            const bool is_dangerous = overmap_buffer.is_marked_dangerous( tripoint( p, origin.z ) );
-            nmenu.addentry_desc( string_format( _( "[%s] %s" ), colorize( note_symbol, note_color ),
-                                                note_text ),
-                                 string_format(
-                                     _( "<color_red>LEVEL %i, %d'%d, %d'%d</color>: %s (Distance: <color_white>%d</color>) <color_red>%s</color>" ),
-                                     origin.z, p_om.x, p_omt.x, p_om.y, p_omt.y, location_desc, distance_player,
-                                     is_dangerous ? "DANGEROUS AREA!" : "" ) );
-            nmenu.entries[row].ctxt = string_format(
-                                          _( "<color_light_gray>Distance: </color><color_white>%d</color>" ), distance_player );
-            row++;
         }
-        map_notes_callback cb( notes, origin.z );
+
+        const char *sort_str;
+        switch( sort_mode ) {
+            case SortMode::Name:
+                sort_str = pgettext( "Sorted by:", "name" );
+                std::sort( notes.begin(), notes.end(), sortfunc_name );
+                break;
+            case SortMode::Distance:
+                sort_str = pgettext( "Sorted by:", "distance" );
+                std::sort( notes.begin(), notes.end(), sortfunc_dist );
+                break;
+            case SortMode::Symbol:
+                sort_str = pgettext( "Sorted by:", "symbol" );
+                std::sort( notes.begin(), notes.end(), sortfunc_symbol );
+                break;
+            default:
+                debugmsg( "Unimplemented" );
+                break;
+        }
+        //~ %1$d is total number of notes, %2$s is hotkey for sorting, %3$s is sort criterion
+        nmenu.title = string_format( _( "Map notes (%1$d)     [%2$s] Sorted by: %3$s" ), notes.size(),
+                                     ctxt.key_bound_to( "CHANGE_SORT" ), sort_str );
+
+        int entry_to_select = -1;
+        for( size_t i = 0; i < notes.size(); i++ ) {
+            const note_cached &note = notes[i];
+            if( note.p == selected ) {
+                entry_to_select = i;
+            }
+            tripoint tp_omt( note.p );
+            const std::string direction_str = direction_name_short( direction_from( p_player, tp_omt ) );
+            const tripoint sm_pos = omt_to_sm_copy( tp_omt );
+            const point p_om = omt_to_om_remain( tp_omt.xy() );
+            const std::string location_desc = overmap_buffer.get_description_at( sm_pos );
+
+            //~ "Dangerous" indicator for overmap note in note manager.
+            //~ Must occupy exactly 2 columns, and not resemble a number or a digit.
+            //~ English uses D for Danger, but it's acceptable to leave it untranslated
+            //~ or use some special symbol instead (e.g. exclamation mark)
+            //~ if you're having trouble making it look nice in your language.
+            const char *danger_abbr = pgettext( "danger indicator", " D" );
+            const bool is_dangerous = overmap_buffer.is_marked_dangerous( tp_omt );
+            cata::optional<int> this_dr = overmap_buffer.has_note_with_danger_radius( tp_omt );
+            std::string dr_short;
+            if( this_dr ) {
+                if( *this_dr == 0 ) {
+                    // Dangerous area
+                    dr_short = colorize( danger_abbr, c_red );
+                } else {
+                    // Dangerous area with danger radius
+                    dr_short = string_format( "<color_red>%2d</color>", *this_dr );
+                }
+            } else {
+                if( is_dangerous ) {
+                    // Not dangerous by itself, but falls under danger radius
+                    // of some other note
+                    dr_short = colorize( danger_abbr, c_yellow );
+                } else {
+                    // Safe
+                    dr_short = "  ";
+                }
+            }
+
+            nmenu.addentry_desc( string_format(
+                                     "[%s] %s", colorize( note.symbol, note.col ), note.text ),
+                                 string_format(
+                                     _( "<color_red>LEVEL %i, %d'%d, %d'%d</color>: %s (Distance: <color_white>%d %s</color>) <color_red>%s</color>" ),
+                                     tp_omt.z, p_om.x, tp_omt.x, p_om.y, tp_omt.y, location_desc, note.dist_from_pl,
+                                     trim_whitespaces( direction_str ), is_dangerous ? _( "DANGEROUS AREA!" ) : "" ) );
+            nmenu.entries[i].ctxt = string_format(
+                                        "%s<color_white>% 4d %s</color>", dr_short, note.dist_from_pl, direction_str
+                                    );
+        }
+        nmenu.set_filter( filter ); // Restore filter
+        nmenu.set_selected( entry_to_select ); // Restore selection
+        map_notes_callback cb( &notes );
+        cb.ask_when_deleting = ask_when_deleting;
         nmenu.callback = &cb;
         nmenu.query();
-        if( nmenu.ret == UILIST_MAP_NOTE_DELETED || nmenu.ret == UILIST_MAP_NOTE_EDITED ) {
-            refresh = true;
+
+        if( nmenu.ret == UILIST_CHANGE_SORT ) {
+            sort_mode = static_cast<SortMode>(
+                            ( static_cast<int>( sort_mode ) + 1 ) % static_cast<int>( SortMode::Num )
+                        );
+        }
+
+        if( nmenu.ret == UILIST_MAP_NOTE_DELETED || nmenu.ret == UILIST_MAP_NOTE_EDITED ||
+            nmenu.ret == UILIST_CHANGE_SORT ) {
+            // Save state
+            ask_when_deleting = cb.ask_when_deleting;
+            filter = nmenu.get_filter();
+            if( nmenu.ret == UILIST_MAP_NOTE_EDITED || nmenu.ret == UILIST_CHANGE_SORT ) {
+                // Reselect same note
+                assert( nmenu.selected >= 0 && nmenu.selected < notes.size() );
+                selected = notes[nmenu.selected].p;
+            } else {
+                assert( nmenu.ret == UILIST_MAP_NOTE_DELETED );
+                // Select next visible note (if one exists) or the last visible
+                // note if removed one was the last.
+                bool take_next = false;
+                selected = tripoint_min;
+                for( const int i : nmenu.get_filtered() ) {
+                    if( nmenu.selected == i ) {
+                        take_next = true;
+                        continue;
+                    }
+                    selected = notes[i].p;
+                    if( take_next ) {
+                        break;
+                    }
+                }
+            }
         } else if( nmenu.ret >= 0 && nmenu.ret < static_cast<int>( notes.size() ) ) {
-            result = notes[nmenu.ret].first;
-            refresh = false;
+            result = notes[nmenu.ret].p;
+            quit = true;
+        } else {
+            quit = true;
         }
     }
     return result;
@@ -1647,10 +1828,9 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
                 overmap_buffer.delete_note( curs );
             }
         } else if( action == "LIST_NOTES" ) {
-            const point p = draw_notes( curs );
-            if( p != point_min ) {
-                curs.x = p.x;
-                curs.y = p.y;
+            const tripoint p = show_notes_manager( curs );
+            if( p != tripoint_min ) {
+                curs = p;
             }
         } else if( action == "CHOOSE_DESTINATION" ) {
             path_type ptype;

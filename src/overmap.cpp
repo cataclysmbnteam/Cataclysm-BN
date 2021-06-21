@@ -1303,6 +1303,24 @@ bool overmap::has_note( const tripoint &p ) const
     return false;
 }
 
+cata::optional<int> overmap::has_note_with_danger_radius( const tripoint &p ) const
+{
+    if( p.z < -OVERMAP_DEPTH || p.z > OVERMAP_HEIGHT ) {
+        return cata::nullopt;
+    }
+
+    for( auto &i : layer[p.z + OVERMAP_DEPTH].notes ) {
+        if( i.p == p.xy() ) {
+            if( i.dangerous ) {
+                return i.danger_radius;
+            } else {
+                break;
+            }
+        }
+    }
+    return cata::nullopt;
+}
+
 bool overmap::is_marked_dangerous( const tripoint &p ) const
 {
     for( auto &i : layer[p.z + OVERMAP_DEPTH].notes ) {

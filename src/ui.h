@@ -208,7 +208,43 @@ class uilist // NOLINT(cata-xy)
         void show();
         bool scrollby( int scrollby );
         void query( bool loop = true, int timeout = -1 );
+
+        /**
+         * Repopulate filtered entries list (fentries) and set fselected accordingly.
+         */
         void filterlist();
+        /**
+         * Clear current filter string and repopulate filtered entries.
+         */
+        void clear_filter();
+        /**
+         * Override current filter string and repopulate filtered entries.
+         * Note that uilist has inbuilt "query for filter string and apply it" functionality,
+         * but this method can be used for creating uilists with some filter pre-applied.
+         */
+        void set_filter( const std::string &fstr );
+        /**
+         * Get current filter string.
+         */
+        const std::string &get_filter() const {
+            return filter;
+        }
+
+        /**
+         * Get filtered list of entries.
+         * Elements are indices for 'entries'.
+         */
+        const std::vector<int> get_filtered() const {
+            return fentries;
+        }
+
+        /**
+         * Move selection to given entry.
+         * @param sel Entry to select (index for 'entries').
+         * @returns 'false' if entry does not exist / is not available with current filter.
+         */
+        bool set_selected( int sel );
+
         void addentry( const std::string &str );
         void addentry( int r, bool e, int k, const std::string &str );
         // K is templated so it matches a `char` literal and a `int` value.

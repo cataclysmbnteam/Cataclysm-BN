@@ -202,14 +202,12 @@ void uilist::init()
     max_entry_len = 0;
     max_column_len = 0;      // for calculating space for second column
 
+    _color_error = report_color_error::yes;
     hotkeys = DEFAULT_HOTKEYS;
     input_category = "UILIST";
     additional_actions.clear();
 }
 
-/**
- * repopulate filtered entries list (fentries) and set fselected accordingly
- */
 void uilist::filterlist()
 {
     bool filtering = ( this->filtering && !filter.empty() );
@@ -263,6 +261,18 @@ void uilist::filterlist()
     }
 }
 
+void uilist::clear_filter()
+{
+    filter.clear();
+    filterlist();
+}
+
+void uilist::set_filter( const std::string &fstr )
+{
+    filter = fstr;
+    filterlist();
+}
+
 void uilist::inputfilter()
 {
     input_context ctxt( input_category );
@@ -294,6 +304,24 @@ void uilist::inputfilter()
     }
 
     filter_popup.reset();
+}
+
+bool uilist::set_selected( int sel )
+{
+    if( sel < 0 || sel >= entries.size() ) {
+        // Shortcut
+        return false;
+    }
+
+    for( int i = 0; i < fentries.size(); i++ ) {
+        if( fentries[i] == sel ) {
+            selected = sel;
+            fselected = i;
+            return true;
+        }
+    }
+
+    return false;
 }
 
 /**

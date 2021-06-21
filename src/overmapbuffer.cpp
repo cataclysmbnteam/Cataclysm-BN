@@ -336,6 +336,14 @@ bool overmapbuffer::has_note( const tripoint &p )
     return false;
 }
 
+cata::optional<int> overmapbuffer::has_note_with_danger_radius( const tripoint &p )
+{
+    if( const overmap_with_local_coords om_loc = get_existing_om_global( p ) ) {
+        return om_loc.om->has_note_with_danger_radius( om_loc.local );
+    }
+    return cata::nullopt;
+}
+
 bool overmapbuffer::is_marked_dangerous( const tripoint &p )
 {
     if( const overmap_with_local_coords om_loc = get_existing_om_global( p ) ) {

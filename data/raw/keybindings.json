@@ -747,6 +747,20 @@
   },
   {
     "type": "keybinding",
+    "id": "CHANGE_SORT",
+    "category": "OVERMAP_NOTES",
+    "name": "Change sorting mode",
+    "bindings": [ { "input_method": "keyboard", "key": "S" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CLEAR_FILTER",
+    "category": "OVERMAP_NOTES",
+    "name": "Clear filter",
+    "bindings": [ { "input_method": "keyboard", "key": "R" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "DELETE_NOTE",
     "category": "OVERMAP",
     "name": "Delete Note",
