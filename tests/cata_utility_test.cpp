@@ -138,3 +138,18 @@ TEST_CASE( "replace_first", "[utility]" )
         CHECK( text == it.expected );
     }
 }
+
+TEST_CASE( "trim_whitespaces", "[utility]" )
+{
+    CHECK( trim_whitespaces( "abc" ) == "abc" );
+    CHECK( trim_whitespaces( "  abc" ) == "abc" );
+    CHECK( trim_whitespaces( "abc  " ) == "abc" );
+    CHECK( trim_whitespaces( "  abc  " ) == "abc" );
+    CHECK( trim_whitespaces( "  \t  \t  abc\t\t  \t\t\t  " ) == "abc" );
+    CHECK( trim_whitespaces( "abc  \t   def" ) == "abc  \t   def" );
+    CHECK( trim_whitespaces( "  abc  \t   def \t" ) == "abc  \t   def" );
+    CHECK( trim_whitespaces( "   " ) == "" );
+    CHECK( trim_whitespaces( " " ) == "" );
+    CHECK( trim_whitespaces( "\t" ) == "" );
+    CHECK( trim_whitespaces( "" ) == "" );
+}
