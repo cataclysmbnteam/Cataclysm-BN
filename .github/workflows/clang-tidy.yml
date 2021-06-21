@@ -3,10 +3,10 @@ name: Clang-tidy (clang-8, tiles)
 on:
   push:
     branches:
-    - master
+    - upload
   pull_request:
     branches:
-    - master
+    - upload
 
 jobs:
   build:
