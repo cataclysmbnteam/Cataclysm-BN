@@ -161,11 +161,6 @@ ifdef MSYSTEM
   MSYS2 = 1
 endif
 
-# Default to disabling clang
-ifndef CLANG
-  CLANG = 0
-endif
-
 OS = $(shell uname -s)
 
 ifneq ($(findstring Darwin,$(OS)),)
@@ -175,6 +170,11 @@ ifneq ($(findstring Darwin,$(OS)),)
   ifndef CLANG
     CLANG = 1
   endif
+endif
+
+# Default to disabling clang
+ifndef CLANG
+  CLANG = 0
 endif
 
 # Determine JSON formatter binary name
