@@ -904,7 +904,7 @@ distclean:
 bindist: $(BINDIST)
 
 ifeq ($(TARGETSYSTEM), LINUX)
-DATA_PREFIX=$(DESTDIR)$(PREFIX)/share/cataclysm-dda/
+DATA_PREFIX=$(DESTDIR)$(PREFIX)/share/cataclysm-bn/
 BIN_PREFIX=$(DESTDIR)$(PREFIX)/bin
 LOCALE_DIR=$(DESTDIR)$(PREFIX)/share/locale
 install: version $(TARGET)
@@ -936,7 +936,7 @@ endif
 endif
 
 ifeq ($(TARGETSYSTEM), CYGWIN)
-DATA_PREFIX=$(DESTDIR)$(PREFIX)/share/cataclysm-dda/
+DATA_PREFIX=$(DESTDIR)$(PREFIX)/share/cataclysm-bn/
 BIN_PREFIX=$(DESTDIR)$(PREFIX)/bin
 LOCALE_DIR=$(DESTDIR)$(PREFIX)/share/locale
 install: version $(TARGET)
@@ -1056,11 +1056,11 @@ ifdef OSXCROSS
 	cp build-data/osx/DS_Store Cataclysm/.DS_Store
 	cp build-data/osx/dmgback.png Cataclysm/.background.png
 	ln -s /Applications Cataclysm/Applications
-	genisoimage -quiet -D -V "Cataclysm DDA" -no-pad -r -apple -o Cataclysm-uncompressed.dmg Cataclysm/
+	genisoimage -quiet -D -V "Cataclysm BN" -no-pad -r -apple -o Cataclysm-uncompressed.dmg Cataclysm/
 	dmg dmg Cataclysm-uncompressed.dmg CataclysmBN-$(VERSION).dmg
 	rm Cataclysm-uncompressed.dmg
 else
-	dmgbuild -s build-data/osx/dmgsettings.py "Cataclysm DDA" CataclysmBN-$(VERSION).dmg
+	dmgbuild -s build-data/osx/dmgsettings.py "Cataclysm BN" CataclysmBN-$(VERSION).dmg
 endif
 
 endif  # ifeq ($(NATIVE), osx)
