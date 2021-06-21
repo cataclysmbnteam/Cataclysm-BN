@@ -104,7 +104,8 @@ WARNINGS = \
   -Wsuggest-override \
   -Wunused-macros \
   -Wzero-as-null-pointer-constant \
-  -Wno-unknown-warning-option
+  -Wno-unknown-warning-option \
+  -Wno-range-loop-analysis # TODO: Fix warnings instead of disabling
 # Uncomment below to disable warnings
 #WARNINGS = -w
 DEBUGSYMS = -g
