@@ -211,6 +211,7 @@ enum ter_bitflags : int {
     TFLAG_RAIL,
     TFLAG_THIN_OBSTACLE,
     TFLAG_SMALL_PASSAGE,
+    TFLAG_SUN_ROOF_ABOVE,
 
     NUM_TERFLAGS
 };

@@ -211,7 +211,7 @@
     "move_cost_mod": -1,
     "coverage": 95,
     "required_str": -1,
-    "flags": [ "FLAMMABLE_HARD", "NOITEM", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "BLOCK_WIND", "SUN_ROOF_ABOVE" ],
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -231,7 +231,7 @@
     "move_cost_mod": -1,
     "coverage": 95,
     "required_str": -1,
-    "flags": [ "FLAMMABLE_HARD", "NOITEM", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "BLOCK_WIND", "SUN_ROOF_ABOVE" ],
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -252,7 +252,7 @@
     "move_cost_mod": -1,
     "coverage": 95,
     "required_str": -1,
-    "flags": [ "FLAMMABLE_HARD", "NOITEM", "DOOR", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "DOOR", "BLOCK_WIND", "SUN_ROOF_ABOVE" ],
     "open": "f_canvas_door_o",
     "bash": {
       "str_min": 1,
@@ -293,7 +293,7 @@
     "move_cost_mod": -1,
     "coverage": 95,
     "required_str": -1,
-    "flags": [ "FLAMMABLE_HARD", "NOITEM", "DOOR", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "DOOR", "BLOCK_WIND", "SUN_ROOF_ABOVE" ],
     "open": "f_large_canvas_door_o",
     "bash": {
       "str_min": 1,
@@ -335,7 +335,7 @@
     "color": "green",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE" ],
+    "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE", "SUN_ROOF_ABOVE" ],
     "examine_action": "portable_structure",
     "deployed_item": "tent_kit",
     "bash": {
@@ -357,7 +357,7 @@
     "color": "green",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE" ],
+    "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE", "SUN_ROOF_ABOVE" ],
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -377,7 +377,7 @@
     "color": "green",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE" ],
+    "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE", "SUN_ROOF_ABOVE" ],
     "examine_action": "portable_structure",
     "deployed_item": "large_tent_kit",
     "bash": {
@@ -400,7 +400,7 @@
     "color": "green",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "INDOORS", "ORGANIC", "NOCOLLIDE" ],
+    "flags": [ "TRANSPARENT", "INDOORS", "ORGANIC", "NOCOLLIDE", "SUN_ROOF_ABOVE" ],
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -420,7 +420,7 @@
     "move_cost_mod": -1,
     "coverage": 95,
     "required_str": -1,
-    "flags": [ "FLAMMABLE_HARD", "NOITEM", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "BLOCK_WIND", "SUN_ROOF_ABOVE" ],
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -440,7 +440,7 @@
     "move_cost_mod": -1,
     "coverage": 95,
     "required_str": -1,
-    "flags": [ "FLAMMABLE_HARD", "NOITEM", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "BLOCK_WIND", "SUN_ROOF_ABOVE" ],
     "open": "f_skin_door_o",
     "bash": {
       "str_min": 1,
@@ -480,7 +480,7 @@
     "color": "brown",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE" ],
+    "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE", "SUN_ROOF_ABOVE" ],
     "examine_action": "portable_structure",
     "deployed_item": "shelter_kit",
     "bash": {
