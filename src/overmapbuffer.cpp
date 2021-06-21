@@ -1444,23 +1444,16 @@ overmapbuffer::t_notes_vector overmapbuffer::get_notes( int z, const std::string
     t_notes_vector result;
     for( auto &it : overmaps ) {
         const overmap &om = *it.second;
-        const int offset_x = om.pos().x * OMAPX;
-        const int offset_y = om.pos().y * OMAPY;
-        for( int i = 0; i < OMAPX; i++ ) {
-            for( int j = 0; j < OMAPY; j++ ) {
-                const std::string &note = om.note( { i, j, z } );
-                if( note.empty() ) {
-                    continue;
-                }
-                if( pattern != nullptr && lcmatch( note, *pattern ) ) {
-                    // pattern not found in note text
-                    continue;
-                }
-                result.push_back( t_point_with_note(
-                                      point( offset_x + i, offset_y + j ),
-                                      om.note( { i, j, z } )
-                                  ) );
+        const point offset( om.pos().x * OMAPX, om.pos().y * OMAPY );
+        const auto &all_om_notes = om.all_notes( z );
+        for( const om_note &note : all_om_notes ) {
+            if( pattern != nullptr && lcmatch( note.text, *pattern ) ) {
+                continue;
             }
+            result.push_back( t_point_with_note(
+                                  offset + note.p,
+                                  note.text
+                              ) );
         }
     }
     return result;
