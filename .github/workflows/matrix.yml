@@ -3,7 +3,7 @@ name: General build matrix
 on:
   push:
     branches:
-    - master
+    - upload
     paths-ignore:
     - 'android/**'
     - 'build-data/osx/**'
@@ -17,7 +17,7 @@ on:
     - 'utilities/**'
   pull_request:
     branches:
-    - master
+    - upload
     paths-ignore:
     - 'android/**'
     - 'build-data/osx/**'
