@@ -570,11 +570,11 @@
       { "item": "biscuit", "prob": 50 },
       { "item": "crackers", "prob": 40 },
       { "item": "soybean_seed", "prob": 40 },
-      { "item": "almond_unshelled", "prob": 20 },
-      { "item": "pecan_unshelled", "prob": 20 },
+      { "item": "almond", "prob": 20 },
+      { "item": "pecan", "prob": 20 },
       { "item": "cashews", "prob": 20 },
-      { "item": "pistachio_unshelled", "prob": 20 },
-      { "item": "peanut_unshelled", "prob": 20 }
+      { "item": "pistachio", "prob": 20 },
+      { "item": "peanut", "prob": 20 }
     ]
   },
   {
