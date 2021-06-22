@@ -16,7 +16,7 @@
         "gp____p____s+........2|g",
         "gp____p____s+........#|g",
         "gsssssssssss|&.......#|g",
-        "g||w|||||||||v.......#|g",
+        "I||w|||||||||v.......#|g",
         "g|^IIIF|...&|......||||g",
         "g|..c.......|.......XX|g",
         "g|..........#........X|g",
@@ -36,6 +36,7 @@
         "+": "t_door_glass_c",
         "-": "t_wall_glass",
         ".": "t_floor",
+        "C": "t_column",
         "D": "t_door_locked",
         "_": "t_pavement",
         "a": "t_door_locked_interior",
@@ -98,6 +99,7 @@
         { "item": "trash", "x": 11, "y": 10, "chance": 50 },
         { "item": "trash", "x": 13, "y": 8, "chance": 50 }
       ],
+      "place_loot": [ { "item": "american_flag", "x": 0, "y": 8, "chance": 90 } ],
       "place_vehicles": [
         { "vehicle": "beetle", "x": 3, "y": 3, "chance": 10, "fuel": 10, "rotation": 270 },
         { "vehicle": "motorcycle_sidecart", "x": 8, "y": 4, "chance": 25, "fuel": 15, "rotation": 270 },
@@ -174,7 +176,7 @@
         "...d7d....ss.......d4d..",
         "....d....ssss.......d...",
         "........ssssss..........",
-        ".......bssS7ssb.........",
+        ".......bsssIssb.........",
         "....d..bss7Sssb.....d...",
         "...d4d..ssssss.....dtd..",
         "....d....ssss.......d...",
@@ -201,6 +203,7 @@
         "4": "t_tree_pine",
         "7": "t_tree_apple",
         "D": "t_door_c",
+        "I": "t_column",
         "S": "t_sidewalk",
         "W": "t_window",
         "a": "t_door_locked",
@@ -258,7 +261,8 @@
         { "item": "office", "x": 4, "y": 13, "chance": 55 },
         { "item": "file_room", "x": 4, "y": 21, "chance": 75 },
         { "item": "file_room", "x": 13, "y": 16, "chance": 75 }
-      ]
+      ],
+      "place_loot": [ { "item": "american_flag", "x": 10, "y": 6, "chance": 90 } ]
     }
   },
   {

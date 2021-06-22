@@ -9,9 +9,9 @@
       "rows": [
         "FFF.......pppppppp...........................FFF",
         "FTFFWWWWWF!!!!!!!!FFFFFFFFFFFFFFFFFFFFFFFFFFFFTF",
-        "FFG.W4ddw.pppppppp...........................GFF",
-        ".F..W-c?w.pppppppp...|||||||||||||||||||||||..F.",
-        ".F..WmWWW.pppppppp...|%_____________C__B___|..F.",
+        "FFG.W4ddw.ppppppppooo........................GFF",
+        ".F..W-c?w.ppppppppoio|||||||||||||||||||||||..F.",
+        ".F..WmWWW.ppppppppooo|%_____________C__B___|..F.",
         ".F..pppppppppppppppppM___C_________C_CC_B__|..F.",
         ".F..pppppppppppppppppM____________CCCCC____|..F.",
         ".F..pppppppppppppppppM_B__C___B__B___C_B___|..F.",
@@ -115,6 +115,7 @@
         "H": { "item": "SUS_spice_collection", "chance": 75 },
         "&": { "item": "SUS_toilet", "chance": 50 }
       },
+      "place_loot": [ { "item": "american_flag", "x": 18, "y": 3, "chance": 75 } ],
       "vendingmachines": { "1": { "item_group": "vending_drink" }, "2": { "item_group": "vending_food" } },
       "place_monsters": [ { "monster": "GROUP_MIL_STRONG", "x": 36, "y": 15 }, { "monster": "GROUP_MIL_WEAK", "x": 24, "y": 30, "density": 2 } ],
       "monster": { "T": { "monster": "mon_turret_medium" } },
