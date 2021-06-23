@@ -134,7 +134,7 @@
       "update_mapgen": [
         {
           "om_terrain": "microlab_generic_surface",
-          "place_item": [ { "item": "chemistry_set", "x": 19, "y": 20 } ],
+          "place_item": [ { "item": "chemistry_set", "x": 12, "y": 12 } ],
           "place_monster": [ { "group": "GROUP_DINOSAUR_ZOMBIE", "x": 12, "y": 12 } ]
         }
       ],
