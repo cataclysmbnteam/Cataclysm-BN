@@ -637,8 +637,7 @@
       ]
     ],
     "components": [
-      [ [ "shotgun_s", 1 ], [ "
-                             _shotgun", 1 ] ],
+      [ [ "shotgun_s", 1 ], [ "pipe_shotgun", 1 ] ],
       [ [ "pipe", 3 ] ],
       [ [ "spring", 1 ] ],
       [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ]
