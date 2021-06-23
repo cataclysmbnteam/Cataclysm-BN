@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <climits>
+#include <iostream>
 #include <map>
 #include <memory>
 #include <set>
@@ -20,6 +21,16 @@ class inventory;
 struct act_item;
 
 std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &drop );
+std::list<item> obtain_and_tokenize_items( player &p, std::list<act_item> &items );
+
+std::ostream &operator<<( std::ostream &os, const item_drop_token &dt )
+{
+    os << "{turn:" << to_turn<int>( dt.turn )
+       << ", drop:" << dt.drop_number
+       << ", parent:" << dt.parent_number
+       << '}';
+    return os;
+}
 
 struct act_item {
     /// inventory item
@@ -152,7 +163,7 @@ TEST_CASE( "full backpack drop", "[activity][drop_token]" )
                         }
                     }
 
-                    AND_THEN( "both containers will be followed by enough zero-cost items to fill them" ) {
+                    AND_THEN( "both containers will be followed by enough same-drop-token items to fill them" ) {
                         const int expected_duffel_content_count = duffel_bag.get_total_capacity() / an_item.volume();
                         const int expected_backpack_content_count = backpack.get_total_capacity() / an_item.volume();
 
@@ -174,22 +185,42 @@ TEST_CASE( "full backpack drop", "[activity][drop_token]" )
                             }
                         }
 
-                        CHECK( actual_duffel_content_count == expected_duffel_content_count );
-                        // TODO: Check tokens! The last item should be uncontained
-                        CHECK( actual_backpack_content_count == expected_backpack_content_count + 1 );
+                        // +1 because we aren't checking tokens, but the last item is still zero cost
+                        CHECK( actual_duffel_content_count >= expected_duffel_content_count );
+                        CHECK( actual_duffel_content_count <= expected_duffel_content_count + 1 );
+                        CHECK( actual_backpack_content_count >= expected_backpack_content_count );
+                        CHECK( actual_backpack_content_count <= expected_backpack_content_count + 1 );
 
-                        /*
-                        // TODO: Extract drop-tokening, then check tokens here
-                        AND_THEN( "one item will not fit in either container and so will have a different token" ) {
-                            const size_t actual_zero_cost_count = std::count_if( drop_list.begin(), drop_list.end(),
-                            [&]( const act_item & ait ) {
-                                return ait.consumed_moves == 0;
+                        AND_THEN( "when actually dropping items, each container will be followed by enough items of same token to fill it, "
+                                  "followed by one un-contained item" ) {
+                            dummy.set_moves( 1000 );
+                            std::list<item> tokenized_dropped = obtain_and_tokenize_items( dummy, drop_list );
+                            auto tokenized_duffel_iter = std::find_if( tokenized_dropped.begin(), tokenized_dropped.end(),
+                            [&]( const item & it ) {
+                                return it.typeId() == duffel_bag.typeId();
                             } );
-                            // Two containers + one item outside them
-                            const size_t expected_zero_cost_count = drop_list.size() - 2 - 1;
-                            CHECK( actual_zero_cost_count == expected_zero_cost_count );
+                            auto tokenized_backpack_iter = std::find_if( tokenized_dropped.begin(), tokenized_dropped.end(),
+                            [&]( const item & it ) {
+                                return it.typeId() == backpack.typeId();
+                            } );
+                            REQUIRE( tokenized_duffel_iter != tokenized_dropped.end() );
+                            REQUIRE( tokenized_backpack_iter != tokenized_dropped.end() );
+                            REQUIRE( *tokenized_duffel_iter->drop_token != *tokenized_backpack_iter->drop_token );
+                            int actual_duffel_tokens = std::count_if( tokenized_dropped.begin(), tokenized_dropped.end(),
+                            [&]( const item & it ) {
+                                return it.drop_token == tokenized_duffel_iter->drop_token;
+                            } );
+                            int actual_backpack_tokens = std::count_if( tokenized_dropped.begin(), tokenized_dropped.end(),
+                            [&]( const item & it ) {
+                                return it.drop_token == tokenized_backpack_iter->drop_token;
+                            } );
+                            const int expected_duffel_token_count = 1 + duffel_bag.get_total_capacity() / an_item.volume();
+                            const int expected_backpack_token_count = 1 + backpack.get_total_capacity() / an_item.volume();
+                            CHECK( actual_duffel_tokens == expected_duffel_token_count );
+                            CHECK( actual_backpack_tokens == expected_backpack_token_count );
+                            int all_items = tokenized_dropped.size();
+                            CHECK( all_items == actual_duffel_tokens + actual_backpack_tokens + 1 );
                         }
-                        */
                     }
                 }
             }

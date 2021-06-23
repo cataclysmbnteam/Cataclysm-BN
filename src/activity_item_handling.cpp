@@ -472,6 +472,7 @@ static std::list<act_item> convert_to_items( Character &p, const drop_locations 
 // Prepares items for dropping by reordering them so that the drop
 // cost is minimal and "dependent" items get taken off first.
 // Implements the "backpack" logic.
+std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &drop );
 std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &drop )
 {
     std::list<act_item> res = convert_to_items( p, drop,
@@ -606,30 +607,11 @@ static void debug_drop_list( const std::list<act_item> &list )
     popup( res, PF_GET_KEY );
 }
 
-static void debug_tokens( const std::list<item> &list )
-{
-    if( !debug_mode ) {
-        return;
-    }
-
-    std::string res( "Tokens:\n" );
-    for( const auto &it : list ) {
-        const item_drop_token &dt = *it.drop_token;
-        res += string_format( "%s has [drop, parent, turn] = [%d, %d, %d]\n",
-                              it.display_name(), dt.drop_number, dt.parent_number,
-                              to_turn<int>( dt.turn ) );
-    }
-    popup( res, PF_GET_KEY );
-}
-
-static std::list<item> obtain_activity_items( player_activity &act, player &p )
+// It's test-backed, so not static
+std::list<item> obtain_and_tokenize_items( player &p, std::list<act_item> &items );
+std::list<item> obtain_and_tokenize_items( player &p, std::list<act_item> &items )
 {
     std::list<item> res;
-
-    std::list<act_item> items = reorder_for_dropping( p, convert_to_locations( act ) );
-
-    debug_drop_list( items );
-
     item_drop_token last_token = drop_token::make_next();
     units::volume last_storage_volume = items.front().loc->get_storage();
     while( !items.empty() && ( p.is_npc() || p.moves > 0 || items.front().consumed_moves == 0 ) ) {
@@ -653,23 +635,28 @@ static std::list<item> obtain_activity_items( player_activity &act, player &p )
 
         // Hack: if it consumes zero moves, it must have been contained
         // TODO: Properly mark containment somehow
-        if( ait.consumed_moves != 0 ) {
-            last_token = drop_token::make_next();
-            last_storage_volume = current_drop.get_storage();
-        } else if( last_storage_volume > current_drop.volume() ) {
+        if( ait.consumed_moves == 0 && last_storage_volume >= current_drop.volume() ) {
             last_storage_volume -= current_drop.volume();
         } else {
-            // Doesn't fit in last container
             last_token = drop_token::make_next();
+            last_storage_volume = current_drop.get_storage();
         }
 
-        // TODO: Get the item consistently instead of using back()
         *current_drop.drop_token = last_token;
 
         items.pop_front();
     }
 
-    debug_tokens( res );
+    return res;
+}
+
+static std::list<item> obtain_activity_items( player_activity &act, player &p )
+{
+    std::list<act_item> items = reorder_for_dropping( p, convert_to_locations( act ) );
+
+    debug_drop_list( items );
+
+    std::list<item>res = obtain_and_tokenize_items( p, items );
 
     // Load anything that remains (if any) into the activity
     act.targets.clear();
