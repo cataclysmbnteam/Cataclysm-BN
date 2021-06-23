@@ -577,7 +577,7 @@ class item_location::impl::item_in_container : public item_location::impl
             if( !target() ) {
                 return 0;
             }
-            // a temporary measure before pockets
+
             return INVENTORY_HANDLING_PENALTY + container.obtain_cost( ch, qty );
         }
 };
