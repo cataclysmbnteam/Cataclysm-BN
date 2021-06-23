@@ -519,7 +519,7 @@ std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &dr
     []( units::volume acc, const act_item & ait ) {
         return acc + ait.loc->volume();
     } );
-    units::volume dropped_worn_storage = std::accumulate( worn.begin(), worn.end(), 0_ml,
+    const units::volume dropped_worn_storage = std::accumulate( worn.begin(), worn.end(), 0_ml,
     []( units::volume acc, const act_item & ait ) {
         return acc + ait.loc->get_storage();
     } );
@@ -540,6 +540,7 @@ std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &dr
             }
             std::list<item> &inv_stack = *old_inv[i];
             for( auto iter = inv_stack.begin(); iter != inv_stack.end(); iter++ ) {
+                // Note: zero cost, but won't be contained on drop
                 act_item to_drop = act_item( item_location( p, &*iter ), iter->count(), 0 );
                 inv.push_back( to_drop );
                 excessive_volume -= to_drop.loc->volume();
@@ -548,26 +549,32 @@ std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &dr
                 }
             }
         }
+        // Need to re-sort
+        inv.sort( []( const act_item & first, const act_item & second ) {
+            return first.loc->volume() < second.loc->volume();
+        } );
     }
 
-    // Cumulatively increases
-    units::volume storage_loss = 0_ml;
     // Cumulatively decreases
-    units::volume remaining_dropped_storage = p.volume_capacity();
+    units::volume remaining_dropped_storage = dropped_worn_storage;
 
     while( !worn.empty() && !inv.empty() ) {
-        storage_loss += worn.front().loc->get_storage();
-        remaining_dropped_storage -= p.volume_capacity_reduced_by( storage_loss );
-        units::volume inventory_item_volume = inv.front().loc->volume();
+        units::volume front_storage = worn.front().loc->get_storage();
         // Does not fit
-        if( remaining_dropped_storage < inventory_item_volume ) {
+        // TODO: but maybe an item further down the line does
+        if( remaining_dropped_storage < inv.front().loc->volume() ) {
             break;
         }
 
         res.push_back( worn.front() );
         worn.pop_front();
-        while( !inv.empty() && remaining_dropped_storage >= inventory_item_volume ) {
-            remaining_dropped_storage -= inventory_item_volume;
+        remaining_dropped_storage -= front_storage;
+        while( !inv.empty() ) {
+            units::volume inventory_item_volume = inv.front().loc->volume();
+            if( front_storage < inventory_item_volume ) {
+                break;
+            }
+            front_storage -= inventory_item_volume;
 
             res.push_back( inv.front() );
             // Free of charge
@@ -624,6 +631,7 @@ static std::list<item> obtain_activity_items( player_activity &act, player &p )
     debug_drop_list( items );
 
     item_drop_token last_token = drop_token::make_next();
+    units::volume last_storage_volume = items.front().loc->get_storage();
     while( !items.empty() && ( p.is_npc() || p.moves > 0 || items.front().consumed_moves == 0 ) ) {
         act_item &ait = items.front();
 
@@ -640,14 +648,23 @@ static std::list<item> obtain_activity_items( player_activity &act, player &p )
             res.push_back( p.i_rem( &*ait.loc ) );
         }
 
+        // TODO: Get the item consistently instead of using back()
+        item &current_drop = res.back();
+
         // Hack: if it consumes zero moves, it must have been contained
         // TODO: Properly mark containment somehow
         if( ait.consumed_moves != 0 ) {
             last_token = drop_token::make_next();
+            last_storage_volume = current_drop.get_storage();
+        } else if( last_storage_volume > current_drop.volume() ) {
+            last_storage_volume -= current_drop.volume();
+        } else {
+            // Doesn't fit in last container
+            last_token = drop_token::make_next();
         }
 
         // TODO: Get the item consistently instead of using back()
-        *res.back().drop_token = last_token;
+        *current_drop.drop_token = last_token;
 
         items.pop_front();
     }
