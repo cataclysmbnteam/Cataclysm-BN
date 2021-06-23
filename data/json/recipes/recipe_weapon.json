@@ -637,7 +637,8 @@
       ]
     ],
     "components": [
-      [ [ "shotgun_s", 1 ], [ "pipe_shotgun", 1 ] ],
+      [ [ "shotgun_s", 1 ], [ "
+                             _shotgun", 1 ] ],
       [ [ "pipe", 3 ] ],
       [ [ "spring", 1 ] ],
       [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ]
@@ -787,13 +788,13 @@
     "result": "rifle_22",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "mechanics",
-    "skills_required": [ "gun", 1 ],
-    "difficulty": 3,
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 1 ],
+    "difficulty": 2,
     "time": "30 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 2 ] ] ]
   },
   {
@@ -814,13 +815,13 @@
     "result": "pipe_shotgun",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "mechanics",
-    "skills_required": [ "gun", 1 ],
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 1 ],
     "difficulty": 2,
     "time": "12 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 2 ] ], [ [ "2x4", 1 ] ] ]
   },
   {
@@ -828,13 +829,13 @@
     "result": "pipe_double_shotgun",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "mechanics",
-    "skills_required": [ "gun", 1 ],
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 1 ],
     "difficulty": 3,
     "time": "18 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "scrap", 3 ] ], [ [ "2x4", 1 ] ] ]
   },
   {
@@ -870,13 +871,13 @@
     "result": "rifle_9mm",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "mechanics",
-    "skills_required": [ "gun", 1 ],
-    "difficulty": 3,
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 1 ],
+    "difficulty": 2,
     "time": "14 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "qualities": [ { "id": "SAW_ME", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 2 ] ], [ [ "2x4", 1 ] ] ]
   },
   {
