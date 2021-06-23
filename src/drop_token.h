@@ -24,6 +24,9 @@ class item_drop_token
                    && drop_number == other.drop_number
                    && parent_number == other.parent_number;
         }
+        bool operator!=( const item_drop_token &other ) const {
+            return !( *this == other );
+        }
 };
 
 namespace drop_token
@@ -31,6 +34,6 @@ namespace drop_token
 
 item_drop_token make_next();
 
-};
+}
 
 #endif // CATA_SRC_ITEM_DROP_TOKEN_H
