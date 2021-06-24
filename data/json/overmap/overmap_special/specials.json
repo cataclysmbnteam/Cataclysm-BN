@@ -150,7 +150,7 @@
     "city_distance": [ 25, -1 ],
     "city_sizes": [ 0, 12 ],
     "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC" ]
+    "flags": [ "CLASSIC", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
@@ -3346,7 +3346,7 @@
     "city_distance": [ 3, -1 ],
     "rotate": false,
     "occurrences": [ 30, 100 ],
-    "flags": [ "UNIQUE" ]
+    "flags": [ "UNIQUE", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
