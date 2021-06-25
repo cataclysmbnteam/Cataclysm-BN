@@ -271,7 +271,7 @@
     "melee_cut": 13,
     "armor_bash": 12,
     "armor_cut": 12,
-    "hp": 250,
+    "hp": 100,
     "vision_day": 36,
     "death_function": [ "NORMAL" ],
     "zombify_into": "mon_zianzhousaurus",
