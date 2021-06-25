@@ -280,7 +280,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "LUNGE", 10 ], [ "BIO_OP_TAKEDOWN", 30 ] ],
     "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "SWARMS", "PUSH_MON" ],
-    "harvest": "dino_large_pred",
+    "harvest": "dino_large_feather_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT" ],
     "placate_triggers": [ "MEAT" ],
     "categories": [ "DINOSAUR" ]
