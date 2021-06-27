@@ -1,6 +1,5 @@
 #include <algorithm>
 #include <climits>
-#include <iostream>
 #include <map>
 #include <memory>
 #include <set>
@@ -14,23 +13,20 @@
 #include "calendar.h"
 #include "catch/catch.hpp"
 #include "drop_token.h"
+#include "map.h"
+#include "map_helpers.h"
+#include "map_selector.h"
 #include "item.h"
+#include "pickup.h"
 #include "player_helpers.h"
+#include "units_mass.h"
+#include "units_volume.h"
 
 class inventory;
 struct act_item;
 
 std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &drop );
 std::list<item> obtain_and_tokenize_items( player &p, std::list<act_item> &items );
-
-std::ostream &operator<<( std::ostream &os, const item_drop_token &dt )
-{
-    os << "{turn:" << to_turn<int>( dt.turn )
-       << ", drop:" << dt.drop_number
-       << ", parent:" << dt.parent_number
-       << '}';
-    return os;
-}
 
 struct act_item {
     /// inventory item
@@ -61,7 +57,7 @@ TEST_CASE( "full backpack drop", "[activity][drop_token]" )
 
     GIVEN( "a character with a backpack full of items and no other containers" ) {
         REQUIRE( dummy.wear_item( backpack, false ) );
-        while( dummy.can_pickWeight( an_item, true ) && dummy.can_pickVolume( an_item ) ) {
+        while( dummy.can_pick_weight( an_item, true ) && dummy.can_pick_volume( an_item ) ) {
             dummy.i_add( an_item );
         }
 
@@ -111,7 +107,7 @@ TEST_CASE( "full backpack drop", "[activity][drop_token]" )
         REQUIRE( dummy.wear_item( duffel_bag, false ) );
         REQUIRE( dummy.wear_item( backpack, false ) );
         REQUIRE( dummy.wear_item( backpack, false ) );
-        while( dummy.can_pickWeight( an_item, true ) && dummy.can_pickVolume( an_item ) ) {
+        while( dummy.can_pick_weight( an_item, true ) && dummy.can_pick_volume( an_item ) ) {
             dummy.i_add( an_item );
         }
 
@@ -208,11 +204,11 @@ TEST_CASE( "full backpack drop", "[activity][drop_token]" )
                             REQUIRE( *tokenized_duffel_iter->drop_token != *tokenized_backpack_iter->drop_token );
                             int actual_duffel_tokens = std::count_if( tokenized_dropped.begin(), tokenized_dropped.end(),
                             [&]( const item & it ) {
-                                return it.drop_token == tokenized_duffel_iter->drop_token;
+                                return it.drop_token->is_child_of( *tokenized_duffel_iter->drop_token );
                             } );
                             int actual_backpack_tokens = std::count_if( tokenized_dropped.begin(), tokenized_dropped.end(),
                             [&]( const item & it ) {
-                                return it.drop_token == tokenized_backpack_iter->drop_token;
+                                return it.drop_token->is_child_of( *tokenized_backpack_iter->drop_token );
                             } );
                             const int expected_duffel_token_count = 1 + duffel_bag.get_total_capacity() / an_item.volume();
                             const int expected_backpack_token_count = 1 + backpack.get_total_capacity() / an_item.volume();
@@ -230,7 +226,7 @@ TEST_CASE( "full backpack drop", "[activity][drop_token]" )
     GIVEN( "a character with two duffel bags full of items" ) {
         REQUIRE( dummy.wear_item( duffel_bag, false ) );
         REQUIRE( dummy.wear_item( duffel_bag, false ) );
-        while( dummy.can_pickWeight( an_item, true ) && dummy.can_pickVolume( an_item ) ) {
+        while( dummy.can_pick_weight( an_item, true ) && dummy.can_pick_volume( an_item ) ) {
             dummy.i_add( an_item );
         }
 
@@ -251,6 +247,68 @@ TEST_CASE( "full backpack drop", "[activity][drop_token]" )
                 } );
                 const size_t expected_zero_cost = ( drop_list.size() - 1 ) / 2;
                 CHECK( actual_zero_cost == expected_zero_cost );
+            }
+        }
+    }
+}
+
+TEST_CASE( "full backpack pickup", "[drop_token]" )
+{
+    constexpr tripoint pos = tripoint( 60, 60, 0 );
+    avatar &dummy = get_avatar();
+    item an_item( "bottle_glass" );
+    item backpack( "backpack" );
+    item duffel_bag( "duffelbag" );
+    clear_avatar();
+    clear_map();
+
+    dummy.worn.emplace_back( duffel_bag );
+
+    map &here = get_map();
+    GIVEN( "a backpack full of items lying on a ground tile" ) {
+        item &parent = here.add_item( pos, backpack );
+        *parent.drop_token = drop_token::make_next();
+        for( units::volume remaining_storage = backpack.get_storage();
+             remaining_storage > an_item.volume();
+             remaining_storage -= an_item.volume() ) {
+            item &child = here.add_item( pos, an_item );
+            *child.drop_token = drop_token::make_next();
+            child.drop_token->parent_number = parent.drop_token->drop_number;
+        }
+
+        map_stack stack = here.i_at( pos );
+        REQUIRE( stack.size() > 2 );
+        for( const item &it : stack ) {
+            REQUIRE( it.drop_token->turn == parent.drop_token->turn );
+        }
+
+        WHEN( "a character with enough volume and weight capacity tries to pick it up" ) {
+            units::mass weight_sum = std::accumulate( stack.begin(), stack.end(), 0_gram,
+            []( units::mass acc, const item & it ) {
+                return acc + it.weight();
+            } );
+            units::volume volume_sum = std::accumulate( stack.begin(), stack.end(), 0_ml,
+            []( units::volume acc, const item & it ) {
+                return acc + it.volume();
+            } );
+            REQUIRE( dummy.weight_capacity() >= weight_sum );
+            REQUIRE( dummy.volume_capacity() >= volume_sum );
+
+            std::vector<item_location> targets;
+            std::vector<int> quantities;
+            map_cursor mc( pos );
+            for( item &it : stack ) {
+                targets.push_back( item_location( mc, &it ) );
+                quantities.push_back( 0 );
+            }
+
+            int moves_before = dummy.get_moves();
+            // TODO: Pickup doesn't need to be player-centric
+            bool did_it = Pickup::do_pickup( targets, quantities, true );
+
+            THEN( "it succeeds and costs only as much moves as picking the backpack itself would" ) {
+                CHECK( did_it );
+                CHECK( dummy.get_moves() == moves_before - 100 );
             }
         }
     }

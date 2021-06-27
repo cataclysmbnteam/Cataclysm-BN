@@ -3918,8 +3918,8 @@ void npc::mug_player( player &mark )
     for( std::list<item> *stack : slice ) {
         item &front_stack = stack->front();
         if( value( front_stack ) >= best_value &&
-            can_pickVolume( front_stack, true ) &&
-            can_pickWeight( front_stack, true ) ) {
+            can_pick_volume( front_stack ) &&
+            can_pick_weight( front_stack, true ) ) {
             best_value = value( front_stack );
             to_steal = &front_stack;
         }

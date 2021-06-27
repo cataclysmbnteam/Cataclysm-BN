@@ -8,6 +8,7 @@
 #include <list>
 #include <memory>
 #include <set>
+#include <sstream>
 #include <string>
 #include <tuple>
 #include <utility>
@@ -592,21 +593,6 @@ std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &dr
     return res;
 }
 
-// TODO: Display costs in the multidrop menu
-static void debug_drop_list( const std::list<act_item> &list )
-{
-    if( !debug_mode ) {
-        return;
-    }
-
-    std::string res( "Items ordered to drop:\n" );
-    for( const auto &ait : list ) {
-        res += string_format( "Drop %d %s for %d moves\n",
-                              ait.count, ait.loc->display_name( ait.count ), ait.consumed_moves );
-    }
-    popup( res, PF_GET_KEY );
-}
-
 // It's test-backed, so not static
 std::list<item> obtain_and_tokenize_items( player &p, std::list<act_item> &items );
 std::list<item> obtain_and_tokenize_items( player &p, std::list<act_item> &items )
@@ -635,19 +621,48 @@ std::list<item> obtain_and_tokenize_items( player &p, std::list<act_item> &items
 
         // Hack: if it consumes zero moves, it must have been contained
         // TODO: Properly mark containment somehow
+        *current_drop.drop_token = drop_token::make_next();
         if( ait.consumed_moves == 0 && last_storage_volume >= current_drop.volume() ) {
             last_storage_volume -= current_drop.volume();
+            current_drop.drop_token->parent_number = last_token.parent_number;
         } else {
-            last_token = drop_token::make_next();
+            last_token = *current_drop.drop_token;
             last_storage_volume = current_drop.get_storage();
         }
-
-        *current_drop.drop_token = last_token;
 
         items.pop_front();
     }
 
     return res;
+}
+
+// TODO: Display costs in the multidrop menu
+static void debug_drop_list( const std::list<act_item> &list )
+{
+    if( !debug_mode ) {
+        return;
+    }
+
+    std::string res( "Items ordered to drop:\n" );
+    for( const auto &ait : list ) {
+        res += string_format( "Drop %d %s for %d moves\n",
+                              ait.count, ait.loc->display_name( ait.count ), ait.consumed_moves );
+    }
+    popup( res, PF_GET_KEY );
+}
+
+static void debug_tokens( const std::list<item> &items )
+{
+    if( !debug_mode ) {
+        return;
+    }
+
+    std::stringstream ss;
+    ss << "Item tokens:\n";
+    for( const item &it : items ) {
+        ss << it.display_name() << ": " << *it.drop_token << '\n';
+    }
+    popup( ss.str(), PF_GET_KEY );
 }
 
 static std::list<item> obtain_activity_items( player_activity &act, player &p )
@@ -656,7 +671,9 @@ static std::list<item> obtain_activity_items( player_activity &act, player &p )
 
     debug_drop_list( items );
 
-    std::list<item>res = obtain_and_tokenize_items( p, items );
+    std::list<item> res = obtain_and_tokenize_items( p, items );
+
+    debug_tokens( res );
 
     // Load anything that remains (if any) into the activity
     act.targets.clear();
