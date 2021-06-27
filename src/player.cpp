@@ -3055,9 +3055,9 @@ bool player::add_or_drop_with_msg( item &it, const bool unloading )
     it.charges = this->i_add_to_container( it, unloading );
     if( it.is_ammo() && it.charges == 0 ) {
         return true;
-    } else if( !this->can_pickVolume( it ) ) {
+    } else if( !this->can_pick_volume( it ) ) {
         put_into_vehicle_or_drop( *this, item_drop_reason::too_large, { it } );
-    } else if( !this->can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
+    } else if( !this->can_pick_weight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
         put_into_vehicle_or_drop( *this, item_drop_reason::too_heavy, { it } );
     } else {
         auto &ni = this->i_add( it );

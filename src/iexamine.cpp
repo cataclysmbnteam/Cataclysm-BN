@@ -1702,8 +1702,8 @@ static bool drink_nectar( player &p )
 static void handle_harvest( player &p, const std::string &itemid, bool force_drop )
 {
     item harvest = item( itemid );
-    if( !force_drop && p.can_pickVolume( harvest, true ) &&
-        p.can_pickWeight( harvest, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
+    if( !force_drop && p.can_pick_volume( harvest ) &&
+        p.can_pick_weight( harvest, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
         p.i_add( harvest );
         p.add_msg_if_player( _( "You harvest: %s." ), harvest.tname() );
     } else {

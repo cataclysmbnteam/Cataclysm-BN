@@ -2,11 +2,14 @@
 #ifndef CATA_SRC_ITEM_DROP_TOKEN_H
 #define CATA_SRC_ITEM_DROP_TOKEN_H
 
+#include <iostream>
+
 #include "calendar.h"
 
 class item_drop_token
 {
     public:
+        // TODO: private
         time_point turn;
         int drop_number;
         int parent_number;
@@ -27,6 +30,16 @@ class item_drop_token
         bool operator!=( const item_drop_token &other ) const {
             return !( *this == other );
         }
+        bool is_child_of( const item_drop_token &other ) const {
+            return turn == other.turn
+                   && parent_number == other.drop_number
+                   && drop_number != other.drop_number;
+        }
+        bool is_sibling_of( const item_drop_token &other ) const {
+            return turn == other.turn
+                   && parent_number == other.parent_number &&
+                   !is_child_of( other );
+        }
 };
 
 namespace drop_token
@@ -35,5 +48,7 @@ namespace drop_token
 item_drop_token make_next();
 
 }
+
+std::ostream &operator<<( std::ostream &os, const item_drop_token &dt );
 
 #endif // CATA_SRC_ITEM_DROP_TOKEN_H
