@@ -11,7 +11,8 @@
     "city_distance": [ 10, -1 ],
     "city_sizes": [ 0, 20 ],
     "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC", "WILDERNESS" ]
+    "flags": [ "CLASSIC", "WILDERNESS" ],
+    "rotate": false
   },
   {
     "type": "overmap_special",
@@ -60,6 +61,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 10, -1 ],
     "occurrences": [ 30, 100 ],
-    "flags": [ "LAB", "UNIQUE" ]
+    "flags": [ "LAB", "UNIQUE" ],
+    "rotate": false
   }
 ]
