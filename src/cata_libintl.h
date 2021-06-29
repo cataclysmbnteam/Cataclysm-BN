@@ -224,7 +224,7 @@ class trans_library
                                 unsigned long n ) const;
         /** @} */
 };
-} // cata_libintl
+} // namespace cata_libintl
 
 #endif // LOCALIZE
 #endif // CATA_SRC_CATA_LIBINTL_H

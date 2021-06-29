@@ -352,7 +352,7 @@ std::string enum_to_string<lab_type>( lab_type data )
     return "BUGGED";
 }
 
-}
+} // namespace io
 
 static void set_oter_ids()   // FIXME: constify
 {
@@ -2972,7 +2972,7 @@ void overmap::place_cities()
     const overmap_connection &local_road( *local_road_id );
 
     // if there is only a single free tile, the probability of NOT finding it after MAX_PLACEMENT_ATTEMTPS attempts
-    // is (1 - 1/(OMAPX * OMAPY))^MAX_PLACEMENT_ATTEMTPS ≈ 36% for the OMAPX=OMAPY=180 and MAX_PLACEMENT_ATTEMTPS=OMAPX * OMAPY
+    // is (1 - 1/(OMAPX * OMAPY))^MAX_PLACEMENT_ATTEMTPS = approx. 36% for the OMAPX=OMAPY=180 and MAX_PLACEMENT_ATTEMTPS=OMAPX * OMAPY
     const int MAX_PLACEMENT_ATTEMTPS = OMAPX * OMAPY;
     int placement_attempts = 0;
 

@@ -2180,7 +2180,7 @@ void reset()
 {
     removal_list.clear();
 }
-}
+} // namespace charge_removal_blacklist
 
 template<typename Archive>
 void item::io( Archive &archive )
