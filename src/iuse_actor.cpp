@@ -696,7 +696,7 @@ static effect_data load_effect_data( const JsonObject &e )
         ret.permanent = true;
         if( test_mode || json_report_unused_fields ) {
             try {
-                e.throw_error( "Effect permanence has been moved to effect_type. Set permanence there.",
+                e.throw_error( "Effect permanence has been moved to effect_type.  Set permanence there.",
                                "permanent" );
             } catch( const JsonError &ex ) {
                 debugmsg( "\n%s", ex.what() );

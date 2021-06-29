@@ -579,9 +579,13 @@ void tileset_loader::load_tileset( const std::string &img_path )
         assert( surf_to_use );
 
         if( !create_textures_from_tile_atlas( surf_to_use, point( sub_rect.x, sub_rect.y ) ) ) {
-            // May happen on some old systems - there's nothing we can do about it
+            // May happen on some systems - there's nothing we can do about it
             throw std::runtime_error(
-                _( "Video error. Try another tileset or a different renderer." )
+                _(
+                    "Failed to create texture atlas, see debug.log for details.  "
+                    "This commonly happens if the device is low on memory.  "
+                    "Try rebooting device, or using another tileset or a different renderer."
+                )
             );
         }
     }
