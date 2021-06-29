@@ -583,6 +583,7 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
 void Character::invalidate_crafting_inventory()
 {
     cached_time = calendar::before_time_starts;
+    cached_position = tripoint_min;
 }
 
 void player::make_craft( const recipe_id &id_to_make, int batch_size, const tripoint &loc )
