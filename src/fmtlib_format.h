@@ -474,6 +474,7 @@ class counting_iterator
         using _Unchecked_type = counting_iterator;  // Mark iterator as checked.
 
         struct value_type {
+            // NOLINTNEXTLINE(misc-unconventional-assign-operator)
             template <typename T> void operator=( const T & ) {}
         };
 
@@ -753,6 +754,7 @@ class basic_memory_buffer final : public detail::buffer<T>
         }
 
     protected:
+        // NOLINTNEXTLINE(modernize-use-override)
         void grow( size_t size ) final FMT_OVERRIDE;
 
     public:
@@ -977,7 +979,9 @@ uint128_wrapper( uint64_t high, uint64_t low ) FMT_NOEXCEPT :
 
 // Table entry type for divisibility test used internally
 template <typename T> struct FMT_EXTERN_TEMPLATE_API divtest_table_entry {
+    // NOLINTNEXTLINE(cata-no-long)
     T mod_inv;
+    // NOLINTNEXTLINE(cata-no-long)
     T max_quotient;
 };
 
@@ -1316,6 +1320,7 @@ template <typename Char> struct fill_t {
         unsigned char size_ = 1;
 
     public:
+        // NOLINTNEXTLINE(misc-unconventional-assign-operator)
         FMT_CONSTEXPR void operator=( basic_string_view<Char> s ) {
             auto size = s.size();
             if( size > max_size ) {
@@ -1349,13 +1354,13 @@ template <typename Char> struct fill_t {
 namespace align
 {
 enum type { none, left, right, center, numeric };
-}
+} // namespace align
 using align_t = align::type;
 
 namespace sign
 {
 enum type { none, minus, plus, space };
-}
+} // namespace sign
 using sign_t = sign::type;
 
 // Format specifiers for built-in and string types.
@@ -1805,6 +1810,7 @@ template <typename OutputIt, typename Char, typename UInt> struct int_writer {
     OutputIt out;
     locale_ref locale;
     const basic_format_specs<Char> &specs;
+    // NOLINTNEXTLINE(cata-no-long)
     UInt abs_value;
     char prefix[4];
     unsigned prefix_size;
@@ -1822,6 +1828,7 @@ template <typename OutputIt, typename Char, typename UInt> struct int_writer {
         : out( output ),
           locale( loc ),
           specs( s ),
+          // NOLINTNEXTLINE(cata-no-long)
           abs_value( static_cast<UInt>( value ) ),
           prefix_size( 0 ) {
         static_assert( std::is_same<uint32_or_64_or_128_t<Int>, UInt>::value, "" );
@@ -2285,6 +2292,7 @@ OutputIt write_ptr( OutputIt out, UIntPtr value,
     auto write = [ = ]( iterator it ) {
         *it++ = static_cast<Char>( '0' );
         *it++ = static_cast<Char>( 'x' );
+        // NOLINTNEXTLINE(cata-no-long)
         return format_uint<4, Char>( it, value, num_digits );
     };
     return specs ? write_padded<align::right>( out, *specs, size, write )
@@ -3654,8 +3662,8 @@ FMT_CONSTEXPR basic_string_view<Char> compile_string_to_view(
 #define FMT_STRING_IMPL(s, base)                                  \
     [] {                                                            \
         /* Use a macro-like name to avoid shadowing warnings. */      \
-        struct FMT_COMPILE_STRING : base {                            \
-            using char_type = fmt::remove_cvref_t<decltype(s[0])>;      \
+        struct FMT_COMPILE_STRING : (base) {                            \
+            using char_type = fmt::remove_cvref_t<decltype((s)[0])>;      \
             FMT_MAYBE_UNUSED FMT_CONSTEXPR                              \
             operator fmt::basic_string_view<char_type>() const {        \
                 return fmt::detail::compile_string_to_view<char_type>(s); \
@@ -3708,6 +3716,7 @@ void handle_dynamic_spec( int &value, arg_ref<typename Context::char_type> ref,
 
 using format_func = void ( * )( detail::buffer<char> &, int, string_view );
 
+// NOLINTNEXTLINE(bugprone-exception-escape)
 FMT_API void format_error_code( buffer<char> &out, int error_code,
                                 string_view message ) FMT_NOEXCEPT;
 
@@ -3785,6 +3794,7 @@ class FMT_API system_error : public std::runtime_error
   may look like "Unknown error -1" and is platform-dependent.
   \endrst
  */
+// NOLINTNEXTLINE(bugprone-exception-escape)
 FMT_API void format_system_error( detail::buffer<char> &out, int error_code,
                                   string_view message ) FMT_NOEXCEPT;
 
@@ -3823,9 +3833,11 @@ class format_int
 
     public:
         explicit format_int( int value ) : str_( format_signed( value ) ) {}
+        // NOLINTNEXTLINE(cata-no-long)
         explicit format_int( long value ) : str_( format_signed( value ) ) {}
         explicit format_int( long long value ) : str_( format_signed( value ) ) {}
         explicit format_int( unsigned value ) : str_( format_unsigned( value ) ) {}
+        // NOLINTNEXTLINE(cata-no-long)
         explicit format_int( unsigned long value ) : str_( format_unsigned( value ) ) {}
         explicit format_int( unsigned long long value )
             : str_( format_unsigned( value ) ) {}
@@ -3966,7 +3978,9 @@ FMT_FORMAT_AS( signed char, int );
 FMT_FORMAT_AS( unsigned char, unsigned );
 FMT_FORMAT_AS( short, int );
 FMT_FORMAT_AS( unsigned short, unsigned );
+// NOLINTNEXTLINE(cata-no-long)
 FMT_FORMAT_AS( long, long long );
+// NOLINTNEXTLINE(cata-no-long)
 FMT_FORMAT_AS( unsigned long, unsigned long long );
 FMT_FORMAT_AS( Char *, const Char * );
 FMT_FORMAT_AS( std::basic_string<Char>, basic_string_view<Char> );
@@ -4399,6 +4413,7 @@ template <typename Char> struct udl_formatter {
 template <typename Char> struct udl_arg {
     const Char *str;
 
+    // NOLINTNEXTLINE(misc-unconventional-assign-operator)
     template <typename T> named_arg<Char, T> operator=( T &&value ) const {
         return {str, std::forward<T>( value )};
     }
@@ -4464,11 +4479,6 @@ FMT_CONSTEXPR detail::udl_arg<wchar_t> operator"" _a( const wchar_t *s, size_t )
 #endif  // FMT_USE_USER_DEFINED_LITERALS
 FMT_END_NAMESPACE
 
-#ifdef FMT_HEADER_ONLY
-#  define FMT_FUNC inline
-#  include "fmtlib_format-inl.h"
-#else
 #  define FMT_FUNC
-#endif
 
 #endif  // CATA_SRC_FMTLIB_FORMAT_H

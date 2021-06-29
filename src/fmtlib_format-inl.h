@@ -30,10 +30,12 @@
 
 // Dummy implementations of strerror_r and strerror_s called if corresponding
 // system functions are not available.
+// NOLINTNEXTLINE(cert-dcl50-cpp)
 inline fmt::detail::null<> strerror_r( int, char *, ... )
 {
     return {};
 }
+// NOLINTNEXTLINE(cert-dcl50-cpp)
 inline fmt::detail::null<> strerror_s( char *, size_t, ... )
 {
     return {};
@@ -42,7 +44,7 @@ inline fmt::detail::null<> strerror_s( char *, size_t, ... )
 FMT_BEGIN_NAMESPACE
 namespace detail
 {
-
+// NOLINTNEXTLINE(misc-definitions-in-headers)
 FMT_FUNC void assert_fail( const char *file, int line, const char *message )
 {
     // Use unchecked std::fprintf to avoid triggering another assertion when
@@ -146,6 +148,7 @@ inline int safe_strerror( int error_code, char *&buffer,
     return dispatcher( error_code, buffer, buffer_size ).run();
 }
 
+// NOLINTNEXTLINE(misc-definitions-in-headers)
 FMT_FUNC void format_error_code( detail::buffer<char> &out, int error_code,
                                  string_view message ) FMT_NOEXCEPT {
     // Report error code making sure that the output fits into
@@ -172,6 +175,7 @@ FMT_FUNC void format_error_code( detail::buffer<char> &out, int error_code,
     assert( out.size() <= inline_buffer_size );
 }
 
+// NOLINTNEXTLINE(misc-definitions-in-headers)
 FMT_FUNC void report_error( format_func func, int error_code,
                             string_view message ) FMT_NOEXCEPT {
     memory_buffer full_message;
@@ -225,6 +229,7 @@ template <typename Char> FMT_FUNC Char decimal_point_impl( locale_ref loc )
 }  // namespace detail
 #else
 template <typename Char>
+// NOLINTNEXTLINE(misc-definitions-in-headers)
 FMT_FUNC std::string detail::grouping_impl( locale_ref )
 {
     return "\03";
@@ -239,9 +244,12 @@ template <typename Char> FMT_FUNC Char detail::decimal_point_impl( locale_ref )
 }
 #endif
 
+// NOLINTNEXTLINE(misc-definitions-in-headers)
 FMT_API FMT_FUNC format_error::~format_error() FMT_NOEXCEPT = default;
+// NOLINTNEXTLINE(misc-definitions-in-headers)
 FMT_API FMT_FUNC system_error::~system_error() FMT_NOEXCEPT = default;
 
+// NOLINTNEXTLINE(misc-definitions-in-headers)
 FMT_FUNC void system_error::init( int err_code, string_view format_str,
                                   format_args args )
 {
@@ -254,7 +262,7 @@ FMT_FUNC void system_error::init( int err_code, string_view format_str,
 
 namespace detail
 {
-
+// NOLINTNEXTLINE(misc-definitions-in-headers)
 template <> FMT_FUNC int count_digits<4>( detail::fallback_uintptr n )
 {
     // fallback_uintptr is always stored in little endian.
@@ -1620,7 +1628,7 @@ enum result {
     done,  // Done generating digits.
     error  // Digit generation cancelled due to an error.
 };
-}
+} // namespace digits
 
 // Generates output using the Grisu digit-gen algorithm.
 // error: the size of the region (lower, upper) outside of which numbers
@@ -2263,47 +2271,47 @@ FMT_ALWAYS_INLINE int remove_trailing_zeros( uint64_t &n ) FMT_NOEXCEPT {
 
     if( t == 1 || remainder * mod_inv1 > max_quotient1 )
     {
-        n = ( remainder >> 1 ) + quotient * 10000000ull;
+        n = ( remainder >> 1 ) + quotient * 10000000ULL;
         return 1;
     }
     remainder *= mod_inv1;
 
     if( t == 2 || remainder * mod_inv1 > max_quotient1 )
     {
-        n = ( remainder >> 2 ) + quotient * 1000000ull;
+        n = ( remainder >> 2 ) + quotient * 1000000ULL;
         return 2;
     }
     remainder *= mod_inv1;
 
     if( t == 3 || remainder * mod_inv1 > max_quotient1 )
     {
-        n = ( remainder >> 3 ) + quotient * 100000ull;
+        n = ( remainder >> 3 ) + quotient * 100000ULL;
         return 3;
     }
     remainder *= mod_inv1;
 
     if( t == 4 || remainder * mod_inv1 > max_quotient1 )
     {
-        n = ( remainder >> 4 ) + quotient * 10000ull;
+        n = ( remainder >> 4 ) + quotient * 10000ULL;
         return 4;
     }
     remainder *= mod_inv1;
 
     if( t == 5 || remainder * mod_inv1 > max_quotient1 )
     {
-        n = ( remainder >> 5 ) + quotient * 1000ull;
+        n = ( remainder >> 5 ) + quotient * 1000ULL;
         return 5;
     }
     remainder *= mod_inv1;
 
     if( t == 6 || remainder * mod_inv1 > max_quotient1 )
     {
-        n = ( remainder >> 6 ) + quotient * 100ull;
+        n = ( remainder >> 6 ) + quotient * 100ULL;
         return 6;
     }
     remainder *= mod_inv1;
 
-    n = ( remainder >> 7 ) + quotient * 10ull;
+    n = ( remainder >> 7 ) + quotient * 10ULL;
     return 7;
 }
 
@@ -2904,6 +2912,7 @@ template <> struct formatter<detail::bigint> {
     }
 };
 
+// NOLINTNEXTLINE(misc-definitions-in-headers)
 FMT_FUNC detail::utf8_to_utf16::utf8_to_utf16( string_view s )
 {
     auto transcode = [this]( const char *p ) {
@@ -2940,6 +2949,7 @@ FMT_FUNC detail::utf8_to_utf16::utf8_to_utf16( string_view s )
     buffer_.push_back( 0 );
 }
 
+// NOLINTNEXTLINE(misc-definitions-in-headers)
 FMT_FUNC void format_system_error( detail::buffer<char> &out, int error_code,
                                    string_view message ) FMT_NOEXCEPT {
     FMT_TRY {
@@ -2965,16 +2975,19 @@ FMT_FUNC void format_system_error( detail::buffer<char> &out, int error_code,
     format_error_code( out, error_code, message );
 }
 
+// NOLINTNEXTLINE(misc-definitions-in-headers)
 FMT_FUNC void detail::error_handler::on_error( const char *message )
 {
     FMT_THROW( format_error( message ) );
 }
 
+// NOLINTNEXTLINE(misc-definitions-in-headers)
 FMT_FUNC void report_system_error( int error_code,
                                    fmt::string_view message ) FMT_NOEXCEPT {
     report_error( format_system_error, error_code, message );
 }
 
+// NOLINTNEXTLINE(misc-definitions-in-headers)
 FMT_FUNC std::string detail::vformat( string_view format_str, format_args args )
 {
     if( format_str.size() == 2 && equal2( format_str.data(), "{}" ) ) {
@@ -2998,6 +3011,7 @@ extern "C" __declspec( dllimport ) int __stdcall WriteConsoleW( //
 }  // namespace detail
 #endif
 
+// NOLINTNEXTLINE(misc-definitions-in-headers)
 FMT_FUNC void vprint( std::FILE *f, string_view format_str, format_args args )
 {
     memory_buffer buffer;
@@ -3031,6 +3045,7 @@ FMT_FUNC void detail::vprint_mojibake( std::FILE *f, string_view format_str,
 }
 #endif
 
+// NOLINTNEXTLINE(misc-definitions-in-headers)
 FMT_FUNC void vprint( string_view format_str, format_args args )
 {
     vprint( stdout, format_str, args );
