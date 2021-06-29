@@ -391,37 +391,41 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
     return picked_up || !did_prompt;
 }
 
-std::vector<item_location> extract_children(std::vector<item_location> &targets, item_location &stack_top)
+// For tests
+std::vector<item_location> extract_children( std::vector<item_location> &targets,
+        item_location &stack_top );
+std::vector<item_location> extract_children( std::vector<item_location> &targets,
+        item_location &stack_top )
 {
     std::vector<item_location> children;
     // No quantities: when picking up children, it's all or nothing
-        // Ugly: targets are sorted in reverse order compared to drops,
-        // so we have to find the parent first
-        // TODO: Seriously consider just inverting it at start, not here
-        const item_drop_token &token = *stack_top->drop_token;
-        auto parent_iter = std::find_if( targets.rbegin(), targets.rend(),
-        [&]( const item_location & loc ) {
-            // TODO: Handle quantities (quantity set = no parent/child relationship!)
-            return !( loc && token.is_sibling_of( *( *loc ).drop_token ) );
-        } );
-        if( parent_iter != targets.rbegin() && parent_iter != targets.rend() && *parent_iter ) {
-            // The parent will become the new target
-            children.emplace_back( stack_top );
-            for( auto child_iter = targets.rbegin(); child_iter != parent_iter; child_iter++ ) {
-                item_location child_target = *child_iter;
-                targets.pop_back();
-                if( !child_target ) {
-                    debugmsg( "lost target item of ACT_PICKUP" );
-                    continue;
-                }
-                children.emplace_back( child_target );
-            }
-
-            stack_top = *parent_iter;
+    // Ugly: targets are sorted in reverse order compared to drops,
+    // so we have to find the parent first
+    // TODO: Seriously consider just inverting it at start, not here
+    const item_drop_token &token = *stack_top->drop_token;
+    auto parent_iter = std::find_if( targets.rbegin(), targets.rend(),
+    [&]( const item_location & loc ) {
+        // TODO: Handle quantities (quantity set = no parent/child relationship!)
+        return !( loc && token.is_sibling_of( *( *loc ).drop_token ) );
+    } );
+    if( parent_iter != targets.rbegin() && parent_iter != targets.rend() && *parent_iter ) {
+        // The parent will become the new target
+        children.emplace_back( stack_top );
+        for( auto child_iter = targets.rbegin(); child_iter != parent_iter; child_iter++ ) {
+            item_location child_target = *child_iter;
             targets.pop_back();
+            if( !child_target ) {
+                debugmsg( "lost target item of ACT_PICKUP" );
+                continue;
+            }
+            children.emplace_back( child_target );
         }
 
-        return children;
+        stack_top = *parent_iter;
+        targets.pop_back();
+    }
+
+    return children;
 }
 
 bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &quantities,
@@ -439,26 +443,26 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
 
     bool problem = false;
     while( !problem && u.get_moves() >= 0 && !targets.empty() ) {
-        item_location target = targets.back();
+        item_location current_target = targets.back();
         int quantity = quantities.back();
         // Whether we pick the item up or not, we're done trying to do so,
         // so remove it from the list.
         targets.pop_back();
         quantities.pop_back();
 
-        if( !target ) {
+        if( !current_target ) {
             debugmsg( "lost target item of ACT_PICKUP" );
             continue;
         }
 
-        std::vector<item_location> children = extract_children(targets, target);
+        std::vector<item_location> children = extract_children( targets, current_target );
         // So ugly - need a better way
-        for(size_t i = 0; i < children.size(); i++) {
+        for( size_t i = 0; i < children.size(); i++ ) {
             quantities.pop_back();
         }
 
         // TODO: This invocation is very ugly, should get a proper structure or something
-        problem = !pick_one_up( target, quantity, got_water, offered_swap, map_pickup, autopickup,
+        problem = !pick_one_up( current_target, quantity, got_water, offered_swap, map_pickup, autopickup,
                                 children );
     }
 
