@@ -27,6 +27,8 @@ struct act_item;
 
 std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &drop );
 std::list<item> obtain_and_tokenize_items( player &p, std::list<act_item> &items );
+std::vector<item_location> extract_children( std::vector<item_location> &targets,
+        item_location &stack_top );
 
 struct act_item {
     /// inventory item
@@ -210,12 +212,13 @@ TEST_CASE( "full backpack drop", "[activity][drop_token]" )
                             [&]( const item & it ) {
                                 return it.drop_token->is_child_of( *tokenized_backpack_iter->drop_token );
                             } );
-                            const int expected_duffel_token_count = 1 + duffel_bag.get_total_capacity() / an_item.volume();
-                            const int expected_backpack_token_count = 1 + backpack.get_total_capacity() / an_item.volume();
+                            const int expected_duffel_token_count = duffel_bag.get_total_capacity() / an_item.volume();
+                            const int expected_backpack_token_count = backpack.get_total_capacity() / an_item.volume();
                             CHECK( actual_duffel_tokens == expected_duffel_token_count );
                             CHECK( actual_backpack_tokens == expected_backpack_token_count );
                             int all_items = tokenized_dropped.size();
-                            CHECK( all_items == actual_duffel_tokens + actual_backpack_tokens + 1 );
+                            // Two containers and one item not belonging to any containers
+                            CHECK( all_items == actual_duffel_tokens + actual_backpack_tokens + 2 + 1 );
                         }
                     }
                 }
@@ -261,6 +264,7 @@ TEST_CASE( "full backpack pickup", "[drop_token]" )
     item duffel_bag( "duffelbag" );
     clear_avatar();
     clear_map();
+    dummy.set_moves( 100 );
 
     dummy.worn.emplace_back( duffel_bag );
 
@@ -291,7 +295,7 @@ TEST_CASE( "full backpack pickup", "[drop_token]" )
             []( units::volume acc, const item & it ) {
                 return acc + it.volume();
             } );
-            REQUIRE( dummy.weight_capacity() >= weight_sum );
+            REQUIRE( dummy.weight_capacity() >= weight_sum + duffel_bag.weight() );
             REQUIRE( dummy.volume_capacity() >= volume_sum );
 
             std::vector<item_location> targets;
@@ -302,13 +306,29 @@ TEST_CASE( "full backpack pickup", "[drop_token]" )
                 quantities.push_back( 0 );
             }
 
+            THEN( "the backpack is a pickup parent and all the contents are children" ) {
+                std::vector<item_location> targets_copy = targets;
+                item_location parent = targets_copy.back();
+                targets_copy.pop_back();
+                std::vector<item_location> children = extract_children( targets_copy, parent );
+                CHECK( parent->typeId() == backpack.typeId() );
+                CHECK( targets_copy.empty() );
+                CHECK( children.size() + 1 == targets.size() );
+            }
+
             int moves_before = dummy.get_moves();
+            REQUIRE( moves_before > 0 );
             // TODO: Pickup doesn't need to be player-centric
             bool did_it = Pickup::do_pickup( targets, quantities, true );
 
             THEN( "it succeeds and costs only as much moves as picking the backpack itself would" ) {
                 CHECK( did_it );
                 CHECK( dummy.get_moves() == moves_before - 100 );
+                bool no_items_left = mc.items_with( []( const item & ) {
+                    return true;
+                } ).empty();
+                CHECK( no_items_left );
+                CHECK( dummy.volume_carried() == volume_sum );
             }
         }
     }
