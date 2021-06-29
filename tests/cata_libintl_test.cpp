@@ -302,18 +302,18 @@ static void do_plf_calc_test( const test_case_data &test )
 
     PlfNodePtr expr = parse_plural_rules( test.input );
     assert( test.expected.size() >= PLF_PERIOD );
-    std::vector<unsigned long> expected;
+    std::vector<size_t> expected;
     for( char c : test.expected ) {
         expected.push_back( c - '0' );
     }
 
     SECTION( "Produces expected values for small numbers" ) {
         for( size_t i = 0; i < expected.size(); i++ ) {
-            unsigned long x = i;
-            unsigned long exp = expected[i];
+            size_t x = i;
+            size_t exp = expected[i];
 
             CAPTURE( x );
-            unsigned long res = expr->eval( x );
+            size_t res = expr->eval( x );
             CHECK( exp == res );
         }
     };
@@ -322,11 +322,11 @@ static void do_plf_calc_test( const test_case_data &test )
         constexpr size_t CHECK_MAX = 1'234'567;
 
         for( size_t i = expected.size(); i < CHECK_MAX; i++ ) {
-            unsigned long x = i;
-            unsigned long exp = expected[i % PLF_PERIOD];
+            size_t x = i;
+            size_t exp = expected[i % PLF_PERIOD];
 
             CAPTURE( x );
-            unsigned long res = expr->eval( x );
+            size_t res = expr->eval( x );
             if( exp != res ) {
                 REQUIRE( exp == res );
             }
@@ -337,17 +337,17 @@ static void do_plf_calc_test( const test_case_data &test )
         constexpr size_t CHECK_TOTAL = 1'000'000;
 
         for( size_t i = 0; i < CHECK_TOTAL; i++ ) {
-            unsigned long x;
+            size_t x;
             if( i == 0 ) {
-                x = std::numeric_limits<unsigned long>::max();
+                x = std::numeric_limits<size_t>::max();
             } else {
-                static std::uniform_int_distribution<unsigned long> rng_uint_dist;
+                static std::uniform_int_distribution<size_t> rng_uint_dist;
                 x = rng_uint_dist( rng_get_engine() );
             }
-            unsigned long exp = expected[x % PLF_PERIOD];
+            size_t exp = expected[x % PLF_PERIOD];
 
             CAPTURE( x );
-            unsigned long res = expr->eval( x );
+            size_t res = expr->eval( x );
             if( exp != res ) {
                 REQUIRE( exp == res );
             }
@@ -411,13 +411,13 @@ TEST_CASE( "gnu_transifex_rules_equal", "[libintl][i18n][.]" )
         PlfNodePtr expr_tfx = parse_plural_rules( it.tfx );
 
         for( size_t i = 0; i < CHECK_TOTAL; i++ ) {
-            static std::uniform_int_distribution<unsigned long> rng_uint_dist;
-            unsigned long x = rng_uint_dist( rng_get_engine() );
+            static std::uniform_int_distribution<size_t> rng_uint_dist;
+            size_t x = rng_uint_dist( rng_get_engine() );
 
             CAPTURE( x );
 
-            unsigned long res_gnu = expr_gnu->eval( x );
-            unsigned long res_tfx = expr_tfx->eval( x );
+            size_t res_gnu = expr_gnu->eval( x );
+            size_t res_tfx = expr_tfx->eval( x );
             if( res_gnu != res_tfx ) {
                 REQUIRE( res_gnu == res_tfx );
             }
