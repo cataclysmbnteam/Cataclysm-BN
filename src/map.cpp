@@ -2896,7 +2896,7 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
             continue;
         }
 
-        float damage_chance = power / 4;
+        float damage_chance = power / 4.0;
         // Example:
         // Power 133 (just below C4 epicenter) vs two-by-four
         // damage_chance = 133 / 10 = 13, final_factor = 16 (2*8)

@@ -125,6 +125,7 @@ static void filesystem_test_group( int serial, const std::string &s1, const std:
         };
         const auto comparator = []( const std::string & a, const std::string & b ) {
             // We don't care about lexicographic order here, just the data order
+            // NOLINTNEXTLINE(cata-use-localized-sorting)
             return a > b;
         };
         std::sort( exp.begin(), exp.end(), comparator );

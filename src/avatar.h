@@ -57,7 +57,7 @@ class avatar : public player
         avatar();
         avatar( const avatar & ) = delete;
         avatar( avatar && );
-        ~avatar();
+        ~avatar() override;
         avatar &operator=( const avatar & ) = delete;
         avatar &operator=( avatar && );
 

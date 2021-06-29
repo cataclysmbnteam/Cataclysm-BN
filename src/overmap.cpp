@@ -4095,7 +4095,7 @@ void overmap::place_special( const overmap_special &special, const tripoint &p,
 
     const bool blob = special.flags.count( "BLOB" ) > 0;
 
-    if( true ) {
+    {
         bool is_lab = false;
         lab_type type;
         std::set<tripoint> all_points;

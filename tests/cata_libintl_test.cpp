@@ -12,7 +12,6 @@
 #include <functional>
 #include <iostream>
 #include <iterator>
-#include <random>
 #include <vector>
 #include <sstream>
 
@@ -652,9 +651,7 @@ TEST_CASE( "bench_get_translated_string", "[libintl][i18n][benchmark][.]" )
     }
     trans_library lib = trans_library::create( std::move( list ) );
 
-    std::random_device rd;
-    std::mt19937 g( rd() );
-    std::shuffle( originals.begin(), originals.end(), g );
+    std::shuffle( originals.begin(), originals.end(), rng_get_engine() );
 
     cata_printf( "N strings: %d\n", originals.size() );
     BENCHMARK( "get_all_strings" ) {

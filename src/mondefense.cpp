@@ -39,7 +39,6 @@
 #include "type_id.h"
 
 static const skill_id skill_gun( "gun" );
-static const skill_id skill_rifle( "rifle" );
 
 void mdefense::none( monster &, Creature *, const dealt_projectile_attack * )
 {
@@ -178,7 +177,7 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
     int dispersion = 150;
 
     for( const std::pair<const std::string, mtype_special_attack> &attack : m.type->special_attacks ) {
-        if( attack.second->id == "gun" ) {
+        if( attack.second->id == skill_gun ) {
 
             const gun_actor *gunactor = dynamic_cast<const gun_actor *>( attack.second.get() );
             if( gunactor->get_max_range() < distance_to_source ) {

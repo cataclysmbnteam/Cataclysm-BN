@@ -8561,10 +8561,7 @@ bool item::process_rot( float insulation, const bool seals,
     if( now - time > smallest_interval ) {
         calc_rot( now, temp );
 
-        if( has_rotten_away() && carrier == nullptr && !seals ) {
-            return true;
-        }
-        return false;
+        return has_rotten_away() && carrier == nullptr && !seals;
     }
 
     return false;

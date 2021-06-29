@@ -43,15 +43,15 @@ struct reg_coord_pair {
     }
 };
 
-mm_submap::mm_submap() {}
+mm_submap::mm_submap() = default;
 
 mm_region::mm_region() : submaps {{ nullptr }} {}
 
 bool mm_region::is_empty() const
 {
-    for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
-        for( size_t x  = 0; x < MM_REG_SIZE; x++ ) {
-            if( !submaps[x][y]->is_empty() ) {
+    for( const auto &itt : submaps ) {
+        for( const shared_ptr_fast<mm_submap> &it : itt ) {
+            if( !it->is_empty() ) {
                 return false;
             }
         }

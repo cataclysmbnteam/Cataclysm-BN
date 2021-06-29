@@ -302,8 +302,8 @@ tile_type &tileset::create_tile_type( const std::string &id, tile_type &&new_til
     }
     // tile doesn't have _season suffix, add it as "default" into all four seasons
     if( !has_season_suffix ) {
-        for( int i = 0; i < 4; i++ ) {
-            tile_ids_by_season[i][id].default_tile = &inserted_tile;
+        for( auto &tile_ids_for_season : tile_ids_by_season ) {
+            tile_ids_for_season[id].default_tile = &inserted_tile;
         }
     }
 
@@ -1595,7 +1595,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 point sm_p = point( sm_x, sm_y );
                 tripoint sm_tp = tripoint( sm_x, sm_y, center.z );
                 point p1 = player_to_screen( g->m.getlocal( sm_to_ms_copy( sm_p ) ) );
-                point p3 = player_to_screen( g->m.getlocal( sm_to_ms_copy( sm_p + point( 1, 1 ) ) ) );
+                point p3 = player_to_screen( g->m.getlocal( sm_to_ms_copy( sm_p + point_south_east ) ) );
                 p3 -= point( THICC, THICC ); // Don't draw over other lines
 
                 // Leave a small gap to indicate omt boundaries
