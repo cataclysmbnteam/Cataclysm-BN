@@ -318,6 +318,18 @@
   {
     "type": "speech",
     "speaker": "mon_mi_go",
+    "sound": "\"I have come here to chew bubblegum, and kick ass, and I'm all out of bubblegum.\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"Play it again Sam.\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
     "sound": "\"Well I'm the only one here.\"",
     "volume": 40
   },
@@ -397,6 +409,12 @@
     "type": "speech",
     "speaker": "mon_mi_go",
     "sound": "\"Open the pod bay doors, HAL.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"I must capture the Avatar to restore my honor.\"",
     "volume": 20
   },
   {
@@ -528,7 +546,13 @@
   {
     "type": "speech",
     "speaker": "mon_mi_go",
-    "sound": "\"Frankly, my dear, I don't give a damn.\"",
+    "sound": "\"Gentlemen, you can't fight in here! This is the war room!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
+    "sound": "\"It's a nice gun, I'll give you that, but the engravings give you no tactical advantage whatsoever.\"",
     "volume": 20
   },
   {
