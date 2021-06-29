@@ -235,7 +235,7 @@ void TranslatorCommentsCheck::registerMatchers( MatchFinder *Finder )
     );
     Finder->addMatcher(
         callExpr(
-            callee( functionDecl( hasName( "ngettext" ) ) ),
+            callee( functionDecl( hasName( "vgettext" ) ) ),
             hasImmediateArgument( 0, stringLiteralArgumentBound ),
             hasImmediateArgument( 1, stringLiteralArgumentUnbound )
         ),
@@ -268,7 +268,7 @@ void TranslatorCommentsCheck::registerMatchers( MatchFinder *Finder )
     );
     Finder->addMatcher(
         callExpr(
-            callee( functionDecl( hasAnyName( "npgettext" ) ) ),
+            callee( functionDecl( hasAnyName( "vpgettext" ) ) ),
             hasImmediateArgument( 0, stringLiteralArgumentUnbound ),
             hasImmediateArgument( 1, stringLiteralArgumentBound ),
             hasImmediateArgument( 2, stringLiteralArgumentUnbound )

@@ -16,8 +16,8 @@ using string = basic_string<char>;
 const char *_( const char *const );
 const char *gettext( const char *const );
 const char *pgettext( const char *const, const char *const );
-const char *ngettext( const char *const, const char *const, int );
-const char *npgettext( const char *const, const char *const, const char *const, int );
+const char *vgettext( const char *const, const char *const, int );
+const char *vpgettext( const char *const, const char *const, const char *const, int );
 
 class foo
 {
@@ -43,12 +43,12 @@ const std::string global_gettext_str = gettext( "global_gettext_str" );
 const std::string global_pgettext_str = pgettext( "ctxt", "global_pgettext_str" );
 // CHECK-MESSAGES: [[@LINE-1]]:41: warning: Gettext calls in static variable initialization will cause text to be untranslated (global static) or not updated when switching language (local static). Consider using translation objects (to_translation() or pl_translation()) or translate_marker(), and translate the text on demand (with translation::translated() or gettext calls outside static vars)
 
-const std::string global_ngettext_str = ngettext( "global_ngettext_str", "global_ngettext_strs",
+const std::string global_vgettext_str = vgettext( "global_vgettext_str", "global_vgettext_strs",
                                         1 );
 // CHECK-MESSAGES: [[@LINE-2]]:41: warning: Gettext calls in static variable initialization will cause text to be untranslated (global static) or not updated when switching language (local static). Consider using translation objects (to_translation() or pl_translation()) or translate_marker(), and translate the text on demand (with translation::translated() or gettext calls outside static vars)
 
-const std::string global_npgettext_str = npgettext( "ctxt", "global_npgettext_str",
-        "global_npgettext_strs", 1 );
+const std::string global_vpgettext_str = vpgettext( "ctxt", "global_vpgettext_str",
+        "global_vpgettext_strs", 1 );
 // CHECK-MESSAGES: [[@LINE-2]]:42: warning: Gettext calls in static variable initialization will cause text to be untranslated (global static) or not updated when switching language (local static). Consider using translation objects (to_translation() or pl_translation()) or translate_marker(), and translate the text on demand (with translation::translated() or gettext calls outside static vars)
 
 static const char *const global_static_cstr = _( "global_static_cstr" );

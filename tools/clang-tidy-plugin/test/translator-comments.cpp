@@ -26,8 +26,8 @@ using string = basic_string<char>;
 
 const char *gettext( const char * );
 const char *pgettext( const char *, const char * );
-const char *ngettext( const char *, const char *, int );
-const char *npgettext( const char *, const char *, const char *, int );
+const char *vgettext( const char *, const char *, int );
+const char *vpgettext( const char *, const char *, const char *, int );
 
 class translation
 {
@@ -70,13 +70,13 @@ void foo()
     //~ bar
     _( "bar" );
 
-    ngettext( /*~ foo */ ( "bar" ), _( "baz" ), 0 );
+    vgettext( /*~ foo */ ( "bar" ), _( "baz" ), 0 );
 
     //~ bar
     gettext( "bar" );
 
     //~bar
-    ngettext( "bar", "baz", 1 );
+    vgettext( "bar", "baz", 1 );
 
     /*~ bar */ to_translation( "bar" );
 
@@ -122,12 +122,12 @@ void foo()
 
     /*~
     barnacle */
-    npgettext( "foo",
+    vpgettext( "foo",
                "bar", "baz", 2 );
     // CHECK-MESSAGES: [[@LINE-4]]:5: warning: Translator comment without a matching raw string
 
     //~ barn
-    npgettext( "foo", "bar", ( "baz" ), 3 );
+    vpgettext( "foo", "bar", ( "baz" ), 3 );
     // CHECK-MESSAGES: [[@LINE-2]]:5: warning: Translator comment without a matching raw string
 
     //~ baron

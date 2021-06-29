@@ -19,7 +19,7 @@ void NoStaticGettextCheck::registerMatchers( MatchFinder *Finder )
     Finder->addMatcher(
         callExpr(
             hasAncestor( varDecl( hasStaticStorageDuration() ) ),
-            callee( functionDecl( hasAnyName( "_", "gettext", "pgettext", "ngettext", "npgettext" ) ) )
+            callee( functionDecl( hasAnyName( "_", "gettext", "pgettext", "vgettext", "vpgettext" ) ) )
         ).bind( "gettextCall" ),
         this
     );
