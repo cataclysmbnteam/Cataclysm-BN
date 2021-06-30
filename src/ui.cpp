@@ -308,15 +308,15 @@ void uilist::inputfilter()
 
 bool uilist::set_selected( int sel )
 {
-    if( sel < 0 || sel >= entries.size() ) {
+    if( sel < 0 || sel >= static_cast<int>( entries.size() ) ) {
         // Shortcut
         return false;
     }
 
-    for( int i = 0; i < fentries.size(); i++ ) {
+    for( size_t i = 0; i < fentries.size(); i++ ) {
         if( fentries[i] == sel ) {
             selected = sel;
-            fselected = i;
+            fselected = static_cast<int>( i );
             return true;
         }
     }

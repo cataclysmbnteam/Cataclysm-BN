@@ -551,7 +551,7 @@ static bool sortfunc_dist( const note_cached &a, const note_cached &b )
     } else {
         return a.dist_from_pl < b.dist_from_pl;
     }
-};
+}
 
 static bool sortfunc_name( const note_cached &a, const note_cached &b )
 {
@@ -560,7 +560,7 @@ static bool sortfunc_name( const note_cached &a, const note_cached &b )
     } else {
         return localized_compare( a.text_nocolor, b.text_nocolor );
     }
-};
+}
 
 static bool sortfunc_symbol( const note_cached &a, const note_cached &b )
 {
@@ -570,7 +570,7 @@ static bool sortfunc_symbol( const note_cached &a, const note_cached &b )
         // Not using lexicographic comparator here because it's case-insensitive
         return a.symbol < b.symbol;
     }
-};
+}
 
 static tripoint show_notes_manager( const tripoint &origin )
 {
@@ -653,7 +653,8 @@ static tripoint show_notes_manager( const tripoint &origin )
             tripoint tp_omt( note.p );
             const std::string direction_str = direction_name_short( direction_from( p_player, tp_omt ) );
             const tripoint sm_pos = omt_to_sm_copy( tp_omt );
-            const point p_om = omt_to_om_remain( tp_omt.xy() );
+            point p_omt = tp_omt.xy();
+            const point p_om = omt_to_om_remain( p_omt );
             const std::string location_desc = overmap_buffer.get_description_at( sm_pos );
 
             //~ "Dangerous" indicator for overmap note in note manager.
@@ -714,7 +715,7 @@ static tripoint show_notes_manager( const tripoint &origin )
             filter = nmenu.get_filter();
             if( nmenu.ret == UILIST_MAP_NOTE_EDITED || nmenu.ret == UILIST_CHANGE_SORT ) {
                 // Reselect same note
-                assert( nmenu.selected >= 0 && nmenu.selected < notes.size() );
+                assert( nmenu.selected >= 0 && nmenu.selected < static_cast<int>( notes.size() ) );
                 selected = notes[nmenu.selected].p;
             } else {
                 assert( nmenu.ret == UILIST_MAP_NOTE_DELETED );
