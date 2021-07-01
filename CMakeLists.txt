@@ -1,7 +1,7 @@
 # Main project build script
 cmake_minimum_required(VERSION 3.1.4)
 
-PROJECT(CataclysmDDA)
+PROJECT(CataclysmBN)
 
 SET(CMAKE_MODULE_PATH
     ${CMAKE_MODULE_PATH}
@@ -33,15 +33,16 @@ include(CTest)
 include(GetGitRevisionDescription)
 git_describe(GIT_VERSION)
 
-MESSAGE("\n * Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world.")
+MESSAGE("\n * Cataclysm: Bright Nights is a roguelike set in a post-apocalyptic world.")
 MESSAGE("   _________            __                   .__                                ")
 MESSAGE("   \\_   ___ \\ _____   _/  |_ _____     ____  |  |   ___.__   ______  _____      ")
 MESSAGE("   /    \\  \\/ \\__  \\  \\   __\\\\__  \\  _/ ___\\ |  |  <   |  | /  ___/ /     \\     ")
 MESSAGE("   \\     \\____ / __ \\_ |  |   / __ \\_\\  \\___ |  |__ \\___  | \\___ \\ |  Y Y  \\    ")
 MESSAGE("    \\______  /\(____  / |__|  \(____  / \\___  >|____/ / ____|/____  >|__|_|  /    ")
 MESSAGE("           \\/      \\/             \\/      \\/        \\/          \\/       \\/     ")
-MESSAGE("                               --= Dark Days Ahead =--")
-MESSAGE("\n * https://cataclysmdda.org/\n")
+MESSAGE("                                --= Bright Nights =--")
+
+MESSAGE("\n * https://github.com/cataclysmbnteam/Cataclysm-BN\n")
 
 MESSAGE(STATUS "${PROJECT} build environment -- \n")
 
