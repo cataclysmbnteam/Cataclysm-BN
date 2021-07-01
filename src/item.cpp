@@ -1884,8 +1884,9 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     }
 
     const itype *curammo = loaded_mod->ammo_data();
-    if( mod->ammo_required() ) {
-        assert( curammo ); // Appease clang-tidy
+    if( mod->ammo_required() && !curammo ) {
+        debugmsg("curammo is nullptr in item::gun_info()");
+        return;
     }
     const damage_unit &gun_du = gun.damage.damage_units.front();
     const damage_unit &ammo_du = curammo != nullptr
@@ -1901,6 +1902,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     if( mod->ammo_required() ) {
         // ammo_damage, sum_of_damage, and ammo_mult not shown so don't need to translate.
         if( parts->test( iteminfo_parts::GUN_DAMAGE_LOADEDAMMO ) ) {
+            assert( curammo ); // Appease clang-tidy
             damage_instance ammo_dam = curammo->ammo->damage;
             info.push_back( iteminfo( "GUN", "ammo_damage", "",
                                       iteminfo::no_newline | iteminfo::no_name |
@@ -1928,6 +1930,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                                   iteminfo::no_newline, get_ranged_pierce( gun ) ) );
     }
     if( mod->ammo_required() ) {
+        assert( curammo ); // Appease clang-tidy
         int ammo_pierce = get_ranged_pierce( *curammo->ammo );
         // ammo_armor_pierce and sum_of_armor_pierce don't need to translate.
         if( parts->test( iteminfo_parts::GUN_ARMORPIERCE_LOADEDAMMO ) ) {
@@ -8453,7 +8456,7 @@ int item::processing_speed() const
     return 1;
 }
 
-bool item::process_rot( float insulation, const bool seals,
+bool item::process_rot( float /*insulation*/, const bool seals,
                         const tripoint &pos,
                         player *carrier, const temperature_flag flag )
 {
@@ -8493,9 +8496,8 @@ bool item::process_rot( float insulation, const bool seals,
     }
 
     bool carried = carrier != nullptr && carrier->has_item( *this );
-    // body heat increases inventory temperature by 5F and insulation by 50%
+    // body heat increases inventory temperature by 5F
     if( carried ) {
-        insulation *= 1.5;
         temp += 5;
     }
 
