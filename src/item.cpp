@@ -1884,6 +1884,9 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     }
 
     const itype *curammo = loaded_mod->ammo_data();
+    if( mod->ammo_required() ) {
+        assert( curammo ); // Appease clang-tidy
+    }
     const damage_unit &gun_du = gun.damage.damage_units.front();
     const damage_unit &ammo_du = curammo != nullptr
                                  ? curammo->ammo->damage.damage_units.front()
@@ -1967,7 +1970,6 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                                   gun_du.res_mult ) );
     }
     if( mod->ammo_required() ) {
-        damage_unit ammo_du = curammo->ammo->damage.damage_units.front();
         if( parts->test( iteminfo_parts::GUN_ARMORMULT_LOADEDAMMO ) ) {
             info.push_back( iteminfo( "GUN", "ammo_armor_mult", _( "*<num>" ),
                                       iteminfo::no_newline | iteminfo::no_name |
