@@ -153,6 +153,7 @@ then
         analyze_files_in_random_order "$remaining_cpp_files"
     else
         # Regular build
+        make -j$num_jobs translations_compile
         make -j$num_jobs
         cd ..
         # Run regular tests
@@ -191,7 +192,7 @@ else
     else
         export BACKTRACE=1
     fi
-    make -j "$num_jobs" RELEASE=1 CCACHE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0
+    make -j "$num_jobs" RELEASE=1 CCACHE=1 CROSS="$CROSS_COMPILATION" LANGUAGES="all" LINTJSON=0
 
     export UBSAN_OPTIONS=print_stacktrace=1
     if [ "$TRAVIS_OS_NAME" == "osx" ] || [ "$OS" == "macos-10.15" ]
