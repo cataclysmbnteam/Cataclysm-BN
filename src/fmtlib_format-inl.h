@@ -148,7 +148,7 @@ inline int safe_strerror( int error_code, char *&buffer,
     return dispatcher( error_code, buffer, buffer_size ).run();
 }
 
-// NOLINTNEXTLINE(misc-definitions-in-headers)
+// NOLINTNEXTLINE(misc-definitions-in-headers, bugprone-exception-escape)
 FMT_FUNC void format_error_code( detail::buffer<char> &out, int error_code,
                                  string_view message ) FMT_NOEXCEPT {
     // Report error code making sure that the output fits into
@@ -1798,8 +1798,8 @@ struct fixed_handler {
 namespace dragonbox
 {
 // Computes 128-bit result of multiplication of two 64-bit unsigned integers.
-FMT_SAFEBUFFERS inline uint128_wrapper umul128( uint64_t x,
-        uint64_t y ) FMT_NOEXCEPT {
+// NOLINTNEXTLINE(cata-xy)
+FMT_SAFEBUFFERS inline uint128_wrapper umul128( uint64_t x, uint64_t y ) FMT_NOEXCEPT {
 #if FMT_USE_INT128
     return static_cast<uint128_t>( x ) * static_cast<uint128_t>( y );
 #elif defined(_MSC_VER) && defined(_M_X64)
@@ -1828,8 +1828,8 @@ FMT_SAFEBUFFERS inline uint128_wrapper umul128( uint64_t x,
 }
 
 // Computes upper 64 bits of multiplication of two 64-bit unsigned integers.
-FMT_SAFEBUFFERS inline uint64_t umul128_upper64( uint64_t x,
-        uint64_t y ) FMT_NOEXCEPT {
+// NOLINTNEXTLINE(cata-xy)
+FMT_SAFEBUFFERS inline uint64_t umul128_upper64( uint64_t x, uint64_t y ) FMT_NOEXCEPT {
 #if FMT_USE_INT128
     auto p = static_cast<uint128_t>( x ) * static_cast<uint128_t>( y );
     return static_cast<uint64_t>( p >> 64 );
@@ -1842,6 +1842,7 @@ FMT_SAFEBUFFERS inline uint64_t umul128_upper64( uint64_t x,
 
 // Computes upper 64 bits of multiplication of a 64-bit unsigned integer and a
 // 128-bit unsigned integer.
+// NOLINTNEXTLINE(cata-xy)
 FMT_SAFEBUFFERS inline uint64_t umul192_upper64( uint64_t x, uint128_wrapper y )
 FMT_NOEXCEPT {
     uint128_wrapper g0 = umul128( x, y.high() );
@@ -1851,12 +1852,14 @@ FMT_NOEXCEPT {
 
 // Computes upper 32 bits of multiplication of a 32-bit unsigned integer and a
 // 64-bit unsigned integer.
+// NOLINTNEXTLINE(cata-xy)
 inline uint32_t umul96_upper32( uint32_t x, uint64_t y ) FMT_NOEXCEPT {
     return static_cast<uint32_t>( umul128_upper64( x, y ) );
 }
 
 // Computes middle 64 bits of multiplication of a 64-bit unsigned integer and a
 // 128-bit unsigned integer.
+// NOLINTNEXTLINE(cata-xy)
 FMT_SAFEBUFFERS inline uint64_t umul192_middle64( uint64_t x, uint128_wrapper y )
 FMT_NOEXCEPT {
     uint64_t g01 = x * y.high();
@@ -1866,6 +1869,7 @@ FMT_NOEXCEPT {
 
 // Computes lower 64 bits of multiplication of a 32-bit unsigned integer and a
 // 64-bit unsigned integer.
+// NOLINTNEXTLINE(cata-xy)
 inline uint64_t umul96_lower64( uint32_t x, uint64_t y ) FMT_NOEXCEPT {
     return x * y;
 }
@@ -2949,7 +2953,7 @@ FMT_FUNC detail::utf8_to_utf16::utf8_to_utf16( string_view s )
     buffer_.push_back( 0 );
 }
 
-// NOLINTNEXTLINE(misc-definitions-in-headers)
+// NOLINTNEXTLINE(misc-definitions-in-headers, bugprone-exception-escape)
 FMT_FUNC void format_system_error( detail::buffer<char> &out, int error_code,
                                    string_view message ) FMT_NOEXCEPT {
     FMT_TRY {
