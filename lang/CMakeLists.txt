@@ -9,6 +9,21 @@ IF (NOT GETTEXT_FOUND)
     )
 ENDIF (NOT GETTEXT_FOUND)
 
+IF (LANGUAGES STREQUAL all)
+    set(LANGUAGES "")
+    file (GLOB PO_FILES
+      ${CMAKE_SOURCE_DIR}/lang/po/*.po
+    )
+    foreach (PO_FILE ${PO_FILES})
+      get_filename_component(LANG ${PO_FILE} NAME_WE)
+      list(APPEND LANGUAGES ${LANG})
+    endforeach ()
+    # Special case for English. See explanation below.
+    list(APPEND LANGUAGES en)
+    list(REMOVE_DUPLICATES LANGUAGES)
+    # End of special case
+ENDIF()
+
 foreach (LANG ${LANGUAGES})
     MESSAGE(STATUS "Add translation for ${LANG}: ${LANG}.po")
 endforeach ()

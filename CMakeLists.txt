@@ -18,7 +18,7 @@ option(BACKTRACE    "Support for printing stack backtraces on crash"   "ON")
 option(LIBBACKTRACE "Print backtrace with libbacktrace."    "OFF")
 option(USE_HOME_DIR "Use user's home directory for save files."   "ON")
 option(LOCALIZE     "Support for language localizations. Also enable UTF support."   "ON")
-option(LANGUAGES    "Compile localization files for specified languages."   "")
+set(LANGUAGES "" CACHE STRING "Compile localization files for specified languages. List of language ids separated by semicolon. Set to 'all' or leave empty to compile all.")
 option(DYNAMIC_LINKING "Use dynamic linking. Or use static to remove MinGW dependency instead."   "ON")
 option(JSON_FORMAT  "Build JSON formatter" "OFF")
 option(CATA_CCACHE  "Try to find and build with ccache" "ON")
@@ -150,9 +150,7 @@ MESSAGE(STATUS "${PROJECT_NAME} build options --\n")
 
 # Preset variables
 IF(NOT LANGUAGES)
-    # English is included to workaround a libintl bug that affects performance
-    # on MinGW targets. See lang/CMakeList.txt for more information.
-    SET (LANGUAGES en de es_AR es_ES fr it_IT ja ko pt_BR ru zh_CN zh_TW)
+    SET(LANGUAGES all)
 ENDIF(NOT LANGUAGES)
 
 IF (GIT_BINARY)
