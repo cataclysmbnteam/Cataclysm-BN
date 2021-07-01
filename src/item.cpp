@@ -1885,7 +1885,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
     const itype *curammo = loaded_mod->ammo_data();
     if( mod->ammo_required() && !curammo ) {
-        debugmsg("curammo is nullptr in item::gun_info()");
+        debugmsg( "curammo is nullptr in item::gun_info()" );
         return;
     }
     const damage_unit &gun_du = gun.damage.damage_units.front();

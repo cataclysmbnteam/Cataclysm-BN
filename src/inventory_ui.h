@@ -262,7 +262,7 @@ class inventory_column
 
         inventory_entry *find_by_invlet( int invlet ) const;
 
-        void draw( const catacurses::window &win, size_t x, size_t y ) const;
+        void draw( const catacurses::window &win, point pos ) const;
 
         void add_entry( const inventory_entry &entry );
         void move_entries_to( inventory_column &dest );

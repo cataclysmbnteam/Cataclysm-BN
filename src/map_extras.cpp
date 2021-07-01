@@ -1867,8 +1867,8 @@ static bool mx_pond( map &m, const tripoint &abs_sub )
     constexpr int height = SEEY * 2;
 
     // Generate the cells for our lake.
-    std::vector<std::vector<int>> current = CellularAutomata::generate_cellular_automaton( width,
-                                            height, 55, 5, 4, 3 );
+    std::vector<std::vector<int>> current = CellularAutomata::generate_cellular_automaton(
+            point( width, height ), 55, 5, 4, 3 );
 
     // Loop through and turn every live cell into water.
     // Do a roll for our three possible lake types:
@@ -1890,7 +1890,8 @@ static bool mx_pond( map &m, const tripoint &abs_sub )
                         m.ter_set( location, t_water_dp );
                         break;
                     case 3:
-                        const int neighbors = CellularAutomata::neighbor_count( current, width, height, i, j );
+                        const int neighbors = CellularAutomata::neighbor_count( current,
+                                              point( width, height ), point( i, j ) );
                         if( neighbors == 8 ) {
                             m.ter_set( location, t_water_dp );
                         } else {
@@ -1916,8 +1917,8 @@ static bool mx_clay_deposit( map &m, const tripoint &abs_sub )
 
     for( int tries = 0; tries < 5; tries++ ) {
         // Generate the cells for our clay deposit.
-        std::vector<std::vector<int>> current = CellularAutomata::generate_cellular_automaton( width,
-                                                height, 35, 5, 4, 3 );
+        std::vector<std::vector<int>> current = CellularAutomata::generate_cellular_automaton(
+                point( width, height ), 35, 5, 4, 3 );
 
         // With our settings for the CA, it's sometimes possible to get a bad generation with not enough
         // alive cells (or even 0).
@@ -1978,8 +1979,8 @@ static bool mx_point_dead_vegetation( map &m, const tripoint &abs_sub )
     constexpr int height = SEEY * 2;
 
     // Generate the cells for dead vegetation.
-    std::vector<std::vector<int>> current = CellularAutomata::generate_cellular_automaton( width,
-                                            height, 55, 5, 4, 3 );
+    std::vector<std::vector<int>> current = CellularAutomata::generate_cellular_automaton(
+            point( width, height ), 55, 5, 4, 3 );
 
     for( int i = 0; i < width; i++ ) {
         for( int j = 0; j < height; j++ ) {
@@ -2108,8 +2109,8 @@ static bool mx_point_burned_ground( map &m, const tripoint &abs_sub )
     constexpr int height = SEEY * 2;
 
     // Generate the cells for dead vegetation.
-    std::vector<std::vector<int>> current = CellularAutomata::generate_cellular_automaton( width,
-                                            height, 55, 5, 4, 3 );
+    std::vector<std::vector<int>> current = CellularAutomata::generate_cellular_automaton(
+            point( width, height ), 55, 5, 4, 3 );
 
     for( int i = 0; i < width; i++ ) {
         for( int j = 0; j < height; j++ ) {
