@@ -75,7 +75,7 @@ foreach (LANG ${LANGUAGES})
       PRE_BUILD
       COMMAND 
       ${GETTEXT_MSGFMT_EXECUTABLE} -f ${CMAKE_SOURCE_DIR}/lang/po/${LANG}.po
-             -o ${CMAKE_SOURCE_DIR}/lang/mo/${LANG}/LC_MESSAGES/cataclysm-dda.mo
+             -o ${CMAKE_SOURCE_DIR}/lang/mo/${LANG}/LC_MESSAGES/cataclysm-bn.mo
       WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     )
     IF(RELEASE)
