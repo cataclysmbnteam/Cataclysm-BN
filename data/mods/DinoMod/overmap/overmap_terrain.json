@@ -16,5 +16,18 @@
     "see_cost": 5,
     "sym": "^",
     "type": "overmap_terrain"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_DinoLab_surface",
+    "name": "lab",
+    "sym": "L",
+    "color": "blue",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_DinoLab_surface_roof",
+    "copy-from": "microlab_DinoLab_surface"
   }
 ]
