@@ -282,6 +282,7 @@ static void draw_connectors( const catacurses::window &win, const point &start,
     // draw horizontal line from selected bionic
     const int turn_x = start.x + ( last_x - start.x ) * 2 / 3;
     mvwputch( win, start, BORDER_COLOR, '>' );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwhline( win, start + point( 1, 0 ), LINE_OXOX, turn_x - start.x - 1 );
 
     int min_y = start.y;
