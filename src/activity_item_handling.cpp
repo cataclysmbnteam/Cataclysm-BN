@@ -175,7 +175,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
 
     // can't use constant reference here because of the spill_contents()
     for( auto it : items ) {
-        if( Pickup::handle_spillable_contents( c, it, g->m ) ) {
+        if( pickup::handle_spillable_contents( c, it, g->m ) ) {
             continue;
         }
         if( veh.add_item( part, it ) ) {
@@ -888,7 +888,7 @@ static int move_cost_cart( const item &it, const tripoint &src, const tripoint &
     const int MAX_COST = 500;
 
     // cost to move item into the cart
-    const int pickup_cost = Pickup::cost_to_move_item( g->u, it );
+    const int pickup_cost = pickup::cost_to_move_item( g->u, it );
 
     // cost to move item out of the cart
     const int drop_cost = pickup_cost;
@@ -3183,7 +3183,7 @@ bool find_auto_consume( player &p, const bool food )
                 continue;
             }
 
-            p.mod_moves( -Pickup::cost_to_move_item( p, *it ) * std::max( rl_dist( p.pos(),
+            p.mod_moves( -pickup::cost_to_move_item( p, *it ) * std::max( rl_dist( p.pos(),
                          g->m.getlocal( loc ) ), 1 ) );
             item_location item_loc;
             if( vp ) {

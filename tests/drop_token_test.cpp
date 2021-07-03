@@ -298,28 +298,26 @@ TEST_CASE( "full backpack pickup", "[drop_token]" )
             REQUIRE( dummy.weight_capacity() >= weight_sum + duffel_bag.weight() );
             REQUIRE( dummy.volume_capacity() >= volume_sum );
 
-            std::vector<item_location> targets;
+            std::vector<item_location> target_locations;
             std::vector<int> quantities;
             map_cursor mc( pos );
             for( item &it : stack ) {
-                targets.push_back( item_location( mc, &it ) );
+                target_locations.push_back( item_location( mc, &it ) );
                 quantities.push_back( 0 );
             }
 
+            std::vector<pickup::pick_drop_selection> targets = pickup::optimize_pickup( target_locations,
+                    quantities );
+
             THEN( "the backpack is a pickup parent and all the contents are children" ) {
-                std::vector<item_location> targets_copy = targets;
-                item_location parent = targets_copy.back();
-                targets_copy.pop_back();
-                std::vector<item_location> children = extract_children( targets_copy, parent );
-                CHECK( parent->typeId() == backpack.typeId() );
-                CHECK( targets_copy.empty() );
-                CHECK( children.size() + 1 == targets.size() );
+                CHECK( targets.front().target->typeId() == backpack.typeId() );
+                CHECK( targets.front().children.size() + 1 == target_locations.size() );
             }
 
             int moves_before = dummy.get_moves();
             REQUIRE( moves_before > 0 );
             // TODO: Pickup doesn't need to be player-centric
-            bool did_it = Pickup::do_pickup( targets, quantities, true );
+            bool did_it = pickup::do_pickup( targets, true );
 
             THEN( "it succeeds and costs only as much moves as picking the backpack itself would" ) {
                 CHECK( did_it );

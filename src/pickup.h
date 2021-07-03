@@ -7,17 +7,37 @@
 class item;
 class item_location;
 class Character;
+class JsonIn;
+class JsonOut;
 class map;
 struct tripoint;
 
-namespace Pickup
+// TODO: Move this!
+#include "item_location.h"
+#include "optional.h"
+
+namespace pickup
 {
+
+struct pick_drop_selection {
+    item_location target;
+    cata::optional<int> quantity;
+    std::vector<item_location> children;
+
+    void serialize( JsonOut &jsout ) const;
+    void deserialize( JsonIn &jin );
+};
+
+// TODO: This should get information on whether children are consecutive
+/** Finds possible parent-child relations in picked up items to save moves */
+std::vector<pick_drop_selection> optimize_pickup( const std::vector<item_location> &targets,
+        const std::vector<int> &quantities );
+
 /**
  * Returns `false` if the player was presented a prompt and decided to cancel the pickup.
  * `true` in other cases.
  */
-bool do_pickup( std::vector<item_location> &targets, std::vector<int> &quantities,
-                bool autopickup );
+bool do_pickup( std::vector<pick_drop_selection> &targets, bool autopickup );
 bool query_thief();
 
 enum from_where : int {

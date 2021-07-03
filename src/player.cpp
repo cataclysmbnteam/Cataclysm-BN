@@ -2022,7 +2022,7 @@ static bool query_consume_ownership( item &target, player &p )
     if( !target.is_owned_by( p, true ) ) {
         bool choice = true;
         if( p.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
-            choice = Pickup::query_thief();
+            choice = pickup::query_thief();
         }
         if( p.get_value( "THIEF_MODE" ) == "THIEF_HONEST" || !choice ) {
             return false;
@@ -2129,7 +2129,7 @@ bool player::consume( item_location loc )
             }
         }
     } else if( inv_item ) {
-        if( Pickup::handle_spillable_contents( *this, target, g->m ) ) {
+        if( pickup::handle_spillable_contents( *this, target, g->m ) ) {
             i_rem( &target );
         }
         inv.restack( *this );
