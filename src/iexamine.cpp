@@ -2796,7 +2796,7 @@ void iexamine::fireplace( player &p, const tripoint &examp )
     switch( selection_menu.ret ) {
         case 0:
             none( p, examp );
-            Pickup::pick_up( examp, 0 );
+            pickup::pick_up( examp, 0 );
             return;
         case 1: {
             for( auto &firestarter : firestarters ) {
@@ -3464,7 +3464,7 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
 
         case REMOVE_CONTAINER: {
             g->u.assign_activity( player_activity( pickup_activity_actor(
-            { item_location( map_cursor( examp ), container ) }, { 0 }, g->u.pos() ) ) );
+            { { item_location( map_cursor( examp ), container ), cata::nullopt, {} } }, g->u.pos() ) ) );
             return;
         }
 
@@ -3751,7 +3751,7 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
             for( auto &itm : items ) {
                 if( itm.type == ammo ) {
                     g->u.assign_activity( player_activity( pickup_activity_actor(
-                    { item_location( map_cursor( examp ), &itm ) }, { 0 }, g->u.pos() ) ) );
+                    { { item_location( map_cursor( examp ), &itm ), cata::nullopt, {} } }, g->u.pos() ) ) );
                     return;
                 }
             }

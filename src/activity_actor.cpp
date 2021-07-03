@@ -246,7 +246,7 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
             }
             const tripoint src = target.position();
             const int distance = src.z == dest.z ? std::max( rl_dist( src, dest ), 1 ) : 1;
-            who.mod_moves( -Pickup::cost_to_move_item( who, newit ) * distance );
+            who.mod_moves( -pickup::cost_to_move_item( who, newit ) * distance );
             if( to_vehicle ) {
                 put_into_vehicle_or_drop( who, item_drop_reason::deliberate, { newit }, dest );
             } else {
@@ -311,7 +311,7 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
     const bool autopickup = who.activity.auto_resume;
 
     // False indicates that the player canceled pickup when met with some prompt
-    const bool keep_going = Pickup::do_pickup( target_items, quantities, autopickup );
+    const bool keep_going = pickup::do_pickup( target_items, autopickup );
 
     // If there are items left we ran out of moves, so continue the activity
     // Otherwise, we are done.
@@ -336,7 +336,6 @@ void pickup_activity_actor::serialize( JsonOut &jsout ) const
     jsout.start_object();
 
     jsout.member( "target_items", target_items );
-    jsout.member( "quantities", quantities );
     jsout.member( "starting_pos", starting_pos );
 
     jsout.end_object();
@@ -344,12 +343,11 @@ void pickup_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> pickup_activity_actor::deserialize( JsonIn &jsin )
 {
-    pickup_activity_actor actor( {}, {}, cata::nullopt );
+    pickup_activity_actor actor( {}, cata::nullopt );
 
     JsonObject data = jsin.get_object();
 
     data.read( "target_items", actor.target_items );
-    data.read( "quantities", actor.quantities );
     data.read( "starting_pos", actor.starting_pos );
 
     return actor.clone();
