@@ -842,7 +842,7 @@ void worldfactory::edit_active_world_mods( WORLDPTR world )
     show_modselection_window( wf_win, new_mod_order, [&save_changes]() {
         save_changes = query_yn( _( "Save changes?" ) );
         return true;
-    }, true );
+    }, nullptr, true );
 
     if( save_changes ) {
         world->active_mod_order = new_mod_order;
@@ -853,11 +853,14 @@ void worldfactory::edit_active_world_mods( WORLDPTR world )
 int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win, WORLDPTR world,
         const std::function<bool()> &on_quit )
 {
-    return show_modselection_window( win, world->active_mod_order, on_quit, false );
+    return show_modselection_window( win, world->active_mod_order, on_quit, on_quit, false );
 }
 
 int worldfactory::show_modselection_window( const catacurses::window &win,
-        std::vector<mod_id> &active_mod_order, const std::function<bool()> &on_quit, bool standalone )
+        std::vector<mod_id> &active_mod_order,
+        const std::function<bool()> &on_quit,
+        const std::function<bool()> &on_backtab,
+        bool standalone )
 {
     {
         std::vector<mod_id> tmp_mod_order;
@@ -1219,7 +1222,7 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
             }
         } else if( action == "NEXT_TAB" ) {
             tab_output = 1;
-        } else if( action == "PREV_TAB" ) {
+        } else if( action == "PREV_TAB" && ( !on_backtab || on_backtab() ) ) {
             tab_output = -1;
         } else if( action == "SAVE_DEFAULT_MODS" ) {
             if( mman->set_default_mods( active_mod_order ) ) {
