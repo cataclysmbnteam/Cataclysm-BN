@@ -9,43 +9,25 @@ IF (NOT GETTEXT_FOUND)
     )
 ENDIF (NOT GETTEXT_FOUND)
 
+IF (LANGUAGES STREQUAL all)
+    set(LANGUAGES "")
+    file (GLOB PO_FILES
+      ${CMAKE_SOURCE_DIR}/lang/po/*.po
+    )
+    foreach (PO_FILE ${PO_FILES})
+      get_filename_component(LANG ${PO_FILE} NAME_WE)
+      list(APPEND LANGUAGES ${LANG})
+    endforeach ()
+    # Special case for English. See explanation below.
+    list(APPEND LANGUAGES en)
+    list(REMOVE_DUPLICATES LANGUAGES)
+    # End of special case
+ENDIF()
+
 foreach (LANG ${LANGUAGES})
     MESSAGE(STATUS "Add translation for ${LANG}: ${LANG}.po")
 endforeach ()
 MESSAGE("\n")
-
-# Extract json strings
-
-add_custom_target (
-    extract_string
-    COMMAND python lang/extract_json_strings.py
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-)
-
-# Generate cataclysm-bn.pot
-add_custom_target (
-    translations
-    COMMAND xgettext --default-domain="cataclysm-dda"
-                     --sort-by-file
-                     --add-comments="~"
-                     --output="${CMAKE_SOURCE_DIR}/lang/po/cataclysm-bn.pot"
-                     --keyword="_"
-                     --keyword="pgettext:1c,2"
-                     --keyword="vgettext:1,2"
-                     --keyword="vpgettext:1c,2,3"
-                     --keyword="translate_marker"
-                     --keyword="translate_marker_context:1c,2"
-                     --keyword="to_translation:1,1t"
-                     --keyword="to_translation:1c,2,2t"
-                     --keyword="pl_translation:1,2,2t"
-                     --keyword="pl_translation:1c,2,3,3t"
-                     --from-code="UTF-8"
-                     ${CMAKE_SOURCE_DIR}/src/*.cpp
-                     ${CMAKE_SOURCE_DIR}/src/*.h
-                     ${CMAKE_SOURCE_DIR}/lang/json/*.py
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-    DEPENDS extract_string
-)
 
 add_custom_target (
     translations_prepare
@@ -93,7 +75,7 @@ foreach (LANG ${LANGUAGES})
       PRE_BUILD
       COMMAND 
       ${GETTEXT_MSGFMT_EXECUTABLE} -f ${CMAKE_SOURCE_DIR}/lang/po/${LANG}.po
-             -o ${CMAKE_SOURCE_DIR}/lang/mo/${LANG}/LC_MESSAGES/cataclysm-dda.mo
+             -o ${CMAKE_SOURCE_DIR}/lang/mo/${LANG}/LC_MESSAGES/cataclysm-bn.mo
       WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     )
     IF(RELEASE)

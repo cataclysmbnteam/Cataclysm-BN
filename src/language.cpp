@@ -489,7 +489,7 @@ bool translations_exists_for_lang( const std::string &lang_id )
 #if defined(LOCALIZE)
     std::vector<std::string> opts = get_lang_path_substring( lang_id );
     for( const std::string &s : opts ) {
-        std::string path = "lang/mo/" + s + "/LC_MESSAGES/cataclysm-bn.mo";
+        std::string path = PATH_INFO::base_path() + "lang/mo/" + s + "/LC_MESSAGES/cataclysm-bn.mo";
         if( file_exist( path ) ) {
             return true;
         }
