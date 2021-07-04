@@ -186,8 +186,9 @@ static void debug_error_prompt(
             " DEBUG    : %s\n\n"
             " FUNCTION : %s\n"
             " FILE     : %s\n"
-            " LINE     : %s\n",
-            text, funcname, filename, line
+            " LINE     : %s\n"
+            " VERSION  : BN %s\n",
+            text, funcname, filename, line, getVersionString()
         );
 
 #if defined(BACKTRACE)
