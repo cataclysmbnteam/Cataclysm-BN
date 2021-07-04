@@ -45,7 +45,7 @@ static const efftype_id effect_sheared( "sheared" );
 static const activity_id ACT_MILK( "ACT_MILK" );
 static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
 
-static const efftype_id effect_controlled( "controlled" );
+static const efftype_id effect_ai_waiting( "ai_waiting" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_has_bag( "has_bag" );
 static const efftype_id effect_monster_armor( "monster_armor" );
@@ -459,7 +459,7 @@ bool Character::can_mount( const monster &critter ) const
         return false;
     }
     return ( critter.has_flag( MF_PET_MOUNTABLE ) && critter.friendly == -1 &&
-             !critter.has_effect( effect_controlled ) && !critter.has_effect( effect_ridden ) ) &&
+             !critter.has_effect( effect_ai_waiting ) && !critter.has_effect( effect_ridden ) ) &&
            ( ( critter.has_effect( effect_saddled ) && get_skill_level( skill_survival ) >= 1 ) ||
              get_skill_level( skill_survival ) >= 4 ) && ( critter.get_size() >= ( get_size() + 1 ) &&
                      get_weight() <= critter.get_weight() * critter.get_mountable_weight_ratio() );
@@ -605,7 +605,7 @@ bool monexamine::give_items_to( monster &z )
             to_move.insert( to_move.end(), itq );
         }
     }
-    z.add_effect( effect_controlled, 5_turns );
+    z.add_effect( effect_ai_waiting, 5_turns );
     g->u.drop( to_move, z.pos(), true );
 
     return false;

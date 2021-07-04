@@ -47,6 +47,7 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+static const efftype_id effect_ai_waiting( "ai_waiting" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_countdown( "countdown" );
 static const efftype_id effect_docile( "docile" );
@@ -309,6 +310,7 @@ void monster::plan()
     float dist = !smart_planning ? max_sight_range : 8.6f;
     bool fleeing = false;
     bool docile = friendly != 0 && has_effect( effect_docile );
+    bool waiting = has_effect( effect_ai_waiting );
 
     const bool angers_hostile_weak = type->has_anger_trigger( mon_trigger::HOSTILE_WEAK );
     const int angers_hostile_near = type->has_anger_trigger( mon_trigger::HOSTILE_CLOSE ) ? 5 : 0;
@@ -321,7 +323,7 @@ void monster::plan()
     auto mood = attitude();
 
     // If we can see the player, move toward them or flee, simpleminded animals are too dumb to follow the player.
-    if( friendly == 0 && sees( g->u ) && !has_flag( MF_PET_WONT_FOLLOW ) ) {
+    if( friendly == 0 && sees( g->u ) && !has_flag( MF_PET_WONT_FOLLOW ) && !waiting ) {
         dist = rate_target( g->u, dist, smart_planning );
         fleeing = fleeing || is_fleeing( g->u );
         target = &g->u;
@@ -358,7 +360,7 @@ void monster::plan()
                 }
             }
         }
-    } else if( friendly != 0 && !docile ) {
+    } else if( friendly != 0 && !docile && !waiting ) {
         for( monster &tmp : g->all_monsters() ) {
             if( tmp.friendly == 0 ) {
                 float rating = rate_target( tmp, dist, smart_planning );
@@ -368,6 +370,11 @@ void monster::plan()
                 }
             }
         }
+    }
+
+    if( waiting ) {
+        set_dest( pos() );
+        return;
     }
 
     if( docile ) {
@@ -739,6 +746,10 @@ void monster::move()
     }
     if( friendly > 0 ) {
         --friendly;
+    }
+    if( has_effect( effect_ai_waiting ) ) {
+        moves = 0;
+        return;
     }
 
     // don't move if a passenger in a moving vehicle

@@ -80,12 +80,12 @@
 
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 
+static const efftype_id effect_ai_controlled( "ai_controlled" );
 static const efftype_id effect_assisted( "assisted" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_boomered( "boomered" );
-static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_corroding( "corroding" );
 static const efftype_id effect_countdown( "countdown" );
 static const efftype_id effect_darkness( "darkness" );
@@ -2358,8 +2358,8 @@ bool mattack::callblobs( monster *z )
             post = nearby_points[ assigned_spot ];
         }
         ( *ally )->set_dest( post );
-        if( !( *ally )->has_effect( effect_controlled ) ) {
-            ( *ally )->add_effect( effect_controlled, 1_turns, num_bp );
+        if( !( *ally )->has_effect( effect_ai_controlled ) ) {
+            ( *ally )->add_effect( effect_ai_controlled, 1_turns, num_bp );
         }
     }
     // This is telepathy, doesn't take any moves.
@@ -2394,8 +2394,8 @@ bool mattack::jackson( monster *z )
             converted = true;
         }
         ( *ally )->set_dest( post );
-        if( !( *ally )->has_effect( effect_controlled ) ) {
-            ( *ally )->add_effect( effect_controlled, 1_turns, num_bp );
+        if( !( *ally )->has_effect( effect_ai_controlled ) ) {
+            ( *ally )->add_effect( effect_ai_controlled, 1_turns, num_bp );
         }
     }
     // Did we convert anybody?

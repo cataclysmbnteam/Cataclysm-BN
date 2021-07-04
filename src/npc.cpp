@@ -74,9 +74,9 @@
 
 static const activity_id ACT_READ( "ACT_READ" );
 
+static const efftype_id effect_ai_waiting( "ai_waiting" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
-static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_high( "high" );
 static const efftype_id effect_infection( "infection" );
@@ -2138,7 +2138,7 @@ void npc::npc_dismount()
         remove_item( weapon );
     }
     mounted_creature->remove_effect( effect_ridden );
-    mounted_creature->add_effect( effect_controlled, 5_turns );
+    mounted_creature->add_effect( effect_ai_waiting, 5_turns );
     mounted_creature = nullptr;
     setpos( *pnt );
     mod_moves( -100 );
