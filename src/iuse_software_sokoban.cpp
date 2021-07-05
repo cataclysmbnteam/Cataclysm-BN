@@ -216,8 +216,7 @@ int sokoban_game::start_game()
     int iMoves = 0;
     iTotalMoves = 0;
 
-    int iDirY = 0;
-    int iDirX = 0;
+    point dir;
 
     using namespace std::placeholders;
     read_from_file( PATH_INFO::sokoban(), std::bind( &sokoban_game::parse_level, this, _1 ) );
@@ -270,8 +269,7 @@ int sokoban_game::start_game()
         wnoutrefresh( w_sokoban );
     } );
 
-    int iPlayerY = 0;
-    int iPlayerX = 0;
+    point pl;
 
     bool bNewLevel = true;
     bool bMoved = false;
@@ -282,8 +280,8 @@ int sokoban_game::start_game()
             iMoves = 0;
             vUndo.clear();
 
-            iPlayerY = mLevelInfo[iCurrentLevel]["PlayerY"];
-            iPlayerX = mLevelInfo[iCurrentLevel]["PlayerX"];
+            pl.y = mLevelInfo[iCurrentLevel]["PlayerY"];
+            pl.x = mLevelInfo[iCurrentLevel]["PlayerX"];
             mLevel = vLevel[iCurrentLevel];
         }
 
@@ -304,22 +302,19 @@ int sokoban_game::start_game()
 
         bMoved = false;
         if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-            iDirX = vec->x;
-            iDirY = vec->y;
+            dir = vec->xy();
             bMoved = true;
         } else if( action == "QUIT" ) {
             return iScore;
         } else if( action == "UNDO" ) {
-            int iPlayerYNew = 0;
-            int iPlayerXNew = 0;
+            point pl_new;
             bool bUndoSkip = false;
             //undo move
             if( !vUndo.empty() ) {
                 //reset last player pos
-                mLevel[iPlayerY][iPlayerX] = mLevel[iPlayerY][iPlayerX] == "+" ? "." : " ";
-                iPlayerYNew = vUndo[vUndo.size() - 1].old.y;
-                iPlayerXNew = vUndo[vUndo.size() - 1].old.x;
-                mLevel[iPlayerYNew][iPlayerXNew] = vUndo[vUndo.size() - 1].sTileOld;
+                mLevel[pl.y][pl.x] = mLevel[pl.y][pl.x] == "+" ? "." : " ";
+                pl_new = vUndo[vUndo.size() - 1].old;
+                mLevel[pl_new.y][pl_new.x] = vUndo[vUndo.size() - 1].sTileOld;
 
                 vUndo.pop_back();
 
@@ -327,22 +322,21 @@ int sokoban_game::start_game()
             }
 
             if( bUndoSkip && !vUndo.empty() ) {
-                iDirY = vUndo[vUndo.size() - 1].old.y;
-                iDirX = vUndo[vUndo.size() - 1].old.x;
+                dir = vUndo[vUndo.size() - 1].old;
 
                 if( vUndo[vUndo.size() - 1].sTileOld == "$" ||
                     vUndo[vUndo.size() - 1].sTileOld == "*" ) {
-                    mLevel[iPlayerY][iPlayerX] = mLevel[iPlayerY][iPlayerX] == "." ? "*" : "$";
-                    mLevel[iPlayerY + iDirY][iPlayerX + iDirX] = mLevel[iPlayerY + iDirY][iPlayerX + iDirX] == "*" ?
-                            "." : " ";
+                    mLevel[pl.y][pl.x] = mLevel[pl.y][pl.x] == "." ? "*" : "$";
+                    point np = pl + dir;
+                    mLevel[np.y][np.x] = mLevel[np.y][np.x] == "*" ?
+                                         "." : " ";
 
                     vUndo.pop_back();
                 }
             }
 
             if( bUndoSkip ) {
-                iPlayerY = iPlayerYNew;
-                iPlayerX = iPlayerXNew;
+                pl = pl_new;
             }
         } else if( action == "RESET" ) {
             //reset level
@@ -365,19 +359,20 @@ int sokoban_game::start_game()
 
         if( bMoved ) {
             //check if we can move the player
-            std::string sMoveTo = mLevel[iPlayerY + iDirY][iPlayerX + iDirX];
+            std::string sMoveTo = mLevel[pl.y + dir.y][pl.x + dir.x];
             bool bMovePlayer = false;
 
             if( sMoveTo != "#" ) {
                 if( sMoveTo == "$" || sMoveTo == "*" ) {
                     //Check if we can move the package
-                    std::string sMovePackTo = mLevel[iPlayerY + iDirY * 2][iPlayerX + iDirX * 2];
+                    point p_pack = pl + dir * 2;
+                    std::string sMovePackTo = mLevel[p_pack.y][p_pack.x];
                     if( sMovePackTo == "." || sMovePackTo == " " ) {
                         //move both
                         bMovePlayer = true;
-                        mLevel[iPlayerY + iDirY * 2][iPlayerX + iDirX * 2] = sMovePackTo == "." ? "*" : "$";
+                        mLevel[p_pack.y][p_pack.x] = sMovePackTo == "." ? "*" : "$";
 
-                        vUndo.push_back( cUndo( iDirY, iDirX, sMoveTo ) );
+                        vUndo.push_back( cUndo( dir, sMoveTo ) );
 
                         iMoves--;
                     }
@@ -387,13 +382,12 @@ int sokoban_game::start_game()
 
                 if( bMovePlayer ) {
                     //move player
-                    vUndo.push_back( cUndo( iPlayerY, iPlayerX, mLevel[iPlayerY][iPlayerX] ) );
+                    vUndo.push_back( cUndo( pl, mLevel[pl.y][pl.x] ) );
 
-                    mLevel[iPlayerY][iPlayerX] = mLevel[iPlayerY][iPlayerX] == "+" ? "." : " ";
-                    mLevel[iPlayerY + iDirY][iPlayerX + iDirX] = sMoveTo == "." || sMoveTo == "*" ? "+" : "@";
+                    mLevel[pl.y][pl.x] = mLevel[pl.y][pl.x] == "+" ? "." : " ";
+                    mLevel[pl.y + dir.y][pl.x + dir.x] = sMoveTo == "." || sMoveTo == "*" ? "+" : "@";
 
-                    iPlayerY += iDirY;
-                    iPlayerX += iDirX;
+                    pl += dir;
 
                     iMoves++;
                     iTotalMoves++;

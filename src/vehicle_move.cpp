@@ -1,6 +1,6 @@
 #include "vehicle.h" // IWYU pragma: associated
 
-#include <assert.h>
+#include <cassert>
 #include <algorithm>
 #include <array>
 #include <cmath>

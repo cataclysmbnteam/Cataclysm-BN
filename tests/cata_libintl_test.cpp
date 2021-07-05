@@ -12,7 +12,6 @@
 #include <functional>
 #include <iostream>
 #include <iterator>
-#include <random>
 #include <vector>
 #include <sstream>
 
@@ -67,6 +66,7 @@ static const std::vector<test_case_data> tests_plural_form_rules = {{
         },
         {
             9, // maximum integer
+            // NOLINTNEXTLINE(cata-text-style): plf expression, not text
             "n == 4294967295 ? 1 : 0",
             "((n==4294967295)?1:0)",
         },
@@ -87,21 +87,25 @@ static const std::vector<test_case_data> tests_plural_form_rules = {{
         },
         {
             13, // Latvian
+            // NOLINTNEXTLINE(cata-text-style): plf expression, not text
             "n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2",
             "((((n%10)==1)&&((n%100)!=11))?0:((n!=0)?1:2))",
         },
         {
             14, // Polish
+            // NOLINTNEXTLINE(cata-text-style): plf expression, not text
             "n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2",
             "((n==1)?0:((((n%10)>=2)&&(((n%10)<=4)&&(((n%100)<10)||((n%100)>=20))))?1:2))",
         },
         {
             15, // Russian, Lithuanian, Ukrainian, Belarusian, Serbian, Croatian
+            // NOLINTNEXTLINE(cata-text-style): plf expression, not text
             "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2",
             "((((n%10)==1)&&((n%100)!=11))?0:((((n%10)>=2)&&(((n%10)<=4)&&(((n%100)<10)||((n%100)>=20))))?1:2))",
         },
         {
             16, // Slovenian
+            // NOLINTNEXTLINE(cata-text-style): plf expression, not text
             "n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3",
             "(((n%100)==1)?0:(((n%100)==2)?1:((((n%100)==3)||((n%100)==4))?2:3)))",
         },
@@ -176,11 +180,13 @@ static const std::vector<test_case_data> tests_plural_form_rules_fail = {{
         },
         {
             13, // integer overflow
+            // NOLINTNEXTLINE(cata-text-style): plf expression, not text
             "n == 4294967296 ? 1 : 0",
             "invalid number '4294967296' at pos 5",
         },
         {
             14, // missing ternary delimiter
+            // NOLINTNEXTLINE(cata-text-style): plf expression, not text
             "n ? 2 3",
             "expected ternary delimiter at pos 6",
         },
@@ -261,6 +267,7 @@ static std::vector<test_case_data> plf_calc_test_cases {{
         },
         {
             3, // Slovenian
+            // NOLINTNEXTLINE(cata-text-style): plf expression, not text
             "(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3)",
             "3012233333"
             "3333333333"
@@ -278,6 +285,7 @@ static std::vector<test_case_data> plf_calc_test_cases {{
         },
         {
             4, // Russian
+            // NOLINTNEXTLINE(cata-text-style): plf expression, not text
             "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2",
             "2011122222"
             "2222222222"
@@ -302,18 +310,18 @@ static void do_plf_calc_test( const test_case_data &test )
 
     PlfNodePtr expr = parse_plural_rules( test.input );
     assert( test.expected.size() >= PLF_PERIOD );
-    std::vector<unsigned long> expected;
+    std::vector<size_t> expected;
     for( char c : test.expected ) {
         expected.push_back( c - '0' );
     }
 
     SECTION( "Produces expected values for small numbers" ) {
         for( size_t i = 0; i < expected.size(); i++ ) {
-            unsigned long x = i;
-            unsigned long exp = expected[i];
+            size_t x = i;
+            size_t exp = expected[i];
 
             CAPTURE( x );
-            unsigned long res = expr->eval( x );
+            size_t res = expr->eval( x );
             CHECK( exp == res );
         }
     };
@@ -322,11 +330,11 @@ static void do_plf_calc_test( const test_case_data &test )
         constexpr size_t CHECK_MAX = 1'234'567;
 
         for( size_t i = expected.size(); i < CHECK_MAX; i++ ) {
-            unsigned long x = i;
-            unsigned long exp = expected[i % PLF_PERIOD];
+            size_t x = i;
+            size_t exp = expected[i % PLF_PERIOD];
 
             CAPTURE( x );
-            unsigned long res = expr->eval( x );
+            size_t res = expr->eval( x );
             if( exp != res ) {
                 REQUIRE( exp == res );
             }
@@ -337,17 +345,17 @@ static void do_plf_calc_test( const test_case_data &test )
         constexpr size_t CHECK_TOTAL = 1'000'000;
 
         for( size_t i = 0; i < CHECK_TOTAL; i++ ) {
-            unsigned long x;
+            size_t x;
             if( i == 0 ) {
-                x = std::numeric_limits<unsigned long>::max();
+                x = std::numeric_limits<size_t>::max();
             } else {
-                static std::uniform_int_distribution<unsigned long> rng_uint_dist;
+                static std::uniform_int_distribution<size_t> rng_uint_dist;
                 x = rng_uint_dist( rng_get_engine() );
             }
-            unsigned long exp = expected[x % PLF_PERIOD];
+            size_t exp = expected[x % PLF_PERIOD];
 
             CAPTURE( x );
-            unsigned long res = expr->eval( x );
+            size_t res = expr->eval( x );
             if( exp != res ) {
                 REQUIRE( exp == res );
             }
@@ -384,22 +392,31 @@ TEST_CASE( "gnu_transifex_rules_equal", "[libintl][i18n][.]" )
     static std::vector<rules> rules_to_compare = {{
             {
                 0, // Polish
+                // NOLINTNEXTLINE(cata-text-style): plf expression, not text
                 "(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)",
+                // NOLINTNEXTLINE(cata-text-style): plf expression, not text
                 "(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1"
+                // NOLINTNEXTLINE(cata-text-style): plf expression, not text
                 "&& (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3)"
             },
             {
                 1, // Russian
+                // NOLINTNEXTLINE(cata-text-style): plf expression, not text
                 "(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)",
+                // NOLINTNEXTLINE(cata-text-style): plf expression, not text
                 "(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 :"
                 " n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3)"
             },
             {
                 2, // Ukrainian
+                // NOLINTNEXTLINE(cata-text-style): plf expression, not text
                 "(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)",
                 "(n % 1 == 0 && n % 10 == 1 && n % 100 != "
+                // NOLINTNEXTLINE(cata-text-style): plf expression, not text
                 "11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % "
+                // NOLINTNEXTLINE(cata-text-style): plf expression, not text
                 "100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
+                // NOLINTNEXTLINE(cata-text-style): plf expression, not text
                 "(n % 100 >=11 && n % 100 <=14 )) ? 2: 3)"
             }
         }
@@ -411,13 +428,13 @@ TEST_CASE( "gnu_transifex_rules_equal", "[libintl][i18n][.]" )
         PlfNodePtr expr_tfx = parse_plural_rules( it.tfx );
 
         for( size_t i = 0; i < CHECK_TOTAL; i++ ) {
-            static std::uniform_int_distribution<unsigned long> rng_uint_dist;
-            unsigned long x = rng_uint_dist( rng_get_engine() );
+            static std::uniform_int_distribution<size_t> rng_uint_dist;
+            size_t x = rng_uint_dist( rng_get_engine() );
 
             CAPTURE( x );
 
-            unsigned long res_gnu = expr_gnu->eval( x );
-            unsigned long res_tfx = expr_tfx->eval( x );
+            size_t res_gnu = expr_gnu->eval( x );
+            size_t res_tfx = expr_tfx->eval( x );
             if( res_gnu != res_tfx ) {
                 REQUIRE( res_gnu == res_tfx );
             }
@@ -634,9 +651,7 @@ TEST_CASE( "bench_get_translated_string", "[libintl][i18n][benchmark][.]" )
     }
     trans_library lib = trans_library::create( std::move( list ) );
 
-    std::random_device rd;
-    std::mt19937 g( rd() );
-    std::shuffle( originals.begin(), originals.end(), g );
+    std::shuffle( originals.begin(), originals.end(), rng_get_engine() );
 
     cata_printf( "N strings: %d\n", originals.size() );
     BENCHMARK( "get_all_strings" ) {

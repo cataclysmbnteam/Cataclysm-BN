@@ -7,11 +7,6 @@
 
 #include "enum_traits.h"
 
-namespace io
-{
-template<typename E> std::string enum_to_string( E );
-}
-
 template<typename E>
 class enum_bitset
 {

@@ -5612,7 +5612,7 @@ void iexamine::workbench( player &, const tripoint & )
     // Dummied out and only used for function equality check
 }
 
-void iexamine::dimensional_portal( player &p, const tripoint &pos )
+void iexamine::dimensional_portal( player &p, const tripoint &examp )
 {
     uilist menu;
     menu.text = _( "What to do with the portal:" );
@@ -5637,14 +5637,14 @@ void iexamine::dimensional_portal( player &p, const tripoint &pos )
 
             add_msg( m_good, _( "You throw the armed %s into the portal!" ), the_nuke->tname() );
             the_nuke.remove_item();
-            g->m.translate_radius( t_dimensional_portal, t_thconc_floor, 5, pos, true );
+            g->m.translate_radius( t_dimensional_portal, t_thconc_floor, 5, examp, true );
             g->win();
             break;
         }
 
         case 1:
             p.set_all_parts_hp_cur( 0 );
-            g->m.translate_radius( t_dimensional_portal, t_thconc_floor, 5, pos, true );
+            g->m.translate_radius( t_dimensional_portal, t_thconc_floor, 5, examp, true );
             g->win();
             break;
         default:
@@ -5652,9 +5652,9 @@ void iexamine::dimensional_portal( player &p, const tripoint &pos )
     }
 }
 
-void iexamine::check_power( player &, const tripoint &pos )
+void iexamine::check_power( player &, const tripoint &examp )
 {
-    tripoint abspos = g->m.getabs( pos );
+    tripoint abspos = g->m.getabs( examp );
     battery_tile *battery = active_tiles::furn_at<battery_tile>( abspos );
     if( battery != nullptr ) {
         add_msg( m_info, _( "This battery stores %d kJ of electric power." ), battery->get_resource() );

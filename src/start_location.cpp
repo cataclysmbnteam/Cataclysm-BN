@@ -262,12 +262,11 @@ static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
 
     // If not checked yet and either can be moved into, can be bashed down or opened,
     // add it on the top of the stack.
-    const auto maybe_add = [&]( const int x, const int y, const tripoint & from ) {
-        if( checked[x][y] >= attempt ) {
+    const auto maybe_add = [&]( const tripoint & pt, const tripoint & from ) {
+        if( checked[pt.x][pt.y] >= attempt ) {
             return;
         }
 
-        const tripoint pt( x, y, p.z );
         if( m.passable( pt ) ||
             m.bash_resistance( pt ) <= bash_str ||
             m.open_door( pt, !m.is_outside( from ), true ) ) {
@@ -288,14 +287,11 @@ static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
             return INT_MAX;
         }
 
-        maybe_add( cur.x - 1, cur.y, cur );
-        maybe_add( cur.x, cur.y - 1, cur );
-        maybe_add( cur.x + 1, cur.y, cur );
-        maybe_add( cur.x, cur.y + 1, cur );
-        maybe_add( cur.x - 1, cur.y - 1, cur );
-        maybe_add( cur.x + 1, cur.y - 1, cur );
-        maybe_add( cur.x - 1, cur.y + 1, cur );
-        maybe_add( cur.x + 1, cur.y + 1, cur );
+        for( const tripoint &delta : eight_horizontal_neighbors ) {
+            tripoint pt = cur + delta;
+            pt.z = p.z;
+            maybe_add( pt, cur );
+        }
     }
 
     return area;

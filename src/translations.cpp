@@ -42,7 +42,7 @@ const char *detail::_translate_internal( const char *msg )
     return msg[0] == '\0' ? msg : gettext( msg );
 }
 
-const char *vgettext( const char *msgid, const char *msgid_plural, unsigned long n )
+const char *vgettext( const char *msgid, const char *msgid_plural, size_t n )
 {
     if( gettext_use_modular ) {
         return l10n_data::get_library().get_pl( msgid, msgid_plural, n );
@@ -78,7 +78,7 @@ const char *pgettext( const char *context, const char *msgid )
 }
 
 const char *vpgettext( const char *const context, const char *const msgid,
-                       const char *const msgid_plural, const unsigned long long n )
+                       const char *const msgid_plural, const size_t n )
 {
     if( gettext_use_modular ) {
         return l10n_data::get_library().get_ctx_pl( context, msgid, msgid_plural, n );

@@ -31,7 +31,7 @@ void wishmonster( const cata::optional<tripoint> &p );
 void wishmutate( player *p );
 void wishskill( player *p );
 void mutation_wish();
-void benchmark( const int max_difference, bench_kind kind );
+void benchmark( int max_difference, bench_kind kind );
 
 void debug();
 

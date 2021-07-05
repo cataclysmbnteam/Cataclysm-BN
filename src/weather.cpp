@@ -1080,6 +1080,6 @@ bool is_in_sunlight( const map &m, const tripoint &p, weather_type weather )
              ( weather == WEATHER_CLEAR || weather == WEATHER_SUNNY ) );
 }
 
-}
+} // namespace weather
 
 ///@}

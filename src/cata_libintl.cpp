@@ -54,7 +54,7 @@ namespace cata_libintl
 {
 struct PlfToken {
     PlfOp kind;
-    unsigned long num;
+    size_t num;
     size_t start;
     size_t len;
 };
@@ -112,7 +112,7 @@ struct PlfTStream {
                     c = ( *s )[pos];
                 }
                 try {
-                    unsigned long ul = std::stoul( tok );
+                    size_t ul = std::stoul( tok );
                     if( ul > std::numeric_limits<uint32_t>::max() ) {
                         throw std::out_of_range( "stoul" );
                     }
@@ -293,11 +293,17 @@ ParseRet plf_get_value( const PlfTStream &ts )
     }
 }
 
-unsigned long PlfNode::eval( unsigned long n ) const
+size_t PlfNode::eval( size_t n ) const
 {
     switch( op ) {
-        case PlfOp::Mod:
-            return a->eval( n ) % b->eval( n );
+        case PlfOp::Mod: {
+            size_t right = b->eval( n );
+            if( right == 0 ) {
+                std::string e = string_format( "DBZ in PlfNode::eval( %d ), node='%s'", n, debug_dump() );
+                throw std::runtime_error( e );
+            }
+            return a->eval( n ) % right;
+        }
         case PlfOp::Eq:
             return a->eval( n ) == b->eval( n );
         case PlfOp::NotEq:
@@ -510,7 +516,7 @@ void trans_catalogue::check_string_plurals()
         // Count null bytes - each plural form is a null-terminated string (including last one)
         u32 offs_tr = offs_trans_table + i * MO_STRING_DESCR_SIZE;
         string_descr info_tr = get_string_descr_unsafe( offs_tr );
-        unsigned long plural_forms = 0;
+        size_t plural_forms = 0;
         for( u32 j = info_tr.offset; j <= info_tr.offset + info_tr.length; j++ ) {
             if( get_u8_unsafe( j ) == 0 ) {
                 plural_forms += 1;
@@ -581,7 +587,7 @@ void trans_catalogue::check_encoding( const meta_headers &headers )
 trans_catalogue::catalogue_plurals_info trans_catalogue::parse_plf_header(
     const meta_headers &headers )
 {
-    constexpr unsigned long MAX_PLURAL_FORMS = 8;
+    constexpr size_t MAX_PLURAL_FORMS = 8;
 
     // HACK: Same as with encoding headers, we expect this header to be
     //       automatically generated. This "parser" here succeeds with
@@ -683,18 +689,18 @@ const char *trans_catalogue::get_nth_translation( u32 n ) const
     return offs_to_cstr( r.offset );
 }
 
-const char *trans_catalogue::get_nth_pl_translation( u32 n, unsigned long num ) const
+const char *trans_catalogue::get_nth_pl_translation( u32 n, size_t num ) const
 {
     constexpr u8 PLF_SEPARATOR = 0;
     u32 descr_offs = offs_trans_table + n * MO_STRING_DESCR_SIZE;
     string_descr r = get_string_descr_unsafe( descr_offs );
 
-    unsigned long plf = plurals.expr->eval( num );
+    size_t plf = plurals.expr->eval( num );
 
     if( plf == 0 || plf >= plurals.num ) {
         return offs_to_cstr( r.offset );
     }
-    unsigned long curr_plf = 0;
+    size_t curr_plf = 0;
     for( u32 offs = r.offset; offs <= r.offset + r.length; offs++ ) {
         if( get_u8_unsafe( offs ) == PLF_SEPARATOR ) {
             curr_plf += 1;
@@ -733,7 +739,7 @@ void trans_library::build_string_table()
 {
     assert( strings.empty() );
 
-    for( u32 i_cat = 0; i_cat < catalogues.size(); i_cat++ ) {
+    for( size_t i_cat = 0; i_cat < catalogues.size(); i_cat++ ) {
         const trans_catalogue &cat = catalogues[i_cat];
         u32 num = cat.get_num_strings();
         // 0th entry is the metadata, we skip it
@@ -747,7 +753,7 @@ void trans_library::build_string_table()
                 return strcmp( a, b ) < 0;
             } );
 
-            library_string_descr desc = { i_cat, i };
+            library_string_descr desc = { static_cast<u32>( i_cat ), i };
             if( it == strings.end() ) {
                 // Not found, or all elements are greater
                 strings.push_back( desc );
@@ -778,7 +784,7 @@ const char *trans_library::lookup_string( const char *id ) const
     return catalogues[it->catalogue].get_nth_translation( it->entry );
 }
 
-const char *trans_library::lookup_pl_string( const char *id, unsigned long n ) const
+const char *trans_library::lookup_pl_string( const char *id, size_t n ) const
 {
     auto it = find_entry( id );
     if( it == strings.end() ) {
@@ -793,7 +799,7 @@ const char *trans_library::get( const char *msgid ) const
     return ret ? ret : msgid;
 }
 
-const char *trans_library::get_pl( const char *msgid, const char *msgid_pl, unsigned long n ) const
+const char *trans_library::get_pl( const char *msgid, const char *msgid_pl, size_t n ) const
 {
     const char *ret = lookup_pl_string( msgid, n );
     return ret ? ret : ( n == 1  ? msgid : msgid_pl );
@@ -811,7 +817,7 @@ const char *trans_library::get_ctx( const char *msgctxt, const char *msgid ) con
 }
 
 const char *trans_library::get_ctx_pl( const char *msgctxt, const char *msgid, const char *msgid_pl,
-                                       unsigned long n ) const
+                                       size_t n ) const
 {
     std::string buf;
     buf.reserve( strlen( msgctxt ) + 1 + strlen( msgid ) );

@@ -1,6 +1,6 @@
 #include "item_contents.h"
 
-#include <limits.h>
+#include <limits>
 #include <algorithm>
 #include <memory>
 

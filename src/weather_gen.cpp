@@ -18,7 +18,7 @@
 
 namespace
 {
-constexpr double tau = 2 * M_PI;
+constexpr double tau = M_PI * 2;
 constexpr double coldest_hour = 5;
 // Out of 24 hours
 constexpr double daily_magnitude_K = 5;

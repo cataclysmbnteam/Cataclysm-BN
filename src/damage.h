@@ -52,7 +52,7 @@ struct damage_instance {
     damage_instance();
     static damage_instance physical( float bash, float cut, float stab, float arpen = 0.0f );
     damage_instance( damage_type dt, float amt, float arpen = 0.0f,
-                     float armor_mult = 1.0f, float dmg_mult = 1.0f );
+                     float arpen_mult = 1.0f, float dmg_mult = 1.0f );
     void mult_damage( double multiplier, bool pre_armor = false );
     float type_damage( damage_type dt ) const;
     float total_damage() const;
@@ -73,9 +73,9 @@ struct damage_instance {
      */
     /*@{*/
     void add_damage( damage_type dt, float amt, float arpen = 0.0f,
-                     float armor_mult = 1.0f, float dmg_mult = 1.0f );
+                     float arpen_mult = 1.0f, float dmg_mult = 1.0f );
     void add( const damage_instance &added_di );
-    void add( const damage_unit &added_du );
+    void add( const damage_unit &new_du );
     /*@}*/
 
     void deserialize( JsonIn & );

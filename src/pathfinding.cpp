@@ -31,9 +31,9 @@ enum astar_state {
 };
 
 // Turns two indexed to a 2D array into an index to equivalent 1D array
-constexpr int flat_index( const int x, const int y )
+constexpr int flat_index( const tripoint &p )
 {
-    return ( x * MAPSIZE_Y ) + y;
+    return ( p.x * MAPSIZE_Y ) + p.y;
 }
 
 // Flattened 2D array representing a single z-level worth of pathfinding data
@@ -45,9 +45,10 @@ struct path_data_layer {
     std::array< tripoint, MAPSIZE_X *MAPSIZE_Y > parent;
 
     void init( const point &min, const point &max ) {
-        for( int x = min.x; x <= max.x; x++ ) {
-            for( int y = min.y; y <= max.y; y++ ) {
-                const int ind = flat_index( x, y );
+        tripoint p;
+        for( p.x = min.x; p.x <= max.x; p.x++ ) {
+            for( p.y = min.y; p.y <= max.y; p.y++ ) {
+                const int ind = flat_index( p );
                 state[ind] = ASL_NONE; // Mark as unvisited
             }
         }
@@ -88,7 +89,7 @@ struct pathfinder {
 
     void add_point( const int gscore, const int score, const tripoint &from, const tripoint &to ) {
         auto &layer = get_layer( to.z );
-        const int index = flat_index( to.x, to.y );
+        const int index = flat_index( to );
         if( ( layer.state[index] == ASL_OPEN && gscore >= layer.gscore[index] ) ||
             layer.state[index] == ASL_CLOSED ) {
             return;
@@ -103,13 +104,13 @@ struct pathfinder {
 
     void close_point( const tripoint &p ) {
         auto &layer = get_layer( p.z );
-        const int index = flat_index( p.x, p.y );
+        const int index = flat_index( p );
         layer.state[index] = ASL_CLOSED;
     }
 
     void unclose_point( const tripoint &p ) {
         auto &layer = get_layer( p.z );
-        const int index = flat_index( p.x, p.y );
+        const int index = flat_index( p );
         layer.state[index] = ASL_NONE;
     }
 };
@@ -257,7 +258,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
     do {
         auto cur = pf.get_next();
 
-        const int parent_index = flat_index( cur.x, cur.y );
+        const int parent_index = flat_index( cur );
         auto &layer = pf.get_layer( cur.z );
         auto &cur_state = layer.state[parent_index];
         if( cur_state == ASL_CLOSED ) {
@@ -286,7 +287,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         constexpr std::array<int, 8> y_offset{{  0,  0, -1,  1, -1,  1, -1, 1 }};
         for( size_t i = 0; i < 8; i++ ) {
             const tripoint p( cur.x + x_offset[i], cur.y + y_offset[i], cur.z );
-            const int index = flat_index( p.x, p.y );
+            const int index = flat_index( p );
 
             // TODO: Remove this and instead have sentinels at the edges
             if( p.x < minx || p.x >= maxx || p.y < miny || p.y >= maxy ) {
@@ -473,7 +474,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         tripoint cur = t;
         // Just to limit max distance, in case something weird happens
         for( int fdist = max_length; fdist != 0; fdist-- ) {
-            const int cur_index = flat_index( cur.x, cur.y );
+            const int cur_index = flat_index( cur );
             const auto &layer = pf.get_layer( cur.z );
             const tripoint &par = layer.parent[cur_index];
             if( cur == f ) {

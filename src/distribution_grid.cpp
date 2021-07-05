@@ -168,6 +168,7 @@ distribution_grid &distribution_grid_tracker::make_distribution_grid_at( const t
     }
     const std::set<tripoint> overmap_positions = overmap_buffer.electric_grid_at( sm_to_omt_copy(
                 sm_pos ) );
+    assert( !overmap_positions.empty() );
     std::vector<tripoint> submap_positions;
     for( const tripoint &omp : overmap_positions ) {
         submap_positions.emplace_back( omt_to_sm_copy( omp ) + point_zero );
@@ -181,7 +182,10 @@ distribution_grid &distribution_grid_tracker::make_distribution_grid_at( const t
         parent_distribution_grids[smp] = dist_grid;
     }
 
-    return *dist_grid;
+    // This ugly expression + lint suppresion are needed to convince clang-tidy
+    // that we are, in fact, NOT leaking memory.
+    return *parent_distribution_grids[submap_positions.front()];
+    // NOLINTNEXTLINE(clang-analyzer-cplusplus.NewDeleteLeaks)
 }
 
 // TODO: Ugly, there should be a cleaner way

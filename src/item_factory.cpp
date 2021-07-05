@@ -1462,9 +1462,9 @@ const itype *Item_factory::find_template( const itype_id &id ) const
     return def;
 }
 
-Item_spawn_data *Item_factory::get_group( const item_group_id &group_tag )
+Item_spawn_data *Item_factory::get_group( const item_group_id &item_group_id )
 {
-    GroupMap::iterator group_iter = m_template_groups.find( group_tag );
+    GroupMap::iterator group_iter = m_template_groups.find( item_group_id );
     if( group_iter != m_template_groups.end() ) {
         return group_iter->second.get();
     }

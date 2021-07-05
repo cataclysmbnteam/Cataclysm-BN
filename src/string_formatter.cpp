@@ -161,7 +161,7 @@ void string_formatter::do_formating( const char *value )
 {
     output.append( fmt::sprintf( current_format, value ) );
 }
-} // namespace
+} // namespace cata
 
 void cata_print_stdout( const std::string &s )
 {

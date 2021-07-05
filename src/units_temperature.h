@@ -82,6 +82,7 @@ inline constexpr quantity<value_type, temperature_in_millidegree_celsius_tag> fr
 {
     // Explicit casts to silence warnings about lossy conversions
     constexpr value_type max_temperature_fahrenheit = static_cast<value_type>( celsius_to_fahrenheit(
+                // NOLINTNEXTLINE(bugprone-integer-division)
                 static_cast<double>( std::numeric_limits<value_type>::max() / 1000 ) ) );
     const value_type temperature = v > max_temperature_fahrenheit ? max_temperature_fahrenheit : v;
     return from_millidegree_celsius<value_type>(

@@ -477,4 +477,4 @@ double hit_chance( const dispersion_sources &dispersion, double range, double ta
     return normal_cdf( needed_dispersion, dispersion.avg(), dispersion.avg() / 2 );
 }
 
-}
+} // namespace ranged

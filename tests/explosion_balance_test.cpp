@@ -183,7 +183,7 @@ TEST_CASE( "shrapnel behind wall", "[grenade],[explosion],[balance]" )
 TEST_CASE( "shrapnel at huge range", "[grenade],[explosion]" )
 {
     clear_map_and_put_player_underground();
-    tripoint origin( tripoint_zero );
+    tripoint origin;
 
     item grenade( "debug_shrapnel_blast" );
     REQUIRE( grenade.get_use( "explosion" ) != nullptr );

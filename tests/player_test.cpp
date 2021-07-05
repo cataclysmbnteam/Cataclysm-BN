@@ -185,6 +185,10 @@ static void guarantee_neutral_weather( const player &p )
     REQUIRE( !const_cast<player &>( p ).in_climate_control() );
     REQUIRE( !p.can_use_floor_warmth() );
     REQUIRE( get_heat_radiation( p.pos(), true ) == 0 );
+    // Clang-tidy gives a false positive here as it thinks we're checking
+    // the array for emptiness.
+    // What actually happens is we compare to zero-initialized non-empty array.
+    // NOLINTNEXTLINE(readability-container-size-empty)
     REQUIRE( p.body_wetness == decltype( p.body_wetness )() );
 }
 

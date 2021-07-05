@@ -765,11 +765,9 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
     };
     pf::path route;
     if( ptype.only_road ) {
-        route = pf::find_path_4dir( start, finish, 2 * OX,
-                                    2 * OY, estimate );
+        route = pf::find_path_4dir( start, finish, point( OX, OY ) * 2, estimate );
     } else {
-        route = pf::find_path_8dir( start, finish, 2 * OX,
-                                    2 * OY, estimate );
+        route = pf::find_path_8dir( start, finish, point( OX, OY ) * 2, estimate );
     }
     for( auto node : route.nodes ) {
         tripoint convert_result = base + tripoint( node.pos, 0 );
@@ -843,8 +841,7 @@ bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest,
         }
     };
 
-    const auto path = pf::find_path_4dir( start, finish, 2 * OX,
-                                          2 * OY, estimate, reporter );
+    const auto path = pf::find_path_4dir( start, finish, point( OX, OY ) * 2, estimate, reporter );
 
     for( const auto &node : path.nodes ) {
         reveal( base + node.pos, params.radius );

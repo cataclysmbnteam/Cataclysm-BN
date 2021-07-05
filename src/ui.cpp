@@ -218,7 +218,7 @@ void uilist::filterlist()
                 if( !lcmatch( entries[i].txt, filter ) ) {
                     continue;
                 }
-            } else if( entries[i].txt.find( filter ) == entries[i].txt.npos ) {
+            } else if( entries[i].txt.find( filter ) == std::string::npos ) {
                 continue;
             }
         }

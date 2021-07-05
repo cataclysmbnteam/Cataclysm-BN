@@ -854,7 +854,7 @@ int inventory_column::reassign_custom_invlets( const player &p, int min_invlet, 
     return cur_invlet;
 }
 
-void inventory_column::draw( const catacurses::window &win, size_t x, size_t y ) const
+void inventory_column::draw( const catacurses::window &win, point pos ) const
 {
     if( !visible() ) {
         return;
@@ -877,14 +877,14 @@ void inventory_column::draw( const catacurses::window &win, size_t x, size_t y )
             continue;
         }
 
-        int x1 = x + get_entry_indent( entry );
-        int x2 = x + std::max( static_cast<int>( reserved_width - get_cells_width() ), 0 );
-        int yy = y + line;
+        int x1 = pos.x + get_entry_indent( entry );
+        int x2 = pos.x + std::max( static_cast<int>( reserved_width - get_cells_width() ), 0 );
+        int yy = pos.y + line;
 
         const bool selected = active && is_selected( entry );
 
         if( selected && visible_cells() > 1 ) {
-            for( int hx = x1, hx_max = x + get_width(); hx < hx_max; ++hx ) {
+            for( int hx = x1, hx_max = pos.x + get_width(); hx < hx_max; ++hx ) {
                 mvwputch( win, point( hx, yy ), h_white, ' ' );
             }
         }
@@ -897,7 +897,7 @@ void inventory_column::draw( const catacurses::window &win, size_t x, size_t y )
             const size_t denial_width = std::min( max_denial_width, static_cast<size_t>( utf8_width( denial,
                                                   true ) ) );
 
-            trim_and_print( win, point( x + get_width() - denial_width, yy ), denial_width, c_red, denial );
+            trim_and_print( win, point( pos.x + get_width() - denial_width, yy ), denial_width, c_red, denial );
         }
 
         const size_t count = denial.empty() ? cells.size() : 1;
@@ -944,9 +944,9 @@ void inventory_column::draw( const catacurses::window &win, size_t x, size_t y )
         }
 
         if( entry.is_item() ) {
-            int xx = x;
+            int xx = pos.x;
             if( entry.get_invlet() != '\0' ) {
-                mvwputch( win, point( x, yy ), entry.get_invlet_color(), entry.get_invlet() );
+                mvwputch( win, point( pos.x, yy ), entry.get_invlet_color(), entry.get_invlet() );
             }
             xx += 2;
             if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
@@ -967,7 +967,7 @@ void inventory_column::draw( const catacurses::window &win, size_t x, size_t y )
     }
 
     if( pages_count() > 1 ) {
-        mvwprintw( win, point( x, y + height - 1 ), _( "Page %d/%d" ), page_index() + 1, pages_count() );
+        mvwprintw( win, pos + point( 0, height - 1 ), _( "Page %d/%d" ), page_index() + 1, pages_count() );
     }
 }
 
@@ -1612,7 +1612,7 @@ void inventory_selector::draw_columns( const catacurses::window &w ) const
         }
 
         if( !is_active_column( *elem ) ) {
-            elem->draw( w, x, y );
+            elem->draw( w, point( x, y ) );
         } else {
             active_x = x;
         }
@@ -1620,7 +1620,7 @@ void inventory_selector::draw_columns( const catacurses::window &w ) const
         x += elem->get_width() + gap;
     }
 
-    get_active_column().draw( w, active_x, y );
+    get_active_column().draw( w, point( active_x, y ) );
     if( empty() ) {
         center_print( w, getmaxy( w ) / 2, c_dark_gray, _( "Your inventory is empty." ) );
     }

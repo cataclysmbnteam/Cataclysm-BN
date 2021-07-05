@@ -847,6 +847,7 @@ class iterator_buffer final : public Traits, public buffer<T>
         T data_[buffer_size];
 
     protected:
+        // NOLINTNEXTLINE(modernize-use-override)
         void grow( size_t ) final FMT_OVERRIDE {
             if( this->size() == buffer_size ) {
                 flush();
@@ -875,6 +876,7 @@ class iterator_buffer final : public Traits, public buffer<T>
 template <typename T> class iterator_buffer<T *, T> final : public buffer<T>
 {
     protected:
+        // NOLINTNEXTLINE(modernize-use-override)
         void grow( size_t ) final FMT_OVERRIDE {}
 
     public:
@@ -896,6 +898,7 @@ class iterator_buffer<std::back_insert_iterator<Container>,
         Container &container_;
 
     protected:
+        // NOLINTNEXTLINE(modernize-use-override)
         void grow( size_t capacity ) final FMT_OVERRIDE {
             container_.resize( capacity );
             this->set( &container_[0], capacity );
@@ -920,6 +923,7 @@ template <typename T = char> class counting_buffer final : public buffer<T>
         size_t count_ = 0;
 
     protected:
+        // NOLINTNEXTLINE(modernize-use-override)
         void grow( size_t ) final FMT_OVERRIDE {
             if( this->size() != buffer_size ) {
                 return;
@@ -1255,9 +1259,11 @@ template <typename Context> struct arg_mapper {
     FMT_CONSTEXPR unsigned map( unsigned val ) {
         return val;
     }
+    // NOLINTNEXTLINE(cata-no-long)
     FMT_CONSTEXPR long_type map( long val ) {
         return val;
     }
+    // NOLINTNEXTLINE(cata-no-long)
     FMT_CONSTEXPR ulong_type map( unsigned long val ) {
         return val;
     }
@@ -1335,10 +1341,12 @@ template <typename Context> struct arg_mapper {
         static_assert( std::is_same<char_type, char>::value, "invalid string type" );
         return reinterpret_cast<const char *>( val );
     }
+    // NOLINTNEXTLINE(readability-non-const-parameter)
     FMT_CONSTEXPR const char *map( signed char *val ) {
         const auto *const_val = val;
         return map( const_val );
     }
+    // NOLINTNEXTLINE(readability-non-const-parameter)
     FMT_CONSTEXPR const char *map( unsigned char *val ) {
         const auto *const_val = val;
         return map( const_val );
@@ -1386,6 +1394,7 @@ template <typename Context> struct arg_mapper {
         return map( val.value );
     }
 
+    // NOLINTNEXTLINE(cert-dcl50-cpp)
     unformattable map( ... ) {
         return {};
     }
@@ -1413,10 +1422,12 @@ template <typename Context> class basic_format_arg
         detail::type type_;
 
         template <typename ContextType, typename T>
+        // NOLINTNEXTLINE(readability-redundant-declaration)
         friend FMT_CONSTEXPR basic_format_arg<ContextType> detail::make_arg(
             const T &value );
 
         template <typename Visitor, typename Ctx>
+        // NOLINTNEXTLINE(readability-redundant-declaration)
         friend FMT_CONSTEXPR auto visit_format_arg( Visitor &&vis,
                 const basic_format_arg<Ctx> &arg )
         -> decltype( vis( 0 ) );

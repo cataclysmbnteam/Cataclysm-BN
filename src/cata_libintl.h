@@ -61,13 +61,13 @@ using PlfNodePtr = std::unique_ptr<PlfNode>;
 
 /** Plural forms AST node */
 struct PlfNode {
-    unsigned long literal_val;
+    size_t literal_val;
     PlfNodePtr a;
     PlfNodePtr b;
     PlfNodePtr c;
     PlfOp op = PlfOp::NumOps;
 
-    unsigned long eval( unsigned long n ) const;
+    size_t eval( size_t n ) const;
     std::string debug_dump() const;
 };
 
@@ -89,7 +89,7 @@ class trans_catalogue
             u32 offset;
         };
         struct catalogue_plurals_info {
-            unsigned long num = 0;
+            size_t num = 0;
             PlfNodePtr expr = nullptr;
         };
         using meta_headers = std::vector<std::string>;
@@ -167,7 +167,7 @@ class trans_catalogue
         /** Get singular translated string of given entry. */
         const char *get_nth_translation( u32 n ) const;
         /** Get correct plural translated string of given entry for given number. */
-        const char *get_nth_pl_translation( u32 n, unsigned long num ) const;
+        const char *get_nth_pl_translation( u32 n, size_t num ) const;
         /** Get original msgid (with msgctxt) of given entry. */
         const char *get_nth_orig_string( u32 n ) const;
 };
@@ -194,7 +194,7 @@ class trans_library
         void build_string_table();
         std::vector<library_string_descr>::const_iterator find_entry( const char *id ) const;
         const char *lookup_string( const char *id ) const;
-        const char *lookup_pl_string( const char *id, unsigned long n ) const;
+        const char *lookup_pl_string( const char *id, size_t n ) const;
 
     public:
         /**
@@ -218,13 +218,13 @@ class trans_library
          * @{
          */
         const char *get( const char *msgid ) const;
-        const char *get_pl( const char *msgid, const char *msgid_pl, unsigned long n ) const;
+        const char *get_pl( const char *msgid, const char *msgid_pl, size_t n ) const;
         const char *get_ctx( const char *msgctxt, const char *msgid ) const;
         const char *get_ctx_pl( const char *msgctxt, const char *msgid, const char *msgid_pl,
-                                unsigned long n ) const;
+                                size_t n ) const;
         /** @} */
 };
-} // cata_libintl
+} // namespace cata_libintl
 
 #endif // LOCALIZE
 #endif // CATA_SRC_CATA_LIBINTL_H

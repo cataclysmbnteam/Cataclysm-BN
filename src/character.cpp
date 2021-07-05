@@ -1544,6 +1544,7 @@ bool Character::move_effects( bool attacking )
         }
     }
     if( has_effect( effect_grabbed ) && !attacking && !try_remove_grab( *this ) ) {
+        // NOLINTNEXTLINE(readability-simplify-boolean-expr)
         return false;
     }
     return true;
@@ -8947,7 +8948,7 @@ int Character::warmth( const bodypart_id &bp ) const
         if( i.covers( bp->token ) ) {
             warmth = i.get_warmth();
             // Warmth reduced linearly with wetness
-            const auto materials = i.made_of();
+            const auto &materials = i.made_of();
             float max_wet_resistance = std::accumulate( materials.begin(), materials.end(), 0.0f,
             []( float best, const material_id & mat ) {
                 return std::max( best, mat->warmth_when_wet() );

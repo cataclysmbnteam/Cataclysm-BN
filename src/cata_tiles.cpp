@@ -302,8 +302,8 @@ tile_type &tileset::create_tile_type( const std::string &id, tile_type &&new_til
     }
     // tile doesn't have _season suffix, add it as "default" into all four seasons
     if( !has_season_suffix ) {
-        for( int i = 0; i < 4; i++ ) {
-            tile_ids_by_season[i][id].default_tile = &inserted_tile;
+        for( auto &tile_ids_for_season : tile_ids_by_season ) {
+            tile_ids_for_season[id].default_tile = &inserted_tile;
         }
     }
 
@@ -579,9 +579,13 @@ void tileset_loader::load_tileset( const std::string &img_path )
         assert( surf_to_use );
 
         if( !create_textures_from_tile_atlas( surf_to_use, point( sub_rect.x, sub_rect.y ) ) ) {
-            // May happen on some old systems - there's nothing we can do about it
+            // May happen on some systems - there's nothing we can do about it
             throw std::runtime_error(
-                _( "Video error. Try another tileset or a different renderer." )
+                _(
+                    "Failed to create texture atlas, see debug.log for details.  "
+                    "This commonly happens if the device is low on memory.  "
+                    "Try rebooting device, or using another tileset or a different renderer."
+                )
             );
         }
     }
@@ -1591,7 +1595,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 point sm_p = point( sm_x, sm_y );
                 tripoint sm_tp = tripoint( sm_x, sm_y, center.z );
                 point p1 = player_to_screen( g->m.getlocal( sm_to_ms_copy( sm_p ) ) );
-                point p3 = player_to_screen( g->m.getlocal( sm_to_ms_copy( sm_p + point( 1, 1 ) ) ) );
+                point p3 = player_to_screen( g->m.getlocal( sm_to_ms_copy( sm_p + point_south_east ) ) );
                 p3 -= point( THICC, THICC ); // Don't draw over other lines
 
                 // Leave a small gap to indicate omt boundaries

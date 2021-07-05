@@ -258,15 +258,15 @@ int minesweeper_game::start_game()
         wnoutrefresh( w_minesweeper );
     } );
 
-    std::function<void ( int, int )> rec_reveal = [&]( const int y, const int x ) {
-        if( mLevelReveal[y][x] == unknown || mLevelReveal[y][x] == flag ) {
-            mLevelReveal[y][x] = seen;
+    std::function<void ( const point & )> rec_reveal = [&]( const point & pt ) {
+        if( mLevelReveal[pt.y][pt.x] == unknown || mLevelReveal[pt.y][pt.x] == flag ) {
+            mLevelReveal[pt.y][pt.x] = seen;
 
-            if( mLevel[y][x] == 0 ) {
-                for( const point &p : closest_points_first( {x, y}, 1 ) ) {
+            if( mLevel[pt.y][pt.x] == 0 ) {
+                for( const point &p : closest_points_first( pt, 1 ) ) {
                     if( p.x >= 0 && p.x < level.x && p.y >= 0 && p.y < level.y ) {
                         if( mLevelReveal[p.y][p.x] != seen ) {
-                            rec_reveal( p.y, p.x );
+                            rec_reveal( p );
                         }
                     }
                 }
@@ -332,7 +332,7 @@ int minesweeper_game::start_game()
                     popup_top( _( "Boom, you're dead!  Better luck next time." ) );
                     action = "QUIT";
                 } else if( mLevelReveal[iPlayerY][iPlayerX] == unknown ) {
-                    rec_reveal( iPlayerY, iPlayerX );
+                    rec_reveal( point( iPlayerY, iPlayerX ) );
                 }
             }
         }
