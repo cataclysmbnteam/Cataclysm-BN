@@ -1303,6 +1303,24 @@ bool overmap::has_note( const tripoint &p ) const
     return false;
 }
 
+cata::optional<int> overmap::has_note_with_danger_radius( const tripoint &p ) const
+{
+    if( p.z < -OVERMAP_DEPTH || p.z > OVERMAP_HEIGHT ) {
+        return cata::nullopt;
+    }
+
+    for( auto &i : layer[p.z + OVERMAP_DEPTH].notes ) {
+        if( i.p == p.xy() ) {
+            if( i.dangerous ) {
+                return i.danger_radius;
+            } else {
+                break;
+            }
+        }
+    }
+    return cata::nullopt;
+}
+
 bool overmap::is_marked_dangerous( const tripoint &p ) const
 {
     for( auto &i : layer[p.z + OVERMAP_DEPTH].notes ) {
@@ -1327,15 +1345,22 @@ bool overmap::is_marked_dangerous( const tripoint &p ) const
     return false;
 }
 
+const std::vector<om_note> &overmap::all_notes( int z ) const
+{
+    static const std::vector<om_note> fallback;
+
+    if( z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
+        return fallback;
+    }
+
+    return layer[z + OVERMAP_DEPTH].notes;
+}
+
 const std::string &overmap::note( const tripoint &p ) const
 {
     static const std::string fallback {};
 
-    if( p.z < -OVERMAP_DEPTH || p.z > OVERMAP_HEIGHT ) {
-        return fallback;
-    }
-
-    const auto &notes = layer[p.z + OVERMAP_DEPTH].notes;
+    const auto &notes = all_notes( p.z );
     const auto it = std::find_if( begin( notes ), end( notes ), [&]( const om_note & n ) {
         return n.p == p.xy();
     } );
