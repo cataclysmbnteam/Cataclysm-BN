@@ -347,13 +347,13 @@ std::string trim_whitespaces( const std::string &str )
 
     // NOLINTNEXTLINE(cata-text-style)
     const std::string whitespace = "\t ";
-    const auto strBegin = str.find_first_not_of( whitespace );
-    if( strBegin == std::string::npos ) {
+    const auto str_begin = str.find_first_not_of( whitespace );
+    if( str_begin == std::string::npos ) {
         return "";    // no content
     }
 
-    const auto strEnd = str.find_last_not_of( whitespace );
-    const auto strRange = strEnd - strBegin + 1;
+    const auto str_end = str.find_last_not_of( whitespace );
+    const auto str_range = str_end - str_begin + 1;
 
-    return str.substr( strBegin, strRange );
+    return str.substr( str_begin, str_range );
 }

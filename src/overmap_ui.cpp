@@ -536,11 +536,11 @@ class map_notes_callback : public uilist_callback
         }
 };
 
-enum class SortMode : int {
-    Name,
-    Distance,
-    Symbol,
-    Num,
+enum class sort_mode_t : int {
+    name,
+    distance,
+    symbol,
+    num,
 };
 
 static bool sortfunc_dist( const note_cached &a, const note_cached &b )
@@ -568,6 +568,7 @@ static bool sortfunc_symbol( const note_cached &a, const note_cached &b )
         return sortfunc_name( a, b );
     } else {
         // Not using lexicographic comparator here because it's case-insensitive
+        // NOLINTNEXTLINE(cata-use-localized-sorting)
         return a.symbol < b.symbol;
     }
 }
@@ -580,7 +581,7 @@ static tripoint show_notes_manager( const tripoint &origin )
     uilist nmenu;
     std::string filter;
     tripoint selected = origin;
-    SortMode sort_mode = SortMode::Name;
+    sort_mode_t sort_mode = sort_mode_t::name;
 
     const tripoint p_player = g->u.global_omt_location();
 
@@ -624,15 +625,15 @@ static tripoint show_notes_manager( const tripoint &origin )
 
         const char *sort_str;
         switch( sort_mode ) {
-            case SortMode::Name:
+            case sort_mode_t::name:
                 sort_str = pgettext( "Sorted by:", "name" );
                 std::sort( notes.begin(), notes.end(), sortfunc_name );
                 break;
-            case SortMode::Distance:
+            case sort_mode_t::distance:
                 sort_str = pgettext( "Sorted by:", "distance" );
                 std::sort( notes.begin(), notes.end(), sortfunc_dist );
                 break;
-            case SortMode::Symbol:
+            case sort_mode_t::symbol:
                 sort_str = pgettext( "Sorted by:", "symbol" );
                 std::sort( notes.begin(), notes.end(), sortfunc_symbol );
                 break;
@@ -703,8 +704,8 @@ static tripoint show_notes_manager( const tripoint &origin )
         nmenu.query();
 
         if( nmenu.ret == UILIST_CHANGE_SORT ) {
-            sort_mode = static_cast<SortMode>(
-                            ( static_cast<int>( sort_mode ) + 1 ) % static_cast<int>( SortMode::Num )
+            sort_mode = static_cast<sort_mode_t>(
+                            ( static_cast<int>( sort_mode ) + 1 ) % static_cast<int>( sort_mode_t::num )
                         );
         }
 
