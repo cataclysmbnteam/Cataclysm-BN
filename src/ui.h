@@ -234,7 +234,7 @@ class uilist // NOLINT(cata-xy)
          * Get filtered list of entries.
          * Elements are indices for 'entries'.
          */
-        const std::vector<int> get_filtered() const {
+        const std::vector<int> &get_filtered() const {
             return fentries;
         }
 
