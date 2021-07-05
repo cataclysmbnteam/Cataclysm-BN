@@ -2353,8 +2353,10 @@ void mapgen_palette::add( const palette_id &rh )
 
 void mapgen_palette::add( const mapgen_palette &rh )
 {
-    for( auto &placing : rh.format_placings ) {
-        format_placings[ placing.first ] = placing.second;
+    for( const auto &placing : rh.format_placings ) {
+        std::vector<shared_ptr_fast<const jmapgen_piece>> &these_placings =
+                    format_placings[placing.first];
+        these_placings.insert( these_placings.end(), placing.second.begin(), placing.second.end() );
     }
     for( const auto &placing : rh.keys_with_terrain ) {
         keys_with_terrain.insert( placing );
