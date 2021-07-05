@@ -1038,7 +1038,9 @@ void zone_manager::rotate_zones( map &target_map, const int turns )
         if( ( a_start.x <= z_start.x && a_start.y <= z_start.y ) &&
             ( a_end.x > z_start.x && a_end.y >= z_start.y ) &&
             ( a_start.x <= z_end.x && a_start.y <= z_end.y ) &&
-            ( a_end.x >= z_end.x && a_end.y >= z_end.y ) ) {
+            ( a_end.x >= z_end.x && a_end.y >= z_end.y ) &&
+            ( a_start.z == z_start.z )
+          ) {
             tripoint z_l_start3 = target_map.getlocal( z_start );
             tripoint z_l_end3 = target_map.getlocal( z_end );
             // don't rotate centered squares
