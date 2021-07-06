@@ -122,6 +122,17 @@ zone_manager::zone_manager()
 
 }
 
+zone_manager &zone_manager::get_manager()
+{
+    static zone_manager manager;
+    return manager;
+}
+
+void zone_manager::reset_manager()
+{
+    get_manager() = zone_manager();
+}
+
 std::string zone_type::name() const
 {
     return _( name_ );
