@@ -212,7 +212,9 @@ void player::on_hit( Creature *source, bodypart_id bp_hit,
     }
 
     bool u_see = g->u.sees( *this );
-    if( has_active_bionic( bionic_id( "bio_ods" ) ) && get_power_level() > 5_kJ ) {
+    bionic_id bio_ods( "bio_ods" );
+    units::energy trigger_cost_base = bio_ods->power_trigger;
+    if( has_active_bionic( bio_ods ) && get_power_level() >= trigger_cost_base * 4 ) {
         if( is_player() ) {
             add_msg( m_good, _( "Your offensive defense system shocks %s in mid-attack!" ),
                      source->disp_name() );
@@ -222,7 +224,7 @@ void player::on_hit( Creature *source, bodypart_id bp_hit,
                      source->disp_name() );
         }
         int shock = rng( 1, 4 );
-        mod_power_level( units::from_kilojoule( -shock ) );
+        mod_power_level( -shock * trigger_cost_base );
         damage_instance ods_shock_damage;
         ods_shock_damage.add_damage( DT_ELECTRIC, shock * 5 );
         // Should hit body part used for attack
