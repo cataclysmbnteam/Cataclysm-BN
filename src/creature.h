@@ -535,8 +535,8 @@ class Creature
         /** Returns a set of points we do not want to path through. */
         virtual std::set<tripoint> get_path_avoid() const = 0;
 
-        int moves;
-        bool underwater;
+        int moves = 0;
+        bool underwater = false;
         void draw( const catacurses::window &w, const point &origin, bool inverted ) const;
         void draw( const catacurses::window &w, const tripoint &origin, bool inverted ) const;
         /**
@@ -757,7 +757,7 @@ class Creature
         virtual bool is_symbol_highlighted() const;
 
     protected:
-        Creature *killer; // whoever killed us. this should be NULL unless we are dead
+        Creature *killer = nullptr; // whoever killed us. this should be NULL unless we are dead
         void set_killer( Creature *killer );
 
         /**
@@ -772,21 +772,21 @@ class Creature
         // used for innate bonuses like effects. weapon bonuses will be
         // handled separately
 
-        int num_blocks; // base number of blocks/dodges per turn
-        int num_dodges;
-        int num_blocks_bonus; // bonus ""
-        int num_dodges_bonus;
+        int num_blocks = 0; // base number of blocks/dodges per turn
+        int num_dodges = 0;
+        int num_blocks_bonus = 0; // bonus ""
+        int num_dodges_bonus = 0;
 
-        int armor_bash_bonus;
-        int armor_cut_bonus;
-        int speed_base; // only speed needs a base, the rest are assumed at 0 and calculated off skills
+        int armor_bash_bonus = 0;
+        int armor_cut_bonus = 0;
+        int speed_base = 0; // only speed needs a base, the rest are assumed at 0 and calculated off skills
 
-        int speed_bonus;
-        float dodge_bonus;
-        int block_bonus;
-        float hit_bonus;
+        int speed_bonus = 0;
+        float dodge_bonus = 0.0;
+        int block_bonus = 0;
+        float hit_bonus = 0.0;
 
-        bool fake;
+        bool fake = false;
         Creature();
         Creature( const Creature & ) = default;
         Creature( Creature && ) = default;
@@ -844,7 +844,7 @@ class Creature
         void load( const JsonObject &jsin );
 
     private:
-        int pain;
+        int pain = 0;
 };
 
 #endif // CATA_SRC_CREATURE_H

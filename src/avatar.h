@@ -220,7 +220,7 @@ class avatar : public player
 
     private:
         std::unique_ptr<map_memory> player_map_memory;
-        bool show_map_memory;
+        bool show_map_memory = true;
 
         friend class debug_menu::mission_debug;
         /**
@@ -239,12 +239,12 @@ class avatar : public player
         /**
          * The currently active mission, or null if no mission is currently in progress.
          */
-        mission *active_mission;
+        mission *active_mission = nullptr;
 
         // Items the player has identified.
         std::unordered_set<std::string> items_identified;
 
-        object_type grab_type;
+        object_type grab_type = OBJECT_NONE;
 
         // these are the stat upgrades from stats through kills
 
@@ -269,16 +269,17 @@ class avatar : public player
 avatar &get_avatar();
 
 struct points_left {
-    int stat_points;
-    int trait_points;
-    int skill_points;
+    int stat_points = 0;
+    int trait_points = 0;
+    int skill_points = 0;
 
     enum point_limit : int {
         FREEFORM = 0,
         ONE_POOL,
         MULTI_POOL,
         TRANSFER,
-    } limit;
+    };
+    point_limit limit = point_limit::FREEFORM;
 
     points_left();
     void init_from_options();
