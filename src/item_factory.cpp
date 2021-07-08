@@ -2627,6 +2627,11 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         jo.read( "id", def.id, true );
     }
 
+    if( !def.src.empty() && def.src.back().first != def.id ) {
+        def.src.clear();
+    }
+    def.src.emplace_back( def.id, mod_id( src ) );
+
     // snippet_category should be loaded after def.id is determined
     if( jo.has_array( "snippet_category" ) ) {
         // auto-create a category that is unlikely to already be used and put the
