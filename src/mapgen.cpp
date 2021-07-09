@@ -68,6 +68,7 @@
 #include "submap.h"
 #include "text_snippets.h"
 #include "tileray.h"
+#include "to_string_id.h"
 #include "translations.h"
 #include "trap.h"
 #include "value_ptr.h"
@@ -803,6 +804,16 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
 
 }
 
+std::unordered_map<std::string, cata_variant>
+mapgen_function_json_base::get_param_values( const mapgendata &md ) const
+{
+    std::unordered_map<std::string, cata_variant> result;
+    for( const std::pair<const std::string, mapgen_parameter> &param : parameters ) {
+        result.emplace( param.first, param.second.get( md ) );
+    }
+    return result;
+}
+
 jmapgen_place::jmapgen_place( const JsonObject &jsi )
     : x( jsi, "x" )
     , y( jsi, "y" )
@@ -830,6 +841,168 @@ map_key::map_key( const JsonMember &member ) : str( member.name() )
     if( utf8_width( str ) != 1 ) {
         member.throw_error( "format map key must be 1 column" );
     }
+}
+
+template<typename T>
+static bool is_null_helper( const string_id<T> &id )
+{
+    return id.is_null();
+}
+
+template<typename T>
+static bool is_null_helper( const int_id<T> &id )
+{
+    return id.id().is_null();
+}
+
+static bool is_null_helper( const std::string & )
+{
+    return false;
+}
+
+template<typename T>
+static bool is_valid_helper( const string_id<T> &id )
+{
+    return id.is_valid();
+}
+
+static bool is_valid_helper( const std::string & )
+{
+    return true;
+}
+
+// Mapgen often uses various id values.  Usually these are specified verbatim
+// as strings, but they can also be parameterized.  This class encapsulates
+// such a value.  It records how the value was specified so that it can be
+// calculated later based on the parameters chosen for a particular instance of
+// the mapgen.
+template<typename Id>
+class mapgen_value
+{
+    public:
+        using StringId = to_string_id_t<Id>;
+
+        struct value_source {
+            virtual ~value_source() = default;
+            virtual Id get( const mapgendata & ) const = 0;
+            virtual void check( const std::string &/*oter_name*/,
+                                const std::unordered_map<std::string, mapgen_parameter> &
+                              ) const {};
+        };
+
+        struct id_source : value_source {
+            Id id;
+
+            explicit id_source( const std::string &s ) :
+                id( s ) {
+            }
+
+            Id get( const mapgendata & ) const override {
+                return id;
+            }
+        };
+
+        struct param_source : value_source {
+            std::string param_name;
+
+            explicit param_source( const JsonObject &jo ) :
+                param_name( jo.get_string( "param" ) ) {
+            }
+
+            Id get( const mapgendata &dat ) const override {
+                return Id( dat.get_param<StringId>( param_name ) );
+            }
+
+            void check( const std::string &oter_name,
+                        const std::unordered_map<std::string, mapgen_parameter> &parameters
+                      ) const override {
+                auto param = parameters.find( param_name );
+                if( param == parameters.end() ) {
+                    debugmsg( "mapgen '%s' uses undefined parameter '%s'", oter_name, param_name );
+                } else {
+                    constexpr cata_variant_type req_type = cata_variant_type_for<StringId>();
+                    cata_variant_type param_type = param->second.type();
+                    if( param_type != req_type ) {
+                        debugmsg( "mapgen '%s' uses parameter '%s' of type '%s' in a context "
+                                  "expecting type '%s'", oter_name, param_name,
+                                  io::enum_to_string( param_type ),
+                                  io::enum_to_string( req_type ) );
+                    }
+                }
+            }
+        };
+
+        struct distribution_source : value_source {
+            weighted_int_list<StringId> list;
+
+            explicit distribution_source( const JsonObject &jo ) {
+                load_weighted_list( jo.get_member( "distribution" ), list, 1 );
+            }
+
+            Id get( const mapgendata & ) const override {
+                return *list.pick();
+            }
+
+            void check( const std::string &oter_name,
+                        const std::unordered_map<std::string, mapgen_parameter> & ) const override {
+                for( const weighted_object<int, StringId> &wo : list ) {
+                    if( !is_valid_helper( wo.obj ) ) {
+                        debugmsg( "mapgen '%s' uses invalid entry '%s' in weighted list",
+                                  oter_name, cata_variant( wo.obj ).get_string() );
+                    }
+                }
+            }
+        };
+
+        explicit mapgen_value( const JsonValue &jv ) {
+            if( jv.test_string() ) {
+                std::string id = jv.get_string();
+                source_ = make_shared_fast<id_source>( id );
+                is_null_ = is_null_helper( id );
+            } else {
+                JsonObject jo = jv.get_object();
+                if( jo.has_member( "param" ) ) {
+                    source_ = make_shared_fast<param_source>( jo );
+                } else if( jo.has_member( "distribution" ) ) {
+                    source_ = make_shared_fast<distribution_source>( jo );
+                } else {
+                    jo.throw_error( R"(Expected member "param" or "distribution" in object)" );
+                }
+            }
+        }
+
+        bool is_null() const {
+            return is_null_;
+        }
+
+        void check( const std::string &oter_name,
+                    const std::unordered_map<std::string, mapgen_parameter> &params ) const {
+            source_->check( oter_name, params );
+        }
+
+        Id get( const mapgendata &dat ) const {
+            return source_->get( dat );
+        }
+    private:
+        bool is_null_ = false;
+        shared_ptr_fast<const value_source> source_;
+};
+
+void mapgen_parameter::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    jo.read( "type", type_, true );
+    default_ = std::make_unique<mapgen_value<std::string>>( jo.get_member( "default" ) );
+}
+
+cata_variant_type mapgen_parameter::type() const
+{
+    return type_;
+}
+
+cata_variant mapgen_parameter::get( const mapgendata &md ) const
+{
+    return cata_variant::from_string( type_, default_->get( md ) );
 }
 
 /**
@@ -1468,16 +1641,19 @@ class jmapgen_trap : public jmapgen_piece
         trap_id id;
         jmapgen_trap( const JsonObject &jsi ) :
             id( 0 ) {
-            const trap_str_id sid( jsi.get_string( "trap" ) );
-            if( !sid.is_valid() ) {
-                set_mapgen_defer( jsi, "trap", "no such trap" );
-            }
-            id = sid.id();
+            init( jsi );
         }
 
-        jmapgen_trap( const std::string &tid ) :
+        explicit jmapgen_trap( const JsonValue &tid ) :
             id( 0 ) {
-            const trap_str_id sid( tid );
+            if( tid.test_object() ) {
+                JsonObject jo = tid.get_object();
+                if( jo.has_member( "trap" ) ) {
+                    init( jo );
+                    return;
+                }
+            }
+            const trap_str_id sid( tid.get_string() );
             if( !sid.is_valid() ) {
                 throw std::runtime_error( "unknown trap type" );
             }
@@ -1491,6 +1667,14 @@ class jmapgen_trap : public jmapgen_piece
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
             return dat.m.veh_at( tripoint( p, dat.zlevel() ) ).has_value();
         }
+    private:
+        void init( const JsonObject &jsi ) {
+            const trap_str_id sid( jsi.get_string( "trap" ) );
+            if( !sid.is_valid() ) {
+                set_mapgen_defer( jsi, "trap", "no such trap" );
+            }
+            id = sid.id();
+        }
 };
 /**
  * Place a furniture.
@@ -1500,8 +1684,8 @@ class jmapgen_furniture : public jmapgen_piece
 {
     public:
         furn_id id;
-        jmapgen_furniture( const JsonObject &jsi ) : jmapgen_furniture( jsi.get_string( "furn" ) ) {}
-        jmapgen_furniture( const std::string &fid ) : id( furn_id( fid ) ) {}
+        jmapgen_furniture( const JsonObject &jsi ) : jmapgen_furniture( jsi.get_member( "furn" ) ) {}
+        explicit jmapgen_furniture( const JsonValue &fid ) : id( furn_id( fid.get_string() ) ) {}
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
             dat.m.furn_set( point( x.get(), y.get() ), id );
@@ -1517,17 +1701,21 @@ class jmapgen_furniture : public jmapgen_piece
 class jmapgen_terrain : public jmapgen_piece
 {
     public:
-        ter_id id;
-        jmapgen_terrain( const JsonObject &jsi ) : jmapgen_terrain( jsi.get_string( "ter" ) ) {}
-        explicit jmapgen_terrain( const std::string &tid ) : id( ter_id( tid ) ) {}
+        mapgen_value<ter_id> id;
+        jmapgen_terrain( const JsonObject &jsi ) : jmapgen_terrain( jsi.get_member( "ter" ) ) {}
+        explicit jmapgen_terrain( const JsonValue &tid ) : id( mapgen_value<ter_id>( tid ) ) {}
 
         bool is_nop() const override {
-            return id.id().is_null();
+            return id.is_null();
         }
 
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
-            dat.m.ter_set( point( x.get(), y.get() ), id );
+            ter_id chosen_id = id.get( dat );
+            if( chosen_id.id().is_null() ) {
+                return;
+            }
+            dat.m.ter_set( point( x.get(), y.get() ), chosen_id );
             // Delete furniture if a wall was just placed over it. TODO: need to do anything for fluid, monsters?
             if( dat.m.has_flag_ter( "WALL", point( x.get(), y.get() ) ) ) {
                 dat.m.furn_set( point( x.get(), y.get() ), f_null );
@@ -1539,6 +1727,12 @@ class jmapgen_terrain : public jmapgen_piece
         }
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
             return dat.m.veh_at( tripoint( p, dat.zlevel() ) ).has_value();
+        }
+
+        void check( const std::string &oter_name,
+                    const std::unordered_map<std::string, mapgen_parameter> &parameters
+                  ) const override {
+            id.check( oter_name, parameters );
         }
 };
 /**
@@ -1666,7 +1860,8 @@ class jmapgen_sealed_item : public jmapgen_piece
             }
         }
 
-        void check( const std::string &oter_name ) const override {
+        void check( const std::string &oter_name,
+                    const std::unordered_map<std::string, mapgen_parameter> & ) const override {
             const furn_t &furn = furniture.obj();
             std::string summary = string_format(
                                       "sealed_item special in json mapgen for overmap terrain %s using furniture %s",
@@ -1814,19 +2009,6 @@ class jmapgen_zone : public jmapgen_piece
             mgr.add( name, zone_type, faction, false, true, start, end );
         }
 };
-
-static void load_weighted_entries( const JsonObject &jsi, const std::string &json_key,
-                                   weighted_int_list<std::string> &list )
-{
-    for( const JsonValue entry : jsi.get_array( json_key ) ) {
-        if( entry.test_array() ) {
-            JsonArray inner = entry.get_array();
-            list.add( inner.get_string( 0 ), inner.get_int( 1 ) );
-        } else {
-            list.add( entry.get_string(), 100 );
-        }
-    }
-}
 
 /**
  * Calls another mapgen call inside the current one.
@@ -1993,8 +2175,12 @@ class jmapgen_nested : public jmapgen_piece
             : neighbor_oters( jsi.get_object( "neighbors" ) )
             , neighbor_joins( jsi.get_object( "joins" ) )
             , neighbor_connections( jsi.get_object( "connections" ) ) {
-            load_weighted_entries( jsi, "chunks", entries );
-            load_weighted_entries( jsi, "else_chunks", else_entries );
+            if( jsi.has_member( "chunks" ) ) {
+                load_weighted_list( jsi.get_member( "chunks" ), entries, 100 );
+            }
+            if( jsi.has_member( "else_chunks" ) ) {
+                load_weighted_list( jsi.get_member( "else_chunks" ), else_entries, 100 );
+            }
         }
         const weighted_int_list<std::string> &get_entries( const mapgendata &dat ) const {
             if( neighbor_oters.test( dat ) && neighbor_joins.test( dat ) && neighbor_connections.test( dat ) ) {
@@ -2026,7 +2212,8 @@ class jmapgen_nested : public jmapgen_piece
             ( *ptr )->nest( dat, point( x.get(), y.get() ) );
         }
 
-        void check( const std::string &oter_name ) const override {
+        void check( const std::string &oter_name,
+                    const std::unordered_map<std::string, mapgen_parameter> & ) const override {
             neighbor_oters.check( oter_name );
             neighbor_joins.check( oter_name );
             neighbor_connections.check( oter_name );
@@ -2161,20 +2348,18 @@ template<typename PieceType>
 void load_place_mapings_string( const JsonValue &value,
                                 mapgen_palette::placing_map::mapped_type &vect )
 {
-    if( value.test_string() ) {
+    if( value.test_string() || value.test_object() ) {
         try {
-            vect.push_back( make_shared_fast<PieceType>( value.get_string() ) );
+            vect.push_back( make_shared_fast<PieceType>( value ) );
         } catch( const std::runtime_error &err ) {
             // Using the json object here adds nice formatting and context information
             value.throw_error( err.what() );
         }
-    } else if( value.test_object() ) {
-        load_place_mapings<PieceType>( value.get_object(), vect );
     } else {
         for( const JsonValue entry : value.get_array() ) {
             if( entry.test_string() ) {
                 try {
-                    vect.push_back( make_shared_fast<PieceType>( entry.get_string() ) );
+                    vect.push_back( make_shared_fast<PieceType>( entry ) );
                 } catch( const std::runtime_error &err ) {
                     // Using the json object here adds nice formatting and context information
                     entry.throw_error( err.what() );
@@ -2201,7 +2386,7 @@ void load_place_mapings_alternatively( const JsonValue &value,
         for( const JsonValue entry : value.get_array() ) {
             if( entry.test_string() ) {
                 try {
-                    alter->alternatives.emplace_back( entry.get_string() );
+                    alter->alternatives.emplace_back( entry );
                 } catch( const std::runtime_error &err ) {
                     // Using the json object here adds nice formatting and context information
                     entry.throw_error( err.what() );
@@ -2217,15 +2402,12 @@ void load_place_mapings_alternatively( const JsonValue &value,
                 }
 
                 // Test if this is a string or object, and then just emplace it.
-                if( piece_and_count_jarr.test_string() ) {
+                if( piece_and_count_jarr.test_string() || piece_and_count_jarr.test_object() ) {
                     try {
-                        alter->alternatives.emplace_back( piece_and_count_jarr.next_string() );
+                        alter->alternatives.emplace_back( piece_and_count_jarr.next() );
                     } catch( const std::runtime_error &err ) {
                         piece_and_count_jarr.throw_error( err.what() );
                     }
-                } else if( piece_and_count_jarr.test_object() ) {
-                    JsonObject jsi = piece_and_count_jarr.next_object();
-                    alter->alternatives.emplace_back( jsi );
                 } else {
                     piece_and_count_jarr.throw_error( "First entry must be a string or object." );
                 }
@@ -2302,7 +2484,9 @@ void mapgen_palette::check()
     for( const std::pair<const map_key, std::vector<shared_ptr_fast<const jmapgen_piece>>> &p :
          format_placings ) {
         for( const shared_ptr_fast<const jmapgen_piece> &j : p.second ) {
-            j->check( context );
+            // TODO: palettes should have their own parameters, but don't as
+            // yet
+            j->check( context, {} );
         }
     }
 }
@@ -2532,6 +2716,8 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     JsonArray sparray;
     JsonObject pjo;
 
+    jo.read( "parameters", parameters );
+
     // just like mapf::basic_bind("stuff",blargle("foo", etc) ), only json input and faster when applying
     if( jo.has_array( "rows" ) ) {
         // TODO: forward correct 'src' parameter
@@ -2697,13 +2883,14 @@ void mapgen_function_json_base::check_common( const std::string &oter_name ) con
         }
     }
 
-    objects.check( oter_name );
+    objects.check( oter_name, parameters );
 }
 
-void jmapgen_objects::check( const std::string &oter_name ) const
+void jmapgen_objects::check( const std::string &oter_name,
+                             const std::unordered_map<std::string, mapgen_parameter> &parameters ) const
 {
     for( const jmapgen_obj &obj : objects ) {
-        obj.second->check( oter_name );
+        obj.second->check( oter_name, parameters );
     }
 }
 
@@ -2864,8 +3051,8 @@ bool jmapgen_setmap::has_vehicle_collision( const mapgendata &dat, const point &
     return false;
 }
 
-bool mapgen_function_json_base::has_vehicle_collision( const mapgendata &dat,
-        const point &offset ) const
+bool mapgen_function_json_base::has_vehicle_collision(
+    const mapgendata &dat, const point &offset ) const
 {
     for( const jmapgen_setmap &elem : setmap_points ) {
         if( elem.has_vehicle_collision( dat, offset ) ) {
@@ -2905,13 +3092,16 @@ void mapgen_function_json::generate( mapgendata &md )
             m->rotate( ( -ter.get_rotation() + 4 ) % 4 );
         }
     }
+
+    mapgendata md_with_params( md, get_param_values( md ) );
+
     for( auto &elem : setmap_points ) {
-        elem.apply( md, point_zero );
+        elem.apply( md_with_params, point_zero );
     }
 
-    objects.apply( md, point_zero );
+    objects.apply( md_with_params, point_zero );
 
-    resolve_regional_terrain_and_furniture( md );
+    resolve_regional_terrain_and_furniture( md_with_params );
 
     m->rotate( rotation.get() );
 
@@ -2920,18 +3110,20 @@ void mapgen_function_json::generate( mapgendata &md )
     }
 }
 
-void mapgen_function_json_nested::nest( const mapgendata &dat, const point &offset ) const
+void mapgen_function_json_nested::nest( const mapgendata &md, const point &offset ) const
 {
     // TODO: Make rotation work for submaps, then pass this value into elem & objects apply.
     //int chosen_rotation = rotation.get() % 4;
 
+    mapgendata md_with_params( md, get_param_values( md ) );
+
     for( const jmapgen_setmap &elem : setmap_points ) {
-        elem.apply( dat, offset );
+        elem.apply( md, offset );
     }
 
-    objects.apply( dat, offset );
+    objects.apply( md, offset );
 
-    resolve_regional_terrain_and_furniture( dat );
+    resolve_regional_terrain_and_furniture( md );
 }
 
 /*
@@ -6454,6 +6646,8 @@ bool update_mapgen_function_json::update_map( const tripoint_abs_omt &omt_pos, p
 bool update_mapgen_function_json::update_map( const mapgendata &md, const point &offset,
         const bool verify ) const
 {
+    mapgendata md_with_params( md, get_param_values( md ) );
+
     class rotation_guard
     {
         public:
@@ -6477,21 +6671,21 @@ bool update_mapgen_function_json::update_map( const mapgendata &md, const point 
             const mapgendata &md;
             const int rotation;
     };
-    rotation_guard rot( md );
+    rotation_guard rot( md_with_params );
 
-    for( auto &elem : setmap_points ) {
-        if( verify && elem.has_vehicle_collision( md, offset ) ) {
+    for( const jmapgen_setmap &elem : setmap_points ) {
+        if( verify && elem.has_vehicle_collision( md_with_params, offset ) ) {
             return false;
         }
-        elem.apply( md, offset );
+        elem.apply( md_with_params, offset );
     }
 
-    if( verify && objects.has_vehicle_collision( md, offset ) ) {
+    if( verify && objects.has_vehicle_collision( md_with_params, offset ) ) {
         return false;
     }
-    objects.apply( md, offset );
+    objects.apply( md_with_params, offset );
 
-    resolve_regional_terrain_and_furniture( md );
+    resolve_regional_terrain_and_furniture( md_with_params );
 
     return true;
 }

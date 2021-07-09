@@ -1152,6 +1152,7 @@ class JsonArray
         void show_warning( const std::string &err, int idx );
 
         // iterative access
+        JsonValue next();
         bool next_bool();
         int next_int();
         double next_float();

@@ -1015,6 +1015,59 @@ The code excerpt above will place chunks as follows:
 - `"concrete_wall_ns"`if the north west neighbor is neither a field nor any of the microlab
   overmaps.
 
+## Mapgen values
+
+A *mapgen value* can be used in various places where a specific id is expected.
+For example, the default value of a parameter, or a terrain id in the
+`"terrain"` object.  A mapgen value can take one of three forms:
+
+* A simple string, which should be a literal id.  For example, `"t_flat_roof"`.
+* A JSON object containing the key `"distribution"`, whose corresponding value
+  is a list of lists, each a pair of a string id and an integer weight.  For
+  example:
+```
+{ "distribution": [ [ "t_flat_roof", 2 ], [ "t_tar_flat_roof", 1 ], [ "t_shingle_flat_roof", 1 ] ] }
+```
+* A JSON object containing the key `"param"`, whose corresponding value is the
+  string name of a parameter as discussed in [Mapgen
+  parameters](#mapgen-parameters).  For example, `{ "param": "roof_type" }`.
+
+
+## Mapgen parameters
+
+(Note that this feature is under development and functionality may not line up exactly
+with the documentation.)
+
+Another entry within a mapgen definition can be a `"parameters"` key.  For
+example:
+```
+"parameters": {
+  "roof_type": {
+    "type": "ter_str_id",
+    "default": { "distribution": [ [ "t_flat_roof", 2 ], [ "t_tar_flat_roof", 1 ], [ "t_shingle_flat_roof", 1 ] ] }
+  }
+},
+```
+
+Each entry in the `"parameters"` JSON object defines a parameter.  The key is
+the parameter name.  Each such key should have an associated JSON object.  That
+object must provide its type (which should be a type string as for a
+`cata_variant`) and may optionally provide a default value.  The default value
+should be a [mapgen value](#mapgen-value) as defined above.
+
+At time of writing, the only way for a parameter to get a value is via the
+`"default"`, so you probably want to always have one.
+
+The primary application of parameters is that you can use a `"distribution"`
+mapgen value to select a value at random, and then apply that value to every
+use of that parameter.  In the above example, a random roof terrain is picked.
+By using the parameter with some `"terrain"` key, via a `"param"` mapgen value,
+you can use a random but consistent choice of roof terrain across your map.
+In contrast, placing the `"distribution"` directly in the `"terrain"` object would
+cause mapgen to choose a terrain at random for each roof tile, leading to a
+mishmash of roof terrains.
+
+
 ## Rotate the map with "rotation"
 
 Rotates the generated map after all the other mapgen stuff has been done. The value can be a single

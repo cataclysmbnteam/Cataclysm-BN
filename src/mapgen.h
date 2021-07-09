@@ -11,6 +11,10 @@
 #include <vector>
 
 #include "pimpl.h"
+#include "cata_variant.h"
+#include "coordinates.h"
+#include "json.h"
+#include "memory_fast.h"
 #include "point.h"
 #include "regional_settings.h"
 #include "type_id.h"
@@ -19,6 +23,7 @@ class JsonArray;
 class JsonMember;
 class JsonObject;
 class map;
+template <typename Id> class mapgen_value;
 class mapgendata;
 class mission;
 struct json_source_location;
@@ -128,6 +133,25 @@ struct jmapgen_setmap {
     bool has_vehicle_collision( const mapgendata &dat, const point &offset ) const;
 };
 
+struct spawn_data {
+    std::map<itype_id, jmapgen_int> ammo;
+    std::vector<point> patrol_points_rel_ms;
+};
+
+class mapgen_parameter
+{
+    public:
+        void deserialize( JsonIn & );
+
+        cata_variant_type type() const;
+        cata_variant get( const mapgendata &md ) const;
+    private:
+        cata_variant_type type_;
+        // Using a pointer here mostly to move the definition of mapgen_value to the
+        // cpp file
+        std::shared_ptr<const mapgen_value<std::string>> default_;
+};
+
 /**
  * Basic mapgen object. It is supposed to place or do something on a specific square on the map.
  * Inherit from this class and implement the @ref apply function.
@@ -158,7 +182,8 @@ class jmapgen_piece
             return false;
         }
         /** Sanity-check this piece */
-        virtual void check( const std::string &/*oter_name*/ ) const { }
+        virtual void check( const std::string &/*oter_name*/,
+                            const std::unordered_map<std::string, mapgen_parameter> & ) const { }
         /** Place something on the map from mapgendata &dat, at (x,y). */
         virtual void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                           ) const = 0;
@@ -216,6 +241,7 @@ class mapgen_palette
 {
     public:
         palette_id id;
+
         /**
          * The mapping from character (key) to a list of things that should be placed. This is
          * similar to objects, but it uses key to get the actual position where to place things
@@ -290,7 +316,8 @@ struct jmapgen_objects {
         template<typename PieceType>
         void load_objects( const JsonObject &jsi, const std::string &member_name );
 
-        void check( const std::string &oter_name ) const;
+        void check( const std::string &oter_name,
+                    const std::unordered_map<std::string, mapgen_parameter> & ) const;
 
         void apply( const mapgendata &dat ) const;
         void apply( const mapgendata &dat, const point &offset ) const;
@@ -322,6 +349,7 @@ class mapgen_function_json_base
     private:
         pimpl<json_source_location> jsrcloc;
 
+        std::unordered_map<std::string, mapgen_parameter> parameters;
     protected:
         explicit mapgen_function_json_base( const json_source_location &jsrcloc );
         virtual ~mapgen_function_json_base();
@@ -334,6 +362,9 @@ class mapgen_function_json_base
         virtual void setup_setmap_internal() { }
 
         void check_common( const std::string &oter_name ) const;
+
+        std::unordered_map<std::string, cata_variant>
+        get_param_values( const mapgendata &md ) const;
 
         bool is_ready;
 
@@ -392,7 +423,7 @@ class mapgen_function_json_nested : public mapgen_function_json_base
         explicit mapgen_function_json_nested( const json_source_location &jsrcloc );
         ~mapgen_function_json_nested() override = default;
 
-        void nest( const mapgendata &dat, const point &offset ) const;
+        void nest( const mapgendata &md, const point &offset ) const;
     protected:
         bool setup_internal( const JsonObject &jo ) override;
 
