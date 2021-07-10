@@ -1733,6 +1733,30 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
             return find_tile_looks_like_by_string_id<field_type>( id, category, looks_like_jumps_limit );
         case C_MONSTER:
             return find_tile_looks_like_by_string_id<mtype>( id, category, looks_like_jumps_limit );
+        case C_OVERMAP_TERRAIN: {
+            cata::optional<tile_lookup_res> ret;
+            const oter_type_str_id type_tmp( id );
+            if( !type_tmp.is_valid() ) {
+                return ret;
+            }
+
+            int jump_limit = looks_like_jumps_limit;
+            for( const std::string &looks_like : type_tmp.obj().looks_like ) {
+
+                ret = find_tile_looks_like( looks_like, category, jump_limit - 1 );
+                if( ret.has_value() ) {
+                    return ret;
+                }
+
+                jump_limit--;
+                if( jump_limit <= 0 ) {
+                    return ret;
+                }
+            }
+
+            return ret;
+        }
+
         case C_VEHICLE_PART: {
             // vehicle parts start with vp_ for their tiles, but not their IDs
             const vpart_id base_vpid( id.substr( 3 ) );
