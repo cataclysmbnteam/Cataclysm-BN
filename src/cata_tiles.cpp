@@ -685,13 +685,14 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
         if( mod_config_json.test_array() ) {
             for( const JsonObject &mod_config : mod_config_json.get_array() ) {
                 if( mod_config.get_string( "type" ) == "mod_tileset" ) {
-                    mark_visited( mod_config );
                     if( num_in_file == mts.num_in_file() ) {
+                        mark_visited( mod_config );
                         load_internal( mod_config, tileset_root, img_path );
                         break;
                     }
                     num_in_file++;
                 }
+                mod_config.allow_omitted_members();
             }
         } else {
             JsonObject mod_config = mod_config_json.get_object();
