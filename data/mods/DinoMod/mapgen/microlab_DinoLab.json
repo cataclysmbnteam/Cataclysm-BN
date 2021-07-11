@@ -297,7 +297,8 @@
         "  c      ||  |||||||||  ",
         "  c c|c   |  |6hh6|cFc  "
       ],
-      "palettes": [ "microlab" ]
+      "palettes": [ "microlab" ],
+      "monster": { "T": { "monster": "mon_zachycephalosaurus_bio_op" } }
     }
   },
   {
