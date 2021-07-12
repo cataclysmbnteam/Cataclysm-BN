@@ -477,7 +477,7 @@ class player : public Character
 
         /** last time we checked for sleep */
         time_point last_sleep_check = calendar::turn_zero;
-        bool bio_soporific_powered_at_last_sleep_check;
+        bool bio_soporific_powered_at_last_sleep_check = false;
 
     public:
         /** Returns a value from 1.0 to 5.0 that acts as a multiplier
@@ -682,22 +682,22 @@ class player : public Character
         // ---------------VALUES-----------------
         tripoint view_offset;
         // Is currently in control of a vehicle
-        bool controlling_vehicle;
+        bool controlling_vehicle = false;
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
         tripoint grab_point;
-        int volume;
-        const profession *prof;
+        int volume = 0;
+        const profession *prof = nullptr;
 
-        bool random_start_location;
+        bool random_start_location = false;
         start_location_id start_location;
 
         weak_ptr_fast<Creature> last_target;
         cata::optional<tripoint> last_target_pos;
         // Save favorite ammo location
         item_location ammo_location;
-        int scent;
-        int cash;
-        int movecounter;
+        int scent = 0;
+        int cash = 0;
+        int movecounter = 0;
 
         bool manual_examine = false;
         vproto_id starting_vehicle;
@@ -708,7 +708,7 @@ class player : public Character
         pimpl<craft_command> last_craft;
 
         recipe_id lastrecipe;
-        int last_batch;
+        int last_batch = 0;
         itype_id lastconsumed;        //used in crafting.cpp and construction.cpp
 
         std::set<character_id> follower_ids;
