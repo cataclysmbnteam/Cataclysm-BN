@@ -9281,6 +9281,10 @@ bool Character::has_fire( const int quantity ) const
         for( auto &i : firestarters ) {
             if( !i->type->can_have_charges() ) {
                 const use_function *usef = i->type->get_use( "firestarter" );
+                if( !usef ) {
+                    debugmsg( "failed to get use func 'firestarter' for item '%s'", i->typeId().c_str() );
+                    continue;
+                }
                 const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
                 if( actor->can_use( *this->as_character(), *i, false, tripoint_zero ).success() ) {
                     return true;

@@ -1118,6 +1118,12 @@ void Item_factory::check_definitions() const
             }
         }
 
+        if( type->has_flag( "FIRESTARTER" ) &&
+            !type->can_have_charges() &&
+            !type->get_use( "firestarter" ) ) {
+            msg += string_format( "has 'FIRESTARTER' flag, but neither can have charges nor defines 'firestarter' use func" );
+        }
+
         if( type->comestible ) {
             if( type->comestible->tool != "null" ) {
                 auto req_tool = find_template( type->comestible->tool );
