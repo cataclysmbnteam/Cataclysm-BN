@@ -2,6 +2,7 @@
 #include <climits>
 #include <map>
 #include <memory>
+#include <limits>
 #include <set>
 #include <sstream>
 #include <string>
@@ -29,6 +30,33 @@ std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &dr
 std::list<item> obtain_and_tokenize_items( player &p, std::list<act_item> &items );
 std::vector<item_location> extract_children( std::vector<item_location> &targets,
         item_location &stack_top );
+std::vector<std::list<item_stack::iterator>> stack_for_pickup_ui( const
+        std::vector<item_stack::iterator> &unstacked );
+
+class testing_stack : public item_stack
+{
+    public:
+        testing_stack() : item_stack( new cata::colony<item>() ) { }
+        ~testing_stack() {
+            delete( items );
+        }
+
+        item_stack::iterator insert_with_return( const item &newitem ) {
+            return items->emplace( newitem );
+        }
+        void insert( const item &newitem ) override {
+            insert_with_return( newitem );
+        }
+        iterator erase( const_iterator it ) override {
+            return items->erase( it );
+        }
+        int count_limit() const override {
+            return INT_MAX;
+        }
+        units::volume max_volume() const override {
+            return units::from_milliliter( std::numeric_limits<units::volume::value_type>::max() );
+        }
+};
 
 struct act_item {
     /// inventory item
@@ -329,5 +357,56 @@ TEST_CASE( "full backpack pickup", "[drop_token]" )
                 CHECK( dummy.volume_carried() == volume_sum );
             }
         }
+    }
+}
+
+TEST_CASE( "pickup_ui_stacking", "[activity][drop_token]" )
+{
+    item an_item( "bottle_glass" );
+    item backpack( "backpack" );
+    item duffel_bag( "duffelbag" );
+    //const int per_duffel = duffel_bag.get_total_capacity() / an_item.volume();
+    const size_t per_backpack = backpack.get_total_capacity() / an_item.volume();
+    testing_stack the_stack;
+
+    the_stack.insert( an_item );
+    auto parent_iter = the_stack.insert_with_return( backpack );
+    *( *parent_iter ).drop_token = drop_token::make_next();
+    const item_drop_token &parent_token = *( *the_stack.rbegin() ).drop_token;
+    for( size_t i = 0; i < per_backpack; i++ ) {
+        auto child_iter = the_stack.insert_with_return( an_item );
+        *( *child_iter ).drop_token = drop_token::make_next();
+        ( *child_iter ).drop_token->parent_number = parent_token.drop_number;
+    }
+
+    the_stack.insert( backpack );
+    the_stack.insert( duffel_bag );
+    the_stack.insert( backpack );
+
+    // Should be sorted anyway
+    std::reverse( the_stack.begin(), the_stack.end() );
+
+    std::vector<item_stack::iterator> unstacked;
+
+    for( auto iter = the_stack.begin(); iter != the_stack.end(); iter++ ) {
+        unstacked.emplace_back( iter );
+    }
+
+    std::vector<std::list<item_stack::iterator>> stacked = stack_for_pickup_ui( unstacked );
+    THEN( "Backpack with children doesn't stack with empty ones" ) {
+        std::list<item_stack::iterator> list_with_just_parent = {parent_iter};
+        auto stacked_parent_iter = std::find( stacked.begin(), stacked.end(), list_with_just_parent );
+        REQUIRE( stacked_parent_iter != stacked.end() );
+        CHECK( stacked_parent_iter->size() == 1 );
+    }
+
+    THEN( "Backpack is immediately followed by all of its children" ) {
+        std::list<item_stack::iterator> list_with_just_parent = {parent_iter};
+        auto stacked_parent_iter = std::find( stacked.begin(), stacked.end(), list_with_just_parent );
+        REQUIRE( stacked_parent_iter != stacked.end() );
+        auto child_stack_iter = std::next( stacked_parent_iter );
+        REQUIRE( child_stack_iter != stacked.end() );
+        CHECK( child_stack_iter->front()->typeId() == an_item.typeId() );
+        CHECK( child_stack_iter->size() == per_backpack );
     }
 }

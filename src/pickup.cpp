@@ -72,7 +72,7 @@ struct pickup_count {
     bool all_children_picked = false;
 };
 
-static bool select_autopickup_items( std::vector<std::list<item_stack::iterator>> &here,
+static bool select_autopickup_items( const std::vector<std::list<item_stack::iterator>> &here,
                                      std::vector<pickup_count> &getitem )
 {
     bool bFoundSomething = false;
@@ -83,7 +83,7 @@ static bool select_autopickup_items( std::vector<std::list<item_stack::iterator>
     for( size_t iVol = 0, iNumChecked = 0; iNumChecked < here.size(); iVol++ ) {
         for( size_t i = 0; i < here.size(); i++ ) {
             bPickup = false;
-            item_stack::iterator begin_iterator = here[i].front();
+            item_stack::const_iterator begin_iterator = here[i].front();
             if( begin_iterator->volume() / units::legacy_volume_factor == static_cast<int>( iVol ) ) {
                 iNumChecked++;
                 const std::string sItemName = begin_iterator->tname( 1, false );
@@ -465,6 +465,63 @@ std::vector<cata::optional<size_t>> calculate_parents( const
     return parents;
 }
 
+// Non-static because tests
+std::vector<std::list<item_stack::iterator>> stack_for_pickup_ui( const
+        std::vector<item_stack::iterator> &unstacked );
+std::vector<std::list<item_stack::iterator>> stack_for_pickup_ui( const
+        std::vector<item_stack::iterator> &unstacked )
+{
+    std::map<std::pair<time_point, int>, std::list<item_stack::iterator>> children_by_parent;
+    std::set<std::pair<time_point, int>> parents_found;
+    for( item_stack::iterator it : unstacked ) {
+        const auto &token = *it->drop_token;
+        std::pair<time_point, int> turn_and_parent = std::make_pair( token.turn, token.parent_number );
+        parents_found.emplace( turn_and_parent );
+        if( token.parent_number != 0 ) {
+            children_by_parent[turn_and_parent].push_back( it );
+        }
+    }
+
+    const auto same_parent = [&parents_found]( const item_drop_token & lhs,
+    const item_drop_token & rhs ) -> bool {
+        return lhs.is_sibling_of( rhs ) ||
+        ( parents_found.count( {lhs.turn, lhs.parent_number} ) == 0 &&
+        parents_found.count( {rhs.turn, rhs.parent_number} ) == 0 );
+    };
+
+    std::vector<std::list<item_stack::iterator>> stacked_here;
+    for( item_stack::iterator it : unstacked ) {
+        bool found_stack = false;
+        // Items with children should not stack
+        if( children_by_parent.find( {it->drop_token->turn, it->drop_token->parent_number} ) ==
+            children_by_parent.end() ) {
+            for( std::list<item_stack::iterator> &stack : stacked_here ) {
+                // Items should only stack if they have same parent, or both have absent/nonexistent one
+                const item &stack_top = *stack.front();
+                if( stack_top.display_stacked_with( *it ) &&
+                    children_by_parent.find( {stack_top.drop_token->turn, stack_top.drop_token->parent_number} ) ==
+                    children_by_parent.end() &&
+                    same_parent( *stack_top.drop_token, *it->drop_token ) ) {
+                    stack.push_back( it );
+                    found_stack = true;
+                    break;
+                }
+            }
+        }
+        if( !found_stack ) {
+            stacked_here.emplace_back( std::list<item_stack::iterator>( { it } ) );
+        }
+    }
+
+    // Items are stored unordered in colonies on the map, so sort them for a nice display.
+    std::sort( stacked_here.begin(), stacked_here.end(),
+    []( const std::list<item_stack::iterator> &lhs, const std::list<item_stack::iterator> &rhs ) {
+        return *lhs.front() < *rhs.front();
+    } );
+
+    return stacked_here;
+}
+
 // Pick up items at (pos).
 void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 {
@@ -573,42 +630,7 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         return;
     }
 
-    std::map<std::pair<time_point, int>, size_t> child_count;
-    std::set<std::pair<time_point, int>> parents_found;
-    for( item_stack::iterator it : here ) {
-        const auto &token = *it->drop_token;
-        std::pair<time_point, int> turn_and_parent = std::make_pair(token.turn, token.parent_number);
-        parents_found.emplace(turn_and_parent);
-        if(token.parent_number != 0) {
-        child_count[turn_and_parent]++;
-        }
-    }
-
-    std::vector<std::list<item_stack::iterator>> stacked_here;
-    for( item_stack::iterator it : here ) {
-        bool found_stack = false;
-        for( std::list<item_stack::iterator> &stack : stacked_here ) {
-            // Items should only stack if they have same parent, or both have absent/nonexistent one
-            // Items with children should not stack
-            // TODO: Implement above
-            if( stack.front()->display_stacked_with( *it ) ) {
-                stack.push_back( it );
-                found_stack = true;
-                break;
-            }
-        }
-        if( !found_stack ) {
-            stacked_here.emplace_back( std::list<item_stack::iterator>( { it } ) );
-        }
-    }
-
-    // Items are stored unordered in colonies on the map, so sort them for a nice display.
-    std::sort( stacked_here.begin(), stacked_here.end(),
-    []( const std::list<item_stack::iterator> & lhs,
-    const std::list<item_stack::iterator> & rhs ) {
-        return *lhs.front() < *rhs.front();
-    } );
-
+    const std::vector<std::list<item_stack::iterator>> &stacked_here = stack_for_pickup_ui( here );
     std::vector<pickup_count> getitem( stacked_here.size() );
     std::vector<cata::optional<size_t>> parents = calculate_parents( stacked_here );
     for( size_t i = 0; i < getitem.size(); i++ ) {
@@ -803,7 +825,7 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                             unsigned int charges = 0;
                             int item_count = getitem[true_it].count ? *getitem[true_it].count : 0;
                             int c = item_count;
-                            for( std::list<item_stack::iterator>::iterator it = stacked_here[true_it].begin();
+                            for( std::list<item_stack::iterator>::const_iterator it = stacked_here[true_it].begin();
                                  it != stacked_here[true_it].end() && c > 0; ++it, --c ) {
                                 charges += ( *it )->charges;
                             }
