@@ -193,6 +193,7 @@ std::string enum_to_string<mission_goal>( mission_goal data )
 } // namespace io
 
 generic_factory<mission_type> mission_type_factory( "mission_type" );
+static DynamicDataLoader::deferred_json deferred;
 
 /** @relates string_id */
 template<>
@@ -216,6 +217,7 @@ void mission_type::load_mission_type( const JsonObject &jo, const std::string &s
 void mission_type::reset()
 {
     mission_type_factory.reset();
+    deferred.clear();
 }
 
 template <typename Fun>
@@ -231,8 +233,6 @@ void assign_function( const JsonObject &jo, const std::string &id, Fun &target,
         }
     }
 }
-
-static DynamicDataLoader::deferred_json deferred;
 
 void mission_type::load( const JsonObject &jo, const std::string &src )
 {

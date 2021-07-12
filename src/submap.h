@@ -269,16 +269,14 @@ struct maptile {
         friend map; // To allow "sliding" the tile in x/y without bounds checks
         friend submap;
         submap *const sm;
-        size_t x;
-        size_t y;
-        point pos() const {
-            return point( x, y );
+        point pos_;
+
+        inline const point &pos() const {
+            return pos_;
         }
 
-        maptile( submap *sub, const size_t nx, const size_t ny ) :
-            sm( sub ), x( nx ), y( ny ) { }
         maptile( submap *sub, const point &p ) :
-            sm( sub ), x( p.x ), y( p.y ) { }
+            sm( sub ), pos_( p ) { }
     public:
         trap_id get_trap() const {
             return sm->get_trap( pos() );
@@ -309,16 +307,6 @@ struct maptile {
 
         field_entry *find_field( const field_type_id &field_to_find ) {
             return sm->get_field( pos() ).find_field( field_to_find );
-        }
-
-        bool add_field( const field_type_id &field_to_add, const int new_intensity,
-                        const time_duration &new_age ) {
-            const bool ret = sm->get_field( pos() ).add_field( field_to_add, new_intensity, new_age );
-            if( ret ) {
-                sm->field_count++;
-            }
-
-            return ret;
         }
 
         int get_radiation() const {

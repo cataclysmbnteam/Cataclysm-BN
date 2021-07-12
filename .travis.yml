@@ -63,14 +63,14 @@ jobs:
 
     - stage: "Deployable"
     # MXE variant using alternate repository http://mirror.mxe.cc/repos/apt
-      env: COMPILER=g++ LDFLAGS="-static-libgcc -static-libstdc++" MXE_TARGET="i686-w64-mingw32.static" WINE="wine" RELEASE=1 TILES=1 SOUND=1 DEPLOY=1 OPTLEVEL="-O3" BUILD_NAME=win32-tiles
+      env: COMPILER=g++ LDFLAGS="-static-libgcc -static-libstdc++" MXE_TARGET="i686-w64-mingw32.static" WINE="wine" RELEASE=1 TILES=1 SOUND=1 OPTLEVEL="-O3"
       name: "Mingw-w64 Make cross-compile to Windows 32 bit, with -O3 optimization, with Tiles and Sound"
       compiler: gcc
       addons: &gcc
         apt:
           packages: ["wine"]
 
-    - env: COMPILER=g++-8 CXXFLAGS="-Wno-implicit-fallthrough" RELEASE=1 TILES=1 SOUND=1 DEPLOY=1 BUILD_NAME=lin32-tiles
+    - env: COMPILER=g++-8 CXXFLAGS="-Wno-implicit-fallthrough" RELEASE=1 TILES=1 SOUND=1
       name: "GCC 8 32 bit Make build with Tiles and Sound"
       dist: bionic
       compiler: gcc
@@ -79,7 +79,7 @@ jobs:
           packages: ["g++-8", "g++-8-multilib", "libc6-dbg", "libc6-dbg:i386", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
           sources: *apt_sources
 
-    - env: COMPILER=g++-8 CXXFLAGS="-Wno-implicit-fallthrough" RELEASE=1 DEPLOY=1 BUILD_NAME=lin32-curses
+    - env: COMPILER=g++-8 CXXFLAGS="-Wno-implicit-fallthrough" RELEASE=1
       name: "GCC 8 32 bit Make build with Curses"
       dist: bionic
       compiler: gcc
@@ -89,27 +89,27 @@ jobs:
           sources: *apt_sources
 
     # OSX
-    - env: CLANG=clang++ NATIVE=osx OSX_MIN=10.13 RELEASE=1 TILES=1 SOUND=1 BREWGETTEXT=1 DEPLOY=1 BUILD_NAME=osx32-tiles
+    - env: CLANG=clang++ NATIVE=osx OSX_MIN=10.13 RELEASE=1 TILES=1 SOUND=1 BREWGETTEXT=1
       name: "Xcode 10.1 Make build with Tiles and sound (macOS 32 bit)"
       os: osx
       osx_image: xcode10.1
       compiler: clang
 
-    - env: CLANG=clang++ NATIVE=osx OSX_MIN=10.13 RELEASE=1 BREWGETTEXT=1 DEPLOY=1 BUILD_NAME=osx32-curses
+    - env: CLANG=clang++ NATIVE=osx OSX_MIN=10.13 RELEASE=1 BREWGETTEXT=1
       name: "Xcode 10.1 Make build with Curses (macOS 32 bit)"
       os: osx
       osx_image: xcode10.1
       compiler: clang
 
     # 64 bit builds
-    - env: COMPILER=g++ LDFLAGS="-static-libgcc -static-libstdc++" MXE_TARGET="x86_64-w64-mingw32.static" WINE="wine" RELEASE=1 TILES=1 SOUND=1 DEPLOY=1 OPTLEVEL="-O3" BUILD_NAME=win64-tiles
+    - env: COMPILER=g++ LDFLAGS="-static-libgcc -static-libstdc++" MXE_TARGET="x86_64-w64-mingw32.static" WINE="wine" RELEASE=1 TILES=1 SOUND=1 OPTLEVEL="-O3"
       name: "Mingw-w64 Make cross-compile to Windows 64 bit, with -O3 optimization, with Tiles and Sound"
       compiler: gcc
       addons: &gcc
         apt:
           packages: ["wine"]
 
-    - env: COMPILER=g++-8 CXXFLAGS="-Wno-implicit-fallthrough" RELEASE=1 TILES=1 SOUND=1 DEPLOY=1 NATIVE=linux64 BUILD_NAME=lin64-tiles
+    - env: COMPILER=g++-8 CXXFLAGS="-Wno-implicit-fallthrough" RELEASE=1 TILES=1 SOUND=1 NATIVE=linux64
       name: "GCC 8 64 bit Make build with Tiles and Sound"
       dist: bionic
       compiler: gcc
@@ -118,7 +118,7 @@ jobs:
           packages: ["g++-8", "g++-8-multilib", "libc6-dbg", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
           sources: *apt_sources
 
-    - env: COMPILER=g++-8 CXXFLAGS="-Wno-implicit-fallthrough" RELEASE=1 DEPLOY=1 NATIVE=linux64 BUILD_NAME=lin64-curses
+    - env: COMPILER=g++-8 CXXFLAGS="-Wno-implicit-fallthrough" RELEASE=1 NATIVE=linux64
       name: "GCC 8 64 bit Make build with Curses"
       dist: bionic
       compiler: gcc
@@ -128,7 +128,7 @@ jobs:
           sources: *apt_sources
 
     # Android
-    - env: NATIVE=android BUILD_NAME=android64 DEPLOY=1
+    - env: NATIVE=android
       name: "Android ARM 64"
       language: android
       dist: trusty
@@ -138,7 +138,7 @@ jobs:
           - android-16
           - platform-tools
 
-    - env: NATIVE=android BUILD_NAME=android32 DEPLOY=1 ANDROID32=1
+    - env: NATIVE=android ANDROID32=1
       name: "Android ARM 32"
       language: android
       dist: trusty
@@ -254,21 +254,3 @@ script:
 after_success:
   - if [ -n "${CODE_COVERAGE}" ]; then coveralls -b . -i src -e tests --gcov /usr/bin/gcov-6; fi
   - if [ -n "${CODE_COVERAGE}" ]; then bash <(curl -s https://codecov.io/bash); fi
-
-before_deploy:
-  - export TRAVIS_TAG=${TRAVIS_BUILD_NUMBER}
-  - git tag --force $TRAVIS_TAG
-  - export RELEASE_PKG_FILES=$(ls cataclysm*.zip cataclysm*.tar.gz Cataclysm*.dmg)
-  - if [ $NATIVE == "android" ]; then RELEASE_PKG_FILES=$(find android -name "*.apk"); fi
-
-deploy:
-  provider: releases
-  api_key:
-    secure: YkZwEzn5TJI6fdqiYNUdWp4FaIQxvGgznW6YduSEGiiOawJOWrGqk10NGKCuOicOBI32h7ivoEIuPWc1pvABgY45WgFxI8XprBtt67sNvu//cF8GGJztevdVKbuMFa7ENRF3AuQU/OI1ll2kN5WFz+mQwfXI3Cp1kRNqUt26i8Xf7TWuXthjPob9oitlIEdq2P80Q3d6+SM8Mu2qyYF6TqUY45UMsxIFaf0HpJqgqrDZYF4iOKAoK1GihpgBYZb/VEkQWMR9yV/YOsSMDVhFXCr32tcjkxz9wY1azr6RdRK15xO/uJa8/j00a8E4rWZ/NIL3p2ZHGGXSrgDM12d1AY0nYs4Hr4VqtGv6jSemg/k9fml/7KHRa04oTv74ncUS1YYyVggQqGYd/Odekkj7yewOINUWNeZfMgsqYUgX1rlGiIxP5lkoMPwQRkFVo31k/eQ6SwrprYpi0QZWayy56LdhKZELiiuba6C5lWu5/39+hjxxsRonEwupCnuh6dGIEzhDhIEu7H2JRfqh1mxU8nOWSKac9PkOeQRBERAxiidBjIccDLVfwkxpeUSdXgrMXJ3VKNvdCOJmiA3ExHTvOCNfxMk6TfOLwjkpOOB+DqnN9G7STMjKZfO505W0QPWKHGFNbfD+g/qd4rTY7Fk+j5eDK+3WDeeEcl06vZmmij0=
-  file_glob: true
-  file: ${RELEASE_PKG_FILES}
-  skip_cleanup: true
-  on:
-    repo: cataclysmbnteam/Cataclysm-BN
-    branch: upload
-    condition: $ENABLE_DEPLOY = '1' && $DEPLOY = '1'

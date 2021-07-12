@@ -336,6 +336,14 @@ bool overmapbuffer::has_note( const tripoint &p )
     return false;
 }
 
+cata::optional<int> overmapbuffer::has_note_with_danger_radius( const tripoint &p )
+{
+    if( const overmap_with_local_coords om_loc = get_existing_om_global( p ) ) {
+        return om_loc.om->has_note_with_danger_radius( om_loc.local );
+    }
+    return cata::nullopt;
+}
+
 bool overmapbuffer::is_marked_dangerous( const tripoint &p )
 {
     if( const overmap_with_local_coords om_loc = get_existing_om_global( p ) ) {
@@ -765,11 +773,9 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
     };
     pf::path route;
     if( ptype.only_road ) {
-        route = pf::find_path_4dir( start, finish, 2 * OX,
-                                    2 * OY, estimate );
+        route = pf::find_path_4dir( start, finish, point( OX, OY ) * 2, estimate );
     } else {
-        route = pf::find_path_8dir( start, finish, 2 * OX,
-                                    2 * OY, estimate );
+        route = pf::find_path_8dir( start, finish, point( OX, OY ) * 2, estimate );
     }
     for( auto node : route.nodes ) {
         tripoint convert_result = base + tripoint( node.pos, 0 );
@@ -843,8 +849,7 @@ bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest,
         }
     };
 
-    const auto path = pf::find_path_4dir( start, finish, 2 * OX,
-                                          2 * OY, estimate, reporter );
+    const auto path = pf::find_path_4dir( start, finish, point( OX, OY ) * 2, estimate, reporter );
 
     for( const auto &node : path.nodes ) {
         reveal( base + node.pos, params.radius );
@@ -1444,23 +1449,16 @@ overmapbuffer::t_notes_vector overmapbuffer::get_notes( int z, const std::string
     t_notes_vector result;
     for( auto &it : overmaps ) {
         const overmap &om = *it.second;
-        const int offset_x = om.pos().x * OMAPX;
-        const int offset_y = om.pos().y * OMAPY;
-        for( int i = 0; i < OMAPX; i++ ) {
-            for( int j = 0; j < OMAPY; j++ ) {
-                const std::string &note = om.note( { i, j, z } );
-                if( note.empty() ) {
-                    continue;
-                }
-                if( pattern != nullptr && lcmatch( note, *pattern ) ) {
-                    // pattern not found in note text
-                    continue;
-                }
-                result.push_back( t_point_with_note(
-                                      point( offset_x + i, offset_y + j ),
-                                      om.note( { i, j, z } )
-                                  ) );
+        const point offset( om.pos().x * OMAPX, om.pos().y * OMAPY );
+        const auto &all_om_notes = om.all_notes( z );
+        for( const om_note &note : all_om_notes ) {
+            if( pattern != nullptr && lcmatch( note.text, *pattern ) ) {
+                continue;
             }
+            result.push_back( t_point_with_note(
+                                  offset + note.p,
+                                  note.text
+                              ) );
         }
     }
     return result;

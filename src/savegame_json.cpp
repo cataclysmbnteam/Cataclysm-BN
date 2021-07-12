@@ -2180,7 +2180,7 @@ void reset()
 {
     removal_list.clear();
 }
-}
+} // namespace charge_removal_blacklist
 
 template<typename Archive>
 void item::io( Archive &archive )
@@ -3244,7 +3244,9 @@ void mm_submap::deserialize( JsonIn &jsin )
 void mm_region::serialize( JsonOut &jsout ) const
 {
     jsout.start_array();
+    // NOLINTNEXTLINE(modernize-loop-convert): leaving as is for readability
     for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
+        // NOLINTNEXTLINE(modernize-loop-convert): leaving as is for readability
         for( size_t x = 0; x < MM_REG_SIZE; x++ ) {
             const shared_ptr_fast<mm_submap> &sm = submaps[x][y];
             if( sm->is_empty() ) {
@@ -3260,7 +3262,9 @@ void mm_region::serialize( JsonOut &jsout ) const
 void mm_region::deserialize( JsonIn &jsin )
 {
     jsin.start_array();
+    // NOLINTNEXTLINE(modernize-loop-convert): leaving as is for readability
     for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
+        // NOLINTNEXTLINE(modernize-loop-convert): leaving as is for readability
         for( size_t x = 0; x < MM_REG_SIZE; x++ ) {
             shared_ptr_fast<mm_submap> &sm = submaps[x][y];
             sm = make_shared_fast<mm_submap>();

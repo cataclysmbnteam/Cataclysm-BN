@@ -828,7 +828,7 @@ class JsonObject
         std::map<std::string, int> positions;
         int start;
         int end_;
-        bool final_separator;
+        bool final_separator = false;
 #ifndef CATA_IN_TOOL
         mutable std::set<std::string> visited_members;
         mutable bool report_unvisited_members = true;

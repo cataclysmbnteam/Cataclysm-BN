@@ -1,6 +1,6 @@
 #include "mutation.h"
 
-#include <math.h>
+#include <cmath>
 #include <algorithm>
 #include <cstdlib>
 #include <iterator>

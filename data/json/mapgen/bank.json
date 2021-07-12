@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "         S              ",
+        "         S        SIS   ",
         " #gggggggGgggggggggggg# ",
         " #A..........CTC.CTC.p# ",
         " #A...................w ",
@@ -44,6 +44,7 @@
         "6": "t_console",
         "A": "t_atm",
         "G": "t_door_glass_c",
+        "I": "t_column",
         "M": "t_door_metal_locked",
         "R": "t_wall_metal",
         "S": "t_sidewalk",
@@ -63,6 +64,7 @@
         "t": "f_toilet"
       },
       "toilets": { "t": {  } },
+      "place_loot": [ { "item": "american_flag", "x": 20, "y": 0, "chance": 50 } ],
       "place_items": [
         { "item": "office", "x": [ 4, 9 ], "y": 8, "chance": 30 },
         { "item": "office", "x": [ 3, 5 ], "y": 12, "chance": 30 },
@@ -142,9 +144,9 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "   SS                   ",
-        " ggGGgggggggggg#######  ",
-        " gA.........ccx.#....## ",
+        "   SS                SSS",
+        " ggGGgggggggggg#######iS",
+        " gA.........ccx.#....##S",
         " gA........C-C..+....p# ",
         " gA.........ccx.#aca..##",
         " ####%##...C-C..#aca..Dw",
@@ -183,6 +185,7 @@
         "6": "t_console",
         "A": "t_atm",
         "G": "t_door_glass_c",
+        "i": "t_column",
         "M": "t_door_metal_locked",
         "R": "t_wall_metal",
         "S": "t_sidewalk",
@@ -227,6 +230,7 @@
           "failures": [ { "action": "alarm" }, { "action": "damage" }, { "action": "secubots" } ]
         }
       },
+      "place_loot": [ { "item": "american_flag", "x": 22, "y": 0, "chance": 50 } ],
       "place_monster": [ { "monster": "mon_secubot", "x": [ 7, 18 ], "y": [ 7, 18 ], "chance": 30, "repeat": 4 } ]
     }
   },

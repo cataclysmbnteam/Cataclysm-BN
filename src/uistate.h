@@ -127,7 +127,7 @@ class uistatedata
         }
 
         void serialize( JsonOut &json ) const;
-        void deserialize( const JsonObject &jsin );
+        void deserialize( const JsonObject &jo );
 };
 extern uistatedata uistate;
 

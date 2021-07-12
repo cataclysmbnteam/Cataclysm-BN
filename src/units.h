@@ -51,7 +51,7 @@ inline std::ostream &operator<<( std::ostream &o, const quantity<value_type, tag
     return o << v.value() << tag_type{};
 }
 
-std::string display( const units::energy v );
+std::string display( units::energy v );
 
 } // namespace units
 

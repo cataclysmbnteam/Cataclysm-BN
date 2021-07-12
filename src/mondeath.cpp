@@ -53,9 +53,9 @@
 #include "value_ptr.h"
 #include "weighted_list.h"
 
+static const efftype_id effect_ai_controlled( "ai_controlled" );
 static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_boomered( "boomered" );
-static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_darkness( "darkness" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_no_ammo( "no_ammo" );
@@ -501,7 +501,7 @@ void mdeath::brainblob( monster &z )
 {
     for( monster &critter : g->all_monsters() ) {
         if( critter.type->in_species( species_BLOB ) && critter.type->id != mon_blob_brain ) {
-            critter.remove_effect( effect_controlled );
+            critter.remove_effect( effect_ai_controlled );
         }
     }
     blobsplit( z );
@@ -512,7 +512,7 @@ void mdeath::jackson( monster &z )
     for( monster &critter : g->all_monsters() ) {
         if( critter.type->id == mon_zombie_dancer ) {
             critter.poly( mon_zombie_hulk );
-            critter.remove_effect( effect_controlled );
+            critter.remove_effect( effect_ai_controlled );
         }
         if( g->u.sees( z ) ) {
             add_msg( m_warning, _( "The music stops!" ) );

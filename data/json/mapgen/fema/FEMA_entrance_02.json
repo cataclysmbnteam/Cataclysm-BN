@@ -8,9 +8,9 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "........................",
-        "ffff................ffff",
-        "...f................f...",
+        "........iii.............",
+        "ffff....iIi.........ffff",
+        "...f....iii.........f...",
         "...--++-ggg-----....N...",
         "...|~~~~~~~~DD6|....N...",
         "...|~~Z~Z~~~~c~|....N...",
@@ -35,6 +35,7 @@
       ],
       "rotation": 2,
       "palettes": [ "FEMA_camp" ],
+      "place_loot": [ { "item": "american_flag", "x": 9, "y": 0, "chance": 75 } ],
       "items": { "X": { "item": "mil_surplus", "chance": 60 } },
       "monster": { "Z": { "monster": "mon_zombie_soldier" }, "z": { "monster": "mon_zombie_soldier" } }
     }

@@ -24,6 +24,8 @@
       "f": "t_chainfence_v",
       "F": "t_chaingate_l",
       "g": "t_wall_glass",
+      "I": "t_column",
+      "i": "t_sidewalk",
       "P": "t_water_pump",
       "s": "t_floor",
       "w": [ "t_window_domestic", "t_curtains", "t_curtains" ],

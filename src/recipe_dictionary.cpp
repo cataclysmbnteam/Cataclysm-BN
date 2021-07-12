@@ -469,6 +469,7 @@ void recipe_dictionary::finalize()
 
 void recipe_dictionary::reset()
 {
+    deferred.clear();
     recipe_dict.blueprints.clear();
     recipe_dict.autolearn.clear();
     recipe_dict.recipes.clear();

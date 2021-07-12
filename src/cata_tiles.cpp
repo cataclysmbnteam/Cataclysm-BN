@@ -302,8 +302,8 @@ tile_type &tileset::create_tile_type( const std::string &id, tile_type &&new_til
     }
     // tile doesn't have _season suffix, add it as "default" into all four seasons
     if( !has_season_suffix ) {
-        for( int i = 0; i < 4; i++ ) {
-            tile_ids_by_season[i][id].default_tile = &inserted_tile;
+        for( auto &tile_ids_for_season : tile_ids_by_season ) {
+            tile_ids_for_season[id].default_tile = &inserted_tile;
         }
     }
 
@@ -579,9 +579,13 @@ void tileset_loader::load_tileset( const std::string &img_path )
         assert( surf_to_use );
 
         if( !create_textures_from_tile_atlas( surf_to_use, point( sub_rect.x, sub_rect.y ) ) ) {
-            // May happen on some old systems - there's nothing we can do about it
+            // May happen on some systems - there's nothing we can do about it
             throw std::runtime_error(
-                _( "Video error. Try another tileset or a different renderer." )
+                _(
+                    "Failed to create texture atlas, see debug.log for details.  "
+                    "This commonly happens if the device is low on memory.  "
+                    "Try rebooting device, or using another tileset or a different renderer."
+                )
             );
         }
     }
@@ -681,13 +685,14 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
         if( mod_config_json.test_array() ) {
             for( const JsonObject &mod_config : mod_config_json.get_array() ) {
                 if( mod_config.get_string( "type" ) == "mod_tileset" ) {
-                    mark_visited( mod_config );
                     if( num_in_file == mts.num_in_file() ) {
+                        mark_visited( mod_config );
                         load_internal( mod_config, tileset_root, img_path );
                         break;
                     }
                     num_in_file++;
                 }
+                mod_config.allow_omitted_members();
             }
         } else {
             JsonObject mod_config = mod_config_json.get_object();
@@ -1199,6 +1204,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             }
         }
     }
+    const point quarter_tile( tile_width / 4, tile_height / 4 );
     if( g->display_overlay_state( ACTION_DISPLAY_VEHICLE_AI ) ) {
         for( const point &pt_elem : collision_checkpoints ) {
             overlay_strings.emplace( player_to_screen( pt_elem ) + point( tile_width / 2, 0 ),
@@ -1336,35 +1342,44 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     formatted_text( visibility_str, catacurses::black, direction::NORTH ) );
             }
 
+            static std::vector<SDL_Color> lighting_colors;
+            // color hue in the range of [0..10], 0 being white,  10 being blue
+            auto draw_debug_tile = [&]( const int color_hue, const std::string & text ) {
+                if( lighting_colors.empty() ) {
+                    SDL_Color white = { 255, 255, 255, 255 };
+                    SDL_Color blue = { 0, 0, 255, 255 };
+                    lighting_colors = color_linear_interpolate( white, blue, 9 );
+                }
+                point tile_pos = player_to_screen( point( x, y ) );
+
+                // color overlay
+                SDL_Color color = lighting_colors[std::min( std::max( 0, color_hue ), 10 )];
+                color.a = 100;
+                color_blocks.first = SDL_BLENDMODE_BLEND;
+                color_blocks.second.emplace( tile_pos, color );
+
+                // string overlay
+                overlay_strings.emplace( tile_pos + quarter_tile, formatted_text( text, catacurses::black,
+                                         direction::NORTH ) );
+            };
+
             if( g->display_overlay_state( ACTION_DISPLAY_LIGHTING ) ) {
-                static std::vector<SDL_Color> lighting_colors;
                 if( g->displaying_lighting_condition == 0 ) {
-                    if( lighting_colors.empty() ) {
-                        SDL_Color white = { 255, 255, 255, 255 };
-                        SDL_Color blue = { 0, 0, 255, 255 };
-                        lighting_colors = color_linear_interpolate( white, blue, 9 );
-                    }
-
+                    const float light = here.ambient_light_at( {x, y, center.z} );
                     // note: lighting will be constrained in the [1.0, 11.0] range.
-                    float ambient = g->m.ambient_light_at( {x, y, center.z} );
-                    float lighting = std::max( 1.0, LIGHT_AMBIENT_LIT - ambient + 1.0 );
-
-                    auto tile_pos = player_to_screen( point( x, y ) );
-
-                    // color overlay
-                    auto color = lighting_colors[static_cast<int>( lighting ) - 1];
-                    color.a = 100;
-                    color_blocks.first = SDL_BLENDMODE_BLEND;
-                    color_blocks.second.emplace( tile_pos, color );
-
-                    // string overlay
-                    overlay_strings.emplace( tile_pos + point( tile_width / 4, tile_height / 4 ),
-                                             formatted_text( string_format( "%.1f", ambient ), catacurses::black, direction::NORTH ) );
+                    int intensity = static_cast<int>( std::max( 1.0, LIGHT_AMBIENT_LIT - light + 1.0 ) ) - 1;
+                    draw_debug_tile( intensity, string_format( "%.1f", light ) );
                 }
             }
 
-            if( !invisible[0] && apply_vision_effects( pos, g->m.get_visibility( ll, cache ) ) ) {
+            if( g->display_overlay_state( ACTION_DISPLAY_TRANSPARENCY ) ) {
+                const float tr = here.light_transparency( {x, y, center.z} );
+                int intensity =  tr <= LIGHT_TRANSPARENCY_SOLID ? 10 :  static_cast<int>
+                                 ( ( tr - LIGHT_TRANSPARENCY_OPEN_AIR ) * 8 );
+                draw_debug_tile( intensity, string_format( "%.2f", tr ) );
+            }
 
+            if( !invisible[0] && apply_vision_effects( pos, here.get_visibility( ll, cache ) ) ) {
                 const Creature *critter = g->critter_at( pos, true );
                 if( has_draw_override( pos ) || has_memory_at( pos ) ||
                     ( critter && ( g->u.sees_with_infrared( *critter ) || g->u.sees_with_specials( *critter ) ) ) ) {
@@ -1581,7 +1596,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 point sm_p = point( sm_x, sm_y );
                 tripoint sm_tp = tripoint( sm_x, sm_y, center.z );
                 point p1 = player_to_screen( g->m.getlocal( sm_to_ms_copy( sm_p ) ) );
-                point p3 = player_to_screen( g->m.getlocal( sm_to_ms_copy( sm_p + point( 1, 1 ) ) ) );
+                point p3 = player_to_screen( g->m.getlocal( sm_to_ms_copy( sm_p + point_south_east ) ) );
                 p3 -= point( THICC, THICC ); // Don't draw over other lines
 
                 // Leave a small gap to indicate omt boundaries

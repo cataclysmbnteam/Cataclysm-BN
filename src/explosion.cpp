@@ -78,7 +78,7 @@ static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_sunglasses( "bio_sunglasses" );
 
-static float blast_percentage( float distance_factor, float distance );
+static float blast_percentage( float range, float distance );
 
 explosion_data load_explosion_data( const JsonObject &jo )
 {
@@ -384,7 +384,7 @@ static std::map<const Creature *, int> shrapnel( const tripoint &src, const proj
     return damaged;
 }
 
-void explosion( const tripoint &p, float power, float factor, bool fire, int legacy_mass,
+void explosion( const tripoint &p, float power, float factor, bool fire, int legacy_casing_mass,
                 float )
 {
     if( factor >= 1.0f ) {
@@ -394,7 +394,7 @@ void explosion( const tripoint &p, float power, float factor, bool fire, int leg
     data.damage = power * explosion_handler::power_to_dmg_mult;
     data.radius = explosion_handler::blast_radius_from_legacy( power, factor );
     data.fire = fire;
-    if( legacy_mass > 0 ) {
+    if( legacy_casing_mass > 0 ) {
         data.fragment = explosion_handler::shrapnel_from_legacy( power, data.radius );
     }
     explosion( p, data );

@@ -277,7 +277,7 @@ class generic_factory
                 }
 
             } else if( jo.has_array( id_member_name ) ) {
-                for( const auto &e : jo.get_array( id_member_name ) ) {
+                for( JsonValue e : jo.get_array( id_member_name ) ) {
                     T def;
                     if( !handle_inheritance( def, jo, src ) ) {
                         break;
@@ -307,7 +307,7 @@ class generic_factory
                 }
 
             } else if( jo.has_array( legacy_id_member_name ) ) {
-                for( const auto &e : jo.get_array( legacy_id_member_name ) ) {
+                for( const JsonValue e : jo.get_array( legacy_id_member_name ) ) {
                     T def;
                     if( !handle_inheritance( def, jo, src ) ) {
                         break;
@@ -359,6 +359,11 @@ class generic_factory
         virtual void finalize() {
             DynamicDataLoader::get_instance().load_deferred( deferred );
             abstracts.clear();
+
+            inc_version();
+            for( size_t i = 0; i < list.size(); i++ ) {
+                list[i].id.set_cid_version( static_cast<int>( i ), version );
+            }
         }
 
         /**
@@ -386,8 +391,11 @@ class generic_factory
          * Postcondition: `size() == 0`
          */
         void reset() {
+            inc_version();
             list.clear();
             map.clear();
+            abstracts.clear();
+            deferred.clear();
         }
         /**
          * Returns all the loaded objects. It can be used to iterate over them.
@@ -465,6 +473,38 @@ class generic_factory
             return obj( id ).id;
         }
         /**@}*/
+
+        /**
+         * Wrapper around generic_factory::version.
+         * Allows to have local caches that invalidate when corresponding generic factory invalidates.
+         * Note: when created using it's default constructor, Version is guaranteed to be invalid.
+        */
+        class Version
+        {
+                friend generic_factory<T>;
+            public:
+                Version() = default;
+            private:
+                Version( int64_t version ) : version( version ) {}
+                int64_t  version = -1;
+            public:
+                bool operator==( const Version &rhs ) const {
+                    return version == rhs.version;
+                }
+                bool operator!=( const Version &rhs ) const {
+                    return !( rhs == *this );
+                }
+        };
+
+        // current version of this generic_factory
+        Version get_version() {
+            return Version( version );
+        }
+
+        // checks whether given version is the same as current version of this generic_factory
+        bool is_valid( const Version &v ) {
+            return v.version == version;
+        }
 };
 
 /**

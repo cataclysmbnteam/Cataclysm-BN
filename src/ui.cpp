@@ -129,6 +129,15 @@ uilist::~uilist()
     }
 }
 
+void uilist::color_error( const bool report )
+{
+    if( report ) {
+        _color_error = report_color_error::yes;
+    } else {
+        _color_error = report_color_error::no;
+    }
+}
+
 /*
  * Enables oneshot construction -> running -> exit
  */
@@ -193,14 +202,12 @@ void uilist::init()
     max_entry_len = 0;
     max_column_len = 0;      // for calculating space for second column
 
+    _color_error = report_color_error::yes;
     hotkeys = DEFAULT_HOTKEYS;
     input_category = "UILIST";
     additional_actions.clear();
 }
 
-/**
- * repopulate filtered entries list (fentries) and set fselected accordingly
- */
 void uilist::filterlist()
 {
     bool filtering = ( this->filtering && !filter.empty() );
@@ -218,7 +225,7 @@ void uilist::filterlist()
                 if( !lcmatch( entries[i].txt, filter ) ) {
                     continue;
                 }
-            } else if( entries[i].txt.find( filter ) == entries[i].txt.npos ) {
+            } else if( entries[i].txt.find( filter ) == std::string::npos ) {
                 continue;
             }
         }
@@ -254,6 +261,18 @@ void uilist::filterlist()
     }
 }
 
+void uilist::clear_filter()
+{
+    filter.clear();
+    filterlist();
+}
+
+void uilist::set_filter( const std::string &fstr )
+{
+    filter = fstr;
+    filterlist();
+}
+
 void uilist::inputfilter()
 {
     input_context ctxt( input_category );
@@ -265,6 +284,7 @@ void uilist::inputfilter()
     ctxt.register_action( "ANY_INPUT" );
     filter_popup = std::make_unique<string_input_popup>();
     filter_popup->context( ctxt ).text( filter )
+    .ignore_custom_actions( false )
     .max_length( 256 )
     .window( window, point( 4, w_height - 1 ), w_width - 4 );
     ime_sentry sentry;
@@ -273,7 +293,7 @@ void uilist::inputfilter()
         filter = filter_popup->query_string( false );
         if( !filter_popup->canceled() ) {
             const std::string action = ctxt.input_to_action( ctxt.get_raw_input() );
-            if( !scrollby( scroll_amount_from_action( action ) ) ) {
+            if( filter_popup->handled() || !scrollby( scroll_amount_from_action( action ) ) ) {
                 filterlist();
             }
         }
@@ -284,6 +304,24 @@ void uilist::inputfilter()
     }
 
     filter_popup.reset();
+}
+
+bool uilist::set_selected( int sel )
+{
+    if( sel < 0 || sel >= static_cast<int>( entries.size() ) ) {
+        // Shortcut
+        return false;
+    }
+
+    for( size_t i = 0; i < fentries.size(); i++ ) {
+        if( fentries[i] == sel ) {
+            selected = sel;
+            fselected = static_cast<int>( i );
+            return true;
+        }
+    }
+
+    return false;
 }
 
 /**
@@ -575,7 +613,8 @@ void uilist::show()
     int estart = 1;
     if( !textformatted.empty() ) {
         for( int i = 0; i < text_lines; i++ ) {
-            trim_and_print( window, point( 2, 1 + i ), getmaxx( window ) - 4, text_color, textformatted[i] );
+            trim_and_print( window, point( 2, 1 + i ), getmaxx( window ) - 4,
+                            text_color, _color_error, "%s", textformatted[i] );
         }
 
         mvwputch( window, point( 0, text_lines + 1 ), border_color, LINE_XXXO );
@@ -625,13 +664,13 @@ void uilist::show()
                 const auto entry = utf8_wrapper( ei == selected ? remove_color_tags( entries[ ei ].txt ) :
                                                  entries[ ei ].txt );
                 trim_and_print( window, point( pad_left + 4, estart + si ),
-                                max_entry_len, co, "%s", entry.c_str() );
+                                max_entry_len, co, _color_error, "%s", entry.c_str() );
 
                 if( max_column_len && !entries[ ei ].ctxt.empty() ) {
                     const auto centry = utf8_wrapper( ei == selected ? remove_color_tags( entries[ ei ].ctxt ) :
                                                       entries[ ei ].ctxt );
                     trim_and_print( window, point( getmaxx( window ) - max_column_len - 2, estart + si ),
-                                    max_column_len, co, "%s", centry.c_str() );
+                                    max_column_len, co, _color_error, "%s", centry.str() );
                 }
             }
             mvwzstr menu_entry_extra_text = entries[ei].extratxt;

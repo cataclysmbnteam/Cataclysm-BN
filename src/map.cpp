@@ -170,7 +170,7 @@ static submap null_submap;
 maptile map::maptile_at( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
-        return maptile( &null_submap, 0, 0 );
+        return maptile( &null_submap, point_zero );
     }
 
     return maptile_at_internal( p );
@@ -179,7 +179,7 @@ maptile map::maptile_at( const tripoint &p ) const
 maptile map::maptile_at( const tripoint &p )
 {
     if( !inbounds( p ) ) {
-        return maptile( &null_submap, 0, 0 );
+        return maptile( &null_submap, point_zero );
     }
 
     return maptile_at_internal( p );
@@ -376,6 +376,7 @@ void map::on_vehicle_moved( const int smz )
     set_outside_cache_dirty( smz );
     set_transparency_cache_dirty( smz );
     set_floor_cache_dirty( smz );
+    set_floor_cache_dirty( smz + 1 );
     set_pathfinding_cache_dirty( smz );
 }
 
@@ -1014,7 +1015,7 @@ void map::board_vehicle( const tripoint &pos, player *p )
 
     p->setpos( pos );
     p->in_vehicle = true;
-    if( p == &g->u ) {
+    if( p->is_avatar() ) {
         g->update_map( g->u );
     }
 }
@@ -1150,7 +1151,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp )
                 complete = false;
                 continue;
             }
-            if( psg == &g->u ) {
+            if( psg->is_avatar() ) {
                 // If passenger is you, we need to update the map
                 need_update = true;
                 z_change = dp.z;
@@ -1331,7 +1332,7 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
         field_furn_locs.push_back( p );
     }
     if( old_t.transparent != new_t.transparent ) {
-        set_transparency_cache_dirty( p.z );
+        set_transparency_cache_dirty( p );
         set_seen_cache_dirty( p );
     }
 
@@ -1343,6 +1344,11 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
         set_floor_cache_dirty( p.z );
         set_seen_cache_dirty( p );
     }
+
+    if( old_t.has_flag( TFLAG_SUN_ROOF_ABOVE ) != new_t.has_flag( TFLAG_SUN_ROOF_ABOVE ) ) {
+        set_floor_cache_dirty( p.z + 1 );
+    }
+
     invalidate_max_populated_zlev( p.z );
 
     set_memory_seen_cache_dirty( p );
@@ -1590,7 +1596,7 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
     }
 
     if( old_t.transparent != new_t.transparent ) {
-        set_transparency_cache_dirty( p.z );
+        set_transparency_cache_dirty( p );
         set_seen_cache_dirty( p );
     }
 
@@ -2890,7 +2896,7 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
             continue;
         }
 
-        float damage_chance = power / 4;
+        float damage_chance = power / 4.0;
         // Example:
         // Power 133 (just below C4 epicenter) vs two-by-four
         // damage_chance = 133 / 10 = 13, final_factor = 16 (2*8)
@@ -5204,7 +5210,7 @@ void map::remove_trap( const tripoint &p )
 
     trap_id tid = current_submap->get_trap( l );
     if( tid != tr_null ) {
-        if( g != nullptr && this == &g->m ) {
+        if( g != nullptr && this == &get_map() ) {
             g->u.add_known_trap( p, tr_null.obj() );
         }
 
@@ -5327,18 +5333,19 @@ bool map::dangerous_field_at( const tripoint &p )
     return false;
 }
 
-bool map::add_field( const tripoint &p, const field_type_id &type, int intensity,
-                     const time_duration &age )
+bool map::add_field( const tripoint &p, const field_type_id &type_id, int intensity,
+                     const time_duration &age, bool hit_player )
 {
     if( !inbounds( p ) ) {
         return false;
     }
 
-    if( !type ) {
+    if( !type_id ) {
         return false;
     }
 
-    intensity = std::min( intensity, type.obj().get_max_intensity() );
+    const field_type &fd_type = *type_id;
+    intensity = std::min( intensity, fd_type.get_max_intensity() );
     if( intensity <= 0 ) {
         return false;
     }
@@ -5348,7 +5355,7 @@ bool map::add_field( const tripoint &p, const field_type_id &type, int intensity
     current_submap->is_uniform = false;
     invalidate_max_populated_zlev( p.z );
 
-    if( current_submap->get_field( l ).add_field( type, intensity, age ) ) {
+    if( current_submap->get_field( l ).add_field( type_id, intensity, age ) ) {
         //Only adding it to the count if it doesn't exist.
         if( !current_submap->field_count++ ) {
             get_cache( p.z ).field_cache.set( static_cast<size_t>( p.x / SEEX + ( (
@@ -5356,21 +5363,26 @@ bool map::add_field( const tripoint &p, const field_type_id &type, int intensity
         }
     }
 
-    if( g != nullptr && this == &g->m && p == g->u.pos() ) {
-        creature_in_field( g->u ); //Hit the player with the field if it spawned on top of them.
+    if( hit_player ) {
+        Character &player_character = get_player_character();
+        if( g != nullptr && this == &get_map() && p == player_character.pos() ) {
+            //Hit the player with the field if it spawned on top of them.
+            creature_in_field( player_character );
+        }
     }
 
     // Dirty the transparency cache now that field processing doesn't always do it
-    // TODO: Make it skip transparent fields
-    set_transparency_cache_dirty( p.z );
-    set_seen_cache_dirty( p );
+    if( fd_type.dirty_transparency_cache || !fd_type.is_transparent() ) {
+        set_transparency_cache_dirty( p );
+        set_seen_cache_dirty( p );
+    }
 
-    if( type.obj().is_dangerous() ) {
+    if( fd_type.is_dangerous() ) {
         set_pathfinding_cache_dirty( p.z );
     }
 
     // Ensure blood type fields don't hang in the air
-    if( zlevels && type.obj().accelerated_decay ) {
+    if( zlevels && fd_type.accelerated_decay ) {
         support_dirty( p );
     }
 
@@ -5393,8 +5405,8 @@ void map::remove_field( const tripoint &p, const field_type_id &field_to_remove 
                                                   p.y / SEEX ) * MAPSIZE ) ) );
         }
         const auto &fdata = field_to_remove.obj();
-        if( fdata.is_transparent() ) {
-            set_transparency_cache_dirty( p.z );
+        if( fdata.dirty_transparency_cache || !fdata.is_transparent() ) {
+            set_transparency_cache_dirty( p );
             set_seen_cache_dirty( p );
         }
         if( fdata.is_dangerous() ) {
@@ -6774,7 +6786,7 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
 
     // New submap changes the content of the map and all caches must be recalculated
     set_transparency_cache_dirty( grid.z );
-    set_seen_cache_dirty( tripoint_zero );
+    set_seen_cache_dirty( grid.z );
     set_outside_cache_dirty( grid.z );
     set_floor_cache_dirty( grid.z );
     set_pathfinding_cache_dirty( grid.z );
@@ -7415,7 +7427,7 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
             const auto valid_location = [&]( const tripoint & p ) {
                 // Checking for creatures via g is only meaningful if this is the main game map.
                 // If it's some local map instance, the coordinates will most likely not even match.
-                return ( !g || &g->m != this || !g->critter_at( p ) ) && tmp.can_move_to( p );
+                return ( !g || &get_map() != this || !g->critter_at( p ) ) && tmp.can_move_to( p );
             };
 
             const auto place_it = [&]( const tripoint & p ) {
@@ -7742,15 +7754,31 @@ bool map::build_floor_cache( const int zlev )
     std::uninitialized_fill_n(
         &floor_cache[0][0], ( MAPSIZE_X ) * ( MAPSIZE_Y ), true );
 
+    bool lowest_z_lev = zlev <= -OVERMAP_DEPTH;
+
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            const auto cur_submap = get_submap_at_grid( { smx, smy, zlev } );
+            const submap *cur_submap = get_submap_at_grid( { smx, smy, zlev } );
+            const submap *below_submap = !lowest_z_lev ? get_submap_at_grid( { smx, smy, zlev - 1 } ) : nullptr;
+
+            if( cur_submap == nullptr ) {
+                debugmsg( "Tried to build floor cache at (%d,%d,%d) but the submap is not loaded", smx, smy, zlev );
+                continue;
+            }
+            if( !lowest_z_lev && below_submap == nullptr ) {
+                debugmsg( "Tried to build floor cache at (%d,%d,%d) but the submap is not loaded", smx, smy,
+                          zlev - 1 );
+                continue;
+            }
 
             for( int sx = 0; sx < SEEX; ++sx ) {
                 for( int sy = 0; sy < SEEY; ++sy ) {
-                    // Note: furniture currently can't affect existence of floor
-                    const ter_t &terrain = cur_submap->get_ter( { sx, sy } ).obj();
+                    point sp( sx, sy );
+                    const ter_t &terrain = cur_submap->get_ter( sp ).obj();
                     if( terrain.has_flag( TFLAG_NO_FLOOR ) ) {
+                        if( below_submap && ( below_submap->get_furn( sp ).obj().has_flag( TFLAG_SUN_ROOF_ABOVE ) ) ) {
+                            continue;
+                        }
                         const int x = sx + smx * SEEX;
                         const int y = sy + smy * SEEY;
                         floor_cache[x][y] = false;
@@ -7779,6 +7807,7 @@ void map::do_vehicle_caching( int z )
     auto &outside_cache = ch.outside_cache;
     auto &transparency_cache = ch.transparency_cache;
     auto &floor_cache = ch.floor_cache;
+    bool process_floor_above = inbounds_z( z + 1 );
     for( vehicle *v : ch.vehicle_list ) {
         for( const vpart_reference &vp : v->get_all_parts() ) {
             const size_t part = vp.part_index();
@@ -7808,6 +7837,10 @@ void map::do_vehicle_caching( int z )
             if( vp.has_feature( VPFLAG_BOARDABLE ) && !vp.part().is_broken() ) {
                 floor_cache[px][py] = true;
             }
+
+            if( process_floor_above && ( vp.has_feature( VPFLAG_OPAQUE ) || vp.has_feature( VPFLAG_ROOF ) ) ) {
+                get_cache( z + 1 ).floor_cache[px][py] = true;
+            }
         }
     }
 }
@@ -7818,10 +7851,12 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
     const int maxz = zlevels ? OVERMAP_HEIGHT : zlev;
     bool seen_cache_dirty = false;
     for( int z = minz; z <= maxz; z++ ) {
+        // trigger FOV recalculation only when there is a change on the player's level or if fov_3d is enabled
+        const bool affects_seen_cache =  z == zlev || fov_3d;
         build_outside_cache( z );
         build_transparency_cache( z );
-        seen_cache_dirty |= build_floor_cache( z );
-        seen_cache_dirty |= get_cache( z ).seen_cache_dirty;
+        seen_cache_dirty |= ( build_floor_cache( z ) && affects_seen_cache );
+        seen_cache_dirty |= get_cache( z ).seen_cache_dirty && affects_seen_cache;
         do_vehicle_caching( z );
     }
     seen_cache_dirty |= build_vision_transparency_cache( zlev );
@@ -7941,7 +7976,7 @@ void map::draw_fill_background( const ter_id &type )
 {
     // Need to explicitly set caches dirty - set_ter would do it before
     set_transparency_cache_dirty( abs_sub.z );
-    set_seen_cache_dirty( tripoint_zero );
+    set_seen_cache_dirty( abs_sub.z );
     set_outside_cache_dirty( abs_sub.z );
     set_pathfinding_cache_dirty( abs_sub.z );
 
@@ -8318,7 +8353,7 @@ const level_cache &map::access_cache( int zlev ) const
 level_cache::level_cache()
 {
     const int map_dimensions = MAPSIZE_X * MAPSIZE_Y;
-    transparency_cache_dirty = true;
+    transparency_cache_dirty.set();
     outside_cache_dirty = true;
     floor_cache_dirty = false;
     constexpr four_quadrants four_zeros( 0.0f );
@@ -8394,7 +8429,7 @@ void map::update_pathfinding_cache( int zlev ) const
 
                     pf_special cur_value = PF_NORMAL;
 
-                    maptile tile( cur_submap, sx, sy );
+                    maptile tile( cur_submap, point( sx, sy ) );
 
                     const auto &terrain = tile.get_ter_t();
                     const auto &furniture = tile.get_furn_t();

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_PLATFORM_WIN_H
-#define CATA_PLATFORM_WIN_H
+#ifndef CATA_SRC_PLATFORM_WIN_H
+#define CATA_SRC_PLATFORM_WIN_H
 
 #if defined(_WIN32)
 #   if !defined(WIN32_LEAN_AND_MEAN)
@@ -26,4 +26,4 @@
 HWND getWindowHandle();
 #endif
 
-#endif //CATA_PLATFORM_WIN_H
+#endif // CATA_SRC_PLATFORM_WIN_H

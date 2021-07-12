@@ -52,9 +52,9 @@
         "    ____________,_____,_____sss+...ch...hdw     ",
         "    ____________,_____,_____sss|^..c...ddd|4    ",
         "    ________________________sss|-www--www-|     ",
-        "    ________________________sss                 ",
-        "    ________________________sss                 ",
-        "    ________________________sss                 "
+        "    ________________________ssssss              ",
+        "    ________________________ssssOs              ",
+        "    ________________________ssssss              "
       ],
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
@@ -129,6 +129,7 @@
         { "item": "log", "x": 27, "y": 2, "amount": [ 5, 20 ] },
         { "item": "stepladder", "x": 2, "y": 2 }
       ],
+      "place_loot": [ { "item": "american_flag", "x": 31, "y": 46, "chance": 25 } ],
       "place_monsters": [
         { "monster": "GROUP_PUBLICWORKERS", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 2 ], "density": 0.2 },
         { "monster": "GROUP_PUBLICWORKERS", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 2 ], "density": 0.1 },

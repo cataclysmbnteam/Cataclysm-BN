@@ -195,11 +195,11 @@ static const species_id PLANT( "PLANT" );
 
 static const efftype_id effect_accumulated_mutagen( "accumulated_mutagen" );
 static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
+static const efftype_id effect_ai_controlled( "ai_controlled" );
 static const efftype_id effect_assisted( "assisted" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
-static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
@@ -643,6 +643,13 @@ bool game::start_game()
     }
     start_loc.prepare_map( omtstart );
 
+    // Place vehicles spawned by scenario or profession, has to be placed very early to avoid bugs.
+    if( u.starting_vehicle &&
+        !place_vehicle_nearby( u.starting_vehicle, omtstart.xy(), 0, 30,
+                               std::vector<std::string> {} ) ) {
+        debugmsg( "could not place starting vehicle" );
+    }
+
     if( scen->has_map_extra() ) {
         // Map extras can add monster spawn points and similar and should be done before the main
         // map is loaded.
@@ -774,11 +781,6 @@ bool game::start_game()
             add_msg( m_debug, "cannot place starting pet, no space!" );
         }
     }
-    if( u.starting_vehicle &&
-        !place_vehicle_nearby( u.starting_vehicle, u.global_omt_location().xy(), 1, 30,
-                               std::vector<std::string> {} ) ) {
-        debugmsg( "could not place starting vehicle" );
-    }
     // Assign all of this scenario's missions to the player.
     for( const mission_type_id &m : scen->missions() ) {
         const auto mission = mission::reserve_new( m, character_id() );
@@ -826,6 +828,7 @@ vehicle *game::place_vehicle_nearby( const vproto_id &id, const point &origin, i
                 veh->sm_pos =  ms_to_sm_remain( abs_local );
                 veh->pos = abs_local.xy();
                 overmap_buffer.add_vehicle( veh );
+                veh->tracking_on = true;
                 target_map.save();
                 return veh;
             }
@@ -4322,12 +4325,9 @@ void game::monmove()
         while( critter.moves > 0 && !critter.is_dead() && !critter.has_effect( effect_ridden ) ) {
             critter.made_footstep = false;
             // Controlled critters don't make their own plans
-            if( !critter.has_effect( effect_controlled ) ) {
+            if( !critter.has_effect( effect_ai_controlled ) ) {
                 // Formulate a path to follow
                 critter.plan();
-            } else {
-                critter.moves = 0;
-                break;
             }
             critter.move(); // Move one square, possibly hit u
             critter.process_triggers();
@@ -6905,6 +6905,10 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
         } else if( action == "debug_lighting" ) {
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
                 display_lighting();
+            }
+        } else if( action == "debug_transparency" ) {
+            if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
+                display_transparency();
             }
         } else if( action == "debug_radiation" ) {
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
@@ -11488,6 +11492,13 @@ void game::display_radiation()
 {
     if( use_tiles ) {
         display_toggle_overlay( ACTION_DISPLAY_RADIATION );
+    }
+}
+
+void game::display_transparency()
+{
+    if( use_tiles ) {
+        display_toggle_overlay( ACTION_DISPLAY_TRANSPARENCY );
     }
 }
 

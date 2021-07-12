@@ -295,6 +295,10 @@ int main( int argc, const char *argv[] )
     const unsigned int seed = session.config().rngSeed();
     if( seed ) {
         rng_set_engine_seed( seed );
+
+        // If the run is terminated due to a crash during initialization, we won't
+        // see the seed unless it's printed out in advance, so do that here.
+        printf( "Randomness seeded to: %u\n", seed );
     }
     DebugLog( DL::Info, DC::Main ) << "Randomness seeded to: " << seed;
 

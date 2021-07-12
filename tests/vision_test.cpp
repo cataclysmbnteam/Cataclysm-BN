@@ -8,7 +8,6 @@
 #include <utility>
 #include <vector>
 
-#include "avatar.h"
 #include "calendar.h"
 #include "catch/catch.hpp"
 #include "character.h"
@@ -54,6 +53,7 @@ static void full_map_test( const std::vector<std::string> &setup,
     const ter_id t_flat_roof( "t_flat_roof" );
     const ter_id t_open_air( "t_open_air" );
 
+    Character &player_character = get_player_character();
     g->place_player( tripoint( 60, 60, 0 ) );
     clear_avatar();
     clear_map();
@@ -61,16 +61,16 @@ static void full_map_test( const std::vector<std::string> &setup,
     g->reset_light_level();
 
     if( !!( flags & vision_test_flags::crouching ) ) {
-        g->u.set_movement_mode( character_movemode::CMM_CROUCH );
+        player_character.set_movement_mode( character_movemode::CMM_CROUCH );
     } else {
-        g->u.set_movement_mode( character_movemode::CMM_WALK );
+        player_character.set_movement_mode( character_movemode::CMM_WALK );
     }
 
-    REQUIRE( !g->u.is_blind() );
-    REQUIRE( !g->u.in_sleep_state() );
-    REQUIRE( !g->u.has_effect( effect_narcosis ) );
+    REQUIRE( !player_character.is_blind() );
+    REQUIRE( !player_character.in_sleep_state() );
+    REQUIRE( !player_character.has_effect( effect_narcosis ) );
 
-    g->u.recalc_sight_limits();
+    player_character.recalc_sight_limits();
 
     calendar::turn = time;
 
@@ -93,11 +93,12 @@ static void full_map_test( const std::vector<std::string> &setup,
             switch( setup[y][x] ) {
                 case 'V':
                 case 'U':
+                case 'H':
                 case 'u':
-                    origin = g->u.pos() - point( x, y );
+                    origin = player_character.pos() - point( x, y );
                     if( setup[y][x] == 'V' ) {
                         item headlamp( "wearable_light_on" );
-                        g->u.worn.push_back( headlamp );
+                        player_character.worn.push_back( headlamp );
                     }
                     break;
             }
@@ -107,15 +108,16 @@ static void full_map_test( const std::vector<std::string> &setup,
     {
         // Sanity check on player placement
         REQUIRE( origin.z < OVERMAP_HEIGHT );
-        tripoint player_offset = g->u.pos() - origin;
+        tripoint player_offset = player_character.pos() - origin;
         REQUIRE( player_offset.y >= 0 );
         REQUIRE( player_offset.y < height );
         REQUIRE( player_offset.x >= 0 );
         REQUIRE( player_offset.x < width );
         char player_char = setup[player_offset.y][player_offset.x];
-        REQUIRE( ( player_char == 'U' || player_char == 'u' || player_char == 'V' ) );
+        REQUIRE( ( player_char == 'U' || player_char == 'u' || player_char == 'V' || player_char == 'H' ) );
     }
 
+    map &here = get_map();
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
             const tripoint p = origin + point( x, y );
@@ -124,21 +126,22 @@ static void full_map_test( const std::vector<std::string> &setup,
                 case ' ':
                     break;
                 case 'L':
-                    g->m.ter_set( p, t_utility_light );
-                    g->m.ter_set( above, t_flat_roof );
+                    here.ter_set( p, t_utility_light );
+                    here.ter_set( above, t_flat_roof );
                     break;
                 case '#':
-                    g->m.ter_set( p, t_brick_wall );
-                    g->m.ter_set( above, t_flat_roof );
+                case 'H':
+                    here.ter_set( p, t_brick_wall );
+                    here.ter_set( above, t_flat_roof );
                     break;
                 case '=':
-                    g->m.ter_set( p, t_window_frame );
-                    g->m.ter_set( above, t_flat_roof );
+                    here.ter_set( p, t_window_frame );
+                    here.ter_set( above, t_flat_roof );
                     break;
                 case '-':
                 case 'u':
-                    g->m.ter_set( p, t_floor );
-                    g->m.ter_set( above, t_flat_roof );
+                    here.ter_set( p, t_floor );
+                    here.ter_set( above, t_flat_roof );
                     break;
                 case 'U':
                 case 'V':
@@ -154,17 +157,17 @@ static void full_map_test( const std::vector<std::string> &setup,
     // player's vision_threshold is based on the previous lighting level (so
     // they might, for example, have poor nightvision due to having just been
     // in daylight)
-    g->m.update_visibility_cache( origin.z );
-    g->m.invalidate_map_cache( origin.z );
-    g->m.build_map_cache( origin.z );
-    g->m.update_visibility_cache( origin.z );
-    g->m.invalidate_map_cache( origin.z );
-    g->m.build_map_cache( origin.z );
+    here.update_visibility_cache( origin.z );
+    here.invalidate_map_cache( origin.z );
+    here.build_map_cache( origin.z );
+    here.update_visibility_cache( origin.z );
+    here.invalidate_map_cache( origin.z );
+    here.build_map_cache( origin.z );
 
-    const level_cache &cache = g->m.access_cache( origin.z );
-    const level_cache &above_cache = g->m.access_cache( origin.z + 1 );
+    const level_cache &cache = here.access_cache( origin.z );
+    const level_cache &above_cache = here.access_cache( origin.z + 1 );
     const visibility_variables &vvcache =
-        g->m.get_visibility_variables_cache();
+        here.get_visibility_variables_cache();
 
     std::ostringstream fields;
     std::ostringstream transparency;
@@ -181,7 +184,7 @@ static void full_map_test( const std::vector<std::string> &setup,
         for( int x = 0; x < width; ++x ) {
             const tripoint p = origin + point( x, y );
             const map::apparent_light_info al = map::apparent_light_helper( cache, p );
-            for( auto &pr : g->m.field_at( p ) ) {
+            for( auto &pr : here.field_at( p ) ) {
                 fields << pr.second.name() << ',';
             }
             fields << ' ';
@@ -203,10 +206,10 @@ static void full_map_test( const std::vector<std::string> &setup,
         floor_above << '\n';
     }
 
-    INFO( "zlevels: " << g->m.has_zlevels() );
+    INFO( "zlevels: " << here.has_zlevels() );
     INFO( "origin: " << origin );
-    INFO( "player: " << g->u.pos() );
-    INFO( "unimpaired_range: " << g->u.unimpaired_range() );
+    INFO( "player: " << player_character.pos() );
+    INFO( "unimpaired_range: " << player_character.unimpaired_range() );
     INFO( "vision_threshold: " << vvcache.vision_threshold );
     INFO( "time: " << to_string( time ) );
     INFO( "fields:\n" << fields.str() );
@@ -224,7 +227,7 @@ static void full_map_test( const std::vector<std::string> &setup,
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
             const tripoint p = origin + point( x, y );
-            const lit_level level = g->m.apparent_light_at( p, vvcache );
+            const lit_level level = here.apparent_light_at( p, vvcache );
             const char exp_char = expected_results[y][x];
             if( exp_char < '0' || exp_char > '9' ) {
                 FAIL( "unexpected result char '" <<
@@ -336,6 +339,7 @@ static const time_point midday = calendar::turn_zero + 12_hours;
 // 'U' - player, outdoors
 // 'u' - player, indoors
 // 'V' - player, with light in inventory
+// 'H' - player, indoors, standing inside a wall
 // 'L' - light, indoors
 // '#' - wall
 // '=' - window frame
@@ -582,6 +586,35 @@ TEST_CASE( "vision_single_tile_skylight", "[shadowcasting][vision]" )
             "66666666666",
         },
         midday,
+        vision_test_flags::none
+    };
+
+    t.test_all();
+}
+
+TEST_CASE( "vision_player_opaque_neighbors_still_visible_night", "[shadowcasting][vision]" )
+{
+    /**
+     *  Even when stating inside the opaque wall and surrounded by opaque walls,
+     *  you should see yourself and immediate surrounding.
+     *  (walls here simulate the behavior of the fully opaque fields, e.g. thick smoke)
+     */
+    vision_test_case t {
+        {
+            "#####",
+            "#####",
+            "##H##",
+            "#####",
+            "#####",
+        },
+        {
+            "66666",
+            "61116",
+            "61116",
+            "61116",
+            "66666",
+        },
+        midnight,
         vision_test_flags::none
     };
 

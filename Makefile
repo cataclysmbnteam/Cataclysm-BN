@@ -104,7 +104,8 @@ WARNINGS = \
   -Wsuggest-override \
   -Wunused-macros \
   -Wzero-as-null-pointer-constant \
-  -Wno-unknown-warning-option
+  -Wno-unknown-warning-option \
+  -Wno-range-loop-analysis # TODO: Fix warnings instead of disabling
 # Uncomment below to disable warnings
 #WARNINGS = -w
 DEBUGSYMS = -g
@@ -119,7 +120,7 @@ export CCACHE_COMMENTS=1
 OTHERS += -fsigned-char
 
 ifndef VERSION
-  VERSION = the-fork
+  VERSION = unstable
 endif
 
 TARGET_NAME = cataclysm
@@ -159,6 +160,22 @@ endif
 # Auto-detect MSYS2
 ifdef MSYSTEM
   MSYS2 = 1
+endif
+
+OS = $(shell uname -s)
+
+ifneq ($(findstring Darwin,$(OS)),)
+  ifndef NATIVE
+    NATIVE = osx
+  endif
+  ifndef CLANG
+    CLANG = 1
+  endif
+endif
+
+# Default to disabling clang
+ifndef CLANG
+  CLANG = 0
 endif
 
 # Determine JSON formatter binary name
@@ -205,15 +222,13 @@ ifdef AUTO_BUILD_PREFIX
   export BUILD_PREFIX
 endif
 
-OS  = $(shell uname -s)
-
 # if $(OS) contains 'BSD'
 ifneq ($(findstring BSD,$(OS)),)
   BSD = 1
 endif
 
 # This sets CXX and so must be up here
-ifdef CLANG
+ifneq ($(CLANG), 0)
   # Allow setting specific CLANG version
   ifeq ($(CLANG), 1)
     CLANGCMD = clang++
@@ -293,7 +308,7 @@ ifeq ($(RELEASE), 1)
   endif
 
   ifeq ($(LTO), 1)
-    ifdef CLANG
+    ifneq ($(CLANG), 0)
       # LLVM's LTO will complain if the optimization level isn't between O0 and
       # O3 (inclusive)
       OPTLEVEL = -O3
@@ -303,14 +318,14 @@ ifeq ($(RELEASE), 1)
 
   ifeq ($(LTO), 1)
     ifeq ($(NATIVE), osx)
-      ifdef CLANG
+      ifneq ($(CLANG), 0)
         LTOFLAGS += -flto=full
       endif
     else
       LDFLAGS += -fuse-ld=gold # This breaks in OS X because gold can only produce ELF binaries, not Mach
     endif
 
-    ifdef CLANG
+    ifneq ($(CLANG), 0)
       LTOFLAGS += -flto
     else
       LTOFLAGS += -flto=jobserver -flto-odr-type-merging
@@ -410,10 +425,12 @@ endif
 
 # OSX
 ifeq ($(NATIVE), osx)
-  ifdef CLANG
-    OSX_MIN = 10.7
-  else
-    OSX_MIN = 10.5
+  ifeq ($(OSX_MIN),)
+    ifneq ($(CLANG), 0)
+      OSX_MIN = 10.7
+    else
+      OSX_MIN = 10.5
+    endif
   endif
   DEFINES += -DMACOSX
   CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
@@ -806,7 +823,7 @@ ifeq ($(LTO), 1)
   LDFLAGS += $(CXXFLAGS)
 
   # If GCC or CLANG, use a wrapper for AR (if it exists) else test fails to build
-  ifndef CLANG
+  ifeq ($(CLANG), 0)
     GCCAR := $(shell command -v gcc-ar 2> /dev/null)
     ifdef GCCAR
       ifneq (,$(findstring gcc version,$(shell $(CXX) -v </dev/null 2>&1)))
@@ -889,7 +906,7 @@ distclean:
 bindist: $(BINDIST)
 
 ifeq ($(TARGETSYSTEM), LINUX)
-DATA_PREFIX=$(DESTDIR)$(PREFIX)/share/cataclysm-dda/
+DATA_PREFIX=$(DESTDIR)$(PREFIX)/share/cataclysm-bn/
 BIN_PREFIX=$(DESTDIR)$(PREFIX)/bin
 LOCALE_DIR=$(DESTDIR)$(PREFIX)/share/locale
 install: version $(TARGET)
@@ -921,7 +938,7 @@ endif
 endif
 
 ifeq ($(TARGETSYSTEM), CYGWIN)
-DATA_PREFIX=$(DESTDIR)$(PREFIX)/share/cataclysm-dda/
+DATA_PREFIX=$(DESTDIR)$(PREFIX)/share/cataclysm-bn/
 BIN_PREFIX=$(DESTDIR)$(PREFIX)/bin
 LOCALE_DIR=$(DESTDIR)$(PREFIX)/share/locale
 install: version $(TARGET)
@@ -1041,11 +1058,12 @@ ifdef OSXCROSS
 	cp build-data/osx/DS_Store Cataclysm/.DS_Store
 	cp build-data/osx/dmgback.png Cataclysm/.background.png
 	ln -s /Applications Cataclysm/Applications
-	genisoimage -quiet -D -V "Cataclysm DDA" -no-pad -r -apple -o Cataclysm-uncompressed.dmg Cataclysm/
-	dmg dmg Cataclysm-uncompressed.dmg Cataclysm-$(VERSION).dmg
+	genisoimage -quiet -D -V "Cataclysm BN" -no-pad -r -apple -o Cataclysm-uncompressed.dmg Cataclysm/
+	dmg dmg Cataclysm-uncompressed.dmg CataclysmBN-$(VERSION).dmg
 	rm Cataclysm-uncompressed.dmg
 else
-	dmgbuild -s build-data/osx/dmgsettings.py "Cataclysm DDA" Cataclysm-$(VERSION).dmg
+	plutil -convert binary1 Cataclysm.app/Contents/Info.plist
+	dmgbuild -s build-data/osx/dmgsettings.py "Cataclysm BN" CataclysmBN-$(VERSION).dmg
 endif
 
 endif  # ifeq ($(NATIVE), osx)

@@ -20,9 +20,9 @@ class disease_type
         static const std::vector<disease_type> &get_all();
         static void check_disease_consistency();
         static void reset();
-        bool was_loaded;
 
         diseasetype_id id;
+        bool was_loaded = false;
         time_duration min_duration = 1_turns;
         time_duration max_duration = 1_turns;
         int min_intensity = 1;
@@ -36,4 +36,3 @@ class disease_type
 
 };
 #endif // CATA_SRC_DISEASE_H
-

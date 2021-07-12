@@ -124,7 +124,7 @@ template <typename VehFunc, typename GridFunc, typename StartPoint>
 int traverse( StartPoint *start, int amount,
               VehFunc veh_action, GridFunc grid_action );
 
-}
+} // namespace distribution_graph
 
 /**
  * Returns distribution grid tracker that is a part of the global game *g. @ref game

@@ -99,8 +99,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
-static const efftype_id effect_sheared( "sheared" );
-
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
@@ -196,11 +194,12 @@ static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 static const activity_id ACT_WASH( "ACT_WASH" );
 static const activity_id ACT_WEAR( "ACT_WEAR" );
 
+static const efftype_id effect_ai_waiting( "ai_waiting" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
-static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_sheared( "sheared" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_under_op( "under_operation" );
@@ -3269,8 +3268,8 @@ void activity_handlers::find_mount_do_turn( player_activity *act, player *p )
         return;
     }
     if( rl_dist( guy.pos(), mon->pos() ) <= 1 ) {
-        if( mon->has_effect( effect_controlled ) ) {
-            mon->remove_effect( effect_controlled );
+        if( mon->has_effect( effect_ai_waiting ) ) {
+            mon->remove_effect( effect_ai_waiting );
         }
         if( p->can_mount( *mon ) ) {
             act->set_to_null();
@@ -3287,11 +3286,11 @@ void activity_handlers::find_mount_do_turn( player_activity *act, player *p )
         if( route.empty() ) {
             act->set_to_null();
             guy.revert_after_activity();
-            mon->remove_effect( effect_controlled );
+            mon->remove_effect( effect_ai_waiting );
             return;
         } else {
             p->activity = player_activity();
-            mon->add_effect( effect_controlled, 40_turns );
+            mon->add_effect( effect_ai_waiting, 40_turns );
             p->set_destination( route, player_activity( ACT_FIND_MOUNT ) );
         }
     }

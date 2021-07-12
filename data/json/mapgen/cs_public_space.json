@@ -6,9 +6,9 @@
     "weight": 1000,
     "object": {
       "rows": [
-        "...,......,'',..,...,,..",
-        "..,...,..,,'',..,..,...,",
-        "..,...,...,'',,......,..",
+        "...,....'''''''',...,,..",
+        "..,...,.'I''''I',..,...,",
+        "..,...,.''''''''.....,..",
         "...,fsfsfs,'',sfsfsf,.,.",
         ".,.f,,,,,,,'',,,,,,,f...",
         "...s,,'''''''''''',,s..,",
@@ -40,11 +40,13 @@
         "S": "t_water_sh",
         "b": "t_sidewalk",
         "D": "t_sidewalk",
+        "I": "t_column",
         "N": "t_sidewalk",
         "f": "t_dirtmound"
       },
       "furniture": { "S": "f_statue", "b": "f_bench", "D": "f_dumpster", "N": "f_bulletin", "f": "f_bluebell" },
-      "items": { "D": { "item": "oa_custom_trash", "chance": 70 }, "b": { "item": "oa_discarded_news", "chance": 5 } }
+      "items": { "D": { "item": "oa_custom_trash", "chance": 70 }, "b": { "item": "oa_discarded_news", "chance": 5 } },
+      "place_loot": [ { "item": "american_flag", "x": 10, "y": 1, "chance": 25 } ]
     }
   }
 ]

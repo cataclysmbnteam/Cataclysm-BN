@@ -10,6 +10,7 @@
 
 #include "avatar.h"
 #include "calendar.h"
+#include "cata_utility.h"
 #include "character.h"
 #include "colony.h"
 #include "field.h"
@@ -83,14 +84,18 @@ bool map::build_transparency_cache( const int zlev )
     auto &transparency_cache = map_cache.transparency_cache;
     auto &outside_cache = map_cache.outside_cache;
 
-    if( !map_cache.transparency_cache_dirty ) {
+    if( map_cache.transparency_cache_dirty.none() ) {
         return false;
     }
 
-    // Default to just barely not transparent.
-    std::uninitialized_fill_n(
-        &transparency_cache[0][0], MAPSIZE_X * MAPSIZE_Y,
-        static_cast<float>( LIGHT_TRANSPARENCY_OPEN_AIR ) );
+    // if true, all submaps are invalid (can use batch init)
+    bool rebuild_all = map_cache.transparency_cache_dirty.all();
+
+    if( rebuild_all ) {
+        // Default to just barely not transparent.
+        std::uninitialized_fill_n( &transparency_cache[0][0], MAPSIZE_X * MAPSIZE_Y,
+                                   static_cast<float>( LIGHT_TRANSPARENCY_OPEN_AIR ) );
+    }
 
     const float sight_penalty = weather::sight_penalty( g->weather.weather );
 
@@ -99,52 +104,61 @@ bool map::build_transparency_cache( const int zlev )
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
             const auto cur_submap = get_submap_at_grid( {smx, smy, zlev} );
 
-            float zero_value = LIGHT_TRANSPARENCY_OPEN_AIR;
-            for( int sx = 0; sx < SEEX; ++sx ) {
-                for( int sy = 0; sy < SEEY; ++sy ) {
-                    const int x = sx + smx * SEEX;
-                    const int y = sy + smy * SEEY;
+            const point sm_offset = sm_to_ms_copy( point( smx, smy ) );
 
-                    float &value = transparency_cache[x][y];
-                    if( cur_submap->is_uniform && sx + sy > 0 ) {
-                        value = zero_value;
+            if( !rebuild_all && !map_cache.transparency_cache_dirty[smx * MAPSIZE + smy] ) {
+                continue;
+            }
+
+            // calculates transparency of a single tile
+            // x,y - coords in map local coords
+            auto calc_transp = [&]( const point & p ) {
+                const point sp = p - sm_offset;
+                float value = LIGHT_TRANSPARENCY_OPEN_AIR;
+
+                if( !( cur_submap->get_ter( sp ).obj().transparent &&
+                       cur_submap->get_furn( sp ).obj().transparent ) ) {
+                    return LIGHT_TRANSPARENCY_SOLID;
+                }
+                if( outside_cache[p.x][p.y] ) {
+                    // FIXME: Places inside vehicles haven't been marked as
+                    // inside yet so this is incorrectly penalising for
+                    // weather in vehicles.
+                    value *= sight_penalty;
+                }
+                for( const auto &fld : cur_submap->get_field( sp ) ) {
+                    const field_entry &cur = fld.second;
+                    if( cur.is_transparent() ) {
                         continue;
                     }
+                    // Fields are either transparent or not, however we want some to be translucent
+                    value = value * cur.translucency();
+                }
+                // TODO: [lightmap] Have glass reduce light as well
+                return value;
+            };
 
-                    if( !( cur_submap->get_ter( { sx, sy } ).obj().transparent &&
-                           cur_submap->get_furn( {sx, sy } ).obj().transparent ) ) {
-                        value = LIGHT_TRANSPARENCY_SOLID;
-                        zero_value = LIGHT_TRANSPARENCY_SOLID;
-                        continue;
+            if( cur_submap->is_uniform ) {
+                float value = calc_transp( sm_offset );
+                // if rebuild_all==true all values were already set to LIGHT_TRANSPARENCY_OPEN_AIR
+                if( !rebuild_all || value != LIGHT_TRANSPARENCY_OPEN_AIR ) {
+                    for( int sx = 0; sx < SEEX; ++sx ) {
+                        // init all sy indices in one go
+                        std::uninitialized_fill_n( &transparency_cache[sm_offset.x + sx][sm_offset.y], SEEY, value );
                     }
-
-                    if( outside_cache[x][y] ) {
-                        // FIXME: Places inside vehicles haven't been marked as
-                        // inside yet so this is incorrectly penalising for
-                        // weather in vehicles.
-                        value *= sight_penalty;
+                }
+            } else {
+                for( int sx = 0; sx < SEEX; ++sx ) {
+                    const int x = sx + sm_offset.x;
+                    for( int sy = 0; sy < SEEY; ++sy ) {
+                        const int y = sy + sm_offset.y;
+                        transparency_cache[x][y] = calc_transp( { x, y } );
                     }
-                    if( cur_submap->is_uniform ) {
-                        if( value == LIGHT_TRANSPARENCY_OPEN_AIR ) {
-                            break;
-                        }
-                        zero_value = value;
-                        continue;
-                    }
-                    for( const auto &fld : cur_submap->get_field( { sx, sy } ) ) {
-                        const field_entry &cur = fld.second;
-                        if( cur.is_transparent() ) {
-                            continue;
-                        }
-                        // Fields are either transparent or not, however we want some to be translucent
-                        value = value * cur.translucency();
-                    }
-                    // TODO: [lightmap] Have glass reduce light as well
                 }
             }
         }
     }
-    map_cache.transparency_cache_dirty = false;
+    map_cache.transparency_cache_dirty.reset();
     return true;
 }
 
@@ -168,13 +182,10 @@ bool map::build_vision_transparency_cache( const int zlev )
     for( const tripoint &loc : points_in_radius( p, 1 ) ) {
         if( loc == p ) {
             // The tile player is standing on should always be visible
-            if( ( has_furn( p ) && !furn( p )->transparent ) || !ter( p )->transparent ) {
-                vision_transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_CLEAR;
-            }
+            vision_transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
         } else if( is_crouching && coverage( loc ) >= 30 ) {
             // If we're crouching behind an obstacle, we can't see past it.
             vision_transparency_cache[loc.x][loc.y] = LIGHT_TRANSPARENCY_SOLID;
-            map_cache.transparency_cache_dirty = true;
             dirty = true;
         }
     }
@@ -209,8 +220,8 @@ void map::build_sunlight_cache( int pzlev )
     const int zlev_min = zlevels ? -OVERMAP_DEPTH : pzlev;
     // Start at the topmost populated zlevel to avoid unnecessary raycasting
     // Plus one zlevel to prevent clipping inside structures
-    const int zlev_max = zlevels ? std::min( std::max( calc_max_populated_zlev() + 1, pzlev + 1 ),
-                         OVERMAP_HEIGHT ) : pzlev;
+    const int zlev_max = zlevels ? clamp( calc_max_populated_zlev() + 1, pzlev + 1,
+                                          OVERMAP_HEIGHT ) : pzlev;
 
     // true if all previous z-levels are fully transparent to light (no floors, transparency >= air)
     bool fully_outside = true;
@@ -333,9 +344,9 @@ void map::build_sunlight_cache( int pzlev )
                     if( prev_transparency > LIGHT_TRANSPARENCY_SOLID &&
                         !prev_floor_cache[prev_x][prev_y] &&
                         ( prev_light_max = prev_lm[prev_x][prev_y].max() ) > 0.0 ) {
-                        const float light_level = std::max( inside_light_level, prev_light_max *
-                                                            LIGHT_TRANSPARENCY_OPEN_AIR
-                                                            / prev_transparency );
+                        const float light_level = clamp( prev_light_max * LIGHT_TRANSPARENCY_OPEN_AIR / prev_transparency,
+                                                         inside_light_level, prev_light_max );
+
                         if( i == 0 ) {
                             lm[x][y].fill( light_level );
                             fully_inside &= light_level <= inside_light_level;
@@ -622,7 +633,8 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
     const bool obstructed = vis <= LIGHT_TRANSPARENCY_SOLID + 0.1;
 
     auto is_opaque = [&map_cache]( const point & p ) {
-        return map_cache.transparency_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID;
+        return map_cache.transparency_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID &&
+               map_cache.vision_transparency_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID;
     };
 
     const bool p_opaque = is_opaque( p.xy() );
@@ -717,7 +729,7 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     if( a.apparent_light > LIGHT_AMBIENT_LIT ) {
         return LL_LIT;
     }
-    if( a.apparent_light > cache.vision_threshold ) {
+    if( a.apparent_light >= cache.vision_threshold ) {
         return LL_LOW;
     } else {
         return LL_BLANK;
@@ -738,7 +750,7 @@ bool map::pl_sees( const tripoint &t, const int max_range ) const
     const apparent_light_info a = apparent_light_helper( map_cache, t );
     const float light_at_player = map_cache.lm[g->u.posx()][g->u.posy()].max();
     return !a.obstructed &&
-           ( a.apparent_light > g->u.get_vision_threshold( light_at_player ) ||
+           ( a.apparent_light >= g->u.get_vision_threshold( light_at_player ) ||
              map_cache.sm[t.x][t.y] > 0.0 );
 }
 
@@ -1052,7 +1064,7 @@ template<int xx, int xy, int yx, int yy, typename T, typename Out,
 void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
                 const T( &input_array )[MAPSIZE_X][MAPSIZE_Y],
                 const point &offset, int offsetDistance,
-                T numerator = 1.0,
+                T numerator = VISIBILITY_FULL,
                 int row = 1, float start = 1.0f, float end = 0.0f,
                 T cumulative_transparency = LIGHT_TRANSPARENCY_OPEN_AIR );
 
@@ -1216,12 +1228,20 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         &camera_cache[0][0], map_dimensions, light_transparency_solid );
 
     if( !fov_3d ) {
-        std::uninitialized_fill_n(
-            &seen_cache[0][0], map_dimensions, light_transparency_solid );
-        seen_cache[origin.x][origin.y] = LIGHT_TRANSPARENCY_CLEAR;
+        for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+            auto &cur_cache = get_cache( z );
+            if( z == target_z || cur_cache.seen_cache_dirty ) {
+                std::uninitialized_fill_n(
+                    &cur_cache.seen_cache[0][0], map_dimensions, light_transparency_solid );
+                cur_cache.seen_cache_dirty = false;
+            }
 
-        castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
-            seen_cache, transparency_cache, origin.xy(), 0 );
+            if( z == target_z ) {
+                seen_cache[origin.x][origin.y] = VISIBILITY_FULL;
+                castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
+                    seen_cache, transparency_cache, origin.xy(), 0 );
+            }
+        }
     } else {
         // Cache the caches (pointers to them)
         array_of_grids_of<const float> transparency_caches;
@@ -1234,9 +1254,10 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             floor_caches[z + OVERMAP_DEPTH] = &cur_cache.floor_cache;
             std::uninitialized_fill_n(
                 &cur_cache.seen_cache[0][0], map_dimensions, light_transparency_solid );
+            cur_cache.seen_cache_dirty = false;
         }
         if( origin.z == target_z ) {
-            get_cache( origin.z ).seen_cache[origin.x][origin.y] = LIGHT_TRANSPARENCY_CLEAR;
+            get_cache( origin.z ).seen_cache[origin.x][origin.y] = VISIBILITY_FULL;
         }
         cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
             seen_caches, transparency_caches, floor_caches, origin, 0, 1.0 );
