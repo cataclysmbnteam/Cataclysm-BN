@@ -146,7 +146,7 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "DURABLE_MELEE", "STAB", "SHEATH_AXE" ],
     "weight": "2900 g",
-    "volume": "400 ml",
+    "volume": "1500 ml",
     "bashing": 15,
     "cutting": 13,
     "to_hit": 1,
