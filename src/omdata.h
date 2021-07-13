@@ -18,6 +18,7 @@
 #include "common_types.h"
 #include "coordinates.h"
 #include "int_id.h"
+#include "overmap_location.h"
 #include "point.h"
 #include "string_id.h"
 #include "translations.h"
@@ -240,9 +241,18 @@ struct oter_type_t {
             return has_flag( line_drawing );
         }
 
+        bool has_connections() const {
+            return !connect_group.empty();
+        }
+
+        bool connects_to( const oter_type_id &other ) const {
+            return has_connections() && connect_group == other->connect_group;
+        }
+
     private:
         std::bitset<num_oter_flags> flags;
         std::vector<oter_id> directional_peers;
+        std::string connect_group; // Group for connection when rendering overmap tiles
 
         void register_terrain( const oter_t &peer, size_t n, size_t max_n );
 };
