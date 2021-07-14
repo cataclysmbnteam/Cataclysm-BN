@@ -484,20 +484,6 @@ std::vector<std::string> get_lang_path_substring( const std::string &lang_id )
     return ret;
 }
 
-bool translations_exists_for_lang( const std::string &lang_id )
-{
-#if defined(LOCALIZE)
-    std::vector<std::string> opts = get_lang_path_substring( lang_id );
-    for( const std::string &s : opts ) {
-        std::string path = PATH_INFO::base_path() + "lang/mo/" + s + "/LC_MESSAGES/cataclysm-bn.mo";
-        if( file_exist( path ) ) {
-            return true;
-        }
-    }
-#endif // LOCALIZE
-    return false;
-}
-
 bool localized_comparator::operator()( const std::string &l, const std::string &r ) const
 {
     // We need different implementations on each platform.  MacOS seems to not
