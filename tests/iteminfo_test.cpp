@@ -111,7 +111,7 @@ TEST_CASE( "item rigidity", "[item][iteminfo][rigidity]" )
             item( "test_waterskin" ), q,
             "--\n"
             "<color_c_white>Encumbrance</color>: <color_c_yellow>0</color>"
-            "  Encumbrance when full: <color_c_yellow>6</color>\n"
+            "  Encumbrance when full: <color_c_yellow>3</color>\n"
             "--\n"
             "* This item is <color_c_cyan>not rigid</color>."
             "  Its volume and encumbrance increase with contents.\n" );
