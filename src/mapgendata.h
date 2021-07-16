@@ -22,6 +22,12 @@ namespace om_direction
 enum class type : int;
 } // namespace om_direction
 
+struct mapgen_arguments {
+    std::unordered_map<std::string, cata_variant> map;
+
+    void merge( const mapgen_arguments & );
+};
+
 /**
  * Contains various information regarding the individual mapgen instance
  * (generating a specific part of the map), used by the various mapgen
@@ -45,7 +51,7 @@ class mapgendata
         time_point when_;
         ::mission *mission_;
         int zlevel_;
-        std::unordered_map<std::string, cata_variant> mapgen_params_;
+        mapgen_arguments mapgen_args_;
 
     public:
         oter_id t_nesw[8];
@@ -95,8 +101,7 @@ class mapgendata
         /**
          * Creates a copy of this mapgendata, but stores new parameter values.
          */
-        mapgendata( const mapgendata &other,
-                    const std::unordered_map<std::string, cata_variant> & );
+        mapgendata( const mapgendata &other, const mapgen_arguments & );
 
         const oter_id &terrain_type() const {
             return terrain_type_;
@@ -157,11 +162,20 @@ class mapgendata
         bool has_join( const cube_direction, const std::string &join_id ) const;
 
         template<typename Result>
-        Result get_param( const std::string &name ) const {
-            auto it = mapgen_params_.find( name );
-            if( it == mapgen_params_.end() ) {
+        Result get_arg( const std::string &name ) const {
+            auto it = mapgen_args_.map.find( name );
+            if( it == mapgen_args_.map.end() ) {
                 debugmsg( "No such parameter \"%s\"", name );
                 return Result();
+            }
+            return it->second.get<Result>();
+        }
+
+        template<typename Result>
+        Result get_arg_or( const std::string &name, const Result &fallback ) const {
+            auto it = mapgen_args_.map.find( name );
+            if( it == mapgen_args_.map.end() ) {
+                return fallback;
             }
             return it->second.get<Result>();
         }

@@ -31,6 +31,7 @@ class overmap_special;
 class overmap_special_batch;
 class throbber_popup;
 class vehicle;
+struct mapgen_arguments;
 struct mongroup;
 struct om_vehicle;
 struct radio_tower;
@@ -191,6 +192,7 @@ class overmapbuffer
         const oter_id &ter_existing( const tripoint_abs_omt &p );
         void ter_set( const tripoint_abs_omt &p, const oter_id &id );
         std::string *join_used_at( const std::pair<tripoint_abs_omt, cube_direction> & );
+        std::optional<mapgen_arguments> *mapgen_args( const tripoint_abs_omt & );
         /**
          * Uses global overmap terrain coordinates.
          */
@@ -564,6 +566,7 @@ class overmapbuffer
         bool check_ot( const std::string &otype, ot_match_type match_type,
                        const tripoint_abs_omt &p );
         bool check_overmap_special_type( const overmap_special_id &id, const tripoint_abs_omt &loc );
+        std::optional<overmap_special_id> overmap_special_at( const tripoint_abs_omt & );
 
         /**
         * These versions of the check_* methods will only check existing overmaps, and
