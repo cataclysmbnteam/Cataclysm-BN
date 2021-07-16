@@ -1976,7 +1976,11 @@ void map::propagate_field( const tripoint &center, const field_type_id &type, in
                     continue;
                 }
 
-                if( impassable( pt ) && ( not_gas || !has_flag( TFLAG_PERMEABLE, pt ) ) ) {
+                // If tile is not an open window or is not permeable then don't propagate.
+                const unsigned long window = ter(pt)->id.str().find("window");
+                if( impassable(pt) && (
+                (window == std::string::npos && (not_gas || !has_flag(TFLAG_PERMEABLE, pt))) ||
+                (window != std::string::npos && (not_gas || has_flag(TFLAG_BLOCK_WIND, pt))) )) {
                     closed.insert( pt );
                     continue;
                 }
