@@ -465,61 +465,110 @@ std::vector<cata::optional<size_t>> calculate_parents( const
     return parents;
 }
 
+struct parent_child_check_t {
+    bool parent_exists;
+    bool child_exists;
+};
+
+struct unstacked_items {
+    cata::optional<item_stack::iterator> parent;
+    std::list<item_stack::iterator> unstacked_children;
+};
+
+struct stacked_items {
+    cata::optional<item_stack::iterator> parent;
+    std::vector<std::list<item_stack::iterator>> stacked_children;
+};
+
 // Non-static because tests
-std::vector<std::list<item_stack::iterator>> stack_for_pickup_ui( const
+std::vector<stacked_items> stack_for_pickup_ui( const
         std::vector<item_stack::iterator> &unstacked );
-std::vector<std::list<item_stack::iterator>> stack_for_pickup_ui( const
+std::vector<stacked_items> stack_for_pickup_ui( const
         std::vector<item_stack::iterator> &unstacked )
 {
-    std::map<std::pair<time_point, int>, std::list<item_stack::iterator>> children_by_parent;
-    std::set<std::pair<time_point, int>> parents_found;
+    constexpr std::pair<time_point, int> no_parent = std::make_pair( time_point::from_turn( -1 ), 0 );
+    std::map<std::pair<time_point, int>, parent_child_check_t> parent_child_check;
+    // First, we need to check which parent-child groups exist
     for( item_stack::iterator it : unstacked ) {
         const auto &token = *it->drop_token;
-        std::pair<time_point, int> turn_and_parent = std::make_pair( token.turn, token.parent_number );
-        parents_found.emplace( turn_and_parent );
-        if( token.parent_number != 0 ) {
-            children_by_parent[turn_and_parent].push_back( it );
+        if( token.drop_number > 0 ) {
+            std::pair<time_point, int> turn_and_drop = std::make_pair( token.turn, token.drop_number );
+            parent_child_check[turn_and_drop].parent_exists = true;
+        }
+        if( token.parent_number > 0 ) {
+            std::pair<time_point, int> turn_and_parent = std::make_pair( token.turn, token.parent_number );
+            parent_child_check[turn_and_parent].child_exists = true;
         }
     }
 
-    const auto same_parent = [&parents_found]( const item_drop_token & lhs,
-    const item_drop_token & rhs ) -> bool {
-        return lhs.is_sibling_of( rhs ) ||
-        ( parents_found.count( {lhs.turn, lhs.parent_number} ) == 0 &&
-        parents_found.count( {rhs.turn, rhs.parent_number} ) == 0 );
-    };
-
-    std::vector<std::list<item_stack::iterator>> stacked_here;
+    // Second pass: we group children and parents together, but only if both sides are known to exist
+    std::map<std::pair<time_point, int>, unstacked_items> children_by_parent;
     for( item_stack::iterator it : unstacked ) {
-        bool found_stack = false;
-        // Items with children should not stack
-        if( children_by_parent.find( {it->drop_token->turn, it->drop_token->parent_number} ) ==
-            children_by_parent.end() ) {
-            for( std::list<item_stack::iterator> &stack : stacked_here ) {
-                // Items should only stack if they have same parent, or both have absent/nonexistent one
+        const auto &token = *it->drop_token;
+        std::pair<time_point, int> turn_and_drop = std::make_pair( token.turn, token.drop_number );
+        if( token.drop_number > 0 && parent_child_check[turn_and_drop].child_exists ) {
+            children_by_parent[turn_and_drop].parent = it;
+            continue;
+        }
+
+        std::pair<time_point, int> turn_and_parent = std::make_pair( token.turn, token.parent_number );
+        if( token.parent_number > 0 && parent_child_check[turn_and_parent].parent_exists ) {
+            children_by_parent[turn_and_parent].unstacked_children.push_back( it );
+        } else {
+            children_by_parent[no_parent].unstacked_children.push_back( it );
+        }
+    }
+
+    std::vector<stacked_items> restacked_with_parents;
+    for( const auto &pr : children_by_parent ) {
+        std::vector<std::list<item_stack::iterator>> restacked_children;
+        for( item_stack::iterator it : pr.second.unstacked_children ) {
+            bool found_stack = false;
+            for( std::list<item_stack::iterator> &stack : restacked_children ) {
                 const item &stack_top = *stack.front();
-                if( stack_top.display_stacked_with( *it ) &&
-                    children_by_parent.find( {stack_top.drop_token->turn, stack_top.drop_token->parent_number} ) ==
-                    children_by_parent.end() &&
-                    same_parent( *stack_top.drop_token, *it->drop_token ) ) {
+                if( stack_top.display_stacked_with( *it ) ) {
                     stack.push_back( it );
                     found_stack = true;
                     break;
                 }
             }
+            if( !found_stack ) {
+                restacked_children.emplace_back( std::list<item_stack::iterator>( { it } ) );
+            }
         }
-        if( !found_stack ) {
-            stacked_here.emplace_back( std::list<item_stack::iterator>( { it } ) );
-        }
+
+        // Each sub-stack has to be sorted separately
+        std::sort( restacked_children.begin(), restacked_children.end(),
+        []( const std::list<item_stack::iterator> &lhs, const std::list<item_stack::iterator> &rhs ) {
+            return *lhs.front() < *rhs.front();
+        } );
+        restacked_with_parents.emplace_back( stacked_items{ pr.second.parent, restacked_children } );
     }
 
-    // Items are stored unordered in colonies on the map, so sort them for a nice display.
-    std::sort( stacked_here.begin(), stacked_here.end(),
-    []( const std::list<item_stack::iterator> &lhs, const std::list<item_stack::iterator> &rhs ) {
-        return *lhs.front() < *rhs.front();
+    // Sorting by parent is a bit arbitrary (parent-less go last) - sort by count?
+    std::sort( restacked_with_parents.begin(), restacked_with_parents.end(),
+    []( const stacked_items & lhs, stacked_items & rhs ) {
+        return lhs.parent.has_value() && ( !rhs.parent.has_value() || *lhs.parent < *rhs.parent );
     } );
 
-    return stacked_here;
+
+    return restacked_with_parents;
+}
+
+// Non-static because tests
+std::vector<std::list<item_stack::iterator>> flatten( const std::vector<stacked_items> &stacked );
+std::vector<std::list<item_stack::iterator>> flatten( const std::vector<stacked_items> &stacked )
+{
+    std::vector<std::list<item_stack::iterator>> flat;
+    for( const stacked_items &s : stacked ) {
+        if( s.parent ) {
+            flat.emplace_back( std::list<item_stack::iterator>( { *s.parent } ) );
+        }
+
+        flat.insert( flat.end(), s.stacked_children.begin(), s.stacked_children.end() );
+    }
+
+    return flat;
 }
 
 // Pick up items at (pos).
@@ -630,7 +679,10 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         return;
     }
 
-    const std::vector<std::list<item_stack::iterator>> &stacked_here = stack_for_pickup_ui( here );
+    const std::vector<stacked_items> &stacked_here_new = stack_for_pickup_ui( here );
+    // To avoid having to rewrite things.
+    // TODO: Remove flattening
+    const std::vector<std::list<item_stack::iterator>> &stacked_here = flatten( stacked_here_new );
     std::vector<pickup_count> getitem( stacked_here.size() );
     std::vector<cata::optional<size_t>> parents = calculate_parents( stacked_here );
     for( size_t i = 0; i < getitem.size(); i++ ) {

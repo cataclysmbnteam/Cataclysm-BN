@@ -26,12 +26,18 @@
 class inventory;
 struct act_item;
 
+struct stacked_items {
+    cata::optional<item_stack::iterator> parent;
+    std::vector<std::list<item_stack::iterator>> stacked_children;
+};
+
 std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &drop );
 std::list<item> obtain_and_tokenize_items( player &p, std::list<act_item> &items );
 std::vector<item_location> extract_children( std::vector<item_location> &targets,
         item_location &stack_top );
-std::vector<std::list<item_stack::iterator>> stack_for_pickup_ui( const
+std::vector<stacked_items> stack_for_pickup_ui( const
         std::vector<item_stack::iterator> &unstacked );
+std::vector<std::list<item_stack::iterator>> flatten( const std::vector<stacked_items> &stacked );
 
 class testing_stack : public item_stack
 {
@@ -365,14 +371,13 @@ TEST_CASE( "pickup_ui_stacking", "[activity][drop_token]" )
     item an_item( "bottle_glass" );
     item backpack( "backpack" );
     item duffel_bag( "duffelbag" );
-    //const int per_duffel = duffel_bag.get_total_capacity() / an_item.volume();
     const size_t per_backpack = backpack.get_total_capacity() / an_item.volume();
     testing_stack the_stack;
 
     the_stack.insert( an_item );
-    auto parent_iter = the_stack.insert_with_return( backpack );
-    *( *parent_iter ).drop_token = drop_token::make_next();
-    const item_drop_token &parent_token = *( *the_stack.rbegin() ).drop_token;
+    auto insert_parent_iter = the_stack.insert_with_return( backpack );
+    item_drop_token parent_token = drop_token::make_next();
+    *( *insert_parent_iter ).drop_token = parent_token;
     for( size_t i = 0; i < per_backpack; i++ ) {
         auto child_iter = the_stack.insert_with_return( an_item );
         *( *child_iter ).drop_token = drop_token::make_next();
@@ -383,7 +388,7 @@ TEST_CASE( "pickup_ui_stacking", "[activity][drop_token]" )
     the_stack.insert( duffel_bag );
     the_stack.insert( backpack );
 
-    // Should be sorted anyway
+    // Result should be sorted, so scrambling it a bit should help
     std::reverse( the_stack.begin(), the_stack.end() );
 
     std::vector<item_stack::iterator> unstacked;
@@ -392,7 +397,14 @@ TEST_CASE( "pickup_ui_stacking", "[activity][drop_token]" )
         unstacked.emplace_back( iter );
     }
 
-    std::vector<std::list<item_stack::iterator>> stacked = stack_for_pickup_ui( unstacked );
+    auto post_scramble_parent_iter = std::find_if( unstacked.begin(), unstacked.end(),
+    [&parent_token]( const item_stack::iterator & it ) {
+        return *it->drop_token == parent_token;
+    } );
+    REQUIRE( post_scramble_parent_iter != unstacked.end() );
+    auto parent_iter = *post_scramble_parent_iter;
+    std::vector<stacked_items> stacked_nonflat = stack_for_pickup_ui( unstacked );
+    std::vector<std::list<item_stack::iterator>> stacked = flatten( stacked_nonflat );
     THEN( "Backpack with children doesn't stack with empty ones" ) {
         std::list<item_stack::iterator> list_with_just_parent = {parent_iter};
         auto stacked_parent_iter = std::find( stacked.begin(), stacked.end(), list_with_just_parent );
@@ -404,6 +416,8 @@ TEST_CASE( "pickup_ui_stacking", "[activity][drop_token]" )
         std::list<item_stack::iterator> list_with_just_parent = {parent_iter};
         auto stacked_parent_iter = std::find( stacked.begin(), stacked.end(), list_with_just_parent );
         REQUIRE( stacked_parent_iter != stacked.end() );
+        CHECK( stacked_parent_iter->size() == 1 );
+        CHECK( stacked_parent_iter->front()->typeId() == backpack.typeId() );
         auto child_stack_iter = std::next( stacked_parent_iter );
         REQUIRE( child_stack_iter != stacked.end() );
         CHECK( child_stack_iter->front()->typeId() == an_item.typeId() );
