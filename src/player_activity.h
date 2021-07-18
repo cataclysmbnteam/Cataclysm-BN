@@ -19,6 +19,7 @@
 #include "point.h"
 #include "type_id.h"
 
+class activity_actor;
 class Character;
 class JsonIn;
 class JsonOut;
@@ -70,6 +71,7 @@ class player_activity
         // TODO: delete this constructor once migration to the activity_actor system is complete
         player_activity( activity_id, int turns = 0, int Index = -1, int pos = INT_MIN,
                          const std::string &name_in = "" );
+        ~player_activity();
         /**
          * Create a new activity with the given actor
          */

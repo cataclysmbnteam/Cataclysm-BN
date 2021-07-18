@@ -10,6 +10,7 @@
 #include "item_location.h"
 #include "optional.h"
 #include "pickup.h"
+#include "pickup_token.h"
 #include "point.h"
 #include "type_id.h"
 
