@@ -603,7 +603,7 @@ void starting_inv( npc &who, const npc_class_id &type )
                         type == NC_BOUNTY_HUNTER );
         qty = rng( qty, qty * 2 );
 
-        while( qty-- != 0 && who.can_pickVolume( ammo ) ) {
+        while( qty-- != 0 && who.can_pick_volume( ammo ) ) {
             // TODO: give NPC a default magazine instead
             res.push_back( ammo );
         }
@@ -623,7 +623,7 @@ void starting_inv( npc &who, const npc_class_id &type )
             if( !one_in( 3 ) && tmp.has_flag( "VARSIZE" ) ) {
                 tmp.set_flag( "FIT" );
             }
-            if( who.can_pickVolume( tmp ) ) {
+            if( who.can_pick_volume( tmp ) ) {
                 res.push_back( tmp );
             }
         }

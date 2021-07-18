@@ -35,6 +35,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "dispersion.h"
+#include "drop_token.h"
 #include "effect.h" // for weed_msg
 #include "enums.h"
 #include "explosion.h"

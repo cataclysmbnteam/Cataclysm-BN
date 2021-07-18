@@ -945,9 +945,10 @@ bool advanced_inventory::move_all_items( bool nested_call )
             }
 
             if( dpane.get_area() == AIM_INVENTORY ) {
+                std::vector<pickup::pick_drop_selection> targets = pickup::optimize_pickup( target_items,
+                        quantities );
                 g->u.assign_activity( player_activity( pickup_activity_actor(
-                        target_items,
-                        quantities,
+                        targets,
                         panes[src].in_vehicle() ? cata::nullopt : cata::optional<tripoint>( g->u.pos() )
                                                        ) ) );
             } else {
@@ -1174,9 +1175,10 @@ void advanced_inventory::start_activity( const aim_location destarea, const aim_
         }
 
         if( destarea == AIM_INVENTORY ) {
+            std::vector<pickup::pick_drop_selection> targets = pickup::optimize_pickup( target_items,
+                    quantities );
             g->u.assign_activity( player_activity( pickup_activity_actor(
-                    target_items,
-                    quantities,
+                    targets,
                     from_vehicle ? cata::nullopt : cata::optional<tripoint>( g->u.pos() )
                                                    ) ) );
         } else {

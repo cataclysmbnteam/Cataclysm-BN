@@ -1061,7 +1061,7 @@ void defense_game::caravan()
             }
 
             for( int j = 0; j < item_count[0][i]; j++ ) {
-                if( g->u.can_pickVolume( tmp ) && g->u.can_pickWeight( tmp ) ) {
+                if( g->u.can_pick_volume( tmp ) && g->u.can_pick_weight( tmp ) ) {
                     g->u.i_add( tmp );
                 } else { // Could fit it in the inventory!
                     dropped_some = true;
