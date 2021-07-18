@@ -5442,7 +5442,7 @@ int item::get_encumber_when_containing(
                 debugmsg( "Non-rigid item (%s) without storage capacity.", tname() );
             }
         } else {
-            encumber += contents_volume / 250_ml;
+            encumber += contents_volume / 500_ml;
         }
     }
 
