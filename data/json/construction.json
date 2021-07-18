@@ -4238,7 +4238,7 @@
       [ [ "chain", 1 ] ],
       [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ]
     ],
-	"pre_note": "Must be adjacent to a brick or concrete wall that is itself adjacent to a garage gate in order to open said gate.",
+	"pre_note": "Must be adjacent to a brick or (reinforced)concrete wall that is itself adjacent to a garage gate in order to open said gate.",
     "pre_special": "check_empty",
     "post_terrain": "t_gates_mech_control"
   },
@@ -4262,7 +4262,7 @@
       [ [ "steel_plate", 4 ], [ "sheet_metal", 16 ] ],
       [ [ "pipe", 3 ], [ "rebar", 1 ] ]
     ],
-	"pre_note": "Must be between brick or concrete walls to function, and at least one wall must have an adjacent mechanical winch.",
+	"pre_note": "Must be between brick or (reinforced)concrete walls to function, and at least one wall must have an adjacent mechanical winch.",
     "pre_special": "check_empty",
     "post_terrain": "t_door_metal_locked"
   }
