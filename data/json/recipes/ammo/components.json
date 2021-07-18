@@ -48,7 +48,7 @@
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [
       [ [ "can_drink_unsealed", 2 ], [ "can_food_unsealed", 2 ], [ "canister_empty", 2 ], [ "scrap", 4 ] ],
-      [ [ "oxy_powder", 100 ] ]
+      [ [ "oxy_powder", 100 ], [ "chem_match_head_powder", 100 ] ]
     ]
   },
   {
@@ -65,7 +65,7 @@
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [
       [ [ "can_drink_unsealed", 2 ], [ "can_food_unsealed", 2 ], [ "canister_empty", 2 ], [ "scrap", 4 ] ],
-      [ [ "oxy_powder", 100 ] ]
+      [ [ "oxy_powder", 100 ], [ "chem_match_head_powder", 100 ] ]
     ]
   },
   {
@@ -82,7 +82,7 @@
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [
       [ [ "can_drink_unsealed", 2 ], [ "can_food_unsealed", 2 ], [ "canister_empty", 2 ], [ "scrap", 4 ] ],
-      [ [ "oxy_powder", 100 ] ]
+      [ [ "oxy_powder", 100 ], [ "chem_match_head_powder", 100 ] ]
     ]
   },
   {
@@ -99,7 +99,7 @@
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [
       [ [ "can_drink_unsealed", 2 ], [ "can_food_unsealed", 2 ], [ "canister_empty", 2 ], [ "scrap", 4 ] ],
-      [ [ "oxy_powder", 100 ] ]
+      [ [ "oxy_powder", 100 ], [ "chem_match_head_powder", 100 ] ]
     ]
   },
   {
@@ -116,7 +116,7 @@
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [
       [ [ "can_drink_unsealed", 2 ], [ "can_food_unsealed", 2 ], [ "canister_empty", 2 ], [ "scrap", 4 ] ],
-      [ [ "oxy_powder", 100 ] ]
+      [ [ "oxy_powder", 100 ], [ "chem_match_head_powder", 100 ] ]
     ]
   },
   {
