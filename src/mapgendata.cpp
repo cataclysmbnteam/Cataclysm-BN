@@ -20,6 +20,16 @@ void mapgen_arguments::merge( const mapgen_arguments &other )
     }
 }
 
+void mapgen_arguments::serialize( JsonOut &jo ) const
+{
+    jo.write( map );
+}
+
+void mapgen_arguments::deserialize( JsonIn &ji )
+{
+    ji.read( map, true );
+}
+
 mapgendata::mapgendata( map &mp, dummy_settings_t )
     : density_( 0 )
     , when_( calendar::turn )
