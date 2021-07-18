@@ -2524,5 +2524,35 @@
     "result": "bp_22_fmj",
     "type": "recipe",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_shot_00",
+    "id_suffix": "with dowel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_shot_bird",
+    "id_suffix": "with dowel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_shot_dragon",
+    "id_suffix": "with dowel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_shot_slug",
+    "id_suffix": "with dowel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bp_shot_scrap",
+    "id_suffix": "with dowel",
+    "obsolete": true
   }
 ]
