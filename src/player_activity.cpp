@@ -5,6 +5,7 @@
 #include <memory>
 #include <utility>
 
+#include "activity_actor.h"
 #include "activity_handlers.h"
 #include "activity_type.h"
 #include "avatar.h"
@@ -50,6 +51,10 @@ player_activity::player_activity( activity_id t, int turns, int Index, int pos,
 
 player_activity::player_activity( const activity_actor &actor ) : type( actor.get_type() ),
     actor( actor.clone() ), moves_total( 0 ), moves_left( 0 )
+{
+}
+
+player_activity::~player_activity()
 {
 }
 

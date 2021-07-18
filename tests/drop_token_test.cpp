@@ -19,25 +19,13 @@
 #include "map_selector.h"
 #include "item.h"
 #include "pickup.h"
+#include "pickup_token.h"
 #include "player_helpers.h"
 #include "units_mass.h"
 #include "units_volume.h"
 
 class inventory;
 struct act_item;
-
-struct stacked_items {
-    cata::optional<item_stack::iterator> parent;
-    std::vector<std::list<item_stack::iterator>> stacked_children;
-};
-
-std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &drop );
-std::list<item> obtain_and_tokenize_items( player &p, std::list<act_item> &items );
-std::vector<item_location> extract_children( std::vector<item_location> &targets,
-        item_location &stack_top );
-std::vector<stacked_items> stack_for_pickup_ui( const
-        std::vector<item_stack::iterator> &unstacked );
-std::vector<std::list<item_stack::iterator>> flatten( const std::vector<stacked_items> &stacked );
 
 class testing_stack : public item_stack
 {
@@ -62,20 +50,6 @@ class testing_stack : public item_stack
         units::volume max_volume() const override {
             return units::from_milliliter( std::numeric_limits<units::volume::value_type>::max() );
         }
-};
-
-struct act_item {
-    /// inventory item
-    item_location loc;
-    /// How many items need to be processed
-    int count;
-    /// Amount of moves that processing will consume
-    int consumed_moves;
-
-    act_item( const item_location &loc, int count, int consumed_moves )
-        : loc( loc ),
-          count( count ),
-          consumed_moves( consumed_moves ) {}
 };
 
 TEST_CASE( "full backpack drop", "[activity][drop_token]" )
@@ -103,12 +77,12 @@ TEST_CASE( "full backpack drop", "[activity][drop_token]" )
         WHEN( "he considers dropping the backpack" ) {
             drop_locations drop;
             drop.push_back( drop_location( item_location( dummy, &dummy.worn.front() ), 1 ) );
-            std::list<act_item> drop_list = reorder_for_dropping( dummy, drop );
+            std::list<pickup::act_item> drop_list = pickup::reorder_for_dropping( dummy, drop );
             THEN( "he will try to drop all carried items" ) {
                 // TODO: Check that all items will be dropped. inv.size() doesn't work because stacks
                 AND_THEN( "all of them will have identical drop tokens, marking the backpack as parent" ) {
                     item_drop_token first_token = *drop_list.front().loc->drop_token;
-                    for( const act_item &ait : drop_list ) {
+                    for( const pickup::act_item &ait : drop_list ) {
                         CHECK( *ait.loc->drop_token == first_token );
                     }
                 }
@@ -124,7 +98,7 @@ TEST_CASE( "full backpack drop", "[activity][drop_token]" )
                 }
                 AND_THEN( "total volume dropped will equal volume of backpack and all items in inventory" ) {
                     units::volume total_dropped = std::accumulate( drop_list.begin(), drop_list.end(), 0_ml,
-                    []( units::volume acc, const act_item & ait ) {
+                    []( units::volume acc, const pickup::act_item & ait ) {
                         return acc + ait.loc->volume();
                     } );
                     units::volume inventory_volume = dummy.volume_carried();
@@ -164,12 +138,12 @@ TEST_CASE( "full backpack drop", "[activity][drop_token]" )
             REQUIRE( first_backpack_iter != dummy.worn.end() );
             drop.push_back( drop_location( item_location( dummy, &*first_duffel_iter ), 1 ) );
             drop.push_back( drop_location( item_location( dummy, &*first_backpack_iter ), 1 ) );
-            std::list<act_item> drop_list = reorder_for_dropping( dummy, drop );
+            std::list<pickup::act_item> drop_list = pickup::reorder_for_dropping( dummy, drop );
             THEN( "he will try to drop some, but not all of the carried items" ) {
                 REQUIRE( drop_list.size() > 4 );
 
                 units::volume total_dropped = std::accumulate( drop_list.begin(), drop_list.end(), 0_ml,
-                []( units::volume acc, const act_item & ait ) {
+                []( units::volume acc, const pickup::act_item & ait ) {
                     return acc + ait.loc->volume();
                 } );
                 units::volume inventory_volume = dummy.volume_carried();
@@ -178,11 +152,11 @@ TEST_CASE( "full backpack drop", "[activity][drop_token]" )
 
                 AND_THEN( "dropped duffel bag and backpack will have non-zero drop cost, while all contents will have zero drop cost" ) {
                     auto drop_duffel_iter = std::find_if( drop_list.begin(), drop_list.end(),
-                    [&]( const act_item & ait ) {
+                    [&]( const pickup::act_item & ait ) {
                         return ait.loc->typeId() == duffel_bag.typeId();
                     } );
                     auto drop_backpack_iter = std::find_if( drop_list.begin(), drop_list.end(),
-                    [&]( const act_item & ait ) {
+                    [&]( const pickup::act_item & ait ) {
                         return ait.loc->typeId() == backpack.typeId();
                     } );
                     REQUIRE( drop_duffel_iter != drop_list.end() );
@@ -276,10 +250,10 @@ TEST_CASE( "full backpack drop", "[activity][drop_token]" )
                 drop.push_back( drop_location( item_location( dummy, it ), 1 ) );
             }
 
-            std::list<act_item> drop_list = reorder_for_dropping( dummy, drop );
+            std::list<pickup::act_item> drop_list = pickup::reorder_for_dropping( dummy, drop );
             THEN( "at most half of the non-bag items will have zero drop cost" ) {
                 const size_t actual_zero_cost = std::count_if( drop_list.begin(), drop_list.end(),
-                [&]( const act_item & ait ) {
+                [&]( const pickup::act_item & ait ) {
                     return ait.consumed_moves == 0;
                 } );
                 const size_t expected_zero_cost = ( drop_list.size() - 1 ) / 2;
@@ -403,8 +377,8 @@ TEST_CASE( "pickup_ui_stacking", "[activity][drop_token]" )
     } );
     REQUIRE( post_scramble_parent_iter != unstacked.end() );
     auto parent_iter = *post_scramble_parent_iter;
-    std::vector<stacked_items> stacked_nonflat = stack_for_pickup_ui( unstacked );
-    std::vector<std::list<item_stack::iterator>> stacked = flatten( stacked_nonflat );
+    std::vector<pickup::stacked_items> stacked_nonflat = pickup::stack_for_pickup_ui( unstacked );
+    std::vector<std::list<item_stack::iterator>> stacked = pickup::flatten( stacked_nonflat );
     THEN( "Backpack with children doesn't stack with empty ones" ) {
         std::list<item_stack::iterator> list_with_just_parent = {parent_iter};
         auto stacked_parent_iter = std::find( stacked.begin(), stacked.end(), list_with_just_parent );

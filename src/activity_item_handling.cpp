@@ -50,6 +50,7 @@
 #include "optional.h"
 #include "output.h"
 #include "pickup.h"
+#include "pickup_token.h"
 #include "player.h"
 #include "player_activity.h"
 #include "point.h"
@@ -138,21 +139,6 @@ const int ACTIVITY_SEARCH_DISTANCE = 60;
 // TODO: Deliberately unified with multidrop. Unify further.
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<std::pair<item_location, int>>;
-
-/** Activity-associated item */
-struct act_item {
-    /// inventory item
-    item_location loc;
-    /// How many items need to be processed
-    int count;
-    /// Amount of moves that processing will consume
-    int consumed_moves;
-
-    act_item( const item_location &loc, int count, int consumed_moves )
-        : loc( loc ),
-          count( count ),
-          consumed_moves( consumed_moves ) {}
-};
 
 static bool same_type( const std::list<item> &items )
 {
@@ -430,10 +416,10 @@ static drop_locations convert_to_locations( const player_activity &act )
     return res;
 }
 
-static std::list<act_item> convert_to_items( Character &p, const drop_locations &drop,
+static std::list<pickup::act_item> convert_to_items( Character &p, const drop_locations &drop,
         std::function<bool( item_location loc )> filter )
 {
-    std::list<act_item> res;
+    std::list<pickup::act_item> res;
 
     for( const drop_location &rec : drop ) {
         const item_location loc = rec.first;
@@ -470,10 +456,12 @@ static std::list<act_item> convert_to_items( Character &p, const drop_locations 
     return res;
 }
 
+namespace pickup
+{
+
 // Prepares items for dropping by reordering them so that the drop
 // cost is minimal and "dependent" items get taken off first.
 // Implements the "backpack" logic.
-std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &drop );
 std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &drop )
 {
     std::list<act_item> res = convert_to_items( p, drop,
@@ -593,8 +581,6 @@ std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &dr
     return res;
 }
 
-// It's test-backed, so not static
-std::list<item> obtain_and_tokenize_items( player &p, std::list<act_item> &items );
 std::list<item> obtain_and_tokenize_items( player &p, std::list<act_item> &items )
 {
     std::list<item> res;
@@ -636,8 +622,10 @@ std::list<item> obtain_and_tokenize_items( player &p, std::list<act_item> &items
     return res;
 }
 
+} // namespace pickup
+
 // TODO: Display costs in the multidrop menu
-static void debug_drop_list( const std::list<act_item> &list )
+static void debug_drop_list( const std::list<pickup::act_item> &list )
 {
     if( !debug_mode ) {
         return;
@@ -667,18 +655,18 @@ static void debug_tokens( const std::list<item> &items )
 
 static std::list<item> obtain_activity_items( player_activity &act, player &p )
 {
-    std::list<act_item> items = reorder_for_dropping( p, convert_to_locations( act ) );
+    std::list<pickup::act_item> items = pickup::reorder_for_dropping( p, convert_to_locations( act ) );
 
     debug_drop_list( items );
 
-    std::list<item> res = obtain_and_tokenize_items( p, items );
+    std::list<item> res = pickup::obtain_and_tokenize_items( p, items );
 
     debug_tokens( res );
 
     // Load anything that remains (if any) into the activity
     act.targets.clear();
     act.values.clear();
-    for( const act_item &ait : items ) {
+    for( const pickup::act_item &ait : items ) {
         act.targets.push_back( ait.loc );
         act.values.push_back( ait.count );
     }

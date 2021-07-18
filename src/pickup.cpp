@@ -41,6 +41,7 @@
 #include "options.h"
 #include "output.h"
 #include "panels.h"
+#include "pickup_token.h"
 #include "player.h"
 #include "player_activity.h"
 #include "point.h"
@@ -396,7 +397,10 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
     return picked_up || !did_prompt;
 }
 
-bool pickup::do_pickup( std::vector<pick_drop_selection> &targets, bool autopickup )
+namespace pickup
+{
+
+bool do_pickup( std::vector<pick_drop_selection> &targets, bool autopickup )
 {
     bool got_water = false;
     Character &u = get_avatar();
@@ -440,9 +444,6 @@ bool pickup::do_pickup( std::vector<pick_drop_selection> &targets, bool autopick
     return !problem;
 }
 
-// For tests
-std::vector<cata::optional<size_t>> calculate_parents( const
-                                 std::vector<std::list<item_stack::iterator>> &stacked_here );
 std::vector<cata::optional<size_t>> calculate_parents( const
                                  std::vector<std::list<item_stack::iterator>> &stacked_here )
 {
@@ -475,14 +476,6 @@ struct unstacked_items {
     std::list<item_stack::iterator> unstacked_children;
 };
 
-struct stacked_items {
-    cata::optional<item_stack::iterator> parent;
-    std::vector<std::list<item_stack::iterator>> stacked_children;
-};
-
-// Non-static because tests
-std::vector<stacked_items> stack_for_pickup_ui( const
-        std::vector<item_stack::iterator> &unstacked );
 std::vector<stacked_items> stack_for_pickup_ui( const
         std::vector<item_stack::iterator> &unstacked )
 {
@@ -555,8 +548,6 @@ std::vector<stacked_items> stack_for_pickup_ui( const
     return restacked_with_parents;
 }
 
-// Non-static because tests
-std::vector<std::list<item_stack::iterator>> flatten( const std::vector<stacked_items> &stacked );
 std::vector<std::list<item_stack::iterator>> flatten( const std::vector<stacked_items> &stacked )
 {
     std::vector<std::list<item_stack::iterator>> flat;
@@ -570,6 +561,8 @@ std::vector<std::list<item_stack::iterator>> flatten( const std::vector<stacked_
 
     return flat;
 }
+
+} // namespace pickup
 
 // Pick up items at (pos).
 void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
