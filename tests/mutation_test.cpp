@@ -155,7 +155,7 @@ TEST_CASE( "Gaining a mutation in category makes mutations from other categories
         }
 
         npc zero_mut_dummy;
-        std::map<trait_id, float> chances_pre = zero_mut_dummy.mutation_chances();
+        std::map<trait_id, float> chances_pre = mutations::mutation_chances( zero_mut_dummy );
         float sum_pre = sum_without_category( chances_pre, cat_id );
         for( const mutation_branch &mut : mutation_branch::get_all() ) {
             if( zero_mut_dummy.mutation_ok( mut.id, false, false ) ) {
@@ -165,7 +165,7 @@ TEST_CASE( "Gaining a mutation in category makes mutations from other categories
                 npc dummy;
                 dummy.mutate_towards( mut.id );
                 THEN( "Sum of chances for mutations not of this category is lower than before" ) {
-                    std::map<trait_id, float> chances_post = dummy.mutation_chances();
+                    std::map<trait_id, float> chances_post = mutations::mutation_chances( dummy );
                     float sum_post = sum_without_category( chances_post, cat_id );
                     CHECK( sum_post < sum_pre );
                 }

@@ -11,6 +11,7 @@
 #include "avatar_action.h"
 #include "basecamp.h"
 #include "bionics.h"
+#include "cata_utility.h"
 #include "character.h"
 #include "color.h"
 #include "creature.h"
@@ -387,45 +388,21 @@ bool Character::has_active_mutation( const trait_id &b ) const
     return iter != my_mutations.end() && iter->second.powered;
 }
 
-bool Character::is_category_allowed( const std::vector<std::string> &category ) const
+bool Character::is_category_allowed( const std::vector<std::string> &categories ) const
 {
-    bool allowed = false;
-    bool restricted = false;
-    for( const trait_id &mut : get_mutations() ) {
-        if( !mut.obj().allowed_category.empty() ) {
-            restricted = true;
-        }
-        for( const std::string &Mu_cat : category ) {
-            if( mut.obj().allowed_category.count( Mu_cat ) ) {
-                allowed = true;
-                break;
-            }
-        }
-
-    }
-    if( !restricted ) {
-        allowed = true;
-    }
-    return allowed;
-
+    const std::set<std::string> &allowed_categories = mutations::allowed_categories(
+                actual_mutations() );
+    return std::any_of( categories.begin(), categories.end(),
+    [&allowed_categories]( const std::string & c ) {
+        return allowed_categories.count( c ) != 0;
+    } );
 }
 
 bool Character::is_category_allowed( const std::string &category ) const
 {
-    bool allowed = false;
-    bool restricted = false;
-    for( const trait_id &mut : get_mutations() ) {
-        for( const std::string &Ch_cat : mut.obj().allowed_category ) {
-            restricted = true;
-            if( Ch_cat == category ) {
-                allowed = true;
-            }
-        }
-    }
-    if( !restricted ) {
-        allowed = true;
-    }
-    return allowed;
+    const std::set<std::string> allowed_categories = mutations::allowed_categories(
+                actual_mutations() );
+    return allowed_categories.count( category ) != 0;
 }
 
 bool Character::is_weak_to_water() const
@@ -794,15 +771,273 @@ struct potential_mutation {
     int weight;
 };
 
-std::map<trait_id, float> Character::mutation_chances() const
+namespace mutations
+{
+
+bool mutation_compatible( const Character &c, const trait_id &mutation )
+{
+    if( !c.is_category_allowed( mutation->category ) ) {
+        return false;
+    }
+    if( mutation_branch::trait_is_blacklisted( mutation ) ) {
+        return false;
+    }
+    if( c.has_trait( mutation ) || c.has_child_flag( mutation ) ) {
+        // We already have this mutation or something that replaces it.
+        return false;
+    }
+
+    for( const bionic_id &bid : c.get_bionics() ) {
+        for( const trait_id &mid : bid->canceled_mutations ) {
+            if( mid == mutation ) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+struct mutation_node {
+    mutation_node( const mutation_node & ) = default;
+    mutation_node( const std::set<trait_id> &mutations, const std::set<trait_id> &parent,
+                   int score, size_t distance, float weight )
+        : mutations( mutations )
+        , parent( parent )
+        , mutation_score( score )
+        , distance( distance )
+        , weight( weight )
+    {}
+
+    std::set<trait_id> mutations;
+    std::set<trait_id> parent;
+    /**  */
+    int mutation_score;
+    /** Number of mutations added/removed so far */
+    size_t distance;
+    /** Lower = more likely. Units entirely arbitrary. */
+    float weight;
+
+    bool operator<( const mutation_node &other ) const {
+        return weight < other.weight;
+    }
+};
+
+/**
+ * Generates a mutation graph and picks a reachable mutation on it.
+ *
+ * @param guy the character to be mutated
+ * @param max_changes maximum number of mutations that may be applied
+ *
+ * @return path from current character's mutation set to a reachable mutation
+ */
+std::vector<trait_id> find_path( const Character &guy, size_t max_changes )
+{
+}
+
+/**
+ * Generates a map of mutation->[traits that block it because they are its replacement].
+ *
+ * Replaces badly named Character::has_child_flag
+ * TODO: A good name
+*/
+static std::map<trait_id, std::set<trait_id>> calc_replacement_mutation_blockers()
+{
+    std::map<trait_id, std::set<trait_id>> ret;
+    std::function<void( const trait_id &, const trait_id & )> recursive_block;
+    recursive_block = [&ret, &recursive_block]( const trait_id & parent, const trait_id & mut ) {
+        ret[mut].insert( parent );
+        // Could be done with less overdraw, but it's probably not worth the effort
+        for( const trait_id &replacement : mut->replacements ) {
+            recursive_block( parent, replacement );
+        }
+    };
+    for( const mutation_branch &mut : mutation_branch::get_all() ) {
+        recursive_block( mut.id, mut.id );
+    }
+
+    return ret;
+}
+
+static void build_mut_dependency_map( const trait_id &mut,
+        std::unordered_map<trait_id, int> &dependency_map, int distance )
+{
+    // Skip base traits and traits we've seen with a lower distance
+    const auto lowest_distance = dependency_map.find( mut );
+    if( lowest_distance == dependency_map.end() ||
+                                    distance < lowest_distance->second ) {
+        dependency_map[mut] = distance;
+        // Recurse over all prerequisite and replacement mutations
+        const mutation_branch &mdata = mut.obj();
+        for( const trait_id &i : mdata.prereqs ) {
+            build_mut_dependency_map( i, dependency_map, distance + 1 );
+        }
+        for( const trait_id &i : mdata.prereqs2 ) {
+            build_mut_dependency_map( i, dependency_map, distance + 1 );
+        }
+        for( const trait_id &i : mdata.replacements ) {
+            build_mut_dependency_map( i, dependency_map, distance + 1 );
+        }
+    }
+}
+
+std::set<mutation_node> build_mutation_graph( const Character &guy, size_t max_changes )
+{
+    constexpr int ideal_mutation_score = 4 * 10 + 6;
+    const mutation_node start = {
+        guy.actual_mutations(),
+        {{}},
+        genetic_score( guy ),
+        0,
+        0.0f
+    };
+
+    std::priority_queue<mutation_node> queue;
+    std::set<mutation_node> open;
+    std::unordered_set<std::set<trait_id>, cata::range_hash> closed;
+
+    // TODO: Precompute at finalize
+    const std::map<trait_id, std::set<trait_id>> all_recursive_replacements =
+                calc_replacement_mutation_blockers();
+    // TODO: Precompute at finalize
+    std::map<std::string, int> max_category_points_abs;
+    for( const mutation_branch &mut : mutation_branch::get_all() ) {
+        for(const std::string &category : mut.category) {
+        max_category_points_abs[category] += std::abs(mut.cost);
+        }
+    }
+    std::set<trait_id> bionic_blocked_traits;
+    for( const bionic_id &bid : guy.get_bionics() ) {
+        bionic_blocked_traits.insert( bid->canceled_mutations.begin(), bid->canceled_mutations.end() );
+    }
+
+    const auto req_empty_or_met = []( const std::set<trait_id> &l, const std::vector<trait_id> &r ) {
+        if( l.empty() ) {
+            return true;
+        }
+        return std::any_of( r.begin(), r.end(), [&l]( const trait_id & t ) {
+            return l.count( t ) != 0;
+        } );
+    };
+
+    const auto requirements_met =
+    [&]( const mutation_node & current_node, const trait_id & new_mut ) {
+        if( mutation_branch::trait_is_blacklisted( new_mut ) ) {
+            return false;
+        }
+        if( current_node.mutations.count( new_mut ) != 0 ) {
+            return false;
+        }
+        // TODO: `at` is dangerous
+        const std::set<trait_id> &recursive_replacements = all_recursive_replacements.at( new_mut );
+        if( intersection_nonempty( current_node.mutations, recursive_replacements ) ) {
+            return false;
+        }
+        if( bionic_blocked_traits.count( new_mut ) != 0 ) {
+            return false;
+        }
+
+        bool ret = true;
+        const std::set<trait_id> &current_mutations = current_node.mutations;
+        const std::set<std::string> &allowed_categories = mutations::allowed_categories(
+                    current_mutations );
+        // Set intersection, except ugly because the "right side" is a vector and not a set for some reason
+        ret &= new_mut->category.empty() ||
+               std::any_of( new_mut->category.begin(), new_mut->category.end(),
+        [&]( const std::string & category ) {
+            return allowed_categories.count( category ) != 0;
+        } );
+
+        ret &= req_empty_or_met( current_mutations, new_mut->prereqs );
+        ret &= req_empty_or_met( current_mutations, new_mut->prereqs2 );
+        ret &= req_empty_or_met( current_mutations, new_mut->threshreq );
+        // TODO: Replacements that wreck requirements
+        return ret;
+    };
+
+    const auto category_incompatibility_rating = [&]( const std::set<trait_id> &mutations ) {
+for(const trait_id &mut : mutations) {
+    std::abs( mut->cost );
+}
+    };
+
+    const auto consider_node = [&]( const std::set<trait_id> &mutations, const mutation_node & current,
+    int score, int distance ) {
+        float weight_score = score_difference_to_chance( ideal_mutation_score - score );
+        float weight_categories = 1.0f;
+        float weight = weight_score * weight_categories;
+        queue.emplace( mutations, current.mutations, score, distance, weight );
+    };
+
+    queue.emplace( start );
+    for( const mutation_branch &mut : mutation_branch::get_all() ) {
+        if( start.mutations.count( mut.id ) != 0 ) {
+            std::set<trait_id> new_mutations = start.mutations;
+            new_mutations.erase( mut.id );
+            int new_mutation_score = start.mutation_score - mut.cost;
+            int distance = 1;
+            consider_node( new_mutations, start, new_mutation_score, distance );
+        } else {
+            std::set<trait_id> new_mutations = start.mutations;
+            new_mutations.insert( mut.id );
+            int new_mutation_score = start.mutation_score + mut.cost;
+            int distance = 1;
+            consider_node( new_mutations, start, new_mutation_score, distance );
+        }
+    }
+
+    while( !queue.empty() ) {
+        const mutation_node cur = queue.top();
+        queue.pop();
+        if( closed.count( cur.mutations ) != 0 ) {
+            continue;
+        }
+
+        closed.insert( cur.mutations );
+        if( cur.distance == max_changes ) {
+            // No more mutations from this point
+            continue;
+        }
+
+        for( const trait_id &mut : cur.mutations ) {
+            for( const trait_id &replacement : mut->replacements ) {
+                if( !requirements_met( cur, replacement ) ) {
+                    continue;
+                }
+                mutation_node new_node = cur;
+                std::set<trait_id> new_mutations = cur.mutations;
+                new_mutations.erase( mut );
+                new_mutations.insert( replacement );
+                int new_mutation_score = cur.mutation_score + replacement->cost - mut->cost;
+                int new_distance = cur.distance + 1;
+                consider_node( new_mutations, cur, new_mutation_score, new_distance );
+            }
+
+            for( const trait_id &addition : mut->additions ) {
+                if( !requirements_met( cur, addition ) ) {
+                    continue;
+                }
+                mutation_node new_node = cur;
+                std::set<trait_id> new_mutations = cur.mutations;
+                new_mutations.insert( addition );
+                int new_mutation_score = cur.mutation_score + addition->cost;
+                int new_distance = cur.distance + 1;
+                consider_node( new_mutations, cur, new_mutation_score, new_distance );
+            }
+        }
+    }
+    return std::set<mutation_node>();
+}
+
+std::map<trait_id, float> mutation_chances( const Character &guy )
 {
     bool force_bad = false;
     const bool force_good = false;
-    if( has_trait( trait_CHAOTIC_BAD ) ) {
+    if( guy.has_trait( trait_CHAOTIC_BAD ) ) {
         force_bad = true;
     }
 
-    int current_score = genetic_score( *this );
+    int current_score = genetic_score( guy );
     // 10/10/10/10 in stats, balanced traits, plus tip
     int expected_score = 4 * 10 + 6;
     int direction = expected_score - current_score;
@@ -818,15 +1053,15 @@ std::map<trait_id, float> Character::mutation_chances() const
         bool purify_save = !base_mdata.purifiable;
         bool can_remove = !thresh_save && !prof_save && !purify_save;
 
-        if( has_trait( base_mutation ) ) {
+        if( guy.has_trait( base_mutation ) ) {
             for( const trait_id &mutation : base_mdata.replacements ) {
-                if( mutation->valid && mutation_ok( mutation, force_good, force_bad ) ) {
+                if( mutation->valid && guy.mutation_ok( mutation, force_good, force_bad ) ) {
                     potential.emplace_back( base_mutation, mutation, 3 );
                 }
             }
 
             for( const trait_id &mutation : base_mdata.additions ) {
-                if( mutation->valid && mutation_ok( mutation, force_good, force_bad ) ) {
+                if( mutation->valid && guy.mutation_ok( mutation, force_good, force_bad ) ) {
                     potential.emplace_back( trait_id::NULL_ID(), mutation, 3 );
                 }
             }
@@ -838,14 +1073,14 @@ std::map<trait_id, float> Character::mutation_chances() const
         } else {
             // Addition from nothing
             // Duplicates addition above, but that's OK, we need to handle dupes anyway
-            if( base_mutation->valid && mutation_ok( base_mutation, force_good, force_bad ) ) {
+            if( base_mutation->valid && guy.mutation_ok( base_mutation, force_good, force_bad ) ) {
                 potential.emplace_back( trait_id::NULL_ID(), base_mutation, 1 );
             }
         }
     }
 
     // We need all mutation categories in here
-    std::map<std::string, int> padded_mut_cat_lvl = mutation_category_level;
+    std::map<std::string, int> padded_mut_cat_lvl = guy.mutation_category_level;
     for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
         for( const std::string &cat : traits_iter.category ) {
             // Will do nothing if it exists already
@@ -861,7 +1096,7 @@ std::map<trait_id, float> Character::mutation_chances() const
     // Not normalized
     std::map<trait_id, float> chances;
 
-    // Warning: has duplicates
+    // Warning: potential has duplicates
     for( const potential_mutation &pm : potential ) {
         int cost_from = pm.from.is_valid() ? pm.from->cost : 0;
         int cost_to = pm.to.is_valid() ? pm.to->cost : 0;
@@ -887,6 +1122,8 @@ std::map<trait_id, float> Character::mutation_chances() const
     return normalized_map( chances );
 }
 
+} // namespace mutations
+
 void Character::mutate()
 {
     if( get_option<bool>( "BALANCED_MUTATIONS" ) ) {
@@ -898,7 +1135,7 @@ void Character::mutate()
                           ( mutagen.get_int_dur_factor() );
         add_msg_if_player( m_debug, "Mutation accumulation: %.1f", mut_power );
         while( mut_power > 1 || roll_remainder( mut_power ) > 0 ) {
-            std::map<trait_id, float> chances = mutation_chances();
+            std::map<trait_id, float> chances = mutations::mutation_chances( *this );
 
             weighted_float_list<trait_id> mutation_picker;
             for( const auto &p : chances ) {
@@ -1631,6 +1868,9 @@ static mutagen_rejection try_reject_mutagen( Character &guy, const item &it, boo
     return mutagen_rejection::accepted;
 }
 
+namespace mutations
+{
+
 mutagen_attempt mutagen_common_checks( Character &guy, const item &it, bool strong,
                                        const mutagen_technique technique )
 {
@@ -1712,6 +1952,8 @@ void test_crossing_threshold( Character &guy, const mutation_category_trait &m_c
     }
 }
 
+} // namespace mutations
+
 bool are_conflicting_traits( const trait_id &trait_a, const trait_id &trait_b )
 {
     return ( are_opposite_traits( trait_a, trait_b ) || b_is_lower_trait_of_a( trait_a, trait_b )
@@ -1759,3 +2001,29 @@ std::string Character::visible_mutations( const int visibility_cap ) const
     } );
     return trait_str;
 }
+
+namespace mutations
+{
+
+std::set<std::string> allowed_categories( const std::set<trait_id> &mutation_set )
+{
+    std::set<std::string> allowed;
+    for( const trait_id &t : mutation_set ) {
+        allowed.insert( t->allowed_category.begin(), t->allowed_category.end() );
+    }
+
+    if( !allowed.empty() ) {
+        return allowed;
+    }
+
+    const std::map<std::string, mutation_category_trait> &all_categories_map =
+        mutation_category_trait::get_all();
+    std::set<std::string> all_categories;
+    for( const auto &pr : all_categories_map ) {
+        all_categories.insert( pr.first );
+    }
+
+    return all_categories;
+}
+
+} // namespace mutations

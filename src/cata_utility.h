@@ -285,4 +285,37 @@ class restore_on_out_of_scope
         // *INDENT-ON*
 };
 
+/**
+ * Both sets must be sorted!
+ */
+template<class Set1, class Set2>
+bool intersection_nonempty( const Set1 &left, const Set2 &right )
+{
+    if( left.empty() || right.empty() ) {
+        return false;
+    }
+
+    typename Set1::const_iterator iter_left = left.begin();
+    typename Set2::const_iterator iter_right = right.begin();
+    const typename Set1::const_iterator left_end = left.end();
+    const typename Set2::const_iterator right_end = right.end();
+
+    if( *right.rbegin() < *iter_left || *left.rbegin() < *iter_right ) {
+        return false;
+    }
+
+    while( iter_left != left_end && iter_right != right_end ) {
+        if( *iter_left == *iter_right ) {
+            return true;
+        }
+        if( *iter_left < *iter_right ) {
+            iter_left++;
+        } else {
+            iter_right++;
+        }
+    }
+
+    return false;
+}
+
 #endif // CATA_SRC_CATA_UTILITY_H
