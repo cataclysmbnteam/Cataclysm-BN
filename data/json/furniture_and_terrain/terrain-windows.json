@@ -620,7 +620,15 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW_CURTAINS", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "OPENCLOSE_INSIDE",
+      "BARRICADABLE_WINDOW_CURTAINS",
+      "REDUCE_SCENT",
+      "CONNECT_TO_WALL",
+      "BLOCK_WIND"
+    ],
     "examine_action": "curtains",
     "close": "t_window_bars_curtains",
     "bash": {
