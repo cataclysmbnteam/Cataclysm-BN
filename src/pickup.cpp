@@ -467,8 +467,8 @@ std::vector<cata::optional<size_t>> calculate_parents( const
 }
 
 struct parent_child_check_t {
-    bool parent_exists;
-    bool child_exists;
+    bool parent_exists = false;
+    bool child_exists = false;
 };
 
 struct unstacked_items {
@@ -488,7 +488,7 @@ std::vector<stacked_items> stack_for_pickup_ui( const
             std::pair<time_point, int> turn_and_drop = std::make_pair( token.turn, token.drop_number );
             parent_child_check[turn_and_drop].parent_exists = true;
         }
-        if( token.parent_number > 0 ) {
+        if( token.parent_number != token.drop_number && token.parent_number > 0 ) {
             std::pair<time_point, int> turn_and_parent = std::make_pair( token.turn, token.parent_number );
             parent_child_check[turn_and_parent].child_exists = true;
         }
@@ -505,7 +505,8 @@ std::vector<stacked_items> stack_for_pickup_ui( const
         }
 
         std::pair<time_point, int> turn_and_parent = std::make_pair( token.turn, token.parent_number );
-        if( token.parent_number > 0 && parent_child_check[turn_and_parent].parent_exists ) {
+        if( token.parent_number > 0 && token.parent_number != token.drop_number &&
+            parent_child_check[turn_and_parent].parent_exists ) {
             children_by_parent[turn_and_parent].unstacked_children.push_back( it );
         } else {
             children_by_parent[no_parent].unstacked_children.push_back( it );

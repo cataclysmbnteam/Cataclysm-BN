@@ -340,61 +340,117 @@ TEST_CASE( "full backpack pickup", "[drop_token]" )
     }
 }
 
-TEST_CASE( "pickup_ui_stacking", "[activity][drop_token]" )
+static std::vector<item_stack::iterator> iterators_in_vector( item_stack &the_stack )
 {
-    item an_item( "bottle_glass" );
-    item backpack( "backpack" );
-    item duffel_bag( "duffelbag" );
-    const size_t per_backpack = backpack.get_total_capacity() / an_item.volume();
-    testing_stack the_stack;
-
-    the_stack.insert( an_item );
-    auto insert_parent_iter = the_stack.insert_with_return( backpack );
-    item_drop_token parent_token = drop_token::make_next();
-    *( *insert_parent_iter ).drop_token = parent_token;
-    for( size_t i = 0; i < per_backpack; i++ ) {
-        auto child_iter = the_stack.insert_with_return( an_item );
-        *( *child_iter ).drop_token = drop_token::make_next();
-        ( *child_iter ).drop_token->parent_number = parent_token.drop_number;
-    }
-
-    the_stack.insert( backpack );
-    the_stack.insert( duffel_bag );
-    the_stack.insert( backpack );
-
-    // Result should be sorted, so scrambling it a bit should help
-    std::reverse( the_stack.begin(), the_stack.end() );
-
     std::vector<item_stack::iterator> unstacked;
 
     for( auto iter = the_stack.begin(); iter != the_stack.end(); iter++ ) {
         unstacked.emplace_back( iter );
     }
 
-    auto post_scramble_parent_iter = std::find_if( unstacked.begin(), unstacked.end(),
-    [&parent_token]( const item_stack::iterator & it ) {
-        return *it->drop_token == parent_token;
-    } );
-    REQUIRE( post_scramble_parent_iter != unstacked.end() );
-    auto parent_iter = *post_scramble_parent_iter;
-    std::vector<pickup::stacked_items> stacked_nonflat = pickup::stack_for_pickup_ui( unstacked );
-    std::vector<std::list<item_stack::iterator>> stacked = pickup::flatten( stacked_nonflat );
-    THEN( "Backpack with children doesn't stack with empty ones" ) {
-        std::list<item_stack::iterator> list_with_just_parent = {parent_iter};
-        auto stacked_parent_iter = std::find( stacked.begin(), stacked.end(), list_with_just_parent );
-        REQUIRE( stacked_parent_iter != stacked.end() );
-        CHECK( stacked_parent_iter->size() == 1 );
+    return unstacked;
+}
+
+TEST_CASE( "pickup_ui_stacking", "[activity][drop_token]" )
+{
+    item an_item( "bottle_glass" );
+    item backpack( "backpack" );
+    item duffel_bag( "duffelbag" );
+    const size_t per_backpack = backpack.get_total_capacity() / an_item.volume();
+
+    GIVEN( "A mix of items on the ground, with some of them being in a backpack" ) {
+        testing_stack the_stack;
+        the_stack.insert( an_item );
+        auto insert_parent_iter = the_stack.insert_with_return( backpack );
+        item_drop_token parent_token = drop_token::make_next();
+        *( *insert_parent_iter ).drop_token = parent_token;
+        for( size_t i = 0; i < per_backpack; i++ ) {
+            auto child_iter = the_stack.insert_with_return( an_item );
+            *( *child_iter ).drop_token = drop_token::make_next();
+            ( *child_iter ).drop_token->parent_number = parent_token.drop_number;
+        }
+
+        the_stack.insert( backpack );
+        the_stack.insert( duffel_bag );
+        the_stack.insert( backpack );
+
+        // Result should be sorted, so scrambling it a bit should help
+        std::reverse( the_stack.begin(), the_stack.end() );
+
+        std::vector<item_stack::iterator> unstacked = iterators_in_vector( the_stack );
+
+        auto post_scramble_parent_iter = std::find_if( unstacked.begin(), unstacked.end(),
+        [&parent_token]( const item_stack::iterator & it ) {
+            return *it->drop_token == parent_token;
+        } );
+        REQUIRE( post_scramble_parent_iter != unstacked.end() );
+        auto parent_iter = *post_scramble_parent_iter;
+        WHEN( "The items are restacked in preparation for pickup display" ) {
+            std::vector<pickup::stacked_items> stacked_nonflat = pickup::stack_for_pickup_ui( unstacked );
+            std::vector<std::list<item_stack::iterator>> stacked = pickup::flatten( stacked_nonflat );
+            THEN( "Backpack with children doesn't stack with empty ones" ) {
+                std::list<item_stack::iterator> list_with_just_parent = {parent_iter};
+                auto stacked_parent_iter = std::find( stacked.begin(), stacked.end(), list_with_just_parent );
+                REQUIRE( stacked_parent_iter != stacked.end() );
+                CHECK( stacked_parent_iter->size() == 1 );
+            }
+
+            THEN( "Backpack is immediately followed by all of its children" ) {
+                std::list<item_stack::iterator> list_with_just_parent = {parent_iter};
+                auto stacked_parent_iter = std::find( stacked.begin(), stacked.end(), list_with_just_parent );
+                REQUIRE( stacked_parent_iter != stacked.end() );
+                CHECK( stacked_parent_iter->size() == 1 );
+                CHECK( stacked_parent_iter->front()->typeId() == backpack.typeId() );
+                auto child_stack_iter = std::next( stacked_parent_iter );
+                REQUIRE( child_stack_iter != stacked.end() );
+                CHECK( child_stack_iter->front()->typeId() == an_item.typeId() );
+                CHECK( child_stack_iter->size() == per_backpack );
+            }
+        }
     }
 
-    THEN( "Backpack is immediately followed by all of its children" ) {
-        std::list<item_stack::iterator> list_with_just_parent = {parent_iter};
-        auto stacked_parent_iter = std::find( stacked.begin(), stacked.end(), list_with_just_parent );
-        REQUIRE( stacked_parent_iter != stacked.end() );
-        CHECK( stacked_parent_iter->size() == 1 );
-        CHECK( stacked_parent_iter->front()->typeId() == backpack.typeId() );
-        auto child_stack_iter = std::next( stacked_parent_iter );
-        REQUIRE( child_stack_iter != stacked.end() );
-        CHECK( child_stack_iter->front()->typeId() == an_item.typeId() );
-        CHECK( child_stack_iter->size() == per_backpack );
+    GIVEN( "Two backpacks with set tokens, but no contents" ) {
+        testing_stack the_stack;
+        auto first_backpack_iter = the_stack.insert_with_return( backpack );
+        *first_backpack_iter->drop_token = drop_token::make_next();
+        auto second_backpack_iter = the_stack.insert_with_return( backpack );
+        *second_backpack_iter->drop_token = drop_token::make_next();
+
+        std::vector<item_stack::iterator> unstacked = iterators_in_vector( the_stack );
+
+        WHEN( "The items are restacked in preparation for pickup display" ) {
+            std::vector<pickup::stacked_items> stacked_nonflat = pickup::stack_for_pickup_ui( unstacked );
+            std::vector<std::list<item_stack::iterator>> stacked = pickup::flatten( stacked_nonflat );
+            THEN( "The two backpacks stack" ) {
+                CHECK( stacked.size() == 1 );
+            }
+        }
+    }
+
+    GIVEN( "Multiple identical items with tokens with different turns and parents set, but with no parents on the item stack" ) {
+        testing_stack the_stack;
+
+        item_drop_token first_parent_token = drop_token::make_next();
+        for( size_t i = 0; i < per_backpack; i++ ) {
+            auto child_iter = the_stack.insert_with_return( an_item );
+            *( *child_iter ).drop_token = drop_token::make_next();
+            ( *child_iter ).drop_token->parent_number = first_parent_token.drop_number;
+        }
+
+        item_drop_token second_parent_token = drop_token::make_next();
+        for( size_t i = 0; i < per_backpack; i++ ) {
+            auto child_iter = the_stack.insert_with_return( an_item );
+            *( *child_iter ).drop_token = drop_token::make_next();
+            ( *child_iter ).drop_token->parent_number = second_parent_token.drop_number;
+        }
+
+        std::vector<item_stack::iterator> unstacked = iterators_in_vector( the_stack );
+        WHEN( "The items are restacked in preparation for pickup display" ) {
+            std::vector<pickup::stacked_items> stacked_nonflat = pickup::stack_for_pickup_ui( unstacked );
+            std::vector<std::list<item_stack::iterator>> stacked = pickup::flatten( stacked_nonflat );
+            THEN( "All of those items stack" ) {
+                CHECK( stacked.size() == 1 );
+            }
+        }
     }
 }
