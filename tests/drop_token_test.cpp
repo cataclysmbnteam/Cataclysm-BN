@@ -24,14 +24,11 @@
 #include "units_mass.h"
 #include "units_volume.h"
 
-class inventory;
-struct act_item;
-
 class testing_stack : public item_stack
 {
     public:
         testing_stack() : item_stack( new cata::colony<item>() ) { }
-        ~testing_stack() {
+        ~testing_stack() override {
             delete( items );
         }
 

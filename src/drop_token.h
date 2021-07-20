@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_SRC_ITEM_DROP_TOKEN_H
-#define CATA_SRC_ITEM_DROP_TOKEN_H
+#ifndef CATA_SRC_DROP_TOKEN_H
+#define CATA_SRC_DROP_TOKEN_H
 
 #include <iostream>
 
@@ -47,8 +47,8 @@ namespace drop_token
 
 item_drop_token make_next();
 
-}
+} // namespace drop_token
 
 std::ostream &operator<<( std::ostream &os, const item_drop_token &dt );
 
-#endif // CATA_SRC_ITEM_DROP_TOKEN_H
+#endif // CATA_SRC_DROP_TOKEN_H

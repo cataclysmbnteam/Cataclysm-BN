@@ -529,9 +529,9 @@ std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &dr
                 continue;
             }
             std::list<item> &inv_stack = *old_inv[i];
-            for( auto iter = inv_stack.begin(); iter != inv_stack.end(); iter++ ) {
+            for( item &item : inv_stack ) {
                 // Note: zero cost, but won't be contained on drop
-                act_item to_drop = act_item( item_location( p, &*iter ), iter->count(), 0 );
+                act_item to_drop = act_item( item_location( p, &item ), item.count(), 0 );
                 inv.push_back( to_drop );
                 excessive_volume -= to_drop.loc->volume();
                 if( excessive_volume <= 0_ml ) {

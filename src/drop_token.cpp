@@ -19,7 +19,7 @@ item_drop_token make_next()
     return item_drop_token{ calendar::turn, last_drop, last_drop };
 }
 
-}
+} // namespace drop_token
 
 std::ostream &operator<<( std::ostream &os, const item_drop_token &dt )
 {

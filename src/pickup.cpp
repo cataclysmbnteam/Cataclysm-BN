@@ -444,8 +444,8 @@ bool do_pickup( std::vector<pick_drop_selection> &targets, bool autopickup )
     return !problem;
 }
 
-std::vector<cata::optional<size_t>> calculate_parents( const
-                                 std::vector<std::list<item_stack::iterator>> &stacked_here )
+static std::vector<cata::optional<size_t>> calculate_parents(
+        const std::vector<std::list<item_stack::iterator>> &stacked_here )
 {
     std::vector<cata::optional<size_t>> parents( stacked_here.size() );
     if( !stacked_here.empty() ) {

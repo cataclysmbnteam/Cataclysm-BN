@@ -54,9 +54,7 @@ player_activity::player_activity( const activity_actor &actor ) : type( actor.ge
 {
 }
 
-player_activity::~player_activity()
-{
-}
+player_activity::~player_activity() = default;
 
 void player_activity::migrate_item_position( Character &guy )
 {
