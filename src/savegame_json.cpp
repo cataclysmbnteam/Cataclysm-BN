@@ -49,6 +49,7 @@
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
+#include "drop_token.h"
 #include "effect.h"
 #include "enum_conversions.h"
 #include "event.h"
@@ -2254,6 +2255,8 @@ void item::io( Archive &archive )
 
     static const cata::value_ptr<relic> null_relic_ptr = nullptr;
     archive.io( "relic_data", relic_data, null_relic_ptr );
+
+    archive.io( "drop_token", drop_token, decltype( drop_token )() );
 
     item_controller->migrate_item( orig, *this );
 

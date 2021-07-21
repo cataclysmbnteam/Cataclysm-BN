@@ -1,5 +1,25 @@
 #include "calendar.h"
 #include "drop_token.h"
+#include "json.h"
+
+void item_drop_token::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "turn", turn );
+    jsout.member( "drop_number", drop_number );
+    jsout.member( "parent_number", parent_number );
+
+    jsout.end_object();
+}
+
+void item_drop_token::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    jo.read( "turn", turn );
+    jo.read( "drop_number", drop_number );
+    jo.read( "parent_number", parent_number );
+}
 
 namespace drop_token
 {
