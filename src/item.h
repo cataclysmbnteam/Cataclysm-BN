@@ -2256,6 +2256,6 @@ namespace charge_removal_blacklist
 const std::set<itype_id> &get();
 void load( const JsonObject &jo );
 void reset();
-}
+} // namespace charge_removal_blacklist
 
 #endif // CATA_SRC_ITEM_H

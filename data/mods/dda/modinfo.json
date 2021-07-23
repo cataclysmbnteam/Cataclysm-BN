@@ -2,8 +2,8 @@
   {
     "type": "MOD_INFO",
     "id": "dda",
-    "name": "Dark Days Ahead",
-    "description": "Core content for Cataclysm-DDA",
+    "name": "Bright Nights",
+    "description": "Core content for Cataclysm-BN",
     "category": "content",
     "core": true,
     "path": "../../json",

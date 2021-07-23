@@ -40,10 +40,16 @@
   },
   {
     "type": "effect_type",
-    "id": "controlled",
+    "id": "ai_controlled",
     "name": [ "Controlled Monster" ],
-    "desc": [ "AI tag for when monsters are being controlled by another.  This is a bug if you have it." ],
-    "permanent": true
+    "permanent": true,
+    "desc": [ "AI tag for when monsters are being controlled by another.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "ai_waiting",
+    "name": [ "Waiting Monster" ],
+    "desc": [ "AI tag for when monster passively waits in place.  This is a bug if you have it." ]
   },
   {
     "type": "effect_type",

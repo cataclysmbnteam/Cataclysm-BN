@@ -195,11 +195,11 @@ static const species_id PLANT( "PLANT" );
 
 static const efftype_id effect_accumulated_mutagen( "accumulated_mutagen" );
 static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
+static const efftype_id effect_ai_controlled( "ai_controlled" );
 static const efftype_id effect_assisted( "assisted" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
-static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
@@ -767,6 +767,14 @@ bool game::start_game()
             }
         }
     }
+    if( scen->has_flag( "BORDERED" ) ) {
+        overmap &starting_om = get_cur_om();
+        for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+            starting_om.place_special_forced( overmap_special_id( "world" ), { 0, 0, z },
+                                              om_direction::type::north );
+        }
+
+    }
     for( auto &e : u.inv_dump() ) {
         e->set_owner( g->u );
     }
@@ -941,6 +949,33 @@ void game::create_starting_npcs()
     //One random starting NPC mission
     tmp->add_new_mission( mission::reserve_random( ORIGIN_OPENER_NPC, tmp->global_omt_location(),
                           tmp->getID() ) );
+}
+
+static std::string generate_memorial_filename( const std::string &char_name )
+{
+    // <name>-YYYY-MM-DD-HH-MM-SS.txt
+    //       123456789012345678901234 ~> 24 chars + a null
+    constexpr size_t suffix_len = 24 + 1;
+    constexpr size_t max_name_len = FILENAME_MAX - suffix_len;
+
+    const size_t name_len = char_name.size();
+    // Here -1 leaves space for the ~
+    const size_t truncated_name_len = ( name_len >= max_name_len ) ? ( max_name_len - 1 ) : name_len;
+
+    std::ostringstream memorial_file_path;
+
+    memorial_file_path << ensure_valid_file_name( char_name );
+
+    // Add a ~ if the player name was actually truncated.
+    memorial_file_path << ( ( truncated_name_len != name_len ) ? "~-" : "-" );
+
+    // Add a timestamp for uniqueness.
+    char buffer[suffix_len] {};
+    std::time_t t = std::time( nullptr );
+    std::strftime( buffer, suffix_len, "%Y-%m-%d-%H-%M-%S", std::localtime( &t ) );
+    memorial_file_path << buffer;
+
+    return memorial_file_path.str();
 }
 
 bool game::cleanup_at_end()
@@ -1142,8 +1177,9 @@ bool game::cleanup_at_end()
         const bool is_suicide = uquit == QUIT_SUICIDE;
         events().send<event_type::game_over>( is_suicide, sLastWords );
         // Struck the save_player_data here to forestall Weirdness
-        move_save_to_graveyard();
-        write_memorial_file( sLastWords );
+        std::string char_filename = generate_memorial_filename( u.name );
+        move_save_to_graveyard( char_filename );
+        write_memorial_file( char_filename, sLastWords );
         memorial().clear();
         std::vector<std::string> characters = list_active_characters();
         // remove current player from the active characters list, as they are dead
@@ -2641,14 +2677,19 @@ void game::win_screen()
     popup( msg );
 }
 
-void game::move_save_to_graveyard()
+void game::move_save_to_graveyard( const std::string &dirname )
 {
-    const std::string &save_dir      = get_world_base_save_path();
-    const std::string &graveyard_dir = PATH_INFO::graveyarddir();
-    const std::string &prefix        = base64_encode( u.name ) + ".";
+    const std::string save_dir           = get_world_base_save_path();
+    const std::string graveyard_dir      = PATH_INFO::graveyarddir() + "/";
+    const std::string graveyard_save_dir = graveyard_dir + dirname + "/";
+    const std::string prefix             = base64_encode( u.name ) + ".";
 
     if( !assure_dir_exist( graveyard_dir ) ) {
         debugmsg( "could not create graveyard path '%s'", graveyard_dir );
+    }
+
+    if( !assure_dir_exist( graveyard_save_dir ) ) {
+        debugmsg( "could not create graveyard path '%s'", graveyard_save_dir );
     }
 
     const auto save_files = get_files_from_path( prefix, save_dir );
@@ -2657,7 +2698,7 @@ void game::move_save_to_graveyard()
     }
 
     for( const auto &src_path : save_files ) {
-        const std::string dst_path = graveyard_dir +
+        const std::string dst_path = graveyard_save_dir +
                                      src_path.substr( src_path.rfind( '/' ), std::string::npos );
 
         if( rename_file( src_path, dst_path ) ) {
@@ -3013,7 +3054,7 @@ std::vector<std::string> game::list_active_characters()
  * state at the time the memorial was made (usually upon death) and
  * accomplishments in a human-readable format.
  */
-void game::write_memorial_file( std::string sLastWords )
+void game::write_memorial_file( const std::string &filename, std::string sLastWords )
 {
     const std::string &memorial_dir = PATH_INFO::memorialdir();
     const std::string &memorial_active_world_dir = memorial_dir +
@@ -3030,33 +3071,9 @@ void game::write_memorial_file( std::string sLastWords )
         return;
     }
 
-    // <name>-YYYY-MM-DD-HH-MM-SS.txt
-    //       123456789012345678901234 ~> 24 chars + a null
-    constexpr size_t suffix_len   = 24 + 1;
-    constexpr size_t max_name_len = FILENAME_MAX - suffix_len;
+    std::string path = memorial_active_world_dir + filename + ".txt";
 
-    const size_t name_len = u.name.size();
-    // Here -1 leaves space for the ~
-    const size_t truncated_name_len = ( name_len >= max_name_len ) ? ( max_name_len - 1 ) : name_len;
-
-    std::ostringstream memorial_file_path;
-    memorial_file_path << memorial_active_world_dir;
-
-    memorial_file_path << ensure_valid_file_name( u.name );
-
-    // Add a ~ if the player name was actually truncated.
-    memorial_file_path << ( ( truncated_name_len != name_len ) ? "~-" : "-" );
-
-    // Add a timestamp for uniqueness.
-    char buffer[suffix_len] {};
-    std::time_t t = std::time( nullptr );
-    std::strftime( buffer, suffix_len, "%Y-%m-%d-%H-%M-%S", std::localtime( &t ) );
-    memorial_file_path << buffer;
-
-    memorial_file_path << ".txt";
-
-    const std::string path_string = memorial_file_path.str();
-    write_to_file( memorial_file_path.str(), [&]( std::ostream & fout ) {
+    write_to_file( path, [&]( std::ostream & fout ) {
         memorial().write( fout, sLastWords );
     }, _( "player memorial" ) );
 }
@@ -4325,12 +4342,9 @@ void game::monmove()
         while( critter.moves > 0 && !critter.is_dead() && !critter.has_effect( effect_ridden ) ) {
             critter.made_footstep = false;
             // Controlled critters don't make their own plans
-            if( !critter.has_effect( effect_controlled ) ) {
+            if( !critter.has_effect( effect_ai_controlled ) ) {
                 // Formulate a path to follow
                 critter.plan();
-            } else {
-                critter.moves = 0;
-                break;
             }
             critter.move(); // Move one square, possibly hit u
             critter.process_triggers();

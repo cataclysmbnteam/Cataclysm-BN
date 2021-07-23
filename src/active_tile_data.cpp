@@ -44,7 +44,7 @@ template battery_tile *furn_at<battery_tile>( const tripoint & );
 
 } // namespace active_tiles
 
-active_tile_data::~active_tile_data() {}
+active_tile_data::~active_tile_data() = default;
 
 void active_tile_data::serialize( JsonOut &jsout ) const
 {

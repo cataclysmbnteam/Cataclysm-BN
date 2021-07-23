@@ -1118,6 +1118,12 @@ void Item_factory::check_definitions() const
             }
         }
 
+        if( type->has_flag( "FIRESTARTER" ) &&
+            !type->can_have_charges() &&
+            !type->get_use( "firestarter" ) ) {
+            msg += string_format( "has 'FIRESTARTER' flag, but neither can have charges nor defines 'firestarter' use func" );
+        }
+
         if( type->comestible ) {
             if( type->comestible->tool != "null" ) {
                 auto req_tool = find_template( type->comestible->tool );
@@ -1462,9 +1468,9 @@ const itype *Item_factory::find_template( const itype_id &id ) const
     return def;
 }
 
-Item_spawn_data *Item_factory::get_group( const item_group_id &group_tag )
+Item_spawn_data *Item_factory::get_group( const item_group_id &item_group_id )
 {
-    GroupMap::iterator group_iter = m_template_groups.find( group_tag );
+    GroupMap::iterator group_iter = m_template_groups.find( item_group_id );
     if( group_iter != m_template_groups.end() ) {
         return group_iter->second.get();
     }

@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_UNITS_H
 #define CATA_SRC_UNITS_H
 
+#include <limits>
 #include <ostream>
 #include <string>
 #include <utility>
@@ -51,7 +52,7 @@ inline std::ostream &operator<<( std::ostream &o, const quantity<value_type, tag
     return o << v.value() << tag_type{};
 }
 
-std::string display( const units::energy v );
+std::string display( units::energy v );
 
 } // namespace units
 

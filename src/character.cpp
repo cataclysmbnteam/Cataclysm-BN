@@ -106,6 +106,7 @@ static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_watch( "bio_watch" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
+static const efftype_id effect_ai_waiting( "ai_waiting" );
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_beartrap( "beartrap" );
@@ -117,7 +118,6 @@ static const efftype_id effect_bloated( "bloated" );
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_contacts( "contacts" );
-static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_corroding( "corroding" );
 static const efftype_id effect_cough_suppress( "cough_suppress" );
 static const efftype_id effect_crushed( "crushed" );
@@ -1121,7 +1121,7 @@ void Character::forced_dismount()
         }
         mon->mounted_player_id = character_id();
         mon->remove_effect( effect_ridden );
-        mon->add_effect( effect_controlled, 5_turns );
+        mon->add_effect( effect_ai_waiting, 5_turns );
         mounted_creature = nullptr;
         mon->mounted_player = nullptr;
     }
@@ -1230,7 +1230,7 @@ void Character::dismount()
             g->u.grab( OBJECT_NONE );
         }
         critter->remove_effect( effect_ridden );
-        critter->add_effect( effect_controlled, 5_turns );
+        critter->add_effect( effect_ai_waiting, 5_turns );
         mounted_creature = nullptr;
         critter->mounted_player = nullptr;
         setpos( *pnt );
@@ -1544,6 +1544,7 @@ bool Character::move_effects( bool attacking )
         }
     }
     if( has_effect( effect_grabbed ) && !attacking && !try_remove_grab( *this ) ) {
+        // NOLINTNEXTLINE(readability-simplify-boolean-expr)
         return false;
     }
     return true;
@@ -8947,7 +8948,7 @@ int Character::warmth( const bodypart_id &bp ) const
         if( i.covers( bp->token ) ) {
             warmth = i.get_warmth();
             // Warmth reduced linearly with wetness
-            const auto materials = i.made_of();
+            const auto &materials = i.made_of();
             float max_wet_resistance = std::accumulate( materials.begin(), materials.end(), 0.0f,
             []( float best, const material_id & mat ) {
                 return std::max( best, mat->warmth_when_wet() );
@@ -9280,6 +9281,10 @@ bool Character::has_fire( const int quantity ) const
         for( auto &i : firestarters ) {
             if( !i->type->can_have_charges() ) {
                 const use_function *usef = i->type->get_use( "firestarter" );
+                if( !usef ) {
+                    debugmsg( "failed to get use func 'firestarter' for item '%s'", i->typeId().c_str() );
+                    continue;
+                }
                 const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
                 if( actor->can_use( *this->as_character(), *i, false, tripoint_zero ).success() ) {
                     return true;

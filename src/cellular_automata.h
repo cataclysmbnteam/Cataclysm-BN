@@ -4,6 +4,7 @@
 
 #include <vector>
 
+#include "point.h"
 #include "rng.h"
 
 namespace CellularAutomata
@@ -12,24 +13,21 @@ namespace CellularAutomata
 * Calculates the number of alive neighbors by looking at the Moore neighborhood (3x3 grid of cells).
 * @param cells The cells to look at. Assumed to be of a consistent width/height equal to the specified
 * values.
-* @param width The width of the cells. Specified up front to avoid checked it each time.
-* @param width The height of the cells. Specified up front to avoid checked it each time.
-* @param x
-* @param y
+* @param size The width+height of the cells. Specified up front to avoid checked it each time.
+* @param p
 * @returns The number of neighbors that are alive, a value between 0 and 8.
 */
-inline int neighbor_count( const std::vector<std::vector<int>> &cells, const int width,
-                           const int height,
-                           const int x, const int y )
+inline int neighbor_count( const std::vector<std::vector<int>> &cells, const point &size,
+                           const point &p )
 {
     int neighbors = 0;
     for( int ni = -1; ni <= 1; ni++ ) {
         for( int nj = -1; nj <= 1; nj++ ) {
-            const int nx = x + ni;
-            const int ny = y + nj;
+            const int nx = p.x + ni;
+            const int ny = p.y + nj;
 
             // These neighbors are outside the bounds, so they can't contribute.
-            if( nx < 0 || nx >= width || ny < 0 || ny >= height ) {
+            if( nx < 0 || nx >= size.x || ny < 0 || ny >= size.y ) {
                 continue;
             }
 
@@ -37,7 +35,7 @@ inline int neighbor_count( const std::vector<std::vector<int>> &cells, const int
         }
     }
     // Because we included ourself in the loop above, subtract ourselves back out.
-    neighbors -= cells[x][y];
+    neighbors -= cells[p.x][p.y];
 
     return neighbors;
 }
@@ -50,39 +48,38 @@ inline int neighbor_count( const std::vector<std::vector<int>> &cells, const int
 * - Dead cells with > birth_limit neighbors become alive
 * - Alive cells with > statis_limit neighbors stay alive
 * - The rest die
-* @param width Dimensions of the grid.
-* @param height Dimensions of the grid.
+* @param size Dimensions of the grid.
 * @param alive Number between 0 and 100, used to roll an x_in_y check for the cell to start alive.
 * @param iterations Number of iterations to run the cellular automaton.
 * @param birth_limit Dead cells with > birth_limit neighbors become alive.
 * @param stasis_limit Alive cells with > statis_limit neighbors stay alive
 * @returns The width x height grid of cells. Each cell is a 0 if dead or a 1 if alive.
 */
-inline std::vector<std::vector<int>> generate_cellular_automaton( const int width, const int height,
+inline std::vector<std::vector<int>> generate_cellular_automaton( const point &size,
                                   const int alive, const int iterations, const int birth_limit, const int stasis_limit )
 {
-    std::vector<std::vector<int>> current( width, std::vector<int>( height, 0 ) );
-    std::vector<std::vector<int>> next( width, std::vector<int>( height, 0 ) );
+    std::vector<std::vector<int>> current( size.x, std::vector<int>( size.y, 0 ) );
+    std::vector<std::vector<int>> next( size.x, std::vector<int>( size.y, 0 ) );
 
     // Initialize our initial set of cells.
-    for( int i = 0; i < width; i++ ) {
-        for( int j = 0; j < height; j++ ) {
+    for( int i = 0; i < size.x; i++ ) {
+        for( int j = 0; j < size.y; j++ ) {
             current[i][j] = x_in_y( alive, 100 );
         }
     }
 
     for( int iteration = 0; iteration < iterations; iteration++ ) {
-        for( int i = 0; i < width; i++ ) {
-            for( int j = 0; j < height; j++ ) {
+        for( int i = 0; i < size.x; i++ ) {
+            for( int j = 0; j < size.y; j++ ) {
                 // Skip the edges--no need to complicate this with more complex neighbor
                 // calculations, just keep them constant.
-                if( i == 0 || i == width - 1 || j == 0 || j == height - 1 ) {
+                if( i == 0 || i == size.x - 1 || j == 0 || j == size.y - 1 ) {
                     next[i][j] = 0;
                     continue;
                 }
 
                 // Count our neighors.
-                const int neighbors = neighbor_count( current, width, height, i, j );
+                const int neighbors = neighbor_count( current, size, point( i, j ) );
 
                 // Dead and > birth_limit neighbors, so become alive.
                 if( ( current[i][j] == 0 ) && ( neighbors > birth_limit ) ) {

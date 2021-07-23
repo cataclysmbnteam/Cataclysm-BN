@@ -96,8 +96,8 @@ void UnusedStaticsCheck::onEndOfTranslationUnit()
             continue;
         }
 
-        diag( V.range.getBegin(), "Variable %0 declared but not used." ) << FixItHint::CreateRemoval(
-                    V.range );
+        diag( V.range.getBegin(), "Variable %0 declared but not used." ) << V.decl
+                << FixItHint::CreateRemoval( V.range );
     }
 }
 

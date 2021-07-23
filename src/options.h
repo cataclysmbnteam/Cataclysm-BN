@@ -278,7 +278,7 @@ class options_manager
                 /** Tooltip with description */
                 translation tooltip_;
 
-                Group() {};
+                Group() = default;
                 Group( const std::string &id, const translation &name, const translation &tooltip )
                     : id_( id ), name_( name ), tooltip_( tooltip ) { }
         };

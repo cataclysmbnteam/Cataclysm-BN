@@ -1365,7 +1365,7 @@ void effect::serialize( JsonOut &json ) const
     json.member( "intensity", intensity );
     json.member( "start_turn", start_time );
     // Legacy
-    if( permanent && !eff_type->is_permanent() ) {
+    if( permanent && eff_type && !eff_type->is_permanent() ) {
         json.member( "permanent", true );
     }
     json.end_object();

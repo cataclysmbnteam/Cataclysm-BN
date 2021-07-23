@@ -19,10 +19,6 @@ struct test_obj {
     test_obj_id id;
     std::string value;
 };
-
-// TODO: Remove
-volatile int dummy = xor_rand();
-
 } // namespace
 
 TEST_CASE( "generic_factory_insert_convert_valid", "[generic_factory]" )

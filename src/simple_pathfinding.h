@@ -47,18 +47,17 @@ struct path {
 template<class Offsets, class BinaryPredicate, class ProgressReporter>
 path find_path( const point &source,
                 const point &dest,
-                const int max_x,
-                const int max_y,
+                const point &max,
                 Offsets offsets,
                 BinaryPredicate estimator,
                 ProgressReporter reporter )
 {
-    const auto inbounds = [ max_x, max_y ]( const point & p ) {
-        return p.x >= 0 && p.x < max_x && p.y >= 0 && p.y < max_y;
+    const auto inbounds = [ max ]( const point & p ) {
+        return p.x >= 0 && p.x < max.x && p.y >= 0 && p.y < max.y;
     };
 
-    const auto map_index = [ max_x ]( const point & p ) {
-        return p.y * max_x + p.x;
+    const auto map_index = [ max ]( const point & p ) {
+        return p.y * max.x + p.x;
     };
 
     path res;
@@ -77,7 +76,7 @@ path find_path( const point &source,
         return res;
     }
 
-    const size_t map_size = max_x * max_y;
+    const size_t map_size = max.x * max.y;
 
     std::vector<bool> closed( map_size, false );
     std::vector<int> open( map_size, 0 );
@@ -147,32 +146,29 @@ path find_path( const point &source,
 template<class BinaryPredicate>
 path find_path_4dir( const point &source,
                      const point &dest,
-                     const int max_x,
-                     const int max_y,
+                     const point &max,
                      BinaryPredicate estimator )
 {
-    return find_path( source, dest, max_x, max_y, four_adjacent_offsets, estimator, []() {} );
+    return find_path( source, dest, max, four_adjacent_offsets, estimator, []() {} );
 }
 
 template<class BinaryPredicate, class ProgressReporter>
 path find_path_4dir( const point &source,
                      const point &dest,
-                     const int max_x,
-                     const int max_y,
+                     const point &max,
                      BinaryPredicate estimator,
                      ProgressReporter reporter )
 {
-    return find_path( source, dest, max_x, max_y, four_adjacent_offsets, estimator, reporter );
+    return find_path( source, dest, max, four_adjacent_offsets, estimator, reporter );
 }
 
 template<class BinaryPredicate>
 path find_path_8dir( const point &source,
                      const point &dest,
-                     const int max_x,
-                     const int max_y,
+                     const point &max,
                      BinaryPredicate estimator )
 {
-    return find_path( source, dest, max_x, max_y, eight_adjacent_offsets, estimator, []() {} );
+    return find_path( source, dest, max, eight_adjacent_offsets, estimator, []() {} );
 }
 
 inline path straight_path( const point &source,

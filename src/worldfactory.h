@@ -144,7 +144,9 @@ class worldfactory
                                        const std::function<bool()> &on_quit );
 
         int show_modselection_window( const catacurses::window &win, std::vector<mod_id> &active_mod_order,
-                                      const std::function<bool()> &on_quit, bool standalone );
+                                      const std::function<bool()> &on_quit,
+                                      const std::function<bool()> &on_backtab,
+                                      bool standalone );
         void draw_modselection_borders( const catacurses::window &win, const input_context &ctxtp,
                                         bool standalone );
         static void draw_empty_worldgen_tabs( const catacurses::window &w );

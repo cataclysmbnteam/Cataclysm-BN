@@ -246,7 +246,7 @@ class DebugLogGuard
 
 DebugLogGuard realDebugLog( DL lev, DC cl, const char *filename,
                             const char *line, const char *funcname );
-}
+} // namespace detail
 
 /**
  * DebugLog. See documentation at the top of the file.

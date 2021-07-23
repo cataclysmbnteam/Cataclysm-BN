@@ -1929,7 +1929,7 @@ void talk_effect_fun_t::set_add_effect( const JsonObject &jo, const std::string 
             if( test_mode || json_report_unused_fields ) {
                 // This is immensely ugly, we need json.just_warn_with_context
                 try {
-                    jo.throw_error( "Effect permanence has been moved to effect_type. Set permanence there.",
+                    jo.throw_error( "Effect permanence has been moved to effect_type.  Set permanence there.",
                                     "duration" );
                 } catch( const JsonError &e ) {
                     debugmsg( "\n%s", e.what() );

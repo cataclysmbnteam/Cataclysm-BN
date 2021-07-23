@@ -1,12 +1,14 @@
 # Main project build script
 cmake_minimum_required(VERSION 3.1.4)
 
-PROJECT(CataclysmDDA)
+PROJECT(CataclysmBN)
 
 SET(CMAKE_MODULE_PATH
     ${CMAKE_MODULE_PATH}
     ${CMAKE_SOURCE_DIR}/CMakeModules
 )
+
+INCLUDE(AstyleFormatSource)
 
 SET(CMAKE_TLS_VERIFY ON)
 
@@ -18,7 +20,7 @@ option(BACKTRACE    "Support for printing stack backtraces on crash"   "ON")
 option(LIBBACKTRACE "Print backtrace with libbacktrace."    "OFF")
 option(USE_HOME_DIR "Use user's home directory for save files."   "ON")
 option(LOCALIZE     "Support for language localizations. Also enable UTF support."   "ON")
-option(LANGUAGES    "Compile localization files for specified languages."   "")
+set(LANGUAGES "" CACHE STRING "Compile localization files for specified languages. List of language ids separated by semicolon. Set to 'all' or leave empty to compile all.")
 option(DYNAMIC_LINKING "Use dynamic linking. Or use static to remove MinGW dependency instead."   "ON")
 option(JSON_FORMAT  "Build JSON formatter" "OFF")
 option(CATA_CCACHE  "Try to find and build with ccache" "ON")
@@ -33,15 +35,16 @@ include(CTest)
 include(GetGitRevisionDescription)
 git_describe(GIT_VERSION)
 
-MESSAGE("\n * Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world.")
+MESSAGE("\n * Cataclysm: Bright Nights is a roguelike set in a post-apocalyptic world.")
 MESSAGE("   _________            __                   .__                                ")
 MESSAGE("   \\_   ___ \\ _____   _/  |_ _____     ____  |  |   ___.__   ______  _____      ")
 MESSAGE("   /    \\  \\/ \\__  \\  \\   __\\\\__  \\  _/ ___\\ |  |  <   |  | /  ___/ /     \\     ")
 MESSAGE("   \\     \\____ / __ \\_ |  |   / __ \\_\\  \\___ |  |__ \\___  | \\___ \\ |  Y Y  \\    ")
 MESSAGE("    \\______  /\(____  / |__|  \(____  / \\___  >|____/ / ____|/____  >|__|_|  /    ")
 MESSAGE("           \\/      \\/             \\/      \\/        \\/          \\/       \\/     ")
-MESSAGE("                               --= Dark Days Ahead =--")
-MESSAGE("\n * https://cataclysmdda.org/\n")
+MESSAGE("                                --= Bright Nights =--")
+
+MESSAGE("\n * https://github.com/cataclysmbnteam/Cataclysm-BN\n")
 
 MESSAGE(STATUS "${PROJECT} build environment -- \n")
 
@@ -150,9 +153,7 @@ MESSAGE(STATUS "${PROJECT_NAME} build options --\n")
 
 # Preset variables
 IF(NOT LANGUAGES)
-    # English is included to workaround a libintl bug that affects performance
-    # on MinGW targets. See lang/CMakeList.txt for more information.
-    SET (LANGUAGES en de es_AR es_ES fr it_IT ja ko pt_BR ru zh_CN zh_TW)
+    SET(LANGUAGES all)
 ENDIF(NOT LANGUAGES)
 
 IF (GIT_BINARY)

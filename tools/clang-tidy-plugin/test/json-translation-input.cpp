@@ -20,8 +20,8 @@ string operator+( const string &, const string & );
 std::string _( const std::string & );
 std::string gettext( const std::string & );
 std::string pgettext( const std::string &, const std::string & );
-std::string ngettext( const std::string &, const std::string &, int );
-std::string npgettext( const std::string &, const std::string &, const std::string &, int );
+std::string vgettext( const std::string &, const std::string &, int );
+std::string vpgettext( const std::string &, const std::string &, const std::string &, int );
 
 class translation
 {

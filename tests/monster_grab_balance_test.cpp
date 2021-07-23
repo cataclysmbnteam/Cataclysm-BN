@@ -47,7 +47,7 @@ TEST_CASE( "Monster losing grabbing effect", "[player][melee][grab]" )
     SECTION( "Monster is bashed for over 10% its hp" ) {
         damage_type dt = DT_BASH;
         bodypart_str_id bp( "torso" );
-        damage_instance di( dt, ( zed->get_hp_max() / 5 ) + zed->get_armor_type( dt, bp ) );
+        damage_instance di( dt, ( zed->get_hp_max() / 5.0 ) + zed->get_armor_type( dt, bp ) );
         zed->deal_damage( nullptr, bp, di );
         REQUIRE( zed->get_hp() <= zed->get_hp_max() * 9 / 10 );
 
@@ -59,7 +59,7 @@ TEST_CASE( "Monster losing grabbing effect", "[player][melee][grab]" )
     SECTION( "Monster is burned for over 10% its hp" ) {
         damage_type dt = DT_HEAT;
         bodypart_str_id bp( "torso" );
-        damage_instance di( dt, ( zed->get_hp_max() / 5 ) + zed->get_armor_type( dt, bp ) );
+        damage_instance di( dt, ( zed->get_hp_max() / 5.0 ) + zed->get_armor_type( dt, bp ) );
         zed->deal_damage( nullptr, bp, di );
         REQUIRE( zed->get_hp() <= zed->get_hp_max() * 9 / 10 );
 

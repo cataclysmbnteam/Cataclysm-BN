@@ -118,7 +118,7 @@
           "repeat": 4
         },
         { "chunks": [ "cattail", "null" ], "x": [ 0, 6 ], "y": [ 18, 23 ], "neighbors": { "west": "forest_water" } },
-        { "chunks": [ "NC_Yoshimi_spawn" ], "x": [ 10 ], "y": [ 8 ] }
+        { "chunks": [ "NC_Yoshimi_spawn" ], "x": [ 10 ], "y": [ 9 ] }
       ]
     }
   }
