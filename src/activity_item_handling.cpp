@@ -520,7 +520,7 @@ std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &dr
     } );
 
     units::volume excessive_volume = p.volume_carried() - dropped_inv_contents
-                                     - p.volume_capacity() + dropped_worn_storage;
+                                     - p.volume_capacity_reduced_by( dropped_worn_storage );
     if( excessive_volume > 0_ml ) {
         invslice old_inv = p.inv.slice();
         for( size_t i = 0; i < old_inv.size() && excessive_volume > 0_ml; i++ ) {
