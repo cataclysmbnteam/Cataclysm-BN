@@ -27,7 +27,7 @@ namespace drop_token
 item_drop_token make_next()
 {
     // TODO: Implement properly
-    static time_point last_turn = time_point::before_time_starts;
+    static time_point last_turn = calendar::before_time_starts;
     static int last_drop = 0;
     if( calendar::turn != last_turn ) {
         last_turn = calendar::turn;

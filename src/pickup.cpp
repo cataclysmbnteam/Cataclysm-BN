@@ -479,7 +479,8 @@ struct unstacked_items {
 std::vector<stacked_items> stack_for_pickup_ui( const
         std::vector<item_stack::iterator> &unstacked )
 {
-    constexpr std::pair<time_point, int> no_parent = std::make_pair( time_point::before_time_starts, 0 );
+    const std::pair<time_point, int> no_parent = std::make_pair(
+                calendar::before_time_starts, 0 );
     std::map<std::pair<time_point, int>, parent_child_check_t> parent_child_check;
     // First, we need to check which parent-child groups exist
     for( item_stack::iterator it : unstacked ) {
