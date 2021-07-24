@@ -1049,11 +1049,8 @@ void tileset_loader::load_tile_spritelists( const JsonObject &entry,
                 else if( vo.has_array( "sprite" ) ) {
                     for( const int entry : vo.get_array( "sprite" ) ) {
                         const int sprite_id = entry + sprite_id_offset;
-                        if( sprite_id >= 0 && sprite_id < size ) {
+                        if( sprite_id >= 0 ) {
                             v.push_back( sprite_id );
-                        } else {
-                            // vo.throw_error("Invalid value for sprite id (out of range)", objname);
-                            v.push_back( sprite_id + offset );
                         }
                     }
                 }
