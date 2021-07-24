@@ -2440,5 +2440,21 @@
       [ "sugar", 20 ],
       [ "chem_ethanol", 5 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "acetylene_production",
+    "//": "tools and materials used in the production of oxy-acetylene fuel.",
+    "items": [
+      [ "acetylene_machine", 25 ],
+      [ "hand_pump", 10 ],
+      [ "crucible", 10 ],
+      [ "forge", 5 ],
+      { "item": "weldtank", "charges": [ 0, 120 ], "prob": 10 },
+      { "item": "tinyweldtank", "charges": [ 0, 30 ], "prob": 15 },
+      [ "oxygen", 15 ],
+      [ "coal_lump", 5 ],
+      [ "material_limestone", 5 ]
+    ]
   }
 ]

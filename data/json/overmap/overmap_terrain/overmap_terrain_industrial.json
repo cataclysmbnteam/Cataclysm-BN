@@ -1027,5 +1027,158 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_warehouse",
+    "copy-from": "warehouse",
+    "name": "warehouse"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_loading_bay",
+    "copy-from": "warehouse",
+    "name": "warehouse - loading bay"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "industrial_center_loading_bay_roof", "industrial_center_warehouse_roof" ],
+    "copy-from": "warehouse_roof",
+    "name": "warehouse roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_light_industry",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "light industry",
+    "sym": "v",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_light_industry_roof",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "light industry roof",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_pump_station",
+    "copy-from": "generic_city_building",
+    "name": "pump station",
+    "sym": "P",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_pump_station_roof",
+    "copy-from": "industrial_center_pump_station",
+    "name": "pump station roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_pump_station_basement",
+    "copy-from": "pump_station_3"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_substation",
+    "copy-from": "pwr_sub_s",
+    "name": "power substation"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_substation_roof",
+    "copy-from": "industrial_center_substation",
+    "name": "power substation roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_medical_center",
+    "copy-from": "office_doctor",
+    "name": "medical center",
+    "sym": "<"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_medical_center_roof",
+    "copy-from": "office_doctor_roof",
+    "name": "medical center roof",
+    "sym": "<"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_data_center",
+    "name": "data center",
+    "copy-from": "generic_city_building",
+    "sym": "<",
+    "color": "light_gray",
+    "extend": { "flags": [ "SOURCE_ELECTRONICS" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_data_center_roof",
+    "name": "data center roof",
+    "copy-from": "generic_city_building",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_admin",
+    "name": "administration",
+    "sym": "<",
+    "copy-from": "generic_city_building",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_admin_roof",
+    "name": "administration roof",
+    "copy-from": "industrial_center_admin"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "industrial_center_parking_lot_1", "industrial_center_parking_lot_2" ],
+    "copy-from": "parking_2x1_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_west_road",
+    "copy-from": "generic_transportation",
+    "name": "road",
+    "sym": "├",
+    "color": "dark_gray",
+    "see_cost": 2,
+    "extras": "road"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_south_access",
+    "copy-from": "industrial_center_west_road",
+    "sym": "│"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_nw_road",
+    "copy-from": "industrial_center_west_road",
+    "sym": "┌"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_ne_road",
+    "copy-from": "industrial_center_west_road",
+    "sym": "┐"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_sw_road",
+    "copy-from": "industrial_center_west_road",
+    "sym": "┼"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_se_road",
+    "copy-from": "industrial_center_west_road",
+    "sym": "┤"
   }
 ]
