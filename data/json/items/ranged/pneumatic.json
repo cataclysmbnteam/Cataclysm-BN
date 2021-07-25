@@ -61,15 +61,7 @@
     "durability": 7,
     "clip_size": 8,
     "reload": 2000,
-
-    "valid_mod_locations": [
-      [ "accessories", 3 ],
-	  [ "sling", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "stock", 1 ],
-      [ "rail mount", 1 ]
-    ]
+    "valid_mod_locations": [ [ "accessories", 3 ], [ "sling", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "stock", 1 ], [ "rail mount", 1 ] ]
   },
   {
     "id": "tihar",
@@ -94,16 +86,11 @@
     "range": 15,
     "dispersion": 75,
     "durability": 7,
-	"magazine_well": 1,
-	"magazines": [ [ "pebble", [ "tihar24mag" ] ] ],
+    "magazine_well": 1,
+    "magazines": [ [ "pebble", [ "tihar24mag" ] ] ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "loudness": 14,
-    "valid_mod_locations": [
-      [ "accessories", 3 ],
-	  [ "sling", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "stock", 1 ]
-    ]
+    "valid_mod_locations": [ [ "accessories", 3 ], [ "sling", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "stock", 1 ] ]
   }
 ]
+
