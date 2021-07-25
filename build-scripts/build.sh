@@ -9,7 +9,7 @@ num_jobs=3
 function run_tests
 {
     # Just list the tests in lex order, so that if it crashes, we know what finished before it
-    $WINE "$@" -d yes --use-colour yes --order lex -s
+    $WINE "$@" -d yes --use-colour yes --order lex -s -l
     # The grep suppresses lines that begin with "0.0## s:", which are timing lines for tests with a very short duration.
     $WINE "$@" -d yes --use-colour yes --order lex -s --rng-seed time $EXTRA_TEST_OPTS 
 }
