@@ -97,6 +97,7 @@
       "E": "f_table",
       "F": "f_fridge",
       "H": "f_hydraulic_press",
+      "P": "f_pool_table",
       "S": "f_shower",
       "U": "f_crate_c",
       "a": "f_stool",
@@ -131,7 +132,7 @@
       "d": { "item": "office", "chance": 25, "repeat": 2 },
       "f": { "item": "hospital_samples", "chance": 25, "repeat": 3 },
       "i": [ { "item": "file_room", "chance": 50, "repeat": 5 }, { "item": "office_supplies", "chance": 50 } ],
-      "s": { "item": "SUS_bathroom_cabinet" },
+      "s": { "item": "SUS_bathroom_cabinet", "chance": 100 },
       "t": { "item": "trash_cart", "chance": 30, "repeat": 3 }
     },
     "computers": {
