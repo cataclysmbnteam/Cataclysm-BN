@@ -9,6 +9,7 @@
 #include "melee.h"
 #include "monster.h"
 #include "player_helpers.h"
+#include "sounds.h"
 #include "ret_val.h"
 #include "type_id.h"
 
@@ -51,6 +52,10 @@ static double weapon_dps_trials( avatar &attacker, monster &defender, item &weap
             // Tally total damage and moves
             total_damage += std::max( 0, starting_hp - defender.get_hp() );
             total_moves += std::abs( attacker.get_moves() - before_moves );
+
+            // Every hit or miss enqueues a new sound
+            sounds::reset_sounds();
+
             int dummy = system( "free" );
             ( void )dummy;
         }
