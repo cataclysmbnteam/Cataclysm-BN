@@ -13,7 +13,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "shot_forming", 2 ], [ "ammo_bullet", 12 ] ],
-    "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "swage", -1 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
@@ -37,7 +37,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "shot_forming", 2 ], [ "ammo_bullet", 12 ] ],
-    "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "swage", -1 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
@@ -61,7 +61,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 12 ] ],
-    "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "swage", -1 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
@@ -85,7 +85,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 12 ] ],
-    "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "swage", -1 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
