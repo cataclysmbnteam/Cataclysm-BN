@@ -51,6 +51,7 @@ static double weapon_dps_trials( avatar &attacker, monster &defender, item &weap
             // Tally total damage and moves
             total_damage += std::max( 0, starting_hp - defender.get_hp() );
             total_moves += std::abs( attacker.get_moves() - before_moves );
+            system( "free" );
         }
     }
 
