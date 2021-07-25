@@ -126,10 +126,12 @@
       "C": { "item": "hardware", "chance": 25, "repeat": 3 },
       "E": { "item": "acetylene_production", "chance": 50, "repeat": 2 },
       "F": { "item": "fridgesnacks", "chance": 50, "repeat": 10 },
+      "P": { "item": "pool_table", "chance": 75 },
       "U": [ { "item": "sewage_plant", "chance": 25 }, { "item": "supplies_plumbing", "chance": 50, "repeat": 2 } ],
       "d": { "item": "office", "chance": 25, "repeat": 2 },
       "f": { "item": "hospital_samples", "chance": 25, "repeat": 3 },
       "i": [ { "item": "file_room", "chance": 50, "repeat": 5 }, { "item": "office_supplies", "chance": 50 } ],
+      "s": { "item": "SUS_bathroom_cabinet" },
       "t": { "item": "trash_cart", "chance": 30, "repeat": 3 }
     },
     "computers": {
