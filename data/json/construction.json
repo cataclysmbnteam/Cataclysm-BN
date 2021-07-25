@@ -4223,7 +4223,7 @@
     "id": "constr_t_gates_mech_control",
     "description": "Build mechanical winch",
     "category": "CONSTRUCT",
-	"skill": "fabrication",
+    "skill": "fabrication",
     "difficulty": 7,
     "required_skills": [ [ "mechanics", 3 ] ],
     "time": "60 m",
@@ -4239,7 +4239,7 @@
       [ [ "chain", 1 ] ],
       [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ]
     ],
-	"pre_note": "Must be adjacent to a brick or (reinforced)concrete wall that is itself adjacent to a garage gate in order to open said gate.",
+    "pre_note": "Must be adjacent to a brick or (reinforced)concrete wall that is itself adjacent to a garage gate in order to open said gate.",
     "pre_special": "check_empty",
     "post_terrain": "t_gates_mech_control"
   },
@@ -4248,7 +4248,7 @@
     "id": "constr_t_door_metal_locked",
     "description": "Build metal garage gate",
     "category": "CONSTRUCT",
-	"skill": "fabrication",
+    "skill": "fabrication",
     "difficulty": 7,
     "required_skills": [ [ "mechanics", 2 ] ],
     "time": "220 m",
@@ -4264,7 +4264,7 @@
       [ [ "steel_plate", 4 ], [ "sheet_metal", 16 ] ],
       [ [ "pipe", 3 ], [ "rebar", 1 ] ]
     ],
-	"pre_note": "Must be between brick or (reinforced)concrete walls to function, and at least one wall must have an adjacent mechanical winch.",
+    "pre_note": "Must be between brick or (reinforced)concrete walls to function, and at least one wall must have an adjacent mechanical winch.",
     "pre_special": "check_empty",
     "post_terrain": "t_door_metal_locked"
   }
