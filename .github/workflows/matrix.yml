@@ -43,12 +43,6 @@ jobs:
             test-stage: 1
             title: GCC 9, Ubuntu, Curses
             native: linux64
-          - compiler: g++-7
-            os: ubuntu-latest
-            cmake: 1
-            tiles: 1
-            native: linux64
-            title: GCC 7, Ubuntu, Tiles, CMake
           - compiler: g++-8
             os: ubuntu-latest
             cmake: 0
@@ -63,12 +57,6 @@ jobs:
             sanitize: address,undefined
             native: linux64
             title: Clang 9, Ubuntu, Tiles, ASan, UBSan
-          - compiler: clang++
-            os: macos-10.15
-            cmake: 0
-            tiles: 1
-            native: osx
-            title: Clang 12, macOS 10.15, Tiles
     name: ${{ matrix.title }}
     runs-on: ${{ matrix.os }}
     env:
