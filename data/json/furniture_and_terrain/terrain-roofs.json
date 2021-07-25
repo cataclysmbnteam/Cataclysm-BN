@@ -305,7 +305,6 @@
     "color": "cyan",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "NO_FLOOR", "INDOORS" ],
-    "deconstruct": { "ter_set": "t_open_air", "items": [ { "item": "glass_sheet", "count": 1 } ] },
     "bash": {
       "str_min": 3,
       "str_max": 6,
