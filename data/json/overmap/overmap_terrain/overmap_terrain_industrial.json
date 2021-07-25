@@ -1031,19 +1031,21 @@
   {
     "type": "overmap_terrain",
     "id": "industrial_center_warehouse",
-    "copy-from": "warehouse",
-    "name": "warehouse"
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "warehouse",
+    "sym": "w",
+    "color": "light_blue"
   },
   {
     "type": "overmap_terrain",
     "id": "industrial_center_loading_bay",
-    "copy-from": "warehouse",
+    "copy-from": "industrial_center_warehouse",
     "name": "warehouse - loading bay"
   },
   {
     "type": "overmap_terrain",
     "id": [ "industrial_center_loading_bay_roof", "industrial_center_warehouse_roof" ],
-    "copy-from": "warehouse_roof",
+    "copy-from": "industrial_center_warehouse",
     "name": "warehouse roof"
   },
   {
@@ -1064,7 +1066,7 @@
   {
     "type": "overmap_terrain",
     "id": "industrial_center_pump_station",
-    "copy-from": "generic_city_building",
+    "copy-from": "generic_city_building_no_sidewalk",
     "name": "pump station",
     "sym": "P",
     "color": "red"
@@ -1095,22 +1097,23 @@
   {
     "type": "overmap_terrain",
     "id": "industrial_center_medical_center",
-    "copy-from": "office_doctor",
+    "copy-from": "generic_city_building_no_sidewalk",
     "name": "medical center",
-    "sym": "<"
+    "sym": "<",
+    "color": "i_light_red",
+    "extend": { "flags": [ "SOURCE_MEDICINE" ] }
   },
   {
     "type": "overmap_terrain",
     "id": "industrial_center_medical_center_roof",
-    "copy-from": "office_doctor_roof",
-    "name": "medical center roof",
-    "sym": "<"
+    "copy-from": "industrial_center_medical_center",
+    "name": "medical center roof"
   },
   {
     "type": "overmap_terrain",
     "id": "industrial_center_data_center",
     "name": "data center",
-    "copy-from": "generic_city_building",
+    "copy-from": "generic_city_building_no_sidewalk",
     "sym": "<",
     "color": "light_gray",
     "extend": { "flags": [ "SOURCE_ELECTRONICS" ] }
@@ -1119,7 +1122,7 @@
     "type": "overmap_terrain",
     "id": "industrial_center_data_center_roof",
     "name": "data center roof",
-    "copy-from": "generic_city_building",
+    "copy-from": "generic_city_building_no_sidewalk",
     "color": "light_gray"
   },
   {
@@ -1127,7 +1130,7 @@
     "id": "industrial_center_admin",
     "name": "administration",
     "sym": "<",
-    "copy-from": "generic_city_building",
+    "copy-from": "generic_city_building_no_sidewalk",
     "color": "light_gray"
   },
   {
