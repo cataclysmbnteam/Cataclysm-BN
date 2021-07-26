@@ -1486,7 +1486,7 @@ void iexamine::notify( player &p, const tripoint &pos )
 * Transform the examined object into the object specified by its transforms_into property. If the new object has a message property, 
 * it is displayed as if the notify examine_action was used.
 */
-void iexamine::transform( player &p, const tripoint& pos )
+void iexamine::transform( player &p, const tripoint &pos )
 {
     std::string message;
     
