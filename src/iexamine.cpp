@@ -1479,7 +1479,9 @@ void iexamine::fault( player &, const tripoint & )
 void iexamine::notify( player &p, const tripoint &pos )
 {
     std::string message = g->m.has_furn( pos ) ? g->m.furn( pos ).obj().message : g->m.ter( pos ).obj().message;
-    popup( _( message ) );
+    if ( !message.empty() ) {
+        popup( _( message ) );
+    }
 }
 
 /**
@@ -1498,7 +1500,7 @@ void iexamine::transform( player &p, const tripoint &pos )
         g->m.ter_set( pos, g->m.get_ter_transforms_into( pos ) );
         message = g->m.ter( pos ).obj().message;
     }
-    if ( !message.empty() > 0 ) {
+    if ( !message.empty() ) {
         popup( _( message ) );
     }
 }
