@@ -1474,7 +1474,6 @@ void iexamine::fault( player &, const tripoint & )
 }
 
 /**
-<<<<<<< HEAD
  * Display popup message pulled from the object's message property
  */
 void iexamine::notify(player&, const tripoint &pos)
@@ -1504,8 +1503,6 @@ void iexamine::transform(player&, const tripoint& pos)
 }
 
 /**
-=======
->>>>>>> upload
  * Spawn 1d4 wyrms and sink pedestal into ground.
  */
 void iexamine::pedestal_wyrm( player &p, const tripoint &examp )
@@ -5729,11 +5726,8 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "safe", &iexamine::safe },
             { "bulletin_board", &iexamine::bulletin_board },
             { "fault", &iexamine::fault },
-<<<<<<< HEAD
             { "notify", &iexamine::notify },
             { "transform", &iexamine::transform },
-=======
->>>>>>> upload
             { "pedestal_wyrm", &iexamine::pedestal_wyrm },
             { "pedestal_temple", &iexamine::pedestal_temple },
             { "door_peephole", &iexamine::door_peephole },

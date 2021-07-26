@@ -275,11 +275,8 @@ struct map_data_common_t {
 
         std::string looks_like;
 
-<<<<<<< HEAD
         std::string message;
 
-=======
->>>>>>> upload
         iexamine_function examine; // What happens when the terrain/furniture is examined
 
         /**
@@ -372,11 +369,8 @@ struct furn_t : map_data_common_t {
     furn_str_id id;
     furn_str_id open;  // Open action: transform into furniture with matching id
     furn_str_id close; // Close action: transform into furniture with matching id
-<<<<<<< HEAD
     furn_str_id transforms_into; // Transform into what terrain?
 
-=======
->>>>>>> upload
     std::string crafting_pseudo_item;
     units::volume keg_capacity = 0_ml;
     int comfort = 0;

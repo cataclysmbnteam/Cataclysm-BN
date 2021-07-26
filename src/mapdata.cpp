@@ -1193,10 +1193,7 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
     }
 
     mandatory( jo, was_loaded, "description", description );
-<<<<<<< HEAD
-    optional(jo, was_loaded, "message", message);
-=======
->>>>>>> upload
+    optional(jo, was_loaded, "message", message );
 }
 
 void ter_t::load( const JsonObject &jo, const std::string &src )
@@ -1332,12 +1329,8 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     }
 
     optional( jo, was_loaded, "open", open, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
-<<<<<<< HEAD
-    optional( jo, was_loaded, "close", close, string_id_reader<furn_t> {}, furn_str_id::NULL_ID());
-    optional( jo, was_loaded, "transforms_into", transforms_into, string_id_reader<furn_t> {}, furn_str_id::NULL_ID());
-=======
     optional( jo, was_loaded, "close", close, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
->>>>>>> upload
+    optional( jo, was_loaded, "transforms_into", transforms_into, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
 
     bash.load( jo, "bash", map_bash_info::furniture );
     deconstruct.load( jo, "deconstruct", true );
