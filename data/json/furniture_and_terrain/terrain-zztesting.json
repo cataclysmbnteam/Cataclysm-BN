@@ -1,7 +1,7 @@
 [
     {
         "type": "terrain",
-        "id": "t_console_broken",
+        "id": "t_console_broken_test",
         "name": "broken console",
         "description": "This is a standalone computer terminal.  It doesn't seem to be working.  It's the broken screen and shattered circuit boards that's telling you that.",
         "symbol": "6",
