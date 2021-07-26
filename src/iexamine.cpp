@@ -1496,7 +1496,6 @@ void iexamine::transform( player&, const tripoint& pos )
     }
     std::string message = g->m.has_furn( pos ) ? g->m.furn( pos ).obj().message : g->m.ter( pos ).obj().message;
     if ( message.length() > 0 ) {
-
         popup( _( message ) );
     }
 }
