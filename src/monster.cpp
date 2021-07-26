@@ -639,21 +639,22 @@ static std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
     return std::make_pair( damage_info, col );
 }
 
-static std::pair<std::string, nc_color> speed_description( float mon_speed_rating, bool immobile = false )
+static std::pair<std::string, nc_color> speed_description( float mon_speed_rating,
+        bool immobile = false )
 {
     if( immobile ) {
         return std::make_pair( _( "It is immobile." ), c_green );
     }
 
     const std::array<std::tuple<float, nc_color, std::string>, 8> cases = {{
-        std::make_tuple( 1.40f, c_red, _( "It looks much faster than you." ) ),
-        std::make_tuple( 1.15f, c_light_red, _( "It looks faster than you." ) ),
-        std::make_tuple( 1.05f, c_yellow, _( "It looks slightly faster than you." ) ),
-        std::make_tuple( 0.90f, c_white, _( "It looks about as fast as you." ) ),
-        std::make_tuple( 0.80f, c_light_cyan, _( "It looks slightly slower than you." ) ),
-        std::make_tuple( 0.60f, c_cyan, _( "It looks slower than you." ) ),
-        std::make_tuple( 0.30f, c_light_green, _( "It looks much slower than you." ) ),
-        std::make_tuple( 0.00f, c_green, _( "It seems to be barely moving." ) )
+            std::make_tuple( 1.40f, c_red, _( "It looks much faster than you." ) ),
+            std::make_tuple( 1.15f, c_light_red, _( "It looks faster than you." ) ),
+            std::make_tuple( 1.05f, c_yellow, _( "It looks slightly faster than you." ) ),
+            std::make_tuple( 0.90f, c_white, _( "It looks about as fast as you." ) ),
+            std::make_tuple( 0.80f, c_light_cyan, _( "It looks slightly slower than you." ) ),
+            std::make_tuple( 0.60f, c_cyan, _( "It looks slower than you." ) ),
+            std::make_tuple( 0.30f, c_light_green, _( "It looks much slower than you." ) ),
+            std::make_tuple( 0.00f, c_green, _( "It seems to be barely moving." ) )
         }
     };
 
@@ -666,7 +667,7 @@ static std::pair<std::string, nc_color> speed_description( float mon_speed_ratin
     // determine tiles per turn (tpt)
     const float player_tpt = ply.get_speed() / player_runcost;
     const float ratio = player_tpt == 0 ?
-                            2.00f : mon_speed_rating / player_tpt;
+                        2.00f : mon_speed_rating / player_tpt;
 
     for( const std::tuple<float, nc_color, std::string> &speed_case : cases ) {
         if( ratio >= std::get<0>( speed_case ) ) {
@@ -753,8 +754,8 @@ std::string monster::extended_description() const
     ss += colorize( hp_bar.first, hp_bar.second ) + "\n";
 
     const std::pair<std::string, nc_color> speed_desc = speed_description(
-        speed_rating(),
-        has_flag( MF_IMMOBILE ) );
+                speed_rating(),
+                has_flag( MF_IMMOBILE ) );
     ss += colorize( speed_desc.first, speed_desc.second ) + "\n";
 
     ss += "--\n";
@@ -843,19 +844,19 @@ std::string monster::extended_description() const
 
         const time_duration current_time = calendar::turn - calendar::turn_zero;
         ss += string_format( _( "Current Time: Turn %1$d | Day: %2$d" ),
-            to_turns<int>( current_time ),
-            to_days<int>( current_time ) ) + "\n";
+                             to_turns<int>( current_time ),
+                             to_days<int>( current_time ) ) + "\n";
 
         ss += string_format( _( "Upgrade Time: %1$d (turns left: %2$d) %3$s" ),
-            upgrade_time,
-            to_turns<int>( time_duration::from_days( upgrade_time ) - current_time ),
-            can_upgrade() ? "" : _( "<color_red>(can't upgrade)</color>" ) ) + "\n";
+                             upgrade_time,
+                             to_turns<int>( time_duration::from_days( upgrade_time ) - current_time ),
+                             can_upgrade() ? "" : _( "<color_red>(can't upgrade)</color>" ) ) + "\n";
 
         if( baby_timer.has_value() ) {
             ss += string_format( _( "Reproduction time: %1$d (turns left: %2$d) %3$s" ),
-            to_turn<int>( baby_timer.value() ),
-            to_turn<int>( baby_timer.value() - current_time ),
-            reproduces ? "" : _( "<color_red>(cannot reproduce)</color>" ) ) + "\n";
+                                 to_turn<int>( baby_timer.value() ),
+                                 to_turn<int>( baby_timer.value() - current_time ),
+                                 reproduces ? "" : _( "<color_red>(cannot reproduce)</color>" ) ) + "\n";
         }
     }
 
