@@ -2,49 +2,10 @@
     {
         "type": "terrain",
         "id": "t_console_broken_test",
-        "name": "broken console",
-        "description": "This is a standalone computer terminal.  It doesn't seem to be working.  It's the broken screen and shattered circuit boards that's telling you that.",
+        "copy-from": "t_console_broken",
         "symbol": "6",
         "color": "light_gray",
-        "move_cost": 0,
-        "coverage": 50,
-        "roof": "t_flat_roof",
         "examine_action": "notify",
-        "message": "You attempt to use the console, but it's no use.",
-        "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "SHORT", "PERMEABLE" ],
-        "deconstruct": {
-          "ter_set": "t_floor",
-          "items": [
-            { "item": "processor", "count": [ 1, 2 ] },
-            { "item": "RAM", "count": [ 4, 8 ] },
-            { "item": "cable", "charges": [ 4, 6 ] },
-            { "item": "large_lcd_screen", "count": 1 },
-            { "item": "e_scrap", "count": [ 10, 16 ] },
-            { "item": "circuit", "count": [ 6, 10 ] },
-            { "item": "power_supply", "count": [ 2, 4 ] },
-            { "item": "amplifier", "count": [ 2, 4 ] },
-            { "item": "plastic_chunk", "count": [ 10, 12 ] },
-            { "item": "scrap", "count": [ 6, 8 ] }
-          ]
-        },
-        "bash": {
-          "str_min": 16,
-          "str_max": 150,
-          "sound": "crunch!",
-          "sound_fail": "whack!",
-          "ter_set": "t_floor",
-          "items": [
-            { "item": "processor", "prob": 25 },
-            { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
-            { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
-            { "item": "large_lcd_screen", "prob": 25 },
-            { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
-            { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
-            { "item": "power_supply", "prob": 25 },
-            { "item": "amplifier", "prob": 25 },
-            { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
-            { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
-          ]
-        }
+        "message": "You attempt to use the console, but it's no use."
     }
 ]

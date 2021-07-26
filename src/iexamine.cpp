@@ -1502,7 +1502,7 @@ void iexamine::transform( player &p, const tripoint &pos )
         message = g->m.ter( pos ).obj().message;
     }
     if( !message.empty() ) {
-        popup( _( message ) );
+        add_msg( _( message ) );
     }
 }
 
