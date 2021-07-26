@@ -1193,7 +1193,7 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
     }
 
     mandatory( jo, was_loaded, "description", description );
-    optional(jo, was_loaded, "message", message );
+    optional( jo, was_loaded, "message", message );
 }
 
 void ter_t::load( const JsonObject &jo, const std::string &src )
