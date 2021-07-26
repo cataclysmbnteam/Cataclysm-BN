@@ -274,7 +274,7 @@ struct map_data_common_t {
         void load_symbol( const JsonObject &jo );
 
         std::string looks_like;
-        
+
         // Message text for notify and transform examine actions
         std::string message;
 

@@ -1,0 +1,76 @@
+[
+    {
+        "type": "furniture",
+        "id": "f_floor_lamp_on",
+        "name": "floor lamp",
+        "symbol": "T",
+        "looks_like": "f_floor_lamp",
+        "description": "A tall standing lamp, meant to plug into a wall and light up a room.",
+        "color": "white",
+        "examine_action": "transform",
+        "transforms_into": "f_floor_lamp",
+        "move_cost_mod": 2,
+        "light_emitted": 160,
+        "required_str": 1,
+        "flags": [ "TRANSPARENT", "PLACE_ITEM", "EASY_DECONSTRUCT", "USES_GRID_POWER" ],
+        "deconstruct": {
+          "items": [
+            { "item": "cable", "charges": [ 1, 2 ] },
+            { "item": "amplifier", "count": [ 1, 4 ] },
+            { "item": "light_bulb", "count": [ 1, 4 ] },
+            { "item": "steel_lump", "count": 1 },
+            { "item": "pipe", "count": 1 }
+          ]
+        },
+        "bash": {
+          "str_min": 12,
+          "str_max": 40,
+          "sound": "metal screeching!",
+          "sound_fail": "bonk!",
+          "items": [
+            { "item": "scrap", "count": [ 1, 2 ] },
+            { "item": "cable", "charges": [ 0, 1 ] },
+            { "item": "e_scrap", "count": [ 0, 1 ] },
+            { "item": "glass_shard", "count": [ 0, 8 ] },
+            { "item": "pipe", "count": [ 0, 1 ] }
+          ]
+        }
+    },
+    {
+        "type": "furniture",
+        "id": "f_floor_lamp",
+        "name": "floor lamp",
+        "symbol": "T",
+        "looks_like": "f_rack_coat",
+        "description": "A tall standing lamp, meant to plug into a wall and light up a room.",
+        "color": "light_gray",
+        "move_cost_mod": 2,
+        "required_str": 1,
+        "examine_action": "transform",
+        "message": "Click off",
+        "transforms_into": "f_floor_lamp_on",
+        "flags": [ "TRANSPARENT", "PLACE_ITEM", "EASY_DECONSTRUCT" ],
+        "deconstruct": {
+          "items": [
+            { "item": "cable", "charges": [ 1, 2 ] },
+            { "item": "amplifier", "count": [ 1, 4 ] },
+            { "item": "light_bulb", "count": [ 1, 4 ] },
+            { "item": "steel_lump", "count": 1 },
+            { "item": "pipe", "count": 1 }
+          ]
+        },
+        "bash": {
+          "str_min": 12,
+          "str_max": 40,
+          "sound": "metal screeching!",
+          "sound_fail": "bonk!",
+          "items": [
+            { "item": "scrap", "count": [ 1, 2 ] },
+            { "item": "cable", "charges": [ 0, 1 ] },
+            { "item": "e_scrap", "count": [ 0, 1 ] },
+            { "item": "glass_shard", "count": [ 0, 8 ] },
+            { "item": "pipe", "count": [ 0, 1 ] }
+          ]
+        }
+    }
+]

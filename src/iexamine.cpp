@@ -1478,29 +1478,30 @@ void iexamine::fault( player &, const tripoint & )
  */
 void iexamine::notify( player &p, const tripoint &pos )
 {
-    std::string message = g->m.has_furn( pos ) ? g->m.furn( pos ).obj().message : g->m.ter( pos ).obj().message;
-    if ( !message.empty() ) {
+    std::string message = g->m.has_furn( pos ) ?
+                          g->m.furn( pos ).obj().message :
+                          g->m.ter( pos ).obj().message;
+    if( !message.empty() ) {
         popup( _( message ) );
     }
 }
 
 /**
-* Transform the examined object into the object specified by its transforms_into property. If the new object has a message property, 
+* Transform the examined object into the object specified by its transforms_into property. If the new object has a message property,
 * it is displayed as if the notify examine_action was used.
 */
 void iexamine::transform( player &p, const tripoint &pos )
 {
     std::string message;
-    
-    if ( g->m.has_furn( pos ) ) {
+
+    if( g->m.has_furn( pos ) ) {
         g->m.furn_set( pos, g->m.get_furn_transforms_into( pos ) );
         message = g->m.furn( pos ).obj().message;
-    }
-    else {
+    } else {
         g->m.ter_set( pos, g->m.get_ter_transforms_into( pos ) );
         message = g->m.ter( pos ).obj().message;
     }
-    if ( !message.empty() ) {
+    if( !message.empty() ) {
         popup( _( message ) );
     }
 }
