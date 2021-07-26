@@ -73,6 +73,7 @@ void clear_character( player &dummy, bool debug_storage )
     // Clear stomach and then eat a nutritious meal to normalize stomach
     // contents (needs to happen before clear_morale).
     dummy.stomach.empty();
+    dummy.consumption_history.clear();
     item food( "debug_nutrition" );
     dummy.eat( food );
 
