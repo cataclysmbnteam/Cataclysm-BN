@@ -2161,7 +2161,8 @@
   {
     "type": "construction",
     "id": "constr_window_bars",
-    "description": "Install Bars Onto Store Showcase Window",
+    "description": "Install Bars Onto Window",
+	"pre_note": "Install Bars Onto Store Showcase Window",
     "category": "WINDOWS",
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "90 m",
@@ -2174,7 +2175,8 @@
   {
     "type": "construction",
     "id": "constr_window_frame_bars",
-    "description": "Install Bars Onto Empty Window Frame",
+    "description": "Install Bars Onto Window",
+	"pre_note": "Install Bars Onto Empty Window Frame",
     "category": "WINDOWS",
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "90 m",
@@ -2187,7 +2189,8 @@
   {
     "type": "construction",
     "id": "constr_window_bars_no_curtains",
-    "description": "Install Bars Onto Window With No Curtains",
+    "description": "Install Bars Onto Window",
+	"pre_note": "Install Bars Onto Window With No Curtains",
     "category": "WINDOWS",
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "90 m",
@@ -2200,7 +2203,8 @@
   {
     "type": "construction",
     "id": "constr_window_bars_alarm",
-    "description": "Install Bars Onto Store Showcase Window With Alarm",
+    "description": "Install Bars Onto Window",
+	"pre_note": "Install Bars Onto Store Showcase Window With Alarm",
     "category": "WINDOWS",
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "90 m",
@@ -2213,7 +2217,8 @@
   {
     "type": "construction",
     "id": "constr_window_bars_curtains",
-    "description": "Install Curtains Onto Window With Bars",
+    "description": "Install Bars Onto Window",
+	"pre_note": "Install Curtains Onto Window With Bars",
     "category": "WINDOWS",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
