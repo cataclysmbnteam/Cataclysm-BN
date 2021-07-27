@@ -66,7 +66,7 @@ cd vcpkg
 
 1. Clone Cataclysm-BN repository with following command line:
 
-**Note:** This will download the entire CDDA repository; about three gigs of data. If you're just testing you should probably add `--depth=1`.
+**Note:** This will download the entire CBN repository; about three gigs of data. If you're just testing you should probably add `--depth=1`.
 
 ```cmd
 git clone https://github.com/cataclysmbnteam/Cataclysm-BN.git
