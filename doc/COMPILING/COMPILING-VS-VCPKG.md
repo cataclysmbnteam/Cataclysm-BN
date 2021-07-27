@@ -91,7 +91,13 @@ Ensure that the Cataclysm project (`Cataclysm-vcpkg-static`) is the selected sta
 
 If you discover that after pressing the debug button in Visual Studio, Cataclysm just exits after launch with return code 1, that is because of the wrong working directory.
 
-When debugging, it is not strictly necessary to use a `Debug` build; `Release` builds run significantly faster, can still be run in the debugger, and most of the time will have most of the information you need.
+When debugging, it is not strictly necessary to use a `Debug` build.
+`Release` builds run significantly faster, can still be run in the debugger, and most of the time will have most of the information you need.
+If optimizations of `Release` build interfere with debugging, you can disable them on a file-by-file basis by adding
+```c++
+#pragma optimize("", off)
+```
+line at the top of the file.
 
 ### Running unit tests
 

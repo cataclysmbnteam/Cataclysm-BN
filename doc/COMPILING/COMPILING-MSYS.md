@@ -28,7 +28,7 @@ These instructions were written using 64-bit Windows 7 and the 64-bit version of
 pacman -Syyu
 ```
 
-2. MSYS will inform you of a cygheap base mismatch and inform you a forked process died unexpectedly; these errors appear to be due to the nature of `pacman`'s upgrades and *may be safely ignored.* You will be prompted to close the terminal window; do so, then re-start using the MSYS2 MinGW 64-bit menu item.
+2. MSYS may inform you of a cygheap base mismatch and inform you a forked process died unexpectedly; these errors appear to be due to the nature of `pacman`'s upgrades and *may be safely ignored.* You will be prompted to close the terminal window; do so, then re-start using the MSYS2 MinGW 64-bit menu item.
 
 3. Update remaining packages:
 
@@ -81,6 +81,7 @@ and
 ```bash
 cd /c/dev/
 git clone https://github.com/cataclysmbnteam/Cataclysm-BN.git
+cd Cataclysm-BN
 ```
 
 **Note:** This will download the entire CBN repository and all of its history (3GB). If you're just testing, you should probably add `--depth=1` (~350MB).
@@ -88,13 +89,12 @@ git clone https://github.com/cataclysmbnteam/Cataclysm-BN.git
 2. Compile with following command line:
 
 ```bash
-cd Cataclysm-BN
 make -j$((`nproc`+0)) CCACHE=1 RELEASE=1 MSYS2=1 DYNAMIC_LINKING=1 SDL=1 TILES=1 SOUND=1 LOCALIZE=1 LANGUAGES=all LINTJSON=0 ASTYLE=0 RUNTESTS=0
 ```
 
 You will receive warnings about unterminated character constants; they do not impact the compilation as far as this writer is aware.
 
-**Note**: This will compile a release version with Sound and Tiles support and all localization languages, skipping checks and tests, and using ccache for build acceleration. You can use other switches, but `MSYS2=1`, `DYNAMIC_LINKING=1` and probably `RELEASE=1` are required to compile without issues.
+**Note**: This will compile a release version with Sound and Tiles support and all localization languages, skipping checks and tests, and using ccache for build acceleration. You can use other switches, but `MSYS2=1` and `DYNAMIC_LINKING=1` are required to compile without issues.
 
 ## Running:
 

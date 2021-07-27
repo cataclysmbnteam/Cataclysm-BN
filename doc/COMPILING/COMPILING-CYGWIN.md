@@ -39,7 +39,7 @@ Due to slow environment setup and execution of the resulting binary, compilation
 2. Install `apt-cyg` for easier package installation:
 
 ```bash
-wget rawgit.com/transcode-open/apt-cyg/master/apt-cyg -O /bin/apt-cyg
+wget https://raw.githubusercontent.com/transcode-open/apt-cyg/master/apt-cyg -O /bin/apt-cyg
 chmod 755 /bin/apt-cyg
 ```
 
@@ -66,12 +66,12 @@ cd Cataclysm-BN
 2. Compile:
 
 ```bash
-make CCACHE=1 RELEASE=1 CYGWIN=1 DYNAMIC_LINKING=1 SDL=1 TILES=1 SOUND=1 LOCALIZE=1 LANGUAGES=all LINTJSON=0 ASTYLE=0 BACKTRACE=0 RUNTESTS=0
+make -j$((`nproc`+0)) CCACHE=1 RELEASE=1 CYGWIN=1 DYNAMIC_LINKING=1 SDL=1 TILES=1 SOUND=1 LOCALIZE=1 LANGUAGES=all LINTJSON=0 ASTYLE=0 BACKTRACE=0 RUNTESTS=0
 ```
 
 You will receive warnings about unterminated character constants; they do not impact the compilation as far as this writer is aware.
 
-**Note**: This will compile release version with Sound and Tiles support and all localization languages, skipping checks and tests and using ccache for faster build. You can use other switches, but `Cygwin=1`, `DYNAMIC_LINKING=1` and probably `RELEASE=1` are required to compile without issues.
+**Note**: This will compile release version with Sound and Tiles support and all localization languages, skipping checks and tests and using ccache for faster build. You can use other switches, but `CYGWIN=1`, `DYNAMIC_LINKING=1` and `BACKTRACE=0` are required to compile without issues.
 
 ## Running:
 
