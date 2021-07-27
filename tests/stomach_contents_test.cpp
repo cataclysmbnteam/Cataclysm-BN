@@ -143,7 +143,7 @@ TEST_CASE( "starve_test_hunger3", "[starve][slow]" )
 TEST_CASE( "all_nutrition_starve_test", "[!mayfail][starve][slow]" )
 {
     // change this bool when editing the test
-    const bool print_tests = false;
+    const bool print_tests = true;
     player &dummy = g->u;
     reset_time();
     clear_stomach( dummy );
@@ -155,6 +155,8 @@ TEST_CASE( "all_nutrition_starve_test", "[!mayfail][starve][slow]" )
     for( unsigned int day = 0; day <= 20; day++ ) {
         if( print_tests ) {
             cata_printf( "day %u: %d\n", day, dummy.get_stored_kcal() );
+            int dummy = system( "free" );
+            ( void )dummy;
         }
         pass_time( dummy, 1_days );
         dummy.set_thirst( 0 );

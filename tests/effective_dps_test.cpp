@@ -56,6 +56,7 @@ static double weapon_dps_trials( avatar &attacker, monster &defender, item &weap
             // Every hit or miss enqueues a new sound
             sounds::reset_sounds();
 
+            printf( "Melee i=%d, j=%d\n", i, j );
             int dummy = system( "free" );
             ( void )dummy;
         }
