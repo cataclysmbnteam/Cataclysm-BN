@@ -187,28 +187,44 @@ Run:
     make NATIVE=linux32
 
 ## Cross-compile to Windows from Linux
+To cross-compile to Windows from Linux, you will need [MXE](http://mxe.cc).
 
-To cross-compile to Windows from Linux, you will need MXE, which changes your `make` command slightly. These instructions were written from Ubuntu 20.04, but should be applicable to any Debian-based environment. Please adjust all package manager instructions to match your environment.
+These instructions were written for Ubuntu 20.04, but should be applicable to any Debian-based environment. Please adjust all package manager instructions to match your environment.
 
-Dependencies:
+MXE can be either installed from MXE apt repository (much faster) or compiled from source.
 
-  * [MXE](http://mxe.cc)
-  * [MXE Requirements](http://mxe.cc/#requirements)
+### Installing MXE from binary distribution
 
-Installation
+    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 86B72ED9
+    sudo add-apt-repository "deb [arch=amd64] https://pkg.mxe.cc/repos/apt `lsb_release -sc` main"
+    sudo apt-get update
+    sudo apt-get install astyle bzip2 git make mxe-{i686,x86-64}-w64-mingw32.static-{sdl2,sdl2-ttf,sdl2-image,sdl2-mixer,gettext}
 
-<!-- astyle and lzip added to initial sudo apt install string to forestall complaints from MinGW and make -->
-<!-- ncurses removed from make MXE_TARGETS because we're not gonna be cross-compiling ncurses -->
+If you are not planning on building for both 32-bit and 64-bit, you might want to adjust the last apt-get invocation to install only `i686` or `x86-64` packages.
+
+Edit your `~/.profile` as follows:
+
+    export PLATFORM_32="/usr/lib/mxe/usr/bin/i686-w64-mingw32.static-"
+    export PLATFORM_64="/usr/lib/mxe/usr/bin/x86_64-w64-mingw32.static-"
+
+This is to ensure that the variables for the `make` command will not get reset after a power cycle.
+
+### Installing MXE from source
+Install [MXE requirements](http://mxe.cc/#requirements) and build dependencies:
 
     sudo apt install astyle autoconf automake autopoint bash bison bzip2 cmake flex gettext git g++ gperf intltool libffi-dev libgdk-pixbuf2.0-dev libtool libltdl-dev libssl-dev libxml-parser-perl lzip make mingw-w64 openssl p7zip-full patch perl pkg-config python ruby scons sed unzip wget xz-utils g++-multilib libc6-dev-i386 libtool-bin
-    mkdir -p ~/src/Cataclysm-BN
-    mkdir -p ~/src/mxe
+
+Clone MXE repo and build packages required for CBN:
+
+    mkdir -p ~/src
     cd ~/src
-    git clone https://github.com/cataclysmbnteam/Cataclysm-BN.git ./Cataclysm-BN
-    git clone https://github.com/mxe/mxe.git ./mxe
+    git clone https://github.com/mxe/mxe.git
+    cd mxe
     make -j$((`nproc`+0)) MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' sdl2 sdl2_ttf sdl2_image sdl2_mixer gettext
 
-Building all these packages from MXE might take a while, even on a fast computer. Be patient; the `-j` flag will take advantage of all your processor cores. If you are not planning on building for both 32-bit and 64-bit, you might want to adjust your MXE_TARGETS.
+Building all these packages from MXE might take a while, even on a fast computer. Be patient; the `-j` flag will take advantage of all your processor cores.
+
+If you are not planning on building for both 32-bit and 64-bit, you might want to adjust your MXE_TARGETS.
 
 Edit your `~/.profile` as follows:
 
@@ -216,22 +232,12 @@ Edit your `~/.profile` as follows:
     export PLATFORM_64="~/src/mxe/usr/bin/x86_64-w64-mingw32.static-"
 
 This is to ensure that the variables for the `make` command will not get reset after a power cycle.
-
 ### Building (SDL)
-
-    cd ~/src/Cataclysm-BN
-
-***IMPORTANT:***
-
-The first time you set up your build environment, you must `touch VERSION.txt` to create a dummy file to avoid `make` complaining about not having a rule. You will need to add "VERSION.txt" to /.git/info/exclude in order to prevent your system from trying to `git push` this dummy file. Subsequent builds should not require `touch` again.
 
 Run one of the following commands based on your targeted environment:
 
     make -j$((`nproc`+0)) CROSS="${PLATFORM_32}" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 BACKTRACE=0 PCH=0 bindist
     make -j$((`nproc`+0)) CROSS="${PLATFORM_64}" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 BACKTRACE=0 PCH=0 bindist
-
-
-<!-- Building ncurses for Windows is a nonstarter, so the directions were removed. -->
 
 ## Cross-compile to Mac OS X from Linux
 
