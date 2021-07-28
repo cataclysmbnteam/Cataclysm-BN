@@ -688,16 +688,33 @@ bool veh_interact::update_part_requirements()
         }
     }
 
+    const auto get_rq_mechanics = []( const vpart_info & vpi ) {
+        for( const std::pair<skill_id, int> &it : vpi.install_skills ) {
+            if( it.first == skill_mechanics ) {
+                return it.second;
+            }
+        }
+        return 0;
+    };
+
+    // Difficulty of installing additional engines depends on most complex
+    // installed engine and # of installed engines,
+    // but can never be less than 6 or more than 10.
+    // Engines without E_HIGHER_SKILL flag are excluded from the check.
     bool is_engine = sel_vpart_info->has_flag( "ENGINE" );
-    //count current engines, some engines don't require higher skill
-    int engines = 0;
     int dif_eng = 0;
     if( is_engine && sel_vpart_info->has_flag( "E_HIGHER_SKILL" ) ) {
+        int engines = 0;
+        int dif_max = get_rq_mechanics( *sel_vpart_info );
         for( const vpart_reference &vp : veh->get_avail_parts( "ENGINE" ) ) {
             if( vp.has_feature( "E_HIGHER_SKILL" ) ) {
                 engines++;
-                dif_eng = dif_eng / 2 + 8;
+                dif_max = std::max( dif_max, get_rq_mechanics( vp.info() ) );
             }
+        }
+        if( engines > 0 ) {
+            int lvl = std::max( 6, dif_max + 3 );
+            dif_eng = std::min( 10, lvl + ( engines - 1 ) * 2 );
         }
     }
 
@@ -731,10 +748,12 @@ bool veh_interact::update_part_requirements()
         if( g->u.get_skill_level( skill_mechanics ) < dif_eng ) {
             ok = false;
         }
-        //~ %1$s represents the internal color name which shouldn't be translated, %2$s is skill name, and %3$i is skill level
-        additional_requirements += string_format( _( "> %1$s%2$s %3$i</color> for extra engines." ),
-                                   status_color( g->u.get_skill_level( skill_mechanics ) >= dif_eng ),
-                                   skill_mechanics.obj().name(), dif_eng ) + "\n";
+        additional_requirements += string_format(
+                                       //~ %1$s represents the internal color name which shouldn't be translated,
+                                       //~ %2$s is skill name, and %3$i is skill level
+                                       _( "> %1$s%2$s %3$i</color> to install alongside other engines." ),
+                                       status_color( g->u.get_skill_level( skill_mechanics ) >= dif_eng ),
+                                       skill_mechanics.obj().name(), dif_eng ) + "\n";
     }
 
     if( dif_steering > 0 ) {
