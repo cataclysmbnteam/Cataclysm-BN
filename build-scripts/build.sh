@@ -11,7 +11,7 @@ function run_tests
     # Just list the tests in lex order, so that if it crashes, we know what finished before it
     $WINE "$@" -d yes --use-colour yes --order lex -s -l || true
     # The grep suppresses lines that begin with "0.0## s:", which are timing lines for tests with a very short duration.
-    $WINE "$@" -d yes --use-colour yes --order lex -s --rng-seed time $EXTRA_TEST_OPTS 
+    $WINE "$@" -d yes --use-colour yes --order lex --rng-seed time $EXTRA_TEST_OPTS 
 }
 
 # We might need binaries installed via pip, so ensure that our personal bin dir is on the PATH

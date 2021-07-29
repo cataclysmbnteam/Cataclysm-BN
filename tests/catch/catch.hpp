@@ -13981,6 +13981,7 @@ namespace Catch {
     }
 
     void TestCase::invoke() const {
+        printf("Starting %s\n", name.c_str());
         test->invoke();
     }
 
@@ -14138,7 +14139,12 @@ namespace Catch {
     TestInvokerAsFunction::TestInvokerAsFunction( void(*testAsFunction)() ) noexcept : m_testAsFunction( testAsFunction ) {}
 
     void TestInvokerAsFunction::invoke() const {
+        printf("Before:\n");
+        int dummy = system("free");
         m_testAsFunction();
+        printf("After:\n");
+        dummy = system("free");
+        (void)dummy;
     }
 
     std::string extractClassName( StringRef const& classOrQualifiedMethodName ) {
@@ -17693,4 +17699,3 @@ using Catch::Detail::Approx;
 // end catch_reenable_warnings.h
 // end catch.hpp
 #endif // TWOBLUECUBES_SINGLE_INCLUDE_CATCH_HPP_INCLUDED
-
