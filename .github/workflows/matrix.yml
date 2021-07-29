@@ -39,7 +39,8 @@ jobs:
           - compiler: g++-9
             os: ubuntu-latest
             cmake: 0
-            tiles: 0
+            tiles: 1
+            sound: 1
             test-stage: 1
             title: GCC 9, Ubuntu, Curses
             native: linux64
@@ -47,6 +48,7 @@ jobs:
             os: ubuntu-latest
             cmake: 0
             tiles: 1
+            sound: 0
             sanitize: address
             native: linux64
             title: GCC 8, Ubuntu, Tiles, ASan
@@ -54,6 +56,7 @@ jobs:
             os: ubuntu-latest
             cmake: 0
             tiles: 1
+            sound: 0
             sanitize: address,undefined
             native: linux64
             title: Clang 9, Ubuntu, Tiles, ASan, UBSan
@@ -64,7 +67,7 @@ jobs:
         COMPILER: ${{ matrix.compiler }}
         OS: ${{ matrix.os }}
         TILES: ${{ matrix.tiles }}
-        SOUND: ${{ matrix.tiles }}
+        SOUND: ${{ matrix.sound }}
         SANITIZE: ${{ matrix.sanitize }}
         TEST_STAGE: ${{ matrix.test-stage }}
         EXTRA_TEST_OPTS:
