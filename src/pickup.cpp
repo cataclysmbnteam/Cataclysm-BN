@@ -322,7 +322,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
                     add_msg( m_info, _( "Wielding - %s" ), u.weapon.display_name() );
                 }
             } else {
-                add_msg( m_neutral, wield_check.c_str() );
+                add_msg( m_neutral, "%s", wield_check.c_str() );
             }
             break;
         case SPILL:
