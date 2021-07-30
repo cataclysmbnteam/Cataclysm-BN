@@ -144,7 +144,7 @@
       { "item": "knee_pads", "prob": 20 },
       { "item": "mil_mess_kit", "prob": 30 },
       { "item": "e_tool", "prob": 15 },
-      { "item": "chocolate", "prob": 30 },
+      { "item": "military_chocolate", "prob": 30 },
       { "item": "can_beans", "prob": 20 },
       { "item": "mre_chilibeans_box", "prob": 45 },
       { "item": "mre_bbqbeef_box", "prob": 45 },
