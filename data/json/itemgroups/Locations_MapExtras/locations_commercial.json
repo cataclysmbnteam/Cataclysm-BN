@@ -615,6 +615,7 @@
     "id": "mil_surplus",
     "items": [
       { "group": "mags_surplus", "prob": 400 },
+      [ "military_chocolate", 20 ],
       [ "knife_combat", 14 ],
       [ "knife_rm42", 1 ],
       [ "kukri", 2 ],
