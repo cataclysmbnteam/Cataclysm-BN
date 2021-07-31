@@ -2669,6 +2669,27 @@ How much light the furniture produces. 10 will light the tile it's on brightly, 
 tile and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from
 the source. For examples: An overhead light is 120, a utility light, 240, and a console, 10.
 
+#### `boltcut`
+(Optional) Data for using with an bolt cutter.
+```cpp
+"boltcut": {
+    "result": "furniture_id", // (optional) furniture it will become when done, defaults to f_null
+    "duration": "1 seconds", // ( optional ) time required for bolt cutting, default is 1 second
+    "message": "You finish cutting the metal.", // ( optional ) message that will be displayed when finished
+    "sound": "Gachunk!", // ( optional ) description of the sound when finished
+    "byproducts": [ // ( optional ) list of items that will be spawned when finished
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range ( inclusive )
+        }
+    ]
+}
+```
+
 #### `required_str`
 
 Strength required to move the furniture around. Negative values indicate an unmovable furniture.
