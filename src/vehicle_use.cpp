@@ -580,7 +580,6 @@ void vehicle::toggle_autopilot()
             autopilot_on = false;
             is_patrolling = false;
             is_following = false;
-            is_autodriving = false;
             autodrive_local_target = tripoint_zero;
             stop_engines();
             break;
@@ -588,7 +587,6 @@ void vehicle::toggle_autopilot()
             autopilot_on = true;
             is_following = true;
             is_patrolling = false;
-            is_autodriving = true;
             start_engines();
             refresh();
         default:
