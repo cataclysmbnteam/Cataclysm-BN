@@ -9611,7 +9611,17 @@ int iuse::weak_antibiotic( player *p, item *it, bool, const tripoint & )
 
 int iuse::strong_antibiotic( player *p, item *it, bool, const tripoint & )
 {
-    p->add_msg_if_player( _( "You take some %s." ), it->tname() );
+    p->add_msg_player_or_npc( m_neutral,
+                              _( "You take some strong antibiotics." ),
+                              _( "<npcname> takes some strong antibiotics." ) );
+    if( p->has_effect( effect_tetanus ) ) {
+        if( rng( 1, 100 ) <= 70 ) {
+            p->remove_effect( effect_tetanus );
+            p->add_msg_if_player( m_good, _( "The muscle spasms start to go away." ) );
+        } else {
+            p->add_msg_if_player( m_warning, _( "The medication does nothing to help the spasms." ) );
+        }
+    }
     if( p->has_effect( effect_infected ) && !p->has_effect( effect_strong_antibiotic ) ) {
         p->add_msg_if_player( m_good, _( "You feel much better - almost entirely." ) );
     }
