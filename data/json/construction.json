@@ -4223,9 +4223,7 @@
     "id": "constr_t_gates_mech_control",
     "description": "Build mechanical winch",
     "category": "CONSTRUCT",
-    "skill": "fabrication",
-    "difficulty": 7,
-    "required_skills": [ [ "mechanics", 3 ] ],
+    "required_skills": [ [ "fabrication", 7 ], [ "mechanics", 3 ] ],
     "time": "60 m",
     "qualities": [
       [ { "id": "HAMMER", "level": 2 } ],
@@ -4248,9 +4246,7 @@
     "id": "constr_t_door_metal_locked",
     "description": "Build metal garage gate",
     "category": "CONSTRUCT",
-    "skill": "fabrication",
-    "difficulty": 7,
-    "required_skills": [ [ "mechanics", 2 ] ],
+    "required_skills": [ [ "fabrication", 7 ], [ "mechanics", 2 ] ],
     "time": "220 m",
     "qualities": [
       [ { "id": "HAMMER", "level": 2 } ],
