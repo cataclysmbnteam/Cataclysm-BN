@@ -1095,9 +1095,16 @@ def extract_json(state, item):
         if "sound_fail" in bash:
             writestr(state, bash["sound_fail"])
             wrote = True
-    if "boltcut" in item and "sound" in item["boltcut"]:
-        writestr(state, item["boltcut"]["sound"], comment=f"Sound of bolt cutting '{name}'")
-        wrote = True
+    if "boltcut" in item:
+        boltcut = item["boltcut"]
+        if "sound" in boltcut:
+            c = f"sound of bolt cutting {name}"
+            writestr(state, boltcut["sound"], comment=c)
+            wrote = True
+        if "message" in boltcut:
+            c = f"message when finished bolt cutting {name}"
+            writestr(state, boltcut["sound"], comment=c)
+            wrote = True
     if "pry" in item:
         pry = item["pry"]
         if "sound" in pry:
