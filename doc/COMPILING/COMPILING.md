@@ -187,57 +187,46 @@ Run:
     make NATIVE=linux32
 
 ## Cross-compile to Windows from Linux
-To cross-compile to Windows from Linux, you will need [MXE](http://mxe.cc).
 
-These instructions were written for Ubuntu 20.04, but should be applicable to any Debian-based environment. Please adjust all package manager instructions to match your environment.
+To cross-compile to Windows from Linux, you will need MXE. The main difference between the native build process and this one, is the use of the CROSS flag for make. The other make flags are still applicable.
 
-MXE can be either installed from MXE apt repository (much faster) or compiled from source.
+  * `CROSS=` - should be the full path to MXE g++ without the *g++* part at the end
 
-### Installing MXE from binary distribution
+Dependencies:
 
-    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 86B72ED9
-    sudo add-apt-repository "deb [arch=amd64] https://pkg.mxe.cc/repos/apt `lsb_release -sc` main"
-    sudo apt-get update
-    sudo apt-get install astyle bzip2 git make mxe-{i686,x86-64}-w64-mingw32.static-{sdl2,sdl2-ttf,sdl2-image,sdl2-mixer,gettext}
+  * [MXE](http://mxe.cc)
+  * [MXE Requirements](http://mxe.cc/#requirements)
 
-If you are not planning on building for both 32-bit and 64-bit, you might want to adjust the last apt-get invocation to install only `i686` or `x86-64` packages.
+Install:
 
-Edit your `~/.profile` as follows:
+    sudo apt-get install autoconf automake autopoint bash bison bzip2 cmake flex gettext git g++ gperf intltool libffi-dev libgdk-pixbuf2.0-dev libtool libltdl-dev libssl-dev libxml-parser-perl make openssl p7zip-full patch perl pkg-config python ruby scons sed unzip wget xz-utils g++-multilib libc6-dev-i386 libtool-bin
+    mkdir -p ~/src/mxe
+    git clone https://github.com/mxe/mxe.git ~/src/mxe
+    cd ~/src/mxe
+    make MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' sdl2 sdl2_ttf sdl2_image sdl2_mixer gettext ncurses
 
-    export PLATFORM_32="/usr/lib/mxe/usr/bin/i686-w64-mingw32.static-"
-    export PLATFORM_64="/usr/lib/mxe/usr/bin/x86_64-w64-mingw32.static-"
+If you are not on a Debian derivative (Linux Mint, Ubuntu, etc), you will have to use a different command than apt-get to install [the MXE requirements](http://mxe.cc/#requirements). Building all these packages from MXE might take a while even on a fast computer. Be patient. If you are not planning on building for both 32-bit and 64-bit, you might want to adjust your MXE_TARGETS.
 
-This is to ensure that the variables for the `make` command will not get reset after a power cycle.
-
-### Installing MXE from source
-Install [MXE requirements](http://mxe.cc/#requirements) and build dependencies:
-
-    sudo apt install astyle autoconf automake autopoint bash bison bzip2 cmake flex gettext git g++ gperf intltool libffi-dev libgdk-pixbuf2.0-dev libtool libltdl-dev libssl-dev libxml-parser-perl lzip make mingw-w64 openssl p7zip-full patch perl pkg-config python ruby scons sed unzip wget xz-utils g++-multilib libc6-dev-i386 libtool-bin
-
-Clone MXE repo and build packages required for CBN:
-
-    mkdir -p ~/src
-    cd ~/src
-    git clone https://github.com/mxe/mxe.git
-    cd mxe
-    make -j$((`nproc`+0)) MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' sdl2 sdl2_ttf sdl2_image sdl2_mixer gettext
-
-Building all these packages from MXE might take a while, even on a fast computer. Be patient; the `-j` flag will take advantage of all your processor cores.
-
-If you are not planning on building for both 32-bit and 64-bit, you might want to adjust your MXE_TARGETS.
-
-Edit your `~/.profile` as follows:
-
-    export PLATFORM_32="~/src/mxe/usr/bin/i686-w64-mingw32.static-"
-    export PLATFORM_64="~/src/mxe/usr/bin/x86_64-w64-mingw32.static-"
-
-This is to ensure that the variables for the `make` command will not get reset after a power cycle.
 ### Building (SDL)
 
-Run one of the following commands based on your targeted environment:
+Run:
 
-    make -j$((`nproc`+0)) CROSS="${PLATFORM_32}" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 BACKTRACE=0 PCH=0 bindist
-    make -j$((`nproc`+0)) CROSS="${PLATFORM_64}" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 BACKTRACE=0 PCH=0 bindist
+    PLATFORM="i686-w64-mingw32.static"
+    make CROSS="~/src/mxe/usr/bin/${PLATFORM}-" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1
+
+Change PLATFORM to x86_64-w64-mingw32.static for a 64-bit Windows build.
+
+To create nice zip file with all the required resources for a trouble free copy on Windows use the bindist target like this:
+
+    PLATFORM="i686-w64-mingw32.static"
+    make CROSS="~/src/mxe/usr/bin/${PLATFORM}-" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 bindist
+
+### Building (ncurses)
+
+Run:
+
+    PLATFORM="i686-w64-mingw32.static"
+    make CROSS="~/src/mxe/usr/bin/${PLATFORM}-" RELEASE=1 LOCALIZE=1
 
 ## Cross-compile to Mac OS X from Linux
 
@@ -584,9 +573,11 @@ Open Terminal's preferences, turn on "Use bright colors for bold text" in "Prefe
 
 # Windows
 
+## Building with Visual Studio
+
 See [COMPILING-VS-VCPKG.md](COMPILING-VS-VCPKG.md) for instructions on how to set up and use a build environment using Visual Studio on windows.
 
-This is probably the easiest solution for someone used to working with Visual Studio and similar IDEs. -->
+This is probably the easiest solution for someone used to working with Visual Studio and similar IDEs.
 
 ## Building with MSYS2
 

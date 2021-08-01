@@ -325,7 +325,7 @@ void monster::poly( const mtype_id &id )
     reproduces = type->reproduces;
 }
 
-bool monster::can_upgrade() const
+bool monster::can_upgrade()
 {
     return upgrades && get_option<float>( "MONSTER_UPGRADE_FACTOR" ) > 0.0;
 }
@@ -629,54 +629,13 @@ static std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
         damage_info = _( "It is nearly dead!" );
         col = c_red;
     }
-
-    // show exact monster HP if in debug mode
-    if( debug_mode ) {
-        damage_info += " ";
-        damage_info += string_format( _( "%1$d/%2$d HP" ), cur_hp, max_hp );
-    }
+    /*
+    // This is unused code that allows the player to see the exact amount of monster HP, to be implemented later!
+    if( true ) ) {
+        damage_info = string_format( _( "It has %d/%d HP." ), cur_hp, max_hp );
+    }*/
 
     return std::make_pair( damage_info, col );
-}
-
-static std::pair<std::string, nc_color> speed_description( float mon_speed_rating,
-        bool immobile = false )
-{
-    if( immobile ) {
-        return std::make_pair( _( "It is immobile." ), c_green );
-    }
-
-    const std::array<std::tuple<float, nc_color, std::string>, 8> cases = {{
-            std::make_tuple( 1.40f, c_red, _( "It looks much faster than you." ) ),
-            std::make_tuple( 1.15f, c_light_red, _( "It looks faster than you." ) ),
-            std::make_tuple( 1.05f, c_yellow, _( "It looks slightly faster than you." ) ),
-            std::make_tuple( 0.90f, c_white, _( "It looks about as fast as you." ) ),
-            std::make_tuple( 0.80f, c_light_cyan, _( "It looks slightly slower than you." ) ),
-            std::make_tuple( 0.60f, c_cyan, _( "It looks slower than you." ) ),
-            std::make_tuple( 0.30f, c_light_green, _( "It looks much slower than you." ) ),
-            std::make_tuple( 0.00f, c_green, _( "It seems to be barely moving." ) )
-        }
-    };
-
-    const avatar &ply = get_avatar();
-    float player_runcost = ply.run_cost( 100 );
-    if( player_runcost == 0 ) {
-        player_runcost = 1.0f;
-    }
-
-    // determine tiles per turn (tpt)
-    const float player_tpt = ply.get_speed() / player_runcost;
-    const float ratio = player_tpt == 0 ?
-                        2.00f : mon_speed_rating / player_tpt;
-
-    for( const std::tuple<float, nc_color, std::string> &speed_case : cases ) {
-        if( ratio >= std::get<0>( speed_case ) ) {
-            return std::make_pair( std::get<2>( speed_case ), std::get<1>( speed_case ) );
-        }
-    }
-
-    debugmsg( "speed_description: no ratio value matched" );
-    return std::make_pair( _( "Unknown" ), c_white );
 }
 
 int monster::print_info( const catacurses::window &w, int vStart, int vLines, int column ) const
@@ -695,9 +654,6 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     if( sees( g->u ) ) {
         mvwprintz( w, point( column, ++vStart ), c_yellow, _( "Aware of your presence!" ) );
     }
-
-    const auto speed_desc = speed_description( speed_rating(), has_flag( MF_IMMOBILE ) );
-    mvwprintz( w, point( column, ++vStart ), speed_desc.second, speed_desc.first );
 
     std::string effects = get_effect_status();
     if( !effects.empty() ) {
@@ -722,7 +678,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 std::string monster::extended_description() const
 {
     std::string ss;
-    const std::pair<std::string, nc_color> att = get_attitude();
+    const auto att = get_attitude();
     std::string att_colored = colorize( att.first, att.second );
     std::string difficulty_str;
     if( debug_mode ) {
@@ -750,13 +706,8 @@ std::string monster::extended_description() const
     }
 
     ss += "--\n";
-    const std::pair<std::string, nc_color> hp_bar = hp_description( hp, type->hp );
+    auto hp_bar = hp_description( hp, type->hp );
     ss += colorize( hp_bar.first, hp_bar.second ) + "\n";
-
-    const std::pair<std::string, nc_color> speed_desc = speed_description(
-                speed_rating(),
-                has_flag( MF_IMMOBILE ) );
-    ss += colorize( speed_desc.first, speed_desc.second ) + "\n";
 
     ss += "--\n";
     ss += string_format( "<dark>%s</dark>", type->get_description() ) + "\n";
@@ -835,30 +786,6 @@ std::string monster::extended_description() const
     ss += string_format( _( "Deal average damage per second: <stat>%.1f</stat>" ),
                          g->u.weapon.effective_dps( g->u, *this ) );
     ss += "\n";
-
-    if( debug_mode ) {
-        ss += string_format( _( "Current Speed: %1$d" ), get_speed() ) + "\n";
-        ss += string_format( _( "Anger: %1$d" ), anger ) + "\n";
-        ss += string_format( _( "Friendly: %1$d" ), friendly ) + "\n";
-        ss += string_format( _( "Morale: %1$d" ), morale ) + "\n";
-
-        const time_duration current_time = calendar::turn - calendar::turn_zero;
-        ss += string_format( _( "Current Time: Turn %1$d | Day: %2$d" ),
-                             to_turns<int>( current_time ),
-                             to_days<int>( current_time ) ) + "\n";
-
-        ss += string_format( _( "Upgrade Time: %1$d (turns left: %2$d) %3$s" ),
-                             upgrade_time,
-                             to_turns<int>( time_duration::from_days( upgrade_time ) - current_time ),
-                             can_upgrade() ? "" : _( "<color_red>(can't upgrade)</color>" ) ) + "\n";
-
-        if( baby_timer.has_value() ) {
-            ss += string_format( _( "Reproduction time: %1$d (turns left: %2$d) %3$s" ),
-                                 to_turn<int>( baby_timer.value() ),
-                                 to_turn<int>( baby_timer.value() - current_time ),
-                                 reproduces ? "" : _( "<color_red>(cannot reproduce)</color>" ) ) + "\n";
-        }
-    }
 
     return replace_colors( ss );
 }
