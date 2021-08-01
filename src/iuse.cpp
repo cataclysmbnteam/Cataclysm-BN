@@ -9625,7 +9625,7 @@ int iuse::strong_antibiotic( player *p, item *it, bool, const tripoint & )
                               _( "You take some strong antibiotics." ),
                               _( "<npcname> takes some strong antibiotics." ) );
     if( p->has_effect( effect_tetanus ) ) {
-        if( rng(1, 100) <= 70 ) {
+        if( rng( 1, 100 ) <= 70 ) {
             p->remove_effect( effect_tetanus );
             p->add_msg_if_player( m_good, _( "The muscle spasms start to go away." ) );
         } else {
