@@ -145,5 +145,16 @@
     "category": [ "PLANT", "SLIME", "TROGLOBITE" ],
     "flags": [ "NO_DISEASE" ],
     "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "GOODMEMORY",
+    "name": { "str": "Good Memory" },
+    "points": 3,
+    "description": "You have an exceptional memory, and find it easy to remember things.  Your skills will erode slightly slower than usual.",
+    "skill_rust_multiplier": 1.33,
+    "starting_trait": false,
+    "valid": false,
+    "cancels": [ "FORGETFUL" ]
   }
 ]

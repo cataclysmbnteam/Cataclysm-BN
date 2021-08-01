@@ -400,7 +400,7 @@ void start_location::add_map_extra( const tripoint &omtstart, const std::string 
 
 void start_location::handle_heli_crash( player &u ) const
 {
-    for( const bodypart_id &bp : u.get_all_body_parts() ) {
+    for( const bodypart_id &bp : u.get_all_body_parts( true ) ) {
         if( bp == bodypart_id( "head" ) || bp == bodypart_id( "torso" ) ) {
             continue;// Skip head + torso for balance reasons.
         }
