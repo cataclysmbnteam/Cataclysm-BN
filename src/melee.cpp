@@ -931,6 +931,8 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
     bash_mul *= mabuff_damage_mult( DT_BASH );
 
     float armor_mult = 1.0f;
+    int arpen = mabuff_arpen_bonus( DT_BASH );
+
     // Finally, extra critical effects
     if( crit ) {
         bash_mul *= 1.5f;
@@ -938,7 +940,7 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
         armor_mult = 0.5f;
     }
 
-    di.add_damage( DT_BASH, bash_dam, 0, armor_mult, bash_mul );
+    di.add_damage( DT_BASH, bash_dam, arpen, armor_mult, bash_mul );
 }
 
 void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
@@ -1003,6 +1005,8 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
         cut_mul *= 0.96 + 0.04 * cutting_skill;
     }
 
+    arpen += mabuff_arpen_bonus( DT_CUT );
+
     cut_mul *= mabuff_damage_mult( DT_CUT );
     if( crit ) {
         cut_mul *= 1.25f;
@@ -1066,7 +1070,7 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average
     } else {
         stab_mul = 0.86 + 0.06 * stabbing_skill;
     }
-
+    int arpen = mabuff_arpen_bonus( DT_STAB );
     stab_mul *= mabuff_damage_mult( DT_STAB );
     float armor_mult = 1.0f;
 
@@ -1077,7 +1081,7 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average
         armor_mult = 0.66f;
     }
 
-    di.add_damage( DT_STAB, stab_dam, 0, armor_mult, stab_mul );
+    di.add_damage( DT_STAB, stab_dam, arpen, armor_mult, stab_mul );
 }
 
 matec_id Character::pick_technique( Creature &t, const item &weap,
