@@ -1148,7 +1148,7 @@
     "comestible_type": "FOOD",
     "calories": 1800,
     "weight": "115 g",
-    "description": "A thick, dense bar of military chocolate. While tough to chew and not very appetizing, it will provide almost a day's worth of calories in portable form. Not recommended for cooking.",
+    "description": "A thick, dense bar of military chocolate.  While tough to chew and not very appetizing, it will provide almost a day's worth of calories in portable form.  Not recommended for cooking.",
     "price": 250,
     "price_postapoc": 500,
     "material": [ "junk", "milk" ],
