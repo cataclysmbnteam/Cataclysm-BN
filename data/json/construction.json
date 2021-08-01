@@ -4217,5 +4217,51 @@
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_terrain": "f_gridvac_sealer"
+  },
+  {
+    "type": "construction",
+    "id": "constr_t_gates_mech_control",
+    "description": "Build mechanical winch",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 7 ], [ "mechanics", 3 ] ],
+    "time": "60 m",
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "SAW_M", "level": 1 } ],
+      [ { "id": "WRENCH", "level": 1 } ],
+      [ { "id": "WELD", "level": 2 } ],
+      [ { "id": "GLARE", "level": 2 } ]
+    ],
+    "components": [
+      [ [ "steel_lump", 2 ], [ "steel_chunk", 6 ], [ "scrap", 18 ] ],
+      [ [ "chain", 1 ] ],
+      [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ]
+    ],
+    "pre_note": "Must be adjacent to a brick or (reinforced)concrete wall that is itself adjacent to a garage gate in order to open said gate.",
+    "pre_special": "check_empty",
+    "post_terrain": "t_gates_mech_control"
+  },
+  {
+    "type": "construction",
+    "id": "constr_t_door_metal_locked",
+    "description": "Build metal garage gate",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 7 ], [ "mechanics", 2 ] ],
+    "time": "220 m",
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "SAW_M", "level": 1 } ],
+      [ { "id": "WRENCH", "level": 1 } ],
+      [ { "id": "WELD", "level": 2 } ],
+      [ { "id": "GLARE", "level": 2 } ]
+    ],
+    "components": [
+      [ [ "steel_lump", 5 ], [ "steel_chunk", 15 ], [ "scrap", 45 ] ],
+      [ [ "steel_plate", 4 ], [ "sheet_metal", 16 ] ],
+      [ [ "pipe", 3 ], [ "rebar", 1 ] ]
+    ],
+    "pre_note": "Must be between brick or (reinforced)concrete walls to function, and at least one wall must have an adjacent mechanical winch.",
+    "pre_special": "check_empty",
+    "post_terrain": "t_door_metal_locked"
   }
 ]
