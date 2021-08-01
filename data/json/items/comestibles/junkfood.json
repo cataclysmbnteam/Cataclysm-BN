@@ -1140,9 +1140,7 @@
   {
     "type": "COMESTIBLE",
     "id": "military_chocolate",
-    "name": {
-      "str": "military chocolate bar"
-    },
+    "name": { "str": "military chocolate bar" },
     "color": "brown",
     "symbol": "%",
     "spoils_in": "3 years",
@@ -1153,14 +1151,9 @@
     "description": "A thick, dense bar of military chocolate. While tough to chew and not very appetizing, it will provide almost a day's worth of calories in portable form. Not recommended for cooking.",
     "price": 250,
     "price_postapoc": 500,
-    "material": [
-      "junk",
-      "milk"
-    ],
+    "material": [ "junk", "milk" ],
     "volume": "500 ml",
-    "flags": [
-      "EDIBLE_FROZEN"
-    ],
+    "flags": [ "EDIBLE_FROZEN" ],
     "fun": 1
   }
 ]
