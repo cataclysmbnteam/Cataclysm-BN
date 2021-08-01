@@ -688,16 +688,33 @@ bool veh_interact::update_part_requirements()
         }
     }
 
+    const auto get_rq_mechanics = []( const vpart_info & vpi ) {
+        for( const std::pair<skill_id, int> &it : vpi.install_skills ) {
+            if( it.first == skill_mechanics ) {
+                return it.second;
+            }
+        }
+        return 0;
+    };
+
+    // Difficulty of installing additional engines depends on most complex
+    // installed engine and # of installed engines,
+    // but can never be less than 6 or more than 10.
+    // Engines without E_HIGHER_SKILL flag are excluded from the check.
     bool is_engine = sel_vpart_info->has_flag( "ENGINE" );
-    //count current engines, some engines don't require higher skill
-    int engines = 0;
     int dif_eng = 0;
     if( is_engine && sel_vpart_info->has_flag( "E_HIGHER_SKILL" ) ) {
+        int engines = 0;
+        int dif_max = get_rq_mechanics( *sel_vpart_info );
         for( const vpart_reference &vp : veh->get_avail_parts( "ENGINE" ) ) {
             if( vp.has_feature( "E_HIGHER_SKILL" ) ) {
                 engines++;
-                dif_eng = dif_eng / 2 + 8;
+                dif_max = std::max( dif_max, get_rq_mechanics( vp.info() ) );
             }
+        }
+        if( engines > 0 ) {
+            int lvl = std::max( 6, dif_max + 3 );
+            dif_eng = std::min( 10, lvl + ( engines - 1 ) * 2 );
         }
     }
 
@@ -727,23 +744,16 @@ bool veh_interact::update_part_requirements()
     std::string additional_requirements;
     bool lifting_or_jacking_required = false;
 
-    bool allow_more_eng = engines < 2 || g->u.has_trait( trait_DEBUG_HS );
-
     if( dif_eng > 0 ) {
-        if( !allow_more_eng || g->u.get_skill_level( skill_mechanics ) < dif_eng ) {
+        if( g->u.get_skill_level( skill_mechanics ) < dif_eng ) {
             ok = false;
         }
-        if( allow_more_eng ) {
-            //~ %1$s represents the internal color name which shouldn't be translated, %2$s is skill name, and %3$i is skill level
-            additional_requirements += string_format( _( "> %1$s%2$s %3$i</color> for extra engines." ),
+        additional_requirements += string_format(
+                                       //~ %1$s represents the internal color name which shouldn't be translated,
+                                       //~ %2$s is skill name, and %3$i is skill level
+                                       _( "> %1$s%2$s %3$i</color> to install alongside other engines." ),
                                        status_color( g->u.get_skill_level( skill_mechanics ) >= dif_eng ),
                                        skill_mechanics.obj().name(), dif_eng ) + "\n";
-        } else {
-            additional_requirements +=
-                _( "> <color_red>You cannot install any more engines on this vehicle.</color>" ) +
-                std::string( "\n" );
-        }
-
     }
 
     if( dif_steering > 0 ) {
@@ -2005,22 +2015,8 @@ int veh_interact::part_at( const point &d )
  */
 bool veh_interact::can_potentially_install( const vpart_info &vpart )
 {
-    bool engine_reqs_met = true;
-    bool can_make = vpart.install_requirements().can_make_with_inventory( crafting_inv,
-                    is_crafting_component );
-    bool hammerspace = g->u.has_trait( trait_DEBUG_HS );
-
-    int engines = 0;
-    if( vpart.has_flag( VPFLAG_ENGINE ) && vpart.has_flag( "E_HIGHER_SKILL" ) ) {
-        for( const vpart_reference &vp : veh->get_avail_parts( "ENGINE" ) ) {
-            if( vp.has_feature( "E_HIGHER_SKILL" ) ) {
-                engines++;
-            }
-        }
-        engine_reqs_met = engines < 2;
-    }
-
-    return hammerspace || ( can_make && engine_reqs_met );
+    return g->u.has_trait( trait_DEBUG_HS ) ||
+           vpart.install_requirements().can_make_with_inventory( crafting_inv, is_crafting_component );
 }
 
 /**
