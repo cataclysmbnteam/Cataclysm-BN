@@ -378,7 +378,7 @@
     "name": { "str": "prowling wight" },
     "description": "This otherwise normal-looking tiger stumbles and sways, its jaws slack, its eyes wide open and shining black.",
     "copy-from": "mon_zougar",
-    "volume": "150 L",
+    "volume": "190 L",
     "weight": "190 kg",
     "hp": 200,
     "speed": 110,
