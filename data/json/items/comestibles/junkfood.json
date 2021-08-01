@@ -1139,21 +1139,28 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "military_chocolate", "name": {
-    "str": "military chocolate bar" },
-     "color": "brown",
-     "symbol": "%",
-     "spoils_in": "3 years",
-     "container": "wrapper",
-     "comestible_type": "FOOD",
-     "calories": 1800,
-     "weight": "115 g",
-     "description": "A thick, dense bar of military chocolate. While tough to chew and not very appetizing, it will provide almost a day's worth of calories in portable form. Not recommended for cooking.",
-     "price": 250,
-     "price_postapoc": 500,
-     "material": [ "junk","milk" ],
-     "volume": "500 ml",
-     "flags": [ "EDIBLE_FROZEN" ],
-     "fun": 1
+    "id": "military_chocolate",
+    "name": {
+      "str": "military chocolate bar"
+    },
+    "color": "brown",
+    "symbol": "%",
+    "spoils_in": "3 years",
+    "container": "wrapper",
+    "comestible_type": "FOOD",
+    "calories": 1800,
+    "weight": "115 g",
+    "description": "A thick, dense bar of military chocolate. While tough to chew and not very appetizing, it will provide almost a day's worth of calories in portable form. Not recommended for cooking.",
+    "price": 250,
+    "price_postapoc": 500,
+    "material": [
+      "junk",
+      "milk"
+    ],
+    "volume": "500 ml",
+    "flags": [
+      "EDIBLE_FROZEN"
+    ],
+    "fun": 1
   }
 ]
