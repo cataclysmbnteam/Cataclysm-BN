@@ -650,9 +650,13 @@ class game
         /**
          * Load the main map at given location, see @ref map::load, in global, absolute submap
          * coordinates.
+         * @param pump_events If true, handle window events during loading. If
+         * you set this to true, do ensure that the map is not accessed before
+         * this function returns (for example, UIs that draw the map should be
+         * disabled).
          */
-        void load_map( const tripoint &pos_sm );
-        void load_map( const tripoint_abs_sm &pos_sm );
+        void load_map( const tripoint &pos_sm, bool pump_events = false );
+        void load_map( const tripoint_abs_sm &pos_sm, bool pump_events = false );
         /**
          * The overmap which contains the center submap of the reality bubble.
          */
