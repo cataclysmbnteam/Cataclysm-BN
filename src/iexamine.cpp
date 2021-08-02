@@ -1476,7 +1476,7 @@ void iexamine::fault( player &, const tripoint & )
 /**
  * Display popup message pulled from the object's message property
  */
-void iexamine::notify( player &p, const tripoint &pos )
+void iexamine::notify( player &, const tripoint &pos )
 {
     std::string message = g->m.has_furn( pos ) ?
                           g->m.furn( pos ).obj().message :
@@ -1490,7 +1490,7 @@ void iexamine::notify( player &p, const tripoint &pos )
 * Transform the examined object into the object specified by its transforms_into property. If the new object has a message property,
 * it is displayed as if the notify examine_action was used.
 */
-void iexamine::transform( player &p, const tripoint &pos )
+void iexamine::transform( player &, const tripoint &pos )
 {
     std::string message;
 
