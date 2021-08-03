@@ -43,7 +43,6 @@ monsters folder:
 As much as possible, there should be content and feature parity between both (all?) Cataclysm variants for the best player experience and easiest mod maintenance. As of April 2021 the known code differences between the two for DinoMod are:
 * Monsters folder - DDA supports bullet armor and biosignature and not the BLEEDS flag while BN supports BLEEDS and not bullet armor or biosignature. These hit the monster folder. 
 * mutagen recipes - "activity_level" is removed in BN.
-* cooking ingredients - "egg_bird_unfert" is removed in BN
 * lab locations - lots of content missing or different in BN, science basements still need to be reconstructed from BN originals
 * laser items - BN port removes pocket_data and amm0_to_fire lines and changes damage_type bullet to stab
 * monster_factions - copy-from doesn't work for changing vanilla monster factions in BN
