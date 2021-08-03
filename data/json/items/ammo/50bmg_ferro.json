@@ -1,0 +1,27 @@
+[
+  {
+    "id": "50bmg_ferro",
+    "type": "AMMO",
+    "name": { "str": ".50 BMG Ferro" },
+    "description": ".50 BMG reloaded ferromagnetic bullet",
+    "weight": "114 g",
+    "volume": "250 ml",
+    "price": 2200,
+    "price_postapoc": 2500,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "material": [ "brass", "powder" ],
+    "symbol": "=",
+    "color": "dark_gray",
+    "count": 25,
+    "stack_size": 10,
+    "ammo_type": "50bmg_ferro",
+    "casing": "50_casing",
+    "range": 110,
+    "damage": { "damage_type": "stab", "amount": 131, "armor_penetration": 28 },
+    "dispersion": 150,
+    "recoil": 5000,
+    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 } },
+    "effects": [ "RECYCLED" ]
+  }
+]
+

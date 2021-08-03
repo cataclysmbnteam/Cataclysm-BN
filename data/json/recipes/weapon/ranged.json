@@ -1,4 +1,25 @@
 [
+ {
+      "type": "recipe",
+    "result": "heavy_rail_rifle",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "skills_required": [ "rifle", 7 ],
+    "difficulty": 8,
+    "time": "360 m",
+    "autolearn": true,
+    "qualities": [
+      { "id": "ANVIL", "level": 3 },
+      { "id": "CUT", "level": 1 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "using": [ [ "forging_standard", 6 ], [ "steel_standard", 3 ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "copper", 50 ] ], [ [ "silver", 20 ] ], [ [ "m107a1", 1 ] ] ]
+  },
   {
     "type": "recipe",
     "result": "chemical_thrower",
