@@ -21,7 +21,6 @@
     "dispersion": 150,
     "recoil": 5000,
     "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 } },
-    "effects": [ "RECYCLED" ]
+     "effects": [ "RECYCLED", "INCENDIARY" ]
   }
 ]
-

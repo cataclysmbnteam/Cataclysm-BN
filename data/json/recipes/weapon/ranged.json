@@ -1,7 +1,7 @@
 [
  {
       "type": "recipe",
-    "result": "heavy_rail_rifle",
+    "result": "heavy_rail_rifle1",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "fabrication",
