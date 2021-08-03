@@ -822,6 +822,7 @@ class map
          */
         const std::set<std::string> &get_harvest_names( const tripoint &p ) const;
         ter_id get_ter_transforms_into( const tripoint &p ) const;
+        furn_id get_furn_transforms_into( const tripoint &p ) const;
 
         bool ter_set( const tripoint &p, const ter_id &new_terrain );
         bool ter_set( const point &p, const ter_id &new_terrain ) {

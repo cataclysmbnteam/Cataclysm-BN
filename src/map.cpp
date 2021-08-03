@@ -1540,6 +1540,10 @@ ter_id map::get_ter_transforms_into( const tripoint &p ) const
     return ter( p ).obj().transforms_into.id();
 }
 
+furn_id map::get_furn_transforms_into( const tripoint &p ) const
+{
+    return furn( p ).obj().transforms_into.id();
+}
 /**
  * Examines the tile pos, with character as the "examinator"
  * Casts Character to player because player/NPC split isn't done yet
