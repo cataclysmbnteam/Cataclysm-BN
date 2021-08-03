@@ -15,26 +15,11 @@
     "flags": [ "TRANSPARENT", "PLACE_ITEM", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
-        {
-          "item": "cable",
-          "charges": [ 1, 2 ]
-        },
-        {
-          "item": "amplifier",
-          "count": [ 1, 4 ]
-        },
-        {
-          "item": "light_bulb",
-          "count": [ 1, 4 ]
-        },
-        {
-          "item": "steel_lump",
-          "count": 1
-        },
-        {
-          "item": "pipe",
-          "count": 1
-        }
+        { "item": "cable", "charges": [ 1, 2 ] },
+        { "item": "amplifier", "count": [ 1, 4 ] },
+        { "item": "light_bulb", "count": [ 1, 4 ] },
+        { "item": "steel_lump", "count": 1 },
+        { "item": "pipe", "count": 1 }
       ]
     },
     "bash": {
@@ -43,26 +28,11 @@
       "sound": "metal screeching!",
       "sound_fail": "bonk!",
       "items": [
-        {
-          "item": "scrap",
-          "count": [ 1, 2 ]
-        },
-        {
-          "item": "cable",
-          "charges": [ 0, 1 ]
-        },
-        {
-          "item": "e_scrap",
-          "count": [ 0, 1 ]
-        },
-        {
-          "item": "glass_shard",
-          "count": [ 0, 8 ]
-        },
-        {
-          "item": "pipe",
-          "count": [ 0, 1 ]
-        }
+        { "item": "scrap", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 0, 1 ] },
+        { "item": "e_scrap", "count": [ 0, 1 ] },
+        { "item": "glass_shard", "count": [ 0, 8 ] },
+        { "item": "pipe", "count": [ 0, 1 ] }
       ]
     }
   },
