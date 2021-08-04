@@ -618,8 +618,8 @@
     "default": "mon_zombie_tough",
     "monsters": [
       { "monster": "mon_zombie", "freq": 250, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_technician", "freq": 200, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_static", "freq": 150, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_technician", "freq": 150, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_static", "freq": 100, "cost_multiplier": 5 },
       { "monster": "mon_zombie_hazmat", "freq": 50, "cost_multiplier": 5 },
       { "monster": "mon_zombie_fireman", "freq": 10, "cost_multiplier": 10 },
       { "monster": "mon_zombie_nurse", "freq": 10, "cost_multiplier": 10 },
