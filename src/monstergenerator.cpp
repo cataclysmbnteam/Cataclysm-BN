@@ -169,6 +169,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_MILKABLE: return "MILKABLE";
         case MF_SHEARABLE: return "SHEARABLE";
         case MF_NO_BREED: return "NO_BREED";
+        case MF_NO_FUNG_DMG: return "NO_FUNG_DMG";
         case MF_PET_WONT_FOLLOW: return "PET_WONT_FOLLOW";
         case MF_DRIPS_NAPALM: return "DRIPS_NAPALM";
         case MF_DRIPS_GASOLINE: return "DRIPS_GASOLINE";
@@ -882,8 +883,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "burn_into", burn_into, auto_flags_reader<mtype_id> {},
               mtype_id::NULL_ID() );
-    optional( jo, was_loaded, "zombify_into", auto_flags_reader<mtype_id> {}, mtype_id() );
-    optional( jo, was_loaded, "fungalize_into", auto_flags_reader<mtype_id> {}, mtype_id() );
+    assign( jo, "zombify_into", zombify_into );
+    assign( jo, "fungalize_into", fungalize_into );
 
     const auto flag_reader = enum_flags_reader<m_flag> { "monster flag" };
     optional( jo, was_loaded, "flags", flags, flag_reader );
@@ -1163,12 +1164,6 @@ void MonsterGenerator::check_monster_definitions() const
         if( !mon.revert_to_itype.empty() && !item::type_is_defined( mon.revert_to_itype ) ) {
             debugmsg( "monster %s has unknown revert_to_itype: %s", mon.id.c_str(),
                       mon.revert_to_itype.c_str() );
-        }
-        if( !mon.zombify_into.is_empty() && !mon.zombify_into.is_valid() ) {
-            debugmsg( "monster %s has unknown zombify into: %s", mon.id.c_str(), mon.zombify_into.c_str() );
-        }
-        if( !mon.fungalize_into.is_empty() && !mon.fungalize_into.is_valid() ) {
-            debugmsg( "monster %s has unknown fungalize into: %s", mon.id.c_str(), mon.fungalize_into.c_str() );
         }
         if( !mon.mech_weapon.empty() && !item::type_is_defined( mon.mech_weapon ) ) {
             debugmsg( "monster %s has unknown mech_weapon: %s", mon.id.c_str(),
