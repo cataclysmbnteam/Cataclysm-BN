@@ -199,7 +199,6 @@
     "magazines": [ [ "50bmg_ferro", [ "m107a1mag" ] ] ],
     "ups_charges": 100,
     "barrel_length": "1250 ml",
-    "default_mods": [ "bipod", "rifle_scope" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "emitter", 1 ],
