@@ -247,6 +247,18 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_tower_lab",
+    "name": "Tower lab",
+    "terrain": [ "tower_lab_stairs" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_tower_lab_finale",
+    "name": "Top of the tower lab",
+    "terrain": [ "tower_lab_finale" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_mall_loading_area",
     "name": "Mall (loading area)",
     "terrain": [ "mall_a_12" ]
