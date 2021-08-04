@@ -248,13 +248,13 @@
   {
     "type": "start_location",
     "id": "sloc_tower_lab",
-    "name": "Tower science lab",
+    "name": "Science lab tower",
     "terrain": [ "tower_lab_stairs" ]
   },
   {
     "type": "start_location",
     "id": "sloc_tower_lab_finale",
-    "name": "Top of the science tower lab",
+    "name": "Top of the science lab tower",
     "terrain": [ "tower_lab_finale" ]
   },
   {
