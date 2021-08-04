@@ -26,6 +26,7 @@
     "special_attacks": [ [ "BOOMER", 20 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_items",
     "death_function": [ "BOOMER" ],
+    "fungalize_into": "mon_boomer_fungus",
     "upgrades": { "half_life": 14, "into": "mon_boomer_huge" },
     "flags": [
       "SEES",
@@ -73,6 +74,7 @@
     "special_attacks": [ [ "BOOMER_GLOW", 20 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_items",
     "death_function": [ "BOOMER_GLOW" ],
+    "fungalize_into": "mon_boomer_fungus",
     "flags": [
       "SEES",
       "GOODHEARING",
@@ -161,6 +163,7 @@
     "special_attacks": [ [ "SUICIDE", 20 ], [ "scratch", 15 ] ],
     "death_drops": "default_zombie_items",
     "death_function": [ "GAS" ],
+    "fungalize_into": "mon_zombie_gasbag_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
   {

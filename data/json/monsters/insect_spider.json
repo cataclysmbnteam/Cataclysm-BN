@@ -489,6 +489,7 @@
     "harvest": "arachnid",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
+    "fungalize_into": "mon_spider_fungus",
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PUSH_MON", "PATH_AVOID_FIRE" ],
     "//": "No, they are not in fact the most venomous spider in the world."
   },
@@ -554,6 +555,7 @@
     "special_attacks": [ { "type": "leap", "cooldown": 2, "max_range": 5, "allow_no_target": true } ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
+    "fungalize_into": "mon_spider_fungus",
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "HIT_AND_RUN", "CLIMBS", "PATH_AVOID_DANGER_1" ]
   },
   {
@@ -585,6 +587,7 @@
     "vision_night": 5,
     "harvest": "arachnid",
     "death_function": [ "NORMAL" ],
+    "fungalize_into": "mon_spider_fungus",
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "GRABS", "CAN_DIG", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE" ]
   },
   {
@@ -616,6 +619,7 @@
     "vision_night": 5,
     "harvest": "arachnid",
     "death_function": [ "NORMAL" ],
+    "fungalize_into": "mon_spider_fungus",
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
   {
@@ -678,6 +682,7 @@
     "harvest": "arachnid",
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
+    "fungalize_into": "mon_spider_fungus",
     "flags": [ "SEES", "SMELLS", "HEARS", "BADVENOM", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE" ]
   },
   {
@@ -742,6 +747,7 @@
     "harvest": "arachnid",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
+    "fungalize_into": "mon_spider_fungus",
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
   {
@@ -864,6 +870,7 @@
     "upgrades": { "age_grow": 14, "into": "mon_ant_soldier" },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_WEAK" ],
     "death_function": [ "NORMAL" ],
+    "fungalize_into": "mon_ant_fungus",
     "special_attacks": [ [ "EAT_FOOD", 30 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
@@ -1043,6 +1050,7 @@
     "special_attacks": [ [ "ANTQUEEN", 1 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
+    "fungalize_into": "mon_ant_fungus",
     "flags": [ "SMELLS", "QUEEN", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
   {
@@ -1074,6 +1082,7 @@
     "harvest": "arachnid",
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
+    "fungalize_into": "mon_ant_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
   {

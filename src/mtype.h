@@ -169,6 +169,7 @@ enum m_flag : int {
     MF_MILKABLE,            // This monster is milkable.
     MF_SHEARABLE,           // This monster is shearable.
     MF_NO_BREED,            // This monster doesn't breed, even though it has breed data
+    MF_NO_FUNG_DMG,         // This monster can't be fungalized or damaged by fungal spores.
     MF_PET_WONT_FOLLOW,     // This monster won't follow the player automatically when tamed.
     MF_DRIPS_NAPALM,        // This monster ocassionally drips napalm on move
     MF_DRIPS_GASOLINE,      // This monster occasionally drips gasoline on move
@@ -313,6 +314,7 @@ struct mtype {
         mongroup_id upgrade_group;
         mtype_id burn_into;
         mtype_id zombify_into;
+        mtype_id fungalize_into;
 
         // Monster reproduction variables
         cata::optional<time_duration> baby_timer;
