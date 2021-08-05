@@ -1,6 +1,6 @@
 [
   {
-    "type": "TOOL",
+    "type": "AMMO",
     "id": "glass_shard",
     "symbol": ",",
     "color": "light_cyan",
@@ -11,6 +11,7 @@
     "weight": "75 g",
     "volume": "30 ml",
     "cutting": 6,
+    "ammo_type": "glass_shard",
     "use_action": {
       "type": "place_trap",
       "trap": "tr_glass",
