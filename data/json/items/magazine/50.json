@@ -24,7 +24,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "50",
+    "ammo_type": [ "50", "50bmg_ferro" ],
     "capacity": 10,
     "reliability": 9,
     "reload_time": 130,

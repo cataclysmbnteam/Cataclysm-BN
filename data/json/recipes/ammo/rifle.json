@@ -516,6 +516,28 @@
     ]
   },
   {
+    "result": "50bmg_ferro",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "skills_required": [ "gun", 7 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "recipe_bullets", 8 ] ],
+    "charges": 1,
+    "reversible": true,
+    "using": [ [ "bullet_forming", 21 ], [ "ammo_bullet", 15 ] ],
+    "components": [
+      [ [ "50_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 30 ], [ "gunpowder_large_rifle", 30 ] ],
+      [ [ "copper", 6 ] ],
+      [ [ "scrap", 2 ] ]
+    ]
+  },
+  {
     "result": "reloaded_50ss",
     "type": "recipe",
     "category": "CC_AMMO",

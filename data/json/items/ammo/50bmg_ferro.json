@@ -1,0 +1,14 @@
+[
+  {
+    "id": "50bmg_ferro",
+    "copy-from": "50bmg",
+    "type": "AMMO",
+    "name": { "str": ".50 BMG Ferro" },
+    "description": ".50 BMG reloaded ferromagnetic bullet",
+    "ammo_type": "50bmg_ferro",
+    "count": 10,
+    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 } },
+    "effects": [ "RECYCLED", "INCENDIARY" ],
+    "dispersion": 100
+  }
+]
