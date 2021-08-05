@@ -78,7 +78,7 @@ class pixel_minimap
         //track the previous viewing area to determine if the minimap cache needs to be cleared
         tripoint cached_center_sm;
         // track presence of animated beacons to determine whether the minimap needs to be animated
-        bool cached_has_animated_beacons;
+        bool cached_has_animated_beacons = true;
 
         SDL_Rect screen_rect;
         SDL_Rect main_tex_clip_rect;
