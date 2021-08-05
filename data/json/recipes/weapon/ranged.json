@@ -1,10 +1,6 @@
 [
  {
-<<<<<<< HEAD
-    "type": "recipe",
-=======
       "type": "recipe",
->>>>>>> dc3b062f91ced2dfaeeca69b1b88bdd4b931110c
     "result": "heavy_metal_rail",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",

@@ -31,7 +31,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str_sp": "M2HB Browning HMG" },
-    "description": "A heavy machine gun used by the US Military from its inception to the Cataclysm, and even rarely by Cataclysm survivors.",
+    "description": "A heavy machine gun used by the US Military from its inception to the Cataclysm, and even rarely by Cataclysm survivors.  Its massive size and design make it impossible to use unless deployed or mounted to a vehicle.",
     "weight": "38000 g",
     "volume": "5 L",
     "price": 1800000,
@@ -174,11 +174,7 @@
     "flags": [ "NEVER_JAMS", "RELOAD_ONE" ]
   },
   {
-<<<<<<< HEAD
     "id": "heavy_metal_rail",
-=======
-    "id": "heavy__metalrail",
->>>>>>> dc3b062f91ced2dfaeeca69b1b88bdd4b931110c
     "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
