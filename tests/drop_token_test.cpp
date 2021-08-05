@@ -274,14 +274,15 @@ TEST_CASE( "full backpack pickup", "[drop_token]" )
     dummy.worn.emplace_back( duffel_bag );
 
     map &here = get_map();
+    drop_token_provider &token_provider = drop_token::get_provider();
     GIVEN( "a backpack full of items lying on a ground tile" ) {
         item &parent = here.add_item( pos, backpack );
-        *parent.drop_token = drop_token::make_next();
+        *parent.drop_token = token_provider.make_next( calendar::turn );
         for( units::volume remaining_storage = backpack.get_storage();
              remaining_storage > an_item.volume();
              remaining_storage -= an_item.volume() ) {
             item &child = here.add_item( pos, an_item );
-            *child.drop_token = drop_token::make_next();
+            *child.drop_token = token_provider.make_next( calendar::turn );
             child.drop_token->parent_number = parent.drop_token->drop_number;
         }
 
@@ -355,15 +356,17 @@ TEST_CASE( "pickup_ui_stacking", "[activity][drop_token]" )
     item duffel_bag( "duffelbag" );
     const size_t per_backpack = backpack.get_total_capacity() / an_item.volume();
 
+    drop_token_provider &token_provider = drop_token::get_provider();
+
     GIVEN( "A mix of items on the ground, with some of them being in a backpack" ) {
         testing_stack the_stack;
         the_stack.insert( an_item );
         auto insert_parent_iter = the_stack.insert_with_return( backpack );
-        item_drop_token parent_token = drop_token::make_next();
+        item_drop_token parent_token = token_provider.make_next( calendar::turn );
         *( *insert_parent_iter ).drop_token = parent_token;
         for( size_t i = 0; i < per_backpack; i++ ) {
             auto child_iter = the_stack.insert_with_return( an_item );
-            *( *child_iter ).drop_token = drop_token::make_next();
+            *( *child_iter ).drop_token = token_provider.make_next( calendar::turn );
             ( *child_iter ).drop_token->parent_number = parent_token.drop_number;
         }
 
@@ -409,9 +412,9 @@ TEST_CASE( "pickup_ui_stacking", "[activity][drop_token]" )
     GIVEN( "Two backpacks with set tokens, but no contents" ) {
         testing_stack the_stack;
         auto first_backpack_iter = the_stack.insert_with_return( backpack );
-        *first_backpack_iter->drop_token = drop_token::make_next();
+        *first_backpack_iter->drop_token = token_provider.make_next( calendar::turn );
         auto second_backpack_iter = the_stack.insert_with_return( backpack );
-        *second_backpack_iter->drop_token = drop_token::make_next();
+        *second_backpack_iter->drop_token = token_provider.make_next( calendar::turn );
 
         std::vector<item_stack::iterator> unstacked = iterators_in_vector( the_stack );
 
@@ -427,17 +430,17 @@ TEST_CASE( "pickup_ui_stacking", "[activity][drop_token]" )
     GIVEN( "Multiple identical items with tokens with different turns and parents set, but with no parents on the item stack" ) {
         testing_stack the_stack;
 
-        item_drop_token first_parent_token = drop_token::make_next();
+        item_drop_token first_parent_token = token_provider.make_next( calendar::turn );
         for( size_t i = 0; i < per_backpack; i++ ) {
             auto child_iter = the_stack.insert_with_return( an_item );
-            *( *child_iter ).drop_token = drop_token::make_next();
+            *( *child_iter ).drop_token = token_provider.make_next( calendar::turn );
             ( *child_iter ).drop_token->parent_number = first_parent_token.drop_number;
         }
 
-        item_drop_token second_parent_token = drop_token::make_next();
+        item_drop_token second_parent_token = token_provider.make_next( calendar::turn );
         for( size_t i = 0; i < per_backpack; i++ ) {
             auto child_iter = the_stack.insert_with_return( an_item );
-            *( *child_iter ).drop_token = drop_token::make_next();
+            *( *child_iter ).drop_token = token_provider.make_next( calendar::turn );
             ( *child_iter ).drop_token->parent_number = second_parent_token.drop_number;
         }
 

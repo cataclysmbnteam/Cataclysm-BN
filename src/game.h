@@ -36,6 +36,7 @@ class Creature_tracker;
 class item;
 class monster;
 class spell_events;
+class drop_token_provider;
 
 static constexpr int DEFAULT_TILESET_ZOOM = 16;
 
@@ -988,6 +989,7 @@ class game
 
         pimpl<Creature_tracker> critter_tracker;
         pimpl<faction_manager> faction_manager_ptr;
+        pimpl<drop_token_provider> token_provider;
 
         /** Used in main.cpp to determine what type of quit is being performed. */
         quit_status uquit;

@@ -48,10 +48,23 @@ class item_drop_token
         void deserialize( JsonIn &jsin );
 };
 
+class drop_token_provider
+{
+    private:
+        time_point last_turn = calendar::before_time_starts;
+        int last_drop = 0;
+    public:
+        drop_token_provider() = default;
+        drop_token_provider( const drop_token_provider & ) = delete;
+
+        item_drop_token make_next( time_point turn );
+        void clear();
+};
+
 namespace drop_token
 {
 
-item_drop_token make_next();
+drop_token_provider &get_provider();
 
 } // namespace drop_token
 

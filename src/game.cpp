@@ -59,6 +59,7 @@
 #include "debug.h"
 #include "dependency_tree.h"
 #include "distribution_grid.h"
+#include "drop_token.h"
 #include "editmap.h"
 #include "enums.h"
 #include "event.h"
@@ -590,6 +591,8 @@ void game::setup()
 
     remoteveh_cache_time = calendar::before_time_starts;
     remoteveh_cache = nullptr;
+
+    token_provider->clear();
     // back to menu for save loading, new game etc
 }
 

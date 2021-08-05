@@ -1,5 +1,6 @@
 #include "calendar.h"
 #include "drop_token.h"
+#include "game.h"
 #include "json.h"
 
 void item_drop_token::serialize( JsonOut &jsout ) const
@@ -21,22 +22,30 @@ void item_drop_token::deserialize( JsonIn &jsin )
     jo.read( "parent_number", parent_number );
 }
 
-namespace drop_token
+item_drop_token drop_token_provider::make_next( time_point tp )
 {
-
-item_drop_token make_next()
-{
-    // TODO: Implement properly
-    static time_point last_turn = calendar::before_time_starts;
-    static int last_drop = 0;
-    if( calendar::turn != last_turn ) {
-        last_turn = calendar::turn;
+    if( tp != last_turn ) {
+        last_turn = tp;
         last_drop = 0;
     }
 
     last_drop++;
 
-    return item_drop_token{ calendar::turn, last_drop, last_drop };
+    return item_drop_token{ tp, last_drop, last_drop };
+}
+
+void drop_token_provider::clear()
+{
+    last_turn = calendar::before_time_starts;
+    last_drop = 0;
+}
+
+namespace drop_token
+{
+
+drop_token_provider &get_provider()
+{
+    return *g->token_provider;
 }
 
 } // namespace drop_token

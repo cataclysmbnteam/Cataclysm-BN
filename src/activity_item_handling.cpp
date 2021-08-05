@@ -584,7 +584,8 @@ std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &dr
 std::list<item> obtain_and_tokenize_items( player &p, std::list<act_item> &items )
 {
     std::list<item> res;
-    item_drop_token last_token = drop_token::make_next();
+    drop_token_provider &token_provider = drop_token::get_provider();
+    item_drop_token last_token = token_provider.make_next( calendar::turn );
     units::volume last_storage_volume = items.front().loc->get_storage();
     while( !items.empty() && ( p.is_npc() || p.moves > 0 || items.front().consumed_moves == 0 ) ) {
         act_item &ait = items.front();
@@ -607,7 +608,7 @@ std::list<item> obtain_and_tokenize_items( player &p, std::list<act_item> &items
 
         // Hack: if it consumes zero moves, it must have been contained
         // TODO: Properly mark containment somehow
-        *current_drop.drop_token = drop_token::make_next();
+        *current_drop.drop_token = token_provider.make_next( calendar::turn );;
         if( ait.consumed_moves == 0 && last_storage_volume >= current_drop.volume() ) {
             last_storage_volume -= current_drop.volume();
             current_drop.drop_token->parent_number = last_token.parent_number;
