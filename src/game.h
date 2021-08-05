@@ -989,7 +989,7 @@ class game
 
         pimpl<Creature_tracker> critter_tracker;
         pimpl<faction_manager> faction_manager_ptr;
-        pimpl<drop_token_provider> token_provider;
+        pimpl<drop_token_provider> token_provider_ptr;
 
         /** Used in main.cpp to determine what type of quit is being performed. */
         quit_status uquit;

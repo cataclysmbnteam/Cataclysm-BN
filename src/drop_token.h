@@ -55,10 +55,12 @@ class drop_token_provider
         int last_drop = 0;
     public:
         drop_token_provider() = default;
-        drop_token_provider( const drop_token_provider & ) = delete;
 
         item_drop_token make_next( time_point turn );
         void clear();
+
+        void serialize( JsonOut &jsout ) const;
+        void deserialize( JsonIn &jsin );
 };
 
 namespace drop_token

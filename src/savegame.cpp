@@ -17,6 +17,7 @@
 #include "coordinate_conversions.h"
 #include "creature_tracker.h"
 #include "debug.h"
+#include "drop_token.h"
 #include "enum_conversions.h"
 #include "faction.h"
 #include "hash_utils.h"
@@ -106,6 +107,8 @@ void game::serialize( std::ostream &fout )
     json.member( "kill_tracker", *kill_tracker_ptr );
     json.member( "stats_tracker", *stats_tracker_ptr );
     json.member( "achievements_tracker", *achievements_tracker_ptr );
+
+    json.member( "token_provider", *token_provider_ptr );
 
     json.member( "player", u );
     Messages::serialize( json );
@@ -245,6 +248,7 @@ void game::unserialize( std::istream &fin )
         data.read( "player", u );
         data.read( "stats_tracker", *stats_tracker_ptr );
         data.read( "achievements_tracker", *achievements_tracker_ptr );
+        data.read( "token_provider", token_provider_ptr );
         Messages::deserialize( data );
 
     } catch( const JsonError &jsonerr ) {

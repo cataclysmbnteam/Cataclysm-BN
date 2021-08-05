@@ -592,7 +592,7 @@ void game::setup()
     remoteveh_cache_time = calendar::before_time_starts;
     remoteveh_cache = nullptr;
 
-    token_provider->clear();
+    token_provider_ptr->clear();
     // back to menu for save loading, new game etc
 }
 
