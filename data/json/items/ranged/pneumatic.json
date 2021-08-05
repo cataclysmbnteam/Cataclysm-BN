@@ -55,7 +55,7 @@
     "bashing": 12,
     "to_hit": -1,
     "loudness": 16,
-    "ranged_damage": { "damage_type": "stab", "amount": 50 },
+    "ranged_damage": { "damage_type": "stab", "amount": 35 },
     "range": 16,
     "dispersion": 30,
     "durability": 7,
