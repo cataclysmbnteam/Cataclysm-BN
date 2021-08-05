@@ -223,7 +223,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "20 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "20 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "20 m", "using": [ [ "welding_standard", 5 ], [ "rubber_chunks", 1 ], [ "metal", 1 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 5 ] ],
+        "time": "20 m",
+        "using": [ [ "welding_standard", 5 ], [ "rubber_chunks", 1 ], [ "metal", 1 ] ]
+      }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_HEAVY" ],
     "damage_reduction": { "all": 60, "cut": 30, "stab": 16 }
