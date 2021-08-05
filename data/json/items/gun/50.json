@@ -174,7 +174,11 @@
     "flags": [ "NEVER_JAMS", "RELOAD_ONE" ]
   },
   {
+<<<<<<< HEAD
     "id": "heavy_metal_rail",
+=======
+    "id": "heavy__metalrail",
+>>>>>>> dc3b062f91ced2dfaeeca69b1b88bdd4b931110c
     "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,

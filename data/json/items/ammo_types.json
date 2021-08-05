@@ -18,6 +18,12 @@
     "default": "50bmg"
   },
   {
+     "type": "ammunition_type",
+    "id": "50bmg_ferro",
+    "name": ".50 BMG Ferro",
+    "default": "50bmg_ferro"
+  },
+  {
     "type": "ammunition_type",
     "id": "50bmg_ferro",
     "name": ".50 BMG Ferro",
