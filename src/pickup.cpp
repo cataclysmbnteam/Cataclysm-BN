@@ -243,7 +243,7 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
     //new item (copy)
     item newit = it;
     item leftovers = newit;
-    const cata::optional<int> quantity = selection.quantity;
+    const cata::optional<int> &quantity = selection.quantity;
     std::vector<item_location> &children = selection.children;
 
     if( !newit.is_owned_by( g->u, true ) ) {
