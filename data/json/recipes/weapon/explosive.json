@@ -287,8 +287,11 @@
     "time": "2 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "volatile_explosive", 5 ] ],
-    "components": [ [ [ "can_food_unsealed", 1 ] ], [ [ "fuse", 1 ] ] ]
+    "components": [
+      [ [ "volatile_explosive", 5, "LIST" ], [ "stable_explosive", 5, "LIST" ], [ "military_explosive", 5, "LIST" ] ],
+      [ [ "canister_empty", 1 ], [ "can_drink_unsealed", 1 ], [ "can_food_unsealed", 1 ] ],
+      [ [ "fuse", 1 ] ]
+    ]
   },
   {
     "result": "tool_small_improvised_fragmentation_device",
