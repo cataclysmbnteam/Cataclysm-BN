@@ -1352,7 +1352,7 @@ class Character : public Creature, public visitable<Character>
 
         /// Sometimes we need to calculate hypothetical volume or weight.  This
         /// struct offers two possible tweaks: a collection of items and
-        /// coutnts to remove, or an entire replacement inventory.
+        /// counts to remove, or an entire replacement inventory.
         struct item_tweaks {
             item_tweaks() = default;
             item_tweaks( const std::map<const item *, int> &w ) :
@@ -1373,8 +1373,10 @@ class Character : public Creature, public visitable<Character>
             const units::volume &mod,
             const std::map<const item *, int> &without_items = {} ) const;
 
-        bool can_pickVolume( const item &it, bool safe = false ) const;
-        bool can_pickWeight( const item &it, bool safe = true ) const;
+        bool can_pick_volume( const item &it ) const;
+        bool can_pick_volume( units::volume volume ) const;
+        bool can_pick_weight( const item &it, bool safe = true ) const;
+        bool can_pick_weight( units::mass weight, bool safe = true ) const;
         /**
          * Checks if character stats and skills meet minimum requirements for the item.
          * Prints an appropriate message if requirements not met.

@@ -759,7 +759,7 @@ void conditional_t<T>::set_can_stow_weapon( bool is_npc )
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
         }
-        return !actor->unarmed_attack() && actor->can_pickVolume( actor->weapon );
+        return !actor->unarmed_attack() && actor->can_pick_volume( actor->weapon );
     };
 }
 

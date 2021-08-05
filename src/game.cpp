@@ -59,6 +59,7 @@
 #include "debug.h"
 #include "dependency_tree.h"
 #include "distribution_grid.h"
+#include "drop_token.h"
 #include "editmap.h"
 #include "enums.h"
 #include "event.h"
@@ -590,6 +591,8 @@ void game::setup()
 
     remoteveh_cache_time = calendar::before_time_starts;
     remoteveh_cache = nullptr;
+
+    token_provider_ptr->clear();
     // back to menu for save loading, new game etc
 }
 
@@ -5757,7 +5760,7 @@ void game::examine( const tripoint &examp )
         } else {
             sounds::process_sound_markers( &u );
             if( !u.is_mounted() ) {
-                Pickup::pick_up( examp, 0 );
+                pickup::pick_up( examp, 0 );
             }
         }
     }
@@ -5782,12 +5785,12 @@ void game::pickup( const tripoint &p )
     } );
     add_draw_callback( hilite_cb );
 
-    Pickup::pick_up( p, 0 );
+    pickup::pick_up( p, 0 );
 }
 
 void game::pickup_feet()
 {
-    Pickup::pick_up( u.pos(), 1 );
+    pickup::pick_up( u.pos(), 1 );
 }
 
 //Shift player by one tile, look_around(), then restore previous position.
@@ -9607,7 +9610,7 @@ point game::place_player( const tripoint &dest_loc )
     if( !u.is_mounted() && get_option<bool>( "AUTO_PICKUP" ) && !u.is_hauling() &&
         ( !get_option<bool>( "AUTO_PICKUP_SAFEMODE" ) || mostseen == 0 ) &&
         ( m.has_items( u.pos() ) || get_option<bool>( "AUTO_PICKUP_ADJACENT" ) ) ) {
-        Pickup::pick_up( u.pos(), -1 );
+        pickup::pick_up( u.pos(), -1 );
     }
 
     // If the new tile is a boardable part, board it

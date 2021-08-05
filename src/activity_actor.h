@@ -9,6 +9,7 @@
 #include "clone_ptr.h"
 #include "item_location.h"
 #include "optional.h"
+#include "pickup_token.h"
 #include "point.h"
 #include "type_id.h"
 
@@ -128,8 +129,7 @@ class pickup_activity_actor : public activity_actor
 {
     private:
         /** Target items and the quantities thereof */
-        std::vector<item_location> target_items;
-        std::vector<int> quantities;
+        std::vector<pickup::pick_drop_selection> target_items;
 
         /**
          * Position of the character when the activity is started. This is
@@ -140,10 +140,10 @@ class pickup_activity_actor : public activity_actor
         cata::optional<tripoint> starting_pos;
 
     public:
-        pickup_activity_actor( const std::vector<item_location> &target_items,
-                               const std::vector<int> &quantities,
-                               const cata::optional<tripoint> &starting_pos ) : target_items( target_items ),
-            quantities( quantities ), starting_pos( starting_pos ) {}
+        pickup_activity_actor( const std::vector<pickup::pick_drop_selection> &target_items,
+                               const cata::optional<tripoint> &starting_pos )
+            : target_items( target_items )
+            , starting_pos( starting_pos ) {}
 
         activity_id get_type() const override {
             return activity_id( "ACT_PICKUP" );

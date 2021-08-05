@@ -8,6 +8,7 @@
 #include <list>
 #include <memory>
 #include <set>
+#include <sstream>
 #include <string>
 #include <tuple>
 #include <utility>
@@ -22,6 +23,7 @@
 #include "construction.h"
 #include "creature.h"
 #include "debug.h"
+#include "drop_token.h"
 #include "enums.h"
 #include "field.h"
 #include "field_type.h"
@@ -48,6 +50,7 @@
 #include "optional.h"
 #include "output.h"
 #include "pickup.h"
+#include "pickup_token.h"
 #include "player.h"
 #include "player_activity.h"
 #include "point.h"
@@ -133,21 +136,6 @@ void cancel_aim_processing();
 //Generic activity: maximum search distance for zones, constructions, etc.
 const int ACTIVITY_SEARCH_DISTANCE = 60;
 
-/** Activity-associated item */
-struct act_item {
-    /// inventory item
-    item_location loc;
-    /// How many items need to be processed
-    int count;
-    /// Amount of moves that processing will consume
-    int consumed_moves;
-
-    act_item( const item_location &loc, int count, int consumed_moves )
-        : loc( loc ),
-          count( count ),
-          consumed_moves( consumed_moves ) {}
-};
-
 // TODO: Deliberately unified with multidrop. Unify further.
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<std::pair<item_location, int>>;
@@ -173,7 +161,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
 
     // can't use constant reference here because of the spill_contents()
     for( auto it : items ) {
-        if( Pickup::handle_spillable_contents( c, it, g->m ) ) {
+        if( pickup::handle_spillable_contents( c, it, g->m ) ) {
             continue;
         }
         if( veh.add_item( part, it ) ) {
@@ -428,10 +416,10 @@ static drop_locations convert_to_locations( const player_activity &act )
     return res;
 }
 
-static std::list<act_item> convert_to_items( Character &p, const drop_locations &drop,
+static std::list<pickup::act_item> convert_to_items( Character &p, const drop_locations &drop,
         std::function<bool( item_location loc )> filter )
 {
-    std::list<act_item> res;
+    std::list<pickup::act_item> res;
 
     for( const drop_location &rec : drop ) {
         const item_location loc = rec.first;
@@ -468,10 +456,13 @@ static std::list<act_item> convert_to_items( Character &p, const drop_locations 
     return res;
 }
 
+namespace pickup
+{
+
 // Prepares items for dropping by reordering them so that the drop
 // cost is minimal and "dependent" items get taken off first.
 // Implements the "backpack" logic.
-static std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &drop )
+std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &drop )
 {
     std::list<act_item> res = convert_to_items( p, drop,
     [&p]( item_location loc ) {
@@ -513,22 +504,67 @@ static std::list<act_item> reorder_for_dropping( Character &p, const drop_locati
                     && !second.loc->is_worn_only_with( *first.loc ) );
     } );
 
-    // Cumulatively increases
-    units::volume storage_loss = 0_ml;
+    // Avoid tumbling to the ground. Unload cleanly.
+    units::volume dropped_inv_contents = std::accumulate( inv.begin(), inv.end(), 0_ml,
+    []( units::volume acc, const act_item & ait ) {
+        return acc + ait.loc->volume();
+    } );
+    const units::volume dropped_worn_storage = std::accumulate( worn.begin(), worn.end(), 0_ml,
+    []( units::volume acc, const act_item & ait ) {
+        return acc + ait.loc->get_storage();
+    } );
+    std::set<int> inv_indices;
+    std::transform( inv.begin(), inv.end(), std::inserter( inv_indices, inv_indices.begin() ),
+    [&p]( const act_item & ait ) {
+        return p.get_item_position( &*ait.loc );
+    } );
+
+    units::volume excessive_volume = p.volume_carried() - dropped_inv_contents
+                                     - p.volume_capacity_reduced_by( dropped_worn_storage );
+    if( excessive_volume > 0_ml ) {
+        invslice old_inv = p.inv.slice();
+        for( size_t i = 0; i < old_inv.size() && excessive_volume > 0_ml; i++ ) {
+            // TODO: Reimplement random dropping?
+            if( inv_indices.count( i ) != 0 ) {
+                continue;
+            }
+            std::list<item> &inv_stack = *old_inv[i];
+            for( item &item : inv_stack ) {
+                // Note: zero cost, but won't be contained on drop
+                act_item to_drop = act_item( item_location( p, &item ), item.count(), 0 );
+                inv.push_back( to_drop );
+                excessive_volume -= to_drop.loc->volume();
+                if( excessive_volume <= 0_ml ) {
+                    break;
+                }
+            }
+        }
+        // Need to re-sort
+        inv.sort( []( const act_item & first, const act_item & second ) {
+            return first.loc->volume() < second.loc->volume();
+        } );
+    }
+
     // Cumulatively decreases
-    units::volume remaining_storage = p.volume_capacity();
+    units::volume remaining_dropped_storage = dropped_worn_storage;
 
     while( !worn.empty() && !inv.empty() ) {
-        storage_loss += worn.front().loc->get_storage();
-        remaining_storage -= p.volume_capacity_reduced_by( storage_loss );
-        units::volume inventory_item_volume = inv.front().loc->volume();
+        units::volume front_storage = worn.front().loc->get_storage();
         // Does not fit
-        if( remaining_storage < inventory_item_volume ) {
+        // TODO: but maybe an item further down the line does
+        if( remaining_dropped_storage < inv.front().loc->volume() ) {
             break;
         }
 
-        while( !inv.empty() && remaining_storage >= inventory_item_volume ) {
-            remaining_storage -= inventory_item_volume;
+        res.push_back( worn.front() );
+        worn.pop_front();
+        remaining_dropped_storage -= front_storage;
+        while( !inv.empty() ) {
+            units::volume inventory_item_volume = inv.front().loc->volume();
+            if( front_storage < inventory_item_volume ) {
+                break;
+            }
+            front_storage -= inventory_item_volume;
 
             res.push_back( inv.front() );
             // Free of charge
@@ -536,10 +572,8 @@ static std::list<act_item> reorder_for_dropping( Character &p, const drop_locati
 
             inv.pop_front();
         }
-
-        res.push_back( worn.front() );
-        worn.pop_front();
     }
+
     // Now insert everything that remains
     std::copy( inv.begin(), inv.end(), std::back_inserter( res ) );
     std::copy( worn.begin(), worn.end(), std::back_inserter( res ) );
@@ -547,29 +581,12 @@ static std::list<act_item> reorder_for_dropping( Character &p, const drop_locati
     return res;
 }
 
-// TODO: Display costs in the multidrop menu
-static void debug_drop_list( const std::list<act_item> &list )
-{
-    if( !debug_mode ) {
-        return;
-    }
-
-    std::string res( "Items ordered to drop:\n" );
-    for( const auto &ait : list ) {
-        res += string_format( "Drop %d %s for %d moves\n",
-                              ait.count, ait.loc->display_name( ait.count ), ait.consumed_moves );
-    }
-    popup( res, PF_GET_KEY );
-}
-
-static std::list<item> obtain_activity_items( player_activity &act, player &p )
+std::list<item> obtain_and_tokenize_items( player &p, std::list<act_item> &items )
 {
     std::list<item> res;
-
-    std::list<act_item> items = reorder_for_dropping( p, convert_to_locations( act ) );
-
-    debug_drop_list( items );
-
+    drop_token_provider &token_provider = drop_token::get_provider();
+    item_drop_token last_token = token_provider.make_next( calendar::turn );
+    units::volume last_storage_volume = items.front().loc->get_storage();
     while( !items.empty() && ( p.is_npc() || p.moves > 0 || items.front().consumed_moves == 0 ) ) {
         act_item &ait = items.front();
 
@@ -586,18 +603,71 @@ static std::list<item> obtain_activity_items( player_activity &act, player &p )
             res.push_back( p.i_rem( &*ait.loc ) );
         }
 
+        // TODO: Get the item consistently instead of using back()
+        item &current_drop = res.back();
+
+        // Hack: if it consumes zero moves, it must have been contained
+        // TODO: Properly mark containment somehow
+        *current_drop.drop_token = token_provider.make_next( calendar::turn );;
+        if( ait.consumed_moves == 0 && last_storage_volume >= current_drop.volume() ) {
+            last_storage_volume -= current_drop.volume();
+            current_drop.drop_token->parent_number = last_token.parent_number;
+        } else {
+            last_token = *current_drop.drop_token;
+            last_storage_volume = current_drop.get_storage();
+        }
+
         items.pop_front();
     }
-    // Avoid tumbling to the ground. Unload cleanly.
-    const units::volume excessive_volume = p.volume_carried() - p.volume_capacity();
-    if( excessive_volume > 0_ml ) {
-        const auto excess = p.inv.remove_randomly_by_volume( excessive_volume );
-        res.insert( res.begin(), excess.begin(), excess.end() );
+
+    return res;
+}
+
+} // namespace pickup
+
+// TODO: Display costs in the multidrop menu
+static void debug_drop_list( const std::list<pickup::act_item> &list )
+{
+    if( !debug_mode ) {
+        return;
     }
+
+    std::string res( "Items ordered to drop:\n" );
+    for( const auto &ait : list ) {
+        res += string_format( "Drop %d %s for %d moves\n",
+                              ait.count, ait.loc->display_name( ait.count ), ait.consumed_moves );
+    }
+    popup( res, PF_GET_KEY );
+}
+
+static void debug_tokens( const std::list<item> &items )
+{
+    if( !debug_mode ) {
+        return;
+    }
+
+    std::stringstream ss;
+    ss << "Item tokens:\n";
+    for( const item &it : items ) {
+        ss << it.display_name() << ": " << *it.drop_token << '\n';
+    }
+    popup( ss.str(), PF_GET_KEY );
+}
+
+static std::list<item> obtain_activity_items( player_activity &act, player &p )
+{
+    std::list<pickup::act_item> items = pickup::reorder_for_dropping( p, convert_to_locations( act ) );
+
+    debug_drop_list( items );
+
+    std::list<item> res = pickup::obtain_and_tokenize_items( p, items );
+
+    debug_tokens( res );
+
     // Load anything that remains (if any) into the activity
     act.targets.clear();
     act.values.clear();
-    for( const act_item &ait : items ) {
+    for( const pickup::act_item &ait : items ) {
         act.targets.push_back( ait.loc );
         act.values.push_back( ait.count );
     }
@@ -807,7 +877,7 @@ static int move_cost_cart( const item &it, const tripoint &src, const tripoint &
     const int MAX_COST = 500;
 
     // cost to move item into the cart
-    const int pickup_cost = Pickup::cost_to_move_item( g->u, it );
+    const int pickup_cost = pickup::cost_to_move_item( g->u, it );
 
     // cost to move item out of the cart
     const int drop_cost = pickup_cost;
@@ -3102,7 +3172,7 @@ bool find_auto_consume( player &p, const bool food )
                 continue;
             }
 
-            p.mod_moves( -Pickup::cost_to_move_item( p, *it ) * std::max( rl_dist( p.pos(),
+            p.mod_moves( -pickup::cost_to_move_item( p, *it ) * std::max( rl_dist( p.pos(),
                          g->m.getlocal( loc ) ), 1 ) );
             item_location item_loc;
             if( vp ) {

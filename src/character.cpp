@@ -2378,7 +2378,7 @@ bool Character::i_add_or_drop( item &it, int qty )
     bool add = it.is_gun() || !it.is_irremovable();
     inv.assign_empty_invlet( it, *this );
     for( int i = 0; i < qty; ++i ) {
-        drop |= !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pickVolume( it );
+        drop |= !can_pick_weight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pick_volume( it );
         if( drop ) {
             retval &= !g->m.add_item_or_charges( pos(), it ).is_null();
         } else if( add ) {
@@ -2764,7 +2764,7 @@ units::volume Character::volume_capacity_reduced_by(
     }
 
     units::volume ret = -mod;
-    for( auto &i : worn ) {
+    for( const auto &i : worn ) {
         if( !without_items.count( &i ) ) {
             ret += i.get_storage();
         }
@@ -2787,21 +2787,33 @@ units::volume Character::volume_capacity_reduced_by(
     return std::max( ret, 0_ml );
 }
 
-bool Character::can_pickVolume( const item &it, bool ) const
+bool Character::can_pick_volume( const item &it ) const
 {
     inventory projected = inv;
     projected.add_item( it, true );
     return projected.volume() <= volume_capacity();
 }
 
-bool Character::can_pickWeight( const item &it, bool safe ) const
+bool Character::can_pick_volume( units::volume volume ) const
+{
+    // Might not be 100% true because some items restack to a very tiny bit less
+    // but close enough not to matter
+    return inv.volume() + volume <= volume_capacity();
+}
+
+bool Character::can_pick_weight( const item &it, bool safe ) const
+{
+    return can_pick_weight( it.weight(), safe );
+}
+
+bool Character::can_pick_weight( units::mass weight, bool safe ) const
 {
     if( !safe ) {
         // Character can carry up to four times their maximum weight
-        return ( weight_carried() + it.weight() <= ( has_trait( trait_DEBUG_STORAGE ) ?
-                 units::mass_max : weight_capacity() * 4 ) );
+        return ( weight_carried() + weight <= ( has_trait( trait_DEBUG_STORAGE ) ?
+                                                units::mass_max : weight_capacity() * 4 ) );
     } else {
-        return ( weight_carried() + it.weight() <= weight_capacity() );
+        return ( weight_carried() + weight <= weight_capacity() );
     }
 }
 

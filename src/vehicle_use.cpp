@@ -2199,14 +2199,14 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             return;
         }
         case GET_ITEMS_ON_GROUND: {
-            Pickup::pick_up( pos, 0, Pickup::from_ground );
+            pickup::pick_up( pos, 0, pickup::from_ground );
             return;
         }
         case GET_ITEMS: {
             if( from_vehicle ) {
-                Pickup::pick_up( pos, 0, Pickup::from_cargo );
+                pickup::pick_up( pos, 0, pickup::from_cargo );
             } else {
-                Pickup::pick_up( pos, 0, Pickup::from_ground );
+                pickup::pick_up( pos, 0, pickup::from_ground );
             }
             return;
         }

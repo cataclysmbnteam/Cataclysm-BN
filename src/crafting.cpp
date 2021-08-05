@@ -583,6 +583,7 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
 void Character::invalidate_crafting_inventory()
 {
     cached_time = calendar::before_time_starts;
+    cached_position = tripoint_min;
 }
 
 void player::make_craft( const recipe_id &id_to_make, int batch_size, const tripoint &loc )
@@ -699,8 +700,8 @@ static item_location set_item_inventory( player &p, item &newit )
 {
     p.inv.assign_empty_invlet( newit, p );
     // We might not have space for the item
-    if( p.can_pickVolume( newit ) &&
-        p.can_pickWeight( newit, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
+    if( p.can_pick_volume( newit ) &&
+        p.can_pick_weight( newit, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
         item &item_in_inv = p.i_add( newit );
         add_msg( m_info, "%c - %s", item_in_inv.invlet == 0 ? ' ' : item_in_inv.invlet,
                  item_in_inv.tname() );

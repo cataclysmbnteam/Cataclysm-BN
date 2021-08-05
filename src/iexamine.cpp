@@ -1702,8 +1702,8 @@ static bool drink_nectar( player &p )
 static void handle_harvest( player &p, const std::string &itemid, bool force_drop )
 {
     item harvest = item( itemid );
-    if( !force_drop && p.can_pickVolume( harvest, true ) &&
-        p.can_pickWeight( harvest, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
+    if( !force_drop && p.can_pick_volume( harvest ) &&
+        p.can_pick_weight( harvest, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
         p.i_add( harvest );
         p.add_msg_if_player( _( "You harvest: %s." ), harvest.tname() );
     } else {
@@ -2796,7 +2796,7 @@ void iexamine::fireplace( player &p, const tripoint &examp )
     switch( selection_menu.ret ) {
         case 0:
             none( p, examp );
-            Pickup::pick_up( examp, 0 );
+            pickup::pick_up( examp, 0 );
             return;
         case 1: {
             for( auto &firestarter : firestarters ) {
@@ -3464,7 +3464,7 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
 
         case REMOVE_CONTAINER: {
             g->u.assign_activity( player_activity( pickup_activity_actor(
-            { item_location( map_cursor( examp ), container ) }, { 0 }, g->u.pos() ) ) );
+            { { item_location( map_cursor( examp ), container ), cata::nullopt, {} } }, g->u.pos() ) ) );
             return;
         }
 
@@ -3751,7 +3751,7 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
             for( auto &itm : items ) {
                 if( itm.type == ammo ) {
                     g->u.assign_activity( player_activity( pickup_activity_actor(
-                    { item_location( map_cursor( examp ), &itm ) }, { 0 }, g->u.pos() ) ) );
+                    { { item_location( map_cursor( examp ), &itm ), cata::nullopt, {} } }, g->u.pos() ) ) );
                     return;
                 }
             }

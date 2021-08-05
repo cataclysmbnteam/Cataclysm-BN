@@ -5,6 +5,7 @@
 #include <memory>
 #include <utility>
 
+#include "activity_actor.h"
 #include "activity_handlers.h"
 #include "activity_type.h"
 #include "avatar.h"
@@ -52,6 +53,8 @@ player_activity::player_activity( const activity_actor &actor ) : type( actor.ge
     actor( actor.clone() ), moves_total( 0 ), moves_left( 0 )
 {
 }
+
+player_activity::~player_activity() = default;
 
 void player_activity::migrate_item_position( Character &guy )
 {

@@ -2022,7 +2022,7 @@ static bool query_consume_ownership( item &target, player &p )
     if( !target.is_owned_by( p, true ) ) {
         bool choice = true;
         if( p.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
-            choice = Pickup::query_thief();
+            choice = pickup::query_thief();
         }
         if( p.get_value( "THIEF_MODE" ) == "THIEF_HONEST" || !choice ) {
             return false;
@@ -2129,7 +2129,7 @@ bool player::consume( item_location loc )
             }
         }
     } else if( inv_item ) {
-        if( Pickup::handle_spillable_contents( *this, target, g->m ) ) {
+        if( pickup::handle_spillable_contents( *this, target, g->m ) ) {
             i_rem( &target );
         }
         inv.restack( *this );
@@ -3055,9 +3055,9 @@ bool player::add_or_drop_with_msg( item &it, const bool unloading )
     it.charges = this->i_add_to_container( it, unloading );
     if( it.is_ammo() && it.charges == 0 ) {
         return true;
-    } else if( !this->can_pickVolume( it ) ) {
+    } else if( !this->can_pick_volume( it ) ) {
         put_into_vehicle_or_drop( *this, item_drop_reason::too_large, { it } );
-    } else if( !this->can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
+    } else if( !this->can_pick_weight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
         put_into_vehicle_or_drop( *this, item_drop_reason::too_heavy, { it } );
     } else {
         auto &ni = this->i_add( it );
