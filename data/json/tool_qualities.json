@@ -276,5 +276,10 @@
     "type": "tool_quality",
     "id": "FILTER",
     "name": { "str": "filtration" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "SAW_MASONRY",
+    "name": { "str": "masonry sawing" }
   }
 ]
