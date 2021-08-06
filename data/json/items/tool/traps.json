@@ -249,5 +249,27 @@
       "practice": 3,
       "done_message": "You string up the tripwire."
     }
+  },
+  {
+    "id": "glass_shard_trap",
+    "type": "TOOL",
+    "symbol": ",",
+    "color": "light_cyan",
+    "name": { "str": "glass shard trap" },
+    "description": "Same glass shard as before but you can activate it to place it on the ground, it will make noise when stepped on.",
+    "category": "other",
+    "material": "glass",
+    "weight": "75 g",
+    "volume": "30 ml",
+    "looks_like": "glass_shard",
+    "use_action": {
+      "type": "place_trap",
+      "trap": "tr_glass",
+      "moves": 150,
+      "practice": 2,
+      "done_message": "You carefully place the shards on the ground, ready to be cracked by something passing by."
+    },
+    "flags": [ "HURT_WHEN_WIELDED", "TRADER_AVOID" ],
+    "to_hit": -1
   }
 ]

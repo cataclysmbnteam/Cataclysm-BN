@@ -12,15 +12,9 @@
     "volume": "30 ml",
     "cutting": 6,
     "ammo_type": "glass_shard",
-    "use_action": {
-      "type": "place_trap",
-      "trap": "tr_glass",
-      "moves": 150,
-      "practice": 2,
-      "done_message": "You carefully place the shards on the ground, ready to be cracked by something passing by."
-    },
     "flags": [ "HURT_WHEN_WIELDED", "TRADER_AVOID" ],
-    "to_hit": -1
+    "to_hit": -1,
+    "stack_size": 200
   },
   {
     "type": "GENERIC",
