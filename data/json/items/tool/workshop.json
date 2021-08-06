@@ -399,6 +399,27 @@
     "flags": [ "STAB", "DIG_TOOL", "POWERED" ]
   },
   {
+    "id": "auger",
+    "type": "TOOL",
+    "name": { "str": "Auger" },
+    "description": "This is a construction tool for boring holes in ground. It runs on gasoline. For health reasons alone, augers are a worthwhile investment.",
+    "weight": "9875 g",
+    "volume": "5 L",
+    "price": 20000,
+    "price_postapoc": 500,
+    "to_hit": -10,
+    "bashing": 10,
+    "cutting": 6,
+    "material": "steel",
+    "symbol": ";",
+    "color": "yellow",
+    "ammo": "gasoline",
+    "max_charges": 2000,
+    "charges_per_use": 20,
+    "qualities": [ [ "DIG", 6 ] ],
+    "flags": [ "POWERED" ]
+  },
+  {
     "id": "kiln",
     "type": "TOOL",
     "name": { "str": "electric kiln" },

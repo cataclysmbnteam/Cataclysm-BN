@@ -2526,6 +2526,35 @@
   },
   {
     "type": "recipe",
+    "result": "auger",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "mechanics",
+    "skills_required": [ [ "electronics", 1 ], [ "fabrication", 3 ] ],
+    "difficulty": 5,
+    "time": "35 m",
+    "reversible": true,
+    "decomp_learn": 5,
+    "book_learn": [ [ "textbook_mechanics", 5 ], [ "textbook_carpentry", 5 ], [ "book_icef", 5 ], [ "textbook_electronics", 5 ] ],
+    "using": [ [ "welding_standard", 15 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 3 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
+    "tools": [ [ [ "mold_plastic", -1 ] ] ],
+    "components": [
+      [ [ "1cyl_combustion", 1 ] ],
+      [ [ "metal_tank_little", 1 ] ],
+      [ [ "rebar", 2 ], [ "pipe", 4 ] ],
+      [ [ "steel_lump", 2 ] ],
+      [ [ "steel_chunk", 7 ] ],
+      [ [ "plastic_chunk", 4 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "magnifying_glass",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
