@@ -91,7 +91,6 @@ static const species_id INSECT( "INSECT" );
 static const species_id MAMMAL( "MAMMAL" );
 static const species_id MOLLUSK( "MOLLUSK" );
 static const species_id ROBOT( "ROBOT" );
-static const species_id SPIDER( "SPIDER" );
 static const species_id ZOMBIE( "ZOMBIE" );
 
 static const trait_id trait_ANIMALDISCORD( "ANIMALDISCORD" );
