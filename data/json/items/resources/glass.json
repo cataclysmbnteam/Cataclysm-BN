@@ -6,7 +6,7 @@
     "color": "light_cyan",
     "name": { "str": "glass shard" },
     "category": "other",
-    "description": "A broken shard of glass covered in sharp edges.  You could use it as a weapon, but you might want to wear gloves.",
+    "description": "A broken shard of glass covered in sharp edges.  With a piece of rag you could use it to make it a primitive weapon.",
     "material": "glass",
     "weight": "75 g",
     "volume": "30 ml",
