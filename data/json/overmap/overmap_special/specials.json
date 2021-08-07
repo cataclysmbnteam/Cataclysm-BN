@@ -7119,5 +7119,45 @@
     "city_sizes": [ 8, -1 ],
     "occurrences": [ 50, 100 ],
     "flags": [ "CLASSIC", "UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Industrial_Center",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "industrial_center_warehouse_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "industrial_center_light_industry_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "industrial_center_pump_station_north" },
+      { "point": [ 3, 0, 0 ], "overmap": "industrial_center_substation_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "industrial_center_loading_bay_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "industrial_center_nw_road_north" },
+      { "point": [ 2, 1, 0 ], "overmap": "industrial_center_ne_road_north" },
+      { "point": [ 3, 1, 0 ], "overmap": "industrial_center_medical_center_north" },
+      { "point": [ 0, 2, 0 ], "overmap": "industrial_center_west_road_north" },
+      { "point": [ 1, 2, 0 ], "overmap": "industrial_center_sw_road_north" },
+      { "point": [ 2, 2, 0 ], "overmap": "industrial_center_se_road_north" },
+      { "point": [ 3, 2, 0 ], "overmap": "industrial_center_data_center_north" },
+      { "point": [ 0, 3, 0 ], "overmap": "industrial_center_parking_lot_1_north" },
+      { "point": [ 1, 3, 0 ], "overmap": "industrial_center_south_access_north" },
+      { "point": [ 2, 3, 0 ], "overmap": "industrial_center_parking_lot_2_north" },
+      { "point": [ 3, 3, 0 ], "overmap": "industrial_center_admin_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "industrial_center_warehouse_roof_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "industrial_center_light_industry_roof_north" },
+      { "point": [ 2, 0, 1 ], "overmap": "industrial_center_pump_station_roof_north" },
+      { "point": [ 3, 0, 1 ], "overmap": "industrial_center_substation_roof_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "industrial_center_loading_bay_roof_north" },
+      { "point": [ 3, 1, 1 ], "overmap": "industrial_center_medical_center_roof_north" },
+      { "point": [ 3, 2, 1 ], "overmap": "industrial_center_data_center_roof_north" },
+      { "point": [ 3, 3, 1 ], "overmap": "industrial_center_admin_roof_north" },
+      { "point": [ 2, 0, -1 ], "overmap": "industrial_center_pump_station_basement_north" }
+    ],
+    "locations": [ "land" ],
+    "connections": [
+      { "point": [ 1, 4, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 3, 0 ] },
+      { "point": [ 2, -1, -1 ], "terrain": "sewer", "connection": "sewer_tunnel", "from": [ 2, 0, -1 ] }
+    ],
+    "city_distance": [ 4, 25 ],
+    "city_sizes": [ 3, -1 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "CLASSIC", "URBAN", "ELECTRIC_GRID" ]
   }
 ]
