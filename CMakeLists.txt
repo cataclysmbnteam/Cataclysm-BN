@@ -38,9 +38,6 @@ set(CATA_CHECK_CLANG_TIDY
 set(GIT_BINARY
     ""
     CACHE STRING "Git binary name or path.")
-set(PREFIX
-    ""
-    CACHE STRING "Location of Data & GFX directories")
 set(LINKER
     ""
     CACHE STRING "Custom Linker to use")
@@ -183,10 +180,6 @@ else ()
     endif ()
 endif ()
 
-if (PREFIX)
-    add_definitions(-DPREFIX=${PREFIX})
-endif ()
-
 # Can't compile curses and tiles build's at same time
 if (TILES)
     set(CURSES OFF)
@@ -214,8 +207,9 @@ else ()
     message(STATUS "PIXMAPS_UNITY_ENTRY_PATH      : ${PIXMAPS_UNITY_ENTRY_PATH}")
     message(STATUS "MANPAGE_ENTRY_PATH            : ${MANPAGE_ENTRY_PATH}\n")
     add_definitions(-DRELEASE)
-    # Use PREFIX as storage of data,gfx, etc.. Useful only on *nix OS.
-    if (PREFIX AND NOT WIN32)
+    # Use CMAKE_INSTALL_PREFIX as storage of data,gfx, etc.. Useful only on *nix OS.
+    if (CMAKE_INSTALL_PREFIX AND NOT WIN32)
+        add_definitions(-DPREFIX=${CMAKE_INSTALL_PREFIX})
         add_definitions(-DDATA_DIR_PREFIX)
     endif ()
 endif ()
