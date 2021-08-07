@@ -9,7 +9,8 @@ set(CATACLYSM_DATA_DIRS
     ${CMAKE_SOURCE_DIR}/data/raw
     ${CMAKE_SOURCE_DIR}/data/motd
     ${CMAKE_SOURCE_DIR}/data/credits
-    ${CMAKE_SOURCE_DIR}/data/title)
+    ${CMAKE_SOURCE_DIR}/data/title
+    ${CMAKE_SOURCE_DIR}/data/help)
 
 if (SOUND)
     set(CATACLYSM_DATA_DIRS ${CATACLYSM_DATA_DIRS} ${CMAKE_SOURCE_DIR}/data/sound)
