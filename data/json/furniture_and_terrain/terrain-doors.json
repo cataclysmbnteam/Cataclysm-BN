@@ -2146,6 +2146,30 @@
   },
   {
     "type": "terrain",
+    "id": "t_door_metal_locked_o",
+    "name": "open metal door",
+    "description": "A hanging metal gate. Typically used in conjunction with mechanical winch.  Probably shouldn't be underneath when it comes down.",
+    "symbol": "+",
+    "looks_like": "t_door_metal_lab_o",
+    "color": "cyan",
+    "move_cost": 1,
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "BURROWABLE" ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 250,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "scrap", "count": [ 12, 24 ] },
+        { "item": "steel_plate", "prob": 75 },
+        { "item": "hinge", "count": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_door_metal_pickable",
     "name": "closed metal door",
     "description": "An extremely resilient door made of assorted steel, carved and pounded into shape.  This one has an extra keyhole, so it's likely locked.  You could probably pick the lock.",
