@@ -5450,7 +5450,6 @@ bool mattack::kamikaze( monster *z )
 struct grenade_helper_struct {
     std::string message;
     int chance = 1;
-    float ammo_percentage = 1;
 };
 
 // Returns 0 if this should be retired, 1 if it was successful, and -1 if something went horribly wrong
@@ -5472,22 +5471,11 @@ static int grenade_helper( monster *const z, Creature *const target, const int d
         return 0;
     }
 
-    int total_ammo = 0;
-    // Sum up the ammo entries to get a ratio.
-    for( const auto &ammo_entry : z->type->starting_ammo ) {
-        total_ammo += ammo_entry.second;
-    }
-    if( total_ammo == 0 ) {
-        // Should never happen, but protect us from a div/0 if it does.
-        return -1;
-    }
-
-    // Find how much ammo we currently have to get the total ratio
+    // Find how much ammo we currently have
     int curr_ammo = 0;
-    for( const auto &amm : z->ammo ) {
+    for( const std::pair<const itype_id, int> &amm : z->ammo ) {
         curr_ammo += amm.second;
     }
-    float rat = curr_ammo / static_cast<float>( total_ammo );
 
     if( curr_ammo == 0 ) {
         // We've run out of ammo, get angry and toggle the special off.
@@ -5495,11 +5483,10 @@ static int grenade_helper( monster *const z, Creature *const target, const int d
         return -1;
     }
 
-    // Hey look! another weighted list!
-    // Grab all attacks that pass their chance check and we've spent enough ammo for
+    // Grab all attacks that pass their chance check
     weighted_float_list<std::string> possible_attacks;
-    for( const auto &amm : z->ammo ) {
-        if( amm.second > 0 && data[amm.first].ammo_percentage >= rat ) {
+    for( const std::pair<const itype_id, int> &amm : z->ammo ) {
+        if( amm.second > 0 ) {
             possible_attacks.add( amm.first, 1.0 / data[amm.first].chance );
         }
     }
@@ -5518,14 +5505,15 @@ static int grenade_helper( monster *const z, Creature *const target, const int d
     }
 
     // Get our monster type
-    auto bomb_type = item::find_type( att );
-    auto usage = bomb_type->get_use( "place_monster" );
+    const itype *bomb_type = item::find_type( att );
+    const use_function *usage = bomb_type->get_use( "place_monster" );
     if( usage == nullptr ) {
         // Invalid bomb item usage, Toggle this special off so we stop processing
         add_msg( m_debug, "Invalid bomb item usage in grenadier special for %s.", z->name() );
         return -1;
     }
-    auto *actor = dynamic_cast<const place_monster_iuse *>( usage->get_actor_ptr() );
+    const place_monster_iuse *actor = dynamic_cast<const place_monster_iuse *>
+                                      ( usage->get_actor_ptr() );
     if( actor == nullptr ) {
         // Invalid bomb item, Toggle this special off so we stop processing
         add_msg( m_debug, "Invalid bomb type in grenadier special for %s.", z->name() );
@@ -5585,12 +5573,10 @@ bool mattack::grenadier_elite( monster *const z )
     // C-4
     grenades["bot_c4_hack"].message = _( "The %s buzzes and deploys a C-4 hack!" );
     grenades["bot_c4_hack"].chance = 8;
-    grenades["bot_c4_hack"].ammo_percentage = .75;
     // Mininuke
     grenades["bot_mininuke_hack"].message =
         _( "A klaxon blares from %s as it deploys a mininuke hack!" );
     grenades["bot_mininuke_hack"].chance = 50;
-    grenades["bot_mininuke_hack"].ammo_percentage = .75;
 
     // Only can actively target the player right now. Once we have the ability to grab targets that we aren't
     // actively attacking change this to use that instead.
