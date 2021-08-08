@@ -14,7 +14,7 @@
     "ammo_type": "glass_shard",
     "flags": [ "HURT_WHEN_WIELDED", "TRADER_AVOID" ],
     "to_hit": -1,
-    "stack_size": 200
+    "stack_size": 1
   },
   {
     "type": "GENERIC",

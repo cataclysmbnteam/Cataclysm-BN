@@ -152,7 +152,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ], [ "metal", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
     "flags": [ "ARMOR", "OBSTACLE", "WHEEL", "NEEDS_JACKING", "STEERABLE" ],
     "wheel_type": "rigid",
@@ -183,7 +183,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "rubber_chunks", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "tire_repair", 1 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
     "damage_reduction": { "bash": 20 }
@@ -226,7 +226,7 @@
       "repair": {
         "skills": [ [ "mechanics", 5 ] ],
         "time": "20 m",
-        "using": [ [ "welding_standard", 5 ], [ "rubber_chunks", 1 ], [ "metal", 1 ] ]
+        "using": [ [ "welding_standard", 5 ], [ "tire_repair", 1 ], [ "steel_tiny", 1 ] ]
       }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_HEAVY" ],
@@ -253,7 +253,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "rubber_chunks", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "tire_repair", 1 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "STEERABLE", "FOLDABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ],
     "damage_reduction": { "bash": 10 }
@@ -283,7 +283,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "rubber_chunks", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "tire_repair", 1 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "FOLDABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ],
     "damage_reduction": { "bash": 6 }
@@ -359,7 +359,7 @@
     "broken_symbol": "x",
     "color": "dark_gray",
     "durability": 120,
-    "description": "A set of 10\" wheels with tough rubber_chunks tires.",
+    "description": "A set of 10\" wheels with tough rubber tires.",
     "folded_volume": 10,
     "breaks_into": [
       { "item": "steel_lump", "prob": 50 },
@@ -402,7 +402,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "rubber_chunks", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "tire_repair", 1 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_LIGHT" ],
     "damage_reduction": { "bash": 10 }
@@ -466,7 +466,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "rubber_chunks", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "tire_repair", 1 ] ] }
     },
     "flags": [ "WHEEL", "FOLDABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ]
   },
@@ -520,7 +520,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "rubber_chunks", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "tire_repair", 1 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "FOLDABLE", "STEERABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ],
     "damage_reduction": { "bash": 8 }
@@ -551,7 +551,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "rubber_chunks", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "tire_repair", 1 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "FOLDABLE", "STEERABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ],
     "damage_reduction": { "bash": 6 }
@@ -581,7 +581,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "rubber_chunks", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "tire_repair", 1 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
     "damage_reduction": { "bash": 25 }

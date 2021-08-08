@@ -191,13 +191,13 @@
     "components": [ [ [ "solar_cell", 5 ] ], [ [ "cable", 8 ] ], [ [ "power_supply", 1 ] ], [ [ "amplifier", 1 ] ] ]
   },
   {
-    "id": "rubber_chunks",
+    "id": "tire_repair",
     "type": "requirement",
     "//": "Materials used for repairing tires",
     "components": [ [ [ "chunk_rubber", 1 ] ] ]
   },
   {
-    "id": "metal",
+    "id": "steel_tiny",
     "type": "requirement",
     "//": "Materials used for repairing metal parts",
     "components": [ [ [ "steel_chunk", 1 ], [ "sheet_metal_small", 1 ] ] ]
