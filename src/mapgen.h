@@ -129,8 +129,7 @@ struct jmapgen_setmap {
 
 struct spawn_data {
     std::map<std::string, jmapgen_int> ammo;
-
-    spawn_data() : ammo() {};
+    std::vector<point> patrol_points_rel_ms;
 };
 
 /**

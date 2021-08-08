@@ -9,6 +9,7 @@
 #include "avatar.h"
 #include "character.h"
 #include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
@@ -963,6 +964,16 @@ bool monster::made_of( phase_id p ) const
 void monster::set_goal( const tripoint &p )
 {
     goal = p;
+}
+
+void monster::set_patrol_route( const std::vector<point> &patrol_pts_rel_ms )
+{
+    map &here = get_map();
+    tripoint base_abs_ms( real_coords( here.getabs( pos().xy() ) ).begin_om_pos(), posz() );
+    for( const point &patrol_pt : patrol_pts_rel_ms ) {
+        patrol_route_abs_ms.push_back( base_abs_ms + patrol_pt );
+    }
+    next_patrol_point = 0;
 }
 
 void monster::shift( const point &sm_shift )
