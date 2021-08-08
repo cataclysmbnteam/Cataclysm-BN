@@ -14,8 +14,7 @@
     "ammo_type": [ "22" ],
     "capacity": 200,
     "reload_time": 60,
-    "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 200 } } ]
+    "flags": [ "MAG_COMPACT" ]
   },
   {
     "id": "360_400_mag",
@@ -32,8 +31,7 @@
     "ammo_type": [ "22" ],
     "capacity": 400,
     "reload_time": 60,
-    "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 400 } } ]
+    "flags": [ "MAG_BULKY" ]
   },
   {
     "id": "8x40_speedloader5",
@@ -50,8 +48,7 @@
     "color": "dark_gray",
     "ammo_type": [ "8x40mm" ],
     "capacity": 5,
-    "flags": [ "SPEEDLOADER" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "8x40mm": 5 } } ]
+    "flags": [ "SPEEDLOADER" ]
   },
   {
     "id": "223_speedloader5",
@@ -67,8 +64,7 @@
     "color": "light_gray",
     "ammo_type": [ "223" ],
     "capacity": 5,
-    "flags": [ "SPEEDLOADER" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 5 } } ]
+    "flags": [ "SPEEDLOADER" ]
   },
   {
     "id": "lw223bigmag",
@@ -85,8 +81,7 @@
     "ammo_type": [ "223" ],
     "capacity": 56,
     "reload_time": 160,
-    "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 56 } } ]
+    "flags": [ "MAG_COMPACT" ]
   },
   {
     "id": "lw223mag",
@@ -103,8 +98,7 @@
     "ammo_type": [ "223" ],
     "capacity": 32,
     "reload_time": 120,
-    "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 32 } } ]
+    "flags": [ "MAG_COMPACT" ]
   },
   {
     "id": "460_speedloader6",
@@ -121,8 +115,7 @@
     "ammo_type": [ "460", "45" ],
     "capacity": 6,
     "reload_time": 140,
-    "flags": [ "SPEEDLOADER" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "460": 6, "45": 6 } } ]
+    "flags": [ "SPEEDLOADER" ]
   },
   {
     "id": "lw12mag",
@@ -139,8 +132,7 @@
     "ammo_type": [ "460", "45" ],
     "capacity": 12,
     "reload_time": 140,
-    "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "460": 12, "45": 12 } } ]
+    "flags": [ "MAG_COMPACT" ]
   },
   {
     "id": "9mm_speedloader7",
@@ -156,8 +148,7 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "capacity": 7,
-    "flags": [ "SPEEDLOADER" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 7 } } ]
+    "flags": [ "SPEEDLOADER" ]
   },
   {
     "id": "lw21mag",
@@ -174,7 +165,6 @@
     "ammo_type": [ "9mm" ],
     "capacity": 21,
     "reload_time": 140,
-    "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 21 } } ]
+    "flags": [ "MAG_COMPACT" ]
   }
 ]

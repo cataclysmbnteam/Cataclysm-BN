@@ -62,15 +62,6 @@
     "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
     "coverage": 95,
     "encumbrance": 40,
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "max_contains_volume": "4 L",
-        "max_contains_weight": "30 kg",
-        "moves": 200
-      }
-    ],
     "warmth": 50,
     "material_thickness": 8,
     "environmental_protection": 6,
@@ -120,15 +111,6 @@
     "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
     "coverage": 100,
     "encumbrance": 50,
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "max_contains_volume": "4 L",
-        "max_contains_weight": "30 kg",
-        "moves": 200
-      }
-    ],
     "warmth": 90,
     "power_armor": true,
     "material_thickness": 14,
@@ -170,15 +152,6 @@
     "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
     "coverage": 100,
     "encumbrance": 60,
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "max_contains_volume": "4 L",
-        "max_contains_weight": "30 kg",
-        "moves": 200
-      }
-    ],
     "warmth": 60,
     "power_armor": true,
     "material_thickness": 16,
@@ -298,15 +271,6 @@
     "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
     "coverage": 100,
     "encumbrance": 40,
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "max_contains_volume": "4 L",
-        "max_contains_weight": "30 kg",
-        "moves": 200
-      }
-    ],
     "warmth": 60,
     "power_armor": true,
     "material_thickness": 8,
