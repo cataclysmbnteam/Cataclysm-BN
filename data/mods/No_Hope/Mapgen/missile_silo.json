@@ -324,12 +324,7 @@
         "g": "t_generator_broken",
         "%": "t_machinery_electronic"
       },
-      "furniture": {
-        "a": "f_air_conditioner",
-        "5": "f_utility_shelf",
-        "6": "f_locker",
-        "4": "f_speaker_cabinet"
-      },
+      "furniture": { "a": "f_air_conditioner", "5": "f_utility_shelf", "6": "f_locker", "4": "f_speaker_cabinet" },
       "items": { "5": { "item": "radiation_meds", "chance": 60, "repeat": 2 }, "6": { "item": "radiation_equipment", "chance": 60 } },
       "place_graffiti": [
         {
@@ -491,12 +486,7 @@
         "x": "t_console_broken",
         "%": "t_machinery_electronic"
       },
-      "furniture": {
-        "1": "f_speaker_cabinet",
-        "4": "f_speaker_cabinet",
-        "a": "f_air_conditioner",
-        "c": "f_chair"
-      },
+      "furniture": { "1": "f_speaker_cabinet", "4": "f_speaker_cabinet", "a": "f_air_conditioner", "c": "f_chair" },
       "computers": {
         "6": {
           "name": "Missile Controls",

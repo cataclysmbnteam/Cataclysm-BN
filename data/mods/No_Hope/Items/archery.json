@@ -581,7 +581,7 @@
     "flags": [ "FIRE_TWOHAND", "STR_DRAW", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
     "skill": "archery",
     "min_strength": 10,
-	"longest_side": "183 cm",
+    "longest_side": "183 cm",
     "ammo": "arrow",
     "weight": "600 g",
     "volume": "3500 ml",
@@ -596,6 +596,6 @@
     "durability": 6,
     "clip_size": 1,
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
-	"pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   }
 ]

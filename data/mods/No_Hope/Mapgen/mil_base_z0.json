@@ -120,9 +120,7 @@
         ";": [ { "item": "mil_base_bodybag", "chance": 90, "repeat": [ 0, 1 ] } ],
         "%": [ { "item": "mil_base_ash", "chance": 25, "repeat": [ 1, 15 ] } ]
       },
-      "place_loot": [
-        { "group": "mil_base_hmg", "x": 67, "y": 57, "chance": 10, "magazine": 100 }
-      ],
+      "place_loot": [ { "group": "mil_base_hmg", "x": 67, "y": 57, "chance": 10, "magazine": 100 } ],
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE_SCORCHED", "x": [ 9, 23 ], "y": [ 4, 22 ], "repeat": [ 4, 5 ], "density": 0.1 },
         { "monster": "GROUP_ZOMBIE_SCORCHED", "x": [ 35, 47 ], "y": [ 4, 15 ], "repeat": [ 4, 5 ], "density": 0.1 },
@@ -1099,7 +1097,7 @@
         "W": [ { "item": "mil_base_iv", "chance": 70 } ],
         "^": [ { "item": "mil_base_iv", "chance": 70 } ]
       },
-	  "gaspumps": { "p": { "fuel": "diesel", "amount": [ 800, 4000 ] } },
+      "gaspumps": { "p": { "fuel": "diesel", "amount": [ 800, 4000 ] } },
       "place_loot": [
         { "group": "mil_base_hmg", "x": 65, "y": 46, "chance": 10, "magazine": 100 },
         { "group": "SUS_janitors_closet", "x": 22, "y": 26, "chance": 90, "repeat": [ 1, 2 ] },

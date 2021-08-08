@@ -158,7 +158,7 @@
         "Y": "t_linoleum_white",
         "?": "t_console_broken"
       },
-      "furniture": { 
+      "furniture": {
         "L": "f_table",
         "H": "f_table",
         "G": "f_table",
@@ -722,14 +722,7 @@
         "bb C"
       ],
       "terrain": { " ": "t_floor", "?": "t_console_broken" },
-      "furniture": {
-        "A": "f_stool",
-        "B": "f_workbench",
-        "C": "f_rack_wood",
-        "d": "f_mannequin",
-        "e": "f_mannequin",
-        "b": "f_bench"
-      },
+      "furniture": { "A": "f_stool", "B": "f_workbench", "C": "f_rack_wood", "d": "f_mannequin", "e": "f_mannequin", "b": "f_bench" },
       "items": {
         "C": [ { "item": "SUS_tailoring_materials", "chance": 30, "repeat": [ 1, 2 ] } ],
         "d": [ { "item": "SUS_mannequin_formal_mens", "chance": 30 } ],
@@ -851,14 +844,7 @@
         "BB C"
       ],
       "terrain": { " ": "t_floor", "?": "t_console_broken" },
-      "furniture": {
-        "A": "f_stool",
-        "B": "f_workbench",
-        "C": "f_rack_wood",
-        "d": "f_mannequin",
-        "e": "f_mannequin",
-        "b": "f_bench"
-      },
+      "furniture": { "A": "f_stool", "B": "f_workbench", "C": "f_rack_wood", "d": "f_mannequin", "e": "f_mannequin", "b": "f_bench" },
       "items": {
         "C": [
           { "item": "SUS_tailoring_materials", "chance": 10, "repeat": [ 1, 2 ] },
@@ -982,14 +968,7 @@
         "BB C"
       ],
       "terrain": { " ": "t_floor", "?": "t_console_broken" },
-      "furniture": {
-        "A": "f_stool",
-        "B": "f_workbench",
-        "C": "f_rack_wood",
-        "d": "f_mannequin",
-        "e": "f_mannequin",
-        "b": "f_bench"
-      },
+      "furniture": { "A": "f_stool", "B": "f_workbench", "C": "f_rack_wood", "d": "f_mannequin", "e": "f_mannequin", "b": "f_bench" },
       "items": {
         "C": [
           { "item": "SUS_tailoring_materials", "chance": 10, "repeat": [ 1, 2 ] },

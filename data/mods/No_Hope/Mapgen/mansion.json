@@ -1737,12 +1737,7 @@
         "j": "t_linoleum_gray",
         ")": "t_door_glass_c"
       },
-      "furniture": {
-        "Ŧ": [ "f_treadmill" ],
-        "&": "f_exercise",
-        "?": "f_locker",
-        "‡": [ "f_ergometer" ]
-      },
+      "furniture": { "Ŧ": [ "f_treadmill" ], "&": "f_exercise", "?": "f_locker", "‡": [ "f_ergometer" ] },
       "place_nested": [ { "chunks": [ [ "5x5_sauna_W", 100 ] ], "x": 18, "y": 14 } ],
       "items": {
         "i": { "item": "clutter_gym", "chance": 30 },
@@ -2199,12 +2194,7 @@
       ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
       "terrain": { "-": "t_carpet_red", "e": "t_carpet_red", "=": "t_linoleum_gray", "Y": "t_linoleum_gray" },
-      "furniture": {
-        "Ŧ": [ "f_treadmill" ],
-        "&": "f_exercise",
-        "‡": [ "f_ergometer" ],
-        ")": "f_speaker_cabinet"
-      },
+      "furniture": { "Ŧ": [ "f_treadmill" ], "&": "f_exercise", "‡": [ "f_ergometer" ], ")": "f_speaker_cabinet" },
       "place_loot": [ { "item": "stereo", "x": 8, "y": 14, "chance": 50 }, { "item": "television", "x": 9, "y": 14, "chance": 50 } ],
       "items": {
         ".": { "item": "clutter_yard" },

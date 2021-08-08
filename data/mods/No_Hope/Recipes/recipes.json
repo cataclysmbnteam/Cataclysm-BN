@@ -763,10 +763,7 @@
     "autolearn": true,
     "book_learn": [ [ "manual_tailor", 2 ], [ "textbook_tailor", 2 ] ],
     "using": [ [ "sewing_standard", 18 ] ],
-    "components": [
-      [ [ "bone", 18 ], [ "bone_human", 18 ], [ "bone_tainted", 36 ] ],
-      [ [ "leather", 6 ], [ "fur", 6 ] ]
-    ]
+    "components": [ [ [ "bone", 18 ], [ "bone_human", 18 ], [ "bone_tainted", 36 ] ], [ [ "leather", 6 ], [ "fur", 6 ] ] ]
   },
   {
     "result": "gauntlets_bone",
@@ -779,10 +776,7 @@
     "autolearn": true,
     "book_learn": [ [ "manual_tailor", 2 ], [ "textbook_tailor", 2 ] ],
     "using": [ [ "sewing_standard", 12 ], [ "cordage", 1 ] ],
-    "components": [
-      [ [ "bone", 12 ], [ "bone_human", 12 ], [ "bone_tainted", 24 ] ],
-      [ [ "leather", 2 ] ]
-    ]
+    "components": [ [ [ "bone", 12 ], [ "bone_human", 12 ], [ "bone_tainted", 24 ] ], [ [ "leather", 2 ] ] ]
   },
   {
     "result": "helmet_bone",

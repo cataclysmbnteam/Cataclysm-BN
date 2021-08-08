@@ -108,9 +108,7 @@
         "+": "t_door_c",
         "x": [ "t_machinery_light", "t_machinery_heavy", "t_machinery_old", "t_machinery_electronic" ]
       },
-      "furniture": {
-        "S": "f_filing_cabinet"
-      },
+      "furniture": { "S": "f_filing_cabinet" },
       "items": { "t": { "item": "office_paper", "chance": 25, "repeat": [ 2, 4 ] } },
       "place_nested": [
         {

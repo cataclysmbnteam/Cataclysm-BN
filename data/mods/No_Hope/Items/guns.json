@@ -103,7 +103,7 @@
     "min_cycle_recoil": 540,
     "relative": { "durability": -1 },
     "built_in_mods": [ "lead_holo_sight", "muzzle_brake", "lead_laser_sight" ],
-	"pocket_data": [
+    "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
@@ -215,7 +215,7 @@
     "description": "After the Enforcer's success, Leadworks LLC reworked their autorevolver design to cater to the 9x19mm market.  The Lookout takes advantage of the smaller 9x19mm to hold a seventh round, without sacrificing the ease of handling or reloading the Enforcer made legendary.  Comes with built in holographic and laser sights.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "ammo": [ "9mm" ],
     "clip_size": 7,
-	"pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "9mm": 7 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "9mm": 7 } } ]
   },
   {
     "id": "l_mp_9mm",
@@ -295,7 +295,7 @@
     "blackpowder_tolerance": 32,
     "loudness": 30,
     "clip_size": 5,
-	"pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "223": 5 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "223": 5 } } ],
     "built_in_mods": [ "lead_holo_sight", "lead_laser_sight" ],
     "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ] ]
   },
@@ -387,7 +387,7 @@
     "durability": 9,
     "modes": [ [ "DEFAULT", "low auto", 3 ], [ "AUTO", "high auto", 14 ] ],
     "relative": { "weight": 2000, "volume": 7, "dispersion": 50 },
-	"pocket_data": [
+    "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
@@ -464,7 +464,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-	"pocket_data": [
+    "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
@@ -745,7 +745,7 @@
     "type": "GUN",
     "symbol": "(",
     "color": "green",
-	"name": { "str_sp": "Tankbot Main Gun" },
+    "name": { "str_sp": "Tankbot Main Gun" },
     "description": "The 120mm cannon from a tankbot.  If you have this, you'd best be debugging!",
     "price": 99999999,
     "material": "steel",

@@ -410,10 +410,7 @@
       { "item": "webbing_belt", "prob": 50 },
       { "distribution": [ { "item": "socks", "prob": 10 }, { "item": "socks_wool", "prob": 90 } ] },
       { "item": "boots_combat", "prob": 70 },
-      {
-        "collection": [ { "distribution": [ { "item": "balclava", "prob": 90 } ] } ],
-        "prob": 25
-      },
+      { "collection": [ { "distribution": [ { "item": "balclava", "prob": 90 } ] } ], "prob": 25 },
       {
         "distribution": [
           { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
@@ -425,30 +422,21 @@
   {
     "type": "item_group",
     "id": "survivorzed_suits",
-    "items": [
-      [ "armor_bone", 12 ]
-    ]
+    "items": [ [ "armor_bone", 12 ] ]
   },
   {
     "type": "item_group",
     "id": "survivorzed_gloves",
-    "items": [
-      [ "gauntlets_bone", 12 ],
-      [ "armguard_bone", 6 ]
-    ]
+    "items": [ [ "gauntlets_bone", 12 ], [ "armguard_bone", 6 ] ]
   },
   {
     "type": "item_group",
     "id": "survivorzed_boots",
-    "items": [
-      [ "boots_bone", 22 ]
-    ]
+    "items": [ [ "boots_bone", 22 ] ]
   },
   {
     "type": "item_group",
     "id": "survivorzed_head",
-    "items": [
-      [ "helmet_bone", 22 ]
-    ]
+    "items": [ [ "helmet_bone", 22 ] ]
   }
 ]
