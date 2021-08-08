@@ -556,7 +556,7 @@ class monster : public Creature
         /** patrol points for monsters that can pathfind and have a patrol route! **/
         std::vector<tripoint> patrol_route_abs_ms;
         int next_patrol_point = -1;
-        
+
         std::bitset<NUM_MEFF> effect_cache;
         cata::optional<time_duration> summon_time_limit = cata::nullopt;
 
