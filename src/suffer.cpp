@@ -320,7 +320,7 @@ void Character::suffer_while_awake( const int current_stim )
     if( has_trait( trait_JITTERY ) && !has_effect( effect_shakes ) ) {
         if( current_stim > 50 && one_in( to_turns<int>( 30_minutes ) - ( current_stim * 6 ) ) ) {
             add_effect( effect_shakes, 30_minutes + 1_turns * current_stim );
-        } else if( ( get_hunger() > 80 || get_kcal_percent() < 1.0f ) && get_hunger() > 0 &&
+        } else if( (static_cast<float>(max_stored_calories()-get_stored_kcal()))/bmr() > 1.0f && get_hunger() > 0 &&
                    one_in( to_turns<int>( 50_minutes ) - ( get_hunger() * 6 ) ) ) {
             add_effect( effect_shakes, 40_minutes );
         }
