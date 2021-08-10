@@ -622,5 +622,11 @@
     "id": "300blk",
     "name": ".300 AAC Blackout",
     "default": "300blk"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "glass_shard",
+    "name": "glass shards",
+    "default": "glass_shard"
   }
 ]
