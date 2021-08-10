@@ -152,7 +152,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ], [ "steel_big", 1 ] ] }
     },
     "flags": [ "ARMOR", "OBSTACLE", "WHEEL", "NEEDS_JACKING", "STEERABLE" ],
     "wheel_type": "rigid",
@@ -226,7 +226,7 @@
       "repair": {
         "skills": [ [ "mechanics", 5 ] ],
         "time": "20 m",
-        "using": [ [ "welding_standard", 5 ], [ "tire_repair", 1 ], [ "steel_tiny", 1 ] ]
+        "using": [ [ "welding_standard", 5 ], [ "tire_repair", 1 ], [ "steel_big", 1 ] ]
       }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_HEAVY" ],
