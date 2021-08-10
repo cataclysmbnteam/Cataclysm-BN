@@ -195,11 +195,5 @@
     "type": "requirement",
     "//": "Materials used for repairing tires",
     "components": [ [ [ "chunk_rubber", 1 ] ] ]
-  },
-  {
-    "id": "steel_big",
-    "type": "requirement",
-    "//": "Materials for use when forging and repairing biger items from steel",
-    "components": [ [ [ "steel_chunk", 1 ], [ "sheet_metal_small", 1 ] ] ]
   }
 ]
