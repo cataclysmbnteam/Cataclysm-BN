@@ -580,7 +580,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
     // check ammo is valid for the item
     const itype *atype = item_controller->find_template( ammo );
     if( !atype->ammo || !ammo_types().count( atype->ammo->type ) ) {
-        debugmsg( "Tried to set invalid ammo of %s for %s", atype->nname( qty ), tname() );
+        debugmsg( "Tried to set invalid ammo %s[%d] for %s", atype->get_id(), qty, typeId() );
         return *this;
     }
 
@@ -601,8 +601,8 @@ item &item::ammo_set( const itype_id &ammo, int qty )
         if( !magazine_current() ) {
             const itype *mag = find_type( magazine_default() );
             if( !mag->magazine ) {
-                debugmsg( "Tried to set ammo of %s without suitable magazine for %s",
-                          atype->nname( qty ), tname() );
+                debugmsg( "Tried to set ammo %s[%d] without suitable magazine for %s",
+                          atype->get_id(), qty, typeId() );
                 return *this;
             }
 
@@ -612,7 +612,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
                 auto iter = type->magazines.find( atype->ammo->type );
                 if( iter == type->magazines.end() ) {
                     debugmsg( "%s doesn't have a magazine for %s",
-                              tname(), ammo );
+                              typeId(), ammo );
                     return *this;
                 }
                 std::vector<itype_id> opts( iter->second.begin(), iter->second.end() );
