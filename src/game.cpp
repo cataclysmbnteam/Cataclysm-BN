@@ -4504,7 +4504,8 @@ void game::overmap_npc_move()
             if( elem->omt_path.empty() ) {
                 const tripoint_abs_omt &from = elem->global_omt_location();
                 const tripoint_abs_omt &to = elem->goal;
-                elem->omt_path = overmap_buffer.get_npc_path( elem->global_omt_location(), elem->goal );
+                elem->omt_path = overmap_buffer.get_travel_path( elem->global_omt_location(), elem->goal,
+                                 overmap_path_params::for_npc() );
                 if( elem->omt_path.empty() ) {
                     add_msg( m_debug, "%s couldn't find overmap path from %s to %s",
                              elem->get_name(), from.to_string(), to.to_string() );
