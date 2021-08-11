@@ -135,6 +135,7 @@ static const std::string flag_INEDIBLE( "INEDIBLE" );
 static const std::string flag_LUPINE( "LUPINE" );
 static const std::string flag_MYCUS_OK( "MYCUS_OK" );
 static const std::string flag_NEGATIVE_MONOTONY_OK( "NEGATIVE_MONOTONY_OK" );
+static const std::string flag_NO_BLOAT( "NO_BLOAT" );
 static const std::string flag_NO_PARASITES( "NO_PARASITES" );
 static const std::string flag_NO_RELOAD( "NO_RELOAD" );
 static const std::string flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
@@ -774,7 +775,8 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
                          edible_rating::nausea );
     }
 
-    if( ( food_kcal > 0 || comest->quench > 0 ) && has_effect( effect_bloated ) ) {
+    if( ( food_kcal > 0 || comest->quench > 0 ) && has_effect( effect_bloated )
+        && !food.has_flag( flag_NO_BLOAT ) ) {
         add_consequence( _( "You're full and will vomit if you try to consume anything." ),
                          edible_rating::bloated );
     }
@@ -842,7 +844,8 @@ bool player::eat( item &food, bool force )
     }
 
     if( has_effect( effect_bloated ) &&
-        ( compute_effective_nutrients( food ).kcal > 0 || food.get_comestible()->quench > 0 ) ) {
+        ( compute_effective_nutrients( food ).kcal > 0 || food.get_comestible()->quench > 0 ) &&
+        !food.has_flag( flag_NO_BLOAT ) ) {
         add_msg_if_player( _( "You force yourself to vomit to make space for %s." ), food.tname() );
         vomit();
     }
@@ -1244,7 +1247,7 @@ bool Character::consume_effects( item &food )
     stomach.ingest( ingested );
     mod_thirst( -contained_food.type->comestible->quench );
 
-    if( excess_kcal > 0 || excess_quench > 0 ) {
+    if( ( excess_kcal > 0 || excess_quench > 0 ) && !food.has_flag( flag_NO_BLOAT ) ) {
         add_effect( effect_bloated, 5_minutes );
     }
 

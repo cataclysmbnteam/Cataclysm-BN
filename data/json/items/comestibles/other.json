@@ -104,7 +104,7 @@
     "material": "fruit",
     "volume": "250 ml",
     "stack_size": 4,
-    "flags": [ "MYCUS_OK" ],
+    "flags": [ "MYCUS_OK", "NO_BLOAT" ],
     "fun": 30
   },
   {
@@ -147,7 +147,7 @@
     "material": "fruit",
     "volume": "250 ml",
     "stack_size": 4,
-    "flags": [ "MYCUS_OK" ],
+    "flags": [ "MYCUS_OK", "NO_BLOAT" ],
     "fun": 30
   },
   {
