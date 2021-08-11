@@ -132,6 +132,9 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     assign( jo, "result_mult", result_mult );
 
     assign( jo, "skill_used", skill_used, strict );
+    if( difficulty != 0 && !skill_used ) {
+        jo.throw_error( "non-zero difficulty, but no skill_used set", "difficulty" );
+    }
 
     if( jo.has_member( "skills_required" ) ) {
         auto sk = jo.get_array( "skills_required" );
