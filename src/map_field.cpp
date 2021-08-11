@@ -519,9 +519,11 @@ void map::process_fields_in_submap( submap *const current_submap,
                     time_duration time_added = 0_turns;
                     // Checks if the fire can spread
                     const bool can_spread = !ter_furn_has_flag( ter, frn, TFLAG_FIRE_CONTAINER );
+                    const bool no_floor = ter.has_flag( TFLAG_NO_FLOOR );
                     // If the flames are in furniture with fire_container flag like brazier or oven,
                     // they're fully contained, so skip consuming terrain
-                    const bool can_burn = can_spread && ( check_flammable( ter ) || check_flammable( frn ) );
+                    const bool can_burn = !no_floor && can_spread &&
+                                          ( check_flammable( ter ) || check_flammable( frn ) );
                     // The huge indent below should probably be somehow moved away from here
                     // without forcing the function to use i_at( p ) for fires without items
                     if( !is_sealed && map_tile.get_item_count() > 0 ) {
@@ -631,34 +633,36 @@ void map::process_fields_in_submap( submap *const current_submap,
                                 add_item_or_charges( p, item( "ash" ) );
                             }
 
-                        } else if( ter.has_flag( TFLAG_NO_FLOOR ) && zlevels && p.z > -OVERMAP_DEPTH ) {
-                            // We're hanging in the air - let's fall down
-                            tripoint dst{ p.xy(), p.z - 1 };
-                            if( valid_move( p, dst, true, true ) ) {
-                                maptile dst_tile = maptile_at_internal( dst );
-                                field_entry *fire_there = dst_tile.find_field( fd_fire );
-                                if( fire_there == nullptr ) {
-                                    add_field( dst, fd_fire, 1, 0_turns, false );
-                                    cur.set_field_intensity( cur.get_field_intensity() - 1 );
-                                } else {
-                                    // Don't fuel raging fires or they'll burn forever
-                                    // as they can produce small fires above themselves
-                                    int new_intensity = std::max( cur.get_field_intensity(),
-                                                                  fire_there->get_field_intensity() );
-                                    // Allow smaller fires to combine
-                                    if( new_intensity < 3 &&
-                                        cur.get_field_intensity() == fire_there->get_field_intensity() ) {
-                                        new_intensity++;
-                                    }
-                                    // A raging fire below us can support us for a while
-                                    // Otherwise decay and decay fast
-                                    if( fire_there->get_field_intensity() < 3 || one_in( 10 ) ) {
-                                        cur.set_field_intensity( cur.get_field_intensity() - 1 );
-                                    }
-                                    fire_there->set_field_intensity( new_intensity );
+                        }
+                    }
+
+                    if( ter.has_flag( TFLAG_NO_FLOOR ) && zlevels && p.z > -OVERMAP_DEPTH ) {
+                        // We're hanging in the air - let's fall down
+                        tripoint dst{ p.xy(), p.z - 1 };
+                        if( valid_move( p, dst, true, true ) ) {
+                            maptile dst_tile = maptile_at_internal( dst );
+                            field_entry *fire_there = dst_tile.find_field( fd_fire );
+                            if( fire_there == nullptr ) {
+                                add_field( dst, fd_fire, 1, 0_turns, false );
+                                cur.set_field_intensity( cur.get_field_intensity() - 1 );
+                            } else {
+                                // Don't fuel raging fires or they'll burn forever
+                                // as they can produce small fires above themselves
+                                int new_intensity = std::max( cur.get_field_intensity(),
+                                                              fire_there->get_field_intensity() );
+                                // Allow smaller fires to combine
+                                if( new_intensity < 3 &&
+                                    cur.get_field_intensity() == fire_there->get_field_intensity() ) {
+                                    new_intensity++;
                                 }
-                                break;
+                                // A raging fire below us can support us for a while
+                                // Otherwise decay and decay fast
+                                if( fire_there->get_field_intensity() < 3 || one_in( 10 ) ) {
+                                    cur.set_field_intensity( cur.get_field_intensity() - 1 );
+                                }
+                                fire_there->set_field_intensity( new_intensity );
                             }
+                            break;
                         }
                     }
                     // Lower age is a longer lasting fire
