@@ -190,7 +190,11 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     if( jo.has_member( "book_learn" ) ) {
         booksets.clear();
         for( JsonArray arr : jo.get_array( "book_learn" ) ) {
-            booksets.emplace( arr.get_string( 0 ), arr.size() > 1 ? arr.get_int( 1 ) : -1 );
+            int booklearn_difficulty = arr.size() > 1 ? arr.get_int( 1 ) : -1;
+            booksets.emplace( arr.get_string( 0 ), booklearn_difficulty );
+            if( booklearn_difficulty > 0 && !skill_used ) {
+                arr.throw_error( "book_learn with >0 skill requirement, but no skill_used set", 1 );
+            }
         }
     }
 
