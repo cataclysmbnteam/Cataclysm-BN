@@ -503,7 +503,7 @@ void Character::mod_stat( const std::string &stat, float modifier )
     } else if( stat == "kcal" ) {
         mod_stored_kcal( modifier );
     } else if( stat == "hunger" ) {
-        mod_stored_kcal( -8 * modifier );
+        mod_stored_kcal( -10 * modifier );
     } else {
         Creature::mod_stat( stat, modifier );
     }
