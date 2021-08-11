@@ -993,27 +993,29 @@ bool avatar_action::eat_here( avatar &you )
 {
     if( ( you.has_active_mutation( trait_RUMINANT ) || you.has_active_mutation( trait_GRAZER ) ) &&
         ( g->m.ter( you.pos() ) == t_underbrush || g->m.ter( you.pos() ) == t_shrub ) ) {
-        if( you.get_hunger() < 20 ) {
+        item food( "underbrush", calendar::turn, 1 );
+        if( you.get_stored_kcal() > you.max_stored_calories() -
+            food.get_comestible()->default_nutrition.kcal ) {
             add_msg( _( "You're too full to eat the leaves from the %s." ), g->m.ter( you.pos() )->name() );
             return true;
         } else {
             you.moves -= 400;
             g->m.ter_set( you.pos(), t_grass );
             add_msg( _( "You eat the underbrush." ) );
-            item food( "underbrush", calendar::turn, 1 );
             you.eat( food );
             return true;
         }
     }
     if( you.has_active_mutation( trait_GRAZER ) && ( g->m.ter( you.pos() ) == t_grass ||
             g->m.ter( you.pos() ) == t_grass_long || g->m.ter( you.pos() ) == t_grass_tall ) ) {
-        if( you.get_hunger() < 8 ) {
+        item food( item( "grass", calendar::turn, 1 ) );
+        if( you.get_stored_kcal() > you.max_stored_calories() -
+            food.get_comestible()->default_nutrition.kcal ) {
             add_msg( _( "You're too full to graze." ) );
             return true;
         } else {
             you.moves -= 400;
             add_msg( _( "You eat the grass." ) );
-            item food( item( "grass", calendar::turn, 1 ) );
             you.eat( food );
             if( g->m.ter( you.pos() ) == t_grass_tall ) {
                 g->m.ter_set( you.pos(), t_grass_long );

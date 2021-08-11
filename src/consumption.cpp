@@ -599,28 +599,9 @@ float Character::metabolic_rate_base() const
     return std::max( 0.0f, with_mut + ench_bonus );
 }
 
-// TODO: Make this less chaotic to let NPC retroactive catch up work here
-// TODO: Involve body heat (cold -> higher metabolism, unless cold-blooded)
-// TODO: Involve stamina (maybe not here?)
 float Character::metabolic_rate() const
 {
-    // First value is effective hunger, second is nutrition multiplier
-    // Note: Values do not match hungry/v.hungry/famished/starving,
-    // because effective hunger is affected by speed (which drops when hungry)
-    static const std::vector<std::pair<float, float>> thresholds = {{
-            { 300.0f, 1.0f },
-            { 2000.0f, 0.8f },
-            { 5000.0f, 0.6f },
-            { 8000.0f, 0.5f }
-        }
-    };
-
-    // Penalize fast survivors
-    // TODO: Have cold temperature increase, not decrease, metabolism
-    const float effective_hunger = get_hunger() * 100.0f / std::max( 50, get_speed() );
-    const float modifier = multi_lerp( thresholds, effective_hunger );
-
-    return modifier * metabolic_rate_base();
+    return metabolic_rate_base();
 }
 
 morale_type Character::allergy_type( const item &food ) const
@@ -1221,7 +1202,7 @@ bool Character::consume_effects( item &food )
                 slime->friendly = -1;
             }
         }
-        mod_hunger( 40 );
+        mod_stored_kcal( -400 );
         mod_thirst( 40 );
         //~ slimespawns have *small voices* which may be the Nice equivalent
         //~ of the Rat King's ALL CAPS invective.  Probably shared-brain telepathy.

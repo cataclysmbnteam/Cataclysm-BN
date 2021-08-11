@@ -320,8 +320,8 @@ void Character::suffer_while_awake( const int current_stim )
     if( has_trait( trait_JITTERY ) && !has_effect( effect_shakes ) ) {
         if( current_stim > 50 && one_in( to_turns<int>( 30_minutes ) - ( current_stim * 6 ) ) ) {
             add_effect( effect_shakes, 30_minutes + 1_turns * current_stim );
-        } else if( ( get_hunger() > 80 || get_kcal_percent() < 1.0f ) && get_hunger() > 0 &&
-                   one_in( to_turns<int>( 50_minutes ) - ( get_hunger() * 6 ) ) ) {
+        } else if( ( get_kcal_percent() < 0.95f ) &&
+                   one_turn_in( 60_minutes - 1_seconds * ( max_stored_calories() - get_stored_kcal() ) ) ) {
             add_effect( effect_shakes, 40_minutes );
         }
     }
@@ -383,7 +383,7 @@ void Character::suffer_from_chemimbalance()
         } else {
             add_msg_if_player( m_good, _( "You suddenly feel a little full." ) );
         }
-        mod_hunger( hungadd );
+        mod_stored_kcal( -10 * hungadd );
     }
     if( one_turn_in( 6_hours ) ) {
         add_msg_if_player( m_bad, _( "You suddenly feel thirsty." ) );
@@ -734,9 +734,7 @@ void Character::suffer_in_sunlight()
     }
 
     if( x_in_y( sunlight_nutrition, 12000 ) ) {
-        mod_hunger( -1 );
-        // photosynthesis absorbs kcal directly
-        mod_stored_nutr( -1 );
+        mod_stored_kcal( 10 );
         stomach.ate();
     }
 
@@ -1590,7 +1588,7 @@ void Character::mend( int rate_multiplier )
     // Very hungry starts lowering the chance
     // square rooting the value makes the numbers drop off faster when below 1
     healing_factor *= std::sqrt( static_cast<float>( get_stored_kcal() ) / static_cast<float>
-                                 ( get_healthy_kcal() ) );
+                                 ( max_stored_calories() ) );
     // Similar for thirst - starts at very thirsty, drops to 0 at parched
     healing_factor *= 1.0f - clamp( 1.0f * ( get_thirst() - thirst_levels::very_thirsty ) /
                                     +thirst_levels::parched, 0.0f, 1.0f );

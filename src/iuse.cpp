@@ -426,7 +426,7 @@ static int alcohol( player &p, const item &it, const int strength )
                    36_seconds, 1_minutes, 1_minutes ) * p.str_max );
         // Metabolizing the booze improves the nutritional value;
         // might not be healthy, and still causes Thirst problems, though
-        p.mod_hunger( -( std::abs( it.get_comestible() ? it.type->comestible->stim : 0 ) ) );
+        p.mod_stored_kcal( 10 * ( std::abs( it.get_comestible() ? it.type->comestible->stim : 0 ) ) );
         // Metabolizing it cancels out the depressant
         p.mod_stim( std::abs( it.get_comestible() ? it.get_comestible()->stim : 0 ) );
     } else if( p.has_trait( trait_TOLERANCE ) ) {
@@ -479,7 +479,7 @@ int iuse::smoking( player *p, item *it, bool, const tripoint & )
     if( it->typeId() == "cig" ) {
         cig = item( "cig_lit", calendar::turn );
         cig.item_counter = to_turns<int>( 4_minutes );
-        p->mod_hunger( -3 );
+        p->mod_stored_kcal( 30 );
         p->mod_thirst( 2 );
     } else if( it->typeId() == "handrolled_cig" ) {
         // This transforms the hand-rolled into a normal cig, which isn't exactly
@@ -487,16 +487,16 @@ int iuse::smoking( player *p, item *it, bool, const tripoint & )
         cig = item( "cig_lit", calendar::turn );
         cig.item_counter = to_turns<int>( 4_minutes );
         p->mod_thirst( 2 );
-        p->mod_hunger( -3 );
+        p->mod_stored_kcal( 30 );
     } else if( it->typeId() == "cigar" ) {
         cig = item( "cigar_lit", calendar::turn );
         cig.item_counter = to_turns<int>( 12_minutes );
         p->mod_thirst( 3 );
-        p->mod_hunger( -4 );
+        p->mod_stored_kcal( 40 );
     } else if( it->typeId() == "joint" ) {
         cig = item( "joint_lit", calendar::turn );
         cig.item_counter = to_turns<int>( 4_minutes );
-        p->mod_hunger( 4 );
+        p->mod_stored_kcal( -40 );
         p->mod_thirst( 6 );
         if( p->get_painkiller() < 5 ) {
             p->set_painkiller( ( p->get_painkiller() + 3 ) * 2 );
@@ -546,7 +546,7 @@ int iuse::ecig( player *p, item *it, bool, const tripoint & )
     }
 
     p->mod_thirst( 1 );
-    p->mod_hunger( -1 );
+    p->mod_stored_kcal( 10 );
     p->add_effect( effect_cig, 10_minutes );
     if( p->get_effect_dur( effect_cig ) > 10_minutes * ( p->addiction_level(
                 add_type::CIG ) + 1 ) ) {
@@ -746,7 +746,7 @@ int iuse::weed_cake( player *p, item *it, bool, const tripoint & )
     if( p->has_trait( trait_LIGHTWEIGHT ) ) {
         duration = 15_minutes;
     }
-    p->mod_hunger( 2 );
+    p->mod_stored_kcal( -20 );
     p->mod_thirst( 6 );
     if( p->get_painkiller() < 5 ) {
         p->set_painkiller( ( p->get_painkiller() + 3 ) * 2 );
@@ -770,7 +770,7 @@ int iuse::coke( player *p, item *it, bool, const tripoint & )
     if( p->has_trait( trait_LIGHTWEIGHT ) ) {
         duration += 2_minutes;
     }
-    p->mod_hunger( -8 );
+    p->mod_stored_kcal( 100 );
     p->add_effect( effect_high, duration );
     return it->type->charges_to_use();
 }
@@ -805,7 +805,7 @@ int iuse::meth( player *p, item *it, bool, const tripoint & )
         /** @EFFECT_STR_MAX >4 experiences less hunger benefit from meth */
         int hungerpen = ( p->str_max < 5 ? 35 : 40 - ( 2 * p->str_max ) );
         if( hungerpen > 0 ) {
-            p->mod_hunger( -hungerpen );
+            p->mod_stored_kcal( 10 * hungerpen );
         }
         p->add_effect( effect_meth, duration );
     }
@@ -1008,7 +1008,7 @@ int iuse::blech( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_bad, _( "Blech, that tastes gross!" ) );
         //reverse the harmful values of drinking this acid.
         double multiplier = -1;
-        p->mod_hunger( -p->nutrition_for( *it ) * multiplier );
+        p->mod_stored_kcal( 10 * p->nutrition_for( *it ) * multiplier );
         p->mod_thirst( -it->get_comestible()->quench * multiplier + 20 );
         p->mod_healthy_mod( it->get_comestible()->healthy * multiplier,
                             it->get_comestible()->healthy * multiplier );
@@ -1052,7 +1052,7 @@ int iuse::plantblech( player *p, item *it, bool, const tripoint &pos )
         }
 
         //reverses the harmful values of drinking fertilizer
-        p->mod_hunger( p->nutrition_for( *it ) * multiplier );
+        p->mod_stored_kcal( -10 * p->nutrition_for( *it ) * multiplier );
         p->mod_thirst( -it->get_comestible()->quench * multiplier );
         p->mod_healthy_mod( it->get_comestible()->healthy * multiplier,
                             it->get_comestible()->healthy * multiplier );
@@ -1242,7 +1242,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
             }
         }
 
-        p.set_hunger( -10 );
+        p.set_stored_kcal( p.max_stored_calories() );
         spawn_spores( p );
         return;
     }
@@ -1281,7 +1281,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
         }
     } else if( effect == 7 ) {
         p.add_msg_if_player( m_good, _( "It is delicious, and very filling!" ) );
-        p.set_hunger( 0 );
+        p.set_stored_kcal( p.max_stored_calories() );
     } else if( effect == 8 ) {
         p.add_msg_if_player( m_bad, _( "You take one bite, and immediately vomit!" ) );
         p.vomit();

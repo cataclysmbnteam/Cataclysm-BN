@@ -4516,7 +4516,7 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
             mod -= std::max( eff_load / 5, 5 );
         }
         if( one_in( 1000 / load ) && one_in( 10 ) ) {
-            g->u.mod_hunger( 1 );
+            g->u.mod_stored_kcal( -10 );
             g->u.mod_thirst( 1 );
             g->u.mod_fatigue( 1 );
         }

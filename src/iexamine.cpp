@@ -1673,11 +1673,13 @@ static bool dead_plant( bool flower, player &p, const tripoint &examp )
 /**
  * Helper method to see if player has traits, hunger and mouthwear for drinking nectar.
  */
-static bool can_drink_nectar( const player &p )
+static bool can_drink_nectar( const player &p, const item &nectar )
 {
     return ( p.has_active_mutation( trait_PROBOSCIS )  ||
              p.has_active_mutation( trait_BEAK_HUM ) ) &&
-           ( ( p.get_hunger() ) > 0 ) && ( !( p.wearing_something_on( bodypart_id( "mouth" ) ) ) );
+           ( ( p.max_stored_calories() - p.get_stored_kcal() ) <
+             nectar.get_comestible()->default_nutrition.kcal ) &&
+           ( !( p.wearing_something_on( bodypart_id( "mouth" ) ) ) );
 }
 
 /**
@@ -1685,10 +1687,10 @@ static bool can_drink_nectar( const player &p )
  */
 static bool drink_nectar( player &p )
 {
-    if( can_drink_nectar( p ) ) {
+    item nectar( "nectar", calendar::turn, 1 );
+    if( can_drink_nectar( p, nectar ) ) {
         p.moves -= to_moves<int>( 30_seconds );
         add_msg( _( "You drink some nectar." ) );
-        item nectar( "nectar", calendar::turn, 1 );
         p.eat( nectar );
         return true;
     }
@@ -1725,14 +1727,14 @@ void iexamine::flower_poppy( player &p, const tripoint &examp )
     }
     // TODO: Get rid of this section and move it to eating
     // Two y/n prompts is just too much
-    if( can_drink_nectar( p ) ) {
+    item poppy( "poppy_nectar", calendar::turn, 1 );
+    if( can_drink_nectar( p, poppy ) ) {
         if( !query_yn( _( "You feel woozy as you explore the %s. Drink?" ),
                        g->m.furnname( examp ) ) ) {
             return;
         }
         p.moves -= to_moves<int>( 30_seconds ); // You take your time...
         add_msg( _( "You slowly suck up the nectar." ) );
-        item poppy( "poppy_nectar", calendar::turn, 1 );
         p.eat( poppy );
         p.mod_fatigue( 20 );
         p.add_effect( effect_pkill2, 7_minutes );
@@ -1944,7 +1946,8 @@ void iexamine::flower_marloss( player &p, const tripoint &examp )
     if( season_of_year( calendar::turn ) == WINTER ) {
         add_msg( m_info, _( "This flower is still alive, despite the harsh conditions…" ) );
     }
-    if( can_drink_nectar( p ) ) {
+    item nectar( "nectar" );
+    if( can_drink_nectar( p, nectar ) ) {
         if( !query_yn( _( "You feel out of place as you explore the %s. Drink?" ),
                        g->m.furnname( examp ) ) ) {
             return;

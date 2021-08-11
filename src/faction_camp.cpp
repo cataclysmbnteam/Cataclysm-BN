@@ -2550,7 +2550,6 @@ void basecamp::finish_return( npc &comp, const bool fixed_time, const std::strin
     validate_assignees();
 
     camp_food_supply( -need_food );
-    comp.mod_hunger( -avail_food );
     comp.mod_stored_kcal( avail_food );
     if( has_water() ) {
         comp.set_thirst( 0 );

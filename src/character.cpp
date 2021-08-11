@@ -500,8 +500,10 @@ void Character::mod_stat( const std::string &stat, float modifier )
         mod_int_bonus( modifier );
     } else if( stat == "healthy" ) {
         mod_healthy( modifier );
+    } else if( stat == "kcal" ) {
+        mod_stored_kcal( modifier );
     } else if( stat == "hunger" ) {
-        mod_hunger( modifier );
+        mod_stored_kcal( -8 * modifier );
     } else {
         Creature::mod_stat( stat, modifier );
     }
@@ -4140,33 +4142,9 @@ int Character::max_stored_calories() const
     return 2500 * 7;
 }
 
-int Character::get_healthy_kcal() const
-{
-    return max_stored_calories();
-}
-
 float Character::get_kcal_percent() const
 {
     return static_cast<float>( get_stored_kcal() ) / static_cast<float>( max_stored_calories() );
-}
-
-float Character::get_hunger() const
-{
-    return ( max_stored_calories() - get_stored_kcal() ) / ( 2500.0f / ( 12 * 24 ) );
-}
-
-void Character::mod_hunger( float nhunger )
-{
-    set_hunger( get_hunger() + nhunger );
-}
-
-void Character::set_hunger( float nhunger )
-{
-    if( get_hunger() != nhunger ) {
-        int hunger_in_kcal = nhunger * ( 2500.0f / ( 12 * 24 ) );
-        int new_kcal = max_stored_calories() - hunger_in_kcal;
-        set_stored_kcal( new_kcal );
-    }
 }
 
 int Character::get_thirst() const
@@ -4606,7 +4584,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
 
     if( npc_no_food ) {
         set_thirst( static_cast<int>( thirst_levels::hydrated ) );
-        set_stored_kcal( get_healthy_kcal() );
+        set_stored_kcal( max_stored_calories() );
     }
 
     // Mycus and Metabolic Rehydration makes thirst unnecessary
@@ -8734,7 +8712,7 @@ void Character::check_and_recover_morale()
         }
     }
 
-    test_morale.on_stat_change( "hunger", get_hunger() );
+    test_morale.on_stat_change( "kcal", get_stored_kcal() );
     test_morale.on_stat_change( "thirst", get_thirst() );
     test_morale.on_stat_change( "fatigue", get_fatigue() );
     test_morale.on_stat_change( "pain", get_pain() );

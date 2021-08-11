@@ -1481,8 +1481,8 @@ void player::process_one_effect( effect &it, bool is_new )
     if( val != 0 ) {
         mod = 1;
         if( is_new || it.activated( calendar::turn, "HUNGER", val, reduced, mod ) ) {
-            mod_hunger( bound_mod_to_vals( get_hunger(), val, it.get_max_val( "HUNGER", reduced ),
-                                           it.get_min_val( "HUNGER", reduced ) ) );
+            mod_stored_kcal( -10 * bound_mod_to_vals( ( max_stored_calories() - get_stored_kcal() ) / 10,
+                             val, it.get_max_val( "HUNGER", reduced ), it.get_min_val( "HUNGER", reduced ) ) );
         }
     }
 
@@ -4370,7 +4370,7 @@ void player::environmental_revert_effect()
     morale->clear();
 
     set_all_parts_hp_to_max();
-    set_hunger( 0 );
+    set_stored_kcal( max_stored_calories() );
     set_thirst( 0 );
     set_fatigue( 0 );
     set_healthy( 0 );

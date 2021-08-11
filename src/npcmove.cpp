@@ -1836,7 +1836,7 @@ npc_action npc::address_needs( float danger )
 
     // Extreme thirst or hunger, bypass safety check.
     if( get_thirst() > thirst_levels::dehydrated ||
-        get_stored_kcal() + stomach.get_calories() < get_healthy_kcal() * 0.75 ) {
+        get_stored_kcal() + stomach.get_calories() < max_stored_calories() * 0.75 ) {
         if( consume_food_from_camp() ) {
             return npc_noop;
         }
@@ -1856,7 +1856,7 @@ npc_action npc::address_needs( float danger )
     }
 
     if( one_in( 3 ) && ( get_thirst() > thirst_levels::thirsty ||
-                         get_stored_kcal() + stomach.get_calories() < get_healthy_kcal() * 0.95 ) ) {
+                         get_stored_kcal() + stomach.get_calories() < max_stored_calories() * 0.95 ) ) {
         if( consume_food_from_camp() ) {
             return npc_noop;
         }
@@ -3819,11 +3819,10 @@ bool npc::consume_food_from_camp()
         return true;
     }
     faction *yours = g->u.get_faction();
-    int camp_kcals = std::min( std::max( 0, 19 * get_healthy_kcal() / 20 - get_stored_kcal() -
+    int camp_kcals = std::min( std::max( 0, 19 * max_stored_calories() / 20 - get_stored_kcal() -
                                          stomach.get_calories() ), yours->food_supply );
     if( camp_kcals > 0 ) {
         complain_about( "camp_food_thanks", 1_hours, "<camp_food_thanks>", false );
-        mod_hunger( -camp_kcals );
         mod_stored_kcal( camp_kcals );
         yours->food_supply -= camp_kcals;
         return true;
@@ -3836,7 +3835,7 @@ bool npc::consume_food()
 {
     float best_weight = 0.0f;
     int index = -1;
-    int want_hunger = std::max<int>( 0, get_hunger() );
+    int want_hunger = std::max<int>( 0, ( max_stored_calories() - get_stored_kcal() ) / 8.6f );
     int want_quench = std::max( 0, get_thirst() );
     invslice slice = inv.slice();
     for( size_t i = 0; i < slice.size(); i++ ) {
@@ -3854,7 +3853,7 @@ bool npc::consume_food()
     if( index == -1 ) {
         if( !is_player_ally() ) {
             // TODO: Remove this and let player "exploit" hungry NPCs
-            set_hunger( 0 );
+            set_stored_kcal( max_stored_calories() );
             set_thirst( 0 );
         }
         return false;
@@ -4485,9 +4484,9 @@ bool npc::complain()
 
     // Hunger every 3-6 hours
     // Since NPCs can't starve to death, respect the rules
-    if( get_hunger() > 160 &&
+    if( get_kcal_percent() < 0.9 &&
         complain_about( hunger_string, std::max( 3_hours,
-                        time_duration::from_minutes( 60 * 8 - get_hunger() ) ), _( "<hungry>" ) ) ) {
+                        time_duration::from_minutes( get_kcal_percent() * 60 * 7 ) ), _( "<hungry>" ) ) ) {
         return true;
     }
 

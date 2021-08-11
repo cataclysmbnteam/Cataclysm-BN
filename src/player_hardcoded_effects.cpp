@@ -167,7 +167,7 @@ static void eff_fun_fungus( player &u, effect &it )
 
                 const int awfulness = rng( 0, 10 );
                 u.moves = -200;
-                u.mod_hunger( awfulness );
+                u.mod_stored_kcal( -10 * awfulness );
                 u.mod_thirst( awfulness );
                 u.apply_damage( nullptr, bodypart_id( "torso" ), 1 );
             }
@@ -251,7 +251,7 @@ static void eff_fun_hallu( player &u, effect &it )
     } else if( dur > peakTime && dur < comeupTime ) {
         if( u.stomach.get_calories() > 0 && ( one_in( 1200 ) || x_in_y( u.vomit_mod(), 300 ) ) ) {
             u.add_msg_if_player( m_bad, _( "You feel sick to your stomach." ) );
-            u.mod_hunger( -2 );
+            u.mod_stored_kcal( 20 );
             if( one_in( 6 ) ) {
                 u.vomit();
             }
@@ -1064,8 +1064,8 @@ void player::hardcoded_effects( effect &it )
             if( has_trait( trait_CHLOROMORPH ) ) {
                 // Hunger and thirst fall before your Chloromorphic physiology!
                 if( g->natural_light_level( posz() ) >= 12 && compatible_weather_types ) {
-                    if( get_hunger() >= -30 ) {
-                        mod_hunger( -5 );
+                    if( get_stored_kcal() < max_stored_calories() - 50 ) {
+                        mod_stored_kcal( 50 );
                     }
                     if( get_thirst() >= thirst_levels::turgid ) {
                         mod_thirst( -5 );

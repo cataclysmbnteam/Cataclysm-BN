@@ -359,12 +359,10 @@ class Character : public Creature, public visitable<Character>
 
         /** Getter for need values exclusive to characters */
         int get_stored_kcal() const;
-        int get_healthy_kcal() const;
         // Maximum stored calories, excluding stomach.
         // If more would be digested, it is instead wasted.
         int max_stored_calories() const;
         float get_kcal_percent() const;
-        float get_hunger() const;
         int get_thirst() const;
         std::pair<std::string, nc_color> get_thirst_description() const;
         std::pair<std::string, nc_color> get_hunger_description() const;
@@ -377,14 +375,12 @@ class Character : public Creature, public visitable<Character>
         /** Modifiers for need values exclusive to characters */
         virtual void mod_stored_kcal( int nkcal );
         virtual void mod_stored_nutr( int nnutr );
-        virtual void mod_hunger( float nhunger );
         virtual void mod_thirst( int nthirst );
         virtual void mod_fatigue( int nfatigue );
         virtual void mod_sleep_deprivation( int nsleep_deprivation );
 
         /** Setters for need values exclusive to characters */
         virtual void set_stored_kcal( int kcal );
-        virtual void set_hunger( float nhunger );
         virtual void set_thirst( int nthirst );
         virtual void set_fatigue( int nfatigue );
         virtual void set_sleep_deprivation( int nsleep_deprivation );

@@ -11722,7 +11722,7 @@ void game::process_artifact( item &it, player &p )
 
             case AEP_HUNGER:
                 if( one_in( 100 ) ) {
-                    p.mod_hunger( 1 );
+                    p.mod_stored_kcal( -10 );
                 }
                 break;
 

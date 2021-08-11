@@ -1038,7 +1038,7 @@ static void sleep()
     }
     if( u.has_alarm_clock() ) {
         /* Reuse menu to ask player whether they want to set an alarm. */
-        bool can_hibernate = u.get_hunger() < -60 && u.has_active_mutation( trait_HIBERNATE );
+        bool can_hibernate = u.get_kcal_percent() > 0.95 && u.has_active_mutation( trait_HIBERNATE );
 
         as_m.reset();
         as_m.text = can_hibernate ?
