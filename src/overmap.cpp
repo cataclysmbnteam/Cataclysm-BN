@@ -5434,7 +5434,7 @@ std::vector<tripoint_om_omt> overmap::place_special(
     mapgen_arg_storage.emplace_back();
     // Link grid
     for( const tripoint_om_omt &location : result ) {
-        mapgen_args_index.emplace( location, args_index );
+        mapgen_args_index[location] = args_index;
         overmap_special_placements[location] = special.id;
         if( grid ) {
             for( size_t i = 0; i < six_cardinal_directions.size(); i++ ) {
