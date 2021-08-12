@@ -417,7 +417,7 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
         int rate = 0;
         std::string units;
         if( fuel_data != fuel_usages.end() ) {
-            rate = consumption_per_hour( fuel_type, fuel_data->second );
+            rate = -consumption_per_hour( fuel_type, fuel_data->second );
             units = _( "mL" );
         }
         if( fuel_type == itype_id( "battery" ) ) {
@@ -441,6 +441,14 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
                 tank_color = c_light_red;
                 tank_goal = _( "empty" );
             }
+
+            item fitem( fuel_type );
+            int charges_per_L = fitem.charges_per_volume( 1_liter );
+            if( charges_per_L == 0 || charges_per_L == item::INFINITE_CHARGES ) {
+                return;
+            }
+            float charges_per_mL = charges_per_L / 1000.0f;
+            tank_use = tank_use / charges_per_mL;
 
             // promote to double so esimate doesn't overflow for high fuel values
             // 3600 * tank_use overflows signed 32 bit when tank_use is over ~596523
