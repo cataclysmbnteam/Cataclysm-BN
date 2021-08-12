@@ -1,0 +1,16 @@
+[
+  {
+    "type": "effect_type",
+    "id": "test_drunk",
+    "morale": "morale_test",
+    "base_mods": { "morale": [ 5 ] },
+    "scaling_mods": { "morale": [ 10 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "test_hangover",
+    "morale": "morale_test",
+    "base_mods": { "morale": [ -10 ] },
+    "scaling_mods": { "morale": [ -20 ] }
+  }
+]

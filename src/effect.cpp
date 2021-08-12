@@ -6,6 +6,7 @@
 #include <memory>
 #include <unordered_set>
 
+#include "assign.h"
 #include "color.h"
 #include "debug.h"
 #include "enums.h"
@@ -375,6 +376,9 @@ bool effect_type::load_mod_data( const JsonObject &jo, const std::string &member
         extract_effect( j, mod_data, "healing_head",    member, "HEAL_HEAD",  "amount" );
         extract_effect( j, mod_data, "healing_torso",   member, "HEAL_TORSO", "amount" );
 
+        // Then morale
+        extract_effect( j, mod_data, "morale",          member, "MORALE",     "amount" );
+
         // creature stats mod
         extract_effect( j, mod_data, "dodge_mod",    member, "DODGE",  "min" );
         extract_effect( j, mod_data, "hit_mod",    member, "HIT",  "min" );
@@ -474,6 +478,10 @@ bool effect_type::is_show_in_info() const
 time_duration effect_type::get_int_dur_factor() const
 {
     return int_dur_factor;
+}
+morale_type effect_type::get_morale_type() const
+{
+    return morale;
 }
 bool effect_type::load_miss_msgs( const JsonObject &jo, const std::string &member )
 {
@@ -1332,6 +1340,20 @@ void load_effect_type( const JsonObject &jo )
     new_etype.impairs_movement = hardcoded_movement_impairing.count( new_etype.id ) > 0;
 
     new_etype.flags = jo.get_tags( "flags" );
+
+    assign( jo, "morale", new_etype.morale );
+
+    const auto morale_effect = std::find_if( new_etype.mod_data.begin(),
+    new_etype.mod_data.end(), []( decltype( *new_etype.mod_data.begin() ) & pr ) {
+        return std::get<2>( pr.first ) == "MORALE";
+    } );
+    bool has_morale_effect = morale_effect != new_etype.mod_data.end();
+    if( new_etype.morale && !has_morale_effect ) {
+        jo.throw_error( "Morale type set, but no MORALE base/scaling effect", "morale" );
+    } else if( !new_etype.morale && has_morale_effect ) {
+        jo.throw_error( "MORALE base/scaling effect present, but no morale type set",
+                        std::get<0>( morale_effect->first ) );
+    }
 
     effect_types[new_etype.id] = new_etype;
 }

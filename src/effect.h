@@ -74,6 +74,9 @@ class effect_type
         /** Returns the number of turns it takes for the intensity to fall by 1 or 0 if intensity isn't based on duration. */
         time_duration get_int_dur_factor() const;
 
+        /** Returns the id of morale type this effect produces. */
+        morale_type get_morale_type() const;
+
         bool is_show_in_info() const;
 
         /** Returns true if an effect is permanent, i.e. it's duration does not decrease over time. */
@@ -140,6 +143,8 @@ class effect_type
         std::string apply_memorial_log;
         std::string remove_message;
         std::string remove_memorial_log;
+
+        morale_type morale;
 
         /** Key tuple order is:("base_mods"/"scaling_mods", reduced: bool, type of mod: "STR", desired argument: "tick") */
         std::unordered_map <

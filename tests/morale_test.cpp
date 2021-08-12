@@ -6,6 +6,22 @@
 #include "calendar.h"
 #include "type_id.h"
 
+const std::vector<body_part> temperature_body_parts = {{
+        bp_torso,
+        bp_head,
+        bp_eyes,
+        bp_mouth,
+        bp_arm_l,
+        bp_arm_r,
+        bp_leg_l,
+        bp_leg_r,
+        bp_hand_l,
+        bp_hand_r,
+        bp_foot_l,
+        bp_foot_r,
+    }
+};
+
 TEST_CASE( "player_morale" )
 {
     static const efftype_id effect_cold( "cold" );
@@ -294,18 +310,9 @@ TEST_CASE( "player_morale" )
 
     GIVEN( "tough temperature conditions" ) {
         WHEN( "chilly" ) {
-            m.on_effect_int_change( effect_cold, 1, bp_torso );
-            m.on_effect_int_change( effect_cold, 1, bp_head );
-            m.on_effect_int_change( effect_cold, 1, bp_eyes );
-            m.on_effect_int_change( effect_cold, 1, bp_mouth );
-            m.on_effect_int_change( effect_cold, 1, bp_arm_l );
-            m.on_effect_int_change( effect_cold, 1, bp_arm_r );
-            m.on_effect_int_change( effect_cold, 1, bp_leg_l );
-            m.on_effect_int_change( effect_cold, 1, bp_leg_r );
-            m.on_effect_int_change( effect_cold, 1, bp_hand_l );
-            m.on_effect_int_change( effect_cold, 1, bp_hand_r );
-            m.on_effect_int_change( effect_cold, 1, bp_foot_l );
-            m.on_effect_int_change( effect_cold, 1, bp_foot_r );
+            for( auto bp : temperature_body_parts ) {
+                m.on_effect_int_change( effect_cold, 1, bp );
+            }
 
             AND_WHEN( "no time has passed" ) {
                 CHECK( m.get_level() == 0 );
@@ -329,18 +336,9 @@ TEST_CASE( "player_morale" )
         }
 
         WHEN( "cold" ) {
-            m.on_effect_int_change( effect_cold, 2, bp_torso );
-            m.on_effect_int_change( effect_cold, 2, bp_head );
-            m.on_effect_int_change( effect_cold, 2, bp_eyes );
-            m.on_effect_int_change( effect_cold, 2, bp_mouth );
-            m.on_effect_int_change( effect_cold, 2, bp_arm_l );
-            m.on_effect_int_change( effect_cold, 2, bp_arm_r );
-            m.on_effect_int_change( effect_cold, 2, bp_leg_l );
-            m.on_effect_int_change( effect_cold, 2, bp_leg_r );
-            m.on_effect_int_change( effect_cold, 2, bp_hand_l );
-            m.on_effect_int_change( effect_cold, 2, bp_hand_r );
-            m.on_effect_int_change( effect_cold, 2, bp_foot_l );
-            m.on_effect_int_change( effect_cold, 2, bp_foot_r );
+            for( auto bp : temperature_body_parts ) {
+                m.on_effect_int_change( effect_cold, 2, bp );
+            }
 
             AND_WHEN( "no time has passed" ) {
                 CHECK( m.get_level() == 0 );
@@ -362,18 +360,9 @@ TEST_CASE( "player_morale" )
                 CHECK( m.get_level() == -20 );
             }
             AND_WHEN( "warmed up afterwards" ) {
-                m.on_effect_int_change( effect_cold, 0, bp_torso );
-                m.on_effect_int_change( effect_cold, 0, bp_head );
-                m.on_effect_int_change( effect_cold, 0, bp_eyes );
-                m.on_effect_int_change( effect_cold, 0, bp_mouth );
-                m.on_effect_int_change( effect_cold, 0, bp_arm_l );
-                m.on_effect_int_change( effect_cold, 0, bp_arm_r );
-                m.on_effect_int_change( effect_cold, 0, bp_leg_l );
-                m.on_effect_int_change( effect_cold, 0, bp_leg_r );
-                m.on_effect_int_change( effect_cold, 0, bp_hand_l );
-                m.on_effect_int_change( effect_cold, 0, bp_hand_r );
-                m.on_effect_int_change( effect_cold, 0, bp_foot_l );
-                m.on_effect_int_change( effect_cold, 0, bp_foot_r );
+                for( auto bp : temperature_body_parts ) {
+                    m.on_effect_int_change( effect_cold, 0, bp );
+                }
 
                 m.decay( 1_minutes );
                 CHECK( m.get_level() == 0 );
@@ -381,18 +370,9 @@ TEST_CASE( "player_morale" )
         }
 
         WHEN( "warm" ) {
-            m.on_effect_int_change( effect_hot, 1, bp_torso );
-            m.on_effect_int_change( effect_hot, 1, bp_head );
-            m.on_effect_int_change( effect_hot, 1, bp_eyes );
-            m.on_effect_int_change( effect_hot, 1, bp_mouth );
-            m.on_effect_int_change( effect_hot, 1, bp_arm_l );
-            m.on_effect_int_change( effect_hot, 1, bp_arm_r );
-            m.on_effect_int_change( effect_hot, 1, bp_leg_l );
-            m.on_effect_int_change( effect_hot, 1, bp_leg_r );
-            m.on_effect_int_change( effect_hot, 1, bp_hand_l );
-            m.on_effect_int_change( effect_hot, 1, bp_hand_r );
-            m.on_effect_int_change( effect_hot, 1, bp_foot_l );
-            m.on_effect_int_change( effect_hot, 1, bp_foot_r );
+            for( auto bp : temperature_body_parts ) {
+                m.on_effect_int_change( effect_hot, 1, bp );
+            }
 
             AND_WHEN( "no time has passed" ) {
                 CHECK( m.get_level() == 0 );
@@ -416,18 +396,9 @@ TEST_CASE( "player_morale" )
         }
 
         WHEN( "hot" ) {
-            m.on_effect_int_change( effect_hot, 2, bp_torso );
-            m.on_effect_int_change( effect_hot, 2, bp_head );
-            m.on_effect_int_change( effect_hot, 2, bp_eyes );
-            m.on_effect_int_change( effect_hot, 2, bp_mouth );
-            m.on_effect_int_change( effect_hot, 2, bp_arm_l );
-            m.on_effect_int_change( effect_hot, 2, bp_arm_r );
-            m.on_effect_int_change( effect_hot, 2, bp_leg_l );
-            m.on_effect_int_change( effect_hot, 2, bp_leg_r );
-            m.on_effect_int_change( effect_hot, 2, bp_hand_l );
-            m.on_effect_int_change( effect_hot, 2, bp_hand_r );
-            m.on_effect_int_change( effect_hot, 2, bp_foot_l );
-            m.on_effect_int_change( effect_hot, 2, bp_foot_r );
+            for( auto bp : temperature_body_parts ) {
+                m.on_effect_int_change( effect_hot, 2, bp );
+            }
 
             AND_WHEN( "no time has passed" ) {
                 CHECK( m.get_level() == 0 );
@@ -449,18 +420,9 @@ TEST_CASE( "player_morale" )
                 CHECK( m.get_level() == -20 );
             }
             AND_WHEN( "cooled afterwards" ) {
-                m.on_effect_int_change( effect_hot, 0, bp_torso );
-                m.on_effect_int_change( effect_hot, 0, bp_head );
-                m.on_effect_int_change( effect_hot, 0, bp_eyes );
-                m.on_effect_int_change( effect_hot, 0, bp_mouth );
-                m.on_effect_int_change( effect_hot, 0, bp_arm_l );
-                m.on_effect_int_change( effect_hot, 0, bp_arm_r );
-                m.on_effect_int_change( effect_hot, 0, bp_leg_l );
-                m.on_effect_int_change( effect_hot, 0, bp_leg_r );
-                m.on_effect_int_change( effect_hot, 0, bp_hand_l );
-                m.on_effect_int_change( effect_hot, 0, bp_hand_r );
-                m.on_effect_int_change( effect_hot, 0, bp_foot_l );
-                m.on_effect_int_change( effect_hot, 0, bp_foot_r );
+                for( auto bp : temperature_body_parts ) {
+                    m.on_effect_int_change( effect_hot, 0, bp );
+                }
 
                 m.decay( 1_minutes );
                 CHECK( m.get_level() == 0 );
@@ -503,6 +465,55 @@ TEST_CASE( "player_morale" )
             CHECK( m.has( MORALE_BOOK ) == 0 );
 
             CHECK( m.get_level() == 10 );
+        }
+    }
+
+    GIVEN( "effects with morale bonuses and penalties" ) {
+        const efftype_id drunk( "test_drunk" );
+
+        m.on_effect_int_change( drunk, 1 );
+        REQUIRE( m.get_level() == 5 );
+
+        WHEN( "intensity increases" ) {
+            m.on_effect_int_change( drunk, 2 );
+            THEN( "so does the bonus" ) {
+                CHECK( m.get_level() == 15 );
+            }
+        }
+    }
+}
+
+TEST_CASE( "player_morale_unimplemented", "[!shouldfail]" )
+{
+    player_morale m;
+
+    GIVEN( "effects with morale bonuses and penalties" ) {
+        const efftype_id drunk( "test_drunk" );
+        const efftype_id hangover( "test_hangover" );
+
+        m.on_effect_int_change( drunk, 1 );
+        REQUIRE( m.get_level() == 5 );
+
+        WHEN( "intensity increases" ) {
+            m.on_effect_int_change( drunk, 2 );
+            THEN( "so does the bonus" ) {
+                CHECK( m.get_level() == 15 );
+            }
+        }
+
+        WHEN( "a second effect with the same morale type is added" ) {
+            m.on_effect_int_change( hangover, 1 );
+            THEN( "the morale effect is sum of highest bonus and highest penalty" ) {
+                CHECK( m.get_level() == -5 );
+            }
+        }
+
+        WHEN( "a second effect with the same morale type is added and the first effect is removed" ) {
+            m.on_effect_int_change( hangover, 1 );
+            m.on_effect_int_change( drunk, 0 );
+            THEN( "the morale effect is equal to that of the second effect" ) {
+                CHECK( m.get_level() == -10 );
+            }
         }
     }
 }

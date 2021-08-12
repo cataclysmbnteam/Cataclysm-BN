@@ -961,7 +961,7 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, b
                 e.set_intensity( e.get_max_intensity() );
             }
             if( e.get_intensity() != prev_int ) {
-                on_effect_int_change( eff_id, e.get_intensity(), bp );
+                on_effect_int_change( e );
             }
         }
     }
@@ -1007,7 +1007,7 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, b
                 add_msg( type.gain_game_message_type(), _( type.get_apply_message() ) );
             }
         }
-        on_effect_int_change( eff_id, e.get_intensity(), bp );
+        on_effect_int_change( e );
         // Perform any effect addition effects.
         // only when not deferred
         if( !deferred ) {
@@ -1060,13 +1060,15 @@ bool Creature::remove_effect( const efftype_id &eff_id, body_part bp )
     if( bp == num_bp ) {
         for( auto &it : ( *effects )[eff_id] ) {
             if( !it.second.is_removed() ) {
-                on_effect_int_change( eff_id, 0, it.first );
+                it.second.set_intensity( 0 );
+                on_effect_int_change( it.second );
                 it.second.set_removed();
             }
         }
     } else {
-        on_effect_int_change( eff_id, 0, bp );
-        get_effect( eff_id, bp ).set_removed();
+        effect &e = get_effect( eff_id, bp );
+        on_effect_int_change( e );
+        e.set_removed();
     }
     return true;
 }
@@ -1163,7 +1165,7 @@ void Creature::process_effects()
             }
 
             if( e.get_intensity() != prev_int && e.get_duration() > 0_turns ) {
-                on_effect_int_change( e.get_id(), e.get_intensity(), e.get_bp() );
+                on_effect_int_change( e );
             }
         }
     }

@@ -1304,7 +1304,8 @@
     "name": [ "High" ],
     "desc": [ "You are high as a kite." ],
     "apply_message": "You feel lightheaded.",
-    "base_mods": { "int_mod": [ -1 ], "per_mod": [ -1 ] }
+    "morale": "morale_high",
+    "base_mods": { "int_mod": [ -1 ], "per_mod": [ -1 ], "morale": [ 25 ] }
   },
   {
     "type": "effect_type",
@@ -1336,6 +1337,7 @@
     "apply_message": "You feel lightheaded.",
     "int_dur_factor": "100 m",
     "miss_messages": [ [ "You feel woozy.", 1 ] ],
+    "morale": "morale_drunk",
     "base_mods": {
       "str_mod": [ 1 ],
       "vomit_chance": [ -43 ],
@@ -1345,7 +1347,8 @@
       "pkill_amount": [ 3 ],
       "pkill_max_val": [ 3 ],
       "pkill_min": [ 1 ],
-      "pkill_tick": [ 45 ]
+      "pkill_tick": [ 45 ],
+      "morale": [ 5 ]
     },
     "scaling_mods": {
       "str_mod": [ -0.33 ],
@@ -1355,7 +1358,8 @@
       "vomit_chance": [ 21 ],
       "pkill_max_val": [ 10 ],
       "pkill_tick": [ -10 ],
-      "sleep_chance": [ 501 ]
+      "sleep_chance": [ 501 ],
+      "morale": [ 10 ]
     }
   },
   {

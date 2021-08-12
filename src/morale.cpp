@@ -15,6 +15,7 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "effect.h"
 #include "enums.h"
 #include "input.h"
 #include "int_id.h"
@@ -44,27 +45,6 @@ static const trait_id trait_ROOTS1( "ROOTS1" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_STYLISH( "STYLISH" );
-
-namespace
-{
-
-bool is_permanent_morale( const morale_type &id )
-{
-    static const std::set<morale_type> permanent_morale = {{
-            MORALE_PERM_OPTIMIST,
-            MORALE_PERM_BADTEMPER,
-            MORALE_PERM_FANCY,
-            MORALE_PERM_MASOCHIST,
-            MORALE_PERM_CONSTRAINED,
-            MORALE_PERM_FILTHY,
-            MORALE_PERM_DEBUG
-        }
-    };
-
-    return permanent_morale.count( id ) != 0;
-}
-
-} // namespace
 
 // Morale multiplier
 struct morale_mult {
@@ -290,7 +270,7 @@ void player_morale::add( morale_type type, int bonus, int max_bonus,
                          const time_duration &duration, const time_duration &decay_start,
                          bool capped, const itype *item_type )
 {
-    if( ( duration == 0_turns ) & !is_permanent_morale( type ) ) {
+    if( ( duration == 0_turns ) && !type->is_permanent() ) {
         debugmsg( "Tried to set a non-permanent morale \"%s\" as permanent.",
                   type.obj().describe( item_type ) );
         return;
@@ -911,18 +891,37 @@ void player_morale::on_worn_item_washed( const item &it )
     update_squeamish_penalty();
 }
 
-void player_morale::on_effect_int_change( const efftype_id &eid, int intensity, body_part bp )
+void player_morale::on_effect_int_change( const effect &e )
 {
-    const bodypart_id bo_id = convert_bp( bp ).id();
-    if( eid == effect_took_prozac && bp == num_bp ) {
+    const efftype_id &eid = e.get_id();
+    const bodypart_str_id &bo_id = convert_bp( e.get_bp() );
+    int intensity = e.get_intensity();
+    if( eid == effect_took_prozac && !bo_id ) {
         set_prozac( intensity != 0 );
-    } else if( eid == effect_took_prozac_bad && bp == num_bp ) {
+    } else if( eid == effect_took_prozac_bad && !bo_id ) {
         set_prozac_bad( intensity != 0 );
-    } else if( eid == effect_cold && bp < num_bp ) {
+    } else if( eid == effect_cold && bo_id ) {
         body_parts[bo_id].cold = intensity;
-    } else if( eid == effect_hot && bp < num_bp ) {
+    } else if( eid == effect_hot && bo_id ) {
         body_parts[bo_id].hot = intensity;
     }
+
+    if( eid->get_morale_type() ) {
+        if( intensity > 0 ) {
+            int value = e.get_amount( "MORALE" );
+            // TODO: Multiple effects with same type
+            set_permanent( eid->get_morale_type(), value );
+        } else {
+            // TODO: Multiple effects with same type
+            remove( eid->get_morale_type() );
+        }
+    }
+}
+
+void player_morale::on_effect_int_change( const efftype_id &eid, int intensity, body_part bp )
+{
+    effect eff( &( *eid ), 1_seconds, bp, intensity, calendar::turn_zero );
+    on_effect_int_change( eff );
 }
 
 void player_morale::set_worn( const item &it, bool worn )

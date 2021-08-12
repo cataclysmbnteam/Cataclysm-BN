@@ -8704,7 +8704,7 @@ void Character::check_and_recover_morale()
         for( const std::pair<const body_part, effect> &_effect_it : elem.second ) {
             const effect &e = _effect_it.second;
             if( !e.is_removed() ) {
-                test_morale.on_effect_int_change( e.get_id(), e.get_intensity(), e.get_bp() );
+                test_morale.on_effect_int_change( e );
             }
         }
     }
@@ -9390,16 +9390,16 @@ void Character::on_item_takeoff( const item &it )
     morale->on_item_takeoff( it );
 }
 
-void Character::on_effect_int_change( const efftype_id &eid, int intensity, body_part bp )
+void Character::on_effect_int_change( const effect &e )
 {
     // Adrenaline can reduce perceived pain (or increase it when you enter comedown).
     // See @ref get_perceived_pain()
-    if( eid == effect_adrenaline ) {
+    if( e.get_id() == effect_adrenaline ) {
         // Note that calling this does no harm if it wasn't changed.
         on_stat_change( "perceived_pain", get_perceived_pain() );
     }
 
-    morale->on_effect_int_change( eid, intensity, bp );
+    morale->on_effect_int_change( e );
 }
 
 void Character::on_mutation_gain( const trait_id &mid )
