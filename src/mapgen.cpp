@@ -1543,6 +1543,11 @@ class jmapgen_item_group : public jmapgen_piece
             group_id = item_group::load_item_group( group, "collection" );
             repeat = jmapgen_int( jsi, "repeat", 1, 1 );
         }
+        void check( const std::string &context, const mapgen_parameters & ) const override {
+            if( !group_id.is_valid() ) {
+                debugmsg( "Invalid item_group_id \"%s\" in %s", group_id.str(), context );
+            }
+        }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
             dat.m.place_items( group_id, chance.get(), point( x.val, y.val ), point( x.valmax, y.valmax ), true,
