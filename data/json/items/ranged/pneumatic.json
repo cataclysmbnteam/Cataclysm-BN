@@ -59,7 +59,7 @@
     "range": 16,
     "dispersion": 300,
     "durability": 7,
-	"min_cycle_recoil": 150,
+    "min_cycle_recoil": 150,
     "clip_size": 8,
     "reload": 2000,
     "valid_mod_locations": [ [ "accessories", 3 ], [ "sling", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "stock", 1 ], [ "rail mount", 1 ] ]
@@ -87,9 +87,9 @@
     "range": 15,
     "dispersion": 250,
     "durability": 7,
-	"min_cycle_recoil": 150,
-	"clip_size": 24,
-	"reload": 600,
+    "min_cycle_recoil": 150,
+    "clip_size": 24,
+    "reload": 600,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "loudness": 14,
     "valid_mod_locations": [ [ "accessories", 3 ], [ "sling", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "stock", 1 ] ]
