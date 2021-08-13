@@ -369,18 +369,34 @@ static void fill_water_collectors( int mmPerHour, bool acid )
  */
 static void wet_player( int amount )
 {
+    Character &target = get_avatar();
     if( !is_player_outside() ||
-        g->u.has_trait( trait_FEATHERS ) ||
-        g->u.weapon.has_flag( "RAIN_PROTECT" ) ||
-        ( !one_in( 50 ) && g->u.worn_with_flag( "RAINPROOF" ) ) ) {
+        target.has_trait( trait_FEATHERS ) ||
+        target.weapon.has_flag( "RAIN_PROTECT" ) ||
+        ( !one_in( 50 ) && target.worn_with_flag( "RAINPROOF" ) ) ) {
         return;
     }
     // Coarse correction to get us back to previously intended soaking rate.
     if( !calendar::once_every( 6_seconds ) ) {
         return;
     }
-    const int warmth_delay = g->u.warmth( bodypart_id( "torso" ) ) * 4 / 5 + g->u.warmth(
-                                 bodypart_id( "head" ) ) / 5;
+    std::map<bodypart_id, std::vector<const item *>> clothing_map;
+    for( const bodypart_id &bp : target.get_all_body_parts() ) {
+        clothing_map.emplace( bp, std::vector<const item *>() );
+    }
+    for( const item &it : target.worn ) {
+        // TODO: Port body part set id changes
+        const body_part_set &covered = it.get_covered_body_parts();
+        for( size_t i = 0; i < num_bp; i++ ) {
+            body_part token = static_cast<body_part>( i );
+            if( covered.test( token ) ) {
+                clothing_map[convert_bp( token )].emplace_back( &it );
+            }
+        }
+    }
+    std::map<bodypart_id, int> warmth_bp = target.warmth( clothing_map );
+    const int warmth_delay = warmth_bp[body_part_torso] * 0.8 +
+                             warmth_bp[body_part_head] * 0.2;
     if( rng( 0, 100 - amount + warmth_delay ) > 10 ) {
         // Thick clothing slows down (but doesn't cap) soaking
         return;
