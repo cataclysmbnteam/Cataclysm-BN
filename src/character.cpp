@@ -304,6 +304,7 @@ static const std::string flag_ALLOWS_NATURAL_ATTACKS( "ALLOWS_NATURAL_ATTACKS" )
 static const std::string flag_AURA( "AURA" );
 static const std::string flag_BELTED( "BELTED" );
 static const std::string flag_BLIND( "BLIND" );
+static const flag_str_id flag_COLLAR( "COLLAR" );
 static const std::string flag_DEAF( "DEAF" );
 static const std::string flag_DISABLE_SIGHTS( "DISABLE_SIGHTS" );
 static const std::string flag_EFFECT_INVISIBLE( "EFFECT_INVISIBLE" );
@@ -312,6 +313,7 @@ static const std::string flag_FIX_NEARSIGHT( "FIX_NEARSIGHT" );
 static const std::string flag_FUNGUS( "FUNGUS" );
 static const std::string flag_GNV_EFFECT( "GNV_EFFECT" );
 static const std::string flag_HELMET_COMPAT( "HELMET_COMPAT" );
+static const flag_str_id flag_HOOD( "HOOD" );
 static const std::string flag_IR_EFFECT( "IR_EFFECT" );
 static const std::string flag_ONLY_ONE( "ONLY_ONE" );
 static const std::string flag_OUTER( "OUTER" );
@@ -319,6 +321,7 @@ static const std::string flag_OVERSIZE( "OVERSIZE" );
 static const std::string flag_PARTIAL_DEAF( "PARTIAL_DEAF" );
 static const std::string flag_PERPETUAL( "PERPETUAL" );
 static const std::string flag_PERSONAL( "PERSONAL" );
+static const flag_str_id flag_POCKETS( "POCKETS" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
 static const std::string flag_POWERARMOR_COMPATIBLE( "POWERARMOR_COMPATIBLE" );
 static const std::string flag_RESTRICT_HANDS( "RESTRICT_HANDS" );
@@ -331,6 +334,7 @@ static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 static const std::string flag_SWIM_GOGGLES( "SWIM_GOGGLES" );
 static const std::string flag_UNDERSIZE( "UNDERSIZE" );
 static const std::string flag_USE_UPS( "USE_UPS" );
+static const flag_str_id flag_CLIMATE_CONTROL( "CLIMATE_CONTROL" );
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
 static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
@@ -3649,7 +3653,7 @@ bool Character::in_climate_control()
         if( w.active && w.is_power_armor() ) {
             return true;
         }
-        if( worn_with_flag( "CLIMATE_CONTROL" ) ) {
+        if( w.has_flag( flag_CLIMATE_CONTROL.str() ) ) {
             return true;
         }
     }
@@ -3675,41 +3679,42 @@ bool Character::in_climate_control()
     return regulated_area;
 }
 
-int Character::get_wind_resistance( const bodypart_id &bp ) const
+std::map<bodypart_id, int> Character::get_wind_resistance( const std::map <bodypart_id,
+        std::vector<const item *>> &clothing_map ) const
 {
-    int coverage = 0;
-    float totalExposed = 1.0;
-    int totalCoverage = 0;
-    int penalty = 100;
 
-    for( auto &i : worn ) {
-        if( i.covers( bp->token ) ) {
-            if( i.made_of( material_id( "leather" ) ) || i.made_of( material_id( "plastic" ) ) ||
-                i.made_of( material_id( "bone" ) ) ||
-                i.made_of( material_id( "chitin" ) ) || i.made_of( material_id( "nomex" ) ) ) {
-                penalty = 10; // 90% effective
-            } else if( i.made_of( material_id( "cotton" ) ) ) {
-                penalty = 30;
-            } else if( i.made_of( material_id( "wool" ) ) ) {
-                penalty = 40;
-            } else {
-                penalty = 1; // 99% effective
-            }
-
-            coverage = std::max( 0, i.get_coverage() - penalty );
-            totalExposed *= ( 1.0 - coverage / 100.0 ); // Coverage is between 0 and 1?
-        }
+    std::map<bodypart_id, int> ret;
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        ret.emplace( bp, 0 );
     }
 
     // Your shell provides complete wind protection if you're inside it
     if( has_active_mutation( trait_SHELL2 ) ) {
-        totalCoverage = 100;
-        return totalCoverage;
+        for( std::pair<const bodypart_id, int> &this_bp : ret ) {
+            this_bp.second = 100;
+        }
+        return ret;
     }
 
-    totalCoverage = 100 - totalExposed * 100;
+    for( const std::pair<const bodypart_id, std::vector<const item *>> &on_bp : clothing_map ) {
+        const bodypart_id &bp = on_bp.first;
 
-    return totalCoverage;
+        int coverage = 0;
+        float totalExposed = 1.0f;
+        int totalCoverage = 0;
+        int penalty = 100;
+
+        for( const item *it : on_bp.second ) {
+            const item &i = *it;
+            penalty = 100 - i.wind_resist();
+            coverage = std::max( 0, i.get_coverage() - penalty );
+            totalExposed *= ( 1.0 - coverage / 100.0 ); // Coverage is between 0 and 1?
+        }
+
+        ret[bp] = totalCoverage = 100 - totalExposed * 100;
+    }
+
+    return ret;
 }
 
 void layer_details::reset()
@@ -5078,13 +5083,33 @@ void Character::update_bodytemp( const map &m, weather_manager &weather )
     temp_equalizer( bodypart_id( "torso" ), bodypart_id( "leg_r" ) );
     temp_equalizer( bodypart_id( "torso" ), bodypart_id( "head" ) );
 
-    temp_equalizer( bodypart_id( "head" ), bodypart_id( "mouth" ) );
-
     temp_equalizer( bodypart_id( "arm_l" ), bodypart_id( "hand_l" ) );
     temp_equalizer( bodypart_id( "arm_r" ), bodypart_id( "hand_r" ) );
 
     temp_equalizer( bodypart_id( "leg_l" ), bodypart_id( "foot_l" ) );
     temp_equalizer( bodypart_id( "leg_r" ), bodypart_id( "foot_r" ) );
+
+    std::map<bodypart_id, std::vector<const item *>> clothing_map;
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        clothing_map.emplace( bp, std::vector<const item *>() );
+    }
+    for( const item &it : worn ) {
+        // TODO: Port body part set id changes
+        const body_part_set &covered = it.get_covered_body_parts();
+        for( size_t i = 0; i < num_bp; i++ ) {
+            body_part token = static_cast<body_part>( i );
+            if( covered.test( token ) ) {
+                clothing_map[convert_bp( token )].emplace_back( &it );
+            }
+        }
+    }
+
+    std::map<bodypart_id, int> warmth_per_bp = warmth( clothing_map );
+    std::map<bodypart_id, int> bonus_warmth_per_bp = bonus_item_warmth( clothing_map );
+    std::map<bodypart_id, int> wind_res_per_bp = get_wind_resistance( clothing_map );
+    // We might not use this at all, so leave it empty
+    // If we do need to use it, we'll initialize it (once) there
+    std::map<bodypart_id, int> fire_armor_per_bp;
 
     // Current temperature and converging temperature calculations
     for( const bodypart_id &bp : get_all_body_parts() ) {
@@ -5108,12 +5133,12 @@ void Character::update_bodytemp( const map &m, weather_manager &weather )
         double scaled_temperature = logarithmic_range( BODYTEMP_VERY_COLD, BODYTEMP_VERY_HOT,
                                     temp_cur[bp->token] );
         // Produces a smooth curve between 30.0 and 60.0.
-        double homeostasis_adjustement = 30.0 * ( 1.0 + scaled_temperature );
-        int clothing_warmth_adjustement = static_cast<int>( homeostasis_adjustement * warmth( bp ) );
-        int clothing_warmth_adjusted_bonus = static_cast<int>( homeostasis_adjustement * bonus_item_warmth(
-                bp ) );
+        double homeostasis_adjustment = 30.0 * ( 1.0 + scaled_temperature );
+        int clothing_warmth_adjustment = static_cast<int>( homeostasis_adjustment * warmth_per_bp[bp] );
+        int clothing_warmth_adjusted_bonus = static_cast<int>( homeostasis_adjustment *
+                                             bonus_warmth_per_bp[bp] );
         // WINDCHILL
-        double bp_windpower = total_windpower * ( 1 - get_wind_resistance( bp ) / 100.0 );
+        double bp_windpower = total_windpower * ( 1 - wind_res_per_bp[bp] / 100.0 );
         // Calculate windchill
         int windchill = submerged_bp
                         ? 0
@@ -5125,9 +5150,41 @@ void Character::update_bodytemp( const map &m, weather_manager &weather )
         // clothing warmth, and body wetness.
         int bp_conv = adjusted_temp
                       + windchill * 100
-                      + clothing_warmth_adjustement
+                      + clothing_warmth_adjustment
                       + mutation_heat_low
                       + sunlight_warmth;
+
+        // Bark : lowers blister count to -5; harder to get blisters
+        // If the counter is high, your skin starts to burn
+        int blister_count = ( has_bark ? -5 : 0 );
+
+        if( frostbite_timer[bp->token] > 0 ) {
+            frostbite_timer[bp->token] -= std::min( 5, h_radiation );
+        }
+        blister_count += h_radiation - 111 > 0 ?
+                         std::max( static_cast<int>( std::sqrt( h_radiation - 111 ) ), 0 ) : 0;
+
+        if( has_heatsink ) {
+            blister_count -= 20;
+        }
+        if( fire_armor_per_bp.empty() && blister_count > 0 ) {
+            fire_armor_per_bp = get_armor_fire( clothing_map );
+        }
+        // BLISTERS : Skin gets blisters from intense heat exposure.
+        // Fire protection protects from blisters.
+        // Heatsinks give near-immunity.
+        if( blister_count - fire_armor_per_bp[bp] > 0 ) {
+            add_effect( effect_blisters, 1_turns, bp->token );
+            if( pyromania ) {
+                add_morale( MORALE_PYROMANIA_NEARFIRE, 10, 10, 1_hours,
+                            30_minutes ); // Proximity that's close enough to harm us gives us a bit of a thrill
+                rem_morale( MORALE_PYROMANIA_NOFIRE );
+            }
+        } else if( pyromania && best_fire >= 1 ) { // Only give us fire bonus if there's actually fire
+            add_morale( MORALE_PYROMANIA_NEARFIRE, 5, 5, 30_minutes,
+                        15_minutes ); // Gain a much smaller mood boost even if it doesn't hurt us
+            rem_morale( MORALE_PYROMANIA_NOFIRE );
+        }
 
         // Climate Control eases the effects of high and low ambient temps
         if( has_climate_control ) {
@@ -5227,31 +5284,6 @@ void Character::update_bodytemp( const map &m, weather_manager &weather )
             }
         }
 
-        // Bark : lowers blister count to -5; harder to get blisters
-        int blister_count = ( has_bark ? -5 : 0 ); // If the counter is high, your skin starts to burn
-
-        if( frostbite_timer[bp->token] > 0 ) {
-            frostbite_timer[bp->token] -= std::min( 5, h_radiation );
-        }
-        blister_count += h_radiation - 111 > 0 ?
-                         std::max( static_cast<int>( std::sqrt( h_radiation - 111 ) ), 0 ) : 0;
-
-        // BLISTERS : Skin gets blisters from intense heat exposure.
-        // Fire protection protects from blisters.
-        // Heatsinks give near-immunity.
-        if( blister_count - get_armor_fire( bp ) - ( has_heatsink ? 20 : 0 ) > 0 ) {
-            add_effect( effect_blisters, 1_turns, bp->token );
-            if( pyromania ) {
-                add_morale( MORALE_PYROMANIA_NEARFIRE, 10, 10, 1_hours,
-                            30_minutes ); // Proximity that's close enough to harm us gives us a bit of a thrill
-                rem_morale( MORALE_PYROMANIA_NOFIRE );
-            }
-        } else if( pyromania && best_fire >= 1 ) { // Only give us fire bonus if there's actually fire
-            add_morale( MORALE_PYROMANIA_NEARFIRE, 5, 5, 30_minutes,
-                        15_minutes ); // Gain a much smaller mood boost even if it doesn't hurt us
-            rem_morale( MORALE_PYROMANIA_NOFIRE );
-        }
-
         // FROSTBITE - only occurs to hands, feet, face
         /**
 
@@ -5286,11 +5318,11 @@ void Character::update_bodytemp( const map &m, weather_manager &weather )
             int wetness_percentage = 100 * body_wetness[bp->token] / drench_capacity[bp->token]; // 0 - 100
             // Warmth gives a slight buff to temperature resistance
             // Wetness gives a heavy nerf to temperature resistance
-            double adjusted_warmth = warmth( bp ) - wetness_percentage;
+            double adjusted_warmth = warmth_per_bp.at( bp ) - wetness_percentage;
             int Ftemperature = static_cast<int>( player_local_temp + 0.2 * adjusted_warmth );
             // Windchill reduced by your armor
             int FBwindPower = static_cast<int>(
-                                  total_windpower * ( 1 - get_wind_resistance( bp ) / 100.0 ) );
+                                  total_windpower * ( 1 - wind_res_per_bp[ bp ] / 100.0 ) );
 
             int intense = get_effect_int( effect_frostbite, bp->token );
 
@@ -6718,6 +6750,7 @@ int Character::get_armor_cut( bodypart_id bp ) const
     return get_armor_cut_base( bp ) + armor_cut_bonus;
 }
 
+// TODO: Reduce duplication with below function
 int Character::get_armor_type( damage_type dt, bodypart_id bp ) const
 {
     switch( dt ) {
@@ -6752,6 +6785,53 @@ int Character::get_armor_type( damage_type dt, bodypart_id bp ) const
 
     debugmsg( "Invalid damage type: %d", dt );
     return 0;
+}
+
+std::map<bodypart_id, int> Character::get_all_armor_type( damage_type dt,
+        const std::map<bodypart_id, std::vector<const item *>> &clothing_map ) const
+{
+    std::map<bodypart_id, int> ret;
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        ret.emplace( bp, 0 );
+    }
+
+    for( std::pair<const bodypart_id, int> &per_bp : ret ) {
+        const bodypart_id &bp = per_bp.first;
+        switch( dt ) {
+            case DT_TRUE:
+            case DT_BIOLOGICAL:
+                // Characters cannot resist this
+                return ret;
+            /* BASH, CUT, STAB, and BULLET don't benefit from the clothing_map optimization */
+            // TODO: Fix that
+            case DT_BASH:
+                per_bp.second += get_armor_bash( bp );
+                break;
+            case DT_CUT:
+                per_bp.second += get_armor_cut( bp );
+                break;
+            case DT_STAB:
+                per_bp.second += get_armor_cut( bp ) * 0.8f;
+                break;
+            case DT_ACID:
+            case DT_HEAT:
+            case DT_COLD:
+            case DT_ELECTRIC: {
+                for( const item *it : clothing_map.at( bp ) ) {
+                    per_bp.second += it->damage_resist( dt );
+                }
+
+                per_bp.second += mutation_armor( bp, dt );
+                break;
+            }
+            case DT_NULL:
+            case NUM_DT:
+                debugmsg( "Invalid damage type: %d", dt );
+                return ret;
+        }
+    }
+
+    return ret;
 }
 
 int Character::get_armor_bash_base( bodypart_id bp ) const
@@ -7667,7 +7747,8 @@ void Character::rebuild_mutation_cache()
     }
 }
 
-double Character::bonus_from_enchantments( double base, enchant_vals::mod value, bool round ) const
+double Character::bonus_from_enchantments( double base, enchant_vals::mod value,
+        bool round ) const
 {
     return enchantment_cache->calc_bonus( value, base, round );
 }
@@ -7963,9 +8044,10 @@ float Character::bionic_armor_bonus( const bodypart_id &bp, damage_type dt ) con
     return result;
 }
 
-int Character::get_armor_fire( const bodypart_id &bp ) const
+std::map<bodypart_id, int> Character::get_armor_fire( const
+        std::map<bodypart_id, std::vector<const item *>> &clothing_map ) const
 {
-    return get_armor_type( DT_HEAT, bp );
+    return get_all_armor_type( DT_HEAT, clothing_map );
 }
 
 void Character::did_hit( Creature &target )
@@ -7983,7 +8065,8 @@ void Character::on_hit( Creature *source, bodypart_id /*bp_hit*/,
     Where damage to character is actually applied to hit body parts
     Might be where to put bleed stuff rather than in player::deal_damage()
  */
-void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const bool bypass_med )
+void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
+                              const bool bypass_med )
 {
     if( is_dead_state() || has_trait( trait_DEBUG_NODMG ) ) {
         // don't do any more damage if we're already dead
@@ -8945,57 +9028,67 @@ std::string Character::is_snuggling() const
     return "nothing";
 }
 
-int Character::warmth( const bodypart_id &bp ) const
+std::map<bodypart_id, int> Character::warmth( const std::map<bodypart_id, std::vector<const item *>>
+        &clothing_map ) const
 {
-    int ret = 0;
-    int warmth = 0;
+    std::map<bodypart_id, int> ret;
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        ret.emplace( bp, 0 );
+    }
 
-    for( const item &i : worn ) {
-        if( i.covers( bp->token ) ) {
-            warmth = i.get_warmth();
+    for( const std::pair<const bodypart_id, std::vector<const item *>> &on_bp : clothing_map ) {
+        const bodypart_id &bp = on_bp.first;
+        for( const item *it : on_bp.second ) {
+            double warmth = it->get_warmth();
             // Warmth reduced linearly with wetness
-            const auto &materials = i.made_of();
+            const auto &materials = it->made_of();
             float max_wet_resistance = std::accumulate( materials.begin(), materials.end(), 0.0f,
             []( float best, const material_id & mat ) {
                 return std::max( best, mat->warmth_when_wet() );
             } );
             float wet_mult = 1.0f - max_wet_resistance * body_wetness[bp->token] / drench_capacity[bp->token];
-            ret += warmth * wet_mult;
+            ret[bp] += warmth * wet_mult;
         }
+        ret[bp] += get_effect_int( effect_heating_bionic, bp->token );
     }
-    ret += get_effect_int( effect_heating_bionic, bp->token );
     return ret;
 }
 
-static int bestwarmth( const std::list< item > &its, const std::string &flag )
+static int bestwarmth( const std::vector<const item *> &its, const flag_id &flag )
 {
     int best = 0;
-    for( auto &w : its ) {
-        if( w.has_flag( flag ) && w.get_warmth() > best ) {
-            best = w.get_warmth();
+    for( const item *w : its ) {
+        if( w->has_flag( flag.id().c_str() ) && w->get_warmth() > best ) {
+            best = w->get_warmth();
         }
     }
     return best;
 }
 
-int Character::bonus_item_warmth( const bodypart_id &bp ) const
+std::map<bodypart_id, int> Character::bonus_item_warmth( const
+        std::map<bodypart_id, std::vector<const item *>> &clothing_map ) const
 {
-    int ret = 0;
-
-    // If the player is not wielding anything big, check if hands can be put in pockets
-    if( ( bp == bodypart_id( "hand_l" ) || bp == bodypart_id( "hand_r" ) ) &&
-        weapon.volume() < 500_ml ) {
-        ret += bestwarmth( worn, "POCKETS" );
+    std::map<bodypart_id, int> ret;
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        ret.emplace( bp, 0 );
     }
+    for( const std::pair<const bodypart_id, std::vector<const item *>> &on_bp : clothing_map ) {
+        const bodypart_id &bp = on_bp.first;
+        // If the player is not wielding anything big, check if hands can be put in pockets
+        if( ( bp == body_part_hand_l || bp == body_part_hand_r ) &&
+            weapon.volume() < 500_ml ) {
+            ret[bp] += bestwarmth( on_bp.second, flag_POCKETS );
+        }
 
-    // If the player's head is not encumbered, check if hood can be put up
-    if( bp == bodypart_id( "head" ) && encumb( bp_head ) < 10 ) {
-        ret += bestwarmth( worn, "HOOD" );
-    }
+        // If the player's head is not encumbered, check if hood can be put up
+        if( bp == body_part_head && encumb( body_part_head->token ) < 10 ) {
+            ret[bp] += bestwarmth( on_bp.second, flag_HOOD );
+        }
 
-    // If the player's mouth is not encumbered, check if collar can be put up
-    if( bp == bodypart_id( "mouth" ) && encumb( bp_mouth ) < 10 ) {
-        ret += bestwarmth( worn, "COLLAR" );
+        // If the player's mouth is not encumbered, check if collar can be put up
+        if( bp == body_part_mouth && encumb( body_part_mouth->token ) < 10 ) {
+            ret[bp] += bestwarmth( on_bp.second, flag_COLLAR );
+        }
     }
 
     return ret;
