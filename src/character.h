@@ -2025,8 +2025,9 @@ class Character : public Creature, public visitable<Character>
                          const time_duration &duration = 1_hours,
                          const time_duration &decay_start = 30_minutes, bool capped = false,
                          const itype *item_type = nullptr );
-        int has_morale( const morale_type &type ) const;
-        void rem_morale( const morale_type &type, const itype *item_type = nullptr );
+        bool has_morale( const morale_type &type ) const;
+        int get_morale( const morale_type &type ) const;
+        void rem_morale( const morale_type &type );
         void clear_morale();
         bool has_morale_to_read() const;
         bool has_morale_to_craft() const;

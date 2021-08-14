@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_MORALE_H
 #define CATA_SRC_MORALE_H
 
-#include <algorithm>
 #include <functional>
 #include <map>
 #include <string>
@@ -20,6 +19,19 @@ class item;
 class effect;
 struct itype;
 struct morale_mult;
+template<typename T> struct enum_traits;
+
+enum class morale_subtype_t : char {
+    single = 0,
+    by_item,
+    by_effect,
+    last
+};
+
+template<>
+struct enum_traits<morale_subtype_t> {
+    static constexpr morale_subtype_t last = morale_subtype_t::last;
+};
 
 class player_morale
 {
@@ -34,13 +46,23 @@ class player_morale
         /** Adds morale to existing or creates one */
         void add( morale_type type, int bonus, int max_bonus = 0,
                   const time_duration &duration = 6_minutes, const time_duration &decay_start = 3_minutes,
-                  bool capped = false, const itype *item_type = nullptr );
+                  bool capped = false );
+        void add( morale_type type, int bonus, int max_bonus,
+                  const time_duration &duration, const time_duration &decay_start,
+                  bool capped,
+                  const itype &item_type );
+        void add( morale_type type, int bonus, int max_bonus,
+                  const time_duration &duration, const time_duration &decay_start,
+                  bool capped,
+                  const efftype_id &effect_type );
         /** Sets the new level for the permanent morale, or creates one */
-        void set_permanent( const morale_type &type, int bonus, const itype *item_type = nullptr );
+        void set_permanent( const morale_type &type, int bonus );
+        /** Returns true if any morale point with specified morale exists */
+        bool has( const morale_type &type ) const;
         /** Returns bonus from specified morale */
-        int has( const morale_type &type, const itype *item_type = nullptr ) const;
+        int get( const morale_type &type ) const;
         /** Removes specified morale */
-        void remove( const morale_type &type, const itype *item_type = nullptr );
+        void remove( const morale_type &type );
         /** Clears up all morale points */
         void clear();
         /** Returns overall morale level */
@@ -74,12 +96,58 @@ class player_morale
 
     private:
 
+        // TODO: It would be cleaner if it was saved/loaded similar to @ref poly_serialized
+        class morale_subtype
+        {
+            public:
+                morale_subtype() {};
+                morale_subtype( const itype &item_type )
+                    : subtype_type( morale_subtype_t::by_item )
+                    , item_type( &item_type ) {};
+                morale_subtype( const efftype_id &eff_type )
+                    : subtype_type( morale_subtype_t::by_effect )
+                    , eff_type( eff_type ) {};
+
+                // TODO: (optional) use optional
+                bool has_description() const;
+                std::string describe() const;
+
+                bool matches( const morale_subtype &other ) const {
+                    return *this == other;
+                }
+                bool operator==( const morale_subtype &other ) const {
+                    if( subtype_type != other.subtype_type ) {
+                        return false;
+                    }
+                    switch( subtype_type ) {
+                        case morale_subtype_t::single:
+                            return true;
+                        case morale_subtype_t::by_item:
+                            return item_type == other.item_type;
+                        case morale_subtype_t::by_effect:
+                            return eff_type == other.eff_type;
+                        default:
+                            // Error!
+                            return false;
+                    }
+                }
+
+                void deserialize( JsonIn &jsin );
+                void serialize( JsonOut &json ) const;
+
+            private:
+                // Uuuh...
+                morale_subtype_t subtype_type = morale_subtype_t::single;
+                const itype *item_type = nullptr;
+                efftype_id eff_type;
+        };
+
         class morale_point
         {
             public:
                 morale_point(
                     const morale_type &type = MORALE_NULL,
-                    const itype *item_type = nullptr,
+                    morale_subtype subtype = morale_subtype(),
                     int bonus = 0,
                     int max_bonus = 0,
                     time_duration duration = 6_minutes,
@@ -87,7 +155,7 @@ class player_morale
                     bool capped = false ) :
 
                     type( type ),
-                    item_type( item_type ),
+                    subtype( subtype ),
                     bonus( normalize_bonus( bonus, max_bonus, capped ) ),
                     duration( std::max( duration, 0_turns ) ),
                     decay_start( std::max( decay_start, 0_turns ) ),
@@ -101,7 +169,9 @@ class player_morale
                 int get_net_bonus( const morale_mult &mult ) const;
                 bool is_expired() const;
                 bool is_permanent() const;
-                bool matches( const morale_type &_type, const itype *_item_type = nullptr ) const;
+                bool type_matches( const morale_type &_type ) const;
+                bool matches( const morale_type &_type ) const;
+                bool matches( const morale_type &_type, const morale_subtype &sub ) const;
                 bool matches( const morale_point &mp ) const;
 
                 void add( int new_bonus, int new_max_bonus, time_duration new_duration,
@@ -114,7 +184,7 @@ class player_morale
                 double get_percent_contribution() const;
             private:
                 morale_type type;
-                const itype *item_type;
+                morale_subtype subtype;
 
                 int bonus = 0;
                 time_duration duration = 0_turns;   // Zero duration == infinity
@@ -136,7 +206,14 @@ class player_morale
                  */
                 int normalize_bonus( int bonus, int max_bonus, bool capped ) const;
         };
-    protected:
+    private:
+        void add( morale_type type, const morale_subtype &subtype, int bonus, int max_bonus,
+                  const time_duration &duration, const time_duration &decay_start,
+                  bool capped );
+        int has( const morale_type &type, const morale_subtype &subtype ) const;
+        void remove( const morale_type &type, const morale_subtype &subtype );
+        void set_permanent_typed( const morale_type &type, int bonus, const morale_subtype &subtype );
+
         morale_mult get_temper_mult() const;
 
         void set_prozac( bool new_took_prozac );
@@ -176,7 +253,7 @@ class player_morale
         std::map<bodypart_id, body_part_data> body_parts;
         body_part_data no_body_part;
 
-        using mutation_handler = std::function<void ( player_morale * )>;
+        using mutation_handler = std::function<void ( player_morale & )>;
         struct mutation_data {
             public:
                 mutation_data() = default;
@@ -188,7 +265,7 @@ class player_morale
                     on_gain( on_gain ),
                     on_loss( on_loss ),
                     active( false ) {}
-                void set_active( player_morale *sender, bool new_active );
+                void set_active( player_morale &sender, bool new_active );
                 bool get_active() const;
                 void clear();
             private:

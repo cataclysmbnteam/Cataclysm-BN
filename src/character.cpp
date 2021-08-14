@@ -8665,17 +8665,26 @@ void Character::add_morale( const morale_type &type, int bonus, int max_bonus,
                             const time_duration &duration, const time_duration &decay_start,
                             bool capped, const itype *item_type )
 {
-    morale->add( type, bonus, max_bonus, duration, decay_start, capped, item_type );
+    if( item_type != nullptr ) {
+        morale->add( type, bonus, max_bonus, duration, decay_start, capped, *item_type );
+    } else {
+        morale->add( type, bonus, max_bonus, duration, decay_start, capped );
+    }
 }
 
-int Character::has_morale( const morale_type &type ) const
+bool Character::has_morale( const morale_type &type ) const
 {
     return morale->has( type );
 }
 
-void Character::rem_morale( const morale_type &type, const itype *item_type )
+int Character::get_morale( const morale_type &type ) const
 {
-    morale->remove( type, item_type );
+    return morale->get( type );
+}
+
+void Character::rem_morale( const morale_type &type )
+{
+    morale->remove( type );
 }
 
 void Character::clear_morale()

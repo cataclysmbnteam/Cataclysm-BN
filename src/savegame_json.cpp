@@ -3085,16 +3085,53 @@ void Creature::load( const JsonObject &jsin )
     on_stat_change( "pain", pain );
 }
 
+void player_morale::morale_subtype::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "subtype_type", subtype_type );
+    switch( subtype_type ) {
+        case morale_subtype_t::single:
+            break;
+        case morale_subtype_t::by_item:
+            json.member( "item_type", item_type->get_id() );
+            break;
+        case morale_subtype_t::by_effect:
+            json.member( "eff_type", eff_type );
+            break;
+        default:
+            break;
+    }
+    json.end_object();
+}
+
+void player_morale::morale_subtype::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    jo.allow_omitted_members();
+    jo.read( "subtype_type", subtype_type );
+    switch( subtype_type ) {
+        case morale_subtype_t::single:
+            break;
+        case morale_subtype_t::by_item:
+            item_type = &*item::find_type( jo.get_string( "item_type" ) );
+            break;
+        case morale_subtype_t::by_effect:
+            eff_type = efftype_id( jo.get_string( "eff_type" ) );
+            break;
+        default:
+            debugmsg( "invalid or missing morale_subtype_t: %d",
+                      static_cast<int>( subtype_type ) );
+            subtype_type = morale_subtype_t::single;
+    }
+}
+
 void player_morale::morale_point::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
     jo.allow_omitted_members();
-    if( !jo.read( "type", type ) ) {
-        type = morale_type_data::convert_legacy( jo.get_int( "type_enum" ) );
-    }
-    std::string tmpitype;
-    if( jo.read( "item_type", tmpitype ) && item::type_is_defined( tmpitype ) ) {
-        item_type = item::find_type( tmpitype );
+    jo.read( "type", type );
+    if( !jo.read( "subtype", subtype ) && jo.has_string( "item_type" ) ) {
+        subtype = morale_subtype( *item::find_type( jo.get_string( "item_type" ) ) );
     }
     jo.read( "bonus", bonus );
     jo.read( "duration", duration );
@@ -3106,10 +3143,7 @@ void player_morale::morale_point::serialize( JsonOut &json ) const
 {
     json.start_object();
     json.member( "type", type );
-    if( item_type != nullptr ) {
-        // TODO: refactor player_morale to not require this hack
-        json.member( "item_type", item_type->get_id() );
-    }
+    json.member( "subtype", subtype );
     json.member( "bonus", bonus );
     json.member( "duration", duration );
     json.member( "decay_start", decay_start );
