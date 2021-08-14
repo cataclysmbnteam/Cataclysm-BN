@@ -285,7 +285,6 @@
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "mechanics",
     "difficulty": 5,
-    "skills_required": [ "fabrication", 2 ],
     "time": "2 h 40 m",
     "autolearn": true,
     "using": [ [ "welding_standard", 15 ] ],
