@@ -73,6 +73,7 @@ class avatar : public player
         void randomize( bool random_scenario, points_left &points, bool play_now = false );
         bool load_template( const std::string &template_name, points_left &points );
         void save_template( const std::string &name, const points_left &points );
+        void character_to_template( const std::string &name );
 
         bool is_avatar() const override {
             return true;

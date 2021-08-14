@@ -2979,6 +2979,16 @@ cata::optional<std::string> query_for_template_name()
     }
 }
 
+void avatar::character_to_template( const std::string &name )
+{
+    points_left points;
+    points.stat_points = 0;
+    points.trait_points = 0;
+    points.skill_points = 0;
+    points.limit = points_left::TRANSFER;
+    save_template( name, points );
+}
+
 void avatar::save_template( const std::string &name, const points_left &points )
 {
     std::string name_san = ensure_valid_file_name( name );
