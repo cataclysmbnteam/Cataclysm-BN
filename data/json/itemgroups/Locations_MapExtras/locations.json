@@ -2452,7 +2452,7 @@
       [ "forge", 5 ],
       { "item": "weldtank", "charges": [ 0, 120 ], "prob": 10 },
       { "item": "tinyweldtank", "charges": [ 0, 30 ], "prob": 15 },
-      [ "oxygen", 15 ],
+      [ "oxygen_cylinder", 15 ],
       [ "coal_lump", 5 ],
       [ "material_limestone", 5 ]
     ]
