@@ -442,7 +442,6 @@ static void eff_fun_toxin_buildup( player &u, effect &it )
     if( it.get_intensity() > 3 ) {
         u.vitamin_set( vitamin_mutant_toxin, 0 );
         u.add_effect( effect_mutating, effect_mutating->get_max_duration() / 2 );
-        u.mutate();
     }
 }
 

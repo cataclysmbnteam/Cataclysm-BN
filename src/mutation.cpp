@@ -925,6 +925,7 @@ void Character::mutate()
         }
     } else {
         old_mutate();
+        remove_effect( effect_accumulated_mutagen );
     }
 }
 
