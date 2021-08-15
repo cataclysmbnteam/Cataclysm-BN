@@ -67,8 +67,8 @@ static void show_pickup_message( const pickup_map &mapPickup );
 struct pickup_count {
     bool pick = false;
     // nullopt if the whole stack is being picked up, nonzero otherwise.
-    cata::optional<int> count = 0;
-    cata::optional<size_t> parent{};
+    cata::optional<int> count;
+    cata::optional<size_t> parent;
     std::vector<size_t> children;
     bool all_children_picked = false;
 };
@@ -76,54 +76,54 @@ struct pickup_count {
 static bool select_autopickup_items( const std::vector<std::list<item_stack::iterator>> &here,
                                      std::vector<pickup_count> &getitem )
 {
-    bool bFoundSomething = false;
+    bool found_something = false;
 
     //Loop through Items lowest Volume first
-    bool bPickup = false;
+    bool do_pickup = false;
 
-    for( size_t iVol = 0, iNumChecked = 0; iNumChecked < here.size(); iVol++ ) {
+    for( size_t rounded_volume = 0, num_checked = 0; num_checked < here.size(); rounded_volume++ ) {
         for( size_t i = 0; i < here.size(); i++ ) {
-            bPickup = false;
+            do_pickup = false;
             item_stack::const_iterator begin_iterator = here[i].front();
-            if( begin_iterator->volume() / units::legacy_volume_factor == static_cast<int>( iVol ) ) {
-                iNumChecked++;
-                const std::string sItemName = begin_iterator->tname( 1, false );
+            if( begin_iterator->volume() / units::legacy_volume_factor == static_cast<int>( rounded_volume ) ) {
+                num_checked++;
+                const std::string item_name = begin_iterator->tname( 1, false );
 
                 //Check the Pickup Rules
-                if( get_auto_pickup().check_item( sItemName ) == RULE_WHITELISTED ) {
-                    bPickup = true;
-                } else if( get_auto_pickup().check_item( sItemName ) != RULE_BLACKLISTED ) {
+                if( get_auto_pickup().check_item( item_name ) == RULE_WHITELISTED ) {
+                    do_pickup = true;
+                } else if( get_auto_pickup().check_item( item_name ) != RULE_BLACKLISTED ) {
                     //No prematched pickup rule found
                     //check rules in more detail
                     get_auto_pickup().create_rule( &*begin_iterator );
 
-                    if( get_auto_pickup().check_item( sItemName ) == RULE_WHITELISTED ) {
-                        bPickup = true;
+                    if( get_auto_pickup().check_item( item_name ) == RULE_WHITELISTED ) {
+                        do_pickup = true;
                     }
                 }
 
                 //Auto Pickup all items with Volume <= AUTO_PICKUP_VOL_LIMIT * 50 and Weight <= AUTO_PICKUP_ZERO * 50
                 //items will either be in the autopickup list ("true") or unmatched ("")
-                if( !bPickup ) {
+                if( !do_pickup ) {
                     int weight_limit = get_option<int>( "AUTO_PICKUP_WEIGHT_LIMIT" );
                     int volume_limit = get_option<int>( "AUTO_PICKUP_VOL_LIMIT" );
                     if( weight_limit && volume_limit ) {
                         if( begin_iterator->volume() <= units::from_milliliter( volume_limit * 50 ) &&
                             begin_iterator->weight() <= weight_limit * 50_gram &&
-                            get_auto_pickup().check_item( sItemName ) != RULE_BLACKLISTED ) {
-                            bPickup = true;
+                            get_auto_pickup().check_item( item_name ) != RULE_BLACKLISTED ) {
+                            do_pickup = true;
                         }
                     }
                 }
             }
 
-            if( bPickup ) {
+            if( do_pickup ) {
                 getitem[i].pick = true;
-                bFoundSomething = true;
+                found_something = true;
             }
         }
     }
-    return bFoundSomething;
+    return found_something;
 }
 
 enum pickup_answer : int {
@@ -1156,7 +1156,7 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 
         bool item_selected = false;
         // Check if we have selected an item.
-        for( auto selection : getitem ) {
+        for( const pickup_count &selection : getitem ) {
             if( selection.pick ) {
                 item_selected = true;
             }
