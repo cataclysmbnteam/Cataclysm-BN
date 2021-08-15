@@ -587,6 +587,12 @@
     "context": [ "COMESTIBLE" ]
   },
   {
+    "id": "NO_BLOAT",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "info": "This comestible can be <good>eaten even on full stomach</good>."
+  },
+  {
     "id": "PSYSHIELD_PARTIAL",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
