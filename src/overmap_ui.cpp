@@ -181,6 +181,8 @@ struct grids_draw_data {
         std::unordered_map<std::size_t, std::pair<std::vector<tripoint_abs_omt>, char>> list_inactive;
 };
 
+static void create_note( const tripoint_abs_omt &curs );
+
 // {note symbol, note color, offset to text}
 std::tuple<char, nc_color, size_t> get_note_display_info( const std::string &note )
 {
@@ -1416,23 +1418,35 @@ static void draw_om_sidebar(
     wnoutrefresh( wbar );
 }
 
-void draw(
-    const catacurses::window &w, const catacurses::window &wbar, const tripoint_abs_omt &center,
-    const tripoint_abs_omt &orig, bool blink, bool show_explored, bool fast_scroll,
-    input_context *inp_ctxt, const draw_data_t &data, grids_draw_data &grids_data )
+#if defined(TILES)
+tiles_redraw_info redraw_info;
+#endif
+
+static void draw(
+    const tripoint_abs_omt &center,
+    const tripoint_abs_omt &orig,
+    bool blink,
+    bool show_explored,
+    bool fast_scroll,
+    input_context *inp_ctxt,
+    const draw_data_t &data,
+    grids_draw_data &grids_data )
 {
-    draw_om_sidebar( wbar, center, orig, blink, fast_scroll, inp_ctxt, data );
+    draw_om_sidebar( g->w_omlegend, center, orig, blink, fast_scroll, inp_ctxt, data );
     if( !use_tiles || !use_tiles_overmap ) {
-        draw_ascii( w, center, orig, blink, show_explored, fast_scroll, inp_ctxt, data, grids_data );
+        draw_ascii( g->w_overmap, center, orig, blink, show_explored, fast_scroll, inp_ctxt, data,
+                    grids_data );
     } else {
 #ifdef TILES
-        cata_cursesport::WINDOW *const win = w.get<cata_cursesport::WINDOW>();
-        tilecontext->draw_om( win->pos, center, blink );
+        redraw_info = tiles_redraw_info { center, blink };
+        werase( g->w_overmap );
+        // trigger the actual redraw code in sdltiles.cpp
+        wnoutrefresh( g->w_overmap );
 #endif // TILES
     }
 }
 
-void create_note( const tripoint_abs_omt &curs )
+static void create_note( const tripoint_abs_omt &curs )
 {
     std::string color_notes = _( "Color codes: " );
     for( const std::pair<std::string, std::string> &color_pair : get_note_color_names() ) {
@@ -1880,7 +1894,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
     grids_draw_data grids_data;
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        draw( g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays,
+        draw( curs, orig, uistate.overmap_show_overlays,
               show_explored, fast_scroll, &ictxt, data, grids_data );
     } );
 
