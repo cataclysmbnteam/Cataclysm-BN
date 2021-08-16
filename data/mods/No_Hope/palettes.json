@@ -584,7 +584,15 @@
       "6": "t_console",
       "x": "t_console_broken"
     },
-    "furniture": { "b": "f_bench", "c": "f_cupboard", "l": "f_locker", "S": "f_sink", "%": "f_trashcan", "C": "f_charger" },
+    "furniture": {
+      "b": "f_bench",
+      "c": "f_cupboard",
+      "l": "f_locker",
+      "S": "f_sink",
+      "%": "f_trashcan",
+      "C": "f_charger",
+      "B": "f_battery"
+    },
     "toilets": { "T": {  } },
     "items": {
       "l": { "item": "SUS_evac_shelter_locker", "chance": 80 },
