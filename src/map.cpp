@@ -645,7 +645,8 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
         }
     }
 
-    const bool seen = sees_veh( g->u, veh, false );
+    Character &player_character = get_player_character();
+    const bool seen = sees_veh( player_character, veh, false );
 
     vehicle *new_vehicle = &veh;
     if( can_move ) {
@@ -719,9 +720,9 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
             veh.tow_data.get_towed()->invalidate_towing( true );
         }
     }
-    // Redraw scene
-    // But only if the vehicle was seen before or after the move
-    if( seen || sees_veh( g->u, veh, true ) ) {
+    // Redraw scene, but only if the player is not engaged in an activity and
+    // the vehicle was seen before or after the move.
+    if( !player_character.activity && ( seen || sees_veh( player_character, veh, true ) ) ) {
         g->invalidate_main_ui_adaptor();
         ui_manager::redraw_invalidated();
         refresh_display();
