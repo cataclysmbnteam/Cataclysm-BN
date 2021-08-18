@@ -1355,6 +1355,27 @@ void load_effect_type( const JsonObject &jo )
                         std::get<0>( morale_effect->first ) );
     }
 
+    // TODO: Implement handling of reduced morale, remove this
+    static const std::vector<const char *> mod_types = {{
+            "base_mods", "scaling_mods"
+        }
+    };
+    if( has_morale_effect ) {
+        for( const std::string &cur_mod : mod_types ) {
+            auto reduced_tuple = std::make_tuple( cur_mod, true, "MORALE", "amount" );
+            auto reduced = new_etype.mod_data.find( reduced_tuple );
+            auto non_reduced_tuple = std::make_tuple( cur_mod, false, "MORALE", "amount" );
+            auto non_reduced = new_etype.mod_data.find( non_reduced_tuple );
+            bool has_reduced = reduced != new_etype.mod_data.end();
+            bool has_non_reduced = non_reduced != new_etype.mod_data.end();
+            if( ( has_reduced && has_non_reduced && reduced->second != non_reduced->second )
+                || has_reduced != has_non_reduced ) {
+                jo.throw_error( "MORALE doesn't support different amounts for reduced effects yet",
+                                cur_mod );
+            }
+        }
+    }
+
     effect_types[new_etype.id] = new_etype;
 }
 
