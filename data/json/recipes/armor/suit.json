@@ -142,6 +142,7 @@
     "difficulty": 3,
     "time": "20 m",
     "reversible": true,
+    "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "cuirass_lightplate", 1 ] ], [ [ "armguard_lightplate", 1 ] ], [ [ "legguard_lightplate", 1 ] ] ]
   },
