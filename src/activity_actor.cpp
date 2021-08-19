@@ -6,6 +6,7 @@
 #include <string>
 #include <utility>
 
+#include "avatar_action.h"
 #include "activity_handlers.h" // put_into_vehicle_or_drop and drop_on_map
 #include "advanced_inv.h"
 #include "avatar.h"
@@ -29,10 +30,12 @@
 #include "mapdata.h"
 #include "npc.h"
 #include "output.h"
+#include "options.h"
 #include "pickup.h"
 #include "player.h"
 #include "player_activity.h"
 #include "point.h"
+#include "ranged.h"
 #include "rng.h"
 #include "sounds.h"
 #include "timed_event.h"
@@ -47,6 +50,250 @@ static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
 static const mtype_id mon_zombie_rot( "mon_zombie_rot" );
 static const mtype_id mon_skeleton( "mon_skeleton" );
 static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
+
+static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
+
+aim_activity_actor::aim_activity_actor()
+{
+    initial_view_offset = get_avatar().view_offset;
+}
+
+aim_activity_actor aim_activity_actor::use_wielded()
+{
+    return aim_activity_actor();
+}
+
+aim_activity_actor aim_activity_actor::use_bionic( const item &fake_gun,
+        const units::energy &cost_per_shot )
+{
+    aim_activity_actor act = aim_activity_actor();
+    act.bp_cost_per_shot = cost_per_shot;
+    act.fake_weapon = fake_gun;
+    return act;
+}
+
+aim_activity_actor aim_activity_actor::use_mutation( const item &fake_gun )
+{
+    aim_activity_actor act = aim_activity_actor();
+    act.fake_weapon = fake_gun;
+    return act;
+}
+
+void aim_activity_actor::start( player_activity &act, Character &/*who*/ )
+{
+    // Time spent on aiming is determined on the go by the player
+    act.moves_total = 1;
+    act.moves_left = 1;
+}
+
+void aim_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    if( !who.is_avatar() ) {
+        debugmsg( "ACT_AIM not implemented for NPCs" );
+        aborted = true;
+        act.moves_left = 0;
+        return;
+    }
+    avatar &you = get_avatar();
+
+    item *weapon = get_weapon();
+    if( !weapon || !avatar_action::can_fire_weapon( you, get_map(), *weapon ) ) {
+        aborted = true;
+        act.moves_left = 0;
+        return;
+    }
+
+    gun_mode gun = weapon->gun_current_mode();
+    if( first_turn && gun->has_flag( flag_RELOAD_AND_SHOOT ) && !gun->ammo_remaining() ) {
+        if( !load_RAS_weapon() ) {
+            aborted = true;
+            act.moves_left = 0;
+            return;
+        }
+    }
+
+    g->temp_exit_fullscreen();
+    target_handler::trajectory trajectory = target_handler::mode_fire( you, *this );
+    g->reenter_fullscreen();
+
+    if( aborted ) {
+        act.moves_left = 0;
+    } else {
+        if( !trajectory.empty() ) {
+            fin_trajectory = trajectory;
+            act.moves_left = 0;
+        }
+        // If aborting on the first turn, keep 'first_turn' as 'true'.
+        // This allows refunding moves spent on unloading RELOAD_AND_SHOOT weapons
+        // to simulate avatar not loading them in the first place
+        first_turn = false;
+
+        // Allow interrupting activity only during 'aim and fire'.
+        // Prevents '.' key for 'aim for 10 turns' from conflicting with '.' key for 'interrupt activity'
+        // in case of high input lag (curses, sdl sometimes...), but allows to interrupt aiming
+        // if a bug happens / stars align to cause an endless aiming loop.
+        act.interruptable_with_kb = action != "AIM";
+    }
+}
+
+void aim_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+    restore_view();
+    item *weapon = get_weapon();
+    if( !weapon ) {
+        return;
+    }
+    if( aborted ) {
+        unload_RAS_weapon();
+        if( reload_requested ) {
+            // Reload the gun / select different arrows
+            // May assign ACT_RELOAD
+            g->reload_wielded( true );
+        }
+        return;
+    }
+
+    // Fire!
+    gun_mode gun = weapon->gun_current_mode();
+    int shots_fired = static_cast<player *>( &who )->fire_gun( fin_trajectory.back(), gun.qty, *gun );
+
+    // TODO: bionic power cost of firing should be derived from a value of the relevant weapon.
+    if( shots_fired && ( bp_cost_per_shot > 0_J ) ) {
+        who.mod_power_level( -bp_cost_per_shot * shots_fired );
+    }
+}
+
+void aim_activity_actor::canceled( player_activity &/*act*/, Character &/*who*/ )
+{
+    restore_view();
+    unload_RAS_weapon();
+}
+
+void aim_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "fake_weapon", fake_weapon );
+    jsout.member( "bp_cost_per_shot", bp_cost_per_shot );
+    jsout.member( "first_turn", first_turn );
+    jsout.member( "action", action );
+    jsout.member( "snap_to_target", snap_to_target );
+    jsout.member( "shifting_view", shifting_view );
+    jsout.member( "initial_view_offset", initial_view_offset );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
+{
+    aim_activity_actor actor = aim_activity_actor();
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "fake_weapon", actor.fake_weapon );
+    data.read( "bp_cost_per_shot", actor.bp_cost_per_shot );
+    data.read( "first_turn", actor.first_turn );
+    data.read( "action", actor.action );
+    data.read( "snap_to_target", actor.snap_to_target );
+    data.read( "shifting_view", actor.shifting_view );
+    data.read( "initial_view_offset", actor.initial_view_offset );
+
+    return actor.clone();
+}
+
+item *aim_activity_actor::get_weapon()
+{
+    if( fake_weapon.has_value() ) {
+        // TODO: check if the player lost relevant bionic/mutation
+        return &fake_weapon.value();
+    } else {
+        // Check for lost gun (e.g. yanked by zombie technician)
+        // TODO: check that this is the same gun that was used to start aiming
+        item *weapon = &get_player_character().weapon;
+        return weapon->is_null() ? nullptr : weapon;
+    }
+}
+
+void aim_activity_actor::restore_view()
+{
+    avatar &player_character = get_avatar();
+    bool changed_z = player_character.view_offset.z != initial_view_offset.z;
+    player_character.view_offset = initial_view_offset;
+    if( changed_z ) {
+        get_map().invalidate_map_cache( player_character.view_offset.z );
+        g->invalidate_main_ui_adaptor();
+    }
+}
+
+bool aim_activity_actor::load_RAS_weapon()
+{
+    // TODO: use activity for fetching ammo and loading weapon
+    player &you = get_avatar();
+    item *weapon = get_weapon();
+    gun_mode gun = weapon->gun_current_mode();
+    const auto ammo_location_is_valid = [&]() -> bool {
+        if( !you.ammo_location )
+        {
+            return false;
+        }
+        if( !gun->can_reload_with( you.ammo_location->typeId() ) )
+        {
+            return false;
+        }
+        if( square_dist( you.pos(), you.ammo_location.position() ) > 1 )
+        {
+            return false;
+        }
+        return true;
+    };
+    item::reload_option opt = ammo_location_is_valid() ? item::reload_option( &you, weapon,
+                              weapon, you.ammo_location ) : you.select_ammo( *gun );
+    if( !opt ) {
+        // Menu canceled
+        return false;
+    }
+    int reload_time = 0;
+    reload_time += opt.moves();
+    if( !gun->reload( you, std::move( opt.ammo ), 1 ) ) {
+        // Reload not allowed
+        return false;
+    }
+
+    // Burn 0.2% max base stamina x the strength required to fire.
+    you.mod_stamina( gun->get_min_str() * static_cast<int>( 0.002f *
+                     get_option<int>( "PLAYER_MAX_STAMINA" ) ) );
+    // At low stamina levels, firing starts getting slow.
+    int sta_percent = ( 100 * you.get_stamina() ) / you.get_stamina_max();
+    reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
+
+    you.moves -= reload_time;
+    return true;
+}
+
+void aim_activity_actor::unload_RAS_weapon()
+{
+    // Unload reload-and-shoot weapons to avoid leaving bows pre-loaded with arrows
+    avatar &you = get_avatar();
+    item *weapon = get_weapon();
+    if( !weapon ) {
+        return;
+    }
+
+    gun_mode gun = weapon->gun_current_mode();
+    if( gun->has_flag( flag_RELOAD_AND_SHOOT ) ) {
+        int moves_before_unload = you.moves;
+
+        // Note: this code works only for avatar
+        item_location loc = item_location( you, gun.target );
+        you.unload( loc );
+
+        // Give back time for unloading as essentially nothing has been done.
+        if( first_turn ) {
+            you.moves = moves_before_unload;
+        }
+    }
+}
 
 void dig_activity_actor::start( player_activity &act, Character & )
 {
@@ -596,6 +843,7 @@ namespace activity_actors
 // Please keep this alphabetically sorted
 const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( JsonIn & )>
 deserialize_functions = {
+    { activity_id( "ACT_AIM" ), &aim_activity_actor::deserialize },
     { activity_id( "ACT_DIG" ), &dig_activity_actor::deserialize },
     { activity_id( "ACT_DIG_CHANNEL" ), &dig_channel_activity_actor::deserialize },
     { activity_id( "ACT_HACKING" ), &hacking_activity_actor::deserialize },
