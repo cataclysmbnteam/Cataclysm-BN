@@ -503,9 +503,11 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You smoke your crack rocks.  Mother would be proud.",
-      "effects": [ { "id": "cocaine_high", "duration": "10 minutes" },
+      "effects": [
         { "id": "cocaine_high", "duration": "10 minutes" },
-        { "id": "cocaine_high", "duration": "10 minutes" } ],
+        { "id": "cocaine_high", "duration": "10 minutes" },
+        { "id": "cocaine_high", "duration": "10 minutes" }
+      ],
       "stat_adjustments": { "hunger": -10 },
       "fields_produced": { "fd_cracksmoke": 2 },
       "charges_needed": { "fire": 1 },
