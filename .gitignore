@@ -4,6 +4,7 @@
 *.d
 *.dll
 *.exe
+*.exp
 *.o
 *.tmp
 *.zip
