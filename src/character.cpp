@@ -8711,7 +8711,7 @@ bool Character::check_and_recover_morale()
     }
 
     for( const auto &elem : *effects ) {
-        for( const std::pair<const bodypart_id, effect> &_effect_it : elem.second ) {
+        for( const std::pair<const bodypart_str_id, effect> &_effect_it : elem.second ) {
             const effect &e = _effect_it.second;
             if( !e.is_removed() ) {
                 test_morale.on_effect_int_change( e.get_id(), e.get_intensity(), e.get_bp() );

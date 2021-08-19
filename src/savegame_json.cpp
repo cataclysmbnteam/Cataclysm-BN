@@ -503,25 +503,7 @@ void Character::load( const JsonObject &data )
         }
     }
 
-    if( savegame_loading_version <= 23 ) {
-        std::unordered_set<trait_id> old_my_mutations;
-        data.read( "mutations", old_my_mutations );
-        for( const trait_id &mut : old_my_mutations ) {
-            my_mutations[mut]; // Creates a new entry with default values
-        }
-        std::map<trait_id, char> trait_keys;
-        data.read( "mutation_keys", trait_keys );
-        for( const std::pair<const trait_id, char> &k : trait_keys ) {
-            my_mutations[k.first].key = k.second;
-        }
-        std::set<trait_id> active_muts;
-        data.read( "active_mutations_hacky", active_muts );
-        for( const auto &mut : active_muts ) {
-            my_mutations[mut].powered = true;
-        }
-    } else {
-        data.read( "mutations", my_mutations );
-    }
+    data.read( "mutations", my_mutations );
     for( auto it = my_mutations.begin(); it != my_mutations.end(); ) {
         const trait_id &mid = it->first;
         if( mid.is_valid() ) {
@@ -578,14 +560,6 @@ void Character::load( const JsonObject &data )
         JsonIn *invin = data.get_raw( "inv" );
         inv.json_load_items( *invin );
     }
-    // this is after inventory is loaded to make it more obvious that
-    // it needs to be changed again when Character::i_at is removed for nested containers
-    if( savegame_loading_version < 28 ) {
-        activity.migrate_item_position( *this );
-        destination_activity.migrate_item_position( *this );
-        stashed_outbounds_activity.migrate_item_position( *this );
-        stashed_outbounds_backlog.migrate_item_position( *this );
-    }
 
     weapon = item( "null", calendar::start_of_cataclysm );
     data.read( "weapon", weapon );
@@ -603,6 +577,13 @@ void Character::load( const JsonObject &data )
     }
 
     morale->load( data );
+    // Have to go through effects again, in case an effect gained a morale bonus
+    for( const auto &elem : *effects ) {
+        for( const std::pair<const bodypart_str_id, effect> &_effect_it : elem.second ) {
+            const effect &e = _effect_it.second;
+            on_effect_int_change( e.get_id(), e.get_intensity(), e.get_bp() );
+        }
+    }
 
     _skills->clear();
     for( const JsonMember member : data.get_object( "skills" ) ) {
@@ -620,12 +601,6 @@ void Character::load( const JsonObject &data )
 
     assign( data, "power_level", power_level, false, 0_kJ );
     assign( data, "max_power_level", max_power_level, false, 0_kJ );
-
-    // Bionic power scale has been changed, savegame version 21 has the new scale
-    if( savegame_loading_version <= 20 ) {
-        power_level *= 25;
-        max_power_level *= 25;
-    }
 
     // Bionic power should not be negative!
     if( power_level < 0_mJ ) {
@@ -3059,6 +3034,29 @@ void Creature::load( const JsonObject &jsin )
 
     killer = nullptr; // see Creature::load
 
+    if( jsin.has_object( "effects" ) ) {
+        // Because JSON requires string keys we need to convert back to our bp keys
+        std::unordered_map<std::string, std::unordered_map<std::string, effect>> tmp_map;
+        jsin.read( "effects", tmp_map );
+        int key_num = 0;
+        for( auto maps : tmp_map ) {
+            const efftype_id id( maps.first );
+            if( !id.is_valid() ) {
+                debugmsg( "Invalid effect: %s", id.c_str() );
+                continue;
+            }
+            for( auto i : maps.second ) {
+                if( !( std::istringstream( i.first ) >> key_num ) ) {
+                    key_num = 0;
+                }
+                const bodypart_str_id &bp = convert_bp( static_cast<body_part>( key_num ) );
+                effect &e = i.second;
+
+                ( *effects )[id][bp] = e;
+                on_effect_int_change( id, e.get_intensity(), bp );
+            }
+        }
+    }
     jsin.read( "values", values );
 
     jsin.read( "blocks_left", num_blocks );
