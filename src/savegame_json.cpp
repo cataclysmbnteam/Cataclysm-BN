@@ -89,7 +89,6 @@
 #include "player_activity.h"
 #include "point.h"
 #include "profession.h"
-#include "ranged.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "relic.h"
@@ -1171,32 +1170,6 @@ void avatar::load( const JsonObject &data )
         JsonIn *jip = data.get_raw( "invcache" );
         inv.json_load_invcache( *jip );
     }
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-///// ranged.h
-
-void targeting_data::serialize( JsonOut &json ) const
-{
-    json.start_object();
-    json.member( "weapon_source", io::enum_to_string( weapon_source ) );
-    if( cached_fake_weapon ) {
-        json.member( "cached_fake_weapon", *cached_fake_weapon );
-    }
-    json.member( "bp_cost", bp_cost_per_shot );
-    json.end_object();
-}
-
-void targeting_data::deserialize( JsonIn &jsin )
-{
-    JsonObject data = jsin.get_object();
-    data.read( "weapon_source", weapon_source );
-    if( weapon_source == WEAPON_SOURCE_BIONIC || weapon_source == WEAPON_SOURCE_MUTATION ) {
-        cached_fake_weapon = shared_ptr_fast<item>( new item() );
-        data.read( "cached_fake_weapon", *cached_fake_weapon );
-    }
-
-    data.read( "bp_cost", bp_cost_per_shot );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

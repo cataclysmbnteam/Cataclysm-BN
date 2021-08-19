@@ -84,7 +84,6 @@ enum safe_mode_type {
 enum body_part : int;
 enum weather_type : int;
 enum action_id : int;
-enum target_mode : int;
 
 struct special_game;
 
@@ -148,7 +147,6 @@ class game
         friend class editmap;
         friend class advanced_inventory;
         friend class main_menu;
-        friend class target_handler_old;
         friend distribution_grid_tracker &get_distribution_grid_tracker();
     public:
         game();
