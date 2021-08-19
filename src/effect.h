@@ -90,6 +90,8 @@ class effect_type
         /** Registers the effect in the global map */
         static void register_ma_buff_effect( const effect_type &eff );
 
+        static void check_consistency();
+
     private:
         bool permanent = false;
 

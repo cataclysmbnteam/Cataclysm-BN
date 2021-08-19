@@ -387,6 +387,30 @@
     "permanent": true
   },
   {
+    "id": "morale_drunk",
+    "type": "morale_type",
+    "text": "Drunk",
+    "permanent": true
+  },
+  {
+    "id": "morale_xanax",
+    "type": "morale_type",
+    "text": "Xanax",
+    "permanent": true
+  },
+  {
+    "id": "morale_valium",
+    "type": "morale_type",
+    "text": "Anticonvulsant",
+    "permanent": true
+  },
+  {
+    "id": "morale_nicotine",
+    "type": "morale_type",
+    "text": "Nicotine",
+    "permanent": true
+  },
+  {
     "id": "morale_perm_debug",
     "type": "morale_type",
     "text": "Debug Morale",

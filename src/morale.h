@@ -100,7 +100,7 @@ class player_morale
         class morale_subtype
         {
             public:
-                morale_subtype() {};
+                morale_subtype();
                 morale_subtype( const itype &item_type )
                     : subtype_type( morale_subtype_t::by_item )
                     , item_type( &item_type ) {};
@@ -136,7 +136,6 @@ class player_morale
                 void serialize( JsonOut &json ) const;
 
             private:
-                // Uuuh...
                 morale_subtype_t subtype_type = morale_subtype_t::single;
                 const itype *item_type = nullptr;
                 efftype_id eff_type;

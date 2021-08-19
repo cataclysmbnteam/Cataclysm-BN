@@ -1173,6 +1173,9 @@ void player_morale::update_squeamish_penalty()
     set_permanent( MORALE_PERM_FILTHY, -penalty );
 }
 
+// For some reason, moving this to header breaks things
+player_morale::morale_subtype::morale_subtype() = default;
+
 bool player_morale::morale_subtype::has_description() const
 {
     return subtype_type == morale_subtype_t::by_item;

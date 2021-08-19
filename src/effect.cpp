@@ -517,6 +517,16 @@ bool effect_type::load_decay_msgs( const JsonObject &jo, const std::string &memb
     }
     return false;
 }
+void effect_type::check_consistency()
+{
+    for( const auto &pr : effect_types ) {
+        const effect_type &et = pr.second;
+        if( et.get_morale_type() && !et.get_morale_type().is_valid() ) {
+            debugmsg( "Effect type %s has invalid morale type %s",
+                      et.id.str(), et.get_morale_type().str() );
+        }
+    }
+}
 
 effect effect::null_effect;
 

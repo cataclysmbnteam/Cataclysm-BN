@@ -659,33 +659,24 @@
   },
   {
     "type": "effect_type",
-    "id": "took_flumed"
-  },
-  {
-    "type": "effect_type",
     "id": "took_xanax",
-    "dur_add_perc": 22,
-    "base_mods": { "stim_tick": [ 150 ], "stim_min": [ -1 ], "stim_min_val": [ -1 ] }
-  },
-  {
-    "type": "effect_type",
-    "id": "took_xanax_visible",
     "name": [ "Took Xanax" ],
-    "desc": [ "You took Xanax some time ago and you might still be under its influence." ]
+    "desc": [ "You took Xanax some time ago and you might still be under its influence." ],
+    "dur_add_perc": 22,
+    "morale": "morale_xanax",
+    "base_mods": { "stim_tick": [ 150 ], "stim_min": [ -1 ], "stim_min_val": [ -1 ], "morale": [20] }
   },
   {
     "type": "effect_type",
-    "id": "took_prozac"
-  },
-  {
-    "type": "effect_type",
-    "id": "took_prozac_bad"
-  },
-  {
-    "type": "effect_type",
-    "id": "took_prozac_visible",
+    "id": "took_prozac",
     "name": [ "Took Prozac" ],
     "desc": [ "You took Prozac some time ago and you might still be under its influence." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "took_prozac_bad",
+    "name": [ "Prozac adverse reaction" ],
+    "desc": [ "Prozac you took recently has affected you negatively." ]
   },
   {
     "type": "effect_type",
@@ -698,10 +689,6 @@
   {
     "type": "effect_type",
     "id": "took_thorazine"
-  },
-  {
-    "type": "effect_type",
-    "id": "took_thorazine_bad"
   },
   {
     "type": "effect_type",
@@ -1089,63 +1076,6 @@
   },
   {
     "type": "effect_type",
-    "id": "common_cold",
-    "name": [ "Common Cold" ],
-    "desc": [ "You have contracted the 'Common Cold'.  Symptoms can be alleviated by medication (cough syrup)." ],
-    "apply_memorial_log": "Caught a cold.",
-    "remove_memorial_log": "Got over the cold.",
-    "apply_message": "You feel a cold coming on...",
-    "rating": "bad",
-    "resist_effects": [ "took_flumed" ],
-    "miss_messages": [ [ "You're too stuffed up to fight effectively.", 1 ] ],
-    "base_mods": {
-      "thirst_tick": [ 1800 ],
-      "thirst_min": [ 1 ],
-      "fatigue_tick": [ 300 ],
-      "fatigue_min": [ 1 ],
-      "str_mod": [ -3, -1 ],
-      "dex_mod": [ -1, 0 ],
-      "per_mod": [ -1, 0 ],
-      "int_mod": [ -2, -1 ],
-      "cough_chance": [ 300, 0 ]
-    }
-  },
-  {
-    "type": "effect_type",
-    "id": "flu",
-    "name": [ "Influenza" ],
-    "desc": [
-      "You have contracted flu, or more technically speaking, the 'Influenza'.  Symptoms can be alleviated by medication (cough syrup)."
-    ],
-    "apply_memorial_log": "Caught the flu.",
-    "remove_memorial_log": "Got over the flu.",
-    "apply_message": "You feel a flu coming on...",
-    "rating": "bad",
-    "resist_effects": [ "took_flumed" ],
-    "base_mods": {
-      "thirst_tick": [ 1800 ],
-      "thirst_min": [ 1 ],
-      "fatigue_tick": [ 300 ],
-      "fatigue_min": [ 1 ],
-      "str_mod": [ -4, -2 ],
-      "dex_mod": [ -2, 0 ],
-      "per_mod": [ -1, 0 ],
-      "int_mod": [ -2, -1 ],
-      "pain_max_val": [ 15 ],
-      "pain_min": [ 1, 0 ],
-      "cough_chance": [ 300, 0 ],
-      "vomit_chance": [ 3600, 7200 ]
-    }
-  },
-  {
-    "type": "effect_type",
-    "id": "flushot",
-    "name": [ "Vaccinated" ],
-    "desc": [ "You have been vaccinated for the flu recently." ],
-    "blocks_effects": [ "flu" ]
-  },
-  {
-    "type": "effect_type",
     "id": "took_antiasthmatic",
     "name": [ "Took antiasthmatic drugs" ],
     "desc": [ "You have taken an antiasthmatic drug recently." ]
@@ -1273,6 +1203,7 @@
     "id": "meth",
     "name": [ "High on Meth" ],
     "max_duration": "1 d",
+    "morale": "morale_high",
     "base_mods": {
       "speed_mod": [ 5 ],
       "per_mod": [ 1 ],
@@ -1281,7 +1212,8 @@
       "health_tick": [ 7200 ],
       "h_mod_min": [ -1 ],
       "h_mod_min_val": [ -50 ],
-      "h_mod_tick": [ 720 ]
+      "h_mod_tick": [ 720 ],
+      "morale": [ 10 ]
     }
   },
   {
@@ -1291,8 +1223,9 @@
     "desc": [ "You had a puff or two.", "You smoked too much." ],
     "max_intensity": 2,
     "int_dur_factor": "10 m",
-    "base_mods": { "per_mod": [ 1 ] },
-    "scaling_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "per_mod": [ -1 ], "vomit_chance": [ 500 ] }
+    "morale": "morale_nicotine",
+    "base_mods": { "per_mod": [ 1 ], "morale": [ 5 ] },
+    "scaling_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "per_mod": [ -1 ], "vomit_chance": [ 500 ], "morale": [ -15 ] }
   },
   {
     "type": "effect_type",
@@ -1300,18 +1233,20 @@
   },
   {
     "type": "effect_type",
-    "id": "high",
+    "id": "cocaine_high",
     "name": [ "High" ],
     "desc": [ "You are high as a kite." ],
     "apply_message": "You feel lightheaded.",
     "morale": "morale_high",
-    "base_mods": { "int_mod": [ -1 ], "per_mod": [ -1 ], "morale": [ 25 ] }
+    "base_mods": { "int_mod": [ -1 ], "per_mod": [ -1 ], "morale": [ 50 ] },
+    "scaling_mods": { "morale": [ 25 ] }
   },
   {
     "type": "effect_type",
     "id": "weed_high",
     "apply_message": "You feel lightheaded.",
-    "base_mods": { "per_mod": [ -1 ] }
+    "morale": "morale_high",
+    "base_mods": { "per_mod": [ -1 ], "morale": [ 10 ] }
   },
   {
     "type": "effect_type",
@@ -1402,15 +1337,12 @@
     "type": "effect_type",
     "id": "valium",
     "removes_effects": [ "shakes" ],
-    "base_mods": { "stim_tick": [ 150 ], "stim_chance": [ 2 ], "stim_min": [ 1 ], "stim_min_val": [ -1 ] }
-  },
-  {
-    "type": "effect_type",
-    "id": "took_anticonvulsant_visible",
     "name": [ "Took anticonvulsant drugs" ],
     "desc": [
       "You took anticonvulsant drugs some time ago and you might still be under its influence.\nPrescription note says its effect duration may vary, so your estimate may be inaccurate."
-    ]
+    ],
+    "morale": "morale_valium",
+    "base_mods": { "stim_tick": [ 150 ], "stim_chance": [ 2 ], "stim_min": [ 1 ], "stim_min_val": [ -1 ], "morale": [10] }
   },
   {
     "type": "effect_type",

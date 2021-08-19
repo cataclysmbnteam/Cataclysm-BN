@@ -89,13 +89,13 @@ static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_bloodworms( "bloodworms" );
 static const efftype_id effect_brainworms( "brainworms" );
 static const efftype_id effect_cig( "cig" );
+static const efftype_id effect_cocaine_high( "cocaine_high" );
 static const efftype_id effect_datura( "datura" );
 static const efftype_id effect_dermatik( "dermatik" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_heating_bionic( "heating_bionic" );
-static const efftype_id effect_high( "high" );
 static const efftype_id effect_iodine( "iodine" );
 static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_narcosis( "narcosis" );
@@ -530,7 +530,7 @@ bool Character::activate_bionic( int b, bool eff_only )
                 { effect_drunk, translate_marker( "Alcohol" ) },
                 { effect_cig, translate_marker( "Nicotine" ) },
                 { effect_meth, translate_marker( "Methamphetamines" ) },
-                { effect_high, translate_marker( "Intoxicant: Other" ) },
+                { effect_cocaine_high, translate_marker( "Intoxicant: Cocaine" ) },
                 { effect_weed_high, translate_marker( "THC Intoxication" ) },
                 // This little guy is immune to the blood filter though, as he lives in your bowels.
                 { effect_tapeworm, translate_marker( "Intestinal Parasite" ) },
@@ -632,8 +632,8 @@ bool Character::activate_bionic( int b, bool eff_only )
                 effect_fungus, effect_dermatik, effect_bloodworms,
                 effect_poison, effect_stung,
                 effect_pkill1, effect_pkill2, effect_pkill3, effect_pkill_l,
-                effect_drunk, effect_cig, effect_high, effect_hallu, effect_visuals,
-                effect_pblue, effect_iodine, effect_datura,
+                effect_drunk, effect_cig, effect_cocaine_high, effect_weed_high,
+                effect_hallu, effect_visuals, effect_pblue, effect_iodine, effect_datura,
                 effect_took_xanax, effect_took_prozac, effect_took_prozac_bad,
                 effect_took_flumed,
             }
