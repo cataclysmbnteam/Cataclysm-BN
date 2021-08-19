@@ -3023,7 +3023,7 @@ void Creature::store( JsonOut &jsout ) const
                 continue;
             }
             std::ostringstream convert;
-            convert << i.first;
+            convert << i.first->token;
             tmp_map[maps.first.str()][convert.str()] = i.second;
         }
     }
@@ -3088,7 +3088,7 @@ void Creature::load( const JsonObject &jsin )
 void player_morale::morale_subtype::serialize( JsonOut &json ) const
 {
     json.start_object();
-    json.member( "subtype_type", subtype_type );
+    json.member_as_string( "subtype_type", subtype_type );
     switch( subtype_type ) {
         case morale_subtype_t::single:
             break;

@@ -158,9 +158,9 @@ class effect
             intensity( 1 ), start_time( calendar::turn_zero ),
             removed( true ) {
         }
-        effect( const effect_type *peff_type, const time_duration &dur, body_part part,
-                int nintensity, const time_point &nstart_time ) :
-            eff_type( peff_type ), duration( dur ), bp( part ),
+        effect( const effect_type *peff_type, const time_duration &dur,
+                const bodypart_str_id &part, int nintensity, const time_point &nstart_time ) :
+            eff_type( peff_type ), duration( dur ), bp( part->token ),
             intensity( nintensity ), start_time( nstart_time ),
             removed( false ) {
         }
@@ -207,10 +207,8 @@ class effect
         /** Returns the turn the effect was applied. */
         time_point get_start_time() const;
 
-        /** Returns the targeted body_part of the effect. This is num_bp for untargeted effects. */
-        body_part get_bp() const;
-        /** Sets the targeted body_part of an effect. */
-        void set_bp( body_part part );
+        /** Returns the targeted body_part of the effect. This is NULL_ID for untargeted effects. */
+        const bodypart_str_id &get_bp() const;
 
         /** Returns true if an effect is permanent, i.e. it's duration does not decrease over time. */
         bool is_permanent() const;
@@ -333,7 +331,7 @@ std::string texitify_healing_power( int power );
 // Inheritance here allows forward declaration of the map in class Creature.
 // Storing body_part as an int to make things easier for hash and JSON
 class effects_map : public
-    std::unordered_map<efftype_id, std::unordered_map<body_part, effect, std::hash<int>>>
+    std::unordered_map<efftype_id, std::unordered_map<bodypart_str_id, effect>>
 {
 };
 

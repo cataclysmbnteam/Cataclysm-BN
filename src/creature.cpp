@@ -899,7 +899,15 @@ void Creature::add_effect( const effect &eff, bool force, bool deferred )
                 force, deferred );
 }
 
+
 void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp,
+                           int intensity, bool force, bool deferred )
+{
+    add_effect( eff_id, dur, convert_bp( bp ), intensity, force, deferred );
+}
+
+void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur,
+                           const bodypart_str_id &base_bp,
                            int intensity, bool force, bool deferred )
 {
     // Check our innate immunity
@@ -920,9 +928,10 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, b
     }
     const effect_type &type = eff_id.obj();
 
+    bodypart_str_id bp = base_bp;
     // Mutate to a main (HP'd) body_part if necessary.
     if( type.get_main_parts() ) {
-        bp = mutate_to_main_part( bp );
+        bp = bp->main_part;
     }
 
     bool found = false;
@@ -961,7 +970,7 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, b
                 e.set_intensity( e.get_max_intensity() );
             }
             if( e.get_intensity() != prev_int ) {
-                on_effect_int_change( e );
+                on_effect_int_change( e.get_id(), e.get_intensity(), e.get_bp() );
             }
         }
     }
@@ -1007,7 +1016,7 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, b
                 add_msg( type.gain_game_message_type(), _( type.get_apply_message() ) );
             }
         }
-        on_effect_int_change( e );
+        on_effect_int_change( e.get_id(), e.get_intensity(), e.get_bp() );
         // Perform any effect addition effects.
         // only when not deferred
         if( !deferred ) {
@@ -1041,6 +1050,10 @@ void Creature::clear_effects()
 }
 bool Creature::remove_effect( const efftype_id &eff_id, body_part bp )
 {
+    return remove_effect( eff_id, convert_bp( bp ) );
+}
+bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_str_id &bp )
+{
     if( !has_effect( eff_id, bp ) ) {
         //Effect doesn't exist, so do nothing
         return false;
@@ -1057,25 +1070,29 @@ bool Creature::remove_effect( const efftype_id &eff_id, body_part bp )
     }
 
     // num_bp means remove all of a given effect id
-    if( bp == num_bp ) {
+    if( !bp ) {
         for( auto &it : ( *effects )[eff_id] ) {
-            if( !it.second.is_removed() ) {
-                it.second.set_intensity( 0 );
-                on_effect_int_change( it.second );
-                it.second.set_removed();
+            auto &e = it.second;
+            if( !e.is_removed() ) {
+                on_effect_int_change( e.get_id(), 0, e.get_bp() );
+                e.set_removed();
             }
         }
     } else {
-        effect &e = get_effect( eff_id, bp );
-        on_effect_int_change( e );
+        effect &e = get_effect( eff_id, bp->token );
+        on_effect_int_change( e.get_id(), 0, e.get_bp() );
         e.set_removed();
     }
     return true;
 }
 bool Creature::has_effect( const efftype_id &eff_id, body_part bp ) const
 {
+    return has_effect( eff_id, convert_bp( bp ) );
+}
+bool Creature::has_effect( const efftype_id &eff_id, const bodypart_str_id &bp ) const
+{
     // num_bp means anything targeted or not
-    if( bp == num_bp ) {
+    if( !bp ) {
         auto got = effects->find( eff_id );
         return got != effects->end() && !got->second.begin()->second.is_removed();
     } else {
@@ -1092,9 +1109,10 @@ bool Creature::has_effect( const efftype_id &eff_id, body_part bp ) const
 
 bool Creature::has_effect_with_flag( const std::string &flag, body_part bp ) const
 {
+    const auto &tmp = convert_bp( bp ).id();
     for( const auto &elem : *effects ) {
         for( const auto &_it : elem.second ) {
-            if( bp == _it.first && !_it.second.is_removed() && _it.second.has_flag( flag ) ) {
+            if( tmp == _it.first && !_it.second.is_removed() && _it.second.has_flag( flag ) ) {
                 return true;
             }
         }
@@ -1111,7 +1129,7 @@ const effect &Creature::get_effect( const efftype_id &eff_id, body_part bp ) con
 {
     auto got_outer = effects->find( eff_id );
     if( got_outer != effects->end() ) {
-        auto got_inner = got_outer->second.find( bp );
+        auto got_inner = got_outer->second.find( convert_bp( bp ) );
         if( got_inner != got_outer->second.end() && !got_inner->second.is_removed() ) {
             return got_inner->second;
         }
@@ -1143,8 +1161,7 @@ void Creature::process_effects()
     // id's and body_part's of all effects to be removed. If we ever get player or
     // monster specific removals these will need to be moved down to that level and then
     // passed in to this function.
-    using effect_to_remove = std::pair<efftype_id, body_part>;
-    std::vector<effect_to_remove> to_remove;
+    std::vector<std::pair<efftype_id, bodypart_str_id>> to_remove;
 
     // Decay/removal of effects
     for( auto &elem : *effects ) {
@@ -1154,8 +1171,8 @@ void Creature::process_effects()
                 continue;
             }
             // Add any effects that others remove to the removal list
-            for( const auto &removed_effect : _it.second.get_removes_effects() ) {
-                to_remove.emplace_back( removed_effect, num_bp );
+            for( const efftype_id &removed_effect : _it.second.get_removes_effects() ) {
+                to_remove.emplace_back( removed_effect, bodypart_str_id::NULL_ID() );
             }
             effect &e = _it.second;
             const int prev_int = e.get_intensity();
@@ -1165,18 +1182,18 @@ void Creature::process_effects()
             }
 
             if( e.get_intensity() != prev_int && e.get_duration() > 0_turns ) {
-                on_effect_int_change( e );
+                on_effect_int_change( e.get_id(), e.get_intensity(), e.get_bp() );
             }
         }
     }
 
     // Run the on-remove effects
-    for( const effect_to_remove &r : to_remove ) {
+    for( const std::pair<efftype_id, bodypart_str_id> &r : to_remove ) {
         remove_effect( r.first, r.second );
     }
     // Actually remove effects. This should be the last thing done in process_effects().
-    for( const effect_to_remove &r : to_remove ) {
-        if( r.second == num_bp ) {
+    for( const std::pair<efftype_id, bodypart_str_id> &r : to_remove ) {
+        if( !r.second ) {
             effects->erase( r.first );
         } else {
             ( *effects )[r.first].erase( r.second );

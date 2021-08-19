@@ -335,8 +335,10 @@ class Creature
         void add_effect( const effect &eff, bool force = false, bool deferred = false );
         /** Adds or modifies an effect. If intensity is given it will set the effect intensity
             to the given value, or as close as max_intensity values permit. */
-        virtual void add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp = num_bp,
-                                 int intensity = 0, bool force = false, bool deferred = false );
+        virtual void add_effect( const efftype_id &eff_id, const time_duration &dur,
+                                 const bodypart_str_id &bp, int intensity = 0, bool force = false, bool deferred = false );
+        void add_effect( const efftype_id &eff_id, const time_duration &dur,
+                         body_part bp = num_bp, int intensity = 0, bool force = false, bool deferred = false );
         /** Gives chance to save via environmental resist, returns false if resistance was successful. */
         bool add_env_effect( const efftype_id &eff_id, body_part vector, int strength,
                              const time_duration &dur,
@@ -351,12 +353,14 @@ class Creature
         /** Removes a listed effect. bp = num_bp means to remove all effects of
          * a given type, targeted or untargeted. Returns true if anything was
          * removed. */
-        virtual bool remove_effect( const efftype_id &eff_id, body_part bp = num_bp );
+        bool remove_effect( const efftype_id &eff_id, body_part bp = num_bp );
+        virtual bool remove_effect( const efftype_id &eff_id, const bodypart_str_id &bp );
         /** Remove all effects. */
         void clear_effects();
         /** Check if creature has the matching effect. bp = num_bp means to check if the Creature has any effect
          *  of the matching type, targeted or untargeted. */
         bool has_effect( const efftype_id &eff_id, body_part bp = num_bp ) const;
+        bool has_effect( const efftype_id &eff_id, const bodypart_str_id &bp ) const;
         /** Check if creature has any effect with the given flag. */
         bool has_effect_with_flag( const std::string &flag, body_part bp = num_bp ) const;
         /** Return the effect that matches the given arguments exactly. */
@@ -795,7 +799,7 @@ class Creature
 
     protected:
         virtual void on_stat_change( const std::string &, int ) {}
-        virtual void on_effect_int_change( const effect & ) {}
+        virtual void on_effect_int_change( const efftype_id &, int, const bodypart_str_id & ) {}
         virtual void on_damage_of_type( int, damage_type, const bodypart_id & ) {}
 
     public:

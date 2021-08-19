@@ -853,7 +853,9 @@ bool player_morale::consistent_with( const player_morale &morale ) const
             } );
 
             if( iter == rhs.points.end() || lhp.get_net_bonus() != iter->get_net_bonus() ) {
-                debugmsg( "Morale \"%s\" is inconsistent.", lhp.get_name() );
+                debugmsg( "Morale \"%s\" is inconsistent: lhs %d != rhs %s",
+                          lhp.get_name(), lhp.get_net_bonus(),
+                          ( iter == rhs.points.end() ? "N/A" : std::to_string( iter->get_net_bonus() ).c_str() ) );
                 return false;
             }
         }
@@ -970,37 +972,30 @@ void player_morale::on_worn_item_washed( const item &it )
     update_squeamish_penalty();
 }
 
-void player_morale::on_effect_int_change( const effect &e )
+void player_morale::on_effect_int_change( const efftype_id &eid, int intensity,
+        const bodypart_str_id &bp_id )
 {
-    const efftype_id &eid = e.get_id();
-    const bodypart_str_id &bo_id = convert_bp( e.get_bp() );
-    int intensity = e.get_intensity();
-    if( eid == effect_took_prozac && !bo_id ) {
+    if( eid == effect_took_prozac && !bp_id ) {
         set_prozac( intensity != 0 );
-    } else if( eid == effect_took_prozac_bad && !bo_id ) {
+    } else if( eid == effect_took_prozac_bad && !bp_id ) {
         set_prozac_bad( intensity != 0 );
-    } else if( eid == effect_cold && bo_id ) {
-        body_parts[bo_id].cold = intensity;
-    } else if( eid == effect_hot && bo_id ) {
-        body_parts[bo_id].hot = intensity;
+    } else if( eid == effect_cold && bp_id ) {
+        body_parts[bp_id].cold = intensity;
+    } else if( eid == effect_hot && bp_id ) {
+        body_parts[bp_id].hot = intensity;
     }
 
     const morale_type &mt = eid->get_morale_type();
     if( mt ) {
         morale_subtype subtype( eid );
         if( intensity > 0 ) {
-            int value = e.get_amount( "MORALE" );
-            set_permanent_typed( mt, value, morale_subtype( eid ) );
+            effect ugly_hack( &*eid, 1_turns, bp_id, intensity, calendar::turn_zero );
+            int value = ugly_hack.get_amount( "MORALE" );
+            set_permanent_typed( mt, value, subtype );
         } else {
             remove( mt, subtype );
         }
     }
-}
-
-void player_morale::on_effect_int_change( const efftype_id &eid, int intensity, body_part bp )
-{
-    effect eff( &( *eid ), 1_seconds, bp, intensity, calendar::turn_zero );
-    on_effect_int_change( eff );
 }
 
 void player_morale::set_worn( const item &it, bool worn )

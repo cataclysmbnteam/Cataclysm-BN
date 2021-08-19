@@ -65,7 +65,7 @@ struct field_effect {
     time_duration min_duration = 0_seconds;
     time_duration max_duration = 0_seconds;
     int intensity = 0;
-    body_part bp = num_bp;
+    bodypart_str_id bp = bodypart_str_id::NULL_ID();
     bool is_environmental = true;
     bool immune_in_vehicle  = false;
     bool immune_inside_vehicle  = false;

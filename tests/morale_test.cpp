@@ -9,19 +9,19 @@
 const efftype_id drunk( "test_drunk" );
 const efftype_id hangover( "test_hangover" );
 
-const std::vector<body_part> temperature_body_parts = {{
-        bp_torso,
-        bp_head,
-        bp_eyes,
-        bp_mouth,
-        bp_arm_l,
-        bp_arm_r,
-        bp_leg_l,
-        bp_leg_r,
-        bp_hand_l,
-        bp_hand_r,
-        bp_foot_l,
-        bp_foot_r,
+const std::vector<bodypart_str_id> temperature_body_parts = {{
+        bodypart_str_id( "torso" ),
+        bodypart_str_id( "head" ),
+        bodypart_str_id( "eyes" ),
+        bodypart_str_id( "mouth" ),
+        bodypart_str_id( "arm_l" ),
+        bodypart_str_id( "arm_r" ),
+        bodypart_str_id( "leg_l" ),
+        bodypart_str_id( "leg_r" ),
+        bodypart_str_id( "hand_l" ),
+        bodypart_str_id( "hand_r" ),
+        bodypart_str_id( "foot_l" ),
+        bodypart_str_id( "foot_r" ),
     }
 };
 
@@ -477,8 +477,6 @@ TEST_CASE( "player_morale_from_effects", "[morale][effect]" )
     player_morale m;
 
     GIVEN( "effects with morale bonuses and penalties" ) {
-        const efftype_id drunk( "test_drunk" );
-
         m.on_effect_int_change( drunk, 1 );
         REQUIRE( m.get_level() == 5 );
 

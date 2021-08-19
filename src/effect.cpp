@@ -802,13 +802,9 @@ time_point effect::get_start_time() const
     return start_time;
 }
 
-body_part effect::get_bp() const
+const bodypart_str_id &effect::get_bp() const
 {
-    return bp;
-}
-void effect::set_bp( body_part part )
-{
-    bp = part;
+    return convert_bp( bp );
 }
 
 bool effect::is_permanent() const

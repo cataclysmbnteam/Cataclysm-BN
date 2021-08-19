@@ -1760,7 +1760,8 @@ class Character : public Creature, public visitable<Character>
         /** Called when an item is washed */
         void on_worn_item_washed( const item &it );
         /** Called when effect intensity has been changed */
-        void on_effect_int_change( const effect &e ) override;
+        void on_effect_int_change( const efftype_id &effect_type, int intensity,
+                                   const bodypart_str_id &bp ) override;
         /** Called when a mutation is gained */
         void on_mutation_gain( const trait_id &mid );
         /** Called when a mutation is lost */
@@ -2037,7 +2038,7 @@ class Character : public Creature, public visitable<Character>
         void invalidate_crafting_inventory();
 
         /** Checks permanent morale for consistency and recovers it when an inconsistency is found. */
-        void check_and_recover_morale();
+        bool check_and_recover_morale();
 
         /** Handles the enjoyability value for a comestible. First value is enjoyability, second is cap. **/
         std::pair<int, int> fun_for( const item &comest ) const;
