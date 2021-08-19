@@ -170,7 +170,7 @@ class player_morale
                 bool is_permanent() const;
                 bool type_matches( const morale_type &_type ) const;
                 bool matches( const morale_type &_type ) const;
-                bool matches( const morale_type &_type, const morale_subtype &sub ) const;
+                bool matches( const morale_type &_type, const morale_subtype &_subtype ) const;
                 bool matches( const morale_point &mp ) const;
 
                 void add( int new_bonus, int new_max_bonus, time_duration new_duration,

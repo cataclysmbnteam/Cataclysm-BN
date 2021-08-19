@@ -66,7 +66,7 @@ std::string enum_to_string<morale_subtype_t>( morale_subtype_t data )
     abort();
 }
 
-}
+} // namespace io
 
 
 // Morale multiplier
