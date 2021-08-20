@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_SDL_WRAPPERS_H
 #define CATA_SRC_SDL_WRAPPERS_H
 
+#if defined(TILES)
+
 // IWYU pragma: begin_exports
 #if defined(_MSC_VER) && defined(USE_VCPKG)
 #   include <SDL2/SDL.h>
@@ -139,5 +141,7 @@ inline bool operator!=( const SDL_Rect &lhs, const SDL_Rect &rhs )
 }
 
 /**@}*/
+
+#endif // if defined(TILES)
 
 #endif // CATA_SRC_SDL_WRAPPERS_H
