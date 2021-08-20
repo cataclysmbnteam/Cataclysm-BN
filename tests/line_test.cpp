@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <memory>
+#include <sstream>
 #include <vector>
 
 #include "catch/catch.hpp"
@@ -72,48 +73,119 @@ static std::vector <point> canonical_line_to( const point &p1, const point &p2, 
     return ret;
 }
 
-static void check_bresenham( const tripoint &source, const tripoint &destination,
-                             const std::vector<tripoint> &path )
+static bool check_bresenham_far( const tripoint &source, const tripoint &destination, int length )
 {
+    CAPTURE( source );
+    CAPTURE( destination );
+    CAPTURE( length );
+
     std::vector<tripoint> generated_path;
     bresenham( source, destination, 0, 0, [&generated_path]( const tripoint & current_point ) {
         generated_path.push_back( current_point );
         return true;
     } );
-    CAPTURE( source );
-    CAPTURE( destination );
-    CHECK( path == generated_path );
+    std::stringstream ss;
+    ss << std::endl;
+    for( const tripoint &t : generated_path ) {
+        ss << t << std::endl;
+    }
+    std::string generated_points = ss.str();
+
+    CAPTURE( generated_path.size() );
+    CAPTURE( generated_points );
+
+    // Line must contain at least one point, ...
+    if( generated_path.empty() ) {
+        FAIL_CHECK( "no line generated" );
+        return false;
+    }
+    // ...must reach destination...
+    if( generated_path.back() != destination ) {
+        FAIL_CHECK( "line does not reach destination" );
+        return false;
+    }
+    // ...and have proper length; ...
+    if( generated_path.size() != length ) {
+        FAIL_CHECK( "line has invalid length" );
+        return false;
+    }
+    // ...each point must be a neighbour of previous point...
+    for( size_t i = 0; i < generated_path.size() - 1; i++ ) {
+        const tripoint &t1 = generated_path[i];
+        const tripoint &t2 = generated_path[i + 1];
+        tripoint d = ( t1 - t2 ).abs();
+        if( d.x > 1 || d.y > 1 || d.z > 1 ) {
+            FAIL_CHECK( "line contains invalid sequence" );
+            return false;
+        }
+    }
+    // ...and there must be no duplicate points.
+    for( size_t i = 0; i < generated_path.size(); i++ ) {
+        for( size_t j = i + 1; j < generated_path.size(); j++ ) {
+            if( generated_path[i] == generated_path[j] ) {
+                FAIL_CHECK( "line contains duplicate points" );
+                return false;
+            }
+        }
+    }
+    SUCCEED(); // To make number of assertions passed/failed consistent
+    return true;
+}
+
+static bool check_bresenham_triaxis( const tripoint &src, const tripoint &sign, int dist )
+{
+    bool ret = true;
+    for( int x = 0; x <= dist; x++ ) {
+        for( int y = 0; y <= dist; y++ ) {
+            tripoint dst = src + tripoint( x * sign.x, y * sign.y, dist * sign.z );
+            ret = check_bresenham_far( src, dst, dist ) && ret;
+        }
+    }
+    for( int x = 0; x <= dist; x++ ) {
+        for( int z = 0; z <= dist; z++ ) {
+            tripoint dst = src + tripoint( x * sign.x, dist * sign.y, z * sign.z );
+            ret = check_bresenham_far( src, dst, dist ) && ret;
+        }
+    }
+    for( int z = 0; z <= dist; z++ ) {
+        for( int y = 0; y <= dist; y++ ) {
+            tripoint dst = src + tripoint( dist * sign.x, y * sign.y, z * sign.z );
+            ret = check_bresenham_far( src, dst, dist ) && ret;
+        }
+    }
+    return ret;
+}
+
+static void check_bresenham_cube( const tripoint &src, int dist )
+{
+    tripoint sign_positive = tripoint( 1, 1, 1 ); // NOLINT(cata-use-named-point-constants)
+    // Positive coords
+    if( !check_bresenham_triaxis( src, sign_positive, dist ) ) {
+        WARN( "Skipping negative and mixed coords due to failures." );
+        return;
+    }
+    // Negative & mixed coords
+    for( int x = -1; x <= 1; x += 2 ) {
+        for( int y = -1; y <= 1; y += 2 ) {
+            for( int z = -1; z <= 1; z += 2 ) {
+                tripoint sign( x, y, z );
+                if( sign == sign_positive ) {
+                    continue;
+                }
+                check_bresenham_triaxis( src, sign, dist );
+            }
+        }
+    }
 }
 
 TEST_CASE( "3D_bresenham", "[line]" )
 {
-    check_bresenham( { 0, 0, 0 }, { -1, -1, -1 }, { { -1, -1, -1 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { -1, -1, 0 }, { { -1, -1, 0 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { -1, -1, 1 }, { { -1, -1, 1 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { -1, 0, -1 }, { { -1, 0, -1 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { -1, 0, 0 }, { { -1, 0, 0 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { -1, 0, 1 }, { { -1, 0, 1 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { -1, 1, -1 }, { { -1, 1, -1 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { -1, 1, 0 }, { { -1, 1, 0 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { -1, 1, 1 }, { { -1, 1, 1 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 0, -1, -1 }, { { 0, -1, -1 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 0, -1, 0 }, { { 0, -1, 0 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 0, -1, 1 }, { { 0, -1, 1 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 0, 0, -1 }, { { 0, 0, -1 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 0, 0, 0 }, { } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 0, 0, 1 }, { { 0, 0, 1 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 0, 1, -1 }, { { 0, 1, -1 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 0, 1, 0 }, { { 0, 1, 0 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 0, 1, 1 }, { { 0, 1, 1 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 1, -1, -1 }, { { 1, -1, -1 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 1, -1, 0 }, { { 1, -1, 0 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 1, -1, 1 }, { { 1, -1, 1 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 1, 0, -1 }, { { 1, 0, -1 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 1, 0, 0 }, { { 1, 0, 0 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 1, 0, 1 }, { { 1, 0, 1 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 1, 1, -1 }, { { 1, 1, -1 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 1, 1, 0 }, { { 1, 1, 0 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 1, 1, 1 }, { { 1, 1, 1 } } ); // NOLINT(cata-use-named-point-constants)
+    SECTION( "From tripoint_zero to its immediate neighbours" ) {
+        check_bresenham_cube( tripoint_zero, 1 );
+    }
+    SECTION( "From tripoint_zero to all points in a cube around it" ) {
+        check_bresenham_cube( tripoint_zero, 5 );
+    }
 }
 
 TEST_CASE( "test_normalized_angle", "[line]" )
