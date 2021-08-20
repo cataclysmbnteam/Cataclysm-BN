@@ -178,8 +178,6 @@ TEST_CASE( "anticonvulsant", "[iuse][anticonvulsant]" )
 
                     AND_THEN( "it has side-effects" ) {
                         CHECK( dummy.has_effect( efftype_id( "valium" ) ) );
-                        CHECK( dummy.has_effect( efftype_id( "high" ) ) );
-                        CHECK( dummy.has_effect( efftype_id( "took_anticonvulsant_visible" ) ) );
                     }
                 }
             }
@@ -453,7 +451,7 @@ TEST_CASE( "thorazine", "[iuse][thorazine]" )
     int charges_before = thorazine.charges;
     REQUIRE( charges_before >= 2 );
 
-    GIVEN( "avatar has hallucination, visuals, and high effects" ) {
+    GIVEN( "avatar has hallucination, and visuals effects" ) {
         dummy.add_effect( efftype_id( "hallu" ), 1_hours );
         dummy.add_effect( efftype_id( "visuals" ), 1_hours );
         dummy.add_effect( efftype_id( "high" ), 1_hours );
@@ -464,11 +462,10 @@ TEST_CASE( "thorazine", "[iuse][thorazine]" )
         WHEN( "they take some thorazine" ) {
             dummy.invoke_item( &thorazine );
 
-            THEN( "it relieves all those effects with a single dose" ) {
+            THEN( "it relieves both of those effects with a single dose" ) {
                 CHECK( thorazine.charges == charges_before - 1 );
                 REQUIRE_FALSE( dummy.has_effect( efftype_id( "hallu" ) ) );
                 REQUIRE_FALSE( dummy.has_effect( efftype_id( "visuals" ) ) );
-                REQUIRE_FALSE( dummy.has_effect( efftype_id( "high" ) ) );
 
                 AND_THEN( "it causes some fatigue" ) {
                     CHECK( dummy.get_fatigue() >= 5 );
@@ -499,13 +496,11 @@ TEST_CASE( "prozac", "[iuse][prozac]" )
     item &prozac = dummy.i_add( item( "prozac", calendar::start_of_cataclysm,
                                       item::default_charges_tag{} ) );
 
-    SECTION( "prozac gives prozac and visible prozac effect" ) {
+    SECTION( "prozac gives prozac effect" ) {
         REQUIRE_FALSE( dummy.has_effect( efftype_id( "took_prozac" ) ) );
-        REQUIRE_FALSE( dummy.has_effect( efftype_id( "took_prozac_visible" ) ) );
 
         dummy.invoke_item( &prozac );
         CHECK( dummy.has_effect( efftype_id( "took_prozac" ) ) );
-        CHECK( dummy.has_effect( efftype_id( "took_prozac_visible" ) ) );
     }
 
     SECTION( "taking prozac twice gives a stimulant effect" ) {
@@ -575,12 +570,10 @@ TEST_CASE( "xanax", "[iuse][xanax]" )
     item &xanax = dummy.i_add( item( "xanax", calendar::start_of_cataclysm,
                                      item::default_charges_tag{} ) );
 
-    SECTION( "xanax gives xanax and visible xanax effects" ) {
+    SECTION( "xanax gives xanax effect" ) {
         REQUIRE_FALSE( dummy.has_effect( efftype_id( "took_xanax" ) ) );
-        REQUIRE_FALSE( dummy.has_effect( efftype_id( "took_xanax_visible" ) ) );
 
         dummy.invoke_item( &xanax );
         CHECK( dummy.has_effect( efftype_id( "took_xanax" ) ) );
-        CHECK( dummy.has_effect( efftype_id( "took_xanax_visible" ) ) );
     }
 }

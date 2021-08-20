@@ -73,40 +73,34 @@ TEST_CASE( "food enjoyability", "[food][modify_morale][fun]" )
 TEST_CASE( "drugs", "[food][modify_morale][drug]" )
 {
     avatar dummy;
-    std::pair<int, int> fun;
-
 
     const std::vector<std::string> drugs_to_test = {
         {
             "gum",
             "caff_gum",
             "nic_gum",
-            "cig",
-            "ecig",
             "cigar",
-            "joint",
+            // TODO: Change those to effects
             "lsd",
-            "weed",
-            "crack",
-            "meth",
             "heroin",
-            "tobacco",
             "morphine"
         }
     };
 
     GIVEN( "avatar has baseline morale" ) {
         dummy.clear_morale();
-        REQUIRE( dummy.get_morale( MORALE_FOOD_GOOD ) == 0 );
+        dummy.clear_effects();
+        REQUIRE( dummy.get_morale_level() == 0 );
 
         for( std::string drug_name : drugs_to_test ) {
             item drug( drug_name );
-            fun = dummy.fun_for( drug );
+            std::pair<int, int> fun = dummy.fun_for( drug );
+
             REQUIRE( fun.first > 0 );
 
             THEN( "they enjoy " + drug_name ) {
                 dummy.modify_morale( drug );
-                CHECK( dummy.get_morale( MORALE_FOOD_GOOD ) >= fun.first );
+                CHECK( dummy.get_morale_level() >= fun.first );
             }
         }
     }
