@@ -39,6 +39,7 @@
 #include "output.h"
 #include "path_info.h"
 #include "rng.h"
+#include "sdl_wrappers.h"
 #include "type_id.h"
 
 class ui_adaptor;
@@ -47,10 +48,8 @@ class ui_adaptor;
 #   define SDL_MAIN_HANDLED
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
 #      include <SDL2/SDL_version.h>
-#      include <SDL2/SDL.h>
 #   else
 #      include <SDL_version.h>
-#      include <SDL.h>
 #   endif
 #endif
 
