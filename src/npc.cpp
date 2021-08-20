@@ -1496,7 +1496,7 @@ void npc::decide_needs()
     }
 
     needrank[need_weapon] = weapon_value( weapon );
-    needrank[need_food] = 15 - ( max_stored_calories() - get_stored_kcal() ) / 10;
+    needrank[need_food] = 15.0f - ( max_stored_calories() - get_stored_kcal() ) / 10.0f;
     needrank[need_drink] = 15 - get_thirst();
     invslice slice = inv.slice();
     for( auto &i : slice ) {
