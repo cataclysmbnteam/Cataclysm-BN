@@ -1096,10 +1096,10 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
             } else {
                 info += _( "\nThirsty" );
             }
-            if( p->max_stored_calories() - p->get_stored_kcal() > 500 ) {
+            if( p->max_stored_kcal() - p->get_stored_kcal() > 500 ) {
                 time_duration hunger_at = 5_minutes
-                                          * ( 500 - p->max_stored_calories() + p->get_stored_kcal() )
-                                          / rates.kcal;
+                                          * ( 500 - p->max_stored_kcal() + p->get_stored_kcal() )
+                                          / p->bmr();
                 if( hunger_at > 1_hours ) {
                     info += _( "\nWill need food in " ) + to_string_approx( hunger_at );
                 }

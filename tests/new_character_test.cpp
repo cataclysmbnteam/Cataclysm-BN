@@ -70,7 +70,7 @@ static avatar get_sanitized_player()
     ret.set_body();
     ret.recalc_hp();
 
-    // Set these insanely high so can_eat doesn't return TOO_FULL
+    // Set these to starving/parched so can_eat doesn't return TOO_FULL
     ret.set_stored_kcal( 100 );
     ret.set_thirst( 10000 );
     return ret;

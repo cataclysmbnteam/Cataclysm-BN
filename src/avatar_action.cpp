@@ -994,7 +994,7 @@ bool avatar_action::eat_here( avatar &you )
     if( ( you.has_active_mutation( trait_RUMINANT ) || you.has_active_mutation( trait_GRAZER ) ) &&
         ( g->m.ter( you.pos() ) == t_underbrush || g->m.ter( you.pos() ) == t_shrub ) ) {
         item food( "underbrush", calendar::turn, 1 );
-        if( you.get_stored_kcal() > you.max_stored_calories() -
+        if( you.get_stored_kcal() > you.max_stored_kcal() -
             food.get_comestible()->default_nutrition.kcal ) {
             add_msg( _( "You're too full to eat the leaves from the %s." ), g->m.ter( you.pos() )->name() );
             return true;
@@ -1009,7 +1009,7 @@ bool avatar_action::eat_here( avatar &you )
     if( you.has_active_mutation( trait_GRAZER ) && ( g->m.ter( you.pos() ) == t_grass ||
             g->m.ter( you.pos() ) == t_grass_long || g->m.ter( you.pos() ) == t_grass_tall ) ) {
         item food( item( "grass", calendar::turn, 1 ) );
-        if( you.get_stored_kcal() > you.max_stored_calories() -
+        if( you.get_stored_kcal() > you.max_stored_kcal() -
             food.get_comestible()->default_nutrition.kcal ) {
             add_msg( _( "You're too full to graze." ) );
             return true;

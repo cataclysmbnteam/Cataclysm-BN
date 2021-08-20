@@ -135,7 +135,7 @@ void defense_game::per_turn()
         g->u.set_thirst( 0 );
     }
     if( !hunger ) {
-        g->u.set_stored_kcal( g->u.max_stored_calories() );
+        g->u.set_stored_kcal( g->u.max_stored_kcal() );
     }
     if( !sleep ) {
         g->u.set_fatigue( 0 );

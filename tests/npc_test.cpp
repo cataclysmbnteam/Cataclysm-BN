@@ -44,7 +44,7 @@ static void test_needs( const npc &who, const numeric_interval<int> &kcal_lost,
                         const numeric_interval<int> &thirst,
                         const numeric_interval<int> &fatigue )
 {
-    int kcal_below_max = who.max_stored_calories() - who.get_stored_kcal();
+    int kcal_below_max = who.max_stored_kcal() - who.get_stored_kcal();
     CHECK( kcal_below_max <= kcal_lost.max );
     CHECK( kcal_below_max >= kcal_lost.min );
     CHECK( who.get_thirst() <= thirst.max );
@@ -61,7 +61,7 @@ static npc create_model()
     for( const trait_id &tr : model_npc.get_mutations() ) {
         model_npc.unset_mutation( tr );
     }
-    model_npc.set_stored_kcal( model_npc.max_stored_calories() );
+    model_npc.set_stored_kcal( model_npc.max_stored_kcal() );
     model_npc.set_thirst( 0 );
     model_npc.set_fatigue( 0 );
     model_npc.remove_effect( efftype_id( "sleep" ) );
@@ -148,7 +148,7 @@ TEST_CASE( "on_load-similar-to-per-turn", "[.]" )
         }
 
         const int margin = 2;
-        const numeric_interval<int> hunger( iterated_npc.max_stored_calories() -
+        const numeric_interval<int> hunger( iterated_npc.max_stored_kcal() -
                                             iterated_npc.get_stored_kcal(), margin, margin );
         const numeric_interval<int> thirst( iterated_npc.get_thirst(), margin, margin );
         const numeric_interval<int> fatigue( iterated_npc.get_fatigue(), margin, margin );
@@ -167,7 +167,7 @@ TEST_CASE( "on_load-similar-to-per-turn", "[.]" )
         }
 
         const int margin = 10;
-        const numeric_interval<int> hunger( iterated_npc.max_stored_calories() -
+        const numeric_interval<int> hunger( iterated_npc.max_stored_kcal() -
                                             iterated_npc.get_stored_kcal(), margin, margin );
         const numeric_interval<int> thirst( iterated_npc.get_thirst(), margin, margin );
         const numeric_interval<int> fatigue( iterated_npc.get_fatigue(), margin, margin );

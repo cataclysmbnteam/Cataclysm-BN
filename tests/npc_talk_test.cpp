@@ -51,7 +51,7 @@ static npc &create_test_talker()
     for( const trait_id &tr : model_npc->get_mutations() ) {
         model_npc->unset_mutation( tr );
     }
-    model_npc->set_stored_kcal( model_npc->max_stored_calories() );
+    model_npc->set_stored_kcal( model_npc->max_stored_kcal() );
     model_npc->set_thirst( 0 );
     model_npc->set_fatigue( 0 );
     model_npc->remove_effect( efftype_id( "sleep" ) );

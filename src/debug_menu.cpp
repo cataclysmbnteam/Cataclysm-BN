@@ -869,7 +869,7 @@ void character_edit_menu()
                     p.set_thirst( 0 );
                     p.set_fatigue( 0 );
                     p.set_sleep_deprivation( 0 );
-                    p.set_stored_kcal( p.max_stored_calories() );
+                    p.set_stored_kcal( p.max_stored_kcal() );
                     break;
                 default:
                     if( smenu.ret >= 6 && smenu.ret < static_cast<int>( vits.size() + 6 ) ) {
@@ -1329,7 +1329,7 @@ void debug()
             add_msg( m_info, stom.c_str(), u.stomach.get_calories() );
             stom = _( "Thirst: %d, kCal: %d / %d" );
             add_msg( m_info, stom.c_str(), u.get_thirst(), u.get_stored_kcal(),
-                     u.max_stored_calories() );
+                     u.max_stored_kcal() );
             add_msg( m_info, _( "Body Mass Index: %.0f\nBasal Metabolic Rate: %i" ), u.bmi(), u.bmr() );
             if( get_option<bool>( "STATS_THROUGH_KILLS" ) ) {
                 add_msg( m_info, _( "Kill xp: %d" ), u.kill_xp() );

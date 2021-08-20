@@ -321,7 +321,7 @@ void Character::suffer_while_awake( const int current_stim )
         if( current_stim > 50 && one_in( to_turns<int>( 30_minutes ) - ( current_stim * 6 ) ) ) {
             add_effect( effect_shakes, 30_minutes + 1_turns * current_stim );
         } else if( ( get_kcal_percent() < 0.95f ) &&
-                   one_turn_in( 60_minutes - 1_seconds * ( max_stored_calories() - get_stored_kcal() ) ) ) {
+                   one_turn_in( 60_minutes - 1_seconds * ( max_stored_kcal() - get_stored_kcal() ) ) ) {
             add_effect( effect_shakes, 40_minutes );
         }
     }
@@ -1588,7 +1588,7 @@ void Character::mend( int rate_multiplier )
     // Very hungry starts lowering the chance
     // square rooting the value makes the numbers drop off faster when below 1
     healing_factor *= std::sqrt( static_cast<float>( get_stored_kcal() ) / static_cast<float>
-                                 ( max_stored_calories() ) );
+                                 ( max_stored_kcal() ) );
     // Similar for thirst - starts at very thirsty, drops to 0 at parched
     healing_factor *= 1.0f - clamp( 1.0f * ( get_thirst() - thirst_levels::very_thirsty ) /
                                     +thirst_levels::parched, 0.0f, 1.0f );

@@ -361,7 +361,7 @@ class Character : public Creature, public visitable<Character>
         int get_stored_kcal() const;
         // Maximum stored calories, excluding stomach.
         // If more would be digested, it is instead wasted.
-        int max_stored_calories() const;
+        int max_stored_kcal() const;
         float get_kcal_percent() const;
         int get_thirst() const;
         std::pair<std::string, nc_color> get_thirst_description() const;

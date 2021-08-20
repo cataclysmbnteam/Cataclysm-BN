@@ -1677,7 +1677,7 @@ static bool can_drink_nectar( const player &p, const item &nectar )
 {
     return ( p.has_active_mutation( trait_PROBOSCIS )  ||
              p.has_active_mutation( trait_BEAK_HUM ) ) &&
-           ( ( p.max_stored_calories() - p.get_stored_kcal() ) <
+           ( ( p.max_stored_kcal() - p.get_stored_kcal() ) <
              nectar.get_comestible()->default_nutrition.kcal ) &&
            ( !( p.wearing_something_on( bodypart_id( "mouth" ) ) ) );
 }

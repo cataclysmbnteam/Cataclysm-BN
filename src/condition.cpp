@@ -365,7 +365,7 @@ void conditional_t<T>::set_need( const JsonObject &jo, const std::string &member
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
         }
-        int effective_hunger = ( actor->max_stored_calories() - actor->get_stored_kcal() ) / 10;
+        int effective_hunger = ( actor->max_stored_kcal() - actor->get_stored_kcal() ) / 10;
         return ( actor->get_fatigue() > amount && need == "fatigue" ) ||
                ( effective_hunger > amount && need == "hunger" ) ||
                ( actor->get_thirst() > amount && need == "thirst" );

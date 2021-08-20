@@ -777,7 +777,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     if( !food.has_infinite_charges() &&
         ( ( food_kcal > 0 &&
             get_stored_kcal() + stomach.get_calories() + food_kcal
-            > max_stored_calories() ) ||
+            > max_stored_kcal() ) ||
           ( comest->quench > 0 && get_thirst() < comest->quench ) ) ) {
         add_consequence( _( "You're full already and the excess food will be wasted." ),
                          edible_rating::too_full );
@@ -1192,7 +1192,7 @@ bool Character::consume_effects( item &food )
     // Moved here and changed a bit - it was too complex
     // Incredibly minor stuff like this shouldn't require complexity
     if( !is_npc() && has_trait( trait_SLIMESPAWNER ) &&
-        max_stored_calories() < get_stored_kcal() + 4000 && get_thirst() < thirst_levels::slaked ) {
+        max_stored_kcal() < get_stored_kcal() + 4000 && get_thirst() < thirst_levels::slaked ) {
         add_msg_if_player( m_mixed,
                            _( "You feel as though you're going to split open!  In a good way?" ) );
         mod_pain( 5 );
@@ -1220,7 +1220,7 @@ bool Character::consume_effects( item &food )
     }
 
     int excess_kcal = get_stored_kcal() + stomach.get_calories() + ingested.nutr.kcal -
-                      max_stored_calories();
+                      max_stored_kcal();
     int excess_quench = -( get_thirst() - comest.quench );
     stomach.ingest( ingested );
     mod_thirst( -contained_food.type->comestible->quench );

@@ -1242,7 +1242,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
             }
         }
 
-        p.set_stored_kcal( p.max_stored_calories() );
+        p.set_stored_kcal( p.max_stored_kcal() );
         spawn_spores( p );
         return;
     }
@@ -1281,7 +1281,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
         }
     } else if( effect == 7 ) {
         p.add_msg_if_player( m_good, _( "It is delicious, and very filling!" ) );
-        p.set_stored_kcal( p.max_stored_calories() );
+        p.set_stored_kcal( p.max_stored_kcal() );
     } else if( effect == 8 ) {
         p.add_msg_if_player( m_bad, _( "You take one bite, and immediately vomit!" ) );
         p.vomit();

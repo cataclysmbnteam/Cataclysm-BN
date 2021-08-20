@@ -21,7 +21,7 @@ static void reset_time()
 {
     calendar::turn = calendar::start_of_cataclysm;
     player &p = g->u;
-    p.set_stored_kcal( p.max_stored_calories() );
+    p.set_stored_kcal( p.max_stored_kcal() );
     clear_avatar();
 }
 
@@ -53,7 +53,7 @@ static void print_stomach_contents( player &p, const bool print )
         return;
     }
     cata_printf( "stomach: %d player: %d/%d\n", p.stomach.get_calories(),
-                 p.get_stored_kcal(), p.max_stored_calories() );
+                 p.get_stored_kcal(), p.max_stored_kcal() );
     cata_printf( "metabolic rate: %.2f\n", p.metabolic_rate() );
 }
 
@@ -170,7 +170,7 @@ TEST_CASE( "all_nutrition_starve_test", "[!mayfail][starve][slow]" )
         print_stomach_contents( dummy, print_tests );
         cata_printf( "\n" );
     }
-    CHECK( dummy.get_stored_kcal() < dummy.max_stored_calories() );
+    CHECK( dummy.get_stored_kcal() < dummy.max_stored_kcal() );
     // We need to account for a day's worth of error since we're passing a day at a time and we are
     // close to 0 which is the max value for some vitamins
     CHECK( dummy.vitamin_get( vitamin_id( "vitA" ) ) >= -100 );
@@ -216,7 +216,7 @@ TEST_CASE( "Stomach calories become stored calories after less than 1 day", "[st
     player &dummy = g->u;
     reset_time();
     clear_stomach( dummy );
-    int kcal_before = dummy.max_stored_calories() - dummy.bmr();
+    int kcal_before = dummy.max_stored_kcal() - dummy.bmr();
     dummy.set_stored_kcal( kcal_before );
     dummy.stomach.mod_calories( 1000 );
 
@@ -254,7 +254,7 @@ TEST_CASE( "Eating above max kcal causes bloating", "[stomach]" )
     player &dummy = g->u;
     reset_time();
     clear_stomach( dummy );
-    dummy.set_stored_kcal( dummy.max_stored_calories() - 10 );
+    dummy.set_stored_kcal( dummy.max_stored_kcal() - 10 );
     item food( "protein_drink", calendar::start_of_cataclysm, 10 );
     REQUIRE( dummy.compute_effective_nutrients( food ).kcal > 0 );
     WHEN( "Character consumes calories above max" ) {
@@ -269,7 +269,7 @@ TEST_CASE( "Eating above max kcal causes bloating", "[stomach]" )
             CHECK( dummy.has_effect( effect_bloated ) );
         }
         THEN( "They are no longer above max calories" ) {
-            CHECK( dummy.get_stored_kcal() < dummy.max_stored_calories() );
+            CHECK( dummy.get_stored_kcal() < dummy.max_stored_kcal() );
         }
     }
 

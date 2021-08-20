@@ -94,7 +94,6 @@ struct needs_rates {
     float hunger = 0.0f;
     float fatigue = 0.0f;
     float recovery = 0.0f;
-    float kcal = 0.0f;
 };
 
 class player : public Character

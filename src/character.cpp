@@ -398,7 +398,7 @@ Character::Character() :
     set_anatomy( anatomy_id("human_anatomy") );
     update_type_of_scent( true );
     pkill = 0;
-    stored_calories = max_stored_calories() - 100;
+    stored_calories = max_stored_kcal() - 100;
     initialize_stomach_contents();
     healed_total = { { 0, 0, 0, 0, 0, 0 } };
 
@@ -4129,22 +4129,22 @@ void Character::mod_stored_nutr( int nnutr )
 void Character::set_stored_kcal( int kcal )
 {
     if( stored_calories != kcal ) {
-        stored_calories = std::min( kcal, max_stored_calories() );
+        stored_calories = std::min( kcal, max_stored_kcal() );
 
-        if( kcal > max_stored_calories() && has_trait( trait_EATHEALTH ) ) {
-            healall( roll_remainder( ( kcal - max_stored_calories() ) / 50.0f ) );
+        if( kcal > max_stored_kcal() && has_trait( trait_EATHEALTH ) ) {
+            healall( roll_remainder( ( kcal - max_stored_kcal() ) / 50.0f ) );
         }
     }
 }
 
-int Character::max_stored_calories() const
+int Character::max_stored_kcal() const
 {
     return 2500 * 7;
 }
 
 float Character::get_kcal_percent() const
 {
-    return static_cast<float>( get_stored_kcal() ) / static_cast<float>( max_stored_calories() );
+    return static_cast<float>( get_stored_kcal() ) / static_cast<float>( max_stored_kcal() );
 }
 
 int Character::get_thirst() const
@@ -4184,7 +4184,7 @@ std::pair<std::string, nc_color> Character::get_thirst_description() const
 std::pair<std::string, nc_color> Character::get_hunger_description() const
 {
     int total_kcal = stored_calories + stomach.get_calories();
-    int max_kcal = max_stored_calories();
+    int max_kcal = max_stored_kcal();
     float days_left = static_cast<float>( total_kcal ) / bmr();
     float days_max = static_cast<float>( max_kcal ) / bmr();
     std::string hunger_string;
@@ -4584,7 +4584,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
 
     if( npc_no_food ) {
         set_thirst( static_cast<int>( thirst_levels::hydrated ) );
-        set_stored_kcal( max_stored_calories() );
+        set_stored_kcal( max_stored_kcal() );
     }
 
     // Mycus and Metabolic Rehydration makes thirst unnecessary
@@ -4719,9 +4719,6 @@ needs_rates Character::calc_needs_rates() const
 
     needs_rates rates;
     rates.hunger = metabolic_rate();
-
-    // TODO: this is where calculating basal metabolic rate, in kcal per day would go
-    rates.kcal = 2500.0;
 
     add_msg_if_player( m_debug, "Metabolic rate: %.2f", rates.hunger );
 
@@ -8851,7 +8848,7 @@ void Character::fall_asleep()
         }
     }
     if( has_active_mutation( trait_HIBERNATE ) ) {
-        if( get_stored_kcal() > max_stored_calories() - bmr() / 4 &&
+        if( get_stored_kcal() > max_stored_kcal() - bmr() / 4 &&
             get_thirst() < thirst_levels::thirsty ) {
             if( is_avatar() ) {
                 g->memorial().add( pgettext( "memorial_male", "Entered hibernation." ),

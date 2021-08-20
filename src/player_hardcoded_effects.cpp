@@ -432,7 +432,7 @@ static void eff_fun_frostbite( player &u, effect &it )
 
 static void eff_fun_bloated( player &u, effect &it )
 {
-    if( u.get_stored_kcal() > u.max_stored_calories() || u.get_thirst() < 0 ) {
+    if( u.get_stored_kcal() > u.max_stored_kcal() || u.get_thirst() < 0 ) {
         it.set_duration( 5_minutes );
     }
 }
@@ -1064,7 +1064,7 @@ void player::hardcoded_effects( effect &it )
             if( has_trait( trait_CHLOROMORPH ) ) {
                 // Hunger and thirst fall before your Chloromorphic physiology!
                 if( g->natural_light_level( posz() ) >= 12 && compatible_weather_types ) {
-                    if( get_stored_kcal() < max_stored_calories() - 50 ) {
+                    if( get_stored_kcal() < max_stored_kcal() - 50 ) {
                         mod_stored_kcal( 50 );
                     }
                     if( get_thirst() >= thirst_levels::turgid ) {
