@@ -48,7 +48,6 @@ static const efftype_id effect_in_pit( "in_pit" );
 static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_slimed( "slimed" );
-static const efftype_id effect_tetanus( "tetanus" );
 
 static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_WINGS_BIRD( "WINGS_BIRD" );
@@ -161,9 +160,6 @@ bool trapfunc::beartrap( const tripoint &p, Creature *c, item * )
         c->deal_damage( nullptr, hit, d );
 
         player *n = dynamic_cast<player *>( c );
-        if( n != nullptr && !n->has_trait( trait_INFRESIST ) ) {
-            n->add_effect( effect_tetanus, 1_turns, num_bp );
-        }
         c->check_dead_state();
     } else {
         g->m.spawn_item( p, "beartrap" );
@@ -196,9 +192,6 @@ bool trapfunc::board( const tripoint &, Creature *c, item * )
     } else {
         c->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( DT_CUT, rng( 6, 10 ) ) );
         c->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( DT_CUT, rng( 6, 10 ) ) );
-        if( !n->has_trait( trait_INFRESIST ) ) {
-            n->add_effect( effect_tetanus, 1_turns, num_bp );
-        }
     }
     c->check_dead_state();
     return true;
@@ -855,9 +848,6 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
             n->add_msg_if_player( m_bad, _( "The spikes impale your %s!" ),
                                   body_part_name_accusative( hit->token ) );
             n->deal_damage( nullptr, hit, damage_instance( DT_CUT, damage ) );
-            if( !n->has_trait( trait_INFRESIST ) ) {
-                n->add_effect( effect_tetanus, 1_turns, num_bp );
-            }
         }
     } else if( z != nullptr ) {
         if( z->has_effect( effect_ridden ) ) {
@@ -939,9 +929,6 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
             n->add_msg_if_player( m_bad, _( "The glass shards slash your %s!" ),
                                   body_part_name_accusative( hit->token ) );
             n->deal_damage( nullptr, hit, damage_instance( DT_CUT, damage ) );
-            if( !n->has_trait( trait_INFRESIST ) ) {
-                n->add_effect( effect_tetanus, 1_turns, num_bp );
-            }
         }
     } else if( z != nullptr ) {
         if( z->has_effect( effect_ridden ) ) {

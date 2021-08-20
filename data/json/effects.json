@@ -1166,7 +1166,6 @@
       "badpoison",
       "foodpoison",
       "paralyzepoison",
-      "tetanus",
       "infected",
       "asthma",
       "common_cold",
@@ -1457,14 +1456,6 @@
     "rating": "bad",
     "permanent": true,
     "base_mods": { "pain_chance": [ 256 ], "pain_min": [ 1 ], "pain_max": [ 4 ], "fatigue_chance": [ 256 ], "fatigue_min": [ 1 ] }
-  },
-  {
-    "type": "effect_type",
-    "id": "tetanus",
-    "rating": "bad",
-    "resist_effects": [ "valium" ],
-    "base_mods": { "dex_mod": [ -4, 0 ] },
-    "permanent": true
   },
   {
     "type": "effect_type",

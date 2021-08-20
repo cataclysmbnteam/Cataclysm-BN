@@ -111,7 +111,6 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stung( "stung" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_teleglow( "teleglow" );
-static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_took_flumed( "took_flumed" );
 static const efftype_id effect_took_prozac( "took_prozac" );
 static const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
@@ -540,8 +539,6 @@ bool Character::activate_bionic( int b, bool eff_only )
                 { effect_brainworms, translate_marker( "Intracranial Parasites" ) },
                 // These little guys are immune to the blood filter too, as they live in your muscles.
                 { effect_paincysts, translate_marker( "Intramuscular Parasites" ) },
-                // Tetanus infection.
-                { effect_tetanus, translate_marker( "Clostridium Tetani Infection" ) },
                 { effect_datura, translate_marker( "Anticholinergic Tropane Alkaloids" ) },
                 // TODO: Hallucinations not inducted by chemistry
                 { effect_hallu, translate_marker( "Hallucinations" ) },
@@ -633,7 +630,7 @@ bool Character::activate_bionic( int b, bool eff_only )
         add_msg_activate();
         static const std::vector<efftype_id> removable = {{
                 effect_fungus, effect_dermatik, effect_bloodworms,
-                effect_tetanus, effect_poison, effect_stung,
+                effect_poison, effect_stung,
                 effect_pkill1, effect_pkill2, effect_pkill3, effect_pkill_l,
                 effect_drunk, effect_cig, effect_high, effect_hallu, effect_visuals,
                 effect_pblue, effect_iodine, effect_datura,

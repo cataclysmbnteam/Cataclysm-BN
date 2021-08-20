@@ -203,7 +203,6 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_teargas( "teargas" );
 static const efftype_id effect_teleglow( "teleglow" );
-static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_took_antiasthmatic( "took_antiasthmatic" );
 static const efftype_id effect_took_anticonvulsant_visible( "took_anticonvulsant_visible" );
@@ -560,14 +559,6 @@ int iuse::antibiotic( player *p, item *it, bool, const tripoint & )
     p->add_msg_player_or_npc( m_neutral,
                               _( "You take some antibiotics." ),
                               _( "<npcname> takes some antibiotics." ) );
-    if( p->has_effect( effect_tetanus ) ) {
-        if( one_in( 3 ) ) {
-            p->remove_effect( effect_tetanus );
-            p->add_msg_if_player( m_good, _( "The muscle spasms start to go away." ) );
-        } else {
-            p->add_msg_if_player( m_warning, _( "The medication does nothing to help the spasms." ) );
-        }
-    }
     if( p->has_effect( effect_infected ) && !p->has_effect( effect_antibiotic ) ) {
         p->add_msg_if_player( m_good,
                               _( "Maybe just placebo effect, but you feel a little better as the dose settles in." ) );
@@ -9602,14 +9593,6 @@ int iuse::weak_antibiotic( player *p, item *it, bool, const tripoint & )
     p->add_msg_player_or_npc( m_neutral,
                               _( "You take some weak antibiotics." ),
                               _( "<npcname> takes some weak antibiotics." ) );
-    if( p->has_effect( effect_tetanus ) ) {
-        if( one_in( 6 ) ) {
-            p->remove_effect( effect_tetanus );
-            p->add_msg_if_player( m_good, _( "The muscle spasms start to go away." ) );
-        } else {
-            p->add_msg_if_player( m_warning, _( "The medication does nothing to help the spasms." ) );
-        }
-    }
     if( p->has_effect( effect_infected ) && !p->has_effect( effect_weak_antibiotic ) ) {
         p->add_msg_if_player( m_good, _( "The throbbing of the infection diminishes.  Slightly." ) );
     }
@@ -9622,14 +9605,6 @@ int iuse::strong_antibiotic( player *p, item *it, bool, const tripoint & )
     p->add_msg_player_or_npc( m_neutral,
                               _( "You take some strong antibiotics." ),
                               _( "<npcname> takes some strong antibiotics." ) );
-    if( p->has_effect( effect_tetanus ) ) {
-        if( rng( 1, 100 ) <= 70 ) {
-            p->remove_effect( effect_tetanus );
-            p->add_msg_if_player( m_good, _( "The muscle spasms start to go away." ) );
-        } else {
-            p->add_msg_if_player( m_warning, _( "The medication does nothing to help the spasms." ) );
-        }
-    }
     if( p->has_effect( effect_infected ) && !p->has_effect( effect_strong_antibiotic ) ) {
         p->add_msg_if_player( m_good, _( "You feel much better - almost entirely." ) );
     }

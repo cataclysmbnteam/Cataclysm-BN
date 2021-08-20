@@ -90,7 +90,6 @@ static const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_teleglow( "teleglow" );
-static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_toxin_buildup( "toxin_buildup" );
 static const efftype_id effect_valium( "valium" );
 static const efftype_id effect_visuals( "visuals" );
@@ -790,21 +789,6 @@ void player::hardcoded_effects( effect &it )
     } else if( id == effect_paincysts ) {
         if( one_in( 3072 ) ) {
             add_msg_if_player( m_bad, _( "Your muscles feel like they're knotted and tired." ) );
-        }
-    } else if( id == effect_tetanus ) {
-        if( one_in( 1536 ) ) {
-            add_msg_if_player( m_bad, _( "Your muscles are tight and sore." ) );
-        }
-        if( !has_effect( effect_valium ) ) {
-            add_miss_reason( _( "Your muscles are locking up and you can't fight effectively." ), 4 );
-            if( one_in( 3072 ) ) {
-                add_msg_if_player( m_bad, _( "Your muscles spasm." ) );
-                add_effect( effect_downed, rng( 1_turns, 4_turns ), num_bp, 0, true );
-                add_effect( effect_stunned, rng( 1_turns, 4_turns ) );
-                if( one_in( 10 ) ) {
-                    mod_pain( rng( 1, 10 ) );
-                }
-            }
         }
     } else if( id == effect_datura ) {
         if( dur > 100_minutes && focus_pool >= 1 && one_in( 24 ) ) {

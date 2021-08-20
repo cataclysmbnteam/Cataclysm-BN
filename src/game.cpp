@@ -218,7 +218,6 @@ static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
-static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_tied( "tied" );
 
 static const bionic_id bio_remote( "bio_remote" );
@@ -9453,9 +9452,6 @@ point game::place_player( const tripoint &dest_loc )
                          body_part_name_accusative( bp->token ),
                          m.has_flag_ter( "SHARP", dest_loc ) ? m.tername( dest_loc ) : m.furnname(
                              dest_loc ) );
-                if( !u.has_trait( trait_INFRESIST ) ) {
-                    u.add_effect( effect_tetanus, 1_turns, num_bp );
-                }
             }
         }
     }
