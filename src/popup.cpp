@@ -9,15 +9,8 @@
 #include "ime.h"
 #include "input.h"
 #include "output.h"
+#include "sdl_wrappers.h"
 #include "ui_manager.h"
-
-#if defined(TILES)
-#   if defined(_MSC_VER) && defined(USE_VCPKG)
-#       include <SDL2/SDL.h>
-#   else
-#       include <SDL.h>
-#   endif
-#endif // TILES
 
 query_popup::query_popup()
     : cur( 0 ), default_text_color( c_white ), anykey( false ), cancel( false ), ontop( false ),

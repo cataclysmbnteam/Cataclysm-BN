@@ -45,12 +45,11 @@ class ui_adaptor;
 
 #if defined(TILES)
 #   define SDL_MAIN_HANDLED
+#   include "sdl_wrappers.h"
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
 #      include <SDL2/SDL_version.h>
-#      include <SDL2/SDL.h>
 #   else
 #      include <SDL_version.h>
-#      include <SDL.h>
 #   endif
 #endif
 

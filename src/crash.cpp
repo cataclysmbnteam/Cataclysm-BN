@@ -1,4 +1,5 @@
 #include "crash.h"
+#include "sdl_wrappers.h"
 
 #if defined(BACKTRACE)
 
@@ -11,14 +12,6 @@
 #include <sstream>
 #include <string>
 #include <typeinfo>
-
-#if defined(TILES)
-#   if defined(_MSC_VER) && defined(USE_VCPKG)
-#       include <SDL2/SDL.h>
-#   else
-#       include <SDL.h>
-#   endif
-#endif
 
 #if defined(_WIN32)
 #if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU

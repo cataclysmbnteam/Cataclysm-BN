@@ -24,6 +24,7 @@
 #include "player_activity.h"
 #include "pldata.h"
 #include "rng.h"
+#include "sdl_wrappers.h"
 #include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
@@ -31,15 +32,6 @@
 #include "translations.h"
 #include "weather.h"
 #include "vitamin.h"
-
-#if defined(TILES)
-#   if defined(_MSC_VER) && defined(USE_VCPKG)
-#       include <SDL2/SDL.h>
-#   else
-#       include <SDL.h>
-#   endif
-#endif // TILES
-
 #include <algorithm>
 #include <functional>
 

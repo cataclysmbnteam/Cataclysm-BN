@@ -2,13 +2,18 @@
 #ifndef CATA_SRC_SDL_WRAPPERS_H
 #define CATA_SRC_SDL_WRAPPERS_H
 
+#if defined(TILES)
+
 // IWYU pragma: begin_exports
 #if defined(_MSC_VER) && defined(USE_VCPKG)
 #   include <SDL2/SDL.h>
 #   include <SDL2/SDL_image.h>
 #   include <SDL2/SDL_ttf.h>
 #else
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
 #   include <SDL.h>
+#pragma GCC diagnostic pop
 #   include <SDL_image.h>
 #   include <SDL_ttf.h>
 #endif
@@ -136,5 +141,7 @@ inline bool operator!=( const SDL_Rect &lhs, const SDL_Rect &rhs )
 }
 
 /**@}*/
+
+#endif // if defined(TILES)
 
 #endif // CATA_SRC_SDL_WRAPPERS_H
