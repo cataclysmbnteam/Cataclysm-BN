@@ -39,13 +39,13 @@
 #include "output.h"
 #include "path_info.h"
 #include "rng.h"
-#include "sdl_wrappers.h"
 #include "type_id.h"
 
 class ui_adaptor;
 
 #if defined(TILES)
 #   define SDL_MAIN_HANDLED
+#   include "sdl_wrappers.h"
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
 #      include <SDL2/SDL_version.h>
 #   else
