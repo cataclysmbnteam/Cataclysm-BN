@@ -135,6 +135,40 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
                     break;
                 }
             }
+        } else if( ( a.x > a.y ) && ( a.x > a.z ) ) {
+            while( cur.x != loc2.x ) {
+                if( t > 0 ) {
+                    cur.y += s.y;
+                    t -= a.x;
+                }
+                if( t2 > 0 ) {
+                    cur.z += s.z;
+                    t2 -= a.x;
+                }
+                cur.x += s.x;
+                t += a.y;
+                t2 += a.z;
+                if( !interact( cur ) ) {
+                    break;
+                }
+            }
+        } else if( ( a.y > a.z ) && ( a.y > a.x ) ) {
+            while( cur.y != loc2.y ) {
+                if( t > 0 ) {
+                    cur.z += s.z;
+                    t -= a.y;
+                }
+                if( t2 > 0 ) {
+                    cur.x += s.x;
+                    t2 -= a.y;
+                }
+                cur.y += s.y;
+                t += a.z;
+                t2 += a.x;
+                if( !interact( cur ) ) {
+                    break;
+                }
+            }
         } else if( a.x == a.y ) {
             while( cur.x != loc2.x ) {
                 if( t > 0 ) {
