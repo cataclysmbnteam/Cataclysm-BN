@@ -158,8 +158,6 @@ bool trapfunc::beartrap( const tripoint &p, Creature *c, item * )
         d.add_damage( DT_BASH, 12 );
         d.add_damage( DT_CUT, 18 );
         c->deal_damage( nullptr, hit, d );
-
-        player *n = dynamic_cast<player *>( c );
         c->check_dead_state();
     } else {
         g->m.spawn_item( p, "beartrap" );
@@ -179,7 +177,6 @@ bool trapfunc::board( const tripoint &, Creature *c, item * )
     c->add_msg_player_or_npc( m_bad, _( "You step on a spiked board!" ),
                               _( "<npcname> steps on a spiked board!" ) );
     monster *z = dynamic_cast<monster *>( c );
-    player *n = dynamic_cast<player *>( c );
     if( z != nullptr ) {
         if( z->has_effect( effect_ridden ) ) {
             add_msg( m_warning, _( "Your %s stepped on a spiked board!" ), c->get_name() );
