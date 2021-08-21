@@ -607,7 +607,6 @@
         { "id": "weed_high", "duration": "180 m" },
         { "id": "pkill1", "duration": "120 m" },
         { "id": "pkill2", "duration": "5 m" },
-        { "id": "weed_high", "duration": "60 m" },
         { "id": "smoke", "duration": "2 m" }
       ],
       "stat_adjustments": { "hunger": 4, "thirst": 6 },
@@ -643,7 +642,6 @@
         { "id": "weed_high", "duration": "150 m" },
         { "id": "pkill1", "duration": "100 m" },
         { "id": "pkill2", "duration": "5 m" },
-        { "id": "weed_high", "duration": "60 m" },
         { "id": "smoke", "duration": "2 m" }
       ],
       "stat_adjustments": { "hunger": 5, "thirst": 7 },
@@ -915,7 +913,6 @@
         { "id": "weed_high", "duration": "180 m" },
         { "id": "pkill1", "duration": "120 m" },
         { "id": "pkill2", "duration": "5 m" },
-        { "id": "weed_high", "duration": "60 m" },
         { "id": "smoke", "duration": "1 m" }
       ],
       "stat_adjustments": { "hunger": 4, "thirst": 6 },
