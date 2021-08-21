@@ -87,7 +87,6 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 static const efftype_id effect_spores( "spores" );
 static const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
-static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_toxin_buildup( "toxin_buildup" );

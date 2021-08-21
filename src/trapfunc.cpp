@@ -49,7 +49,6 @@ static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_slimed( "slimed" );
 
-static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_WINGS_BIRD( "WINGS_BIRD" );
 static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
 
