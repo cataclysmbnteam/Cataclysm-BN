@@ -356,7 +356,6 @@
   {
     "result": "angle_grinder",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
     "skill_used": "fabrication",
@@ -386,7 +385,6 @@
   {
     "result": "grinder_blade",
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
