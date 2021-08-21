@@ -2152,9 +2152,9 @@
     "symbol": "+",
     "looks_like": "t_door_metal_lab_o",
     "color": "cyan",
-    "move_cost": 1,
+    "move_cost": 2,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "BURROWABLE" ],
+    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "SUPPORTS_ROOF", "ROAD", "INDOORS", "BURROWABLE" ],
     "bash": {
       "str_min": 80,
       "str_max": 250,
