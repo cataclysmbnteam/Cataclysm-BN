@@ -371,7 +371,7 @@
     "using": [ [ "concrete_removal_standard", 1 ] ],
     "byproducts": [ { "item": "rock", "count": [ 15, 20 ] }, { "item": "pebble", "count": [ 20, 30 ] } ],
     "pre_terrain": "t_rock_wall",
-    "post_terrain": "t_rock_floor",
+    "post_terrain": "t_dirt",
     "description": "Remove a rock wall"
   },
   {
@@ -384,7 +384,7 @@
     "using": [ [ "concrete_removal_standard", 1 ] ],
     "byproducts": [ { "item": "rock", "count": [ 6, 10 ] }, { "item": "pebble", "count": [ 20, 30 ] } ],
     "pre_terrain": "t_rock_wall_half",
-    "post_terrain": "t_rock_floor",
+    "post_terrain": "t_dirt",
     "description": "Remove a rock wall"
   },
   {
