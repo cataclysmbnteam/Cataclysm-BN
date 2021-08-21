@@ -1584,6 +1584,8 @@
     ],
     "max_intensity": 3,
     "rating": "bad",
+    "base_mods": { "speed_mod": [ -5 ], "str_mod": [ -1 ] },
+    "scaling_mods": { "speed_mod": [ -10 ], "str_mod": [ -1.5 ] },
     "permanent": true
   },
   {
@@ -1599,6 +1601,8 @@
     ],
     "max_intensity": 3,
     "rating": "bad",
+    "base_mods": { "speed_mod": [ -5 ], "stamina_min": [ -1 ], "fatigue_tick": [ 30 ] },
+    "scaling_mods": { "speed_mod": [ -5 ], "stamina_min": [ -1 ], "fatigue_min": [ 0.5 ] },
     "permanent": true
   },
   {
@@ -1614,6 +1618,8 @@
     ],
     "max_intensity": 3,
     "rating": "bad",
+    "base_mods": { "per_mod": [ -1 ] },
+    "scaling_mods": { "per_mod": [ -2 ], "int_mod": [ -1 ] },
     "permanent": true
   },
   {
@@ -1629,6 +1635,8 @@
     ],
     "max_intensity": 3,
     "rating": "bad",
+    "base_mods": { "stamina_min": [ -0.5 ], "hurt_chance": [ 125 ], "hurt_tick": [ 60 ] },
+    "scaling_mods": { "stamina_min": [ -0.5 ], "hurt_min": [ 1 ], "hurt_chance": [ -25 ] },
     "permanent": true
   },
   {
@@ -1644,6 +1652,15 @@
     ],
     "max_intensity": 3,
     "rating": "bad",
+    "base_mods": { "stamina_min": [ -0.5 ], "pain_min": [ 1 ], "pain_chance": [ 100 ], "pain_tick": [ 50 ] },
+    "scaling_mods": {
+      "str_mod": [ -1.5 ],
+      "per_mod": [ -1 ],
+      "int_mod": [ -0.5 ],
+      "dex_mod": [ -1 ],
+      "stamina_min": [ -1.25 ],
+      "pain_chance": [ -30 ]
+    },
     "permanent": true
   },
   {
@@ -1654,6 +1671,17 @@
     "apply_message": "Your metabolism becomes unstable.",
     "remove_message": "Your metabolism becomes more stable.",
     "rating": "bad",
+    "base_mods": {
+      "stamina_min": [ -1 ],
+      "stamina_chance": [ 12 ],
+      "speed_mod": [ -5 ],
+      "health_amount": [ -1 ],
+      "h_mod_amount": [ -1 ],
+      "thirst_min": [ 1 ],
+      "thirst_max": [ 2 ],
+      "thirst_tick": [ 240 ],
+      "thirst_chance": [ 3 ]
+    },
     "permanent": true
   },
   {
