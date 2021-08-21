@@ -444,7 +444,7 @@ Valid arguments:
 "healing_head"      - Percentage of healing value for head
 "healing_torso"     - Percentage of healing value for torso
 
-"morale"            - Amount of morale provided. Must be a single number (reduced not supported).
+"morale"            - Amount of morale provided. Must be a single number (resistance not supported).
 
 ```
 Each argument can also take either one or two values.
