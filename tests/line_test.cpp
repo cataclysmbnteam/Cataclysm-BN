@@ -105,7 +105,7 @@ static bool check_bresenham_far( const tripoint &source, const tripoint &destina
         return false;
     }
     // ...and have proper length; ...
-    if( generated_path.size() != length ) {
+    if( generated_path.size() != static_cast<size_t>( length ) ) {
         FAIL_CHECK( "line has invalid length" );
         return false;
     }
