@@ -1376,7 +1376,7 @@ void load_effect_type( const JsonObject &jo )
             bool has_non_reduced = non_reduced != new_etype.mod_data.end();
             if( ( has_reduced && has_non_reduced && reduced->second != non_reduced->second )
                 || has_reduced != has_non_reduced ) {
-                jo.throw_error( "MORALE doesn't support different amounts for reduced effects yet",
+                jo.throw_error( "MORALE doesn't support different amounts for resisted effects yet",
                                 cur_mod );
             }
         }
