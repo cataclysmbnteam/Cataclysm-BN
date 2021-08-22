@@ -1078,7 +1078,7 @@ bool Character::burn_fuel( int b, bool start )
             int current_fuel_stock;
             if( is_metabolism_powered ) {
                 current_fuel_stock = std::max( 0.0f, get_stored_kcal() - 0.8f *
-                                               get_healthy_kcal() );
+                                               max_stored_kcal() );
             } else if( is_perpetual_fuel ) {
                 current_fuel_stock = 1;
             } else if( is_cable_powered ) {

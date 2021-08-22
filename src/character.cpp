@@ -398,7 +398,7 @@ Character::Character() :
     set_anatomy( anatomy_id("human_anatomy") );
     update_type_of_scent( true );
     pkill = 0;
-    stored_calories = max_stored_calories() - 100;
+    stored_calories = max_stored_kcal() - 100;
     initialize_stomach_contents();
     healed_total = { { 0, 0, 0, 0, 0, 0 } };
 
@@ -500,8 +500,10 @@ void Character::mod_stat( const std::string &stat, float modifier )
         mod_int_bonus( modifier );
     } else if( stat == "healthy" ) {
         mod_healthy( modifier );
+    } else if( stat == "kcal" ) {
+        mod_stored_kcal( modifier );
     } else if( stat == "hunger" ) {
-        mod_hunger( modifier );
+        mod_stored_kcal( -10 * modifier );
     } else {
         Creature::mod_stat( stat, modifier );
     }
@@ -4127,46 +4129,22 @@ void Character::mod_stored_nutr( int nnutr )
 void Character::set_stored_kcal( int kcal )
 {
     if( stored_calories != kcal ) {
-        stored_calories = std::min( kcal, max_stored_calories() );
+        stored_calories = std::min( kcal, max_stored_kcal() );
 
-        if( kcal > max_stored_calories() && has_trait( trait_EATHEALTH ) ) {
-            healall( roll_remainder( ( kcal - max_stored_calories() ) / 50.0f ) );
+        if( kcal > max_stored_kcal() && has_trait( trait_EATHEALTH ) ) {
+            healall( roll_remainder( ( kcal - max_stored_kcal() ) / 50.0f ) );
         }
     }
 }
 
-int Character::max_stored_calories() const
+int Character::max_stored_kcal() const
 {
     return 2500 * 7;
 }
 
-int Character::get_healthy_kcal() const
-{
-    return max_stored_calories();
-}
-
 float Character::get_kcal_percent() const
 {
-    return static_cast<float>( get_stored_kcal() ) / static_cast<float>( max_stored_calories() );
-}
-
-float Character::get_hunger() const
-{
-    return ( max_stored_calories() - get_stored_kcal() ) / ( 2500.0f / ( 12 * 24 ) );
-}
-
-void Character::mod_hunger( float nhunger )
-{
-    set_hunger( get_hunger() + nhunger );
-}
-
-void Character::set_hunger( float nhunger )
-{
-    if( get_hunger() != nhunger ) {
-        int hunger_in_kcal = nhunger * ( 2500.0f / ( 12 * 24 ) );
-        int new_kcal = max_stored_calories() - hunger_in_kcal;
-        set_stored_kcal( new_kcal );
-    }
+    return static_cast<float>( get_stored_kcal() ) / static_cast<float>( max_stored_kcal() );
 }
 
 int Character::get_thirst() const
@@ -4206,7 +4184,7 @@ std::pair<std::string, nc_color> Character::get_thirst_description() const
 std::pair<std::string, nc_color> Character::get_hunger_description() const
 {
     int total_kcal = stored_calories + stomach.get_calories();
-    int max_kcal = max_stored_calories();
+    int max_kcal = max_stored_kcal();
     float days_left = static_cast<float>( total_kcal ) / bmr();
     float days_max = static_cast<float>( max_kcal ) / bmr();
     std::string hunger_string;
@@ -4606,7 +4584,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
 
     if( npc_no_food ) {
         set_thirst( static_cast<int>( thirst_levels::hydrated ) );
-        set_stored_kcal( get_healthy_kcal() );
+        set_stored_kcal( max_stored_kcal() );
     }
 
     // Mycus and Metabolic Rehydration makes thirst unnecessary
@@ -4741,9 +4719,6 @@ needs_rates Character::calc_needs_rates() const
 
     needs_rates rates;
     rates.hunger = metabolic_rate();
-
-    // TODO: this is where calculating basal metabolic rate, in kcal per day would go
-    rates.kcal = 2500.0;
 
     add_msg_if_player( m_debug, "Metabolic rate: %.2f", rates.hunger );
 
@@ -8734,7 +8709,7 @@ void Character::check_and_recover_morale()
         }
     }
 
-    test_morale.on_stat_change( "hunger", get_hunger() );
+    test_morale.on_stat_change( "kcal", get_stored_kcal() );
     test_morale.on_stat_change( "thirst", get_thirst() );
     test_morale.on_stat_change( "fatigue", get_fatigue() );
     test_morale.on_stat_change( "pain", get_pain() );
@@ -8873,7 +8848,7 @@ void Character::fall_asleep()
         }
     }
     if( has_active_mutation( trait_HIBERNATE ) ) {
-        if( get_stored_kcal() > max_stored_calories() - bmr() / 4 &&
+        if( get_stored_kcal() > max_stored_kcal() - bmr() / 4 &&
             get_thirst() < thirst_levels::thirsty ) {
             if( is_avatar() ) {
                 g->memorial().add( pgettext( "memorial_male", "Entered hibernation." ),
