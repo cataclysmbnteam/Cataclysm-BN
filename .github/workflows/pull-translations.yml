@@ -38,12 +38,12 @@ jobs:
         uses: peter-evans/create-pull-request@v3.10.0
         with:
           commit-message: Routine i18n updates on ${{ steps.current-date.outputs.formattedTime }}
-          committer: Brett Dong (BOT) <brett.browning.dong@gmail.com>
-          author: Brett Dong (BOT) <brett.browning.dong@gmail.com>
+          committer: Coolthulhu (BOT) <Coolthulhu@gmail.com>
+          author: Coolthulhu (BOT) <Coolthulhu@gmail.com>
           token: TX_PR_CREATOR
           branch: i18n
           delete-branch: true
-          base: master
+          base: upload
           title: Routine i18n updates on ${{ steps.current-date.outputs.formattedTime }}
           body: "#### Summary\nNone"
           labels: Translation
