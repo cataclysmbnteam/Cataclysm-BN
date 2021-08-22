@@ -612,7 +612,6 @@ void avatar_action::autoattack( avatar &you, map &m )
     you.reach_attack( best.pos() );
 }
 
-// TODO: Move data/functions related to targeting out of game class
 bool avatar_action::can_fire_weapon( avatar &you, const map &m, const item &weapon )
 {
     if( !weapon.is_gun() ) {

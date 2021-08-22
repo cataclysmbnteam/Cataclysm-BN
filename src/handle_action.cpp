@@ -2004,7 +2004,6 @@ bool game::handle_action()
                 break;
 
             case ACTION_FIRE_BURST: {
-                gun_mode_id original_mode = u.weapon.gun_get_mode_id();
                 if( u.weapon.gun_set_mode( gun_mode_id( "AUTO" ) ) ) {
                     avatar_action::fire_wielded_weapon( u );
                 }

@@ -123,7 +123,7 @@ dispersion_sources calculate_dispersion( const map &m, const player &p, const it
 class target_ui
 {
     public:
-        /* None of the public members (except ammo and range) should be modified during execution */
+        /* None of the public members (except range) should be modified during execution */
 
         enum class TargetMode : int {
             Fire,
@@ -143,8 +143,6 @@ class target_ui
         item *relevant = nullptr;
         // Cached selection range from player's position
         int range = 0;
-        // Cached current ammo to display
-        const itype *ammo = nullptr;
         // Turret being manually fired
         turret_data *turret = nullptr;
         // Turrets being fired (via vehicle controls)
@@ -160,6 +158,10 @@ class target_ui
         // Relevant activity
         aim_activity_actor *activity = nullptr;
 
+        // Initialize UI and run the event loop
+        target_handler::trajectory run();
+
+    private:
         enum class ExitCode : int {
             Abort,
             Fire,
@@ -167,10 +169,6 @@ class target_ui
             Reload
         };
 
-        // Initialize UI and run the event loop
-        target_handler::trajectory run();
-
-    private:
         enum class Status : int {
             Good, // All UI elements are enabled
             BadTarget, // Bad 'dst' selected; forbid aiming/firing
@@ -181,6 +179,8 @@ class target_ui
         // Ui status (affects which UI controls are temporarily disabled)
         Status status = Status::Good;
 
+        // Cached current ammo to display
+        const itype *ammo = nullptr;
         // Current trajectory
         std::vector<tripoint> traj;
         // Aiming source (player's position)
@@ -322,6 +322,12 @@ class target_ui
         // Switch firing mode.
         void action_switch_mode();
 
+        // Ensure we're using ranged gun mode.
+        void ensure_ranged_gun_mode();
+
+        // Update range & ammo from current gun mode
+        void update_ammo_range_from_gun_mode();
+
         // Switch ammo. Returns 'false' if requires a reloading UI.
         bool action_switch_ammo();
 
@@ -370,9 +376,6 @@ target_handler::trajectory target_handler::mode_fire( avatar &you, aim_activity_
     ui.mode = target_ui::TargetMode::Fire;
     ui.activity = &activity;
     ui.relevant = activity.get_weapon();
-    gun_mode gun = ui.relevant->gun_current_mode();
-    ui.range = gun.target->gun_range( &you );
-    ui.ammo = gun->ammo_data();
 
     return ui.run();
 }
@@ -407,8 +410,6 @@ target_handler::trajectory target_handler::mode_turret_manual( avatar &you, turr
     ui.mode = target_ui::TargetMode::TurretManual;
     ui.turret = &turret;
     ui.relevant = &*turret.base();
-    ui.range = turret.range();
-    ui.ammo = turret.ammo_data();
 
     return ui.run();
 }
@@ -1974,8 +1975,13 @@ target_handler::trajectory target_ui::run()
     if( mode == TargetMode::Spell && !no_mana && !casting->can_cast( *you ) ) {
         you->add_msg_if_player( m_bad, _( "You don't have enough %s to cast this spell" ),
                                 casting->energy_string() );
-    } else if( mode == TargetMode::Fire ) {
-        sight_dispersion = you->effective_dispersion( relevant->sight_dispersion() );
+    }
+    if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
+        ensure_ranged_gun_mode();
+        update_ammo_range_from_gun_mode();
+        if( mode == TargetMode::Fire ) {
+            sight_dispersion = you->effective_dispersion( relevant->sight_dispersion() );
+        }
     }
 
     map &here = get_map();
@@ -1988,7 +1994,7 @@ target_handler::trajectory target_ui::run()
         draw_turret_lines = vturrets->size() == 1;
     }
 
-    avatar &player_character = get_avatar();
+    avatar &player_character = *you;
     on_out_of_scope cleanup( [&here, &player_character]() {
         here.invalidate_map_cache( player_character.pos().z + player_character.view_offset.z );
     } );
@@ -2379,13 +2385,9 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
                         break;
                     }
                 }
-
-                // FIXME: due to a bug in map::find_clear_path (#39693),
-                //        returned trajectory is invalid in some cases.
-                //        This bandaid stops us from exceeding range,
-                //        but does not fix the issue.
+                // Sanity check
                 if( dist_fn( valid_pos ) > range ) {
-                    debugmsg( "Exceeded allowed range!" );
+                    debugmsg( "Calculated trajectory exceeds allowed range!" );
                     valid_pos = src;
                 }
             }
@@ -2617,9 +2619,11 @@ bool target_ui::prompt_friendlies_in_lof()
     std::vector<Creature *> new_in_lof;
     for( const weak_ptr_fast<Creature> &cr_ptr : in_lof ) {
         bool found = false;
-        Creature *cr = cr_ptr.lock().get();
+        shared_ptr_fast<Creature> ptr_lock = cr_ptr.lock();
+        Creature *cr = ptr_lock.get();
         for( const weak_ptr_fast<Creature> &cr2_ptr : activity->acceptable_losses ) {
-            Creature *cr2 = cr2_ptr.lock().get();
+            shared_ptr_fast<Creature> ptr2_lock = cr2_ptr.lock();
+            Creature *cr2 = ptr2_lock.get();
             if( cr == cr2 ) {
                 found = true;
                 break;
@@ -2740,7 +2744,8 @@ void target_ui::recalc_aim_turning_penalty()
 
     double curr_recoil = you->recoil;
     tripoint curr_recoil_pos;
-    const Creature *lt_ptr = you->last_target.lock().get();
+    shared_ptr_fast<Creature> ptr_lock = you->last_target.lock();
+    const Creature *lt_ptr = ptr_lock.get();
     if( lt_ptr ) {
         curr_recoil_pos = lt_ptr->pos();
     } else if( you->last_target_pos ) {
@@ -2775,9 +2780,20 @@ void target_ui::apply_aim_turning_penalty()
 void target_ui::action_switch_mode()
 {
     relevant->gun_cycle_mode();
-    if( relevant->gun_current_mode().flags.count( "REACH_ATTACK" ) ) {
+    ensure_ranged_gun_mode();
+    update_ammo_range_from_gun_mode();
+    on_range_ammo_changed();
+}
+
+void target_ui::ensure_ranged_gun_mode()
+{
+    while( relevant->gun_current_mode().melee() ) {
         relevant->gun_cycle_mode();
     }
+}
+
+void target_ui::update_ammo_range_from_gun_mode()
+{
     if( mode == TargetMode::TurretManual ) {
         itype_id ammo_current = turret->ammo_current();
         if( ammo_current == "null" || ammo_current.empty() ) {
@@ -2791,7 +2807,6 @@ void target_ui::action_switch_mode()
         ammo = relevant->gun_current_mode().target->ammo_data();
         range = relevant->gun_current_mode().target->gun_range( you );
     }
-    on_range_ammo_changed();
 }
 
 bool target_ui::action_switch_ammo()
