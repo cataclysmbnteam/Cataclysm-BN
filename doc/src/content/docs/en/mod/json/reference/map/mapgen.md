@@ -1095,6 +1095,10 @@ a parameter to ensure that the carpet is the same colour for all the tiles
 within that nest, but another instance of the same `nested_mapgen_id` elsewhere
 in the same OMT might choose a different colour.
 
+To help you debug mapgen parameters and their effect on mapgen, you can see the
+chosen values for `overmap_special`-scoped parameters in the overmap editor
+(accessible via the debug menu).
+
 
 ## Rotate the map with "rotation"
 
@@ -1116,7 +1120,60 @@ type.
 
 Example: `"predecessor_mapgen": "forest"`
 
-# Using update_mapgen
+# Palettes
+
+A **palette** provides a way to use the same symbol definitions for different
+pieces of mapgen.  For example, most of the houses defined in CDDA us the
+`standard_domestic_palette`.  That palette, for example, defines `h` as meaning
+`f_chair`, so all the house mapgen can use `h` in its `"rows"` array without
+needing to repeat this definition everywhere.  It simply requires a reference
+to the palette, achieved by adding
+
+```json
+"palettes": [ "standard_domestic_palette" ]
+```
+
+to the definition of each house.
+
+Each piece of mapgen can refer to multiple palettes.  When two palettes both
+define meanings for the same symbol, both are applied.  In some cases (such as
+spawning items) you can see the results of both in the final output.  In other
+cases (such as setting terrain or furniture) one result must override the
+others.  The rule is that the last palette listed overrides earlier ones, and
+definitions in the outer mapgen override anything in the palettes within.
+
+Palette definitions can contain any of the JSON described above for the [JSON
+object definition](#json-object-definition) where it is defining a meaning for
+a symbol.  They cannot specify anything for a particular location (using `"x"`
+and `"y"` coordinates.
+
+Palettes can themselves include other palettes via a `"palettes"` key.  So if
+two or more palettes would have many of the same symbols with the same meanings
+that common part can be pulled out into a new palette which each of them
+includes, so that the definitions need not be repeated.
+
+
+## Palette ids as mapgen values
+
+The values in the `"palettes"` list need not be simple strings.  They can be
+any [mapgen value](#mapgen-values) as described above.  Most importantly, this
+means that they can use a `"distribution"` to select from a set of palettes at
+random.
+
+This selection works as if it were an overmap special-scoped [mapgen
+parameter](#mapgen-parameters).  So, all OMTs within a special will use the
+same palette.  Moreover, you can see which palette was chosen by looking at the
+overmap special arguments displayed in the overmap editor (accessible via the
+debug menu).
+
+For example, the following JSON used in a cabin mapgen definition
+```json
+      "palettes": [ { "distribution": [ [ "cabin_palette", 1 ], [ "cabin_palette_abandoned", 1 ] ] } ],
+```
+causes half the cabins generated to use the regular `cabin_palette` and the
+other half to use `cabin_palette_abandoned`.
+
+# Using `update_mapgen`
 
 **update_mapgen** is a variant of normal JSON mapgen. Instead of creating a new overmap tile, it
 updates an existing overmap tile with a specific set of changes. Currently, it only works within the
