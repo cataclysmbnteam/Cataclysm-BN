@@ -1381,13 +1381,33 @@ void mapgen_parameters::check_and_merge( const mapgen_parameters &other,
  * it at random.
  */
 template<typename PieceType>
-class jmapgen_alternativly : public jmapgen_piece
+class jmapgen_alternatively : public jmapgen_piece
 {
     public:
         // Note: this bypasses virtual function system, all items in this vector are of type
         // PieceType, they *can not* be of any other type.
         std::vector<PieceType> alternatives;
-        jmapgen_alternativly() = default;
+        jmapgen_alternatively() = default;
+        int phase() const override {
+            if( alternatives.empty() ) {
+                return 0;
+            }
+            return alternatives[0].phase();
+        }
+        void check( const std::string &context, const mapgen_parameters &params ) const override {
+            if( alternatives.empty() ) {
+                debugmsg( "zero alternatives in jmapgen_alternatively in %s", context );
+            }
+            for( const PieceType &piece : alternatives ) {
+                piece.check( context, params );
+            }
+        }
+        void merge_parameters_into( mapgen_parameters &params,
+                                    const std::string &outer_context ) const override {
+            for( const PieceType &piece : alternatives ) {
+                piece.merge_parameters_into( params, outer_context );
+            }
+        }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
             if( const auto chosen = random_entry_opt( alternatives ) ) {
@@ -1412,7 +1432,7 @@ class jmapgen_constrained : public jmapgen_piece
         shared_ptr_fast<const jmapgen_piece> underlying_piece;
         std::vector<mapgen_constraint<Value>> constraints;
 
-        int phase() const override {
+        mapgen_phase phase() const override {
             return underlying_piece->phase();
         }
         void check( const std::string &context, const mapgen_parameters &params ) const override {
@@ -2923,7 +2943,7 @@ void load_place_mapings_string( const JsonValue &value,
 }
 /*
 This function is like load_place_mapings_string, except if the input is an array it will create an
-instance of jmapgen_alternativly which will chose the mapgen piece to apply to the map randomly.
+instance of jmapgen_alternatively which will chose the mapgen piece to apply to the map randomly.
 Use this with terrain or traps or other things that can not be applied twice to the same place.
 */
 template<typename PieceType>
@@ -2933,7 +2953,7 @@ void load_place_mapings_alternatively( const JsonValue &value,
     if( !value.test_array() ) {
         load_place_mapings_string<PieceType>( value, vect );
     } else {
-        auto alter = make_shared_fast< jmapgen_alternativly<PieceType> >();
+        auto alter = make_shared_fast< jmapgen_alternatively<PieceType> >();
         for( const JsonValue entry : value.get_array() ) {
             if( entry.test_string() ) {
                 try {
