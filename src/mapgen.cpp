@@ -1388,9 +1388,9 @@ class jmapgen_alternatively : public jmapgen_piece
         // PieceType, they *can not* be of any other type.
         std::vector<PieceType> alternatives;
         jmapgen_alternatively() = default;
-        int phase() const override {
+        mapgen_phase phase() const override {
             if( alternatives.empty() ) {
-                return 0;
+                return mapgen_phase::default_;
             }
             return alternatives[0].phase();
         }
@@ -1541,8 +1541,8 @@ class jmapgen_faction : public jmapgen_piece
         jmapgen_faction( const JsonObject &jsi )
             : id( jsi.get_member( "id" ) ) {
         }
-        int phase() const override {
-            return 2;
+        mapgen_phase phase() const override {
+            return mapgen_phase::faction_ownership;
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
@@ -2177,8 +2177,8 @@ class jmapgen_furniture : public jmapgen_piece
         jmapgen_furniture( const JsonObject &jsi ) :
             jmapgen_furniture( jsi.get_member( "furn" ) ) {}
         explicit jmapgen_furniture( const JsonValue &fid ) : id( fid ) {}
-        int phase() const override {
-            return -1;
+        mapgen_phase phase() const override {
+            return mapgen_phase::furniture;
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
@@ -2211,8 +2211,8 @@ class jmapgen_terrain : public jmapgen_piece
         bool is_nop() const override {
             return id.is_null();
         }
-        int phase() const override {
-            return -2;
+        mapgen_phase phase() const override {
+            return mapgen_phase::terrain;
         }
 
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
@@ -2504,8 +2504,8 @@ class jmapgen_translate : public jmapgen_piece
             : from( jsi.get_member( "from" ) )
             , to( jsi.get_member( "to" ) ) {
         }
-        int phase() const override {
-            return 2;
+        mapgen_phase phase() const override {
+            return mapgen_phase::transform;
         }
         void apply( const mapgendata &dat, const jmapgen_int &/*x*/,
                     const jmapgen_int &/*y*/ ) const override {
@@ -2733,8 +2733,8 @@ class jmapgen_nested : public jmapgen_piece
                 return else_entries;
             }
         }
-        int phase() const override {
-            return 1;
+        mapgen_phase phase() const override {
+            return mapgen_phase::nested_mapgen;
         }
         void merge_parameters_into( mapgen_parameters &params,
                                     const std::string &outer_context ) const override {
