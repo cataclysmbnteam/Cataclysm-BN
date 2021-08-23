@@ -320,7 +320,7 @@
     "book_learn": [ [ "book_icef", 3 ], [ "textbook_mechanics", 3 ], [ "textbook_carpentry", 3 ] ],
     "using": [ [ "welding_standard", 10 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "1cyl_combustion_small", 1 ] ], [ [ "metal_tank_little", 1 ] ], [ [ "chain", 1 ] ], [ [ "scrap", 3 ] ] ]
+    "components": [ [ [ "1cyl_combustion", 1 ] ], [ [ "metal_tank_little", 1 ] ], [ [ "chain", 1 ] ], [ [ "scrap", 3 ] ] ]
   },
   {
     "result": "masonrysaw_off",
@@ -348,7 +348,7 @@
     ],
     "components": [
       [ [ "circsaw_off", 1 ] ],
-      [ [ "1cyl_combustion_small", 1 ] ],
+      [ [ "1cyl_combustion", 1 ] ],
       [ [ "metal_tank_little", 1 ] ],
       [ [ "steel_chunk", 6 ], [ "steel_lump", 2 ] ]
     ]
@@ -2591,7 +2591,7 @@
     "using": [ [ "welding_standard", 10 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [
-      [ [ "1cyl_combustion", 1 ], [ "1cyl_combustion_small", 1 ] ],
+      [ [ "1cyl_combustion", 1 ] ],
       [ [ "metal_tank_little", 1 ] ],
       [ [ "rebar", 2 ], [ "steel_chunk", 4 ] ],
       [ [ "scrap", 3 ] ]
