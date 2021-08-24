@@ -2663,6 +2663,28 @@ underlying terrain.
 (Optional) When the furniture is successfully lockpicked, this is the message that will be printed
 to the player. When it is missing, a generic `"The lock opens…"` message will be printed instead.
 
+#### `oxytorch`
+
+(Optional) Data for using with an oxytorch.
+
+```cpp
+oxytorch: {
+    "result": "furniture_id", // (optional) furniture it will become when done, defaults to f_null
+    "duration": "1 seconds", // ( optional ) time required for oxytorching, default is 1 second
+    "message": "You quickly cut the metal", // ( optional ) message that will be displayed when finished
+    "byproducts": [ // ( optional ) list of items that will be spawned when finished
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range ( inclusive )
+        }
+    ]
+}
+```
+
 #### `light_emitted`
 
 How much light the furniture produces. 10 will light the tile it's on brightly, 15 will light that

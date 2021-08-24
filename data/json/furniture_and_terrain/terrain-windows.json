@@ -427,6 +427,11 @@
     "coverage": 95,
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
+    "oxytorch": {
+      "result": "t_window_empty",
+      "duration": "4 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "sheet_metal", "count": [ 1, 3 ] } ]
+    },
     "bash": {
       "str_min": 18,
       "str_max": 40,
@@ -448,6 +453,11 @@
     "coverage": 95,
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
+    "oxytorch": {
+      "result": "t_window_empty",
+      "duration": "4 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "sheet_metal", "count": [ 1, 3 ] } ]
+    },
     "bash": {
       "str_min": 18,
       "str_max": 40,
@@ -468,6 +478,7 @@
     "move_cost": 0,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "PERMEABLE" ],
+    "oxytorch": { "result": "t_window_empty", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
     "bash": {
       "str_min": 60,
       "str_max": 250,
@@ -493,6 +504,7 @@
     "move_cost": 0,
     "delete": { "flags": [ "FLAMMABLE", "BARRICADABLE_WINDOW" ] },
     "extend": { "flags": [ "ALARMED" ] },
+    "oxytorch": { "result": "t_window_alarm", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
     "bash": { "ter_set": "t_window_bars" }
   },
   {
@@ -506,6 +518,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
+    "oxytorch": { "result": "t_window_domestic", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
     "flags": [
       "NOITEM",
       "OPENCLOSE_INSIDE",
@@ -544,6 +557,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
+    "oxytorch": { "result": "t_window_domestic", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
     "flags": [
       "TRANSPARENT",
       "NOITEM",
@@ -639,6 +653,11 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
+    "oxytorch": {
+      "result": "t_window_reinforced",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
     "flags": [
       "TRANSPARENT",
       "NOITEM",
@@ -677,6 +696,11 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
+    "oxytorch": {
+      "result": "t_window_reinforced",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
     "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
     "curtain_transform": "t_window_bars",
     "examine_action": "curtains",
@@ -719,6 +743,11 @@
       "REDUCE_SCENT",
       "WINDOW"
     ],
+    "oxytorch": {
+      "result": "t_window_reinforced",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
     "curtain_transform": "t_window_bars",
     "examine_action": "curtains",
     "close": "t_metal_grate_window_with_curtain",
@@ -751,6 +780,11 @@
     "move_cost": 0,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "BARRICADABLE_WINDOW", "THIN_OBSTACLE", "WINDOW" ],
+    "oxytorch": {
+      "result": "t_window_reinforced_noglass",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
     "deconstruct": {
       "ter_set": "t_window_reinforced",
       "items": [ { "item": "pipe", "count": 12 }, { "item": "sheet_metal_small", "count": 40 } ]
@@ -782,6 +816,11 @@
     "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
     "curtain_transform": "t_metal_grate_window_noglass",
     "examine_action": "curtains",
+    "oxytorch": {
+      "result": "t_window_reinforced_noglass",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
     "open": "t_metal_grate_window_with_curtain_open",
     "deconstruct": {
       "ter_set": "t_window_reinforced",
@@ -821,6 +860,11 @@
       "REDUCE_SCENT",
       "WINDOW"
     ],
+    "oxytorch": {
+      "result": "t_window_reinforced_noglass",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
     "curtain_transform": "t_metal_grate_window_noglass",
     "examine_action": "curtains",
     "close": "t_metal_grate_window_with_curtain",
