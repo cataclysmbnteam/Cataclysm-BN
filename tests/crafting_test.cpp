@@ -13,6 +13,7 @@
 #include "cata_utility.h"
 #include "catch/catch.hpp"
 #include "coordinate_conversions.h"
+#include "craft_command.h"
 #include "crafting.h"
 #include "distribution_grid.h"
 #include "game.h"
@@ -34,6 +35,9 @@
 #include "value_ptr.h"
 
 class inventory;
+
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_DEBUG_STORAGE( "DEBUG_STORAGE" );
 
 TEST_CASE( "recipe_subset" )
 {
@@ -546,6 +550,38 @@ TEST_CASE( "total crafting time with or without interruption", "[crafting][time]
                         AND_THEN( "the finished item should be in the inventory" ) {
                             verify_inventory( { "crude_picklock" }, { "craft" } );
                         }
+                    }
+                }
+            }
+        }
+    }
+}
+
+TEST_CASE( "debug hammerspace test", "[crafting]" )
+{
+    static const recipe_id test_recipe( "nodachi" );
+
+    GIVEN( "A character with debug hammerspace trait" ) {
+        avatar dummy;
+        dummy.toggle_trait( trait_DEBUG_HS );
+        // TODO: Shouldn't be needed!
+        dummy.set_body();
+        // TODO: Debug vision should handle this part
+        dummy.toggle_trait( trait_DEBUG_STORAGE );
+        dummy.i_add( item( itype_id( "atomic_lamp" ) ) );
+        REQUIRE( dummy.fine_detail_vision_mod() < 4.0f );
+
+        WHEN( "The character tries to craft a no-dachi" ) {
+            craft_command command( &*test_recipe, 1, false, &dummy );
+            item_location craft_item = dummy.start_craft( command, dummy.pos() );
+
+            THEN( "The craft item is created" ) {
+                REQUIRE( craft_item );
+                AND_WHEN( "The character spends a second performing the activity set when starting the craft" ) {
+                    dummy.set_moves( 100 );
+                    dummy.activity.do_turn( dummy );
+                    THEN( "The activity isn't finished yet" ) {
+                        CHECK( !dummy.activity.is_null() );
                     }
                 }
             }

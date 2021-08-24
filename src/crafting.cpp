@@ -711,11 +711,11 @@ static item_location set_item_inventory( player &p, item &newit )
     return set_item_map_or_vehicle( p, p.pos(), newit );
 }
 
-void player::start_craft( craft_command &command, const tripoint & )
+item_location player::start_craft( craft_command &command, const tripoint & )
 {
     if( command.empty() ) {
         debugmsg( "Attempted to start craft with empty command" );
-        return;
+        return item_location();
     }
 
     item craft = command.create_in_progress_craft();
@@ -752,6 +752,7 @@ void player::start_craft( craft_command &command, const tripoint & )
         pgettext( "in progress craft", "You start working on the %s." ),
         pgettext( "in progress craft", "<npcname> starts working on the %s." ),
         craft.tname() );
+    return craft_in_world;
 }
 
 void player::craft_skill_gain( const item &craft, const int &multiplier )
@@ -1143,6 +1144,9 @@ bool player::can_continue_craft( item &craft )
     if( !craft.is_craft() ) {
         debugmsg( "complete_craft() called on non-craft '%s.'  Aborting.", craft.tname() );
         return false;
+    }
+    if( has_trait( trait_DEBUG_HS ) ) {
+        return true;
     }
 
     const recipe &rec = craft.get_making();
@@ -1666,6 +1670,9 @@ bool player::craft_consume_tools( item &craft, int mulitplier, bool start_craft 
     if( !craft.is_craft() ) {
         debugmsg( "craft_consume_tools() called on non-craft '%s.' Aborting.", craft.tname() );
         return false;
+    }
+    if( has_trait( trait_DEBUG_HS ) ) {
+        return true;
     }
 
     const auto calc_charges = [&craft, &start_craft, &mulitplier]( int charges ) {

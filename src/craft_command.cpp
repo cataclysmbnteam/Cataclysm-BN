@@ -226,7 +226,9 @@ item craft_command::create_in_progress_craft()
     std::list<item> used;
     std::vector<item_comp> comps_used;
     if( crafter->has_trait( trait_DEBUG_HS ) ) {
-        return item( rec, batch_size, used, comps_used );
+        item new_craft( rec, batch_size, used, comps_used );
+        new_craft.set_tools_to_continue( true );
+        return new_craft;
     }
 
     if( empty() ) {
