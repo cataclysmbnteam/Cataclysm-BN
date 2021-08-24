@@ -115,8 +115,6 @@
 struct mutation_branch;
 struct oter_type_t;
 
-static const activity_id ACT_AIM( "ACT_AIM" );
-
 static const efftype_id effect_riding( "riding" );
 
 static const std::array<std::string, NUM_OBJECTS> obj_type_name = { { "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
