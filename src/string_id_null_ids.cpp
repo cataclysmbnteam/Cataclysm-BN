@@ -36,6 +36,7 @@ MAKE_NULL_ID( Item_group, "" )
 MAKE_NULL_ID( morale_type_data, "" )
 MAKE_NULL_ID( json_trait_flag, "null" )
 MAKE_NULL_ID( VehicleGroup, "null" )
+MAKE_NULL_ID( zone_type, "null" )
 
 #define MAKE_NULL_ID2( type, ... ) \
     struct type; \
