@@ -79,6 +79,11 @@
 #include "vpart_range.h"
 #include "weighted_list.h"
 
+static const itype_id itype_avgas( "avgas" );
+static const itype_id itype_diesel( "diesel" );
+static const itype_id itype_gasoline( "gasoline" );
+static const itype_id itype_jp8( "jp8" );
+
 static const mongroup_id GROUP_BLOB( "GROUP_BLOB" );
 static const mongroup_id GROUP_BREATHER( "GROUP_BREATHER" );
 static const mongroup_id GROUP_BREATHER_HUB( "GROUP_BREATHER_HUB" );
@@ -1821,18 +1826,28 @@ class jmapgen_gaspump : public jmapgen_piece
 {
     public:
         jmapgen_int amount;
-        std::string fuel;
+        mapgen_value<itype_id> fuel;
         jmapgen_gaspump( const JsonObject &jsi ) :
             amount( jsi, "amount", 0, 0 ) {
-            if( jsi.has_string( "fuel" ) ) {
-                fuel = jsi.get_string( "fuel" );
+            if( jsi.has_member( "fuel" ) ) {
+                jsi.read( "fuel", fuel );
+            }
+        }
 
+        void check( const std::string &oter_name, const mapgen_parameters &parameters
+                  ) const override {
+            fuel.check( oter_name, parameters );
+            static const std::unordered_set<itype_id> valid_fuels = {
+                itype_id::NULL_ID(), itype_gasoline, itype_diesel, itype_jp8, itype_avgas
+            };
+            for( const itype_id &possible_fuel : fuel.all_possible_results( parameters ) ) {
                 // may want to not force this, if we want to support other fuels for some reason
-                if( fuel != "gasoline" && fuel != "diesel" ) {
-                    jsi.throw_error( "invalid fuel", "fuel" );
+                if( !valid_fuels.count( possible_fuel ) ) {
+                    debugmsg( "invalid fuel %s in %s", possible_fuel.str(), oter_name );
                 }
             }
         }
+
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
             const point r( x.get(), y.get() );
@@ -1841,10 +1856,11 @@ class jmapgen_gaspump : public jmapgen_piece
             if( charges == 0 ) {
                 charges = rng( 10000, 50000 );
             }
-            if( !fuel.empty() ) {
-                dat.m.place_gas_pump( r, charges, fuel );
-            } else {
+            itype_id chosen_fuel = fuel.get( dat );
+            if( chosen_fuel.is_null() ) {
                 dat.m.place_gas_pump( r, charges );
+            } else {
+                dat.m.place_gas_pump( r, charges, chosen_fuel );
             }
         }
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
@@ -6301,7 +6317,7 @@ void map::place_spawns( const mongroup_id &group, const int chance,
     }
 }
 
-void map::place_gas_pump( point p, int charges, const std::string &fuel_type )
+void map::place_gas_pump( const point &p, int charges, const itype_id &fuel_type )
 {
     detached_ptr<item> fuel = item::spawn( fuel_type, calendar::start_of_cataclysm );
     fuel->charges = charges;
@@ -6309,9 +6325,9 @@ void map::place_gas_pump( point p, int charges, const std::string &fuel_type )
     add_item( p, std::move( fuel ) );
 }
 
-void map::place_gas_pump( point p, int charges )
+void map::place_gas_pump( const point &p, int charges )
 {
-    place_gas_pump( p, charges, one_in( 4 ) ? "diesel" : "gasoline" );
+    place_gas_pump( p, charges, one_in( 4 ) ? itype_diesel : itype_gasoline );
 }
 
 void map::place_toilet( point p, int charges )

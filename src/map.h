@@ -1548,8 +1548,8 @@ class map
                            point p1, point p2, float density,
                            bool individual = false, bool friendly = false, const std::string &name = "NONE",
                            int mission_id = -1 );
-        void place_gas_pump( point p, int charges, const std::string &fuel_type );
-        void place_gas_pump( point p, int charges );
+        void place_gas_pump( const point &p, int charges, const itype_id &fuel_type );
+        void place_gas_pump( const point &p, int charges );
         // 6 liters at 250 ml per charge
         void place_toilet( point p, int charges = 6 * 4 );
         void place_vending( point p, const item_group_id &type, bool reinforced = false );
