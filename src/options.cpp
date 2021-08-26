@@ -2164,7 +2164,7 @@ void options_manager::add_options_debug()
 
     add( "MODULAR_TRANSLATIONS", "debug", translate_marker( "Modular translation testing" ),
          translate_marker( "If true, enables experimental translation system that allows mods to ship their own translation files." ),
-         false
+         true
        );
 }
 
