@@ -701,7 +701,7 @@ const char *trans_catalogue::get_nth_pl_translation( u32 n, size_t num ) const
         return offs_to_cstr( r.offset );
     }
     size_t curr_plf = 0;
-    for( u32 offs = r.offset; offs <= r.offset + r.length; offs++ ) {
+    for( u32 offs = r.offset; offs < r.offset + r.length; offs++ ) {
         if( get_u8_unsafe( offs ) == PLF_SEPARATOR ) {
             curr_plf += 1;
             if( plf == curr_plf ) {
