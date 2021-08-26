@@ -23,13 +23,30 @@ const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_tabs();
 const std::map<std::string, std::string> &get_mod_list_cat_tab();
 
+struct translatable_mod_info {
+    private:
+        std::string mod_path;
+        std::string name_raw;
+        std::string name_tr;
+        std::string description_raw;
+        std::string description_tr;
+        int language_version = 0;
+        void update();
+    public:
+        translatable_mod_info();
+        translatable_mod_info( std::string name, std::string description, std::string path );
+        std::string name();
+        std::string description();
+};
+
 struct MOD_INFORMATION {
     private:
         friend mod_manager;
-        std::string name_;
+        mutable translatable_mod_info translatable_info;
 
     public:
         std::string name() const;
+        std::string description() const;
 
         mod_id ident;
 
@@ -48,7 +65,6 @@ struct MOD_INFORMATION {
          */
         std::set<std::string> maintainers;
 
-        std::string description;
         std::string version;
 
         /** What other mods must be loaded prior to this one? */
