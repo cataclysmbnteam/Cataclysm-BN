@@ -648,8 +648,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     Character &player_character = get_player_character();
     const bool seen = sees_veh( player_character, veh, false );
 
-    vehicle *new_vehicle = &veh;
-    if( can_move ) {
+    if( can_move || ( vertical && veh.is_falling ) ) {
         // Accept new direction
         if( veh.skidding ) {
             veh.face.init( veh.turn_dir );
@@ -664,8 +663,8 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
         }
         veh.on_move();
         // Actually change position
-        displace_vehicle( *new_vehicle, dp1 );
-        level_vehicle( *new_vehicle );
+        displace_vehicle( veh, dp1 );
+        level_vehicle( veh );
     } else if( !vertical ) {
         veh.stop();
     }
@@ -727,7 +726,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
         ui_manager::redraw_invalidated();
         refresh_display();
     }
-    return new_vehicle;
+    return &veh;
 }
 
 float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
