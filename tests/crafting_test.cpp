@@ -709,4 +709,20 @@ TEST_CASE( "tool selection ui", "[crafting][ui]" )
             CHECK( result.use_from == use_from_none );
         }
     }
+
+    GIVEN( "Two compatible tools in map inventory, one with enough charges for entire craft and one with half" ) {
+        tool_comp too_little( itype_id( "test_soldering_iron" ), 200 );
+        tool_comp enough( itype_id( "test_battery_tool" ), 100 );
+        tools = {too_little, enough};
+        map_inv.add_item( item( too_little.type, calendar::start_of_cataclysm, 100 ) );
+        map_inv.add_item( item( enough.type, calendar::start_of_cataclysm, 100 ) );
+
+        comp_selection<tool_comp> result = crafting::select_tool_component( tools, 1, map_inv,
+                                           &dummy, false,
+                                           DEFAULT_HOTKEYS, cost_adjustment::none );
+
+        THEN( "The tool with enough charges is selected" ) {
+            CHECK( result.comp.type == enough.type );
+        }
+    }
 }
