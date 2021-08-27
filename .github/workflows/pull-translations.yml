@@ -40,7 +40,7 @@ jobs:
           commit-message: Routine i18n updates on ${{ steps.current-date.outputs.formattedTime }}
           committer: Coolthulhu (BOT) <Coolthulhu@gmail.com>
           author: Coolthulhu (BOT) <Coolthulhu@gmail.com>
-          token: TX_PR_CREATOR
+          token: ${{ secrets.TX_PR_CREATOR }}
           branch: i18n
           delete-branch: true
           base: upload
