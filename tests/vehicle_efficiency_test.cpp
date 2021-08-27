@@ -434,7 +434,7 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
     test_vehicle( "suv", 1320286, 1163000, 630000, 85540, 30810 );
     test_vehicle( "motorcycle", 163085, 120300, 99920, 63320, 50810 );
     test_vehicle( "quad_bike", 265345, 116100, 116100, 46770, 46770 );
-    test_vehicle( "scooter", 62587, 228800, 216400, 170200, 161900 );
+    test_vehicle( "scooter", 57587, 233500, 233500, 167900, 167900 );
     test_vehicle( "superbike", 242085, 109800, 65300, 41780, 24070 );
     test_vehicle( "ambulance", 1839299, 613400, 504700, 77700, 58290 );
     test_vehicle( "fire_engine", 2628611, 1885000, 1558000, 334700, 257000 );
@@ -454,7 +454,7 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
     test_vehicle( "suv", 1320286, 112000, 111800, 66880, 31670, 0, 0, true );
     test_vehicle( "motorcycle", 163085, 19980, 19030, 15490, 14890, 0, 0, true );
     test_vehicle( "quad_bike", 265345, 19650, 19650, 15440, 15440, 0, 0, true );
-    test_vehicle( "scooter", 62587, 59160, 59160, 46320, 46320, 0, 0, true );
+    test_vehicle( "scooter", 57587, 62440, 62440, 47990, 47990, 0, 0, true );
     test_vehicle( "superbike", 242085, 18320, 10570, 13070, 8497, 0, 0, true );
     test_vehicle( "ambulance", 1839299, 58460, 57780, 42480, 39130, 0, 0, true );
     test_vehicle( "fire_engine", 2628611, 258000, 257800, 179800, 173300, 0, 0, true );
