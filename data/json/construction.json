@@ -2971,10 +2971,9 @@
     "id": "constr_forge_rock",
     "description": "Build Rock Forge",
     "category": "FURN",
-    "required_skills": [ [ "fabrication", 5 ] ],
+    "required_skills": [ [ "fabrication", 4 ] ],
     "time": "120 m",
-    "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "rock", 40 ] ] ],
+    "components": [ [ [ "rock", 40 ] ], [ [ "material_soil", 3 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "post_terrain": "f_forge_rock"
