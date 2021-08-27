@@ -704,7 +704,7 @@ bool veh_interact::update_part_requirements()
     }
 
     const auto get_rq_mechanics = []( const vpart_info & vpi ) {
-        for( const std::pair<skill_id, int> &it : vpi.install_skills ) {
+        for( const std::pair<const skill_id, int> &it : vpi.install_skills ) {
             if( it.first == skill_mechanics ) {
                 return it.second;
             }
