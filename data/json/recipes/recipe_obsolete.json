@@ -2554,5 +2554,25 @@
     "result": "bp_shot_scrap",
     "id_suffix": "with dowel",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sheet_cotton",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sheet_cotton_patchwork",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sheet_neoprene",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sheet_neoprene_patchwork",
+    "obsolete": true
   }
 ]
