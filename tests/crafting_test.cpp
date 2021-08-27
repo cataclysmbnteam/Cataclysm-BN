@@ -638,36 +638,6 @@ TEST_CASE( "oven electric grid", "[crafting][overmap][grids][slow]" )
     }
 }
 
-template < size_t i, typename ... Args>
-std::enable_if_t < ( i == sizeof...( Args ) - 1 ) >
-stream_tuple( const std::tuple<Args...> &t, std::ostream &stream )
-{
-    stream << std::get < i > ( t );
-}
-
-template < size_t i, typename ... Args >
-std::enable_if_t < ( i < sizeof...( Args ) - 1 ) >
-stream_tuple( const std::tuple<Args...> &t, std::ostream &stream )
-{
-    stream << std::get < i > ( t ) << ", ";
-    stream_tuple < i + 1 > ( t, stream );
-}
-
-template<typename ... Args>
-void operator<<( std::ostream &stream, const std::tuple<Args...> &t )
-{
-    stream << "[";
-    stream_tuple <0> ( t, stream );
-    stream << "]";
-}
-
-TEST_CASE( "tuple streaming", "[crafting][ui]" )
-{
-    std::stringstream ss;
-    ss << std::make_tuple( 1, 2, "abc", 3.0f );
-    CHECK( ss.str() == "[1, 2, abc, 3]" );
-}
-
 TEST_CASE( "tool selection ui", "[crafting][ui]" )
 {
     npc dummy;
