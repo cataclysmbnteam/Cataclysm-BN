@@ -170,6 +170,8 @@ class trans_catalogue
         const char *get_nth_pl_translation( u32 n, size_t num ) const;
         /** Get original msgid (with msgctxt) of given entry. */
         const char *get_nth_orig_string( u32 n ) const;
+        /** Check whether translated string contains plural forms. */
+        bool check_nth_translation_has_plf( u32 n ) const;
 };
 
 /**

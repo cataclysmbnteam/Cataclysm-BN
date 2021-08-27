@@ -14,22 +14,21 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
 
-msgctxt "Bright Nights"
+# Does not have context, so is considered separate from 'Cataclysm' with context.
 msgid "Cataclysm"
-msgstr "Брайт Найтс"
+msgstr "Катаклизм"
 
 msgctxt "noun"
 msgid "Test"
 msgstr "Тест"
 
-# Grammatical error
+# Has plural forms, so will overwrite '%s item' without plural forms.
 msgid "%d item"
 msgid_plural "%d items"
-msgstr[0] "%d прИдмет"
-msgstr[1] "%d прИдмета"
-msgstr[2] "%d прИдметов"
+msgstr[0] "%d предмет"
+msgstr[1] "%d предмета"
+msgstr[2] "%d предметов"
 
-# Grammatical error
 msgctxt "source of water"
 msgid "%d spring"
 msgid_plural "%d springs"

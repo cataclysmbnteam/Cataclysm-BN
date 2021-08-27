@@ -14,15 +14,26 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
 
-# Grammatical error
+# Contains grammatical error.
+# 'Cataclysm' without context already exists. This string does not have plural forms, so it will be discarded.
 msgid "Cataclysm"
 msgstr "КОтОклизм"
 
+# Has different context from existing 'Test', so is considered a separate string.
 msgctxt "verb"
 msgid "Test"
 msgstr "Тестировать"
 
-# Grammatical error
+# Contains grammatical error.
+# Existing '%s item' already has plural forms, so this string will be discarded.
+msgid "%d item"
+msgid_plural "%d items"
+msgstr[0] "%d прИдмет"
+msgstr[1] "%d прИдмета"
+msgstr[2] "%d прИдметов"
+
+# Contains grammatical error.
+# Existing '%s spring' with matching context already has plural forms, so this string will be discarded.
 msgctxt "source of water"
 msgid "%d spring"
 msgid_plural "%d springs"

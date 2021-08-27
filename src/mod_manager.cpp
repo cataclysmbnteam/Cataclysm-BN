@@ -42,16 +42,20 @@ bool string_id<MOD_INFORMATION>::is_valid() const
 
 std::string MOD_INFORMATION::name() const
 {
-    if( name_.empty() ) {
+    if( translatable_info.name().empty() ) {
         // "No name" gets confusing if many mods have no name
         //~ name of a mod that has no name entry, (%s is the mods identifier)
         return string_format( _( "No name (%s)" ), ident.c_str() );
     } else {
-        return _( name_ );
+        return translatable_info.name();
     }
 }
 
-// These accessors are to delay the initialization of the strings in the respective containers until after gettext is initialized.
+std::string MOD_INFORMATION::description() const
+{
+    return translatable_info.description();
+}
+
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories()
 {
     static const std::vector<std::pair<std::string, std::string> > mod_list_categories = {
@@ -219,8 +223,6 @@ void mod_manager::load_modfile( const JsonObject &jo, const std::string &path )
         return;
     }
 
-    const std::string m_name = jo.get_string( "name", "" );
-
     std::string m_cat = jo.get_string( "category", "" );
     std::pair<int, std::string> p_cat = {-1, ""};
     bool bCatFound = false;
@@ -243,7 +245,6 @@ void mod_manager::load_modfile( const JsonObject &jo, const std::string &path )
 
     MOD_INFORMATION modfile;
     modfile.ident = m_ident;
-    modfile.name_ = m_name;
     modfile.category = p_cat;
 
     if( assign( jo, "path", modfile.path ) ) {
@@ -255,9 +256,12 @@ void mod_manager::load_modfile( const JsonObject &jo, const std::string &path )
         modfile.legacy = path + "/" + modfile.legacy;
     }
 
+    const std::string m_name = jo.get_string( "name", "" );
+    const std::string m_descr = jo.get_string( "description", "" );
+    modfile.translatable_info = translatable_mod_info( m_name, m_descr, modfile.path );
+
     assign( jo, "authors", modfile.authors );
     assign( jo, "maintainers", modfile.maintainers );
-    assign( jo, "description", modfile.description );
     assign( jo, "version", modfile.version );
     assign( jo, "dependencies", modfile.dependencies );
     assign( jo, "core", modfile.core );
@@ -401,3 +405,49 @@ void mod_manager::set_usable_mods()
 
     usable_mods = ordered_mods;
 }
+
+translatable_mod_info::translatable_mod_info()
+{
+    language_version = INVALID_LANGUAGE_VERSION;
+}
+
+translatable_mod_info::translatable_mod_info( std::string name,
+        std::string description, std::string mod_path ) :
+    mod_path( mod_path ), name_raw( name ), description_raw( description )
+{
+    language_version = INVALID_LANGUAGE_VERSION;
+}
+
+#ifdef LOCALIZE
+std::string translatable_mod_info::name()
+{
+    if( name_raw.empty() ) {
+        return "";
+    }
+    if( language_version != detail::get_current_language_version() ) {
+        update();
+    }
+    return name_tr;
+}
+
+std::string translatable_mod_info::description()
+{
+    if( description_raw.empty() ) {
+        return "";
+    }
+    if( language_version != detail::get_current_language_version() ) {
+        update();
+    }
+    return description_tr;
+}
+#else // LOCALIZE
+std::string translatable_mod_info::name()
+{
+    return name_raw;
+}
+
+std::string translatable_mod_info::description()
+{
+    return description_raw;
+}
+#endif // LOCALIZE
