@@ -15,6 +15,7 @@
 #include "avatar.h"
 #include "cata_utility.h"
 #include "color.h"
+#include "crafting.h"
 #include "debug.h"
 #include "game.h"
 #include "generic_factory.h"
@@ -541,9 +542,10 @@ void requirement_data::finalize()
         for( auto &list : vec ) {
             std::vector<tool_comp> new_list;
             for( auto &comp : list ) {
-                const auto replacements = item_controller->subtype_replacement( comp.type );
-                for( const auto &replaced_type : replacements ) {
-                    new_list.emplace_back( replaced_type, comp.count );
+                const std::list<itype_id> replacements = item_controller->subtype_replacement( comp.type );
+                for( const itype_id &replacing_type : replacements ) {
+                    const int charge_factor = item::find_type( replacing_type )->charge_factor();
+                    new_list.emplace_back( replacing_type, charge_factor * comp.count );
                 }
             }
 
@@ -656,7 +658,7 @@ std::vector<std::string> requirement_data::get_folded_tools_list( int width, nc_
 }
 
 bool requirement_data::can_make_with_inventory( const inventory &crafting_inv,
-        const std::function<bool( const item & )> &filter, int batch, craft_flags flags ) const
+        const std::function<bool( const item & )> &filter, int batch, cost_adjustment flags ) const
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -683,7 +685,7 @@ template<typename T>
 bool requirement_data::has_comps( const inventory &crafting_inv,
                                   const std::vector< std::vector<T> > &vec,
                                   const std::function<bool( const item & )> &filter,
-                                  int batch, craft_flags flags )
+                                  int batch, cost_adjustment flags )
 {
     bool retval = true;
     int total_UPS_charges_used = 0;
@@ -718,7 +720,7 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
 
 bool quality_requirement::has(
     const inventory &crafting_inv, const std::function<bool( const item & )> &, int,
-    craft_flags, std::function<void( int )> ) const
+    cost_adjustment, std::function<void( int )> ) const
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -737,7 +739,7 @@ nc_color quality_requirement::get_color( bool has_one, const inventory &,
 
 bool tool_comp::has(
     const inventory &crafting_inv, const std::function<bool( const item & )> &filter, int batch,
-    craft_flags flags, std::function<void( int )> visitor ) const
+    cost_adjustment flags, std::function<void( int )> visitor ) const
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -745,10 +747,12 @@ bool tool_comp::has(
     if( !by_charges() ) {
         return crafting_inv.has_tools( type, std::abs( count ), filter );
     } else {
-        int charges_required = count * batch * item::find_type( type )->charge_factor();
+        int charges_required = count * batch;
 
-        if( ( flags & craft_flags::start_only ) != craft_flags::none ) {
-            charges_required = charges_required / 20 + charges_required % 20;
+        if( flags == cost_adjustment::start_only ) {
+            charges_required = crafting::charges_for_starting( charges_required );
+        } else if( flags == cost_adjustment::continue_only ) {
+            charges_required = crafting::charges_for_continuing( charges_required );
         }
 
         int charges_found = crafting_inv.charges_of( type, charges_required, filter, visitor );
@@ -769,7 +773,7 @@ nc_color tool_comp::get_color( bool has_one, const inventory &crafting_inv,
 
 bool item_comp::has(
     const inventory &crafting_inv, const std::function<bool( const item & )> &filter, int batch,
-    craft_flags, std::function<void( int )> ) const
+    cost_adjustment, std::function<void( int )> ) const
 {
     if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -1448,7 +1452,7 @@ deduped_requirement_data::deduped_requirement_data( const requirement_data &in,
 
 bool deduped_requirement_data::can_make_with_inventory(
     const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
-    int batch, craft_flags flags ) const
+    int batch, cost_adjustment flags ) const
 {
     return std::any_of( alternatives().begin(), alternatives().end(),
     [&]( const requirement_data & alt ) {
@@ -1458,7 +1462,7 @@ bool deduped_requirement_data::can_make_with_inventory(
 
 std::vector<const requirement_data *> deduped_requirement_data::feasible_alternatives(
     const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
-    int batch, craft_flags flags ) const
+    int batch, cost_adjustment flags ) const
 {
     std::vector<const requirement_data *> result;
     for( const requirement_data &req : alternatives() ) {
@@ -1471,14 +1475,14 @@ std::vector<const requirement_data *> deduped_requirement_data::feasible_alterna
 
 const requirement_data *deduped_requirement_data::select_alternative(
     player &crafter, const std::function<bool( const item & )> &filter, int batch,
-    craft_flags flags ) const
+    cost_adjustment flags ) const
 {
     return select_alternative( crafter, crafter.crafting_inventory(), filter, batch, flags );
 }
 
 const requirement_data *deduped_requirement_data::select_alternative(
     player &crafter, const inventory &inv, const std::function<bool( const item & )> &filter,
-    int batch, craft_flags flags ) const
+    int batch, cost_adjustment flags ) const
 {
     const std::vector<const requirement_data *> all_reqs =
         feasible_alternatives( inv, filter, batch, flags );

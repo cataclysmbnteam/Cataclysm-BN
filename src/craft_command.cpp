@@ -146,7 +146,7 @@ void craft_command::execute( const tripoint &new_loc )
         item_selections.clear();
         const auto filter = rec->get_component_filter( flags );
         const requirement_data *needs = rec->deduped_requirements().select_alternative(
-                                            *crafter, filter, batch_size, craft_flags::start_only );
+                                            *crafter, filter, batch_size, cost_adjustment::start_only );
         if( !needs ) {
             return;
         }
@@ -162,10 +162,10 @@ void craft_command::execute( const tripoint &new_loc )
 
         tool_selections.clear();
         for( const auto &it : needs->get_tools() ) {
-            comp_selection<tool_comp> ts = crafter->select_tool_component(
-            it, batch_size, map_inv, DEFAULT_HOTKEYS, true, true, []( int charges ) {
-                return charges / 20 + charges % 20;
-            } );
+            comp_selection<tool_comp> ts = crafting::select_tool_component(
+                                               it, batch_size, map_inv, crafter, true,
+                                               DEFAULT_HOTKEYS,
+                                               cost_adjustment::start_only );
             if( ts.use_from == cancel ) {
                 return;
             }

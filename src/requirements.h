@@ -2,15 +2,12 @@
 #ifndef CATA_SRC_REQUIREMENTS_H
 #define CATA_SRC_REQUIREMENTS_H
 
-#include <functional>
 #include <list>
 #include <map>
 #include <string>
 #include <tuple>
-#include <utility>
 #include <vector>
 
-#include "crafting.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -37,6 +34,14 @@ enum class component_type : int {
     ITEM,
     TOOL,
     QUALITY,
+};
+
+enum class cost_adjustment : int {
+    none = 0,
+    // Only require 5% (plus remainder) of tool charges
+    start_only,
+    // Only require 5% of tool charges
+    continue_only
 };
 
 struct quality {
@@ -92,7 +97,7 @@ struct tool_comp : public component {
     void load( const JsonValue &value );
     void dump( JsonOut &jsout ) const;
     bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
-              int batch = 1, craft_flags = craft_flags::none,
+              int batch = 1, cost_adjustment = cost_adjustment::none,
               std::function<void( int )> visitor = std::function<void( int )>() ) const;
     std::string to_string( int batch = 1, int avail = 0 ) const;
     nc_color get_color( bool has_one, const inventory &crafting_inv,
@@ -110,7 +115,7 @@ struct item_comp : public component {
     void load( const JsonValue &value );
     void dump( JsonOut &jsout ) const;
     bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
-              int batch = 1, craft_flags = craft_flags::none,
+              int batch = 1, cost_adjustment = cost_adjustment::none,
               std::function<void( int )> visitor = std::function<void( int )>() ) const;
     std::string to_string( int batch = 1, int avail = 0 ) const;
     nc_color get_color( bool has_one, const inventory &crafting_inv,
@@ -149,7 +154,7 @@ struct quality_requirement {
     void load( const JsonValue &value );
     void dump( JsonOut &jsout ) const;
     bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
-              int = 0, craft_flags = craft_flags::none,
+              int = 0, cost_adjustment = cost_adjustment::none,
               std::function<void( int )> visitor = std::function<void( int )>() ) const;
     std::string to_string( int batch = 1, int avail = 0 ) const;
     void check_consistency( const std::string &display_name ) const;
@@ -315,7 +320,7 @@ struct requirement_data {
          */
         bool can_make_with_inventory( const inventory &crafting_inv,
                                       const std::function<bool( const item & )> &filter, int batch = 1,
-                                      craft_flags = craft_flags::none ) const;
+                                      cost_adjustment = cost_adjustment::none ) const;
 
         /** @param filter see @ref can_make_with_inventory */
         std::vector<std::string> get_folded_components_list( int width, nc_color col,
@@ -381,7 +386,7 @@ struct requirement_data {
         static bool has_comps(
             const inventory &crafting_inv, const std::vector< std::vector<T> > &vec,
             const std::function<bool( const item & )> &filter, int batch = 1,
-            craft_flags = craft_flags::none );
+            cost_adjustment = cost_adjustment::none );
 
         template<typename T>
         std::vector<std::string> get_folded_list( int width, const inventory &crafting_inv,
@@ -435,19 +440,19 @@ class deduped_requirement_data
 
         std::vector<const requirement_data *> feasible_alternatives(
             const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
-            int batch = 1, craft_flags = craft_flags::none ) const;
+            int batch = 1, cost_adjustment = static_cast<cost_adjustment>( 0 ) ) const;
 
         const requirement_data *select_alternative(
             player &, const std::function<bool( const item & )> &filter, int batch = 1,
-            craft_flags = craft_flags::none ) const;
+            cost_adjustment = static_cast<cost_adjustment>( 0 ) ) const;
 
         const requirement_data *select_alternative(
             player &, const inventory &, const std::function<bool( const item & )> &filter,
-            int batch = 1, craft_flags = craft_flags::none ) const;
+            int batch = 1, cost_adjustment = static_cast<cost_adjustment>( 0 ) ) const;
 
         bool can_make_with_inventory(
             const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
-            int batch = 1, craft_flags = craft_flags::none ) const;
+            int batch = 1, cost_adjustment = static_cast<cost_adjustment>( 0 ) ) const;
 
         bool is_too_complex() const {
             return is_too_complex_;

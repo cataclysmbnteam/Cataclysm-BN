@@ -557,7 +557,7 @@ TEST_CASE( "total crafting time with or without interruption", "[crafting][time]
     }
 }
 
-TEST_CASE( "debug hammerspace test", "[crafting]" )
+TEST_CASE( "debug hammerspace", "[crafting]" )
 {
     static const recipe_id test_recipe( "nodachi" );
 
@@ -589,7 +589,7 @@ TEST_CASE( "debug hammerspace test", "[crafting]" )
     }
 }
 
-TEST_CASE( "oven electric grid test", "[crafting][overmap][grids][slow]" )
+TEST_CASE( "oven electric grid", "[crafting][overmap][grids][slow]" )
 {
     map &m = g->m;
     constexpr tripoint start_pos = tripoint( 60, 60, 0 );
@@ -634,6 +634,79 @@ TEST_CASE( "oven electric grid test", "[crafting][overmap][grids][slow]" )
                     REQUIRE( can_craft );
                 }
             }
+        }
+    }
+}
+
+template < size_t i, typename ... Args>
+std::enable_if_t < ( i == sizeof...( Args ) - 1 ) >
+stream_tuple( const std::tuple<Args...> &t, std::ostream &stream )
+{
+    stream << std::get < i > ( t );
+}
+
+template < size_t i, typename ... Args >
+std::enable_if_t < ( i < sizeof...( Args ) - 1 ) >
+stream_tuple( const std::tuple<Args...> &t, std::ostream &stream )
+{
+    stream << std::get < i > ( t ) << ", ";
+    stream_tuple < i + 1 > ( t, stream );
+}
+
+template<typename ... Args>
+void operator<<( std::ostream &stream, const std::tuple<Args...> &t )
+{
+    stream << "[";
+    stream_tuple <0> ( t, stream );
+    stream << "]";
+}
+
+TEST_CASE( "tuple streaming", "[crafting][ui]" )
+{
+    std::stringstream ss;
+    ss << std::make_tuple( 1, 2, "abc", 3.0f );
+    CHECK( ss.str() == "[1, 2, abc, 3]" );
+}
+
+TEST_CASE( "tool selection ui", "[crafting][ui]" )
+{
+    npc dummy;
+
+    std::vector<tool_comp> tools;
+    comp_selection<tool_comp> expected_result;
+
+    inventory map_inv;
+
+    GIVEN( "One compatible tool in map inventory" ) {
+        tool_comp tool_component( itype_id( "test_soldering_iron" ), 10 );
+        tools = {tool_component};
+        map_inv.add_item( item( tool_component.type, calendar::start_of_cataclysm, 100 ) );
+
+        comp_selection<tool_comp> result = crafting::select_tool_component( tools, 1, map_inv,
+                                           &dummy, false,
+                                           DEFAULT_HOTKEYS, cost_adjustment::none );
+
+        THEN( "That tool is selected and is from map" ) {
+            REQUIRE( map_inv.size() == 1 );
+            CAPTURE( map_inv.find_item( 0 ).display_name() );
+            CHECK( result.comp.type == tool_component.type );
+            CHECK( result.use_from == use_from_map );
+        }
+    }
+
+    GIVEN( "Two compatible tools in map inventory, one free and one costly" ) {
+        tool_comp costly( itype_id( "test_soldering_iron" ), 10 );
+        tool_comp free( itype_id( "test_screwdriver" ), -1 );
+        tools = {costly, free};
+        map_inv.add_item( item( costly.type ) );
+        map_inv.add_item( item( free.type ) );
+
+        comp_selection<tool_comp> result = crafting::select_tool_component( tools, 1, map_inv,
+                                           &dummy, false,
+                                           DEFAULT_HOTKEYS, cost_adjustment::none );
+
+        THEN( "Use from is set to none" ) {
+            CHECK( result.use_from == use_from_none );
         }
     }
 }
