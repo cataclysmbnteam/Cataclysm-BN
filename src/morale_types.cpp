@@ -10,108 +10,6 @@
 #include "string_formatter.h"
 #include "debug.h"
 
-const morale_type &morale_type_data::convert_legacy( int lmt )
-{
-    static const std::vector<morale_type> legacy_morale_types = {{
-            morale_type( "morale_null" ),
-            morale_type( "morale_food_good" ),
-            morale_type( "morale_food_hot" ),
-            morale_type( "morale_ate_with_table" ),
-            morale_type( "morale_ate_without_table" ),
-            morale_type( "morale_music" ),
-            morale_type( "morale_honey" ),
-            morale_type( "morale_game" ),
-            morale_type( "morale_marloss" ),
-            morale_type( "morale_mutagen" ),
-            morale_type( "morale_feeling_good" ),
-            morale_type( "morale_support" ),
-            morale_type( "morale_photos" ),
-
-            morale_type( "morale_craving_nicotine" ),
-            morale_type( "morale_craving_caffeine" ),
-            morale_type( "morale_craving_alcohol" ),
-            morale_type( "morale_craving_opiate" ),
-            morale_type( "morale_craving_speed" ),
-            morale_type( "morale_craving_cocaine" ),
-            morale_type( "morale_craving_crack" ),
-            morale_type( "morale_craving_mutagen" ),
-            morale_type( "morale_craving_diazepam" ),
-            morale_type( "morale_craving_marloss" ),
-
-            morale_type( "morale_food_bad" ),
-            morale_type( "morale_cannibal" ),
-            morale_type( "morale_vegetarian" ),
-            morale_type( "morale_meatarian" ),
-            morale_type( "morale_antifruit" ),
-            morale_type( "morale_lactose" ),
-            morale_type( "morale_antijunk" ),
-            morale_type( "morale_antiwheat" ),
-            morale_type( "morale_sweettooth" ),
-            morale_type( "morale_no_digest" ),
-            morale_type( "morale_wet" ),
-            morale_type( "morale_dried_off" ),
-            morale_type( "morale_cold" ),
-            morale_type( "morale_hot" ),
-            morale_type( "morale_feeling_bad" ),
-            morale_type( "morale_killed_innocent" ),
-            morale_type( "morale_killed_friend" ),
-            morale_type( "morale_killed_monster" ),
-            morale_type( "morale_mutilate_corpse" ),
-            morale_type( "morale_mutagen_elf" ),
-            morale_type( "morale_mutagen_chimera" ),
-            morale_type( "morale_mutagen_mutation" ),
-
-            morale_type( "morale_moodswing" ),
-            morale_type( "morale_book" ),
-            morale_type( "morale_comfy" ),
-
-            morale_type( "morale_scream" ),
-
-            morale_type( "morale_perm_masochist" ),
-            morale_type( "morale_perm_hoarder" ),
-            morale_type( "morale_perm_fancy" ),
-            morale_type( "morale_perm_optimist" ),
-            morale_type( "morale_perm_badtemper" ),
-            morale_type( "morale_perm_constrained" ),
-            morale_type( "morale_perm_nomad" ),
-            morale_type( "morale_game_found_kitten" ),
-
-            morale_type( "morale_haircut" ),
-            morale_type( "morale_shave" ),
-            morale_type( "morale_chat" ),
-
-            morale_type( "morale_vomited" ),
-
-            morale_type( "morale_play_with_pet" ),
-
-            morale_type( "morale_pyromania_startfire" ),
-            morale_type( "morale_pyromania_nearfire" ),
-            morale_type( "morale_pyromania_nofire" ),
-
-            morale_type( "morale_killer_has_killed" ),
-            morale_type( "morale_killer_need_to_kill" ),
-
-            morale_type( "morale_perm_filthy" ),
-
-            morale_type( "morale_butcher" ),
-            morale_type( "morale_gravedigger" ),
-            morale_type( "morale_funeral" ),
-
-            morale_type( "morale_accomplishment" ),
-            morale_type( "morale_failure" ),
-
-            morale_type( "morale_null" )
-        }
-    };
-
-    if( lmt >= 0 && static_cast<size_t>( lmt ) <= legacy_morale_types.size() ) {
-        return legacy_morale_types[ lmt ];
-    }
-
-    debugmsg( "Requested invalid legacy morale type %d", lmt );
-    return legacy_morale_types.front();
-}
-
 // Legacy crap
 const morale_type MORALE_NULL( "morale_null" );
 const morale_type MORALE_FOOD_GOOD( "morale_food_good" );
@@ -237,13 +135,14 @@ void morale_type_data::check() const
 {
 }
 
-std::string morale_type_data::describe( const itype *it ) const
+std::string morale_type_data::describe() const
 {
-    if( it ) {
-        return string_format( text, it->nname( 1 ) );
-    } else {
-        // if `msg` contains conversion specification (e.g. %s) but `it` is nullptr,
-        // `string_format` will return an error message
-        return string_format( text );
-    }
+    // if `msg` contains conversion specification (e.g. %s),
+    // but nothing to put there, `string_format` will return an error message
+    return string_format( text );
+}
+
+std::string morale_type_data::describe( const std::string &s ) const
+{
+    return string_format( text, s );
 }

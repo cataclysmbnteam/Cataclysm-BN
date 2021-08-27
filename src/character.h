@@ -1760,7 +1760,8 @@ class Character : public Creature, public visitable<Character>
         /** Called when an item is washed */
         void on_worn_item_washed( const item &it );
         /** Called when effect intensity has been changed */
-        void on_effect_int_change( const efftype_id &eid, int intensity, body_part bp = num_bp ) override;
+        void on_effect_int_change( const efftype_id &effect_type, int intensity,
+                                   const bodypart_str_id &bp ) override;
         /** Called when a mutation is gained */
         void on_mutation_gain( const trait_id &mid );
         /** Called when a mutation is lost */
@@ -2025,8 +2026,9 @@ class Character : public Creature, public visitable<Character>
                          const time_duration &duration = 1_hours,
                          const time_duration &decay_start = 30_minutes, bool capped = false,
                          const itype *item_type = nullptr );
-        int has_morale( const morale_type &type ) const;
-        void rem_morale( const morale_type &type, const itype *item_type = nullptr );
+        bool has_morale( const morale_type &type ) const;
+        int get_morale( const morale_type &type ) const;
+        void rem_morale( const morale_type &type );
         void clear_morale();
         bool has_morale_to_read() const;
         bool has_morale_to_craft() const;
@@ -2036,7 +2038,7 @@ class Character : public Creature, public visitable<Character>
         void invalidate_crafting_inventory();
 
         /** Checks permanent morale for consistency and recovers it when an inconsistency is found. */
-        void check_and_recover_morale();
+        bool check_and_recover_morale();
 
         /** Handles the enjoyability value for a comestible. First value is enjoyability, second is cap. **/
         std::pair<int, int> fun_for( const item &comest ) const;

@@ -7464,6 +7464,11 @@ void item::gun_cycle_mode()
     return;
 }
 
+bool item::has_use() const
+{
+    return type->has_use();
+}
+
 const use_function *item::get_use( const std::string &use_name ) const
 {
     const use_function *fun = nullptr;

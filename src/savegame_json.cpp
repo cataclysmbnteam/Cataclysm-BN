@@ -500,25 +500,7 @@ void Character::load( const JsonObject &data )
         }
     }
 
-    if( savegame_loading_version <= 23 ) {
-        std::unordered_set<trait_id> old_my_mutations;
-        data.read( "mutations", old_my_mutations );
-        for( const trait_id &mut : old_my_mutations ) {
-            my_mutations[mut]; // Creates a new entry with default values
-        }
-        std::map<trait_id, char> trait_keys;
-        data.read( "mutation_keys", trait_keys );
-        for( const std::pair<const trait_id, char> &k : trait_keys ) {
-            my_mutations[k.first].key = k.second;
-        }
-        std::set<trait_id> active_muts;
-        data.read( "active_mutations_hacky", active_muts );
-        for( const auto &mut : active_muts ) {
-            my_mutations[mut].powered = true;
-        }
-    } else {
-        data.read( "mutations", my_mutations );
-    }
+    data.read( "mutations", my_mutations );
     for( auto it = my_mutations.begin(); it != my_mutations.end(); ) {
         const trait_id &mid = it->first;
         if( mid.is_valid() ) {
@@ -575,14 +557,6 @@ void Character::load( const JsonObject &data )
         JsonIn *invin = data.get_raw( "inv" );
         inv.json_load_items( *invin );
     }
-    // this is after inventory is loaded to make it more obvious that
-    // it needs to be changed again when Character::i_at is removed for nested containers
-    if( savegame_loading_version < 28 ) {
-        activity.migrate_item_position( *this );
-        destination_activity.migrate_item_position( *this );
-        stashed_outbounds_activity.migrate_item_position( *this );
-        stashed_outbounds_backlog.migrate_item_position( *this );
-    }
 
     weapon = item( "null", calendar::start_of_cataclysm );
     data.read( "weapon", weapon );
@@ -600,6 +574,13 @@ void Character::load( const JsonObject &data )
     }
 
     morale->load( data );
+    // Have to go through effects again, in case an effect gained a morale bonus
+    for( const auto &elem : *effects ) {
+        for( const std::pair<const bodypart_str_id, effect> &_effect_it : elem.second ) {
+            const effect &e = _effect_it.second;
+            on_effect_int_change( e.get_id(), e.get_intensity(), e.get_bp() );
+        }
+    }
 
     _skills->clear();
     for( const JsonMember member : data.get_object( "skills" ) ) {
@@ -617,12 +598,6 @@ void Character::load( const JsonObject &data )
 
     assign( data, "power_level", power_level, false, 0_kJ );
     assign( data, "max_power_level", max_power_level, false, 0_kJ );
-
-    // Bionic power scale has been changed, savegame version 21 has the new scale
-    if( savegame_loading_version <= 20 ) {
-        power_level *= 25;
-        max_power_level *= 25;
-    }
 
     // Bionic power should not be negative!
     if( power_level < 0_mJ ) {
@@ -2962,7 +2937,7 @@ void Creature::store( JsonOut &jsout ) const
                 continue;
             }
             std::ostringstream convert;
-            convert << i.first;
+            convert << i.first->token;
             tmp_map[maps.first.str()][convert.str()] = i.second;
         }
     }
@@ -2998,30 +2973,26 @@ void Creature::load( const JsonObject &jsin )
 
     killer = nullptr; // see Creature::load
 
-    // Just too many changes here to maintain compatibility, so older characters get a free
-    // effects wipe. Since most long lasting effects are bad, this shouldn't be too bad for them.
-    if( savegame_loading_version >= 23 ) {
-        if( jsin.has_object( "effects" ) ) {
-            // Because JSON requires string keys we need to convert back to our bp keys
-            std::unordered_map<std::string, std::unordered_map<std::string, effect>> tmp_map;
-            jsin.read( "effects", tmp_map );
-            int key_num = 0;
-            for( auto maps : tmp_map ) {
-                const efftype_id id( maps.first );
-                if( !id.is_valid() ) {
-                    debugmsg( "Invalid effect: %s", id.c_str() );
-                    continue;
+    if( jsin.has_object( "effects" ) ) {
+        // Because JSON requires string keys we need to convert back to our bp keys
+        std::unordered_map<std::string, std::unordered_map<std::string, effect>> tmp_map;
+        jsin.read( "effects", tmp_map );
+        int key_num = 0;
+        for( auto maps : tmp_map ) {
+            const efftype_id id( maps.first );
+            if( !id.is_valid() ) {
+                debugmsg( "Invalid effect: %s", id.c_str() );
+                continue;
+            }
+            for( auto i : maps.second ) {
+                if( !( std::istringstream( i.first ) >> key_num ) ) {
+                    key_num = 0;
                 }
-                for( auto i : maps.second ) {
-                    if( !( std::istringstream( i.first ) >> key_num ) ) {
-                        key_num = 0;
-                    }
-                    const body_part bp = static_cast<body_part>( key_num );
-                    effect &e = i.second;
+                const bodypart_str_id &bp = convert_bp( static_cast<body_part>( key_num ) );
+                effect &e = i.second;
 
-                    ( *effects )[id][bp] = e;
-                    on_effect_int_change( id, e.get_intensity(), bp );
-                }
+                ( *effects )[id][bp] = e;
+                on_effect_int_change( id, e.get_intensity(), bp );
             }
         }
     }
@@ -3051,16 +3022,53 @@ void Creature::load( const JsonObject &jsin )
     on_stat_change( "pain", pain );
 }
 
+void player_morale::morale_subtype::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member_as_string( "subtype_type", subtype_type );
+    switch( subtype_type ) {
+        case morale_subtype_t::single:
+            break;
+        case morale_subtype_t::by_item:
+            json.member( "item_type", item_type->get_id() );
+            break;
+        case morale_subtype_t::by_effect:
+            json.member( "eff_type", eff_type );
+            break;
+        default:
+            break;
+    }
+    json.end_object();
+}
+
+void player_morale::morale_subtype::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    jo.allow_omitted_members();
+    jo.read( "subtype_type", subtype_type );
+    switch( subtype_type ) {
+        case morale_subtype_t::single:
+            break;
+        case morale_subtype_t::by_item:
+            item_type = &*item::find_type( jo.get_string( "item_type" ) );
+            break;
+        case morale_subtype_t::by_effect:
+            eff_type = efftype_id( jo.get_string( "eff_type" ) );
+            break;
+        default:
+            debugmsg( "invalid or missing morale_subtype_t: %d",
+                      static_cast<int>( subtype_type ) );
+            subtype_type = morale_subtype_t::single;
+    }
+}
+
 void player_morale::morale_point::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
     jo.allow_omitted_members();
-    if( !jo.read( "type", type ) ) {
-        type = morale_type_data::convert_legacy( jo.get_int( "type_enum" ) );
-    }
-    std::string tmpitype;
-    if( jo.read( "item_type", tmpitype ) && item::type_is_defined( tmpitype ) ) {
-        item_type = item::find_type( tmpitype );
+    jo.read( "type", type );
+    if( !jo.read( "subtype", subtype ) && jo.has_string( "item_type" ) ) {
+        subtype = morale_subtype( *item::find_type( jo.get_string( "item_type" ) ) );
     }
     jo.read( "bonus", bonus );
     jo.read( "duration", duration );
@@ -3072,10 +3080,7 @@ void player_morale::morale_point::serialize( JsonOut &json ) const
 {
     json.start_object();
     json.member( "type", type );
-    if( item_type != nullptr ) {
-        // TODO: refactor player_morale to not require this hack
-        json.member( "item_type", item_type->get_id() );
-    }
+    json.member( "subtype", subtype );
     json.member( "bonus", bonus );
     json.member( "duration", duration );
     json.member( "decay_start", decay_start );

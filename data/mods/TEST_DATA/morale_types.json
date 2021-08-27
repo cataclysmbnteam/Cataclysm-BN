@@ -1,0 +1,8 @@
+[
+  {
+    "id": "morale_test",
+    "type": "morale_type",
+    "text": "Test Morale",
+    "permanent": true
+  }
+]

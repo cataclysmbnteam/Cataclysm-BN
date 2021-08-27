@@ -171,7 +171,6 @@ static const efftype_id effect_happy( "happy" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_has_bag( "has_bag" );
 static const efftype_id effect_haslight( "haslight" );
-static const efftype_id effect_high( "high" );
 static const efftype_id effect_in_pit( "in_pit" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_jetinjector( "jetinjector" );
@@ -205,15 +204,11 @@ static const efftype_id effect_teargas( "teargas" );
 static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_took_antiasthmatic( "took_antiasthmatic" );
-static const efftype_id effect_took_anticonvulsant_visible( "took_anticonvulsant_visible" );
 static const efftype_id effect_took_flumed( "took_flumed" );
 static const efftype_id effect_took_prozac( "took_prozac" );
 static const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
-static const efftype_id effect_took_prozac_visible( "took_prozac_visible" );
 static const efftype_id effect_took_thorazine( "took_thorazine" );
-static const efftype_id effect_took_thorazine_bad( "took_thorazine_bad" );
 static const efftype_id effect_took_xanax( "took_xanax" );
-static const efftype_id effect_took_xanax_visible( "took_xanax_visible" );
 static const efftype_id effect_valium( "valium" );
 static const efftype_id effect_visuals( "visuals" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
@@ -404,7 +399,6 @@ int iuse::xanax( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( _( "You take some %s." ), it->tname() );
     p->add_effect( effect_took_xanax, 90_minutes );
-    p->add_effect( effect_took_xanax_visible, rng( 70_minutes, 110_minutes ) );
     return it->type->charges_to_use();
 }
 
@@ -717,8 +711,6 @@ int iuse::anticonvulsant( player *p, item *it, bool, const tripoint & )
         duration += 2_hours;
     }
     p->add_effect( effect_valium, duration );
-    p->add_effect( effect_took_anticonvulsant_visible, duration );
-    p->add_effect( effect_high, duration );
     if( p->has_effect( effect_shakes ) ) {
         p->remove_effect( effect_shakes );
         p->add_msg_if_player( m_good, _( "You stop shaking." ) );
@@ -747,22 +739,6 @@ int iuse::weed_cake( player *p, item *it, bool, const tripoint & )
     if( one_in( 5 ) ) {
         weed_msg( *p );
     }
-    return it->type->charges_to_use();
-}
-
-int iuse::coke( player *p, item *it, bool, const tripoint & )
-{
-    p->add_msg_if_player( _( "You snort a bump of coke." ) );
-    /** @EFFECT_STR reduces duration of coke */
-    time_duration duration = 20_minutes - 1_seconds * p->str_cur + rng( 0_minutes, 1_minutes );
-    if( p->has_trait( trait_TOLERANCE ) ) {
-        duration -= 1_minutes; // Symmetry would cause problems :-/
-    }
-    if( p->has_trait( trait_LIGHTWEIGHT ) ) {
-        duration += 2_minutes;
-    }
-    p->mod_stored_kcal( 100 );
-    p->add_effect( effect_high, duration );
     return it->type->charges_to_use();
 }
 
@@ -879,18 +855,15 @@ int iuse::thorazine( player *p, item *it, bool, const tripoint & )
     p->mod_fatigue( 5 );
     p->remove_effect( effect_hallu );
     p->remove_effect( effect_visuals );
-    p->remove_effect( effect_high );
     if( !p->has_effect( effect_dermatik ) ) {
         p->remove_effect( effect_formication );
     }
     if( one_in( 50 ) ) { // adverse reaction
         p->add_msg_if_player( m_bad, _( "You feel completely exhausted." ) );
-        p->mod_fatigue( 15 );
-        p->add_effect( effect_took_thorazine_bad, p->get_effect_dur( effect_took_thorazine ) );
+        p->mod_fatigue( 50 );
     } else {
         p->add_msg_if_player( m_warning, _( "You feel a bit wobbly." ) );
     }
-    p->add_effect( effect_took_prozac_visible, rng( 9_hours, 15_hours ) );
     return it->type->charges_to_use();
 }
 
@@ -901,11 +874,10 @@ int iuse::prozac( player *p, item *it, bool, const tripoint & )
     } else {
         p->mod_stim( 3 );
     }
-    if( one_in( 50 ) ) { // adverse reaction, same duration as prozac effect.
+    if( one_in( 16 ) ) { // adverse reaction, same duration as prozac effect.
         p->add_msg_if_player( m_warning, _( "You suddenly feel hollow inside." ) );
         p->add_effect( effect_took_prozac_bad, p->get_effect_dur( effect_took_prozac ) );
     }
-    p->add_effect( effect_took_prozac_visible, rng( 9_hours, 15_hours ) );
     return it->type->charges_to_use();
 }
 
@@ -5586,7 +5558,7 @@ int iuse::towel_common( player *p, item *it, bool t )
         }
 
         // dry off from being wet
-    } else if( std::abs( p->has_morale( MORALE_WET ) ) ) {
+    } else if( p->has_morale( MORALE_WET ) ) {
         p->rem_morale( MORALE_WET );
         p->body_wetness.fill( 0 );
         p->add_msg_if_player( _( "You use the %s to dry off, saturating it with water!" ),

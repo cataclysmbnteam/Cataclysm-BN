@@ -782,6 +782,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Achievements" ), &achievement::check_consistency },
             { _( "Disease types" ), &disease_type::check_disease_consistency },
             { _( "Factions" ), &faction_template::check_consistency },
+            { _( "Effects" ), &effect_type::check_consistency },
         }
     };
 
