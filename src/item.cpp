@@ -4934,7 +4934,7 @@ int item::reach_range( const Character &guy ) const
         }
     }
 
-    return res;
+    return std::max( 1, res );
 }
 
 void item::unset_flags()

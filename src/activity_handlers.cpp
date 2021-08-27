@@ -100,7 +100,6 @@
 #include "vpart_position.h"
 
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
-static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
 static const activity_id ACT_ATM( "ACT_ATM" );
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
@@ -277,7 +276,6 @@ activity_handlers::do_turn_functions = {
     { ACT_VIBE, vibe_do_turn },
     { ACT_HAND_CRANK, hand_crank_do_turn },
     { ACT_OXYTORCH, oxytorch_do_turn },
-    { ACT_AIM, aim_do_turn },
     { ACT_WEAR, wear_do_turn },
     { ACT_MULTIPLE_FISH, multiple_fish_do_turn },
     { ACT_MULTIPLE_CONSTRUCTION, multiple_construction_do_turn },
@@ -375,7 +373,6 @@ activity_handlers::finish_functions = {
     { ACT_DISASSEMBLE, disassemble_finish },
     { ACT_VIBE, vibe_finish },
     { ACT_ATM, atm_finish },
-    { ACT_AIM, aim_finish },
     { ACT_EAT_MENU, eat_menu_finish },
     { ACT_CONSUME_FOOD_MENU, eat_menu_finish },
     { ACT_CONSUME_DRINK_MENU, eat_menu_finish },
@@ -2954,15 +2951,6 @@ void activity_handlers::meditate_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-void activity_handlers::aim_do_turn( player_activity *act, player * )
-{
-    if( act->index == 0 ) {
-        g->m.invalidate_map_cache( g->get_levz() );
-        g->m.build_map_cache( g->get_levz() );
-        avatar_action::aim_do_turn( g->u, g->m );
-    }
-}
-
 void activity_handlers::wear_do_turn( player_activity *act, player *p )
 {
     activity_on_turn_wear( *act, *p );
@@ -3859,12 +3847,6 @@ void activity_handlers::atm_finish( player_activity *act, player * )
     }
 }
 
-void activity_handlers::aim_finish( player_activity *, player * )
-{
-    // Aim bails itself by resetting itself every turn,
-    // you only re-enter if it gets set again.
-    return;
-}
 void activity_handlers::eat_menu_finish( player_activity *, player * )
 {
     // Only exists to keep the eat activity alive between turns
@@ -4519,13 +4501,15 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 
     // choose target for spell (if the spell has a range > 0)
 
-    target_handler th;
     tripoint target = p->pos();
     bool target_is_valid = false;
     if( spell_being_cast.range() > 0 && !spell_being_cast.is_valid_target( target_none ) &&
         !spell_being_cast.has_flag( RANDOM_TARGET ) ) {
         do {
-            std::vector<tripoint> trajectory = th.target_ui( spell_being_cast, no_fail, no_mana );
+            avatar &you = *p->as_avatar();
+            std::vector<tripoint> trajectory = target_handler::mode_spell( you, spell_being_cast, no_fail,
+                                               no_mana );
+
             if( !trajectory.empty() ) {
                 target = trajectory.back();
                 target_is_valid = spell_being_cast.is_valid_target( *p, target );

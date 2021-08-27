@@ -1835,3 +1835,36 @@ void Creature::reset_hit_range()
 {
     dispersion_for_even_chance_of_good_hit = default_dispersion_for_ecogh;
 }
+
+void Creature::describe_infrared( std::vector<std::string> &buf ) const
+{
+    std::string size_str;
+    switch( get_size() ) {
+        case m_size::MS_TINY:
+            size_str = pgettext( "infrared size", "tiny" );
+            break;
+        case m_size::MS_SMALL:
+            size_str = pgettext( "infrared size", "small" );
+            break;
+        case m_size::MS_MEDIUM:
+            size_str = pgettext( "infrared size", "medium" );
+            break;
+        case m_size::MS_LARGE:
+            size_str = pgettext( "infrared size", "large" );
+            break;
+        case m_size::MS_HUGE:
+            size_str = pgettext( "infrared size", "huge" );
+            break;
+        default:
+            debugmsg( "Creature has invalid size class." );
+            size_str = "invalid";
+            break;
+    }
+    buf.push_back( _( "You see a figure radiating heat." ) );
+    buf.push_back( string_format( _( "It is %s in size." ), size_str ) );
+}
+
+void Creature::describe_specials( std::vector<std::string> &buf ) const
+{
+    buf.push_back( _( "You sense a creature here." ) );
+}
