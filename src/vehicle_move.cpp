@@ -546,7 +546,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             return ret;
         }
         //Rotors only collide with huge creatures.
-        if (part_info(part).rotor_diameter() > 0 && critter->get_size() != MS_HUGE) {
+        if( part_info( part ).rotor_diameter() > 0 && critter->get_size() != MS_HUGE ) {
             return ret;
         }
         // we just ran into a fish, so move it out of the way
