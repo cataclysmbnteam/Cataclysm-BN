@@ -860,7 +860,7 @@ void Character::suffer_from_sunburn()
     }
 
     // If all body parts are protected, there is no suffering
-    if( count_affected_bp == 0 || most_exposed_bp == bodypart_str_id( "num_bp" ) ) {
+    if( count_affected_bp == 0 || !most_exposed_bp ) {
         return;
     }
 
