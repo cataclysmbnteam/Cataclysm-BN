@@ -145,26 +145,14 @@
     "blueprint_excludes": [ { "id": "fbmk_canteen_smoking" } ],
     "blueprint_resources": [ "fake_char_smoker", "fake_char_smoker", "fake_char_smoker", "fake_char_kiln" ],
     "blueprint_needs": {
-  "time": "6 h 30 m",
-  "skills": [
-    [ "fabrication", 3 ],
-    [ "cooking", 2 ]
-  ],
-  "inline": {
-    "tools": [  ],
-    "qualities": [
-      [ { "id": "SAW_W" } ],
-      [ { "id": "DIG" } ],
-      [ { "id": "CUT" } ],
-      [ { "id": "HAMMER", "level": 2 } ]
-    ],
-    "components": [
-      [ [ "2x4", 48 ], [ "stick", 48 ] ],
-      [ [ "material_soil", 2 ] ],
-      [ [ "rock", 64 ] ]
-    ]
-  }
-}
+      "time": "6 h 30 m",
+      "skills": [ [ "fabrication", 3 ], [ "cooking", 2 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "SAW_W" } ], [ { "id": "DIG" } ], [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "components": [ [ [ "2x4", 48 ], [ "stick", 48 ] ], [ [ "material_soil", 2 ] ], [ [ "rock", 64 ] ] ]
+      }
+    }
   },
   {
     "type": "recipe",
