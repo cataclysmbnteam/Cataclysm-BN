@@ -277,8 +277,7 @@ void timed_event::per_turn()
             }
             break;
 
-        case timed_event_type::AMIGARA_WHISPERS:
-        {
+        case timed_event_type::AMIGARA_WHISPERS: {
             bool faults = false;
             for( const tripoint &p : g->m.points_on_zlevel() ) {
                 if( g->m.ter( p ) == t_fault ) {
