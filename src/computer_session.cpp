@@ -611,7 +611,7 @@ void computer_session::action_elevator_on()
 void computer_session::action_amigara_log()
 {
     g->timed_events.add( timed_event_type::AMIGARA_WHISPERS, calendar::turn + 1_minutes );
-    
+
     g->u.moves -= 30;
     reset_terminal();
     print_line( _( "NEPower Mine(%d:%d) Log" ), g->get_levx(), g->get_levy() );
