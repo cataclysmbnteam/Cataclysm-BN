@@ -785,7 +785,7 @@ std::map<bodypart_id, float> Character::bodypart_exposure()
         // What body parts does this item cover?
         body_part_set covered = it.get_covered_body_parts();
         for( const bodypart_id &bp : all_body_parts )  {
-            if( bp->token != num_bp && !covered.test(bp->token)) {
+            if( bp->token != num_bp && !covered.test( bp->token ) ) {
                 continue;
             }
             // How much exposure does this item leave on this part? (1.0 == naked)
