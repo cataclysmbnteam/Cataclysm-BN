@@ -76,23 +76,31 @@
     "blueprint_provides": [ { "id": "fbmw_east" }, { "id": "blacksmith_recipes_3" } ],
     "blueprint_excludes": [ { "id": "fbmw_east" } ],
     "blueprint_needs": {
-      "time": "2 d 13 h 55 m",
-      "skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
-      "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [
-          [ [ "2x4", 281 ] ],
-          [ [ "nail", 746 ] ],
-          [ [ "wood_panel", 39 ] ],
-          [ [ "hinge", 2 ] ],
-          [ [ "rock", 136 ] ],
-          [ [ "glass_sheet", 1 ] ],
-          [ [ "pebble", 200 ] ],
-          [ [ "mortar_build", 8 ] ]
-        ]
-      }
-    }
+  "time": "2 d 13 h 55 m",
+  "skills": [
+    [ "survival", 2 ],
+    [ "fabrication", 6 ]
+  ],
+  "inline": {
+    "tools": [  ],
+    "qualities": [
+      [ { "id": "SAW_W", "level": 2 } ],
+      [ { "id": "DIG", "level": 2 } ],
+      [ { "id": "HAMMER", "level": 2 } ]
+    ],
+    "components": [
+      [ [ "2x4", 281 ] ],
+      [ [ "glass_sheet", 1 ] ],
+      [ [ "hinge", 2 ] ],
+      [ [ "material_soil", 2 ] ],
+      [ [ "mortar_build", 8 ] ],
+      [ [ "nail", 746 ] ],
+      [ [ "pebble", 200 ] ],
+      [ [ "rock", 136 ] ],
+      [ [ "wood_panel", 39 ] ]
+    ]
+  }
+}
   },
   {
     "type": "recipe",

@@ -82,19 +82,19 @@
     "blueprint_excludes": [ { "id": "fbmw_east" } ],
     "blueprint_needs": {
       "time": "2 d 14 h 25 m",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "skills": [ [ "survival", 2 ], [ "fabrication", 3 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [
-          [ { "id": "CUT" } ],
+          [ { "id": "SAW_W", "level": 2 } ],
           [ { "id": "DIG", "level": 2 } ],
-          [ { "id": "HAMMER", "level": 2 } ],
-          [ { "id": "SAW_W", "level": 2 } ]
+          [ { "id": "CUT" } ],
+          [ { "id": "HAMMER", "level": 2 } ]
         ],
         "components": [
           [ [ "2x4", 285 ] ],
           [ [ "concrete", 4 ], [ "material_quicklime", 80 ], [ "material_sand", 80 ] ],
-          [ [ "material_soil", 960 ] ],
+          [ [ "material_soil", 962 ] ],
           [ [ "nail", 734 ] ],
           [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
           [ [ "rock", 40 ] ],
