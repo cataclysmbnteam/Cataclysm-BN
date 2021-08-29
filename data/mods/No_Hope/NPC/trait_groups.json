@@ -290,7 +290,7 @@
       { "trait": "STR_UP_3" },
       { "trait": "DEX_UP_2" },
       { "trait": "PER_UP_2" },
-      { "trait": "MOUTH_FLAPS", "prob": 50 },
+      { "trait": "mouth_FLAPS", "prob": 50 },
       { "trait": "SMELLY2", "prob": 50 },
       { "trait": "DEFORMED3", "prob": 50 },
       { "trait": "HUNGER3", "prob": 50 },
@@ -867,7 +867,7 @@
     "subtype": "collection",
     "traits": [
       { "trait": "THRESH_CEPHALOPOD" },
-      { "trait": "MOUTH_TENTACLES", "prob": 50 },
+      { "trait": "mouth_TENTACLES", "prob": 50 },
       {
         "distribution": [ { "trait": "ARM_TENTACLES" }, { "trait": "ARM_TENTACLES_4" }, { "trait": "ARM_TENTACLES_8" } ]
       },
@@ -998,7 +998,7 @@
       { "trait": "ENHANCED_REACTIONS", "prob": 50 },
       { "trait": "QUICKENING", "prob": 50 },
       { "distribution": [ { "trait": "NEURAL_IMPROVEMENT" }, { "trait": "EXPANDED_CONSCIOUSNESS" } ] },
-      { "distribution": [ { "trait": "WARM_NATURED" }, { "trait": "MOUTH_TENDRILS" } ] }
+      { "distribution": [ { "trait": "WARM_NATURED" }, { "trait": "mouth_TENDRILS" } ] }
     ]
   },
   {

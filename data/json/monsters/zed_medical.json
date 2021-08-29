@@ -50,7 +50,7 @@
         "damage_max_instance": [ { "damage_type": "cut", "amount": 24, "armor_multiplier": 2 } ],
         "effects": [ { "id": "bleed", "duration": 100, "affect_hit_bp": true } ]
       },
-      { "id": "inject", "move_cost": 50, "effects": [ { "id": "poison", "duration": 90, "bp": "TORSO" } ] }
+      { "id": "inject", "move_cost": 50, "effects": [ { "id": "poison", "duration": 90, "bp": "torso" } ] }
     ],
     "upgrades": { "half_life": 14, "into": "mon_zombie_vivisector" }
   },
@@ -79,7 +79,7 @@
       {
         "id": "inject",
         "damage_max_instance": [ { "damage_type": "stab", "amount": 5, "armor_multiplier": 0.2 }, { "damage_type": "acid", "amount": 5 } ],
-        "effects": [ { "id": "poison", "duration": 90, "bp": "TORSO" }, { "id": "badpoison", "duration": 30, "bp": "TORSO" } ]
+        "effects": [ { "id": "poison", "duration": 90, "bp": "torso" }, { "id": "badpoison", "duration": 30, "bp": "torso" } ]
       }
     ],
     "upgrades": false

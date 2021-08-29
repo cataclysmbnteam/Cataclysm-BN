@@ -4,7 +4,7 @@
     "type": "bionic",
     "name": { "str": "Precision Solderers" },
     "description": "Your hands have been outfitted with precise soldering tools, wire cutters, and cable spools.  They're too small to use in most crafting, but in the absence of proper machinery, they're essential for creating bionics without better tools.",
-    "occupied_bodyparts": [ [ "HAND_L", 1 ], [ "HAND_R", 1 ] ],
+    "occupied_bodyparts": [ [ "hand_l", 1 ], [ "hand_r", 1 ] ],
     "fake_item": "afs_solderers_item"
   }
 ]
