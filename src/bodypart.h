@@ -288,9 +288,6 @@ body_part mutate_to_main_part( body_part bp );
 /** Returns the opposite body part (limb on the other side) */
 body_part opposite_body_part( body_part bp );
 
-/** Returns the matching body_part key from the corresponding body_part token. */
-std::string get_body_part_id( body_part bp );
-
 /** Returns the matching body_part token from the corresponding body_part string. */
 body_part get_body_part_token( const std::string &id );
 
