@@ -3125,9 +3125,7 @@
     "copy-from": "heatpack",
     "name": { "str": "used heat pack" },
     "description": "This is a chemical heat pack.  It's used to treat sports injuries and heat food.  This one has been used and is chemically inert, rendering it useless.",
-    "price": 0,
-    "price_postapoc": 0,
-    "flags": [  ]
+    "price": 0
   },
   {
     "id": "bot_rifleturret",

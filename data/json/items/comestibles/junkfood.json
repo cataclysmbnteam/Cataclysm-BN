@@ -123,7 +123,7 @@
     "material": "veggy",
     "volume": "1 L",
     "charges": 4,
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 4,
     "vitamins": [ [ "iron", 2 ] ]
   },
@@ -1056,7 +1056,7 @@
     "price_postapoc": 250,
     "material": [ "veggy", "junk" ],
     "volume": "250 ml",
-    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN", "FREEZERBURN" ],
+    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 6,
     "vitamins": [ [ "calcium", 4 ], [ "iron", 7 ] ]
   },

@@ -454,10 +454,8 @@ TEST_CASE( "thorazine", "[iuse][thorazine]" )
     GIVEN( "avatar has hallucination, and visuals effects" ) {
         dummy.add_effect( efftype_id( "hallu" ), 1_hours );
         dummy.add_effect( efftype_id( "visuals" ), 1_hours );
-        dummy.add_effect( efftype_id( "high" ), 1_hours );
         REQUIRE( dummy.has_effect( efftype_id( "hallu" ) ) );
         REQUIRE( dummy.has_effect( efftype_id( "visuals" ) ) );
-        REQUIRE( dummy.has_effect( efftype_id( "high" ) ) );
 
         WHEN( "they take some thorazine" ) {
             dummy.invoke_item( &thorazine );

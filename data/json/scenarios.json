@@ -319,7 +319,7 @@
     "allowed_locs": [ "sloc_hospital" ],
     "start_name": "Hospital",
     "forced_traits": [ "FLIMSY2" ],
-    "forbidden_traits": [ "TOUGH", "DISRESISTANT" ],
+    "forbidden_traits": [ "TOUGH" ],
     "professions": [ "unemployed", "bionic_patient", "patient", "broken_cyborg" ],
     "flags": [ "CHALLENGE", "CITY_START", "LONE_START" ]
   },

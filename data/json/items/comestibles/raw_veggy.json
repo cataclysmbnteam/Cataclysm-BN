@@ -200,7 +200,7 @@
     "price_postapoc": 10,
     "material": "veggy",
     "volume": "1000 ml",
-    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
+    "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitA", 3 ], [ "vitC", 4 ], [ "calcium", 4 ], [ "iron", 1 ] ]
   },
@@ -262,7 +262,7 @@
     "material": "veggy",
     "volume": "250 ml",
     "charges": 3,
-    "flags": [ "FREEZERBURN", "RAW" ],
+    "flags": [ "RAW" ],
     "vitamins": [ [ "vitA", 3 ], [ "vitC", 88 ], [ "calcium", 1 ], [ "iron", 3 ] ],
     "fun": -2
   },
@@ -283,7 +283,7 @@
     "price_postapoc": 50,
     "material": "veggy",
     "volume": "750 ml",
-    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
+    "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", 9 ], [ "calcium", 6 ], [ "iron", 6 ] ]
   },
@@ -437,7 +437,7 @@
     "material": "veggy",
     "volume": "400 ml",
     "fun": -12,
-    "flags": [ "FREEZERBURN", "RAW" ],
+    "flags": [ "RAW" ],
     "vitamins": [ [ "vitC", 41 ], [ "calcium", 6 ], [ "iron", 5 ] ]
   },
   {
@@ -457,7 +457,7 @@
     "material": "veggy",
     "volume": "2500 ml",
     "charges": 10,
-    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
+    "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitA", 16 ], [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 2 ] ]
   },
@@ -496,7 +496,7 @@
     "material": "veggy",
     "volume": "250 ml",
     "fun": -1,
-    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
+    "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
     "//": "Raw onions probably aren't all that tasty to most people.",
     "vitamins": [ [ "vitC", 12 ], [ "calcium", 4 ], [ "iron", 2 ] ]
@@ -558,7 +558,7 @@
     "material": "veggy",
     "volume": "375 ml",
     "fun": -3,
-    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
+    "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", 47 ], [ "calcium", 3 ], [ "iron", 9 ] ]
   },
@@ -602,7 +602,7 @@
     "material": "veggy",
     "volume": "100 ml",
     "fun": -2,
-    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
+    "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitA", 7 ], [ "vitC", 30 ], [ "calcium", 2 ], [ "iron", 3 ] ]
   },
@@ -624,7 +624,7 @@
     "volume": "250 ml",
     "stack_size": 4,
     "fun": -12,
-    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
+    "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitA", 33 ], [ "vitC", 23 ], [ "calcium", 11 ], [ "iron", 10 ] ]
   },
@@ -646,7 +646,7 @@
     "volume": "250 ml",
     "stack_size": 4,
     "fun": -12,
-    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
+    "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", 1 ], [ "calcium", 23 ], [ "iron", 10 ] ]
   },
@@ -780,7 +780,7 @@
     "//": "In real life many root vegetables are mildly toxic until cooked",
     "fun": -10,
     "price_postapoc": 10,
-    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ]
+    "flags": [ "SMOKABLE", "RAW" ]
   },
   {
     "type": "COMESTIBLE",
@@ -866,7 +866,7 @@
     "id": "fiddlehead_raw",
     "name": { "str_sp": "fiddleheads" },
     "weight": "50 g",
-    "flags": [ "FREEZERBURN", "RAW" ],
+    "flags": [ "RAW" ],
     "color": "light_green",
     "spoils_in": "2 days 12 hours",
     "comestible_type": "FOOD",

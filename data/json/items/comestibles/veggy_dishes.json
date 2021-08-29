@@ -42,7 +42,7 @@
     "description": "Cooked leaves from wild dandelions.  Tasty and nutritious.",
     "price": 200,
     "price_postapoc": 10,
-    "flags": [ "EATEN_HOT", "FREEZERBURN", "SMOKABLE" ],
+    "flags": [ "EATEN_HOT", "SMOKABLE" ],
     "fun": 1
   },
   {
@@ -55,7 +55,7 @@
     "description": "Wild dandelion flowers that have been battered and deep-fried.  Very tasty and nutritious.",
     "price": 250,
     "price_postapoc": 50,
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 5
   },
   {
@@ -68,7 +68,7 @@
     "description": "Cooked burdock leaves.  Tasty and nutritious.",
     "price": 200,
     "price_postapoc": 50,
-    "flags": [ "EATEN_HOT", "FREEZERBURN", "SMOKABLE" ],
+    "flags": [ "EATEN_HOT", "SMOKABLE" ],
     "fun": 1
   },
   {
@@ -85,7 +85,7 @@
     "price_postapoc": 50,
     "material": "veggy",
     "volume": "500 ml",
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 5
   },
   {
@@ -102,7 +102,7 @@
     "price_postapoc": 50,
     "material": "veggy",
     "volume": "500 ml",
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 6
   },
   {
@@ -144,7 +144,7 @@
     "volume": "500 ml",
     "charges": 2,
     "//": "TODO: Confirm nutrition facts for aspic",
-    "flags": [ "EATEN_COLD", "FREEZERBURN" ]
+    "flags": [ "EATEN_COLD" ]
   },
   {
     "type": "COMESTIBLE",
@@ -278,7 +278,7 @@
     "description": "A hearty serving of cooked long-grain white rice.",
     "price": 100,
     "price_postapoc": 50,
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 2,
     "//": "rice triples in size when cooked",
     "charges": 1,
@@ -300,7 +300,7 @@
     "price_postapoc": 150,
     "material": "veggy",
     "volume": "250 ml",
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 5,
     "vitamins": [ [ "vitA", 2 ], [ "vitC", 4 ], [ "calcium", 3 ], [ "iron", 3 ] ]
   },
@@ -320,7 +320,7 @@
     "price_postapoc": 150,
     "material": [ "veggy", "bean" ],
     "volume": "250 ml",
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 2,
     "vitamins": [ [ "vitC", 14 ], [ "calcium", 4 ], [ "iron", 16 ] ]
   },
@@ -382,7 +382,7 @@
     "material": [ "veggy", "bean" ],
     "volume": "750 ml",
     "//": "one bean + one rice + one veggy",
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 4,
     "vitamins": [ [ "vitC", 28 ], [ "calcium", 8 ], [ "iron", 32 ] ]
   },
@@ -545,7 +545,7 @@
     "material": [ "wheat", "veggy", "nut" ],
     "volume": "500 ml",
     "charges": 2,
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 15,
     "vitamins": [ [ "calcium", 10 ], [ "iron", 10 ] ]
   },
@@ -648,7 +648,6 @@
     "material": "veggy",
     "volume": "250 ml",
     "fun": 1,
-    "flags": [ "FREEZERBURN" ],
     "vitamins": [ [ "vitC", 30 ], [ "calcium", 6 ], [ "iron", 10 ] ]
   },
   {
@@ -826,7 +825,7 @@
     "id": "fiddlehead_boiled",
     "name": { "str_sp": "boiled fiddleheads" },
     "weight": "50 g",
-    "flags": [ "FREEZERBURN", "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT" ],
     "color": "light_green",
     "spoils_in": "2 days 12 hours",
     "comestible_type": "FOOD",
@@ -846,7 +845,7 @@
     "id": "fiddlehead_sauteed",
     "name": { "str_sp": "sauteed fiddleheads" },
     "weight": "100 g",
-    "flags": [ "FREEZERBURN", "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT" ],
     "color": "light_green",
     "spoils_in": "2 days 12 hours",
     "comestible_type": "FOOD",
