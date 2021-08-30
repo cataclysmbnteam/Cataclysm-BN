@@ -458,7 +458,7 @@ void map::generate_lightmap( const int zlev )
                         if( light_emitted > 0 ) {
                             add_light_source( p, light_emitted );
                         }
-                        const int light_override = cur->local_light_override();
+                        const float light_override = cur->local_light_override();
                         if( light_override >= 0.0 ) {
                             lm_override.push_back( std::pair<tripoint, float>( p, light_override ) );
                         }

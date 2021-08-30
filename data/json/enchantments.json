@@ -8,7 +8,7 @@
   {
     "type": "enchantment",
     "id": "ENCH_SHADOW_CLOUD",
-    "condition": "ALWAYS",
+    "condition": "ACTIVE",
     "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
     "emitter": "emit_shadow_field"
   }
