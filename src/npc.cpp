@@ -2230,6 +2230,11 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     // w is also 48 characters wide - 2 characters for border = 46 characters for us
     mvwprintz( w, point( column, line++ ), c_white, _( "NPC: " ) );
     wprintz( w, basic_symbol_color(), name );
+    wprintz( w, c_white, " | " );
+    const auto gender_str = male ? _( "Male" ) : _( "Female" );
+    const auto c_color = male ? c_light_blue : c_pink;
+    wprintz( w, c_color, gender_str );
+    //mvwprintz(w, point(column, line++), c_color, gender_str);
 
     if( sees( g->u ) ) {
         mvwprintz( w, point( column, line++ ), c_yellow, _( "Aware of your presence!" ) );
@@ -2275,7 +2280,9 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
         const std::string mutations = _( "Traits: " ) + trait_str;
         enumerate_print( mutations, c_green );
     }
-
+    //const auto gender_str = male ? _("Male") : _("Female");
+    //const auto color = male ? c_light_blue : c_pink;
+    //enumerate_print(gender_str, color);
     return line;
 }
 
