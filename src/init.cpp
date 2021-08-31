@@ -636,6 +636,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
     const std::vector<named_entry> entries = {{
             { _( "Flags" ), &json_flag::finalize_all },
             { _( "Body parts" ), &body_part_type::finalize_all },
+            { _( "Bionics" ), &bionic_data::finalize_all },
             { _( "Field types" ), &field_types::finalize_all },
             { _( "Ammo effects" ), &ammo_effects::finalize_all },
             { _( "Emissions" ), &emit::finalize },
@@ -759,7 +760,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Start locations" ), &start_locations::check_consistency },
             { _( "Ammunition types" ), &ammunition_type::check_consistency },
             { _( "Traps" ), &trap::check_consistency },
-            { _( "Bionics" ), &bionic_data::check_bionic_consistency },
+            { _( "Bionics" ), &bionic_data::check_consistency },
             { _( "Gates" ), &gates::check },
             { _( "NPC classes" ), &npc_class::check_consistency },
             { _( "Behaviors" ), &behavior::check_consistency },

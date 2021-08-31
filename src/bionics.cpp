@@ -22,6 +22,7 @@
 #include "character_martial_arts.h"
 #include "colony.h"
 #include "color.h"
+#include "consistency_report.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
@@ -240,104 +241,6 @@ bool bionic_data::is_included( const bionic_id &id ) const
     return std::find( included_bionics.begin(), included_bionics.end(), id ) != included_bionics.end();
 }
 
-void bionic_data::load( const JsonObject &jsobj, const std::string )
-{
-
-    mandatory( jsobj, was_loaded, "id", id );
-    mandatory( jsobj, was_loaded, "name", name );
-    mandatory( jsobj, was_loaded, "description", description );
-
-    // uses assign because optional doesn't handle loading units as strings
-    assign( jsobj, "react_cost", power_over_time, false, 0_kJ );
-    assign( jsobj, "capacity", capacity, false, 0_kJ );
-    assign( jsobj, "weight_capacity_bonus", weight_capacity_bonus, false, 0_gram );
-    assign( jsobj, "act_cost", power_activate, false, 0_kJ );
-    assign( jsobj, "deact_cost", power_deactivate, false, 0_kJ );
-
-    optional( jsobj, was_loaded, "time", charge_time, 0 );
-
-    optional( jsobj, was_loaded, "flags", flags );
-
-    optional( jsobj, was_loaded, "fuel_efficiency", fuel_efficiency, 0 );
-    optional( jsobj, was_loaded, "passive_fuel_efficiency", passive_fuel_efficiency, 0 );
-
-    optional( jsobj, was_loaded, "fake_item", fake_item, "" );
-
-    optional( jsobj, was_loaded, "enchantments", enchantments );
-
-    optional( jsobj, was_loaded, "weight_capacity_modifier", weight_capacity_modifier, 1.0f );
-    optional( jsobj, was_loaded, "exothermic_power_gen", exothermic_power_gen );
-    optional( jsobj, was_loaded, "power_gen_emission", power_gen_emission );
-    optional( jsobj, was_loaded, "coverage_power_gen_penalty", coverage_power_gen_penalty );
-    optional( jsobj, was_loaded, "is_remote_fueled", is_remote_fueled );
-
-    optional( jsobj, was_loaded, "learned_spells", learned_spells );
-    optional( jsobj, was_loaded, "canceled_mutations", canceled_mutations );
-    optional( jsobj, was_loaded, "included_bionics", included_bionics );
-    optional( jsobj, was_loaded, "included", included );
-    optional( jsobj, was_loaded, "upgraded_bionic", upgraded_bionic );
-    optional( jsobj, was_loaded, "fuel_options", fuel_opts );
-    optional( jsobj, was_loaded, "fuel_capacity", fuel_capacity );
-
-    optional( jsobj, was_loaded, "available_upgrades", available_upgrades );
-
-    if( jsobj.has_array( "stat_bonus" ) ) {
-        // clear data first so that copy-from can override it
-        stat_bonus.clear();
-        for( JsonArray ja : jsobj.get_array( "stat_bonus" ) ) {
-            stat_bonus.emplace( io::string_to_enum<character_stat>( ja.get_string( 0 ) ),
-                                ja.get_int( 1 ) );
-        }
-    }
-    if( jsobj.has_array( "encumbrance" ) ) {
-        // clear data first so that copy-from can override it
-        encumbrance.clear();
-        for( JsonArray ja : jsobj.get_array( "encumbrance" ) ) {
-            encumbrance.emplace( get_body_part_token( ja.get_string( 0 ) ),
-                                 ja.get_int( 1 ) );
-        }
-    }
-    if( jsobj.has_array( "occupied_bodyparts" ) ) {
-        // clear data first so that copy-from can override it
-        occupied_bodyparts.clear();
-        for( JsonArray ja : jsobj.get_array( "occupied_bodyparts" ) ) {
-            occupied_bodyparts.emplace( bodypart_str_id( ja.get_string( 0 ) ),
-                                        ja.get_int( 1 ) );
-        }
-    }
-    if( jsobj.has_array( "env_protec" ) ) {
-        // clear data first so that copy-from can override it
-        env_protec.clear();
-        for( JsonArray ja : jsobj.get_array( "env_protec" ) ) {
-            env_protec.emplace( bodypart_str_id( ja.get_string( 0 ) ), ja.get_int( 1 ) );
-        }
-    }
-    if( jsobj.has_array( "bash_protec" ) ) {
-        // clear data first so that copy-from can override it
-        bash_protec.clear();
-        for( JsonArray ja : jsobj.get_array( "bash_protec" ) ) {
-            bash_protec.emplace( bodypart_str_id( ja.get_string( 0 ) ),
-                                 ja.get_int( 1 ) );
-        }
-    }
-    if( jsobj.has_array( "cut_protec" ) ) {
-        // clear data first so that copy-from can override it
-        cut_protec.clear();
-        for( JsonArray ja : jsobj.get_array( "cut_protec" ) ) {
-            cut_protec.emplace( bodypart_str_id( ja.get_string( 0 ) ),
-                                ja.get_int( 1 ) );
-        }
-    }
-
-    activated = has_flag( flag_BIO_TOGGLED ) ||
-                power_activate > 0_kJ ||
-                charge_time > 0;
-
-    if( has_flag( "BIONIC_FAULTY" ) ) {
-        faulty_bionics.push_back( id );
-    }
-}
-
 void bionic_data::load_bionic( const JsonObject &jo, const std::string &src )
 {
     bionic_factory.load( jo, src );
@@ -348,50 +251,166 @@ const std::vector<bionic_data> &bionic_data::get_all()
     return bionic_factory.get_all();
 }
 
-void bionic_data::check_bionic_consistency()
+void bionic_data::check_consistency()
 {
-    for( const bionic_data &bio : get_all() ) {
+    bionic_factory.check();
+}
 
-        if( bio.has_flag( flag_BIO_GUN ) && bio.has_flag( flag_BIO_WEAPON ) ) {
-            debugmsg( "Bionic %s specified as both gun and weapon bionic", bio.id.c_str() );
+void bionic_data::finalize_all()
+{
+    bionic_factory.finalize();
+    for( const bionic_data &bd : bionic_factory.get_all() ) {
+        bd.finalize();
+    }
+}
+
+void bionic_data::load( const JsonObject &jsobj, const std::string src )
+{
+    bool strict = src == "dda";
+
+    mandatory( jsobj, was_loaded, "name", name );
+    mandatory( jsobj, was_loaded, "description", description );
+
+    assign( jsobj, "act_cost", power_activate, strict, 0_kJ );
+    assign( jsobj, "deact_cost", power_deactivate, strict, 0_kJ );
+    assign( jsobj, "react_cost", power_over_time, strict, 0_kJ );
+    assign( jsobj, "time", charge_time, strict, 0 );
+    assign( jsobj, "capacity", capacity, strict, 0_kJ );
+    assign( jsobj, "included", included, strict );
+    assign( jsobj, "weight_capacity_modifier", weight_capacity_modifier, strict, 1.0f );
+    assign( jsobj, "weight_capacity_bonus", weight_capacity_bonus, strict, 0_gram );
+    assign_map_from_array( jsobj, "stat_bonus", stat_bonus, strict );
+    assign( jsobj, "is_remote_fueled", is_remote_fueled, strict );
+    assign( jsobj, "fuel_options", fuel_opts, strict );
+    assign( jsobj, "fuel_capacity", fuel_capacity, strict, 0 );
+    assign( jsobj, "fuel_efficiency", fuel_efficiency, strict, 0.0f );
+    assign( jsobj, "passive_fuel_efficiency", passive_fuel_efficiency, strict, 0.0f );
+    assign( jsobj, "coverage_power_gen_penalty", coverage_power_gen_penalty, strict );
+    assign( jsobj, "exothermic_power_gen", exothermic_power_gen, strict );
+    assign( jsobj, "power_gen_emission", power_gen_emission, strict );
+    assign_map_from_array( jsobj, "env_protec", env_protec, strict );
+    assign_map_from_array( jsobj, "bash_protec", bash_protec, strict );
+    assign_map_from_array( jsobj, "cut_protec", cut_protec, strict );
+    assign_map_from_array( jsobj, "occupied_bodyparts", occupied_bodyparts, strict );
+    assign_map_from_array( jsobj, "encumbrance", encumbrance, strict );
+    assign( jsobj, "fake_item", fake_item, strict );
+    assign( jsobj, "canceled_mutations", canceled_mutations, strict );
+    assign( jsobj, "enchantments", enchantments, strict );
+    assign_map_from_array( jsobj, "learned_spells", learned_spells, strict );
+    assign( jsobj, "included_bionics", included_bionics, strict );
+    assign( jsobj, "upgraded_bionic", upgraded_bionic, strict );
+    assign( jsobj, "available_upgrades", available_upgrades, strict );
+    assign( jsobj, "flags", flags, strict );
+
+    activated = has_flag( flag_BIO_TOGGLED ) ||
+                power_activate > 0_kJ ||
+                charge_time > 0;
+}
+
+void bionic_data::finalize() const
+{
+    if( has_flag( "BIONIC_FAULTY" ) ) {
+        faulty_bionics.push_back( id );
+    }
+}
+
+void bionic_data::check() const
+{
+    consistency_report rep;
+    if( !item::type_is_defined( id.str() ) && !included ) {
+        rep.warn( "has no defined item version" );
+    }
+    if( charge_time < 0 ) {
+        rep.warn( "specifies charge_time < 0" );
+    }
+    for( const itype_id &it : fuel_opts ) {
+        if( !item::type_is_defined( it ) ) {
+            rep.warn( "specifies as fuel option unknown item \"%s\"", it );
         }
-        if( !bio.fake_item.empty() &&
-            !item::type_is_defined( bio.fake_item ) ) {
-            debugmsg( "Bionic %s has unknown fake_item %s",
-                      bio.id.c_str(), bio.fake_item.c_str() );
+    }
+    if( power_gen_emission && !power_gen_emission.is_valid() ) {
+        rep.warn( "specifies unknown emission \"%s\"", power_gen_emission.str() );
+    }
+    for( const auto &it : env_protec ) {
+        if( !it.first.is_valid() ) {
+            rep.warn( "env_protec specifies unknown body part \"%s\"", it.first.str() );
         }
-        for( const trait_id &mid : bio.canceled_mutations ) {
-            if( !mid.is_valid() ) {
-                debugmsg( "Bionic %s cancels undefined mutation %s",
-                          bio.id.c_str(), mid.c_str() );
-            }
+    }
+    for( const auto &it : cut_protec ) {
+        if( !it.first.is_valid() ) {
+            rep.warn( "cut_protec specifies unknown body part \"%s\"", it.first.str() );
         }
-        for( const enchantment_id &eid : bio.id->enchantments ) {
-            if( !eid.is_valid() ) {
-                debugmsg( "Bionic %s uses undefined enchantment %s", bio.id.c_str(), eid.c_str() );
-            }
+    }
+    for( const auto &it : bash_protec ) {
+        if( !it.first.is_valid() ) {
+            rep.warn( "bash_protec specifies unknown body part \"%s\"", it.first.str() );
         }
-        for( const bionic_id &bid : bio.included_bionics ) {
-            if( !bid.is_valid() ) {
-                debugmsg( "Bionic %s includes undefined bionic %s",
-                          bio.id.c_str(), bid.c_str() );
-            }
-            if( !bid->occupied_bodyparts.empty() ) {
-                debugmsg( "Bionic %s (included by %s) consumes slots, those should be part of the containing bionic instead.",
-                          bid.c_str(), bio.id.c_str() );
-            }
+    }
+    for( const enchantment_id &eid : id->enchantments ) {
+        if( !eid.is_valid() ) {
+            rep.warn( "uses undefined enchantment \"%s\"", eid.str() );
         }
-        if( bio.upgraded_bionic ) {
-            if( bio.upgraded_bionic == bio.id ) {
-                debugmsg( "Bionic %s is upgraded with itself", bio.id.c_str() );
-            } else if( !bio.upgraded_bionic.is_valid() ) {
-                debugmsg( "Bionic %s upgrades undefined bionic %s",
-                          bio.id.c_str(), bio.upgraded_bionic.c_str() );
-            }
+    }
+    for( const auto &it : occupied_bodyparts ) {
+        if( !it.first.is_valid() ) {
+            rep.warn( "occupies unknown body part \"%s\"", it.first.str() );
         }
-        if( !item::type_is_defined( bio.id.c_str() ) && !bio.included ) {
-            debugmsg( "Bionic %s has no defined item version", bio.id.c_str() );
+    }
+    for( const auto &it : encumbrance ) {
+        if( !it.first.is_valid() ) {
+            rep.warn( "encumbers unknown body part \"%s\"", it.first.str() );
         }
+    }
+    if( !fake_item.empty() &&
+        !item::type_is_defined( fake_item ) ) {
+        rep.warn( "has unknown fake_item \"%s\"", fake_item );
+    }
+    for( const trait_id &mid : canceled_mutations ) {
+        if( !mid.is_valid() ) {
+            rep.warn( "cancels undefined mutation \"%s\"", mid.str() );
+        }
+    }
+    for( const auto &it : learned_spells ) {
+        if( !it.first.is_valid() ) {
+            rep.warn( "teaches unknown spell \"%s\"", it.first.str() );
+        }
+    }
+    for( const bionic_id &bid : included_bionics ) {
+        if( !bid.is_valid() ) {
+            rep.warn( "includes undefined bionic \"%s\"", bid.str() );
+        }
+        if( !bid->occupied_bodyparts.empty() ) {
+            rep.warn( "includes bionic \"%s\" which occupies slots.  Those slots should be occupied by this bionic instead.",
+                      bid.str() );
+        }
+    }
+    if( upgraded_bionic ) {
+        if( upgraded_bionic == id ) {
+            rep.warn( "is upgraded with itself" );
+        } else if( !upgraded_bionic.is_valid() ) {
+            rep.warn( "upgrades undefined bionic \"%s\"", upgraded_bionic.str() );
+        }
+    }
+    for( const bionic_id &it : available_upgrades ) {
+        if( !it.is_valid() ) {
+            rep.warn( "specifies unknown upgrade \"%s\"", it.str() );
+        }
+    }
+    for( const std::string &it : flags ) {
+        // TODO: turn 'flags' into actual flag_str_ids
+        flag_str_id flag = flag_str_id( it );
+        if( !flag.is_valid() ) {
+            rep.warn( "specifies unknown flag \"%s\"", it );
+        }
+    }
+    if( has_flag( flag_BIO_GUN ) && has_flag( flag_BIO_WEAPON ) ) {
+        rep.warn( "is specified as both gun and weapon bionic" );
+    }
+    if( ( has_flag( flag_BIO_GUN ) || has_flag( flag_BIO_WEAPON ) ) && fake_item.empty() ) {
+        rep.warn( "is missing fake_item" );
+    }
+    if( !rep.is_empty() ) {
+        debugmsg( rep.format( "bionic", id.str() ) );
     }
 }
 
@@ -1312,7 +1331,9 @@ bool Character::burn_fuel( int b, bool start )
                     }
 
                     heat_emission( b, fuel_energy );
-                    g->m.emit_field( pos(), bio.info().power_gen_emission );
+                    if( bio.info().power_gen_emission ) {
+                        g->m.emit_field( pos(), bio.info().power_gen_emission );
+                    }
                 } else {
 
                     if( is_metabolism_powered ) {
@@ -1375,8 +1396,9 @@ void Character::passive_power_gen( int b )
         }
 
         heat_emission( b, fuel_energy );
-        g->m.emit_field( pos(), bio.info().power_gen_emission );
-
+        if( bio.info().power_gen_emission ) {
+            g->m.emit_field( pos(), bio.info().power_gen_emission );
+        }
     }
 }
 
@@ -1490,7 +1512,7 @@ void Character::heat_emission( int b, int fuel_energy )
         const int heat_spread = std::max( heat_prod / 10 - heat_level, 1 );
         g->m.emit_field( pos(), hotness, heat_spread );
     }
-    for( const std::pair<const bodypart_str_id, size_t> &bp : bio.info().occupied_bodyparts ) {
+    for( const std::pair<const bodypart_str_id, int> &bp : bio.info().occupied_bodyparts ) {
         add_effect( effect_heating_bionic, 2_seconds, bp.first->token, heat_prod );
     }
 }
@@ -1502,8 +1524,8 @@ float Character::get_effective_efficiency( int b, float fuel_efficiency )
     float effective_efficiency = fuel_efficiency;
     if( coverage_penalty ) {
         int coverage = 0;
-        const std::map< bodypart_str_id, size_t > &occupied_bodyparts = bio.info().occupied_bodyparts;
-        for( const std::pair< const bodypart_str_id, size_t > &elem : occupied_bodyparts ) {
+        const std::map< bodypart_str_id, int > &occupied_bodyparts = bio.info().occupied_bodyparts;
+        for( const std::pair< const bodypart_str_id, int > &elem : occupied_bodyparts ) {
             for( const item &i : worn ) {
                 if( i.covers( elem.first->token ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
                     !i.has_flag( flag_SEMITANGIBLE ) &&
@@ -2047,7 +2069,7 @@ bool Character::uninstall_bionic( const bionic_id &b_id, player &installer, bool
     } else {
         activity.str_values.push_back( "false" );
     }
-    for( const std::pair<const bodypart_str_id, size_t> &elem : b_id->occupied_bodyparts ) {
+    for( const std::pair<const bodypart_str_id, int> &elem : b_id->occupied_bodyparts ) {
         add_effect( effect_under_op, difficulty * 20_minutes, elem.first->token, difficulty );
     }
 
@@ -2314,7 +2336,7 @@ bool Character::install_bionics( const itype &type, player &installer, bool auto
     } else {
         activity.str_values.push_back( "false" );
     }
-    for( const std::pair<const bodypart_str_id, size_t> &elem : bioid->occupied_bodyparts ) {
+    for( const std::pair<const bodypart_str_id, int> &elem : bioid->occupied_bodyparts ) {
         add_effect( effect_under_op, difficulty * 20_minutes, elem.first->token, difficulty );
     }
 
@@ -2476,7 +2498,7 @@ std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro
         return "";
     }
     std::string desc = intro;
-    for( const std::pair<const bodypart_str_id, size_t> &elem : bio_id->occupied_bodyparts ) {
+    for( const std::pair<const bodypart_str_id, int> &elem : bio_id->occupied_bodyparts ) {
         desc += ( each_bp_on_new_line ? "\n" : " " );
         //~ <Bodypart name> (<number of occupied slots> slots);
         desc += string_format( _( "%s (%i slots);" ),
@@ -2505,7 +2527,7 @@ std::map<bodypart_id, int> Character::bionic_installation_issues( const bionic_i
     if( !get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
         return issues;
     }
-    for( const std::pair<const bodypart_str_id, size_t> &elem : bioid->occupied_bodyparts ) {
+    for( const std::pair<const bodypart_str_id, int> &elem : bioid->occupied_bodyparts ) {
         const int lacked_slots = elem.second - get_free_bionics_slots( elem.first );
         if( lacked_slots > 0 ) {
             issues.emplace( elem.first, lacked_slots );

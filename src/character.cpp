@@ -3841,8 +3841,8 @@ void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) con
 {
 
     for( const bionic_id &bid : get_bionics() ) {
-        for( const std::pair<const body_part, int> &element : bid->encumbrance ) {
-            vals[element.first].encumbrance += element.second;
+        for( const std::pair<const bodypart_str_id, int> &element : bid->encumbrance ) {
+            vals[element.first->token].encumbrance += element.second;
         }
     }
 
@@ -4329,7 +4329,7 @@ void Character::on_damage_of_type( int adjusted_damage, damage_type type, const 
             if( info.has_flag( "BIONIC_SHOCKPROOF" ) || info.has_flag( "BIONIC_FAULTY" ) ) {
                 continue;
             }
-            const std::map<bodypart_str_id, size_t> &bodyparts = info.occupied_bodyparts;
+            const std::map<bodypart_str_id, int> &bodyparts = info.occupied_bodyparts;
             if( bodyparts.find( bp.id() ) != bodyparts.end() ) {
                 const int bp_hp = get_part_hp_cur( bp );
                 // The chance to incapacitate is as high as 50% if the attack deals damage equal to one third of the body part's current health.

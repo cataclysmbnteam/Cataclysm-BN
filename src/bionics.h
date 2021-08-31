@@ -75,25 +75,22 @@ struct bionic_data {
     bool exothermic_power_gen = false;
     /**Type of field emitted by this bionic when it produces energy*/
     emit_id power_gen_emission = emit_id::NULL_ID();
+
     /**Amount of environemental protection offered by this bionic*/
-    std::map<bodypart_str_id, size_t> env_protec;
-
+    std::map<bodypart_str_id, int> env_protec;
     /**Amount of bash protection offered by this bionic*/
-    std::map<bodypart_str_id, size_t> bash_protec;
+    std::map<bodypart_str_id, int> bash_protec;
     /**Amount of cut protection offered by this bionic*/
-    std::map<bodypart_str_id, size_t> cut_protec;
-
-    /** bionic enchantments */
-    std::vector<enchantment_id> enchantments;
-
+    std::map<bodypart_str_id, int> cut_protec;
     /**
      * Body part slots used to install this bionic, mapped to the amount of space required.
      */
-    std::map<bodypart_str_id, size_t> occupied_bodyparts;
+    std::map<bodypart_str_id, int> occupied_bodyparts;
     /**
      * Body part encumbered by this bionic, mapped to the amount of encumbrance caused.
      */
-    std::map<body_part, int> encumbrance;
+    std::map<bodypart_str_id, int> encumbrance;
+
     /**
      * Fake item created for crafting with this bionic available.
      * Also the item used for gun bionics.
@@ -104,6 +101,9 @@ struct bionic_data {
      * E.g. enhanced optic bionic may cancel HYPEROPIC trait.
      */
     std::vector<trait_id> canceled_mutations;
+
+    /** bionic enchantments */
+    std::vector<enchantment_id> enchantments;
 
     /**
      * The spells you learn when you install this bionic, and what level you learn them at.
@@ -121,22 +121,26 @@ struct bionic_data {
     /**
      * Id of another bionic which this bionic can upgrade.
      */
-    bionic_id upgraded_bionic;
+    bionic_id upgraded_bionic = bionic_id::NULL_ID();
     /**
      * Upgrades available for this bionic (opposite to @ref upgraded_bionic).
      */
     std::set<bionic_id> available_upgrades;
 
-    cata::flat_set<std::string> flags;
+    std::set<std::string> flags;
     bool has_flag( const std::string &flag ) const;
 
     bool is_included( const bionic_id &id ) const;
 
-    bool was_loaded = false;
-    void load( const JsonObject &obj, std::string );
     static void load_bionic( const JsonObject &jo, const std::string &src );
     static const std::vector<bionic_data> &get_all();
-    static void check_bionic_consistency();
+    static void check_consistency();
+    static void finalize_all();
+
+    bool was_loaded = false;
+    void load( const JsonObject &obj, std::string );
+    void check() const;
+    void finalize() const;
 };
 
 struct bionic {
