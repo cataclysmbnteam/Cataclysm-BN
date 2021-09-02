@@ -2554,5 +2554,15 @@
     "result": "bp_shot_scrap",
     "id_suffix": "with dowel",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hand_axe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "makeshift_axe",
+    "obsolete": true
   }
 ]

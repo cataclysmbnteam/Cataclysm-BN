@@ -460,32 +460,6 @@
   },
   {
     "type": "recipe",
-    "result": "hand_axe",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "survival",
-    "skills_required": [ "fabrication", 1 ],
-    "difficulty": 3,
-    "time": 54000,
-    "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "rock", 1 ], [ "ceramic_shard", 1 ], [ "sharp_rock", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "makeshift_axe",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "survival",
-    "skills_required": [ "fabrication", 1 ],
-    "difficulty": 3,
-    "time": 60000,
-    "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 1 ], [ "steel_lump", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "tinderbox",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
