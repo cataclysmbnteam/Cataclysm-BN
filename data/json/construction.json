@@ -64,9 +64,9 @@
     "id": "constr_chop_trunk",
     "description": "Chop Tree Trunk Into Planks",
     "category": "FARM_WOOD",
-    "required_skills": [ [ "survival", 2 ] ],
+    "required_skills": [ [ "fabrication", 2 ] ],
     "time": "60 m",
-    "qualities": [ [ { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 1 } ] ],
+    "qualities": [ [ { "id": "AXE", "level": 3 }, { "id": "SAW_W", "level": 1 } ] ],
     "pre_terrain": "t_trunk",
     "post_terrain": "t_dirt",
     "post_special": "done_trunk_plank"
