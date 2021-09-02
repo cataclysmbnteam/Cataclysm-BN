@@ -485,13 +485,14 @@ cata::optional<std::string> zone_manager::query_name( const std::string &default
 cata::optional<zone_type_id> zone_manager::query_type() const
 {
     const auto &types = get_manager().get_types();
- std::vector<std::pair<zone_type_id, zone_type>> types_vec;
+    std::vector<std::pair<zone_type_id, zone_type>> types_vec;
     std::copy( types.begin(), types.end(),
-    std::back_inserter<std::vector<std::pair<zone_type_id, zone_type>>>( types_vec ) );
+               std::back_inserter<std::vector<std::pair<zone_type_id, zone_type>>>( types_vec ) );
     std::sort( types_vec.begin(), types_vec.end(),
     []( const std::pair<zone_type_id, zone_type> &lhs, const std::pair<zone_type_id, zone_type> &rhs ) {
         return localized_compare( lhs.second.name(), rhs.second.name() );
     } );
+
     uilist as_m;
     as_m.desc_enabled = true;
     as_m.text = _( "Select zone type:" );
