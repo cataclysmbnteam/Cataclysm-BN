@@ -2346,7 +2346,7 @@ void talk_effect_fun_t::set_bulk_trade_accept( bool is_trade, bool is_npc )
                         price -= d.beta->value( pay );
                     }
                 }
-                d.beta->op_of_u.owed += price;
+                d.beta->op_of_u.owed = price;
             }
         }
         seller->use_charges( d.cur_item, seller_has );
