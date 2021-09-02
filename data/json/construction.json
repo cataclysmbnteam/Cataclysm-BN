@@ -2931,7 +2931,7 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "120 m",
-"components": [ [ [ "rock", 40 ] ], [ [ "material_soil", 2 ] ] ],
+    "components": [ [ [ "rock", 40 ] ], [ [ "material_soil", 2 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "post_terrain": "f_kiln_empty"
@@ -2973,7 +2973,7 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "120 m",
-"components": [ [ [ "rock", 40 ] ], [ [ "material_soil", 3 ] ] ],
+    "components": [ [ [ "rock", 40 ] ], [ [ "material_soil", 3 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "post_terrain": "f_forge_rock"
