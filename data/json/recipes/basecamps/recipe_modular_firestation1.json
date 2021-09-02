@@ -266,10 +266,10 @@
     "blueprint_resources": [ "fake_char_smoker", "fake_char_kiln" ],
     "blueprint_needs": {
       "time": "5 h",
-      "skills": [ [ "cooking", 2 ], [ "fabrication", 3 ] ],
+      "skills": [ [ "fabrication", 3 ], [ "cooking", 2 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ] ],
+        "qualities": [ [ { "id": "SAW_W" } ], [ { "id": "DIG" } ], [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [ [ [ "2x4", 32 ], [ "stick", 32 ] ], [ [ "material_soil", 2 ] ], [ [ "rock", 56 ] ] ]
       }
     }
@@ -560,11 +560,7 @@
     "blueprint_needs": {
       "time": "2 h",
       "skills": [ [ "fabrication", 5 ] ],
-      "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-        "components": [ [ [ "material_soil", 3 ] ], [ [ "rock", 40 ] ] ]
-      }
+      "inline": { "tools": [  ], "qualities": [  ], "components": [ [ [ "material_soil", 3 ] ], [ [ "rock", 40 ] ] ] }
     },
     "components": [ [ [ "hammer", 1 ] ] ]
   },

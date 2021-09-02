@@ -150,7 +150,7 @@
     "blueprint_excludes": [ { "id": "fbmk_canteen_dining_west" } ],
     "blueprint_needs": {
       "time": "2 d 6 h 6 m",
-      "skills": [ [ "fabrication", 3 ] ],
+      "skills": [ [ "survival", 0 ], [ "fabrication", 3 ] ],
       "inline": {
         "tools": [
           [ [ "machete", -1 ], [ "makeshift_machete", -1 ], [ "scythe", -1 ], [ "sickle", -1 ], [ "survivor_machete", -1 ] ],

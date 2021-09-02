@@ -14,7 +14,7 @@
     "blueprint_excludes": [ { "id": "fbmw_northeast" } ],
     "blueprint_needs": {
       "time": "3 d 11 h 45 m",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
@@ -45,7 +45,7 @@
     "blueprint_excludes": [ { "id": "fbmw_north" } ],
     "blueprint_needs": {
       "time": "2 d 6 h 40 m",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [
@@ -82,7 +82,7 @@
     "blueprint_excludes": [ { "id": "fbmw_east" } ],
     "blueprint_needs": {
       "time": "2 d 14 h 25 m",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [
@@ -120,7 +120,7 @@
     "blueprint_excludes": [ { "id": "fbmw_center" } ],
     "blueprint_needs": {
       "time": "1 d 19 h 5 m",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ], [ "tailor", 3 ] ],
+      "skills": [ [ "fabrication", 3 ], [ "tailor", 3 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
@@ -154,7 +154,7 @@
     "components": [ [ [ "tongs", 1 ] ], [ [ "chisel", 1 ] ], [ [ "hammer", 1 ] ], [ [ "swage", 1 ] ] ],
     "blueprint_needs": {
       "time": "1 d 16 h 55 m",
-      "skills": [ [ "fabrication", 4 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 4 ] ],
       "inline": {
         "tools": [
           [ [ "frame_wood_light", -1 ] ],
@@ -199,7 +199,7 @@
     "blueprint_excludes": [ { "id": "fbmw_northwest" } ],
     "blueprint_needs": {
       "time": "3 d 19 h 13 m",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [
           [ [ "frame_wood_light", -1 ] ],
@@ -248,7 +248,7 @@
     "components": [ [ [ "wrench", 1 ] ], [ [ "pliers", 1 ] ] ],
     "blueprint_needs": {
       "time": "4 d 12 h 30 m",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],

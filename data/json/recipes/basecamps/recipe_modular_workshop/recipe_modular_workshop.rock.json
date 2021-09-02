@@ -14,7 +14,7 @@
     "blueprint_excludes": [ { "id": "fbmw_northeast" } ],
     "blueprint_needs": {
       "time": "3 d 10 h 30 m",
-      "skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 6 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
@@ -45,7 +45,7 @@
     "blueprint_excludes": [ { "id": "fbmw_north" } ],
     "blueprint_needs": {
       "time": "2 d 5 h 40 m",
-      "skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 6 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
@@ -77,7 +77,7 @@
     "blueprint_excludes": [ { "id": "fbmw_east" } ],
     "blueprint_needs": {
       "time": "2 d 13 h 55 m",
-      "skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 6 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
@@ -109,7 +109,7 @@
     "blueprint_excludes": [ { "id": "fbmw_center" } ],
     "blueprint_needs": {
       "time": "1 d 19 h 5 m",
-      "skills": [ [ "fabrication", 6 ], [ "survival", 2 ], [ "tailor", 3 ] ],
+      "skills": [ [ "fabrication", 6 ], [ "tailor", 3 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
@@ -143,7 +143,7 @@
     "components": [ [ [ "tongs", 1 ] ], [ [ "chisel", 1 ] ], [ [ "hammer", 1 ] ], [ [ "swage", 1 ] ] ],
     "blueprint_needs": {
       "time": "1 d 16 h 10 m",
-      "skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 6 ] ],
       "inline": {
         "tools": [ [ [ "oxy_torch", 20 ], [ "toolset", 150 ], [ "welder", 100 ], [ "welder_crude", 150 ] ] ],
         "qualities": [
@@ -182,7 +182,7 @@
     "blueprint_excludes": [ { "id": "fbmw_northwest" } ],
     "blueprint_needs": {
       "time": "3 d 17 h 28 m",
-      "skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 6 ] ],
       "inline": {
         "tools": [ [ [ "machete", -1 ], [ "makeshift_machete", -1 ], [ "scythe", -1 ], [ "sickle", -1 ], [ "survivor_machete", -1 ] ] ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
@@ -216,7 +216,7 @@
     "components": [ [ [ "wrench", 1 ] ], [ [ "pliers", 1 ] ] ],
     "blueprint_needs": {
       "time": "4 d 10 h",
-      "skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 6 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],

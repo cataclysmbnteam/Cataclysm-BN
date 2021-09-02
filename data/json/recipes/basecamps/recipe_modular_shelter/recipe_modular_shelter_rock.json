@@ -14,7 +14,7 @@
     "blueprint_excludes": [ { "id": "fbmc_shelter_bedroom1" } ],
     "blueprint_needs": {
       "time": "1 d 13 h 30 m",
-      "skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 6 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
@@ -45,7 +45,7 @@
     "blueprint_excludes": [ { "id": "fbmc_shelter_bedroom2" } ],
     "blueprint_needs": {
       "time": "1 d 13 h 30 m",
-      "skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 6 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
@@ -76,7 +76,7 @@
     "blueprint_excludes": [ { "id": "fbmc_shelter_bedroom3" } ],
     "blueprint_needs": {
       "time": "2 d 7 h 30 m",
-      "skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 6 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
@@ -107,7 +107,7 @@
     "blueprint_excludes": [ { "id": "fbmc_shelter_bedroom4" } ],
     "blueprint_needs": {
       "time": "1 d 13 h 30 m",
-      "skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 6 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
@@ -138,7 +138,7 @@
     "blueprint_excludes": [ { "id": "fbmc_shelter_bedroom5" } ],
     "blueprint_needs": {
       "time": "13 h 30 m",
-      "skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 6 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
