@@ -559,10 +559,9 @@
     "blueprint_resources": [ "fake_forge", "hammer" ],
     "blueprint_needs": {
       "time": "2 h",
-      "skills": [ [ "fabrication", 5 ] ],
+      "skills": [ [ "fabrication", 4 ] ],
       "inline": { "tools": [  ], "qualities": [  ], "components": [ [ [ "material_soil", 3 ] ], [ [ "rock", 40 ] ] ] }
-    },
-    "components": [ [ [ "hammer", 1 ] ] ]
+    }
   },
   {
     "type": "recipe",
