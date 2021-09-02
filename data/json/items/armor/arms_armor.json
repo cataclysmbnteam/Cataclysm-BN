@@ -97,7 +97,7 @@
     "color": "brown",
     "covers": [ "ARMS" ],
     "coverage": 90,
-    "encumbrance": 10,
+    "encumbrance": 20,
     "warmth": 25,
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
