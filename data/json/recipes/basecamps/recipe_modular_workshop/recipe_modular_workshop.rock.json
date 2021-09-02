@@ -76,20 +76,21 @@
     "blueprint_provides": [ { "id": "fbmw_east" }, { "id": "blacksmith_recipes_3" } ],
     "blueprint_excludes": [ { "id": "fbmw_east" } ],
     "blueprint_needs": {
-      "time": "5 h 30 m",
-      "skills": [ [ "fabrication", 4 ] ],
+      "time": "2 d 13 h 55 m",
+      "skills": [ [ "fabrication", 6 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "SAW_W" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH" } ] ],
+        "qualities": [ [ { "id": "SAW_W", "level": 2 } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 4 ] ],
-          [ [ "lock", 1 ] ],
-          [ [ "material_soil", 5 ] ],
-          [ [ "nail", 8 ] ],
-          [ [ "pipe", 8 ] ],
-          [ [ "rock", 80 ] ],
-          [ [ "sheet_metal", 2 ] ],
-          [ [ "wood_panel", 1 ], [ "wood_sheet", 1 ] ]
+          [ [ "2x4", 281 ] ],
+          [ [ "glass_sheet", 1 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "material_soil", 2 ] ],
+          [ [ "mortar_build", 8 ] ],
+          [ [ "nail", 746 ] ],
+          [ [ "pebble", 200 ] ],
+          [ [ "rock", 136 ] ],
+          [ [ "wood_panel", 39 ] ]
         ]
       }
     }
@@ -182,19 +183,19 @@
     "blueprint_excludes": [ { "id": "fbmw_northwest" } ],
     "blueprint_needs": {
       "time": "3 d 17 h 28 m",
-      "skills": [ [ "fabrication", 6 ] ],
+      "skills": [ [ "survival", 0 ], [ "fabrication", 6 ] ],
       "inline": {
         "tools": [ [ [ "machete", -1 ], [ "makeshift_machete", -1 ], [ "scythe", -1 ], [ "sickle", -1 ], [ "survivor_machete", -1 ] ] ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "qualities": [ [ { "id": "SAW_W", "level": 2 } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 166 ] ],
-          [ [ "nail", 526 ] ],
-          [ [ "wood_panel", 31 ] ],
-          [ [ "hinge", 2 ] ],
           [ [ "glass_sheet", 2 ] ],
-          [ [ "rock", 264 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "mortar_build", 22 ] ],
+          [ [ "nail", 526 ] ],
           [ [ "pebble", 550 ] ],
-          [ [ "mortar_build", 22 ] ]
+          [ [ "rock", 264 ] ],
+          [ [ "wood_panel", 31 ] ]
         ]
       }
     }
