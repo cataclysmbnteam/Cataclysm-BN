@@ -278,6 +278,6 @@
     "warmth": 10,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "STRAPPED", "OUTER", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OUTER", "WATER_FRIENDLY" ]
   }
 ]
