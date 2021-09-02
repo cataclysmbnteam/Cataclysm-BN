@@ -14,7 +14,7 @@
     "blueprint_excludes": [ { "id": "fbmk_center" } ],
     "blueprint_needs": {
       "time": "2 d 5 h 45 m",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [
@@ -51,7 +51,7 @@
     "blueprint_excludes": [ { "id": "fbmk_center2" } ],
     "blueprint_needs": {
       "time": "3 d 4 h 30 m",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [
@@ -88,7 +88,7 @@
     "blueprint_excludes": [ { "id": "fbmk_smoking_area" } ],
     "blueprint_needs": {
       "time": "2 d 11 h 55 m",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
@@ -119,7 +119,7 @@
     "blueprint_excludes": [ { "id": "fbmk_pantry_room" } ],
     "blueprint_needs": {
       "time": "5 d 1 h 15 m",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
@@ -150,7 +150,7 @@
     "blueprint_excludes": [ { "id": "fbmk_canteen_dining_west" } ],
     "blueprint_needs": {
       "time": "2 d 6 h 6 m",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [
           [ [ "machete", -1 ], [ "makeshift_machete", -1 ], [ "scythe", -1 ], [ "sickle", -1 ], [ "survivor_machete", -1 ] ],
@@ -191,7 +191,7 @@
     "blueprint_excludes": [ { "id": "fbmk_canteen_dining_east" } ],
     "blueprint_needs": {
       "time": "2 d 18 h",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
@@ -222,7 +222,7 @@
     "blueprint_excludes": [ { "id": "fbmk_canteen_dining_center" } ],
     "blueprint_needs": {
       "time": "1 d 15 h 15 m",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [
