@@ -101,7 +101,7 @@
     "warmth": 25,
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "STURDY", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
+    "flags": [ "VARSIZE", "STURDY", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
   },
   {
     "id": "armguard_lightplate",
@@ -278,6 +278,6 @@
     "warmth": 10,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY" ]
+    "flags": [ "STRAPPED", "OUTER", "WATER_FRIENDLY" ]
   }
 ]
