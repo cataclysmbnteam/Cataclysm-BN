@@ -2389,14 +2389,14 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
         new_type = t_door_o;
         pry_quality = 2;
         noisy = true;
-        difficulty = 6;
+        difficulty = 8;
     } else if( type == t_door_locked_peep ) {
         succ_action = _( "You pry open the door." );
         fail_action = _( "You pry, but cannot pry open the door." );
         new_type = t_door_o_peep;
         pry_quality = 2;
         noisy = true;
-        difficulty = 6;
+        difficulty = 8;
     } else if( type == t_door_c ) {
         p->add_msg_if_player( m_info, _( "You notice the door is unlocked, so you simply open it." ) );
         g->m.ter_set( pnt, t_door_o );
@@ -2425,14 +2425,14 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
         fail_action = _( "You pry, but the coffin remains closed." );
         pry_quality = 2;
         noisy = true;
-        difficulty = 5;
+        difficulty = 7;
     } else if( type == t_window_domestic || type == t_curtains || type == t_window_no_curtains ) {
         succ_action = _( "You pry open the window." );
         fail_action = _( "You pry, but cannot pry open the window." );
         new_type = ( type == t_window_no_curtains ) ? t_window_no_curtains_open : t_window_open;
         pry_quality = 2;
         noisy = true;
-        difficulty = 6;
+        difficulty = 8;
     } else {
         return 0;
     }
@@ -2451,8 +2451,14 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
 
-    // For every level of PRY over the requirement, remove n from the difficulty (so -2 with a PRY 4 tool)
-    difficulty -= ( pry_level - pry_quality );
+    // For every level of PRY over the requirement, remove n from the difficulty.
+    // If pry_quality is 2 or higher, multiply effect of pre_level by 3.
+    // So a tool with PRY 4 gives -6 when used on a door, but only -2 on a manhole cover.
+    if( pry_quality > 1 ) {
+        difficulty -= ( ( pry_level - pry_quality ) * 3 );
+    } else {
+        difficulty -= ( pry_level - pry_quality );
+    }
 
     /** @EFFECT_STR speeds up crowbar prying attempts */
     p->mod_moves( -std::max( 20, difficulty * 20 - p->str_cur * 5 ) );
