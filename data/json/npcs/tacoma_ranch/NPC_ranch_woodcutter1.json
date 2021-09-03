@@ -30,25 +30,27 @@
     "id": "TALK_RANCH_WOODCUTTER_HIRE",
     "type": "talk_topic",
     "dynamic_line": {
-      "npc_has_effect": "currently_busy",
-      "yes": "Come back later, I need to take care of a few things first.",
-      "no": "The rate is a bit steep but I still have my quotas that I need to fulfill.  The logs will be dropped off in the garage at the entrance to the camp.  I'll need a bit of time before I can deliver another load."
+      "npc_service": true,
+      "yes": "The rate is a bit steep but I still have my quotas that I need to fulfill.  The logs will be dropped off in the garage at the entrance to the camp.  I'll need a bit of time before I can deliver another load.  I'll give you 10 logs for 200 Merch, or 100 logs for 1000.",
+      "no": "Come back later, I need to take care of a few things first."
     },
     "responses": [
       {
-        "text": "[$2000, 1d] 10 logs",
+        "text": "[800 Merch, 1d] 10 logs",
         "topic": "TALK_DONE",
-        "effect": [ "buy_10_logs", { "u_spend_cash": 200000 } ],
-        "condition": { "npc_service": true }
+        "effect": [ { "u_consume_item": "FMCNote", "count": 800 }, "buy_10_logs" ],
+        "condition": { "and": [ { "npc_service": true }, { "u_has_items": { "item": "FMCNote", "count": 800 } } ] }
       },
       {
-        "text": "[$12000, 7d] 100 logs",
+        "text": "[4800 Merch, 7d] 100 logs",
         "topic": "TALK_DONE",
-        "effect": [ "buy_100_logs", { "u_spend_cash": 1200000 } ],
-        "condition": { "npc_service": true }
+        "effect": [ { "u_consume_item": "FMCNote", "count": 4800 }, "buy_100_logs" ],
+        "condition": { "and": [ { "npc_service": true }, { "u_has_items": { "item": "FMCNote", "count": 4800 } } ] }
       },
-      { "text": "Maybe later.", "topic": "TALK_RANCH_WOODCUTTER", "condition": "npc_available" },
-      { "text": "I'll be back later.", "topic": "TALK_RANCH_WOODCUTTER" }
+      {
+        "topic": "TALK_RANCH_WOODCUTTER",
+        "truefalsetext": { "true": "Maybe later.", "false": "I'll be back later.", "condition": { "npc_service": true } }
+      }
     ]
   }
 ]
