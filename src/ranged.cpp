@@ -2802,7 +2802,7 @@ void target_ui::action_switch_mode()
         menu.entries.back().text_color = c_cyan;
 
         for( auto it = gun_modes.begin(); it != gun_modes.end(); ++it ) {
-            if( it->second.flags.count( "REACH_ATTACK" ) ) {
+            if( it->second.melee() ) {
                 continue;
             }
             const bool active_gun_mode = relevant->gun_get_mode_id() == it->first;
