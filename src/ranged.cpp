@@ -2831,7 +2831,7 @@ void target_ui::action_switch_mode()
         const std::map<gun_mode_id, gun_mode> all_gun_modes = relevant->gun_all_modes();
         int skip = menu.ret - firing_modes_range.first;
         for( std::pair<gun_mode_id, gun_mode> it : all_gun_modes ) {
-            if( it.second.flags.count( "REACH_ATTACK" ) ) {
+            if( it.second.melee() ) {
                 continue;
             }
             if( skip-- == 0 ) {
