@@ -2159,8 +2159,7 @@ void talk_effect_fun_t::set_remove_item_with( const JsonObject &jo, const std::s
 void talk_effect_fun_t::set_u_spend_cash( int amount )
 {
     function = [amount]( const dialogue & d ) {
-        npc &np = *d.beta;
-        npc_trading::pay_npc( np, amount );
+        d.alpha->cash -= amount;
     };
 }
 
