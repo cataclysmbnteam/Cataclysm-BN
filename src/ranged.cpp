@@ -2793,7 +2793,7 @@ void target_ui::action_switch_mode()
                 menu.entries.back().text_color = c_light_green;
             }
         }
-	}
+    }
 
     const std::map<gun_mode_id, gun_mode> gun_modes = relevant->gun_all_modes();
     if( !gun_modes.empty() ) {
