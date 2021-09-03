@@ -1141,7 +1141,7 @@ void avatar::load( const JsonObject &data )
         JsonIn *jip = data.get_raw( "invcache" );
         inv.json_load_invcache( *jip );
     }
-	
+
     data.read( "preferred_aiming_mode", preferred_aiming_mode );
 }
 
