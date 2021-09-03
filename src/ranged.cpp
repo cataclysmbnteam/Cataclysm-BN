@@ -2794,7 +2794,7 @@ void target_ui::action_switch_mode()
             }
         }
 	}
-	
+
     const std::map<gun_mode_id, gun_mode> gun_modes = relevant->gun_all_modes();
     if( !gun_modes.empty() ) {
         menu.addentry( -1, false, 0, "  " + std::string( _( "Firing mode" ) ) );
@@ -2850,9 +2850,6 @@ void target_ui::action_switch_mode()
     update_ammo_range_from_gun_mode();
     on_range_ammo_changed();
 }
-
-
- 
 
 void target_ui::ensure_ranged_gun_mode()
 {
