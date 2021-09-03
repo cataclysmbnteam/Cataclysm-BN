@@ -64,12 +64,14 @@ constexpr std::array<temperature_threshold, 7> bodytemps = {{
 
 #undef t
 
+std::ostream &operator<<( std::ostream &os, const body_part_temp &bpt );
 std::ostream &operator<<( std::ostream &os, const body_part_temp &bpt )
 {
     // Stringify the temperature to avoid Catch adding hex
     return os << std::to_string( bpt.temperature );
 }
 
+std::ostream &operator<<( std::ostream &os, const std::vector<body_part_temp> &bpts );
 std::ostream &operator<<( std::ostream &os, const std::vector<body_part_temp> &bpts )
 {
     os << "[";
