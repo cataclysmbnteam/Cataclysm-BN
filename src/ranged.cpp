@@ -2814,8 +2814,8 @@ void target_ui::action_switch_mode()
 
             text += ( active_gun_mode ? _( " (active)" ) : "" );
 
-            menu.entries.emplace_back( firing_modes_range.first + std::distance( gun_modes.begin(), it ),
-                                       true, MENU_AUTOASSIGN, text );
+            int retv = firing_modes_range.first + std::distance( gun_modes.begin(), it );
+            menu.entries.emplace_back( retv, true, MENU_AUTOASSIGN, text );
             if( active_gun_mode ) {
                 menu.entries.back().text_color = c_light_green;
                 if( menu.selected == 0 ) {
