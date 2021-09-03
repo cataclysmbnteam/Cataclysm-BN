@@ -2793,6 +2793,7 @@ void target_ui::action_switch_mode()
                 menu.entries.back().text_color = c_light_green;
             }
         }
+	}
     ensure_ranged_gun_mode();
     update_ammo_range_from_gun_mode();
     on_range_ammo_changed();
