@@ -107,6 +107,7 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_teleglow( "teleglow" );
 
 static const itype_id itype_grapnel( "grapnel" );
+static const itype_id itype_petrified_eye( "petrified_eye" );
 
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
@@ -1511,23 +1512,35 @@ void iexamine::transform( player &, const tripoint &pos )
  */
 void iexamine::pedestal_wyrm( player &p, const tripoint &examp )
 {
-    if( !g->m.i_at( examp ).empty() ) {
-        none( p, examp );
-        return;
-    }
-    // Send in a few wyrms to start things off.
-    g->events().send<event_type::awakes_dark_wyrms>();
-    int num_wyrms = rng( 1, 4 );
-    for( int i = 0; i < num_wyrms; i++ ) {
-        if( monster *const mon = g->place_critter_around( mon_dark_wyrm, p.pos(), 2 ) ) {
-            g->m.ter_set( mon->pos(), t_rock_floor );
+    map &here = get_map();
+    map_stack items = here.i_at( examp );
+    if( !items.empty() ) {
+        if( items.only_item().typeId() == itype_petrified_eye &&
+            query_yn( _( "Remove the petrified eye from the pedestal?" ) ) ) {
+            here.i_clear( examp );
+
+            item eye( itype_petrified_eye );
+            p.i_add_or_drop( eye );
+
+            // Send in a few wyrms to start things off.
+            get_event_bus().send<event_type::awakes_dark_wyrms>();
+            for( const tripoint &p : here.points_on_zlevel() ) {
+                if( here.ter( p ) == ter_id( "t_orifice" ) ) {
+                    g->place_critter_around( mon_dark_wyrm, p, 1 );
+                }
+            }
+
+            sounds::sound( examp, 80, sounds::sound_t::combat, _( "an ominous grinding noise…" ), true,
+                           "misc", "stones_grinding" );
+            add_msg( _( "The pedestal sinks into the ground…" ) );
+            here.ter_set( examp, t_rock_floor );
+            g->timed_events.add( TIMED_EVENT_SPAWN_WYRMS, calendar::turn + rng( 30_seconds, 60_seconds ) );
+        } else {
+            none( p, examp );
+            add_msg( _( "You decided to leave the petrified eye on the pedestal…" ) );
+            return;
         }
     }
-    add_msg( _( "The pedestal sinks into the ground…" ) );
-    sounds::sound( examp, 80, sounds::sound_t::combat, _( "an ominous grinding noise…" ), true,
-                   "misc", "stones_grinding" );
-    g->m.ter_set( examp, t_rock_floor );
-    g->timed_events.add( TIMED_EVENT_SPAWN_WYRMS, calendar::turn + rng( 30_seconds, 60_seconds ) );
 }
 
 /**
