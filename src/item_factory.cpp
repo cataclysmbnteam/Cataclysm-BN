@@ -89,24 +89,27 @@ static void assign( const JsonObject &jo, const std::string &name,
 static bool assign_coverage_from_json( const JsonObject &jo, const std::string &key,
                                        body_part_set &parts, bool &sided )
 {
-    auto parse = [&parts, &sided]( const std::string & val ) {
-        if( val == "ARMS" || val == "ARM_EITHER" ) {
+    auto parse = [&parts, &sided]( const std::string & val_in ) {
+        const std::string &val = ( test_mode || json_report_unused_fields )
+                                 ? val_in
+                                 : to_lower_case( val_in );
+        if( val == "arms" || val == "arm_either" ) {
             parts.set( bp_arm_l );
             parts.set( bp_arm_r );
-        } else if( val == "HANDS" || val == "HAND_EITHER" ) {
+        } else if( val == "hands" || val == "hand_either" ) {
             parts.set( bp_hand_l );
             parts.set( bp_hand_r );
-        } else if( val == "LEGS" || val == "LEG_EITHER" ) {
+        } else if( val == "legs" || val == "leg_either" ) {
             parts.set( bp_leg_l );
             parts.set( bp_leg_r );
-        } else if( val == "FEET" || val == "FOOT_EITHER" ) {
+        } else if( val == "feet" || val == "foot_either" ) {
             parts.set( bp_foot_l );
             parts.set( bp_foot_r );
         } else {
             parts.set( get_body_part_token( val ) );
         }
-        sided |= val == "ARM_EITHER" || val == "HAND_EITHER" ||
-                 val == "LEG_EITHER" || val == "FOOT_EITHER";
+        sided |= val == "arm_either" || val == "hand_either" ||
+                 val == "leg_either" || val == "foot_either";
     };
 
     if( jo.has_array( key ) ) {
