@@ -3,7 +3,7 @@
     "id": "weak_antibiotic",
     "type": "COMESTIBLE",
     "copy-from": "weak_antibiotic",
-    "name": { "str_sp": "weak_antibiotics" },
+    "name": { "str_sp": "weak antibiotics" },
     "use_action": "ANTIBIOTIC"
   },
   {
