@@ -6352,7 +6352,7 @@ int item::wind_resist() const
 {
     std::vector<const material_type *> materials = made_of_types();
     if( materials.empty() ) {
-        debugmsg( "Called item::wind_resist on an item (%s) made of nothing!", tname() );
+        debugmsg( "Called item::wind_resist on an item (%s [%s]) made of nothing!", tname(), typeId() );
         return 99;
     }
 
