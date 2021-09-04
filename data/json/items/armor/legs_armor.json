@@ -198,7 +198,7 @@
     "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "BELTED", "STURDY" ]
+    "flags": [ "VARSIZE", "OUTER", "STURDY" ]
   },
   {
     "id": "legguard_metal",
