@@ -2461,7 +2461,7 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
     }
 
     /** @EFFECT_STR speeds up crowbar prying attempts */
-    p->mod_moves( -std::max( 20, difficulty * 20 - p->str_cur * 5 ) );
+    p->mod_moves( -std::max( 20, difficulty * 50 - p->str_cur * 10 ) );
     /** @EFFECT_STR increases chance of crowbar prying success */
 
     if( dice( 4, difficulty ) < dice( 4, p->str_cur ) ) {
@@ -2504,6 +2504,42 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
                 g->m.spawn_item( pnt, "sheet", 2 );
                 g->m.spawn_item( pnt, "stick" );
                 g->m.spawn_item( pnt, "string_36" );
+                return it->type->charges_to_use();
+            }
+        }
+        if( type == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior ) {
+            //chance of jamming the door if pry attempt fails
+            //difficulty is lower compared to risk of breaking windows
+
+            if( dice( 2, difficulty ) > dice( 2, p->get_skill_level( skill_mechanics ) ) + dice( 2,
+                    p->str_cur ) ) {
+                p->add_msg_if_player( m_mixed, _( "You damage the door!" ) );
+                sounds::sound( pnt, 10, sounds::sound_t::combat, _( "crack!" ), true, "smash", "door" );
+                if( type == t_door_locked_alarm ) {
+                    g->events().send<event_type::triggers_alarm>( p->getID() );
+                    sounds::sound( p->pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
+                                   "alarm" );
+                    if( !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
+                        g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
+                                             p->global_sm_location() );
+                    }
+                }
+                g->m.ter_set( pnt, t_door_b );
+                g->m.spawn_item( pnt, "2x4" );
+                g->m.spawn_item( pnt, "splinter", 2 );
+                g->m.spawn_item( pnt, "nail", 2 );
+                return it->type->charges_to_use();
+            }
+        }
+        if( type == t_door_locked_peep ) {
+            if( dice( 2, difficulty ) > dice( 2, p->get_skill_level( skill_mechanics ) ) + dice( 2,
+                    p->str_cur ) ) {
+                p->add_msg_if_player( m_mixed, _( "You damage the door!" ) );
+                sounds::sound( pnt, 10, sounds::sound_t::combat, _( "crack!" ), true, "smash", "door" );
+                g->m.ter_set( pnt, t_door_b_peep );
+                g->m.spawn_item( pnt, "2x4" );
+                g->m.spawn_item( pnt, "splinter", 2 );
+                g->m.spawn_item( pnt, "nail", 2 );
                 return it->type->charges_to_use();
             }
         }
