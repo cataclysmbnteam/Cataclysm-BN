@@ -106,11 +106,11 @@
     "looks_like": "gauntlets_larmor",
     "color": "green",
     "covers": [ "hands" ],
-    "coverage": 95,
-    "encumbrance": 12,
-    "warmth": 20,
-    "material_thickness": 4,
-    "environmental_protection": 4,
+    "coverage": 90,
+    "encumbrance": 10,
+    "warmth": 10,
+    "material_thickness": 3,
+    "environmental_protection": 2,
     "flags": [ "STURDY" ]
   },
   {
@@ -123,7 +123,7 @@
     "material": [ "acidchitin" ],
     "price_postapoc": 1750,
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "relative": { "bashing": 1, "material_thickness": 1 }
+    "relative": { "bashing": 1, "material_thickness": 1, "environmental_protection": 2 }
   },
   {
     "id": "gauntlet_fencing",
@@ -189,7 +189,7 @@
     "coverage": 60,
     "encumbrance": 4,
     "warmth": 15,
-    "material_thickness": 3,
+    "material_thickness": 4,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "STURDY", "ALLOWS_NATURAL_ATTACKS" ]
   },

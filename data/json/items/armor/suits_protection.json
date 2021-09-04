@@ -88,7 +88,8 @@
     "coverage": 90,
     "encumbrance": 10,
     "warmth": 10,
-    "material_thickness": 4,
+    "material_thickness": 3,
+    "environmental_protection": 2,
     "flags": [ "STURDY" ]
   },
   {
