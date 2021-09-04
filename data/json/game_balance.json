@@ -208,5 +208,12 @@
     "info": "Makes mutation more balanced and interesting.",
     "stype": "bool",
     "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "BP_REDUCES_MANA_CAP",
+    "info": "If true, mana cap will be reduced by 1 for each kJ of stored bionic power.",
+    "stype": "bool",
+    "value": false
   }
 ]
