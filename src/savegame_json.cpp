@@ -2097,6 +2097,57 @@ void reset()
 }
 } // namespace charge_removal_blacklist
 
+namespace to_cbc_migration
+{
+static std::set<itype_id> the_list;
+
+void load( const JsonObject &jo )
+{
+    std::set<itype_id> d = jo.get_tags( "list" );
+    the_list.insert( d.begin(), d.end() );
+}
+
+void reset()
+{
+    the_list.clear();
+}
+
+static bool migration_required( const item &i )
+{
+    if( !i.count_by_charges() ) {
+        return false;
+    }
+    return the_list.count( i.typeId() ) > 0;
+}
+
+/**
+ * Merge old individual items into new count-by-charges items with same id.
+ */
+static void migrate( cata::colony<item> &stack )
+{
+    for( auto it_src = stack.begin(); it_src != stack.end(); ) {
+        if( !migration_required( *it_src ) ) {
+            it_src++;
+            continue;
+        }
+        auto it_dst = it_src;
+        it_dst++;
+        bool merged = false;
+        for( ; it_dst != stack.end(); it_dst++ ) {
+            const item &src = *it_src;
+            if( it_dst->merge_charges( src ) ) {
+                it_src = stack.erase( it_src );
+                merged = true;
+                break;
+            }
+        }
+        if( !merged ) {
+            it_src++;
+        }
+    }
+}
+} // namespace to_cbc_migration
+
 template<typename Archive>
 void item::io( Archive &archive )
 {
@@ -2577,6 +2628,12 @@ void vehicle::deserialize( JsonIn &jsin )
     data.read( "autodrive_local_target", autodrive_local_target );
     data.read( "summon_time_limit", summon_time_limit );
     data.read( "magic", magic );
+
+    // Loose items -> count-by-charges migration
+    for( vehicle_part &part : parts ) {
+        to_cbc_migration::migrate( part.items );
+    }
+
     // Need to manually backfill the active item cache since the part loader can't call its vehicle.
     for( const vpart_reference &vp : get_any_parts( VPFLAG_CARGO ) ) {
         auto it = vp.part().items.begin();
@@ -3903,6 +3960,11 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
                 if( tmp.needs_processing() ) {
                     active_items.add( *it, p );
                 }
+            }
+        }
+        for( auto &it1 : itm ) {
+            for( auto &it2 : it1 ) {
+                to_cbc_migration::migrate( it2 );
             }
         }
     } else if( member_name == "traps" ) {
