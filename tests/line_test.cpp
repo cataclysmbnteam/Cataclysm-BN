@@ -109,13 +109,21 @@ static bool check_bresenham_far( const tripoint &source, const tripoint &destina
         FAIL_CHECK( "line has invalid length" );
         return false;
     }
-    // ...each point must be a neighbour of previous point...
+    // ...each point must be a neighbour of previous point, ...
     for( size_t i = 0; i < generated_path.size() - 1; i++ ) {
         const tripoint &t1 = generated_path[i];
         const tripoint &t2 = generated_path[i + 1];
         tripoint d = ( t1 - t2 ).abs();
         if( d.x > 1 || d.y > 1 || d.z > 1 ) {
             FAIL_CHECK( "line contains invalid sequence" );
+            return false;
+        }
+    }
+    // ...first point must be neighbour of source point, ...
+    {
+        tripoint d = ( source - generated_path[0] ).abs();
+        if( d.x > 1 || d.y > 1 || d.z > 1 || d == tripoint_zero ) {
+            FAIL_CHECK( "line does not start near the source" );
             return false;
         }
     }

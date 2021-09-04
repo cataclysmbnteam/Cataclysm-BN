@@ -179,6 +179,17 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
         return cata::optional<std::string>();
     }
 
+    if( type == activity_id( "ACT_ADV_INVENTORY" ) ||
+        type == activity_id( "ACT_AIM" ) ||
+        type == activity_id( "ACT_ARMOR_LAYERS" ) ||
+        type == activity_id( "ACT_ATM" ) ||
+        type == activity_id( "ACT_CONSUME_DRINK_MENU" ) ||
+        type == activity_id( "ACT_CONSUME_FOOD_MENU" ) ||
+        type == activity_id( "ACT_CONSUME_MEDS_MENU" ) ||
+        type == activity_id( "ACT_EAT_MENU" ) ) {
+        return cata::nullopt;
+    }
+
     std::string extra_info;
     if( type == activity_id( "ACT_CRAFT" ) ) {
         return craft_progress_message( u, *this );

@@ -1973,7 +1973,9 @@ void game::handle_key_blocking_activity()
         const std::string action = ctxt.handle_input( 0 );
         bool refresh = true;
         if( action == "pause" ) {
-            cancel_activity_query( _( "Confirm:" ) );
+            if( u.activity.interruptable_with_kb ) {
+                cancel_activity_query( _( "Confirm:" ) );
+            }
         } else if( action == "player_data" ) {
             u.disp_info();
         } else if( action == "messages" ) {
@@ -5936,30 +5938,14 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
             print_visibility_info( w_look, column, line, visibility );
 
             if( creature != nullptr ) {
+                std::vector<std::string> buf;
                 if( u.sees_with_infrared( *creature ) ) {
-                    std::string size_str;
-                    switch( creature->get_size() ) {
-                        case MS_TINY:
-                            size_str = pgettext( "infrared size", "tiny" );
-                            break;
-                        case MS_SMALL:
-                            size_str = pgettext( "infrared size", "small" );
-                            break;
-                        case MS_MEDIUM:
-                            size_str = pgettext( "infrared size", "medium" );
-                            break;
-                        case MS_LARGE:
-                            size_str = pgettext( "infrared size", "large" );
-                            break;
-                        case MS_HUGE:
-                            size_str = pgettext( "infrared size", "huge" );
-                            break;
-                    }
-                    mvwprintw( w_look, point( 1, ++line ), _( "You see a figure radiating heat." ) );
-                    mvwprintw( w_look, point( 1, ++line ), _( "It is %s in size." ),
-                               size_str );
+                    creature->describe_infrared( buf );
                 } else if( u.sees_with_specials( *creature ) ) {
-                    mvwprintw( w_look, point( 1, ++line ), _( "You sense a creature here." ) );
+                    creature->describe_specials( buf );
+                }
+                for( const std::string &s : buf ) {
+                    mvwprintw( w_look, point( 1, ++line ), s );
                 }
             }
             break;
@@ -6814,19 +6800,24 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
 
             center_print( w_info, 0, c_white, string_format( _( "< <color_green>Look Around</color> >" ) ) );
 
+            std::string extended_descr_text = string_format( _( "%s - %s" ),
+                                              ctxt.get_desc( "EXTENDED_DESCRIPTION" ),
+                                              ctxt.get_action_name( "EXTENDED_DESCRIPTION" ) );
             std::string fast_scroll_text = string_format( _( "%s - %s" ),
                                            ctxt.get_desc( "TOGGLE_FAST_SCROLL" ),
                                            ctxt.get_action_name( "TOGGLE_FAST_SCROLL" ) );
             std::string pixel_minimap_text = string_format( _( "%s - %s" ),
                                              ctxt.get_desc( "toggle_pixel_minimap" ),
                                              ctxt.get_action_name( "toggle_pixel_minimap" ) );
+
+            center_print( w_info, getmaxy( w_info ) - 2, c_light_gray, extended_descr_text );
             mvwprintz( w_info, point( 1, getmaxy( w_info ) - 1 ), fast_scroll ? c_light_green : c_green,
                        fast_scroll_text );
             right_print( w_info, getmaxy( w_info ) - 1, 1, pixel_minimap_option ? c_light_green : c_green,
                          pixel_minimap_text );
 
             int first_line = 1;
-            const int last_line = getmaxy( w_info ) - 2;
+            const int last_line = getmaxy( w_info ) - 3;
             pre_print_all_tile_info( lp, w_info, first_line, last_line, cache );
 
             wnoutrefresh( w_info );
@@ -7306,7 +7297,7 @@ void game::list_items_monsters()
     }
 
     if( ret == game::vmenu_ret::FIRE ) {
-        avatar_action::fire_wielded_weapon( u, m );
+        avatar_action::fire_wielded_weapon( u );
     }
     reenter_fullscreen();
 }
@@ -8046,6 +8037,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
         } else if( action == "fire" ) {
             if( cCurMon != nullptr && rl_dist( u.pos(), cCurMon->pos() ) <= max_gun_range ) {
                 u.last_target = shared_from( *cCurMon );
+                u.recoil = MAX_RECOIL;
                 u.view_offset = stored_view_offset;
                 return game::vmenu_ret::FIRE;
             }
@@ -8702,14 +8694,14 @@ void game::reload_item()
     reload( item_loc );
 }
 
-void game::reload_wielded()
+void game::reload_wielded( bool prompt )
 {
     if( u.weapon.is_null() || !u.weapon.is_reloadable() ) {
         add_msg( _( "You aren't holding something you can reload." ) );
         return;
     }
     item_location item_loc = item_location( u, &u.weapon );
-    reload( item_loc );
+    reload( item_loc, prompt );
 }
 
 void game::reload_weapon( bool try_everything )
@@ -9268,8 +9260,9 @@ bool game::walk_move( const tripoint &dest_loc )
             u.burn_move_stamina( 0.50 * ( previous_moves - u.moves ) );
         }
     }
-    // Max out recoil
+    // Max out recoil & reset aim point
     u.recoil = MAX_RECOIL;
+    u.last_target_pos = cata::nullopt;
 
     // Print a message if movement is slow
     const int mcost_to = m.move_cost( dest_loc ); //calculate this _after_ calling grabbed_move

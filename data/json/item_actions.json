@@ -371,11 +371,6 @@
   },
   {
     "type": "item_action",
-    "id": "COKE",
-    "name": { "str": "Snort coke" }
-  },
-  {
-    "type": "item_action",
     "id": "COMBATSAW_OFF",
     "name": { "str": "Turn on" }
   },

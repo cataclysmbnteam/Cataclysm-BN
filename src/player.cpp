@@ -1422,7 +1422,7 @@ void player::process_one_effect( effect &it, bool is_new )
 {
     bool reduced = resists_effect( it );
     double mod = 1;
-    body_part bp = it.get_bp();
+    body_part bp = it.get_bp()->token;
     int val = 0;
 
     // Still hardcoded stuff, do this first since some modify their other traits

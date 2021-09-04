@@ -57,8 +57,8 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
         info += colorize( _( "Mod version" ), c_light_blue ) + ": " + mod->version + "\n";
     }
 
-    if( !mod->description.empty() ) {
-        info += _( mod->description ) + "\n";
+    if( !mod->description().empty() ) {
+        info += mod->description() + "\n";
     }
 
     std::string note = !mm_tree.is_available( mod->ident ) ? mm_tree.get_node(

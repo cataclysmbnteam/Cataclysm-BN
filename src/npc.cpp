@@ -78,7 +78,6 @@ static const efftype_id effect_ai_waiting( "ai_waiting" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_drunk( "drunk" );
-static const efftype_id effect_high( "high" );
 static const efftype_id effect_infection( "infection" );
 static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_npc_flee_player( "npc_flee_player" );
@@ -1283,9 +1282,6 @@ void npc::form_opinion( const player &u )
     }
 
     // TODO: More effects
-    if( u.has_effect( effect_high ) ) {
-        op_of_u.trust -= 1;
-    }
     if( u.has_effect( effect_drunk ) ) {
         op_of_u.trust -= 2;
     }

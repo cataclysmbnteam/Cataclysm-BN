@@ -2557,7 +2557,7 @@
   },
   {
     "type": "recipe",
-    "result": "sheet_cotton",
+    "result": "hand_axe",
     "obsolete": true
   },
   {
@@ -2572,7 +2572,17 @@
   },
   {
     "type": "recipe",
+    "result": "makeshift_axe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "sheet_neoprene_patchwork",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sheet_cotton",
     "obsolete": true
   }
 ]

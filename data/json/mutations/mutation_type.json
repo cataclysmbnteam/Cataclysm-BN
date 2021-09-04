@@ -21,7 +21,7 @@
   },
   {
     "type": "mutation_type",
-    "id": "HANDS"
+    "id": "hands"
   },
   {
     "type": "mutation_type",
@@ -41,7 +41,7 @@
   },
   {
     "type": "mutation_type",
-    "id": "LEGS"
+    "id": "legs"
   },
   {
     "type": "mutation_type",

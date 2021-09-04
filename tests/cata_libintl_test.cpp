@@ -563,7 +563,7 @@ static const std::vector<test_case_data> tests_mo_loading_failures = {{
         },
         {
             2, // not a MO file (too small to have magic number)
-            "empty_file.mo",
+            "not_actually_mo.mo",
             "not a MO file",
         },
         {

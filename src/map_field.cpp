@@ -1607,7 +1607,7 @@ void map::creature_in_field( Creature &critter )
             }
             bool effect_added = false;
             if( fe.is_environmental ) {
-                effect_added = critter.add_env_effect( fe.id, fe.bp, fe.intensity, fe.get_duration() );
+                effect_added = critter.add_env_effect( fe.id, fe.bp->token, fe.intensity, fe.get_duration() );
             } else {
                 effect_added = true;
                 critter.add_effect( field_fx );

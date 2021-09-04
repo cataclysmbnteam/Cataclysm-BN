@@ -113,8 +113,6 @@ static const std::string flag_LITCIG( "LITCIG" );
 static const std::string flag_LOCKED( "LOCKED" );
 static const std::string flag_MAGIC_FOCUS( "MAGIC_FOCUS" );
 static const std::string flag_NO_QUICKDRAW( "NO_QUICKDRAW" );
-static const std::string flag_REACH_ATTACK( "REACH_ATTACK" );
-static const std::string flag_REACH3( "REACH3" );
 static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
 static const std::string flag_RELOAD_ONE( "RELOAD_ONE" );
 
@@ -1251,23 +1249,22 @@ static void read()
     }
 }
 
-// Perform a reach attach
-// range - the range of the current weapon.
-// u - player
-static void reach_attack( int range, player &u )
+// Perform a reach attach using wielded weapon
+static void reach_attack( avatar &you )
 {
     g->temp_exit_fullscreen();
-    std::vector<tripoint> trajectory = target_handler().target_ui( u, TARGET_MODE_REACH, &u.weapon,
-                                       range );
-    if( !trajectory.empty() ) {
-        u.reach_attack( trajectory.back() );
+
+    target_handler::trajectory traj = target_handler::mode_reach( you, you.weapon );
+
+    if( !traj.empty() ) {
+        you.reach_attack( traj.back() );
     }
     g->reenter_fullscreen();
 }
 
 static void fire()
 {
-    player &u = g->u;
+    avatar &u = g->u;
 
     // Use vehicle turret or draw a pistol from a holster if unarmed
     if( !u.is_armed() ) {
@@ -1316,32 +1313,18 @@ static void fire()
     }
 
     if( u.weapon.is_gun() && !u.weapon.gun_current_mode().melee() ) {
-        avatar_action::fire_wielded_weapon( g->u, g->m );
-    } else if( u.weapon.has_flag( flag_REACH_ATTACK ) ) {
-        int range = u.weapon.has_flag( flag_REACH3 ) ? 3 : 2;
+        avatar_action::fire_wielded_weapon( u );
+    } else if( u.weapon.reach_range( u ) > 1 ) {
         if( u.has_effect( effect_relax_gas ) ) {
             if( one_in( 8 ) ) {
                 add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
-                reach_attack( range, u );
+                reach_attack( u );
             } else {
                 u.moves -= rng( 2, 8 ) * 10;
                 add_msg( m_bad, _( "You're too pacified to strike anything…" ) );
             }
         } else {
-            reach_attack( range, u );
-        }
-    } else if( u.weapon.is_gun() && u.weapon.gun_current_mode().flags.count( flag_REACH_ATTACK ) ) {
-        int range = u.weapon.gun_current_mode().qty;
-        if( u.has_effect( effect_relax_gas ) ) {
-            if( one_in( 8 ) ) {
-                add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
-                reach_attack( range, u );
-            } else {
-                u.moves -= rng( 2, 8 ) * 10;
-                add_msg( m_bad, _( "You're too pacified to strike anything…" ) );
-            }
-        } else {
-            reach_attack( range, u );
+            reach_attack( u );
         }
     }
 }
@@ -2019,10 +2002,8 @@ bool game::handle_action()
                 break;
 
             case ACTION_FIRE_BURST: {
-                gun_mode_id original_mode = u.weapon.gun_get_mode_id();
                 if( u.weapon.gun_set_mode( gun_mode_id( "AUTO" ) ) ) {
-                    avatar_action::fire_wielded_weapon( u, m );
-                    u.weapon.gun_set_mode( original_mode );
+                    avatar_action::fire_wielded_weapon( u );
                 }
                 break;
             }

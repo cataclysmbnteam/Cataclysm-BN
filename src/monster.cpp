@@ -1794,11 +1794,20 @@ bool monster::move_effects( bool )
     return true;
 }
 
-void monster::add_effect( const efftype_id &eff_id, const time_duration &dur, body_part/*bp*/,
+void monster::add_effect( const efftype_id &eff_id, const time_duration &dur,
+                          const bodypart_str_id &,
                           int intensity, bool force, bool deferred )
 {
     // Effects are not applied to specific monster body part
-    Creature::add_effect( eff_id, dur, num_bp, intensity, force, deferred );
+    Creature::add_effect( eff_id, dur, bodypart_str_id::NULL_ID(), intensity, force, deferred );
+}
+
+void monster::add_effect( const efftype_id &eff_id, const time_duration &dur,
+                          body_part,
+                          int intensity, bool force, bool deferred )
+{
+    // Effects are not applied to specific monster body part
+    Creature::add_effect( eff_id, dur, bodypart_str_id::NULL_ID(), intensity, force, deferred );
 }
 
 std::string monster::get_effect_status() const

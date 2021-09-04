@@ -1,0 +1,10 @@
+[main]
+host = https://www.transifex.com
+
+[cataclysm-bright-nights.lang-po-cataclysm-bn-pot--upload]
+file_filter = lang/po/<lang>.po
+minimum_perc = 0
+source_file = lang/po/cataclysm-bn.pot
+source_lang = en_US
+type = PO
+

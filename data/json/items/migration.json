@@ -1288,5 +1288,10 @@
     "id": "peanut_unshelled",
     "type": "MIGRATION",
     "replace": "peanut"
+  },
+  {
+    "id": "1cyl_combustion_small",
+    "type": "MIGRATION",
+    "replace": "1cyl_combustion"
   }
 ]

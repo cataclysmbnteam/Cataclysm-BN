@@ -10,7 +10,7 @@
     "material": [ "cotton" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "HEAD" ],
+    "covers": [ "head" ],
     "coverage": 95,
     "encumbrance": 10,
     "warmth": 10,

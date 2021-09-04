@@ -8,12 +8,15 @@
 
 #include "clone_ptr.h"
 #include "item_location.h"
+#include "memory_fast.h"
 #include "optional.h"
 #include "pickup_token.h"
 #include "point.h"
 #include "type_id.h"
+#include "units_energy.h"
 
 class Character;
+class Creature;
 class JsonIn;
 class JsonOut;
 class player_activity;
@@ -101,6 +104,70 @@ class activity_actor
          * added to the `activity_actor_deserializers` hashmap in activity_actor.cpp
          */
         virtual void serialize( JsonOut &jsout ) const = 0;
+};
+
+class aim_activity_actor : public activity_actor
+{
+    private:
+        cata::optional<item> fake_weapon;
+        units::energy bp_cost_per_shot = 0_J;
+        std::vector<tripoint> fin_trajectory;
+
+    public:
+        bool first_turn = true;
+        std::string action = "";
+        int aif_duration = 0; // Counts aim-and-fire duration
+        bool aiming_at_critter = false; // Whether aiming at critter or a tile
+        bool snap_to_target = false;
+        bool shifting_view = false;
+        tripoint initial_view_offset;
+        /** Target UI requested to abort aiming */
+        bool aborted = false;
+        /**
+         * Target UI requested to abort aiming and reload weapon
+         * Implies aborted = true
+         */
+        bool reload_requested = false;
+        /**
+         * A friendly creature may enter line of fire during aim-and-shoot,
+         * and that generates a warning to proceed/abort. If player decides to
+         * proceed, that creature is saved in this vector to prevent the same warning
+         * from popping up on the following turn(s).
+         */
+        std::vector<weak_ptr_fast<Creature>> acceptable_losses;
+
+        aim_activity_actor();
+
+        /** Aiming wielded gun */
+        static aim_activity_actor use_wielded();
+
+        /** Aiming fake gun provided by a bionic */
+        static aim_activity_actor use_bionic( const item &fake_gun, const units::energy &cost_per_shot );
+
+        /** Aiming fake gun provided by a mutation */
+        static aim_activity_actor use_mutation( const item &fake_gun );
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_AIM" );
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+        void canceled( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<aim_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+
+        item *get_weapon();
+        void restore_view();
+        // Load/unload a RELOAD_AND_SHOOT weapon
+        bool load_RAS_weapon();
+        void unload_RAS_weapon();
 };
 
 class dig_activity_actor : public activity_actor

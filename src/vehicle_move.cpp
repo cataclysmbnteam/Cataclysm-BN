@@ -545,6 +545,10 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         if( ovp && ( &ovp->vehicle() == this ) && get_pet( ovp->part_index() ) ) {
             return ret;
         }
+        // Rotors only collide with huge creatures
+        if( part_info( part ).rotor_diameter() > 0 && critter->get_size() != MS_HUGE ) {
+            return ret;
+        }
         // we just ran into a fish, so move it out of the way
         if( g->m.has_flag( "SWIMMABLE", critter->pos() ) ) {
             tripoint end_pos = critter->pos();

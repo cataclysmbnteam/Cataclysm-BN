@@ -356,6 +356,7 @@ void DynamicDataLoader::initialize()
     } );
 
     add( "charge_removal_blacklist", charge_removal_blacklist::load );
+    add( "to_cbc_migration", to_cbc_migration::load );
 
     add( "MONSTER", []( const JsonObject & jo, const std::string & src ) {
         MonsterGenerator::generator().load_monster( jo, src );
@@ -593,6 +594,7 @@ void DynamicDataLoader::unload_data()
     spell_type::reset_all();
     start_locations::reset();
     ter_furn_transform::reset_all();
+    to_cbc_migration::reset();
     trap::reset();
     unload_talk_topics();
     vehicle_prototype::reset();
@@ -782,6 +784,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Achievements" ), &achievement::check_consistency },
             { _( "Disease types" ), &disease_type::check_disease_consistency },
             { _( "Factions" ), &faction_template::check_consistency },
+            { _( "Effects" ), &effect_type::check_consistency },
         }
     };
 

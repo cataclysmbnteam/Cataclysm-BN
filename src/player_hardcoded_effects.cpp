@@ -110,7 +110,7 @@ static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 static void eff_fun_onfire( player &u, effect &it )
 {
     const int intense = it.get_intensity();
-    u.deal_damage( nullptr, convert_bp( it.get_bp() ).id(), damage_instance( DT_HEAT, rng( intense,
+    u.deal_damage( nullptr, it.get_bp(), damage_instance( DT_HEAT, rng( intense,
                    intense * 2 ) ) );
 }
 static void eff_fun_spores( player &u, effect &it )
@@ -210,7 +210,7 @@ static void eff_fun_bleed( player &u, effect &it )
         // Prolonged hemorrhage is a significant risk for developing anemia
         u.vitamin_mod( vitamin_iron, rng( -1, -4 ) );
         u.mod_pain( 1 );
-        u.apply_damage( nullptr, convert_bp( it.get_bp() ).id(), 1 );
+        u.apply_damage( nullptr, it.get_bp(), 1 );
         u.bleed();
     }
 }
@@ -354,7 +354,7 @@ static void eff_fun_cold( player &u, effect &it )
             { { bp_foot_r, 2 }, { 1, 1, 0, 0, translate_marker( "Your right foot feels frigid." ), 4800, translate_marker( "Your freezing right foot messes up your balance." ) } },
         }
     };
-    const auto iter = effs.find( { it.get_bp(), it.get_intensity() } );
+    const auto iter = effs.find( { it.get_bp()->token, it.get_intensity() } );
     if( iter != effs.end() ) {
         iter->second.apply( u );
     }
@@ -383,9 +383,9 @@ static void eff_fun_hot( player &u, effect &it )
         }
     };
 
-    const body_part bp = it.get_bp();
+    const body_part bp = it.get_bp()->token;
     const int intense = it.get_intensity();
-    const auto iter = effs.find( { it.get_bp(), it.get_intensity() } );
+    const auto iter = effs.find( { it.get_bp()->token, it.get_intensity() } );
     if( iter != effs.end() ) {
         iter->second.apply( u );
     }
@@ -414,7 +414,7 @@ static void eff_fun_frostbite( player &u, effect &it )
             { { bp_mouth, 1 }, { 0, 0, 0, 1, translate_marker( "Your face feels numb." ), 4800, "" } },
         }
     };
-    const auto iter = effs.find( { it.get_bp(), it.get_intensity() } );
+    const auto iter = effs.find( { it.get_bp()->token, it.get_intensity() } );
     if( iter != effs.end() ) {
         iter->second.apply( u );
     }
@@ -455,7 +455,7 @@ static void eff_fun_mutating( player &u, effect &it )
     float mgen_per_second = mgen_per_mut * muts_per_second;
     // How much accumulated mutagen effect do we add per second
     time_duration mgen_time_mult = 1_seconds * roll_remainder( mgen_per_second );
-    u.add_effect( effect_accumulated_mutagen, mgen_time_mult, num_bp );
+    u.add_effect( effect_accumulated_mutagen, mgen_time_mult );
     if( u.get_effect_int( effect_accumulated_mutagen ) > 1 ) {
         u.mutate();
     }
@@ -496,7 +496,7 @@ void player::hardcoded_effects( effect &it )
 
     const time_duration dur = it.get_duration();
     int intense = it.get_intensity();
-    body_part bp = it.get_bp();
+    body_part bp = it.get_bp()->token;
     bool sleeping = has_effect( effect_sleep );
     if( id == effect_dermatik ) {
         bool triggered = false;

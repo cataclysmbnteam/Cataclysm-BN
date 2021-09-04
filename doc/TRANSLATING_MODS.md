@@ -189,16 +189,22 @@ Example workflow with Poedit:
 4. Reload translation files via debug menu
 5. The game now displays translated string
 
-### Dialects and MO load order
+### MO load order
+MO load order is as follows:
+1. First and always goes base game's MO file, which contains translation strings
+   for UI, hardcoded functionality, base "mod" (`data/json/`) and in-repo mods.
+2. Then MO files of mods are loaded, in same order as the mod load order.
+
+### Dialects
 When loading MO files, the game first looks for the file with
-exact language and dialect match.
+exact language and dialect match in its name.
 If such file is absent, then it looks for a file with no dialect.
 
-For example, when using `Español (España)` the load order is
+For example, when using `Español (España)` the selection order is
 1. `es_ES.mo`
 2. `es.mo`
 
-And when using `Español (Argentina)` the load order is
+And when using `Español (Argentina)` the selection order is
 1. `es_AR.mo`
 2. `es.mo`
 
@@ -206,11 +212,13 @@ Thus, `es.mo` would be loaded for either dialect of Spanish
 if the exact translation files are not present.
 
 ### What if 2 or more mods provide different translations for same string?
-Then the game uses translation from the first such mod in the mod loading order.
-
-The in-repo mods (including the core content "mod") are an exception:
-all of them use single MO file, which is loaded at all times and always
-takes priority over 3-rd party translations.
+Then the game selects which one to use according to this set of rules:
+1. If string A's translation has plural forms, but string B's translation does not,
+   then translation A is used for both single and plural forms.
+2. If both translation A and B have (or both don't have) plural forms, then 
+   the first loaded translation is used (see MO load order).
 
 If you want a different translation from the one in the base game,
-add a translation context to the string in the corresponding JSON object.
+or don't want it to conflict with a string from some other mod,
+add a translation context to the string in the corresponding JSON object
+(see [TRANSLATING.md](TRANSLATING.md) for which fields support translation context).

@@ -4934,7 +4934,7 @@ int item::reach_range( const Character &guy ) const
         }
     }
 
-    return res;
+    return std::max( 1, res );
 }
 
 void item::unset_flags()
@@ -7462,6 +7462,11 @@ void item::gun_cycle_mode()
     gun_set_mode( modes.begin()->first );
 
     return;
+}
+
+bool item::has_use() const
+{
+    return type->has_use();
 }
 
 const use_function *item::get_use( const std::string &use_name ) const

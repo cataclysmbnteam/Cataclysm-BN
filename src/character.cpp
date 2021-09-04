@@ -7439,7 +7439,8 @@ void Character::vomit()
     }
 
     if( !has_effect( effect_nausea ) ) {  // Prevents never-ending nausea
-        const effect dummy_nausea( &effect_nausea.obj(), 0_turns, num_bp, 1, calendar::turn );
+        const effect dummy_nausea( &effect_nausea.obj(), 0_turns, bodypart_str_id::NULL_ID(), 1,
+                                   calendar::turn );
         add_effect( effect_nausea, std::max( dummy_nausea.get_max_duration() *
                                              stomach.get_calories() / 100, dummy_nausea.get_int_dur_factor() ) );
     }
@@ -8665,17 +8666,26 @@ void Character::add_morale( const morale_type &type, int bonus, int max_bonus,
                             const time_duration &duration, const time_duration &decay_start,
                             bool capped, const itype *item_type )
 {
-    morale->add( type, bonus, max_bonus, duration, decay_start, capped, item_type );
+    if( item_type != nullptr ) {
+        morale->add( type, bonus, max_bonus, duration, decay_start, capped, *item_type );
+    } else {
+        morale->add( type, bonus, max_bonus, duration, decay_start, capped );
+    }
 }
 
-int Character::has_morale( const morale_type &type ) const
+bool Character::has_morale( const morale_type &type ) const
 {
     return morale->has( type );
 }
 
-void Character::rem_morale( const morale_type &type, const itype *item_type )
+int Character::get_morale( const morale_type &type ) const
 {
-    morale->remove( type, item_type );
+    return morale->get( type );
+}
+
+void Character::rem_morale( const morale_type &type )
+{
+    morale->remove( type );
 }
 
 void Character::clear_morale()
@@ -8688,7 +8698,7 @@ bool Character::has_morale_to_read() const
     return get_morale_level() >= -40;
 }
 
-void Character::check_and_recover_morale()
+bool Character::check_and_recover_morale()
 {
     player_morale test_morale;
 
@@ -8701,7 +8711,7 @@ void Character::check_and_recover_morale()
     }
 
     for( const auto &elem : *effects ) {
-        for( const std::pair<const body_part, effect> &_effect_it : elem.second ) {
+        for( const std::pair<const bodypart_str_id, effect> &_effect_it : elem.second ) {
             const effect &e = _effect_it.second;
             if( !e.is_removed() ) {
                 test_morale.on_effect_int_change( e.get_id(), e.get_intensity(), e.get_bp() );
@@ -8721,7 +8731,10 @@ void Character::check_and_recover_morale()
     if( !morale->consistent_with( test_morale ) ) {
         *morale = player_morale( test_morale ); // Recover consistency
         add_msg( m_debug, "%s morale was recovered.", disp_name( true ) );
+        return false;
     }
+
+    return true;
 }
 
 void Character::start_hauling()
@@ -9390,16 +9403,17 @@ void Character::on_item_takeoff( const item &it )
     morale->on_item_takeoff( it );
 }
 
-void Character::on_effect_int_change( const efftype_id &eid, int intensity, body_part bp )
+void Character::on_effect_int_change( const efftype_id &effect_type, int intensity,
+                                      const bodypart_str_id &bp )
 {
     // Adrenaline can reduce perceived pain (or increase it when you enter comedown).
     // See @ref get_perceived_pain()
-    if( eid == effect_adrenaline ) {
+    if( effect_type == effect_adrenaline ) {
         // Note that calling this does no harm if it wasn't changed.
         on_stat_change( "perceived_pain", get_perceived_pain() );
     }
 
-    morale->on_effect_int_change( eid, intensity, bp );
+    morale->on_effect_int_change( effect_type, intensity, bp );
 }
 
 void Character::on_mutation_gain( const trait_id &mid )

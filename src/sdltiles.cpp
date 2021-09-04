@@ -2319,7 +2319,8 @@ static void CheckMessages()
                 }
 
                 // Check if we're significantly hungry or thirsty - if so, add eat
-                if( g->u.get_hunger() > 100 || g->u.get_thirst() > thirst_levels::thirsty ) {
+                if( g->u.max_stored_kcal() - g->u.get_stored_kcal() > 1000 ||
+                    g->u.get_thirst() > thirst_levels::thirsty ) {
                     actions.insert( ACTION_EAT );
                 }
 
