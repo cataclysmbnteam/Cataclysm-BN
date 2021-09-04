@@ -1,5 +1,6 @@
 #include "catch/catch.hpp"
 
+#include "cata_utility.h"
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "map.h"
@@ -473,6 +474,7 @@ struct mana_test_case {
     int idx;
     int intellect;
     units::energy power_level;
+    bool bp_reduces_mana_cap;
     int norm_cap;
     int exp_cap;
     double norm_regen_amt_8h;
@@ -480,17 +482,25 @@ struct mana_test_case {
 };
 
 static const std::vector<mana_test_case> mana_test_data = {{
-        {0, 8, 0_kJ, 1000, 800, 1000.0, 560.0},
-        {1, 12, 0_kJ, 1400, 1080, 1400.0, 686.0},
-        {2, 8, 250_kJ, 750, 450, 750.0, 385.0},
-        {3, 12, 250_kJ, 1150, 830, 1150.0, 581.0},
-        {4, 8, 1250_kJ, 0, 0, 0.0, 0.0},
-        {5, 16, 1250_kJ, 550, 110, 550.0, 77.0},
+        {1, 8, 0_kJ, true, 1000, 800, 1000.0, 560.0},
+        {2, 12, 0_kJ, true, 1400, 1080, 1400.0, 686.0},
+        {3, 8, 250_kJ, true, 750, 450, 750.0, 385.0},
+        {4, 12, 250_kJ, true, 1150, 830, 1150.0, 581.0},
+        {5, 12, 250_kJ, false, 1400, 1080, 1400.0, 686.0},
+        {6, 8, 1250_kJ, true, 0, 0, 0.0, 0.0},
+        {7, 16, 1250_kJ, true, 550, 110, 550.0, 77.0},
     }
 };
 
 static void tests_mana_pool( Character &guy, const mana_test_case &t )
 {
+    bool old_opt_val = get_option<bool>( "BP_REDUCES_MANA_CAP" );
+    get_options().get_option( "BP_REDUCES_MANA_CAP" )
+    .setValue( t.bp_reduces_mana_cap ? "True" : "False" );
+    const auto _on_finish = on_out_of_scope( [&]() {
+        get_options().get_option( "BP_REDUCES_MANA_CAP" ).setValue( old_opt_val ? "True" : "False" );
+    } );
+
     double norm_regen_rate = t.norm_regen_amt_8h / to_turns<double>( time_duration::from_hours( 8 ) );
     double exp_regen_rate = t.exp_regen_amt_8h / to_turns<double>( time_duration::from_hours( 8 ) );
 
@@ -548,7 +558,7 @@ static void tests_mana_pool_section( const mana_test_case &t )
     tests_mana_pool( guy, t );
 }
 
-TEST_CASE( "Mana pool", "[magic][enchantment][mana][bionic]" )
+TEST_CASE( "mana_pool", "[magic][enchantment][mana][bionic]" )
 {
     for( const mana_test_case &it : mana_test_data ) {
         tests_mana_pool_section( it );
