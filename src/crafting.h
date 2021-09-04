@@ -72,7 +72,7 @@ int charges_for_starting( int full_charges );
 int charges_for_continuing( int full_charges );
 
 /**
- * Returns selected tool component that matches one on the expected ones.
+ * Returns selected tool component that matches one of the expected ones.
  * @param tools tools to match
  * @param batch size of batch to craft, multiplier on expected charges
  * @param map_inv map inventory to select from
