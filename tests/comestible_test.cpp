@@ -133,9 +133,9 @@ TEST_CASE( "recipe_permutations", "[recipe]" )
                 default_calories *= res_it.charges;
             }
             // Make the range of acceptable average calories of permutations, using result's calories
-            const float lower_bound = std::min( default_calories - mystats.calories.stddev() * 3,
+            const float lower_bound = std::min( default_calories - mystats.calories.stddev() * 2,
                                                 default_calories * 0.6 );
-            const float upper_bound = std::max( default_calories + mystats.calories.stddev() * 3,
+            const float upper_bound = std::max( default_calories + mystats.calories.stddev() * 2,
                                                 default_calories * 1.5 );
             CHECK( mystats.calories.min() >= 0 );
             CHECK( lower_bound <= mystats.calories.avg() );
