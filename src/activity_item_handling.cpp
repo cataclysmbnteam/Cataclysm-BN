@@ -3174,7 +3174,7 @@ bool find_auto_consume( player &p, const bool food )
                 // not quenching enough
                 continue;
             }
-            if( it.has_flag( flag_UNSAFE_CONSUME ) ) {
+            if( comest.has_flag( flag_UNSAFE_CONSUME ) ) {
                 // Unsafe to drink or eat
                 continue;
             }
