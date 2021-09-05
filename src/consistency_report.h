@@ -25,7 +25,7 @@ class consistency_report
         }
 
         void warn( const std::string &msg ) {
-            warns.push_back( msg.c_str() );
+            warns.push_back( msg );
         }
 
         template<typename ...Args>
