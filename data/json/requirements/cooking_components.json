@@ -730,6 +730,6 @@
   {
     "id": "beverage_sweetener",
     "type": "requirement",
-    "components": [ [ [ "sugar", 5 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 2 ], [ "beet_syrup", 2 ] ] ]
+    "components": [ [ [ "sugar", 5 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ], [ "beet_syrup", 1 ] ] ]
   }
 ]
