@@ -193,6 +193,8 @@ class avatar : public player
         faction *get_faction() const override;
         // Set in npc::talk_to_you for use in further NPC interactions
         bool dialogue_by_radio = false;
+        // Preferred aim mode - ranged.cpp aim mode defaults to this if possible
+        std::string preferred_aiming_mode;
 
         void set_movement_mode( character_movemode mode ) override;
 
