@@ -221,6 +221,7 @@
     "phase": "liquid",
     "charges": 2,
     "category": "chems",
+    "flags": [ "UNSAFE_CONSUME" ],
     "fun": -30
   },
   {
@@ -242,6 +243,7 @@
     "phase": "liquid",
     "charges": 2,
     "category": "chems",
+    "flags": [ "UNSAFE_CONSUME" ],
     "fun": -30,
     "freezing_point": -108
   },
@@ -266,6 +268,7 @@
     "phase": "liquid",
     "charges": 4,
     "category": "chems",
+    "flags": [ "UNSAFE_CONSUME" ],
     "fun": -30
   },
   {
@@ -387,6 +390,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "category": "chems",
+    "flags": [ "UNSAFE_CONSUME" ],
     "fun": -30
   },
   {
@@ -408,6 +412,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "category": "chems",
+    "flags": [ "UNSAFE_CONSUME" ],
     "fun": -15
   },
   {
@@ -429,6 +434,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "category": "chems",
+    "flags": [ "UNSAFE_CONSUME" ],
     "fun": -45,
     "freezing_point": 25,
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_splash" ], "scale_qty": true }
@@ -451,6 +457,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "category": "chems",
+    "flags": [ "UNSAFE_CONSUME" ],
     "fun": -40
   },
   {
@@ -1034,6 +1041,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "category": "chems",
+    "flags": [ "UNSAFE_CONSUME" ],
     "fun": -20
   },
   {
