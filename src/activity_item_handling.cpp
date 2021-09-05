@@ -3177,6 +3177,9 @@ bool find_auto_consume( player &p, const bool food )
                 // its frozen
                 continue;
             }
+            if( comest.get_comestible()->add == add_type::ALCOHOL ) {
+                continue;
+            }
 
             p.mod_moves( -pickup::cost_to_move_item( p, *it ) * std::max( rl_dist( p.pos(),
                          g->m.getlocal( loc ) ), 1 ) );
