@@ -219,6 +219,9 @@ typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::typ
 template <typename T>
 bool assign_map_from_array( const JsonObject &jo, const std::string &name, T &val, bool = false )
 {
+    using K = typename T::key_type;
+    using V = typename T::mapped_type;
+
     JsonObject add = jo.get_object( "extend" );
     add.allow_omitted_members();
     JsonObject del = jo.get_object( "delete" );
@@ -227,7 +230,7 @@ bool assign_map_from_array( const JsonObject &jo, const std::string &name, T &va
     if( jo.has_array( name ) ) {
         val.clear();
 
-        std::vector<std::pair<T::key_type, T::mapped_type>> tmp;
+        std::vector<std::pair<K, V>> tmp;
         jo.get_raw( name )->read( tmp, true );
         for( const auto &it : tmp ) {
             val.insert( std::move( it ) );
@@ -244,8 +247,7 @@ bool assign_map_from_array( const JsonObject &jo, const std::string &name, T &va
     bool res = false;
 
     if( add.has_array( name ) ) {
-        bool was_loaded = false;
-        std::vector<std::pair<T::key_type, T::mapped_type>> tmp;
+        std::vector<std::pair<K, V>> tmp;
         add.get_raw( name )->read( tmp, true );
 
         for( const auto &it : tmp ) {
@@ -256,7 +258,7 @@ bool assign_map_from_array( const JsonObject &jo, const std::string &name, T &va
     }
 
     if( del.has_array( name ) ) {
-        std::vector<T::key_type> tmp;
+        std::vector<K> tmp;
         del.get_raw( name )->read( tmp, true );
 
         for( const auto &it : tmp ) {

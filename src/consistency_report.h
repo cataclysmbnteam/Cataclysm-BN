@@ -30,7 +30,7 @@ class consistency_report
 
         template<typename ...Args>
         void warn( const std::string &format, Args &&... args ) {
-            warnn.push_back( string_format( format, std::forward<Args>( args )... ) );
+            warns.push_back( string_format( format, std::forward<Args>( args )... ) );
         }
 
         template<typename ...Args>
