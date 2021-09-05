@@ -842,6 +842,7 @@
   },
   {
     "id": "sieve_primitive",
+    "sub": "sieve_steel",
     "type": "GENERIC",
     "category": "tools",
     "name": { "str": "wicker sieve" },
