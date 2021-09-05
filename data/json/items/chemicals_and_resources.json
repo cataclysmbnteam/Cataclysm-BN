@@ -253,7 +253,7 @@
     "name": { "str_sp": "liquid fertilizer" },
     "weight": "67 g",
     "color": "yellow",
-    "flags": [ "FERTILIZER", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "FERTILIZER", "NUTRIENT_OVERRIDE", "UNSAFE_CONSUME" ],
     "use_action": "PLANTBLECH",
     "container": "jug_plastic",
     "comestible_type": "DRINK",
@@ -268,7 +268,6 @@
     "phase": "liquid",
     "charges": 4,
     "category": "chems",
-    "flags": [ "UNSAFE_CONSUME" ],
     "fun": -30
   },
   {
