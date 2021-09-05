@@ -290,7 +290,8 @@
       { "item": "manual_sealing", "prob": 40 },
       { "item": "baking_book", "prob": 80 },
       { "item": "fermenting_book", "prob": 8 },
-      { "item": "distilling_cookbook", "prob": 3 }
+      { "item": "distilling_cookbook", "prob": 3 },
+      { "item": "sweets_book", "prob": 10 }
     ]
   },
   {
@@ -326,7 +327,8 @@
       { "item": "manual_sealing", "prob": 40 },
       { "item": "baking_book", "prob": 80 },
       { "item": "fermenting_book", "prob": 8 },
-      { "item": "distilling_cookbook", "prob": 3 }
+      { "item": "distilling_cookbook", "prob": 3 },
+      { "item": "sweets_book", "prob": 8 }
     ]
   },
   {
@@ -366,7 +368,8 @@
       { "item": "manual_canning", "prob": 8 },
       { "item": "manual_sealing", "prob": 9 },
       { "item": "fermenting_book", "prob": 8 },
-      { "item": "distilling_cookbook", "prob": 8 }
+      { "item": "distilling_cookbook", "prob": 8 },
+      { "item": "sweets_book", "prob": 10 }
     ]
   },
   {
@@ -436,7 +439,8 @@
       { "item": "survnote", "prob": 2 },
       { "item": "book_lockpick", "prob": 2 },
       { "item": "fermenting_book", "prob": 8 },
-      { "item": "distilling_cookbook", "prob": 8 }
+      { "item": "distilling_cookbook", "prob": 8 },
+      { "item": "sweets_book", "prob": 10 }
     ]
   },
   {
