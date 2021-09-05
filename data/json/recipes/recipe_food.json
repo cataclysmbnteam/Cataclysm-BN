@@ -5730,7 +5730,7 @@
     "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "honey_bottled", 14 ] ] ]
+    "components": [ [ [ "honey_bottled", 7 ] ] ]
   },
   {
     "type": "recipe",
