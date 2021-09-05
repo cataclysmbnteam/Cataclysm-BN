@@ -2813,6 +2813,8 @@ void mapgen_function_json::generate( mapgendata &md )
     if( fill_ter != t_null ) {
         m->draw_fill_background( fill_ter );
     }
+    const oter_t &ter = *md.terrain_type();
+
     if( predecessor_mapgen != oter_str_id::NULL_ID() ) {
         mapgendata predecessor_mapgen_dat( md, predecessor_mapgen );
         run_mapgen_func( predecessor_mapgen.id().str(), predecessor_mapgen_dat );
@@ -2827,8 +2829,8 @@ void mapgen_function_json::generate( mapgendata &md )
 
         m->rotate( ( -rotation.get() + 4 ) % 4 );
 
-        if( md.terrain_type()->is_rotatable() ) {
-            m->rotate( ( -static_cast<int>( md.terrain_type()->get_dir() ) + 4 ) % 4 );
+        if( ter.is_rotatable() || ter.is_linear() ) {
+            m->rotate( ( -ter.get_rotation() + 4 ) % 4 );
         }
     }
     if( do_format ) {
@@ -2844,8 +2846,8 @@ void mapgen_function_json::generate( mapgendata &md )
 
     m->rotate( rotation.get() );
 
-    if( md.terrain_type()->is_rotatable() ) {
-        mapgen_rotate( m, md.terrain_type(), false );
+    if( ter.is_rotatable() || ter.is_linear() ) {
+        m->rotate( ter.get_rotation() );
     }
 }
 
