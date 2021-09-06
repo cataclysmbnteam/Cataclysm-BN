@@ -83,7 +83,12 @@
       "skills": [ [ "fabrication", 4 ] ],
       "inline": {
         "tools": [ [ [ "fake_gridwelder", 400 ], [ "oxy_torch", 80 ], [ "toolset", 600 ], [ "welder", 400 ], [ "welder_crude", 600 ] ] ],
-        "qualities": [ [ { "id": "SAW_W", "level": 2 } ], [ { "id": "WRENCH" } ], [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "qualities": [
+          [ { "id": "SAW_W", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "WRENCH" } ],
+          [ { "id": "GLARE", "level": 2 } ]
+        ],
         "components": [
           [ [ "2x4", 269 ] ],
           [ [ "glass_sheet", 1 ] ],
