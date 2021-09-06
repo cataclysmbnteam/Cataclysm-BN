@@ -5626,7 +5626,7 @@
     "autolearn": true,
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "rag", -1 ] ] ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "honey_glassed", 20 ] ] ]
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "honey_glassed", 10 ] ] ]
   },
   {
     "type": "recipe",
