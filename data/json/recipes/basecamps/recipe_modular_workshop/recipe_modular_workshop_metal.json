@@ -79,22 +79,22 @@
     "blueprint_provides": [ { "id": "fbmw_east" }, { "id": "blacksmith_recipes_3" } ],
     "blueprint_excludes": [ { "id": "fbmw_east" } ],
     "blueprint_needs": {
-      "time": "1 d 19 h 40 m",
-      "skills": [ [ "survival", 3 ], [ "fabrication", 3 ] ],
+      "time": "2 d 1 h 15 m",
+      "skills": [ [ "fabrication", 4 ] ],
       "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "SAW_W", "level": 2 } ], [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "tools": [ [ [ "fake_gridwelder", 400 ], [ "oxy_torch", 80 ], [ "toolset", 600 ], [ "welder", 400 ], [ "welder_crude", 600 ] ] ],
+        "qualities": [ [ { "id": "SAW_W", "level": 2 } ], [ { "id": "WRENCH" } ], [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 315 ] ],
-          [ [ "cattail_stalk", 36 ], [ "dogbane", 36 ], [ "pine_bough", 36 ], [ "straw_pile", 36 ] ],
-          [ [ "clay_lump", 36 ], [ "material_limestone", 36 ], [ "material_quicklime", 36 ] ],
-          [ [ "material_sand", 90 ], [ "pebble", 90 ] ],
+          [ [ "2x4", 269 ] ],
+          [ [ "glass_sheet", 1 ] ],
+          [ [ "hinge", 2 ] ],
           [ [ "material_soil", 2 ] ],
-          [ [ "nail", 704 ] ],
+          [ [ "nail", 666 ] ],
+          [ [ "pipe", 24 ] ],
           [ [ "rock", 40 ] ],
-          [ [ "rope_6", 2 ], [ "rope_makeshift_6", 2 ] ],
-          [ [ "water", 45 ], [ "water_clean", 45 ] ],
-          [ [ "wood_panel", 38 ] ]
+          [ [ "sheet_metal", 4 ] ],
+          [ [ "steel_plate", 16 ] ],
+          [ [ "wood_panel", 31 ] ]
         ]
       }
     }
