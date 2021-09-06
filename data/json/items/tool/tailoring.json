@@ -54,7 +54,7 @@
     "type": "GENERIC",
     "category": "tools",
     "name": { "str": "frame loom" },
-    "description": "This is a rather bulky and primitive wooden frame which can be used to weave cloth sheets.  It is very slow, though.",
+    "description": "This is a rather bulky and primitive wooden frame and shed stick.  It can be used to weave thread into cloth, faster than knitting.",
     "weight": "3804 g",
     "volume": "6000 ml",
     "price": 4000,
@@ -175,21 +175,6 @@
       "move_cost": 1000
     },
     "flags": [ "ALLOWS_REMOTE_USE" ]
-  },
-  {
-    "id": "shed_stick",
-    "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "wooden shed stick" },
-    "description": "This is a short thin flat wooden stick, used as a tool while weaving cloth with a frame loom.",
-    "weight": "300 g",
-    "volume": "250 ml",
-    "price": 100,
-    "price_postapoc": 50,
-    "bashing": 2,
-    "material": "wood",
-    "symbol": ";",
-    "color": "yellow"
   },
   {
     "id": "tanning_hide",

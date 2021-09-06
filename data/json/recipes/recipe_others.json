@@ -1234,6 +1234,20 @@
   },
   {
     "type": "recipe",
+    "result": "rag",
+    "id_suffix": "weaving",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "4 m",
+    "autolearn": true,
+    "batch_time_factors": [ 75, 5 ],
+    "using": [ [ "filament", 80 ] ],
+    "tools": [ [ [ "loom_frame", -1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "sheet",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
