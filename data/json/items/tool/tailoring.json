@@ -50,20 +50,6 @@
     "flags": [ "STAB" ]
   },
   {
-    "id": "loom_frame",
-    "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "frame loom" },
-    "description": "This is a rather bulky and primitive wooden frame and shed stick.  It can be used to weave thread into cloth, faster than knitting.",
-    "weight": "3804 g",
-    "volume": "6000 ml",
-    "price": 4000,
-    "price_postapoc": 750,
-    "material": "wood",
-    "symbol": ";",
-    "color": "yellow"
-  },
-  {
     "id": "needle_bone",
     "type": "TOOL",
     "name": { "str": "bone needle" },

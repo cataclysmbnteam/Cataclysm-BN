@@ -964,6 +964,20 @@
     }
   },
   {
+    "id": "loom_frame",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": { "str": "frame loom" },
+    "description": "This is a rather bulky and primitive wooden frame which can be used to weave cloth sheets.  It is very slow, though.",
+    "weight": "3804 g",
+    "volume": "6000 ml",
+    "price": 4000,
+    "price_postapoc": 750,
+    "material": "wood",
+    "symbol": ";",
+    "color": "yellow"
+  },
+  {
     "id": "shed_stick",
     "type": "GENERIC",
     "category": "tools",
@@ -977,6 +991,11 @@
     "material": "wood",
     "symbol": ";",
     "color": "yellow"
+  },
+  {
+    "type": "recipe",
+    "result": "loom_frame",
+    "obsolete": true
   },
   {
     "type": "recipe",

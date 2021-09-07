@@ -249,6 +249,18 @@
   },
   {
     "type": "recipe",
+    "result": "felt_patch",
+    "id_suffix": "knitting",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "6 m",
+    "autolearn": true,
+    "using": [ [ "tailoring_cotton_knitting", 80 ] ]
+  },
+  {
+    "type": "recipe",
     "result": "caltrops",
     "id_suffix": "from wire",
     "category": "CC_OTHER",
@@ -1218,8 +1230,7 @@
     "difficulty": 2,
     "time": "6 m",
     "autolearn": true,
-    "using": [ [ "filament", 80 ] ],
-    "qualities": [ { "id": "KNIT", "level": 1 } ]
+    "using": [ [ "tailoring_cotton_knitting", 80 ] ]
   },
   {
     "type": "recipe",
@@ -1231,20 +1242,6 @@
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "rag_bloody", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "rag",
-    "id_suffix": "weaving",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "tailor",
-    "difficulty": 1,
-    "time": "4 m",
-    "autolearn": true,
-    "batch_time_factors": [ 75, 5 ],
-    "using": [ [ "filament", 80 ] ],
-    "tools": [ [ [ "loom_frame", -1 ] ] ]
   },
   {
     "type": "recipe",

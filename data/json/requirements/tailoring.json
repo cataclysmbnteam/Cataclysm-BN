@@ -65,14 +65,14 @@
   {
     "id": "tailoring_cotton_knitting",
     "type": "requirement",
-    "//": "Crafting cotton items via knitting, per 1 g of cotton; no material wasted.  Time needed is usually 2 minutes per unit if doing it by hand.",
+    "//": "Crafting cotton items via knitting, using thread or plant fiber.",
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "thread", 1 ] ] ]
+    "components": [ [ [ "thread", 1 ], [ "plant_fibre", 1 ] ] ]
   },
   {
     "id": "tailoring_wool_knitting",
     "type": "requirement",
-    "//": "Crafting wool items via knitting, per 1 g of wool; no material wasted.  Time needed is usually 2 minutes per unit if doing it by hand.",
+    "//": "Crafting wool items via knitting.",
     "qualities": [ { "id": "KNIT", "level": 1 } ],
     "components": [ [ [ "yarn", 1 ] ] ]
   }
