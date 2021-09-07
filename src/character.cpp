@@ -6354,7 +6354,7 @@ std::string Character::extended_description() const
         // <bad>This is me, <player_name>.</bad>
         ss += string_format( _( "This is you - %s." ), name );
     } else {
-        ss += string_format( _( "This is %s, %s" ), name, male ? _( "male" ) : _( "female" ));
+        ss += string_format( _( "This is %s, %s" ), name, male ? _( "male" ) : _( "female" ) );
     }
 
     ss += "\n--\n";
