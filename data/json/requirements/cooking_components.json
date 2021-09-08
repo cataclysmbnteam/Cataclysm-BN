@@ -72,7 +72,7 @@
         [ "beet_syrup", 6 ],
         [ "molasses", 1 ],
         [ "honey_bottled", 4 ],
-        [ "honey_glassed", 1 ]
+        [ "honey_glassed", 2 ]
       ]
     ]
   },
@@ -726,5 +726,10 @@
         [ "mixed_alcohol_weak", 1 ]
       ]
     ]
+  },
+  {
+    "id": "beverage_sweetener",
+    "type": "requirement",
+    "components": [ [ [ "sugar", 3 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ], [ "beet_syrup", 2 ] ] ]
   }
 ]

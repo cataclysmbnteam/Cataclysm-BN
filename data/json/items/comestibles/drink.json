@@ -1041,5 +1041,64 @@
     "proportional": { "quench": 1.2 },
     "relative": { "fun": 1 },
     "use_action": [  ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "coffee_sweetened",
+    "copy-from": "coffee",
+    "name": { "str": "sweet coffee" },
+    "description": "The morning ritual of the pre-apocalyptic world, created from coffee cherries through a complex process of seed removal, roasting, grinding, and brewing.  Coffee is substantially richer in caffeine than its rival tea.  With added sweetener for better taste.",
+    "price": 110,
+    "price_postapoc": 60,
+    "calories": 125,
+    "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] },
+    "fun": 10
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "tea_sweetened",
+    "copy-from": "tea",
+    "name": { "str": "sweet tea" },
+    "description": "The beverage of gentlemen everywhere, made from applying hot water to leaves of the tea plant /Camellia sinensis/. Added sweetener for a better taste.",
+    "price": 100,
+    "price_postapoc": 35,
+    "calories": 95,
+    "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] },
+    "fun": 10
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "milk_tea_sweetened",
+    "copy-from": "milk_tea",
+    "name": { "str": "sweet milk tea" },
+    "description": "Hot tea with cold milk and added sweetener.",
+    "price": 460,
+    "price_postapoc": 60,
+    "calories": 80,
+    "vitamins": [ [ "vitA", 5 ], [ "vitB", 3 ], [ "vitC", 2 ], [ "calcium", 12 ] ],
+    "fun": 14
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "coffee_substitute_sweetened",
+    "copy-from": "coffee_substitute",
+    "name": { "str": "sweet coffee substitute" },
+    "description": "Homemade not-coffee created from the Kentucky coffeetree, just like the Meskwaki tribe!  Doesn't actually have any caffeine, and is very bitter, but it'll pass in a pinch.  The added sweetness neutralize the bitterness somewhat.",
+    "price": 110,
+    "price_postapoc": 35,
+    "calories": 90,
+    "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] },
+    "fun": 1
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "milk_coffee_sweetened",
+    "copy-from": "milk_coffee",
+    "name": { "str": "sweet coffee milk" },
+    "description": "Coffee syrup mixed into milk.  It's been the state drink of Rhode Island since 1993.  Added sweetener for those who like it even sweeter.",
+    "price": 490,
+    "price_postapoc": 60,
+    "calories": 105,
+    "fun": 14
   }
 ]
