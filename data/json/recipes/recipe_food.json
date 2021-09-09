@@ -4983,7 +4983,7 @@
     "time": "3 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "sieve_steel", -1 ], [ "rag", -1 ] ] ],
+    "tools": [ [ [ "rag", -1 ] ] ],
     "components": [ [ [ "sweet_fruit", 1, "LIST" ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
@@ -4998,7 +4998,7 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "sieve_steel", -1 ], [ "rag", -1 ] ] ],
+    "tools": [ [ [ "rag", -1 ] ] ],
     "components": [ [ [ "sweet_fruit", 2, "LIST" ] ] ]
   },
   {
