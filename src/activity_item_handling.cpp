@@ -132,6 +132,7 @@ static const std::string flag_PLANT( "PLANT" );
 static const std::string flag_PLANTABLE( "PLANTABLE" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
 static const std::string flag_TREE( "TREE" );
+static const std::string flag_UNSAFE_CONSUME( "UNSAFE_CONSUME" );
 
 void cancel_aim_processing();
 //Generic activity: maximum search distance for zones, constructions, etc.
@@ -3171,6 +3172,10 @@ bool find_auto_consume( player &p, const bool food )
             }
             if( !food && comest.get_comestible()->quench < 15 ) {
                 // not quenching enough
+                continue;
+            }
+            if( comest.has_flag( flag_UNSAFE_CONSUME ) ) {
+                // Unsafe to drink or eat
                 continue;
             }
             if( !food && it->is_watertight_container() && it->contents_made_of( SOLID ) ) {
