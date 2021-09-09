@@ -579,7 +579,15 @@
     "points": 2,
     "description": "You have taken some self-defense classes at a nearby gym.  You start with your choice of Boxing, Capoeira, Krav Maga, Muay Thai, Ninjutsu, Wing Chun, or Zui Quan.",
     "starting_trait": true,
-    "initial_ma_styles": [ "style_boxing", "style_krav_maga", "style_muay_thai", "style_ninjutsu", "style_capoeira", "style_zui_quan", "style_wingchun" ],
+    "initial_ma_styles": [
+      "style_boxing",
+      "style_krav_maga",
+      "style_muay_thai",
+      "style_ninjutsu",
+      "style_capoeira",
+      "style_zui_quan",
+      "style_wingchun"
+    ],
     "valid": false
   },
   {
