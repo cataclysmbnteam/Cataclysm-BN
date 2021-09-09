@@ -234,11 +234,11 @@
     "looks_like": "helmet_larmor",
     "color": "green",
     "covers": [ "head", "eyes", "mouth" ],
-    "coverage": 90,
+    "coverage": 95,
     "encumbrance": 10,
     "warmth": 10,
     "material_thickness": 3,
-    "environmental_protection": 2,
+    "environmental_protection": 4,
     "flags": [ "WATERPROOF", "STURDY" ]
   },
   {
@@ -274,7 +274,7 @@
     "price_postapoc": 1750,
     "material": [ "acidchitin" ],
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "relative": { "bashing": 1, "material_thickness": 1, "environmental_protection": 2 }
+    "relative": { "bashing": 1, "material_thickness": 1 }
   },
   {
     "id": "helmet_football",

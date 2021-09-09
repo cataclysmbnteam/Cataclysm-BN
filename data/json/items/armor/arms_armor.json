@@ -39,11 +39,11 @@
     "looks_like": "armguard_hard",
     "color": "green",
     "covers": [ "arms" ],
-    "coverage": 90,
+    "coverage": 95,
     "encumbrance": 10,
     "warmth": 10,
     "material_thickness": 3,
-    "environmental_protection": 2,
+    "environmental_protection": 4,
     "flags": [ "STURDY", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
   },
   {
@@ -56,7 +56,7 @@
     "description": "A pair of arm guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant and very durable.",
     "material": [ "acidchitin" ],
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "relative": { "material_thickness": 1, "environmental_protection": 2 }
+    "relative": { "material_thickness": 1 }
   },
   {
     "id": "armguard_hard",
