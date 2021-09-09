@@ -807,20 +807,7 @@
     "time": "12 m",
     "autolearn": true,
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 2 ] ], [ [ "pilot_light", 2 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "double_blunderbuss",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "fabrication",
-    "skills_required": [ "mechanics", 1 ],
-    "difficulty": 3,
-    "time": "18 m",
-    "autolearn": true,
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 3 ] ], [ [ "pilot_light", 1 ] ] ]
+    "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 2 ] ], [ [ "pilot_light", 1 ] ] ]
   },
   {
     "type": "recipe",

@@ -31,18 +31,5 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ]
-  },
-  {
-    "id": "double_blunderbuss",
-    "copy-from": "blunderbuss",
-    "looks_like": "remington_870",
-    "type": "GUN",
-    "name": { "str": "double-barrel blunderbuss", "str_pl": "double-barrel blunderbusses" },
-    "description": "A homemade, double-barreled precursor to the shotgun.  Able to fire just about anything you put down its barrels, but it will degrade pretty quick.",
-    "clip_size": 2,
-    "modes": [ [ "DEFAULT", "single", 1 ], [ "DOUBLE", "double", 2 ] ],
-    "relative": { "weight": 1000, "volume": 2, "price": 5000 },
-    "barrel_length": "500 ml",
-    "extend": { "flags": [ "RELOAD_ONE" ] }
   }
 ]
