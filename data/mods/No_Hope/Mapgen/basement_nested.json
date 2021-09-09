@@ -2965,7 +2965,6 @@
         ],
         "f": [
           { "item": "SUS_tailoring_materials", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "SUS_tailoring_fasteners", "chance": 30, "repeat": [ 1, 2 ] },
           { "item": "leather_shop_repair", "chance": 40, "repeat": [ 2, 4 ] }
         ],
         "d": [
@@ -2975,8 +2974,7 @@
         ],
         "B": [
           { "item": "SUS_tailoring_tool_drawer", "chance": 60, "repeat": [ 0, 1 ] },
-          { "item": "tailorbooks", "chance": 60, "repeat": [ 0, 1 ] },
-          { "item": "SUS_tailoring_fasteners", "chance": 30, "repeat": [ 2, 6 ] }
+          { "item": "tailorbooks", "chance": 60, "repeat": [ 0, 1 ] }
         ]
       }
     }
