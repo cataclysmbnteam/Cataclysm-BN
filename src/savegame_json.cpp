@@ -412,6 +412,7 @@ void Character::load( const JsonObject &data )
     data.read( "int_bonus", int_bonus );
     data.read( "omt_path", omt_path );
 
+    data.read( "name", name );
     data.read( "base_age", init_age );
     data.read( "base_height", init_height );
 
@@ -667,6 +668,8 @@ void Character::store( JsonOut &json ) const
     json.member( "dex_bonus", dex_bonus );
     json.member( "per_bonus", per_bonus );
     json.member( "int_bonus", int_bonus );
+
+    json.member( "name", name );
 
     json.member( "base_age", init_age );
     json.member( "base_height", init_height );
@@ -1423,7 +1426,6 @@ void npc::load( const JsonObject &data )
     time_point companion_mission_t_r = calendar::start_of_cataclysm;
     std::string act_id;
 
-    data.read( "name", name );
     data.read( "marked_for_death", marked_for_death );
     data.read( "dead", dead );
     data.read( "patience", patience );
@@ -1636,7 +1638,6 @@ void npc::store( JsonOut &json ) const
 {
     player::store( json );
 
-    json.member( "name", name );
     json.member( "marked_for_death", marked_for_death );
     json.member( "dead", dead );
     json.member( "patience", patience );

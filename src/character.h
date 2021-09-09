@@ -1526,7 +1526,7 @@ class Character : public Creature, public visitable<Character>
         bool crossed_threshold() const;
 
         // --------------- Values ---------------
-        std::string name;
+        std::string name; // Pre-cataclysm name, invariable
         bool male = true;
 
         std::list<item> worn;

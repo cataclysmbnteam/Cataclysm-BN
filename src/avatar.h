@@ -85,6 +85,13 @@ class avatar : public player
             return this;
         }
 
+        std::string get_save_id() const {
+            return save_id.empty() ? name : save_id;
+        }
+        void set_save_id( const std::string &id ) {
+            save_id = id;
+        }
+
         void toggle_map_memory();
         bool should_show_map_memory();
         void prepare_map_memory_region( const tripoint &p1, const tripoint &p2 );
@@ -221,6 +228,9 @@ class avatar : public player
         }
 
     private:
+        // The name used to generate save filenames for this avatar. Not serialized in json.
+        std::string save_id;
+
         std::unique_ptr<map_memory> player_map_memory;
         bool show_map_memory = true;
 
