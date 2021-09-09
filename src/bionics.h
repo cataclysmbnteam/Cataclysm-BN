@@ -133,9 +133,9 @@ struct bionic_data {
     bool is_included( const bionic_id &id ) const;
 
     static void load_bionic( const JsonObject &jo, const std::string &src );
-    static const std::vector<bionic_data> &get_all();
     static void check_consistency();
     static void finalize_all();
+    static void reset();
 
     bool was_loaded = false;
     void load( const JsonObject &obj, std::string );
@@ -194,8 +194,6 @@ class bionic_collection : public std::vector<bionic>
 
 /**List of bodyparts occupied by a bionic*/
 std::vector<bodypart_id> get_occupied_bodyparts( const bionic_id &bid );
-
-void reset_bionics();
 
 char get_free_invlet( player &p );
 std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro,

@@ -527,6 +527,7 @@ void DynamicDataLoader::unload_data()
     anatomy::reset();
     ascii_art::reset();
     behavior::reset();
+    bionic_data::reset();
     body_part_type::reset();
     charge_removal_blacklist::reset();
     clear_techniques_and_martial_arts();
@@ -571,7 +572,6 @@ void DynamicDataLoader::unload_data()
     recipe_dictionary::reset();
     recipe_group::reset();
     requirement_data::reset();
-    reset_bionics();
     reset_constructions();
     reset_effect_types();
     reset_furn_ter();

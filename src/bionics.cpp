@@ -246,11 +246,6 @@ void bionic_data::load_bionic( const JsonObject &jo, const std::string &src )
     bionic_factory.load( jo, src );
 }
 
-const std::vector<bionic_data> &bionic_data::get_all()
-{
-    return bionic_factory.get_all();
-}
-
 void bionic_data::check_consistency()
 {
     bionic_factory.check();
@@ -262,6 +257,12 @@ void bionic_data::finalize_all()
     for( const bionic_data &bd : bionic_factory.get_all() ) {
         bd.finalize();
     }
+}
+
+void bionic_data::reset()
+{
+    bionic_factory.reset();
+    faulty_bionics.clear();
 }
 
 void bionic_data::load( const JsonObject &jsobj, const std::string src )
@@ -2683,11 +2684,6 @@ bionic &Character::bionic_at_index( int i )
 void Character::clear_bionics()
 {
     my_bionics->clear();
-}
-
-void reset_bionics()
-{
-    faulty_bionics.clear();
 }
 
 void bionic::set_flag( const std::string &flag )
