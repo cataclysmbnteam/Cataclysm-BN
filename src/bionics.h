@@ -29,6 +29,7 @@ using itype_id = std::string;
 
 struct bionic_data {
     bionic_data();
+    ~bionic_data();
 
     translation name;
     translation description;

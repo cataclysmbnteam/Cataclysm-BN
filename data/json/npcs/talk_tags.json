@@ -1565,5 +1565,21 @@
     "type": "snippet",
     "category": "<ally_rule_forbid_engage_false_text>",
     "text": "<mypronoun> will follow normal engagement rules."
+  },
+  {
+    "type": "snippet",
+    "category": "<spirals>",
+    "//": "Spiral madman's responses.",
+    "text": [
+      "Spirals.",
+      "Spirals…",
+      "Spirals?",
+      "Spirals!",
+      "Spirals!!!",
+      "SpIrAlS.",
+      "SPIRALS.",
+      "AHAHAHAHA!!!",
+      "SpiRAAAAAAALS!"
+    ]
   }
 ]
