@@ -1102,5 +1102,17 @@
     "price_postapoc": 60,
     "calories": 105,
     "fun": 14
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "atomic_coffee_sweetened",
+    "name": { "str_sp": "sweet atomic coffee" },
+    "copy-from": "atomic_coffee",
+    "calories": 85,
+    "description": "This serving of coffee has been created using an atomic coffee pot's FULL NUCLEAR brewing cycle.  Every possible microgram of caffeine and flavor has been carefully extracted for your enjoyment, using the power of the atom.  With added sugar.",
+    "price": 310,
+    "price_postapoc": 110,
+    "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] },
+    "fun": 15
   }
 ]

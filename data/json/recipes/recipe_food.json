@@ -1542,7 +1542,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
-    "components": [ [ [ "coffee_raw", 1 ], [ "coffee_syrup", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "coffee_raw", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1554,7 +1554,7 @@
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "tools": [ [ [ "atomic_coffeepot", -1 ] ] ],
-    "components": [ [ [ "coffee_raw", 1 ], [ "coffee_syrup", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "coffee_raw", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1680,7 +1680,7 @@
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [
       [ [ "coffee_raw", 4 ] ],
-      [ [ "sugar", 10 ], [ "honeycomb", 1 ], [ "honey_bottled", 1 ], [ "honey_glassed", 2 ], [ "syrup", 1 ] ],
+      [ [ "honeycomb", 1 ], [ "beverage_sweetener", 8, "LIST" ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
@@ -1807,17 +1807,19 @@
     "result": "irish_coffee",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
+    "charges": 2,
     "skill_used": "cooking",
-    "difficulty": 1,
-    "time": "7 m",
-    "charges": 1,
+    "time": "14 m",
     "autolearn": true,
-    "flags": [ "BLIND_HARD" ],
+    "batch_time_factors": [ 80, 4 ],
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
     "components": [
-      [ [ "sugar", 6 ] ],
+      [ [ "beverage_sweetener", 1, "LIST" ] ],
       [ [ "whiskey", 1 ], [ "single_malt_whiskey", 1 ], [ "single_pot_whiskey", 1 ], [ "canadian_whiskey", 1 ] ],
-      [ [ "coffee_syrup", 1 ], [ "coffee", 1 ] ],
-      [ [ "milk_standard", 1, "LIST" ], [ "con_milk", 1 ] ]
+      [ [ "coffee_raw", 1 ] ],
+      [ [ "milk_standard", 1, "LIST" ] ],
+      [ [ "water_clean", 1 ], [ "water", 1 ] ]
     ]
   },
   {
@@ -5390,10 +5392,12 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
-    "time": "1 m 30 s",
+    "time": "10 m",
     "autolearn": true,
-    "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "tea", 1 ] ], [ [ "milk_standard", 1, "LIST" ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ] ]
+    "batch_time_factors": [ 80, 4 ],
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "tea_raw", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "milk_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -5401,13 +5405,12 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
-    "time": "1 m 30 s",
+    "time": "10 m",
     "autolearn": true,
-    "flags": [ "BLIND_HARD" ],
-    "components": [
-      [ [ "coffee_syrup", 1 ], [ "coffee", 1 ] ],
-      [ [ "milk_standard", 1, "LIST" ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ]
-    ]
+    "batch_time_factors": [ 80, 4 ],
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
+    "components": [ [ [ "coffee_raw", 1 ] ], [ [ "milk_standard", 1, "LIST" ] ], [ [ "water_clean", 1 ], [ "water", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -5441,11 +5444,46 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
-    "components": [
-      [ [ "coffee_raw", 1 ], [ "coffee_syrup", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "beverage_sweetener", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "coffee_raw", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "beverage_sweetener", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "coffee_sweetened",
+    "id_suffix": "syrupy",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "time": "10 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 4 ],
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
+    "components": [ [ [ "coffee_syrup", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "atomic_coffee_sweetened",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "time": "6 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 4 ],
+    "tools": [ [ [ "atomic_coffeepot", -1 ] ] ],
+    "components": [ [ [ "coffee_raw", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "beverage_sweetener", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "atomic_coffee_sweetened",
+    "id_suffix": "syrupy",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "time": "6 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 4 ],
+    "tools": [ [ [ "atomic_coffeepot", -1 ] ] ],
+    "components": [ [ [ "coffee_syrup", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -5466,14 +5504,31 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
-    "time": "1 m 30 s",
+    "time": "10 m",
     "autolearn": true,
-    "flags": [ "BLIND_HARD" ],
+    "batch_time_factors": [ 80, 4 ],
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
     "components": [
-      [ [ "coffee_syrup", 1 ], [ "coffee", 1 ] ],
-      [ [ "milk_standard", 1, "LIST" ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ],
-      [ [ "beverage_sweetener", 1, "LIST" ] ]
+      [ [ "coffee_raw", 1 ] ],
+      [ [ "milk_standard", 1, "LIST" ] ],
+      [ [ "beverage_sweetener", 1, "LIST" ] ],
+      [ [ "water_clean", 1 ], [ "water", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "milk_coffee_sweetened",
+    "id_suffix": "syrupy",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "time": "10 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 4 ],
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
+    "components": [ [ [ "coffee_syrup", 1 ] ], [ [ "milk_standard", 1, "LIST" ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -5494,12 +5549,15 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
-    "time": "1 m 30 s",
+    "time": "10 m",
     "autolearn": true,
-    "flags": [ "BLIND_HARD" ],
+    "batch_time_factors": [ 80, 4 ],
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
     "components": [
-      [ [ "tea", 1 ] ],
-      [ [ "milk_standard", 1, "LIST" ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ],
+      [ [ "tea_raw", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "milk_standard", 1, "LIST" ] ],
       [ [ "beverage_sweetener", 1, "LIST" ] ]
     ]
   },
