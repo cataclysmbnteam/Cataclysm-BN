@@ -127,8 +127,8 @@ struct bionic_data {
      */
     std::set<bionic_id> available_upgrades;
 
-    std::set<std::string> flags;
-    bool has_flag( const std::string &flag ) const;
+    std::set<flag_str_id> flags;
+    bool has_flag( const flag_str_id &flag ) const;
 
     bool is_included( const bionic_id &id ) const;
 

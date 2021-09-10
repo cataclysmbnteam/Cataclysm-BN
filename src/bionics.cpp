@@ -45,6 +45,7 @@
 #include "json.h"
 #include "line.h"
 #include "magic.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -196,9 +197,9 @@ static const std::string flag_SAFE_FUEL_OFF( "SAFE_FUEL_OFF" );
 static const std::string flag_SEALED( "SEALED" );
 static const std::string flag_SEMITANGIBLE( "SEMITANGIBLE" );
 
-static const std::string flag_BIO_GUN( "BIONIC_GUN" );
-static const std::string flag_BIO_WEAPON( "BIONIC_WEAPON" );
-static const std::string flag_BIO_TOGGLED( "BIONIC_TOGGLED" );
+static const flag_str_id flag_BIONIC_GUN( "BIONIC_GUN" );
+static const flag_str_id flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
+static const flag_str_id flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 
 namespace
 {
@@ -231,7 +232,7 @@ std::vector<bodypart_id> get_occupied_bodyparts( const bionic_id &bid )
     return parts;
 }
 
-bool bionic_data::has_flag( const std::string &flag ) const
+bool bionic_data::has_flag( const flag_str_id &flag ) const
 {
     return flags.count( flag ) > 0;
 }
@@ -303,14 +304,14 @@ void bionic_data::load( const JsonObject &jsobj, const std::string src )
     assign( jsobj, "available_upgrades", available_upgrades, strict );
     assign( jsobj, "flags", flags, strict );
 
-    activated = has_flag( flag_BIO_TOGGLED ) ||
+    activated = has_flag( flag_BIONIC_TOGGLED ) ||
                 power_activate > 0_kJ ||
                 charge_time > 0;
 }
 
 void bionic_data::finalize() const
 {
-    if( has_flag( "BIONIC_FAULTY" ) ) {
+    if( has_flag( STATIC( flag_str_id( "BIO_FAULTY" ) ) ) ) {
         faulty_bionics.push_back( id );
     }
 }
@@ -397,17 +398,15 @@ void bionic_data::check() const
             rep.warn( "specifies unknown upgrade \"%s\"", it.str() );
         }
     }
-    for( const std::string &it : flags ) {
-        // TODO: turn 'flags' into actual flag_str_ids
-        flag_str_id flag = flag_str_id( it );
-        if( !flag.is_valid() ) {
-            rep.warn( "specifies unknown flag \"%s\"", it );
+    for( const flag_str_id &it : flags ) {
+        if( !it.is_valid() ) {
+            rep.warn( "specifies unknown flag \"%s\"", it.str() );
         }
     }
-    if( has_flag( flag_BIO_GUN ) && has_flag( flag_BIO_WEAPON ) ) {
+    if( has_flag( flag_BIONIC_GUN ) && has_flag( flag_BIONIC_WEAPON ) ) {
         rep.warn( "is specified as both gun and weapon bionic" );
     }
-    if( ( has_flag( flag_BIO_GUN ) || has_flag( flag_BIO_WEAPON ) ) && fake_item.empty() ) {
+    if( ( has_flag( flag_BIONIC_GUN ) || has_flag( flag_BIONIC_WEAPON ) ) && fake_item.empty() ) {
         rep.warn( "is missing fake_item" );
     }
     if( !rep.is_empty() ) {
@@ -468,7 +467,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
     }
     bionic &bio = ( *my_bionics )[index];
 
-    if( bio.info().has_flag( flag_BIO_GUN ) ) {
+    if( bio.info().has_flag( flag_BIONIC_GUN ) ) {
         const item cbm_weapon = item( bio.info().fake_item );
         bool not_allowed = !rules.has_flag( ally_rule::use_guns ) ||
                            ( rules.has_flag( ally_rule::use_silent ) && !cbm_weapon.is_silent() );
@@ -489,7 +488,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
             weapon = cbm_weapon;
             cbm_weapon_index = index;
         }
-    } else if( bio.info().has_flag( flag_BIO_WEAPON ) && !weapon.has_flag( flag_NO_UNWIELD ) &&
+    } else if( bio.info().has_flag( flag_BIONIC_WEAPON ) && !weapon.has_flag( flag_NO_UNWIELD ) &&
                free_power > bio.info().power_activate ) {
         if( is_armed() ) {
             stow_item( weapon );
@@ -551,7 +550,7 @@ bool Character::activate_bionic( int b, bool eff_only )
         // We can actually activate now, do activation-y things
         mod_power_level( -bio.info().power_activate );
 
-        bio.powered = bio.info().has_flag( flag_BIO_TOGGLED ) || bio.info().charge_time > 0;
+        bio.powered = bio.info().has_flag( flag_BIONIC_TOGGLED ) || bio.info().charge_time > 0;
 
         if( bio.info().charge_time > 0 ) {
             bio.charge_timer = bio.info().charge_time;
@@ -576,12 +575,12 @@ bool Character::activate_bionic( int b, bool eff_only )
     const w_point weatherPoint = *g->weather.weather_precise;
 
     // On activation effects go here
-    if( bio.info().has_flag( flag_BIO_GUN ) ) {
+    if( bio.info().has_flag( flag_BIONIC_GUN ) ) {
         add_msg_activate();
         refund_power(); // Power usage calculated later, in avatar_action::fire
         avatar_action::fire_ranged_bionic( *this->as_avatar(), item( bio.info().fake_item ),
                                            bio.info().power_activate );
-    } else if( bio.info().has_flag( flag_BIO_WEAPON ) ) {
+    } else if( bio.info().has_flag( flag_BIONIC_WEAPON ) ) {
         if( weapon.has_flag( flag_NO_UNWIELD ) ) {
             add_msg_if_player( m_info, _( "Deactivate your %s first!" ), weapon.tname() );
             refund_power();
@@ -1141,7 +1140,7 @@ bool Character::deactivate_bionic( int b, bool eff_only )
             // It's already off!
             return false;
         }
-        if( !bio.info().has_flag( flag_BIO_TOGGLED ) ) {
+        if( !bio.info().has_flag( flag_BIONIC_TOGGLED ) ) {
             // It's a fire-and-forget bionic, we can't turn it off but have to wait for
             //it to run out of charge
             add_msg_if_player( m_info, _( "You can't deactivate your %s manually!" ),
@@ -1161,7 +1160,7 @@ bool Character::deactivate_bionic( int b, bool eff_only )
     }
 
     // Deactivation effects go here
-    if( bio.info().has_flag( flag_BIO_WEAPON ) ) {
+    if( bio.info().has_flag( flag_BIONIC_WEAPON ) ) {
         if( weapon.typeId() == bio.info().fake_item ) {
             add_msg_if_player( _( "You withdraw your %s." ), weapon.tname() );
             if( g->u.sees( pos() ) ) {
@@ -1559,7 +1558,7 @@ static bool attempt_recharge( Character &p, bionic &bio, units::energy &amount, 
     bool recharged = false;
 
     if( power_cost > 0_kJ ) {
-        if( info.has_flag( "BIONIC_ARMOR_INTERFACE" ) ) {
+        if( info.has_flag( STATIC( flag_str_id( "BIO_ARMOR_INTERFACE" ) ) ) ) {
             // Don't spend any power on armor interfacing unless we're wearing active powered armor.
             bool powered_armor = std::any_of( p.worn.begin(), p.worn.end(),
             []( const item & w ) {
@@ -1622,7 +1621,7 @@ void Character::process_bionic( int b )
         bio.charge_timer -= discharge_rate;
     } else {
         if( bio.info().charge_time > 0 ) {
-            if( bio.info().has_flag( "BIONIC_POWER_SOURCE" ) ) {
+            if( bio.info().has_flag( STATIC( flag_str_id( "BIONIC_POWER_SOURCE" ) ) ) ) {
                 // Convert fuel to bionic power
                 burn_fuel( b );
                 // Reset timer
@@ -2046,7 +2045,7 @@ bool Character::uninstall_bionic( const bionic_id &b_id, player &installer, bool
     // Surgery is imminent, retract claws or blade if active
     for( size_t i = 0; i < installer.my_bionics->size(); i++ ) {
         const bionic &bio = ( *installer.my_bionics )[ i ];
-        if( bio.powered && bio.info().has_flag( flag_BIO_WEAPON ) ) {
+        if( bio.powered && bio.info().has_flag( flag_BIONIC_WEAPON ) ) {
             installer.deactivate_bionic( i );
         }
     }
