@@ -1219,7 +1219,8 @@ bool player::can_continue_craft( item &craft )
                 if( adjusted_alternative.count > 0 ) {
                     adjusted_alternative.count *= batch_size;
                     // Only for the next 5% progress
-                    adjusted_alternative.count = std::max( adjusted_alternative.count / 20, 1 );
+                    adjusted_alternative.count = std::max(
+                                                     crafting::charges_for_continuing( adjusted_alternative.count ), 1 );
                 }
                 adjusted_alternatives.push_back( adjusted_alternative );
             }
@@ -1574,11 +1575,14 @@ find_tool_component( const Character *player_with_inv, const std::vector<tool_co
         const int full_craft_charges = std::max( 1, t.count * batch );
         switch( charge_mod ) {
             case cost_adjustment::none:
-                return std::make_pair( full_craft_charges, full_craft_charges );
+                return std::make_pair( charges_for_complete( full_craft_charges ),
+                                       charges_for_complete( full_craft_charges ) );
             case cost_adjustment::start_only:
-                return std::make_pair( full_craft_charges / 20 + full_craft_charges % 20, full_craft_charges );
+                return std::make_pair( charges_for_starting( full_craft_charges ),
+                                       charges_for_complete( full_craft_charges ) );
             case cost_adjustment::continue_only:
-                return std::make_pair( std::max( 1, full_craft_charges / 20 ), full_craft_charges );
+                return std::make_pair( charges_for_continuing( full_craft_charges ),
+                                       charges_for_complete( full_craft_charges ) );
         }
 
         debugmsg( "Invalid tool_charge_mod" );

@@ -79,7 +79,6 @@ int charges_for_continuing( int full_charges );
  * @param player_with_inv if not null, character who provides additional inventory
  * @param hotkeys hotkeys available to the menu
  * @param can_cancel can the selection be aborted with no result
- * @param pick_first select like an npc - pick first result matched, preferring ones on player
  * @param adjustment affects required charges, see @ref cost_adjustment
  */
 comp_selection<tool_comp>
