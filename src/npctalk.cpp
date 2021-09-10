@@ -1096,8 +1096,10 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
             } else {
                 info += _( "\nThirsty" );
             }
-            if( p->get_hunger() < 100 ) {
-                time_duration hunger_at = 5_minutes * ( 100 - p->get_hunger() ) / rates.hunger;
+            if( p->max_stored_kcal() - p->get_stored_kcal() > 500 ) {
+                time_duration hunger_at = 5_minutes
+                                          * ( 500 - p->max_stored_kcal() + p->get_stored_kcal() )
+                                          / p->bmr();
                 if( hunger_at > 1_hours ) {
                     info += _( "\nWill need food in " ) + to_string_approx( hunger_at );
                 }
@@ -3392,12 +3394,12 @@ std::string give_item_to( npc &p, bool allow_use )
                           cur_weapon_value );
         }
     } else {//allow_use is false so try to carry instead
-        if( p.can_pickVolume( given ) && p.can_pickWeight( given ) ) {
+        if( p.can_pick_volume( given ) && p.can_pick_weight( given ) ) {
             reason = _( "Thanks, I'll carry that now." );
             taken = true;
             p.i_add( given );
         } else {
-            if( !p.can_pickVolume( given ) ) {
+            if( !p.can_pick_volume( given ) ) {
                 const units::volume free_space = p.volume_capacity() - p.volume_carried();
                 reason += "\n" + std::string( _( "I have no space to store it." ) ) + "\n";
                 if( free_space > 0_ml ) {
@@ -3407,7 +3409,7 @@ std::string give_item_to( npc &p, bool allow_use )
                     reason += _( "…or to store anything else for that matter." );
                 }
             }
-            if( !p.can_pickWeight( given ) ) {
+            if( !p.can_pick_weight( given ) ) {
                 reason += std::string( "\n" ) + _( "It is too heavy for me to carry." );
             }
         }

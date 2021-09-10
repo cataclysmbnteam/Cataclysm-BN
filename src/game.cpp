@@ -59,6 +59,7 @@
 #include "debug.h"
 #include "dependency_tree.h"
 #include "distribution_grid.h"
+#include "drop_token.h"
 #include "editmap.h"
 #include "enums.h"
 #include "event.h"
@@ -217,14 +218,12 @@ static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
-static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_tied( "tied" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
 static const trait_id trait_BADKNEES( "BADKNEES" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
-static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
@@ -590,6 +589,8 @@ void game::setup()
 
     remoteveh_cache_time = calendar::before_time_starts;
     remoteveh_cache = nullptr;
+
+    token_provider_ptr->clear();
     // back to menu for save loading, new game etc
 }
 
@@ -767,6 +768,14 @@ bool game::start_game()
             }
         }
     }
+    if( scen->has_flag( "BORDERED" ) ) {
+        overmap &starting_om = get_cur_om();
+        for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+            starting_om.place_special_forced( overmap_special_id( "world" ), { 0, 0, z },
+                                              om_direction::type::north );
+        }
+
+    }
     for( auto &e : u.inv_dump() ) {
         e->set_owner( g->u );
     }
@@ -941,6 +950,33 @@ void game::create_starting_npcs()
     //One random starting NPC mission
     tmp->add_new_mission( mission::reserve_random( ORIGIN_OPENER_NPC, tmp->global_omt_location(),
                           tmp->getID() ) );
+}
+
+static std::string generate_memorial_filename( const std::string &char_name )
+{
+    // <name>-YYYY-MM-DD-HH-MM-SS.txt
+    //       123456789012345678901234 ~> 24 chars + a null
+    constexpr size_t suffix_len = 24 + 1;
+    constexpr size_t max_name_len = FILENAME_MAX - suffix_len;
+
+    const size_t name_len = char_name.size();
+    // Here -1 leaves space for the ~
+    const size_t truncated_name_len = ( name_len >= max_name_len ) ? ( max_name_len - 1 ) : name_len;
+
+    std::ostringstream memorial_file_path;
+
+    memorial_file_path << ensure_valid_file_name( char_name );
+
+    // Add a ~ if the player name was actually truncated.
+    memorial_file_path << ( ( truncated_name_len != name_len ) ? "~-" : "-" );
+
+    // Add a timestamp for uniqueness.
+    char buffer[suffix_len] {};
+    std::time_t t = std::time( nullptr );
+    std::strftime( buffer, suffix_len, "%Y-%m-%d-%H-%M-%S", std::localtime( &t ) );
+    memorial_file_path << buffer;
+
+    return memorial_file_path.str();
 }
 
 bool game::cleanup_at_end()
@@ -1142,8 +1178,9 @@ bool game::cleanup_at_end()
         const bool is_suicide = uquit == QUIT_SUICIDE;
         events().send<event_type::game_over>( is_suicide, sLastWords );
         // Struck the save_player_data here to forestall Weirdness
-        move_save_to_graveyard();
-        write_memorial_file( sLastWords );
+        std::string char_filename = generate_memorial_filename( u.name );
+        move_save_to_graveyard( char_filename );
+        write_memorial_file( char_filename, sLastWords );
         memorial().clear();
         std::vector<std::string> characters = list_active_characters();
         // remove current player from the active characters list, as they are dead
@@ -1936,7 +1973,9 @@ void game::handle_key_blocking_activity()
         const std::string action = ctxt.handle_input( 0 );
         bool refresh = true;
         if( action == "pause" ) {
-            cancel_activity_query( _( "Confirm:" ) );
+            if( u.activity.interruptable_with_kb ) {
+                cancel_activity_query( _( "Confirm:" ) );
+            }
         } else if( action == "player_data" ) {
             u.disp_info();
         } else if( action == "messages" ) {
@@ -2641,14 +2680,19 @@ void game::win_screen()
     popup( msg );
 }
 
-void game::move_save_to_graveyard()
+void game::move_save_to_graveyard( const std::string &dirname )
 {
-    const std::string &save_dir      = get_world_base_save_path();
-    const std::string &graveyard_dir = PATH_INFO::graveyarddir();
-    const std::string &prefix        = base64_encode( u.name ) + ".";
+    const std::string save_dir           = get_world_base_save_path();
+    const std::string graveyard_dir      = PATH_INFO::graveyarddir() + "/";
+    const std::string graveyard_save_dir = graveyard_dir + dirname + "/";
+    const std::string prefix             = base64_encode( u.name ) + ".";
 
     if( !assure_dir_exist( graveyard_dir ) ) {
         debugmsg( "could not create graveyard path '%s'", graveyard_dir );
+    }
+
+    if( !assure_dir_exist( graveyard_save_dir ) ) {
+        debugmsg( "could not create graveyard path '%s'", graveyard_save_dir );
     }
 
     const auto save_files = get_files_from_path( prefix, save_dir );
@@ -2657,7 +2701,7 @@ void game::move_save_to_graveyard()
     }
 
     for( const auto &src_path : save_files ) {
-        const std::string dst_path = graveyard_dir +
+        const std::string dst_path = graveyard_save_dir +
                                      src_path.substr( src_path.rfind( '/' ), std::string::npos );
 
         if( rename_file( src_path, dst_path ) ) {
@@ -3013,7 +3057,7 @@ std::vector<std::string> game::list_active_characters()
  * state at the time the memorial was made (usually upon death) and
  * accomplishments in a human-readable format.
  */
-void game::write_memorial_file( std::string sLastWords )
+void game::write_memorial_file( const std::string &filename, std::string sLastWords )
 {
     const std::string &memorial_dir = PATH_INFO::memorialdir();
     const std::string &memorial_active_world_dir = memorial_dir +
@@ -3030,33 +3074,9 @@ void game::write_memorial_file( std::string sLastWords )
         return;
     }
 
-    // <name>-YYYY-MM-DD-HH-MM-SS.txt
-    //       123456789012345678901234 ~> 24 chars + a null
-    constexpr size_t suffix_len   = 24 + 1;
-    constexpr size_t max_name_len = FILENAME_MAX - suffix_len;
+    std::string path = memorial_active_world_dir + filename + ".txt";
 
-    const size_t name_len = u.name.size();
-    // Here -1 leaves space for the ~
-    const size_t truncated_name_len = ( name_len >= max_name_len ) ? ( max_name_len - 1 ) : name_len;
-
-    std::ostringstream memorial_file_path;
-    memorial_file_path << memorial_active_world_dir;
-
-    memorial_file_path << ensure_valid_file_name( u.name );
-
-    // Add a ~ if the player name was actually truncated.
-    memorial_file_path << ( ( truncated_name_len != name_len ) ? "~-" : "-" );
-
-    // Add a timestamp for uniqueness.
-    char buffer[suffix_len] {};
-    std::time_t t = std::time( nullptr );
-    std::strftime( buffer, suffix_len, "%Y-%m-%d-%H-%M-%S", std::localtime( &t ) );
-    memorial_file_path << buffer;
-
-    memorial_file_path << ".txt";
-
-    const std::string path_string = memorial_file_path.str();
-    write_to_file( memorial_file_path.str(), [&]( std::ostream & fout ) {
+    write_to_file( path, [&]( std::ostream & fout ) {
         memorial().write( fout, sLastWords );
     }, _( "player memorial" ) );
 }
@@ -5629,17 +5649,24 @@ void game::examine( const tripoint &examp )
     Creature *c = critter_at( examp );
     if( c != nullptr ) {
         monster *mon = dynamic_cast<monster *>( c );
-        if( mon != nullptr && mon->has_effect( effect_pet ) && !u.is_mounted() ) {
-            if( monexamine::pet_menu( *mon ) ) {
-                return;
-            }
-        } else if( mon && mon->has_flag( MF_RIDEABLE_MECH ) && !mon->has_effect( effect_pet ) ) {
-            if( monexamine::mech_hack( *mon ) ) {
-                return;
-            }
-        } else if( mon && mon->has_flag( MF_PAY_BOT ) ) {
-            if( monexamine::pay_bot( *mon ) ) {
-                return;
+        if( mon != nullptr ) {
+            add_msg( _( "There is a %s." ), mon->get_name() );
+            if( mon->has_effect( effect_pet ) && !u.is_mounted() ) {
+                if( monexamine::pet_menu( *mon ) ) {
+                    return;
+                }
+            } else if( mon->has_flag( MF_RIDEABLE_MECH ) && !mon->has_effect( effect_pet ) ) {
+                if( monexamine::mech_hack( *mon ) ) {
+                    return;
+                }
+            } else if( mon->has_flag( MF_PAY_BOT ) ) {
+                if( monexamine::pay_bot( *mon ) ) {
+                    return;
+                }
+            } else if( mon->attitude_to( u ) == Creature::A_FRIENDLY && !u.is_mounted() ) {
+                if( monexamine::mfriend_menu( *mon ) ) {
+                    return;
+                }
             }
         } else if( u.is_mounted() ) {
             add_msg( m_warning, _( "You cannot do that while mounted." ) );
@@ -5740,7 +5767,7 @@ void game::examine( const tripoint &examp )
         } else {
             sounds::process_sound_markers( &u );
             if( !u.is_mounted() ) {
-                Pickup::pick_up( examp, 0 );
+                pickup::pick_up( examp, 0 );
             }
         }
     }
@@ -5765,12 +5792,12 @@ void game::pickup( const tripoint &p )
     } );
     add_draw_callback( hilite_cb );
 
-    Pickup::pick_up( p, 0 );
+    pickup::pick_up( p, 0 );
 }
 
 void game::pickup_feet()
 {
-    Pickup::pick_up( u.pos(), 1 );
+    pickup::pick_up( u.pos(), 1 );
 }
 
 //Shift player by one tile, look_around(), then restore previous position.
@@ -5911,30 +5938,14 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
             print_visibility_info( w_look, column, line, visibility );
 
             if( creature != nullptr ) {
+                std::vector<std::string> buf;
                 if( u.sees_with_infrared( *creature ) ) {
-                    std::string size_str;
-                    switch( creature->get_size() ) {
-                        case MS_TINY:
-                            size_str = pgettext( "infrared size", "tiny" );
-                            break;
-                        case MS_SMALL:
-                            size_str = pgettext( "infrared size", "small" );
-                            break;
-                        case MS_MEDIUM:
-                            size_str = pgettext( "infrared size", "medium" );
-                            break;
-                        case MS_LARGE:
-                            size_str = pgettext( "infrared size", "large" );
-                            break;
-                        case MS_HUGE:
-                            size_str = pgettext( "infrared size", "huge" );
-                            break;
-                    }
-                    mvwprintw( w_look, point( 1, ++line ), _( "You see a figure radiating heat." ) );
-                    mvwprintw( w_look, point( 1, ++line ), _( "It is %s in size." ),
-                               size_str );
+                    creature->describe_infrared( buf );
                 } else if( u.sees_with_specials( *creature ) ) {
-                    mvwprintw( w_look, point( 1, ++line ), _( "You sense a creature here." ) );
+                    creature->describe_specials( buf );
+                }
+                for( const std::string &s : buf ) {
+                    mvwprintw( w_look, point( 1, ++line ), s );
                 }
             }
             break;
@@ -6789,19 +6800,24 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
 
             center_print( w_info, 0, c_white, string_format( _( "< <color_green>Look Around</color> >" ) ) );
 
+            std::string extended_descr_text = string_format( _( "%s - %s" ),
+                                              ctxt.get_desc( "EXTENDED_DESCRIPTION" ),
+                                              ctxt.get_action_name( "EXTENDED_DESCRIPTION" ) );
             std::string fast_scroll_text = string_format( _( "%s - %s" ),
                                            ctxt.get_desc( "TOGGLE_FAST_SCROLL" ),
                                            ctxt.get_action_name( "TOGGLE_FAST_SCROLL" ) );
             std::string pixel_minimap_text = string_format( _( "%s - %s" ),
                                              ctxt.get_desc( "toggle_pixel_minimap" ),
                                              ctxt.get_action_name( "toggle_pixel_minimap" ) );
+
+            center_print( w_info, getmaxy( w_info ) - 2, c_light_gray, extended_descr_text );
             mvwprintz( w_info, point( 1, getmaxy( w_info ) - 1 ), fast_scroll ? c_light_green : c_green,
                        fast_scroll_text );
             right_print( w_info, getmaxy( w_info ) - 1, 1, pixel_minimap_option ? c_light_green : c_green,
                          pixel_minimap_text );
 
             int first_line = 1;
-            const int last_line = getmaxy( w_info ) - 2;
+            const int last_line = getmaxy( w_info ) - 3;
             pre_print_all_tile_info( lp, w_info, first_line, last_line, cache );
 
             wnoutrefresh( w_info );
@@ -7281,7 +7297,7 @@ void game::list_items_monsters()
     }
 
     if( ret == game::vmenu_ret::FIRE ) {
-        avatar_action::fire_wielded_weapon( u, m );
+        avatar_action::fire_wielded_weapon( u );
     }
     reenter_fullscreen();
 }
@@ -8021,6 +8037,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
         } else if( action == "fire" ) {
             if( cCurMon != nullptr && rl_dist( u.pos(), cCurMon->pos() ) <= max_gun_range ) {
                 u.last_target = shared_from( *cCurMon );
+                u.recoil = MAX_RECOIL;
                 u.view_offset = stored_view_offset;
                 return game::vmenu_ret::FIRE;
             }
@@ -8677,14 +8694,14 @@ void game::reload_item()
     reload( item_loc );
 }
 
-void game::reload_wielded()
+void game::reload_wielded( bool prompt )
 {
     if( u.weapon.is_null() || !u.weapon.is_reloadable() ) {
         add_msg( _( "You aren't holding something you can reload." ) );
         return;
     }
     item_location item_loc = item_location( u, &u.weapon );
-    reload( item_loc );
+    reload( item_loc, prompt );
 }
 
 void game::reload_weapon( bool try_everything )
@@ -9243,8 +9260,9 @@ bool game::walk_move( const tripoint &dest_loc )
             u.burn_move_stamina( 0.50 * ( previous_moves - u.moves ) );
         }
     }
-    // Max out recoil
+    // Max out recoil & reset aim point
     u.recoil = MAX_RECOIL;
+    u.last_target_pos = cata::nullopt;
 
     // Print a message if movement is slow
     const int mcost_to = m.move_cost( dest_loc ); //calculate this _after_ calling grabbed_move
@@ -9426,9 +9444,6 @@ point game::place_player( const tripoint &dest_loc )
                          body_part_name_accusative( bp->token ),
                          m.has_flag_ter( "SHARP", dest_loc ) ? m.tername( dest_loc ) : m.furnname(
                              dest_loc ) );
-                if( !u.has_trait( trait_INFRESIST ) ) {
-                    u.add_effect( effect_tetanus, 1_turns, num_bp );
-                }
             }
         }
     }
@@ -9590,7 +9605,7 @@ point game::place_player( const tripoint &dest_loc )
     if( !u.is_mounted() && get_option<bool>( "AUTO_PICKUP" ) && !u.is_hauling() &&
         ( !get_option<bool>( "AUTO_PICKUP_SAFEMODE" ) || mostseen == 0 ) &&
         ( m.has_items( u.pos() ) || get_option<bool>( "AUTO_PICKUP_ADJACENT" ) ) ) {
-        Pickup::pick_up( u.pos(), -1 );
+        pickup::pick_up( u.pos(), -1 );
     }
 
     // If the new tile is a boardable part, board it
@@ -11695,7 +11710,7 @@ void game::process_artifact( item &it, player &p )
 
             case AEP_HUNGER:
                 if( one_in( 100 ) ) {
-                    p.mod_hunger( 1 );
+                    p.mod_stored_kcal( -10 );
                 }
                 break;
 

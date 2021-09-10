@@ -65,7 +65,7 @@ struct field_effect {
     time_duration min_duration = 0_seconds;
     time_duration max_duration = 0_seconds;
     int intensity = 0;
-    body_part bp = num_bp;
+    bodypart_str_id bp = bodypart_str_id::NULL_ID();
     bool is_environmental = true;
     bool immune_in_vehicle  = false;
     bool immune_inside_vehicle  = false;
@@ -109,6 +109,7 @@ struct field_intensity_level {
     int monster_spawn_radius = 0;
     mongroup_id monster_spawn_group;
     float light_emitted = 0.0f;
+    float local_light_override = -1.0f;
     float translucency = 0.0f;
     int convection_temperature_mod = 0;
     int scent_neutralization = 0;
@@ -223,6 +224,9 @@ struct field_type {
         }
         float get_light_emitted( int level = 0 ) const {
             return get_intensity_level( level ).light_emitted;
+        }
+        float get_local_light_override( int level = 0 )const {
+            return get_intensity_level( level ).local_light_override;
         }
         float get_translucency( int level = 0 ) const {
             return get_intensity_level( level ).translucency;

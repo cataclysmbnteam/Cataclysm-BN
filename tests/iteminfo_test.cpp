@@ -111,7 +111,7 @@ TEST_CASE( "item rigidity", "[item][iteminfo][rigidity]" )
             item( "test_waterskin" ), q,
             "--\n"
             "<color_c_white>Encumbrance</color>: <color_c_yellow>0</color>"
-            "  Encumbrance when full: <color_c_yellow>6</color>\n"
+            "  Encumbrance when full: <color_c_yellow>3</color>\n"
             "--\n"
             "* This item is <color_c_cyan>not rigid</color>."
             "  Its volume and encumbrance increase with contents.\n" );
@@ -362,7 +362,6 @@ TEST_CASE( "nutrients in food", "[item][iteminfo][food]" )
             "Quench: <color_c_yellow>0</color>\n"
             "Vitamins (RDA): Calcium (9%), Vitamin A (9%), and Vitamin B12 (11%)\n" );
     }
-
     SECTION( "nutrient ranges for recipe exemplars", "[item][iteminfo]" ) {
         item i( "icecream" );
         i.set_var( "recipe_exemplar", "icecream" );
@@ -370,7 +369,7 @@ TEST_CASE( "nutrients in food", "[item][iteminfo][food]" )
             i, q,
             "--\n"
             "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
-            "<color_c_white>Calories (kcal)</color>: <color_c_yellow>317</color>-"
+            "<color_c_white>Calories (kcal)</color>: <color_c_yellow>282</color>-"
             "<color_c_yellow>469</color>  Quench: <color_c_yellow>0</color>\n"
             "Vitamins (RDA): Calcium (7-28%), Iron (0-83%), "
             "Vitamin A (3-11%), Vitamin B12 (2-6%), and Vitamin C (1-85%)\n" );

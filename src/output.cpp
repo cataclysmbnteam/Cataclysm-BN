@@ -161,9 +161,11 @@ std::string remove_color_tags( const std::string &s )
     return ret;
 }
 
-static void update_color_stack( std::stack<nc_color> &color_stack, const std::string &seg )
+static color_tag_parse_result::tag_type update_color_stack(
+    std::stack<nc_color> &color_stack, const std::string &seg,
+    const report_color_error color_error = report_color_error::yes )
 {
-    color_tag_parse_result tag = get_color_from_tag( seg );
+    color_tag_parse_result tag = get_color_from_tag( seg, color_error );
     switch( tag.type ) {
         case color_tag_parse_result::open_color_tag:
             color_stack.push( tag.color );
@@ -177,10 +179,12 @@ static void update_color_stack( std::stack<nc_color> &color_stack, const std::st
             // Do nothing
             break;
     }
+    return tag.type;
 }
 
 void print_colored_text( const catacurses::window &w, const point &p, nc_color &color,
-                         const nc_color &base_color, const std::string &text )
+                         const nc_color &base_color, const std::string &text,
+                         const report_color_error color_error )
 {
     if( p.y > -1 && p.x > -1 ) {
         wmove( w, p );
@@ -195,8 +199,11 @@ void print_colored_text( const catacurses::window &w, const point &p, nc_color &
         }
 
         if( seg[0] == '<' ) {
-            update_color_stack( color_stack, seg );
-            seg = rm_prefix( seg );
+            const color_tag_parse_result::tag_type type = update_color_stack(
+                        color_stack, seg, color_error );
+            if( type != color_tag_parse_result::non_color_tag ) {
+                seg = rm_prefix( seg );
+            }
         }
 
         color = color_stack.empty() ? base_color : color_stack.top();
@@ -204,11 +211,14 @@ void print_colored_text( const catacurses::window &w, const point &p, nc_color &
     }
 }
 
-void trim_and_print( const catacurses::window &w, const point &begin, int width,
-                     nc_color base_color, const std::string &text )
+void trim_and_print( const catacurses::window &w, const point &begin,
+                     const int width, const nc_color &base_color,
+                     const std::string &text,
+                     const report_color_error color_error )
 {
     std::string sText = trim_by_length( text, width );
-    print_colored_text( w, begin, base_color, base_color, sText );
+    nc_color dummy = base_color;
+    print_colored_text( w, begin, dummy, base_color, sText, color_error );
 }
 
 std::string trim_by_length( const std::string  &text, int width )
@@ -316,14 +326,18 @@ int fold_and_print_from( const catacurses::window &w, const point &begin, int wi
         // for each section, get the color, and print it
         std::vector<std::string>::iterator it;
         for( it = color_segments.begin(); it != color_segments.end(); ++it ) {
+            color_tag_parse_result::tag_type type = color_tag_parse_result::non_color_tag;
             if( !it->empty() && it->at( 0 ) == '<' ) {
-                update_color_stack( color_stack, *it );
+                type = update_color_stack( color_stack, *it );
             }
             if( line_num >= begin_line ) {
-                std::string l = rm_prefix( *it );
+                std::string l = *it;
+                if( type != color_tag_parse_result::non_color_tag ) {
+                    l = rm_prefix( l );
+                }
                 if( l != "--" ) { // -- is a separation line!
                     nc_color color = color_stack.empty() ? base_color : color_stack.top();
-                    wprintz( w, color, rm_prefix( *it ) );
+                    wprintz( w, color, l );
                 } else {
                     for( int i = 0; i < width; i++ ) {
                         wputch( w, c_dark_gray, LINE_OXOX );
@@ -1616,6 +1630,71 @@ std::string get_labeled_bar( const double val, const int width, const std::strin
     return get_labeled_bar( val, width, label, ratings.begin(), ratings.end() );
 }
 
+/**
+ * Inserts a table into a window, with data right-aligned.
+ * @param pad Reduce table width by padding left side.
+ * @param line Line to insert table.
+ * @param columns Number of columns. Can be 1.
+ * @param nc_color &FG Default color of table text.
+ * @param divider To insert a character separating table entries. Can be blank.
+ * @param r_align true for right aligned, false for left aligned.
+ * @param data Text data to fill.
+ * Make sure each entry of the data vector fits into one cell, including divider if any.
+ */
+void insert_table( const catacurses::window &w, int pad, int line, int columns,
+                   const nc_color &FG, const std::string &divider, bool r_align,
+                   const std::vector<std::string> &data )
+{
+    const int width = getmaxx( w );
+    const int rows = getmaxy( w );
+    const int col_width = ( ( width - pad ) / columns );
+    int indent = 1;  // 1 for right window border
+    if( r_align ) {
+        indent = ( col_width * columns ) + 1;
+    }
+    int div = columns - 1;
+    int offset = 0;
+
+#if defined(__ANDROID__)
+    input_context ctxt( "INSERT_TABLE" );
+#endif
+    wattron( w, FG );
+    for( int i = 0; i < rows * columns; i++ ) {
+        if( i + offset * columns >= static_cast<int>( data.size() ) ) {
+            break;
+        }
+        int y = line + ( i / columns );
+        if( r_align ) {
+            indent -= col_width;
+        }
+        if( div != 0 ) {
+            if( r_align ) {
+                right_print( w, y, indent - utf8_width( divider ), FG, divider );
+            } else {
+                fold_and_print_from( w, point( indent + col_width - utf8_width( divider ), y ),
+                                     utf8_width( divider ), 0, FG, divider );
+            }
+            div--;
+        } else {
+            div = columns - 1;
+        }
+
+        if( r_align ) {
+            right_print( w, y, indent, c_white, data[i + offset * columns] );
+            if( indent == 1 ) {
+                indent = ( col_width * columns ) + 1;
+            }
+        } else {
+            fold_and_print_from( w, point( indent, y ), col_width, 0, c_white, data[i + offset * columns] );
+            indent += col_width;
+            if( indent == ( col_width * columns ) + 1 ) {
+                indent = 1;
+            }
+        }
+    }
+    wattroff( w, FG );
+}
+
 scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,
                                  const std::string &p_sText, const game_message_type p_gmt,
                                  const std::string &p_sText2, const game_message_type p_gmt2,
@@ -1665,6 +1744,10 @@ void scrollingcombattext::add( const point &pos, direction p_oDir,
                                const std::string &p_sText2, const game_message_type p_gmt2,
                                const std::string &p_sType )
 {
+    // TODO: A non-hack
+    if( test_mode ) {
+        return;
+    }
     if( get_option<bool>( "ANIMATION_SCT" ) ) {
 
         int iCurStep = 0;

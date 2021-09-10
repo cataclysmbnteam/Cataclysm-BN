@@ -63,7 +63,7 @@
     "price_postapoc": 10,
     "charges": 7,
     "phase": "liquid",
-    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "flags": [ "UNSAFE_CONSUME", "NUTRIENT_OVERRIDE" ],
     "comestible_type": "DRINK"
   },
   {
@@ -109,7 +109,7 @@
     "price_postapoc": 10,
     "charges": 7,
     "phase": "liquid",
-    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "flags": [ "UNSAFE_CONSUME", "NUTRIENT_OVERRIDE" ],
     "comestible_type": "DRINK"
   },
   {
@@ -155,7 +155,7 @@
     "price_postapoc": 10,
     "charges": 7,
     "phase": "liquid",
-    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "flags": [ "UNSAFE_CONSUME", "NUTRIENT_OVERRIDE" ],
     "comestible_type": "DRINK"
   },
   {
@@ -201,7 +201,7 @@
     "price_postapoc": 10,
     "charges": 7,
     "phase": "liquid",
-    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "flags": [ "UNSAFE_CONSUME", "NUTRIENT_OVERRIDE" ],
     "comestible_type": "DRINK"
   },
   {
@@ -375,7 +375,7 @@
     "price_postapoc": 10,
     "charges": 7,
     "phase": "liquid",
-    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "flags": [ "UNSAFE_CONSUME", "NUTRIENT_OVERRIDE" ],
     "comestible_type": "DRINK"
   },
   {

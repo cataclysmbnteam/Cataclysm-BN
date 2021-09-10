@@ -822,6 +822,7 @@ class map
          */
         const std::set<std::string> &get_harvest_names( const tripoint &p ) const;
         ter_id get_ter_transforms_into( const tripoint &p ) const;
+        furn_id get_furn_transforms_into( const tripoint &p ) const;
 
         bool ter_set( const tripoint &p, const ter_id &new_terrain );
         bool ter_set( const point &p, const ter_id &new_terrain ) {
@@ -1695,7 +1696,6 @@ class map
         void draw_lab( mapgendata &dat );
         void draw_temple( mapgendata &dat );
         void draw_mine( mapgendata &dat );
-        void draw_spiral( mapgendata &dat );
         void draw_anthill( mapgendata &dat );
         void draw_slimepit( mapgendata &dat );
         void draw_spider_pit( mapgendata &dat );

@@ -22,34 +22,10 @@
     "difficulty": 5,
     "skills_required": [ "mechanics", 2 ],
     "time": "2 h",
-    "book_learn": [ [ "textbook_fabrication", 4 ], [ "welding_book", 5 ], [ "manual_mechanics", 4 ] ],
+    "book_learn": [ [ "textbook_fabrication", 4 ], [ "manual_fabrication", 5 ], [ "welding_book", 5 ], [ "manual_mechanics", 4 ] ],
     "using": [ [ "welding_standard", 1 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "hose", 1 ] ], [ [ "scrap", 10 ] ] ]
-  },
-  {
-    "result": "loom_frame",
-    "type": "recipe",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "40 m",
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "2x4", 4 ], [ "stick", 4 ] ], [ [ "cordage_short", 4, "LIST" ] ] ]
-  },
-  {
-    "result": "shed_stick",
-    "type": "recipe",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "10 m",
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ], [ "splinter", 1 ] ] ]
   },
   {
     "result": "sickle",
@@ -457,32 +433,6 @@
     "book_learn": [ [ "mag_survival", 2 ], [ "textbook_survival", 1 ], [ "cookbook", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "can_food_unsealed", 2 ], [ "scrap", 4 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "hand_axe",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "survival",
-    "skills_required": [ "fabrication", 1 ],
-    "difficulty": 3,
-    "time": 54000,
-    "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "rock", 1 ], [ "ceramic_shard", 1 ], [ "sharp_rock", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "makeshift_axe",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "survival",
-    "skills_required": [ "fabrication", 1 ],
-    "difficulty": 3,
-    "time": 60000,
-    "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 1 ], [ "steel_lump", 1 ] ] ]
   },
   {
     "type": "recipe",

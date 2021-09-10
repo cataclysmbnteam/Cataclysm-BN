@@ -408,9 +408,9 @@ class pickup_inventory_preset : public inventory_selector_preset
             if( !p.has_item( *loc ) ) {
                 if( loc->made_of( LIQUID ) ) {
                     return _( "Can't pick up spilt liquids" );
-                } else if( !p.can_pickVolume( *loc ) && p.is_armed() ) {
+                } else if( !p.can_pick_volume( *loc ) && p.is_armed() ) {
                     return _( "Too big to pick up" );
-                } else if( !p.can_pickWeight( *loc, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
+                } else if( !p.can_pick_weight( *loc, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
                     return _( "Too heavy to pick up" );
                 }
             }

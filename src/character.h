@@ -281,7 +281,7 @@ class Character : public Creature, public visitable<Character>
         bool is_warm() const override;
         bool in_species( const species_id &spec ) const override;
         // Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
-        bool death_drops;
+        bool death_drops = true;
         const std::string &symbol() const override;
 
         enum class comfort_level {
@@ -295,15 +295,15 @@ class Character : public Creature, public visitable<Character>
 
         // Character stats
         // TODO: Make those protected
-        int str_max;
-        int dex_max;
-        int int_max;
-        int per_max;
+        int str_max = 0;
+        int dex_max = 0;
+        int int_max = 0;
+        int per_max = 0;
 
-        int str_cur;
-        int dex_cur;
-        int int_cur;
-        int per_cur;
+        int str_cur = 0;
+        int dex_cur = 0;
+        int int_cur = 0;
+        int per_cur = 0;
 
         // The prevalence of getter, setter, and mutator functions here is partially
         // a result of the slow, piece-wise migration of the player class upwards into
@@ -359,12 +359,10 @@ class Character : public Creature, public visitable<Character>
 
         /** Getter for need values exclusive to characters */
         int get_stored_kcal() const;
-        int get_healthy_kcal() const;
         // Maximum stored calories, excluding stomach.
         // If more would be digested, it is instead wasted.
-        int max_stored_calories() const;
+        int max_stored_kcal() const;
         float get_kcal_percent() const;
-        float get_hunger() const;
         int get_thirst() const;
         std::pair<std::string, nc_color> get_thirst_description() const;
         std::pair<std::string, nc_color> get_hunger_description() const;
@@ -377,14 +375,12 @@ class Character : public Creature, public visitable<Character>
         /** Modifiers for need values exclusive to characters */
         virtual void mod_stored_kcal( int nkcal );
         virtual void mod_stored_nutr( int nnutr );
-        virtual void mod_hunger( float nhunger );
         virtual void mod_thirst( int nthirst );
         virtual void mod_fatigue( int nfatigue );
         virtual void mod_sleep_deprivation( int nsleep_deprivation );
 
         /** Setters for need values exclusive to characters */
         virtual void set_stored_kcal( int kcal );
-        virtual void set_hunger( float nhunger );
         virtual void set_thirst( int nthirst );
         virtual void set_fatigue( int nfatigue );
         virtual void set_sleep_deprivation( int nsleep_deprivation );
@@ -617,8 +613,8 @@ class Character : public Creature, public visitable<Character>
         /** Returns true if the character is wearing something on the entered body_part, ignoring items with the ALLOWS_NATURAL_ATTACKS flag */
         bool natural_attack_restricted_on( const bodypart_id &bp ) const;
 
-        int blocks_left;
-        int dodges_left;
+        int blocks_left = 0;
+        int dodges_left = 0;
 
         double recoil = MAX_RECOIL;
 
@@ -925,6 +921,8 @@ class Character : public Creature, public visitable<Character>
         int mabuff_block_bonus() const;
         /** Returns the speed bonus from martial arts buffs */
         int mabuff_speed_bonus() const;
+        /** Returns the arpen bonus from martial arts buffs*/
+        int mabuff_arpen_bonus( damage_type type ) const;
         /** Returns the damage multiplier to given type from martial arts buffs */
         float mabuff_damage_mult( damage_type type ) const;
         /** Returns the flat damage bonus to given type from martial arts buffs, applied after the multiplier */
@@ -1350,7 +1348,7 @@ class Character : public Creature, public visitable<Character>
 
         /// Sometimes we need to calculate hypothetical volume or weight.  This
         /// struct offers two possible tweaks: a collection of items and
-        /// coutnts to remove, or an entire replacement inventory.
+        /// counts to remove, or an entire replacement inventory.
         struct item_tweaks {
             item_tweaks() = default;
             item_tweaks( const std::map<const item *, int> &w ) :
@@ -1371,8 +1369,10 @@ class Character : public Creature, public visitable<Character>
             const units::volume &mod,
             const std::map<const item *, int> &without_items = {} ) const;
 
-        bool can_pickVolume( const item &it, bool safe = false ) const;
-        bool can_pickWeight( const item &it, bool safe = true ) const;
+        bool can_pick_volume( const item &it ) const;
+        bool can_pick_volume( units::volume volume ) const;
+        bool can_pick_weight( const item &it, bool safe = true ) const;
+        bool can_pick_weight( units::mass weight, bool safe = true ) const;
         /**
          * Checks if character stats and skills meet minimum requirements for the item.
          * Prints an appropriate message if requirements not met.
@@ -1576,14 +1576,14 @@ class Character : public Creature, public visitable<Character>
 
         // --------------- Values ---------------
         std::string name;
-        bool male;
+        bool male = true;
 
         std::list<item> worn;
         std::array<int, num_hp_parts> damage_bandaged, damage_disinfected;
-        bool nv_cached;
+        bool nv_cached = false;
         // Means player sit inside vehicle on the tile he is now
-        bool in_vehicle;
-        bool hauling;
+        bool in_vehicle = false;
+        bool hauling = false;
 
         player_activity stashed_outbounds_activity;
         player_activity stashed_outbounds_backlog;
@@ -1594,20 +1594,20 @@ class Character : public Creature, public visitable<Character>
         itype_id last_item;
         item weapon;
 
-        int scent;
+        int scent = 0;
         pimpl<bionic_collection> my_bionics;
         pimpl<character_martial_arts> martial_arts_data;
 
         stomach_contents stomach;
         std::list<consumption_event> consumption_history;
 
-        int oxygen;
-        int tank_plut;
-        int reactor_plut;
-        int slow_rad;
+        int oxygen = 0;
+        int tank_plut = 0;
+        int reactor_plut = 0;
+        int slow_rad = 0;
 
-        int focus_pool;
-        int cash;
+        int focus_pool = 0;
+        int cash = 0;
         std::set<character_id> follower_ids;
         weak_ptr_fast<Creature> last_target;
         cata::optional<tripoint> last_target_pos;
@@ -1629,7 +1629,7 @@ class Character : public Creature, public visitable<Character>
 
         shared_ptr_fast<monster> mounted_creature;
         // for loading NPC mounts
-        int mounted_creature_id;
+        int mounted_creature_id = 0;
         // for vehicle work
         int activity_vehicle_part_index = -1;
 
@@ -1760,7 +1760,8 @@ class Character : public Creature, public visitable<Character>
         /** Called when an item is washed */
         void on_worn_item_washed( const item &it );
         /** Called when effect intensity has been changed */
-        void on_effect_int_change( const efftype_id &eid, int intensity, body_part bp = num_bp ) override;
+        void on_effect_int_change( const efftype_id &effect_type, int intensity,
+                                   const bodypart_str_id &bp ) override;
         /** Called when a mutation is gained */
         void on_mutation_gain( const trait_id &mid );
         /** Called when a mutation is lost */
@@ -2025,8 +2026,9 @@ class Character : public Creature, public visitable<Character>
                          const time_duration &duration = 1_hours,
                          const time_duration &decay_start = 30_minutes, bool capped = false,
                          const itype *item_type = nullptr );
-        int has_morale( const morale_type &type ) const;
-        void rem_morale( const morale_type &type, const itype *item_type = nullptr );
+        bool has_morale( const morale_type &type ) const;
+        int get_morale( const morale_type &type ) const;
+        void rem_morale( const morale_type &type );
         void clear_morale();
         bool has_morale_to_read() const;
         bool has_morale_to_craft() const;
@@ -2036,7 +2038,7 @@ class Character : public Creature, public visitable<Character>
         void invalidate_crafting_inventory();
 
         /** Checks permanent morale for consistency and recovers it when an inconsistency is found. */
-        void check_and_recover_morale();
+        bool check_and_recover_morale();
 
         /** Handles the enjoyability value for a comestible. First value is enjoyability, second is cap. **/
         std::pair<int, int> fun_for( const item &comest ) const;
@@ -2121,14 +2123,14 @@ class Character : public Creature, public visitable<Character>
         tripoint position;
 
         /** Bonuses to stats, calculated each turn */
-        int str_bonus;
-        int dex_bonus;
-        int per_bonus;
-        int int_bonus;
+        int str_bonus = 0;
+        int dex_bonus = 0;
+        int per_bonus = 0;
+        int int_bonus = 0;
 
         /** How healthy the character is. */
-        int healthy;
-        int healthy_mod;
+        int healthy = 0;
+        int healthy_mod = 0;
 
         /** age in years at character creation */
         int init_age = 25;
@@ -2140,7 +2142,7 @@ class Character : public Creature, public visitable<Character>
         trap_map known_traps;
         std::array<encumbrance_data, num_bp> encumbrance_cache;
         mutable std::map<std::string, double> cached_info;
-        bool bio_soporific_powered_at_last_sleep_check;
+        bool bio_soporific_powered_at_last_sleep_check = false;
         /** last time we checked for sleep */
         time_point last_sleep_check = calendar::turn_zero;
         /** warnings from a faction about bad behavior */
@@ -2171,7 +2173,7 @@ class Character : public Creature, public visitable<Character>
         std::bitset<NUM_VISION_MODES> vision_mode_cache;
         // "Raw" night vision range - just stats+mutations+items
         float nv_range = 0;
-        int sight_max;
+        int sight_max = 0;
 
         // turn the character expired, if calendar::before_time_starts it has not been set yet.
         // TODO: change into an optional<time_point>
@@ -2192,12 +2194,19 @@ class Character : public Creature, public visitable<Character>
         faction_id fac_id;
         faction *my_fac = nullptr;
 
-        character_movemode move_mode;
+        character_movemode move_mode = CMM_WALK;
         /** Current deficiency/excess quantity for each vitamin */
         std::map<vitamin_id, int> vitamin_levels;
 
         pimpl<player_morale> morale;
 
+    public:
+        /**
+         * Map body parts to their total exposure, from 0.0 (fully covered) to 1.0 (buck naked).
+         * Clothing layers are multiplied, ex. two layers of 50% coverage will leave only 25% exposed.
+         * Used to determine suffering effects of albinism and solar sensitivity.
+         */
+        std::map<bodypart_id, float> bodypart_exposure();
     private:
         /** suffer() subcalls */
         void suffer_water_damage( const mutation_branch &mdata );
@@ -2210,7 +2219,7 @@ class Character : public Creature, public visitable<Character>
         void suffer_from_asthma( int current_stim );
         void suffer_from_pain();
         void suffer_in_sunlight();
-        void suffer_from_albinism();
+        void suffer_from_sunburn();
         void suffer_from_other_mutations();
         void suffer_from_radiation();
         void suffer_from_bad_bionics();
@@ -2233,19 +2242,19 @@ class Character : public Creature, public visitable<Character>
         units::energy max_power_level;
 
         /** Needs (hunger, starvation, thirst, fatigue, etc.) */
-        int stored_calories;
+        int stored_calories = 0;
 
-        int thirst;
-        int stamina;
+        int thirst = 0;
+        int stamina = 0;
 
-        int fatigue;
-        int sleep_deprivation;
+        int fatigue = 0;
+        int sleep_deprivation = 0;
         bool check_encumbrance = true;
 
-        int stim;
-        int pkill;
+        int stim = 0;
+        int pkill = 0;
 
-        int radiation;
+        int radiation = 0;
 
         std::vector<tripoint> auto_move_route;
         // Used to make sure auto move is canceled if we stumble off course
@@ -2254,7 +2263,7 @@ class Character : public Creature, public visitable<Character>
 
         struct weighted_int_list<std::string> melee_miss_reasons;
 
-        int cached_moves;
+        int cached_moves = 0;
         tripoint cached_position;
         inventory cached_crafting_inventory;
 
@@ -2273,7 +2282,7 @@ class Character : public Creature, public visitable<Character>
         std::array<int, num_bp> drench_capacity;
 
         time_point next_climate_control_check;
-        bool last_climate_control_ret;
+        bool last_climate_control_ret = false;
 };
 
 Character &get_player_character();

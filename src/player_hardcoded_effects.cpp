@@ -24,6 +24,7 @@
 #include "player_activity.h"
 #include "pldata.h"
 #include "rng.h"
+#include "sdl_wrappers.h"
 #include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
@@ -31,15 +32,6 @@
 #include "translations.h"
 #include "weather.h"
 #include "vitamin.h"
-
-#if defined(TILES)
-#   if defined(_MSC_VER) && defined(USE_VCPKG)
-#       include <SDL2/SDL.h>
-#   else
-#       include <SDL.h>
-#   endif
-#endif // TILES
-
 #include <algorithm>
 #include <functional>
 
@@ -87,10 +79,8 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 static const efftype_id effect_spores( "spores" );
 static const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
-static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_teleglow( "teleglow" );
-static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_toxin_buildup( "toxin_buildup" );
 static const efftype_id effect_valium( "valium" );
 static const efftype_id effect_visuals( "visuals" );
@@ -120,7 +110,7 @@ static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 static void eff_fun_onfire( player &u, effect &it )
 {
     const int intense = it.get_intensity();
-    u.deal_damage( nullptr, convert_bp( it.get_bp() ).id(), damage_instance( DT_HEAT, rng( intense,
+    u.deal_damage( nullptr, it.get_bp(), damage_instance( DT_HEAT, rng( intense,
                    intense * 2 ) ) );
 }
 static void eff_fun_spores( player &u, effect &it )
@@ -167,7 +157,7 @@ static void eff_fun_fungus( player &u, effect &it )
 
                 const int awfulness = rng( 0, 10 );
                 u.moves = -200;
-                u.mod_hunger( awfulness );
+                u.mod_stored_kcal( -10 * awfulness );
                 u.mod_thirst( awfulness );
                 u.apply_damage( nullptr, bodypart_id( "torso" ), 1 );
             }
@@ -220,7 +210,7 @@ static void eff_fun_bleed( player &u, effect &it )
         // Prolonged hemorrhage is a significant risk for developing anemia
         u.vitamin_mod( vitamin_iron, rng( -1, -4 ) );
         u.mod_pain( 1 );
-        u.apply_damage( nullptr, convert_bp( it.get_bp() ).id(), 1 );
+        u.apply_damage( nullptr, it.get_bp(), 1 );
         u.bleed();
     }
 }
@@ -251,7 +241,7 @@ static void eff_fun_hallu( player &u, effect &it )
     } else if( dur > peakTime && dur < comeupTime ) {
         if( u.stomach.get_calories() > 0 && ( one_in( 1200 ) || x_in_y( u.vomit_mod(), 300 ) ) ) {
             u.add_msg_if_player( m_bad, _( "You feel sick to your stomach." ) );
-            u.mod_hunger( -2 );
+            u.mod_stored_kcal( 20 );
             if( one_in( 6 ) ) {
                 u.vomit();
             }
@@ -364,7 +354,7 @@ static void eff_fun_cold( player &u, effect &it )
             { { bp_foot_r, 2 }, { 1, 1, 0, 0, translate_marker( "Your right foot feels frigid." ), 4800, translate_marker( "Your freezing right foot messes up your balance." ) } },
         }
     };
-    const auto iter = effs.find( { it.get_bp(), it.get_intensity() } );
+    const auto iter = effs.find( { it.get_bp()->token, it.get_intensity() } );
     if( iter != effs.end() ) {
         iter->second.apply( u );
     }
@@ -393,9 +383,9 @@ static void eff_fun_hot( player &u, effect &it )
         }
     };
 
-    const body_part bp = it.get_bp();
+    const body_part bp = it.get_bp()->token;
     const int intense = it.get_intensity();
-    const auto iter = effs.find( { it.get_bp(), it.get_intensity() } );
+    const auto iter = effs.find( { it.get_bp()->token, it.get_intensity() } );
     if( iter != effs.end() ) {
         iter->second.apply( u );
     }
@@ -424,7 +414,7 @@ static void eff_fun_frostbite( player &u, effect &it )
             { { bp_mouth, 1 }, { 0, 0, 0, 1, translate_marker( "Your face feels numb." ), 4800, "" } },
         }
     };
-    const auto iter = effs.find( { it.get_bp(), it.get_intensity() } );
+    const auto iter = effs.find( { it.get_bp()->token, it.get_intensity() } );
     if( iter != effs.end() ) {
         iter->second.apply( u );
     }
@@ -432,7 +422,7 @@ static void eff_fun_frostbite( player &u, effect &it )
 
 static void eff_fun_bloated( player &u, effect &it )
 {
-    if( u.get_stored_kcal() > u.max_stored_calories() || u.get_thirst() < 0 ) {
+    if( u.get_stored_kcal() > u.max_stored_kcal() || u.get_thirst() < 0 ) {
         it.set_duration( 5_minutes );
     }
 }
@@ -442,7 +432,6 @@ static void eff_fun_toxin_buildup( player &u, effect &it )
     if( it.get_intensity() > 3 ) {
         u.vitamin_set( vitamin_mutant_toxin, 0 );
         u.add_effect( effect_mutating, effect_mutating->get_max_duration() / 2 );
-        u.mutate();
     }
 }
 
@@ -466,7 +455,7 @@ static void eff_fun_mutating( player &u, effect &it )
     float mgen_per_second = mgen_per_mut * muts_per_second;
     // How much accumulated mutagen effect do we add per second
     time_duration mgen_time_mult = 1_seconds * roll_remainder( mgen_per_second );
-    u.add_effect( effect_accumulated_mutagen, mgen_time_mult, num_bp );
+    u.add_effect( effect_accumulated_mutagen, mgen_time_mult );
     if( u.get_effect_int( effect_accumulated_mutagen ) > 1 ) {
         u.mutate();
     }
@@ -507,7 +496,7 @@ void player::hardcoded_effects( effect &it )
 
     const time_duration dur = it.get_duration();
     int intense = it.get_intensity();
-    body_part bp = it.get_bp();
+    body_part bp = it.get_bp()->token;
     bool sleeping = has_effect( effect_sleep );
     if( id == effect_dermatik ) {
         bool triggered = false;
@@ -792,21 +781,6 @@ void player::hardcoded_effects( effect &it )
         if( one_in( 3072 ) ) {
             add_msg_if_player( m_bad, _( "Your muscles feel like they're knotted and tired." ) );
         }
-    } else if( id == effect_tetanus ) {
-        if( one_in( 1536 ) ) {
-            add_msg_if_player( m_bad, _( "Your muscles are tight and sore." ) );
-        }
-        if( !has_effect( effect_valium ) ) {
-            add_miss_reason( _( "Your muscles are locking up and you can't fight effectively." ), 4 );
-            if( one_in( 3072 ) ) {
-                add_msg_if_player( m_bad, _( "Your muscles spasm." ) );
-                add_effect( effect_downed, rng( 1_turns, 4_turns ), num_bp, 0, true );
-                add_effect( effect_stunned, rng( 1_turns, 4_turns ) );
-                if( one_in( 10 ) ) {
-                    mod_pain( rng( 1, 10 ) );
-                }
-            }
-        }
     } else if( id == effect_datura ) {
         if( dur > 100_minutes && focus_pool >= 1 && one_in( 24 ) ) {
             focus_pool--;
@@ -1064,8 +1038,8 @@ void player::hardcoded_effects( effect &it )
             if( has_trait( trait_CHLOROMORPH ) ) {
                 // Hunger and thirst fall before your Chloromorphic physiology!
                 if( g->natural_light_level( posz() ) >= 12 && compatible_weather_types ) {
-                    if( get_hunger() >= -30 ) {
-                        mod_hunger( -5 );
+                    if( get_stored_kcal() < max_stored_kcal() - 50 ) {
+                        mod_stored_kcal( 50 );
                     }
                     if( get_thirst() >= thirst_levels::turgid ) {
                         mod_thirst( -5 );

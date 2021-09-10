@@ -138,3 +138,25 @@ TEST_CASE( "replace_first", "[utility]" )
         CHECK( text == it.expected );
     }
 }
+
+TEST_CASE( "trim_whitespaces", "[utility]" )
+{
+    CHECK( trim_whitespaces( "abc" ) == "abc" );
+    CHECK( trim_whitespaces( "  abc" ) == "abc" );
+    CHECK( trim_whitespaces( "abc  " ) == "abc" );
+    CHECK( trim_whitespaces( "  abc  " ) == "abc" );
+    // NOLINTNEXTLINE(cata-text-style)
+    CHECK( trim_whitespaces( "  \t  \t  abc\t\t  \t\t\t  " ) == "abc" );
+    // NOLINTNEXTLINE(cata-text-style)
+    CHECK( trim_whitespaces( "abc  \t   def" ) == "abc  \t   def" );
+    // NOLINTNEXTLINE(cata-text-style)
+    CHECK( trim_whitespaces( "  abc  \t   def \t" ) == "abc  \t   def" );
+    // NOLINTNEXTLINE(readability-container-size-empty)
+    CHECK( trim_whitespaces( "   " ) == "" );
+    // NOLINTNEXTLINE(readability-container-size-empty)
+    CHECK( trim_whitespaces( " " ) == "" );
+    // NOLINTNEXTLINE(readability-container-size-empty, cata-text-style)
+    CHECK( trim_whitespaces( "\t" ) == "" );
+    // NOLINTNEXTLINE(readability-container-size-empty)
+    CHECK( trim_whitespaces( "" ) == "" );
+}

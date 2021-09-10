@@ -646,7 +646,7 @@ void Character::activate_mutation( const trait_id &mut )
         return;
     } else if( !mdata.ranged_mutation.empty() ) {
         add_msg_if_player( mdata.ranged_mutation_message() );
-        avatar_action::fire_ranged_mutation( g->u, g->m, item( mdata.ranged_mutation ) );
+        avatar_action::fire_ranged_mutation( g->u, item( mdata.ranged_mutation ) );
         tdata.powered = false;
         return;
     }
@@ -925,6 +925,7 @@ void Character::mutate()
         }
     } else {
         old_mutate();
+        remove_effect( effect_accumulated_mutagen );
     }
 }
 

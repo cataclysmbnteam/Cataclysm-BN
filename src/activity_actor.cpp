@@ -6,6 +6,7 @@
 #include <string>
 #include <utility>
 
+#include "avatar_action.h"
 #include "activity_handlers.h" // put_into_vehicle_or_drop and drop_on_map
 #include "advanced_inv.h"
 #include "avatar.h"
@@ -20,6 +21,7 @@
 #include "iexamine.h"
 #include "int_id.h"
 #include "item.h"
+#include "item_group.h"
 #include "item_location.h"
 #include "json.h"
 #include "line.h"
@@ -28,10 +30,12 @@
 #include "mapdata.h"
 #include "npc.h"
 #include "output.h"
+#include "options.h"
 #include "pickup.h"
 #include "player.h"
 #include "player_activity.h"
 #include "point.h"
+#include "ranged.h"
 #include "rng.h"
 #include "sounds.h"
 #include "timed_event.h"
@@ -40,6 +44,428 @@
 #include "units.h"
 
 static const skill_id skill_computer( "computer" );
+
+static const mtype_id mon_zombie( "mon_zombie" );
+static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
+static const mtype_id mon_zombie_rot( "mon_zombie_rot" );
+static const mtype_id mon_skeleton( "mon_skeleton" );
+static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
+
+static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
+
+aim_activity_actor::aim_activity_actor()
+{
+    initial_view_offset = get_avatar().view_offset;
+}
+
+aim_activity_actor aim_activity_actor::use_wielded()
+{
+    return aim_activity_actor();
+}
+
+aim_activity_actor aim_activity_actor::use_bionic( const item &fake_gun,
+        const units::energy &cost_per_shot )
+{
+    aim_activity_actor act = aim_activity_actor();
+    act.bp_cost_per_shot = cost_per_shot;
+    act.fake_weapon = fake_gun;
+    return act;
+}
+
+aim_activity_actor aim_activity_actor::use_mutation( const item &fake_gun )
+{
+    aim_activity_actor act = aim_activity_actor();
+    act.fake_weapon = fake_gun;
+    return act;
+}
+
+void aim_activity_actor::start( player_activity &act, Character &/*who*/ )
+{
+    // Time spent on aiming is determined on the go by the player
+    act.moves_total = 1;
+    act.moves_left = 1;
+}
+
+void aim_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    if( !who.is_avatar() ) {
+        debugmsg( "ACT_AIM not implemented for NPCs" );
+        aborted = true;
+        act.moves_left = 0;
+        return;
+    }
+    avatar &you = get_avatar();
+
+    item *weapon = get_weapon();
+    if( !weapon || !avatar_action::can_fire_weapon( you, get_map(), *weapon ) ) {
+        aborted = true;
+        act.moves_left = 0;
+        return;
+    }
+
+    gun_mode gun = weapon->gun_current_mode();
+    if( first_turn && gun->has_flag( flag_RELOAD_AND_SHOOT ) && !gun->ammo_remaining() ) {
+        if( !load_RAS_weapon() ) {
+            aborted = true;
+            act.moves_left = 0;
+            return;
+        }
+    }
+
+    g->temp_exit_fullscreen();
+    target_handler::trajectory trajectory = target_handler::mode_fire( you, *this );
+    g->reenter_fullscreen();
+
+    if( aborted ) {
+        act.moves_left = 0;
+    } else {
+        if( !trajectory.empty() ) {
+            fin_trajectory = trajectory;
+            act.moves_left = 0;
+        }
+        // If aborting on the first turn, keep 'first_turn' as 'true'.
+        // This allows refunding moves spent on unloading RELOAD_AND_SHOOT weapons
+        // to simulate avatar not loading them in the first place
+        first_turn = false;
+
+        // Allow interrupting activity only during 'aim and fire'.
+        // Prevents '.' key for 'aim for 10 turns' from conflicting with '.' key for 'interrupt activity'
+        // in case of high input lag (curses, sdl sometimes...), but allows to interrupt aiming
+        // if a bug happens / stars align to cause an endless aiming loop.
+        act.interruptable_with_kb = action != "AIM";
+    }
+}
+
+void aim_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+    restore_view();
+    item *weapon = get_weapon();
+    if( !weapon ) {
+        return;
+    }
+    if( aborted ) {
+        unload_RAS_weapon();
+        if( reload_requested ) {
+            // Reload the gun / select different arrows
+            // May assign ACT_RELOAD
+            g->reload_wielded( true );
+        }
+        return;
+    }
+
+    // Fire!
+    gun_mode gun = weapon->gun_current_mode();
+    int shots_fired = static_cast<player *>( &who )->fire_gun( fin_trajectory.back(), gun.qty, *gun );
+
+    // TODO: bionic power cost of firing should be derived from a value of the relevant weapon.
+    if( shots_fired && ( bp_cost_per_shot > 0_J ) ) {
+        who.mod_power_level( -bp_cost_per_shot * shots_fired );
+    }
+}
+
+void aim_activity_actor::canceled( player_activity &/*act*/, Character &/*who*/ )
+{
+    restore_view();
+    unload_RAS_weapon();
+}
+
+void aim_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "fake_weapon", fake_weapon );
+    jsout.member( "bp_cost_per_shot", bp_cost_per_shot );
+    jsout.member( "first_turn", first_turn );
+    jsout.member( "action", action );
+    jsout.member( "aif_duration", aif_duration );
+    jsout.member( "aiming_at_critter", aiming_at_critter );
+    jsout.member( "snap_to_target", snap_to_target );
+    jsout.member( "shifting_view", shifting_view );
+    jsout.member( "initial_view_offset", initial_view_offset );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
+{
+    aim_activity_actor actor = aim_activity_actor();
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "fake_weapon", actor.fake_weapon );
+    data.read( "bp_cost_per_shot", actor.bp_cost_per_shot );
+    data.read( "first_turn", actor.first_turn );
+    data.read( "action", actor.action );
+    data.read( "aif_duration", actor.aif_duration );
+    data.read( "aiming_at_critter", actor.aiming_at_critter );
+    data.read( "snap_to_target", actor.snap_to_target );
+    data.read( "shifting_view", actor.shifting_view );
+    data.read( "initial_view_offset", actor.initial_view_offset );
+
+    return actor.clone();
+}
+
+item *aim_activity_actor::get_weapon()
+{
+    if( fake_weapon.has_value() ) {
+        // TODO: check if the player lost relevant bionic/mutation
+        return &fake_weapon.value();
+    } else {
+        // Check for lost gun (e.g. yanked by zombie technician)
+        // TODO: check that this is the same gun that was used to start aiming
+        item *weapon = &get_player_character().weapon;
+        return weapon->is_null() ? nullptr : weapon;
+    }
+}
+
+void aim_activity_actor::restore_view()
+{
+    avatar &player_character = get_avatar();
+    bool changed_z = player_character.view_offset.z != initial_view_offset.z;
+    player_character.view_offset = initial_view_offset;
+    if( changed_z ) {
+        get_map().invalidate_map_cache( player_character.view_offset.z );
+        g->invalidate_main_ui_adaptor();
+    }
+}
+
+bool aim_activity_actor::load_RAS_weapon()
+{
+    // TODO: use activity for fetching ammo and loading weapon
+    player &you = get_avatar();
+    item *weapon = get_weapon();
+    gun_mode gun = weapon->gun_current_mode();
+    const auto ammo_location_is_valid = [&]() -> bool {
+        if( !you.ammo_location )
+        {
+            return false;
+        }
+        if( !gun->can_reload_with( you.ammo_location->typeId() ) )
+        {
+            return false;
+        }
+        if( square_dist( you.pos(), you.ammo_location.position() ) > 1 )
+        {
+            return false;
+        }
+        return true;
+    };
+    item::reload_option opt = ammo_location_is_valid() ? item::reload_option( &you, weapon,
+                              weapon, you.ammo_location ) : you.select_ammo( *gun );
+    if( !opt ) {
+        // Menu canceled
+        return false;
+    }
+    int reload_time = 0;
+    reload_time += opt.moves();
+    if( !gun->reload( you, std::move( opt.ammo ), 1 ) ) {
+        // Reload not allowed
+        return false;
+    }
+
+    // Burn 0.2% max base stamina x the strength required to fire.
+    you.mod_stamina( gun->get_min_str() * static_cast<int>( 0.002f *
+                     get_option<int>( "PLAYER_MAX_STAMINA" ) ) );
+    // At low stamina levels, firing starts getting slow.
+    int sta_percent = ( 100 * you.get_stamina() ) / you.get_stamina_max();
+    reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
+
+    you.moves -= reload_time;
+    return true;
+}
+
+void aim_activity_actor::unload_RAS_weapon()
+{
+    // Unload reload-and-shoot weapons to avoid leaving bows pre-loaded with arrows
+    avatar &you = get_avatar();
+    item *weapon = get_weapon();
+    if( !weapon ) {
+        return;
+    }
+
+    gun_mode gun = weapon->gun_current_mode();
+    if( gun->has_flag( flag_RELOAD_AND_SHOOT ) ) {
+        int moves_before_unload = you.moves;
+
+        // Note: this code works only for avatar
+        item_location loc = item_location( you, gun.target );
+        you.unload( loc );
+
+        // Give back time for unloading as essentially nothing has been done.
+        if( first_turn ) {
+            you.moves = moves_before_unload;
+        }
+    }
+}
+
+void dig_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves_total;
+    act.moves_left = moves_total;
+}
+
+void dig_activity_actor::do_turn( player_activity &, Character & )
+{
+    sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( location ) );
+    if( calendar::once_every( 1_minutes ) ) {
+        //~ Sound of a shovel digging a pit at work!
+        sounds::sound( location, 10, sounds::sound_t::activity, _( "hsh!" ) );
+    }
+}
+
+void dig_activity_actor::finish( player_activity &act, Character &who )
+{
+    const bool grave = g->m.ter( location ) == t_grave;
+
+    if( grave ) {
+        if( one_in( 10 ) ) {
+            static const std::array<mtype_id, 5> monids = { {
+                    mon_zombie, mon_zombie_fat,
+                    mon_zombie_rot, mon_skeleton,
+                    mon_zombie_crawler
+                }
+            };
+
+            g->place_critter_at( random_entry( monids ), byproducts_location );
+            g->m.furn_set( location, f_coffin_o );
+            who.add_msg_if_player( m_warning, _( "Something crawls out of the coffin!" ) );
+        } else {
+            g->m.spawn_item( location, "bone_human", rng( 5, 15 ) );
+            g->m.furn_set( location, f_coffin_c );
+        }
+        std::vector<item *> dropped = g->m.place_items( item_group_id( "allclothes" ), 50, location,
+                                      location, false,
+                                      calendar::turn );
+        g->m.place_items( item_group_id( "grave" ), 25, location, location, false, calendar::turn );
+        g->m.place_items( item_group_id( "jewelry_front" ), 20, location, location, false, calendar::turn );
+        for( item * const &it : dropped ) {
+            if( it->is_armor() ) {
+                it->item_tags.insert( "FILTHY" );
+                it->set_damage( rng( 1, it->max_damage() - 1 ) );
+            }
+        }
+        g->events().send<event_type::exhumes_grave>( who.getID() );
+    }
+
+    g->m.ter_set( location, ter_id( result_terrain ) );
+
+    for( int i = 0; i < byproducts_count; i++ ) {
+        g->m.spawn_items( byproducts_location,
+                          item_group::items_from( item_group_id( byproducts_item_group ),
+                                  calendar::turn ) );
+    }
+
+    const int helpersize = g->u.get_crafting_helpers( 3 ).size();
+    who.mod_stored_nutr( 5 - helpersize );
+    who.mod_thirst( 5 - helpersize );
+    who.mod_fatigue( 10 - ( helpersize * 2 ) );
+    if( grave ) {
+        who.add_msg_if_player( m_good, _( "You finish exhuming a grave." ) );
+    } else {
+        who.add_msg_if_player( m_good, _( "You finish digging the %s." ),
+                               g->m.ter( location ).obj().name() );
+    }
+
+    act.set_to_null();
+}
+
+void dig_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves", moves_total );
+    jsout.member( "location", location );
+    jsout.member( "result_terrain", result_terrain );
+    jsout.member( "byproducts_location", byproducts_location );
+    jsout.member( "byproducts_count", byproducts_count );
+    jsout.member( "byproducts_item_group", byproducts_item_group );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> dig_activity_actor::deserialize( JsonIn &jsin )
+{
+    dig_activity_actor actor( 0, tripoint_zero,
+                              {}, tripoint_zero, 0, {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves", actor.moves_total );
+    data.read( "location", actor.location );
+    data.read( "result_terrain", actor.result_terrain );
+    data.read( "byproducts_location", actor.byproducts_location );
+    data.read( "byproducts_count", actor.byproducts_count );
+    data.read( "byproducts_item_group", actor.byproducts_item_group );
+
+    return actor.clone();
+}
+
+void dig_channel_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves_total;
+    act.moves_left = moves_total;
+}
+
+void dig_channel_activity_actor::do_turn( player_activity &, Character & )
+{
+    sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( location ) );
+    if( calendar::once_every( 1_minutes ) ) {
+        //~ Sound of a shovel digging a pit at work!
+        sounds::sound( location, 10, sounds::sound_t::activity, _( "hsh!" ) );
+    }
+}
+
+void dig_channel_activity_actor::finish( player_activity &act, Character &who )
+{
+
+    g->m.ter_set( location, ter_id( result_terrain ) );
+
+    for( int i = 0; i < byproducts_count; i++ ) {
+        g->m.spawn_items( byproducts_location,
+                          item_group::items_from( item_group_id( byproducts_item_group ),
+                                  calendar::turn ) );
+    }
+
+    who.mod_stored_kcal( -40 );
+    who.mod_thirst( 5 );
+    who.mod_fatigue( 10 );
+    who.add_msg_if_player( m_good, _( "You finish digging up %s." ),
+                           g->m.ter( location ).obj().name() );
+
+    act.set_to_null();
+}
+
+void dig_channel_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves", moves_total );
+    jsout.member( "location", location );
+    jsout.member( "result_terrain", result_terrain );
+    jsout.member( "byproducts_location", byproducts_location );
+    jsout.member( "byproducts_count", byproducts_count );
+    jsout.member( "byproducts_item_group", byproducts_item_group );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> dig_channel_activity_actor::deserialize( JsonIn &jsin )
+{
+    dig_channel_activity_actor actor( 0, tripoint_zero,
+                                      {}, tripoint_zero, 0, {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves", actor.moves_total );
+    data.read( "location", actor.location );
+    data.read( "result_terrain", actor.result_terrain );
+    data.read( "byproducts_location", actor.byproducts_location );
+    data.read( "byproducts_count", actor.byproducts_count );
+    data.read( "byproducts_item_group", actor.byproducts_item_group );
+
+    return actor.clone();
+}
 
 void hacking_activity_actor::start( player_activity &act, Character & )
 {
@@ -246,7 +672,7 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
             }
             const tripoint src = target.position();
             const int distance = src.z == dest.z ? std::max( rl_dist( src, dest ), 1 ) : 1;
-            who.mod_moves( -Pickup::cost_to_move_item( who, newit ) * distance );
+            who.mod_moves( -pickup::cost_to_move_item( who, newit ) * distance );
             if( to_vehicle ) {
                 put_into_vehicle_or_drop( who, item_drop_reason::deliberate, { newit }, dest );
             } else {
@@ -311,7 +737,7 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
     const bool autopickup = who.activity.auto_resume;
 
     // False indicates that the player canceled pickup when met with some prompt
-    const bool keep_going = Pickup::do_pickup( target_items, quantities, autopickup );
+    const bool keep_going = pickup::do_pickup( target_items, autopickup );
 
     // If there are items left we ran out of moves, so continue the activity
     // Otherwise, we are done.
@@ -336,7 +762,6 @@ void pickup_activity_actor::serialize( JsonOut &jsout ) const
     jsout.start_object();
 
     jsout.member( "target_items", target_items );
-    jsout.member( "quantities", quantities );
     jsout.member( "starting_pos", starting_pos );
 
     jsout.end_object();
@@ -344,12 +769,11 @@ void pickup_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> pickup_activity_actor::deserialize( JsonIn &jsin )
 {
-    pickup_activity_actor actor( {}, {}, cata::nullopt );
+    pickup_activity_actor actor( {}, cata::nullopt );
 
     JsonObject data = jsin.get_object();
 
     data.read( "target_items", actor.target_items );
-    data.read( "quantities", actor.quantities );
     data.read( "starting_pos", actor.starting_pos );
 
     return actor.clone();
@@ -385,8 +809,8 @@ std::unique_ptr<activity_actor> migration_cancel_activity_actor::deserialize( Js
 
 void open_gate_activity_actor::start( player_activity &act, Character & )
 {
-    act.moves_total = moves;
-    act.moves_left = moves;
+    act.moves_total = moves_total;
+    act.moves_left = moves_total;
 }
 
 void open_gate_activity_actor::finish( player_activity &act, Character & )
@@ -399,7 +823,7 @@ void open_gate_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
-    jsout.member( "moves", moves );
+    jsout.member( "moves", moves_total );
     jsout.member( "placement", placement );
 
     jsout.end_object();
@@ -411,7 +835,7 @@ std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonIn &j
 
     JsonObject data = jsin.get_object();
 
-    data.read( "moves", actor.moves );
+    data.read( "moves", actor.moves_total );
     data.read( "placement", actor.placement );
 
     return actor.clone();
@@ -423,6 +847,9 @@ namespace activity_actors
 // Please keep this alphabetically sorted
 const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( JsonIn & )>
 deserialize_functions = {
+    { activity_id( "ACT_AIM" ), &aim_activity_actor::deserialize },
+    { activity_id( "ACT_DIG" ), &dig_activity_actor::deserialize },
+    { activity_id( "ACT_DIG_CHANNEL" ), &dig_channel_activity_actor::deserialize },
     { activity_id( "ACT_HACKING" ), &hacking_activity_actor::deserialize },
     { activity_id( "ACT_MIGRATION_CANCEL" ), &migration_cancel_activity_actor::deserialize },
     { activity_id( "ACT_MOVE_ITEMS" ), &move_items_activity_actor::deserialize },

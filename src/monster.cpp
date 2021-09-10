@@ -91,7 +91,6 @@ static const species_id INSECT( "INSECT" );
 static const species_id MAMMAL( "MAMMAL" );
 static const species_id MOLLUSK( "MOLLUSK" );
 static const species_id ROBOT( "ROBOT" );
-static const species_id SPIDER( "SPIDER" );
 static const species_id ZOMBIE( "ZOMBIE" );
 
 static const trait_id trait_ANIMALDISCORD( "ANIMALDISCORD" );
@@ -107,59 +106,6 @@ static const trait_id trait_PHEROMONE_INSECT( "PHEROMONE_INSECT" );
 static const trait_id trait_PHEROMONE_MAMMAL( "PHEROMONE_MAMMAL" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
-
-static const mtype_id mon_ant( "mon_ant" );
-static const mtype_id mon_ant_fungus( "mon_ant_fungus" );
-static const mtype_id mon_ant_queen( "mon_ant_queen" );
-static const mtype_id mon_ant_soldier( "mon_ant_soldier" );
-static const mtype_id mon_beekeeper( "mon_beekeeper" );
-static const mtype_id mon_boomer( "mon_boomer" );
-static const mtype_id mon_boomer_fungus( "mon_boomer_fungus" );
-static const mtype_id mon_boomer_huge( "mon_boomer_huge" );
-static const mtype_id mon_fungaloid( "mon_fungaloid" );
-static const mtype_id mon_skeleton_brute( "mon_skeleton_brute" );
-static const mtype_id mon_skeleton_hulk( "mon_skeleton_hulk" );
-static const mtype_id mon_skeleton_hulk_fungus( "mon_skeleton_hulk_fungus" );
-static const mtype_id mon_spider_fungus( "mon_spider_fungus" );
-static const mtype_id mon_triffid( "mon_triffid" );
-static const mtype_id mon_triffid_queen( "mon_triffid_queen" );
-static const mtype_id mon_triffid_young( "mon_triffid_young" );
-static const mtype_id mon_zombie( "mon_zombie" );
-static const mtype_id mon_zombie_anklebiter( "mon_zombie_anklebiter" );
-static const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
-static const mtype_id mon_zombie_brute( "mon_zombie_brute" );
-static const mtype_id mon_zombie_brute_shocker( "mon_zombie_brute_shocker" );
-static const mtype_id mon_zombie_child( "mon_zombie_child" );
-static const mtype_id mon_zombie_child_fungus( "mon_zombie_child_fungus" );
-static const mtype_id mon_zombie_cop( "mon_zombie_cop" );
-static const mtype_id mon_zombie_creepy( "mon_zombie_creepy" );
-static const mtype_id mon_zombie_electric( "mon_zombie_electric" );
-static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
-static const mtype_id mon_zombie_fireman( "mon_zombie_fireman" );
-static const mtype_id mon_zombie_fungus( "mon_zombie_fungus" );
-static const mtype_id mon_zombie_gasbag( "mon_zombie_gasbag" );
-static const mtype_id mon_zombie_gasbag_fungus( "mon_zombie_gasbag_fungus" );
-static const mtype_id mon_zombie_grabber( "mon_zombie_grabber" );
-static const mtype_id mon_zombie_hazmat( "mon_zombie_hazmat" );
-static const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
-static const mtype_id mon_zombie_hunter( "mon_zombie_hunter" );
-static const mtype_id mon_zombie_master( "mon_zombie_master" );
-static const mtype_id mon_zombie_necro( "mon_zombie_necro" );
-static const mtype_id mon_zombie_rot( "mon_zombie_rot" );
-static const mtype_id mon_zombie_scientist( "mon_zombie_scientist" );
-static const mtype_id mon_zombie_shrieker( "mon_zombie_shrieker" );
-static const mtype_id mon_zombie_shriekling( "mon_zombie_shriekling" );
-static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
-static const mtype_id mon_zombie_smoker_fungus( "mon_zombie_smoker_fungus" );
-static const mtype_id mon_zombie_snotgobbler( "mon_zombie_snotgobbler" );
-static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
-static const mtype_id mon_zombie_spitter( "mon_zombie_spitter" );
-static const mtype_id mon_zombie_sproglodyte( "mon_zombie_sproglodyte" );
-static const mtype_id mon_zombie_survivor( "mon_zombie_survivor" );
-static const mtype_id mon_zombie_swimmer( "mon_zombie_swimmer" );
-static const mtype_id mon_zombie_technician( "mon_zombie_technician" );
-static const mtype_id mon_zombie_tough( "mon_zombie_tough" );
-static const mtype_id mon_zombie_waif( "mon_zombie_waif" );
 
 struct pathfinding_settings;
 
@@ -325,7 +271,7 @@ void monster::poly( const mtype_id &id )
     reproduces = type->reproduces;
 }
 
-bool monster::can_upgrade()
+bool monster::can_upgrade() const
 {
     return upgrades && get_option<float>( "MONSTER_UPGRADE_FACTOR" ) > 0.0;
 }
@@ -629,13 +575,54 @@ static std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
         damage_info = _( "It is nearly dead!" );
         col = c_red;
     }
-    /*
-    // This is unused code that allows the player to see the exact amount of monster HP, to be implemented later!
-    if( true ) ) {
-        damage_info = string_format( _( "It has %d/%d HP." ), cur_hp, max_hp );
-    }*/
+
+    // show exact monster HP if in debug mode
+    if( debug_mode ) {
+        damage_info += " ";
+        damage_info += string_format( _( "%1$d/%2$d HP" ), cur_hp, max_hp );
+    }
 
     return std::make_pair( damage_info, col );
+}
+
+static std::pair<std::string, nc_color> speed_description( float mon_speed_rating,
+        bool immobile = false )
+{
+    if( immobile ) {
+        return std::make_pair( _( "It is immobile." ), c_green );
+    }
+
+    const std::array<std::tuple<float, nc_color, std::string>, 8> cases = {{
+            std::make_tuple( 1.40f, c_red, _( "It looks much faster than you." ) ),
+            std::make_tuple( 1.15f, c_light_red, _( "It looks faster than you." ) ),
+            std::make_tuple( 1.05f, c_yellow, _( "It looks slightly faster than you." ) ),
+            std::make_tuple( 0.90f, c_white, _( "It looks about as fast as you." ) ),
+            std::make_tuple( 0.80f, c_light_cyan, _( "It looks slightly slower than you." ) ),
+            std::make_tuple( 0.60f, c_cyan, _( "It looks slower than you." ) ),
+            std::make_tuple( 0.30f, c_light_green, _( "It looks much slower than you." ) ),
+            std::make_tuple( 0.00f, c_green, _( "It seems to be barely moving." ) )
+        }
+    };
+
+    const avatar &ply = get_avatar();
+    float player_runcost = ply.run_cost( 100 );
+    if( player_runcost == 0 ) {
+        player_runcost = 1.0f;
+    }
+
+    // determine tiles per turn (tpt)
+    const float player_tpt = ply.get_speed() / player_runcost;
+    const float ratio = player_tpt == 0 ?
+                        2.00f : mon_speed_rating / player_tpt;
+
+    for( const std::tuple<float, nc_color, std::string> &speed_case : cases ) {
+        if( ratio >= std::get<0>( speed_case ) ) {
+            return std::make_pair( std::get<2>( speed_case ), std::get<1>( speed_case ) );
+        }
+    }
+
+    debugmsg( "speed_description: no ratio value matched" );
+    return std::make_pair( _( "Unknown" ), c_white );
 }
 
 int monster::print_info( const catacurses::window &w, int vStart, int vLines, int column ) const
@@ -654,6 +641,9 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     if( sees( g->u ) ) {
         mvwprintz( w, point( column, ++vStart ), c_yellow, _( "Aware of your presence!" ) );
     }
+
+    const auto speed_desc = speed_description( speed_rating(), has_flag( MF_IMMOBILE ) );
+    mvwprintz( w, point( column, ++vStart ), speed_desc.second, speed_desc.first );
 
     std::string effects = get_effect_status();
     if( !effects.empty() ) {
@@ -678,7 +668,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 std::string monster::extended_description() const
 {
     std::string ss;
-    const auto att = get_attitude();
+    const std::pair<std::string, nc_color> att = get_attitude();
     std::string att_colored = colorize( att.first, att.second );
     std::string difficulty_str;
     if( debug_mode ) {
@@ -706,8 +696,13 @@ std::string monster::extended_description() const
     }
 
     ss += "--\n";
-    auto hp_bar = hp_description( hp, type->hp );
+    const std::pair<std::string, nc_color> hp_bar = hp_description( hp, type->hp );
     ss += colorize( hp_bar.first, hp_bar.second ) + "\n";
+
+    const std::pair<std::string, nc_color> speed_desc = speed_description(
+                speed_rating(),
+                has_flag( MF_IMMOBILE ) );
+    ss += colorize( speed_desc.first, speed_desc.second ) + "\n";
 
     ss += "--\n";
     ss += string_format( "<dark>%s</dark>", type->get_description() ) + "\n";
@@ -786,6 +781,30 @@ std::string monster::extended_description() const
     ss += string_format( _( "Deal average damage per second: <stat>%.1f</stat>" ),
                          g->u.weapon.effective_dps( g->u, *this ) );
     ss += "\n";
+
+    if( debug_mode ) {
+        ss += string_format( _( "Current Speed: %1$d" ), get_speed() ) + "\n";
+        ss += string_format( _( "Anger: %1$d" ), anger ) + "\n";
+        ss += string_format( _( "Friendly: %1$d" ), friendly ) + "\n";
+        ss += string_format( _( "Morale: %1$d" ), morale ) + "\n";
+
+        const time_duration current_time = calendar::turn - calendar::turn_zero;
+        ss += string_format( _( "Current Time: Turn %1$d | Day: %2$d" ),
+                             to_turns<int>( current_time ),
+                             to_days<int>( current_time ) ) + "\n";
+
+        ss += string_format( _( "Upgrade Time: %1$d (turns left: %2$d) %3$s" ),
+                             upgrade_time,
+                             to_turns<int>( time_duration::from_days( upgrade_time ) - current_time ),
+                             can_upgrade() ? "" : _( "<color_red>(can't upgrade)</color>" ) ) + "\n";
+
+        if( baby_timer.has_value() ) {
+            ss += string_format( _( "Reproduction time: %1$d (turns left: %2$d) %3$s" ),
+                                 to_turn<int>( baby_timer.value() ),
+                                 to_turn<int>( baby_timer.value() - current_time ),
+                                 reproduces ? "" : _( "<color_red>(cannot reproduce)</color>" ) ) + "\n";
+        }
+    }
 
     return replace_colors( ss );
 }
@@ -1775,11 +1794,20 @@ bool monster::move_effects( bool )
     return true;
 }
 
-void monster::add_effect( const efftype_id &eff_id, const time_duration &dur, body_part/*bp*/,
+void monster::add_effect( const efftype_id &eff_id, const time_duration &dur,
+                          const bodypart_str_id &,
                           int intensity, bool force, bool deferred )
 {
     // Effects are not applied to specific monster body part
-    Creature::add_effect( eff_id, dur, num_bp, intensity, force, deferred );
+    Creature::add_effect( eff_id, dur, bodypart_str_id::NULL_ID(), intensity, force, deferred );
+}
+
+void monster::add_effect( const efftype_id &eff_id, const time_duration &dur,
+                          body_part,
+                          int intensity, bool force, bool deferred )
+{
+    // Effects are not applied to specific monster body part
+    Creature::add_effect( eff_id, dur, bodypart_str_id::NULL_ID(), intensity, force, deferred );
 }
 
 std::string monster::get_effect_status() const
@@ -2510,8 +2538,6 @@ bool monster::make_fungus()
     if( is_hallucination() ) {
         return true;
     }
-    char polypick = 0;
-    const mtype_id &tid = type->id;
     if( type->in_species( FUNGUS ) ) { // No friendly-fungalizing ;-)
         return true;
     }
@@ -2521,73 +2547,15 @@ bool monster::make_fungus()
         // No fungalizing robots or weird stuff (mi-gos are technically fungi, blobs are goo)
         return true;
     }
-    if( tid == mon_ant || tid == mon_ant_soldier || tid == mon_ant_queen ) {
-        polypick = 1;
-    } else if( tid == mon_zombie || tid == mon_zombie_shrieker || tid == mon_zombie_electric ||
-               tid == mon_zombie_spitter || tid == mon_zombie_brute ||
-               tid == mon_zombie_hulk || tid == mon_zombie_soldier || tid == mon_zombie_tough ||
-               tid == mon_zombie_scientist || tid == mon_zombie_hunter || tid == mon_skeleton_brute ||
-               tid == mon_zombie_bio_op || tid == mon_zombie_survivor || tid == mon_zombie_fireman ||
-               tid == mon_zombie_cop || tid == mon_zombie_fat || tid == mon_zombie_rot ||
-               tid == mon_zombie_swimmer || tid == mon_zombie_grabber || tid == mon_zombie_technician ||
-               tid == mon_zombie_brute_shocker ) {
-        polypick = 2;
-    } else if( tid == mon_zombie_necro || tid == mon_zombie_master || tid == mon_zombie_fireman ||
-               tid == mon_zombie_hazmat || tid == mon_beekeeper ) {
-        // Necro and Master have enough Goo to resist conversion.
-        // Firefighter, hazmat, and scarred/beekeeper have the PPG on.
-        return true;
-    } else if( tid == mon_boomer || tid == mon_boomer_huge ) {
-        polypick = 3;
-    } else if( tid == mon_triffid || tid == mon_triffid_young || tid == mon_triffid_queen ) {
-        polypick = 4;
-    } else if( tid == mon_zombie_anklebiter || tid == mon_zombie_child || tid == mon_zombie_creepy ||
-               tid == mon_zombie_shriekling || tid == mon_zombie_snotgobbler || tid == mon_zombie_sproglodyte ||
-               tid == mon_zombie_waif ) {
-        polypick = 5;
-    } else if( tid == mon_skeleton_hulk ) {
-        polypick = 6;
-    } else if( tid == mon_zombie_smoker ) {
-        polypick = 7;
-    } else if( tid == mon_zombie_gasbag ) {
-        polypick = 8;
-    } else if( type->in_species( SPIDER ) && get_size() > MS_TINY ) {
-        polypick = 9;
+    if( type->has_flag( MF_NO_FUNG_DMG ) ) {
+        return true; // Returns true when monster immune to fungal damage.
+    }
+    if( type->fungalize_into.is_empty() ) {
+        return false;
     }
 
     const std::string old_name = name();
-    switch( polypick ) {
-        case 1:
-            poly( mon_ant_fungus );
-            break;
-        case 2:
-            // zombies, non-boomer
-            poly( mon_zombie_fungus );
-            break;
-        case 3:
-            poly( mon_boomer_fungus );
-            break;
-        case 4:
-            poly( mon_fungaloid );
-            break;
-        case 5:
-            poly( mon_zombie_child_fungus );
-            break;
-        case 6:
-            poly( mon_skeleton_hulk_fungus );
-            break;
-        case 7:
-            poly( mon_zombie_smoker_fungus );
-            break;
-        case 8:
-            poly( mon_zombie_gasbag_fungus );
-            break;
-        case 9:
-            poly( mon_spider_fungus );
-            break;
-        default:
-            return false;
-    }
+    poly( type->fungalize_into );
 
     if( g->u.sees( pos() ) ) {
         add_msg( m_info, _( "The spores transform %1$s into a %2$s!" ),

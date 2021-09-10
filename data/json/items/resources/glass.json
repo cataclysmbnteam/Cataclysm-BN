@@ -1,25 +1,20 @@
 [
   {
-    "type": "TOOL",
+    "type": "AMMO",
     "id": "glass_shard",
     "symbol": ",",
     "color": "light_cyan",
     "name": { "str": "glass shard" },
     "category": "other",
-    "description": "A broken shard of glass covered in sharp edges.  You could use it as a weapon, but you might want to wear gloves.",
+    "description": "A broken shard of glass covered in sharp edges.  With a piece of rag you could use it to make it a primitive weapon.",
     "material": "glass",
     "weight": "75 g",
     "volume": "30 ml",
     "cutting": 6,
-    "use_action": {
-      "type": "place_trap",
-      "trap": "tr_glass",
-      "moves": 150,
-      "practice": 2,
-      "done_message": "You carefully place the shards on the ground, ready to be cracked by something passing by."
-    },
+    "ammo_type": "glass_shard",
     "flags": [ "HURT_WHEN_WIELDED", "TRADER_AVOID" ],
-    "to_hit": -1
+    "to_hit": -1,
+    "stack_size": 1
   },
   {
     "type": "GENERIC",

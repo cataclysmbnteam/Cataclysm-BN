@@ -401,11 +401,18 @@
     "container": "bag_zipper",
     "stim": 20,
     "healthy": -2,
-    "fun": 25,
     "addiction_potential": 50,
     "addiction_type": "cocaine",
     "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE" ],
-    "use_action": "COKE"
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You snort a bump of coke.",
+      "effects": [ { "id": "cocaine_high", "duration": "60 minutes" } ],
+      "stat_adjustments": { "hunger": -10 },
+      "fields_produced": { "fd_cracksmoke": 2 },
+      "charges_needed": { "fire": 1 },
+      "tools_needed": { "apparatus": -1 }
+    }
   },
   {
     "type": "COMESTIBLE",
@@ -490,14 +497,17 @@
     "container": "bag_zipper",
     "stim": 40,
     "healthy": -2,
-    "fun": 50,
     "addiction_potential": 80,
     "addiction_type": "crack",
     "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You smoke your crack rocks.  Mother would be proud.",
-      "effects": [ { "id": "high", "duration": 15 } ],
+      "effects": [
+        { "id": "cocaine_high", "duration": "10 minutes" },
+        { "id": "cocaine_high", "duration": "10 minutes" },
+        { "id": "cocaine_high", "duration": "10 minutes" }
+      ],
       "stat_adjustments": { "hunger": -10 },
       "fields_produced": { "fd_cracksmoke": 2 },
       "charges_needed": { "fire": 1 },
@@ -566,7 +576,6 @@
     "color": "white",
     "stim": -8,
     "healthy": -1,
-    "fun": 8,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "addiction_potential": 20,
     "addiction_type": "diazepam",
@@ -598,7 +607,6 @@
         { "id": "weed_high", "duration": "180 m" },
         { "id": "pkill1", "duration": "120 m" },
         { "id": "pkill2", "duration": "5 m" },
-        { "id": "high", "duration": "60 m" },
         { "id": "smoke", "duration": "2 m" }
       ],
       "stat_adjustments": { "hunger": 4, "thirst": 6 },
@@ -634,7 +642,6 @@
         { "id": "weed_high", "duration": "150 m" },
         { "id": "pkill1", "duration": "100 m" },
         { "id": "pkill2", "duration": "5 m" },
-        { "id": "high", "duration": "60 m" },
         { "id": "smoke", "duration": "2 m" }
       ],
       "stat_adjustments": { "hunger": 5, "thirst": 7 },
@@ -906,7 +913,6 @@
         { "id": "weed_high", "duration": "180 m" },
         { "id": "pkill1", "duration": "120 m" },
         { "id": "pkill2", "duration": "5 m" },
-        { "id": "high", "duration": "60 m" },
         { "id": "smoke", "duration": "1 m" }
       ],
       "stat_adjustments": { "hunger": 4, "thirst": 6 },
@@ -941,7 +947,6 @@
         { "id": "weed_high", "duration": "90 m" },
         { "id": "pkill1", "duration": "90 m" },
         { "id": "pkill2", "duration": "5 m" },
-        { "id": "high", "duration": "45 m" },
         { "id": "smoke", "duration": "1 m" }
       ],
       "stat_adjustments": { "hunger": 3, "thirst": 5 },
@@ -1114,7 +1119,6 @@
     "quench": -5,
     "stim": -10,
     "healthy": -1,
-    "fun": 15,
     "addiction_potential": 5,
     "flags": [ "NO_INGEST" ],
     "use_action": "SMOKING"
@@ -1175,7 +1179,7 @@
     "container": "bag_zipper",
     "stim": 20,
     "healthy": -7,
-    "fun": 30,
+    "fun": 10,
     "addiction_potential": 50,
     "addiction_type": "amphetamine",
     "flags": [ "NO_INGEST" ],
@@ -1729,7 +1733,6 @@
     "quench": -5,
     "stim": -10,
     "healthy": -1,
-    "fun": 15,
     "addiction_potential": 5,
     "flags": [ "NO_INGEST" ],
     "use_action": {
@@ -1760,7 +1763,6 @@
     "color": "cyan",
     "stim": -4,
     "healthy": -2,
-    "fun": 20,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "addiction_potential": 40,
     "addiction_type": "sleeping pill",
@@ -1817,7 +1819,7 @@
     "id": "weak_antibiotic",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
-    "name": { "str_sp": "Atreyupan" },
+    "name": { "str_sp": "weak antibiotics" },
     "description": "A broad-spectrum antibiotic used to suppress infections and prevent them from setting in.  It isn't strong enough to purge infections outright, but it boosts the body's resistance against them.  One dose lasts twelve hours.",
     "weight": "15 g",
     "volume": "250 ml",
@@ -1905,7 +1907,7 @@
     "id": "strong_antibiotic",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
-    "name": "destragon",
+    "name": { "str_sp": "strong antibiotics" },
     "description": "A prescription-strength antibacterial medication designed to prevent or stop the spread of infection.  It contains nearly toxic levels of antibiotics, but can treat any bacterial infections you may encounter.  One dose lasts twelve hours.",
     "weight": "1 g",
     "volume": "250 ml",

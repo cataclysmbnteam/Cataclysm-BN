@@ -73,6 +73,7 @@ void clear_character( player &dummy, bool debug_storage )
     // Clear stomach and then eat a nutritious meal to normalize stomach
     // contents (needs to happen before clear_morale).
     dummy.stomach.empty();
+    dummy.consumption_history.clear();
     item food( "debug_nutrition" );
     dummy.eat( food );
 
@@ -86,8 +87,7 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.reset_chargen_attributes();
     dummy.set_pain( 0 );
     dummy.reset_bonuses();
-    dummy.set_speed_base( 100 );
-    dummy.set_speed_bonus( 0 );
+    dummy.set_moves( -100 );
 
     // Restore all stamina and go to walk mode
     dummy.set_stamina( dummy.get_stamina_max() );
@@ -115,6 +115,8 @@ void clear_character( player &dummy, bool debug_storage )
 
     const tripoint spot( 60, 60, 0 );
     dummy.setpos( spot );
+
+    dummy.invalidate_crafting_inventory();
 }
 
 void clear_avatar()

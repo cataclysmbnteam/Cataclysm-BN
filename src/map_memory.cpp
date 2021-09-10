@@ -44,6 +44,7 @@ struct reg_coord_pair {
 };
 
 mm_submap::mm_submap() = default;
+mm_submap::mm_submap( bool make_valid ) : valid( make_valid ) {}
 
 mm_region::mm_region() : submaps {{ nullptr }} {}
 
@@ -81,6 +82,9 @@ void map_memory::memorize_tile( const tripoint &pos, const std::string &ter,
 {
     coord_pair p( pos );
     mm_submap &sm = get_submap( p.sm );
+    if( !sm.is_valid() ) {
+        return;
+    }
     sm.set_tile( p.loc, memorized_terrain_tile{ ter, subtile, rotation } );
 }
 
@@ -95,6 +99,9 @@ void map_memory::memorize_symbol( const tripoint &pos, const int symbol )
 {
     coord_pair p( pos );
     mm_submap &sm = get_submap( p.sm );
+    if( !sm.is_valid() ) {
+        return;
+    }
     sm.set_symbol( p.loc, symbol );
 }
 
@@ -102,6 +109,9 @@ void map_memory::clear_memorized_tile( const tripoint &pos )
 {
     coord_pair p( pos );
     mm_submap &sm = get_submap( p.sm );
+    if( !sm.is_valid() ) {
+        return;
+    }
     sm.set_symbol( p.loc, mm_submap::default_symbol );
     sm.set_tile( p.loc, mm_submap::default_tile );
 }
@@ -234,10 +244,15 @@ shared_ptr_fast<mm_submap> map_memory::load_submap( const tripoint &sm_pos )
 }
 
 static mm_submap null_mz_submap;
+static mm_submap invalid_mz_submap{ false };
 
 const mm_submap &map_memory::get_submap( const tripoint &sm_pos ) const
 {
-    point idx = ( sm_pos - cache_pos ).xy();
+    if( cache_pos == tripoint_min ) {
+        debugmsg( "Called map_memory::get_submap() before initializing map memory region." );
+        return invalid_mz_submap;
+    }
+    const point idx = ( sm_pos - cache_pos ).xy();
     if( idx.x > 0 && idx.y > 0 && idx.x < cache_size.x && idx.y < cache_size.y ) {
         return *cached[idx.y * cache_size.x + idx.x];
     } else {
@@ -247,7 +262,10 @@ const mm_submap &map_memory::get_submap( const tripoint &sm_pos ) const
 
 mm_submap &map_memory::get_submap( const tripoint &sm_pos )
 {
-    point idx = ( sm_pos - cache_pos ).xy();
+    if( cache_pos == tripoint_min ) {
+        return invalid_mz_submap;
+    }
+    const point idx = ( sm_pos - cache_pos ).xy();
     if( idx.x > 0 && idx.y > 0 && idx.x < cache_size.x && idx.y < cache_size.y ) {
         return *cached[idx.y * cache_size.x + idx.x];
     } else {

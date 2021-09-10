@@ -20,6 +20,7 @@
     "ammo_effects": [ "FLARE" ],
     "reload": 4,
     "flags": [ "FIRE_100", "NEVER_JAMS", "FIRESTARTER" ],
+    "use_action": { "type": "firestarter", "moves": 200 },
     "faults": [  ]
   },
   {

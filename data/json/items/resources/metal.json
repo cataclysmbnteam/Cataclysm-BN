@@ -12,7 +12,7 @@
     "material": [ "steel" ],
     "qualities": [ [ "HAMMER", 1 ] ],
     "techniques": [ "WBLOCK_1" ],
-    "volume": "1 L",
+    "volume": "500 ml",
     "bashing": 12,
     "price": 7500,
     "price_postapoc": 10
@@ -65,7 +65,7 @@
     "symbol": "/",
     "material": [ "copper" ],
     "techniques": [ "WBLOCK_1" ],
-    "volume": "500 ml",
+    "volume": "250 ml",
     "bashing": 5,
     "price": 7500,
     "price_postapoc": 10

@@ -315,5 +315,55 @@
     "id": "door_rear",
     "symbol": "B",
     "type": "vehicle_part"
+  },
+  {
+    "copy-from": "hddoor_abstract",
+    "id": "hddoor_left",
+    "symbol": "L",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "hddoor_abstract",
+    "id": "hddoor_right",
+    "symbol": "R",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "hddoor_opaque_abstract",
+    "id": "hddoor_opaque_left",
+    "symbol": "L",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "hddoor_opaque_abstract",
+    "id": "hddoor_opaque_right",
+    "symbol": "R",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "hdhatch_abstract",
+    "id": "hdhatch_left",
+    "symbol": "L",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "hdhatch_abstract",
+    "id": "hdhatch_right",
+    "symbol": "R",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "hdhatch_opaque_abstract",
+    "id": "hdhatch_opaque_left",
+    "symbol": "L",
+    "looks_like": "hdhatch_left",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "hdhatch_opaque_abstract",
+    "id": "hdhatch_opaque_right",
+    "symbol": "R",
+    "looks_like": "hdhatch_right",
+    "type": "vehicle_part"
   }
 ]

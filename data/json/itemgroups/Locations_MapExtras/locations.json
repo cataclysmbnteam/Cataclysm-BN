@@ -928,9 +928,7 @@
     "type": "item_group",
     "items": [
       [ "awl_bone", 50 ],
-      { "item": "loom_frame", "prob": 10 },
       [ "primitive_knife", 50 ],
-      { "item": "shed_stick", "prob": 10 },
       [ "primitive_axe", 50 ],
       [ "primitive_shovel", 50 ],
       [ "primitive_hammer", 50 ],
@@ -1187,6 +1185,24 @@
   },
   {
     "type": "item_group",
+    "id": "mine_materials",
+    "subtype": "collection",
+    "entries": [
+      { "item": "coal_lump", "prob": 20, "count": [ 1, 10 ] },
+      { "item": "rock", "prob": 40, "count": [ 1, 10 ] },
+      { "item": "material_shrd_limestone", "prob": 40, "count": [ 1, 10 ] },
+      { "item": "material_limestone", "prob": 40, "count": [ 1, 10 ] },
+      { "item": "material_niter", "prob": 5, "count": [ 1, 10 ] },
+      { "item": "material_sand", "prob": 50, "charges": 500, "container-item": "bag_canvas" },
+      { "item": "material_soil", "prob": 50, "charges": 500, "container-item": "bag_canvas" },
+      { "item": "chunk_sulfur", "prob": 5, "count": [ 1, 10 ] },
+      { "item": "material_rocksalt", "prob": 5, "count": [ 1, 10 ] },
+      { "item": "material_rhodonite", "prob": 5, "count": [ 1, 10 ] },
+      { "item": "material_zincite", "prob": 5, "count": [ 1, 10 ] }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "mine_equipment",
     "ammo": 80,
     "magazine": 100,
@@ -1321,7 +1337,6 @@
       [ "v6_combustion", 10 ],
       [ "v6_diesel", 10 ],
       [ "v8_combustion", 10 ],
-      [ "1cyl_combustion_small", 10 ],
       [ "steam_triple_small", 1 ],
       [ "steam_triple_medium", 1 ],
       [ "steam_watts_small", 1 ],
@@ -2439,6 +2454,22 @@
       [ "yeast", 25 ],
       [ "sugar", 20 ],
       [ "chem_ethanol", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "acetylene_production",
+    "//": "tools and materials used in the production of oxy-acetylene fuel.",
+    "items": [
+      [ "acetylene_machine", 25 ],
+      [ "hand_pump", 10 ],
+      [ "crucible", 10 ],
+      [ "forge", 5 ],
+      { "item": "weldtank", "charges": [ 0, 120 ], "prob": 10 },
+      { "item": "tinyweldtank", "charges": [ 0, 30 ], "prob": 15 },
+      [ "oxygen_cylinder", 15 ],
+      [ "coal_lump", 5 ],
+      [ "material_limestone", 5 ]
     ]
   }
 ]

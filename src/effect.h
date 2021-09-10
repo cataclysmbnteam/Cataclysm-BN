@@ -74,6 +74,9 @@ class effect_type
         /** Returns the number of turns it takes for the intensity to fall by 1 or 0 if intensity isn't based on duration. */
         time_duration get_int_dur_factor() const;
 
+        /** Returns the id of morale type this effect produces. */
+        morale_type get_morale_type() const;
+
         bool is_show_in_info() const;
 
         /** Returns true if an effect is permanent, i.e. it's duration does not decrease over time. */
@@ -86,6 +89,8 @@ class effect_type
 
         /** Registers the effect in the global map */
         static void register_ma_buff_effect( const effect_type &eff );
+
+        static void check_consistency();
 
     private:
         bool permanent = false;
@@ -141,6 +146,8 @@ class effect_type
         std::string remove_message;
         std::string remove_memorial_log;
 
+        morale_type morale;
+
         /** Key tuple order is:("base_mods"/"scaling_mods", reduced: bool, type of mod: "STR", desired argument: "tick") */
         std::unordered_map <
         std::tuple<std::string, bool, std::string, std::string>, double, cata::tuple_hash > mod_data;
@@ -153,9 +160,9 @@ class effect
             intensity( 1 ), start_time( calendar::turn_zero ),
             removed( true ) {
         }
-        effect( const effect_type *peff_type, const time_duration &dur, body_part part,
-                int nintensity, const time_point &nstart_time ) :
-            eff_type( peff_type ), duration( dur ), bp( part ),
+        effect( const effect_type *peff_type, const time_duration &dur,
+                const bodypart_str_id &part, int nintensity, const time_point &nstart_time ) :
+            eff_type( peff_type ), duration( dur ), bp( part->token ),
             intensity( nintensity ), start_time( nstart_time ),
             removed( false ) {
         }
@@ -202,10 +209,8 @@ class effect
         /** Returns the turn the effect was applied. */
         time_point get_start_time() const;
 
-        /** Returns the targeted body_part of the effect. This is num_bp for untargeted effects. */
-        body_part get_bp() const;
-        /** Sets the targeted body_part of an effect. */
-        void set_bp( body_part part );
+        /** Returns the targeted body_part of the effect. This is NULL_ID for untargeted effects. */
+        const bodypart_str_id &get_bp() const;
 
         /** Returns true if an effect is permanent, i.e. it's duration does not decrease over time. */
         bool is_permanent() const;
@@ -328,7 +333,7 @@ std::string texitify_healing_power( int power );
 // Inheritance here allows forward declaration of the map in class Creature.
 // Storing body_part as an int to make things easier for hash and JSON
 class effects_map : public
-    std::unordered_map<efftype_id, std::unordered_map<body_part, effect, std::hash<int>>>
+    std::unordered_map<efftype_id, std::unordered_map<bodypart_str_id, effect>>
 {
 };
 

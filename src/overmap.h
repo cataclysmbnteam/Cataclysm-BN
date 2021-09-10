@@ -267,7 +267,9 @@ class overmap
         bool is_explored( const tripoint &p ) const;
 
         bool has_note( const tripoint &p ) const;
+        cata::optional<int> has_note_with_danger_radius( const tripoint &p ) const;
         bool is_marked_dangerous( const tripoint &p ) const;
+        const std::vector<om_note> &all_notes( int z ) const;
         const std::string &note( const tripoint &p ) const;
         void add_note( const tripoint &p, std::string message );
         void delete_note( const tripoint &p );

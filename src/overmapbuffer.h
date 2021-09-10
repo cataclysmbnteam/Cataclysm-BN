@@ -168,6 +168,11 @@ class overmapbuffer
          * Uses global overmap terrain coordinates.
          */
         bool has_note( const tripoint &p );
+        /**
+         * Check whether the tile has a note that's marked as dangerous.
+         * If such note exists, returns danger radius (may be 0).
+         */
+        cata::optional<int> has_note_with_danger_radius( const tripoint &p );
         bool is_marked_dangerous( const tripoint &p );
         const std::string &note( const tripoint &p );
         void add_note( const tripoint &, const std::string &message );

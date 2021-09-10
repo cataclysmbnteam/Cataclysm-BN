@@ -107,6 +107,7 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_teleglow( "teleglow" );
 
 static const itype_id itype_grapnel( "grapnel" );
+static const itype_id itype_petrified_eye( "petrified_eye" );
 
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
@@ -1474,27 +1475,72 @@ void iexamine::fault( player &, const tripoint & )
 }
 
 /**
+ * Display popup message pulled from the object's message property
+ */
+void iexamine::notify( player &, const tripoint &pos )
+{
+    std::string message = g->m.has_furn( pos ) ?
+                          g->m.furn( pos ).obj().message :
+                          g->m.ter( pos ).obj().message;
+    if( !message.empty() ) {
+        popup( _( message ) );
+    }
+}
+
+/**
+* Transform the examined object into the object specified by its transforms_into property. If the new object has a message property,
+* it is displayed as if the notify examine_action was used.
+*/
+void iexamine::transform( player &, const tripoint &pos )
+{
+    std::string message;
+
+    if( g->m.has_furn( pos ) ) {
+        g->m.furn_set( pos, g->m.get_furn_transforms_into( pos ) );
+        message = g->m.furn( pos ).obj().message;
+    } else {
+        g->m.ter_set( pos, g->m.get_ter_transforms_into( pos ) );
+        message = g->m.ter( pos ).obj().message;
+    }
+    if( !message.empty() ) {
+        add_msg( _( message ) );
+    }
+}
+
+/**
  * Spawn 1d4 wyrms and sink pedestal into ground.
  */
 void iexamine::pedestal_wyrm( player &p, const tripoint &examp )
 {
-    if( !g->m.i_at( examp ).empty() ) {
-        none( p, examp );
-        return;
-    }
-    // Send in a few wyrms to start things off.
-    g->events().send<event_type::awakes_dark_wyrms>();
-    int num_wyrms = rng( 1, 4 );
-    for( int i = 0; i < num_wyrms; i++ ) {
-        if( monster *const mon = g->place_critter_around( mon_dark_wyrm, p.pos(), 2 ) ) {
-            g->m.ter_set( mon->pos(), t_rock_floor );
+    map &here = get_map();
+    map_stack items = here.i_at( examp );
+    if( !items.empty() ) {
+        if( items.only_item().typeId() == itype_petrified_eye &&
+            query_yn( _( "Remove the petrified eye from the pedestal?" ) ) ) {
+            here.i_clear( examp );
+
+            item eye( itype_petrified_eye );
+            p.i_add_or_drop( eye );
+
+            // Send in a few wyrms to start things off.
+            get_event_bus().send<event_type::awakes_dark_wyrms>();
+            for( const tripoint &p : here.points_on_zlevel() ) {
+                if( here.ter( p ) == ter_id( "t_orifice" ) ) {
+                    g->place_critter_around( mon_dark_wyrm, p, 1 );
+                }
+            }
+
+            sounds::sound( examp, 80, sounds::sound_t::combat, _( "an ominous grinding noise…" ), true,
+                           "misc", "stones_grinding" );
+            add_msg( _( "The pedestal sinks into the ground…" ) );
+            here.ter_set( examp, t_rock_floor );
+            g->timed_events.add( TIMED_EVENT_SPAWN_WYRMS, calendar::turn + rng( 30_seconds, 60_seconds ) );
+        } else {
+            none( p, examp );
+            add_msg( _( "You decided to leave the petrified eye on the pedestal…" ) );
+            return;
         }
     }
-    add_msg( _( "The pedestal sinks into the ground…" ) );
-    sounds::sound( examp, 80, sounds::sound_t::combat, _( "an ominous grinding noise…" ), true,
-                   "misc", "stones_grinding" );
-    g->m.ter_set( examp, t_rock_floor );
-    g->timed_events.add( TIMED_EVENT_SPAWN_WYRMS, calendar::turn + rng( 30_seconds, 60_seconds ) );
 }
 
 /**
@@ -1640,11 +1686,13 @@ static bool dead_plant( bool flower, player &p, const tripoint &examp )
 /**
  * Helper method to see if player has traits, hunger and mouthwear for drinking nectar.
  */
-static bool can_drink_nectar( const player &p )
+static bool can_drink_nectar( const player &p, const item &nectar )
 {
     return ( p.has_active_mutation( trait_PROBOSCIS )  ||
              p.has_active_mutation( trait_BEAK_HUM ) ) &&
-           ( ( p.get_hunger() ) > 0 ) && ( !( p.wearing_something_on( bodypart_id( "mouth" ) ) ) );
+           ( ( p.max_stored_kcal() - p.get_stored_kcal() ) <
+             nectar.get_comestible()->default_nutrition.kcal ) &&
+           ( !( p.wearing_something_on( bodypart_id( "mouth" ) ) ) );
 }
 
 /**
@@ -1652,10 +1700,10 @@ static bool can_drink_nectar( const player &p )
  */
 static bool drink_nectar( player &p )
 {
-    if( can_drink_nectar( p ) ) {
+    item nectar( "nectar", calendar::turn, 1 );
+    if( can_drink_nectar( p, nectar ) ) {
         p.moves -= to_moves<int>( 30_seconds );
         add_msg( _( "You drink some nectar." ) );
-        item nectar( "nectar", calendar::turn, 1 );
         p.eat( nectar );
         return true;
     }
@@ -1669,8 +1717,8 @@ static bool drink_nectar( player &p )
 static void handle_harvest( player &p, const std::string &itemid, bool force_drop )
 {
     item harvest = item( itemid );
-    if( !force_drop && p.can_pickVolume( harvest, true ) &&
-        p.can_pickWeight( harvest, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
+    if( !force_drop && p.can_pick_volume( harvest ) &&
+        p.can_pick_weight( harvest, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
         p.i_add( harvest );
         p.add_msg_if_player( _( "You harvest: %s." ), harvest.tname() );
     } else {
@@ -1692,14 +1740,14 @@ void iexamine::flower_poppy( player &p, const tripoint &examp )
     }
     // TODO: Get rid of this section and move it to eating
     // Two y/n prompts is just too much
-    if( can_drink_nectar( p ) ) {
+    item poppy( "poppy_nectar", calendar::turn, 1 );
+    if( can_drink_nectar( p, poppy ) ) {
         if( !query_yn( _( "You feel woozy as you explore the %s. Drink?" ),
                        g->m.furnname( examp ) ) ) {
             return;
         }
         p.moves -= to_moves<int>( 30_seconds ); // You take your time...
         add_msg( _( "You slowly suck up the nectar." ) );
-        item poppy( "poppy_nectar", calendar::turn, 1 );
         p.eat( poppy );
         p.mod_fatigue( 20 );
         p.add_effect( effect_pkill2, 7_minutes );
@@ -1911,7 +1959,8 @@ void iexamine::flower_marloss( player &p, const tripoint &examp )
     if( season_of_year( calendar::turn ) == WINTER ) {
         add_msg( m_info, _( "This flower is still alive, despite the harsh conditions…" ) );
     }
-    if( can_drink_nectar( p ) ) {
+    item nectar( "nectar" );
+    if( can_drink_nectar( p, nectar ) ) {
         if( !query_yn( _( "You feel out of place as you explore the %s. Drink?" ),
                        g->m.furnname( examp ) ) ) {
             return;
@@ -2763,7 +2812,7 @@ void iexamine::fireplace( player &p, const tripoint &examp )
     switch( selection_menu.ret ) {
         case 0:
             none( p, examp );
-            Pickup::pick_up( examp, 0 );
+            pickup::pick_up( examp, 0 );
             return;
         case 1: {
             for( auto &firestarter : firestarters ) {
@@ -3431,7 +3480,7 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
 
         case REMOVE_CONTAINER: {
             g->u.assign_activity( player_activity( pickup_activity_actor(
-            { item_location( map_cursor( examp ), container ) }, { 0 }, g->u.pos() ) ) );
+            { { item_location( map_cursor( examp ), container ), cata::nullopt, {} } }, g->u.pos() ) ) );
             return;
         }
 
@@ -3718,7 +3767,7 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
             for( auto &itm : items ) {
                 if( itm.type == ammo ) {
                     g->u.assign_activity( player_activity( pickup_activity_actor(
-                    { item_location( map_cursor( examp ), &itm ) }, { 0 }, g->u.pos() ) ) );
+                    { { item_location( map_cursor( examp ), &itm ), cata::nullopt, {} } }, g->u.pos() ) ) );
                     return;
                 }
             }
@@ -5697,6 +5746,8 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "safe", &iexamine::safe },
             { "bulletin_board", &iexamine::bulletin_board },
             { "fault", &iexamine::fault },
+            { "notify", &iexamine::notify },
+            { "transform", &iexamine::transform },
             { "pedestal_wyrm", &iexamine::pedestal_wyrm },
             { "pedestal_temple", &iexamine::pedestal_temple },
             { "door_peephole", &iexamine::door_peephole },

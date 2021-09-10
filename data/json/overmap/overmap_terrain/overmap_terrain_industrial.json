@@ -1027,5 +1027,234 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_warehouse",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "warehouse",
+    "sym": "w",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_loading_bay",
+    "copy-from": "industrial_center_warehouse",
+    "name": "warehouse - loading bay"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "industrial_center_loading_bay_roof", "industrial_center_warehouse_roof" ],
+    "copy-from": "industrial_center_warehouse",
+    "name": "warehouse roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_light_industry",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "light industry",
+    "sym": "v",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_light_industry_roof",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "light industry roof",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_pump_station",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "pump station",
+    "sym": "P",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_pump_station_roof",
+    "copy-from": "industrial_center_pump_station",
+    "name": "pump station roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_pump_station_basement",
+    "copy-from": "pump_station_3"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_substation",
+    "copy-from": "pwr_sub_s",
+    "name": "power substation"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_substation_roof",
+    "copy-from": "industrial_center_substation",
+    "name": "power substation roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_medical_center",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "medical center",
+    "sym": "<",
+    "color": "i_light_red",
+    "extend": { "flags": [ "SOURCE_MEDICINE" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_medical_center_roof",
+    "copy-from": "industrial_center_medical_center",
+    "name": "medical center roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_data_center",
+    "name": "data center",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "sym": "<",
+    "color": "light_gray",
+    "extend": { "flags": [ "SOURCE_ELECTRONICS" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_data_center_roof",
+    "name": "data center roof",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_admin",
+    "name": "administration",
+    "sym": "<",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_admin_roof",
+    "name": "administration roof",
+    "copy-from": "industrial_center_admin"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "industrial_center_parking_lot_1", "industrial_center_parking_lot_2" ],
+    "copy-from": "parking_2x1_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_west_road",
+    "copy-from": "generic_transportation",
+    "name": "road",
+    "sym": "├",
+    "color": "dark_gray",
+    "see_cost": 2,
+    "extras": "road"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_south_access",
+    "copy-from": "industrial_center_west_road",
+    "sym": "│"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_nw_road",
+    "copy-from": "industrial_center_west_road",
+    "sym": "┌"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_ne_road",
+    "copy-from": "industrial_center_west_road",
+    "sym": "┐"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_sw_road",
+    "copy-from": "industrial_center_west_road",
+    "sym": "┼"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "industrial_center_se_road",
+    "copy-from": "industrial_center_west_road",
+    "sym": "┤"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mine_entrance", "mine_entrance_loading_zone" ],
+    "name": "mine entrance",
+    "sym": "M",
+    "color": "magenta",
+    "see_cost": 5,
+    "flags": [ "KNOWN_DOWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mine_entrance_roof", "mine_entrance_loading_zone_roof" ],
+    "name": "mine entrance roof",
+    "sym": "M",
+    "color": "magenta",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mine_shaft_middle", "mine_shaft_middle_east" ],
+    "name": "mine shaft",
+    "sym": "O",
+    "color": "dark_gray",
+    "see_cost": 5,
+    "flags": [ "KNOWN_UP", "KNOWN_DOWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mine_shaft_lower", "mine_shaft_lower_east" ],
+    "name": "mine shaft",
+    "sym": "O",
+    "color": "dark_gray",
+    "see_cost": 5,
+    "flags": [ "KNOWN_UP" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "mine_spiral_west",
+      "mine_spiral_central",
+      "mine_spiral_east",
+      "mine_spiral_-1_nw",
+      "mine_spiral_-1_n",
+      "mine_spiral_-1_ne",
+      "mine_spiral_-1_sw",
+      "mine_spiral_-1_s",
+      "mine_spiral_-1_se",
+      "mine_spiral_finale_nw",
+      "mine_spiral_finale_n",
+      "mine_spiral_finale_ne",
+      "mine_spiral_finale_sw",
+      "mine_spiral_finale_s",
+      "mine_spiral_finale_se",
+      "mine_amigara_west",
+      "mine_amigara_central",
+      "mine_amigara_east",
+      "mine_amigara_-1_west",
+      "mine_amigara_-1_central",
+      "mine_amigara_-1_east",
+      "mine_amigara_finale_west",
+      "mine_amigara_finale_central",
+      "mine_amigara_finale_east",
+      "mine_wyrms_west",
+      "mine_wyrms_central",
+      "mine_wyrms_east",
+      "mine_wyrms_finale"
+    ],
+    "name": "mine tunnels",
+    "sym": "O",
+    "color": "dark_gray",
+    "see_cost": 5,
+    "flags": [ "KNOWN_UP" ]
   }
 ]

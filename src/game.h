@@ -36,6 +36,7 @@ class Creature_tracker;
 class item;
 class monster;
 class spell_events;
+class drop_token_provider;
 
 static constexpr int DEFAULT_TILESET_ZOOM = 16;
 
@@ -83,7 +84,6 @@ enum safe_mode_type {
 enum body_part : int;
 enum weather_type : int;
 enum action_id : int;
-enum target_mode : int;
 
 struct special_game;
 
@@ -147,7 +147,6 @@ class game
         friend class editmap;
         friend class advanced_inventory;
         friend class main_menu;
-        friend class target_handler;
         friend distribution_grid_tracker &get_distribution_grid_tracker();
     public:
         game();
@@ -213,7 +212,7 @@ class game
 
         /** Returns a list of currently active character saves. */
         std::vector<std::string> list_active_characters();
-        void write_memorial_file( std::string sLastWords );
+        void write_memorial_file( const std::string &filename, std::string sLastWords );
         bool cleanup_at_end();
         void start_calendar();
         /** MAIN GAME LOOP. Returns true if game is over (death, saved, quit, etc.). */
@@ -808,7 +807,7 @@ class game
         void reload( item_location &loc, bool prompt = false, bool empty = true );
     public:
         void reload_item(); // Reload an item
-        void reload_wielded();
+        void reload_wielded( bool prompt = false );
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
         point place_player( const tripoint &dest );
@@ -955,7 +954,7 @@ class game
 
         Creature *is_hostile_within( int distance );
 
-        void move_save_to_graveyard();
+        void move_save_to_graveyard( const std::string &dirname );
         bool save_player_data();
         // ########################## DATA ################################
     private:
@@ -988,6 +987,7 @@ class game
 
         pimpl<Creature_tracker> critter_tracker;
         pimpl<faction_manager> faction_manager_ptr;
+        pimpl<drop_token_provider> token_provider_ptr;
 
         /** Used in main.cpp to determine what type of quit is being performed. */
         quit_status uquit;

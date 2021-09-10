@@ -52,7 +52,7 @@
     "blueprint_excludes": [ { "id": "fbml_north" } ],
     "blueprint_needs": {
       "time": "3 h",
-      "skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
+      "skills": [ [ "fabrication", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
@@ -75,7 +75,7 @@
     "blueprint_excludes": [ { "id": "fbml_center" } ],
     "blueprint_needs": {
       "time": "1 h",
-      "skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
+      "skills": [ [ "fabrication", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
@@ -98,7 +98,7 @@
     "blueprint_excludes": [ { "id": "fbml_south" } ],
     "blueprint_needs": {
       "time": "5 h",
-      "skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
+      "skills": [ [ "fabrication", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],

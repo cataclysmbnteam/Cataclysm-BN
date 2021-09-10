@@ -78,7 +78,6 @@ static const efftype_id effect_ai_waiting( "ai_waiting" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_drunk( "drunk" );
-static const efftype_id effect_high( "high" );
 static const efftype_id effect_infection( "infection" );
 static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_npc_flee_player( "npc_flee_player" );
@@ -603,7 +602,7 @@ void starting_inv( npc &who, const npc_class_id &type )
                         type == NC_BOUNTY_HUNTER );
         qty = rng( qty, qty * 2 );
 
-        while( qty-- != 0 && who.can_pickVolume( ammo ) ) {
+        while( qty-- != 0 && who.can_pick_volume( ammo ) ) {
             // TODO: give NPC a default magazine instead
             res.push_back( ammo );
         }
@@ -623,7 +622,7 @@ void starting_inv( npc &who, const npc_class_id &type )
             if( !one_in( 3 ) && tmp.has_flag( "VARSIZE" ) ) {
                 tmp.set_flag( "FIT" );
             }
-            if( who.can_pickVolume( tmp ) ) {
+            if( who.can_pick_volume( tmp ) ) {
                 res.push_back( tmp );
             }
         }
@@ -1283,9 +1282,6 @@ void npc::form_opinion( const player &u )
     }
 
     // TODO: More effects
-    if( u.has_effect( effect_high ) ) {
-        op_of_u.trust -= 1;
-    }
     if( u.has_effect( effect_drunk ) ) {
         op_of_u.trust -= 2;
     }
@@ -1496,7 +1492,7 @@ void npc::decide_needs()
     }
 
     needrank[need_weapon] = weapon_value( weapon );
-    needrank[need_food] = 15 - get_hunger();
+    needrank[need_food] = 15.0f - ( max_stored_kcal() - get_stored_kcal() ) / 10.0f;
     needrank[need_drink] = 15 - get_thirst();
     invslice slice = inv.slice();
     for( auto &i : slice ) {
@@ -1756,8 +1752,9 @@ int npc::value( const item &it, int market_price ) const
         if( nutrition_for( it ) > 0 || it.get_comestible()->quench > 0 ) {
             comestval++;
         }
-        if( get_hunger() > 40 ) {
-            comestval += ( nutrition_for( it ) + get_hunger() - 40 ) / 6;
+        if( max_stored_kcal() - get_stored_kcal() > 500 ) {
+            comestval += ( nutrition_for( it ) +
+                           ( max_stored_kcal() - get_stored_kcal() - 500 ) / 10 ) / 6;
         }
         if( get_thirst() > thirst_levels::thirsty ) {
             comestval += ( it.get_comestible()->quench + get_thirst() - thirst_levels::thirsty ) / 4;
@@ -2798,7 +2795,7 @@ void npc::process_turn()
     }
 
     if( is_player_ally() && calendar::once_every( 1_hours ) &&
-        get_hunger() < 200 && get_thirst() < thirst_levels::very_thirsty && op_of_u.trust < 5 ) {
+        get_kcal_percent() > 0.95 && get_thirst() < thirst_levels::very_thirsty && op_of_u.trust < 5 ) {
         // Friends who are well fed will like you more
         // 24 checks per day, best case chance at trust 0 is 1 in 48 for +1 trust per 2 days
         float trust_chance = 5 - op_of_u.trust;
@@ -2808,7 +2805,8 @@ void npc::process_turn()
                          std::max( 0, -op_of_u.value ) +
                          std::max( 0, op_of_u.fear );
         // Being barely hungry and thirsty, not in pain and not wounded means good care
-        int state_penalty = get_hunger() + get_thirst() + ( 100 - hp_percentage() ) + get_pain();
+        int state_penalty = ( max_stored_kcal() - get_stored_kcal() ) / 10 + get_thirst()
+                            + ( 100 - hp_percentage() ) + get_pain();
         if( x_in_y( trust_chance, 240 + 10 * op_penalty + state_penalty ) ) {
             op_of_u.trust++;
         }

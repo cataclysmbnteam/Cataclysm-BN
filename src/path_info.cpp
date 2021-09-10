@@ -80,7 +80,7 @@ void PATH_INFO::set_standard_filenames()
     // Special: data_dir and gfx_dir
     if( !base_path_value.empty() ) {
 #if defined(DATA_DIR_PREFIX)
-        datadir_value = base_path_value + "share/cataclysm-dda/";
+        datadir_value = base_path_value + "share/cataclysm-bn/";
         gfxdir_value = datadir_value + "gfx/";
 #else
         datadir_value = base_path_value + "data/";

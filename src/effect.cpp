@@ -6,6 +6,7 @@
 #include <memory>
 #include <unordered_set>
 
+#include "assign.h"
 #include "color.h"
 #include "debug.h"
 #include "enums.h"
@@ -77,7 +78,7 @@ void weed_msg( player &p )
                 // Simpsons
                 p.add_msg_if_player(
                     _( "Could Jesus microwave a burrito so hot, that he himself couldn't eat it?" ) );
-                p.mod_hunger( 2 );
+                p.mod_stored_kcal( -20 );
                 return;
             case 2:
                 if( smarts > 8 ) {
@@ -183,7 +184,7 @@ void weed_msg( player &p )
             case 1:
                 // Real Life
                 p.add_msg_if_player( _( "Man, a cheeseburger sounds SO awesome right now." ) );
-                p.mod_hunger( 4 );
+                p.mod_stored_kcal( -40 );
                 if( p.has_trait( trait_VEGETARIAN ) ) {
                     p.add_msg_if_player( _( "Eh… maybe not." ) );
                 } else if( p.has_trait( trait_LACTOSE ) ) {
@@ -375,6 +376,9 @@ bool effect_type::load_mod_data( const JsonObject &jo, const std::string &member
         extract_effect( j, mod_data, "healing_head",    member, "HEAL_HEAD",  "amount" );
         extract_effect( j, mod_data, "healing_torso",   member, "HEAL_TORSO", "amount" );
 
+        // Then morale
+        extract_effect( j, mod_data, "morale",          member, "MORALE",     "amount" );
+
         // creature stats mod
         extract_effect( j, mod_data, "dodge_mod",    member, "DODGE",  "min" );
         extract_effect( j, mod_data, "hit_mod",    member, "HIT",  "min" );
@@ -475,6 +479,10 @@ time_duration effect_type::get_int_dur_factor() const
 {
     return int_dur_factor;
 }
+morale_type effect_type::get_morale_type() const
+{
+    return morale;
+}
 bool effect_type::load_miss_msgs( const JsonObject &jo, const std::string &member )
 {
     if( jo.has_array( member ) ) {
@@ -508,6 +516,16 @@ bool effect_type::load_decay_msgs( const JsonObject &jo, const std::string &memb
         return true;
     }
     return false;
+}
+void effect_type::check_consistency()
+{
+    for( const auto &pr : effect_types ) {
+        const effect_type &et = pr.second;
+        if( et.get_morale_type() && !et.get_morale_type().is_valid() ) {
+            debugmsg( "Effect type %s has invalid morale type %s",
+                      et.id.str(), et.get_morale_type().str() );
+        }
+    }
 }
 
 effect effect::null_effect;
@@ -794,13 +812,9 @@ time_point effect::get_start_time() const
     return start_time;
 }
 
-body_part effect::get_bp() const
+const bodypart_str_id &effect::get_bp() const
 {
-    return bp;
-}
-void effect::set_bp( body_part part )
-{
-    bp = part;
+    return convert_bp( bp );
 }
 
 bool effect::is_permanent() const
@@ -1332,6 +1346,41 @@ void load_effect_type( const JsonObject &jo )
     new_etype.impairs_movement = hardcoded_movement_impairing.count( new_etype.id ) > 0;
 
     new_etype.flags = jo.get_tags( "flags" );
+
+    assign( jo, "morale", new_etype.morale );
+
+    const auto morale_effect = std::find_if( new_etype.mod_data.begin(),
+    new_etype.mod_data.end(), []( decltype( *new_etype.mod_data.begin() ) & pr ) {
+        return std::get<2>( pr.first ) == "MORALE";
+    } );
+    bool has_morale_effect = morale_effect != new_etype.mod_data.end();
+    if( new_etype.morale && !has_morale_effect ) {
+        jo.throw_error( "Morale type set, but no MORALE base/scaling effect", "morale" );
+    } else if( !new_etype.morale && has_morale_effect ) {
+        jo.throw_error( "MORALE base/scaling effect present, but no morale type set",
+                        std::get<0>( morale_effect->first ) );
+    }
+
+    // TODO: Implement handling of reduced morale, remove this
+    static const std::vector<const char *> mod_types = {{
+            "base_mods", "scaling_mods"
+        }
+    };
+    if( has_morale_effect ) {
+        for( const std::string &cur_mod : mod_types ) {
+            auto reduced_tuple = std::make_tuple( cur_mod, true, "MORALE", "amount" );
+            auto reduced = new_etype.mod_data.find( reduced_tuple );
+            auto non_reduced_tuple = std::make_tuple( cur_mod, false, "MORALE", "amount" );
+            auto non_reduced = new_etype.mod_data.find( non_reduced_tuple );
+            bool has_reduced = reduced != new_etype.mod_data.end();
+            bool has_non_reduced = non_reduced != new_etype.mod_data.end();
+            if( ( has_reduced && has_non_reduced && reduced->second != non_reduced->second )
+                || has_reduced != has_non_reduced ) {
+                jo.throw_error( "MORALE doesn't support different amounts for resisted effects yet",
+                                cur_mod );
+            }
+        }
+    }
 
     effect_types[new_etype.id] = new_etype;
 }

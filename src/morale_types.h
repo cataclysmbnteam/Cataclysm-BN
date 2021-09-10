@@ -20,8 +20,10 @@ class morale_type_data
         morale_type id;
         bool was_loaded = false;
 
-        /** Describes this morale type, with item type to replace wildcard with. */
-        std::string describe( const itype *it = nullptr ) const;
+        /** Describes this morale type without replacing anything. */
+        std::string describe() const;
+        /** Describes this morale type, with some string to replace wildcard with. */
+        std::string describe( const std::string &s ) const;
         bool is_permanent() const {
             return permanent;
         }
@@ -32,8 +34,6 @@ class morale_type_data
         static void load_type( const JsonObject &jo, const std::string &src );
         static void check_all();
         static void reset();
-
-        static const morale_type &convert_legacy( int lmt );
 };
 
 // Legacy crap - get rid of it when possible

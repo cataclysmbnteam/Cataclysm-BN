@@ -16,7 +16,7 @@
     "weight": "740 g",
     "volume": "5 L",
     "bashing": 14,
-    "armor_data": { "covers": [ "TORSO" ], "encumbrance": 14 },
+    "armor_data": { "covers": [ "torso" ], "encumbrance": 14 },
     "reload_noise_volume": 2,
     "loudness": 5,
     "ranged_damage": 40,

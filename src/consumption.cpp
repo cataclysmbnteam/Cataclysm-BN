@@ -135,6 +135,7 @@ static const std::string flag_INEDIBLE( "INEDIBLE" );
 static const std::string flag_LUPINE( "LUPINE" );
 static const std::string flag_MYCUS_OK( "MYCUS_OK" );
 static const std::string flag_NEGATIVE_MONOTONY_OK( "NEGATIVE_MONOTONY_OK" );
+static const std::string flag_NO_BLOAT( "NO_BLOAT" );
 static const std::string flag_NO_PARASITES( "NO_PARASITES" );
 static const std::string flag_NO_RELOAD( "NO_RELOAD" );
 static const std::string flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
@@ -599,28 +600,9 @@ float Character::metabolic_rate_base() const
     return std::max( 0.0f, with_mut + ench_bonus );
 }
 
-// TODO: Make this less chaotic to let NPC retroactive catch up work here
-// TODO: Involve body heat (cold -> higher metabolism, unless cold-blooded)
-// TODO: Involve stamina (maybe not here?)
 float Character::metabolic_rate() const
 {
-    // First value is effective hunger, second is nutrition multiplier
-    // Note: Values do not match hungry/v.hungry/famished/starving,
-    // because effective hunger is affected by speed (which drops when hungry)
-    static const std::vector<std::pair<float, float>> thresholds = {{
-            { 300.0f, 1.0f },
-            { 2000.0f, 0.8f },
-            { 5000.0f, 0.6f },
-            { 8000.0f, 0.5f }
-        }
-    };
-
-    // Penalize fast survivors
-    // TODO: Have cold temperature increase, not decrease, metabolism
-    const float effective_hunger = get_hunger() * 100.0f / std::max( 50, get_speed() );
-    const float modifier = multi_lerp( thresholds, effective_hunger );
-
-    return modifier * metabolic_rate_base();
+    return metabolic_rate_base();
 }
 
 morale_type Character::allergy_type( const item &food ) const
@@ -774,7 +756,8 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
                          edible_rating::nausea );
     }
 
-    if( ( food_kcal > 0 || comest->quench > 0 ) && has_effect( effect_bloated ) ) {
+    if( ( food_kcal > 0 || comest->quench > 0 ) && has_effect( effect_bloated )
+        && !food.has_flag( flag_NO_BLOAT ) ) {
         add_consequence( _( "You're full and will vomit if you try to consume anything." ),
                          edible_rating::bloated );
     }
@@ -796,7 +779,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     if( !food.has_infinite_charges() &&
         ( ( food_kcal > 0 &&
             get_stored_kcal() + stomach.get_calories() + food_kcal
-            > max_stored_calories() ) ||
+            > max_stored_kcal() ) ||
           ( comest->quench > 0 && get_thirst() < comest->quench ) ) ) {
         add_consequence( _( "You're full already and the excess food will be wasted." ),
                          edible_rating::too_full );
@@ -842,7 +825,8 @@ bool player::eat( item &food, bool force )
     }
 
     if( has_effect( effect_bloated ) &&
-        ( compute_effective_nutrients( food ).kcal > 0 || food.get_comestible()->quench > 0 ) ) {
+        ( compute_effective_nutrients( food ).kcal > 0 || food.get_comestible()->quench > 0 ) &&
+        !food.has_flag( flag_NO_BLOAT ) ) {
         add_msg_if_player( _( "You force yourself to vomit to make space for %s." ), food.tname() );
         vomit();
     }
@@ -1211,7 +1195,7 @@ bool Character::consume_effects( item &food )
     // Moved here and changed a bit - it was too complex
     // Incredibly minor stuff like this shouldn't require complexity
     if( !is_npc() && has_trait( trait_SLIMESPAWNER ) &&
-        max_stored_calories() < get_stored_kcal() + 4000 && get_thirst() < thirst_levels::slaked ) {
+        max_stored_kcal() < get_stored_kcal() + 4000 && get_thirst() < thirst_levels::slaked ) {
         add_msg_if_player( m_mixed,
                            _( "You feel as though you're going to split open!  In a good way?" ) );
         mod_pain( 5 );
@@ -1221,7 +1205,7 @@ bool Character::consume_effects( item &food )
                 slime->friendly = -1;
             }
         }
-        mod_hunger( 40 );
+        mod_stored_kcal( -400 );
         mod_thirst( 40 );
         //~ slimespawns have *small voices* which may be the Nice equivalent
         //~ of the Rat King's ALL CAPS invective.  Probably shared-brain telepathy.
@@ -1239,12 +1223,12 @@ bool Character::consume_effects( item &food )
     }
 
     int excess_kcal = get_stored_kcal() + stomach.get_calories() + ingested.nutr.kcal -
-                      max_stored_calories();
+                      max_stored_kcal();
     int excess_quench = -( get_thirst() - comest.quench );
     stomach.ingest( ingested );
     mod_thirst( -contained_food.type->comestible->quench );
 
-    if( excess_kcal > 0 || excess_quench > 0 ) {
+    if( ( excess_kcal > 0 || excess_quench > 0 ) && !food.has_flag( flag_NO_BLOAT ) ) {
         add_effect( effect_bloated, 5_minutes );
     }
 

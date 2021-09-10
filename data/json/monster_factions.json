@@ -201,5 +201,17 @@
     "type": "MONSTER_FACTION",
     "name": "triffid",
     "base_faction": "plant"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "amigara",
+    "base_faction": "mutant",
+    "neutral": "amigara"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "dark_wyrm",
+    "base_faction": "mutant",
+    "neutral": "dark_wyrm"
   }
 ]

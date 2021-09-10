@@ -122,6 +122,17 @@ zone_manager::zone_manager()
 
 }
 
+zone_manager &zone_manager::get_manager()
+{
+    static zone_manager manager;
+    return manager;
+}
+
+void zone_manager::reset_manager()
+{
+    get_manager() = zone_manager();
+}
+
 std::string zone_type::name() const
 {
     return _( name_ );
@@ -474,12 +485,20 @@ cata::optional<std::string> zone_manager::query_name( const std::string &default
 cata::optional<zone_type_id> zone_manager::query_type() const
 {
     const auto &types = get_manager().get_types();
+    std::vector<std::pair<zone_type_id, zone_type>> types_vec;
+    std::copy( types.begin(), types.end(),
+               std::back_inserter<std::vector<std::pair<zone_type_id, zone_type>>>( types_vec ) );
+    std::sort( types_vec.begin(), types_vec.end(),
+    []( const std::pair<zone_type_id, zone_type> &lhs, const std::pair<zone_type_id, zone_type> &rhs ) {
+        return localized_compare( lhs.second.name(), rhs.second.name() );
+    } );
+
     uilist as_m;
     as_m.desc_enabled = true;
     as_m.text = _( "Select zone type:" );
 
     size_t i = 0;
-    for( const auto &pair : types ) {
+    for( const auto &pair : types_vec ) {
         const auto &type = pair.second;
 
         as_m.addentry_desc( i++, true, MENU_AUTOASSIGN, type.name(), type.desc() );
@@ -491,7 +510,7 @@ cata::optional<zone_type_id> zone_manager::query_type() const
     }
     size_t index = as_m.ret;
 
-    auto iter = types.begin();
+    auto iter = types_vec.begin();
     std::advance( iter, index );
 
     return iter->first;
@@ -1038,7 +1057,9 @@ void zone_manager::rotate_zones( map &target_map, const int turns )
         if( ( a_start.x <= z_start.x && a_start.y <= z_start.y ) &&
             ( a_end.x > z_start.x && a_end.y >= z_start.y ) &&
             ( a_start.x <= z_end.x && a_start.y <= z_end.y ) &&
-            ( a_end.x >= z_end.x && a_end.y >= z_end.y ) ) {
+            ( a_end.x >= z_end.x && a_end.y >= z_end.y ) &&
+            ( a_start.z == z_start.z )
+          ) {
             tripoint z_l_start3 = target_map.getlocal( z_start );
             tripoint z_l_end3 = target_map.getlocal( z_end );
             // don't rotate centered squares

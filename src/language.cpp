@@ -484,9 +484,10 @@ std::vector<std::string> get_lang_path_substring( const std::string &lang_id )
     return ret;
 }
 
+#if defined(LOCALIZE)
 bool translations_exists_for_lang( const std::string &lang_id )
 {
-#if defined(LOCALIZE)
+
     std::vector<std::string> opts = get_lang_path_substring( lang_id );
     for( const std::string &s : opts ) {
         std::string path = PATH_INFO::base_path() + "lang/mo/" + s + "/LC_MESSAGES/cataclysm-bn.mo";
@@ -494,9 +495,9 @@ bool translations_exists_for_lang( const std::string &lang_id )
             return true;
         }
     }
-#endif // LOCALIZE
     return false;
 }
+#endif // LOCALIZE
 
 bool localized_comparator::operator()( const std::string &l, const std::string &r ) const
 {
@@ -573,6 +574,12 @@ static void add_cat_if_exists( std::vector<trans_catalogue> &list, const std::st
     }
 }
 
+static void add_mod_catalogue_if_exists( std::vector<trans_catalogue> &list,
+        const std::string &lang_id, const std::string &mod_path )
+{
+    add_cat_if_exists( list, lang_id, mod_path + "/lang/", ".mo" );
+}
+
 static void add_base_catalogue( std::vector<trans_catalogue> &list, const std::string &lang_id )
 {
     // TODO: split source code strings from data strings
@@ -591,7 +598,7 @@ static bool add_mod_catalogues( std::vector<trans_catalogue> &list, const std::s
 
     const std::vector<mod_id> &mods = world_generator->active_world->active_mod_order;
     for( const mod_id &mod : mods ) {
-        add_cat_if_exists( list, lang_id, mod.obj().path + "/lang/", ".mo" );
+        add_mod_catalogue_if_exists( list, lang_id, mod->path );
     }
     return true;
 }
@@ -642,4 +649,29 @@ void unload_mod_catalogues()
 }
 
 } // namespace l10n_data
+
+void translatable_mod_info::update()
+{
+    language_version = detail::get_current_language_version();
+
+    // First, try base game's translation file (for in-repo mods)
+    name_tr = _( name_raw );
+    description_tr = _( description_raw );
+
+    if( !gettext_use_modular || name_tr != name_raw || description_tr != description_raw ) {
+        return;
+    }
+
+    // For 3rd-party mods, try that mod's translation file
+    std::vector<trans_catalogue> list;
+    l10n_data::add_mod_catalogue_if_exists( list, get_language().id, mod_path );
+    if( list.empty() ) {
+        return;
+    }
+    trans_library lib = trans_library::create( std::move( list ) );
+
+    name_tr = lib.get( name_raw.c_str() );
+    description_tr = lib.get( description_raw.c_str() );
+}
+
 #endif // LOCALIZE

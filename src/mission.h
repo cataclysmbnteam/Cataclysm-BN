@@ -140,7 +140,7 @@ struct mission_fail {
 struct mission_target_params {
     std::string overmap_terrain;
     ot_match_type overmap_terrain_match_type = ot_match_type::type;
-    mission *mission_pointer;
+    mission *mission_pointer = nullptr;
 
     bool origin_u = true;
     cata::optional<tripoint> offset;
@@ -300,21 +300,21 @@ class mission
         friend struct mission_start;
         friend class debug_menu::mission_debug;
 
-        const mission_type *type;
-        mission_status status;
+        const mission_type *type = nullptr;
+        mission_status status = mission_status::num_mission_status;
         // Cash/Favor value of completing this
-        unsigned int value;
+        unsigned int value = 0;
         // If there's a special reward for completing it
         npc_favor reward;
         // Unique ID number, used for referencing elsewhere
-        int uid;
+        int uid = 0;
         // Marked on the player's map. (INT_MIN, INT_MIN) for none,
         // global overmap terrain coordinates.
         tripoint target;
         // Item that needs to be found (or whatever)
         itype_id item_id;
         // The number of above items needed
-        int item_count;
+        int item_count = 0;
         // Destination type to be reached
         string_id<oter_type_t> target_id;
         // The type of NPC you are to recruit
@@ -326,16 +326,18 @@ class mission
         // Monster species that are to be killed
         species_id monster_species;
         // The number of monsters you need to kill
-        int monster_kill_goal;
+        int monster_kill_goal = 0;
         // The kill count you need to reach to complete mission
-        int kill_count_to_reach;
+        int kill_count_to_reach = 0;
         time_point deadline;
         // ID of a related npc
         character_id npc_id;
-        // IDs of the protagonist/antagonist factions
-        int good_fac_id, bad_fac_id;
+        // ID of the protagonist faction
+        int good_fac_id = 0;
+        // ID of antagonist faction
+        int bad_fac_id = 0;
         // How much have we completed?
-        int step;
+        int step = 0;
         // What mission do we get after this succeeds?
         mission_type_id follow_up;
         // The id of the player that has accepted this mission.

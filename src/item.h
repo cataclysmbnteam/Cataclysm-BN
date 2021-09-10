@@ -21,6 +21,7 @@
 #include "item_contents.h"
 #include "item_location.h"
 #include "optional.h"
+#include "pimpl.h"
 #include "safe_reference.h"
 #include "string_id.h"
 #include "type_id.h"
@@ -46,6 +47,7 @@ class relic;
 struct islot_comestible;
 struct itype;
 struct item_comp;
+class item_drop_token;
 template<typename CompType>
 struct comp_selection;
 struct tool_comp;
@@ -606,7 +608,11 @@ class item : public visitable<item>
         skill_id melee_skill() const;
         /*@}*/
 
-        /** Max range weapon usable for melee attack accounting for player/NPC abilities */
+        /**
+         * Max range of melee attack this weapon can be used for.
+         * Accounts for character's abilities and installed gun mods.
+         * Guaranteed to be at least 1
+         */
         int reach_range( const Character &guy ) const;
 
         /**
@@ -1905,6 +1911,10 @@ class item : public visitable<item>
         /*@}*/
 
         /**
+         * Returns true if the item has any use function.
+         */
+        bool has_use() const;
+        /**
          * Returns the pointer to use_function with name use_name assigned to the type of
          * this item or any of its contents. Checks contents recursively.
          * Returns nullptr if not found.
@@ -2216,6 +2226,12 @@ class item : public visitable<item>
         bool has_clothing_mod() const;
         float get_clothing_mod_val( clothing_mod_type type ) const;
         void update_clothing_mod_val();
+
+        /**
+         * Two items are dropped in same "batch" if they have identical drop tokens
+         * Ideally, this would be stored outside item class.
+         */
+        pimpl<item_drop_token> drop_token;
 };
 
 bool item_compare_by_charges( const item &left, const item &right );
@@ -2257,5 +2273,11 @@ const std::set<itype_id> &get();
 void load( const JsonObject &jo );
 void reset();
 } // namespace charge_removal_blacklist
+
+namespace to_cbc_migration
+{
+void load( const JsonObject &jo );
+void reset();
+} // namespace to_cbc_migration
 
 #endif // CATA_SRC_ITEM_H

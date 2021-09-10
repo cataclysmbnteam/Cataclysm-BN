@@ -953,5 +953,20 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 100 ] ],
     "components": [ [ [ "leather", 37 ], [ "tanned_pelt", 10 ] ], [ [ "cordage", 1, "LIST" ] ] ]
+  },
+  {
+    "result": "vest",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "skills_required": [ "fabrication", 2 ],
+    "time": "45 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "using": [ [ "sewing_standard", 50 ] ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "mold_plastic", -1 ] ] ],
+    "components": [ [ [ "rag", 12 ] ], [ [ "plastic_chunk", 4 ] ] ]
   }
 ]

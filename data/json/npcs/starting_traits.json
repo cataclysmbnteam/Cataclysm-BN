@@ -14,7 +14,6 @@
       { "group": "trait_group_FASTREADER", "prob": 10 },
       { "group": "trait_group_FLEET", "prob": 15 },
       { "group": "trait_group_GOODHEARING", "prob": 10 },
-      { "group": "trait_group_GOODMEMORY", "prob": 10 },
       { "group": "trait_group_DRUNKEN", "prob": 10 },
       { "group": "trait_group_GOODCARDIO", "prob": 10 },
       { "group": "trait_group_WAKEFUL", "prob": 10 },
@@ -117,12 +116,6 @@
     "id": "trait_group_GOODHEARING",
     "subtype": "distribution",
     "traits": [ { "trait": "GOODHEARING" }, { "trait": "BADHEARING" } ]
-  },
-  {
-    "type": "trait_group",
-    "id": "trait_group_GOODMEMORY",
-    "subtype": "distribution",
-    "traits": [ { "trait": "GOODMEMORY" }, { "trait": "FORGETFUL" } ]
   },
   {
     "type": "trait_group",

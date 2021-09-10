@@ -17,6 +17,7 @@
 #include "coordinate_conversions.h"
 #include "creature_tracker.h"
 #include "debug.h"
+#include "drop_token.h"
 #include "enum_conversions.h"
 #include "faction.h"
 #include "hash_utils.h"
@@ -106,6 +107,8 @@ void game::serialize( std::ostream &fout )
     json.member( "kill_tracker", *kill_tracker_ptr );
     json.member( "stats_tracker", *stats_tracker_ptr );
     json.member( "achievements_tracker", *achievements_tracker_ptr );
+
+    json.member( "token_provider", *token_provider_ptr );
 
     json.member( "player", u );
     Messages::serialize( json );
@@ -245,6 +248,7 @@ void game::unserialize( std::istream &fin )
         data.read( "player", u );
         data.read( "stats_tracker", *stats_tracker_ptr );
         data.read( "achievements_tracker", *achievements_tracker_ptr );
+        data.read( "token_provider", token_provider_ptr );
         Messages::deserialize( data );
 
     } catch( const JsonError &jsonerr ) {
@@ -363,10 +367,13 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
 
         if( old == "fema" || old == "fema_entrance" || old == "fema_1_3" ||
             old == "fema_2_1" || old == "fema_2_2" || old == "fema_2_3" ||
-            old == "fema_3_1" || old == "fema_3_2" || old == "fema_3_3" ) {
+            old == "fema_3_1" || old == "fema_3_2" || old == "fema_3_3" ||
+            old == "mine_entrance" ) {
             ter_set( pos, oter_id( old + "_north" ) );
         } else if( old.compare( 0, 10, "mass_grave" ) == 0 ) {
             ter_set( pos, oter_id( "field" ) );
+        } else if( old == "mine_shaft" ) {
+            ter_set( pos, oter_id( "mine_shaft_middle_north" ) );
         }
 
         for( const auto &conv : nearby ) {

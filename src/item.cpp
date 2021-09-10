@@ -35,6 +35,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "dispersion.h"
+#include "drop_token.h"
 #include "effect.h" // for weed_msg
 #include "enums.h"
 #include "explosion.h"
@@ -579,7 +580,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
     // check ammo is valid for the item
     const itype *atype = item_controller->find_template( ammo );
     if( !atype->ammo || !ammo_types().count( atype->ammo->type ) ) {
-        debugmsg( "Tried to set invalid ammo of %s for %s", atype->nname( qty ), tname() );
+        debugmsg( "Tried to set invalid ammo %s[%d] for %s", atype->get_id(), qty, typeId() );
         return *this;
     }
 
@@ -600,8 +601,8 @@ item &item::ammo_set( const itype_id &ammo, int qty )
         if( !magazine_current() ) {
             const itype *mag = find_type( magazine_default() );
             if( !mag->magazine ) {
-                debugmsg( "Tried to set ammo of %s without suitable magazine for %s",
-                          atype->nname( qty ), tname() );
+                debugmsg( "Tried to set ammo %s[%d] without suitable magazine for %s",
+                          atype->get_id(), qty, typeId() );
                 return *this;
             }
 
@@ -611,7 +612,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
                 auto iter = type->magazines.find( atype->ammo->type );
                 if( iter == type->magazines.end() ) {
                     debugmsg( "%s doesn't have a magazine for %s",
-                              tname(), ammo );
+                              typeId(), ammo );
                     return *this;
                 }
                 std::vector<itype_id> opts( iter->second.begin(), iter->second.end() );
@@ -4933,7 +4934,7 @@ int item::reach_range( const Character &guy ) const
         }
     }
 
-    return res;
+    return std::max( 1, res );
 }
 
 void item::unset_flags()
@@ -5442,7 +5443,7 @@ int item::get_encumber_when_containing(
                 debugmsg( "Non-rigid item (%s) without storage capacity.", tname() );
             }
         } else {
-            encumber += contents_volume / 250_ml;
+            encumber += contents_volume / 500_ml;
         }
     }
 
@@ -7461,6 +7462,11 @@ void item::gun_cycle_mode()
     gun_set_mode( modes.begin()->first );
 
     return;
+}
+
+bool item::has_use() const
+{
+    return type->has_use();
 }
 
 const use_function *item::get_use( const std::string &use_name ) const

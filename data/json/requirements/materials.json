@@ -189,5 +189,11 @@
     "type": "requirement",
     "//": "Materials used for repairing upgraded solar panels",
     "components": [ [ [ "solar_cell", 5 ] ], [ [ "cable", 8 ] ], [ [ "power_supply", 1 ] ], [ [ "amplifier", 1 ] ] ]
+  },
+  {
+    "id": "tire_repair",
+    "type": "requirement",
+    "//": "Materials used for repairing tires",
+    "components": [ [ [ "chunk_rubber", 1 ] ] ]
   }
 ]

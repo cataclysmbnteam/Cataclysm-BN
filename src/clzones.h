@@ -367,7 +367,6 @@ class zone_manager
         //Cache number of items already checked on each source tile when sorting
         std::unordered_map<tripoint, int> num_processed;
 
-    public:
         zone_manager();
         ~zone_manager() = default;
         zone_manager( zone_manager && ) = default;
@@ -375,10 +374,9 @@ class zone_manager
         zone_manager &operator=( zone_manager && ) = default;
         zone_manager &operator=( const zone_manager & ) = default;
 
-        static zone_manager &get_manager() {
-            static zone_manager manager;
-            return manager;
-        }
+    public:
+        static zone_manager &get_manager();
+        static void reset_manager();
 
         void add( const std::string &name, const zone_type_id &type, const faction_id &faction,
                   bool invert, bool enabled,

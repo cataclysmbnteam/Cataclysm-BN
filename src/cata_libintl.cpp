@@ -360,6 +360,7 @@ std::string PlfNode::debug_dump() const
 // ===============================================================================================
 
 constexpr u32 MO_STRING_DESCR_SIZE = 8;
+constexpr u8 PLF_SEPARATOR = 0;
 
 trans_catalogue trans_catalogue::load_from_file( const std::string &file_path )
 {
@@ -518,7 +519,7 @@ void trans_catalogue::check_string_plurals()
         string_descr info_tr = get_string_descr_unsafe( offs_tr );
         size_t plural_forms = 0;
         for( u32 j = info_tr.offset; j <= info_tr.offset + info_tr.length; j++ ) {
-            if( get_u8_unsafe( j ) == 0 ) {
+            if( get_u8_unsafe( j ) == PLF_SEPARATOR ) {
                 plural_forms += 1;
             }
         }
@@ -673,6 +674,20 @@ trans_catalogue::trans_catalogue( std::string buffer )
     check_string_plurals();
 }
 
+bool trans_catalogue::check_nth_translation_has_plf( u32 n ) const
+{
+    u32 descr_offs = offs_trans_table + n * MO_STRING_DESCR_SIZE;
+    string_descr r = get_string_descr_unsafe( descr_offs );
+
+    for( u32 offs = r.offset; offs < r.offset + r.length; offs++ ) {
+        if( get_u8_unsafe( offs ) == PLF_SEPARATOR ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 const char *trans_catalogue::get_nth_orig_string( u32 n ) const
 {
     u32 descr_offs = offs_orig_table + n * MO_STRING_DESCR_SIZE;
@@ -691,7 +706,6 @@ const char *trans_catalogue::get_nth_translation( u32 n ) const
 
 const char *trans_catalogue::get_nth_pl_translation( u32 n, size_t num ) const
 {
-    constexpr u8 PLF_SEPARATOR = 0;
     u32 descr_offs = offs_trans_table + n * MO_STRING_DESCR_SIZE;
     string_descr r = get_string_descr_unsafe( descr_offs );
 
@@ -701,7 +715,7 @@ const char *trans_catalogue::get_nth_pl_translation( u32 n, size_t num ) const
         return offs_to_cstr( r.offset );
     }
     size_t curr_plf = 0;
-    for( u32 offs = r.offset; offs <= r.offset + r.length; offs++ ) {
+    for( u32 offs = r.offset; offs < r.offset + r.length; offs++ ) {
         if( get_u8_unsafe( offs ) == PLF_SEPARATOR ) {
             curr_plf += 1;
             if( plf == curr_plf ) {
@@ -758,7 +772,14 @@ void trans_library::build_string_table()
                 // Not found, or all elements are greater
                 strings.push_back( desc );
             } else if( strcmp( catalogues[it->catalogue].get_nth_orig_string( it->entry ), i_cstr ) == 0 ) {
-                // Don't overwrite existing strings
+                // Overwrite existing string only if new string has plural form(s),
+                // but existing one does not.
+                if(
+                    cat.check_nth_translation_has_plf( i ) &&
+                    !catalogues[it->catalogue].check_nth_translation_has_plf( it->entry )
+                ) {
+                    *it = desc;
+                }
                 continue;
             } else {
                 strings.insert( it, desc );

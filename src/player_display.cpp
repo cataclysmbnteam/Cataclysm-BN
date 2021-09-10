@@ -1226,7 +1226,7 @@ void player::disp_info()
 
     std::map<std::string, int> speed_effects;
     for( auto &elem : *effects ) {
-        for( std::pair<const body_part, effect> &_effect_it : elem.second ) {
+        for( std::pair<const bodypart_str_id, effect> &_effect_it : elem.second ) {
             effect &it = _effect_it.second;
             if( it.is_removed() ) {
                 continue;

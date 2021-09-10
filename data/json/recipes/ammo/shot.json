@@ -13,7 +13,6 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 10 ], [ "ammo_shot", 1 ] ],
-    "tools": [ [ [ "press", -1 ] ] ],
     "components": [ [ [ "gunpowder", 6 ], [ "gunpowder_pistol", 6 ], [ "gunpowder_shotgun", 6 ] ] ]
   },
   {
@@ -30,7 +29,6 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 5 ], [ "ammo_410shot", 1 ] ],
-    "tools": [ [ [ "press", -1 ] ] ],
     "components": [ [ [ "gunpowder", 5 ], [ "gunpowder_pistol", 5 ], [ "gunpowder_shotgun", 5 ] ] ]
   },
   {
@@ -47,7 +45,6 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 10 ], [ "ammo_shot", 1 ] ],
-    "tools": [ [ [ "press", -1 ] ] ],
     "components": [ [ [ "gunpowder", 3 ], [ "gunpowder_pistol", 3 ], [ "gunpowder_shotgun", 3 ] ] ]
   },
   {
@@ -63,7 +60,7 @@
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_shotgun", 3 ] ],
     "charges": 1,
     "using": [ [ "ammo_shot", 1 ] ],
-    "tools": [ [ [ "press", -1 ] ] ],
+    "tools": [ [ [ "press", -1 ], [ "press_dowel", -1 ] ] ],
     "components": [ [ [ "gunpowder", 3 ], [ "gunpowder_pistol", 3 ], [ "gunpowder_shotgun", 3 ] ], [ [ "magnesium", 5 ] ] ]
   },
   {
@@ -80,7 +77,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "ammo_shot", 1 ] ],
-    "tools": [ [ [ "press", -1 ] ] ],
+    "tools": [ [ [ "press", -1 ], [ "press_dowel", -1 ] ] ],
     "components": [ [ [ "gunpowder", 6 ], [ "gunpowder_pistol", 6 ], [ "gunpowder_shotgun", 6 ] ], [ [ "combatnail", 10 ] ] ]
   },
   {
@@ -96,7 +93,7 @@
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_shotgun", 3 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 1 ], [ "ammo_bullet", 20 ], [ "ammo_shot", 1 ] ],
+    "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 20 ], [ "ammo_shot", 1 ] ],
     "components": [ [ [ "gunpowder", 6 ], [ "gunpowder_pistol", 6 ], [ "gunpowder_shotgun", 6 ] ] ]
   },
   {
@@ -107,12 +104,11 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "skills_required": [ "gun", 1 ],
-    "time": "30 s",
+    "time": "2 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
     "charges": 1,
     "reversible": true,
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 10 ], [ "ammo_shot", 1 ] ],
-    "tools": [ [ [ "press", -1 ] ] ],
     "components": [ [ [ "chem_black_powder", 6 ] ] ]
   },
   {
@@ -123,13 +119,12 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "skills_required": [ "gun", 1 ],
-    "time": "20 s",
+    "time": "2 m",
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "recipe_bullets", 1 ], [ "manual_shotgun", 1 ] ],
     "charges": 1,
     "reversible": true,
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 10 ], [ "ammo_shot", 1 ] ],
-    "tools": [ [ [ "press", -1 ] ] ],
     "components": [ [ [ "chem_black_powder", 3 ] ] ]
   },
   {
@@ -140,13 +135,13 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "skills_required": [ "gun", 1 ],
-    "time": "20 s",
+    "time": "2 m",
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_shotgun", 3 ] ],
     "charges": 1,
     "reversible": true,
     "using": [ [ "ammo_shot", 1 ] ],
-    "tools": [ [ [ "press", -1 ] ] ],
+    "tools": [ [ [ "press", -1 ], [ "press_dowel", -1 ] ] ],
     "components": [ [ [ "chem_black_powder", 3 ] ], [ [ "magnesium", 5 ] ] ]
   },
   {
@@ -157,13 +152,13 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "skills_required": [ "gun", 1 ],
-    "time": "20 s",
+    "time": "2 m",
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "recipe_bullets", 4 ], [ "manual_shotgun", 4 ] ],
     "charges": 1,
     "reversible": true,
     "using": [ [ "ammo_shot", 1 ] ],
-    "tools": [ [ [ "press", -1 ] ] ],
+    "tools": [ [ [ "press", -1 ], [ "press_dowel", -1 ] ] ],
     "components": [ [ [ "chem_black_powder", 6 ] ], [ [ "combatnail", 10 ] ] ]
   },
   {
@@ -174,57 +169,12 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "skills_required": [ "gun", 1 ],
-    "time": "20 s",
+    "time": "2 m",
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_shotgun", 3 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 1 ], [ "ammo_bullet", 20 ], [ "ammo_shot", 1 ] ],
-    "components": [ [ [ "chem_black_powder", 6 ] ] ]
-  },
-  {
-    "result": "bp_shot_00",
-    "id_suffix": "with dowel",
-    "type": "recipe",
-    "copy-from": "bp_shot_00",
-    "book_learn": [ [ "survival_book", 1 ], [ "mag_survival", 1 ] ],
-    "time": "40 s",
-    "tools": [ [ [ "press_dowel", -1 ] ] ],
-    "components": [ [ [ "chem_black_powder", 6 ] ] ]
-  },
-  {
-    "result": "bp_shot_bird",
-    "id_suffix": "with dowel",
-    "type": "recipe",
-    "copy-from": "bp_shot_bird",
-    "book_learn": [ [ "survival_book", 1 ], [ "mag_survival", 1 ] ],
-    "time": "40 s",
-    "tools": [ [ [ "press_dowel", -1 ] ] ],
-    "components": [ [ [ "chem_black_powder", 3 ] ] ]
-  },
-  {
-    "result": "bp_shot_dragon",
-    "id_suffix": "with dowel",
-    "type": "recipe",
-    "copy-from": "bp_shot_dragon",
-    "book_learn": [ [ "survival_book", 1 ], [ "mag_survival", 1 ] ],
-    "time": "40 s",
-    "tools": [ [ [ "press_dowel", -1 ] ] ],
-    "components": [ [ [ "chem_black_powder", 3 ] ], [ [ "magnesium", 5 ] ] ]
-  },
-  {
-    "result": "bp_shot_slug",
-    "id_suffix": "with dowel",
-    "type": "recipe",
-    "copy-from": "bp_shot_slug",
-    "book_learn": [ [ "survival_book", 1 ], [ "mag_survival", 1 ] ],
-    "time": "40 s",
-    "using": [ [ "ammo_bullet", 20 ], [ "ammo_shot", 1 ] ],
-    "tools": [
-      [ [ "press_dowel", -1 ] ],
-      [ [ "pipe", -1 ], [ "cu_pipe", -1 ], [ "material_sand", -1 ], [ "material_soil", -1 ], [ "clay_lump", -1 ] ],
-      [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ]
-    ],
+    "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 20 ], [ "ammo_shot", 1 ] ],
     "components": [ [ [ "chem_black_powder", 6 ] ] ]
   },
   {
@@ -241,7 +191,7 @@
     "charges": 2,
     "reversible": true,
     "using": [ [ "ammo_shot", 2 ] ],
-    "tools": [ [ [ "press", -1 ] ] ],
+    "tools": [ [ [ "press", -1 ], [ "press_dowel", -1 ] ] ],
     "components": [
       [ [ "gunpowder", 12 ], [ "gunpowder_pistol", 12 ], [ "gunpowder_shotgun", 12 ] ],
       [
@@ -273,32 +223,7 @@
     "charges": 2,
     "reversible": true,
     "using": [ [ "ammo_shot", 2 ] ],
-    "tools": [ [ [ "press", -1 ] ] ],
-    "components": [
-      [ [ "chem_black_powder", 6 ] ],
-      [
-        [ "scrap", 1 ],
-        [ "nail", 10 ],
-        [ "bb", 20 ],
-        [ "solder_wire", 10 ],
-        [ "platinum_small", 4 ],
-        [ "gold_small", 4 ],
-        [ "bearing", 5 ],
-        [ "lead", 7 ],
-        [ "silver_small", 7 ],
-        [ "lead", 7 ],
-        [ "shrapnel", 4 ]
-      ]
-    ]
-  },
-  {
-    "result": "bp_shot_scrap",
-    "id_suffix": "with dowel",
-    "type": "recipe",
-    "copy-from": "bp_shot_scrap",
-    "book_learn": [ [ "survival_book", 1 ], [ "mag_survival", 1 ] ],
-    "time": 4000,
-    "tools": [ [ [ "press_dowel", -1 ] ] ],
+    "tools": [ [ [ "press", -1 ], [ "press_dowel", -1 ] ] ],
     "components": [
       [ [ "chem_black_powder", 6 ] ],
       [
@@ -329,7 +254,7 @@
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_shotgun", 2 ], [ "pocket_survival", 2 ], [ "mag_survival", 2 ] ],
     "charges": 1,
     "using": [ [ "ammo_shot", 1 ] ],
-    "tools": [ [ [ "press", -1 ] ] ],
+    "tools": [ [ [ "press", -1 ], [ "press_dowel", -1 ] ] ],
     "components": [ [ [ "incendiary", 25 ] ] ]
   },
   {

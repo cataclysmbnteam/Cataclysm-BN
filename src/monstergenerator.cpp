@@ -169,6 +169,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_MILKABLE: return "MILKABLE";
         case MF_SHEARABLE: return "SHEARABLE";
         case MF_NO_BREED: return "NO_BREED";
+        case MF_NO_FUNG_DMG: return "NO_FUNG_DMG";
         case MF_PET_WONT_FOLLOW: return "PET_WONT_FOLLOW";
         case MF_DRIPS_NAPALM: return "DRIPS_NAPALM";
         case MF_DRIPS_GASOLINE: return "DRIPS_GASOLINE";
@@ -883,6 +884,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "burn_into", burn_into, auto_flags_reader<mtype_id> {},
               mtype_id::NULL_ID() );
     assign( jo, "zombify_into", zombify_into );
+    assign( jo, "fungalize_into", fungalize_into );
 
     const auto flag_reader = enum_flags_reader<m_flag> { "monster flag" };
     optional( jo, was_loaded, "flags", flags, flag_reader );

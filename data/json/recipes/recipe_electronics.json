@@ -89,7 +89,7 @@
       [ [ "metal_tank_little", 1 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "cable", 4 ] ],
-      [ [ "1cyl_combustion_small", 1 ] ]
+      [ [ "1cyl_combustion", 1 ] ]
     ]
   },
   {

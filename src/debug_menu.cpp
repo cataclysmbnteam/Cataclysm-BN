@@ -51,6 +51,7 @@
 #include "magic.h"
 #include "map.h"
 #include "map_extras.h"
+#include "map_iterator.h"
 #include "mapgen.h"
 #include "mapgendata.h"
 #include "martialarts.h"
@@ -122,6 +123,7 @@ enum debug_menu_index {
     DEBUG_SPAWN_NPC,
     DEBUG_SPAWN_MON,
     DEBUG_GAME_STATE,
+    DEBUG_KILL_AREA,
     DEBUG_KILL_NPCS,
     DEBUG_MUTATE,
     DEBUG_SPAWN_VEHICLE,
@@ -303,6 +305,7 @@ static int map_uilist()
 {
     const std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( DEBUG_REVEAL_MAP, true, 'r', _( "Reveal map" ) ) },
+        { uilist_entry( DEBUG_KILL_AREA, true, 'a', _( "Kill in Area" ) ) },
         { uilist_entry( DEBUG_KILL_NPCS, true, 'k', _( "Kill NPCs" ) ) },
         { uilist_entry( DEBUG_MAP_EDITOR, true, 'M', _( "Map editor" ) ) },
         { uilist_entry( DEBUG_CHANGE_WEATHER, true, 'w', _( "Change weather" ) ) },
@@ -823,12 +826,11 @@ void character_edit_menu()
         break;
         case D_NEEDS: {
             uilist smenu;
-            smenu.addentry( 0, true, 'h', "%s: %.1f", _( "Hunger" ), p.get_hunger() );
-            smenu.addentry( 1, true, 's', "%s: %d", _( "Stored kCal" ), p.get_stored_kcal() );
-            smenu.addentry( 2, true, 't', "%s: %d", _( "Thirst" ), p.get_thirst() );
-            smenu.addentry( 3, true, 'f', "%s: %d", _( "Fatigue" ), p.get_fatigue() );
-            smenu.addentry( 4, true, 'd', "%s: %d", _( "Sleep Deprivation" ), p.get_sleep_deprivation() );
-            smenu.addentry( 5, true, 'a', _( "Reset all basic needs" ) );
+            smenu.addentry( 0, true, 's', "%s: %d", _( "Stored kCal" ), p.get_stored_kcal() );
+            smenu.addentry( 1, true, 't', "%s: %d", _( "Thirst" ), p.get_thirst() );
+            smenu.addentry( 2, true, 'f', "%s: %d", _( "Fatigue" ), p.get_fatigue() );
+            smenu.addentry( 3, true, 'd', "%s: %d", _( "Sleep Deprivation" ), p.get_sleep_deprivation() );
+            smenu.addentry( 4, true, 'a', _( "Reset all basic needs" ) );
 
             const auto &vits = vitamin::all();
             for( const auto &v : vits ) {
@@ -839,42 +841,35 @@ void character_edit_menu()
             int value;
             switch( smenu.ret ) {
                 case 0:
-                    if( query_int( value, _( "Set hunger to?  Currently: %d" ), p.get_hunger() ) ) {
-                        p.set_hunger( value );
-                    }
-                    break;
-
-                case 1:
                     if( query_int( value, _( "Set stored kCal to?  Currently: %d" ), p.get_stored_kcal() ) ) {
                         p.set_stored_kcal( value );
                     }
                     break;
 
-                case 2:
+                case 1:
                     if( query_int( value, _( "Set thirst to?  Currently: %d" ), p.get_thirst() ) ) {
                         p.set_thirst( value );
                     }
                     break;
 
-                case 3:
+                case 2:
                     if( query_int( value, _( "Set fatigue to?  Currently: %d" ), p.get_fatigue() ) ) {
                         p.set_fatigue( value );
                     }
                     break;
 
-                case 4:
+                case 3:
                     if( query_int( value, _( "Set sleep deprivation to?  Currently: %d" ),
                                    p.get_sleep_deprivation() ) ) {
                         p.set_sleep_deprivation( value );
                     }
                     break;
-                case 5:
+                case 4:
                     p.initialize_stomach_contents();
-                    p.set_hunger( 0 );
                     p.set_thirst( 0 );
                     p.set_fatigue( 0 );
                     p.set_sleep_deprivation( 0 );
-                    p.set_stored_kcal( p.get_healthy_kcal() );
+                    p.set_stored_kcal( p.max_stored_kcal() );
                     break;
                 default:
                     if( smenu.ret >= 6 && smenu.ret < static_cast<int>( vits.size() + 6 ) ) {
@@ -1332,9 +1327,9 @@ void debug()
             std::string stom =
                 _( "Stomach Contents: kCal: %d" );
             add_msg( m_info, stom.c_str(), u.stomach.get_calories() );
-            stom = _( "Hunger: %0.1f, Thirst: %d, kCal: %d / %d" );
-            add_msg( m_info, stom.c_str(), u.get_hunger(), u.get_thirst(), u.get_stored_kcal(),
-                     u.get_healthy_kcal() );
+            stom = _( "Thirst: %d, kCal: %d / %d" );
+            add_msg( m_info, stom.c_str(), u.get_thirst(), u.get_stored_kcal(),
+                     u.max_stored_kcal() );
             add_msg( m_info, _( "Body Mass Index: %.0f\nBasal Metabolic Rate: %i" ), u.bmi(), u.bmr() );
             if( get_option<bool>( "STATS_THROUGH_KILLS" ) ) {
                 add_msg( m_info, _( "Kill xp: %d" ), u.kill_xp() );
@@ -1343,6 +1338,42 @@ void debug()
             g->disp_NPCs();
             break;
         }
+        case DEBUG_KILL_AREA: {
+            static_popup popup;
+            popup.on_top( true );
+            popup.message( "%s", _( "Select first point." ) );
+
+            tripoint initial_pos = g->u.pos();
+            const look_around_result first = g->look_around( false, initial_pos, initial_pos,
+                                             false, true, false );
+
+            if( !first.position ) {
+                break;
+            }
+
+            popup.message( "%s", _( "Select second point." ) );
+            const look_around_result second = g->look_around( false, initial_pos, *first.position,
+                                              true, true, false );
+
+            if( !second.position ) {
+                break;
+            }
+
+            const tripoint_range points = get_map().points_in_rectangle(
+                                              first.position.value(), second.position.value() );
+
+            std::vector<Creature *> creatures = g->get_creatures_if(
+            [&points]( const Creature & critter ) -> bool {
+                return !critter.is_avatar() && points.is_point_inside( critter.pos() );
+            } );
+
+            for( Creature *critter : creatures ) {
+                critter->die( nullptr );
+            }
+
+            g->cleanup_dead();
+        }
+        break;
         case DEBUG_KILL_NPCS:
             for( npc &guy : g->all_npcs() ) {
                 add_msg( _( "%s's head implodes!" ), guy.name );

@@ -4,7 +4,7 @@
     "id": "t_gates_mech_control",
     "alias": [ "t_gates_control_concrete", "t_gates_control_brick" ],
     "door": "t_door_metal_locked",
-    "floor": "t_floor",
+    "floor": "t_door_metal_locked_o",
     "walls": [
       "t_wall",
       "t_wall_r",

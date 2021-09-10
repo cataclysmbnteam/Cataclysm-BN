@@ -4462,7 +4462,7 @@ int mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.mod_pain( m_category.iv_pain  * rng( 1, 5 ) );
     }
 
-    p.mod_hunger( m_category.iv_hunger * mut_count );
+    p.mod_stored_kcal( -10 * m_category.iv_hunger * mut_count );
     p.mod_thirst( m_category.iv_thirst * mut_count );
     p.mod_fatigue( m_category.iv_fatigue * mut_count );
 

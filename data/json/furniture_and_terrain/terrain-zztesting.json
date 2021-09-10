@@ -1,0 +1,11 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_console_broken_test",
+    "copy-from": "t_console_broken",
+    "symbol": "6",
+    "color": "light_gray",
+    "examine_action": "notify",
+    "message": "You attempt to use the console, but it's no use."
+  }
+]

@@ -22,7 +22,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 5,
-    "flags": [ "EATEN_COLD", "MYCUS_OK" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD", "MYCUS_OK" ],
     "fun": 25,
     "freezing_point": 17
   },
@@ -50,7 +50,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 5,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "fun": 15,
     "freezing_point": 17
   },
@@ -78,7 +78,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 5,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "fun": 15,
     "freezing_point": 17
   },
@@ -131,7 +131,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 5,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "fun": 16,
     "freezing_point": 15
   },
@@ -158,7 +158,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 5,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "fun": 15,
     "freezing_point": 17
   },
@@ -185,7 +185,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 5,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "fun": 15,
     "freezing_point": 17
   },
@@ -212,7 +212,7 @@
     "primary_material": "alcohol",
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "freezing_point": 23,
     "fun": 14,
     "vitamins": [ [ "calcium", 1 ] ]
@@ -239,7 +239,7 @@
     "//": "Given the comment, presuming we're taking bourbon here.",
     "material": "alcohol",
     "volume": "250 ml",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "freezing_point": -22,
     "phase": "liquid",
     "charges": 7,
@@ -268,7 +268,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 7,
-    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
     "freezing_point": -22,
     "fun": 15
   },
@@ -295,7 +295,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 7,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "freezing_point": -22,
     "fun": 15
   },
@@ -323,7 +323,7 @@
     "phase": "liquid",
     "charges": 7,
     "fun": 15,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "freezing_point": -22
   },
   {
@@ -350,7 +350,7 @@
     "phase": "liquid",
     "charges": 7,
     "fun": 18,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "freezing_point": -22
   },
   {
@@ -374,7 +374,7 @@
     "price_postapoc": 250,
     "material": "alcohol",
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "UNSAFE_CONSUME", "EDIBLE_FROZEN" ],
     "freezing_point": 0,
     "phase": "liquid",
     "charges": 7,
@@ -404,7 +404,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 7,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "fun": 10,
     "freezing_point": 22
   },
@@ -430,7 +430,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 7,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "freezing_point": -22,
     "fun": 5
   },
@@ -457,7 +457,7 @@
     "primary_material": "alcohol",
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
     "freezing_point": -22,
     "fun": 4
   },
@@ -485,7 +485,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 7,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "fun": 2,
     "freezing_point": 20
   },
@@ -510,7 +510,7 @@
     "price_postapoc": 200,
     "material": "alcohol",
     "volume": "250 ml",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "freezing_point": -22,
     "phase": "liquid",
     "charges": 7,
@@ -540,7 +540,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "fun": 20,
-    "flags": [ "EATEN_HOT" ]
+    "flags": [ "UNSAFE_CONSUME", "EATEN_HOT" ]
   },
   {
     "type": "COMESTIBLE",
@@ -566,7 +566,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "//": "Includes cola, so presumed to be a 250mL cocktail like the others.",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "fun": 20,
     "vitamins": [ [ "vitC", 1 ] ]
   },
@@ -593,7 +593,7 @@
     "primary_material": "alcohol",
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "freezing_point": -29,
     "fun": 20,
     "vitamins": [ [ "vitA", 2 ], [ "vitC", 118 ], [ "calcium", 2 ], [ "iron", 1 ] ]
@@ -621,7 +621,7 @@
     "primary_material": "alcohol",
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "freezing_point": -29,
     "fun": 20,
     "vitamins": [ [ "vitC", 135 ], [ "calcium", 1 ], [ "iron", 1 ] ]
@@ -649,7 +649,7 @@
     "primary_material": "alcohol",
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "freezing_point": -22,
     "fun": 20
   },
@@ -675,7 +675,7 @@
     "primary_material": "alcohol",
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "freezing_point": 23,
     "fun": 10,
     "vitamins": [ [ "calcium", 1 ] ]
@@ -703,7 +703,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 7,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "freezing_point": 23,
     "fun": 14
   },
@@ -731,7 +731,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 7,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "fun": 16,
     "freezing_point": 25
   },
@@ -758,7 +758,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 7,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "fun": 16,
     "freezing_point": 25
   },
@@ -786,7 +786,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 7,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "freezing_point": 23,
     "fun": 12
   },
@@ -812,7 +812,7 @@
     "primary_material": "alcohol",
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "freezing_point": 23,
     "fun": 8,
     "vitamins": [ [ "calcium", 1 ] ]
@@ -840,7 +840,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 7,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "freezing_point": -49,
     "fun": 12
   },
@@ -867,7 +867,7 @@
     "primary_material": "alcohol",
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "freezing_point": 23,
     "fun": 10,
     "vitamins": [ [ "calcium", 1 ] ]
@@ -895,7 +895,7 @@
     "primary_material": "alcohol",
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "freezing_point": 23,
     "fun": 14,
     "vitamins": [ [ "calcium", 1 ] ]
@@ -923,7 +923,7 @@
     "primary_material": "alcohol",
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "freezing_point": 23,
     "fun": 14,
     "vitamins": [ [ "calcium", 1 ] ]
@@ -954,7 +954,7 @@
     "freezing_point": 23,
     "fun": 14,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ],
-    "flags": [ "EATEN_COLD" ]
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ]
   },
   {
     "type": "COMESTIBLE",
@@ -979,7 +979,7 @@
     "primary_material": "alcohol",
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "freezing_point": 23,
     "fun": 14,
     "vitamins": [ [ "calcium", 1 ] ]
@@ -1009,7 +1009,7 @@
     "phase": "liquid",
     "fun": 18,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ],
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "freezing_point": 23
   },
   {
@@ -1036,7 +1036,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 6,
-    "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD", "EDIBLE_FROZEN" ],
     "fun": 8,
     "vitamins": [ [ "vitC", 20 ] ],
     "freezing_point": -22
@@ -1065,7 +1065,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 6,
-    "flags": [ "EATEN_COLD", "EDIBLE_FROZEN" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD", "EDIBLE_FROZEN" ],
     "fun": -12,
     "vitamins": [ [ "vitC", 20 ] ],
     "freezing_point": -22
@@ -1092,7 +1092,7 @@
     "//": "Priced by the 100 liter barrel, this is multiplied by 400 to achieve the final cost.",
     "material": "alcohol",
     "volume": "250 ml",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "freezing_point": -22,
     "phase": "liquid",
     "charges": 7,
@@ -1149,7 +1149,7 @@
     "price_postapoc": 150,
     "material": "alcohol",
     "volume": "250 ml",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "freezing_point": -22,
     "phase": "liquid",
     "charges": 7,
@@ -1199,7 +1199,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 5,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "freezing_point": -27,
     "fun": 20
   },
@@ -1227,7 +1227,7 @@
     "volume": "500 ml",
     "phase": "liquid",
     "charges": 2,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "freezing_point": -22,
     "fun": 20
   },
@@ -1253,7 +1253,7 @@
     "primary_material": "alcohol",
     "volume": "500 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "freezing_point": -22,
     "fun": 20
   },
@@ -1279,7 +1279,7 @@
     "material": "alcohol",
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "freezing_point": -22,
     "fun": 20
   },
@@ -1305,7 +1305,7 @@
     "volume": "500 ml",
     "phase": "liquid",
     "charges": 2,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "fun": 10
   },
   {
@@ -1359,7 +1359,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 2,
-    "flags": [ "EATEN_COLD", "FREEZERBURN" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD", "FREEZERBURN" ],
     "fun": 20,
     "vitamins": [ [ "vitA", 5 ], [ "vitC", 3 ], [ "calcium", 12 ], [ "iron", 2 ] ],
     "freezing_point": 12
@@ -1387,7 +1387,7 @@
     "volume": "500 ml",
     "charges": 5,
     "phase": "liquid",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "freezing_point": -22,
     "fun": 20
   }

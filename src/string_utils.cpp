@@ -340,3 +340,20 @@ std::string &capitalize_letter( std::string &str, size_t n )
 
     return str;
 }
+
+std::string trim_whitespaces( const std::string &str )
+{
+    // Source: https://stackoverflow.com/a/1798170
+
+    // NOLINTNEXTLINE(cata-text-style)
+    const std::string whitespace = "\t ";
+    const auto str_begin = str.find_first_not_of( whitespace );
+    if( str_begin == std::string::npos ) {
+        return "";    // no content
+    }
+
+    const auto str_end = str.find_last_not_of( whitespace );
+    const auto str_range = str_end - str_begin + 1;
+
+    return str.substr( str_begin, str_range );
+}

@@ -166,43 +166,41 @@ void vehicle::thrust( int thd, int z )
         }
         return;
     }
-    int max_vel = traction * max_velocity();
-
-    // Get braking power
-    int brk = std::max( 1000, std::abs( max_vel ) * 3 / 10 );
-
+    const int max_vel = traction * max_velocity();
+    // maximum braking is 20 mph/s, assumes high friction tires
+    const int max_brake = 20 * 100;
     //pos or neg if accelerator or brake
-    int vel_inc = ( ( thrusting ) ? accel : brk ) * thd;
+    int vel_inc = ( accel + ( thrusting ? 0 : max_brake ) ) * thd;
     // Reverse is only 60% acceleration, unless an electric motor is in use
     if( thd == -1 && thrusting && !has_engine_type( fuel_type_battery, true ) ) {
         vel_inc = .6 * vel_inc;
     }
 
-    //find power ratio used of engines max
+    //find ratio of used acceleration to maximum available, returned in tenths of a percent
+    //so 1000 = 100% and 453 = 45.3%
     int load;
     // Keep exact cruise control speed
     if( cruise_on && accel != 0 ) {
         int effective_cruise = std::min( cruise_velocity, max_vel );
         if( thd > 0 ) {
             vel_inc = std::min( vel_inc, effective_cruise - velocity );
-            //find power ratio used of engines max
-            load = 1000 * std::max( 0, vel_inc ) / std::max( ( thrusting ? accel : brk ), 1 );
         } else {
             vel_inc = std::max( vel_inc, effective_cruise - velocity );
-            load = 1000 * std::min( 0, vel_inc ) / std::max( ( thrusting ? accel : brk ), 1 );
         }
-        if( z != 0 ) {
-            // @TODO : actual engine strain / load for going up a z-level.
-            load = 1;
-            thrusting = true;
+        if( thrusting ) {
+            load = 1000 * std::abs( vel_inc ) / accel;
+        } else {
+            // brakes provide 20 mph/s of slowdown and the rest is engine braking
+            // TODO: braking depends on wheels, traction, driver skill
+            load = 1000 * std::max( 0, std::abs( vel_inc ) - max_brake ) / accel;
         }
     } else {
-        if( z != 0 ) {
-            load = 1;
-            thrusting = true;
-        } else {
-            load = ( thrusting ? 1000 : 0 );
-        }
+        load = ( thrusting ? 1000 : 0 );
+    }
+    // rotorcraft need to spend 15% of load to hover, 30% to change z
+    if( is_rotorcraft() && ( z > 0 || is_flying_in_air() ) ) {
+        load = std::max( load, z > 0 ? 300 : 150 );
+        thrusting = true;
     }
 
     // only consume resources if engine accelerating
@@ -545,6 +543,10 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     if( is_body_collision ) {
         // critters on a BOARDABLE part in this vehicle aren't colliding
         if( ovp && ( &ovp->vehicle() == this ) && get_pet( ovp->part_index() ) ) {
+            return ret;
+        }
+        // Rotors only collide with huge creatures
+        if( part_info( part ).rotor_diameter() > 0 && critter->get_size() != MS_HUGE ) {
             return ret;
         }
         // we just ran into a fish, so move it out of the way
@@ -1059,9 +1061,15 @@ bool vehicle::check_heli_ascend( player &p )
     }
     for( const tripoint &pt : get_points( true ) ) {
         tripoint above( pt.xy(), pt.z + 1 );
-        const optional_vpart_position ovp = g->m.veh_at( above );
-        if( g->m.has_flag_ter_or_furn( TFLAG_INDOORS, pt ) || g->m.impassable_ter_furn( above ) || ovp ||
-            g->critter_at( above ) ) {
+        if( !g->m.inbounds_z( above.z ) ) {
+            p.add_msg_if_player( m_bad, _( "It would be unsafe to try and ascend further." ) );
+            return false;
+        }
+        if( g->m.has_flag_ter_or_furn( TFLAG_INDOORS, pt )
+            || g->m.impassable_ter_furn( above )
+            || g->m.veh_at( above )
+            || g->critter_at( above )
+          ) {
             p.add_msg_if_player( m_bad,
                                  _( "It would be unsafe to try and ascend when there are obstacles above you." ) );
             return false;

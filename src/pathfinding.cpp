@@ -124,16 +124,29 @@ bool vertical_move_destination( const map &m, tripoint &t )
         return false;
     }
 
-    constexpr int omtileszx = SEEX * 2;
-    constexpr int omtileszy = SEEY * 2;
     real_coords rc( m.getabs( t.xy() ) );
-    const point omtile_align_start(
-        m.getlocal( rc.begin_om_pos() )
-    );
+
+    // Align to OMT boundaries
+    point start = m.getlocal( rc.begin_om_pos() );
+    point end = start + point( SEEX * 2, SEEY * 2 );
+
+    // Exclude submaps not loaded into bubble
+    if( start.x < 0 ) {
+        start.x = 0;
+    }
+    if( start.y < 0 ) {
+        start.y = 0;
+    }
+    if( end.x >= MAPSIZE_X ) {
+        end.x = MAPSIZE_X - 1;
+    }
+    if( end.y >= MAPSIZE_Y ) {
+        end.y = MAPSIZE_Y - 1;
+    }
 
     const auto &pf_cache = m.get_pathfinding_cache_ref( t.z );
-    for( int x = omtile_align_start.x; x < omtile_align_start.x + omtileszx; x++ ) {
-        for( int y = omtile_align_start.y; y < omtile_align_start.y + omtileszy; y++ ) {
+    for( int x = start.x; x < end.x; x++ ) {
+        for( int y = start.y; y < end.y; y++ ) {
             if( pf_cache.special[x][y] & PF_UPDOWN ) {
                 const tripoint p( x, y, t.z );
                 if( m.has_flag( flag, p ) ) {

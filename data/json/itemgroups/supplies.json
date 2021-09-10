@@ -36,8 +36,8 @@
     "type": "item_group",
     "//": "Fabric sheets used for tailoring.",
     "items": [
-      { "item": "sheet_cotton", "prob": 200 },
-      { "item": "sheet_neoprene", "prob": 10 },
+      { "item": "rag", "prob": 200, "count": [ 3, 6 ] },
+      { "item": "neoprene", "prob": 10, "count": [ 3, 6 ] },
       { "item": "tanned_hide", "prob": 50 },
       { "item": "tanned_pelt", "prob": 50 }
     ]
@@ -395,7 +395,6 @@
       [ "steam_triple_small", 1 ],
       [ "steam_triple_medium", 1 ],
       [ "steam_watts_small", 1 ],
-      [ "1cyl_combustion_small", 10 ],
       [ "vehicle_controls", 3 ],
       [ "horn_car", 10 ],
       [ "horn_big", 8 ],

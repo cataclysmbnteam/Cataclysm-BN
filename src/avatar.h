@@ -32,7 +32,6 @@ class mission_debug;
 }  // namespace debug_menu
 struct mtype;
 struct points_left;
-struct targeting_data;
 class teleporter_list;
 
 // Monster visible in different directions (safe mode & compass)
@@ -194,6 +193,8 @@ class avatar : public player
         faction *get_faction() const override;
         // Set in npc::talk_to_you for use in further NPC interactions
         bool dialogue_by_radio = false;
+        // Preferred aim mode - ranged.cpp aim mode defaults to this if possible
+        std::string preferred_aiming_mode;
 
         void set_movement_mode( character_movemode mode ) override;
 
@@ -220,7 +221,7 @@ class avatar : public player
 
     private:
         std::unique_ptr<map_memory> player_map_memory;
-        bool show_map_memory;
+        bool show_map_memory = true;
 
         friend class debug_menu::mission_debug;
         /**
@@ -239,12 +240,12 @@ class avatar : public player
         /**
          * The currently active mission, or null if no mission is currently in progress.
          */
-        mission *active_mission;
+        mission *active_mission = nullptr;
 
         // Items the player has identified.
         std::unordered_set<std::string> items_identified;
 
-        object_type grab_type;
+        object_type grab_type = OBJECT_NONE;
 
         // these are the stat upgrades from stats through kills
 
@@ -254,31 +255,22 @@ class avatar : public player
         int per_upgrade = 0;
 
         monster_visible_info mon_visible;
-
-        /** Targeting data used for aiming the player's weapon across turns. */
-        shared_ptr_fast<targeting_data> tdata;
-
-    public:
-        /** Accessor method for weapon targeting data. */
-        targeting_data &get_targeting_data();
-
-        /** Mutator method for weapon targeting data. */
-        void set_targeting_data( const targeting_data &td );
 };
 
 avatar &get_avatar();
 
 struct points_left {
-    int stat_points;
-    int trait_points;
-    int skill_points;
+    int stat_points = 0;
+    int trait_points = 0;
+    int skill_points = 0;
 
     enum point_limit : int {
         FREEFORM = 0,
         ONE_POOL,
         MULTI_POOL,
         TRANSFER,
-    } limit;
+    };
+    point_limit limit = point_limit::FREEFORM;
 
     points_left();
     void init_from_options();

@@ -89,13 +89,13 @@ static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_bloodworms( "bloodworms" );
 static const efftype_id effect_brainworms( "brainworms" );
 static const efftype_id effect_cig( "cig" );
+static const efftype_id effect_cocaine_high( "cocaine_high" );
 static const efftype_id effect_datura( "datura" );
 static const efftype_id effect_dermatik( "dermatik" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_heating_bionic( "heating_bionic" );
-static const efftype_id effect_high( "high" );
 static const efftype_id effect_iodine( "iodine" );
 static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_narcosis( "narcosis" );
@@ -111,7 +111,6 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stung( "stung" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_teleglow( "teleglow" );
-static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_took_flumed( "took_flumed" );
 static const efftype_id effect_took_prozac( "took_prozac" );
 static const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
@@ -155,7 +154,6 @@ static const bionic_id bio_lockpick( "bio_lockpick" );
 static const bionic_id bio_magnet( "bio_magnet" );
 static const bionic_id bio_meteorologist( "bio_meteorologist" );
 static const bionic_id bio_nanobots( "bio_nanobots" );
-static const bionic_id bio_night( "bio_night" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
 static const bionic_id bio_plutdump( "bio_plutdump" );
 static const bionic_id bio_power_storage( "bio_power_storage" );
@@ -244,6 +242,8 @@ bionic_data::bionic_data() : name( no_translation( "bad bionic" ) ),
     description( no_translation( "This bionic was not set up correctly, this is a bug" ) )
 {
 }
+
+bionic_data::~bionic_data() = default;
 
 static void force_comedown( effect &eff )
 {
@@ -402,7 +402,7 @@ bool Character::activate_bionic( int b, bool eff_only )
     if( bio.info().gun_bionic ) {
         add_msg_activate();
         refund_power(); // Power usage calculated later, in avatar_action::fire
-        avatar_action::fire_ranged_bionic( g->u, g->m, item( bio.info().fake_item ),
+        avatar_action::fire_ranged_bionic( *this->as_avatar(), item( bio.info().fake_item ),
                                            bio.info().power_activate );
     } else if( bio.info().weapon_bionic ) {
         if( weapon.has_flag( flag_NO_UNWIELD ) ) {
@@ -426,7 +426,7 @@ bool Character::activate_bionic( int b, bool eff_only )
         weapon.invlet = '#';
         if( bio.ammo_count > 0 ) {
             weapon.ammo_set( bio.ammo_loaded, bio.ammo_count );
-            avatar_action::fire_wielded_weapon( g->u, g->m );
+            avatar_action::fire_wielded_weapon( g->u );
         }
     } else if( bio.id == bio_ears && has_active_bionic( bio_earplugs ) ) {
         add_msg_activate();
@@ -531,7 +531,7 @@ bool Character::activate_bionic( int b, bool eff_only )
                 { effect_drunk, translate_marker( "Alcohol" ) },
                 { effect_cig, translate_marker( "Nicotine" ) },
                 { effect_meth, translate_marker( "Methamphetamines" ) },
-                { effect_high, translate_marker( "Intoxicant: Other" ) },
+                { effect_cocaine_high, translate_marker( "Intoxicant: Cocaine" ) },
                 { effect_weed_high, translate_marker( "THC Intoxication" ) },
                 // This little guy is immune to the blood filter though, as he lives in your bowels.
                 { effect_tapeworm, translate_marker( "Intestinal Parasite" ) },
@@ -540,8 +540,6 @@ bool Character::activate_bionic( int b, bool eff_only )
                 { effect_brainworms, translate_marker( "Intracranial Parasites" ) },
                 // These little guys are immune to the blood filter too, as they live in your muscles.
                 { effect_paincysts, translate_marker( "Intramuscular Parasites" ) },
-                // Tetanus infection.
-                { effect_tetanus, translate_marker( "Clostridium Tetani Infection" ) },
                 { effect_datura, translate_marker( "Anticholinergic Tropane Alkaloids" ) },
                 // TODO: Hallucinations not inducted by chemistry
                 { effect_hallu, translate_marker( "Hallucinations" ) },
@@ -633,10 +631,10 @@ bool Character::activate_bionic( int b, bool eff_only )
         add_msg_activate();
         static const std::vector<efftype_id> removable = {{
                 effect_fungus, effect_dermatik, effect_bloodworms,
-                effect_tetanus, effect_poison, effect_stung,
+                effect_poison, effect_stung,
                 effect_pkill1, effect_pkill2, effect_pkill3, effect_pkill_l,
-                effect_drunk, effect_cig, effect_high, effect_hallu, effect_visuals,
-                effect_pblue, effect_iodine, effect_datura,
+                effect_drunk, effect_cig, effect_cocaine_high, effect_weed_high,
+                effect_hallu, effect_visuals, effect_pblue, effect_iodine, effect_datura,
                 effect_took_xanax, effect_took_prozac, effect_took_prozac_bad,
                 effect_took_flumed,
             }
@@ -1081,7 +1079,7 @@ bool Character::burn_fuel( int b, bool start )
             int current_fuel_stock;
             if( is_metabolism_powered ) {
                 current_fuel_stock = std::max( 0.0f, get_stored_kcal() - 0.8f *
-                                               get_healthy_kcal() );
+                                               max_stored_kcal() );
             } else if( is_perpetual_fuel ) {
                 current_fuel_stock = 1;
             } else if( is_cable_powered ) {
@@ -1469,11 +1467,7 @@ void Character::process_bionic( int b )
     }
 
     // Bionic effects on every turn they are active go here.
-    if( bio.id == bio_night ) {
-        if( calendar::once_every( 5_turns ) ) {
-            add_msg_if_player( m_neutral, _( "Artificial night generator active!" ) );
-        }
-    } else if( bio.id == bio_remote ) {
+    if( bio.id == bio_remote ) {
         if( g->remoteveh() == nullptr && get_value( "remote_controlling" ).empty() ) {
             bio.powered = false;
             add_msg_if_player( m_warning, _( "Your %s has lost connection and is turning off." ),

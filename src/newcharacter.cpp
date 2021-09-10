@@ -797,6 +797,9 @@ tab_direction set_stats( avatar &u, points_left &points )
     // on the map (like -1,0) and instead returns a dummy default value.
     u.setx( -1 );
     u.reset();
+    // set position back to 0 to prevent out-of-bound access to lightmap
+    // array in map::build_seen_cache()
+    u.setx( 0 );
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
@@ -2173,6 +2176,10 @@ tab_direction set_scenario( avatar &u, points_left &points,
             if( get_option<std::string>( "STARTING_NPC" ) == "scenario" &&
                 sorted_scens[cur_id]->has_flag( "LONE_START" ) ) {
                 wprintz( w_flags, c_light_gray, _( "No starting NPC" ) );
+                wprintz( w_flags, c_light_gray, ( "\n" ) );
+            }
+            if( sorted_scens[cur_id]->has_flag( "BORDERED" ) ) {
+                wprintz( w_flags, c_light_gray, _( "Starting location is bordered by an immense wall" ) );
                 wprintz( w_flags, c_light_gray, ( "\n" ) );
             }
         }

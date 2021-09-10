@@ -143,6 +143,7 @@
     "upgrades": { "age_grow": 14, "into": "mon_triffid" },
     "special_attacks": [ [ "TRIFFID_GROWTH", 28800 ] ],
     "death_function": [ "NORMAL" ],
+    "fungalize_into": "mon_fungaloid",
     "flags": [ "HEARS", "SMELLS", "NOHEAD", "PARALYZEVENOM" ]
   },
   {
@@ -169,6 +170,7 @@
     "armor_cut": 4,
     "harvest": "triffid_large",
     "death_function": [ "NORMAL" ],
+    "fungalize_into": "mon_fungaloid",
     "flags": [ "SEES", "SMELLS", "BASHES", "GROUP_BASH", "NOHEAD", "PARALYZEVENOM" ]
   },
   {
@@ -196,6 +198,7 @@
     "harvest": "triffid_queen",
     "special_attacks": [ [ "GROWPLANTS", 20 ] ],
     "death_function": [ "NORMAL" ],
+    "fungalize_into": "mon_fungaloid",
     "flags": [ "HEARS", "SMELLS", "BASHES", "NOHEAD", "PARALYZEVENOM" ]
   },
   {

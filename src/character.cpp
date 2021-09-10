@@ -220,7 +220,7 @@ static const bionic_id bio_synaptic_regen( "bio_synaptic_regen" );
 static const bionic_id bio_tattoo_led( "bio_tattoo_led" );
 static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_ups( "bio_ups" );
-static const bionic_id str_bio_night( "bio_night" );
+
 // Aftershock stuff!
 static const bionic_id afs_bio_linguistic_coprocessor( "afs_bio_linguistic_coprocessor" );
 
@@ -398,7 +398,7 @@ Character::Character() :
     set_anatomy( anatomy_id("human_anatomy") );
     update_type_of_scent( true );
     pkill = 0;
-    stored_calories = max_stored_calories() - 100;
+    stored_calories = max_stored_kcal() - 100;
     initialize_stomach_contents();
     healed_total = { { 0, 0, 0, 0, 0, 0 } };
 
@@ -500,8 +500,10 @@ void Character::mod_stat( const std::string &stat, float modifier )
         mod_int_bonus( modifier );
     } else if( stat == "healthy" ) {
         mod_healthy( modifier );
+    } else if( stat == "kcal" ) {
+        mod_stored_kcal( modifier );
     } else if( stat == "hunger" ) {
-        mod_hunger( modifier );
+        mod_stored_kcal( -10 * modifier );
     } else {
         Creature::mod_stat( stat, modifier );
     }
@@ -2378,7 +2380,7 @@ bool Character::i_add_or_drop( item &it, int qty )
     bool add = it.is_gun() || !it.is_irremovable();
     inv.assign_empty_invlet( it, *this );
     for( int i = 0; i < qty; ++i ) {
-        drop |= !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pickVolume( it );
+        drop |= !can_pick_weight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pick_volume( it );
         if( drop ) {
             retval &= !g->m.add_item_or_charges( pos(), it ).is_null();
         } else if( add ) {
@@ -2764,7 +2766,7 @@ units::volume Character::volume_capacity_reduced_by(
     }
 
     units::volume ret = -mod;
-    for( auto &i : worn ) {
+    for( const auto &i : worn ) {
         if( !without_items.count( &i ) ) {
             ret += i.get_storage();
         }
@@ -2787,21 +2789,33 @@ units::volume Character::volume_capacity_reduced_by(
     return std::max( ret, 0_ml );
 }
 
-bool Character::can_pickVolume( const item &it, bool ) const
+bool Character::can_pick_volume( const item &it ) const
 {
     inventory projected = inv;
     projected.add_item( it, true );
     return projected.volume() <= volume_capacity();
 }
 
-bool Character::can_pickWeight( const item &it, bool safe ) const
+bool Character::can_pick_volume( units::volume volume ) const
+{
+    // Might not be 100% true because some items restack to a very tiny bit less
+    // but close enough not to matter
+    return inv.volume() + volume <= volume_capacity();
+}
+
+bool Character::can_pick_weight( const item &it, bool safe ) const
+{
+    return can_pick_weight( it.weight(), safe );
+}
+
+bool Character::can_pick_weight( units::mass weight, bool safe ) const
 {
     if( !safe ) {
         // Character can carry up to four times their maximum weight
-        return ( weight_carried() + it.weight() <= ( has_trait( trait_DEBUG_STORAGE ) ?
-                 units::mass_max : weight_capacity() * 4 ) );
+        return ( weight_carried() + weight <= ( has_trait( trait_DEBUG_STORAGE ) ?
+                                                units::mass_max : weight_capacity() * 4 ) );
     } else {
-        return ( weight_carried() + it.weight() <= weight_capacity() );
+        return ( weight_carried() + weight <= weight_capacity() );
     }
 }
 
@@ -4115,46 +4129,22 @@ void Character::mod_stored_nutr( int nnutr )
 void Character::set_stored_kcal( int kcal )
 {
     if( stored_calories != kcal ) {
-        stored_calories = std::min( kcal, max_stored_calories() );
+        stored_calories = std::min( kcal, max_stored_kcal() );
 
-        if( kcal > max_stored_calories() && has_trait( trait_EATHEALTH ) ) {
-            healall( roll_remainder( ( kcal - max_stored_calories() ) / 50.0f ) );
+        if( kcal > max_stored_kcal() && has_trait( trait_EATHEALTH ) ) {
+            healall( roll_remainder( ( kcal - max_stored_kcal() ) / 50.0f ) );
         }
     }
 }
 
-int Character::max_stored_calories() const
+int Character::max_stored_kcal() const
 {
     return 2500 * 7;
 }
 
-int Character::get_healthy_kcal() const
-{
-    return max_stored_calories();
-}
-
 float Character::get_kcal_percent() const
 {
-    return static_cast<float>( get_stored_kcal() ) / static_cast<float>( max_stored_calories() );
-}
-
-float Character::get_hunger() const
-{
-    return ( max_stored_calories() - get_stored_kcal() ) / ( 2500.0f / ( 12 * 24 ) );
-}
-
-void Character::mod_hunger( float nhunger )
-{
-    set_hunger( get_hunger() + nhunger );
-}
-
-void Character::set_hunger( float nhunger )
-{
-    if( get_hunger() != nhunger ) {
-        int hunger_in_kcal = nhunger * ( 2500.0f / ( 12 * 24 ) );
-        int new_kcal = max_stored_calories() - hunger_in_kcal;
-        set_stored_kcal( new_kcal );
-    }
+    return static_cast<float>( get_stored_kcal() ) / static_cast<float>( max_stored_kcal() );
 }
 
 int Character::get_thirst() const
@@ -4194,7 +4184,7 @@ std::pair<std::string, nc_color> Character::get_thirst_description() const
 std::pair<std::string, nc_color> Character::get_hunger_description() const
 {
     int total_kcal = stored_calories + stomach.get_calories();
-    int max_kcal = max_stored_calories();
+    int max_kcal = max_stored_kcal();
     float days_left = static_cast<float>( total_kcal ) / bmr();
     float days_max = static_cast<float>( max_kcal ) / bmr();
     std::string hunger_string;
@@ -4594,7 +4584,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
 
     if( npc_no_food ) {
         set_thirst( static_cast<int>( thirst_levels::hydrated ) );
-        set_stored_kcal( get_healthy_kcal() );
+        set_stored_kcal( max_stored_kcal() );
     }
 
     // Mycus and Metabolic Rehydration makes thirst unnecessary
@@ -4729,9 +4719,6 @@ needs_rates Character::calc_needs_rates() const
 
     needs_rates rates;
     rates.hunger = metabolic_rate();
-
-    // TODO: this is where calculating basal metabolic rate, in kcal per day would go
-    rates.kcal = 2500.0;
 
     add_msg_if_player( m_debug, "Metabolic rate: %.2f", rates.hunger );
 
@@ -6367,7 +6354,7 @@ std::string Character::extended_description() const
         // <bad>This is me, <player_name>.</bad>
         ss += string_format( _( "This is you - %s." ), name );
     } else {
-        ss += string_format( _( "This is %s." ), name );
+        ss += string_format( _( "This is %s, %s" ), name, male ? _( "male" ) : _( "female" ) );
     }
 
     ss += "\n--\n";
@@ -7452,7 +7439,8 @@ void Character::vomit()
     }
 
     if( !has_effect( effect_nausea ) ) {  // Prevents never-ending nausea
-        const effect dummy_nausea( &effect_nausea.obj(), 0_turns, num_bp, 1, calendar::turn );
+        const effect dummy_nausea( &effect_nausea.obj(), 0_turns, bodypart_str_id::NULL_ID(), 1,
+                                   calendar::turn );
         add_effect( effect_nausea, std::max( dummy_nausea.get_max_duration() *
                                              stomach.get_calories() / 100, dummy_nausea.get_int_dur_factor() ) );
     }
@@ -8678,17 +8666,26 @@ void Character::add_morale( const morale_type &type, int bonus, int max_bonus,
                             const time_duration &duration, const time_duration &decay_start,
                             bool capped, const itype *item_type )
 {
-    morale->add( type, bonus, max_bonus, duration, decay_start, capped, item_type );
+    if( item_type != nullptr ) {
+        morale->add( type, bonus, max_bonus, duration, decay_start, capped, *item_type );
+    } else {
+        morale->add( type, bonus, max_bonus, duration, decay_start, capped );
+    }
 }
 
-int Character::has_morale( const morale_type &type ) const
+bool Character::has_morale( const morale_type &type ) const
 {
     return morale->has( type );
 }
 
-void Character::rem_morale( const morale_type &type, const itype *item_type )
+int Character::get_morale( const morale_type &type ) const
 {
-    morale->remove( type, item_type );
+    return morale->get( type );
+}
+
+void Character::rem_morale( const morale_type &type )
+{
+    morale->remove( type );
 }
 
 void Character::clear_morale()
@@ -8701,7 +8698,7 @@ bool Character::has_morale_to_read() const
     return get_morale_level() >= -40;
 }
 
-void Character::check_and_recover_morale()
+bool Character::check_and_recover_morale()
 {
     player_morale test_morale;
 
@@ -8714,7 +8711,7 @@ void Character::check_and_recover_morale()
     }
 
     for( const auto &elem : *effects ) {
-        for( const std::pair<const body_part, effect> &_effect_it : elem.second ) {
+        for( const std::pair<const bodypart_str_id, effect> &_effect_it : elem.second ) {
             const effect &e = _effect_it.second;
             if( !e.is_removed() ) {
                 test_morale.on_effect_int_change( e.get_id(), e.get_intensity(), e.get_bp() );
@@ -8722,7 +8719,7 @@ void Character::check_and_recover_morale()
         }
     }
 
-    test_morale.on_stat_change( "hunger", get_hunger() );
+    test_morale.on_stat_change( "kcal", get_stored_kcal() );
     test_morale.on_stat_change( "thirst", get_thirst() );
     test_morale.on_stat_change( "fatigue", get_fatigue() );
     test_morale.on_stat_change( "pain", get_pain() );
@@ -8734,7 +8731,10 @@ void Character::check_and_recover_morale()
     if( !morale->consistent_with( test_morale ) ) {
         *morale = player_morale( test_morale ); // Recover consistency
         add_msg( m_debug, "%s morale was recovered.", disp_name( true ) );
+        return false;
     }
+
+    return true;
 }
 
 void Character::start_hauling()
@@ -8768,7 +8768,9 @@ void Character::assign_activity( const activity_id &type, int moves, int index, 
 
 void Character::assign_activity( const player_activity &act, bool allow_resume )
 {
+    bool resuming = false;
     if( allow_resume && !backlog.empty() && backlog.front().can_resume_with( act, *this ) ) {
+        resuming = true;
         add_msg_if_player( _( "You resume your task." ) );
         activity = backlog.front();
         backlog.pop_front();
@@ -8780,7 +8782,7 @@ void Character::assign_activity( const player_activity &act, bool allow_resume )
         activity = act;
     }
 
-    activity.start( *this );
+    activity.start_or_resume( *this, resuming );
 
     if( is_npc() ) {
         cancel_stashed_activity();
@@ -8803,6 +8805,7 @@ bool Character::has_activity( const std::vector<activity_id> &types ) const
 
 void Character::cancel_activity()
 {
+    activity.canceled( *this );
     if( has_activity( ACT_MOVE_ITEMS ) && is_hauling() ) {
         stop_hauling();
     }
@@ -8858,7 +8861,7 @@ void Character::fall_asleep()
         }
     }
     if( has_active_mutation( trait_HIBERNATE ) ) {
-        if( get_stored_kcal() > max_stored_calories() - bmr() / 4 &&
+        if( get_stored_kcal() > max_stored_kcal() - bmr() / 4 &&
             get_thirst() < thirst_levels::thirsty ) {
             if( is_avatar() ) {
                 g->memorial().add( pgettext( "memorial_male", "Entered hibernation." ),
@@ -9281,6 +9284,10 @@ bool Character::has_fire( const int quantity ) const
         for( auto &i : firestarters ) {
             if( !i->type->can_have_charges() ) {
                 const use_function *usef = i->type->get_use( "firestarter" );
+                if( !usef ) {
+                    debugmsg( "failed to get use func 'firestarter' for item '%s'", i->typeId().c_str() );
+                    continue;
+                }
                 const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
                 if( actor->can_use( *this->as_character(), *i, false, tripoint_zero ).success() ) {
                     return true;
@@ -9396,16 +9403,17 @@ void Character::on_item_takeoff( const item &it )
     morale->on_item_takeoff( it );
 }
 
-void Character::on_effect_int_change( const efftype_id &eid, int intensity, body_part bp )
+void Character::on_effect_int_change( const efftype_id &effect_type, int intensity,
+                                      const bodypart_str_id &bp )
 {
     // Adrenaline can reduce perceived pain (or increase it when you enter comedown).
     // See @ref get_perceived_pain()
-    if( eid == effect_adrenaline ) {
+    if( effect_type == effect_adrenaline ) {
         // Note that calling this does no harm if it wasn't changed.
         on_stat_change( "perceived_pain", get_perceived_pain() );
     }
 
-    morale->on_effect_int_change( eid, intensity, bp );
+    morale->on_effect_int_change( effect_type, intensity, bp );
 }
 
 void Character::on_mutation_gain( const trait_id &mid )
@@ -9855,6 +9863,8 @@ std::vector<std::string> Character::short_description_parts() const
 {
     std::vector<std::string> result;
 
+    std::string gender = male ? _( "male" ) : _( "female" );
+    result.push_back( name +  ", "  + gender );
     if( is_armed() ) {
         result.push_back( _( "Wielding: " ) + weapon.tname() );
     }
@@ -9967,11 +9977,7 @@ bool Character::sees( const tripoint &t, bool, int ) const
     if( wanted_range < MAX_CLAIRVOYANCE && wanted_range < clairvoyance() ) {
         return true;
     }
-    // Only check if we need to override if we already came to the opposite conclusion.
-    if( can_see && wanted_range < 15 && wanted_range > sight_range( 1 ) &&
-        has_active_bionic( str_bio_night ) ) {
-        can_see = false;
-    }
+
     if( can_see && wanted_range > unimpaired_range() ) {
         can_see = false;
     }

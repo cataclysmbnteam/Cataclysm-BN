@@ -18,6 +18,7 @@
 #include <vector>
 
 #include "action.h"
+#include "activity_actor.h"
 #include "artifact.h"
 #include "avatar.h"
 #include "bodypart.h"
@@ -120,8 +121,6 @@ static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
 static const activity_id ACT_CHURN( "ACT_CHURN" );
 static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
-static const activity_id ACT_DIG( "ACT_DIG" );
-static const activity_id ACT_DIG_CHANNEL( "ACT_DIG_CHANNEL" );
 static const activity_id ACT_FILL_PIT( "ACT_FILL_PIT" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_GAME( "ACT_GAME" );
@@ -172,7 +171,6 @@ static const efftype_id effect_happy( "happy" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_has_bag( "has_bag" );
 static const efftype_id effect_haslight( "haslight" );
-static const efftype_id effect_high( "high" );
 static const efftype_id effect_in_pit( "in_pit" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_jetinjector( "jetinjector" );
@@ -204,18 +202,13 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_teargas( "teargas" );
 static const efftype_id effect_teleglow( "teleglow" );
-static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_took_antiasthmatic( "took_antiasthmatic" );
-static const efftype_id effect_took_anticonvulsant_visible( "took_anticonvulsant_visible" );
 static const efftype_id effect_took_flumed( "took_flumed" );
 static const efftype_id effect_took_prozac( "took_prozac" );
 static const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
-static const efftype_id effect_took_prozac_visible( "took_prozac_visible" );
 static const efftype_id effect_took_thorazine( "took_thorazine" );
-static const efftype_id effect_took_thorazine_bad( "took_thorazine_bad" );
 static const efftype_id effect_took_xanax( "took_xanax" );
-static const efftype_id effect_took_xanax_visible( "took_xanax_visible" );
 static const efftype_id effect_valium( "valium" );
 static const efftype_id effect_visuals( "visuals" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
@@ -406,7 +399,6 @@ int iuse::xanax( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( _( "You take some %s." ), it->tname() );
     p->add_effect( effect_took_xanax, 90_minutes );
-    p->add_effect( effect_took_xanax_visible, rng( 70_minutes, 110_minutes ) );
     return it->type->charges_to_use();
 }
 
@@ -427,7 +419,7 @@ static int alcohol( player &p, const item &it, const int strength )
                    36_seconds, 1_minutes, 1_minutes ) * p.str_max );
         // Metabolizing the booze improves the nutritional value;
         // might not be healthy, and still causes Thirst problems, though
-        p.mod_hunger( -( std::abs( it.get_comestible() ? it.type->comestible->stim : 0 ) ) );
+        p.mod_stored_kcal( 10 * ( std::abs( it.get_comestible() ? it.type->comestible->stim : 0 ) ) );
         // Metabolizing it cancels out the depressant
         p.mod_stim( std::abs( it.get_comestible() ? it.get_comestible()->stim : 0 ) );
     } else if( p.has_trait( trait_TOLERANCE ) ) {
@@ -480,7 +472,7 @@ int iuse::smoking( player *p, item *it, bool, const tripoint & )
     if( it->typeId() == "cig" ) {
         cig = item( "cig_lit", calendar::turn );
         cig.item_counter = to_turns<int>( 4_minutes );
-        p->mod_hunger( -3 );
+        p->mod_stored_kcal( 30 );
         p->mod_thirst( 2 );
     } else if( it->typeId() == "handrolled_cig" ) {
         // This transforms the hand-rolled into a normal cig, which isn't exactly
@@ -488,16 +480,16 @@ int iuse::smoking( player *p, item *it, bool, const tripoint & )
         cig = item( "cig_lit", calendar::turn );
         cig.item_counter = to_turns<int>( 4_minutes );
         p->mod_thirst( 2 );
-        p->mod_hunger( -3 );
+        p->mod_stored_kcal( 30 );
     } else if( it->typeId() == "cigar" ) {
         cig = item( "cigar_lit", calendar::turn );
         cig.item_counter = to_turns<int>( 12_minutes );
         p->mod_thirst( 3 );
-        p->mod_hunger( -4 );
+        p->mod_stored_kcal( 40 );
     } else if( it->typeId() == "joint" ) {
         cig = item( "joint_lit", calendar::turn );
         cig.item_counter = to_turns<int>( 4_minutes );
-        p->mod_hunger( 4 );
+        p->mod_stored_kcal( -40 );
         p->mod_thirst( 6 );
         if( p->get_painkiller() < 5 ) {
             p->set_painkiller( ( p->get_painkiller() + 3 ) * 2 );
@@ -547,7 +539,7 @@ int iuse::ecig( player *p, item *it, bool, const tripoint & )
     }
 
     p->mod_thirst( 1 );
-    p->mod_hunger( -1 );
+    p->mod_stored_kcal( 10 );
     p->add_effect( effect_cig, 10_minutes );
     if( p->get_effect_dur( effect_cig ) > 10_minutes * ( p->addiction_level(
                 add_type::CIG ) + 1 ) ) {
@@ -561,14 +553,6 @@ int iuse::antibiotic( player *p, item *it, bool, const tripoint & )
     p->add_msg_player_or_npc( m_neutral,
                               _( "You take some antibiotics." ),
                               _( "<npcname> takes some antibiotics." ) );
-    if( p->has_effect( effect_tetanus ) ) {
-        if( one_in( 3 ) ) {
-            p->remove_effect( effect_tetanus );
-            p->add_msg_if_player( m_good, _( "The muscle spasms start to go away." ) );
-        } else {
-            p->add_msg_if_player( m_warning, _( "The medication does nothing to help the spasms." ) );
-        }
-    }
     if( p->has_effect( effect_infected ) && !p->has_effect( effect_antibiotic ) ) {
         p->add_msg_if_player( m_good,
                               _( "Maybe just placebo effect, but you feel a little better as the dose settles in." ) );
@@ -727,8 +711,6 @@ int iuse::anticonvulsant( player *p, item *it, bool, const tripoint & )
         duration += 2_hours;
     }
     p->add_effect( effect_valium, duration );
-    p->add_effect( effect_took_anticonvulsant_visible, duration );
-    p->add_effect( effect_high, duration );
     if( p->has_effect( effect_shakes ) ) {
         p->remove_effect( effect_shakes );
         p->add_msg_if_player( m_good, _( "You stop shaking." ) );
@@ -747,7 +729,7 @@ int iuse::weed_cake( player *p, item *it, bool, const tripoint & )
     if( p->has_trait( trait_LIGHTWEIGHT ) ) {
         duration = 15_minutes;
     }
-    p->mod_hunger( 2 );
+    p->mod_stored_kcal( -20 );
     p->mod_thirst( 6 );
     if( p->get_painkiller() < 5 ) {
         p->set_painkiller( ( p->get_painkiller() + 3 ) * 2 );
@@ -757,22 +739,6 @@ int iuse::weed_cake( player *p, item *it, bool, const tripoint & )
     if( one_in( 5 ) ) {
         weed_msg( *p );
     }
-    return it->type->charges_to_use();
-}
-
-int iuse::coke( player *p, item *it, bool, const tripoint & )
-{
-    p->add_msg_if_player( _( "You snort a bump of coke." ) );
-    /** @EFFECT_STR reduces duration of coke */
-    time_duration duration = 20_minutes - 1_seconds * p->str_cur + rng( 0_minutes, 1_minutes );
-    if( p->has_trait( trait_TOLERANCE ) ) {
-        duration -= 1_minutes; // Symmetry would cause problems :-/
-    }
-    if( p->has_trait( trait_LIGHTWEIGHT ) ) {
-        duration += 2_minutes;
-    }
-    p->mod_hunger( -8 );
-    p->add_effect( effect_high, duration );
     return it->type->charges_to_use();
 }
 
@@ -806,7 +772,7 @@ int iuse::meth( player *p, item *it, bool, const tripoint & )
         /** @EFFECT_STR_MAX >4 experiences less hunger benefit from meth */
         int hungerpen = ( p->str_max < 5 ? 35 : 40 - ( 2 * p->str_max ) );
         if( hungerpen > 0 ) {
-            p->mod_hunger( -hungerpen );
+            p->mod_stored_kcal( 10 * hungerpen );
         }
         p->add_effect( effect_meth, duration );
     }
@@ -889,18 +855,15 @@ int iuse::thorazine( player *p, item *it, bool, const tripoint & )
     p->mod_fatigue( 5 );
     p->remove_effect( effect_hallu );
     p->remove_effect( effect_visuals );
-    p->remove_effect( effect_high );
     if( !p->has_effect( effect_dermatik ) ) {
         p->remove_effect( effect_formication );
     }
     if( one_in( 50 ) ) { // adverse reaction
         p->add_msg_if_player( m_bad, _( "You feel completely exhausted." ) );
-        p->mod_fatigue( 15 );
-        p->add_effect( effect_took_thorazine_bad, p->get_effect_dur( effect_took_thorazine ) );
+        p->mod_fatigue( 50 );
     } else {
         p->add_msg_if_player( m_warning, _( "You feel a bit wobbly." ) );
     }
-    p->add_effect( effect_took_prozac_visible, rng( 9_hours, 15_hours ) );
     return it->type->charges_to_use();
 }
 
@@ -911,11 +874,10 @@ int iuse::prozac( player *p, item *it, bool, const tripoint & )
     } else {
         p->mod_stim( 3 );
     }
-    if( one_in( 50 ) ) { // adverse reaction, same duration as prozac effect.
+    if( one_in( 16 ) ) { // adverse reaction, same duration as prozac effect.
         p->add_msg_if_player( m_warning, _( "You suddenly feel hollow inside." ) );
         p->add_effect( effect_took_prozac_bad, p->get_effect_dur( effect_took_prozac ) );
     }
-    p->add_effect( effect_took_prozac_visible, rng( 9_hours, 15_hours ) );
     return it->type->charges_to_use();
 }
 
@@ -1009,7 +971,7 @@ int iuse::blech( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_bad, _( "Blech, that tastes gross!" ) );
         //reverse the harmful values of drinking this acid.
         double multiplier = -1;
-        p->mod_hunger( -p->nutrition_for( *it ) * multiplier );
+        p->mod_stored_kcal( 10 * p->nutrition_for( *it ) * multiplier );
         p->mod_thirst( -it->get_comestible()->quench * multiplier + 20 );
         p->mod_healthy_mod( it->get_comestible()->healthy * multiplier,
                             it->get_comestible()->healthy * multiplier );
@@ -1053,7 +1015,7 @@ int iuse::plantblech( player *p, item *it, bool, const tripoint &pos )
         }
 
         //reverses the harmful values of drinking fertilizer
-        p->mod_hunger( p->nutrition_for( *it ) * multiplier );
+        p->mod_stored_kcal( -10 * p->nutrition_for( *it ) * multiplier );
         p->mod_thirst( -it->get_comestible()->quench * multiplier );
         p->mod_healthy_mod( it->get_comestible()->healthy * multiplier,
                             it->get_comestible()->healthy * multiplier );
@@ -1243,7 +1205,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
             }
         }
 
-        p.set_hunger( -10 );
+        p.set_stored_kcal( p.max_stored_kcal() );
         spawn_spores( p );
         return;
     }
@@ -1282,7 +1244,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
         }
     } else if( effect == 7 ) {
         p.add_msg_if_player( m_good, _( "It is delicious, and very filling!" ) );
-        p.set_hunger( 0 );
+        p.set_stored_kcal( p.max_stored_kcal() );
     } else if( effect == 8 ) {
         p.add_msg_if_player( m_bad, _( "You take one bite, and immediately vomit!" ) );
         p.vomit();
@@ -2786,14 +2748,14 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
     }
     moves_and_byproducts.moves = moves_and_byproducts.moves * ( 10 - helpers.size() ) / 10;
 
-    player_activity act( ACT_DIG, moves_and_byproducts.moves, -1,
-                         p->get_item_position( it ) );
-    act.placement = dig_point;
-    act.values.emplace_back( moves_and_byproducts.spawn_count );
-    act.str_values.emplace_back( moves_and_byproducts.byproducts_item_group );
-    act.str_values.emplace_back( moves_and_byproducts.result_terrain.id().str() );
-    act.coords.emplace_back( deposit_point );
-    p->assign_activity( act );
+    p->assign_activity( player_activity( dig_activity_actor(
+            moves_and_byproducts.moves,
+            dig_point,
+            moves_and_byproducts.result_terrain.id().str(),
+            deposit_point,
+            moves_and_byproducts.spawn_count,
+            moves_and_byproducts.byproducts_item_group
+                                         ) ) );
 
     return it->type->charges_to_use();
 }
@@ -2853,15 +2815,14 @@ int iuse::dig_channel( player *p, item *it, bool t, const tripoint & )
     }
     moves_and_byproducts.moves = moves_and_byproducts.moves * ( 10 - helpers.size() ) / 10;
 
-    player_activity act( ACT_DIG_CHANNEL, moves_and_byproducts.moves, -1,
-                         p->get_item_position( it ) );
-    act.placement = dig_point;
-    act.values.emplace_back( moves_and_byproducts.spawn_count );
-    act.str_values.emplace_back( moves_and_byproducts.byproducts_item_group );
-    act.str_values.emplace_back( moves_and_byproducts.result_terrain.id().str() );
-    act.coords.emplace_back( deposit_point );
-    p->assign_activity( act );
-
+    p->assign_activity( player_activity( dig_channel_activity_actor(
+            moves_and_byproducts.moves,
+            dig_point,
+            moves_and_byproducts.result_terrain.id().str(),
+            deposit_point,
+            moves_and_byproducts.spawn_count,
+            moves_and_byproducts.byproducts_item_group
+                                         ) ) );
     return it->type->charges_to_use();
 }
 
@@ -5597,7 +5558,7 @@ int iuse::towel_common( player *p, item *it, bool t )
         }
 
         // dry off from being wet
-    } else if( std::abs( p->has_morale( MORALE_WET ) ) ) {
+    } else if( p->has_morale( MORALE_WET ) ) {
         p->rem_morale( MORALE_WET );
         p->body_wetness.fill( 0 );
         p->add_msg_if_player( _( "You use the %s to dry off, saturating it with water!" ),
@@ -9601,7 +9562,9 @@ int wash_items( player *p, bool soft_items, bool hard_items )
 
 int iuse::weak_antibiotic( player *p, item *it, bool, const tripoint & )
 {
-    p->add_msg_if_player( _( "You take some %s." ), it->tname() );
+    p->add_msg_player_or_npc( m_neutral,
+                              _( "You take some weak antibiotics." ),
+                              _( "<npcname> takes some weak antibiotics." ) );
     if( p->has_effect( effect_infected ) && !p->has_effect( effect_weak_antibiotic ) ) {
         p->add_msg_if_player( m_good, _( "The throbbing of the infection diminishes.  Slightly." ) );
     }
@@ -9611,7 +9574,9 @@ int iuse::weak_antibiotic( player *p, item *it, bool, const tripoint & )
 
 int iuse::strong_antibiotic( player *p, item *it, bool, const tripoint & )
 {
-    p->add_msg_if_player( _( "You take some %s." ), it->tname() );
+    p->add_msg_player_or_npc( m_neutral,
+                              _( "You take some strong antibiotics." ),
+                              _( "<npcname> takes some strong antibiotics." ) );
     if( p->has_effect( effect_infected ) && !p->has_effect( effect_strong_antibiotic ) ) {
         p->add_msg_if_player( m_good, _( "You feel much better - almost entirely." ) );
     }

@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <memory>
+#include <sstream>
 #include <vector>
 
 #include "catch/catch.hpp"
@@ -17,107 +18,182 @@
 static std::vector <point> canonical_line_to( const point &p1, const point &p2, int t )
 {
     std::vector<point> ret;
-    const int dx = p2.x - p1.x;
-    const int dy = p2.y - p1.y;
-    const int ax = std::abs( dx ) << 1;
-    const int ay = std::abs( dy ) << 1;
-    int sx = SGN( dx );
-    int sy = SGN( dy );
-    if( dy == 0 ) {
-        sy = 0;
+    const point d( -p1 + p2 );
+    const point a( std::abs( d.x ) << 1, std::abs( d.y ) << 1 );
+    point s( SGN( d.x ), SGN( d.y ) );
+    if( d.y == 0 ) {
+        s.y = 0;
     }
-    if( dx == 0 ) {
-        sx = 0;
+    if( d.x == 0 ) {
+        s.x = 0;
     }
     point cur;
     cur.x = p1.x;
     cur.y = p1.y;
 
-    int xmin = std::min( p1.x, p2.x );
-    int ymin = std::min( p1.y, p2.y );
+    point min( std::min( p1.x, p2.x ), std::min( p1.y, p2.y ) );
     int xmax = std::max( p1.x, p2.x );
     int ymax = std::max( p1.y, p2.y );
 
-    xmin -= std::abs( dx );
-    ymin -= std::abs( dy );
-    xmax += std::abs( dx );
-    ymax += std::abs( dy );
+    min.x -= std::abs( d.x );
+    min.y -= std::abs( d.y );
+    xmax += std::abs( d.x );
+    ymax += std::abs( d.y );
 
-    if( ax == ay ) {
+    if( a.x == a.y ) {
         do {
-            cur.y += sy;
-            cur.x += sx;
+            cur.y += s.y;
+            cur.x += s.x;
             ret.push_back( cur );
         } while( ( cur.x != p2.x || cur.y != p2.y ) &&
-                 ( cur.x >= xmin && cur.x <= xmax && cur.y >= ymin && cur.y <= ymax ) );
-    } else if( ax > ay ) {
+                 ( cur.x >= min.x && cur.x <= xmax && cur.y >= min.y && cur.y <= ymax ) );
+    } else if( a.x > a.y ) {
         do {
             if( t > 0 ) {
-                cur.y += sy;
-                t -= ax;
+                cur.y += s.y;
+                t -= a.x;
             }
-            cur.x += sx;
-            t += ay;
+            cur.x += s.x;
+            t += a.y;
             ret.push_back( cur );
         } while( ( cur.x != p2.x || cur.y != p2.y ) &&
-                 ( cur.x >= xmin && cur.x <= xmax && cur.y >= ymin && cur.y <= ymax ) );
+                 ( cur.x >= min.x && cur.x <= xmax && cur.y >= min.y && cur.y <= ymax ) );
     } else {
         do {
             if( t > 0 ) {
-                cur.x += sx;
-                t -= ay;
+                cur.x += s.x;
+                t -= a.y;
             }
-            cur.y += sy;
-            t += ax;
+            cur.y += s.y;
+            t += a.x;
             ret.push_back( cur );
         } while( ( cur.x != p2.x || cur.y != p2.y ) &&
-                 ( cur.x >= xmin && cur.x <= xmax && cur.y >= ymin && cur.y <= ymax ) );
+                 ( cur.x >= min.x && cur.x <= xmax && cur.y >= min.y && cur.y <= ymax ) );
     }
     return ret;
 }
 
-static void check_bresenham( const tripoint &source, const tripoint &destination,
-                             const std::vector<tripoint> &path )
+static bool check_bresenham_far( const tripoint &source, const tripoint &destination, int length )
 {
+    CAPTURE( source );
+    CAPTURE( destination );
+    CAPTURE( length );
+
     std::vector<tripoint> generated_path;
     bresenham( source, destination, 0, 0, [&generated_path]( const tripoint & current_point ) {
         generated_path.push_back( current_point );
         return true;
     } );
-    CAPTURE( source );
-    CAPTURE( destination );
-    CHECK( path == generated_path );
+    std::stringstream ss;
+    ss << std::endl;
+    for( const tripoint &t : generated_path ) {
+        ss << t << std::endl;
+    }
+    std::string generated_points = ss.str();
+
+    CAPTURE( generated_path.size() );
+    CAPTURE( generated_points );
+
+    // Line must contain at least one point, ...
+    if( generated_path.empty() ) {
+        FAIL_CHECK( "no line generated" );
+        return false;
+    }
+    // ...must reach destination...
+    if( generated_path.back() != destination ) {
+        FAIL_CHECK( "line does not reach destination" );
+        return false;
+    }
+    // ...and have proper length; ...
+    if( generated_path.size() != static_cast<size_t>( length ) ) {
+        FAIL_CHECK( "line has invalid length" );
+        return false;
+    }
+    // ...each point must be a neighbour of previous point, ...
+    for( size_t i = 0; i < generated_path.size() - 1; i++ ) {
+        const tripoint &t1 = generated_path[i];
+        const tripoint &t2 = generated_path[i + 1];
+        tripoint d = ( t1 - t2 ).abs();
+        if( d.x > 1 || d.y > 1 || d.z > 1 ) {
+            FAIL_CHECK( "line contains invalid sequence" );
+            return false;
+        }
+    }
+    // ...first point must be neighbour of source point, ...
+    {
+        tripoint d = ( source - generated_path[0] ).abs();
+        if( d.x > 1 || d.y > 1 || d.z > 1 || d == tripoint_zero ) {
+            FAIL_CHECK( "line does not start near the source" );
+            return false;
+        }
+    }
+    // ...and there must be no duplicate points.
+    for( size_t i = 0; i < generated_path.size(); i++ ) {
+        for( size_t j = i + 1; j < generated_path.size(); j++ ) {
+            if( generated_path[i] == generated_path[j] ) {
+                FAIL_CHECK( "line contains duplicate points" );
+                return false;
+            }
+        }
+    }
+    SUCCEED(); // To make number of assertions passed/failed consistent
+    return true;
+}
+
+static bool check_bresenham_triaxis( const tripoint &src, const tripoint &sign, int dist )
+{
+    bool ret = true;
+    for( int x = 0; x <= dist; x++ ) {
+        for( int y = 0; y <= dist; y++ ) {
+            tripoint dst = src + tripoint( x * sign.x, y * sign.y, dist * sign.z );
+            ret = check_bresenham_far( src, dst, dist ) && ret;
+        }
+    }
+    for( int x = 0; x <= dist; x++ ) {
+        for( int z = 0; z <= dist; z++ ) {
+            tripoint dst = src + tripoint( x * sign.x, dist * sign.y, z * sign.z );
+            ret = check_bresenham_far( src, dst, dist ) && ret;
+        }
+    }
+    for( int z = 0; z <= dist; z++ ) {
+        for( int y = 0; y <= dist; y++ ) {
+            tripoint dst = src + tripoint( dist * sign.x, y * sign.y, z * sign.z );
+            ret = check_bresenham_far( src, dst, dist ) && ret;
+        }
+    }
+    return ret;
+}
+
+static void check_bresenham_cube( const tripoint &src, int dist )
+{
+    tripoint sign_positive = tripoint( 1, 1, 1 ); // NOLINT(cata-use-named-point-constants)
+    // Positive coords
+    if( !check_bresenham_triaxis( src, sign_positive, dist ) ) {
+        WARN( "Skipping negative and mixed coords due to failures." );
+        return;
+    }
+    // Negative & mixed coords
+    for( int x = -1; x <= 1; x += 2 ) {
+        for( int y = -1; y <= 1; y += 2 ) {
+            for( int z = -1; z <= 1; z += 2 ) {
+                tripoint sign( x, y, z );
+                if( sign == sign_positive ) {
+                    continue;
+                }
+                check_bresenham_triaxis( src, sign, dist );
+            }
+        }
+    }
 }
 
 TEST_CASE( "3D_bresenham", "[line]" )
 {
-    check_bresenham( { 0, 0, 0 }, { -1, -1, -1 }, { { -1, -1, -1 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { -1, -1, 0 }, { { -1, -1, 0 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { -1, -1, 1 }, { { -1, -1, 1 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { -1, 0, -1 }, { { -1, 0, -1 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { -1, 0, 0 }, { { -1, 0, 0 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { -1, 0, 1 }, { { -1, 0, 1 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { -1, 1, -1 }, { { -1, 1, -1 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { -1, 1, 0 }, { { -1, 1, 0 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { -1, 1, 1 }, { { -1, 1, 1 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 0, -1, -1 }, { { 0, -1, -1 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 0, -1, 0 }, { { 0, -1, 0 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 0, -1, 1 }, { { 0, -1, 1 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 0, 0, -1 }, { { 0, 0, -1 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 0, 0, 0 }, { } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 0, 0, 1 }, { { 0, 0, 1 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 0, 1, -1 }, { { 0, 1, -1 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 0, 1, 0 }, { { 0, 1, 0 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 0, 1, 1 }, { { 0, 1, 1 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 1, -1, -1 }, { { 1, -1, -1 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 1, -1, 0 }, { { 1, -1, 0 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 1, -1, 1 }, { { 1, -1, 1 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 1, 0, -1 }, { { 1, 0, -1 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 1, 0, 0 }, { { 1, 0, 0 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 1, 0, 1 }, { { 1, 0, 1 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 1, 1, -1 }, { { 1, 1, -1 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 1, 1, 0 }, { { 1, 1, 0 } } ); // NOLINT(cata-use-named-point-constants)
-    check_bresenham( { 0, 0, 0 }, { 1, 1, 1 }, { { 1, 1, 1 } } ); // NOLINT(cata-use-named-point-constants)
+    SECTION( "From tripoint_zero to its immediate neighbours" ) {
+        check_bresenham_cube( tripoint_zero, 1 );
+    }
+    SECTION( "From tripoint_zero to all points in a cube around it" ) {
+        check_bresenham_cube( tripoint_zero, 5 );
+    }
 }
 
 TEST_CASE( "test_normalized_angle", "[line]" )
@@ -361,35 +437,35 @@ static void line_to_comparison( const int iterations )
     REQUIRE( trig_dist( point_zero, point_east ) == 1 );
 
     for( int i = 0; i < RANDOM_TEST_NUM; ++i ) {
-        const int x1 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
-        const int y1 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
-        const int x2 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
-        const int y2 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
+        const point p1( rng( -COORDINATE_RANGE, COORDINATE_RANGE ), rng( -COORDINATE_RANGE,
+                        COORDINATE_RANGE ) );
+        const point p2( rng( -COORDINATE_RANGE, COORDINATE_RANGE ), rng( -COORDINATE_RANGE,
+                        COORDINATE_RANGE ) );
         int t1 = 0;
         int t2 = 0;
-        REQUIRE( line_to( point( x1, y1 ), point( x2, y2 ), t1 ) == canonical_line_to( point( x1, y1 ),
-                 point( x2, y2 ),
+        REQUIRE( line_to( p1, p2, t1 ) == canonical_line_to( p1,
+                 p2,
                  t2 ) );
     }
 
     {
-        const int x1 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
-        const int y1 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
-        const int x2 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
-        const int y2 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
+        const point p12( rng( -COORDINATE_RANGE, COORDINATE_RANGE ), rng( -COORDINATE_RANGE,
+                         COORDINATE_RANGE ) );
+        const point p22( rng( -COORDINATE_RANGE, COORDINATE_RANGE ), rng( -COORDINATE_RANGE,
+                         COORDINATE_RANGE ) );
         const int t1 = 0;
         const int t2 = 0;
         int count1 = 0;
         const auto start1 = std::chrono::high_resolution_clock::now();
         while( count1 < iterations ) {
-            line_to( point( x1, y1 ), point( x2, y2 ), t1 );
+            line_to( p12, p22, t1 );
             count1++;
         }
         const auto end1 = std::chrono::high_resolution_clock::now();
         int count2 = 0;
         const auto start2 = std::chrono::high_resolution_clock::now();
         while( count2 < iterations ) {
-            canonical_line_to( point( x1, y1 ), point( x2, y2 ), t2 );
+            canonical_line_to( p12, p22, t2 );
             count2++;
         }
         const auto end2 = std::chrono::high_resolution_clock::now();
@@ -413,10 +489,9 @@ TEST_CASE( "line_to_boundaries", "[line]" )
 {
     for( int i = -60; i < 60; ++i ) {
         for( int j = -60; j < 60; ++j ) {
-            const int ax = std::abs( i ) * 2;
-            const int ay = std::abs( j ) * 2;
-            const int dominant = std::max( ax, ay );
-            const int minor = std::min( ax, ay );
+            const point a( std::abs( i ) * 2, std::abs( j ) * 2 );
+            const int dominant = std::max( a.x, a.y );
+            const int minor = std::min( a.x, a.y );
             const int ideal_start_offset = minor - ( dominant / 2 );
             // get the sign of the start offset.
             const int st( ( ideal_start_offset > 0 ) - ( ideal_start_offset < 0 ) );

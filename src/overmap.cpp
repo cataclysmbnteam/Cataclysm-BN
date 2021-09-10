@@ -61,7 +61,6 @@ static const mongroup_id GROUP_CHUD( "GROUP_CHUD" );
 static const mongroup_id GROUP_DIMENSIONAL_SURFACE( "GROUP_DIMENSIONAL_SURFACE" );
 static const mongroup_id GROUP_RIVER( "GROUP_RIVER" );
 static const mongroup_id GROUP_SEWER( "GROUP_SEWER" );
-static const mongroup_id GROUP_SPIRAL( "GROUP_SPIRAL" );
 static const mongroup_id GROUP_SWAMP( "GROUP_SWAMP" );
 static const mongroup_id GROUP_WORM( "GROUP_WORM" );
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
@@ -771,9 +770,7 @@ bool oter_t::is_hardcoded() const
         "looted_building",  // pseudo-terrain
         "mine",
         "mine_down",
-        "mine_entrance",
         "mine_finale",
-        "mine_shaft",
         "office_tower_1",
         "office_tower_1_entrance",
         "office_tower_b",
@@ -781,8 +778,6 @@ bool oter_t::is_hardcoded() const
         "slimepit",
         "slimepit_down",
         "spider_pit_under",
-        "spiral",
-        "spiral_hub",
         "temple",
         "temple_finale",
         "temple_stairs",
@@ -1303,6 +1298,24 @@ bool overmap::has_note( const tripoint &p ) const
     return false;
 }
 
+cata::optional<int> overmap::has_note_with_danger_radius( const tripoint &p ) const
+{
+    if( p.z < -OVERMAP_DEPTH || p.z > OVERMAP_HEIGHT ) {
+        return cata::nullopt;
+    }
+
+    for( auto &i : layer[p.z + OVERMAP_DEPTH].notes ) {
+        if( i.p == p.xy() ) {
+            if( i.dangerous ) {
+                return i.danger_radius;
+            } else {
+                break;
+            }
+        }
+    }
+    return cata::nullopt;
+}
+
 bool overmap::is_marked_dangerous( const tripoint &p ) const
 {
     for( auto &i : layer[p.z + OVERMAP_DEPTH].notes ) {
@@ -1327,15 +1340,22 @@ bool overmap::is_marked_dangerous( const tripoint &p ) const
     return false;
 }
 
+const std::vector<om_note> &overmap::all_notes( int z ) const
+{
+    static const std::vector<om_note> fallback;
+
+    if( z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
+        return fallback;
+    }
+
+    return layer[z + OVERMAP_DEPTH].notes;
+}
+
 const std::string &overmap::note( const tripoint &p ) const
 {
     static const std::string fallback {};
 
-    if( p.z < -OVERMAP_DEPTH || p.z > OVERMAP_HEIGHT ) {
-        return fallback;
-    }
-
-    const auto &notes = layer[p.z + OVERMAP_DEPTH].notes;
+    const auto &notes = all_notes( p.z );
     const auto it = std::find_if( begin( notes ), end( notes ), [&]( const om_note & n ) {
         return n.p == p.xy();
     } );
@@ -1593,7 +1613,6 @@ bool overmap::generate_sub( const int z )
     std::vector<point> central_lab_points;
     std::vector<point> lab_train_points;
     std::vector<point> central_lab_train_points;
-    std::vector<point> shaft_points;
     std::vector<city> mine_points;
     // These are so common that it's worth checking first as int.
     const oter_id skip_above[5] = {
@@ -1689,21 +1708,15 @@ bool overmap::generate_sub( const int z )
                 ter_set( p, oter_id( "central_lab" ) );
             } else if( is_ot_match( "hidden_lab_stairs", oter_above, ot_match_type::contains ) ) {
                 handle_lab_core( p, lab_points, lab_type::standard );
-            } else if( oter_above == "mine_entrance" ) {
-                shaft_points.push_back( p.xy() );
-            } else if( oter_above == "mine_shaft" ||
-                       oter_above == "mine_down" ) {
+            } else if( is_ot_match( "mine_entrance", oter_ground, ot_match_type::prefix ) && z == -2 ) {
+                mine_points.push_back( city( ( p + tripoint_west ).xy(), rng( 6 + z, 10 + z ) ) );
+                requires_sub = true;
+            } else if( oter_above == "mine_down" ) {
                 ter_set( p, oter_id( "mine" ) );
                 mine_points.push_back( city( p.xy(), rng( 6 + z, 10 + z ) ) );
                 // technically not all finales need a sub level,
                 // but at this point we don't know
                 requires_sub = true;
-            } else if( oter_above == "mine_finale" ) {
-                for( auto &q : g->m.points_in_radius( p, 1, 0 ) ) {
-                    ter_set( q, oter_id( "spiral" ) );
-                }
-                ter_set( p, oter_id( "spiral_hub" ) );
-                add_mon_group( mongroup( GROUP_SPIRAL, tripoint( i * 2, j * 2, z ), 2, 200 ) );
             }
         }
     }
@@ -1856,10 +1869,6 @@ bool overmap::generate_sub( const int z )
         build_mine( tripoint( i.pos, z ), i.size );
     }
 
-    for( auto &i : shaft_points ) {
-        ter_set( tripoint( i, z ), oter_id( "mine_shaft" ) );
-        requires_sub = true;
-    }
     for( auto &i : ant_points ) {
         const tripoint p_loc = tripoint( i.pos, z );
         if( ter( p_loc ) != "empty_rock" ) {
@@ -1966,7 +1975,7 @@ void overmap::place_special_forced( const overmap_special_id &special_id, const 
                                     om_direction::type dir )
 {
     static city invalid_city;
-    place_special( *special_id, p, dir, invalid_city, false, false );
+    place_special( *special_id, p, dir, invalid_city, false, true );
 }
 
 void mongroup::wander( const overmap &om )
