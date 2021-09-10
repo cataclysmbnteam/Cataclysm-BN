@@ -544,7 +544,10 @@ void requirement_data::finalize()
             for( auto &comp : list ) {
                 const std::list<itype_id> replacements = item_controller->subtype_replacement( comp.type );
                 for( const itype_id &replacing_type : replacements ) {
-                    const int charge_factor = item::find_type( replacing_type )->charge_factor();
+                    // One of the replacements is the type itself
+                    const int charge_factor = replacing_type != comp.type
+                                              ? item::find_type( replacing_type )->charge_factor()
+                                              : 1;
                     new_list.emplace_back( replacing_type, charge_factor * comp.count );
                 }
             }

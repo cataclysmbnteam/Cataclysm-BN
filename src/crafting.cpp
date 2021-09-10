@@ -1824,8 +1824,7 @@ void player::consume_tools( map &m, const comp_selection<tool_comp> &tool, int b
         return;
     }
 
-    const itype *tmp = item::find_type( tool.comp.type );
-    int quantity = tool.comp.count * batch * tmp->charge_factor();
+    int quantity = tool.comp.count * batch;
     if( tool.use_from & use_from_player ) {
         use_charges( tool.comp.type, quantity );
     }
