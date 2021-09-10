@@ -5414,6 +5414,18 @@
   },
   {
     "type": "recipe",
+    "result": "milk_atomic_coffee",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "time": "6 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 4 ],
+    "tools": [ [ [ "atomic_coffeepot", -1 ] ] ],
+    "components": [ [ [ "coffee_raw", 1 ] ], [ [ "milk_standard", 1, "LIST" ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "chai_tea",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -5528,6 +5540,36 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
+    "components": [ [ [ "coffee_syrup", 1 ] ], [ [ "milk_standard", 1, "LIST" ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "milk_atomic_coffee_sweetened",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "time": "6 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 4 ],
+    "tools": [ [ [ "atomic_coffeepot", -1 ] ] ],
+    "components": [
+      [ [ "coffee_raw", 1 ] ],
+      [ [ "beverage_sweetener", 1, "LIST" ] ],
+      [ [ "milk_standard", 1, "LIST" ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "milk_atomic_coffee_sweetened",
+    "id_suffix": "syrupy",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "time": "6 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 4 ],
+    "tools": [ [ [ "atomic_coffeepot", -1 ] ] ],
     "components": [ [ [ "coffee_syrup", 1 ] ], [ [ "milk_standard", 1, "LIST" ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
