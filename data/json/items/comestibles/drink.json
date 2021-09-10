@@ -1123,7 +1123,6 @@
     "id": "milk_atomic_coffee_sweetend",
     "name": "sweet atomic coffee milk",
     "copy-from": "milk_atomic_coffee",
-    "calories": 100,
     "description": "Atomic coffee mixed into milk.  This serving of coffee has been created using an atomic coffee pot's FULL NUCLEAR brewing cycle.  Added sweetener for those who like it even sweeter.",
     "price": 560,
     "price_postapoc": 100,
