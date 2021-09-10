@@ -2274,4 +2274,10 @@ void load( const JsonObject &jo );
 void reset();
 } // namespace charge_removal_blacklist
 
+namespace to_cbc_migration
+{
+void load( const JsonObject &jo );
+void reset();
+} // namespace to_cbc_migration
+
 #endif // CATA_SRC_ITEM_H

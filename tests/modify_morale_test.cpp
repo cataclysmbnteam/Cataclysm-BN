@@ -409,7 +409,7 @@ TEST_CASE( "ursine honey", "[food][modify_morale][ursine][honey]" )
                 CHECK( dummy.get_morale( MORALE_HONEY ) > 0 );
 
                 AND_THEN( "they enjoy it" ) {
-                    CHECK( dummy.has_morale( MORALE_FOOD_GOOD ) > 0 );
+                    CHECK( dummy.get_morale( MORALE_FOOD_GOOD ) > 0 );
                 }
             }
         }

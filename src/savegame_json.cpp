@@ -994,6 +994,8 @@ void avatar::store( JsonOut &json ) const
 
     json.member( "invcache" );
     inv.json_save_invcache( json );
+
+    json.member( "preferred_aiming_mode", preferred_aiming_mode );
 }
 
 void avatar::deserialize( JsonIn &jsin )
@@ -1139,6 +1141,8 @@ void avatar::load( const JsonObject &data )
         JsonIn *jip = data.get_raw( "invcache" );
         inv.json_load_invcache( *jip );
     }
+
+    data.read( "preferred_aiming_mode", preferred_aiming_mode );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2097,6 +2101,57 @@ void reset()
 }
 } // namespace charge_removal_blacklist
 
+namespace to_cbc_migration
+{
+static std::set<itype_id> the_list;
+
+void load( const JsonObject &jo )
+{
+    std::set<itype_id> d = jo.get_tags( "list" );
+    the_list.insert( d.begin(), d.end() );
+}
+
+void reset()
+{
+    the_list.clear();
+}
+
+static bool migration_required( const item &i )
+{
+    if( !i.count_by_charges() ) {
+        return false;
+    }
+    return the_list.count( i.typeId() ) > 0;
+}
+
+/**
+ * Merge old individual items into new count-by-charges items with same id.
+ */
+static void migrate( cata::colony<item> &stack )
+{
+    for( auto it_src = stack.begin(); it_src != stack.end(); ) {
+        if( !migration_required( *it_src ) ) {
+            it_src++;
+            continue;
+        }
+        auto it_dst = it_src;
+        it_dst++;
+        bool merged = false;
+        for( ; it_dst != stack.end(); it_dst++ ) {
+            const item &src = *it_src;
+            if( it_dst->merge_charges( src ) ) {
+                it_src = stack.erase( it_src );
+                merged = true;
+                break;
+            }
+        }
+        if( !merged ) {
+            it_src++;
+        }
+    }
+}
+} // namespace to_cbc_migration
+
 template<typename Archive>
 void item::io( Archive &archive )
 {
@@ -2577,6 +2632,12 @@ void vehicle::deserialize( JsonIn &jsin )
     data.read( "autodrive_local_target", autodrive_local_target );
     data.read( "summon_time_limit", summon_time_limit );
     data.read( "magic", magic );
+
+    // Loose items -> count-by-charges migration
+    for( vehicle_part &part : parts ) {
+        to_cbc_migration::migrate( part.items );
+    }
+
     // Need to manually backfill the active item cache since the part loader can't call its vehicle.
     for( const vpart_reference &vp : get_any_parts( VPFLAG_CARGO ) ) {
         auto it = vp.part().items.begin();
@@ -3905,6 +3966,11 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
                 }
             }
         }
+        for( auto &it1 : itm ) {
+            for( auto &it2 : it1 ) {
+                to_cbc_migration::migrate( it2 );
+            }
+        }
     } else if( member_name == "traps" ) {
         jsin.start_array();
         while( !jsin.end_array() ) {
@@ -4133,6 +4199,7 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "hidden_recipes", hidden_recipes );
     json.member( "favorite_recipes", favorite_recipes );
     json.member( "recent_recipes", recent_recipes );
+    json.member( "bionic_ui_sort_mode", bionic_sort_mode );
 
     json.member( "input_history" );
     json.start_object();
@@ -4176,6 +4243,7 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "hidden_recipes", hidden_recipes );
     jo.read( "favorite_recipes", favorite_recipes );
     jo.read( "recent_recipes", recent_recipes );
+    jo.read( "bionic_ui_sort_mode", bionic_sort_mode );
 
     if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
         // This is an old save: 1 means view items, 2 means view monsters,

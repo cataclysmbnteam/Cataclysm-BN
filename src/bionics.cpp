@@ -154,7 +154,6 @@ static const bionic_id bio_lockpick( "bio_lockpick" );
 static const bionic_id bio_magnet( "bio_magnet" );
 static const bionic_id bio_meteorologist( "bio_meteorologist" );
 static const bionic_id bio_nanobots( "bio_nanobots" );
-static const bionic_id bio_night( "bio_night" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
 static const bionic_id bio_plutdump( "bio_plutdump" );
 static const bionic_id bio_power_storage( "bio_power_storage" );
@@ -244,6 +243,8 @@ bionic_data::bionic_data() : name( no_translation( "bad bionic" ) ),
 {
 }
 
+bionic_data::~bionic_data() = default;
+
 static void force_comedown( effect &eff )
 {
     if( eff.is_null() || eff.get_effect_type() == nullptr || eff.get_duration() <= 1_turns ) {
@@ -332,7 +333,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
 //
 // Well, because like diseases, which are also in a Big Switch, bionics don't
 // share functions....
-bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
+bool Character::activate_bionic( int b, bool eff_only )
 {
     bionic &bio = ( *my_bionics )[b];
     const bool mounted = is_mounted();
@@ -401,9 +402,6 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
     if( bio.info().gun_bionic ) {
         add_msg_activate();
         refund_power(); // Power usage calculated later, in avatar_action::fire
-        if( close_bionics_ui ) {
-            *close_bionics_ui = true;
-        }
         avatar_action::fire_ranged_bionic( *this->as_avatar(), item( bio.info().fake_item ),
                                            bio.info().power_activate );
     } else if( bio.info().weapon_bionic ) {
@@ -428,9 +426,6 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         weapon.invlet = '#';
         if( bio.ammo_count > 0 ) {
             weapon.ammo_set( bio.ammo_loaded, bio.ammo_count );
-            if( close_bionics_ui ) {
-                *close_bionics_ui = true;
-            }
             avatar_action::fire_wielded_weapon( g->u );
         }
     } else if( bio.id == bio_ears && has_active_bionic( bio_earplugs ) ) {
@@ -1472,11 +1467,7 @@ void Character::process_bionic( int b )
     }
 
     // Bionic effects on every turn they are active go here.
-    if( bio.id == bio_night ) {
-        if( calendar::once_every( 5_turns ) ) {
-            add_msg_if_player( m_neutral, _( "Artificial night generator active!" ) );
-        }
-    } else if( bio.id == bio_remote ) {
+    if( bio.id == bio_remote ) {
         if( g->remoteveh() == nullptr && get_value( "remote_controlling" ).empty() ) {
             bio.powered = false;
             add_msg_if_player( m_warning, _( "Your %s has lost connection and is turning off." ),

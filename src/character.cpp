@@ -220,7 +220,7 @@ static const bionic_id bio_synaptic_regen( "bio_synaptic_regen" );
 static const bionic_id bio_tattoo_led( "bio_tattoo_led" );
 static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_ups( "bio_ups" );
-static const bionic_id str_bio_night( "bio_night" );
+
 // Aftershock stuff!
 static const bionic_id afs_bio_linguistic_coprocessor( "afs_bio_linguistic_coprocessor" );
 
@@ -6354,7 +6354,7 @@ std::string Character::extended_description() const
         // <bad>This is me, <player_name>.</bad>
         ss += string_format( _( "This is you - %s." ), name );
     } else {
-        ss += string_format( _( "This is %s." ), name );
+        ss += string_format( _( "This is %s, %s" ), name, male ? _( "male" ) : _( "female" ) );
     }
 
     ss += "\n--\n";
@@ -9863,6 +9863,8 @@ std::vector<std::string> Character::short_description_parts() const
 {
     std::vector<std::string> result;
 
+    std::string gender = male ? _( "male" ) : _( "female" );
+    result.push_back( name +  ", "  + gender );
     if( is_armed() ) {
         result.push_back( _( "Wielding: " ) + weapon.tname() );
     }
@@ -9975,11 +9977,7 @@ bool Character::sees( const tripoint &t, bool, int ) const
     if( wanted_range < MAX_CLAIRVOYANCE && wanted_range < clairvoyance() ) {
         return true;
     }
-    // Only check if we need to override if we already came to the opposite conclusion.
-    if( can_see && wanted_range < 15 && wanted_range > sight_range( 1 ) &&
-        has_active_bionic( str_bio_night ) ) {
-        can_see = false;
-    }
+
     if( can_see && wanted_range > unimpaired_range() ) {
         can_see = false;
     }

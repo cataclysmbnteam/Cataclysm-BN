@@ -364,11 +364,6 @@ body_part opposite_body_part( body_part bp )
     return get_bp( bp ).opposite_part->token;
 }
 
-std::string get_body_part_id( body_part bp )
-{
-    return get_bp( bp ).legacy_id;
-}
-
 bodypart_id bodypart::get_id() const
 {
     return id;

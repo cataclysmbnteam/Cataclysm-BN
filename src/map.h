@@ -1696,7 +1696,6 @@ class map
         void draw_lab( mapgendata &dat );
         void draw_temple( mapgendata &dat );
         void draw_mine( mapgendata &dat );
-        void draw_spiral( mapgendata &dat );
         void draw_anthill( mapgendata &dat );
         void draw_slimepit( mapgendata &dat );
         void draw_spider_pit( mapgendata &dat );

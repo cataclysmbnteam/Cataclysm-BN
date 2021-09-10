@@ -545,6 +545,10 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         if( ovp && ( &ovp->vehicle() == this ) && get_pet( ovp->part_index() ) ) {
             return ret;
         }
+        // Rotors only collide with huge creatures
+        if( part_info( part ).rotor_diameter() > 0 && critter->get_size() != MS_HUGE ) {
+            return ret;
+        }
         // we just ran into a fish, so move it out of the way
         if( g->m.has_flag( "SWIMMABLE", critter->pos() ) ) {
             tripoint end_pos = critter->pos();
@@ -1057,9 +1061,15 @@ bool vehicle::check_heli_ascend( player &p )
     }
     for( const tripoint &pt : get_points( true ) ) {
         tripoint above( pt.xy(), pt.z + 1 );
-        const optional_vpart_position ovp = g->m.veh_at( above );
-        if( g->m.has_flag_ter_or_furn( TFLAG_INDOORS, pt ) || g->m.impassable_ter_furn( above ) || ovp ||
-            g->critter_at( above ) ) {
+        if( !g->m.inbounds_z( above.z ) ) {
+            p.add_msg_if_player( m_bad, _( "It would be unsafe to try and ascend further." ) );
+            return false;
+        }
+        if( g->m.has_flag_ter_or_furn( TFLAG_INDOORS, pt )
+            || g->m.impassable_ter_furn( above )
+            || g->m.veh_at( above )
+            || g->critter_at( above )
+          ) {
             p.add_msg_if_player( m_bad,
                                  _( "It would be unsafe to try and ascend when there are obstacles above you." ) );
             return false;

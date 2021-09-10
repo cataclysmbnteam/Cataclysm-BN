@@ -990,7 +990,7 @@
       { "trait": "ENHANCED_REACTIONS", "prob": 50 },
       { "trait": "QUICKENING", "prob": 50 },
       { "distribution": [ { "trait": "NEURAL_IMPROVEMENT" }, { "trait": "EXPANDED_CONSCIOUSNESS" } ] },
-      { "distribution": [ { "trait": "WARM_NATURED" }, { "trait": "MOUTH_TENDRILS" } ] }
+      { "distribution": [ { "trait": "WARM_NATURED" }, { "trait": "mouth_TENDRILS" } ] }
     ]
   },
   {
