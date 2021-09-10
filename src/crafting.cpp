@@ -1564,7 +1564,7 @@ struct avail_tool_comp {
 namespace crafting
 {
 
-std::vector<avail_tool_comp>
+static std::vector<avail_tool_comp>
 find_tool_component( const Character *player_with_inv, const std::vector<tool_comp> &tools,
                      int batch,
                      const inventory &map_inv, cost_adjustment charge_mod )
@@ -1637,7 +1637,7 @@ find_tool_component( const Character *player_with_inv, const std::vector<tool_co
     return available_tools;
 }
 
-comp_selection<tool_comp>
+static comp_selection<tool_comp>
 query_tool_selection( const std::vector<avail_tool_comp> &available_tools,
                       const std::string &hotkeys, bool can_cancel, bool is_npc )
 {
