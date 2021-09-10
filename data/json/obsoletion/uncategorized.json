@@ -300,16 +300,6 @@
   },
   {
     "type": "recipe",
-    "result": "tihar",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "helsing",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "pneumatic_shotgun",
     "obsolete": true
   },
