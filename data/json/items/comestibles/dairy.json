@@ -84,7 +84,6 @@
     "material": [ "milk" ],
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "FREEZERBURN" ],
     "fun": 15,
     "vitamins": [ [ "vitA", 2 ], [ "vitB", 3 ], [ "vitC", 3 ], [ "calcium", 33 ], [ "iron", 1 ] ]
   },

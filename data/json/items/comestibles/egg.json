@@ -18,7 +18,7 @@
     "volume": "50 ml",
     "stack_size": 1,
     "fun": -8,
-    "flags": [ "FREEZERBURN", "RAW" ],
+    "flags": [ "RAW" ],
     "rot_spawn": "GROUP_EGG_BIRD_WILD",
     "vitamins": [ [ "vitA", 9 ], [ "calcium", 3 ], [ "iron", 4 ], [ "vitB", 21 ] ],
     "rot_spawn_chance": 50
@@ -275,7 +275,7 @@
     "material": "egg",
     "volume": "125 ml",
     "charges": 2,
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 3
   },
   {
@@ -290,8 +290,7 @@
     "price": 95,
     "price_postapoc": 50,
     "material": "egg",
-    "fun": 2,
-    "flags": [ "FREEZERBURN" ]
+    "fun": 2
   },
   {
     "type": "COMESTIBLE",
@@ -306,7 +305,6 @@
     "price": 95,
     "price_postapoc": 75,
     "material": "egg",
-    "fun": 2,
-    "flags": [ "FREEZERBURN" ]
+    "fun": 2
   }
 ]

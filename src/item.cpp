@@ -3128,8 +3128,8 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     if( !bid->encumbrance.empty() ) {
         info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Encumbrance</bold>: " ),
                                   iteminfo::no_newline ) );
-        for( const auto &element : bid->encumbrance ) {
-            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
+        for( const std::pair< const bodypart_str_id, int > element : sorted_lex( bid->encumbrance ) ) {
+            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first->token, 1 ),
                                       " <num> ", iteminfo::no_newline, element.second ) );
         }
     }
@@ -3138,7 +3138,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "<bold>Environmental Protection</bold>: " ),
                                   iteminfo::no_newline ) );
-        for( const std::pair< const bodypart_str_id, size_t > element : sorted_lex( bid->env_protec ) ) {
+        for( const std::pair< const bodypart_str_id, int > element : sorted_lex( bid->env_protec ) ) {
             info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first->token, 1 ),
                                       " <num> ", iteminfo::no_newline, element.second ) );
         }
@@ -3148,7 +3148,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "<bold>Bash Protection</bold>: " ),
                                   iteminfo::no_newline ) );
-        for( const std::pair< const bodypart_str_id, size_t > element : sorted_lex( bid->bash_protec ) ) {
+        for( const std::pair< const bodypart_str_id, int > element : sorted_lex( bid->bash_protec ) ) {
             info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first->token, 1 ),
                                       " <num> ", iteminfo::no_newline, element.second ) );
         }
@@ -3158,7 +3158,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "<bold>Cut Protection</bold>: " ),
                                   iteminfo::no_newline ) );
-        for( const std::pair< const bodypart_str_id, size_t > element : sorted_lex( bid->cut_protec ) ) {
+        for( const std::pair< const bodypart_str_id, int > element : sorted_lex( bid->cut_protec ) ) {
             info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first->token, 1 ),
                                       " <num> ", iteminfo::no_newline, element.second ) );
         }

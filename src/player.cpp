@@ -43,6 +43,7 @@
 #include "lightmap.h"
 #include "line.h"
 #include "magic_enchantment.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -1937,7 +1938,7 @@ bool player::can_interface_armor() const
 {
     bool okay = std::any_of( my_bionics->begin(), my_bionics->end(),
     []( const bionic & b ) {
-        return b.powered && b.info().armor_interface;
+        return b.powered && b.info().has_flag( STATIC( flag_str_id( "BIONIC_ARMOR_INTERFACE" ) ) );
     } );
     return okay;
 }
