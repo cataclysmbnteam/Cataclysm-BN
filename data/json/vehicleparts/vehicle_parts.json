@@ -1593,9 +1593,17 @@
     "item": "wind_turbine",
     "location": "on_roof",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] , [ "electronics", 2 ] ], "time": "150 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] , [ "electronics", 2 ] ], "time": "150 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] , [ "electronics", 2 ] ], "time": "20 s", "using": [ [ "welding_standard", 5 ] ] }
+      "install": {
+        "skills": [ [ "mechanics", 1 ], [ "electronics", 2 ] ],
+        "time": "150 s",
+        "qualities": [ { "id": "WRENCH", "level": 1 } ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ], [ "electronics", 2 ] ],
+        "time": "150 s",
+        "qualities": [ { "id": "WRENCH", "level": 1 } ]
+      },
+      "repair": { "skills": [ [ "mechanics", 1 ], [ "electronics", 2 ] ], "time": "20 s", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "WIND_TURBINE" ],
     "breaks_into": [
@@ -1622,9 +1630,17 @@
     "location": "on_roof",
     "power": -3000,
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] , [ "electronics", 2 ] ], "time": "450 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] , [ "electronics", 2 ] ], "time": "450 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] , [ "electronics", 2 ] ], "time": "1 m", "using": [ [ "welding_standard", 15 ] ] }
+      "install": {
+        "skills": [ [ "mechanics", 2 ], [ "electronics", 2 ] ],
+        "time": "450 s",
+        "qualities": [ { "id": "WRENCH", "level": 1 } ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ], [ "electronics", 2 ] ],
+        "time": "450 s",
+        "qualities": [ { "id": "WRENCH", "level": 1 } ]
+      },
+      "repair": { "skills": [ [ "mechanics", 2 ], [ "electronics", 2 ] ], "time": "1 m", "using": [ [ "welding_standard", 15 ] ] }
     },
     "flags": [ "WIND_TURBINE", "EXTRA_DRAG" ],
     "breaks_into": [
