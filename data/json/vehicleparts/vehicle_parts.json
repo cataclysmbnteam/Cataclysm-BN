@@ -1361,7 +1361,7 @@
     "bonus": 40,
     "item": "muffler",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
@@ -1495,7 +1495,7 @@
         "using": [ [ "rope_natural_short", 1 ], [ "vehicle_screw", 1 ], [ "sewing_standard", 1 ] ]
       },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [ [ "vehicle_screw", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ], [ "tailor", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
     "flags": [ "OPENABLE", "OPAQUE", "OPENCLOSE_INSIDE", "CURTAIN", "MULTISQUARE" ],
     "breaks_into": [  ]
@@ -1746,7 +1746,7 @@
     "folded_volume": 1,
     "item": "water_faucet",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "welding_standard", 5 ] ] }
     },
@@ -2196,7 +2196,7 @@
     "bonus": 15,
     "item": "battery_charger",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 1 ] ] }
     },
@@ -2219,7 +2219,7 @@
     "bonus": 80,
     "item": "stereo",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 1 ] ] }
     },
