@@ -13,6 +13,7 @@
 #include "game.h"
 #include "input.h"
 #include "inventory.h"
+#include "make_static.h"
 #include "options.h"
 #include "output.h"
 #include "string_formatter.h"
@@ -306,7 +307,7 @@ static std::string build_bionic_poweronly_string( const bionic &bio )
                               : string_format( _( "%s/%d turns" ), units::display( bio_data.power_over_time ),
                                                bio_data.charge_time ) );
     }
-    if( bio_data.toggled ) {
+    if( bio_data.has_flag( STATIC( flag_str_id( "BIONIC_TOGGLED" ) ) ) ) {
         properties.push_back( bio.powered ? _( "ON" ) : _( "OFF" ) );
     }
     if( bio.incapacitated_time > 0_turns ) {
@@ -392,10 +393,11 @@ static void draw_connectors( const catacurses::window &win, const point &start,
     const int LIST_START_Y = 7;
     // first: pos_y, second: occupied slots
     std::vector<std::pair<int, size_t>> pos_and_num;
-    for( const std::pair<const bodypart_str_id, size_t> &elem : bio_id->occupied_bodyparts ) {
+    for( const std::pair<const bodypart_str_id, int> &elem : bio_id->occupied_bodyparts ) {
         auto pos = bp_to_pos.find( elem.first );
         if( pos != bp_to_pos.end() ) {
-            pos_and_num.emplace_back( static_cast<int>( pos->second ) + LIST_START_Y, elem.second );
+            pos_and_num.emplace_back( static_cast<int>( pos->second ) + LIST_START_Y,
+                                      static_cast<size_t>( elem.second ) );
         }
     }
     if( pos_and_num.empty() || !get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
@@ -488,23 +490,24 @@ static void draw_connectors( const catacurses::window &win, const point &start,
 static nc_color get_bionic_text_color( const bionic &bio, const bool isHighlightedBionic )
 {
     nc_color type = c_white;
+    bool is_power_source = bio.id->has_flag( STATIC( flag_str_id( "BIONIC_POWER_SOURCE" ) ) );
     if( bio.id->activated ) {
         if( isHighlightedBionic ) {
-            if( bio.powered && !bio.id->power_source ) {
+            if( bio.powered && !is_power_source ) {
                 type = h_red;
-            } else if( bio.id->power_source && !bio.powered ) {
+            } else if( is_power_source && !bio.powered ) {
                 type = h_light_cyan;
-            } else if( bio.id->power_source && bio.powered ) {
+            } else if( is_power_source && bio.powered ) {
                 type = h_light_green;
             } else {
                 type = h_light_red;
             }
         } else {
-            if( bio.powered && !bio.id->power_source ) {
+            if( bio.powered && !is_power_source ) {
                 type = c_red;
-            } else if( bio.id->power_source && !bio.powered ) {
+            } else if( is_power_source && !bio.powered ) {
                 type = c_light_cyan;
-            } else if( bio.id->power_source && bio.powered ) {
+            } else if( is_power_source && bio.powered ) {
                 type = c_light_green;
             } else {
                 type = c_light_red;
@@ -512,13 +515,13 @@ static nc_color get_bionic_text_color( const bionic &bio, const bool isHighlight
         }
     } else {
         if( isHighlightedBionic ) {
-            if( bio.id->power_source ) {
+            if( is_power_source ) {
                 type = h_light_cyan;
             } else {
                 type = h_cyan;
             }
         } else {
-            if( bio.id->power_source ) {
+            if( is_power_source ) {
                 type = c_light_cyan;
             } else {
                 type = c_cyan;
@@ -685,7 +688,7 @@ void player::power_bionics()
                                      pos_x - 2, bio_id, bp_to_pos );
 
                     // redraw highlighted (occupied) body parts
-                    for( const std::pair<const bodypart_str_id, size_t> &elem : bio_id->occupied_bodyparts ) {
+                    for( const std::pair<const bodypart_str_id, int> &elem : bio_id->occupied_bodyparts ) {
                         const int i = bp_to_pos[elem.first];
                         mvwprintz( wBio, point( pos_x, i + list_start_y ), c_yellow, bps[i] );
                     }
@@ -881,7 +884,7 @@ void player::power_bionics()
                     } else {
                         activate_bionic( b );
                         // Clear the menu if we are firing a bionic gun
-                        if( tmp->info().gun_bionic || tmp->ammo_count > 0 ) {
+                        if( tmp->info().has_flag( STATIC( flag_str_id( "BIONIC_GUN" ) ) ) || tmp->ammo_count > 0 ) {
                             break;
                         }
                     }

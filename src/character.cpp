@@ -42,6 +42,7 @@
 #include "iuse_actor.h"
 #include "lightmap.h"
 #include "line.h"
+#include "make_static.h"
 #include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -3841,8 +3842,8 @@ void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) con
 {
 
     for( const bionic_id &bid : get_bionics() ) {
-        for( const std::pair<const body_part, int> &element : bid->encumbrance ) {
-            vals[element.first].encumbrance += element.second;
+        for( const std::pair<const bodypart_str_id, int> &element : bid->encumbrance ) {
+            vals[element.first->token].encumbrance += element.second;
         }
     }
 
@@ -4326,10 +4327,11 @@ void Character::on_damage_of_type( int adjusted_damage, damage_type type, const 
                 continue;
             }
             const auto &info = i.info();
-            if( info.shockproof || info.faulty ) {
+            if( info.has_flag( STATIC( flag_str_id( "BIONIC_SHOCKPROOF" ) ) )
+                || info.has_flag( STATIC( flag_str_id( "BIONIC_FAULTY" ) ) ) ) {
                 continue;
             }
-            const std::map<bodypart_str_id, size_t> &bodyparts = info.occupied_bodyparts;
+            const std::map<bodypart_str_id, int> &bodyparts = info.occupied_bodyparts;
             if( bodyparts.find( bp.id() ) != bodyparts.end() ) {
                 const int bp_hp = get_part_hp_cur( bp );
                 // The chance to incapacitate is as high as 50% if the attack deals damage equal to one third of the body part's current health.
@@ -7644,7 +7646,8 @@ void Character::recalculate_enchantment_cache()
 
         for( const enchantment_id &ench_id : bid->enchantments ) {
             const enchantment &ench = ench_id.obj();
-            if( ench.is_active( *this, bio.powered && bid->toggled ) ) {
+            if( ench.is_active( *this, bio.powered &&
+                                bid->has_flag( STATIC( flag_str_id( "BIONIC_TOGGLED" ) ) ) ) ) {
                 enchantment_cache->force_add( ench );
             }
         }

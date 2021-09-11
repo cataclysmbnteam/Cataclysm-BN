@@ -338,8 +338,14 @@ class JsonIn
                 return true;
             }
             std::string s;
+            int s_pos = tell();
             if( read( s, throw_on_error ) ) {
-                val = io::string_to_enum<T>( s );
+                try {
+                    val = io::string_to_enum<T>( s );
+                } catch( const io::InvalidEnumString &err ) {
+                    int curr_pos = tell();
+                    return error_or_false( throw_on_error, err.what(), s_pos - curr_pos );
+                }
                 return true;
             }
             return false;
