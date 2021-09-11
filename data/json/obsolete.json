@@ -962,5 +962,56 @@
       "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ] }
     }
+  },
+  {
+    "id": "loom_frame",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": { "str": "frame loom" },
+    "description": "This is a rather bulky and primitive wooden frame which can be used to weave cloth sheets.  It is very slow, though.",
+    "weight": "3804 g",
+    "volume": "6000 ml",
+    "price": 4000,
+    "price_postapoc": 750,
+    "material": "wood",
+    "symbol": ";",
+    "color": "yellow"
+  },
+  {
+    "id": "shed_stick",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": { "str": "wooden shed stick" },
+    "description": "This is a short thin flat wooden stick, used as a tool while weaving cloth with a frame loom.",
+    "weight": "300 g",
+    "volume": "250 ml",
+    "price": 100,
+    "price_postapoc": 50,
+    "bashing": 2,
+    "material": "wood",
+    "symbol": ";",
+    "color": "yellow"
+  },
+  {
+    "type": "recipe",
+    "result": "loom_frame",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "shed_stick",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rag",
+    "id_suffix": "from_sheet",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "neoprene",
+    "id_suffix": "from_sheet",
+    "obsolete": true
   }
 ]

@@ -60,7 +60,7 @@
     "blueprint_excludes": [ { "id": "fbmsw_southwest2_kegs" } ],
     "blueprint_needs": {
       "time": "7 h",
-      "skills": [ [ "cooking", 2 ], [ "fabrication", 2 ] ],
+      "skills": [ [ "fabrication", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 2 } ], [ { "id": "SAW_W" } ], [ { "id": "WRENCH" } ] ],

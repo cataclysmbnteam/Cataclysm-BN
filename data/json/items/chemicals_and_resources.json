@@ -221,6 +221,7 @@
     "phase": "liquid",
     "charges": 2,
     "category": "chems",
+    "flags": [ "UNSAFE_CONSUME" ],
     "fun": -30
   },
   {
@@ -242,6 +243,7 @@
     "phase": "liquid",
     "charges": 2,
     "category": "chems",
+    "flags": [ "UNSAFE_CONSUME" ],
     "fun": -30,
     "freezing_point": -108
   },
@@ -251,7 +253,7 @@
     "name": { "str_sp": "liquid fertilizer" },
     "weight": "67 g",
     "color": "yellow",
-    "flags": [ "FERTILIZER", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "FERTILIZER", "NUTRIENT_OVERRIDE", "UNSAFE_CONSUME" ],
     "use_action": "PLANTBLECH",
     "container": "jug_plastic",
     "comestible_type": "DRINK",
@@ -374,7 +376,7 @@
     "name": { "str_sp": "acid water" },
     "weight": "260 g",
     "color": "light_green",
-    "flags": [ "ACID" ],
+    "flags": [ "ACID", "UNSAFE_CONSUME" ],
     "use_action": "BLECH",
     "container": "jug_plastic",
     "comestible_type": "DRINK",
@@ -395,7 +397,7 @@
     "name": { "str_sp": "weak acid water" },
     "weight": "255 g",
     "color": "light_green",
-    "flags": [ "ACID" ],
+    "flags": [ "ACID", "UNSAFE_CONSUME" ],
     "use_action": "BLECH",
     "container": "jug_plastic",
     "comestible_type": "DRINK",
@@ -416,7 +418,7 @@
     "name": { "str_sp": "concentrated acid" },
     "weight": "250 g",
     "color": "green",
-    "flags": [ "ACID", "DROP_ACTION_ONLY_IF_LIQUID" ],
+    "flags": [ "ACID", "DROP_ACTION_ONLY_IF_LIQUID", "UNSAFE_CONSUME" ],
     "use_action": "BLECH",
     "container": "jug_plastic",
     "comestible_type": "DRINK",
@@ -451,6 +453,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "category": "chems",
+    "flags": [ "UNSAFE_CONSUME" ],
     "fun": -40
   },
   {
@@ -1034,6 +1037,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "category": "chems",
+    "flags": [ "UNSAFE_CONSUME" ],
     "fun": -20
   },
   {

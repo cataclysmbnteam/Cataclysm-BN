@@ -70,15 +70,16 @@
       "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "qualities": [ [ { "id": "SAW_W", "level": 2 } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 329 ] ],
-          [ [ "nail", 746 ] ],
-          [ [ "wood_panel", 39 ] ],
-          [ [ "hinge", 2 ] ],
-          [ [ "rock", 40 ] ],
           [ [ "glass_sheet", 1 ] ],
-          [ [ "log", 16 ] ]
+          [ [ "hinge", 2 ] ],
+          [ [ "log", 16 ] ],
+          [ [ "material_soil", 2 ] ],
+          [ [ "nail", 746 ] ],
+          [ [ "rock", 40 ] ],
+          [ [ "wood_panel", 39 ] ]
         ]
       }
     }

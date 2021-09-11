@@ -14,7 +14,7 @@
     "blueprint_excludes": [ { "id": "fbmh_northeast" } ],
     "blueprint_needs": {
       "time": "1 d 9 h",
-      "skills": [ [ "fabrication", 4 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 4 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
@@ -45,7 +45,7 @@
     "blueprint_excludes": [ { "id": "fbmh_northeast", "amount": 2 }, { "id": "fbmh_tent_northeast" } ],
     "blueprint_needs": {
       "time": "1 d 6 h",
-      "skills": [ [ "fabrication", 4 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 4 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
@@ -78,7 +78,7 @@
     "blueprint_excludes": [ { "id": "fbmh_northeast", "amount": 4 }, { "id": "fbmh_tent_northeast" } ],
     "blueprint_needs": {
       "time": "1 d 21 h 15 m",
-      "skills": [ [ "fabrication", 2 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 2 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
@@ -109,7 +109,7 @@
     "blueprint_excludes": [ { "id": "fbmh_east" } ],
     "blueprint_needs": {
       "time": "5 d 22 h 30 m",
-      "skills": [ [ "fabrication", 4 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 4 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
@@ -143,7 +143,7 @@
     "blueprint_excludes": [ { "id": "fbmh_east" }, { "id": "fbmh_tent_northeast" } ],
     "blueprint_needs": {
       "time": "5 d 11 h 45 m",
-      "skills": [ [ "fabrication", 4 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 4 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
@@ -176,7 +176,7 @@
     "blueprint_excludes": [ { "id": "fbmh_southeast" } ],
     "blueprint_needs": {
       "time": "5 d 22 h 30 m",
-      "skills": [ [ "fabrication", 4 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 4 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
@@ -210,7 +210,7 @@
     "blueprint_excludes": [ { "id": "fbmh_southeast" }, { "id": "fbmh_tent_east" } ],
     "blueprint_needs": {
       "time": "5 d 5 h 30 m",
-      "skills": [ [ "fabrication", 4 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 4 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
@@ -243,7 +243,7 @@
     "blueprint_excludes": [ { "id": "fbmh_northwest" } ],
     "blueprint_needs": {
       "time": "4 d 12 h 15 m",
-      "skills": [ [ "fabrication", 4 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 4 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
@@ -276,7 +276,7 @@
     "blueprint_excludes": [ { "id": "fbmh_west" } ],
     "blueprint_needs": {
       "time": "5 d 22 h 30 m",
-      "skills": [ [ "fabrication", 4 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 4 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
@@ -309,7 +309,7 @@
     "blueprint_excludes": [ { "id": "fbmh_west" }, { "id": "fbmh_tent_northwest" } ],
     "blueprint_needs": {
       "time": "5 d 11 h 45 m",
-      "skills": [ [ "fabrication", 4 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 4 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
@@ -342,7 +342,7 @@
     "blueprint_excludes": [ { "id": "fbmh_southwest" } ],
     "blueprint_needs": {
       "time": "5 d 22 h 30 m",
-      "skills": [ [ "fabrication", 4 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 4 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
@@ -375,7 +375,7 @@
     "blueprint_excludes": [ { "id": "fbmh_southwest" }, { "id": "fbmh_tent_west" } ],
     "blueprint_needs": {
       "time": "5 d 5 h 30 m",
-      "skills": [ [ "fabrication", 4 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 4 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
@@ -408,7 +408,7 @@
     "blueprint_excludes": [ { "id": "fbmh_ne_center" } ],
     "blueprint_needs": {
       "time": "2 d 17 h 15 m",
-      "skills": [ [ "fabrication", 4 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 4 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
@@ -441,7 +441,7 @@
     "blueprint_excludes": [ { "id": "fbmh_ne_center" }, { "id": "fbmh_tent_east" } ],
     "blueprint_needs": {
       "time": "2 d 45 m",
-      "skills": [ [ "fabrication", 4 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 4 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
@@ -472,7 +472,7 @@
     "blueprint_excludes": [ { "id": "fbmh_nw_center" } ],
     "blueprint_needs": {
       "time": "2 d 12 h 30 m",
-      "skills": [ [ "fabrication", 4 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 4 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
@@ -505,7 +505,7 @@
     "blueprint_excludes": [ { "id": "fbmh_nw_center" }, { "id": "fbmh_tent_west" } ],
     "blueprint_needs": {
       "time": "1 d 20 h",
-      "skills": [ [ "fabrication", 4 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 4 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
@@ -538,7 +538,7 @@
     "blueprint_excludes": [ { "id": "fbmh_ne_center" }, { "id": "fbmh_nw_center" }, { "id": "fbmh_tent_east" }, { "id": "fbmh_tent_west" } ],
     "blueprint_needs": {
       "time": "3 d 20 h 45 m",
-      "skills": [ [ "fabrication", 4 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 4 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
@@ -571,7 +571,7 @@
     "blueprint_excludes": [ { "id": "fbmh_se_south" } ],
     "blueprint_needs": {
       "time": "2 d 12 h 30 m",
-      "skills": [ [ "fabrication", 4 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 4 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
@@ -605,7 +605,7 @@
     "blueprint_excludes": [ { "id": "fbmh_se_south" }, { "id": "fbmh_tent_southeast" } ],
     "blueprint_needs": {
       "time": "1 d 20 h",
-      "skills": [ [ "fabrication", 4 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 4 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
@@ -638,7 +638,7 @@
     "blueprint_excludes": [ { "id": "fbmh_sw_south" } ],
     "blueprint_needs": {
       "time": "2 d 17 h 15 m",
-      "skills": [ [ "fabrication", 4 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 4 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
@@ -671,7 +671,7 @@
     "blueprint_excludes": [ { "id": "fbmh_sw_south" }, { "id": "fbmh_tent_southwest" } ],
     "blueprint_needs": {
       "time": "2 d 45 m",
-      "skills": [ [ "fabrication", 4 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 4 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
@@ -707,7 +707,7 @@
     ],
     "blueprint_needs": {
       "time": "3 d 20 h 45 m",
-      "skills": [ [ "fabrication", 4 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 4 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],

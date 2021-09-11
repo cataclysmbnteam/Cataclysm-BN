@@ -14,7 +14,7 @@
     "blueprint_excludes": [ { "id": "fbm_no_dig" } ],
     "blueprint_needs": {
       "time": "1 d 21 h",
-      "skills": [ [ "survival", 1 ] ],
+      "skills": [ [ "fabrication", 0 ] ],
       "inline": { "tools": [  ], "qualities": [ [ { "id": "DIG", "level": 2 } ] ], "components": [  ] }
     }
   },
@@ -33,7 +33,7 @@
     "blueprint_excludes": [ { "id": "fbm_no_dig" } ],
     "blueprint_needs": {
       "time": "1 d 21 h",
-      "skills": [ [ "survival", 1 ] ],
+      "skills": [ [ "fabrication", 0 ] ],
       "inline": { "tools": [  ], "qualities": [ [ { "id": "DIG", "level": 2 } ] ], "components": [  ] }
     }
   },
@@ -52,7 +52,7 @@
     "blueprint_excludes": [ { "id": "fbm_no_dig" }, { "id": "fbmh_trench_northeast" }, { "id": "fbmh_trench_east" } ],
     "blueprint_needs": {
       "time": "12 h 30 m",
-      "skills": [ [ "survival", 1 ] ],
+      "skills": [ [ "fabrication", 0 ] ],
       "inline": { "tools": [  ], "qualities": [ [ { "id": "DIG", "level": 2 } ] ], "components": [  ] }
     }
   },
@@ -71,7 +71,7 @@
     "blueprint_excludes": [ { "id": "fbm_no_dig" }, { "id": "fbmh_trench_northwest" }, { "id": "fbmh_trench_west" } ],
     "blueprint_needs": {
       "time": "12 h 30 m",
-      "skills": [ [ "survival", 1 ] ],
+      "skills": [ [ "fabrication", 0 ] ],
       "inline": { "tools": [  ], "qualities": [ [ { "id": "DIG", "level": 2 } ] ], "components": [  ] }
     }
   },
@@ -90,7 +90,7 @@
     "blueprint_excludes": [ { "id": "fbm_no_dig" }, { "id": "fbmh_trench_southeast" }, { "id": "fbmh_trench_east" } ],
     "blueprint_needs": {
       "time": "12 h 30 m",
-      "skills": [ [ "survival", 1 ] ],
+      "skills": [ [ "fabrication", 0 ] ],
       "inline": { "tools": [  ], "qualities": [ [ { "id": "DIG", "level": 2 } ] ], "components": [  ] }
     }
   },
@@ -109,7 +109,7 @@
     "blueprint_excludes": [ { "id": "fbm_no_dig" }, { "id": "fbmh_trench_southwest" }, { "id": "fbmh_trench_west" } ],
     "blueprint_needs": {
       "time": "12 h 30 m",
-      "skills": [ [ "survival", 1 ] ],
+      "skills": [ [ "fabrication", 0 ] ],
       "inline": { "tools": [  ], "qualities": [ [ { "id": "DIG", "level": 2 } ] ], "components": [  ] }
     }
   },
@@ -128,7 +128,7 @@
     "blueprint_excludes": [ { "id": "fbm_no_dig" }, { "id": "fbmh_trench_southeast" }, { "id": "fbmh_trench_northeast" } ],
     "blueprint_needs": {
       "time": "2 d 22 h",
-      "skills": [ [ "survival", 1 ] ],
+      "skills": [ [ "fabrication", 0 ] ],
       "inline": { "tools": [  ], "qualities": [ [ { "id": "DIG", "level": 2 } ] ], "components": [  ] }
     }
   },
@@ -147,7 +147,7 @@
     "blueprint_excludes": [ { "id": "fbm_no_dig" }, { "id": "fbmh_trench_southwest" }, { "id": "fbmh_trench_northwest" } ],
     "blueprint_needs": {
       "time": "2 d 22 h",
-      "skills": [ [ "survival", 1 ] ],
+      "skills": [ [ "fabrication", 0 ] ],
       "inline": { "tools": [  ], "qualities": [ [ { "id": "DIG", "level": 2 } ] ], "components": [  ] }
     }
   }

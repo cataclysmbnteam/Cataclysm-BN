@@ -81,7 +81,7 @@
     "blueprint_excludes": [ { "id": "fbml_southwest" } ],
     "blueprint_needs": {
       "time": "2 d 17 h",
-      "skills": [ [ "fabrication", 4 ], [ "survival", 1 ] ],
+      "skills": [ [ "fabrication", 4 ] ],
       "inline": {
         "tools": [ [ [ "oxy_torch", 300 ], [ "welder", 1500 ], [ "welder_crude", 2250 ], [ "toolset", 2250 ] ] ],
         "qualities": [
@@ -116,7 +116,7 @@
     "blueprint_excludes": [ { "id": "fbml_west" } ],
     "blueprint_needs": {
       "time": "2 d 13 h",
-      "skills": [ [ "fabrication", 4 ], [ "survival", 1 ] ],
+      "skills": [ [ "fabrication", 4 ] ],
       "inline": {
         "tools": [ [ [ "oxy_torch", 260 ], [ "welder", 1300 ], [ "welder_crude", 1950 ], [ "toolset", 1950 ] ] ],
         "qualities": [
@@ -151,7 +151,7 @@
     "blueprint_excludes": [ { "id": "fbml_northwest" } ],
     "blueprint_needs": {
       "time": "2 d 15 h",
-      "skills": [ [ "fabrication", 4 ], [ "survival", 1 ] ],
+      "skills": [ [ "fabrication", 4 ] ],
       "inline": {
         "tools": [ [ [ "oxy_torch", 280 ], [ "welder", 1400 ], [ "welder_crude", 2100 ], [ "toolset", 2100 ] ] ],
         "qualities": [

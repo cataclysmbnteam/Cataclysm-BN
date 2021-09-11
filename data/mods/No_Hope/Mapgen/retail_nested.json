@@ -727,10 +727,7 @@
         "C": [ { "item": "SUS_tailoring_materials", "chance": 30, "repeat": [ 1, 2 ] } ],
         "d": [ { "item": "SUS_mannequin_formal_mens", "chance": 30 } ],
         "e": [ { "item": "SUS_mannequin_dresses", "chance": 30 } ],
-        "B": [
-          { "item": "SUS_tailoring_tool_drawer", "chance": 30, "repeat": [ 0, 1 ] },
-          { "item": "SUS_tailoring_fasteners", "chance": 30, "repeat": [ 2, 6 ] }
-        ]
+        "B": [ { "item": "SUS_tailoring_tool_drawer", "chance": 30, "repeat": [ 0, 1 ] } ]
       }
     }
   },
@@ -856,10 +853,7 @@
           { "item": "shirts", "chance": 50 },
           { "item": "leather_shop_accessories", "chance": 50 }
         ],
-        "B": [
-          { "item": "SUS_tailoring_tool_drawer", "chance": 30, "repeat": [ 0, 1 ] },
-          { "item": "SUS_tailoring_fasteners", "chance": 30, "repeat": [ 2, 6 ] }
-        ]
+        "B": [ { "item": "SUS_tailoring_tool_drawer", "chance": 30, "repeat": [ 0, 1 ] } ]
       }
     }
   },
@@ -975,10 +969,7 @@
           { "item": "SUS_fur_tailoring_materials", "chance": 30, "repeat": [ 2, 6 ] }
         ],
         "d": [ { "item": "SUS_mannequin_fur", "chance": 50 } ],
-        "B": [
-          { "item": "SUS_tailoring_tool_drawer", "chance": 30, "repeat": [ 0, 1 ] },
-          { "item": "SUS_tailoring_fasteners", "chance": 30, "repeat": [ 2, 6 ] }
-        ]
+        "B": [ { "item": "SUS_tailoring_tool_drawer", "chance": 30, "repeat": [ 0, 1 ] } ]
       }
     }
   },
