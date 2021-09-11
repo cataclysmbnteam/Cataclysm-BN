@@ -34,7 +34,6 @@
       { "group": "trait_group_PAINRESIST", "prob": 10 },
       { "group": "trait_group_PROJUNK", "prob": 5 },
       { "trait": "DEFT", "prob": 10 },
-      { "trait": "DISRESISTANT", "prob": 10 },
       { "trait": "ADRENALINE", "prob": 10 },
       { "trait": "INFRESIST", "prob": 15 },
       { "trait": "MASOCHIST", "prob": 10 },
@@ -201,7 +200,7 @@
     "id": "trait_group_LIAR",
     "subtype": "distribution",
     "//": "NOTE: These traits should be used as conditionals to affect the difficulty of NPCs lying about the expertise they have.",
-    "traits": [ { "trait": "LIAR" }, { "trait": "TRUTHTELLER" } ]
+    "traits": [ { "trait": "LIAR" } ]
   },
   {
     "type": "trait_group",

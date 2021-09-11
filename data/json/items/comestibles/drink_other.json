@@ -65,7 +65,6 @@
     "spoils_in": "6 days 16 hours",
     "charges": 16,
     "fun": -1,
-    "flags": [ "FREEZERBURN" ],
     "phase": "liquid",
     "freezing_point": 25
   },
