@@ -56,7 +56,7 @@
     "item": "mirror",
     "location": "on_windshield",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "100 s", "using": [ [ "vehicle_screw", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "100 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "100 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
