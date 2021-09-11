@@ -23,7 +23,7 @@
     "charges": 1,
     "autolearn": [ [ "fabrication", 4 ] ],
     "book_learn": [ [ "pocket_firearms", 3 ], [ "manual_gun", 2 ], [ "recipe_bullets", 1 ], [ "textbook_anarch", 0 ] ],
-    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ] ], [ [ "sieve_steel", -1 ] ] ],
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ] ] ],
     "components": [
       [
         [ "gunpowder_shotgun", 1 ],

@@ -841,35 +841,6 @@
     }
   },
   {
-    "id": "sieve_primitive",
-    "sub": "sieve_steel",
-    "type": "TOOL",
-    "name": { "str": "wicker sieve" },
-    "description": "This is a primitive sieve constructed from woven strips of plant material.  Early sieves like this were used to sift grain, though the openings on this one are too small for that.",
-    "weight": "50 g",
-    "volume": "500 ml",
-    "price": 300,
-    "price_postapoc": 10,
-    "bashing": 1,
-    "material": [ "paper" ],
-    "symbol": ";",
-    "color": "light_gray"
-  },
-  {
-    "id": "sieve_steel",
-    "type": "TOOL",
-    "name": { "str": "sieve" },
-    "description": "This is no mere strainer for noodles; it's a sieve used to separate particles of certain sizes.  You could use this to do a really good job sifting flour, remove dust and soil from grain, or perhaps conduct gradiation tests for any civil engineers you might know.  This one has been constructed from steel mesh.",
-    "volume": "500 ml",
-    "weight": "318 g",
-    "price": 700,
-    "price_postapoc": 50,
-    "bashing": 2,
-    "material": [ "steel" ],
-    "symbol": ";",
-    "color": "dark_gray"
-  },
-  {
     "id": "still",
     "type": "TOOL",
     "name": { "str": "still" },

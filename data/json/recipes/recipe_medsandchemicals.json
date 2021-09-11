@@ -933,7 +933,7 @@
     "charges": 100,
     "time": "5 m",
     "autolearn": true,
-    "tools": [ [ [ "mortar_pestle", -1 ] ], [ [ "sieve_steel", -1 ] ] ],
+    "tools": [ [ [ "mortar_pestle", -1 ] ] ],
     "components": [ [ [ "chem_ammonium_nitrate_pellets", 100 ] ] ]
   },
   {
