@@ -14,6 +14,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "itype.h"
+#include "make_static.h"
 #include "map.h"
 #include "material.h"
 #include "npc.h"
@@ -169,7 +170,7 @@ void give_and_activate_bionic( player &p, bionic_id const &bioid )
     REQUIRE( bio.id == bioid );
 
     // turn on if possible
-    if( bio.id->toggled && !bio.powered ) {
+    if( bio.id->has_flag( STATIC( flag_str_id( "BIONIC_TOGGLED" ) ) ) && !bio.powered ) {
         const std::vector<itype_id> fuel_opts = bio.info().fuel_opts;
         if( !fuel_opts.empty() ) {
             p.set_value( fuel_opts.front(), "2" );

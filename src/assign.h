@@ -212,6 +212,65 @@ typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::typ
     return res;
 }
 
+/**
+ * Load map from JSON array of [key, value] pairs.
+ * Supports extend by pair and delete by key.
+ */
+template <typename T>
+bool assign_map_from_array( const JsonObject &jo, const std::string &name, T &val, bool = false )
+{
+    using K = typename T::key_type;
+    using V = typename T::mapped_type;
+
+    JsonObject add = jo.get_object( "extend" );
+    add.allow_omitted_members();
+    JsonObject del = jo.get_object( "delete" );
+    del.allow_omitted_members();
+
+    if( jo.has_array( name ) ) {
+        val.clear();
+
+        std::vector<std::pair<K, V>> tmp;
+        jo.get_raw( name )->read( tmp, true );
+        for( const auto &it : tmp ) {
+            val.insert( std::move( it ) );
+        }
+
+        if( add.has_member( name ) || del.has_member( name ) ) {
+            // ill-formed to (re)define a value and then extend/delete within same definition
+            jo.throw_error( "multiple assignment of value", name );
+        }
+
+        return true;
+    }
+
+    bool res = false;
+
+    if( add.has_array( name ) ) {
+        std::vector<std::pair<K, V>> tmp;
+        add.get_raw( name )->read( tmp, true );
+
+        for( const auto &it : tmp ) {
+            val[std::move( it.first )] = std::move( it.second );
+        }
+
+        res = true;
+    }
+
+    if( del.has_array( name ) ) {
+        std::vector<K> tmp;
+        del.get_raw( name )->read( tmp, true );
+
+        for( const auto &it : tmp ) {
+            val.erase( it );
+        }
+
+        res = true;
+    }
+
+    return res;
+}
+
 inline bool assign( const JsonObject &jo, const std::string &name, units::volume &val,
                     bool strict = false,
                     const units::volume lo = units::volume_min,
