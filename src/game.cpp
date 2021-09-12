@@ -449,6 +449,20 @@ void game::reload_tileset( [[maybe_unused]] const std::function<void( std::strin
     } catch( const std::exception &err ) {
         popup( _( "Loading the tileset failed: %s" ), err.what() );
     }
+	try {
+        overmap_tilecontext->reinit();
+        std::vector<mod_id> dummy;
+        overmap_tilecontext->load_tileset(
+            get_option<std::string>( "OVERMAP_TILES" ),
+            world_generator->active_world ? world_generator->active_world->info->active_mod_order : dummy,
+            /*precheck=*/false,
+            /*force=*/true,
+            /*pump_events=*/true
+        );
+        overmap_tilecontext->do_tile_loading_report( out );
+    } catch( const std::exception &err ) {
+        popup( _( "Loading the overmap tileset failed: %s" ), err.what() );
+    }
     g->reset_zoom();
     g->mark_main_ui_adaptor_resize();
 #endif // TILES
