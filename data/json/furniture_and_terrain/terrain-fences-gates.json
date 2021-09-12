@@ -834,7 +834,7 @@
     "color": "brown",
     "looks_like": "t_fencegate_o",
     "move_cost": 1,
-    "flags": [ "FLAMMABLE_ASH", "FLAT", "ROAD", "BURROWABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "ROAD", "BURROWABLE" ],
     "connects_to": "WOODFENCE",
     "close": "t_privacy_fencegate_c",
     "deconstruct": {
