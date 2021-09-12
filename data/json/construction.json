@@ -2955,12 +2955,7 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 3 ], [ "cooking", 2 ] ],
     "time": "90 m",
-    "qualities": [
-      [ { "id": "DIG", "level": 1 } ],
-      [ { "id": "HAMMER", "level": 2 } ],
-      [ { "id": "CUT", "level": 1 } ],
-      [ { "id": "SAW_W", "level": 1 } ]
-    ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "CUT", "level": 1 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "stick", 16 ], [ "2x4", 16 ] ], [ [ "rock", 8 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
