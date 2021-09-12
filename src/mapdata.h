@@ -100,6 +100,36 @@ struct lockpicking_open_result {
     std::string open_message;
 };
 
+struct pry_result {
+    // What terrain or furniture it will turn into when pried open
+    ter_id new_ter_type;
+    furn_id new_furn_type;
+    // Minimum prying quality required to pry open
+    int pry_quality;
+    // Multiplier for how much of an advantage is gained from using a better tool than the minimum
+    int pry_bonus_mult;
+    // Difficulty value used for roll
+    int difficulty;
+    // How much noise a successful prying attempt creates, if any
+    int noise;
+    // Does a successful pry attempt cause noise?
+    bool alarm;
+    // Does a failed pry attempt risk breaking it instead?
+    bool breakable;
+    // What terrain or furniture it will turn into if you break it
+    ter_id breakage_ter_type;
+    furn_id breakage_furn_type;
+    // Messages for succeeding or failing pry attempt, and breakage
+    std::string success_message;
+    std::string fail_message;
+    std::string breakage_message;
+    enum map_object_type {
+        furniture = 0,
+        terrain
+    };
+    bool load( const JsonObject &jsobj, const std::string &member, map_object_type obj_type );
+};
+
 /*
  * List of known flags, used in both terrain.json and furniture.json.
  * TRANSPARENT - Players and monsters can see through/past it. Also sets ter_t.transparent
