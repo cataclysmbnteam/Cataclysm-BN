@@ -3870,7 +3870,7 @@
     "difficulty": 7,
     "time": "3 h",
     "autolearn": true,
-    "book_learn": [ [ "manual_fabrication", 8 ], [ "textbook_fabrication", 6 ] ],
+    "book_learn": [ [ "manual_fabrication", 6 ], [ "textbook_fabrication", 6 ] ],
     "using": [ [ "blacksmithing_standard", 24 ], [ "steel_standard", 6 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
@@ -4449,7 +4449,7 @@
     "difficulty": 3,
     "time": "8 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_fabrication", 2 ], [ "textbook_mechanics", 3 ] ],
+    "book_learn": [ [ "textbook_fabrication", 2 ], [ "textbook_mechanics", 2 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 6 ] ], [ [ "pipe", 6 ] ], [ [ "nail", 12 ] ], [ [ "sheet_metal", 1 ] ] ]
   },
