@@ -234,10 +234,10 @@
     "looks_like": "helmet_larmor",
     "color": "green",
     "covers": [ "head", "eyes", "mouth" ],
-    "coverage": 90,
+    "coverage": 95,
     "encumbrance": 10,
-    "warmth": 20,
-    "material_thickness": 4,
+    "warmth": 10,
+    "material_thickness": 3,
     "environmental_protection": 4,
     "flags": [ "WATERPROOF", "STURDY" ]
   },
@@ -317,7 +317,7 @@
     "coverage": 85,
     "encumbrance": 10,
     "warmth": 10,
-    "material_thickness": 3,
+    "material_thickness": 4,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "STURDY" ]
   },
@@ -364,7 +364,7 @@
     "coverage": 85,
     "encumbrance": 20,
     "warmth": 10,
-    "material_thickness": 3,
+    "material_thickness": 4,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY" ]
   },
@@ -477,7 +477,7 @@
     "coverage": 80,
     "encumbrance": 10,
     "warmth": 10,
-    "material_thickness": 3,
+    "material_thickness": 4,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "STURDY" ]
   },
