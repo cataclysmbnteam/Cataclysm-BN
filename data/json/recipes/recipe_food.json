@@ -558,7 +558,6 @@
     "difficulty": 3,
     "book_learn": [ [ "cookbook_sushi", 3 ], [ "cookbook_eatyrway", 4 ] ],
     "time": "45 m",
-    "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "rag", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
     "batch_time_factors": [ 83, 5 ],
@@ -590,7 +589,6 @@
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
-    "batch_time_factors": [ 25, 2 ],
     "components": [
       [ [ "tofu", 4 ], [ "dry_tofu", 4 ] ],
       [ [ "dry_rice", 4 ], [ "sushi_rice", 4 ], [ "rice_cooked", 4 ] ],
