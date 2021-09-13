@@ -237,6 +237,33 @@
     "magazine_well": 1
   },
   {
+    "id": "test_battery_tool",
+    "type": "TOOL",
+    "name": "TEST tool that uses batteries.",
+    "description": "It can't be used, yet it is an invaluable implement in mysterious test recipes.",
+    "weight": "1000 g",
+    "volume": "5000 ml",
+    "price": 1000,
+    "material": "iron",
+    "symbol": ",",
+    "color": "light_gray",
+    "ammo": "battery",
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_minus_battery_cell",
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
+    ]
+  },
+  {
     "id": "test_jack_small",
     "type": "TOOL",
     "name": "TEST scissor jack",

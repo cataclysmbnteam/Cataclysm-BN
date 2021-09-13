@@ -11,6 +11,7 @@
 
 #include "calendar.h"
 #include "craft_command.h"
+#include "crafting.h"
 #include "map.h"
 #include "player.h"
 #include "veh_type.h"
@@ -138,7 +139,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
     }
 
     for( const auto &e : reqs.get_tools() ) {
-        who.consume_tools( who.select_tool_component( e, 1, map_inv ), 1 );
+        who.consume_tools( crafting::select_tool_component( e, 1, map_inv, &who ), 1 );
     }
 
     who.invalidate_crafting_inventory();
