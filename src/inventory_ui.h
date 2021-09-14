@@ -32,6 +32,9 @@ class string_input_popup;
 struct tripoint;
 class ui_adaptor;
 
+using excluded_stack = std::pair<const item *, int>;
+using excluded_stacks = std::map<const item *, int>;
+
 enum class navigation_mode : int {
     ITEM = 0,
     CATEGORY
@@ -105,6 +108,12 @@ class inventory_entry
         const item_location &any_item() const {
             assert( !locations.empty() );
             return locations.front();
+        }
+
+        /** Pointer to first item in relevant stack on character. */
+        const item *item_stack_on_character() const {
+            assert( !locations.empty() );
+            return locations.front().get_item();
         }
 
         size_t get_stack_size() const {
@@ -694,7 +703,6 @@ class inventory_iuse_selector : public inventory_multiselector
     private:
         GetStats get_stats;
         std::map<const item *, std::vector<iuse_location>> to_use;
-        const size_t max_chosen_count = std::numeric_limits<size_t>::max();
 };
 
 class inventory_drop_selector : public inventory_multiselector
@@ -711,8 +719,7 @@ class inventory_drop_selector : public inventory_multiselector
         void process_selected( int &count, const std::vector<inventory_entry *> &selected );
 
     private:
-        std::map<const item *, int> dropping;
-        size_t max_chosen_count;
+        excluded_stacks dropping;
 };
 
 #endif // CATA_SRC_INVENTORY_UI_H

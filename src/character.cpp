@@ -2628,7 +2628,7 @@ std::vector<item_location> Character::find_reloadables()
 
 units::mass Character::weight_carried() const
 {
-    return weight_carried_with_tweaks( {} );
+    return weight_carried_reduced_by( {} );
 }
 
 units::volume Character::volume_carried() const
@@ -2657,11 +2657,9 @@ int Character::best_nearby_lifting_assist( const tripoint &world_pos ) const
                      } );
 }
 
-units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) const
+units::mass Character::weight_carried_reduced_by( const excluded_stacks &without ) const
 {
     const std::map<const item *, int> empty;
-    const std::map<const item *, int> &without = tweaks.without_items ? tweaks.without_items->get() :
-            empty;
 
     // Worn items
     units::mass ret = 0_gram;
@@ -2672,8 +2670,7 @@ units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) c
     }
 
     // Items in inventory
-    const inventory &i = tweaks.replace_inv ? tweaks.replace_inv->get() : inv;
-    ret += i.weight_without( without );
+    ret += inv.weight_without( without );
 
     // Wielded item
     units::mass weaponweight = 0_gram;
@@ -2708,10 +2705,13 @@ units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) c
     return ret;
 }
 
-units::volume Character::volume_carried_with_tweaks( const item_tweaks &tweaks ) const
+units::volume Character::volume_carried_reduced_by( const excluded_stacks &without ) const
 {
-    const auto &i = tweaks.replace_inv ? tweaks.replace_inv->get() : inv;
-    return tweaks.without_items ? i.volume_without( *tweaks.without_items ) : i.volume();
+    if( without.empty() ) {
+        return inv.volume();
+    } else {
+        return inv.volume_without( without );
+    }
 }
 
 units::mass Character::weight_capacity() const
@@ -2764,7 +2764,7 @@ units::volume Character::volume_capacity() const
 }
 
 units::volume Character::volume_capacity_reduced_by(
-    const units::volume &mod, const std::map<const item *, int> &without_items ) const
+    const units::volume &mod, const excluded_stacks &without ) const
 {
     if( has_trait( trait_DEBUG_STORAGE ) ) {
         return units::volume_max;
@@ -2772,7 +2772,7 @@ units::volume Character::volume_capacity_reduced_by(
 
     units::volume ret = -mod;
     for( const auto &i : worn ) {
-        if( !without_items.count( &i ) ) {
+        if( !without.count( &i ) ) {
             ret += i.get_storage();
         }
     }
