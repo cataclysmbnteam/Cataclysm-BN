@@ -38,7 +38,7 @@
     "coverage": 90,
     "encumbrance": 12,
     "warmth": 20,
-    "material_thickness": 3,
+    "material_thickness": 2,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATERPROOF" ]
   },
@@ -81,7 +81,7 @@
     "coverage": 100,
     "encumbrance": 40,
     "warmth": 35,
-    "material_thickness": 4,
+    "material_thickness": 3,
     "environmental_protection": 8,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
@@ -103,10 +103,10 @@
     "color": "green",
     "covers": [ "feet" ],
     "coverage": 95,
-    "encumbrance": 14,
+    "encumbrance": 10,
     "warmth": 10,
-    "material_thickness": 4,
-    "environmental_protection": 3,
+    "material_thickness": 3,
+    "environmental_protection": 4,
     "flags": [ "STURDY" ]
   },
   {
@@ -141,7 +141,7 @@
     "coverage": 100,
     "encumbrance": 25,
     "warmth": 25,
-    "material_thickness": 4,
+    "material_thickness": 3,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
@@ -284,7 +284,7 @@
     "coverage": 95,
     "encumbrance": 18,
     "warmth": 25,
-    "material_thickness": 5,
+    "material_thickness": 4,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
