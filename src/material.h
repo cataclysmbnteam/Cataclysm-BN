@@ -43,6 +43,8 @@ class material_type
         int _density = 1;                             // relative to "powder", which is 1
         float _warmth_when_wet = 0.2f;                // Percentage of warmth kept when fully drenched
         float _specific_heat_liquid = 4.186;
+        // How resistant this material is to wind as a percentage - 0 to 100
+        cata::optional<int> _wind_resist;
         float _specific_heat_solid = 2.108;
         float _latent_heat = 334;
         int _freeze_point = 32; // Fahrenheit
@@ -99,6 +101,7 @@ class material_type
         float latent_heat() const;
         int freeze_point() const;
         int density() const;
+        cata::optional<int> wind_resist() const;
         bool edible() const;
         bool rotting() const;
         bool soft() const;

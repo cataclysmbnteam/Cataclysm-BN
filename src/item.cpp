@@ -6348,6 +6348,30 @@ bool item::is_irremovable() const
     return has_flag( flag_IRREMOVABLE );
 }
 
+int item::wind_resist() const
+{
+    std::vector<const material_type *> materials = made_of_types();
+    if( materials.empty() ) {
+        debugmsg( "Called item::wind_resist on an item (%s [%s]) made of nothing!", tname(), typeId() );
+        return 99;
+    }
+
+    int best = -1;
+    for( const material_type *mat : materials ) {
+        cata::optional<int> resistance = mat->wind_resist();
+        if( resistance && *resistance > best ) {
+            best = *resistance;
+        }
+    }
+
+    // Default to 99% effective
+    if( best == -1 ) {
+        return 99;
+    }
+
+    return best;
+}
+
 std::set<fault_id> item::faults_potential() const
 {
     std::set<fault_id> res;
