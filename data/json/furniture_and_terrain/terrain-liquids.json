@@ -263,9 +263,9 @@
     "color": "red",
     "move_cost": 4,
     "light_emitted": 50,
+    "heat_radiation": 3,
     "trap": "tr_lava",
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "DESTROY_ITEM", "USABLE_FIRE" ],
-    "//": "lava-seared moose meat? yes, please"
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "DESTROY_ITEM", "USABLE_FIRE" ]
   },
   {
     "type": "terrain",

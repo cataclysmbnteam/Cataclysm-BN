@@ -1563,7 +1563,7 @@ bool game::do_turn()
         overmap_npc_move();
     }
     if( calendar::once_every( 10_seconds ) ) {
-        for( const tripoint elem : m.get_furn_field_locations() ) {
+        for( const tripoint &elem : m.get_furn_field_locations() ) {
             const auto &furn = m.furn( elem ).obj();
             for( const emit_id &e : furn.emissions ) {
                 g->m.emit_field( elem, e );
