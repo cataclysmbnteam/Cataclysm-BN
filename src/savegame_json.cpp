@@ -3465,6 +3465,22 @@ static void deserialize( quality_requirement &value, JsonIn &jsin )
     jo.read( "level", value.level );
 }
 
+void iuse_location::serialize( JsonOut &jsout ) const
+{
+    jsout.start_array();
+    jsout.write( loc );
+    jsout.write( count );
+    jsout.end_array();
+}
+
+void iuse_location::deserialize( JsonIn &jsin )
+{
+    jsin.start_array();
+    jsin.read( loc );
+    jsin.read( count );
+    jsin.end_array();
+}
+
 // basecamp
 void basecamp::serialize( JsonOut &json ) const
 {

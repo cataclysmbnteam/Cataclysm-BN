@@ -32,6 +32,7 @@
 #include "flat_set.h"
 #include "game_constants.h"
 #include "inventory.h"
+#include "item_handling_util.h"
 #include "item.h"
 #include "item_location.h"
 #include "memory_fast.h"
@@ -74,9 +75,6 @@ struct pathfinding_settings;
 struct points_left;
 struct trap;
 template <typename E> struct enum_traits;
-
-using drop_location = std::pair<item_location, int>;
-using drop_locations = std::list<drop_location>;
 
 #define MAX_CLAIRVOYANCE 40
 

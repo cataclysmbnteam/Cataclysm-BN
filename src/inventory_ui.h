@@ -18,14 +18,15 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "input.h"
+#include "item_handling_util.h"
 #include "item_location.h"
 #include "memory_fast.h"
 #include "pimpl.h"
 #include "units.h"
-#include "item_category.h"
 
 class Character;
 class item;
+class item_category;
 class player;
 class string_input_popup;
 struct tripoint;
@@ -43,9 +44,6 @@ enum class scroll_direction : int {
 
 struct navigation_mode_data;
 struct inventory_input;
-
-using drop_location = std::pair<item_location, int>;
-using drop_locations = std::list<drop_location>;
 
 class inventory_entry
 {
@@ -678,11 +676,6 @@ class inventory_compare_selector : public inventory_multiselector
 
 // This and inventory_drop_selectors should probably both inherit from a higher-abstraction "action selector".
 // Should accept a function to calculate dummy values.
-
-struct iuse_location {
-    item_location loc;
-    size_t count;
-};
 
 class inventory_iuse_selector : public inventory_multiselector
 {

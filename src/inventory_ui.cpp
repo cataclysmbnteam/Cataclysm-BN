@@ -2100,7 +2100,7 @@ void inventory_iuse_selector::set_chosen_count( inventory_entry &entry, size_t c
         entry.chosen_count = std::min( std::min( count, max_chosen_count ), entry.get_available_count() );
         to_use[it].clear();
         if( entry.locations.size() == 1 ) {
-            to_use[it].push_back( iuse_location{ entry.locations[0], entry.chosen_count } );
+            to_use[it].push_back( iuse_location{ entry.locations[0], static_cast<int>( entry.chosen_count ) } );
         } else {
             for( size_t i = 0; i < entry.chosen_count; i++ ) {
                 to_use[it].push_back( iuse_location{ entry.locations[i], 1 } );
@@ -2247,7 +2247,7 @@ drop_locations inventory_drop_selector::execute()
 
     for( const std::pair<const item *const, int> &drop_pair : dropping ) {
         item_location loc( u, const_cast<item *>( drop_pair.first ) );
-        dropped_pos_and_qty.push_back( std::make_pair( loc, drop_pair.second ) );
+        dropped_pos_and_qty.emplace_back( loc, drop_pair.second );
     }
 
     return dropped_pos_and_qty;

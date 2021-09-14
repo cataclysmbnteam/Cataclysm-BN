@@ -2425,7 +2425,7 @@ std::list<item *> Character::get_dependent_worn_items( const item &it )
 
 void Character::drop( item_location loc, const tripoint &where )
 {
-    drop( { std::make_pair( loc, loc->count() ) }, where );
+    drop( { drop_location( loc, loc->count() ) }, where );
 }
 
 void Character::drop( const drop_locations &what, const tripoint &target,
@@ -2447,9 +2447,9 @@ void Character::drop( const drop_locations &what, const tripoint &target,
     activity.placement = target - pos();
 
     for( drop_location item_pair : what ) {
-        if( can_unwield( *item_pair.first ).success() ) {
-            activity.targets.push_back( item_pair.first );
-            activity.values.push_back( item_pair.second );
+        if( can_unwield( *item_pair.loc ).success() ) {
+            activity.targets.push_back( item_pair.loc );
+            activity.values.push_back( item_pair.count );
         }
     }
 }

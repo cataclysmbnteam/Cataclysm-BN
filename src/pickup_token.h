@@ -4,15 +4,13 @@
 
 #include <list>
 #include <vector>
+#include "item_handling_util.h"
 #include "item_location.h"
 #include "item_stack.h"
 #include "optional.h"
 
 class JsonIn;
 class JsonOut;
-
-using drop_location = std::pair<item_location, int>;
-using drop_locations = std::list<drop_location>;
 
 namespace pickup
 {

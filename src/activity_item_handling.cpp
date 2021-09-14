@@ -138,10 +138,6 @@ void cancel_aim_processing();
 //Generic activity: maximum search distance for zones, constructions, etc.
 const int ACTIVITY_SEARCH_DISTANCE = 60;
 
-// TODO: Deliberately unified with multidrop. Unify further.
-using drop_location = std::pair<item_location, int>;
-using drop_locations = std::list<std::pair<item_location, int>>;
-
 static bool same_type( const std::list<item> &items )
 {
     return std::all_of( items.begin(), items.end(), [&items]( const item & it ) {
@@ -424,8 +420,8 @@ static std::list<pickup::act_item> convert_to_items( Character &p, const drop_lo
     std::list<pickup::act_item> res;
 
     for( const drop_location &rec : drop ) {
-        const item_location loc = rec.first;
-        const int count = rec.second;
+        const item_location loc = rec.loc;
+        const int count = rec.count;
 
         if( !filter( loc ) ) {
             continue;
@@ -753,7 +749,7 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
     units::volume total_volume = 0_ml;
 
     for( const auto &it : items ) {
-        total_volume += it.first->volume() * it.second / it.first->count();
+        total_volume += it.loc->volume() * it.count / it.loc->count();
     }
     washing_requirements required = washing_requirements_for_volume( total_volume );
 
@@ -777,16 +773,16 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
     }
 
     for( auto &i : items ) {
-        item &it = *i.first;
-        if( i.second >= it.count() ) {
-            if( i.second > it.count() ) {
-                debugmsg( "Invalid item count to wash: tried %d, max %d", i.second, it.count() );
+        item &it = *i.loc;
+        if( i.count >= it.count() ) {
+            if( i.count > it.count() ) {
+                debugmsg( "Invalid item count to wash: tried %d, max %d", i.count, it.count() );
             }
             it.item_tags.erase( "FILTHY" );
         } else {
             item it2 = it;
-            it.charges -= i.second;
-            it2.charges = i.second;
+            it.charges -= i.count;
+            it2.charges = i.count;
             it2.item_tags.erase( "FILTHY" );
             std::list<item> tmp;
             tmp.push_back( it2 );

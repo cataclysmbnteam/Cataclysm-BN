@@ -86,6 +86,17 @@ static const flag_str_id flag_BIONIC_NPC_USABLE( "BIONIC_NPC_USABLE" );
 using item_filter = std::function<bool ( const item & )>;
 using item_location_filter = std::function<bool ( const item_location & )>;
 
+class inventory_filter_preset : public inventory_selector_preset
+{
+    public:
+        inventory_filter_preset( const item_location_filter &filter );
+
+        bool is_shown( const item_location &location ) const override;
+
+    private:
+        item_location_filter filter;
+};
+
 namespace
 {
 
@@ -1385,6 +1396,46 @@ drop_locations game_menus::inv::multidrop( player &p )
         return drop_locations();
     }
 
+    return inv_s.execute();
+}
+
+iuse_locations game_menus::inv::multiwash( Character &ch, int water, int cleanser, bool do_soft,
+        bool do_hard )
+{
+    const inventory_filter_preset preset( [do_soft, do_hard]( const item_location & location ) {
+        return location->has_flag( "FILTHY" ) && ( ( do_soft && location->is_soft() ) ||
+                ( do_hard && !location->is_soft() ) );
+    } );
+    auto make_raw_stats = [water, cleanser](
+                              const std::map<const item *, int> &items
+    ) {
+        units::volume total_volume = 0_ml;
+        for( const auto &it : items ) {
+            total_volume += it.first->volume() * it.second / it.first->count();
+        }
+        washing_requirements required = washing_requirements_for_volume( total_volume );
+        auto to_string = []( int val ) -> std::string {
+            if( val == INT_MAX )
+            {
+                return "inf";
+            }
+            return string_format( "%3d", val );
+        };
+        using stats = inventory_selector::stats;
+        return stats{ {
+                display_stat( _( "Water" ), required.water, water, to_string ),
+                display_stat( _( "Cleanser" ), required.cleanser, cleanser, to_string )
+            } };
+    };
+    inventory_iuse_selector inv_s( *ch.as_player(), _( "ITEMS TO CLEAN" ), preset, make_raw_stats );
+    inv_s.add_character_items( ch );
+    inv_s.add_nearby_items( PICKUP_RANGE );
+    inv_s.set_title( _( "Multiclean" ) );
+    inv_s.set_hint( _( "To clean x items, type a number before selecting." ) );
+    if( inv_s.empty() ) {
+        popup( std::string( _( "You have nothing to clean." ) ), PF_GET_KEY );
+        return {};
+    }
     return inv_s.execute();
 }
 

@@ -642,14 +642,17 @@ bool monexamine::give_items_to( monster &z )
     drop_locations items = game_menus::inv::multidrop( g->u );
     drop_locations to_move;
     for( const drop_location &itq : items ) {
-        const item &it = *itq.first;
-        units::volume item_volume = it.volume() * itq.second;
-        units::mass item_weight = it.weight() * itq.second;
+        item it_copy = *itq.loc;
+        if( it_copy.count_by_charges() ) {
+            it_copy.charges = itq.count;
+        }
+        units::volume item_volume = it_copy.volume();
+        units::mass item_weight = it_copy.weight();
         if( max_weight < item_weight ) {
-            add_msg( _( "The %1$s is too heavy for the %2$s to carry." ), it.tname(), pet_name );
+            add_msg( _( "The %1$s is too heavy for the %2$s to carry." ), it_copy.tname(), pet_name );
             continue;
         } else if( max_volume < item_volume ) {
-            add_msg( _( "The %1$s is too big to fit in the %2$s." ), it.tname(), storage.tname() );
+            add_msg( _( "The %1$s is too big to fit in the %2$s." ), it_copy.tname(), storage.tname() );
             continue;
         } else {
             max_weight -= item_weight;
