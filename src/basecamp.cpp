@@ -14,6 +14,7 @@
 #include "clzones.h"
 #include "color.h"
 #include "coordinate_conversions.h"
+#include "crafting.h"
 #include "debug.h"
 #include "faction_camp.h"
 #include "flat_set.h"
@@ -731,9 +732,10 @@ bool basecamp_action_components::choose_components()
     }
     // this may consume pseudo-resources from fake items
     for( const auto &it : req->get_tools() ) {
+        const Character *player_with_inventory = base_.by_radio ? nullptr : &get_avatar();
         comp_selection<tool_comp> ts =
-            g->u.select_tool_component( it, batch_size_, base_._inv, DEFAULT_HOTKEYS, true,
-                                        !base_.by_radio );
+            crafting::select_tool_component( it, batch_size_, base_._inv,
+                                             player_with_inventory, true );
         if( ts.use_from == cancel ) {
             return false;
         }

@@ -7,7 +7,7 @@
     "skill_used": "mechanics",
     "skills_required": [ "fabrication", 3 ],
     "difficulty": 5,
-    "time": "360 m",
+    "time": "3 h",
     "book_learn": [ [ "textbook_fabrication", 6 ], [ "textbook_mechanics", 5 ] ],
     "using": [ [ "welding_standard", 10 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],

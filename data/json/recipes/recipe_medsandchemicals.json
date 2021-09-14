@@ -933,7 +933,7 @@
     "charges": 100,
     "time": "5 m",
     "autolearn": true,
-    "tools": [ [ [ "mortar_pestle", -1 ] ], [ [ "sieve_steel", -1 ] ] ],
+    "tools": [ [ [ "mortar_pestle", -1 ] ] ],
     "components": [ [ [ "chem_ammonium_nitrate_pellets", 100 ] ] ]
   },
   {
@@ -1004,7 +1004,14 @@
     "skill_used": "cooking",
     "difficulty": 4,
     "time": "20 m",
-    "book_learn": [ [ "textbook_anarch", 6 ], [ "recipe_labchem", 4 ], [ "textbook_chemistry", 5 ], [ "textbook_armschina", 5 ] ],
+    "autolearn": [ [ "cooking", 5 ], [ "fabrication", 5 ] ],
+    "book_learn": [
+      [ "textbook_anarch", 6 ],
+      [ "recipe_labchem", 4 ],
+      [ "textbook_chemistry", 5 ],
+      [ "textbook_armschina", 5 ],
+      [ "book_icef", 5 ]
+    ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "components": [ [ [ "chem_saltpetre", 150 ] ], [ [ "chem_sulphur", 300 ] ], [ [ "charcoal", 10 ], [ "coal_lump", 10 ] ] ]
   },

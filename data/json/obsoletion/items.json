@@ -388,6 +388,15 @@
     "rating": "good"
   },
   {
+    "id": "bio_blaster",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Fusion Blaster Arm CBM" },
+    "description": "Your left arm has been replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray.  However, you are unable to use or carry two-handed items, and your strength limits what you can use with your one hand.",
+    "price": 220000,
+    "difficulty": 3
+  },
+  {
     "id": "bio_furnace",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -1904,81 +1913,6 @@
     "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK_ON" ]
   },
   {
-    "id": "tihar",
-    "looks_like": "ar15",
-    "type": "GUN",
-    "reload_noise_volume": 10,
-    "symbol": "(",
-    "color": "light_gray",
-    "name": { "str": "pneumatic assault rifle" },
-    "description": "A multistroke pneumatic rifle handcrafted from scrap.  It is very quiet and deadly.",
-    "price": 240000,
-    "price_postapoc": 12000,
-    "material": [ "steel", "wood" ],
-    "flags": [ "STR_RELOAD", "RELOAD_ONE", "NON-FOULING" ],
-    "skill": "rifle",
-    "ammo": "pebble",
-    "weight": "4211 g",
-    "volume": "2750 ml",
-    "bashing": 8,
-    "to_hit": -1,
-    "ranged_damage": 15,
-    "range": 15,
-    "dispersion": 75,
-    "durability": 7,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
-    "clip_size": 15,
-    "reload": 6000,
-    "loudness": 18,
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ]
-  },
-  {
-    "id": "helsing",
-    "looks_like": "ar15",
-    "type": "GUN",
-    "reload_noise_volume": 10,
-    "symbol": "(",
-    "color": "dark_gray",
-    "name": { "str": "pneumatic bolt driver" },
-    "description": "An eight-shot, revolving barrel, pneumatic bolt driver handcrafted from scrap.  It is very quiet and deadly.",
-    "price": 290000,
-    "price_postapoc": 12000,
-    "material": [ "steel", "wood" ],
-    "flags": [ "RELOAD_ONE", "STR_RELOAD", "NON-FOULING" ],
-    "skill": "rifle",
-    "ammo": "bolt",
-    "weight": "3110 g",
-    "volume": "3 L",
-    "bashing": 12,
-    "to_hit": -1,
-    "ranged_damage": 5,
-    "range": 20,
-    "dispersion": 30,
-    "durability": 7,
-    "clip_size": 8,
-    "reload": 6000,
-    "loudness": 22,
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ]
-  },
-  {
     "id": "pneumatic_shotgun",
     "looks_like": "pipe_double_shotgun",
     "type": "GUN",
@@ -3125,9 +3059,7 @@
     "copy-from": "heatpack",
     "name": { "str": "used heat pack" },
     "description": "This is a chemical heat pack.  It's used to treat sports injuries and heat food.  This one has been used and is chemically inert, rendering it useless.",
-    "price": 0,
-    "price_postapoc": 0,
-    "flags": [  ]
+    "price": 0
   },
   {
     "id": "bot_rifleturret",
@@ -3321,5 +3253,59 @@
     "bashing": 9,
     "cutting": 15,
     "flags": [ "SHEATH_AXE" ]
+  },
+  {
+    "id": "shed_stick",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": { "str": "wooden shed stick" },
+    "description": "This is a short thin flat wooden stick, used as a tool while weaving cloth with a frame loom.",
+    "weight": "300 g",
+    "volume": "250 ml",
+    "price": 100,
+    "price_postapoc": 50,
+    "bashing": 2,
+    "material": "wood",
+    "symbol": ";",
+    "color": "yellow"
+  },
+  {
+    "id": "sieve_primitive",
+    "sub": "sieve_steel",
+    "type": "TOOL",
+    "name": { "str": "wicker sieve" },
+    "description": "This is a primitive sieve constructed from woven strips of plant material.  Early sieves like this were used to sift grain, though the openings on this one are too small for that.",
+    "weight": "50 g",
+    "volume": "500 ml",
+    "price": 300,
+    "price_postapoc": 10,
+    "bashing": 1,
+    "material": [ "paper" ],
+    "symbol": ";",
+    "color": "light_gray"
+  },
+  {
+    "id": "sieve_steel",
+    "type": "TOOL",
+    "name": { "str": "sieve" },
+    "description": "This is no mere strainer for noodles; it's a sieve used to separate particles of certain sizes.  You could use this to do a really good job sifting flour, remove dust and soil from grain, or perhaps conduct gradiation tests for any civil engineers you might know.  This one has been constructed from steel mesh.",
+    "volume": "500 ml",
+    "weight": "318 g",
+    "price": 700,
+    "price_postapoc": 50,
+    "bashing": 2,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "dark_gray"
+  },
+  {
+    "result": "sieve_primitive",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "sieve_steel",
+    "type": "recipe",
+    "obsolete": true
   }
 ]

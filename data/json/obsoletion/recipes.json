@@ -2584,5 +2584,27 @@
     "type": "recipe",
     "result": "sheet_cotton",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "loom_frame",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "shed_stick",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rag",
+    "id_suffix": "from_sheet",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "neoprene",
+    "id_suffix": "from_sheet",
+    "obsolete": true
   }
 ]

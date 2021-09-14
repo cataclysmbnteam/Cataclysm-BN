@@ -264,7 +264,7 @@
     "material": "flesh",
     "volume": "250 ml",
     "vitamins": [ [ "vitA", 10 ], [ "vitC", 15 ], [ "calcium", 2 ], [ "iron", 8 ] ],
-    "flags": [ "EATEN_COLD", "FREEZERBURN" ]
+    "flags": [ "EATEN_COLD" ]
   },
   {
     "type": "COMESTIBLE",
@@ -533,7 +533,7 @@
     "price_postapoc": 200,
     "material": [ "wheat", "flesh", "milk" ],
     "volume": "250 ml",
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 5,
     "vitamins": [ [ "vitA", 15 ], [ "vitC", 4 ], [ "calcium", 32 ], [ "iron", 20 ], [ "vitB", 195 ] ]
   },
@@ -773,7 +773,7 @@
     "volume": "1 L",
     "charges": 2,
     "//": "One rice + one protein/veg = 2 servings",
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 5,
     "vitamins": [ [ "vitA", 1 ], [ "vitC", 8 ], [ "calcium", 1 ], [ "iron", 40 ], [ "vitB", 389 ] ]
   },
@@ -795,7 +795,7 @@
     "material": [ "veggy", "bean", "flesh" ],
     "volume": "375 ml",
     "charges": 2,
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 4,
     "vitamins": [ [ "vitA", 2 ], [ "vitC", 5 ], [ "calcium", 4 ], [ "iron", 10 ] ]
   },
@@ -884,7 +884,7 @@
     "material": [ "egg", "flesh" ],
     "volume": "250 ml",
     "charges": 3,
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 4,
     "vitamins": [ [ "vitA", 9 ], [ "vitC", 8 ], [ "calcium", 4 ], [ "iron", 39 ], [ "vitB", 410 ] ]
   },
@@ -948,7 +948,7 @@
     "material": [ "wheat", "flesh" ],
     "volume": "1750 ml",
     "charges": 8,
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 4,
     "vitamins": [ [ "vitA", 3 ], [ "vitC", 3 ], [ "calcium", 13 ], [ "iron", 4 ] ]
   },
@@ -975,7 +975,7 @@
     "primary_material": "processed_food",
     "volume": "2 L",
     "charges": 8,
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 15,
     "vitamins": [ [ "vitA", 5 ], [ "vitC", 19 ], [ "calcium", 22 ], [ "iron", 10 ] ]
   },

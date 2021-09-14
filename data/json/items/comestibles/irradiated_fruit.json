@@ -137,7 +137,7 @@
     "description": "An irradiated pear will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
     "proportional": { "price": 2.0 },
     "spoils_in": "0 hours",
-    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "flags": [ "SMOKABLE" ],
     "container": "bag_plastic"
   },
   {
@@ -198,7 +198,7 @@
     "description": "An irradiated watermelon will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
     "proportional": { "price": 2.0 },
     "spoils_in": "0 hours",
-    "flags": [ "EATEN_COLD", "FREEZERBURN", "SMOKABLE" ],
+    "flags": [ "EATEN_COLD", "SMOKABLE" ],
     "container": "bag_plastic"
   },
   {

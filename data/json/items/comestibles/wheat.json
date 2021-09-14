@@ -139,7 +139,7 @@
     "price_postapoc": 50,
     "material": [ "wheat", "milk" ],
     "volume": "250 ml",
-    "flags": [ "EATEN_HOT", "TRADER_AVOID", "FREEZERBURN" ],
+    "flags": [ "EATEN_HOT", "TRADER_AVOID" ],
     "fun": 5,
     "vitamins": [ [ "calcium", 10 ], [ "iron", 11 ] ]
   },

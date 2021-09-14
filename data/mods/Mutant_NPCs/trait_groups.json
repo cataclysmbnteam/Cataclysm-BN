@@ -240,7 +240,6 @@
       { "trait": "NIGHTVISION3", "prob": 50 },
       { "trait": "INFRARED", "prob": 50 },
       { "trait": "REGEN", "prob": 50 },
-      { "trait": "DISIMMUNE", "prob": 50 },
       { "trait": "INFRESIST", "prob": 50 },
       { "trait": "POISONOUS", "prob": 50 },
       { "trait": "ALCMET", "prob": 50 },
@@ -372,7 +371,6 @@
     "traits": [
       { "trait": "FASTHEALER", "prob": 50 },
       { "trait": "POISRESIST", "prob": 50 },
-      { "trait": "DISRESISTANT", "prob": 50 },
       { "trait": "SELFAWARE", "prob": 50 },
       { "trait": "MASOCHIST", "prob": 50 },
       { "trait": "ROBUST", "prob": 50 },
@@ -418,7 +416,6 @@
     "traits": [
       { "trait": "NIGHTVISION", "prob": 50 },
       { "trait": "THICKSKIN", "prob": 50 },
-      { "trait": "DISRESISTANT", "prob": 50 },
       { "trait": "FUR", "prob": 50 },
       { "trait": "HOOVES", "prob": 50 },
       { "trait": "HORNS", "prob": 50 },
@@ -457,7 +454,6 @@
       { "trait": "CHEMIMBALANCE", "prob": 50 },
       { "trait": "REGEN", "prob": 50 },
       { "trait": "RADIOGENIC", "prob": 50 },
-      { "trait": "DISIMMUNE", "prob": 50 },
       { "trait": "PARAIMMUNE", "prob": 50 },
       { "trait": "POISONOUS", "prob": 50 },
       { "trait": "SLIME_HANDS", "prob": 50 },
@@ -598,7 +594,6 @@
     "id": "trait_group_rat",
     "subtype": "collection",
     "traits": [
-      { "trait": "DISRESISTANT", "prob": 50 },
       { "trait": "NIGHTVISION2", "prob": 50 },
       { "trait": "INCISORS", "prob": 50 },
       { "trait": "FUR", "prob": 50 },
@@ -635,7 +630,6 @@
     "id": "trait_group_mouse",
     "subtype": "collection",
     "traits": [
-      { "trait": "DISRESISTANT", "prob": 50 },
       { "trait": "NIGHTVISION2", "prob": 50 },
       { "trait": "FELINE_FUR", "prob": 50 },
       { "trait": "TAIL_RAT", "prob": 50 },
@@ -779,7 +773,6 @@
     "traits": [
       { "trait": "THRESH_PLANT" },
       { "trait": "FLOWERS", "prob": 50 },
-      { "trait": "DISIMMUNE", "prob": 50 },
       { "trait": "SAPROPHAGE", "prob": 50 },
       { "trait": "ROOTS3", "prob": 50 },
       { "trait": "CHLOROMORPH", "prob": 50 }
@@ -881,7 +874,7 @@
         "prob": 10
       },
       { "distribution": [ { "trait": "PARKOUR" }, { "trait": "BADKNEES" } ], "prob": 10 },
-      { "distribution": [ { "trait": "LIAR" }, { "trait": "TRUTHTELLER" } ], "prob": 10 },
+      { "distribution": [ { "trait": "LIAR" } ], "prob": 10 },
       {
         "distribution": [
           { "trait": "MARTIAL_ARTS" },

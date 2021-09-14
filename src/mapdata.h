@@ -348,6 +348,8 @@ struct ter_t : map_data_common_t {
 
     trap_id trap; // The id of the trap located at this terrain. Limit one trap per tile currently.
 
+    int heat_radiation = 0; // In fire field intensity "units"
+
     ter_t();
 
     static size_t count();

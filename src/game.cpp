@@ -1563,7 +1563,7 @@ bool game::do_turn()
         overmap_npc_move();
     }
     if( calendar::once_every( 10_seconds ) ) {
-        for( const tripoint elem : m.get_furn_field_locations() ) {
+        for( const tripoint &elem : m.get_furn_field_locations() ) {
             const auto &furn = m.furn( elem ).obj();
             for( const emit_id &e : furn.emissions ) {
                 g->m.emit_field( elem, e );
@@ -1806,26 +1806,30 @@ int get_heat_radiation( const tripoint &location, bool direct )
     // Stored as intensity-distance pairs
     int temp_mod = 0;
     int best_fire = 0;
-    for( const tripoint &dest : g->m.points_in_radius( location, 6 ) ) {
+    Character &player_character = get_avatar();
+    map &here = get_map();
+    // Convert it to an int id once, instead of 139 times per turn
+    const field_type_id fd_fire_int = fd_fire.id();
+    for( const tripoint &dest : here.points_in_radius( location, 6 ) ) {
         int heat_intensity = 0;
 
-        maptile mt = g->m.maptile_at( dest );
+        maptile mt = here.maptile_at( dest );
 
-        int ffire = maptile_field_intensity( mt, fd_fire );
+        int ffire = maptile_field_intensity( mt, fd_fire_int );
         if( ffire > 0 ) {
             heat_intensity = ffire;
-        } else if( g->m.tr_at( dest ).loadid == tr_lava ) {
-            heat_intensity = 3;
+        } else  {
+            heat_intensity = mt.get_ter()->heat_radiation;
         }
         if( heat_intensity == 0 ) {
             // No heat source here
             continue;
         }
-        if( g->u.pos() == location ) {
-            if( !g->m.pl_line_of_sight( dest, -1 ) ) {
+        if( player_character.pos() == location ) {
+            if( !here.pl_line_of_sight( dest, -1 ) ) {
                 continue;
             }
-        } else if( !g->m.sees( location, dest, -1 ) ) {
+        } else if( !here.sees( location, dest, -1 ) ) {
             continue;
         }
         // Ensure fire_dist >= 1 to avoid divide-by-zero errors.

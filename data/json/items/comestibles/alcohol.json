@@ -1359,7 +1359,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 2,
-    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD", "FREEZERBURN" ],
+    "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "fun": 20,
     "vitamins": [ [ "vitA", 5 ], [ "vitC", 3 ], [ "calcium", 12 ], [ "iron", 2 ] ],
     "freezing_point": 12

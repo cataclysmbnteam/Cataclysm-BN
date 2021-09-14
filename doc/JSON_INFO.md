@@ -469,16 +469,16 @@ This section describes each json file and their contents. Each json has their ow
 
 | Identifier                  | Description
 |---                          |---
-| id                          | Unique ID. Must be one continuous word, use underscores if necessary.
-| name                        | In-game name displayed.
-| active                      | Whether the bionic is active or passive. (default: `passive`)
-| power_source                | Whether the bionic provides power. (default: `false`)
-| faulty                      | Whether it is a faulty type. (default: `false`)
-| act_cost                    | How many kJ it costs to activate the bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
-| deact_cost                  | How many kJ it costs to deactivate the bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
-| react_cost                  | How many kJ it costs over time to keep this bionic active, does nothing without a non-zero "time".  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
-| time                        | How long, when activated, between drawing cost. If 0, it draws power once. (default: `0`)
-| description                 | In-game description.
+| id                          | (_mandatory_) Unique ID. Must be one continuous word, use underscores if necessary.
+| name                        | (_mandatory_) In-game name displayed.
+| description                 | (_mandatory_) In-game description.
+| flags                       | (_optional_) A list of flags. See JSON_FLAGS.md for supported values.
+| act_cost                    | (_optional_) How many kJ it costs to activate the bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
+| deact_cost                  | (_optional_) How many kJ it costs to deactivate the bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
+| react_cost                  | (_optional_) How many kJ it costs over time to keep this bionic active, does nothing without a non-zero "time".  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
+| time                        | (_optional_) How long, when activated, between drawing cost. If 0, it draws power once. (default: `0`)
+| upgraded_bionic             | (_optional_) Bionic that can be upgraded by installing this one.
+| available_upgrades          | (_optional_) Upgrades available for this bionic, i.e. the list of bionics having this one referenced by `upgraded_bionic`.
 | encumbrance                 | (_optional_) A list of body parts and how much this bionic encumber them.
 | weight_capacity_bonus       | (_optional_) Bonus to weight carrying capacity in grams, can be negative.  Strings can be used - "5000 g" or "5 kg" (default: `0`)
 | weight_capacity_modifier    | (_optional_) Factor modifying base weight carrying capacity. (default: `1`)
@@ -500,22 +500,21 @@ This section describes each json file and their contents. Each json has their ow
 | power_gen_emission          | (_optional_) `emit_id` of the field emitted by this bionic when it produces energy. Emit_ids are defined in `emit.json`.
 | stat_bonus                  | (_optional_) List of passive stat bonus. Stat are designated as follow: "DEX", "INT", "STR", "PER".
 | enchantments                | (_optional_) List of enchantments applied by this CBM (see MAGIC.md for instructions on enchantment. NB: enchantments are not necessarily magic.)
-| learned_spells              | (_optional_) Map of {spell:level} you gain when installing this CBM, and lose when you uninstall this CBM. Spell classes are automatically gained.
+| learned_spells              | (_optional_) List of spells (with levels) you gain when installing this CBM, and lose when you uninstall this CBM. Spell classes are automatically gained.
+| fake_item                   | (_optional_) ID of fake item used by this bionic. Mandatory for gun and weapon bionics.
 
 ```C++
 {
     "id"           : "bio_batteries",
     "name"         : "Battery System",
     "active"       : false,
-    "power_source" : false,
-    "faulty"       : false,
     "act_cost"     : 0,
     "time"         : 1,
     "fuel_efficiency": 1,
     "stat_bonus": [ [ "INT", 2 ], [ "STR", 2 ] ],
     "fuel_options": [ "battery" ],
     "fuel_capacity": 500,
-    "encumbrance"  : [ [ "TORSO", 10 ], [ "ARM_L", 10 ], [ "ARM_R", 10 ], [ "LEG_L", 10 ], [ "LEG_R", 10 ], [ "FOOT_L", 10 ], [ "FOOT_R", 10 ] ],
+    "encumbrance"  : [ [ "torso", 10 ], [ "arm_l", 10 ], [ "arm_r", 10 ], [ "leg_l", 10 ], [ "leg_r", 10 ], [ "foot_l", 10 ], [ "foot_r", 10 ] ],
     "description"  : "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries. Use 'E' to consume batteries.",
     "canceled_mutations": ["HYPEROPIC"],
     "included_bionics": ["bio_blindfold"]
@@ -525,10 +524,11 @@ This section describes each json file and their contents. Each json has their ow
     "type": "bionic",
     "name": "Air Filtration System",
     "description": "Surgically implanted in your trachea is an advanced filtration system.  If toxins, or airborne diseases find their way into your windpipe, the filter will attempt to remove them.",
-    "occupied_bodyparts": [ [ "TORSO", 4 ], [ "MOUTH", 2 ] ],
+    "occupied_bodyparts": [ [ "torso", 4 ], [ "mouth", 2 ] ],
     "env_protec": [ [ "mouth", 7 ] ],
     "bash_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "cut_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
+    "learned_spells": [ [ "mint_breath", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
 }
 ```
@@ -649,6 +649,7 @@ When you sort your inventory by category, these are the categories that are disp
 | `dmg_adj`        | Adjectives used to describe damage states of a material.
 | `density`        | Density of a material.
 | `vitamins`       | Vitamins in a material. Usually overridden by item specific values.
+| `wind_resist`    | Percentage 0-100. How effective this material is at stopping wind from getting through. Higher values are better. If none of the materials an item is made of specify a value, a default of 99 is assumed.
 | `warmth_when_wet`      | Percentage of warmth retained when fully drenched. Default is 0.2.
 | `specific_heat_liquid` | Specific heat of a material when not frozen (J/(g K)). Default 4.186.
 | `specific_heat_solid`  | Specific heat of a material when frozen (J/(g K)). Default 2.108.

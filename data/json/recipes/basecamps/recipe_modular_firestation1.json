@@ -269,7 +269,7 @@
       "skills": [ [ "fabrication", 3 ], [ "cooking", 2 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "SAW_W" } ], [ { "id": "DIG" } ], [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "qualities": [ [ { "id": "SAW_W" } ], [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [ [ [ "2x4", 32 ], [ "stick", 32 ] ], [ [ "material_soil", 2 ] ], [ [ "rock", 56 ] ] ]
       }
     }

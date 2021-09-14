@@ -1690,7 +1690,7 @@ static bool can_drink_nectar( const player &p, const item &nectar )
 {
     return ( p.has_active_mutation( trait_PROBOSCIS )  ||
              p.has_active_mutation( trait_BEAK_HUM ) ) &&
-           ( ( p.max_stored_kcal() - p.get_stored_kcal() ) <
+           ( ( p.max_stored_kcal() - p.get_stored_kcal() ) >
              nectar.get_comestible()->default_nutrition.kcal ) &&
            ( !( p.wearing_something_on( bodypart_id( "mouth" ) ) ) );
 }
@@ -1740,7 +1740,7 @@ void iexamine::flower_poppy( player &p, const tripoint &examp )
     }
     // TODO: Get rid of this section and move it to eating
     // Two y/n prompts is just too much
-    item poppy( "poppy_nectar", calendar::turn, 1 );
+    item poppy( "nectar", calendar::turn, 1 );
     if( can_drink_nectar( p, poppy ) ) {
         if( !query_yn( _( "You feel woozy as you explore the %s. Drink?" ),
                        g->m.furnname( examp ) ) ) {

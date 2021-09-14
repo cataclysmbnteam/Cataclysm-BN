@@ -39,11 +39,11 @@
     "looks_like": "armguard_hard",
     "color": "green",
     "covers": [ "arms" ],
-    "coverage": 90,
+    "coverage": 95,
     "encumbrance": 10,
     "warmth": 10,
     "material_thickness": 3,
-    "environmental_protection": 2,
+    "environmental_protection": 4,
     "flags": [ "STURDY", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
   },
   {

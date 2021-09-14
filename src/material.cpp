@@ -68,6 +68,7 @@ void material_type::load( const JsonObject &jsobj, const std::string & )
     mandatory( jsobj, was_loaded, "density", _density );
 
     optional( jsobj, was_loaded, "warmth_when_wet", _warmth_when_wet );
+    optional( jsobj, was_loaded, "wind_resist", _wind_resist );
 
     optional( jsobj, was_loaded, "specific_heat_liquid", _specific_heat_liquid );
     optional( jsobj, was_loaded, "specific_heat_solid", _specific_heat_solid );
@@ -126,6 +127,11 @@ void material_type::check() const
     }
     if( !item::type_is_defined( _repaired_with ) ) {
         debugmsg( "invalid \"repaired_with\" %s for %s.", _repaired_with.c_str(), id.c_str() );
+    }
+
+    if( _wind_resist && ( *_wind_resist > 100 || *_wind_resist < 0 ) ) {
+        debugmsg( "Wind resistance outside of range (100%% to 0%%, is %d%%) for %s.", *_wind_resist,
+                  id.str() );
     }
     for( auto &ca : _compact_accepts ) {
         if( !ca.is_valid() ) {
@@ -236,6 +242,11 @@ int material_type::freeze_point() const
 int material_type::density() const
 {
     return _density;
+}
+
+cata::optional<int> material_type::wind_resist() const
+{
+    return _wind_resist;
 }
 
 bool material_type::edible() const

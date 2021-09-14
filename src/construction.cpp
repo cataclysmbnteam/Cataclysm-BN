@@ -1158,7 +1158,7 @@ void construct::done_grave( const tripoint &p )
     g->m.destroy_furn( p, true );
 }
 
-static vpart_id vpart_from_item( const std::string &item_id )
+static vpart_id vpart_from_item( const itype_id &item_id )
 {
     for( const auto &e : vpart_info::all() ) {
         const vpart_info &vp = e.second;
@@ -1190,18 +1190,26 @@ void construct::done_vehicle( const tripoint &p )
         name = _( "Car" );
     }
 
-    vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), p, 270, 0, 0 );
+    map &m = get_map();
+    avatar &u = get_avatar();
+
+    vehicle *veh = m.add_vehicle( vproto_id( "none" ), p, 270, 0, 0 );
 
     if( !veh ) {
         debugmsg( "error constructing vehicle" );
         return;
     }
     veh->name = name;
-    veh->install_part( point_zero, vpart_from_item( g->u.lastconsumed ) );
+    if( u.has_trait( trait_DEBUG_HS ) ) {
+        // TODO: Allow DEBUG_HS to consume items that don't exist
+        veh->install_part( point_zero, vpart_id( "frame_vertical_2" ) );
+    } else {
+        veh->install_part( point_zero, vpart_from_item( u.lastconsumed ) );
+    }
 
     // Update the vehicle cache immediately,
     // or the vehicle will be invisible for the first couple of turns.
-    g->m.add_vehicle_to_cache( veh );
+    m.add_vehicle_to_cache( veh );
 }
 
 void construct::done_deconstruct( const tripoint &p )

@@ -1206,6 +1206,7 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "trap", trap_id_str );
 
     optional( jo, was_loaded, "light_emitted", light_emitted );
+    optional( jo, was_loaded, "heat_radiation", heat_radiation );
 
     load_symbol( jo );
 

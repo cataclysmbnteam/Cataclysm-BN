@@ -3128,8 +3128,8 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     if( !bid->encumbrance.empty() ) {
         info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Encumbrance</bold>: " ),
                                   iteminfo::no_newline ) );
-        for( const auto &element : bid->encumbrance ) {
-            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
+        for( const std::pair< const bodypart_str_id, int > element : sorted_lex( bid->encumbrance ) ) {
+            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first->token, 1 ),
                                       " <num> ", iteminfo::no_newline, element.second ) );
         }
     }
@@ -3138,7 +3138,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "<bold>Environmental Protection</bold>: " ),
                                   iteminfo::no_newline ) );
-        for( const std::pair< const bodypart_str_id, size_t > element : sorted_lex( bid->env_protec ) ) {
+        for( const std::pair< const bodypart_str_id, int > element : sorted_lex( bid->env_protec ) ) {
             info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first->token, 1 ),
                                       " <num> ", iteminfo::no_newline, element.second ) );
         }
@@ -3148,7 +3148,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "<bold>Bash Protection</bold>: " ),
                                   iteminfo::no_newline ) );
-        for( const std::pair< const bodypart_str_id, size_t > element : sorted_lex( bid->bash_protec ) ) {
+        for( const std::pair< const bodypart_str_id, int > element : sorted_lex( bid->bash_protec ) ) {
             info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first->token, 1 ),
                                       " <num> ", iteminfo::no_newline, element.second ) );
         }
@@ -3158,7 +3158,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "<bold>Cut Protection</bold>: " ),
                                   iteminfo::no_newline ) );
-        for( const std::pair< const bodypart_str_id, size_t > element : sorted_lex( bid->cut_protec ) ) {
+        for( const std::pair< const bodypart_str_id, int > element : sorted_lex( bid->cut_protec ) ) {
             info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first->token, 1 ),
                                       " <num> ", iteminfo::no_newline, element.second ) );
         }
@@ -6346,6 +6346,30 @@ bool item::is_faulty() const
 bool item::is_irremovable() const
 {
     return has_flag( flag_IRREMOVABLE );
+}
+
+int item::wind_resist() const
+{
+    std::vector<const material_type *> materials = made_of_types();
+    if( materials.empty() ) {
+        debugmsg( "Called item::wind_resist on an item (%s [%s]) made of nothing!", tname(), typeId() );
+        return 99;
+    }
+
+    int best = -1;
+    for( const material_type *mat : materials ) {
+        cata::optional<int> resistance = mat->wind_resist();
+        if( resistance && *resistance > best ) {
+            best = *resistance;
+        }
+    }
+
+    // Default to 99% effective
+    if( best == -1 ) {
+        return 99;
+    }
+
+    return best;
 }
 
 std::set<fault_id> item::faults_potential() const
