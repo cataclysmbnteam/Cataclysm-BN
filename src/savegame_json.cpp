@@ -213,15 +213,7 @@ void player_activity::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
     data.allow_omitted_members();
-    std::string tmptype;
-    int tmppos = 0;
-    if( !data.read( "type", tmptype ) ) {
-        // Then it's a legacy save.
-        int tmp_type_legacy = data.get_int( "type" );
-        deserialize_legacy_type( tmp_type_legacy, type );
-    } else {
-        type = activity_id( tmptype );
-    }
+    data.read( "type", type );
 
     if( type.is_null() ) {
         return;
@@ -237,14 +229,10 @@ void player_activity::deserialize( JsonIn &jsin )
         type = activity_id( "ACT_MIGRATION_CANCEL" );
     }
 
-    if( !data.read( "position", tmppos ) ) {
-        tmppos = INT_MIN;  // If loading a save before position existed, hope.
-    }
-
     data.read( "actor", actor );
     data.read( "moves_left", moves_left );
     data.read( "index", index );
-    position = tmppos;
+    data.read( "position", position );
     data.read( "coords", coords );
     data.read( "coord_set", coord_set );
     data.read( "name", name );
