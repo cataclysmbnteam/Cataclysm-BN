@@ -60,7 +60,6 @@
 #endif
 
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
-static const activity_id ACT_DROP( "ACT_DROP" );
 static const activity_id ACT_WEAR( "ACT_WEAR" );
 
 static const trait_id trait_DEBUG_STORAGE( "DEBUG_STORAGE" );
@@ -1268,17 +1267,8 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
         } else {
             // important if item is worn
             if( g->u.can_unwield( g->u.i_at( idx ) ).success() ) {
-                g->u.assign_activity( ACT_DROP );
-                g->u.activity.placement = squares[destarea].off;
-
-                // incase there is vehicle cargo space at dest but the player wants to drop to ground
-                if( !to_vehicle ) {
-                    g->u.activity.str_values.push_back( "force_ground" );
-                }
-
-                g->u.activity.targets.push_back( item_location( g->u, &g->u.i_at( idx ) ) );
-                g->u.activity.values.push_back( amount_to_move );
-
+                drop_locations to_move = { drop_location( item_location( g->u, &g->u.i_at( idx ) ), amount_to_move ) };
+                g->u.assign_activity( drop_activity_actor( g->u, to_move, !to_vehicle, squares[destarea].off ) );
                 // exit so that the activity can be carried out
                 exit = true;
             }

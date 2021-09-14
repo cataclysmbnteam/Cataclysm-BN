@@ -95,9 +95,7 @@
 
 struct dealt_projectile_attack;
 
-static const activity_id ACT_DROP( "ACT_DROP" );
 static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
-static const activity_id ACT_STASH( "ACT_STASH" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
@@ -2431,8 +2429,6 @@ void Character::drop( item_location loc, const tripoint &where )
 void Character::drop( const drop_locations &what, const tripoint &target,
                       bool stash )
 {
-    const activity_id type =  stash ? ACT_STASH : ACT_DROP;
-
     if( what.empty() ) {
         return;
     }
@@ -2443,14 +2439,10 @@ void Character::drop( const drop_locations &what, const tripoint &target,
         return;
     }
 
-    assign_activity( type );
-    activity.placement = target - pos();
-
-    for( drop_location item_pair : what ) {
-        if( can_unwield( *item_pair.loc ).success() ) {
-            activity.targets.push_back( item_pair.loc );
-            activity.values.push_back( item_pair.count );
-        }
+    if( stash ) {
+        assign_activity( stash_activity_actor( *this, what, target - pos() ) );
+    } else {
+        assign_activity( drop_activity_actor( *this, what, false, target - pos() ) );
     }
 }
 

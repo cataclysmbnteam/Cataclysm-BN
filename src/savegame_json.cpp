@@ -84,6 +84,7 @@
 #include "optional.h"
 #include "options.h"
 #include "overmapbuffer.h"
+#include "pickup_token.h"
 #include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
@@ -3466,6 +3467,24 @@ void iuse_location::deserialize( JsonIn &jsin )
     jsin.start_array();
     jsin.read( loc );
     jsin.read( count );
+    jsin.end_array();
+}
+
+void pickup::act_item::serialize( JsonOut &jsout ) const
+{
+    jsout.start_array();
+    jsout.write( loc );
+    jsout.write( count );
+    jsout.write( consumed_moves );
+    jsout.end_array();
+}
+
+void pickup::act_item::deserialize( JsonIn &jsin )
+{
+    jsin.start_array();
+    jsin.read( loc );
+    jsin.read( count );
+    jsin.read( consumed_moves );
     jsin.end_array();
 }
 

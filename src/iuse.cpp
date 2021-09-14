@@ -136,7 +136,6 @@ static const activity_id ACT_PRY_NAILS( "ACT_PRY_NAILS" );
 static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
 static const activity_id ACT_SHAVE( "ACT_SHAVE" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
-static const activity_id ACT_WASH( "ACT_WASH" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_antibiotic( "antibiotic" );
@@ -9518,12 +9517,7 @@ int wash_items( player *p, bool soft_items, bool hard_items )
     required.time = required.time * ( 10 - helpers.size() ) / 10;
 
     // Assign the activity values.
-    p->assign_activity( ACT_WASH, required.time );
-
-    for( iuse_location iloc : to_clean ) {
-        p->activity.targets.push_back( iloc.loc );
-        p->activity.values.push_back( iloc.count );
-    }
+    p->assign_activity( wash_activity_actor( to_clean, required.time ) );
 
     return 0;
 }
