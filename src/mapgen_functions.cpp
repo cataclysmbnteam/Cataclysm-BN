@@ -479,7 +479,7 @@ void mapgen_spider_pit( mapgendata &dat )
                     true, dat.when() );
     // Next, place webs and sinkholes
     for( int i = 0; i < 4; i++ ) {
-        point p( rng( 3, SEEX * 2 - 4 ), rng( 3, SEEY * 2 - 4 ) );
+        point p{ rng( 3, SEEX * 2 - 4 ), rng( 3, SEEY * 2 - 4 ) };
         if( i == 0 ) {
             m->ter_set( p, t_slope_down );
         } else {
@@ -1936,7 +1936,7 @@ void mapgen_cavern( mapgendata &dat )
     // Number of pillars
     int rn = rng( 0, 2 ) * rng( 0, 3 ) + rng( 0, 1 );
     for( int n = 0; n < rn; n++ ) {
-        point p( rng( 5, SEEX * 2 - 6 ), rng( 5, SEEY * 2 - 6 ) );
+        point p{ rng( 5, SEEX * 2 - 6 ), rng( 5, SEEY * 2 - 6 ) };
         for( int i = p.x - 1; i <= p.x + 1; i++ ) {
             for( int j = p.y - 1; j <= p.y + 1; j++ ) {
                 m->ter_set( point( i, j ), t_rock );

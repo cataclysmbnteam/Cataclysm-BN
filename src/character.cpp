@@ -9806,7 +9806,7 @@ void Character::place_corpse( const tripoint &om_target )
 {
     tinymap bay;
     bay.load( tripoint( om_target.x * 2, om_target.y * 2, om_target.z ), false );
-    point fin( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEX * 2 - 2 ) );
+    point fin{ rng( 1, SEEX * 2 - 2 ), rng( 1, SEEX * 2 - 2 ) };
     // This makes no sense at all. It may find a random tile without furniture, but
     // if the first try to find one fails, it will go through all tiles of the map
     // and essentially select the last one that has no furniture.

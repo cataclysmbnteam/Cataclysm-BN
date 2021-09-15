@@ -920,7 +920,7 @@ class jmapgen_sign : public jmapgen_piece
             }
         }
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
-            const point r( x.get(), y.get() );
+            const point r{ x.get(), y.get() };
             dat.m.furn_set( r, f_null );
             dat.m.furn_set( r, furn_str_id( "f_sign" ) );
 
@@ -973,7 +973,7 @@ class jmapgen_graffiti : public jmapgen_piece
             }
         }
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
-            const point r( x.get(), y.get() );
+            const point r{ x.get(), y.get() };
 
             std::string graffiti;
 
@@ -1020,7 +1020,7 @@ class jmapgen_vending_machine : public jmapgen_piece
             }
         }
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
-            point r{x.get(), y.get()};
+            point r{ x.get(), y.get() };
             dat.m.furn_set( r, f_null );
             dat.m.place_vending( r, item_group, reinforced );
         }
@@ -1040,7 +1040,7 @@ class jmapgen_toilet : public jmapgen_piece
             amount( jsi, "amount", 0, 0 ) {
         }
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
-            const point r( x.get(), y.get() );
+            const point r{ x.get(), y.get() };
             const int charges = amount.get();
             dat.m.furn_set( r, f_null );
             if( charges == 0 ) {
@@ -1074,7 +1074,7 @@ class jmapgen_gaspump : public jmapgen_piece
             }
         }
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
-            const point r( x.get(), y.get() );
+            const point r{ x.get(), y.get() };
             int charges = amount.get();
             dat.m.furn_set( r, f_null );
             if( charges == 0 ) {
@@ -1555,7 +1555,7 @@ class jmapgen_computer : public jmapgen_piece
             }
         }
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
-            const point r( x.get(), y.get() );
+            const point r{ x.get(), y.get() };
             dat.m.ter_set( r, t_console );
             dat.m.furn_set( r, f_null );
             computer *cpu = dat.m.add_computer( tripoint( r, dat.m.get_abs_sub().z ), name.translated(),
@@ -2645,11 +2645,10 @@ bool jmapgen_setmap::apply( mapgendata &dat, const point &offset ) const
             }
             break;
             case JMAPGEN_SETMAP_SQUARE_TRAP: {
-                const point c( x_get(), y_get() );
-                const int cx2 = x2_get();
-                const int cy2 = y2_get();
-                for( int tx = c.x; tx <= cx2; tx++ ) {
-                    for( int ty = c.y; ty <= cy2; ty++ ) {
+                const point c{ x_get(), y_get() };
+                const point c2{ x2_get(), y2_get() };
+                for( int tx = c.x; tx <= c2.x; tx++ ) {
+                    for( int ty = c.y; ty <= c2.y; ty++ ) {
                         // TODO: the trap_id should be stored separately and not be wrapped in an jmapgen_int
                         mtrap_set( &m, point( tx, ty ), trap_id( val.get() ) );
                     }
@@ -5126,7 +5125,7 @@ void map::draw_triffid( mapgendata &dat )
             // Spawn a monster in there
             if( step > 2 ) { // First couple of chambers are safe
                 int monrng = rng( 1, 25 );
-                point spawn( node2 + point( rng( 0, 3 ), rng( 0, 3 ) ) );
+                point spawn( node2 + point{ rng( 0, 3 ), rng( 0, 3 ) } );
                 if( monrng <= 24 ) {
                     place_spawns( GROUP_TRIFFID_OUTER, 1, node2,
                                   node2 + point( 3, 3 ), 1, true );
@@ -6009,7 +6008,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
         }
     }
 
-    point trap( rng( p1.x + 1, p2.x - 1 ), rng( p1.y + 1, p2.y - 1 ) );
+    point trap{ rng( p1.x + 1, p2.x - 1 ), rng( p1.y + 1, p2.y - 1 ) };
     switch( random_entry( valid_rooms ) ) {
         case room_closet:
             m->place_items( item_group_id( "cleaning" ), 80, p1, p2, false,

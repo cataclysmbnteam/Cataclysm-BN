@@ -3004,8 +3004,7 @@ void overmap::place_cities()
 
         // TODO: put cities closer to the edge when they can span overmaps
         // don't draw cities across the edge of the map, they will get clipped
-        point c( rng( size - 1, OMAPX - size ), rng( size - 1, OMAPY - size ) );
-        const tripoint p( c, 0 );
+        const tripoint p{ rng( size - 1, OMAPX - size ), rng( size - 1, OMAPY - size ), 0 };
 
         if( ter( p ) == settings->default_oter ) {
             placement_attempts = 0;
@@ -4209,9 +4208,10 @@ bool overmap::place_special_attempt( overmap_special_batch &enabled_specials,
                                      const point &sector, const int sector_width, const bool place_optional,
                                      const bool must_be_unexplored )
 {
-    const point p2( sector );
-
-    const tripoint p( rng( p2.x, p2.x + sector_width - 1 ), rng( p2.y, p2.y + sector_width - 1 ), 0 );
+    const tripoint p{
+        rng( sector.x, sector.x + sector_width - 1 ),
+        rng( sector.y, sector.y + sector_width - 1 ),
+        0};
     const city &nearest_city = get_nearest_city( p );
 
     std::shuffle( enabled_specials.begin(), enabled_specials.end(), rng_get_engine() );

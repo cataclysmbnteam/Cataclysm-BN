@@ -229,7 +229,7 @@ static bool mx_house_wasp( map &m, const tripoint &loc )
     }
     const int num_pods = rng( 8, 12 );
     for( int i = 0; i < num_pods; i++ ) {
-        const point pod( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ) );
+        const point pod{ rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ) };
         point non;
         while( non.x == 0 && non.y == 0 ) {
             non.x = rng( -1, 1 );
@@ -288,7 +288,7 @@ static bool mx_house_spider( map &m, const tripoint &loc )
 
 static bool mx_helicopter( map &m, const tripoint &abs_sub )
 {
-    point c( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ) );
+    point c{ rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ) };
 
     for( int x = 0; x < SEEX * 2; x++ ) {
         for( int y = 0; y < SEEY * 2; y++ ) {
@@ -482,7 +482,7 @@ static bool mx_military( map &m, const tripoint & )
     }
     int num_monsters = rng( 0, 3 );
     for( int i = 0; i < num_monsters; i++ ) {
-        point m2( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ) );
+        point m2{ rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ) };
         m.place_spawns( GROUP_NETHER_CAPTURED, 1, m2, m2, 1, true );
     }
     m.place_spawns( GROUP_MAYBE_MIL, 2, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
@@ -510,7 +510,7 @@ static bool mx_science( map &m, const tripoint & )
     }
     int num_monsters = rng( 0, 3 );
     for( int i = 0; i < num_monsters; i++ ) {
-        point m2( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ) );
+        point m2{ rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ) };
         m.place_spawns( GROUP_NETHER_CAPTURED, 1, m2, m2, 1, true );
     }
     m.place_items( item_group_id( "rare" ), 45, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true,
@@ -547,7 +547,7 @@ static bool mx_collegekids( map &m, const tripoint & )
     }
     int num_monsters = rng( 0, 3 );
     for( int i = 0; i < num_monsters; i++ ) {
-        point m2( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ) );
+        point m2{ rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ) };
         m.place_spawns( GROUP_NETHER_CAPTURED, 1, m2, m2, 1, true );
     }
 
@@ -909,7 +909,7 @@ static bool mx_drugdeal( map &m, const tripoint &abs_sub )
     }
     int num_monsters = rng( 0, 3 );
     for( int i = 0; i < num_monsters; i++ ) {
-        point m2( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ) );
+        point m2{ rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ) };
         m.place_spawns( GROUP_NETHER_CAPTURED, 1, m2, m2, 1, true );
     }
 
@@ -1527,7 +1527,7 @@ static bool mx_crater( map &m, const tripoint &abs_sub )
 {
     int size = rng( 2, 6 );
     int size_squared = size * size;
-    point p( rng( size, SEEX * 2 - 1 - size ), rng( size, SEEY * 2 - 1 - size ) );
+    point p{ rng( size, SEEX * 2 - 1 - size ), rng( size, SEEY * 2 - 1 - size ) };
     for( int i = p.x - size; i <= p.x + size; i++ ) {
         for( int j = p.y - size; j <= p.y + size; j++ ) {
             //If we're using circular distances, make circular craters
@@ -1627,8 +1627,8 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
         //Lava seams originating from the portal
         case 5: {
             if( abs_sub.z <= 0 ) {
-                point p1( rng( 0,    SEEX     - 3 ), rng( 0,    SEEY     - 3 ) );
-                point p2( rng( SEEX, SEEX * 2 - 3 ), rng( SEEY, SEEY * 2 - 3 ) );
+                point p1{ rng( 0, SEEX - 3 ), rng( 0, SEEY - 3 ) };
+                point p2{ rng( SEEX, SEEX * 2 - 3 ), rng( SEEY, SEEY * 2 - 3 ) };
                 // Pick a random cardinal direction to also spawn lava in
                 // This will make the lava a single connected line, not just on diagonals
                 static const std::array<direction, 4> possibilities = { { direction::EAST, direction::WEST, direction::NORTH, direction::SOUTH } };
@@ -1677,7 +1677,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
                 m.place_spawns( GROUP_MI_GO_CAMP_OM, 30, loc.xy() + point( -5, -5 ), loc.xy() + point( 5, 5 ), 1,
                                 true );
             }
-            const point pos( p + point( rng( -5, 5 ), rng( -5, 5 ) ) );
+            const point pos{ p + point( rng( -5, 5 ), rng( -5, 5 ) ) };
             circle( &m, ter_id( "t_wall_resin" ), pos, 6 );
             rough_circle( &m, ter_id( "t_floor_resin" ), pos, 5 );
             break;
@@ -1688,7 +1688,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
             artifact_natural_property prop =
                 static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) );
             m.create_anomaly( portal_location, prop );
-            m.spawn_natural_artifact( p + tripoint( rng( -1, 1 ), rng( -1, 1 ), abs_sub.z ), prop );
+            m.spawn_natural_artifact( p + tripoint{ rng( -1, 1 ), rng( -1, 1 ), abs_sub.z }, prop );
             break;
         }
     }

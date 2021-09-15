@@ -5232,7 +5232,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_FATIGUE: {
                 p->add_msg_if_player( m_warning, _( "The fabric of space seems to decay." ) );
-                point p2( rng( p->posx() - 3, p->posx() + 3 ), rng( p->posy() - 3, p->posy() + 3 ) );
+                point p2{ rng( p->posx() - 3, p->posx() + 3 ), rng( p->posy() - 3, p->posy() + 3 ) };
                 g->m.add_field( {p2, p->posz()}, fd_fatigue, rng( 1, 2 ) );
             }
             break;

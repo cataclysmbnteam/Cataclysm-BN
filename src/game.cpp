@@ -5198,7 +5198,8 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
     const int &x = p.x;
     const int &y = p.y;
     const std::string &door_name = door_type.obj().name();
-    point kb( x, y ); // and when moving items out of the way
+    // sed when player/monsters are knocked back and when moving items out of the way
+    point kb( x, y );
     const auto valid_location = [&]( const tripoint & p ) {
         return g->is_empty( p );
     };

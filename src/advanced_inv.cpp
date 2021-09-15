@@ -548,8 +548,8 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
         mvwprintz( window, p, bcolor, "%c", bracket[0] );
         wprintz( window, kcolor, "%s", in_vehicle && sel != AIM_DRAGGED ? "V" : key );
         wprintz( window, bcolor, "%c", bracket[1] );
-        if( x < min_x ) {
-            min_x = x;
+        if( p.x < min_x ) {
+            min_x = p.x;
         }
     }
     return min_x;

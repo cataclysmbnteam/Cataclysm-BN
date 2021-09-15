@@ -273,7 +273,7 @@ input_context game::get_player_input( std::string &action )
                 wPrint.vdrops.clear();
 
                 for( int i = 0; i < dropCount; i++ ) {
-                    const point iRand( rng( iStart.x, iEnd.x - 1 ), rng( iStart.y, iEnd.y - 1 ) );
+                    const point iRand{ rng( iStart.x, iEnd.x - 1 ), rng( iStart.y, iEnd.y - 1 ) };
                     const point map( iRand + offset );
 
                     const tripoint mapp( map, u.posz() );

@@ -3221,10 +3221,12 @@ int om_cutdown_trees( const tripoint &omt_tgt, int chance, bool estimate, bool f
             if( estimate ) {
                 continue;
             }
-            // get a random number that is either 1 or -1
-            point dir( 3 * ( 2 * rng( 0, 1 ) - 1 ) + rng( -1, 1 ), 3 * rng( -1, 1 ) + rng( -1, 1 ) );
-            tripoint to = p + tripoint( dir, omt_tgt.z );
-            std::vector<tripoint> tree = line_to( p, to, rng( 1, 8 ) );
+            tripoint delta{
+                3 * ( 2 * rng( 0, 1 ) - 1 ) + rng( -1, 1 ),
+                3 * rng( -1, 1 ) + rng( -1, 1 ),
+                omt_tgt.z
+            };
+            std::vector<tripoint> tree = line_to( p, p + delta, rng( 1, 8 ) );
             for( auto &elem : tree ) {
                 target_bay.destroy( elem );
                 target_bay.ter_set( elem, t_trunk );

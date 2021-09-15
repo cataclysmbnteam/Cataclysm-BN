@@ -1719,7 +1719,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
     add_effect( effect_pushed, 1_turns );
 
     for( size_t i = 0; i < 6; i++ ) {
-        const point d( rng( -1, 1 ), rng( -1, 1 ) );
+        const point d{ rng( -1, 1 ), rng( -1, 1 ) };
         if( d.x == 0 && d.y == 0 ) {
             continue;
         }

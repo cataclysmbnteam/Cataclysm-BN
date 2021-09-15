@@ -7833,7 +7833,7 @@ void map::do_vehicle_caching( int z )
             }
 
             if( process_floor_above && ( vp.has_feature( VPFLAG_OPAQUE ) || vp.has_feature( VPFLAG_ROOF ) ) ) {
-                get_cache( z + 1 ).floor_cache[px][py] = true;
+                get_cache( z + 1 ).floor_cache[p.x][p.y] = true;
             }
         }
     }

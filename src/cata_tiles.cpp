@@ -1158,8 +1158,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                                  std::min( o.y, min_visible_y )
                              );
     const point max_mm_reg = point(
-                                 std::max( sx + o.x, max_visible_x ),
-                                 std::max( sy + o.y, max_visible_y )
+                                 std::max( s.x + o.x, max_visible_x ),
+                                 std::max( s.y + o.y, max_visible_y )
                              );
     g->u.prepare_map_memory_region(
         g->m.getabs( tripoint( min_mm_reg, center.z ) ),
