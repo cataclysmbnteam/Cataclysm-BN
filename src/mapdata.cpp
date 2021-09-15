@@ -1347,6 +1347,11 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
         boltcut->load( jo.get_object( "boltcut" ) );
     }
 
+    hacksaw = cata::make_value<activity_data_ter>();
+    if( jo.has_object( "hacksaw" ) ) {
+        hacksaw->load( jo.get_object( "hacksaw" ) );
+    }
+
     // Not assign, because we want to overwrite individual fields
     optional( jo, was_loaded, "bash", bash );
     deconstruct.load( jo, "deconstruct", false );
@@ -1546,6 +1551,11 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     boltcut = cata::make_value<activity_data_furn>();
     if( jo.has_object( "boltcut" ) ) {
         boltcut->load( jo.get_object( "boltcut" ) );
+    }
+
+    hacksaw = cata::make_value<activity_data_furn>();
+    if( jo.has_object( "hacksaw" ) ) {
+        hacksaw->load( jo.get_object( "hacksaw" ) );
     }
 
     optional( jo, was_loaded, "transforms_into", transforms_into, furn_str_id::NULL_ID() );

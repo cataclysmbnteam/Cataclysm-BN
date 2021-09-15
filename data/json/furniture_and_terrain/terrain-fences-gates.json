@@ -80,6 +80,12 @@
       "duration": "9 seconds",
       "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "wire", "count": [ 4, 16 ] } ]
     },
+    "hacksaw": {
+      "result": "t_dirt",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "steel_chunk", "count": 20 } ]
+    },
     "bash": {
       "str_min": 10,
       "str_max": 150,
@@ -107,6 +113,12 @@
       "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "wire", "count": [ 4, 16 ] } ]
     },
     "open": "t_chaingate_o",
+    "hacksaw": {
+      "result": "t_dirt",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "steel_chunk", "count": 20 } ]
+    },
     "bash": {
       "str_min": 10,
       "str_max": 150,
@@ -404,6 +416,12 @@
       "duration": "9 seconds",
       "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "wire", "count": [ 4, 16 ] } ]
     },
+    "hacksaw": {
+      "result": "t_dirt",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "steel_chunk", "count": 20 } ]
+    },
     "bash": {
       "str_min": 10,
       "str_max": 150,
@@ -421,6 +439,12 @@
     "symbol": "#",
     "color": "cyan",
     "move_cost": 2,
+    "hacksaw": {
+      "result": "t_dirt",
+      "duration": "2 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "pipe", "count": 6 } ]
+    },
     "flags": [ "TRANSPARENT", "THIN_OBSTACLE" ],
     "oxytorch": { "result": "t_dirt", "duration": "1 seconds", "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] } ] },
     "bash": {
