@@ -167,7 +167,7 @@
       [ "SCREW_FINE", 1 ],
       [ "DRILL", 3 ],
       [ "CHISEL", 3 ],
-      [ "PULL", 1 ],
+      [ "PULL", 2 ],
       [ "PRY", 2 ],
       [ "ANVIL", 3 ]
     ],
