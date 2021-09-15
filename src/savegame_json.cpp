@@ -84,6 +84,7 @@
 #include "optional.h"
 #include "options.h"
 #include "overmapbuffer.h"
+#include "pickup_token.h"
 #include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
@@ -213,15 +214,7 @@ void player_activity::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
     data.allow_omitted_members();
-    std::string tmptype;
-    int tmppos = 0;
-    if( !data.read( "type", tmptype ) ) {
-        // Then it's a legacy save.
-        int tmp_type_legacy = data.get_int( "type" );
-        deserialize_legacy_type( tmp_type_legacy, type );
-    } else {
-        type = activity_id( tmptype );
-    }
+    data.read( "type", type );
 
     if( type.is_null() ) {
         return;
@@ -237,14 +230,10 @@ void player_activity::deserialize( JsonIn &jsin )
         type = activity_id( "ACT_MIGRATION_CANCEL" );
     }
 
-    if( !data.read( "position", tmppos ) ) {
-        tmppos = INT_MIN;  // If loading a save before position existed, hope.
-    }
-
     data.read( "actor", actor );
     data.read( "moves_left", moves_left );
     data.read( "index", index );
-    position = tmppos;
+    data.read( "position", position );
     data.read( "coords", coords );
     data.read( "coord_set", coord_set );
     data.read( "name", name );
@@ -3463,6 +3452,40 @@ static void deserialize( quality_requirement &value, JsonIn &jsin )
     jo.read( "type", value.type );
     jo.read( "count", value.count );
     jo.read( "level", value.level );
+}
+
+void iuse_location::serialize( JsonOut &jsout ) const
+{
+    jsout.start_array();
+    jsout.write( loc );
+    jsout.write( count );
+    jsout.end_array();
+}
+
+void iuse_location::deserialize( JsonIn &jsin )
+{
+    jsin.start_array();
+    jsin.read( loc );
+    jsin.read( count );
+    jsin.end_array();
+}
+
+void pickup::act_item::serialize( JsonOut &jsout ) const
+{
+    jsout.start_array();
+    jsout.write( loc );
+    jsout.write( count );
+    jsout.write( consumed_moves );
+    jsout.end_array();
+}
+
+void pickup::act_item::deserialize( JsonIn &jsin )
+{
+    jsin.start_array();
+    jsin.read( loc );
+    jsin.read( count );
+    jsin.read( consumed_moves );
+    jsin.end_array();
 }
 
 // basecamp

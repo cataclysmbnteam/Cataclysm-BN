@@ -68,6 +68,8 @@ static const double min_ratio_to_center = 0.85;
 /** These categories should keep their original order and can't be re-sorted by inventory presets */
 static const std::set<std::string> ordered_categories = {{ "ITEMS_WORN" }};
 
+constexpr int max_chosen_count = std::numeric_limits<int>::max();
+
 struct navigation_mode_data {
     navigation_mode next_mode;
     translation name;
@@ -579,7 +581,7 @@ size_t inventory_column::page_of( const inventory_entry &entry ) const
 }
 bool inventory_column::has_available_choices() const
 {
-    if( !allows_selecting() ) {
+    if( !allows_selecting() || !activatable() ) {
         return false;
     }
     for( size_t i = 0; i < entries.size(); ++i ) {
@@ -836,7 +838,7 @@ size_t inventory_column::get_entry_indent( const inventory_entry &entry ) const
     if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
         res += 2;
     }
-    if( allows_selecting() && multiselect ) {
+    if( allows_selecting() && activatable() && multiselect ) {
         res += 2;
     }
     return res;
@@ -954,7 +956,7 @@ void inventory_column::draw( const catacurses::window &win, point pos ) const
                 mvwputch( win, point( xx, yy ), color, entry.any_item()->symbol() );
                 xx += 2;
             }
-            if( allows_selecting() && multiselect ) {
+            if( allows_selecting() && activatable() && multiselect ) {
                 if( entry.chosen_count == 0 ) {
                     mvwputch( win, point( xx, yy ), c_dark_gray, '-' );
                 } else if( entry.chosen_count >= entry.get_available_count() ) {
@@ -2097,10 +2099,11 @@ void inventory_iuse_selector::set_chosen_count( inventory_entry &entry, size_t c
             to_use.erase( iter );
         }
     } else {
-        entry.chosen_count = std::min( std::min( count, max_chosen_count ), entry.get_available_count() );
+        entry.chosen_count = std::min( std::min( count, static_cast<size_t>( max_chosen_count ) ),
+                                       entry.get_available_count() );
         to_use[it].clear();
         if( entry.locations.size() == 1 ) {
-            to_use[it].push_back( iuse_location{ entry.locations[0], entry.chosen_count } );
+            to_use[it].push_back( iuse_location{ entry.locations[0], static_cast<int>( entry.chosen_count ) } );
         } else {
             for( size_t i = 0; i < entry.chosen_count; i++ ) {
                 to_use[it].push_back( iuse_location{ entry.locations[i], 1 } );
@@ -2129,8 +2132,7 @@ inventory_selector::stats inventory_iuse_selector::get_raw_stats() const
 
 inventory_drop_selector::inventory_drop_selector( player &p,
         const inventory_selector_preset &preset ) :
-    inventory_multiselector( p, preset, _( "ITEMS TO DROP" ) ),
-    max_chosen_count( std::numeric_limits<decltype( max_chosen_count )>::max() )
+    inventory_multiselector( p, preset, _( "ITEMS TO DROP" ) )
 {
 #if defined(__ANDROID__)
     // allow user to type a drop number without dismissing virtual keyboard after each keypress
@@ -2245,9 +2247,11 @@ drop_locations inventory_drop_selector::execute()
 
     drop_locations dropped_pos_and_qty;
 
-    for( const std::pair<const item *const, int> &drop_pair : dropping ) {
+    for( const excluded_stack &drop_pair : dropping ) {
         item_location loc( u, const_cast<item *>( drop_pair.first ) );
-        dropped_pos_and_qty.push_back( std::make_pair( loc, drop_pair.second ) );
+        // Note: drop_location here contains location of first item in stack,
+        // and amount of items to be dropped from the stack.
+        dropped_pos_and_qty.emplace_back( loc, drop_pair.second );
     }
 
     return dropped_pos_and_qty;
@@ -2255,7 +2259,7 @@ drop_locations inventory_drop_selector::execute()
 
 void inventory_drop_selector::set_chosen_count( inventory_entry &entry, size_t count )
 {
-    const item *it = &*entry.any_item();
+    const item *it = entry.item_stack_on_character();
 
     if( count == 0 ) {
         entry.chosen_count = 0;
@@ -2264,7 +2268,8 @@ void inventory_drop_selector::set_chosen_count( inventory_entry &entry, size_t c
             dropping.erase( iter );
         }
     } else {
-        entry.chosen_count = std::min( std::min( count, max_chosen_count ), entry.get_available_count() );
+        entry.chosen_count = std::min( std::min( count, static_cast<size_t>( max_chosen_count ) ),
+                                       entry.get_available_count() );
         dropping[it] = entry.chosen_count;
     }
 
@@ -2274,8 +2279,8 @@ void inventory_drop_selector::set_chosen_count( inventory_entry &entry, size_t c
 inventory_selector::stats inventory_drop_selector::get_raw_stats() const
 {
     return get_weight_and_volume_stats(
-               u.weight_carried_with_tweaks( { dropping } ),
+               u.weight_carried_reduced_by( dropping ),
                u.weight_capacity(),
-               u.volume_carried_with_tweaks( { dropping } ),
+               u.volume_carried_reduced_by( dropping ),
                u.volume_capacity_reduced_by( 0_ml, dropping ) );
 }

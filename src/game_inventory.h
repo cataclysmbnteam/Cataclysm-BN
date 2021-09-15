@@ -7,7 +7,7 @@
 #include <string>
 #include <utility>
 
-#include "inventory_ui.h"
+#include "item_handling_util.h"
 #include "item_location.h"
 
 struct tripoint;
@@ -24,20 +24,7 @@ class repair_item_actor;
 class salvage_actor;
 
 using item_filter = std::function<bool( const item & )>;
-using item_location_filter = std::function<bool ( const item_location & )>;
-using drop_location = std::pair<item_location, int>;
-using drop_locations = std::list<drop_location>;
 
-class inventory_filter_preset : public inventory_selector_preset
-{
-    public:
-        inventory_filter_preset( const item_location_filter &filter );
-
-        bool is_shown( const item_location &location ) const override;
-
-    private:
-        item_location_filter filter;
-};
 namespace game_menus
 {
 
@@ -72,6 +59,16 @@ void swap_letters( player &p );
  * @return A list of pairs of item_location, quantity.
  */
 drop_locations multidrop( player &p );
+
+/**
+ * Select items to wash.
+ * @param water Available water
+ * @param cleanser Available cleanser
+ * @param do_soft Whether to allow soft items
+ * @param do_hard Whether to allow hard items
+ * @return A list of selected item_locations with quantities.
+ */
+iuse_locations multiwash( Character &ch, int water, int cleanser, bool do_soft, bool do_hard );
 
 /** Consuming an item. */
 item_location consume( player &p );

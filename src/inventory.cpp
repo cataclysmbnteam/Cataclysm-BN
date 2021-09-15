@@ -948,7 +948,7 @@ void for_each_item_in_both(
     }
 }
 
-units::mass inventory::weight_without( const std::map<const item *, int> &without ) const
+units::mass inventory::weight_without( const excluded_stacks &without ) const
 {
     units::mass ret = weight();
 
@@ -977,7 +977,7 @@ units::volume inventory::volume() const
     return ret;
 }
 
-units::volume inventory::volume_without( const std::map<const item *, int> &without ) const
+units::volume inventory::volume_without( const excluded_stacks &without ) const
 {
     units::volume ret = volume();
 

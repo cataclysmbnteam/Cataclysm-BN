@@ -63,8 +63,6 @@ using npc_class_id = string_id<npc_class>;
 using mission_type_id = string_id<mission_type>;
 using mfaction_id = int_id<monfaction>;
 using overmap_location_str_id = string_id<overmap_location>;
-using drop_location = std::pair<item_location, int>;
-using drop_locations = std::list<drop_location>;
 
 void parse_tags( std::string &phrase, const Character &u, const Character &me,
                  const itype_id &item_type = "null" );

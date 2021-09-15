@@ -50,7 +50,6 @@
 #include "iexamine.h"
 #include "int_id.h"
 #include "inventory.h"
-#include "inventory_ui.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_location.h"
@@ -137,7 +136,6 @@ static const activity_id ACT_PRY_NAILS( "ACT_PRY_NAILS" );
 static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
 static const activity_id ACT_SHAVE( "ACT_SHAVE" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
-static const activity_id ACT_WASH( "ACT_WASH" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_antibiotic( "antibiotic" );
@@ -9479,41 +9477,10 @@ int wash_items( player *p, bool soft_items, bool hard_items )
     int available_cleanser = std::max( crafting_inv.charges_of( "soap" ),
                                        crafting_inv.charges_of( "detergent" ) );
 
-    const inventory_filter_preset preset( [soft_items, hard_items]( const item_location & location ) {
-        return location->has_flag( "FILTHY" ) && ( ( soft_items && location->is_soft() ) ||
-                ( hard_items && !location->is_soft() ) );
-    } );
-    auto make_raw_stats = [available_water, available_cleanser](
-                              const std::map<const item *, int> &items
-    ) {
-        units::volume total_volume = 0_ml;
-        for( const auto &p : items ) {
-            total_volume += p.first->volume() * p.second / p.first->count();
-        }
-        washing_requirements required = washing_requirements_for_volume( total_volume );
-        auto to_string = []( int val ) -> std::string {
-            if( val == INT_MAX )
-            {
-                return "inf";
-            }
-            return string_format( "%3d", val );
-        };
-        using stats = inventory_selector::stats;
-        return stats{{
-                display_stat( _( "Water" ), required.water, available_water, to_string ),
-                display_stat( _( "Cleanser" ), required.cleanser, available_cleanser, to_string )
-            }};
-    };
-    inventory_iuse_selector inv_s( *p, _( "ITEMS TO CLEAN" ), preset, make_raw_stats );
-    inv_s.add_character_items( *p );
-    inv_s.add_nearby_items( PICKUP_RANGE );
-    inv_s.set_title( _( "Multiclean" ) );
-    inv_s.set_hint( _( "To clean x items, type a number before selecting." ) );
-    if( inv_s.empty() ) {
-        popup( std::string( _( "You have nothing to clean." ) ), PF_GET_KEY );
-        return 0;
-    }
-    const std::list<iuse_location> to_clean = inv_s.execute();
+    iuse_locations to_clean = game_menus::inv::multiwash( *p, available_water, available_cleanser,
+                              soft_items,
+                              hard_items );
+
     if( to_clean.empty() ) {
         return 0;
     }
@@ -9550,12 +9517,7 @@ int wash_items( player *p, bool soft_items, bool hard_items )
     required.time = required.time * ( 10 - helpers.size() ) / 10;
 
     // Assign the activity values.
-    p->assign_activity( ACT_WASH, required.time );
-
-    for( iuse_location iloc : to_clean ) {
-        p->activity.targets.push_back( iloc.loc );
-        p->activity.values.push_back( iloc.count );
-    }
+    p->assign_activity( wash_activity_actor( to_clean, required.time ) );
 
     return 0;
 }

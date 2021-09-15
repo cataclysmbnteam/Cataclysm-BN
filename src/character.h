@@ -32,6 +32,7 @@
 #include "flat_set.h"
 #include "game_constants.h"
 #include "inventory.h"
+#include "item_handling_util.h"
 #include "item.h"
 #include "item_location.h"
 #include "memory_fast.h"
@@ -74,9 +75,6 @@ struct pathfinding_settings;
 struct points_left;
 struct trap;
 template <typename E> struct enum_traits;
-
-using drop_location = std::pair<item_location, int>;
-using drop_locations = std::list<drop_location>;
 
 #define MAX_CLAIRVOYANCE 40
 
@@ -1348,28 +1346,13 @@ class Character : public Creature, public visitable<Character>
         units::mass weight_carried() const;
         units::volume volume_carried() const;
 
-        /// Sometimes we need to calculate hypothetical volume or weight.  This
-        /// struct offers two possible tweaks: a collection of items and
-        /// counts to remove, or an entire replacement inventory.
-        struct item_tweaks {
-            item_tweaks() = default;
-            item_tweaks( const std::map<const item *, int> &w ) :
-                without_items( std::cref( w ) )
-            {}
-            item_tweaks( const inventory &r ) :
-                replace_inv( std::cref( r ) )
-            {}
-            const cata::optional<std::reference_wrapper<const std::map<const item *, int>>> without_items;
-            const cata::optional<std::reference_wrapper<const inventory>> replace_inv;
-        };
-
-        units::mass weight_carried_with_tweaks( const item_tweaks & ) const;
-        units::volume volume_carried_with_tweaks( const item_tweaks & ) const;
+        units::mass weight_carried_reduced_by( const excluded_stacks &without ) const;
+        units::volume volume_carried_reduced_by( const excluded_stacks &without ) const;
         units::mass weight_capacity() const override;
         units::volume volume_capacity() const;
         units::volume volume_capacity_reduced_by(
             const units::volume &mod,
-            const std::map<const item *, int> &without_items = {} ) const;
+            const excluded_stacks &without = {} ) const;
 
         bool can_pick_volume( const item &it ) const;
         bool can_pick_volume( units::volume volume ) const;

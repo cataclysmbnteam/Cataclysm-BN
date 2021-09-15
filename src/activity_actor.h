@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "clone_ptr.h"
+#include "item_handling_util.h"
 #include "item_location.h"
 #include "memory_fast.h"
 #include "optional.h"
@@ -289,6 +290,34 @@ class dig_channel_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
 
+class drop_activity_actor : public activity_actor
+{
+    private:
+        std::list<pickup::act_item> items;
+        bool force_ground = false;
+        tripoint relpos;
+
+    public:
+        drop_activity_actor() = default;
+        drop_activity_actor( Character &ch, const drop_locations &items,
+                             bool force_ground, const tripoint &relpos );
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_DROP" );
+        }
+
+        void start( player_activity &, Character & ) override {};
+        void do_turn( player_activity &, Character &who ) override;
+        void finish( player_activity &, Character & ) override {};
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<drop_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
 class hacking_activity_actor : public activity_actor
 {
     private:
@@ -431,6 +460,59 @@ class open_gate_activity_actor : public activity_actor
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<open_gate_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
+class stash_activity_actor : public activity_actor
+{
+    private:
+        std::list<pickup::act_item> items;
+        tripoint relpos;
+
+    public:
+        stash_activity_actor() = default;
+        stash_activity_actor( Character &ch, const drop_locations &items, const tripoint &relpos );
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_STASH" );
+        }
+
+        void start( player_activity &, Character & ) override {};
+        void do_turn( player_activity &, Character &who ) override;
+        void finish( player_activity &, Character & ) override {};
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<stash_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
+class wash_activity_actor : public activity_actor
+{
+    private:
+        iuse_locations targets;
+        int moves_total = 0;
+
+    public:
+        wash_activity_actor() = default;
+        wash_activity_actor( const iuse_locations &targets, int moves_total ) :
+            targets( targets ), moves_total( moves_total ) {};
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_WASH" );
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {};
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<wash_activity_actor>( *this );
         }
 
         void serialize( JsonOut &jsout ) const override;
