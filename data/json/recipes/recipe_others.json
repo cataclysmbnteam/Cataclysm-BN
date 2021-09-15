@@ -2216,8 +2216,7 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ] ]
+    "qualities": [ { "id": "CHISEL", "level": 3 } ]
   },
   {
     "type": "recipe",
