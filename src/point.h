@@ -238,6 +238,11 @@ struct half_open_rectangle : rectangle {
         return p.x >= p_min.x && p.x < p_max.x &&
                p.y >= p_min.y && p.y < p_max.y;
     }
+
+    constexpr bool overlaps_half_open( const rectangle &r ) const {
+        return !( r.p_min.x >= p_max.x || r.p_min.y >= p_max.y ||
+                  p_min.x >= r.p_max.x || p_min.y >= r.p_max.y );
+    }
 };
 
 struct inclusive_rectangle : rectangle {

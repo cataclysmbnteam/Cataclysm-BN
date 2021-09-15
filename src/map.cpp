@@ -5717,12 +5717,12 @@ void map::draw( const catacurses::window &w, const tripoint &center )
     }
 
     // Memorize off-screen tiles
-    rectangle display( offs.xy(), offs.xy() + point( wnd_w, wnd_h ) );
+    half_open_rectangle display( offs.xy(), offs.xy() + point( wnd_w, wnd_h ) );
     drawsq_params mm_params = drawsq_params().memorize( true ).output( false );
     for( int y = 0; y < MAPSIZE_Y; y++ ) {
         for( int x = 0; x < MAPSIZE_X; x++ ) {
             const tripoint p( x, y, center.z );
-            if( display.contains_half_open( p.xy() ) ) {
+            if( display.contains( p.xy() ) ) {
                 // Have been memorized during display loop
                 continue;
             }
@@ -6518,13 +6518,13 @@ template void
 shift_bitset_cache<MAPSIZE, 1>( std::bitset<MAPSIZE *MAPSIZE> &cache, const point &s );
 
 static inline void shift_tripoint_set( std::set<tripoint> &set, const point &offset,
-                                       const rectangle &boundaries )
+                                       const half_open_rectangle &boundaries )
 {
     std::set<tripoint> old_set = std::move( set );
     set.clear();
     for( const tripoint &pt : old_set ) {
         tripoint new_pt = pt + offset;
-        if( boundaries.contains_half_open( new_pt.xy() ) ) {
+        if( boundaries.contains( new_pt.xy() ) ) {
             set.insert( new_pt );
         }
     }
@@ -6532,13 +6532,13 @@ static inline void shift_tripoint_set( std::set<tripoint> &set, const point &off
 
 template <typename T>
 static inline void shift_tripoint_map( std::map<tripoint, T> &map, const point &offset,
-                                       const rectangle &boundaries )
+                                       const half_open_rectangle &boundaries )
 {
     std::map<tripoint, T> old_map = std::move( map );
     map.clear();
     for( const std::pair<tripoint, T> &pr : old_map ) {
         tripoint new_pt = pr.first + offset;
-        if( boundaries.contains_half_open( new_pt.xy() ) ) {
+        if( boundaries.contains( new_pt.xy() ) ) {
             map.emplace( new_pt, pr.second );
         }
     }
@@ -6579,7 +6579,7 @@ void map::shift( const point &sp )
         }
     }
 
-    constexpr rectangle boundaries_2d = rectangle( point_zero, point( MAPSIZE_Y, MAPSIZE_X ) );
+    constexpr half_open_rectangle boundaries_2d( point_zero, point( MAPSIZE_Y, MAPSIZE_X ) );
     const point shift_offset_pt( -sp.x * SEEX, -sp.y * SEEY );
 
     // Shift the map sx submaps to the right and sy submaps down.

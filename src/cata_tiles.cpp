@@ -1569,10 +1569,10 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         bool zlevs = g->m.has_zlevels();
         int mapsize = g->m.getmapsize();
         tripoint mappos = g->m.get_abs_sub();
-        rectangle maprect( mappos.xy(), mappos.xy() + point( mapsize, mapsize ) );
+        half_open_rectangle maprect( mappos.xy(), mappos.xy() + point( mapsize, mapsize ) );
 
         const auto is_map = [mappos, zlevs, maprect]( const tripoint & p ) {
-            if( !maprect.contains_half_open( p.xy() ) ) {
+            if( !maprect.contains( p.xy() ) ) {
                 return false;
             }
             if( zlevs ) {
