@@ -4227,7 +4227,7 @@
     "components": [ [ [ "kitchen_unit", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_oven"
+    "post_terrain": "f_rvoven"
   },
   {
     "type": "construction",
