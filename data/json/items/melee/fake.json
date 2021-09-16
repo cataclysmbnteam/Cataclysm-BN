@@ -1,6 +1,7 @@
 [
   {
     "type": "GENERIC",
+    "category": "weapons",
     "id": "bio_claws_weapon",
     "name": { "str_sp": "bionic claws" },
     "description": "Short and sharp claws made from a high-tech metal.",
@@ -16,6 +17,7 @@
   },
   {
     "type": "GENERIC",
+    "category": "weapons",
     "id": "bio_blade_weapon",
     "name": { "str": "monomolecular blade" },
     "description": "A foot-long blade made from high-tech alloy and edged with bonded nanocrystals.",
