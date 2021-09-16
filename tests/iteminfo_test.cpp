@@ -490,13 +490,18 @@ TEST_CASE( "disassembly time and yield", "[item][iteminfo][disassembly]" )
     test_info_equals(
         item( "test_soldering_iron" ), q,
         "--\n"
-        "<color_c_white>Disassembly</color> takes about 20 minutes and might yield:"
-        " 2 electronic scraps, copper (1), scrap metal (1), and copper wire (5).\n" );
+        "<color_c_white>Disassembly</color> takes about 20 minutes, requires 1 tool"
+        " with <color_c_cyan>cutting of 1</color> or more and 1 tool with"
+        " <color_c_cyan>screw driving of 1</color> or more and <color_c_white>might"
+        " yield</color>: 2 electronic scraps, copper (1), scrap metal (1), and copper"
+        " wire (5).\n" );
 
     test_info_equals(
         item( "test_sheet_metal" ), q,
         "--\n"
-        "<color_c_white>Disassembly</color> takes about 2 minutes and might yield: TEST small metal sheet (24).\n" );
+        "<color_c_white>Disassembly</color> takes about 2 minutes, requires 1 tool"
+        " with <color_c_cyan>metal sawing of 2</color> or more and <color_c_white>might"
+        " yield</color>: TEST small metal sheet (24).\n" );
 }
 
 TEST_CASE( "item description flags", "[item][iteminfo]" )
