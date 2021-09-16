@@ -1,21 +1,4 @@
 [
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   {
     "type": "recipe",
     "result": "concrete",
@@ -29,7 +12,6 @@
     "tools": [ [ [ "con_mix", 50 ] ] ],
     "components": [ [ [ "material_cement", 50 ] ], [ [ "material_sand", 25 ] ], [ [ "pebble", 20 ] ] ]
   },
-
   {
     "type": "recipe",
     "result": "down_pillow",
@@ -67,8 +49,6 @@
     "using": [ [ "sewing_standard", 12 ] ],
     "components": [ [ [ "rag", 4 ] ], [ [ "cotton_ball", 8 ] ] ]
   },
-
-
   {
     "type": "recipe",
     "result": "shelter_kit",
@@ -115,7 +95,6 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "fur", 24 ], [ "tanned_pelt", 4 ] ], [ [ "filament", 10, "LIST" ] ] ]
   },
- 
   {
     "type": "recipe",
     "result": "folding_bicycle",
@@ -137,7 +116,6 @@
       [ [ "wheel_bicycle", 2 ] ]
     ]
   },
-
   {
     "type": "recipe",
     "result": "candle",
@@ -162,9 +140,6 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "splinter", 1 ], [ "stick", 1 ], [ "2x4", 1 ] ] ]
   },
- 
- 
-
   {
     "type": "recipe",
     "result": "well_pump",
@@ -185,9 +160,6 @@
     "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "soldering_iron", 150 ] ] ],
     "components": [ [ [ "steel_chunk", 6 ], [ "scrap", 18 ] ], [ [ "pipe", 2 ] ] ]
   },
-
-
- 
   {
     "type": "recipe",
     "result": "clay_pot_flower",
@@ -201,7 +173,6 @@
     "using": [ [ "earthenware_firing", 75 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 4 ] ] ]
   },
-
   {
     "type": "recipe",
     "result": "mortar_build",
@@ -215,7 +186,6 @@
     "tools": [ [ [ "con_mix", 50 ] ] ],
     "components": [ [ [ "material_cement", 50 ] ], [ [ "material_sand", 150 ] ] ]
   },
-
   {
     "type": "recipe",
     "result": "chem_aluminium_powder",
@@ -232,7 +202,6 @@
       [ [ "material_sand", 25 ] ]
     ]
   },
- 
   {
     "type": "recipe",
     "result": "bagpipes",
@@ -251,9 +220,6 @@
       [ [ "adhesive", 1, "LIST" ], [ "medical_tape", 50 ] ]
     ]
   },
-
-
- 
   {
     "type": "recipe",
     "result": "tourist_table",
@@ -292,8 +258,6 @@
     "using": [ [ "filament", 100 ] ],
     "components": [ [ [ "withered", 12 ], [ "straw_pile", 12 ], [ "willowbark", 6 ], [ "birchbark", 6 ] ] ]
   },
-  
-  
   {
     "type": "recipe",
     "result": "pet_carrier_wooden",
