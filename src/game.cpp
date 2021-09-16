@@ -1445,6 +1445,7 @@ bool game::do_turn()
     reset_light_level();
 
     perhaps_add_random_npc();
+    process_voluntary_act_interrupt();
     process_activity();
     // Process NPC sound events before they move or they hear themselves talking
     for( npc &guy : all_npcs() ) {
@@ -1460,7 +1461,7 @@ bool game::do_turn()
         sfx::do_hearing_loss();
     }
 
-    if( !u.has_effect( efftype_id( "sleep" ) ) || uquit == QUIT_WATCH ) {
+    if( !u.has_effect( effect_sleep ) || uquit == QUIT_WATCH ) {
         if( u.moves > 0 || uquit == QUIT_WATCH ) {
             while( u.moves > 0 || uquit == QUIT_WATCH ) {
                 cleanup_dead();
@@ -1496,32 +1497,6 @@ bool game::do_turn()
             // Reset displayed sound markers now that the turn is over.
             // We only want this to happen if the player had a chance to examine the sounds.
             sounds::reset_markers();
-        } else {
-            // Rate limit key polling to 10 times a second.
-            static auto start = std::chrono::time_point_cast<std::chrono::milliseconds>(
-                                    std::chrono::system_clock::now() );
-            const auto now = std::chrono::time_point_cast<std::chrono::milliseconds>(
-                                 std::chrono::system_clock::now() );
-            if( ( now - start ).count() > 100 ) {
-                handle_key_blocking_activity();
-                start = now;
-            }
-
-            mon_info_update();
-
-            // If player is performing a task and a monster is dangerously close, warn them
-            // regardless of previous safemode warnings
-            if( u.activity && !u.has_activity( activity_id( "ACT_AIM" ) ) &&
-                u.activity.moves_left > 0 &&
-                !u.activity.is_distraction_ignored( distraction_type::hostile_spotted_near ) ) {
-                Creature *hostile_critter = is_hostile_very_close();
-                if( hostile_critter != nullptr ) {
-                    cancel_activity_or_ignore_query( distraction_type::hostile_spotted_near,
-                                                     string_format( _( "The %s is dangerously close!" ),
-                                                             hostile_critter->get_name() ) );
-                }
-            }
-
         }
     }
 
@@ -1657,6 +1632,45 @@ void game::set_driving_view_offset( const point &p )
     u.view_offset.y += driving_view_offset.y;
 }
 
+void game::process_voluntary_act_interrupt()
+{
+    if( u.has_effect( effect_sleep ) ) {
+        // Can't interrupt
+        return;
+    }
+
+    bool has_activity = u.activity && u.activity.moves_left > 0;
+    bool is_travelling = u.has_destination() && !u.omt_path.empty();
+
+    if( !has_activity && !is_travelling ) {
+        // Nohing to interrupt
+        return;
+    }
+
+    // Key poll may be quite expensive, so limit it to 10 times per second.
+    static auto last_poll = std::chrono::steady_clock::now();
+    auto now = std::chrono::steady_clock::now();
+    int64_t difference = std::chrono::duration_cast<std::chrono::milliseconds>
+                         ( now - last_poll ).count();
+
+    if( difference > 100 ) {
+        handle_key_blocking_activity();
+        last_poll = now;
+    }
+
+    // If player is performing a task and a monster is dangerously close, warn them
+    // regardless of previous safemode warnings
+    if( has_activity && !u.has_activity( activity_id( "ACT_AIM" ) ) &&
+        !u.activity.is_distraction_ignored( distraction_type::hostile_spotted_near ) ) {
+        Creature *hostile_critter = is_hostile_very_close();
+        if( hostile_critter != nullptr ) {
+            cancel_activity_or_ignore_query( distraction_type::hostile_spotted_near,
+                                             string_format( _( "The %s is dangerously close!" ),
+                                                     hostile_critter->get_name() ) );
+        }
+    }
+}
+
 void game::process_activity()
 {
     if( !u.activity ) {
@@ -1696,8 +1710,8 @@ void game::catch_a_monster( monster *fish, const tripoint &pos, player *p,
 
 static bool cancel_auto_move( player &p, const std::string &text )
 {
-    if( p.has_destination() && query_yn( _( "%s, cancel Auto-move?" ), text ) )  {
-        add_msg( m_warning, _( "%s. Auto-move canceled" ), text );
+    if( p.has_destination() && query_yn( _( "%s Cancel Auto-move?" ), text ) )  {
+        add_msg( m_warning, _( "Auto-move canceled." ) );
         if( !p.omt_path.empty() ) {
             p.omt_path.clear();
         }
@@ -1709,6 +1723,7 @@ static bool cancel_auto_move( player &p, const std::string &text )
 
 bool game::cancel_activity_or_ignore_query( const distraction_type type, const std::string &text )
 {
+    invalidate_main_ui_adaptor();
     if( u.has_distant_destination() ) {
         if( cancel_auto_move( u, text ) ) {
             return true;
@@ -1757,6 +1772,7 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
 
 bool game::cancel_activity_query( const std::string &text )
 {
+    invalidate_main_ui_adaptor();
     if( u.has_distant_destination() ) {
         if( cancel_auto_move( u, text ) ) {
             return true;
@@ -1971,28 +1987,25 @@ std::set<character_id> game::get_follower_list()
 
 void game::handle_key_blocking_activity()
 {
-    if( ( u.activity && u.activity.moves_left > 0 ) || ( u.has_destination() &&
-            !u.omt_path.empty() ) ) {
-        input_context ctxt = get_default_mode_input_context();
-        const std::string action = ctxt.handle_input( 0 );
-        bool refresh = true;
-        if( action == "pause" ) {
-            if( u.activity.interruptable_with_kb ) {
-                cancel_activity_query( _( "Confirm:" ) );
-            }
-        } else if( action == "player_data" ) {
-            u.disp_info();
-        } else if( action == "messages" ) {
-            Messages::display_messages();
-        } else if( action == "help" ) {
-            get_help().display_help();
-        } else if( action != "HELP_KEYBINDINGS" ) {
-            refresh = false;
+    input_context ctxt = get_default_mode_input_context();
+    const std::string action = ctxt.handle_input( 0 );
+    bool refresh = true;
+    if( action == "pause" ) {
+        if( u.activity.interruptable_with_kb ) {
+            cancel_activity_query( _( "Confirm:" ) );
         }
-        if( refresh ) {
-            ui_manager::redraw();
-            refresh_display();
-        }
+    } else if( action == "player_data" ) {
+        u.disp_info();
+    } else if( action == "messages" ) {
+        Messages::display_messages();
+    } else if( action == "help" ) {
+        get_help().display_help();
+    } else if( action != "HELP_KEYBINDINGS" ) {
+        refresh = false;
+    }
+    if( refresh ) {
+        ui_manager::redraw();
+        refresh_display();
     }
 }
 
