@@ -4219,8 +4219,8 @@
   },
   {
     "type": "construction",
-    "id": "constr_gridoven",
-    "description": "Place Oven",
+    "id": "constr_gridrvkitchen",
+    "description": "Place RV-kitchen unit",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "1 m",
