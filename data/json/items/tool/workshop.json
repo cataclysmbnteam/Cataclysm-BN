@@ -668,7 +668,7 @@
     "id": "pliers",
     "type": "TOOL",
     "name": { "str_sp": "pliers" },
-    "description": "This is a basic pair of slip-joint pliers, able to handle basic mechanical work.  Anything too complex will require a wrench.",
+    "description": "This is a basic pair of slip-joint pliers, able to handle basic mechanical work and pulling apart some ammunition cartridges.  Anything too complex will require a wrench.",
     "weight": "807 g",
     "volume": "250 ml",
     "price": 800,
@@ -677,7 +677,7 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "WRENCH", 1 ] ],
+    "qualities": [ [ "WRENCH", 1 ], [ "PULL", 1 ] ],
     "flags": [ "BELT_CLIP" ]
   },
   {
