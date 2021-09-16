@@ -797,7 +797,7 @@
   {
     "id": "tear_gas_payload",
     "type": "TOOL",
-"category": "weapons",
+    "category": "weapons",
     "name": { "str": "tear gas payload" },
     "description": "This is a dummy item used by tear gas hacks.  You should never see it outside of debug.",
     "symbol": "*",
@@ -815,7 +815,7 @@
   {
     "id": "tear_gas_payload_act",
     "type": "TOOL",
-"category": "weapons",
+    "category": "weapons",
     "name": { "str": "active tear gas payload" },
     "description": "This is a dummy item used by tear gas hacks that just so happens to be counting down.  You should never see it outside of debug.",
     "symbol": "*",

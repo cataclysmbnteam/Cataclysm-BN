@@ -321,7 +321,7 @@
   },
   {
     "id": "flask_yeast",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "food",
     "name": { "str_sp": "sealed yeast culture" },
     "description": "A sealed flask holding sanitized yeast wort.  You may harvest the yeast inside when it's done culturing.",
@@ -348,7 +348,7 @@
   },
   {
     "id": "jar_yeast",
-    "type": "TOOL",
+    "type": "GENERIC",
     "name": { "str_sp": "sealed yeast culture" },
     "description": "A sealed jar holding sanitized yeast wort.  You may harvest the yeast inside when it's done culturing.",
     "copy-from": "flask_yeast",
@@ -365,7 +365,7 @@
   },
   {
     "id": "wild_yeast",
-    "type": "TOOL",
+    "type": "GENERIC",
     "name": { "str_sp": "sealed wild yeast culture" },
     "description": "Mixture of water, sugar and fruits with some naturally occuring yeast, that will eventually produce a more sizeable yeast culture.",
     "copy-from": "flask_yeast",
