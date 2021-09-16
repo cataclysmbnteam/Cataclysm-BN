@@ -1,4 +1,312 @@
 [
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  {
+    "type": "recipe",
+    "result": "concrete",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "10 m",
+    "autolearn": false,
+    "book_learn": [ [ "concrete_book", 4 ] ],
+    "tools": [ [ [ "con_mix", 50 ] ] ],
+    "components": [ [ [ "material_cement", 50 ] ], [ [ "material_sand", 25 ] ], [ [ "pebble", 20 ] ] ]
+  },
+
+  {
+    "type": "recipe",
+    "result": "down_pillow",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "tailor",
+    "time": "10 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 12 ] ],
+    "components": [ [ [ "rag", 6 ] ], [ [ "down_feather", 40 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "down_mattress",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "time": "240 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 12 ] ],
+    "components": [ [ [ "rag", 60 ] ], [ [ "down_feather", 1160 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "pillow",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "tailor",
+    "time": "10 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 12 ] ],
+    "components": [ [ [ "rag", 4 ] ], [ [ "cotton_ball", 8 ] ] ]
+  },
+
+
+  {
+    "type": "recipe",
+    "result": "shelter_kit",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "survival",
+    "skills_required": [ "fabrication", 1 ],
+    "difficulty": 2,
+    "time": "50 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "components": [ [ [ "stick", 10 ], [ "2x4", 5 ] ], [ [ "leather", 20 ], [ "tanned_hide", 4 ] ], [ [ "filament", 40, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "shelter_kit",
+    "id_suffix": "repair",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "survival",
+    "skills_required": [ "tailor", 1 ],
+    "time": "20 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "components": [
+      [ [ "stick", 3 ], [ "2x4", 2 ] ],
+      [ [ "leather", 4 ], [ "tanned_hide", 1 ] ],
+      [ [ "damaged_shelter_kit", 1 ] ],
+      [ [ "filament", 5, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "fur_rollmat",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "survival",
+    "skills_required": [ "tailor", 1 ],
+    "difficulty": 1,
+    "time": "20 m",
+    "reversible": true,
+    "decomp_learn": 0,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "fur", 24 ], [ "tanned_pelt", 4 ] ], [ [ "filament", 10, "LIST" ] ] ]
+  },
+ 
+  {
+    "type": "recipe",
+    "result": "folding_bicycle",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "mechanics",
+    "difficulty": 5,
+    "time": "2 h",
+    "reversible": true,
+    "decomp_learn": 4,
+    "book_learn": [ [ "textbook_fabrication", 4 ], [ "manual_mechanics", 4 ], [ "textbook_mechanics", 4 ] ],
+    "using": [ [ "welding_standard", 30 ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
+    "components": [
+      [ [ "frame", 2 ] ],
+      [ [ "saddle", 1 ] ],
+      [ [ "vehicle_controls", 1 ] ],
+      [ [ "foot_crank", 1 ] ],
+      [ [ "wheel_bicycle", 2 ] ]
+    ]
+  },
+
+  {
+    "type": "recipe",
+    "result": "candle",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "tools": [ [ [ "lighter", 5 ], [ "ref_lighter", 5 ], [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "wax", 1 ], [ "any_tallow", 4, "LIST" ], [ "edible_lard", 1, "LIST" ] ], [ [ "cordage_short", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "holy_symbol_wood",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "time": "30 m",
+    "autolearn": true,
+    "using": [ [ "cordage_short", 3 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "splinter", 1 ], [ "stick", 1 ], [ "2x4", 1 ] ] ]
+  },
+ 
+ 
+
+  {
+    "type": "recipe",
+    "result": "well_pump",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "1 h 30 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_fabrication", 4 ], [ "manual_fabrication", 4 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "GLARE", "level": 2 }
+    ],
+    "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "soldering_iron", 150 ] ] ],
+    "components": [ [ [ "steel_chunk", 6 ], [ "scrap", 18 ] ], [ [ "pipe", 2 ] ] ]
+  },
+
+
+ 
+  {
+    "type": "recipe",
+    "result": "clay_pot_flower",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 2,
+    "time": "35 m",
+    "autolearn": true,
+    "using": [ [ "earthenware_firing", 75 ] ],
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 4 ] ] ]
+  },
+
+  {
+    "type": "recipe",
+    "result": "mortar_build",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "10 m",
+    "autolearn": false,
+    "book_learn": [ [ "concrete_book", 2 ] ],
+    "tools": [ [ [ "con_mix", 50 ] ] ],
+    "components": [ [ [ "material_cement", 50 ] ], [ [ "material_sand", 150 ] ] ]
+  },
+
+  {
+    "type": "recipe",
+    "result": "chem_aluminium_powder",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "5 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "material_aluminium_ingot", 1 ], [ "can_drink_unsealed", 6 ], [ "aluminum_foil", 40 ] ],
+      [ [ "water", 5 ], [ "water_clean", 5 ] ],
+      [ [ "material_sand", 25 ] ]
+    ]
+  },
+ 
+  {
+    "type": "recipe",
+    "result": "bagpipes",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "tailor", 4 ],
+    "difficulty": 4,
+    "time": "1 h",
+    "book_learn": [ [ "scots_cookbook", 3 ] ],
+    "using": [ [ "sewing_standard", 20 ] ],
+    "components": [
+      [ [ "large_stomach_sealed", 1 ], [ "tanned_hide", 2 ], [ "leather", 10 ], [ "tanned_pelt", 2 ], [ "fur", 10 ] ],
+      [ [ "stick", 1 ], [ "2x4", 1 ] ],
+      [ [ "rag", 3 ] ],
+      [ [ "adhesive", 1, "LIST" ], [ "medical_tape", 50 ] ]
+    ]
+  },
+
+
+ 
+  {
+    "type": "recipe",
+    "result": "tourist_table",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "8 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_fabrication", 2 ], [ "textbook_mechanics", 2 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "scrap", 6 ] ], [ [ "pipe", 6 ] ], [ [ "nail", 12 ] ], [ [ "sheet_metal", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "leather_tarp",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "10 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 30 ] ],
+    "components": [ [ [ "leather", 12 ], [ "fur", 12 ], [ "tanned_hide", 3 ], [ "tanned_pelt", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "fiber_mat",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "tailor",
+    "time": "1 h",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "filament", 100 ] ],
+    "components": [ [ [ "withered", 12 ], [ "straw_pile", 12 ], [ "willowbark", 6 ], [ "birchbark", 6 ] ] ]
+  },
+  
+  
+  {
+    "type": "recipe",
+    "result": "pet_carrier_wooden",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "1 h 30 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
+    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ], [ [ "hinge", 2 ] ] ]
+  },
   {
     "result": "fish_bait",
     "type": "recipe",
@@ -23,5 +331,56 @@
         [ "spaghetti_raw", 1 ]
       ]
     ]
+  },
+  {
+    "result": "oxyacetylene",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "45 m",
+    "charges": 120,
+    "book_learn": [ [ "textbook_chemistry", 4 ], [ "textbook_gaswarfare", 5 ], [ "atomic_survival", 3 ] ],
+    "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
+    "tools": [ [ [ "smoxygen_tank", 3 ], [ "oxygen_tank", 3 ], [ "oxygen_cylinder", 25 ] ] ],
+    "components": [ [ [ "acetylene", 95 ] ] ]
+  },
+  {
+    "result": "acetylene",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "60 m",
+    "charges": 12,
+    "book_learn": [ [ "textbook_chemistry", 4 ], [ "textbook_gaswarfare", 5 ], [ "atomic_survival", 3 ] ],
+    "tools": [ [ [ "acetylene_machine", -1 ] ] ],
+    "components": [ [ [ "water", 12 ], [ "water_clean", 12 ] ], [ [ "chem_carbide", 326 ] ] ]
+  },
+  {
+    "result": "tinyweldtank",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "20 m",
+    "book_learn": [ [ "welding_book", 2 ] ],
+    "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
+    "components": [ [ [ "tinyweldtank", 1 ] ], [ [ "oxyacetylene", 60 ] ] ]
+  },
+  {
+    "result": "weldtank",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "90 m",
+    "book_learn": [ [ "welding_book", 2 ] ],
+    "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
+    "components": [ [ [ "weldtank", 1 ] ], [ [ "oxyacetylene", 240 ] ] ]
   }
 ]
