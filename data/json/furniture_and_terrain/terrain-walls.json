@@ -1001,11 +1001,7 @@
       "sound_vol": 20,
       "sound_fail_vol": 14,
       "ter_set": "t_floor",
-      "items": [
-        { "item": "glass_shard", "count": [ 3, 6 ] },
-        { "item": "wire", "prob": 20 },
-        { "item": "scrap", "count": [ 3, 5 ] }
-      ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "wire", "prob": 20 }, { "item": "scrap", "count": [ 3, 5 ] } ]
     }
   },
   {
@@ -1028,11 +1024,7 @@
       "sound_vol": 20,
       "sound_fail_vol": 14,
       "ter_set": "t_floor",
-      "items": [
-        { "item": "glass_shard", "count": [ 3, 6 ] },
-        { "item": "wire", "prob": 20 },
-        { "item": "scrap", "count": [ 3, 5 ] }
-      ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "wire", "prob": 20 }, { "item": "scrap", "count": [ 3, 5 ] } ]
     }
   },
   {
