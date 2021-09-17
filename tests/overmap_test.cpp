@@ -110,7 +110,7 @@ TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin", "[
 static void do_lab_finale_test()
 {
     const oter_id labt_endgame( "central_lab_endgame" );
-    const point origin = point_zero;
+    const point origin;
     auto batch = overmap_specials::get_default_batch( origin );
     overmap_buffer.create_custom_overmap( origin, batch );
     overmap *test_overmap = overmap_buffer.get_existing( origin );
