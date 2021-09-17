@@ -19,7 +19,7 @@
       "sound_vol": 20,
       "sound_fail_vol": 14,
       "ter_set": "t_mdoor_frame",
-      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] }, { "item": "scrap", "count": [ 3, 5 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "scrap", "count": [ 3, 5 ] } ]
     }
   },
   {
@@ -42,7 +42,7 @@
       "sound_vol": 20,
       "sound_fail_vol": 14,
       "ter_set": "t_mdoor_frame",
-      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] }, { "item": "scrap", "count": [ 3, 5 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "scrap", "count": [ 3, 5 ] } ]
     }
   },
   {
@@ -65,7 +65,7 @@
       "sound_vol": 20,
       "sound_fail_vol": 14,
       "ter_set": "t_mdoor_frame",
-      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] }, { "item": "scrap", "count": [ 3, 5 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "scrap", "count": [ 3, 5 ] } ]
     }
   },
   {
@@ -88,7 +88,7 @@
       "sound_vol": 20,
       "sound_fail_vol": 14,
       "ter_set": "t_mdoor_frame",
-      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] }, { "item": "scrap", "count": [ 3, 5 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "scrap", "count": [ 3, 5 ] } ]
     }
   },
   {
@@ -112,7 +112,7 @@
       "sound_fail_vol": 14,
       "ter_set": "t_mdoor_frame",
       "items": [
-        { "item": "glass_shard", "count": [ 42, 84 ] },
+        { "item": "glass_shard", "count": [ 3, 6 ] },
         { "item": "wire", "prob": 20 },
         { "item": "scrap", "count": [ 3, 5 ] }
       ]
@@ -139,7 +139,7 @@
       "sound_fail_vol": 14,
       "ter_set": "t_thconc_floor",
       "items": [
-        { "item": "glass_shard", "count": [ 42, 84 ] },
+        { "item": "glass_shard", "count": [ 3, 6 ] },
         { "item": "wire", "prob": 20 },
         { "item": "scrap", "count": [ 3, 5 ] }
       ]
@@ -166,7 +166,7 @@
       "sound_fail_vol": 14,
       "ter_set": "t_mdoor_frame",
       "items": [
-        { "item": "glass_shard", "count": [ 42, 84 ] },
+        { "item": "glass_shard", "count": [ 3, 6 ] },
         { "item": "wire", "prob": 20 },
         { "item": "scrap", "count": [ 3, 5 ] }
       ]
@@ -193,7 +193,7 @@
       "sound_fail_vol": 14,
       "ter_set": "t_thconc_floor",
       "items": [
-        { "item": "glass_shard", "count": [ 42, 84 ] },
+        { "item": "glass_shard", "count": [ 3, 6 ] },
         { "item": "wire", "prob": 20 },
         { "item": "scrap", "count": [ 3, 5 ] }
       ]
@@ -839,7 +839,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_door_red_frame",
-      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
     }
   },
   {
@@ -863,7 +863,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_door_green_frame",
-      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
     }
   },
   {
@@ -887,7 +887,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_door_white_frame",
-      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
     }
   },
   {
@@ -911,7 +911,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_door_gray_frame",
-      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
     }
   },
   {
@@ -935,7 +935,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_door_red_frame",
-      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
     }
   },
   {
@@ -959,7 +959,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_door_green_frame",
-      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
     }
   },
   {
@@ -983,7 +983,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_door_white_frame",
-      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
     }
   },
   {
@@ -1007,7 +1007,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_door_gray_frame",
-      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
     }
   },
   {
@@ -2301,7 +2301,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_door_frame",
-      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
     }
   },
   {
@@ -2325,7 +2325,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_thconc_floor",
-      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
     }
   },
   {
@@ -2349,7 +2349,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_door_frame",
-      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
     }
   },
   {
@@ -2373,7 +2373,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_thconc_floor",
-      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
     }
   },
   {

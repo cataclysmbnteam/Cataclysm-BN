@@ -369,7 +369,7 @@
     "material": [ "glass", "cotton" ],
     "weight": "115 g",
     "price_postapoc": 10,
-    "volume": "30 ml",
+    "volume": "250 ml",
     "cutting": 6,
     "flags": [ "SHEATH_KNIFE", "CONDUCTIVE", "FRAGILE_MELEE" ],
     "qualities": [ [ "BUTCHER", -18 ] ]

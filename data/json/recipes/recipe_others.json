@@ -3153,7 +3153,7 @@
     "time": "1 h",
     "autolearn": true,
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "sheet_metal", -1 ] ], [ [ "forge", 75 ] ] ],
-    "components": [ [ [ "glass_shard", 182 ], [ "jar_glass", 91 ], [ "flask_glass", 182 ], [ "test_tube", 364 ] ] ]
+    "components": [ [ [ "glass_shard", 18 ], [ "jar_glass", 9 ], [ "flask_glass", 18 ], [ "test_tube", 36 ] ] ]
   },
   {
     "type": "recipe",
@@ -4642,7 +4642,7 @@
     "time": "1 h",
     "autolearn": true,
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "sheet_metal", -1 ] ], [ [ "forge", 75 ] ] ],
-    "components": [ [ [ "glass_shard", 400 ], [ "flask_glass", 126 ], [ "jar_glass", 42 ] ] ]
+    "components": [ [ [ "glass_shard", 40 ], [ "flask_glass", 12 ], [ "jar_glass", 4 ] ] ]
   },
   {
     "type": "recipe",
