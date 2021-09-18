@@ -1,5 +1,6 @@
 #include "dispersion.h"
 
+#include "probability.h"
 #include "rng.h"
 
 double dispersion_sources::roll() const
@@ -37,3 +38,18 @@ double dispersion_sources::avg() const
     return max() / 2.0;
 }
 
+double dispersion_sources::quantile_function( double x ) const
+{
+    double quantile = 0.0;
+    for( const double &source : linear_sources ) {
+        quantile += x * source;
+    }
+    for( const double &source : normal_sources ) {
+        // @ref rng_normal is calculated as N((max+min/2), (max-min)/4)
+        quantile += probit::rescaled_to_zero_to_one( x ) * source;
+    }
+    for( const double &source : multipliers ) {
+        quantile *= source;
+    }
+    return quantile;
+}

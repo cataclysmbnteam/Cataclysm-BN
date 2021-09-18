@@ -26,6 +26,7 @@ class dispersion_sources
         double roll() const;
         double max() const;
         double avg() const;
+        double quantile_function( double x ) const;
 
         friend std::ostream &operator<<( std::ostream &stream, const dispersion_sources &sources );
 };
