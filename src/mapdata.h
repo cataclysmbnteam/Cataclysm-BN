@@ -119,6 +119,9 @@ struct pry_result {
     // What terrain or furniture it will turn into if you break it
     ter_id breakage_ter_type;
     furn_id breakage_furn_type;
+    // item group of items that are dropped on success or breakage
+    item_group_id pry_items;
+    item_group_id break_items;
     // sound message made on success ('You hear a "smash!"')
     translation sound;
     // sound message made on breakage, if breakable is true

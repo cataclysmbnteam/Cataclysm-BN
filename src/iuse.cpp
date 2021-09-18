@@ -2329,34 +2329,25 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    const std::set<ter_id> allowed_ter_id {
-        t_door_locked,
-        t_door_locked_alarm,
-        t_door_locked_interior,
-        t_door_locked_peep,
-        t_door_c,
-        t_door_c_peep,
-        t_manhole_cover,
-        t_window_domestic,
-        t_curtains,
-        t_window_no_curtains
-    };
-    const std::set<furn_id> allowed_furn_id {
-        f_crate_c,
-        f_coffin_c
-    };
+    const pry_result *pry = nullptr;
 
     const std::function<bool( const tripoint & )> f = [&allowed_ter_id,
     &allowed_furn_id]( const tripoint & pnt ) {
         if( pnt == g->u.pos() ) {
             return false;
         }
-        const ter_id ter = g->m.ter( pnt );
-        const auto furn = g->m.furn( pnt );
+        const ter_id ter = g->m.ter(pnt);
+        const auto furn = g->m.furn(pnt);
 
-        const bool is_allowed = allowed_ter_id.find( ter ) != allowed_ter_id.end() ||
-                                allowed_furn_id.find( furn ) != allowed_furn_id.end();
-        return is_allowed;
+        const bool is_allowed = false;
+        if( has_furn( p ) && furnid.pry.pry_quality != -1 ) {
+            pry = &furnid.pry;
+            pry_furn = true;
+            return is_allowed;
+        } else if( ter( p ).obj().pry.pry_quality != -1 ) {
+            pry = &ter( p ).obj().pry;
+            return is_allowed;
+        }
     };
 
     const cata::optional<tripoint> pnt_ = ( pos != p->pos() ) ? pos : choose_adjacent_highlight(
@@ -2376,66 +2367,6 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
         }
         return 0;
     }
-    const char *succ_action;
-    const char *fail_action;
-    ter_id new_type = t_null;
-    bool noisy;
-    int pry_quality;
-    int difficulty;
-
-    if( type == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior ) {
-        succ_action = _( "You pry open the door." );
-        fail_action = _( "You pry, but cannot pry open the door." );
-        new_type = t_door_o;
-        pry_quality = 2;
-        noisy = true;
-        difficulty = 8;
-    } else if( type == t_door_locked_peep ) {
-        succ_action = _( "You pry open the door." );
-        fail_action = _( "You pry, but cannot pry open the door." );
-        new_type = t_door_o_peep;
-        pry_quality = 2;
-        noisy = true;
-        difficulty = 8;
-    } else if( type == t_door_c ) {
-        p->add_msg_if_player( m_info, _( "You notice the door is unlocked, so you simply open it." ) );
-        g->m.ter_set( pnt, t_door_o );
-        p->mod_moves( -100 );
-        return 0;
-    } else if( type == t_door_c_peep ) {
-        p->add_msg_if_player( m_info, _( "You notice the door is unlocked, so you simply open it." ) );
-        g->m.ter_set( pnt, t_door_o_peep );
-        p->mod_moves( -100 );
-        return 0;
-    } else if( type == t_manhole_cover ) {
-        succ_action = _( "You lift the manhole cover." );
-        fail_action = _( "You pry, but cannot lift the manhole cover." );
-        pry_quality = 1;
-        new_type = t_manhole;
-        noisy = false;
-        difficulty = 4;
-    } else if( furn == f_crate_c ) {
-        succ_action = _( "You pop open the crate." );
-        fail_action = _( "You pry, but cannot pop open the crate." );
-        pry_quality = 1;
-        noisy = true;
-        difficulty = 6;
-    } else if( furn == f_coffin_c ) {
-        succ_action = _( "You wedge open the coffin." );
-        fail_action = _( "You pry, but the coffin remains closed." );
-        pry_quality = 2;
-        noisy = true;
-        difficulty = 7;
-    } else if( type == t_window_domestic || type == t_curtains || type == t_window_no_curtains ) {
-        succ_action = _( "You pry open the window." );
-        fail_action = _( "You pry, but cannot pry open the window." );
-        new_type = ( type == t_window_no_curtains ) ? t_window_no_curtains_open : t_window_open;
-        pry_quality = 2;
-        noisy = true;
-        difficulty = 8;
-    } else {
-        return 0;
-    }
 
     // Doors need PRY 2 which is on a crowbar, crates need PRY 1 which is on a crowbar
     // & a claw hammer.
@@ -2444,7 +2375,7 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
     // then managing to open a door.
     const int pry_level = it->get_quality( quality_id( "PRY" ) );
 
-    if( pry_level < pry_quality ) {
+    if( pry_level < pry->pry_quality ) {
         p->add_msg_if_player( _( "You can't get sufficient leverage to open that with your %s." ),
                               it->tname() );
         p->mod_moves( 10 ); // spend a few moves trying it.
@@ -2452,36 +2383,29 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
     }
 
     // For every level of PRY over the requirement, remove n from the difficulty.
-    // If pry_quality is 2 or higher, multiply effect of pre_level by 3.
-    // So a tool with PRY 4 gives -6 when used on a door, but only -2 on a manhole cover.
-    if( pry_quality > 1 ) {
-        difficulty -= ( ( pry_level - pry_quality ) * 3 );
-    } else {
-        difficulty -= ( pry_level - pry_quality );
-    }
+    // Then multiply n by pry_bonus_mult. It's recommended that you don't allow
+    // the result to be negative if you can help it.
+    int diff = pry->difficulty;
+    diff -= ( ( pry_level - pry->pry_quality ) * pry->pry_bonus_mult );
 
     /** @EFFECT_STR speeds up crowbar prying attempts */
-    p->mod_moves( -std::max( 20, difficulty * 50 - p->str_cur * 10 ) );
+    p->mod_moves( -std::max( 20, diff * 50 - p->str_cur * 10 ) );
     /** @EFFECT_STR increases chance of crowbar prying success */
 
-    if( dice( 4, difficulty ) < dice( 4, p->str_cur ) ) {
-        p->add_msg_if_player( m_good, succ_action );
+    if( dice( 4, diff ) < dice( 4, p->str_cur ) ) {
+        p->add_msg_if_player( m_good, pry->success_message );
 
-        if( g->m.furn( pnt ) == f_crate_c ) {
-            g->m.furn_set( pnt, f_crate_o );
-        } else if( g->m.furn( pnt ) == f_coffin_c ) {
-            g->m.furn_set( pnt, f_coffin_o );
+        if( pry_furn = true ) {
+            g->m.ter_set( pnt, pry->new_furn_type );
         } else {
-            g->m.ter_set( pnt, new_type );
+            g->m.ter_set( pnt, pry->new_ter_type );
         }
 
-        if( noisy ) {
-            sounds::sound( pnt, 12, sounds::sound_t::combat, _( "crunch!" ), true, "tool", "crowbar" );
+        if( pry->noise > 0 ) {
+            sounds::sound( pnt, pry->noise, sounds::sound_t::combat, pry->sound, true, "tool", "crowbar" );
         }
-        if( type == t_manhole_cover ) {
-            g->m.spawn_item( pnt, "manhole_cover" );
-        }
-        if( type == t_door_locked_alarm ) {
+        g->m.spawn_items( pnt, item_group::items_from( pry.pry_items, calendar::turn ) );
+        if( pry->alarm = true ) {
             g->events().send<event_type::triggers_alarm>( p->getID() );
             sounds::sound( p->pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                            "alarm" );
@@ -2491,31 +2415,22 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
             }
         }
     } else {
-        if( type == t_window_domestic || type == t_curtains ) {
+        if( pry->breakable = true ) {
             //chance of breaking the glass if pry attempt fails
             /** @EFFECT_STR reduces chance of breaking window with crowbar */
 
             /** @EFFECT_MECHANICS reduces chance of breaking window with crowbar */
-            if( dice( 4, difficulty ) > dice( 2, p->get_skill_level( skill_mechanics ) ) + dice( 2,
+            if( dice( 4, diff ) > dice( 2, p->get_skill_level( skill_mechanics ) ) + dice( 2,
                     p->str_cur ) ) {
-                p->add_msg_if_player( m_mixed, _( "You break the glass." ) );
-                sounds::sound( pnt, 24, sounds::sound_t::combat, _( "glass breaking!" ), true, "smash", "glass" );
-                g->m.ter_set( pnt, t_window_frame );
-                g->m.spawn_item( pnt, "sheet", 2 );
-                g->m.spawn_item( pnt, "stick" );
-                g->m.spawn_item( pnt, "string_36" );
-                return it->type->charges_to_use();
-            }
-        }
-        if( type == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior ) {
-            //chance of jamming the door if pry attempt fails
-            //difficulty is lower compared to risk of breaking windows
-
-            if( dice( 2, difficulty ) > dice( 2, p->get_skill_level( skill_mechanics ) ) + dice( 2,
-                    p->str_cur ) ) {
-                p->add_msg_if_player( m_mixed, _( "You damage the door!" ) );
-                sounds::sound( pnt, 10, sounds::sound_t::combat, _( "crack!" ), true, "smash", "door" );
-                if( type == t_door_locked_alarm ) {
+                p->add_msg_if_player( m_mixed, pry->breakage_message );
+                sounds::sound( pnt, pry->noise, sounds::sound_t::combat, pry->breakage_message, true, "smash", "door" );
+                if( pry_furn = true ) {
+                    g->m.ter_set( pnt, pry->breakage_furn_type );
+                } else {
+                    g->m.ter_set( pnt, pry->breakage_ter_type );
+                }
+                g->m.spawn_items( pnt, item_group::items_from( pry.break_items, calendar::turn ) );
+                if( alarm = true ) {
                     g->events().send<event_type::triggers_alarm>( p->getID() );
                     sounds::sound( p->pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                                    "alarm" );
@@ -2524,26 +2439,10 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
                                              p->global_sm_location() );
                     }
                 }
-                g->m.ter_set( pnt, t_door_b );
-                g->m.spawn_item( pnt, "2x4" );
-                g->m.spawn_item( pnt, "splinter", 2 );
-                g->m.spawn_item( pnt, "nail", 2 );
                 return it->type->charges_to_use();
             }
         }
-        if( type == t_door_locked_peep ) {
-            if( dice( 2, difficulty ) > dice( 2, p->get_skill_level( skill_mechanics ) ) + dice( 2,
-                    p->str_cur ) ) {
-                p->add_msg_if_player( m_mixed, _( "You damage the door!" ) );
-                sounds::sound( pnt, 10, sounds::sound_t::combat, _( "crack!" ), true, "smash", "door" );
-                g->m.ter_set( pnt, t_door_b_peep );
-                g->m.spawn_item( pnt, "2x4" );
-                g->m.spawn_item( pnt, "splinter", 2 );
-                g->m.spawn_item( pnt, "nail", 2 );
-                return it->type->charges_to_use();
-            }
-        }
-        p->add_msg_if_player( fail_action );
+        p->add_msg_if_player( pry->fail_message );
     }
     return it->type->charges_to_use();
 }

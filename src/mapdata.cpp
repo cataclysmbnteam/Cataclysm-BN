@@ -322,9 +322,10 @@ bool plant_data::load( const JsonObject &jsobj, const std::string &member )
     return true;
 }
 
-pry_result::pry_result() : pry_quality( 1 ), pry_bonus_mult( 1 ),
+pry_result::pry_result() : pry_quality( -1 ), pry_bonus_mult( 1 ),
     difficulty( 1 ), noise( 0 ),
     alarm( false ), breakable( false ),
+    pry_drop_group( "EMPTY_GROUP" ), break_drop_group( "EMPTY_GROUP" ),
     breakage_ter_type( ter_str_id::NULL_ID() ), breakage_furn_type( furn_str_id::NULL_ID() ),
     new_ter_type( ter_str_id::NULL_ID() ), new_furn_type( furn_str_id::NULL_ID() ) {}
 
@@ -336,7 +337,7 @@ bool pry_result::load( const JsonObject &jsobj, const std::string &member,
     }
 
     JsonObject j = jsobj.get_object( member );
-    pry_quality = j.get_int( "pry_quality", 1 );
+    pry_quality = j.get_int( "pry_quality", -1 );
     pry_bonus_mult = j.get_int( "pry_bonus_mult", 1 );
     difficulty = j.get_int( "difficulty", 1 );
 
@@ -355,6 +356,18 @@ bool pry_result::load( const JsonObject &jsobj, const std::string &member,
             new_ter_type = ter_str_id( j.get_string( "new_ter_type" ) );
             breakage_ter_type = ter_str_id( j.get_string( "breakage_ter_type" ) );
             break;
+    }
+
+    if( j.has_member( "pry_items" ) ) {
+        pry_items = item_group::load_item_group( j.get_member( "pry_items" ), "collection" );
+    } else {
+        pry_items = item_group_id( "EMPTY_GROUP" );
+    }
+
+    if( j.has_member( "break_items" ) ) {
+        break_items = item_group::load_item_group( j.get_member( "break_items" ), "collection" );
+    } else {
+        break_items = item_group_id( "EMPTY_GROUP" );
     }
 
     return true;
