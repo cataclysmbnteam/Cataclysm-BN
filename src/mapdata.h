@@ -112,17 +112,22 @@ struct pry_result {
     int difficulty;
     // How much noise a successful prying attempt creates, if any
     int noise;
-    // Does a successful pry attempt cause noise?
+    // Does a successful pry attempt potentially sound an alarm?
     bool alarm;
     // Does a failed pry attempt risk breaking it instead?
     bool breakable;
     // What terrain or furniture it will turn into if you break it
     ter_id breakage_ter_type;
     furn_id breakage_furn_type;
+    // sound message made on success ('You hear a "smash!"')
+    translation sound;
+    // sound message made on breakage, if breakable is true
+    translation sound_break;
     // Messages for succeeding or failing pry attempt, and breakage
     std::string success_message;
     std::string fail_message;
     std::string breakage_message;
+    pry_result();
     enum map_object_type {
         furniture = 0,
         terrain

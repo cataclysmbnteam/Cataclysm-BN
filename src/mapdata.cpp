@@ -322,6 +322,44 @@ bool plant_data::load( const JsonObject &jsobj, const std::string &member )
     return true;
 }
 
+pry_result::pry_result() : pry_quality( 1 ), pry_bonus_mult( 1 ),
+    difficulty( 1 ), noise( 0 ),
+    alarm( false ), breakable( false ),
+    breakage_ter_type( ter_str_id::NULL_ID() ), breakage_furn_type( furn_str_id::NULL_ID() ),
+    new_ter_type( ter_str_id::NULL_ID() ), new_furn_type( furn_str_id::NULL_ID() ) {}
+
+bool pry_result::load( const JsonObject &jsobj, const std::string &member,
+                          map_object_type obj_type )
+{
+    if( !jsobj.has_object( member ) ) {
+        return false;
+    }
+
+    JsonObject j = jsobj.get_object( member );
+    pry_quality = j.get_int( "pry_quality", 1 );
+    pry_bonus_mult = j.get_int( "pry_bonus_mult", 1 );
+    difficulty = j.get_int( "difficulty", 1 );
+
+    noise = j.get_int( "noise", 0 );
+    sound = to_translation( "crunch!" );
+    sound_break = to_translation( "crack!" );
+    j.read( "sound", sound );
+    j.read( "sound_break", sound_break );
+
+    switch( obj_type ) {
+        case pry_result::furniture:
+            new_furn_type = furn_str_id( j.get_string( "new_furn_type", "f_null" ) );
+            breakage_furn_type = furn_str_id( j.get_string( "breakage_furn_type", "f_null" ) );
+            break;
+        case pry_result::terrain:
+            new_ter_type = ter_str_id( j.get_string( "new_ter_type" ) );
+            breakage_ter_type = ter_str_id( j.get_string( "breakage_ter_type" ) );
+            break;
+    }
+
+    return true;
+}
+
 furn_t null_furniture_t()
 {
     furn_t new_furniture;
