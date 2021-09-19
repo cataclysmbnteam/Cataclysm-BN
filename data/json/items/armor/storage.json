@@ -500,10 +500,10 @@
     "color": "dark_gray",
     "covers": [ "legs" ],
     "coverage": 20,
-    "encumbrance": 5,
+    "encumbrance": 4,
     "storage": "4 L",
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED" ]
   },
   {
     "id": "makeshift_knapsack",
