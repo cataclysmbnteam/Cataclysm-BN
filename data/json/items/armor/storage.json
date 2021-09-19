@@ -501,7 +501,7 @@
     "covers": [ "legs" ],
     "coverage": 20,
     "encumbrance": 4,
-    "storage": "4 L",
+    "storage": "3 L",
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "BELTED" ]
   },
