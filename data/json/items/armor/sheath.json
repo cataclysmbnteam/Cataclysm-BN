@@ -14,9 +14,7 @@
     "color": "brown",
     "covers": [ "torso" ],
     "coverage": 5,
-    "encumbrance": 2,
-    "max_encumbrance": 10,
-    "rigid": false,
+    "encumbrance": 3,
     "material_thickness": 1,
     "use_action": {
       "type": "holster",
@@ -45,8 +43,6 @@
     "covers": [ "torso" ],
     "coverage": 10,
     "encumbrance": 3,
-    "max_encumbrance": 12,
-    "rigid": false,
     "material_thickness": 1,
     "use_action": {
       "type": "holster",
@@ -74,9 +70,7 @@
     "color": "brown",
     "covers": [ "foot_either" ],
     "coverage": 5,
-    "encumbrance": 2,
-    "max_encumbrance": 6,
-    "rigid": false,
+    "encumbrance": 1,
     "material_thickness": 1,
     "use_action": {
       "type": "holster",
@@ -105,8 +99,6 @@
     "covers": [ "torso" ],
     "coverage": 10,
     "encumbrance": 4,
-    "max_encumbrance": 16,
-    "rigid": false,
     "material_thickness": 1,
     "use_action": {
       "type": "holster",
@@ -134,9 +126,7 @@
     "color": "brown",
     "covers": [ "leg_either" ],
     "coverage": 15,
-    "encumbrance": 3,
-    "max_encumbrance": 12,
-    "rigid": false,
+    "encumbrance": 2,
     "material_thickness": 1,
     "use_action": {
       "type": "holster",
@@ -161,9 +151,7 @@
     "looks_like": "scabbard",
     "color": "brown",
     "covers": [ "leg_either" ],
-    "encumbrance": 2,
-    "max_encumbrance": 6,
-    "rigid": false,
+    "encumbrance": 1,
     "coverage": 5,
     "material_thickness": 1,
     "use_action": {
@@ -192,9 +180,7 @@
     "color": "brown",
     "covers": [ "torso" ],
     "coverage": 5,
-    "encumbrance": 2,
-    "max_encumbrance": 10,
-    "rigid": false,
+    "encumbrance": 3,
     "material_thickness": 1,
     "use_action": {
       "type": "holster",
