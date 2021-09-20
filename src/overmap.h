@@ -19,6 +19,7 @@
 #include <vector>
 
 #include "coordinates.h"
+#include "cube_direction.h"
 #include "enums.h"
 #include "enum_conversions.h"
 #include "game_constants.h"
@@ -173,6 +174,27 @@ static const std::map<std::string, oter_flags> oter_flags_map = {
     { "SOURCE_VEHICLES", source_vehicles },
     { "SOURCE_WEAPON", source_weapon }
 };
+
+struct om_pos_dir {
+    tripoint_om_omt p;
+    cube_direction dir;
+
+    bool inbounds() const;
+    om_pos_dir opposite() const;
+    friend bool operator==( const om_pos_dir &l, const om_pos_dir &r );
+    friend bool operator<( const om_pos_dir &l, const om_pos_dir &r );
+};
+
+namespace std
+{
+template<>
+struct hash<om_pos_dir> {
+    size_t operator()( const om_pos_dir &p ) const {
+        cata::tuple_hash h;
+        return h( std::make_tuple( p.p, p.dir ) );
+    }
+};
+} // namespace std
 
 class overmap
 {
