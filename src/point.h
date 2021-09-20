@@ -101,25 +101,22 @@ struct point {
     }
 
     std::string to_string() const;
-};
 
-std::ostream &operator<<( std::ostream &, const point & );
+    friend inline constexpr bool operator<( const point &a, const point &b ) {
+        return a.x < b.x || ( a.x == b.x && a.y < b.y );
+    }
+    friend inline constexpr bool operator==( const point &a, const point &b ) {
+        return a.x == b.x && a.y == b.y;
+    }
+    friend inline constexpr bool operator!=( const point &a, const point &b ) {
+        return !( a == b );
+    }
+
+    friend std::ostream &operator<<( std::ostream &, const point & );
+};
 
 void serialize( const point &p, JsonOut &jsout );
 void deserialize( point &p, JsonIn &jsin );
-
-inline constexpr bool operator<( const point &a, const point &b )
-{
-    return a.x < b.x || ( a.x == b.x && a.y < b.y );
-}
-inline constexpr bool operator==( const point &a, const point &b )
-{
-    return a.x == b.x && a.y == b.y;
-}
-inline constexpr bool operator!=( const point &a, const point &b )
-{
-    return !( a == b );
-}
 
 // NOLINTNEXTLINE(cata-xy)
 struct tripoint {
@@ -198,39 +195,40 @@ struct tripoint {
 
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );
+
+    friend std::ostream &operator<<( std::ostream &, const tripoint & );
+
+    friend inline constexpr bool operator==( const tripoint &a, const tripoint &b ) {
+        return a.x == b.x && a.y == b.y && a.z == b.z;
+    }
+    friend inline constexpr bool operator!=( const tripoint &a, const tripoint &b ) {
+        return !( a == b );
+    }
+    friend inline bool operator<( const tripoint &a, const tripoint &b ) {
+        if( a.x != b.x ) {
+            return a.x < b.x;
+        }
+        if( a.y != b.y ) {
+            return a.y < b.y;
+        }
+        if( a.z != b.z ) {
+            return a.z < b.z;
+        }
+        return false;
+    }
 };
-
-std::ostream &operator<<( std::ostream &, const tripoint & );
-
-inline constexpr bool operator==( const tripoint &a, const tripoint &b )
-{
-    return a.x == b.x && a.y == b.y && a.z == b.z;
-}
-inline constexpr bool operator!=( const tripoint &a, const tripoint &b )
-{
-    return !( a == b );
-}
-inline bool operator<( const tripoint &a, const tripoint &b )
-{
-    if( a.x != b.x ) {
-        return a.x < b.x;
-    }
-    if( a.y != b.y ) {
-        return a.y < b.y;
-    }
-    if( a.z != b.z ) {
-        return a.z < b.z;
-    }
-    return false;
-}
 
 struct rectangle {
     point p_min;
     point p_max;
     constexpr rectangle() = default;
     constexpr rectangle( const point &P_MIN, const point &P_MAX ) : p_min( P_MIN ), p_max( P_MAX ) {}
+};
 
-    constexpr bool contains_half_open( const point &p ) const {
+struct half_open_rectangle : rectangle {
+    using rectangle::rectangle;
+
+    constexpr bool contains( const point &p ) const {
         return p.x >= p_min.x && p.x < p_max.x &&
                p.y >= p_min.y && p.y < p_max.y;
     }
@@ -239,8 +237,12 @@ struct rectangle {
         return !( r.p_min.x >= p_max.x || r.p_min.y >= p_max.y ||
                   p_min.x >= r.p_max.x || p_min.y >= r.p_max.y );
     }
+};
 
-    constexpr bool contains_inclusive( const point &p ) const {
+struct inclusive_rectangle : rectangle {
+    using rectangle::rectangle;
+
+    constexpr bool contains( const point &p ) const {
         return p.x >= p_min.x && p.x <= p_max.x &&
                p.y >= p_min.y && p.y <= p_max.y;
     }
@@ -251,13 +253,13 @@ struct rectangle {
     }
 };
 
-// Clamp p to the half-open rectangle r.
+// Clamp p to the rectangle r.
 // This independently clamps each coordinate of p to the bounds of the
 // rectangle.
 // Useful for example to round an arbitrary point to the nearest point on the
 // screen, or the nearest point in a particular submap.
-point clamp_half_open( const point &p, const rectangle &r );
-point clamp_inclusive( const point &p, const rectangle &r );
+point clamp( const point &p, const half_open_rectangle &r );
+point clamp( const point &p, const inclusive_rectangle &r );
 
 struct box {
     tripoint p_min;
@@ -267,26 +269,34 @@ struct box {
     explicit constexpr box( const rectangle &R, int Z1, int Z2 ) :
         p_min( tripoint( R.p_min, Z1 ) ), p_max( tripoint( R.p_max, Z2 ) ) {}
 
-    constexpr bool contains_half_open( const tripoint &p ) const {
-        return p.x >= p_min.x && p.x < p_max.x &&
-               p.y >= p_min.y && p.y < p_max.y &&
-               p.z >= p_min.z && p.z < p_max.z;
-    }
-
-    constexpr bool contains_inclusive( const tripoint &p ) const {
-        return p.x >= p_min.x && p.x <= p_max.x &&
-               p.y >= p_min.y && p.y <= p_max.y &&
-               p.z >= p_min.z && p.z <= p_max.z;
-    }
-
     void shrink( const tripoint &amount ) {
         p_min += amount;
         p_max -= amount;
     }
 };
 
-static constexpr tripoint tripoint_zero { 0, 0, 0 };
-static constexpr point point_zero{ tripoint_zero.xy() };
+struct half_open_box : box {
+    using box::box;
+
+    constexpr bool contains( const tripoint &p ) const {
+        return p.x >= p_min.x && p.x < p_max.x &&
+               p.y >= p_min.y && p.y < p_max.y &&
+               p.z >= p_min.z && p.z < p_max.z;
+    }
+};
+
+struct inclusive_box : box {
+    using box::box;
+
+    constexpr bool contains( const tripoint &p ) const {
+        return p.x >= p_min.x && p.x <= p_max.x &&
+               p.y >= p_min.y && p.y <= p_max.y &&
+               p.z >= p_min.z && p.z <= p_max.z;
+    }
+};
+
+static constexpr tripoint tripoint_zero{};
+static constexpr point point_zero{};
 
 static constexpr point point_north{ 0, -1 };
 static constexpr point point_north_east{ 1, -1 };

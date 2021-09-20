@@ -213,7 +213,7 @@ void distribution_grid_tracker::on_changed( const tripoint &p )
     tripoint sm_pos = ms_to_sm_copy( p );
     // TODO: If not in bounds, just drop the grid, rebuild lazily
     if( parent_distribution_grids.count( sm_pos ) > 0 ||
-        bounds.contains_half_open( sm_pos.xy() ) ) {
+        bounds.contains( sm_pos.xy() ) ) {
         // TODO: Don't rebuild, update
         make_distribution_grid_at( sm_pos );
     }
@@ -267,7 +267,7 @@ void distribution_grid_tracker::update( time_point to )
     }
 }
 
-void distribution_grid_tracker::load( rectangle area )
+void distribution_grid_tracker::load( half_open_rectangle area )
 {
     bounds = area;
     // TODO: Don't reload everything when not needed
@@ -276,6 +276,7 @@ void distribution_grid_tracker::load( rectangle area )
 
 void distribution_grid_tracker::load( const map &m )
 {
-    load( rectangle( m.get_abs_sub().xy(),
-                     m.get_abs_sub().xy() + point( m.getmapsize(), m.getmapsize() ) ) );
+    point p_min = m.get_abs_sub().xy();
+    point p_max = p_min + point( m.getmapsize(), m.getmapsize() );
+    load( half_open_rectangle( p_min, p_max ) );
 }
