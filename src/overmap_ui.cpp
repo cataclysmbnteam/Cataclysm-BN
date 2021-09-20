@@ -18,6 +18,7 @@
 #include <vector>
 
 #include "activity_actor_definitions.h"
+#include "all_enum_values.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "cached_options.h"
@@ -1367,6 +1368,13 @@ static void draw_om_sidebar(
         mvwprintz( wbar, point( 1, ++lines ), c_white, _( "oter: %s" ), oter.id.str() );
         mvwprintz( wbar, point( 1, ++lines ), c_white,
                    _( "oter_type: %s" ), oter.get_type_id().str() );
+
+        for( cube_direction dir : all_enum_values<cube_direction>() ) {
+            if( std::string *join = overmap_buffer.join_used_at( { center, dir } ) ) {
+                mvwprintz( wbar, point( 1, ++lines ), c_white, _( "join %s: %s" ),
+                           io::enum_to_string( dir ), *join );
+            }
+        }
     }
 
     if( has_target ) {

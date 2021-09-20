@@ -678,6 +678,12 @@ void overmap::unserialize( std::istream &fin, const std::string &file_path )
                     }
                 }
             }
+        } else if( name == "joins_used" ) {
+            std::vector<std::pair<om_pos_dir, std::string>> flat_index;
+            jsin.read( flat_index, true );
+            for( const std::pair<om_pos_dir, std::string> &p : flat_index ) {
+                joins_used.insert( p );
+            }
         }
     }
 }
@@ -1104,6 +1110,11 @@ void overmap::serialize( std::ostream &fout ) const
 
     }
     json.end_array();
+
+    std::vector<std::pair<om_pos_dir, std::string>> flattened_joins_used(
+                joins_used.begin(), joins_used.end() );
+    json.member( "joins_used", flattened_joins_used );
+    fout << std::endl;
 
     json.end_object();
     fout << std::endl;

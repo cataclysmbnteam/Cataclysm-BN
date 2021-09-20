@@ -181,6 +181,10 @@ struct om_pos_dir {
 
     bool inbounds() const;
     om_pos_dir opposite() const;
+
+    void serialize( JsonOut &jsout ) const;
+    void deserialize( JsonIn &jsin );
+
     friend bool operator==( const om_pos_dir &l, const om_pos_dir &r );
     friend bool operator<( const om_pos_dir &l, const om_pos_dir &r );
 };
@@ -238,6 +242,7 @@ class overmap
 
         void ter_set( const tripoint_om_omt &p, const oter_id &id );
         const oter_id &ter( const tripoint_om_omt &p ) const;
+        std::string *join_used_at( const om_pos_dir & );
         bool &seen( const tripoint_om_omt &p );
         bool seen( const tripoint_om_omt &p ) const;
         bool &explored( const tripoint_om_omt &p );
@@ -374,6 +379,10 @@ class overmap
         std::unordered_map<tripoint_om_omt, overmap_special_id> overmap_special_placements;
 
         const regional_settings *settings;
+
+        // Records the joins that were chosen during placement of a mutable
+        // special, so that it can be queried later by mapgen
+        std::unordered_map<om_pos_dir, std::string> joins_used;
 
         oter_id get_default_terrain( int z ) const;
 
