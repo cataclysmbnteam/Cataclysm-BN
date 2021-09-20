@@ -1,6 +1,7 @@
 [
   {
     "type": "GENERIC",
+    "category": "weapons",
     "id": "bagh_nakha",
     "name": { "str_sp": "tiger claws" },
     "description": "Also called bagh nakha or iron paw, this is a small claw-like bladed weapon from India designed to be concealed under and against the palm.",
@@ -17,6 +18,7 @@
   },
   {
     "type": "GENERIC",
+    "category": "weapons",
     "id": "cestus",
     "symbol": "3",
     "color": "light_gray",
@@ -31,11 +33,11 @@
   },
   {
     "type": "GENERIC",
+    "category": "weapons",
     "id": "knuckle_brass",
     "symbol": "3",
     "color": "yellow",
     "name": { "str": "pair of brass knuckles", "str_pl": "pairs of brass knuckles" },
-    "category": "weapons",
     "description": "A metal weapon made of brass, designed to be gripped in the palm and cause punches to do extra damage.  A good, quick weapon - but you have to get within punching range to use it.",
     "material": "brass",
     "weight": "320 g",
@@ -45,6 +47,7 @@
   },
   {
     "type": "GENERIC",
+    "category": "weapons",
     "id": "knuckle_katar",
     "symbol": "!",
     "color": "dark_gray",
@@ -62,6 +65,7 @@
   },
   {
     "type": "GENERIC",
+    "category": "weapons",
     "id": "knuckle_nail",
     "symbol": "]",
     "color": "brown",
@@ -77,6 +81,7 @@
   },
   {
     "type": "GENERIC",
+    "category": "weapons",
     "id": "knuckle_steel",
     "symbol": "3",
     "color": "dark_gray",
@@ -92,6 +97,7 @@
   },
   {
     "type": "GENERIC",
+    "category": "weapons",
     "id": "punch_dagger",
     "name": { "str": "punch dagger" },
     "description": "A short and sharp double-edged dagger made to be gripped in the palm, with the blade protruding between the fingers.",

@@ -29,7 +29,8 @@
   },
   {
     "id": "scissors",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "pair of scissors", "str_pl": "pairs of scissors" },
     "description": "These are a long pair of heavy-duty scissors.  Use scissors to cut items made from cotton (like clothing) into rags.",
     "weight": "113 g",

@@ -1,9 +1,9 @@
 [
   {
     "type": "GENERIC",
+    "category": "weapons",
     "id": "pitchfork",
     "name": { "str": "pitchfork" },
-    "category": "tools",
     "description": "An agricultural tool with long wooden shaft and four spikes.  Is used to lift hay.",
     "weight": "1000 g",
     "color": "brown",
@@ -20,6 +20,7 @@
   },
   {
     "type": "GENERIC",
+    "category": "weapons",
     "id": "pointy_stick",
     "symbol": "/",
     "color": "brown",
@@ -37,6 +38,7 @@
   },
   {
     "type": "GENERIC",
+    "category": "weapons",
     "id": "spear_wood",
     "name": { "str": "wooden spear" },
     "description": "A stout pole with an improvised grip and a fire-hardened point.",
@@ -56,7 +58,7 @@
   },
   {
     "id": "makeshift_scythe_war",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "weapons",
     "name": { "str": "makeshift war scythe" },
     "description": "This farming tool has been modified into an improvised weapon by rotating its blade 90 degrees, transforming it into a deadly giant blade on the end of a stick.  However it's quite fragile.",
@@ -76,7 +78,6 @@
   {
     "id": "spear_spike",
     "type": "TOOL",
-    "category": "weapons",
     "name": { "str": "spike on a stick" },
     "description": "A flimsy pole made of wood with a basic metal spike tied to it.  It's barely sharp, and crudely constructed, but it will keep the zombies out of arm's reach until you can find something better.",
     "weight": "1487 g",
@@ -95,7 +96,6 @@
   {
     "id": "spear_knife",
     "type": "TOOL",
-    "category": "weapons",
     "name": { "str": "simple knife spear" },
     "description": "A flimsy pole made of wood with a knife bound to the end.  It's long enough to slice from a distance, but the knife isn't that well attached.  You could take a bit more time to carefully split the shaft and attach the knife blade more permanently.",
     "weight": "1487 g",
@@ -115,7 +115,6 @@
   {
     "id": "spear_knife_superior",
     "type": "TOOL",
-    "category": "weapons",
     "name": { "str": "knife spear" },
     "description": "A sturdy wooden pole that has been carefully split and reinforced.  At the split point, a sharp blade has been bolted into place and reinforced with layers of sturdy wrapped bindings.",
     "weight": "1487 g",
@@ -135,7 +134,6 @@
   {
     "id": "spear_homemade_halfpike",
     "type": "TOOL",
-    "category": "weapons",
     "name": { "str": "homemade halfpike" },
     "description": "A short do-it-yourself spear made out of a smooth wooden shaft with a metal spike seated and bound into place at its tip.  Its functional grip and decent construction makes it a usable, if not effective, weapon.",
     "weight": "1814 g",
@@ -152,6 +150,7 @@
   },
   {
     "type": "GENERIC",
+    "category": "weapons",
     "id": "spear_forked",
     "name": { "str": "forked spear" },
     "description": "A wooden pole with three spikes tied to it and decent grip.  It's specialized for catching weapons.",
@@ -170,6 +169,7 @@
   },
   {
     "type": "GENERIC",
+    "category": "weapons",
     "id": "spear_copper",
     "name": { "str": "copper spear" },
     "description": "A stout wooden pole with a spearhead worked from copper.",
@@ -189,6 +189,7 @@
   },
   {
     "type": "GENERIC",
+    "category": "weapons",
     "id": "spear_steel",
     "name": { "str": "steel spear" },
     "description": "A stout wooden pole with a hand-forged steel spearhead.",
@@ -208,6 +209,7 @@
   },
   {
     "type": "GENERIC",
+    "category": "weapons",
     "id": "spear_pipe",
     "name": { "str": "pipe spear" },
     "description": "A stout metal pole with a sharp point.",
@@ -227,6 +229,7 @@
   },
   {
     "type": "GENERIC",
+    "category": "weapons",
     "id": "spear_rebar",
     "symbol": "/",
     "color": "dark_gray",
@@ -245,6 +248,7 @@
   },
   {
     "type": "GENERIC",
+    "category": "weapons",
     "id": "qiang",
     "name": { "str": "qiang" },
     "description": "An ancient Chinese spear, typically with a tassel just below the spearhead.  One of the four major weapons in folklore, alongside the dao sabre, jian sword, and gun staff.",
@@ -264,6 +268,7 @@
   {
     "id": "halberd",
     "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "halberd" },
@@ -282,6 +287,7 @@
   {
     "id": "halberd_fake",
     "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "halberd fake" },
@@ -295,12 +301,12 @@
     "bashing": 22,
     "cutting": 4,
     "to_hit": 1,
-    "price_postapoc": 500,
-    "category": "weapons"
+    "price_postapoc": 500
   },
   {
     "id": "glaive",
     "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "glaive" },
@@ -318,6 +324,7 @@
   },
   {
     "type": "GENERIC",
+    "category": "weapons",
     "id": "naginata",
     "name": { "str_sp": "naginata" },
     "description": "A sturdy polearm with a curved blade, made in the same manner as the katana and other Japanese blades.  Occasionally used by samurai in early periods, or by their wives in defense of the household.",
@@ -336,6 +343,7 @@
   },
   {
     "type": "GENERIC",
+    "category": "weapons",
     "id": "naginata_inferior",
     "name": { "str": "naginata replica" },
     "description": "A sturdy polearm with a curved blade, made in the same manner as the katana and other Japanese blades.  This one has a bit of wiggle to its blade and feels a bit shoddily made.",
@@ -354,6 +362,7 @@
   },
   {
     "type": "GENERIC",
+    "category": "weapons",
     "id": "naginata_fake",
     "name": { "str": "naginata fake" },
     "description": "This is a dull, slightly floppy replica of a Japanese polearm with a curved blade.  With a little difficulty, you could use it administer a solid slap from a distance.",
@@ -372,6 +381,7 @@
   },
   {
     "type": "GENERIC",
+    "category": "weapons",
     "id": "spear_survivor",
     "name": { "str_sp": "survivor naginata" },
     "description": "This sturdy steel shaft with a sword blade at the end is good for both slashing and stabbing.",
@@ -392,6 +402,7 @@
   },
   {
     "type": "GENERIC",
+    "category": "weapons",
     "id": "javelin",
     "name": { "str": "wooden javelin" },
     "description": "A fire-hardened wooden spear honed to a sharper point.  The grip area has been carved and covered for better grip.",
@@ -411,6 +422,7 @@
   },
   {
     "type": "GENERIC",
+    "category": "weapons",
     "id": "javelin_iron",
     "name": { "str": "iron javelin" },
     "description": "An iron-tipped wooden throwing spear.  The grip area has been carved and covered for better grip.",
@@ -532,6 +544,7 @@
   },
   {
     "type": "GENERIC",
+    "category": "weapons",
     "id": "scythe_war",
     "name": { "str": "war scythe" },
     "description": "A pole weapon with a curving single-edged blade.  Its blade bears some superficial resemblance to that of an agricultural scythe from which it likely evolved.",
@@ -551,6 +564,7 @@
   {
     "id": "spear_dory",
     "type": "GENERIC",
+    "category": "weapons",
     "name": { "str": "dory", "str_pl": "dories" },
     "description": "A well-made spear with a bronze head, Greek in origin.",
     "weight": "1598 g",
@@ -570,6 +584,7 @@
   {
     "id": "ji",
     "type": "GENERIC",
+    "category": "weapons",
     "name": { "str_sp": "ji" },
     "//": "Couldn't find a good way to pluralize the transliteration.",
     "description": "This is a bronze polearm that originated in the Shang dynasty of China, if not earlier.  It combines a spear head with the perpendicular blade of the earlier ge or dagger-axe.",
@@ -589,6 +604,7 @@
   {
     "id": "spear_stone",
     "type": "GENERIC",
+    "category": "weapons",
     "name": { "str": "stone spear" },
     "description": "A stout wooden pole with a sharp stone spearhead.",
     "weight": "1098 g",

@@ -1,7 +1,8 @@
 [
   {
     "id": "anvil",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "anvil" },
     "description": "This is an enormously heavy block of oddly shaped steel with a chisel-like projection set into the corner.  It's used in most metalworking fabrication recipes.",
     "weight": "54000 g",
@@ -18,7 +19,8 @@
   },
   {
     "id": "anvil_bronze",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "bronze anvil" },
     "description": "This is a block of oddly shaped bronze with a chisel-like projection set into the corner.  It's used in most metalworking fabrication recipes.",
     "weight": "2180 g",
@@ -35,7 +37,8 @@
   },
   {
     "id": "boltcutters",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "pair of bolt cutters", "str_pl": "pairs of bolt cutters" },
     "description": "This is a large pair of bolt cutters.  You could use them to cut padlocks or heavy gauge wire.",
     "weight": "1224 g",
@@ -53,6 +56,7 @@
   {
     "id": "char_forge",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "charcoal forge" },
     "description": "This is a portable, charcoal fired, metalworking forge.  If combined with the right tools, you could use this for metalworking.",
     "weight": "8600 g",
@@ -88,7 +92,8 @@
   },
   {
     "id": "chisel",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "metalworking chisel" },
     "description": "This is a short, stout metalworking chisel.  It's used in some metalworking fabrication recipes.",
     "weight": "660 g",
@@ -106,7 +111,8 @@
   },
   {
     "id": "crucible",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "crucible" },
     "description": "This is a small metalworking crucible.  It's used in some metalworking fabrication recipes.",
     "weight": "1400 g",
@@ -122,7 +128,8 @@
   },
   {
     "id": "crucible_clay",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "clay crucible" },
     "description": "This is a primitive metalworking crucible made of clay.  You could use it for metalworking.",
     "weight": "1642 g",
@@ -139,6 +146,7 @@
   {
     "id": "forge",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "electric forge" },
     "description": "This is a portable electric metalworking forge, powered by batteries.  Combined with the right tools, you could use this for metalworking.  With a little mechanical know-how, you could probably even convert it to run directly off a vehicle's power system.",
     "weight": "10000 g",
@@ -159,7 +167,7 @@
   },
   {
     "id": "kiln_done",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "tools",
     "name": { "str": "finished charcoal kiln" },
     "description": "A charcoal kiln that has finished burning.  Disassemble it to retrieve the charcoal and kiln.",
@@ -174,7 +182,7 @@
   },
   {
     "id": "kiln_full",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "tools",
     "name": { "str": "filled charcoal kiln" },
     "description": "A kiln filled with wood which will become charcoal after a slow period of burning.",
@@ -222,7 +230,7 @@
   },
   {
     "id": "link_sheet",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "chainmail sheet" },
     "description": "This is a sheet of riveted chainmail.  With some skill, several of these sheets could be connected to make effective armor.",
@@ -237,7 +245,8 @@
   },
   {
     "id": "swage",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "swage and die set" },
     "description": "These are a set of swages and dies for metalsmithing.  These loops and metal blocks are used in some metalworking fabrication recipes.",
     "weight": "2620 g",
@@ -253,7 +262,8 @@
   },
   {
     "id": "tongs",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "pair of metal tongs", "str_pl": "pairs of metal tongs" },
     "description": "These are long, metal tongs.  They are commonly used for cooking or in metalworking fabrication recipes.",
     "weight": "540 g",

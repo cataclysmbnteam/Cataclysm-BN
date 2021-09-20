@@ -1,6 +1,7 @@
 [
   {
     "type": "GENERIC",
+    "category": "weapons",
     "id": "sword_wood",
     "symbol": "!",
     "color": "brown",
@@ -18,6 +19,7 @@
   },
   {
     "type": "GENERIC",
+    "category": "weapons",
     "id": "sword_nail",
     "symbol": "!",
     "color": "light_gray",
@@ -34,6 +36,7 @@
   },
   {
     "type": "GENERIC",
+    "category": "weapons",
     "id": "sword_crude",
     "symbol": "!",
     "color": "light_gray",
@@ -53,7 +56,7 @@
   {
     "id": "switchblade",
     "type": "TOOL",
-    "category": "weapons",
+    "category": "tools",
     "name": { "str": "switchblade" },
     "description": "This is a long and thin knife with a spring-loaded blade that rests inside the handle while not in use.",
     "weight": "100 g",
@@ -72,6 +75,7 @@
   {
     "id": "knife_folding",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "folding knife", "str_pl": "folding knives" },
     "description": "This is a small folding knife, with a locking blade and a pocket clip.  Not as good a weapon as a solid fixed-blade knife, but better than a penknife.",
     "weight": "80 g",
@@ -88,7 +92,7 @@
   },
   {
     "id": "knife_combat",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "weapons",
     "name": { "str": "combat knife", "str_pl": "combat knives" },
     "description": "This is a military combat knife.  It is light and extremely sharp, and could be deadly in either the right hands or when attached as a bayonet.",
@@ -116,7 +120,7 @@
   {
     "id": "knife_combat_mod",
     "copy-from": "knife_combat",
-    "type": "TOOL",
+    "type": "GENERIC",
     "name": { "str": "modified combat knife", "str_pl": "modified combat knives" },
     "description": "This is a military combat knife.  It is light and extremely sharp, and could be deadly in either the right hands or when attached as a bayonet.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
     "gunmod_data": {
@@ -129,7 +133,7 @@
   {
     "id": "knife_hunting",
     "type": "TOOL",
-    "category": "weapons",
+    "category": "tools",
     "name": { "str": "hunting knife", "str_pl": "hunting knives" },
     "//": "Highest non-powertool butchering quality.  It's made for skinning and butchering game, which is what you're generally doing.",
     "description": "Commonly used by hunters, this single-edge sheath knife is designed for cutting and skinning game rather than combat.",
@@ -146,7 +150,7 @@
   },
   {
     "id": "knife_rambo",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "weapons",
     "name": { "str": "survival knife", "str_pl": "survival knives" },
     "//": "This isn't really supposed to be a very good knife, or a very good saw.  It's more for looking scary.",
@@ -166,7 +170,7 @@
   },
   {
     "id": "knife_rm42",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "weapons",
     "name": { "str": "RM42 fighting knife", "str_pl": "RM42 fighting knives" },
     "description": "This sturdy matte black Rivtech combat dagger features a long and slim double-edged blade with a spear-point and a distinctive slip-resistant grip which can also be used to affix it to a suitable firearm.  Originally manufactured for the military, it was very popular in films and among collectors due to its fearsome appearance.",
@@ -194,6 +198,7 @@
   {
     "id": "knife_swissarmy",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "Swiss Army knife", "str_pl": "Swiss Army knives" },
     "//": "The swiss army knife is a bit more of a knife than a toolkit.",
     "description": "An iconic pocket knife imported from Europe.  Its red plastic handle conceals many small tools.",
@@ -211,7 +216,7 @@
   },
   {
     "id": "knife_trench",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "weapons",
     "name": { "str": "trench knife", "str_pl": "trench knives" },
     "description": "This stout combat knife features a steel guard to protect the user's knuckles.  The guard can also be used for striking or blocking, and the knife can also be used to butcher corpses.",
@@ -232,6 +237,7 @@
   {
     "id": "makeshift_knife",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "makeshift knife", "str_pl": "makeshift knives" },
     "description": "A knife consisting of a long, somewhat sharpened, spike and a tightly wrapped rag as a handle.  It makes a good melee weapon.",
     "weight": "550 g",
@@ -251,6 +257,7 @@
     "id": "bone_knife",
     "name": { "str": "bone shiv" },
     "type": "TOOL",
+    "category": "tools",
     "description": "A femur or other bone, at least 30 cm long, which has been broken at one end and sharpened into a cutting tool.  Its jagged edge is wicked but fragile.",
     "symbol": "/",
     "color": "white",
@@ -267,7 +274,8 @@
   },
   {
     "id": "knife_baselard",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "weapons",
     "name": { "str": "baselard" },
     "description": "A medieval dagger forged from rough iron.  It is not the sharpest tool in the shed, but it is certainly one of the largest.",
     "weight": "420 g",
@@ -284,7 +292,7 @@
   },
   {
     "id": "makeshift_machete",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "weapons",
     "name": { "str": "makeshift machete" },
     "description": "This is a large blade that has had a portion of the handle wrapped in duct tape, making it easier to wield as a rough machete.",
@@ -303,7 +311,7 @@
   },
   {
     "id": "machete",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "weapons",
     "name": { "str": "machete" },
     "description": "This huge steel knife makes an excellent tool for cutting down large vegetation or other 'obstacles.'",
@@ -325,6 +333,7 @@
     "id": "machete_gimmick",
     "name": { "str": "machete multitool" },
     "type": "TOOL",
+    "category": "tools",
     "description": "A thin, wobbly steel blade with sawteeth on one side and a flat chisel tip for digging.  A jack of many trades and a master of none.",
     "symbol": "/",
     "color": "green",
@@ -341,7 +350,7 @@
   },
   {
     "id": "cavalry_sabre",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "weapons",
     "name": { "str": "cavalry saber" },
     "description": "This is a curved sword associated with cavalry from the Early Modern period onwards.  Lightweight but a deadly slashing weapon.",
@@ -361,7 +370,7 @@
   },
   {
     "id": "kris",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "weapons",
     "name": { "str": "kris", "str_pl": "krises" },
     "description": "This wavy bladed dagger comes from Southeast Asia.  The design of the blade causes it to make broad, painful wounds.",
@@ -381,7 +390,7 @@
   },
   {
     "id": "kukri",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "weapons",
     "name": { "str": "kukri" },
     "description": "This versatile implement is a modern take on a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly curved edge, it is used as both a tool and as a weapon.",
@@ -400,7 +409,8 @@
   },
   {
     "id": "jian",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str_sp": "jian" },
@@ -415,12 +425,12 @@
     "bashing": 8,
     "cutting": 30,
     "to_hit": 2,
-    "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
   },
   {
     "id": "jian_inferior",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str_sp": "jian replica" },
@@ -435,12 +445,12 @@
     "bashing": 7,
     "cutting": 24,
     "to_hit": 2,
-    "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
   },
   {
     "id": "jian_fake",
     "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str_sp": "jian fake" },
@@ -454,12 +464,12 @@
     "volume": "2 L",
     "bashing": 8,
     "cutting": 2,
-    "to_hit": 2,
-    "category": "weapons"
+    "to_hit": 2
   },
   {
     "id": "scimitar",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "scimitar" },
@@ -474,12 +484,12 @@
     "bashing": 6,
     "cutting": 30,
     "to_hit": 1,
-    "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
   },
   {
     "id": "scimitar_inferior",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "scimitar replica" },
@@ -494,12 +504,12 @@
     "bashing": 5,
     "cutting": 24,
     "to_hit": 1,
-    "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
   },
   {
     "id": "scimitar_fake",
     "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "scimitar fake" },
@@ -513,12 +523,12 @@
     "volume": "2 L",
     "bashing": 6,
     "cutting": 2,
-    "to_hit": 1,
-    "category": "weapons"
+    "to_hit": 1
   },
   {
     "id": "estoc",
     "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "estoc" },
@@ -533,12 +543,12 @@
     "bashing": 9,
     "cutting": 40,
     "to_hit": 1,
-    "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
   },
   {
     "id": "estoc_inferior",
     "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "estoc replica" },
@@ -551,12 +561,12 @@
     "weight": "1814 g",
     "volume": "2750 ml",
     "bashing": 29,
-    "cutting": 10,
-    "category": "weapons"
+    "cutting": 10
   },
   {
     "id": "estoc_fake",
     "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "estoc fake" },
@@ -570,12 +580,12 @@
     "volume": "2750 ml",
     "bashing": 13,
     "cutting": 2,
-    "to_hit": 2,
-    "category": "weapons"
+    "to_hit": 2
   },
   {
     "id": "longsword",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "longsword" },
@@ -590,12 +600,12 @@
     "bashing": 13,
     "cutting": 34,
     "to_hit": 2,
-    "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
   },
   {
     "id": "longsword_inferior",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "longsword replica" },
@@ -610,12 +620,12 @@
     "bashing": 30,
     "cutting": 9,
     "to_hit": 2,
-    "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
   },
   {
     "id": "longsword_fake",
     "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "longsword fake" },
@@ -629,12 +639,12 @@
     "volume": "2750 ml",
     "bashing": 15,
     "cutting": 2,
-    "to_hit": 1,
-    "category": "weapons"
+    "to_hit": 1
   },
   {
     "id": "arming_sword",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "arming sword" },
@@ -649,12 +659,12 @@
     "bashing": 14,
     "cutting": 31,
     "to_hit": 1,
-    "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
   },
   {
     "id": "arming_sword_fake",
     "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
     "looks_like": "arming_sword",
@@ -669,12 +679,12 @@
     "volume": "2 L",
     "bashing": 14,
     "cutting": 2,
-    "to_hit": 2,
-    "category": "weapons"
+    "to_hit": 2
   },
   {
     "id": "arming_sword_inferior",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
     "looks_like": "arming_sword",
@@ -690,12 +700,11 @@
     "bashing": 12,
     "cutting": 25,
     "to_hit": 1,
-    "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
   },
   {
     "id": "sword_xiphos",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "weapons",
     "name": { "str": "xiphos", "str_pl": "xiphoses" },
     "description": "A bronze sword of ancient Greek origin, wielded as a sidearm to the dory spear.",
@@ -715,7 +724,7 @@
   },
   {
     "id": "khopesh",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "weapons",
     "name": { "str": "khopesh", "str_pl": "khopeshes" },
     "description": "This ancient bronze weapon features a curved, sickle-like blade sharpened on the outside edge.  Associated with the New Kingdom period of Ancient Egypt, it was designed mainly to hack through the light armor common to the region.",
@@ -735,7 +744,7 @@
   },
   {
     "id": "dao",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "weapons",
     "name": { "str_sp": "dao" },
     "description": "An ancient Chinese sword consisting of a curved blade and a guard with a cupped design.  Existing since the Shang dynasty, this one is made of bronze.  One of the four major weapons in folklore, alongside the jian sword, qiang spear, and gun staff.",
@@ -754,7 +763,7 @@
   },
   {
     "id": "survivor_machete",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "weapons",
     "name": { "str": "survivor machete" },
     "description": "This common gardening tool has been customized and rebalanced to improve its performance as a weapon.",
@@ -774,7 +783,7 @@
   },
   {
     "id": "sword_bayonet",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "weapons",
     "name": { "str": "sword bayonet" },
     "description": "A sword bayonet is a large slashing weapon that can be attached to the front of a firearm or crossbow converting it into a pike.",
@@ -801,14 +810,14 @@
   {
     "id": "sword_bayonet_mod",
     "copy-from": "sword_bayonet",
-    "type": "TOOL",
+    "type": "GENERIC",
     "name": { "str": "modified sword bayonet" },
     "description": "A sword bayonet is a large slashing weapon that can be attached to the front of a firearm or crossbow converting it into a pike.  This one was modified and customized to mount on pretty much any weapon other than pistols and SMGs, if you so want.",
     "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
   },
   {
     "id": "tanto",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "weapons",
     "name": { "str": "tanto" },
     "description": "Long Japanese knives like this more-modern remake were the samurai's backup weapon, before the advent of the larger wakizashi.  It's still a deadly blade, even if it's smaller than its more famous relatives.",
@@ -828,7 +837,7 @@
   },
   {
     "id": "wakizashi",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "weapons",
     "name": { "str_sp": "wakizashi" },
     "description": "This is a comparatively-common Japanese short sword.  Smaller and lighter than a katana, but still effective in combat.",
@@ -848,7 +857,7 @@
   },
   {
     "id": "zweihander",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "weapons",
     "name": { "str": "zweihaender" },
     "description": "This is a huge two-handed sword from Germany.  It packs a real wallop.",
@@ -868,7 +877,8 @@
   },
   {
     "id": "kirpan",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "weapons",
     "name": { "str": "kirpan" },
     "description": "A ceremonial dagger carried by Sikh men.  This one is sharp and could be an effective weapon.",
     "looks_like": "kukri",
@@ -888,7 +898,8 @@
   },
   {
     "id": "kirpan_cheap",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "weapons",
     "name": { "str": "kirpan replica" },
     "description": "A ceremonial dagger carried by Sikh men.  This one is not particularly well-made.",
     "looks_like": "kirpan",
@@ -949,7 +960,7 @@
   },
   {
     "id": "nodachi",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "weapons",
     "name": { "str_sp": "nodachi" },
     "description": "This is a huge, curved, two-handed sword from Japan.  It is surprisingly light for its size.",
@@ -970,6 +981,7 @@
   {
     "id": "nodachi_fake",
     "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "nodachi fake" },
@@ -983,12 +995,12 @@
     "volume": "3250 ml",
     "bashing": 15,
     "cutting": 3,
-    "to_hit": 2,
-    "category": "weapons"
+    "to_hit": 2
   },
   {
     "id": "nodachi_inferior",
     "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "nodachi replica" },
@@ -1002,12 +1014,12 @@
     "volume": "3250 ml",
     "bashing": 30,
     "cutting": 12,
-    "to_hit": 1,
-    "category": "weapons"
+    "to_hit": 1
   },
   {
     "id": "fencing_foil",
     "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "fencing foil" },
@@ -1025,6 +1037,7 @@
   {
     "id": "fencing_epee",
     "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "fencing épée" },
@@ -1042,6 +1055,7 @@
   {
     "id": "fencing_sabre",
     "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "fencing saber" },
@@ -1148,6 +1162,7 @@
   {
     "id": "hollow_cane",
     "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "brown",
     "name": { "str": "hollow cane" },
@@ -1172,6 +1187,7 @@
   {
     "id": "sword_cane",
     "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "sword cane" },
@@ -1189,7 +1205,7 @@
   },
   {
     "id": "broadsword",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "weapons",
     "name": { "str": "broadsword" },
     "description": "This is an early modern sword seeing use in the 16th, 17th, and 18th centuries.  Called 'broad' to contrast with the slimmer rapiers.",
@@ -1209,7 +1225,8 @@
   },
   {
     "id": "broadsword_inferior",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "broadsword replica" },
@@ -1224,12 +1241,12 @@
     "bashing": 7,
     "cutting": 29,
     "to_hit": 2,
-    "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ]
   },
   {
     "id": "cutlass_fake",
     "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "dark_gray",
     "name": { "str": "cutlass fake" },
@@ -1243,12 +1260,12 @@
     "volume": "1750 ml",
     "bashing": 12,
     "cutting": 1,
-    "to_hit": 1,
-    "category": "weapons"
+    "to_hit": 1
   },
   {
     "id": "cutlass_inferior",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "dark_gray",
     "name": { "str": "cutlass replica" },
@@ -1262,12 +1279,11 @@
     "bashing": 23,
     "cutting": 7,
     "flags": [ "SHEATH_SWORD" ],
-    "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ]
   },
   {
     "id": "rapier",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "weapons",
     "name": { "str": "rapier" },
     "description": "This is a thin sword with an ornate hand guard.  It looks like the preferred weapon of gentlemen and swashbucklers.  Light and quick, it makes any battle a stylish battle.",
@@ -1287,7 +1303,7 @@
   },
   {
     "id": "katana",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "weapons",
     "name": { "str": "katana" },
     "description": "This is a rare sword from Japan.  Deadly against unarmored targets, and still very effective against armor.",
@@ -1308,6 +1324,7 @@
   {
     "id": "katana_fake",
     "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "katana fake" },
@@ -1321,12 +1338,12 @@
     "volume": "2 L",
     "bashing": 11,
     "cutting": 2,
-    "to_hit": 2,
-    "category": "weapons"
+    "to_hit": 2
   },
   {
     "id": "katana_inferior",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "katana replica" },
@@ -1341,12 +1358,12 @@
     "bashing": 22,
     "cutting": 9,
     "to_hit": 2,
-    "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ]
   },
   {
     "id": "zweihander_fake",
     "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "zweihaender fake" },
@@ -1360,12 +1377,12 @@
     "volume": "3250 ml",
     "bashing": 19,
     "cutting": 3,
-    "to_hit": 2,
-    "category": "weapons"
+    "to_hit": 2
   },
   {
     "id": "zweihander_inferior",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "zweihaender replica" },
@@ -1380,12 +1397,12 @@
     "bashing": 38,
     "cutting": 10,
     "to_hit": 1,
-    "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ] ]
   },
   {
     "id": "broadsword_fake",
     "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "broadsword fake" },
@@ -1399,8 +1416,7 @@
     "volume": "1750 ml",
     "bashing": 10,
     "cutting": 2,
-    "to_hit": 2,
-    "category": "weapons"
+    "to_hit": 2
   },
   {
     "id": "cavalry_sabre_fake",
@@ -1424,6 +1440,7 @@
   {
     "id": "rapier_fake",
     "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "rapier fake" },
@@ -1437,12 +1454,12 @@
     "volume": "1500 ml",
     "bashing": 4,
     "cutting": 2,
-    "to_hit": 2,
-    "category": "weapons"
+    "to_hit": 2
   },
   {
     "id": "wakizashi_fake",
     "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "wakizashi fake" },
@@ -1456,12 +1473,12 @@
     "volume": "1500 ml",
     "bashing": 8,
     "cutting": 2,
-    "to_hit": 1,
-    "category": "weapons"
+    "to_hit": 1
   },
   {
     "id": "wakizashi_inferior",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "wakizashi replica" },
@@ -1476,12 +1493,12 @@
     "bashing": 17,
     "cutting": 7,
     "to_hit": 1,
-    "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 13 ] ]
   },
   {
     "id": "kris_fake",
     "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "dark_gray",
     "name": { "str": "kris fake" },
@@ -1495,12 +1512,12 @@
     "bashing": 2,
     "cutting": 2,
     "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "to_hit": 1,
-    "category": "weapons"
+    "to_hit": 1
   },
   {
     "id": "butterfly_swords",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "pair of butterfly swords", "str_pl": "pairs of butterfly swords" },
@@ -1516,7 +1533,6 @@
     "to_hit": 1,
     "bashing": 7,
     "cutting": 32,
-    "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
   },
   {
@@ -1560,6 +1576,7 @@
   {
     "id": "ecs_lajatang_off",
     "type": "TOOL",
+    "category": "weapons",
     "name": { "str": "electric chainsaw lajatang (off)", "str_pl": "electric chainsaw lajatangs (off)" },
     "description": "A long wooden pole with electric chainsaws impractically attached to both ends.  The product of either genius or insanity, but not both; the weight ensures that only someone both strong and very skilled could possibly hope to use it.",
     "weight": "14254 g",
@@ -1599,7 +1616,7 @@
   },
   {
     "id": "cutlass",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "weapons",
     "name": { "str": "cutlass", "str_pl": "cutlasses" },
     "description": "This is a broad saber known for its use by sailors and pirates, as its short blade is easy to handle in close quarters.",
@@ -1619,6 +1636,7 @@
   },
   {
     "type": "GENERIC",
+    "category": "weapons",
     "id": "lajatang",
     "symbol": "/",
     "color": "brown",

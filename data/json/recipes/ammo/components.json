@@ -1,5 +1,71 @@
 [
   {
+    "type": "recipe",
+    "result": "chem_black_powder",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "20 m",
+    "autolearn": [ [ "cooking", 5 ], [ "fabrication", 5 ] ],
+    "book_learn": [
+      [ "textbook_anarch", 6 ],
+      [ "recipe_labchem", 4 ],
+      [ "textbook_chemistry", 5 ],
+      [ "textbook_armschina", 5 ],
+      [ "book_icef", 5 ]
+    ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "components": [ [ [ "chem_saltpetre", 150 ] ], [ [ "chem_sulphur", 300 ] ], [ [ "charcoal", 10 ], [ "coal_lump", 10 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "chem_black_powder",
+    "id_suffix": "generic",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "skill_used": "fabrication",
+    "skills_required": [ "cooking", 1 ],
+    "difficulty": 4,
+    "time": "20 m",
+    "book_learn": [
+      [ "textbook_anarch", 4 ],
+      [ "recipe_bullets", 2 ],
+      [ "manual_shotgun", 3 ],
+      [ "manual_pistol", 3 ],
+      [ "adv_chemistry", 3 ],
+      [ "textbook_chemistry", 3 ]
+    ],
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "tools": [ [ [ "hotplate", 50 ], [ "toolset", 50 ] ] ],
+    "components": [ [ [ "oxy_powder", 200 ] ], [ [ "ammonia", 2 ], [ "lye_powder", 200 ] ], [ [ "charcoal", 25 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "exploding_arrow_warhead",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "archery", 5 ], [ "mechanics", 3 ] ],
+    "difficulty": 6,
+    "time": "5 m",
+    "book_learn": [ [ "textbook_anarch", 4 ], [ "recipe_bullets", 7 ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ], [ "canister_empty", 1 ] ],
+      [ [ "superglue", 1 ], [ "cordage", 1, "LIST" ] ],
+      [
+        [ "smpistol_primer", 1 ],
+        [ "lgpistol_primer", 1 ],
+        [ "smrifle_primer", 1 ],
+        [ "lgrifle_primer", 1 ],
+        [ "shotgun_primer", 1 ]
+      ],
+      [ [ "gunpowder", 20 ], [ "chem_black_powder", 20 ] ]
+    ]
+  },
+  {
     "result": "incendiary",
     "type": "recipe",
     "category": "CC_AMMO",
