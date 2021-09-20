@@ -474,6 +474,13 @@ drop_activity_actor::drop_activity_actor( Character &ch, const drop_locations &i
     this->items = pickup::reorder_for_dropping( ch, items );
 }
 
+void drop_activity_actor::start( player_activity &act, Character & )
+{
+    // Set moves_left to value other than zero to indicate ongoing activity
+    act.moves_total = 1;
+    act.moves_left = 1;
+}
+
 void drop_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
@@ -882,6 +889,13 @@ stash_activity_actor::stash_activity_actor( Character &ch, const drop_locations 
         const tripoint &relpos ) : relpos( relpos )
 {
     this->items = pickup::reorder_for_dropping( ch, items );
+}
+
+void stash_activity_actor::start( player_activity &act, Character & )
+{
+    // Set moves_left to value other than zero to indicate ongoing activity
+    act.moves_total = 1;
+    act.moves_left = 1;
 }
 
 void stash_activity_actor::serialize( JsonOut &jsout ) const
