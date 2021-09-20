@@ -1735,7 +1735,7 @@
     "result": "glass_sheet",
     "type": "uncraft",
     "time": "2 m",
-    "components": [ [ [ "glass_shard", 10 ] ] ]
+    "components": [ [ [ "glass_shard", 182 ] ] ]
   },
   {
     "result": "game_watch",
