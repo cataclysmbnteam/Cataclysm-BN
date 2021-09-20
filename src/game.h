@@ -885,6 +885,7 @@ class game
         // Routine loop functions, approximately in order of execution
         void monmove();          // Monster movement
         void overmap_npc_move(); // NPC overmap movement
+        void process_voluntary_act_interrupt(); // Process
         void process_activity(); // Processes and enacts the player's activity
         void handle_key_blocking_activity(); // Abort reading etc.
         void open_consume_item_menu(); // Custom menu for consuming specific group of items
