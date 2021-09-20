@@ -2169,10 +2169,12 @@ void veh_interact::display_veh()
 
         const point &pivot = veh->pivot_point();
         const point &com = veh->local_center_of_mass();
+        const point cur = -dd;
 
         mvwprintz( w_disp, point_zero, c_green, "CoM   %d,%d", com.x, com.y );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( w_disp, point( 0, 1 ), c_red,   "Pivot %d,%d", pivot.x, pivot.y );
+        mvwprintz( w_disp, point( 0, 2 ), c_dark_gray, "Cur   %d,%d", cur.x, cur.y );
 
         const point com_s = ( com + dd ).rotate( 3 ) + h_size;
         const point pivot_s = ( pivot + dd ).rotate( 3 ) + h_size;
