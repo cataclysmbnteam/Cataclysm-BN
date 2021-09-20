@@ -858,8 +858,9 @@ int player::fire_gun( const tripoint &target, const int max_shots, item &gun )
     return curshot;
 }
 
-// Silence warning about missing prototype.
-int throw_cost( const player &c, const item &to_throw );
+namespace ranged
+{
+
 int throw_cost( const player &c, const item &to_throw )
 {
     // Very similar to player::attack_cost
@@ -889,22 +890,22 @@ int throw_cost( const player &c, const item &to_throw )
     return std::max( 25, move_cost );
 }
 
-int Character::throw_dispersion_per_dodge( bool add_encumbrance ) const
+int throw_dispersion_per_dodge( const Character &c, bool add_encumbrance )
 {
     // +200 per dodge point at 0 dexterity
     // +100 at 8, +80 at 12, +66.6 at 16, +57 at 20, +50 at 24
     // Each 10 encumbrance on either hand is like -1 dex (can bring penalty to +400 per dodge)
     // Maybe TODO: Only use one hand
-    const int encumbrance = add_encumbrance ? encumb( bp_hand_l ) + encumb( bp_hand_r ) : 0;
+    const int encumbrance = add_encumbrance ? c.encumb( bp_hand_l ) + c.encumb( bp_hand_r ) : 0;
     ///\EFFECT_DEX increases throwing accuracy against targets with good dodge stat
-    float effective_dex = 2 + get_dex() / 4.0f - ( encumbrance ) / 40.0f;
+    float effective_dex = 2 + c.get_dex() / 4.0f - ( encumbrance ) / 40.0f;
     return static_cast<int>( 100.0f / std::max( 1.0f, effective_dex ) );
 }
 
 // Perfect situation gives us 1000 dispersion at lvl 0
 // This goes down linearly to 200  dispersion at lvl 10
-int Character::throwing_dispersion( const item &to_throw, Creature *critter,
-                                    bool is_blind_throw ) const
+int throwing_dispersion( const Character &c, const item &to_throw, Creature *critter,
+                         bool is_blind_throw )
 {
     units::mass weight = to_throw.weight();
     units::volume volume = to_throw.volume();
@@ -920,24 +921,24 @@ int Character::throwing_dispersion( const item &to_throw, Creature *critter,
     // 1 penalty for gram above str*100 grams (at 0 skill)
     ///\EFFECT_STR decreases throwing dispersion when throwing heavy objects
     const int weight_in_gram = units::to_gram( weight );
-    throw_difficulty += std::max( 0, weight_in_gram - get_str() * 100 );
+    throw_difficulty += std::max( 0, weight_in_gram - c.get_str() * 100 );
 
     // Dispersion from difficult throws goes from 100% at lvl 0 to 20% at lvl 10
     ///\EFFECT_THROW increases throwing accuracy
-    const int throw_skill = std::min( MAX_SKILL, get_skill_level( skill_throw ) );
+    const int throw_skill = std::min( MAX_SKILL, c.get_skill_level( skill_throw ) );
     int dispersion = 10 * throw_difficulty / ( 6 * throw_skill + 20 );
     // If the target is a creature, it moves around and ruins aim
     // TODO: Inform projectile functions if the attacker actually aims for the critter or just the tile
     if( critter != nullptr ) {
         // It's easier to dodge at close range (thrower needs to adjust more)
         // Dodge x10 at point blank, x5 at 1 dist, then flat
-        float effective_dodge = critter->get_dodge() * std::max( 1, 10 - 5 * rl_dist( pos(),
+        float effective_dodge = critter->get_dodge() * std::max( 1, 10 - 5 * rl_dist( c.pos(),
                                 critter->pos() ) );
-        dispersion += throw_dispersion_per_dodge( true ) * effective_dodge;
+        dispersion += throw_dispersion_per_dodge( c, true ) * effective_dodge;
     }
     // 1 perception per 1 eye encumbrance
     ///\EFFECT_PER decreases throwing accuracy penalty from eye encumbrance
-    dispersion += std::max( 0, ( encumb( bp_eyes ) - get_per() ) * 10 );
+    dispersion += std::max( 0, ( c.encumb( bp_eyes ) - c.get_per() ) * 10 );
 
     // If throwing blind, we're assuming they mechanically can't achieve the
     // accuracy of a normal throw.
@@ -948,13 +949,15 @@ int Character::throwing_dispersion( const item &to_throw, Creature *critter,
     return std::max( 0, dispersion );
 }
 
+} // namespace ranged
+
 dealt_projectile_attack player::throw_item( const tripoint &target, const item &to_throw,
         const cata::optional<tripoint> &blind_throw_from_pos )
 {
     // Copy the item, we may alter it before throwing
     item thrown = to_throw;
 
-    const int move_cost = throw_cost( *this, to_throw );
+    const int move_cost = ranged::throw_cost( *this, to_throw );
     mod_moves( -move_cost );
 
     const int throwing_skill = get_skill_level( skill_throw );
@@ -1458,7 +1461,7 @@ static int draw_throw_aim( const player &p, const catacurses::window &w, int lin
         return dispersion;
     };
     const auto cost_fun = [&]( const aim_type & ) {
-        return throw_cost( p, weapon );
+        return ranged::throw_cost( p, weapon );
     };
     return print_ranged_chance( p, w, line_number, ctxt,  weapon, get_default_aim_type(),
                                 dispersion_fun, cost_fun,

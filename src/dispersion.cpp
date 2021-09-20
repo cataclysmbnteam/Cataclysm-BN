@@ -46,7 +46,7 @@ double dispersion_sources::quantile_function( double x ) const
     }
     for( const double &source : normal_sources ) {
         // @ref rng_normal is calculated as N((max+min/2), (max-min)/4)
-        quantile += probit::rescaled_to_zero_to_one( x ) * source;
+        quantile += truncated_probit::at( x ) * source;
     }
     for( const double &source : multipliers ) {
         quantile *= source;

@@ -1,63 +1,88 @@
 #include "probability.h"
 
 #include <cmath>
+#include <limits>
 #include "cata_utility.h"
 
-// https://stackoverflow.com/a/40260471
-double erfinv_approx( double x )
+namespace normal
 {
-    double sign = x < 0 ? -1.0 : 1.0;
 
-    // It seems more stable than 1 - x * x
-    double one_minus_x_squared = ( 1.0 + x ) * ( 1.0 - x );
-    double ln = std::log( one_minus_x_squared );
-
-    constexpr double a = 0.15449436008930206298828125;
-    // constexpr double a = 0.147;
-    double tt1 = 2.0 / ( M_PI * a ) + 0.5f * ln;
-    double tt2 = 1.0 / a * ln;
-
-    return sign * std::sqrt( -tt1 + std::sqrt( tt1 * tt1 - tt2 ) );
+inline double cdf( double x, double mean, double stddev )
+{
+    return clamp( 0.5 * ( 1.0 + std::erf( ( x - mean ) / ( stddev * M_SQRT2 ) ) ), 0.0, 1.0 );
 }
 
-namespace probit
+double truncated_cdf( double x, double mean, double stddev, double min, double max )
 {
+    if( x <= min ) {
+        return 0.0;
+    } else if( x >= max ) {
+        return 1.0;
+    }
 
-double approx( double x )
-{
-    return M_SQRT2 * erfinv_approx( 2 * x - 1 );
+    double eps = ( x - mean ) / stddev;
+    double alpha = ( min - mean ) / stddev;
+    double beta = ( max - mean ) / stddev;
+    double z = cdf( beta, 0, 1 ) - cdf( alpha, 0, 1 );
+    return ( cdf( eps, 0, 1 ) - cdf( alpha, 0, 1 ) ) / z;
 }
 
-/**
- * Rescales probit to include (approximately) points (0, 0), (N - 1, 1)
- */
-template<size_t N>
-double probit_integer( size_t i )
-{
-    constexpr double mul = 1.0 / N;
-    double x = i * mul;
-    return ( 1 + probit::approx( x ) / ( M_SQRT2 * 2.0 ) ) / 2.0;
-}
-
-// The error is ~0.002, which is just a bit above 1.0 / 512.0
-constexpr size_t n = 512;
-extern const std::array<double, n> lookup_table;
-const std::array<double, n> lookup_table = ( []()
+constexpr size_t n = 4096;
+// Normalized to [0, 1).
+// CDF can be linearly transformed, just keep (x - mean) / stddev constant.
+extern const std::array<double, n> truncated_cdf_lookup_table;
+const std::array<double, n> truncated_cdf_lookup_table = ( []()
 {
     std::array<double, n> lookup;
     for( size_t i = 0; i < n; i++ ) {
-        lookup[i] = clamp( probit_integer<n>( i ), 0.0, 1.0 );
+        double x = static_cast<double>( i ) / n;
+        lookup[i] = truncated_cdf( x, 0.5, 0.25, 0, 1 );
+    }
+    return lookup;
+} )();
+
+}
+
+namespace truncated_probit
+{
+
+const std::array<double, n> lookup_table = ( []()
+{
+    std::array<double, n> lookup = {};
+    double last_x = 0.0;
+    for( size_t i = 1; i < n; i++ ) {
+        double x = last_x;
+        double step = 0.5;
+        size_t j = n + 1;
+        while( step > 0.0 && i != j ) {
+            double y = normal::truncated_cdf( x, 0.5, 0.25, 0.0, 1.0 );
+            j = y * n;
+
+            x = j < i ? ( x + step ) : ( x - step );
+            step *= 0.5;
+        }
+
+        lookup[i] = x;
+        last_x = x;
     }
     return lookup;
 } )();
 
 /**
- * Rescales probit to include (approximately) points (0, 0), (1, 1)
+ * Rescales truncated probit to include (approximately) points (0, 0), (1, 1)
  */
-double rescaled_to_zero_to_one( double x )
+double at( double x )
 {
-    double clamped_x = clamp( x, 0.0, 1.0 );
-    return probit::lookup_table[static_cast<size_t>( clamped_x * ( probit::n - 1 ) )];
+    if( x <= 0.0 ) {
+        return 0.0;
+    } else if( x >= 1 ) {
+        return 1.0;
+    }
+
+    size_t n = truncated_probit::n;
+    size_t i = static_cast<size_t>( x * n );
+    size_t clamped_i = std::min( i, n - 1 );
+    return lookup_table[clamped_i];
 }
 
 } // namespace probit

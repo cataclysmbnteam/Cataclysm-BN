@@ -73,6 +73,11 @@ std::vector<Creature *> targetable_creatures( const Character &c, int range,
 
 int burst_penalty( const Character &p, const item &gun, int gun_recoil );
 
+int throw_dispersion_per_dodge( const Character &c, bool add_encumbrance );
+int throwing_dispersion( const Character &c, const item &to_throw, Creature *critter,
+                         bool is_blind_throw );
+int throw_cost( const player &c, const item &to_throw );
+
 } // namespace ranged
 
 #endif // CATA_SRC_RANGED_H

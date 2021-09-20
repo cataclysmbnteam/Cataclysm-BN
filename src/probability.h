@@ -2,27 +2,33 @@
 #ifndef CATA_SRC_PROBABILITY_H
 #define CATA_SRC_PROBABILITY_H
 
-/**
- * Approximates the inverse of @ref std::erf on range (0, 1).
- */
-double erfinv_approx( double x );
+#include <stddef.h>
+#include <array>
 
 /**
  * Probit is an inverse of cumulative distribution function for N(0, 1)
  * Intuitively, probit of x is the number such that a number
  * picked from N(0, 1) is x*100% likely to be less than x.
+ * Here we use truncated normal distribution:
+ *   N(0.5, 0.25) for 0 <= x <= 1
+ *   0 for x < 0
+ *   1 for x > 1
  */
-namespace probit
+namespace truncated_probit
 {
 
+constexpr size_t n = 4096;
+extern const std::array<double, n> lookup_table;
+
 /**
- * Approximates probit with error ~0.01.
+ * Uses lookup table above.
  */
-double approx( double x );
+double at( double x );
+
 /**
- * As @ref probit::approx, but rescales the results to (0, 1) range.
+ * Rescaled variant of @ref at.
  */
-double rescaled_to_zero_to_one( double x );
+double rescaled( double x, double mean, double stddev, double min, double max );
 
 
 } // namespace probit
