@@ -1,5 +1,6 @@
 #include "mapgendata.h"
 
+#include "all_enum_values.h"
 #include "debug.h"
 #include "int_id.h"
 #include "map.h"
@@ -39,6 +40,11 @@ mapgendata::mapgendata( const tripoint_abs_omt &over, map &m, const float densit
                   over.z(), overmap_buffer.get_settings( over ), m,
                   overmap_buffer.ter( over ), density, when, miss )
 {
+    for( cube_direction dir : all_enum_values<cube_direction>() ) {
+        if( std::string *join = overmap_buffer.join_used_at( { over, dir } ) ) {
+            joins.emplace( dir, *join );
+        }
+    }
 }
 
 mapgendata::mapgendata( const mapgendata &other, const oter_id &other_id ) : mapgendata( other )
@@ -163,3 +169,10 @@ const oter_id &mapgendata::neighbor_at( om_direction::type dir ) const
     debugmsg( "Tried to get neighbor from invalid direction %d", dir );
     return north();
 }
+
+bool mapgendata::has_join( const cube_direction dir, const std::string &join_id ) const
+{
+    auto it = joins.find( dir );
+    return it != joins.end() && it->second == join_id;
+}
+

@@ -4,6 +4,7 @@
 
 #include "calendar.h"
 #include "coordinates.h"
+#include "cube_direction.h"
 #include "type_id.h"
 #include "weighted_list.h"
 
@@ -55,6 +56,8 @@ class mapgendata
 
         oter_id t_above;
         oter_id t_below;
+
+        std::unordered_map<cube_direction, std::string> joins;
 
         const regional_settings &region;
 
@@ -139,6 +142,8 @@ class mapgendata
         void square_groundcover( point p1, point p2 );
         ter_id groundcover();
         bool is_groundcover( const ter_id &iid ) const;
+
+        bool has_join( const cube_direction, const std::string &join_id ) const;
 };
 
 #endif // CATA_SRC_MAPGENDATA_H

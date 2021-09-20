@@ -14,6 +14,7 @@
 #include <stdexcept>
 #include <unordered_map>
 
+#include "all_enum_values.h"
 #include "basecamp.h"
 #include "calendar.h"
 #include "catacharset.h"
@@ -1804,7 +1805,7 @@ static void load_weighted_entries( const JsonObject &jsi, const std::string &jso
 class jmapgen_nested : public jmapgen_piece
 {
     private:
-        class neighborhood_check
+        class neighbor_oter_check
         {
             private:
                 // To speed up the most common case: no checks
@@ -1812,7 +1813,7 @@ class jmapgen_nested : public jmapgen_piece
                 std::array<std::set<oter_str_id>, om_direction::size> neighbors;
                 std::set<oter_str_id> above;
             public:
-                neighborhood_check( const JsonObject &jsi ) {
+                neighbor_oter_check( const JsonObject &jsi ) {
                     for( om_direction::type dir : om_direction::all ) {
                         int index = static_cast<int>( dir );
                         neighbors[index] = jsi.get_tags<oter_str_id>( om_direction::id( dir ) );
@@ -1823,7 +1824,18 @@ class jmapgen_nested : public jmapgen_piece
                     }
                 }
 
-                bool test( mapgendata &dat ) const {
+                void check( const std::string & ) const {
+                    /* TODO: Throws errors on central lab depot, presumably due to loading order
+                    for( const std::set<oter_str_id> &p : neighbors ) {
+                        for( const oter_str_id &id : p ) {
+                            if( !id.is_valid() ) {
+                                debugmsg( "Invalid oter_str_id '%s' in %s", id.str(), oter_name );
+                            }
+                        }
+                    }*/
+                }
+
+                bool test( const mapgendata &dat ) const {
                     if( !has_any ) {
                         return true;
                     }
@@ -1857,16 +1869,66 @@ class jmapgen_nested : public jmapgen_piece
                 }
         };
 
+        class neighbor_join_check
+        {
+            private:
+                std::unordered_map<cube_direction, cata::flat_set<std::string>> neighbors;
+            public:
+                explicit neighbor_join_check( const JsonObject &jsi ) {
+                    for( cube_direction dir : all_enum_values<cube_direction>() ) {
+                        cata::flat_set<std::string> dir_neighbours =
+                            jsi.get_tags<std::string, cata::flat_set<std::string>>(
+                                io::enum_to_string( dir ) );
+                        if( !dir_neighbours.empty() ) {
+                            neighbors[dir] = std::move( dir_neighbours );
+                        }
+                    }
+                }
+
+                void check( const std::string & ) const {
+                    // TODO: check join ids are valid
+                }
+
+                bool test( const mapgendata &dat ) const {
+                    for( const std::pair<const cube_direction, cata::flat_set<std::string>> &p :
+                         neighbors ) {
+                        const cube_direction dir = p.first;
+                        const cata::flat_set<std::string> &allowed_joins = p.second;
+
+                        assert( !allowed_joins.empty() );
+
+                        bool this_direction_matches = false;
+                        for( const std::string &allowed_join : allowed_joins ) {
+                            this_direction_matches |= dat.has_join( dir, allowed_join );
+                        }
+                        if( !this_direction_matches ) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+        };
+
     public:
         weighted_int_list<std::string> entries;
         weighted_int_list<std::string> else_entries;
-        neighborhood_check neighbors;
-        jmapgen_nested( const JsonObject &jsi ) : neighbors( jsi.get_object( "neighbors" ) ) {
+        neighbor_oter_check neighbor_oters;
+        neighbor_join_check neighbor_joins;
+        jmapgen_nested( const JsonObject &jsi )
+            : neighbor_oters( jsi.get_object( "neighbors" ) )
+            , neighbor_joins( jsi.get_object( "joins" ) ) {
             load_weighted_entries( jsi, "chunks", entries );
             load_weighted_entries( jsi, "else_chunks", else_entries );
         }
+        const weighted_int_list<std::string> &get_entries( const mapgendata &dat ) const {
+            if( neighbor_oters.test( dat ) && neighbor_joins.test( dat ) ) {
+                return entries;
+            } else {
+                return else_entries;
+            }
+        }
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
-            const std::string *res = neighbors.test( dat ) ? entries.pick() : else_entries.pick();
+            const std::string *res = get_entries( dat ).pick();
             if( res == nullptr || res->empty() || *res == "null" ) {
                 // This will be common when neighbors.test(...) is false, since else_entires is often empty.
                 return;
@@ -1886,9 +1948,14 @@ class jmapgen_nested : public jmapgen_piece
 
             ( *ptr )->nest( dat, point( x.get(), y.get() ) );
         }
+
+        void check( const std::string &oter_name ) const override {
+            neighbor_oters.check( oter_name );
+            neighbor_joins.check( oter_name );
+        }
         bool has_vehicle_collision( mapgendata &dat, point p ) const override {
-            const weighted_int_list<std::string> &selected_entries = neighbors.test(
-                        dat ) ? entries : else_entries;
+            const weighted_int_list<std::string> &selected_entries = get_entries( dat );
+
             if( selected_entries.empty() ) {
                 return false;
             }
