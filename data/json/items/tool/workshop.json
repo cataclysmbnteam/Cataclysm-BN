@@ -1,7 +1,8 @@
 [
   {
     "id": "adobe_pallet_full",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "pallet of wet adobe bricks", "str_pl": "pallets of wet adobe bricks" },
     "description": "A pallet full of heavy mud bricks which need to dry slowly to be usable.",
     "weight": "35000 g",
@@ -26,7 +27,7 @@
   },
   {
     "id": "adobe_pallet_done",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "tools",
     "name": { "str": "pallet of dry adobe bricks", "str_pl": "pallets of dry adobe bricks" },
     "description": "A pallet of humble mud bricks that have dried for a week, while you were out risking your life.  Disassemble it to retrieve your frame and building supplies.",
@@ -43,7 +44,8 @@
   },
   {
     "id": "acetylene_machine",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "acetylene-gas machine" },
     "symbol": "&",
     "color": "light_gray",
@@ -59,6 +61,7 @@
   {
     "id": "angle_grinder",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "angle grinder" },
     "description": "This widespread powertool is often used for removing excess material or polishing surfaces.",
     "weight": "2780 g",
@@ -87,6 +90,7 @@
   {
     "id": "brick_kiln",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "brick kiln" },
     "description": "This is a portable charcoal-fired kiln.  It is designed for firing bricks, but you could use it to fire anything made of clay.",
     "weight": "9600 g",
@@ -120,7 +124,8 @@
   },
   {
     "id": "chipper",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "paint chipper" },
     "description": "A tool similar to a chisel, designed to remove paint.",
     "weight": "60 g",
@@ -136,7 +141,8 @@
   },
   {
     "id": "clamp",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "clamp" },
     "description": "This clamp is useful for keeping things still, especially if you have several of them.",
     "weight": "320 g",
@@ -153,7 +159,8 @@
   },
   {
     "id": "claw_bar",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "claw bar" },
     "description": "This is a small prying tool with a clawed bend at one end for pulling spikes.  Use it to open locked doors without destroying them or to lift manhole covers.  You could also wield it to bash some heads in.",
     "weight": "340 g",
@@ -173,6 +180,7 @@
   {
     "id": "con_mix",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "concrete mixer" },
     "description": "A portable concrete mixer.  It is still large and heavy, but it can be operated solo, and runs on batteries.  It also has a heater built in.",
     "weight": "9071 g",
@@ -199,6 +207,7 @@
   {
     "id": "cordless_drill",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "cordless drill" },
     "description": "This is a cordless battery-powered drill with a selection of drill bits.",
     "weight": "2721 g",
@@ -241,6 +250,7 @@
   {
     "id": "elec_jackhammer",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "electric jackhammer" },
     "description": "This is a construction tool for drilling through hard rock or other surfaces.  It runs on a cell compatible with UPS.  Use it to blast a hole in adjacent solid terrain.",
     "weight": "40000 g",
@@ -262,7 +272,8 @@
   },
   {
     "id": "hacksaw",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "hacksaw" },
     "description": "This is a sturdy saw, useful for cutting through metal objects.",
     "weight": "952 g",
@@ -280,7 +291,8 @@
   },
   {
     "id": "hammer",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "hammer" },
     "description": "This is a demagnetized steel claw hammer with a wooden grip.  With a hammer, nails, and two by fours in your inventory, you could board up adjacent doors and windows.  It has myriad other uses as well.",
     "weight": "566 g",
@@ -298,7 +310,8 @@
   },
   {
     "id": "hand_drill",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "hand drill" },
     "description": "A primitive manual drill with a single drill bit.  It is slow and it will exhaust you quickly.",
     "weight": "907 g",
@@ -315,7 +328,8 @@
   },
   {
     "id": "hose",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "rubber hose" },
     "description": "This is a flexible rubber hose.  It could be used for crafting, or siphoning fuel from a vehicle.",
     "weight": "544 g",
@@ -331,7 +345,8 @@
   },
   {
     "id": "jack",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "bottle jack" },
     "description": "A portable hydraulic bottle jack used for lifting vehicles.",
     "material": "steel",
@@ -347,7 +362,8 @@
   },
   {
     "id": "jack_makeshift",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "makeshift jack" },
     "description": "A poorly constructed improvised scissor jack used for lifting vehicles if you're brave enough to use it.",
     "material": "steel",
@@ -363,7 +379,8 @@
   },
   {
     "id": "jack_small",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "scissor jack" },
     "description": "A compact scissor jack used for lifting vehicles.",
     "material": "steel",
@@ -380,6 +397,7 @@
   {
     "id": "jackhammer",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "jackhammer" },
     "description": "This is a construction tool for drilling through hard rock or other surfaces.  It runs on gasoline.  Use it (if loaded) to blast a hole in adjacent solid terrain.",
     "weight": "15875 g",
@@ -401,6 +419,7 @@
   {
     "id": "auger",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "Auger" },
     "description": "This is a construction tool for boring holes in ground.  It runs on gasoline.  For health reasons alone, augers are a worthwhile investment.",
     "weight": "9875 g",
@@ -422,6 +441,7 @@
   {
     "id": "kiln",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "electric kiln" },
     "description": "This is a portable electric kiln, powered by batteries.  It is designed for firing bricks, but you could use it to fire anything made of clay.  With a little mechanical know-how, you could probably even convert it to run directly off a vehicle's power system.",
     "weight": "12000 g",
@@ -443,6 +463,7 @@
   {
     "id": "large_repairkit",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "gunsmith repair kit" },
     "description": "This is a complete toolkit made to repair damaged firearms.  Powered by standard batteries, it is a vital tool for long-term firearms maintenance.  It requires 25 charges of battery power per use.",
     "weight": "9860 g",
@@ -480,7 +501,8 @@
   },
   {
     "id": "makeshift_hammer",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "makeshift hammer" },
     "description": "This is a crude hammer made from a piece of metal affixed to a stick.  It functions adequately as a hammer, but really can't compare to a proper one.",
     "weight": "1020 g",
@@ -498,7 +520,8 @@
   },
   {
     "id": "metal_file",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "metal fileset" },
     "description": "These tools are commonly used to remove small amounts of materials from the surface of metal objects.",
     "weight": "76 g",
@@ -515,7 +538,8 @@
   },
   {
     "id": "metal_smoother",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "metallic smoother" },
     "description": "This metallic tool is most often used to smooth concrete, or mortar, in construction projects.",
     "weight": "362 g",
@@ -531,6 +555,7 @@
   {
     "id": "misc_repairkit",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "misc repair kit" },
     "description": "This is a portable toolkit, consisting of a small carving knife for precise carving of replacement parts from raw materials, a wood saw for more heavy-duty wood cutting, and a patch of soft material for cleaning surfaces.  If supplied with duct tape, it can be used to repair certain items.",
     "weight": "386 g",
@@ -561,7 +586,8 @@
   },
   {
     "id": "mold_plastic",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "plastic mold" },
     "description": "This is a plastic mold.  It could be shaped and used to craft items made of plastic.",
     "weight": "320 g",
@@ -577,7 +603,8 @@
   },
   {
     "id": "multitool",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "multi-tool" },
     "//": "The multi-tool is a bit more of a toolkit than a knife.",
     "description": "A cleverly designed all-in-one tool which combines several smaller tools into the handles of a pair of pliers.",
@@ -597,6 +624,7 @@
   {
     "id": "oxy_torch",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "acetylene torch", "str_pl": "acetylene torches" },
     "description": "A compact tool kit intended for welding and cutting metal, this portable oxyacetylene torch includes a torch handle and cutting attachment in an easy-to-carry tote.  It requires connecting to pressurized cylinders of an appropriate welding gas before use.  In addition to its metalworking uses, you can activate it in order to destroy metal barriers.",
     "weight": "1600 g",
@@ -615,7 +643,8 @@
   },
   {
     "id": "paint_brush",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "paint brush", "str_pl": "paint brushes" },
     "description": "A wide brush, suitable for painting walls.",
     "weight": "60 g",
@@ -630,7 +659,8 @@
   },
   {
     "id": "pickaxe",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "pickaxe" },
     "description": "This is a large steel pickaxe, suitable for breaking up hard things or (with enough skill) hard targets.  Strike the earth!",
     "weight": "4535 g",
@@ -649,7 +679,8 @@
   },
   {
     "id": "pin_reamer",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "pin reamer" },
     "description": "Handheld pin reamers of this kind are used to enlarge existing holes, or remove any burs and such from them.",
     "weight": "76 g",
@@ -666,7 +697,8 @@
   },
   {
     "id": "pliers",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str_sp": "pliers" },
     "description": "This is a basic pair of slip-joint pliers, able to handle basic mechanical work and pulling apart some ammunition cartridges.  Anything too complex will require a wrench.",
     "weight": "807 g",
@@ -683,6 +715,7 @@
   {
     "id": "polisher",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "electric polisher" },
     "description": "An electric polisher which can be used to buff metal surfaces until they are reflective like a mirror.",
     "weight": "1000 g",
@@ -715,7 +748,8 @@
   },
   {
     "id": "primitive_hammer",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "stone hammer" },
     "description": "This is a rock affixed to a stick, in the crude facsimile of a hammer.  It functions adequately as a hammer, but really can't compare to a proper one.",
     "weight": "1020 g",
@@ -733,7 +767,8 @@
   },
   {
     "id": "screwdriver",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "screwdriver" },
     "description": "This is a Philips-head screwdriver.  It is important for almost all electronics crafting, most mechanics crafting, and has many more uses.",
     "weight": "170 g",
@@ -751,7 +786,8 @@
   },
   {
     "id": "screwdriver_set",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "screwdriver set" },
     "description": "This is a set of screwdrivers in several sizes and blade types.  Guaranteed to have the right tools for more precise work.",
     "weight": "340 g",
@@ -770,6 +806,7 @@
   {
     "id": "small_repairkit",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "firearm repair kit" },
     "description": "This is a portable toolkit made to repair damaged firearms.  Powered by standard batteries, it is a vital tool for long-term firearms maintenance.  It requires 100 charges of battery power per use.",
     "weight": "2420 g",
@@ -809,6 +846,7 @@
   {
     "id": "soldering_iron",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "soldering iron" },
     "description": "This is a device with a metal tip that can get very hot.  It is necessary for advanced electronics crafting.  You could also use it to cauterize wounds, if you had to.",
     "weight": "181 g",
@@ -852,7 +890,8 @@
   },
   {
     "id": "toolbox",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "toolbox", "str_pl": "toolboxes" },
     "description": "This is a stout metal box containing a complete tool kit suitable for most household maintenance and construction activities.",
     "weight": "3522 g",
@@ -883,7 +922,8 @@
   },
   {
     "id": "toolbox_workshop",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "workshop toolbox", "str_pl": "workshop toolboxes" },
     "description": "This is a stout metal box containing a complete tool kit suitable for most household maintenance and construction activities, as well as additional tools used in workshops for advanced fabrication jobs.",
     "looks_like": "toolbox",
@@ -919,6 +959,7 @@
   {
     "id": "toolset_extended",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "extended toolset" },
     "description": "Your toolset, protruding from your hands.  It can slice, dice, and make everything nice.",
     "symbol": "#",
@@ -964,6 +1005,7 @@
   {
     "id": "welder",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "arc welder" },
     "description": "This is a battery powered tool for welding metal pieces together using an electric arc.  It is an indispensable tool for construction or repair.",
     "weight": "4200 g",
@@ -1001,6 +1043,7 @@
   {
     "id": "welder_crude",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "makeshift arc welder" },
     "description": "This crude arc welder has been fashioned from a few small transformers, some wire, improvised electrode holder and complete disregard for personal safety.  While it's not as efficient as a factory welder, it will serve in a pinch.",
     "weight": "7250 g",
@@ -1036,7 +1079,8 @@
   },
   {
     "id": "wood_smoother",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "wooden smoother" },
     "description": "This large makeshift tool is used in smoothing concrete or mortar in construction projects.  You could also use it as an improvised head-basher.",
     "weight": "2000 g",
@@ -1052,7 +1096,7 @@
   },
   {
     "id": "wool_staple",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "wool staple" },
     "description": "The natural cluster of wool fibers.  Could be processed to the felt patches or yarns.",
@@ -1068,7 +1112,8 @@
   },
   {
     "id": "xacto",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "X-Acto knife", "str_pl": "X-Acto knives" },
     "description": "This is a small, sharp knife, designed for making precise cuts for textiles or crafts.  It could cause decent damage, but is difficult to hit things with it.  Its small, sharp blade allows for precision strikes in the hands of the skilled.  It is too small to butcher corpses with.",
     "weight": "23 g",
@@ -1086,7 +1131,8 @@
   },
   {
     "id": "wrench",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "wrench", "str_pl": "wrenches" },
     "description": "This is an adjustable crescent wrench.  It could be a decent melee weapon, and is used in many mechanics crafting recipes.",
     "weight": "907 g",
@@ -1102,7 +1148,8 @@
   },
   {
     "id": "makeshift_hose",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": "leather hose",
     "description": "This is a hose made out of leather.  Watertight and flexiable, it can be used to siphon fuel from a vehicle tank.  However, it's not as elastic a rubber hose.",
     "weight": "600 g",
@@ -1116,7 +1163,8 @@
   },
   {
     "id": "makeshift_hand_drill",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "makeshift hand drill" },
     "description": "This is a makeshift manual drill made out of pipe and improvised drill bit.  It is very slow and it will exhaust you quickly.",
     "weight": "1354 g",

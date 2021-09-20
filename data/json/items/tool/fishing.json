@@ -2,6 +2,7 @@
   {
     "id": "fish_trap",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "plastic fish trap" },
     "description": "This is a makeshift fish trap made from plastic bottles.  It's simple, even primitive, but easy to use.  The principle of action: the fish swims inside for bait, but can't get out.  Not humane, prohibited by law, but there are no cops left to care.",
     "weight": "85 g",
@@ -19,6 +20,7 @@
   {
     "id": "fishing_hook_basic",
     "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "fishing hook" },
     "description": "A simple fishing hook.",
     "weight": "1 g",
@@ -33,6 +35,7 @@
   {
     "id": "fishing_hook_bone",
     "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "improvised fishing hook" },
     "description": "An improvised fishing hook carved from wood or bone.",
     "weight": "1 g",
@@ -46,7 +49,8 @@
   },
   {
     "id": "fishing_rod_basic",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "basic fishing rod" },
     "description": "'Fishing rod' might be a bit too charitable of a description.  In truth, this is a stick with a piece of string and a hook.",
     "weight": "1700 g",
@@ -64,7 +68,8 @@
   },
   {
     "id": "fishing_rod_professional",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "pro fishing rod" },
     "description": "A professional fishing rod with a matching set of weights.  With this you should be able to catch 'em all.",
     "weight": "1000 g",

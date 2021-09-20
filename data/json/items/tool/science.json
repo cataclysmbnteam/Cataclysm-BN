@@ -1,7 +1,7 @@
 [
   {
     "id": "barometer",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "tools",
     "name": { "str": "barometer" },
     "description": "A plastic barometer that can read the atmospheric pressure.",
@@ -19,6 +19,7 @@
   {
     "id": "canister_goo",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "goo canister" },
     "description": "There is a label on this canister: \"Warning: contains highly toxic and corrosive materials.  Contents may be sentient.  Open at your own risk.\" You think you can feel something moving inside it.",
     "weight": "1596 g",
@@ -38,6 +39,7 @@
   {
     "id": "chemistry_set",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "chemistry set" },
     "description": "This is a chemistry set stored in a box.  The contents include glass containers, hoses, metal wire, a hotplate, and safety glasses.  It might be used to craft some chemistry projects if you're so inclined.",
     "weight": "5200 g",
@@ -64,7 +66,7 @@
   },
   {
     "id": "chemistry_set_basic",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "tools",
     "name": { "str": "basic chemistry set" },
     "description": "This is a basic chemistry set which includes glass containers, hoses and safety glasses.  It might be used to craft some chemistry projects if you're so inclined, but you'll need a source of heat.",
@@ -82,6 +84,7 @@
   {
     "id": "electrolysis_kit",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "electrolysis kit" },
     "description": "A set of wiring and electrodes for applying a direct current, usually to a liquid.  Useful for crafting.  Load with a storage battery or 12V vehicle battery to use.",
     "weight": "250 g",
@@ -102,6 +105,7 @@
   {
     "id": "vac_oven_small",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "small vacuum oven" },
     "description": "A small 0.9 cubic foot vacuum oven used to purge residual solvents out of liquids and solid.  Looks kind of like a microwave.",
     "looks_like": "microwave",
@@ -121,6 +125,7 @@
   {
     "id": "vac_oven_small_full",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "filled small vacuum oven" },
     "description": "A small vacuum oven filled with extract ready to be purged of residual solvents.",
     "looks_like": "microwave",
@@ -148,6 +153,7 @@
   {
     "id": "vac_oven_small_on",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "small vacuum oven (on)", "str_pl": "small vacuum ovens (on)" },
     "description": "A small vacuum oven filled with extract currently purging out all residual solvents.  This process takes about 72hrs.",
     "looks_like": "microwave",
@@ -178,6 +184,7 @@
   {
     "id": "vac_oven_small_done",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "finished small vacuum oven" },
     "description": "A small vacuum oven filled with extract ready to package up for consumption.  WooHoo!",
     "looks_like": "microwave",
@@ -197,6 +204,7 @@
   {
     "id": "closed_loop_extractor_small",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "small closed loop extractor" },
     "description": "A small closed loop extractor used for extracting essential oils from organic material producing a high quality extract.  It consists of a long metal tube clamped onto a steel \"honey pot\".  Organic material is packed in the tube, flushed with solvent, and essential oils gathered from the pot.  Must be powered up to operate.",
     "symbol": "E",
@@ -245,6 +253,7 @@
   {
     "id": "closed_loop_extractor_small_on",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "small closed loop extractor (on)", "str_pl": "small closed loop extractors (on)" },
     "description": "The small closed loop extractor is running, it just needs some material to pack the tube with and an organic solvent like butane and it's good to go.",
     "symbol": "E",
@@ -293,6 +302,7 @@
   {
     "id": "closed_loop_extractor_large",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "large closed loop extractor" },
     "description": "A large machine used for extracting essential oils from large batches of organic material producing a low quality crude oil.  It consists of three long metal tubes funneled into a large drum that's set horizontally.  A series of hoses and tubes come out of the machine going to different valves.  It needs to be powered up to operate.",
     "looks_like": "still",
@@ -340,6 +350,7 @@
   {
     "id": "closed_loop_extractor_large_on",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "large closed loop extractor (on)", "str_pl": "large closed loop extractors (on)" },
     "description": "The large closed loop extractor is running, it just needs some material to pack the tube with and an organic solvent like butane and it's good to go.",
     "looks_like": "still",
@@ -388,6 +399,7 @@
   {
     "id": "oil_extractor_crude",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "makeshift essential oil extractor" },
     "description": "A makeshift extraction system.  It's pretty much just a 55gal drum, a pipe to stir the solution, and a faucet at the bottom to drain the extractor.  Not the most ideal piece of equipment but it will work.",
     "symbol": "E",
@@ -403,7 +415,8 @@
   },
   {
     "id": "filter_paper_qualitative",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str_sp": "qualitative filter paper" },
     "description": "filter paper for seperating solids from liquids.  This filter paper has a rating of 2 microns, seperating more solids out than quantitative filter paper but the process takes longer.",
     "symbol": "E",
@@ -419,7 +432,8 @@
   },
   {
     "id": "filter_paper_quantitative",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str_sp": "quantitative filter paper" },
     "description": "filter paper for seperating solids from liquids.  This filter paper has a rating of 20 microns, seperating less solids out than qualitative filter paper but the process is much faster.",
     "symbol": "E",
@@ -436,6 +450,7 @@
   {
     "id": "vac_pump",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "vacuum pump" },
     "description": "A small belt driven mechanical pump capable of achieving a vacuum of -29.99 hg (50 microns).",
     "symbol": "E",
@@ -482,6 +497,7 @@
   {
     "id": "vac_pump_on",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "vacuum pump (on)", "str_pl": "vacuum pumps (on)" },
     "description": "A small belt driven mechanical pump capable of achieving a vacuum of -29.99 hg (50 microns).",
     "symbol": "E",
@@ -529,7 +545,8 @@
   },
   {
     "id": "recovery_pump",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "recovery pump" },
     "description": "A medium sized vacuum pump designed to recover solvent (hydrocarbons) from extracted essential oils.",
     "symbol": "E",
@@ -545,6 +562,7 @@
   {
     "id": "butane_tank",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "butane tank", "str_pl": "tanks of butane" },
     "description": "This is a tank of compressed butane.  It can be used to extract essential oils from organic material.",
     "weight": "22700 g",
@@ -571,6 +589,7 @@
   {
     "id": "hydrogen_tank",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "hydrogen tank" },
     "description": "This is a tank of compressed hydrogen gas.  If you need to make water from scratch, or lift a zeppelin, it could come in handy.",
     "weight": "2268 g",
@@ -589,7 +608,7 @@
   },
   {
     "id": "hygrometer",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "tools",
     "name": { "str": "hygrometer" },
     "description": "A plastic hygrometer that can read the relative humidity in the air.",
@@ -607,6 +626,7 @@
   {
     "id": "nitrogen_tank",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "nitrogen tank" },
     "description": "This is a tank of compressed nitrogen gas.  Nitrogen is useful for its lack of reactivity.  Don't try to breathe it.",
     "weight": "2268 g",
@@ -626,6 +646,7 @@
   {
     "id": "oxygen_cylinder",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "oxygen cylinder" },
     "description": "A large steel cylinder used for storing pressurized gas.  It is marked with a faded, but legible O2 symbol.",
     "weight": "12888 g",
@@ -644,7 +665,8 @@
   },
   {
     "id": "platinum_grille",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "platinum grille" },
     "description": "This is a metal grille with a layer of platinum plating, suitable for use as a catalyst for some chemical reactions.",
     "weight": "660 g",
@@ -662,6 +684,7 @@
   {
     "id": "portal",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "portal generator" },
     "description": "This is a rare, bizarre, and arcane device of an otherworldly nature.  It's giving you a headache just looking at it.  It is covered in alien markings.",
     "weight": "1133 g",
@@ -680,7 +703,8 @@
   },
   {
     "id": "telepad",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "teleport pad" },
     "description": "This is a kit for a teleporter trap consisting of a teleporter and a solar cell that is triggered when stepped upon.",
     "weight": "2000 g",
@@ -698,6 +722,7 @@
   {
     "id": "teleporter",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "teleporter" },
     "description": "This is an experimental device that will teleport you a short distance when activated.",
     "weight": "1360 g",
@@ -776,7 +801,7 @@
   },
   {
     "id": "balance_small",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "tools",
     "name": { "str": "small weight scale" },
     "description": "This is a simple scale that uses a set of steel weights on sliding bars to measure a sample's mass quite accurately.",
@@ -816,7 +841,7 @@
   },
   {
     "id": "cuvettes",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "tools",
     "name": { "str": "set of spectrometry cuvettes", "str_pl": "sets of spectrometry cuvettes" },
     "description": "This is a small box filled with precisely calibrated square plastic tubes for laboratory spectrometer use.",
@@ -928,7 +953,7 @@
   },
   {
     "id": "vortex",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "tools",
     "name": { "str": "vortex device" },
     "description": "This is a small, hefty, boring looking machine.  Its weighted trapezoidal frame has a single on-off switch and a speed dial, and on top of it sits a rubber receptacle.  Pressing a test tube into the receptacle would, with power, rapidly shake and mix the contents of the test tube.  It's surprisingly fun to use.",
@@ -994,7 +1019,7 @@
   },
   {
     "id": "microscope",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "tools",
     "name": { "str": "microscope" },
     "description": "A classic tool for the ages!  This hefty, durable piece of lab equipment makes small things look bigger.  Without electricity the light doesn't work, but the rest of it is surprisingly functional.  Unfortunately it's not useful for very much at the moment.",
@@ -1010,7 +1035,7 @@
   },
   {
     "id": "microscope_dissecting",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "tools",
     "name": { "str": "dissecting microscope" },
     "description": "This microscope has less magnification than a standard one.  It's also stereoscopic and produces a neat 3d image of the surface.  It was typically used for doing dissections and other fine detail work on small creatures.  It still works pretty well with an added light source, but what would you do with it?",
@@ -1026,7 +1051,7 @@
   },
   {
     "id": "funnel_separation",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "tools",
     "name": { "str": "separation funnel" },
     "description": "This thing doesn't look much like a funnel.  It's a teardrop shaped piece of glass with a stopper at the wide end and a valve at the other.  It can be used to wash one liquid with another, like water and an oil, and then draw off whichever of the two liquids contains a higher amount of whatever compound you're trying to isolate.  With a high level of skill it can also be used to make juvenile farting noises.",
@@ -1044,7 +1069,7 @@
   },
   {
     "id": "burette",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "tools",
     "name": { "str": "burette" },
     "description": "A tall glass column with a stopcock at the end.  If you're serious about chemistry, you probably have a tattoo of one of these somewhere.",
@@ -1061,7 +1086,7 @@
   },
   {
     "id": "rotovap",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "tools",
     "name": { "str": "rotary evaporator" },
     "description": "Just looking at this thing makes you feel like a proper mad scientist.  It's a series of glass tubes and round flasks, connected to a central motor and a heating element.  The heating element warms one flask, kept rotating by the motor, evaporating the contents.  The vapour is then condensed in the tubes and collected in another flask, in case you wanted to save it for later.",
@@ -1078,7 +1103,7 @@
   },
   {
     "id": "still_lab",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "tools",
     "name": { "str": "fractional distillation apparatus", "str_pl": "fractional distillation apparati" },
     "description": "One of the classic pieces of mad science glassware, this is basically a small volume still that passes the vapour through a fractional distillation column and then condenses the distillate in a cooled collection column.  A grad student or a robot (is there really any difference?) collects the distillate in fractions so that specific contents can be analyzed.  Going a few milliliters at a time, it would not be very effective to try to distill whiskey in this thing.",
@@ -1096,7 +1121,7 @@
   },
   {
     "id": "gelbox",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "tools",
     "name": { "str": "electrophoresis tray" },
     "description": "This is a set of plastic trays, electrodes, and a power supply designed to create an electric voltage gradient through a liquid solution containing a solid gel.  Stuff like proteins and DNA would then get separated on the gel according to electrical charge and size.  Pretty useless now, for anything but salvage.",

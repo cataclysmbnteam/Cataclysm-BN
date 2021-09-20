@@ -1,7 +1,8 @@
 [
   {
-    "type": "TOOL",
     "id": "crash_axe",
+    "type": "GENERIC",
+    "category": "tools",
     "symbol": ";",
     "color": "light_gray",
     "name": { "str": "crash axe" },
@@ -23,6 +24,7 @@
   {
     "id": "extinguisher",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "large fire extinguisher" },
     "description": "This is an emergency fire extinguisher containing five gallons of fire retardant foam.  It would be useful for putting out adjacent fires.",
     "weight": "13813 g",
@@ -41,7 +43,8 @@
   },
   {
     "id": "fire_ax",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "fire axe" },
     "description": "This is a large, two-handed pickhead axe normally used by firefighters.  It makes a powerful melee weapon, but is a bit slow to recover between swings.",
     "weight": "2520 g",
@@ -60,7 +63,8 @@
   },
   {
     "id": "halligan",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "Halligan bar" },
     "description": "This is a heavy multiple-use tool commonly carried by firefighters, law enforcement, and military rescue units.  Use it to open locked doors without destroying them or to lift manhole covers.  You could also wield it to bash some heads in.",
     "weight": "3600 g",
@@ -80,6 +84,7 @@
   {
     "id": "sm_extinguisher",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "small fire extinguisher" },
     "description": "This is a hand held fire extinguisher containing a liter of highly compressed CO2 gas.  It would be useful for putting out adjacent fires.",
     "weight": "2267 g",
@@ -98,7 +103,7 @@
   },
   {
     "id": "throw_extinguisher",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "tools",
     "name": { "str": "throwable fire extinguisher" },
     "description": "This is a fire extinguisher in grenade form.  While not as effective as a regular fire extinguisher, you can use it from a distance.  It is activated by heat, so just throw it into the flames.",
@@ -117,6 +122,7 @@
   {
     "id": "pike_pole",
     "type": "GENERIC",
+    "category": "tools",
     "symbol": "/",
     "color": "yellow",
     "looks_like": "spear_pipe",
@@ -135,7 +141,8 @@
   },
   {
     "id": "ny_hook",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "symbol": "/",
     "color": "yellow",
     "looks_like": "iceaxe",
