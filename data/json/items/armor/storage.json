@@ -354,7 +354,7 @@
     "covers": [ "torso" ],
     "coverage": 10,
     "encumbrance": 2,
-    "storage": "2 L",
+    "storage": "3 L",
     "material_thickness": 1,
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
@@ -458,7 +458,7 @@
     "color": "green",
     "covers": [ "torso" ],
     "coverage": 40,
-    "encumbrance": 20,
+    "encumbrance": 5,
     "warmth": 5,
     "material_thickness": 2,
     "container_data": { "contains": "10 L", "seals": true, "watertight": true },
@@ -859,7 +859,7 @@
     "color": "dark_gray",
     "covers": [ "torso" ],
     "coverage": 40,
-    "encumbrance": 30,
+    "encumbrance": 28,
     "storage": "38 L",
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ]
