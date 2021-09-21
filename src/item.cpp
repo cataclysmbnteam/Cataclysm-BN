@@ -3625,7 +3625,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
 
     // does the item fit in any holsters?
-    std::vector<const itype *> holsters = Item_factory::find( [this]( const itype & e ) {
+    std::vector<const itype *> holsters = item_controller->find( [this]( const itype & e ) {
         if( !e.can_use( "holster" ) ) {
             return false;
         }
