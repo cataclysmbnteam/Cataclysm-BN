@@ -351,9 +351,7 @@
     "color": "dark_gray",
     "covers": [ "torso" ],
     "coverage": 10,
-    "rigid": false,
-    "encumbrance": 1,
-    "max_encumbrance": 2,
+    "encumbrance": 2,
     "storage": "2 L",
     "material_thickness": 1,
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
@@ -375,9 +373,7 @@
     "color": "green",
     "covers": [ "torso" ],
     "coverage": 10,
-    "rigid": false,
-    "encumbrance": 1,
-    "max_encumbrance": 2,
+    "encumbrance": 2,
     "storage": "3 L",
     "material_thickness": 1,
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
@@ -507,9 +503,7 @@
     "color": "brown",
     "covers": [ "torso" ],
     "coverage": 15,
-    "rigid": false,
-    "encumbrance": 1,
-    "max_encumbrance": 2,
+    "encumbrance": 2,
     "storage": "2 L",
     "material_thickness": 1,
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
@@ -529,8 +523,7 @@
     "covers": [ "legs" ],
     "coverage": 20,
     "rigid": false,
-    "encumbrance": 1,
-    "max_encumbrance": 4,
+    "encumbrance": 4,
     "storage": "3 L",
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "BELTED" ]
