@@ -119,7 +119,7 @@
     "coverage": 50,
     "rigid": false,
     "encumbrance": 13,
-    "max_cumbrance": 65,
+    "max_encumbrance": 65,
     "storage": "65 L",
     "warmth": 10,
     "material_thickness": 2,
