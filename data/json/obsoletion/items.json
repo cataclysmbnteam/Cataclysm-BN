@@ -3307,5 +3307,26 @@
     "result": "sieve_steel",
     "type": "recipe",
     "obsolete": true
+  },
+  {
+    "id": "tÖttchen",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "name": "tÖttchen",
+    "symbol": "%",
+    "looks_like": "offal_cooked",
+    "quench": 2,
+    "fun": 7,
+    "description": "A German lung dish.",
+    "price_postapoc": 1000,
+    "material": [ "flesh", "wheat", "veggy" ],
+    "primary_material": "flesh",
+    "color": "yellow",
+    "spoils_in": "2 days",
+    "volume": "250 ml",
+    "weight": "180 g",
+    "charges": 6,
+    "calories": 400,
+    "flags": [ "EATEN_HOT" ]
   }
 ]
