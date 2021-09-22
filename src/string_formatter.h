@@ -13,6 +13,9 @@
 
 class translation;
 
+template<typename T>
+class string_id;
+
 namespace cata
 {
 
@@ -76,6 +79,15 @@ template<typename T>
 using is_translation = typename std::conditional <
                        std::is_same<typename std::decay<T>::type, translation>::value, std::true_type,
                        std::false_type >::type;
+// Test for string_id<T>
+template <typename, template <typename> class>
+struct is_instance_of : std::false_type {};
+template <typename T, template <typename> class TMPL>
+struct is_instance_of<TMPL<T>, TMPL> : std::true_type {};
+template<typename T>
+using is_string_id = typename std::conditional <
+                     is_instance_of<typename std::decay<T>::type, string_id>::value, std::true_type,
+                     std::false_type >::type;
 
 template<typename RT, typename T>
 inline typename std::enable_if < is_integer<RT>::value &&is_integer<T>::value,
@@ -123,6 +135,12 @@ inline typename std::enable_if < std::is_same<RT, const char *>::value &&is_tran
     return string_formatter_set_temp_buffer( sf, value.translated() );
 }
 template<typename RT, typename T>
+inline typename std::enable_if < std::is_same<RT, const char *>::value &&is_string_id<T>::value,
+       const char * >::type convert( RT *, const string_formatter &sf, T &&value, int )
+{
+    return string_formatter_set_temp_buffer( sf, value.str() );
+}
+template<typename RT, typename T>
 inline typename std::enable_if < std::is_same<RT, const char *>::value &&is_numeric<T>::value
 &&!is_char<T>::value, const char * >::type convert( RT *, const string_formatter &sf, T &&value,
         int )
@@ -145,9 +163,14 @@ template<typename RT, typename T>
 inline RT convert( RT *, const string_formatter &sf, T &&, ... )
 {
     static_assert( std::is_pointer<typename std::decay<T>::type>::value ||
-                   is_numeric<T>::value || is_string<T>::value || is_char<T>::value ||
+                   is_numeric<T>::value ||
+                   is_string<T>::value ||
+                   is_char<T>::value ||
                    std::is_enum<typename std::decay<T>::type>::value ||
-                   is_cstring<T>::value || is_translation<T>::value, "Unsupported argument type" );
+                   is_cstring<T>::value ||
+                   is_translation<T>::value ||
+                   is_string_id<T>::value,
+                   "Unsupported argument type" );
     throw_error( sf, "Tried to convert argument of type " +
                  std::string( typeid( T ).name() ) + " to " +
                  std::string( typeid( RT ).name() ) + ", which is not possible" );
