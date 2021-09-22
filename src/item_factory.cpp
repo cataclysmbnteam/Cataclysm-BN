@@ -3183,14 +3183,22 @@ std::vector<const itype *> Item_factory::get_runtime_types() const
 /** Find all templates matching the UnaryPredicate function */
 std::vector<const itype *> Item_factory::find( const std::function<bool( const itype & )> &func )
 {
+    assert( frozen );
+
     std::vector<const itype *> res;
 
-    std::vector<const itype *> opts = item_controller->all();
-
-    std::copy_if( opts.begin(), opts.end(), std::back_inserter( res ),
-    [&func]( const itype * e ) {
-        return func( *e );
-    } );
+    for( const auto &e : m_templates ) {
+        const itype *i = &e.second;
+        if( func( *i ) ) {
+            res.push_back( i );
+        }
+    }
+    for( const auto &e : m_runtimes ) {
+        const itype *i = e.second.get();
+        if( func( *i ) ) {
+            res.push_back( i );
+        }
+    }
 
     return res;
 }

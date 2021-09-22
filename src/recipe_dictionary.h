@@ -74,6 +74,10 @@ class recipe_dictionary
 
 extern recipe_dictionary recipe_dict;
 
+using recipe_filter = std::function<bool( const recipe &r )>;
+
+recipe_filter recipe_filter_by_component( const itype_id &c );
+
 class recipe_subset
 {
     public:

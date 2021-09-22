@@ -2876,7 +2876,7 @@ units::volume bandolier_actor::max_stored_volume() const
     // This is relevant only for bandoliers with the non-rigid flag
 
     // Find all valid ammo
-    auto ammo_types = Item_factory::find( [&]( const itype & t ) {
+    auto ammo_types = item_controller->find( [&]( const itype & t ) {
         return is_valid_ammo_type( t );
     } );
     // Figure out which has the greatest volume and calculate on that basis
