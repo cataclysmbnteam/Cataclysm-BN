@@ -705,7 +705,7 @@
     "type": "GENERIC",
     "category": "weapons",
     "id": "mjolnir",
-    "name": { "str": "Mjölnir" },
+    "name": { "str": "Mjoelnir" },
     "description": "A large hammer, forged from the heart of a dying star.  It bears the inscription:\n\nWhosoever holds this hammer,\nIf he be worthy,\nShall possess the power to…\nCRUSH!'",
     "weight": "5443 g",
     "color": "light_gray",
