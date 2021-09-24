@@ -728,7 +728,7 @@
       [ [ "robopart_microreactor", 2 ] ],
       [ [ "robopart_laser", 2 ] ],
       [ [ "small_storage_battery", 2 ] ],
-      [ [ "glass_shard", 10 ] ]
+      [ [ "glass_shard", 1 ] ]
     ]
   },
   {
