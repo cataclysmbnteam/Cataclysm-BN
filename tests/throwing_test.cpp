@@ -23,7 +23,6 @@
 #include "player.h"
 #include "player_helpers.h"
 #include "point.h"
-#include "probability.h"
 #include "projectile.h"
 #include "ranged.h"
 #include "test_statistics.h"
