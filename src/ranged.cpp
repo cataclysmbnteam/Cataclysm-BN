@@ -1794,9 +1794,7 @@ double player::gun_value( const item &weap, int ammo ) const
     } else {
         ammo_type = weap.ammo_default();
     }
-    const itype *def_ammo_i = !ammo_type.is_null() ?
-                              item::find_type( ammo_type ) :
-                              nullptr;
+    const itype *def_ammo_i = ammo_type.is_null() ? nullptr : &*ammo_type;
 
     damage_instance gun_damage = weap.gun_damage();
     item tmp = weap;
@@ -2881,7 +2879,7 @@ void target_ui::update_ammo_range_from_gun_mode()
             ammo = nullptr;
             range = 0;
         } else {
-            ammo = item::find_type( ammo_current );
+            ammo = &*ammo_current;
             range = turret->range();
         }
     } else {
@@ -2898,7 +2896,7 @@ bool target_ui::action_switch_ammo()
             const auto opts = turret->ammo_options();
             auto iter = opts.find( turret->ammo_current() );
             turret->ammo_select( ++iter != opts.end() ? *iter : *opts.begin() );
-            ammo = item::find_type( turret->ammo_current() );
+            ammo = &*turret->ammo_current();
             range = turret->range();
         }
     } else {

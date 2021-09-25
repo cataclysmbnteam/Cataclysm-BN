@@ -59,6 +59,8 @@ class migration
  */
 class Item_factory
 {
+        friend itype_id;
+
     public:
         Item_factory();
         ~Item_factory();
@@ -186,6 +188,7 @@ class Item_factory
          */
         void migrate_item( const itype_id &id, item &obj );
 
+    private:
         /**
          * Check if an item type is known to the Item_factory.
          * @param id Item type id (@ref itype::id).
@@ -199,6 +202,7 @@ class Item_factory
          * @param id Item type id (@ref itype::id).
          */
         const itype *find_template( const itype_id &id ) const;
+    public:
 
         /**
          * Add a passed in itype to the collection of item types.

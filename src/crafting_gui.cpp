@@ -138,7 +138,7 @@ static int print_items( const recipe &r, const catacurses::window &w, point pos,
 
     mvwprintz( w, point( pos.x, pos.y++ ), col, _( "Byproducts:" ) );
     for( const auto &bp : r.byproducts ) {
-        const auto t = item::find_type( bp.first );
+        const itype *t = &*bp.first;
         int amount = bp.second * batch;
         std::string desc;
         if( t->count_by_charges() ) {

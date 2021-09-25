@@ -213,8 +213,7 @@ monster::monster( const mtype_id &id ) : monster()
     }
     if( monster::has_flag( MF_RIDEABLE_MECH ) ) {
         itype_id mech_bat = itype_id( type->mech_battery );
-        const itype &type = *item::find_type( mech_bat );
-        int max_charge = type.magazine->capacity;
+        int max_charge = mech_bat->magazine->capacity;
         item mech_bat_item = item( mech_bat, calendar::start_of_cataclysm );
         mech_bat_item.ammo_consume( rng( 0, max_charge ), tripoint_zero );
         battery_item = cata::make_value<item>( mech_bat_item );

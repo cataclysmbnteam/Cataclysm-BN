@@ -2163,7 +2163,7 @@ void item::io( Archive &archive )
     };
 
     const auto load_curammo = [this]( const std::string & id ) {
-        curammo = item::find_type( item_controller->migrate_id( itype_id( id ) ) );
+        curammo = &*item_controller->migrate_id( itype_id( id ) );
     };
     const auto load_corpse = [this]( const std::string & id ) {
         if( itype_id( id ).is_null() ) {

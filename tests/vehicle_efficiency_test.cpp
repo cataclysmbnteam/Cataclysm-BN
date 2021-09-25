@@ -77,8 +77,8 @@ static std::map<itype_id, int> set_vehicle_fuel( vehicle &v, const float veh_fue
     // Currently only one liquid fuel supported
     REQUIRE( actually_used.size() <= 1 );
     itype_id liquid_fuel = itype_id::NULL_ID();
-    for( const auto &ft : actually_used ) {
-        if( item::find_type( ft )->phase == LIQUID ) {
+    for( const itype_id &ft : actually_used ) {
+        if( ft->phase == LIQUID ) {
             liquid_fuel = ft;
             break;
         }
@@ -95,7 +95,7 @@ static std::map<itype_id, int> set_vehicle_fuel( vehicle &v, const float veh_fue
             ret[ itype_id( "battery" ) ] += pt.ammo_capacity() * veh_fuel_mult;
         } else if( pt.is_tank() && !liquid_fuel.is_null() ) {
             float qty = pt.ammo_capacity() * veh_fuel_mult;
-            qty *= std::max( item::find_type( liquid_fuel )->stack_size, 1 );
+            qty *= std::max( liquid_fuel->stack_size, 1 );
             qty /= to_milliliter( units::legacy_volume_factor );
             pt.ammo_set( liquid_fuel, qty );
             ret[ liquid_fuel ] += qty;

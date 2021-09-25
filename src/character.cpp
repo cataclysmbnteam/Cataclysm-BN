@@ -6651,7 +6651,7 @@ units::mass Character::bionics_weight() const
     units::mass bio_weight = 0_gram;
     for( const bionic_id &bid : get_bionics() ) {
         if( !bid->included ) {
-            bio_weight += item::find_type( bid->itype() )->weight;
+            bio_weight += bid->itype()->weight;
         }
     }
     return bio_weight;
@@ -9795,7 +9795,7 @@ void Character::place_corpse()
         g->m.add_item_or_charges( pos(), *itm );
     }
     for( const bionic &bio : *my_bionics ) {
-        if( item::type_is_defined( bio.info().itype() ) ) {
+        if( bio.info().itype().is_valid() ) {
             item cbm( bio.id.str(), calendar::turn );
             cbm.set_flag( "FILTHY" );
             cbm.set_flag( "NO_STERILE" );

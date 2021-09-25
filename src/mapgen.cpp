@@ -1110,7 +1110,7 @@ class jmapgen_liquid_item : public jmapgen_piece
             // Itemgroups apply migrations when being loaded, but we need to migrate
             // individual items here.
             liquid = item_controller->migrate_id( liquid );
-            if( !item::type_is_defined( liquid ) ) {
+            if( !liquid.is_valid() ) {
                 set_mapgen_defer( jsi, "liquid", "no such item type '" + liquid.str() + "'" );
             }
         }
@@ -1391,7 +1391,7 @@ class jmapgen_spawn_item : public jmapgen_piece
             // Itemgroups apply migrations when being loaded, but we need to migrate
             // individual items here.
             type = item_controller->migrate_id( type );
-            if( !item::type_is_defined( type ) ) {
+            if( !type.is_valid() ) {
                 set_mapgen_defer( jsi, "item", "no such item" );
             }
             repeat = jmapgen_int( jsi, "repeat", 1, 1 );
@@ -1647,10 +1647,9 @@ class jmapgen_sealed_item : public jmapgen_piece
                                   summary, item_spawner->type, item_chance );
                         return;
                     }
-                    const itype *spawned_type = item::find_type( item_spawner->type );
-                    if( !spawned_type->seed ) {
+                    if( !item_spawner->type->seed ) {
                         debugmsg( "%s (with flag PLANT) spawns item type %s which is not a seed.",
-                                  summary, spawned_type->get_id().str() );
+                                  summary, item_spawner->type );
                         return;
                     }
                 }

@@ -109,7 +109,7 @@ void harvest_list::finalize()
 {
     std::transform( entries_.begin(), entries_.end(), std::inserter( names_, names_.begin() ),
     []( const harvest_entry & entry ) {
-        return item::type_is_defined( itype_id( entry.drop ) ) ?
+        return itype_id( entry.drop ).is_valid() ?
                item::nname( itype_id( entry.drop ) ) : "";
     } );
 }

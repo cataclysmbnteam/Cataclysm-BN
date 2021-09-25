@@ -5352,15 +5352,15 @@ bool mattack::kamikaze( monster *z )
     }
 
     // Get the bomb type and it's data
-    const auto bomb_type = item::find_type( z->ammo.begin()->first );
-    const itype *act_bomb_type;
+    const itype *bomb_type = &*z->ammo.begin()->first;
+    itype_id act_bomb_type;
     int charges;
     // Hardcoded data for charge variant items
     if( z->ammo.begin()->first == itype_mininuke ) {
-        act_bomb_type = item::find_type( itype_mininuke_act );
+        act_bomb_type = itype_mininuke_act;
         charges = 20;
     } else if( z->ammo.begin()->first == itype_c4 ) {
-        act_bomb_type = item::find_type( itype_c4armed );
+        act_bomb_type = itype_c4armed;
         charges = 10;
     } else {
         auto usage = bomb_type->get_use( "transform" );
@@ -5377,7 +5377,7 @@ bool mattack::kamikaze( monster *z )
             z->disable_special( "KAMIKAZE" );
             return true;
         }
-        act_bomb_type = item::find_type( actor->target );
+        act_bomb_type = actor->target;
         charges = actor->ammo_qty;
     }
 
@@ -5543,8 +5543,7 @@ static int grenade_helper( monster *const z, Creature *const target, const int d
     }
 
     // Get our monster type
-    auto bomb_type = item::find_type( att );
-    auto usage = bomb_type->get_use( "place_monster" );
+    const use_function *usage = att->get_use( "place_monster" );
     if( usage == nullptr ) {
         // Invalid bomb item usage, Toggle this special off so we stop processing
         add_msg( m_debug, "Invalid bomb item usage in grenadier special for %s.", z->name() );

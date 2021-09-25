@@ -415,7 +415,7 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
 std::pair<nutrients, nutrients> Character::compute_nutrient_range(
     const itype_id &comest_id, const cata::flat_set<std::string> &extra_flags ) const
 {
-    const itype *comest = item::find_type( comest_id );
+    const itype *comest = &*comest_id;
     if( !comest->comestible ) {
         return {};
     }
@@ -937,7 +937,7 @@ bool player::eat( item &food, bool force )
                                food.tname() );
     }
 
-    if( item::find_type( food.get_comestible()->tool )->tool ) {
+    if( food.get_comestible()->tool->tool ) {
         // Tools like lighters get used
         use_charges( food.get_comestible()->tool, 1 );
     }

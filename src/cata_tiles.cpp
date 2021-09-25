@@ -2770,7 +2770,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
             it_id = std::get<0>( it_override->second );
             mon_id = std::get<1>( it_override->second );
             hilite = std::get<2>( it_override->second );
-            it_type = item::find_type( it_id );
+            it_type = &*it_id;
         } else if( !invisible[0] && g->m.sees_some_items( p, g->u ) ) {
             const maptile &tile = g->m.maptile_at( p );
             const item &itm = tile.get_uppermost_item();

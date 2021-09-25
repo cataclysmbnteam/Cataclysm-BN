@@ -414,19 +414,19 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
 }
 
 item::item( const itype_id &id, time_point turn, int qty )
-    : item( find_type( id ), turn, qty ) {}
+    : item( & * id, turn, qty ) {}
 
 item::item( const itype *type, time_point turn, default_charges_tag )
     : item( type, turn, type->charges_default() ) {}
 
 item::item( const itype_id &id, time_point turn, default_charges_tag tag )
-    : item( find_type( id ), turn, tag ) {}
+    : item( & * id, turn, tag ) {}
 
 item::item( const itype *type, time_point turn, solitary_tag )
     : item( type, turn, type->count_by_charges() ? 1 : -1 ) {}
 
 item::item( const itype_id &id, time_point turn, solitary_tag tag )
-    : item( find_type( id ), turn, tag ) {}
+    : item( & * id, turn, tag ) {}
 
 safe_reference<item> item::get_safe_reference()
 {
@@ -513,7 +513,7 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
 
 item &item::convert( const itype_id &new_type )
 {
-    type = find_type( new_type );
+    type = &*new_type;
     relic_data = type->relic_data;
     return *this;
 }
@@ -601,7 +601,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
     }
 
     // check ammo is valid for the item
-    const itype *atype = item_controller->find_template( ammo );
+    const itype *atype = &*ammo;
     if( !atype->ammo || !ammo_types().count( atype->ammo->type ) ) {
         debugmsg( "Tried to set invalid ammo %s[%d] for %s", atype->get_id(), qty, typeId() );
         return *this;
@@ -622,7 +622,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
 
     } else {
         if( !magazine_current() ) {
-            const itype *mag = find_type( magazine_default() );
+            itype_id mag = magazine_default();
             if( !mag->magazine ) {
                 debugmsg( "Tried to set ammo %s[%d] without suitable magazine for %s",
                           atype->get_id(), qty, typeId() );
@@ -640,12 +640,12 @@ item &item::ammo_set( const itype_id &ammo, int qty )
                 }
                 std::vector<itype_id> opts( iter->second.begin(), iter->second.end() );
                 std::sort( opts.begin(), opts.end(), []( const itype_id & lhs, const itype_id & rhs ) {
-                    return find_type( lhs )->magazine->capacity < find_type( rhs )->magazine->capacity;
+                    return lhs->magazine->capacity < rhs->magazine->capacity;
                 } );
-                mag = find_type( opts.back() );
+                mag = opts.back();
                 for( const itype_id &e : opts ) {
-                    if( find_type( e )->magazine->capacity >= qty ) {
-                        mag = find_type( e );
+                    if( e->magazine->capacity >= qty ) {
+                        mag = e;
                         break;
                     }
                 }
@@ -3159,7 +3159,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                   vgettext( "* This bionic can produce power from the following fuel: ",
                                             "* This bionic can produce power from the following fuels: ",
                                             fuel_numb ) + enumerate_as_string( fuels.begin(),
-                                                    fuels.end(), []( const itype_id & id ) -> std::string { return "<info>" + item_controller->find_template( id )->nname( 1 ) + "</info>"; } ) ) );
+                                                    fuels.end(), []( const itype_id & id ) -> std::string { return "<info>" + id->nname( 1 ) + "</info>"; } ) ) );
     }
 
     insert_separation_line( info );
@@ -3690,13 +3690,11 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     if( item_note != item_vars.end() && parts->test( iteminfo_parts::DESCRIPTION_NOTES ) ) {
         insert_separation_line( info );
         std::string ntext;
-        const use_function *use_func =
-            item_note_tool != item_vars.end() ?
-            item_controller->find_template(
-                itype_id( item_note_tool->second ) )->get_use( "inscribe" ) :
-            nullptr;
-        const inscribe_actor *use_actor =
-            use_func ? dynamic_cast<const inscribe_actor *>( use_func->get_actor_ptr() ) : nullptr;
+        const inscribe_actor *use_actor = nullptr;
+        if( item_note_tool != item_vars.end() ) {
+            const use_function *use_func = itype_id( item_note_tool->second )->get_use( "inscribe" );
+            use_actor = dynamic_cast<const inscribe_actor *>( use_func->get_actor_ptr() );
+        }
         if( use_actor ) {
             //~ %1$s: gerund (e.g. carved), %2$s: item name, %3$s: inscription text
             ntext = string_format( pgettext( "carving", "%1$s on the %2$s is: %3$s" ),
@@ -4573,7 +4571,7 @@ std::string item::display_name( unsigned int quantity ) const
     std::string ammotext;
     if( ( ( is_gun() && ammo_required() ) || is_magazine() ) && get_option<bool>( "AMMO_IN_NAMES" ) ) {
         if( !ammo_current().is_null() ) {
-            ammotext = find_type( ammo_current() )->ammo->type->name();
+            ammotext = ammo_current()->ammo->type->name();
         } else {
             ammotext = ammotype( *ammo_types().begin() )->name();
         }
@@ -4716,8 +4714,8 @@ units::mass item::weight( bool include_contents, bool integral ) const
 
     } else if( magazine_integral() && !is_magazine() ) {
         if( ammo_current() == itype_plut_cell ) {
-            ret += ammo_remaining() * find_type( ammotype(
-                    *ammo_types().begin() )->default_ammotype() )->weight / PLUTONIUM_CHARGES;
+            units::mass w = ( *ammo_types().begin() )->default_ammotype()->weight;
+            ret += ammo_remaining() * w / PLUTONIUM_CHARGES;
         } else if( ammo_data() ) {
             ret += ammo_remaining() * ammo_data()->weight;
         }
@@ -6498,7 +6496,7 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
         return false;
     } else if( is_watertight_container() ) {
         return ( ( now ? !is_container_full() : true ) && ( ammo.is_empty()
-                 || ( find_type( ammo )->phase == LIQUID && ( is_container_empty()
+                 || ( ammo->phase == LIQUID && ( is_container_empty()
                          || contents.front().typeId() == ammo ) ) ) );
     } else if( magazine_integral() ) {
         if( !ammo.is_empty() ) {
@@ -6507,7 +6505,7 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
                     return false;
                 }
             } else {
-                const itype *at = find_type( ammo );
+                const itype *at = &*ammo;
                 if( ( !at->ammo || !ammo_types().count( at->ammo->type ) ) &&
                     !magazine_compatible().count( ammo ) ) {
                     return false;
@@ -7034,7 +7032,7 @@ int item::ammo_capacity( bool potential_capacity ) const
     if( is_tool() ) {
         res = type->tool->max_charges;
         if( res == 0 && !magazine_default().is_null() && potential_capacity ) {
-            res = find_type( magazine_default() )->magazine->capacity;
+            res = magazine_default()->magazine->capacity;
         }
         for( const item *e : toolmods() ) {
             res *= e->type->mod->capacity_multiplier;
@@ -7158,8 +7156,8 @@ const itype *item::ammo_data() const
     auto mods = is_gun() ? gunmods() : toolmods();
     for( const item *e : mods ) {
         if( !e->type->mod->ammo_modifier.empty() && !e->ammo_current().is_null() &&
-            item_controller->has_template( e->ammo_current() ) ) {
-            return item_controller->find_template( e->ammo_current() );
+            e->ammo_current().is_valid() ) {
+            return &*e->ammo_current();
         }
     }
 
@@ -9438,24 +9436,12 @@ std::string item::get_corpse_name()
 
 std::string item::nname( const itype_id &id, unsigned int quantity )
 {
-    const itype *t = find_type( id );
-    return t->nname( quantity );
+    return id->nname( quantity );
 }
 
 bool item::count_by_charges( const itype_id &id )
 {
-    const itype *t = find_type( id );
-    return t->count_by_charges();
-}
-
-bool item::type_is_defined( const itype_id &id )
-{
-    return item_controller->has_template( id );
-}
-
-const itype *item::find_type( const itype_id &type )
-{
-    return item_controller->find_template( type );
+    return id->count_by_charges();
 }
 
 int item::get_gun_ups_drain() const
@@ -9653,7 +9639,7 @@ const std::vector<comp_selection<tool_comp>> &item::get_cached_tool_selections()
 const cata::value_ptr<islot_comestible> &item::get_comestible() const
 {
     if( is_craft() ) {
-        return find_type( craft_data_->making->result() )->comestible;
+        return craft_data_->making->result()->comestible;
     } else {
         return type->comestible;
     }

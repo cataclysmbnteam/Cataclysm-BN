@@ -901,11 +901,9 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             roll = std::max<int>( corpse_damage_effect( roll, entry.type, corpse_item->damage_level( 4 ) ),
                                   entry.base_num.first );
         }
-        itype_id drop_id = itype_id::NULL_ID();
         const itype *drop = nullptr;
         if( entry.type != "bionic_group" ) {
-            drop_id = itype_id( entry.drop );
-            drop = item::find_type( drop_id );
+            drop = &*itype_id( entry.drop );
         }
 
         // BIONIC handling - no code for DISSECT to let the bionic drop fall through
@@ -1127,8 +1125,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 monster_weight_remaining -= monster_weight * 0.15;
             }
         }
-        const int item_charges = monster_weight_remaining / to_gram( (
-                                     item::find_type( itype_ruined_chunks ) )->weight );
+        const int item_charges = monster_weight_remaining / to_gram( itype_ruined_chunks->weight );
         if( item_charges > 0 ) {
             item ruined_parts( itype_ruined_chunks, calendar::turn, item_charges );
             ruined_parts.set_mtype( &mt );

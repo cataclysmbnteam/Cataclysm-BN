@@ -341,7 +341,7 @@ void recipe::finalize()
     deduped_requirements_ = deduped_requirement_data( requirements_, ident() );
 
     if( contained && container.is_null() ) {
-        container = item::find_type( result_ )->default_container.value_or( "null" );
+        container = result_->default_container.value_or( itype_id::NULL_ID() );
     }
 
     if( autolearn && autolearn_requirements.empty() ) {
@@ -369,7 +369,7 @@ std::string recipe::get_consistency_error() const
         return "defines invalid result";
     }
 
-    if( !item::type_is_defined( result_ ) ) {
+    if( !result_.is_valid() ) {
         return "defines invalid result";
     }
 
@@ -378,7 +378,7 @@ std::string recipe::get_consistency_error() const
     }
 
     const auto is_invalid_bp = []( const std::pair<itype_id, int> &elem ) {
-        return !item::type_is_defined( elem.first );
+        return !elem.first.is_valid();
     };
 
     if( std::any_of( byproducts.begin(), byproducts.end(), is_invalid_bp ) ) {
@@ -389,7 +389,7 @@ std::string recipe::get_consistency_error() const
         return "defines container but not contained";
     }
 
-    if( !item::type_is_defined( container ) ) {
+    if( !container.is_valid() ) {
         return "specifies unknown container";
     }
 
@@ -403,7 +403,7 @@ std::string recipe::get_consistency_error() const
     }
 
     const auto is_invalid_book = []( const std::pair<itype_id, int> &elem ) {
-        return !item::find_type( elem.first )->book;
+        return !elem.first->book;
     };
 
     if( std::any_of( booksets.begin(), booksets.end(), is_invalid_book ) ) {

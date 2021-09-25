@@ -188,7 +188,7 @@ bool monexamine::pet_menu( monster &z )
             amenu.addentry( mount, false, 'r', _( "You are not skilled enough to ride without a saddle" ) );
         }
     } else {
-        const itype &type = *item::find_type( z.type->mech_battery );
+        const itype &type = *z.type->mech_battery;
         int max_charge = type.magazine->capacity;
         float charge_percent;
         if( z.battery_item ) {

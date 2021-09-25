@@ -69,7 +69,7 @@ TEST_CASE( "explosion_on_ground", "[.]" )
     }
     // Detonate an RDX keg item in the middle of the populated map space
     itype_id rdx_keg_typeid( "tool_rdx_charge_act" );
-    REQUIRE( item::type_is_defined( rdx_keg_typeid ) );
+    REQUIRE( rdx_keg_typeid.is_valid() );
 
     const tripoint area_center( area_dim / 2, area_dim / 2, 0 );
     item rdx_keg( rdx_keg_typeid );
@@ -119,7 +119,7 @@ TEST_CASE( "explosion_on_floor_with_rock_floor_basement", "[.]" )
     }
     // Detonate an RDX keg item in the middle of the populated map space
     itype_id rdx_keg_typeid( "tool_rdx_charge_act" );
-    REQUIRE( item::type_is_defined( rdx_keg_typeid ) );
+    REQUIRE( rdx_keg_typeid.is_valid() );
 
     const tripoint area_center( area_dim / 2, area_dim / 2, 0 );
     item rdx_keg( rdx_keg_typeid );

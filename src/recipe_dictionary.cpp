@@ -184,7 +184,7 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
                 return search_reqs( r->simple_requirements().get_qualities(), txt );
 
             case search_type::quality_result: {
-                const auto &quals = item::find_type( r->result() )->qualities;
+                const auto &quals = r->result()->qualities;
                 return std::any_of( quals.begin(), quals.end(), [&]( const std::pair<quality_id, int> &e ) {
                     return lcmatch( e.first->name, txt );
                 } );
@@ -438,7 +438,7 @@ void recipe_dictionary::finalize()
         }
 
         for( const auto &bk : r.booksets ) {
-            const itype *booktype = item::find_type( bk.first );
+            const itype *booktype = &*bk.first;
             int req = bk.second > 0 ? bk.second : std::max( booktype->book->req, r.difficulty );
             islot_book::recipe_with_description_t desc{ &r, req, r.result_name(), false };
             const_cast<islot_book &>( *booktype->book ).recipes.insert( desc );

@@ -116,7 +116,7 @@ const itype *turret_data::ammo_data() const
         return nullptr;
     }
     if( part->info().has_flag( "USE_TANKS" ) ) {
-        return !ammo_current().is_null() ? item::find_type( ammo_current() ) : nullptr;
+        return ammo_current().is_null() ? nullptr : &*ammo_current();
     }
     return part->base.ammo_data();
 }
@@ -151,7 +151,7 @@ std::set<itype_id> turret_data::ammo_options() const
 
     } else {
         for( const auto &e : veh->fuels_left() ) {
-            const itype *fuel = item::find_type( e.first );
+            const itype *fuel = &*e.first;
             if( fuel->ammo && part->base.ammo_types().count( fuel->ammo->type ) &&
                 e.second >= part->base.ammo_required() ) {
 

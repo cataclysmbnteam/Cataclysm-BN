@@ -70,7 +70,7 @@ void ammunition_type::check_consistency()
             continue;
         }
 
-        if( !at.is_empty() && !item::type_is_defined( at ) ) {
+        if( !at.is_empty() && !at.is_valid() ) {
             debugmsg( "ammo type %s has invalid default ammo %s", id.c_str(), at.c_str() );
         }
     }

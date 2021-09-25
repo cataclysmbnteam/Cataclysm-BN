@@ -326,12 +326,12 @@ std::string iuse_transform::get_name() const
 
 void iuse_transform::finalize( const itype_id & )
 {
-    if( !item::type_is_defined( target ) ) {
+    if( !target.is_valid() ) {
         debugmsg( "Invalid transform target: %s", target.c_str() );
     }
 
     if( !container.is_empty() ) {
-        if( !item::type_is_defined( container ) ) {
+        if( !container.is_valid() ) {
             debugmsg( "Invalid transform container: %s", container.c_str() );
         }
 
@@ -3101,7 +3101,7 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
                 pl.add_msg_if_player( m_info,
                                       _( "You don't have enough %s to do that.  Have: %d, need: %d" ),
                                       item::nname( mat_comp, 2 ),
-                                      item::find_type( mat_comp )->count_by_charges() ?
+                                      mat_comp->count_by_charges() ?
                                       crafting_inv.amount_of( mat_comp, false ) :
                                       crafting_inv.charges_of( mat_comp, items_needed ),
                                       items_needed );
@@ -4281,7 +4281,7 @@ std::unique_ptr<iuse_actor> install_bionic_actor::clone() const
 
 void install_bionic_actor::finalize( const itype_id &my_item_type )
 {
-    if( !item::find_type( my_item_type )->bionic ) {
+    if( !my_item_type->bionic ) {
         debugmsg( "Item %s has install_bionic actor, but it's not a bionic.", my_item_type.c_str() );
     }
 }
@@ -4343,7 +4343,7 @@ std::unique_ptr<iuse_actor> detach_gunmods_actor::detach_gunmods_actor::clone() 
 
 void detach_gunmods_actor::finalize( const itype_id &my_item_type )
 {
-    if( !item::find_type( my_item_type )->gun ) {
+    if( !my_item_type->gun ) {
         debugmsg( "Item %s has detach_gunmods_actor actor, but it's a gun.", my_item_type.c_str() );
     }
 }

@@ -542,7 +542,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
 
         if( pt.is_tank() && !type->parts[p].fuel.is_null() ) {
             int qty = pt.ammo_capacity() * veh_fuel_mult / 100;
-            qty *= std::max( item::find_type( type->parts[p].fuel )->stack_size, 1 );
+            qty *= std::max( type->parts[p].fuel->stack_size, 1 );
             qty /= to_milliliter( units::legacy_volume_factor );
             pt.ammo_set( type->parts[ p ].fuel, qty );
         } else if( pt.is_fuel_store() && !type->parts[p].fuel.is_null() ) {
@@ -6564,7 +6564,7 @@ void vehicle::leak_fuel( vehicle_part &pt )
     } ), tiles.end() );
 
     // leak up to 1/3 of remaining fuel per iteration and continue until the part is empty
-    auto *fuel = item::find_type( pt.ammo_current() );
+    const itype *fuel = &*pt.ammo_current();
     while( !tiles.empty() && pt.ammo_remaining() ) {
         int qty = pt.ammo_consume( rng( 0, std::max( pt.ammo_remaining() / 3, 1 ) ),
                                    global_part_pos3( pt ) );
@@ -6759,7 +6759,7 @@ void vehicle::update_time( const time_point &update_to )
         double area = std::pow( pt.info().size / units::legacy_volume_factor, 2 ) * M_PI;
         int qty = roll_remainder( funnel_charges_per_turn( area, accum_weather.rain_amount ) );
         int c_qty = qty + ( tank->can_reload( water_clean ) ?  tank->ammo_remaining() : 0 );
-        int cost_to_purify = c_qty * item::find_type( itype_water_purifier )->charges_to_use();
+        int cost_to_purify = c_qty * itype_water_purifier->charges_to_use();
 
         if( qty > 0 ) {
             if( has_part( global_part_pos3( pt ), "WATER_PURIFIER", true ) &&

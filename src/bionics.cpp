@@ -1953,8 +1953,8 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
 {
     // if malfunctioning bionics doesn't have associated item it gets a difficulty of 12
     int difficulty = 12;
-    if( item::type_is_defined( b_id->itype() ) ) {
-        auto type = item::find_type( b_id->itype() );
+    if( b_id->itype().is_valid() ) {
+        const itype *type = &*b_id->itype();
         if( type->bionic ) {
             difficulty = type->bionic->difficulty;
         }
@@ -2029,8 +2029,8 @@ bool Character::uninstall_bionic( const bionic_id &b_id, player &installer, bool
 {
     // if malfunctioning bionics doesn't have associated item it gets a difficulty of 12
     int difficulty = 12;
-    if( item::type_is_defined( b_id->itype() ) ) {
-        auto type = item::find_type( b_id->itype() );
+    if( b_id->itype().is_valid() ) {
+        const itype *type = &*b_id->itype();
         if( type->bionic ) {
             difficulty = type->bionic->difficulty;
         }
@@ -2111,7 +2111,7 @@ void Character::perform_uninstall( bionic_id bid, int difficulty, int success,
         mod_max_power_level( -power_lvl );
 
         item cbm( "burnt_out_bionic" );
-        if( item::type_is_defined( bid->itype() ) ) {
+        if( bid->itype().is_valid() ) {
             cbm = item( bid.c_str() );
         }
         cbm.set_flag( flag_FILTHY );

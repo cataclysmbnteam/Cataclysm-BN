@@ -1986,7 +1986,7 @@ bool player::consume_med( item &target )
     }
 
     const itype_id tool_type = target.get_comestible()->tool;
-    const auto req_tool = item::find_type( tool_type );
+    const itype *req_tool = &*tool_type;
     bool tool_override = false;
     if( tool_type == itype_syringe && has_bionic( bio_syringe ) ) {
         tool_override = true;

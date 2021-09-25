@@ -228,7 +228,7 @@ itype_id vehicle_part::ammo_current() const
 int vehicle_part::ammo_capacity() const
 {
     if( is_tank() ) {
-        return item::find_type( ammo_current() )->charges_per_volume( base.get_container_capacity() );
+        return ammo_current()->charges_per_volume( base.get_container_capacity() );
     }
 
     if( is_fuel_store( false ) || is_turret() ) {
@@ -253,7 +253,7 @@ int vehicle_part::ammo_remaining() const
 
 int vehicle_part::ammo_set( const itype_id &ammo, int qty )
 {
-    const itype *liquid = item::find_type( ammo );
+    const itype *liquid = &*ammo;
 
     // We often check if ammo is set to see if tank is empty, if qty == 0 don't set ammo
     if( is_tank() && liquid->phase >= LIQUID && qty != 0 ) {

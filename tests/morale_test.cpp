@@ -539,7 +539,7 @@ TEST_CASE( "player_morale_from_effects", "[morale][effect]" )
     GIVEN( "effect with bonus, item with bonus and independent bonus" ) {
         m.on_effect_int_change( drunk, 1 );
         m.add( MORALE_FOOD_GOOD, 10, 0, 1_hours, 1_hours, false,
-               *item::find_type( itype_id( "test_pine_nuts" ) ) );
+               *itype_id( "test_pine_nuts" ) );
         m.add( MORALE_BOOK, 10 );
         THEN( "square root of sum of squares rule applies" ) {
             CHECK( m.get_level() == 15 );

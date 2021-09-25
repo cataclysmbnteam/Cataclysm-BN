@@ -146,7 +146,7 @@ std::string tool_comp::to_string( const int batch, const int ) const
 std::string item_comp::to_string( const int batch, const int avail ) const
 {
     const int c = std::abs( count ) * batch;
-    const auto type_ptr = item::find_type( type );
+    const itype *type_ptr = &*type;
     if( type_ptr->count_by_charges() ) {
         if( avail == item::INFINITE_CHARGES ) {
             //~ %1$s: item name, %2$d: charge requirement
@@ -441,8 +441,8 @@ void quality_requirement::check_consistency( const std::string &display_name ) c
 
 void component::check_consistency( const std::string &display_name ) const
 {
-    if( !item::type_is_defined( type ) ) {
-        debugmsg( "%s in %s is not a valid item template", type.c_str(), display_name );
+    if( !type.is_valid() ) {
+        debugmsg( "%s in %s is not a valid item template", type, display_name );
     }
 }
 
@@ -566,7 +566,7 @@ void requirement_data::finalize()
                 for( const itype_id &replacing_type : replacements ) {
                     // One of the replacements is the type itself
                     const int charge_factor = replacing_type != comp.type
-                                              ? item::find_type( replacing_type )->charge_factor()
+                                              ? replacing_type->charge_factor()
                                               : 1;
                     new_list.emplace_back( replacing_type, charge_factor * comp.count );
                 }
@@ -884,7 +884,7 @@ bool requirement_data::check_enough_materials( const item_comp &comp, const inve
             comp.available = available_status::a_insufficent;
         }
     }
-    const itype *it = item::find_type( comp.type );
+    const itype *it = &*comp.type;
     for( const auto &ql : it->qualities ) {
         const quality_requirement *qr = find_by_type( qualities, ql.first );
         if( qr == nullptr || qr->level > ql.second ) {

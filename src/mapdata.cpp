@@ -1397,7 +1397,7 @@ void finalize_furn()
     for( const furn_t &furn : furniture_data.get_all() ) {
         if( furn.examine == iexamine::workbench ) {
             furn_t &furn_mutable = const_cast<furn_t &>( furn );
-            if( item::type_is_defined( furn_mutable.deployed_item ) ) {
+            if( furn_mutable.deployed_item.is_valid() ) {
                 furn_mutable.examine = iexamine::deployed_furniture;
             } else {
                 furn_mutable.examine = iexamine::none;

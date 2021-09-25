@@ -229,8 +229,7 @@ itype_id mtype::get_meat_itype() const
 int mtype::get_meat_chunks_count() const
 {
     const float ch = to_gram( weight ) * ( 0.40f - 0.02f * std::log10( to_gram( weight ) ) );
-    const itype *chunk = item::find_type( get_meat_itype() );
-    return static_cast<int>( ch / to_gram( chunk->weight ) );
+    return static_cast<int>( ch / to_gram( get_meat_itype()->weight ) );
 }
 
 std::string mtype::get_description() const

@@ -162,7 +162,7 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
                 if( vp.ammo_current() == itype_battery ) {
                     partname += string_format( _( " (%s/%s charge)" ), vp.ammo_remaining(), vp.ammo_capacity() );
                 } else {
-                    const itype *pt_ammo_cur = item::find_type( vp.ammo_current() );
+                    const itype *pt_ammo_cur = &*vp.ammo_current();
                     auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
                     partname += string_format( _( " (%.1fL %s)" ),
                                                round_up( units::to_liter( vp.ammo_remaining() * stack ),
@@ -396,7 +396,7 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
     nc_color col_indf1 = c_light_gray;
     int cap = fuel_capacity( fuel_type );
     int f_left = fuel_left( fuel_type );
-    nc_color f_color = item::find_type( fuel_type )->color;
+    nc_color f_color = fuel_type->color;
     // NOLINTNEXTLINE(cata-text-style): not an ellipsis
     mvwprintz( win, p, col_indf1, "E...F" );
     int amnt = cap > 0 ? f_left * 99 / cap : 0;

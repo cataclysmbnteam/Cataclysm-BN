@@ -255,10 +255,10 @@ void profession::check_definitions()
 void profession::check_item_definitions( const itypedecvec &items ) const
 {
     for( auto &itd : items ) {
-        if( !item::type_is_defined( itd.type_id ) ) {
+        if( !itd.type_id.is_valid() ) {
             debugmsg( "profession %s: item %s does not exist", id.str(), itd.type_id.str() );
         } else if( !itd.snip_id.is_null() ) {
-            const itype *type = item::find_type( itd.type_id );
+            const itype *type = &*itd.type_id;
             if( type->snippet_category.empty() ) {
                 debugmsg( "profession %s: item %s has no snippet category - no description can "
                           "be set", id.str(), itd.type_id.str() );
@@ -277,7 +277,7 @@ void profession::check_definition() const
     check_item_definitions( legacy_starting_items );
     check_item_definitions( legacy_starting_items_female );
     check_item_definitions( legacy_starting_items_male );
-    if( !no_bonus.is_empty() && !item::type_is_defined( no_bonus ) ) {
+    if( !no_bonus.is_empty() && !no_bonus.is_valid() ) {
         debugmsg( "no_bonus item '%s' is not an itype_id", no_bonus.c_str() );
     }
 
@@ -606,7 +606,7 @@ void json_item_substitution::check_consistency()
         }
     };
     auto check_if_itype = []( const itype_id & i ) {
-        if( !item::type_is_defined( i ) ) {
+        if( !i.is_valid() ) {
             debugmsg( "%s is not an itype_id", i.c_str() );
         }
     };

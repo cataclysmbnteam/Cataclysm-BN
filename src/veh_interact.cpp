@@ -604,7 +604,7 @@ task_reason veh_interact::cant_do( char mode )
             valid_target = false;
             has_tools = true;
             for( auto &e : veh->fuels_left() ) {
-                if( e.first != fuel_type_battery && item::find_type( e.first )->phase == SOLID ) {
+                if( e.first != fuel_type_battery && e.first->phase == SOLID ) {
                     valid_target = true;
                     break;
                 }
@@ -1429,7 +1429,7 @@ void veh_interact::calc_overview()
             // if tank contains something then display the contents in milliliters
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 right_print(
-                    w, y, 1, item::find_type( pt.ammo_current() )->color,
+                    w, y, 1, pt.ammo_current()->color,
                     string_format(
                         "%s     <color_light_gray>%s</color>",
                         !pt.fuel_current().is_null() ? item::nname( pt.fuel_current() ) : "",
@@ -1462,7 +1462,7 @@ void veh_interact::calc_overview()
                     if( it.rotten() ) {
                         specials += _( " (rotten)" );
                     }
-                    const itype *pt_ammo_cur = item::find_type( pt.ammo_current() );
+                    const itype *pt_ammo_cur = &*pt.ammo_current();
                     auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
                     int offset = 1;
                     std::string fmtstring = "%s %s  %5.1fL";
@@ -1484,7 +1484,7 @@ void veh_interact::calc_overview()
         } else if( pt.is_fuel_store() && !( pt.is_battery() || pt.is_reactor() ) && !pt.is_broken() ) {
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 if( !pt.ammo_current().is_null() ) {
-                    const itype *pt_ammo_cur = item::find_type( pt.ammo_current() );
+                    const itype *pt_ammo_cur = &*pt.ammo_current();
                     auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
                     int offset = 1;
                     std::string fmtstring = "%s  %5.1fL";
@@ -1512,7 +1512,7 @@ void veh_interact::calc_overview()
                     fmtstring = "%i   " + leak_marker + "%3i%%" + leak_marker;
                     offset = 0;
                 }
-                right_print( w, y, offset, item::find_type( pt.ammo_current() )->color,
+                right_print( w, y, offset, pt.ammo_current()->color,
                              string_format( fmtstring, pt.ammo_capacity(), pct ) );
             };
             overview_opts.emplace_back( "BATTERY", &pt, next_hotkey( pt, hotkey ), details );
@@ -1527,7 +1527,7 @@ void veh_interact::calc_overview()
                 fmtstring = "%s  " + leak_marker + "%5i" + leak_marker;
                 offset = 0;
             }
-            right_print( w, y, offset, item::find_type( pt.ammo_current() )->color,
+            right_print( w, y, offset, pt.ammo_current()->color,
                          string_format( fmtstring, item::nname( pt.ammo_current() ), pt.ammo_remaining() ) );
         }
     };
@@ -2668,7 +2668,7 @@ void veh_interact::display_details( const vpart_info *part )
     fold_and_print( w_details, point( col_1, line + 2 ), column_width, c_white,
                     "%s: <color_light_gray>%.1f%s</color>",
                     small_mode ? _( "Wgt" ) : _( "Weight" ),
-                    convert_weight( item::find_type( part->item )->weight ),
+                    convert_weight( part->item->weight ),
                     weight_units() );
     if( part->folded_volume != 0_ml ) {
         fold_and_print( w_details, point( col_2, line + 2 ), column_width, c_white,
@@ -2713,7 +2713,7 @@ void veh_interact::display_details( const vpart_info *part )
 
     if( part->has_flag( VPFLAG_WHEEL ) ) {
         // Note: there is no guarantee that whl is non-empty!
-        const cata::value_ptr<islot_wheel> &whl = item::find_type( part->item )->wheel;
+        const cata::value_ptr<islot_wheel> &whl = part->item->wheel;
         fold_and_print( w_details, point( col_1, line + 3 ), column_width, c_white,
                         "%s: <color_light_gray>%d\"</color>",
                         small_mode ? _( "Dia" ) : _( "Wheel Diameter" ),
@@ -2759,7 +2759,7 @@ void veh_interact::display_details( const vpart_info *part )
 
     if( part->fuel_type == itype_battery && !part->has_flag( VPFLAG_ENGINE ) &&
         !part->has_flag( VPFLAG_ALTERNATOR ) ) {
-        const cata::value_ptr<islot_magazine> &battery = item::find_type( part->item )->magazine;
+        const cata::value_ptr<islot_magazine> &battery = part->item->magazine;
         fold_and_print( w_details, point( col_2, line + 5 ), column_width, c_white,
                         "%s: <color_light_gray>%8d</color>",
                         small_mode ? _( "BatCap" ) : _( "Battery Capacity" ),
@@ -2850,9 +2850,7 @@ void act_vehicle_unload_fuel( vehicle *veh )
 {
     std::vector<itype_id> fuels;
     for( auto &e : veh->fuels_left() ) {
-        const itype *type = item::find_type( e.first );
-
-        if( e.first == fuel_type_battery || type->phase != SOLID ) {
+        if( e.first == fuel_type_battery || e.first->phase != SOLID ) {
             // This skips battery and plutonium cells
             continue;
         }

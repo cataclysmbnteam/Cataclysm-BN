@@ -321,7 +321,7 @@ void trap::check_consistency()
     for( const auto &t : trap_factory.get_all() ) {
         for( auto &i : t.components ) {
             const itype_id &item_type = std::get<0>( i );
-            if( !item::type_is_defined( item_type ) ) {
+            if( !item_type.is_valid() ) {
                 debugmsg( "trap %s has unknown item as component %s", t.id.str(), item_type.str() );
             }
         }

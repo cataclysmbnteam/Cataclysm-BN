@@ -127,7 +127,7 @@ Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthda
 void Single_item_creator::check_consistency( const std::string &context ) const
 {
     if( type == S_ITEM ) {
-        if( !item::type_is_defined( itype_id( id ) ) ) {
+        if( !itype_id( id ).is_valid() ) {
             debugmsg( "item id %s is unknown (in %s)", id, context );
         }
     } else if( type == S_ITEM_GROUP ) {
@@ -195,8 +195,10 @@ bool Single_item_creator::has_item( const itype_id &itemid ) const
 std::set<const itype *> Single_item_creator::every_item() const
 {
     switch( type ) {
-        case S_ITEM:
-            return { item::find_type( itype_id( id ) ) };
+        case S_ITEM: {
+            const itype *ptr = &*itype_id( id );
+            return { ptr };
+        }
         case S_ITEM_GROUP: {
             Item_spawn_data *isd = item_controller->get_group( item_group_id( id ) );
             if( isd != nullptr ) {

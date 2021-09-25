@@ -43,7 +43,7 @@ static const vpart_info *biggest_tank( const ammotype &ammo )
             continue;
         }
 
-        const itype *fuel = item::find_type( vp.fuel_type );
+        const itype *fuel = &*vp.fuel_type;
         if( fuel->ammo && fuel->ammo->type == ammo ) {
             res.push_back( &vp );
         }

@@ -120,10 +120,10 @@ void material_type::check() const
     if( _dmg_adj.size() < 4 ) {
         debugmsg( "material %s specifies insufficient damaged adjectives.", id.c_str() );
     }
-    if( _salvaged_into && ( !item::type_is_defined( *_salvaged_into ) || _salvaged_into->is_null() ) ) {
+    if( _salvaged_into && ( !_salvaged_into->is_valid() || _salvaged_into->is_null() ) ) {
         debugmsg( "invalid \"salvaged_into\" %s for %s.", _salvaged_into->c_str(), id.c_str() );
     }
-    if( !item::type_is_defined( _repaired_with ) ) {
+    if( !_repaired_with.is_valid() ) {
         debugmsg( "invalid \"repaired_with\" %s for %s.", _repaired_with.c_str(), id.c_str() );
     }
 
@@ -138,7 +138,7 @@ void material_type::check() const
     }
     for( auto &ci : _compacts_into ) {
         if(
-            !item::type_is_defined( ci ) ||
+            !ci.is_valid() ||
             !item( ci, calendar::start_of_cataclysm ).only_made_of( std::set<material_id> { id } )
         ) {
             debugmsg( "invalid \"compacts_into\" %s for %s.", ci.c_str(), id.c_str() );

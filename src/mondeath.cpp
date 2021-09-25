@@ -211,17 +211,17 @@ void mdeath::splatter( monster &z )
             // only flesh and bones survive.
             if( entry.type == "flesh" || entry.type == "bone" ) {
                 // the larger the overflow damage, the less you get
-                const int chunk_amt =
-                    entry.mass_ratio / overflow_ratio / 10 *
-                    z.get_weight() / ( item::find_type( itype_id( entry.drop ) ) )->weight;
-                scatter_chunks( itype_id( entry.drop ), chunk_amt, z, gib_distance,
+                itype_id item_id( entry.drop );
+                const int chunk_amt = entry.mass_ratio / overflow_ratio / 10 * z_weight /
+                                      to_gram( item_id->weight );
+                scatter_chunks( item_id, chunk_amt, z, gib_distance,
                                 chunk_amt / ( gib_distance - 1 ) );
-                gibbed_weight -= entry.mass_ratio / overflow_ratio / 20 * to_gram( z.get_weight() );
+                gibbed_weight -= entry.mass_ratio / overflow_ratio / 20 * z_weight;
             }
         }
         if( gibbed_weight > 0 ) {
             const int chunk_amount =
-                gibbed_weight / to_gram( ( item::find_type( itype_ruined_chunks ) )->weight );
+                gibbed_weight / to_gram( itype_ruined_chunks->weight );
             scatter_chunks( itype_ruined_chunks, chunk_amount, z, gib_distance,
                             chunk_amount / ( gib_distance + 1 ) );
         }
@@ -808,7 +808,7 @@ void mdeath::detonate( monster &z )
         } else {
             // Get the transformation item
             const iuse_transform *actor = dynamic_cast<const iuse_transform *>(
-                                              item::find_type( bomb_id )->get_use( "transform" )->get_actor_ptr() );
+                                              bomb_id->get_use( "transform" )->get_actor_ptr() );
             if( actor == nullptr ) {
                 // Invalid bomb item, move to the next ammo item
                 add_msg( m_debug, "Invalid bomb type in detonate mondeath for %s.", z.name() );

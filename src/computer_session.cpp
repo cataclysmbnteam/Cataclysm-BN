@@ -27,7 +27,6 @@
 #include "int_id.h"
 #include "item.h"
 #include "item_contents.h"
-#include "item_factory.h"
 #include "item_location.h"
 #include "line.h"
 #include "map.h"
@@ -1023,7 +1022,7 @@ void computer_session::action_irradiator()
                 for( auto it = g->m.i_at( dest ).begin(); it != g->m.i_at( dest ).end(); ++it ) {
                     // actual food processing
                     itype_id irradiated_type( "irradiated_" + it->typeId().str() );
-                    if( !it->rotten() && item_controller->has_template( irradiated_type ) ) {
+                    if( !it->rotten() && irradiated_type.is_valid() ) {
                         it->convert( irradiated_type );
                     }
                     // critical failure - radiation spike sets off electronic detonators

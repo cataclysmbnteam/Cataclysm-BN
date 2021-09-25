@@ -927,7 +927,7 @@ static bool try_start_hacking( player &p, const tripoint &examp )
     if( has_item && has_bionic ) {
         uilist menu;
         menu.settext( _( "Use which hacking tool?" ) );
-        menu.addentry( 0, true, MENU_AUTOASSIGN, "%s", item::find_type( itype_electrohack )->nname( 1 ) );
+        menu.addentry( 0, true, MENU_AUTOASSIGN, "%s", itype_electrohack->nname( 1 ) );
         menu.addentry( 1, true, MENU_AUTOASSIGN, "%s", bio_fingerhack->name );
         menu.query();
         switch( menu.ret ) {
@@ -1182,8 +1182,8 @@ void iexamine::deployed_furniture( player &p, const tripoint &pos )
 static std::pair<itype_id, const deploy_tent_actor *> find_tent_itype( const furn_str_id &id )
 {
     const itype_id &iid = id->deployed_item;
-    if( item::type_is_defined( iid ) ) {
-        const itype &type = *item::find_type( iid );
+    if( iid.is_valid() ) {
+        const itype &type = *iid;
         for( const auto &pair : type.use_methods ) {
             const auto actor = dynamic_cast<const deploy_tent_actor *>( pair.second.get_actor_ptr() );
             if( !actor ) {
@@ -2470,8 +2470,8 @@ void iexamine::kiln_empty( player &p, const tripoint &examp )
         total_volume += i.volume();
     }
 
-    auto char_type = item::find_type( itype_unfinished_charcoal );
-    int char_charges = char_type->charges_per_volume( ( 100 - loss ) * total_volume / 100 );
+    units::volume char_volume = ( 100 - loss ) * total_volume / 100;
+    int char_charges = itype_unfinished_charcoal->charges_per_volume( char_volume );
     if( char_charges < 1 ) {
         add_msg( _( "The batch in this kiln is too small to yield any charcoal." ) );
         return;
@@ -2491,7 +2491,7 @@ void iexamine::kiln_empty( player &p, const tripoint &examp )
     p.use_charges( itype_fire, 1 );
     g->m.i_clear( examp );
     g->m.furn_set( examp, next_kiln_type );
-    item result( "unfinished_charcoal", calendar::turn );
+    item result( itype_unfinished_charcoal, calendar::turn );
     result.charges = char_charges;
     g->m.add_item( examp, result );
     add_msg( _( "You fire the charcoal kiln." ) );
@@ -2517,7 +2517,6 @@ void iexamine::kiln_full( player &, const tripoint &examp )
         g->m.furn_set( examp, next_kiln_type );
         return;
     }
-    auto char_type = item::find_type( itype_charcoal );
     add_msg( _( "There's a charcoal kiln there." ) );
     const time_duration firing_time = 6_hours; // 5 days in real life
     const time_duration time_left = firing_time - items.only_item().age();
@@ -2547,8 +2546,8 @@ void iexamine::kiln_full( player &, const tripoint &examp )
         }
     }
 
-    item result( "charcoal", calendar::turn );
-    result.charges = char_type->charges_per_volume( total_volume );
+    item result( itype_charcoal, calendar::turn );
+    result.charges = itype_charcoal->charges_per_volume( total_volume );
     g->m.add_item( examp, result );
     g->m.furn_set( examp, next_kiln_type );
     add_msg( _( "It has finished burning, yielding %d charcoal." ), result.charges );
@@ -2599,8 +2598,8 @@ void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
         total_volume += i.volume();
     }
 
-    auto char_type = item::find_type( itype_unfinished_cac2 );
-    int char_charges = char_type->charges_per_volume( ( 100 - loss ) * total_volume / 100 );
+    units::volume char_volume = ( 100 - loss ) * total_volume / 100;
+    int char_charges = itype_unfinished_cac2->charges_per_volume( char_volume );
     if( char_charges < 1 ) {
         add_msg( _( "The batch in this furance is too small to yield usable calcium carbide." ) );
         return;
@@ -2620,7 +2619,7 @@ void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
     p.use_charges( itype_UPS, 1250 );
     g->m.i_clear( examp );
     g->m.furn_set( examp, next_arcfurnace_type );
-    item result( "unfinished_cac2", calendar::turn );
+    item result( itype_unfinished_cac2, calendar::turn );
     result.charges = char_charges;
     g->m.add_item( examp, result );
     add_msg( _( "You turn on the furnace." ) );
@@ -2644,7 +2643,6 @@ void iexamine::arcfurnace_full( player &, const tripoint &examp )
         g->m.furn_set( examp, next_arcfurnace_type );
         return;
     }
-    auto char_type = item::find_type( itype_chem_carbide );
     add_msg( _( "There's an arc furnace there." ) );
     const time_duration firing_time = 2_hours; // Arc furnaces work really fast in reality
     const time_duration time_left = firing_time - items.only_item().age();
@@ -2674,8 +2672,8 @@ void iexamine::arcfurnace_full( player &, const tripoint &examp )
         }
     }
 
-    item result( "chem_carbide", calendar::turn );
-    result.charges = char_type->charges_per_volume( total_volume );
+    item result( itype_chem_carbide, calendar::turn );
+    result.charges = itype_chem_carbide->charges_per_volume( total_volume );
     g->m.add_item( examp, result );
     g->m.furn_set( examp, next_arcfurnace_type );
     add_msg( _( "It has finished burning, yielding %d calcium carbide." ), result.charges );
@@ -3755,14 +3753,15 @@ const itype *furn_t::crafting_pseudo_item_type() const
     if( crafting_pseudo_item.is_empty() ) {
         return nullptr;
     }
-    return item::find_type( crafting_pseudo_item );
+    return &*crafting_pseudo_item;
 }
 
 const itype *furn_t::crafting_ammo_item_type() const
 {
     const itype *pseudo = crafting_pseudo_item_type();
     if( pseudo->tool && !pseudo->tool->ammo_id.empty() ) {
-        return item::find_type( ammotype( *pseudo->tool->ammo_id.begin() )->default_ammotype() );
+        const itype_id &iid = ammotype( *pseudo->tool->ammo_id.begin() )->default_ammotype();
+        return &*iid;
     }
     return nullptr;
 }
@@ -5515,7 +5514,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
     const auto remaining_capacity = sm_rack::MAX_FOOD_VOLUME - f_volume;
     const auto remaining_capacity_portable = sm_rack::MAX_FOOD_VOLUME_PORTABLE - f_volume;
     const auto has_coal_in_inventory = p.charges_of( itype_charcoal ) > 0;
-    const auto coal_charges = count_charges_in_list( item::find_type( itype_charcoal ), items_here );
+    const auto coal_charges = count_charges_in_list( &*itype_charcoal, items_here );
     const auto need_charges = get_charcoal_charges( f_volume );
     const bool has_coal = coal_charges > 0;
     const bool has_enough_coal = coal_charges >= need_charges;
