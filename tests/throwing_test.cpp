@@ -23,7 +23,9 @@
 #include "player.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "probability.h"
 #include "projectile.h"
+#include "ranged.h"
 #include "test_statistics.h"
 #include "type_id.h"
 
@@ -107,9 +109,11 @@ static void test_throwing_player_versus(
         monster &mon = spawn_test_monster( mon_id, monster_start );
         mon.set_moves( 0 );
 
-        double actual_hit_chance = ranged::hit_chance(
-                                       dispersion_sources( p.throwing_dispersion( it, &mon ) ),
-                                       range, mon.ranged_target_size() );
+        double actual_hit_chance =
+            ranged::hit_chance(
+                dispersion_sources( ranged::throwing_dispersion( p, it, &mon, false ) ),
+                range,
+                mon.ranged_target_size() );
         if( std::fabs( actual_hit_chance - hit_thresh.midpoint ) > hit_thresh.epsilon / 2.0 ) {
             CAPTURE( hit_thresh.midpoint );
             CAPTURE( hit_thresh.epsilon / 2.0 );
@@ -246,84 +250,6 @@ TEST_CASE( "throwing_skill_impact_test", "[throwing],[balance]" )
     }
 }
 
-static void test_player_kills_monster(
-    player &p, const std::string &mon_id, const std::string &item_id, const int range,
-    const int dist_thresh, const throw_test_pstats &pstats, const int iterations )
-{
-    const tripoint monster_start = { 30 + range, 30, 0 };
-    const tripoint player_start = { 30, 30, 0 };
-    int failure_turns = -1;
-    int failure_num_items = -1;
-    int failure_last_range = -1;
-    item it( item_id );
-    int num_failures = 0;
-
-    // We want to be real sure it isn't possible so do it a bunch of times
-    // until we manage to make it happen or if we hit iterations then we're
-    // good.
-    for( int i = 0; i < iterations; i++ ) {
-        bool mon_is_dead = false;
-        int turns = 0;
-        int num_items = 0;
-        int last_range = -1;
-
-        reset_player( p, pstats, player_start );
-
-        monster &mon = spawn_test_monster( mon_id, monster_start );
-        mon.set_moves( 0 );
-
-        while( !mon_is_dead ) {
-
-            ++turns;
-            mon.process_turn();
-            mon.set_dest( p.pos() );
-            while( mon.moves > 0 ) {
-                mon.move();
-            }
-
-            // zombie made it to player, we're done with this iteration
-            if( ( last_range = rl_dist( p.pos(), mon.pos() ) ) <= dist_thresh ) {
-                break;
-            }
-
-            p.mod_moves( p.get_speed() );
-            while( p.get_moves() > 0 ) {
-                p.wield( it );
-                p.throw_item( mon.pos(), it );
-                p.i_rem( -1 );
-                ++num_items;
-            }
-            mon_is_dead = mon.is_dead();
-        }
-
-        if( !mon_is_dead ) {
-            g->remove_zombie( mon );
-        } else {
-            ++num_failures;
-            failure_turns = turns;
-            failure_num_items = num_items;
-            failure_last_range = last_range;
-        }
-    }
-
-    INFO( "You killed him :( He had kids you know." );
-    INFO( "Distance - Start: " << range << " End: " << failure_last_range );
-    INFO( "Turns: " << failure_turns );
-    INFO( "# Items thrown: " << failure_num_items );
-    CHECK( num_failures <= 1 );
-}
-
-TEST_CASE( "player_kills_zombie_before_reach", "[throwing],[balance][scenario]" )
-{
-    player &p = g->u;
-    clear_map();
-
-    SECTION( "test_player_kills_zombie_with_rock_basestats" ) {
-        test_player_kills_monster( p, "mon_zombie", "rock", 15, 1, lo_skill_base_stats, 500 );
-    }
-}
-
-int throw_cost( const player &c, const item &to_throw );
 TEST_CASE( "time_to_throw_independent_of_number_of_projectiles", "[throwing],[balance]" )
 {
     player &p = g->u;
@@ -331,10 +257,11 @@ TEST_CASE( "time_to_throw_independent_of_number_of_projectiles", "[throwing],[ba
 
     item thrown( "throwing_stick", calendar::turn, 10 );
     REQUIRE( thrown.charges > 1 );
+    REQUIRE( thrown.count_by_charges() );
     p.wield( thrown );
     int initial_moves = -1;
     while( thrown.charges > 0 ) {
-        const int cost = throw_cost( p, thrown );
+        const int cost = ranged::throw_cost( p, thrown );
         if( initial_moves < 0 ) {
             initial_moves = cost;
         } else {

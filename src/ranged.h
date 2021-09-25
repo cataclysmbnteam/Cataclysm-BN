@@ -73,7 +73,9 @@ std::vector<Creature *> targetable_creatures( const Character &c, int range,
 
 int burst_penalty( const Character &p, const item &gun, int gun_recoil );
 
+/** How much dispersion does one point of target's dodge add when throwing at said target? */
 int throw_dispersion_per_dodge( const Character &c, bool add_encumbrance );
+/** Dispersion of a thrown item, against a given target, taking into account whether or not the throw was blind. */
 int throwing_dispersion( const Character &c, const item &to_throw, Creature *critter,
                          bool is_blind_throw );
 int throw_cost( const player &c, const item &to_throw );

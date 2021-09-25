@@ -1074,7 +1074,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     }
 
     Creature *critter = g->critter_at( target, true );
-    const dispersion_sources dispersion( throwing_dispersion( thrown, critter,
+    const dispersion_sources dispersion( ranged::throwing_dispersion( *this, thrown, critter,
                                          blind_throw_from_pos.has_value() ) );
     const itype *thrown_type = thrown.type;
 
@@ -1439,7 +1439,8 @@ static int draw_throw_aim( const player &p, const catacurses::window &w, int lin
         target = nullptr;
     }
 
-    const dispersion_sources dispersion( p.throwing_dispersion( weapon, target, is_blind_throw ) );
+    const dispersion_sources dispersion(
+        ranged::throwing_dispersion( p, weapon, target, is_blind_throw ) );
     const double range = rl_dist( p.pos(), target_pos );
 
     const double target_size = target != nullptr ? target->ranged_target_size() : 1.0f;
