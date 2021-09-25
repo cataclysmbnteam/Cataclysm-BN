@@ -48,6 +48,7 @@
 #include "pimpl.h"
 #include "pldata.h"
 #include "profession.h"
+#include "ranged.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "rng.h"
@@ -869,7 +870,7 @@ tab_direction set_stats( avatar &u, points_left &points )
                 // NOLINTNEXTLINE(cata-use-named-point-constants)
                 mvwprintz( w_description, point( 0, 1 ), COL_STAT_BONUS,
                            _( "Throwing penalty per target's dodge: +%d" ),
-                           u.throw_dispersion_per_dodge( false ) );
+                           ranged::throw_dispersion_per_dodge( u, false ) );
                 if( u.ranged_dex_mod() != 0 ) {
                     mvwprintz( w_description, point( 0, 2 ), COL_STAT_PENALTY, _( "Ranged penalty: -%d" ),
                                std::abs( u.ranged_dex_mod() ) );

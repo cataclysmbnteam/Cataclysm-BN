@@ -24,6 +24,7 @@
 #include "player_helpers.h"
 #include "point.h"
 #include "projectile.h"
+#include "ranged.h"
 #include "test_statistics.h"
 #include "type_id.h"
 
@@ -86,9 +87,7 @@ constexpr int max_throw_test_iterations = 10000;
 static void test_throwing_player_versus(
     player &p, const std::string &mon_id, const std::string &throw_id,
     const int range, const throw_test_pstats &pstats,
-    const epsilon_threshold &hit_thresh, const epsilon_threshold &dmg_thresh,
-    const int min_throws = min_throw_test_iterations,
-    int max_throws = max_throw_test_iterations )
+    const epsilon_threshold &hit_thresh, const epsilon_threshold &dmg_thresh )
 {
     const tripoint monster_start = { 30 + range, 30, 0 };
     const tripoint player_start = { 30, 30, 0 };
@@ -97,7 +96,6 @@ static void test_throwing_player_versus(
     throw_test_data data;
     item it( throw_id );
 
-    max_throws = std::max( min_throws, max_throws );
     do {
         reset_player( p, pstats, player_start );
         p.set_moves( 1000 );
@@ -107,16 +105,18 @@ static void test_throwing_player_versus(
         monster &mon = spawn_test_monster( mon_id, monster_start );
         mon.set_moves( 0 );
 
-        double actual_hit_chance = ranged::hit_chance(
-                                       dispersion_sources( p.throwing_dispersion( it, &mon ) ),
-                                       range, mon.ranged_target_size() );
-        if( std::fabs( actual_hit_chance - hit_thresh.midpoint ) > hit_thresh.epsilon / 2.0 ) {
+        double actual_hit_chance =
+            ranged::hit_chance(
+                dispersion_sources( ranged::throwing_dispersion( p, it, &mon, false ) ),
+                range,
+                mon.ranged_target_size() );
+        if( std::fabs( actual_hit_chance - hit_thresh.midpoint ) > hit_thresh.epsilon / 4.0 ) {
             CAPTURE( hit_thresh.midpoint );
-            CAPTURE( hit_thresh.epsilon / 2.0 );
+            CAPTURE( hit_thresh.epsilon / 4.0 );
             CAPTURE( actual_hit_chance );
             CAPTURE( range );
             CAPTURE( mon.ranged_target_size() );
-            FAIL_CHECK( "Expected and calculated midpoints must be within epsilon/2 or the test is too fragile" );
+            FAIL_CHECK( "Expected and calculated midpoints must be within epsilon/4 or the test is too fragile" );
             return;
         }
 
@@ -124,7 +124,7 @@ static void test_throwing_player_versus(
         data.hits.add( atk.hit_critter != nullptr );
         data.dmg.add( atk.dealt_dam.total_damage() );
 
-        if( data.hits.n() >= min_throws ) {
+        if( data.hits.n() >= min_throw_test_iterations ) {
             // ideally we should actually still checking the threshold after we
             // meet it but we're busy people and don't have time for that
             if( !hit_thresh_met ) {
@@ -143,7 +143,7 @@ static void test_throwing_player_versus(
         p.i_rem( -1 );
         // only need to check dmg_thresh_met because it can only be true if
         // hit_thresh_met first
-    } while( !dmg_thresh_met && data.hits.n() < max_throws );
+    } while( !dmg_thresh_met && data.hits.n() < max_throw_test_iterations );
 
     INFO( "Monster: '" << mon_id << "' Item: '" << throw_id );
     INFO( "Range: " << range << " Pstats: " << pstats );
@@ -162,19 +162,6 @@ static void test_throwing_player_versus(
     CHECK( dmg_thresh_met );
 }
 
-// Debugging function to force a large sample count.  This will fail but will
-// dump an extremely accurate population sample that can be used to tune a
-// broken test.
-// WARNING: these will take a long time likely
-/*
-static void test_throwing_player_versus(
-    player &p, const std::string &mon_id, const std::string &throw_id, const int range,
-    const throw_test_pstats &pstats )
-{
-    test_throwing_player_versus( p, mon_id, throw_id, range, pstats, { 0, 0 }, { 0, 0 }, 5000, 5000 );
-}
-*/
-
 constexpr throw_test_pstats lo_skill_base_stats = { 0, 8, 8, 8 };
 constexpr throw_test_pstats mid_skill_base_stats = { MAX_SKILL / 2, 8, 8, 8 };
 constexpr throw_test_pstats hi_skill_base_stats = { MAX_SKILL, 8, 8, 8 };
@@ -191,7 +178,7 @@ TEST_CASE( "basic_throwing_sanity_tests", "[throwing],[balance]" )
         test_throwing_player_versus( p, "mon_zombie", "rock", 10, lo_skill_base_stats, { 0.27, 0.10 }, { 2, 2 } );
         test_throwing_player_versus( p, "mon_zombie", "rock", 15, lo_skill_base_stats, { 0.13, 0.10 }, { 1, 2 } );
         test_throwing_player_versus( p, "mon_zombie", "rock", 20, lo_skill_base_stats, { 0.095, 0.10 }, { 0.5, 2 } );
-        test_throwing_player_versus( p, "mon_zombie", "rock", 25, lo_skill_base_stats, { 0.03, 0.10 }, { 0.5, 2 } );
+        test_throwing_player_versus( p, "mon_zombie", "rock", 25, lo_skill_base_stats, { 0.08, 0.10 }, { 0.5, 2 } );
         test_throwing_player_versus( p, "mon_zombie", "rock", 30, lo_skill_base_stats, { 0.06, 0.10 }, { 0.5, 2 } );
     }
 
@@ -200,8 +187,8 @@ TEST_CASE( "basic_throwing_sanity_tests", "[throwing],[balance]" )
         test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 5, lo_skill_base_stats, { 0.64, 0.10 }, { 13, 3 } );
         test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 10, lo_skill_base_stats, { 0.20, 0.10 }, { 4, 2 } );
         test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 15, lo_skill_base_stats, { 0.11, 0.10 }, { 1.29, 3 } );
-        test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 20, lo_skill_base_stats, { 0.03, 0.10 }, { 1.66, 2 } );
-        test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 25, lo_skill_base_stats, { 0.03, 0.10 }, { 1.0, 2 } );
+        test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 20, lo_skill_base_stats, { 0.08, 0.10 }, { 1.66, 2 } );
+        test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 25, lo_skill_base_stats, { 0.06, 0.10 }, { 1.0, 2 } );
     }
 
     SECTION( "test_player_vs_zombie_rock_athlete" ) {
@@ -209,9 +196,9 @@ TEST_CASE( "basic_throwing_sanity_tests", "[throwing],[balance]" )
         test_throwing_player_versus( p, "mon_zombie", "rock", 5, hi_skill_athlete_stats, { 1.00, 0.10 }, { 16.5, 6 } );
         test_throwing_player_versus( p, "mon_zombie", "rock", 10, hi_skill_athlete_stats, { 1.00, 0.10 }, { 16.27, 6 } );
         test_throwing_player_versus( p, "mon_zombie", "rock", 15, hi_skill_athlete_stats, { 0.97, 0.10 }, { 12.83, 4 } );
-        test_throwing_player_versus( p, "mon_zombie", "rock", 20, hi_skill_athlete_stats, { 0.82, 0.10 }, { 9.10, 4 } );
+        test_throwing_player_versus( p, "mon_zombie", "rock", 20, hi_skill_athlete_stats, { 0.77, 0.10 }, { 9.10, 4 } );
         test_throwing_player_versus( p, "mon_zombie", "rock", 25, hi_skill_athlete_stats, { 0.58, 0.10 }, { 6.54, 4 } );
-        test_throwing_player_versus( p, "mon_zombie", "rock", 30, hi_skill_athlete_stats, { 0.47, 0.10 }, { 4.90, 3 } );
+        test_throwing_player_versus( p, "mon_zombie", "rock", 30, hi_skill_athlete_stats, { 0.43, 0.10 }, { 4.90, 3 } );
     }
 
     SECTION( "test_player_vs_zombie_javelin_iron_athlete" ) {
@@ -219,9 +206,9 @@ TEST_CASE( "basic_throwing_sanity_tests", "[throwing],[balance]" )
         test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 5, hi_skill_athlete_stats, { 1.00, 0.10 }, { 34.00, 8 } );
         test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 10, hi_skill_athlete_stats, { 1.00, 0.10 }, { 34.16, 8 } );
         test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 15, hi_skill_athlete_stats, { 0.97, 0.10 }, { 25.21, 6 } );
-        test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 20, hi_skill_athlete_stats, { 0.82, 0.10 }, { 18.90, 5 } );
+        test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 20, hi_skill_athlete_stats, { 0.77, 0.10 }, { 18.90, 5 } );
         test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 25, hi_skill_athlete_stats, { 0.58, 0.10 }, { 13.59, 5 } );
-        test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 30, hi_skill_athlete_stats, { 0.48, 0.10 }, { 10.00, 4 } );
+        test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 30, hi_skill_athlete_stats, { 0.43, 0.10 }, { 10.00, 4 } );
     }
 }
 
@@ -246,84 +233,6 @@ TEST_CASE( "throwing_skill_impact_test", "[throwing],[balance]" )
     }
 }
 
-static void test_player_kills_monster(
-    player &p, const std::string &mon_id, const std::string &item_id, const int range,
-    const int dist_thresh, const throw_test_pstats &pstats, const int iterations )
-{
-    const tripoint monster_start = { 30 + range, 30, 0 };
-    const tripoint player_start = { 30, 30, 0 };
-    int failure_turns = -1;
-    int failure_num_items = -1;
-    int failure_last_range = -1;
-    item it( item_id );
-    int num_failures = 0;
-
-    // We want to be real sure it isn't possible so do it a bunch of times
-    // until we manage to make it happen or if we hit iterations then we're
-    // good.
-    for( int i = 0; i < iterations; i++ ) {
-        bool mon_is_dead = false;
-        int turns = 0;
-        int num_items = 0;
-        int last_range = -1;
-
-        reset_player( p, pstats, player_start );
-
-        monster &mon = spawn_test_monster( mon_id, monster_start );
-        mon.set_moves( 0 );
-
-        while( !mon_is_dead ) {
-
-            ++turns;
-            mon.process_turn();
-            mon.set_dest( p.pos() );
-            while( mon.moves > 0 ) {
-                mon.move();
-            }
-
-            // zombie made it to player, we're done with this iteration
-            if( ( last_range = rl_dist( p.pos(), mon.pos() ) ) <= dist_thresh ) {
-                break;
-            }
-
-            p.mod_moves( p.get_speed() );
-            while( p.get_moves() > 0 ) {
-                p.wield( it );
-                p.throw_item( mon.pos(), it );
-                p.i_rem( -1 );
-                ++num_items;
-            }
-            mon_is_dead = mon.is_dead();
-        }
-
-        if( !mon_is_dead ) {
-            g->remove_zombie( mon );
-        } else {
-            ++num_failures;
-            failure_turns = turns;
-            failure_num_items = num_items;
-            failure_last_range = last_range;
-        }
-    }
-
-    INFO( "You killed him :( He had kids you know." );
-    INFO( "Distance - Start: " << range << " End: " << failure_last_range );
-    INFO( "Turns: " << failure_turns );
-    INFO( "# Items thrown: " << failure_num_items );
-    CHECK( num_failures <= 1 );
-}
-
-TEST_CASE( "player_kills_zombie_before_reach", "[throwing],[balance][scenario]" )
-{
-    player &p = g->u;
-    clear_map();
-
-    SECTION( "test_player_kills_zombie_with_rock_basestats" ) {
-        test_player_kills_monster( p, "mon_zombie", "rock", 15, 1, lo_skill_base_stats, 500 );
-    }
-}
-
-int throw_cost( const player &c, const item &to_throw );
 TEST_CASE( "time_to_throw_independent_of_number_of_projectiles", "[throwing],[balance]" )
 {
     player &p = g->u;
@@ -331,10 +240,11 @@ TEST_CASE( "time_to_throw_independent_of_number_of_projectiles", "[throwing],[ba
 
     item thrown( "throwing_stick", calendar::turn, 10 );
     REQUIRE( thrown.charges > 1 );
+    REQUIRE( thrown.count_by_charges() );
     p.wield( thrown );
     int initial_moves = -1;
     while( thrown.charges > 0 ) {
-        const int cost = throw_cost( p, thrown );
+        const int cost = ranged::throw_cost( p, thrown );
         if( initial_moves < 0 ) {
             initial_moves = cost;
         } else {

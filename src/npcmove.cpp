@@ -2048,7 +2048,7 @@ int npc::confident_gun_mode_range( const gun_mode &gun, int at_recoil ) const
 
 int npc::confident_throw_range( const item &thrown, Creature *target ) const
 {
-    double average_dispersion = throwing_dispersion( thrown, target ) / 2.0;
+    double average_dispersion = ranged::throwing_dispersion( *this, thrown, target, false ) / 2.0;
     double even_chance_range = ( target == nullptr ? 0.5 : target->ranged_target_size() ) /
                                average_dispersion;
     double confident_range = even_chance_range * confidence_mult();
