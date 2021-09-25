@@ -176,15 +176,25 @@ static void debug_error_prompt(
         return;
     }
 
-    std::string formatted_report =
-        string_format( // developer-facing error report. INTENTIONALLY UNTRANSLATED!
-            " DEBUG    : %s\n\n"
-            " FUNCTION : %s\n"
-            " FILE     : %s\n"
-            " LINE     : %s\n"
-            " VERSION  : BN %s\n",
-            text, funcname, filename, line, getVersionString()
-        );
+    std::string formatted_report = [&]() {
+        const char *repetition_string =
+            _( "Excessive error repetition detected.  Please file a bug report at https://github.com/cataclysmbnteam/Cataclysm-BN/issues" );
+        // try to prepend repetition string if we are forcing the display. Right now that's the only reason for this prompt to display.
+        std::string pre = force ? string_format(
+                              "            %s\n",
+                              repetition_string
+                          ) : "";
+        return string_format(
+                   "%s"
+                   " DEBUG    : %s\n\n"
+                   " FUNCTION : %s\n"
+                   " FILE     : %s\n"
+                   " LINE     : %s\n"
+                   " VERSION  : BN %s\n",
+                   pre, text, funcname, filename, line, getVersionString()
+               );
+    }
+    ();
 
 #if defined(BACKTRACE)
     std::string backtrace_instructions =
@@ -392,22 +402,14 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
     if( buffering_debugmsgs ) {
         buffered_prompts().push_back( {filename, line, funcname, text, false } );
         if( excess_repetition ) {
-            // prepend excessive error repetition to original text then prompt
-            std::string rep_err =
-                "Excessive error repetition detected.  Please file a bug report at https://github.com/cataclysmbnteam/Cataclysm-BN/issues\n            "
-                + text;
-            buffered_prompts().push_back( {filename, line, funcname, rep_err, true } );
+            buffered_prompts().push_back( {filename, line, funcname, text, true } );
         }
         return;
     }
 
     debug_error_prompt( filename, line, funcname, text.c_str(), false );
     if( excess_repetition ) {
-        // prepend excessive error repetition to original text then prompt
-        std::string rep_err =
-            "Excessive error repetition detected.  Please file a bug report at https://github.com/cataclysmbnteam/Cataclysm-BN/issues\n            "
-            + text;
-        debug_error_prompt( filename, line, funcname, rep_err.c_str(), true );
+        debug_error_prompt( filename, line, funcname, text.c_str(), true );
         // Do not count this prompt when considering repetition folding
         // Might look weird in the log if the repetitions end exactly after this prompt is displayed.
         rep_folder.set_time();
