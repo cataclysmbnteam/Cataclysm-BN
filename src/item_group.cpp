@@ -16,12 +16,17 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
-static const std::string null_item_id( "null" );
-
 static const std::string flag_NEEDS_NO_LUBE( "NEEDS_NO_LUBE" );
 static const std::string flag_NON_FOULING( "NON-FOULING" );
 static const std::string flag_PRIMITIVE_RANGED_WEAPON( "PRIMITIVE_RANGED_WEAPON" );
 static const std::string flag_VARSIZE( "VARSIZE" );
+
+/** @relates string_id */
+template<>
+bool string_id<Item_group>::is_valid() const
+{
+    return item_group::group_is_defined( *this );
+}
 
 Item_spawn_data::ItemList Item_spawn_data::create( const time_point &birthday ) const
 {
@@ -54,18 +59,18 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
     } else if( type == S_ITEM_GROUP ) {
         if( std::find( rec.begin(), rec.end(), id ) != rec.end() ) {
             debugmsg( "recursion in item spawn list %s", id.c_str() );
-            return item( null_item_id, birthday );
+            return item( itype_id::NULL_ID(), birthday );
         }
         rec.push_back( id );
         Item_spawn_data *isd = item_controller->get_group( item_group_id( id ) );
         if( isd == nullptr ) {
             debugmsg( "unknown item spawn list %s", id.c_str() );
-            return item( null_item_id, birthday );
+            return item( itype_id::NULL_ID(), birthday );
         }
         tmp = isd->create_single( birthday, rec );
         rec.erase( rec.end() - 1 );
     } else if( type == S_NONE ) {
-        return item( null_item_id, birthday );
+        return item( itype_id::NULL_ID(), birthday );
     }
     if( one_in( 3 ) && tmp.has_flag( flag_VARSIZE ) ) {
         tmp.set_flag( "FIT" );
@@ -169,8 +174,8 @@ bool Single_item_creator::replace_item( const itype_id &itemid, const itype_id &
         }
     }
     if( type == S_ITEM ) {
-        if( itemid == id ) {
-            id = replacementid ;
+        if( itemid.str() == id ) {
+            id = replacementid.str();
             return true;
         }
     } else if( type == S_ITEM_GROUP ) {
@@ -513,7 +518,7 @@ item Item_group::create_single( const time_point &birthday, RecursionList &rec )
             return ( elem )->create_single( birthday, rec );
         }
     }
-    return item( null_item_id, birthday );
+    return item( itype_id::NULL_ID(), birthday );
 }
 
 void Item_group::check_consistency( const std::string &context ) const

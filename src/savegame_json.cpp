@@ -2088,8 +2088,10 @@ const std::set<itype_id> &get()
 }
 void load( const JsonObject &jo )
 {
-    std::set<itype_id> d = jo.get_tags( "list" );
-    removal_list.insert( d.begin(), d.end() );
+    std::set<std::string> d = jo.get_tags( "list" );
+    for( const std::string &s : d ) {
+        removal_list.insert( itype_id( s ) );
+    }
 }
 void reset()
 {
@@ -2103,8 +2105,10 @@ static std::set<itype_id> the_list;
 
 void load( const JsonObject &jo )
 {
-    std::set<itype_id> d = jo.get_tags( "list" );
-    the_list.insert( d.begin(), d.end() );
+    std::set<std::string> d = jo.get_tags( "list" );
+    for( const std::string &s : d ) {
+        the_list.insert( itype_id( s ) );
+    }
 }
 
 void reset()
@@ -3107,7 +3111,7 @@ void player_morale::morale_subtype::deserialize( JsonIn &jsin )
         case morale_subtype_t::single:
             break;
         case morale_subtype_t::by_item:
-            item_type = &*item::find_type( jo.get_string( "item_type" ) );
+            item_type = &*itype_id( jo.get_string( "item_type" ) );
             break;
         case morale_subtype_t::by_effect:
             eff_type = efftype_id( jo.get_string( "eff_type" ) );
@@ -3125,7 +3129,7 @@ void player_morale::morale_point::deserialize( JsonIn &jsin )
     jo.allow_omitted_members();
     jo.read( "type", type );
     if( !jo.read( "subtype", subtype ) && jo.has_string( "item_type" ) ) {
-        subtype = morale_subtype( *item::find_type( jo.get_string( "item_type" ) ) );
+        subtype = morale_subtype( *itype_id( jo.get_string( "item_type" ) ) );
     }
     jo.read( "bonus", bonus );
     jo.read( "duration", duration );

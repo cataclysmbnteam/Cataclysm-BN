@@ -708,7 +708,7 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     gen_response_lines( d, 19 );
     REQUIRE( has_item( g->u, "bottle_plastic", 1 ) );
     REQUIRE( has_beer_bottle( g->u, 2 ) );
-    REQUIRE( g->u.wield( g->u.i_at( g->u.inv.position_by_type( "bottle_glass" ) ) ) );
+    REQUIRE( g->u.wield( g->u.i_at( g->u.inv.position_by_type( itype_id( "bottle_glass" ) ) ) ) );
     effects = d.responses[14].success;
     effects.apply( d );
     CHECK_FALSE( has_item( g->u, "bottle_plastic", 1 ) );

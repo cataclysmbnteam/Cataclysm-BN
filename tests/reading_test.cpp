@@ -325,7 +325,7 @@ TEST_CASE( "Learning recipes from books", "[reading][book][recipe]" )
     item &alpha = dummy.i_add( item( "recipe_alpha" ) );
     auto mutagen_iter = std::find_if( recipe_dict.begin(),
     recipe_dict.end(), []( const std::pair<recipe_id, recipe> &p ) {
-        return p.second.result() == "mutagen_alpha";
+        return p.second.result() == itype_id( "mutagen_alpha" );
     } );
 
     REQUIRE( mutagen_iter != recipe_dict.end() );

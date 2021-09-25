@@ -1988,7 +1988,7 @@ bool player::consume_med( item &target )
     const itype_id tool_type = target.get_comestible()->tool;
     const auto req_tool = item::find_type( tool_type );
     bool tool_override = false;
-    if( tool_type == "syringe" && has_bionic( bio_syringe ) ) {
+    if( tool_type == itype_syringe && has_bionic( bio_syringe ) ) {
         tool_override = true;
     }
     if( req_tool->tool ) {
@@ -2426,7 +2426,7 @@ item::reload_option player::select_ammo( const item &base,
     }
 
     const item_location &sel = opts[ menu.ret ].ammo;
-    uistate.lastreload[ ammotype( base.ammo_default() ) ] = sel->is_ammo_container() ?
+    uistate.lastreload[ ammotype( base.ammo_default().str() ) ] = sel->is_ammo_container() ?
             sel->contents.front().typeId() :
             sel->typeId();
     return opts[ menu.ret ];
@@ -3213,7 +3213,7 @@ bool player::unload( item_location loc )
     } else if( target->ammo_remaining() ) {
         int qty = target->ammo_remaining();
 
-        if( target->ammo_current() == "plut_cell" ) {
+        if( target->ammo_current() == itype_plut_cell ) {
             qty = target->ammo_remaining() / PLUTONIUM_CHARGES;
             if( qty > 0 ) {
                 add_msg( _( "You recover %i unused plutonium." ), qty );
@@ -3244,7 +3244,7 @@ bool player::unload( item_location loc )
         // If successful remove appropriate qty of ammo consuming half as much time as required to load it
         this->moves -= this->item_reload_cost( *target, ammo, qty ) / 2;
 
-        if( target->ammo_current() == "plut_cell" ) {
+        if( target->ammo_current() == itype_plut_cell ) {
             qty *= PLUTONIUM_CHARGES;
         }
 
@@ -3580,7 +3580,7 @@ void player::gunmod_add( item &gun, item &mod )
 
     item modded = gun;
     modded.put_in( mod );
-    bool no_magazines = modded.common_ammo_default() == "NULL";
+    bool no_magazines = modded.common_ammo_default().is_null();
 
     std::string query_msg = mod.is_irremovable()
                             ? _( "<color_yellow>Permanently</color> install your %1$s in your %2$s?" )

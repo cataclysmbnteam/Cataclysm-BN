@@ -142,7 +142,7 @@ void harvest_list::check_consistency()
             if( ( entry.type == "bionic" || entry.type == "bionic_group" ) && entry.mass_ratio != 0.0f ) {
                 errorlist += string_format( "\"mass_ratio\" != 0.0, but type %s", entry.type.c_str() );
             }
-            if( !( item::type_is_defined( entry.drop ) || ( entry.type == "bionic_group" &&
+            if( !( itype_id( entry.drop ).is_valid() || ( entry.type == "bionic_group" &&
                     item_group::group_is_defined( item_group_id( entry.drop ) ) ) ) ) {
                 item_valid = false;
                 errorlist += entry.drop;

@@ -507,7 +507,7 @@ void inline_requirements( std::vector<std::vector<T>> &list,
                 return;
             }
             // otherwise expand component as requirement
-            const requirement_id r( comp.type );
+            const requirement_id r( comp.type.str() );
             if( !r.is_valid() ) {
                 debugmsg( "Tried to inline unknown requirement %s", r.c_str() );
                 return;

@@ -615,8 +615,8 @@ void vpart_info::check()
         // Fuel type errors are serious and need fixing now
         if( !item::type_is_defined( part.fuel_type ) ) {
             debugmsg( "vehicle part %s uses undefined fuel %s", part.id.c_str(), part.item.c_str() );
-            part.fuel_type = "null";
-        } else if( part.fuel_type != "null" && !item::find_type( part.fuel_type )->fuel &&
+            part.fuel_type = itype_id::NULL_ID();
+        } else if( part.fuel_type && !item::find_type( part.fuel_type )->fuel &&
                    ( !base_item_type.container || !base_item_type.container->watertight ) ) {
             // HACK: Tanks are allowed to specify non-fuel "fuel",
             // because currently legacy blazemod uses it as a hack to restrict content types

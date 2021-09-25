@@ -48,8 +48,6 @@ mtype::mtype()
     baby_monster = mtype_id::NULL_ID();
     baby_egg = itype_id::NULL_ID();
 
-    baby_egg = "null";
-
     burn_into = mtype_id::NULL_ID();
     zombify_into = mtype_id::NULL_ID();
     dies.push_back( &mdeath::normal );

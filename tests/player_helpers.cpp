@@ -190,7 +190,7 @@ void arm_character( player &shooter, const std::string &gun_type,
 {
     shooter.remove_weapon();
 
-    const itype_id &gun_id( gun_type );
+    itype_id gun_id( gun_type );
     // Give shooter a loaded gun of the requested type.
     item &gun = shooter.i_add( item( gun_id ) );
     const itype_id ammo_id = ammo_type.empty() ? gun.ammo_default() : itype_id( ammo_type );

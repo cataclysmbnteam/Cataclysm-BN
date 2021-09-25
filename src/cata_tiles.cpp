@@ -1741,7 +1741,8 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
                                          looks_like_jumps_limit - 1 );
         }
         case C_ITEM: {
-            if( !item::type_is_defined( itype_id( id ) ) ) {
+            itype_id iid = itype_id( id );
+            if( !iid.is_valid() ) {
                 if( string_starts_with( id, "corpse_" ) ) {
                     return find_tile_looks_like(
                                "corpse", category, looks_like_jumps_limit - 1
@@ -1749,8 +1750,7 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
                 }
                 return cata::nullopt;
             }
-            const itype *new_it = item::find_type( itype_id( id ) );
-            return find_tile_looks_like( new_it->looks_like, category, looks_like_jumps_limit - 1 );
+            return find_tile_looks_like( iid->looks_like.str(), category, looks_like_jumps_limit - 1 );
         }
 
         default:
@@ -1791,11 +1791,11 @@ bool cata_tiles::find_overlay_looks_like( const bool male, const std::string &ov
             looks_like = "mutation_" + looks_like.substr( 16 );
             continue;
         }
-        if( !item::type_is_defined( itype_id( looks_like ) ) ) {
+        itype_id iid = itype_id( looks_like );
+        if( !iid.is_valid() ) {
             break;
         }
-        const itype *new_it = item::find_type( itype_id( looks_like ) );
-        looks_like = new_it->looks_like;
+        looks_like = iid->looks_like.str();
     }
     return exists;
 }

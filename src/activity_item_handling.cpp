@@ -7,6 +7,7 @@
 #include <iterator>
 #include <list>
 #include <memory>
+#include <numeric>
 #include <set>
 #include <sstream>
 #include <string>
@@ -1223,11 +1224,11 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                 const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
                 if( weldpart ) {
                     item welder( "welder", calendar::start_of_cataclysm );
-                    welder.charges = veh.fuel_left( "battery", true );
+                    welder.charges = veh.fuel_left( itype_battery, true );
                     welder.set_flag( "PSEUDO" );
                     temp_inv.add_item( welder );
                     item soldering_iron( "soldering_iron", calendar::start_of_cataclysm );
-                    soldering_iron.charges = veh.fuel_left( "battery", true );
+                    soldering_iron.charges = veh.fuel_left( itype_battery, true );
                     soldering_iron.set_flag( "PSEUDO" );
                     temp_inv.add_item( soldering_iron );
                 }

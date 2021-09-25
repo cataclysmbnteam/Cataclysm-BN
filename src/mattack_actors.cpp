@@ -562,8 +562,8 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
     item gun( gun_type );
     gun.gun_set_mode( mode );
 
-    itype_id ammo = ( ammo_type != "null" ) ? ammo_type : gun.ammo_default();
-    if( ammo != "null" ) {
+    itype_id ammo = ammo_type ? ammo_type : gun.ammo_default();
+    if( ammo ) {
         gun.ammo_set( ammo, z.ammo[ammo] );
     }
 

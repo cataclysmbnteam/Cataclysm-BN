@@ -135,6 +135,9 @@ static const itype_id itype_tuned_mechanism( "tuned_mechanism" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_waterproof_gunmod( "waterproof_gunmod" );
+static const itype_id itype_water( "water" );
+static const itype_id itype_water_acid( "water_acid" );
+static const itype_id itype_water_acid_weak( "water_acid_weak" );
 
 static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_melee( "melee" );
@@ -589,7 +592,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
     }
 
     // handle reloadable tools and guns with no specific ammo type as special case
-    if( ( ( ammo == "null" || ammo == "NULL" ) && ammo_types().empty() ) || is_money() ) {
+    if( ( ammo.is_null() && ammo_types().empty() ) || is_money() ) {
         if( ( is_tool() || is_gun() ) && magazine_integral() ) {
             curammo = nullptr;
             charges = std::min( qty, ammo_capacity() );
@@ -6494,7 +6497,7 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
     if( !is_reloadable() ) {
         return false;
     } else if( is_watertight_container() ) {
-        return ( ( now ? !is_container_full() : true ) && ( ammo.empty()
+        return ( ( now ? !is_container_full() : true ) && ( ammo.is_empty()
                  || ( find_type( ammo )->phase == LIQUID && ( is_container_empty()
                          || contents.front().typeId() == ammo ) ) ) );
     } else if( magazine_integral() ) {
@@ -6547,9 +6550,9 @@ bool item::is_funnel_container( units::volume &bigger_than ) const
     }
     if(
         contents.empty() ||
-        contents.front().typeId() == "water" ||
-        contents.front().typeId() == "water_acid" ||
-        contents.front().typeId() == "water_acid_weak" ) {
+        contents.front().typeId() == itype_water ||
+        contents.front().typeId() == itype_water_acid ||
+        contents.front().typeId() == itype_water_acid_weak ) {
         bigger_than = get_container_capacity();
         return true;
     }
@@ -7209,7 +7212,7 @@ itype_id item::ammo_default( bool conversion ) const
     const std::set<ammotype> &atypes = ammo_types( conversion );
     if( !atypes.empty() ) {
         itype_id res = ammotype( *atypes.begin() )->default_ammotype();
-        if( !res.empty() ) {
+        if( !res.is_empty() ) {
             return res;
         }
     }

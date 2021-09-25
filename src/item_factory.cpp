@@ -73,6 +73,13 @@ const itype &string_id<itype>::obj() const
     return result ? *result : dummy;
 }
 
+/** @relates string_id */
+template<>
+bool string_id<itype>::is_valid() const
+{
+    return item_controller->has_template( *this );
+}
+
 static item_category_id calc_category( const itype &obj );
 static void hflesh_to_flesh( itype &item_template );
 
@@ -217,7 +224,7 @@ void Item_factory::finalize_pre( itype &obj )
 
     // Set max volume for containers to prevent integer overflow
     if( obj.container && obj.container->contains > 10000_liter ) {
-        debugmsg( obj.id + " storage volume is too large, reducing to 10000 liters" );
+        debugmsg( obj.id.str() + " storage volume is too large, reducing to 10000 liters" );
         obj.container->contains = 10000_liter;
     }
 
@@ -1260,7 +1267,8 @@ void Item_factory::check_definitions() const
                 bool is_skill = ( gun_skill.is_valid() && gun_skill->is_combat_skill() )
                                 || t.name_ == "bow"
                                 || t.name_ == "crossbow";
-                bool is_item = has_template( t.name_ );
+                itype_id item_type( t.name_ );
+                bool is_item = item_type.is_valid();
                 if( !is_skill && !is_item ) {
                     msg += string_format( "gunmod is usable for invalid item/gun type %s\n", t.name_ );
                     continue;
@@ -1268,7 +1276,7 @@ void Item_factory::check_definitions() const
 
                 // We need to check is_skill because something can be both an item and a skill
                 if( !is_skill && is_item ) {
-                    const itype *target = find_template( t.name_ );
+                    const itype *target = &*item_type;
                     if( target->gun->valid_mod_locations.count( type->gunmod->location ) == 0 ) {
                         msg += string_format( "gunmod is usable for gun %s which doesn't have a slot of type %s\n",
                                               t.name_, type->gunmod->location.str() );
@@ -1390,7 +1398,7 @@ void Item_factory::check_definitions() const
         }
 
         if( type->container ) {
-            if( type->container->seals && type->container->unseals_into != "null" ) {
+            if( type->container->seals && !type->container->unseals_into.is_null() ) {
                 msg += string_format( "resealable container unseals_into %s\n",
                                       type->container->unseals_into.c_str() );
             }
@@ -1414,7 +1422,7 @@ void Item_factory::check_definitions() const
                 msg += string_format( "item action \"%s\" was not described.\n", actor->type.c_str() );
             }
 
-            if( actor->type == "CABLE_ATTACH" && !vpart_id( type->id ).is_valid() ) {
+            if( actor->type == "CABLE_ATTACH" && !vpart_id( type->id.str() ).is_valid() ) {
                 msg += string_format( "no valid vehicle part for CABLE_ATTACH action\n" );
             }
         }
@@ -2079,11 +2087,11 @@ void Item_factory::load_container( const JsonObject &jo, const std::string &src 
 void Item_factory::load( islot_seed &slot, const JsonObject &jo, const std::string & )
 {
     assign( jo, "grow", slot.grow, false, 1_days );
-    slot.fruit_div = jo.get_int( "fruit_div", 1 );
-    jo.read( "plant_name", slot.plant_name );
-    slot.fruit_id = jo.get_string( "fruit" );
-    slot.spawn_seeds = jo.get_bool( "seeds", true );
-    slot.byproducts = jo.get_string_array( "byproducts" );
+    assign( jo, "fruit_div", slot.fruit_div, false, 1 );
+    assign( jo, "plant_name", slot.plant_name );
+    assign( jo, "fruit", slot.fruit_id );
+    assign( jo, "seeds", slot.spawn_seeds );
+    assign( jo, "byproducts", slot.byproducts );
 }
 
 void Item_factory::load( islot_container &slot, const JsonObject &jo, const std::string & )

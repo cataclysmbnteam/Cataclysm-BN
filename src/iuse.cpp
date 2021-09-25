@@ -552,12 +552,12 @@ int iuse::smoking( player *p, item *it, bool, const tripoint & )
         cig.item_counter = to_turns<int>( 4_minutes );
         p->mod_thirst( 2 );
         p->mod_stored_kcal( 30 );
-    } else if( it->typeId() == "cigar" ) {
+    } else if( it->typeId() == itype_cigar ) {
         cig = item( "cigar_lit", calendar::turn );
         cig.item_counter = to_turns<int>( 12_minutes );
         p->mod_thirst( 3 );
         p->mod_stored_kcal( 40 );
-    } else if( it->typeId() == "joint" ) {
+    } else if( it->typeId() == itype_joint ) {
         cig = item( "joint_lit", calendar::turn );
         cig.item_counter = to_turns<int>( 4_minutes );
         p->mod_stored_kcal( -40 );
@@ -2094,7 +2094,7 @@ int iuse::water_purifier( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     auto obj = g->inv_map_splice( []( const item & e ) {
-        return !e.contents.empty() && e.contents.front().typeId() == "water";
+        return !e.contents.empty() && e.contents.front().typeId() == itype_water;
     }, _( "Purify what?" ), 1, _( "You don't have water to purify." ) );
 
     if( !obj ) {
@@ -2110,7 +2110,7 @@ int iuse::water_purifier( player *p, item *it, bool, const tripoint & )
 
     p->moves -= to_moves<int>( 2_seconds );
 
-    liquid.convert( "water_clean" ).poison = 0;
+    liquid.convert( itype_water_clean ).poison = 0;
     return liquid.charges;
 }
 
@@ -8624,7 +8624,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
             it->remove_item( *dish_it );
             it->erase_var( "RECIPE" );
-            it->convert( "multi_cooker" );
+            it->convert( itype_multi_cooker );
             p->add_msg_if_player( m_good, _( "You got the %s from the multi-cooker." ),
                                   dish_name );
 
@@ -9117,7 +9117,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
             tripoint source_global( it->get_var( "source_x", 0 ),
                                     it->get_var( "source_y", 0 ),
                                     it->get_var( "source_z", 0 ) );
-            const vpart_id vpid( it->typeId() );
+            const vpart_id vpid( it->typeId().str() );
 
             point vcoords = source_vp->mount();
             vehicle_part source_part( vpid, vcoords, item( *it ) );

@@ -76,14 +76,13 @@ static const itype_id itype_40x46mm( "40x46mm" );
 static const itype_id itype_40x53mm( "40x53mm" );
 static const itype_id itype_66mm( "66mm" );
 static const itype_id itype_84x246mm( "84x246mm" );
+static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_arrow( "arrow" );
 static const itype_id itype_bolt( "bolt" );
 static const itype_id itype_brass_catcher( "brass_catcher" );
 static const itype_id itype_flammable( "flammable" );
 static const itype_id itype_m235( "m235" );
 static const itype_id itype_metal_rail( "metal_rail" );
-static const itype_id itype_UPS( "UPS" );
-static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
 
@@ -1550,7 +1549,7 @@ static projectile make_gun_projectile( const item &gun )
         }
 
         const auto &ammo = gun.ammo_data()->ammo;
-        if( ammo->drop != "null" && x_in_y( ammo->drop_chance, 1.0 ) ) {
+        if( ammo->drop && x_in_y( ammo->drop_chance, 1.0 ) ) {
             item drop( ammo->drop );
             if( ammo->drop_active ) {
                 drop.activate();
@@ -1593,7 +1592,7 @@ static void cycle_action( item &weap, const tripoint &pos )
 
     if( weap.ammo_data() && weap.ammo_data()->ammo->casing ) {
         const itype_id casing = *weap.ammo_data()->ammo->casing;
-        if( weap.has_flag( "RELOAD_EJECT" ) || weap.gunmod_find( "brass_catcher" ) ) {
+        if( weap.has_flag( "RELOAD_EJECT" ) || weap.gunmod_find( itype_brass_catcher ) ) {
             weap.put_in( item( casing ).set_flag( "CASING" ) );
         } else {
             if( cargo.empty() ) {
@@ -2878,7 +2877,7 @@ void target_ui::update_ammo_range_from_gun_mode()
 {
     if( mode == TargetMode::TurretManual ) {
         itype_id ammo_current = turret->ammo_current();
-        if( ammo_current == "null" || ammo_current.empty() ) {
+        if( !ammo_current ) {
             ammo = nullptr;
             range = 0;
         } else {
@@ -3517,7 +3516,7 @@ bool ranged::gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::
         bool is_mech_weapon = false;
         if( you.is_mounted() ) {
             monster *mons = get_player_character().mounted_creature.get();
-            if( !mons->type->mech_weapon.empty() ) {
+            if( !mons->type->mech_weapon.is_empty() ) {
                 is_mech_weapon = true;
             }
         }

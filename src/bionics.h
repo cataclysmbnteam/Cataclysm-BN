@@ -128,6 +128,8 @@ struct bionic_data {
     std::set<flag_str_id> flags;
     bool has_flag( const flag_str_id &flag ) const;
 
+    itype_id itype() const;
+
     bool is_included( const bionic_id &id ) const;
 
     static void load_bionic( const JsonObject &jo, const std::string &src );

@@ -1101,7 +1101,7 @@ class jmapgen_liquid_item : public jmapgen_piece
 {
     public:
         jmapgen_int amount;
-        std::string liquid;
+        itype_id liquid;
         jmapgen_int chance;
         jmapgen_liquid_item( const JsonObject &jsi ) :
             amount( jsi, "amount", 0, 0 )
@@ -1109,9 +1109,9 @@ class jmapgen_liquid_item : public jmapgen_piece
             , chance( jsi, "chance", 1, 1 ) {
             // Itemgroups apply migrations when being loaded, but we need to migrate
             // individual items here.
-            liquid = item_controller->migrate_id( itype_id( liquid ) );
-            if( !item::type_is_defined( itype_id( liquid ) ) ) {
-                set_mapgen_defer( jsi, "liquid", "no such item type '" + liquid + "'" );
+            liquid = item_controller->migrate_id( liquid );
+            if( !item::type_is_defined( liquid ) ) {
+                set_mapgen_defer( jsi, "liquid", "no such item type '" + liquid.str() + "'" );
             }
         }
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
@@ -1158,15 +1158,15 @@ class jmapgen_loot : public jmapgen_piece
                           jsi.get_int( "magazine", 0 ) )
             , chance( jsi.get_int( "chance", 100 ) ) {
             const item_group_id group = item_group_id( jsi.get_string( "group", std::string() ) );
-            const std::string name = jsi.get_string( "item", std::string() );
+            const itype_id ity = itype_id( jsi.get_string( "item", std::string() ) );
 
-            if( !group == name.empty() ) {
+            if( group.is_empty() == ity.is_empty() ) {
                 jsi.throw_error( "must provide either item or group" );
             }
-            if( group && !item_group::group_is_defined( group ) ) {
+            if( !group.is_empty() && !group.is_valid() ) {
                 set_mapgen_defer( jsi, "group", "no such item group" );
             }
-            if( !ity.is_empty() && !item::type_is_defined( ity ) ) {
+            if( !ity.is_empty() && !ity.is_valid() ) {
                 set_mapgen_defer( jsi, "item", "no such item type '" + ity.str() + "'" );
             }
 

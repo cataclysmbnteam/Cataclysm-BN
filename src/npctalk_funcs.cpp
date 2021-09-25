@@ -484,8 +484,8 @@ void talk_function::bionic_remove( npc &p )
                        bio.info().itype() ) == bionic_types.end() ) {
             if( bio.id != bio_power_storage ||
                 bio.id != bio_power_storage_mkII ) {
-                bionic_types.push_back( bio.id.str() );
-                if( item::type_is_defined( bio.id.str() ) ) {
+                bionic_types.push_back( bio.info().itype() );
+                if( item::type_is_defined( bio.info().itype() ) ) {
                     item tmp = item( bio.id.str(), calendar::start_of_cataclysm );
                     bionic_names.push_back( tmp.tname() + " - " + format_money( 50000 + ( tmp.price( true ) / 4 ) ) );
                 } else {

@@ -774,18 +774,18 @@ void mdeath::kill_breathers( monster &/*z*/ )
 
 void mdeath::detonate( monster &z )
 {
-    weighted_int_list<std::string> amm_list;
+    weighted_int_list<itype_id> amm_list;
     for( const auto &amm : z.ammo ) {
         amm_list.add( amm.first, amm.second );
     }
 
-    std::vector<std::string> pre_dets;
+    std::vector<itype_id> pre_dets;
     for( int i = 0; i < 3; i++ ) {
         if( amm_list.get_weight() <= 0 ) {
             break;
         }
         // Grab one item
-        std::string tmp = *amm_list.pick();
+        itype_id tmp = *amm_list.pick();
         // and reduce its weight by 1
         amm_list.add_or_replace( tmp, amm_list.get_specific_weight( tmp ) - 1 );
         // and stash it for use
@@ -794,16 +794,16 @@ void mdeath::detonate( monster &z )
 
     // Update any hardcoded explosion equivalencies
     std::vector<std::pair<std::string, long>> dets;
-    for( const std::string &bomb_id : pre_dets ) {
-        if( bomb_id == "bot_grenade_hack" ) {
+    for( const itype_id &bomb_id : pre_dets ) {
+        if( bomb_id.str() == "bot_grenade_hack" ) {
             dets.push_back( std::make_pair( "grenade_act", 5 ) );
-        } else if( bomb_id == "bot_flashbang_hack" ) {
+        } else if( bomb_id.str() == "bot_flashbang_hack" ) {
             dets.push_back( std::make_pair( "flashbang_act", 5 ) );
-        } else if( bomb_id == "bot_gasbomb_hack" ) {
+        } else if( bomb_id.str() == "bot_gasbomb_hack" ) {
             dets.push_back( std::make_pair( "gasbomb_act", 20 ) );
-        } else if( bomb_id == "bot_c4_hack" ) {
+        } else if( bomb_id.str() == "bot_c4_hack" ) {
             dets.push_back( std::make_pair( "c4armed", 10 ) );
-        } else if( bomb_id == "bot_mininuke_hack" ) {
+        } else if( bomb_id.str() == "bot_mininuke_hack" ) {
             dets.push_back( std::make_pair( "mininuke_act", 20 ) );
         } else {
             // Get the transformation item
@@ -902,7 +902,7 @@ void make_mon_corpse( monster &z, int damageLvl )
             if( entry.type == "bionic" || entry.type == "bionic_group" ) {
                 std::vector<item> contained_bionics =
                     entry.type == "bionic"
-                    ? butcher_cbm_item( entry.drop, calendar::turn, entry.flags, entry.faults )
+                    ? butcher_cbm_item( itype_id( entry.drop ), calendar::turn, entry.flags, entry.faults )
                     : butcher_cbm_group( item_group_id( entry.drop ), calendar::turn, entry.flags, entry.faults );
                 for( const item &it : contained_bionics ) {
                     // Disgusting hack: use components instead of contents to hide stuff

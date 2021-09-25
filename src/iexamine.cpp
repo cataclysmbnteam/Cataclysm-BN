@@ -4690,8 +4690,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             for( const bionic &bio : installed_bionics ) {
                 if( bio.id != bio_power_storage ||
                     bio.id != bio_power_storage_mkII ) {
-                    if( item::type_is_defined( bio.info().itype() ) {// put cbm items in your inventory
-                    item bionic_to_uninstall( bio.id.str(), calendar::turn );
+                    if( bio.info().itype().is_valid() ) {
+                        // put cbm items in your inventory
+                        item bionic_to_uninstall( bio.id.str(), calendar::turn );
                         bionic_to_uninstall.set_flag( flag_IN_CBM );
                         bionic_to_uninstall.set_flag( flag_NO_STERILE );
                         bionic_to_uninstall.set_flag( flag_NO_PACKED );

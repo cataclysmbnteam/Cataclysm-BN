@@ -1725,7 +1725,7 @@ void Character::recalc_sight_limits()
     for( const mutation_branch *mut : cached_mutations ) {
         best_bonus_nv = std::max( best_bonus_nv, mut->night_vision_range );
     }
-    if( is_wearing( "rm13_armor_on" ) ||
+    if( is_wearing( itype_rm13_armor_on ) ||
         ( is_mounted() && mounted_creature->has_flag( MF_MECH_RECON_VISION ) ) ) {
         best_bonus_nv = std::max( best_bonus_nv, 10.0f );
     }
@@ -5041,7 +5041,7 @@ void Character::update_bodytemp( const map &m, weather_manager &weather )
                                            sheltered );
     // Let's cache this not to check it num_bp times
     const bool has_bark = has_trait( trait_BARK );
-    const bool has_heatsink = has_bionic( bio_heatsink ) || is_wearing( "rm13_armor_on" ) ||
+    const bool has_heatsink = has_bionic( bio_heatsink ) || is_wearing( itype_rm13_armor_on ) ||
                               has_trait( trait_M_SKIN2 ) || has_trait( trait_M_SKIN3 );
     const bool has_climate_control = in_climate_control();
     const bool use_floor_warmth = can_use_floor_warmth();
@@ -9843,8 +9843,8 @@ void Character::place_corpse( const tripoint &om_target )
         bay.add_item_or_charges( fin, *itm );
     }
     for( const bionic &bio : *my_bionics ) {
-        if( item::type_is_defined( bio.id.str() ) ) {
-            body.put_in( item( bio.id.str(), calendar::turn ) );
+        if( bio.info().itype().is_valid() ) {
+            body.put_in( item( bio.info().itype(), calendar::turn ) );
         }
     }
 

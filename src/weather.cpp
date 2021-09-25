@@ -251,8 +251,8 @@ void item::add_rain_to_container( bool acid, int charges )
             const bool transmute = x_in_y( 2 * added, liq.charges );
 
             if( transmute ) {
-                contents.front() = item( "water_acid_weak", calendar::turn, liq.charges );
-            } else if( liq.typeId() == "water" ) {
+                contents.front() = item( itype_water_acid_weak, calendar::turn, liq.charges );
+            } else if( liq.typeId() == itype_water ) {
                 // The container has water, and the acid rain didn't turn it
                 // into weak acid. Poison the water instead, assuming 1
                 // charge of acid would act like a charge of water with poison 5.
@@ -279,7 +279,8 @@ double funnel_charges_per_turn( const double surface_area_mm2, const double rain
     }
 
     // Calculate once, because that part is expensive
-    static const item water( "water", calendar::start_of_cataclysm );
+    // FIXME: make non-static
+    static const item water( itype_water, calendar::start_of_cataclysm );
     // 250ml
     static const double charge_ml = static_cast<double>( to_gram( water.weight() ) ) /
                                     water.charges;

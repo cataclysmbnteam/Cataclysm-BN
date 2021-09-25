@@ -248,6 +248,12 @@ bool bionic_data::has_flag( const flag_str_id &flag ) const
     return flags.count( flag ) > 0;
 }
 
+itype_id bionic_data::itype() const
+{
+    // Item id matches bionic id (as strings).
+    return itype_id( id.str() );
+}
+
 bool bionic_data::is_included( const bionic_id &id ) const
 {
     return std::find( included_bionics.begin(), included_bionics.end(), id ) != included_bionics.end();
@@ -330,14 +336,14 @@ void bionic_data::finalize() const
 void bionic_data::check() const
 {
     consistency_report rep;
-    if( !item::type_is_defined( id.str() ) && !included ) {
+    if( !included && !itype().is_valid() ) {
         rep.warn( "has no defined item version" );
     }
     if( charge_time < 0 ) {
         rep.warn( "specifies charge_time < 0" );
     }
     for( const itype_id &it : fuel_opts ) {
-        if( !item::type_is_defined( it ) ) {
+        if( !it.is_valid() ) {
             rep.warn( "specifies as fuel option unknown item \"%s\"", it );
         }
     }
@@ -374,8 +380,7 @@ void bionic_data::check() const
             rep.warn( "encumbers unknown body part \"%s\"", it.first.str() );
         }
     }
-    if( !fake_item.empty() &&
-        !item::type_is_defined( fake_item ) ) {
+    if( !fake_item.is_empty() && !fake_item.is_valid() ) {
         rep.warn( "has unknown fake_item \"%s\"", fake_item );
     }
     for( const trait_id &mid : canceled_mutations ) {
@@ -417,7 +422,7 @@ void bionic_data::check() const
     if( has_flag( flag_BIONIC_GUN ) && has_flag( flag_BIONIC_WEAPON ) ) {
         rep.warn( "is specified as both gun and weapon bionic" );
     }
-    if( ( has_flag( flag_BIONIC_GUN ) || has_flag( flag_BIONIC_WEAPON ) ) && fake_item.empty() ) {
+    if( ( has_flag( flag_BIONIC_GUN ) || has_flag( flag_BIONIC_WEAPON ) ) && fake_item.is_empty() ) {
         rep.warn( "is missing fake_item" );
     }
     if( !rep.is_empty() ) {
@@ -2136,9 +2141,8 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
         return false;
     }
 
-    item bionic_to_uninstall = item( target_cbm.id.str(), calendar::start_of_cataclysm );
-    const itype *itemtype = bionic_to_uninstall.type;
-    int difficulty = itemtype->bionic->difficulty;
+    const itype_id itemtype = target_cbm.info().itype();
+    int difficulty = itemtype.is_valid() ? itemtype->bionic->difficulty : 0;
     int chance_of_success = bionic_manip_cos( adjusted_skill, difficulty + 2 );
     int success = chance_of_success - rng( 1, 100 );
 
@@ -2183,10 +2187,8 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
         // remove power bank provided by bionic
         patient.mod_max_power_level( -target_cbm.info().capacity );
         patient.remove_bionic( target_cbm.id );
-        item cbm( "burnt_out_bionic" );
-        if( item::type_is_defined( target_cbm.id.c_str() ) ) {
-            cbm = bionic_to_uninstall;
-        }
+        const itype_id iid = itemtype.is_valid() ? itemtype : itype_id( "burnt_out_bionic" );
+        item cbm( iid, calendar::start_of_cataclysm );
         cbm.set_flag( flag_FILTHY );
         cbm.set_flag( flag_NO_STERILE );
         cbm.set_flag( flag_NO_PACKED );

@@ -106,7 +106,7 @@ void game::list_missions()
             const std::vector<std::pair<int, itype_id>> &rewards ) {
                 std::string formatted_description = description;
                 for( const auto &reward : rewards ) {
-                    std::string token = "<reward_count:" + reward.second + ">";
+                    std::string token = "<reward_count:" + reward.second.str() + ">";
                     formatted_description = replace_all( formatted_description, token,
                                                          string_format( "%d", reward.first ) );
                 }

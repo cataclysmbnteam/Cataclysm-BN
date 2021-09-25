@@ -647,7 +647,7 @@ void basecamp::form_crafting_inventory( map &target_map )
         bcp_r.consumed = 0;
         item camp_item( bcp_r.fake_id, calendar::start_of_cataclysm );
         camp_item.set_flag( "PSEUDO" );
-        if( bcp_r.ammo_id != "NULL" ) {
+        if( !bcp_r.ammo_id.is_null() ) {
             for( basecamp_fuel &bcp_f : fuels ) {
                 if( bcp_f.ammo_id == bcp_r.ammo_id ) {
                     if( bcp_f.available > 0 ) {

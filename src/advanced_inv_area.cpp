@@ -343,7 +343,7 @@ void advanced_inv_area::set_container( const advanced_inv_listitem *advitem )
         uistate.adv_inv_container_index = advitem->idx;
         uistate.adv_inv_container_type = it->typeId();
         uistate.adv_inv_container_content_type = !it->is_container_empty() ?
-                it->contents.front().typeId() : "null";
+                it->contents.front().typeId() : itype_id::NULL_ID();
         set_container_position();
     } else {
         uistate.adv_inv_container_location = -1;

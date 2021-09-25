@@ -80,8 +80,6 @@ static const mtype_id mon_secubot( "mon_secubot" );
 
 static const std::string flag_CONSOLE( "CONSOLE" );
 
-static const itype_id itype_sarcophagus_access_code( "sarcophagus_access_code" );
-
 static catacurses::window init_window()
 {
     const int width = FULL_SCREEN_WIDTH;

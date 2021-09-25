@@ -3284,7 +3284,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
             reason = _( "Thanks, that hit the spot." );
         }
     } else if( to_eat.is_medication() || to_eat.get_contained().is_medication() ) {
-        if( comest->tool != "null" ) {
+        if( comest->tool ) {
             bool has = p.has_amount( comest->tool, 1 );
             if( item::count_by_charges( comest->tool ) ) {
                 has = p.has_charges( comest->tool, 1 );
