@@ -6,7 +6,7 @@
     "difficulty": 1,
     "time": "48 s",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "scrap", 7 ] ], [ [ "chunk_rubber", 10 ] ] ]
+    "components": [ [ [ "steel_lump", 6 ] ], [ [ "chunk_rubber", 15 ] ] ]
   },
   {
     "type": "uncraft",
@@ -15,7 +15,7 @@
     "difficulty": 1,
     "time": "48 s",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "scrap", 7 ] ], [ [ "chunk_rubber", 10 ] ] ]
+    "components": [ [ [ "steel_lump", 15 ] ], [ [ "chunk_rubber", 15 ] ] ]
   },
   {
     "type": "uncraft",
@@ -24,7 +24,7 @@
     "difficulty": 1,
     "time": "48 s",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "scrap", 7 ] ], [ [ "chunk_rubber", 10 ] ] ]
+    "components": [ [ [ "steel_lump", 15 ] ], [ [ "chunk_rubber", 15 ] ] ]
   },
   {
     "type": "uncraft",
@@ -33,7 +33,7 @@
     "difficulty": 1,
     "time": "48 s",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "scrap", 7 ] ], [ [ "chunk_rubber", 10 ] ] ]
+    "components": [ [ [ "steel_lump", 10 ] ], [ [ "chunk_rubber", 15 ] ] ]
   },
   {
     "type": "uncraft",
@@ -42,7 +42,7 @@
     "difficulty": 1,
     "time": "48 s",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "chunk_rubber", 3 ] ] ]
+    "components": [ [ [ "steel_chunk", 6 ] ], [ [ "chunk_rubber", 6 ] ] ]
   },
   {
     "type": "uncraft",
@@ -51,7 +51,7 @@
     "difficulty": 1,
     "time": "48 s",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "chunk_rubber", 3 ] ] ]
+    "components": [ [ [ "steel_chunk", 6 ] ], [ [ "chunk_rubber", 6 ] ] ]
   },
   {
     "type": "uncraft",
@@ -60,7 +60,7 @@
     "difficulty": 1,
     "time": "48 s",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "chunk_rubber", 3 ] ] ]
+    "components": [ [ [ "steel_chunk", 8 ] ], [ [ "chunk_rubber", 6 ] ] ]
   },
   {
     "type": "uncraft",
@@ -69,7 +69,7 @@
     "difficulty": 1,
     "time": "48 s",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "chunk_rubber", 3 ] ] ]
+    "components": [ [ [ "steel_lump", 3 ] ], [ [ "chunk_rubber", 6 ] ] ]
   },
   {
     "type": "uncraft",
@@ -78,6 +78,6 @@
     "difficulty": 1,
     "time": "48 s",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "chunk_rubber", 3 ] ] ]
+    "components": [ [ [ "steel_lump", 3 ] ], [ [ "chunk_rubber", 6 ] ] ]
   }
 ]
