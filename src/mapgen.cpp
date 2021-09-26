@@ -6547,12 +6547,7 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
 
     ::fake_map fake_map( f_null, t_dirt, tr_null, fake_map_z );
 
-    oter_id any = oter_id( "field" );
-    // just need a variable here, it doesn't need to be valid
-    const regional_settings dummy_settings;
-
-    mapgendata fake_md( any, any, any, any, any, any, any, any,
-                        any, any, 0, dummy_settings, fake_map, any, 0.0f, calendar::turn, nullptr );
+    mapgendata fake_md( fake_map, mapgendata::dummy_settings );
 
     if( update_function->second[0]->update_map( fake_md ) ) {
         for( const tripoint &pos : fake_map.points_on_zlevel( fake_map_z ) ) {
