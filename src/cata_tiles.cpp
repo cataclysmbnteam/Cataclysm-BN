@@ -1745,7 +1745,7 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
             if( !iid.is_valid() ) {
                 if( string_starts_with( id, "corpse_" ) ) {
                     return find_tile_looks_like(
-                               "corpse", category, looks_like_jumps_limit - 1
+                               itype_corpse.str(), category, looks_like_jumps_limit - 1
                            );
                 }
                 return cata::nullopt;
@@ -1884,7 +1884,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         } else if( category == C_ITEM ) {
             item tmp;
             if( string_starts_with( found_id, "corpse_" ) ) {
-                tmp = item( "corpse", calendar::start_of_cataclysm );
+                tmp = item( itype_corpse, calendar::start_of_cataclysm );
             } else {
                 tmp = item( found_id, calendar::start_of_cataclysm );
             }

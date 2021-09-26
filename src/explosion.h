@@ -6,7 +6,6 @@
 #include <string>
 #include "optional.h"
 #include "projectile.h"
-
 #include "type_id.h"
 
 struct tripoint;

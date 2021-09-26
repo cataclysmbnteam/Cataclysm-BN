@@ -3013,7 +3013,7 @@ void item::repair_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         return;
     }
     insert_separation_line( info );
-    const std::set<itype_id> &rep = repaired_with();
+    const std::vector<itype_id> &rep = sorted_lex( repaired_with() );
     if( !rep.empty() ) {
         info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Repair</bold> using %s." ),
         enumerate_as_string( rep.begin(), rep.end(), []( const itype_id & e ) {
@@ -7031,7 +7031,7 @@ int item::ammo_capacity( bool potential_capacity ) const
 
     if( is_tool() ) {
         res = type->tool->max_charges;
-        if( res == 0 && !magazine_default().is_null() && potential_capacity ) {
+        if( res == 0 && magazine_default() && potential_capacity ) {
             res = magazine_default()->magazine->capacity;
         }
         for( const item *e : toolmods() ) {
@@ -7155,7 +7155,7 @@ const itype *item::ammo_data() const
 
     auto mods = is_gun() ? gunmods() : toolmods();
     for( const item *e : mods ) {
-        if( !e->type->mod->ammo_modifier.empty() && !e->ammo_current().is_null() &&
+        if( !e->type->mod->ammo_modifier.empty() && e->ammo_current() &&
             e->ammo_current().is_valid() ) {
             return &*e->ammo_current();
         }

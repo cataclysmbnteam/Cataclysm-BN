@@ -131,6 +131,7 @@ static const itype_id fuel_type_wind( "wind" );
 
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_anesthetic( "anesthetic" );
+static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
 static const itype_id itype_pseudo_bio_picklock( "psuedo_bio_picklock" );
 static const itype_id itype_radiocontrol( "radiocontrol" );
 static const itype_id itype_remotevehcontrol( "remotevehcontrol" );
@@ -147,11 +148,9 @@ static const skill_id skill_mechanics( "mechanics" );
 
 static const bionic_id bio_adrenaline( "bio_adrenaline" );
 static const bionic_id bio_advreactor( "bio_advreactor" );
-static const bionic_id bio_blade_weapon( "bio_blade_weapon" );
 static const bionic_id bio_blaster( "bio_blaster" );
 static const bionic_id bio_blood_anal( "bio_blood_anal" );
 static const bionic_id bio_blood_filter( "bio_blood_filter" );
-static const bionic_id bio_claws_weapon( "bio_claws_weapon" );
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_earplugs( "bio_earplugs" );
 static const bionic_id bio_ears( "bio_ears" );
@@ -211,6 +210,9 @@ static const std::string flag_SEMITANGIBLE( "SEMITANGIBLE" );
 static const flag_str_id flag_BIONIC_GUN( "BIONIC_GUN" );
 static const flag_str_id flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
 static const flag_str_id flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
+
+// (De-)Installation difficulty for bionics that don't have item form
+constexpr int BIONIC_NOITEM_DIFFICULTY = 12;
 
 namespace
 {
@@ -533,14 +535,6 @@ bool Character::activate_bionic( int b, bool eff_only )
         add_msg( m_info, _( "Your %s is shorting out and can't be activated." ),
                  bio.info().name );
         return false;
-    }
-
-    // Special compatibility code for people who updated saves with their claws out
-    if( ( weapon.typeId().str() == bio_claws_weapon.str() &&
-          bio.id == bio_claws_weapon ) ||
-        ( weapon.typeId().str() == bio_blade_weapon.str() &&
-          bio.id == bio_blade_weapon ) ) {
-        return deactivate_bionic( b );
     }
 
     // eff_only means only do the effect without messing with stats or displaying messages
@@ -1951,8 +1945,8 @@ int bionic_manip_cos( float adjusted_skill, int bionic_difficulty )
 bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc,
                                       int skill_level )
 {
-    // if malfunctioning bionics doesn't have associated item it gets a difficulty of 12
-    int difficulty = 12;
+    // If malfunctioning bionics doesn't have associated item it gets predefined difficulty
+    int difficulty = BIONIC_NOITEM_DIFFICULTY;
     if( b_id->itype().is_valid() ) {
         const itype *type = &*b_id->itype();
         if( type->bionic ) {
@@ -2027,8 +2021,8 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
 bool Character::uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc,
                                   int skill_level )
 {
-    // if malfunctioning bionics doesn't have associated item it gets a difficulty of 12
-    int difficulty = 12;
+    // If malfunctioning bionics doesn't have associated item it gets predefined difficulty
+    int difficulty = BIONIC_NOITEM_DIFFICULTY;
     if( b_id->itype().is_valid() ) {
         const itype *type = &*b_id->itype();
         if( type->bionic ) {
@@ -2110,7 +2104,7 @@ void Character::perform_uninstall( bionic_id bid, int difficulty, int success,
         // remove power bank provided by bionic
         mod_max_power_level( -power_lvl );
 
-        item cbm( "burnt_out_bionic" );
+        item cbm( itype_burnt_out_bionic );
         if( bid->itype().is_valid() ) {
             cbm = item( bid.c_str() );
         }
@@ -2142,7 +2136,7 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
     }
 
     const itype_id itemtype = target_cbm.info().itype();
-    int difficulty = itemtype.is_valid() ? itemtype->bionic->difficulty : 0;
+    int difficulty = itemtype.is_valid() ? itemtype->bionic->difficulty : BIONIC_NOITEM_DIFFICULTY;
     int chance_of_success = bionic_manip_cos( adjusted_skill, difficulty + 2 );
     int success = chance_of_success - rng( 1, 100 );
 
@@ -2187,7 +2181,7 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
         // remove power bank provided by bionic
         patient.mod_max_power_level( -target_cbm.info().capacity );
         patient.remove_bionic( target_cbm.id );
-        const itype_id iid = itemtype.is_valid() ? itemtype : itype_id( "burnt_out_bionic" );
+        const itype_id iid = itemtype.is_valid() ? itemtype : itype_burnt_out_bionic;
         item cbm( iid, calendar::start_of_cataclysm );
         cbm.set_flag( flag_FILTHY );
         cbm.set_flag( flag_NO_STERILE );
