@@ -73,7 +73,7 @@
     "price": 13000,
     "price_postapoc": 1500,
     "to_hit": 2,
-    "material": [ "nomex" ],
+    "material": [ "nomex", "kevlar" ],
     "symbol": "[",
     "looks_like": "boots_steel",
     "color": "dark_gray",
