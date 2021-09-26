@@ -4229,6 +4229,32 @@
     "pre_special": "check_empty",
     "post_terrain": "f_rvoven"
   },
+  
+  {
+    "type": "construction",
+    "id": "constr_f_autodoc",
+    "description": "Place RV-kitchen unit",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
+    "components": [ [ [ "f_autodoc", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_autodoc"
+  },
+  {
+    "type": "construction",
+    "id": "constr_f_autodoc_couch",
+    "description": "Place RV-kitchen unit",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "f_autodoc_couch", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_autodoc_couch"
+  },
+  
   {
     "type": "construction",
     "id": "constr_t_gates_mech_control",
