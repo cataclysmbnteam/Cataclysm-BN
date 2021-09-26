@@ -417,8 +417,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
         //  and turning (precalc[1])
         const tripoint dsp = global_pos3() + dp + parts[p].precalc[1];
         veh_collision coll = part_collision( p, dsp, just_detect, bash_floor );
-        bool rotor_collision = get_option<bool>( "HELI_ROTOR_COLLISION" );
-        if( rotor_collision && coll.type == veh_coll_nothing && info.rotor_diameter() > 0 ) {
+        if( coll.type == veh_coll_nothing && info.rotor_diameter() > 0 ) {
             size_t radius = static_cast<size_t>( std::round( info.rotor_diameter() / 2.0f ) );
             for( const tripoint &rotor_point : g->m.points_in_radius( dsp, radius ) ) {
                 veh_collision rotor_coll = part_collision( p, rotor_point, just_detect, false );

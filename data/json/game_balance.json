@@ -208,12 +208,5 @@
     "info": "Makes mutation more balanced and interesting.",
     "stype": "bool",
     "value": true
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "HELI_ROTOR_COLLISION",
-    "info": "Allow helicopter rotors to collide with varous things.",
-    "stype": "bool",
-    "value": false
   }
 ]
