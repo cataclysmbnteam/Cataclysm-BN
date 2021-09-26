@@ -10,7 +10,7 @@
       [ [ "lead", 3 ] ],
       [ [ "223_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
-      [ [ "gunpowder_rifle", 6 ] ],
+      [ [ "gunpowder", 6 ] ],
       [ [ "copper", 2 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
@@ -27,7 +27,7 @@
       [ [ "lead", 3 ] ],
       [ [ "223_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
-      [ [ "gunpowder_rifle", 6 ] ],
+      [ [ "gunpowder", 6 ] ],
       [ [ "copper", 2 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]

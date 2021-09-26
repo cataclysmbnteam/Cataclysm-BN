@@ -3333,5 +3333,64 @@
     "charges": 6,
     "calories": 400,
     "flags": [ "EATEN_HOT" ]
+  },
+  {
+    "type": "AMMO",
+    "id": "gunpowder_shotgun",
+    "copy-from": "gunpowder",
+    "price": 3000,
+    "price_postapoc": 2500,
+    "name": { "str": "smokeless shotgun powder" },
+    "description": "Firearm-quality gunpowder, intended for use in shotgun shells."
+  },
+  {
+    "type": "AMMO",
+    "id": "gunpowder_pistol",
+    "copy-from": "gunpowder",
+    "price": 3000,
+    "price_postapoc": 2500,
+    "name": { "str": "smokeless pistol powder" },
+    "description": "Firearm-quality gunpowder, intended for use in pistol ammunition."
+  },
+  {
+    "type": "AMMO",
+    "id": "gunpowder_magnum_pistol",
+    "copy-from": "gunpowder",
+    "price": 3000,
+    "price_postapoc": 2500,
+    "name": { "str": "smokeless magnum powder" },
+    "description": "Firearm-quality gunpowder intended for use in magnum pistol ammunition."
+  },
+  {
+    "type": "AMMO",
+    "id": "gunpowder_rifle",
+    "copy-from": "gunpowder",
+    "price": 3000,
+    "price_postapoc": 2500,
+    "name": { "str": "smokeless rifle powder" },
+    "description": "Firearm-quality gunpowder intended for use in rifle ammunition."
+  },
+  {
+    "type": "AMMO",
+    "id": "gunpowder_large_rifle",
+    "copy-from": "gunpowder",
+    "price": 3000,
+    "price_postapoc": 2500,
+    "name": { "str": "smokeless overbore rifle powder" },
+    "description": "Firearm-quality gunpowder intended for use in large rifle ammunition."
+  },
+  {
+    "type": "AMMO",
+    "id": "gunpowder_artillery",
+    "copy-from": "gunpowder",
+    "price": 3000,
+    "price_postapoc": 2500,
+    "name": { "str": "artillery propellant" },
+    "description": "Single base smokeless gunpowder intended for use in artillery propelling charges."
+  },
+  {
+    "id": [ "gunpowder_artillery", "gunpowder_large_rifle", "gunpowder_rifle", "gunpowder_magnum_pistol", "gunpowder_pistol", "gunpowder_shotgun" ],
+    "type": "MIGRATION",
+    "replace": "gunpowder"
   }
 ]

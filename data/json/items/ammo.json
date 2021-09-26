@@ -482,10 +482,10 @@
     "category": "chems",
     "price": 500,
     "price_postapoc": 2000,
-    "name": { "str": "mixed smokeless gunpowder" },
+    "name": { "str": "smokeless gunpowder" },
     "symbol": "=",
     "color": "dark_gray",
-    "description": "Firearm-quality gunpowder, mixed without concern for composition, burn rate or shape.  It has been slightly ground to make its properties more uniform.  Only the truly desperate would attempt to reload with this.",
+    "description": "Firearm-quality gunpowder.",
     "container": "bottle_plastic",
     "material": "powder",
     "flags": [ "TINDER" ],
@@ -494,60 +494,6 @@
     "ammo_type": "components",
     "count": 454,
     "effects": [ "COOKOFF" ]
-  },
-  {
-    "type": "AMMO",
-    "id": "gunpowder_shotgun",
-    "copy-from": "gunpowder",
-    "price": 3000,
-    "price_postapoc": 2500,
-    "name": { "str": "smokeless shotgun powder" },
-    "description": "Firearm-quality gunpowder, intended for use in shotgun shells."
-  },
-  {
-    "type": "AMMO",
-    "id": "gunpowder_pistol",
-    "copy-from": "gunpowder",
-    "price": 3000,
-    "price_postapoc": 2500,
-    "name": { "str": "smokeless pistol powder" },
-    "description": "Firearm-quality gunpowder, intended for use in pistol ammunition."
-  },
-  {
-    "type": "AMMO",
-    "id": "gunpowder_magnum_pistol",
-    "copy-from": "gunpowder",
-    "price": 3000,
-    "price_postapoc": 2500,
-    "name": { "str": "smokeless magnum powder" },
-    "description": "Firearm-quality gunpowder intended for use in magnum pistol ammunition."
-  },
-  {
-    "type": "AMMO",
-    "id": "gunpowder_rifle",
-    "copy-from": "gunpowder",
-    "price": 3000,
-    "price_postapoc": 2500,
-    "name": { "str": "smokeless rifle powder" },
-    "description": "Firearm-quality gunpowder intended for use in rifle ammunition."
-  },
-  {
-    "type": "AMMO",
-    "id": "gunpowder_large_rifle",
-    "copy-from": "gunpowder",
-    "price": 3000,
-    "price_postapoc": 2500,
-    "name": { "str": "smokeless overbore rifle powder" },
-    "description": "Firearm-quality gunpowder intended for use in large rifle ammunition."
-  },
-  {
-    "type": "AMMO",
-    "id": "gunpowder_artillery",
-    "copy-from": "gunpowder",
-    "price": 3000,
-    "price_postapoc": 2500,
-    "name": { "str": "artillery propellant" },
-    "description": "Single base smokeless gunpowder intended for use in artillery propelling charges."
   },
   {
     "type": "AMMO",

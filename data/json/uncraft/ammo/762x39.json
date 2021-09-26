@@ -10,7 +10,7 @@
       [ [ "lead", 5 ] ],
       [ [ "762_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder_rifle", 7 ] ],
+      [ [ "gunpowder", 7 ] ],
       [ [ "copper", 5 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
@@ -26,7 +26,7 @@
       [ [ "lead", 5 ] ],
       [ [ "762_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder_rifle", 8 ] ],
+      [ [ "gunpowder", 8 ] ],
       [ [ "copper", 5 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
