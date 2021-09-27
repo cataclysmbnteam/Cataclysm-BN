@@ -118,7 +118,6 @@ static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 
 static const gun_mode_id gun_mode_REACH( "REACH" );
 
-static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_barrel_small( "barrel_small" );
 static const itype_id itype_blood( "blood" );
 static const itype_id itype_brass_catcher( "brass_catcher" );
@@ -133,7 +132,6 @@ static const itype_id itype_plut_cell( "plut_cell" );
 static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_tuned_mechanism( "tuned_mechanism" );
 static const itype_id itype_UPS( "UPS" );
-static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_waterproof_gunmod( "waterproof_gunmod" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_acid( "water_acid" );
@@ -6771,14 +6769,20 @@ bool item::operator<( const item &other ) const
         const item *rhs = other.is_container() &&
                           !other.contents.empty() ? &other.contents.front() : &other;
 
-        if( me->typeId() == rhs->typeId() ) {
+        const itype *me_type = me->type;
+        const itype *rhs_type = rhs->type;
+        if( !me_type || !rhs_type ) {
+            return !!me_type;
+        }
+
+        if( me_type->get_id() == rhs_type->get_id() ) {
             if( me->is_money() ) {
                 return me->charges > rhs->charges;
             }
             return me->charges < rhs->charges;
         } else {
-            std::string n1 = me->type->nname( 1 );
-            std::string n2 = rhs->type->nname( 1 );
+            std::string n1 = me_type->nname( 1 );
+            std::string n2 = rhs_type->nname( 1 );
             return localized_compare( n1, n2 );
         }
     }
@@ -7467,7 +7471,7 @@ std::map<gun_mode_id, gun_mode> item::gun_all_modes() const
         } else if( e->is_gunmod() ) {
             for( const std::pair<const gun_mode_id, gun_modifier_data> &m : e->type->gunmod->mode_modifier ) {
                 //checks for melee gunmod, points to gunmod
-                if( m.first.str() == "REACH" ) {
+                if( m.first == gun_mode_REACH ) {
                     res.emplace( m.first, gun_mode { m.second.name(), const_cast<item *>( e ),
                                                      m.second.qty(), m.second.flags() } );
                     //otherwise points to the parent gun, not the gunmod
@@ -7945,7 +7949,7 @@ bool item::flammable( int threshold ) const
     return flammability > threshold;
 }
 
-itype_id item::typeId() const
+const itype_id &item::typeId() const
 {
     return type ? type->get_id() : itype_id::NULL_ID();
 }

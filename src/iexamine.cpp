@@ -126,7 +126,6 @@ static const itype_id itype_id_industrial( "id_industrial" );
 static const itype_id itype_id_military( "id_military" );
 static const itype_id itype_id_science( "id_science" );
 static const itype_id itype_maple_sap( "maple_sap" );
-static const itype_id itype_maple_syrup( "maple_syrup" );
 static const itype_id itype_marloss_berry( "marloss_berry" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
 static const itype_id itype_mycus_fruit( "mycus_fruit" );
@@ -3379,7 +3378,7 @@ void iexamine::tree_hickory( player &p, const tripoint &examp )
 
 static item_location maple_tree_sap_container()
 {
-    const item maple_sap = item( "maple_sap", calendar::start_of_cataclysm );
+    const item maple_sap = item( itype_maple_sap, calendar::start_of_cataclysm );
     return g->inv_map_splice( [&]( const item & it ) {
         return it.get_remaining_capacity_for_liquid( maple_sap, true ) > 0;
     }, _( "Which container?" ), PICKUP_RANGE );

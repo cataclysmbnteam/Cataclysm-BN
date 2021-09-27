@@ -1240,7 +1240,7 @@ class item : public visitable<item>
         uint64_t make_component_hash() const;
 
         /** return the unique identifier of the items underlying type */
-        itype_id typeId() const;
+        const itype_id &typeId() const;
 
         /**
          * Return a contained item (if any and only one).

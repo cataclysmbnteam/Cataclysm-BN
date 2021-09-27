@@ -132,7 +132,6 @@ static const itype_id fuel_type_wind( "wind" );
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_anesthetic( "anesthetic" );
 static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
-static const itype_id itype_pseudo_bio_picklock( "psuedo_bio_picklock" );
 static const itype_id itype_radiocontrol( "radiocontrol" );
 static const itype_id itype_remotevehcontrol( "remotevehcontrol" );
 static const itype_id itype_UPS( "UPS" );
@@ -898,7 +897,7 @@ bool Character::activate_bionic( int b, bool eff_only )
                     no_target = false;
                     if( query_yn( _( "Extract water from the %s" ),
                                   colorize( it.tname(), it.color_in_inventory() ) ) ) {
-                        item water( "water_clean", calendar::turn, avail );
+                        item water( itype_water_clean, calendar::turn, avail );
                         if( liquid_handler::consume_liquid( water ) ) {
                             add_msg_activate();
                             extracted = true;

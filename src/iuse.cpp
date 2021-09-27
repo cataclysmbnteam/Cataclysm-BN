@@ -221,7 +221,6 @@ static const itype_id itype_afs_wraitheon_smartphone( "afs_wraitheon_smartphone"
 static const itype_id itype_afs_atomic_wraitheon_music( "afs_atomic_wraitheon_music" );
 static const itype_id itype_apparatus( "apparatus" );
 static const itype_id itype_arrow_flamming( "arrow_flamming" );
-static const itype_id itype_atomic_coffeepot( "atomic_coffeepot" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_barometer( "barometer" );
 static const itype_id itype_c4armed( "c4armed" );
@@ -242,7 +241,6 @@ static const itype_id itype_geiger_off( "geiger_off" );
 static const itype_id itype_geiger_on( "geiger_on" );
 static const itype_id itype_granade_act( "granade_act" );
 static const itype_id itype_handrolled_cig( "handrolled_cig" );
-static const itype_id itype_heatpack_used( "heatpack_used" );
 static const itype_id itype_hygrometer( "hygrometer" );
 static const itype_id itype_joint( "joint" );
 static const itype_id itype_log( "log" );
@@ -5858,7 +5856,7 @@ int iuse::talking_doll( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    const SpeechBubble speech = get_speech( it->typeId().str() );
+    const SpeechBubble &speech = get_speech( it->typeId().str() );
 
     sounds::sound( p->pos(), speech.volume, sounds::sound_t::electronic_speech,
                    speech.text.translated(), true, "speech", it->typeId().str() );

@@ -65,12 +65,9 @@ static const efftype_id effect_relax_gas( "relax_gas" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_stunned( "stunned" );
 
-static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_grass( "grass" );
 static const itype_id itype_swim_fins( "swim_fins" );
 static const itype_id itype_underbrush( "underbrush" );
-static const itype_id itype_UPS( "UPS" );
-static const itype_id itype_UPS_off( "UPS_off" );
 
 static const skill_id skill_swimming( "swimming" );
 
@@ -765,7 +762,7 @@ bool avatar_action::eat_here( avatar &you )
 {
     if( ( you.has_active_mutation( trait_RUMINANT ) || you.has_active_mutation( trait_GRAZER ) ) &&
         ( g->m.ter( you.pos() ) == t_underbrush || g->m.ter( you.pos() ) == t_shrub ) ) {
-        item food( "underbrush", calendar::turn, 1 );
+        item food( itype_underbrush, calendar::turn, 1 );
         if( you.get_stored_kcal() > you.max_stored_kcal() -
             food.get_comestible()->default_nutrition.kcal ) {
             add_msg( _( "You're too full to eat the leaves from the %s." ), g->m.ter( you.pos() )->name() );
@@ -780,7 +777,7 @@ bool avatar_action::eat_here( avatar &you )
     }
     if( you.has_active_mutation( trait_GRAZER ) && ( g->m.ter( you.pos() ) == t_grass ||
             g->m.ter( you.pos() ) == t_grass_long || g->m.ter( you.pos() ) == t_grass_tall ) ) {
-        item food( item( "grass", calendar::turn, 1 ) );
+        item food( item( itype_grass, calendar::turn, 1 ) );
         if( you.get_stored_kcal() > you.max_stored_kcal() -
             food.get_comestible()->default_nutrition.kcal ) {
             add_msg( _( "You're too full to graze." ) );

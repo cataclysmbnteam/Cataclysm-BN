@@ -173,7 +173,6 @@ static const itype_id itype_apparatus( "apparatus" );
 static const itype_id itype_beartrap( "breatrap" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_fire( "fire" );
-static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 static const itype_id itype_rope_6( "rope_6" );
 static const itype_id itype_snare_trigger( "snare_trigger" );
@@ -1346,7 +1345,7 @@ void static try_remove_bear_trap( Character &c )
             if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 200 ) ) {
                 mon->remove_effect( effect_beartrap );
                 c.remove_effect( effect_beartrap );
-                g->m.spawn_item( c.pos(), "beartrap" );
+                g->m.spawn_item( c.pos(), itype_beartrap );
                 add_msg( _( "The %s escapes the bear trap!" ), mon->get_name() );
             } else {
                 c.add_msg_if_player( m_bad,
@@ -1358,8 +1357,7 @@ void static try_remove_bear_trap( Character &c )
             c.remove_effect( effect_beartrap );
             c.add_msg_player_or_npc( m_good, _( "You free yourself from the bear trap!" ),
                                      _( "<npcname> frees themselves from the bear trap!" ) );
-            item beartrap( "beartrap", calendar::turn );
-            g->m.add_item_or_charges( c.pos(), beartrap );
+            g->m.spawn_item( c.pos(), itype_beartrap );
         } else {
             c.add_msg_if_player( m_bad,
                                  _( "You try to free yourself from the bear trap, but can't get loose!" ) );
@@ -1374,8 +1372,8 @@ void static try_remove_lightsnare( Character &c )
         if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 12 ) ) {
             mon->remove_effect( effect_lightsnare );
             c.remove_effect( effect_lightsnare );
-            g->m.spawn_item( c.pos(), "string_36" );
-            g->m.spawn_item( c.pos(), "snare_trigger" );
+            g->m.spawn_item( c.pos(), itype_string_36 );
+            g->m.spawn_item( c.pos(), itype_snare_trigger );
             add_msg( _( "The %s escapes the light snare!" ), mon->get_name() );
         }
     } else {
@@ -1386,10 +1384,8 @@ void static try_remove_lightsnare( Character &c )
             c.remove_effect( effect_lightsnare );
             c.add_msg_player_or_npc( m_good, _( "You free yourself from the light snare!" ),
                                      _( "<npcname> frees themselves from the light snare!" ) );
-            item string( "string_36", calendar::turn );
-            item snare( "snare_trigger", calendar::turn );
-            g->m.add_item_or_charges( c.pos(), string );
-            g->m.add_item_or_charges( c.pos(), snare );
+            g->m.spawn_item( c.pos(), itype_string_36 );
+            g->m.spawn_item( c.pos(), itype_snare_trigger );
         } else {
             c.add_msg_if_player( m_bad,
                                  _( "You try to free yourself from the light snare, but can't get loose!" ) );
@@ -1405,8 +1401,8 @@ void static try_remove_heavysnare( Character &c )
             if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 32 ) ) {
                 mon->remove_effect( effect_heavysnare );
                 c.remove_effect( effect_heavysnare );
-                g->m.spawn_item( c.pos(), "rope_6" );
-                g->m.spawn_item( c.pos(), "snare_trigger" );
+                g->m.spawn_item( c.pos(), itype_rope_6 );
+                g->m.spawn_item( c.pos(), itype_snare_trigger );
                 add_msg( _( "The %s escapes the heavy snare!" ), mon->get_name() );
             }
         }
@@ -1418,10 +1414,8 @@ void static try_remove_heavysnare( Character &c )
             c.remove_effect( effect_heavysnare );
             c.add_msg_player_or_npc( m_good, _( "You free yourself from the heavy snare!" ),
                                      _( "<npcname> frees themselves from the heavy snare!" ) );
-            item rope( "rope_6", calendar::turn );
-            item snare( "snare_trigger", calendar::turn );
-            g->m.add_item_or_charges( c.pos(), rope );
-            g->m.add_item_or_charges( c.pos(), snare );
+            g->m.spawn_item( c.pos(), itype_rope_6 );
+            g->m.spawn_item( c.pos(), itype_snare_trigger );
         } else {
             c.add_msg_if_player( m_bad,
                                  _( "You try to free yourself from the heavy snare, but can't get loose!" ) );
@@ -3294,15 +3288,15 @@ void Character::die( Creature *nkiller )
     set_killer( nkiller );
     set_time_died( calendar::turn );
     if( has_effect( effect_lightsnare ) ) {
-        inv.add_item( item( "string_36", calendar::start_of_cataclysm ) );
-        inv.add_item( item( "snare_trigger", calendar::start_of_cataclysm ) );
+        inv.add_item( item( itype_string_36, calendar::start_of_cataclysm ) );
+        inv.add_item( item( itype_snare_trigger, calendar::start_of_cataclysm ) );
     }
     if( has_effect( effect_heavysnare ) ) {
-        inv.add_item( item( "rope_6", calendar::start_of_cataclysm ) );
-        inv.add_item( item( "snare_trigger", calendar::start_of_cataclysm ) );
+        inv.add_item( item( itype_rope_6, calendar::start_of_cataclysm ) );
+        inv.add_item( item( itype_snare_trigger, calendar::start_of_cataclysm ) );
     }
     if( has_effect( effect_beartrap ) ) {
-        inv.add_item( item( "beartrap", calendar::start_of_cataclysm ) );
+        inv.add_item( item( itype_beartrap, calendar::start_of_cataclysm ) );
     }
     mission::on_creature_death( *this );
 }

@@ -481,15 +481,14 @@ static void extract_or_wreck_cbms( const std::list<item> &cbms, int roll,
         return;
     }
     for( item it : cbms ) {
-        static const itype_id burn_out_bionic( "burnt_out_bionic" );
         // For some stupid reason, zombie pheromones are dropped using bionic type
         // This complicates things
         if( it.is_bionic() ) {
-            if( check_butcher_cbm( roll ) || it.typeId() == burn_out_bionic ) {
+            if( check_butcher_cbm( roll ) || it.typeId() == itype_burnt_out_bionic ) {
                 add_msg( m_good, _( "You discover a %s!" ), it.tname() );
             } else {
                 // We convert instead of recreating so that it keeps flags and faults
-                it.convert( burn_out_bionic );
+                it.convert( itype_burnt_out_bionic );
                 add_msg( m_bad, _( "Your imprecise surgery damaged a bionic, producing a %s." ), it.tname() );
             }
         } else {
@@ -4680,5 +4679,5 @@ void activity_handlers::mind_splicer_finish( player_activity *act, player *p )
     p->add_msg_if_player( m_info, _( "…you finally find the memory banks." ) );
     p->add_msg_if_player( m_info, _( "The kit makes a copy of the data inside the bionic." ) );
     data_card.contents.clear_items();
-    data_card.put_in( item( "mind_scan_robofac" ) );
+    data_card.put_in( item( itype_mind_scan_robofac ) );
 }
