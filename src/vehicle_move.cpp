@@ -223,21 +223,6 @@ void vehicle::thrust( int thd, int z )
             cruise_velocity = 0;
             return;
         }
-        // helicopters improve efficiency the closer they get to 50-70 knots
-        // then it drops off as they go over that.
-        // see https://i.stack.imgur.com/0zIO7.jpg
-        /*if( is_rotorcraft() && is_flying_in_air() ) {
-            const int velocity_kt = velocity * 0.01;
-            int value;
-            if( velocity_kt < 70 ) {
-                value = 49 * std::pow( velocity_kt, 3 ) -
-                        4118 * std::pow( velocity_kt, 2 ) - 76512 * velocity_kt + 18458000;
-            } else {
-                value = 1864 * std::pow( velocity_kt, 2 ) - 272190 * velocity_kt + 19473000;
-            }
-            value *= 0.0001;
-            load = std::max( 200, std::min( 1000, ( ( value / 2 ) + 100 ) ) );
-        }*/
         //make noise and consume fuel
         noise_and_smoke( load );
         consume_fuel( load, 1 );
