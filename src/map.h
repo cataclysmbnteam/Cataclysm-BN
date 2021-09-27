@@ -1698,7 +1698,6 @@ class map
         void draw_mine( mapgendata &dat );
         void draw_anthill( mapgendata &dat );
         void draw_slimepit( mapgendata &dat );
-        void draw_spider_pit( mapgendata &dat );
         void draw_triffid( mapgendata &dat );
         void draw_connections( mapgendata &dat );
 
