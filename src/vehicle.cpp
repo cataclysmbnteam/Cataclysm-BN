@@ -5072,8 +5072,9 @@ void vehicle::idle( bool on_map )
         }
         // helicopters use basicaly nearly all of their power just to hover.
         // it becomes more efficient the closer they reach their safe cruise speed.
+        // But in BN it is simplified, so power usage on idle is much lower
         if( is_rotorcraft() && is_flying_in_air() ) {
-            idle_rate = 1000;
+            idle_rate = 100;
         }
         if( has_engine_type_not( fuel_type_muscle, true ) ) {
             consume_fuel( idle_rate, to_turns<int>( 1_turns ), true );

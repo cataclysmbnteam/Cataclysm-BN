@@ -197,9 +197,9 @@ void vehicle::thrust( int thd, int z )
     } else {
         load = ( thrusting ? 1000 : 0 );
     }
-    // rotorcraft need to spend 15% of load to hover, 30% to change z
+    // rotorcraft need to spend +5% (in addtition to idle) of load to fly, +20%(int addtion to idle) to change z
     if( is_rotorcraft() && ( z > 0 || is_flying_in_air() ) ) {
-        load = std::max( load, z > 0 ? 300 : 150 );
+        load = std::max( load, z > 0 ? 200 : 50 );
         thrusting = true;
     }
 
@@ -226,7 +226,7 @@ void vehicle::thrust( int thd, int z )
         // helicopters improve efficiency the closer they get to 50-70 knots
         // then it drops off as they go over that.
         // see https://i.stack.imgur.com/0zIO7.jpg
-        if( is_rotorcraft() && is_flying_in_air() ) {
+        /*if( is_rotorcraft() && is_flying_in_air() ) {
             const int velocity_kt = velocity * 0.01;
             int value;
             if( velocity_kt < 70 ) {
@@ -237,7 +237,7 @@ void vehicle::thrust( int thd, int z )
             }
             value *= 0.0001;
             load = std::max( 200, std::min( 1000, ( ( value / 2 ) + 100 ) ) );
-        }
+        }*/
         //make noise and consume fuel
         noise_and_smoke( load );
         consume_fuel( load, 1 );
