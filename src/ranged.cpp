@@ -2869,6 +2869,10 @@ void target_ui::update_ammo_range_from_gun_mode()
         if( ammo_current == "null" || ammo_current.empty() ) {
             ammo = nullptr;
             range = 0;
+            // Might be a laser weapon, check UPS drain
+            if( relevant->get_gun_ups_drain() > 0 ) {
+                range = turret->range();
+            }
         } else {
             ammo = item::find_type( ammo_current );
             range = turret->range();
