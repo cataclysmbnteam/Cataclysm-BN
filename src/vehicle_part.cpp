@@ -28,6 +28,9 @@
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_none( "null" );
 
+static const itype_id itype_battery( "battery" );
+static const itype_id itype_muscle( "muscle" );
+
 /*-----------------------------------------------------------------------------
  *                              VEHICLE_PART
  *-----------------------------------------------------------------------------*/
@@ -182,14 +185,14 @@ bool vehicle_part::is_available( const bool carried ) const
 itype_id vehicle_part::fuel_current() const
 {
     if( is_engine() ) {
-        if( ammo_pref == "null" ) {
-            return info().fuel_type != "muscle" ? info().fuel_type : "null";
+        if( ammo_pref.is_null() ) {
+            return info().fuel_type != itype_muscle ? info().fuel_type : itype_id::NULL_ID();
         } else {
             return ammo_pref;
         }
     }
 
-    return "null";
+    return itype_id::NULL_ID();
 }
 
 bool vehicle_part::fuel_set( const itype_id &fuel )
@@ -208,7 +211,7 @@ bool vehicle_part::fuel_set( const itype_id &fuel )
 itype_id vehicle_part::ammo_current() const
 {
     if( is_battery() ) {
-        return "battery";
+        return itype_battery;
     }
 
     if( is_tank() && !base.contents.empty() ) {
@@ -219,13 +222,13 @@ itype_id vehicle_part::ammo_current() const
         return base.ammo_current();
     }
 
-    return "null";
+    return itype_id::NULL_ID();
 }
 
 int vehicle_part::ammo_capacity() const
 {
     if( is_tank() ) {
-        return item::find_type( ammo_current() )->charges_per_volume( base.get_container_capacity() );
+        return ammo_current()->charges_per_volume( base.get_container_capacity() );
     }
 
     if( is_fuel_store( false ) || is_turret() ) {
@@ -250,7 +253,7 @@ int vehicle_part::ammo_remaining() const
 
 int vehicle_part::ammo_set( const itype_id &ammo, int qty )
 {
-    const itype *liquid = item::find_type( ammo );
+    const itype *liquid = &*ammo;
 
     // We often check if ammo is set to see if tank is empty, if qty == 0 don't set ammo
     if( is_tank() && liquid->phase >= LIQUID && qty != 0 ) {
@@ -347,7 +350,7 @@ bool vehicle_part::can_reload( const item &obj ) const
             return false;
         }
         // prevent mixing of different ammo
-        if( ammo_current() != "null" && ammo_current() != obj_type ) {
+        if( !ammo_current().is_null() && ammo_current() != obj_type ) {
             return false;
         }
         // For storage with set type, prevent filling with different types

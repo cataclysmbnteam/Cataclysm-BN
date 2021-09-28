@@ -350,13 +350,13 @@ TEST_CASE( "towel", "[iuse][towel]" )
                 CHECK( dummy.body_wetness[bp_arm_r] == 0 );
 
                 AND_THEN( "the towel becomes wet" ) {
-                    CHECK( towel.typeId() == "towel_wet" );
+                    CHECK( towel.typeId().str() == "towel_wet" );
                 }
             }
         }
 
         WHEN( "they use a wet towel" ) {
-            towel.convert( "towel_wet" );
+            towel.convert( itype_id( "towel_wet" ) );
             REQUIRE( towel.has_flag( flag_WET ) );
             dummy.invoke_item( &towel );
 
@@ -374,7 +374,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
         REQUIRE( dummy.get_morale( MORALE_WET ) == -10 );
 
         WHEN( "they use a wet towel" ) {
-            towel.convert( "towel_wet" );
+            towel.convert( itype_id( "towel_wet" ) );
             REQUIRE( towel.has_flag( flag_WET ) );
             dummy.invoke_item( &towel );
 
@@ -391,7 +391,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
                 CHECK( dummy.get_morale( MORALE_WET ) == 0 );
 
                 AND_THEN( "the towel becomes wet" ) {
-                    CHECK( towel.typeId() == "towel_wet" );
+                    CHECK( towel.typeId() == itype_id( "towel_wet" ) );
                 }
             }
         }
@@ -415,7 +415,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
                 CHECK_FALSE( dummy.has_effect( efftype_id( "glowing" ) ) );
 
                 AND_THEN( "the towel becomes soiled" ) {
-                    CHECK( towel.typeId() == "towel_soiled" );
+                    CHECK( towel.typeId() == itype_id( "towel_soiled" ) );
                 }
             }
         }
@@ -435,7 +435,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
                 CHECK( dummy.has_morale( MORALE_WET ) );
 
                 AND_THEN( "the towel becomes soiled" ) {
-                    CHECK( towel.typeId() == "towel_soiled" );
+                    CHECK( towel.typeId() == itype_id( "towel_soiled" ) );
                 }
             }
         }

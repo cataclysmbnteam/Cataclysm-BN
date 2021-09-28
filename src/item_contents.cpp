@@ -86,15 +86,14 @@ void item_contents::set_item_defaults()
                 contained_item.ammo_default(), contained_item.ammo_capacity() / 2
             );
         } else { //Contents are batteries or food
-            contained_item.charges =
-                item::find_type( contained_item.typeId() )->charges_default();
+            contained_item.charges = contained_item.typeId()->charges_default();
         }
     }
 }
 
 void item_contents::migrate_item( item &obj, const std::set<itype_id> &migrations )
 {
-    for( const std::string &c : migrations ) {
+    for( const itype_id &c : migrations ) {
         if( std::none_of( items.begin(), items.end(), [&]( const item & e ) {
         return e.typeId() == c;
         } ) ) {

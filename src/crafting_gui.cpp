@@ -138,7 +138,7 @@ static int print_items( const recipe &r, const catacurses::window &w, point pos,
 
     mvwprintz( w, point( pos.x, pos.y++ ), col, _( "Byproducts:" ) );
     for( const auto &bp : r.byproducts ) {
-        const auto t = item::find_type( bp.first );
+        const itype *t = &*bp.first;
         int amount = bp.second * batch;
         std::string desc;
         if( t->count_by_charges() ) {
@@ -969,8 +969,8 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
     const avatar &u = get_avatar();
 
     auto compare_second =
-        []( const std::pair<std::string, std::string> &a,
-    const std::pair<std::string, std::string> &b ) {
+        []( const std::pair<itype_id, std::string> &a,
+    const std::pair<itype_id, std::string> &b ) {
         return localized_compare( a.second, b.second );
     };
 

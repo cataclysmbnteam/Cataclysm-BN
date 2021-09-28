@@ -68,6 +68,10 @@
 
 static const itype_id fuel_type_battery( "battery" );
 
+static const itype_id itype_battery( "battery" );
+static const itype_id itype_hose( "hose" );
+static const itype_id itype_plut_cell( "plut_cell" );
+
 static const skill_id skill_mechanics( "mechanics" );
 
 static const quality_id qual_JACK( "JACK" );
@@ -198,7 +202,7 @@ veh_interact::veh_interact( vehicle &veh, const point &p )
     // Only build the shapes map and the wheel list once
     for( const auto &e : vpart_info::all() ) {
         const vpart_info &vp = e.second;
-        vpart_shapes[ vp.name() + vp.item ].push_back( &vp );
+        vpart_shapes[ vp.name() + vp.item.str() ].push_back( &vp );
         if( vp.has_flag( "WHEEL" ) ) {
             wheel_types.push_back( &vp );
         }
@@ -592,7 +596,7 @@ task_reason veh_interact::cant_do( char mode )
                     break;
                 }
             }
-            has_tools = crafting_inv.has_tools( "hose", 1 );
+            has_tools = crafting_inv.has_tools( itype_hose, 1 );
             break;
 
         case 'd':
@@ -600,7 +604,7 @@ task_reason veh_interact::cant_do( char mode )
             valid_target = false;
             has_tools = true;
             for( auto &e : veh->fuels_left() ) {
-                if( e.first != fuel_type_battery && item::find_type( e.first )->phase == SOLID ) {
+                if( e.first != fuel_type_battery && e.first->phase == SOLID ) {
                     valid_target = true;
                     break;
                 }
@@ -1063,7 +1067,8 @@ void veh_interact::do_install()
                     !query_yn( _( "Installing this part will make the vehicle unfoldable.  Continue?" ) ) ) {
                     return;
                 }
-                const auto &shapes = vpart_shapes[ sel_vpart_info->name() + sel_vpart_info->item ];
+                const auto &shapes =
+                    vpart_shapes[ sel_vpart_info->name() + sel_vpart_info->item.str() ];
                 int selected_shape = -1;
                 if( shapes.size() > 1 ) {  // more than one shape available, display selection
                     std::vector<uilist_entry> shape_ui_entries;
@@ -1423,11 +1428,13 @@ void veh_interact::calc_overview()
         if( pt.is_engine() && pt.is_available() ) {
             // if tank contains something then display the contents in milliliters
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
-                right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
-                             string_format( "%s     <color_light_gray>%s</color>",
-                                            pt.fuel_current() != "null" ? item::nname( pt.fuel_current() ) : "",
-                                            //~ translation should not exceed 3 console cells
-                                            right_justify( pt.enabled ? _( "Yes" ) : _( "No" ), 3 ) ) );
+                right_print(
+                    w, y, 1, pt.ammo_current()->color,
+                    string_format(
+                        "%s     <color_light_gray>%s</color>",
+                        !pt.fuel_current().is_null() ? item::nname( pt.fuel_current() ) : "",
+                        //~ translation should not exceed 3 console cells
+                        right_justify( pt.enabled ? _( "Yes" ) : _( "No" ), 3 ) ) );
             };
 
             // display engine faults (if any)
@@ -1445,7 +1452,7 @@ void veh_interact::calc_overview()
     for( auto &pt : veh->parts ) {
         if( pt.is_tank() && pt.is_available() ) {
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
-                if( pt.ammo_current() != "null" ) {
+                if( !pt.ammo_current().is_null() ) {
                     std::string specials;
                     const item &it = pt.base.contents.front();
                     // a space isn't actually needed in front of the tags here,
@@ -1455,7 +1462,7 @@ void veh_interact::calc_overview()
                     if( it.rotten() ) {
                         specials += _( " (rotten)" );
                     }
-                    const itype *pt_ammo_cur = item::find_type( pt.ammo_current() );
+                    const itype *pt_ammo_cur = &*pt.ammo_current();
                     auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
                     int offset = 1;
                     std::string fmtstring = "%s %s  %5.1fL";
@@ -1476,8 +1483,8 @@ void veh_interact::calc_overview()
             overview_opts.emplace_back( "TANK", &pt, next_hotkey( pt, hotkey ), details );
         } else if( pt.is_fuel_store() && !( pt.is_battery() || pt.is_reactor() ) && !pt.is_broken() ) {
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
-                if( pt.ammo_current() != "null" ) {
-                    const itype *pt_ammo_cur = item::find_type( pt.ammo_current() );
+                if( !pt.ammo_current().is_null() ) {
+                    const itype *pt_ammo_cur = &*pt.ammo_current();
                     auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
                     int offset = 1;
                     std::string fmtstring = "%s  %5.1fL";
@@ -1505,7 +1512,7 @@ void veh_interact::calc_overview()
                     fmtstring = "%i   " + leak_marker + "%3i%%" + leak_marker;
                     offset = 0;
                 }
-                right_print( w, y, offset, item::find_type( pt.ammo_current() )->color,
+                right_print( w, y, offset, pt.ammo_current()->color,
                              string_format( fmtstring, pt.ammo_capacity(), pct ) );
             };
             overview_opts.emplace_back( "BATTERY", &pt, next_hotkey( pt, hotkey ), details );
@@ -1520,7 +1527,7 @@ void veh_interact::calc_overview()
                 fmtstring = "%s  " + leak_marker + "%5i" + leak_marker;
                 offset = 0;
             }
-            right_print( w, y, offset, item::find_type( pt.ammo_current() )->color,
+            right_print( w, y, offset, pt.ammo_current()->color,
                          string_format( fmtstring, item::nname( pt.ammo_current() ), pt.ammo_remaining() ) );
         }
     };
@@ -2072,7 +2079,7 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
                 continue;
             }
             if( veh->can_mount( vd, vp.get_id() ) ) {
-                if( vp.get_id() != vpart_shapes[ vp.name() + vp.item ][ 0 ]->get_id() ) {
+                if( vp.get_id() != vpart_shapes[ vp.name() + vp.item.str() ][ 0 ]->get_id() ) {
                     // only add first shape to install list
                     continue;
                 }
@@ -2661,7 +2668,7 @@ void veh_interact::display_details( const vpart_info *part )
     fold_and_print( w_details, point( col_1, line + 2 ), column_width, c_white,
                     "%s: <color_light_gray>%.1f%s</color>",
                     small_mode ? _( "Wgt" ) : _( "Weight" ),
-                    convert_weight( item::find_type( part->item )->weight ),
+                    convert_weight( part->item->weight ),
                     weight_units() );
     if( part->folded_volume != 0_ml ) {
         fold_and_print( w_details, point( col_2, line + 2 ), column_width, c_white,
@@ -2706,7 +2713,7 @@ void veh_interact::display_details( const vpart_info *part )
 
     if( part->has_flag( VPFLAG_WHEEL ) ) {
         // Note: there is no guarantee that whl is non-empty!
-        const cata::value_ptr<islot_wheel> &whl = item::find_type( part->item )->wheel;
+        const cata::value_ptr<islot_wheel> &whl = part->item->wheel;
         fold_and_print( w_details, point( col_1, line + 3 ), column_width, c_white,
                         "%s: <color_light_gray>%d\"</color>",
                         small_mode ? _( "Dia" ) : _( "Wheel Diameter" ),
@@ -2727,7 +2734,7 @@ void veh_interact::display_details( const vpart_info *part )
     // line 4 [horizontal]: fuel_type (if applicable)
     // line 4 [vertical/hybrid]: (column 1) fuel_type (if applicable)    (column 2) power (if applicable)
     // line 5 [horizontal]: power (if applicable)
-    if( part->fuel_type != "null" ) {
+    if( !part->fuel_type.is_null() ) {
         fold_and_print( w_details, point( col_1, line + 4 ), column_width,
                         c_white, _( "Charge: <color_light_gray>%s</color>" ),
                         item::nname( part->fuel_type ) );
@@ -2750,9 +2757,9 @@ void veh_interact::display_details( const vpart_info *part )
     // 6 [horizontal]: (column 1) flags    (column 2) battery capacity (if applicable)
     fold_and_print( w_details, point( col_1, line + 5 ), details_w, c_yellow, label );
 
-    if( part->fuel_type == "battery" && !part->has_flag( VPFLAG_ENGINE ) &&
+    if( part->fuel_type == itype_battery && !part->has_flag( VPFLAG_ENGINE ) &&
         !part->has_flag( VPFLAG_ALTERNATOR ) ) {
-        const cata::value_ptr<islot_magazine> &battery = item::find_type( part->item )->magazine;
+        const cata::value_ptr<islot_magazine> &battery = part->item->magazine;
         fold_and_print( w_details, point( col_2, line + 5 ), column_width, c_white,
                         "%s: <color_light_gray>%8d</color>",
                         small_mode ? _( "BatCap" ) : _( "Battery Capacity" ),
@@ -2843,9 +2850,7 @@ void act_vehicle_unload_fuel( vehicle *veh )
 {
     std::vector<itype_id> fuels;
     for( auto &e : veh->fuels_left() ) {
-        const itype *type = item::find_type( e.first );
-
-        if( e.first == fuel_type_battery || type->phase != SOLID ) {
+        if( e.first == fuel_type_battery || e.first->phase != SOLID ) {
             // This skips battery and plutonium cells
             continue;
         }
@@ -2860,7 +2865,7 @@ void act_vehicle_unload_fuel( vehicle *veh )
         uilist smenu;
         smenu.text = _( "Remove what?" );
         for( auto &fuel : fuels ) {
-            if( fuel == "plut_cell" && veh->fuel_left( fuel ) < PLUTONIUM_CHARGES ) {
+            if( fuel == itype_plut_cell && veh->fuel_left( fuel ) < PLUTONIUM_CHARGES ) {
                 continue;
             }
             smenu.addentry( item::nname( fuel ) );
@@ -2876,7 +2881,7 @@ void act_vehicle_unload_fuel( vehicle *veh )
     }
 
     int qty = veh->fuel_left( fuel );
-    if( fuel == "plut_cell" ) {
+    if( fuel == itype_plut_cell ) {
         if( qty / PLUTONIUM_CHARGES == 0 ) {
             add_msg( m_info, _( "The vehicle has no charged plutonium cells." ) );
             return;

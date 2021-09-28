@@ -6,8 +6,7 @@
 #include <string>
 #include "optional.h"
 #include "projectile.h"
-
-using itype_id = std::string;
+#include "type_id.h"
 
 struct tripoint;
 class JsonObject;

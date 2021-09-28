@@ -73,8 +73,6 @@ enum body_part : int;
 enum m_size : int;
 enum class side : int;
 class body_part_set;
-
-using itype_id = std::string;
 class map;
 struct damage_instance;
 struct damage_unit;
@@ -201,6 +199,13 @@ class item : public visitable<item>
 
         /** For constructing in-progress crafts */
         item( const recipe *rec, int qty, std::list<item> items, std::vector<item_comp> selections );
+
+        // Legacy constructor for constructing from string rather than itype_id
+        // TODO: remove this and migrate code using it.
+        template<typename... Args>
+        item( const std::string &itype, Args &&... args ) :
+            item( itype_id( itype ), std::forward<Args>( args )... )
+        {}
 
         ~item();
 
@@ -1235,7 +1240,7 @@ class item : public visitable<item>
         uint64_t make_component_hash() const;
 
         /** return the unique identifier of the items underlying type */
-        itype_id typeId() const;
+        const itype_id &typeId() const;
 
         /**
          * Return a contained item (if any and only one).
@@ -1738,9 +1743,10 @@ class item : public visitable<item>
          *  @return ammotype of ammo item or a null id if the item is not ammo */
         ammotype ammo_type() const;
 
-        /** Get default ammo used by item or "NULL" if item does not have a default ammo type
+        /** Get default ammo used by item or a null id if item does not have a default ammo type
          *  @param conversion whether to include the effect of any flags or mods which convert the type
-         *  @return NULL if item does not use a specific ammo type (and is consequently not reloadable) */
+         *  @return itype_id::NULL_ID() if item does not use a specific ammo type
+         *  (and is consequently not reloadable) */
         itype_id ammo_default( bool conversion = true ) const;
 
         /** Get default ammo for the first ammotype common to an item and its current magazine or "NULL" if none exists
@@ -1956,25 +1962,10 @@ class item : public visitable<item>
          */
         static std::string nname( const itype_id &id, unsigned int quantity = 1 );
         /**
-         * Returns the item type of the given identifier. Never returns null.
-         */
-        static const itype *find_type( const itype_id &type );
-        /**
          * Whether the item is counted by charges, this is a static wrapper
          * around @ref count_by_charges, that does not need an items instance.
          */
         static bool count_by_charges( const itype_id &id );
-        /**
-         * Check whether the type id refers to a known type.
-         * This should be used either before instantiating an item when it's possible
-         * that the item type is unknown and the caller can do something about it (e.g. the
-         * uninstall-bionics function checks this to see if there is a CBM item type and has
-         * logic to handle the case when that item type does not exist).
-         * Or one can use this to check that type ids from json refer to valid items types (e.g.
-         * the items that make up the vehicle parts must be defined somewhere, or the result of
-         * crafting recipes must be valid type ids).
-         */
-        static bool type_is_defined( const itype_id &id );
 
         /**
         * Returns true if item has "item_label" itemvar

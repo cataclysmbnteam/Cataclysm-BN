@@ -631,8 +631,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                        to_kilogram( parts[ part ].base.weight() ) : to_kilogram( total_mass() );
 
     //Calculate damage resulting from d_E
-    const itype *type = item::find_type( part_info( ret.part ).item );
-    const auto &mats = type->materials;
+    const material_id_list &mats = part_info( ret.part ).item->materials;
     float vpart_dens = 0;
     if( !mats.empty() ) {
         for( auto &mat_id : mats ) {

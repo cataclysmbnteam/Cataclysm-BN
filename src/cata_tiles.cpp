@@ -76,6 +76,8 @@
 
 static const efftype_id effect_ridden( "ridden" );
 
+static const itype_id itype_corpse( "corpse" );
+
 static const std::string ITEM_HIGHLIGHT( "highlight_item" );
 static const std::string ZOMBIE_REVIVAL_INDICATOR( "zombie_revival_indicator" );
 
@@ -1739,16 +1741,16 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
                                          looks_like_jumps_limit - 1 );
         }
         case C_ITEM: {
-            if( !item::type_is_defined( itype_id( id ) ) ) {
+            itype_id iid = itype_id( id );
+            if( !iid.is_valid() ) {
                 if( string_starts_with( id, "corpse_" ) ) {
                     return find_tile_looks_like(
-                               "corpse", category, looks_like_jumps_limit - 1
+                               itype_corpse.str(), category, looks_like_jumps_limit - 1
                            );
                 }
                 return cata::nullopt;
             }
-            const itype *new_it = item::find_type( itype_id( id ) );
-            return find_tile_looks_like( new_it->looks_like, category, looks_like_jumps_limit - 1 );
+            return find_tile_looks_like( iid->looks_like.str(), category, looks_like_jumps_limit - 1 );
         }
 
         default:
@@ -1789,11 +1791,11 @@ bool cata_tiles::find_overlay_looks_like( const bool male, const std::string &ov
             looks_like = "mutation_" + looks_like.substr( 16 );
             continue;
         }
-        if( !item::type_is_defined( itype_id( looks_like ) ) ) {
+        itype_id iid = itype_id( looks_like );
+        if( !iid.is_valid() ) {
             break;
         }
-        const itype *new_it = item::find_type( itype_id( looks_like ) );
-        looks_like = new_it->looks_like;
+        looks_like = iid->looks_like.str();
     }
     return exists;
 }
@@ -1882,7 +1884,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         } else if( category == C_ITEM ) {
             item tmp;
             if( string_starts_with( found_id, "corpse_" ) ) {
-                tmp = item( "corpse", calendar::start_of_cataclysm );
+                tmp = item( itype_corpse, calendar::start_of_cataclysm );
             } else {
                 tmp = item( found_id, calendar::start_of_cataclysm );
             }
@@ -2768,7 +2770,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
             it_id = std::get<0>( it_override->second );
             mon_id = std::get<1>( it_override->second );
             hilite = std::get<2>( it_override->second );
-            it_type = item::find_type( it_id );
+            it_type = &*it_id;
         } else if( !invisible[0] && g->m.sees_some_items( p, g->u ) ) {
             const maptile &tile = g->m.maptile_at( p );
             const item &itm = tile.get_uppermost_item();
@@ -2780,9 +2782,9 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
         } else {
             it_type = nullptr;
         }
-        if( it_type && it_id != "null" ) {
-            const std::string disp_id = it_id == "corpse" && mon_id ?
-                                        "corpse_" + mon_id.str() : it_id;
+        if( it_type && !it_id.is_null() ) {
+            const std::string disp_id = it_id == itype_corpse && mon_id ?
+                                        "corpse_" + mon_id.str() : it_id.str();
             const std::string it_category = it_type->get_item_type_string();
             const lit_level lit = it_overridden ? LL_LIT : ll;
             const bool nv = it_overridden ? false : nv_goggles_activated;
