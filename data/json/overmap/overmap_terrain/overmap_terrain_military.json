@@ -215,12 +215,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "mil_base_5f",
-      "mil_base_5j",
-      "mil_base_6j",
-      "mil_base_7j"
-    ],
+    "id": [ "mil_base_5f", "mil_base_5j", "mil_base_6j", "mil_base_7j" ],
     "copy-from": "generic_military_base",
     "name": "road",
     "sym": "─",
@@ -228,10 +223,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "mil_base_4a",
-      "mil_base_4f"
-    ],
+    "id": [ "mil_base_4a", "mil_base_4f" ],
     "copy-from": "generic_military_base",
     "name": "road",
     "sym": "├",
@@ -295,11 +287,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "mil_base_5a",
-      "mil_base_6a",
-      "mil_base_7a"
-    ],
+    "id": [ "mil_base_5a", "mil_base_6a", "mil_base_7a" ],
     "copy-from": "generic_military_base",
     "name": "parking lot",
     "sym": "O",
@@ -308,23 +296,6 @@
   {
     "type": "overmap_terrain",
     "id": [
-      "mil_base_2f1",
-      "mil_base_2f",
-      "mil_base_2g1",
-      "mil_base_2g",
-      "mil_base_3f",
-      "mil_base_3g1",
-      "mil_base_3g",
-      "mil_base_3h1",
-      "mil_base_3h",
-      "mil_base_5g1",
-      "mil_base_5g",
-      "mil_base_5h1",
-      "mil_base_5h",
-      "mil_base_5i1",
-      "mil_base_5i",
-      "mil_base_6i1",
-      "mil_base_6i",
       "mil_base_tunnels_a",
       "mil_base_tunnels_b",
       "mil_base_tunnels_c",
@@ -335,7 +306,8 @@
       "mil_base_tunnels_h",
       "mil_base_tunnels_i"
     ],
-    "copy-from": "generic_military_base"
+    "copy-from": "generic_military_base",
+    "name": "military base - tunnel"
   },
   {
     "type": "overmap_terrain",
@@ -348,7 +320,6 @@
       "mil_base_3d",
       "mil_base_3e1",
       "mil_base_3e",
-      "mil_base_3f1",
       "mil_base_5c1",
       "mil_base_5c",
       "mil_base_6c1",
@@ -361,10 +332,25 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "mil_base_5e1",
-      "mil_base_5e"
-    ],
+    "id": [ "mil_base_2f1", "mil_base_2f", "mil_base_3f1", "mil_base_3f" ],
+    "copy-from": "generic_military_base",
+    "name": "military base - mess hall"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mil_base_2g1", "mil_base_2g", "mil_base_3g1", "mil_base_3g" ],
+    "copy-from": "generic_military_base",
+    "name": "military base - warehouse"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mil_base_3h1", "mil_base_3h" ],
+    "copy-from": "generic_military_base",
+    "name": "military base - communications center"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mil_base_5e1", "mil_base_5e" ],
     "copy-from": "generic_military_base",
     "name": "military base - armory"
   },
@@ -383,7 +369,18 @@
     "copy-from": "generic_military_base",
     "name": "military base - motor pool"
   },
-
+  {
+    "type": "overmap_terrain",
+    "id": [ "mil_base_5g1", "mil_base_5g" ],
+    "copy-from": "generic_military_base",
+    "name": "military base - command center"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mil_base_5h1", "mil_base_5h", "mil_base_5i1", "mil_base_5i", "mil_base_6i1", "mil_base_6i" ],
+    "copy-from": "generic_military_base",
+    "name": "military base - infirmary"
+  },
   {
     "type": "overmap_terrain",
     "id": "mil_base_8i",
@@ -405,17 +402,11 @@
     "copy-from": "generic_military_base",
     "name": "motor pool lot",
     "sym": "O",
-    "color": "light_gray"
+    "color": "dark_gray"
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "mil_base_3i",
-      "mil_base_3i1",
-      "mil_base_3i2",
-      "mil_base_3i3",
-      "mil_base_3i4"
-    ],
+    "id": [ "mil_base_3i", "mil_base_3i1", "mil_base_3i2", "mil_base_3i3", "mil_base_3i4" ],
     "copy-from": "generic_military_base",
     "name": "radio tower",
     "sym": "X",
@@ -458,21 +449,14 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "mil_base_minefield_e",
-      "mil_base_minefield_w"
-    ],
+    "id": [ "mil_base_minefield_e", "mil_base_minefield_w" ],
     "copy-from": "generic_military_base",
     "name": "minefield",
     "sym": "│"
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "mil_base_minefield_n",
-      "mil_base_minefield_s",
-      "mil_base_minefield_end"
-    ],
+    "id": [ "mil_base_minefield_n", "mil_base_minefield_s", "mil_base_minefield_end" ],
     "copy-from": "generic_military_base",
     "name": "minefield",
     "sym": "─"
