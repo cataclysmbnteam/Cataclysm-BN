@@ -22,7 +22,7 @@ Two origins for map square coordinates are common:
   for the whole game, relative to a fixed origin.
 * **Local** coordinates, which are relative to the corner of the current "reality
   bubble", or `map` roughly centered on the avatar.  In local map square
-  coordinates, `x` and `y` values will both fall in the range [0,120).
+  coordinates, `x` and `y` values will both fall in the range [0,`MAPSIZE_X`).
 
 The next scale is **submap** (sm) coordinates.  One submap is 12x12
 (`SEEX`x`SEEY`) map squares.  Submaps are the scale at which chunks of the map
@@ -157,7 +157,7 @@ horizontal dimensions, so `z` values are unchanged by `project_to` and
 z-coordinate in both parts of the result, so you must choose exactly one to be
 a `tripoint`.  In the example above, z-coodinates do not have much meaning at
 the overmap scale, so you probably want the z-coordinate in
-`omt_within_overmap`.  Than can be done as follows:
+`omt_within_overmap`.  That can be done as follows:
 
 ```c++
 tripoint_abs_omt abs_pos = get_avatar()->global_omt_location();
