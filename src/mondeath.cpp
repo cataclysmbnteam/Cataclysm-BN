@@ -814,7 +814,7 @@ void mdeath::detonate( monster &z )
                 add_msg( m_debug, "Invalid bomb type in detonate mondeath for %s.", z.name() );
                 continue;
             }
-            dets.emplace_back( actor->target, actor->ammo_qty );
+            dets.emplace_back( actor->target.str(), actor->ammo_qty );
         }
     }
 
