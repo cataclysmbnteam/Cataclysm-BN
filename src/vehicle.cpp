@@ -5070,9 +5070,8 @@ void vehicle::idle( bool on_map )
         if( idle_rate < 10 ) {
             idle_rate = 10;    // minimum idle is 1% of full throttle
         }
-        // helicopters use basicaly nearly all of their power just to hover.
-        // it becomes more efficient the closer they reach their safe cruise speed.
-        // But in BN it is simplified, so power usage on idle is much lower
+        // Helicopters use extra power just to stay in the air
+        // 100 means 10% of power
         if( is_rotorcraft() && is_flying_in_air() ) {
             idle_rate = 100;
         }

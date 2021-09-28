@@ -197,7 +197,7 @@ void vehicle::thrust( int thd, int z )
     } else {
         load = ( thrusting ? 1000 : 0 );
     }
-    // rotorcraft need to spend +5% (in addtition to idle) of load to fly, +20% (in addtion to idle) to change z
+    // rotorcraft need to spend +5% (in addition to idle) of load to fly, +20% (in addition to idle) to ascend
     if( is_rotorcraft() && ( z > 0 || is_flying_in_air() ) ) {
         load = std::max( load, z > 0 ? 200 : 50 );
         thrusting = true;
