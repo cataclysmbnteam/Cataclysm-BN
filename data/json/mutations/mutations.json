@@ -4168,6 +4168,7 @@
     "visibility": 2,
     "ugliness": 2,
     "description": "You have a pair of stubby little wings projecting from your shoulderblades.  They can be wiggled at will, but are useless.",
+    "types": [ "WINGS" ],
     "changes_to": [ "WINGS_BIRD", "WINGS_BAT", "WINGS_INSECT", "WINGS_BUTTERFLY" ]
   },
   {
