@@ -26,25 +26,26 @@ namespace cata
 template <typename T> class value_ptr;
 }  // namespace cata
 
-bool item_is_blacklisted( const std::string &id );
+bool item_is_blacklisted( const itype_id &id );
 
-using Item_tag = std::string;
 using Item_list = std::vector<item>;
 
 class Item_factory;
 class JsonArray;
 class JsonObject;
 
+using item_action_id = std::string;
+
 extern std::unique_ptr<Item_factory> item_controller;
 
 class migration
 {
     public:
-        std::string id;
-        std::string replace;
+        itype_id id;
+        itype_id replace;
         std::set<std::string> flags;
         int charges = 0;
-        std::set<std::string> contents;
+        std::set<itype_id> contents;
 };
 
 /**
@@ -58,6 +59,8 @@ class migration
  */
 class Item_factory
 {
+        friend itype_id;
+
     public:
         Item_factory();
         ~Item_factory();
@@ -136,7 +139,7 @@ class Item_factory
          * group.
          * @return false if the group doesn't exist.
          */
-        bool add_item_to_group( const item_group_id &group_id, const Item_tag &item_id, int chance );
+        bool add_item_to_group( const item_group_id &group_id, const itype_id &item_id, int chance );
         /*@}*/
 
         /**
@@ -185,6 +188,7 @@ class Item_factory
          */
         void migrate_item( const itype_id &id, item &obj );
 
+    private:
         /**
          * Check if an item type is known to the Item_factory.
          * @param id Item type id (@ref itype::id).
@@ -198,6 +202,7 @@ class Item_factory
          * @param id Item type id (@ref itype::id).
          */
         const itype *find_template( const itype_id &id ) const;
+    public:
 
         /**
          * Add a passed in itype to the collection of item types.
@@ -210,7 +215,7 @@ class Item_factory
          * Check if an iuse is known to the Item_factory.
          * @param type Iuse type id.
          */
-        bool has_iuse( const std::string &type ) const {
+        bool has_iuse( const item_action_id &type ) const {
             return iuse_function_list.find( type ) != iuse_function_list.end();
         }
 
@@ -228,7 +233,7 @@ class Item_factory
         /**
          * Create a new (and currently unused) item type id.
          */
-        Item_tag create_artifact_id() const;
+        itype_id create_artifact_id() const;
 
         std::list<itype_id> subtype_replacement( const itype_id & ) const;
 
@@ -236,7 +241,7 @@ class Item_factory
         /** Set at finalization and prevents alterations to the static item templates */
         bool frozen = false;
 
-        std::map<const std::string, itype> m_abstracts;
+        std::map<itype_id, itype> m_abstracts;
 
         std::unordered_map<itype_id, itype> m_templates;
 
@@ -349,7 +354,7 @@ class Item_factory
         void finalize_post( itype &obj );
 
         //iuse stuff
-        std::map<Item_tag, use_function> iuse_function_list;
+        std::map<item_action_id, use_function> iuse_function_list;
 
         void add_iuse( const std::string &type, use_function_pointer f );
         void add_iuse( const std::string &type, use_function_pointer f,

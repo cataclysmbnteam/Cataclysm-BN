@@ -99,6 +99,10 @@ static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_relax_gas( "relax_gas" );
 
+static const itype_id itype_radio_car_on( "radio_car_on" );
+static const itype_id itype_radiocontrol( "radiocontrol" );
+static const itype_id itype_shoulder_strap( "shoulder_strap" );
+
 static const skill_id skill_melee( "melee" );
 
 static const quality_id qual_CUT( "CUT" );
@@ -377,7 +381,7 @@ inline static void rcdrive( const point &d )
     auto rc_pairs = m.get_rc_items( c );
     auto rc_pair = rc_pairs.begin();
     for( ; rc_pair != rc_pairs.end(); ++rc_pair ) {
-        if( rc_pair->second->typeId() == "radio_car_on" && rc_pair->second->active ) {
+        if( rc_pair->second->typeId() == itype_radio_car_on && rc_pair->second->active ) {
             break;
         }
     }
@@ -1294,7 +1298,7 @@ static void fire()
 
                 actions.emplace_back( [&] { u.invoke_item( &w, "holster" ); } );
 
-            } else if( w.is_gun() && w.gunmod_find( "shoulder_strap" ) ) {
+            } else if( w.is_gun() && w.gunmod_find( itype_shoulder_strap ) ) {
                 // wield item currently worn using shoulder strap
                 options.push_back( w.display_name() );
                 actions.emplace_back( [&] { u.wield( w ); } );
@@ -1711,7 +1715,8 @@ bool game::handle_action()
             case ACTION_MOVE_LEFT:
             case ACTION_MOVE_FORTH_LEFT:
                 if( !u.get_value( "remote_controlling" ).empty() &&
-                    ( u.has_active_item( "radiocontrol" ) || u.has_active_bionic( bio_remote ) ) ) {
+                    ( u.has_active_item( itype_radiocontrol ) ||
+                      u.has_active_bionic( bio_remote ) ) ) {
                     rcdrive( get_delta_from_movement_action( act, iso_rotate::yes ) );
                 } else if( veh_ctrl ) {
                     // vehicle control uses x for steering and y for ac/deceleration,

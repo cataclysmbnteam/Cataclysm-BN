@@ -37,6 +37,15 @@
 #include "point.h"
 #include "inventory_ui.h" // auto inventory blocking
 
+static const itype_id itype_aspirin( "aspirin" );
+static const itype_id itype_battery( "battery" );
+static const itype_id itype_codeine( "codeine" );
+static const itype_id itype_heroin( "heroin" );
+static const itype_id itype_salt_water( "salt_water" );
+static const itype_id itype_tramadol( "tramadol" );
+static const itype_id itype_oxycodone( "oxycodone" );
+static const itype_id itype_water( "water" );
+
 static const std::string flag_LEAK_ALWAYS( "LEAK_ALWAYS" );
 static const std::string flag_LEAK_DAM( "LEAK_DAM" );
 static const std::string flag_WATERPROOF( "WATERPROOF" );
@@ -65,9 +74,9 @@ invlet_favorites::invlet_favorites( const std::unordered_map<itype_id, std::stri
         invlets_by_id.insert( p );
         for( char invlet : p.second ) {
             uint8_t invlet_u = invlet;
-            if( !ids_by_invlet[invlet_u].empty() ) {
+            if( !ids_by_invlet[invlet_u].is_empty() ) {
                 debugmsg( "Duplicate invlet: %s and %s both mapped to %c",
-                          ids_by_invlet[invlet_u], p.first, invlet );
+                          ids_by_invlet[invlet_u].str(), p.first.str(), invlet );
             }
             ids_by_invlet[invlet_u] = p.first;
         }
@@ -88,14 +97,14 @@ void invlet_favorites::set( char invlet, const itype_id &id )
 void invlet_favorites::erase( char invlet )
 {
     uint8_t invlet_u = invlet;
-    const std::string &id = ids_by_invlet[invlet_u];
-    if( id.empty() ) {
+    const itype_id &id = ids_by_invlet[invlet_u];
+    if( id.is_empty() ) {
         return;
     }
     std::string &invlets = invlets_by_id[id];
     std::string::iterator it = std::find( invlets.begin(), invlets.end(), invlet );
     invlets.erase( it );
-    ids_by_invlet[invlet_u].clear();
+    ids_by_invlet[invlet_u] = itype_id();
 }
 
 bool invlet_favorites::contains( char invlet, const itype_id &id ) const
@@ -253,7 +262,7 @@ void inventory::update_cache_with_item( item &newit )
     invlet_cache.set( newit.invlet, newit.typeId() );
 }
 
-char inventory::find_usable_cached_invlet( const std::string &item_type )
+char inventory::find_usable_cached_invlet( const itype_id &item_type )
 {
     // Some of our preferred letters might already be used.
     for( auto invlet : invlet_cache.invlets_for( item_type ) ) {
@@ -490,7 +499,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             auto toilet = m.i_at( p );
             auto water = toilet.end();
             for( auto candidate = toilet.begin(); candidate != toilet.end(); ++candidate ) {
-                if( candidate->typeId() == "water" ) {
+                if( candidate->typeId() == itype_water ) {
                     water = candidate;
                     break;
                 }
@@ -538,7 +547,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
 
         if( kpart ) {
             item hotplate( "hotplate", bday );
-            hotplate.charges = veh->fuel_left( "battery", true );
+            hotplate.charges = veh->fuel_left( itype_battery, true );
             hotplate.item_tags.insert( "PSEUDO" );
             // TODO: Allow disabling
             hotplate.item_tags.insert( "HEATS_FOOD" );
@@ -553,56 +562,56 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         }
         if( weldpart ) {
             item welder( "welder", bday );
-            welder.charges = veh->fuel_left( "battery", true );
+            welder.charges = veh->fuel_left( itype_battery, true );
             welder.item_tags.insert( "PSEUDO" );
             add_item( welder );
 
             item soldering_iron( "soldering_iron", bday );
-            soldering_iron.charges = veh->fuel_left( "battery", true );
+            soldering_iron.charges = veh->fuel_left( itype_battery, true );
             soldering_iron.item_tags.insert( "PSEUDO" );
             add_item( soldering_iron );
         }
         if( craftpart ) {
             item vac_sealer( "vac_sealer", bday );
-            vac_sealer.charges = veh->fuel_left( "battery", true );
+            vac_sealer.charges = veh->fuel_left( itype_battery, true );
             vac_sealer.item_tags.insert( "PSEUDO" );
             add_item( vac_sealer );
 
             item dehydrator( "dehydrator", bday );
-            dehydrator.charges = veh->fuel_left( "battery", true );
+            dehydrator.charges = veh->fuel_left( itype_battery, true );
             dehydrator.item_tags.insert( "PSEUDO" );
             add_item( dehydrator );
 
             item food_processor( "food_processor", bday );
-            food_processor.charges = veh->fuel_left( "battery", true );
+            food_processor.charges = veh->fuel_left( itype_battery, true );
             food_processor.item_tags.insert( "PSEUDO" );
             add_item( food_processor );
 
             item press( "press", bday );
-            press.charges = veh->fuel_left( "battery", true );
+            press.charges = veh->fuel_left( itype_battery, true );
             press.set_flag( "PSEUDO" );
             add_item( press );
         }
         if( forgepart ) {
             item forge( "forge", bday );
-            forge.charges = veh->fuel_left( "battery", true );
+            forge.charges = veh->fuel_left( itype_battery, true );
             forge.item_tags.insert( "PSEUDO" );
             add_item( forge );
         }
         if( kilnpart ) {
             item kiln( "kiln", bday );
-            kiln.charges = veh->fuel_left( "battery", true );
+            kiln.charges = veh->fuel_left( itype_battery, true );
             kiln.item_tags.insert( "PSEUDO" );
             add_item( kiln );
         }
         if( chempart ) {
             item chemistry_set( "chemistry_set", bday );
-            chemistry_set.charges = veh->fuel_left( "battery", true );
+            chemistry_set.charges = veh->fuel_left( itype_battery, true );
             chemistry_set.item_tags.insert( "PSEUDO" );
             add_item( chemistry_set );
 
             item electrolysis_kit( "electrolysis_kit", bday );
-            electrolysis_kit.charges = veh->fuel_left( "battery", true );
+            electrolysis_kit.charges = veh->fuel_left( itype_battery, true );
             electrolysis_kit.item_tags.insert( "PSEUDO" );
             add_item( electrolysis_kit );
         }
@@ -844,9 +853,9 @@ bool inventory::has_enough_painkiller( int pain ) const
 {
     for( const auto &elem : items ) {
         const item &it = elem.front();
-        if( ( pain <= 35 && it.typeId() == "aspirin" ) ||
-            ( pain >= 50 && it.typeId() == "oxycodone" ) ||
-            it.typeId() == "tramadol" || it.typeId() == "codeine" ) {
+        if( ( pain <= 35 && it.typeId() == itype_aspirin ) ||
+            ( pain >= 50 && it.typeId() == itype_oxycodone ) ||
+            it.typeId() == itype_tramadol || it.typeId() == itype_codeine ) {
             return true;
         }
     }
@@ -860,15 +869,15 @@ item *inventory::most_appropriate_painkiller( int pain )
     for( auto &elem : items ) {
         int diff = 9999;
         itype_id type = elem.front().typeId();
-        if( type == "aspirin" ) {
+        if( type == itype_aspirin ) {
             diff = std::abs( pain - 15 );
-        } else if( type == "codeine" ) {
+        } else if( type == itype_codeine ) {
             diff = std::abs( pain - 30 );
-        } else if( type == "oxycodone" ) {
+        } else if( type == itype_oxycodone ) {
             diff = std::abs( pain - 60 );
-        } else if( type == "heroin" ) {
+        } else if( type == itype_heroin ) {
             diff = std::abs( pain - 100 );
-        } else if( type == "tramadol" ) {
+        } else if( type == itype_tramadol ) {
             diff = std::abs( pain - 40 ) / 2; // Bonus since it's long-acting
         }
 
@@ -891,11 +900,15 @@ void inventory::rust_iron_items()
                 //Passivation layer prevents further rusting
                 one_in( 500 ) &&
                 //Scale with volume, bigger = slower (see #24204)
-                one_in( static_cast<int>( 14 * std::cbrt( 0.5 * std::max( 0.05,
-                                          static_cast<double>( elem_stack_iter.base_volume().value() ) / 250 ) ) ) ) &&
+                one_in(
+                    static_cast<int>(
+                        14 * std::cbrt(
+                            0.5 * std::max(
+                                0.05, static_cast<double>(
+                                    elem_stack_iter.base_volume().value() ) / 250 ) ) ) ) &&
                 //                       ^season length   ^14/5*0.75/pi (from volume of sphere)
-                g->m.water_from( g->u.pos() ).typeId() ==
-                "salt_water" ) { //Freshwater without oxygen rusts slower than air
+                //Freshwater without oxygen rusts slower than air
+                g->m.water_from( g->u.pos() ).typeId() == itype_salt_water ) {
                 elem_stack_iter.inc_damage( DT_ACID ); // rusting never completely destroys an item
                 add_msg( m_bad, _( "Your %s is damaged by rust." ), elem_stack_iter.tname() );
             }

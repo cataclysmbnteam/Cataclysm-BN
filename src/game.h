@@ -87,8 +87,6 @@ enum action_id : int;
 
 struct special_game;
 
-using itype_id = std::string;
-
 class achievements_tracker;
 class avatar;
 class event_bus;

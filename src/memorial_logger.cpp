@@ -24,7 +24,6 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
-#include "item_factory.h"
 #include "itype.h"
 #include "kill_tracker.h"
 #include "magic.h"
@@ -637,8 +636,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::consumes_marloss_item: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                const itype *it = item_controller->find_template(
-                                      e.get<cata_variant_type::itype_id>( "itype" ) );
+                itype_id it = e.get<cata_variant_type::itype_id>( "itype" );
                 std::string itname = it->nname( 1 );
                 add( pgettext( "memorial_male", "Consumed a %s." ),
                      pgettext( "memorial_female", "Consumed a %s." ), itname );

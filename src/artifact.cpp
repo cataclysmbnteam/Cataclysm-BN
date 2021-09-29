@@ -674,7 +674,7 @@ void it_artifact_armor::create_name( const std::string &type )
     name = no_translation( artifact_name( type ) );
 }
 
-std::string new_artifact()
+itype_id new_artifact()
 {
     if( one_in( 2 ) ) {
         // Generate a "tool" artifact
@@ -928,7 +928,7 @@ std::string new_artifact()
     }
 }
 
-std::string new_natural_artifact( artifact_natural_property prop )
+itype_id new_natural_artifact( artifact_natural_property prop )
 {
     // Natural artifacts are always tools.
     it_artifact_tool def;
@@ -1115,7 +1115,7 @@ void load_artifacts( const std::string &path )
 
 void it_artifact_tool::deserialize( const JsonObject &jo )
 {
-    id = jo.get_string( "id" );
+    jo.read( "id", id, true );
     name = no_translation( jo.get_string( "name" ) );
     description = no_translation( jo.get_string( "description" ) );
     if( jo.has_int( "sym" ) ) {
@@ -1168,7 +1168,7 @@ void it_artifact_tool::deserialize( const JsonObject &jo )
     }
 
     tool->revert_to.emplace( jo.get_string( "revert_to", "null" ) );
-    if( *tool->revert_to == "null" ) {
+    if( tool->revert_to->is_null() ) {
         tool->revert_to.reset();
     }
 
@@ -1224,7 +1224,7 @@ void it_artifact_tool::deserialize( const JsonObject &jo )
 
 void it_artifact_armor::deserialize( const JsonObject &jo )
 {
-    id = jo.get_string( "id" );
+    jo.read( "id", id, true );
     name = no_translation( jo.get_string( "name" ) );
     description = no_translation( jo.get_string( "description" ) );
     if( jo.has_int( "sym" ) ) {

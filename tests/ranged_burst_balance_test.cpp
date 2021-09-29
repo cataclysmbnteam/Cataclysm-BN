@@ -11,7 +11,7 @@ static const std::string flag_BIPOD( "BIPOD" );
 static void check_burst_penalty( const Character &shooter, item gun, int expected,
                                  bool bipod = false )
 {
-    if( gun.ammo_required() && !gun.ammo_sufficient() && gun.ammo_default() != "NULL" ) {
+    if( gun.ammo_required() && !gun.ammo_sufficient() && !gun.ammo_default().is_null() ) {
         gun.ammo_set( gun.ammo_default(), -1 );
     }
     if( bipod ) {
@@ -29,21 +29,23 @@ static void check_burst_penalty( const Character &shooter, item gun, int expecte
     CHECK( penalty <= expected + dev );
 }
 
-static void check_burst_penalty( const Character &shooter, const itype_id &gun_type,
-                                 std::vector<itype_id> mods, int expected, bool bipod = false )
+static void check_burst_penalty( const Character &shooter, const std::string &gun_type,
+                                 const std::vector<std::string> &mods, int expected, bool bipod = false )
 {
-    item gun( gun_type );
-    for( const itype_id &mod_type : mods ) {
-        item mod( mod_type );
+    itype_id gun_id( gun_type );
+    item gun( gun_id );
+    for( const std::string &mod_type : mods ) {
         CAPTURE( gun_type );
         CAPTURE( mod_type );
+        itype_id mod_id( mod_type );
+        item mod( mod_id );
         REQUIRE( gun.is_gunmod_compatible( mod ).success() );
         gun.put_in( mod );
     }
     check_burst_penalty( shooter, gun, expected, bipod );
 }
 
-static void check_burst_penalty( const Character &shooter, const itype_id &gun_type,
+static void check_burst_penalty( const Character &shooter, const std::string &gun_type,
                                  int expected, bool bipod = false )
 {
     check_burst_penalty( shooter, gun_type, {}, expected, bipod );
@@ -100,7 +102,7 @@ TEST_CASE( "average_burst_bipod", "[ranged] [balance]" )
 
 TEST_CASE( "average_burst_modded", "[ranged] [balance]" )
 {
-    const std::vector<itype_id> modset = {"adjustable_stock", "suppressor", "pistol_grip", "grip_mod"};
+    const std::vector<std::string> modset = {"adjustable_stock", "suppressor", "pistol_grip", "grip_mod"};
     standard_npc shooter( "Shooter", shooter_pos, {}, 5, 10, 8, 8, 8 );
     check_burst_penalty( shooter, "american_180", modset, 0 );
     check_burst_penalty( shooter, "calico", modset, 12 );

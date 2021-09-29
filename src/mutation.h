@@ -30,8 +30,6 @@ class nc_color;
 struct dream;
 template <typename E> struct enum_traits;
 template <typename T> class string_id;
-
-using itype_id = std::string;
 class JsonArray;
 
 extern std::vector<dream> dreams;

@@ -35,6 +35,10 @@
 #include "vehicle_group.h"
 #include "weighted_list.h"
 
+static const itype_id itype_hat_hard( "hat_hard" );
+static const itype_id itype_jackhammer( "jackhammer" );
+static const itype_id itype_mask_dust( "mask_dust" );
+
 static const mtype_id mon_ant_larva( "mon_ant_larva" );
 static const mtype_id mon_ant_queen( "mon_ant_queen" );
 static const mtype_id mon_bee( "mon_bee" );
@@ -1981,13 +1985,13 @@ void mapgen_cavern( mapgendata &dat )
             p2.y = rng( 0, SEEY * 2 - 1 );
         } while( m->impassable( p2 ) );
         if( !one_in( 3 ) ) {
-            m->spawn_item( p2, "jackhammer" );
+            m->spawn_item( p2, itype_jackhammer );
         }
         if( one_in( 3 ) ) {
-            m->spawn_item( p2, "mask_dust" );
+            m->spawn_item( p2, itype_mask_dust );
         }
         if( one_in( 2 ) ) {
-            m->spawn_item( p2, "hat_hard" );
+            m->spawn_item( p2, itype_hat_hard );
         }
         while( !one_in( 3 ) ) {
             for( int i = 0; i < 3; ++i ) {

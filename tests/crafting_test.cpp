@@ -64,7 +64,7 @@ TEST_CASE( "recipe_subset" )
                 CHECK( std::find( cat_recipes.begin(), cat_recipes.end(), r ) != cat_recipes.end() );
             }
             THEN( "it uses water" ) {
-                const auto comp_recipes( subset.of_component( "water" ) );
+                const auto comp_recipes( subset.of_component( itype_id( "water" ) ) );
 
                 CHECK( comp_recipes.size() == 1 );
                 CHECK( std::find( comp_recipes.begin(), comp_recipes.end(), r ) != comp_recipes.end() );
@@ -490,18 +490,20 @@ static void verify_inventory( const std::vector<std::string> &has,
     std::ostringstream os;
     os << "Inventory:\n";
     for( const item *i : g->u.inv_dump() ) {
-        os << "  " << i->typeId() << " (" << i->charges << ")\n";
+        os << "  " << i->typeId().str() << " (" << i->charges << ")\n";
     }
     os << "Wielded:\n" << g->u.weapon.tname() << "\n";
     INFO( os.str() );
     for( const std::string &i : has ) {
         INFO( "expecting " << i );
-        const bool has_item = player_has_item_of_type( i ) || g->u.weapon.type->get_id() == i;
+        const bool has_item =
+            player_has_item_of_type( i ) || g->u.weapon.type->get_id() == itype_id( i );
         REQUIRE( has_item );
     }
     for( const std::string &i : hasnt ) {
         INFO( "not expecting " << i );
-        const bool hasnt_item = !player_has_item_of_type( i ) && !( g->u.weapon.type->get_id() == i );
+        const bool hasnt_item =
+            !player_has_item_of_type( i ) && !( g->u.weapon.type->get_id() == itype_id( i ) );
         REQUIRE( hasnt_item );
     }
 }
