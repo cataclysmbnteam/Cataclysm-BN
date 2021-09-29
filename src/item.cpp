@@ -6358,7 +6358,7 @@ bool item::is_bucket() const
     return type->container &&
            type->container->watertight &&
            !type->container->seals &&
-           type->container->unseals_into;
+           !type->container->unseals_into;
 }
 
 bool item::is_bucket_nonempty() const
