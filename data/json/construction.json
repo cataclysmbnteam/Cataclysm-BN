@@ -4295,7 +4295,6 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "20 m",
     "components": [ [ [ "f_autodoc", 1 ] ] ],
-    "pre_note": "aeaeaaae",
     "pre_special": "check_empty",
     "post_terrain": "f_autodoc"
   },
@@ -4307,7 +4306,6 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "10 m",
     "components": [ [ [ "f_autodoc_couch", 1 ] ] ],
-    "pre_note": "aeasfaw",
     "pre_special": "check_empty",
     "post_terrain": "f_autodoc_couch"
   }
