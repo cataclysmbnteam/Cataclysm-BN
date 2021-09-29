@@ -1816,7 +1816,7 @@ class jmapgen_nested : public jmapgen_piece
                 neighbor_oter_check( const JsonObject &jsi ) {
                     for( om_direction::type dir : om_direction::all ) {
                         int index = static_cast<int>( dir );
-                        neighbors[index] = jsi.get_tags<oter_str_id>( om_direction::id( dir ) );
+                        neighbors[index] = jsi.get_tags<oter_str_id>( io::enum_to_string( dir ) );
                         has_any |= !neighbors[index].empty();
 
                         above = jsi.get_tags<oter_str_id>( "above" );
