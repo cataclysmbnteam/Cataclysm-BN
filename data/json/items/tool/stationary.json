@@ -43,6 +43,7 @@
     "symbol": ",",
     "color": "light_red",
     "qualities": [ [ "CUT", 1 ] ],
-    "flags": [ "SPEAR" ]
+    "flags": [ "SPEAR" ],
+    "weapon_category": [ "SHIVS" ]
   }
 ]

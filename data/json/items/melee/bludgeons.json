@@ -328,6 +328,7 @@
     "material": [ "wood", "aluminum" ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "NONCONDUCTIVE" ],
+    "weapon_category": [ "BATONS" ],
     "volume": "1 L",
     "bashing": 10,
     "price": 16000,
@@ -385,6 +386,7 @@
     "volume": "250 ml",
     "cutting": 6,
     "flags": [ "SHEATH_KNIFE", "CONDUCTIVE", "FRAGILE_MELEE" ],
+    "weapon_category": [ "SHIVS" ],
     "qualities": [ [ "BUTCHER", -18 ] ]
   },
   {
@@ -931,7 +933,8 @@
     "bashing": 1,
     "cutting": 3,
     "to_hit": -3,
-    "flags": [ "STAB", "SHEATH_KNIFE", "CONDUCTIVE" ]
+    "flags": [ "STAB", "SHEATH_KNIFE", "CONDUCTIVE" ],
+    "weapon_category": [ "SHIVS" ]
   },
   {
     "id": "shillelagh",
