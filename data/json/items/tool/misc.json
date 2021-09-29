@@ -743,7 +743,7 @@
   },
   {
     "id": "stepladder",
-    "type": "GENERIC",
+    "type": "TOOL",
     "category": "tools",
     "name": { "str": "stepladder" },
     "description": "This is a wooden stepladder.  Use it to set it down.",
