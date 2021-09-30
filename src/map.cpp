@@ -4580,6 +4580,9 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
         if( ter( map_location ) == t_rootcellar ) {
             flag = temperature_flag::TEMP_ROOT_CELLAR;
         }
+        if( ter( map_location ) == f_gridfridge ) {
+            flag = temperature_flag::TEMP_ROOT_FRIDGE;
+        }
         map_stack items = i_at( map_location );
         process_map_items( items, active_item_ref.item_ref, map_location, 1, flag );
     }
