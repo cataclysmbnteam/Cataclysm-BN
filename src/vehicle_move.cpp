@@ -402,20 +402,6 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
         //  and turning (precalc[1])
         const tripoint dsp = global_pos3() + dp + parts[p].precalc[1];
         veh_collision coll = part_collision( p, dsp, just_detect, bash_floor );
-        if( coll.type == veh_coll_nothing && info.rotor_diameter() > 0 ) {
-            size_t radius = static_cast<size_t>( std::round( info.rotor_diameter() / 2.0f ) );
-            for( const tripoint &rotor_point : g->m.points_in_radius( dsp, radius ) ) {
-                veh_collision rotor_coll = part_collision( p, rotor_point, just_detect, false );
-                if( rotor_coll.type != veh_coll_nothing ) {
-                    coll = rotor_coll;
-                    if( just_detect ) {
-                        break;
-                    } else {
-                        colls.push_back( rotor_coll );
-                    }
-                }
-            }
-        }
         if( coll.type == veh_coll_nothing ) {
             continue;
         }
@@ -528,10 +514,6 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     if( is_body_collision ) {
         // critters on a BOARDABLE part in this vehicle aren't colliding
         if( ovp && ( &ovp->vehicle() == this ) && get_pet( ovp->part_index() ) ) {
-            return ret;
-        }
-        // Rotors only collide with huge creatures
-        if( part_info( part ).rotor_diameter() > 0 && critter->get_size() != MS_HUGE ) {
             return ret;
         }
         // we just ran into a fish, so move it out of the way
