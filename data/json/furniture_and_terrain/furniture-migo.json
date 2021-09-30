@@ -118,10 +118,7 @@
       "str_max": 40,
       "sound": "splorch!",
       "sound_fail": "whump.",
-      "items": [
-        { "item": "fetid_goop", "count": [ 5, 10 ], "prob": 100 },
-        { "group": "migo_pod_storage", "prob": 50 }
-      ]
+      "items": [ { "item": "fetid_goop", "count": [ 5, 10 ], "prob": 100 }, { "group": "migo_pod_storage", "prob": 50 } ]
     }
   },
   {
