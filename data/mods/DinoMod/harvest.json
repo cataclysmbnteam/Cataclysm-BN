@@ -104,14 +104,12 @@
       {
         "drop": "bio_power_storage_mkII",
         "type": "bionic",
-        "flags": [ "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
+        "flags": [ "NO_STERILE", "NO_PACKED" ]
       },
       {
         "drop": "bionics_op",
         "type": "bionic_group",
-        "flags": [ "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
+        "flags": [ "NO_STERILE", "NO_PACKED" ]
       }
     ]
   },
@@ -135,14 +133,12 @@
       {
         "drop": "bio_power_storage_mkII",
         "type": "bionic",
-        "flags": [ "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
+        "flags": [ "NO_STERILE", "NO_PACKED" ]
       },
       {
         "drop": "bionics_op",
         "type": "bionic_group",
-        "flags": [ "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
+        "flags": [ "NO_STERILE", "NO_PACKED" ]
       }
     ]
   },
@@ -166,14 +162,12 @@
       {
         "drop": "bio_power_storage_mkII",
         "type": "bionic",
-        "flags": [ "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
+        "flags": [ "NO_STERILE", "NO_PACKED" ]
       },
       {
         "drop": "bionics_op",
         "type": "bionic_group",
-        "flags": [ "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
+        "flags": [ "NO_STERILE", "NO_PACKED" ]
       }
     ]
   },
@@ -197,14 +191,12 @@
       {
         "drop": "bio_power_storage_mkII",
         "type": "bionic",
-        "flags": [ "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
+        "flags": [ "NO_STERILE", "NO_PACKED" ]
       },
       {
         "drop": "bionics_op",
         "type": "bionic_group",
-        "flags": [ "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
+        "flags": [ "NO_STERILE", "NO_PACKED" ]
       },
       { "drop": "feather", "type": "skin", "mass_ratio": 0.0001 }
     ]
@@ -253,14 +245,12 @@
       {
         "drop": "bio_power_storage_mkII",
         "type": "bionic",
-        "flags": [ "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
+        "flags": [ "NO_STERILE", "NO_PACKED" ]
       },
       {
         "drop": "bionics_op",
         "type": "bionic_group",
-        "flags": [ "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
+        "flags": [ "NO_STERILE", "NO_PACKED" ]
       }
     ]
   },
@@ -279,14 +269,12 @@
       {
         "drop": "bio_power_storage_mkII",
         "type": "bionic",
-        "flags": [ "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
+        "flags": [ "NO_STERILE", "NO_PACKED" ]
       },
       {
         "drop": "bionics_op",
         "type": "bionic_group",
-        "flags": [ "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
+        "flags": [ "NO_STERILE", "NO_PACKED" ]
       },
       { "drop": "feather", "type": "skin", "mass_ratio": 0.0001 }
     ]

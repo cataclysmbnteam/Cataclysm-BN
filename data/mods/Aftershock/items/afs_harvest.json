@@ -18,14 +18,12 @@
       {
         "drop": "bio_power_storage",
         "type": "bionic",
-        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
+        "flags": [ "NO_STERILE", "NO_PACKED" ]
       },
       {
         "drop": "bionics_common",
         "type": "bionic_group",
-        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
+        "flags": [ "NO_STERILE", "NO_PACKED" ]
       },
       { "drop": "afs_titanium_implant", "type": "bionic", "flags": [ "FILTHY", "NO_STERILE" ], "max": 1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
