@@ -643,6 +643,44 @@
   },
   {
     "type": "furniture",
+    "id": "f_solar_unit_v2",
+    "name": "mounted upgraded solar panel",
+    "description": "A mounted upgraded solar panel connected to building's electric grid.",
+    "symbol": "#",
+    "looks_like": "f_solar_unit",
+    "color": "yellow",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "active": [ "solar", { "power": 100 } ],
+    "flags": [ "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": 6 },
+        { "item": "plastic_chunk", "count": 2 },
+        { "item": "steel_chunk", "count": 3 },
+        { "item": "pipe", "count": 4 },
+        { "item": "solar_panel_v2", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 10,
+      "str_max": 20,
+      "sound": "whack!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "solar_cell", "count": [ 1, 8 ] },
+        { "item": "scrap", "count": [ 3, 6 ] },
+        { "item": "amplifier", "prob": 50 },
+        { "item": "cable", "charges": [ 10, 15 ] },
+        { "item": "power_supply", "prob": 50 },
+        { "item": "scrap", "count": [ 4, 6 ] },
+        { "item": "plastic_chunk", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": 3 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_battery",
     "looks_like": "f_locker",
     "name": "mounted battery",
