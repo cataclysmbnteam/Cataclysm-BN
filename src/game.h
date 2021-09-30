@@ -29,7 +29,6 @@
 #include "pimpl.h"
 #include "point.h"
 #include "type_id.h"
-#include "weather.h"
 
 class Character;
 class Creature_tracker;
@@ -116,6 +115,8 @@ class ui_adaptor;
 struct visibility_variables;
 
 class distribution_grid_tracker;
+struct weather_printable;
+class weather_manager;
 
 using item_filter = std::function<bool ( const item & )>;
 
@@ -147,6 +148,8 @@ class game
         friend class advanced_inventory;
         friend class main_menu;
         friend distribution_grid_tracker &get_distribution_grid_tracker();
+        friend weather_manager &get_weather();
+
     public:
         game();
         ~game();
@@ -972,6 +975,7 @@ class game
         pimpl<memorial_logger> memorial_logger_ptr;
         pimpl<spell_events> spell_events_ptr;
         pimpl<distribution_grid_tracker> grid_tracker_ptr;
+        pimpl<weather_manager> weather_manager_ptr;
 
     public:
         /** Make map a reference here, to avoid map.h in game.h */
@@ -1033,8 +1037,6 @@ class game
         bool auto_travel_mode = false;
         safe_mode_type safe_mode;
         int turnssincelastmon = 0; // needed for auto run mode
-
-        weather_manager weather;
 
         int mostseen = 0; // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
     private:

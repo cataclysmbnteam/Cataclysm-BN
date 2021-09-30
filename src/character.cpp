@@ -4778,7 +4778,7 @@ needs_rates Character::calc_needs_rates() const
 
     if( has_trait( trait_TRANSPIRATION ) ) {
         // Transpiration, the act of moving nutrients with evaporating water, can take a very heavy toll on your thirst when it's really hot.
-        rates.thirst *= ( ( g->weather.get_temperature( pos() ) - 32.5f ) / 40.0f );
+        rates.thirst *= ( ( get_weather().get_temperature( pos() ) - 32.5f ) / 40.0f );
     }
 
     if( is_npc() ) {
@@ -5008,7 +5008,7 @@ Hurricane : 100 mph (920 hPa)
 HURRICANE : 185 mph (880 hPa) [Ref: Hurricane Wilma]
 */
 
-void Character::update_bodytemp( const map &m, weather_manager &weather )
+void Character::update_bodytemp( const map &m, const weather_manager &weather )
 {
     if( has_trait( trait_DEBUG_NOTEMP ) ) {
         temp_cur.fill( BODYTEMP_NORM );
@@ -9922,7 +9922,7 @@ bool Character::can_hear( const tripoint &source, const int volume ) const
     }
     const int dist = rl_dist( source, pos() );
     const float volume_multiplier = hearing_ability();
-    return ( volume - weather::sound_attn( g->weather.weather ) ) * volume_multiplier >= dist;
+    return ( volume - weather::sound_attn( get_weather().weather ) ) * volume_multiplier >= dist;
 }
 
 float Character::hearing_ability() const

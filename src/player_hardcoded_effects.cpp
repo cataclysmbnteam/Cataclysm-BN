@@ -1026,11 +1026,14 @@ void player::hardcoded_effects( effect &it )
             it.set_duration( 1_turns * dice( 3, 100 ) );
         }
 
-        bool compatible_weather_types = g->weather.weather == WEATHER_CLEAR ||
-                                        g->weather.weather == WEATHER_SUNNY
-                                        || g->weather.weather == WEATHER_DRIZZLE || g->weather.weather == WEATHER_RAINY ||
-                                        g->weather.weather == WEATHER_FLURRIES
-                                        || g->weather.weather == WEATHER_CLOUDY || g->weather.weather == WEATHER_SNOW;
+        weather_type wt = get_weather().weather;
+        bool compatible_weather_types = wt == WEATHER_CLEAR ||
+                                        wt == WEATHER_SUNNY ||
+                                        wt == WEATHER_DRIZZLE ||
+                                        wt == WEATHER_RAINY ||
+                                        wt == WEATHER_FLURRIES ||
+                                        wt == WEATHER_CLOUDY ||
+                                        wt == WEATHER_SNOW;
 
         if( calendar::once_every( 10_minutes ) && ( has_trait( trait_CHLOROMORPH ) ||
                 has_trait( trait_M_SKIN3 ) || has_trait( trait_WATERSLEEP ) ) &&

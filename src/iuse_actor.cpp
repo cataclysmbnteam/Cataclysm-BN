@@ -280,7 +280,7 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
     if( p.is_worn( *obj ) ) {
         p.reset_encumbrance();
         // This is most likely wrong: it doubles temperature shift for the turn!
-        p.update_bodytemp( get_map(), g->weather );
+        p.update_bodytemp( get_map(), get_weather() );
         p.on_worn_item_transform( obj_copy, *obj );
     }
     obj->item_counter = countdown > 0 ? countdown : obj->type->countdown_interval;
@@ -1383,7 +1383,8 @@ float firestarter_actor::light_mod( const tripoint &pos ) const
     }
 
     const float light_level = g->natural_light_level( pos.z );
-    if( ( g->weather.weather == WEATHER_CLEAR || g->weather.weather == WEATHER_SUNNY ) &&
+    weather_type wt = get_weather().weather;
+    if( ( wt == WEATHER_CLEAR || wt == WEATHER_SUNNY ) &&
         light_level >= 60.0f && !g->m.has_flag( TFLAG_INDOORS, pos ) ) {
         return std::pow( light_level / 80.0f, 8 );
     }

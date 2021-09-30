@@ -118,7 +118,7 @@ static int converge_temperature( player &p, size_t iters, int start_temperature 
         while( last_n_history.size() > n_history ) {
             last_n_history.pop_back();
         }
-        p.update_bodytemp( get_map(), g->weather );
+        p.update_bodytemp( get_map(), get_weather() );
     }
 
     CAPTURE( iters );
@@ -226,14 +226,15 @@ static void guarantee_neutral_weather( const player &p )
     REQUIRE( !get_map().has_flag( TFLAG_DEEP_WATER, p.pos() ) );
     REQUIRE( !g->is_in_sunlight( p.pos() ) );
 
-    const w_point weather = *g->weather.weather_precise;
+    const weather_manager &weather = get_weather();
+    const w_point wp = *weather.weather_precise;
     const oter_id &cur_om_ter = overmap_buffer.ter( p.global_omt_location() );
     bool sheltered = g->is_sheltered( p.pos() );
-    double total_windpower = get_local_windpower( g->weather.windspeed, cur_om_ter,
+    double total_windpower = get_local_windpower( weather.windspeed, cur_om_ter,
                              p.pos(),
-                             g->weather.winddirection, sheltered );
-    int air_humidity = get_local_humidity( weather.humidity, g->weather.weather,
-                                           sheltered );
+                             weather.winddirection, sheltered );
+    int air_humidity = get_local_humidity( wp.humidity, weather.weather, sheltered );
+
     REQUIRE( air_humidity == 0 );
     REQUIRE( total_windpower == 0.0 );
     REQUIRE( !const_cast<player &>( p ).in_climate_control() );
@@ -443,7 +444,7 @@ static void hypothermia_check( player &p, int water_temperature, time_duration e
 
     int actual_time;
     for( actual_time = 0; actual_time < upper_bound * 2; actual_time++ ) {
-        p.update_bodytemp( get_map(), g->weather );
+        p.update_bodytemp( get_map(), get_weather() );
         if( p.temp_cur[0] <= expected_temperature ) {
             break;
         }

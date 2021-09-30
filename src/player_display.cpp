@@ -805,7 +805,7 @@ static void draw_speed_tab( const catacurses::window &w_speed,
     if( temperature_speed_modifier != 0 ) {
         nc_color pen_color;
         std::string pen_sign;
-        const auto player_local_temp = g->weather.get_temperature( you.pos() );
+        const auto player_local_temp = get_weather().get_temperature( you.pos() );
         if( you.has_trait( trait_id( "COLDBLOOD4" ) ) && player_local_temp > 65 ) {
             pen_color = c_green;
             pen_sign = "+";
@@ -1116,10 +1116,8 @@ void player::disp_info()
         effect_name_and_text.push_back( { starvation_name, starvation_text } );
     }
 
-    if( ( has_trait( trait_id( "TROGLO" ) ) && g->is_in_sunlight( pos() ) &&
-          g->weather.weather == WEATHER_SUNNY ) ||
-        ( has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( pos() ) &&
-          g->weather.weather != WEATHER_SUNNY ) ) {
+    if( ( has_trait( trait_id( "TROGLO" ) ) || has_trait( trait_id( "TROGLO2" ) ) ) &&
+        g->is_in_sunlight( pos() ) && get_weather().weather == WEATHER_SUNNY ) {
         effect_name_and_text.push_back( { _( "In Sunlight" ),
                                           _( "The sunlight irritates you.\n"
                                              "Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" )

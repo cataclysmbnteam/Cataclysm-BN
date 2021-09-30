@@ -572,10 +572,10 @@ void game::setup()
     calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
     calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
 
-    weather.weather = WEATHER_CLEAR; // Start with some nice weather...
+    get_weather().weather = WEATHER_CLEAR; // Start with some nice weather...
     // Weather shift in 30
-    weather.nextweather = calendar::start_of_cataclysm + time_duration::from_hours(
-                              get_option<int>( "INITIAL_TIME" ) ) + 30_minutes;
+    get_weather().nextweather = calendar::start_of_cataclysm + time_duration::from_hours(
+                                    get_option<int>( "INITIAL_TIME" ) ) + 30_minutes;
 
     turnssincelastmon = 0; //Auto safe mode init
 
@@ -631,7 +631,7 @@ bool game::start_game()
     seed = rng_bits();
     new_game = true;
     start_calendar();
-    weather.nextweather = calendar::turn;
+    get_weather().nextweather = calendar::turn;
     safe_mode = ( get_option<bool>( "SAFEMODE" ) ? SAFE_MODE_ON : SAFE_MODE_OFF );
     mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
     get_safemode().load_global();
@@ -688,8 +688,8 @@ bool game::start_game()
     u.moves = 0;
     u.process_turn(); // process_turn adds the initial move points
     u.set_stamina( u.get_stamina_max() );
-    weather.temperature = SPRING_TEMPERATURE;
-    weather.update_weather();
+    get_weather().temperature = SPRING_TEMPERATURE;
+    get_weather().update_weather();
     u.next_climate_control_check = calendar::before_time_starts; // Force recheck at startup
     u.last_climate_control_ret = false;
 
@@ -1410,6 +1410,7 @@ bool game::do_turn()
     }
 
     // starting a new turn, clear out temperature cache
+    weather_manager &weather = get_weather();
     weather.clear_temp_cache();
 
     if( npcs_dirty ) {
@@ -2801,7 +2802,7 @@ bool game::load( const save_t &name )
 
     u.load_map_memory();
 
-    weather.nextweather = calendar::turn;
+    get_weather().nextweather = calendar::turn;
 
     read_from_file_optional( worldpath + name.base_path() + SAVE_EXTENSION_LOG,
                              std::bind( &memorial_logger::load, &memorial(), _1 ) );
@@ -3805,6 +3806,7 @@ float game::natural_light_level( const int zlev ) const
     float ret = LIGHT_AMBIENT_MINIMAL;
 
     // Sunlight/moonlight related stuff
+    const weather_manager &weather = get_weather();
     if( !weather.lightning_active ) {
         ret = sunlight( calendar::turn );
     } else {
@@ -5073,8 +5075,9 @@ bool game::is_empty( const tripoint &p )
 
 bool game::is_in_sunlight( const tripoint &p )
 {
+    weather_type wt = get_weather().weather;
     return ( m.is_outside( p ) && light_level( p.z ) >= 40 &&
-             ( weather.weather == WEATHER_CLEAR || weather.weather == WEATHER_SUNNY ) );
+             ( wt == WEATHER_CLEAR || wt == WEATHER_SUNNY ) );
 }
 
 bool game::is_sheltered( const tripoint &p )
@@ -9772,7 +9775,7 @@ void game::place_player_overmap( const tripoint &om_dest )
     m.spawn_monsters( true ); // Static monsters
     update_overmap_seen();
     // update weather now as it could be different on the new location
-    weather.nextweather = calendar::turn;
+    get_weather().nextweather = calendar::turn;
     place_player( player_pos );
 }
 

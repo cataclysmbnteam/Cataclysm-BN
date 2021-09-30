@@ -42,6 +42,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "ui_manager.h"
+#include "weather.h"
 
 class overmap_connection;
 
@@ -1226,7 +1227,7 @@ void game::unserialize_master( std::istream &fin )
                 jsin.read( seed );
             } else if( name == "weather" ) {
                 JsonObject w = jsin.get_object();
-                w.read( "lightning", weather.lightning_active );
+                w.read( "lightning", get_weather().lightning_active );
             } else {
                 // silently ignore anything else
                 jsin.skip_value();
@@ -1264,7 +1265,7 @@ void game::serialize_master( std::ostream &fout )
 
         json.member( "weather" );
         json.start_object();
-        json.member( "lightning", weather.lightning_active );
+        json.member( "lightning", get_weather().lightning_active );
         json.end_object();
 
         json.end_object();

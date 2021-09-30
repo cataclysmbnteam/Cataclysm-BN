@@ -8558,7 +8558,7 @@ bool item::process_rot( float /*insulation*/, const bool seals,
     // note we're also gated by item::processing_speed
     time_duration smallest_interval = 10_minutes;
 
-    int temp = g->weather.get_temperature( pos );
+    int temp = get_weather().get_temperature( pos );
 
     switch( flag ) {
         case TEMP_NORMAL:
@@ -8592,7 +8592,7 @@ bool item::process_rot( float /*insulation*/, const bool seals,
     if( now - time > 1_hours ) {
         // This code is for items that were left out of reality bubble for long time
 
-        const weather_generator &wgen = g->weather.get_cur_weather_gen();
+        const weather_generator &wgen = get_weather().get_cur_weather_gen();
         const unsigned int seed = g->get_seed();
         int local_mod = g->new_game ? 0 : g->m.get_temperature( pos );
 
@@ -8865,9 +8865,10 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
     bool precipitation = false;
     bool windtoostrong = false;
     bool in_veh = carrier != nullptr && carrier->in_vehicle;
-    w_point weatherPoint = *g->weather.weather_precise;
-    int windpower = g->weather.windspeed;
-    switch( g->weather.weather ) {
+    const weather_manager &weather = get_weather();
+    w_point weatherPoint = *weather.weather_precise;
+    int windpower = weather.windspeed;
+    switch( weather.weather ) {
         case WEATHER_LIGHT_DRIZZLE:
             precipitation = one_in( 100 );
             break;

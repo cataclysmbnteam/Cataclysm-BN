@@ -581,7 +581,7 @@ bool Character::activate_bionic( int b, bool eff_only )
     };
 
     item tmp_item;
-    const w_point weatherPoint = *g->weather.weather_precise;
+    const w_point weatherPoint = *get_weather().weather_precise;
 
     // On activation effects go here
     if( bio.info().has_flag( flag_BIONIC_GUN ) ) {
@@ -633,8 +633,8 @@ bool Character::activate_bionic( int b, bool eff_only )
         }
     } else if( bio.id == bio_evap ) {
         add_msg_activate();
-        const w_point weatherPoint = *g->weather.weather_precise;
-        int humidity = get_local_humidity( weatherPoint.humidity, g->weather.weather,
+        const w_point weatherPoint = *get_weather().weather_precise;
+        int humidity = get_local_humidity( weatherPoint.humidity, get_weather().weather,
                                            g->is_sheltered( g->u.pos() ) );
         // thirst units = 5 mL
         int water_available = std::lround( humidity * 3.0 / 100.0 );
@@ -996,6 +996,7 @@ bool Character::activate_bionic( int b, bool eff_only )
         add_msg_if_player( m_neutral, _( "You unleash a powerful shockwave!" ) );
         mod_moves( -100 );
     } else if( bio.id == bio_meteorologist ) {
+        const weather_manager &weather = get_weather();
         add_msg_activate();
         // Calculate local wind power
         int vehwindspeed = 0;
@@ -1005,14 +1006,14 @@ bool Character::activate_bionic( int b, bool eff_only )
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
         /* cache g->get_temperature( player location ) since it is used twice. No reason to recalc */
-        const auto player_local_temp = g->weather.get_temperature( g->u.pos() );
+        const auto player_local_temp = weather.get_temperature( g->u.pos() );
         /* windpower defined in internal velocity units (=.01 mph) */
-        double windpower = 100.0f * get_local_windpower( g->weather.windspeed + vehwindspeed,
-                           cur_om_ter, pos(), g->weather.winddirection, g->is_sheltered( pos() ) );
+        double windpower = 100.0f * get_local_windpower( weather.windspeed + vehwindspeed,
+                           cur_om_ter, pos(), weather.winddirection, g->is_sheltered( pos() ) );
         add_msg_if_player( m_info, _( "Temperature: %s." ), print_temperature( player_local_temp ) );
         add_msg_if_player( m_info, _( "Relative Humidity: %s." ),
                            print_humidity(
-                               get_local_humidity( weatherPoint.humidity, g->weather.weather,
+                               get_local_humidity( weatherPoint.humidity, weather.weather,
                                        g->is_sheltered( g->u.pos() ) ) ) );
         add_msg_if_player( m_info, _( "Pressure: %s." ),
                            print_pressure( static_cast<int>( weatherPoint.pressure ) ) );
@@ -1023,7 +1024,7 @@ bool Character::activate_bionic( int b, bool eff_only )
                            print_temperature(
                                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity,
                                        windpower / 100 ) + player_local_temp ) );
-        std::string dirstring = get_dirstring( g->weather.winddirection );
+        std::string dirstring = get_dirstring( weather.winddirection );
         add_msg_if_player( m_info, _( "Wind Direction: From the %s." ), dirstring );
     } else if( bio.id == bio_remote ) {
         add_msg_activate();
@@ -1316,8 +1317,9 @@ bool Character::burn_fuel( int b, bool start )
                                 // vehicle velocity in mph
                                 vehwindspeed = std::abs( vp->vehicle().velocity / 100 );
                             }
-                            const double windpower = get_local_windpower( g->weather.windspeed + vehwindspeed,
-                                                     overmap_buffer.ter( global_omt_location() ), pos(), g->weather.winddirection,
+                            const weather_manager &wm = get_weather();
+                            const double windpower = get_local_windpower( wm.windspeed + vehwindspeed,
+                                                     overmap_buffer.ter( global_omt_location() ), pos(), wm.winddirection,
                                                      g->is_sheltered( pos() ) );
                             mod_power_level( units::from_kilojoule( fuel_energy ) * windpower * effective_efficiency );
                         }
@@ -1398,8 +1400,9 @@ void Character::passive_power_gen( int b )
                 // vehicle velocity in mph
                 vehwindspeed = std::abs( vp->vehicle().velocity / 100 );
             }
-            const double windpower = get_local_windpower( g->weather.windspeed + vehwindspeed,
-                                     overmap_buffer.ter( global_omt_location() ), pos(), g->weather.winddirection,
+            const weather_manager &weather = get_weather();
+            const double windpower = get_local_windpower( weather.windspeed + vehwindspeed,
+                                     overmap_buffer.ter( global_omt_location() ), pos(), weather.winddirection,
                                      g->is_sheltered( pos() ) );
             mod_power_level( units::from_kilojoule( fuel_energy ) * windpower * effective_passive_efficiency );
         } else {
@@ -1735,8 +1738,9 @@ void Character::process_bionic( int b )
         // Aero-Evaporator provides water at 60 watts with 2 L / kWh efficiency
         // which is 10 mL per 5 minutes.  Humidity can modify the amount gained.
         if( calendar::once_every( 5_minutes ) ) {
-            const w_point weatherPoint = *g->weather.weather_precise;
-            int humidity = get_local_humidity( weatherPoint.humidity, g->weather.weather,
+            const weather_manager &weather = get_weather();
+            const w_point weatherPoint = *weather.weather_precise;
+            int humidity = get_local_humidity( weatherPoint.humidity, weather.weather,
                                                g->is_sheltered( g->u.pos() ) );
             // in thirst units = 5 mL water
             int water_available = std::lround( humidity * 3.0 / 100.0 );

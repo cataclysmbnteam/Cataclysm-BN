@@ -60,7 +60,7 @@ static const std::string flag_SUN_GLASSES( "SUN_GLASSES" );
 
 weather_manager &get_weather()
 {
-    return g->weather;
+    return *g->weather_manager_ptr;
 }
 
 static bool is_player_outside()
@@ -147,9 +147,10 @@ inline void proc_weather_sum( const weather_type wtype, weather_sum &data,
 
 weather_type current_weather( const tripoint &location, const time_point &t )
 {
-    const auto wgen = g->weather.get_cur_weather_gen();
-    if( g->weather.weather_override != WEATHER_NULL ) {
-        return g->weather.weather_override;
+    const weather_manager &weather = get_weather();
+    const auto wgen = weather.get_cur_weather_gen();
+    if( weather.weather_override != WEATHER_NULL ) {
+        return weather.weather_override;
     }
     return wgen.get_weather_conditions( location, t, g->get_seed() );
 }
@@ -173,10 +174,11 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
 
         weather_type wtype = current_weather( location, t );
         proc_weather_sum( wtype, data, t, tick_size );
-        data.wind_amount += get_local_windpower( g->weather.windspeed,
+        const weather_manager &weather = get_weather();
+        data.wind_amount += get_local_windpower( weather.windspeed,
                             overmap_buffer.ter( ms_to_omt_copy( location ) ),
                             location,
-                            g->weather.winddirection, false ) * to_turns<int>( tick_size );
+                            weather.winddirection, false ) * to_turns<int>( tick_size );
     }
     return data;
 }
@@ -505,10 +507,10 @@ void weather_effect::lightning()
         if( g->get_levz() >= 0 ) {
             add_msg( _( "A flash of lightning illuminates your surroundings!" ) );
             sfx::play_variant_sound( "environment", "thunder_near", 100, rng( 0, 359 ) );
-            g->weather.lightning_active = true;
+            get_weather().lightning_active = true;
         }
     } else {
-        g->weather.lightning_active = false;
+        get_weather().lightning_active = false;
     }
 }
 
@@ -624,12 +626,13 @@ std::string weather_forecast( const point &abs_sm_pos )
     const auto cref = overmap_buffer.closest_city( tripoint( abs_sm_pos, 0 ) );
     const std::string city_name = cref ? cref.city->name : std::string( _( "middle of nowhere" ) );
     // Current time
+    const weather_manager &weather = get_weather();
     weather_report += string_format(
                           //~ %1$s: time of day, %2$s: hour of day, %3$s: city name, %4$s: weather name, %5$s: temperature value
                           _( "The current time is %1$s Eastern Standard Time.  At %2$s in %3$s, it was %4$s.  The temperature was %5$s. " ),
                           to_string_time_of_day( calendar::turn ), print_time_just_hour( calendar::turn ),
                           city_name,
-                          weather::name( g->weather.weather ), print_temperature( g->weather.temperature )
+                          weather::name( weather.weather ), print_temperature( weather.temperature )
                       );
 
     //weather_report += ", the dewpoint ???, and the relative humidity ???.  ";
@@ -654,7 +657,7 @@ std::string weather_forecast( const point &abs_sm_pos )
                                  1_hours;
     for( int d = 0; d < 6; d++ ) {
         weather_type forecast = WEATHER_NULL;
-        const auto wgen = g->weather.get_cur_weather_gen();
+        const auto wgen = weather.get_cur_weather_gen();
         for( time_point i = last_hour + d * 12_hours; i < last_hour + ( d + 1 ) * 12_hours; i += 1_hours ) {
             w_point w = wgen.get_weather( abs_ms_pos, i, g->get_seed() );
             forecast = std::max( forecast, wgen.get_weather_conditions( w ) );
@@ -975,7 +978,7 @@ rl_vec2d convert_wind_to_coord( const int angle )
 bool warm_enough_to_plant( const tripoint &pos )
 {
     // semi-appropriate temperature for most plants
-    return g->weather.get_temperature( pos ) >= 50;
+    return get_weather().get_temperature( pos ) >= 50;
 }
 
 weather_manager::weather_manager()
@@ -1050,7 +1053,7 @@ void weather_manager::set_nextweather( time_point t )
     update_weather();
 }
 
-int weather_manager::get_temperature( const tripoint &location )
+int weather_manager::get_temperature( const tripoint &location ) const
 {
     const auto &cached = temperature_cache.find( location );
     if( cached != temperature_cache.end() ) {
@@ -1072,7 +1075,7 @@ int weather_manager::get_temperature( const tripoint &location )
     return temp;
 }
 
-int weather_manager::get_water_temperature( const tripoint & )
+int weather_manager::get_water_temperature( const tripoint & ) const
 {
     return water_temperature;
 }
