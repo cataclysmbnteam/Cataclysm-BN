@@ -383,69 +383,34 @@ const recipe *select_crafting_recipe( int &batch_size )
 
         cata::optional<point> cursor_pos;
         int recmin = 0, recmax = current.size();
-        if( recmax > dataLines ) {
-            if( line <= recmin + dataHalfLines ) {
-                for( int i = recmin; i < recmin + dataLines; ++i ) {
-                    std::string tmp_name = current[i]->result_name();
-                    if( batch ) {
-                        tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name );
-                    }
-                    mvwprintz( w_data, point( 2, i - recmin ), c_dark_gray, "" ); // Clear the line
-                    const bool highlight = i == line;
-                    const nc_color col = highlight ? available[i].selected_color() : available[i].color();
-                    const point print_from( 2, i - recmin );
-                    if( highlight ) {
-                        cursor_pos = print_from;
-                    }
-                    mvwprintz( w_data, print_from, col, trim_by_length( tmp_name, 27 ) );
-                }
-            } else if( line >= recmax - dataHalfLines ) {
-                for( int i = recmax - dataLines; i < recmax; ++i ) {
-                    std::string tmp_name = current[i]->result_name();
-                    if( batch ) {
-                        tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name );
-                    }
-                    mvwprintz( w_data, point( 2, dataLines + i - recmax ), c_light_gray, "" ); // Clear the line
-                    const bool highlight = i == line;
-                    const nc_color col = highlight ? available[i].selected_color() : available[i].color();
-                    const point print_from( 2, dataLines + i - recmax );
-                    if( highlight ) {
-                        cursor_pos = print_from;
-                    }
-                    mvwprintz( w_data, print_from, col,
-                               trim_by_length( tmp_name, 27 ) );
-                }
-            } else {
-                for( int i = line - dataHalfLines; i < line - dataHalfLines + dataLines; ++i ) {
-                    std::string tmp_name = current[i]->result_name();
-                    if( batch ) {
-                        tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name );
-                    }
-                    mvwprintz( w_data, point( 2, dataHalfLines + i - line ), c_light_gray, "" ); // Clear the line
-                    const bool highlight = i == line;
-                    const nc_color col = highlight ? available[i].selected_color() : available[i].color();
-                    const point print_from( 2, dataHalfLines + i - line );
-                    if( highlight ) {
-                        cursor_pos = print_from;
-                    }
-                    mvwprintz( w_data, print_from, col,
-                               trim_by_length( tmp_name, 27 ) );
-                }
+
+        // Draw recipes with scroll list
+        // get subset to draw
+        int recipe_scroll_window_min = line - dataHalfLines;
+        int recipe_scroll_window_max = recipe_scroll_window_min + std::min( recmax, dataLines );
+
+        // move view window to stay within list
+        if( recipe_scroll_window_min < recmin ) {
+            recipe_scroll_window_max -= recipe_scroll_window_min;
+            recipe_scroll_window_min = recmin;
+        } else if( recipe_scroll_window_max > recmax ) {
+            recipe_scroll_window_min -= recipe_scroll_window_max - recmax;
+            recipe_scroll_window_max = recmax;
+        }
+
+        for( int i = recipe_scroll_window_min; i < recipe_scroll_window_max; ++i ) {
+            std::string tmp_name = current[i]->result_name();
+            if( batch ) {
+                tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name );
             }
-        } else {
-            for( int i = 0; i < static_cast<int>( current.size() ) && i < dataHeight + 1; ++i ) {
-                std::string tmp_name = current[i]->result_name();
-                if( batch ) {
-                    tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name );
-                }
-                const bool highlight = i == line;
-                const nc_color col = highlight ? available[i].selected_color() : available[i].color();
-                const point print_from( 2, i );
-                if( highlight ) {
-                    cursor_pos = print_from;
-                }
-                mvwprintz( w_data, print_from, col, trim_by_length( tmp_name, 27 ) );
+            const point print_from( 2, i - recipe_scroll_window_min );
+            mvwprintz( w_data, print_from, c_dark_gray, "" ); // Clear the line
+            const bool highlight = i == line;
+            const nc_color col = highlight ? available[i].selected_color() : available[i].color();
+            if( highlight ) {
+                cursor_pos = print_from;
             }
+            mvwprintz( w_data, print_from, col, trim_by_length( tmp_name, 27 ) );
         }
 
         const int count = batch ? line + 1 : 1; // batch size
