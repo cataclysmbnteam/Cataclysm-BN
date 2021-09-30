@@ -4161,6 +4161,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_gridwelderrig",
+    "description": "Place Welding Rig",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 m",
+    "components": [ [ [ "weldrig", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_welderrig"
+  },
+  {
+    "type": "construction",
     "id": "constr_gridforge",
     "description": "Place Electric Forge",
     "category": "OTHER",
