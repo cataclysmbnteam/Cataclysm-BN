@@ -386,17 +386,9 @@ const recipe *select_crafting_recipe( int &batch_size )
 
         // Draw recipes with scroll list
         // get subset to draw
-        int recipe_scroll_window_min = line - dataHalfLines;
-        int recipe_scroll_window_max = recipe_scroll_window_min + std::min( recmax, dataLines );
-
-        // move view window to stay within list
-        if( recipe_scroll_window_min < recmin ) {
-            recipe_scroll_window_max -= recipe_scroll_window_min;
-            recipe_scroll_window_min = recmin;
-        } else if( recipe_scroll_window_max > recmax ) {
-            recipe_scroll_window_min -= recipe_scroll_window_max - recmax;
-            recipe_scroll_window_max = recmax;
-        }
+        int recipe_scroll_window_min = recmin;
+        calcStartPos( recipe_scroll_window_min, line, dataLines, recmax );
+        int recipe_scroll_window_max = std::min( recmax, recipe_scroll_window_min + dataLines );
 
         for( int i = recipe_scroll_window_min; i < recipe_scroll_window_max; ++i ) {
             std::string tmp_name = current[i]->result_name();
