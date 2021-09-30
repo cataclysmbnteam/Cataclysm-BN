@@ -404,7 +404,6 @@ const recipe *select_crafting_recipe( int &batch_size )
                 tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name );
             }
             const point print_from( 2, i - recipe_scroll_window_min );
-            mvwprintz( w_data, print_from, c_dark_gray, "" ); // Clear the line
             const bool highlight = i == line;
             const nc_color col = highlight ? available[i].selected_color() : available[i].color();
             if( highlight ) {
