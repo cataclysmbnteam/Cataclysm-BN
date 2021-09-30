@@ -944,7 +944,7 @@
   },
   {
     "type": "furniture",
-    "id": "f_solderingiron",
+    "id": "f_gridsolderingiron",
     "looks_like": "soldering_iron",
     "name": "grid soldering iron",
     "symbol": "=",
@@ -953,7 +953,7 @@
     "move_cost_mod": 1,
     "coverage": 10,
     "required_str": -1,
-    "crafting_pseudo_item": "fake_solderingiron",
+    "crafting_pseudo_item": "fake_gridsolderingiron",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [ { "item": "soldering_iron", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
