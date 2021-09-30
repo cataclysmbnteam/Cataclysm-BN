@@ -956,11 +956,7 @@
     "crafting_pseudo_item": "fake_solderingiron",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
     "deconstruct": {
-      "items": [
-        { "item": "soldering_iron", "count": 1 },
-        { "item": "cable", "charges": 5 },
-        { "item": "power_supply", "count": 1 }
-      ]
+      "items": [ { "item": "soldering_iron", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
     },
     "bash": {
       "str_min": 2,
