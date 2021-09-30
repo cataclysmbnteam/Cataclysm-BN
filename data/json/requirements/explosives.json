@@ -54,7 +54,8 @@
         [ "gunpowder_magnum_pistol", 8 ],
         [ "gunpowder_artillery", 9 ],
         [ "gunpowder_rifle", 7 ],
-        [ "chem_hmtd", 14 ]
+        [ "chem_hmtd", 14 ],
+        [ "chem_acetone", 1 ]
       ]
     ]
   },
