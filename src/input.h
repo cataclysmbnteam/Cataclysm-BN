@@ -404,6 +404,8 @@ class input_context
         }
 
 #if defined(__ANDROID__)
+        input_context( const input_context &other ) = deleted;
+
         virtual ~input_context() {
             input_context_stack.remove( this );
         }
