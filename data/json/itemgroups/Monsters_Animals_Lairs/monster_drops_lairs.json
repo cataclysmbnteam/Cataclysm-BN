@@ -17,8 +17,7 @@
       { "group": "tools_robotics", "prob": 15 },
       { "group": "bionics", "prob": 15 },
       { "group": "mil_hw", "prob": 5 },
-      { "group": "guns_survival", "prob": 5 },
-      { "group": "energy_weapon_armory", "prob": 5 }
+      { "group": "guns_survival", "prob": 5 }
     ]
   },
   {
@@ -40,11 +39,10 @@
     "type": "item_group",
     "id": "migo_table_study",
     "subtype": "distribution",
-    "//": "Additional items potentially being studied by the mi-go.",
+    "//": "Additional items potentially being studied by the mi-go, effectively the finale content.",
     "entries": [
-      { "group": "robots", "prob": 20 },
+      { "group": "energy_weapon_armory", "prob": 20 },
       { "group": "ammo_common", "prob": 20, "charges": [ 10, 30 ] },
-      { "group": "electronics", "prob": 15 },
       { "group": "ammo_any_batteries", "prob": 15 },
       { "group": "bionics", "prob": 10 },
       { "group": "helicopter", "prob": 5 }
