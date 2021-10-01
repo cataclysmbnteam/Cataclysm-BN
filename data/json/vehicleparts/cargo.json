@@ -40,7 +40,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "450 s", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ], [ "fabrication", 2 ] ], "time": "350 s", "using": [ [ "welding_standard", 2 ] ] }
     },
-    "flags": [ "CARGO", "OBSTACLE" ],
+    "flags": [ "CARGO", "BOARDABLE" ],
     "damage_reduction": { "all": 6 }
   },
   {
@@ -98,7 +98,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "450 s", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ], [ "fabrication", 2 ] ], "time": "350 s", "using": [ [ "welding_standard", 2 ] ] }
     },
-    "flags": [ "CARGO", "OBSTACLE", "FOLDABLE" ],
+    "flags": [ "CARGO", "BOARDABLE", "FOLDABLE" ],
     "damage_reduction": { "all": 4 }
   },
   {
