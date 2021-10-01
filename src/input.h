@@ -404,7 +404,7 @@ class input_context
         }
 
 #if defined(__ANDROID__)
-        explicit input_context( const input_context &other ) = delete;
+        explicit input_context( const input_context &other ) = default;
 
         virtual ~input_context() {
             input_context_stack.remove( this );
