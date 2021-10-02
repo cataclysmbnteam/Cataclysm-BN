@@ -11,8 +11,6 @@ jobs:
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
       timestamp: ${{ steps.get-timestamp.outputs.time }}
-    env:
-      extra_gradle_args: "--scan"
     steps:
       - name: Get build timestamp
         id: get-timestamp
@@ -170,6 +168,8 @@ jobs:
       - name: Build CBN (android)
         if: runner.os == 'Linux' && matrix.android != 'none' && matrix.mxe == 'none'
         working-directory: ./android
+        env:
+          extra_gradle_args: "--scan"
         run: |
           echo "${{ secrets.KEYSTORE }}" > release.keystore.asc
           gpg -d --passphrase "${{ secrets.KEYSTORE_PASSWORD }}" --batch release.keystore.asc > app/release.keystore
