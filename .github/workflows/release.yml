@@ -1,10 +1,9 @@
 name: "Experimental Release"
 concurrency: release
 on:
-  workflow_dispatch:
-    inputs:
-        extra_gradle_args:
-          description: "Extra args for android build"
+  push:
+    branches:
+      - testing
 jobs:
   release:
     name: Create Release
@@ -12,7 +11,8 @@ jobs:
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
       timestamp: ${{ steps.get-timestamp.outputs.time }}
-      release_already_exists: ${{ steps.tag_check.outputs.exists }}
+    env:
+      extra_gradle_args: "--scan"
     steps:
       - name: Get build timestamp
         id: get-timestamp
@@ -177,14 +177,14 @@ jobs:
           chmod +x gradlew
           if [ ${{ matrix.android }} = arm64 ]
           then
-               ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_32=false assembleExperimentalRelease ${{ github.event.inputs.extra_gradle_args }}
+               ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_32=false assembleExperimentalRelease ${{ env.extra_gradle_args }}
                mv ./app/build/outputs/apk/experimental/release/*.apk ../cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.apk
           elif [ ${{ matrix.android }} = arm32 ]
           then
-               ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_64=false assembleExperimentalRelease ${{ github.event.inputs.extra_gradle_args }}
+               ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_64=false assembleExperimentalRelease ${{ env.extra_gradle_args }}
                mv ./app/build/outputs/apk/experimental/release/*.apk ../cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.apk
           elif [ ${{ matrix.android }} = bundle ]
           then
-               ./gradlew -Pj=$((`nproc`+0)) bundleExperimentalRelease ${{ github.event.inputs.extra_gradle_args }}
+               ./gradlew -Pj=$((`nproc`+0)) bundleExperimentalRelease ${{ env.extra_gradle_args }}
                mv ./app/build/outputs/bundle/experimentalRelease/*.aab ../cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.aab
           fi
