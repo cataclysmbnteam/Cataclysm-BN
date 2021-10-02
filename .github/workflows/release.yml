@@ -1,9 +1,10 @@
 name: "Experimental Release"
 concurrency: release
 on:
-  push:
-    branches:
-      - upload
+  workflow_dispatch:
+    inputs:
+        extra_gradle_args:
+          description: "Extra args for android build"
 jobs:
   release:
     name: Create Release
@@ -49,71 +50,11 @@ jobs:
           configuration: "changelog.json"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Create release
-        id: create_release
-        uses: actions/create-release@v1
-        if: ${{ steps.tag_check.outputs.exists == 'false' }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ steps.generate_env_vars.outputs.tag_name }}
-          release_name: ${{ steps.generate_env_vars.outputs.release_name }}
-          body: |
-            ${{ steps.build_changelog.outputs.changelog }}
-            These are the outputs for the experimental build of commit [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
-          draft: false
-          prerelease: false
   builds:
-    needs: release
-    if: ${{ needs.release.outputs.release_already_exists == 'false' }}
     strategy:
       fail-fast: false
       matrix:
         include:
-          - name: Windows Tiles x64
-            mxe: x86_64
-            mxe_apt: x86-64
-            artifact: windows-tiles-x64
-            os: ubuntu-latest
-            ext: zip
-            content: application/zip
-          - name: Windows Tiles x32
-            mxe: i686
-            mxe_apt: i686
-            artifact: windows-tiles-x32
-            os: ubuntu-latest
-            ext: zip
-            content: application/zip
-          - name: Linux Tiles x64
-            os: ubuntu-18.04
-            mxe: none
-            android: none
-            tiles: 1
-            artifact: linux-tiles-x64
-            ext: tar.gz
-            content: application/gzip
-          - name: linux-curses-x64
-            os: ubuntu-18.04
-            mxe: none
-            android: none
-            tiles: 0
-            artifact: linux-curses-x64
-            ext: tar.gz
-            content: application/gzip
-          - name: osx-curses-x64
-            os: macos-10.15
-            mxe: none
-            tiles: 0
-            artifact: osx-curses-x64
-            ext: dmg
-            content: application/x-apple-diskimage
-          - name: osx-tiles-x64
-            os: macos-10.15
-            mxe: none
-            tiles: 1
-            artifact: osx-tiles-x64
-            ext: dmg
-            content: application/x-apple-diskimage
           - name: Android x64
             os: ubuntu-latest
             mxe: none
@@ -236,24 +177,14 @@ jobs:
           chmod +x gradlew
           if [ ${{ matrix.android }} = arm64 ]
           then
-               ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_32=false assembleExperimentalRelease
+               ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_32=false assembleExperimentalRelease ${{ github.event.inputs.extra_gradle_args }}
                mv ./app/build/outputs/apk/experimental/release/*.apk ../cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.apk
           elif [ ${{ matrix.android }} = arm32 ]
           then
-               ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_64=false assembleExperimentalRelease
+               ./gradlew -Pj=$((`nproc`+0)) -Pabi_arm_64=false assembleExperimentalRelease ${{ github.event.inputs.extra_gradle_args }}
                mv ./app/build/outputs/apk/experimental/release/*.apk ../cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.apk
           elif [ ${{ matrix.android }} = bundle ]
           then
-               ./gradlew -Pj=$((`nproc`+0)) bundleExperimentalRelease
+               ./gradlew -Pj=$((`nproc`+0)) bundleExperimentalRelease ${{ github.event.inputs.extra_gradle_args }}
                mv ./app/build/outputs/bundle/experimentalRelease/*.aab ../cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.aab
           fi
-      - name: Upload release asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.release.outputs.upload_url }}
-          asset_path: cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }}
-          asset_name: cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }}
-          asset_content_type: ${{ matrix.content }}

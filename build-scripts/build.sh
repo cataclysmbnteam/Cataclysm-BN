@@ -180,7 +180,7 @@ then
     cd android
     # Specify dumb terminal to suppress gradle's constant output of time spent building, which
     # fills the log with nonsense.
-    TERM=dumb ./gradlew assembleExperimentalRelease -Pj=$num_jobs -Plocalize=false -Pabi_arm_32=false -Pabi_arm_64=true -Pdeps=/home/travis/build/cataclysmbnteam/Cataclysm-BN/android/app/deps.zip
+    TERM=dumb ./gradlew assembleExperimentalRelease -Pj=$num_jobs -Plocalize=false $ANDROID_ABI -Pdeps=/home/travis/build/cataclysmbnteam/Cataclysm-BN/android/app/deps.zip $EXTRA_GRADLE_ARGS
 else
     if [ "$OS" == "macos-10.15" ]
     then
