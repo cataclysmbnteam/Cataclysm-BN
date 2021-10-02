@@ -165,6 +165,8 @@ jobs:
           EOL
           sudo apt-get update
           sudo apt-get install gettext
+          echo "Will echo the gradle args next"
+          echo '${{ env.extra_gradle_args }}:' ${{ env.extra_gradle_args }}
       - name: Build CBN (android)
         if: runner.os == 'Linux' && matrix.android != 'none' && matrix.mxe == 'none'
         working-directory: ./android
@@ -174,6 +176,7 @@ jobs:
           echo "${{ secrets.KEYSTORE_PROPERTIES }}" > keystore.properties.asc
           gpg -d --passphrase "${{ secrets.KEYSTORE_PASSWORD }}" --batch keystore.properties.asc > keystore.properties
           export UPSTREAM_BUILD_NUMBER="$((2037 + ${{ github.run_number }}))"
+          echo "Will echo the gradle args next"
           echo '${{ env.extra_gradle_args }}:' ${{ env.extra_gradle_args }}
           chmod +x gradlew
           if [ ${{ matrix.android }} = arm64 ]
