@@ -85,12 +85,10 @@
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
-static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
 static const efftype_id effect_assisted( "assisted" );
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_bloodworms( "bloodworms" );
-static const efftype_id effect_brainworms( "brainworms" );
 static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_cocaine_high( "cocaine_high" );
 static const efftype_id effect_datura( "datura" );
@@ -103,7 +101,6 @@ static const efftype_id effect_iodine( "iodine" );
 static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_operating( "operating" );
-static const efftype_id effect_paincysts( "paincysts" );
 static const efftype_id effect_pblue( "pblue" );
 static const efftype_id effect_pkill_l( "pkill_l" );
 static const efftype_id effect_pkill1( "pkill1" );
@@ -112,7 +109,6 @@ static const efftype_id effect_pkill3( "pkill3" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stung( "stung" );
-static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_took_flumed( "took_flumed" );
 static const efftype_id effect_took_prozac( "took_prozac" );
