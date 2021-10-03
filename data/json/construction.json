@@ -4062,6 +4062,20 @@
   },
   {
     "type": "construction",
+    "id": "constr_solar_unit_2",
+    "description": "Install Upgraded Solar Panel",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 4 ], [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "tools": [ [ [ "soldering_iron", 20 ] ] ],
+    "components": [ [ [ "steel_chunk", 5 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "pipe", 4 ] ], [ [ "solar_panel_v2", 1 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_solar_unit_v2"
+  },
+  {
+    "type": "construction",
     "id": "constr_battery",
     "description": "Install Battery",
     "category": "FURN",
