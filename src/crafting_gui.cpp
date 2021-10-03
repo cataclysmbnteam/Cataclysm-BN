@@ -324,6 +324,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     }
     const auto &all_recipes = recipe_subset( {}, all_recipes_flat );
 
+    int recipe_scroll_window_min = 0;
     ui.on_redraw( [&]( const ui_adaptor & ) {
         const TAB_MODE m = ( batch ) ? BATCH : ( filterstring.empty() ) ? NORMAL : FILTERED;
         draw_recipe_tabs( w_head, tab.cur(), m );
@@ -382,11 +383,10 @@ const recipe *select_crafting_recipe( int &batch_size )
         mvwputch( w_data, point( width - 1, dataHeight - 1 ), BORDER_COLOR, LINE_XOOX ); // _|
 
         cata::optional<point> cursor_pos;
-        int recmin = 0, recmax = current.size();
+        int recmax = current.size();
 
         // Draw recipes with scroll list
         // get subset to draw
-        int recipe_scroll_window_min = recmin;
         calcStartPos( recipe_scroll_window_min, line, dataLines, recmax );
         int recipe_scroll_window_max = std::min( recmax, recipe_scroll_window_min + dataLines );
 
