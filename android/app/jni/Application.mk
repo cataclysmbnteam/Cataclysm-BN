@@ -15,3 +15,4 @@ endif
 # Min SDK level
 APP_PLATFORM=android-16
 
+ANDROID_LD=deprecated
