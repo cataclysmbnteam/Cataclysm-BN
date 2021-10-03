@@ -3,18 +3,8 @@
     "id": "CBM_DOG",
     "type": "harvest",
     "entries": [
-      {
-        "drop": "bio_power_storage_mkII",
-        "type": "bionic",
-        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
-      },
-      {
-        "drop": "bionics_op",
-        "type": "bionic_group",
-        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
-      },
+      { "drop": "bio_power_storage_mkII", "type": "bionic", "flags": [ "NO_STERILE", "NO_PACKED" ] },
+      { "drop": "bionics_op", "type": "bionic_group", "flags": [ "NO_STERILE", "NO_PACKED" ] },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },

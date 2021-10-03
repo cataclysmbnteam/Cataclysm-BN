@@ -21,6 +21,7 @@
 #include "output.h"
 #include "pldata.h"
 #include "profession.h"
+#include "ranged.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -396,7 +397,7 @@ static void draw_stats_info( const catacurses::window &w_info,
                                            -std::abs( you.ranged_dex_mod() ) ) );
         print_colored_text( w_info, point( 1, 5 ), col_temp, c_light_gray,
                             string_format( _( "Throwing penalty per target's dodge: <color_white>%+d</color>" ),
-                                           you.throw_dispersion_per_dodge( false ) ) );
+                                           ranged::throw_dispersion_per_dodge( you, false ) ) );
     } else if( line == 2 ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,

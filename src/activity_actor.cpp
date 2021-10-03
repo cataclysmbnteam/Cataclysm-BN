@@ -43,6 +43,9 @@
 #include "uistate.h"
 #include "units.h"
 
+static const itype_id itype_bone_human( "bone_human" );
+static const itype_id itype_electrohack( "electrohack" );
+
 static const skill_id skill_computer( "computer" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
@@ -331,7 +334,7 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
             g->m.furn_set( location, f_coffin_o );
             who.add_msg_if_player( m_warning, _( "Something crawls out of the coffin!" ) );
         } else {
-            g->m.spawn_item( location, "bone_human", rng( 5, 15 ) );
+            g->m.spawn_item( location, itype_bone_human, rng( 5, 15 ) );
             g->m.furn_set( location, f_coffin_c );
         }
         std::vector<item *> dropped = g->m.place_items( item_group_id( "allclothes" ), 50, location,
@@ -551,13 +554,13 @@ static hack_result hack_attempt( Character &who, const bool using_bionic )
         if( using_bionic ) {
             who.mod_power_level( -25_kJ );
         } else {
-            who.use_charges( "electrohack", 25 );
+            who.use_charges( itype_electrohack, 25 );
         }
 
         if( success <= -5 ) {
             if( !using_bionic ) {
                 who.add_msg_if_player( m_bad, _( "Your electrohack is ruined!" ) );
-                who.use_amount( "electrohack", 1 );
+                who.use_amount( itype_electrohack, 1 );
             } else {
                 who.add_msg_if_player( m_bad, _( "Your power is drained!" ) );
                 who.mod_power_level( units::from_kilojoule( -rng( 25,

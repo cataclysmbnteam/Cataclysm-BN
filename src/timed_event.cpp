@@ -28,6 +28,8 @@
 #include "translations.h"
 #include "type_id.h"
 
+static const itype_id itype_petrified_eye( "petrified_eye" );
+
 static const mtype_id mon_amigara_horror( "mon_amigara_horror" );
 static const mtype_id mon_copbot( "mon_copbot" );
 static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
@@ -80,7 +82,7 @@ void timed_event::actualize()
                 }
             }
             // You could drop the flag, you know.
-            if( g->u.has_amount( "petrified_eye", 1 ) ) {
+            if( g->u.has_amount( itype_petrified_eye, 1 ) ) {
                 sounds::sound( g->u.pos(), 60, sounds::sound_t::alert, _( "a tortured scream!" ), false, "shout",
                                "scream_tortured" );
                 if( !g->u.is_deaf() ) {

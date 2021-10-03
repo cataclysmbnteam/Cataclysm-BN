@@ -777,7 +777,6 @@ bool oter_t::is_hardcoded() const
         "office_tower_b_entrance",
         "slimepit",
         "slimepit_down",
-        "spider_pit_under",
         "temple",
         "temple_finale",
         "temple_stairs",
@@ -2364,7 +2363,7 @@ void overmap::place_forest_trailheads()
 
     const auto trailhead_close_to_road = [&]( const tripoint & trailhead ) {
         bool close = false;
-        for( const tripoint &nearby_point : closest_tripoints_first(
+        for( const tripoint &nearby_point : closest_points_first(
                  trailhead,
                  settings->forest_trail.trailhead_road_distance
              ) ) {
@@ -3070,7 +3069,7 @@ void overmap::build_city_street( const overmap_connection &connection, const poi
         return;
     }
 
-    const pf::path street_path = lay_out_street( connection, p, dir, cs + 1 );
+    const pf::path<point> street_path = lay_out_street( connection, p, dir, cs + 1 );
 
     if( street_path.nodes.size() <= 1 ) {
         return; // Don't bother.
@@ -3246,14 +3245,14 @@ bool overmap::build_lab( const tripoint &p, lab &l, int s, std::vector<point> &l
         std::set<tripoint> finale_candidates;
         // This is for when we can't find any proper candidates
         std::set<tripoint> secondary_candidates;
-        for( const tripoint &c : closest_tripoints_first( p, s ) ) {
+        for( const tripoint &c : closest_points_first( p, s ) ) {
             if( ter( c ) == labt || ( !endgame_finale && ter( c ) == labt_core ) ) {
                 finale_candidates.insert( c );
             }
         }
 
         if( endgame_finale ) {
-            for( const tripoint &c : closest_tripoints_first( p, 2 * s + 1 ) ) {
+            for( const tripoint &c : closest_points_first( p, 2 * s + 1 ) ) {
                 if( is_ot_match( labt.id().str(), ter( c ), ot_match_type::contains ) ) {
                     for( const point &offset : four_adjacent_offsets ) {
                         if( inbounds( c + offset ) && ter( c + offset ) != labt_stairs ) {
@@ -3506,10 +3505,11 @@ void overmap::build_mine( const tripoint &origin, int s )
     ter_set( p, mine_finale_or_down );
 }
 
-pf::path overmap::lay_out_connection( const overmap_connection &connection, const point &source,
-                                      const point &dest, int z, const bool must_be_unexplored ) const
+pf::path<point> overmap::lay_out_connection(
+    const overmap_connection &connection, const point &source, const point &dest, int z,
+    const bool must_be_unexplored ) const
 {
-    const auto estimate = [&]( const pf::node & cur, const pf::node * prev ) {
+    const auto estimate = [&]( const pf::node<point> &cur, const pf::node<point> *prev ) {
         const auto &id( ter( tripoint( cur.pos, z ) ) );
 
         const overmap_connection::subtype *subtype = connection.pick_subtype_for( id );
@@ -3557,8 +3557,8 @@ pf::path overmap::lay_out_connection( const overmap_connection &connection, cons
     return pf::find_path_4dir( source, dest, point( OMAPX, OMAPY ), estimate );
 }
 
-pf::path overmap::lay_out_street( const overmap_connection &connection, const point &source,
-                                  om_direction::type dir, size_t len ) const
+pf::path<point> overmap::lay_out_street( const overmap_connection &connection, const point &source,
+        om_direction::type dir, size_t len ) const
 {
     const tripoint from( source, 0 );
     // See if we need to make another one "step" further.
@@ -3620,8 +3620,8 @@ pf::path overmap::lay_out_street( const overmap_connection &connection, const po
     return pf::straight_path( source, static_cast<int>( dir ), actual_len );
 }
 
-void overmap::build_connection( const overmap_connection &connection, const pf::path &path, int z,
-                                const om_direction::type &initial_dir )
+void overmap::build_connection( const overmap_connection &connection, const pf::path<point> &path,
+                                int z, const om_direction::type &initial_dir )
 {
     if( path.nodes.empty() ) {
         return;
@@ -3629,8 +3629,8 @@ void overmap::build_connection( const overmap_connection &connection, const pf::
 
     om_direction::type prev_dir = initial_dir;
 
-    const pf::node start = path.nodes.front();
-    const pf::node end = path.nodes.back();
+    const pf::node<point> start = path.nodes.front();
+    const pf::node<point> end = path.nodes.back();
 
     for( const auto &node : path.nodes ) {
         const tripoint pos( node.pos, z );

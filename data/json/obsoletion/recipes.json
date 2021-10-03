@@ -1,6 +1,11 @@
 [
   {
     "type": "recipe",
+    "result": "tÖttchen",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "spear_stone",
     "obsolete": true
   },
@@ -2605,6 +2610,21 @@
     "type": "recipe",
     "result": "neoprene",
     "id_suffix": "from_sheet",
+    "obsolete": true
+  },
+  {
+    "result": "sieve_primitive",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "sieve_steel",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "gunpowder",
+    "type": "recipe",
     "obsolete": true
   }
 ]

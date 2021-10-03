@@ -124,8 +124,19 @@ static const efftype_id effect_weed_high( "weed_high" );
 static const efftype_id effect_infected( "infected" );
 
 static const itype_id fuel_type_battery( "battery" );
+static const itype_id fuel_type_metabolism( "metabolism" );
+static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_sun_light( "sunlight" );
 static const itype_id fuel_type_wind( "wind" );
+
+static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
+static const itype_id itype_anesthetic( "anesthetic" );
+static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
+static const itype_id itype_radiocontrol( "radiocontrol" );
+static const itype_id itype_remotevehcontrol( "remotevehcontrol" );
+static const itype_id itype_UPS( "UPS" );
+static const itype_id itype_UPS_off( "UPS_off" );
+static const itype_id itype_water_clean( "water_clean" );
 
 static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
 
@@ -136,11 +147,9 @@ static const skill_id skill_mechanics( "mechanics" );
 
 static const bionic_id bio_adrenaline( "bio_adrenaline" );
 static const bionic_id bio_advreactor( "bio_advreactor" );
-static const bionic_id bio_blade_weapon( "bio_blade_weapon" );
 static const bionic_id bio_blaster( "bio_blaster" );
 static const bionic_id bio_blood_anal( "bio_blood_anal" );
 static const bionic_id bio_blood_filter( "bio_blood_filter" );
-static const bionic_id bio_claws_weapon( "bio_claws_weapon" );
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_earplugs( "bio_earplugs" );
 static const bionic_id bio_ears( "bio_ears" );
@@ -201,6 +210,9 @@ static const flag_str_id flag_BIONIC_GUN( "BIONIC_GUN" );
 static const flag_str_id flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
 static const flag_str_id flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 
+// (De-)Installation difficulty for bionics that don't have item form
+constexpr int BIONIC_NOITEM_DIFFICULTY = 12;
+
 namespace
 {
 generic_factory<bionic_data> bionic_factory( "bionic" );
@@ -224,7 +236,7 @@ bool string_id<bionic_data>::is_valid() const
 std::vector<bodypart_id> get_occupied_bodyparts( const bionic_id &bid )
 {
     std::vector<bodypart_id> parts;
-    for( const std::pair<const bodypart_str_id, size_t> &element : bid->occupied_bodyparts ) {
+    for( const std::pair<const bodypart_str_id, int> &element : bid->occupied_bodyparts ) {
         if( element.second > 0 ) {
             parts.push_back( element.first.id() );
         }
@@ -235,6 +247,12 @@ std::vector<bodypart_id> get_occupied_bodyparts( const bionic_id &bid )
 bool bionic_data::has_flag( const flag_str_id &flag ) const
 {
     return flags.count( flag ) > 0;
+}
+
+itype_id bionic_data::itype() const
+{
+    // Item id matches bionic id (as strings).
+    return itype_id( id.str() );
 }
 
 bool bionic_data::is_included( const bionic_id &id ) const
@@ -319,14 +337,14 @@ void bionic_data::finalize() const
 void bionic_data::check() const
 {
     consistency_report rep;
-    if( !item::type_is_defined( id.str() ) && !included ) {
+    if( !included && !itype().is_valid() ) {
         rep.warn( "has no defined item version" );
     }
     if( charge_time < 0 ) {
         rep.warn( "specifies charge_time < 0" );
     }
     for( const itype_id &it : fuel_opts ) {
-        if( !item::type_is_defined( it ) ) {
+        if( !it.is_valid() ) {
             rep.warn( "specifies as fuel option unknown item \"%s\"", it );
         }
     }
@@ -363,8 +381,7 @@ void bionic_data::check() const
             rep.warn( "encumbers unknown body part \"%s\"", it.first.str() );
         }
     }
-    if( !fake_item.empty() &&
-        !item::type_is_defined( fake_item ) ) {
+    if( !fake_item.is_empty() && !fake_item.is_valid() ) {
         rep.warn( "has unknown fake_item \"%s\"", fake_item );
     }
     for( const trait_id &mid : canceled_mutations ) {
@@ -406,7 +423,7 @@ void bionic_data::check() const
     if( has_flag( flag_BIONIC_GUN ) && has_flag( flag_BIONIC_WEAPON ) ) {
         rep.warn( "is specified as both gun and weapon bionic" );
     }
-    if( ( has_flag( flag_BIONIC_GUN ) || has_flag( flag_BIONIC_WEAPON ) ) && fake_item.empty() ) {
+    if( ( has_flag( flag_BIONIC_GUN ) || has_flag( flag_BIONIC_WEAPON ) ) && fake_item.is_empty() ) {
         rep.warn( "is missing fake_item" );
     }
     if( !rep.is_empty() ) {
@@ -475,7 +492,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
             return;
         }
 
-        const int ups_charges = charges_of( "UPS" );
+        const int ups_charges = charges_of( itype_UPS );
         int ammo_count = weapon.ammo_remaining();
         const int ups_drain = weapon.get_gun_ups_drain();
         if( ups_drain > 0 ) {
@@ -517,14 +534,6 @@ bool Character::activate_bionic( int b, bool eff_only )
         add_msg( m_info, _( "Your %s is shorting out and can't be activated." ),
                  bio.info().name );
         return false;
-    }
-
-    // Special compatibility code for people who updated saves with their claws out
-    if( ( weapon.typeId() == static_cast<std::string>( bio_claws_weapon ) &&
-          bio.id == bio_claws_weapon ) ||
-        ( weapon.typeId() == static_cast<std::string>( bio_blade_weapon ) &&
-          bio.id == bio_blade_weapon ) ) {
-        return deactivate_bionic( b );
     }
 
     // eff_only means only do the effect without messing with stats or displaying messages
@@ -888,7 +897,7 @@ bool Character::activate_bionic( int b, bool eff_only )
                     no_target = false;
                     if( query_yn( _( "Extract water from the %s" ),
                                   colorize( it.tname(), it.color_in_inventory() ) ) ) {
-                        item water( "water_clean", calendar::turn, avail );
+                        item water( itype_water_clean, calendar::turn, avail );
                         if( liquid_handler::consume_liquid( water ) ) {
                             add_msg_activate();
                             extracted = true;
@@ -1113,7 +1122,7 @@ bool Character::activate_bionic( int b, bool eff_only )
     reset();
 
     // Also reset crafting inventory cache if this bionic spawned a fake item
-    if( !bio.info().fake_item.empty() ) {
+    if( !bio.info().fake_item.is_empty() ) {
         invalidate_crafting_inventory();
     }
 
@@ -1167,7 +1176,8 @@ bool Character::deactivate_bionic( int b, bool eff_only )
                 add_msg_if_npc( m_info, _( "<npcname> withdraws %s %s." ), disp_name( true ),
                                 weapon.tname() );
             }
-            bio.ammo_loaded = weapon.ammo_data() != nullptr ? weapon.ammo_data()->get_id() : "null";
+            bio.ammo_loaded =
+                weapon.ammo_data() != nullptr ? weapon.ammo_data()->get_id() : itype_id::NULL_ID();
             bio.ammo_count = static_cast<unsigned int>( weapon.ammo_remaining() );
             weapon = item();
             invalidate_crafting_inventory();
@@ -1175,9 +1185,10 @@ bool Character::deactivate_bionic( int b, bool eff_only )
     } else if( bio.id == bio_cqb ) {
         martial_arts_data->selected_style_check();
     } else if( bio.id == bio_remote ) {
-        if( g->remoteveh() != nullptr && !has_active_item( "remotevehcontrol" ) ) {
+        if( g->remoteveh() != nullptr && !has_active_item( itype_remotevehcontrol ) ) {
             g->setremoteveh( nullptr );
-        } else if( !get_value( "remote_controlling" ).empty() && !has_active_item( "radiocontrol" ) ) {
+        } else if( !get_value( "remote_controlling" ).empty() &&
+                   !has_active_item( itype_radiocontrol ) ) {
             set_value( "remote_controlling", "" );
         }
     } else if( bio.id == bio_tools ) {
@@ -1192,7 +1203,7 @@ bool Character::deactivate_bionic( int b, bool eff_only )
     }
 
     // Also reset crafting inventory cache if this bionic spawned a fake item
-    if( !bio.info().fake_item.empty() ) {
+    if( !bio.info().fake_item.is_empty() ) {
         invalidate_crafting_inventory();
     }
 
@@ -1209,17 +1220,17 @@ bool Character::burn_fuel( int b, bool start )
 {
     bionic &bio = ( *my_bionics )[b];
     if( ( bio.info().fuel_opts.empty() && !bio.info().is_remote_fueled ) ||
-        bio.is_this_fuel_powered( "muscle" ) ) {
+        bio.is_this_fuel_powered( fuel_type_muscle ) ) {
         return true;
     }
-    const bool is_metabolism_powered = bio.is_this_fuel_powered( "metabolism" );
+    const bool is_metabolism_powered = bio.is_this_fuel_powered( fuel_type_metabolism );
     const bool is_cable_powered = bio.info().is_remote_fueled;
     std::vector<itype_id> fuel_available = get_fuel_available( bio.id );
     float effective_efficiency = get_effective_efficiency( b, bio.info().fuel_efficiency );
 
     if( is_cable_powered ) {
         const itype_id remote_fuel = find_remote_fuel();
-        if( !remote_fuel.empty() ) {
+        if( !remote_fuel.is_empty() ) {
             fuel_available.emplace_back( remote_fuel );
             if( remote_fuel == fuel_type_sun_light ) {
                 const item *pack = item_worn_with_flag( "SOLARPACK_ON" );
@@ -1259,9 +1270,9 @@ bool Character::burn_fuel( int b, bool start )
             } else if( is_perpetual_fuel ) {
                 current_fuel_stock = 1;
             } else if( is_cable_powered ) {
-                current_fuel_stock = std::stoi( get_value( "rem_" + fuel ) );
+                current_fuel_stock = std::stoi( get_value( "rem_" + fuel.str() ) );
             } else {
-                current_fuel_stock = std::stoi( get_value( fuel ) );
+                current_fuel_stock = std::stoi( get_value( fuel.str() ) );
             }
 
             if( !bio.has_flag( flag_SAFE_FUEL_OFF ) &&
@@ -1322,10 +1333,10 @@ bool Character::burn_fuel( int b, bool start )
                         } else if( to_consume == 1 ) {
                             current_fuel_stock = 0;
                         }
-                        set_value( "rem_" + fuel, std::to_string( current_fuel_stock ) );
+                        set_value( "rem_" + fuel.str(), std::to_string( current_fuel_stock ) );
                     } else {
                         current_fuel_stock -= 1;
-                        set_value( fuel, std::to_string( current_fuel_stock ) );
+                        set_value( fuel.str(), std::to_string( current_fuel_stock ) );
                         update_fuel_storage( fuel );
                         mod_power_level( units::from_kilojoule( fuel_energy ) * effective_efficiency );
                     }
@@ -1342,7 +1353,7 @@ bool Character::burn_fuel( int b, bool start )
                                                _( "Stored calories are below the safe threshold, <npcname>'s %s shuts down to preserve their health." ),
                                                bio.info().name );
                     } else {
-                        remove_value( fuel );
+                        remove_value( fuel.str() );
                         add_msg_player_or_npc( m_info,
                                                _( "Your %s runs out of fuel and turn off." ),
                                                _( "<npcname>'s %s runs out of fuel and turn off." ),
@@ -1363,7 +1374,7 @@ void Character::passive_power_gen( int b )
 {
     const bionic &bio = ( *my_bionics )[b];
     const float passive_fuel_efficiency = bio.info().passive_fuel_efficiency;
-    if( bio.info().fuel_opts.empty() || bio.is_this_fuel_powered( "muscle" ) ||
+    if( bio.info().fuel_opts.empty() || bio.is_this_fuel_powered( fuel_type_muscle ) ||
         passive_fuel_efficiency == 0.0 ) {
         return;
     }
@@ -1427,11 +1438,11 @@ itype_id Character::find_remote_fuel( bool look_only )
                     return itm.get_var( "cable" ) == "plugged_in";
                 };
                 if( !look_only ) {
-                    if( has_charges( "UPS_off", 1, used_ups ) ) {
-                        set_value( "rem_battery", std::to_string( charges_of( "UPS_off",
+                    if( has_charges( itype_UPS_off, 1, used_ups ) ) {
+                        set_value( "rem_battery", std::to_string( charges_of( itype_UPS_off,
                                    units::to_kilojoule( max_power_level ), used_ups ) ) );
-                    } else if( has_charges( "adv_UPS_off", 1, used_ups ) ) {
-                        set_value( "rem_battery", std::to_string( charges_of( "adv_UPS_off",
+                    } else if( has_charges( itype_adv_UPS_off, 1, used_ups ) ) {
+                        set_value( "rem_battery", std::to_string( charges_of( itype_adv_UPS_off,
                                    units::to_kilojoule( max_power_level ), used_ups ) ) );
                     } else {
                         set_value( "rem_battery", std::to_string( 0 ) );
@@ -1477,11 +1488,11 @@ int Character::consume_remote_fuel( int amount )
         static const item_filter used_ups = [&]( const item & itm ) {
             return itm.get_var( "cable" ) == "plugged_in";
         };
-        if( has_charges( "UPS_off", unconsumed_amount, used_ups ) ) {
-            use_charges( "UPS_off", unconsumed_amount, used_ups );
+        if( has_charges( itype_UPS_off, unconsumed_amount, used_ups ) ) {
+            use_charges( itype_UPS_off, unconsumed_amount, used_ups );
             unconsumed_amount -= 1;
-        } else if( has_charges( "adv_UPS_off", unconsumed_amount, used_ups ) ) {
-            use_charges( "adv_UPS_off", roll_remainder( unconsumed_amount * 0.6 ), used_ups );
+        } else if( has_charges( itype_adv_UPS_off, unconsumed_amount, used_ups ) ) {
+            use_charges( itype_adv_UPS_off, roll_remainder( unconsumed_amount * 0.6 ), used_ups );
             unconsumed_amount -= 1;
         }
     }
@@ -1588,12 +1599,13 @@ void Character::process_bionic( int b )
         std::vector<itype_id> fuel_available = get_fuel_available( bio.id );
         if( bio.id->is_remote_fueled ) {
             const itype_id rem_fuel = find_remote_fuel();
-            const std::string rem_amount = get_value( "rem_" + rem_fuel );
+            const std::string rem_amount = get_value( "rem_" + rem_fuel.str() );
             int rem_fuel_stock = 0;
             if( !rem_amount.empty() ) {
                 rem_fuel_stock = std::stoi( rem_amount );
             }
-            if( !rem_fuel.empty() && ( rem_fuel_stock > 0 || item( rem_fuel ).has_flag( flag_PERPETUAL ) ) ) {
+            if( !rem_fuel.is_empty() && ( rem_fuel_stock > 0 ||
+                                          item( rem_fuel ).has_flag( flag_PERPETUAL ) ) ) {
                 fuel_available.emplace_back( rem_fuel );
             }
         }
@@ -1932,10 +1944,10 @@ int bionic_manip_cos( float adjusted_skill, int bionic_difficulty )
 bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc,
                                       int skill_level )
 {
-    // if malfunctioning bionics doesn't have associated item it gets a difficulty of 12
-    int difficulty = 12;
-    if( item::type_is_defined( b_id.c_str() ) ) {
-        auto type = item::find_type( b_id.c_str() );
+    // If malfunctioning bionics doesn't have associated item it gets predefined difficulty
+    int difficulty = BIONIC_NOITEM_DIFFICULTY;
+    if( b_id->itype().is_valid() ) {
+        const itype *type = &*b_id->itype();
         if( type->bionic ) {
             difficulty = type->bionic->difficulty;
         }
@@ -2008,10 +2020,10 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
 bool Character::uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc,
                                   int skill_level )
 {
-    // if malfunctioning bionics doesn't have associated item it gets a difficulty of 12
-    int difficulty = 12;
-    if( item::type_is_defined( b_id.c_str() ) ) {
-        auto type = item::find_type( b_id.c_str() );
+    // If malfunctioning bionics doesn't have associated item it gets predefined difficulty
+    int difficulty = BIONIC_NOITEM_DIFFICULTY;
+    if( b_id->itype().is_valid() ) {
+        const itype *type = &*b_id->itype();
         if( type->bionic ) {
             difficulty = type->bionic->difficulty;
         }
@@ -2091,8 +2103,8 @@ void Character::perform_uninstall( bionic_id bid, int difficulty, int success,
         // remove power bank provided by bionic
         mod_max_power_level( -power_lvl );
 
-        item cbm( "burnt_out_bionic" );
-        if( item::type_is_defined( bid.c_str() ) ) {
+        item cbm( itype_burnt_out_bionic );
+        if( bid->itype().is_valid() ) {
             cbm = item( bid.c_str() );
         }
         cbm.set_flag( flag_FILTHY );
@@ -2115,18 +2127,15 @@ void Character::perform_uninstall( bionic_id bid, int difficulty, int success,
 bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
                                   float adjusted_skill )
 {
-    const std::string ammo_type( "anesthetic" );
-
-    if( installer.ammo[ammo_type] <= 0 ) {
+    if( installer.ammo[itype_anesthetic] <= 0 ) {
         if( g->u.sees( installer ) ) {
             add_msg( _( "The %s's anesthesia kit looks empty." ), installer.name() );
         }
         return false;
     }
 
-    item bionic_to_uninstall = item( target_cbm.id.str(), calendar::start_of_cataclysm );
-    const itype *itemtype = bionic_to_uninstall.type;
-    int difficulty = itemtype->bionic->difficulty;
+    const itype_id itemtype = target_cbm.info().itype();
+    int difficulty = itemtype.is_valid() ? itemtype->bionic->difficulty : BIONIC_NOITEM_DIFFICULTY;
     int chance_of_success = bionic_manip_cos( adjusted_skill, difficulty + 2 );
     int success = chance_of_success - rng( 1, 100 );
 
@@ -2145,7 +2154,7 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
                  installer.name(), patient.disp_name() );
     }
 
-    installer.ammo[ammo_type] -= 1;
+    installer.ammo[itype_anesthetic] -= 1;
 
     patient.add_effect( effect_narcosis, duration );
     patient.add_effect( effect_sleep, duration );
@@ -2171,10 +2180,8 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
         // remove power bank provided by bionic
         patient.mod_max_power_level( -target_cbm.info().capacity );
         patient.remove_bionic( target_cbm.id );
-        item cbm( "burnt_out_bionic" );
-        if( item::type_is_defined( target_cbm.id.c_str() ) ) {
-            cbm = bionic_to_uninstall;
-        }
+        const itype_id iid = itemtype.is_valid() ? itemtype : itype_burnt_out_bionic;
+        item cbm( iid, calendar::start_of_cataclysm );
         cbm.set_flag( flag_FILTHY );
         cbm.set_flag( flag_NO_STERILE );
         cbm.set_flag( flag_NO_PACKED );
@@ -2703,7 +2710,7 @@ bool bionic::has_flag( const std::string &flag ) const
 int bionic::get_quality( const quality_id &quality ) const
 {
     const auto &i = info();
-    if( i.fake_item.empty() ) {
+    if( i.fake_item.is_empty() ) {
         return INT_MIN;
     }
 
@@ -2806,7 +2813,7 @@ void bionic::deserialize( JsonIn &jsin )
     powered = jo.get_bool( "powered" );
     charge_timer = jo.get_int( "charge" );
     if( jo.has_string( "ammo_loaded" ) ) {
-        ammo_loaded = jo.get_string( "ammo_loaded" );
+        jo.read( "ammo_loaded", ammo_loaded, true );
     }
     if( jo.has_int( "ammo_count" ) ) {
         ammo_count = jo.get_int( "ammo_count" );

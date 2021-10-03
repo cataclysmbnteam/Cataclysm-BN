@@ -230,10 +230,10 @@
     "flags": [ "EATEN_HOT" ]
   },
   {
-    "id": "tÖttchen",
+    "id": "toettchen",
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
-    "name": "tÖttchen",
+    "name": "toettchen",
     "symbol": "%",
     "looks_like": "offal_cooked",
     "quench": 2,

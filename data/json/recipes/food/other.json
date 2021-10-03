@@ -64,7 +64,6 @@
     "difficulty": 2,
     "time": "30 m",
     "autolearn": true,
-    "batch_time_factors": [ 80, 5 ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ] ],

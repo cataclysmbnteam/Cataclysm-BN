@@ -16,5 +16,5 @@ TEST_CASE( "visitable_summation" )
     const item unlimited_water( "water", calendar::start_of_cataclysm, item::INFINITE_CHARGES );
     test_inv.add_item( unlimited_water );
 
-    CHECK( test_inv.charges_of( "water", item::INFINITE_CHARGES ) > 1 );
+    CHECK( test_inv.charges_of( itype_id( "water" ), item::INFINITE_CHARGES ) > 1 );
 }

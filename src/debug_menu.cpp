@@ -511,7 +511,8 @@ void character_edit_menu()
         data << np->myclass.obj().get_name() << "; " <<
              npc_attitude_name( np->get_attitude() ) << "; " <<
              ( np->get_faction() ? np->get_faction()->name : _( "no faction" ) ) << "; " <<
-             ( np->get_faction() ? np->get_faction()->currency : _( "no currency" ) ) << "; " <<
+             ( np->get_faction() ? np->get_faction()->currency->nname( 1 ) : _( "no currency" ) )
+             << "; " <<
              "api: " << np->get_faction_ver() << std::endl;
         if( np->has_destination() ) {
             data << string_format( _( "Destination: %d:%d:%d (%s)" ),
@@ -1359,8 +1360,8 @@ void debug()
                 break;
             }
 
-            const tripoint_range points = get_map().points_in_rectangle(
-                                              first.position.value(), second.position.value() );
+            const tripoint_range<tripoint> points = get_map().points_in_rectangle(
+                    first.position.value(), second.position.value() );
 
             std::vector<Creature *> creatures = g->get_creatures_if(
             [&points]( const Creature & critter ) -> bool {

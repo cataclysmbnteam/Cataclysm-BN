@@ -201,7 +201,7 @@ void distribution_grid_tracker::on_saved()
     tripoint min_bounds = tripoint( bounds.p_min, -OVERMAP_DEPTH );
     tripoint max_bounds = tripoint( bounds.p_max, OVERMAP_HEIGHT );
     // TODO: Only those which existed before the save
-    for( const tripoint &sm_pos : tripoint_range( min_bounds, max_bounds ) ) {
+    for( const tripoint &sm_pos : tripoint_range<tripoint>( min_bounds, max_bounds ) ) {
         if( parent_distribution_grids.find( sm_pos ) == parent_distribution_grids.end() ) {
             make_distribution_grid_at( sm_pos );
         }

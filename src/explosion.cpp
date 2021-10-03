@@ -78,6 +78,10 @@ static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_sunglasses( "bio_sunglasses" );
 
+static const itype_id itype_battery( "battery" );
+static const itype_id itype_e_handcuffs( "e_handcuffs" );
+static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
+
 static float blast_percentage( float range, float distance );
 
 explosion_data load_explosion_data( const JsonObject &jo )
@@ -318,7 +322,7 @@ static std::map<const Creature *, int> shrapnel( const tripoint &src, const proj
     // TODO: Calculate range based on max effective range for projectiles.
     // Basically bisect between 0 and map diameter using shrapnel_calc().
     // Need to update shadowcasting to support limiting range without adjusting initial distance.
-    const tripoint_range area = g->m.points_on_zlevel( src.z );
+    const tripoint_range<tripoint> area = g->m.points_on_zlevel( src.z );
 
     g->m.build_obstacle_cache( area.min(), area.max() + tripoint_south_east, obstacle_cache );
 
@@ -485,7 +489,7 @@ void flashbang( const tripoint &p, bool player_immune )
     draw_explosion( p, 8, c_white );
     int dist = rl_dist( g->u.pos(), p );
     if( dist <= 8 && !player_immune ) {
-        if( !g->u.has_bionic( bio_ears ) && !g->u.is_wearing( "rm13_armor_on" ) ) {
+        if( !g->u.has_bionic( bio_ears ) && !g->u.is_wearing( itype_rm13_armor_on ) ) {
             g->u.add_effect( effect_deaf, time_duration::from_turns( 40 - dist * 4 ) );
         }
         if( g->m.sees( g->u.pos(), p, 8 ) ) {
@@ -497,7 +501,7 @@ void flashbang( const tripoint &p, bool player_immune )
             } else if( g->u.has_trait( trait_PER_SLIME_OK ) ) {
                 flash_mod = 8; // Just retract those and extrude fresh eyes
             } else if( g->u.has_bionic( bio_sunglasses ) ||
-                       g->u.is_wearing( "rm13_armor_on" ) ) {
+                       g->u.is_wearing( itype_rm13_armor_on ) ) {
                 flash_mod = 6;
             } else if( g->u.worn_with_flag( flag_BLIND ) || g->u.worn_with_flag( flag_FLASH_PROTECTION ) ) {
                 flash_mod = 3; // Not really proper flash protection, but better than nothing
@@ -633,7 +637,7 @@ void emp_blast( const tripoint &p )
                     // Maybe export this to json?
                     break;
             }
-            if( !mon_item_id.empty() && deact_chance != 0 && one_in( deact_chance ) ) {
+            if( !mon_item_id.is_empty() && deact_chance != 0 && one_in( deact_chance ) ) {
                 if( sight ) {
                     add_msg( _( "The %s beeps erratically and deactivates!" ), critter.name() );
                 }
@@ -685,7 +689,7 @@ void emp_blast( const tripoint &p )
         }
         // TODO: More effects?
         //e-handcuffs effects
-        if( u.weapon.typeId() == "e_handcuffs" && u.weapon.charges > 0 ) {
+        if( u.weapon.typeId() == itype_e_handcuffs && u.weapon.charges > 0 ) {
             u.weapon.unset_flag( "NO_UNWIELD" );
             u.weapon.charges = 0;
             u.weapon.active = false;
@@ -695,7 +699,7 @@ void emp_blast( const tripoint &p )
     }
     // Drain any items of their battery charge
     for( auto &it : here.i_at( p ) ) {
-        if( it.is_tool() && it.ammo_current() == "battery" ) {
+        if( it.is_tool() && it.ammo_current() == itype_battery ) {
             it.charges = 0;
         }
     }
