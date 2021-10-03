@@ -12,4 +12,5 @@ APP_CPPFLAGS += -std=c++14
 # Min SDK level
 APP_PLATFORM=android-16
 
-APP_LDFLAGS += -fuse-ld=lld
+APP_LDFLAGS += -fuse-ld=gold
+ANDROID_LD=deprecated

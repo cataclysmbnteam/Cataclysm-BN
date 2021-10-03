@@ -285,6 +285,9 @@ android {
                 signingConfig signingConfigs.release
             }
             externalNativeBuild {
+                cmake {
+                    arguments "-DANDROID_LD=deprecated"
+                }
                 ndkBuild {
                     cFlags "-DNDEBUG", "-DRELEASE", "-Os"
                 }
