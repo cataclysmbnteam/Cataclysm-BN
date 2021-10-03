@@ -680,6 +680,80 @@
   },
   {
     "type": "furniture",
+    "id": "f_battery_large",
+    "looks_like": "f_locker",
+    "name": "mounted storage battery",
+    "description": "A storage battery mount salvaged from a vehicle, and connected to building's electric grid.",
+    "symbol": ":",
+    "color": "blue_white",
+    "move_cost_mod": -1,
+    "coverage": 90,
+    "required_str": -1,
+    "active": [ "battery", { "max_stored": 40000 } ],
+    "examine_action": "check_power",
+    "deconstruct": {
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 4, 6 ] },
+        { "item": "plastic_chunk", "count": 2 },
+        { "item": "pipe", "count": 4 },
+        { "item": "cable", "charges": [ 5, 10 ] },
+        { "item": "storage_battery", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 4, 8 ] },
+        { "item": "plastic_chunk", "count": [ 1, 2 ] },
+        { "item": "sheet_metal_small", "count": [ 1, 4 ] },
+        { "item": "pipe", "count": 1 },
+        { "item": "cable", "charges": [ 2, 8 ] },
+        { "item": "small_storage_battery", "count": [ 30, 60 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_battery_huge",
+    "looks_like": "f_locker",
+    "name": "mounted large storage battery",
+    "description": "A huge storage battery mount salvaged from a vehicle, and connected to building's electric grid.",
+    "symbol": ":",
+    "color": "blue_white",
+    "move_cost_mod": -1,
+    "coverage": 90,
+    "required_str": -1,
+    "active": [ "battery", { "max_stored": 80000 } ],
+    "examine_action": "check_power",
+    "deconstruct": {
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 4, 6 ] },
+        { "item": "plastic_chunk", "count": 2 },
+        { "item": "pipe", "count": 4 },
+        { "item": "cable", "charges": [ 5, 10 ] },
+        { "item": "large_storage_battery", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 4, 8 ] },
+        { "item": "plastic_chunk", "count": [ 1, 2 ] },
+        { "item": "sheet_metal_small", "count": [ 1, 4 ] },
+        { "item": "pipe", "count": 1 },
+        { "item": "cable", "charges": [ 2, 8 ] },
+        { "item": "small_storage_battery", "count": [ 50, 100 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_charger",
     "looks_like": "f_utility_shelf",
     "name": "battery charger",
