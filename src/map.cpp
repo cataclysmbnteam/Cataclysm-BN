@@ -3610,7 +3610,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         if( dam > 0 ) {
             break_glass( p, 16 );
             ter_set( p, t_window_bars );
-            spawn_item( p, itype_glass_shard, 5 );
+            spawn_item( p, itype_glass_shard, 1 );
         }
     } else if( terrain == t_window_boarded ) {
         dam -= rng( 10, 30 );
@@ -3697,7 +3697,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         if( one_in( 3 ) ) {
             break_glass( p, 16 );
             ter_set( p, t_thconc_floor );
-            spawn_item( p, itype_glass_shard, rng( 8, 16 ) );
+            spawn_item( p, itype_glass_shard, rng( 1, 2 ) );
             dam = 0; //Prevent damaging additional items, since we shot at the ceiling.
         }
     } else if( impassable( p ) && !is_transparent( p ) ) {
