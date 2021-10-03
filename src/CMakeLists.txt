@@ -4,7 +4,6 @@ cmake_minimum_required(VERSION 3.1.4)
 SET(MAIN_CPP ${CMAKE_SOURCE_DIR}/src/main.cpp)
 SET(MESSAGES_CPP ${CMAKE_SOURCE_DIR}/src/messages.cpp)
 SET(RESOURCE_RC ${CMAKE_SOURCE_DIR}/src/resource.rc)
-SET(ANDROID_LD deprecated)
 set(CMAKE_VERBOSE_MAKEFILE on)
 
 FILE(GLOB CATACLYSM_DDA_SOURCES
