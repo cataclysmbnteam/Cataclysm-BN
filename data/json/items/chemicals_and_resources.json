@@ -1225,6 +1225,7 @@
     "container": "bottle_plastic_small",
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 50,
+    "calories": 13,
     "description": "This is a pre-mixed salty solution of protein and sugar.  It's meant for bacteria to eat, but if you were desperate you could eat it too; it's not much different from cup noodle stock.",
     "material": "powder",
     "volume": "100 ml",
