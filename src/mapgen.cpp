@@ -5461,7 +5461,7 @@ void map::place_vending( const point &p, const item_group_id &type, bool reinfor
             furn_set( p, f_vending_o );
             for( const auto &loc : points_in_radius( { p, abs_sub.z }, 1 ) ) {
                 if( one_in( 4 ) ) {
-                    spawn_item( loc, "glass_shard", rng( 1, 25 ) );
+                    spawn_item( loc, "glass_shard", rng( 1, 2 ) );
                 }
             }
         } else {

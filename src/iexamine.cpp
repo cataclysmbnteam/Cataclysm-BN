@@ -862,7 +862,7 @@ void iexamine::elevator( player &p, const tripoint &examp )
         } else if( g->m.ter( critter.pos() ) == ter_id( "t_elevator" ) ) {
             tripoint critter_omt = ms_to_omt_copy( g->m.getabs( critter.pos() ) );
             if( critter_omt == new_floor_omt ) {
-                for( const tripoint &candidate : closest_tripoints_first( critter.pos(), 10 ) ) {
+                for( const tripoint &candidate : closest_points_first( critter.pos(), 10 ) ) {
                     if( g->m.ter( candidate ) != ter_id( "t_elevator" ) &&
                         g->m.passable( candidate ) &&
                         !g->critter_at( candidate ) ) {
@@ -885,7 +885,7 @@ void iexamine::elevator( player &p, const tripoint &examp )
             tripoint critter_omt = ms_to_omt_copy( g->m.getabs( critter.pos() ) );
 
             if( critter_omt == original_floor_omt ) {
-                for( const tripoint &candidate : closest_tripoints_first( p.pos(), 10 ) ) {
+                for( const tripoint &candidate : closest_points_first( p.pos(), 10 ) ) {
                     if( g->m.ter( candidate ) == ter_id( "t_elevator" ) &&
                         candidate != p.pos() &&
                         !g->critter_at( candidate ) ) {
@@ -2025,7 +2025,7 @@ void iexamine::egg_sack_generic( player &p, const tripoint &examp,
     g->m.furn_set( examp, f_egg_sacke );
     int monster_count = 0;
     if( one_in( 2 ) ) {
-        for( const tripoint &nearby_pos : closest_tripoints_first( examp, 1 ) ) {
+        for( const tripoint &nearby_pos : closest_points_first( examp, 1 ) ) {
             if( !one_in( 3 ) ) {
                 continue;
             } else if( g->place_critter_at( montype, nearby_pos ) ) {

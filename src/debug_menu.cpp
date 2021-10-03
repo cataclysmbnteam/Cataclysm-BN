@@ -1360,8 +1360,8 @@ void debug()
                 break;
             }
 
-            const tripoint_range points = get_map().points_in_rectangle(
-                                              first.position.value(), second.position.value() );
+            const tripoint_range<tripoint> points = get_map().points_in_rectangle(
+                    first.position.value(), second.position.value() );
 
             std::vector<Creature *> creatures = g->get_creatures_if(
             [&points]( const Creature & critter ) -> bool {

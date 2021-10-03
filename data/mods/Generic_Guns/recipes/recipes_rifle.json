@@ -47,9 +47,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "req_rifle", 1 ], [ "bullet_forming", 9 ], [ "ammo_bullet", 6 ] ],
-    "components": [
-      [ [ "gunpowder", 12 ], [ "gunpowder_magnum_pistol", 12 ], [ "gunpowder_rifle", 12 ], [ "gunpowder_large_rifle", 12 ] ]
-    ]
+    "components": [ [ [ "gunpowder", 12 ] ] ]
   },
   {
     "result": "bp_rifle_ball",
@@ -62,10 +60,7 @@
     "type": "recipe",
     "copy-from": "reloaded_rifle_ball",
     "using": [ [ "req_rifle", 1 ], [ "req_penetrator", 1 ], [ "bullet_forming", 9 ], [ "ammo_bullet", 6 ] ],
-    "components": [
-      [ [ "gunpowder", 12 ], [ "gunpowder_magnum_pistol", 12 ], [ "gunpowder_rifle", 12 ], [ "gunpowder_large_rifle", 12 ] ],
-      [ [ "copper", 3 ] ]
-    ]
+    "components": [ [ [ "gunpowder", 12 ] ], [ [ "copper", 3 ] ] ]
   },
   {
     "result": "bp_rifle_AP",
@@ -87,7 +82,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "req_rifle_huge", 1 ], [ "bullet_forming", 18 ], [ "ammo_bullet", 12 ] ],
-    "components": [ [ [ "gunpowder", 30 ], [ "gunpowder_large_rifle", 30 ] ] ]
+    "components": [ [ [ "gunpowder", 30 ] ] ]
   },
   {
     "result": "bp_rifle_huge_ball",
@@ -100,13 +95,13 @@
     "type": "recipe",
     "copy-from": "reloaded_rifle_huge_ball",
     "using": [ [ "req_rifle_huge", 1 ], [ "req_penetrator", 1 ], [ "bullet_forming", 21 ], [ "ammo_bullet", 12 ] ],
-    "components": [ [ [ "gunpowder", 30 ], [ "gunpowder_large_rifle", 30 ] ], [ [ "copper", 6 ], [ "rifle_casing", 1 ] ] ]
+    "components": [ [ [ "gunpowder", 30 ] ], [ [ "copper", 6 ], [ "rifle_casing", 1 ] ] ]
   },
   {
     "result": "bp_rifle_huge_AP",
     "type": "recipe",
     "copy-from": "reloaded_rifle_huge_ball",
     "using": [ [ "req_rifle_huge", 1 ], [ "req_penetrator", 1 ], [ "bullet_forming", 21 ], [ "ammo_bullet", 12 ] ],
-    "components": [ [ [ "gunpowder", 30 ], [ "gunpowder_large_rifle", 30 ] ], [ [ "copper", 6 ], [ "rifle_casing", 1 ] ] ]
+    "components": [ [ [ "gunpowder", 30 ] ], [ [ "copper", 6 ], [ "rifle_casing", 1 ] ] ]
   }
 ]

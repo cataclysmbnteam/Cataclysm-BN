@@ -97,7 +97,7 @@
   },
   {
     "id": "folding_bicycle",
-    "type": "GENERIC",
+    "type": "TOOL",
     "category": "tools",
     "name": { "str": "folding bicycle" },
     "description": "This is a bicycle folded into a relatively portable package.",
@@ -119,7 +119,7 @@
   },
   {
     "id": "generic_folded_vehicle",
-    "type": "GENERIC",
+    "type": "TOOL",
     "category": "tools",
     "name": { "str_sp": "seeing this is a bug" },
     "description": "seeing this is a bug",
@@ -149,7 +149,7 @@
   },
   {
     "id": "inflatable_boat",
-    "type": "GENERIC",
+    "type": "TOOL",
     "category": "tools",
     "symbol": "0",
     "color": "light_gray",

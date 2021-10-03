@@ -1466,8 +1466,9 @@ bool monster::attack_at( const tripoint &p )
 
 static tripoint find_closest_stair( const tripoint &near_this, const ter_bitflags stair_type )
 {
-    for( const tripoint &candidate : closest_tripoints_first( near_this, 10 ) ) {
-        if( g->m.has_flag( stair_type, candidate ) ) {
+    map &here = get_map();
+    for( const tripoint &candidate : closest_points_first( near_this, 10 ) ) {
+        if( here.has_flag( stair_type, candidate ) ) {
             return candidate;
         }
     }
