@@ -1576,7 +1576,7 @@ int time_to_attack( const Character &p, const itype &firing )
 static void cycle_action( item &weap, const tripoint &pos )
 {
     // eject casings and linkages in random direction avoiding walls using player position as fallback
-    std::vector<tripoint> tiles = closest_tripoints_first( pos, 1 );
+    std::vector<tripoint> tiles = closest_points_first( pos, 1 );
     tiles.erase( tiles.begin() );
     tiles.erase( std::remove_if( tiles.begin(), tiles.end(), [&]( const tripoint & e ) {
         return !g->m.passable( e );
@@ -2521,7 +2521,7 @@ tripoint target_ui::choose_initial_target()
 
     // Try closest practice target
     map &here = get_map();
-    const std::vector<tripoint> nearby = closest_tripoints_first( src, range );
+    const std::vector<tripoint> nearby = closest_points_first( src, range );
     const auto target_spot = std::find_if( nearby.begin(), nearby.end(),
     [this, &here]( const tripoint & pt ) {
         return here.tr_at( pt ).id == tr_practice_target && this->you->sees( pt );
