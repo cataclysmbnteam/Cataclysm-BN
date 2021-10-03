@@ -979,5 +979,29 @@
       "sound_fail": "clang!",
       "items": [ { "item": "scrap", "count": [ 0, 2 ] }, { "item": "cable", "charges": [ 1, 4 ] } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_gridsolderingiron",
+    "looks_like": "soldering_iron",
+    "name": "grid soldering iron",
+    "symbol": "=",
+    "description": "A soldering iron connected to a electrical grid.",
+    "color": "light_gray",
+    "move_cost_mod": 1,
+    "coverage": 10,
+    "required_str": -1,
+    "crafting_pseudo_item": "fake_gridsolderingiron",
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [ { "item": "soldering_iron", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
+    },
+    "bash": {
+      "str_min": 2,
+      "str_max": 10,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "scrap", "count": [ 0, 2 ] }, { "item": "cable", "charges": [ 1, 4 ] } ]
+    }
   }
 ]
