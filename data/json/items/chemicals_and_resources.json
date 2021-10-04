@@ -1208,7 +1208,7 @@
     "color": "light_cyan",
     "container": "bottle_glass",
     "description": "This innocent, sweet, colorless liquid can be used for all kinds of things, from sweetening food to manufacturing medicine to making potent explosives.",
-    "volume": "10 ml",
+    "volume": "1 ml",
     "phase": "liquid"
   },
   {
