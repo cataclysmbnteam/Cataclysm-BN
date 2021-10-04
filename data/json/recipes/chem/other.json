@@ -53,7 +53,7 @@
     ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
-    "components": [ [ [ "iodine", 10 ] ], [ [ "aspirin", 10 ] ], [ [ "bleach", 1 ], [ "oxy_powder", 50 ] ] ]
+    "components": [ [ [ "iodine", 10 ] ], [ [ "aspirin", 10 ], [ "chem_phenol", 100 ] ], [ [ "bleach", 1 ], [ "oxy_powder", 50 ] ] ]
   },
   {
     "type": "recipe",
