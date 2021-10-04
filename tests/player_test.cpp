@@ -19,6 +19,8 @@
 #include "hash_utils.h"
 #include "overmapbuffer.h"
 
+static weather_type_id WEATHER_CLOUDY = weather_type_id( "cloudy" );
+
 struct body_part_temp {
     body_part_temp( bodypart_str_id part, int temperature )
         : part( part ), temperature( temperature )
@@ -85,7 +87,7 @@ std::ostream &operator<<( std::ostream &os, const std::vector<body_part_temp> &b
 static int converge_temperature( player &p, size_t iters, int start_temperature = BODYTEMP_NORM )
 {
     constexpr size_t n_history = 10;
-    REQUIRE( get_weather().weather == WEATHER_CLOUDY );
+    REQUIRE( get_weather().weather_id == WEATHER_CLOUDY );
     REQUIRE( get_weather().windspeed == 0 );
 
     for( int i = 0 ; i < num_bp; i++ ) {
@@ -218,7 +220,7 @@ const std::vector<std::string> arctic_clothing = {{
 
 static void guarantee_neutral_weather( const player &p )
 {
-    get_weather().weather = WEATHER_CLOUDY;
+    get_weather().weather_id = WEATHER_CLOUDY;
     get_weather().weather_override = WEATHER_CLOUDY;
     get_weather().windspeed = 0;
     get_weather().weather_precise->humidity = 0;
@@ -233,7 +235,7 @@ static void guarantee_neutral_weather( const player &p )
     double total_windpower = get_local_windpower( weather.windspeed, cur_om_ter,
                              p.pos(),
                              weather.winddirection, sheltered );
-    int air_humidity = get_local_humidity( wp.humidity, weather.weather, sheltered );
+    int air_humidity = get_local_humidity( wp.humidity, weather.weather_id, sheltered );
 
     REQUIRE( air_humidity == 0 );
     REQUIRE( total_windpower == 0.0 );
@@ -412,7 +414,7 @@ TEST_CASE( "Player body temperatures in water.", "[.][bodytemp]" )
     REQUIRE( get_map().has_flag( TFLAG_SWIMMABLE, pos ) );
     REQUIRE( get_map().has_flag( TFLAG_DEEP_WATER, pos ) );
     REQUIRE( !g->is_in_sunlight( pos ) );
-    get_weather().weather = WEATHER_CLOUDY;
+    get_weather().weather_id = WEATHER_CLOUDY;
 
     dummy.drench( 100, body_part_set::all(), true );
 
@@ -467,7 +469,7 @@ TEST_CASE( "Water hypothermia check.", "[.][bodytemp]" )
     REQUIRE( get_map().has_flag( TFLAG_SWIMMABLE, pos ) );
     REQUIRE( get_map().has_flag( TFLAG_DEEP_WATER, pos ) );
     REQUIRE( !g->is_in_sunlight( pos ) );
-    get_weather().weather = WEATHER_CLOUDY;
+    get_weather().weather_id = WEATHER_CLOUDY;
 
     dummy.drench( 100, body_part_set::all(), true );
 

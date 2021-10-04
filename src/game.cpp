@@ -572,7 +572,7 @@ void game::setup()
     calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
     calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
 
-    get_weather().weather = WEATHER_CLEAR; // Start with some nice weather...
+    get_weather().weather_id = WEATHER_CLEAR;
     // Weather shift in 30
     get_weather().nextweather = calendar::start_of_cataclysm + time_duration::from_hours(
                                     get_option<int>( "INITIAL_TIME" ) ) + 30_minutes;
@@ -1566,8 +1566,7 @@ bool game::do_turn()
     }
 
     if( get_levz() >= 0 && !u.is_underwater() ) {
-        do_rain( weather.weather );
-        weather::effect( weather.weather )();
+        handle_weather_effects( weather.weather_id );
     }
 
     const bool player_is_sleeping = u.has_effect( effect_sleep );
@@ -3814,7 +3813,7 @@ float game::natural_light_level( const int zlev ) const
         ret = default_daylight_level();
     }
 
-    ret += weather::light_modifier( weather.weather );
+    ret += get_weather().weather_id->light_modifier;
 
     // Artifact light level changes here. Even though some of these only have an effect
     // aboveground it is cheaper performance wise to simply iterate through the entire
@@ -5075,9 +5074,8 @@ bool game::is_empty( const tripoint &p )
 
 bool game::is_in_sunlight( const tripoint &p )
 {
-    weather_type wt = get_weather().weather;
-    return ( m.is_outside( p ) && light_level( p.z ) >= 40 &&
-             ( wt == WEATHER_CLEAR || wt == WEATHER_SUNNY ) );
+    return ( m.is_outside( p ) && light_level( p.z ) >= 40 && !is_night( calendar::turn ) &&
+             get_weather().weather_id->sun_intensity >= sun_intensity_type::normal );
 }
 
 bool game::is_sheltered( const tripoint &p )

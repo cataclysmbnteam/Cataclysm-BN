@@ -8865,24 +8865,16 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
     bool precipitation = false;
     bool windtoostrong = false;
     bool in_veh = carrier != nullptr && carrier->in_vehicle;
-    const weather_manager &weather = get_weather();
-    w_point weatherPoint = *weather.weather_precise;
-    int windpower = weather.windspeed;
-    switch( weather.weather ) {
-        case WEATHER_LIGHT_DRIZZLE:
+    w_point weatherPoint = *get_weather().weather_precise;
+    int windpower = get_weather().windspeed;
+    switch( get_weather().weather_id->precip ) {
+        case precip_class::very_light:
             precipitation = one_in( 100 );
             break;
-        case WEATHER_DRIZZLE:
-        case WEATHER_FLURRIES:
+        case precip_class::light:
             precipitation = one_in( 50 );
             break;
-        case WEATHER_RAINY:
-        case WEATHER_SNOW:
-            precipitation = one_in( 25 );
-            break;
-        case WEATHER_THUNDER:
-        case WEATHER_LIGHTNING:
-        case WEATHER_SNOWSTORM:
+        case precip_class::heavy:
             precipitation = one_in( 10 );
             break;
         default:

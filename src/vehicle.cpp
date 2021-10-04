@@ -3681,8 +3681,8 @@ bool vehicle::do_environmental_effects()
          * - The weather is any effect that would cause the player to be wet. */
         if( vp.part().blood > 0 && g->m.is_outside( vp.pos() ) ) {
             needed = true;
-            weather_type wt = get_weather().weather;
-            if( wt >= WEATHER_LIGHT_DRIZZLE && wt <= WEATHER_ACID_RAIN ) {
+            if( get_weather().weather_id->rains &&
+                get_weather().weather_id->precip != precip_class::very_light ) {
                 vp.part().blood--;
             }
         }
@@ -4585,7 +4585,7 @@ int vehicle::total_solar_epower_w() const
     }
     // Weather doesn't change much across the area of the vehicle, so just
     // sample it once.
-    weather_type wtype = current_weather( global_pos3() );
+    weather_type_id wtype = current_weather( global_pos3() );
     const float tick_sunlight = incident_sunlight( wtype, calendar::turn );
     double intensity = tick_sunlight / default_daylight_level();
     return epower_w * intensity;

@@ -1341,8 +1341,7 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
     } else {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Sky  :" ) );
-        const weather_datum wdata = weather_data( get_weather().weather );
-        wprintz( w, wdata.color, " %s", wdata.name );
+        wprintz( w, get_weather().weather_id->color, " %s", get_weather().weather_id->name );
     }
     // display lighting
     const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
@@ -1508,8 +1507,7 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
     if( g->get_levz() < 0 ) {
         mvwprintz( w, point( 8, 3 ), c_light_gray, _( "Underground" ) );
     } else {
-        const weather_datum wdata = weather_data( weather.weather );
-        mvwprintz( w, point( 8, 3 ), wdata.color, wdata.name );
+        mvwprintz( w, point( 8, 3 ), get_weather().weather_id->color, get_weather().weather_id->name );
     }
     // display lighting
     const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
@@ -1848,9 +1846,8 @@ static void draw_weather_classic( avatar &, const catacurses::window &w )
     if( g->get_levz() < 0 ) {
         mvwprintz( w, point_zero, c_light_gray, _( "Underground" ) );
     } else {
-        const weather_datum wdata = weather_data( get_weather().weather );
         mvwprintz( w, point_zero, c_light_gray, _( "Weather :" ) );
-        mvwprintz( w, point( 10, 0 ), wdata.color, wdata.name );
+        mvwprintz( w, point( 10, 0 ), get_weather().weather_id->color, get_weather().weather_id->name );
     }
     mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Moon :" ) );
     nc_color clr = c_white;

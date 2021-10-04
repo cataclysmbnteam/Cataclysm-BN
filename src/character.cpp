@@ -5031,7 +5031,7 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
     double total_windpower = get_local_windpower( weather.windspeed + vehwindspeed, cur_om_ter,
                              pos(),
                              weather.winddirection, sheltered );
-    int air_humidity = get_local_humidity( weather_point.humidity, weather.weather,
+    int air_humidity = get_local_humidity( weather_point.humidity, weather.weather_id,
                                            sheltered );
     // Let's cache this not to check it num_bp times
     const bool has_bark = has_trait( trait_BARK );
@@ -5046,8 +5046,8 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
     /**
      * Calculations that affect all body parts equally go here, not in the loop
      */
-    const int sunlight_warmth = weather::is_in_sunlight( m, pos(), weather.weather )
-                                ? ( weather.weather == WEATHER_SUNNY ? 1000 : 500 )
+    const int sunlight_warmth = weather::is_in_sunlight( m, pos(), weather.weather_id )
+                                ? ( weather.weather_id->sun_intensity == sun_intensity_type::high ? 1000 : 500 )
                                 : 0;
     const int best_fire = get_heat_radiation( pos(), true );
     const bool pyromania = has_trait( trait_PYROMANIA );
@@ -9922,7 +9922,7 @@ bool Character::can_hear( const tripoint &source, const int volume ) const
     }
     const int dist = rl_dist( source, pos() );
     const float volume_multiplier = hearing_ability();
-    return ( volume - weather::sound_attn( get_weather().weather ) ) * volume_multiplier >= dist;
+    return ( volume - get_weather().weather_id->sound_attn ) * volume_multiplier >= dist;
 }
 
 float Character::hearing_ability() const
