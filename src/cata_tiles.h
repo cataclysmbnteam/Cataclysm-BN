@@ -455,11 +455,11 @@ class cata_tiles
 
     public:
         // Animation layers
-        void init_explosion( const tripoint &p, int radius );
+        void init_explosion( const tripoint &p, int radius, std::string name );
         void draw_explosion_frame();
         void void_explosion();
 
-        void init_custom_explosion_layer( const std::map<tripoint, explosion_tile> &layer );
+        void init_custom_explosion_layer( const std::map<tripoint, explosion_tile> &layer, std::string name );
         void draw_custom_explosion_frame();
         void void_custom_explosion();
 
@@ -615,6 +615,7 @@ class cata_tiles
 
         tripoint exp_pos;
         int exp_rad = 0;
+        std::string exp_name;
 
         std::map<tripoint, explosion_tile> custom_explosion_layer;
 

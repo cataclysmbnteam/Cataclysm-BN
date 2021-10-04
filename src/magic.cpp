@@ -240,6 +240,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
+    optional( jo, was_loaded, "sprite", sprite, "" );
     optional( jo, was_loaded, "skill", skill, skill_id( "spellcraft" ) );
     optional( jo, was_loaded, "message", message, to_translation( "You cast %s!" ) );
     optional( jo, was_loaded, "sound_description", sound_description,
@@ -467,7 +468,7 @@ skill_id spell::skill() const
 
 int spell::field_intensity() const
 {
-    return std::min( type->max_field_intensity,
+    return std::min( type->max_field_intensity, 
                      static_cast<int>( type->min_field_intensity + std::round( get_level() *
                                        type->field_intensity_increment ) ) );
 }

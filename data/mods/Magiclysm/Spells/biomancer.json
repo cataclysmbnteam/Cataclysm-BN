@@ -196,6 +196,7 @@
     "type": "SPELL",
     "name": "Visceral Projection",
     "description": "Projects a spray of acrid blood and gore all around you, growing to ensnare your prey in in a field of twitching poisonous tendrils.",
+	"sprite": "fd_gibs_flesh",
     "valid_targets": [ "ally", "hostile", "ground" ],
     "effect": "target_attack",
     "effect_str": "badpoison",

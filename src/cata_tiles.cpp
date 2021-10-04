@@ -3144,16 +3144,18 @@ void tileset_loader::ensure_default_item_highlight()
 
 /* Animation Functions */
 /* -- Inits */
-void cata_tiles::init_explosion( const tripoint &p, int radius )
+void cata_tiles::init_explosion( const tripoint &p, int radius, std::string name = "explosion" )
 {
     do_draw_explosion = true;
     exp_pos = p;
     exp_rad = radius;
+    exp_name = name;
 }
-void cata_tiles::init_custom_explosion_layer( const std::map<tripoint, explosion_tile> &layer )
+void cata_tiles::init_custom_explosion_layer( const std::map<tripoint, explosion_tile> &layer, std::string name = "explosion" )
 {
     do_draw_custom_explosion = true;
     custom_explosion_layer = layer;
+    exp_name = name;
 }
 void cata_tiles::init_draw_bullet( const tripoint &p, std::string name )
 {
@@ -3359,7 +3361,7 @@ bool cata_tiles::has_draw_override( const tripoint &p ) const
 /* -- Animation Renders */
 void cata_tiles::draw_explosion_frame()
 {
-    std::string exp_name = "explosion";
+    //std::string exp_name = "explosion";
     int subtile = 0;
     int rotation = 0;
 
@@ -3456,13 +3458,14 @@ void cata_tiles::draw_custom_explosion_frame()
         }
 
         const tripoint &p = pr.first;
-        if( col == c_red ) {
-            draw_from_id_string( exp_strong, p, subtile, rotation, LL_LIT, nv_goggles_activated );
-        } else if( col == c_yellow ) {
-            draw_from_id_string( exp_medium, p, subtile, rotation, LL_LIT, nv_goggles_activated );
-        } else {
-            draw_from_id_string( exp_weak, p, subtile, rotation, LL_LIT, nv_goggles_activated );
-        }
+        draw_from_id_string( exp_name, p, subtile, rotation, LL_LIT, nv_goggles_activated);
+        //if( col == c_red ) {
+        //    draw_from_id_string( exp_strong, p, subtile, rotation, LL_LIT, nv_goggles_activated );
+        //} else if( col == c_yellow ) {
+        //    draw_from_id_string( exp_medium, p, subtile, rotation, LL_LIT, nv_goggles_activated );
+        //} else {
+        //    draw_from_id_string( exp_weak, p, subtile, rotation, LL_LIT, nv_goggles_activated );
+        //}
     }
 }
 void cata_tiles::draw_bullet_frame()
