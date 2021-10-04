@@ -23,6 +23,7 @@
 #include "optional.h"
 
 static const std::string part_location_structure( "structure" );
+static const itype_id itype_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
 
 std::string vehicle::disp_name() const
@@ -156,12 +157,12 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
 
         std::string partname = vp.name();
 
-        if( vp.is_fuel_store() && vp.ammo_current() != "null" ) {
+        if( vp.is_fuel_store() && !vp.ammo_current().is_null() ) {
             if( detail ) {
-                if( vp.ammo_current() == "battery" ) {
+                if( vp.ammo_current() == itype_battery ) {
                     partname += string_format( _( " (%s/%s charge)" ), vp.ammo_remaining(), vp.ammo_capacity() );
                 } else {
-                    const itype *pt_ammo_cur = item::find_type( vp.ammo_current() );
+                    const itype *pt_ammo_cur = &*vp.ammo_current();
                     auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
                     partname += string_format( _( " (%.1fL %s)" ),
                                                round_up( units::to_liter( vp.ammo_remaining() * stack ),
@@ -306,7 +307,7 @@ std::vector<itype_id> vehicle::get_printable_fuel_types() const
 {
     std::set<itype_id> opts;
     for( const auto &pt : parts ) {
-        if( pt.is_fuel_store() && pt.ammo_current() != "null" ) {
+        if( pt.is_fuel_store() && !pt.ammo_current().is_null() ) {
             opts.emplace( pt.ammo_current() );
         }
     }
@@ -395,7 +396,7 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
     nc_color col_indf1 = c_light_gray;
     int cap = fuel_capacity( fuel_type );
     int f_left = fuel_left( fuel_type );
-    nc_color f_color = item::find_type( fuel_type )->color;
+    nc_color f_color = fuel_type->color;
     // NOLINTNEXTLINE(cata-text-style): not an ellipsis
     mvwprintz( win, p, col_indf1, "E...F" );
     int amnt = cap > 0 ? f_left * 99 / cap : 0;

@@ -2621,5 +2621,10 @@
     "result": "sieve_steel",
     "type": "recipe",
     "obsolete": true
+  },
+  {
+    "result": "gunpowder",
+    "type": "recipe",
+    "obsolete": true
   }
 ]

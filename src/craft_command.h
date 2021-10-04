@@ -37,7 +37,7 @@ struct enum_traits<usage> {
 /**
 *   Struct that represents a selection of a component for crafting.
 */
-template<typename CompType = component>
+template<typename CompType>
 struct comp_selection {
     comp_selection() = default;
     comp_selection( usage use_from, const CompType &comp = CompType() )

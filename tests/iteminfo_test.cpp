@@ -286,7 +286,7 @@ TEST_CASE( "ranged weapon attributes", "[item][iteminfo][weapon][ranged][gun]" )
                                     iteminfo_parts::GUN_DAMAGEMULT_AMMO, iteminfo_parts::GUN_DAMAGEMULT_TOTAL
                                   } );
         test_info_equals(
-            item( "test_compbow" ).ammo_set( "test_arrow" ), q,
+            item( "test_compbow" ).ammo_set( itype_id( "test_arrow" ) ), q,
             "--\n"
             "<color_c_white>Ranged damage</color>: <color_c_yellow>18</color>"
             "<color_c_yellow>+0</color> = <color_c_yellow>18</color>\n"

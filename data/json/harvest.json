@@ -70,18 +70,8 @@
     "type": "harvest",
     "message": "You search for any salvageable bionic hardware in what's left of this failed experiment",
     "entries": [
-      {
-        "drop": "bio_power_storage",
-        "type": "bionic",
-        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
-      },
-      {
-        "drop": "cyborg_harvest",
-        "type": "bionic_group",
-        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
-      },
+      { "drop": "bio_power_storage", "type": "bionic", "flags": [ "NO_STERILE", "NO_PACKED" ] },
+      { "drop": "cyborg_harvest", "type": "bionic_group", "flags": [ "NO_STERILE", "NO_PACKED" ] },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.001 },
       { "drop": "cable", "base_num": [ 1, 3 ], "scale_num": [ 0.2, 0.6 ], "max": 8, "type": "flesh" },
       { "drop": "bone_human", "base_num": [ 1, 2 ], "scale_num": [ 0.4, 0.7 ], "max": 10, "type": "bone" },
@@ -606,18 +596,8 @@
     "id": "CBM_BASIC",
     "type": "harvest",
     "entries": [
-      {
-        "drop": "bio_power_storage",
-        "type": "bionic",
-        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
-      },
-      {
-        "drop": "bionics_zapper",
-        "type": "bionic_group",
-        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
-      },
+      { "drop": "bio_power_storage", "type": "bionic", "flags": [ "NO_STERILE", "NO_PACKED" ] },
+      { "drop": "bionics_zapper", "type": "bionic_group", "flags": [ "NO_STERILE", "NO_PACKED" ] },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
@@ -627,18 +607,8 @@
     "id": "CBM_CIV",
     "type": "harvest",
     "entries": [
-      {
-        "drop": "bio_power_storage",
-        "type": "bionic",
-        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
-      },
-      {
-        "drop": "bionics_common",
-        "type": "bionic_group",
-        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
-      },
+      { "drop": "bio_power_storage", "type": "bionic", "flags": [ "NO_STERILE", "NO_PACKED" ] },
+      { "drop": "bionics_common", "type": "bionic_group", "flags": [ "NO_STERILE", "NO_PACKED" ] },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
@@ -648,12 +618,7 @@
     "id": "CBM_SCI",
     "type": "harvest",
     "entries": [
-      {
-        "drop": "bionics_sci",
-        "type": "bionic_group",
-        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
-      },
+      { "drop": "bionics_sci", "type": "bionic_group", "flags": [ "NO_STERILE", "NO_PACKED" ] },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
@@ -663,18 +628,8 @@
     "id": "CBM_TECH",
     "type": "harvest",
     "entries": [
-      {
-        "drop": "bio_power_storage",
-        "type": "bionic",
-        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
-      },
-      {
-        "drop": "bionics_tech",
-        "type": "bionic_group",
-        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
-      },
+      { "drop": "bio_power_storage", "type": "bionic", "flags": [ "NO_STERILE", "NO_PACKED" ] },
+      { "drop": "bionics_tech", "type": "bionic_group", "flags": [ "NO_STERILE", "NO_PACKED" ] },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
@@ -684,24 +639,9 @@
     "id": "CBM_SUBS",
     "type": "harvest",
     "entries": [
-      {
-        "drop": "bio_power_storage",
-        "type": "bionic",
-        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
-      },
-      {
-        "drop": "bionics_subs",
-        "type": "bionic_group",
-        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
-      },
-      {
-        "drop": "bionics_subs",
-        "type": "bionic_group",
-        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
-      },
+      { "drop": "bio_power_storage", "type": "bionic", "flags": [ "NO_STERILE", "NO_PACKED" ] },
+      { "drop": "bionics_subs", "type": "bionic_group", "flags": [ "NO_STERILE", "NO_PACKED" ] },
+      { "drop": "bionics_subs", "type": "bionic_group", "flags": [ "NO_STERILE", "NO_PACKED" ] },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
@@ -711,18 +651,8 @@
     "id": "CBM_OP",
     "type": "harvest",
     "entries": [
-      {
-        "drop": "bio_power_storage_mkII",
-        "type": "bionic",
-        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
-      },
-      {
-        "drop": "bionics_op",
-        "type": "bionic_group",
-        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
-      },
+      { "drop": "bio_power_storage_mkII", "type": "bionic", "flags": [ "NO_STERILE", "NO_PACKED" ] },
+      { "drop": "bionics_op", "type": "bionic_group", "flags": [ "NO_STERILE", "NO_PACKED" ] },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
@@ -732,24 +662,9 @@
     "id": "CBM_OP2",
     "type": "harvest",
     "entries": [
-      {
-        "drop": "bionics_op2_off",
-        "type": "bionic_group",
-        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
-      },
-      {
-        "drop": "bionics_op2_def",
-        "type": "bionic_group",
-        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
-      },
-      {
-        "drop": "bionics_op2_utl",
-        "type": "bionic_group",
-        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
-      },
+      { "drop": "bionics_op2_off", "type": "bionic_group", "flags": [ "NO_STERILE", "NO_PACKED" ] },
+      { "drop": "bionics_op2_def", "type": "bionic_group", "flags": [ "NO_STERILE", "NO_PACKED" ] },
+      { "drop": "bionics_op2_utl", "type": "bionic_group", "flags": [ "NO_STERILE", "NO_PACKED" ] },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
@@ -759,12 +674,7 @@
     "id": "CBM_POWER",
     "type": "harvest",
     "entries": [
-      {
-        "drop": "bio_power_storage",
-        "type": "bionic",
-        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
-      },
+      { "drop": "bio_power_storage", "type": "bionic", "flags": [ "NO_STERILE", "NO_PACKED" ] },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }

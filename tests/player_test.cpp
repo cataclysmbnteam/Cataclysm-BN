@@ -129,10 +129,10 @@ static int converge_temperature( player &p, size_t iters, int start_temperature 
     return p.temp_cur[0];
 }
 
-static void equip_clothing( player &p, const std::vector<itype_id> &clothing )
+static void equip_clothing( player &p, const std::vector<std::string> &clothing )
 {
-    for( const itype_id &c : clothing ) {
-        const item article( c, calendar::start_of_cataclysm );
+    for( const std::string &c : clothing ) {
+        const item article( itype_id( c ), calendar::start_of_cataclysm );
         p.wear_item( article );
     }
 }
@@ -176,7 +176,7 @@ static void test_temperature_spread( player &p,
     }
 }
 
-const std::vector<itype_id> light_clothing = {{
+const std::vector<std::string> light_clothing = {{
         "hat_ball",
         "bandana",
         "tshirt",
@@ -187,7 +187,7 @@ const std::vector<itype_id> light_clothing = {{
     }
 };
 
-const std::vector<itype_id> heavy_clothing = {{
+const std::vector<std::string> heavy_clothing = {{
         "hat_knit",
         "tshirt",
         "vest",
@@ -200,7 +200,7 @@ const std::vector<itype_id> heavy_clothing = {{
     }
 };
 
-const std::vector<itype_id> arctic_clothing = {{
+const std::vector<std::string> arctic_clothing = {{
         "balclava",
         "goggles_ski",
         "hat_hunting",

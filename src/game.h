@@ -87,8 +87,6 @@ enum action_id : int;
 
 struct special_game;
 
-using itype_id = std::string;
-
 class achievements_tracker;
 class avatar;
 class event_bus;
@@ -102,6 +100,7 @@ class player;
 class save_t;
 class scenario;
 class stats_tracker;
+template<typename Tripoint>
 class tripoint_range;
 class vehicle;
 struct WORLD;
@@ -332,9 +331,9 @@ class game
         monster *place_critter_around( const mtype_id &id, const tripoint &center, int radius );
         monster *place_critter_around( const shared_ptr_fast<monster> &mon, const tripoint &center,
                                        int radius, bool forced = false );
-        monster *place_critter_within( const mtype_id &id, const tripoint_range &range );
+        monster *place_critter_within( const mtype_id &id, const tripoint_range<tripoint> &range );
         monster *place_critter_within( const shared_ptr_fast<monster> &mon,
-                                       const tripoint_range &range );
+                                       const tripoint_range<tripoint> &range );
         /** @} */
         /**
          * Returns the approximate number of creatures in the reality bubble.

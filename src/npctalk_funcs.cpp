@@ -480,11 +480,12 @@ void talk_function::bionic_remove( npc &p )
     std::vector<itype_id> bionic_types;
     std::vector<std::string> bionic_names;
     for( const bionic &bio : all_bio ) {
-        if( std::find( bionic_types.begin(), bionic_types.end(), bio.id.str() ) == bionic_types.end() ) {
+        if( std::find( bionic_types.begin(), bionic_types.end(),
+                       bio.info().itype() ) == bionic_types.end() ) {
             if( bio.id != bio_power_storage ||
                 bio.id != bio_power_storage_mkII ) {
-                bionic_types.push_back( bio.id.str() );
-                if( item::type_is_defined( bio.id.str() ) ) {
+                bionic_types.push_back( bio.info().itype() );
+                if( bio.info().itype().is_valid() ) {
                     item tmp = item( bio.id.str(), calendar::start_of_cataclysm );
                     bionic_names.push_back( tmp.tname() + " - " + format_money( 50000 + ( tmp.price( true ) / 4 ) ) );
                 } else {
@@ -502,8 +503,8 @@ void talk_function::bionic_remove( npc &p )
         return;
     }
 
-    signed int price;
-    if( item::type_is_defined( bionic_types[bionic_index] ) ) {
+    int price;
+    if( bionic_types[bionic_index].is_valid() ) {
         int tmp = item( bionic_types[bionic_index], calendar::start_of_cataclysm ).price( true );
         price = 50000 + ( tmp / 4 );
     } else {
@@ -514,9 +515,9 @@ void talk_function::bionic_remove( npc &p )
     }
 
     //Makes the doctor awesome at installing but not perfect
-    if( g->u.can_uninstall_bionic( bionic_id( bionic_types[bionic_index] ), p, false ) ) {
+    if( g->u.can_uninstall_bionic( bionic_id( bionic_types[bionic_index].str() ), p, false ) ) {
         g->u.amount_of( bionic_types[bionic_index] ); // ??? this does nothing, it just queries the count
-        g->u.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), p, false );
+        g->u.uninstall_bionic( bionic_id( bionic_types[bionic_index].str() ), p, false );
     }
 
 }

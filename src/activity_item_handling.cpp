@@ -7,6 +7,7 @@
 #include <iterator>
 #include <list>
 #include <memory>
+#include <numeric>
 #include <set>
 #include <sstream>
 #include <string>
@@ -92,8 +93,18 @@ static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
+
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_nausea( "nausea" );
+
+static const itype_id itype_battery( "battery" );
+static const itype_id itype_detergent( "detergent" );
+static const itype_id itype_log( "log" );
+static const itype_id itype_soap( "soap" );
+static const itype_id itype_soldering_iron( "soldering_iron" );
+static const itype_id itype_water( "water" );
+static const itype_id itype_water_clean( "water_clean" );
+static const itype_id itype_welder( "welder" );
 
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
@@ -713,14 +724,14 @@ void wash_activity_actor::finish( player_activity &act, Character &who )
                                                 it.contents_made_of( LIQUID ) );
     };
     const inventory &crafting_inv = who.crafting_inventory();
-    if( !crafting_inv.has_charges( "water", required.water, is_liquid_crafting_component ) &&
-        !crafting_inv.has_charges( "water_clean", required.water, is_liquid_crafting_component ) ) {
+    if( !crafting_inv.has_charges( itype_water, required.water, is_liquid_crafting_component ) &&
+        !crafting_inv.has_charges( itype_water_clean, required.water, is_liquid_crafting_component ) ) {
         who.add_msg_if_player( _( "You need %1$i charges of water or clean water to wash these items." ),
                                required.water );
         act.set_to_null();
         return;
-    } else if( !crafting_inv.has_charges( "soap", required.cleanser ) &&
-               !crafting_inv.has_charges( "detergent", required.cleanser ) ) {
+    } else if( !crafting_inv.has_charges( itype_soap, required.cleanser ) &&
+               !crafting_inv.has_charges( itype_detergent, required.cleanser ) ) {
         who.add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ),
                                required.cleanser );
         act.set_to_null();
@@ -747,13 +758,13 @@ void wash_activity_actor::finish( player_activity &act, Character &who )
     }
 
     std::vector<item_comp> comps;
-    comps.push_back( item_comp( "water", required.water ) );
-    comps.push_back( item_comp( "water_clean", required.water ) );
+    comps.push_back( item_comp( itype_water, required.water ) );
+    comps.push_back( item_comp( itype_water_clean, required.water ) );
     who.as_player()->consume_items( comps, 1, is_liquid_crafting_component );
 
     std::vector<item_comp> comps1;
-    comps1.push_back( item_comp( "soap", required.cleanser ) );
-    comps1.push_back( item_comp( "detergent", required.cleanser ) );
+    comps1.push_back( item_comp( itype_soap, required.cleanser ) );
+    comps1.push_back( item_comp( itype_detergent, required.cleanser ) );
     who.as_player()->consume_items( comps1 );
 
     who.add_msg_if_player( m_good, _( "You washed your items." ) );
@@ -1213,12 +1224,12 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                 vehicle &veh = vp->vehicle();
                 const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
                 if( weldpart ) {
-                    item welder( "welder", calendar::start_of_cataclysm );
-                    welder.charges = veh.fuel_left( "battery", true );
+                    item welder( itype_welder, calendar::start_of_cataclysm );
+                    welder.charges = veh.fuel_left( itype_battery, true );
                     welder.set_flag( "PSEUDO" );
                     temp_inv.add_item( welder );
-                    item soldering_iron( "soldering_iron", calendar::start_of_cataclysm );
-                    soldering_iron.charges = veh.fuel_left( "battery", true );
+                    item soldering_iron( itype_soldering_iron, calendar::start_of_cataclysm );
+                    soldering_iron.charges = veh.fuel_left( itype_battery, true );
                     soldering_iron.set_flag( "PSEUDO" );
                     temp_inv.add_item( soldering_iron );
                 }
@@ -1450,7 +1461,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
     if( act == ACT_MULTIPLE_CHOP_PLANKS ) {
         //are there even any logs there?
         for( auto &i : g->m.i_at( src_loc ) ) {
-            if( i.typeId() == "log" ) {
+            if( i.typeId() == itype_log ) {
                 // do we have an axe?
                 if( p.has_quality( qual_AXE, 1 ) ) {
                     return activity_reason_info::ok( do_activity_reason::NEEDS_CHOPPING );
@@ -1514,10 +1525,10 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 } else {
                     // do we have the required seed on our person?
                     const plot_options &options = dynamic_cast<const plot_options &>( zone.get_options() );
-                    const std::string seed = options.get_seed();
+                    const itype_id seed = options.get_seed();
                     // If its a farm zone with no specified seed, and we've checked for tilling and harvesting.
                     // then it means no further work can be done here
-                    if( seed.empty() ) {
+                    if( seed.is_empty() ) {
                         return activity_reason_info::fail( do_activity_reason::ALREADY_DONE );
                     }
                     std::vector<item *> seed_inv = p.items_with( []( const item & itm ) {
@@ -1843,8 +1854,8 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
         }
     }
     for( const std::tuple<tripoint, itype_id, int> &elem : final_map ) {
-        add_msg( m_debug, "%s is fetching %s from x: %d y: %d ", p.disp_name(), std::get<1>( elem ),
-                 std::get<0>( elem ).x, std::get<0>( elem ).y );
+        add_msg( m_debug, "%s is fetching %s from x: %d y: %d ", p.disp_name(),
+                 std::get<1>( elem ).str(), std::get<0>( elem ).x, std::get<0>( elem ).y );
     }
     return final_map;
 }
@@ -2060,7 +2071,7 @@ static bool chop_plank_activity( player &p, const tripoint &src_loc )
         p.consume_charges( *best_qual, best_qual->type->charges_to_use() );
     }
     for( auto &i : g->m.i_at( src_loc ) ) {
-        if( i.typeId() == "log" ) {
+        if( i.typeId() == itype_log ) {
             g->m.i_rem( src_loc, &i );
             int moves = to_moves<int>( 20_minutes );
             p.add_msg_if_player( _( "You cut the log into planks." ) );
@@ -2786,7 +2797,8 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
         std::vector<zone_data> zones = mgr.get_zones( zone_type_FARM_PLOT,
                                        g->m.getabs( src_loc ) );
         for( const zone_data &zone : zones ) {
-            const std::string seed = dynamic_cast<const plot_options &>( zone.get_options() ).get_seed();
+            const itype_id seed =
+                dynamic_cast<const plot_options &>( zone.get_options() ).get_seed();
             std::vector<item *> seed_inv = p.items_with( [seed]( const item & itm ) {
                 return itm.typeId() == itype_id( seed );
             } );
@@ -3159,7 +3171,7 @@ bool find_auto_consume( player &p, const bool food )
 void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
 {
     const tripoint pos = p.pos();
-    std::vector<tripoint> adjacent = closest_tripoints_first( pos, PICKUP_RANGE );
+    std::vector<tripoint> adjacent = closest_points_first( pos, PICKUP_RANGE );
     adjacent.erase( adjacent.begin() );
 
     cata::optional<tripoint> best_fire = starting_fire ? act.placement : find_best_fire( adjacent,

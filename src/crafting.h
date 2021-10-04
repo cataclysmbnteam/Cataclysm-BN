@@ -6,6 +6,7 @@
 #include <set>
 #include <vector>
 #include "point.h"
+#include "type_id.h"
 
 class Character;
 class inventory;
@@ -13,8 +14,6 @@ class item;
 class player;
 class recipe;
 struct tool_comp;
-
-using itype_id = std::string;
 
 enum class cost_adjustment : int;
 

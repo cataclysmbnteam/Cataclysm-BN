@@ -33,6 +33,18 @@
 #include "translations.h"
 #include "visitable.h"
 
+static const itype_id itype_char_forge( "char_forge" );
+static const itype_id itype_crucible( "crucible" );
+static const itype_id itype_fire( "fire" );
+static const itype_id itype_forge( "forge" );
+static const itype_id itype_mold_plastic( "mold_plastic" );
+static const itype_id itype_oxy_torch( "oxy_torch" );
+static const itype_id itype_press( "press" );
+static const itype_id itype_sewing_kit( "sewing_kit" );
+static const itype_id itype_UPS( "UPS" );
+static const itype_id itype_welder( "welder" );
+static const itype_id itype_welder_crude( "welder_crude" );
+
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 static std::map<requirement_id, requirement_data> requirements_all;
@@ -134,7 +146,7 @@ std::string tool_comp::to_string( const int batch, const int ) const
 std::string item_comp::to_string( const int batch, const int avail ) const
 {
     const int c = std::abs( count ) * batch;
-    const auto type_ptr = item::find_type( type );
+    const itype *type_ptr = &*type;
     if( type_ptr->count_by_charges() ) {
         if( avail == item::INFINITE_CHARGES ) {
             //~ %1$s: item name, %2$d: charge requirement
@@ -198,11 +210,11 @@ void tool_comp::load( const JsonValue &value )
 {
     if( value.test_string() ) {
         // constructions uses this format: [ "tool", ... ]
-        type = value.get_string();
+        value.read( type, true );
         count = -1;
     } else {
         JsonArray comp = value.get_array();
-        type = comp.get_string( 0 );
+        comp.read( 0, type, true );
         count = comp.get_int( 1 );
         requirement = comp.size() > 2 && comp.get_string( 2 ) == "LIST";
     }
@@ -226,7 +238,7 @@ void tool_comp::dump( JsonOut &jsout ) const
 void item_comp::load( const JsonValue &value )
 {
     JsonArray comp = value.get_array();
-    type = comp.get_string( 0 );
+    comp.read( 0, type, true );
     count = comp.get_int( 1 );
     size_t handled = 2;
     while( comp.size() > handled ) {
@@ -429,8 +441,8 @@ void quality_requirement::check_consistency( const std::string &display_name ) c
 
 void component::check_consistency( const std::string &display_name ) const
 {
-    if( !item::type_is_defined( type ) ) {
-        debugmsg( "%s in %s is not a valid item template", type.c_str(), display_name );
+    if( !type.is_valid() ) {
+        debugmsg( "%s in %s is not a valid item template", type, display_name );
     }
 }
 
@@ -495,7 +507,7 @@ void inline_requirements( std::vector<std::vector<T>> &list,
                 return;
             }
             // otherwise expand component as requirement
-            const requirement_id r( comp.type );
+            const requirement_id r( comp.type.str() );
             if( !r.is_valid() ) {
                 debugmsg( "Tried to inline unknown requirement %s", r.c_str() );
                 return;
@@ -554,7 +566,7 @@ void requirement_data::finalize()
                 for( const itype_id &replacing_type : replacements ) {
                     // One of the replacements is the type itself
                     const int charge_factor = replacing_type != comp.type
-                                              ? item::find_type( replacing_type )->charge_factor()
+                                              ? replacing_type->charge_factor()
                                               : 1;
                     new_list.emplace_back( replacing_type, charge_factor * comp.count );
                 }
@@ -608,7 +620,7 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
             const std::string color_tag = get_tag_from_color( color );
             int qty = 0;
             if( component.get_component_type() == component_type::ITEM ) {
-                const itype_id item_id = static_cast<itype_id>( component.type );
+                const itype_id item_id = itype_id( component.type.str() );
                 if( item::count_by_charges( item_id ) ) {
                     qty = crafting_inv.charges_of( item_id, INT_MAX, filter );
                 } else {
@@ -723,7 +735,7 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
     }
 
     if( total_UPS_charges_used > 0 &&
-        total_UPS_charges_used > crafting_inv.charges_of( "UPS" ) ) {
+        total_UPS_charges_used > crafting_inv.charges_of( itype_UPS ) ) {
         return false;
     }
     return retval;
@@ -872,7 +884,7 @@ bool requirement_data::check_enough_materials( const item_comp &comp, const inve
             comp.available = available_status::a_insufficent;
         }
     }
-    const itype *it = item::find_type( comp.type );
+    const itype *it = &*comp.type;
     for( const auto &ql : it->qualities ) {
         const quality_requirement *qr = find_by_type( qualities, ql.first );
         if( qr == nullptr || qr->level > ql.second ) {
@@ -888,7 +900,7 @@ bool requirement_data::check_enough_materials( const item_comp &comp, const inve
 }
 
 template <typename T>
-static bool apply_blacklist( std::vector<std::vector<T>> &vec, const std::string &id )
+static bool apply_blacklist( std::vector<std::vector<T>> &vec, const itype_id &id )
 {
     // remove all instances of @id type from each of the options
     for( auto &opts : vec ) {
@@ -910,15 +922,15 @@ static bool apply_blacklist( std::vector<std::vector<T>> &vec, const std::string
     return blacklisted;
 }
 
-void requirement_data::blacklist_item( const std::string &id )
+void requirement_data::blacklist_item( const itype_id &id )
 {
     blacklisted |= apply_blacklist( tools, id );
     blacklisted |= apply_blacklist( components, id );
 }
 
 template <typename T>
-static void apply_replacement( std::vector<std::vector<T>> &vec, const std::string &id,
-                               const std::string &replacement )
+static void apply_replacement( std::vector<std::vector<T>> &vec, const itype_id &id,
+                               const itype_id &replacement )
 {
     // If the target and replacement are both present, remove the target.
     // If only the target is present, replace it.
@@ -988,32 +1000,32 @@ requirement_data requirement_data::disassembly_requirements() const
             const itype_id &type = tool.type;
 
             // If crafting required a welder or forge then disassembly requires metal sawing
-            if( type == "welder" || type == "welder_crude" || type == "oxy_torch" ||
-                type == "forge" || type == "char_forge" ) {
+            if( type == itype_welder || type == itype_welder_crude || type == itype_oxy_torch ||
+                type == itype_forge || type == itype_char_forge ) {
                 new_qualities.emplace_back( quality_id( "SAW_M_FINE" ), 1, 1 );
                 replaced = true;
                 break;
             }
             //This only catches instances where the two tools are explicitly stated, and not just the required sewing quality
-            if( type == "sewing_kit" ||
-                type == "mold_plastic" ) {
+            if( type == itype_sewing_kit ||
+                type == itype_mold_plastic ) {
                 new_qualities.emplace_back( quality_id( "CUT" ), 1, 1 );
                 replaced = true;
                 break;
             }
 
-            if( type == "crucible" ) {
+            if( type == itype_crucible ) {
                 replaced = true;
                 break;
             }
             //This ensures that you don't need a hand press to break down reloaded ammo.
-            if( type == "press" ) {
+            if( type == itype_press ) {
                 replaced = true;
                 remove_fire = true;
                 new_qualities.emplace_back( quality_id( "PULL" ), 1, 1 );
                 break;
             }
-            if( type == "fire" && remove_fire ) {
+            if( type == itype_fire && remove_fire ) {
                 replaced = true;
                 break;
             }
@@ -1148,8 +1160,8 @@ static std::vector<std::vector<T>> consolidate( std::vector<std::vector<T>> old_
 {
     const auto type_lt = []( const T & lhs, const T & rhs ) -> bool {
         //TODO change to use localized sorting
-        return std::forward_as_tuple( lhs.type, lhs.requirement )
-        < std::forward_as_tuple( rhs.type, rhs.requirement );
+        return std::forward_as_tuple( lhs.type.str(), lhs.requirement )
+        < std::forward_as_tuple( rhs.type.str(), rhs.requirement );
     };
     // in order to simplify blueprint requirements, we merge a longer requirement
     // list into a shorter requirement list whose types are a subsequence of the

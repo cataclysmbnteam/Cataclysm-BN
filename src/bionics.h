@@ -25,8 +25,6 @@ class player;
 
 enum class character_stat : char;
 
-using itype_id = std::string;
-
 struct bionic_data {
     bionic_data();
     ~bionic_data();
@@ -95,7 +93,7 @@ struct bionic_data {
      * Fake item created for crafting with this bionic available.
      * Also the item used for gun bionics.
      */
-    std::string fake_item;
+    itype_id fake_item;
     /**
      * Mutations/trait that are removed upon installing this CBM.
      * E.g. enhanced optic bionic may cancel HYPEROPIC trait.
@@ -130,6 +128,8 @@ struct bionic_data {
     std::set<flag_str_id> flags;
     bool has_flag( const flag_str_id &flag ) const;
 
+    itype_id itype() const;
+
     bool is_included( const bionic_id &id ) const;
 
     static void load_bionic( const JsonObject &jo, const std::string &src );
@@ -149,7 +149,7 @@ struct bionic {
         char        invlet  = 'a';
         bool        powered = false;
         /* Ammunition actually loaded in this bionic gun in deactivated state */
-        itype_id    ammo_loaded = "null";
+        itype_id    ammo_loaded = itype_id::NULL_ID();
         /* Ammount of ammo actually held inside by this bionic gun in deactivated state */
         unsigned int         ammo_count = 0;
         /* An amount of time during which this bionic has been rendered inoperative. */

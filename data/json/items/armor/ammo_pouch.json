@@ -171,7 +171,8 @@
     "color": "brown",
     "covers": [ "torso" ],
     "coverage": 30,
-    "encumbrance": 10,
+    "encumbrance": 2,
+    "max_encumbrance": 4,
     "material_thickness": 4,
     "use_action": {
       "type": "holster",
