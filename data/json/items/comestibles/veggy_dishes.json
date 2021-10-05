@@ -826,6 +826,7 @@
     "name": { "str_sp": "boiled fiddleheads" },
     "weight": "50 g",
     "flags": [ "SMOKABLE", "EATEN_HOT" ],
+    "smoking_result": "dry_veggy",
     "color": "light_green",
     "spoils_in": "2 days 12 hours",
     "comestible_type": "FOOD",
