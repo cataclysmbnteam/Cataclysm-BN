@@ -58,7 +58,7 @@
     "skill_used": "electronics",
     "time": "10 m",
     "reversible": true,
-    "book_learn": [ [ "manual_electronics", 0 ], [ "mag_electronics", 1 ] ],
+    "autolearn": true,
     "components": [
       [ [ "amplifier", 1 ] ],
       [
