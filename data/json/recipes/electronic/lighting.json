@@ -56,10 +56,9 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_LIGHTING",
     "skill_used": "electronics",
-    "difficulty": 1,
+    "difficulty": 0,
     "time": "10 m",
     "reversible": true,
-    "decomp_learn": 0,
     "book_learn": [ [ "manual_electronics", 0 ], [ "mag_electronics", 1 ] ],
     "components": [
       [ [ "amplifier", 1 ] ],
