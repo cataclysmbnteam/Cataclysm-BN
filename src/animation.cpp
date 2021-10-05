@@ -246,10 +246,11 @@ void draw_custom_explosion_curses( game &g,
 #if defined(TILES)
 void explosion_handler::draw_explosion( const tripoint &p, const int r, const nc_color &col )
 {
-    draw_explosion( p, r, col, "explosion" );
+    const std::string exp_name = "explosion";
+    draw_explosion( p, r, col, exp_name );
 }
 
-void explosion_handler::draw_explosion( const tripoint &p, const int r, const nc_color &col, std::string exp_name )
+void explosion_handler::draw_explosion( const tripoint &p, const int r, const nc_color &col, const std::string &exp_name )
 {
     if( test_mode ) {
         // avoid segfault from null tilecontext in tests
@@ -294,14 +295,15 @@ void explosion_handler::draw_explosion( const tripoint &p, const int r, const nc
 #endif
 
 
-void explosion_handler::draw_custom_explosion(const tripoint &p,
+void explosion_handler::draw_custom_explosion( const tripoint &p,
     const std::map<tripoint, nc_color> &area )
 {
-    draw_custom_explosion(p, area, "explosion");
+    const std::string exp_name = "explosion";
+    draw_custom_explosion( p, area, exp_name );
 }
 
-void explosion_handler::draw_custom_explosion(const tripoint&,
-    const std::map<tripoint, nc_color>& all_area, std::string exp_name)
+void explosion_handler::draw_custom_explosion( const tripoint&,
+    const std::map<tripoint, nc_color>& all_area, const std::string &exp_name )
 {
     if( test_mode ) {
         // avoid segfault from null tilecontext in tests

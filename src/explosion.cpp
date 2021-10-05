@@ -484,9 +484,15 @@ void explosion( const tripoint &p, const explosion_data &ex )
     }
 }
 
-void flashbang( const tripoint &p, bool player_immune )
+void flashbang(const tripoint &p, bool player_immune)
 {
-    draw_explosion( p, 8, c_white );
+    const std::string exp_name = "explosion";
+    flashbang( p, player_immune, exp_name );
+}
+
+void flashbang( const tripoint &p, bool player_immune, const std::string &exp_name )
+{
+    draw_explosion( p, 8, c_white, exp_name );
     int dist = rl_dist( g->u.pos(), p );
     if( dist <= 8 && !player_immune ) {
         if( !g->u.has_bionic( bio_ears ) && !g->u.is_wearing( itype_rm13_armor_on ) ) {
@@ -533,9 +539,16 @@ void flashbang( const tripoint &p, bool player_immune )
 }
 
 void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult,
-                bool ignore_player )
+    bool ignore_player )
 {
-    draw_explosion( p, radius, c_blue );
+    const std::string exp_name = "explosion";
+    shockwave( p, radius, force, stun, dam_mult, ignore_player, exp_name );
+}
+
+void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult,
+                bool ignore_player, const std::string &exp_name )
+{
+    draw_explosion( p, radius, c_blue, exp_name );
 
     sounds::sound( p, force * force * dam_mult / 2, sounds::sound_t::combat, _( "Crack!" ), false,
                    "misc", "shockwave" );

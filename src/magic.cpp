@@ -468,7 +468,7 @@ skill_id spell::skill() const
 
 int spell::field_intensity() const
 {
-    return std::min( type->max_field_intensity, 
+    return std::min( type->max_field_intensity,
                      static_cast<int>( type->min_field_intensity + std::round( get_level() *
                                        type->field_intensity_increment ) ) );
 }
