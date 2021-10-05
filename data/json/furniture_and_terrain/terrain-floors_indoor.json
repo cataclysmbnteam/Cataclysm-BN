@@ -65,7 +65,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_thconc_floor",
-      "items": [ { "item": "glass_shard", "count": [ 8, 16 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 0, 2 ] } ]
     }
   },
   {

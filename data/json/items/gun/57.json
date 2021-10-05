@@ -11,6 +11,7 @@
     "price": 124900,
     "price_postapoc": 2750,
     "to_hit": -2,
+    "ascii_picture": "FN_five_seven",
     "bashing": 6,
     "material": [ "steel", "plastic" ],
     "symbol": "(",

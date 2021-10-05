@@ -127,7 +127,7 @@
         "R": { "item": [ { "item": "dimensional_anchor" }, { "item": "phase_immersion_suit" } ] },
         "z": {
           "item": [
-            { "item": "glass_shard", "repeat": [ 25, 50 ], "chance": 100 },
+            { "item": "glass_shard", "repeat": [ 2, 5 ], "chance": 100 },
             { "item": "wire" },
             { "item": "scrap", "repeat": [ 3, 5 ], "chance": 100 }
           ]
@@ -200,7 +200,7 @@
         "R": { "item": [ { "item": "dimensional_anchor" }, { "item": "phase_immersion_suit" } ] },
         "z": {
           "item": [
-            { "item": "glass_shard", "repeat": [ 25, 50 ], "chance": 100 },
+            { "item": "glass_shard", "repeat": [ 2, 5 ], "chance": 100 },
             { "item": "wire" },
             { "item": "scrap", "repeat": [ 3, 5 ], "chance": 100 }
           ]

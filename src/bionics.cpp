@@ -236,7 +236,7 @@ bool string_id<bionic_data>::is_valid() const
 std::vector<bodypart_id> get_occupied_bodyparts( const bionic_id &bid )
 {
     std::vector<bodypart_id> parts;
-    for( const std::pair<const bodypart_str_id, size_t> &element : bid->occupied_bodyparts ) {
+    for( const std::pair<const bodypart_str_id, int> &element : bid->occupied_bodyparts ) {
         if( element.second > 0 ) {
             parts.push_back( element.first.id() );
         }

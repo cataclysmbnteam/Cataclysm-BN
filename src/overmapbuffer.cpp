@@ -725,7 +725,7 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
     const auto get_ter_at = [&]( const point & p ) {
         return ter( base + p );
     };
-    const auto estimate = [&]( const pf::node & cur, const pf::node * ) {
+    const auto estimate = [&]( const pf::node<point> &cur, const pf::node<point> * ) {
         const tripoint convert_result = base + tripoint( cur.pos, 0 );
         if( ptype.only_known_by_player && !seen( convert_result ) ) {
             return pf::rejected;
@@ -772,7 +772,7 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
 
         return res;
     };
-    pf::path route;
+    pf::path<point> route;
     if( ptype.only_road ) {
         route = pf::find_path_4dir( start, finish, O * 2, estimate );
     } else {
@@ -816,7 +816,7 @@ bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest,
         return false;
     }
 
-    const auto estimate = [&]( const pf::node & cur, const pf::node * ) {
+    const auto estimate = [&]( const pf::node<point> &cur, const pf::node<point> * ) {
         int res = 0;
 
         const oter_id oter = get_ter_at( cur.pos );
@@ -1039,7 +1039,7 @@ std::vector<tripoint> overmapbuffer::find_all( const tripoint &origin,
     size_t num_overmaps = overmaps.size();
     size_t counter = 0;
 
-    for( const tripoint &loc : closest_tripoints_first( origin, min_dist, max_dist ) ) {
+    for( const tripoint &loc : closest_points_first( origin, min_dist, max_dist ) ) {
         if( is_findable_location( loc, params ) ) {
             result.push_back( loc );
         }

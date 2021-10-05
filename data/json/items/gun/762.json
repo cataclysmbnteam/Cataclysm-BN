@@ -88,6 +88,7 @@
     "price": 38000,
     "price_postapoc": 3500,
     "to_hit": -1,
+    "ascii_picture": "sks",
     "bashing": 12,
     "material": [ "steel", "wood" ],
     "symbol": "(",

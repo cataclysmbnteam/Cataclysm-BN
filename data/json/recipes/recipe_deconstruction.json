@@ -1717,25 +1717,25 @@
     "result": "glass",
     "type": "uncraft",
     "time": "30 s",
-    "components": [ [ [ "glass_shard", 4 ] ] ]
+    "components": [ [ [ "glass_shard", 1 ] ] ]
   },
   {
     "result": "glass_bowl",
     "type": "uncraft",
     "time": "30 s",
-    "components": [ [ [ "glass_shard", 4 ] ] ]
+    "components": [ [ [ "glass_shard", 1 ] ] ]
   },
   {
     "result": "glass_plate",
     "type": "uncraft",
     "time": "30 s",
-    "components": [ [ [ "glass_shard", 4 ] ] ]
+    "components": [ [ [ "glass_shard", 1 ] ] ]
   },
   {
     "result": "glass_sheet",
     "type": "uncraft",
     "time": "2 m",
-    "components": [ [ [ "glass_shard", 182 ] ] ]
+    "components": [ [ [ "glass_shard", 18 ] ] ]
   },
   {
     "result": "game_watch",

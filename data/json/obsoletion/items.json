@@ -2061,6 +2061,7 @@
     "price": 75000,
     "price_postapoc": 5000,
     "to_hit": -2,
+    "ascii_picture": "coilgun",
     "bashing": 10,
     "material": [ "copper", "steel" ],
     "ammo": "nail",
@@ -3333,5 +3334,26 @@
     "charges": 6,
     "calories": 400,
     "flags": [ "EATEN_HOT" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "chem_acrylamide",
+    "category": "chems",
+    "price": 10,
+    "price_postapoc": 5,
+    "name": { "str_sp": "acrylamide" },
+    "symbol": ";",
+    "quench": -15,
+    "healthy": -20,
+    "fun": -6,
+    "color": "white",
+    "container": "bottle_glass",
+    "flags": [ "EDIBLE_FROZEN" ],
+    "charges": 50,
+    "description": "This highly carcinogenic white powder can be readily polymerized into a whole bunch of useful water-soluble gels.",
+    "material": "powder",
+    "volume": "100 ml",
+    "//": "Bulk density is around 0.5 g/mL (because it's a powder, the actual density of 1.12 g/mL is not useful)",
+    "weight": "1 g"
   }
 ]

@@ -293,7 +293,6 @@
       [ "chem_glycerol", 10 ],
       [ "chem_peptone_broth", 10 ],
       [ "chem_agar", 10 ],
-      [ "chem_acrylamide", 10 ],
       [ "oxygen_tank", 6 ],
       [ "nitrogen_tank", 7 ],
       [ "hydrogen_tank", 8 ],
