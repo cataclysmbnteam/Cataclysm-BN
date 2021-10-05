@@ -4132,7 +4132,7 @@
     "id": "constr_charger",
     "description": "Place Charger",
     "category": "FURN",
-    "required_skills": [ [ "fabrication", 0 ] ],
+    "required_skills": [ [ "electronics", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
     "components": [
