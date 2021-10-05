@@ -2331,16 +2331,15 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
     }
     const pry_result *pry = nullptr;
 
-    const std::function<bool( const tripoint & )> f = [&allowed_ter_id,
-    &allowed_furn_id]( const tripoint & pnt ) {
-        if( pnt == g->u.pos() ) {
+    if( pos->pry.new_ter_type || pos->pry.new_furn_type ) {
+        if( pos == g->u.pos() ) {
             return false;
         }
-        const ter_id ter = g->m.ter(pnt);
-        const auto furn = g->m.furn(pnt);
+        const ter_id ter = g->m.ter(pos);
+        const auto furn = g->m.furn(pos);
 
         const bool is_allowed = false;
-        if( has_furn( p ) && furnid.pry.pry_quality != -1 ) {
+        if( has_furn( pos ) && furnid.pry.pry_quality != -1 ) {
             pry = &furnid.pry;
             pry_furn = true;
             return is_allowed;
