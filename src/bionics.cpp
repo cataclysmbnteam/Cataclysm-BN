@@ -2263,8 +2263,7 @@ bool Character::can_install_bionics( const itype &type, player &installer, bool 
                     ( 100 - chance_of_success ) ) ) {
                 return false;
             }
-        }
-        else {
+        } else {
             if( !g->u.query_yn(
                     _( "WARNING: There is a %i percent chance of complications, such as damage or faulty installation!  The following skills affect self-installation: First Aid, Electronics, and Mechanics.\n\nContinue anyway?" ),
                     ( 100 - chance_of_success ) ) ) {
