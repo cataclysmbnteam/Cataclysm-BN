@@ -32,7 +32,7 @@
     "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.",
     "symbol": "X",
     "color": "cyan",
-    "move_cost": 3,
+    "move_cost": 2,
     "bash": {
       "str_min": 60,
       "str_max": 210,
@@ -63,7 +63,7 @@
     "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.",
     "symbol": "X",
     "color": "cyan",
-    "move_cost": 3,
+    "move_cost": 2,
     "bash": {
       "str_min": 60,
       "str_max": 210,
@@ -94,7 +94,7 @@
     "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.",
     "symbol": "X",
     "color": "cyan",
-    "move_cost": 3,
+    "move_cost": 2,
     "bash": {
       "str_min": 60,
       "str_max": 210,
@@ -125,7 +125,7 @@
     "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.",
     "symbol": "X",
     "color": "cyan",
-    "move_cost": 3,
+    "move_cost": 2,
     "bash": {
       "str_min": 60,
       "str_max": 210,
@@ -156,7 +156,7 @@
     "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.",
     "symbol": "X",
     "color": "cyan",
-    "move_cost": 3,
+    "move_cost": 2,
     "bash": {
       "str_min": 60,
       "str_max": 210,
@@ -187,7 +187,7 @@
     "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.",
     "symbol": "X",
     "color": "cyan",
-    "move_cost": 3,
+    "move_cost": 2,
     "bash": {
       "str_min": 60,
       "str_max": 210,
@@ -310,7 +310,7 @@
     "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.  A crosstie sits underneath, supporting the rails.",
     "symbol": "X",
     "color": "cyan",
-    "move_cost": 3,
+    "move_cost": 2,
     "bash": {
       "str_min": 60,
       "str_max": 210,
@@ -344,7 +344,7 @@
     "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.  A crosstie sits underneath, supporting the rails.",
     "symbol": "X",
     "color": "cyan",
-    "move_cost": 3,
+    "move_cost": 2,
     "bash": {
       "str_min": 60,
       "str_max": 210,
@@ -378,7 +378,7 @@
     "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.  A crosstie sits underneath, supporting the rails.",
     "symbol": "X",
     "color": "cyan",
-    "move_cost": 3,
+    "move_cost": 2,
     "bash": {
       "str_min": 60,
       "str_max": 210,
@@ -412,7 +412,7 @@
     "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.  A crosstie sits underneath, supporting the rails.",
     "symbol": "X",
     "color": "cyan",
-    "move_cost": 3,
+    "move_cost": 2,
     "bash": {
       "str_min": 60,
       "str_max": 210,
@@ -446,7 +446,7 @@
     "description": "A tiny blockade on the train tracks, meant to signify the end of a track, or mark a 'no-go' zone for trains.",
     "symbol": "S",
     "color": "brown",
-    "move_cost": 3,
+    "move_cost": 2,
     "bash": {
       "str_min": 4,
       "str_max": 12,
@@ -574,7 +574,7 @@
     "description": "Like a railroad track, only smaller.  You could probably run a small vehicle on this.",
     "symbol": "=",
     "color": "cyan",
-    "move_cost": 3,
+    "move_cost": 2,
     "looks_like": "t_railroad_track",
     "bash": {
       "str_min": 60,
@@ -609,7 +609,7 @@
     "symbol": "=",
     "color": "cyan",
     "looks_like": "t_railroad_track_d",
-    "move_cost": 3,
+    "move_cost": 2,
     "bash": {
       "str_min": 60,
       "str_max": 210,
