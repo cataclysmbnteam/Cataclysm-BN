@@ -3352,6 +3352,7 @@
     "phase": "liquid",
     "container": "bottle_glass"
   },
+  {
     "type": "COMESTIBLE",
     "id": "chem_acrylamide",
     "category": "chems",
