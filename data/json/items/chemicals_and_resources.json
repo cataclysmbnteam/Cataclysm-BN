@@ -1246,7 +1246,7 @@
     "charges": 20,
     "container": "bag_plastic",
     "flags": [ "EDIBLE_FROZEN", "EATEN_COLD" ],
-    "description": "These clear flakes of processed seaweed can be dissolved in boiling water to create a very sturdy, temperature resistant gel.  Not only is it good for making gels to separate molecules by size, but it's a great cheat ingredient to make sure your jellies set properly.",
+    "description": "These clear cubes of processed seaweed can be dissolved in boiling water to create a very sturdy, temperature resistant gel.  Not only is it good for making gels to separate molecules by size, but it's a great cheat ingredient to make sure your jellies set properly.",
     "material": "junk",
     "volume": "900 ml",
     "//": "Bulk density is around 0.55 g/mL",
