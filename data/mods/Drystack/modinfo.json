@@ -5,7 +5,7 @@
     "name": "Stackable Dried Items",
     "authors": [ "Viss Valdyr" ],
     "maintainers": [ "Viss Valdyr" ],
-    "description": "This makes dried veggies, fruits, mushrooms and flour stackable, also unperishable.",
+    "description": "This makes dried veggies, fruits, mushrooms, eggs and flour stackable, also unperishable.",
     "category": "rebalance",
     "dependencies": [ "dda" ]
   }

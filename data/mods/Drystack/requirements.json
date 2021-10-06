@@ -1,0 +1,8 @@
+[
+  {
+    "id": "eggs_small_dry",
+    "type": "requirement",
+    "//": "All of the different eggs, which are small and powdered",
+    "components": [ [ [ "eggs_small", 1, "LIST" ], [ "powder_eggs", 1 ], [ "powder_eggs_mut", 1 ] ] ]
+  }
+]
