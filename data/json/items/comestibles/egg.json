@@ -139,7 +139,7 @@
     "volume": "600 ml",
     "fun": -5,
     "proportional": { "weight": 12.0, "calories": 12.0 },
-    "vitamins": [ [ "vitA", 108 ], [ "calcium", 36 ], [ "iron", 48 ], [ "vitB", 252 ] ],
+    "vitamins": [ [ "vitA", 108 ], [ "calcium", 36 ], [ "iron", 48 ], [ "vitB", 252 ], [ "mutant_toxin", 25 ] ],
     "rot_spawn": "GROUP_EGG_ANT",
     "rot_spawn_chance": 60
   },
@@ -156,7 +156,7 @@
     "price_postapoc": 200,
     "material": "egg",
     "proportional": { "weight": 1.1, "calories": 1.1, "volume": 1.1 },
-    "vitamins": [ [ "vitA", 40 ], [ "calcium", 13 ], [ "iron", 18 ], [ "vitB", 92 ] ],
+    "vitamins": [ [ "vitA", 40 ], [ "calcium", 13 ], [ "iron", 18 ], [ "vitB", 92 ], [ "mutant_toxin", 25 ] ],
     "fun": -5
   },
   {
