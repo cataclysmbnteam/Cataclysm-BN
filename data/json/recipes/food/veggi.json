@@ -880,7 +880,7 @@
     "components": [
       [ [ "flour", 1 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
-      [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
+      [ [ "eggs_small_dry", 1, "LIST" ] ],
       [ [ "syrup", 1 ] ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
@@ -901,7 +901,7 @@
     "components": [
       [ [ "flour", 1 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
-      [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
+      [ [ "eggs_small_dry", 1, "LIST" ] ],
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 2 ] ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ],
