@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "drystack",
+    "name": "Stackable Dried Items",
+    "authors": [ "Viss Valdyr" ],
+    "maintainers": [ "Viss Valdyr" ],
+    "description": "This makes dried veggies, fruits, mushrooms and flour stackable, also unperishable.",
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
+  }
+]
