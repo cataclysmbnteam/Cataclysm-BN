@@ -41,5 +41,11 @@
     "batch_time_factors": [ 80, 1 ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
     "components": [ [ [ "ant_egg", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "powder_eggs",
+    "id_suffix": "ant",
+    "obsolete": true
   }
 ]
