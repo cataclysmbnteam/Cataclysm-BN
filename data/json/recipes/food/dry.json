@@ -157,12 +157,27 @@
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 2,
+    "charges": 1,
+    "time": "18 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 1 ],
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
+    "components": [ [ [ "eggs_small", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "powder_eggs",
+    "id_suffix": "ant",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
     "charges": 12,
     "time": "18 m",
     "autolearn": true,
     "batch_time_factors": [ 80, 1 ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
-    "components": [ [ [ "eggs_bird", 12, "LIST" ], [ "egg_reptile", 12 ], [ "spider_egg", 4 ], [ "ant_egg", 1 ] ] ]
+    "components": [ [ [ "ant_egg", 1 ] ] ]
   },
   {
     "result": "protein_powder",
