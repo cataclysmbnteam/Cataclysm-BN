@@ -1124,7 +1124,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             }
         }
     }
-        const int item_charges = monster_weight_remaining / to_gram( itype_ruined_chunks->weight );
+
     if( action == DISSECT ) {
         p.practice( skill_firstaid, std::max( 0, practice ), std::max( mt.size - MS_MEDIUM, 0 ) + 4 );
     } else {
