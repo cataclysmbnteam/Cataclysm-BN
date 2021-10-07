@@ -100,7 +100,7 @@
     "encumbrance": 20,
     "warmth": 25,
     "material_thickness": 4,
-    "valid_mods": [ "steel_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "STURDY", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
   },
   {
