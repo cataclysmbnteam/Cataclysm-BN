@@ -876,7 +876,6 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
     if( corpse_item->has_flag( flag_SKINNED ) ) {
         monster_weight = std::round( 0.85 * monster_weight );
     }
-    int monster_weight_remaining = monster_weight;
     int practice = 4 + roll_butchery();
 
     if( mt.harvest.is_null() ) {
@@ -1035,11 +1034,8 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             if( entry.mass_ratio != 0.00f ) {
                 // apply skill before converting to items, but only if mass_ratio is defined
                 roll *= roll_drops();
-                monster_weight_remaining -= roll;
                 roll = std::ceil( static_cast<double>( roll ) /
                                   to_gram( drop->weight ) );
-            } else {
-                monster_weight_remaining -= roll * to_gram( drop->weight );
             }
 
             if( roll <= 0 ) {
