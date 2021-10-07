@@ -211,7 +211,6 @@ static const itype_id itype_nail( "nail" );
 static const itype_id itype_pipe( "pipe" );
 static const itype_id itype_rope_30( "rope_30" );
 static const itype_id itype_rope_makeshift_30( "rope_makeshift_30" );
-static const itype_id itype_ruined_chunks( "ruined_chunks" );
 static const itype_id itype_scrap( "scrap" );
 static const itype_id itype_sheet_metal( "sheet_metal" );
 static const itype_id itype_spike( "spike" );
@@ -1123,16 +1122,6 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             if( corpse_item->has_flag( flag_SKINNED ) ) {
                 monster_weight_remaining -= monster_weight * 0.15;
             }
-        }
-        const int item_charges = monster_weight_remaining / to_gram( itype_ruined_chunks->weight );
-        if( item_charges > 0 ) {
-            item ruined_parts( itype_ruined_chunks, calendar::turn, item_charges );
-            ruined_parts.set_mtype( &mt );
-            ruined_parts.set_rot( corpse_item->get_rot() );
-            if( !p.backlog.empty() && p.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
-                ruined_parts.set_var( "activity_var", p.name );
-            }
-            g->m.add_item_or_charges( p.pos(), ruined_parts );
         }
     }
 
