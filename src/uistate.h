@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 
+#include "calendar.h"
 #include "enums.h"
 #include "optional.h"
 #include "omdata.h"
@@ -46,6 +47,26 @@ struct advanced_inv_save_state {
         void serialize( JsonOut &json, const std::string &prefix ) const;
         void deserialize( const JsonObject &jo, const std::string &prefix );
 };
+
+struct wisheffect_state {
+    public:
+        int selected = 0;
+        bodypart_str_id bodypart = bodypart_str_id::NULL_ID();
+        time_duration duration = 0_seconds;
+        int intensity = -1;
+        bool force = false;
+
+        void serialize( JsonOut &json ) const;
+        void deserialize( const JsonObject &jo );
+};
+
+struct debug_menu_state {
+    public:
+        wisheffect_state effect;
+
+        void serialize( JsonOut &json ) const;
+        void deserialize( const JsonObject &jo );
+};
 /*
   centralized depot for trivial ui data such as sorting, string_input_popup history, etc.
   To use this, see the ****notes**** below
@@ -65,6 +86,8 @@ class uistatedata
         int wishmutate_selected = 0;
         int wishmonster_selected = 0;
         int iexamine_atm_selected = 0;
+
+        debug_menu_state debug_menu;
 
         int adv_inv_container_location = -1;
         int adv_inv_container_index = 0;
