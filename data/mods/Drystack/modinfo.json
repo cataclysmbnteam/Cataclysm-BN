@@ -2,10 +2,10 @@
   {
     "type": "MOD_INFO",
     "ident": "drystack",
-    "name": "Stackable Dried Items",
+    "name": "Stackable Dried Items and Generic Fruits/Berries",
     "authors": [ "Viss Valdyr" ],
     "maintainers": [ "Viss Valdyr" ],
-    "description": "This makes dried veggies, fruits, mushrooms, eggs and flour stackable, also unperishable.",
+    "description": "This makes dried veggies, fruits, mushrooms, eggs and flour stackable, also unperishable.  Also all berries and fruits are migrated into one item respectively.",
     "category": "rebalance",
     "dependencies": [ "dda" ]
   }

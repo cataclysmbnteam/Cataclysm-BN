@@ -1,0 +1,93 @@
+[
+  {
+    "id": [
+      "apple",
+      "apricot",
+      "banana",
+      "cherries",
+      "grapefruit",
+      "kiwi",
+      "mango",
+      "melon",
+      "orange",
+      "papaya",
+      "peach",
+      "pear",
+      "pineapple",
+      "plums",
+      "pomegranate",
+      "rose_hips",
+      "watermelon"
+    ],
+    "type": "MIGRATION",
+    "replace": "vissfruit"
+  },
+  {
+    "id": [
+      "blackberries",
+      "blueberries",
+      "strawberries",
+      "huckleberries",
+      "mulberries",
+      "elderberries",
+      "cranberries",
+      "grapes",
+      "raspberries"
+    ],
+    "type": "MIGRATION",
+    "replace": "vissberries"
+  },
+  {
+    "id": [
+      "irradiated_apple",
+      "irradiated_apricot",
+      "irradiated_banana",
+      "irradiated_cherries",
+      "irradiated_grapefruit",
+      "irradiated_kiwi",
+      "irradiated_mango",
+      "irradiated_melon",
+      "irradiated_orange",
+      "irradiated_papaya",
+      "irradiated_peach",
+      "irradiated_pear",
+      "irradiated_pineapple",
+      "irradiated_plums",
+      "irradiated_pomegranate",
+      "irradiated_rose_hips",
+      "irradiated_watermelon"
+    ],
+    "type": "MIGRATION",
+    "replace": "vissirradiated_fruit"
+  },
+  {
+    "id": [
+      "irradiated_blackberries",
+      "irradiated_blueberries",
+      "irradiated_strawberries",
+      "irradiated_huckleberries",
+      "irradiated_mulberries",
+      "irradiated_elderberries",
+      "irradiated_cranberries",
+      "irradiated_grapes",
+      "irradiated_raspberries"
+    ],
+    "type": "MIGRATION",
+    "replace": "vissirradiated_berries"
+  },
+  {
+    "id": [
+      "seed_blackberries",
+      "seed_blueberries",
+      "seed_strawberries",
+      "seed_huckleberries",
+      "seed_mulberries",
+      "seed_elderberries",
+      "seed_cranberries",
+      "seed_grapes",
+      "seed_raspberries"
+    ],
+    "type": "MIGRATION",
+    "replace": "seed_vissberries"
+  }
+]

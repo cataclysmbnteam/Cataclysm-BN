@@ -1,0 +1,348 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_shrub_vissberries",
+    "name": "berry bush",
+    "description": "A small bush of delicious berries.  Watch out for its thorns!",
+    "symbol": "#",
+    "color": "black_green",
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SHARP" ],
+    "transforms_into": "t_shrub_vissberries_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "looks_like": "t_shrub_blueberry",
+    "harvest_by_season": [
+      {
+        "seasons": [ "summer" ],
+        "entries": [
+          { "drop": "vissberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] },
+          { "drop": "seed_vissberries", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] }
+        ]
+      }
+    ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_vissberries_harvested",
+    "name": "berry bush",
+    "description": "A small berry bush that's fruitless.  Watch out for its thorns!",
+    "symbol": "#",
+    "color": "white_green",
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SHARP", "HARVESTED" ],
+    "transforms_into": "t_shrub_vissberries",
+    "examine_action": "harvested_plant",
+    "looks_like": "t_shrub_blueberry_harvested",
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_mulberry",
+    "copy-from": "t_shrub_vissberries",
+    "name": "berry bush",
+    "description": "A small bush of delicious berries.  Watch out for its thorns!",
+    "symbol": "#",
+    "color": "black_green",
+    "looks-like": "t_shrub_blueberry",
+    "examine_action": "harvest_ter_nectar",
+    "transforms_into": "t_shrub_vissberries_harvested",
+    "harvest_by_season": [
+      {
+        "seasons": [ "summer" ],
+        "entries": [
+          { "drop": "vissberries", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] },
+          { "drop": "seed_vissberries", "base_num": [ 3, 5 ], "scale_num": [ 0, 0.25 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_elderberry",
+    "copy-from": "t_shrub_vissberries",
+    "name": "berry bush",
+    "description": "A small bush of delicious berries.  Watch out for its thorns!",
+    "symbol": "#",
+    "color": "black_green",
+    "looks-like": "t_shrub_blueberry",
+    "examine_action": "harvest_ter_nectar",
+    "transforms_into": "t_shrub_vissberries_harvested",
+    "harvest_by_season": [
+      {
+        "seasons": [ "summer" ],
+        "entries": [
+          { "drop": "vissberries", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] },
+          { "drop": "seed_vissberries", "base_num": [ 3, 5 ], "scale_num": [ 0, 0.25 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_blueberry",
+    "copy-from": "t_shrub_vissberries",
+    "name": "berry bush",
+    "description": "A small bush of delicious berries.  Watch out for its thorns!",
+    "symbol": "#",
+    "color": "black_green",
+    "looks-like": "t_shrub_blueberry",
+    "examine_action": "harvest_ter_nectar",
+    "transforms_into": "t_shrub_vissberries_harvested",
+    "harvest_by_season": [
+      {
+        "seasons": [ "summer" ],
+        "entries": [
+          { "drop": "vissberries", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] },
+          { "drop": "seed_vissberries", "base_num": [ 3, 5 ], "scale_num": [ 0, 0.25 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_strawberry",
+    "copy-from": "t_shrub_vissberries",
+    "name": "berry bush",
+    "description": "A small bush of delicious berries.  Watch out for its thorns!",
+    "symbol": "#",
+    "color": "black_green",
+    "looks-like": "t_shrub_blueberry",
+    "examine_action": "harvest_ter_nectar",
+    "transforms_into": "t_shrub_vissberries_harvested",
+    "harvest_by_season": [
+      {
+        "seasons": [ "summer" ],
+        "entries": [
+          { "drop": "vissberries", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] },
+          { "drop": "seed_vissberries", "base_num": [ 3, 5 ], "scale_num": [ 0, 0.25 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_blackberry",
+    "copy-from": "t_shrub_vissberries",
+    "name": "berry bush",
+    "description": "A small bush of delicious berries.  Watch out for its thorns!",
+    "symbol": "#",
+    "color": "black_green",
+    "looks-like": "t_shrub_blueberry",
+    "examine_action": "harvest_ter_nectar",
+    "transforms_into": "t_shrub_vissberries_harvested",
+    "harvest_by_season": [
+      {
+        "seasons": [ "summer" ],
+        "entries": [
+          { "drop": "vissberries", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] },
+          { "drop": "seed_vissberries", "base_num": [ 3, 5 ], "scale_num": [ 0, 0.25 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_huckleberry",
+    "copy-from": "t_shrub_vissberries",
+    "name": "berry bush",
+    "description": "A small bush of delicious berries.  Watch out for its thorns!",
+    "symbol": "#",
+    "color": "black_green",
+    "looks-like": "t_shrub_blueberry",
+    "examine_action": "harvest_ter_nectar",
+    "transforms_into": "t_shrub_vissberries_harvested",
+    "harvest_by_season": [
+      {
+        "seasons": [ "summer" ],
+        "entries": [
+          { "drop": "vissberries", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] },
+          { "drop": "seed_vissberries", "base_num": [ 3, 5 ], "scale_num": [ 0, 0.25 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_raspberry",
+    "copy-from": "t_shrub_vissberries",
+    "name": "berry bush",
+    "description": "A small bush of delicious berries.  Watch out for its thorns!",
+    "symbol": "#",
+    "color": "black_green",
+    "looks-like": "t_shrub_blueberry",
+    "examine_action": "harvest_ter_nectar",
+    "transforms_into": "t_shrub_vissberries_harvested",
+    "harvest_by_season": [
+      {
+        "seasons": [ "summer" ],
+        "entries": [
+          { "drop": "vissberries", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] },
+          { "drop": "seed_vissberries", "base_num": [ 3, 5 ], "scale_num": [ 0, 0.25 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_grape",
+    "copy-from": "t_shrub_vissberries",
+    "name": "berry bush",
+    "description": "A small bush of delicious berries.  Watch out for its thorns!",
+    "symbol": "#",
+    "color": "black_green",
+    "looks-like": "t_shrub_blueberry",
+    "examine_action": "harvest_ter_nectar",
+    "transforms_into": "t_shrub_vissberries_harvested",
+    "harvest_by_season": [
+      {
+        "seasons": [ "summer" ],
+        "entries": [
+          { "drop": "vissberries", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] },
+          { "drop": "seed_vissberries", "base_num": [ 3, 5 ], "scale_num": [ 0, 0.25 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_vissfruit",
+    "name": "fruit tree",
+    "looks_like": "t_tree_apple",
+    "description": "This tree is producing fruit commonly known as... fruits.  If you examined the branches more closely, you could probably find a few mature ones in autumn.  You could also cut it down with the right tools.",
+    "symbol": "7",
+    "color": [ "light_green", "light_green", "red_green", "brown" ],
+    "//": "barren in winter, fruits in autumn",
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "transforms_into": "t_tree_vissfruit_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "vissfruit", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_vissfruit_harvested",
+    "name": "fruit tree",
+    "looks_like": "t_tree_apple_harvested",
+    "description": "This tree is producing fruit commonly known as... fruits.  There doesn't appear to be any ripe fruits now.  You could also cut it down with the right tools.",
+    "symbol": "7",
+    "color": [ "light_green", "light_green", "light_green", "brown" ],
+    "//": "barren in winter, no fruits anymore",
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
+    "examine_action": "harvested_plant",
+    "transforms_into": "t_tree_apple",
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_apple",
+    "copy-from": "t_tree_vissfruit",
+    "name": "fruit tree",
+    "description": "This tree is producing fruit commonly known as... fruits.  If you examined the branches more closely, you could probably find a few mature ones in autumn.  You could also cut it down with the right tools.",
+    "symbol": "7",
+    "color": [ "light_green", "light_green", "red_green", "brown" ],
+    "looks-like": "t_tree_apple",
+    "transforms_into": "t_tree_vissfruit_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "vissfruit", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ] } ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_pear",
+    "copy-from": "t_tree_vissfruit",
+    "name": "fruit tree",
+    "description": "This tree is producing fruit commonly known as... fruits.  If you examined the branches more closely, you could probably find a few mature ones in autumn.  You could also cut it down with the right tools.",
+    "symbol": "7",
+    "color": [ "light_green", "light_green", "red_green", "brown" ],
+    "looks-like": "t_tree_apple",
+    "transforms_into": "t_tree_vissfruit_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "vissfruit", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ] } ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_cherry",
+    "copy-from": "t_tree_vissfruit",
+    "name": "fruit tree",
+    "description": "This tree is producing fruit commonly known as... fruits.  If you examined the branches more closely, you could probably find a few mature ones in autumn.  You could also cut it down with the right tools.",
+    "symbol": "7",
+    "color": [ "light_green", "light_green", "red_green", "brown" ],
+    "looks-like": "t_tree_apple",
+    "transforms_into": "t_tree_vissfruit_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "harvest_by_season": [ { "seasons": [ "summer" ], "entries": [ { "drop": "vissfruit", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ] } ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_peach",
+    "copy-from": "t_tree_vissfruit",
+    "name": "fruit tree",
+    "description": "This tree is producing fruit commonly known as... fruits.  If you examined the branches more closely, you could probably find a few mature ones in autumn.  You could also cut it down with the right tools.",
+    "symbol": "7",
+    "color": [ "light_green", "light_green", "red_green", "brown" ],
+    "looks-like": "t_tree_apple",
+    "transforms_into": "t_tree_vissfruit_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "harvest_by_season": [ { "seasons": [ "summer" ], "entries": [ { "drop": "vissfruit", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ] } ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_apricot",
+    "copy-from": "t_tree_vissfruit",
+    "name": "fruit tree",
+    "description": "This tree is producing fruit commonly known as... fruits.  If you examined the branches more closely, you could probably find a few mature ones in autumn.  You could also cut it down with the right tools.",
+    "symbol": "7",
+    "color": [ "light_green", "light_green", "red_green", "brown" ],
+    "looks-like": "t_tree_apple",
+    "transforms_into": "t_tree_vissfruit_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "harvest_by_season": [ { "seasons": [ "summer" ], "entries": [ { "drop": "vissfruit", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ] } ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_plum",
+    "copy-from": "t_tree_vissfruit",
+    "name": "fruit tree",
+    "description": "This tree is producing fruit commonly known as... fruits.  If you examined the branches more closely, you could probably find a few mature ones in autumn.  You could also cut it down with the right tools.",
+    "symbol": "7",
+    "color": [ "light_green", "light_green", "red_green", "brown" ],
+    "looks-like": "t_tree_apple",
+    "transforms_into": "t_tree_vissfruit_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "harvest_by_season": [ { "seasons": [ "summer" ], "entries": [ { "drop": "vissfruit", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ] } ]
+  }
+]
