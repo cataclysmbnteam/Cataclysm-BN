@@ -54,6 +54,7 @@ void emp_blast( const tripoint &p );
 // ignore_player determines if player is affected, useful for bionic, etc.
 void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult,
                 bool ignore_player, const std::string &exp_name );
+
 void draw_explosion( const tripoint &p, int radius, const nc_color &col, const std::string &exp_name );
 void draw_custom_explosion( const tripoint &p, const std::map<tripoint, nc_color> &area, const std::string &exp_name );
 

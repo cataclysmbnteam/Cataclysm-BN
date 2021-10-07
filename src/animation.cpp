@@ -289,7 +289,8 @@ void explosion_handler::draw_explosion( const tripoint &p, const int r, const nc
 #endif
 
 void explosion_handler::draw_custom_explosion( const tripoint&,
-    const std::map<tripoint, nc_color>& all_area, const std::string &exp_name )
+                                               const std::map<tripoint, nc_color> &all_area,
+                                               const std::string &exp_name )
 {
     if( test_mode ) {
         // avoid segfault from null tilecontext in tests

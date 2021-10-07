@@ -459,7 +459,8 @@ class cata_tiles
         void draw_explosion_frame();
         void void_explosion();
 
-        void init_custom_explosion_layer( const std::map<tripoint, explosion_tile> &layer, const std::string &name );
+        void init_custom_explosion_layer( const std::map<tripoint, explosion_tile> &layer,
+                                          const std::string &name );
         void draw_custom_explosion_frame();
         void void_custom_explosion();
 
