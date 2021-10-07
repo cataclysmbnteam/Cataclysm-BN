@@ -876,6 +876,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
     if( corpse_item->has_flag( flag_SKINNED ) ) {
         monster_weight = std::round( 0.85 * monster_weight );
     }
+    int monster_weight_remaining = monster_weight;
     int practice = 4 + roll_butchery();
 
     if( mt.harvest.is_null() ) {
@@ -1029,6 +1030,17 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             }
         }
 
+        if( entry.type != "bionic" && entry.type != "bionic_group" ) {
+            // divide total dropped weight by drop's weight to get amount
+            if( entry.mass_ratio != 0.00f ) {
+                // apply skill before converting to items, but only if mass_ratio is defined
+                roll *= roll_drops();
+                monster_weight_remaining -= roll;
+                roll = std::ceil( static_cast<double>( roll ) /
+                                  to_gram( drop->weight ) );
+            } else {
+                monster_weight_remaining -= roll * to_gram( drop->weight );
+            }
 
             if( roll <= 0 ) {
                 p.add_msg_if_player( m_bad, _( "You fail to harvest: %s" ), drop->nname( 1 ) );
@@ -1089,6 +1101,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
         }
         practice++;
     }
+    // 20% of the original corpse weight is not an item, but liquid gore
 
     if( action == DISSECT ) {
         p.practice( skill_firstaid, std::max( 0, practice ), std::max( mt.size - MS_MEDIUM, 0 ) + 4 );
