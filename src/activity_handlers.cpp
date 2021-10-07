@@ -876,7 +876,6 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
     if( corpse_item->has_flag( flag_SKINNED ) ) {
         monster_weight = std::round( 0.85 * monster_weight );
     }
-    int monster_weight_remaining = monster_weight;
     int practice = 4 + roll_butchery();
 
     if( mt.harvest.is_null() ) {
@@ -1030,17 +1029,6 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             }
         }
 
-        if( entry.type != "bionic" && entry.type != "bionic_group" ) {
-            // divide total dropped weight by drop's weight to get amount
-            if( entry.mass_ratio != 0.00f ) {
-                // apply skill before converting to items, but only if mass_ratio is defined
-                roll *= roll_drops();
-                monster_weight_remaining -= roll;
-                roll = std::ceil( static_cast<double>( roll ) /
-                                  to_gram( drop->weight ) );
-            } else {
-                monster_weight_remaining -= roll * to_gram( drop->weight );
-            }
 
             if( roll <= 0 ) {
                 p.add_msg_if_player( m_bad, _( "You fail to harvest: %s" ), drop->nname( 1 ) );
@@ -1100,29 +1088,6 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             p.add_msg_if_player( m_good, _( "You harvest: %s" ), drop->nname( roll ) );
         }
         practice++;
-    }
-    // 20% of the original corpse weight is not an item, but liquid gore
-    monster_weight_remaining -= monster_weight / 5;
-    // add the remaining unusable weight as rotting garbage
-    if( monster_weight_remaining > 0 ) {
-        if( action == F_DRESS ) {
-            // 25% of the corpse weight is what's removed during field dressing
-            monster_weight_remaining -= monster_weight * 3 / 4;
-        } else if( action == SKIN ) {
-            monster_weight_remaining -= monster_weight * 0.85;
-        } else {
-            // a carcass is 75% of the weight of the unmodified creature's weight
-            if( ( corpse_item->has_flag( flag_FIELD_DRESS ) ||
-                  corpse_item->has_flag( flag_FIELD_DRESS_FAILED ) ) &&
-                !corpse_item->has_flag( flag_QUARTERED ) ) {
-                monster_weight_remaining -= monster_weight / 4;
-            } else if( corpse_item->has_flag( flag_QUARTERED ) ) {
-                monster_weight_remaining -= ( monster_weight - ( monster_weight * 3 / 4 / 4 ) );
-            }
-            if( corpse_item->has_flag( flag_SKINNED ) ) {
-                monster_weight_remaining -= monster_weight * 0.15;
-            }
-        }
     }
 
     if( action == DISSECT ) {
