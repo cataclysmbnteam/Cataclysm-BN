@@ -85,7 +85,8 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "berry seeds" },
     "description": "Some berry seeds.",
-    "seed_data": { "plant_name": "berry", "fruit": "vissberries", "byproducts": [ "withered" ], "grow": "14 days" }
+    "seed_data": { "plant_name": "berry", "fruit": "vissberries", "byproducts": [ "withered" ], "grow": "14 days" },
+    "flags": [ "NUTRIENT_OVERRIDE" ]
   },
   {
     "type": "COMESTIBLE",
