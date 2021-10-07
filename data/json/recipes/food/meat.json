@@ -190,7 +190,7 @@
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "difficulty": 3,
-    "time": "13 min",
+    "time": "13 m",
     "charges": 1,
     "autolearn": true,
     "batch_time_factors": [ 80, 1 ],
