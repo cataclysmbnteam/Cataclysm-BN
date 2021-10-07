@@ -1243,7 +1243,7 @@
     "fun": 1,
     "color": "yellow",
     "calories": 70,
-    "charges": 20,
+    "charges": 8,
     "container": "bag_plastic",
     "flags": [ "EDIBLE_FROZEN", "EATEN_COLD" ],
     "description": "These clear cubes of processed seaweed can be dissolved in boiling water to create a very sturdy, temperature resistant gel.  Not only is it good for making gels to separate molecules by size, but it's a great cheat ingredient to make sure your jellies set properly.",
