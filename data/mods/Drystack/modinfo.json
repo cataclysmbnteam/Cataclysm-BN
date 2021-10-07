@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "drystack",
+    "id": "drystack",
     "name": "Stackable Dried Items and Generic Fruits/Berries",
     "authors": [ "Viss Valdyr" ],
     "maintainers": [ "Viss Valdyr" ],
