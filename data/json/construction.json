@@ -4135,7 +4135,8 @@
     "required_skills": [ [ "electronics", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
-    "components": [ [ [ "cable", 5 ] ], [ [ "battery_charger", 1 ] ], [ [ "power_supply", 1 ] ] ],
+    "tools": [ [ [ "soldering_iron", 20 ] ] ],
+    "components": [ [ [ "cable", 5 ] ], [ [ "battery_charger", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in a building with an electric grid.",
     "pre_special": "check_empty",
     "post_terrain": "f_charger"
