@@ -119,7 +119,13 @@
     "batch_time_factors": [ 80, 1 ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
     "components": [
-      [ [ "veggy_any_fresh_uncooked", 1, "LIST" ], [ "dandelion_cooked", 1 ], [ "burdock_cooked", 1 ], [ "wild_herbs", 40 ] ]
+      [
+        [ "veggy_any_fresh_uncooked", 1, "LIST" ],
+        [ "dandelion_cooked", 1 ],
+        [ "fiddlehead_boiled", 1 ],
+        [ "burdock_cooked", 1 ],
+        [ "wild_herbs", 40 ]
+      ]
     ]
   },
   {
