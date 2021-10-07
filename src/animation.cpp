@@ -244,12 +244,6 @@ void draw_custom_explosion_curses( game &g,
 } // namespace
 
 #if defined(TILES)
-void explosion_handler::draw_explosion( const tripoint &p, const int r, const nc_color &col )
-{
-    const std::string exp_name = "explosion";
-    draw_explosion( p, r, col, exp_name );
-}
-
 void explosion_handler::draw_explosion( const tripoint &p, const int r, const nc_color &col, const std::string &exp_name )
 {
     if( test_mode ) {
@@ -293,14 +287,6 @@ void explosion_handler::draw_explosion( const tripoint &p, const int r, const nc
     draw_explosion_curses( *g, p, r, col );
 }
 #endif
-
-
-void explosion_handler::draw_custom_explosion( const tripoint &p,
-    const std::map<tripoint, nc_color> &area )
-{
-    const std::string exp_name = "explosion";
-    draw_custom_explosion( p, area, exp_name );
-}
 
 void explosion_handler::draw_custom_explosion( const tripoint&,
     const std::map<tripoint, nc_color>& all_area, const std::string &exp_name )

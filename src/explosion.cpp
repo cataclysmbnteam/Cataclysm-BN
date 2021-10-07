@@ -227,7 +227,7 @@ static std::map<const Creature *, int> do_blast( const tripoint &p, const float 
         }
     }
 
-    draw_custom_explosion( g->u.pos(), explosion_colors );
+    draw_custom_explosion( g->u.pos(), explosion_colors, "explosion" );
 
     for( const tripoint &pt : closed ) {
         const float force = power * blast_percentage( radius, dist_map.at( pt ) );
@@ -484,12 +484,6 @@ void explosion( const tripoint &p, const explosion_data &ex )
     }
 }
 
-void flashbang(const tripoint &p, bool player_immune)
-{
-    const std::string exp_name = "explosion";
-    flashbang( p, player_immune, exp_name );
-}
-
 void flashbang( const tripoint &p, bool player_immune, const std::string &exp_name )
 {
     draw_explosion( p, 8, c_white, exp_name );
@@ -536,13 +530,6 @@ void flashbang( const tripoint &p, bool player_immune, const std::string &exp_na
     }
     sounds::sound( p, 12, sounds::sound_t::combat, _( "a huge boom!" ), false, "misc", "flashbang" );
     // TODO: Blind/deafen NPC
-}
-
-void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult,
-    bool ignore_player )
-{
-    const std::string exp_name = "explosion";
-    shockwave( p, radius, force, stun, dam_mult, ignore_player, exp_name );
 }
 
 void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult,

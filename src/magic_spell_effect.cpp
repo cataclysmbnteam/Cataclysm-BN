@@ -386,10 +386,12 @@ static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &ta
         explosion_colors[pt] = sp.damage_type_color();
     }
     
-    if ( sp.id()->sprite.length() > 0 )
+    if ( sp.id()->sprite.length() > 0 ) {
         explosion_handler::draw_custom_explosion( g->u.pos(), explosion_colors, sp.id()->sprite );
-    else
-        explosion_handler::draw_custom_explosion(g->u.pos(), explosion_colors );
+    } else {
+        explosion_handler::draw_custom_explosion( g->u.pos(), explosion_colors, "explosion" );
+    }
+
     return targets;
 }
 
@@ -903,15 +905,14 @@ void spell_effect::explosion( const spell &sp, Creature &, const tripoint &targe
     explosion_handler::explosion( target, sp.damage(), sp.aoe() / 10.0, true );
 }
 
-void spell_effect::flashbang( const spell& sp, Creature& caster, const tripoint& target )
+void spell_effect::flashbang( const spell &sp, Creature &caster, const tripoint &target )
 {
     if (sp.id()->sprite.length() > 0) {
         explosion_handler::flashbang( target, caster.is_avatar() &&
-            !sp.is_valid_target(valid_target::target_self), sp.id()->sprite );
-    }
-    else {
+                                      !sp.is_valid_target( valid_target::target_self ), sp.id()->sprite );
+    } else {
         explosion_handler::flashbang( target, caster.is_avatar() &&
-            !sp.is_valid_target(valid_target::target_self) );
+                                      !sp.is_valid_target( valid_target::target_self ), "explosion" );
     }
 }
 

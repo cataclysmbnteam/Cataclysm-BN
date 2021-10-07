@@ -3406,8 +3406,7 @@ void cata_tiles::draw_custom_explosion_frame()
 
     for( const auto &pr : custom_explosion_layer ) {
         const explosion_neighbors ngh = pr.second.neighborhood;
-        const nc_color col = pr.second.color;
-
+        
         switch( ngh ) {
             case N_NORTH:
             case N_SOUTH:

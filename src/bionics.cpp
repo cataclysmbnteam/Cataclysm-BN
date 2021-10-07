@@ -988,11 +988,11 @@ bool Character::activate_bionic( int b, bool eff_only )
         }
     } else if( bio.id == bio_flashbang ) {
         add_msg_activate();
-        explosion_handler::flashbang( pos(), true );
+        explosion_handler::flashbang( pos(), true, "explosion" );
         mod_moves( -100 );
     } else if( bio.id == bio_shockwave ) {
         add_msg_activate();
-        explosion_handler::shockwave( pos(), 3, 4, 2, 8, true );
+        explosion_handler::shockwave( pos(), 3, 4, 2, 8, true, "explosion" );
         add_msg_if_player( m_neutral, _( "You unleash a powerful shockwave!" ) );
         mod_moves( -100 );
     } else if( bio.id == bio_meteorologist ) {
