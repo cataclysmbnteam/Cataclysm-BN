@@ -13,7 +13,7 @@
     "flags": [ "TRANSPARENT", "AUTODOC" ],
     "examine_action": "autodoc",
     "surgery_skill_multiplier": 1.0,
-    "deconstruct": { "items": [ { "item": "f_autodoc", "count": 1 } ] },
+    "deconstruct": { "items": [ { "item": "autodoc", "count": 1 } ] },
     "bash": {
       "str_min": 8,
       "str_max": 150,
@@ -46,7 +46,7 @@
     "comfort": 4,
     "floor_bedding_warmth": 500,
     "required_str": 10,
-    "deconstruct": { "items": [ { "item": "f_autodoc_couch", "count": 1 } ] },
+    "deconstruct": { "items": [ { "item": "autodoc_couch", "count": 1 } ] },
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE", "AUTODOC_COUCH" ],
     "bash": {
       "str_min": 10,

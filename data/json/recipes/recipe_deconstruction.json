@@ -4116,7 +4116,7 @@
     ]
   },
   {
-    "result": "f_autodoc",
+    "result": "autodoc",
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
@@ -4143,7 +4143,7 @@
     ]
   },
   {
-    "result": "f_autodoc_couch",
+    "result": "autodoc_couch",
     "type": "uncraft",
     "skill_used": "fabrication",
     "time": "15 m",

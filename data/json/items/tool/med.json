@@ -217,7 +217,7 @@
     "type": "TOOL",
     "name": "Autodoc operation couch",
     "symbol": "H",
-    "looks_like": "f_sofa",
+    "looks_like": "f_autodoc_couch",
     "description": "A plush red sofa made less comfortable by the medical machinery directly above it.  It has a single leather strap on the right armrest.",
     "weight": "100000 g",
     "volume": "40 L",
