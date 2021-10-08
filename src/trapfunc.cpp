@@ -1280,7 +1280,7 @@ bool trapfunc::glow( const tripoint &p, Creature *c, item * )
                 g->u.irradiate( rng( 10, 30 ) );
             } else if( one_in( 4 ) ) {
                 add_msg( m_bad, _( "A blinding flash strikes you!" ) );
-                explosion_handler::flashbang( p );
+                explosion_handler::flashbang( p, false, "explosion" );
             } else {
                 add_msg( _( "Small flashes surround you." ) );
             }
@@ -1292,7 +1292,7 @@ bool trapfunc::glow( const tripoint &p, Creature *c, item * )
             n->irradiate( rng( 10, 30 ) );
         } else if( one_in( 4 ) ) {
             n->add_msg_if_player( m_bad, _( "A blinding flash strikes you!" ) );
-            explosion_handler::flashbang( p );
+            explosion_handler::flashbang( p, false, "explosion" );
         } else {
             c->add_msg_if_player( _( "Small flashes surround you." ) );
         }
