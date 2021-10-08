@@ -977,7 +977,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ "melee", 1 ],
-    "time": "50",
+    "time": "50 m",
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "leather", 2 ] ], [ [ "filament", 3, "LIST" ] ] ]
