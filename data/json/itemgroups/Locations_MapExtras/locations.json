@@ -1110,7 +1110,6 @@
       [ "chemistry_set", 50 ],
       { "group": "ammo_pocket_batteries_full", "prob": 70 },
       [ "flashlight", 40 ],
-      [ "chem_acetone", 40 ],
       [ "chem_hexamine", 15 ]
     ]
   },
