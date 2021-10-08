@@ -70,7 +70,7 @@
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 14 ] ],
     "techniques": [ "RAPID" ],
-    "flags": [ "STAB" ]
+    "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
     "id": "knife_folding",

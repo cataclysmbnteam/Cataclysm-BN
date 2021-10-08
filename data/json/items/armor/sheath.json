@@ -192,34 +192,5 @@
       "flags": [ "SHEATH_SPEAR" ]
     },
     "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
-  },
-  {
-    "id": "wristsheath",
-    "type": "ARMOR",
-    "name": { "str": "wrist sheath" },
-    "description": "A small concealed knife sheath worn on the wrist.  It is quick to use but can only carry very small blades.  Activate to sheathe/draw a weapon.",
-    "weight": "80 g",
-    "volume": "250 ml",
-    "price": 5200,
-    "price_postapoc": 250,
-    "to_hit": -1,
-    "material": [ "leather" ],
-    "symbol": "[",
-    "looks_like": "sheath",
-    "color": "brown",
-    "covers": [ "hand_either" ],
-    "coverage": 5,
-    "encumbrance": 2,
-    "material_thickness": 1,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath knife",
-      "holster_msg": "You sheath your %s",
-      "min_volume": "15 ml",
-      "max_volume": "250 ml",
-      "draw_cost": 2,
-      "flags": [ "SHEATH_KNIFE" ]
-    },
-    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
   }
 ]
