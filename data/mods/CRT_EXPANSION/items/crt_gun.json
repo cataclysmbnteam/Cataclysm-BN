@@ -188,7 +188,7 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "STREAM", "INCENDIARY" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "UNARMED_WEAPON", "DURABLE_MELEE", "NON-FOULING" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "UNARMED_WEAPON", "DURABLE_MELEE", "NON-FOULING", "PYROMANIAC_WEAPON" ]
   },
   {
     "id": "pelletgun",
@@ -243,7 +243,7 @@
     "reload": 170,
     "valid_mod_locations": [ [ "accessories", 1 ], [ "grip", 1 ], [ "sights", 1 ] ],
     "ammo_effects": [ "PLASMA", "INCENDIARY", "DRAW_LASER_BEAM" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "PYROMANIAC_WEAPON" ]
   },
   {
     "id": "ds_rivet_gun",
@@ -297,7 +297,7 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "valid_mod_locations": [ [ "accessories", 1 ], [ "grip", 1 ], [ "sights", 1 ] ],
     "ammo_effects": [ "WIDE", "LASER" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "SLOW_WIELD", "NON-FOULING" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "SLOW_WIELD", "NON-FOULING", "PYROMANIAC_WEAPON" ]
   },
   {
     "id": "ds_pulse_rifle",
