@@ -23,7 +23,6 @@
     "name": { "str": "hobo stove" },
     "description": "This is a small improvised wood stove, made from a metal can or similar container of the right size.  It's too small to fit anything much larger than splintered wood.  Activate it to Deploy.",
     "copy-from": "can_medium_unsealed",
-    "weight": "70 g",
     "volume": "500 ml",
     "use_action": { "type": "deploy_furn", "furn_type": "f_hobo_stove" }
   },
