@@ -67,8 +67,8 @@
       {
         "seasons": [ "summer" ],
         "entries": [
-          { "drop": "vissberries", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] },
-          { "drop": "seed_vissberries", "base_num": [ 3, 5 ], "scale_num": [ 0, 0.25 ] }
+          { "drop": "vissberries", "base_num": [ 1, 3 ], "scale_num": [ 0, 0.5 ] },
+          { "drop": "seed_vissberries", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] }
         ]
       }
     ]
@@ -88,8 +88,8 @@
       {
         "seasons": [ "summer" ],
         "entries": [
-          { "drop": "vissberries", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] },
-          { "drop": "seed_vissberries", "base_num": [ 3, 5 ], "scale_num": [ 0, 0.25 ] }
+          { "drop": "vissberries", "base_num": [ 1, 3 ], "scale_num": [ 0, 0.5 ] },
+          { "drop": "seed_vissberries", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] }
         ]
       }
     ]
@@ -109,8 +109,8 @@
       {
         "seasons": [ "summer" ],
         "entries": [
-          { "drop": "vissberries", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] },
-          { "drop": "seed_vissberries", "base_num": [ 3, 5 ], "scale_num": [ 0, 0.25 ] }
+          { "drop": "vissberries", "base_num": [ 1, 3 ], "scale_num": [ 0, 0.5 ] },
+          { "drop": "seed_vissberries", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] }
         ]
       }
     ]
@@ -130,8 +130,8 @@
       {
         "seasons": [ "summer" ],
         "entries": [
-          { "drop": "vissberries", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] },
-          { "drop": "seed_vissberries", "base_num": [ 3, 5 ], "scale_num": [ 0, 0.25 ] }
+          { "drop": "vissberries", "base_num": [ 1, 3 ], "scale_num": [ 0, 0.5 ] },
+          { "drop": "seed_vissberries", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] }
         ]
       }
     ]
@@ -151,8 +151,8 @@
       {
         "seasons": [ "summer" ],
         "entries": [
-          { "drop": "vissberries", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] },
-          { "drop": "seed_vissberries", "base_num": [ 3, 5 ], "scale_num": [ 0, 0.25 ] }
+          { "drop": "vissberries", "base_num": [ 1, 3 ], "scale_num": [ 0, 0.5 ] },
+          { "drop": "seed_vissberries", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] }
         ]
       }
     ]
@@ -172,8 +172,8 @@
       {
         "seasons": [ "summer" ],
         "entries": [
-          { "drop": "vissberries", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] },
-          { "drop": "seed_vissberries", "base_num": [ 3, 5 ], "scale_num": [ 0, 0.25 ] }
+          { "drop": "vissberries", "base_num": [ 1, 3 ], "scale_num": [ 0, 0.5 ] },
+          { "drop": "seed_vissberries", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] }
         ]
       }
     ]
@@ -193,8 +193,8 @@
       {
         "seasons": [ "summer" ],
         "entries": [
-          { "drop": "vissberries", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] },
-          { "drop": "seed_vissberries", "base_num": [ 3, 5 ], "scale_num": [ 0, 0.25 ] }
+          { "drop": "vissberries", "base_num": [ 1, 3 ], "scale_num": [ 0, 0.5 ] },
+          { "drop": "seed_vissberries", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] }
         ]
       }
     ]
@@ -214,8 +214,8 @@
       {
         "seasons": [ "summer" ],
         "entries": [
-          { "drop": "vissberries", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] },
-          { "drop": "seed_vissberries", "base_num": [ 3, 5 ], "scale_num": [ 0, 0.25 ] }
+          { "drop": "vissberries", "base_num": [ 1, 3 ], "scale_num": [ 0, 0.5 ] },
+          { "drop": "seed_vissberries", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] }
         ]
       }
     ]
