@@ -86,6 +86,7 @@ enum oter_flags {
     known_down = 0,
     known_up,
     no_rotate,    // this tile doesn't have four rotated versions (north, east, south, west)
+    ignore_rotation_for_adjacency,
     river_tile,
     has_sidewalk,
     line_drawing, // does this tile have 8 versions, including straights, bends, tees, and a fourway?
