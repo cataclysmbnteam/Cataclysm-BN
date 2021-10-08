@@ -22,6 +22,7 @@
     "pre_flags": "EASY_DECONSTRUCT",
     "pre_special": "check_deconstruct",
     "post_flags": [ "keep_items" ],
+    "dark_craftable": true,
     "post_special": "done_deconstruct"
   },
   {
@@ -69,6 +70,7 @@
     "qualities": [ [ { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 1 } ] ],
     "pre_terrain": "t_trunk",
     "post_terrain": "t_dirt",
+    "dark_craftable": true,
     "post_special": "done_trunk_plank"
   },
   {
@@ -81,6 +83,7 @@
     "qualities": [ [ { "id": "CUT", "level": 1 } ], [ { "id": "HAMMER", "level": 1 } ] ],
     "components": [ [ [ "stick", 12 ], [ "2x4", 6 ], [ "wood_panel", 1 ] ], [ [ "pine_bough", 24 ], [ "willowbark", 24 ] ] ],
     "pre_terrain": "t_pit_shallow",
+    "dark_craftable": true,
     "post_terrain": "t_improvised_shelter"
   },
   {
@@ -164,6 +167,7 @@
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "material_soil", 60 ], [ "material_sand", 600 ] ] ],
     "pre_terrain": "t_water_sh",
+    "dark_craftable": true,
     "post_terrain": "t_dirt"
   },
   {
@@ -176,6 +180,7 @@
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "material_soil", 60 ] ] ],
     "pre_terrain": "t_swater_sh",
+    "dark_craftable": true,
     "post_terrain": "t_dirt"
   },
   {
@@ -410,6 +415,7 @@
     "time": "5 m",
     "byproducts": [ { "item": "glass_shard", "count": [ 0, 2 ] } ],
     "pre_terrain": "t_window_frame",
+    "dark_craftable": true,
     "post_terrain": "t_window_empty"
   },
   {
@@ -422,6 +428,7 @@
     "time": "5 m",
     "components": [ [ [ "duct_tape", 50 ] ] ],
     "pre_terrain": "t_window",
+    "dark_craftable": true,
     "post_terrain": "t_window_taped"
   },
   {
@@ -434,6 +441,7 @@
     "time": "5 m",
     "components": [ [ [ "duct_tape", 50 ] ] ],
     "pre_terrain": "t_window_domestic",
+    "dark_craftable": true,
     "post_terrain": "t_window_domestic_taped"
   },
   {
@@ -446,6 +454,7 @@
     "time": "5 m",
     "components": [ [ [ "duct_tape", 50 ] ] ],
     "pre_terrain": "t_window_alarm",
+    "dark_craftable": true,
     "post_terrain": "t_window_alarm_taped"
   },
   {
@@ -458,6 +467,7 @@
     "time": "5 m",
     "components": [ [ [ "duct_tape", 50 ] ] ],
     "pre_terrain": "t_window_no_curtains",
+    "dark_craftable": true,
     "post_terrain": "t_window_no_curtains_taped"
   },
   {
@@ -810,6 +820,7 @@
     "components": [ [ [ "sandbag", 16 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
+    "dark_craftable": true,
     "post_terrain": "f_sandbag_half"
   },
   {
@@ -823,6 +834,7 @@
     "components": [ [ [ "sandbag", 20 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_terrain": "f_sandbag_half",
+    "dark_craftable": true,
     "post_terrain": "f_sandbag_wall"
   },
   {
@@ -836,6 +848,7 @@
     "components": [ [ [ "earthbag", 16 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
+    "dark_craftable": true,
     "post_terrain": "f_earthbag_half"
   },
   {
@@ -849,6 +862,7 @@
     "components": [ [ [ "earthbag", 20 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_terrain": "f_earthbag_half",
+    "dark_craftable": true,
     "post_terrain": "f_earthbag_wall"
   },
   {
@@ -930,6 +944,7 @@
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "components": [ [ [ "material_soil", 200 ] ] ],
     "pre_terrain": "t_pit",
+    "dark_craftable": true,
     "post_terrain": "t_dirt"
   },
   {
@@ -942,6 +957,7 @@
     "time": "40 m",
     "components": [ [ [ "splinter", 50 ] ] ],
     "pre_terrain": "t_pit_shallow",
+    "dark_craftable": true,
     "post_terrain": "t_woodchips"
   },
   {
@@ -954,6 +970,7 @@
     "time": "40 m",
     "components": [ [ [ "pebble", 100 ] ] ],
     "pre_special": "check_empty",
+    "dark_craftable": true,
     "post_terrain": "t_railroad_rubble"
   },
   {
@@ -1746,6 +1763,7 @@
     "time": "1 m",
     "components": [ [ [ "w_table", 1 ] ] ],
     "pre_special": "check_empty",
+    "dark_craftable": true,
     "post_terrain": "f_table"
   },
   {
@@ -1781,6 +1799,7 @@
     "time": "1 m",
     "components": [ [ [ "workbench", 1 ] ] ],
     "pre_special": "check_empty",
+    "dark_craftable": true,
     "post_terrain": "f_workbench"
   },
   {
@@ -1845,6 +1864,7 @@
     "components": [ [ [ "2x4", 4 ], [ "stick", 4 ] ], [ [ "straw_pile", 8 ], [ "withered", 8 ], [ "pine_bough", 8 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
+    "dark_craftable": true,
     "post_terrain": "f_straw_bed"
   },
   {
@@ -1857,6 +1877,7 @@
     "components": [ [ [ "withered", 50 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
+    "dark_craftable": true,
     "post_terrain": "f_leaves_pile"
   },
   {
@@ -1909,6 +1930,7 @@
     "time": "5 m",
     "components": [ [ [ "mattress", 1 ], [ "down_mattress", 1 ] ] ],
     "pre_terrain": "f_bed_frame",
+    "dark_craftable": true,
     "post_terrain": "f_bed"
   },
   {
@@ -2023,6 +2045,7 @@
     "components": [ [ [ "char_forge", 1 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
+    "dark_craftable": true,
     "post_terrain": "f_forge"
   },
   {
@@ -2035,6 +2058,7 @@
     "components": [ [ [ "still", 1 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
+    "dark_craftable": true,
     "post_terrain": "f_still"
   },
   {
@@ -2070,6 +2094,7 @@
     "time": "10 m",
     "components": [ [ [ "straw_pile", 40 ], [ "withered", 40 ] ], [ [ "rope_30", 1 ], [ "rope_makeshift_30", 1 ], [ "vine_30", 1 ] ] ],
     "pre_special": "check_empty",
+    "dark_craftable": true,
     "post_terrain": "f_hay"
   },
   {
@@ -2356,6 +2381,7 @@
     "time": "1 m",
     "components": [ [ [ "manhole_cover", 1 ] ] ],
     "pre_terrain": "t_manhole",
+    "dark_craftable": true,
     "post_terrain": "t_manhole_cover"
   },
   {
@@ -2654,6 +2680,7 @@
     "time": "10 m",
     "//2": "no components required, they are filled in at runtime based on the vehicle parts that can be used to start a vehicle",
     "pre_special": "check_empty",
+    "dark_craftable": true,
     "post_special": "done_vehicle",
     "vehicle_start": true
   },
@@ -2910,6 +2937,7 @@
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "byproducts": [ { "item": "material_sand", "charges": [ 300, 600 ] } ],
     "pre_terrain": "t_sand",
+    "dark_craftable": true,
     "post_special": "done_extract_maybe_revert_to_dirt"
   },
   {
@@ -2922,6 +2950,7 @@
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "byproducts": [ { "item": "clay_lump", "count": [ 6, 12 ] } ],
     "pre_terrain": "t_clay",
+    "dark_craftable": true,
     "post_special": "done_extract_maybe_revert_to_dirt"
   },
   {
@@ -3227,6 +3256,7 @@
     "components": [ [ [ "rock", 20 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_terrain": "t_pit_shallow",
+    "dark_craftable": true,
     "post_terrain": "f_firering"
   },
   {
@@ -3436,6 +3466,7 @@
     "on_display": false,
     "qualities": [ { "id": "DIG", "level": 1 } ],
     "pre_flags": [ "DIGGABLE", "FLAT" ],
+    "dark_craftable": true,
     "post_terrain": "t_pit_shallow"
   },
   {
@@ -3448,6 +3479,7 @@
     "on_display": false,
     "qualities": [ { "id": "DIG", "level": 2 } ],
     "pre_flags": [ "DIGGABLE", "FLAT" ],
+    "dark_craftable": true,
     "post_terrain": "t_pit"
   },
   {
@@ -4363,6 +4395,7 @@
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "byproducts": [ { "item": "pebble", "count": [ 6, 10 ] } ],
     "pre_terrain": "t_railroad_rubble",
+    "dark_craftable": true,
     "post_terrain": "t_dirt"
   }
 ]
