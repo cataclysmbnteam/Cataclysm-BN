@@ -1130,19 +1130,22 @@
   {
     "type": "COMESTIBLE",
     "id": "chem_DMSO",
+    "comestible_type": "MED",
     "category": "chems",
     "price": 10,
     "price_postapoc": 5,
     "name": { "str_sp": "dimethyl sulfoxide" },
     "symbol": "~",
-    "quench": -96,
-    "healthy": -20,
-    "fun": -20,
     "color": "light_cyan",
     "container": "bottle_glass",
     "description": "Dimethyl sulfoxide, or DMSO, is a common and important aprotic solvent, capable of dissolving a huge range of things.  It has the weird property that it absorbs very quickly through the skin, causing a garlic flavor in the mouth even if it touched your arm.",
-    "volume": "1 ml",
-    "phase": "liquid"
+    "volume": "25 ml",
+    "phase": "liquid",
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You apply some DMSO.",
+      "effects": [ { "id": "pkill1", "duration": 1440 } ]
+    }
   },
   {
     "type": "COMESTIBLE",
