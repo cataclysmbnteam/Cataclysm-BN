@@ -756,7 +756,7 @@
     "difficulty": 1,
     "time": "2 m",
     "autolearn": true,
-    "components": [ [ [ "wire", 2 ], [ "cable", 2 ] ], [ "rag", 1 ] ]
+    "components": [ [ [ "wire", 2 ], [ "cable", 2 ] ], [ [ "rag", 1 ] ] ]
   },
   {
     "type": "recipe",
