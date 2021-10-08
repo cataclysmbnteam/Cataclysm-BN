@@ -155,6 +155,13 @@
     "sort_rank": 20
   },
   {
+    "id": "maps",
+    "type": "ITEM_CATEGORY",
+    "name": { "str": "MAPS" },
+    "zone": "LOOT_MAP",
+    "sort_rank": 21
+  },
+  {
     "id": "ITEMS_WORN",
     "type": "ITEM_CATEGORY",
     "name": { "str": "ITEMS WORN" },

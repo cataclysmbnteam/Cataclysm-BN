@@ -168,6 +168,12 @@
     "description": "Destination for filthy armor."
   },
   {
+    "id": "LOOT_MAP",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Maps",
+    "description": "Destination for maps."
+  },
+  {
     "id": "LOOT_WOOD",
     "type": "LOOT_ZONE",
     "name": "Loot: Wood",
