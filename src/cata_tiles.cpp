@@ -3151,7 +3151,8 @@ void cata_tiles::init_explosion( const tripoint &p, int radius, const std::strin
     exp_rad = radius;
     exp_name = name;
 }
-void cata_tiles::init_custom_explosion_layer( const std::map<tripoint, explosion_tile> &layer, const std::string &name )
+void cata_tiles::init_custom_explosion_layer( const std::map<tripoint, explosion_tile> &layer,
+        const std::string &name )
 {
     do_draw_custom_explosion = true;
     custom_explosion_layer = layer;
@@ -3398,7 +3399,7 @@ void cata_tiles::draw_custom_explosion_frame()
 {
     // TODO: Make the drawing code handle all the missing tiles: <^>v and *
     // TODO: Add more explosion tiles, like "strong explosion", so that it displays more info
-    
+
     // explosion_weak/explosion_medium/explosion removed from tiles in favor of allowing custom explosion sprites.
 
     int subtile = 0;
@@ -3406,7 +3407,7 @@ void cata_tiles::draw_custom_explosion_frame()
 
     for( const auto &pr : custom_explosion_layer ) {
         const explosion_neighbors ngh = pr.second.neighborhood;
-        
+
         switch( ngh ) {
             case N_NORTH:
             case N_SOUTH:
@@ -3456,7 +3457,7 @@ void cata_tiles::draw_custom_explosion_frame()
         }
 
         const tripoint &p = pr.first;
-        draw_from_id_string( exp_name, p, subtile, rotation, LL_LIT, nv_goggles_activated);
+        draw_from_id_string( exp_name, p, subtile, rotation, LL_LIT, nv_goggles_activated );
         // Used to be divided into explosion_weak/explosion_medium/explosion.
     }
 }
