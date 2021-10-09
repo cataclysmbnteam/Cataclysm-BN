@@ -2331,26 +2331,8 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
     }
     const pry_result *pry = nullptr;
 
-    if( pos->pry.new_ter_type || pos->pry.new_furn_type ) {
-        if( pos == g->u.pos() ) {
-            return false;
-        }
-        const ter_id ter = g->m.ter(pos);
-        const auto furn = g->m.furn(pos);
-
-        const bool is_allowed = false;
-        if( has_furn( pos ) && furnid.pry.pry_quality != -1 ) {
-            pry = &furnid.pry;
-            pry_furn = true;
-            return is_allowed;
-        } else if( ter( p ).obj().pry.pry_quality != -1 ) {
-            pry = &ter( p ).obj().pry;
-            return is_allowed;
-        }
-    };
-
     const cata::optional<tripoint> pnt_ = ( pos != p->pos() ) ? pos : choose_adjacent_highlight(
-            _( "Pry where?" ), _( "There is nothing to pry nearby." ), f, false );
+            _( "Pry where?" ), _( "There is nothing to pry nearby." ), pnt, false );
     if( !pnt_ ) {
         return 0;
     }
@@ -2366,6 +2348,24 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
         }
         return 0;
     }
+
+    if( pos->pry.new_ter_type || pos->pry.new_furn_type ) {
+        if( pos == g->u.pos() ) {
+            return false;
+        }
+        const ter_id ter = g->m.ter(pos);
+        const furn_id furn = g->m.furn(pos);
+
+        const bool is_allowed = false;
+        if( has_furn( pos ) && furn.obj().pry.pry_quality != -1 ) {
+            pry = &ter.obj().pry;
+            pry_furn = true;
+            return is_allowed;
+        } else if( ter.obj().pry.pry_quality != -1 ) {
+            pry = &ter.obj().pry;
+            return 0;
+        }
+    };
 
     // Doors need PRY 2 which is on a crowbar, crates need PRY 1 which is on a crowbar
     // & a claw hammer.
