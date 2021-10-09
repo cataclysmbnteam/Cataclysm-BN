@@ -546,9 +546,9 @@ void handle_weather_effects( const weather_type_id &w )
 static std::string to_string( const weekdays &d )
 {
     static const std::array<std::string, 7> weekday_names = {{
-            translate_marker( "Sunday" ), translate_marker( "Monday" )
-            translate_marker( "Tuesday" ), translate_marker( "Wednesday" )
-            translate_marker( "Thursday" ), translate_marker( "Friday" )
+            translate_marker( "Sunday" ), translate_marker( "Monday" ),
+            translate_marker( "Tuesday" ), translate_marker( "Wednesday" ),
+            translate_marker( "Thursday" ), translate_marker( "Friday" ),
             translate_marker( "Saturday" )
         }
     };
@@ -566,6 +566,17 @@ static std::string print_time_just_hour( const time_point &p )
     }
     return string_format( hour < 12 ? _( "%d AM" ) : _( "%d PM" ), hour_param );
 }
+
+constexpr size_t NUM_FORECAST_PERIODS = 6;
+
+struct forecast_period {
+    double temp_high = -100.0;
+    double temp_low = 100.0;
+    const weather_type *type = nullptr;
+    int type_priority = 1;
+    weekdays week_day = weekdays::MONDAY;
+    bool is_day = false;
+};
 
 // Script from Wikipedia:
 // Current time
@@ -613,59 +624,86 @@ std::string weather_forecast( const point &abs_sm_pos )
     //weather_report += ", the dewpoint ???, and the relative humidity ???.  ";
     //weather_report += "The wind was <direction> at ? mi/km an hour.  ";
     //weather_report += "The pressure was ??? in/mm and steady/rising/falling.";
+    // TODO: wind direction and speed
 
     // Regional conditions (simulated by choosing a random range containing the current conditions).
     // Adjusted for weather volatility based on how many weather changes are coming up.
     //weather_report += "Across <region>, skies ranged from <cloudiest> to <clearest>.  ";
     // TODO: Add fake reports for nearby cities
-
-    // TODO: weather forecast
-    // forecasting periods are divided into 12-hour periods, day (6-18) and night (19-5)
-    // Accumulate percentages for each period of various weather statistics, and report that
-    // (with fuzz) as the weather chances.
-    // int weather_proportions[NUM_WEATHER_TYPES] = {0};
-    double high = -100.0;
-    double low = 100.0;
     const tripoint abs_ms_pos = tripoint( sm_to_ms_copy( abs_sm_pos ), 0 );
-    // TODO: wind direction and speed
-    const time_point last_hour = calendar::turn - ( calendar::turn - calendar::turn_zero ) %
-                                 1_hours;
-    for( int d = 0; d < 6; d++ ) {
-        weather_type_id forecast = weather_type_id::NULL_ID();
-        int forecast_priority = -1;
-        const auto wgen = weather.get_cur_weather_gen();
-        for( time_point i = last_hour + d * 12_hours; i < last_hour + ( d + 1 ) * 12_hours; i += 1_hours ) {
-            w_point w = wgen.get_weather( abs_ms_pos, i, g->get_seed() );
-            const weather_type_id &new_type = wgen.get_weather_conditions( w );
-            int new_priority = wgen.forecast_priority( new_type );
-            if( new_priority > forecast_priority ) {
-                forecast_priority = new_priority;
-                forecast = new_type;
+
+    const time_point now_hour = calendar::turn - time_duration::from_minutes( minute_of_hour<int>
+                                ( calendar::turn ) );
+    bool now_is_day = is_day( now_hour );
+
+    int last_idx = -1;
+    bool last_is_day = now_is_day;
+    time_point last_hour = now_hour;
+
+    std::array<forecast_period, NUM_FORECAST_PERIODS> periods = { {} };
+
+    const auto &wgen = weather.get_cur_weather_gen();
+    while( true ) {
+        last_hour += 1_hours;
+        // Some types of weather may happen only during the night or during the day,
+        // so skip dusk and dawn just to be safe.
+        if( is_dusk( last_hour ) || is_dawn( last_hour ) ) {
+            continue;
+        }
+        bool new_is_day = is_day( last_hour );
+        if( new_is_day != last_is_day ) {
+            last_is_day = new_is_day;
+            last_idx += 1;
+            if( last_idx >= NUM_FORECAST_PERIODS ) {
+                break;
             }
-            high = std::max( high, w.temperature );
-            low = std::min( low, w.temperature );
+            periods[last_idx].is_day = last_is_day;
+            periods[last_idx].week_day = day_of_week( last_hour );
         }
+        if( last_idx < 0 ) {
+            continue;
+        }
+
+        forecast_period &period = periods[last_idx];
+
+        w_point w = wgen.get_weather( abs_ms_pos, last_hour, g->get_seed() );
+        const weather_type_id &new_type = wgen.get_weather_conditions( w );
+        int new_priority = wgen.forecast_priority( new_type );
+        if( !period.type || new_priority > period.type_priority ) {
+            period.type_priority = new_priority;
+            period.type = &new_type.obj();
+        }
+        period.temp_high = std::max( period.temp_high, w.temperature );
+        period.temp_low = std::min( period.temp_low, w.temperature );
+    }
+
+    for( int i = 0; i < NUM_FORECAST_PERIODS; i++ ) {
+        const forecast_period &period = periods[i];
         std::string day;
-        bool started_at_night;
-        const time_point c = last_hour + 12_hours * d;
-        if( d == 0 && is_night( c ) ) {
-            day = _( "Tonight" );
-            started_at_night = true;
+        if( i == 0 ) {
+            if( period.is_day ) {
+                day = _( "Today" );
+            } else {
+                day = _( "Tonight" );
+            }
         } else {
-            day = _( "Today" );
-            started_at_night = false;
-        }
-        if( d > 0 && static_cast<int>( started_at_night ) != d % 2 ) {
-            day = string_format( pgettext( "Mon Night", "%s Night" ), to_string( day_of_week( c ) ) );
-        } else {
-            day = to_string( day_of_week( c ) );
+            if( period.is_day ) {
+                day = to_string( period.week_day );
+            } else {
+                //~ %s is day of week (e.g. Friday Night)
+                day = string_format( pgettext( "Forecast", "%s Night" ), to_string( period.week_day ) );
+            }
         }
         weather_report += string_format(
-                              _( "%s… %s. Highs of %s. Lows of %s. " ),
-                              day, forecast->name,
-                              print_temperature( high ), print_temperature( low )
+                              //~ %1 is day or night of week (e.g. "Monday", or "Friday Night"),
+                              //~ %2 is weather type, %3 and %4 are temperatures.
+                              _( "%1$s… %2$s. Highs of %3$s. Lows of %4$s. " ),
+                              day, period.type->name,
+                              print_temperature( period.temp_high ),
+                              print_temperature( period.temp_low )
                           );
     }
+
     return weather_report;
 }
 
