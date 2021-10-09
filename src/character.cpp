@@ -2002,7 +2002,7 @@ bool Character::enough_power_for( const bionic_id &bid ) const
     return power_level >= bid->power_activate;
 }
 
-void Character::conduct_blood_analysis()
+void Character::conduct_blood_analysis() const
 {
     std::vector<std::string> effect_descriptions;
     std::vector<nc_color> colors;
