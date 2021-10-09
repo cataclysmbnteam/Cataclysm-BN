@@ -164,6 +164,77 @@ class user_turn
 
 };
 
+static bool init_weather_anim( const weather_type_id &wtype, weather_printable &wPrint )
+{
+    const weather_animation_t &anim = wtype->animation;
+
+    wPrint.colGlyph = anim.color;
+    wPrint.cGlyph = anim.symbol;
+    wPrint.wtype = wtype;
+    wPrint.vdrops.clear();
+
+    return anim.symbol != NULL_UNICODE;
+}
+
+static void generate_weather_anim_frame( const weather_type_id &wtype, weather_printable &wPrint )
+{
+    map &m = get_map();
+    avatar &u = get_avatar();
+
+    const visibility_variables &cache = m.get_visibility_variables_cache();
+    const level_cache &map_cache = m.get_cache_ref( u.posz() );
+    const auto &visibility_cache = map_cache.visibility_cache;
+
+    const int TOTAL_VIEW = MAX_VIEW_DISTANCE * 2 + 1;
+    point iStart( ( TERRAIN_WINDOW_WIDTH > TOTAL_VIEW ) ? ( TERRAIN_WINDOW_WIDTH - TOTAL_VIEW ) / 2 : 0,
+                  ( TERRAIN_WINDOW_HEIGHT > TOTAL_VIEW ) ? ( TERRAIN_WINDOW_HEIGHT - TOTAL_VIEW ) / 2 :
+                  0 );
+    point iEnd( ( TERRAIN_WINDOW_WIDTH > TOTAL_VIEW ) ? TERRAIN_WINDOW_WIDTH -
+                ( TERRAIN_WINDOW_WIDTH - TOTAL_VIEW ) /
+                2 :
+                TERRAIN_WINDOW_WIDTH, ( TERRAIN_WINDOW_HEIGHT > TOTAL_VIEW ) ? TERRAIN_WINDOW_HEIGHT -
+                ( TERRAIN_WINDOW_HEIGHT - TOTAL_VIEW ) /
+                2 : TERRAIN_WINDOW_HEIGHT );
+
+    if( g->fullscreen ) {
+        iStart.x = 0;
+        iStart.y = 0;
+        iEnd.x = TERMX;
+        iEnd.y = TERMY;
+    }
+
+    const weather_animation_t &anim = wtype->animation;
+    point offset( u.view_offset.xy() + point( -getmaxx( g->w_terrain ) / 2 + u.posx(),
+                  -getmaxy( g->w_terrain ) / 2 + u.posy() ) );
+
+    if( tile_iso && use_tiles ) {
+        iStart.x = 0;
+        iStart.y = 0;
+        iEnd.x = MAPSIZE_X;
+        iEnd.y = MAPSIZE_Y;
+        offset.x = 0;
+        offset.y = 0;
+    }
+
+    wPrint.vdrops.clear();
+
+    const int dropCount = static_cast<int>( iEnd.x * iEnd.y * anim.factor );
+    for( int i = 0; i < dropCount; i++ ) {
+        const point iRand{ rng( iStart.x, iEnd.x - 1 ), rng( iStart.y, iEnd.y - 1 ) };
+        const point map( iRand + offset );
+
+        const tripoint mapp( map, u.posz() );
+
+        const lit_level lighting = visibility_cache[mapp.x][mapp.y];
+
+        if( m.is_outside( mapp ) && m.get_visibility( lighting, cache ) == VIS_CLEAR &&
+            !g->critter_at( mapp, true ) ) {
+            // Suppress if a critter is there
+            wPrint.vdrops.emplace_back( std::make_pair( iRand.x, iRand.y ) );
+        }
+    }
+}
+
 input_context game::get_player_input( std::string &action )
 {
     input_context ctxt;
@@ -195,60 +266,16 @@ input_context game::get_player_input( std::string &action )
     }
 
     m.update_visibility_cache( u.posz() );
-    const visibility_variables &cache = g->m.get_visibility_variables_cache();
-    const level_cache &map_cache = m.get_cache_ref( u.posz() );
-    const auto &visibility_cache = map_cache.visibility_cache;
 
     user_turn current_turn;
 
     if( get_option<bool>( "ANIMATIONS" ) ) {
-        const int TOTAL_VIEW = MAX_VIEW_DISTANCE * 2 + 1;
-        point iStart( ( TERRAIN_WINDOW_WIDTH > TOTAL_VIEW ) ? ( TERRAIN_WINDOW_WIDTH - TOTAL_VIEW ) / 2 : 0,
-                      ( TERRAIN_WINDOW_HEIGHT > TOTAL_VIEW ) ? ( TERRAIN_WINDOW_HEIGHT - TOTAL_VIEW ) / 2 :
-                      0 );
-        point iEnd( ( TERRAIN_WINDOW_WIDTH > TOTAL_VIEW ) ? TERRAIN_WINDOW_WIDTH -
-                    ( TERRAIN_WINDOW_WIDTH - TOTAL_VIEW ) /
-                    2 :
-                    TERRAIN_WINDOW_WIDTH, ( TERRAIN_WINDOW_HEIGHT > TOTAL_VIEW ) ? TERRAIN_WINDOW_HEIGHT -
-                    ( TERRAIN_WINDOW_HEIGHT - TOTAL_VIEW ) /
-                    2 : TERRAIN_WINDOW_HEIGHT );
-
-        if( fullscreen ) {
-            iStart.x = 0;
-            iStart.y = 0;
-            iEnd.x = TERMX;
-            iEnd.y = TERMY;
-        }
-
-        //x% of the Viewport, only shown on visible areas
-        const auto weather_info = get_weather().weather_id->animation;
-        point offset( u.view_offset.xy() + point( -getmaxx( w_terrain ) / 2 + u.posx(),
-                      -getmaxy( w_terrain ) / 2 + u.posy() ) );
-
-#if defined(TILES)
-        if( tile_iso && use_tiles ) {
-            iStart.x = 0;
-            iStart.y = 0;
-            iEnd.x = MAPSIZE_X;
-            iEnd.y = MAPSIZE_Y;
-            offset.x = 0;
-            offset.y = 0;
-        }
-#endif //TILES
-
-        // TODO: Move the weather calculations out of here.
-        const bool bWeatherEffect = weather_info.symbol != NULL_UNICODE;
-        const int dropCount = static_cast<int>( iEnd.x * iEnd.y * weather_info.factor );
-
         weather_printable wPrint;
-        wPrint.colGlyph = weather_info.color;
-        wPrint.cGlyph = weather_info.symbol;
-        wPrint.wtype = get_weather().weather_id;
-        wPrint.vdrops.clear();
+        const bool weather_has_anim = init_weather_anim( get_weather().weather_id, wPrint );
 
         ctxt.set_timeout( 125 );
 
-        bool animate_weather = bWeatherEffect && get_option<bool>( "ANIMATION_RAIN" );
+        bool animate_weather = weather_has_anim && get_option<bool>( "ANIMATION_RAIN" );
         bool animate_sct = !SCT.vSCT.empty() && uquit != QUIT_WATCH && get_option<bool>( "ANIMATION_SCT" );
 
         shared_ptr_fast<game::draw_callback_t> animation_cb =
@@ -265,31 +292,8 @@ input_context game::get_player_input( std::string &action )
 
         do {
             if( animate_weather ) {
-                /*
-                Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
-                Get tile information from above's weather information:
-                WEATHER_ACID_DRIZZLE | WEATHER_ACID_RAIN = "weather_acid_drop"
-                WEATHER_DRIZZLE | WEATHER_LIGHT_DRIZZLE | WEATHER_RAINY | WEATHER_THUNDER | WEATHER_LIGHTNING = "weather_rain_drop"
-                WEATHER_FLURRIES | WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
-                */
                 invalidate_main_ui_adaptor();
-
-                wPrint.vdrops.clear();
-
-                for( int i = 0; i < dropCount; i++ ) {
-                    const point iRand{ rng( iStart.x, iEnd.x - 1 ), rng( iStart.y, iEnd.y - 1 ) };
-                    const point map( iRand + offset );
-
-                    const tripoint mapp( map, u.posz() );
-
-                    const lit_level lighting = visibility_cache[mapp.x][mapp.y];
-
-                    if( m.is_outside( mapp ) && m.get_visibility( lighting, cache ) == VIS_CLEAR &&
-                        !critter_at( mapp, true ) ) {
-                        // Suppress if a critter is there
-                        wPrint.vdrops.emplace_back( std::make_pair( iRand.x, iRand.y ) );
-                    }
-                }
+                generate_weather_anim_frame( get_weather().weather_id, wPrint );
             }
             // don't bother calculating SCT if we won't show it
             if( animate_sct ) {
