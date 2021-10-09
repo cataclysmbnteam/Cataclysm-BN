@@ -236,7 +236,7 @@ std::map<enum radio_type, std::string> radio_type_names =
 radio_tower::radio_tower( const point &p, int S, const std::string &M, radio_type T ) :
     pos( p ), strength( S ), type( T ), message( M )
 {
-    frequency = rng( 0, INT_MAX );
+    frequency = rng( 0, std::numeric_limits<int32_t>::max() );
 }
 
 /** @relates string_id */

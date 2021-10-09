@@ -581,6 +581,8 @@ void overmap::unserialize( std::istream &fin, const std::string &file_path )
                         jsin.read( new_radio.strength );
                     } else if( radio_member_name == "message" ) {
                         jsin.read( new_radio.message );
+                    } else if( radio_member_name == "frequency" ) {
+                        jsin.read( new_radio.frequency );
                     }
                 }
                 radios.push_back( new_radio );
@@ -1006,6 +1008,7 @@ void overmap::serialize( std::ostream &fout ) const
         json.member( "strength", i.strength );
         json.member( "type", radio_type_names[i.type] );
         json.member( "message", i.message );
+        json.member( "frequency", i.frequency );
         json.end_object();
     }
     json.end_array();
