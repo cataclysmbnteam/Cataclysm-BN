@@ -581,7 +581,7 @@ bool Character::activate_bionic( int b, bool eff_only )
     };
 
     item tmp_item;
-    const w_point weatherPoint = *get_weather().weather_precise;
+    const w_point &weatherPoint = get_weather().get_precise();
 
     // On activation effects go here
     if( bio.info().has_flag( flag_BIONIC_GUN ) ) {
@@ -633,7 +633,7 @@ bool Character::activate_bionic( int b, bool eff_only )
         }
     } else if( bio.id == bio_evap ) {
         add_msg_activate();
-        const w_point weatherPoint = *get_weather().weather_precise;
+        const w_point &weatherPoint = get_weather().get_precise();
         int humidity = get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
                                            g->is_sheltered( g->u.pos() ) );
         // thirst units = 5 mL
@@ -1738,7 +1738,7 @@ void Character::process_bionic( int b )
         // Aero-Evaporator provides water at 60 watts with 2 L / kWh efficiency
         // which is 10 mL per 5 minutes.  Humidity can modify the amount gained.
         if( calendar::once_every( 5_minutes ) ) {
-            const w_point weatherPoint = *get_weather().weather_precise;
+            const w_point &weatherPoint = get_weather().get_precise();
             int humidity = get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
                                                g->is_sheltered( g->u.pos() ) );
             // in thirst units = 5 mL water

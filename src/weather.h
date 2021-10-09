@@ -2,13 +2,18 @@
 #ifndef CATA_SRC_WEATHER_H
 #define CATA_SRC_WEATHER_H
 
+#include "calendar.h"
 #include "color.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "point.h"
 #include "type_id.h"
 #include "weather_gen.h"
-#include "calendar.h"
+
+#include <string>
+#include <vector>
+#include <unordered_map>
+#include <utility>
 
 /**
  * @name BODYTEMP
@@ -35,18 +40,14 @@ static constexpr int BODYTEMP_VERY_HOT = 8000;
 static constexpr int BODYTEMP_SCORCHING = 9500;
 ///@}
 
-#include <string>
-#include <vector>
-#include <unordered_map>
-#include <utility>
-
+class Character;
 class item;
 class map;
 struct trap;
 struct rl_vec2d;
 
 double precip_mm_per_hour( precip_class p );
-void handle_weather_effects( weather_type_id w );
+void handle_weather_effects( const weather_type_id &w );
 
 /**
  * Weather drawing tracking.
@@ -84,12 +85,12 @@ struct weather_sum {
     int wind_amount = 0;
 };
 
-namespace weather {
+namespace weather
+{
 bool is_sheltered( const map &m, const tripoint &p );
-bool is_in_sunlight( const map &m, const tripoint &p, const weather_type_id& weather );
+bool is_in_sunlight( const map &m, const tripoint &p, const weather_type_id &weather );
 } // namespace weather
 
-weather_type_id get_bad_weather();
 std::string get_shortdirstring( int angle );
 
 std::string get_dirstring( int angle );
@@ -109,7 +110,7 @@ std::string print_pressure( double pressure, int decimals = 0 );
 // Return windchill offset in degrees F, starting from given temperature, humidity and wind
 int get_local_windchill( double temperature_f, double humidity, double wind_mph );
 
-int get_local_humidity( double humidity, weather_type_id weather, bool sheltered = false );
+int get_local_humidity( double humidity, const weather_type_id &weather, bool sheltered = false );
 double get_local_windpower( double windpower, const oter_id &omter, const tripoint &location,
                             const int &winddirection,
                             bool sheltered = false );
@@ -147,22 +148,30 @@ bool warm_enough_to_plant( const tripoint &pos );
 
 bool is_wind_blocker( const tripoint &location );
 
-weather_type_id current_weather( const tripoint &location,
-                                 const time_point &t = calendar::turn );
+const weather_type_id &current_weather( const tripoint &location,
+                                        const time_point &t = calendar::turn );
+/**
+ * Glare.
+ * Causes glare effect to player's eyes if they are not wearing applicable eye protection.
+ * @param intensity Level of sun brighthess
+ */
+void glare( const weather_type_id &w );
 
-void glare( weather_type_id w );
 /**
  * Amount of sunlight incident at the ground, taking weather and time of day
  * into account.
  */
-int incident_sunlight( weather_type_id wtype,
+int incident_sunlight( const weather_type_id &wtype,
                        const time_point &t = calendar::turn );
 
 class weather_manager
 {
     public:
         weather_manager();
+        ~weather_manager();
+
         const weather_generator &get_cur_weather_gen() const;
+
         // Updates the temperature and weather pattern
         void update_weather();
         // The air temperature in Fahrenheit
@@ -171,18 +180,19 @@ class weather_manager
         int water_temperature = 0;
         bool lightning_active = false;
         // Weather pattern
-        weather_type_id weather_id = WEATHER_NULL;
+        weather_type_id weather_id = weather_type_id::NULL_ID();
         int winddirection = 0;
         int windspeed = 0;
-        // Cached weather data
-        pimpl<w_point> weather_precise;
+
         cata::optional<int> wind_direction_override;
         cata::optional<int> windspeed_override;
         weather_type_id weather_override;
+
         // not only sets nextweather, but updates weather as well
         void set_nextweather( time_point t );
         // The time at which weather will shift next.
         time_point nextweather;
+
         /** temperature cache, cleared every turn, sparse map of map tripoints to temperatures in Fahrenheit */
         mutable std::unordered_map< tripoint, int > temperature_cache;
         // Returns outdoor or indoor temperature of given location (in local coords) in Fahrenheit.
@@ -190,6 +200,20 @@ class weather_manager
         // Returns water temperature of given location (in local coords) in Fahrenheit.
         int get_water_temperature( const tripoint &location ) const;
         void clear_temp_cache();
+
+        // Get precise weather data
+        const w_point &get_precise() const {
+            return weather_precise;
+        }
+
+        // For use in tests
+        void override_humidity( int h ) {
+            weather_precise.humidity = h;
+        }
+
+    private:
+        // Cached weather data
+        w_point weather_precise;
 };
 
 weather_manager &get_weather();

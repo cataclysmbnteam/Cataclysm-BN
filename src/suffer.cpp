@@ -1318,8 +1318,9 @@ void Character::suffer_from_artifacts()
 
     if( has_artifact_with( AEP_BAD_WEATHER ) && calendar::once_every( 1_minutes ) &&
         get_weather().weather_id->precip < precip_class::heavy ) {
-        get_weather().weather_override = get_bad_weather();
-        get_weather().set_nextweather( calendar::turn );
+        weather_manager &wm = get_weather();
+        wm.weather_override = wm.get_cur_weather_gen().get_bad_weather();
+        wm.set_nextweather( calendar::turn );
     }
 
     if( has_artifact_with( AEP_MUTAGENIC ) && one_turn_in( 48_hours ) ) {

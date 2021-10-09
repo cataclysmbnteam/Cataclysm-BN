@@ -4595,7 +4595,8 @@ int vehicle::total_wind_epower_w() const
 {
     const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( global_pos3() ) ) );
     const weather_manager &weather = get_weather();
-    const w_point weatherPoint = *weather.weather_precise;
+    const w_point &weatherPoint = get_weather().get_precise();
+
     int epower_w = 0;
     for( int part : wind_turbines ) {
         if( parts[ part ].is_unavailable() ) {

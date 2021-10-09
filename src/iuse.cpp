@@ -9196,7 +9196,7 @@ int iuse::hairkit( player *p, item *it, bool, const tripoint & )
 int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
 {
     const weather_manager &weather = get_weather();
-    const w_point weatherPoint = *weather.weather_precise;
+    const w_point &weatherPoint = get_weather().get_precise();
 
     /* Possibly used twice. Worth spending the time to precalculate. */
     const auto player_local_temp = weather.get_temperature( p->pos() );

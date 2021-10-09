@@ -4,14 +4,15 @@
 
 #include <string>
 
-#include "generic_factory.h"
+#include "color.h"
 #include "translations.h"
 #include "type_id.h"
 
 using weather_effect_fn = void ( * )( int intensity );
 
-const weather_type_id WEATHER_NULL( "null" );
-const weather_type_id WEATHER_CLEAR( "clear" );
+template<typename E> struct enum_traits;
+template<typename T> class generic_factory;
+class JsonObject;
 
 enum class precip_class : int {
     none,
@@ -69,9 +70,10 @@ struct enum_traits<weather_sound_category> {
  * Weather animation class.
  */
 struct weather_animation_t {
-    float    factor;
-    nc_color color;
-    char     glyph;
+    float factor = 0.0f;
+    nc_color color = c_white;
+    char glyph = '?';
+    std::string tile;
 };
 
 struct weather_requirements {
@@ -85,38 +87,39 @@ struct weather_requirements {
     int humidity_max = INT_MAX;
     bool humidity_and_pressure = true;
     bool acidic = false;
-    weather_time_requirement_type time;
+    weather_time_requirement_type time = weather_time_requirement_type::both;
     std::vector<weather_type_id> required_weathers;
 };
 
 struct weather_type {
-    public:
+    private:
         friend class generic_factory<weather_type>;
+
         bool was_loaded = false;
+    public:
         weather_type_id id;
-        std::string name;             //!< UI name of weather type.
-        nc_color color;               //!< UI color of weather type.
-        nc_color map_color;           //!< Map color of weather type.
-        char glyph;                   //!< Map glyph of weather type.
-        int ranged_penalty;           //!< Penalty to ranged attacks.
-        float sight_penalty;          //!< Penalty to per-square visibility, applied in transparency map.
-        int light_modifier;           //!< Modification to ambient light.
-        int sound_attn;               //!< Sound attenuation of a given weather type.
-        bool dangerous;               //!< If true, our activity gets interrupted.
-        precip_class precip;          //!< Amount of associated precipitation.
-        bool rains;                   //!< Whether said precipitation falls as rain.
-        bool acidic;                  //!< Whether said precipitation is acidic.
-        std::vector < std::pair < weather_effect_fn, int >> effects;      //!< vector for weather effects.
-        std::string tiles_animation;  //!< string for tiles animation
-        weather_animation_t weather_animation; //!< Information for weather animations
-        weather_sound_category sound_category; //!< if playing sound effects what to use
-        sun_intensity_type sun_intensity; //!< strength of the sun
-        weather_requirements requirements; //!< when this weather should happen
+        std::string name;           // UI name of weather type.
+        nc_color color = c_magenta; // UI color of weather type.
+        nc_color map_color = c_magenta; // Map color of weather type.
+        char glyph = '?';           // Map glyph of weather type.
+        int ranged_penalty = 0;     // Penalty to ranged attacks.
+        float sight_penalty = 1.0f; // Penalty to per-square visibility, applied in transparency map.
+        int light_modifier = 0;     // Modification to ambient light.
+        int sound_attn = 0;         // Sound attenuation of a given weather type.
+        bool dangerous = false;     // If true, our activity gets interrupted.
+        precip_class precip = precip_class::none; // Amount of associated precipitation.
+        bool rains = false;         // Whether precipitation falls as rain.
+        bool acidic = false;        // Whether precipitation is acidic.
+        std::vector<std::pair<weather_effect_fn, int>> effects;
+        weather_animation_t animation = {};
+        weather_sound_category sound_category = weather_sound_category::silent;
+        sun_intensity_type sun_intensity = sun_intensity_type::none;
+        weather_requirements requirements = {};
+
+        weather_type() = default;
 
         void load( const JsonObject &jo, const std::string &src );
-        void finalize();
         void check() const;
-        weather_type() = default;
 };
 namespace weather_types
 {

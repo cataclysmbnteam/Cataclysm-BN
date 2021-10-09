@@ -1,6 +1,9 @@
+#pragma optimize("", off)
 #include "weather_type.h"
-#include "weather.h"
+
 #include "game_constants.h"
+#include "generic_factory.h"
+#include "weather.h"
 
 namespace
 {
@@ -105,17 +108,15 @@ bool string_id<weather_type>::is_valid() const
     return weather_type_factory.is_valid( *this );
 }
 
-void weather_type::finalize()
-{
-
-}
-
 void weather_type::check() const
 {
     for( const weather_type_id &required : requirements.required_weathers ) {
         if( !required.is_valid() ) {
-            debugmsg( "Required weather type %s does not exist.", required.c_str() );
-            abort();
+            std::string err =
+                string_format( "Weather type \"%s\" required for weather type \"%s\" does not exist.",
+                               required, id );
+            // This may be important, throw error and abort loading.
+            throw err;
         }
     }
 }
@@ -144,7 +145,6 @@ void weather_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "precip", precip );
     mandatory( jo, was_loaded, "rains", rains );
     optional( jo, was_loaded, "acidic", acidic, false );
-    optional( jo, was_loaded, "tiles_animation", tiles_animation, "" );
     optional( jo, was_loaded, "sound_category", sound_category, weather_sound_category::silent );
     mandatory( jo, was_loaded, "sun_intensity", sun_intensity );
 
@@ -166,11 +166,13 @@ void weather_type::load( const JsonObject &jo, const std::string & )
         }
         effects.emplace_back( iter->second, pair.second );
     }
-    weather_animation = { 0.0f, c_white, '?' };
-    if( jo.has_member( "weather_animation" ) ) {
-        JsonObject weather_animation_jo = jo.get_object( "weather_animation" );
+
+    if( jo.has_member( "animation" ) ) {
+        animation = {};
+        JsonObject weather_animation_jo = jo.get_object( "animation" );
         weather_animation_t animation;
         mandatory( weather_animation_jo, was_loaded, "factor", animation.factor );
+        mandatory( weather_animation_jo, was_loaded, "tile", animation.tile );
         if( !assign( weather_animation_jo, "color", animation.color ) ) {
             weather_animation_jo.throw_error( "missing mandatory member \"color\"" );
         }
@@ -180,32 +182,25 @@ void weather_type::load( const JsonObject &jo, const std::string & )
         } else {
             animation.glyph = glyph[0];
         }
-        weather_animation = animation;
+        animation = animation;
     }
 
-    requirements = {};
     if( jo.has_member( "requirements" ) ) {
-        JsonObject weather_requires = jo.get_object( "requirements" );
-        weather_requirements new_requires;
+        requirements = {};
+        JsonObject j = jo.get_object( "requirements" );
 
-        optional( weather_requires, was_loaded, "pressure_min", new_requires.pressure_min, INT_MIN );
-        optional( weather_requires, was_loaded, "pressure_max", new_requires.pressure_max, INT_MAX );
-        optional( weather_requires, was_loaded, "humidity_min", new_requires.humidity_min, INT_MIN );
-        optional( weather_requires, was_loaded, "humidity_max", new_requires.humidity_max, INT_MAX );
-        optional( weather_requires, was_loaded, "temperature_min", new_requires.temperature_min, INT_MIN );
-        optional( weather_requires, was_loaded, "temperature_max", new_requires.temperature_max, INT_MAX );
-        optional( weather_requires, was_loaded, "windpower_min", new_requires.windpower_min, INT_MIN );
-        optional( weather_requires, was_loaded, "windpower_max", new_requires.windpower_max, INT_MAX );
-        optional( weather_requires, was_loaded, "humidity_and_pressure", new_requires.humidity_and_pressure,
-                  true );
-        optional( weather_requires, was_loaded, "acidic", new_requires.acidic, false );
-        optional( weather_requires, was_loaded, "time", new_requires.time,
-                  weather_time_requirement_type::both );
-        for( const std::string &required_weather :
-             weather_requires.get_string_array( "required_weathers" ) ) {
-            new_requires.required_weathers.push_back( weather_type_id( required_weather ) );
-        }
-        requirements = new_requires;
+        optional( j, was_loaded, "pressure_min", requirements.pressure_min, INT_MIN );
+        optional( j, was_loaded, "pressure_max", requirements.pressure_max, INT_MAX );
+        optional( j, was_loaded, "humidity_min", requirements.humidity_min, INT_MIN );
+        optional( j, was_loaded, "humidity_max", requirements.humidity_max, INT_MAX );
+        optional( j, was_loaded, "temperature_min", requirements.temperature_min, INT_MIN );
+        optional( j, was_loaded, "temperature_max", requirements.temperature_max, INT_MAX );
+        optional( j, was_loaded, "windpower_min", requirements.windpower_min, INT_MIN );
+        optional( j, was_loaded, "windpower_max", requirements.windpower_max, INT_MAX );
+        optional( j, was_loaded, "humidity_and_pressure", requirements.humidity_and_pressure, true );
+        optional( j, was_loaded, "acidic", requirements.acidic, false );
+        optional( j, was_loaded, "time", requirements.time, weather_time_requirement_type::both );
+        optional( j, was_loaded, "required_weathers", requirements.required_weathers );
     }
 }
 
@@ -217,9 +212,6 @@ void weather_types::reset()
 void weather_types::finalize_all()
 {
     weather_type_factory.finalize();
-    for( const weather_type &wt : weather_type_factory.get_all() ) {
-        const_cast<weather_type &>( wt ).finalize();
-    }
 }
 
 const std::vector<weather_type> &weather_types::get_all()
@@ -229,14 +221,6 @@ const std::vector<weather_type> &weather_types::get_all()
 
 void weather_types::check_consistency()
 {
-    if( !WEATHER_CLEAR.is_valid() ) {
-        debugmsg( "Weather type clear is required." );
-        abort();
-    }
-    if( !WEATHER_NULL.is_valid() ) {
-        debugmsg( "Weather type null is required." );
-        abort();
-    }
     weather_type_factory.check();
 }
 

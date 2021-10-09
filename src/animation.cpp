@@ -741,7 +741,7 @@ void game::draw_weather( const weather_printable &w )
         return;
     }
 
-    tilecontext->init_draw_weather( w, w.wtype->tiles_animation );
+    tilecontext->init_draw_weather( w, w.wtype->animation.tile );
 }
 #else
 void game::draw_weather( const weather_printable &w )

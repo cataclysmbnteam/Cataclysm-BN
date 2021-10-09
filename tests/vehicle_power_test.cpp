@@ -105,7 +105,7 @@ TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
 
         GIVEN( "it is 3 hours after sunset, with clear weather" ) {
             const time_point at_night = sunset( calendar::turn ) + 3_hours;
-            get_weather().weather_override = WEATHER_CLEAR;
+            get_weather().weather_override = weather_type_id( "clear" );
             veh_ptr->update_time( at_night );
 
             AND_GIVEN( "the battery has no charge" ) {

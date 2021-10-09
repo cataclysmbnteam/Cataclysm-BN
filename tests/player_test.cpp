@@ -223,13 +223,13 @@ static void guarantee_neutral_weather( const player &p )
     get_weather().weather_id = WEATHER_CLOUDY;
     get_weather().weather_override = WEATHER_CLOUDY;
     get_weather().windspeed = 0;
-    get_weather().weather_precise->humidity = 0;
+    get_weather().override_humidity( 0 );
     REQUIRE( !get_map().has_flag( TFLAG_SWIMMABLE, p.pos() ) );
     REQUIRE( !get_map().has_flag( TFLAG_DEEP_WATER, p.pos() ) );
     REQUIRE( !g->is_in_sunlight( p.pos() ) );
 
     const weather_manager &weather = get_weather();
-    const w_point wp = *weather.weather_precise;
+    const w_point &wp = weather.get_precise();
     const oter_id &cur_om_ter = overmap_buffer.ter( p.global_omt_location() );
     bool sheltered = g->is_sheltered( p.pos() );
     double total_windpower = get_local_windpower( weather.windspeed, cur_om_ter,

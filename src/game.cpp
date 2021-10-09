@@ -572,10 +572,8 @@ void game::setup()
     calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
     calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
 
-    get_weather().weather_id = WEATHER_CLEAR;
-    // Weather shift in 30
-    get_weather().nextweather = calendar::start_of_cataclysm + time_duration::from_hours(
-                                    get_option<int>( "INITIAL_TIME" ) ) + 30_minutes;
+    get_weather().weather_id = weather_type_id::NULL_ID();
+    get_weather().nextweather = calendar::before_time_starts;
 
     turnssincelastmon = 0; //Auto safe mode init
 
@@ -1606,7 +1604,7 @@ bool game::do_turn()
     }
 
     u.update_bodytemp( m, weather );
-    u.update_body_wetness( *weather.weather_precise );
+    u.update_body_wetness( get_weather().get_precise() );
     u.apply_wetness_morale( weather.temperature );
 
     if( calendar::once_every( 1_minutes ) ) {
@@ -5074,17 +5072,12 @@ bool game::is_empty( const tripoint &p )
 
 bool game::is_in_sunlight( const tripoint &p )
 {
-    return ( m.is_outside( p ) && light_level( p.z ) >= 40 && !is_night( calendar::turn ) &&
-             get_weather().weather_id->sun_intensity >= sun_intensity_type::normal );
+    return weather::is_in_sunlight( m, p, get_weather().weather_id );
 }
 
 bool game::is_sheltered( const tripoint &p )
 {
-    const optional_vpart_position vp = m.veh_at( p );
-
-    return ( !m.is_outside( p ) ||
-             p.z < 0 ||
-             ( vp && vp->is_inside() ) );
+    return weather::is_sheltered( m, p );
 }
 
 bool game::revive_corpse( const tripoint &p, item &it )

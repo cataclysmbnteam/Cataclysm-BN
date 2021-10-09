@@ -70,25 +70,7 @@ static bool is_player_outside()
                                         get_player_character().posy() ) ) && g->get_levz() >= 0;
 }
 
-weather_type_id get_bad_weather()
-{
-    weather_type_id bad_weather = WEATHER_NULL;
-    const weather_generator &weather_gen = get_weather().get_cur_weather_gen();
-    for( const std::string &weather_type : weather_gen.weather_types ) {
-        weather_type_id current_conditions = weather_type_id( weather_type );
-        if( current_conditions->precip == precip_class::heavy ) {
-            bad_weather = current_conditions;
-        }
-    }
-    return bad_weather;
-}
-
-/**
- * Glare.
- * Causes glare effect to player's eyes if they are not wearing applicable eye protection.
- * @param intensity Level of sun brighthess
- */
-void glare( weather_type_id w )
+void glare( const weather_type_id &w )
 {
     //General prepequisites for glare
     if( !is_player_outside() || !g->is_in_sunlight( g->u.pos() ) || g->u.in_sleep_state() ||
@@ -120,9 +102,7 @@ void glare( weather_type_id w )
     }
 }
 
-////// food vs weather
-
-int incident_sunlight( weather_type_id wtype, const time_point &t )
+int incident_sunlight( const weather_type_id &wtype, const time_point &t )
 {
     return std::max<float>( 0.0f, sunlight( t, false ) + wtype->light_modifier );
 }
@@ -158,17 +138,16 @@ inline void proc_weather_sum( const weather_type_id wtype, weather_sum &data,
     data.sunlight += tick_sunlight * to_turns<int>( tick_size );
 }
 
-weather_type_id current_weather( const tripoint &location, const time_point &t )
+const weather_type_id &current_weather( const tripoint &location, const time_point &t )
 {
     const weather_manager &weather = get_weather();
     const auto wgen = weather.get_cur_weather_gen();
-    if( weather.weather_override != WEATHER_NULL ) {
+    if( weather.weather_override ) {
         return weather.weather_override;
     }
     return wgen.get_weather_conditions( location, t, g->get_seed() );
 }
 
-////// Funnels.
 weather_sum sum_conditions( const time_point &start, const time_point &end,
                             const tripoint &location )
 {
@@ -537,7 +516,7 @@ double precip_mm_per_hour( precip_class const p )
         0;
 }
 
-void handle_weather_effects( weather_type_id const w )
+void handle_weather_effects( const weather_type_id &w )
 {
     if( w->rains && w->precip != precip_class::none ) {
         fill_water_collectors( precip_mm_per_hour( w->precip ),
@@ -558,9 +537,8 @@ void handle_weather_effects( weather_type_id const w )
         weather_effect::wet_player( wetness );
     }
     glare( w );
-    std::vector<std::pair<weather_effect_fn, int>> weather_effects = w->effects;
 
-    for( const std::pair<const weather_effect_fn, int> &effect : weather_effects ) {
+    for( const auto &effect : w->effects ) {
         effect.first( effect.second );
     }
 }
@@ -653,11 +631,17 @@ std::string weather_forecast( const point &abs_sm_pos )
     const time_point last_hour = calendar::turn - ( calendar::turn - calendar::turn_zero ) %
                                  1_hours;
     for( int d = 0; d < 6; d++ ) {
-        weather_type_id forecast = WEATHER_NULL;
+        weather_type_id forecast = weather_type_id::NULL_ID();
+        int forecast_priority = -1;
         const auto wgen = weather.get_cur_weather_gen();
         for( time_point i = last_hour + d * 12_hours; i < last_hour + ( d + 1 ) * 12_hours; i += 1_hours ) {
             w_point w = wgen.get_weather( abs_ms_pos, i, g->get_seed() );
-            forecast = std::max( forecast, wgen.get_weather_conditions( w ) );
+            const weather_type_id &new_type = wgen.get_weather_conditions( w );
+            int new_priority = wgen.forecast_priority( new_type );
+            if( new_priority > forecast_priority ) {
+                forecast_priority = new_priority;
+                forecast = new_type;
+            }
             high = std::max( high, w.temperature );
             low = std::min( low, w.temperature );
         }
@@ -869,7 +853,7 @@ std::string get_wind_arrow( int dirangle )
     return wind_arrow;
 }
 
-int get_local_humidity( double humidity, weather_type_id weather, bool sheltered )
+int get_local_humidity( double humidity, const weather_type_id &weather, bool sheltered )
 {
     int tmphumidity = humidity;
     if( sheltered ) {
@@ -981,11 +965,13 @@ bool warm_enough_to_plant( const tripoint &pos )
 weather_manager::weather_manager()
 {
     lightning_active = false;
-    weather_override = WEATHER_NULL;
+    weather_override = weather_type_id::NULL_ID();
     nextweather = calendar::before_time_starts;
     temperature = 0;
-    weather_id = WEATHER_CLEAR;
+    weather_id = weather_type_id::NULL_ID();
 }
+
+weather_manager::~weather_manager() = default;
 
 const weather_generator &weather_manager::get_cur_weather_gen() const
 {
@@ -996,18 +982,16 @@ const weather_generator &weather_manager::get_cur_weather_gen() const
 
 void weather_manager::update_weather()
 {
-    w_point &w = *weather_precise;
+    w_point &w = weather_precise;
     winddirection = wind_direction_override ? *wind_direction_override : w.winddirection;
     windspeed = windspeed_override ? *windspeed_override : w.windpower;
-    if( weather_id == WEATHER_NULL || calendar::turn >= nextweather ) {
+    if( !weather_id || calendar::turn >= nextweather ) {
         const weather_generator &weather_gen = get_cur_weather_gen();
         w = weather_gen.get_weather( g->u.global_square_location(), calendar::turn, g->get_seed() );
         weather_type_id old_weather = weather_id;
-        weather_id = weather_override == WEATHER_NULL ?
-                     weather_gen.get_weather_conditions( w )
-                     : weather_override;
+        weather_id = weather_override ? weather_override : weather_gen.get_weather_conditions( w );
         if( !g->u.has_artifact_with( AEP_BAD_WEATHER ) ) {
-            weather_override = WEATHER_NULL;
+            weather_override = weather_type_id::NULL_ID();
         }
         sfx::do_ambient();
         temperature = w.temperature;
@@ -1092,9 +1076,8 @@ bool is_sheltered( const map &m, const tripoint &p )
 bool is_in_sunlight( const map &m, const tripoint &p, const weather_type_id &weather )
 {
     // TODO: Remove that game reference and include light in weather data
-    // FIXME: remove hardcoded id check
-    return m.is_outside( p ) && g->light_level( p.z ) >= 40 &&
-           ( weather.str() == "clear" || weather.str() == "sunny" );
+    return m.is_outside( p ) && g->light_level( p.z ) >= 40 && !is_night( calendar::turn ) &&
+           get_weather().weather_id->sun_intensity >= sun_intensity_type::normal;
 }
 
 } // namespace weather

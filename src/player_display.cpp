@@ -1116,8 +1116,11 @@ void player::disp_info()
         effect_name_and_text.push_back( { starvation_name, starvation_text } );
     }
 
-    if( has_trait( trait_id( "TROGLO" ) ) && g->is_in_sunlight( pos() ) &&
-        get_weather().weather_id->sun_intensity >= sun_intensity_type::high ) {
+    if( ( has_trait( trait_id( "TROGLO" ) ) && g->is_in_sunlight( pos() ) &&
+          get_weather().weather_id->sun_intensity >= sun_intensity_type::high ) ||
+        ( has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( pos() ) &&
+          get_weather().weather_id->sun_intensity < sun_intensity_type::high )
+      ) {
         effect_name_and_text.push_back( { _( "In Sunlight" ),
                                           _( "The sunlight irritates you.\n"
                                              "Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" )

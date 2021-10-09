@@ -58,7 +58,7 @@ static void full_map_test( const std::vector<std::string> &setup,
     g->place_player( tripoint( 60, 60, 0 ) );
     clear_avatar();
     clear_map();
-    get_weather().weather_id = WEATHER_CLEAR;
+    get_weather().weather_id = weather_type_id( "clear" );
     g->reset_light_level();
 
     if( !!( flags & vision_test_flags::crouching ) ) {
