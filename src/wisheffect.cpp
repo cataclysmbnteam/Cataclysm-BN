@@ -45,10 +45,6 @@ class effect_select_callback : public uilist_callback
         const std::vector<efftype_id> all_effects = find_all_effect_types();
 
     public:
-        effect_select_callback() {
-
-        }
-
         void refresh( uilist *menu ) override {
             size_t selected = clamp<size_t>( menu->selected, 0, all_effects.size() - 1 );
             const int startx = menu->w_width - menu->pad_right;
@@ -64,7 +60,7 @@ class bodypart_select_callback : public uilist_callback
 class effect_edit_callback : public uilist_callback
 {
     private:
-        typedef void ( effect_edit_callback::*effect_edit_fun )(
+        using effect_edit_fun = void ( effect_edit_callback::* )(
             const input_context &,
             const input_event &,
             int,
@@ -306,7 +302,7 @@ void effect_edit_menu( Creature &c )
         };
         effect_edit_callback callback( c, meta, on_creature_changed );
         menu.callback = &callback;
-        for( const std::string &action : callback.get_handled_actions() ) {
+        for( const std::string &action : effect_edit_callback::get_handled_actions() ) {
             menu.additional_actions.emplace_back( action, translation() );
         }
         not_dirty = true;
