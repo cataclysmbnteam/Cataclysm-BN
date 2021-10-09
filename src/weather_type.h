@@ -4,6 +4,7 @@
 
 #include <string>
 
+#include "catacharset.h"
 #include "color.h"
 #include "translations.h"
 #include "type_id.h"
@@ -72,8 +73,11 @@ struct enum_traits<weather_sound_category> {
 struct weather_animation_t {
     float factor = 0.0f;
     nc_color color = c_white;
-    char glyph = '?';
     std::string tile;
+    uint32_t symbol = NULL_UNICODE;
+    std::string get_symbol() const {
+        return utf32_to_utf8( symbol );
+    }
 };
 
 struct weather_requirements {
@@ -101,7 +105,7 @@ struct weather_type {
         std::string name;           // UI name of weather type.
         nc_color color = c_magenta; // UI color of weather type.
         nc_color map_color = c_magenta; // Map color of weather type.
-        char glyph = '?';           // Map glyph of weather type.
+        uint32_t symbol = PERCENT_SIGN_UNICODE; // Map glyph of weather type.
         int ranged_penalty = 0;     // Penalty to ranged attacks.
         float sight_penalty = 1.0f; // Penalty to per-square visibility, applied in transparency map.
         int light_modifier = 0;     // Modification to ambient light.
@@ -120,6 +124,10 @@ struct weather_type {
 
         void load( const JsonObject &jo, const std::string &src );
         void check() const;
+
+        std::string get_symbol() const {
+            return utf32_to_utf8( symbol );
+        }
 };
 namespace weather_types
 {

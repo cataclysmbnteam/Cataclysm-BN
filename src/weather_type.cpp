@@ -126,16 +126,10 @@ void weather_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "id",  id );
 
-    assign( jo, "color", color );
-    assign( jo, "map_color", map_color );
+    optional( jo, was_loaded, "color", color );
+    optional( jo, was_loaded, "map_color", map_color );
+    mandatory( jo, was_loaded, "glyph", symbol, unicode_codepoint_from_symbol_reader );
 
-    std::string glyph;
-    mandatory( jo, was_loaded, "glyph", glyph );
-    if( glyph.size() != 1 ) {
-        jo.throw_error( "glyph must be only one character" );
-    } else {
-        glyph = glyph[0];
-    }
     mandatory( jo, was_loaded, "ranged_penalty", ranged_penalty );
     mandatory( jo, was_loaded, "sight_penalty", sight_penalty );
     mandatory( jo, was_loaded, "light_modifier", light_modifier );
@@ -169,20 +163,12 @@ void weather_type::load( const JsonObject &jo, const std::string & )
 
     if( jo.has_member( "animation" ) ) {
         animation = {};
-        JsonObject weather_animation_jo = jo.get_object( "animation" );
-        weather_animation_t animation;
-        mandatory( weather_animation_jo, was_loaded, "factor", animation.factor );
-        mandatory( weather_animation_jo, was_loaded, "tile", animation.tile );
-        if( !assign( weather_animation_jo, "color", animation.color ) ) {
-            weather_animation_jo.throw_error( "missing mandatory member \"color\"" );
-        }
-        mandatory( weather_animation_jo, was_loaded, "glyph", glyph );
-        if( glyph.size() != 1 ) {
-            weather_animation_jo.throw_error( "glyph must be only one character" );
-        } else {
-            animation.glyph = glyph[0];
-        }
-        animation = animation;
+        JsonObject j = jo.get_object( "animation" );
+
+        mandatory( j, was_loaded, "factor", animation.factor );
+        mandatory( j, was_loaded, "tile", animation.tile );
+        mandatory( j, was_loaded, "color", animation.color );
+        mandatory( j, was_loaded, "glyph", animation.symbol, unicode_codepoint_from_symbol_reader );
     }
 
     if( jo.has_member( "requirements" ) ) {
