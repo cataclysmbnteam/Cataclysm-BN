@@ -29,7 +29,17 @@ void nc_color::serialize( JsonOut &jsout ) const
 
 void nc_color::deserialize( JsonIn &jsin )
 {
-    attribute_value = jsin.get_int();
+    if( jsin.test_int() ) {
+        attribute_value = jsin.get_int();
+    } else if( jsin.test_string() ) {
+        const nc_color out = color_from_string( jsin.get_string() );
+        if( out == c_unset ) {
+            jsin.error( "invalid color name" );
+        }
+        attribute_value = out.attribute_value;
+    } else {
+        jsin.error( "expected color string or legacy int identifier" );
+    }
 }
 
 color_manager &get_all_colors()
