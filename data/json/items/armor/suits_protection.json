@@ -2,7 +2,6 @@
   {
     "id": "aep_suit",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "AEP suit" },
     "description": "An armored environmental protection suit.  Custom-built from a cleansuit and body armor, it provides excellent protection against both physical harm and ambient radiation.",
     "weight": "7200 g",
@@ -24,7 +23,6 @@
   {
     "id": "anbc_suit",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "ANBC suit" },
     "description": "An armored, impermeable full-body suit that functions as body armor, as well as protecting from nuclear, biological, and chemical hazards.  It requires a separate gas mask for full protection.",
     "weight": "8700 g",
@@ -46,7 +44,6 @@
   {
     "id": "armor_blarmor",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "boiled leather armor" },
     "description": "Thick leather body armor that has been hardened via chemical treatment.  Light and strong.",
     "weight": "2108 g",
@@ -71,7 +68,6 @@
   {
     "id": "armor_chitin",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "chitinous armor" },
     "description": "Leg and body armor made from the exoskeletons of insects.  Light and durable.",
     "weight": "2632 g",
@@ -107,7 +103,6 @@
   {
     "id": "armor_farmor",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "fur body armor" },
     "description": "Thick body armor made from furs.  Warm and comfortable.",
     "weight": "3414 g",
@@ -132,7 +127,6 @@
   {
     "id": "armor_larmor",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "leather body armor" },
     "description": "Thick leather body armor.  Light and comfortable.",
     "weight": "1498 g",
@@ -157,7 +151,6 @@
   {
     "id": "armor_lightplate",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "plate armor" },
     "description": "A suit of Gothic plate armor.",
     "weight": "11000 g",
@@ -228,7 +221,6 @@
   {
     "id": "armor_plarmor",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "plated leather armor" },
     "description": "Thick leather body armor that has been reinforced with strategically-placed metal plates.  Strong and comfortable.",
     "weight": "4280 g",
@@ -253,7 +245,6 @@
   {
     "id": "armor_plate",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "ornamental plate armor" },
     "description": "An extremely heavy suit of ornamental armor.",
     "weight": "18000 g",
@@ -277,7 +268,6 @@
     "id": "armor_riot",
     "repairs_like": "survivor_suit",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "riot armor" },
     "description": "Black armor used by riot police officers.  The padded layers and hard plastic shoulder guards offer good protection without much encumbrance.  The word POLICE is emblazoned across the front.",
     "weight": "4000 g",
@@ -300,7 +290,6 @@
   {
     "id": "armor_samurai",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "O-yoroi" },
     "description": "An ornamental suit of Japanese samurai armor.",
     "weight": "9220 g",
@@ -346,7 +335,6 @@
   {
     "id": "armor_scrapsuit",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "scrap suit" },
     "description": "A suit of armor made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
     "weight": "9534 g",
@@ -394,7 +382,6 @@
   {
     "id": "chainmail_hauberk",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "chainmail hauberk" },
     "description": "A fully customized chainmail outfit, leaving the head uncovered.  The shirt, arms, and leggings have been modified with straps and combined with a gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
     "weight": "14430 g",
@@ -416,7 +403,6 @@
   {
     "id": "chainmail_suit",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "chainmail armor" },
     "description": "A fully customized chainmail suit.  The coif, shirt, arms, and leggings have been modified with straps and combined with a gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
     "weight": "16436 g",
@@ -438,7 +424,6 @@
   {
     "id": "chainmail_suit_faraday",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "faraday chainmail suit" },
     "description": "A fully customized chainmail suit that can be worn over your normal clothing.  The suit is conductively interconnected, protecting against electricity.",
     "weight": "23335 g",
@@ -500,7 +485,6 @@
   {
     "id": "fsurvivor_suit",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "survivor firesuit" },
     "description": "Heavy, hand-built combination armor made from a cut-down bulletproof vest and a reinforced flame-resistant Nomex jumpsuit.  Protects the wearer from fire and the elements.",
     "weight": "6800 g",
@@ -570,7 +554,6 @@
   {
     "id": "hsurvivor_suit",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "heavy survivor suit" },
     "description": "A heavy, hand-built combination armor made from a reinforced bulletproof vest and a metal-plated leather jumpsuit.  Protects from the elements as well as from harm.",
     "weight": "15500 g",
@@ -595,7 +578,6 @@
   {
     "id": "lsurvivor_suit",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "light survivor suit" },
     "description": "A lightweight, hand-built combination armor made from a cut-down bulletproof vest and a reinforced fabric jumpsuit.  Protects from the elements as well as from harm.",
     "weight": "5100 g",
@@ -706,7 +688,6 @@
   {
     "id": "survivor_suit",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "survivor suit" },
     "description": "A hand-built combination armor made from a bulletproof vest and a reinforced leather jumpsuit.  Protects from the elements as well as from harm.",
     "weight": "6800 g",
@@ -731,7 +712,6 @@
     "id": "swat_armor",
     "repairs_like": "survivor_suit",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "SWAT armor" },
     "//": "This is well within the pricing structure I found for ballistic vest, shins, and LBE.  LEO gear ain't cheap.",
     "description": "A suit of black bulletproof armor with lots of pockets.  The word SWAT is emblazoned across the back.",
@@ -784,7 +764,6 @@
   {
     "id": "wsurvivor_suit",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "winter survivor suit" },
     "description": "A warm and heavy hand-built combination armor made from a reinforced bulletproof vest and an insulated leather jumpsuit.  Protects from the elements as well as from harm.",
     "weight": "7800 g",
@@ -810,7 +789,6 @@
   {
     "id": "xlsurvivor_suit",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "XL survivor suit" },
     "description": "A massive hand-built combination armor made from a bulletproof vest and a reinforced leather jumpsuit.  Protects from the elements as well as from harm.",
     "weight": "12400 g",
@@ -836,7 +814,6 @@
   {
     "id": "xlhsurvivor_suit",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "XL heavy survivor suit" },
     "description": "A massive, heavy, hand-built combination armor made from a reinforced bulletproof vest and a metal-plated leather jumpsuit.  Protects from the elements as well as from harm.",
     "weight": "20500 g",

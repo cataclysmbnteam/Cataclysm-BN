@@ -147,14 +147,6 @@
     "sort_rank": 10
   },
   {
-    "id": "armor",
-    "type": "ITEM_CATEGORY",
-    "name": { "str": "ARMOR" },
-    "priority_zones": [ { "id": "LOOT_FARMOR", "filthy": true } ],
-    "zone": "LOOT_ARMOR",
-    "sort_rank": 20
-  },
-  {
     "id": "ITEMS_WORN",
     "type": "ITEM_CATEGORY",
     "name": { "str": "ITEMS WORN" },
