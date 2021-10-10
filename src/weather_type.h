@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_WEATHER_TYPE_H
 #define CATA_SRC_WEATHER_TYPE_H
 
+#include <climits>
 #include <string>
 
 #include "catacharset.h"

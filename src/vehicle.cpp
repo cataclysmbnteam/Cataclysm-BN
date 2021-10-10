@@ -4585,7 +4585,7 @@ int vehicle::total_solar_epower_w() const
     }
     // Weather doesn't change much across the area of the vehicle, so just
     // sample it once.
-    weather_type_id wtype = current_weather( global_pos3() );
+    const weather_type_id &wtype = current_weather( global_pos3() );
     const float tick_sunlight = incident_sunlight( wtype, calendar::turn );
     double intensity = tick_sunlight / default_daylight_level();
     return epower_w * intensity;
@@ -4595,7 +4595,6 @@ int vehicle::total_wind_epower_w() const
 {
     const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( global_pos3() ) ) );
     const weather_manager &weather = get_weather();
-    const w_point &weatherPoint = get_weather().get_precise();
 
     int epower_w = 0;
     for( int part : wind_turbines ) {

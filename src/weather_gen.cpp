@@ -1,4 +1,3 @@
-#pragma optimize("", off)
 #include "weather_gen.h"
 
 #include <algorithm>

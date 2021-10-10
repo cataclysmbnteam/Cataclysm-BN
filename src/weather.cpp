@@ -567,7 +567,7 @@ static std::string print_time_just_hour( const time_point &p )
     return string_format( hour < 12 ? _( "%d AM" ) : _( "%d PM" ), hour_param );
 }
 
-constexpr size_t NUM_FORECAST_PERIODS = 6;
+constexpr int NUM_FORECAST_PERIODS = 6;
 
 struct forecast_period {
     double temp_high = -100.0;
@@ -1115,7 +1115,7 @@ bool is_in_sunlight( const map &m, const tripoint &p, const weather_type_id &wea
 {
     // TODO: Remove that game reference and include light in weather data
     return m.is_outside( p ) && g->light_level( p.z ) >= 40 && !is_night( calendar::turn ) &&
-           get_weather().weather_id->sun_intensity >= sun_intensity_type::normal;
+           weather->sun_intensity >= sun_intensity_type::normal;
 }
 
 } // namespace weather

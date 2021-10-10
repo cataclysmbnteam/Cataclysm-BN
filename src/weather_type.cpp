@@ -1,4 +1,3 @@
-#pragma optimize("", off)
 #include "weather_type.h"
 
 #include "game_constants.h"
@@ -112,11 +111,9 @@ void weather_type::check() const
 {
     for( const weather_type_id &required : requirements.required_weathers ) {
         if( !required.is_valid() ) {
-            std::string err =
-                string_format( "Weather type \"%s\" required for weather type \"%s\" does not exist.",
-                               required, id );
             // This may be important, throw error and abort loading.
-            throw err;
+            throw string_format( R"(Weather type "%s" required for weather type "%s" does not exist.)",
+                                 required, id );
         }
     }
 }
