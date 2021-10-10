@@ -70,7 +70,7 @@
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 14 ] ],
     "techniques": [ "RAPID" ],
-    "flags": [ "STAB" ]
+    "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
     "id": "knife_folding",
@@ -88,7 +88,7 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
-    "flags": [ "STAB", "BELT_CLIP" ]
+    "flags": [ "STAB", "BELT_CLIP", "SHEATH_KNIFE" ]
   },
   {
     "id": "knife_combat",
@@ -241,7 +241,7 @@
     "name": { "str": "makeshift knife", "str_pl": "makeshift knives" },
     "description": "A knife consisting of a long, somewhat sharpened, spike and a tightly wrapped rag as a handle.  It makes a good melee weapon.",
     "weight": "550 g",
-    "volume": "251 ml",
+    "volume": "250 ml",
     "price": 0,
     "price_postapoc": 50,
     "to_hit": -1,
