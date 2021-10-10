@@ -46,16 +46,16 @@
     "volume": "750 ml",
     "price": 5000,
     "price_postapoc": 500,
-    "to_hit": -2,
-    "bashing": 24,
-    "cutting": 8,
+    "to_hit": -1,
+    "bashing": 10,
+    "cutting": 16,
     "material": "steel",
     "symbol": ";",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ], [ "PRY", 2 ] ],
     "use_action": "CROWBAR",
-    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "SHEATH_AXE" ]
+    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "STAB", "SHEATH_AXE" ]
   },
   {
     "id": "makeshift_crowbar",
