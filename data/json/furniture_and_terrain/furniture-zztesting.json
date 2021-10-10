@@ -46,6 +46,7 @@
     "examine_action": "transform",
     "transforms_into": "f_floor_lamp",
     "message": "Click (on)",
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "EASY_DECONSTRUCT" ],
     "light_emitted": 160
   }
 ]
