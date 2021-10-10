@@ -4203,13 +4203,14 @@ void advanced_inv_save_state::deserialize( const JsonObject &jo, const std::stri
 void wisheffect_state::serialize( JsonOut &json ) const
 {
     // Empty for now
-    ( void )json;
+    json.start_object();
+    json.end_object();
 }
 
 void wisheffect_state::deserialize( const JsonObject &jo )
 {
     // Empty for now
-    ( void )jo;
+    jo.allow_omitted_members();
 }
 
 void debug_menu_state::serialize( JsonOut &json ) const

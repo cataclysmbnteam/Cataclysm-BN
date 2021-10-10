@@ -50,7 +50,7 @@ struct advanced_inv_save_state {
 
 struct wisheffect_state {
     public:
-        int selected = 0;
+        int last_type_selected_index = 0;
         bodypart_str_id bodypart = bodypart_str_id::NULL_ID();
         time_duration duration = 0_seconds;
         int intensity = -1;
