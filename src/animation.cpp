@@ -283,7 +283,8 @@ void explosion_handler::draw_explosion( const tripoint &p, const int r, const nc
     }
 }
 #else
-void explosion_handler::draw_explosion( const tripoint &p, const int r, const nc_color &col )
+void explosion_handler::draw_explosion( const tripoint &p, const int r, const nc_color &col,
+                                        const std::string & )
 {
     draw_explosion_curses( *g, p, r, col );
 }
@@ -293,6 +294,9 @@ void explosion_handler::draw_custom_explosion( const tripoint &,
         const std::map<tripoint, nc_color> &all_area,
         const std::string &exp_name )
 {
+#if !defined(TILES)
+    ( void )exp_name;
+#endif
     if( test_mode ) {
         // avoid segfault from null tilecontext in tests
         return;
