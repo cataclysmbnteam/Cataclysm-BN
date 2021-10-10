@@ -604,7 +604,7 @@
   {
     "id": "binoculars",
     "type": "TOOL_ARMOR",
-    "category": "clothing",
+    "category": "tools",
     "symbol": ";",
     "color": "dark_gray",
     "name": { "str": "pair of binoculars", "str_pl": "pairs of binoculars" },
