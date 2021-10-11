@@ -4390,10 +4390,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         }
     }
     if( is_book() ) {
-         if( !g->u.has_identified( typeId() ) ) {
+        if( !g->u.has_identified( typeId() ) ) {
             tagtext += _( " (unread)" );
-         }
-     }
+        }
     }
     if( has_flag( flag_ETHEREAL_ITEM ) ) {
         tagtext += string_format( _( " (%s turns)" ), get_var( "ethereal" ) );
