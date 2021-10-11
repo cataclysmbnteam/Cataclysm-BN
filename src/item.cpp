@@ -3916,7 +3916,7 @@ const std::string &item::symbol() const
 {
     return type->sym;
 }
-
+std::string tagtext;
 nc_color item::color_in_inventory() const
 {
     // TODO: make a const reference
@@ -4072,7 +4072,7 @@ nc_color item::color_in_inventory() const
             }
         } else {
             ret = c_red;
-            tagtext += _( " (unread)" );// Book hasn't been identified yet: red
+            tagtext += _( " (unread)" ); // Book hasn't been identified yet: red
         }
     }
     return ret;
@@ -4382,7 +4382,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         maintext = label( quantity );
     }
 
-    std::string tagtext;
     if( is_food() ) {
         if( has_flag( flag_HIDDEN_POISON ) && g->u.get_skill_level( skill_survival ) >= 3 ) {
             tagtext += _( " (poisonous)" );
