@@ -4389,7 +4389,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             tagtext += _( " (hallucinogenic)" );
         }
     }
- if( is_book() ) {
+   if( is_book() ) {
         if( !g->u.has_identified( typeId() ) ) {
            tagtext += _( " (unread)" );
         }
