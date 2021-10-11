@@ -4071,7 +4071,8 @@ nc_color item::color_in_inventory() const
                 ret = c_yellow;
             }
         } else {
-            ret = c_red; // Book hasn't been identified yet: red
+            ret = c_red;
+            tagtext += _( " (unread)" );// Book hasn't been identified yet: red
         }
     }
     return ret;
