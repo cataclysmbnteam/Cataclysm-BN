@@ -5085,17 +5085,17 @@ void Character::update_bodytemp( const map &m, weather_manager &weather )
     // We run it outside the loop because we can and so we should
     // Also, it makes bonus heat application more stable
     // TODO: Affect future convection temperature instead (might require adding back to loop)
-    temp_equalizer( bodypart_id( "torso" ), bodypart_id( "arm_l" ) );
-    temp_equalizer( bodypart_id( "torso" ), bodypart_id( "arm_r" ) );
-    temp_equalizer( bodypart_id( "torso" ), bodypart_id( "leg_l" ) );
-    temp_equalizer( bodypart_id( "torso" ), bodypart_id( "leg_r" ) );
-    temp_equalizer( bodypart_id( "torso" ), bodypart_id( "head" ) );
+    temp_equalizer( body_part_torso, body_part_arm_l );
+    temp_equalizer( body_part_torso, body_part_arm_r );
+    temp_equalizer( body_part_torso, body_part_leg_l );
+    temp_equalizer( body_part_torso, body_part_leg_r );
+    temp_equalizer( body_part_torso, body_part_head );
 
-    temp_equalizer( bodypart_id( "arm_l" ), bodypart_id( "hand_l" ) );
-    temp_equalizer( bodypart_id( "arm_r" ), bodypart_id( "hand_r" ) );
+    temp_equalizer( body_part_arm_l, body_part_hand_l );
+    temp_equalizer( body_part_arm_r, body_part_hand_r );
 
-    temp_equalizer( bodypart_id( "leg_l" ), bodypart_id( "foot_l" ) );
-    temp_equalizer( bodypart_id( "leg_r" ), bodypart_id( "foot_r" ) );
+    temp_equalizer( body_part_leg_l, body_part_foot_l );
+    temp_equalizer( body_part_leg_r, body_part_foot_r );
 
     for( const item &it : worn ) {
         // TODO: Port body part set id changes
@@ -5124,10 +5124,10 @@ void Character::update_bodytemp( const map &m, weather_manager &weather )
 
         const bool submerged_bp = submerged ||
                                   ( submerged_low &&
-                                    ( bp == bodypart_id( "foot_l" ) ||
-                                      bp == bodypart_id( "foot_r" ) ||
-                                      bp == bodypart_id( "leg_l" ) ||
-                                      bp == bodypart_id( "leg_r" ) ) );
+                                    ( bp == body_part_foot_l ||
+                                      bp == body_part_foot_r ||
+                                      bp == body_part_leg_l ||
+                                      bp == body_part_leg_r ) );
         // This adjusts the temperature scale to match the bodytemp scale
         const int adjusted_temp = submerged_bp ?
                                   water_temperature :
@@ -5315,8 +5315,8 @@ void Character::update_bodytemp( const map &m, weather_manager &weather )
         Less than -35F, more than 10 mp
         **/
 
-        if( bp == bodypart_id( "mouth" ) || bp == bodypart_id( "foot_r" ) ||
-            bp == bodypart_id( "foot_l" ) || bp == bodypart_id( "hand_r" ) || bp == bodypart_id( "hand_l" ) ) {
+        if( bp == body_part_mouth || bp == body_part_foot_r ||
+            bp == body_part_foot_l || bp == body_part_hand_r || bp == body_part_hand_l ) {
             // Handle the frostbite timer
             // Need temps in F, windPower already in mph
             int wetness_percentage = 100 * body_wetness[bp->token] / drench_capacity[bp->token]; // 0 - 100
@@ -5431,10 +5431,10 @@ void Character::update_bodytemp( const map &m, weather_manager &weather )
         // AND you have frostbite, then that also prevents you from sleeping
         if( in_sleep_state() ) {
             int curr_temperature = temp_cur[bp->token];
-            if( bp == bodypart_id( "torso" ) && curr_temperature <= BODYTEMP_COLD ) {
+            if( bp == body_part_torso && curr_temperature <= BODYTEMP_COLD ) {
                 add_msg( m_warning, _( "Your shivering prevents you from sleeping." ) );
                 wake_up();
-            } else if( bp != bodypart_id( "torso" ) && curr_temperature <= BODYTEMP_VERY_COLD &&
+            } else if( bp != body_part_torso && curr_temperature <= BODYTEMP_VERY_COLD &&
                        has_effect( effect_frostbite ) ) {
                 add_msg( m_warning, _( "You are too cold.  Your frostbite prevents you from sleeping." ) );
                 wake_up();
