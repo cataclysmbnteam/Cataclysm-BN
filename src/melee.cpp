@@ -2251,7 +2251,7 @@ double player::melee_value( const item &weap ) const
 
     // discourage wielding helmets, but not worn firearms
     if( weapon.is_armor() && !weapon.is_gun() ) {
-        my_value *= 0.0;
+        my_value = -1.0;
     }
 
     add_msg( m_debug, "%s as melee: %.1f", weap.type->get_id().str(), my_value );
