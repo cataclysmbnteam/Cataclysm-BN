@@ -4390,26 +4390,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         }
     }
  if( is_book() ) {
-        if( u.has_identified( typeId() ) ) {
-            const islot_book &tmp = *type->book;
-            if( tmp.skill && // Book can improve skill: blue
-                u.get_skill_level_object( tmp.skill ).can_train() &&
-                u.get_skill_level( tmp.skill ) >= tmp.req &&
-                u.get_skill_level( tmp.skill ) < tmp.level ) {
-                tagtext += _( " (skill left)" );
-            } else if( type->can_use( "MA_MANUAL" ) &&
-                       !u.martial_arts_data->has_martialart( martial_art_learned_from( *type ) ) ) {
-                tagtext += _( " (martial art left)" );
-            } else if( tmp.skill && // Book can't improve skill right now, but maybe later: pink
-                       u.get_skill_level_object( tmp.skill ).can_train() &&
-                       u.get_skill_level( tmp.skill ) < tmp.level ) {
-                tagtext += _( " (too complicated)" );
-            } else if( !u.studied_all_recipes(
-                           *type ) ) { // Book can't improve skill anymore, but has more recipes: yellow
-               tagtext += _( " (recipes left)" );
-            }
-        } else {
-           tagtext += _( " (unread)" );  // Book hasn't been identified yet: red
+        if( !g->u.has_identified( typeId() ) ) {
+           tagtext += _( " (unread)" );
         }
     }
     if( has_flag( flag_ETHEREAL_ITEM ) ) {
