@@ -75,7 +75,7 @@
   },
   {
     "id": "rag",
-    "type": "GENERIC",
+    "type": "TOOL",
     "category": "spare_parts",
     "name": { "str": "rag" },
     "description": "This is a largish piece of cloth, useful in crafting and possibly for staunching bleeding.",
