@@ -5073,6 +5073,14 @@ void Character::update_bodytemp( const map &m, weather_manager &weather )
     const bool submerged = !in_vehicle && ter_at_pos->has_flag( TFLAG_DEEP_WATER );
     const bool submerged_low = !in_vehicle && ( submerged || ter_at_pos->has_flag( TFLAG_SWIMMABLE ) );
 
+    std::map<bodypart_id, std::vector<const item *>> clothing_map;
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        clothing_map.emplace( bp, std::vector<const item *>() );
+        // HACK: we're using temp_conv here to temporarily save
+        //       temperature values from before equalization.
+        temp_conv[bp->token] = temp_cur[bp->token];
+    }
+
     // EQUALIZATION
     // We run it outside the loop because we can and so we should
     // Also, it makes bonus heat application more stable
@@ -5089,10 +5097,6 @@ void Character::update_bodytemp( const map &m, weather_manager &weather )
     temp_equalizer( bodypart_id( "leg_l" ), bodypart_id( "foot_l" ) );
     temp_equalizer( bodypart_id( "leg_r" ), bodypart_id( "foot_r" ) );
 
-    std::map<bodypart_id, std::vector<const item *>> clothing_map;
-    for( const bodypart_id &bp : get_all_body_parts() ) {
-        clothing_map.emplace( bp, std::vector<const item *>() );
-    }
     for( const item &it : worn ) {
         // TODO: Port body part set id changes
         const body_part_set &covered = it.get_covered_body_parts();
@@ -5391,6 +5395,9 @@ void Character::update_bodytemp( const map &m, weather_manager &weather )
             }
         }
         // Warn the player if condition worsens
+        // HACK: we want overall temperature change, including equalization, and temp_conv
+        //       at this moment contains temperature values from before the equalization.
+        temp_before = temp_conv[bp->token];
         if( temp_before > BODYTEMP_FREEZING && temp_after < BODYTEMP_FREEZING ) {
             //~ %s is bodypart
             add_msg( m_warning, _( "You feel your %s beginning to go numb from the cold!" ),
