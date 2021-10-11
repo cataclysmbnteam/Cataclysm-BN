@@ -4389,10 +4389,11 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             tagtext += _( " (hallucinogenic)" );
         }
     }
-   if( is_book() ) {
-        if( !g->u.has_identified( typeId() ) ) {
-           tagtext += _( " (unread)" );
-        }
+    if( is_book() ) {
+         if( !g->u.has_identified( typeId() ) ) {
+            tagtext += _( " (unread)" );
+         }
+     }
     }
     if( has_flag( flag_ETHEREAL_ITEM ) ) {
         tagtext += string_format( _( " (%s turns)" ), get_var( "ethereal" ) );
