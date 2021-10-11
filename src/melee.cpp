@@ -2220,8 +2220,14 @@ double player::weapon_value( const item &weap, int ammo ) const
     const double more = std::max( val_gun, val_melee );
     const double less = std::min( val_gun, val_melee );
 
+    // discourage wielding helmets, but not worn firearms
+    int armor_penalty = 1;
+    if( weap.is_armor() && !weap.is_gun() ) {
+        armor_penalty = 0;
+    }
+
     // A small bonus for guns you can also use to hit stuff with (bayonets etc.)
-    const double my_val = more + ( less / 2.0 );
+    const double my_val = ( more + ( less / 2.0 ) ) * armor_penalty;
     add_msg( m_debug, "%s (%ld ammo) sum value: %.1f", weap.type->get_id().str(), ammo, my_val );
     if( is_wielding( weap ) ) {
         cached_info.emplace( "weapon_value", my_val );
@@ -2247,11 +2253,6 @@ double player::melee_value( const item &weap ) const
     // value style weapons more
     if( !martial_arts_data->enumerate_known_styles( weap.type->get_id() ).empty() ) {
         my_value *= 1.5;
-    }
-
-    // discourage wielding helmets, but not worn firearms
-    if( weapon.is_armor() && !weapon.is_gun() ) {
-        my_value = -1.0;
     }
 
     add_msg( m_debug, "%s as melee: %.1f", weap.type->get_id().str(), my_value );
