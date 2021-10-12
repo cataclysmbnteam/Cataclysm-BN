@@ -3334,5 +3334,21 @@
     "charges": 6,
     "calories": 400,
     "flags": [ "EATEN_HOT" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "chem_glycerol",
+    "category": "chems",
+    "price": 10,
+    "price_postapoc": 5,
+    "name": { "str_sp": "glycerol" },
+    "symbol": "~",
+    "quench": -15,
+    "healthy": -1,
+    "color": "light_cyan",
+    "container": "bottle_glass",
+    "description": "This innocent, sweet, colorless liquid can be used for all kinds of things, from sweetening food to manufacturing medicine to making potent explosives.",
+    "volume": "1 ml",
+    "phase": "liquid"
   }
 ]
