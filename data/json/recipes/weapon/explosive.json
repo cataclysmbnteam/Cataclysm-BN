@@ -45,11 +45,11 @@
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "electronics",
     "difficulty": 5,
-    "time": "40 m",
+    "time": "50 m",
     "reversible": true,
     "decomp_learn": 5,
     "book_learn": [ [ "textbook_anarch", 4 ], [ "advanced_electronics", 4 ] ],
-    "using": [ [ "soldering_standard", 15 ] ],
+    "using": [ [ "soldering_standard", 30 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "circuit", 2 ] ],
@@ -71,10 +71,9 @@
     "reversible": true,
     "decomp_learn": 5,
     "book_learn": [ [ "textbook_anarch", 4 ], [ "advanced_electronics", 4 ] ],
-    "using": [ [ "soldering_standard", 6 ] ],
+    "using": [ [ "soldering_standard", 15 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "superglue", 1 ], [ "cordage", 1, "LIST" ] ],
       [ [ "superglue", 1 ], [ "cordage", 1, "LIST" ] ],
       [
         [ "scrap", 3 ],
