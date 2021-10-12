@@ -572,10 +572,8 @@ void game::setup()
     calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
     calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
 
-    weather.weather = WEATHER_CLEAR; // Start with some nice weather...
-    // Weather shift in 30
-    weather.nextweather = calendar::start_of_cataclysm + time_duration::from_hours(
-                              get_option<int>( "INITIAL_TIME" ) ) + 30_minutes;
+    get_weather().weather_id = weather_type_id::NULL_ID();
+    get_weather().nextweather = calendar::before_time_starts;
 
     turnssincelastmon = 0; //Auto safe mode init
 
@@ -631,7 +629,7 @@ bool game::start_game()
     seed = rng_bits();
     new_game = true;
     start_calendar();
-    weather.nextweather = calendar::turn;
+    get_weather().nextweather = calendar::turn;
     safe_mode = ( get_option<bool>( "SAFEMODE" ) ? SAFE_MODE_ON : SAFE_MODE_OFF );
     mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
     get_safemode().load_global();
@@ -688,8 +686,8 @@ bool game::start_game()
     u.moves = 0;
     u.process_turn(); // process_turn adds the initial move points
     u.set_stamina( u.get_stamina_max() );
-    weather.temperature = SPRING_TEMPERATURE;
-    weather.update_weather();
+    get_weather().temperature = SPRING_TEMPERATURE;
+    get_weather().update_weather();
     u.next_climate_control_check = calendar::before_time_starts; // Force recheck at startup
     u.last_climate_control_ret = false;
 
@@ -1410,6 +1408,7 @@ bool game::do_turn()
     }
 
     // starting a new turn, clear out temperature cache
+    weather_manager &weather = get_weather();
     weather.clear_temp_cache();
 
     if( npcs_dirty ) {
@@ -1565,8 +1564,7 @@ bool game::do_turn()
     }
 
     if( get_levz() >= 0 && !u.is_underwater() ) {
-        do_rain( weather.weather );
-        weather::effect( weather.weather )();
+        handle_weather_effects( weather.weather_id );
     }
 
     const bool player_is_sleeping = u.has_effect( effect_sleep );
@@ -1606,7 +1604,7 @@ bool game::do_turn()
     }
 
     u.update_bodytemp( m, weather );
-    u.update_body_wetness( *weather.weather_precise );
+    u.update_body_wetness( get_weather().get_precise() );
     u.apply_wetness_morale( weather.temperature );
 
     if( calendar::once_every( 1_minutes ) ) {
@@ -2801,7 +2799,7 @@ bool game::load( const save_t &name )
 
     u.load_map_memory();
 
-    weather.nextweather = calendar::turn;
+    get_weather().nextweather = calendar::turn;
 
     read_from_file_optional( worldpath + name.base_path() + SAVE_EXTENSION_LOG,
                              std::bind( &memorial_logger::load, &memorial(), _1 ) );
@@ -3805,6 +3803,7 @@ float game::natural_light_level( const int zlev ) const
     float ret = LIGHT_AMBIENT_MINIMAL;
 
     // Sunlight/moonlight related stuff
+    const weather_manager &weather = get_weather();
     if( !weather.lightning_active ) {
         ret = sunlight( calendar::turn );
     } else {
@@ -3812,7 +3811,7 @@ float game::natural_light_level( const int zlev ) const
         ret = default_daylight_level();
     }
 
-    ret += weather::light_modifier( weather.weather );
+    ret += get_weather().weather_id->light_modifier;
 
     // Artifact light level changes here. Even though some of these only have an effect
     // aboveground it is cheaper performance wise to simply iterate through the entire
@@ -5073,17 +5072,12 @@ bool game::is_empty( const tripoint &p )
 
 bool game::is_in_sunlight( const tripoint &p )
 {
-    return ( m.is_outside( p ) && light_level( p.z ) >= 40 &&
-             ( weather.weather == WEATHER_CLEAR || weather.weather == WEATHER_SUNNY ) );
+    return weather::is_in_sunlight( m, p, get_weather().weather_id );
 }
 
 bool game::is_sheltered( const tripoint &p )
 {
-    const optional_vpart_position vp = m.veh_at( p );
-
-    return ( !m.is_outside( p ) ||
-             p.z < 0 ||
-             ( vp && vp->is_inside() ) );
+    return weather::is_sheltered( m, p );
 }
 
 bool game::revive_corpse( const tripoint &p, item &it )
@@ -9772,7 +9766,7 @@ void game::place_player_overmap( const tripoint &om_dest )
     m.spawn_monsters( true ); // Static monsters
     update_overmap_seen();
     // update weather now as it could be different on the new location
-    weather.nextweather = calendar::turn;
+    get_weather().nextweather = calendar::turn;
     place_player( player_pos );
 }
 

@@ -51,6 +51,7 @@
 #include "simple_pathfinding.h"
 #include "string_formatter.h"
 #include "string_utils.h"
+#include "text_snippets.h"
 #include "translations.h"
 
 static const efftype_id effect_pet( "pet" );
@@ -235,7 +236,7 @@ std::map<enum radio_type, std::string> radio_type_names =
 radio_tower::radio_tower( const point &p, int S, const std::string &M, radio_type T ) :
     pos( p ), strength( S ), type( T ), message( M )
 {
-    frequency = rng( 0, INT_MAX );
+    frequency = rng( 0, std::numeric_limits<int32_t>::max() );
 }
 
 /** @relates string_id */
@@ -4527,27 +4528,20 @@ void overmap::place_radios()
             tripoint pos_omt( i, j, 0 );
             point pos_sm = omt_to_sm_copy( pos_omt.xy() );
 
-            if( ter( pos_omt ) == "radio_tower" ) {
-                int choice = rng( 0, 2 );
-                switch( choice ) {
-                    case 0:
-                        message = string_format( _( "This is emergency broadcast station %d%d."
-                                                    "  Please proceed quickly and calmly to your designated evacuation point." ), i, j );
-                        radios.push_back( radio_tower( pos_sm, strength(), message ) );
-                        break;
-                    case 1:
-                        radios.push_back( radio_tower( pos_sm, strength(),
-                                                       _( "Head West.  All survivors, head West.  Help is waiting." ) ) );
-                        break;
-                    case 2:
-                        radios.push_back( radio_tower( pos_sm, strength(), "", radio_type::WEATHER_RADIO ) );
-                        break;
+            // Since location have id such as "radio_tower_1_north", we must check the beginning of the id
+            if( is_ot_match( "radio_tower", ter( pos_omt ), ot_match_type::prefix ) ) {
+                if( one_in( 3 ) ) {
+                    radios.push_back( radio_tower( pos_sm, strength(), "", radio_type::WEATHER_RADIO ) );
+                } else {
+                    message = SNIPPET.expand( SNIPPET.random_from_category( "radio_archive" ).value_or(
+                                                  translation() ).translated() );
+                    radios.push_back( radio_tower( pos_sm, strength(), message ) );
                 }
-            } else if( ter( pos_omt ) == "lmoe" ) {
+            } else if( is_ot_match( "lmoe", ter( pos_omt ), ot_match_type::prefix ) ) {
                 message = string_format( _( "This is automated emergency shelter beacon %d%d."
                                             "  Supplies, amenities and shelter are stocked." ), i, j );
                 radios.push_back( radio_tower( pos_sm, strength() / 2, message ) );
-            } else if( ter( pos_omt ) == "fema_entrance" ) {
+            } else if( is_ot_match( "fema_entrance", ter( pos_omt ), ot_match_type::prefix ) ) {
                 message = string_format( _( "This is FEMA camp %d%d."
                                             "  Supplies are limited, please bring supplemental food, water, and bedding."
                                             "  This is FEMA camp %d%d.  A designated long-term emergency shelter." ), i, j, i, j );

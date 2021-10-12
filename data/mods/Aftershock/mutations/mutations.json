@@ -50,7 +50,7 @@
     "id": "MIGO_HEAT_RESIST",
     "name": "Mi-go acclimatization",
     "points": 4,
-    "bodytemp_modifiers": [ -2500, -6500 ],
+    "bodytemp_modifiers": [ -6500, -2500 ],
     "description": "Fleshy fronds grown from your scalp function like organic heat sinks.  They allow you to live comfortably within the mi-go atmosphere.",
     "player_display": true,
     "threshreq": [ "THRESH_YUGGOTH" ],
@@ -92,7 +92,7 @@
     "description": "Your body becomes much more efficient at distributing heat from itself.",
     "category": [ "MIGO" ],
     "leads_to": [ "MIGO_HEAT_RESIST" ],
-    "bodytemp_modifiers": [ -500, -1250 ]
+    "bodytemp_modifiers": [ -1250, -500 ]
   },
   {
     "type": "mutation",

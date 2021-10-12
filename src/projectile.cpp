@@ -124,7 +124,7 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
                 explosion_handler::explosion( p, ae.aoe_explosion_data );
             }
             if( ae.do_flashbang ) {
-                explosion_handler::flashbang( p );
+                explosion_handler::flashbang( p, false, "explosion" );
             }
             if( ae.do_emp_blast ) {
                 explosion_handler::emp_blast( p );

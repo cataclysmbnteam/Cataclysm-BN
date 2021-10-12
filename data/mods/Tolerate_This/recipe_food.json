@@ -264,7 +264,7 @@
     "components": [
       [ [ "cornmeal", 1 ] ],
       [ [ "milk", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ],
-      [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
+      [ [ "eggs_small_dry", 1, "LIST" ] ],
       [ [ "syrup", 1 ] ],
       [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
@@ -285,7 +285,7 @@
     "components": [
       [ [ "flour", 1 ] ],
       [ [ "can_coconut", 1 ], [ "rice_milk", 1 ] ],
-      [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
+      [ [ "eggs_small_dry", 1, "LIST" ] ],
       [ [ "syrup", 1 ] ],
       [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
@@ -306,7 +306,7 @@
     "components": [
       [ [ "cornmeal", 1 ] ],
       [ [ "can_coconut", 1 ], [ "rice_milk", 1 ] ],
-      [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
+      [ [ "eggs_small_dry", 1, "LIST" ] ],
       [ [ "syrup", 1 ] ],
       [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
@@ -327,7 +327,7 @@
     "components": [
       [ [ "cornmeal", 1 ] ],
       [ [ "milk", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ], [ "rice_milk", 1 ] ],
-      [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
+      [ [ "eggs_small_dry", 1, "LIST" ] ],
       [ [ "syrup", 1 ] ],
       [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
@@ -347,7 +347,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
       [ [ "milk", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ], [ "rice_milk", 1 ] ],
-      [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
+      [ [ "eggs_small_dry", 1, "LIST" ] ],
       [ [ "cinnamon", 20 ] ],
       [ [ "cornbread", 2 ] ]
     ]
@@ -365,7 +365,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
       [ [ "can_coconut", 1 ], [ "rice_milk", 1 ] ],
-      [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
+      [ [ "eggs_small_dry", 1, "LIST" ] ],
       [ [ "cinnamon", 20 ] ],
       [ [ "cornmeal", 2 ] ]
     ]
@@ -888,7 +888,7 @@
     "components": [
       [ [ "cornmeal", 1 ] ],
       [ [ "milk", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ],
-      [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
+      [ [ "eggs_small_dry", 1, "LIST" ] ],
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 15 ] ],
       [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
@@ -908,7 +908,7 @@
     "components": [
       [ [ "cornmeal", 1 ] ],
       [ [ "can_coconut", 1 ], [ "rice_milk", 1 ] ],
-      [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
+      [ [ "eggs_small_dry", 1, "LIST" ] ],
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 15 ] ],
       [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
@@ -928,7 +928,7 @@
     "components": [
       [ [ "flour", 1 ] ],
       [ [ "can_coconut", 1 ], [ "rice_milk", 1 ] ],
-      [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
+      [ [ "eggs_small_dry", 1, "LIST" ] ],
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 15 ] ],
       [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
@@ -948,7 +948,7 @@
     "components": [
       [ [ "cornmeal", 1 ] ],
       [ [ "milk", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ],
-      [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
+      [ [ "eggs_small_dry", 1, "LIST" ] ],
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 15 ] ],
       [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
@@ -969,7 +969,7 @@
     "components": [
       [ [ "cornmeal", 1 ] ],
       [ [ "can_coconut", 1 ], [ "rice_milk", 1 ] ],
-      [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
+      [ [ "eggs_small_dry", 1, "LIST" ] ],
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 15 ] ],
       [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
@@ -990,7 +990,7 @@
     "components": [
       [ [ "cornmeal", 1 ] ],
       [ [ "milk", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ], [ "rice_milk", 1 ] ],
-      [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
+      [ [ "eggs_small_dry", 1, "LIST" ] ],
       [ [ "syrup", 1 ] ],
       [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
       [ [ "sugar", 15 ] ],

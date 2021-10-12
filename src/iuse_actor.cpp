@@ -280,7 +280,7 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
     if( p.is_worn( *obj ) ) {
         p.reset_encumbrance();
         // This is most likely wrong: it doubles temperature shift for the turn!
-        p.update_bodytemp( get_map(), g->weather );
+        p.update_bodytemp( get_map(), get_weather() );
         p.on_worn_item_transform( obj_copy, *obj );
     }
     obj->item_counter = countdown > 0 ? countdown : obj->type->countdown_interval;
@@ -556,10 +556,10 @@ int explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) cons
     }
 
     if( draw_explosion_radius >= 0 ) {
-        explosion_handler::draw_explosion( pos, draw_explosion_radius, draw_explosion_color );
+        explosion_handler::draw_explosion( pos, draw_explosion_radius, draw_explosion_color, "explosion" );
     }
     if( do_flashbang ) {
-        explosion_handler::flashbang( pos, flashbang_player_immune );
+        explosion_handler::flashbang( pos, flashbang_player_immune, "explosion" );
     }
     if( fields_radius >= 0 && fields_type.id() ) {
         std::vector<tripoint> gas_sources = points_for_gas_cloud( pos, fields_radius );
@@ -1383,8 +1383,8 @@ float firestarter_actor::light_mod( const tripoint &pos ) const
     }
 
     const float light_level = g->natural_light_level( pos.z );
-    if( ( g->weather.weather == WEATHER_CLEAR || g->weather.weather == WEATHER_SUNNY ) &&
-        light_level >= 60.0f && !g->m.has_flag( TFLAG_INDOORS, pos ) ) {
+    if( get_weather().weather_id->sun_intensity >= sun_intensity_type::normal &&
+        light_level >= 60.0f && weather::is_sheltered( get_map(), pos ) ) {
         return std::pow( light_level / 80.0f, 8 );
     }
 

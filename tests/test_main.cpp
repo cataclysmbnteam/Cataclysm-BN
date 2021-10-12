@@ -159,7 +159,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     g->m.load( tripoint( g->get_levx(), g->get_levy(), g->get_levz() ), false );
     get_distribution_grid_tracker().load( g->m );
 
-    g->weather.update_weather();
+    get_weather().update_weather();
 }
 
 // Checks if any of the flags are in container, removes them all

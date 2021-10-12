@@ -85,12 +85,10 @@
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
-static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
 static const efftype_id effect_assisted( "assisted" );
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_bloodworms( "bloodworms" );
-static const efftype_id effect_brainworms( "brainworms" );
 static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_cocaine_high( "cocaine_high" );
 static const efftype_id effect_datura( "datura" );
@@ -103,7 +101,6 @@ static const efftype_id effect_iodine( "iodine" );
 static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_operating( "operating" );
-static const efftype_id effect_paincysts( "paincysts" );
 static const efftype_id effect_pblue( "pblue" );
 static const efftype_id effect_pkill_l( "pkill_l" );
 static const efftype_id effect_pkill1( "pkill1" );
@@ -112,7 +109,6 @@ static const efftype_id effect_pkill3( "pkill3" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stung( "stung" );
-static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_took_flumed( "took_flumed" );
 static const efftype_id effect_took_prozac( "took_prozac" );
@@ -581,7 +577,7 @@ bool Character::activate_bionic( int b, bool eff_only )
     };
 
     item tmp_item;
-    const w_point weatherPoint = *g->weather.weather_precise;
+    const w_point &weatherPoint = get_weather().get_precise();
 
     // On activation effects go here
     if( bio.info().has_flag( flag_BIONIC_GUN ) ) {
@@ -633,8 +629,8 @@ bool Character::activate_bionic( int b, bool eff_only )
         }
     } else if( bio.id == bio_evap ) {
         add_msg_activate();
-        const w_point weatherPoint = *g->weather.weather_precise;
-        int humidity = get_local_humidity( weatherPoint.humidity, g->weather.weather,
+        const w_point &weatherPoint = get_weather().get_precise();
+        int humidity = get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
                                            g->is_sheltered( g->u.pos() ) );
         // thirst units = 5 mL
         int water_available = std::lround( humidity * 3.0 / 100.0 );
@@ -707,111 +703,7 @@ bool Character::activate_bionic( int b, bool eff_only )
         mod_moves( -100 );
     } else if( bio.id == bio_blood_anal ) {
         add_msg_activate();
-        static const std::map<efftype_id, std::string> bad_effects = {{
-                { effect_fungus, translate_marker( "Fungal Infection" ) },
-                { effect_dermatik, translate_marker( "Insect Parasite" ) },
-                { effect_stung, translate_marker( "Stung" ) },
-                { effect_poison, translate_marker( "Poison" ) },
-                // Those may be good for the player, but the scanner doesn't like them
-                { effect_drunk, translate_marker( "Alcohol" ) },
-                { effect_cig, translate_marker( "Nicotine" ) },
-                { effect_meth, translate_marker( "Methamphetamines" ) },
-                { effect_cocaine_high, translate_marker( "Intoxicant: Cocaine" ) },
-                { effect_weed_high, translate_marker( "THC Intoxication" ) },
-                // This little guy is immune to the blood filter though, as he lives in your bowels.
-                { effect_tapeworm, translate_marker( "Intestinal Parasite" ) },
-                { effect_bloodworms, translate_marker( "Hemolytic Parasites" ) },
-                // These little guys are immune to the blood filter too, as they live in your brain.
-                { effect_brainworms, translate_marker( "Intracranial Parasites" ) },
-                // These little guys are immune to the blood filter too, as they live in your muscles.
-                { effect_paincysts, translate_marker( "Intramuscular Parasites" ) },
-                { effect_datura, translate_marker( "Anticholinergic Tropane Alkaloids" ) },
-                // TODO: Hallucinations not inducted by chemistry
-                { effect_hallu, translate_marker( "Hallucinations" ) },
-                { effect_visuals, translate_marker( "Hallucinations" ) },
-            }
-        };
-
-        static const std::map<efftype_id, std::string> good_effects = {{
-                { effect_pkill1, translate_marker( "Minor Painkiller" ) },
-                { effect_pkill2, translate_marker( "Moderate Painkiller" ) },
-                { effect_pkill3, translate_marker( "Heavy Painkiller" ) },
-                { effect_pkill_l, translate_marker( "Slow-Release Painkiller" ) },
-
-                { effect_pblue, translate_marker( "Prussian Blue" ) },
-                { effect_iodine, translate_marker( "Potassium Iodide" ) },
-
-                { effect_took_xanax, translate_marker( "Xanax" ) },
-                { effect_took_prozac, translate_marker( "Prozac" ) },
-                { effect_took_flumed, translate_marker( "Antihistamines" ) },
-                { effect_adrenaline, translate_marker( "Adrenaline Spike" ) },
-                // Should this be described like that? Does the bionic know what is this?
-                { effect_adrenaline_mycus, translate_marker( "Mycal Spike" ) },
-            }
-        };
-
-        std::vector<std::string> good;
-        std::vector<std::string> bad;
-
-        if( get_rad() > 0 ) {
-            bad.push_back( _( "Irradiated" ) );
-        }
-
-        // TODO: Expose the player's effects to check it in a cleaner way
-        for( const auto &pr : bad_effects ) {
-            if( has_effect( pr.first ) ) {
-                bad.push_back( _( pr.second ) );
-            }
-        }
-
-        for( const auto &pr : good_effects ) {
-            if( has_effect( pr.first ) ) {
-                good.push_back( _( pr.second ) );
-            }
-        }
-
-        const int win_w = 46;
-        size_t win_h = 0;
-        catacurses::window w;
-        ui_adaptor ui;
-        ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-            win_h = std::min( static_cast<size_t>( TERMY ),
-                              std::max<size_t>( 1, bad.size() + good.size() ) + 2 );
-            w = catacurses::newwin( win_h, win_w,
-                                    point( ( TERMX - win_w ) / 2, ( TERMY - win_h ) / 2 ) );
-            ui.position_from_window( w );
-        } );
-        ui.mark_resize();
-        ui.on_redraw( [&]( const ui_adaptor & ) {
-            draw_border( w, c_red, string_format( " %s ", _( "Blood Test Results" ) ) );
-            if( good.empty() && bad.empty() ) {
-                trim_and_print( w, point( 2, 1 ), win_w - 3, c_white, _( "No effects." ) );
-            } else {
-                for( size_t line = 1; line < ( win_h - 1 ) && line <= good.size() + bad.size(); ++line ) {
-                    if( line <= bad.size() ) {
-                        trim_and_print( w, point( 2, line ), win_w - 3, c_red, bad[line - 1] );
-                    } else {
-                        trim_and_print( w, point( 2, line ), win_w - 3, c_green,
-                                        good[line - 1 - bad.size()] );
-                    }
-                }
-            }
-            wnoutrefresh( w );
-        } );
-        input_context ctxt( "BLOOD_TEST_RESULTS" );
-        ctxt.register_action( "CONFIRM" );
-        ctxt.register_action( "QUIT" );
-        ctxt.register_action( "HELP_KEYBINDINGS" );
-        bool stop = false;
-        // Display new messages
-        g->invalidate_main_ui_adaptor();
-        while( !stop ) {
-            ui_manager::redraw();
-            const std::string action = ctxt.handle_input();
-            if( action == "CONFIRM" || action == "QUIT" ) {
-                stop = true;
-            }
-        }
+        conduct_blood_analysis();
     } else if( bio.id == bio_blood_filter ) {
         add_msg_activate();
         static const std::vector<efftype_id> removable = {{
@@ -988,14 +880,15 @@ bool Character::activate_bionic( int b, bool eff_only )
         }
     } else if( bio.id == bio_flashbang ) {
         add_msg_activate();
-        explosion_handler::flashbang( pos(), true );
+        explosion_handler::flashbang( pos(), true, "explosion" );
         mod_moves( -100 );
     } else if( bio.id == bio_shockwave ) {
         add_msg_activate();
-        explosion_handler::shockwave( pos(), 3, 4, 2, 8, true );
+        explosion_handler::shockwave( pos(), 3, 4, 2, 8, true, "explosion" );
         add_msg_if_player( m_neutral, _( "You unleash a powerful shockwave!" ) );
         mod_moves( -100 );
     } else if( bio.id == bio_meteorologist ) {
+        const weather_manager &weather = get_weather();
         add_msg_activate();
         // Calculate local wind power
         int vehwindspeed = 0;
@@ -1005,14 +898,14 @@ bool Character::activate_bionic( int b, bool eff_only )
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
         /* cache g->get_temperature( player location ) since it is used twice. No reason to recalc */
-        const auto player_local_temp = g->weather.get_temperature( g->u.pos() );
+        const auto player_local_temp = weather.get_temperature( g->u.pos() );
         /* windpower defined in internal velocity units (=.01 mph) */
-        double windpower = 100.0f * get_local_windpower( g->weather.windspeed + vehwindspeed,
-                           cur_om_ter, pos(), g->weather.winddirection, g->is_sheltered( pos() ) );
+        double windpower = 100.0f * get_local_windpower( weather.windspeed + vehwindspeed,
+                           cur_om_ter, pos(), weather.winddirection, g->is_sheltered( pos() ) );
         add_msg_if_player( m_info, _( "Temperature: %s." ), print_temperature( player_local_temp ) );
         add_msg_if_player( m_info, _( "Relative Humidity: %s." ),
                            print_humidity(
-                               get_local_humidity( weatherPoint.humidity, g->weather.weather,
+                               get_local_humidity( weatherPoint.humidity, weather.weather_id,
                                        g->is_sheltered( g->u.pos() ) ) ) );
         add_msg_if_player( m_info, _( "Pressure: %s." ),
                            print_pressure( static_cast<int>( weatherPoint.pressure ) ) );
@@ -1023,7 +916,7 @@ bool Character::activate_bionic( int b, bool eff_only )
                            print_temperature(
                                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity,
                                        windpower / 100 ) + player_local_temp ) );
-        std::string dirstring = get_dirstring( g->weather.winddirection );
+        std::string dirstring = get_dirstring( weather.winddirection );
         add_msg_if_player( m_info, _( "Wind Direction: From the %s." ), dirstring );
     } else if( bio.id == bio_remote ) {
         add_msg_activate();
@@ -1305,7 +1198,7 @@ bool Character::burn_fuel( int b, bool start )
                         mod_power_level( power_gain );
                     } else if( is_perpetual_fuel ) {
                         if( fuel == fuel_type_sun_light && g->is_in_sunlight( pos() ) ) {
-                            const weather_type &wtype = current_weather( pos() );
+                            const weather_type_id &wtype = current_weather( pos() );
                             const float tick_sunlight = incident_sunlight( wtype, calendar::turn );
                             const double intensity = tick_sunlight / default_daylight_level();
                             mod_power_level( units::from_kilojoule( fuel_energy ) * intensity * effective_efficiency );
@@ -1316,8 +1209,9 @@ bool Character::burn_fuel( int b, bool start )
                                 // vehicle velocity in mph
                                 vehwindspeed = std::abs( vp->vehicle().velocity / 100 );
                             }
-                            const double windpower = get_local_windpower( g->weather.windspeed + vehwindspeed,
-                                                     overmap_buffer.ter( global_omt_location() ), pos(), g->weather.winddirection,
+                            const weather_manager &wm = get_weather();
+                            const double windpower = get_local_windpower( wm.windspeed + vehwindspeed,
+                                                     overmap_buffer.ter( global_omt_location() ), pos(), wm.winddirection,
                                                      g->is_sheltered( pos() ) );
                             mod_power_level( units::from_kilojoule( fuel_energy ) * windpower * effective_efficiency );
                         }
@@ -1398,8 +1292,9 @@ void Character::passive_power_gen( int b )
                 // vehicle velocity in mph
                 vehwindspeed = std::abs( vp->vehicle().velocity / 100 );
             }
-            const double windpower = get_local_windpower( g->weather.windspeed + vehwindspeed,
-                                     overmap_buffer.ter( global_omt_location() ), pos(), g->weather.winddirection,
+            const weather_manager &weather = get_weather();
+            const double windpower = get_local_windpower( weather.windspeed + vehwindspeed,
+                                     overmap_buffer.ter( global_omt_location() ), pos(), weather.winddirection,
                                      g->is_sheltered( pos() ) );
             mod_power_level( units::from_kilojoule( fuel_energy ) * windpower * effective_passive_efficiency );
         } else {
@@ -1735,8 +1630,8 @@ void Character::process_bionic( int b )
         // Aero-Evaporator provides water at 60 watts with 2 L / kWh efficiency
         // which is 10 mL per 5 minutes.  Humidity can modify the amount gained.
         if( calendar::once_every( 5_minutes ) ) {
-            const w_point weatherPoint = *g->weather.weather_precise;
-            int humidity = get_local_humidity( weatherPoint.humidity, g->weather.weather,
+            const w_point &weatherPoint = get_weather().get_precise();
+            int humidity = get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
                                                g->is_sheltered( g->u.pos() ) );
             // in thirst units = 5 mL water
             int water_available = std::lround( humidity * 3.0 / 100.0 );
@@ -2257,10 +2152,18 @@ bool Character::can_install_bionics( const itype &type, player &installer, bool 
             return false;
         }
     } else {
-        if( !g->u.query_yn(
-                _( "WARNING: There is a %i percent chance of complications, such as damage or faulty installation!  Continue anyway?" ),
-                ( 100 - chance_of_success ) ) ) {
-            return false;
+        if( autodoc ) {
+            if( !g->u.query_yn(
+                    _( "WARNING: There is a %i percent chance of complications, such as damage or faulty installation!  Continue anyway?" ),
+                    ( 100 - chance_of_success ) ) ) {
+                return false;
+            }
+        } else {
+            if( !g->u.query_yn(
+                    _( "WARNING: There is a %i percent chance of complications, such as damage or faulty installation!  The following skills affect self-installation: First Aid, Electronics, and Mechanics.\n\nContinue anyway?" ),
+                    ( 100 - chance_of_success ) ) ) {
+                return false;
+            }
         }
     }
 

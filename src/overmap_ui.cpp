@@ -283,10 +283,10 @@ static void update_note_preview( const std::string &note,
     wnoutrefresh( *w_preview_map );
 }
 
-static weather_type get_weather_at_point( const tripoint &pos )
+static weather_type_id get_weather_at_point( const tripoint &pos )
 {
     // Weather calculation is a bit expensive, so it's cached here.
-    static std::map<tripoint, weather_type> weather_cache;
+    static std::map<tripoint, weather_type_id> weather_cache;
     static time_point last_weather_display = calendar::before_time_starts;
     if( last_weather_display != calendar::turn ) {
         last_weather_display = calendar::turn;
@@ -296,7 +296,7 @@ static weather_type get_weather_at_point( const tripoint &pos )
     if( iter == weather_cache.end() ) {
         const tripoint abs_ms_pos = sm_to_ms_copy( omt_to_sm_copy( pos ) );
         const auto &wgen = overmap_buffer.get_settings( pos ).weather;
-        const auto weather = wgen.get_weather_conditions( abs_ms_pos, calendar::turn, g->get_seed() );
+        auto weather = wgen.get_weather_conditions( abs_ms_pos, calendar::turn, g->get_seed() );
         iter = weather_cache.insert( std::make_pair( pos, weather ) ).first;
     }
     return iter->second;
@@ -955,9 +955,9 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
                 ter_color = g->u.symbol_color();
                 ter_sym = "@";
             } else if( viewing_weather && ( data.debug_weather || los_sky ) ) {
-                const weather_type type = get_weather_at_point( omp );
-                ter_color = weather::map_color( type );
-                ter_sym = weather::glyph( type );
+                const weather_type_id type = get_weather_at_point( omp );
+                ter_color = type->map_color;
+                ter_sym = type->get_symbol();
             } else if( data.debug_scent && get_scent_glyph( omp, ter_color, ter_sym ) ) {
                 // get_scent_glyph has changed ter_color and ter_sym if omp has a scent
             } else if( blink && has_target && omp.xy() == target.xy() ) {
@@ -1255,9 +1255,9 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         const bool weather_is_visible = ( data.debug_weather ||
                                           g->u.overmap_los( center, sight_points * 2 ) );
         if( weather_is_visible ) {
-            weather_datum weather = weather_data( get_weather_at_point( center ) );
             // NOLINTNEXTLINE(cata-use-named-point-constants)
-            mvwprintz( wbar, point( 1, 1 ), weather.color, weather.name );
+            mvwprintz( wbar, point( 1, 1 ), get_weather_at_point( center )->color,
+                       get_weather_at_point( center )->name );
         } else {
             // NOLINTNEXTLINE(cata-use-named-point-constants)
             mvwprintz( wbar, point( 1, 1 ), c_dark_gray, _( "# Unexplored" ) );

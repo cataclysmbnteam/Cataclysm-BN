@@ -1026,18 +1026,14 @@ void player::hardcoded_effects( effect &it )
             it.set_duration( 1_turns * dice( 3, 100 ) );
         }
 
-        bool compatible_weather_types = g->weather.weather == WEATHER_CLEAR ||
-                                        g->weather.weather == WEATHER_SUNNY
-                                        || g->weather.weather == WEATHER_DRIZZLE || g->weather.weather == WEATHER_RAINY ||
-                                        g->weather.weather == WEATHER_FLURRIES
-                                        || g->weather.weather == WEATHER_CLOUDY || g->weather.weather == WEATHER_SNOW;
-
+        // TODO: Move this to update_needs when NPCs can mutate
         if( calendar::once_every( 10_minutes ) && ( has_trait( trait_CHLOROMORPH ) ||
                 has_trait( trait_M_SKIN3 ) || has_trait( trait_WATERSLEEP ) ) &&
             g->m.is_outside( pos() ) ) {
             if( has_trait( trait_CHLOROMORPH ) ) {
                 // Hunger and thirst fall before your Chloromorphic physiology!
-                if( g->natural_light_level( posz() ) >= 12 && compatible_weather_types ) {
+                if( g->natural_light_level( posz() ) >= 12 &&
+                    get_weather().weather_id->sun_intensity >= sun_intensity_type::light ) {
                     if( get_stored_kcal() < max_stored_kcal() - 50 ) {
                         mod_stored_kcal( 50 );
                     }

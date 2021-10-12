@@ -42,6 +42,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "ui_manager.h"
+#include "weather.h"
 
 class overmap_connection;
 
@@ -580,6 +581,8 @@ void overmap::unserialize( std::istream &fin, const std::string &file_path )
                         jsin.read( new_radio.strength );
                     } else if( radio_member_name == "message" ) {
                         jsin.read( new_radio.message );
+                    } else if( radio_member_name == "frequency" ) {
+                        jsin.read( new_radio.frequency );
                     }
                 }
                 radios.push_back( new_radio );
@@ -1005,6 +1008,7 @@ void overmap::serialize( std::ostream &fout ) const
         json.member( "strength", i.strength );
         json.member( "type", radio_type_names[i.type] );
         json.member( "message", i.message );
+        json.member( "frequency", i.frequency );
         json.end_object();
     }
     json.end_array();
@@ -1226,7 +1230,7 @@ void game::unserialize_master( std::istream &fin )
                 jsin.read( seed );
             } else if( name == "weather" ) {
                 JsonObject w = jsin.get_object();
-                w.read( "lightning", weather.lightning_active );
+                w.read( "lightning", get_weather().lightning_active );
             } else {
                 // silently ignore anything else
                 jsin.skip_value();
@@ -1264,7 +1268,7 @@ void game::serialize_master( std::ostream &fout )
 
         json.member( "weather" );
         json.start_object();
-        json.member( "lightning", weather.lightning_active );
+        json.member( "lightning", get_weather().lightning_active );
         json.end_object();
 
         json.end_object();
