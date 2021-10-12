@@ -4134,6 +4134,8 @@
     "pre_special": "check_empty",
     "post_terrain": "f_battery_huge"
   },
+  {
+    "type": "construction",
     "id": "constr_oven",
     "description": "Build Oven",
     "category": "FURN",
