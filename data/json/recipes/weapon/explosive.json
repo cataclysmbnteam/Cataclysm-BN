@@ -57,6 +57,7 @@
       [ [ "amplifier", 2 ], [ "power_supply", 2 ] ],
       [ [ "plut_cell", 2 ] ],
       [ [ "antenna", 1 ] ],
+      [ [ "solder_wire", 10 ] ],
       [ [ "cable", 20 ] ]
     ]
   },
@@ -82,9 +83,32 @@
         [ "clay_canister", 1 ],
         [ "canister_empty", 1 ]
       ],
+      [ [ "solder_wire", 5 ] ],
       [ [ "plut_cell", 1 ] ],
       [ [ "amplifier", 1 ], [ "power_supply", 1 ] ],
       [ [ "cable", 5 ] ]
+    ]
+  },
+  {
+    "result": "scrambler",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "electronics",
+    "skills_required": [ "computer", 4 ],
+    "difficulty": 8,
+    "time": "20 m",
+    "reversible": true,
+    "decomp_learn": 8,
+    "book_learn": [ [ "textbook_anarch", 8 ], [ "advanced_electronics", 8 ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "solder_wire", 5 ] ],
+      [ [ "grenade_emp", 1 ] ],
+      [ [ "antenna", 1 ] ],
+      [ [ "transponder", 1 ] ],
+      [ [ "e_scrap", 2 ] ]
     ]
   },
   {
