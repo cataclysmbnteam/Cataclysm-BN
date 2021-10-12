@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <numeric>
 #include <ostream>
 #include <random>
 #include <string>
@@ -151,7 +152,7 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
         10 * ( -seasonality + 2 );
 
     // Wind power
-    W = std::max( 0, static_cast<int>( base_wind * rng( 1, 2 )  / std::pow( ( P + W ) / 1014.78, rng( 9,
+    W = std::max( 0, static_cast<int>( base_wind * rng( 1, 2 ) / std::pow( ( P + W ) / 1014.78, rng( 9,
                                        base_wind_distrib_peaks ) ) +
                                        -cyf / base_wind_season_variation * rng( 1, 2 ) ) );
     // Initial static variable
@@ -170,65 +171,86 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     // Acid rains
     const double acid_content = base_acid * A;
     bool acid = acid_content >= 1.0;
-    return w_point {T, H, P, W, wind_desc, current_winddir, acid};
+    return w_point{ T, H, P, W, wind_desc, current_winddir, acid };
 }
 
-weather_type weather_generator::get_weather_conditions( const tripoint &location,
+const weather_type_id &weather_generator::get_default_weather() const
+{
+    return weather_types[0];
+}
+
+const weather_type_id &weather_generator::get_bad_weather() const
+{
+    const weather_type_id *bad_weather = &get_default_weather();
+    for( const weather_type_id &wt : weather_types ) {
+        if( wt->precip == precip_class::heavy ) {
+            bad_weather = &wt;
+        }
+    }
+    return *bad_weather;
+}
+
+int weather_generator::forecast_priority( const weather_type_id &w ) const
+{
+    auto it = std::find( weather_types.begin(), weather_types.end(), w );
+    if( it == weather_types.end() ) {
+        return -1;
+    }
+    return std::distance( weather_types.begin(), it );
+}
+
+const weather_type_id &weather_generator::get_weather_conditions( const tripoint &location,
         const time_point &t, unsigned seed ) const
 {
     w_point w( get_weather( location, t, seed ) );
-    weather_type wt = get_weather_conditions( w );
-    // Make sure we don't say it's sunny at night! =P
-    if( wt == WEATHER_SUNNY && is_night( t ) ) {
-        return WEATHER_CLEAR;
-    }
-    return wt;
+    return get_weather_conditions( w );
 }
 
-weather_type weather_generator::get_weather_conditions( const w_point &w ) const
+const weather_type_id &weather_generator::get_weather_conditions( const w_point &w ) const
 {
-    weather_type r( WEATHER_CLEAR );
-    if( w.pressure > 1020 && w.humidity < 70 ) {
-        r = WEATHER_SUNNY;
-    }
-    if( w.pressure < 1010 && w.humidity > 40 ) {
-        r = WEATHER_CLOUDY;
-    }
-    if( r == WEATHER_CLOUDY && ( w.humidity > 96 || w.pressure < 1003 ) ) {
-        r = WEATHER_LIGHT_DRIZZLE;
-    }
-    if( r >= WEATHER_LIGHT_DRIZZLE && ( w.humidity > 97 || w.pressure < 1000 ) ) {
-        r = WEATHER_DRIZZLE;
-    }
-    if( r >= WEATHER_CLOUDY && ( w.humidity > 98 || w.pressure < 993 ) ) {
-        r = WEATHER_RAINY;
-    }
-    if( r == WEATHER_RAINY && w.pressure < 996 ) {
-        r = WEATHER_THUNDER;
-    }
-    if( r == WEATHER_THUNDER && w.pressure < 990 ) {
-        r = WEATHER_LIGHTNING;
-    }
+    w_point wp2 = w;
+    const weather_type_id *current_conditions = &weather_type_id::NULL_ID();
+    for( const weather_type_id &type : weather_types ) {
+        const weather_requirements &requires = type->requirements;
+        weather_requirements rq2 = requires;
+        bool test_pressure =
+            requires.pressure_max > w.pressure &&
+            requires.pressure_min < w.pressure;
+        bool test_humidity =
+            requires.humidity_max > w.humidity &&
+            requires.humidity_min < w.humidity;
+        if( ( requires.humidity_and_pressure && !( test_pressure && test_humidity ) ) ||
+            ( !requires.humidity_and_pressure && !( test_pressure || test_humidity ) ) ) {
+            continue;
+        }
+        bool test_temperature =
+            requires.temperature_max > w.temperature &&
+            requires.temperature_min < w.temperature;
+        bool test_windspeed =
+            requires.windpower_max > w.windpower &&
+            requires.windpower_min < w.windpower;
+        bool test_acidic = !requires.acidic || w.acidic;
+        if( !( test_temperature && test_windspeed && test_acidic ) ) {
+            continue;
+        }
 
-    if( w.temperature <= 32 ) {
-        if( r == WEATHER_DRIZZLE ) {
-            r = WEATHER_FLURRIES;
-        } else if( r > WEATHER_DRIZZLE ) {
-            if( r >= WEATHER_THUNDER && w.windpower > 15 ) {
-                r = WEATHER_SNOWSTORM;
-            } else {
-                r = WEATHER_SNOW;
+        if( !requires.required_weathers.empty() ) {
+            if( std::find( requires.required_weathers.begin(), requires.required_weathers.end(),
+                           *current_conditions ) == requires.required_weathers.end() ) {
+                continue;
             }
         }
-    }
 
-    if( r == WEATHER_DRIZZLE && w.acidic ) {
-        r = WEATHER_ACID_DRIZZLE;
+        if( requires.time != weather_time_requirement_type::both ) {
+            bool day = is_day( calendar::turn );
+            if( ( requires.time == weather_time_requirement_type::day && !day ) ||
+                ( requires.time == weather_time_requirement_type::night && day ) ) {
+                continue;
+            }
+        }
+        current_conditions = &type;
     }
-    if( r > WEATHER_DRIZZLE && w.acidic ) {
-        r = WEATHER_ACID_RAIN;
-    }
-    return r;
+    return *current_conditions;
 }
 
 int weather_generator::get_wind_direction( const season_type season ) const
@@ -307,8 +329,7 @@ void weather_generator::test_weather( unsigned seed = 1000 ) const
         const time_point end = begin + 2 * calendar::year_length();
         for( time_point i = begin; i < end; i += 20_minutes ) {
             w_point w = get_weather( tripoint_zero, i, seed );
-            weather_type c = get_weather_conditions( w );
-            weather_datum wd = weather_data( c );
+            const weather_type_id &conditions = get_weather_conditions( w );
 
             int year = to_turns<int>( i - calendar::turn_zero ) / to_turns<int>
                        ( calendar::year_length() ) + 1;
@@ -321,9 +342,11 @@ void weather_generator::test_weather( unsigned seed = 1000 ) const
                 day = day_of_season<int>( i );
             }
             testfile << "|;" << year << ";" << season_of_year( i ) << ";" << day << ";" << hour << ";" << minute
-                     << ";" << w.temperature << ";" << w.humidity << ";" << w.pressure << ";" << wd.name << ";" <<
+                     << ";" << w.temperature << ";" << w.humidity << ";" << w.pressure << ";" << conditions->name << ";"
+                     <<
                      w.windpower << ";" << w.winddirection << std::endl;
         }
+
     }, "weather test file" );
 }
 
@@ -355,5 +378,11 @@ weather_generator weather_generator::load( const JsonObject &jo )
     ret.summer_humidity_manual_mod = jo.get_int( "summer_humidity_manual_mod", 0 );
     ret.autumn_humidity_manual_mod = jo.get_int( "autumn_humidity_manual_mod", 0 );
     ret.winter_humidity_manual_mod = jo.get_int( "winter_humidity_manual_mod", 0 );
+
+    jo.get_member( "weather_types" ); // Throw if does not exist
+    jo.read( "weather_types", ret.weather_types );
+    if( ret.weather_types.empty() ) {
+        jo.throw_error( "expected at least 1 weather type", "weather_types" );
+    }
     return ret;
 }

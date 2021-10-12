@@ -439,7 +439,7 @@ static std::string get_temp( const avatar &u )
     std::string temp;
     if( u.has_item_with_flag( "THERMOMETER" ) ||
         u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
-        temp = print_temperature( g->weather.get_temperature( u.pos() ) );
+        temp = print_temperature( get_weather().get_temperature( u.pos() ) );
     }
     if( temp.empty() ) {
         return "-";
@@ -1341,8 +1341,7 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
     } else {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Sky  :" ) );
-        const weather_datum wdata = weather_data( g->weather.weather );
-        wprintz( w, wdata.color, " %s", wdata.name );
+        wprintz( w, get_weather().weather_id->color, " %s", get_weather().weather_id->name );
     }
     // display lighting
     const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
@@ -1504,24 +1503,24 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 8, 2 ), c_white, utf8_truncate( overmap_buffer.ter(
                    u.global_omt_location() )->get_name(), getmaxx( w ) - 8 ) );
     // weather
+    const weather_manager &weather = get_weather();
     if( g->get_levz() < 0 ) {
         mvwprintz( w, point( 8, 3 ), c_light_gray, _( "Underground" ) );
     } else {
-        const weather_datum wdata = weather_data( g->weather.weather );
-        mvwprintz( w, point( 8, 3 ), wdata.color, wdata.name );
+        mvwprintz( w, point( 8, 3 ), get_weather().weather_id->color, get_weather().weather_id->name );
     }
     // display lighting
     const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
     mvwprintz( w, point( 8, 4 ), ll.second, ll.first );
     // wind
     const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
-    double windpower = get_local_windpower( g->weather.windspeed, cur_om_ter,
-                                            u.pos(), g->weather.winddirection, g->is_sheltered( u.pos() ) );
+    double windpower = get_local_windpower( weather.windspeed, cur_om_ter,
+                                            u.pos(), weather.winddirection, g->is_sheltered( u.pos() ) );
     mvwprintz( w, point( 8, 5 ), get_wind_color( windpower ),
-               get_wind_desc( windpower ) + " " + get_wind_arrow( g->weather.winddirection ) );
+               get_wind_desc( windpower ) + " " + get_wind_arrow( weather.winddirection ) );
 
     if( u.has_item_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
-        std::string temp = print_temperature( g->weather.get_temperature( u.pos() ) );
+        std::string temp = print_temperature( weather.get_temperature( u.pos() ) );
         mvwprintz( w, point( 31 - utf8_width( temp ), 5 ), c_light_gray, temp );
     }
 
@@ -1535,10 +1534,11 @@ static void render_wind( avatar &u, const catacurses::window &w, const std::stri
                //~ translation should not exceed 5 console cells
                string_format( formatstr, left_justify( _( "Wind" ), 5 ) ) );
     const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
-    double windpower = get_local_windpower( g->weather.windspeed, cur_om_ter,
-                                            u.pos(), g->weather.winddirection, g->is_sheltered( u.pos() ) );
+    const weather_manager &weather = get_weather();
+    double windpower = get_local_windpower( weather.windspeed, cur_om_ter,
+                                            u.pos(), weather.winddirection, g->is_sheltered( u.pos() ) );
     mvwprintz( w, point( 8, 0 ), get_wind_color( windpower ),
-               get_wind_desc( windpower ) + " " + get_wind_arrow( g->weather.winddirection ) );
+               get_wind_desc( windpower ) + " " + get_wind_arrow( weather.winddirection ) );
     wnoutrefresh( w );
 }
 
@@ -1846,9 +1846,8 @@ static void draw_weather_classic( avatar &, const catacurses::window &w )
     if( g->get_levz() < 0 ) {
         mvwprintz( w, point_zero, c_light_gray, _( "Underground" ) );
     } else {
-        const weather_datum wdata = weather_data( g->weather.weather );
         mvwprintz( w, point_zero, c_light_gray, _( "Weather :" ) );
-        mvwprintz( w, point( 10, 0 ), wdata.color, wdata.name );
+        mvwprintz( w, point( 10, 0 ), get_weather().weather_id->color, get_weather().weather_id->name );
     }
     mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Moon :" ) );
     nc_color clr = c_white;
@@ -1914,7 +1913,7 @@ static void draw_time_classic( const avatar &u, const catacurses::window &w )
     }
 
     if( u.has_item_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
-        std::string temp = print_temperature( g->weather.get_temperature( u.pos() ) );
+        std::string temp = print_temperature( get_weather().get_temperature( u.pos() ) );
         mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Temp : " ) + temp );
     }
 

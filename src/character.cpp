@@ -4778,7 +4778,7 @@ needs_rates Character::calc_needs_rates() const
 
     if( has_trait( trait_TRANSPIRATION ) ) {
         // Transpiration, the act of moving nutrients with evaporating water, can take a very heavy toll on your thirst when it's really hot.
-        rates.thirst *= ( ( g->weather.get_temperature( pos() ) - 32.5f ) / 40.0f );
+        rates.thirst *= ( ( get_weather().get_temperature( pos() ) - 32.5f ) / 40.0f );
     }
 
     if( is_npc() ) {
@@ -5008,7 +5008,7 @@ Hurricane : 100 mph (920 hPa)
 HURRICANE : 185 mph (880 hPa) [Ref: Hurricane Wilma]
 */
 
-void Character::update_bodytemp( const map &m, weather_manager &weather )
+void Character::update_bodytemp( const map &m, const weather_manager &weather )
 {
     if( has_trait( trait_DEBUG_NOTEMP ) ) {
         temp_cur.fill( BODYTEMP_NORM );
@@ -5020,7 +5020,7 @@ void Character::update_bodytemp( const map &m, weather_manager &weather )
     // NOTE : visit weather.h for some details on the numbers used
     // In Celsius / 100
     int Ctemperature = static_cast<int>( 100 * units::fahrenheit_to_celsius( player_local_temp ) );
-    const w_point weather_point = *weather.weather_precise;
+    const w_point &weather_point = get_weather().get_precise();
     int vehwindspeed = 0;
     const optional_vpart_position vp = m.veh_at( pos() );
     if( vp ) {
@@ -5031,7 +5031,7 @@ void Character::update_bodytemp( const map &m, weather_manager &weather )
     double total_windpower = get_local_windpower( weather.windspeed + vehwindspeed, cur_om_ter,
                              pos(),
                              weather.winddirection, sheltered );
-    int air_humidity = get_local_humidity( weather_point.humidity, weather.weather,
+    int air_humidity = get_local_humidity( weather_point.humidity, weather.weather_id,
                                            sheltered );
     // Let's cache this not to check it num_bp times
     const bool has_bark = has_trait( trait_BARK );
@@ -5046,8 +5046,8 @@ void Character::update_bodytemp( const map &m, weather_manager &weather )
     /**
      * Calculations that affect all body parts equally go here, not in the loop
      */
-    const int sunlight_warmth = weather::is_in_sunlight( m, pos(), weather.weather )
-                                ? ( weather.weather == WEATHER_SUNNY ? 1000 : 500 )
+    const int sunlight_warmth = weather::is_in_sunlight( m, pos(), weather.weather_id )
+                                ? ( weather.weather_id->sun_intensity == sun_intensity_type::high ? 1000 : 500 )
                                 : 0;
     const int best_fire = get_heat_radiation( pos(), true );
     const bool pyromania = has_trait( trait_PYROMANIA );
@@ -9929,7 +9929,7 @@ bool Character::can_hear( const tripoint &source, const int volume ) const
     }
     const int dist = rl_dist( source, pos() );
     const float volume_multiplier = hearing_ability();
-    return ( volume - weather::sound_attn( g->weather.weather ) ) * volume_multiplier >= dist;
+    return ( volume - get_weather().weather_id->sound_attn ) * volume_multiplier >= dist;
 }
 
 float Character::hearing_ability() const
