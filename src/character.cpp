@@ -4268,7 +4268,7 @@ void Character::mod_sleep_deprivation( int nsleep_deprivation )
 
 void Character::set_fatigue( int nfatigue )
 {
-    nfatigue = std::max( nfatigue, -1000 );
+    nfatigue = std::max( nfatigue, 0 );
     if( fatigue != nfatigue ) {
         fatigue = nfatigue;
         on_stat_change( "fatigue", fatigue );
