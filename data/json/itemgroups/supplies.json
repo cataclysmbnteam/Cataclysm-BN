@@ -521,5 +521,15 @@
       { "item": "diesel", "charges": [ 0, 50000 ], "container-item": "30gal_drum", "prob": 10 },
       { "item": "motor_oil", "charges": [ 0, 10000 ], "container-item": "jerrycan", "prob": 5 }
     ]
+  },
+  {
+    "id": "autodoc_supplies",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "anesthetic_kit", "charges": [ 0, 3000 ] },
+      { "item": "arm_splint", "count": [ 1, 3 ] },
+      { "item": "leg_splint", "count": [ 1, 3 ] }
+    ]
   }
 ]
