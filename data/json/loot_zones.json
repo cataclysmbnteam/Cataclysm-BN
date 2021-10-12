@@ -84,6 +84,12 @@
     "description": "Destination for drugs and other medical items."
   },
   {
+    "id": "LOOT_BATTERY",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Battery",
+    "description": "Destination for batteries."
+  },
+  {
     "id": "LOOT_BOOKS",
     "type": "LOOT_ZONE",
     "name": "Loot: Books",
