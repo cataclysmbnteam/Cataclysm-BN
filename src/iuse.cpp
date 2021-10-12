@@ -3625,7 +3625,7 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
             case 1:
                 sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "BUGFIXES!" ),
                                true, "speech", it->typeId().str() );
-                explosion_handler::draw_explosion( pos, explosion_radius, c_light_cyan );
+                explosion_handler::draw_explosion( pos, explosion_radius, c_light_cyan, "explosion" );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     monster *const mon = g->critter_at<monster>( dest, true );
                     if( mon && ( mon->type->in_species( INSECT ) || mon->is_hallucination() ) ) {
@@ -3637,7 +3637,7 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
             case 2:
                 sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "BUFFS!" ),
                                true, "speech", it->typeId().str() );
-                explosion_handler::draw_explosion( pos, explosion_radius, c_green );
+                explosion_handler::draw_explosion( pos, explosion_radius, c_green, "explosion" );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
                         monster &critter = *mon_ptr;
@@ -3677,7 +3677,7 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
             case 3:
                 sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "NERFS!" ),
                                true, "speech", it->typeId().str() );
-                explosion_handler::draw_explosion( pos, explosion_radius, c_red );
+                explosion_handler::draw_explosion( pos, explosion_radius, c_red, "explosion" );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
                         monster &critter = *mon_ptr;
@@ -3716,7 +3716,7 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
             case 4:
                 sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "REVERTS!" ),
                                true, "speech", it->typeId().str() );
-                explosion_handler::draw_explosion( pos, explosion_radius, c_pink );
+                explosion_handler::draw_explosion( pos, explosion_radius, c_pink, "explosion" );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
                         monster &critter = *mon_ptr;
@@ -3734,7 +3734,7 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
             case 5:
                 sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "BEES!" ),
                                true, "speech", it->typeId().str() );
-                explosion_handler::draw_explosion( pos, explosion_radius, c_yellow );
+                explosion_handler::draw_explosion( pos, explosion_radius, c_yellow, "explosion" );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if( one_in( 5 ) && !g->critter_at( dest ) ) {
                         g->m.add_field( dest, fd_bees, rng( 1, 3 ) );
@@ -5481,7 +5481,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_FLASH:
                 p->add_msg_if_player( _( "The %s flashes brightly!" ), it->tname() );
-                explosion_handler::flashbang( p->pos() );
+                explosion_handler::flashbang( p->pos(), false, "explosion" );
                 break;
 
             case AEA_VOMIT:

@@ -2033,7 +2033,7 @@ void iexamine::egg_sack_generic( player &p, const tripoint &examp,
             }
         }
     }
-    int roll = rng( 1, 5 );
+    int roll = rng( 4, 20 );
     bool drop_eggs = monster_count >= 1;
     for( int i = 0; i < roll; i++ ) {
         handle_harvest( p, "spider_egg", drop_eggs );
@@ -4608,7 +4608,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         const std::string &warning = warning_sign + colorize( _( " WARNING: Operator missing" ),
                                      c_red ) + warning_sign;
         autodoc_header = warning +
-                         _( "\n Using the Autodoc without an operator can lead to <color_light_cyan>serious injuries</color> and <color_light_cyan>various internal bionic malfunctions</color>.\n Manufacturer <color_light_green>guarantees automated bionic installation in functional condition</color>.\n Manufacturer <color_light_cyan>does not guarantee automated bionic uninstallation</color>.\n By continuing with the operation you accept the risks and acknowledge that you will not take any legal actions against this facility in case of an accident. " );
+                         _( "\n Using the Autodoc without an operator can lead to <color_light_cyan>serious injuries</color> and <color_light_cyan>various internal bionic malfunctions</color>.\n Manufacturer <color_light_green>guarantees automated bionic installation in functional condition</color>.\n Manufacturer <color_light_cyan>does not guarantee automated bionic uninstallation</color>.\n By continuing with the operation you accept the risks and acknowledge that you will not take any legal actions against this facility in case of an accident.\n\nThe following skills affect autodoc installation: Computers, First Aid, and Electronics." );
     }
     uilist amenu;
     amenu.text = autodoc_header;

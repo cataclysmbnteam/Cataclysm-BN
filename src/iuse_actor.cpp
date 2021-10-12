@@ -556,10 +556,10 @@ int explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) cons
     }
 
     if( draw_explosion_radius >= 0 ) {
-        explosion_handler::draw_explosion( pos, draw_explosion_radius, draw_explosion_color );
+        explosion_handler::draw_explosion( pos, draw_explosion_radius, draw_explosion_color, "explosion" );
     }
     if( do_flashbang ) {
-        explosion_handler::flashbang( pos, flashbang_player_immune );
+        explosion_handler::flashbang( pos, flashbang_player_immune, "explosion" );
     }
     if( fields_radius >= 0 && fields_type.id() ) {
         std::vector<tripoint> gas_sources = points_for_gas_cloud( pos, fields_radius );

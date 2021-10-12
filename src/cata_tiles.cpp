@@ -3144,16 +3144,19 @@ void tileset_loader::ensure_default_item_highlight()
 
 /* Animation Functions */
 /* -- Inits */
-void cata_tiles::init_explosion( const tripoint &p, int radius )
+void cata_tiles::init_explosion( const tripoint &p, int radius, const std::string &name )
 {
     do_draw_explosion = true;
     exp_pos = p;
     exp_rad = radius;
+    exp_name = name;
 }
-void cata_tiles::init_custom_explosion_layer( const std::map<tripoint, explosion_tile> &layer )
+void cata_tiles::init_custom_explosion_layer( const std::map<tripoint, explosion_tile> &layer,
+        const std::string &name )
 {
     do_draw_custom_explosion = true;
     custom_explosion_layer = layer;
+    exp_name = name;
 }
 void cata_tiles::init_draw_bullet( const tripoint &p, std::string name )
 {
@@ -3359,7 +3362,6 @@ bool cata_tiles::has_draw_override( const tripoint &p ) const
 /* -- Animation Renders */
 void cata_tiles::draw_explosion_frame()
 {
-    std::string exp_name = "explosion";
     int subtile = 0;
     int rotation = 0;
 
@@ -3397,15 +3399,14 @@ void cata_tiles::draw_custom_explosion_frame()
 {
     // TODO: Make the drawing code handle all the missing tiles: <^>v and *
     // TODO: Add more explosion tiles, like "strong explosion", so that it displays more info
-    static const std::string exp_strong = "explosion";
-    static const std::string exp_medium = "explosion_medium";
-    static const std::string exp_weak = "explosion_weak";
+
+    // explosion_weak/explosion_medium/explosion removed from tiles in favor of allowing custom explosion sprites.
+
     int subtile = 0;
     int rotation = 0;
 
     for( const auto &pr : custom_explosion_layer ) {
         const explosion_neighbors ngh = pr.second.neighborhood;
-        const nc_color col = pr.second.color;
 
         switch( ngh ) {
             case N_NORTH:
@@ -3456,13 +3457,8 @@ void cata_tiles::draw_custom_explosion_frame()
         }
 
         const tripoint &p = pr.first;
-        if( col == c_red ) {
-            draw_from_id_string( exp_strong, p, subtile, rotation, LL_LIT, nv_goggles_activated );
-        } else if( col == c_yellow ) {
-            draw_from_id_string( exp_medium, p, subtile, rotation, LL_LIT, nv_goggles_activated );
-        } else {
-            draw_from_id_string( exp_weak, p, subtile, rotation, LL_LIT, nv_goggles_activated );
-        }
+        draw_from_id_string( exp_name, p, subtile, rotation, LL_LIT, nv_goggles_activated );
+        // Used to be divided into explosion_weak/explosion_medium/explosion.
     }
 }
 void cata_tiles::draw_bullet_frame()

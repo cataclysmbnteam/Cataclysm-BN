@@ -278,7 +278,6 @@
       [ "chem_muriatic_acid", 10 ],
       [ "chem_acetic_acid", 10 ],
       [ "chem_formaldehyde", 10 ],
-      [ "chem_acetone", 10 ],
       { "item": "chem_carbide", "prob": 10, "charges-min": 100 },
       [ "chem_ammonium_nitrate", 10 ],
       { "item": "chem_chromium_oxide", "prob": 10, "charges-min": 100 },

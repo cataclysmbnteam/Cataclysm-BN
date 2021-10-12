@@ -137,6 +137,8 @@ class spell_type
         bool was_loaded = false;
 
         spell_id id;
+        // spell sprite
+        std::string sprite;
         // spell name
         translation name;
         // spell description
