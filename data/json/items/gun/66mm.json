@@ -24,6 +24,6 @@
     "reload": 600,
     "loudness": 200,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sling", 1 ] ],
-    "flags": [ "BACKBLAST", "NEVER_JAMS" ]
+    "flags": [ "BACKBLAST", "NEVER_JAMS", "PYROMANIAC_WEAPON" ]
   }
 ]
