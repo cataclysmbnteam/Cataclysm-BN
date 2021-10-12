@@ -5073,26 +5073,30 @@ void Character::update_bodytemp( const map &m, weather_manager &weather )
     const bool submerged = !in_vehicle && ter_at_pos->has_flag( TFLAG_DEEP_WATER );
     const bool submerged_low = !in_vehicle && ( submerged || ter_at_pos->has_flag( TFLAG_SWIMMABLE ) );
 
+    std::map<bodypart_id, std::vector<const item *>> clothing_map;
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        clothing_map.emplace( bp, std::vector<const item *>() );
+        // HACK: we're using temp_conv here to temporarily save
+        //       temperature values from before equalization.
+        temp_conv[bp->token] = temp_cur[bp->token];
+    }
+
     // EQUALIZATION
     // We run it outside the loop because we can and so we should
     // Also, it makes bonus heat application more stable
     // TODO: Affect future convection temperature instead (might require adding back to loop)
-    temp_equalizer( bodypart_id( "torso" ), bodypart_id( "arm_l" ) );
-    temp_equalizer( bodypart_id( "torso" ), bodypart_id( "arm_r" ) );
-    temp_equalizer( bodypart_id( "torso" ), bodypart_id( "leg_l" ) );
-    temp_equalizer( bodypart_id( "torso" ), bodypart_id( "leg_r" ) );
-    temp_equalizer( bodypart_id( "torso" ), bodypart_id( "head" ) );
+    temp_equalizer( body_part_torso, body_part_arm_l );
+    temp_equalizer( body_part_torso, body_part_arm_r );
+    temp_equalizer( body_part_torso, body_part_leg_l );
+    temp_equalizer( body_part_torso, body_part_leg_r );
+    temp_equalizer( body_part_torso, body_part_head );
 
-    temp_equalizer( bodypart_id( "arm_l" ), bodypart_id( "hand_l" ) );
-    temp_equalizer( bodypart_id( "arm_r" ), bodypart_id( "hand_r" ) );
+    temp_equalizer( body_part_arm_l, body_part_hand_l );
+    temp_equalizer( body_part_arm_r, body_part_hand_r );
 
-    temp_equalizer( bodypart_id( "leg_l" ), bodypart_id( "foot_l" ) );
-    temp_equalizer( bodypart_id( "leg_r" ), bodypart_id( "foot_r" ) );
+    temp_equalizer( body_part_leg_l, body_part_foot_l );
+    temp_equalizer( body_part_leg_r, body_part_foot_r );
 
-    std::map<bodypart_id, std::vector<const item *>> clothing_map;
-    for( const bodypart_id &bp : get_all_body_parts() ) {
-        clothing_map.emplace( bp, std::vector<const item *>() );
-    }
     for( const item &it : worn ) {
         // TODO: Port body part set id changes
         const body_part_set &covered = it.get_covered_body_parts();
@@ -5120,10 +5124,10 @@ void Character::update_bodytemp( const map &m, weather_manager &weather )
 
         const bool submerged_bp = submerged ||
                                   ( submerged_low &&
-                                    ( bp == bodypart_id( "foot_l" ) ||
-                                      bp == bodypart_id( "foot_r" ) ||
-                                      bp == bodypart_id( "leg_l" ) ||
-                                      bp == bodypart_id( "leg_r" ) ) );
+                                    ( bp == body_part_foot_l ||
+                                      bp == body_part_foot_r ||
+                                      bp == body_part_leg_l ||
+                                      bp == body_part_leg_r ) );
         // This adjusts the temperature scale to match the bodytemp scale
         const int adjusted_temp = submerged_bp ?
                                   water_temperature :
@@ -5311,8 +5315,8 @@ void Character::update_bodytemp( const map &m, weather_manager &weather )
         Less than -35F, more than 10 mp
         **/
 
-        if( bp == bodypart_id( "mouth" ) || bp == bodypart_id( "foot_r" ) ||
-            bp == bodypart_id( "foot_l" ) || bp == bodypart_id( "hand_r" ) || bp == bodypart_id( "hand_l" ) ) {
+        if( bp == body_part_mouth || bp == body_part_foot_r ||
+            bp == body_part_foot_l || bp == body_part_hand_r || bp == body_part_hand_l ) {
             // Handle the frostbite timer
             // Need temps in F, windPower already in mph
             int wetness_percentage = 100 * body_wetness[bp->token] / drench_capacity[bp->token]; // 0 - 100
@@ -5391,27 +5395,30 @@ void Character::update_bodytemp( const map &m, weather_manager &weather )
             }
         }
         // Warn the player if condition worsens
-        if( temp_before > BODYTEMP_FREEZING && temp_after < BODYTEMP_FREEZING ) {
+        // HACK: we want overall temperature change, including equalization, and temp_conv
+        //       at this moment contains temperature values from before the equalization.
+        temp_before = temp_conv[bp->token];
+        if( temp_before > BODYTEMP_FREEZING && temp_after <= BODYTEMP_FREEZING ) {
             //~ %s is bodypart
             add_msg( m_warning, _( "You feel your %s beginning to go numb from the cold!" ),
                      body_part_name( bp->token ) );
-        } else if( temp_before > BODYTEMP_VERY_COLD && temp_after < BODYTEMP_VERY_COLD ) {
+        } else if( temp_before > BODYTEMP_VERY_COLD && temp_after <= BODYTEMP_VERY_COLD ) {
             //~ %s is bodypart
             add_msg( m_warning, _( "You feel your %s getting very cold." ),
                      body_part_name( bp->token ) );
-        } else if( temp_before > BODYTEMP_COLD && temp_after < BODYTEMP_COLD ) {
+        } else if( temp_before > BODYTEMP_COLD && temp_after <= BODYTEMP_COLD ) {
             //~ %s is bodypart
             add_msg( m_warning, _( "You feel your %s getting chilly." ),
                      body_part_name( bp->token ) );
-        } else if( temp_before < BODYTEMP_SCORCHING && temp_after > BODYTEMP_SCORCHING ) {
+        } else if( temp_before < BODYTEMP_SCORCHING && temp_after >= BODYTEMP_SCORCHING ) {
             //~ %s is bodypart
             add_msg( m_bad, _( "You feel your %s getting red hot from the heat!" ),
                      body_part_name( bp->token ) );
-        } else if( temp_before < BODYTEMP_VERY_HOT && temp_after > BODYTEMP_VERY_HOT ) {
+        } else if( temp_before < BODYTEMP_VERY_HOT && temp_after >= BODYTEMP_VERY_HOT ) {
             //~ %s is bodypart
             add_msg( m_warning, _( "You feel your %s getting very hot." ),
                      body_part_name( bp->token ) );
-        } else if( temp_before < BODYTEMP_HOT && temp_after > BODYTEMP_HOT ) {
+        } else if( temp_before < BODYTEMP_HOT && temp_after >= BODYTEMP_HOT ) {
             //~ %s is bodypart
             add_msg( m_warning, _( "You feel your %s getting warm." ),
                      body_part_name( bp->token ) );
@@ -5424,10 +5431,10 @@ void Character::update_bodytemp( const map &m, weather_manager &weather )
         // AND you have frostbite, then that also prevents you from sleeping
         if( in_sleep_state() ) {
             int curr_temperature = temp_cur[bp->token];
-            if( bp == bodypart_id( "torso" ) && curr_temperature <= BODYTEMP_COLD ) {
+            if( bp == body_part_torso && curr_temperature <= BODYTEMP_COLD ) {
                 add_msg( m_warning, _( "Your shivering prevents you from sleeping." ) );
                 wake_up();
-            } else if( bp != bodypart_id( "torso" ) && curr_temperature <= BODYTEMP_VERY_COLD &&
+            } else if( bp != body_part_torso && curr_temperature <= BODYTEMP_VERY_COLD &&
                        has_effect( effect_frostbite ) ) {
                 add_msg( m_warning, _( "You are too cold.  Your frostbite prevents you from sleeping." ) );
                 wake_up();
