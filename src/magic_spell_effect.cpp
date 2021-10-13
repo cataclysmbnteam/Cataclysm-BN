@@ -161,7 +161,7 @@ static bool in_spell_aoe( const tripoint &start, const tripoint &end, const int 
     }
     const std::vector<tripoint> trajectory = line_to( start, end );
     for( const tripoint &pt : trajectory ) {
-        if( g->m.impassable( pt ) ) {
+        if( g->m.impassable( pt ) && !g->m.has_flag( "THIN_OBSTACLE", pt ) ) {
             return false;
         }
     }
@@ -467,7 +467,7 @@ void spell_effect::projectile_attack( const spell &sp, Creature &caster,
 {
     std::vector<tripoint> trajectory = line_to( caster.pos(), target );
     for( std::vector<tripoint>::iterator iter = trajectory.begin(); iter != trajectory.end(); iter++ ) {
-        if( g->m.impassable( *iter ) ) {
+        if( g->m.impassable( *iter ) && !g->m.has_flag( "THIN_OBSTACLE", *iter ) ) {
             if( iter != trajectory.begin() ) {
                 target_attack( sp, caster, *( iter - 1 ) );
             } else {
@@ -552,7 +552,7 @@ int area_expander::run( const tripoint &center )
         for( size_t i = 0; i < 8; i++ ) {
             tripoint pt = best.position + point( x_offset[ i ], y_offset[ i ] );
 
-            if( g->m.impassable( pt ) ) {
+            if( g->m.impassable( pt ) && !g->m.has_flag( "THIN_OBSTACLE", pt ) ) {
                 continue;
             }
 
