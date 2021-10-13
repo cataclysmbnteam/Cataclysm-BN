@@ -2864,11 +2864,13 @@ void act_vehicle_unload_fuel( vehicle *veh )
     if( fuels.size() > 1 ) {
         uilist smenu;
         smenu.text = _( "Remove what?" );
-        for( auto &fuel : fuels ) {
+        for( size_t i = 0; i < fuels.size(); i++ ) {
+            const itype_id &fuel = fuels[i];
             if( fuel == itype_plut_cell && veh->fuel_left( fuel ) < PLUTONIUM_CHARGES ) {
                 continue;
             }
-            smenu.addentry( item::nname( fuel ) );
+            smenu.entries.emplace_back( uilist_entry( item::nname( fuel ) )
+                                        .with_retval( static_cast<int>( i ) ) );
         }
         smenu.query();
         if( smenu.ret < 0 || static_cast<size_t>( smenu.ret ) >= fuels.size() ) {
@@ -2883,18 +2885,19 @@ void act_vehicle_unload_fuel( vehicle *veh )
     int qty = veh->fuel_left( fuel );
     if( fuel == itype_plut_cell ) {
         if( qty / PLUTONIUM_CHARGES == 0 ) {
-            add_msg( m_info, _( "The vehicle has no charged plutonium cells." ) );
+            add_msg( m_info, _( "The vehicle has no fully charged plutonium cells." ) );
             return;
         }
         item plutonium( fuel, calendar::turn, qty / PLUTONIUM_CHARGES );
-        g->u.i_add( plutonium );
+        add_msg( m_info, _( "You unload %s from the vehicle." ), plutonium.display_name() );
         veh->drain( fuel, qty - ( qty % PLUTONIUM_CHARGES ) );
+        g->u.i_add_or_drop( plutonium );
     } else {
         item solid_fuel( fuel, calendar::turn, qty );
-        g->u.i_add( solid_fuel );
+        add_msg( m_info, _( "You unload %s from the vehicle." ), solid_fuel.display_name() );
         veh->drain( fuel, qty );
+        g->u.i_add_or_drop( solid_fuel );
     }
-
 }
 
 /**
