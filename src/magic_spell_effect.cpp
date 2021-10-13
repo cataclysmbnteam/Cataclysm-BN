@@ -198,7 +198,7 @@ std::set<tripoint> spell_effect::spell_effect_cone( const spell &sp, const tripo
     for( const tripoint &ep : end_points ) {
         std::vector<tripoint> trajectory = line_to( source, ep );
         for( const tripoint &tp : trajectory ) {
-            if( ignore_walls || g->m.passable( tp ) ) {
+            if( ignore_walls || g->m.passable( tp ) || g->m.has_flag( "THIN_OBSTACLE", tp ) ) {
                 targets.emplace( tp );
             } else {
                 break;
@@ -216,7 +216,7 @@ static bool test_always_true( const tripoint & )
 }
 static bool test_passable( const tripoint &p )
 {
-    return g->m.passable( p );
+    return ( g->m.passable( p ) || g->m.has_flag( "THIN_OBSTACLE", p ) );
 }
 
 std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoint &source,
