@@ -61,7 +61,7 @@
     "ranged_damage": { "damage_type": "heat", "amount": 5 },
     "dispersion": 60,
     "durability": 8,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
+    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 3 ] ],
     "clip_size": 25,
     "reload": 700,
     "valid_mod_locations": [
