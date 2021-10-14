@@ -46,7 +46,6 @@
     "volume": "750 ml",
     "price": 5000,
     "price_postapoc": 500,
-    "to_hit": 0,
     "bashing": 10,
     "cutting": 16,
     "material": "steel",
