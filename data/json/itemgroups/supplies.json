@@ -289,7 +289,6 @@
       [ "denat_alcohol", 10 ],
       [ "chem_DMSO", 10 ],
       [ "chem_phenol", 10 ],
-      [ "chem_glycerol", 10 ],
       [ "chem_peptone_broth", 10 ],
       [ "chem_agar", 10 ],
       [ "oxygen_tank", 6 ],
