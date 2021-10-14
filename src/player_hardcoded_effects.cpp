@@ -1011,19 +1011,15 @@ void player::hardcoded_effects( effect &it )
             set_fatigue( 25 ); //Prevent us from waking up naturally while under anesthesia
         }
 
-        if( get_fatigue() < -25 && it.get_duration() > 3_minutes && !has_effect( effect_narcosis ) ) {
-            it.set_duration( 1_turns * dice( 3, 10 ) );
-        }
-
-        if( get_fatigue() <= 0 && get_fatigue() > -20 && !has_effect( effect_narcosis ) ) {
-            mod_fatigue( -25 );
+        if( get_fatigue() <= 10 && !has_effect( effect_narcosis ) ) {
+            set_fatigue( 0 );
             if( get_sleep_deprivation() < sleep_deprivation_levels::harmless ) {
                 add_msg_if_player( m_good, _( "You feel well rested." ) );
             } else {
                 add_msg_if_player( m_warning,
                                    _( "You feel physically rested, but you haven't been able to catch up on your missed sleep yet." ) );
             }
-            it.set_duration( 1_turns * dice( 3, 100 ) );
+            it.set_duration( 0_seconds );
         }
 
         // TODO: Move this to update_needs when NPCs can mutate
@@ -1231,8 +1227,8 @@ void player::hardcoded_effects( effect &it )
             }
         } else {
             if( dur == 1_turns ) {
-                if( g->u.has_alarm_clock() ) {
-                    sounds::sound( g->u.pos(), 16, sounds::sound_t::alarm, _( "beep-beep-beep!" ), false, "tool",
+                if( is_avatar() && has_alarm_clock() ) {
+                    sounds::sound( pos(), 16, sounds::sound_t::alarm, _( "beep-beep-beep!" ), false, "tool",
                                    "alarm_clock" );
                     const std::string alarm = _( "Your alarm is going off." );
                     g->cancel_activity_or_ignore_query( distraction_type::noise, alarm );
