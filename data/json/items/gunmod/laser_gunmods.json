@@ -88,5 +88,6 @@
     "mod_targets": [ "pistol", "rifle" ],
     "range_modifier": 5,
     "damage_modifier": 10,
-    "ups_charges_multiplier": 2.0  }
+    "ups_charges_multiplier": 2.0
+  }
 ]

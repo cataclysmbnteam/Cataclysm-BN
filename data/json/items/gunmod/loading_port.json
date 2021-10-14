@@ -16,5 +16,6 @@
     "location": "loading port",
     "mod_targets": [ "pistol", "shotgun" ],
     "acceptable_ammo": [ "shot" ],
-    "magazine_adaptor": [ [ "shot", [ "shot_speedloader6", "shot_speedloader8" ] ] ]  }
+    "magazine_adaptor": [ [ "shot", [ "shot_speedloader6", "shot_speedloader8" ] ] ]
+  }
 ]
