@@ -10,6 +10,7 @@
     "price_postapoc": 50,
     "material": [ "paper" ],
     "bashing": 5,
+    "intelligence": 6,
     "symbol": "?",
     "looks_like": "story_book",
     "color": "light_cyan",
@@ -27,6 +28,7 @@
     "volume": "200 ml",
     "price": 300,
     "bashing": 1,
+    "intelligence": 4,
     "time": "15 m",
     "fun": 1
   },
@@ -39,6 +41,7 @@
     "price": 550,
     "color": "dark_gray",
     "time": "40 m",
+    "intelligence": 7,
     "fun": 1,
     "flags": [ "INSPIRATIONAL" ]
   },
