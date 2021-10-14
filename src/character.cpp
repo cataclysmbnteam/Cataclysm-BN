@@ -4991,7 +4991,7 @@ void Character::check_needs_extremes()
         }
         // else you pass out for 20 hours, guaranteed
 
-        // Microsleeps are slightly worse if you're sleep deprived, but not by much. (chance: 1 in (75 + per_cur) at lethal sleep deprivation)
+        // Microsleeps are slightly worse if you're sleep deprived, but not by much. (chance: 1 in (75 + per_cur) at minor sleep deprivation)
         // Note: these can coexist with fatigue-related microsleeps
         /** @EFFECT_PER slightly decreases occurrence of short naps when sleep deprived */
         if( one_in( static_cast<int>( ( 1.0f - sleep_deprivation_pct ) * 75 + get_per() ) ) ) {
