@@ -251,8 +251,9 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
 {
     const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( p ) ) );
     const bool sheltered = g->is_sheltered( p );
-    const int winddirection = g->weather.winddirection;
-    const int windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, p, winddirection,
+    const weather_manager &weather = get_weather();
+    const int winddirection = weather.winddirection;
+    const int windpower = get_local_windpower( weather.windspeed, cur_om_ter, p, winddirection,
                           sheltered );
 
     const int current_intensity = cur.get_field_intensity();

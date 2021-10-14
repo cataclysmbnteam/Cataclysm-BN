@@ -495,7 +495,7 @@ class Character : public Creature, public visitable<Character>
         /** Returns if the player has hibernation mutation and is asleep and well fed */
         bool is_hibernating() const;
         /** Maintains body temperature */
-        void update_bodytemp( const map &m, weather_manager &weather );
+        void update_bodytemp( const map &m, const weather_manager &weather );
 
         /** Equalizes heat between body parts */
         void temp_equalizer( const bodypart_id &bp1, const bodypart_id &bp2 );
@@ -1120,6 +1120,7 @@ class Character : public Creature, public visitable<Character>
         bool has_power() const;
         bool has_max_power() const;
         bool enough_power_for( const bionic_id &bid ) const;
+        void conduct_blood_analysis() const;
         // --------------- Generic Item Stuff ---------------
 
         struct has_mission_item_filter {

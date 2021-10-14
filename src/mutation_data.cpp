@@ -322,7 +322,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         bodytemp_max = bodytemp_array.get_int( 1 );
         if( bodytemp_max < bodytemp_min ) {
             std::swap( bodytemp_min, bodytemp_max );
-            debugmsg( _( "First temperature modifier can't be higher than the second" ) );
+            jo.throw_error( _( "First temperature modifier can't be higher than the second" ),
+                            "bodytemp_modifiers" );
         }
     }
 

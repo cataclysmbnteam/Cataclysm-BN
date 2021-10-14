@@ -2130,6 +2130,15 @@ int iuse::directional_antenna( player *p, item *it, bool, const tripoint & )
     auto radios = p->items_with( []( const item & it ) {
         return it.typeId() == itype_radio_on;
     } );
+    // If we don't wield the radio, also check on the ground
+    if( radios.empty() ) {
+        map_stack items = get_map().i_at( p->pos() );
+        for( item &an_item : items ) {
+            if( an_item.typeId() == itype_radio_on ) {
+                radios.push_back( &an_item );
+            }
+        }
+    }
     if( radios.empty() ) {
         add_msg( m_info, _( "Must have an active radio to check for signal direction." ) );
         return 0;
@@ -7379,9 +7388,8 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
         } else {
             photo_text += _( "It is day. " );
         }
-
-        const weather_datum w_data = weather_data( g->weather.weather );
-        photo_text += string_format( _( "The weather is %s." ), colorize( w_data.name, w_data.color ) );
+        photo_text += string_format( _( "The weather is %s." ), colorize( get_weather().weather_id->name,
+                                     get_weather().weather_id->color ) );
     }
 
     for( const auto &figure : description_figures_appearance ) {
@@ -9196,10 +9204,11 @@ int iuse::hairkit( player *p, item *it, bool, const tripoint & )
 
 int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
 {
-    const w_point weatherPoint = *g->weather.weather_precise;
+    const weather_manager &weather = get_weather();
+    const w_point &weatherPoint = get_weather().get_precise();
 
     /* Possibly used twice. Worth spending the time to precalculate. */
-    const auto player_local_temp = g->weather.get_temperature( p->pos() );
+    const auto player_local_temp = weather.get_temperature( p->pos() );
 
     if( it->typeId() == itype_weather_reader ) {
         p->add_msg_if_player( m_neutral, _( "The %s's monitor slowly outputs the data…" ),
@@ -9215,7 +9224,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         }
         // TODO: Don't output air temp if we aren't near air
         if( g->m.has_flag( TFLAG_SWIMMABLE, p->pos() ) ) {
-            const double water_temp = g->weather.get_cur_weather_gen().get_water_temperature( p->pos(),
+            const double water_temp = weather.get_cur_weather_gen().get_water_temperature( p->pos(),
                                       calendar::turn, g->get_seed() );
             p->add_msg_if_player( m_neutral, _( "Water temperature: %s." ),
                                   print_temperature( water_temp ) );
@@ -9225,13 +9234,13 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         if( it->typeId() == itype_hygrometer ) {
             p->add_msg_if_player(
                 m_neutral, _( "The %1$s reads %2$s." ), it->tname(),
-                print_humidity( get_local_humidity( weatherPoint.humidity, g->weather.weather,
-                                                    g->is_sheltered( g->u.pos() ) ) ) );
+                print_humidity( get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
+                                                    g->is_sheltered( p->pos() ) ) ) );
         } else {
             p->add_msg_if_player(
                 m_neutral, _( "Relative Humidity: %s." ),
-                print_humidity( get_local_humidity( weatherPoint.humidity, g->weather.weather,
-                                                    g->is_sheltered( g->u.pos() ) ) ) );
+                print_humidity( get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
+                                                    g->is_sheltered( p->pos() ) ) ) );
         }
     }
     if( it->has_flag( "BAROMETER" ) ) {
@@ -9252,8 +9261,8 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
         /* windpower defined in internal velocity units (=.01 mph) */
-        const double windpower = 100 * get_local_windpower( g->weather.windspeed + vehwindspeed, cur_om_ter,
-                                 p->pos(), g->weather.winddirection, g->is_sheltered( p->pos() ) );
+        const double windpower = 100 * get_local_windpower( weather.windspeed + vehwindspeed, cur_om_ter,
+                                 p->pos(), weather.winddirection, g->is_sheltered( p->pos() ) );
 
         p->add_msg_if_player( m_neutral, _( "Wind Speed: %.1f %s." ),
                               convert_velocity( windpower, VU_WIND ),
@@ -9263,7 +9272,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
             print_temperature(
                 get_local_windchill( weatherPoint.temperature, weatherPoint.humidity, windpower / 100 ) +
                 player_local_temp ) );
-        std::string dirstring = get_dirstring( g->weather.winddirection );
+        std::string dirstring = get_dirstring( weather.winddirection );
         p->add_msg_if_player( m_neutral, _( "Wind Direction: From the %s." ), dirstring );
     }
 

@@ -126,6 +126,13 @@
     "sort_rank": 5
   },
   {
+    "id": "battery",
+    "type": "ITEM_CATEGORY",
+    "name": { "str": "BATTERIES" },
+    "zone": "LOOT_BATTERY",
+    "sort_rank": 6
+  },
+  {
     "id": "spare_parts",
     "type": "ITEM_CATEGORY",
     "name": { "str": "SPARE PARTS" },
@@ -145,6 +152,13 @@
     "name": { "str": "ARTIFACTS" },
     "zone": "LOOT_ARTIFACTS",
     "sort_rank": 10
+  },
+  {
+    "id": "maps",
+    "type": "ITEM_CATEGORY",
+    "name": { "str": "MAPS" },
+    "zone": "LOOT_MAP",
+    "sort_rank": 21
   },
   {
     "id": "ITEMS_WORN",

@@ -3372,5 +3372,25 @@
     "volume": "100 ml",
     "//": "Bulk density is around 0.5 g/mL (because it's a powder, the actual density of 1.12 g/mL is not useful)",
     "weight": "1 g"
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "id": "ruined_chunks",
+    "//": "This item should not get any use whatsoever, it is merely conservation of mass and an attractor for carrion.",
+    "symbol": "¨",
+    "name": { "str_sp": "butchery refuse" },
+    "charges": 15,
+    "volume": "2500 ml",
+    "weight": "250 g",
+    "color": "black",
+    "looks_like": "feces_manure",
+    "description": "Eugh.  This is a mess of dirt, excreta, connective tissue, and bits of matter like hair and claws, leftover from the butchering process.  Eating it isn't even worth thinking about, but disposing of it might be a concern as it could attract vermin.",
+    "material": [ "flesh" ],
+    "spoils_in": "8 hours",
+    "healthy": -25,
+    "fun": -25,
+    "use_action": "POISON",
+    "vitamins": [  ]
   }
 ]

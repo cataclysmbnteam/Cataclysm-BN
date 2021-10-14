@@ -84,6 +84,12 @@
     "description": "Destination for drugs and other medical items."
   },
   {
+    "id": "LOOT_BATTERY",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Battery",
+    "description": "Destination for batteries."
+  },
+  {
     "id": "LOOT_BOOKS",
     "type": "LOOT_ZONE",
     "name": "Loot: Books",
@@ -154,6 +160,12 @@
     "type": "LOOT_ZONE",
     "name": "Loot: Corpses",
     "description": "Destination for corpses"
+  },
+  {
+    "id": "LOOT_MAP",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Maps",
+    "description": "Destination for maps."
   },
   {
     "id": "LOOT_WOOD",
