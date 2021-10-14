@@ -1904,6 +1904,7 @@ static void draw_weapon_classic_alt( const avatar &u, const catacurses::window &
 
     if( !style.empty() ) {
         const auto style_color = u.is_armed() ? c_red : c_blue;
+        // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
         mvwprintz( w, point( 0, 1 ), c_light_gray, _( "Style :" ) );
         mvwprintz( w, point( 8, 1 ), style_color, style );
     }
