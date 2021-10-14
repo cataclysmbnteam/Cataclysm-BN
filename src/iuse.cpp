@@ -2332,14 +2332,14 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
     const pry_result *pry = nullptr;
 
     const cata::optional<tripoint> pnt_ = ( pos != p->pos() ) ? pos : choose_adjacent_highlight(
-            _( "Pry where?" ), _( "There is nothing to pry nearby." ), pnt, false );
+            _( "Pry where?" ), _( "There is nothing to pry nearby." ), pos, false );
     if( !pnt_ ) {
         return 0;
     }
     const tripoint &pnt = *pnt_;
-    const ter_id type = g->m.ter( pnt );
+    const ter_id ter = g->m.ter( pnt );
     const furn_id furn = g->m.furn( pnt );
-    if( !f( pnt ) ) {
+    if( !pos( pnt ) ) {
         if( pnt == p->pos() ) {
             p->add_msg_if_player( m_info, _( "You attempt to pry open your wallet "
                                              "but alas.  You are just too miserly." ) );
@@ -2349,18 +2349,16 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
 
-    if( pos->pry.new_ter_type || pos->pry.new_furn_type ) {
+    if( ter->pry.new_ter_type || furn->pry.new_furn_type ) {
         if( pos == g->u.pos() ) {
             return false;
         }
-        const ter_id ter = g->m.ter(pos);
-        const furn_id furn = g->m.furn(pos);
 
         const bool is_allowed = false;
-        if( has_furn( pos ) && furn.obj().pry.pry_quality != -1 ) {
+        if( furn.obj().pry.pry_quality != -1 ) {
             pry = &ter.obj().pry;
             pry_furn = true;
-            return is_allowed;
+            return 0;
         } else if( ter.obj().pry.pry_quality != -1 ) {
             pry = &ter.obj().pry;
             return 0;
