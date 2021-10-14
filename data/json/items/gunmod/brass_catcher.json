@@ -12,7 +12,5 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "brass catcher",
-    "mod_targets": [ "shotgun", "smg", "rifle", "pistol", "launcher" ],
-    "min_skills": [ [ "weapon", 1 ] ]
-  }
+    "mod_targets": [ "shotgun", "smg", "rifle", "pistol", "launcher" ]  }
 ]
