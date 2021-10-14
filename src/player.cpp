@@ -4212,14 +4212,6 @@ std::string player::weapname() const
         } );
 
         if( base || aux ) {
-            if( base ) {
-                if( weapon.magazine_integral() ) {
-                    str += "/" + std::to_string( weapon.ammo_capacity() );
-                }
-            } else {
-                str += "---";
-            }
-
             for( auto e : mods ) {
                 if( e->is_gun() && e->ammo_capacity() > 0 && !e->has_flag( "RELOAD_AND_SHOOT" ) ) {
                     str += " (" + std::to_string( e->ammo_remaining() );
