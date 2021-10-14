@@ -987,7 +987,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         }
     } else if( topic == "TALK_HOW_MUCH_FURTHER" ) {
         // TODO: this ignores the z-component
-        const tripoint player_pos = p->global_omt_location();
+        const tripoint_abs_omt player_pos = p->global_omt_location();
         int dist = rl_dist( player_pos, p->goal );
         std::string response;
         dist *= 100;

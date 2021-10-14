@@ -3897,7 +3897,8 @@ bool basecamp::distribute_food()
     const tripoint &abspos = get_dumping_spot();
     const std::unordered_set<tripoint> &z_food = mgr.get_near( zone_type_camp_food, abspos, 60 );
 
-    tripoint p_litter = omt_to_sm_copy( omt_pos ) + point( -7, 0 );
+    // FIXME: is this correct?
+    tripoint p_litter = project_to<coords::sm>( omt_pos ).raw() + point( -7, 0 );
 
     bool has_food = false;
     for( const tripoint &p_food_stock_abs : z_food ) {

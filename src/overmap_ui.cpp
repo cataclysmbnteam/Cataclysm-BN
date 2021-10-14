@@ -94,8 +94,9 @@ namespace overmap_ui
 // persistent data for distribution grid debug drawing
 struct grids_draw_data {
     public:
-        cata::optional<char> get_active( const tripoint &omp ) {
-            uintptr_t id = get_distribution_grid_tracker().debug_grid_id( omp );
+        cata::optional<char> get_active( const tripoint_abs_omt &omp ) {
+            // TODO: fix point types
+            uintptr_t id = get_distribution_grid_tracker().debug_grid_id( omp.raw() );
             if( id == 0 ) {
                 return cata::nullopt;
             }
@@ -119,12 +120,12 @@ struct grids_draw_data {
             return c;
         }
 
-        cata::optional<char> get_inactive( const tripoint &omp ) {
-            std::set<tripoint> grid = overmap_buffer.electric_grid_at( omp );
+        cata::optional<char> get_inactive( const tripoint_abs_omt &omp ) {
+            std::set<tripoint_abs_omt> grid = overmap_buffer.electric_grid_at( omp );
             if( grid.size() <= 1 ) {
                 return cata::nullopt;
             }
-            std::vector<tripoint> sorted( grid.begin(), grid.end() );
+            std::vector<tripoint_abs_omt> sorted( grid.begin(), grid.end() );
             std::sort( sorted.begin(), sorted.end() );
 
             std::size_t id = cata::range_hash{}( sorted );
@@ -142,9 +143,9 @@ struct grids_draw_data {
                     if( it.second.second != c ) {
                         continue;
                     }
-                    for( const tripoint &p : it.second.first ) {
-                        tripoint delta = p - omp;
-                        if( abs( delta.x ) < 5 && abs( delta.y ) < 5 && abs( delta.z ) < 5 ) {
+                    for( const tripoint_abs_omt &p : it.second.first ) {
+                        tripoint_rel_omt delta = p - omp;
+                        if( abs( delta.x() ) < 5 && abs( delta.y() ) < 5 && abs( delta.z() ) < 5 ) {
                             return false;
                         }
                     }
@@ -171,7 +172,7 @@ struct grids_draw_data {
         }
 
         std::unordered_map<std::uintptr_t, char> list_active;
-        std::unordered_map<std::size_t, std::pair<std::vector<tripoint>, char>> list_inactive;
+        std::unordered_map<std::size_t, std::pair<std::vector<tripoint_abs_omt>, char>> list_inactive;
 };
 
 // {note symbol, note color, offset to text}
@@ -582,7 +583,7 @@ static bool sortfunc_symbol( const note_cached &a, const note_cached &b )
 
 static tripoint_abs_omt show_notes_manager( const tripoint_abs_omt &origin )
 {
-    tripoint_abs_omt result = tripoint_abs_omt(tripoint_min);
+    tripoint_abs_omt result = tripoint_abs_omt( tripoint_min );
 
     bool ask_when_deleting = true;
     uilist nmenu;
@@ -658,12 +659,12 @@ static tripoint_abs_omt show_notes_manager( const tripoint_abs_omt &origin )
             if( note.p == selected ) {
                 entry_to_select = i;
             }
-            tripoint_abs_omt tp_omt( note.p );
-            const std::string direction_str = direction_name_short( direction_from( p_player, tp_omt ) );
-            const tripoint sm_pos = omt_to_sm_copy( tp_omt );
-            point p_omt = tp_omt.xy();
-            const point p_om = omt_to_om_remain( p_omt );
-            const std::string location_desc = overmap_buffer.get_description_at( sm_pos );
+            const std::string direction_str = direction_name_short( direction_from( p_player, note.p ) );
+            point_abs_om abs_om;
+            tripoint_om_omt rel_omt;
+            std::tie( abs_om, rel_omt ) = project_remain<coords::om>( note.p );
+            const std::string location_desc = overmap_buffer.get_description_at(
+                                                  project_to<coords::sm>( note.p ) );
 
             //~ "Dangerous" indicator for overmap note in note manager.
             //~ Must occupy exactly 2 columns, and not resemble a number or a digit.
@@ -671,8 +672,8 @@ static tripoint_abs_omt show_notes_manager( const tripoint_abs_omt &origin )
             //~ or use some special symbol instead (e.g. exclamation mark)
             //~ if you're having trouble making it look nice in your language.
             const char *danger_abbr = pgettext( "danger indicator", " D" );
-            const bool is_dangerous = overmap_buffer.is_marked_dangerous( tp_omt );
-            cata::optional<int> this_dr = overmap_buffer.has_note_with_danger_radius( tp_omt );
+            const bool is_dangerous = overmap_buffer.is_marked_dangerous( note.p );
+            cata::optional<int> this_dr = overmap_buffer.has_note_with_danger_radius( note.p );
             std::string dr_short;
             if( this_dr ) {
                 if( *this_dr == 0 ) {
@@ -697,7 +698,7 @@ static tripoint_abs_omt show_notes_manager( const tripoint_abs_omt &origin )
                                      "[%s] %s", colorize( note.symbol, note.col ), note.text ),
                                  string_format(
                                      _( "<color_red>LEVEL %i, %d'%d, %d'%d</color>: %s (Distance: <color_white>%d %s</color>) <color_red>%s</color>" ),
-                                     tp_omt.z, p_om.x, tp_omt.x, p_om.y, tp_omt.y, location_desc, note.dist_from_pl,
+                                     rel_omt.z(), abs_om.x(), rel_omt.x(), abs_om.y(), rel_omt.y(), location_desc, note.dist_from_pl,
                                      trim_whitespaces( direction_str ), is_dangerous ? _( "DANGEROUS AREA!" ) : "" ) );
             nmenu.entries[i].ctxt = string_format(
                                         "%s<color_white>% 4d %s</color>", dr_short, note.dist_from_pl, direction_str
@@ -730,7 +731,7 @@ static tripoint_abs_omt show_notes_manager( const tripoint_abs_omt &origin )
                 // Select next visible note (if one exists) or the last visible
                 // note if removed one was the last.
                 bool take_next = false;
-                selected = tripoint_min;
+                selected = tripoint_abs_omt( tripoint_min );
                 for( const int i : nmenu.get_filtered() ) {
                     if( nmenu.selected == i ) {
                         take_next = true;
@@ -752,8 +753,10 @@ static tripoint_abs_omt show_notes_manager( const tripoint_abs_omt &origin )
     return result;
 }
 
-void draw( const catacurses::window &w, const catacurses::window &wbar, const tripoint_abs_omt &center,
-           const tripoint_abs_omt &orig, bool blink, bool show_explored, bool fast_scroll, input_context *inp_ctxt,
+void draw( const catacurses::window &w, const catacurses::window &wbar,
+           const tripoint_abs_omt &center,
+           const tripoint_abs_omt &orig, bool blink, bool show_explored, bool fast_scroll,
+           input_context *inp_ctxt,
            const draw_data_t &data, grids_draw_data &grids_data )
 {
     const int om_map_width  = OVERMAP_WINDOW_WIDTH;
@@ -1547,8 +1550,8 @@ static bool search( const ui_adaptor &om_ui, tripoint_abs_omt &curs, const tripo
 
         mvwprintz( w_search, point( 1, 3 ), c_light_blue, _( "Direction:" ) );
         mvwprintz( w_search, point( align_width, 3 ), c_light_red, "%d %s",
-                   static_cast<int>( trig_dist( orig, tripoint_abs_omt( locations[i], orig.z ) ) ),
-                   direction_name_short( direction_from( orig, tripoint_abs_omt( locations[i], orig.z ) ) ) );
+                   static_cast<int>( trig_dist( orig, tripoint_abs_omt( locations[i], orig.z() ) ) ),
+                   direction_name_short( direction_from( orig, tripoint_abs_omt( locations[i], orig.z() ) ) ) );
 
         if( locations.size() > 1 ) {
             fold_and_print( w_search, point( 1, 6 ), search_width, c_white,
@@ -1850,7 +1853,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
             }
         } else if( action == "LIST_NOTES" ) {
             const tripoint_abs_omt p = show_notes_manager( curs );
-            if( p != tripoint_abs_omt(tripoint_min) ) {
+            if( p != tripoint_abs_omt( tripoint_min ) ) {
                 curs = p;
             }
         } else if( action == "CHOOSE_DESTINATION" ) {

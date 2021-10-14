@@ -371,7 +371,7 @@ void iexamine::translocator( player &, const tripoint &examp )
     // TODO: fix point types
     const tripoint_abs_omt omt_loc( ms_to_omt_copy( get_map().getabs( examp ) ) );
     avatar &player_character = get_avatar();
-    const bool activated = player_character.translocators.knows_translocator( omt_loc );
+    const bool activated = player_character.translocators->knows_translocator( omt_loc );
     if( !activated ) {
         g->u.translocators->activate_teleporter( omt_loc, examp );
         add_msg( m_info, _( "Translocator gate active." ) );

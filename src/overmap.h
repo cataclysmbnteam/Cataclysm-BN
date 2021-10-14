@@ -85,8 +85,8 @@ struct enum_traits<lab_type> {
 
 struct lab {
     lab_type type;
-    std::set<tripoint> tiles;
-    std::set<tripoint> finales;
+    std::set<tripoint_om_omt> tiles;
+    std::set<tripoint_om_omt> finales;
 };
 
 struct om_note {
@@ -351,10 +351,10 @@ class overmap
 
     private:
         /** Mapping of overmap coordinate to bits representing NESW+up+down connectivity. */
-        std::map<tripoint, std::bitset<six_cardinal_directions.size()>> electric_grid_connections;
+        std::map<tripoint_om_omt, std::bitset<six_cardinal_directions.size()>> electric_grid_connections;
     public:
 
-        void set_electric_grid_connections( const tripoint &p,
+        void set_electric_grid_connections( const tripoint_om_omt &p,
                                             const std::bitset<six_cardinal_directions.size()> &connections );
 
         // TODO: make private
@@ -464,7 +464,8 @@ class overmap
 
         void build_city_street( const overmap_connection &connection, const point_om_omt &p, int cs,
                                 om_direction::type dir, const city &town, int block_width = 2 );
-        bool build_lab( const tripoint_om_omt &p, lab &l, int size, std::vector<point_om_omt> &lab_train_points,
+        bool build_lab( const tripoint_om_omt &p, lab &l, int size,
+                        std::vector<point_om_omt> &lab_train_points,
                         const std::string &prefix, int train_odds );
         void build_anthill( const tripoint_om_omt &p, int s );
         void build_tunnel( const tripoint_om_omt &p, int s, om_direction::type dir );

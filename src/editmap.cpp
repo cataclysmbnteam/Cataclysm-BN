@@ -1961,7 +1961,7 @@ vehicle *editmap::mapgen_veh_query( const tripoint_abs_omt &omt_tgt )
 
 bool editmap::mapgen_veh_destroy( const tripoint_abs_omt &omt_tgt, vehicle *car_target )
 {
-    map& here = get_map();
+    map &here = get_map();
     tinymap target_bay;
     target_bay.load( project_to<coords::scale::submap>( omt_tgt ), false );
     for( int x = 0; x < 2; x++ ) {

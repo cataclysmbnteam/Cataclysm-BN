@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "coordinates.h"
 #include "io_tags.h"
 #include "monster.h"
 #include "point.h"

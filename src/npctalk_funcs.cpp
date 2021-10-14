@@ -302,7 +302,7 @@ void talk_function::goto_location( npc &p )
     std::vector<basecamp *> camps;
     tripoint_abs_omt destination;
     Character &player_character = get_player_character();
-    for( const auto& elem : player_character.camps ) {
+    for( const auto &elem : player_character.camps ) {
         if( elem == p.global_omt_location() ) {
             continue;
         }

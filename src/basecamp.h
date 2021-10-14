@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "craft_command.h"
+#include "coordinates.h"
 #include "inventory.h"
 #include "memory_fast.h"
 #include "optional.h"

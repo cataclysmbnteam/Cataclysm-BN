@@ -6,6 +6,8 @@
 #include <vector>
 #include <utility>
 
+#include "coordinates.h"
+
 namespace catacurses
 {
 class window;

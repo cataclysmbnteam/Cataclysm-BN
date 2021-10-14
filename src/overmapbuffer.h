@@ -564,7 +564,7 @@ class overmapbuffer
          * The location is in absolute submap coordinates, the radius is in the same system.
          * The overmaps are returned sorted by distance from the provided location (closest first).
          */
-        std::vector<overmap *> get_overmaps_near( const point &p, int radius );
+        std::vector<overmap *> get_overmaps_near( const point_abs_sm &p, int radius );
         std::vector<overmap *> get_overmaps_near( const tripoint_abs_sm &location, int radius );
 
     public:
@@ -573,7 +573,7 @@ class overmapbuffer
          * Will always return a non-empty set.
          * @param p Overmap coordinates of the point in the grid
          */
-        std::set<tripoint> electric_grid_at( const tripoint &p );
+        std::set<tripoint_abs_omt> electric_grid_at( const tripoint_abs_omt &p );
 };
 
 extern overmapbuffer overmap_buffer;

@@ -100,8 +100,10 @@ struct draw_data_t {
 };
 
 struct grids_draw_data;
-void draw( const catacurses::window &w, const catacurses::window &wbar, const tripoint_abs_omt &center,
-           const tripoint_abs_omt &orig, bool blink, bool show_explored, bool fast_scroll, input_context *inp_ctxt,
+void draw( const catacurses::window &w, const catacurses::window &wbar,
+           const tripoint_abs_omt &center,
+           const tripoint_abs_omt &orig, bool blink, bool show_explored, bool fast_scroll,
+           input_context *inp_ctxt,
            const draw_data_t &data, grids_draw_data &grids_data );
 void create_note( const tripoint_abs_omt &curs );
 } // namespace overmap_ui

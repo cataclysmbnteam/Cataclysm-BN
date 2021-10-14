@@ -525,7 +525,7 @@ void overmap::unserialize( std::istream &fin, const std::string &file_path )
             jsin.start_array();
             while( !jsin.end_array() ) {
                 jsin.start_array();
-                tripoint origin;
+                tripoint_om_omt origin;
                 jsin.read( origin );
                 auto &conn = electric_grid_connections[origin];
                 while( !jsin.end_array() ) {

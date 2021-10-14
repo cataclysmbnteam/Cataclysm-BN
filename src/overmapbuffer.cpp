@@ -805,7 +805,7 @@ bool overmapbuffer::reveal_route( const tripoint_abs_omt &source, const tripoint
     // Maximal radius of search (in overmaps)
     static const int RADIUS = 4;
     // half-size of the area to search in
-    static const point O( RADIUS * OMAPX, RADIUS * OMAPY );
+    static const point_rel_omt O( RADIUS * OMAPX, RADIUS * OMAPY );
 
     if( source == overmap::invalid_tripoint || dest == overmap::invalid_tripoint ) {
         return false;
@@ -1481,14 +1481,13 @@ overmapbuffer::t_notes_vector overmapbuffer::get_notes( int z, const std::string
     t_notes_vector result;
     for( auto &it : overmaps ) {
         const overmap &om = *it.second;
-        const point offset( om.pos().x * OMAPX, om.pos().y * OMAPY );
         const auto &all_om_notes = om.all_notes( z );
         for( const om_note &note : all_om_notes ) {
             if( pattern != nullptr && lcmatch( note.text, *pattern ) ) {
                 continue;
             }
             result.push_back( t_point_with_note(
-                                  offset + note.p,
+                                  project_combine( it.first, note.p ),
                                   note.text
                               ) );
         }
@@ -1655,21 +1654,21 @@ bool overmapbuffer::place_special( const overmap_special_id &special_id,
     return false;
 }
 
-std::set<tripoint> overmapbuffer::electric_grid_at( const tripoint &p )
+std::set<tripoint_abs_omt> overmapbuffer::electric_grid_at( const tripoint_abs_omt &p )
 {
-    std::set<tripoint> result;
-    std::queue<tripoint> open;
+    std::set<tripoint_abs_omt> result;
+    std::queue<tripoint_abs_omt> open;
     open.emplace( p );
 
     while( !open.empty() ) {
-        const tripoint elem = open.front();
+        const tripoint_abs_omt elem = open.front();
         open.pop();
         result.emplace( elem );
         overmap_with_local_coords omc = get_om_global( elem );
         const auto &connections_bitset = omc.om->electric_grid_connections[omc.local];
         for( size_t i = 0; i < six_cardinal_directions.size(); i++ ) {
             if( connections_bitset.test( i ) ) {
-                tripoint other = elem + six_cardinal_directions[i];
+                tripoint_abs_omt other = elem + six_cardinal_directions[i];
                 if( result.count( other ) == 0 ) {
                     open.emplace( other );
                 }

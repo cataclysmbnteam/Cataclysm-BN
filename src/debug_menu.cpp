@@ -443,7 +443,7 @@ void teleport_overmap( bool specific_coordinates )
     g->place_player_overmap( where );
 
     const tripoint_abs_om new_pos =
-        project_to<coords::scale::overmap>( player_character.global_omt_location() );
+        project_to<coords::scale::overmap>( g->u.global_omt_location() );
     add_msg( _( "You teleport to overmap %s." ), new_pos.to_string() );
 }
 

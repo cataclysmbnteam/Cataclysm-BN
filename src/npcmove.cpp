@@ -388,7 +388,8 @@ void npc::assess_danger()
         }
     }
 
-    const auto ok_by_rules = [max_range, def_radius, this, &player_character]( const Creature & c, int dist,
+    const auto ok_by_rules = [max_range, def_radius, this, &player_character]( const Creature & c,
+                             int dist,
     int scaled_dist ) {
         // If we're forbidden to attack, no need to check engagement rules
         if( rules.has_flag( ally_rule::forbid_engage ) ) {
