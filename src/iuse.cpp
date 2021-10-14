@@ -2343,27 +2343,25 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
         if( pnt == p->pos() ) {
             p->add_msg_if_player( m_info, _( "You attempt to pry open your wallet "
                                              "but alas.  You are just too miserly." ) );
+        } if (ter->pry.new_ter_type || furn->pry.new_furn_type) {
+            if (pos == g->u.pos()) {
+                return false;
+            }
+
+            const bool is_allowed = false;
+            if (furn.obj().pry.pry_quality != -1) {
+                pry = &ter.obj().pry;
+                pry_furn = true;
+                return 0;
+            }
+            else if (ter.obj().pry.pry_quality != -1) {
+                pry = &ter.obj().pry;
+                return 0;
+            }
         } else {
-            p->add_msg_if_player( m_info, _( "You can't pry that." ) );
+            p->add_msg_if_player(m_info, _("You can't pry that."));
         }
-        return 0;
     }
-
-    if( ter->pry.new_ter_type || furn->pry.new_furn_type ) {
-        if( pos == g->u.pos() ) {
-            return false;
-        }
-
-        const bool is_allowed = false;
-        if( furn.obj().pry.pry_quality != -1 ) {
-            pry = &ter.obj().pry;
-            pry_furn = true;
-            return 0;
-        } else if( ter.obj().pry.pry_quality != -1 ) {
-            pry = &ter.obj().pry;
-            return 0;
-        }
-    };
 
     // Doors need PRY 2 which is on a crowbar, crates need PRY 1 which is on a crowbar
     // & a claw hammer.
