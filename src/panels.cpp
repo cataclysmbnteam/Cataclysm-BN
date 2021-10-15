@@ -1149,11 +1149,23 @@ static void draw_weightvolume_compact( const avatar &u, const catacurses::window
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point_zero, c_light_gray, _( "Weight:" ) );
     std::string weight_string = carry_weight_string( u );
-    mvwprintz( w, point( 8, 0 ), c_light_gray, weight_string );
+    if( u.weight_carried() > u.weight_capacity() ) {
+        mvwprintz( w, point( 8, 0 ), c_red, weight_string );
+    } else if( u.weight_carried() > u.weight_capacity() * 0.75 ) {
+        mvwprintz( w, point( 8, 0 ), c_yellow, weight_string );
+    } else {
+        mvwprintz( w, point( 8, 0 ), c_light_gray, weight_string );
+    }
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 0, 1 ), c_light_gray, _( "Volume:" ) );
     std::string volume_string = carry_volume_string( u );
-    mvwprintz( w, point( 8, 1 ), c_light_gray, volume_string );
+    if( u.volume_carried() > u.volume_capacity() * 0.85 ) {
+        mvwprintz( w, point( 8, 1 ), c_red, volume_string );
+    } else if( u.volume_carried() > u.volume_capacity() * 0.65 ) {
+        mvwprintz( w, point( 8, 1 ), c_yellow, volume_string );
+    } else {
+        mvwprintz( w, point( 8, 1 ), c_light_gray, volume_string );
+    }
 
     wnoutrefresh( w );
 }
@@ -1164,11 +1176,23 @@ static void draw_weightvolume_narrow( const avatar &u, const catacurses::window 
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Wgt  :" ) );
     std::string weight_string = carry_weight_string( u );
-    mvwprintz( w, point( 8, 0 ), c_light_gray, weight_string );
+    if( u.weight_carried() > u.weight_capacity() ) {
+        mvwprintz( w, point( 8, 0 ), c_red, weight_string );
+    } else if( u.weight_carried() > u.weight_capacity() * 0.75 ) {
+        mvwprintz( w, point( 8, 0 ), c_yellow, weight_string );
+    } else {
+        mvwprintz( w, point( 8, 0 ), c_light_gray, weight_string );
+    }
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Vol  :" ) );
     std::string volume_string = carry_volume_string( u );
-    mvwprintz( w, point( 8, 1 ), c_light_gray, volume_string );
+    if( u.volume_carried() > u.volume_capacity() * 0.85 ) {
+        mvwprintz( w, point( 8, 1 ), c_red, volume_string );
+    } else if( u.volume_carried() > u.volume_capacity() * 0.65 ) {
+        mvwprintz( w, point( 8, 1 ), c_yellow, volume_string );
+    } else {
+        mvwprintz( w, point( 8, 1 ), c_light_gray, volume_string );
+    }
 
     wnoutrefresh( w );
 }
@@ -1470,11 +1494,23 @@ static void draw_weightvolume_labels( const avatar &u, const catacurses::window 
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Wgt  :" ) );
     std::string weight_string = carry_weight_string( u );
-    mvwprintz( w, point( 8, 0 ), c_light_gray, weight_string );
+    if( u.weight_carried() > u.weight_capacity() ) {
+        mvwprintz( w, point( 8, 0 ), c_red, weight_string );
+    } else if( u.weight_carried() > u.weight_capacity() * 0.75 ) {
+        mvwprintz( w, point( 8, 0 ), c_yellow, weight_string );
+    } else {
+        mvwprintz( w, point( 8, 0 ), c_light_gray, weight_string );
+    }
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 23, 0 ), c_light_gray, _( "Volume:" ) );
     std::string volume_string = carry_volume_string( u );
-    mvwprintz( w, point( 30, 0 ), c_light_gray, volume_string );
+    if( u.volume_carried() > u.volume_capacity() * 0.85 ) {
+        mvwprintz( w, point( 30, 0 ), c_red, volume_string );
+    } else if( u.volume_carried() > u.volume_capacity() * 0.65 ) {
+        mvwprintz( w, point( 30, 0 ), c_yellow, volume_string );
+    } else {
+        mvwprintz( w, point( 30, 0 ), c_light_gray, volume_string );
+    }
 
     wnoutrefresh( w );
 }
@@ -1960,11 +1996,23 @@ static void draw_weightvolume_classic( const avatar &u, const catacurses::window
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point_zero, c_light_gray, _( "Weight:" ) );
     std::string weight_string = carry_weight_string( u );
-    mvwprintz( w, point( 8, 0 ), c_light_gray, weight_string );
+    if( u.weight_carried() > u.weight_capacity() ) {
+        mvwprintz( w, point( 8, 0 ), c_red, weight_string );
+    } else if( u.weight_carried() > u.weight_capacity() * 0.75 ) {
+        mvwprintz( w, point( 8, 0 ), c_yellow, weight_string );
+    } else {
+        mvwprintz( w, point( 8, 0 ), c_light_gray, weight_string );
+    }
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 23, 0 ), c_light_gray, _( "Volume:" ) );
     std::string volume_string = carry_volume_string( u );
-    mvwprintz( w, point( 30, 0 ), c_light_gray, volume_string );
+    if( u.volume_carried() > u.volume_capacity() * 0.85 ) {
+        mvwprintz( w, point( 30, 0 ), c_red, volume_string );
+    } else if( u.volume_carried() > u.volume_capacity() * 0.65 ) {
+        mvwprintz( w, point( 30, 0 ), c_yellow, volume_string );
+    } else {
+        mvwprintz( w, point( 30, 0 ), c_light_gray, volume_string );
+    }
 
     wnoutrefresh( w );
 }
