@@ -4071,7 +4071,7 @@ nc_color item::color_in_inventory() const
                 ret = c_yellow;
             }
         } else {
-            ret = c_red; // Book hasn't been identified yet: red
+            ret = c_red;  // Book hasn't been identified yet: red
         }
     }
     return ret;
@@ -4387,6 +4387,11 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             tagtext += _( " (poisonous)" );
         } else if( has_flag( flag_HIDDEN_HALLU ) && g->u.get_skill_level( skill_survival ) >= 5 ) {
             tagtext += _( " (hallucinogenic)" );
+        }
+    }
+    if( is_book() ) {
+        if( !g->u.has_identified( typeId() ) ) {
+            tagtext += _( " (unread)" );
         }
     }
     if( has_flag( flag_ETHEREAL_ITEM ) ) {

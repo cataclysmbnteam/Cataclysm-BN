@@ -250,7 +250,7 @@ const weather_type_id &weather_generator::get_weather_conditions( const w_point 
         }
         current_conditions = &type;
     }
-    return *current_conditions;
+    return current_conditions->obj().id;
 }
 
 int weather_generator::get_wind_direction( const season_type season ) const
