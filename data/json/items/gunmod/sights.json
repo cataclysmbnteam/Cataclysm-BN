@@ -15,8 +15,7 @@
     "location": "sights",
     "mod_targets": [ "bow" ],
     "sight_dispersion": 10,
-    "aim_speed": 5,
-    "min_skills": [ [ "archery", 2 ] ]
+    "aim_speed": 5
   },
   {
     "id": "bow_sight_pin",
@@ -53,7 +52,6 @@
     "mod_targets": [ "bow" ],
     "sight_dispersion": 5,
     "aim_speed": 2,
-    "min_skills": [ [ "archery", 3 ] ],
     "flags": [ "ZOOM" ]
   },
   {
@@ -73,7 +71,6 @@
     "mod_targets": [ "smg", "rifle", "shotgun", "crossbow", "pistol", "launcher" ],
     "sight_dispersion": 13,
     "aim_speed": 6,
-    "min_skills": [ [ "weapon", 2 ], [ "gun", 3 ] ],
     "flags": [ "DISABLE_SIGHTS" ]
   },
   {
@@ -94,7 +91,6 @@
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
     "sight_dispersion": 30,
     "aim_speed": 6,
-    "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ],
     "flags": [ "DISABLE_SIGHTS" ]
   },
   {
@@ -113,7 +109,6 @@
     "mod_targets": [ "pistol", "smg" ],
     "sight_dispersion": 8,
     "aim_speed": 2,
-    "min_skills": [ [ "weapon", 2 ], [ "gun", 4 ] ],
     "flags": [ "DISABLE_SIGHTS" ]
   },
   {
@@ -133,7 +128,6 @@
     "mod_targets": [ "smg", "rifle", "shotgun", "pistol", "crossbow", "launcher" ],
     "sight_dispersion": 23,
     "aim_speed": 6,
-    "min_skills": [ [ "weapon", 2 ], [ "gun", 2 ] ],
     "flags": [ "DISABLE_SIGHTS" ]
   },
   {
@@ -154,7 +148,6 @@
     "install_time": "30 m",
     "sight_dispersion": 0,
     "aim_speed": 0,
-    "min_skills": [ [ "weapon", 2 ], [ "gun", 4 ] ],
     "flags": [ "DISABLE_SIGHTS", "ZOOM" ]
   },
   {
@@ -182,7 +175,6 @@
     "install_time": "30 m",
     "sight_dispersion": 8,
     "aim_speed": 2,
-    "min_skills": [ [ "weapon", 2 ], [ "gun", 4 ] ],
     "flags": [ "DISABLE_SIGHTS", "ZOOM" ]
   },
   {
@@ -223,7 +215,6 @@
     "install_time": "30 m",
     "sight_dispersion": 15,
     "aim_speed": 1,
-    "min_skills": [ [ "weapon", 2 ], [ "gun", 3 ] ],
     "flags": [ "DISABLE_SIGHTS", "ZOOM" ]
   },
   {
@@ -242,7 +233,6 @@
     "mod_targets": [ "pistol", "smg" ],
     "sight_dispersion": 20,
     "aim_speed": 1,
-    "min_skills": [ [ "weapon", 2 ], [ "gun", 3 ] ],
     "flags": [ "DISABLE_SIGHTS", "ZOOM" ]
   }
 ]
