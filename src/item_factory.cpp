@@ -367,7 +367,7 @@ void Item_factory::finalize_pre( itype &obj )
             } else if( obj.gun->skill_used == skill_id( "pistol" ) && obj.has_flag( "RELOAD_ONE" ) ) {
                 return translate_marker( "revolver" );
             } else {
-                return translate_marker( "semi-auto" );
+                return translate_marker( "semi" );
             }
         };
 
