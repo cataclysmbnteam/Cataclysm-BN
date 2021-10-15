@@ -1127,6 +1127,76 @@ static void draw_needs_compact( const avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
+static std::string carry_weight_string( const avatar &u )
+{
+    double weight_carried = round_up( convert_weight( u.weight_carried() ), 1 ); // In kg/lbs
+    double weight_capacity = round_up( convert_weight( u.weight_capacity() ), 1 );
+    return string_format( "%.1f/%.1f", weight_carried, weight_capacity );
+}
+
+static std::string carry_volume_string( const avatar &u )
+{
+    double volume_carried = round_up( convert_volume( to_milliliter( u.volume_carried() ) ),
+                                      2 );
+    double volume_capacity = round_up( convert_volume( to_milliliter( u.volume_capacity() ) ),
+                                       2 ); // In liters/cups/wolf paws or whatever burger units
+    return string_format( "%.2f/%.2f", volume_carried, volume_capacity );
+}
+
+static void draw_weightvolume_compact( const avatar &u, const catacurses::window &w )
+{
+    werase( w );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point_zero, c_light_gray, _( "Weight:" ) );
+    std::string weight_string = carry_weight_string( u );
+    if( u.weight_carried() > u.weight_capacity() ) {
+        mvwprintz( w, point( 8, 0 ), c_red, weight_string );
+    } else if( u.weight_carried() > u.weight_capacity() * 0.75 ) {
+        mvwprintz( w, point( 8, 0 ), c_yellow, weight_string );
+    } else {
+        mvwprintz( w, point( 8, 0 ), c_light_gray, weight_string );
+    }
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 0, 1 ), c_light_gray, _( "Volume:" ) );
+    std::string volume_string = carry_volume_string( u );
+    if( u.volume_carried() > u.volume_capacity() * 0.85 ) {
+        mvwprintz( w, point( 8, 1 ), c_red, volume_string );
+    } else if( u.volume_carried() > u.volume_capacity() * 0.65 ) {
+        mvwprintz( w, point( 8, 1 ), c_yellow, volume_string );
+    } else {
+        mvwprintz( w, point( 8, 1 ), c_light_gray, volume_string );
+    }
+
+    wnoutrefresh( w );
+}
+
+static void draw_weightvolume_narrow( const avatar &u, const catacurses::window &w )
+{
+    werase( w );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Wgt  :" ) );
+    std::string weight_string = carry_weight_string( u );
+    if( u.weight_carried() > u.weight_capacity() ) {
+        mvwprintz( w, point( 8, 0 ), c_red, weight_string );
+    } else if( u.weight_carried() > u.weight_capacity() * 0.75 ) {
+        mvwprintz( w, point( 8, 0 ), c_yellow, weight_string );
+    } else {
+        mvwprintz( w, point( 8, 0 ), c_light_gray, weight_string );
+    }
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Vol  :" ) );
+    std::string volume_string = carry_volume_string( u );
+    if( u.volume_carried() > u.volume_capacity() * 0.85 ) {
+        mvwprintz( w, point( 8, 1 ), c_red, volume_string );
+    } else if( u.volume_carried() > u.volume_capacity() * 0.65 ) {
+        mvwprintz( w, point( 8, 1 ), c_yellow, volume_string );
+    } else {
+        mvwprintz( w, point( 8, 1 ), c_light_gray, volume_string );
+    }
+
+    wnoutrefresh( w );
+}
+
 static void draw_limb_narrow( avatar &u, const catacurses::window &w )
 {
     werase( w );
@@ -1414,6 +1484,34 @@ static void draw_weapon_labels( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Style:" ) );
     trim_and_print( w, point( 8, 0 ), getmaxx( w ) - 8, c_light_gray, u.weapname() );
     mvwprintz( w, point( 8, 1 ), c_light_gray, "%s", u.martial_arts_data->selected_style_name( u ) );
+    wnoutrefresh( w );
+}
+
+static void draw_weightvolume_labels( const avatar &u, const catacurses::window &w )
+{
+    werase( w );
+
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Wgt  :" ) );
+    std::string weight_string = carry_weight_string( u );
+    if( u.weight_carried() > u.weight_capacity() ) {
+        mvwprintz( w, point( 8, 0 ), c_red, weight_string );
+    } else if( u.weight_carried() > u.weight_capacity() * 0.75 ) {
+        mvwprintz( w, point( 8, 0 ), c_yellow, weight_string );
+    } else {
+        mvwprintz( w, point( 8, 0 ), c_light_gray, weight_string );
+    }
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 23, 0 ), c_light_gray, _( "Volume:" ) );
+    std::string volume_string = carry_volume_string( u );
+    if( u.volume_carried() > u.volume_capacity() * 0.85 ) {
+        mvwprintz( w, point( 30, 0 ), c_red, volume_string );
+    } else if( u.volume_carried() > u.volume_capacity() * 0.65 ) {
+        mvwprintz( w, point( 30, 0 ), c_yellow, volume_string );
+    } else {
+        mvwprintz( w, point( 30, 0 ), c_light_gray, volume_string );
+    }
+
     wnoutrefresh( w );
 }
 
@@ -1892,6 +1990,33 @@ static void draw_weapon_classic( const avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
+static void draw_weightvolume_classic( const avatar &u, const catacurses::window &w )
+{
+    werase( w );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point_zero, c_light_gray, _( "Weight:" ) );
+    std::string weight_string = carry_weight_string( u );
+    if( u.weight_carried() > u.weight_capacity() ) {
+        mvwprintz( w, point( 8, 0 ), c_red, weight_string );
+    } else if( u.weight_carried() > u.weight_capacity() * 0.75 ) {
+        mvwprintz( w, point( 8, 0 ), c_yellow, weight_string );
+    } else {
+        mvwprintz( w, point( 8, 0 ), c_light_gray, weight_string );
+    }
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 23, 0 ), c_light_gray, _( "Volume:" ) );
+    std::string volume_string = carry_volume_string( u );
+    if( u.volume_carried() > u.volume_capacity() * 0.85 ) {
+        mvwprintz( w, point( 30, 0 ), c_red, volume_string );
+    } else if( u.volume_carried() > u.volume_capacity() * 0.65 ) {
+        mvwprintz( w, point( 30, 0 ), c_yellow, volume_string );
+    } else {
+        mvwprintz( w, point( 30, 0 ), c_light_gray, volume_string );
+    }
+
+    wnoutrefresh( w );
+}
+
 static void draw_time_classic( const avatar &u, const catacurses::window &w )
 {
     werase( w );
@@ -1998,6 +2123,8 @@ static std::vector<window_panel> initialize_default_classic_panels()
     ret.emplace_back( window_panel( draw_lighting_classic, translate_marker( "Lighting" ), 1, 44,
                                     true ) );
     ret.emplace_back( window_panel( draw_weapon_classic, translate_marker( "Weapon" ), 1, 44, true ) );
+    ret.emplace_back( window_panel( draw_weightvolume_classic, translate_marker( "Wgt/Vol" ), 1, 44,
+                                    true ) );
     ret.emplace_back( window_panel( draw_time_classic, translate_marker( "Time" ), 1, 44, true ) );
     ret.emplace_back( window_panel( draw_wind, translate_marker( "Wind" ), 1, 44, false ) );
     ret.emplace_back( window_panel( draw_armor, translate_marker( "Armor" ), 5, 44, false ) );
@@ -2025,6 +2152,8 @@ static std::vector<window_panel> initialize_default_compact_panels()
     ret.emplace_back( window_panel( draw_needs_compact, translate_marker( "Needs" ), 3, 32, true ) );
     ret.emplace_back( window_panel( draw_env_compact, translate_marker( "Env" ), 6, 32, true ) );
     ret.emplace_back( window_panel( draw_veh_compact, translate_marker( "Vehicle" ), 1, 32, true ) );
+    ret.emplace_back( window_panel( draw_weightvolume_compact, translate_marker( "Wgt/Vol" ), 2, 32,
+                                    true ) );
     ret.emplace_back( window_panel( draw_armor, translate_marker( "Armor" ), 5, 32, false ) );
     ret.emplace_back( window_panel( draw_messages_classic, translate_marker( "Log" ), -2, 32, true ) );
     ret.emplace_back( window_panel( draw_compass, translate_marker( "Compass" ), 8, 32, true ) );
@@ -2051,6 +2180,8 @@ static std::vector<window_panel> initialize_default_label_narrow_panels()
     ret.emplace_back( window_panel( draw_loc_narrow, translate_marker( "Location" ), 5, 32, true ) );
     ret.emplace_back( window_panel( draw_wind_padding, translate_marker( "Wind" ), 1, 32, false ) );
     ret.emplace_back( window_panel( draw_weapon_labels, translate_marker( "Weapon" ), 2, 32, true ) );
+    ret.emplace_back( window_panel( draw_weightvolume_narrow, translate_marker( "Wgt/Vol" ), 2, 32,
+                                    true ) );
     ret.emplace_back( window_panel( draw_needs_narrow, translate_marker( "Needs" ), 5, 32, true ) );
     ret.emplace_back( window_panel( draw_sound_narrow, translate_marker( "Sound" ), 1, 32, true ) );
     ret.emplace_back( window_panel( draw_messages, translate_marker( "Log" ), -2, 32, true ) );
@@ -2082,6 +2213,8 @@ static std::vector<window_panel> initialize_default_label_panels()
     ret.emplace_back( window_panel( draw_wind_padding, translate_marker( "Wind" ), 1, 44, false ) );
     ret.emplace_back( window_panel( draw_loc_wide, translate_marker( "Location Alt" ), 5, 44, false ) );
     ret.emplace_back( window_panel( draw_weapon_labels, translate_marker( "Weapon" ), 2, 44, true ) );
+    ret.emplace_back( window_panel( draw_weightvolume_labels, translate_marker( "Wgt/Vol" ), 1, 44,
+                                    true ) );
     ret.emplace_back( window_panel( draw_needs_labels, translate_marker( "Needs" ), 3, 44, true ) );
     ret.emplace_back( window_panel( draw_sound_labels, translate_marker( "Sound" ), 1, 44, true ) );
     ret.emplace_back( window_panel( draw_messages, translate_marker( "Log" ), -2, 44, true ) );
