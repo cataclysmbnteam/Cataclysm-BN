@@ -85,6 +85,7 @@
       ],
       [ [ "solder_wire", 5 ] ],
       [ [ "plut_cell", 1 ] ],
+      [ [ "platinum_small", 4 ] ],
       [ [ "amplifier", 1 ], [ "power_supply", 1 ] ],
       [ [ "cable", 5 ] ]
     ]
