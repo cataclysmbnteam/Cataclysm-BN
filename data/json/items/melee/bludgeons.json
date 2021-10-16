@@ -552,6 +552,8 @@
     "symbol": "/",
     "color": "light_gray",
     "ammo": "battery",
+    "initial_charges": 400,
+    "max_charges": 500,
     "charges_per_use": 1,
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "use_action": {
@@ -562,14 +564,7 @@
       "need_charges_msg": "The L-stick(tm)'s batteries are empty.",
       "type": "transform"
     },
-    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_plus_battery_cell", "medium_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": 2
+    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "USE_UPS", "RECHARGE", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "l-stick_on",

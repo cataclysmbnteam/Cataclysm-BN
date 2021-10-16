@@ -312,7 +312,7 @@
     "difficulty": 1,
     "time": "9 m",
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "food_processor", 20 ] ], [ [ "rag", -1 ] ] ],
+    "tools": [ [ [ "food_processor", 20 ], [ "food_processor_noups", 20 ] ], [ [ "rag", -1 ] ] ],
     "autolearn": true,
     "batch_time_factors": [ 80, 5 ],
     "components": [ [ [ "almond", 2 ] ], [ [ "water_clean", 3 ] ] ]
@@ -326,7 +326,7 @@
     "difficulty": 1,
     "time": "13 m",
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "food_processor", 20 ] ], [ [ "rag", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
+    "tools": [ [ [ "food_processor", 20 ], [ "food_processor_noups", 20 ] ], [ [ "rag", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
     "autolearn": true,
     "batch_time_factors": [ 80, 5 ],
     "components": [ [ [ "soybean", 2 ] ], [ [ "water_clean", 2 ] ] ]
