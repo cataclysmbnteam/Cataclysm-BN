@@ -406,12 +406,12 @@
   {
     "id": "pda",
     "type": "MIGRATION",
-    "replace": "cell_phone"
+    "replace": "smart_phone"
   },
   {
     "id": "pda_flashlight",
     "type": "MIGRATION",
-    "replace": "cell_phone"
+    "replace": "smart_phone"
   },
   {
     "id": "crude_brick",
