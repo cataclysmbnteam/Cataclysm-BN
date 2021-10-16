@@ -1990,6 +1990,28 @@ static void draw_weapon_classic( const avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
+
+static void draw_weapon_classic_alt( const avatar &u, const catacurses::window &w )
+{
+    werase( w );
+
+    mvwprintz( w, point_zero, c_light_gray, _( "Weapon:" ) );
+    trim_and_print( w, point( 8, 0 ), getmaxx( w ) - 2, c_light_gray, u.weapname() );
+
+    // Print in sidebar currently used martial style.
+    const std::string style = u.martial_arts_data->selected_style_name( u );
+
+    if( !style.empty() ) {
+        const auto style_color = u.is_armed() ? c_red : c_blue;
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        mvwprintz( w, point( 0, 1 ), c_light_gray, _( "Style :" ) );
+        mvwprintz( w, point( 8, 1 ), style_color, style );
+    }
+
+    wnoutrefresh( w );
+}
+
+
 static void draw_weightvolume_classic( const avatar &u, const catacurses::window &w )
 {
     werase( w );
@@ -2123,6 +2145,8 @@ static std::vector<window_panel> initialize_default_classic_panels()
     ret.emplace_back( window_panel( draw_lighting_classic, translate_marker( "Lighting" ), 1, 44,
                                     true ) );
     ret.emplace_back( window_panel( draw_weapon_classic, translate_marker( "Weapon" ), 1, 44, true ) );
+    ret.emplace_back( window_panel( draw_weapon_classic_alt, translate_marker( "Weapon_alt" ), 2, 44,
+                                    false ) );
     ret.emplace_back( window_panel( draw_weightvolume_classic, translate_marker( "Wgt/Vol" ), 1, 44,
                                     true ) );
     ret.emplace_back( window_panel( draw_time_classic, translate_marker( "Time" ), 1, 44, true ) );
