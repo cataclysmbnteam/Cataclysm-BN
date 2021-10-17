@@ -1630,6 +1630,14 @@ static item_location autodoc_internal( player &u, player &patient,
         }
     }
 
+    std::vector<const item *> install_programs = patient.crafting_inventory().items_with( [](
+                const item & it ) -> bool { return it.has_flag( "BIONIC_INSTALLATION_DATA" ); } );
+
+    if( !install_programs.empty() ) {
+        hint += string_format(
+                    _( "\n<color_light_green>Found bionic installation data.  Affected CBMs are marked with an asterisk.</color>" ) );
+    }
+
     if( uninstall ) {
         inv_s.set_title( string_format( _( "Bionic removal patient: %s" ), patient.get_name() ) );
     } else {
@@ -1744,6 +1752,11 @@ class bionic_install_preset: public inventory_selector_preset
             int chance_of_failure = 100;
             player &installer = p;
 
+            std::vector<const item *> install_programs = p.crafting_inventory().items_with( [loc](
+                        const item & it ) -> bool { return it.typeId() == loc.get_item()->type->bionic->installation_data; } );
+
+            const bool has_install_program = !install_programs.empty();
+
             const int adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
                                        skill_computer,
                                        skill_electronics,
@@ -1752,10 +1765,11 @@ class bionic_install_preset: public inventory_selector_preset
             if( g->u.has_trait( trait_DEBUG_BIONICS ) ) {
                 chance_of_failure = 0;
             } else {
-                chance_of_failure = 100 - bionic_manip_cos( adjusted_skill, difficulty );
+                chance_of_failure = has_install_program ? 1 : 100 - bionic_manip_cos( adjusted_skill, difficulty );
             }
 
-            return string_format( _( "%i%%" ), chance_of_failure );
+            return string_format( has_install_program ? _( "<color_white>*</color> %i%%" ) : _( "%i%%" ),
+                                  chance_of_failure );
         }
 
         std::string get_anesth_amount( const item_location &loc ) {
