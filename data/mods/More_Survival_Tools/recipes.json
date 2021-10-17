@@ -150,7 +150,8 @@
     "difficulty": 1,
     "time": 6000,
     "autolearn": true,
-    "components": [ [ [ "dogbane", 1 ], [ "cattail_stalk", 1 ], [ "weed", 1 ] ] ]
+    "charges": 80,
+    "components": [ [ [ "dogbane", 1 ], [ "cattail_stalk", 1 ], [ "weed", 1 ], [ "withered", 1 ] ] ]
   },
   {
     "type": "recipe",
