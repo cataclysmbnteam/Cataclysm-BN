@@ -135,7 +135,7 @@
     "time": "1 m 30 s",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "fur", 12 ], [ "cured_pelt", 12 ] ] ],
+    "components": [ [ [ "fur", 9 ], [ "cured_pelt", 9 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -147,7 +147,7 @@
     "time": "1 m 30 s",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "leather", 12 ], [ "cured_hide", 12 ] ] ],
+    "components": [ [ [ "leather", 9 ], [ "cured_hide", 9 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
