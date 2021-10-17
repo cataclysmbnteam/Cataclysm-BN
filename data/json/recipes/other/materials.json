@@ -13,18 +13,6 @@
   },
   {
     "type": "recipe",
-    "result": "felt_patch",
-    "id_suffix": "knitting",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "tailor",
-    "difficulty": 2,
-    "time": "6 m",
-    "autolearn": true,
-    "using": [ [ "tailoring_cotton_knitting", 80 ] ]
-  },
-  {
-    "type": "recipe",
     "result": "meal_chitin_piece",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
