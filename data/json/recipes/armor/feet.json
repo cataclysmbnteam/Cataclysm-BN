@@ -308,7 +308,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
-    "time": "1 m",
+    "time": "1 m 30 s",
     "reversible": true,
     "autolearn": true,
     "components": [ [ [ "rag", 6 ] ] ],
@@ -323,7 +323,7 @@
     "time": "1 m 30 s",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "fur", 9 ], [ "cured_pelt", 9 ] ] ],
+    "components": [ [ [ "fur", 6 ], [ "cured_pelt", 6 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -335,7 +335,7 @@
     "time": "1 m 30 s",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "leather", 9 ], [ "cured_hide", 9 ] ] ],
+    "components": [ [ [ "leather", 6 ], [ "cured_hide", 6 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -344,7 +344,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
-    "time": "1 m",
+    "time": "1 m 30 s",
     "reversible": true,
     "autolearn": true,
     "components": [ [ [ "felt_patch", 6 ] ] ],
