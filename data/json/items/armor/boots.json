@@ -694,7 +694,7 @@
   {
     "id": "footrags",
     "type": "ARMOR",
-    "name": { "str": "pair of foot wraps", "str_pl": "pairs of foot rags" },
+    "name": { "str": "pair of rag foot wraps", "str_pl": "pairs of rag foot wraps" },
     "description": "Rags tied around your feet.  Not much of an improvement over being barefoot, still better than nothing.",
     "weight": "56 g",
     "volume": "250 ml",
