@@ -2626,5 +2626,11 @@
     "result": "gunpowder",
     "type": "recipe",
     "obsolete": true
+  },
+  {
+    "result": "felt_patch",
+    "type": "recipe",
+    "id_suffix": "knitting",
+    "obsolete": true
   }
 ]
