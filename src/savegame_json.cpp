@@ -594,8 +594,8 @@ void Character::load( const JsonObject &data )
     assign( data, "max_power_level", max_power_level, false, 0_kJ );
 
     // Bionic power should not be negative!
-    if( power_level < 0_mJ ) {
-        power_level = 0_mJ;
+    if( power_level < 0_J ) {
+        power_level = 0_J;
     }
 
     JsonArray overmap_time_array = data.get_array( "overmap_time" );
@@ -724,9 +724,7 @@ void Character::store( JsonOut &json ) const
     json.end_object();
 
     // npc; unimplemented
-    if( power_level < 1_J ) {
-        json.member( "power_level", std::to_string( units::to_millijoule( power_level ) ) + " mJ" );
-    } else if( power_level < 1_kJ ) {
+    if( power_level < 1_kJ ) {
         json.member( "power_level", std::to_string( units::to_joule( power_level ) ) + " J" );
     } else {
         json.member( "power_level", units::to_kilojoule( power_level ) );
@@ -2180,7 +2178,7 @@ void item::io( Archive &archive )
     archive.io( "charges", charges, 0 );
     charges = std::max( charges, 0 );
 
-    archive.io( "energy", energy, 0_mJ );
+    archive.io( "energy", energy, 0_J );
 
     archive.io( "burnt", burnt, 0 );
     archive.io( "poison", poison, 0 );

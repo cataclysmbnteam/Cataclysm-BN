@@ -2918,10 +2918,7 @@ void item::battery_info( std::vector<iteminfo> &info, const iteminfo_query * /*p
     }
 
     std::string info_string;
-    if( type->battery->max_capacity < 1_J ) {
-        info_string = string_format( _( "<bold>Capacity</bold>: %dmJ" ),
-                                     to_millijoule( type->battery->max_capacity ) );
-    } else if( type->battery->max_capacity < 1_kJ ) {
+    if( type->battery->max_capacity < 1_kJ ) {
         info_string = string_format( _( "<bold>Capacity</bold>: %dJ" ),
                                      to_joule( type->battery->max_capacity ) );
     } else if( type->battery->max_capacity >= 1_kJ ) {
@@ -3162,10 +3159,10 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
     insert_separation_line( info );
 
-    if( bid->capacity > 0_mJ ) {
-        info.push_back( iteminfo( "CBM", _( "<bold>Power Capacity</bold>:" ), _( " <num> mJ" ),
+    if( bid->capacity > 0_J ) {
+        info.push_back( iteminfo( "CBM", _( "<bold>Power Capacity</bold>:" ), _( " <num> J" ),
                                   iteminfo::no_newline,
-                                  units::to_millijoule( bid->capacity ) ) );
+                                  units::to_joule( bid->capacity ) ) );
     }
 
     insert_separation_line( info );

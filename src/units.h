@@ -31,9 +31,9 @@ inline std::ostream &operator<<( std::ostream &o, volume_in_milliliter_tag )
     return o << "ml";
 }
 
-inline std::ostream &operator<<( std::ostream &o, energy_in_millijoule_tag )
+inline std::ostream &operator<<( std::ostream &o, energy_in_joule_tag )
 {
-    return o << "mJ";
+    return o << "J";
 }
 
 inline std::ostream &operator<<( std::ostream &o, money_in_cent_tag )
@@ -59,7 +59,6 @@ std::string display( units::energy v );
 namespace units
 {
 static const std::vector<std::pair<std::string, energy>> energy_units = { {
-        { "mJ", 1_mJ },
         { "J", 1_J },
         { "kJ", 1_kJ },
     }
