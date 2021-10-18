@@ -4188,15 +4188,5 @@
       [ [ "scrap", 1 ] ],
       [ [ "cable", 5 ] ]
     ]
-  },
-  {
-    "type": "uncraft",
-    "result": "elec_chainsaw_off",
-    "skill_used": "electronics",
-    "difficulty": 4,
-    "time": "15 m",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "motor_small", 1 ] ], [ [ "cable", 12 ] ], [ [ "chain", 1 ] ], [ [ "scrap", 3 ] ] ]
   }
 ]

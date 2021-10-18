@@ -101,7 +101,7 @@
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
     ],
-    "components": [ [ [ "elec_chainsaw_off", 1 ], [ "elec_chainsaw_off_noups", 1 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ] ]
+    "components": [ [ [ "elec_chainsaw_off", 1 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ] ]
   },
   {
     "type": "recipe",
@@ -250,7 +250,7 @@
     "difficulty": 4,
     "time": "15 m",
     "autolearn": true,
-    "components": [ [ [ "q_staff", 1 ] ], [ [ "duct_tape", 200 ] ], [ [ "elec_chainsaw_off", 2 ], [ "elec_chainsaw_off_noups", 2 ] ] ]
+    "components": [ [ [ "q_staff", 1 ] ], [ [ "duct_tape", 200 ] ], [ [ "elec_chainsaw_off", 2 ] ] ]
   },
   {
     "type": "recipe",
