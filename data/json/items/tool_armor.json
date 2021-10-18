@@ -301,10 +301,10 @@
   {
     "type": "TOOL_ARMOR",
     "id": "game_watch",
-    "name": { "str": "game watch", "str_pl": "game watches" },
+    "name": { "str": "smart watch", "str_pl": "smart watches" },
     "category": "clothing",
     "volume": "250 ml",
-    "description": "A waterproof digital watch with a built-in electronic game system, powered by standard batteries.  Activate to play.",
+    "description": "A waterproof smart watch, powered by UPS.  It has reliable weather data from its build-in sensors and some pre-installed apps.  Activate to use.",
     "weight": "112 g",
     "to_hit": -1,
     "color": "light_gray",
@@ -312,13 +312,26 @@
     "price": 6000,
     "price_postapoc": 100,
     "material": [ "plastic" ],
-    "flags": [ "WATCH", "WATER_FRIENDLY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
+    "flags": [
+      "WATCH",
+      "ALARMCLOCK",
+      "WATER_FRIENDLY",
+      "BELTED",
+      "FRAGILE",
+      "ALLOWS_NATURAL_ATTACKS",
+      "OVERSIZE",
+      "THERMOMETER",
+      "BAROMETER",
+      "HYGROMETER",
+      "USE_UPS"
+    ],
     "coverage": 15,
     "symbol": "[",
     "ammo": "battery",
+    "initial_charges": 80,
+    "max_charges": 120,
     "charges_per_use": 1,
-    "use_action": "PORTABLE_GAME",
-    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ] ] ]
+    "use_action": [ "PORTABLE_GAME", "WEATHER_TOOL" ]
   },
   {
     "id": "holo_cloak",
