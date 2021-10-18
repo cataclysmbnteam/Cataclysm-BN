@@ -116,6 +116,10 @@ class item_location::impl
         //Flag that controls whether functions like obtain() should stack the obtained item
         //with similar existing items in the inventory or create a new stack for the item
         bool should_stack = true;
+
+        void make_dirty() {
+            needs_unpacking = true;
+        }
 };
 
 class item_location::impl::nowhere : public item_location::impl
@@ -741,4 +745,9 @@ const item *item_location::get_item() const
 void item_location::set_should_stack( bool should_stack ) const
 {
     ptr->should_stack = should_stack;
+}
+
+void item_location::make_dirty()
+{
+    ptr->make_dirty();
 }
