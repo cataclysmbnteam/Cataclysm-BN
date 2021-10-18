@@ -504,7 +504,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "UPS", "str_pl": "UPS's" },
-    "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS was designed to power bionics, armor and some guns.  Nowadays it can be found in most household battery powered items.",
+    "description": "This is a unified power supply, or UPS.  It is a civilian evolution of a military project.  Designed to power advanced weapons and armor, the civilian version serves as a portable power bank and inverter for many household electronics.",
     "weight": "680 g",
     "volume": "2500 ml",
     "price": 280000,
