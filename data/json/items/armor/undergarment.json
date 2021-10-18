@@ -229,7 +229,7 @@
   {
     "id": "chestwrap",
     "type": "ARMOR",
-    "name": { "str": "chestwrap" },
+    "name": { "str": "rag chestwrap" },
     "description": "Rags wrapped around the chest.  Preserves your modesty and keeps things out of the way, but not good for much else.",
     "weight": "64 g",
     "volume": "500 ml",
