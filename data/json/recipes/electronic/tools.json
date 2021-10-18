@@ -1,7 +1,7 @@
 [
   {
     "type": "recipe",
-    "result": "carver_off_noups",
+    "result": "carver_off",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
     "skill_used": "fabrication",
@@ -320,6 +320,46 @@
   },
   {
     "type": "recipe",
+    "result": "mp3",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "skills_required": [ "computer", 1 ],
+    "difficulty": 5,
+    "time": "40 m",
+    "reversible": true,
+    "//": "you might be able to reverse-engineer assembly, but not the music",
+    "book_learn": [ [ "textbook_electronics", 6 ], [ "textbook_robots", 5 ] ],
+    "using": [ [ "soldering_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "superglue", 1 ] ], [ [ "processor", 1 ] ], [ [ "RAM", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "portable_game",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "skills_required": [ "computer", 5 ],
+    "difficulty": 8,
+    "time": "1 h",
+    "reversible": true,
+    "//": "as with mp3, no learning how to encode the software from taking it apart",
+    "book_learn": [ [ "textbook_electronics", 7 ], [ "textbook_robots", 6 ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "superglue", 1 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "RAM", 2 ] ],
+      [ [ "amplifier", 1 ] ],
+      [ [ "cable", 2 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "small_lcd_screen", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "geiger_off",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -365,7 +405,7 @@
   },
   {
     "type": "recipe",
-    "result": "dehydrator_noups",
+    "result": "dehydrator",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
     "skill_used": "electronics",
@@ -775,7 +815,7 @@
     "components": [ [ [ "wire", 3 ], [ "cable", 30 ] ], [ [ "scrap", 2 ] ] ]
   },
   {
-    "result": "food_processor_noups",
+    "result": "food_processor",
     "type": "recipe",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",

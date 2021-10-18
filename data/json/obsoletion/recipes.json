@@ -2626,15 +2626,5 @@
     "result": "gunpowder",
     "type": "recipe",
     "obsolete": true
-  },
-  {
-    "result": "mp3",
-    "type": "recipe",
-    "obsolete": true
-  },
-  {
-    "result": "portable_game",
-    "type": "recipe",
-    "obsolete": true
   }
 ]

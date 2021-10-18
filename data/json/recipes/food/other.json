@@ -1093,7 +1093,7 @@
     "time": "11 m 15 s",
     "autolearn": true,
     "batch_time_factors": [ 80, 1 ],
-    "tools": [ [ [ "food_processor", 20 ], [ "food_processor_noups", 20 ] ] ],
+    "tools": [ [ [ "food_processor", 20 ] ] ],
     "components": [ [ [ "oats", 2 ] ] ]
   },
   {
@@ -1108,7 +1108,7 @@
     "time": "11 m 15 s",
     "autolearn": true,
     "batch_time_factors": [ 80, 1 ],
-    "tools": [ [ [ "food_processor", 20 ], [ "food_processor_noups", 20 ] ] ],
+    "tools": [ [ [ "food_processor", 20 ] ] ],
     "components": [ [ [ "corn", 1 ], [ "irradiated_corn", 1 ], [ "kernels", 1 ] ] ]
   },
   {
@@ -1123,7 +1123,7 @@
     "time": "11 m 15 s",
     "autolearn": true,
     "batch_time_factors": [ 50, 3 ],
-    "tools": [ [ [ "food_processor", 20 ], [ "food_processor_noups", 20 ] ] ],
+    "tools": [ [ [ "food_processor", 20 ] ] ],
     "components": [
       [
         [ "wheat", 1 ],
@@ -1147,7 +1147,7 @@
     "time": "15 m",
     "autolearn": true,
     "batch_time_factors": [ 50, 3 ],
-    "tools": [ [ [ "food_processor", 20 ], [ "food_processor_noups", 20 ] ] ],
+    "tools": [ [ [ "food_processor", 20 ] ] ],
     "components": [ [ [ "bone", 1 ] ] ]
   },
   {
@@ -1161,7 +1161,7 @@
     "time": "15 m",
     "autolearn": true,
     "batch_time_factors": [ 50, 3 ],
-    "tools": [ [ [ "food_processor", 20 ], [ "food_processor_noups", 20 ] ] ],
+    "tools": [ [ [ "food_processor", 20 ] ] ],
     "components": [ [ [ "bone_tainted", 1 ] ] ]
   },
   {
@@ -1283,7 +1283,7 @@
     "time": "15 m",
     "autolearn": true,
     "batch_time_factors": [ 50, 3 ],
-    "tools": [ [ [ "food_processor", 20 ], [ "food_processor_noups", 20 ] ] ],
+    "tools": [ [ [ "food_processor", 20 ] ] ],
     "components": [ [ [ "chitin_piece", 1 ], [ "acidchitin_piece", 1 ] ] ]
   },
   {
@@ -1297,7 +1297,7 @@
     "time": "11 m 15 s",
     "autolearn": true,
     "batch_time_factors": [ 50, 3 ],
-    "tools": [ [ [ "food_processor", 20 ], [ "food_processor_noups", 20 ] ] ],
+    "tools": [ [ [ "food_processor", 20 ] ] ],
     "components": [ [ [ "chili_pepper", 2 ] ] ]
   },
   {
@@ -1401,7 +1401,7 @@
     "charges": 4,
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "food_processor", 40 ], [ "food_processor_noups", 40 ] ] ],
+    "tools": [ [ [ "food_processor", 40 ] ] ],
     "components": [ [ [ "peanut", 3 ] ], [ [ "sugar", 10 ], [ "honey_bottled", 1 ], [ "honey_glassed", 2 ] ] ]
   },
   {
@@ -1415,7 +1415,7 @@
     "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "food_processor", 40 ], [ "food_processor_noups", 40 ] ] ],
+    "tools": [ [ [ "food_processor", 40 ] ] ],
     "components": [
       [
         [ "pine_nuts", 5 ],
@@ -1472,7 +1472,7 @@
     "time": "5 m 30 s",
     "autolearn": true,
     "batch_time_factors": [ 50, 3 ],
-    "tools": [ [ [ "food_processor", 20 ], [ "food_processor_noups", 20 ] ] ],
+    "tools": [ [ [ "food_processor", 20 ] ] ],
     "components": [ [ [ "seed_mustard", 4 ] ] ]
   },
   {
@@ -1486,15 +1486,7 @@
     "autolearn": true,
     "batch_time_factors": [ 50, 3 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [
-      [
-        [ "rock_quern", -1 ],
-        [ "clay_quern", -1 ],
-        [ "mortar_pestle", -1 ],
-        [ "food_processor", 10 ],
-        [ "food_processor_noups", 10 ]
-      ]
-    ],
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
     "components": [
       [ [ "milk_standard", 1, "LIST" ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
       [
@@ -1528,15 +1520,7 @@
     "time": "12 m 30 s",
     "autolearn": true,
     "batch_time_factors": [ 50, 3 ],
-    "tools": [
-      [
-        [ "rock_quern", -1 ],
-        [ "clay_quern", -1 ],
-        [ "mortar_pestle", -1 ],
-        [ "food_processor", 10 ],
-        [ "food_processor_noups", 10 ]
-      ]
-    ],
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
     "components": [
       [ [ "milk_standard", 1, "LIST" ] ],
       [
@@ -1572,15 +1556,7 @@
     "batch_time_factors": [ 50, 3 ],
     "book_learn": [ [ "dairy_book", 2 ] ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [
-      [
-        [ "rock_quern", -1 ],
-        [ "clay_quern", -1 ],
-        [ "mortar_pestle", -1 ],
-        [ "food_processor", 10 ],
-        [ "food_processor_noups", 10 ]
-      ]
-    ],
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
     "components": [
       [ [ "milk_standard", 2, "LIST" ] ],
       [
@@ -1671,15 +1647,7 @@
     "batch_time_factors": [ 50, 3 ],
     "book_learn": [ [ "dairy_book", 2 ] ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [
-      [
-        [ "rock_quern", -1 ],
-        [ "clay_quern", -1 ],
-        [ "mortar_pestle", -1 ],
-        [ "food_processor", 10 ],
-        [ "food_processor_noups", 10 ]
-      ]
-    ],
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
     "components": [
       [ [ "milk_standard", 2, "LIST" ] ],
       [
@@ -1713,15 +1681,7 @@
     "batch_time_factors": [ 50, 3 ],
     "book_learn": [ [ "dairy_book", 2 ] ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [
-      [
-        [ "rock_quern", -1 ],
-        [ "clay_quern", -1 ],
-        [ "mortar_pestle", -1 ],
-        [ "food_processor", 10 ],
-        [ "food_processor_noups", 10 ]
-      ]
-    ],
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
     "components": [ [ [ "yoghurt", 1 ] ], [ [ "sugar", 5 ] ] ]
   },
   {
@@ -1734,15 +1694,7 @@
     "batch_time_factors": [ 50, 3 ],
     "book_learn": [ [ "dairy_book", 2 ] ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
-    "tools": [
-      [
-        [ "rock_quern", -1 ],
-        [ "clay_quern", -1 ],
-        [ "mortar_pestle", -1 ],
-        [ "food_processor", 10 ],
-        [ "food_processor_noups", 10 ]
-      ]
-    ],
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
     "components": [
       [ [ "water_clean", 1 ], [ "kompot", 1 ] ],
       [ [ "juice", 1 ], [ "oj", 1 ], [ "apple_cider", 1 ], [ "lemonade", 1 ], [ "cranberry_juice", 1 ] ],
@@ -1760,15 +1712,7 @@
     "batch_time_factors": [ 50, 3 ],
     "book_learn": [ [ "cookbook_italian", 1 ] ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [
-      [
-        [ "rock_quern", -1 ],
-        [ "clay_quern", -1 ],
-        [ "mortar_pestle", -1 ],
-        [ "food_processor", 10 ],
-        [ "food_processor_noups", 10 ]
-      ]
-    ],
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
     "components": [
       [ [ "milk_standard", 1, "LIST" ] ],
       [

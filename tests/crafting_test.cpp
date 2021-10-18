@@ -349,7 +349,7 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
     std::vector<item> tools;
 
     GIVEN( "recipe and required tools/materials" ) {
-        recipe_id carver( "carver_off_noups" );
+        recipe_id carver( "carver_off" );
         // Uses fabrication skill
         // Requires electronics 3
         // Difficulty 4
@@ -377,7 +377,7 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
             tools.emplace_back( "soldering_iron", calendar::start_of_cataclysm, 20 );
 
             THEN( "crafting succeeds, and uses charges from each tool" ) {
-                int turns = actually_test_craft( recipe_id( "carver_off_noups" ), tools, INT_MAX );
+                int turns = actually_test_craft( recipe_id( "carver_off" ), tools, INT_MAX );
                 CAPTURE( turns );
                 CHECK( get_remaining_charges( "hotplate" ) == 10 );
                 CHECK( get_remaining_charges( "soldering_iron" ) == 10 );
@@ -391,7 +391,7 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
             tools.emplace_back( "soldering_iron", calendar::start_of_cataclysm, 5 );
 
             THEN( "crafting succeeds, and uses charges from multiple tools" ) {
-                actually_test_craft( recipe_id( "carver_off_noups" ), tools, INT_MAX );
+                actually_test_craft( recipe_id( "carver_off" ), tools, INT_MAX );
                 CHECK( get_remaining_charges( "hotplate" ) == 0 );
                 CHECK( get_remaining_charges( "soldering_iron" ) == 0 );
             }
@@ -407,7 +407,7 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
             tools.emplace_back( "UPS_off", calendar::start_of_cataclysm, 500 );
 
             THEN( "crafting succeeds, and uses charges from the UPS" ) {
-                actually_test_craft( recipe_id( "carver_off_noups" ), tools, INT_MAX );
+                actually_test_craft( recipe_id( "carver_off" ), tools, INT_MAX );
                 CHECK( get_remaining_charges( "hotplate" ) == 0 );
                 CHECK( get_remaining_charges( "soldering_iron" ) == 0 );
                 CHECK( get_remaining_charges( "UPS_off" ) == 480 );
@@ -424,7 +424,7 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
             tools.emplace_back( "UPS_off", calendar::start_of_cataclysm, 10 );
 
             THEN( "crafting fails, and no charges are used" ) {
-                prep_craft( recipe_id( "carver_off_noups" ), tools, false );
+                prep_craft( recipe_id( "carver_off" ), tools, false );
                 CHECK( get_remaining_charges( "UPS_off" ) == 10 );
             }
         }

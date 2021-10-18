@@ -70,7 +70,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "electric carver (off)", "str_pl": "electric carvers (off)" },
-    "description": "An electric meat carver powered by UPS.  Two serrated blades that vibrate together to slice just about anything from turkey to ham… even zombies!",
+    "description": "An electric meat carver powered by batteries.  Two serrated blades that vibrate together to slice just about anything from turkey to ham… even zombies!",
     "weight": "1106 g",
     "volume": "1500 ml",
     "price": 2000,
@@ -83,33 +83,8 @@
     "color": "yellow",
     "ammo": "battery",
     "charges_per_use": 5,
-    "initial_charges": 400,
-    "max_charges": 500,
     "use_action": "CARVER_OFF",
-    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE", "USE_UPS", "RECHARGE", "NO_UNLOAD", "NO_RELOAD" ]
-  },
-  {
-    "id": "carver_on",
-    "copy-from": "carver_off",
-    "type": "TOOL",
-    "name": { "str": "electric carver (on)", "str_pl": "electric carvers (on)" },
-    "description": "This carver is on and the blades are buzzing.  Use it to turn it off.",
-    "cutting": 30,
-    "to_hit": 1,
-    "power_draw": 150000,
-    "charges_per_use": 0,
-    "revert_to": "carver_off",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 25 ] ],
-    "use_action": "CARVER_ON",
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "USE_UPS", "RECHARGE", "NO_UNLOAD", "NO_RELOAD" ]
-  },
-  {
-    "id": "carver_off_noups",
-    "type": "TOOL",
-    "name": { "str": "makeshift electric carver (off)", "str_pl": "makeshift electric carvers (off)" },
-    "description": "An electric meat carver powered by batteries.  Two serrated blades that vibrate together to slice just about anything from turkey to ham… even zombies!",
     "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE" ],
-    "copy-from": "carver_off",
     "magazines": [
       [
         "battery",
@@ -119,10 +94,10 @@
     "magazine_well": 2
   },
   {
-    "id": "carver_on_noups",
-    "copy-from": "carver_off_noups",
+    "id": "carver_on",
+    "copy-from": "carver_off",
     "type": "TOOL",
-    "name": { "str": "makeshift electric carver (on)", "str_pl": "makeshift electric carvers (on)" },
+    "name": { "str": "electric carver (on)", "str_pl": "electric carvers (on)" },
     "description": "This carver is on and the blades are buzzing.  Use it to turn it off.",
     "cutting": 30,
     "to_hit": 1,
@@ -252,7 +227,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "coffeemaker" },
-    "description": "This is a heating element with pot and frame for holding coffee or other powders.  It's got an UPS compartment for use when the power goes out.  You can use it to make coffee, or other drinks if you so choose.",
+    "description": "This is a heating element with pot and frame for holding coffee or other powders.  It's got a battery compartment for use when the power goes out.  You can use it to make coffee, or other drinks if you so choose.",
     "weight": "3100 g",
     "volume": "750 ml",
     "price": 2000,
@@ -263,19 +238,23 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
-    "initial_charges": 400,
-    "max_charges": 600,
     "charges_per_use": 10,
     "qualities": [ [ "BOIL", 1 ] ],
-    "flags": [ "USE_UPS", "RECHARGE", "NO_UNLOAD", "NO_RELOAD" ],
-    "use_action": "HOTPLATE"
+    "use_action": "HOTPLATE",
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2
   },
   {
     "id": "dehydrator",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "food dehydrator" },
-    "description": "This is a portable electric food dehydrator.  It's powered by UPS, and could be invaluable in preserving food.",
+    "description": "This is a portable electric food dehydrator.  It's powered by batteries, and could be invaluable in preserving food.",
     "weight": "4200 g",
     "volume": "4500 ml",
     "price": 6000,
@@ -285,17 +264,6 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "blue",
-    "ammo": "battery",
-    "initial_charges": 400,
-    "max_charges": 600,
-    "flags": [ "ALLOWS_REMOTE_USE", "USE_UPS", "RECHARGE", "NO_UNLOAD", "NO_RELOAD" ]
-  },
-  {
-    "id": "dehydrator_noups",
-    "type": "TOOL",
-    "name": { "str": "crafted food dehydrator" },
-    "description": "This is a portable electric food dehydrator.  It's powered by batteries, and could be invaluable in preserving food.",
-    "copy-from": "dehydrator",
     "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "magazines": [
@@ -428,16 +396,6 @@
     "symbol": "%",
     "color": "white",
     "ammo": "battery",
-    "initial_charges": 400,
-    "max_charges": 600,
-    "flags": [ "ALLOWS_REMOTE_USE", "USE_UPS", "RECHARGE", "NO_UNLOAD", "NO_RELOAD" ]
-  },
-  {
-    "id": "food_processor_noups",
-    "type": "TOOL",
-    "name": { "str": "crafted food processor" },
-    "description": "This is a kitchen appliance capable of slicing, chopping, shredding, grinding, pureeing and mixing, powered by batteries.",
-    "copy-from": "food_processor",
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "magazines": [
       [
@@ -752,12 +710,16 @@
     "symbol": ";",
     "color": "red",
     "ammo": "battery",
-    "initial_charges": 1500,
-    "max_charges": 2000,
     "power_draw": 1500000,
     "qualities": [ [ "CONTAIN", 1 ] ],
     "use_action": "MULTICOOKER",
-    "flags": [ "USE_UPS", "RECHARGE", "NO_UNLOAD", "NO_RELOAD" ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2
   },
   {
     "id": "multi_cooker_filled",
@@ -985,9 +947,14 @@
     "symbol": ";",
     "color": "white",
     "ammo": "battery",
-    "initial_charges": 800,
-    "max_charges": 1000,
-    "flags": [ "ALLOWS_REMOTE_USE", "USE_UPS", "RECHARGE", "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2
   },
   {
     "id": "waffleiron",
