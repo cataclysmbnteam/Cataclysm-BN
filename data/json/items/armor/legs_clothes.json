@@ -228,7 +228,7 @@
   {
     "id": "loincloth",
     "type": "ARMOR",
-    "name": { "str": "loincloth" },
+    "name": { "str": "rag loincloth" },
     "description": "Rags stitched together and tied into a makeshift loincloth.  Covers your modesty, but not much else.",
     "weight": "32 g",
     "volume": "250 ml",
