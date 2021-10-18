@@ -656,7 +656,7 @@
   {
     "id": "gloves_wraps",
     "type": "ARMOR",
-    "name": { "str": "pair of hand wraps", "str_pl": "pairs of hand wraps" },
+    "name": { "str": "pair of rag hand wraps", "str_pl": "pairs of rag hand wraps" },
     "description": "Long pieces of cloth that are meant to be wrapped around your hands.  Provide small amounts of protection while punching and performing other general mischief.",
     "weight": "100 g",
     "volume": "250 ml",
