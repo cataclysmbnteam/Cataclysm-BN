@@ -484,7 +484,7 @@
   },
   {
     "type": "recipe",
-    "result": "elec_chainsaw_off",
+    "result": "elec_chainsaw_off_noups",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
     "skill_used": "electronics",
