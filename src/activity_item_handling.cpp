@@ -567,17 +567,36 @@ std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &dr
     return res;
 }
 
+static bool try_rebuild_if_needed( item_location &loc )
+{
+    if( loc ) {
+        return true;
+    }
+    loc.make_dirty();
+    if( !loc ) {
+        debugmsg( "Lost target item of ACT_DROP and couldn't rebuild item_location!" );
+    }
+
+    return static_cast<bool>( loc );
+}
+
 std::list<item> obtain_and_tokenize_items( player &p, std::list<act_item> &items )
 {
     std::list<item> res;
     drop_token_provider &token_provider = drop_token::get_provider();
     item_drop_token last_token = token_provider.make_next( calendar::turn );
+    if( !try_rebuild_if_needed( items.front().loc ) ) {
+        return res;
+    }
     units::volume last_storage_volume = items.front().loc->get_storage();
     while( !items.empty() && ( p.is_npc() || p.moves > 0 || items.front().consumed_moves == 0 ) ) {
         act_item &ait = items.front();
 
-        assert( ait.loc );
-        assert( ait.loc.get_item() );
+        if( !try_rebuild_if_needed( ait.loc ) ) {
+            debugmsg( "Lost target item of ACT_DROP" );
+            items.pop_back();
+            return res;
+        }
 
         p.mod_moves( -ait.consumed_moves );
 
