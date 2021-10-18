@@ -66,24 +66,11 @@
     "symbol": ";",
     "color": "yellow",
     "ammo": "battery",
+    "initial_charges": 400,
+    "max_charges": 500,
     "charges_per_use": 5,
     "use_action": "CAMERA",
-    "flags": [ "CAMERA_PRO", "ALWAYS_TWOHAND" ],
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": 1
+    "flags": [ "CAMERA_PRO", "ALWAYS_TWOHAND", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "cell_phone",
@@ -139,25 +126,17 @@
     "id": "control_laptop",
     "type": "TOOL",
     "category": "tools",
+    "copy-from": "laptop",
     "name": { "str": "control laptop" },
     "description": "A modified laptop, now capable of transmitting in the ultra-high frequencies utilized by robots.  Activate it to command robots from afar.",
-    "weight": "2721 g",
-    "volume": "1 L",
     "price": 10000,
     "price_postapoc": 8000,
-    "material": [ "plastic", "aluminum" ],
-    "symbol": ",",
-    "color": "yellow",
-    "ammo": "battery",
     "charges_per_use": 2,
     "use_action": "ROBOTCONTROL",
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": 2
+    "ammo": "battery",
+    "initial_charges": 500,
+    "max_charges": 700,
+    "flags": [ "WATCH", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "directional_antenna",
@@ -200,7 +179,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "e-ink tablet PC" },
-    "description": "A tablet PC using an efficient color e-ink display.  Before the Cataclysm, these were nifty gadgets; now, it's an almost priceless resource.  Runs on conventional batteries.",
+    "description": "A tablet PC using an efficient color e-ink display.  Before the Cataclysm, these were nifty gadgets; now, it's an almost priceless resource.",
     "weight": "250 g",
     "volume": "250 ml",
     "price": 20000,
@@ -210,24 +189,11 @@
     "symbol": ";",
     "color": "blue",
     "ammo": "battery",
+    "initial_charges": 300,
+    "max_charges": 400,
     "charges_per_use": 1,
     "use_action": "EINKTABLETPC",
-    "flags": [ "WATCH" ],
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_plus_battery_cell",
-          "light_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": 1
+    "flags": [ "WATCH", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "electrohack",
@@ -341,7 +307,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": "laptop computer",
-    "description": "A laptop computer with replaceable batteries.",
+    "description": "A laptop computer using UPS.",
     "symbol": ",",
     "color": "dark_gray",
     "material": [ "plastic", "aluminum" ],
@@ -351,6 +317,8 @@
     "price_postapoc": 250,
     "bashing": 6,
     "ammo": "battery",
+    "initial_charges": 500,
+    "max_charges": 700,
     "charges_per_use": 1,
     "use_action": [
       "EINKTABLETPC",
@@ -364,14 +332,7 @@
         "type": "transform"
       }
     ],
-    "flags": [ "WATCH" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": 2
+    "flags": [ "WATCH", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "laptop_screen_lit",
@@ -381,7 +342,7 @@
     "power_draw": 1000,
     "revert_to": "laptop",
     "use_action": { "target": "laptop", "msg": "You stop lighting up the screen.", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "WATCH", "LIGHT_10", "TRADER_AVOID" ]
+    "flags": [ "WATCH", "LIGHT_10", "TRADER_AVOID", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "mp3",
@@ -397,23 +358,11 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": "battery",
+    "initial_charges": 200,
+    "max_charges": 250,
+    "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ],
     "use_action": "MP3",
-    "charges_per_use": 1,
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_disposable_cell",
-          "light_minus_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": 1
+    "charges_per_use": 1
   },
   {
     "id": "mp3_on",
@@ -424,8 +373,7 @@
     "power_draw": 1000,
     "revert_to": "mp3",
     "use_action": "MP3_ON",
-    "flags": [ "TRADER_AVOID" ],
-    "magazine_well": 1
+    "flags": [ "TRADER_AVOID", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "noise_emitter",
@@ -477,7 +425,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "handheld game system" },
-    "description": "This is a portable games console in working condition, with a backlit screen allowing you to play in the dark.  You can use it to play it for a little while, but this requires batteries.",
+    "description": "This is a portable games console in working condition, with an LED-screen allowing you to play in the dark.  You can use it to play it for a little while, but this requires UPS.",
     "weight": "200 g",
     "volume": "250 ml",
     "price": 12000,
@@ -486,23 +434,11 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
+    "initial_charges": 200,
+    "max_charges": 250,
+    "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ],
     "charges_per_use": 1,
-    "use_action": "PORTABLE_GAME",
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_disposable_cell",
-          "light_minus_disposable_cell",
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
-        ]
-      ]
-    ],
-    "magazine_well": 1
+    "use_action": "PORTABLE_GAME"
   },
   {
     "id": "smart_phone",
@@ -519,8 +455,8 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
-    "initial_charges": 110,
-    "max_charges": 120,
+    "initial_charges": 250,
+    "max_charges": 300,
     "charges_per_use": 1,
     "use_action": [
       {
@@ -568,7 +504,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "UPS", "str_pl": "UPS's" },
-    "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power bionics, armor and some guns, but drains batteries quickly.",
+    "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS was designed to power bionics, armor and some guns.  Nowadays it can be found in most household battery powered items.",
     "weight": "680 g",
     "volume": "2500 ml",
     "price": 280000,
