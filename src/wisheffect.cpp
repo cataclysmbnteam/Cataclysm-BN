@@ -93,7 +93,7 @@ cata::optional<int> query_intensity()
                              .title( _( "Input new intensity" ) )
                              .only_digits( true )
                              .query_int();
-    } catch( std::exception ) {
+    } catch( std::exception & ) {
         return cata::nullopt;
     }
     return last_val.intensity;
