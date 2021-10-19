@@ -2330,38 +2330,52 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
     const pry_result *pry = nullptr;
+    bool pry_furn;
+
+    const std::function<bool(const tripoint&)> can_pry = [&p](const tripoint& pnt) {
+        if ( pnt == p->pos() ) {
+            return false;
+        }
+        const ter_id ter = g->m.ter(pnt);
+        const furn_id furn = g->m.furn(pnt);
+
+        const bool is_allowed = ter->pry.pry_quality != -1 || furn->pry.pry_quality != -1;
+        return is_allowed;
+    };
 
     const cata::optional<tripoint> pnt_ = ( pos != p->pos() ) ? pos : choose_adjacent_highlight(
-            _( "Pry where?" ), _( "There is nothing to pry nearby." ), pos, false );
+            _( "Pry where?" ), _( "There is nothing to pry nearby." ), can_pry, false );
     if( !pnt_ ) {
         return 0;
     }
     const tripoint &pnt = *pnt_;
     const ter_id ter = g->m.ter( pnt );
     const furn_id furn = g->m.furn( pnt );
-    if( !pos( pnt ) ) {
+
+    if( !can_pry( pnt ) ) {
         if( pnt == p->pos() ) {
             p->add_msg_if_player( m_info, _( "You attempt to pry open your wallet "
                                              "but alas.  You are just too miserly." ) );
-        } if (ter->pry.new_ter_type || furn->pry.new_furn_type) {
-            if (pos == g->u.pos()) {
-                return false;
-            }
-
-            const bool is_allowed = false;
-            if (furn.obj().pry.pry_quality != -1) {
-                pry = &ter.obj().pry;
-                pry_furn = true;
-                return 0;
-            }
-            else if (ter.obj().pry.pry_quality != -1) {
-                pry = &ter.obj().pry;
-                return 0;
-            }
-        } else {
-            p->add_msg_if_player(m_info, _("You can't pry that."));
         }
+        else if ( !ter->has_flag("LOCKED") && ter->open ) {
+            p->add_msg_if_player(m_info, _( "You notice the door is unlocked, so you simply open it." ));
+            g->m.ter_set( pnt, ter->open );
+        }
+        else {
+            p->add_msg_if_player( m_info, _( "You can't pry that." ) );
+        }
+
+        return 0;
     }
+
+    if ( furn->pry.pry_quality != -1 ) {
+        pry_furn = true;
+        pry = &furn->pry;
+    }
+    else {        
+        pry_furn = false;
+        pry = &ter->pry;
+    }    
 
     // Doors need PRY 2 which is on a crowbar, crates need PRY 1 which is on a crowbar
     // & a claw hammer.
@@ -2390,8 +2404,8 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
     if( dice( 4, diff ) < dice( 4, p->str_cur ) ) {
         p->add_msg_if_player( m_good, pry->success_message );
 
-        if( pry_furn = true ) {
-            g->m.ter_set( pnt, pry->new_furn_type );
+        if( pry_furn == true ) {
+            g->m.furn_set( pnt, pry->new_furn_type );
         } else {
             g->m.ter_set( pnt, pry->new_ter_type );
         }
@@ -2399,8 +2413,8 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
         if( pry->noise > 0 ) {
             sounds::sound( pnt, pry->noise, sounds::sound_t::combat, pry->sound, true, "tool", "crowbar" );
         }
-        g->m.spawn_items( pnt, item_group::items_from( pry.pry_items, calendar::turn ) );
-        if( pry->alarm = true ) {
+        g->m.spawn_items( pnt, item_group::items_from( pry->pry_items, calendar::turn ) );
+        if( pry->alarm == true ) {
             g->events().send<event_type::triggers_alarm>( p->getID() );
             sounds::sound( p->pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                            "alarm" );
@@ -2410,22 +2424,22 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
             }
         }
     } else {
-        if( pry->breakable = true ) {
+        if( pry->breakable == true ) {
             //chance of breaking the glass if pry attempt fails
             /** @EFFECT_STR reduces chance of breaking window with crowbar */
 
             /** @EFFECT_MECHANICS reduces chance of breaking window with crowbar */
             if( dice( 4, diff ) > dice( 2, p->get_skill_level( skill_mechanics ) ) + dice( 2,
                     p->str_cur ) ) {
-                p->add_msg_if_player( m_mixed, pry->breakage_message );
-                sounds::sound( pnt, pry->noise, sounds::sound_t::combat, pry->breakage_message, true, "smash", "door" );
-                if( pry_furn = true ) {
-                    g->m.ter_set( pnt, pry->breakage_furn_type );
+                p->add_msg_if_player( m_mixed, pry->break_message );
+                sounds::sound( pnt, pry->break_noise, sounds::sound_t::combat, pry->break_sound, true, "smash", "door" );
+                if( pry_furn == true ) {
+                    g->m.furn_set( pnt, pry->break_furn_type );
                 } else {
-                    g->m.ter_set( pnt, pry->breakage_ter_type );
+                    g->m.ter_set( pnt, pry->break_ter_type );
                 }
-                g->m.spawn_items( pnt, item_group::items_from( pry.break_items, calendar::turn ) );
-                if( alarm = true ) {
+                g->m.spawn_items( pnt, item_group::items_from( pry->break_items, calendar::turn ) );
+                if( pry->alarm == true ) {
                     g->events().send<event_type::triggers_alarm>( p->getID() );
                     sounds::sound( p->pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                                    "alarm" );

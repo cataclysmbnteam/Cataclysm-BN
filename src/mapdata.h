@@ -102,8 +102,8 @@ struct lockpicking_open_result {
 
 struct pry_result {
     // What terrain or furniture it will turn into when pried open
-    ter_id new_ter_type;
-    furn_id new_furn_type;
+    ter_str_id new_ter_type;
+    furn_str_id new_furn_type;
     // Minimum prying quality required to pry open
     int pry_quality;
     // Multiplier for how much of an advantage is gained from using a better tool than the minimum
@@ -112,24 +112,26 @@ struct pry_result {
     int difficulty;
     // How much noise a successful prying attempt creates, if any
     int noise;
+    // How much noise breaking creates, if any, defaults to noise if not set
+    int break_noise;
     // Does a successful pry attempt potentially sound an alarm?
     bool alarm;
     // Does a failed pry attempt risk breaking it instead?
     bool breakable;
     // What terrain or furniture it will turn into if you break it
-    ter_id breakage_ter_type;
-    furn_id breakage_furn_type;
+    ter_str_id break_ter_type;
+    furn_str_id break_furn_type;
     // item group of items that are dropped on success or breakage
     item_group_id pry_items;
     item_group_id break_items;
     // sound message made on success ('You hear a "smash!"')
     translation sound;
     // sound message made on breakage, if breakable is true
-    translation sound_break;
+    translation break_sound;
     // Messages for succeeding or failing pry attempt, and breakage
     std::string success_message;
     std::string fail_message;
-    std::string breakage_message;
+    std::string break_message;
     pry_result();
     enum map_object_type {
         furniture = 0,
@@ -272,6 +274,7 @@ enum ter_connects : int {
 struct map_data_common_t {
         map_bash_info        bash;
         map_deconstruct_info deconstruct;
+        pry_result           pry;
 
     public:
         virtual ~map_data_common_t() = default;
