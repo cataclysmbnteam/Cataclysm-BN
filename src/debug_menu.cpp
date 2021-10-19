@@ -490,6 +490,8 @@ void character_edit_menu( Character &c )
     npc *np = c.is_npc() ? static_cast<npc *>( &c ) : nullptr;
     player &p = static_cast<player &>( c );
 
+    const tripoint start_view_offset = get_avatar().view_offset;
+
     std::string nmenu_label;
     if( np != nullptr ) {
         std::stringstream data;
@@ -576,10 +578,14 @@ void character_edit_menu( Character &c )
     }
     uilist nmenu( nmenu_label, menu_entries );
     switch( nmenu.ret ) {
-        case edit_character::pick:
+        case edit_character::pick: {
+            Character &other = pick_character( c );
+            get_avatar().view_offset = other.pos() - get_avatar().pos();
             // TODO: Make it not able to cause a stack overflow
-            character_edit_menu( pick_character( c ) );
-            break;
+            character_edit_menu( other );
+            get_avatar().view_offset = start_view_offset;
+        }
+        return;
         case edit_character::skills:
             wishskill( &p );
             break;
