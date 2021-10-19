@@ -41,7 +41,7 @@ template<class T, typename F = std::pair<std::string, void ( T::* )(
              const input_event &,
              int,
              uilist & )>>
-static void register_callback( uilist &menu, T &callback )
+void register_callback( uilist &menu, T &callback )
 {
     menu.callback = &callback;
     for( const F &action : T::get_handled_actions() ) {
@@ -49,9 +49,9 @@ static void register_callback( uilist &menu, T &callback )
     }
 }
 
-static void foreach_effect( Creature &c,
-                            const entry_data &entry,
-                            const std::function<void( const effect & )> &fun )
+void foreach_effect( Creature &c,
+                     const entry_data &entry,
+                     const std::function<void( const effect & )> &fun )
 {
     if( entry.eff ) {
         fun( **entry.eff );
@@ -67,7 +67,7 @@ static void foreach_effect( Creature &c,
     }
 }
 
-static cata::optional<bodypart_str_id> query_body_part( Creature &c )
+cata::optional<bodypart_str_id> query_body_part( Creature &c )
 {
     wisheffect_state &last_val = uistate.debug_menu.effect;
     const std::vector<bodypart_id> &all_bps = c.get_all_body_parts();
@@ -84,7 +84,7 @@ static cata::optional<bodypart_str_id> query_body_part( Creature &c )
     }
     return last_val.bodypart;
 }
-static cata::optional<int> query_intensity()
+cata::optional<int> query_intensity()
 {
     wisheffect_state &last_val = uistate.debug_menu.effect;
     try {
@@ -97,9 +97,9 @@ static cata::optional<int> query_intensity()
     }
     return last_val.intensity;
 }
-static cata::optional<time_duration> try_read_time_string( const std::string &ts )
+cata::optional<time_duration> try_read_time_string( const std::string &ts )
 {
-    // Ugly hack, but does the job
+    // Ugly hack, but does the job (it's debug anyway)
     // Have to wrap it in quotes because we're reading a raw string
     const std::string quoted_ts = '"' + ts + '"';
     try {
@@ -110,13 +110,13 @@ static cata::optional<time_duration> try_read_time_string( const std::string &ts
         // Try unit-less conversion
         try {
             return time_duration::from_turns( std::stoi( ts ) );
-        } catch( std::exception ) {
+        } catch( std::exception & ) {
         }
         popup( e.c_str() );
         return cata::nullopt;
     }
 }
-static cata::optional<time_duration> query_duration()
+cata::optional<time_duration> query_duration()
 {
     wisheffect_state &last_val = uistate.debug_menu.effect;
     string_input_popup popup;
@@ -133,7 +133,7 @@ static cata::optional<time_duration> query_duration()
         return cata::nullopt;
     }
 }
-static bool toggle_effect_force()
+bool toggle_effect_force()
 {
     uistate.debug_menu.effect.force = !uistate.debug_menu.effect.force;
     return uistate.debug_menu.effect.force;
@@ -490,4 +490,4 @@ void effect_edit_menu( Creature &c )
     }
 }
 
-}
+} // namespace debug_menu
