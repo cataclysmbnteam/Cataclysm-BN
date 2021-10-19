@@ -54,6 +54,7 @@
     "components": [
       [ [ "circuit", 2 ] ],
       [ [ "e_scrap", 3 ] ],
+      [ [ "scrap", 15 ] ],
       [ [ "amplifier", 2 ], [ "power_supply", 2 ] ],
       [ [ "plut_cell", 2 ] ],
       [ [ "antenna", 1 ] ],
