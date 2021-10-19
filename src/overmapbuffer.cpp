@@ -430,26 +430,6 @@ int overmapbuffer::get_horde_size( const tripoint_abs_omt &p )
     return horde_size;
 }
 
-bool overmapbuffer::has_camp( const tripoint_abs_omt &p )
-{
-    if( p.z() ) {
-        return false;
-    }
-
-    const overmap_with_local_coords om_loc = get_existing_om_global( p );
-    if( !om_loc ) {
-        return false;
-    }
-
-    for( const auto &v : om_loc.om->camps ) {
-        if( v.camp_omt_pos().xy() == p.xy() ) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
 bool overmapbuffer::has_vehicle( const tripoint_abs_omt &p )
 {
     if( p.z() ) {
@@ -720,9 +700,10 @@ std::vector<tripoint_abs_omt> overmapbuffer::get_npc_path(
     const tripoint_abs_omt &src, const tripoint_abs_omt &dest, path_type &ptype )
 {
     std::vector<tripoint_abs_omt> path;
-    static const int RADIUS = 4;            // Maximal radius of search (in overmaps)
-    static const point_rel_omt O( RADIUS * OMAPX,
-                                  RADIUS * OMAPY );   // half-height of the area to search in
+    // Maximal radius of search (in overmaps)
+    static const int RADIUS = 4;
+    // half-size of the area to search in
+    static const point_rel_omt O( RADIUS * OMAPX, RADIUS * OMAPY );
     if( src == overmap::invalid_tripoint || dest == overmap::invalid_tripoint ) {
         return path;
     }

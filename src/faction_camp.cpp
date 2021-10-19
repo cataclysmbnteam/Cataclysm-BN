@@ -3897,9 +3897,6 @@ bool basecamp::distribute_food()
     const tripoint &abspos = get_dumping_spot();
     const std::unordered_set<tripoint> &z_food = mgr.get_near( zone_type_camp_food, abspos, 60 );
 
-    // FIXME: is this correct?
-    tripoint p_litter = project_to<coords::sm>( omt_pos ).raw() + point( -7, 0 );
-
     bool has_food = false;
     for( const tripoint &p_food_stock_abs : z_food ) {
         const tripoint p_food_stock = g->m.getlocal( p_food_stock_abs );
@@ -3921,14 +3918,11 @@ bool basecamp::distribute_food()
         map_stack initial_items = g->m.i_at( p_food_stock );
         for( item &i : initial_items ) {
             if( i.is_container() && i.get_contained().is_food() ) {
+                // TODO: make NPCs leave empty food containers elsewhere?
                 auto comest = i.get_contained();
                 i.contents.clear_items();
-                //NPCs are lazy bastards who leave empties all around the camp fire
-                tripoint litter_spread = p_litter;
-                litter_spread.x += rng( -3, 3 );
-                litter_spread.y += rng( -3, 3 );
                 i.on_contents_changed();
-                g->m.add_item_or_charges( litter_spread, i, false );
+                keep_me.push_back( i );
                 i = comest;
             }
             if( i.is_comestible() && ( i.rotten() || i.get_comestible_fun() < -6 ) ) {

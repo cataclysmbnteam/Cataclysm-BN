@@ -1071,8 +1071,8 @@ overmap::overmap( const point_abs_om &p ) : loc( p )
     t_regional_settings_map_citr rsit = region_settings_map.find( rsettings_id );
 
     if( rsit == region_settings_map.end() ) {
-        debugmsg( "overmap%s: can't find region '%s'", p.to_string(),
-                  rsettings_id.c_str() ); // gonna die now =[
+        // gonna die now =[
+        debugmsg( "overmap %s: can't find region '%s'", loc.to_string(), rsettings_id.c_str() );
     }
     settings = pimpl<regional_settings>( rsit->second );
 
@@ -1089,7 +1089,7 @@ void overmap::populate( overmap_special_batch &enabled_specials )
     try {
         open( enabled_specials );
     } catch( const std::exception &err ) {
-        debugmsg( "overmap (%d,%d) failed to load: %s", loc.x(), loc.y(), err.what() );
+        debugmsg( "overmap %s failed to load: %s", loc.to_string(), err.what() );
     }
 }
 
@@ -1290,7 +1290,7 @@ bool overmap::has_note( const tripoint_om_omt &p ) const
         return false;
     }
 
-    for( auto &i : layer[p.z() + OVERMAP_DEPTH].notes ) {
+    for( const om_note &i : layer[p.z() + OVERMAP_DEPTH].notes ) {
         if( i.p == p.xy() ) {
             return true;
         }
@@ -1304,7 +1304,7 @@ cata::optional<int> overmap::has_note_with_danger_radius( const tripoint_om_omt 
         return cata::nullopt;
     }
 
-    for( auto &i : layer[p.z() + OVERMAP_DEPTH].notes ) {
+    for( const om_note &i : layer[p.z() + OVERMAP_DEPTH].notes ) {
         if( i.p == p.xy() ) {
             if( i.dangerous ) {
                 return i.danger_radius;
@@ -1318,7 +1318,7 @@ cata::optional<int> overmap::has_note_with_danger_radius( const tripoint_om_omt 
 
 bool overmap::is_marked_dangerous( const tripoint_om_omt &p ) const
 {
-    for( auto &i : layer[p.z() + OVERMAP_DEPTH].notes ) {
+    for( const om_note &i : layer[p.z() + OVERMAP_DEPTH].notes ) {
         if( !i.dangerous ) {
             continue;
         } else if( p.xy() == i.p ) {
@@ -1734,7 +1734,7 @@ bool overmap::generate_sub( const int z )
     if( z == -2 && one_in( 3 ) ) {
         lab_train_odds = 2;
     }
-    if( z == -4 && !central_lab_points.empty() && pos() != point_abs_om( point_zero ) ) {
+    if( z == -4 && !central_lab_points.empty() && pos() != point_abs_om() ) {
         lab_train_odds = 1;
     }
 
@@ -3160,7 +3160,7 @@ bool overmap::build_lab( const tripoint_om_omt &p, lab &l, int s,
     const oter_id labt_ants( "ants_lab" );
     const oter_id labt_ants_stairs( "ants_lab_stairs" );
 
-    bool is_true_center = pos() == point_abs_om( point_zero ) && l.type == lab_type::central;
+    bool is_true_center = pos() == point_abs_om() && l.type == lab_type::central;
 
     ter_set( p, labt );
     generated_lab.push_back( p );
@@ -4300,7 +4300,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
     om_special_sectors sectors = get_sectors( OMSPEC_FREQ );
 
     // At true center, central lab is truly mandatory and can't be pushed to neighbors
-    bool is_true_center = pos() == point_abs_om( point_zero );
+    bool is_true_center = pos() == point_abs_om();
     if( is_true_center ) {
         std::vector<const overmap_special *> truly_mandatory_specials;
         // Ugly hack. TODO: Un-ugly
@@ -4453,7 +4453,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
 void overmap::place_mongroups()
 {
     // Cities are full of zombies
-    for( city &elem : cities ) {
+    for( const city &elem : cities ) {
         if( get_option<bool>( "WANDER_SPAWNS" ) ) {
             if( !one_in( 16 ) || elem.size > 5 ) {
                 mongroup m( GROUP_ZOMBIE,
@@ -4506,7 +4506,7 @@ void overmap::place_mongroups()
         }
     }
 
-    if( pos() == point_abs_om( point_zero ) ) {
+    if( pos() == point_abs_om() ) {
         // Figure out where the dimensional lab is, and flood area with nether critters
         for( int x = 0; x < OMAPX; x++ ) {
             for( int y = 0; y < OMAPY; y++ ) {
@@ -4561,7 +4561,7 @@ void overmap::place_radios()
                                             "  Supplies are limited, please bring supplemental food, water, and bedding."
                                             "  This is FEMA camp %d%d.  A designated long-term emergency shelter." ), i, j, i, j );
                 radios.push_back( radio_tower( pos_sm, strength(), message ) );
-            } else if( ter( pos_omt ) == "central_lab_entrance" && pos() == point_abs_om( point_zero ) ) {
+            } else if( ter( pos_omt ) == "central_lab_entrance" && pos() == point_abs_om() ) {
                 std::string message =
                     _( "If you can hear this message, the probe to 021XC is functioning correctly." );
                 // Repeat the message on different frequencies

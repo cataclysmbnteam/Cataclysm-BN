@@ -616,7 +616,7 @@ special_game_id game::gametype() const
 void game::load_map( const tripoint &pos_sm )
 {
     // TODO: fix point types
-    m.load( pos_sm, true );
+    load_map( tripoint_abs_sm( pos_sm ) );
 }
 
 void game::load_map( const tripoint_abs_sm &pos_sm )

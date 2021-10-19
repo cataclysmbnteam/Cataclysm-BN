@@ -827,6 +827,7 @@ void player::store( JsonOut &json ) const
 
     json.member( "ammo_location", ammo_location );
 
+    // TODO: move to Character
     json.member( "camps" );
     json.start_array();
     for( const tripoint_abs_omt &bcpt : camps ) {
@@ -911,6 +912,7 @@ void player::load( const JsonObject &data )
         last_target = g->critter_tracker->from_temporary_id( tmptar );
     }
     data.read( "destination_point", destination_point );
+    // TODO: move to Character
     camps.clear();
     for( JsonObject bcdata : data.get_array( "camps" ) ) {
         bcdata.allow_omitted_members();

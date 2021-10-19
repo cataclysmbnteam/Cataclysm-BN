@@ -1099,7 +1099,13 @@ int weather_manager::get_temperature( const tripoint &location ) const
 
 int weather_manager::get_temperature( const tripoint_abs_omt &location )
 {
-    return location.z() < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature;
+    if( location.z() < 0 ) {
+        return AVERAGE_ANNUAL_TEMPERATURE;
+    }
+
+    tripoint abs_ms = project_to<coords::ms>( location ).raw();
+    w_point w = get_cur_weather_gen().get_weather( abs_ms, calendar::turn, g->get_seed() );
+    return w.temperature;
 }
 
 int weather_manager::get_water_temperature( const tripoint & ) const

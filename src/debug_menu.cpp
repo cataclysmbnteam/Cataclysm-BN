@@ -411,7 +411,7 @@ void teleport_long()
         return;
     }
     g->place_player_overmap( where );
-    add_msg( _( "You teleport to submap (%s)." ), where.to_string() );
+    add_msg( _( "You teleport to submap %s." ), where.to_string() );
 }
 
 void teleport_overmap( bool specific_coordinates )
