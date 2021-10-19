@@ -6,6 +6,7 @@
 #include "cata_utility.h"
 #include "creature.h"
 #include "debug.h"
+#include "debug_menu.h"
 #include "effect.h"
 #include "input.h"
 #include "json.h"
