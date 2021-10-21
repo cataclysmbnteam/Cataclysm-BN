@@ -538,7 +538,7 @@
     "looks_like": "coat_winter",
     "color": "light_gray",
     "covers": [ "torso", "arms", "legs" ],
-    "coverage": 95,
+    "coverage": 90,
     "encumbrance": 15,
     "warmth": 30,
     "material_thickness": 5,
