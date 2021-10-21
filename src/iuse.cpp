@@ -2412,12 +2412,12 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
     const pry_result *pry = nullptr;
     bool pry_furn;
 
-    const std::function<bool(const tripoint&)> can_pry = [&p](const tripoint& pnt) {
-        if ( pnt == p->pos() ) {
+    const std::function<bool( const tripoint & )> can_pry = [&p]( const tripoint & pnt ) {
+        if( pnt == p->pos() ) {
             return false;
         }
-        const ter_id ter = g->m.ter(pnt);
-        const furn_id furn = g->m.furn(pnt);
+        const ter_id ter = g->m.ter( pnt );
+        const furn_id furn = g->m.furn( pnt );
 
         const bool is_allowed = ter->pry.pry_quality != -1 || furn->pry.pry_quality != -1;
         return is_allowed;
@@ -2436,26 +2436,23 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
         if( pnt == p->pos() ) {
             p->add_msg_if_player( m_info, _( "You attempt to pry open your wallet "
                                              "but alas.  You are just too miserly." ) );
-        }
-        else if ( !ter->has_flag("LOCKED") && ter->open ) {
-            p->add_msg_if_player(m_info, _( "You notice the door is unlocked, so you simply open it." ));
+        } else if( !ter->has_flag( "LOCKED" ) && ter->open ) {
+            p->add_msg_if_player( m_info, _( "You notice the door is unlocked, so you simply open it." ) );
             g->m.ter_set( pnt, ter->open );
-        }
-        else {
+        } else {
             p->add_msg_if_player( m_info, _( "You can't pry that." ) );
         }
 
         return 0;
     }
 
-    if ( furn->pry.pry_quality != -1 ) {
+    if( furn->pry.pry_quality != -1 ) {
         pry_furn = true;
         pry = &furn->pry;
-    }
-    else {        
+    } else {
         pry_furn = false;
         pry = &ter->pry;
-    }    
+    }
 
     // Doors need PRY 2 which is on a crowbar, crates need PRY 1 which is on a crowbar
     // & a claw hammer.
@@ -2512,7 +2509,8 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
             if( dice( 4, diff ) > dice( 2, p->get_skill_level( skill_mechanics ) ) + dice( 2,
                     p->str_cur ) ) {
                 p->add_msg_if_player( m_mixed, pry->break_message );
-                sounds::sound( pnt, pry->break_noise, sounds::sound_t::combat, pry->break_sound, true, "smash", "door" );
+                sounds::sound( pnt, pry->break_noise, sounds::sound_t::combat, pry->break_sound, true, "smash",
+                               "door" );
                 if( pry_furn == true ) {
                     g->m.furn_set( pnt, pry->break_furn_type );
                 } else {
