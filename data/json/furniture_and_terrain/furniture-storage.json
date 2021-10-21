@@ -100,13 +100,13 @@
       ]
     },
     "pry": {
-        "success_message": "You wedge open the coffin.",
-        "fail_message": "You pry, but the coffin remains closed.",
-        "pry_quality": 2,
-        "noisy": true,
-        "noise": 12,
-        "difficulty": 5,
-        "new_furn_type": "f_coffin_o"
+      "success_message": "You wedge open the coffin.",
+      "fail_message": "You pry, but the coffin remains closed.",
+      "pry_quality": 2,
+      "noisy": true,
+      "noise": 12,
+      "difficulty": 5,
+      "new_furn_type": "f_coffin_o"
     }
   },
   {
@@ -175,13 +175,13 @@
       "items": [ { "item": "2x4", "count": [ 1, 5 ] }, { "item": "nail", "charges": [ 2, 10 ] } ]
     },
     "pry": {
-        "success_message": "You pop open the crate.",
-        "fail_message": "You pry, but cannot pop open the crate.",
-        "pry_quality": 1,
-        "noisy": true,
-        "noise": 12,
-        "difficulty": 5,
-        "new_furn_type": "f_crate_o"
+      "success_message": "You pop open the crate.",
+      "fail_message": "You pry, but cannot pop open the crate.",
+      "pry_quality": 1,
+      "noisy": true,
+      "noise": 12,
+      "difficulty": 5,
+      "new_furn_type": "f_crate_o"
     }
   },
   {
