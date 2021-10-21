@@ -2,6 +2,7 @@
   {
     "id": "bullwhip",
     "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "brown",
     "name": { "str": "bullwhip" },
@@ -12,13 +13,13 @@
     "price_postapoc": 500,
     "material": [ "leather" ],
     "flags": [ "REACH_ATTACK", "REACH3", "WHIP" ],
-    "cutting": 3,
-    "category": "weapons"
+    "cutting": 3
   },
   {
     "id": "bullwhip_razor",
     "name": { "str": "scourge" },
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "weapons",
     "description": "The \"cat 'o nine tails\", a handle with nine short leather whips each sporting a razor-sharp metal tip.  This ancient instrument of torture causes massive bleeding but is an ineffecient weapon by design.",
     "symbol": "/",
     "color": "brown",

@@ -17,7 +17,6 @@
     "volume": "2500 ml",
     "stack_size": 1,
     "fun": -18,
-    "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_EGG_OWLBEAR",
     "vitamins": [ [ "vitA", 360 ], [ "calcium", 120 ], [ "iron", 160 ], [ "vitB", 840 ] ],
     "rot_spawn_chance": 80,

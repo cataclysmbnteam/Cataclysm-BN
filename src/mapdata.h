@@ -27,8 +27,6 @@ struct tripoint;
 
 using iexamine_function = void ( * )( player &, const tripoint & );
 
-using itype_id = std::string;
-
 struct map_bash_info {
     int str_min;            // min str(*) required to bash
     int str_max;            // max str required: bash succeeds if str >= random # between str_min & str_max
@@ -389,6 +387,8 @@ struct ter_t : map_data_common_t {
 
     trap_id trap; // The id of the trap located at this terrain. Limit one trap per tile currently.
 
+    int heat_radiation = 0; // In fire field intensity "units"
+
     ter_t();
 
     static size_t count();
@@ -413,7 +413,7 @@ struct furn_t : map_data_common_t {
     furn_str_id close; // Close action: transform into furniture with matching id
     furn_str_id transforms_into; // Transform into what furniture?
 
-    std::string crafting_pseudo_item;
+    itype_id crafting_pseudo_item;
     units::volume keg_capacity = 0_ml;
     int comfort = 0;
     int floor_bedding_warmth = 0;

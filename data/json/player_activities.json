@@ -550,7 +550,9 @@
     "type": "activity_type",
     "verb": "washing",
     "rooted": true,
-    "based_on": "speed"
+    "suspendable": false,
+    "based_on": "speed",
+    "no_resume": true
   },
   {
     "id": "ACT_HACKSAW",

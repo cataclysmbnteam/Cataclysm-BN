@@ -133,7 +133,7 @@
     "looks_like": "mon_zombie_soldier",
     "diff": 20,
     "relative": { "hp": 20, "speed": 10, "melee_skill": 1, "vision_day": 10, "vision_night": 10 },
-    "delete": { "flags": [ "BLEED" ] },
+    "delete": { "flags": [ "BLEED" ], "categories": [ "CLASSIC" ] },
     "extend": {
       "special_attacks": [
         [ "ACID_BARF", 10 ],
@@ -163,7 +163,7 @@
     "looks_like": "mon_zombie_soldier",
     "diff": 20,
     "relative": { "hp": 40, "speed": -10, "melee_skill": 2, "armor_bash": 5 },
-    "delete": { "flags": [ "BLEED" ] },
+    "delete": { "flags": [ "BLEED" ], "categories": [ "CLASSIC" ] },
     "extend": {
       "special_attacks": [
         [ "ACID_BARF", 5 ],

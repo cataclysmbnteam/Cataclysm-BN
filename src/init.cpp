@@ -92,6 +92,8 @@
 #include "veh_type.h"
 #include "vehicle_group.h"
 #include "vitamin.h"
+#include "weather.h"
+#include "weather_type.h"
 #include "worldfactory.h"
 
 #if defined(TILES)
@@ -237,12 +239,13 @@ void DynamicDataLoader::initialize()
     add( "json_flag", &json_flag::load_all );
     add( "fault", &fault::load_fault );
     add( "field_type", &field_types::load );
+    add( "weather_type", &weather_types::load );
     add( "ammo_effect", &ammo_effects::load );
     add( "emit", &emit::load_emit );
     add( "activity_type", &activity_type::load );
     add( "vitamin", &vitamin::load_vitamin );
     add( "material", &materials::load );
-    add( "bionic", &load_bionic );
+    add( "bionic", &bionic_data::load_bionic );
     add( "profession", &profession::load_profession );
     add( "profession_item_substitutions", &profession::load_item_substitutions );
     add( "skill", &Skill::load_skill );
@@ -356,6 +359,7 @@ void DynamicDataLoader::initialize()
     } );
 
     add( "charge_removal_blacklist", charge_removal_blacklist::load );
+    add( "to_cbc_migration", to_cbc_migration::load );
 
     add( "MONSTER", []( const JsonObject & jo, const std::string & src ) {
         MonsterGenerator::generator().load_monster( jo, src );
@@ -526,6 +530,7 @@ void DynamicDataLoader::unload_data()
     anatomy::reset();
     ascii_art::reset();
     behavior::reset();
+    bionic_data::reset();
     body_part_type::reset();
     charge_removal_blacklist::reset();
     clear_techniques_and_martial_arts();
@@ -570,7 +575,6 @@ void DynamicDataLoader::unload_data()
     recipe_dictionary::reset();
     recipe_group::reset();
     requirement_data::reset();
-    reset_bionics();
     reset_constructions();
     reset_effect_types();
     reset_furn_ter();
@@ -593,6 +597,7 @@ void DynamicDataLoader::unload_data()
     spell_type::reset_all();
     start_locations::reset();
     ter_furn_transform::reset_all();
+    to_cbc_migration::reset();
     trap::reset();
     unload_talk_topics();
     vehicle_prototype::reset();
@@ -601,6 +606,7 @@ void DynamicDataLoader::unload_data()
     VehicleSpawn::reset();
     vitamin::reset();
     vpart_info::reset();
+    weather_types::reset();
     zone_type::reset_zones();
 #if defined(LOCALIZE)
     l10n_data::unload_mod_catalogues();
@@ -634,6 +640,8 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
     const std::vector<named_entry> entries = {{
             { _( "Flags" ), &json_flag::finalize_all },
             { _( "Body parts" ), &body_part_type::finalize_all },
+            { _( "Bionics" ), &bionic_data::finalize_all },
+            { _( "Weather types" ), &weather_types::finalize_all },
             { _( "Field types" ), &field_types::finalize_all },
             { _( "Ammo effects" ), &ammo_effects::finalize_all },
             { _( "Emissions" ), &emit::finalize },
@@ -651,7 +659,6 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             },
             { _( "Vehicle parts" ), &vpart_info::finalize },
             { _( "Traps" ), &trap::finalize },
-            { _( "Bionics" ), &finalize_bionics },
             { _( "Terrain" ), &set_ter_ids },
             { _( "Furniture" ), &finalize_furn },
             { _( "Overmap land use codes" ), &overmap_land_use_codes::finalize },
@@ -720,6 +727,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
                 }
             },
             { _( "Vitamins" ), &vitamin::check_consistency },
+            { _( "Weather types" ), &weather_types::check_consistency },
             { _( "Field types" ), &field_types::check_consistency },
             { _( "Ammo effects" ), &ammo_effects::check_consistency },
             { _( "Emissions" ), &emit::check_consistency },
@@ -758,7 +766,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Start locations" ), &start_locations::check_consistency },
             { _( "Ammunition types" ), &ammunition_type::check_consistency },
             { _( "Traps" ), &trap::check_consistency },
-            { _( "Bionics" ), &check_bionics },
+            { _( "Bionics" ), &bionic_data::check_consistency },
             { _( "Gates" ), &gates::check },
             { _( "NPC classes" ), &npc_class::check_consistency },
             { _( "Behaviors" ), &behavior::check_consistency },

@@ -161,7 +161,7 @@ static bool in_spell_aoe( const tripoint &start, const tripoint &end, const int 
     }
     const std::vector<tripoint> trajectory = line_to( start, end );
     for( const tripoint &pt : trajectory ) {
-        if( g->m.impassable( pt ) ) {
+        if( g->m.impassable( pt ) && !g->m.has_flag( "THIN_OBSTACLE", pt ) ) {
             return false;
         }
     }
@@ -198,7 +198,7 @@ std::set<tripoint> spell_effect::spell_effect_cone( const spell &sp, const tripo
     for( const tripoint &ep : end_points ) {
         std::vector<tripoint> trajectory = line_to( source, ep );
         for( const tripoint &tp : trajectory ) {
-            if( ignore_walls || g->m.passable( tp ) ) {
+            if( ignore_walls || g->m.passable( tp ) || g->m.has_flag( "THIN_OBSTACLE", tp ) ) {
                 targets.emplace( tp );
             } else {
                 break;
@@ -216,7 +216,7 @@ static bool test_always_true( const tripoint & )
 }
 static bool test_passable( const tripoint &p )
 {
-    return g->m.passable( p );
+    return ( g->m.passable( p ) || g->m.has_flag( "THIN_OBSTACLE", p ) );
 }
 
 std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoint &source,
@@ -386,7 +386,12 @@ static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &ta
         explosion_colors[pt] = sp.damage_type_color();
     }
 
-    explosion_handler::draw_custom_explosion( g->u.pos(), explosion_colors );
+    if( sp.id()->sprite.length() > 0 ) {
+        explosion_handler::draw_custom_explosion( g->u.pos(), explosion_colors, sp.id()->sprite );
+    } else {
+        explosion_handler::draw_custom_explosion( g->u.pos(), explosion_colors, "explosion" );
+    }
+
     return targets;
 }
 
@@ -462,7 +467,7 @@ void spell_effect::projectile_attack( const spell &sp, Creature &caster,
 {
     std::vector<tripoint> trajectory = line_to( caster.pos(), target );
     for( std::vector<tripoint>::iterator iter = trajectory.begin(); iter != trajectory.end(); iter++ ) {
-        if( g->m.impassable( *iter ) ) {
+        if( g->m.impassable( *iter ) && !g->m.has_flag( "THIN_OBSTACLE", *iter ) ) {
             if( iter != trajectory.begin() ) {
                 target_attack( sp, caster, *( iter - 1 ) );
             } else {
@@ -547,7 +552,7 @@ int area_expander::run( const tripoint &center )
         for( size_t i = 0; i < 8; i++ ) {
             tripoint pt = best.position + point( x_offset[ i ], y_offset[ i ] );
 
-            if( g->m.impassable( pt ) ) {
+            if( g->m.impassable( pt ) && !g->m.has_flag( "THIN_OBSTACLE", pt ) ) {
                 continue;
             }
 
@@ -902,8 +907,13 @@ void spell_effect::explosion( const spell &sp, Creature &, const tripoint &targe
 
 void spell_effect::flashbang( const spell &sp, Creature &caster, const tripoint &target )
 {
-    explosion_handler::flashbang( target, caster.is_avatar() &&
-                                  !sp.is_valid_target( valid_target::target_self ) );
+    if( sp.id()->sprite.length() > 0 ) {
+        explosion_handler::flashbang( target, caster.is_avatar() &&
+                                      !sp.is_valid_target( valid_target::target_self ), sp.id()->sprite );
+    } else {
+        explosion_handler::flashbang( target, caster.is_avatar() &&
+                                      !sp.is_valid_target( valid_target::target_self ), "explosion" );
+    }
 }
 
 void spell_effect::mod_moves( const spell &sp, Creature &caster, const tripoint &target )

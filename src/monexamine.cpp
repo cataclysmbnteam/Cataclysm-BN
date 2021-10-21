@@ -55,6 +55,9 @@ static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_saddled( "monster_saddled" );
 static const efftype_id effect_tied( "tied" );
 
+static const itype_id itype_cash_card( "cash_card" );
+static const itype_id itype_id_military( "id_military" );
+
 static const skill_id skill_survival( "survival" );
 static const species_id ZOMBIE( "ZOMBIE" );
 
@@ -185,7 +188,7 @@ bool monexamine::pet_menu( monster &z )
             amenu.addentry( mount, false, 'r', _( "You are not skilled enough to ride without a saddle" ) );
         }
     } else {
-        const itype &type = *item::find_type( z.type->mech_battery );
+        const itype &type = *z.type->mech_battery;
         int max_charge = type.magazine->capacity;
         float charge_percent;
         if( z.battery_item ) {
@@ -369,7 +372,7 @@ void monexamine::insert_battery( monster &z )
 
 bool monexamine::mech_hack( monster &z )
 {
-    itype_id card_type = "id_military";
+    itype_id card_type = itype_id_military;
     if( g->u.has_amount( card_type, 1 ) ) {
         if( query_yn( _( "Swipe your ID card into the mech's security port?" ) ) ) {
             g->u.mod_moves( -100 );
@@ -402,7 +405,7 @@ static int prompt_for_amount( const char *const msg, const int max )
 bool monexamine::pay_bot( monster &z )
 {
     time_duration friend_time = z.get_effect_dur( effect_pet );
-    const int charge_count = g->u.charges_of( "cash_card" );
+    const int charge_count = g->u.charges_of( itype_cash_card );
 
     int amount = 0;
     uilist bot_menu;
@@ -423,7 +426,7 @@ bool monexamine::pay_bot( monster &z )
                                    "How much friendship do you get?  Max: %d minutes.", charge_count / 10 ), charge_count / 10 );
             if( amount > 0 ) {
                 time_duration time_bought = time_duration::from_minutes( amount );
-                g->u.use_charges( "cash_card", amount * 10 );
+                g->u.use_charges( itype_cash_card, amount * 10 );
                 z.add_effect( effect_pet, time_bought );
                 z.add_effect( effect_paid, time_bought, num_bp );
                 z.friendly = -1;
@@ -559,8 +562,8 @@ void monexamine::push( monster &z )
         return;
     }
 
-    int deltax = z.posx() - g->u.posx(), deltay = z.posy() - g->u.posy();
-    z.move_to( tripoint( z.posx() + deltax, z.posy() + deltay, z.posz() ) );
+    point delta( z.posx() - g->u.posx(), z.posy() - g->u.posy() );
+    z.move_to( tripoint( z.posx() + delta.x, z.posy() + delta.y, z.posz() ) );
 }
 
 void monexamine::rename_pet( monster &z )
@@ -642,14 +645,17 @@ bool monexamine::give_items_to( monster &z )
     drop_locations items = game_menus::inv::multidrop( g->u );
     drop_locations to_move;
     for( const drop_location &itq : items ) {
-        const item &it = *itq.first;
-        units::volume item_volume = it.volume() * itq.second;
-        units::mass item_weight = it.weight() * itq.second;
+        item it_copy = *itq.loc;
+        if( it_copy.count_by_charges() ) {
+            it_copy.charges = itq.count;
+        }
+        units::volume item_volume = it_copy.volume();
+        units::mass item_weight = it_copy.weight();
         if( max_weight < item_weight ) {
-            add_msg( _( "The %1$s is too heavy for the %2$s to carry." ), it.tname(), pet_name );
+            add_msg( _( "The %1$s is too heavy for the %2$s to carry." ), it_copy.tname(), pet_name );
             continue;
         } else if( max_volume < item_volume ) {
-            add_msg( _( "The %1$s is too big to fit in the %2$s." ), it.tname(), storage.tname() );
+            add_msg( _( "The %1$s is too big to fit in the %2$s." ), it_copy.tname(), storage.tname() );
             continue;
         } else {
             max_weight -= item_weight;
@@ -777,10 +783,10 @@ void monexamine::tie_or_untie( monster &z )
 
 void monexamine::milk_source( monster &source_mon )
 {
-    std::string milked_item = source_mon.type->starting_ammo.begin()->first;
+    itype_id milked_item = source_mon.type->starting_ammo.begin()->first;
     auto milkable_ammo = source_mon.ammo.find( milked_item );
     if( milkable_ammo == source_mon.ammo.end() ) {
-        debugmsg( "The %s has no milkable %s.", source_mon.get_name(), milked_item );
+        debugmsg( "The %s has no milkable %s.", source_mon.get_name(), milked_item.str() );
         return;
     }
     if( milkable_ammo->second > 0 ) {

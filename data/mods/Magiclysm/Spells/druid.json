@@ -4,6 +4,7 @@
     "type": "SPELL",
     "name": "Vegetative Grasp",
     "description": "This spell causes roots and vines to burst forth from the ground and grab your foes, slowing them and doing a small amount of damage as they dig in.",
+    "sprite": "fd_gibs_veggy",
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "LOUD", "SOMATIC", "VERBAL", "NO_LEGS" ],
     "effect": "target_attack",

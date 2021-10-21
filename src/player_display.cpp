@@ -21,6 +21,7 @@
 #include "output.h"
 #include "pldata.h"
 #include "profession.h"
+#include "ranged.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -396,7 +397,7 @@ static void draw_stats_info( const catacurses::window &w_info,
                                            -std::abs( you.ranged_dex_mod() ) ) );
         print_colored_text( w_info, point( 1, 5 ), col_temp, c_light_gray,
                             string_format( _( "Throwing penalty per target's dodge: <color_white>%+d</color>" ),
-                                           you.throw_dispersion_per_dodge( false ) ) );
+                                           ranged::throw_dispersion_per_dodge( you, false ) ) );
     } else if( line == 2 ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
@@ -804,7 +805,7 @@ static void draw_speed_tab( const catacurses::window &w_speed,
     if( temperature_speed_modifier != 0 ) {
         nc_color pen_color;
         std::string pen_sign;
-        const auto player_local_temp = g->weather.get_temperature( you.pos() );
+        const auto player_local_temp = get_weather().get_temperature( you.pos() );
         if( you.has_trait( trait_id( "COLDBLOOD4" ) ) && player_local_temp > 65 ) {
             pen_color = c_green;
             pen_sign = "+";
@@ -1116,9 +1117,10 @@ void player::disp_info()
     }
 
     if( ( has_trait( trait_id( "TROGLO" ) ) && g->is_in_sunlight( pos() ) &&
-          g->weather.weather == WEATHER_SUNNY ) ||
+          get_weather().weather_id->sun_intensity >= sun_intensity_type::high ) ||
         ( has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( pos() ) &&
-          g->weather.weather != WEATHER_SUNNY ) ) {
+          get_weather().weather_id->sun_intensity < sun_intensity_type::high )
+      ) {
         effect_name_and_text.push_back( { _( "In Sunlight" ),
                                           _( "The sunlight irritates you.\n"
                                              "Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" )

@@ -197,9 +197,9 @@ void vehicle::thrust( int thd, int z )
     } else {
         load = ( thrusting ? 1000 : 0 );
     }
-    // rotorcraft need to spend 15% of load to hover, 30% to change z
+    // rotorcraft need to spend +5% (in addition to idle) of load to fly, +20% (in addition to idle) to ascend
     if( is_rotorcraft() && ( z > 0 || is_flying_in_air() ) ) {
-        load = std::max( load, z > 0 ? 300 : 150 );
+        load = std::max( load, z > 0 ? 200 : 50 );
         thrusting = true;
     }
 
@@ -222,21 +222,6 @@ void vehicle::thrust( int thd, int z )
             }
             cruise_velocity = 0;
             return;
-        }
-        // helicopters improve efficiency the closer they get to 50-70 knots
-        // then it drops off as they go over that.
-        // see https://i.stack.imgur.com/0zIO7.jpg
-        if( is_rotorcraft() && is_flying_in_air() ) {
-            const int velocity_kt = velocity * 0.01;
-            int value;
-            if( velocity_kt < 70 ) {
-                value = 49 * std::pow( velocity_kt, 3 ) -
-                        4118 * std::pow( velocity_kt, 2 ) - 76512 * velocity_kt + 18458000;
-            } else {
-                value = 1864 * std::pow( velocity_kt, 2 ) - 272190 * velocity_kt + 19473000;
-            }
-            value *= 0.0001;
-            load = std::max( 200, std::min( 1000, ( ( value / 2 ) + 100 ) ) );
         }
         //make noise and consume fuel
         noise_and_smoke( load );
@@ -417,20 +402,6 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
         //  and turning (precalc[1])
         const tripoint dsp = global_pos3() + dp + parts[p].precalc[1];
         veh_collision coll = part_collision( p, dsp, just_detect, bash_floor );
-        if( coll.type == veh_coll_nothing && info.rotor_diameter() > 0 ) {
-            size_t radius = static_cast<size_t>( std::round( info.rotor_diameter() / 2.0f ) );
-            for( const tripoint &rotor_point : g->m.points_in_radius( dsp, radius ) ) {
-                veh_collision rotor_coll = part_collision( p, rotor_point, just_detect, false );
-                if( rotor_coll.type != veh_coll_nothing ) {
-                    coll = rotor_coll;
-                    if( just_detect ) {
-                        break;
-                    } else {
-                        colls.push_back( rotor_coll );
-                    }
-                }
-            }
-        }
         if( coll.type == veh_coll_nothing ) {
             continue;
         }
@@ -627,8 +598,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                        to_kilogram( parts[ part ].base.weight() ) : to_kilogram( total_mass() );
 
     //Calculate damage resulting from d_E
-    const itype *type = item::find_type( part_info( ret.part ).item );
-    const auto &mats = type->materials;
+    const material_id_list &mats = part_info( ret.part ).item->materials;
     float vpart_dens = 0;
     if( !mats.empty() ) {
         for( auto &mat_id : mats ) {
@@ -1057,9 +1027,15 @@ bool vehicle::check_heli_ascend( player &p )
     }
     for( const tripoint &pt : get_points( true ) ) {
         tripoint above( pt.xy(), pt.z + 1 );
-        const optional_vpart_position ovp = g->m.veh_at( above );
-        if( g->m.has_flag_ter_or_furn( TFLAG_INDOORS, pt ) || g->m.impassable_ter_furn( above ) || ovp ||
-            g->critter_at( above ) ) {
+        if( !g->m.inbounds_z( above.z ) ) {
+            p.add_msg_if_player( m_bad, _( "It would be unsafe to try and ascend further." ) );
+            return false;
+        }
+        if( g->m.has_flag_ter_or_furn( TFLAG_INDOORS, pt )
+            || g->m.impassable_ter_furn( above )
+            || g->m.veh_at( above )
+            || g->critter_at( above )
+          ) {
             p.add_msg_if_player( m_bad,
                                  _( "It would be unsafe to try and ascend when there are obstacles above you." ) );
             return false;

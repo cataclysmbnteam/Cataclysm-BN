@@ -57,8 +57,6 @@ class uistatedata
 {
         /**** this will set a default value on startup, however to save, see below ****/
     private:
-        // not needed for compilation, but keeps syntax plugins happy
-        using itype_id = std::string;
         enum side { left = 0, right = 1, NUM_PANES = 2 };
     public:
         int ags_pay_gas_selected_pump = 0;
@@ -70,8 +68,8 @@ class uistatedata
 
         int adv_inv_container_location = -1;
         int adv_inv_container_index = 0;
-        itype_id adv_inv_container_type = "null";
-        itype_id adv_inv_container_content_type = "null";
+        itype_id adv_inv_container_type = itype_id::NULL_ID();
+        itype_id adv_inv_container_content_type = itype_id::NULL_ID();
         bool adv_inv_container_in_vehicle = false;
 
         advanced_inv_save_state transfer_save;
@@ -109,6 +107,8 @@ class uistatedata
         std::set<recipe_id> hidden_recipes;
         std::set<recipe_id> favorite_recipes;
         std::vector<recipe_id> recent_recipes;
+
+        bionic_ui_sort_mode bionic_sort_mode = bionic_ui_sort_mode::POWER;
 
         /* to save input history and make accessible via 'up', you don't need to edit this file, just run:
            output = string_input_popup(str, int, str, str, std::string("set_a_unique_identifier_here") );

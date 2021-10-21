@@ -10,6 +10,19 @@ constexpr inline int sgn( const T x )
     return x < 0 ? -1 : ( x > 0 ? 1 : 0 );
 }
 
+enum class bionic_ui_sort_mode : int {
+    NONE   = 0,
+    POWER  = 1,
+    NAME   = 2,
+    INVLET = 3,
+    nsort  = 4,
+};
+
+template<>
+struct enum_traits<bionic_ui_sort_mode> {
+    static constexpr bionic_ui_sort_mode last = bionic_ui_sort_mode::nsort;
+};
+
 enum class holiday : int {
     none = 0,
     new_year,

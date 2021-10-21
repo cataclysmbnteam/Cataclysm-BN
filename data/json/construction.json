@@ -6,7 +6,7 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "20 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ] ],
+    "qualities": [ [ { "id": "PRY", "level": 1 } ], [ { "id": "SCREW", "level": 1 } ] ],
     "pre_special": "check_deconstruct",
     "post_flags": [ "keep_items" ],
     "post_special": "done_deconstruct"
@@ -22,6 +22,7 @@
     "pre_flags": "EASY_DECONSTRUCT",
     "pre_special": "check_deconstruct",
     "post_flags": [ "keep_items" ],
+    "dark_craftable": true,
     "post_special": "done_deconstruct"
   },
   {
@@ -42,7 +43,7 @@
     "id": "constr_pit_spiked",
     "description": "Spike Pit",
     "category": "DIG",
-    "required_skills": [ [ "survival", 1 ] ],
+    "required_skills": [ [ "fabrication", 1 ] ],
     "time": "5 m",
     "components": [ [ [ "spear_wood", 4 ], [ "pointy_stick", 4 ] ] ],
     "pre_terrain": "t_pit",
@@ -53,9 +54,9 @@
     "id": "constr_pit_glass",
     "description": "Glass Pit",
     "category": "DIG",
-    "required_skills": [ [ "survival", 1 ] ],
+    "required_skills": [ [ "fabrication", 1 ] ],
     "time": "5 m",
-    "components": [ [ [ "glass_shard", 168 ] ] ],
+    "components": [ [ [ "glass_shard", 16 ] ] ],
     "pre_terrain": "t_pit",
     "post_terrain": "t_pit_glass"
   },
@@ -64,11 +65,12 @@
     "id": "constr_chop_trunk",
     "description": "Chop Tree Trunk Into Planks",
     "category": "FARM_WOOD",
-    "required_skills": [ [ "survival", 2 ] ],
+    "required_skills": [ [ "fabrication", 2 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 1 } ] ],
     "pre_terrain": "t_trunk",
     "post_terrain": "t_dirt",
+    "dark_craftable": true,
     "post_special": "done_trunk_plank"
   },
   {
@@ -81,6 +83,7 @@
     "qualities": [ [ { "id": "CUT", "level": 1 } ], [ { "id": "HAMMER", "level": 1 } ] ],
     "components": [ [ [ "stick", 12 ], [ "2x4", 6 ], [ "wood_panel", 1 ] ], [ [ "pine_bough", 24 ], [ "willowbark", 24 ] ] ],
     "pre_terrain": "t_pit_shallow",
+    "dark_craftable": true,
     "post_terrain": "t_improvised_shelter"
   },
   {
@@ -159,11 +162,12 @@
     "id": "constr_fill_water_sh",
     "description": "Fill Shallow Water With Dirt",
     "category": "CONSTRUCT",
-    "required_skills": [ [ "survival", 1 ] ],
+    "required_skills": [ [ "fabrication", 0 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "material_soil", 60 ], [ "material_sand", 600 ] ] ],
     "pre_terrain": "t_water_sh",
+    "dark_craftable": true,
     "post_terrain": "t_dirt"
   },
   {
@@ -171,11 +175,12 @@
     "id": "constr_fill_swater_sh",
     "description": "Fill Salt Water With Dirt",
     "category": "CONSTRUCT",
-    "required_skills": [ [ "survival", 1 ] ],
+    "required_skills": [ [ "fabrication", 0 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "material_soil", 60 ] ] ],
     "pre_terrain": "t_swater_sh",
+    "dark_craftable": true,
     "post_terrain": "t_dirt"
   },
   {
@@ -408,8 +413,9 @@
     "category": "REPAIR",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 m",
-    "byproducts": [ { "item": "glass_shard", "count": [ 8, 16 ] } ],
+    "byproducts": [ { "item": "glass_shard", "count": [ 0, 2 ] } ],
     "pre_terrain": "t_window_frame",
+    "dark_craftable": true,
     "post_terrain": "t_window_empty"
   },
   {
@@ -422,6 +428,7 @@
     "time": "5 m",
     "components": [ [ [ "duct_tape", 50 ] ] ],
     "pre_terrain": "t_window",
+    "dark_craftable": true,
     "post_terrain": "t_window_taped"
   },
   {
@@ -434,6 +441,7 @@
     "time": "5 m",
     "components": [ [ [ "duct_tape", 50 ] ] ],
     "pre_terrain": "t_window_domestic",
+    "dark_craftable": true,
     "post_terrain": "t_window_domestic_taped"
   },
   {
@@ -446,6 +454,7 @@
     "time": "5 m",
     "components": [ [ [ "duct_tape", 50 ] ] ],
     "pre_terrain": "t_window_alarm",
+    "dark_craftable": true,
     "post_terrain": "t_window_alarm_taped"
   },
   {
@@ -458,6 +467,7 @@
     "time": "5 m",
     "components": [ [ [ "duct_tape", 50 ] ] ],
     "pre_terrain": "t_window_no_curtains",
+    "dark_craftable": true,
     "post_terrain": "t_window_no_curtains_taped"
   },
   {
@@ -632,7 +642,7 @@
     "description": "Build Wattle-and-Daub Wall",
     "//": "Step 1: half of a wall in an empty space",
     "category": "CONSTRUCT",
-    "required_skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
+    "required_skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
     "time": "50 m",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
@@ -810,6 +820,7 @@
     "components": [ [ [ "sandbag", 16 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
+    "dark_craftable": true,
     "post_terrain": "f_sandbag_half"
   },
   {
@@ -823,6 +834,7 @@
     "components": [ [ [ "sandbag", 20 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_terrain": "f_sandbag_half",
+    "dark_craftable": true,
     "post_terrain": "f_sandbag_wall"
   },
   {
@@ -836,6 +848,7 @@
     "components": [ [ [ "earthbag", 16 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
+    "dark_craftable": true,
     "post_terrain": "f_earthbag_half"
   },
   {
@@ -849,6 +862,7 @@
     "components": [ [ [ "earthbag", 20 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_terrain": "f_earthbag_half",
+    "dark_craftable": true,
     "post_terrain": "f_earthbag_wall"
   },
   {
@@ -930,6 +944,7 @@
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "components": [ [ [ "material_soil", 200 ] ] ],
     "pre_terrain": "t_pit",
+    "dark_craftable": true,
     "post_terrain": "t_dirt"
   },
   {
@@ -942,6 +957,7 @@
     "time": "40 m",
     "components": [ [ [ "splinter", 50 ] ] ],
     "pre_terrain": "t_pit_shallow",
+    "dark_craftable": true,
     "post_terrain": "t_woodchips"
   },
   {
@@ -954,6 +970,7 @@
     "time": "40 m",
     "components": [ [ [ "pebble", 100 ] ] ],
     "pre_special": "check_empty",
+    "dark_craftable": true,
     "post_terrain": "t_railroad_rubble"
   },
   {
@@ -1190,7 +1207,7 @@
     "id": "constr_palisade",
     "description": "Build Palisade Wall",
     "category": "CONSTRUCT",
-    "required_skills": [ [ "fabrication", 4 ], [ "survival", 2 ] ],
+    "required_skills": [ [ "fabrication", 4 ] ],
     "time": "120 m",
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "components": [
@@ -1213,7 +1230,7 @@
     "description": "Build Stone Wall",
     "//": "Step 1: half the wall",
     "category": "CONSTRUCT",
-    "required_skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+    "required_skills": [ [ "fabrication", 6 ] ],
     "time": "180 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "rock", 12 ] ], [ [ "pebble", 50 ] ], [ [ "mortar_build", 1 ] ] ],
@@ -1226,7 +1243,7 @@
     "description": "Build Stone Wall",
     "//": "Step 2: the full wall",
     "category": "CONSTRUCT",
-    "required_skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+    "required_skills": [ [ "fabrication", 6 ] ],
     "time": "180 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "rock", 12 ] ], [ [ "mortar_build", 1 ] ] ],
@@ -1290,7 +1307,7 @@
     "id": "constr_dirtfloor_thatchroof",
     "description": "Build Thatched Roof",
     "category": "CONSTRUCT",
-    "required_skills": [ [ "fabrication", 3 ], [ "survival", 7 ] ],
+    "required_skills": [ [ "fabrication", 5 ], [ "survival", 3 ] ],
     "time": "360 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "2x4", 5 ], [ "stick", 10 ] ], [ [ "straw_pile", 60 ], [ "withered", 60 ] ], [ [ "cordage", 8, "LIST" ] ] ],
@@ -1345,7 +1362,7 @@
     "id": "constr_palisade_gate",
     "description": "Build Palisade Gate",
     "category": "CONSTRUCT",
-    "required_skills": [ [ "fabrication", 4 ], [ "survival", 2 ] ],
+    "required_skills": [ [ "fabrication", 4 ] ],
     "time": "120 m",
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "log", 2 ] ], [ [ "2x4", 3 ] ], [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ], [ "vine_30", 1 ] ] ],
@@ -1358,7 +1375,7 @@
     "id": "constr_fence_post",
     "description": "Build Fence Posts",
     "category": "CONSTRUCT",
-    "required_skills": [ [ "fabrication", 0 ], [ "survival", 0 ] ],
+    "required_skills": [ [ "fabrication", 0 ] ],
     "time": "15 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ] ],
@@ -1382,7 +1399,7 @@
     "id": "constr_fencegate",
     "description": "Build Fence Gate",
     "category": "CONSTRUCT",
-    "required_skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
+    "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ], [ [ "2x4", 5 ] ], [ [ "nail", 12 ] ], [ [ "hinge", 2 ] ] ],
@@ -1746,6 +1763,7 @@
     "time": "1 m",
     "components": [ [ [ "w_table", 1 ] ] ],
     "pre_special": "check_empty",
+    "dark_craftable": true,
     "post_terrain": "f_table"
   },
   {
@@ -1781,6 +1799,7 @@
     "time": "1 m",
     "components": [ [ [ "workbench", 1 ] ] ],
     "pre_special": "check_empty",
+    "dark_craftable": true,
     "post_terrain": "f_workbench"
   },
   {
@@ -1845,6 +1864,7 @@
     "components": [ [ [ "2x4", 4 ], [ "stick", 4 ] ], [ [ "straw_pile", 8 ], [ "withered", 8 ], [ "pine_bough", 8 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
+    "dark_craftable": true,
     "post_terrain": "f_straw_bed"
   },
   {
@@ -1857,6 +1877,7 @@
     "components": [ [ [ "withered", 50 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
+    "dark_craftable": true,
     "post_terrain": "f_leaves_pile"
   },
   {
@@ -1909,6 +1930,7 @@
     "time": "5 m",
     "components": [ [ [ "mattress", 1 ], [ "down_mattress", 1 ] ] ],
     "pre_terrain": "f_bed_frame",
+    "dark_craftable": true,
     "post_terrain": "f_bed"
   },
   {
@@ -1952,7 +1974,7 @@
     "id": "constr_fireplace",
     "description": "Build Stone Fireplace",
     "category": "FURN",
-    "required_skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
+    "required_skills": [ [ "fabrication", 2 ] ],
     "time": "120 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "rock", 40 ] ] ],
@@ -1988,7 +2010,7 @@
     "id": "constr_wood_keg",
     "description": "Build Wooden Keg",
     "category": "FURN",
-    "required_skills": [ [ "fabrication", 2 ], [ "cooking", 2 ] ],
+    "required_skills": [ [ "fabrication", 2 ] ],
     "time": "120 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "2x4", 18 ] ], [ [ "nail", 14 ] ], [ [ "sheet_metal", 1 ] ], [ [ "water_faucet", 1 ] ] ],
@@ -2001,7 +2023,7 @@
     "description": "Build Standing Tank",
     "//": "a freestanding metal tank, useful for holding liquids",
     "category": "FURN",
-    "required_skills": [ [ "fabrication", 2 ], [ "cooking", 1 ] ],
+    "required_skills": [ [ "fabrication", 2 ] ],
     "time": "180 m",
     "qualities": [
       [ { "id": "HAMMER", "level": 2 } ],
@@ -2023,6 +2045,7 @@
     "components": [ [ [ "char_forge", 1 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
+    "dark_craftable": true,
     "post_terrain": "f_forge"
   },
   {
@@ -2035,6 +2058,7 @@
     "components": [ [ [ "still", 1 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
+    "dark_craftable": true,
     "post_terrain": "f_still"
   },
   {
@@ -2042,7 +2066,7 @@
     "id": "constr_covered_well",
     "description": "Build Water Well",
     "category": "CONSTRUCT",
-    "required_skills": [ [ "fabrication", 4 ], [ "survival", 4 ] ],
+    "required_skills": [ [ "fabrication", 4 ] ],
     "time": "480 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "rock", 40 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
@@ -2070,6 +2094,7 @@
     "time": "10 m",
     "components": [ [ [ "straw_pile", 40 ], [ "withered", 40 ] ], [ [ "rope_30", 1 ], [ "rope_makeshift_30", 1 ], [ "vine_30", 1 ] ] ],
     "pre_special": "check_empty",
+    "dark_craftable": true,
     "post_terrain": "f_hay"
   },
   {
@@ -2356,6 +2381,7 @@
     "time": "1 m",
     "components": [ [ [ "manhole_cover", 1 ] ] ],
     "pre_terrain": "t_manhole",
+    "dark_craftable": true,
     "post_terrain": "t_manhole_cover"
   },
   {
@@ -2540,7 +2566,7 @@
     "id": "constr_dig_downstair",
     "description": "Dig Downstair",
     "category": "DIG",
-    "required_skills": [ [ "fabrication", 5 ], [ "survival", 3 ] ],
+    "required_skills": [ [ "fabrication", 5 ] ],
     "time": "420 m",
     "qualities": [
       [ { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
@@ -2558,7 +2584,7 @@
     "id": "constr_mine_downstair",
     "description": "Mine Downstair",
     "category": "DIG",
-    "required_skills": [ [ "fabrication", 6 ], [ "survival", 4 ] ],
+    "required_skills": [ [ "fabrication", 6 ] ],
     "time": "480 m",
     "qualities": [
       [ { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
@@ -2617,7 +2643,7 @@
     "id": "constr_mine_upstair",
     "description": "Mine Upstair",
     "category": "DIG",
-    "required_skills": [ [ "fabrication", 6 ], [ "survival", 4 ] ],
+    "required_skills": [ [ "fabrication", 6 ] ],
     "time": "480 m",
     "qualities": [
       [ { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
@@ -2654,6 +2680,7 @@
     "time": "10 m",
     "//2": "no components required, they are filled in at runtime based on the vehicle parts that can be used to start a vehicle",
     "pre_special": "check_empty",
+    "dark_craftable": true,
     "post_special": "done_vehicle",
     "vehicle_start": true
   },
@@ -2905,11 +2932,12 @@
     "id": "constr_extract_sand",
     "description": "Extract Sand",
     "category": "OTHER",
-    "required_skills": [ [ "survival", 0 ] ],
+    "required_skills": [ [ "fabrication", 0 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "byproducts": [ { "item": "material_sand", "charges": [ 300, 600 ] } ],
     "pre_terrain": "t_sand",
+    "dark_craftable": true,
     "post_special": "done_extract_maybe_revert_to_dirt"
   },
   {
@@ -2917,11 +2945,12 @@
     "id": "constr_extract_clay",
     "description": "Extract Clay",
     "category": "OTHER",
-    "required_skills": [ [ "survival", 0 ] ],
+    "required_skills": [ [ "fabrication", 0 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "byproducts": [ { "item": "clay_lump", "count": [ 6, 12 ] } ],
     "pre_terrain": "t_clay",
+    "dark_craftable": true,
     "post_special": "done_extract_maybe_revert_to_dirt"
   },
   {
@@ -2931,8 +2960,7 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "120 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "rock", 40 ] ] ],
+    "components": [ [ [ "rock", 40 ] ], [ [ "material_soil", 2 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "post_terrain": "f_kiln_empty"
@@ -2956,12 +2984,7 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 3 ], [ "cooking", 2 ] ],
     "time": "90 m",
-    "qualities": [
-      [ { "id": "DIG", "level": 1 } ],
-      [ { "id": "HAMMER", "level": 2 } ],
-      [ { "id": "CUT", "level": 1 } ],
-      [ { "id": "SAW_W", "level": 1 } ]
-    ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "CUT", "level": 1 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "stick", 16 ], [ "2x4", 16 ] ], [ [ "rock", 8 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
@@ -2972,10 +2995,9 @@
     "id": "constr_forge_rock",
     "description": "Build Rock Forge",
     "category": "FURN",
-    "required_skills": [ [ "fabrication", 5 ] ],
+    "required_skills": [ [ "fabrication", 4 ] ],
     "time": "120 m",
-    "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "rock", 40 ] ] ],
+    "components": [ [ [ "rock", 40 ] ], [ [ "material_soil", 3 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "post_terrain": "f_forge_rock"
@@ -3041,7 +3063,7 @@
     "id": "constr_rootcellar",
     "description": "Build Root Cellar",
     "category": "CONSTRUCT",
-    "required_skills": [ [ "survival", 4 ], [ "fabrication", 4 ] ],
+    "required_skills": [ [ "fabrication", 4 ] ],
     "time": "130 m",
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "rock", 40 ], [ "brick", 40 ] ], [ [ "2x4", 6 ], [ "stick", 6 ] ], [ [ "withered", 12 ], [ "straw_pile", 12 ] ] ],
@@ -3080,7 +3102,7 @@
     "id": "constr_butcher_rack",
     "description": "Build Butchering Rack",
     "category": "FURN",
-    "required_skills": [ [ "fabrication", 1 ], [ "survival", 3 ] ],
+    "required_skills": [ [ "fabrication", 2 ], [ "cooking", 2 ] ],
     "time": "45 m",
     "qualities": [ [ { "id": "CUT", "level": 1 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [
@@ -3229,11 +3251,12 @@
     "id": "constr_firering",
     "description": "Build Fire Ring",
     "category": "FURN",
-    "required_skills": [ [ "survival", 0 ] ],
+    "required_skills": [ [ "fabrication", 0 ] ],
     "time": "15 m",
     "components": [ [ [ "rock", 20 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_terrain": "t_pit_shallow",
+    "dark_craftable": true,
     "post_terrain": "f_firering"
   },
   {
@@ -3241,7 +3264,7 @@
     "id": "constr_wall_rammed_earth",
     "description": "Build Rammed Earth Wall",
     "category": "CONSTRUCT",
-    "required_skills": [ [ "fabrication", 2 ], [ "survival", 2 ] ],
+    "required_skills": [ [ "fabrication", 2 ] ],
     "time": "360 m",
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "tools": [ [ "frame_wood_light" ], [ "log" ] ],
@@ -3282,7 +3305,7 @@
     "id": "constr_splitrail_fencegate",
     "description": "Build Split Rail Fence Gate",
     "category": "CONSTRUCT",
-    "required_skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
+    "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ], [ [ "2x4", 5 ] ], [ [ "nail", 12 ] ], [ [ "hinge", 2 ] ] ],
@@ -3294,7 +3317,7 @@
     "id": "constr_privacy_fencegate",
     "description": "Build Privacy Fence Gate",
     "category": "CONSTRUCT",
-    "required_skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
+    "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ], [ [ "2x4", 8 ] ], [ [ "nail", 20 ] ], [ [ "hinge", 2 ] ] ],
@@ -3306,7 +3329,7 @@
     "id": "constr_splitrail_fence",
     "description": "Build Split Rail Fence",
     "category": "CONSTRUCT",
-    "required_skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
+    "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ] ],
@@ -3318,7 +3341,7 @@
     "id": "constr_privacy_fence",
     "description": "Build Privacy Fence",
     "category": "CONSTRUCT",
-    "required_skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
+    "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ], [ [ "2x4", 8 ] ], [ [ "nail", 20 ] ] ],
@@ -3366,8 +3389,7 @@
     "id": "constr_wall_resin_cage",
     "description": "Extrude Resin Lattice",
     "category": "CONSTRUCT",
-    "skill": "fabrication",
-    "difficulty": 1,
+    "required_skills": [ [ "fabrication", 1 ] ],
     "time": "120 m",
     "//": "Fairly time consuming as you have to extrude the resin slowly and wait for it to dry, then layer it on itself",
     "components": [ [ [ "alien_pod_resin", 1 ] ] ],
@@ -3379,8 +3401,7 @@
     "id": "constr_wall_resin",
     "description": "Extrude Resin Wall",
     "category": "CONSTRUCT",
-    "skill": "fabrication",
-    "difficulty": 0,
+    "required_skills": [ [ "fabrication", 0 ] ],
     "time": "30 m",
     "components": [ [ [ "alien_pod_resin", 2 ] ] ],
     "pre_special": "check_empty",
@@ -3391,8 +3412,7 @@
     "id": "constr_floor_resin",
     "description": "Extrude Resin Floor and Roof",
     "category": "CONSTRUCT",
-    "skill": "fabrication",
-    "difficulty": 2,
+    "required_skills": [ [ "fabrication", 2 ] ],
     "time": "90 m",
     "qualities": [ { "id": "SMOOTH", "level": 1 } ],
     "components": [ [ [ "alien_pod_resin", 2 ] ] ],
@@ -3404,8 +3424,7 @@
     "id": "constr_platform_resin",
     "description": "Extrude Resin Floor (no roof)",
     "category": "CONSTRUCT",
-    "skill": "fabrication",
-    "difficulty": 1,
+    "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
     "qualities": [ { "id": "SMOOTH", "level": 1 } ],
     "components": [ [ [ "alien_pod_resin", 1 ] ] ],
@@ -3415,10 +3434,9 @@
   {
     "type": "construction",
     "id": "constr_leanto",
-    "skill": "survival",
     "description": "Build Pine Lean-To",
     "category": "CONSTRUCT",
-    "difficulty": 2,
+    "required_skills": [ [ "fabrication", 2 ] ],
     "time": "90m",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "stick", 6 ], [ "2x4", 3 ] ] ],
@@ -3428,10 +3446,9 @@
   {
     "type": "construction",
     "id": "constr_tarptent",
-    "skill": "survival",
     "description": "Build Tarp Lean-To",
     "category": "CONSTRUCT",
-    "difficulty": 1,
+    "required_skills": [ [ "fabrication", 1 ] ],
     "time": "50m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "pointy_stick", 4 ] ], [ [ "string_36", 1 ], [ "string_6", 4 ] ], [ [ "tarp", 1 ], [ "plastic_sheet", 1 ] ] ],
@@ -3442,27 +3459,27 @@
   {
     "type": "construction",
     "id": "constr_pit_shallow",
-    "skill": "survival",
     "description": "Dig a Shallow Pit",
     "category": "CONSTRUCT",
-    "difficulty": 1,
+    "required_skills": [ [ "fabrication", 0 ] ],
     "time": "30m",
     "on_display": false,
     "qualities": [ { "id": "DIG", "level": 1 } ],
     "pre_flags": [ "DIGGABLE", "FLAT" ],
+    "dark_craftable": true,
     "post_terrain": "t_pit_shallow"
   },
   {
     "type": "construction",
     "id": "constr_pit",
-    "skill": "survival",
     "description": "Dig a Deep Pit",
     "category": "CONSTRUCT",
-    "difficulty": 1,
+    "required_skills": [ [ "fabrication", 0 ] ],
     "time": "150m",
     "on_display": false,
     "qualities": [ { "id": "DIG", "level": 2 } ],
     "pre_flags": [ "DIGGABLE", "FLAT" ],
+    "dark_craftable": true,
     "post_terrain": "t_pit"
   },
   {
@@ -3496,11 +3513,10 @@
   {
     "type": "construction",
     "id": "constr_bellows",
-    "skill": "fabrication",
     "description": "Build a bellow.",
     "//": "faction camp workshop recipe",
     "category": "CONSTRUCT",
-    "difficulty": 1,
+    "required_skills": [ [ "fabrication", 1 ] ],
     "time": "60m",
     "on_display": false,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
@@ -3511,11 +3527,10 @@
   {
     "type": "construction",
     "id": "constr_drophammer",
-    "skill": "fabrication",
     "description": "Build a drop hammer.",
     "//": "faction camp workshop recipe",
     "category": "CONSTRUCT",
-    "difficulty": 3,
+    "required_skills": [ [ "fabrication", 3 ] ],
     "time": "120m",
     "on_display": false,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
@@ -3526,11 +3541,10 @@
   {
     "type": "construction",
     "id": "constr_radio_tower",
-    "skill": "fabrication",
     "description": "Build a radio tower.",
     "//": "faction camp workshop recipe",
     "category": "CONSTRUCT",
-    "difficulty": 3,
+    "required_skills": [ [ "fabrication", 3 ] ],
     "time": "24h",
     "on_display": false,
     "qualities": [
@@ -3558,11 +3572,10 @@
   {
     "type": "construction",
     "id": "constr_radio_controls",
-    "skill": "fabrication",
     "description": "Build a radio tower console.",
     "//": "faction camp workshop recipe",
     "category": "CONSTRUCT",
-    "difficulty": 3,
+    "required_skills": [ [ "fabrication", 3 ] ],
     "time": "24h",
     "on_display": false,
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SCREW", "level": 1 } ],
@@ -3586,7 +3599,7 @@
     "id": "constr_logstool",
     "description": "Build Log Stool",
     "category": "FURN",
-    "required_skills": [ [ "survival", 1 ] ],
+    "required_skills": [ [ "fabrication", 1 ] ],
     "time": "10 m",
     "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
     "components": [ [ [ "log", 1 ] ] ],
@@ -4081,6 +4094,20 @@
   },
   {
     "type": "construction",
+    "id": "constr_solar_unit_2",
+    "description": "Install Upgraded Solar Panel",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 4 ], [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "tools": [ [ [ "soldering_iron", 20 ] ] ],
+    "components": [ [ [ "steel_chunk", 5 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "pipe", 4 ] ], [ [ "solar_panel_v2", 1 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_solar_unit_v2"
+  },
+  {
+    "type": "construction",
     "id": "constr_battery",
     "description": "Install Battery",
     "category": "FURN",
@@ -4098,6 +4125,46 @@
     "pre_note": "Will only work if constructed in a building with an electric grid.",
     "pre_special": "check_empty",
     "post_terrain": "f_battery"
+  },
+  {
+    "type": "construction",
+    "id": "constr_battery_large",
+    "description": "Install Storage Battery",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 3 ], [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "tools": [ [ [ "soldering_iron", 20 ] ] ],
+    "components": [
+      [ [ "sheet_metal_small", 6 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "pipe", 4 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "storage_battery", 1 ] ]
+    ],
+    "pre_note": "Will only work if constructed in a building with an electric grid.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_battery_large"
+  },
+  {
+    "type": "construction",
+    "id": "constr_battery_huge",
+    "description": "Install Large Storage Battery",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 3 ], [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "tools": [ [ [ "soldering_iron", 20 ] ] ],
+    "components": [
+      [ [ "sheet_metal_small", 6 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "pipe", 4 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "large_storage_battery", 1 ] ]
+    ],
+    "pre_note": "Will only work if constructed in a building with an electric grid.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_battery_huge"
   },
   {
     "type": "construction",
@@ -4147,7 +4214,7 @@
     "time": "45 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
     "tools": [ [ [ "soldering_iron", 20 ] ] ],
-    "components": [ [ [ "power_supply", 1 ] ] ],
+    "components": [ [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid.",
     "pre_special": "check_empty",
     "post_terrain": "f_cable_connector"
@@ -4157,21 +4224,39 @@
     "id": "constr_gridwelder",
     "description": "Place Arc Welder",
     "category": "OTHER",
-    "required_skills": [ [ "fabrication", 0 ] ],
-    "time": "1 m",
-    "components": [ [ [ "welder", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "tools": [ [ [ "soldering_iron", 20 ] ] ],
+    "components": [ [ [ "welder", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_terrain": "f_gridwelder"
   },
   {
     "type": "construction",
+    "id": "constr_gridwelderrig",
+    "description": "Place Welding Rig",
+    "category": "FURN",
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "tools": [ [ [ "soldering_iron", 20 ] ] ],
+    "components": [ [ [ "weldrig", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_welderrig"
+  },
+  {
+    "type": "construction",
     "id": "constr_gridforge",
     "description": "Place Electric Forge",
     "category": "OTHER",
-    "required_skills": [ [ "fabrication", 0 ] ],
-    "time": "1 m",
-    "components": [ [ [ "forge", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "tools": [ [ [ "soldering_iron", 20 ] ] ],
+    "components": [ [ [ "forge", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_terrain": "f_gridforge"
@@ -4181,9 +4266,11 @@
     "id": "constr_gridkiln",
     "description": "Place Electric Kiln",
     "category": "OTHER",
-    "required_skills": [ [ "fabrication", 0 ] ],
-    "time": "1 m",
-    "components": [ [ [ "kiln", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "tools": [ [ [ "soldering_iron", 20 ] ] ],
+    "components": [ [ [ "kiln", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_terrain": "f_gridkiln"
@@ -4193,9 +4280,11 @@
     "id": "constr_gridelectrolysis_kit",
     "description": "Place Electrolysis Kit",
     "category": "OTHER",
-    "required_skills": [ [ "fabrication", 0 ] ],
-    "time": "1 m",
-    "components": [ [ [ "electrolysis_kit", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "tools": [ [ [ "soldering_iron", 20 ] ] ],
+    "components": [ [ [ "electrolysis_kit", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_terrain": "f_gridelectrolysis_kit"
@@ -4205,9 +4294,11 @@
     "id": "constr_griddehydrator",
     "description": "Place Food Dehydrator",
     "category": "OTHER",
-    "required_skills": [ [ "fabrication", 0 ] ],
-    "time": "1 m",
-    "components": [ [ [ "dehydrator", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "tools": [ [ [ "soldering_iron", 20 ] ] ],
+    "components": [ [ [ "dehydrator", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_terrain": "f_griddehydrator"
@@ -4217,9 +4308,11 @@
     "id": "constr_gridfood_processor",
     "description": "Place Food Processor",
     "category": "OTHER",
-    "required_skills": [ [ "fabrication", 0 ] ],
-    "time": "1 m",
-    "components": [ [ [ "food_processor", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "tools": [ [ [ "soldering_iron", 20 ] ] ],
+    "components": [ [ [ "food_processor", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_terrain": "f_gridfood_processor"
@@ -4229,12 +4322,42 @@
     "id": "constr_gridvac_sealer",
     "description": "Place Vaccuum Sealer",
     "category": "OTHER",
-    "required_skills": [ [ "fabrication", 0 ] ],
-    "time": "1 m",
-    "components": [ [ [ "vac_sealer", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "tools": [ [ [ "soldering_iron", 20 ] ] ],
+    "components": [ [ [ "vac_sealer", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_terrain": "f_gridvac_sealer"
+  },
+  {
+    "type": "construction",
+    "id": "constr_gridrvkitchen",
+    "description": "Place RV-kitchen unit",
+    "category": "FURN",
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "tools": [ [ [ "soldering_iron", 20 ] ] ],
+    "components": [ [ [ "kitchen_unit", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_rvoven"
+  },
+  {
+    "type": "construction",
+    "id": "constr_gridsolderingiron",
+    "description": "Place soldering iron",
+    "category": "FURN",
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "tools": [ [ [ "soldering_iron", 20 ] ] ],
+    "components": [ [ [ "soldering_iron", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_gridsolderingiron"
   },
   {
     "type": "construction",
@@ -4281,5 +4404,18 @@
     "pre_note": "Must be between brick or (reinforced)concrete walls to function, and at least one wall must have an adjacent mechanical winch.",
     "pre_special": "check_empty",
     "post_terrain": "t_door_metal_locked"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_gravel",
+    "description": "Remove gravel and replace with dirt",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "byproducts": [ { "item": "pebble", "count": [ 6, 10 ] } ],
+    "pre_terrain": "t_railroad_rubble",
+    "dark_craftable": true,
+    "post_terrain": "t_dirt"
   }
 ]

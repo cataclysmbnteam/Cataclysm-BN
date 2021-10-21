@@ -18,18 +18,22 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "input.h"
+#include "item_handling_util.h"
 #include "item_location.h"
 #include "memory_fast.h"
 #include "pimpl.h"
 #include "units.h"
-#include "item_category.h"
 
 class Character;
 class item;
+class item_category;
 class player;
 class string_input_popup;
 struct tripoint;
 class ui_adaptor;
+
+using excluded_stack = std::pair<const item *, int>;
+using excluded_stacks = std::map<const item *, int>;
 
 enum class navigation_mode : int {
     ITEM = 0,
@@ -43,9 +47,6 @@ enum class scroll_direction : int {
 
 struct navigation_mode_data;
 struct inventory_input;
-
-using drop_location = std::pair<item_location, int>;
-using drop_locations = std::list<drop_location>;
 
 class inventory_entry
 {
@@ -107,6 +108,12 @@ class inventory_entry
         const item_location &any_item() const {
             assert( !locations.empty() );
             return locations.front();
+        }
+
+        /** Pointer to first item in relevant stack on character. */
+        const item *item_stack_on_character() const {
+            assert( !locations.empty() );
+            return locations.front().get_item();
         }
 
         size_t get_stack_size() const {
@@ -224,6 +231,7 @@ class inventory_column
         /**
          * Can this column be activated?
          * @return Whether the column contains selectable entries.
+         * Note: independent from 'allows_selecting'
          */
         virtual bool activatable() const;
         /** Is this column visible? */
@@ -233,9 +241,10 @@ class inventory_column
         /**
          * Does this column allow selecting?
          * "Cosmetic" columns (list of selected items) can explicitly prohibit selecting.
+         * Note: independent from 'activatable'
          */
         virtual bool allows_selecting() const {
-            return activatable();
+            return true;
         }
 
         size_t page_index() const {
@@ -677,11 +686,6 @@ class inventory_compare_selector : public inventory_multiselector
 // This and inventory_drop_selectors should probably both inherit from a higher-abstraction "action selector".
 // Should accept a function to calculate dummy values.
 
-struct iuse_location {
-    item_location loc;
-    size_t count;
-};
-
 class inventory_iuse_selector : public inventory_multiselector
 {
     public:
@@ -699,7 +703,6 @@ class inventory_iuse_selector : public inventory_multiselector
     private:
         GetStats get_stats;
         std::map<const item *, std::vector<iuse_location>> to_use;
-        const size_t max_chosen_count = std::numeric_limits<size_t>::max();
 };
 
 class inventory_drop_selector : public inventory_multiselector
@@ -716,8 +719,7 @@ class inventory_drop_selector : public inventory_multiselector
         void process_selected( int &count, const std::vector<inventory_entry *> &selected );
 
     private:
-        std::map<const item *, int> dropping;
-        size_t max_chosen_count;
+        excluded_stacks dropping;
 };
 
 #endif // CATA_SRC_INVENTORY_UI_H

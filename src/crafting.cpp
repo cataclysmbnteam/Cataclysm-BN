@@ -78,6 +78,8 @@ static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 
 static const efftype_id effect_contacts( "contacts" );
 
+static const itype_id itype_plut_cell( "plut_cell" );
+
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_tailor( "tailor" );
 
@@ -491,7 +493,7 @@ std::vector<const item *> player::get_eligible_containers_for_crafting() const
     }
 
     // get all potential containers within PICKUP_RANGE tiles including vehicles
-    for( const tripoint &loc : closest_tripoints_first( pos(), PICKUP_RANGE ) ) {
+    for( const tripoint &loc : closest_points_first( pos(), PICKUP_RANGE ) ) {
         // can not reach this -> can not access its contents
         if( pos() != loc && !g->m.clear_path( pos(), loc, PICKUP_RANGE, 1, 100 ) ) {
             continue;
@@ -537,7 +539,7 @@ bool player::can_start_craft( const recipe *rec, recipe_filter_flags flags, int 
 
     const inventory &inv = crafting_inventory();
     return rec->deduped_requirements().can_make_with_inventory(
-               inv, rec->get_component_filter( flags ), batch_size, craft_flags::start_only );
+               inv, rec->get_component_filter( flags ), batch_size, cost_adjustment::start_only );
 }
 
 const inventory &Character::crafting_inventory( bool clear_path )
@@ -564,7 +566,7 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
     for( const bionic &bio : *my_bionics ) {
         const bionic_data &bio_data = bio.info();
         if( ( !bio_data.activated || bio.powered ) &&
-            !bio_data.fake_item.empty() ) {
+            !bio_data.fake_item.is_empty() ) {
             cached_crafting_inventory += item( bio.info().fake_item,
                                                calendar::turn, units::to_kilojoule( get_power_level() ) );
         }
@@ -642,7 +644,7 @@ static void set_components( std::list<item> &components, const std::list<item> &
 static item_location set_item_map( const tripoint &loc, item &newit )
 {
     // Includes loc
-    for( const tripoint &tile : closest_tripoints_first( loc, 2 ) ) {
+    for( const tripoint &tile : closest_points_first( loc, 2 ) ) {
         // Pass false to disallow overflow, null_item_reference indicates failure.
         item *it_on_map = &g->m.add_item_or_charges( tile, newit, false );
         if( it_on_map != &null_item_reference() ) {
@@ -711,11 +713,11 @@ static item_location set_item_inventory( player &p, item &newit )
     return set_item_map_or_vehicle( p, p.pos(), newit );
 }
 
-void player::start_craft( craft_command &command, const tripoint & )
+item_location player::start_craft( craft_command &command, const tripoint & )
 {
     if( command.empty() ) {
         debugmsg( "Attempted to start craft with empty command" );
-        return;
+        return item_location();
     }
 
     item craft = command.create_in_progress_craft();
@@ -752,6 +754,7 @@ void player::start_craft( craft_command &command, const tripoint & )
         pgettext( "in progress craft", "You start working on the %s." ),
         pgettext( "in progress craft", "<npcname> starts working on the %s." ),
         craft.tname() );
+    return craft_in_world;
 }
 
 void player::craft_skill_gain( const item &craft, const int &multiplier )
@@ -770,6 +773,7 @@ void player::craft_skill_gain( const item &craft, const int &multiplier )
         // Normalize experience gain to crafting time, giving a bonus for longer crafting
         const double batch_mult = batch_size + base_time_to_craft( making, batch_size ) / 30000.0;
         // This is called after every 5% crafting progress, so divide by 20
+        // TODO: Don't multiply, instead divide the crafting time into more "learn bits"
         const int base_practice = roll_remainder( ( making.difficulty * 15 + 10 ) * batch_mult /
                                   20.0 ) * multiplier;
         const int skill_cap = static_cast<int>( making.difficulty * 1.25 );
@@ -1072,7 +1076,7 @@ void complete_craft( player &p, item &craft, const bench_location & )
             // if a component item has "cooks_like" it will be replaced by that item as a component
             for( item &comp : used ) {
                 // only comestibles have cooks_like.  any other type of item will throw an exception, so filter those out
-                if( comp.is_comestible() && !comp.get_comestible()->cooks_like.empty() ) {
+                if( comp.is_comestible() && !comp.get_comestible()->cooks_like.is_empty() ) {
                     comp = item( comp.get_comestible()->cooks_like, comp.birthday(), comp.charges );
                 }
                 // If this recipe is cooked, components are no longer raw.
@@ -1144,6 +1148,9 @@ bool player::can_continue_craft( item &craft )
         debugmsg( "complete_craft() called on non-craft '%s.'  Aborting.", craft.tname() );
         return false;
     }
+    if( has_trait( trait_DEBUG_HS ) ) {
+        return true;
+    }
 
     const recipe &rec = craft.get_making();
 
@@ -1214,7 +1221,8 @@ bool player::can_continue_craft( item &craft )
                 if( adjusted_alternative.count > 0 ) {
                     adjusted_alternative.count *= batch_size;
                     // Only for the next 5% progress
-                    adjusted_alternative.count = std::max( adjusted_alternative.count / 20, 1 );
+                    adjusted_alternative.count = std::max(
+                                                     crafting::charges_for_continuing( adjusted_alternative.count ), 1 );
                 }
                 adjusted_alternatives.push_back( adjusted_alternative );
             }
@@ -1238,10 +1246,9 @@ bool player::can_continue_craft( item &craft )
 
         std::vector<comp_selection<tool_comp>> new_tool_selections;
         for( const std::vector<tool_comp> &alternatives : tool_reqs ) {
-            comp_selection<tool_comp> selection = select_tool_component( alternatives, batch_size,
-            map_inv, DEFAULT_HOTKEYS, true, true, []( int charges ) {
-                return charges / 20;
-            } );
+            comp_selection<tool_comp> selection =
+                crafting::select_tool_component( alternatives, batch_size, map_inv, this, true, DEFAULT_HOTKEYS,
+                                                 cost_adjustment::continue_only );
             if( selection.use_from == cancel ) {
                 return false;
             }
@@ -1545,121 +1552,177 @@ std::list<item> player::consume_items( const std::vector<item_comp> &components,
                           filter );
 }
 
-comp_selection<tool_comp>
-player::select_tool_component( const std::vector<tool_comp> &tools, int batch, inventory &map_inv,
-                               const std::string &hotkeys, bool can_cancel, bool player_inv,
-                               const std::function<int( int )> charges_required_modifier )
+struct avail_tool_comp {
+    avail_tool_comp( comp_selection<tool_comp> comp, int charges, int ideal )
+        : comp( comp ), charges( charges ), ideal( ideal )
+    {}
+    avail_tool_comp( const avail_tool_comp & ) = default;
+
+    comp_selection<tool_comp> comp;
+    int charges;
+    int ideal;
+};
+
+namespace crafting
 {
 
-    comp_selection<tool_comp> selected;
+static std::vector<avail_tool_comp>
+find_tool_component( const Character *player_with_inv, const std::vector<tool_comp> &tools,
+                     int batch,
+                     const inventory &map_inv, cost_adjustment charge_mod )
+{
+    std::vector<avail_tool_comp> available_tools;
 
     auto calc_charges = [&]( const tool_comp & t ) {
-        const int full_craft_charges = item::find_type( t.type )->charge_factor() * t.count * batch;
-        const int modified_charges = charges_required_modifier( full_craft_charges );
-        return std::max( modified_charges, 1 );
+        const int full_craft_charges = std::max( 1, t.count * batch );
+        switch( charge_mod ) {
+            case cost_adjustment::none:
+                return std::make_pair( charges_for_complete( full_craft_charges ),
+                                       charges_for_complete( full_craft_charges ) );
+            case cost_adjustment::start_only:
+                return std::make_pair( charges_for_starting( full_craft_charges ),
+                                       charges_for_complete( full_craft_charges ) );
+            case cost_adjustment::continue_only:
+                return std::make_pair( charges_for_continuing( full_craft_charges ),
+                                       charges_for_complete( full_craft_charges ) );
+        }
+
+        debugmsg( "Invalid tool_charge_mod" );
+        return std::make_pair( INT_MAX, INT_MAX );
     };
 
     bool found_nocharge = false;
-    std::vector<tool_comp> player_has;
-    std::vector<tool_comp> map_has;
     // Use charges of any tools that require charges used
     for( auto it = tools.begin(); it != tools.end() && !found_nocharge; ++it ) {
         itype_id type = it->type;
         if( it->count > 0 ) {
-            const int count = calc_charges( *it );
-            if( player_inv ) {
-                if( has_charges( type, count ) ) {
-                    player_has.push_back( *it );
+            const std::pair<int, int> &expected_count = calc_charges( *it );
+            const int count = expected_count.first;
+            const int ideal = expected_count.second;
+            if( player_with_inv ) {
+                if( player_with_inv->has_charges( type, count ) ) {
+                    int total_charges = player_with_inv->charges_of( type );
+                    comp_selection<tool_comp> sel( use_from_player, *it );
+                    available_tools.emplace_back( sel, total_charges, ideal );
                 }
             }
             if( map_inv.has_charges( type, count ) ) {
-                map_has.push_back( *it );
+                int total_charges = map_inv.charges_of( type );
+                comp_selection<tool_comp> sel( use_from_map, *it );
+                available_tools.emplace_back( sel, total_charges, ideal );
             }
-        } else if( ( player_inv && has_amount( type, 1 ) ) || map_inv.has_tools( type, 1 ) ) {
-            selected.comp = *it;
-            found_nocharge = true;
-        }
-    }
-    if( found_nocharge ) {
-        selected.use_from = use_from_none;
-        return selected;    // Default to using a tool that doesn't require charges
-    }
-
-    if( player_has.size() + map_has.size() == 1 ) {
-        if( map_has.empty() ) {
-            selected.use_from = use_from_player;
-            selected.comp = player_has[0];
-        } else {
-            selected.use_from = use_from_map;
-            selected.comp = map_has[0];
-        }
-    } else if( is_npc() ) {
-        if( !player_has.empty() ) {
-            selected.use_from = use_from_player;
-            selected.comp = player_has[0];
-        } else if( !map_has.empty() ) {
-            selected.use_from = use_from_map;
-            selected.comp = map_has[0];
-        } else {
-            selected.use_from = use_from_none;
-            return selected;
-        }
-    } else { // Variety of options, list them and pick one
-        // Populate the list
-        uilist tmenu( hotkeys );
-        for( auto &map_ha : map_has ) {
-            if( item::find_type( map_ha.type )->maximum_charges() > 1 ) {
-                const int charge_count = calc_charges( map_ha );
-                std::string tmpStr = string_format( _( "%s (%d/%d charges nearby)" ),
-                                                    item::nname( map_ha.type ), charge_count,
-                                                    map_inv.charges_of( map_ha.type ) );
-                tmenu.addentry( tmpStr );
-            } else {
-                std::string tmpStr = item::nname( map_ha.type ) + _( " (nearby)" );
-                tmenu.addentry( tmpStr );
-            }
-        }
-        for( auto &player_ha : player_has ) {
-            if( item::find_type( player_ha.type )->maximum_charges() > 1 ) {
-                const int charge_count = calc_charges( player_ha );
-                std::string tmpStr = string_format( _( "%s (%d/%d charges on person)" ),
-                                                    item::nname( player_ha.type ), charge_count,
-                                                    charges_of( player_ha.type ) );
-                tmenu.addentry( tmpStr );
-            } else {
-                tmenu.addentry( item::nname( player_ha.type ) );
-            }
-        }
-
-        if( tmenu.entries.empty() ) {  // This SHOULD only happen if cooking with a fire,
-            selected.use_from = use_from_none;
-            return selected;    // and the fire goes out.
-        }
-
-        tmenu.allow_cancel = can_cancel;
-
-        // Get selection via a popup menu
-        tmenu.title = _( "Use which tool?" );
-        tmenu.query();
-
-        if( tmenu.ret < 0 || static_cast<size_t>( tmenu.ret ) >= map_has.size() + player_has.size() ) {
-            selected.use_from = cancel;
-            return selected;
-        }
-
-        size_t uselection = static_cast<size_t>( tmenu.ret );
-        if( uselection < map_has.size() ) {
-            selected.use_from = use_from_map;
-            selected.comp = map_has[uselection];
-        } else {
-            uselection -= map_has.size();
-            selected.use_from = use_from_player;
-            selected.comp = player_has[uselection];
+        } else if( ( player_with_inv && player_with_inv->has_amount( type, 1 ) )
+                   || map_inv.has_tools( type, 1 ) ) {
+            comp_selection<tool_comp> sel( use_from_none, *it );
+            available_tools.emplace_back( sel, 0, 0 );
         }
     }
 
-    return selected;
+    std::sort( available_tools.begin(), available_tools.end(),
+    []( const avail_tool_comp & lhs, const avail_tool_comp & rhs ) {
+        if( lhs.comp.use_from == use_from_none && rhs.comp.use_from != use_from_none ) {
+            return true;
+        }
+        if( rhs.comp.use_from == use_from_none ) {
+            return false;
+        }
+        if( lhs.charges >= lhs.ideal && rhs.charges < rhs.ideal ) {
+            return true;
+        }
+        if( lhs.charges < lhs.ideal && rhs.charges >= rhs.ideal ) {
+            return false;
+        }
+        // We want "bigger" tools first because those are likely to be vehicle mounted
+        return static_cast<float>( lhs.ideal ) / lhs.charges > static_cast<float>
+               ( rhs.ideal ) / rhs.charges;
+    } );
+    return available_tools;
 }
+
+static comp_selection<tool_comp>
+query_tool_selection( const std::vector<avail_tool_comp> &available_tools,
+                      const std::string &hotkeys, bool can_cancel, bool is_npc )
+{
+    if( available_tools.empty() ) {
+        // This SHOULD only happen if cooking with a fire,
+        // and the fire goes out.
+        return comp_selection<tool_comp>( use_from_none );
+    }
+    if( available_tools.front().comp.use_from == use_from_none ) {
+        // Default to using a tool that doesn't require charges
+        return available_tools.front().comp;
+    }
+    if( available_tools.size() == 1 ) {
+        return available_tools.front().comp;
+    }
+    if( is_npc ) {
+        auto iter = std::find_if( available_tools.begin(), available_tools.end(),
+        []( const avail_tool_comp & tool ) {
+            return tool.comp.use_from == use_from_player;
+        } );
+        if( iter != available_tools.end() ) {
+            return iter->comp;
+        }
+        return available_tools.front().comp;
+    }
+
+    // Variety of options, list them and pick one
+    // Populate the list
+    uilist tmenu( hotkeys );
+    for( const avail_tool_comp &tool : available_tools ) {
+        const itype_id &comp_type = tool.comp.comp.type;
+        if( tool.ideal > 1 ) {
+            const char *format = tool.comp.use_from == use_from_map
+                                 ? _( "%s (%d/%d charges nearby)" )
+                                 : _( "%s (%d/%d charges on person)" );
+            std::string str = string_format( format,
+                                             item::nname( comp_type ), tool.ideal,
+                                             tool.charges );
+            tmenu.addentry( str );
+        } else {
+            std::string str = tool.comp.use_from == use_from_map
+                              ? item::nname( comp_type ) + _( " (nearby)" )
+                              : item::nname( comp_type );
+            tmenu.addentry( str );
+        }
+    }
+
+    tmenu.allow_cancel = can_cancel;
+
+    // Get selection via a popup menu
+    tmenu.title = _( "Use which tool?" );
+    tmenu.query();
+
+    if( tmenu.ret < 0 || static_cast<size_t>( tmenu.ret ) >= available_tools.size() ) {
+        return comp_selection<tool_comp>( cancel );
+    }
+
+    return available_tools.at( static_cast<size_t>( tmenu.ret ) ).comp;
+}
+
+comp_selection<tool_comp>
+select_tool_component( const std::vector<tool_comp> &tools, int batch, const inventory &map_inv,
+                       const Character *player_with_inv,
+                       bool can_cancel,
+                       const std::string &hotkeys,
+                       cost_adjustment adjustment )
+{
+    std::vector<avail_tool_comp> options = find_tool_component( player_with_inv, tools, batch, map_inv,
+                                           adjustment );
+    bool is_npc = player_with_inv ? player_with_inv->is_npc() : false;
+    return query_tool_selection( options, hotkeys, can_cancel, is_npc );
+}
+
+comp_selection<tool_comp>
+select_tool_component( const std::vector<tool_comp> &tools, int batch, const inventory &map_inv,
+                       const Character *player_with_inv,
+                       bool can_cancel )
+{
+    return select_tool_component( tools, batch, map_inv, player_with_inv, can_cancel, DEFAULT_HOTKEYS,
+                                  cost_adjustment::none );
+}
+
+} // namespace crafting
 
 bool player::craft_consume_tools( item &craft, int mulitplier, bool start_craft )
 {
@@ -1667,28 +1730,30 @@ bool player::craft_consume_tools( item &craft, int mulitplier, bool start_craft 
         debugmsg( "craft_consume_tools() called on non-craft '%s.' Aborting.", craft.tname() );
         return false;
     }
+    if( has_trait( trait_DEBUG_HS ) ) {
+        return true;
+    }
+    if( start_craft && mulitplier > 1 ) {
+        debugmsg( "start_craft is true, but multiplier is %d > 1", mulitplier );
+        return false;
+    }
 
     const auto calc_charges = [&craft, &start_craft, &mulitplier]( int charges ) {
         int ret = charges;
 
-        if( ret <= 0 ) {
+        if( charges <= 0 ) {
             return ret;
         }
 
         // Account for batch size
-        ret *= craft.charges;
+        int full_cost = charges * craft.charges;
 
-        // Only for the next 5% progress
-        ret /= 20;
-
-        // In case more than 5% progress was accomplished in one turn
-        ret *= mulitplier;
-
-        // If just starting consume the remainder as well
         if( start_craft ) {
-            ret += ( charges * craft.charges ) % 20;
+            return crafting::charges_for_starting( full_cost );
+        } else {
+            // In case more than 5% progress was accomplished in one turn
+            return crafting::charges_for_continuing( full_cost ) * mulitplier;
         }
-        return ret;
     };
 
     // First check if we still have our cached selections
@@ -1761,8 +1826,7 @@ void player::consume_tools( map &m, const comp_selection<tool_comp> &tool, int b
         return;
     }
 
-    const itype *tmp = item::find_type( tool.comp.type );
-    int quantity = tool.comp.count * batch * tmp->charge_factor();
+    int quantity = tool.comp.count * batch;
     if( tool.use_from & use_from_player ) {
         use_charges( tool.comp.type, quantity );
     }
@@ -1781,7 +1845,8 @@ void player::consume_tools( const std::vector<tool_comp> &tools, int batch,
 {
     inventory map_inv;
     map_inv.form_from_map( pos(), PICKUP_RANGE, this );
-    consume_tools( select_tool_component( tools, batch, map_inv, hotkeys ), batch );
+    consume_tools( crafting::select_tool_component( tools, batch, map_inv, this, false, hotkeys,
+                   cost_adjustment::none ), batch );
 }
 
 ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) const
@@ -1952,7 +2017,7 @@ bool player::disassemble( item_location target, bool interactive )
     // index is used as a bool that indicates if we want recursive uncraft.
     activity.index = false;
     activity.targets.emplace_back( std::move( target ) );
-    activity.str_values.push_back( r.result() );
+    activity.str_values.push_back( r.result().str() );
     // Unused position attribute used to store ammo to disassemble
     activity.position = std::min( num_dis, obj.charges );
 
@@ -1994,7 +2059,7 @@ void player::complete_disassemble()
 
     // Disassembly has 2 parallel vectors:
     // item location, and recipe id
-    const recipe &rec = recipe_dictionary::get_uncraft( activity.str_values.back() );
+    const recipe &rec = recipe_dictionary::get_uncraft( itype_id( activity.str_values.back() ) );
 
     if( rec ) {
         complete_disassemble( activity.targets.back(), rec );
@@ -2021,7 +2086,8 @@ void player::complete_disassemble()
     }
 
     // Set get and set duration of next uncraft
-    const recipe &next_recipe = recipe_dictionary::get_uncraft( activity.str_values.back() );
+    const recipe &next_recipe = recipe_dictionary::get_uncraft( itype_id(
+                                    activity.str_values.back() ) );
 
     if( !next_recipe ) {
         debugmsg( "bad disassembly recipe: %d", activity.str_values.back() );
@@ -2233,16 +2299,16 @@ void remove_ammo( item &dis_item, player &p )
     if( dis_item.has_flag( flag_NO_UNLOAD ) ) {
         return;
     }
-    if( dis_item.is_gun() && dis_item.ammo_current() != "null" ) {
+    if( dis_item.is_gun() && !dis_item.ammo_current().is_null() ) {
         item ammodrop( dis_item.ammo_current(), calendar::turn );
         ammodrop.charges = dis_item.charges;
         drop_or_handle( ammodrop, p );
         dis_item.charges = 0;
     }
-    if( dis_item.is_tool() && dis_item.charges > 0 && dis_item.ammo_current() != "null" ) {
+    if( dis_item.is_tool() && dis_item.charges > 0 && !dis_item.ammo_current().is_null() ) {
         item ammodrop( dis_item.ammo_current(), calendar::turn );
         ammodrop.charges = dis_item.charges;
-        if( dis_item.ammo_current() == "plut_cell" ) {
+        if( dis_item.ammo_current() == itype_plut_cell ) {
             ammodrop.charges /= PLUTONIUM_CHARGES;
         }
         drop_or_handle( ammodrop, p );
@@ -2361,6 +2427,19 @@ std::set<itype_id> get_books_for_recipe( const recipe *r )
         return pr.first;
     } );
     return book_ids;
+}
+
+int charges_for_complete( int full_charges )
+{
+    return full_charges;
+}
+int charges_for_starting( int full_charges )
+{
+    return full_charges / 20 + full_charges % 20;
+}
+int charges_for_continuing( int full_charges )
+{
+    return full_charges / 20;
 }
 
 } // namespace crafting

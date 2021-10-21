@@ -84,6 +84,12 @@
     "description": "Destination for drugs and other medical items."
   },
   {
+    "id": "LOOT_BATTERY",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Battery",
+    "description": "Destination for batteries."
+  },
+  {
     "id": "LOOT_BOOKS",
     "type": "LOOT_ZONE",
     "name": "Loot: Books",
@@ -168,6 +174,12 @@
     "description": "Destination for filthy armor."
   },
   {
+    "id": "LOOT_MAP",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Maps",
+    "description": "Destination for maps."
+  },
+  {
     "id": "LOOT_WOOD",
     "type": "LOOT_ZONE",
     "name": "Loot: Wood",
@@ -184,5 +196,11 @@
     "type": "LOOT_ZONE",
     "name": "Loot: Ignore",
     "description": "Items inside of this zone are ignored by \"sort out loot\" zone-action."
+  },
+  {
+    "id": "LOOT_IGNORE_FAVORITES",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Ignore Favorites",
+    "description": "Favorite items inside of this zone are ignored by \"sort out loot\" zone-action."
   }
 ]

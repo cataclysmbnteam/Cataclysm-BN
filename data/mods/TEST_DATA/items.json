@@ -237,6 +237,33 @@
     "magazine_well": 1
   },
   {
+    "id": "test_battery_tool",
+    "type": "TOOL",
+    "name": "TEST tool that uses batteries.",
+    "description": "It can't be used, yet it is an invaluable implement in mysterious test recipes.",
+    "weight": "1000 g",
+    "volume": "5000 ml",
+    "price": 1000,
+    "material": "iron",
+    "symbol": ",",
+    "color": "light_gray",
+    "ammo": "battery",
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_minus_battery_cell",
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
+    ]
+  },
+  {
     "id": "test_jack_small",
     "type": "TOOL",
     "name": "TEST scissor jack",
@@ -263,7 +290,7 @@
     "symbol": "[",
     "looks_like": "socks_wool",
     "color": "white",
-    "covers": [ "FEET" ],
+    "covers": [ "feet" ],
     "coverage": 100,
     "warmth": 5,
     "material_thickness": 1,
@@ -281,7 +308,7 @@
     "symbol": "[",
     "looks_like": "dress_shirt",
     "color": "blue",
-    "covers": [ "TORSO", "ARMS" ],
+    "covers": [ "torso", "arms" ],
     "coverage": 90,
     "encumbrance": 3,
     "warmth": 5,
@@ -316,7 +343,7 @@
     "symbol": "[",
     "looks_like": "beekeeping_suit",
     "color": "yellow",
-    "covers": [ "HEAD", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
+    "covers": [ "head", "torso", "arms", "hands", "legs", "feet" ],
     "coverage": 100,
     "encumbrance": 37,
     "warmth": 40,
@@ -439,7 +466,7 @@
     "contains": "1500 ml",
     "seals": true,
     "watertight": true,
-    "armor_data": { "covers": [ "LEG_EITHER" ], "coverage": 5, "material_thickness": 2 },
+    "armor_data": { "covers": [ "leg_either" ], "coverage": 5, "material_thickness": 2 },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
@@ -456,7 +483,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "green",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 30,
     "encumbrance": 2,
     "max_encumbrance": 15,
@@ -480,7 +507,7 @@
     "symbol": "[",
     "looks_like": "plastic_shopping_bag",
     "color": "light_gray",
-    "covers": [ "ARM_EITHER", "HAND_EITHER" ],
+    "covers": [ "arm_either", "hand_either" ],
     "coverage": 10,
     "encumbrance": 30,
     "storage": "15 L",

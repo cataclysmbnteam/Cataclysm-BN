@@ -30,8 +30,6 @@ class Character;
 class JsonObject;
 class pixel_minimap;
 
-using itype_id = std::string;
-
 extern void set_displaybuffer_rendertarget();
 
 /** Structures */
@@ -457,11 +455,12 @@ class cata_tiles
 
     public:
         // Animation layers
-        void init_explosion( const tripoint &p, int radius );
+        void init_explosion( const tripoint &p, int radius, const std::string &name );
         void draw_explosion_frame();
         void void_explosion();
 
-        void init_custom_explosion_layer( const std::map<tripoint, explosion_tile> &layer );
+        void init_custom_explosion_layer( const std::map<tripoint, explosion_tile> &layer,
+                                          const std::string &name );
         void draw_custom_explosion_frame();
         void void_custom_explosion();
 
@@ -617,6 +616,7 @@ class cata_tiles
 
         tripoint exp_pos;
         int exp_rad = 0;
+        std::string exp_name;
 
         std::map<tripoint, explosion_tile> custom_explosion_layer;
 

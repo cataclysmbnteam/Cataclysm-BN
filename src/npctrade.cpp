@@ -471,7 +471,7 @@ void trading_window::show_item_data( size_t offset,
     }
 }
 
-int trading_window::get_var_trade( const item &it, int total_count )
+int trading_window::get_var_trade( const item &it, int total_count, int amount_hint )
 {
     string_input_popup popup_input;
     int how_many = total_count;
@@ -481,6 +481,15 @@ int trading_window::get_var_trade( const item &it, int total_count )
                               string_format( _( "Trade how many containers with %s [MAX: %d]: " ),
                                       it.get_contained().type_name( how_many ), total_count ) :
                               string_format( _( "Trade how many %s [MAX: %d]: " ), it.type_name( how_many ), total_count );
+    if( amount_hint > 0 ) {
+        popup_input.description( string_format(
+                                     _( "Hint: You can buy up to %d with your current balance." ),
+                                     std::min( amount_hint, total_count ) ) );
+    } else if( amount_hint < 0 ) {
+        popup_input.description( string_format(
+                                     _( "Hint: You'll need to offer %d to even out the deal." ),
+                                     -amount_hint ) );
+    }
     popup_input.title( title ).edit( how_many );
     if( popup_input.canceled() || how_many <= 0 ) {
         return -1;
@@ -597,6 +606,20 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                 int &owner_sells = focus_them ? ip.u_has : ip.npc_has;
                 int &owner_sells_charge = focus_them ? ip.u_charges : ip.npc_charges;
 
+                const auto calc_amount_hint = [&]() -> int {
+                    if( ip.price > 0 )
+                    {
+                        if( focus_them && your_balance > 0 ) {
+                            return your_balance / ip.price;
+                        } else if( !focus_them && your_balance < 0 ) {
+                            int amt = your_balance / ip.price;
+                            int rem = ( your_balance % ip.price ) == 0 ? 0 : 1;
+                            return amt - rem;
+                        }
+                    }
+                    return 0;
+                };
+
                 if( ip.selected ) {
                     if( owner_sells_charge > 0 ) {
                         change_amount = owner_sells_charge;
@@ -606,14 +629,16 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                         owner_sells = 0;
                     }
                 } else if( ip.charges > 0 ) {
-                    change_amount = get_var_trade( *ip.loc.get_item(), ip.charges );
+                    int hint = calc_amount_hint();
+                    change_amount = get_var_trade( *ip.loc.get_item(), ip.charges, hint );
                     if( change_amount < 1 ) {
                         continue;
                     }
                     owner_sells_charge = change_amount;
                 } else {
                     if( ip.count > 1 ) {
-                        change_amount = get_var_trade( *ip.loc.get_item(), ip.count );
+                        int hint = calc_amount_hint();
+                        change_amount = get_var_trade( *ip.loc.get_item(), ip.count, hint );
                         if( change_amount < 1 ) {
                             continue;
                         }

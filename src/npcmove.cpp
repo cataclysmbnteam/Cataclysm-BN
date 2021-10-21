@@ -116,6 +116,17 @@ static const efftype_id effect_npc_run_away( "npc_run_away" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_stunned( "stunned" );
 
+static const itype_id itype_battery( "battery" );
+static const itype_id itype_chem_ethanol( "chem_ethanol" );
+static const itype_id itype_chem_methanol( "chem_methanol" );
+static const itype_id itype_denat_alcohol( "denat_alcohol" );
+static const itype_id itype_inhaler( "inhaler" );
+static const itype_id itype_lsd( "lsd" );
+static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
+static const itype_id itype_thorazine( "thorazine" );
+static const itype_id itype_oxygen_tank( "oxygen_tank" );
+static const itype_id itype_UPS( "UPS" );
+
 static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
 static constexpr float MAX_FLOAT = 5000000000.0f;
@@ -767,9 +778,9 @@ void npc::move()
         action = method_of_fleeing();
     } else if( has_effect( effect_npc_run_away ) ) {
         action = method_of_fleeing();
-    } else if( has_effect( effect_asthma ) && ( has_charges( "inhaler", 1 ) ||
-               has_charges( "oxygen_tank", 1 ) ||
-               has_charges( "smoxygen_tank", 1 ) ) ) {
+    } else if( has_effect( effect_asthma ) && ( has_charges( itype_inhaler, 1 ) ||
+               has_charges( itype_oxygen_tank, 1 ) ||
+               has_charges( itype_smoxygen_tank, 1 ) ) ) {
         action = npc_heal;
     } else if( target != nullptr && ai_cache.danger > 0 ) {
         action = method_of_attack();
@@ -992,7 +1003,7 @@ void npc::execute_action( npc_action action )
             // Find a nice spot to sleep
             int best_sleepy = sleep_spot( pos() );
             tripoint best_spot = pos();
-            for( const tripoint &p : closest_tripoints_first( pos(), 6 ) ) {
+            for( const tripoint &p : closest_points_first( pos(), 6 ) ) {
                 if( !could_move_onto( p ) || !g->is_empty( p ) ) {
                     continue;
                 }
@@ -1328,7 +1339,7 @@ npc_action npc::method_of_attack()
     // if there's enough of a threat to be here, power up the combat CBMs
     activate_combat_cbms();
 
-    int ups_charges = charges_of( "UPS" );
+    int ups_charges = charges_of( itype_UPS );
 
     // get any suitable modes excluding melee, any forbidden to NPCs and those without ammo
     // if we require a silent weapon inappropriate modes are also removed
@@ -1687,12 +1698,15 @@ bool npc::recharge_cbm()
                 return true;
             } else {
                 const std::vector<itype_id> fuel_op = bid->fuel_opts;
-                const bool need_alcohol = std::find( fuel_op.begin(), fuel_op.end(),
-                                                     "chem_ethanol" ) != fuel_op.end() ||
-                                          std::find( fuel_op.begin(), fuel_op.end(), "chem_methanol" ) != fuel_op.end() ||
-                                          std::find( fuel_op.begin(), fuel_op.end(), "denat_alcohol" ) != fuel_op.end();
+                const bool need_alcohol =
+                    std::find( fuel_op.begin(), fuel_op.end(), itype_chem_ethanol ) !=
+                    fuel_op.end() ||
+                    std::find( fuel_op.begin(), fuel_op.end(), itype_chem_methanol ) !=
+                    fuel_op.end() ||
+                    std::find( fuel_op.begin(), fuel_op.end(), itype_denat_alcohol ) !=
+                    fuel_op.end();
 
-                if( std::find( fuel_op.begin(), fuel_op.end(), "battery" ) != fuel_op.end() ) {
+                if( std::find( fuel_op.begin(), fuel_op.end(), itype_battery ) != fuel_op.end() ) {
                     complain_about( "need_batteries", 3_hours, "<need_batteries>", false );
                 } else if( need_alcohol ) {
                     complain_about( "need_booze", 3_hours, "<need_booze>", false );
@@ -2048,7 +2062,7 @@ int npc::confident_gun_mode_range( const gun_mode &gun, int at_recoil ) const
 
 int npc::confident_throw_range( const item &thrown, Creature *target ) const
 {
-    double average_dispersion = throwing_dispersion( thrown, target ) / 2.0;
+    double average_dispersion = ranged::throwing_dispersion( *this, thrown, target, false ) / 2.0;
     double even_chance_range = ( target == nullptr ? 0.5 : target->ranged_target_size() ) /
                                average_dispersion;
     double confident_range = even_chance_range * confidence_mult();
@@ -2463,7 +2477,7 @@ void npc::avoid_friendly_fire()
     center.y = std::round( center.y / friend_count );
     center.z = std::round( center.z / friend_count );
 
-    std::vector<tripoint> candidates = closest_tripoints_first( pos(), 1 );
+    std::vector<tripoint> candidates = closest_points_first( pos(), 1 );
     candidates.erase( candidates.begin() );
     std::sort( candidates.begin(), candidates.end(),
     [&tar, &center]( const tripoint & l, const tripoint & r ) {
@@ -2670,7 +2684,7 @@ static cata::optional<tripoint> nearest_passable( const tripoint &p, const tripo
 
     // We need to path to adjacent tile, not the exact one
     // Let's pick the closest one to us that is passable
-    std::vector<tripoint> candidates = closest_tripoints_first( p, 1 );
+    std::vector<tripoint> candidates = closest_points_first( p, 1 );
     std::sort( candidates.begin(), candidates.end(), [ closest_to ]( const tripoint & l,
     const tripoint & r ) {
         return rl_dist( closest_to, l ) < rl_dist( closest_to, r );
@@ -2701,7 +2715,7 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
         maxp.y = std::max( maxp.y, elem.center.y + elem.radius );
     }
 
-    const tripoint_range range( minp, maxp );
+    const tripoint_range<tripoint> range( minp, maxp );
 
     std::vector<tripoint> escape_points;
 
@@ -2739,9 +2753,10 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
 
 void npc::see_item_say_smth( const itype_id &object, const std::string &smth )
 {
-    for( const tripoint &p : closest_tripoints_first( pos(), 6 ) ) {
-        if( g->m.sees_some_items( p, *this ) && sees( p ) ) {
-            for( const item &it : g->m.i_at( p ) ) {
+    map &here = get_map();
+    for( const tripoint &p : closest_points_first( pos(), 6 ) ) {
+        if( here.sees_some_items( p, *this ) && sees( p ) ) {
+            for( const item &it : here.i_at( p ) ) {
                 if( one_in( 100 ) && ( it.typeId() == object ) ) {
                     say( smth );
                 }
@@ -2753,8 +2768,8 @@ void npc::see_item_say_smth( const itype_id &object, const std::string &smth )
 void npc::find_item()
 {
     if( is_hallucination() ) {
-        see_item_say_smth( "thorazine", "<no_to_thorazine>" );
-        see_item_say_smth( "lsd", "<yes_to_lsd>" );
+        see_item_say_smth( itype_thorazine, "<no_to_thorazine>" );
+        see_item_say_smth( itype_lsd, "<yes_to_lsd>" );
         return;
     }
 
@@ -2840,7 +2855,7 @@ void npc::find_item()
         }
     };
 
-    for( const tripoint &p : closest_tripoints_first( pos(), range ) ) {
+    for( const tripoint &p : closest_points_first( pos(), range ) ) {
         // TODO: Make this sight check not overdraw nearby tiles
         // TODO: Optimize that zone check
         if( is_player_ally() && g->check_zone( zone_type_no_npc_pickup, p ) ) {
@@ -3363,7 +3378,7 @@ bool npc::wield_better_weapon()
     item *best = &weapon;
     double best_value = -100.0;
 
-    const int ups_charges = charges_of( "UPS" );
+    const int ups_charges = charges_of( itype_UPS );
 
     const auto compare_weapon =
     [this, &best, &best_value, ups_charges, can_use_gun, use_silent]( const item & it ) {
@@ -3413,12 +3428,12 @@ bool npc::wield_better_weapon()
     // Until then, the NPCs should reload the guns as a last resort
 
     if( best == &weapon ) {
-        add_msg( m_debug, "Wielded %s is best at %.1f, not switching", best->type->get_id(),
+        add_msg( m_debug, "Wielded %s is best at %.1f, not switching", best->type->get_id().str(),
                  best_value );
         return false;
     }
 
-    add_msg( m_debug, "Wielding %s at value %.1f", best->type->get_id(), best_value );
+    add_msg( m_debug, "Wielding %s at value %.1f", best->type->get_id().str(), best_value );
 
     wield( *best );
     return true;
@@ -3658,13 +3673,13 @@ void npc::heal_self()
     if( has_effect( effect_asthma ) ) {
         item &treatment = null_item_reference();
         std::string iusage = "OXYGEN_BOTTLE";
-        if( has_charges( "inhaler", 1 ) ) {
-            treatment = inv.find_item( inv.position_by_type( "inhaler" ) );
+        if( has_charges( itype_inhaler, 1 ) ) {
+            treatment = inv.find_item( inv.position_by_type( itype_inhaler ) );
             iusage = "INHALER";
-        } else if( has_charges( "oxygen_tank", 1 ) ) {
-            treatment = inv.find_item( inv.position_by_type( "oxygen_tank" ) );
-        } else if( has_charges( "smoxygen_tank", 1 ) ) {
-            treatment = inv.find_item( inv.position_by_type( "smoxygen_tank" ) );
+        } else if( has_charges( itype_oxygen_tank, 1 ) ) {
+            treatment = inv.find_item( inv.position_by_type( itype_oxygen_tank ) );
+        } else if( has_charges( itype_smoxygen_tank, 1 ) ) {
+            treatment = inv.find_item( inv.position_by_type( itype_smoxygen_tank ) );
         }
         if( !treatment.is_null() ) {
             treatment.type->invoke( *this, treatment, pos(), iusage );
@@ -4539,7 +4554,7 @@ void npc::do_reload( const item &it )
 
     if( g->u.sees( *this ) ) {
         add_msg( _( "%1$s reloads their %2$s." ), name, it.tname() );
-        sfx::play_variant_sound( "reload", it.typeId(), sfx::get_heard_volume( pos() ),
+        sfx::play_variant_sound( "reload", it.typeId().str(), sfx::get_heard_volume( pos() ),
                                  sfx::get_heard_angle( pos() ) );
     }
 

@@ -81,6 +81,10 @@ class character_id;
 
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 
+static const itype_id itype_fungal_seeds( "fungal_seeds" );
+static const itype_id itype_log( "log" );
+static const itype_id itype_marloss_seed( "marloss_seed" );
+
 static const std::string flag_PLOWABLE( "PLOWABLE" );
 static const std::string flag_TREE( "TREE" );
 
@@ -1640,11 +1644,11 @@ void basecamp::worker_assignment_ui()
 
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        const int term_x = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
-        const int term_y = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+        const point term( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
+                          TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
 
         w_followers = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                          point( term_y, term_x ) );
+                                          point( term.y, term.x ) );
         entries_per_page = FULL_SCREEN_HEIGHT - 4;
 
         ui.position_from_window( w_followers );
@@ -1737,11 +1741,11 @@ void basecamp::job_assignment_ui()
 
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        const int term_x = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
-        const int term_y = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+        const point term( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
+                          TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
 
         w_jobs = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                     point( term_y, term_x ) );
+                                     point( term.y, term.x ) );
 
         entries_per_page = FULL_SCREEN_HEIGHT - 4;
 
@@ -2261,7 +2265,7 @@ void basecamp::start_crafting( const std::string &cur_id, const point &cur_dir,
 
 static bool farm_valid_seed( const item &itm )
 {
-    return itm.is_seed() && itm.typeId() != "marloss_seed" && itm.typeId() != "fungal_seeds";
+    return itm.is_seed() && itm.typeId() != itype_marloss_seed && itm.typeId() != itype_fungal_seeds;
 }
 
 static std::pair<size_t, std::string> farm_action( const tripoint &omt_tgt, farm_ops op,
@@ -3221,11 +3225,12 @@ int om_cutdown_trees( const tripoint &omt_tgt, int chance, bool estimate, bool f
             if( estimate ) {
                 continue;
             }
-            // get a random number that is either 1 or -1
-            int dir_x = 3 * ( 2 * rng( 0, 1 ) - 1 ) + rng( -1, 1 );
-            int dir_y = 3 * rng( -1, 1 ) + rng( -1, 1 );
-            tripoint to = p + tripoint( dir_x, dir_y, omt_tgt.z );
-            std::vector<tripoint> tree = line_to( p, to, rng( 1, 8 ) );
+            tripoint delta{
+                3 * ( 2 * rng( 0, 1 ) - 1 ) + rng( -1, 1 ),
+                3 * rng( -1, 1 ) + rng( -1, 1 ),
+                omt_tgt.z
+            };
+            std::vector<tripoint> tree = line_to( p, p + delta, rng( 1, 8 ) );
             for( auto &elem : tree ) {
                 target_bay.destroy( elem );
                 target_bay.ter_set( elem, t_trunk );
@@ -3245,7 +3250,7 @@ int om_cutdown_trees( const tripoint &omt_tgt, int chance, bool estimate, bool f
     for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
         if( target_bay.ter( p ) == ter_id( "t_trunk" ) ) {
             target_bay.ter_set( p, t_dirt );
-            target_bay.spawn_item( p, "log", rng( 2, 3 ), 0, calendar::turn );
+            target_bay.spawn_item( p, itype_log, rng( 2, 3 ), 0, calendar::turn );
             harvested++;
         }
     }

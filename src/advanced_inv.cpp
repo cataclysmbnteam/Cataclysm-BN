@@ -60,7 +60,6 @@
 #endif
 
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
-static const activity_id ACT_DROP( "ACT_DROP" );
 static const activity_id ACT_WEAR( "ACT_WEAR" );
 
 static const trait_id trait_DEBUG_STORAGE( "DEBUG_STORAGE" );
@@ -545,13 +544,12 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
         }
 
         const std::string key = get_location_key( static_cast<aim_location>( i ) );
-        const int x = squares[i].hscreen.x + ofs;
-        const int y = squares[i].hscreen.y;
-        mvwprintz( window, point( x, y ), bcolor, "%c", bracket[0] );
+        const point p( squares[i].hscreen + point( ofs, 0 ) );
+        mvwprintz( window, p, bcolor, "%c", bracket[0] );
         wprintz( window, kcolor, "%s", in_vehicle && sel != AIM_DRAGGED ? "V" : key );
         wprintz( window, bcolor, "%c", bracket[1] );
-        if( x < min_x ) {
-            min_x = x;
+        if( p.x < min_x ) {
+            min_x = p.x;
         }
     }
     return min_x;
@@ -1268,17 +1266,8 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
         } else {
             // important if item is worn
             if( g->u.can_unwield( g->u.i_at( idx ) ).success() ) {
-                g->u.assign_activity( ACT_DROP );
-                g->u.activity.placement = squares[destarea].off;
-
-                // incase there is vehicle cargo space at dest but the player wants to drop to ground
-                if( !to_vehicle ) {
-                    g->u.activity.str_values.push_back( "force_ground" );
-                }
-
-                g->u.activity.targets.push_back( item_location( g->u, &g->u.i_at( idx ) ) );
-                g->u.activity.values.push_back( amount_to_move );
-
+                drop_locations to_move = { drop_location( item_location( g->u, &g->u.i_at( idx ) ), amount_to_move ) };
+                g->u.assign_activity( drop_activity_actor( g->u, to_move, !to_vehicle, squares[destarea].off ) );
                 // exit so that the activity can be carried out
                 exit = true;
             }
@@ -1603,9 +1592,8 @@ void query_destination_callback::draw_squares( const uilist *menu )
         bool canputitems = menu->entries[i - 1].enabled && square.canputitems();
         nc_color bcolor = canputitems ? sel == loc ? h_white : c_light_gray : c_dark_gray;
         nc_color kcolor = canputitems ? sel == loc ? h_white : c_light_gray : c_dark_gray;
-        const int x = square.hscreen.x + ofs;
-        const int y = square.hscreen.y + 5;
-        mvwprintz( menu->window, point( x, y ), bcolor, "%c", bracket[0] );
+        const point p( square.hscreen + point( ofs, 5 ) );
+        mvwprintz( menu->window, p, bcolor, "%c", bracket[0] );
         wprintz( menu->window, kcolor, "%s", key );
         wprintz( menu->window, bcolor, "%c", bracket[1] );
     }

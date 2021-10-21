@@ -834,7 +834,7 @@
     "color": "brown",
     "looks_like": "t_fencegate_o",
     "move_cost": 1,
-    "flags": [ "FLAMMABLE_ASH", "FLAT", "ROAD", "BURROWABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "ROAD", "BURROWABLE" ],
     "connects_to": "WOODFENCE",
     "close": "t_privacy_fencegate_c",
     "deconstruct": {
@@ -891,7 +891,7 @@
       "sound_fail": "ker-rash!",
       "ter_set": "t_rock_floor",
       "items": [
-        { "item": "glass_shard", "count": [ 50, 164 ] },
+        { "item": "glass_shard", "count": [ 5, 15 ] },
         { "item": "pipe", "charges": [ 1, 2 ] },
         { "item": "scrap", "count": [ 1, 3 ] }
       ]

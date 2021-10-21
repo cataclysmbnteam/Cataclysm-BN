@@ -7,7 +7,7 @@
     "symbol": ">",
     "color": "light_red",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "GOES_DOWN", "PLACE_ITEM" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "GOES_DOWN", "INDOORS", "PLACE_ITEM" ],
     "bash": {
       "str_min": 10,
       "str_max": 70,

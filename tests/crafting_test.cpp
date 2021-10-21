@@ -13,6 +13,7 @@
 #include "cata_utility.h"
 #include "catch/catch.hpp"
 #include "coordinate_conversions.h"
+#include "craft_command.h"
 #include "crafting.h"
 #include "distribution_grid.h"
 #include "game.h"
@@ -34,6 +35,9 @@
 #include "value_ptr.h"
 
 class inventory;
+
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_DEBUG_STORAGE( "DEBUG_STORAGE" );
 
 TEST_CASE( "recipe_subset" )
 {
@@ -60,7 +64,7 @@ TEST_CASE( "recipe_subset" )
                 CHECK( std::find( cat_recipes.begin(), cat_recipes.end(), r ) != cat_recipes.end() );
             }
             THEN( "it uses water" ) {
-                const auto comp_recipes( subset.of_component( "water" ) );
+                const auto comp_recipes( subset.of_component( itype_id( "water" ) ) );
 
                 CHECK( comp_recipes.size() == 1 );
                 CHECK( std::find( comp_recipes.begin(), comp_recipes.end(), r ) != comp_recipes.end() );
@@ -486,18 +490,20 @@ static void verify_inventory( const std::vector<std::string> &has,
     std::ostringstream os;
     os << "Inventory:\n";
     for( const item *i : g->u.inv_dump() ) {
-        os << "  " << i->typeId() << " (" << i->charges << ")\n";
+        os << "  " << i->typeId().str() << " (" << i->charges << ")\n";
     }
     os << "Wielded:\n" << g->u.weapon.tname() << "\n";
     INFO( os.str() );
     for( const std::string &i : has ) {
         INFO( "expecting " << i );
-        const bool has_item = player_has_item_of_type( i ) || g->u.weapon.type->get_id() == i;
+        const bool has_item =
+            player_has_item_of_type( i ) || g->u.weapon.type->get_id() == itype_id( i );
         REQUIRE( has_item );
     }
     for( const std::string &i : hasnt ) {
         INFO( "not expecting " << i );
-        const bool hasnt_item = !player_has_item_of_type( i ) && !( g->u.weapon.type->get_id() == i );
+        const bool hasnt_item =
+            !player_has_item_of_type( i ) && !( g->u.weapon.type->get_id() == itype_id( i ) );
         REQUIRE( hasnt_item );
     }
 }
@@ -553,7 +559,39 @@ TEST_CASE( "total crafting time with or without interruption", "[crafting][time]
     }
 }
 
-TEST_CASE( "oven electric grid test", "[crafting][overmap][grids][slow]" )
+TEST_CASE( "debug hammerspace", "[crafting]" )
+{
+    static const recipe_id test_recipe( "nodachi" );
+
+    GIVEN( "A character with debug hammerspace trait" ) {
+        avatar dummy;
+        dummy.toggle_trait( trait_DEBUG_HS );
+        // TODO: Shouldn't be needed!
+        dummy.set_body();
+        // TODO: Debug vision should handle this part
+        dummy.toggle_trait( trait_DEBUG_STORAGE );
+        dummy.i_add( item( itype_id( "atomic_lamp" ) ) );
+        REQUIRE( dummy.fine_detail_vision_mod() < 4.0f );
+
+        WHEN( "The character tries to craft a no-dachi" ) {
+            craft_command command( &*test_recipe, 1, false, &dummy );
+            item_location craft_item = dummy.start_craft( command, dummy.pos() );
+
+            THEN( "The craft item is created" ) {
+                REQUIRE( craft_item );
+                AND_WHEN( "The character spends a second performing the activity set when starting the craft" ) {
+                    dummy.set_moves( 100 );
+                    dummy.activity.do_turn( dummy );
+                    THEN( "The activity isn't finished yet" ) {
+                        CHECK( !dummy.activity.is_null() );
+                    }
+                }
+            }
+        }
+    }
+}
+
+TEST_CASE( "oven electric grid", "[crafting][overmap][grids][slow]" )
 {
     map &m = g->m;
     constexpr tripoint start_pos = tripoint( 60, 60, 0 );
@@ -598,6 +636,65 @@ TEST_CASE( "oven electric grid test", "[crafting][overmap][grids][slow]" )
                     REQUIRE( can_craft );
                 }
             }
+        }
+    }
+}
+
+TEST_CASE( "tool selection ui", "[crafting][ui]" )
+{
+    npc dummy;
+
+    std::vector<tool_comp> tools;
+    comp_selection<tool_comp> expected_result;
+
+    inventory map_inv;
+
+    GIVEN( "One compatible tool in map inventory" ) {
+        tool_comp tool_component( itype_id( "test_soldering_iron" ), 10 );
+        tools = {tool_component};
+        map_inv.add_item( item( tool_component.type, calendar::start_of_cataclysm, 100 ) );
+
+        comp_selection<tool_comp> result = crafting::select_tool_component( tools, 1, map_inv,
+                                           &dummy, false,
+                                           DEFAULT_HOTKEYS, cost_adjustment::none );
+
+        THEN( "That tool is selected and is from map" ) {
+            REQUIRE( map_inv.size() == 1 );
+            CAPTURE( map_inv.find_item( 0 ).display_name() );
+            CHECK( result.comp.type == tool_component.type );
+            CHECK( result.use_from == use_from_map );
+        }
+    }
+
+    GIVEN( "Two compatible tools in map inventory, one free and one costly" ) {
+        tool_comp costly( itype_id( "test_soldering_iron" ), 10 );
+        tool_comp free( itype_id( "test_screwdriver" ), -1 );
+        tools = {costly, free};
+        map_inv.add_item( item( costly.type ) );
+        map_inv.add_item( item( free.type ) );
+
+        comp_selection<tool_comp> result = crafting::select_tool_component( tools, 1, map_inv,
+                                           &dummy, false,
+                                           DEFAULT_HOTKEYS, cost_adjustment::none );
+
+        THEN( "Use from is set to none" ) {
+            CHECK( result.use_from == use_from_none );
+        }
+    }
+
+    GIVEN( "Two compatible tools in map inventory, one with enough charges for entire craft and one with half" ) {
+        tool_comp too_little( itype_id( "test_soldering_iron" ), 200 );
+        tool_comp enough( itype_id( "test_battery_tool" ), 100 );
+        tools = {too_little, enough};
+        map_inv.add_item( item( too_little.type, calendar::start_of_cataclysm, 100 ) );
+        map_inv.add_item( item( enough.type, calendar::start_of_cataclysm, 100 ) );
+
+        comp_selection<tool_comp> result = crafting::select_tool_component( tools, 1, map_inv,
+                                           &dummy, false,
+                                           DEFAULT_HOTKEYS, cost_adjustment::none );
+
+        THEN( "The tool with enough charges is selected" ) {
+            CHECK( result.comp.type == enough.type );
         }
     }
 }

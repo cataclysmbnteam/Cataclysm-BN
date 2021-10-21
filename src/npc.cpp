@@ -89,6 +89,8 @@ static const efftype_id effect_pkill3( "pkill3" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 
+static const itype_id itype_UPS_off( "UPS_off" );
+
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_barter( "barter" );
 static const skill_id skill_bashing( "bashing" );
@@ -164,7 +166,7 @@ npc::npc()
 }
 
 standard_npc::standard_npc( const std::string &name, const tripoint &pos,
-                            const std::vector<itype_id> &clothing,
+                            const std::vector<std::string> &clothing,
                             int sk_lvl, int s_str, int s_dex, int s_int, int s_per )
 {
     this->name = name;
@@ -737,18 +739,16 @@ void npc::place_on_map()
     // "submap_coords.x * SEEX + posx() % SEEX" (analog for y).
     // The main map assumes that pos is in its own (local to the main map)
     // coordinate system. We have to change pos to match that assumption
-    const int dmx = submap_coords.x - g->get_levx();
-    const int dmy = submap_coords.y - g->get_levy();
-    const int offset_x = position.x % SEEX;
-    const int offset_y = position.y % SEEY;
+    const point dm( submap_coords + point( -g->get_levx(), -g->get_levy() ) );
+    const point offset( position.x % SEEX, position.y % SEEY );
     // value of "submap_coords.x * SEEX + posx()" is unchanged
-    setpos( tripoint( offset_x + dmx * SEEX, offset_y + dmy * SEEY, posz() ) );
+    setpos( tripoint( offset.x + dm.x * SEEX, offset.y + dm.y * SEEY, posz() ) );
 
     if( g->is_empty( pos() ) || is_mounted() ) {
         return;
     }
 
-    for( const tripoint &p : closest_tripoints_first( pos(), SEEX + 1 ) ) {
+    for( const tripoint &p : closest_points_first( pos(), SEEX + 1 ) ) {
         if( g->is_empty( p ) ) {
             setpos( p );
             return;
@@ -1375,10 +1375,9 @@ float npc::vehicle_danger( int radius ) const
             // FIXME: this can't be the right way to do this
             float facing = wrapped_veh.v->face.dir();
 
-            int ax = wrapped_veh.v->global_pos3().x;
-            int ay = wrapped_veh.v->global_pos3().y;
-            int bx = int( ax + std::cos( facing * M_PI / 180.0 ) * radius );
-            int by = int( ay + std::sin( facing * M_PI / 180.0 ) * radius );
+            point a( wrapped_veh.v->global_pos3().xy() );
+            point b( static_cast<int>( a.x + std::cos( facing * M_PI / 180.0 ) * radius ),
+                     static_cast<int>( a.y + std::sin( facing * M_PI / 180.0 ) * radius ) );
 
             // fake size
             /* This will almost certainly give the wrong size/location on customized
@@ -1387,10 +1386,10 @@ float npc::vehicle_danger( int radius ) const
             vehicle_part last_part = wrapped_veh.v->parts.back();
             int size = std::max( last_part.mount.x, last_part.mount.y );
 
-            double normal = std::sqrt( static_cast<float>( ( bx - ax ) * ( bx - ax ) + ( by - ay ) *
-                                       ( by - ay ) ) );
-            int closest = static_cast<int>( std::abs( ( posx() - ax ) * ( by - ay ) - ( posy() - ay ) *
-                                            ( bx - ax ) ) / normal );
+            double normal = std::sqrt( static_cast<float>( ( b.x - a.x ) * ( b.x - a.x ) + ( b.y - a.y ) *
+                                       ( b.y - a.y ) ) );
+            int closest = static_cast<int>( std::abs( ( posx() - a.x ) * ( b.y - a.y ) - ( posy() - a.y ) *
+                                            ( b.x - a.x ) ) / normal );
 
             if( size > closest ) {
                 danger = i;
@@ -1479,8 +1478,8 @@ void npc::decide_needs()
     if( weapon.is_gun() ) {
         int ups_drain = weapon.get_gun_ups_drain();
         if( ups_drain > 0 ) {
-            int ups_charges = charges_of( "UPS_off", ups_drain ) +
-                              charges_of( "UPS_off", ups_drain );
+            int ups_charges = charges_of( itype_UPS_off, ups_drain ) +
+                              charges_of( itype_UPS_off, ups_drain );
             needrank[need_ammo] = static_cast<double>( ups_charges ) / ups_drain;
         } else {
             needrank[need_ammo] = get_ammo( ammotype( *weapon.type->gun->ammo.begin() ) ).size();
@@ -1673,7 +1672,7 @@ void npc::shop_restock()
     int shop_value = 75000;
     if( my_fac ) {
         shop_value = my_fac->wealth * 0.0075;
-        if( mission == NPC_MISSION_SHOPKEEP && !my_fac->currency.empty() ) {
+        if( mission == NPC_MISSION_SHOPKEEP && !my_fac->currency.is_empty() ) {
             item my_currency( my_fac->currency );
             if( !my_currency.is_null() ) {
                 my_currency.set_owner( *this );
@@ -2014,10 +2013,9 @@ bool npc::is_leader() const
 
 bool npc::within_boundaries_of_camp() const
 {
-    const int x = global_omt_location().x;
-    const int y = global_omt_location().y;
-    for( int x2 = x - 3; x2 < x + 3; x2++ ) {
-        for( int y2 = y - 3; y2 < y + 3; y2++ ) {
+    const point p( global_omt_location().xy() );
+    for( int x2 = p.x - 3; x2 < p.x + 3; x2++ ) {
+        for( int y2 = p.y - 3; y2 < p.y + 3; y2++ ) {
             cata::optional<basecamp *> bcp = overmap_buffer.find_camp( point( x2, y2 ) );
             if( bcp ) {
                 return true;
@@ -2131,7 +2129,7 @@ void npc::npc_dismount()
     }
     remove_effect( effect_riding );
     if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) &&
-        !mounted_creature->type->mech_weapon.empty() ) {
+        !mounted_creature->type->mech_weapon.is_empty() ) {
         remove_item( weapon );
     }
     mounted_creature->remove_effect( effect_ridden );

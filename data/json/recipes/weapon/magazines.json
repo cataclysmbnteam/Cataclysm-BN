@@ -66,7 +66,7 @@
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ "gun", 2 ],
+    "skills_required": [ [ "mechanics", 2 ], [ "gun", 2 ] ],
     "time": "20 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
@@ -86,6 +86,42 @@
     "using": [ [ "welding_standard", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "metal_tank_little", 1 ] ] ]
+  },
+  {
+    "result": "shot_speedloader6",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MAGAZINES",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ [ "mechanics", 3 ], [ "gun", 3 ] ],
+    "time": "40 m",
+    "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_shotgun", 4 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "tools": [
+      [ [ "mold_plastic", -1 ] ],
+      [ [ "surface_heat", 15, "LIST" ] ],
+      [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ]
+    ],
+    "components": [ [ [ "plastic_chunk", 2 ], [ "scrap", 1 ] ] ]
+  },
+  {
+    "result": "shot_speedloader8",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MAGAZINES",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ [ "mechanics", 3 ], [ "gun", 3 ] ],
+    "time": "50 m",
+    "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_shotgun", 4 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "tools": [
+      [ [ "mold_plastic", -1 ] ],
+      [ [ "surface_heat", 15, "LIST" ] ],
+      [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ]
+    ],
+    "components": [ [ [ "plastic_chunk", 3 ], [ "scrap", 1 ] ] ]
   },
   {
     "result": "survivor223mag",

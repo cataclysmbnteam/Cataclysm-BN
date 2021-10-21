@@ -18,8 +18,6 @@ class JsonIn;
 class JsonOut;
 class JsonObject;
 
-using itype_id = std::string;
-
 class recipe_dictionary
 {
         friend class Item_factory; // allow removal of blacklisted recipes
@@ -73,6 +71,10 @@ class recipe_dictionary
 };
 
 extern recipe_dictionary recipe_dict;
+
+using recipe_filter = std::function<bool( const recipe &r )>;
+
+recipe_filter recipe_filter_by_component( const itype_id &c );
 
 class recipe_subset
 {

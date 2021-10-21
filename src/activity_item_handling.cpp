@@ -7,6 +7,7 @@
 #include <iterator>
 #include <list>
 #include <memory>
+#include <numeric>
 #include <set>
 #include <sstream>
 #include <string>
@@ -92,8 +93,18 @@ static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
+
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_nausea( "nausea" );
+
+static const itype_id itype_battery( "battery" );
+static const itype_id itype_detergent( "detergent" );
+static const itype_id itype_log( "log" );
+static const itype_id itype_soap( "soap" );
+static const itype_id itype_soldering_iron( "soldering_iron" );
+static const itype_id itype_water( "water" );
+static const itype_id itype_water_clean( "water_clean" );
+static const itype_id itype_welder( "welder" );
 
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
@@ -106,6 +117,7 @@ static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
 static const zone_type_id zone_type_FISHING_SPOT( "FISHING_SPOT" );
 static const zone_type_id zone_type_LOOT_CORPSE( "LOOT_CORPSE" );
 static const zone_type_id zone_type_LOOT_IGNORE( "LOOT_IGNORE" );
+static const zone_type_id zone_type_LOOT_IGNORE_FAVORITES( "LOOT_IGNORE_FAVORITES" );
 static const zone_type_id zone_type_MINING( "MINING" );
 static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
 static const zone_type_id zone_type_LOOT_WOOD( "LOOT_WOOD" );
@@ -131,14 +143,11 @@ static const std::string flag_PLANT( "PLANT" );
 static const std::string flag_PLANTABLE( "PLANTABLE" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
 static const std::string flag_TREE( "TREE" );
+static const std::string flag_UNSAFE_CONSUME( "UNSAFE_CONSUME" );
 
 void cancel_aim_processing();
 //Generic activity: maximum search distance for zones, constructions, etc.
 const int ACTIVITY_SEARCH_DISTANCE = 60;
-
-// TODO: Deliberately unified with multidrop. Unify further.
-using drop_location = std::pair<item_location, int>;
-using drop_locations = std::list<std::pair<item_location, int>>;
 
 static bool same_type( const std::list<item> &items )
 {
@@ -265,12 +274,7 @@ static void pass_to_ownership_handling( item obj, Character &c )
     obj.handle_pickup_ownership( c );
 }
 
-static void pass_to_ownership_handling( item obj, player *p )
-{
-    obj.handle_pickup_ownership( *p );
-}
-
-static void stash_on_pet( const std::list<item> &items, monster &pet, player *p )
+static void stash_on_pet( const std::list<item> &items, monster &pet, Character &who )
 {
     units::volume remaining_volume = pet.storage_item->get_storage() - pet.get_carried_volume();
     units::mass remaining_weight = pet.weight_capacity() - pet.get_carried_weight();
@@ -290,7 +294,7 @@ static void stash_on_pet( const std::list<item> &items, monster &pet, player *p 
             remaining_weight -= it.weight();
         }
         // TODO: if NPCs can have pets or move items onto pets
-        pass_to_ownership_handling( it, p );
+        pass_to_ownership_handling( it, who );
     }
 }
 
@@ -397,33 +401,15 @@ void put_into_vehicle_or_drop( Character &c, item_drop_reason reason, const std:
     drop_on_map( c, reason, items, where );
 }
 
-static drop_locations convert_to_locations( const player_activity &act )
-{
-    drop_locations res;
-
-    if( act.values.size() != act.targets.size() ) {
-        debugmsg( "Drop/stash activity contains an odd number of values." );
-        return res;
-    }
-    for( size_t i = 0; i < act.values.size(); i++ ) {
-        // locations may have become invalid as items are forcefully dropped
-        // when they exceed the storage volume of the character
-        if( !act.targets[i] || !act.targets[i].get_item() ) {
-            continue;
-        }
-        res.emplace_back( act.targets[i], act.values[i] );
-    }
-    return res;
-}
-
-static std::list<pickup::act_item> convert_to_items( Character &p, const drop_locations &drop,
+static std::list<pickup::act_item> convert_to_items( Character &p,
+        const drop_locations &drop,
         std::function<bool( item_location loc )> filter )
 {
     std::list<pickup::act_item> res;
 
     for( const drop_location &rec : drop ) {
-        const item_location loc = rec.first;
-        const int count = rec.second;
+        const item_location loc = rec.loc;
+        const int count = rec.count;
 
         if( !filter( loc ) ) {
             continue;
@@ -581,17 +567,36 @@ std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &dr
     return res;
 }
 
+static bool try_rebuild_if_needed( item_location &loc )
+{
+    if( loc ) {
+        return true;
+    }
+    loc.make_dirty();
+    if( !loc ) {
+        debugmsg( "Lost target item of ACT_DROP and couldn't rebuild item_location!" );
+    }
+
+    return static_cast<bool>( loc );
+}
+
 std::list<item> obtain_and_tokenize_items( player &p, std::list<act_item> &items )
 {
     std::list<item> res;
     drop_token_provider &token_provider = drop_token::get_provider();
     item_drop_token last_token = token_provider.make_next( calendar::turn );
+    if( !try_rebuild_if_needed( items.front().loc ) ) {
+        return res;
+    }
     units::volume last_storage_volume = items.front().loc->get_storage();
     while( !items.empty() && ( p.is_npc() || p.moves > 0 || items.front().consumed_moves == 0 ) ) {
         act_item &ait = items.front();
 
-        assert( ait.loc );
-        assert( ait.loc.get_item() );
+        if( !try_rebuild_if_needed( ait.loc ) ) {
+            debugmsg( "Lost target item of ACT_DROP" );
+            items.pop_back();
+            return res;
+        }
 
         p.mod_moves( -ait.consumed_moves );
 
@@ -654,47 +659,28 @@ static void debug_tokens( const std::list<item> &items )
     popup( ss.str(), PF_GET_KEY );
 }
 
-static std::list<item> obtain_activity_items( player_activity &act, player &p )
+static std::list<item> obtain_activity_items( Character &who, std::list<pickup::act_item> &targets )
 {
-    std::list<pickup::act_item> items = pickup::reorder_for_dropping( p, convert_to_locations( act ) );
+    debug_drop_list( targets );
 
-    debug_drop_list( items );
-
-    std::list<item> res = pickup::obtain_and_tokenize_items( p, items );
+    std::list<item> res = pickup::obtain_and_tokenize_items( *who.as_player(), targets );
 
     debug_tokens( res );
-
-    // Load anything that remains (if any) into the activity
-    act.targets.clear();
-    act.values.clear();
-    for( const pickup::act_item &ait : items ) {
-        act.targets.push_back( ait.loc );
-        act.values.push_back( ait.count );
-    }
-    // And cancel if its empty. If its not, we modified in place and we will continue
-    // to resolve the drop next turn. This is different from the pickup logic which
-    // creates a brand new activity every turn and cancels the old activity
-    if( act.values.empty() ) {
-        p.cancel_activity();
-    }
 
     return res;
 }
 
-void activity_handlers::drop_do_turn( player_activity *act, player *p )
+void drop_activity_actor::do_turn( player_activity &, Character &who )
 {
-    const tripoint pos = act->placement + p->pos();
+    const tripoint pos = who.pos() + relpos;
 
-    bool force_ground = false;
-    for( auto &it : act->str_values ) {
-        if( it == "force_ground" ) {
-            force_ground = true;
-            break;
-        }
-    }
-
-    put_into_vehicle_or_drop( *p, item_drop_reason::deliberate, obtain_activity_items( *act, *p ),
+    put_into_vehicle_or_drop( who, item_drop_reason::deliberate,
+                              obtain_activity_items( who, items ),
                               pos, force_ground );
+
+    if( items.empty() ) {
+        who.cancel_activity();
+    }
 }
 
 void activity_on_turn_wear( player_activity &act, player &p )
@@ -742,16 +728,13 @@ void activity_on_turn_wear( player_activity &act, player &p )
     }
 }
 
-void activity_handlers::washing_finish( player_activity *act, player *p )
+void wash_activity_actor::finish( player_activity &act, Character &who )
 {
-    drop_locations items = convert_to_locations( *act );
-
     // Check again that we have enough water and soap incase the amount in our inventory changed somehow
     // Consume the water and soap
     units::volume total_volume = 0_ml;
-
-    for( const auto &it : items ) {
-        total_volume += it.first->volume() * it.second / it.first->count();
+    for( const auto &it : targets ) {
+        total_volume += it.loc->volume() * it.count / it.loc->count();
     }
     washing_requirements required = washing_requirements_for_volume( total_volume );
 
@@ -759,68 +742,71 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
         return is_crafting_component( it ) && ( !it.count_by_charges() || it.made_of( LIQUID ) ||
                                                 it.contents_made_of( LIQUID ) );
     };
-    const inventory &crafting_inv = p->crafting_inventory();
-    if( !crafting_inv.has_charges( "water", required.water, is_liquid_crafting_component ) &&
-        !crafting_inv.has_charges( "water_clean", required.water, is_liquid_crafting_component ) ) {
-        p->add_msg_if_player( _( "You need %1$i charges of water or clean water to wash these items." ),
-                              required.water );
-        act->set_to_null();
+    const inventory &crafting_inv = who.crafting_inventory();
+    if( !crafting_inv.has_charges( itype_water, required.water, is_liquid_crafting_component ) &&
+        !crafting_inv.has_charges( itype_water_clean, required.water, is_liquid_crafting_component ) ) {
+        who.add_msg_if_player( _( "You need %1$i charges of water or clean water to wash these items." ),
+                               required.water );
+        act.set_to_null();
         return;
-    } else if( !crafting_inv.has_charges( "soap", required.cleanser ) &&
-               !crafting_inv.has_charges( "detergent", required.cleanser ) ) {
-        p->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ),
-                              required.cleanser );
-        act->set_to_null();
+    } else if( !crafting_inv.has_charges( itype_soap, required.cleanser ) &&
+               !crafting_inv.has_charges( itype_detergent, required.cleanser ) ) {
+        who.add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ),
+                               required.cleanser );
+        act.set_to_null();
         return;
     }
 
-    for( auto &i : items ) {
-        item &it = *i.first;
-        if( i.second >= it.count() ) {
-            if( i.second > it.count() ) {
-                debugmsg( "Invalid item count to wash: tried %d, max %d", i.second, it.count() );
+    for( auto &i : targets ) {
+        item &it = *i.loc;
+        if( i.count >= it.count() ) {
+            if( i.count > it.count() ) {
+                debugmsg( "Invalid item count to wash: tried %d, max %d", i.count, it.count() );
             }
             it.item_tags.erase( "FILTHY" );
         } else {
             item it2 = it;
-            it.charges -= i.second;
-            it2.charges = i.second;
+            it.charges -= i.count;
+            it2.charges = i.count;
             it2.item_tags.erase( "FILTHY" );
             std::list<item> tmp;
             tmp.push_back( it2 );
-            put_into_vehicle_or_drop( *p, item_drop_reason::deliberate, tmp );
+            put_into_vehicle_or_drop( who, item_drop_reason::deliberate, tmp );
         }
-        p->on_worn_item_washed( it );
+        who.on_worn_item_washed( it );
     }
 
     std::vector<item_comp> comps;
-    comps.push_back( item_comp( "water", required.water ) );
-    comps.push_back( item_comp( "water_clean", required.water ) );
-    p->consume_items( comps, 1, is_liquid_crafting_component );
+    comps.push_back( item_comp( itype_water, required.water ) );
+    comps.push_back( item_comp( itype_water_clean, required.water ) );
+    who.as_player()->consume_items( comps, 1, is_liquid_crafting_component );
 
     std::vector<item_comp> comps1;
-    comps1.push_back( item_comp( "soap", required.cleanser ) );
-    comps1.push_back( item_comp( "detergent", required.cleanser ) );
-    p->consume_items( comps1 );
+    comps1.push_back( item_comp( itype_soap, required.cleanser ) );
+    comps1.push_back( item_comp( itype_detergent, required.cleanser ) );
+    who.as_player()->consume_items( comps1 );
 
-    p->add_msg_if_player( m_good, _( "You washed your items." ) );
+    who.add_msg_if_player( m_good, _( "You washed your items." ) );
 
     // Make sure newly washed components show up as available if player attempts to craft immediately
-    p->invalidate_crafting_inventory();
+    who.invalidate_crafting_inventory();
 
-    act->set_to_null();
+    act.set_to_null();
 }
 
-void activity_handlers::stash_do_turn( player_activity *act, player *p )
+void stash_activity_actor::do_turn( player_activity &, Character &who )
 {
-    const tripoint pos = act->placement + p->pos();
+    const tripoint pos = who.pos() + relpos;
 
     monster *pet = g->critter_at<monster>( pos );
     if( pet != nullptr && pet->has_effect( effect_pet ) ) {
-        stash_on_pet( obtain_activity_items( *act, *p ), *pet, p );
+        stash_on_pet( obtain_activity_items( who, items ), *pet, who );
+        if( items.empty() ) {
+            who.cancel_activity();
+        }
     } else {
-        p->add_msg_if_player( _( "The pet has moved somewhere else." ) );
-        p->cancel_activity();
+        who.add_msg_if_player( _( "The pet has moved somewhere else." ) );
+        who.cancel_activity();
     }
 }
 
@@ -1257,12 +1243,12 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                 vehicle &veh = vp->vehicle();
                 const cata::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
                 if( weldpart ) {
-                    item welder( "welder", calendar::start_of_cataclysm );
-                    welder.charges = veh.fuel_left( "battery", true );
+                    item welder( itype_welder, calendar::start_of_cataclysm );
+                    welder.charges = veh.fuel_left( itype_battery, true );
                     welder.set_flag( "PSEUDO" );
                     temp_inv.add_item( welder );
-                    item soldering_iron( "soldering_iron", calendar::start_of_cataclysm );
-                    soldering_iron.charges = veh.fuel_left( "battery", true );
+                    item soldering_iron( itype_soldering_iron, calendar::start_of_cataclysm );
+                    soldering_iron.charges = veh.fuel_left( itype_battery, true );
                     soldering_iron.set_flag( "PSEUDO" );
                     temp_inv.add_item( soldering_iron );
                 }
@@ -1494,7 +1480,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
     if( act == ACT_MULTIPLE_CHOP_PLANKS ) {
         //are there even any logs there?
         for( auto &i : g->m.i_at( src_loc ) ) {
-            if( i.typeId() == "log" ) {
+            if( i.typeId() == itype_log ) {
                 // do we have an axe?
                 if( p.has_quality( qual_AXE, 1 ) ) {
                     return activity_reason_info::ok( do_activity_reason::NEEDS_CHOPPING );
@@ -1558,10 +1544,10 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 } else {
                     // do we have the required seed on our person?
                     const plot_options &options = dynamic_cast<const plot_options &>( zone.get_options() );
-                    const std::string seed = options.get_seed();
+                    const itype_id seed = options.get_seed();
                     // If its a farm zone with no specified seed, and we've checked for tilling and harvesting.
                     // then it means no further work can be done here
-                    if( seed.empty() ) {
+                    if( seed.is_empty() ) {
                         return activity_reason_info::fail( do_activity_reason::ALREADY_DONE );
                     }
                     std::vector<item *> seed_inv = p.items_with( []( const item & itm ) {
@@ -1887,8 +1873,8 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
         }
     }
     for( const std::tuple<tripoint, itype_id, int> &elem : final_map ) {
-        add_msg( m_debug, "%s is fetching %s from x: %d y: %d ", p.disp_name(), std::get<1>( elem ),
-                 std::get<0>( elem ).x, std::get<0>( elem ).y );
+        add_msg( m_debug, "%s is fetching %s from x: %d y: %d ", p.disp_name(),
+                 std::get<1>( elem ).str(), std::get<0>( elem ).x, std::get<0>( elem ).y );
     }
     return final_map;
 }
@@ -2104,7 +2090,7 @@ static bool chop_plank_activity( player &p, const tripoint &src_loc )
         p.consume_charges( *best_qual, best_qual->type->charges_to_use() );
     }
     for( auto &i : g->m.i_at( src_loc ) ) {
-        if( i.typeId() == "log" ) {
+        if( i.typeId() == itype_log ) {
             g->m.i_rem( src_loc, &i );
             int moves = to_moves<int>( 20_minutes );
             p.add_msg_if_player( _( "You cut the log into planks." ) );
@@ -2285,6 +2271,11 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
 
             // skip unpickable liquid
             if( thisitem.made_of( LIQUID ) ) {
+                continue;
+            }
+
+            // skip favorite items in ignore favorite zones
+            if( thisitem.is_favorite && mgr.has( zone_type_LOOT_IGNORE_FAVORITES, src ) ) {
                 continue;
             }
 
@@ -2825,7 +2816,8 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
         std::vector<zone_data> zones = mgr.get_zones( zone_type_FARM_PLOT,
                                        g->m.getabs( src_loc ) );
         for( const zone_data &zone : zones ) {
-            const std::string seed = dynamic_cast<const plot_options &>( zone.get_options() ).get_seed();
+            const itype_id seed =
+                dynamic_cast<const plot_options &>( zone.get_options() ).get_seed();
             std::vector<item *> seed_inv = p.items_with( [seed]( const item & itm ) {
                 return itm.typeId() == itype_id( seed );
             } );
@@ -3167,6 +3159,10 @@ bool find_auto_consume( player &p, const bool food )
                 // not quenching enough
                 continue;
             }
+            if( comest.has_flag( flag_UNSAFE_CONSUME ) ) {
+                // Unsafe to drink or eat
+                continue;
+            }
             if( !food && it->is_watertight_container() && it->contents_made_of( SOLID ) ) {
                 // its frozen
                 continue;
@@ -3194,7 +3190,7 @@ bool find_auto_consume( player &p, const bool food )
 void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
 {
     const tripoint pos = p.pos();
-    std::vector<tripoint> adjacent = closest_tripoints_first( pos, PICKUP_RANGE );
+    std::vector<tripoint> adjacent = closest_points_first( pos, PICKUP_RANGE );
     adjacent.erase( adjacent.begin() );
 
     cata::optional<tripoint> best_fire = starting_fire ? act.placement : find_best_fire( adjacent,

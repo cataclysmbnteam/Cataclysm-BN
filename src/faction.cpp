@@ -48,7 +48,7 @@ faction_template::faction_template()
     size = 0;
     power = 0;
     lone_wolf_faction = false;
-    currency = "null";
+    currency = itype_id::NULL_ID();
 }
 
 faction::faction( const faction_template &templ )
@@ -105,9 +105,9 @@ faction_template::faction_template( const JsonObject &jsobj )
     , wealth( jsobj.get_int( "wealth" ) )
 {
     if( jsobj.has_string( "currency" ) ) {
-        currency = jsobj.get_string( "currency" );
+        jsobj.read( "currency", currency, true );
     } else {
-        currency = "null";
+        currency = itype_id::NULL_ID();
     }
     lone_wolf_faction = jsobj.get_bool( "lone_wolf_faction", false );
     load_relations( jsobj );
@@ -671,11 +671,11 @@ void faction_manager::display() const
 
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        const int term_x = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
-        const int term_y = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+        const point term( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
+                          TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
 
         w_missions = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                         point( term_y, term_x ) );
+                                         point( term.y, term.x ) );
 
         entries_per_page = FULL_SCREEN_HEIGHT - 4;
 

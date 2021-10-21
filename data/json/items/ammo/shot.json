@@ -121,7 +121,8 @@
     "price_postapoc": 200,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 10,
-    "proportional": { "damage": { "damage_type": "stab", "amount": 0.1 }, "recoil": 0.4, "loudness": 0.6 },
+    "damage": { "damage_type": "bash", "amount": 5 },
+    "proportional": { "recoil": 0.4, "loudness": 0.6 },
     "extend": { "effects": [ "BEANBAG", "NOGIB" ] }
   },
   {

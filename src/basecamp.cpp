@@ -14,6 +14,7 @@
 #include "clzones.h"
 #include "color.h"
 #include "coordinate_conversions.h"
+#include "crafting.h"
 #include "debug.h"
 #include "faction_camp.h"
 #include "flat_set.h"
@@ -302,7 +303,7 @@ std::vector<basecamp_upgrade> basecamp::available_upgrades( const point &dir )
         expansion_data &e_data = e->second;
         for( const recipe *recp_p : recipe_dict.all_blueprints() ) {
             const recipe &recp = *recp_p;
-            const std::string &bldg = recp.result();
+            const std::string &bldg = recp.result().str();
             // skip buildings that are completed
             if( e_data.provides.find( bldg ) != e_data.provides.end() ) {
                 continue;
@@ -646,7 +647,7 @@ void basecamp::form_crafting_inventory( map &target_map )
         bcp_r.consumed = 0;
         item camp_item( bcp_r.fake_id, calendar::start_of_cataclysm );
         camp_item.set_flag( "PSEUDO" );
-        if( bcp_r.ammo_id != "NULL" ) {
+        if( !bcp_r.ammo_id.is_null() ) {
             for( basecamp_fuel &bcp_f : fuels ) {
                 if( bcp_f.ammo_id == bcp_r.ammo_id ) {
                     if( bcp_f.available > 0 ) {
@@ -731,9 +732,10 @@ bool basecamp_action_components::choose_components()
     }
     // this may consume pseudo-resources from fake items
     for( const auto &it : req->get_tools() ) {
+        const Character *player_with_inventory = base_.by_radio ? nullptr : &get_avatar();
         comp_selection<tool_comp> ts =
-            g->u.select_tool_component( it, batch_size_, base_._inv, DEFAULT_HOTKEYS, true,
-                                        !base_.by_radio );
+            crafting::select_tool_component( it, batch_size_, base_._inv,
+                                             player_with_inventory, true );
         if( ts.use_from == cancel ) {
             return false;
         }

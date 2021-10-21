@@ -115,7 +115,7 @@
     "price": 320,
     "price_postapoc": 100,
     "material": "veggy",
-    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "flags": [ "SMOKABLE" ],
     "volume": "250 ml"
   },
   {

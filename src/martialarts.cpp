@@ -60,7 +60,7 @@ matype_id martial_art_learned_from( const itype &type )
 
     if( !type.book || type.book->martial_art.is_null() ) {
         debugmsg( "Item '%s' which claims to teach a martial art is missing martial_art",
-                  type.get_id() );
+                  type.get_id().str() );
         return {};
     }
 
@@ -357,11 +357,9 @@ void check_martialarts()
                           technique->c_str(), ma.name );
             }
         }
-        for( auto weapon = ma.weapons.cbegin();
-             weapon != ma.weapons.cend(); ++weapon ) {
-            if( !item::type_is_defined( *weapon ) ) {
-                debugmsg( "Weapon %s in style %s doesn't exist.",
-                          weapon->c_str(), ma.name );
+        for( const itype_id &weapon : ma.weapons ) {
+            if( !weapon.is_valid() ) {
+                debugmsg( "Weapon %s in style %s doesn't exist.", weapon, ma.name );
             }
         }
     }

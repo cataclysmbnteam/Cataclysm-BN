@@ -1396,7 +1396,7 @@
       { "x": 0, "y": 1, "part": "kitchen_unit" },
       { "x": 0, "y": 1, "part": "roof" },
       { "x": 0, "y": -1, "part": "frame_vertical" },
-      { "x": 0, "y": -1, "part": "hddoor" },
+      { "x": 0, "y": -1, "part": "hddoor_left" },
       { "x": 0, "y": 2, "part": "frame_vertical" },
       { "x": 0, "y": 2, "part": "halfboard_vertical" },
       { "x": -1, "y": 0, "part": "frame_vertical_2" },

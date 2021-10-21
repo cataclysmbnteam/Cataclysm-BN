@@ -14,7 +14,7 @@
     "blueprint_excludes": [ { "id": "fbml_northeast" } ],
     "blueprint_needs": {
       "time": "5 d 10 h 15 m",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
@@ -47,7 +47,7 @@
     "blueprint_excludes": [ { "id": "fbml_southeast" } ],
     "blueprint_needs": {
       "time": "3 d 18 h 25 m",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [
@@ -84,7 +84,7 @@
     "blueprint_excludes": [ { "id": "fbml_southwest" } ],
     "blueprint_needs": {
       "time": "4 d 17 h 45 m",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
@@ -116,7 +116,7 @@
     "blueprint_excludes": [ { "id": "fbml_west" } ],
     "blueprint_needs": {
       "time": "4 d 7 h 15 m",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
@@ -148,7 +148,7 @@
     "blueprint_excludes": [ { "id": "fbml_northwest" } ],
     "blueprint_needs": {
       "time": "4 d 12 h 30 m",
-      "skills": [ [ "fabrication", 3 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],

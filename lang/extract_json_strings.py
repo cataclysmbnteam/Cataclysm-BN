@@ -103,6 +103,7 @@ ignorable = {
     "SCENARIO_BLACKLIST",
     "scent_type",
     "skill_boost",
+    "to_cbc_migration",
     "TRAIT_BLACKLIST",
     "trait_group",
     "uncraft",
@@ -168,7 +169,8 @@ automatically_convertible = {
     "vehicle_part",
     "vitamin",
     "WHEEL",
-    "help"
+    "help",
+    "weather_type"
 }
 
 # for these objects a plural form is needed

@@ -27,7 +27,6 @@
 #include "int_id.h"
 #include "item.h"
 #include "item_contents.h"
-#include "item_factory.h"
 #include "item_location.h"
 #include "line.h"
 #include "map.h"
@@ -58,6 +57,18 @@
 
 static const efftype_id effect_amigara( "amigara" );
 
+static const itype_id itype_black_box( "black_box" );
+static const itype_id itype_blood( "blood" );
+static const itype_id itype_c4( "c4" );
+static const itype_id itype_cobalt_60( "cobalt_60" );
+static const itype_id itype_mininuke( "mininuke" );
+static const itype_id itype_mininuke_act( "mininuke_act" );
+static const itype_id itype_radio_repeater_mod( "radio_repeater_mod" );
+static const itype_id itype_sarcophagus_access_code( "sarcophagus_access_code" );
+static const itype_id itype_sewage( "sewage" );
+static const itype_id itype_usb_drive( "usb_drive" );
+static const itype_id itype_vacutainer( "vacutainer" );
+
 static const skill_id skill_computer( "computer" );
 
 static const species_id HUMAN( "HUMAN" );
@@ -68,15 +79,12 @@ static const mtype_id mon_secubot( "mon_secubot" );
 
 static const std::string flag_CONSOLE( "CONSOLE" );
 
-static const itype_id itype_sarcophagus_access_code( "sarcophagus_access_code" );
-
 static catacurses::window init_window()
 {
     const int width = FULL_SCREEN_WIDTH;
     const int height = FULL_SCREEN_HEIGHT;
-    const int x = std::max( 0, ( TERMX - width ) / 2 );
-    const int y = std::max( 0, ( TERMY - height ) / 2 );
-    return catacurses::newwin( height, width, point( x, y ) );
+    const point p( std::max( 0, ( TERMX - width ) / 2 ), std::max( 0, ( TERMY - height ) / 2 ) );
+    return catacurses::newwin( height, width, p );
 }
 
 computer_session::computer_session( computer &comp ) : comp( comp ),
@@ -91,9 +99,8 @@ void computer_session::use()
     ui.on_screen_resize( [this]( ui_adaptor & ui ) {
         const int width = getmaxx( win );
         const int height = getmaxy( win );
-        const int x = std::max( 0, ( TERMX - width ) / 2 );
-        const int y = std::max( 0, ( TERMY - height ) / 2 );
-        win = catacurses::newwin( height, width, point( x, y ) );
+        const point p( std::max( 0, ( TERMX - width ) / 2 ), std::max( 0, ( TERMY - height ) / 2 ) );
+        win = catacurses::newwin( height, width, p );
         ui.position_from_window( win );
     } );
     ui.mark_resize();
@@ -222,7 +229,7 @@ bool computer_session::hack_attempt( player &p, int Security )
 static item *pick_usb()
 {
     auto filter = []( const item & it ) {
-        return it.typeId() == "usb_drive";
+        return it.typeId() == itype_usb_drive;
     };
 
     item_location loc = game_menus::inv::titled_filter_menu( filter, g->u, _( "Choose drive:" ) );
@@ -361,7 +368,7 @@ void computer_session::action_sample()
                 continue;
             }
             bool found_item = false;
-            item sewage( "sewage", calendar::turn );
+            item sewage( itype_sewage, calendar::turn );
             for( item &elem : g->m.i_at( n ) ) {
                 int capa = elem.get_remaining_capacity_for_liquid( sewage );
                 if( capa <= 0 ) {
@@ -610,6 +617,8 @@ void computer_session::action_elevator_on()
 
 void computer_session::action_amigara_log()
 {
+    g->timed_events.add( timed_event_type::AMIGARA_WHISPERS, calendar::turn + 1_minutes );
+
     g->u.moves -= 30;
     reset_terminal();
     print_line( _( "NEPower Mine(%d:%d) Log" ), g->get_levx(), g->get_levy() );
@@ -663,10 +672,8 @@ void computer_session::action_amigara_log()
 
 void computer_session::action_amigara_start()
 {
-    g->timed_events.add( TIMED_EVENT_AMIGARA, calendar::turn + 1_minutes );
-    if( !g->u.has_artifact_with( AEP_PSYSHIELD ) ) {
-        g->u.add_effect( effect_amigara, 2_minutes );
-    }
+    g->timed_events.add( TIMED_EVENT_AMIGARA, calendar::turn + 10_seconds );
+
     // Disable this action to prevent further amigara events, which would lead to
     // further amigara monster, which would lead to further artifacts.
     comp.remove_option( COMPACT_AMIGARA_START );
@@ -690,7 +697,7 @@ void computer_session::action_complete_disable_external_power()
 
 void computer_session::action_repeater_mod()
 {
-    if( g->u.has_amount( "radio_repeater_mod", 1 ) ) {
+    if( g->u.has_amount( itype_radio_repeater_mod, 1 ) ) {
         for( auto miss : g->u.get_active_missions() ) {
             static const mission_type_id commo_3 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_3" ),
                                          commo_4 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_4" );
@@ -698,7 +705,7 @@ void computer_session::action_repeater_mod()
                 miss->step_complete( 1 );
                 print_error( _( "Repeater mod installed…" ) );
                 print_error( _( "Mission Complete!" ) );
-                g->u.use_amount( "radio_repeater_mod", 1 );
+                g->u.use_amount( itype_radio_repeater_mod, 1 );
                 query_any();
                 comp.options.clear();
                 activate_failure( COMPFAIL_SHUTDOWN );
@@ -743,7 +750,7 @@ void computer_session::action_blood_anal()
                 print_error( _( "ERROR: Please remove all but one sample from centrifuge." ) );
             } else if( items.only_item().contents.empty() ) {
                 print_error( _( "ERROR: Please only use container with blood sample." ) );
-            } else if( items.only_item().contents.front().typeId() != "blood" ) {
+            } else if( items.only_item().contents.front().typeId() != itype_blood ) {
                 print_error( _( "ERROR: Please only use blood samples." ) );
             } else { // Success!
                 const item &blood = items.only_item().contents.front();
@@ -787,13 +794,14 @@ void computer_session::action_data_anal()
                 print_error( _( "ERROR: Please place memory bank in scan area." ) );
             } else if( items.size() > 1 ) {
                 print_error( _( "ERROR: Please only scan one item at a time." ) );
-            } else if( items.only_item().typeId() != "usb_drive" &&
-                       items.only_item().typeId() != "black_box" ) {
+            } else if( items.only_item().typeId() != itype_usb_drive &&
+                       items.only_item().typeId() != itype_black_box ) {
                 print_error( _( "ERROR: Memory bank destroyed or not present." ) );
-            } else if( items.only_item().typeId() == "usb_drive" && items.only_item().contents.empty() ) {
+            } else if( items.only_item().typeId() == itype_usb_drive &&
+                       items.only_item().contents.empty() ) {
                 print_error( _( "ERROR: Memory bank is empty." ) );
             } else { // Success!
-                if( items.only_item().typeId() == "black_box" ) {
+                if( items.only_item().typeId() == itype_black_box ) {
                     print_line( _( "Memory Bank: Military Hexron Encryption\nPrinting Transcript\n" ) );
                     item transcript( "black_box_transcript", calendar::turn );
                     g->m.add_item_or_charges( g->u.pos(), transcript );
@@ -1013,11 +1021,13 @@ void computer_session::action_irradiator()
                 g->u.moves -= 300;
                 for( auto it = g->m.i_at( dest ).begin(); it != g->m.i_at( dest ).end(); ++it ) {
                     // actual food processing
-                    if( !it->rotten() && item_controller->has_template( "irradiated_" + it->typeId() ) ) {
-                        it->convert( "irradiated_" + it->typeId() );
+                    itype_id irradiated_type( "irradiated_" + it->typeId().str() );
+                    if( !it->rotten() && irradiated_type.is_valid() ) {
+                        it->convert( irradiated_type );
                     }
                     // critical failure - radiation spike sets off electronic detonators
-                    if( it->typeId() == "mininuke" || it->typeId() == "mininuke_act" || it->typeId() == "c4" ) {
+                    if( it->typeId() == itype_mininuke || it->typeId() == itype_mininuke_act ||
+                        it->typeId() == itype_c4 ) {
                         explosion_handler::explosion( dest, 40 );
                         reset_terminal();
                         print_error( _( "WARNING [409]: Primary sensors offline!" ) );
@@ -1188,7 +1198,7 @@ void computer_session::action_extract_rad_source()
             }
         }
         if( p_exists ) {
-            g->m.spawn_item( platform, "cobalt_60", rng( 8, 15 ) );
+            g->m.spawn_item( platform, itype_cobalt_60, rng( 8, 15 ) );
             g->m.translate_radius( t_rad_platform, t_concrete, 8.0, g->u.pos(), true );
             comp.remove_option( COMPACT_IRRADIATOR );
             comp.remove_option( COMPACT_EXTRACT_RAD_SOURCE );
@@ -1298,7 +1308,8 @@ void computer_session::failure_alarm()
 void computer_session::failure_manhacks()
 {
     int num_robots = rng( 4, 8 );
-    const tripoint_range range = g->m.points_in_radius( g->u.pos(), 3 );
+    const tripoint_range<tripoint> range =
+        get_map().points_in_radius( get_player_character().pos(), 3 );
     for( int i = 0; i < num_robots; i++ ) {
         if( g->place_critter_within( mon_manhack, range ) ) {
             add_msg( m_warning, _( "Manhacks drop from compartments in the ceiling." ) );
@@ -1309,7 +1320,8 @@ void computer_session::failure_manhacks()
 void computer_session::failure_secubots()
 {
     int num_robots = 1;
-    const tripoint_range range = g->m.points_in_radius( g->u.pos(), 3 );
+    const tripoint_range<tripoint> range =
+        get_map().points_in_radius( get_player_character().pos(), 3 );
     for( int i = 0; i < num_robots; i++ ) {
         if( g->place_critter_within( mon_secubot, range ) ) {
             add_msg( m_warning, _( "Secubots emerge from compartments in the floor." ) );
@@ -1392,11 +1404,11 @@ void computer_session::failure_destroy_blood()
                 print_error( _( "ERROR: Please place sample in centrifuge." ) );
             } else if( items.size() > 1 ) {
                 print_error( _( "ERROR: Please remove all but one sample from centrifuge." ) );
-            } else if( items.only_item().typeId() != "vacutainer" ) {
+            } else if( items.only_item().typeId() != itype_vacutainer ) {
                 print_error( _( "ERROR: Please use blood-contained samples." ) );
             } else if( items.only_item().contents.empty() ) {
                 print_error( _( "ERROR: Blood draw kit, empty." ) );
-            } else if( items.only_item().contents.front().typeId() != "blood" ) {
+            } else if( items.only_item().contents.front().typeId() != itype_blood ) {
                 print_error( _( "ERROR: Please only use blood samples." ) );
             } else {
                 print_error( _( "ERROR: Blood sample destroyed." ) );
@@ -1417,7 +1429,7 @@ void computer_session::failure_destroy_data()
                 print_error( _( "ERROR: Please place memory bank in scan area." ) );
             } else if( items.size() > 1 ) {
                 print_error( _( "ERROR: Please only scan one item at a time." ) );
-            } else if( items.only_item().typeId() != "usb_drive" ) {
+            } else if( items.only_item().typeId() != itype_usb_drive ) {
                 print_error( _( "ERROR: Memory bank destroyed or not present." ) );
             } else if( items.only_item().contents.empty() ) {
                 print_error( _( "ERROR: Memory bank is empty." ) );

@@ -305,10 +305,10 @@ plot_options::query_seed_result plot_options::query_seed()
 
     if( seed_index > 0 && seed_index < static_cast<int>( seed_entries.size() ) ) {
         const auto &seed_entry = seed_entries[seed_index];
-        const auto &new_seed = std::get<0>( seed_entry );
-        std::string new_mark;
+        const itype_id &new_seed = std::get<0>( seed_entry );
+        itype_id new_mark;
 
-        item it = item( itype_id( new_seed ) );
+        item it = item( new_seed );
         if( it.is_seed() ) {
             new_mark = it.type->seed->fruit_id;
         } else {
@@ -324,9 +324,9 @@ plot_options::query_seed_result plot_options::query_seed()
         }
     } else if( seed_index == 0 ) {
         // No seeds
-        if( !seed.empty() || !mark.empty() ) {
-            seed.clear();
-            mark.clear();
+        if( !seed.is_empty() || !mark.is_empty() ) {
+            seed = itype_id();
+            mark = itype_id();
             return changed;
         } else {
             return successful;
@@ -404,7 +404,7 @@ std::string blueprint_options::get_zone_name_suggestion() const
 
 std::string plot_options::get_zone_name_suggestion() const
 {
-    if( !seed.empty() ) {
+    if( !seed.is_empty() ) {
         auto type = itype_id( seed );
         item it = item( type );
         if( it.is_seed() ) {
@@ -430,8 +430,9 @@ std::vector<std::pair<std::string, std::string>> blueprint_options::get_descript
 std::vector<std::pair<std::string, std::string>> plot_options::get_descriptions() const
 {
     auto options = std::vector<std::pair<std::string, std::string>>();
-    options.emplace_back( std::make_pair( _( "Plant seed: " ),
-                                          !seed.empty() ? item::nname( itype_id( seed ) ) : _( "No seed" ) ) );
+    options.emplace_back(
+        std::make_pair( _( "Plant seed: " ),
+                        !seed.is_empty() ? item::nname( itype_id( seed ) ) : _( "No seed" ) ) );
 
     return options;
 }
@@ -485,12 +486,20 @@ cata::optional<std::string> zone_manager::query_name( const std::string &default
 cata::optional<zone_type_id> zone_manager::query_type() const
 {
     const auto &types = get_manager().get_types();
+    std::vector<std::pair<zone_type_id, zone_type>> types_vec;
+    std::copy( types.begin(), types.end(),
+               std::back_inserter<std::vector<std::pair<zone_type_id, zone_type>>>( types_vec ) );
+    std::sort( types_vec.begin(), types_vec.end(),
+    []( const std::pair<zone_type_id, zone_type> &lhs, const std::pair<zone_type_id, zone_type> &rhs ) {
+        return localized_compare( lhs.second.name(), rhs.second.name() );
+    } );
+
     uilist as_m;
     as_m.desc_enabled = true;
     as_m.text = _( "Select zone type:" );
 
     size_t i = 0;
-    for( const auto &pair : types ) {
+    for( const auto &pair : types_vec ) {
         const auto &type = pair.second;
 
         as_m.addentry_desc( i++, true, MENU_AUTOASSIGN, type.name(), type.desc() );
@@ -502,7 +511,7 @@ cata::optional<zone_type_id> zone_manager::query_type() const
     }
     size_t index = as_m.ret;
 
-    auto iter = types.begin();
+    auto iter = types_vec.begin();
     std::advance( iter, index );
 
     return iter->first;
@@ -604,7 +613,8 @@ void zone_manager::cache_data()
         auto &cache = area_cache[type_hash];
 
         // Draw marked area
-        for( const tripoint &p : tripoint_range( elem.get_start_point(), elem.get_end_point() ) ) {
+        for( const tripoint &p : tripoint_range<tripoint>( elem.get_start_point(),
+                elem.get_end_point() ) ) {
             cache.insert( p );
         }
     }
@@ -625,7 +635,8 @@ void zone_manager::cache_vzones()
         // TODO: looks very similar to the above cache_data - maybe merge it?
 
         // Draw marked area
-        for( const tripoint &p : tripoint_range( elem->get_start_point(), elem->get_end_point() ) ) {
+        for( const tripoint &p : tripoint_range<tripoint>( elem->get_start_point(),
+                elem->get_end_point() ) ) {
             cache.insert( p );
         }
     }

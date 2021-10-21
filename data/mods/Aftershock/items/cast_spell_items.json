@@ -10,7 +10,7 @@
     "material": [ "superalloy" ],
     "symbol": "[",
     "color": "light_red",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "charges_per_use": 1,
     "coverage": 0,
     "warmth": 0,

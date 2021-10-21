@@ -31,7 +31,7 @@
       "need_charges": 5,
       "need_charges_msg": "The %s's batteries are dead."
     },
-    "covers": [ "HEAD", "MOUTH", "EYES", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
+    "covers": [ "head", "mouth", "eyes", "torso", "arms", "hands", "legs", "feet" ],
     "warmth": 20,
     "environmental_protection": 10,
     "coverage": 100,

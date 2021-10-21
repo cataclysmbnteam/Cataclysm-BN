@@ -159,7 +159,7 @@ class avatar : public player
         /** Completes book reading action. **/
         void do_read( item_location loc );
         /** Note that we've read a book at least once. **/
-        bool has_identified( const std::string &item_id ) const override;
+        bool has_identified( const itype_id &item_id ) const override;
 
         hint_rating rate_action_read( const item &it ) const;
 
@@ -193,6 +193,8 @@ class avatar : public player
         faction *get_faction() const override;
         // Set in npc::talk_to_you for use in further NPC interactions
         bool dialogue_by_radio = false;
+        // Preferred aim mode - ranged.cpp aim mode defaults to this if possible
+        std::string preferred_aiming_mode;
 
         void set_movement_mode( character_movemode mode ) override;
 
@@ -241,7 +243,7 @@ class avatar : public player
         mission *active_mission = nullptr;
 
         // Items the player has identified.
-        std::unordered_set<std::string> items_identified;
+        std::unordered_set<itype_id> items_identified;
 
         object_type grab_type = OBJECT_NONE;
 

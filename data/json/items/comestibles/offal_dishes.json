@@ -18,7 +18,7 @@
     "healthy": -1,
     "fun": 15,
     "quench": 3,
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "flags": [ "EATEN_HOT" ],
     "vitamins": [ [ "vitA", 4 ], [ "vitC", 5 ], [ "calcium", 0 ], [ "iron", 2 ], [ "vitB", 15 ] ]
   },
   {
@@ -38,7 +38,7 @@
     "calories": 398,
     "healthy": 2,
     "quench": -3,
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "flags": [ "EATEN_HOT" ],
     "vitamins": [ [ "vitA", 75 ], [ "vitC", 1 ], [ "calcium", 0 ], [ "iron", 8 ], [ "vitB", 336 ] ]
   },
   {
@@ -230,10 +230,10 @@
     "flags": [ "EATEN_HOT" ]
   },
   {
-    "id": "tÖttchen",
+    "id": "toettchen",
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
-    "name": "tÖttchen",
+    "name": "toettchen",
     "symbol": "%",
     "looks_like": "offal_cooked",
     "quench": 2,

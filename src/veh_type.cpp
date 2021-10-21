@@ -602,27 +602,27 @@ void vpart_info::check()
         if( part.has_flag( "FOLDABLE" ) && part.folded_volume == 0_ml ) {
             debugmsg( "vehicle part %s has folding part with zero folded volume", part.name() );
         }
-        if( !item::type_is_defined( part.default_ammo ) ) {
+        if( !part.default_ammo.is_valid() ) {
             debugmsg( "vehicle part %s has undefined default ammo %s", part.id.c_str(), part.item.c_str() );
         }
         if( part.size < 0_ml ) {
             debugmsg( "vehicle part %s has negative size", part.id.c_str() );
         }
-        if( !item::type_is_defined( part.item ) ) {
+        if( !part.item.is_valid() ) {
             debugmsg( "vehicle part %s uses undefined item %s", part.id.c_str(), part.item.c_str() );
         }
-        const itype &base_item_type = *item::find_type( part.item );
+        const itype &base_item_type = *part.item;
         // Fuel type errors are serious and need fixing now
-        if( !item::type_is_defined( part.fuel_type ) ) {
+        if( !part.fuel_type.is_valid() ) {
             debugmsg( "vehicle part %s uses undefined fuel %s", part.id.c_str(), part.item.c_str() );
-            part.fuel_type = "null";
-        } else if( part.fuel_type != "null" && !item::find_type( part.fuel_type )->fuel &&
+            part.fuel_type = itype_id::NULL_ID();
+        } else if( part.fuel_type && !part.fuel_type->fuel &&
                    ( !base_item_type.container || !base_item_type.container->watertight ) ) {
             // HACK: Tanks are allowed to specify non-fuel "fuel",
             // because currently legacy blazemod uses it as a hack to restrict content types
             debugmsg( "non-tank vehicle part %s uses non-fuel item %s as fuel, setting to null",
                       part.id.c_str(), part.fuel_type.c_str() );
-            part.fuel_type = "null";
+            part.fuel_type = itype_id::NULL_ID();
         }
         if( part.has_flag( "TURRET" ) && !base_item_type.gun ) {
             debugmsg( "vehicle part %s has the TURRET flag, but is not made from a gun item", part.id.c_str() );
@@ -647,8 +647,8 @@ void vpart_info::check()
                       part.id.c_str() );
         }
         if( part.has_flag( "WHEEL" ) && !base_item_type.wheel ) {
-            debugmsg( "vehicle part %s has the WHEEL flag, but base item %s is not a wheel.  THIS WILL CRASH!",
-                      part.id.c_str(), part.item );
+            debugmsg( "vehicle part %s has the WHEEL flag, but base item %s is not a wheel.  "
+                      "THIS WILL CRASH!", part.id.str(), part.item.str() );
         }
         if( part.has_flag( "RAIL" ) && !part.has_flag( "WHEEL" ) ) {
             debugmsg( "vehicle part %s has RAIL flag, but is missing WHEEL flag.", part.id.c_str() );
@@ -1033,12 +1033,10 @@ void vehicle_prototype::load( const JsonObject &jo )
 
         if( spawn_info.has_array( "items" ) ) {
             //Array of items that all spawn together (i.e. jack+tire)
-            for( const std::string line : spawn_info.get_array( "items" ) ) {
-                next_spawn.item_ids.push_back( line );
-            }
+            spawn_info.read( "items", next_spawn.item_ids, true );
         } else if( spawn_info.has_string( "items" ) ) {
             //Treat single item as array
-            next_spawn.item_ids.push_back( spawn_info.get_string( "items" ) );
+            next_spawn.item_ids.push_back( itype_id( spawn_info.get_string( "items" ) ) );
         }
         if( spawn_info.has_array( "item_groups" ) ) {
             //Pick from a group of items, just like map::place_items
@@ -1077,7 +1075,7 @@ void vehicle_prototype::finalize()
 
         blueprint.suspend_refresh();
         for( auto &pt : proto.parts ) {
-            const auto base = item::find_type( pt.part->item );
+            const itype *base = &*pt.part->item;
 
             if( !pt.part.is_valid() ) {
                 debugmsg( "unknown vehicle part %s in %s", pt.part.c_str(), id.c_str() );
@@ -1103,7 +1101,7 @@ void vehicle_prototype::finalize()
 
             } else {
                 for( const auto &e : pt.ammo_types ) {
-                    const auto ammo = item::find_type( e );
+                    const itype *ammo = &*e;
                     if( !ammo->ammo && base->gun->ammo.count( ammo->ammo->type ) ) {
                         debugmsg( "init_vehicles: turret %s has invalid ammo_type %s in %s",
                                   pt.part.c_str(), e.c_str(), id.c_str() );
@@ -1117,11 +1115,11 @@ void vehicle_prototype::finalize()
             }
 
             if( base->container || base->magazine ) {
-                if( !item::type_is_defined( pt.fuel ) ) {
+                if( !pt.fuel.is_valid() ) {
                     debugmsg( "init_vehicles: tank %s specified invalid fuel in %s", pt.part.c_str(), id.c_str() );
                 }
             } else {
-                if( pt.fuel != "null" ) {
+                if( !pt.fuel.is_null() ) {
                     debugmsg( "init_vehicles: non-fuel store part %s with fuel in %s", pt.part.c_str(), id.c_str() );
                 }
             }
@@ -1138,12 +1136,12 @@ void vehicle_prototype::finalize()
                           proto.name, i.pos.x, i.pos.y, i.chance );
             }
             for( auto &j : i.item_ids ) {
-                if( !item::type_is_defined( j ) ) {
+                if( !j.is_valid() ) {
                     debugmsg( "unknown item %s in spawn list of %s", j.c_str(), id.c_str() );
                 }
             }
             for( auto &j : i.item_groups ) {
-                if( !item_group::group_is_defined( j ) ) {
+                if( !j.is_valid() ) {
                     debugmsg( "unknown item group %s in spawn list of %s", j.c_str(), id.c_str() );
                 }
             }

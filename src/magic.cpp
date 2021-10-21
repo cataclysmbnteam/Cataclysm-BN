@@ -240,6 +240,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
+    optional( jo, was_loaded, "sprite", sprite, "" );
     optional( jo, was_loaded, "skill", skill, skill_id( "spellcraft" ) );
     optional( jo, was_loaded, "message", message, to_translation( "You cast %s!" ) );
     optional( jo, was_loaded, "sound_description", sound_description,
@@ -275,8 +276,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
         }
     }
 
-    const auto bp_reader = enum_flags_reader<body_part> { "affected_bps" };
-    optional( jo, was_loaded, "affected_body_parts", affected_bps, bp_reader );
+    optional( jo, was_loaded, "affected_body_parts", affected_bps );
     const auto flag_reader = enum_flags_reader<spell_flag> { "flags" };
     optional( jo, was_loaded, "flags", spell_tags, flag_reader );
 
@@ -889,7 +889,7 @@ bool spell::is_valid() const
 
 bool spell::bp_is_affected( body_part bp ) const
 {
-    return type->affected_bps[bp];
+    return type->affected_bps.count( convert_bp( bp ) );
 }
 
 void spell::create_field( const tripoint &at ) const
@@ -1744,8 +1744,8 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
             aoe_string = string_format( "%s: %d", _( "Variance" ), sp.aoe() );
         }
     } else if( fx == "spawn_item" ) {
-        damage_string = string_format( "%s %d %s", _( "Spawn" ), sp.damage(), item::nname( sp.effect_data(),
-                                       sp.damage() ) );
+        damage_string = string_format( "%s %d %s", _( "Spawn" ), sp.damage(),
+                                       item::nname( itype_id( sp.effect_data() ), sp.damage() ) );
     } else if( fx == "summon" ) {
         damage_string = string_format( "%s %d %s", _( "Summon" ), sp.damage(),
                                        _( monster( mtype_id( sp.effect_data() ) ).get_name( ) ) );

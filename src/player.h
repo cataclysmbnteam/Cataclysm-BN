@@ -56,9 +56,6 @@ class JsonOut;
 class dispersion_sources;
 struct bionic;
 struct dealt_projectile_attack;
-
-using itype_id = std::string;
-using faction_id = string_id<faction>;
 class profession;
 struct trap;
 
@@ -69,6 +66,8 @@ struct item_comp;
 struct tool_comp;
 struct w_point;
 
+using recipe_filter = std::function<bool( const recipe &r )>;
+
 /** @relates ret_val */
 template<>
 struct ret_val<edible_rating>::default_success : public
@@ -78,7 +77,6 @@ struct ret_val<edible_rating>::default_success : public
 template<>
 struct ret_val<edible_rating>::default_failure : public
     std::integral_constant<edible_rating, edible_rating::inedible> {};
-
 
 struct stat_mod {
     int strength = 0;
@@ -377,7 +375,7 @@ class player : public Character
          * @note items currently loaded with a detachable magazine are considered reloadable
          * @note items with integral magazines are reloadable if free capacity permits (+/- ammo matches)
          */
-        bool can_reload( const item &it, const itype_id &ammo = std::string() ) const;
+        bool can_reload( const item &it, const itype_id &ammo = itype_id() ) const;
 
         /**
          * Attempt to mend an item (fix any current faults)
@@ -453,7 +451,7 @@ class player : public Character
 
         bool fun_to_read( const item &book ) const;
         /** Note that we've read a book at least once. **/
-        virtual bool has_identified( const std::string &item_id ) const = 0;
+        virtual bool has_identified( const itype_id &item_id ) const = 0;
 
         /** Handles sleep attempts by the player, starts ACT_TRY_SLEEP activity */
         void try_to_sleep( const time_duration &dur = 30_minutes );
@@ -563,14 +561,17 @@ class player : public Character
         /** Returns all known recipes. */
         const recipe_subset &get_learned_recipes() const;
         /** Returns all recipes that are known from the books (either in inventory or nearby). */
-        recipe_subset get_recipes_from_books( const inventory &crafting_inv ) const;
+        recipe_subset get_recipes_from_books( const inventory &crafting_inv,
+                                              recipe_filter filter = nullptr ) const;
         /**
           * Returns all available recipes (from books and npc companions)
           * @param crafting_inv Current available items to craft
           * @param helpers List of NPCs that could help with crafting.
+          * @param filter If set, will return only recipes that match the filter (should be much faster).
           */
         recipe_subset get_available_recipes( const inventory &crafting_inv,
-                                             const std::vector<npc *> *helpers = nullptr ) const;
+                                             const std::vector<npc *> *helpers = nullptr,
+                                             recipe_filter filter = nullptr ) const;
 
         // crafting.cpp
         float morale_crafting_speed_multiplier( const recipe &rec ) const;
@@ -606,7 +607,7 @@ class player : public Character
         void make_craft( const recipe_id &id, int batch_size, const tripoint &loc = tripoint_zero );
         void make_all_craft( const recipe_id &id, int batch_size, const tripoint &loc = tripoint_zero );
         /** consume components and create an active, in progress craft containing them */
-        void start_craft( craft_command &command, const tripoint &loc );
+        item_location start_craft( craft_command &command, const tripoint &loc );
         /**
          * Calculate a value representing the success of the player at crafting the given recipe,
          * taking player skill, recipe difficulty, npc helpers, and player mutations into account.
@@ -662,13 +663,6 @@ class player : public Character
                                        const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE );
         std::list<item> consume_items( const std::vector<item_comp> &components, int batch = 1,
                                        const std::function<bool( const item & )> &filter = return_true<item> );
-        comp_selection<tool_comp>
-        select_tool_component( const std::vector<tool_comp> &tools, int batch, inventory &map_inv,
-                               const std::string &hotkeys = DEFAULT_HOTKEYS,
-                               bool can_cancel = false, bool player_inv = true,
-        std::function<int( int )> charges_required_modifier = []( int i ) {
-            return i;
-        } );
         /** Consume tools for the next multiplier * 5% progress of the craft */
         bool craft_consume_tools( item &craft, int mulitplier, bool start_craft );
         void consume_tools( const comp_selection<tool_comp> &tool, int batch );

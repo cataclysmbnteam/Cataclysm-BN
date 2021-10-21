@@ -20,7 +20,7 @@ TEST_CASE( "No book grant a recipe at skill levels above autolearn", "[recipe]" 
         }
         for( const auto &p : rec->booksets ) {
             const std::string recipe_ident = rec->ident().str();
-            const std::string item_type = rec->result();
+            const std::string item_type = rec->result().str();
             const std::string item_name = item::nname( rec->result() );
             const std::string bookname = item::nname( p.first );
             CAPTURE( recipe_ident );

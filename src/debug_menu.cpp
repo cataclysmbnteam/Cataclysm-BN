@@ -511,7 +511,8 @@ void character_edit_menu()
         data << np->myclass.obj().get_name() << "; " <<
              npc_attitude_name( np->get_attitude() ) << "; " <<
              ( np->get_faction() ? np->get_faction()->name : _( "no faction" ) ) << "; " <<
-             ( np->get_faction() ? np->get_faction()->currency : _( "no currency" ) ) << "; " <<
+             ( np->get_faction() ? np->get_faction()->currency->nname( 1 ) : _( "no currency" ) )
+             << "; " <<
              "api: " << np->get_faction_ver() << std::endl;
         if( np->has_destination() ) {
             data << string_format( _( "Destination: %d:%d:%d (%s)" ),
@@ -1359,8 +1360,8 @@ void debug()
                 break;
             }
 
-            const tripoint_range points = get_map().points_in_rectangle(
-                                              first.position.value(), second.position.value() );
+            const tripoint_range<tripoint> points = get_map().points_in_rectangle(
+                    first.position.value(), second.position.value() );
 
             std::vector<Creature *> creatures = g->get_creatures_if(
             [&points]( const Creature & critter ) -> bool {
@@ -1478,29 +1479,32 @@ void debug()
             break;
 
         case DEBUG_CHANGE_WEATHER: {
+            weather_manager &weather = get_weather();
             uilist weather_menu;
             weather_menu.text = _( "Select new weather pattern:" );
-            weather_menu.addentry( 0, true, MENU_AUTOASSIGN, g->weather.weather_override == WEATHER_NULL ?
+            weather_menu.addentry( 0, true, MENU_AUTOASSIGN, !weather.weather_override ?
                                    _( "Keep normal weather patterns" ) : _( "Disable weather forcing" ) );
-            for( int weather_id = 1; weather_id < NUM_WEATHER_TYPES; weather_id++ ) {
-                weather_menu.addentry( weather_id, true, MENU_AUTOASSIGN,
-                                       weather::name( static_cast<weather_type>( weather_id ) ) );
+            for( size_t i = 0; i < weather_types::get_all().size(); i++ ) {
+                weather_menu.addentry( i, true, MENU_AUTOASSIGN,
+                                       weather_types::get_all()[i].name );
             }
 
             weather_menu.query();
 
-            if( weather_menu.ret >= 0 && weather_menu.ret < NUM_WEATHER_TYPES ) {
-                weather_type selected_weather = static_cast<weather_type>( weather_menu.ret );
-                g->weather.weather_override = selected_weather;
-                g->weather.set_nextweather( calendar::turn );
+            if( weather_menu.ret >= 0 &&
+                static_cast<size_t>( weather_menu.ret ) < weather_types::get_all().size() ) {
+                const weather_type_id selected_weather = weather_types::get_all()[weather_menu.ret].id;
+                weather.weather_override = selected_weather;
+                weather.set_nextweather( calendar::turn );
             }
         }
         break;
 
         case DEBUG_WIND_DIRECTION: {
+            weather_manager &weather = get_weather();
             uilist wind_direction_menu;
             wind_direction_menu.text = _( "Select new wind direction:" );
-            wind_direction_menu.addentry( 0, true, MENU_AUTOASSIGN, g->weather.wind_direction_override ?
+            wind_direction_menu.addentry( 0, true, MENU_AUTOASSIGN, weather.wind_direction_override ?
                                           _( "Disable direction forcing" ) : _( "Keep normal wind direction" ) );
             int count = 1;
             for( int angle = 0; angle <= 315; angle += 45 ) {
@@ -1509,18 +1513,19 @@ void debug()
             }
             wind_direction_menu.query();
             if( wind_direction_menu.ret == 0 ) {
-                g->weather.wind_direction_override = cata::nullopt;
+                weather.wind_direction_override = cata::nullopt;
             } else if( wind_direction_menu.ret >= 0 && wind_direction_menu.ret < 9 ) {
-                g->weather.wind_direction_override = ( wind_direction_menu.ret - 1 ) * 45;
-                g->weather.set_nextweather( calendar::turn );
+                weather.wind_direction_override = ( wind_direction_menu.ret - 1 ) * 45;
+                weather.set_nextweather( calendar::turn );
             }
         }
         break;
 
         case DEBUG_WIND_SPEED: {
+            weather_manager &weather = get_weather();
             uilist wind_speed_menu;
             wind_speed_menu.text = _( "Select new wind speed:" );
-            wind_speed_menu.addentry( 0, true, MENU_AUTOASSIGN, g->weather.wind_direction_override ?
+            wind_speed_menu.addentry( 0, true, MENU_AUTOASSIGN, weather.wind_direction_override ?
                                       _( "Disable speed forcing" ) : _( "Keep normal wind speed" ) );
             int count = 1;
             for( int speed = 0; speed <= 100; speed += 10 ) {
@@ -1530,11 +1535,11 @@ void debug()
             }
             wind_speed_menu.query();
             if( wind_speed_menu.ret == 0 ) {
-                g->weather.windspeed_override = cata::nullopt;
+                weather.windspeed_override = cata::nullopt;
             } else if( wind_speed_menu.ret >= 0 && wind_speed_menu.ret < 12 ) {
                 int selected_wind_speed = ( wind_speed_menu.ret - 1 ) * 10;
-                g->weather.windspeed_override = selected_wind_speed;
-                g->weather.set_nextweather( calendar::turn );
+                weather.windspeed_override = selected_wind_speed;
+                weather.set_nextweather( calendar::turn );
             }
         }
         break;
@@ -1898,7 +1903,7 @@ void debug()
             }
             break;
         case DEBUG_TEST_WEATHER: {
-            g->weather.get_cur_weather_gen().test_weather( g->get_seed() );
+            get_weather().get_cur_weather_gen().test_weather( g->get_seed() );
         }
         break;
 

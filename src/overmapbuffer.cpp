@@ -707,15 +707,16 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
         path_type &ptype )
 {
     std::vector<tripoint> path;
-    constexpr int RADIUS = 4;            // Maximal radius of search (in overmaps)
-    constexpr int OX = RADIUS * OMAPX;   // half-width of the area to search in
-    constexpr int OY = RADIUS * OMAPY;   // half-height of the area to search in
+    // Maximal radius of search (in overmaps)
+    constexpr int RADIUS = 4;
+    // half-size of the area to search in
+    constexpr point O( RADIUS * OMAPX, RADIUS * OMAPY );
     if( src == overmap::invalid_tripoint || dest == overmap::invalid_tripoint ) {
         return path;
     }
 
     // Local source - center of the local area
-    const point start( OX, OY );
+    const point start( O );
     // To convert local coordinates to global ones
     const tripoint base = src - start;
     // Local destination - relative to base
@@ -724,7 +725,7 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
     const auto get_ter_at = [&]( const point & p ) {
         return ter( base + p );
     };
-    const auto estimate = [&]( const pf::node & cur, const pf::node * ) {
+    const auto estimate = [&]( const pf::node<point> &cur, const pf::node<point> * ) {
         const tripoint convert_result = base + tripoint( cur.pos, 0 );
         if( ptype.only_known_by_player && !seen( convert_result ) ) {
             return pf::rejected;
@@ -771,11 +772,11 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
 
         return res;
     };
-    pf::path route;
+    pf::path<point> route;
     if( ptype.only_road ) {
-        route = pf::find_path_4dir( start, finish, point( OX, OY ) * 2, estimate );
+        route = pf::find_path_4dir( start, finish, O * 2, estimate );
     } else {
-        route = pf::find_path_8dir( start, finish, point( OX, OY ) * 2, estimate );
+        route = pf::find_path_8dir( start, finish, O * 2, estimate );
     }
     for( auto node : route.nodes ) {
         tripoint convert_result = base + tripoint( node.pos, 0 );
@@ -788,16 +789,17 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
 bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest,
                                   const omt_route_params &params )
 {
-    static const int RADIUS = 4;            // Maximal radius of search (in overmaps)
-    static const int OX = RADIUS * OMAPX;   // half-width of the area to search in
-    static const int OY = RADIUS * OMAPY;   // half-height of the area to search in
+    // Maximal radius of search (in overmaps)
+    static const int RADIUS = 4;
+    // half-size of the area to search in
+    static const point O( RADIUS * OMAPX, RADIUS * OMAPY );
 
     if( source == overmap::invalid_tripoint || dest == overmap::invalid_tripoint ) {
         return false;
     }
 
     // Local source - center of the local area
-    const point start( OX, OY );
+    const point start( O );
     // To convert local coordinates to global ones
     const tripoint base = source - start;
     // Local destination - relative to base
@@ -814,7 +816,7 @@ bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest,
         return false;
     }
 
-    const auto estimate = [&]( const pf::node & cur, const pf::node * ) {
+    const auto estimate = [&]( const pf::node<point> &cur, const pf::node<point> * ) {
         int res = 0;
 
         const oter_id oter = get_ter_at( cur.pos );
@@ -849,7 +851,7 @@ bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest,
         }
     };
 
-    const auto path = pf::find_path_4dir( start, finish, point( OX, OY ) * 2, estimate, reporter );
+    const auto path = pf::find_path_4dir( start, finish, O * 2, estimate, reporter );
 
     for( const auto &node : path.nodes ) {
         reveal( base + node.pos, params.radius );
@@ -1037,7 +1039,7 @@ std::vector<tripoint> overmapbuffer::find_all( const tripoint &origin,
     size_t num_overmaps = overmaps.size();
     size_t counter = 0;
 
-    for( const tripoint &loc : closest_tripoints_first( origin, min_dist, max_dist ) ) {
+    for( const tripoint &loc : closest_points_first( origin, min_dist, max_dist ) ) {
         if( is_findable_location( loc, params ) ) {
             result.push_back( loc );
         }
@@ -1090,10 +1092,9 @@ shared_ptr_fast<npc> overmapbuffer::find_npc( character_id id )
 cata::optional<basecamp *> overmapbuffer::find_camp( const point &p )
 {
     for( auto &it : overmaps ) {
-        const int x = p.x;
-        const int y = p.y;
-        for( int x2 = x - 3; x2 < x + 3; x2++ ) {
-            for( int y2 = y - 3; y2 < y + 3; y2++ ) {
+        const point p2( p );
+        for( int x2 = p2.x - 3; x2 < p2.x + 3; x2++ ) {
+            for( int y2 = p2.y - 3; y2 < p2.y + 3; y2++ ) {
                 if( cata::optional<basecamp *> camp = it.second->find_camp( point( x2, y2 ) ) ) {
                     return camp;
                 }

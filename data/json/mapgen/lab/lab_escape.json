@@ -38,7 +38,7 @@
       "monster": { "z": { "monster": "mon_zombie" } },
       "mapping": {
         "b": { "items": [ { "item": "bed", "chance": 66 } ] },
-        "!": { "item": [ { "item": "glass_shard", "amount": [ 25, 50 ] } ] },
+        "!": { "item": [ { "item": "glass_shard", "amount": [ 2, 5 ] } ] },
         "l": {
           "item": [
             { "item": "bottle_plastic", "amount": [ 1, 2 ] },

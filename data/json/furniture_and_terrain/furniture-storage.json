@@ -295,7 +295,7 @@
         { "item": "2x4", "count": [ 1, 4 ] },
         { "item": "splinter", "count": [ 1, 4 ] },
         { "item": "nail", "charges": [ 4, 8 ] },
-        { "item": "glass_shard", "count": [ 16, 100 ] },
+        { "item": "glass_shard", "count": [ 1, 10 ] },
         { "item": "scrap", "count": [ 0, 2 ] }
       ]
     }
@@ -851,7 +851,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 12,
       "furn_set": "f_displaycase_b",
-      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 1, 5 ] } ]
     }
   },
   {

@@ -15,6 +15,8 @@
 // TODO: Shouldn't use
 #include "submap.h"
 
+static const itype_id itype_battery( "battery" );
+
 static const std::string flag_RECHARGE( "RECHARGE" );
 static const std::string flag_USE_UPS( "USE_UPS" );
 
@@ -210,7 +212,7 @@ void charger_tile::update_internal( time_point to, const tripoint &p, distributi
                         if( n.is_battery() ) {
                             n.mod_energy( 1_kJ );
                         } else {
-                            n.ammo_set( "battery", n.ammo_remaining() + 1 );
+                            n.ammo_set( itype_battery, n.ammo_remaining() + 1 );
                         }
                     }
                     power -= 1000;

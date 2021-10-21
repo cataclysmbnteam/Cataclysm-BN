@@ -36,7 +36,7 @@
     "blueprint_resources": [ "fake_fireplace", "pot" ],
     "blueprint_needs": {
       "time": "4 h 30 m",
-      "skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
+      "skills": [ [ "fabrication", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ] ],
@@ -98,7 +98,7 @@
     "blueprint_excludes": [ { "id": "fbmk_canteen_well" } ],
     "blueprint_needs": {
       "time": "11 h",
-      "skills": [ [ "fabrication", 4 ], [ "mechanics", 2 ], [ "survival", 4 ] ],
+      "skills": [ [ "fabrication", 4 ], [ "mechanics", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH" } ] ],
@@ -149,8 +149,8 @@
       "skills": [ [ "cooking", 2 ], [ "fabrication", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ] ],
-        "components": [ [ [ "rock", 64 ] ], [ [ "stick", 48 ], [ "2x4", 48 ] ] ]
+        "qualities": [ [ { "id": "SAW_W" } ], [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "components": [ [ [ "2x4", 48 ], [ "stick", 48 ] ], [ [ "material_soil", 2 ] ], [ [ "rock", 64 ] ] ]
       }
     }
   },
@@ -169,7 +169,7 @@
     "blueprint_excludes": [ { "id": "fbmk_pantry_furniture" } ],
     "blueprint_needs": {
       "time": "1 d 4 h 20 m",
-      "skills": [ [ "cooking", 3 ], [ "fabrication", 4 ], [ "survival", 4 ] ],
+      "skills": [ [ "cooking", 3 ], [ "fabrication", 4 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ] ],
@@ -201,7 +201,7 @@
     "blueprint_excludes": [ { "id": "fbmk_canteen_butchery" } ],
     "blueprint_needs": {
       "time": "1 h 15 m",
-      "skills": [ [ "fabrication", 1 ], [ "survival", 3 ] ],
+      "skills": [ [ "fabrication", 2 ], [ "cooking", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ] ],

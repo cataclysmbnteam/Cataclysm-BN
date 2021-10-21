@@ -31,7 +31,7 @@
         { "item": "scrap", "count": [ 1, 2 ] },
         { "item": "cable", "charges": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 0, 1 ] },
-        { "item": "glass_shard", "count": [ 0, 8 ] },
+        { "item": "glass_shard", "count": [ 0, 2 ] },
         { "item": "pipe", "count": [ 0, 1 ] }
       ]
     }
@@ -46,6 +46,7 @@
     "examine_action": "transform",
     "transforms_into": "f_floor_lamp",
     "message": "Click (on)",
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "EASY_DECONSTRUCT" ],
     "light_emitted": 160
   }
 ]

@@ -69,6 +69,9 @@ using item_category_id = string_id<item_category>;
 class Item_group;
 using item_group_id = string_id<Item_group>;
 
+struct itype;
+using itype_id = string_id<itype>;
+
 class ma_buff;
 using mabuff_id = string_id<ma_buff>;
 
@@ -165,6 +168,9 @@ using vpart_id = string_id<vpart_info>;
 
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
+
+struct weather_type;
+using weather_type_id = string_id<weather_type>;
 
 class zone_type;
 using zone_type_id = string_id<zone_type>;

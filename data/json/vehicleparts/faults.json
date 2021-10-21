@@ -3,12 +3,13 @@
     "id": "fault_engine_belt_drive",
     "type": "fault",
     "name": { "str": "Worn drive belt" },
-    "description": "Required for operation of an attached alternator.",
+    "description": "Attached alternators will not produce any power.",
     "mending_methods": [
       {
         "id": "mend_fault_engine_belt_drive_replace",
         "name": "Replace worn drive belt",
-        "success_msg": "You replace the worn drive belt of the %s.",
+        "description": "Remove the old drive belt and install a new one.",
+        "success_msg": "You wrap a new drive belt around the %s's components.",
         "time": "5 m",
         "skills": [ { "id": "mechanics", "level": 2 } ],
         "requirements": {
@@ -22,12 +23,13 @@
     "id": "fault_engine_glow_plug",
     "type": "fault",
     "name": { "str": "Faulty glow plugs" },
-    "description": "Help when starting an engine in low ambient temperatures.",
+    "description": "Impairs the engine's ability to start in low temperatures.",
     "mending_methods": [
       {
         "id": "mend_fault_engine_glow_plug_replace",
         "name": "Replace faulty glow plugs",
-        "success_msg": "You replace the faulty glow plugs of the %s.",
+        "description": "Disconnect the faulty glow plugs and install a new set.",
+        "success_msg": "You disconnect the %s's faulty glow plugs and insert new ones.",
         "time": "40 m",
         "skills": [ { "id": "mechanics", "level": 4 } ],
         "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "glowplug", 1 ] ] ] }
@@ -38,13 +40,13 @@
     "id": "fault_engine_immobiliser",
     "type": "fault",
     "name": { "str": "Active immobiliser" },
-    "description": "Prevents starting of the vehicle without the appropriate key.",
+    "description": "Prevents the engine from starting.  An immobiliser stops a vehicle from running without the appropriate key; since you don't have that key, you'll need to manually deactivate it instead.",
     "mending_methods": [
       {
         "id": "mend_fault_engine_immobiliser_deactivate",
         "name": "Deactivate immobiliser",
-        "description": "Deactivate the immobiliser that is preventing the vehicle from starting.",
-        "success_msg": "You successfully deactivate the immobiliser of the %s.",
+        "description": "Deactivate the immobiliser that's preventing the vehicle from starting.",
+        "success_msg": "You successfully deactivate the %s's immobiliser.",
         "time": "5 m",
         "skills": [ { "id": "mechanics", "level": 2 }, { "id": "electronics", "level": 5 } ],
         "requirements": { "qualities": [ { "id": "SCREW_FINE", "level": 1 } ] }
@@ -55,12 +57,13 @@
     "id": "fault_engine_pump_diesel",
     "type": "fault",
     "name": { "str": "Faulty diesel pump" },
-    "description": "Required to pump and pressurize diesel from a vehicles tank.",
+    "description": "Prevents the engine from starting.  A damaged pump means that diesel can't be pumped and pressurized from the vehicle's tank.",
     "mending_methods": [
       {
         "id": "mend_fault_engine_pump_diesel_replace",
         "name": "Replace faulty diesel pump",
-        "success_msg": "You replace the faulty diesel pump of the %s",
+        "description": "Depressurize the fuel line and replace the broken pump with a new one.",
+        "success_msg": "You depressurize the fuel line and swap out the %s's faulty diesel pump.",
         "time": "40 m",
         "skills": [ { "id": "mechanics", "level": 4 } ],
         "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "pump_complex", 1 ] ] ] }
@@ -71,12 +74,13 @@
     "id": "fault_engine_filter_air",
     "type": "fault",
     "name": { "str": "Expired air filter" },
-    "description": "An expired filter reduces fuel efficiency and increases smoke production.",
+    "description": "Heavily increases fuel consumption, and causes the engine to produce more exhaust.",
     "mending_methods": [
       {
         "id": "mend_fault_engine_filter_air_replace",
         "name": "Replace expired air filter",
-        "success_msg": "You replace the expired air filter of the %s.",
+        "description": "Replace the expired air filter with a clean one.",
+        "success_msg": "You swap the %s's air filter and discard the old one.",
         "time": "5 m",
         "skills": [ { "id": "mechanics", "level": 1 } ],
         "requirements": {
@@ -90,12 +94,13 @@
     "id": "fault_engine_filter_fuel",
     "type": "fault",
     "name": { "str": "Expired fuel filter" },
-    "description": "An expired filter reduces performance and increases the chance of backfires.",
+    "description": "Reduces the engine's performance, and increases the risk of backfires or failures to start.",
     "mending_methods": [
       {
         "id": "mend_fault_engine_filter_fuel_replace",
         "name": "Replace expired fuel filter",
-        "success_msg": "You replace the expired fuel filter of the %s.",
+        "description": "Replace the expired fuel filter with a clean one.",
+        "success_msg": "You swap the %s's fuel filter and discard the old one.",
         "time": "5 m",
         "skills": [ { "id": "mechanics", "level": 1 } ],
         "requirements": {
@@ -109,12 +114,13 @@
     "id": "fault_engine_pump_fuel",
     "type": "fault",
     "name": { "str": "Faulty fuel pump" },
-    "description": "Required to pump gasoline from a vehicles tank.",
+    "description": "Prevents the engine from starting.  A damaged pump means that gasoline can't be pumped from the vehicle's tank.",
     "mending_methods": [
       {
         "id": "mend_fault_engine_pump_fuel_replace",
-        "name": "Replace faulty fuel pump",
-        "success_msg": "You replace the faulty fuel pump of the %s.",
+        "name": "Replace fuel pump",
+        "description": "Drain the gas line and replace the broken pump with a new one.",
+        "success_msg": "You drain the gas line and swap out the %s's fuel pump with a new one.",
         "time": "40 m",
         "skills": [ { "id": "mechanics", "level": 4 } ],
         "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "well_pump", 1 ] ] ] }
@@ -124,13 +130,14 @@
   {
     "id": "fault_engine_pump_water",
     "type": "fault",
-    "name": { "str": "Faulty water pump" },
-    "description": "Required to pump water to an external radiator or heatsink.",
+    "name": { "str": "Defective water pump" },
+    "description": "Has no immediate effects, but can impair long-term engine health.  A non-functional water pump prevents the engine from properly being cooled, increasing the risk of eventual damage from overheating.",
     "mending_methods": [
       {
         "id": "mend_fault_engine_pump_water_replace",
-        "name": "Replace faulty water pump",
-        "success_msg": "You replace the faulty water pump of the %s.",
+        "name": "Replace defective water pump",
+        "description": "Replace the defective water pump with a new one.",
+        "success_msg": "You replace the %s's defective water pump.",
         "time": "20 m",
         "skills": [ { "id": "mechanics", "level": 4 } ],
         "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "well_pump", 1 ] ] ] }
@@ -141,12 +148,13 @@
     "id": "fault_engine_starter",
     "type": "fault",
     "name": { "str": "Faulty starter motor" },
-    "description": "Required to initially start the engine.",
+    "description": "Prevents the engine from starting.  A broken starter means that the energy required to start ignition can't be delivered to the engine.",
     "mending_methods": [
       {
         "id": "mend_fault_engine_starter_replace",
         "name": "Replace faulty starter motor",
-        "success_msg": "You replace the faulty starter motor of %s.",
+        "description": "Remove the faulty starter motor, and replace it with a functioning one.",
+        "success_msg": "You replace the %s's starter motor.",
         "time": "10 m",
         "skills": [ { "id": "mechanics", "level": 3 } ],
         "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "motor_small", 1 ] ] ] }

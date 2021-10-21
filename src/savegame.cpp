@@ -42,6 +42,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "ui_manager.h"
+#include "weather.h"
 
 class overmap_connection;
 
@@ -170,11 +171,8 @@ void game::unserialize( std::istream &fin )
     int tmpturn = 0;
     int tmpcalstart = 0;
     int tmprun = 0;
-    int levx = 0;
-    int levy = 0;
-    int levz = 0;
-    int comx = 0;
-    int comy = 0;
+    tripoint lev;
+    point com;
     JsonIn jsin( fin );
     try {
         JsonObject data = jsin.get_object();
@@ -198,13 +196,13 @@ void game::unserialize( std::istream &fin )
         data.read( "auto_travel_mode", auto_travel_mode );
         data.read( "run_mode", tmprun );
         data.read( "mostseen", mostseen );
-        data.read( "levx", levx );
-        data.read( "levy", levy );
-        data.read( "levz", levz );
-        data.read( "om_x", comx );
-        data.read( "om_y", comy );
+        data.read( "levx", lev.x );
+        data.read( "levy", lev.y );
+        data.read( "levz", lev.z );
+        data.read( "om_x", com.x );
+        data.read( "om_y", com.y );
 
-        load_map( tripoint( levx + comx * OMAPX * 2, levy + comy * OMAPY * 2, levz ) );
+        load_map( tripoint( lev.x + com.x * OMAPX * 2, lev.y + com.y * OMAPY * 2, lev.z ) );
 
         safe_mode = static_cast<safe_mode_type>( tmprun );
         if( get_option<bool>( "SAFEMODE" ) && safe_mode == SAFE_MODE_OFF ) {
@@ -367,10 +365,13 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
 
         if( old == "fema" || old == "fema_entrance" || old == "fema_1_3" ||
             old == "fema_2_1" || old == "fema_2_2" || old == "fema_2_3" ||
-            old == "fema_3_1" || old == "fema_3_2" || old == "fema_3_3" ) {
+            old == "fema_3_1" || old == "fema_3_2" || old == "fema_3_3" ||
+            old == "mine_entrance" ) {
             ter_set( pos, oter_id( old + "_north" ) );
         } else if( old.compare( 0, 10, "mass_grave" ) == 0 ) {
             ter_set( pos, oter_id( "field" ) );
+        } else if( old == "mine_shaft" ) {
+            ter_set( pos, oter_id( "mine_shaft_middle_north" ) );
         }
 
         for( const auto &conv : nearby ) {
@@ -580,6 +581,8 @@ void overmap::unserialize( std::istream &fin, const std::string &file_path )
                         jsin.read( new_radio.strength );
                     } else if( radio_member_name == "message" ) {
                         jsin.read( new_radio.message );
+                    } else if( radio_member_name == "frequency" ) {
+                        jsin.read( new_radio.frequency );
                     }
                 }
                 radios.push_back( new_radio );
@@ -1005,6 +1008,7 @@ void overmap::serialize( std::ostream &fout ) const
         json.member( "strength", i.strength );
         json.member( "type", radio_type_names[i.type] );
         json.member( "message", i.message );
+        json.member( "frequency", i.frequency );
         json.end_object();
     }
     json.end_array();
@@ -1226,7 +1230,7 @@ void game::unserialize_master( std::istream &fin )
                 jsin.read( seed );
             } else if( name == "weather" ) {
                 JsonObject w = jsin.get_object();
-                w.read( "lightning", weather.lightning_active );
+                w.read( "lightning", get_weather().lightning_active );
             } else {
                 // silently ignore anything else
                 jsin.skip_value();
@@ -1264,7 +1268,7 @@ void game::serialize_master( std::ostream &fout )
 
         json.member( "weather" );
         json.start_object();
-        json.member( "lightning", weather.lightning_active );
+        json.member( "lightning", get_weather().lightning_active );
         json.end_object();
 
         json.end_object();

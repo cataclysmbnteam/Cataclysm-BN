@@ -488,7 +488,7 @@
     "id": "oa_ig_rd_glass_trash",
     "//": "for ws_regional_dump",
     "items": [
-      { "item": "glass_shard", "prob": 100, "count-min": 8, "count-max": 168 },
+      { "item": "glass_shard", "prob": 100, "count-min": 2, "count-max": 10 },
       [ "bottle_glass", 30 ],
       [ "jar_glass", 20 ],
       [ "jar_3l_glass", 10 ]
@@ -677,7 +677,7 @@
       [ "jar_3l_glass", 120 ],
       [ "magnifying_glass", 20 ],
       [ "mirror", 30 ],
-      { "item": "glass_shard", "prob": 650, "count": [ 1, 8 ] },
+      { "item": "glass_shard", "prob": 650, "count": [ 0, 1 ] },
       [ "crackpipe", 5 ],
       [ "glass", 80 ],
       [ "glass_bowl", 80 ],
@@ -812,8 +812,7 @@
       [ "tourist_table", 10 ],
       [ "canister_empty", 45 ],
       [ "tongs", 10 ],
-      [ "pressure_cooker", 10 ],
-      [ "sieve_steel", 10 ]
+      [ "pressure_cooker", 10 ]
     ]
   },
   {
@@ -928,9 +927,7 @@
     "type": "item_group",
     "items": [
       [ "awl_bone", 50 ],
-      { "item": "loom_frame", "prob": 10 },
       [ "primitive_knife", 50 ],
-      { "item": "shed_stick", "prob": 10 },
       [ "primitive_axe", 50 ],
       [ "primitive_shovel", 50 ],
       [ "primitive_hammer", 50 ],
@@ -1113,7 +1110,6 @@
       [ "chemistry_set", 50 ],
       { "group": "ammo_pocket_batteries_full", "prob": 70 },
       [ "flashlight", 40 ],
-      [ "chem_acetone", 40 ],
       [ "chem_hexamine", 15 ]
     ]
   },
@@ -1183,6 +1179,24 @@
       [ "chem_rdx", 5 ],
       [ "chem_hmtd", 10 ],
       [ "tool_anfo_charge", 2 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mine_materials",
+    "subtype": "collection",
+    "entries": [
+      { "item": "coal_lump", "prob": 20, "count": [ 1, 10 ] },
+      { "item": "rock", "prob": 40, "count": [ 1, 10 ] },
+      { "item": "material_shrd_limestone", "prob": 40, "count": [ 1, 10 ] },
+      { "item": "material_limestone", "prob": 40, "count": [ 1, 10 ] },
+      { "item": "material_niter", "prob": 5, "count": [ 1, 10 ] },
+      { "item": "material_sand", "prob": 50, "charges": 500, "container-item": "bag_canvas" },
+      { "item": "material_soil", "prob": 50, "charges": 500, "container-item": "bag_canvas" },
+      { "item": "chunk_sulfur", "prob": 5, "count": [ 1, 10 ] },
+      { "item": "material_rocksalt", "prob": 5, "count": [ 1, 10 ] },
+      { "item": "material_rhodonite", "prob": 5, "count": [ 1, 10 ] },
+      { "item": "material_zincite", "prob": 5, "count": [ 1, 10 ] }
     ]
   },
   {

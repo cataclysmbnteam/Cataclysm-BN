@@ -295,7 +295,7 @@ bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
 static bool overlaps_vehicle( const std::set<tripoint> &veh_area, const tripoint &pos,
                               const int area )
 {
-    for( const tripoint &tmp : tripoint_range( pos - tripoint( area, area, 0 ),
+    for( const tripoint &tmp : tripoint_range<tripoint>( pos - tripoint( area, area, 0 ),
             pos + tripoint( area - 1, area - 1, 0 ) ) ) {
         if( veh_area.count( tmp ) > 0 ) {
             return true;
@@ -1690,14 +1690,13 @@ void Creature::draw( const catacurses::window &w, const tripoint &origin, bool i
         return;
     }
 
-    int draw_x = getmaxx( w ) / 2 + posx() - origin.x;
-    int draw_y = getmaxy( w ) / 2 + posy() - origin.y;
+    point draw( -origin.xy() + point( getmaxx( w ) / 2 + posx(), getmaxy( w ) / 2 + posy() ) );
     if( inverted ) {
-        mvwputch_inv( w, point( draw_x, draw_y ), basic_symbol_color(), symbol() );
+        mvwputch_inv( w, draw, basic_symbol_color(), symbol() );
     } else if( is_symbol_highlighted() ) {
-        mvwputch_hi( w, point( draw_x, draw_y ), basic_symbol_color(), symbol() );
+        mvwputch_hi( w, draw, basic_symbol_color(), symbol() );
     } else {
-        mvwputch( w, point( draw_x, draw_y ), symbol_color(), symbol() );
+        mvwputch( w, draw, symbol_color(), symbol() );
     }
 }
 

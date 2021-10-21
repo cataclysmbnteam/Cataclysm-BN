@@ -338,8 +338,14 @@ class JsonIn
                 return true;
             }
             std::string s;
+            int s_pos = tell();
             if( read( s, throw_on_error ) ) {
-                val = io::string_to_enum<T>( s );
+                try {
+                    val = io::string_to_enum<T>( s );
+                } catch( const io::InvalidEnumString &err ) {
+                    int curr_pos = tell();
+                    return error_or_false( throw_on_error, err.what(), s_pos - curr_pos );
+                }
                 return true;
             }
             return false;
@@ -1110,10 +1116,10 @@ class JsonArray
             return jsin->read( t );
         }
         // random-access read values by reference
-        template <typename T> bool read( size_t i, T &t ) const {
+        template <typename T> bool read( size_t i, T &t, bool throw_on_error = false ) const {
             verify_index( i );
             jsin->seek( positions[i] );
-            return jsin->read( t );
+            return jsin->read( t, throw_on_error );
         }
 };
 
@@ -1147,8 +1153,8 @@ class JsonValue
             return seek().get_array();
         }
         template<typename T>
-        bool read( T &t ) const {
-            return seek().read( t );
+        bool read( T &t, bool throw_on_error = false ) const {
+            return seek().read( t, throw_on_error );
         }
 
         bool test_string() const {

@@ -33,6 +33,8 @@ class JsonOut;
 
 // NOLINTNEXTLINE(cata-xy)
 struct point {
+    static constexpr int dimension = 2;
+
     int x = 0;
     int y = 0;
     constexpr point() = default;
@@ -101,28 +103,46 @@ struct point {
     }
 
     std::string to_string() const;
+
+    void serialize( JsonOut &jsout ) const;
+    void deserialize( JsonIn &jsin );
+
+    friend inline constexpr bool operator<( const point &a, const point &b ) {
+        return a.x < b.x || ( a.x == b.x && a.y < b.y );
+    }
+    friend inline constexpr bool operator==( const point &a, const point &b ) {
+        return a.x == b.x && a.y == b.y;
+    }
+    friend inline constexpr bool operator!=( const point &a, const point &b ) {
+        return !( a == b );
+    }
+
+    friend std::ostream &operator<<( std::ostream &, const point & );
 };
 
-std::ostream &operator<<( std::ostream &, const point & );
-
-void serialize( const point &p, JsonOut &jsout );
-void deserialize( point &p, JsonIn &jsin );
-
-inline constexpr bool operator<( const point &a, const point &b )
+inline int divide_round_to_minus_infinity( int n, int d )
 {
-    return a.x < b.x || ( a.x == b.x && a.y < b.y );
+    if( n >= 0 ) {
+        return n / d;
+    }
+    return ( n - d + 1 ) / d;
 }
-inline constexpr bool operator==( const point &a, const point &b )
+
+inline point multiply_xy( const point &p, int f )
 {
-    return a.x == b.x && a.y == b.y;
+    return point( p.x * f, p.y * f );
 }
-inline constexpr bool operator!=( const point &a, const point &b )
+
+inline point divide_xy_round_to_minus_infinity( const point &p, int d )
 {
-    return !( a == b );
+    return point( divide_round_to_minus_infinity( p.x, d ),
+                  divide_round_to_minus_infinity( p.y, d ) );
 }
 
 // NOLINTNEXTLINE(cata-xy)
 struct tripoint {
+    static constexpr int dimension = 3;
+
     int x = 0;
     int y = 0;
     int z = 0;
@@ -156,6 +176,9 @@ struct tripoint {
         y *= rhs;
         z *= rhs;
         return *this;
+    }
+    constexpr tripoint operator/( const int rhs ) const {
+        return tripoint( x / rhs, y / rhs, z / rhs );
     }
     /*** some point operators and functions ***/
     constexpr tripoint operator+( const point &rhs ) const {
@@ -198,30 +221,39 @@ struct tripoint {
 
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );
+
+    friend std::ostream &operator<<( std::ostream &, const tripoint & );
+
+    friend inline constexpr bool operator==( const tripoint &a, const tripoint &b ) {
+        return a.x == b.x && a.y == b.y && a.z == b.z;
+    }
+    friend inline constexpr bool operator!=( const tripoint &a, const tripoint &b ) {
+        return !( a == b );
+    }
+    friend inline bool operator<( const tripoint &a, const tripoint &b ) {
+        if( a.x != b.x ) {
+            return a.x < b.x;
+        }
+        if( a.y != b.y ) {
+            return a.y < b.y;
+        }
+        if( a.z != b.z ) {
+            return a.z < b.z;
+        }
+        return false;
+    }
 };
 
-std::ostream &operator<<( std::ostream &, const tripoint & );
+inline tripoint multiply_xy( const tripoint &p, int f )
+{
+    return tripoint( p.x * f, p.y * f, p.z );
+}
 
-inline constexpr bool operator==( const tripoint &a, const tripoint &b )
+inline tripoint divide_xy_round_to_minus_infinity( const tripoint &p, int d )
 {
-    return a.x == b.x && a.y == b.y && a.z == b.z;
-}
-inline constexpr bool operator!=( const tripoint &a, const tripoint &b )
-{
-    return !( a == b );
-}
-inline bool operator<( const tripoint &a, const tripoint &b )
-{
-    if( a.x != b.x ) {
-        return a.x < b.x;
-    }
-    if( a.y != b.y ) {
-        return a.y < b.y;
-    }
-    if( a.z != b.z ) {
-        return a.z < b.z;
-    }
-    return false;
+    return tripoint( divide_round_to_minus_infinity( p.x, d ),
+                     divide_round_to_minus_infinity( p.y, d ),
+                     p.z );
 }
 
 struct rectangle {
@@ -229,8 +261,12 @@ struct rectangle {
     point p_max;
     constexpr rectangle() = default;
     constexpr rectangle( const point &P_MIN, const point &P_MAX ) : p_min( P_MIN ), p_max( P_MAX ) {}
+};
 
-    constexpr bool contains_half_open( const point &p ) const {
+struct half_open_rectangle : rectangle {
+    using rectangle::rectangle;
+
+    constexpr bool contains( const point &p ) const {
         return p.x >= p_min.x && p.x < p_max.x &&
                p.y >= p_min.y && p.y < p_max.y;
     }
@@ -239,8 +275,12 @@ struct rectangle {
         return !( r.p_min.x >= p_max.x || r.p_min.y >= p_max.y ||
                   p_min.x >= r.p_max.x || p_min.y >= r.p_max.y );
     }
+};
 
-    constexpr bool contains_inclusive( const point &p ) const {
+struct inclusive_rectangle : rectangle {
+    using rectangle::rectangle;
+
+    constexpr bool contains( const point &p ) const {
         return p.x >= p_min.x && p.x <= p_max.x &&
                p.y >= p_min.y && p.y <= p_max.y;
     }
@@ -251,13 +291,13 @@ struct rectangle {
     }
 };
 
-// Clamp p to the half-open rectangle r.
+// Clamp p to the rectangle r.
 // This independently clamps each coordinate of p to the bounds of the
 // rectangle.
 // Useful for example to round an arbitrary point to the nearest point on the
 // screen, or the nearest point in a particular submap.
-point clamp_half_open( const point &p, const rectangle &r );
-point clamp_inclusive( const point &p, const rectangle &r );
+point clamp( const point &p, const half_open_rectangle &r );
+point clamp( const point &p, const inclusive_rectangle &r );
 
 struct box {
     tripoint p_min;
@@ -267,26 +307,34 @@ struct box {
     explicit constexpr box( const rectangle &R, int Z1, int Z2 ) :
         p_min( tripoint( R.p_min, Z1 ) ), p_max( tripoint( R.p_max, Z2 ) ) {}
 
-    constexpr bool contains_half_open( const tripoint &p ) const {
-        return p.x >= p_min.x && p.x < p_max.x &&
-               p.y >= p_min.y && p.y < p_max.y &&
-               p.z >= p_min.z && p.z < p_max.z;
-    }
-
-    constexpr bool contains_inclusive( const tripoint &p ) const {
-        return p.x >= p_min.x && p.x <= p_max.x &&
-               p.y >= p_min.y && p.y <= p_max.y &&
-               p.z >= p_min.z && p.z <= p_max.z;
-    }
-
     void shrink( const tripoint &amount ) {
         p_min += amount;
         p_max -= amount;
     }
 };
 
-static constexpr tripoint tripoint_zero { 0, 0, 0 };
-static constexpr point point_zero{ tripoint_zero.xy() };
+struct half_open_box : box {
+    using box::box;
+
+    constexpr bool contains( const tripoint &p ) const {
+        return p.x >= p_min.x && p.x < p_max.x &&
+               p.y >= p_min.y && p.y < p_max.y &&
+               p.z >= p_min.z && p.z < p_max.z;
+    }
+};
+
+struct inclusive_box : box {
+    using box::box;
+
+    constexpr bool contains( const tripoint &p ) const {
+        return p.x >= p_min.x && p.x <= p_max.x &&
+               p.y >= p_min.y && p.y <= p_max.y &&
+               p.z >= p_min.z && p.z <= p_max.z;
+    }
+};
+
+static constexpr tripoint tripoint_zero{};
+static constexpr point point_zero{};
 
 static constexpr point point_north{ 0, -1 };
 static constexpr point point_north_east{ 1, -1 };
@@ -327,8 +375,8 @@ struct sphere {
  * Following functions return points in a spiral pattern starting at center_x/center_y until it hits the radius. Clockwise fashion.
  * Credit to Tom J Nowell; http://stackoverflow.com/a/1555236/1269969
  */
-std::vector<tripoint> closest_tripoints_first( const tripoint &center, int max_dist );
-std::vector<tripoint> closest_tripoints_first( const tripoint &center, int min_dist, int max_dist );
+std::vector<tripoint> closest_points_first( const tripoint &center, int max_dist );
+std::vector<tripoint> closest_points_first( const tripoint &center, int min_dist, int max_dist );
 
 std::vector<point> closest_points_first( const point &center, int max_dist );
 std::vector<point> closest_points_first( const point &center, int min_dist, int max_dist );

@@ -5,8 +5,8 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": "1 s",
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder_shotgun", 6 ] ], [ [ "lead", 10 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder", 6 ] ], [ [ "lead", 10 ] ] ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
   {
@@ -15,8 +15,8 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": "1 s",
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder_shotgun", 3 ] ], [ [ "rubber_slug", 1 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder", 3 ] ], [ [ "rubber_slug", 1 ] ] ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
   {
@@ -25,8 +25,8 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": "1 s",
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder_shotgun", 3 ] ], [ [ "lead", 10 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder", 3 ] ], [ [ "lead", 10 ] ] ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
   {
@@ -35,8 +35,8 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": "1 s",
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder_shotgun", 3 ] ], [ [ "magnesium", 5 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder", 3 ] ], [ [ "magnesium", 5 ] ] ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
   {
@@ -45,8 +45,8 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": "1 s",
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder_shotgun", 6 ] ], [ [ "combatnail", 10 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder", 6 ] ], [ [ "combatnail", 10 ] ] ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
   {
@@ -56,8 +56,8 @@
     "difficulty": 5,
     "time": "50 s",
     "//": "A little more carefully...",
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder_shotgun", 3 ] ], [ [ "chem_rdx", 1 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder", 3 ] ], [ [ "chem_rdx", 1 ] ] ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
   {
@@ -66,8 +66,8 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": "1 s",
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder_shotgun", 6 ] ], [ [ "lead", 20 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder", 6 ] ], [ [ "lead", 20 ] ] ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   }
 ]
