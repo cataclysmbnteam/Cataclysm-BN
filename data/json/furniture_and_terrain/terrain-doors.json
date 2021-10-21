@@ -1407,6 +1407,15 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
+    },
+    "pry": {
+        "success_message": "You pry open the door.",
+        "fail_message": "You pry, but cannot pry open the door.",
+        "pry_quality": 2,
+        "noisy": true,
+        "noise": 12,
+        "difficulty": 6,
+        "new_ter_type": "t_door_o"
     }
   },
   {
@@ -1446,6 +1455,15 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
+    },
+    "pry": {
+        "success_message": "You pry open the door.",
+        "fail_message": "You pry, but cannot pry open the door.",
+        "pry_quality": 2,
+        "noisy": true,
+        "noise": 12,
+        "difficulty": 6,
+        "new_ter_type": "t_door_o"
     }
   },
   {
@@ -1485,6 +1503,15 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
+    },
+    "pry": {
+        "success_message": "You pry open the door.",
+        "fail_message": "You pry, but cannot pry open the door.",
+        "pry_quality": 2,
+        "noisy": true,
+        "noise": 12,
+        "difficulty": 6,
+        "new_ter_type": "t_door_o_peep"
     }
   },
   {
@@ -1514,6 +1541,15 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
+    },
+    "pry": {
+        "success_message": "You pry open the door.",
+        "fail_message": "You pry, but cannot pry open the door.",
+        "pry_quality": 2,
+        "noisy": true,
+        "noise": 12,
+        "difficulty": 6,
+        "new_ter_type": "t_door_o"
     }
   },
   {
