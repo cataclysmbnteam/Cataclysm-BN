@@ -303,7 +303,6 @@
     "category": "clothing",
     "id": "game_watch",
     "name": { "str": "smart watch", "str_pl": "smart watches" },
-    "category": "clothing",
     "volume": "250 ml",
     "description": "A waterproof smart watch, powered by UPS.  It has reliable weather data from its build-in sensors and some pre-installed apps.  Activate to use.",
     "weight": "112 g",
