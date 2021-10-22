@@ -3,7 +3,6 @@
     "id": "bunker_coat",
     "repairs_like": "aep_suit",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "turnout coat" },
     "description": "A heavy protective coat worn by firefighters.  Highly resistant to heat and flame, it provides excellent protection from injury.",
     "weight": "1930 g",
@@ -286,7 +285,6 @@
   {
     "id": "duster_survivor",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "survivor duster" },
     "description": "A Kevlar armored custom full-length duster, covered with pouches and pockets.  Comfortable, durable, and great for storage.",
     "weight": "2592 g",
@@ -936,7 +934,6 @@
   {
     "id": "sleeveless_duster_survivor",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "sleeveless survivor duster" },
     "//": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
     "description": "A custom Kevlar armored full-length duster without sleeves, covered with pouches and pockets.  Comfortable, durable, and great for storage.",
@@ -1047,7 +1044,6 @@
   {
     "id": "sleeveless_trenchcoat_survivor",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "sleeveless survivor trenchcoat" },
     "//": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
     "description": "A custom Kevlar armored trenchcoat without sleeves, covered with pouches and pockets.  Comfortable, durable, and great for storage.",
@@ -1199,7 +1195,6 @@
   {
     "id": "trenchcoat_survivor",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "survivor trenchcoat" },
     "description": "A Kevlar armored custom trenchcoat, covered with pouches and pockets.  Comfortable, durable, and great for storage.",
     "weight": "1920 g",

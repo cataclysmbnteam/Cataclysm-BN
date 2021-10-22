@@ -127,6 +127,11 @@ void input_manager::init()
         throw std::runtime_error( err.what() );
     }
     try {
+        load( PATH_INFO::keybindings_edit_creature(), false );
+    } catch( const JsonError &err ) {
+        throw std::runtime_error( err.what() );
+    }
+    try {
         load( PATH_INFO::user_keybindings(), true );
     } catch( const JsonError &err ) {
         throw std::runtime_error( err.what() );

@@ -33,6 +33,7 @@ std::string graveyarddir();
 std::string help();
 std::string keybindings();
 std::string keybindings_vehicle();
+std::string keybindings_edit_creature();
 std::string lastworld();
 std::string memorialdir();
 std::string jsondir();

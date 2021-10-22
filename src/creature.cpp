@@ -1886,3 +1886,16 @@ void Creature::describe_specials( std::vector<std::string> &buf ) const
 {
     buf.push_back( _( "You sense a creature here." ) );
 }
+
+effects_map Creature::get_all_effects() const
+{
+    effects_map effects_without_removed;
+    for( auto &outer : *effects ) {
+        for( auto &inner : outer.second ) {
+            if( !inner.second.is_removed() ) {
+                effects_without_removed[outer.first][inner.first] = inner.second;
+            }
+        }
+    }
+    return effects_without_removed;
+}
