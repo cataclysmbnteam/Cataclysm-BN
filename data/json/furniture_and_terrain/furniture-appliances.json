@@ -804,11 +804,9 @@
     "active": [ "charger", { "power": 100 } ],
     "deconstruct": {
       "items": [
-        { "item": "sheet_metal_small", "count": [ 4, 6 ] },
-        { "item": "plastic_chunk", "count": 2 },
-        { "item": "pipe", "count": 4 },
-        { "item": "cable", "charges": [ 5, 10 ] },
-        { "item": "battery_charger", "count": 1 }
+        { "item": "cable", "charges": [ 2, 5 ] },
+        { "item": "battery_charger", "count": 1 },
+        { "item": "power_supply", "count": 1 }
       ]
     },
     "bash": {

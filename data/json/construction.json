@@ -4168,26 +4168,6 @@
   },
   {
     "type": "construction",
-    "id": "constr_charger",
-    "description": "Install Charger",
-    "category": "FURN",
-    "required_skills": [ [ "fabrication", 3 ], [ "electronics", 1 ] ],
-    "time": "30 m",
-    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
-    "tools": [ [ [ "soldering_iron", 20 ] ] ],
-    "components": [
-      [ [ "sheet_metal_small", 6 ] ],
-      [ [ "plastic_chunk", 2 ] ],
-      [ [ "pipe", 4 ] ],
-      [ [ "cable", 10 ] ],
-      [ [ "battery_charger", 1 ] ]
-    ],
-    "pre_note": "Will only work if constructed in a building with an electric grid.",
-    "pre_special": "check_empty",
-    "post_terrain": "f_charger"
-  },
-  {
-    "type": "construction",
     "id": "constr_oven",
     "description": "Build Oven",
     "category": "FURN",
@@ -4218,6 +4198,20 @@
     "pre_note": "Will only work if constructed in/on a building that has an electric grid.",
     "pre_special": "check_empty",
     "post_terrain": "f_cable_connector"
+  },
+  {
+    "type": "construction",
+    "id": "constr_charger",
+    "description": "Place Charger",
+    "category": "FURN",
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "tools": [ [ [ "soldering_iron", 20 ] ] ],
+    "components": [ [ [ "cable", 5 ] ], [ [ "battery_charger", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
+    "pre_note": "Will only work if constructed in a building with an electric grid.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_charger"
   },
   {
     "type": "construction",
