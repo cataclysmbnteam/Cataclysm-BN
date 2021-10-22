@@ -1396,9 +1396,9 @@
       "success_message": "You pry open the door.",
       "fail_message": "You pry, but cannot pry open the door.",
       "pry_quality": 2,
-      "noisy": true,
+      "pry_bonus_mult": 3,
       "noise": 12,
-      "difficulty": 6,
+      "difficulty": 8,
       "new_ter_type": "t_door_o"
     }
   },
@@ -1444,9 +1444,9 @@
       "success_message": "You pry open the door.",
       "fail_message": "You pry, but cannot pry open the door.",
       "pry_quality": 2,
-      "noisy": true,
+      "pry_bonus_mult": 3,
       "noise": 12,
-      "difficulty": 6,
+      "difficulty": 8,
       "new_ter_type": "t_door_o"
     }
   },
@@ -1492,9 +1492,9 @@
       "success_message": "You pry open the door.",
       "fail_message": "You pry, but cannot pry open the door.",
       "pry_quality": 2,
-      "noisy": true,
+      "pry_bonus_mult": 3,
       "noise": 12,
-      "difficulty": 6,
+      "difficulty": 8,
       "new_ter_type": "t_door_o_peep"
     }
   },
@@ -1530,10 +1530,11 @@
       "success_message": "You pry open the door.",
       "fail_message": "You pry, but cannot pry open the door.",
       "pry_quality": 2,
-      "noisy": true,
+      "pry_bonus_mult": 3,
       "noise": 12,
-      "difficulty": 6,
-      "new_ter_type": "t_door_o"
+      "alarm": true,
+      "difficulty": 8,
+      "new_ter_type": "t_door_o_peep"
     }
   },
   {

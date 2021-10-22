@@ -97,14 +97,20 @@
       "fail_message": "You pry, but cannot pry open the window.",
       "break_message": "You break the glass.",
       "pry_quality": 2,
-      "noisy": true,
+      "pry_bonus_mult": 3,
       "noise": 12,
       "break_noise": 24,
-      "difficulty": 6,
-      "new_ter_type": "t_window_open",
       "breakable": true,
+      "break_sound": "glass breaking!",
+      "difficulty": 8,
+      "new_ter_type": "t_window_open",
       "break_ter_type": "t_window_frame",
-      "break_items": [ { "item": "sheet", "count": 2 }, { "item": "stick", "count": 1 }, { "item": "string_36", "count": 1 } ]
+      "break_items": [
+        { "item": "glass_shard", "count": [ 1, 3 ] },
+        { "item": "sheet", "count": 2 },
+        { "item": "stick", "count": 1 },
+        { "item": "string_36", "count": 1 }
+      ]
     }
   },
   {
@@ -143,14 +149,17 @@
     "pry": {
       "success_message": "You pry open the window.",
       "fail_message": "You pry, but cannot pry open the window.",
+      "break_message": "You break the glass.",
       "pry_quality": 2,
-      "noisy": true,
+      "pry_bonus_mult": 3,
       "noise": 12,
-      "difficulty": 6,
-      "new_ter_type": "t_window_no_curtains_open",
+      "break_noise": 24,
       "breakable": true,
+      "break_sound": "glass breaking!",
+      "difficulty": 8,
+      "new_ter_type": "t_window_no_curtains_open",
       "break_ter_type": "t_window_frame",
-      "break_items": [ { "item": "stick", "count": 1 } ]
+      "break_items": [ { "item": "glass_shard", "count": [ 1, 3 ] } ]
     }
   },
   {
@@ -326,15 +335,22 @@
     "pry": {
       "success_message": "You pry open the window.",
       "fail_message": "You pry, but cannot pry open the window.",
+      "break_message": "You break the glass.",
       "pry_quality": 2,
-      "noisy": true,
+      "pry_bonus_mult": 3,
       "noise": 12,
       "break_noise": 24,
-      "difficulty": 6,
-      "new_ter_type": "t_window_open",
       "breakable": true,
+      "break_sound": "glass breaking!",
+      "difficulty": 8,
+      "new_ter_type": "t_window_open",
       "break_ter_type": "t_window_frame",
-      "break_items": [ { "item": "sheet", "count": 2 }, { "item": "stick", "count": 1 }, { "item": "string_36", "count": 1 } ]
+      "break_items": [
+        { "item": "glass_shard", "count": [ 1, 3 ] },
+        { "item": "sheet", "count": 2 },
+        { "item": "stick", "count": 1 },
+        { "item": "string_36", "count": 1 }
+      ]
     }
   },
   {
