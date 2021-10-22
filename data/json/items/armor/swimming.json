@@ -65,7 +65,6 @@
   {
     "id": "hood_h20survivor",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "survivor wetsuit hood" },
     "description": "A customized armored neoprene and Kevlar hood, very strong and durable.",
     "weight": "860 g",
@@ -89,7 +88,6 @@
   {
     "id": "h20survivor_suit",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "survivor wetsuit" },
     "description": "A lightweight, hand-built combination armor made from a cut-down bulletproof vest and a reinforced neoprene wetsuit.  Protects from the elements as well as from harm.",
     "weight": "6400 g",
@@ -114,7 +112,6 @@
   {
     "id": "gloves_h20survivor",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "pair of survivor wetsuit gloves", "str_pl": "pairs of survivor wetsuit gloves" },
     "description": "A pair of customized, Kevlar armored neoprene gloves, modified to be easy to wear while providing maximum protection under extreme conditions.",
     "weight": "390 g",

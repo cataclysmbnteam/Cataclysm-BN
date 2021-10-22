@@ -162,18 +162,6 @@
     "description": "Destination for corpses"
   },
   {
-    "id": "LOOT_ARMOR",
-    "type": "LOOT_ZONE",
-    "name": "Loot: Armor",
-    "description": "Destination for armor.  Does include filthy armor if such zone is not specified."
-  },
-  {
-    "id": "LOOT_FARMOR",
-    "type": "LOOT_ZONE",
-    "name": "Loot: F.Armor",
-    "description": "Destination for filthy armor."
-  },
-  {
     "id": "LOOT_MAP",
     "type": "LOOT_ZONE",
     "name": "Loot: Maps",

@@ -2,7 +2,6 @@
   {
     "id": "dragonskin",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "dragon skin vest" },
     "description": "A state-of-the-art, lightweight, flexible, bullet resistant vest.  The ceramic disks used in its construction make it impossible to repair, only replace.",
     "weight": "2860 g",
@@ -27,7 +26,6 @@
     "id": "dragonskinempty",
     "repairs_like": "survivor_suit",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "lamellar Kevlar vest" },
     "description": "A lamellar Kevlar vest, there are intricately cut voids usually filled with stitched in ceramic disks, you could repair the stitching if needed",
     "weight": "2060 g",
