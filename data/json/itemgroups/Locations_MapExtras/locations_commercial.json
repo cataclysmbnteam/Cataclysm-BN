@@ -1341,8 +1341,8 @@
     "items": [
       [ "radio", 30 ],
       [ "rag", 30 ],
-      [ "cell_phone", 20 ],
-      [ "mag_mechanics", 1 ],
+      [ "cell_phone", 1 ],
+      [ "mag_mechanics", 20 ],
       [ "manual_mechanics", 10 ],
       [ "jack", 60 ],
       [ "jack_small", 60 ],
