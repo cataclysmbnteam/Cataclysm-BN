@@ -326,11 +326,11 @@ pry_result::pry_result() : pry_quality( -1 ), pry_bonus_mult( 1 ),
     difficulty( 1 ), noise( 0 ),
     alarm( false ), breakable( false ),
     new_ter_type( ter_str_id::NULL_ID() ), new_furn_type( furn_str_id::NULL_ID() ),
-break_ter_type( ter_str_id::NULL_ID() ), break_furn_type( furn_str_id::NULL_ID() ),
-                pry_items( item_group_id( "EMPTY_GROUP" ) ), break_items( item_group_id( "EMPTY_GROUP" ) ) {}
+    break_ter_type( ter_str_id::NULL_ID() ), break_furn_type( furn_str_id::NULL_ID() ),
+    pry_items( item_group_id( "EMPTY_GROUP" ) ), break_items( item_group_id( "EMPTY_GROUP" ) ) {}
 
-                bool pry_result::load( const JsonObject &jsobj, const std::string &member,
-                                       map_object_type obj_type )
+bool pry_result::load( const JsonObject &jsobj, const std::string &member,
+                       map_object_type obj_type )
 {
     if( !jsobj.has_object( member ) ) {
         return false;
