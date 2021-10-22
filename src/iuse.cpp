@@ -2487,7 +2487,7 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
             sounds::sound( pnt, pry->noise, sounds::sound_t::combat, pry->sound, true, "tool", "crowbar" );
         }
         g->m.spawn_items( pnt, item_group::items_from( pry->pry_items, calendar::turn ) );
-        if( pry->alarm = true ) {
+        if( pry->alarm == true ) {
             g->events().send<event_type::triggers_alarm>( p->getID() );
             sounds::sound( p->pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                            "alarm" );
@@ -2497,7 +2497,7 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
             }
         }
     } else {
-        if( pry->breakable = true ) {
+        if( pry->breakable == true ) {
             //chance of breaking the glass if pry attempt fails
             /** @EFFECT_STR reduces chance of breaking window with crowbar */
 
@@ -2513,7 +2513,7 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
                     g->m.ter_set( pnt, pry->break_ter_type );
                 }
                 g->m.spawn_items( pnt, item_group::items_from( pry->break_items, calendar::turn ) );
-                if( pry->alarm = true ) {
+                if( pry->alarm == true ) {
                     g->events().send<event_type::triggers_alarm>( p->getID() );
                     sounds::sound( p->pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                                    "alarm" );
