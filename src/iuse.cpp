@@ -2477,7 +2477,7 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
     if( dice( 4, diff ) < dice( 4, p->str_cur ) ) {
         p->add_msg_if_player( m_good, pry->success_message );
 
-        if( pry_furn = true ) {
+        if( pry_furn ) {
             g->m.furn_set( pnt, pry->new_furn_type );
         } else {
             g->m.ter_set( pnt, pry->new_ter_type );
@@ -2507,7 +2507,7 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
                 p->add_msg_if_player( m_mixed, pry->break_message );
                 sounds::sound( pnt, pry->break_noise, sounds::sound_t::combat, pry->break_sound, true, "smash",
                                "door" );
-                if( pry_furn = true ) {
+                if( pry_furn ) {
                     g->m.furn_set( pnt, pry->break_furn_type );
                 } else {
                     g->m.ter_set( pnt, pry->break_ter_type );
