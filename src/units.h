@@ -59,6 +59,7 @@ std::string display( units::energy v );
 namespace units
 {
 static const std::vector<std::pair<std::string, energy>> energy_units = { {
+        { "mJ", 1_J }, // Millijoules are depreciated, this is only defined to migrate old saves.
         { "J", 1_J },
         { "kJ", 1_kJ },
     }
