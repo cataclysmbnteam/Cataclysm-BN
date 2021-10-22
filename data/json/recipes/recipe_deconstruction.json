@@ -1742,7 +1742,7 @@
     "type": "uncraft",
     "time": "10 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "processor", 1 ] ], [ [ "light_minus_battery_cell", 1 ] ] ]
+    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "processor", 1 ] ] ]
   },
   {
     "result": "gold_bracelet",
