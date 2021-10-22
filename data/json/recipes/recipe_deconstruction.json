@@ -1377,7 +1377,14 @@
     "type": "uncraft",
     "time": "1 m 12 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 5 ] ], [ [ "processor", 1 ] ], [ [ "plastic_chunk", 10 ] ], [ [ "e_scrap", 8 ] ], [ [ "lens", 2 ] ] ]
+    "components": [
+      [ [ "scrap", 5 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "plastic_chunk", 10 ] ],
+      [ [ "battery_ups", 1 ] ],
+      [ [ "e_scrap", 8 ] ],
+      [ [ "lens", 2 ] ]
+    ]
   },
   {
     "result": "candlestick",
@@ -1413,7 +1420,14 @@
     "type": "uncraft",
     "time": "30 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "small_lcd_screen", 1 ] ], [ [ "RAM", 1 ] ], [ [ "processor", 1 ] ], [ [ "lens_small", 1 ] ] ]
+    "components": [
+      [ [ "scrap", 1 ] ],
+      [ [ "small_lcd_screen", 1 ] ],
+      [ [ "battery_ups", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "lens_small", 1 ] ]
+    ]
   },
   {
     "result": "ceramic_bowl",
@@ -1632,7 +1646,14 @@
     "type": "uncraft",
     "time": "30 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "RAM", 1 ] ], [ [ "processor", 1 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "e_scrap", 2 ] ] ]
+    "components": [
+      [ [ "scrap", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "battery_ups", 1 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "e_scrap", 2 ] ]
+    ]
   },
   {
     "result": "extinguisher",
@@ -2038,6 +2059,7 @@
       [ [ "RAM", 4 ] ],
       [ [ "circuit", 1 ] ],
       [ [ "cable", 6 ] ],
+      [ [ "battery_ups", 1 ] ],
       [ [ "amplifier", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "plastic_chunk", 6 ] ],
