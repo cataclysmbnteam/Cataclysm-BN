@@ -325,12 +325,12 @@ bool plant_data::load( const JsonObject &jsobj, const std::string &member )
 pry_result::pry_result() : pry_quality( -1 ), pry_bonus_mult( 1 ),
     difficulty( 1 ), noise( 0 ),
     alarm( false ), breakable( false ),
-    break_ter_type( ter_str_id::NULL_ID() ), break_furn_type( furn_str_id::NULL_ID() ),
-    pry_items( item_group_id( "EMPTY_GROUP" ) ), break_items( item_group_id( "EMPTY_GROUP" ) ),
     new_ter_type( ter_str_id::NULL_ID() ), new_furn_type( furn_str_id::NULL_ID() ) {}
+break_ter_type( ter_str_id::NULL_ID() ), break_furn_type( furn_str_id::NULL_ID() ),
+                pry_items( item_group_id( "EMPTY_GROUP" ) ), break_items( item_group_id( "EMPTY_GROUP" ) ),
 
-bool pry_result::load( const JsonObject &jsobj, const std::string &member,
-                       map_object_type obj_type )
+                bool pry_result::load( const JsonObject &jsobj, const std::string &member,
+                                       map_object_type obj_type )
 {
     if( !jsobj.has_object( member ) ) {
         return false;
@@ -345,14 +345,8 @@ bool pry_result::load( const JsonObject &jsobj, const std::string &member,
     break_noise = j.get_int( "break_noise", noise );
     sound = to_translation( "crunch!" );
     break_sound = to_translation( "crack!" );
-    breakable = j.get_bool( "breakable", false );
     alarm = j.get_bool( "alarm", false );
-    j.read( "sound", sound );
-    j.read( "break_sound", break_sound );
-
-    j.read( "success_message", success_message );
-    j.read( "fail_message", fail_message );
-    j.read( "break_message", break_message );
+    breakable = j.get_bool( "breakable", false );
 
     switch( obj_type ) {
         case pry_result::furniture:
@@ -376,6 +370,13 @@ bool pry_result::load( const JsonObject &jsobj, const std::string &member,
     } else {
         break_items = item_group_id( "EMPTY_GROUP" );
     }
+
+    j.read( "sound", sound );
+    j.read( "break_sound", break_sound );
+
+    j.read( "success_message", success_message );
+    j.read( "fail_message", fail_message );
+    j.read( "break_message", break_message );
 
     return true;
 }

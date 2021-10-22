@@ -244,7 +244,6 @@ static const itype_id itype_handrolled_cig( "handrolled_cig" );
 static const itype_id itype_hygrometer( "hygrometer" );
 static const itype_id itype_joint( "joint" );
 static const itype_id itype_log( "log" );
-static const itype_id itype_manhole_cover( "manhole_cover" );
 static const itype_id itype_mask_h20survivor_on( "mask_h20survivor_on" );
 static const itype_id itype_mininuke_act( "mininuke_act" );
 static const itype_id itype_molotov( "molotov" );
@@ -264,7 +263,6 @@ static const itype_id itype_radio_on( "radio_on" );
 static const itype_id itype_rebreather_on( "rebreather_on" );
 static const itype_id itype_rebreather_xl_on( "rebreather_xl_on" );
 static const itype_id itype_rmi2_corpse( "rmi2_corpse" );
-static const itype_id itype_sheet( "sheet" );
 static const itype_id itype_shocktonfa_off( "shocktonfa_off" );
 static const itype_id itype_shocktonfa_on( "shocktonfa_on" );
 static const itype_id itype_smart_phone( "smart_phone" );
@@ -272,8 +270,6 @@ static const itype_id itype_smartphone_music( "smartphone_music" );
 static const itype_id itype_soap( "soap" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_spiral_stone( "spiral_stone" );
-static const itype_id itype_stick( "stick" );
-static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_thermometer( "thermometer" );
 static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_soiled( "towel_soiled" );
@@ -2481,7 +2477,7 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
     if( dice( 4, diff ) < dice( 4, p->str_cur ) ) {
         p->add_msg_if_player( m_good, pry->success_message );
 
-        if( pry_furn == true ) {
+        if( pry_furn = true ) {
             g->m.furn_set( pnt, pry->new_furn_type );
         } else {
             g->m.ter_set( pnt, pry->new_ter_type );
@@ -2491,7 +2487,7 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
             sounds::sound( pnt, pry->noise, sounds::sound_t::combat, pry->sound, true, "tool", "crowbar" );
         }
         g->m.spawn_items( pnt, item_group::items_from( pry->pry_items, calendar::turn ) );
-        if( pry->alarm == true ) {
+        if( pry->alarm = true ) {
             g->events().send<event_type::triggers_alarm>( p->getID() );
             sounds::sound( p->pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                            "alarm" );
@@ -2501,7 +2497,7 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
             }
         }
     } else {
-        if( pry->breakable == true ) {
+        if( pry->breakable = true ) {
             //chance of breaking the glass if pry attempt fails
             /** @EFFECT_STR reduces chance of breaking window with crowbar */
 
@@ -2511,13 +2507,13 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
                 p->add_msg_if_player( m_mixed, pry->break_message );
                 sounds::sound( pnt, pry->break_noise, sounds::sound_t::combat, pry->break_sound, true, "smash",
                                "door" );
-                if( pry_furn == true ) {
+                if( pry_furn = true ) {
                     g->m.furn_set( pnt, pry->break_furn_type );
                 } else {
                     g->m.ter_set( pnt, pry->break_ter_type );
                 }
                 g->m.spawn_items( pnt, item_group::items_from( pry->break_items, calendar::turn ) );
-                if( pry->alarm == true ) {
+                if( pry->alarm = true ) {
                     g->events().send<event_type::triggers_alarm>( p->getID() );
                     sounds::sound( p->pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                                    "alarm" );

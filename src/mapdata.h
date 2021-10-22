@@ -99,9 +99,6 @@ struct lockpicking_open_result {
 };
 
 struct pry_result {
-    // What terrain or furniture it will turn into when pried open
-    ter_str_id new_ter_type;
-    furn_str_id new_furn_type;
     // Minimum prying quality required to pry open
     int pry_quality;
     // Multiplier for how much of an advantage is gained from using a better tool than the minimum
@@ -116,6 +113,9 @@ struct pry_result {
     bool alarm;
     // Does a failed pry attempt risk breaking it instead?
     bool breakable;
+    // What terrain or furniture it will turn into when pried open
+    ter_str_id new_ter_type;
+    furn_str_id new_furn_type;
     // What terrain or furniture it will turn into if you break it
     ter_str_id break_ter_type;
     furn_str_id break_furn_type;
