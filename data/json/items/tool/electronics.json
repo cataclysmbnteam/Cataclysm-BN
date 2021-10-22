@@ -307,7 +307,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": "laptop computer",
-    "description": "A laptop computer using UPS.",
+    "description": "A laptop computer using an integral battery and UPS.",
     "symbol": ",",
     "color": "dark_gray",
     "material": [ "plastic", "aluminum" ],
