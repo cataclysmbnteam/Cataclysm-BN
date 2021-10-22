@@ -66,8 +66,8 @@
     "symbol": ";",
     "color": "yellow",
     "ammo": "battery",
-    "initial_charges": 400,
-    "max_charges": 500,
+    "initial_charges": 160,
+    "max_charges": 200,
     "charges_per_use": 5,
     "use_action": "CAMERA",
     "flags": [ "CAMERA_PRO", "ALWAYS_TWOHAND", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
@@ -189,8 +189,8 @@
     "symbol": ";",
     "color": "blue",
     "ammo": "battery",
-    "initial_charges": 300,
-    "max_charges": 400,
+    "initial_charges": 160,
+    "max_charges": 200,
     "charges_per_use": 1,
     "use_action": "EINKTABLETPC",
     "flags": [ "WATCH", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
@@ -358,8 +358,8 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": "battery",
-    "initial_charges": 200,
-    "max_charges": 250,
+    "initial_charges": 160,
+    "max_charges": 200,
     "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ],
     "use_action": "MP3",
     "charges_per_use": 1
@@ -434,8 +434,8 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
-    "initial_charges": 200,
-    "max_charges": 250,
+    "initial_charges": 160,
+    "max_charges": 200,
     "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ],
     "charges_per_use": 1,
     "use_action": "PORTABLE_GAME"
@@ -455,8 +455,8 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
-    "initial_charges": 250,
-    "max_charges": 300,
+    "initial_charges": 160,
+    "max_charges": 200,
     "charges_per_use": 1,
     "use_action": [
       {
