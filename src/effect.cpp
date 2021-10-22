@@ -64,6 +64,17 @@ bool string_id<effect_type>::is_valid() const
     return effect_types.count( *this ) > 0;
 }
 
+std::vector<efftype_id> find_all_effect_types()
+{
+    std::vector<efftype_id> all;
+    all.reserve( effect_types.size() );
+    std::transform( effect_types.begin(), effect_types.end(), std::back_inserter( all ),
+    []( const std::pair<efftype_id, effect_type> &pr ) {
+        return pr.first;
+    } );
+    return all;
+}
+
 void weed_msg( player &p )
 {
     const time_duration howhigh = p.get_effect_dur( effect_weed_high );

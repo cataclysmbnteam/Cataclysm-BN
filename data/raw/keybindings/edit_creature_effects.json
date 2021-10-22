@@ -1,0 +1,51 @@
+[
+  {
+    "id": "ADD_NEW_EFFECT",
+    "type": "keybinding",
+    "category": "edit_creature_effects",
+    "name": "Add new effect",
+    "bindings": [ { "input_method": "keyboard", "key": "a" } ]
+  },
+  {
+    "id": "CLEAR_EFFECTS",
+    "type": "keybinding",
+    "category": "edit_creature_effects",
+    "name": "Clear all effects",
+    "bindings": [ { "input_method": "keyboard", "key": "c" } ]
+  },
+  {
+    "id": "REMOVE",
+    "type": "keybinding",
+    "category": "edit_creature_effects",
+    "name": "Remove effect(s) at cursor",
+    "bindings": [ { "input_method": "keyboard", "key": "r" } ]
+  },
+  {
+    "id": "CHANGE_BODY_PART",
+    "type": "keybinding",
+    "category": "edit_creature_effects",
+    "name": "Change body part",
+    "bindings": [ { "input_method": "keyboard", "key": "b" } ]
+  },
+  {
+    "id": "CHANGE_INTENSITY",
+    "type": "keybinding",
+    "category": "edit_creature_effects",
+    "name": "Change intensity",
+    "bindings": [ { "input_method": "keyboard", "key": "i" } ]
+  },
+  {
+    "id": "CHANGE_DURATION",
+    "type": "keybinding",
+    "category": "edit_creature_effects",
+    "name": "Change duration",
+    "bindings": [ { "input_method": "keyboard", "key": "d" } ]
+  },
+  {
+    "id": "TOGGLE_FORCE",
+    "type": "keybinding",
+    "category": "edit_creature_effects",
+    "name": "Toggle force",
+    "bindings": [ { "input_method": "keyboard", "key": "o" } ]
+  }
+]

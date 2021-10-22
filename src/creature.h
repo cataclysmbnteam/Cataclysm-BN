@@ -766,6 +766,9 @@ class Creature
         virtual const std::string &symbol() const = 0;
         virtual bool is_symbol_highlighted() const;
 
+        // TODO: There may be a cleaner way of doing it than exposing the map
+        effects_map get_all_effects() const;
+
     protected:
         Creature *killer = nullptr; // whoever killed us. this should be NULL unless we are dead
         void set_killer( Creature *killer );

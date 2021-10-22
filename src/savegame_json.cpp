@@ -607,7 +607,6 @@ void Character::load( const JsonObject &data )
         overmap_time_array.read_next( tdr );
         overmap_time[pt] = tdr;
     }
-    data.read( "stomach", stomach );
     data.read( "automoveroute", auto_move_route );
 
     known_traps.clear();
@@ -742,7 +741,6 @@ void Character::store( JsonOut &json ) const
         }
         json.end_array();
     }
-    json.member( "stomach", stomach );
     json.member( "automoveroute", auto_move_route );
     json.member( "known_traps" );
     json.start_array();
@@ -4202,6 +4200,31 @@ void advanced_inv_save_state::deserialize( const JsonObject &jo, const std::stri
     pane_right.deserialize( jo, prefix + "pane_right_" );
 }
 
+void wisheffect_state::serialize( JsonOut &json ) const
+{
+    // Empty for now
+    json.start_object();
+    json.end_object();
+}
+
+void wisheffect_state::deserialize( const JsonObject &jo )
+{
+    // Empty for now
+    jo.allow_omitted_members();
+}
+
+void debug_menu_state::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "effect", effect );
+    json.end_object();
+}
+
+void debug_menu_state::deserialize( const JsonObject &jo )
+{
+    jo.read( "effect", effect );
+}
+
 void uistatedata::serialize( JsonOut &json ) const
 {
     const unsigned int input_history_save_max = 25;
@@ -4216,6 +4239,7 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "adv_inv_container_in_vehicle", adv_inv_container_in_vehicle );
     json.member( "adv_inv_container_type", adv_inv_container_type );
     json.member( "adv_inv_container_content_type", adv_inv_container_content_type );
+    json.member( "debug_menu", debug_menu );
     json.member( "editmap_nsa_viewmode", editmap_nsa_viewmode );
     json.member( "overmap_blinking", overmap_blinking );
     json.member( "overmap_show_overlays", overmap_show_overlays );
@@ -4265,6 +4289,7 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "adv_inv_container_in_vehicle", adv_inv_container_in_vehicle );
     jo.read( "adv_inv_container_type", adv_inv_container_type );
     jo.read( "adv_inv_container_content_type", adv_inv_container_content_type );
+    jo.read( "debug_menu", debug_menu );
     jo.read( "editmap_nsa_viewmode", editmap_nsa_viewmode );
     jo.read( "overmap_blinking", overmap_blinking );
     jo.read( "overmap_show_overlays", overmap_show_overlays );
