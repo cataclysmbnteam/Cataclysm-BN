@@ -49,7 +49,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "camera_pro",
@@ -83,7 +83,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "cell_phone",
@@ -123,7 +123,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "cell_phone_flashlight",
@@ -157,7 +157,7 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": 2
+    "magazine_well": "500 ml"
   },
   {
     "id": "directional_antenna",
@@ -227,7 +227,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "electrohack",
@@ -259,7 +259,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "geiger_off",
@@ -292,7 +292,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "geiger_on",
@@ -304,7 +304,7 @@
     "revert_to": "geiger_off",
     "use_action": "GEIGER",
     "flags": [ "TRADER_AVOID" ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "hand_crank_charger",
@@ -371,7 +371,7 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": 2
+    "magazine_well": "500 ml"
   },
   {
     "id": "laptop_screen_lit",
@@ -413,7 +413,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "mp3_on",
@@ -425,7 +425,7 @@
     "revert_to": "mp3",
     "use_action": "MP3_ON",
     "flags": [ "TRADER_AVOID" ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "noise_emitter",
@@ -502,7 +502,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "smart_phone",
@@ -546,7 +546,7 @@
     "revert_to": "smart_phone",
     "use_action": "MP3_ON",
     "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "smart_phone_flashlight",
@@ -582,7 +582,7 @@
     "magazines": [
       [ "battery", [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
     ],
-    "magazine_well": 6,
+    "magazine_well": "1500 ml",
     "flags": [ "IS_UPS" ]
   },
   {
@@ -615,7 +615,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "bionic_scanner",

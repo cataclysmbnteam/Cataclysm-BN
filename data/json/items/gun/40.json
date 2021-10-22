@@ -19,7 +19,7 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 450,
-    "magazine_well": 1,
+    "magazine_well": "250 ml",
     "magazines": [ [ "40", [ "90two40mag" ] ] ]
   },
   {
@@ -60,7 +60,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
+    "magazine_well": "250 ml",
     "magazines": [ [ "40", [ "glock40mag", "glock40bigmag" ] ] ]
   },
   {
@@ -83,7 +83,7 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 450,
-    "magazine_well": 1,
+    "magazine_well": "250 ml",
     "magazines": [ [ "40", [ "px4_40mag" ] ] ]
   },
   {
@@ -161,7 +161,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
+    "magazine_well": "250 ml",
     "magazines": [ [ "40", [ "sig40mag" ] ] ]
   },
   {
@@ -295,7 +295,7 @@
     "ammo": "40",
     "dispersion": 480,
     "durability": 8,
-    "magazine_well": 1,
+    "magazine_well": "250 ml",
     "magazines": [ [ "40", [ "bhp40mag" ] ] ]
   },
   {
@@ -315,7 +315,7 @@
     "ammo": "40",
     "dispersion": 480,
     "durability": 9,
-    "magazine_well": 1,
+    "magazine_well": "250 ml",
     "magazines": [ [ "40", [ "ppq40mag_10rd", "ppq40mag_12rd", "ppq40mag_14rd" ] ] ]
   },
   {
@@ -336,7 +336,7 @@
     "ammo": "40",
     "dispersion": 480,
     "durability": 7,
-    "magazine_well": 1,
+    "magazine_well": "250 ml",
     "magazines": [ [ "40", [ "hptjcpmag" ] ] ]
   }
 ]

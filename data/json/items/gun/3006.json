@@ -37,7 +37,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "magazine_well": 1,
+    "magazine_well": "250 ml",
     "magazines": [ [ "3006", [ "blrmag" ] ] ]
   },
   {
@@ -77,7 +77,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
+    "magazine_well": "250 ml",
     "magazines": [ [ "3006", [ "garandclip" ] ] ]
   },
   {

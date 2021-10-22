@@ -18,7 +18,7 @@
     "ammo": "357sig",
     "dispersion": 480,
     "durability": 7,
-    "magazine_well": 1,
+    "magazine_well": "250 ml",
     "magazines": [ [ "357sig", [ "p226mag_12rd_357sig" ] ] ]
   },
   {
@@ -53,7 +53,7 @@
     "ammo": "357sig",
     "dispersion": 480,
     "durability": 6,
-    "magazine_well": 1,
+    "magazine_well": "250 ml",
     "magazines": [ [ "357sig", [ "p320mag_13rd_357sig" ] ] ]
   }
 ]

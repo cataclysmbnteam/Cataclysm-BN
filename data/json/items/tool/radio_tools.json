@@ -42,7 +42,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "radio_car",
@@ -57,8 +57,7 @@
     "proportional": { "weight": 0.73, "volume": 0.75, "price": 0.8 },
     "use_action": "RADIOCAR",
     "flags": [ "RADIO_CONTAINER" ],
-    "magazines": [ [ "battery", [ "light_minus_disposable_cell", "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ],
-    "magazine_well": 0
+    "magazines": [ [ "battery", [ "light_minus_disposable_cell", "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ]
   },
   {
     "id": "radio_car_on",
@@ -118,7 +117,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "radio_on",
@@ -130,7 +129,7 @@
     "revert_to": "radio",
     "use_action": "RADIO_ON",
     "flags": [ "TRADER_AVOID" ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "two_way_radio",
@@ -163,7 +162,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "remotevehcontrol",
@@ -197,6 +196,6 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   }
 ]

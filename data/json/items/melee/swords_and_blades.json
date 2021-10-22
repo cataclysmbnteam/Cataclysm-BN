@@ -1115,7 +1115,7 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": 2
+    "magazine_well": "500 ml"
   },
   {
     "id": "shock_epee",
@@ -1136,7 +1136,7 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": 2
+    "magazine_well": "500 ml"
   },
   {
     "id": "shock_sabre",
@@ -1157,7 +1157,7 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": 2
+    "magazine_well": "500 ml"
   },
   {
     "id": "hollow_cane",
@@ -1596,7 +1596,7 @@
     "magazines": [
       [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
     ],
-    "magazine_well": 4
+    "magazine_well": "1000 ml"
   },
   {
     "id": "ecs_lajatang_on",
@@ -1612,7 +1612,7 @@
     "revert_to": "ecs_lajatang_off",
     "use_action": "ECS_LAJATANG_ON",
     "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
-    "magazine_well": 4
+    "magazine_well": "1000 ml"
   },
   {
     "id": "cutlass",
@@ -1717,7 +1717,7 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": 2
+    "magazine_well": "500 ml"
   },
   {
     "id": "e_combatsaw_on",
@@ -1733,6 +1733,6 @@
     "qualities": [ [ "AXE", 3 ] ],
     "use_action": "E_COMBATSAW_ON",
     "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "POWERED", "ALWAYS_TWOHAND" ],
-    "magazine_well": 2
+    "magazine_well": "500 ml"
   }
 ]

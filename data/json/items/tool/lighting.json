@@ -178,7 +178,7 @@
         ]
       ]
     ],
-    "magazine_well": 2
+    "magazine_well": "500 ml"
   },
   {
     "id": "electric_lantern_on",
@@ -228,7 +228,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "flashlight_on",
@@ -416,7 +416,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "heavy_flashlight_on",
@@ -488,8 +488,7 @@
           "light_disposable_cell"
         ]
       ]
-    ],
-    "magazine_well": 0
+    ]
   },
   {
     "id": "oil_lamp",
@@ -591,7 +590,7 @@
       "type": "transform"
     },
     "magazines": [ [ "battery", [ "light_minus_disposable_cell", "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "reading_light_on",
@@ -644,7 +643,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "smart_lamp_on",
@@ -656,7 +655,7 @@
     "revert_to": "smart_lamp",
     "use_action": { "target": "smart_lamp", "msg": "Your smart lamp turned off", "menu_text": "Turn off", "type": "transform" },
     "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_2", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID" ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "torch",
