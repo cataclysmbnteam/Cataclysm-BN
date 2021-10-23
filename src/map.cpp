@@ -5733,7 +5733,7 @@ void map::draw( const catacurses::window &w, const tripoint &center )
     }
 
     // Memorize off-screen tiles
-    half_open_rectangle display( offs.xy(), offs.xy() + point( wnd_w, wnd_h ) );
+    half_open_rectangle<point> display( offs.xy(), offs.xy() + point( wnd_w, wnd_h ) );
     drawsq_params mm_params = drawsq_params().memorize( true ).output( false );
     for( int y = 0; y < MAPSIZE_Y; y++ ) {
         for( int x = 0; x < MAPSIZE_X; x++ ) {
@@ -5752,8 +5752,8 @@ void map::draw( const catacurses::window &w, const tripoint &center )
 
             const maptile curr_maptile = maptile_at_internal( p );
             mm_params
-            .low_light( lighting == LL_LOW )
-            .bright_light( lighting == LL_BRIGHT );
+            .low_light( lighting == lit_level::LOW )
+            .bright_light( lighting == lit_level::BRIGHT );
 
             draw_maptile( w, p, curr_maptile, mm_params );
         }
@@ -6535,7 +6535,7 @@ template void
 shift_bitset_cache<MAPSIZE, 1>( std::bitset<MAPSIZE *MAPSIZE> &cache, const point &s );
 
 static inline void shift_tripoint_set( std::set<tripoint> &set, const point &offset,
-                                       const half_open_rectangle &boundaries )
+                                       const half_open_rectangle<point> &boundaries )
 {
     std::set<tripoint> old_set = std::move( set );
     set.clear();
@@ -6549,7 +6549,7 @@ static inline void shift_tripoint_set( std::set<tripoint> &set, const point &off
 
 template <typename T>
 static inline void shift_tripoint_map( std::map<tripoint, T> &map, const point &offset,
-                                       const half_open_rectangle &boundaries )
+                                       const half_open_rectangle<point> &boundaries )
 {
     std::map<tripoint, T> old_map = std::move( map );
     map.clear();
@@ -6596,7 +6596,7 @@ void map::shift( const point &sp )
         }
     }
 
-    constexpr half_open_rectangle boundaries_2d( point_zero, point( MAPSIZE_Y, MAPSIZE_X ) );
+    constexpr half_open_rectangle<point> boundaries_2d( point_zero, point( MAPSIZE_Y, MAPSIZE_X ) );
     const point shift_offset_pt( -sp.x * SEEX, -sp.y * SEEY );
 
     // Shift the map sx submaps to the right and sy submaps down.

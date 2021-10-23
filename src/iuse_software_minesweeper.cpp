@@ -310,7 +310,7 @@ int minesweeper_game::start_game()
 
         if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             const point newp = pl + vec->xy();
-            if( half_open_rectangle( point_zero, level ).contains( newp ) ) {
+            if( half_open_rectangle<point>( point_zero, level ).contains( newp ) ) {
                 pl = newp;
             }
         } else if( action == "FLAG" ) {

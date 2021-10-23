@@ -269,7 +269,7 @@ void distribution_grid_tracker::update( time_point to )
     }
 }
 
-void distribution_grid_tracker::load( half_open_rectangle area )
+void distribution_grid_tracker::load( half_open_rectangle<point> area )
 {
     bounds = area;
     // TODO: Don't reload everything when not needed
@@ -280,5 +280,5 @@ void distribution_grid_tracker::load( const map &m )
 {
     point p_min = m.get_abs_sub().xy();
     point p_max = p_min + point( m.getmapsize(), m.getmapsize() );
-    load( half_open_rectangle( p_min, p_max ) );
+    load( half_open_rectangle<point>( p_min, p_max ) );
 }

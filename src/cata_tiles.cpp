@@ -24,6 +24,7 @@
 #include "clzones.h"
 #include "color.h"
 #include "coordinate_conversions.h"
+#include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "cursesport.h"
 #include "debug.h"
@@ -1570,7 +1571,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         bool zlevs = g->m.has_zlevels();
         int mapsize = g->m.getmapsize();
         tripoint mappos = g->m.get_abs_sub();
-        half_open_rectangle maprect( mappos.xy(), mappos.xy() + point( mapsize, mapsize ) );
+        half_open_rectangle<point> maprect( mappos.xy(), mappos.xy() + point( mapsize, mapsize ) );
 
         const auto is_map = [mappos, zlevs, maprect]( const tripoint & p ) {
             if( !maprect.contains( p.xy() ) ) {
