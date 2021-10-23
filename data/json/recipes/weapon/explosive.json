@@ -44,20 +44,51 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "electronics",
-    "difficulty": 4,
-    "time": "32 m",
+    "difficulty": 5,
+    "time": "50 m",
     "reversible": true,
-    "book_learn": [ [ "textbook_anarch", 5 ], [ "advanced_electronics", 5 ] ],
-    "using": [ [ "soldering_standard", 15 ] ],
+    "decomp_learn": 5,
+    "book_learn": [ [ "textbook_anarch", 4 ], [ "advanced_electronics", 4 ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "circuit", 1 ] ],
-      [ [ "e_scrap", 3 ] ],
-      [ [ "magnetron", 1 ] ],
-      [ [ "flux_comp_gen", 1 ] ],
+      [ [ "e_scrap", 2 ] ],
+      [ [ "scrap", 10 ] ],
+      [ [ "amplifier", 1 ], [ "power_supply", 1 ] ],
       [ [ "plut_cell", 1 ] ],
       [ [ "antenna", 1 ] ],
-      [ [ "cable", 20 ] ]
+      [ [ "solder_wire", 10 ] ],
+      [ [ "cable", 10 ] ]
+    ]
+  },
+  {
+    "result": "grenade_emp",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "electronics",
+    "difficulty": 5,
+    "time": "30 m",
+    "reversible": true,
+    "decomp_learn": 5,
+    "book_learn": [ [ "textbook_anarch", 4 ], [ "advanced_electronics", 4 ] ],
+    "using": [ [ "soldering_standard", 15 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "superglue", 1 ], [ "cordage", 1, "LIST" ] ],
+      [
+        [ "scrap", 3 ],
+        [ "can_food_unsealed", 1 ],
+        [ "can_drink_unsealed", 1 ],
+        [ "clay_canister", 1 ],
+        [ "canister_empty", 1 ]
+      ],
+      [ [ "solder_wire", 5 ] ],
+      [ [ "plut_cell", 1 ] ],
+      [ [ "platinum_small", 4 ] ],
+      [ [ "amplifier", 1 ], [ "power_supply", 1 ] ],
+      [ [ "cable", 5 ] ]
     ]
   },
   {

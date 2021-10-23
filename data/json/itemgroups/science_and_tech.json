@@ -78,7 +78,6 @@
       [ "canister_goo", 8 ],
       [ "EMPbomb", 2 ],
       [ "pheromone", 1 ],
-      [ "flux_comp_gen", 3 ],
       [ "portal", 2 ],
       [ "bot_manhack", 1 ],
       [ "UPS_off", 5 ],
