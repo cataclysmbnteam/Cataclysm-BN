@@ -953,8 +953,10 @@ void vehicle::do_autodrive()
     if( omt_path.empty() ) {
         stop_autodriving();
     }
+    map &here = get_map();
     tripoint vehpos = global_pos3();
-    tripoint veh_omt_pos = ms_to_omt_copy( g->m.getabs( vehpos ) );
+    // TODO: fix point types
+    tripoint_abs_omt veh_omt_pos( ms_to_omt_copy( here.getabs( vehpos ) ) );
     // we're at or close to the waypoint, pop it out and look for the next one.
     if( ( is_autodriving && !g->u.omt_path.empty() && !omt_path.empty() ) &&
         veh_omt_pos == omt_path.back() ) {
@@ -966,33 +968,33 @@ void vehicle::do_autodrive()
         return;
     }
 
-    point omt_diff = omt_path.back().xy() - veh_omt_pos.xy();
-    if( omt_diff.x > 3 || omt_diff.x < -3 || omt_diff.y > 3 || omt_diff.y < -3 ) {
+    point_rel_omt omt_diff = omt_path.back().xy() - veh_omt_pos.xy();
+    if( omt_diff.x() > 3 || omt_diff.x() < -3 || omt_diff.y() > 3 || omt_diff.y() < -3 ) {
         // we've gone walkabout somehow, call off the whole thing
         stop_autodriving();
         return;
     }
     point side;
-    if( omt_diff.x > 0 ) {
+    if( omt_diff.x() > 0 ) {
         side.x = 2 * SEEX - 1;
-    } else if( omt_diff.x < 0 ) {
+    } else if( omt_diff.x() < 0 ) {
         side.x = 0;
     } else {
         side.x = SEEX;
     }
-    if( omt_diff.y > 0 ) {
+    if( omt_diff.y() > 0 ) {
         side.y = 2 * SEEY - 1;
-    } else if( omt_diff.y < 0 ) {
+    } else if( omt_diff.y() < 0 ) {
         side.y = 0;
     } else {
         side.y = SEEY;
     }
     // get the shared border mid-point of the next path omt
-    tripoint global_a = tripoint( veh_omt_pos.x * ( 2 * SEEX ), veh_omt_pos.y * ( 2 * SEEY ),
-                                  veh_omt_pos.z );
-    tripoint autodrive_temp_target = ( global_a + tripoint( side,
-                                       sm_pos.z ) - g->m.getabs( vehpos ) ) + vehpos;
-    autodrive_local_target = g->m.getabs( autodrive_temp_target );
+    tripoint_abs_ms global_a = project_to<coords::ms>( veh_omt_pos );
+    // TODO: fix point types
+    tripoint autodrive_temp_target = ( global_a.raw() + tripoint( side,
+                                       sm_pos.z ) - here.getabs( vehpos ) ) + vehpos;
+    autodrive_local_target = here.getabs( autodrive_temp_target );
     drive_to_local_target( autodrive_local_target, false );
 }
 
@@ -3177,7 +3179,8 @@ void vehicle::set_submap_moved( const point &p )
     if( !tracking_on ) {
         return;
     }
-    overmap_buffer.move_vehicle( this, old_msp );
+    // TODO: fix point types
+    overmap_buffer.move_vehicle( this, point_abs_ms( old_msp ) );
 }
 
 units::mass vehicle::total_mass() const
@@ -4593,7 +4596,10 @@ int vehicle::total_solar_epower_w() const
 
 int vehicle::total_wind_epower_w() const
 {
-    const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( global_pos3() ) ) );
+    map &here = get_map();
+    // TODO: fix point types
+    const oter_id &cur_om_ter =
+        overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getabs( global_pos3() ) ) ) );
     const weather_manager &weather = get_weather();
 
     int epower_w = 0;

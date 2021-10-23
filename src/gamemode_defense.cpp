@@ -123,7 +123,7 @@ bool defense_game::init()
     setup();
     g->u.cash = initial_cash;
     // TODO: support multiple defense games? clean up old defense game
-    defloc_pos = tripoint( 50, 50, 0 );
+    defloc_pos = tripoint_om_omt( 50, 50, 0 );
     init_map();
     caravan();
     return true;
@@ -227,10 +227,10 @@ void defense_game::init_map()
     ui_manager::redraw();
     refresh_display();
 
-    auto &starting_om = overmap_buffer.get( point_zero );
+    auto &starting_om = overmap_buffer.get( point_abs_om() );
     for( int x = 0; x < OMAPX; x++ ) {
         for( int y = 0; y < OMAPY; y++ ) {
-            tripoint p( x, y, 0 );
+            tripoint_om_omt p( x, y, 0 );
             starting_om.ter_set( p, oter_id( "field" ) );
             starting_om.seen( p ) = true;
         }
@@ -292,9 +292,12 @@ void defense_game::init_map()
         }
     }
 
-    g->load_map( omt_to_sm_copy( defloc_pos ) );
-    g->u.setx( SEEX );
-    g->u.sety( SEEY );
+    // For this mode assume we always want overmap zero.
+    tripoint_abs_omt abs_defloc_pos = project_combine( point_abs_om(), defloc_pos );
+    g->load_map( project_to<coords::sm>( abs_defloc_pos ) );
+    Character &player_character = get_player_character();
+    player_character.setx( SEEX );
+    player_character.sety( SEEY );
 
     g->update_map( g-> u );
     monster *const generator = g->place_critter_around( mtype_id( "mon_generator" ), g->u.pos(), 2 );

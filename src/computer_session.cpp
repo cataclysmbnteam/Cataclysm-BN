@@ -511,8 +511,9 @@ void computer_session::action_radio_archive()
 
 void computer_session::action_maps()
 {
-    g->u.moves -= 30;
-    const tripoint center = g->u.global_omt_location();
+    Character &player_character = get_player_character();
+    player_character.moves -= 30;
+    const tripoint_abs_omt center = player_character.global_omt_location();
     overmap_buffer.reveal( center.xy(), 40, 0 );
     query_any(
         _( "Surface map data downloaded.  Local anomalous-access error logged.  Press any key…" ) );
@@ -522,8 +523,9 @@ void computer_session::action_maps()
 
 void computer_session::action_map_sewer()
 {
-    g->u.moves -= 30;
-    const tripoint center = g->u.global_omt_location();
+    Character &player_character = get_player_character();
+    player_character.moves -= 30;
+    const tripoint_abs_omt center = player_character.global_omt_location();
     for( int i = -60; i <= 60; i++ ) {
         for( int j = -60; j <= 60; j++ ) {
             point offset( i, j );
@@ -540,8 +542,9 @@ void computer_session::action_map_sewer()
 
 void computer_session::action_map_subway()
 {
-    g->u.moves -= 30;
-    const tripoint center = g->u.global_omt_location();
+    Character &player_character = get_player_character();
+    player_character.moves -= 30;
+    const tripoint_abs_omt center = player_character.global_omt_location();
     for( int i = -60; i <= 60; i++ ) {
         for( int j = -60; j <= 60; j++ ) {
             point offset( i, j );
@@ -1450,7 +1453,8 @@ void computer_session::action_emerg_ref_center()
     refresh_display();
 
     const mission_type_id &mission_type = mission_type_id( "MISSION_REACH_REFUGEE_CENTER" );
-    tripoint mission_target;
+    tripoint_abs_omt mission_target;
+    avatar &player_character = get_avatar();
     // Check completed missions too, so people can't repeatedly get the mission.
     const std::vector<mission *> completed_missions = g->u.get_completed_missions();
     std::vector<mission *> missions = g->u.get_active_missions();
@@ -1480,8 +1484,10 @@ void computer_session::action_emerg_ref_center()
                    "4PM AT 555-0164.\n"
                    "\n"
                    "IF YOU WOULD LIKE TO SPEAK WITH SOMEONE IN PERSON OR WOULD LIKE\n"
-                   "TO WRITE US A LETTER PLEASE SEND IT TO…\n" ), rl_dist( g->u.pos(), mission_target ),
-                direction_name_short( direction_from( g->u.pos(), mission_target ) ) );
+                   "TO WRITE US A LETTER PLEASE SEND IT TO…\n" ),
+                rl_dist( player_character.global_omt_location(), mission_target ),
+                direction_name_short(
+                    direction_from( player_character.global_omt_location(), mission_target ) ) );
 
     query_any( _( "Press any key to continue…" ) );
     reset_terminal();

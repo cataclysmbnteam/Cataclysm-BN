@@ -315,9 +315,10 @@ void sounds::process_sounds()
         int sig_power = get_signal_for_hordes( this_centroid );
         if( sig_power > 0 ) {
 
-            const point abs_ms = g->m.getabs( source.xy() );
-            const point abs_sm = ms_to_sm_copy( abs_ms );
-            const tripoint target( abs_sm, source.z );
+            const point abs_ms = get_map().getabs( source.xy() );
+            // TODO: fix point types
+            const point_abs_sm abs_sm( ms_to_sm_copy( abs_ms ) );
+            const tripoint_abs_sm target( abs_sm, source.z );
             overmap_buffer.signal_hordes( target, sig_power );
         }
         // Alert all monsters (that can hear) to the sound.
