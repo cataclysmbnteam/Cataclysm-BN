@@ -4691,12 +4691,23 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 return;
             }
 
+            std::vector<item_comp> progs;
+            bool has_install_program = false;
+
+            std::vector<const item *> install_programs = p.crafting_inventory().items_with( [itemtype](
+                        const item & it ) -> bool { return it.typeId() == itemtype->bionic->installation_data; } );
+
+            if( !install_programs.empty() ) {
+                has_install_program = true;
+                progs.emplace_back( install_programs[0]->typeId(), 1 );
+            }
+
             const int weight = 7;
             const int surgery_duration = itemtype->bionic->difficulty * 2;
             const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
                                                 surgery_duration * weight;
 
-            if( patient.can_install_bionics( ( *itemtype ), installer, true ) ) {
+            if( patient.can_install_bionics( ( *itemtype ), installer, true, has_install_program ? 10 : -1 ) ) {
                 const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 bionic.remove_item();
@@ -4710,7 +4721,11 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     p.invalidate_crafting_inventory();
                 }
                 installer.mod_moves( -to_moves<int>( 1_minutes ) );
-                patient.install_bionics( ( *itemtype ), installer, true );
+                patient.install_bionics( ( *itemtype ), installer, true, has_install_program ? 10 : -1 );
+
+                if( has_install_program ) {
+                    patient.consume_items( progs );
+                }
             }
             break;
         }
