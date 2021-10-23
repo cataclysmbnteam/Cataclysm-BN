@@ -19,7 +19,7 @@
     "ammo": "flammable",
     "ammo_effects": [ "FLARE" ],
     "reload": 4,
-    "flags": [ "FIRE_100", "NEVER_JAMS", "FIRESTARTER" ],
+    "flags": [ "FIRE_100", "NEVER_JAMS", "FIRESTARTER", "PYROMANIAC_WEAPON" ],
     "use_action": { "type": "firestarter", "moves": 200 },
     "faults": [  ]
   },

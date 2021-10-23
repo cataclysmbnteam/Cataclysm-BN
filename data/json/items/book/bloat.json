@@ -1,0 +1,199 @@
+[
+  {
+    "id": "mycenacean_hymns",
+    "type": "BOOK",
+    "name": { "str": "Mycenacean Hymns", "str_pl": "copies of Mycenacean Hymns" },
+    "description": "A vellum book containing the hymns central to Marloss faith.  As the verses lead to each other, the text sings of unity and promised paradise.",
+    "copy-from": "holybook_bible1"
+  },
+  {
+    "id": "holybook_bible2",
+    "type": "BOOK",
+    "name": { "str": "Eastern Orthodox Bible", "str_pl": "copies of Eastern Orthodox Bible" },
+    "description": "An English copy of the Eastern Orthodox translation of The Holy Bible.",
+    "copy-from": "holybook_bible1"
+  },
+  {
+    "id": "holybook_bible3",
+    "type": "BOOK",
+    "name": { "str": "Gideon Bible", "str_pl": "copies of Gideon Bible" },
+    "description": "An English translation of the Christian Bible, distributed free of charge by Gideons International.",
+    "copy-from": "holybook_bible1"
+  },
+  {
+    "id": "holybook_granth",
+    "type": "BOOK",
+    "name": { "str": "The Guru Granth Sahib", "str_pl": "copies of The Guru Granth Sahib" },
+    "description": "A single-volume copy of the central religious texts of Sikhism.",
+    "copy-from": "holybook_bible1"
+  },
+  {
+    "id": "holybook_hadith",
+    "type": "BOOK",
+    "name": { "str": "Hadith", "str_pl": "copies of Hadith" },
+    "description": "A Muslim religious text containing an account of the sayings and actions of the prophet Muhammad.",
+    "copy-from": "holybook_bible1"
+  },
+  {
+    "id": "holybook_kallisti",
+    "type": "BOOK",
+    "name": { "str": "Principia Discordia", "str_pl": "copies of Principia Discordia" },
+    "description": "A book that embodies the main beliefs of Discordianism.  It seems to primarily concern chaos, and features a card in the back which informs you that you are now a 'genuine and authorized Pope of Discordia'.",
+    "copy-from": "holybook_bible1"
+  },
+  {
+    "id": "holybook_kojiki",
+    "type": "BOOK",
+    "name": { "str": "The Kojiki", "str_pl": "copies of The Kojiki" },
+    "description": "The oldest extant chronicle of Japan's myths and history, the stories contained in the Kojiki are part of the inspiration behind Shinto practices.",
+    "copy-from": "holybook_bible1"
+  },
+  {
+    "id": "holybook_mormon",
+    "type": "BOOK",
+    "name": { "str": "The Book of Mormon", "str_pl": "copies of The Book of Mormon" },
+    "description": "The sacred text of the Latter Day Saint movement of Christianity, originally published in 1830 by Joseph Smith.",
+    "copy-from": "holybook_bible1"
+  },
+  {
+    "id": "holybook_pastafarian",
+    "type": "BOOK",
+    "name": {
+      "str": "The Gospel of the Flying Spaghetti Monster",
+      "str_pl": "copies of The Gospel of the Flying Spaghetti Monster"
+    },
+    "description": "A book that embodies the main beliefs of the Church of the Flying Spaghetti Monster.  It seems to involve a lot of pirates and some sort of invisible drunken monster made of pasta.",
+    "copy-from": "holybook_bible1"
+  },
+  {
+    "id": "holybook_quran",
+    "type": "BOOK",
+    "name": { "str": "Quran", "str_pl": "copies of Quran" },
+    "description": "An English translation of the Muslim book of holy scriptures, with explanatory notes and commentaries to aid in understanding.",
+    "copy-from": "holybook_bible1"
+  },
+  {
+    "id": "holybook_scientology",
+    "type": "BOOK",
+    "name": { "str": "Dianetics", "str_pl": "copies of Dianetics" },
+    "description": "This book is the canonical text of Scientology.  Written by a science fiction author, it contains self-improvement techniques and musings on psychology called Dianetics.",
+    "copy-from": "holybook_bible1"
+  },
+  {
+    "id": "holybook_slack",
+    "type": "BOOK",
+    "name": { "str": "The Book of the SubGenius", "str_pl": "copies of The Book of the SubGenius" },
+    "description": "A book about the Church of the SubGenius.  It seems to involve a salesman named J. R. \"Bob\" Dobbs and a concept called 'slack'.",
+    "copy-from": "holybook_bible1"
+  },
+  {
+    "id": "holybook_sutras",
+    "type": "BOOK",
+    "name": { "str": "The Sutras of the Buddha", "str_pl": "copies of The Sutras of the Buddha" },
+    "description": "A collection of discourses attributed to the Buddha and his close disciples.",
+    "copy-from": "holybook_bible1"
+  },
+  {
+    "id": "holybook_talmud",
+    "type": "BOOK",
+    "name": { "str": "Talmud", "str_pl": "copies of Talmud" },
+    "description": "One of the central texts of Rabbinic Judaism, the Talmud expounds upon the Hebrew Bible with teachings and opinions of thousands of rabbis.",
+    "copy-from": "holybook_bible1"
+  },
+  {
+    "id": "holybook_tanakh",
+    "type": "BOOK",
+    "name": { "str": "Tanakh", "str_pl": "copies of Tanakh" },
+    "description": "A single-volume book containing the complete canon of the Jewish Bible.",
+    "copy-from": "holybook_bible1"
+  },
+  {
+    "id": "holybook_tripitaka",
+    "type": "BOOK",
+    "name": { "str": "The Tripitaka", "str_pl": "copies of The Tripitaka" },
+    "description": "A collection of sacred Buddhist writings describing their canons of scriptures.",
+    "copy-from": "holybook_bible1"
+  },
+  {
+    "id": "holybook_upanishads",
+    "type": "BOOK",
+    "name": { "str": "The Upanishads", "str_pl": "copies of The Upanishads" },
+    "description": "A collection of sacred Hindu writings regarding the nature of reality and describing the character and form of human salvation.",
+    "copy-from": "holybook_bible1"
+  },
+  {
+    "id": "holybook_vedas",
+    "type": "BOOK",
+    "name": { "str": "The Four Vedas", "str_pl": "copies of The Four Vedas" },
+    "description": "A single volume containing all four Vedas, which are the oldest scriptures of Hinduism.",
+    "copy-from": "holybook_bible1"
+  },
+  {
+    "id": "holybook_satanic",
+    "type": "BOOK",
+    "name": { "str": "The Satanic Bible", "str_pl": "copies of The Satanic Bible" },
+    "description": "A collection of essays, observations, and rituals published by Anton LaVey in 1969.",
+    "copy-from": "holybook_bible1"
+  },
+  {
+    "id": "holybook_havamal",
+    "type": "BOOK",
+    "name": { "str": "Hávamál", "str_pl": "copies of Hávamál" },
+    "description": "An English translation of several Old Norse poems.  The poems contain proverbs and stories attributed to the god Odin, many transcribed from oral history.",
+    "copy-from": "holybook_bible1"
+  },
+  {
+    "id": "priest_diary",
+    "type": "BOOK",
+    "name": { "str": "priest's diary", "str_pl": "priests' diaries" },
+    "description": "A small book filled with journal entries in Latin.",
+    "copy-from": "holybook_bible1",
+    "price": 1500,
+    "fun": -1
+  },
+  {
+    "id": "guidebook",
+    "type": "BOOK",
+    "name": { "str": "The Hitchhiker's Guide to the Cataclysm", "str_pl": "copies of The Hitchhiker's Guide to the Cataclysm" },
+    "description": "Inscribed on the cover in large, friendly letters, is the message \"Don't Panic\".",
+    "copy-from": "paperback_novel",
+    "price": 4200
+  },
+  {
+    "id": "novel_crime_murdergrape",
+    "type": "BOOK",
+    "name": { "str": "Murdered by the Grapevine", "str_pl": "copies of Murdered by the Grapevine" },
+    "description": "This cheap paperback tells the story of a mob boss done in by mere suspicion.  She never breaks a confidence, never rats out an accomplice, and never turns her back on a friend.  Nonetheless her grip on the reigns of the underworld is eroded by rumor and paranoia.",
+    "copy-from": "paperback_novel"
+  },
+  {
+    "id": "novel_spy_comefly",
+    "type": "BOOK",
+    "name": { "str": "Come Fly the Treacherous Skies", "str_pl": "copies of Come Fly the Treacherous Skies" },
+    "description": "This tale of intrigue betrays the story of a debonair mechanic driven by a lust for revenge.  As she uncovers a sophisticated network of amateur pilots turned smugglers, the good guys and the bad guys begin to all look the same.",
+    "copy-from": "paperback_novel"
+  },
+  {
+    "id": "novel_spy_rocketsci",
+    "type": "BOOK",
+    "name": { "str": "Lies, Damn Lies, and Rocket Science", "str_pl": "copies of Lies, Damn Lies, and Rocket Science" },
+    "description": "This spy novel tells the story of a jaded rocket scientist looking for redemption in all the wrong places.  As selling state secrets becomes her career, she learns there isn't much of difference between a double-agent and a triple-agent.",
+    "copy-from": "paperback_novel"
+  },
+  {
+    "id": "visions_solitude",
+    "type": "BOOK",
+    "name": { "str": "Visions in Solitude", "str_pl": "copies of Visions in Solitude" },
+    "description": "A small book detailing 'visions' a prisoner had on death row.",
+    "copy-from": "paperback_novel",
+    "price": 2900
+  },
+  {
+    "id": "ZSG",
+    "type": "BOOK",
+    "name": { "str": "Zombie Survival Guide", "str_pl": "copies of Zombie Survival Guide" },
+    "description": "While this seems like it would be very useful in this situation, the sheer amount of misinformation present makes it practically useless.",
+    "copy-from": "paperback_novel",
+    "price": 1290
+  }
+]

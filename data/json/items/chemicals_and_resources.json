@@ -1138,7 +1138,7 @@
     "symbol": "~",
     "color": "light_cyan",
     "container": "bottle_glass",
-    "description": "Dimethyl sulfoxide, or DMSO, is a common and important aprotic solvent, capable of dissolving a huge range of things.  It has the weird property that it absorbs very quickly through the skin, causing a garlic flavor in the mouth even if it touched your arm.",
+    "description": "Dimethyl sulfoxide, or DMSO, is a common and important aprotic solvent, capable of dissolving a huge range of things.  It can help many chemical agents diffuse more quickly through the skin, and has a mild analgesic effect on its own.",
     "volume": "25 ml",
     "phase": "liquid",
     "use_action": {
@@ -1178,22 +1178,6 @@
     "color": "light_cyan",
     "container": "bottle_glass",
     "description": "This useful stuff is a potent solvent and has a wide range of reactive applications.  It can be used to make a huge number of plastics and polymers, it can be an antiseptic, it can strip paint and break down epoxy, and it can burn your skin away like tissue paper under a heat gun.  Wear gloves.",
-    "volume": "1 ml",
-    "phase": "liquid"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "chem_glycerol",
-    "category": "chems",
-    "price": 10,
-    "price_postapoc": 5,
-    "name": { "str_sp": "glycerol" },
-    "symbol": "~",
-    "quench": -15,
-    "healthy": -1,
-    "color": "light_cyan",
-    "container": "bottle_glass",
-    "description": "This innocent, sweet, colorless liquid can be used for all kinds of things, from sweetening food to manufacturing medicine to making potent explosives.",
     "volume": "1 ml",
     "phase": "liquid"
   },

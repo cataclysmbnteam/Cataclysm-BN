@@ -3336,6 +3336,22 @@
     "flags": [ "EATEN_HOT" ]
   },
   {
+    "type": "COMESTIBLE",
+    "id": "chem_glycerol",
+    "category": "chems",
+    "price": 10,
+    "price_postapoc": 5,
+    "name": { "str_sp": "glycerol" },
+    "symbol": "~",
+    "quench": -15,
+    "healthy": -1,
+    "color": "light_cyan",
+    "container": "bottle_glass",
+    "description": "This innocent, sweet, colorless liquid can be used for all kinds of things, from sweetening food to manufacturing medicine to making potent explosives.",
+    "volume": "1 ml",
+    "phase": "liquid"
+  },
+  {
     "type": "AMMO",
     "id": "chem_acetone",
     "category": "chems",
@@ -3425,5 +3441,26 @@
     "material": "copper",
     "symbol": "|",
     "color": "brown"
+  },
+  {
+    "id": "novel_coa2",
+    "type": "BOOK",
+    "name": { "str": "coming of age novel" },
+    "copy-from": "novel_coa",
+    "description": "A graphic novel about a young girl living in Iran during the 1980's, seeing the world change around her as Iraq invaded her country."
+  },
+  {
+    "id": "novel_crime2",
+    "type": "BOOK",
+    "name": { "str": "crime novel" },
+    "copy-from": "novel_crime",
+    "description": "A story about three people in the fictional city of Los Santos, a gangster, an upper-class man, and a psychopath, eventually banding together to pull-off the biggest heist in the city's history"
+  },
+  {
+    "id": "novel_war2",
+    "type": "BOOK",
+    "name": { "str": "war novel" },
+    "copy-from": "novel_war",
+    "description": "A story about a Bosnian citizen who goes through many hardships and near death during the breakup of Yugoslavia."
   }
 ]

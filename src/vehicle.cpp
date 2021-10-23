@@ -953,8 +953,10 @@ void vehicle::do_autodrive()
     if( omt_path.empty() ) {
         stop_autodriving();
     }
+    map &here = get_map();
     tripoint vehpos = global_pos3();
-    tripoint veh_omt_pos = ms_to_omt_copy( g->m.getabs( vehpos ) );
+    // TODO: fix point types
+    tripoint_abs_omt veh_omt_pos( ms_to_omt_copy( here.getabs( vehpos ) ) );
     // we're at or close to the waypoint, pop it out and look for the next one.
     if( ( is_autodriving && !g->u.omt_path.empty() && !omt_path.empty() ) &&
         veh_omt_pos == omt_path.back() ) {
@@ -966,33 +968,33 @@ void vehicle::do_autodrive()
         return;
     }
 
-    point omt_diff = omt_path.back().xy() - veh_omt_pos.xy();
-    if( omt_diff.x > 3 || omt_diff.x < -3 || omt_diff.y > 3 || omt_diff.y < -3 ) {
+    point_rel_omt omt_diff = omt_path.back().xy() - veh_omt_pos.xy();
+    if( omt_diff.x() > 3 || omt_diff.x() < -3 || omt_diff.y() > 3 || omt_diff.y() < -3 ) {
         // we've gone walkabout somehow, call off the whole thing
         stop_autodriving();
         return;
     }
     point side;
-    if( omt_diff.x > 0 ) {
+    if( omt_diff.x() > 0 ) {
         side.x = 2 * SEEX - 1;
-    } else if( omt_diff.x < 0 ) {
+    } else if( omt_diff.x() < 0 ) {
         side.x = 0;
     } else {
         side.x = SEEX;
     }
-    if( omt_diff.y > 0 ) {
+    if( omt_diff.y() > 0 ) {
         side.y = 2 * SEEY - 1;
-    } else if( omt_diff.y < 0 ) {
+    } else if( omt_diff.y() < 0 ) {
         side.y = 0;
     } else {
         side.y = SEEY;
     }
     // get the shared border mid-point of the next path omt
-    tripoint global_a = tripoint( veh_omt_pos.x * ( 2 * SEEX ), veh_omt_pos.y * ( 2 * SEEY ),
-                                  veh_omt_pos.z );
-    tripoint autodrive_temp_target = ( global_a + tripoint( side,
-                                       sm_pos.z ) - g->m.getabs( vehpos ) ) + vehpos;
-    autodrive_local_target = g->m.getabs( autodrive_temp_target );
+    tripoint_abs_ms global_a = project_to<coords::ms>( veh_omt_pos );
+    // TODO: fix point types
+    tripoint autodrive_temp_target = ( global_a.raw() + tripoint( side,
+                                       sm_pos.z ) - here.getabs( vehpos ) ) + vehpos;
+    autodrive_local_target = here.getabs( autodrive_temp_target );
     drive_to_local_target( autodrive_local_target, false );
 }
 
@@ -1235,9 +1237,10 @@ int vehicle::part_vpower_w( const int index, const bool at_full_hp ) const
         pwr += ( g->u.str_cur - 8 ) * part_info( index ).engine_muscle_power_factor();
         /// wind-powered vehicles have differing power depending on wind direction
         if( vp.info().fuel_type == fuel_type_wind ) {
-            int windpower = g->weather.windspeed;
+            const weather_manager &weather = get_weather();
+            int windpower = weather.windspeed;
             rl_vec2d windvec;
-            double raddir = ( ( g->weather.winddirection + 180 ) % 360 ) * ( M_PI / 180 );
+            double raddir = ( ( weather.winddirection + 180 ) % 360 ) * ( M_PI / 180 );
             windvec = windvec.normalized();
             windvec.y = -std::cos( raddir );
             windvec.x = std::sin( raddir );
@@ -3176,7 +3179,8 @@ void vehicle::set_submap_moved( const point &p )
     if( !tracking_on ) {
         return;
     }
-    overmap_buffer.move_vehicle( this, old_msp );
+    // TODO: fix point types
+    overmap_buffer.move_vehicle( this, point_abs_ms( old_msp ) );
 }
 
 units::mass vehicle::total_mass() const
@@ -3680,7 +3684,8 @@ bool vehicle::do_environmental_effects()
          * - The weather is any effect that would cause the player to be wet. */
         if( vp.part().blood > 0 && g->m.is_outside( vp.pos() ) ) {
             needed = true;
-            if( g->weather.weather >= WEATHER_LIGHT_DRIZZLE && g->weather.weather <= WEATHER_ACID_RAIN ) {
+            if( get_weather().weather_id->rains &&
+                get_weather().weather_id->precip != precip_class::very_light ) {
                 vp.part().blood--;
             }
         }
@@ -4583,7 +4588,7 @@ int vehicle::total_solar_epower_w() const
     }
     // Weather doesn't change much across the area of the vehicle, so just
     // sample it once.
-    weather_type wtype = current_weather( global_pos3() );
+    const weather_type_id &wtype = current_weather( global_pos3() );
     const float tick_sunlight = incident_sunlight( wtype, calendar::turn );
     double intensity = tick_sunlight / default_daylight_level();
     return epower_w * intensity;
@@ -4591,8 +4596,12 @@ int vehicle::total_solar_epower_w() const
 
 int vehicle::total_wind_epower_w() const
 {
-    const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( global_pos3() ) ) );
-    const w_point weatherPoint = *g->weather.weather_precise;
+    map &here = get_map();
+    // TODO: fix point types
+    const oter_id &cur_om_ter =
+        overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getabs( global_pos3() ) ) ) );
+    const weather_manager &weather = get_weather();
+
     int epower_w = 0;
     for( int part : wind_turbines ) {
         if( parts[ part ].is_unavailable() ) {
@@ -4603,9 +4612,9 @@ int vehicle::total_wind_epower_w() const
             continue;
         }
 
-        double windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, global_part_pos3( part ),
-                                                g->weather.winddirection, false );
-        if( windpower <= ( g->weather.windspeed / 10.0 ) ) {
+        double windpower = get_local_windpower( weather.windspeed, cur_om_ter, global_part_pos3( part ),
+                                                weather.winddirection, false );
+        if( windpower <= ( weather.windspeed / 10.0 ) ) {
             continue;
         }
         epower_w += part_epower_w( part ) * windpower;

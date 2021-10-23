@@ -987,7 +987,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         }
     } else if( topic == "TALK_HOW_MUCH_FURTHER" ) {
         // TODO: this ignores the z-component
-        const tripoint player_pos = p->global_omt_location();
+        const tripoint_abs_omt player_pos = p->global_omt_location();
         int dist = rl_dist( player_pos, p->goal );
         std::string response;
         dist *= 100;
@@ -2300,7 +2300,7 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
     function = [target_params, update_ids]( const dialogue & d ) {
         mission_target_params update_params = target_params;
         update_params.guy = d.beta;
-        const tripoint omt_pos = mission_util::get_om_terrain_pos( update_params );
+        const tripoint_abs_omt omt_pos = mission_util::get_om_terrain_pos( update_params );
         for( const std::string &mapgen_update_id : update_ids ) {
             run_mapgen_update_func( mapgen_update_id, omt_pos, d.beta->chatbin.mission_selected );
         }

@@ -45,7 +45,7 @@
     "dispersion": 280,
     "durability": 6,
     "min_cycle_recoil": 450,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "barrel", 1 ],
@@ -156,7 +156,7 @@
     "durability": 8,
     "min_cycle_recoil": 450,
     "blackpowder_tolerance": 32,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi", 1 ], [ "BURST", "burst", 3 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "barrel", 1 ],
@@ -197,7 +197,7 @@
       [ "sling", 1 ],
       [ "stock", 1 ]
     ],
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi", 1 ], [ "BURST", "burst", 3 ], [ "AUTO", "auto", 4 ] ],
     "built_in_mods": [ "mp5sd_suppressor" ]
   },
   {
@@ -237,7 +237,7 @@
     "description": "The PTR 603 is a semi-automatic copy of the famous MP5 series, domestically produced for the US market on original Heckler and Koch tooling by PTR Industries.  Like the MP5, its roller delayed blowback action offers smooth shooting and precision, setting it apart from other submachine guns and pistol caliber carbines.  This model is configured as a pistol to avoid inconvenient and costly NFA regulations.  A welded on section of M1913 rail offers convenient mounting for aftermarket optics, but precludes the use of claw mounts.",
     "relative": { "weight": -550, "volume": "-500 ml", "handling_modifier": -6 },
     "//": "Attach a pistol stock and you get a semi MP5 again.",
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
+    "modes": [ [ "DEFAULT", "semi", 1 ] ],
     "bashing": 7,
     "dispersion": 270,
     "valid_mod_locations": [
@@ -321,7 +321,7 @@
     "type": "GUN",
     "name": { "str_sp": "Kel-Tec SUB-2000" },
     "description": "If you see it - it is bug!",
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
     "clip_size": 300,
     "magazines": [  ]
   },
@@ -576,7 +576,7 @@
     "dispersion": 360,
     "durability": 7,
     "min_cycle_recoil": 450,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
     "built_in_mods": [ "folding_stock" ],
     "valid_mod_locations": [
       [ "accessories", 3 ],
@@ -631,7 +631,7 @@
     "ascii_picture": "glock_18c",
     "price": 100000,
     "price_postapoc": 2500,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 6 ] ],
+    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 6 ] ],
     "built_in_mods": [ "barrel_ported" ]
   },
   {

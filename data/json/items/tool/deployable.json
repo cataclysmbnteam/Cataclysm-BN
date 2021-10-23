@@ -18,6 +18,22 @@
     "qualities": [ [ "COOK", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
+    "id": "hobo_stove",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": { "str": "hobo stove" },
+    "description": "This is a small improvised wood stove, made from a metal can or similar container of the right size.  It's too small to fit anything much larger than splintered wood.  Activate it to Deploy.",
+    "weight": "70 g",
+    "volume": "500 ml",
+    "to_hit": -1,
+    "bashing": 2,
+    "looks_like": "can_medium_unsealed",
+    "material": [ "steel" ],
+    "symbol": ",",
+    "color": "light_gray",
+    "use_action": { "type": "deploy_furn", "furn_type": "f_hobo_stove" }
+  },
+  {
     "id": "55gal_firebarrel",
     "type": "GENERIC",
     "category": "tools",

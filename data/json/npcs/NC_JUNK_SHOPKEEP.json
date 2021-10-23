@@ -394,7 +394,7 @@
       { "item": "recipe_augs", "prob": 4 },
       { "item": "cable", "prob": 60 },
       { "item": "vac_sealer", "prob": 10 },
-      { "item": "cell_phone", "prob": 30 },
+      { "item": "cell_phone", "prob": 1 },
       { "item": "smart_phone", "prob": 40 },
       { "item": "eink_tablet_pc", "prob": 15 },
       { "item": "mobile_memory_card", "prob": 40 },

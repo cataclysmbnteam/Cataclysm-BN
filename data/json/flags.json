@@ -1996,5 +1996,10 @@
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],
     "info": "This is unsafe to consume, so it won't be consumed when included in auto drink or eat zones."
+  },
+  {
+    "id": "PYROMANIAC_WEAPON",
+    "type": "json_flag",
+    "context": [  ]
   }
 ]
