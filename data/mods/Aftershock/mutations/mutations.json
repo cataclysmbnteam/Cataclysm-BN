@@ -421,7 +421,6 @@
     "types": [ "LEGS" ],
     "category": [ "MASTODON" ],
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ],
-    "destroys_gear": true,
     "armor": [ { "parts": [ "foot_l", "foot_r" ], "bash": 2, "cut": 2 } ],
     "attacks": {
       "attack_text_u": "You kick %s with your massive feet",

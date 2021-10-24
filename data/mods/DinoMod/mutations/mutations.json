@@ -256,7 +256,6 @@
     "threshreq": [ "THRESH_TYRANT" ],
     "category": [ "TYRANT" ],
     "restricts_gear": [ "mouth" ],
-    "destroys_gear": true,
     "social_modifiers": { "intimidate": 20 },
     "attacks": {
       "attack_text_u": "You tear into %s with your serrated teeth",
