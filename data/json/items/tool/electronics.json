@@ -370,7 +370,7 @@
     "type": "TOOL",
     "name": { "str": "mp3 player (on)", "str_pl": "mp3 players (on)" },
     "description": "This mp3 player is turned on and playing some great tunes, raising your morale steadily while on your person.  It runs through batteries quickly; you can turn it off by using it.  It also obscures your hearing.",
-    "power_draw": 500,
+    "power_draw": 3500,
     "revert_to": "mp3",
     "use_action": "MP3_ON",
     "flags": [ "TRADER_AVOID", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
@@ -478,7 +478,7 @@
     "type": "TOOL",
     "name": { "str": "smartphone - music", "str_pl": "smartphones - music" },
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
-    "power_draw": 1500,
+    "power_draw": 7000,
     "revert_to": "smart_phone",
     "use_action": "MP3_ON",
     "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ],
