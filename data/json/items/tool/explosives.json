@@ -287,6 +287,8 @@
     "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "*",
+    "explode_in_fire": true,
+    "explosion": { "damage": 50, "radius": 7 },
     "color": "light_gray",
     "initial_charges": 10,
     "max_charges": 10,
@@ -298,7 +300,6 @@
       "emp_blast_radius": 10,
       "sound_volume": 0,
       "sound_msg": "Tick.",
-      "explode_in_fire": true,
       "explosion": { "damage": 50, "radius": 7 },
       "no_deactivate_msg": "You've already activated the %s, try throwing it instead."
     },
