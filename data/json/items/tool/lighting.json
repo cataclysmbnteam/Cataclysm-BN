@@ -238,7 +238,7 @@
     "power_draw": 10000,
     "revert_to": "flashlight",
     "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "You turn the flashlight off.", "target": "flashlight" },
-    "flags": [ "LIGHT_300", "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP" ]
+    "flags": [ "LIGHT_300", "TRADER_AVOID", "BELT_CLIP" ]
   },
   {
     "id": "gasoline_lantern",
@@ -431,7 +431,7 @@
       "msg": "You turn the heavy duty flashlight off.",
       "target": "heavy_flashlight"
     },
-    "flags": [ "LIGHT_500", "CHARGEDIM", "BELT_CLIP" ]
+    "flags": [ "LIGHT_500", "BELT_CLIP" ]
   },
   {
     "abstract": "lightstrip_base",
@@ -599,10 +599,10 @@
     "type": "TOOL",
     "name": { "str": "reading light (active)", "str_pl": "reading lights (active)" },
     "description": "A little clip-on LED light, meant for reading books in the dark.  This one is turned on.",
-    "power_draw": 1000,
+    "power_draw": 5000,
     "revert_to": "reading_light",
     "use_action": { "target": "reading_light", "msg": "You switch off the reading light.", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "LIGHT_15", "CHARGEDIM" ]
+    "flags": [ "LIGHT_15" ]
   },
   {
     "id": "smart_lamp",
@@ -655,7 +655,7 @@
     "power_draw": 10000,
     "revert_to": "smart_lamp",
     "use_action": { "target": "smart_lamp", "msg": "Your smart lamp turned off", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_2", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID" ],
+    "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_2", "LIGHT_240", "TRADER_AVOID" ],
     "magazine_well": 1
   },
   {
