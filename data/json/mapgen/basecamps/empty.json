@@ -3,12 +3,12 @@
     "type": "mapgen",
     "update_mapgen_id": "empty",
     "method": "json",
-    "object": {}
+    "object": {  }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "empty_but_shouldnt_be",
     "method": "json",
-    "object": {}
+    "object": {  }
   }
 ]
