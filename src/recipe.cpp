@@ -737,6 +737,14 @@ void recipe::check_blueprint_requirements()
         std::string got_req_str = dump_requirements( req_data_blueprint, total_reqs.time,
                                   total_reqs.skills );
 
+        std::stringstream ss;
+        for( auto &id_count : changed_ids.first ) {
+            ss << string_format( "%s: %d\n", id_count.first.id(), id_count.second );
+        }
+        for( auto &id_count : changed_ids.second ) {
+            ss << string_format( "%s: %d\n", id_count.first.id(), id_count.second );
+        }
+
         debugmsg( "Specified blueprint requirements of %1$s does not match calculated requirements.  "
                   "Specify \"check_blueprint_needs\": false to disable the check or "
                   "Update \"blueprint_needs\" to the following value (you can use tools/update_blueprint_needs.py):\n"
@@ -746,17 +754,9 @@ void recipe::check_blueprint_requirements()
                   "~~~ end-auto-update\n"
                   "If the stated requirements match the above, but the error still appears, it is a bug.\n"
                   "Stated requirements are expanded to:\n"
-                  "%3$s",
-                  ident_.str(), calc_req_str, got_req_str );
-
-        std::string s = "";
-        for( auto &id_count : changed_ids.first ) {
-            s += string_format( "%s: %d\n", id_count.first.id(), id_count.second );
-        }
-        for( auto &id_count : changed_ids.second ) {
-            s += string_format( "%s: %d\n", id_count.first.id(), id_count.second );
-        }
-        debugmsg( "---Begin expected tile changes---\n%s---End expected tile changes--", s );
+                  "%3$s\n"
+                  "---Begin expected tile changes---\n%4$s---End expected tile changes--",
+                  ident_.str(), calc_req_str, got_req_str, ss.str() );
     }
 }
 
