@@ -711,7 +711,7 @@ static std::string dump_requirements(
 void recipe::check_blueprint_requirements()
 {
     if( !blueprint.empty() && !mapgen::has_update_id( blueprint ) ) {
-        debugmsg( "Blueprint %1$s has invalid mapgen id %2$s.", ident_.str(), blueprint );
+        debugmsg( "Blueprint %1$s has invalid mapgen id %2$s", ident_.str(), blueprint );
         return;
     }
     build_reqs total_reqs;
