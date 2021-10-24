@@ -6648,7 +6648,12 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
 
     const auto update_function = update_mapgen.find( update_mapgen_id );
 
-    if( update_function == update_mapgen.end() || update_function->second.empty() ) {
+    if( !update_mapgen_id.empty() && update_function == update_mapgen.end() ) {
+        debugmsg( "Couldn't find mapgen function with id %s", update_mapgen_id );
+        return std::make_pair( terrains, furnitures );
+    }
+
+    if( update_mapgen_id.empty() || update_function->second.empty() ) {
         return std::make_pair( terrains, furnitures );
     }
 
@@ -6693,3 +6698,13 @@ bool has_mapgen_for( const std::string &key )
 {
     return oter_mapgen.has( key );
 }
+
+namespace mapgen
+{
+
+bool has_update_id( const mapgen_id &id )
+{
+    return update_mapgen.find( id ) != update_mapgen.end();
+}
+
+} // namespace mapgen

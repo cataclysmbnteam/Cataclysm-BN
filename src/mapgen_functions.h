@@ -16,6 +16,7 @@ class mission;
 struct point;
 struct tripoint;
 
+using mapgen_id = std::string;
 using mapgen_update_func = std::function<void( const tripoint_abs_omt &map_pos3, mission *miss )>;
 class JsonObject;
 
@@ -90,5 +91,12 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
             const std::string &update_mapgen_id );
 
 void resolve_regional_terrain_and_furniture( const mapgendata &dat );
+
+namespace mapgen
+{
+
+bool has_update_id( const mapgen_id &id );
+
+} // namespace mapgen
 
 #endif // CATA_SRC_MAPGEN_FUNCTIONS_H
