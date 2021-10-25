@@ -5,6 +5,7 @@
     "furniture": {
       ",": [ [ "f_null", 200 ], [ "f_region_weed", 2 ], "f_boulder_small" ],
       "@": "f_bed",
+      "2": "f_large_groundsheet",
       "K": "f_wood_keg",
       "L": "f_locker",
       "S": "f_sink",
@@ -29,6 +30,8 @@
       ".": "t_rock_floor",
       "/": "t_region_groundcover_barren",
       "@": "t_rock_floor",
+      "1": [ [ "t_region_groundcover_barren", 15 ], [ "t_region_groundcover", 4 ], "t_region_shrub" ],
+      "2": "t_region_groundcover_barren",
       "K": "t_rock_floor",
       "L": "t_rock_floor",
       "P": "t_palisade",
@@ -47,6 +50,7 @@
       "w": "t_region_groundcover_barren",
       "x": "t_palisade_pulley",
       "z": "t_region_groundcover_barren"
-    }
+    },
+    "traps": { "1": [ [ "tr_null", 19 ], "tr_landmine_buried" ], "2": [ [ "tr_rollmat", 7 ], [ "tr_fur_rollmat", 2 ], "tr_cot" ] }
   }
 ]
