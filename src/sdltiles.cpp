@@ -1029,8 +1029,10 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         }
     }
 
-    draw_entity_with_overlays( get_player_character(), global_omt_to_draw_position( avatar_pos ),
-                               lit_level::LIT, height_3d );
+    if( you.global_omt_location().z() == center_abs_omt.z() ) {
+        draw_entity_with_overlays( you, global_omt_to_draw_position( avatar_pos ),
+                                   lit_level::LIT, height_3d );
+    }
     draw_from_id_string( "cursor", global_omt_to_draw_position( center_abs_omt ), 0, 0, lit_level::LIT,
                          false );
 
