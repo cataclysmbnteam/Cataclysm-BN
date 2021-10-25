@@ -933,8 +933,8 @@ class Character : public Creature, public visitable<Character>
         /** Returns the multiplier on move cost of attacks. */
         float mabuff_attack_cost_mult() const;
 
-        /** Handles things like destruction of armor, etc. */
-        void mutation_effect( const trait_id &mut, bool worn_destroyed_override );
+        /** Handles things like removal of armor, etc. */
+        void mutation_effect( const trait_id &mut );
         /** Handles what happens when you lose a mutation. */
         void mutation_loss_effect( const trait_id &mut );
 

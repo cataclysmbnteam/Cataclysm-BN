@@ -9538,7 +9538,7 @@ void Character::on_worn_item_washed( const item &it )
 void Character::on_item_wear( const item &it )
 {
     for( const trait_id &mut : it.mutations_from_wearing( *this ) ) {
-        mutation_effect( mut, true );
+        mutation_effect( mut );
         recalc_sight_limits();
         calc_encumbrance();
 
