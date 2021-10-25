@@ -191,7 +191,7 @@
     "encumbrance": 5,
     "warmth": 25,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "STURDY" ]
   },
   {

@@ -845,6 +845,12 @@
     "info": "This gear has certain parts padded with steel to <good>increase protection</good> with moderate <bad>increase to encumbrance</bad>."
   },
   {
+    "id": "alloy_padded",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear has certain parts padded with superalloy to <good>increase protection</good> with moderate <bad>increase to encumbrance</bad>."
+  },
+  {
     "id": "wooled",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],

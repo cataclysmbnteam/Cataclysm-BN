@@ -28,6 +28,20 @@
   },
   {
     "type": "clothing_mod",
+    "id": "alloy_padded",
+    "flag": "alloy_padded",
+    "item": "alloy_sheet",
+    "implement_prompt": "Pad with superalloy",
+    "destroy_prompt": "Destroy superalloy padding",
+    "restricted": true,
+    "mod_value": [
+      { "type": "bash", "value": 3, "proportion": [ "thickness" ] },
+      { "type": "cut", "value": 3, "proportion": [ "thickness" ] },
+      { "type": "encumbrance", "value": 4, "round_up": true, "proportion": [ "thickness", "coverage" ] }
+    ]
+  },
+  {
+    "type": "clothing_mod",
     "id": "kevlar_padded",
     "flag": "kevlar_padded",
     "item": "kevlar_plate",
