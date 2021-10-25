@@ -1206,7 +1206,7 @@ void Item_factory::check_definitions() const
             }
         }
         if( type->battery ) {
-            if( type->battery->max_capacity < 0_mJ ) {
+            if( type->battery->max_capacity < 0_J ) {
                 msg += "battery cannot have negative maximum charge\n";
             }
         }

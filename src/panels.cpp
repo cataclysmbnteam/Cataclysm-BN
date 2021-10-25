@@ -800,10 +800,7 @@ static std::pair<nc_color, std::string> power_stat( const avatar &u )
             c_pwr = c_red;
         }
 
-        if( u.get_power_level() < 1_J ) {
-            s_pwr = std::to_string( units::to_millijoule( u.get_power_level() ) ) +
-                    pgettext( "energy unit: millijoule", "mJ" );
-        } else if( u.get_power_level() < 1_kJ ) {
+        if( u.get_power_level() < 1_kJ ) {
             s_pwr = std::to_string( units::to_joule( u.get_power_level() ) ) +
                     pgettext( "energy unit: joule", "J" );
         } else {

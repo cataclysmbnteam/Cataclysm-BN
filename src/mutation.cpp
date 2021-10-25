@@ -625,9 +625,9 @@ void Character::activate_mutation( const trait_id &mut )
         return;
     } else if( mut == trait_DEBUG_BIONIC_POWERGEN ) {
         int npower;
-        if( query_int( npower, "Modify bionic power by how much?  (Values are in millijoules)" ) ) {
-            mod_power_level( units::from_millijoule( npower ) );
-            add_msg_if_player( m_good, "Bionic power increased by %dmJ.", npower );
+        if( query_int( npower, "Modify bionic power by how much?  (Values are in joules)" ) ) {
+            mod_power_level( units::from_joule( npower ) );
+            add_msg_if_player( m_good, "Bionic power increased by %dJ.", npower );
             tdata.powered = false;
         }
         return;
