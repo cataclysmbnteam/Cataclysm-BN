@@ -1143,7 +1143,7 @@
     "autolearn": true,
     "components": [
       [ [ "hat_hard", 1 ], [ "helmet_bike", 1 ] ],
-      [ [ "flashlight", 1 ] ],
+      [ [ "heavy_flashlight", 1 ] ],
       [ [ "cordage", 1, "LIST" ], [ "duct_tape", 10 ], [ "medical_tape", 20 ] ]
     ]
   },
