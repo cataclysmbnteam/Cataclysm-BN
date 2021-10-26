@@ -23,6 +23,7 @@ struct city;
 class JsonObject;
 class overmap_special_batch;
 class overmap_special;
+class overmap;
 
 // LINE_**** corresponds to the ACS_**** macros in ncurses, and are patterned
 // the same way; LINE_NESW, where X indicates a line and O indicates no line
@@ -102,21 +103,14 @@ struct enum_traits<overmap_special_subtype> {
     static constexpr overmap_special_subtype last = overmap_special_subtype::last;
 };
 
-struct fixed_overmap_special_data {
-    std::vector<overmap_special_terrain> terrains;
-};
-
-struct mutable_overmap_special_data;
+struct overmap_special_data;
+struct special_placement_result;
 
 class overmap_special
 {
     public:
         overmap_special() = default;
-        overmap_special( const overmap_special_id &i, const overmap_special_terrain &ter )
-            : id( i )
-            , subtype_( overmap_special_subtype::fixed )
-            , fixed_data_{ { overmap_special_terrain{ ter } } }
-        {};
+        overmap_special( const overmap_special_id &i, const overmap_special_terrain &ter );
         overmap_special_subtype get_subtype() const {
             return subtype_;
         }
@@ -129,14 +123,14 @@ class overmap_special
         }
         bool can_spawn() const;
         /** Returns terrain at the given point. */
-        const overmap_special_terrain &get_terrain_at( const tripoint &p ) const;
+        const oter_str_id &get_terrain_at( const tripoint &p ) const;
         /** @returns true if this special requires a city */
         bool requires_city() const;
         /** @returns whether the special at specified tripoint can belong to the specified city. */
         bool can_belong_to_city( const tripoint_om_omt &p, const city &cit ) const;
 
         const mapgen_parameters &get_params() const {
-            return mapgen_params;
+            return mapgen_params_;
         }
         mapgen_arguments get_args( const mapgendata & ) const;
 
@@ -154,14 +148,9 @@ class overmap_special
         std::vector<overmap_special_terrain> preview_terrains() const;
         std::vector<overmap_special_locations> required_locations() const;
 
-        const fixed_overmap_special_data &get_fixed_data() const {
-            assert( subtype_ == overmap_special_subtype::fixed );
-            return fixed_data_;
-        }
-        const mutable_overmap_special_data &get_mutable_data() const {
-            assert( subtype_ == overmap_special_subtype::mutable_ );
-            return *mutable_data_;
-        }
+        special_placement_result place(
+            overmap &om, const tripoint_om_omt &origin, om_direction::type dir ) const;
+
         const overmap_special_spawns &get_monster_spawns() const {
             return monster_spawns_;
         }
@@ -181,8 +170,7 @@ class overmap_special
     private:
         overmap_special_subtype subtype_;
         overmap_special_placement_constraints constraints_;
-        fixed_overmap_special_data fixed_data_;
-        shared_ptr_fast<const mutable_overmap_special_data> mutable_data_;
+        shared_ptr_fast<const overmap_special_data> data_;
 
         bool rotatable_ = true;
         overmap_special_spawns monster_spawns_;
@@ -190,7 +178,7 @@ class overmap_special
 
         // These locations are the default values if ones are not specified for the individual OMTs.
         cata::flat_set<overmap_location_id> default_locations_;
-        mapgen_parameters mapgen_params;
+        mapgen_parameters mapgen_params_;
         std::unordered_map<tripoint_rel_omt, overmap_special_id> nested_;
 };
 
