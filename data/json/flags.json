@@ -2013,5 +2013,17 @@
     "id": "PYROMANIAC_WEAPON",
     "type": "json_flag",
     "context": [  ]
+  },
+  {
+    "id": "BUTCHER_RACK",
+    "type": "json_flag",
+    "context": [ "TOOL" ],
+    "info": "This item <good>can be used as a <info>butchering</info> rack</good>."
+  },
+  {
+    "id": "FLAT_SURFACE",
+    "type": "json_flag",
+    "context": [ "TOOL" ],
+    "info": "This item <good>can be used as a flat surface</good> for <info>butchering</info>."
   }
 ]

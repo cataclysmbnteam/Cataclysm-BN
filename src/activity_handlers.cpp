@@ -595,7 +595,9 @@ butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_ty
     }
     bool b_rack_present = false;
     for( const tripoint &pt : g->m.points_in_radius( u.pos(), PICKUP_RANGE ) ) {
-        if( g->m.has_flag_furn( flag_BUTCHER_EQ, pt ) ) {
+        if( g->m.has_flag_furn( flag_BUTCHER_EQ, pt ) || inv.has_item_with( []( const item & it ) {
+        return it.has_flag( "BUTCHER_RACK" );
+        } ) ) {
             b_rack_present = true;
         }
     }
@@ -619,14 +621,12 @@ butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_ty
                     _( "To perform a full butchery on a corpse this big, you need either a butchering rack, a nearby hanging meathook, or both a long rope in your inventory and a nearby tree to hang the corpse from." ),
                     butcherable_rating::no_tree_rope_rack );
             }
-            if( !g->m.has_nearby_table( u.pos(), PICKUP_RANGE ) ) {
+            if( !( g->m.has_nearby_table( u.pos(), PICKUP_RANGE ) || inv.has_item_with( []( const item & it ) {
+            return it.has_flag( "FLAT_SURFACE" );
+            } ) ) ) {
                 not_this_one(
                     _( "To perform a full butchery on a corpse this big, you need a table nearby or something else with a flat surface.  A leather tarp spread out on the ground could suffice." ),
                     butcherable_rating::no_table );
-            }
-            if( !( inv.has_quality( qual_SAW_W ) || inv.has_quality( qual_SAW_M ) ) ) {
-                not_this_one( _( "For a corpse this big you need a saw to perform a full butchery." ),
-                              butcherable_rating::no_saw );
             }
         }
     }
