@@ -33,6 +33,7 @@
     "cutting": 11,
     "price_postapoc": 10,
     "flags": [ "SPEAR" ],
+    "weapon_category": [ "POLEARMS" ],
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ]
   },
@@ -53,6 +54,7 @@
     "bashing": 4,
     "cutting": 13,
     "flags": [ "SPEAR", "REACH_ATTACK", "NPC_THROWN", "SHEATH_SPEAR" ],
+    "weapon_category": [ "POLEARMS" ],
     "price": 4000,
     "qualities": [ [ "COOK", 1 ] ]
   },
@@ -73,7 +75,8 @@
     "color": "light_gray",
     "techniques": [ "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
-    "flags": [ "FRAGILE_MELEE", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "REACH_ATTACK", "ALWAYS_TWOHAND" ]
+    "flags": [ "FRAGILE_MELEE", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "REACH_ATTACK", "ALWAYS_TWOHAND" ],
+    "weapon_category": [ "BLADED_FARMING", "HOOKING_POLEARMS", "POLEARMS" ]
   },
   {
     "id": "spear_spike",
@@ -91,7 +94,8 @@
     "color": "brown",
     "techniques": "WBLOCK_1",
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "weapon_category": [ "POLEARMS" ]
   },
   {
     "id": "spear_knife",
@@ -129,7 +133,8 @@
     "color": "brown",
     "techniques": "WBLOCK_1",
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "weapon_category": [ "POLEARMS" ]
   },
   {
     "id": "spear_homemade_halfpike",
@@ -146,7 +151,8 @@
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "weapon_category": [ "POLEARMS" ]
   },
   {
     "type": "GENERIC",
@@ -164,6 +170,7 @@
     "bashing": 6,
     "cutting": 18,
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "weapon_category": [ "POLEARMS" ],
     "price": 4900,
     "qualities": [ [ "COOK", 1 ] ]
   },
@@ -184,6 +191,7 @@
     "bashing": 6,
     "cutting": 20,
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "weapon_category": [ "POLEARMS" ],
     "price": 1400,
     "qualities": [ [ "COOK", 1 ] ]
   },
@@ -204,6 +212,7 @@
     "bashing": 6,
     "cutting": 30,
     "flags": [ "DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "weapon_category": [ "POLEARMS" ],
     "price": 16000,
     "qualities": [ [ "COOK", 1 ] ]
   },
@@ -224,6 +233,7 @@
     "bashing": 6,
     "cutting": 25,
     "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR" ],
+    "weapon_category": [ "POLEARMS" ],
     "price": 8000,
     "qualities": [ [ "COOK", 1 ] ]
   },
@@ -244,6 +254,7 @@
     "cutting": 15,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR" ],
+    "weapon_category": [ "POLEARMS" ],
     "qualities": [ [ "COOK", 1 ], [ "HAMMER", 1 ] ]
   },
   {
@@ -315,6 +326,7 @@
     "material": [ "steel", "wood" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -28 ] ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "weapon_category": [ "HOOKING_POLEARMS", "POLEARMS" ],
     "techniques": [ "WIDE", "WBLOCK_1" ],
     "weight": "2100 g",
     "volume": "2500 ml",
@@ -338,6 +350,7 @@
     "cutting": 45,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -24 ] ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "weapon_category": [ "HOOKING_POLEARMS", "POLEARMS" ],
     "price": 80000,
     "price_postapoc": 9500
   },
@@ -395,6 +408,7 @@
     "bashing": 6,
     "cutting": 40,
     "flags": [ "STAB", "POLEARM", "REACH_ATTACK", "SHEATH_SPEAR" ],
+    "weapon_category": [ "HOOKING_POLEARMS", "POLEARMS" ],
     "//": "Description says it can slash. STAB currently doesn't slash, but at least it doesn't give the spear bonus",
     "price": 8000,
     "price_postapoc": 4500,
@@ -416,6 +430,7 @@
     "cutting": 11,
     "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "stab", "amount": 11 } ],
     "flags": [ "SPEAR", "SHEATH_SPEAR", "JAVELIN" ],
+    "weapon_category": [ "POLEARMS" ],
     "price": 4000,
     "price_postapoc": 250,
     "qualities": [ [ "COOK", 1 ] ]
@@ -437,6 +452,7 @@
     "cutting": 19,
     "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "stab", "amount": 17 } ],
     "flags": [ "SPEAR", "NONCONDUCTIVE", "SHEATH_SPEAR", "JAVELIN" ],
+    "weapon_category": [ "POLEARMS" ],
     "price": 9000,
     "price_postapoc": 500,
     "qualities": [ [ "COOK", 1 ] ]
@@ -559,7 +575,8 @@
     "color": "light_gray",
     "techniques": [ "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "REACH_ATTACK", "ALWAYS_TWOHAND" ]
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "REACH_ATTACK", "ALWAYS_TWOHAND" ],
+    "weapon_category": [ "BLADED_FARMING", "HOOKING_POLEARMS", "POLEARMS" ]
   },
   {
     "id": "spear_dory",
