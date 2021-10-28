@@ -601,11 +601,11 @@ butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_ty
     }
     // workshop butchery (full) prequisites
     if( action == BUTCHER_FULL ) {
-        const bool has_rope = u.has_amount( itype_rope_30, 1 ) ||
-                              u.has_amount( itype_rope_makeshift_30, 1 ) ||
-                              u.has_amount( itype_hd_tow_cable, 1 ) ||
-                              u.has_amount( itype_vine_30, 1 ) ||
-                              u.has_amount( itype_grapnel, 1 );
+        const bool has_rope = inv.has_amount( itype_rope_30, 1 ) ||
+                              inv.has_amount( itype_rope_makeshift_30, 1 ) ||
+                              inv.has_amount( itype_hd_tow_cable, 1 ) ||
+                              inv.has_amount( itype_vine_30, 1 ) ||
+                              inv.has_amount( itype_grapnel, 1 );
         const bool big_corpse = corpse.size >= MS_MEDIUM;
 
         if( big_corpse ) {
