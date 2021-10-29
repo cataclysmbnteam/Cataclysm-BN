@@ -4180,4 +4180,4 @@
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "2x4", 12 ] ], [ [ "rag", 33 ] ], [ [ "nail", 15 ] ], [ [ "cable", 10 ] ] ]
   }
-]
+
