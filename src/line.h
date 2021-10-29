@@ -13,15 +13,21 @@
 #include "cached_options.h"
 
 /** Converts degrees to radians */
-constexpr double DEGREES( double v )
+constexpr double deg2rad( double v )
 {
     return v * M_PI / 180;
 }
 
-/** Converts arc minutes to radians */
-constexpr double ARCMIN( double v )
+/** Converts degrees to radians */
+constexpr double rad2deg( double v )
 {
-    return DEGREES( v ) / 60;
+    return v * 180 / M_PI;
+}
+
+/** Converts arc minutes to radians */
+constexpr double degmin2rad( double v )
+{
+    return deg2rad( v ) / 60;
 }
 
 /**
@@ -33,7 +39,7 @@ constexpr double ARCMIN( double v )
 inline double iso_tangent( double distance, double vertex )
 {
     // we can use the cosine formula (a² = b² + c² - 2bc⋅cosθ) to calculate the tangent
-    return std::sqrt( 2 * std::pow( distance, 2 ) * ( 1 - std::cos( ARCMIN( vertex ) ) ) );
+    return std::sqrt( 2 * std::pow( distance, 2 ) * ( 1 - std::cos( degmin2rad( vertex ) ) ) );
 }
 
 //! This compile-time usable function combines the sign of each (x, y, z) component into a single integer
@@ -296,25 +302,56 @@ struct rl_vec3d {
     float y;
     float z;
 
-    explicit rl_vec3d( float x = 0, float y = 0, float z = 0 ) : x( x ), y( y ), z( z ) {}
-    explicit rl_vec3d( const tripoint &p ) : x( p.x ), y( p.y ), z( p.z ) {}
+    constexpr explicit rl_vec3d( float x = 0, float y = 0, float z = 0 ) : x( x ), y( y ), z( z ) {}
+    constexpr explicit rl_vec3d( const tripoint &p ) : x( p.x ), y( p.y ), z( p.z ) {}
 
     float magnitude() const;
     rl_vec3d normalized() const;
     rl_vec3d rotated( float angle ) const;
     float dot_product( const rl_vec3d &v ) const;
+    rl_vec3d cross_product( const rl_vec3d &v ) const;
     bool is_null() const;
 
     tripoint as_point() const;
 
     // scale.
-    rl_vec3d operator* ( float rhs ) const;
-    rl_vec3d operator/ ( float rhs ) const;
+    constexpr rl_vec3d operator* ( float rhs ) const {
+        rl_vec3d ret;
+        ret.x = x * rhs;
+        ret.y = y * rhs;
+        ret.z = z * rhs;
+        return ret;
+    }
+    constexpr rl_vec3d operator/ ( float rhs ) const {
+        rl_vec3d ret;
+        ret.x = x / rhs;
+        ret.y = y / rhs;
+        ret.z = z / rhs;
+        return ret;
+    }
     // subtract
-    rl_vec3d operator- ( const rl_vec3d &rhs ) const;
+    constexpr rl_vec3d operator- ( const rl_vec3d &rhs ) const {
+        rl_vec3d ret;
+        ret.x = x - rhs.x;
+        ret.y = y - rhs.y;
+        ret.z = z - rhs.z;
+        return ret;
+    }
     // unary negation
-    rl_vec3d operator- () const;
-    rl_vec3d operator+ ( const rl_vec3d &rhs ) const;
+    constexpr rl_vec3d operator- () const {
+        rl_vec3d ret;
+        ret.x = -x;
+        ret.y = -y;
+        ret.z = -z;
+        return ret;
+    }
+    constexpr rl_vec3d operator+ ( const rl_vec3d &rhs ) const {
+        rl_vec3d ret;
+        ret.x = x + rhs.x;
+        ret.y = y + rhs.y;
+        ret.z = z + rhs.z;
+        return ret;
+    }
 };
 
 #endif // CATA_SRC_LINE_H

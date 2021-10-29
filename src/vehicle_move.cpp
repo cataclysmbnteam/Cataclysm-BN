@@ -92,7 +92,7 @@ int vehicle::slowdown( int at_velocity ) const
     } else if( !is_falling && !is_flying ) {
         double f_rolling_drag = coeff_rolling_drag() * ( vehicles::rolling_constant_to_variable + mps );
         // increase rolling resistance by up to 25x if the vehicle is skidding at right angle to facing
-        const double skid_factor = 1 + 24 * std::abs( std::sin( DEGREES( face.dir() - move.dir() ) ) );
+        const double skid_factor = 1 + 24 * std::abs( std::sin( deg2rad( face.dir() - move.dir() ) ) );
         f_total_drag += f_rolling_drag * skid_factor;
     }
     double accel_slowdown = f_total_drag / to_kilogram( total_mass() );
