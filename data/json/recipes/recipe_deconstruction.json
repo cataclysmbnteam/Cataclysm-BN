@@ -4130,7 +4130,7 @@
     "result": "portable_game",
     "skill_used": "electronics",
     "difficulty": 5,
-    "time": "15 m",
+    "time": "11 m",
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
