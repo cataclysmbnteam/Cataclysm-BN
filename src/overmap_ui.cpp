@@ -1118,12 +1118,11 @@ void draw( const catacurses::window &w, const catacurses::window &wbar,
         draw_camp_labels( w, center );
     }
 
-    // TODO: fix point types
-    half_open_rectangle screen_bounds( corner.xy().raw(),
-                                       corner.xy().raw() + point( om_map_width, om_map_height ) );
+    half_open_rectangle<point_abs_omt> screen_bounds(
+        corner.xy(), corner.xy() + point( om_map_width, om_map_height ) );
 
-    if( has_target && blink && !screen_bounds.contains( target.xy().raw() ) ) {
-        point marker = clamp( target.xy().raw(), screen_bounds ) - corner.xy().raw();
+    if( has_target && blink && !screen_bounds.contains( target.xy() ) ) {
+        point_rel_omt marker = clamp( target.xy(), screen_bounds ) - corner.xy();
         std::string marker_sym = " ";
 
         switch( direction_from( center.xy(), target.xy() ) ) {
@@ -1154,7 +1153,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar,
             default:
                 break; //Do nothing
         }
-        mvwputch( w, marker, c_red, marker_sym );
+        mvwputch( w, marker.raw(), c_red, marker_sym );
     }
 
     std::vector<std::pair<nc_color, std::string>> corner_text;
