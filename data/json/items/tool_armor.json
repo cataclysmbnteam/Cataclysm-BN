@@ -2765,7 +2765,7 @@
   {
     "id": "stethoscope",
     "type": "TOOL_ARMOR",
-    "category": "clothing",
+    "category": "tools",
     "symbol": "y",
     "color": "dark_gray",
     "name": { "str": "stethoscope" },
