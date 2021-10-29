@@ -785,7 +785,7 @@ int butcher_time_to_cut( const inventory &inv, const item &corpse_item, const bu
             time_to_cut = std::max( 400, time_to_cut / 10 );
             break;
         case DISSECT:
-            time_to_cut *= 5;
+            time_to_cut *= 7;
             break;
     }
 
@@ -1097,9 +1097,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
     }
     // 20% of the original corpse weight is not an item, but liquid gore
 
-    if( action == DISSECT ) {
-        p.practice( skill_firstaid, std::max( 0, practice ), std::max( mt.size - MS_MEDIUM, 0 ) + 4 );
-    } else {
+    if( action != DISSECT ) {
         p.practice( skill_survival, std::max( 0, practice ), std::max( mt.size - MS_MEDIUM, 0 ) + 4 );
     }
 }
@@ -1254,6 +1252,15 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             cbms.push_back( *it );
         }
         extract_or_wreck_cbms( cbms, roll, *p );
+        // those lines are for XP gain with dissecting. It depends on the size of the corpse, time to dissect the corpse and the amount of bionics you would gather.
+        int time_to_cut = size_factor_in_time_to_cut( corpse->size );
+        int level_cap = std::min<int>( MAX_SKILL, ( corpse->size + ( cbms.size() * 2 + 1 ) ) );
+        int size_mult = corpse->size > MS_MEDIUM ? ( corpse->size * corpse->size ) : 8;
+        int practice_amt = ( size_mult + 1 ) * ( ( time_to_cut / 150 ) + 1 ) *
+                           ( cbms.size() * cbms.size() / 2 + 1 );
+        p->practice( skill_firstaid, practice_amt, level_cap );
+        add_msg( m_debug, "Experience: %d, Level cap: %d, Time to cut: %d", practice_amt, level_cap,
+                 time_to_cut );
     }
 
     //end messages and effects
