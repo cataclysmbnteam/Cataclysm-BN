@@ -4141,9 +4141,7 @@
       [ [ "plastic_chunk", 2 ] ],
       [ [ "small_lcd_screen", 1 ] ]
     ]
-  }
-]
-
+  },
   {
     "result": "autodoc",
     "type": "uncraft",
