@@ -235,8 +235,6 @@ static const skill_id skill_survival( "survival" );
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
-static const quality_id qual_SAW_M( "SAW_M" );
-static const quality_id qual_SAW_W( "SAW_W" );
 
 static const species_id HUMAN( "HUMAN" );
 static const species_id ZOMBIE( "ZOMBIE" );
@@ -595,17 +593,19 @@ butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_ty
     }
     bool b_rack_present = false;
     for( const tripoint &pt : g->m.points_in_radius( u.pos(), PICKUP_RANGE ) ) {
-        if( g->m.has_flag_furn( flag_BUTCHER_EQ, pt ) ) {
+        if( g->m.has_flag_furn( flag_BUTCHER_EQ, pt ) || inv.has_item_with( []( const item & it ) {
+        return it.has_flag( "BUTCHER_RACK" );
+        } ) ) {
             b_rack_present = true;
         }
     }
     // workshop butchery (full) prequisites
     if( action == BUTCHER_FULL ) {
-        const bool has_rope = u.has_amount( itype_rope_30, 1 ) ||
-                              u.has_amount( itype_rope_makeshift_30, 1 ) ||
-                              u.has_amount( itype_hd_tow_cable, 1 ) ||
-                              u.has_amount( itype_vine_30, 1 ) ||
-                              u.has_amount( itype_grapnel, 1 );
+        const bool has_rope = inv.has_amount( itype_rope_30, 1 ) ||
+                              inv.has_amount( itype_rope_makeshift_30, 1 ) ||
+                              inv.has_amount( itype_hd_tow_cable, 1 ) ||
+                              inv.has_amount( itype_vine_30, 1 ) ||
+                              inv.has_amount( itype_grapnel, 1 );
         const bool big_corpse = corpse.size >= MS_MEDIUM;
 
         if( big_corpse ) {
@@ -619,14 +619,12 @@ butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_ty
                     _( "To perform a full butchery on a corpse this big, you need either a butchering rack, a nearby hanging meathook, or both a long rope in your inventory and a nearby tree to hang the corpse from." ),
                     butcherable_rating::no_tree_rope_rack );
             }
-            if( !g->m.has_nearby_table( u.pos(), PICKUP_RANGE ) ) {
+            if( !( g->m.has_nearby_table( u.pos(), PICKUP_RANGE ) || inv.has_item_with( []( const item & it ) {
+            return it.has_flag( "FLAT_SURFACE" );
+            } ) ) ) {
                 not_this_one(
                     _( "To perform a full butchery on a corpse this big, you need a table nearby or something else with a flat surface.  A leather tarp spread out on the ground could suffice." ),
                     butcherable_rating::no_table );
-            }
-            if( !( inv.has_quality( qual_SAW_W ) || inv.has_quality( qual_SAW_M ) ) ) {
-                not_this_one( _( "For a corpse this big you need a saw to perform a full butchery." ),
-                              butcherable_rating::no_saw );
             }
         }
     }
