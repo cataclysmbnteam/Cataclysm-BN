@@ -746,7 +746,7 @@
     "name": { "str": "survivor headlamp (on)", "str_pl": "survivor headlamps (on)" },
     "description": "This is a custom-made LED headlamp reinforced to be more durable, and with a more efficient battery pack.  The adjustable strap allows it to be comfortably worn on your head or attached to your helmet.  It is turned on, and continually draining batteries.  Use it to turn it off.",
     "flags": [ "LIGHT_500", "OVERSIZE", "BELTED", "DURABLE_MELEE", "ALLOWS_NATURAL_ATTACKS" ],
-    "power_draw": 10000,
+    "power_draw": 12500,
     "revert_to": "survivor_light",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "survivor_light" },
     "covers": [ "head" ],

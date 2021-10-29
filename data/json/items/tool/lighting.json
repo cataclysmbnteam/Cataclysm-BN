@@ -185,7 +185,7 @@
     "copy-from": "electric_lantern",
     "type": "TOOL",
     "name": { "str": "electric lantern (on)", "str_pl": "electric lanterns (on)" },
-    "power_draw": 5000,
+    "power_draw": 3500,
     "revert_to": "electric_lantern",
     "use_action": { "menu_text": "Turn off", "type": "transform", "target": "electric_lantern", "msg": "You turn the lamp off." },
     "flags": [ "RADIO_MODABLE", "LIGHT_20", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
@@ -599,7 +599,7 @@
     "type": "TOOL",
     "name": { "str": "reading light (active)", "str_pl": "reading lights (active)" },
     "description": "A little clip-on LED light, meant for reading books in the dark.  This one is turned on.",
-    "power_draw": 5000,
+    "power_draw": 4000,
     "revert_to": "reading_light",
     "use_action": { "target": "reading_light", "msg": "You switch off the reading light.", "menu_text": "Turn off", "type": "transform" },
     "flags": [ "LIGHT_20" ]
