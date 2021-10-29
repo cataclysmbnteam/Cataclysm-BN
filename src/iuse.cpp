@@ -2505,8 +2505,8 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
             /** @EFFECT_STR reduces chance of breaking window with crowbar */
 
             /** @EFFECT_MECHANICS reduces chance of breaking window with crowbar */
-            if( dice( 4, diff ) > dice( 2, p->get_skill_level( skill_mechanics ) ) + dice( 2,
-                    p->str_cur ) ) {
+            if( dice( 4, diff ) > ( dice( 2, p->get_skill_level( skill_mechanics ) ) + dice( 2,
+                                    p->str_cur ) ) * pry_level ) {
                 p->add_msg_if_player( m_mixed, pry->break_message );
                 sounds::sound( pnt, pry->break_noise, sounds::sound_t::combat, pry->break_sound, true, "smash",
                                "door" );
