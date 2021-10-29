@@ -35,6 +35,10 @@
 #include "vehicle_group.h"
 #include "weighted_list.h"
 
+static const itype_id itype_hat_hard( "hat_hard" );
+static const itype_id itype_jackhammer( "jackhammer" );
+static const itype_id itype_mask_dust( "mask_dust" );
+
 static const mtype_id mon_ant_larva( "mon_ant_larva" );
 static const mtype_id mon_ant_queen( "mon_ant_queen" );
 static const mtype_id mon_bee( "mon_bee" );
@@ -91,7 +95,6 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "forest_trail_tee",         &mapgen_forest_trail_tee },
             { "forest_trail_four_way",    &mapgen_forest_trail_four_way },
             { "hive",             &mapgen_hive },
-            { "spider_pit",       &mapgen_spider_pit },
             { "road_straight",    &mapgen_road },
             { "road_curved",      &mapgen_road },
             { "road_end",         &mapgen_road },
@@ -111,7 +114,6 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "river_straight",   &mapgen_river_straight },
             { "river_curved",     &mapgen_river_curved },
             { "parking_lot",      &mapgen_parking_lot },
-            { "spider_pit", mapgen_spider_pit },
             { "cavern", &mapgen_cavern },
             { "open_air", &mapgen_open_air },
             { "rift", &mapgen_rift },
@@ -425,75 +427,6 @@ void mapgen_hive( mapgendata &dat )
 
     if( is_center ) {
         m->place_npc( point( SEEX, SEEY ), string_id<npc_template>( "apis" ) );
-    }
-}
-
-void mapgen_spider_pit( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    // First generate a forest
-    dat.fill( 4 );
-    for( int i = 0; i < 4; i++ ) {
-        if( dat.t_nesw[i] == "forest" || dat.t_nesw[i] == "forest_water" ) {
-            dat.dir( i ) += 14;
-        } else if( dat.t_nesw[i] == "forest_thick" ) {
-            dat.dir( i ) += 18;
-        }
-    }
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            int forest_chance = 0;
-            int num = 0;
-            if( j < dat.n_fac ) {
-                forest_chance += dat.n_fac - j;
-                num++;
-            }
-            if( SEEX * 2 - 1 - i < dat.e_fac ) {
-                forest_chance += dat.e_fac - ( SEEX * 2 - 1 - i );
-                num++;
-            }
-            if( SEEY * 2 - 1 - j < dat.s_fac ) {
-                forest_chance += dat.s_fac - ( SEEX * 2 - 1 - j );
-                num++;
-            }
-            if( i < dat.w_fac ) {
-                forest_chance += dat.w_fac - i;
-                num++;
-            }
-            if( num > 0 ) {
-                forest_chance /= num;
-            }
-            int rn = rng( 0, forest_chance );
-            if( ( forest_chance > 0 && rn > 13 ) || one_in( 100 - forest_chance ) ) {
-                m->ter_set( point( i, j ), t_tree );
-            } else if( ( forest_chance > 0 && rn > 10 ) || one_in( 100 - forest_chance ) ) {
-                m->ter_set( point( i, j ), t_tree_young );
-            } else if( ( forest_chance > 0 && rn >  9 ) || one_in( 100 - forest_chance ) ) {
-                m->ter_set( point( i, j ), t_underbrush );
-            } else {
-                m->ter_set( point( i, j ), dat.groundcover() );
-            }
-        }
-    }
-    m->place_items( item_group_id( "forest" ), 60, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
-                    true, dat.when() );
-    // Next, place webs and sinkholes
-    for( int i = 0; i < 4; i++ ) {
-        point p{ rng( 3, SEEX * 2 - 4 ), rng( 3, SEEY * 2 - 4 ) };
-        if( i == 0 ) {
-            m->ter_set( p, t_slope_down );
-        } else {
-            m->ter_set( p, dat.groundcover() );
-            mtrap_set( m, p, tr_sinkhole );
-        }
-        for( int x1 = p.x - 3; x1 <= p.x + 3; x1++ ) {
-            for( int y1 = p.y - 3; y1 <= p.y + 3; y1++ ) {
-                madd_field( m, point( x1, y1 ), fd_web, rng( 2, 3 ) );
-                if( m->ter( point( x1, y1 ) ) != t_slope_down ) {
-                    m->ter_set( point( x1, y1 ), t_dirt );
-                }
-            }
-        }
     }
 }
 
@@ -1981,13 +1914,13 @@ void mapgen_cavern( mapgendata &dat )
             p2.y = rng( 0, SEEY * 2 - 1 );
         } while( m->impassable( p2 ) );
         if( !one_in( 3 ) ) {
-            m->spawn_item( p2, "jackhammer" );
+            m->spawn_item( p2, itype_jackhammer );
         }
         if( one_in( 3 ) ) {
-            m->spawn_item( p2, "mask_dust" );
+            m->spawn_item( p2, itype_mask_dust );
         }
         if( one_in( 2 ) ) {
-            m->spawn_item( p2, "hat_hard" );
+            m->spawn_item( p2, itype_hat_hard );
         }
         while( !one_in( 3 ) ) {
             for( int i = 0; i < 3; ++i ) {
@@ -3252,7 +3185,7 @@ void mapgen_lake_shore( mapgendata &dat )
         line_segments.push_back( { sw, nw } );
     }
 
-    static constexpr inclusive_rectangle map_boundaries( nw_corner, se_corner );
+    static constexpr inclusive_rectangle<point> map_boundaries( nw_corner, se_corner );
 
     // This will draw our shallow water coastline from the "from" point to the "to" point.
     // It buffers the points a bit for a thicker line. It also clears any furniture that might

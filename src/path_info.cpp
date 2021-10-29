@@ -215,6 +215,10 @@ std::string PATH_INFO::keybindings_vehicle()
 {
     return datadir_value + "raw/" + "keybindings/vehicle.json";
 }
+std::string PATH_INFO::keybindings_edit_creature()
+{
+    return datadir_value + "raw/" + "keybindings/edit_creature_effects.json";
+}
 std::string PATH_INFO::lastworld()
 {
     return config_dir_value + "lastworld.json";

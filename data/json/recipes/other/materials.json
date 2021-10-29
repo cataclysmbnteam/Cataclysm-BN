@@ -460,7 +460,7 @@
     "time": "1 h",
     "autolearn": true,
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "sheet_metal", -1 ] ], [ [ "forge", 75 ] ] ],
-    "components": [ [ [ "glass_shard", 182 ], [ "jar_glass", 91 ], [ "flask_glass", 182 ], [ "test_tube", 364 ] ] ]
+    "components": [ [ [ "glass_shard", 18 ], [ "jar_glass", 9 ], [ "flask_glass", 18 ], [ "test_tube", 36 ] ] ]
   },
   {
     "type": "recipe",
@@ -753,7 +753,11 @@
       { "id": "CONTAIN", "level": 1 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "water_clean", 2 ], [ "water", 2 ] ], [ [ "lye_powder", 10 ], [ "aspirin", 10 ] ], [ [ "cured_hide", 6 ] ] ]
+    "components": [
+      [ [ "water_clean", 2 ], [ "water", 2 ] ],
+      [ [ "lye_powder", 10 ], [ "aspirin", 10 ], [ "chem_phenol", 100 ] ],
+      [ [ "cured_hide", 6 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -774,7 +778,11 @@
       { "id": "CONTAIN", "level": 1 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "water_clean", 2 ], [ "water", 2 ] ], [ [ "lye_powder", 10 ], [ "aspirin", 10 ] ], [ [ "cured_pelt", 6 ] ] ]
+    "components": [
+      [ [ "water_clean", 2 ], [ "water", 2 ] ],
+      [ [ "lye_powder", 10 ], [ "aspirin", 10 ], [ "chem_phenol", 100 ] ],
+      [ [ "cured_pelt", 6 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -820,11 +828,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "frame_wood", -1 ], [ "frame_wood_light", -1 ] ] ],
     "batch_time_factors": [ 75, 4 ],
-    "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "material_soil", 2 ] ],
-      [ [ "withered", 2 ], [ "straw_pile", 2 ], [ "feces_cow", 1 ], [ "feces_roach", 1 ], [ "feces_manure", 1 ] ]
-    ]
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "material_soil", 2 ] ], [ [ "withered", 2 ], [ "straw_pile", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -1000,7 +1004,16 @@
     "autolearn": true,
     "using": [ [ "forging_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "tin", 12 ] ], [ [ "copper_scrap_equivalent", 2, "LIST" ] ] ]
+    "components": [
+      [
+        [ "tin", 12 ],
+        [ "material_aluminium_ingot", 1 ],
+        [ "aluminum_foil", 40 ],
+        [ "chem_aluminium_powder", 15 ],
+        [ "can_drink", 2 ]
+      ],
+      [ [ "copper_scrap_equivalent", 2, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1012,7 +1025,7 @@
     "time": "1 h",
     "autolearn": true,
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "sheet_metal", -1 ] ], [ [ "forge", 75 ] ] ],
-    "components": [ [ [ "glass_shard", 400 ], [ "flask_glass", 126 ], [ "jar_glass", 42 ] ] ]
+    "components": [ [ [ "glass_shard", 40 ], [ "flask_glass", 12 ], [ "jar_glass", 4 ] ] ]
   },
   {
     "type": "recipe",

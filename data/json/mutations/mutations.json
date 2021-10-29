@@ -2446,7 +2446,6 @@
     "flags": [ "UNARMED_BONUS" ],
     "mixed_effect": true,
     "restricts_gear": [ "hand_l", "hand_r" ],
-    "destroys_gear": true,
     "description": "Your index fingers have grown into huge talons.  After a bit of practice, you find that this does not affect your dexterity, but allows for a deadly unarmed attack.  They also prevent wearing gloves.",
     "types": [ "CLAWS" ],
     "prereqs": [ "NAILS" ],
@@ -2675,7 +2674,6 @@
     "types": [ "LEGS" ],
     "category": [ "RAPTOR" ],
     "restricts_gear": [ "foot_l", "foot_r" ],
-    "destroys_gear": true,
     "attacks": {
       "attack_text_u": "You slash %s with a talon",
       "attack_text_npc": "%1$s slashes %2$s with a talon",
@@ -2697,7 +2695,6 @@
     "category": [ "CATTLE", "CHIMERA" ],
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ],
     "restricts_gear": [ "foot_l", "foot_r" ],
-    "destroys_gear": true,
     "armor": [ { "parts": [ "foot_l", "foot_r" ], "physical": 10 } ],
     "attacks": {
       "attack_text_u": "You kick %s with your hooves",
@@ -2855,7 +2852,6 @@
     "threshreq": [ "THRESH_FELINE", "THRESH_CHIMERA" ],
     "category": [ "FELINE", "CHIMERA" ],
     "restricts_gear": [ "mouth" ],
-    "destroys_gear": true,
     "social_modifiers": { "intimidate": 15 },
     "attacks": {
       "attack_text_u": "You tear into %s with your saber teeth",
@@ -3469,7 +3465,6 @@
     "category": [ "INSECT", "SPIDER" ],
     "wet_protection": [ { "part": "mouth", "ignored": 100 } ],
     "restricts_gear": [ "mouth" ],
-    "destroys_gear": true,
     "attacks": {
       "attack_text_u": "You bite %s with your fangs",
       "attack_text_npc": "%1$s bites %2$s with their fangs",
@@ -3730,7 +3725,6 @@
     "hp_adjustment": -6,
     "fatigue_modifier": 0.15,
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
-    "destroys_gear": true,
     "weight_capacity_modifier": 1.1
   },
   {
@@ -3750,7 +3744,6 @@
     "category": [ "URSINE", "CATTLE" ],
     "passive_mods": { "str_mod": 4 },
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
-    "destroys_gear": true,
     "weight_capacity_modifier": 1.1
   },
   {
@@ -4168,6 +4161,7 @@
     "visibility": 2,
     "ugliness": 2,
     "description": "You have a pair of stubby little wings projecting from your shoulderblades.  They can be wiggled at will, but are useless.",
+    "types": [ "WINGS" ],
     "changes_to": [ "WINGS_BIRD", "WINGS_BAT", "WINGS_INSECT", "WINGS_BUTTERFLY" ]
   },
   {
@@ -4758,7 +4752,6 @@
     "category": [ "BIRD", "CEPHALOPOD" ],
     "wet_protection": [ { "part": "mouth", "ignored": 1 } ],
     "restricts_gear": [ "mouth" ],
-    "destroys_gear": true,
     "attacks": {
       "attack_text_u": "You peck %s",
       "attack_text_npc": "%1$s pecks %2$s",
@@ -4784,7 +4777,6 @@
     "category": [ "BIRD" ],
     "wet_protection": [ { "part": "mouth", "ignored": 2 } ],
     "restricts_gear": [ "mouth" ],
-    "destroys_gear": true,
     "attacks": [
       {
         "attack_text_u": "You jackhammer into %s with your beak",
@@ -4812,8 +4804,7 @@
     "category": [ "BIRD" ],
     "wet_protection": [ { "part": "mouth", "ignored": 2 } ],
     "active": true,
-    "restricts_gear": [ "mouth" ],
-    "destroys_gear": true
+    "restricts_gear": [ "mouth" ]
   },
   {
     "type": "mutation",
@@ -5502,7 +5493,6 @@
     "category": [ "CEPHALOPOD" ],
     "wet_protection": [ { "part": "torso", "ignored": 26 } ],
     "restricts_gear": [ "torso" ],
-    "destroys_gear": true,
     "armor": [ { "parts": "torso", "bash": 6, "cut": 14 } ]
   },
   {
@@ -5523,7 +5513,6 @@
     "wet_protection": [ { "part": "torso", "ignored": 26 } ],
     "active": true,
     "restricts_gear": [ "torso" ],
-    "destroys_gear": true,
     "armor": [ { "parts": "torso", "bash": 9, "cut": 17 } ]
   },
   {

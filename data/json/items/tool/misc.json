@@ -372,7 +372,7 @@
   },
   {
     "id": "horn_bicycle",
-    "type": "GENERIC",
+    "type": "TOOL",
     "category": "veh_parts",
     "name": { "str": "bicycle horn" },
     "description": "This is a simple bulb horn, found on many bicycles.  Use to honk.  Honk honk.",
@@ -743,7 +743,7 @@
   },
   {
     "id": "stepladder",
-    "type": "GENERIC",
+    "type": "TOOL",
     "category": "tools",
     "name": { "str": "stepladder" },
     "description": "This is a wooden stepladder.  Use it to set it down.",
@@ -927,7 +927,7 @@
   },
   {
     "id": "whistle_multitool",
-    "type": "GENERIC",
+    "type": "TOOL",
     "category": "tools",
     "name": { "str": "whistle multitool" },
     "description": "A cheap gadget combining a whistle, thermometer, magnifying glass, and compass.",

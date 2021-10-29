@@ -19,6 +19,8 @@
 #include "hash_utils.h"
 #include "overmapbuffer.h"
 
+static weather_type_id WEATHER_CLOUDY = weather_type_id( "cloudy" );
+
 struct body_part_temp {
     body_part_temp( bodypart_str_id part, int temperature )
         : part( part ), temperature( temperature )
@@ -85,7 +87,7 @@ std::ostream &operator<<( std::ostream &os, const std::vector<body_part_temp> &b
 static int converge_temperature( player &p, size_t iters, int start_temperature = BODYTEMP_NORM )
 {
     constexpr size_t n_history = 10;
-    REQUIRE( get_weather().weather == WEATHER_CLOUDY );
+    REQUIRE( get_weather().weather_id == WEATHER_CLOUDY );
     REQUIRE( get_weather().windspeed == 0 );
 
     for( int i = 0 ; i < num_bp; i++ ) {
@@ -118,7 +120,7 @@ static int converge_temperature( player &p, size_t iters, int start_temperature 
         while( last_n_history.size() > n_history ) {
             last_n_history.pop_back();
         }
-        p.update_bodytemp( get_map(), g->weather );
+        p.update_bodytemp( get_map(), get_weather() );
     }
 
     CAPTURE( iters );
@@ -129,10 +131,10 @@ static int converge_temperature( player &p, size_t iters, int start_temperature 
     return p.temp_cur[0];
 }
 
-static void equip_clothing( player &p, const std::vector<itype_id> &clothing )
+static void equip_clothing( player &p, const std::vector<std::string> &clothing )
 {
-    for( const itype_id &c : clothing ) {
-        const item article( c, calendar::start_of_cataclysm );
+    for( const std::string &c : clothing ) {
+        const item article( itype_id( c ), calendar::start_of_cataclysm );
         p.wear_item( article );
     }
 }
@@ -176,7 +178,7 @@ static void test_temperature_spread( player &p,
     }
 }
 
-const std::vector<itype_id> light_clothing = {{
+const std::vector<std::string> light_clothing = {{
         "hat_ball",
         "bandana",
         "tshirt",
@@ -187,7 +189,7 @@ const std::vector<itype_id> light_clothing = {{
     }
 };
 
-const std::vector<itype_id> heavy_clothing = {{
+const std::vector<std::string> heavy_clothing = {{
         "hat_knit",
         "tshirt",
         "vest",
@@ -200,7 +202,7 @@ const std::vector<itype_id> heavy_clothing = {{
     }
 };
 
-const std::vector<itype_id> arctic_clothing = {{
+const std::vector<std::string> arctic_clothing = {{
         "balclava",
         "goggles_ski",
         "hat_hunting",
@@ -218,22 +220,23 @@ const std::vector<itype_id> arctic_clothing = {{
 
 static void guarantee_neutral_weather( const player &p )
 {
-    get_weather().weather = WEATHER_CLOUDY;
+    get_weather().weather_id = WEATHER_CLOUDY;
     get_weather().weather_override = WEATHER_CLOUDY;
     get_weather().windspeed = 0;
-    get_weather().weather_precise->humidity = 0;
+    get_weather().override_humidity( 0 );
     REQUIRE( !get_map().has_flag( TFLAG_SWIMMABLE, p.pos() ) );
     REQUIRE( !get_map().has_flag( TFLAG_DEEP_WATER, p.pos() ) );
     REQUIRE( !g->is_in_sunlight( p.pos() ) );
 
-    const w_point weather = *g->weather.weather_precise;
+    const weather_manager &weather = get_weather();
+    const w_point &wp = weather.get_precise();
     const oter_id &cur_om_ter = overmap_buffer.ter( p.global_omt_location() );
     bool sheltered = g->is_sheltered( p.pos() );
-    double total_windpower = get_local_windpower( g->weather.windspeed, cur_om_ter,
+    double total_windpower = get_local_windpower( weather.windspeed, cur_om_ter,
                              p.pos(),
-                             g->weather.winddirection, sheltered );
-    int air_humidity = get_local_humidity( weather.humidity, g->weather.weather,
-                                           sheltered );
+                             weather.winddirection, sheltered );
+    int air_humidity = get_local_humidity( wp.humidity, weather.weather_id, sheltered );
+
     REQUIRE( air_humidity == 0 );
     REQUIRE( total_windpower == 0.0 );
     REQUIRE( !const_cast<player &>( p ).in_climate_control() );
@@ -411,7 +414,7 @@ TEST_CASE( "Player body temperatures in water.", "[.][bodytemp]" )
     REQUIRE( get_map().has_flag( TFLAG_SWIMMABLE, pos ) );
     REQUIRE( get_map().has_flag( TFLAG_DEEP_WATER, pos ) );
     REQUIRE( !g->is_in_sunlight( pos ) );
-    get_weather().weather = WEATHER_CLOUDY;
+    get_weather().weather_id = WEATHER_CLOUDY;
 
     dummy.drench( 100, body_part_set::all(), true );
 
@@ -443,7 +446,7 @@ static void hypothermia_check( player &p, int water_temperature, time_duration e
 
     int actual_time;
     for( actual_time = 0; actual_time < upper_bound * 2; actual_time++ ) {
-        p.update_bodytemp( get_map(), g->weather );
+        p.update_bodytemp( get_map(), get_weather() );
         if( p.temp_cur[0] <= expected_temperature ) {
             break;
         }
@@ -466,7 +469,7 @@ TEST_CASE( "Water hypothermia check.", "[.][bodytemp]" )
     REQUIRE( get_map().has_flag( TFLAG_SWIMMABLE, pos ) );
     REQUIRE( get_map().has_flag( TFLAG_DEEP_WATER, pos ) );
     REQUIRE( !g->is_in_sunlight( pos ) );
-    get_weather().weather = WEATHER_CLOUDY;
+    get_weather().weather_id = WEATHER_CLOUDY;
 
     dummy.drench( 100, body_part_set::all(), true );
 

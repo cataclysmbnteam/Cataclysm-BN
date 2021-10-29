@@ -121,7 +121,7 @@ class avatar : public player
          * Returns the target of the active mission or @ref overmap::invalid_tripoint if there is
          * no active mission.
          */
-        tripoint get_active_mission_target() const;
+        tripoint_abs_omt get_active_mission_target() const;
         /**
          * Set which mission is active. The mission must be listed in @ref active_missions.
          */
@@ -159,7 +159,7 @@ class avatar : public player
         /** Completes book reading action. **/
         void do_read( item_location loc );
         /** Note that we've read a book at least once. **/
-        bool has_identified( const std::string &item_id ) const override;
+        bool has_identified( const itype_id &item_id ) const override;
 
         hint_rating rate_action_read( const item &it ) const;
 
@@ -243,7 +243,7 @@ class avatar : public player
         mission *active_mission = nullptr;
 
         // Items the player has identified.
-        std::unordered_set<std::string> items_identified;
+        std::unordered_set<itype_id> items_identified;
 
         object_type grab_type = OBJECT_NONE;
 

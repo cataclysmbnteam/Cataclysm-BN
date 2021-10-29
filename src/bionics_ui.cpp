@@ -203,17 +203,17 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
                 fuel_string += colorize( temp_fuel.tname(), c_green ) + " ";
                 continue;
             }
-            fuel_string += temp_fuel.tname() + ": " + colorize( p->get_value( fuel ),
+            fuel_string += temp_fuel.tname() + ": " + colorize( p->get_value( fuel.str() ),
                            c_green ) + "/" + std::to_string( p->get_total_fuel_capacity( fuel ) ) + " ";
         }
         if( bio.info().is_remote_fueled && p->has_active_bionic( bio.id ) ) {
             const itype_id rem_fuel = p->find_remote_fuel( true );
-            if( !rem_fuel.empty() ) {
+            if( !rem_fuel.is_empty() ) {
                 const item tmp_rem_fuel( rem_fuel );
                 if( tmp_rem_fuel.has_flag( flag_PERPETUAL ) ) {
                     fuel_string += colorize( tmp_rem_fuel.tname(), c_green ) + " ";
                 } else {
-                    fuel_string += tmp_rem_fuel.tname() + ": " + colorize( p->get_value( "rem_" + rem_fuel ),
+                    fuel_string += tmp_rem_fuel.tname() + ": " + colorize( p->get_value( "rem_" + rem_fuel.str() ),
                                    c_green ) + " ";
                 }
                 found_fuel = true;
@@ -224,24 +224,18 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
         fuel_string.clear();
     }
     std::string power_string;
-    const int curr_power = units::to_millijoule( p->get_power_level() );
-    const int kilo = curr_power / units::to_millijoule( 1_kJ );
-    const int joule = ( curr_power % units::to_millijoule( 1_kJ ) ) / units::to_millijoule( 1_J );
-    const int milli = curr_power % units::to_millijoule( 1_J );
+    const int curr_power = units::to_joule( p->get_power_level() );
+    const int kilo = curr_power / units::to_joule( 1_kJ );
+    const int joule = ( curr_power % units::to_joule( 1_kJ ) ) / units::to_joule( 1_J );
     if( kilo > 0 ) {
         power_string = std::to_string( kilo );
         if( joule > 0 ) {
             power_string += pgettext( "decimal separator", "." ) + std::to_string( joule );
         }
         power_string += pgettext( "energy unit: kilojoule", "kJ" );
-    } else if( joule > 0 ) {
-        power_string = std::to_string( joule );
-        if( milli > 0 ) {
-            power_string += pgettext( "decimal separator", "." ) + std::to_string( milli );
-        }
-        power_string += pgettext( "energy unit: joule", "J" );
     } else {
-        power_string = std::to_string( milli ) + pgettext( "energy unit: millijoule", "mJ" );
+        power_string = std::to_string( joule );
+        power_string += pgettext( "energy unit: joule", "J" );
     }
 
     const int pwr_str_pos = right_print( window, 1, 1, c_white,

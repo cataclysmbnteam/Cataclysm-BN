@@ -322,6 +322,65 @@ bool plant_data::load( const JsonObject &jsobj, const std::string &member )
     return true;
 }
 
+pry_result::pry_result() : pry_quality( -1 ), pry_bonus_mult( 1 ),
+    difficulty( 1 ), noise( 0 ),
+    alarm( false ), breakable( false ),
+    new_ter_type( ter_str_id::NULL_ID() ), new_furn_type( furn_str_id::NULL_ID() ),
+    break_ter_type( ter_str_id::NULL_ID() ), break_furn_type( furn_str_id::NULL_ID() ),
+    pry_items( item_group_id( "EMPTY_GROUP" ) ), break_items( item_group_id( "EMPTY_GROUP" ) ) {}
+
+bool pry_result::load( const JsonObject &jsobj, const std::string &member,
+                       map_object_type obj_type )
+{
+    if( !jsobj.has_object( member ) ) {
+        return false;
+    }
+
+    JsonObject j = jsobj.get_object( member );
+    pry_quality = j.get_int( "pry_quality", -1 );
+    pry_bonus_mult = j.get_int( "pry_bonus_mult", 1 );
+    difficulty = j.get_int( "difficulty", 1 );
+
+    noise = j.get_int( "noise", 0 );
+    break_noise = j.get_int( "break_noise", noise );
+    sound = to_translation( "crunch!" );
+    break_sound = to_translation( "crack!" );
+    alarm = j.get_bool( "alarm", false );
+    breakable = j.get_bool( "breakable", false );
+
+    switch( obj_type ) {
+        case pry_result::furniture:
+            new_furn_type = furn_str_id( j.get_string( "new_furn_type", "f_null" ) );
+            break_furn_type = furn_str_id( j.get_string( "break_furn_type", "f_null" ) );
+            break;
+        case pry_result::terrain:
+            new_ter_type = ter_str_id( j.get_string( "new_ter_type", "t_null" ) );
+            break_ter_type = ter_str_id( j.get_string( "break_ter_type", "t_null" ) );
+            break;
+    }
+
+    if( j.has_member( "pry_items" ) ) {
+        pry_items = item_group::load_item_group( j.get_member( "pry_items" ), "collection" );
+    } else {
+        pry_items = item_group_id( "EMPTY_GROUP" );
+    }
+
+    if( j.has_member( "break_items" ) ) {
+        break_items = item_group::load_item_group( j.get_member( "break_items" ), "collection" );
+    } else {
+        break_items = item_group_id( "EMPTY_GROUP" );
+    }
+
+    j.read( "sound", sound );
+    j.read( "break_sound", break_sound );
+
+    j.read( "success_message", success_message );
+    j.read( "fail_message", fail_message );
+    j.read( "break_message", break_message );
+
+    return true;
+}
+
 furn_t null_furniture_t()
 {
     furn_t new_furniture;
@@ -1231,6 +1290,7 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
 
     bash.load( jo, "bash", map_bash_info::terrain );
     deconstruct.load( jo, "deconstruct", false );
+    pry.load( jo, "pry", pry_result::terrain );
 }
 
 static void check_bash_items( const map_bash_info &mbi, const std::string &id, bool is_terrain )
@@ -1273,11 +1333,53 @@ static void check_decon_items( const map_deconstruct_info &mbi, const std::strin
     }
 }
 
+static void check_pry_items( const pry_result &pry, const std::string &id,
+                             bool is_terrain )
+{
+    if( pry.pry_quality == -1 ) {
+        return;
+    }
+    if( !item_group::group_is_defined( pry.break_items ) ) {
+        debugmsg( "%s: pry breakage result item group %s does not exist", id.c_str(),
+                  pry.break_items.c_str() );
+    }
+    if( is_terrain ) {
+        if( pry.new_ter_type.is_empty() ) {  // Some tiles specify t_null explicitly
+            debugmsg( "pry result terrain of %s is undefined/empty", id.c_str() );
+        }
+        if( pry.breakable && pry.break_ter_type.is_empty() ) {
+            debugmsg( "pry breakage result terrain %s of %s is undefined/empty", id.c_str() );
+        }
+        if( !pry.new_ter_type.is_valid() ) {  // Some tiles specify t_null explicitly
+            debugmsg( "pry result terrain of %s does not exist", pry.new_ter_type.c_str(), id.c_str() );
+        }
+        if( pry.breakable && !pry.break_ter_type.is_valid() ) {
+            debugmsg( "pry breakage result terrain %s of %s does not exist", pry.new_ter_type.c_str(),
+                      id.c_str() );
+        }
+    } else {
+        if( pry.new_furn_type.is_empty() ) { // Some tiles specify t_null explicitly
+            debugmsg( "pry result furniture of %s is undefined/empty", id.c_str() );
+        }
+        if( pry.breakable && pry.break_furn_type.is_empty() ) {
+            debugmsg( "pry breakage result furniture %s of %s is undefined/empty", id.c_str() );
+        }
+        if( !pry.new_furn_type.is_valid() ) { // Some tiles specify t_null explicitly
+            debugmsg( "pry result furniture of %s does not exist", pry.new_furn_type.c_str(), id.c_str() );
+        }
+        if( pry.breakable && !pry.break_furn_type.is_valid() ) {
+            debugmsg( "pry breakage result furniture %s of %s does not exist", pry.new_furn_type.c_str(),
+                      id.c_str() );
+        }
+    }
+}
+
 void ter_t::check() const
 {
     map_data_common_t::check();
     check_bash_items( bash, id.str(), true );
     check_decon_items( deconstruct, id.str(), true );
+    check_pry_items( pry, id.str(), true );
 
     if( !transforms_into.is_valid() ) {
         debugmsg( "invalid transforms_into %s for %s", transforms_into.c_str(), id.c_str() );
@@ -1318,7 +1420,7 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "keg_capacity", keg_capacity, legacy_volume_reader, 0_ml );
     mandatory( jo, was_loaded, "required_str", move_str_req );
     optional( jo, was_loaded, "max_volume", max_volume, volume_reader(), DEFAULT_MAX_VOLUME_IN_SQUARE );
-    optional( jo, was_loaded, "crafting_pseudo_item", crafting_pseudo_item, "" );
+    optional( jo, was_loaded, "crafting_pseudo_item", crafting_pseudo_item, itype_id() );
     optional( jo, was_loaded, "deployed_item", deployed_item );
     load_symbol( jo );
     transparent = false;
@@ -1336,6 +1438,7 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
 
     bash.load( jo, "bash", map_bash_info::furniture );
     deconstruct.load( jo, "deconstruct", true );
+    pry.load( jo, "pry", pry_result::furniture );
 
     if( jo.has_object( "workbench" ) ) {
         workbench = cata::make_value<furn_workbench_info>();
@@ -1369,6 +1472,7 @@ void furn_t::check() const
     map_data_common_t::check();
     check_bash_items( bash, id.str(), false );
     check_decon_items( deconstruct, id.str(), false );
+    check_pry_items( pry, id.str(), false );
 
     if( !open.is_valid() ) {
         debugmsg( "invalid furniture %s for opening %s", open.c_str(), id.c_str() );
@@ -1397,7 +1501,7 @@ void finalize_furn()
     for( const furn_t &furn : furniture_data.get_all() ) {
         if( furn.examine == iexamine::workbench ) {
             furn_t &furn_mutable = const_cast<furn_t &>( furn );
-            if( item::type_is_defined( furn_mutable.deployed_item ) ) {
+            if( furn_mutable.deployed_item.is_valid() ) {
                 furn_mutable.examine = iexamine::deployed_furniture;
             } else {
                 furn_mutable.examine = iexamine::none;

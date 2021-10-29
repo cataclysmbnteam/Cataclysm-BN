@@ -25,6 +25,7 @@
     "type": "SPELL",
     "name": "Seismic Stomp",
     "description": "Focusing mana into your leg, you stomp your foot and send out a shockwave, knocking enemies around you onto the ground.",
+    "sprite": "fd_rubble",
     "effect": "target_attack",
     "effect_str": "downed",
     "valid_targets": [ "hostile", "ground", "none" ],

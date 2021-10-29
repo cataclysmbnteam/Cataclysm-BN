@@ -9,7 +9,7 @@
     "color": "red",
     "symbol": "0",
     "material": [ "wood" ],
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "FLAT_SURFACE" ],
     "volume": "10500 ml",
     "bashing": 6,
     "category": "veh_parts",

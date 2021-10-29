@@ -22,7 +22,7 @@
       [ "duffelbag", 30 ],
       [ "backpack", 40 ],
       [ "energy_drink", 30 ],
-      [ "cell_phone", 20 ],
+      [ "cell_phone", 1 ],
       [ "smart_phone", 30 ],
       [ "mp3", 50 ],
       [ "inhaler", 10 ]

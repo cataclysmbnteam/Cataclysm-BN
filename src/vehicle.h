@@ -19,6 +19,7 @@
 #include "character_id.h"
 #include "clzones.h"
 #include "colony.h"
+#include "coordinates.h"
 #include "damage.h"
 #include "game_constants.h"
 #include "item.h"
@@ -438,7 +439,7 @@ struct vehicle_part {
         cata::colony<item> items; // inventory
 
         /** Preferred ammo type when multiple are available */
-        itype_id ammo_pref = "null";
+        itype_id ammo_pref = itype_id::NULL_ID();
 
         /**
          *  What NPC (if any) is assigned to this part (seat, turret etc)?
@@ -574,10 +575,13 @@ class turret_data
  */
 struct label : public point {
     label() = default;
-    label( const point &p ) : point( p ) {}
+    explicit label( const point &p ) : point( p ) {}
     label( const point &p, std::string text ) : point( p ), text( std::move( text ) ) {}
 
     std::string text;
+
+    void deserialize( JsonIn &jsin );
+    void serialize( JsonOut &json ) const;
 };
 
 class RemovePartHandler;
@@ -1736,7 +1740,7 @@ class vehicle
 
     public:
         std::vector<vehicle_part> parts;   // Parts which occupy different tiles
-        std::vector<tripoint> omt_path; // route for overmap-scale auto-driving
+        std::vector<tripoint_abs_omt> omt_path; // route for overmap-scale auto-driving
         std::vector<int> alternators;      // List of alternator indices
         std::vector<int> engines;          // List of engine indices
         std::vector<int> reactors;         // List of reactor indices

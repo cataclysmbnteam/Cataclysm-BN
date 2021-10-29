@@ -16,8 +16,7 @@
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun" ],
     "dispersion_modifier": 15,
     "handling_modifier": 10,
-    "loudness_modifier": 8,
-    "min_skills": [ [ "weapon", 5 ] ]
+    "loudness_modifier": 8
   },
   {
     "id": "muzzle_brake",
@@ -35,8 +34,7 @@
     "mod_targets": [ "rifle", "shotgun" ],
     "dispersion_modifier": 15,
     "handling_modifier": 12,
-    "loudness_modifier": 14,
-    "min_skills": [ [ "weapon", 2 ] ]
+    "loudness_modifier": 14
   },
   {
     "id": "muzzle_brake_mod",

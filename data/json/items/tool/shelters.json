@@ -17,7 +17,7 @@
   },
   {
     "id": "large_tent_kit",
-    "type": "GENERIC",
+    "type": "TOOL",
     "category": "tools",
     "name": { "str": "large tent" },
     "description": "This is a family sized tent.  It provides a large amount of space, but is very bulky.",
@@ -43,7 +43,7 @@
   },
   {
     "id": "shelter_kit",
-    "type": "GENERIC",
+    "type": "TOOL",
     "category": "tools",
     "name": { "str": "shelter kit" },
     "description": "This is a small shelter, made of sticks and skins.  Use it to place.",
@@ -68,7 +68,7 @@
   },
   {
     "id": "tent_kit",
-    "type": "GENERIC",
+    "type": "TOOL",
     "category": "tools",
     "name": { "str": "tent" },
     "description": "This is a small personal tent, it's just big enough to fit you comfortably.",

@@ -41,7 +41,7 @@
     "storage": "500 ml",
     "warmth": 20,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "FANCY" ]
   },
   {
@@ -540,7 +540,7 @@
     "encumbrance": 10,
     "warmth": 40,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE" ]
   },
   {
@@ -562,7 +562,7 @@
     "encumbrance": 10,
     "warmth": 30,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE" ]
   },
   {
@@ -704,7 +704,7 @@
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "valid_mods": [ "steel_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
@@ -726,7 +726,7 @@
     "storage": "2250 ml",
     "warmth": 45,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "OUTER", "POCKETS", "HOOD" ]
   }
 ]

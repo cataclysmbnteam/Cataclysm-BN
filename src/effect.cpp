@@ -33,6 +33,9 @@ static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_weed_high( "weed_high" );
 
+static const itype_id itype_holybook_bible( "holybook_bible" );
+static const itype_id itype_money_bundle( "money_bundle" );
+
 static const trait_id trait_LACTOSE( "LACTOSE" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 
@@ -59,6 +62,17 @@ template<>
 bool string_id<effect_type>::is_valid() const
 {
     return effect_types.count( *this ) > 0;
+}
+
+std::vector<efftype_id> find_all_effect_types()
+{
+    std::vector<efftype_id> all;
+    all.reserve( effect_types.size() );
+    std::transform( effect_types.begin(), effect_types.end(), std::back_inserter( all ),
+    []( const std::pair<efftype_id, effect_type> &pr ) {
+        return pr.first;
+    } );
+    return all;
 }
 
 void weed_msg( player &p )
@@ -105,7 +119,7 @@ void weed_msg( player &p )
                 }
                 return;
             case 4:
-                if( p.has_amount( "money_bundle", 1 ) ) { // Half Baked
+                if( p.has_amount( itype_money_bundle, 1 ) ) { // Half Baked
                     p.add_msg_if_player( _( "You ever see the back of a twenty dollar bill… on weed?" ) );
                     if( one_in( 2 ) ) {
                         p.add_msg_if_player(
@@ -114,7 +128,7 @@ void weed_msg( player &p )
                             p.add_msg_if_player( _( "RED TEAM GO, RED TEAM GO!" ) );
                         }
                     }
-                } else if( p.has_amount( "holybook_bible", 1 ) ) {
+                } else if( p.has_amount( itype_holybook_bible, 1 ) ) {
                     p.add_msg_if_player( _( "You have a sudden urge to flip your bible open to Genesis 1:29…" ) );
                 } else { // Big Lebowski
                     p.add_msg_if_player( _( "That rug really tied the room together…" ) );
@@ -459,6 +473,12 @@ std::string effect_type::get_remove_memorial_log() const
 {
     return remove_memorial_log;
 }
+
+std::string effect_type::get_blood_analysis_description() const
+{
+    return blood_analysis_description;
+}
+
 bool effect_type::get_main_parts() const
 {
     return main_parts_only;
@@ -1292,6 +1312,8 @@ void load_effect_type( const JsonObject &jo )
     new_etype.remove_message = jo.get_string( "remove_message", "" );
     new_etype.apply_memorial_log = jo.get_string( "apply_memorial_log", "" );
     new_etype.remove_memorial_log = jo.get_string( "remove_memorial_log", "" );
+
+    new_etype.blood_analysis_description = jo.get_string( "blood_analysis_description", "" );
 
     for( auto &&f : jo.get_string_array( "resist_traits" ) ) { // *NOPAD*
         new_etype.resist_traits.push_back( trait_id( f ) );

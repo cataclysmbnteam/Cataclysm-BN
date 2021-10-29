@@ -64,7 +64,7 @@ TEST_CASE( "recipe_subset" )
                 CHECK( std::find( cat_recipes.begin(), cat_recipes.end(), r ) != cat_recipes.end() );
             }
             THEN( "it uses water" ) {
-                const auto comp_recipes( subset.of_component( "water" ) );
+                const auto comp_recipes( subset.of_component( itype_id( "water" ) ) );
 
                 CHECK( comp_recipes.size() == 1 );
                 CHECK( std::find( comp_recipes.begin(), comp_recipes.end(), r ) != comp_recipes.end() );
@@ -490,18 +490,20 @@ static void verify_inventory( const std::vector<std::string> &has,
     std::ostringstream os;
     os << "Inventory:\n";
     for( const item *i : g->u.inv_dump() ) {
-        os << "  " << i->typeId() << " (" << i->charges << ")\n";
+        os << "  " << i->typeId().str() << " (" << i->charges << ")\n";
     }
     os << "Wielded:\n" << g->u.weapon.tname() << "\n";
     INFO( os.str() );
     for( const std::string &i : has ) {
         INFO( "expecting " << i );
-        const bool has_item = player_has_item_of_type( i ) || g->u.weapon.type->get_id() == i;
+        const bool has_item =
+            player_has_item_of_type( i ) || g->u.weapon.type->get_id() == itype_id( i );
         REQUIRE( has_item );
     }
     for( const std::string &i : hasnt ) {
         INFO( "not expecting " << i );
-        const bool hasnt_item = !player_has_item_of_type( i ) && !( g->u.weapon.type->get_id() == i );
+        const bool hasnt_item =
+            !player_has_item_of_type( i ) && !( g->u.weapon.type->get_id() == itype_id( i ) );
         REQUIRE( hasnt_item );
     }
 }
@@ -591,15 +593,16 @@ TEST_CASE( "debug hammerspace", "[crafting]" )
 
 TEST_CASE( "oven electric grid", "[crafting][overmap][grids][slow]" )
 {
-    map &m = g->m;
+    map &m = get_map();
+    avatar &u = get_avatar();
     constexpr tripoint start_pos = tripoint( 60, 60, 0 );
     const tripoint start_pos_abs = m.getabs( start_pos );
-    g->u.setpos( start_pos );
+    u.setpos( start_pos );
     clear_avatar();
     clear_map();
     GIVEN( "player is near an oven on an electric grid with a battery on it" ) {
         // TODO: clear_grids()
-        auto om = overmap_buffer.get_om_global( sm_to_omt_copy( m.getabs( g->u.pos() ) ) );
+        auto om = overmap_buffer.get_om_global( u.global_omt_location() );
         om.om->set_electric_grid_connections( om.local, {} );
 
         m.furn_set( start_pos + point( 10, 0 ), furn_str_id( "f_battery" ) );
@@ -615,20 +618,20 @@ TEST_CASE( "oven electric grid", "[crafting][overmap][grids][slow]" )
             grid.mod_resource( 10 );
             REQUIRE( grid.get_resource() == 10 );
             AND_WHEN( "crafting inventory is built" ) {
-                g->u.invalidate_crafting_inventory();
-                const inventory &crafting_inv = g->u.crafting_inventory();
+                u.invalidate_crafting_inventory();
+                const inventory &crafting_inv = u.crafting_inventory();
                 THEN( "it contains an oven item with 10 charges" ) {
                     REQUIRE( crafting_inv.has_charges( itype_id( "fake_oven" ), 10 ) );
                 }
             }
 
             AND_WHEN( "the player is near a pot and a bottle of water" ) {
-                g->u.invalidate_crafting_inventory();
-                g->m.add_item( g->u.pos(), item( "pot" ) );
-                g->m.add_item( g->u.pos(), item( "water" ).in_its_container() );
+                u.invalidate_crafting_inventory();
+                m.add_item( u.pos(), item( "pot" ) );
+                m.add_item( u.pos(), item( "water" ).in_its_container() );
                 THEN( "clean water can be crafted" ) {
                     const recipe &r = *recipe_id( "water_clean" );
-                    const inventory &crafting_inv = g->u.crafting_inventory();
+                    const inventory &crafting_inv = u.crafting_inventory();
                     bool can_craft = r.deduped_requirements().can_make_with_inventory(
                                          crafting_inv, r.get_component_filter() );
                     REQUIRE( can_craft );

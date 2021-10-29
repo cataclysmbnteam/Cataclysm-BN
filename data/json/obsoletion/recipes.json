@@ -2611,5 +2611,30 @@
     "result": "neoprene",
     "id_suffix": "from_sheet",
     "obsolete": true
+  },
+  {
+    "result": "sieve_primitive",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "sieve_steel",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "gunpowder",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "mp3",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "portable_game",
+    "type": "recipe",
+    "obsolete": true
   }
 ]

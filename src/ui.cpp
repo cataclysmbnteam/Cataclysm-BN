@@ -1008,4 +1008,3 @@ void pointmenu_cb::select( uilist *const menu )
 {
     impl->select( menu );
 }
-

@@ -35,6 +35,8 @@
 static const std::string flag_FIT( "FIT" );
 static const std::string flag_VARSIZE( "VARSIZE" );
 
+static const itype_id itype_hotplate( "hotplate" );
+
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
 time_duration recipe::batch_duration( int batch, float multiplier, size_t assistants ) const
@@ -100,8 +102,8 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     if( abstract ) {
         ident_ = recipe_id( jo.get_string( "abstract" ) );
     } else {
-        result_ = jo.get_string( "result" );
-        ident_ = recipe_id( result_ );
+        jo.read( "result", result_, true );
+        ident_ = recipe_id( result_.str() );
     }
 
     if( jo.has_bool( "obsolete" ) ) {
@@ -191,7 +193,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         booksets.clear();
         for( JsonArray arr : jo.get_array( "book_learn" ) ) {
             int booklearn_difficulty = arr.size() > 1 ? arr.get_int( 1 ) : -1;
-            booksets.emplace( arr.get_string( 0 ), booklearn_difficulty );
+            booksets.emplace( itype_id( arr.get_string( 0 ) ), booklearn_difficulty );
             if( booklearn_difficulty > 0 && !skill_used ) {
                 arr.throw_error( "book_learn with >0 skill requirement, but no skill_used set", 1 );
             }
@@ -244,7 +246,8 @@ void recipe::load( const JsonObject &jo, const std::string &src )
             }
             byproducts.clear();
             for( JsonArray arr : jo.get_array( "byproducts" ) ) {
-                byproducts[ arr.get_string( 0 ) ] += arr.size() == 2 ? arr.get_int( 1 ) : 1;
+                itype_id byproduct( arr.get_string( 0 ) );
+                byproducts[ byproduct ] += arr.size() == 2 ? arr.get_int( 1 ) : 1;
             }
         }
         assign( jo, "construction_blueprint", blueprint );
@@ -259,13 +262,13 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                                           provide.get_int( "amount", 1 ) ) );
             }
             // all blueprints provide themselves with needing it written in JSON
-            bp_provides.emplace_back( std::make_pair( result_, 1 ) );
+            bp_provides.emplace_back( std::make_pair( result_.str(), 1 ) );
             for( JsonObject require : jo.get_array( "blueprint_requires" ) ) {
                 bp_requires.emplace_back( std::make_pair( require.get_string( "id" ),
                                           require.get_int( "amount", 1 ) ) );
             }
             // all blueprints exclude themselves with needing it written in JSON
-            bp_excludes.emplace_back( std::make_pair( result_, 1 ) );
+            bp_excludes.emplace_back( std::make_pair( result_.str(), 1 ) );
             for( JsonObject exclude : jo.get_array( "blueprint_excludes" ) ) {
                 bp_excludes.emplace_back( std::make_pair( exclude.get_string( "id" ),
                                           exclude.get_int( "amount", 1 ) ) );
@@ -318,7 +321,8 @@ void recipe::load( const JsonObject &jo, const std::string &src )
 
 void recipe::finalize()
 {
-    if( test_mode && check_blueprint_needs ) {
+    // TODO: Rethink bools used for slow checks
+    if( ( test_mode || json_report_unused_fields ) && check_blueprint_needs ) {
         check_blueprint_requirements();
     }
 
@@ -337,8 +341,8 @@ void recipe::finalize()
 
     deduped_requirements_ = deduped_requirement_data( requirements_, ident() );
 
-    if( contained && container == "null" ) {
-        container = item::find_type( result_ )->default_container.value_or( "null" );
+    if( contained && container.is_null() ) {
+        container = result_->default_container.value_or( itype_id::NULL_ID() );
     }
 
     if( autolearn && autolearn_requirements.empty() ) {
@@ -366,7 +370,7 @@ std::string recipe::get_consistency_error() const
         return "defines invalid result";
     }
 
-    if( !item::type_is_defined( result_ ) ) {
+    if( !result_.is_valid() ) {
         return "defines invalid result";
     }
 
@@ -375,18 +379,18 @@ std::string recipe::get_consistency_error() const
     }
 
     const auto is_invalid_bp = []( const std::pair<itype_id, int> &elem ) {
-        return !item::type_is_defined( elem.first );
+        return !elem.first.is_valid();
     };
 
     if( std::any_of( byproducts.begin(), byproducts.end(), is_invalid_bp ) ) {
         return "defines invalid byproducts";
     }
 
-    if( !contained && container != "null" ) {
+    if( !contained && !container.is_null() ) {
         return "defines container but not contained";
     }
 
-    if( !item::type_is_defined( container ) ) {
+    if( !container.is_valid() ) {
         return "specifies unknown container";
     }
 
@@ -400,11 +404,16 @@ std::string recipe::get_consistency_error() const
     }
 
     const auto is_invalid_book = []( const std::pair<itype_id, int> &elem ) {
-        return !item::find_type( elem.first )->book;
+        return !elem.first->book;
     };
 
     if( std::any_of( booksets.begin(), booksets.end(), is_invalid_book ) ) {
         return "defines invalid book";
+    }
+
+    // TODO: IDs instead of raw string
+    if( !blueprint.empty() && !mapgen::has_update_id( blueprint ) ) {
+        return "has invalid mapgen id";
     }
 
     return std::string();
@@ -662,10 +671,53 @@ const std::vector<std::pair<std::string, int>>  &recipe::blueprint_excludes() co
     return bp_excludes;
 }
 
+static std::string dump_requirements(
+    const requirement_data &reqs,
+    int move_cost,
+    const std::map<skill_id, int> &skills )
+{
+    std::ostringstream os;
+    JsonOut jsout( os, /*pretty_print=*/true );
+
+    jsout.start_object();
+
+    jsout.member( "time" );
+    if( move_cost % 100 == 0 ) {
+        dump_to_json_string( time_duration::from_turns( move_cost / 100 ),
+                             jsout, time_duration::units );
+    } else {
+        // cannot precisely represent the value using time_duration format,
+        // write integer instead.
+        jsout.write( move_cost );
+    }
+
+    jsout.member( "skills" );
+    jsout.start_array( /*wrap=*/!skills.empty() );
+    for( const std::pair<const skill_id, int> &p : skills ) {
+        jsout.start_array();
+        jsout.write( p.first );
+        jsout.write( p.second );
+        jsout.end_array();
+    }
+    jsout.end_array();
+
+    jsout.member( "inline" );
+    reqs.dump( jsout );
+
+    jsout.end_object();
+    return os.str();
+}
+
 void recipe::check_blueprint_requirements()
 {
+    if( !blueprint.empty() && !mapgen::has_update_id( blueprint ) ) {
+        debugmsg( "Blueprint %1$s has invalid mapgen id %2$s", ident_.str(), blueprint );
+        return;
+    }
     build_reqs total_reqs;
-    get_build_reqs_for_furn_ter_ids( get_changed_ids_from_update( blueprint ), total_reqs );
+    const std::pair<std::map<ter_id, int>, std::map<furn_id, int>> &changed_ids
+            = get_changed_ids_from_update( blueprint );
+    get_build_reqs_for_furn_ter_ids( changed_ids, total_reqs );
     requirement_data req_data_blueprint = std::accumulate(
             reqs_blueprint.begin(), reqs_blueprint.end(), requirement_data(),
     []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
@@ -681,35 +733,17 @@ void recipe::check_blueprint_requirements()
     req_data_calc.consolidate();
     if( time_blueprint != total_reqs.time || skills_blueprint != total_reqs.skills
         || !req_data_blueprint.has_same_requirements_as( req_data_calc ) ) {
-        std::ostringstream os;
-        JsonOut jsout( os, /*pretty_print=*/true );
+        std::string calc_req_str = dump_requirements( req_data_calc, total_reqs.time, total_reqs.skills );
+        std::string got_req_str = dump_requirements( req_data_blueprint, total_reqs.time,
+                                  total_reqs.skills );
 
-        jsout.start_object();
-
-        jsout.member( "time" );
-        if( total_reqs.time % 100 == 0 ) {
-            dump_to_json_string( time_duration::from_turns( total_reqs.time / 100 ),
-                                 jsout, time_duration::units );
-        } else {
-            // cannot precisely represent the value using time_duration format,
-            // write integer instead.
-            jsout.write( total_reqs.time );
+        std::stringstream ss;
+        for( auto &id_count : changed_ids.first ) {
+            ss << string_format( "%s: %d\n", id_count.first.id(), id_count.second );
         }
-
-        jsout.member( "skills" );
-        jsout.start_array( /*wrap=*/!total_reqs.skills.empty() );
-        for( const std::pair<const skill_id, int> &p : total_reqs.skills ) {
-            jsout.start_array();
-            jsout.write( p.first );
-            jsout.write( p.second );
-            jsout.end_array();
+        for( auto &id_count : changed_ids.second ) {
+            ss << string_format( "%s: %d\n", id_count.first.id(), id_count.second );
         }
-        jsout.end_array();
-
-        jsout.member( "inline" );
-        req_data_calc.dump( jsout );
-
-        jsout.end_object();
 
         debugmsg( "Specified blueprint requirements of %1$s does not match calculated requirements.  "
                   "Specify \"check_blueprint_needs\": false to disable the check or "
@@ -717,8 +751,12 @@ void recipe::check_blueprint_requirements()
                   // mark it for the auto-update python script
                   "~~~ auto-update-blueprint: %1$s\n"
                   "%2$s\n"
-                  "~~~ end-auto-update",
-                  ident_.str(), os.str() );
+                  "~~~ end-auto-update\n"
+                  "If the stated requirements match the above, but the error still appears, it is a bug.\n"
+                  "Stated requirements are expanded to:\n"
+                  "%3$s\n"
+                  "---Begin expected tile changes---\n%4$s---End expected tile changes--",
+                  ident_.str(), calc_req_str, got_req_str, ss.str() );
     }
 }
 
@@ -740,7 +778,7 @@ bool recipe::hot_result() const
         const requirement_data::alter_tool_comp_vector &tool_lists = simple_requirements().get_tools();
         for( const std::vector<tool_comp> &tools : tool_lists ) {
             for( const tool_comp &t : tools ) {
-                if( t.type == "hotplate" ) {
+                if( t.type == itype_hotplate ) {
                     return true;
                 }
             }

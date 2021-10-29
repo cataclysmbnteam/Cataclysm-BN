@@ -13,6 +13,7 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "colony.h"
+#include "cuboid_rectangle.h"
 #include "field.h"
 #include "fragment_cloud.h" // IWYU pragma: keep
 #include "game.h"
@@ -49,7 +50,8 @@ static constexpr int LIGHTMAP_CACHE_Y = MAPSIZE_Y;
 static constexpr point lightmap_boundary_min{};
 static constexpr point lightmap_boundary_max( LIGHTMAP_CACHE_X, LIGHTMAP_CACHE_Y );
 
-const half_open_rectangle lightmap_boundaries( lightmap_boundary_min, lightmap_boundary_max );
+const half_open_rectangle<point> lightmap_boundaries(
+    lightmap_boundary_min, lightmap_boundary_max );
 
 std::string four_quadrants::to_string() const
 {
@@ -95,7 +97,7 @@ bool map::build_transparency_cache( const int zlev )
                                    static_cast<float>( LIGHT_TRANSPARENCY_OPEN_AIR ) );
     }
 
-    const float sight_penalty = weather::sight_penalty( g->weather.weather );
+    const float sight_penalty = get_weather().weather_id->sight_penalty;
 
     // Traverse the submaps in order
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
@@ -302,7 +304,7 @@ void map::build_sunlight_cache( int pzlev )
         const auto &prev_transparency_cache = prev_map_cache.transparency_cache;
         const auto &prev_floor_cache = prev_map_cache.floor_cache;
         const auto &outside_cache = map_cache.outside_cache;
-        const float sight_penalty = weather::sight_penalty( g->weather.weather );
+        const float sight_penalty = get_weather().weather_id->sight_penalty;
         // TODO: Replace these with a lookup inside the four_quadrants class.
         constexpr std::array<point, 5> cardinals = {
             {point_zero, point_north, point_west, point_east, point_south}
@@ -514,13 +516,13 @@ void map::generate_lightmap( const int zlev )
             }
 
             if( vp.has_flag( VPFLAG_CONE_LIGHT ) ) {
-                if( veh_luminance > LL_LIT ) {
+                if( veh_luminance > lit_level::LIT ) {
                     add_light_source( src, M_SQRT2 ); // Add a little surrounding light
                     apply_light_arc( src, v->face.dir() + pt->direction, veh_luminance, 45 );
                 }
 
             } else if( vp.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ) {
-                if( veh_luminance > LL_LIT ) {
+                if( veh_luminance > lit_level::LIT ) {
                     add_light_source( src, M_SQRT2 ); // Add a little surrounding light
                     apply_light_arc( src, v->face.dir() + pt->direction, veh_luminance, 90 );
                 }
@@ -584,26 +586,26 @@ void map::add_light_source( const tripoint &p, float luminance )
 lit_level map::light_at( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
-        return LL_DARK;    // Out of bounds
+        return lit_level::DARK;    // Out of bounds
     }
 
     const auto &map_cache = get_cache_ref( p.z );
     const auto &lm = map_cache.lm;
     const auto &sm = map_cache.sm;
     if( sm[p.x][p.y] >= LIGHT_SOURCE_BRIGHT ) {
-        return LL_BRIGHT;
+        return lit_level::BRIGHT;
     }
 
     const float max_light = lm[p.x][p.y].max();
     if( max_light >= LIGHT_AMBIENT_LIT ) {
-        return LL_LIT;
+        return lit_level::LIT;
     }
 
     if( max_light >= LIGHT_AMBIENT_LOW ) {
-        return LL_LOW;
+        return lit_level::LOW;
     }
 
-    return LL_DARK;
+    return lit_level::DARK;
 }
 
 float map::ambient_light_at( const tripoint &p ) const
@@ -695,7 +697,7 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
 
     // Clairvoyance overrides everything.
     if( dist <= cache.u_clairvoyance ) {
-        return LL_BRIGHT;
+        return lit_level::BRIGHT;
     }
     const auto &map_cache = get_cache_ref( p.z );
     const apparent_light_info a = apparent_light_helper( map_cache, p );
@@ -704,9 +706,9 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     // but the player can still see light sources.
     if( dist > g->u.unimpaired_range() ) {
         if( !a.obstructed && map_cache.sm[p.x][p.y] > 0.0 ) {
-            return LL_BRIGHT_ONLY;
+            return lit_level::BRIGHT_ONLY;
         } else {
-            return LL_DARK;
+            return lit_level::DARK;
         }
     }
     if( a.obstructed ) {
@@ -714,26 +716,26 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
             if( a.apparent_light > cache.g_light_level ) {
                 // This represents too hazy to see detail,
                 // but enough light getting through to illuminate.
-                return LL_BRIGHT_ONLY;
+                return lit_level::BRIGHT_ONLY;
             } else {
                 // If it's not brighter than the surroundings, it just ends up shadowy.
-                return LL_LOW;
+                return lit_level::LOW;
             }
         } else {
-            return LL_BLANK;
+            return lit_level::BLANK;
         }
     }
     // Then we just search for the light level in descending order.
     if( a.apparent_light > LIGHT_SOURCE_BRIGHT || map_cache.sm[p.x][p.y] > 0.0 ) {
-        return LL_BRIGHT;
+        return lit_level::BRIGHT;
     }
     if( a.apparent_light > LIGHT_AMBIENT_LIT ) {
-        return LL_LIT;
+        return lit_level::LIT;
     }
     if( a.apparent_light >= cache.vision_threshold ) {
-        return LL_LOW;
+        return lit_level::LOW;
     } else {
-        return LL_BLANK;
+        return lit_level::BLANK;
     }
 }
 
@@ -1361,13 +1363,13 @@ void map::apply_light_source( const tripoint &p, float luminance )
     const point p2( p.xy() );
 
     if( inbounds( p ) ) {
-        const float min_light = std::max( static_cast<float>( LL_LOW ), luminance );
+        const float min_light = std::max( static_cast<float>( lit_level::LOW ), luminance );
         lm[p2.x][p2.y] = elementwise_max( lm[p2.x][p2.y], min_light );
         sm[p2.x][p2.y] = std::max( sm[p2.x][p2.y], luminance );
     }
-    if( luminance <= LL_LOW ) {
+    if( luminance <= lit_level::LOW ) {
         return;
-    } else if( luminance <= LL_BRIGHT_ONLY ) {
+    } else if( luminance <= lit_level::BRIGHT_ONLY ) {
         luminance = 1.49f;
     }
 

@@ -36,4 +36,3 @@ double dispersion_sources::avg() const
 {
     return max() / 2.0;
 }
-

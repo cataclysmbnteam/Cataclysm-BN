@@ -12,6 +12,7 @@
 
 #include "calendar.h"
 #include "color.h"
+#include "coordinates.h"
 #include "enums.h"
 #include "explosion.h"
 #include "game_constants.h"
@@ -33,8 +34,6 @@ struct tripoint;
 enum hp_part : int;
 enum body_part : int;
 class JsonObject;
-
-using itype_id = std::string;
 class item_location;
 struct furn_t;
 struct itype;
@@ -56,10 +55,10 @@ class iuse_transform : public iuse_actor
         translation msg_transform;
 
         /** type of the resulting item */
-        std::string target;
+        itype_id target;
 
         /** if set transform item to container and place new item (of type @ref target) inside */
-        std::string container;
+        itype_id container;
 
         /** if zero or positive set remaining ammo of @ref target to this (after transformation) */
         int ammo_qty = -1;
@@ -71,7 +70,7 @@ class iuse_transform : public iuse_actor
         int countdown = 0;
 
         /** if both this and ammo_qty are specified then set @ref target to this specific ammo */
-        std::string ammo_type;
+        itype_id ammo_type;
 
         /** used to set the active property of the transformed @ref target */
         bool active = false;
@@ -218,7 +217,7 @@ class unfold_vehicle_iuse : public iuse_actor
         std::string unfold_msg;
         /** Creature::moves it takes to unfold. */
         int moves = 0;
-        std::map<std::string, int> tools_needed;
+        std::map<itype_id, int> tools_needed;
 
         unfold_vehicle_iuse( const std::string &type = "unfold_vehicle" ) : iuse_actor( type ) {}
 
@@ -251,9 +250,9 @@ class consume_drug_iuse : public iuse_actor
         /** Fields to produce when you take the drug, mostly intended for various kinds of smoke. **/
         std::map<std::string, int> fields_produced;
         /** Tool charges needed to take the drug, e.g. fire. **/
-        std::map<std::string, int> charges_needed;
+        std::map<itype_id, int> charges_needed;
         /** Tools needed, but not consumed, e.g. "smoking apparatus". **/
-        std::map<std::string, int> tools_needed;
+        std::map<itype_id, int> tools_needed;
         /** An effect or effects (conditions) to give the player for the stated duration. **/
         std::vector<effect_data> effects;
         /** A list of stats and adjustments to them. **/
@@ -469,8 +468,9 @@ class reveal_map_actor : public iuse_actor
          */
         std::string message;
 
-        void reveal_targets( const tripoint &center, const std::pair<std::string, ot_match_type> &target,
-                             int reveal_distance ) const;
+        void reveal_targets(
+            const tripoint_abs_omt &center, const std::pair<std::string, ot_match_type> &target,
+            int reveal_distance ) const;
 
         reveal_map_actor( const std::string &type = "reveal_map" ) : iuse_actor( type ) {}
 
@@ -643,7 +643,7 @@ class enzlave_actor : public iuse_actor
 class fireweapon_off_actor : public iuse_actor
 {
     public:
-        std::string target_id;
+        itype_id target_id;
         std::string success_message;
         std::string lacks_fuel_message;
         std::string failure_message; // Due to bad roll
@@ -1002,7 +1002,7 @@ class heal_actor : public iuse_actor
          * If the used item is a tool it, it will be turned into the used up item.
          * If it is not a tool a new item with this id will be created.
          */
-        std::string used_up_item_id;
+        itype_id used_up_item_id;
         int used_up_item_quantity = 1;
         int used_up_item_charges = 1;
         std::set<std::string> used_up_item_flags;

@@ -68,7 +68,6 @@
   {
     "id": "glasses_bal",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "pair of ballistic glasses", "str_pl": "pairs of ballistic glasses" },
     "description": "Modern tactical eyewear that protects from small projectiles and fragments.  Provides excellent protection from environmental dangers.",
     "weight": "184 g",

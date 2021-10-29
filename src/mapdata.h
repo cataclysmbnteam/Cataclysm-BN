@@ -27,8 +27,6 @@ struct tripoint;
 
 using iexamine_function = void ( * )( player &, const tripoint & );
 
-using itype_id = std::string;
-
 struct map_bash_info {
     int str_min;            // min str(*) required to bash
     int str_max;            // max str required: bash succeeds if str >= random # between str_min & str_max
@@ -98,6 +96,46 @@ struct lockpicking_open_result {
     ter_id new_ter_type;
     furn_id new_furn_type;
     std::string open_message;
+};
+
+struct pry_result {
+    // Minimum prying quality required to pry open
+    int pry_quality;
+    // Multiplier for how much of an advantage is gained from using a better tool than the minimum
+    int pry_bonus_mult;
+    // Difficulty value used for roll
+    int difficulty;
+    // How much noise a successful prying attempt creates, if any
+    int noise;
+    // How much noise breaking creates, if any, defaults to noise if not set
+    int break_noise;
+    // Does a successful pry attempt potentially sound an alarm?
+    bool alarm;
+    // Does a failed pry attempt risk breaking it instead?
+    bool breakable;
+    // What terrain or furniture it will turn into when pried open
+    ter_str_id new_ter_type;
+    furn_str_id new_furn_type;
+    // What terrain or furniture it will turn into if you break it
+    ter_str_id break_ter_type;
+    furn_str_id break_furn_type;
+    // item group of items that are dropped on success or breakage
+    item_group_id pry_items;
+    item_group_id break_items;
+    // sound message made on success ('You hear a "smash!"')
+    translation sound;
+    // sound message made on breakage, if breakable is true
+    translation break_sound;
+    // Messages for succeeding or failing pry attempt, and breakage
+    std::string success_message;
+    std::string fail_message;
+    std::string break_message;
+    pry_result();
+    enum map_object_type {
+        furniture = 0,
+        terrain
+    };
+    bool load( const JsonObject &jsobj, const std::string &member, map_object_type obj_type );
 };
 
 /*
@@ -234,6 +272,7 @@ enum ter_connects : int {
 struct map_data_common_t {
         map_bash_info        bash;
         map_deconstruct_info deconstruct;
+        pry_result           pry;
 
     public:
         virtual ~map_data_common_t() = default;
@@ -374,7 +413,7 @@ struct furn_t : map_data_common_t {
     furn_str_id close; // Close action: transform into furniture with matching id
     furn_str_id transforms_into; // Transform into what furniture?
 
-    std::string crafting_pseudo_item;
+    itype_id crafting_pseudo_item;
     units::volume keg_capacity = 0_ml;
     int comfort = 0;
     int floor_bedding_warmth = 0;

@@ -105,6 +105,12 @@ static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_valium( "valium" );
 static const efftype_id effect_visuals( "visuals" );
 
+static const itype_id itype_e_handcuffs( "e_handcuffs" );
+static const itype_id itype_inhaler( "inhaler" );
+static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
+static const itype_id itype_oxygen_tank( "oxygen_tank" );
+static const itype_id itype_rad_badge( "rad_badge" );
+
 static const trait_id trait_ADDICTIVE( "ADDICTIVE" );
 static const trait_id trait_ALBINO( "ALBINO" );
 static const trait_id trait_ASTHMA( "ASTHMA" );
@@ -615,8 +621,8 @@ void Character::suffer_from_asthma( const int current_stim )
                  ( has_effect( effect_sleep ) ? 10 : 1 ) ) ) {
         return;
     }
-    bool auto_use = has_charges( "inhaler", 1 ) || has_charges( "oxygen_tank", 1 ) ||
-                    has_charges( "smoxygen_tank", 1 );
+    bool auto_use = has_charges( itype_inhaler, 1 ) || has_charges( itype_oxygen_tank, 1 ) ||
+                    has_charges( itype_smoxygen_tank, 1 );
     bool oxygenator = has_bionic( bio_gills ) && get_power_level() >= 3_kJ;
     if( underwater ) {
         oxygen = oxygen / 2;
@@ -630,29 +636,29 @@ void Character::suffer_from_asthma( const int current_stim )
         inventory map_inv;
         map_inv.form_from_map( g->u.pos(), 2, &g->u );
         // check if an inhaler is somewhere near
-        bool nearby_use = auto_use || oxygenator || map_inv.has_charges( "inhaler", 1 ) ||
-                          map_inv.has_charges( "oxygen_tank", 1 ) ||
-                          map_inv.has_charges( "smoxygen_tank", 1 );
+        bool nearby_use = auto_use || oxygenator || map_inv.has_charges( itype_inhaler, 1 ) ||
+                          map_inv.has_charges( itype_oxygen_tank, 1 ) ||
+                          map_inv.has_charges( itype_smoxygen_tank, 1 );
         // check if character has an oxygenator first
         if( oxygenator ) {
             mod_power_level( -3_kJ );
             add_msg_if_player( m_info, _( "You use your Oxygenator to clear it up, "
                                           "then go back to sleep." ) );
         } else if( auto_use ) {
-            if( use_charges_if_avail( "inhaler", 1 ) ) {
+            if( use_charges_if_avail( itype_inhaler, 1 ) ) {
                 add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
-            } else if( use_charges_if_avail( "oxygen_tank", 1 ) ||
-                       use_charges_if_avail( "smoxygen_tank", 1 ) ) {
+            } else if( use_charges_if_avail( itype_oxygen_tank, 1 ) ||
+                       use_charges_if_avail( itype_smoxygen_tank, 1 ) ) {
                 add_msg_if_player( m_info, _( "You take a deep breath from your oxygen tank "
                                               "and go back to sleep." ) );
             }
         } else if( nearby_use ) {
             // create new variable to resolve a reference issue
             int amount = 1;
-            if( !g->m.use_charges( g->u.pos(), 2, "inhaler", amount ).empty() ) {
+            if( !g->m.use_charges( g->u.pos(), 2, itype_inhaler, amount ).empty() ) {
                 add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
-            } else if( !g->m.use_charges( g->u.pos(), 2, "oxygen_tank", amount ).empty() ||
-                       !g->m.use_charges( g->u.pos(), 2, "smoxygen_tank", amount ).empty() ) {
+            } else if( !g->m.use_charges( g->u.pos(), 2, itype_oxygen_tank, amount ).empty() ||
+                       !g->m.use_charges( g->u.pos(), 2, itype_smoxygen_tank, amount ).empty() ) {
                 add_msg_if_player( m_info, _( "You take a deep breath from your oxygen tank "
                                               "and go back to sleep." ) );
             }
@@ -669,9 +675,9 @@ void Character::suffer_from_asthma( const int current_stim )
         }
     } else if( auto_use ) {
         int charges = 0;
-        if( use_charges_if_avail( "inhaler", 1 ) ) {
+        if( use_charges_if_avail( itype_inhaler, 1 ) ) {
             moves -= 40;
-            charges = charges_of( "inhaler" );
+            charges = charges_of( itype_inhaler );
             if( charges == 0 ) {
                 add_msg_if_player( m_bad, _( "You use your last inhaler charge." ) );
             } else {
@@ -681,10 +687,10 @@ void Character::suffer_from_asthma( const int current_stim )
                                                      "only %d charges left.", charges ),
                                    charges );
             }
-        } else if( use_charges_if_avail( "oxygen_tank", 1 ) ||
-                   use_charges_if_avail( "smoxygen_tank", 1 ) ) {
+        } else if( use_charges_if_avail( itype_oxygen_tank, 1 ) ||
+                   use_charges_if_avail( itype_smoxygen_tank, 1 ) ) {
             moves -= 500; // synched with use action
-            charges = charges_of( "oxygen_tank" ) + charges_of( "smoxygen_tank" );
+            charges = charges_of( itype_oxygen_tank ) + charges_of( itype_smoxygen_tank );
             if( charges == 0 ) {
                 add_msg_if_player( m_bad, _( "You breathe in last bit of oxygen "
                                              "from the tank." ) );
@@ -715,9 +721,9 @@ void Character::suffer_in_sunlight()
     const bool leafiest = has_trait( trait_LEAVES3 );
     int sunlight_nutrition = 0;
     if( leafy && g->m.is_outside( pos() ) && ( g->light_level( pos().z ) >= 40 ) ) {
-        const float weather_factor = ( g->weather.weather == WEATHER_CLEAR ||
-                                       g->weather.weather == WEATHER_SUNNY ) ? 1.0 : 0.5;
-        const int player_local_temp = g->weather.get_temperature( pos() );
+        const float weather_factor = ( get_weather().weather_id->sun_intensity >=
+                                       sun_intensity_type::normal ) ? 1.0 : 0.5;
+        const int player_local_temp = get_weather().get_temperature( pos() );
         int flux = ( player_local_temp - 65 ) / 2;
         if( !has_hat ) {
             sunlight_nutrition += ( 100 + flux ) * weather_factor;
@@ -747,7 +753,7 @@ void Character::suffer_in_sunlight()
     }
 
     if( ( has_trait( trait_TROGLO ) || has_trait( trait_TROGLO2 ) ) &&
-        g->weather.weather == WEATHER_SUNNY ) {
+        get_weather().weather_id->sun_intensity >= sun_intensity_type::high ) {
         mod_str_bonus( -1 );
         mod_dex_bonus( -1 );
         add_miss_reason( _( "The sunlight distracts you." ), 1 );
@@ -1223,7 +1229,7 @@ void Character::suffer_from_bad_bionics()
         moves -= 150;
         mod_power_level( -10_kJ );
 
-        if( weapon.typeId() == "e_handcuffs" && weapon.charges > 0 ) {
+        if( weapon.typeId() == itype_e_handcuffs && weapon.charges > 0 ) {
             weapon.charges -= rng( 1, 3 ) * 50;
             if( weapon.charges < 1 ) {
                 weapon.charges = 1;
@@ -1311,9 +1317,10 @@ void Character::suffer_from_artifacts()
     }
 
     if( has_artifact_with( AEP_BAD_WEATHER ) && calendar::once_every( 1_minutes ) &&
-        g->weather.weather != WEATHER_SNOWSTORM ) {
-        g->weather.weather_override = WEATHER_SNOWSTORM;
-        g->weather.set_nextweather( calendar::turn );
+        get_weather().weather_id->precip < precip_class::heavy ) {
+        weather_manager &wm = get_weather();
+        wm.weather_override = wm.get_cur_weather_gen().get_bad_weather();
+        wm.set_nextweather( calendar::turn );
     }
 
     if( has_artifact_with( AEP_MUTAGENIC ) && one_turn_in( 48_hours ) ) {
@@ -1555,7 +1562,7 @@ bool Character::irradiate( float rads, bool bypass )
 
         // Apply rads to any radiation badges.
         for( item *const it : inv_dump() ) {
-            if( it->typeId() != "rad_badge" ) {
+            if( it->typeId() != itype_rad_badge ) {
                 continue;
             }
 

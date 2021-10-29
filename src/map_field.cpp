@@ -61,6 +61,9 @@
 #include "vpart_position.h"
 #include "weather.h"
 
+static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
+static const itype_id itype_rock( "rock" );
+
 static const species_id FUNGUS( "FUNGUS" );
 static const species_id INSECT( "INSECT" );
 static const species_id SPIDER( "SPIDER" );
@@ -107,7 +110,7 @@ void map::create_burnproducts( const tripoint &p, const item &fuel, const units:
                 continue;
             }
             const float eff = bp.second;
-            const int n = std::floor( eff * ( by_weight / item::find_type( id )->weight ) );
+            const int n = std::floor( eff * ( by_weight / id->weight ) );
 
             if( n <= 0 ) {
                 continue;
@@ -246,10 +249,14 @@ void map::gas_spread_to( field_entry &cur, maptile &dst, const tripoint &p )
 void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
                       const time_duration &outdoor_age_speedup, scent_block &sblk )
 {
-    const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( p ) ) );
+    map &here = get_map();
+    // TODO: fix point types
+    const oter_id &cur_om_ter =
+        overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getabs( p ) ) ) );
     const bool sheltered = g->is_sheltered( p );
-    const int winddirection = g->weather.winddirection;
-    const int windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, p, winddirection,
+    const weather_manager &weather = get_weather();
+    const int winddirection = weather.winddirection;
+    const int windpower = get_local_windpower( weather.windspeed, cur_om_ter, p, winddirection,
                           sheltered );
 
     const int current_intensity = cur.get_field_intensity();
@@ -977,7 +984,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                 if( cur_fd_type_id == fd_push_items ) {
                     map_stack items = i_at( p );
                     for( auto pushee = items.begin(); pushee != items.end(); ) {
-                        if( pushee->typeId() != "rock" ||
+                        if( pushee->typeId() != itype_rock ||
                             pushee->age() < 1_turns ) {
                             pushee++;
                         } else {
@@ -1306,7 +1313,7 @@ void map::player_in_field( player &u )
         }
         if( ft == fd_fire ) {
             // Heatsink or suit prevents ALL fire damage.
-            if( !u.has_active_bionic( bio_heatsink ) && !u.is_wearing( "rm13_armor_on" ) ) {
+            if( !u.has_active_bionic( bio_heatsink ) && !u.is_wearing( itype_rm13_armor_on ) ) {
 
                 // To modify power of a field based on... whatever is relevant for the effect.
                 int adjusted_intensity = cur.get_field_intensity();
@@ -1432,7 +1439,7 @@ void map::player_in_field( player &u )
                 // Fireballs can't touch you inside a car.
                 // Heatsink or suit stops fire.
                 if( !u.has_active_bionic( bio_heatsink ) &&
-                    !u.is_wearing( "rm13_armor_on" ) ) {
+                    !u.is_wearing( itype_rm13_armor_on ) ) {
                     u.add_msg_player_or_npc( m_bad, _( "You're torched by flames!" ),
                                              _( "<npcname> is torched by flames!" ) );
                     u.deal_damage( nullptr, bodypart_id( "leg_l" ), damage_instance( DT_HEAT, rng( 2, 6 ) ) );
