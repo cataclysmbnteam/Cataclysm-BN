@@ -13,6 +13,7 @@
 
 #include "avatar.h"
 #include "bodypart.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "coordinate_conversions.h"
 #include "creature.h"
@@ -616,21 +617,33 @@ std::string sounds::sound_at( const tripoint &location )
 #if defined(SDL_SOUND)
 void sfx::fade_audio_group( group group, int duration )
 {
+    if( test_mode ) {
+        return;
+    }
     Mix_FadeOutGroup( static_cast<int>( group ), duration );
 }
 
 void sfx::fade_audio_channel( channel channel, int duration )
 {
+    if( test_mode ) {
+        return;
+    }
     Mix_FadeOutChannel( static_cast<int>( channel ), duration );
 }
 
 bool sfx::is_channel_playing( channel channel )
 {
+    if( test_mode ) {
+        return false;
+    }
     return Mix_Playing( static_cast<int>( channel ) ) != 0;
 }
 
 void sfx::stop_sound_effect_fade( channel channel, int duration )
 {
+    if( test_mode ) {
+        return;
+    }
     if( Mix_FadeOutChannel( static_cast<int>( channel ), duration ) == -1 ) {
         dbg( DL::Error ) << "Failed to stop sound effect: " << Mix_GetError();
     }
@@ -638,11 +651,17 @@ void sfx::stop_sound_effect_fade( channel channel, int duration )
 
 void sfx::stop_sound_effect_timed( channel channel, int time )
 {
+    if( test_mode ) {
+        return;
+    }
     Mix_ExpireChannel( static_cast<int>( channel ), time );
 }
 
 int sfx::set_channel_volume( channel channel, int volume )
 {
+    if( test_mode ) {
+        return 0;
+    }
     int ch = static_cast<int>( channel );
     if( !Mix_Playing( ch ) ) {
         return -1;
@@ -655,6 +674,10 @@ int sfx::set_channel_volume( channel channel, int volume )
 
 void sfx::do_vehicle_engine_sfx()
 {
+    if( test_mode ) {
+        return;
+    }
+
     static const channel ch = channel::interior_engine_sound;
     if( !g->u.in_vehicle ) {
         fade_audio_channel( ch, 300 );
@@ -772,6 +795,10 @@ void sfx::do_vehicle_engine_sfx()
 
 void sfx::do_vehicle_exterior_engine_sfx()
 {
+    if( test_mode ) {
+        return;
+    }
+
     static const channel ch = channel::exterior_engine_sound;
     static const int ch_int = static_cast<int>( ch );
     // early bail-outs for efficiency
@@ -859,6 +886,10 @@ void sfx::do_vehicle_exterior_engine_sfx()
 
 void sfx::do_ambient()
 {
+    if( test_mode ) {
+        return;
+    }
+
     Character &player_character = get_player_character();
     if( player_character.in_sleep_state() && !audio_muted ) {
         fade_audio_channel( channel::any, 300 );
@@ -969,6 +1000,10 @@ void sfx::do_ambient()
 // vehicle turrets) or a NPC.
 void sfx::generate_gun_sound( const player &source_arg, const item &firing )
 {
+    if( test_mode ) {
+        return;
+    }
+
     end_sfx_timestamp = std::chrono::high_resolution_clock::now();
     sfx_time = end_sfx_timestamp - start_sfx_timestamp;
     if( std::chrono::duration_cast<std::chrono::milliseconds> ( sfx_time ).count() < 80 ) {
@@ -1037,6 +1072,9 @@ void sfx::generate_melee_sound( const tripoint &source, const tripoint &target, 
                                 bool targ_mon,
                                 const std::string &material )
 {
+    if( test_mode ) {
+        return;
+    }
     // If creating a new thread for each invocation is to much, we have to consider a thread
     // pool or maybe a single thread that works continuously, but that requires a queue or similar
     // to coordinate its work.
@@ -1132,6 +1170,10 @@ void sfx::sound_thread::operator()() const
 
 void sfx::do_projectile_hit( const Creature &target )
 {
+    if( test_mode ) {
+        return;
+    }
+
     const int heard_volume = sfx::get_heard_volume( target.pos() );
     const int angle = get_heard_angle( target.pos() );
     if( target.is_monster() ) {
@@ -1166,6 +1208,10 @@ void sfx::do_projectile_hit( const Creature &target )
 
 void sfx::do_player_death_hurt( const player &target, bool death )
 {
+    if( test_mode ) {
+        return;
+    }
+
     int heard_volume = get_heard_volume( target.pos() );
     const bool male = target.male;
     if( !male && !death ) {
@@ -1181,6 +1227,10 @@ void sfx::do_player_death_hurt( const player &target, bool death )
 
 void sfx::do_danger_music()
 {
+    if( test_mode ) {
+        return;
+    }
+
     if( g->u.in_sleep_state() && !audio_muted ) {
         fade_audio_channel( channel::any, 100 );
         audio_muted = true;
@@ -1231,6 +1281,10 @@ void sfx::do_danger_music()
 
 void sfx::do_fatigue()
 {
+    if( test_mode ) {
+        return;
+    }
+
     /*15: Stamina 75%
     16: Stamina 50%
     17: Stamina 25%*/
@@ -1276,6 +1330,10 @@ void sfx::do_fatigue()
 
 void sfx::do_hearing_loss( int turns )
 {
+    if( test_mode ) {
+        return;
+    }
+
     g_sfx_volume_multiplier = .1;
     fade_audio_group( group::weather, 50 );
     fade_audio_group( group::time_of_day, 50 );
@@ -1298,6 +1356,9 @@ void sfx::do_hearing_loss( int turns )
 
 void sfx::remove_hearing_loss()
 {
+    if( test_mode ) {
+        return;
+    }
     stop_sound_effect_fade( channel::deafness_tone, 300 );
     g_sfx_volume_multiplier = 1;
     do_ambient();
@@ -1305,6 +1366,10 @@ void sfx::remove_hearing_loss()
 
 void sfx::do_footstep()
 {
+    if( test_mode ) {
+        return;
+    }
+
     end_sfx_timestamp = std::chrono::high_resolution_clock::now();
     sfx_time = end_sfx_timestamp - start_sfx_timestamp;
     if( std::chrono::duration_cast<std::chrono::milliseconds> ( sfx_time ).count() > 400 ) {
@@ -1464,6 +1529,10 @@ void sfx::do_footstep()
 
 void sfx::do_obstacle( const std::string &obst )
 {
+    if( test_mode ) {
+        return;
+    }
+
     int heard_volume = sfx::get_heard_volume( g->u.pos() );
     //const auto terrain = g->m.ter( g->u.pos() ).id();
     static const std::set<std::string> water = {
@@ -1489,6 +1558,10 @@ void sfx::do_obstacle( const std::string &obst )
 
 void sfx::play_activity_sound( const std::string &id, const std::string &variant, int volume )
 {
+    if( test_mode ) {
+        return;
+    }
+
     if( act != g->u.activity.id() ) {
         act = g->u.activity.id();
         play_ambient_variant_sound( id, variant, volume, channel::player_activities, 0 );
@@ -1497,6 +1570,9 @@ void sfx::play_activity_sound( const std::string &id, const std::string &variant
 
 void sfx::end_activity_sounds()
 {
+    if( test_mode ) {
+        return;
+    }
     act = activity_id::NULL_ID();
     fade_audio_channel( channel::player_activities, 2000 );
 }
