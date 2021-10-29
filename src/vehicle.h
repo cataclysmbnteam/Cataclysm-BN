@@ -19,6 +19,7 @@
 #include "character_id.h"
 #include "clzones.h"
 #include "colony.h"
+#include "coordinates.h"
 #include "damage.h"
 #include "game_constants.h"
 #include "item.h"
@@ -574,7 +575,7 @@ class turret_data
  */
 struct label : public point {
     label() = default;
-    label( const point &p ) : point( p ) {}
+    explicit label( const point &p ) : point( p ) {}
     label( const point &p, std::string text ) : point( p ), text( std::move( text ) ) {}
 
     std::string text;
@@ -1739,7 +1740,7 @@ class vehicle
 
     public:
         std::vector<vehicle_part> parts;   // Parts which occupy different tiles
-        std::vector<tripoint> omt_path; // route for overmap-scale auto-driving
+        std::vector<tripoint_abs_omt> omt_path; // route for overmap-scale auto-driving
         std::vector<int> alternators;      // List of alternator indices
         std::vector<int> engines;          // List of engine indices
         std::vector<int> reactors;         // List of reactor indices

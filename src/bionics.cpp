@@ -462,7 +462,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
     }
     const float allowed_ratio = static_cast<int>( rules.cbm_reserve ) / 100.0f;
     const units::energy free_power = get_power_level() - get_max_power_level() * allowed_ratio;
-    if( free_power <= 0_mJ ) {
+    if( free_power <= 0_J ) {
         return;
     }
 
@@ -506,7 +506,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
         if( is_armed() ) {
             stow_item( weapon );
         }
-        if( g->u.sees( pos() ) ) {
+        if( get_player_character().sees( pos() ) ) {
             add_msg( m_info, _( "%s activates their %s." ), disp_name(), bio.info().name );
         }
 
@@ -1535,7 +1535,7 @@ void Character::process_bionic( int b )
                 bio.charge_timer = bio.info().charge_time;
             } else {
                 // Try to recharge our bionic if it is made for it
-                units::energy cost = 0_mJ;
+                units::energy cost = 0_J;
                 bool recharged = attempt_recharge( *this, bio, cost, discharge_factor, discharge_rate );
                 if( !recharged ) {
                     // No power to recharge, so deactivate
@@ -1545,7 +1545,7 @@ void Character::process_bionic( int b )
                     deactivate_bionic( b, true );
                     return;
                 }
-                if( cost > 0_mJ ) {
+                if( cost > 0_J ) {
                     mod_power_level( -cost );
                 }
             }
@@ -2231,7 +2231,7 @@ bool Character::install_bionics( const itype &type, player &installer, bool auto
     assign_activity( ACT_OPERATION, to_moves<int>( difficulty * 20_minutes ) );
     activity.values.push_back( difficulty );
     activity.values.push_back( success );
-    activity.values.push_back( units::to_millijoule( bioid->capacity ) );
+    activity.values.push_back( units::to_joule( bioid->capacity ) );
     activity.values.push_back( pl_skill );
     activity.str_values.push_back( "install" );
     activity.str_values.push_back( bioid.str() );

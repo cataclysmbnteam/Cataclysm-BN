@@ -16,8 +16,6 @@ TEST_CASE( "units_have_correct_ratios", "[units]" )
     CHECK( 1.0_gram == 1000.0_milligram );
     CHECK( 1_kilogram == 1000_gram );
     CHECK( 1.0_kilogram == 1000.0_gram );
-    CHECK( 1_J == 1000_mJ );
-    CHECK( 1.0_J == 1000.0_mJ );
     CHECK( 1_kJ == 1000_J );
     CHECK( 1.0_kJ == 1000.0_J );
     CHECK( 1_USD == 100_cent );
@@ -28,7 +26,6 @@ TEST_CASE( "units_have_correct_ratios", "[units]" )
     CHECK( 1_hours == 60_minutes );
     CHECK( 1_minutes == 60_seconds );
 
-    CHECK( 1_mJ == units::from_millijoule( 1 ) );
     CHECK( 1_J == units::from_joule( 1 ) );
     CHECK( 1_kJ == units::from_kilojoule( 1 ) );
 
@@ -52,15 +49,13 @@ TEST_CASE( "energy parsing from JSON", "[units]" )
     CHECK_THROWS( parse_energy_quantity( "\"    \"" ) ); // only spaces
     CHECK_THROWS( parse_energy_quantity( "\"27\"" ) ); // no energy unit
 
-    CHECK( parse_energy_quantity( "\"1 mJ\"" ) == 1_mJ );
     CHECK( parse_energy_quantity( "\"1 J\"" ) == 1_J );
     CHECK( parse_energy_quantity( "\"1 kJ\"" ) == 1_kJ );
-    CHECK( parse_energy_quantity( "\"+1 mJ\"" ) == 1_mJ );
     CHECK( parse_energy_quantity( "\"+1 J\"" ) == 1_J );
     CHECK( parse_energy_quantity( "\"+1 kJ\"" ) == 1_kJ );
 
-    CHECK( parse_energy_quantity( "\"1 mJ 1 J 1 kJ\"" ) == 1_mJ + 1_J + 1_kJ );
-    CHECK( parse_energy_quantity( "\"1 mJ -4 J 1 kJ\"" ) == 1_mJ - 4_J + 1_kJ );
+    CHECK( parse_energy_quantity( "\"1 J 1 kJ\"" ) == 1_J + 1_kJ );
+    CHECK( parse_energy_quantity( "\"1 kJ -4 J\"" ) == 1_kJ - 4_J );
 }
 
 static time_duration parse_time_duration( const std::string &json )

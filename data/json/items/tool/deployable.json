@@ -161,6 +161,7 @@
     "material": [ "steel" ],
     "symbol": "=",
     "color": "light_gray",
+    "flags": [ "BUTCHER_RACK" ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_metal_butcher_rack" }
   },
   {
@@ -216,6 +217,7 @@
     "to_hit": -3,
     "bashing": 5,
     "material": [ "steel" ],
+    "flags": [ "FLAT_SURFACE" ],
     "symbol": "=",
     "color": "light_gray",
     "use_action": { "type": "deploy_furn", "furn_type": "f_tourist_table" }
@@ -233,6 +235,7 @@
     "to_hit": -3,
     "bashing": 2,
     "material": [ "leather" ],
+    "flags": [ "FLAT_SURFACE" ],
     "symbol": "*",
     "color": "brown",
     "use_action": { "type": "deploy_furn", "furn_type": "f_leather_tarp" }
@@ -250,6 +253,7 @@
     "to_hit": -3,
     "bashing": 1,
     "material": [ "veggy" ],
+    "flags": [ "FLAT_SURFACE" ],
     "symbol": "*",
     "color": "yellow",
     "use_action": { "type": "deploy_furn", "furn_type": "f_fiber_mat" }

@@ -166,7 +166,7 @@ void Character::set_mutation( const trait_id &trait )
     }
     my_mutations.emplace( trait, trait_data{} );
     rebuild_mutation_cache();
-    mutation_effect( trait, false );
+    mutation_effect( trait );
     recalc_sight_limits();
     reset_encumbrance();
 }
@@ -196,7 +196,7 @@ void Character::switch_mutations( const trait_id &switched, const trait_id &targ
 
     set_mutation( target );
     my_mutations[target].powered = start_powered;
-    mutation_effect( target, false );
+    mutation_effect( target );
 }
 
 int Character::get_mod( const trait_id &mut, const std::string &arg ) const
@@ -265,7 +265,7 @@ void Character::recalculate_size()
     }
 }
 
-void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_override )
+void Character::mutation_effect( const trait_id &mut )
 {
     if( mut == trait_GLASSJAW ) {
         recalc_hp();
@@ -314,19 +314,12 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
         if( !branch.conflicts_with_item( armor ) ) {
             return false;
         }
-        if( !worn_destroyed_override && branch.destroys_gear ) {
-            add_msg_player_or_npc( m_bad,
-                                   _( "Your %s is destroyed!" ),
-                                   _( "<npcname>'s %s is destroyed!" ),
-                                   armor.tname() );
-            armor.contents.spill_contents( pos() );
-        } else {
-            add_msg_player_or_npc( m_bad,
-                                   _( "Your %s is pushed off!" ),
-                                   _( "<npcname>'s %s is pushed off!" ),
-                                   armor.tname() );
-            g->m.add_item_or_charges( pos(), armor );
-        }
+
+        add_msg_player_or_npc( m_bad,
+                               _( "Your %s is pushed off!" ),
+                               _( "<npcname>'s %s is pushed off!" ),
+                               armor.tname() );
+        get_map().add_item_or_charges( pos(), armor );
         return true;
     } );
 
@@ -632,9 +625,9 @@ void Character::activate_mutation( const trait_id &mut )
         return;
     } else if( mut == trait_DEBUG_BIONIC_POWERGEN ) {
         int npower;
-        if( query_int( npower, "Modify bionic power by how much?  (Values are in millijoules)" ) ) {
-            mod_power_level( units::from_millijoule( npower ) );
-            add_msg_if_player( m_good, "Bionic power increased by %dmJ.", npower );
+        if( query_int( npower, "Modify bionic power by how much?  (Values are in joules)" ) ) {
+            mod_power_level( units::from_joule( npower ) );
+            add_msg_if_player( m_good, "Bionic power increased by %dJ.", npower );
             tdata.powered = false;
         }
         return;

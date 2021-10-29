@@ -97,7 +97,9 @@ struct grid_setup {
 static grid_setup set_up_grid( map &m )
 {
     // TODO: clear_grids()
-    auto om = overmap_buffer.get_om_global( sm_to_omt_copy( m.get_abs_sub() ) );
+    // TODO: fix point types
+    auto om = overmap_buffer.get_om_global( project_to<coords::omt>(
+            tripoint_abs_sm( m.get_abs_sub() ) ) );
     om.om->set_electric_grid_connections( om.local, {} );
 
     const tripoint vehicle_local_pos = tripoint( 10, 10, 0 );

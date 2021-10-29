@@ -34,6 +34,7 @@
 #include "character_martial_arts.h"
 #include "color.h"
 #include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
@@ -379,17 +380,17 @@ void teleport_short()
 
 void teleport_long()
 {
-    const tripoint where( ui::omap::choose_point() );
+    const tripoint_abs_omt where( ui::omap::choose_point() );
     if( where == overmap::invalid_tripoint ) {
         return;
     }
     g->place_player_overmap( where );
-    add_msg( _( "You teleport to submap (%d,%d,%d)." ), where.x, where.y, where.z );
+    add_msg( _( "You teleport to submap %s." ), where.to_string() );
 }
 
 void teleport_overmap( bool specific_coordinates )
 {
-    tripoint where;
+    tripoint_abs_omt where;
     if( specific_coordinates ) {
         const std::string text = string_input_popup()
                                  .title( "Teleport where?" )
@@ -403,7 +404,7 @@ void teleport_overmap( bool specific_coordinates )
         coord.x = !coord_strings.empty() ? std::atoi( coord_strings[0].c_str() ) : 0;
         coord.y = coord_strings.size() >= 2 ? std::atoi( coord_strings[1].c_str() ) : 0;
         coord.z = coord_strings.size() >= 3 ? std::atoi( coord_strings[2].c_str() ) : 0;
-        where = tripoint( OMAPX * coord.x, OMAPY * coord.y, coord.z );
+        where = tripoint_abs_omt( OMAPX * coord.x, OMAPY * coord.y, coord.z );
     } else {
         const cata::optional<tripoint> dir_ = choose_direction( _( "Where is the desired overmap?" ) );
         if( !dir_ ) {
@@ -415,8 +416,8 @@ void teleport_overmap( bool specific_coordinates )
 
     g->place_player_overmap( where );
 
-    const tripoint new_pos( omt_to_om_copy( g->u.global_omt_location() ) );
-    add_msg( _( "You teleport to overmap (%d,%d,%d)." ), new_pos.x, new_pos.y, new_pos.z );
+    const tripoint_abs_om new_pos = project_to<coords::om>( g->u.global_omt_location() );
+    add_msg( _( "You teleport to overmap %s." ), new_pos.to_string() );
 }
 
 void spawn_nested_mapgen()
@@ -435,13 +436,15 @@ void spawn_nested_mapgen()
             return;
         }
 
-        const tripoint abs_ms = g->m.getabs( *where );
-        const tripoint abs_omt = ms_to_omt_copy( abs_ms );
-        const tripoint abs_sub = ms_to_sm_copy( abs_ms );
+        map &here = get_map();
+        const tripoint_abs_ms abs_ms( here.getabs( *where ) );
+        const tripoint_abs_omt abs_omt = project_to<coords::omt>( abs_ms );
+        const tripoint_abs_sm abs_sub = project_to<coords::sm>( abs_ms );
 
         map target_map;
         target_map.load( abs_sub, true );
-        const tripoint local_ms = target_map.getlocal( abs_ms );
+        // TODO: fix point types
+        const tripoint local_ms = target_map.getlocal( abs_ms.raw() );
         mapgendata md( abs_omt, target_map, 0.0f, calendar::turn, nullptr );
         const auto &ptr = nested_mapgen[nest_str[nest_choice]].pick();
         if( ptr == nullptr ) {
@@ -503,9 +506,9 @@ void character_edit_menu( Character &c )
              << "; " <<
              "api: " << np->get_faction_ver() << std::endl;
         if( np->has_destination() ) {
-            data << string_format( _( "Destination: %d:%d:%d (%s)" ),
-                                   np->goal.x, np->goal.y, np->goal.z,
-                                   overmap_buffer.ter( np->goal )->get_name() ) << std::endl;
+            data << string_format(
+                     _( "Destination: %s %s" ), np->goal.to_string(),
+                     overmap_buffer.ter( np->goal )->get_name() ) << std::endl;
         } else {
             data << _( "No destination." ) << std::endl;
         }
@@ -1106,7 +1109,7 @@ std::string mission_debug::describe( const mission &m )
     data << _( " Status:" ) << mission_status_string( m.status );
     data << _( " ID:" ) << m.uid;
     data << _( " NPC ID:" ) << m.npc_id;
-    data << _( " Target:" ) << m.target.x << "," << m.target.y << "," << m.target.z;
+    data << _( " Target:" ) << m.target.to_string();
     data << _( "Player ID:" ) << m.player_id;
 
     return data.str();
@@ -1870,22 +1873,21 @@ void debug()
 #endif
             break;
         case DEBUG_MAP_EXTRA: {
-            std::unordered_map<std::string, map_extra_pointer> FM = MapExtras::all_functions();
+            const std::vector<std::string> &mx_str = MapExtras::get_all_function_names();
             uilist mx_menu;
-            std::vector<std::string> mx_str;
-            for( auto &extra : FM ) {
-                mx_menu.addentry( -1, true, -1, extra.first );
-                mx_str.push_back( extra.first );
+            for( const std::string &extra : mx_str ) {
+                mx_menu.addentry( -1, true, -1, extra );
             }
             mx_menu.query();
             int mx_choice = mx_menu.ret;
             if( mx_choice >= 0 && mx_choice < static_cast<int>( mx_str.size() ) ) {
-                const tripoint where_omt( ui::omap::choose_point() );
+                const tripoint_abs_omt where_omt( ui::omap::choose_point() );
                 if( where_omt != overmap::invalid_tripoint ) {
-                    tripoint where_sm = omt_to_sm_copy( where_omt );
+                    tripoint_abs_sm where_sm = project_to<coords::sm>( where_omt );
                     tinymap mx_map;
-                    mx_map.load( where_sm, false );
-                    MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm );
+                    // TODO: fix point types
+                    mx_map.load( where_sm.raw(), false );
+                    MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm.raw() );
                     g->load_npcs();
                     g->m.invalidate_map_cache( g->get_levz() );
                 }

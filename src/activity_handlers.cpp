@@ -235,8 +235,6 @@ static const skill_id skill_survival( "survival" );
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
-static const quality_id qual_SAW_M( "SAW_M" );
-static const quality_id qual_SAW_W( "SAW_W" );
 
 static const species_id HUMAN( "HUMAN" );
 static const species_id ZOMBIE( "ZOMBIE" );
@@ -595,17 +593,19 @@ butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_ty
     }
     bool b_rack_present = false;
     for( const tripoint &pt : g->m.points_in_radius( u.pos(), PICKUP_RANGE ) ) {
-        if( g->m.has_flag_furn( flag_BUTCHER_EQ, pt ) ) {
+        if( g->m.has_flag_furn( flag_BUTCHER_EQ, pt ) || inv.has_item_with( []( const item & it ) {
+        return it.has_flag( "BUTCHER_RACK" );
+        } ) ) {
             b_rack_present = true;
         }
     }
     // workshop butchery (full) prequisites
     if( action == BUTCHER_FULL ) {
-        const bool has_rope = u.has_amount( itype_rope_30, 1 ) ||
-                              u.has_amount( itype_rope_makeshift_30, 1 ) ||
-                              u.has_amount( itype_hd_tow_cable, 1 ) ||
-                              u.has_amount( itype_vine_30, 1 ) ||
-                              u.has_amount( itype_grapnel, 1 );
+        const bool has_rope = inv.has_amount( itype_rope_30, 1 ) ||
+                              inv.has_amount( itype_rope_makeshift_30, 1 ) ||
+                              inv.has_amount( itype_hd_tow_cable, 1 ) ||
+                              inv.has_amount( itype_vine_30, 1 ) ||
+                              inv.has_amount( itype_grapnel, 1 );
         const bool big_corpse = corpse.size >= MS_MEDIUM;
 
         if( big_corpse ) {
@@ -619,14 +619,12 @@ butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_ty
                     _( "To perform a full butchery on a corpse this big, you need either a butchering rack, a nearby hanging meathook, or both a long rope in your inventory and a nearby tree to hang the corpse from." ),
                     butcherable_rating::no_tree_rope_rack );
             }
-            if( !g->m.has_nearby_table( u.pos(), PICKUP_RANGE ) ) {
+            if( !( g->m.has_nearby_table( u.pos(), PICKUP_RANGE ) || inv.has_item_with( []( const item & it ) {
+            return it.has_flag( "FLAT_SURFACE" );
+            } ) ) ) {
                 not_this_one(
                     _( "To perform a full butchery on a corpse this big, you need a table nearby or something else with a flat surface.  A leather tarp spread out on the ground could suffice." ),
                     butcherable_rating::no_table );
-            }
-            if( !( inv.has_quality( qual_SAW_W ) || inv.has_quality( qual_SAW_M ) ) ) {
-                not_this_one( _( "For a corpse this big you need a saw to perform a full butchery." ),
-                              butcherable_rating::no_saw );
             }
         }
     }
@@ -787,7 +785,7 @@ int butcher_time_to_cut( const inventory &inv, const item &corpse_item, const bu
             time_to_cut = std::max( 400, time_to_cut / 10 );
             break;
         case DISSECT:
-            time_to_cut *= 5;
+            time_to_cut *= 7;
             break;
     }
 
@@ -1099,9 +1097,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
     }
     // 20% of the original corpse weight is not an item, but liquid gore
 
-    if( action == DISSECT ) {
-        p.practice( skill_firstaid, std::max( 0, practice ), std::max( mt.size - MS_MEDIUM, 0 ) + 4 );
-    } else {
+    if( action != DISSECT ) {
         p.practice( skill_survival, std::max( 0, practice ), std::max( mt.size - MS_MEDIUM, 0 ) + 4 );
     }
 }
@@ -1256,6 +1252,15 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             cbms.push_back( *it );
         }
         extract_or_wreck_cbms( cbms, roll, *p );
+        // those lines are for XP gain with dissecting. It depends on the size of the corpse, time to dissect the corpse and the amount of bionics you would gather.
+        int time_to_cut = size_factor_in_time_to_cut( corpse->size );
+        int level_cap = std::min<int>( MAX_SKILL, ( corpse->size + ( cbms.size() * 2 + 1 ) ) );
+        int size_mult = corpse->size > MS_MEDIUM ? ( corpse->size * corpse->size ) : 8;
+        int practice_amt = ( size_mult + 1 ) * ( ( time_to_cut / 150 ) + 1 ) *
+                           ( cbms.size() * cbms.size() / 2 + 1 );
+        p->practice( skill_firstaid, practice_amt, level_cap );
+        add_msg( m_debug, "Experience: %d, Level cap: %d, Time to cut: %d", practice_amt, level_cap,
+                 time_to_cut );
     }
 
     //end messages and effects
@@ -3015,7 +3020,10 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
             act->set_to_null();
             return;
         }
-        tripoint sm_tri = g->m.getlocal( sm_to_ms_copy( omt_to_sm_copy( p->omt_path.back() ) ) );
+        map &here = get_map();
+        // TODO: fix point types
+        tripoint sm_tri = here.getlocal(
+                              project_to<coords::ms>( p->omt_path.back() ).raw() );
         tripoint centre_sub = sm_tri + point( SEEX, SEEY );
         if( !g->m.passable( centre_sub ) ) {
             tripoint_range<tripoint> candidates = g->m.points_in_radius( centre_sub, 2 );
@@ -3436,7 +3444,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
 
             if( p->has_bionic( bid ) ) {
                 p->perform_uninstall( bid, act->values[0], act->values[1],
-                                      units::from_millijoule( act->values[2] ), act->values[3] );
+                                      units::from_joule( act->values[2] ), act->values[3] );
             } else {
                 debugmsg( _( "Tried to uninstall %s, but you don't have this bionic installed." ), bid.c_str() );
                 p->remove_effect( effect_under_op );
@@ -4403,16 +4411,16 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
         return;
     }
     // Breadth-first search forest tiles until one reveals new overmap tiles.
-    std::queue<tripoint> q;
-    std::unordered_set<tripoint> seen;
-    tripoint loc = p->global_omt_location();
+    std::queue<tripoint_abs_omt> q;
+    std::unordered_set<tripoint_abs_omt> seen;
+    tripoint_abs_omt loc = p->global_omt_location();
     q.push( loc );
     seen.insert( loc );
     const std::function<bool( const oter_id & )> filter = []( const oter_id & ter ) {
         return ter.obj().is_wooded() || ter.obj().get_name() == "field";
     };
     while( !q.empty() ) {
-        tripoint tpt = q.front();
+        tripoint_abs_omt tpt = q.front();
         if( overmap_buffer.reveal( tpt, 3, filter ) ) {
             if( p->has_trait( trait_SPIRITUAL ) ) {
                 p->add_morale( MORALE_TREE_COMMUNION, 2, 30, 8_hours, 6_hours );
@@ -4425,7 +4433,7 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
             }
             return;
         }
-        for( const tripoint &neighbor : points_in_radius( tpt, 1 ) ) {
+        for( const tripoint_abs_omt &neighbor : points_in_radius( tpt, 1 ) ) {
             if( seen.find( neighbor ) != seen.end() ) {
                 continue;
             }

@@ -57,6 +57,12 @@
     "conflicts": [ "OUTER", "SKINTIGHT", "WAIST", "PERSONAL", "AURA" ]
   },
   {
+    "id": "BIONIC_INSTALLATION_DATA",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "This item <info>provides</info> instructions and other required data for several bionics, allowing installation of them with <good>minimal failure chance</good>."
+  },
+  {
     "id": "BIONIC_NPC_USABLE",
     "type": "json_flag",
     "context": [ "BIONIC_ITEM" ],
@@ -837,6 +843,12 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "info": "This gear has certain parts padded with steel to <good>increase protection</good> with moderate <bad>increase to encumbrance</bad>."
+  },
+  {
+    "id": "alloy_padded",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear has certain parts padded with superalloy to <good>increase protection</good> with moderate <bad>increase to encumbrance</bad>."
   },
   {
     "id": "wooled",
@@ -2001,5 +2013,17 @@
     "id": "PYROMANIAC_WEAPON",
     "type": "json_flag",
     "context": [  ]
+  },
+  {
+    "id": "BUTCHER_RACK",
+    "type": "json_flag",
+    "context": [ "TOOL" ],
+    "info": "This item <good>can be used as a <info>butchering</info> rack</good>."
+  },
+  {
+    "id": "FLAT_SURFACE",
+    "type": "json_flag",
+    "context": [ "TOOL" ],
+    "info": "This item <good>can be used as a flat surface</good> for <info>butchering</info>."
   }
 ]

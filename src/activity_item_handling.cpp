@@ -1450,17 +1450,23 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         }
         bool b_rack_present = false;
         for( const tripoint &pt : g->m.points_in_radius( src_loc, 2 ) ) {
-            if( g->m.has_flag_furn( flag_BUTCHER_EQ, pt ) ) {
+            const inventory &inv = p.crafting_inventory();
+            if( g->m.has_flag_furn( flag_BUTCHER_EQ, pt ) || inv.has_item_with( []( const item & it ) {
+            return it.has_flag( "BUTCHER_RACK" );
+            } ) ) {
                 b_rack_present = true;
             }
         }
         if( !corpses.empty() ) {
             if( big_count > 0 && small_count == 0 ) {
-                if( !b_rack_present || !g->m.has_nearby_table( src_loc, 2 ) ) {
+                const inventory &inv = p.crafting_inventory();
+                if( !b_rack_present || !( g->m.has_nearby_table( src_loc, PICKUP_RANGE ) ||
+                inv.has_item_with( []( const item & it ) {
+                return it.has_flag( "FLAT_SURFACE" );
+                } ) ) ) {
                     return activity_reason_info::fail( do_activity_reason::NO_ZONE );
                 }
-                if( p.has_quality( quality_id( qual_BUTCHER ), 1 ) && ( p.has_quality( qual_SAW_W ) ||
-                        p.has_quality( qual_SAW_M ) ) ) {
+                if( p.has_quality( quality_id( qual_BUTCHER ), 1 ) ) {
                     return activity_reason_info::ok( do_activity_reason::NEEDS_BIG_BUTCHERING );
                 } else {
                     return activity_reason_info::fail( do_activity_reason::NEEDS_BIG_BUTCHERING );

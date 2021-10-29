@@ -1391,6 +1391,25 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
+    },
+    "pry": {
+      "success_message": "You pry open the door.",
+      "fail_message": "You pry, but cannot pry open the door.",
+      "break_message": "You damage the door!",
+      "pry_quality": 2,
+      "pry_bonus_mult": 3,
+      "noise": 12,
+      "break_noise": 10,
+      "breakable": true,
+      "difficulty": 8,
+      "new_ter_type": "t_door_o",
+      "break_ter_type": "t_door_b",
+      "break_items": [
+        { "item": "2x4", "prob": 25 },
+        { "item": "wood_panel", "prob": 10 },
+        { "item": "splinter", "count": [ 1, 2 ] },
+        { "item": "nail", "charges": [ 0, 2 ] }
+      ]
     }
   },
   {
@@ -1425,6 +1444,25 @@
       "sound_fail": "whump!",
       "ter_set": "t_door_b",
       "items": [
+        { "item": "2x4", "prob": 25 },
+        { "item": "wood_panel", "prob": 10 },
+        { "item": "splinter", "count": [ 1, 2 ] },
+        { "item": "nail", "charges": [ 0, 2 ] }
+      ]
+    },
+    "pry": {
+      "success_message": "You pry open the door.",
+      "fail_message": "You pry, but cannot pry open the door.",
+      "break_message": "You damage the door!",
+      "pry_quality": 2,
+      "pry_bonus_mult": 3,
+      "noise": 12,
+      "break_noise": 10,
+      "breakable": true,
+      "difficulty": 8,
+      "new_ter_type": "t_door_o",
+      "break_ter_type": "t_door_b",
+      "break_items": [
         { "item": "2x4", "prob": 25 },
         { "item": "wood_panel", "prob": 10 },
         { "item": "splinter", "count": [ 1, 2 ] },
@@ -1469,6 +1507,25 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
+    },
+    "pry": {
+      "success_message": "You pry open the door.",
+      "fail_message": "You pry, but cannot pry open the door.",
+      "break_message": "You damage the door!",
+      "pry_quality": 2,
+      "pry_bonus_mult": 3,
+      "noise": 12,
+      "break_noise": 10,
+      "breakable": true,
+      "difficulty": 8,
+      "new_ter_type": "t_door_o_peep",
+      "break_ter_type": "t_door_b_peep",
+      "break_items": [
+        { "item": "2x4", "prob": 25 },
+        { "item": "wood_panel", "prob": 10 },
+        { "item": "splinter", "count": [ 1, 2 ] },
+        { "item": "nail", "charges": [ 0, 2 ] }
+      ]
     }
   },
   {
@@ -1493,6 +1550,26 @@
       "sound_fail": "whump!",
       "ter_set": "t_door_b",
       "items": [
+        { "item": "2x4", "prob": 25 },
+        { "item": "wood_panel", "prob": 10 },
+        { "item": "splinter", "count": [ 1, 2 ] },
+        { "item": "nail", "charges": [ 0, 2 ] }
+      ]
+    },
+    "pry": {
+      "success_message": "You pry open the door.",
+      "fail_message": "You pry, but cannot pry open the door.",
+      "break_message": "You damage the door!",
+      "pry_quality": 2,
+      "pry_bonus_mult": 3,
+      "noise": 12,
+      "break_noise": 10,
+      "alarm": true,
+      "breakable": true,
+      "difficulty": 8,
+      "new_ter_type": "t_door_o_peep",
+      "break_ter_type": "t_door_b_peep",
+      "break_items": [
         { "item": "2x4", "prob": 25 },
         { "item": "wood_panel", "prob": 10 },
         { "item": "splinter", "count": [ 1, 2 ] },

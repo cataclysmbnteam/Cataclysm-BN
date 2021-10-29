@@ -16,6 +16,7 @@
 #include "character_id.h"
 #include "colony.h"
 #include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "enums.h"
@@ -600,7 +601,8 @@ static bool mx_collegekids( map &m, const tripoint & )
 
 static bool mx_roadblock( map &m, const tripoint &abs_sub )
 {
-    const tripoint abs_omt = sm_to_omt_copy( abs_sub );
+    // TODO: fix point types
+    const tripoint_abs_omt abs_omt( sm_to_omt_copy( abs_sub ) );
     const oter_id &north = overmap_buffer.ter( abs_omt + point_north );
     const oter_id &south = overmap_buffer.ter( abs_omt + point_south );
     const oter_id &west = overmap_buffer.ter( abs_omt + point_west );
@@ -781,7 +783,7 @@ static bool mx_marloss_pilgrimage( map &m, const tripoint &abs_sub )
 
 static bool mx_bandits_block( map &m, const tripoint &abs_sub )
 {
-    const tripoint abs_omt = sm_to_omt_copy( abs_sub );
+    const tripoint_abs_omt abs_omt( sm_to_omt_copy( abs_sub ) );
     const oter_id &north = overmap_buffer.ter( abs_omt + point_north );
     const oter_id &south = overmap_buffer.ter( abs_omt + point_south );
     const oter_id &west = overmap_buffer.ter( abs_omt + point_west );
@@ -1060,7 +1062,7 @@ static bool mx_portal( map &m, const tripoint &abs_sub )
 
 static bool mx_minefield( map &m, const tripoint &abs_sub )
 {
-    const tripoint abs_omt = sm_to_omt_copy( abs_sub );
+    const tripoint_abs_omt abs_omt( sm_to_omt_copy( abs_sub ) );
     const oter_id &center = overmap_buffer.ter( abs_omt );
     const oter_id &north = overmap_buffer.ter( abs_omt + point_north );
     const oter_id &south = overmap_buffer.ter( abs_omt + point_south );
@@ -2197,7 +2199,7 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
     // equipment in a box
     // (curved roads & intersections excluded, perhaps TODO)
 
-    const tripoint abs_omt = sm_to_omt_copy( abs_sub );
+    const tripoint_abs_omt abs_omt( sm_to_omt_copy( abs_sub ) );
     const oter_id &north = overmap_buffer.ter( abs_omt + point_north );
     const oter_id &south = overmap_buffer.ter( abs_omt + point_south );
     const oter_id &west = overmap_buffer.ter( abs_omt + point_west );
@@ -2945,6 +2947,12 @@ map_extra_pointer get_function( const std::string &name )
     return iter->second;
 }
 
+std::vector<std::string> all_function_names;
+std::vector<std::string> get_all_function_names()
+{
+    return all_function_names;
+}
+
 void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs_sub )
 {
     bool applied_successfully = false;
@@ -2959,12 +2967,14 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs
             break;
         }
         case map_extra_method::mapgen: {
-            mapgendata dat( sm_to_omt_copy( abs_sub ), m, 0.0f, calendar::turn, nullptr );
+            mapgendata dat( tripoint_abs_omt( sm_to_omt_copy( abs_sub ) ), m, 0.0f, calendar::turn,
+                            nullptr );
             applied_successfully = run_mapgen_func( extra.generator_id, dat );
             break;
         }
         case map_extra_method::update_mapgen: {
-            mapgendata dat( sm_to_omt_copy( abs_sub ), m, 0.0f, calendar::start_of_cataclysm, nullptr );
+            mapgendata dat( tripoint_abs_omt( sm_to_omt_copy( abs_sub ) ), m, 0.0f,
+                            calendar::start_of_cataclysm, nullptr );
             applied_successfully = run_mapgen_update_func( extra.generator_id, dat );
             break;
         }
@@ -2977,7 +2987,8 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs
         return;
     }
 
-    overmap_buffer.add_extra( sm_to_omt_copy( abs_sub ), id );
+    // TODO: fix point types
+    overmap_buffer.add_extra( tripoint_abs_omt( sm_to_omt_copy( abs_sub ) ), id );
 
     auto_notes::auto_note_settings &autoNoteSettings = get_auto_notes_settings();
 
@@ -2994,7 +3005,8 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs
                                get_note_string_from_color( extra.color ),
                                extra.name(),
                                extra.description() );
-            overmap_buffer.add_note( sm_to_omt_copy( abs_sub ), mx_note );
+            // TODO: fix point types
+            overmap_buffer.add_note( tripoint_abs_omt( sm_to_omt_copy( abs_sub ) ), mx_note );
         }
     }
 }
@@ -3022,6 +3034,7 @@ void check_consistency()
 void reset()
 {
     extras.reset();
+    all_function_names.clear();
 }
 
 void debug_spawn_test()
@@ -3100,6 +3113,7 @@ void map_extra::check() const
                 debugmsg( "invalid map extra function (%s) defined for map extra (%s)", generator_id, id.str() );
                 break;
             }
+            MapExtras::all_function_names.push_back( generator_id );
             break;
         }
         case map_extra_method::mapgen: {
@@ -3112,6 +3126,7 @@ void map_extra::check() const
                           id.str() );
                 break;
             }
+            MapExtras::all_function_names.push_back( generator_id );
             break;
         }
         case map_extra_method::null:

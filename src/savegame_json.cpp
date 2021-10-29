@@ -594,14 +594,14 @@ void Character::load( const JsonObject &data )
     assign( data, "max_power_level", max_power_level, false, 0_kJ );
 
     // Bionic power should not be negative!
-    if( power_level < 0_mJ ) {
-        power_level = 0_mJ;
+    if( power_level < 0_J ) {
+        power_level = 0_J;
     }
 
     JsonArray overmap_time_array = data.get_array( "overmap_time" );
     overmap_time.clear();
     while( overmap_time_array.has_more() ) {
-        point pt;
+        point_abs_omt pt;
         overmap_time_array.read_next( pt );
         time_duration tdr = 0_turns;
         overmap_time_array.read_next( tdr );
@@ -723,9 +723,7 @@ void Character::store( JsonOut &json ) const
     json.end_object();
 
     // npc; unimplemented
-    if( power_level < 1_J ) {
-        json.member( "power_level", std::to_string( units::to_millijoule( power_level ) ) + " mJ" );
-    } else if( power_level < 1_kJ ) {
+    if( power_level < 1_kJ ) {
         json.member( "power_level", std::to_string( units::to_joule( power_level ) ) + " J" );
     } else {
         json.member( "power_level", units::to_kilojoule( power_level ) );
@@ -735,7 +733,7 @@ void Character::store( JsonOut &json ) const
     if( !overmap_time.empty() ) {
         json.member( "overmap_time" );
         json.start_array();
-        for( const std::pair<const point, time_duration> &pr : overmap_time ) {
+        for( const std::pair<const point_abs_omt, time_duration> &pr : overmap_time ) {
             json.write( pr.first );
             json.write( pr.second );
         }
@@ -825,9 +823,10 @@ void player::store( JsonOut &json ) const
 
     json.member( "ammo_location", ammo_location );
 
+    // TODO: move to Character
     json.member( "camps" );
     json.start_array();
-    for( const tripoint &bcpt : camps ) {
+    for( const tripoint_abs_omt &bcpt : camps ) {
         json.start_object();
         json.member( "pos", bcpt );
         json.end_object();
@@ -909,10 +908,11 @@ void player::load( const JsonObject &data )
         last_target = g->critter_tracker->from_temporary_id( tmptar );
     }
     data.read( "destination_point", destination_point );
+    // TODO: move to Character
     camps.clear();
     for( JsonObject bcdata : data.get_array( "camps" ) ) {
         bcdata.allow_omitted_members();
-        tripoint bcpt;
+        tripoint_abs_omt bcpt;
         bcdata.read( "pos", bcpt );
         camps.insert( bcpt );
     }
@@ -1407,7 +1407,7 @@ void npc::load( const JsonObject &data )
     std::string facID;
     std::string comp_miss_id;
     std::string comp_miss_role;
-    tripoint comp_miss_pt;
+    tripoint_abs_omt comp_miss_pt;
     std::string classid;
     std::string companion_mission_role;
     time_point companion_mission_t = calendar::start_of_cataclysm;
@@ -1462,9 +1462,9 @@ void npc::load( const JsonObject &data )
         data.read( "last_player_seen_pos", last_player_seen_pos );
     }
 
-    data.read( "goalx", goal.x );
-    data.read( "goaly", goal.y );
-    data.read( "goalz", goal.z );
+    data.read( "goalx", goal.x() );
+    data.read( "goaly", goal.y() );
+    data.read( "goalz", goal.z() );
 
     data.read( "guardx", guard_pos.x );
     data.read( "guardy", guard_pos.y );
@@ -1563,7 +1563,7 @@ void npc::load( const JsonObject &data )
         companion_mission_role_id = companion_mission_role;
     }
 
-    std::vector<tripoint> companion_mission_pts;
+    std::vector<tripoint_abs_omt> companion_mission_pts;
     data.read( "companion_mission_points", companion_mission_pts );
     if( !companion_mission_pts.empty() ) {
         for( auto pt : companion_mission_pts ) {
@@ -1639,9 +1639,9 @@ void npc::store( JsonOut &json ) const
 
     json.member( "last_player_seen_pos", last_player_seen_pos );
 
-    json.member( "goalx", goal.x );
-    json.member( "goaly", goal.y );
-    json.member( "goalz", goal.z );
+    json.member( "goalx", goal.x() );
+    json.member( "goaly", goal.y() );
+    json.member( "goalz", goal.z() );
 
     json.member( "guardx", guard_pos.x );
     json.member( "guardy", guard_pos.y );
@@ -2178,7 +2178,7 @@ void item::io( Archive &archive )
     archive.io( "charges", charges, 0 );
     charges = std::max( charges, 0 );
 
-    archive.io( "energy", energy, 0_mJ );
+    archive.io( "energy", energy, 0_J );
 
     archive.io( "burnt", burnt, 0 );
     archive.io( "poison", poison, 0 );
@@ -2838,12 +2838,12 @@ void mission::deserialize( JsonIn &jsin )
     jo.read( "uid", uid );
     JsonArray ja = jo.get_array( "target" );
     if( ja.size() == 3 ) {
-        target.x = ja.get_int( 0 );
-        target.y = ja.get_int( 1 );
-        target.z = ja.get_int( 2 );
+        target.x() = ja.get_int( 0 );
+        target.y() = ja.get_int( 1 );
+        target.z() = ja.get_int( 2 );
     } else if( ja.size() == 2 ) {
-        target.x = ja.get_int( 0 );
-        target.y = ja.get_int( 1 );
+        target.x() = ja.get_int( 0 );
+        target.y() = ja.get_int( 1 );
     }
 
     if( jo.has_int( "follow_up" ) ) {
@@ -2899,9 +2899,9 @@ void mission::serialize( JsonOut &json ) const
 
     json.member( "target" );
     json.start_array();
-    json.write( target.x );
-    json.write( target.y );
-    json.write( target.z );
+    json.write( target.x() );
+    json.write( target.y() );
+    json.write( target.z() );
     json.end_array();
 
     json.member( "item_id", item_id );
@@ -3499,7 +3499,7 @@ void pickup::act_item::deserialize( JsonIn &jsin )
 // basecamp
 void basecamp::serialize( JsonOut &json ) const
 {
-    if( omt_pos != tripoint_zero ) {
+    if( omt_pos != tripoint_abs_omt() ) {
         json.start_object();
         json.member( "name", name );
         json.member( "pos", omt_pos );
@@ -3596,7 +3596,7 @@ void basecamp::deserialize( JsonIn &jsin )
     }
     for( JsonObject edata : data.get_array( "fortifications" ) ) {
         edata.allow_omitted_members();
-        tripoint restore_pos;
+        tripoint_abs_omt restore_pos;
         edata.read( "pos", restore_pos );
         fortifications.push_back( restore_pos );
     }

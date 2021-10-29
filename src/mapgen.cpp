@@ -126,7 +126,8 @@ void map::generate( const tripoint &p, const time_point &when )
         }
     }
     // x, and y are submap coordinates, convert to overmap terrain coordinates
-    tripoint abs_omt = sm_to_omt_copy( p );
+    // TODO: fix point types
+    tripoint_abs_omt abs_omt( sm_to_omt_copy( p ) );
     oter_id terrain_type = overmap_buffer.ter( abs_omt );
 
     // This attempts to scale density of zombies inversely with distance from the nearest city.
@@ -555,7 +556,7 @@ size_t mapgen_function_json_base::calc_index( const point &p ) const
 static bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y,
                                  const point &mapgensize, const JsonObject &jso )
 {
-    half_open_rectangle bounds( point_zero, mapgensize );
+    half_open_rectangle<point> bounds( point_zero, mapgensize );
     if( !bounds.contains( point( x.val, y.val ) ) ) {
         return false;
     }
@@ -938,7 +939,8 @@ class jmapgen_sign : public jmapgen_piece
 
                 std::string cityname = "illegible city name";
                 tripoint abs_sub = dat.m.get_abs_sub();
-                const city *c = overmap_buffer.closest_city( abs_sub ).city;
+                // TODO: fix point types
+                const city *c = overmap_buffer.closest_city( tripoint_abs_sm( abs_sub ) ).city;
                 if( c != nullptr ) {
                     cityname = c->name;
                 }
@@ -989,7 +991,8 @@ class jmapgen_graffiti : public jmapgen_piece
 
                 std::string cityname = "illegible city name";
                 tripoint abs_sub = dat.m.get_abs_sub();
-                const city *c = overmap_buffer.closest_city( abs_sub ).city;
+                // TODO: fix point types
+                const city *c = overmap_buffer.closest_city( tripoint_abs_sm( abs_sub ) ).city;
                 if( c != nullptr ) {
                     cityname = c->name;
                 }
@@ -5385,7 +5388,8 @@ void map::place_spawns( const mongroup_id &group, const int chance,
                         const bool individual, const bool friendly, const std::string &name, const int mission_id )
 {
     if( !group.is_valid() ) {
-        const tripoint omt = sm_to_omt_copy( get_abs_sub() );
+        // TODO: fix point types
+        const tripoint_abs_omt omt( sm_to_omt_copy( get_abs_sub() ) );
         const oter_id &oid = overmap_buffer.ter( omt );
         debugmsg( "place_spawns: invalid mongroup '%s', om_terrain = '%s' (%s)", group.c_str(),
                   oid.id().c_str(), oid->get_mapgen_id().c_str() );
@@ -5517,7 +5521,8 @@ std::vector<item *> map::place_items( const item_group_id &loc, const int chance
         return res;
     }
     if( !item_group::group_is_defined( loc ) ) {
-        const tripoint omt = sm_to_omt_copy( get_abs_sub() );
+        // TODO: fix point types
+        const tripoint_abs_omt omt( sm_to_omt_copy( get_abs_sub() ) );
         const oter_id &oid = overmap_buffer.ter( omt );
         debugmsg( "place_items: invalid item group '%s', om_terrain = '%s' (%s)",
                   loc.c_str(), oid.id().c_str(), oid->get_mapgen_id().c_str() );
@@ -5803,8 +5808,9 @@ void map::rotate( int turns, const bool setpos_safe )
     // TODO: This radius can be smaller - how small?
     const int radius = HALF_MAPSIZE + 3;
     // uses submap coordinates
-    const std::vector<shared_ptr_fast<npc>> npcs = overmap_buffer.get_npcs_near( abs_sub,
-                                         radius );
+    // TODO: fix point types
+    const std::vector<shared_ptr_fast<npc>> npcs =
+            overmap_buffer.get_npcs_near( tripoint_abs_sm( abs_sub ), radius );
     for( const shared_ptr_fast<npc> &i : npcs ) {
         npc &np = *i;
         const tripoint sq = np.global_square_location();
@@ -5835,7 +5841,7 @@ void map::rotate( int turns, const bool setpos_safe )
             // to be between 0-11,0-11 and teleports NPCs when used inside of update_mapgen
             // calls
             const tripoint new_global_sq = sq - local_sq + new_pos;
-            np.setpos( g->m.getlocal( new_global_sq ) );
+            np.setpos( get_map().getlocal( new_global_sq ) );
         } else {
             // OK, this is ugly: we remove the NPC from the whole map
             // Then we place it back from scratch
@@ -6523,7 +6529,7 @@ bool update_mapgen_function_json::setup_internal( const JsonObject &/*jo*/ )
     return true;
 }
 
-bool update_mapgen_function_json::update_map( const tripoint &omt_pos, const point &offset,
+bool update_mapgen_function_json::update_map( const tripoint_abs_omt &omt_pos, const point &offset,
         mission *miss, bool verify ) const
 {
     if( omt_pos == overmap::invalid_tripoint ) {
@@ -6531,7 +6537,8 @@ bool update_mapgen_function_json::update_map( const tripoint &omt_pos, const poi
         return false;
     }
     tinymap update_tmap;
-    const tripoint sm_pos = omt_to_sm_copy( omt_pos );
+    // TODO: fix point types
+    const tripoint sm_pos = project_to<coords::sm>( omt_pos ).raw();
     update_tmap.load( sm_pos, true );
 
     mapgendata md( omt_pos, update_tmap, 0.0f, calendar::start_of_cataclysm, miss );
@@ -6588,7 +6595,7 @@ mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer )
 {
     if( jo.has_string( "mapgen_update_id" ) ) {
         const std::string mapgen_update_id = jo.get_string( "mapgen_update_id" );
-        const auto update_function = [mapgen_update_id]( const tripoint & omt_pos,
+        const auto update_function = [mapgen_update_id]( const tripoint_abs_omt & omt_pos,
         mission * miss ) {
             run_mapgen_update_func( mapgen_update_id, omt_pos, miss, false );
         };
@@ -6598,11 +6605,11 @@ mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer )
     update_mapgen_function_json json_data( json_source_location{} );
     mapgen_defer::defer = defer;
     if( !json_data.setup_update( jo ) ) {
-        const auto null_function = []( const tripoint &, mission * ) {
+        const auto null_function = []( const tripoint_abs_omt &, mission * ) {
         };
         return null_function;
     }
-    const auto update_function = [json_data]( const tripoint & omt_pos, mission * miss ) {
+    const auto update_function = [json_data]( const tripoint_abs_omt & omt_pos, mission * miss ) {
         json_data.update_map( omt_pos, point_zero, miss );
     };
     defer = mapgen_defer::defer;
@@ -6610,7 +6617,7 @@ mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer )
     return update_function;
 }
 
-bool run_mapgen_update_func( const std::string &update_mapgen_id, const tripoint &omt_pos,
+bool run_mapgen_update_func( const std::string &update_mapgen_id, const tripoint_abs_omt &omt_pos,
                              mission *miss, bool cancel_on_collision )
 {
     const auto update_function = update_mapgen.find( update_mapgen_id );
@@ -6641,7 +6648,12 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
 
     const auto update_function = update_mapgen.find( update_mapgen_id );
 
-    if( update_function == update_mapgen.end() || update_function->second.empty() ) {
+    if( !update_mapgen_id.empty() && update_function == update_mapgen.end() ) {
+        debugmsg( "Couldn't find mapgen function with id %s", update_mapgen_id );
+        return std::make_pair( terrains, furnitures );
+    }
+
+    if( update_mapgen_id.empty() || update_function->second.empty() ) {
         return std::make_pair( terrains, furnitures );
     }
 
@@ -6686,3 +6698,13 @@ bool has_mapgen_for( const std::string &key )
 {
     return oter_mapgen.has( key );
 }
+
+namespace mapgen
+{
+
+bool has_update_id( const mapgen_id &id )
+{
+    return update_mapgen.find( id ) != update_mapgen.end();
+}
+
+} // namespace mapgen

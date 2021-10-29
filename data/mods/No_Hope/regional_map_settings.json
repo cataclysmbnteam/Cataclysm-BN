@@ -394,9 +394,9 @@
           "mx_casings": 30,
           "mx_corpses": 30,
           "mx_mass_grave": 5,
-          "mx_bandits_ambush": 10,
+          "mx_bandits_ambush": 1,
           "mx_bandits_grave": 1,
-          "mx_bandits_outpost": 8
+          "mx_bandits_outpost": 1
         }
       },
       "forest_thick": {
@@ -426,9 +426,9 @@
           "mx_casings": 30,
           "mx_corpses": 30,
           "mx_mass_grave": 5,
-          "mx_bandits_ambush": 20,
-          "mx_bandits_grave": 5,
-          "mx_bandits_outpost": 20
+          "mx_bandits_ambush": 1,
+          "mx_bandits_grave": 1,
+          "mx_bandits_outpost": 1
         }
       },
       "forest_water": {
@@ -457,9 +457,9 @@
           "mx_corpses": 30,
           "mx_nest_dermatik": 10,
           "mx_mass_grave": 5,
-          "mx_bandits_ambush": 20,
-          "mx_bandits_grave": 10,
-          "mx_bandits_outpost": 25
+          "mx_bandits_ambush": 1,
+          "mx_bandits_grave": 1,
+          "mx_bandits_outpost": 1
         }
       },
       "field": {
@@ -485,10 +485,10 @@
           "mx_nest_wasp": 2,
           "mx_mass_grave": 5,
           "mx_grave": 5,
-          "mx_bandits_ambush": 10,
-          "mx_bandits_campsite": 5,
-          "mx_bandits_grave": 2,
-          "mx_bandits_outpost": 2
+          "mx_bandits_ambush": 1,
+          "mx_bandits_campsite": 1,
+          "mx_bandits_grave": 1,
+          "mx_bandits_outpost": 1
         }
       },
       "road": {
@@ -510,7 +510,7 @@
           "mx_casings": 100,
           "mx_corpses": 30,
           "mx_prison_bus": 15,
-          "mx_bandits_ambush": 100
+          "mx_bandits_ambush": 10
         }
       },
       "bridgehead_ground": { "chance": 5, "extras": { "mx_minefield": 100 } },
@@ -530,8 +530,8 @@
           "mx_casings": 30,
           "mx_looters": 10,
           "mx_corpses": 30,
-          "mx_bandits_ambush": 50,
-          "mx_bandits_hideout": 50
+          "mx_bandits_ambush": 10,
+          "mx_bandits_hideout": 10
         }
       },
       "marloss": { "chance": 20, "extras": { "mx_marloss_pilgrimage": 100 } },
@@ -544,7 +544,7 @@
           "mx_portal": 7,
           "mx_portal_in": 3,
           "mx_casings": 30,
-          "mx_bandits_ambush": 20
+          "mx_bandits_ambush": 10
         }
       },
       "research_facility_lot": {

@@ -4525,7 +4525,7 @@ std::vector<tripoint> map::check_submap_active_item_consistency()
     }
     for( const tripoint &p : submaps_with_active_items ) {
         tripoint rel = p - abs_sub.xy();
-        half_open_rectangle map( point_zero, point( MAPSIZE, MAPSIZE ) );
+        half_open_rectangle<point> map( point_zero, point( MAPSIZE, MAPSIZE ) );
         if( !map.contains( rel.xy() ) ) {
             result.push_back( p );
         }
@@ -5496,12 +5496,13 @@ computer *map::computer_at( const tripoint &p )
 
 bool map::point_within_camp( const tripoint &point_check ) const
 {
-    const tripoint omt_check = ms_to_omt_copy( point_check );
-    const point p( omt_check.xy() );
-    for( int x2 = p.x - 2; x2 < p.x + 2; x2++ ) {
-        for( int y2 = p.y - 2; y2 < p.y + 2; y2++ ) {
-            if( cata::optional<basecamp *> bcp = overmap_buffer.find_camp( point( x2, y2 ) ) ) {
-                return ( *bcp )->camp_omt_pos().z == point_check.z;
+    // TODO: fix point types
+    const tripoint_abs_omt omt_check( ms_to_omt_copy( point_check ) );
+    const point_abs_omt p = omt_check.xy();
+    for( int x2 = -2; x2 < 2; x2++ ) {
+        for( int y2 = -2; y2 < 2; y2++ ) {
+            if( cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p + point( x2, y2 ) ) ) {
+                return ( *bcp )->camp_omt_pos().z() == point_check.z;
             }
         }
     }
@@ -5519,7 +5520,7 @@ basecamp map::hoist_submap_camp( const tripoint &p )
     return pcamp ? *pcamp : basecamp();
 }
 
-void map::add_camp( const tripoint &omt_pos, const std::string &name )
+void map::add_camp( const tripoint_abs_omt &omt_pos, const std::string &name )
 {
     basecamp temp_camp = basecamp( name, omt_pos );
     overmap_buffer.add_camp( temp_camp );
@@ -5560,7 +5561,7 @@ void map::update_visibility_cache( const int zlev )
         for( y = 0; y < MAPSIZE_Y; y++ ) {
             lit_level ll = apparent_light_at( p, visibility_variables_cache );
             visibility_cache[x][y] = ll;
-            sm_squares_seen[ x / SEEX ][ y / SEEY ] += ( ll == LL_BRIGHT || ll == LL_LIT );
+            sm_squares_seen[ x / SEEX ][ y / SEEY ] += ( ll == lit_level::BRIGHT || ll == lit_level::LIT );
         }
     }
 
@@ -5569,7 +5570,8 @@ void map::update_visibility_cache( const int zlev )
             if( sm_squares_seen[gridx][gridy] > 36 ) { // 25% of the submap is visible
                 const tripoint sm( gridx, gridy, 0 );
                 const auto abs_sm = map::abs_sub + sm;
-                const auto abs_omt = sm_to_omt_copy( abs_sm );
+                // TODO: fix point types
+                const tripoint_abs_omt abs_omt( sm_to_omt_copy( abs_sm ) );
                 overmap_buffer.set_seen( abs_omt, true );
             }
         }
@@ -5584,14 +5586,14 @@ const visibility_variables &map::get_visibility_variables_cache() const
 visibility_type map::get_visibility( const lit_level ll, const visibility_variables &cache ) const
 {
     switch( ll ) {
-        case LL_DARK:
+        case lit_level::DARK:
             // can't see this square at all
             if( cache.u_is_boomered ) {
                 return VIS_BOOMER_DARK;
             } else {
                 return VIS_DARK;
             }
-        case LL_BRIGHT_ONLY:
+        case lit_level::BRIGHT_ONLY:
             // can only tell that this square is bright
             if( cache.u_is_boomered ) {
                 return VIS_BOOMER;
@@ -5599,15 +5601,15 @@ visibility_type map::get_visibility( const lit_level ll, const visibility_variab
                 return VIS_LIT;
             }
 
-        case LL_LOW:
+        case lit_level::LOW:
         // low light, square visible in monochrome
-        case LL_LIT:
+        case lit_level::LIT:
         // normal light
-        case LL_BRIGHT:
+        case lit_level::BRIGHT:
             // bright light
             return VIS_CLEAR;
-        case LL_BLANK:
-        case LL_MEMORIZED:
+        case lit_level::BLANK:
+        case lit_level::MEMORIZED:
             return VIS_HIDDEN;
     }
     return VIS_HIDDEN;
@@ -5720,8 +5722,8 @@ void map::draw( const catacurses::window &w, const tripoint &center )
 
             const maptile curr_maptile = maptile_at_internal( p );
             params
-            .low_light( lighting == LL_LOW )
-            .bright_light( lighting == LL_BRIGHT );
+            .low_light( lighting == lit_level::LOW )
+            .bright_light( lighting == lit_level::BRIGHT );
             if( draw_maptile( w, p, curr_maptile, params ) ) {
                 continue;
             }
@@ -5731,7 +5733,7 @@ void map::draw( const catacurses::window &w, const tripoint &center )
     }
 
     // Memorize off-screen tiles
-    half_open_rectangle display( offs.xy(), offs.xy() + point( wnd_w, wnd_h ) );
+    half_open_rectangle<point> display( offs.xy(), offs.xy() + point( wnd_w, wnd_h ) );
     drawsq_params mm_params = drawsq_params().memorize( true ).output( false );
     for( int y = 0; y < MAPSIZE_Y; y++ ) {
         for( int x = 0; x < MAPSIZE_X; x++ ) {
@@ -5750,8 +5752,8 @@ void map::draw( const catacurses::window &w, const tripoint &center )
 
             const maptile curr_maptile = maptile_at_internal( p );
             mm_params
-            .low_light( lighting == LL_LOW )
-            .bright_light( lighting == LL_BRIGHT );
+            .low_light( lighting == lit_level::LOW )
+            .bright_light( lighting == lit_level::BRIGHT );
 
             draw_maptile( w, p, curr_maptile, mm_params );
         }
@@ -6467,6 +6469,12 @@ void map::load( const tripoint &w, const bool update_vehicle )
     }
 }
 
+void map::load( const tripoint_abs_sm &w, const bool update_vehicle )
+{
+    // TODO: fix point types
+    load( w.raw(), update_vehicle );
+}
+
 void map::shift_traps( const tripoint &shift )
 {
     // Offset needs to have sign opposite to shift direction
@@ -6527,7 +6535,7 @@ template void
 shift_bitset_cache<MAPSIZE, 1>( std::bitset<MAPSIZE *MAPSIZE> &cache, const point &s );
 
 static inline void shift_tripoint_set( std::set<tripoint> &set, const point &offset,
-                                       const half_open_rectangle &boundaries )
+                                       const half_open_rectangle<point> &boundaries )
 {
     std::set<tripoint> old_set = std::move( set );
     set.clear();
@@ -6541,7 +6549,7 @@ static inline void shift_tripoint_set( std::set<tripoint> &set, const point &off
 
 template <typename T>
 static inline void shift_tripoint_map( std::map<tripoint, T> &map, const point &offset,
-                                       const half_open_rectangle &boundaries )
+                                       const half_open_rectangle<point> &boundaries )
 {
     std::map<tripoint, T> old_map = std::move( map );
     map.clear();
@@ -6588,7 +6596,7 @@ void map::shift( const point &sp )
         }
     }
 
-    constexpr half_open_rectangle boundaries_2d( point_zero, point( MAPSIZE_Y, MAPSIZE_X ) );
+    constexpr half_open_rectangle<point> boundaries_2d( point_zero, point( MAPSIZE_Y, MAPSIZE_X ) );
     const point shift_offset_pt( -sp.x * SEEX, -sp.y * SEEY );
 
     // Shift the map sx submaps to the right and sy submaps down.
@@ -6773,8 +6781,9 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
 
         // Each overmap square is two nonants; to prevent overlap, generate only at
         //  squares divisible by 2.
-        const tripoint grid_abs_omt = sm_to_omt_copy( grid_abs_sub );
-        const tripoint grid_abs_sub_rounded = omt_to_sm_copy( grid_abs_omt );
+        // TODO: fix point types
+        const tripoint_abs_omt grid_abs_omt( sm_to_omt_copy( grid_abs_sub ) );
+        const tripoint grid_abs_sub_rounded = omt_to_sm_copy( grid_abs_omt.raw() );
 
         const oter_id terrain_type = overmap_buffer.ter( grid_abs_omt );
 
@@ -6926,8 +6935,7 @@ void map::grow_plant( const tripoint &p )
     if( seed == items.end() ) {
         // No seed there anymore, we don't know what kind of plant it was.
         // TODO: Fix point types
-        const oter_id ot =
-            overmap_buffer.ter( ms_to_omt_copy( getabs( p ) ) );
+        const oter_id ot = overmap_buffer.ter( project_to<coords::omt>( tripoint_abs_ms( getabs( p ) ) ) );
         dbg( DL::Error ) << "a planted item at " << p
                          << " (within overmap terrain " << ot.id().str() << ") has no seed data";
         i_clear( p );
@@ -7380,7 +7388,8 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
     }
 
     // Find horde's target submap
-    tripoint horde_target( tripoint( -abs_sub.x, -abs_sub.y, abs_sub.z ) + group.target.xy() );
+    // TODO: fix point types
+    tripoint horde_target( tripoint( -abs_sub.xy(), abs_sub.z ) + group.target.xy().raw() );
     sm_to_ms( horde_target );
     for( auto &tmp : group.monsters ) {
         for( int tries = 0; tries < 10 && !locations.empty(); tries++ ) {
@@ -7412,10 +7421,12 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
 void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
 {
     // Load unloaded monsters
-    overmap_buffer.spawn_monster( gp + abs_sub.xy() );
+    // TODO: fix point types
+    overmap_buffer.spawn_monster( tripoint_abs_sm( gp + abs_sub.xy() ) );
 
     // Only spawn new monsters after existing monsters are loaded.
-    auto groups = overmap_buffer.groups_at( gp + abs_sub.xy() );
+    // TODO: fix point types
+    auto groups = overmap_buffer.groups_at( tripoint_abs_sm( gp + abs_sub.xy() ) );
     for( auto &mgp : groups ) {
         spawn_monsters_submap_group( gp, *mgp, ignore_sight );
     }
@@ -7518,7 +7529,8 @@ bool map::inbounds( const tripoint &p ) const
     static constexpr tripoint map_boundary_min( 0, 0, -OVERMAP_DEPTH );
     static constexpr tripoint map_boundary_max( MAPSIZE_Y, MAPSIZE_X, OVERMAP_HEIGHT + 1 );
 
-    static constexpr half_open_box map_boundaries( map_boundary_min, map_boundary_max );
+    static constexpr half_open_cuboid<tripoint> map_boundaries(
+        map_boundary_min, map_boundary_max );
 
     return map_boundaries.contains( p );
 }
@@ -7528,7 +7540,7 @@ bool tinymap::inbounds( const tripoint &p ) const
     constexpr tripoint map_boundary_min( 0, 0, -OVERMAP_DEPTH );
     constexpr tripoint map_boundary_max( SEEY * 2, SEEX * 2, OVERMAP_HEIGHT + 1 );
 
-    constexpr half_open_box map_boundaries( map_boundary_min, map_boundary_max );
+    constexpr half_open_cuboid<tripoint> map_boundaries( map_boundary_min, map_boundary_max );
 
     return map_boundaries.contains( p );
 }
@@ -7737,7 +7749,7 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
         }
     }
     VehicleList vehs = get_vehicles( start, end );
-    const inclusive_box bounds( start, end );
+    const inclusive_cuboid<tripoint> bounds( start, end );
     // Cache all the vehicle stuff in one loop
     for( auto &v : vehs ) {
         for( const vpart_reference &vp : v.v->get_all_parts() ) {
@@ -8205,7 +8217,7 @@ void map::scent_blockers( std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &bl
 
     function_over( tripoint( min, abs_sub.z ), tripoint( max, abs_sub.z ), fill_values );
 
-    const inclusive_rectangle local_bounds( min, max );
+    const inclusive_rectangle<point> local_bounds( min, max );
 
     // Now vehicles
 
@@ -8377,7 +8389,7 @@ level_cache::level_cache()
     std::fill_n( &vision_transparency_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &seen_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &camera_cache[0][0], map_dimensions, 0.0f );
-    std::fill_n( &visibility_cache[0][0], map_dimensions, LL_DARK );
+    std::fill_n( &visibility_cache[0][0], map_dimensions, lit_level::DARK );
     veh_in_active_range = false;
     std::fill_n( &veh_exists_at[0][0], map_dimensions, false );
 }

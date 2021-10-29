@@ -4,6 +4,7 @@
 
 #include "calendar.h"
 #include "color.h"
+#include "coordinates.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "point.h"
@@ -98,7 +99,7 @@ std::string get_shortdirstring( int angle );
 
 std::string get_dirstring( int angle );
 
-std::string weather_forecast( const point &abs_sm_pos );
+std::string weather_forecast( const point_abs_sm &abs_sm_pos );
 
 // Returns input value (in Fahrenheit) converted to whatever temperature scale set in options.
 //
@@ -146,8 +147,12 @@ int get_hourly_rotpoints_at_temp( int temp );
 
 /**
  * Is it warm enough to plant seeds?
+ *
+ * The first overload is in map-square coords, the second for larger scale
+ * queries.
  */
 bool warm_enough_to_plant( const tripoint &pos );
+bool warm_enough_to_plant( const tripoint_abs_omt &pos );
 
 bool is_wind_blocker( const tripoint &location );
 
@@ -200,6 +205,8 @@ class weather_manager
         mutable std::unordered_map< tripoint, int > temperature_cache;
         // Returns outdoor or indoor temperature of given location (in local coords) in Fahrenheit.
         int get_temperature( const tripoint &location ) const;
+        // Returns outdoor or indoor temperature of given location
+        int get_temperature( const tripoint_abs_omt &location );
         // Returns water temperature of given location (in local coords) in Fahrenheit.
         int get_water_temperature( const tripoint &location ) const;
         void clear_temp_cache();

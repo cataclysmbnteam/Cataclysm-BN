@@ -153,8 +153,8 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
 
     g->m = map( get_option<bool>( "ZLEVELS" ) );
 
-    overmap_special_batch empty_specials( point_zero );
-    overmap_buffer.create_custom_overmap( point_zero, empty_specials );
+    overmap_special_batch empty_specials( point_abs_om{} );
+    overmap_buffer.create_custom_overmap( point_abs_om{}, empty_specials );
 
     g->m.load( tripoint( g->get_levx(), g->get_levy(), g->get_levz() ), false );
     get_distribution_grid_tracker().load( g->m );
