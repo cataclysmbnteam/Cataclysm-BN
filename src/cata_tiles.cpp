@@ -973,6 +973,7 @@ void tileset_loader::load_tilejson_from_file( const JsonObject &config )
                     curr_subtile.offset = sprite_offset;
                     curr_subtile.rotates = true;
                     curr_subtile.height_3d = t_h3d;
+                    curr_subtile.animated = subentry.get_bool( "animated", false );
                     curr_tile.available_subtiles.push_back( s_id );
                 }
             } else if( entry.has_array( "additional_tiles" ) ) {
@@ -1049,11 +1050,8 @@ void tileset_loader::load_tile_spritelists( const JsonObject &entry,
                 else if( vo.has_array( "sprite" ) ) {
                     for( const int entry : vo.get_array( "sprite" ) ) {
                         const int sprite_id = entry + sprite_id_offset;
-                        if( sprite_id >= 0 && sprite_id < size ) {
+                        if( sprite_id >= 0 ) {
                             v.push_back( sprite_id );
-                        } else {
-                            // vo.throw_error("Invalid value for sprite id (out of range)", objname);
-                            v.push_back( sprite_id + offset );
                         }
                     }
                 }
@@ -2130,6 +2128,9 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
             // offset by loc_rand so that everything does not blink at the same time:
             int frame = idle_animations.current_frame() + loc_rand;
             int frames_in_loop = display_tile.fg.get_weight();
+            if( frames_in_loop == 1 ) {
+                frames_in_loop = display_tile.bg.get_weight();
+            }
             // loc_rand is actually the weighed index of the selected tile, and
             // for animations the "weight" is the number of frames to show the tile for:
             loc_rand = frame % frames_in_loop;
