@@ -4116,33 +4116,6 @@
     ]
   },
   {
-    "type": "uncraft",
-    "result": "mp3",
-    "skill_used": "electronics",
-    "difficulty": 4,
-    "time": "10 m",
-    "using": [ [ "soldering_standard", 5 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "processor", 1 ] ], [ [ "RAM", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 2 ] ] ]
-  },
-  {
-    "type": "uncraft",
-    "result": "portable_game",
-    "skill_used": "electronics",
-    "difficulty": 5,
-    "time": "15 m",
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "processor", 1 ] ],
-      [ [ "RAM", 2 ] ],
-      [ [ "amplifier", 1 ] ],
-      [ [ "cable", 2 ] ],
-      [ [ "plastic_chunk", 2 ] ],
-      [ [ "small_lcd_screen", 1 ] ]
-    ]
-  }
-  {
     "result": "autodoc",
     "type": "uncraft",
     "skill_used": "electronics",
@@ -4178,4 +4151,4 @@
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "2x4", 12 ] ], [ [ "rag", 33 ] ], [ [ "nail", 15 ] ], [ [ "cable", 10 ] ] ]
   }
-
+]
