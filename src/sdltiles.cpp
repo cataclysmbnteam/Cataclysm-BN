@@ -896,12 +896,11 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 if( uistate.overmap_debug_weather ||
                     you.overmap_los( omp_sky, sight_points * 2 ) ) {
                     id = overmap_ui::get_weather_at_point( omp_sky ).c_str();
-                } else {
-                    id = "unexplored_terrain";
                 }
             } else if( !see ) {
                 id = "unknown_terrain";
-            } else {
+            }
+            if( id.empty() ) {
                 id = get_omt_id_rotation_and_subtile( omp, rotation, subtile );
             }
 
