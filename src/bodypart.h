@@ -15,8 +15,25 @@
 class JsonObject;
 class JsonIn;
 class JsonOut;
+struct body_part_type;
 
 template <typename E> struct enum_traits;
+
+using bodypart_str_id = string_id<body_part_type>;
+using bodypart_id = int_id<body_part_type>;
+
+extern const bodypart_str_id body_part_head;
+extern const bodypart_str_id body_part_eyes;
+extern const bodypart_str_id body_part_mouth;
+extern const bodypart_str_id body_part_torso;
+extern const bodypart_str_id body_part_arm_l;
+extern const bodypart_str_id body_part_arm_r;
+extern const bodypart_str_id body_part_hand_l;
+extern const bodypart_str_id body_part_hand_r;
+extern const bodypart_str_id body_part_leg_l;
+extern const bodypart_str_id body_part_foot_l;
+extern const bodypart_str_id body_part_leg_r;
+extern const bodypart_str_id body_part_foot_r;
 
 // The order is important ; pldata.h has to be in the same order
 enum body_part : int {
@@ -68,11 +85,6 @@ constexpr std::array<body_part, 12> all_body_parts = {{
         bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r
     }
 };
-
-struct body_part_type;
-
-using bodypart_str_id = string_id<body_part_type>;
-using bodypart_id = int_id<body_part_type>;
 
 struct body_part_type {
     public:
@@ -287,9 +299,6 @@ body_part random_body_part( bool main_parts_only = false );
 body_part mutate_to_main_part( body_part bp );
 /** Returns the opposite body part (limb on the other side) */
 body_part opposite_body_part( body_part bp );
-
-/** Returns the matching body_part key from the corresponding body_part token. */
-std::string get_body_part_id( body_part bp );
 
 /** Returns the matching body_part token from the corresponding body_part string. */
 body_part get_body_part_token( const std::string &id );

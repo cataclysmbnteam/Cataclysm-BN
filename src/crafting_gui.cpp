@@ -138,7 +138,7 @@ static int print_items( const recipe &r, const catacurses::window &w, point pos,
 
     mvwprintz( w, point( pos.x, pos.y++ ), col, _( "Byproducts:" ) );
     for( const auto &bp : r.byproducts ) {
-        const auto t = item::find_type( bp.first );
+        const itype *t = &*bp.first;
         int amount = bp.second * batch;
         std::string desc;
         if( t->count_by_charges() ) {
@@ -221,11 +221,10 @@ const recipe *select_crafting_recipe( int &batch_size )
         if( isWide ) {
             item_info_width = width - FULL_SCREEN_WIDTH - 2;
             const int item_info_height = dataHeight - 3;
-            const int item_info_x = wStart + width - item_info_width;
-            const int item_info_y = headHeight + subHeadHeight;
+            const point item_info( wStart + width - item_info_width, headHeight + subHeadHeight );
 
             w_iteminfo = catacurses::newwin( item_info_height, item_info_width,
-                                             point( item_info_x, item_info_y ) );
+                                             item_info );
         } else {
             item_info_width = 0;
             w_iteminfo = {};
@@ -247,13 +246,13 @@ const recipe *select_crafting_recipe( int &batch_size )
             auto no_rotten_filter = r->get_component_filter( recipe_filter_flags::no_rotten );
             const deduped_requirement_data &req = r->deduped_requirements();
             could_craft_if_knew = req.can_make_with_inventory(
-                                      inv, all_items_filter, batch_size, craft_flags::start_only );
+                                      inv, all_items_filter, batch_size, cost_adjustment::start_only );
             can_craft = known && could_craft_if_knew;
             can_craft_non_rotten = req.can_make_with_inventory(
-                                       inv, no_rotten_filter, batch_size, craft_flags::start_only );
+                                       inv, no_rotten_filter, batch_size, cost_adjustment::start_only );
             const requirement_data &simple_req = r->simple_requirements();
             apparently_craftable = simple_req.can_make_with_inventory(
-                                       inv, all_items_filter, batch_size, craft_flags::start_only );
+                                       inv, all_items_filter, batch_size, cost_adjustment::start_only );
         }
         bool can_craft;
         bool can_craft_non_rotten;
@@ -325,6 +324,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     }
     const auto &all_recipes = recipe_subset( {}, all_recipes_flat );
 
+    int recipe_scroll_window_min = 0;
     ui.on_redraw( [&]( const ui_adaptor & ) {
         const TAB_MODE m = ( batch ) ? BATCH : ( filterstring.empty() ) ? NORMAL : FILTERED;
         draw_recipe_tabs( w_head, tab.cur(), m );
@@ -383,70 +383,25 @@ const recipe *select_crafting_recipe( int &batch_size )
         mvwputch( w_data, point( width - 1, dataHeight - 1 ), BORDER_COLOR, LINE_XOOX ); // _|
 
         cata::optional<point> cursor_pos;
-        int recmin = 0, recmax = current.size();
-        if( recmax > dataLines ) {
-            if( line <= recmin + dataHalfLines ) {
-                for( int i = recmin; i < recmin + dataLines; ++i ) {
-                    std::string tmp_name = current[i]->result_name();
-                    if( batch ) {
-                        tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name );
-                    }
-                    mvwprintz( w_data, point( 2, i - recmin ), c_dark_gray, "" ); // Clear the line
-                    const bool highlight = i == line;
-                    const nc_color col = highlight ? available[i].selected_color() : available[i].color();
-                    const point print_from( 2, i - recmin );
-                    if( highlight ) {
-                        cursor_pos = print_from;
-                    }
-                    mvwprintz( w_data, print_from, col, trim_by_length( tmp_name, 27 ) );
-                }
-            } else if( line >= recmax - dataHalfLines ) {
-                for( int i = recmax - dataLines; i < recmax; ++i ) {
-                    std::string tmp_name = current[i]->result_name();
-                    if( batch ) {
-                        tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name );
-                    }
-                    mvwprintz( w_data, point( 2, dataLines + i - recmax ), c_light_gray, "" ); // Clear the line
-                    const bool highlight = i == line;
-                    const nc_color col = highlight ? available[i].selected_color() : available[i].color();
-                    const point print_from( 2, dataLines + i - recmax );
-                    if( highlight ) {
-                        cursor_pos = print_from;
-                    }
-                    mvwprintz( w_data, print_from, col,
-                               trim_by_length( tmp_name, 27 ) );
-                }
-            } else {
-                for( int i = line - dataHalfLines; i < line - dataHalfLines + dataLines; ++i ) {
-                    std::string tmp_name = current[i]->result_name();
-                    if( batch ) {
-                        tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name );
-                    }
-                    mvwprintz( w_data, point( 2, dataHalfLines + i - line ), c_light_gray, "" ); // Clear the line
-                    const bool highlight = i == line;
-                    const nc_color col = highlight ? available[i].selected_color() : available[i].color();
-                    const point print_from( 2, dataHalfLines + i - line );
-                    if( highlight ) {
-                        cursor_pos = print_from;
-                    }
-                    mvwprintz( w_data, print_from, col,
-                               trim_by_length( tmp_name, 27 ) );
-                }
+        int recmax = current.size();
+
+        // Draw recipes with scroll list
+        // get subset to draw
+        calcStartPos( recipe_scroll_window_min, line, dataLines, recmax );
+        int recipe_scroll_window_max = std::min( recmax, recipe_scroll_window_min + dataLines );
+
+        for( int i = recipe_scroll_window_min; i < recipe_scroll_window_max; ++i ) {
+            std::string tmp_name = current[i]->result_name();
+            if( batch ) {
+                tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name );
             }
-        } else {
-            for( int i = 0; i < static_cast<int>( current.size() ) && i < dataHeight + 1; ++i ) {
-                std::string tmp_name = current[i]->result_name();
-                if( batch ) {
-                    tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name );
-                }
-                const bool highlight = i == line;
-                const nc_color col = highlight ? available[i].selected_color() : available[i].color();
-                const point print_from( 2, i );
-                if( highlight ) {
-                    cursor_pos = print_from;
-                }
-                mvwprintz( w_data, print_from, col, trim_by_length( tmp_name, 27 ) );
+            const point print_from( 2, i - recipe_scroll_window_min );
+            const bool highlight = i == line;
+            const nc_color col = highlight ? available[i].selected_color() : available[i].color();
+            if( highlight ) {
+                cursor_pos = print_from;
             }
+            mvwprintz( w_data, print_from, col, trim_by_length( tmp_name, 27 ) );
         }
 
         const int count = batch ? line + 1 : 1; // batch size
@@ -970,8 +925,8 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
     const avatar &u = get_avatar();
 
     auto compare_second =
-        []( const std::pair<std::string, std::string> &a,
-    const std::pair<std::string, std::string> &b ) {
+        []( const std::pair<itype_id, std::string> &a,
+    const std::pair<itype_id, std::string> &b ) {
         return localized_compare( a.second, b.second );
     };
 

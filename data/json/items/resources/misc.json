@@ -146,21 +146,6 @@
     "qualities": [ [ "BUTCHER", -50 ] ]
   },
   {
-    "id": "sole_rubber",
-    "type": "AMMO",
-    "category": "spare_parts",
-    "name": { "str": "rubber sole" },
-    "description": "This is a sole made from rubber, usually found on the bottoms of boots.  Can be used for making actual boots.",
-    "weight": "140 g",
-    "volume": "500 ml",
-    "price": 100,
-    "price_postapoc": 10,
-    "material": "rubber",
-    "symbol": "=",
-    "color": "dark_gray",
-    "ammo_type": "components"
-  },
-  {
     "id": "ugl_buttstock",
     "type": "GENERIC",
     "symbol": ",",

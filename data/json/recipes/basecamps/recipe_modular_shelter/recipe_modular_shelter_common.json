@@ -45,7 +45,7 @@
     "blueprint_resources": [ "fake_fireplace", "pot" ],
     "blueprint_needs": {
       "time": "2 h 30 m",
-      "skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
+      "skills": [ [ "fabrication", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ] ],
@@ -140,7 +140,7 @@
     "blueprint_excludes": [ { "id": "fbmc_shelter_well" } ],
     "blueprint_needs": {
       "time": "11 h",
-      "skills": [ [ "fabrication", 4 ], [ "mechanics", 2 ], [ "survival", 4 ] ],
+      "skills": [ [ "fabrication", 4 ], [ "mechanics", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH" } ] ],
@@ -497,7 +497,7 @@
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
     "never_learn": true,
-    "construction_blueprint": "fbmc_shelter_shelter_beds_straw_NW",
+    "construction_blueprint": "empty_but_shouldnt_be",
     "blueprint_name": "furnish the NW bedroom",
     "blueprint_requires": [ { "id": "fbmc_shelter_bedroom5" }, { "id": "fbmc_shelter_beds_w" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_beds_nw" } ],
@@ -512,7 +512,7 @@
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
     "never_learn": true,
-    "construction_blueprint": "fbmc_shelter_shelter_beds_makeshift_SW",
+    "construction_blueprint": "empty_but_shouldnt_be",
     "blueprint_name": "furnish the SW bedroom",
     "blueprint_requires": [ { "id": "fbmc_shelter_bedroom3" }, { "id": "fbmc_shelter_beds_e" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_beds_sw" }, { "id": "bed", "amount": 5 } ],

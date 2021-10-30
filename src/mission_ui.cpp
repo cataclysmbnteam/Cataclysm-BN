@@ -103,10 +103,10 @@ void game::list_missions()
                                  miss->name() + for_npc );
 
             auto format_tokenized_description = []( const std::string & description,
-            const std::vector<std::pair<int, std::string>> &rewards ) {
+            const std::vector<std::pair<int, itype_id>> &rewards ) {
                 std::string formatted_description = description;
                 for( const auto &reward : rewards ) {
-                    std::string token = "<reward_count:" + reward.second + ">";
+                    std::string token = "<reward_count:" + reward.second.str() + ">";
                     formatted_description = replace_all( formatted_description, token,
                                                          string_format( "%d", reward.first ) );
                 }
@@ -140,10 +140,10 @@ void game::list_missions()
                 }
             }
             if( miss->has_target() ) {
-                const tripoint pos = u.global_omt_location();
+                const tripoint_abs_omt pos = u.global_omt_location();
                 // TODO: target does not contain a z-component, targets are assumed to be on z=0
-                mvwprintz( w_missions, point( 31, ++y ), c_white, _( "Target: (%d, %d)   You: (%d, %d)" ),
-                           miss->get_target().x, miss->get_target().y, pos.x, pos.y );
+                mvwprintz( w_missions, point( 31, ++y ), c_white, _( "Target: %s   You: %s" ),
+                           miss->get_target().to_string(), pos.to_string() );
             }
         } else {
             static const std::map< tab_mode, std::string > nope = {

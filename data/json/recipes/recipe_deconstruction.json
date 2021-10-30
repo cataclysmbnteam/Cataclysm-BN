@@ -1621,6 +1621,13 @@
     "components": [ [ [ "leather", 6 ] ] ]
   },
   {
+    "result": "tanned_pelt",
+    "type": "uncraft",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "fur", 6 ] ] ]
+  },
+  {
     "result": "eink_tablet_pc",
     "type": "uncraft",
     "time": "30 s",
@@ -1710,32 +1717,32 @@
     "result": "glass",
     "type": "uncraft",
     "time": "30 s",
-    "components": [ [ [ "glass_shard", 4 ] ] ]
+    "components": [ [ [ "glass_shard", 1 ] ] ]
   },
   {
     "result": "glass_bowl",
     "type": "uncraft",
     "time": "30 s",
-    "components": [ [ [ "glass_shard", 4 ] ] ]
+    "components": [ [ [ "glass_shard", 1 ] ] ]
   },
   {
     "result": "glass_plate",
     "type": "uncraft",
     "time": "30 s",
-    "components": [ [ [ "glass_shard", 4 ] ] ]
+    "components": [ [ [ "glass_shard", 1 ] ] ]
   },
   {
     "result": "glass_sheet",
     "type": "uncraft",
     "time": "2 m",
-    "components": [ [ [ "glass_shard", 182 ] ] ]
+    "components": [ [ [ "glass_shard", 18 ] ] ]
   },
   {
     "result": "game_watch",
     "type": "uncraft",
     "time": "10 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "processor", 1 ] ], [ [ "light_minus_battery_cell", 1 ] ] ]
+    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "processor", 1 ] ] ]
   },
   {
     "result": "gold_bracelet",
@@ -2146,7 +2153,7 @@
       [ [ "power_supply", 4 ] ],
       [ [ "plastic_chunk", 8 ] ],
       [ [ "motor_micro", 1 ] ],
-      [ [ "magnetron", 1 ] ]
+      [ [ "e_scrap", 3 ] ]
     ]
   },
   {
@@ -4106,6 +4113,33 @@
       [ [ "robot_controls", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "turret_chassis", 1 ] ]
+    ]
+  },
+  {
+    "type": "uncraft",
+    "result": "mp3",
+    "skill_used": "electronics",
+    "difficulty": 4,
+    "time": "10 m",
+    "using": [ [ "soldering_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "processor", 1 ] ], [ [ "RAM", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 2 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "portable_game",
+    "skill_used": "electronics",
+    "difficulty": 5,
+    "time": "15 m",
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "processor", 1 ] ],
+      [ [ "RAM", 2 ] ],
+      [ [ "amplifier", 1 ] ],
+      [ [ "cable", 2 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "small_lcd_screen", 1 ] ]
     ]
   }
 ]

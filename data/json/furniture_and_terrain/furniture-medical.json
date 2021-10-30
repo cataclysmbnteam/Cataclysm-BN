@@ -10,7 +10,7 @@
     "move_cost_mod": -1,
     "coverage": 35,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "AUTODOC" ],
+    "flags": [ "TRANSPARENT", "AUTODOC", "CONTAINER" ],
     "examine_action": "autodoc",
     "surgery_skill_multiplier": 1.0,
     "deconstruct": {
@@ -296,7 +296,7 @@
         { "item": "element", "count": [ 1, 3 ] },
         { "item": "plastic_chunk", "count": [ 30, 50 ] },
         { "item": "pipe", "count": 1 },
-        { "item": "glass_shard", "count": [ 25, 100 ] },
+        { "item": "glass_shard", "count": [ 3, 6 ] },
         { "item": "cable", "charges": [ 1, 2 ] }
       ]
     }
@@ -435,7 +435,7 @@
         { "item": "steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
-        { "item": "glass_shard", "count": [ 42, 84 ] },
+        { "item": "glass_shard", "count": [ 2, 5 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "hose", "count": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 5, 10 ] },
@@ -480,7 +480,7 @@
         { "item": "steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
-        { "item": "glass_shard", "count": [ 42, 84 ] },
+        { "item": "glass_shard", "count": [ 2, 5 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "hose", "count": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 5, 10 ] },
@@ -762,7 +762,7 @@
         { "item": "steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
-        { "item": "glass_shard", "count": [ 42, 84 ] },
+        { "item": "glass_shard", "count": [ 2, 5 ] },
         { "item": "metal_tank_little", "count": [ 0, 1 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "hose", "count": [ 0, 1 ] },
@@ -850,7 +850,7 @@
         { "item": "steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
-        { "item": "glass_shard", "count": [ 42, 84 ] },
+        { "item": "glass_shard", "count": [ 2, 5 ] },
         { "item": "metal_tank_little", "count": [ 0, 1 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "hose", "count": [ 0, 1 ] },

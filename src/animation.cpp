@@ -244,7 +244,8 @@ void draw_custom_explosion_curses( game &g,
 } // namespace
 
 #if defined(TILES)
-void explosion_handler::draw_explosion( const tripoint &p, const int r, const nc_color &col )
+void explosion_handler::draw_explosion( const tripoint &p, const int r, const nc_color &col,
+                                        const std::string &exp_name )
 {
     if( test_mode ) {
         // avoid segfault from null tilecontext in tests
@@ -266,7 +267,7 @@ void explosion_handler::draw_explosion( const tripoint &p, const int r, const nc
     shared_ptr_fast<game::draw_callback_t> explosion_cb =
     make_shared_fast<game::draw_callback_t>( [&]() {
         // TODO: not xpos ypos?
-        tilecontext->init_explosion( p, i );
+        tilecontext->init_explosion( p, i, exp_name );
     } );
     g->add_draw_callback( explosion_cb );
 
@@ -282,15 +283,20 @@ void explosion_handler::draw_explosion( const tripoint &p, const int r, const nc
     }
 }
 #else
-void explosion_handler::draw_explosion( const tripoint &p, const int r, const nc_color &col )
+void explosion_handler::draw_explosion( const tripoint &p, const int r, const nc_color &col,
+                                        const std::string & )
 {
     draw_explosion_curses( *g, p, r, col );
 }
 #endif
 
 void explosion_handler::draw_custom_explosion( const tripoint &,
-        const std::map<tripoint, nc_color> &all_area )
+        const std::map<tripoint, nc_color> &all_area,
+        const std::string &exp_name )
 {
+#if !defined(TILES)
+    ( void )exp_name;
+#endif
     if( test_mode ) {
         // avoid segfault from null tilecontext in tests
         return;
@@ -414,7 +420,7 @@ void explosion_handler::draw_custom_explosion( const tripoint &,
 
     shared_ptr_fast<game::draw_callback_t> explosion_cb =
     make_shared_fast<game::draw_callback_t>( [&]() {
-        tilecontext->init_custom_explosion_layer( combined_layer );
+        tilecontext->init_custom_explosion_layer( combined_layer, exp_name );
     } );
     g->add_draw_callback( explosion_cb );
 
@@ -722,7 +728,7 @@ namespace
 void draw_weather_curses( const catacurses::window &win, const weather_printable &w )
 {
     for( const auto &drop : w.vdrops ) {
-        mvwputch( win, point( drop.first, drop.second ), w.colGlyph, w.cGlyph );
+        mvwputch( win, point( drop.first, drop.second ), w.colGlyph, w.get_symbol() );
     }
 }
 } //namespace
@@ -735,36 +741,7 @@ void game::draw_weather( const weather_printable &w )
         return;
     }
 
-    static const std::string weather_acid_drop {"weather_acid_drop"};
-    static const std::string weather_rain_drop {"weather_rain_drop"};
-    static const std::string weather_snowflake {"weather_snowflake"};
-
-    std::string weather_name;
-    switch( w.wtype ) {
-        // Acid weathers; uses acid droplet tile, fallthrough intended
-        case WEATHER_ACID_DRIZZLE:
-        case WEATHER_ACID_RAIN:
-            weather_name = weather_acid_drop;
-            break;
-        // Normal rainy weathers; uses normal raindrop tile, fallthrough intended
-        case WEATHER_LIGHT_DRIZZLE:
-        case WEATHER_DRIZZLE:
-        case WEATHER_RAINY:
-        case WEATHER_THUNDER:
-        case WEATHER_LIGHTNING:
-            weather_name = weather_rain_drop;
-            break;
-        // Snowy weathers; uses snowflake tile, fallthrough intended
-        case WEATHER_FLURRIES:
-        case WEATHER_SNOW:
-        case WEATHER_SNOWSTORM:
-            weather_name = weather_snowflake;
-            break;
-        default:
-            break;
-    }
-
-    tilecontext->init_draw_weather( w, std::move( weather_name ) );
+    tilecontext->init_draw_weather( w, w.wtype->animation.tile );
 }
 #else
 void game::draw_weather( const weather_printable &w )

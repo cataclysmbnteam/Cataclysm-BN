@@ -76,7 +76,7 @@ static inline void test_grid_veh( distribution_grid &grid, vehicle &veh, battery
 static void connect_grid_vehicle( map &m, vehicle &veh, vehicle_connector_tile &connector,
                                   const tripoint &connector_abs_pos )
 {
-    const point cable_part_pos = point_zero;
+    const point cable_part_pos;
     vehicle_part source_part( vpart_id( "jumper_cable" ), cable_part_pos, item( "jumper_cable" ) );
     source_part.target.first = connector_abs_pos;
     source_part.target.second = connector_abs_pos;
@@ -97,7 +97,9 @@ struct grid_setup {
 static grid_setup set_up_grid( map &m )
 {
     // TODO: clear_grids()
-    auto om = overmap_buffer.get_om_global( sm_to_omt_copy( m.get_abs_sub() ) );
+    // TODO: fix point types
+    auto om = overmap_buffer.get_om_global( project_to<coords::omt>(
+            tripoint_abs_sm( m.get_abs_sub() ) ) );
     om.om->set_electric_grid_connections( om.local, {} );
 
     const tripoint vehicle_local_pos = tripoint( 10, 10, 0 );

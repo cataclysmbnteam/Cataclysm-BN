@@ -166,15 +166,17 @@ distribution_grid &distribution_grid_tracker::make_distribution_grid_at( const t
     if( !get_option<bool>( "ELECTRIC_GRID" ) ) {
         return empty_grid;
     }
-    const std::set<tripoint> overmap_positions = overmap_buffer.electric_grid_at( sm_to_omt_copy(
-                sm_pos ) );
+    // TODO: fix point types
+    const std::set<tripoint_abs_omt> overmap_positions = overmap_buffer.electric_grid_at(
+                project_to<coords::omt>( tripoint_abs_sm( sm_pos ) ) );
     assert( !overmap_positions.empty() );
     std::vector<tripoint> submap_positions;
-    for( const tripoint &omp : overmap_positions ) {
-        submap_positions.emplace_back( omt_to_sm_copy( omp ) + point_zero );
-        submap_positions.emplace_back( omt_to_sm_copy( omp ) + point_east );
-        submap_positions.emplace_back( omt_to_sm_copy( omp ) + point_south );
-        submap_positions.emplace_back( omt_to_sm_copy( omp ) + point_south_east );
+    for( const tripoint_abs_omt &omp : overmap_positions ) {
+        tripoint tp = project_to<coords::sm>( omp ).raw();
+        submap_positions.emplace_back( tp + point_zero );
+        submap_positions.emplace_back( tp + point_east );
+        submap_positions.emplace_back( tp + point_south );
+        submap_positions.emplace_back( tp + point_south_east );
     }
     shared_ptr_fast<distribution_grid> dist_grid = make_shared_fast<distribution_grid>
             ( submap_positions, mb );
@@ -201,7 +203,7 @@ void distribution_grid_tracker::on_saved()
     tripoint min_bounds = tripoint( bounds.p_min, -OVERMAP_DEPTH );
     tripoint max_bounds = tripoint( bounds.p_max, OVERMAP_HEIGHT );
     // TODO: Only those which existed before the save
-    for( const tripoint &sm_pos : tripoint_range( min_bounds, max_bounds ) ) {
+    for( const tripoint &sm_pos : tripoint_range<tripoint>( min_bounds, max_bounds ) ) {
         if( parent_distribution_grids.find( sm_pos ) == parent_distribution_grids.end() ) {
             make_distribution_grid_at( sm_pos );
         }
@@ -213,7 +215,7 @@ void distribution_grid_tracker::on_changed( const tripoint &p )
     tripoint sm_pos = ms_to_sm_copy( p );
     // TODO: If not in bounds, just drop the grid, rebuild lazily
     if( parent_distribution_grids.count( sm_pos ) > 0 ||
-        bounds.contains_half_open( sm_pos.xy() ) ) {
+        bounds.contains( sm_pos.xy() ) ) {
         // TODO: Don't rebuild, update
         make_distribution_grid_at( sm_pos );
     }
@@ -267,7 +269,7 @@ void distribution_grid_tracker::update( time_point to )
     }
 }
 
-void distribution_grid_tracker::load( rectangle area )
+void distribution_grid_tracker::load( half_open_rectangle<point> area )
 {
     bounds = area;
     // TODO: Don't reload everything when not needed
@@ -276,6 +278,7 @@ void distribution_grid_tracker::load( rectangle area )
 
 void distribution_grid_tracker::load( const map &m )
 {
-    load( rectangle( m.get_abs_sub().xy(),
-                     m.get_abs_sub().xy() + point( m.getmapsize(), m.getmapsize() ) ) );
+    point p_min = m.get_abs_sub().xy();
+    point p_max = p_min + point( m.getmapsize(), m.getmapsize() );
+    load( half_open_rectangle<point>( p_min, p_max ) );
 }

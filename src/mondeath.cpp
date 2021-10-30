@@ -62,6 +62,8 @@ static const efftype_id effect_no_ammo( "no_ammo" );
 static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_rat( "rat" );
 
+static const itype_id itype_processor( "processor" );
+
 static const species_id species_BLOB( "BLOB" );
 static const species_id ZOMBIE( "ZOMBIE" );
 
@@ -120,7 +122,7 @@ void mdeath::normal( monster &z )
     }
 }
 
-static void scatter_chunks( const std::string &chunk_name, int chunk_amt, monster &z, int distance,
+static void scatter_chunks( const itype_id &chunk_name, int chunk_amt, monster &z, int distance,
                             int pile_size = 1 )
 {
     // can't have less than one item in a pile or it would cause an infinite loop
@@ -208,16 +210,13 @@ void mdeath::splatter( monster &z )
             // only flesh and bones survive.
             if( entry.type == "flesh" || entry.type == "bone" ) {
                 // the larger the overflow damage, the less you get
-                const int chunk_amt = entry.mass_ratio / overflow_ratio / 10 * to_gram(
-                                          z.get_weight() ) / to_gram( ( item::find_type( entry.drop ) )->weight );
-                scatter_chunks( entry.drop, chunk_amt, z, gib_distance, chunk_amt / ( gib_distance - 1 ) );
-                gibbed_weight -= entry.mass_ratio / overflow_ratio / 20 * to_gram( z.get_weight() );
+                itype_id item_id( entry.drop );
+                const int chunk_amt = entry.mass_ratio / overflow_ratio / 10 * z_weight /
+                                      to_gram( item_id->weight );
+                scatter_chunks( item_id, chunk_amt, z, gib_distance,
+                                chunk_amt / ( gib_distance - 1 ) );
+                gibbed_weight -= entry.mass_ratio / overflow_ratio / 20 * z_weight;
             }
-        }
-        if( gibbed_weight > 0 ) {
-            const int chunk_amount = gibbed_weight / to_gram( ( item::find_type( "ruined_chunks" ) )->weight );
-            scatter_chunks( "ruined_chunks", chunk_amount, z, gib_distance,
-                            chunk_amount / ( gib_distance + 1 ) );
         }
         // add corpse with gib flag
         item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name, z.get_upgrade_time() );
@@ -580,7 +579,7 @@ void mdeath::focused_beam( monster &z )
 {
     map_stack items = g->m.i_at( z.pos() );
     for( map_stack::iterator it = items.begin(); it != items.end(); ) {
-        if( it->typeId() == "processor" ) {
+        if( it->typeId() == itype_processor ) {
             it = items.erase( it );
         } else {
             ++it;
@@ -595,9 +594,9 @@ void mdeath::focused_beam( monster &z )
 
         item &settings = z.inv[0];
 
-        int x = z.posx() + settings.get_var( "SL_SPOT_X", 0 );
-        int y = z.posy() + settings.get_var( "SL_SPOT_Y", 0 );
-        tripoint p( x, y, z.posz() );
+        point p2( z.posx() + settings.get_var( "SL_SPOT_X", 0 ), z.posy() + settings.get_var( "SL_SPOT_Y",
+                  0 ) );
+        tripoint p( p2, z.posz() );
 
         std::vector <tripoint> traj = line_to( z.pos(), p, 0, 0 );
         for( auto &elem : traj ) {
@@ -634,7 +633,7 @@ void mdeath::broken( monster &z )
     g->m.add_item_or_charges( z.pos(), broken_mon );
 
     if( z.type->has_flag( MF_DROPS_AMMO ) ) {
-        for( const std::pair<const std::string, int> &ammo_entry : z.type->starting_ammo ) {
+        for( const std::pair<const itype_id, int> &ammo_entry : z.type->starting_ammo ) {
             if( z.ammo[ammo_entry.first] > 0 ) {
                 bool spawned = false;
                 for( const std::pair<const std::string, mtype_special_attack> &attack : z.type->special_attacks ) {
@@ -768,18 +767,18 @@ void mdeath::kill_breathers( monster &/*z*/ )
 
 void mdeath::detonate( monster &z )
 {
-    weighted_int_list<std::string> amm_list;
+    weighted_int_list<itype_id> amm_list;
     for( const auto &amm : z.ammo ) {
         amm_list.add( amm.first, amm.second );
     }
 
-    std::vector<std::string> pre_dets;
+    std::vector<itype_id> pre_dets;
     for( int i = 0; i < 3; i++ ) {
         if( amm_list.get_weight() <= 0 ) {
             break;
         }
         // Grab one item
-        std::string tmp = *amm_list.pick();
+        itype_id tmp = *amm_list.pick();
         // and reduce its weight by 1
         amm_list.add_or_replace( tmp, amm_list.get_specific_weight( tmp ) - 1 );
         // and stash it for use
@@ -788,27 +787,27 @@ void mdeath::detonate( monster &z )
 
     // Update any hardcoded explosion equivalencies
     std::vector<std::pair<std::string, long>> dets;
-    for( const std::string &bomb_id : pre_dets ) {
-        if( bomb_id == "bot_grenade_hack" ) {
+    for( const itype_id &bomb_id : pre_dets ) {
+        if( bomb_id.str() == "bot_grenade_hack" ) {
             dets.push_back( std::make_pair( "grenade_act", 5 ) );
-        } else if( bomb_id == "bot_flashbang_hack" ) {
+        } else if( bomb_id.str() == "bot_flashbang_hack" ) {
             dets.push_back( std::make_pair( "flashbang_act", 5 ) );
-        } else if( bomb_id == "bot_gasbomb_hack" ) {
+        } else if( bomb_id.str() == "bot_gasbomb_hack" ) {
             dets.push_back( std::make_pair( "gasbomb_act", 20 ) );
-        } else if( bomb_id == "bot_c4_hack" ) {
+        } else if( bomb_id.str() == "bot_c4_hack" ) {
             dets.push_back( std::make_pair( "c4armed", 10 ) );
-        } else if( bomb_id == "bot_mininuke_hack" ) {
+        } else if( bomb_id.str() == "bot_mininuke_hack" ) {
             dets.push_back( std::make_pair( "mininuke_act", 20 ) );
         } else {
             // Get the transformation item
             const iuse_transform *actor = dynamic_cast<const iuse_transform *>(
-                                              item::find_type( bomb_id )->get_use( "transform" )->get_actor_ptr() );
+                                              bomb_id->get_use( "transform" )->get_actor_ptr() );
             if( actor == nullptr ) {
                 // Invalid bomb item, move to the next ammo item
                 add_msg( m_debug, "Invalid bomb type in detonate mondeath for %s.", z.name() );
                 continue;
             }
-            dets.emplace_back( actor->target, actor->ammo_qty );
+            dets.emplace_back( actor->target.str(), actor->ammo_qty );
         }
     }
 
@@ -896,7 +895,7 @@ void make_mon_corpse( monster &z, int damageLvl )
             if( entry.type == "bionic" || entry.type == "bionic_group" ) {
                 std::vector<item> contained_bionics =
                     entry.type == "bionic"
-                    ? butcher_cbm_item( entry.drop, calendar::turn, entry.flags, entry.faults )
+                    ? butcher_cbm_item( itype_id( entry.drop ), calendar::turn, entry.flags, entry.faults )
                     : butcher_cbm_group( item_group_id( entry.drop ), calendar::turn, entry.flags, entry.faults );
                 for( const item &it : contained_bionics ) {
                     // Disgusting hack: use components instead of contents to hide stuff

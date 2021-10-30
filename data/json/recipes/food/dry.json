@@ -1,14 +1,28 @@
 [
   {
     "type": "recipe",
+    "result": "kernels",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "40 m",
+    "autolearn": true,
+    "charges": 1,
+    "batch_time_factors": [ 50, 3 ],
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
+    "components": [ [ [ "popcorn_raw", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "dry_fish",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": "18 m",
+    "time": "40 m",
     "autolearn": true,
-    "batch_time_factors": [ 67, 5 ],
+    "batch_time_factors": [ 80, 1 ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
     "components": [ [ [ "fish", 1 ] ] ]
   },
@@ -20,9 +34,9 @@
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": "18 m",
+    "time": "40 m",
     "autolearn": true,
-    "batch_time_factors": [ 67, 5 ],
+    "batch_time_factors": [ 80, 1 ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
     "components": [ [ [ "raw_beans", 1 ] ] ]
   },
@@ -33,9 +47,9 @@
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": "18 m",
+    "time": "40 m",
     "autolearn": true,
-    "batch_time_factors": [ 67, 5 ],
+    "batch_time_factors": [ 80, 1 ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
     "components": [ [ [ "tofu", 1 ] ] ]
   },
@@ -46,9 +60,9 @@
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": "18 m",
+    "time": "40 m",
     "autolearn": true,
-    "batch_time_factors": [ 67, 5 ],
+    "batch_time_factors": [ 80, 1 ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
     "components": [ [ [ "sweet_fruit", 1, "LIST" ], [ "coconut", 1 ], [ "can_coconut", 1 ] ] ]
   },
@@ -60,9 +74,9 @@
     "delete_flags": [ "BAD_TASTE" ],
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": "18 m",
+    "time": "40 m",
     "autolearn": true,
-    "batch_time_factors": [ 67, 5 ],
+    "batch_time_factors": [ 80, 1 ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
     "components": [ [ [ "meat_red_raw", 1, "LIST" ] ] ]
   },
@@ -73,8 +87,8 @@
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": "18 m",
-    "batch_time_factors": [ 67, 5 ],
+    "time": "40 m",
+    "batch_time_factors": [ 80, 1 ],
     "autolearn": true,
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
     "components": [ [ [ "meat_tainted", 1 ] ] ]
@@ -86,9 +100,9 @@
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": "18 m",
+    "time": "40 m",
     "autolearn": true,
-    "batch_time_factors": [ 67, 5 ],
+    "batch_time_factors": [ 80, 1 ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
     "components": [ [ [ "mushroom", 1 ], [ "mushroom_morel", 1 ] ] ]
   },
@@ -100,12 +114,18 @@
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": "18 m",
+    "time": "40 m",
     "autolearn": true,
-    "batch_time_factors": [ 67, 5 ],
+    "batch_time_factors": [ 80, 1 ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
     "components": [
-      [ [ "veggy_any_fresh_uncooked", 1, "LIST" ], [ "dandelion_cooked", 1 ], [ "burdock_cooked", 1 ], [ "wild_herbs", 40 ] ]
+      [
+        [ "veggy_any_fresh_uncooked", 1, "LIST" ],
+        [ "dandelion_cooked", 1 ],
+        [ "fiddlehead_boiled", 1 ],
+        [ "burdock_cooked", 1 ],
+        [ "wild_herbs", 40 ]
+      ]
     ]
   },
   {
@@ -116,8 +136,8 @@
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": "18 m",
-    "batch_time_factors": [ 67, 5 ],
+    "time": "40 m",
+    "batch_time_factors": [ 80, 1 ],
     "autolearn": true,
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
     "components": [ [ [ "veggy_tainted", 1 ] ] ]
@@ -130,8 +150,8 @@
     "skill_used": "cooking",
     "difficulty": 2,
     "charges": 1,
-    "time": "18 m",
-    "batch_time_factors": [ 67, 5 ],
+    "time": "40 m",
+    "batch_time_factors": [ 80, 1 ],
     "autolearn": true,
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
     "components": [ [ [ "milk", 1 ] ] ]
@@ -143,12 +163,27 @@
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 2,
-    "charges": 12,
+    "charges": 1,
     "time": "18 m",
     "autolearn": true,
-    "batch_time_factors": [ 67, 5 ],
+    "batch_time_factors": [ 80, 1 ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
-    "components": [ [ [ "eggs_bird", 12, "LIST" ], [ "egg_reptile", 12 ], [ "spider_egg", 4 ], [ "ant_egg", 1 ] ] ]
+    "components": [ [ [ "eggs_small", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "powder_eggs",
+    "id_suffix": "ant",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "charges": 12,
+    "time": "40 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 1 ],
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
+    "components": [ [ [ "ant_egg", 1 ] ] ]
   },
   {
     "result": "protein_powder",
@@ -159,7 +194,7 @@
     "difficulty": 4,
     "charges": 4,
     "time": "12 m",
-    "batch_time_factors": [ 83, 3 ],
+    "batch_time_factors": [ 50, 3 ],
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "mortar_pestle", -1 ] ], [ [ "surface_heat", 25, "LIST" ] ] ],
@@ -175,7 +210,7 @@
     "difficulty": 4,
     "charges": 4,
     "time": "9 m",
-    "batch_time_factors": [ 83, 3 ],
+    "batch_time_factors": [ 50, 3 ],
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "food_processor", 20 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
@@ -189,9 +224,9 @@
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": "18 m",
+    "time": "40 m",
     "autolearn": true,
-    "batch_time_factors": [ 67, 5 ],
+    "batch_time_factors": [ 80, 1 ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
     "components": [ [ [ "raw_lentils", 1 ] ] ]
   }

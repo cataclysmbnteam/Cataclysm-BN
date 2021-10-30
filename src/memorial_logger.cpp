@@ -24,7 +24,6 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
-#include "item_factory.h"
 #include "itype.h"
 #include "kill_tracker.h"
 #include "magic.h"
@@ -170,7 +169,9 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
         profession_name = string_format( _( "a %s" ), u.prof->gender_appropriate_name( u.male ) );
     }
 
-    const std::string locdesc = overmap_buffer.get_description_at( u.global_sm_location() );
+    // TODO: fix point types
+    const std::string locdesc =
+        overmap_buffer.get_description_at( tripoint_abs_sm( u.global_sm_location() ) );
     //~ First parameter is a pronoun ("He"/"She"), second parameter is a description
     //~ that designates the location relative to its surroundings.
     const std::string kill_place = string_format( _( "%1$s was killed in a %2$s." ),
@@ -637,8 +638,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::consumes_marloss_item: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                const itype *it = item_controller->find_template(
-                                      e.get<cata_variant_type::itype_id>( "itype" ) );
+                itype_id it = e.get<cata_variant_type::itype_id>( "itype" );
                 std::string itname = it->nname( 1 );
                 add( pgettext( "memorial_male", "Consumed a %s." ),
                      pgettext( "memorial_female", "Consumed a %s." ), itname );

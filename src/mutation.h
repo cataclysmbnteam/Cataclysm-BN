@@ -30,8 +30,6 @@ class nc_color;
 struct dream;
 template <typename E> struct enum_traits;
 template <typename T> class string_id;
-
-using itype_id = std::string;
 class JsonArray;
 
 extern std::vector<dream> dreams;
@@ -113,8 +111,6 @@ struct mutation_branch {
         bool activated     = false;
         // Should it activate as soon as it is gained?
         bool starts_active = false;
-        // Should it destroy gear on restricted body parts? (otherwise just pushes it off)
-        bool destroys_gear = false;
         // Allow soft (fabric) gear on restricted body parts
         bool allow_soft_gear  = false;
         // IF any of the three are true, it drains that as the "cost"

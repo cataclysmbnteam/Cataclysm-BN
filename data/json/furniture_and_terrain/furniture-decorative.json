@@ -17,7 +17,7 @@
       "sound_fail": "whack!",
       "sound_vol": 16,
       "furn_set": "f_bigmirror_b",
-      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
     }
   },
   {
@@ -182,7 +182,7 @@
         { "item": "scrap", "count": [ 1, 2 ] },
         { "item": "cable", "charges": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 0, 1 ] },
-        { "item": "glass_shard", "count": [ 0, 8 ] },
+        { "item": "glass_shard", "count": [ 0, 1 ] },
         { "item": "pipe", "count": [ 0, 1 ] }
       ]
     }

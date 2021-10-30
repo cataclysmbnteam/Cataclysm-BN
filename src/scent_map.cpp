@@ -7,6 +7,7 @@
 #include "assign.h"
 #include "calendar.h"
 #include "color.h"
+#include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "game.h"
@@ -69,11 +70,10 @@ void scent_map::decay()
 void scent_map::draw( const catacurses::window &win, const int div, const tripoint &center ) const
 {
     assert( div != 0 );
-    const int maxx = getmaxx( win );
-    const int maxy = getmaxy( win );
-    for( int x = 0; x < maxx; ++x ) {
-        for( int y = 0; y < maxy; ++y ) {
-            const int sn = get( center + point( -maxx / 2 + x, -maxy / 2 + y ) ) / div;
+    const point max( getmaxx( win ), getmaxy( win ) );
+    for( int x = 0; x < max.x; ++x ) {
+        for( int y = 0; y < max.y; ++y ) {
+            const int sn = get( center + point( -max.x / 2 + x, -max.y / 2 + y ) ) / div;
             mvwprintz( win, point( x, y ), sev( sn / 10 ), "%d", sn % 10 );
         }
     }
@@ -139,13 +139,13 @@ bool scent_map::inbounds( const tripoint &p ) const
     if( !scent_map_z_level_inbounds ) {
         return false;
     }
-    static constexpr point scent_map_boundary_min( point_zero );
+    static constexpr point scent_map_boundary_min{};
     static constexpr point scent_map_boundary_max( MAPSIZE_X, MAPSIZE_Y );
 
-    static constexpr rectangle scent_map_boundaries(
+    static constexpr half_open_rectangle<point> scent_map_boundaries(
         scent_map_boundary_min, scent_map_boundary_max );
 
-    return scent_map_boundaries.contains_half_open( p.xy() );
+    return scent_map_boundaries.contains( p.xy() );
 }
 
 void scent_map::update( const tripoint &center, map &m )

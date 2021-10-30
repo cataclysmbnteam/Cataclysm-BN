@@ -225,7 +225,7 @@
     "material": [ "titanium" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "HAND_EITHER" ],
+    "covers": [ "hand_either" ],
     "coverage": 5,
     "flags": [ "WATCH", "STURDY", "BELTED", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ]
   },

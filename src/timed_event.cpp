@@ -24,8 +24,11 @@
 #include "options.h"
 #include "rng.h"
 #include "sounds.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "type_id.h"
+
+static const itype_id itype_petrified_eye( "petrified_eye" );
 
 static const mtype_id mon_amigara_horror( "mon_amigara_horror" );
 static const mtype_id mon_copbot( "mon_copbot" );
@@ -58,9 +61,9 @@ void timed_event::actualize()
                 const mtype_id &robot_type = one_in( 2 ) ? mon_copbot : mon_riotbot;
 
                 g->events().send<event_type::becomes_wanted>( g->u.getID() );
-                int robx = u_pos.x > map_point.x ? 0 - SEEX * 2 : SEEX * 4;
-                int roby = u_pos.y > map_point.y ? 0 - SEEY * 2 : SEEY * 4;
-                g->place_critter_at( robot_type, tripoint( robx, roby, g->u.posz() ) );
+                point rob( u_pos.x > map_point.x ? 0 - SEEX * 2 : SEEX * 4,
+                           u_pos.y > map_point.y ? 0 - SEEY * 2 : SEEY * 4 );
+                g->place_critter_at( robot_type, tripoint( rob, g->u.posz() ) );
             }
         }
         break;
@@ -72,25 +75,20 @@ void timed_event::actualize()
             g->memorial().add(
                 pgettext( "memorial_male", "Drew the attention of more dark wyrms!" ),
                 pgettext( "memorial_female", "Drew the attention of more dark wyrms!" ) );
-            int num_wyrms = rng( 1, 4 );
-            for( int i = 0; i < num_wyrms; i++ ) {
-                if( monster *const mon = g->place_critter_around( mon_dark_wyrm, g->u.pos(), 2 ) ) {
-                    g->m.ter_set( mon->pos(), t_rock_floor );
+            // 50% chance to spawn a dark wyrm near every orifice on the level.
+            for( const tripoint &p : g->m.points_on_zlevel() ) {
+                if( g->m.ter( p ) == ter_id( "t_orifice" ) ) {
+                    g->place_critter_around( mon_dark_wyrm, p, 1 );
                 }
             }
             // You could drop the flag, you know.
-            if( g->u.has_amount( "petrified_eye", 1 ) ) {
+            if( g->u.has_amount( itype_petrified_eye, 1 ) ) {
                 sounds::sound( g->u.pos(), 60, sounds::sound_t::alert, _( "a tortured scream!" ), false, "shout",
                                "scream_tortured" );
                 if( !g->u.is_deaf() ) {
                     add_msg( _( "The eye you're carrying lets out a tortured scream!" ) );
                     g->u.add_morale( MORALE_SCREAM, -15, 0, 30_minutes, 30_seconds );
                 }
-            }
-            // They just keep coming!
-            if( !one_in( 25 ) ) {
-                g->timed_events.add( TIMED_EVENT_SPAWN_WYRMS,
-                                     calendar::turn + rng( 1_minutes, 3_minutes ) );
             }
         }
         break;
@@ -265,17 +263,37 @@ void timed_event::per_turn()
                 when -= 1_turns;
                 return;
             }
-            if( calendar::once_every( 3_turns ) && !g->u.is_deaf() ) {
+            if( calendar::once_every( time_duration::from_seconds( rng( 2, 3 ) ) ) && !g->u.is_deaf() ) {
                 add_msg( m_warning, _( "You hear screeches from the rock above and around you!" ) );
             }
             break;
 
         case TIMED_EVENT_AMIGARA:
-            add_msg( m_warning, _( "The entire cavern shakes!" ) );
+            if( calendar::once_every( time_duration::from_seconds( rng( 2, 3 ) ) ) ) {
+                add_msg( m_warning, _( "The entire cavern shakes!" ) );
+            }
             break;
 
+        case timed_event_type::AMIGARA_WHISPERS: {
+            bool faults = false;
+            for( const tripoint &p : g->m.points_on_zlevel() ) {
+                if( g->m.ter( p ) == t_fault ) {
+                    faults = true;
+                    break;
+                }
+            }
+
+            if( calendar::once_every( time_duration::from_seconds( 10 ) ) && faults ) {
+                add_msg( m_info, "You hear someone whispering \"%s\"",
+                         SNIPPET.random_from_category( "amigara_whispers" ).value_or( translation() ) );
+            }
+        }
+        break;
+
         case TIMED_EVENT_TEMPLE_OPEN:
-            add_msg( m_warning, _( "The earth rumbles." ) );
+            if( calendar::once_every( time_duration::from_seconds( rng( 2, 3 ) ) ) ) {
+                add_msg( m_warning, _( "The earth rumbles." ) );
+            }
             break;
 
         default:

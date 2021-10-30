@@ -114,11 +114,11 @@ double rng_normal( double lo, double hi )
         std::swap( lo, hi );
     }
 
-    const double range = ( hi - lo ) / 4;
-    if( range == 0.0 ) {
+    const double stddev = ( hi - lo ) / 4;
+    if( stddev == 0.0 ) {
         return hi;
     }
-    double val = normal_roll( ( hi + lo ) / 2, range );
+    double val = normal_roll( ( hi + lo ) / 2, stddev );
     return clamp( val, lo, hi );
 }
 

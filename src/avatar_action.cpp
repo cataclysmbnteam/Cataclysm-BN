@@ -65,6 +65,10 @@ static const efftype_id effect_relax_gas( "relax_gas" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_stunned( "stunned" );
 
+static const itype_id itype_grass( "grass" );
+static const itype_id itype_swim_fins( "swim_fins" );
+static const itype_id itype_underbrush( "underbrush" );
+
 static const skill_id skill_swimming( "swimming" );
 
 static const trait_id trait_BURROW( "BURROW" );
@@ -134,16 +138,15 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     }
 
     // If the player is *attempting to* move on the X axis, update facing direction of their sprite to match.
-    int new_dx = dest_loc.x - you.posx();
-    int new_dy = dest_loc.y - you.posy();
+    point new_d( dest_loc.xy() + point( -you.posx(), -you.posy() ) );
 
     if( !tile_iso ) {
-        if( new_dx > 0 ) {
+        if( new_d.x > 0 ) {
             you.facing = FD_RIGHT;
             if( is_riding ) {
                 you.mounted_creature->facing = FD_RIGHT;
             }
-        } else if( new_dx < 0 ) {
+        } else if( new_d.x < 0 ) {
             you.facing = FD_LEFT;
             if( is_riding ) {
                 you.mounted_creature->facing = FD_LEFT;
@@ -180,14 +183,14 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         // y: left-up key       =>  __ -y       FD_LEFT
         // down key             =>  -x +y       ______
         //
-        if( new_dx >= 0 && new_dy >= 0 ) {
+        if( new_d.x >= 0 && new_d.y >= 0 ) {
             you.facing = FD_RIGHT;
             if( is_riding ) {
                 auto mons = you.mounted_creature.get();
                 mons->facing = FD_RIGHT;
             }
         }
-        if( new_dy <= 0 && new_dx <= 0 ) {
+        if( new_d.y <= 0 && new_d.x <= 0 ) {
             you.facing = FD_LEFT;
             if( is_riding ) {
                 auto mons = you.mounted_creature.get();
@@ -505,8 +508,9 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
     int movecost = you.swim_speed();
     you.practice( skill_swimming, you.is_underwater() ? 2 : 1 );
     if( movecost >= 500 ) {
-        if( !you.is_underwater() && !( you.shoe_type_count( "swim_fins" ) == 2 ||
-                                       ( you.shoe_type_count( "swim_fins" ) == 1 && one_in( 2 ) ) ) ) {
+        if( !you.is_underwater() &&
+            !( you.shoe_type_count( itype_swim_fins ) == 2 ||
+               ( you.shoe_type_count( itype_swim_fins ) == 1 && one_in( 2 ) ) ) ) {
             add_msg( m_bad, _( "You sink like a rock!" ) );
             you.set_underwater( true );
             ///\EFFECT_STR increases breath-holding capacity while sinking
@@ -703,7 +707,7 @@ void avatar_action::fire_wielded_weapon( avatar &you )
         return;
     } else if( weapon.ammo_data() && weapon.type->gun &&
                !weapon.type->gun->ammo.count( weapon.ammo_data()->ammo->type ) ) {
-        std::string ammoname = item::find_type( weapon.ammo_current() )->nname( 1 );
+        std::string ammoname = weapon.ammo_current()->nname( 1 );
         add_msg( m_info, _( "The %s can't be fired while loaded with incompatible ammunition %s" ),
                  weapon.tname(), ammoname );
         return;
@@ -758,7 +762,7 @@ bool avatar_action::eat_here( avatar &you )
 {
     if( ( you.has_active_mutation( trait_RUMINANT ) || you.has_active_mutation( trait_GRAZER ) ) &&
         ( g->m.ter( you.pos() ) == t_underbrush || g->m.ter( you.pos() ) == t_shrub ) ) {
-        item food( "underbrush", calendar::turn, 1 );
+        item food( itype_underbrush, calendar::turn, 1 );
         if( you.get_stored_kcal() > you.max_stored_kcal() -
             food.get_comestible()->default_nutrition.kcal ) {
             add_msg( _( "You're too full to eat the leaves from the %s." ), g->m.ter( you.pos() )->name() );
@@ -773,7 +777,7 @@ bool avatar_action::eat_here( avatar &you )
     }
     if( you.has_active_mutation( trait_GRAZER ) && ( g->m.ter( you.pos() ) == t_grass ||
             g->m.ter( you.pos() ) == t_grass_long || g->m.ter( you.pos() ) == t_grass_tall ) ) {
-        item food( item( "grass", calendar::turn, 1 ) );
+        item food( item( itype_grass, calendar::turn, 1 ) );
         if( you.get_stored_kcal() > you.max_stored_kcal() -
             food.get_comestible()->default_nutrition.kcal ) {
             add_msg( _( "You're too full to graze." ) );

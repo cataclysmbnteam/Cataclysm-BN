@@ -35,6 +35,7 @@
 #include "json.h"
 #include "magic.h"
 #include "magic_enchantment.h"
+#include "make_static.h"
 #include "mapsharing.h"
 #include "martialarts.h"
 #include "monster.h"
@@ -47,6 +48,7 @@
 #include "pimpl.h"
 #include "pldata.h"
 #include "profession.h"
+#include "ranged.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "rng.h"
@@ -868,7 +870,7 @@ tab_direction set_stats( avatar &u, points_left &points )
                 // NOLINTNEXTLINE(cata-use-named-point-constants)
                 mvwprintz( w_description, point( 0, 1 ), COL_STAT_BONUS,
                            _( "Throwing penalty per target's dodge: +%d" ),
-                           u.throw_dispersion_per_dodge( false ) );
+                           ranged::throw_dispersion_per_dodge( u, false ) );
                 if( u.ranged_dex_mod() != 0 ) {
                     mvwprintz( w_description, point( 0, 2 ), COL_STAT_PENALTY, _( "Ranged penalty: -%d" ),
                                std::abs( u.ranged_dex_mod() ) );
@@ -1537,7 +1539,7 @@ tab_direction set_profession( avatar &u, points_left &points,
                 for( const auto &b : prof_CBMs ) {
                     const auto &cbm = b.obj();
 
-                    if( cbm.activated && cbm.toggled ) {
+                    if( cbm.activated && cbm.has_flag( STATIC( flag_str_id( "BIONIC_TOGGLED" ) ) ) ) {
                         buffer += string_format( _( "%s (toggled)" ), cbm.name ) + "\n";
                     } else if( cbm.activated ) {
                         buffer += string_format( _( "%s (activated)" ), cbm.name ) + "\n";

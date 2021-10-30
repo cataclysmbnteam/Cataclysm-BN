@@ -57,6 +57,12 @@
     "conflicts": [ "OUTER", "SKINTIGHT", "WAIST", "PERSONAL", "AURA" ]
   },
   {
+    "id": "BIONIC_INSTALLATION_DATA",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "This item <info>provides</info> instructions and other required data for several bionics, allowing installation of them with <good>minimal failure chance</good>."
+  },
+  {
     "id": "BIONIC_NPC_USABLE",
     "type": "json_flag",
     "context": [ "BIONIC_ITEM" ],
@@ -839,6 +845,12 @@
     "info": "This gear has certain parts padded with steel to <good>increase protection</good> with moderate <bad>increase to encumbrance</bad>."
   },
   {
+    "id": "alloy_padded",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear has certain parts padded with superalloy to <good>increase protection</good> with moderate <bad>increase to encumbrance</bad>."
+  },
+  {
     "id": "wooled",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -880,6 +892,18 @@
     "type": "json_flag",
     "context": [ "BIONIC" ],
     "info": "This bionic provides power."
+  },
+  {
+    "id": "BIONIC_SLEEP_FRIENDLY",
+    "type": "json_flag",
+    "context": [ "BIONIC" ],
+    "//": "This bionic won't provide a warning if the player tries to sleep while it's active."
+  },
+  {
+    "id": "BIONIC_SHOCKPROOF",
+    "type": "json_flag",
+    "context": [ "BIONIC" ],
+    "//": "This bionic can't be incapacitated by electrical attacks."
   },
   {
     "id": "BIONIC_TOGGLED",
@@ -1978,5 +2002,28 @@
     "id": "auto_wield",
     "type": "json_flag",
     "context": [  ]
+  },
+  {
+    "id": "UNSAFE_CONSUME",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "info": "This is unsafe to consume, so it won't be consumed when included in auto drink or eat zones."
+  },
+  {
+    "id": "PYROMANIAC_WEAPON",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "BUTCHER_RACK",
+    "type": "json_flag",
+    "context": [ "TOOL" ],
+    "info": "This item <good>can be used as a <info>butchering</info> rack</good>."
+  },
+  {
+    "id": "FLAT_SURFACE",
+    "type": "json_flag",
+    "context": [ "TOOL" ],
+    "info": "This item <good>can be used as a flat surface</good> for <info>butchering</info>."
   }
 ]

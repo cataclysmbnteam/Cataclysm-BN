@@ -14,7 +14,7 @@
     "blueprint_excludes": [ { "id": "fbmc_shelter_1_bedroom1" } ],
     "blueprint_needs": {
       "time": "1 d 1 h 30 m",
-      "skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 6 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
@@ -45,7 +45,7 @@
     "blueprint_excludes": [ { "id": "fbmc_shelter_1_bedroom2" } ],
     "blueprint_needs": {
       "time": "1 d 1 h 30 m",
-      "skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 6 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
@@ -99,7 +99,7 @@
     "blueprint_excludes": [ { "id": "fbmc_shelter_1_bedroom5" } ],
     "blueprint_needs": {
       "time": "1 d 15 h 30 m",
-      "skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 6 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
@@ -130,7 +130,7 @@
     "blueprint_excludes": [ { "id": "fbmc_shelter_1_bedroom6" } ],
     "blueprint_needs": {
       "time": "1 d 15 h",
-      "skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+      "skills": [ [ "fabrication", 6 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],

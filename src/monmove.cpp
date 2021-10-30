@@ -61,6 +61,8 @@ static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_pushed( "pushed" );
 static const efftype_id effect_stunned( "stunned" );
 
+static const itype_id itype_pressurized_tank( "pressurized_tank" );
+
 static const species_id FUNGUS( "FUNGUS" );
 static const species_id INSECT( "INSECT" );
 static const species_id SPIDER( "SPIDER" );
@@ -851,21 +853,20 @@ void monster::move()
         destination.z = posz();
     }
 
-    int new_dx = destination.x - pos().x;
-    int new_dy = destination.y - pos().y;
+    point new_d( destination.xy() - pos().xy() );
 
     // toggle facing direction for sdl flip
     if( !tile_iso ) {
-        if( new_dx < 0 ) {
+        if( new_d.x < 0 ) {
             facing = FD_LEFT;
-        } else if( new_dx > 0 ) {
+        } else if( new_d.x > 0 ) {
             facing = FD_RIGHT;
         }
     } else {
-        if( new_dy <= 0 && new_dx <= 0 ) {
+        if( new_d.y <= 0 && new_d.x <= 0 ) {
             facing = FD_LEFT;
         }
-        if( new_dx >= 0 && new_dy >= 0 ) {
+        if( new_d.x >= 0 && new_d.y >= 0 ) {
             facing = FD_RIGHT;
         }
     }
@@ -1465,8 +1466,9 @@ bool monster::attack_at( const tripoint &p )
 
 static tripoint find_closest_stair( const tripoint &near_this, const ter_bitflags stair_type )
 {
-    for( const tripoint &candidate : closest_tripoints_first( near_this, 10 ) ) {
-        if( g->m.has_flag( stair_type, candidate ) ) {
+    map &here = get_map();
+    for( const tripoint &candidate : closest_points_first( near_this, 10 ) ) {
+        if( here.has_flag( stair_type, candidate ) ) {
             return candidate;
         }
     }
@@ -1658,9 +1660,9 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     if( has_flag( MF_DRIPS_NAPALM ) ) {
         if( one_in( 10 ) ) {
             // if it has more napalm, drop some and reduce ammo in tank
-            if( ammo["pressurized_tank"] > 0 ) {
+            if( ammo[itype_pressurized_tank] > 0 ) {
                 g->m.add_item_or_charges( pos(), item( "napalm", calendar::turn, 50 ) );
-                ammo["pressurized_tank"] -= 50;
+                ammo[itype_pressurized_tank] -= 50;
             } else {
                 // TODO: remove MF_DRIPS_NAPALM flag since no more napalm in tank
                 // Not possible for now since flag check is done on type, not individual monster
@@ -1720,19 +1722,18 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
     add_effect( effect_pushed, 1_turns );
 
     for( size_t i = 0; i < 6; i++ ) {
-        const int dx = rng( -1, 1 );
-        const int dy = rng( -1, 1 );
-        if( dx == 0 && dy == 0 ) {
+        const point d{ rng( -1, 1 ), rng( -1, 1 ) };
+        if( d.x == 0 && d.y == 0 ) {
             continue;
         }
 
         // Pushing forward is easier than pushing aside
-        const int direction_penalty = std::abs( dx - dir.x ) + std::abs( dy - dir.y );
+        const int direction_penalty = std::abs( d.x - dir.x ) + std::abs( d.y - dir.y );
         if( direction_penalty > 2 ) {
             continue;
         }
 
-        tripoint dest( p + point( dx, dy ) );
+        tripoint dest( p + d );
         const int dest_movecost_from = 50 * g->m.move_cost( dest );
 
         // Pushing into cars/windows etc. is harder
@@ -2048,12 +2049,10 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                 int shove_moves = shove_veh_mass_moves_factor * veh_mass / 10_kilogram;
                 shove_moves = std::max( shove_moves, shove_moves_minimal );
                 this->mod_moves( -shove_moves );
-                const int destination_delta_x = remote_destination.x - nearby_destination.x;
-                const int destination_delta_y = remote_destination.y - nearby_destination.y;
-                const int destination_delta_z = remote_destination.z - nearby_destination.z;
-                const tripoint shove_destination( clamp( destination_delta_x, -1, 1 ),
-                                                  clamp( destination_delta_y, -1, 1 ),
-                                                  clamp( destination_delta_z, -1, 1 ) );
+                const tripoint destination_delta( -nearby_destination + remote_destination );
+                const tripoint shove_destination( clamp( destination_delta.x, -1, 1 ),
+                                                  clamp( destination_delta.y, -1, 1 ),
+                                                  clamp( destination_delta.z, -1, 1 ) );
                 veh.skidding = true;
                 veh.velocity = shove_velocity;
                 if( shove_destination != tripoint_zero ) {
@@ -2062,7 +2061,7 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                     }
                     g->m.move_vehicle( veh, shove_destination, veh.face );
                 }
-                veh.move = tileray( point( destination_delta_x, destination_delta_y ) );
+                veh.move = tileray( destination_delta.xy() );
                 veh.smash( g->m, shove_damage_min, shove_damage_max, 0.10F );
             }
         }

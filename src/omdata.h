@@ -12,9 +12,11 @@
 #include <array>
 #include <string>
 
+#include "cuboid_rectangle.h"
 #include "catacharset.h"
 #include "color.h"
 #include "common_types.h"
+#include "coordinates.h"
 #include "int_id.h"
 #include "point.h"
 #include "string_id.h"
@@ -434,7 +436,7 @@ class overmap_special
         /** @returns true if this special requires a city */
         bool requires_city() const;
         /** @returns whether the special at specified tripoint can belong to the specified city. */
-        bool can_belong_to_city( const tripoint &p, const city &cit ) const;
+        bool can_belong_to_city( const tripoint_om_omt &p, const city &cit ) const;
 
         overmap_special_id id;
         std::list<overmap_special_terrain> terrains;
@@ -453,8 +455,6 @@ class overmap_special
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;
-        // Minimum size of the box that can contain whole overmap special
-        box dimensions;
     private:
         // These locations are the default values if ones are not specified for the individual OMTs.
         std::set<string_id<overmap_location>> default_locations;
@@ -494,7 +494,7 @@ void reset();
 
 const std::vector<overmap_special> &get_all();
 
-overmap_special_batch get_default_batch( const point &origin );
+overmap_special_batch get_default_batch( const point_abs_om &origin );
 /**
  * Generates a simple special from a building id.
  */

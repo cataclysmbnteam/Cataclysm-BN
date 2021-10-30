@@ -1,0 +1,83 @@
+[
+  {
+    "type": "uncraft",
+    "result": "wheel",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "48 s",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_lump", 6 ] ], [ [ "chunk_rubber", 15 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "wheel_wide",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "48 s",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_lump", 15 ] ], [ [ "chunk_rubber", 15 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "wheel_wide_or",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "48 s",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_lump", 15 ] ], [ [ "chunk_rubber", 15 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "wheel_slick",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "48 s",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_lump", 10 ] ], [ [ "chunk_rubber", 15 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "wheel_bicycle",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "48 s",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_chunk", 6 ] ], [ [ "chunk_rubber", 6 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "wheel_bicycle_or",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "48 s",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_chunk", 6 ] ], [ [ "chunk_rubber", 6 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "wheel_10",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "48 s",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_chunk", 8 ] ], [ [ "chunk_rubber", 6 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "wheel_motorbike",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "48 s",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_lump", 3 ] ], [ [ "chunk_rubber", 6 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "wheel_motorbike_or",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "48 s",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_lump", 3 ] ], [ [ "chunk_rubber", 6 ] ] ]
+  }
+]

@@ -45,7 +45,7 @@
     "blueprint_resources": [ "fake_fireplace", "pot" ],
     "blueprint_needs": {
       "time": "2 h 30 m",
-      "skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
+      "skills": [ [ "fabrication", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ] ],
@@ -140,7 +140,7 @@
     "blueprint_excludes": [ { "id": "fbmc_shelter_1_well" } ],
     "blueprint_needs": {
       "time": "11 h",
-      "skills": [ [ "fabrication", 4 ], [ "mechanics", 2 ], [ "survival", 4 ] ],
+      "skills": [ [ "fabrication", 4 ], [ "mechanics", 2 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH" } ] ],

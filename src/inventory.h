@@ -35,6 +35,9 @@ using indexed_invslice = std::vector< std::pair<std::list<item>*, int> >;
 using itype_bin = std::unordered_map< itype_id, std::list<const item *> >;
 using invlets_bitset = std::bitset<std::numeric_limits<char>::max()>;
 
+/** First element is pointer to item stack (first item), second is amount. */
+using excluded_stacks = std::map<const item *, int>;
+
 /**
  * Wrapper to handled a set of valid "inventory" letters. "inventory" can be any set of
  * objects that the player can access via a single character (e.g. bionics).
@@ -188,9 +191,9 @@ class inventory : public visitable<inventory>
         void rust_iron_items();
 
         units::mass weight() const;
-        units::mass weight_without( const std::map<const item *, int> & ) const;
+        units::mass weight_without( const excluded_stacks &without ) const;
         units::volume volume() const;
-        units::volume volume_without( const std::map<const item *, int> & ) const;
+        units::volume volume_without( const excluded_stacks &without ) const;
 
         // dumps contents into dest (does not delete contents)
         void dump( std::vector<item *> &dest );
@@ -232,7 +235,7 @@ class inventory : public visitable<inventory>
 
     private:
         invlet_favorites invlet_cache;
-        char find_usable_cached_invlet( const std::string &item_type );
+        char find_usable_cached_invlet( const itype_id &item_type );
 
         invstack items;
 

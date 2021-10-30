@@ -372,7 +372,7 @@ class update_mapgen_function_json : public mapgen_function_json_base
         void setup();
         bool setup_update( const JsonObject &jo );
         void check( const std::string &oter_name ) const;
-        bool update_map( const tripoint &omt_pos, const point &offset,
+        bool update_map( const tripoint_abs_omt &omt_pos, const point &offset,
                          mission *miss, bool verify = false ) const;
         bool update_map( mapgendata &md, const point &offset = point_zero,
                          bool verify = false ) const;
@@ -447,11 +447,6 @@ enum room_type {
     room_bedroom,
     room_backyard,
     room_study,
-    room_mine_shaft,
-    room_mine_office,
-    room_mine_storage,
-    room_mine_fuel,
-    room_mine_housing,
     room_split
 };
 

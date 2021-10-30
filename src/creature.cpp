@@ -209,7 +209,7 @@ bool Creature::sees( const Creature &critter ) const
     if( wanted_range <= 1 && ( posz() == critter.posz() || g->m.sees( pos(), critter.pos(), 1 ) ) ) {
         return visible( ch );
     } else if( ( wanted_range > 1 && critter.digging() ) ||
-               ( critter.has_flag( MF_NIGHT_INVISIBILITY ) && g->m.light_at( critter.pos() ) <= LL_LOW ) ||
+               ( critter.has_flag( MF_NIGHT_INVISIBILITY ) && g->m.light_at( critter.pos() ) <= lit_level::LOW ) ||
                ( critter.is_underwater() && !is_underwater() && g->m.is_divable( critter.pos() ) ) ||
                ( g->m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, critter.pos() ) &&
                  !( std::abs( posx() - critter.posx() ) <= 1 && std::abs( posy() - critter.posy() ) <= 1 &&
@@ -295,7 +295,7 @@ bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
 static bool overlaps_vehicle( const std::set<tripoint> &veh_area, const tripoint &pos,
                               const int area )
 {
-    for( const tripoint &tmp : tripoint_range( pos - tripoint( area, area, 0 ),
+    for( const tripoint &tmp : tripoint_range<tripoint>( pos - tripoint( area, area, 0 ),
             pos + tripoint( area - 1, area - 1, 0 ) ) ) {
         if( veh_area.count( tmp ) > 0 ) {
             return true;
@@ -1690,14 +1690,13 @@ void Creature::draw( const catacurses::window &w, const tripoint &origin, bool i
         return;
     }
 
-    int draw_x = getmaxx( w ) / 2 + posx() - origin.x;
-    int draw_y = getmaxy( w ) / 2 + posy() - origin.y;
+    point draw( -origin.xy() + point( getmaxx( w ) / 2 + posx(), getmaxy( w ) / 2 + posy() ) );
     if( inverted ) {
-        mvwputch_inv( w, point( draw_x, draw_y ), basic_symbol_color(), symbol() );
+        mvwputch_inv( w, draw, basic_symbol_color(), symbol() );
     } else if( is_symbol_highlighted() ) {
-        mvwputch_hi( w, point( draw_x, draw_y ), basic_symbol_color(), symbol() );
+        mvwputch_hi( w, draw, basic_symbol_color(), symbol() );
     } else {
-        mvwputch( w, point( draw_x, draw_y ), symbol_color(), symbol() );
+        mvwputch( w, draw, symbol_color(), symbol() );
     }
 }
 
@@ -1886,4 +1885,17 @@ void Creature::describe_infrared( std::vector<std::string> &buf ) const
 void Creature::describe_specials( std::vector<std::string> &buf ) const
 {
     buf.push_back( _( "You sense a creature here." ) );
+}
+
+effects_map Creature::get_all_effects() const
+{
+    effects_map effects_without_removed;
+    for( auto &outer : *effects ) {
+        for( auto &inner : outer.second ) {
+            if( !inner.second.is_removed() ) {
+                effects_without_removed[outer.first][inner.first] = inner.second;
+            }
+        }
+    }
+    return effects_without_removed;
 }

@@ -120,6 +120,7 @@ Use the `Home` key to return to the top.
       - [`close" And "open`](#-close--and--open-)
       - [`bash`](#-bash-)
       - [`deconstruct`](#-deconstruct-)
+      - [`pry`](#-pry-)
       - [`map_bash_info`](#-map-bash-info-)
       - [`str_min`, `str_max`, `str_min_blocked`, `str_max_blocked`, `str_min_supported`, `str_max_supported`](#-str-min----str-max----str-min-blocked----str-max-blocked----str-min-supported----str-max-supported-)
       - [`sound`, `sound_fail`, `sound_vol`, `sound_fail_vol`](#-sound----sound-fail----sound-vol----sound-fail-vol-)
@@ -131,7 +132,14 @@ Use the `Home` key to return to the top.
       - [`items`](#-items--1)
       - [`map_deconstruct_info`](#-map-deconstruct-info-)
       - [`furn_set`, `ter_set`](#-furn-set----ter-set--1)
-    + [`items`](#-items-2)
+      - [`items`](#-items-2)
+      - [`prying_result`](#-prying-result-)
+      - [`new_ter_type`, `new_furn_type`](#-new-furn-type----new-ter-type-)
+      - [`success_message`, `fail_message`, `break_message`](#-success-message----fail-message----break-message-)
+      - [`pry_quality`, `pry_bonus_mult`, `difficulty`](#-pry-quality----pry-bonus-mult----difficulty-)
+      - [`noise`, `break_noise`, `sound`, `break_sound`](#-noise----break-noise----sound----break-sound-)
+      - [`breakable`, `break_ter_type`, `break_furn_type`](#-breakable----break-ter-type----break-furn-type-)
+      - [`break_items`](#-break-items-)
     + [`plant_data`](#plant_data-1)
       - [`transform`](#-transform-)
       - [`base`](#-base-)
@@ -469,16 +477,16 @@ This section describes each json file and their contents. Each json has their ow
 
 | Identifier                  | Description
 |---                          |---
-| id                          | Unique ID. Must be one continuous word, use underscores if necessary.
-| name                        | In-game name displayed.
-| active                      | Whether the bionic is active or passive. (default: `passive`)
-| power_source                | Whether the bionic provides power. (default: `false`)
-| faulty                      | Whether it is a faulty type. (default: `false`)
-| act_cost                    | How many kJ it costs to activate the bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
-| deact_cost                  | How many kJ it costs to deactivate the bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
-| react_cost                  | How many kJ it costs over time to keep this bionic active, does nothing without a non-zero "time".  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
-| time                        | How long, when activated, between drawing cost. If 0, it draws power once. (default: `0`)
-| description                 | In-game description.
+| id                          | (_mandatory_) Unique ID. Must be one continuous word, use underscores if necessary.
+| name                        | (_mandatory_) In-game name displayed.
+| description                 | (_mandatory_) In-game description.
+| flags                       | (_optional_) A list of flags. See JSON_FLAGS.md for supported values.
+| act_cost                    | (_optional_) How many kJ it costs to activate the bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
+| deact_cost                  | (_optional_) How many kJ it costs to deactivate the bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
+| react_cost                  | (_optional_) How many kJ it costs over time to keep this bionic active, does nothing without a non-zero "time".  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
+| time                        | (_optional_) How long, when activated, between drawing cost. If 0, it draws power once. (default: `0`)
+| upgraded_bionic             | (_optional_) Bionic that can be upgraded by installing this one.
+| available_upgrades          | (_optional_) Upgrades available for this bionic, i.e. the list of bionics having this one referenced by `upgraded_bionic`.
 | encumbrance                 | (_optional_) A list of body parts and how much this bionic encumber them.
 | weight_capacity_bonus       | (_optional_) Bonus to weight carrying capacity in grams, can be negative.  Strings can be used - "5000 g" or "5 kg" (default: `0`)
 | weight_capacity_modifier    | (_optional_) Factor modifying base weight carrying capacity. (default: `1`)
@@ -500,22 +508,21 @@ This section describes each json file and their contents. Each json has their ow
 | power_gen_emission          | (_optional_) `emit_id` of the field emitted by this bionic when it produces energy. Emit_ids are defined in `emit.json`.
 | stat_bonus                  | (_optional_) List of passive stat bonus. Stat are designated as follow: "DEX", "INT", "STR", "PER".
 | enchantments                | (_optional_) List of enchantments applied by this CBM (see MAGIC.md for instructions on enchantment. NB: enchantments are not necessarily magic.)
-| learned_spells              | (_optional_) Map of {spell:level} you gain when installing this CBM, and lose when you uninstall this CBM. Spell classes are automatically gained.
+| learned_spells              | (_optional_) List of spells (with levels) you gain when installing this CBM, and lose when you uninstall this CBM. Spell classes are automatically gained.
+| fake_item                   | (_optional_) ID of fake item used by this bionic. Mandatory for gun and weapon bionics.
 
 ```C++
 {
     "id"           : "bio_batteries",
     "name"         : "Battery System",
     "active"       : false,
-    "power_source" : false,
-    "faulty"       : false,
     "act_cost"     : 0,
     "time"         : 1,
     "fuel_efficiency": 1,
     "stat_bonus": [ [ "INT", 2 ], [ "STR", 2 ] ],
     "fuel_options": [ "battery" ],
     "fuel_capacity": 500,
-    "encumbrance"  : [ [ "TORSO", 10 ], [ "ARM_L", 10 ], [ "ARM_R", 10 ], [ "LEG_L", 10 ], [ "LEG_R", 10 ], [ "FOOT_L", 10 ], [ "FOOT_R", 10 ] ],
+    "encumbrance"  : [ [ "torso", 10 ], [ "arm_l", 10 ], [ "arm_r", 10 ], [ "leg_l", 10 ], [ "leg_r", 10 ], [ "foot_l", 10 ], [ "foot_r", 10 ] ],
     "description"  : "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries. Use 'E' to consume batteries.",
     "canceled_mutations": ["HYPEROPIC"],
     "included_bionics": ["bio_blindfold"]
@@ -525,10 +532,11 @@ This section describes each json file and their contents. Each json has their ow
     "type": "bionic",
     "name": "Air Filtration System",
     "description": "Surgically implanted in your trachea is an advanced filtration system.  If toxins, or airborne diseases find their way into your windpipe, the filter will attempt to remove them.",
-    "occupied_bodyparts": [ [ "TORSO", 4 ], [ "MOUTH", 2 ] ],
+    "occupied_bodyparts": [ [ "torso", 4 ], [ "mouth", 2 ] ],
     "env_protec": [ [ "mouth", 7 ] ],
     "bash_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "cut_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
+    "learned_spells": [ [ "mint_breath", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
 }
 ```
@@ -649,6 +657,7 @@ When you sort your inventory by category, these are the categories that are disp
 | `dmg_adj`        | Adjectives used to describe damage states of a material.
 | `density`        | Density of a material.
 | `vitamins`       | Vitamins in a material. Usually overridden by item specific values.
+| `wind_resist`    | Percentage 0-100. How effective this material is at stopping wind from getting through. Higher values are better. If none of the materials an item is made of specify a value, a default of 99 is assumed.
 | `warmth_when_wet`      | Percentage of warmth retained when fully drenched. Default is 0.2.
 | `specific_heat_liquid` | Specific heat of a material when not frozen (J/(g K)). Default 4.186.
 | `specific_heat_solid`  | Specific heat of a material when frozen (J/(g K)). Default 2.108.
@@ -1015,7 +1024,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
   "BLIND_EASY",
   "ANOTHERFLAG"
 ],
-"construction_blueprint": "camp", // an optional string containing an update_mapgen_id.  Used by faction camps to upgrade their buildings
+"construction_blueprint": "camp", // an optional string containing an update_mapgen_id.  Used by faction camps to upgrade their buildings. If non-empty, the function must exist.
 "on_display": false,         // this is a hidden construction item, used by faction camps to calculate construction times but not available to the player
 "qualities": [               // Generic qualities of tools needed to craft
   {"id":"CUT","level":1,"amount":1}
@@ -1845,6 +1854,7 @@ CBMs can be defined like this:
 "bionic_id" : "bio_advreactor", // ID of the installed bionic if not equivalent to "id"
 "difficulty" : 11,              // Difficulty of installing CBM
 "is_upgrade" : true             // Whether the CBM is an upgrade of another bionic.
+"installation_data" : "AID_bio_advreactor" // ID of the item which allows for almost guaranteed installation of corresponding bionic.
 ```
 
 ### Comestibles
@@ -2802,6 +2812,10 @@ Color of the object as it appears in the game. "color" defines the foreground co
 
 (Optional) Defines whether the object can be deconstructed and if so, what the results shall be. See "map_deconstruct_info".
 
+#### `pry`
+
+(Optional) Defines whether the object can be pried open and if so, what happens. See "prying_result".
+
 #### `map_bash_info`
 
 Defines the various things that happen when the player or something else bashes terrain or furniture.
@@ -2870,9 +2884,75 @@ TODO
 
 The terrain / furniture that will be set after the original has been deconstructed. "furn_set" is optional (it defaults to no furniture), "ter_set" is only used upon "deconstruct" entries in terrain and is mandatory there.
 
-### `items`
+#### `items`
 
 (Optional) An item group (inline) or an id of an item group, see doc/ITEM_SPAWN.md. The default subtype is "collection". Upon deconstruction the object, items from that group will be spawned.
+
+#### `prying_result`
+
+```JSON
+{
+      "success_message": "You pry open the door.",
+      "fail_message": "You pry, but cannot pry open the door.",
+      "break_message": "You damage the door!",
+      "pry_quality": 2,
+      "pry_bonus_mult": 3,
+      "noise": 12,
+      "break_noise": 10,
+      "sound": "crunch!",
+      "break_sound": "crack!",
+      "breakable": true,
+      "difficulty": 8,
+      "new_ter_type": "t_door_o",
+      "new_furn_type": "f_crate_o",
+      "break_ter_type": "t_door_b",
+      "break_furn_type": "f_null",
+      "break_items": [
+        { "item": "2x4", "prob": 25 },
+        { "item": "wood_panel", "prob": 10 },
+        { "item": "splinter", "count": [ 1, 2 ] },
+        { "item": "nail", "charges": [ 0, 2 ] }
+      ]
+}
+```
+
+#### `new_ter_type`, `new_furn_type`
+
+The terrain / furniture that will be set after the original has been pried open. "furn_set" is optional (it defaults to no furniture), "ter_set" is only used upon "pry" entries in terrain and is mandatory there.
+
+#### `success_message`, `fail_message`, `break_message`
+
+Messages displayed on successfully prying open the terrain / furniture, on failure, or should the terrain / furniture break into something else from a failed pry attempt. `break_message` is only required if `breakable` is set to true and `break_ter_type` is defined.
+
+#### `pry_quality`, `pry_bonus_mult`, `difficulty`
+
+This determines the minimum prying quality needed to attempt to pry open the terrain / furniture, and the chance of successfully prying it open. From iuse.cpp:
+
+```C++
+    int diff = pry->difficulty;
+    diff -= ( ( pry_level - pry->pry_quality ) * pry->pry_bonus_mult );
+```
+
+```C++
+    if( dice( 4, diff ) < dice( 4, p->str_cur ) ) {
+        p->add_msg_if_player( m_good, pry->success_message );
+```
+
+`difficulty` is compared to the character's current strength during the prying attempt. If the available prying quality of your tool is above the required `pry_quality`, effective difficulty is reduced at a rate determined by `pry_bonus_mult`. `pry_bonus_mult` is optional, and defaults to 1 (meaning for every level of prying quality your tool has beyond the minimum, `diff` will be reduced by 1).
+
+#### `noise`, `break_noise`, 'sound', 'break_sound'
+
+If `noise` is specified, successfully prying the terrain / furniture open will play `sound` at the specified volume. If `breakable` is true and `break_noise` is specified, breaking the terrain / furniture on a failed prying attempt will play `break_noise` at the specified volume.
+
+If `noise` or `break_noise` are not specified then prying or breaking the terrain / furniture in question will simply be silent and make no sound, making them optional. `sound` and `break_sound` are also optional, with default messages of "crunch!" and "crack!" respectively.
+
+#### `breakable`, `break_ter_type`, `break_furn_type`
+
+If `breakable` is set to true, then failed pry attempts have a chance of breaking the terrain / furniture instead. For terrain, `break_ter_type` is mandatory if `breakable` is set to true, `break_furn_type` is optional and defaults to null.
+
+#### `break_items`
+
+(Optional) An item group (inline) or an id of an item group, see doc/ITEM_SPAWN.md. The default subtype is "collection". If `breakable` is set to true, breaking the object from a failed pry attempt will spawn items from that group.
 
 ### `plant_data`
 
@@ -3275,6 +3355,10 @@ Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite fil
     "type": "field_type", // this is a field type
     "id": "fd_gum_web", // id of the field
     "immune_mtypes": [ "mon_spider_gum" ], // list of monster immune to this field
+    "intensity_levels": [ 
+      { "name": "shadow",  // name of this level of intensity
+        "light_override": 3.7 } //light level on the tile occupied by this field will be set at 3.7 not matter the ambient light.
+     ],
     "bash": {
       "str_min": 1, // lower bracket of bashing damage required to bash
       "str_max": 3, // higher bracket

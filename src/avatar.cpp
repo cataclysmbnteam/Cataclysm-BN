@@ -92,6 +92,8 @@ static const efftype_id effect_stim( "stim" );
 static const efftype_id effect_stim_overdose( "stim_overdose" );
 static const efftype_id effect_thirsty( "thirsty" );
 
+static const itype_id itype_guidebook( "guidebook" );
+
 static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
@@ -213,7 +215,7 @@ void avatar::reset_all_misions()
     failed_missions.clear();
 }
 
-tripoint avatar::get_active_mission_target() const
+tripoint_abs_omt avatar::get_active_mission_target() const
 {
     if( active_mission == nullptr ) {
         return overmap::invalid_tripoint;
@@ -412,7 +414,7 @@ bool avatar::read( item_location loc, const bool continuous )
                          reader->getID().get_value() );
     act.targets.emplace_back( loc );
 
-    if( it.typeId() == "guidebook" ) {
+    if( it.typeId() == itype_guidebook ) {
         // special guidebook effect: print a misc. hint when read
         if( reader != this ) {
             add_msg( m_info, fail_messages[0] );
@@ -945,7 +947,7 @@ void avatar::do_read( item_location loc )
     activity.set_to_null();
 }
 
-bool avatar::has_identified( const std::string &item_id ) const
+bool avatar::has_identified( const itype_id &item_id ) const
 {
     return items_identified.count( item_id ) > 0;
 }

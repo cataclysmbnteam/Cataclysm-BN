@@ -286,7 +286,7 @@ TEST_CASE( "ranged weapon attributes", "[item][iteminfo][weapon][ranged][gun]" )
                                     iteminfo_parts::GUN_DAMAGEMULT_AMMO, iteminfo_parts::GUN_DAMAGEMULT_TOTAL
                                   } );
         test_info_equals(
-            item( "test_compbow" ).ammo_set( "test_arrow" ), q,
+            item( "test_compbow" ).ammo_set( itype_id( "test_arrow" ) ), q,
             "--\n"
             "<color_c_white>Ranged damage</color>: <color_c_yellow>18</color>"
             "<color_c_yellow>+0</color> = <color_c_yellow>18</color>\n"
@@ -362,7 +362,6 @@ TEST_CASE( "nutrients in food", "[item][iteminfo][food]" )
             "Quench: <color_c_yellow>0</color>\n"
             "Vitamins (RDA): Calcium (9%), Vitamin A (9%), and Vitamin B12 (11%)\n" );
     }
-
     SECTION( "nutrient ranges for recipe exemplars", "[item][iteminfo]" ) {
         item i( "icecream" );
         i.set_var( "recipe_exemplar", "icecream" );
@@ -370,7 +369,7 @@ TEST_CASE( "nutrients in food", "[item][iteminfo][food]" )
             i, q,
             "--\n"
             "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
-            "<color_c_white>Calories (kcal)</color>: <color_c_yellow>317</color>-"
+            "<color_c_white>Calories (kcal)</color>: <color_c_yellow>282</color>-"
             "<color_c_yellow>469</color>  Quench: <color_c_yellow>0</color>\n"
             "Vitamins (RDA): Calcium (7-28%), Iron (0-83%), "
             "Vitamin A (3-11%), Vitamin B12 (2-6%), and Vitamin C (1-85%)\n" );
@@ -491,13 +490,18 @@ TEST_CASE( "disassembly time and yield", "[item][iteminfo][disassembly]" )
     test_info_equals(
         item( "test_soldering_iron" ), q,
         "--\n"
-        "<color_c_white>Disassembly</color> takes about 20 minutes and might yield:"
-        " 2 electronic scraps, copper (1), scrap metal (1), and copper wire (5).\n" );
+        "<color_c_white>Disassembly</color> takes about 20 minutes, requires 1 tool"
+        " with <color_c_cyan>cutting of 1</color> or more and 1 tool with"
+        " <color_c_cyan>screw driving of 1</color> or more and <color_c_white>might"
+        " yield</color>: 2 electronic scraps, copper (1), scrap metal (1), and copper"
+        " wire (5).\n" );
 
     test_info_equals(
         item( "test_sheet_metal" ), q,
         "--\n"
-        "<color_c_white>Disassembly</color> takes about 2 minutes and might yield: TEST small metal sheet (24).\n" );
+        "<color_c_white>Disassembly</color> takes about 2 minutes, requires 1 tool"
+        " with <color_c_cyan>metal sawing of 2</color> or more and <color_c_white>might"
+        " yield</color>: TEST small metal sheet (24).\n" );
 }
 
 TEST_CASE( "item description flags", "[item][iteminfo]" )

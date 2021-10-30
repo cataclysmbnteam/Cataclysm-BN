@@ -17,7 +17,6 @@
     "volume": "250 ml",
     "stack_size": 4,
     "fun": -6,
-    "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_EGG_DINO",
     "rot_spawn_chance": 70
   },

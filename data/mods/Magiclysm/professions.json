@@ -45,8 +45,17 @@
     "skills": [ { "level": 3, "name": "speech" } ],
     "items": {
       "both": {
-        "items": [ "pants", "longshirt", "socks", "cassock", "dress_shoes", "holy_symbol", "holybook_bible1", "priest_beginner" ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "items": [
+          "pants",
+          "longshirt",
+          "socks",
+          "cassock",
+          "dress_shoes",
+          "holy_symbol",
+          "smart_phone",
+          "holybook_bible1",
+          "priest_beginner"
+        ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -62,8 +71,17 @@
     "skills": [ { "level": 1, "name": "fabrication" }, { "level": 1, "name": "tailor" } ],
     "items": {
       "both": {
-        "items": [ "kariginu", "eboshi", "pants", "tabi_dress", "geta", "holy_symbol", "holybook_kojiki", "priest_beginner" ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "items": [
+          "kariginu",
+          "eboshi",
+          "pants",
+          "smart_phone",
+          "tabi_dress",
+          "geta",
+          "holy_symbol",
+          "holybook_kojiki",
+          "priest_beginner"
+        ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -80,8 +98,7 @@
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "barter" } ],
     "items": {
       "both": {
-        "items": [ "pants", "tshirt", "socks", "kufi", "thawb", "lowtops", "holybook_quran", "priest_beginner" ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "items": [ "pants", "tshirt", "socks", "kufi", "thawb", "lowtops", "holybook_quran", "smart_phone", "priest_beginner" ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -106,11 +123,11 @@
           "kippah",
           "dress_shoes",
           "holy_symbol",
+          "smart_phone",
           "holybook_talmud",
           "holybook_tanakh",
           "priest_beginner"
-        ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -138,10 +155,10 @@
           "mbag",
           "leathersandals",
           "holy_symbol",
+          "smart_phone",
           "wristwatch",
           "priest_beginner"
-        ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        ]
       },
       "male": [ "briefs" ],
       "female": [ "panties" ]
@@ -169,10 +186,10 @@
           "flyer",
           "flyer",
           "flyer",
+          "smart_phone",
           "holy_symbol",
           "priest_beginner"
-        ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]

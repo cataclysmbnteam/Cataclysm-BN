@@ -420,7 +420,7 @@ void debug_menu::wishmonster( const cata::optional<tripoint> &p )
             const mtype_id &mon_type = mtypes[ wmenu.ret ]->id;
             if( cata::optional<tripoint> spawn = p ? p : g->look_around() ) {
                 int num_spawned = 0;
-                for( const tripoint &destination : closest_tripoints_first( *spawn, cb.group ) ) {
+                for( const tripoint &destination : closest_points_first( *spawn, cb.group ) ) {
                     monster *const mon = g->place_critter_at( mon_type, destination );
                     if( !mon ) {
                         continue;
@@ -586,7 +586,7 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
                 granted.item_tags.insert( cb.flag );
             }
             // If the item has an ammunition, this loads it to capacity, including magazines.
-            if( granted.ammo_default() != "NULL" ) {
+            if( !granted.ammo_default().is_null() ) {
                 granted.ammo_set( granted.ammo_default(), -1 );
             }
 

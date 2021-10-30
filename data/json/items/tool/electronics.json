@@ -2,6 +2,7 @@
   {
     "id": "adv_UPS_off",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "advanced UPS", "str_pl": "advanced UPS's" },
     "description": "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel cells rather than batteries.  Sadly, its plutonium reactor can't be charged in UPS charging station.",
     "weight": "453 g",
@@ -20,6 +21,7 @@
   {
     "id": "camera",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "camera" },
     "description": "A point-and-shoot digital camera, with digital viewfinder, a backup 'iron-sight', and flash.  You can look at your photos on the digital screen, or transfer them with a memory card.  Takes conventional batteries.",
     "weight": "907 g",
@@ -52,6 +54,7 @@
   {
     "id": "camera_pro",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "professional camera" },
     "description": "A 35 mm digital SLR (single-lens reflex) camera, with optical and digital viewfinders, zoom lens with auto-focus and stabilizer, and flash.  You can view your photos on it or transfer them with a memory card; it runs on conventional batteries.  Before the Cataclysm, you could have taken professional-grade photos using this.",
     "weight": "2268 g",
@@ -63,28 +66,16 @@
     "symbol": ";",
     "color": "yellow",
     "ammo": "battery",
+    "initial_charges": 160,
+    "max_charges": 200,
     "charges_per_use": 5,
     "use_action": "CAMERA",
-    "flags": [ "CAMERA_PRO", "ALWAYS_TWOHAND" ],
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": 1
+    "flags": [ "CAMERA_PRO", "ALWAYS_TWOHAND", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "cell_phone",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "cellphone" },
     "description": "This is a cellphone, an older cousin of a smartphone but still popular in certain circles due to its reliability, sturdiness and the ability to run on common batteries.  Using this cellphone will turn it on and provide light, assuming it is sufficiently charged.  It also has a clock app that includes an alarm.",
     "weight": "226 g",
@@ -134,29 +125,23 @@
   {
     "id": "control_laptop",
     "type": "TOOL",
+    "category": "tools",
+    "copy-from": "laptop",
     "name": { "str": "control laptop" },
     "description": "A modified laptop, now capable of transmitting in the ultra-high frequencies utilized by robots.  Activate it to command robots from afar.",
-    "weight": "2721 g",
-    "volume": "1 L",
     "price": 10000,
     "price_postapoc": 8000,
-    "material": [ "plastic", "aluminum" ],
-    "symbol": ",",
-    "color": "yellow",
-    "ammo": "battery",
     "charges_per_use": 2,
     "use_action": "ROBOTCONTROL",
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": 2
+    "ammo": "battery",
+    "initial_charges": 500,
+    "max_charges": 700,
+    "flags": [ "WATCH", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "directional_antenna",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "directional antenna" },
     "description": "This is an antenna designed to pick up signals better when pointed at the source.  You could use this with a radio to receive faint signals.",
     "weight": "454 g",
@@ -172,6 +157,7 @@
   {
     "id": "e_handcuffs",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str_sp": "electronic handcuffs" },
     "description": "A pair of electronic handcuffs, used by police and riot bots to detain captives.  Their continuous siren clearly identifies the wearer as an arrested criminal and alerts human police.  Wait for their arrival, don't try to escape or to remove the cuffs - they will administer an electric shock.\nHowever, since the only police likely to respond are undead, you may have a long wait ahead, unless you get creative…",
     "weight": "2000 g",
@@ -191,8 +177,9 @@
   {
     "id": "eink_tablet_pc",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "e-ink tablet PC" },
-    "description": "A tablet PC using an efficient color e-ink display.  Before the Cataclysm, these were nifty gadgets; now, it's an almost priceless resource.  Runs on conventional batteries.",
+    "description": "A tablet PC using an efficient color e-ink display.  Before the Cataclysm, these were nifty gadgets; now, it's an almost priceless resource.",
     "weight": "250 g",
     "volume": "250 ml",
     "price": 20000,
@@ -202,24 +189,11 @@
     "symbol": ";",
     "color": "blue",
     "ammo": "battery",
+    "initial_charges": 160,
+    "max_charges": 200,
     "charges_per_use": 1,
     "use_action": "EINKTABLETPC",
-    "flags": [ "WATCH" ],
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_plus_battery_cell",
-          "light_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": 1
+    "flags": [ "WATCH", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "electrohack",
@@ -256,6 +230,7 @@
   {
     "id": "geiger_off",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "geiger counter (off)", "str_pl": "geiger counters (off)" },
     "description": "This is a tool for measuring radiation.  Using it will prompt you to choose whether to scan yourself or the terrain, or to turn it on, which will provide continuous feedback on ambient radiation.  It is currently off.",
     "weight": "225 g",
@@ -332,7 +307,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": "laptop computer",
-    "description": "A laptop computer with replaceable batteries.",
+    "description": "A laptop computer using UPS.",
     "symbol": ",",
     "color": "dark_gray",
     "material": [ "plastic", "aluminum" ],
@@ -342,6 +317,8 @@
     "price_postapoc": 250,
     "bashing": 6,
     "ammo": "battery",
+    "initial_charges": 500,
+    "max_charges": 700,
     "charges_per_use": 1,
     "use_action": [
       "EINKTABLETPC",
@@ -355,14 +332,7 @@
         "type": "transform"
       }
     ],
-    "flags": [ "WATCH" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": 2
+    "flags": [ "WATCH", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "laptop_screen_lit",
@@ -372,11 +342,12 @@
     "power_draw": 1000,
     "revert_to": "laptop",
     "use_action": { "target": "laptop", "msg": "You stop lighting up the screen.", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "WATCH", "LIGHT_10", "TRADER_AVOID" ]
+    "flags": [ "WATCH", "LIGHT_10", "TRADER_AVOID", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "mp3",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "mp3 player (off)", "str_pl": "mp3 players (off)" },
     "description": "This battery-powered device is loaded up with someone's music collection.  Fortunately, there's lots of songs you like, and listening to it will raise your morale slightly.  Use it to turn it on.",
     "weight": "140 g",
@@ -387,23 +358,11 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": "battery",
+    "initial_charges": 160,
+    "max_charges": 200,
+    "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ],
     "use_action": "MP3",
-    "charges_per_use": 1,
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_disposable_cell",
-          "light_minus_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": 1
+    "charges_per_use": 1
   },
   {
     "id": "mp3_on",
@@ -414,12 +373,12 @@
     "power_draw": 1000,
     "revert_to": "mp3",
     "use_action": "MP3_ON",
-    "flags": [ "TRADER_AVOID" ],
-    "magazine_well": 1
+    "flags": [ "TRADER_AVOID", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "noise_emitter",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "noise emitter (off)", "str_pl": "noise emitters (off)" },
     "description": "This device was constructed by 'enhancing' a speaker ripped off from some electronic device with some amplifier circuits.  It has now no other use beside emitting loud crackling static noise, that could distract zombies.",
     "weight": "340 g",
@@ -464,8 +423,9 @@
   {
     "id": "portable_game",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "handheld game system" },
-    "description": "This is a portable games console in working condition, with a backlit screen allowing you to play in the dark.  You can use it to play it for a little while, but this requires batteries.",
+    "description": "This is a portable games console in working condition, with an LED-screen allowing you to play in the dark.  You can use it to play it for a little while, but this requires UPS.",
     "weight": "200 g",
     "volume": "250 ml",
     "price": 12000,
@@ -474,27 +434,16 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
+    "initial_charges": 160,
+    "max_charges": 200,
+    "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ],
     "charges_per_use": 1,
-    "use_action": "PORTABLE_GAME",
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_disposable_cell",
-          "light_minus_disposable_cell",
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
-        ]
-      ]
-    ],
-    "magazine_well": 1
+    "use_action": "PORTABLE_GAME"
   },
   {
     "id": "smart_phone",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "smartphone" },
     "description": "A popular, fancy smartphone.  Capable of making photos due to integrated camera and illuminating an area as per flashlight app, assuming it has enough charge.  The smartphone also has a clock app that includes an alarm.  Runs on a small, rechargeable power cell compatible with Unified Power Supply.",
     "weight": "230 g",
@@ -506,8 +455,8 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
-    "initial_charges": 110,
-    "max_charges": 120,
+    "initial_charges": 160,
+    "max_charges": 200,
     "charges_per_use": 1,
     "use_action": [
       {
@@ -553,8 +502,9 @@
   {
     "id": "UPS_off",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "UPS", "str_pl": "UPS's" },
-    "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power bionics, armor and some guns, but drains batteries quickly.",
+    "description": "This is a unified power supply, or UPS.  It is a civilian evolution of a military project.  Designed to power advanced weapons and armor, the civilian version serves as a portable power bank and inverter for many household electronics.",
     "weight": "680 g",
     "volume": "2500 ml",
     "price": 280000,
@@ -574,6 +524,7 @@
   {
     "id": "vibrator",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "vibrator" },
     "description": "This battery-devouring device is just the thing to knead the tension out and help you relax.  Use it to take a break and unwind.",
     "weight": "453 g",
@@ -605,6 +556,7 @@
   {
     "id": "bionic_scanner",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "bionic scanner" },
     "description": "A small metal scanner specialized in detecting bionic hardware.  Activate to start scanning nearby corpses for bionics.",
     "weight": "141 g",
@@ -641,6 +593,7 @@
   {
     "id": "bionic_scanner_on",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "bionic scanner (on)" },
     "description": "A small metal scanner specialized in detecting bionic hardware.  Used automatically whenever you look at corpses that might contain bionics.  Consumes power proportional to number of bionics identified this way.",
     "weight": "141 g",

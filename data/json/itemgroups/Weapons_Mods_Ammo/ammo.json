@@ -482,12 +482,7 @@
     "//": "Raw materials for assembling ammo excluding casings.",
     "subtype": "distribution",
     "entries": [
-      { "item": "gunpowder_shotgun", "prob": 20 },
-      { "item": "gunpowder_pistol", "prob": 105 },
-      { "item": "gunpowder_magnum_pistol", "prob": 60 },
-      { "item": "gunpowder_rifle", "prob": 85 },
-      { "item": "gunpowder_large_rifle", "prob": 40 },
-      { "item": "gunpowder_artillery", "prob": 5 },
+      { "item": "gunpowder", "prob": 315 },
       { "item": "incendiary", "prob": 20 },
       { "item": "lead", "prob": 160 },
       { "item": "shotgun_primer", "prob": 80 },

@@ -21,7 +21,7 @@
   {
     "id": "butchering_kit",
     "name": { "str": "butchering kit" },
-    "type": "TOOL",
+    "type": "GENERIC",
     "description": "This is a kit containing all the specialized knives you need to debone, skin, and prepare cuts of meat from an animal.",
     "copy-from": "base_kitchen_knife",
     "looks_like": "knife_butcher",
@@ -33,7 +33,8 @@
   },
   {
     "id": "butter_churn",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "pseudo butter churn" },
     "description": "This is a crafting_pseudo_item if you have it something is wrong.",
     "weight": "6464 g",
@@ -67,6 +68,7 @@
   {
     "id": "carver_off",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "electric carver (off)", "str_pl": "electric carvers (off)" },
     "description": "An electric meat carver powered by batteries.  Two serrated blades that vibrate together to slice just about anything from turkey to ham… even zombies!",
     "weight": "1106 g",
@@ -110,6 +112,7 @@
   {
     "id": "char_purifier",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "charcoal water purifier" },
     "description": "Using this item on a container full of water will purify the water using layered charcoal.  Once the charcoal has purified enough water, it will become unusable and can be disassembled and recycled.  Water taken from uncertain sources like a river may be dirty.",
     "weight": "1820 g",
@@ -130,6 +133,7 @@
   {
     "id": "char_smoker",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "charcoal smoker" },
     "description": "This is a portable charcoal smoker.  Good for weekend barbecuing and preserving meat with smoke.",
     "weight": "2600 g",
@@ -148,6 +152,7 @@
   {
     "id": "charcoal_cooker",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "charcoal cooker" },
     "description": "This is a little metal tank for holding charcoal with a pilot light attached.  You could use it for cooking food.",
     "weight": "405 g",
@@ -220,6 +225,7 @@
   {
     "id": "coffeemaker",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "coffeemaker" },
     "description": "This is a heating element with pot and frame for holding coffee or other powders.  It's got a battery compartment for use when the power goes out.  You can use it to make coffee, or other drinks if you so choose.",
     "weight": "3100 g",
@@ -246,6 +252,7 @@
   {
     "id": "dehydrator",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "food dehydrator" },
     "description": "This is a portable electric food dehydrator.  It's powered by batteries, and could be invaluable in preserving food.",
     "weight": "4200 g",
@@ -293,6 +300,7 @@
   {
     "id": "esbit_stove",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "hexamine stove" },
     "description": "Known as an Esbit stove, this is a lightweight, folding stove designed to use small hexamine tablets for cooking.",
     "weight": "180 g",
@@ -317,7 +325,7 @@
     "category": "food",
     "name": { "str_sp": "sealed yeast culture" },
     "description": "A sealed flask holding sanitized yeast wort.  You may harvest the yeast inside when it's done culturing.",
-    "weight": "52 g",
+    "weight": "250 g",
     "volume": "250 ml",
     "price": 10,
     "price_postapoc": 10,
@@ -332,11 +340,45 @@
       "target_charges": 10,
       "moves": 50,
       "type": "delayed_transform",
-      "transform_age": 7200,
+      "transform_age": 43200,
       "not_ready_msg": "The yeast isn't done culturing yet.",
       "//": "12 hours"
     },
     "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "jar_yeast",
+    "type": "GENERIC",
+    "name": { "str_sp": "sealed yeast culture" },
+    "description": "A sealed jar holding sanitized yeast wort.  You may harvest the yeast inside when it's done culturing.",
+    "copy-from": "flask_yeast",
+    "use_action": {
+      "target": "yeast",
+      "msg": "You open the jar and harvest the culture.",
+      "container": "jar_glass",
+      "target_charges": 10,
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 43200,
+      "not_ready_msg": "The yeast isn't done culturing yet."
+    }
+  },
+  {
+    "id": "wild_yeast",
+    "type": "GENERIC",
+    "name": { "str_sp": "sealed wild yeast culture" },
+    "description": "Mixture of water, sugar and fruits with some naturally occuring yeast, that will eventually produce a more sizeable yeast culture.",
+    "copy-from": "flask_yeast",
+    "use_action": {
+      "target": "yeast",
+      "msg": "You open the jar and harvest the culture.",
+      "container": "jar_glass",
+      "target_charges": 2,
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 259200,
+      "not_ready_msg": "The yeast isn't done culturing yet."
+    }
   },
   {
     "id": "food_processor",
@@ -366,6 +408,7 @@
   {
     "id": "gasoline_cooker",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "gasoline cooker" },
     "description": "This is a simple heater powered by gasoline.  It is designed for cooking food.",
     "weight": "1944 g",
@@ -386,7 +429,8 @@
   },
   {
     "id": "heatpack",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "heat pack" },
     "description": "This is a chemical heat pack.  It's used to treat sports injuries and heat food.  It is usable only once.",
     "weight": "226 g",
@@ -402,27 +446,9 @@
     "use_action": "HEATPACK"
   },
   {
-    "id": "hobo_stove",
-    "type": "TOOL",
-    "name": { "str": "hobo stove" },
-    "description": "This is a small improvised wood stove, made from a metal can or similar container of the right size.  Useful for defrosting and reheating food, uses simple tinder.",
-    "weight": "500 g",
-    "volume": "250 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": -1,
-    "bashing": 2,
-    "material": "steel",
-    "symbol": ",",
-    "color": "light_gray",
-    "ammo": "tinder",
-    "max_charges": 100,
-    "charges_per_use": 25,
-    "use_action": "HOTPLATE"
-  },
-  {
     "id": "hotplate",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "hotplate" },
     "description": "This is a small heating element on a stand, powered by batteries.  It is indispensable for cooking and chemistry.  Try not to burn yourself.",
     "weight": "2835 g",
@@ -517,6 +543,7 @@
   {
     "id": "makeshift_sealer",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "makeshift vacuum sealer" },
     "description": "This is a homemade heat sealer unit with an air pump.  It's used for vacuum packing food to preserve it.",
     "weight": "3218 g",
@@ -540,6 +567,7 @@
   {
     "id": "mess_kit",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "mess kit" },
     "description": "A self-contained camping mess kit, containing everything you might need for wilderness cooking.  This model relies on a battery-operated hotplate, rather than the more commonplace chemical-fueled Esbit stove.",
     "weight": "1500 g",
@@ -625,6 +653,7 @@
   {
     "id": "mil_mess_kit",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "military mess kit" },
     "description": "Military mess kit designed for long-range reconnaissance patrols deployed behind enemy lines.  All parts are made from thin sheet of aluminum / superalloy composite and are insulated with ceramic coating.  Relies on a battery-operated hotplate, rather than the smoke-producing chemical-fueled Esbit stove.  Compact, durable and lightweight.",
     "weight": "900 g",
@@ -651,7 +680,8 @@
   },
   {
     "id": "mortar_pestle",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "mortar and pestle", "str_pl": "mortars and pestles" },
     "description": "This is a simple combination of a small grindstone and a bowl-shaped stone.  Used for grinding grain, but time-consuming compared to more complex methods.",
     "weight": "1632 g",
@@ -668,6 +698,7 @@
   {
     "id": "multi_cooker",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "multi cooker" },
     "description": "A professional-grade multi-cooker, with a battery slot for camping trips or tailgating.  Its multitude of settings and features promise to handle any sort of cooking, from parboiling potatoes to cooking curry to popping popcorn.  There's no manual, but you're sure you can work it out.",
     "weight": "11339 g",
@@ -701,6 +732,7 @@
   {
     "id": "oil_cooker",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "lamp oil cooker" },
     "description": "This is a simple heater powered by lamp oil.  It is designed for cooking food.",
     "weight": "2264 g",
@@ -762,6 +794,7 @@
   {
     "id": "popcan_stove",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "soda can stove kit" },
     "//": "Should be 20 but currently recipes do not utilize this value",
     "description": "This is an ultra-light alcohol-burning stove with simmer ring, crafted by hand from a couple of aluminum soda cans.  It comes with a 500 ml plastic bottle to hold concentrated alcohol fuel.",
@@ -803,7 +836,8 @@
   },
   {
     "id": "rock_quern",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "quern" },
     "description": "This is a simple hand-powered stone quern for grinding grain.",
     "weight": "3264 g",
@@ -841,38 +875,9 @@
     }
   },
   {
-    "id": "sieve_primitive",
-    "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "wicker sieve" },
-    "description": "This is a primitive sieve constructed from woven strips of plant material.  Early sieves like this were used to sift grain, though the openings on this one are too small for that.",
-    "weight": "50 g",
-    "volume": "500 ml",
-    "price": 300,
-    "price_postapoc": 10,
-    "bashing": 1,
-    "material": [ "paper" ],
-    "symbol": ";",
-    "color": "light_gray"
-  },
-  {
-    "id": "sieve_steel",
-    "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "sieve" },
-    "description": "This is no mere strainer for noodles; it's a sieve used to separate particles of certain sizes.  You could use this to do a really good job sifting flour, remove dust and soil from grain, or perhaps conduct gradiation tests for any civil engineers you might know.  This one has been constructed from steel mesh.",
-    "volume": "500 ml",
-    "weight": "318 g",
-    "price": 700,
-    "price_postapoc": 50,
-    "bashing": 2,
-    "material": [ "steel" ],
-    "symbol": ";",
-    "color": "dark_gray"
-  },
-  {
     "id": "still",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "still" },
     "description": "This is a still.  It's useful for creating distillation of alcohol and other, more curious substances.",
     "weight": "10000 g",
@@ -889,6 +894,7 @@
   {
     "id": "survivor_mess_kit",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "survivor mess kit" },
     "description": "A homemade mess kit, containing everything you might need for creating post-apocalyptic cuisine.  Powered by a lamp oil burner, it is composed of simple yet durable tools and materials.",
     "weight": "2160 g",
@@ -928,6 +934,7 @@
   {
     "id": "vac_sealer",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "vacuum sealer" },
     "description": "This is a portable heat sealer unit with an air pump.  It's used for vacuum packing food to preserve it.",
     "weight": "2449 g",
@@ -969,6 +976,7 @@
   {
     "id": "water_purifier",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "water purifier" },
     "description": "This is a battery-powered device designed to purify drinking water.  Using this item on a container full of water will purify the contents.  It could be useful for water taken from uncertain sources like a river, as it may be non-potable.",
     "weight": "1360 g",

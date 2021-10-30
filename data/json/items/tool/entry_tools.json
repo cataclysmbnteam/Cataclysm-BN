@@ -1,7 +1,8 @@
 [
   {
     "id": "crowbar",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "crowbar" },
     "description": "This is a hefty prying tool.  Use it to open locked doors without destroying them or to lift manhole covers.  You could also wield it to bash some heads in.",
     "weight": "1200 g",
@@ -21,7 +22,8 @@
   },
   {
     "id": "crude_picklock",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "improvised lockpick" },
     "description": "This is an improvised set of picks and torsion wrenches made from scrap metal.  You need MacGyver-like skills to open locks with these as they are brittle, but they lower the chances of alarms being set off.",
     "weight": "23 g",
@@ -36,27 +38,28 @@
   },
   {
     "id": "iceaxe",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "ice axe" },
     "description": "This is an ice axe with hammer on its head, a multi-purpose hiking and climbing tool used by mountaineers.  It is sturdy enough to pry open closed doors or lift manhole covers.",
     "weight": "500 g",
     "volume": "750 ml",
     "price": 5000,
     "price_postapoc": 500,
-    "to_hit": -2,
-    "bashing": 24,
-    "cutting": 8,
+    "bashing": 10,
+    "cutting": 16,
     "material": "steel",
     "symbol": ";",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ], [ "PRY", 2 ] ],
     "use_action": "CROWBAR",
-    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "SHEATH_AXE" ]
+    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "STAB", "SHEATH_AXE" ]
   },
   {
     "id": "makeshift_crowbar",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "makeshift crowbar" },
     "description": "This is a pipe whose ends have been bent and hammered flat to resemble a crowbar.  Use it to open locked crates without destroying them, or to lift manhole covers, or even open doors and windows.  You could also wield it to fight with, in a pinch.",
     "weight": "1250 g",
@@ -76,7 +79,8 @@
   },
   {
     "id": "picklocks",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "locksmith kit" },
     "description": "This is a locksmith's set of sturdy steel lock picks and torsion wrenches.  It is essential for silently and quickly opening locks, provided you have some mechanical skill.",
     "weight": "544 g",
@@ -92,6 +96,7 @@
   {
     "id": "pseudo_bio_picklock",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "bio lockpick" },
     "description": "this a pseudo item",
     "volume": "0 ml",

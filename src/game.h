@@ -19,6 +19,7 @@
 #include "action.h"
 #include "calendar.h"
 #include "character_id.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "enums.h"
@@ -29,7 +30,6 @@
 #include "pimpl.h"
 #include "point.h"
 #include "type_id.h"
-#include "weather.h"
 
 class Character;
 class Creature_tracker;
@@ -82,12 +82,9 @@ enum safe_mode_type {
 };
 
 enum body_part : int;
-enum weather_type : int;
 enum action_id : int;
 
 struct special_game;
-
-using itype_id = std::string;
 
 class achievements_tracker;
 class avatar;
@@ -102,6 +99,7 @@ class player;
 class save_t;
 class scenario;
 class stats_tracker;
+template<typename Tripoint>
 class tripoint_range;
 class vehicle;
 struct WORLD;
@@ -117,6 +115,8 @@ class ui_adaptor;
 struct visibility_variables;
 
 class distribution_grid_tracker;
+struct weather_printable;
+class weather_manager;
 
 using item_filter = std::function<bool ( const item & )>;
 
@@ -148,6 +148,8 @@ class game
         friend class advanced_inventory;
         friend class main_menu;
         friend distribution_grid_tracker &get_distribution_grid_tracker();
+        friend weather_manager &get_weather();
+
     public:
         game();
         ~game();
@@ -332,9 +334,9 @@ class game
         monster *place_critter_around( const mtype_id &id, const tripoint &center, int radius );
         monster *place_critter_around( const shared_ptr_fast<monster> &mon, const tripoint &center,
                                        int radius, bool forced = false );
-        monster *place_critter_within( const mtype_id &id, const tripoint_range &range );
+        monster *place_critter_within( const mtype_id &id, const tripoint_range<tripoint> &range );
         monster *place_critter_within( const shared_ptr_fast<monster> &mon,
-                                       const tripoint_range &range );
+                                       const tripoint_range<tripoint> &range );
         /** @} */
         /**
          * Returns the approximate number of creatures in the reality bubble.
@@ -642,6 +644,7 @@ class game
          * coordinates.
          */
         void load_map( const tripoint &pos_sm );
+        void load_map( const tripoint_abs_sm &pos_sm );
         /**
          * The overmap which contains the center submap of the reality bubble.
          */
@@ -767,8 +770,9 @@ class game
         void init_autosave();     // Initializes autosave parameters
         void create_starting_npcs(); // Creates NPCs that start near you
         // create vehicle nearby, for example; for a profession vehicle.
-        vehicle *place_vehicle_nearby( const vproto_id &id, const point &origin, int min_distance,
-                                       int max_distance, const std::vector<std::string> &omt_search_types = {} );
+        vehicle *place_vehicle_nearby(
+            const vproto_id &id, const point_abs_omt &origin, int min_distance,
+            int max_distance, const std::vector<std::string> &omt_search_types = {} );
         // V Menu Functions and helpers:
         void list_items_monsters(); // Called when you invoke the `V`-menu
 
@@ -811,7 +815,7 @@ class game
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
         point place_player( const tripoint &dest );
-        void place_player_overmap( const tripoint &om_dest );
+        void place_player_overmap( const tripoint_abs_omt &om_dest );
 
         bool unload( item_location loc ); // Unload a gun/tool  'U'
 
@@ -885,6 +889,7 @@ class game
         // Routine loop functions, approximately in order of execution
         void monmove();          // Monster movement
         void overmap_npc_move(); // NPC overmap movement
+        void process_voluntary_act_interrupt(); // Process
         void process_activity(); // Processes and enacts the player's activity
         void handle_key_blocking_activity(); // Abort reading etc.
         void open_consume_item_menu(); // Custom menu for consuming specific group of items
@@ -972,6 +977,7 @@ class game
         pimpl<memorial_logger> memorial_logger_ptr;
         pimpl<spell_events> spell_events_ptr;
         pimpl<distribution_grid_tracker> grid_tracker_ptr;
+        pimpl<weather_manager> weather_manager_ptr;
 
     public:
         /** Make map a reference here, to avoid map.h in game.h */
@@ -1033,8 +1039,6 @@ class game
         bool auto_travel_mode = false;
         safe_mode_type safe_mode;
         int turnssincelastmon = 0; // needed for auto run mode
-
-        weather_manager weather;
 
         int mostseen = 0; // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
     private:

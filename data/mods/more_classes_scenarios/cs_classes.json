@@ -96,13 +96,11 @@
           "aluminum_foil",
           "can_chowder",
           "apple_cider",
+          "smart_phone",
           "fruit_leather",
           "suitcase_m"
         ],
-        "entries": [
-          { "group": "charged_cell_phone" },
-          { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "mess_kit" }
-        ]
+        "entries": [ { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "mess_kit" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -234,10 +232,10 @@
           "mbag",
           "water_mineral",
           "money_bundle",
+          "smart_phone",
           "adderall",
           "manual_business"
-        ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        ]
       },
       "male": [ "briefs" ],
       "female": [ "panties" ]

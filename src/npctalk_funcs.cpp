@@ -300,8 +300,9 @@ void talk_function::goto_location( npc &p )
     uilist selection_menu;
     selection_menu.text = _( "Select a destination" );
     std::vector<basecamp *> camps;
-    tripoint destination;
-    for( auto elem : g->u.camps ) {
+    tripoint_abs_omt destination;
+    Character &player_character = get_player_character();
+    for( const auto &elem : player_character.camps ) {
         if( elem == p.global_omt_location() ) {
             continue;
         }
@@ -314,8 +315,8 @@ void talk_function::goto_location( npc &p )
     }
     for( auto iter : camps ) {
         //~ %1$s: camp name, %2$d and %3$d: coordinates
-        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, pgettext( "camp", "%1$s at (%2$d, %3$d)" ),
-                                 iter->camp_name(), iter->camp_omt_pos().x, iter->camp_omt_pos().y );
+        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, pgettext( "camp", "%1$s at %2$s" ),
+                                 iter->camp_name(), iter->camp_omt_pos().to_string() );
     }
     selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "My current location" ) );
     selection_menu.addentry( i, true, MENU_AUTOASSIGN, _( "Cancel" ) );
@@ -334,7 +335,7 @@ void talk_function::goto_location( npc &p )
     }
     p.goal = destination;
     p.omt_path = overmap_buffer.get_npc_path( p.global_omt_location(), p.goal );
-    if( destination == tripoint_zero || destination == overmap::invalid_tripoint ||
+    if( destination == tripoint_abs_omt() || destination == overmap::invalid_tripoint ||
         p.omt_path.empty() ) {
         p.goal = npc::no_goal_point;
         p.omt_path.clear();
@@ -343,7 +344,7 @@ void talk_function::goto_location( npc &p )
     }
     p.set_mission( NPC_MISSION_TRAVELLING );
     p.chatbin.first_topic = "TALK_FRIEND_GUARD";
-    p.guard_pos = npc::no_goal_point;
+    p.guard_pos = tripoint_min;
     p.set_attitude( NPCATT_NULL );
 }
 
@@ -407,7 +408,7 @@ void talk_function::stop_guard( npc &p )
     }
     p.chatbin.first_topic = "TALK_FRIEND";
     p.goal = npc::no_goal_point;
-    p.guard_pos = npc::no_goal_point;
+    p.guard_pos = tripoint_min;
     if( p.assigned_camp ) {
         if( cata::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *p.assigned_camp ).xy() ) ) {
             ( *bcp )->remove_assignee( p.getID() );
@@ -480,11 +481,12 @@ void talk_function::bionic_remove( npc &p )
     std::vector<itype_id> bionic_types;
     std::vector<std::string> bionic_names;
     for( const bionic &bio : all_bio ) {
-        if( std::find( bionic_types.begin(), bionic_types.end(), bio.id.str() ) == bionic_types.end() ) {
+        if( std::find( bionic_types.begin(), bionic_types.end(),
+                       bio.info().itype() ) == bionic_types.end() ) {
             if( bio.id != bio_power_storage ||
                 bio.id != bio_power_storage_mkII ) {
-                bionic_types.push_back( bio.id.str() );
-                if( item::type_is_defined( bio.id.str() ) ) {
+                bionic_types.push_back( bio.info().itype() );
+                if( bio.info().itype().is_valid() ) {
                     item tmp = item( bio.id.str(), calendar::start_of_cataclysm );
                     bionic_names.push_back( tmp.tname() + " - " + format_money( 50000 + ( tmp.price( true ) / 4 ) ) );
                 } else {
@@ -502,8 +504,8 @@ void talk_function::bionic_remove( npc &p )
         return;
     }
 
-    signed int price;
-    if( item::type_is_defined( bionic_types[bionic_index] ) ) {
+    int price;
+    if( bionic_types[bionic_index].is_valid() ) {
         int tmp = item( bionic_types[bionic_index], calendar::start_of_cataclysm ).price( true );
         price = 50000 + ( tmp / 4 );
     } else {
@@ -514,9 +516,9 @@ void talk_function::bionic_remove( npc &p )
     }
 
     //Makes the doctor awesome at installing but not perfect
-    if( g->u.can_uninstall_bionic( bionic_id( bionic_types[bionic_index] ), p, false ) ) {
+    if( g->u.can_uninstall_bionic( bionic_id( bionic_types[bionic_index].str() ), p, false ) ) {
         g->u.amount_of( bionic_types[bionic_index] ); // ??? this does nothing, it just queries the count
-        g->u.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), p, false );
+        g->u.uninstall_bionic( bionic_id( bionic_types[bionic_index].str() ), p, false );
     }
 
 }
@@ -671,23 +673,24 @@ void talk_function::morale_chat_activity( npc &p )
 
 void talk_function::buy_10_logs( npc &p )
 {
-    std::vector<tripoint> places = overmap_buffer.find_all(
-                                       g->u.global_omt_location(), "ranch_camp_67", 1, false );
+    std::vector<tripoint_abs_omt> places =
+        overmap_buffer.find_all( get_player_character().global_omt_location(), "ranch_camp_67", 1,
+                                 false );
     if( places.empty() ) {
         debugmsg( "Couldn't find %s", "ranch_camp_67" );
         return;
     }
     const auto &cur_om = g->get_cur_om();
-    std::vector<tripoint> places_om;
-    for( auto &i : places ) {
+    std::vector<tripoint_abs_omt> places_om;
+    for( const tripoint_abs_omt &i : places ) {
         if( &cur_om == overmap_buffer.get_existing_om_global( i ).om ) {
             places_om.push_back( i );
         }
     }
 
-    const tripoint site = random_entry( places_om );
+    const tripoint_abs_omt site = random_entry( places_om );
     tinymap bay;
-    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
+    bay.load( project_to<coords::sm>( site ), false );
     bay.spawn_item( point( 7, 15 ), "log", 10 );
     bay.save();
 
@@ -697,23 +700,24 @@ void talk_function::buy_10_logs( npc &p )
 
 void talk_function::buy_100_logs( npc &p )
 {
-    std::vector<tripoint> places = overmap_buffer.find_all(
-                                       g->u.global_omt_location(), "ranch_camp_67", 1, false );
+    std::vector<tripoint_abs_omt> places =
+        overmap_buffer.find_all( get_player_character().global_omt_location(), "ranch_camp_67", 1,
+                                 false );
     if( places.empty() ) {
         debugmsg( "Couldn't find %s", "ranch_camp_67" );
         return;
     }
     const auto &cur_om = g->get_cur_om();
-    std::vector<tripoint> places_om;
+    std::vector<tripoint_abs_omt> places_om;
     for( auto &i : places ) {
         if( &cur_om == overmap_buffer.get_existing_om_global( i ).om ) {
             places_om.push_back( i );
         }
     }
 
-    const tripoint site = random_entry( places_om );
+    const tripoint_abs_omt site = random_entry( places_om );
     tinymap bay;
-    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
+    bay.load( project_to<coords::sm>( site ), false );
     bay.spawn_item( point( 7, 15 ), "log", 100 );
     bay.save();
 

@@ -14,7 +14,6 @@
 #include "type_id.h"
 
 enum action_id : int;
-using itype_id = std::string;
 
 enum defense_style {
     DEFENSE_CUSTOM = 0,
@@ -125,7 +124,7 @@ struct defense_game : public special_game {
         bool allow_save = false;
 
         // Start defence location position on overmap
-        tripoint defloc_pos;
+        tripoint_om_omt defloc_pos;
 
         // Defense location special
         overmap_special_id defloc_special;

@@ -18,6 +18,9 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
+static const itype_id itype_glock_19( "glock_19" );
+static const itype_id itype_glockmag( "glockmag" );
+
 TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
 {
     const time_point bday = calendar::start_of_cataclysm;
@@ -90,23 +93,23 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
     const cata::value_ptr<islot_ammo> &ammo_type = ammo.type->ammo;
     REQUIRE( ammo_type );
 
-    const item mag( "glockmag", bday, 0 );
+    const item mag( itype_glockmag, bday, 0 );
     const cata::value_ptr<islot_magazine> &magazine_type = mag.type->magazine;
     REQUIRE( magazine_type );
     REQUIRE( magazine_type->type.count( ammo_type->type ) != 0 );
 
-    item &gun = dummy.i_add( item( "glock_19", bday, item::default_charges_tag{} ) );
+    item &gun = dummy.i_add( item( itype_glock_19, bday, item::default_charges_tag{} ) );
     REQUIRE( gun.ammo_types().count( ammo_type->type ) != 0 );
 
     gun.put_in( mag );
 
-    int gun_pos = dummy.inv.position_by_type( "glock_19" );
+    int gun_pos = dummy.inv.position_by_type( itype_glock_19 );
     REQUIRE( gun_pos != INT_MIN );
     item &glock = dummy.i_at( gun_pos );
     // We're expecting the magazine to end up in the inventory.
     item_location glock_loc( dummy, &glock );
     REQUIRE( g->unload( glock_loc ) );
-    int magazine_pos = dummy.inv.position_by_type( "glockmag" );
+    int magazine_pos = dummy.inv.position_by_type( itype_glockmag );
     REQUIRE( magazine_pos != INT_MIN );
     item &magazine = dummy.inv.find_item( magazine_pos );
     REQUIRE( magazine.ammo_remaining() == 0 );

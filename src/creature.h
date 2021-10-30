@@ -471,7 +471,7 @@ class Creature
 
         bodypart_id get_random_body_part( bool main = false ) const;
         /**
-         * Returns body parts in order in which they should be displayed.
+         * Returns body parts this creature have.
          * @param only_main If true, only displays parts that can have hit points
          */
         std::vector<bodypart_id> get_all_body_parts( bool only_main = false ) const;
@@ -765,6 +765,9 @@ class Creature
         virtual nc_color basic_symbol_color() const = 0;
         virtual const std::string &symbol() const = 0;
         virtual bool is_symbol_highlighted() const;
+
+        // TODO: There may be a cleaner way of doing it than exposing the map
+        effects_map get_all_effects() const;
 
     protected:
         Creature *killer = nullptr; // whoever killed us. this should be NULL unless we are dead

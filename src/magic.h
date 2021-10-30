@@ -137,6 +137,8 @@ class spell_type
         bool was_loaded = false;
 
         spell_id id;
+        // spell sprite
+        std::string sprite;
         // spell name
         translation name;
         // spell description
@@ -265,7 +267,7 @@ class spell_type
         std::set<mtype_id> targeted_monster_ids;
 
         // lits of bodyparts this spell applies its effect to
-        enum_bitset<body_part> affected_bps;
+        std::set<bodypart_str_id> affected_bps;
 
         enum_bitset<spell_flag> spell_tags;
 

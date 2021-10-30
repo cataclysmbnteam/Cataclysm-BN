@@ -1,7 +1,8 @@
 [
   {
     "id": "ax",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "wood axe" },
     "description": "This is a large, two-handed wood axe.  It makes a good melee weapon, but is a bit slow to recover between swings.",
     "weight": "2267 g",
@@ -21,6 +22,7 @@
   {
     "id": "chainsaw_off",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "chainsaw (off)", "str_pl": "chainsaws (off)" },
     "description": "This is a lumbering tool moonlighting as weapon of opportunity.  If loaded with gas, using this item will cause it to turn on, turning it into a very powerful but unwieldy melee weapon.",
     "weight": "6577 g",
@@ -59,6 +61,7 @@
   {
     "id": "circsaw_off",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "circular saw (off)", "str_pl": "circular saws (off)" },
     "description": "A lightweight handheld cordless circular saw.  Spins a circular blade fast enough to cut wood, zombies, or in an emergency, pizza.  The blade, while effective in combat, is hard to hit with due to its small size.",
     "weight": "2940 g",
@@ -102,7 +105,8 @@
   },
   {
     "id": "copper_ax",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "copper axe" },
     "description": "This is a decent-sized chunk of worked copper affixed to a wooden shaft, to make a crude yet effective axe.",
     "weight": "3700 g",
@@ -120,8 +124,9 @@
     "flags": [ "NONCONDUCTIVE", "SHEATH_AXE" ]
   },
   {
-    "type": "GENERIC",
     "id": "hatchet",
+    "type": "GENERIC",
+    "category": "weapons",
     "symbol": ";",
     "color": "light_gray",
     "name": { "str": "hatchet" },
@@ -136,12 +141,12 @@
     "cutting": 28,
     "to_hit": -2,
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE", "SHEATH_AXE" ],
-    "category": "weapons",
     "qualities": [ [ "AXE", 2 ], [ "CUT", 1 ], [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ], [ "BUTCHER", 16 ] ]
   },
   {
     "id": "elec_chainsaw_off",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "electric chainsaw (off)", "str_pl": "electric chainsaws (off)" },
     "description": "This is a lumbering tool moonlighting as weapon of opportunity.  If loaded with batteries, using this item will cause it to turn on, turning it into a very powerful but unwieldy melee weapon.",
     "weight": "6577 g",
@@ -184,38 +189,9 @@
     "magazine_well": 2
   },
   {
-    "id": "hand_axe",
-    "type": "TOOL",
-    "name": { "str": "stone hand axe" },
-    "description": "This is a broad piece of stone with an edge narrow enough to roughly chop wood.",
-    "weight": "453 g",
-    "volume": "500 ml",
-    "price": 0,
-    "price_postapoc": 50,
-    "to_hit": -2,
-    "bashing": 14,
-    "cutting": 8,
-    "material": "stone",
-    "symbol": ";",
-    "color": "light_gray",
-    "qualities": [ [ "BUTCHER", -50 ], [ "AXE", 1 ], [ "HAMMER", 1 ] ],
-    "flags": [ "SHEATH_AXE" ]
-  },
-  {
-    "id": "makeshift_axe",
-    "copy-from": "hand_axe",
-    "type": "TOOL",
-    "name": { "str": "metal hand axe" },
-    "description": "This is a chunk of steel with one edge hammered down to something resembling a cutting edge.  It works passably well as an axe but really can't compare to a proper axe.",
-    "material": "steel",
-    "to_hit": -3,
-    "bashing": 9,
-    "cutting": 15,
-    "flags": [ "SHEATH_AXE" ]
-  },
-  {
     "id": "primitive_adze",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "stone adze" },
     "description": "This is a stone adze, somewhat useful for smoothing wood objects.",
     "weight": "1300 g",
@@ -233,7 +209,8 @@
   },
   {
     "id": "primitive_axe",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "stone axe" },
     "description": "This is a stone with a narrow edge affixed to a stick.  It can chop wood, but requires much more effort than a modern axe.",
     "weight": "3154 g",
@@ -251,7 +228,8 @@
   },
   {
     "id": "saw",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "wood saw" },
     "description": "This is a thin saw, useful for cutting through wood objects.",
     "weight": "283 g",

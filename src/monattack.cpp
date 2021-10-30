@@ -118,6 +118,26 @@ static const efftype_id effect_targeted( "targeted" );
 static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_under_op( "under_operation" );
 
+static const itype_id itype_ant_egg( "ant_egg" );
+static const itype_id itype_badge_cybercop( "badge_cybercop" );
+static const itype_id itype_badge_deputy( "badge_deputy" );
+static const itype_id itype_badge_detective( "badge_detective" );
+static const itype_id itype_badge_doctor( "badge_doctor" );
+static const itype_id itype_badge_marshal( "badge_marshal" );
+static const itype_id itype_badge_swat( "badge_swat" );
+static const itype_id itype_bot_c4_hack( "bot_c4_hack" );
+static const itype_id itype_bot_flashbang_hack( "bot_flashbang_hack" );
+static const itype_id itype_bot_gasbomb_hack( "bot_gasbomb_hack" );
+static const itype_id itype_bot_grenade_hack( "bot_grenade_hack" );
+static const itype_id itype_bot_manhack( "bot_manhack" );
+static const itype_id itype_bot_mininuke_hack( "bot_mininuke_hack" );
+static const itype_id itype_bot_pacification_hack( "bot_pacification_hack" );
+static const itype_id itype_c4( "c4" );
+static const itype_id itype_c4armed( "c4armed" );
+static const itype_id itype_e_handcuffs( "e_handcuffs" );
+static const itype_id itype_mininuke( "mininuke" );
+static const itype_id itype_mininuke_act( "mininuke_act" );
+
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_launcher( "launcher" );
 static const skill_id skill_melee( "melee" );
@@ -361,7 +381,7 @@ bool mattack::antqueen( monster *z )
 
         if( g->is_empty( dest ) && g->m.has_items( dest ) ) {
             for( auto &i : g->m.i_at( dest ) ) {
-                if( i.typeId() == "ant_egg" ) {
+                if( i.typeId() == itype_ant_egg ) {
                     egg_points.push_back( dest );
                     // Done looking at this tile
                     break;
@@ -395,7 +415,7 @@ bool mattack::antqueen( monster *z )
         for( const tripoint &egg_pos : egg_points ) {
             map_stack items = g->m.i_at( egg_pos );
             for( map_stack::iterator it = items.begin(); it != items.end(); ) {
-                if( it->typeId() != "ant_egg" ) {
+                if( it->typeId() != itype_ant_egg ) {
                     ++it;
                     continue;
                 }
@@ -1235,7 +1255,7 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
     const size_t empty_neighbor_count = empty_neighbors.second;
 
     if( empty_neighbor_count ) {
-        if( z->ammo["bot_manhack"] > 0 ) {
+        if( z->ammo[itype_bot_manhack] > 0 ) {
             valid_attacks[valid_attack_count++] = att_manhack;
         }
         valid_attacks[valid_attack_count++] = att_acid_pool;
@@ -1298,7 +1318,7 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
         break;
         case att_manhack : {
             z->moves -= att_cost_manhack;
-            z->ammo["bot_manhack"]--;
+            z->ammo[itype_bot_manhack]--;
 
             // if the player can see it
             if( g->u.sees( *z ) ) {
@@ -1601,8 +1621,8 @@ bool mattack::triffid_heartbeat( monster *z )
         int tries = 0;
         while( g->m.route( g->u.pos(), z->pos(), root_pathfind ).empty() &&
                tries < 20 ) {
-            int x = rng( g->u.posx(), z->posx() - 3 ), y = rng( g->u.posy(), z->posy() - 3 );
-            tripoint dest( x, y, z->posz() );
+            point p( rng( g->u.posx(), z->posx() - 3 ), rng( g->u.posy(), z->posy() - 3 ) );
+            tripoint dest( p, z->posz() );
             tries++;
             g->m.ter_set( dest, t_dirt );
             if( rl_dist( dest, g->u.pos() ) > 3 && g->num_creatures() < 30 &&
@@ -2183,7 +2203,7 @@ bool mattack::plant( monster *z )
     }
     z->set_hp( 0 );
     fe.spread_fungus( z->pos() );
-    for( const tripoint &p : closest_tripoints_first( z->pos(), 1 ) ) {
+    for( const tripoint &p : closest_points_first( z->pos(), 1 ) ) {
         if( !one_in( 3 ) ) {
             fe.fungalize( p, z );
         }
@@ -2252,7 +2272,7 @@ bool mattack::formblob( monster *z )
     }
 
     bool didit = false;
-    std::vector<tripoint> pts = closest_tripoints_first( z->pos(), 1 );
+    std::vector<tripoint> pts = closest_points_first( z->pos(), 1 );
     // Don't check own tile
     pts.erase( pts.begin() );
     for( const tripoint &dest : pts ) {
@@ -2338,7 +2358,7 @@ bool mattack::callblobs( monster *z )
     // and keep the rest near the brain blob for protection.
     tripoint enemy = g->u.pos();
     std::list<monster *> allies;
-    std::vector<tripoint> nearby_points = closest_tripoints_first( z->pos(), 3 );
+    std::vector<tripoint> nearby_points = closest_points_first( z->pos(), 3 );
     for( monster &candidate : g->all_monsters() ) {
         if( candidate.type->in_species( species_BLOB ) && candidate.type->id != mon_blob_brain ) {
             // Just give the allies consistent assignments.
@@ -2371,7 +2391,7 @@ bool mattack::jackson( monster *z )
 {
     // Jackson draws nearby zombies into the dance.
     std::list<monster *> allies;
-    std::vector<tripoint> nearby_points = closest_tripoints_first( z->pos(), 3 );
+    std::vector<tripoint> nearby_points = closest_points_first( z->pos(), 3 );
     for( monster &candidate : g->all_monsters() ) {
         if( candidate.type->in_species( ZOMBIE ) && candidate.type->id != mon_zombie_jackson ) {
             // Just give the allies consistent assignments.
@@ -2830,6 +2850,11 @@ bool mattack::fear_paralyze( monster *z )
         // TODO: handle friendly monsters
         return false;
     }
+
+    if( !within_visual_range( z, 10 ) ) {
+        return false;
+    }
+
     if( g->u.sees( *z ) && !g->u.has_effect( effect_fearparalyze ) ) {
         if( g->u.has_artifact_with( AEP_PSYSHIELD ) || ( g->u.worn_with_flag( "PSYSHIELD_PARTIAL" ) &&
                 one_in( 4 ) ) ) {
@@ -2916,7 +2941,7 @@ bool mattack::nurse_assist( monster *z )
     }
 
     if( found_target ) {
-        if( target->is_wearing( "badge_doctor" ) ||
+        if( target->is_wearing( itype_badge_doctor ) ||
             z->attitude_to( *target ) == Creature::Attitude::A_FRIENDLY ) {
             sounds::sound( z->pos(), 8, sounds::sound_t::electronic_speech,
                            string_format(
@@ -2930,7 +2955,7 @@ bool mattack::nurse_assist( monster *z )
 }
 bool mattack::nurse_operate( monster *z )
 {
-    const std::string ammo_type( "anesthetic" );
+    const itype_id ammo_type( "anesthetic" );
 
     if( z->has_effect( effect_dragging ) || z->has_effect( effect_operating ) ) {
         return false;
@@ -2941,7 +2966,7 @@ bool mattack::nurse_operate( monster *z )
         add_msg( m_info, _( "The %s is scanning its surroundings." ), z->name() );
     }
 
-    if( ( ( g->u.is_wearing( "badge_doctor" ) ||
+    if( ( ( g->u.is_wearing( itype_badge_doctor ) ||
             z->attitude_to( g->u ) == Creature::Attitude::A_FRIENDLY ) && u_see ) && one_in( 100 ) ) {
 
         add_msg( m_info, _( "The %s doesn't seem to register you as a doctor." ), z->name() );
@@ -3086,7 +3111,7 @@ bool mattack::photograph( monster *z )
     // If you are in fact listed as a police officer
     if( g->u.has_trait( trait_PROF_POLICE ) ) {
         // And you're wearing your badge
-        if( g->u.is_wearing( "badge_deputy" ) ) {
+        if( g->u.is_wearing( itype_badge_deputy ) ) {
             if( one_in( 3 ) ) {
                 add_msg( m_info, _( "The %s flashes a LED and departs.  Human officer on scene." ),
                          z->name() );
@@ -3106,7 +3131,7 @@ bool mattack::photograph( monster *z )
 
     if( g->u.has_trait( trait_PROF_PD_DET ) ) {
         // And you have your shield on
-        if( g->u.is_wearing( "badge_detective" ) ) {
+        if( g->u.is_wearing( itype_badge_detective ) ) {
             if( one_in( 4 ) ) {
                 add_msg( m_info, _( "The %s flashes a LED and departs.  Human officer on scene." ),
                          z->name() );
@@ -3124,7 +3149,7 @@ bool mattack::photograph( monster *z )
         }
     } else if( g->u.has_trait( trait_PROF_SWAT ) ) {
         // And you're wearing your badge
-        if( g->u.is_wearing( "badge_swat" ) ) {
+        if( g->u.is_wearing( itype_badge_swat ) ) {
             if( one_in( 3 ) ) {
                 add_msg( m_info, _( "The %s flashes a LED and departs.  SWAT's working the area." ),
                          z->name() );
@@ -3141,7 +3166,7 @@ bool mattack::photograph( monster *z )
         }
     } else if( g->u.has_trait( trait_PROF_CYBERCO ) ) {
         // And you're wearing your badge
-        if( g->u.is_wearing( "badge_cybercop" ) ) {
+        if( g->u.is_wearing( itype_badge_cybercop ) ) {
             if( one_in( 3 ) ) {
                 add_msg( m_info, _( "The %s winks a LED and departs.  One machine to another?" ),
                          z->name() );
@@ -3161,7 +3186,7 @@ bool mattack::photograph( monster *z )
 
     if( g->u.has_trait( trait_PROF_FED ) ) {
         // And you're wearing your badge
-        if( g->u.is_wearing( "badge_marshal" ) ) {
+        if( g->u.is_wearing( itype_badge_marshal ) ) {
             add_msg( m_info, _( "The %s flashes a LED and departs.  The Feds got this." ), z->name() );
             z->no_corpse_quiet = true;
             z->no_extra_death_drops = true;
@@ -3170,7 +3195,7 @@ bool mattack::photograph( monster *z )
         }
     }
 
-    if( z->friendly || g->u.weapon.typeId() == "e_handcuffs" ) {
+    if( z->friendly || g->u.weapon.typeId() == itype_e_handcuffs ) {
         // Friendly (hacked?) bot ignore the player. Arrested suspect ignored too.
         // TODO: might need to be revisited when it can target npcs.
         return false;
@@ -3239,7 +3264,7 @@ void mattack::taze( monster *z, Creature *target )
 
 void mattack::rifle( monster *z, Creature *target )
 {
-    const std::string ammo_type( "556" );
+    const itype_id ammo_type( "556" );
     // Make sure our ammo isn't weird.
     if( z->ammo[ammo_type] > 3000 ) {
         debugmsg( "Generated too much ammo (%d) for %s in mattack::rifle", z->ammo[ammo_type],
@@ -3288,7 +3313,7 @@ void mattack::rifle( monster *z, Creature *target )
 
 void mattack::frag( monster *z, Creature *target ) // This is for the bots, not a standalone turret
 {
-    const std::string ammo_type( "40x46mm_m433" );
+    const itype_id ammo_type( "40x46mm_m433" );
     // Make sure our ammo isn't weird.
     if( z->ammo[ammo_type] > 200 ) {
         debugmsg( "Generated too much ammo (%d) for %s in mattack::frag", z->ammo[ammo_type],
@@ -3348,7 +3373,7 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
 
 void mattack::tankgun( monster *z, Creature *target )
 {
-    const std::string ammo_type( "120mm_HEAT" );
+    const itype_id ammo_type( "120mm_HEAT" );
     // Make sure our ammo isn't weird.
     if( z->ammo[ammo_type] > 40 ) {
         debugmsg( "Generated too much ammo (%d) for %s in mattack::tankgun", z->ammo[ammo_type],
@@ -3687,7 +3712,7 @@ bool mattack::copbot( monster *z )
     // TODO: Make it recognize zeds as human, but ignore animals
     player *foe = dynamic_cast<player *>( target );
     bool sees_u = foe != nullptr && z->sees( *foe );
-    bool cuffed = foe != nullptr && foe->weapon.typeId() == "e_handcuffs";
+    bool cuffed = foe != nullptr && foe->weapon.typeId() == itype_e_handcuffs;
     // Taze first, then ask questions (simplifies later checks for non-humans)
     if( !cuffed && is_adjacent( z, target, true ) ) {
         taze( z, target );
@@ -4620,7 +4645,7 @@ bool mattack::riotbot( monster *z )
     //already arrested?
     //and yes, if the player has no hands, we are not going to arrest him.
     if( foe != nullptr &&
-        ( foe->weapon.typeId() == "e_handcuffs" || !foe->has_two_arms() ) ) {
+        ( foe->weapon.typeId() == itype_e_handcuffs || !foe->has_two_arms() ) ) {
         z->anger = 0;
 
         if( calendar::once_every( 25_turns ) ) {
@@ -5327,15 +5352,15 @@ bool mattack::kamikaze( monster *z )
     }
 
     // Get the bomb type and it's data
-    const auto bomb_type = item::find_type( z->ammo.begin()->first );
-    const itype *act_bomb_type;
+    const itype *bomb_type = &*z->ammo.begin()->first;
+    itype_id act_bomb_type;
     int charges;
     // Hardcoded data for charge variant items
-    if( z->ammo.begin()->first == "mininuke" ) {
-        act_bomb_type = item::find_type( "mininuke_act" );
+    if( z->ammo.begin()->first == itype_mininuke ) {
+        act_bomb_type = itype_mininuke_act;
         charges = 20;
-    } else if( z->ammo.begin()->first == "c4" ) {
-        act_bomb_type = item::find_type( "c4armed" );
+    } else if( z->ammo.begin()->first == itype_c4 ) {
+        act_bomb_type = itype_c4armed;
         charges = 10;
     } else {
         auto usage = bomb_type->get_use( "transform" );
@@ -5352,7 +5377,7 @@ bool mattack::kamikaze( monster *z )
             z->disable_special( "KAMIKAZE" );
             return true;
         }
-        act_bomb_type = item::find_type( actor->target );
+        act_bomb_type = actor->target;
         charges = actor->ammo_qty;
     }
 
@@ -5455,7 +5480,7 @@ struct grenade_helper_struct {
 
 // Returns 0 if this should be retired, 1 if it was successful, and -1 if something went horribly wrong
 static int grenade_helper( monster *const z, Creature *const target, const int dist,
-                           const int moves, std::map<std::string, grenade_helper_struct> data )
+                           const int moves, std::map<itype_id, grenade_helper_struct> data )
 {
     // Can't do anything if we can't act
     if( !z->can_act() ) {
@@ -5497,13 +5522,13 @@ static int grenade_helper( monster *const z, Creature *const target, const int d
 
     // Hey look! another weighted list!
     // Grab all attacks that pass their chance check and we've spent enough ammo for
-    weighted_float_list<std::string> possible_attacks;
+    weighted_float_list<itype_id> possible_attacks;
     for( const auto &amm : z->ammo ) {
         if( amm.second > 0 && data[amm.first].ammo_percentage >= rat ) {
             possible_attacks.add( amm.first, 1.0 / data[amm.first].chance );
         }
     }
-    std::string att = *possible_attacks.pick();
+    itype_id att = *possible_attacks.pick();
 
     z->moves -= moves;
     z->ammo[att]--;
@@ -5518,8 +5543,7 @@ static int grenade_helper( monster *const z, Creature *const target, const int d
     }
 
     // Get our monster type
-    auto bomb_type = item::find_type( att );
-    auto usage = bomb_type->get_use( "place_monster" );
+    const use_function *usage = att->get_use( "place_monster" );
     if( usage == nullptr ) {
         // Invalid bomb item usage, Toggle this special off so we stop processing
         add_msg( m_debug, "Invalid bomb item usage in grenadier special for %s.", z->name() );
@@ -5543,19 +5567,19 @@ static int grenade_helper( monster *const z, Creature *const target, const int d
 bool mattack::grenadier( monster *const z )
 {
     // Build our grenade map
-    std::map<std::string, grenade_helper_struct> grenades;
+    std::map<itype_id, grenade_helper_struct> grenades;
     // Grenades
-    grenades["bot_pacification_hack"].message =
+    grenades[itype_bot_pacification_hack].message =
         _( "The %s deploys a pacification hack!" );
     // Flashbangs
-    grenades["bot_flashbang_hack"].message =
+    grenades[itype_bot_flashbang_hack].message =
         _( "The %s deploys a flashbang hack!" );
     // Gasbombs
-    grenades["bot_gasbomb_hack"].message =
+    grenades[itype_bot_gasbomb_hack].message =
         _( "The %s deploys a tear gas hack!" );
     // C-4
-    grenades["bot_c4_hack"].message = _( "The %s buzzes and deploys a C-4 hack!" );
-    grenades["bot_c4_hack"].chance = 8;
+    grenades[itype_bot_c4_hack].message = _( "The %s buzzes and deploys a C-4 hack!" );
+    grenades[itype_bot_c4_hack].chance = 8;
 
     // Only can actively target the player right now. Once we have the ability to grab targets that we aren't
     // actively attacking change this to use that instead.
@@ -5574,23 +5598,23 @@ bool mattack::grenadier( monster *const z )
 bool mattack::grenadier_elite( monster *const z )
 {
     // Build our grenade map
-    std::map<std::string, grenade_helper_struct> grenades;
+    std::map<itype_id, grenade_helper_struct> grenades;
     // Grenades
-    grenades["bot_grenade_hack"].message = _( "The %s deploys a grenade hack!" );
+    grenades[itype_bot_grenade_hack].message = _( "The %s deploys a grenade hack!" );
     // Flashbangs
-    grenades["bot_flashbang_hack"].message =
+    grenades[itype_bot_flashbang_hack].message =
         _( "The %s deploys a flashbang hack!" );
     // Gasbombs
-    grenades["bot_gasbomb_hack"].message = _( "The %s deploys a tear gas hack!" );
+    grenades[itype_bot_gasbomb_hack].message = _( "The %s deploys a tear gas hack!" );
     // C-4
-    grenades["bot_c4_hack"].message = _( "The %s buzzes and deploys a C-4 hack!" );
-    grenades["bot_c4_hack"].chance = 8;
-    grenades["bot_c4_hack"].ammo_percentage = .75;
+    grenades[itype_bot_c4_hack].message = _( "The %s buzzes and deploys a C-4 hack!" );
+    grenades[itype_bot_c4_hack].chance = 8;
+    grenades[itype_bot_c4_hack].ammo_percentage = .75;
     // Mininuke
-    grenades["bot_mininuke_hack"].message =
+    grenades[itype_bot_mininuke_hack].message =
         _( "A klaxon blares from %s as it deploys a mininuke hack!" );
-    grenades["bot_mininuke_hack"].chance = 50;
-    grenades["bot_mininuke_hack"].ammo_percentage = .75;
+    grenades[itype_bot_mininuke_hack].chance = 50;
+    grenades[itype_bot_mininuke_hack].ammo_percentage = .75;
 
     // Only can actively target the player right now. Once we have the ability to grab targets that we aren't
     // actively attacking change this to use that instead.

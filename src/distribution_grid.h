@@ -7,6 +7,7 @@
 #include <map>
 
 #include "calendar.h"
+#include "cuboid_rectangle.h"
 #include "memory_fast.h"
 #include "point.h"
 
@@ -74,7 +75,7 @@ class distribution_grid_tracker
         /**
          * In submap coords, to mirror @ref map
          */
-        rectangle bounds;
+        half_open_rectangle<point> bounds;
 
         mapbuffer &mb;
 
@@ -100,7 +101,7 @@ class distribution_grid_tracker
         /**
          * Loads grids in an area given by submap coords.
          */
-        void load( rectangle area );
+        void load( half_open_rectangle<point> area );
         /**
          * Loads grids in the same area as a given map.
          */

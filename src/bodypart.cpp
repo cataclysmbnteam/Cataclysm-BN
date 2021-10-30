@@ -14,6 +14,19 @@
 #include "pldata.h"
 #include "type_id.h"
 
+const bodypart_str_id body_part_head( "head" );
+const bodypart_str_id body_part_eyes( "eyes" );
+const bodypart_str_id body_part_mouth( "mouth" );
+const bodypart_str_id body_part_torso( "torso" );
+const bodypart_str_id body_part_arm_l( "arm_l" );
+const bodypart_str_id body_part_arm_r( "arm_r" );
+const bodypart_str_id body_part_hand_l( "hand_l" );
+const bodypart_str_id body_part_hand_r( "hand_r" );
+const bodypart_str_id body_part_leg_l( "leg_l" );
+const bodypart_str_id body_part_foot_l( "foot_l" );
+const bodypart_str_id body_part_leg_r( "leg_r" );
+const bodypart_str_id body_part_foot_r( "foot_r" );
+
 side opposite_side( side s )
 {
     switch( s ) {
@@ -362,11 +375,6 @@ body_part mutate_to_main_part( body_part bp )
 body_part opposite_body_part( body_part bp )
 {
     return get_bp( bp ).opposite_part->token;
-}
-
-std::string get_body_part_id( body_part bp )
-{
-    return get_bp( bp ).legacy_id;
 }
 
 bodypart_id bodypart::get_id() const

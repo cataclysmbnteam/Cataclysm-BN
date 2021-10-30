@@ -1,7 +1,8 @@
 [
   {
     "id": "damaged_shelter_kit",
-    "type": "TOOL",
+    "type": "GENERIC",
+    "category": "tools",
     "name": { "str": "damaged shelter kit" },
     "description": "This is a small shelter, made of sticks and skins.  Use it to place.  This shelter has been damaged, and needs repairs.",
     "weight": "1360 g",
@@ -17,6 +18,7 @@
   {
     "id": "large_tent_kit",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "large tent" },
     "description": "This is a family sized tent.  It provides a large amount of space, but is very bulky.",
     "weight": "2266 g",
@@ -42,6 +44,7 @@
   {
     "id": "shelter_kit",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "shelter kit" },
     "description": "This is a small shelter, made of sticks and skins.  Use it to place.",
     "weight": "1360 g",
@@ -66,6 +69,7 @@
   {
     "id": "tent_kit",
     "type": "TOOL",
+    "category": "tools",
     "name": { "str": "tent" },
     "description": "This is a small personal tent, it's just big enough to fit you comfortably.",
     "weight": "1133 g",

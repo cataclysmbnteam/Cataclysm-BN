@@ -79,7 +79,7 @@ class trading_window
         units::volume volume_left;
         units::mass weight_left;
 
-        int get_var_trade( const item &it, int total_count );
+        int get_var_trade( const item &it, int total_count, int amount_hint );
         bool npc_will_accept_trade( const npc &np ) const;
         int calc_npc_owes_you( const npc &np ) const;
 };

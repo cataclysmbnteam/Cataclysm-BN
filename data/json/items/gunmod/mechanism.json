@@ -16,8 +16,7 @@
     "location": "mechanism",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "launcher" ],
     "install_time": "30 m",
-    "dispersion_modifier": -1,
-    "min_skills": [ [ "weapon", 4 ], [ "mechanics", 3 ], [ "gun", 2 ] ]
+    "dispersion_modifier": -1
   },
   {
     "id": "dias",
@@ -37,8 +36,7 @@
     "mod_targets": [ "ar15" ],
     "install_time": "5 m",
     "dispersion_modifier": 10,
-    "mode_modifier": [ [ "AUTO", "auto", 4 ] ],
-    "min_skills": [ [ "rifle", 2 ] ]
+    "mode_modifier": [ [ "AUTO", "auto", 4 ] ]
   },
   {
     "id": "llink",
@@ -58,7 +56,6 @@
     "install_time": "25 m",
     "dispersion_modifier": 40,
     "mode_modifier": [ [ "DEFAULT", "auto", 6 ] ],
-    "min_skills": [ [ "mechanics", 2 ], [ "rifle", 3 ] ],
     "flags": [ "INSTALL_DIFFICULT" ]
   },
   {
@@ -77,7 +74,6 @@
     "location": "mechanism",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "launcher" ],
     "install_time": "10 m",
-    "min_skills": [ [ "weapon", 2 ] ],
     "flags": [ "WATERPROOF_GUN" ]
   }
 ]

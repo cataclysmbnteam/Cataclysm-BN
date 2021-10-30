@@ -20,6 +20,7 @@
 #    include <SDL_mixer.h>
 #endif
 
+#include "cached_options.h"
 #include "debug.h"
 #include "init.h"
 #include "json.h"
@@ -94,12 +95,32 @@ bool init_sound()
     int audio_rate = 44100;
     Uint16 audio_format = AUDIO_S16;
     int audio_channels = 2;
-    int audio_buffers = 2048;
+    int chunksize = 2048;
+    // Autodetect device
+    const char *audio_device = nullptr;
+    // We only care about sample format and number of channels.
+    // SDL will be allowed to choose a different frequency if it needs to.
+    int flags = SDL_AUDIO_ALLOW_FREQUENCY_CHANGE;
 
     // We should only need to init once
     if( !sound_init_success ) {
-        // Mix_OpenAudio returns non-zero if something went wrong trying to open the device
-        if( !Mix_OpenAudio( audio_rate, audio_format, audio_channels, audio_buffers ) ) {
+        const char *driver = SDL_GetCurrentAudioDriver();
+        DebugLog( DL::Info, DC::Main ) << "Active audio driver: " << driver;
+
+        int open_code = Mix_OpenAudioDevice( audio_rate, audio_format, audio_channels,
+                                             chunksize, audio_device, flags );
+        if( open_code == 0 ) {
+            int dev_rate = 0;
+            Uint16 dev_format = 0;
+            int dev_channels = 0;
+            if( Mix_QuerySpec( &dev_rate, &dev_format, &dev_channels ) ) {
+                DebugLog( DL::Info, DC::Main )
+                        << string_format( "Opened mixer with specs: %d Hz, %d channel(s), format %#x",
+                                          dev_rate, dev_channels, dev_format );
+            } else {
+                DebugLog( DL::Warn, DC::SDL ) << "Mix_QuerySpec failed: " << Mix_GetError();
+            }
+
             Mix_AllocateChannels( 128 );
             Mix_ReserveChannels( static_cast<int>( sfx::channel::MAX_CHANNEL ) );
 
@@ -139,6 +160,10 @@ void musicFinished();
 
 static void play_music_file( const std::string &filename, int volume )
 {
+    if( test_mode ) {
+        return;
+    }
+
     if( !check_sound( volume ) ) {
         return;
     }
@@ -160,6 +185,10 @@ static void play_music_file( const std::string &filename, int volume )
 /** Callback called when we finish playing music. */
 void musicFinished()
 {
+    if( test_mode ) {
+        return;
+    }
+
     Mix_HaltMusic();
     Mix_FreeMusic( current_music );
     current_music = nullptr;
@@ -225,6 +254,10 @@ void play_music( const std::string &playlist )
 
 void stop_music()
 {
+    if( test_mode ) {
+        return;
+    }
+
     Mix_FreeMusic( current_music );
     Mix_HaltMusic();
     current_music = nullptr;
@@ -236,6 +269,10 @@ void stop_music()
 
 void update_music_volume()
 {
+    if( test_mode ) {
+        return;
+    }
+
     if( !sounds::sound_enabled ) {
         stop_music();
         return;
@@ -441,6 +478,10 @@ static Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch )
 
 void sfx::play_variant_sound( const std::string &id, const std::string &variant, int volume )
 {
+    if( test_mode ) {
+        return;
+    }
+
     add_msg( m_debug, "sound id: %s, variant: %s, volume: %d ", id, variant, volume );
 
     if( !check_sound( volume ) ) {
@@ -467,6 +508,10 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
 void sfx::play_variant_sound( const std::string &id, const std::string &variant, int volume,
                               int angle, double pitch_min, double pitch_max )
 {
+    if( test_mode ) {
+        return;
+    }
+
     add_msg( m_debug, "sound id: %s, variant: %s, volume: %d ", id, variant, volume );
 
     if( !check_sound( volume ) ) {
@@ -514,6 +559,9 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
 void sfx::play_ambient_variant_sound( const std::string &id, const std::string &variant, int volume,
                                       channel channel, int fade_in_duration, double pitch, int loops )
 {
+    if( test_mode ) {
+        return;
+    }
     if( !check_sound( volume ) ) {
         return;
     }

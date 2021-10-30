@@ -85,6 +85,10 @@ static const efftype_id effect_supercharged( "supercharged" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_webbed( "webbed" );
 
+static const itype_id itype_corpse( "corpse" );
+static const itype_id itype_milk( "milk" );
+static const itype_id itype_milk_raw( "milk_raw" );
+
 static const species_id FISH( "FISH" );
 static const species_id FUNGUS( "FUNGUS" );
 static const species_id INSECT( "INSECT" );
@@ -209,8 +213,7 @@ monster::monster( const mtype_id &id ) : monster()
     }
     if( monster::has_flag( MF_RIDEABLE_MECH ) ) {
         itype_id mech_bat = itype_id( type->mech_battery );
-        const itype &type = *item::find_type( mech_bat );
-        int max_charge = type.magazine->capacity;
+        int max_charge = mech_bat->magazine->capacity;
         item mech_bat_item = item( mech_bat, calendar::start_of_cataclysm );
         mech_bat_item.ammo_consume( rng( 0, max_charge ), tripoint_zero );
         battery_item = cata::make_value<item>( mech_bat_item );
@@ -356,6 +359,10 @@ void monster::try_upgrade( bool pin_time )
         }
 
         if( type->upgrade_into ) {
+            //If we upgrade into a blacklisted monster, treat it as though we are non-upgradeable
+            if( MonsterGroupManager::monster_is_blacklisted( type->upgrade_into ) ) {
+                return;
+            }
             poly( type->upgrade_into );
         } else {
             const mtype_id &new_type = MonsterGroupManager::GetRandomMonsterFromGroup( type->upgrade_group );
@@ -447,12 +454,12 @@ void monster::refill_udders()
         // legacy animals got empty ammo map, fill them up now if needed.
         ammo[type->starting_ammo.begin()->first] = type->starting_ammo.begin()->second;
     }
-    auto current_milk = ammo.find( "milk_raw" );
+    auto current_milk = ammo.find( itype_milk_raw );
     if( current_milk == ammo.end() ) {
-        current_milk = ammo.find( "milk" );
+        current_milk = ammo.find( itype_milk );
         if( current_milk != ammo.end() ) {
             // take this opportunity to update milk udders to raw_milk
-            ammo["milk_raw"] = current_milk->second;
+            ammo[itype_milk_raw] = current_milk->second;
             // Erase old key-value from map
             ammo.erase( current_milk );
         }
@@ -2196,9 +2203,9 @@ void monster::process_turn()
                     }
                 }
             }
-            if( g->weather.lightning_active && !has_effect( effect_supercharged ) &&
+            if( get_weather().lightning_active && !has_effect( effect_supercharged ) &&
                 g->m.is_outside( pos() ) ) {
-                g->weather.lightning_active = false; // only one supercharge per strike
+                get_weather().lightning_active = false; // only one supercharge per strike
                 sounds::sound( pos(), 300, sounds::sound_t::combat, _( "BOOOOOOOM!!!" ), false, "environment",
                                "thunder_near" );
                 sounds::sound( pos(), 20, sounds::sound_t::combat, _( "vrrrRRRUUMMMMMMMM!" ), false, "explosion",
@@ -2295,7 +2302,8 @@ void monster::die( Creature *nkiller )
         const tripoint abssub = ms_to_sm_copy( g->m.getabs( pos() ) );
         // Do it for overmap above/below too
         for( const tripoint &p : points_in_radius( abssub, HALF_MAPSIZE, 1 ) ) {
-            for( auto &mgp : overmap_buffer.groups_at( p ) ) {
+            // TODO: fix point types
+            for( auto &mgp : overmap_buffer.groups_at( tripoint_abs_sm( p ) ) ) {
                 if( MonsterGroupManager::IsMonsterInGroup( mgp->type, type->id ) ) {
                     mgp->dying = true;
                 }
@@ -2694,7 +2702,7 @@ bool monster::is_dead() const
 
 void monster::init_from_item( const item &itm )
 {
-    if( itm.typeId() == "corpse" ) {
+    if( itm.typeId() == itype_corpse ) {
         set_speed_base( get_speed_base() * 0.8 );
         const int burnt_penalty = itm.burnt;
         hp = static_cast<int>( hp * 0.7 );
@@ -2724,7 +2732,7 @@ void monster::init_from_item( const item &itm )
 
 item monster::to_item() const
 {
-    if( type->revert_to_itype.empty() ) {
+    if( type->revert_to_itype.is_empty() ) {
         return item();
     }
     // Birthday is wrong, but the item created here does not use it anyway (I hope).

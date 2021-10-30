@@ -19,6 +19,32 @@
 #include "hash_utils.h"
 #include "overmapbuffer.h"
 
+static weather_type_id WEATHER_CLOUDY = weather_type_id( "cloudy" );
+
+struct body_part_temp {
+    body_part_temp( bodypart_str_id part, int temperature )
+        : part( part ), temperature( temperature )
+    {}
+    bodypart_str_id part;
+    int temperature;
+
+    bool operator==( const body_part_temp &other ) const {
+        return part == other.part && temperature == other.temperature;
+    }
+};
+
+namespace std
+{
+
+template<> struct hash<body_part_temp> {
+    std::size_t operator()( body_part_temp const &bpt ) const noexcept {
+        auto tuple_hash = cata::auto_hash<std::tuple<const bodypart_str_id &, const int &>>();
+        return tuple_hash( std::forward_as_tuple( bpt.part, bpt.temperature ) );
+    }
+};
+
+} // namespace std
+
 struct temperature_threshold {
     constexpr temperature_threshold( int v, const char *n )
         : value( v )
@@ -40,10 +66,28 @@ constexpr std::array<temperature_threshold, 7> bodytemps = {{
 
 #undef t
 
+std::ostream &operator<<( std::ostream &os, const body_part_temp &bpt );
+std::ostream &operator<<( std::ostream &os, const body_part_temp &bpt )
+{
+    // Stringify the temperature to avoid Catch adding hex
+    return os << std::to_string( bpt.temperature );
+}
+
+std::ostream &operator<<( std::ostream &os, const std::vector<body_part_temp> &bpts );
+std::ostream &operator<<( std::ostream &os, const std::vector<body_part_temp> &bpts )
+{
+    os << "[";
+    for( const auto &e : bpts ) {
+        os << e << ",";
+    }
+    return os << "]\n";
+}
+
 // Run update_bodytemp() until core body temperature settles.
 static int converge_temperature( player &p, size_t iters, int start_temperature = BODYTEMP_NORM )
 {
-    REQUIRE( get_weather().weather == WEATHER_CLOUDY );
+    constexpr size_t n_history = 10;
+    REQUIRE( get_weather().weather_id == WEATHER_CLOUDY );
     REQUIRE( get_weather().windspeed == 0 );
 
     for( int i = 0 ; i < num_bp; i++ ) {
@@ -55,21 +99,33 @@ static int converge_temperature( player &p, size_t iters, int start_temperature 
 
     bool converged = false;
 
-    using temp_array = decltype( p.temp_cur );
-    std::unordered_set<temp_array, cata::range_hash> history( iters );
+    std::unordered_set<std::vector<body_part_temp>, cata::range_hash> history( iters );
+    std::list<std::vector<body_part_temp>> last_n_history;
+
+    const auto &parts = p.get_body();
 
     for( size_t i = 0; i < iters; i++ ) {
-        if( history.count( p.temp_cur ) != 0 ) {
+        std::vector<body_part_temp> current_iter_temperature;
+        current_iter_temperature.reserve( parts.size() );
+        for( const auto &pr : parts ) {
+            current_iter_temperature.emplace_back( pr.first, p.temp_cur[pr.first->token] );
+        }
+        if( history.count( current_iter_temperature ) != 0 ) {
             converged = true;
             break;
         }
 
-        history.emplace( p.temp_cur );
-        p.update_bodytemp( get_map(), g->weather );
+        history.emplace( current_iter_temperature );
+        last_n_history.emplace_front( current_iter_temperature );
+        while( last_n_history.size() > n_history ) {
+            last_n_history.pop_back();
+        }
+        p.update_bodytemp( get_map(), get_weather() );
     }
 
     CAPTURE( iters );
     CAPTURE( p.temp_cur );
+    CAPTURE( last_n_history );
     // If it doesn't converge, it's usually very close to it anyway, so don't fail
     CHECK( converged );
     return p.temp_cur[0];
@@ -78,7 +134,7 @@ static int converge_temperature( player &p, size_t iters, int start_temperature 
 static void equip_clothing( player &p, const std::vector<std::string> &clothing )
 {
     for( const std::string &c : clothing ) {
-        const item article( c, calendar::start_of_cataclysm );
+        const item article( itype_id( c ), calendar::start_of_cataclysm );
         p.wear_item( article );
     }
 }
@@ -110,7 +166,7 @@ static void test_temperature_spread( player &p,
         get_weather().clear_temp_cache();
         CAPTURE( air_temperatures[i] );
         CAPTURE( get_weather().temperature );
-        int converged_temperature = converge_temperature( p, 1000, bodytemps[i].value );
+        int converged_temperature = converge_temperature( p, 1500, bodytemps[i].value );
         auto expected_body_temperature = bodytemps[i].name;
         CAPTURE( expected_body_temperature );
         int air_temperature_celsius = to_celsius( air_temperatures[i] );
@@ -164,22 +220,23 @@ const std::vector<std::string> arctic_clothing = {{
 
 static void guarantee_neutral_weather( const player &p )
 {
-    get_weather().weather = WEATHER_CLOUDY;
+    get_weather().weather_id = WEATHER_CLOUDY;
     get_weather().weather_override = WEATHER_CLOUDY;
     get_weather().windspeed = 0;
-    get_weather().weather_precise->humidity = 0;
+    get_weather().override_humidity( 0 );
     REQUIRE( !get_map().has_flag( TFLAG_SWIMMABLE, p.pos() ) );
     REQUIRE( !get_map().has_flag( TFLAG_DEEP_WATER, p.pos() ) );
     REQUIRE( !g->is_in_sunlight( p.pos() ) );
 
-    const w_point weather = *g->weather.weather_precise;
+    const weather_manager &weather = get_weather();
+    const w_point &wp = weather.get_precise();
     const oter_id &cur_om_ter = overmap_buffer.ter( p.global_omt_location() );
     bool sheltered = g->is_sheltered( p.pos() );
-    double total_windpower = get_local_windpower( g->weather.windspeed, cur_om_ter,
+    double total_windpower = get_local_windpower( weather.windspeed, cur_om_ter,
                              p.pos(),
-                             g->weather.winddirection, sheltered );
-    int air_humidity = get_local_humidity( weather.humidity, g->weather.weather,
-                                           sheltered );
+                             weather.winddirection, sheltered );
+    int air_humidity = get_local_humidity( wp.humidity, weather.weather_id, sheltered );
+
     REQUIRE( air_humidity == 0 );
     REQUIRE( total_windpower == 0.0 );
     REQUIRE( !const_cast<player &>( p ).in_climate_control() );
@@ -231,8 +288,9 @@ static std::array<units::temperature, bodytemps.size()> find_temperature_points(
     for( int i = -200; i < 200; i++ ) {
         get_weather().temperature = i;
         get_weather().clear_temp_cache();
-        CAPTURE( units::from_fahrenheit( i ) );
         int converged_temperature = converge_temperature( p, 10000 );
+        CAPTURE( i );
+        CAPTURE( units::from_fahrenheit( i ) );
         CHECK( converged_temperature >= last_converged_temperature );
         // 0 - FREEZING, 6 - SCORCHING
         for( size_t temperature_index = 0; temperature_index < bodytemps.size(); temperature_index++ ) {
@@ -356,7 +414,7 @@ TEST_CASE( "Player body temperatures in water.", "[.][bodytemp]" )
     REQUIRE( get_map().has_flag( TFLAG_SWIMMABLE, pos ) );
     REQUIRE( get_map().has_flag( TFLAG_DEEP_WATER, pos ) );
     REQUIRE( !g->is_in_sunlight( pos ) );
-    get_weather().weather = WEATHER_CLOUDY;
+    get_weather().weather_id = WEATHER_CLOUDY;
 
     dummy.drench( 100, body_part_set::all(), true );
 
@@ -388,7 +446,7 @@ static void hypothermia_check( player &p, int water_temperature, time_duration e
 
     int actual_time;
     for( actual_time = 0; actual_time < upper_bound * 2; actual_time++ ) {
-        p.update_bodytemp( get_map(), g->weather );
+        p.update_bodytemp( get_map(), get_weather() );
         if( p.temp_cur[0] <= expected_temperature ) {
             break;
         }
@@ -411,7 +469,7 @@ TEST_CASE( "Water hypothermia check.", "[.][bodytemp]" )
     REQUIRE( get_map().has_flag( TFLAG_SWIMMABLE, pos ) );
     REQUIRE( get_map().has_flag( TFLAG_DEEP_WATER, pos ) );
     REQUIRE( !g->is_in_sunlight( pos ) );
-    get_weather().weather = WEATHER_CLOUDY;
+    get_weather().weather_id = WEATHER_CLOUDY;
 
     dummy.drench( 100, body_part_set::all(), true );
 
