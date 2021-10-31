@@ -2841,7 +2841,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             if( is_visible( i ) ) {
                 visible_items.push_back( i );
                 if( i == iCurrentLine ) {
-                    curr_line_visible = static_cast<int>( visible_items.size() );
+                    curr_line_visible = static_cast<int>( visible_items.size() ) - 1;
                 }
             }
         }
