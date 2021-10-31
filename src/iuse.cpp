@@ -5102,7 +5102,7 @@ int iuse::mop( player *p, item *it, bool, const tripoint & )
         fd_sludge
     };
     const std::function<bool( const tripoint & )> f = [&to_check]( const tripoint & pnt ) {
-        if( !g->m.has_flag( "LIQUIDCONT", pnt ) && !g->m.has_flag("SEALED", pnt ) ) {
+        if( !g->m.has_flag( "LIQUIDCONT", pnt ) && !g->m.has_flag( "SEALED", pnt ) ) {
             map_stack items = g->m.i_at( pnt );
             auto found = std::find_if( items.begin(), items.end(), []( const item & it ) {
                 return it.made_of( LIQUID );
