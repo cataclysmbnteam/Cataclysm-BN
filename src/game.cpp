@@ -125,6 +125,7 @@
 #include "pickup.h"
 #include "player.h"
 #include "player_activity.h"
+#include "point_float.h"
 #include "popup.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"

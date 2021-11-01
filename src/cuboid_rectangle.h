@@ -1,6 +1,7 @@
 #ifndef CATA_SRC_CUBOID_RECTANGLE_H
 #define CATA_SRC_CUBOID_RECTANGLE_H
 
+#include "cata_utility.h"
 #include "point.h"
 #include "point_traits.h"
 
@@ -72,16 +73,16 @@ template<typename Point>
 Point clamp( const Point &p, const half_open_rectangle<Point> &r )
 {
     using Traits = point_traits<Point>;
-    return Point( clamp( Traits::x( p ), Traits::x( r.p_min ), Traits::x( r.p_max ) - 1 ),
-                  clamp( Traits::y( p ), Traits::y( r.p_min ), Traits::y( r.p_max ) - 1 ) );
+    return Point( ::clamp( Traits::x( p ), Traits::x( r.p_min ), Traits::x( r.p_max ) - 1 ),
+                  ::clamp( Traits::y( p ), Traits::y( r.p_min ), Traits::y( r.p_max ) - 1 ) );
 }
 
 template<typename Point>
 Point clamp( const Point &p, const inclusive_rectangle<Point> &r )
 {
     using Traits = point_traits<Point>;
-    return Point( clamp( Traits::x( p ), Traits::x( r.p_min ), Traits::x( r.p_max ) ),
-                  clamp( Traits::y( p ), Traits::y( r.p_min ), Traits::y( r.p_max ) ) );
+    return Point( ::clamp( Traits::x( p ), Traits::x( r.p_min ), Traits::x( r.p_max ) ),
+                  ::clamp( Traits::y( p ), Traits::y( r.p_min ), Traits::y( r.p_max ) ) );
 }
 
 template<typename Tripoint, decltype( std::declval<decltype( Tripoint::dimension )>(), int() ) = 0>

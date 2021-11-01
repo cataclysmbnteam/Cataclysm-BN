@@ -55,6 +55,7 @@
 #include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
+#include "point_float.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"

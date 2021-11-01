@@ -5,13 +5,22 @@
 #include <algorithm>
 #include <cmath>
 #include <memory>
+#include <set>
 #include <vector>
 #include "cata_utility.h"
 #include "cuboid_rectangle.h"
 #include "line.h"
 #include "shape.h"
 #include "point.h"
+#include "point_float.h"
 #include "map_iterator.h"
+#include "json.h"
+
+template<typename T>
+constexpr T sign( T x )
+{
+    return x > 0 ? 1 : ( x < 0 ? -1 : 0 );
+}
 
 class shape_impl
 {
@@ -21,37 +30,6 @@ class shape_impl
 
         virtual inclusive_cuboid<rl_vec3d> bounding_box() const = 0;
 };
-
-inclusive_cuboid<tripoint> shape::bounding_box() const
-{
-    const inclusive_cuboid<rl_vec3d> &bb_float = bounding_box_float();
-    const tripoint min = tripoint( std::floor( bb_float.p_min.x ),
-                                   std::floor( bb_float.p_min.y ),
-                                   std::floor( bb_float.p_min.z ) );
-    const tripoint max = tripoint( std::ceil( bb_float.p_max.x ),
-                                   std::ceil( bb_float.p_max.y ),
-                                   std::ceil( bb_float.p_max.z ) );
-    return inclusive_cuboid<tripoint>( min, max );
-}
-inclusive_cuboid<rl_vec3d> shape::bounding_box_float() const
-{
-    return impl->bounding_box();
-}
-
-double shape::distance_at( const tripoint &p ) const
-{
-    return distance_at( rl_vec3d( p.x, p.y, p.z ) );
-}
-double shape::distance_at( const rl_vec3d &p ) const
-{
-    return impl->signed_distance( p );
-}
-
-template<typename T>
-constexpr T sign( T x )
-{
-    return x > 0 ? 1 : ( x < 0 ? -1 : 0 );
-}
 
 /**
  * Cone centered along y axis.
@@ -172,6 +150,59 @@ class rotate_z_shape : public shape_impl
     private:
         std::shared_ptr<shape_impl> shape;
         double angle_z;
+};
+
+class shape_factory_impl
+{
+    public:
+        virtual std::shared_ptr<shape> create( const tripoint &start, const tripoint &end ) const = 0;
+        virtual const std::string &get_type() const = 0;
+        virtual ~shape_factory_impl() = default;
+
+        virtual void serialize( JsonOut & ) const {};
+        virtual void deserialize( JsonIn & ) {};
+};
+
+#include "make_static.h"
+class cone_factory : public shape_factory_impl
+{
+    private:
+        /** TODO: Angles deserve a proper unit type */
+        double half_angle;
+        double length;
+    public:
+        cone_factory() = default;
+        cone_factory( const cone_factory & ) = default;
+        cone_factory( double half_angle, double length )
+            : half_angle( half_angle )
+            , length( length )
+        {}
+
+        std::shared_ptr<shape> create( const tripoint &start, const tripoint &end ) const override {
+            auto c = std::make_shared<cone>( half_angle, length );
+            tripoint diff = end - start;
+            // Plus 90 deg because @ref cone extends in -y direction
+            double rotation_angle = atan2( diff.y, diff.x ) + deg2rad( 90 );
+            std::shared_ptr<rotate_z_shape> r = std::make_shared<rotate_z_shape>( c, rotation_angle );
+            std::shared_ptr<offset_shape> o = std::make_shared<offset_shape>( r,
+                                              rl_vec3d( start.x, start.y, start.z ) );
+            return std::make_shared<shape>( o );
+        }
+
+        const std::string &get_type() const override {
+            return STATIC( "cone_factory" );
+        }
+
+        void serialize( JsonOut &jsout ) const override {
+            jsout.start_object();
+            jsout.member( "half_angle", static_cast<int>( std::round( rad2deg( half_angle ) ) ) );
+            jsout.member( "length", length );
+        }
+        void deserialize( JsonIn &jsin ) override {
+            JsonObject jo = jsin.get_object();
+            half_angle = deg2rad( jo.get_int( "half_angle" ) );
+            jo.read( "length", length );
+        }
 };
 
 #endif // CATA_SRC_SHAPE_IMPL_H

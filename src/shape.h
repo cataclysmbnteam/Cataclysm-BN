@@ -4,12 +4,16 @@
 
 #include <map>
 #include <memory>
+
+#include "cuboid_rectangle.h"
 #include "point.h"
+#include "point_float.h"
 
 class shape_impl;
 class shape_factory_impl;
 class JsonIn;
 class JsonOut;
+class map;
 
 /**
  * Class describing shapes in 3D space. The shapes can cover some points partially.
@@ -23,7 +27,7 @@ class shape
         inclusive_cuboid<rl_vec3d> bounding_box_float() const;
 
         shape();
-        shape( shape_impl && );
+        shape( const std::shared_ptr<shape_impl> & );
         shape( const shape & );
     private:
         std::shared_ptr<shape_impl> impl;
@@ -39,10 +43,10 @@ class shape_factory
         shape_factory( const shape_factory & );
         ~shape_factory();
 
-        void serialize( JsonIn &jsin ) const;
-        void deserialize( JsonOut &jsout );
+        void serialize( JsonOut &jsout ) const;
+        void deserialize( JsonIn &jsin );
 
-        shape create( const tripoint &start, const tripoint &end ) const;
+        std::shared_ptr<shape> create( const tripoint &start, const tripoint &end ) const;
     private:
         std::shared_ptr<shape_factory_impl> impl;
 };

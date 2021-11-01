@@ -55,6 +55,7 @@
 #include "overmapbuffer.h"
 #include "player.h"
 #include "point.h"
+#include "point_float.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "string_id.h"

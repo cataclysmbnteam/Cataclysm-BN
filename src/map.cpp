@@ -73,6 +73,7 @@
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "player.h"
+#include "point_float.h"
 #include "projectile.h"
 #include "rng.h"
 #include "safe_reference.h"

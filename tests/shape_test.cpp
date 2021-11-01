@@ -1,11 +1,6 @@
 #include "shape_impl.h"
 #include "catch/catch.hpp"
 
-constexpr double deg2rad( double degrees )
-{
-    return degrees * M_PI / 180.0;
-}
-
 TEST_CASE( "cone_test", "[shape]" )
 {
     SECTION( "90 degrees, length 1" ) {
@@ -77,5 +72,44 @@ TEST_CASE( "offset_rotated_cone_test", "[shape]" )
         CHECK( sh.signed_distance( rl_vec3d{1.0, 0.0, 1.0} ) == Approx( 0.0 ).margin( 0.01 ) );
 
         CHECK( sh.signed_distance( rl_vec3d{1.5, 0.0, 0.0} ) == Approx( 0.5 ).margin( 0.01 ) );
+    }
+}
+
+TEST_CASE( "cone_factory_test", "[shape]" )
+{
+    cone_factory c( deg2rad( 15 ), 10.0 );
+    SECTION( "(0,0,0) to (5,5,0)" ) {
+        std::shared_ptr<shape> s = c.create( tripoint_zero, tripoint( 5, 5, 0 ) );
+        CHECK( s->distance_at( rl_vec3d( 1, 1, 0 ) ) < 0.0 );
+
+        CHECK( s->distance_at( rl_vec3d( 1, 0, 0 ) ) > 0.0 );
+        CHECK( s->distance_at( rl_vec3d( 0, 1, 0 ) ) > 0.0 );
+
+        CHECK( s->distance_at( rl_vec3d( -1, 0, 0 ) ) > 0.0 );
+        CHECK( s->distance_at( rl_vec3d( 0, -1, 0 ) ) > 0.0 );
+        CHECK( s->distance_at( rl_vec3d( -1, -1, 0 ) ) > 0.0 );
+
+        CHECK( s->distance_at( rl_vec3d( 1, -1, 0 ) ) > 0.0 );
+        CHECK( s->distance_at( rl_vec3d( -1, 1, 0 ) ) > 0.0 );
+
+        CHECK( s->distance_at( rl_vec3d( 0, 0, 0 ) ) == Approx( 0.0 ) );
+
+        CHECK( s->distance_at( rl_vec3d( 2, 2, 0 ) ) < 0.0 );
+        CHECK( s->distance_at( rl_vec3d( 3, 3, 0 ) ) < 0.0 );
+        CHECK( s->distance_at( rl_vec3d( 4, 4, 0 ) ) < 0.0 );
+        CHECK( s->distance_at( rl_vec3d( 5, 5, 0 ) ) < 0.0 );
+        CHECK( s->distance_at( rl_vec3d( 6, 6, 0 ) ) < 0.0 );
+        CHECK( s->distance_at( rl_vec3d( 7, 7, 0 ) ) < 0.0 );
+
+        CHECK( s->distance_at( rl_vec3d( 8, 8, 0 ) ) > 0.0 );
+        CHECK( s->distance_at( rl_vec3d( 9, 9, 0 ) ) > 0.0 );
+        CHECK( s->distance_at( rl_vec3d( 10, 10, 0 ) ) > 0.0 );
+    }
+
+    SECTION( "(15,5,0) to (-15,5,0)" ) {
+        std::shared_ptr<shape> s = c.create( tripoint( 15, 5, 0 ), tripoint( -15, 5, 0 ) );
+        CHECK( s->distance_at( rl_vec3d( 20, 5, 0 ) ) > 0.0 );
+        CHECK( s->distance_at( rl_vec3d( 0, 5, 0 ) ) > 0.0 );
+        CHECK( s->distance_at( rl_vec3d( 10, 5, 0 ) ) < 0.0 );
     }
 }
