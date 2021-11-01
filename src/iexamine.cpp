@@ -1537,14 +1537,17 @@ void iexamine::transform( player &, const tripoint &pos )
     std::string message;
 
     if( g->m.has_furn( pos ) ) {
-        g->m.furn_set( pos, g->m.get_furn_transforms_into( pos ) );
         message = g->m.furn( pos ).obj().message;
+        if( !message.empty() ) {
+            add_msg( _( message ) );
+        }
+        g->m.furn_set( pos, g->m.get_furn_transforms_into( pos ) );
     } else {
-        g->m.ter_set( pos, g->m.get_ter_transforms_into( pos ) );
         message = g->m.ter( pos ).obj().message;
-    }
-    if( !message.empty() ) {
-        add_msg( _( message ) );
+        if( !message.empty() ) {
+            add_msg( _( message ) );
+        }
+        g->m.ter_set( pos, g->m.get_ter_transforms_into( pos ) );
     }
 }
 
