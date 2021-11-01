@@ -1585,7 +1585,7 @@
       [ "radio", 20 ],
       [ "geiger_off", 8 ],
       [ "rad_monitor", 4 ],
-      [ "UPS_off", 5 ],
+      { "item": "heavy_battery_cell", "prob": 5, "charges": [ 0, 1000 ], "container-item": "UPS_off" },
       [ "flyer", 10 ],
       [ "bio_purifier", 10 ],
       [ "bio_climate", 10 ],
@@ -2054,6 +2054,7 @@
     "type": "item_group",
     "id": "vault",
     "items": [
+      { "group": "ammo_atomic_batteries", "prob": 10 },
       { "group": "schematics", "prob": 5 },
       [ "recipe_mil_augs", 5 ],
       [ "recipe_caseless", 5 ],

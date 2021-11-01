@@ -4,6 +4,7 @@
     "id": "robofac_basic_trade",
     "subtype": "distribution",
     "entries": [
+      { "group": "ammo_atomic_batteries_full", "prob": 100 },
       { "group": "bionics_common", "prob": 100 },
       { "group": "textbooks", "prob": 100 },
       { "group": "electronics", "prob": 100 },

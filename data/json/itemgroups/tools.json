@@ -25,6 +25,7 @@
     "type": "item_group",
     "//": "Industrial machinery used for construction",
     "items": [
+      [ "UPS_off", 5 ],
       [ "brick_kiln", 80 ],
       [ "kiln", 40 ],
       [ "con_mix", 120 ],
@@ -99,6 +100,7 @@
       [ "flashlight", 20 ],
       [ "goggles_nv", 5 ],
       [ "hand_crank_charger", 15 ],
+      [ "UPS_off", 5 ],
       [ "handflare", 20 ],
       [ "hatchet", 10 ],
       [ "heavy_flashlight", 15 ],
@@ -218,6 +220,7 @@
     "//": "Equipment of any size commonly used by engineers and mechanics",
     "ammo": 100,
     "items": [
+      [ "UPS_off", 5 ],
       [ "jack", 80 ],
       [ "jack_small", 80 ],
       {

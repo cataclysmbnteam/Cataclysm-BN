@@ -125,8 +125,7 @@
       [ "knee_pads", 5 ],
       [ "elbow_pads", 5 ],
       [ "legrig", 5 ],
-      [ "UPS_off", 5 ],
-      [ "adv_UPS_off", 2 ],
+      { "item": "heavy_battery_cell", "prob": 10, "charges": [ 0, 1000 ], "container-item": "UPS_off" },
       [ "emer_blanket", 5 ],
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
       [ "tool_belt", 5 ],
@@ -153,7 +152,7 @@
       [ "rad_monitor", 10 ],
       [ "oxygen_tank", 10 ],
       [ "smoxygen_tank", 15 ],
-      [ "adv_UPS_off", 2 ],
+      { "item": "heavy_battery_cell", "prob": 5, "charges": [ 0, 1000 ], "container-item": "UPS_off" },
       [ "prussian_blue", 25 ],
       [ "iodine", 50 ]
     ]

@@ -6,6 +6,8 @@
     "magazine": 100,
     "items": [
       { "group": "tools_science", "prob": 50 },
+      { "group": "ammo_atomic_batteries", "prob": 10 },
+      { "group": "ammo_atomic_batteries_full", "prob": 5 },
       [ "ether", 5 ],
       [ "water_clean", 90 ],
       { "item": "bleach", "prob": 20, "charges-min": 1 },
@@ -347,6 +349,8 @@
     "type": "item_group",
     "id": "teleport",
     "items": [
+      { "group": "ammo_atomic_batteries", "prob": 10 },
+      { "group": "ammo_atomic_batteries_full", "prob": 10 },
       [ "screwdriver", 40 ],
       [ "screwdriver_set", 40 ],
       [ "wrench", 30 ],
