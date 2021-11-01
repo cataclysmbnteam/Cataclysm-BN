@@ -4912,7 +4912,7 @@ int item::damage_melee( damage_type dt ) const
 
     // effectiveness is reduced by 10% per damage level
     int res = type->melee[ dt ];
-    res -= res * damage_level( 4 ) * 0.1;
+    res -= res * std::max( damage_level( 4 ), 0 ) * 0.1;
 
     // apply type specific flags
     switch( dt ) {
