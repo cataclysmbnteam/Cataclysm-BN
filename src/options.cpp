@@ -1890,6 +1890,13 @@ void options_manager::add_options_graphics()
 
     get_option( "TILES" ).setPrerequisite( "USE_TILES" );
 
+    add( "USE_TILES_OVERMAP", "graphics", translate_marker( "Use tiles to display overmap" ),
+         translate_marker( "If true, replaces some TTF-rendered text with tiles for overmap display." ),
+         false, COPT_CURSES_HIDE
+       );
+
+    get_option( "USE_TILES_OVERMAP" ).setPrerequisite( "USE_TILES" );
+
     add_empty_line();
 
     add( "MEMORY_MAP_MODE", "graphics", translate_marker( "Memory map drawing mode" ),
@@ -2604,10 +2611,12 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
             tilecontext->load_tileset( get_option<std::string>( "TILES" ) );
             //game_ui::init_ui is called when zoom is changed
             g->reset_zoom();
+            g->mark_main_ui_adaptor_resize();
             tilecontext->do_tile_loading_report();
         } catch( const std::exception &err ) {
             popup( _( "Loading the tileset failed: %s" ), err.what() );
             use_tiles = false;
+            use_tiles_overmap = false;
         }
     } else if( ingame && pixel_minimap_option && pixel_minimap_height_changed ) {
         g->mark_main_ui_adaptor_resize();
@@ -2832,7 +2841,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             if( is_visible( i ) ) {
                 visible_items.push_back( i );
                 if( i == iCurrentLine ) {
-                    curr_line_visible = static_cast<int>( visible_items.size() );
+                    curr_line_visible = static_cast<int>( visible_items.size() ) - 1;
                 }
             }
         }
@@ -3274,6 +3283,7 @@ void options_manager::cache_to_globals()
     json_report_unused_fields = ::get_option<bool>( "REPORT_UNUSED_JSON_FIELDS" );
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
+    use_tiles_overmap = ::get_option<bool>( "USE_TILES_OVERMAP" );
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );

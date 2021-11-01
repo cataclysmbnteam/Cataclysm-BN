@@ -31,6 +31,12 @@ extern bool json_report_unused_fields;
  */
 extern bool use_tiles;
 
+/**
+ * Use tiles for 'm'ap display. Always false for ncurses build,
+ * but can be toggled in sdl build.
+ */
+extern bool use_tiles_overmap;
+
 /** Flow direction for the message log in the sidebar. */
 extern bool log_from_top;
 extern int message_ttl;
