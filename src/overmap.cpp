@@ -1918,7 +1918,7 @@ bool overmap::generate_sub( const int z )
 bool overmap::generate_over( const int z )
 {
     bool requires_over = false;
-    std::vector<point> bridge_points;
+    std::vector<point_om_omt> bridge_points;
 
     // These are so common that it's worth checking first as int.
     const std::set<oter_id> skip_below = {
@@ -1929,9 +1929,9 @@ bool overmap::generate_over( const int z )
     if( z == 1 ) {
         for( int i = 0; i < OMAPX; i++ ) {
             for( int j = 0; j < OMAPY; j++ ) {
-                tripoint p( i, j, z );
+                tripoint_om_omt p( i, j, z );
                 const oter_id oter_below = ter( p + tripoint_below );
-                const oter_id oter_ground = ter( tripoint( p.xy(), 0 ) );
+                const oter_id oter_ground = ter( tripoint_om_omt( p.xy(), 0 ) );
 
                 // implicitly skip skip_below oter_ids
                 if( skip_below.find( oter_below ) != skip_below.end() ) {
@@ -1947,13 +1947,13 @@ bool overmap::generate_over( const int z )
     }
 
     // Check and put bridgeheads
-    std::vector<std::pair<point, std::string>> bridgehead_points;
-    for( const point &bp : bridge_points ) {
-        //const oter_id oter_ground = ter( tripoint( bp, 0 ) );
-        const oter_id oter_ground_north = ter( tripoint( bp, 0 ) + tripoint_north );
-        const oter_id oter_ground_south = ter( tripoint( bp, 0 ) + tripoint_south );
-        const oter_id oter_ground_east = ter( tripoint( bp, 0 ) + tripoint_east );
-        const oter_id oter_ground_west = ter( tripoint( bp, 0 ) + tripoint_west );
+    std::vector<std::pair<point_om_omt, std::string>> bridgehead_points;
+    for( const point_om_omt &bp : bridge_points ) {
+        tripoint_om_omt bp_om( bp, 0 );
+        const oter_id oter_ground_north = ter( bp_om + tripoint_north );
+        const oter_id oter_ground_south = ter( bp_om + tripoint_south );
+        const oter_id oter_ground_east = ter( bp_om + tripoint_east );
+        const oter_id oter_ground_west = ter( bp_om + tripoint_west );
         const bool is_bridge_north = is_ot_match( "bridge", oter_ground_north, ot_match_type::type );
         const bool is_bridge_south = is_ot_match( "bridge", oter_ground_south, ot_match_type::type );
         const bool is_bridge_east = is_ot_match( "bridge", oter_ground_east, ot_match_type::type );
@@ -1973,8 +1973,8 @@ bool overmap::generate_over( const int z )
             bridgehead_points.emplace_back( bp, ramp_facing );
         }
     }
-    for( const std::pair<point, std::string> &bhp : bridgehead_points ) {
-        tripoint p( bhp.first, 0 );
+    for( const std::pair<point_om_omt, std::string> &bhp : bridgehead_points ) {
+        tripoint_om_omt p( bhp.first, 0 );
         ter_set( p, oter_id( "bridgehead_ground" + bhp.second ) );
         ter_set( p + tripoint_above, oter_id( "bridgehead_ramp" + bhp.second ) );
     }

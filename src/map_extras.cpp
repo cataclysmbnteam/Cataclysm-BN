@@ -1093,7 +1093,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
 
     tinymap m;
     if( bridge_at_north && bridgehead_at_center && road_at_south ) {
-        m.load( omt_to_sm_copy( abs_omt + point_south ), false );
+        m.load( project_to<coords::sm>( abs_omt + point_south ), false );
 
         //Sandbag block at the left edge
         line_furn( &m, f_sandbag_half, point( 3, 4 ), point( 3, 7 ) );
@@ -1193,7 +1193,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
     }
 
     if( bridge_at_south && bridgehead_at_center && road_at_north ) {
-        m.load( omt_to_sm_copy( abs_omt + point_north ), false );
+        m.load( project_to<coords::sm>( abs_omt + point_north ), false );
         //Two horizontal lines of sandbags
         line_furn( &m, f_sandbag_half, point( 5, 15 ), point( 10, 15 ) );
         line_furn( &m, f_sandbag_half, point( 13, 15 ), point( 18, 15 ) );
@@ -1295,7 +1295,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
     }
 
     if( bridge_at_west && bridgehead_at_center && road_at_east ) {
-        m.load( omt_to_sm_copy( abs_omt + point_east ), false );
+        m.load( project_to<coords::sm>( abs_omt + point_east ), false );
         //Draw walls of first tent
         square_furn( &m, f_canvas_wall, point( 0, 3 ), point( 4, 13 ) );
 
@@ -1442,7 +1442,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
     }
 
     if( bridge_at_east && bridgehead_at_center && road_at_west ) {
-        m.load( omt_to_sm_copy( abs_omt + point_west ), false );
+        m.load( project_to<coords::sm>( abs_omt + point_west ), false );
         //Spawn military cargo truck blocking the entry
         m.add_vehicle( vproto_id( "military_cargo_truck" ), point( 15, 11 ), 270, 70, 1 );
 
