@@ -90,7 +90,7 @@
     "encumbrance": 35,
     "warmth": 10,
     "material_thickness": 3,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "flags": [ "BELTED", "WATER_FRIENDLY", "NO_SALVAGE" ],
     "use_action": { "type": "unpack", "group": "gobag_contents", "filthy_volume_threshold": "10 L" }
   },
   {

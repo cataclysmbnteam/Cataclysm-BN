@@ -13,7 +13,7 @@
     "symbol": "!",
     "color": "red",
     "use_action": "DISASSEMBLE",
-    "flags": [ "NO_REPAIR" ]
+    "flags": [ "NO_REPAIR", "NO_SALVAGE" ]
   },
   {
     "id": "melatonin_tablet",

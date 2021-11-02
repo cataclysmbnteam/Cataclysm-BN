@@ -1,10 +1,10 @@
 [
   {
-    "id": "radio_car_box",
+    "id": "radio_car_base",
     "type": "GENERIC",
     "category": "other",
-    "name": { "str": "radio car box", "str_pl": "radio car boxes" },
-    "description": "An RC car, with radio-control and batteries included!  Disassemble to unpack and enjoy.",
+    "name": { "str": "radio car base" },
+    "description": "Generic radio car kit, you shouldn't see this.",
     "weight": "3200 g",
     "volume": "2 L",
     "price": 30000,
@@ -15,8 +15,17 @@
     "color": "red"
   },
   {
+    "id": "radio_car_box",
+    "copy-from": "radio_car_base",
+    "type": "GENERIC",
+    "name": { "str": "radio car box", "str_pl": "radio car boxes" },
+    "description": "An RC car, with radio-control and batteries included!  Disassemble to unpack and enjoy.",
+    "use_action": "DISASSEMBLE",
+    "flags": [ "NO_REPAIR", "NO_SALVAGE" ]
+  },
+  {
     "id": "radiocontrol",
-    "copy-from": "radio_car_box",
+    "copy-from": "radio_car_base",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "RC control" },
@@ -46,7 +55,7 @@
   },
   {
     "id": "radio_car",
-    "copy-from": "radio_car_box",
+    "copy-from": "radio_car_base",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "RC car" },
