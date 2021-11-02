@@ -2233,7 +2233,7 @@
     "type": "terrain",
     "id": "t_door_metal_pickable",
     "name": "closed metal door",
-    "description": "An extremely resilient door made of assorted steel, carved and pounded into shape.  This one has an extra keyhole, so it's likely locked.  You could probably pick the lock.",
+    "description": "An extremely resilient door made of assorted steel, carved and pounded into shape.  This one has an extra keyhole, so it's likely locked.  You could probably pick the lock, or a very strong tool could pry it open.",
     "//": "Actually pickable, but locked",
     "symbol": "+",
     "looks_like": "t_door_metal_locked",
@@ -2255,6 +2255,15 @@
         { "item": "steel_plate", "prob": 75 },
         { "item": "hinge", "count": [ 1, 3 ] }
       ]
+    },
+    "pry": {
+      "success_message": "You pry open the door.",
+      "fail_message": "You pry, but cannot pry open the door.",
+      "pry_quality": 4,
+      "noise": 16,
+      "sound": "metal screeching!",
+      "difficulty": 6,
+      "new_ter_type": "t_door_metal_o"
     }
   },
   {
