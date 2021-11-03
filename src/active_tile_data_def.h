@@ -12,7 +12,7 @@ class battery_tile : public active_tile_data
         int stored;
         int max_stored;
 
-        void update_internal( time_point to, const tripoint &p, distribution_grid &grid ) override;
+        void update_internal( time_point to, const tripoint_abs_ms &p, distribution_grid &grid ) override;
         active_tile_data *clone() const override;
         const std::string &get_type() const override;
         void store( JsonOut &jsout ) const override;
@@ -28,7 +28,7 @@ class charger_tile : public active_tile_data
         /* In W */
         int power;
 
-        void update_internal( time_point to, const tripoint &p, distribution_grid &grid ) override;
+        void update_internal( time_point to, const tripoint_abs_ms &p, distribution_grid &grid ) override;
         active_tile_data *clone() const override;
         const std::string &get_type() const override;
         void store( JsonOut &jsout ) const override;
@@ -41,7 +41,7 @@ class solar_tile : public active_tile_data
         /* In W */
         int power;
 
-        void update_internal( time_point to, const tripoint &p, distribution_grid &grid ) override;
+        void update_internal( time_point to, const tripoint_abs_ms &p, distribution_grid &grid ) override;
         active_tile_data *clone() const override;
         const std::string &get_type() const override;
         void store( JsonOut &jsout ) const override;
@@ -51,10 +51,9 @@ class solar_tile : public active_tile_data
 class vehicle_connector_tile : public active_tile_data
 {
     public:
-        /* In absolute map square coordinates */
-        std::vector<tripoint> connected_vehicles;
+        std::vector<tripoint_abs_ms> connected_vehicles;
 
-        void update_internal( time_point to, const tripoint &p, distribution_grid &grid ) override;
+        void update_internal( time_point to, const tripoint_abs_ms &p, distribution_grid &grid ) override;
         active_tile_data *clone() const override;
         const std::string &get_type() const override;
         void store( JsonOut &jsout ) const override;

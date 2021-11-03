@@ -4,6 +4,7 @@
 
 #include <string>
 #include "calendar.h"
+#include "coordinates.h"
 
 class JsonObject;
 class JsonOut;
@@ -24,10 +25,11 @@ class active_tile_data
          * @param p absolute map coordinates (@ref map::getabs) of the tile being updated
          * @param grid distribution grid being updated, containing the tile being updated
          */
-        virtual void update_internal( time_point to, const tripoint &p, distribution_grid &grid ) = 0;
+        virtual void update_internal( time_point to, const tripoint_abs_ms &p,
+                                      distribution_grid &grid ) = 0;
 
     public:
-        void update( time_point to, const tripoint &p, distribution_grid &grid ) {
+        void update( time_point to, const tripoint_abs_ms &p, distribution_grid &grid ) {
             update_internal( to, p, grid );
             last_updated = to;
         }
@@ -56,7 +58,7 @@ namespace active_tiles
 
 // TODO: Don't return a raw pointer
 template <typename T = active_tile_data>
-T * furn_at( const tripoint &pos );
+T * furn_at( const tripoint_abs_ms &pos );
 
 } // namespace active_tiles
 

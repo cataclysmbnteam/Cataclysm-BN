@@ -4892,10 +4892,10 @@ int traverse( StartPoint *start, int amount,
     visited_elements.insert( start );
     auto &grid_tracker = get_distribution_grid_tracker();
 
-    auto process_vehicle = [&]( const tripoint & target_pos ) {
+    auto process_vehicle = [&]( const tripoint_abs_ms & target_pos ) {
         auto *veh = vehicle::find_vehicle( target_pos );
         if( veh == nullptr ) {
-            debugmsg( "lost vehicle at %d,%d,%d", target_pos.x, target_pos.y, target_pos.z );
+            debugmsg( "lost vehicle at %s", target_pos.to_string() );
         }
         // Add this connected vehicle to the queue of vehicles to search next,
         // but only if we haven't seen this one before.
@@ -4913,10 +4913,10 @@ int traverse( StartPoint *start, int amount,
         return false;
     };
 
-    auto process_grid = [&]( const tripoint & target_pos ) {
+    auto process_grid = [&]( const tripoint_abs_ms & target_pos ) {
         auto *grid = &grid_tracker.grid_at( target_pos );
         if( !*grid ) {
-            debugmsg( "lost grid at %d,%d,%d", target_pos.x, target_pos.y, target_pos.z );
+            debugmsg( "lost grid at %s", target_pos.to_string() );
         }
         if( *grid && visited_elements.count( grid ) == 0 ) {
             connected_elements.emplace( grid );
@@ -4944,7 +4944,7 @@ int traverse( StartPoint *start, int amount,
                     continue;
                 }
 
-                const tripoint target_pos = current_veh.parts[p].target.second;
+                const tripoint_abs_ms target_pos( current_veh.parts[p].target.second );
                 if( current_veh.parts[p].has_flag( vehicle_part::targets_grid ) ) {
                     if( process_grid( target_pos ) ) {
                         break;
@@ -4964,7 +4964,7 @@ int traverse( StartPoint *start, int amount,
                     continue;
                 }
 
-                for( const tripoint &target_pos : connector->connected_vehicles ) {
+                for( const tripoint_abs_ms &target_pos : connector->connected_vehicles ) {
                     if( process_vehicle( target_pos ) ) {
                         break;
                     }
@@ -6099,10 +6099,10 @@ void vehicle::remove_remote_part( int part_num )
 {
     if( parts[part_num].has_flag( vehicle_part::targets_grid ) ) {
         vehicle_connector_tile *connector =
-            active_tiles::furn_at<vehicle_connector_tile>( parts[part_num].target.second );
+            active_tiles::furn_at<vehicle_connector_tile>( tripoint_abs_ms( parts[part_num].target.second ) );
         if( connector != nullptr ) {
             auto &vehs = connector->connected_vehicles;
-            auto iter = std::find( vehs.begin(), vehs.end(), g->m.getabs( global_pos3() ) );
+            auto iter = std::find( vehs.begin(), vehs.end(), tripoint_abs_ms( g->m.getabs( global_pos3() ) ) );
             if( iter != vehs.end() ) {
                 vehs.erase( iter );
             }

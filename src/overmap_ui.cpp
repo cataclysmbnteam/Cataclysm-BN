@@ -102,7 +102,7 @@ struct grids_draw_data {
     public:
         cata::optional<char> get_active( const tripoint_abs_omt &omp ) {
             // TODO: fix point types
-            uintptr_t id = get_distribution_grid_tracker().debug_grid_id( omp.raw() );
+            uintptr_t id = get_distribution_grid_tracker().debug_grid_id( omp );
             if( id == 0 ) {
                 return cata::nullopt;
             }

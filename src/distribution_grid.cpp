@@ -14,12 +14,12 @@
 
 static distribution_grid empty_grid( {}, MAPBUFFER );
 
-distribution_grid::distribution_grid( const std::vector<tripoint> &global_submap_coords,
+distribution_grid::distribution_grid( const std::vector<tripoint_abs_sm> &global_submap_coords,
                                       mapbuffer &buffer ) :
     submap_coords( global_submap_coords ),
     mb( buffer )
 {
-    for( const tripoint &sm_coord : submap_coords ) {
+    for( const tripoint_abs_sm &sm_coord : submap_coords ) {
         submap *sm = mb.lookup_submap( sm_coord );
         if( sm == nullptr ) {
             // Debugmsg already printed in mapbuffer.cpp
@@ -27,8 +27,7 @@ distribution_grid::distribution_grid( const std::vector<tripoint> &global_submap
         }
 
         for( auto &active : sm->active_furniture ) {
-            const tripoint ms_pos = sm_to_ms_copy( sm_coord );
-            const tripoint abs_pos = ms_pos + active.first;
+            const tripoint_abs_ms abs_pos = project_combine( sm_coord, active.first );
             contents[sm_coord].emplace_back( active.first, abs_pos );
             flat_contents.emplace_back( abs_pos );
         }
@@ -47,7 +46,7 @@ distribution_grid::operator bool() const
 
 void distribution_grid::update( time_point to )
 {
-    for( const std::pair<const tripoint, std::vector<tile_location>> &c : contents ) {
+    for( const auto &c : contents ) {
         submap *sm = mb.lookup_submap( c.first );
         if( sm == nullptr ) {
             return;
@@ -56,8 +55,7 @@ void distribution_grid::update( time_point to )
         for( const tile_location &loc : c.second ) {
             auto &active = sm->active_furniture[loc.on_submap];
             if( !active ) {
-                debugmsg( "No active furniture at %d,%d,%d",
-                          loc.absolute.x, loc.absolute.y, loc.absolute.z );
+                debugmsg( "No active furniture at %s", loc.absolute.to_string() );
                 contents.clear();
                 return;
             }
@@ -72,7 +70,7 @@ static itype_id itype_battery( "battery" );
 int distribution_grid::mod_resource( int amt, bool recurse )
 {
     std::vector<vehicle *> connected_vehicles;
-    for( const std::pair<const tripoint, std::vector<tile_location>> &c : contents ) {
+    for( const auto &c : contents ) {
         for( const tile_location &loc : c.second ) {
             battery_tile *battery = active_tiles::furn_at<battery_tile>( loc.absolute );
             if( battery != nullptr ) {
@@ -89,11 +87,11 @@ int distribution_grid::mod_resource( int amt, bool recurse )
 
             vehicle_connector_tile *connector = active_tiles::furn_at<vehicle_connector_tile>( loc.absolute );
             if( connector != nullptr ) {
-                for( const tripoint &veh_abs : connector->connected_vehicles ) {
+                for( const tripoint_abs_ms &veh_abs : connector->connected_vehicles ) {
                     vehicle *veh = vehicle::find_vehicle( veh_abs );
                     if( veh == nullptr ) {
                         // TODO: Disconnect
-                        debugmsg( "lost vehicle at %d,%d,%d", veh_abs.x, veh_abs.y, veh_abs.z );
+                        debugmsg( "lost vehicle at %s", veh_abs.to_string() );
                         continue;
                     }
                     connected_vehicles.push_back( veh );
@@ -118,7 +116,7 @@ int distribution_grid::get_resource( bool recurse ) const
 {
     int res = 0;
     std::vector<vehicle *> connected_vehicles;
-    for( const std::pair<const tripoint, std::vector<tile_location>> &c : contents ) {
+    for( const auto &c : contents ) {
         for( const tile_location &loc : c.second ) {
             battery_tile *battery = active_tiles::furn_at<battery_tile>( loc.absolute );
             if( battery != nullptr ) {
@@ -132,11 +130,11 @@ int distribution_grid::get_resource( bool recurse ) const
 
             vehicle_connector_tile *connector = active_tiles::furn_at<vehicle_connector_tile>( loc.absolute );
             if( connector != nullptr ) {
-                for( const tripoint &veh_abs : connector->connected_vehicles ) {
+                for( const tripoint_abs_ms &veh_abs : connector->connected_vehicles ) {
                     vehicle *veh = vehicle::find_vehicle( veh_abs );
                     if( veh == nullptr ) {
                         // TODO: Disconnect
-                        debugmsg( "lost vehicle at %d,%d,%d", veh_abs.x, veh_abs.y, veh_abs.z );
+                        debugmsg( "lost vehicle at %s", veh_abs.to_string() );
                         continue;
                     }
                     connected_vehicles.push_back( veh );
@@ -162,7 +160,8 @@ distribution_grid_tracker::distribution_grid_tracker( mapbuffer &buffer )
 {
 }
 
-distribution_grid &distribution_grid_tracker::make_distribution_grid_at( const tripoint &sm_pos )
+distribution_grid &distribution_grid_tracker::make_distribution_grid_at(
+    const tripoint_abs_sm &sm_pos )
 {
     if( !get_option<bool>( "ELECTRIC_GRID" ) ) {
         return empty_grid;
@@ -171,9 +170,9 @@ distribution_grid &distribution_grid_tracker::make_distribution_grid_at( const t
     const std::set<tripoint_abs_omt> overmap_positions = overmap_buffer.electric_grid_at(
                 project_to<coords::omt>( tripoint_abs_sm( sm_pos ) ) );
     assert( !overmap_positions.empty() );
-    std::vector<tripoint> submap_positions;
+    std::vector<tripoint_abs_sm> submap_positions;
     for( const tripoint_abs_omt &omp : overmap_positions ) {
-        tripoint tp = project_to<coords::sm>( omp ).raw();
+        tripoint_abs_sm tp = project_to<coords::sm>( omp );
         submap_positions.emplace_back( tp + point_zero );
         submap_positions.emplace_back( tp + point_east );
         submap_positions.emplace_back( tp + point_south );
@@ -181,7 +180,7 @@ distribution_grid &distribution_grid_tracker::make_distribution_grid_at( const t
     }
     shared_ptr_fast<distribution_grid> dist_grid = make_shared_fast<distribution_grid>
             ( submap_positions, mb );
-    for( const tripoint &smp : submap_positions ) {
+    for( const tripoint_abs_sm &smp : submap_positions ) {
         parent_distribution_grids[smp] = dist_grid;
     }
 
@@ -201,19 +200,19 @@ void distribution_grid_tracker::on_saved()
         world_generator->active_world == nullptr ) {
         return;
     }
-    tripoint min_bounds = tripoint( bounds.p_min, -OVERMAP_DEPTH );
-    tripoint max_bounds = tripoint( bounds.p_max, OVERMAP_HEIGHT );
+    tripoint_abs_sm min_bounds( bounds.p_min, -OVERMAP_DEPTH );
+    tripoint_abs_sm max_bounds( bounds.p_max, OVERMAP_HEIGHT );
     // TODO: Only those which existed before the save
-    for( const tripoint &sm_pos : tripoint_range<tripoint>( min_bounds, max_bounds ) ) {
+    for( const tripoint_abs_sm &sm_pos : tripoint_range<tripoint_abs_sm>( min_bounds, max_bounds ) ) {
         if( parent_distribution_grids.find( sm_pos ) == parent_distribution_grids.end() ) {
             make_distribution_grid_at( sm_pos );
         }
     }
 }
 
-void distribution_grid_tracker::on_changed( const tripoint &p )
+void distribution_grid_tracker::on_changed( const tripoint_abs_ms &p )
 {
-    tripoint sm_pos = ms_to_sm_copy( p );
+    tripoint_abs_sm sm_pos = project_to<coords::sm>( p );
     // TODO: If not in bounds, just drop the grid, rebuild lazily
     if( parent_distribution_grids.count( sm_pos ) > 0 ||
         bounds.contains( sm_pos.xy() ) ) {
@@ -228,9 +227,9 @@ void distribution_grid_tracker::on_options_changed()
     on_saved();
 }
 
-distribution_grid &distribution_grid_tracker::grid_at( const tripoint &p )
+distribution_grid &distribution_grid_tracker::grid_at( const tripoint_abs_ms &p )
 {
-    tripoint sm_pos = ms_to_sm_copy( p );
+    tripoint_abs_sm sm_pos = project_to<coords::sm>( p );
     auto iter = parent_distribution_grids.find( sm_pos );
     if( iter != parent_distribution_grids.end() ) {
         return *iter->second;
@@ -240,15 +239,15 @@ distribution_grid &distribution_grid_tracker::grid_at( const tripoint &p )
     return make_distribution_grid_at( sm_pos );
 }
 
-const distribution_grid &distribution_grid_tracker::grid_at( const tripoint &p ) const
+const distribution_grid &distribution_grid_tracker::grid_at( const tripoint_abs_ms &p ) const
 {
     return const_cast<const distribution_grid &>(
                const_cast<distribution_grid_tracker *>( this )->grid_at( p ) );
 }
 
-std::uintptr_t distribution_grid_tracker::debug_grid_id( const tripoint &omp ) const
+std::uintptr_t distribution_grid_tracker::debug_grid_id( const tripoint_abs_omt &omp ) const
 {
-    tripoint sm_pos = omt_to_sm_copy( omp );
+    tripoint_abs_sm sm_pos = project_to<coords::sm>( omp );
     auto iter = parent_distribution_grids.find( sm_pos );
     if( iter != parent_distribution_grids.end() ) {
         distribution_grid *ret = iter->second.get();
@@ -270,7 +269,7 @@ void distribution_grid_tracker::update( time_point to )
     }
 }
 
-void distribution_grid_tracker::load( half_open_rectangle<point> area )
+void distribution_grid_tracker::load( half_open_rectangle<point_abs_sm> area )
 {
     bounds = area;
     // TODO: Don't reload everything when not needed
@@ -279,7 +278,7 @@ void distribution_grid_tracker::load( half_open_rectangle<point> area )
 
 void distribution_grid_tracker::load( const map &m )
 {
-    point p_min = m.get_abs_sub().xy();
-    point p_max = p_min + point( m.getmapsize(), m.getmapsize() );
-    load( half_open_rectangle<point>( p_min, p_max ) );
+    point_abs_sm p_min( m.get_abs_sub().xy() );
+    point_abs_sm p_max( p_min + point( m.getmapsize(), m.getmapsize() ) );
+    load( half_open_rectangle<point_abs_sm>( p_min, p_max ) );
 }

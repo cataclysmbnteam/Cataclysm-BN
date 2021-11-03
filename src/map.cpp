@@ -1381,13 +1381,13 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
     support_dirty( above );
 
     if( old_t.active ) {
-        current_submap->active_furniture.erase( l );
+        current_submap->active_furniture.erase( point_sm_ms( l ) );
         // TODO: Only for g->m? Observer pattern?
-        get_distribution_grid_tracker().on_changed( getabs( p ) );
+        get_distribution_grid_tracker().on_changed( tripoint_abs_ms( getabs( p ) ) );
     }
     if( new_t.active ) {
-        current_submap->active_furniture[l].reset( new_t.active->clone() );
-        get_distribution_grid_tracker().on_changed( getabs( p ) );
+        current_submap->active_furniture[point_sm_ms( l )].reset( new_t.active->clone() );
+        get_distribution_grid_tracker().on_changed( tripoint_abs_ms( getabs( p ) ) );
     }
 }
 
@@ -4828,7 +4828,7 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
 
     const itype *itt = f.crafting_pseudo_item_type();
     if( itt != nullptr && itt->item_tags.count( flag_USES_GRID_POWER ) > 0 ) {
-        const tripoint abspos = m->getabs( p );
+        const tripoint_abs_ms abspos( m->getabs( p ) );
         auto &grid = get_distribution_grid_tracker().grid_at( abspos );
         item furn_item( itt, calendar::start_of_cataclysm, grid.get_resource() );
         int initial_quantity = quantity;
