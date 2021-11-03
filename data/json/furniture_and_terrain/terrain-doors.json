@@ -2260,9 +2260,9 @@
       "success_message": "You pry open the door.",
       "fail_message": "You pry, but cannot pry open the door.",
       "pry_quality": 4,
-      "noise": 16,
+      "noise": 24,
       "sound": "metal screeching!",
-      "difficulty": 6,
+      "difficulty": 8,
       "new_ter_type": "t_door_metal_o"
     }
   },
