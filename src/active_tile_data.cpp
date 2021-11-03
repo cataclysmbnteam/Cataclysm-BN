@@ -1,4 +1,6 @@
 #include "active_tile_data.h"
+#include "active_tile_data_def.h"
+
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "distribution_grid.h"

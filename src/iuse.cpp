@@ -19,6 +19,7 @@
 
 #include "action.h"
 #include "activity_actor.h"
+#include "active_tile_data_def.h"
 #include "artifact.h"
 #include "avatar.h"
 #include "bodypart.h"

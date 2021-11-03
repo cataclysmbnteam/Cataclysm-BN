@@ -18,6 +18,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include "active_tile_data_def.h"
 #include "avatar.h"
 #include "bionics.h"
 #include "cata_utility.h"

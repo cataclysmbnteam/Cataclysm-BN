@@ -4,6 +4,7 @@
 #include "distribution_grid.h"
 #include "coordinate_conversions.h"
 #include "active_tile_data.h"
+#include "active_tile_data_def.h"
 #include "map.h"
 #include "mapbuffer.h"
 #include "map_iterator.h"

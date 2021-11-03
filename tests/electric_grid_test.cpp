@@ -1,6 +1,7 @@
 #include <vector>
 
 #include "active_tile_data.h"
+#include "active_tile_data_def.h"
 #include "catch/catch.hpp"
 #include "coordinate_conversions.h"
 #include "distribution_grid.h"
