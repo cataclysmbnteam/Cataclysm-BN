@@ -21,7 +21,7 @@
     "difficulty": 2,
     "time": "6 m",
     "autolearn": true,
-    "using": [ [ "tailoring_cotton_knitting", 80 ] ]
+    "using": [ [ "tailoring_wool_knitting", 80 ] ]
   },
   {
     "type": "recipe",
