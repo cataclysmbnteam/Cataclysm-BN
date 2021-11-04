@@ -706,7 +706,8 @@ inline bool handle_proportional( const JsonObject &jo, const std::string &name, 
         JsonObject proportional = jo.get_object( "proportional" );
         proportional.allow_omitted_members();
         if( proportional.has_member( name ) ) {
-            debugmsg( "Member %s of type %s does not support proportional", name, typeid( MemberType ).name() );
+            debugmsg( "Member %s of type %s does not support proportional", name,
+                      demangle( typeid( MemberType ).name() ) );
         }
     }
     return false;
@@ -756,7 +757,8 @@ inline bool handle_relative( const JsonObject &jo, const std::string &name, Memb
         if( !relative.has_member( name ) ) {
             return false;
         }
-        debugmsg( "Member %s of type %s does not support relative", name, typeid( MemberType ).name() );
+        debugmsg( "Member %s of type %s does not support relative", name,
+                  demangle( typeid( MemberType ).name() ) );
     }
     return false;
 }
