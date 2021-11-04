@@ -1889,6 +1889,16 @@ std::string inventory_selector::action_bound_to_key( char key ) const
     return std::string();
 }
 
+std::vector<char> inventory_selector::all_bound_keys() const
+{
+    std::vector<char> retv;
+    for( const std::string &action_descriptor : ctxt.get_registered_actions_copy() ) {
+        std::vector<char> to_add = ctxt.keys_bound_to( action_descriptor );
+        retv.insert( retv.end(), to_add.begin(), to_add.end() );
+    }
+    return retv;
+}
+
 item_location inventory_pick_selector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
