@@ -16,8 +16,11 @@ class player;
 class spell;
 class turret_data;
 class vehicle;
+class shape;
+class shape_factory;
 struct itype;
 struct tripoint;
+struct projectile;
 struct vehicle_part;
 
 namespace target_handler
@@ -44,6 +47,10 @@ trajectory mode_turrets( avatar &you, vehicle &veh, const std::vector<vehicle_pa
 
 /** Casting a spell */
 trajectory mode_spell( avatar &you, spell &casting, bool no_fail, bool no_mana );
+
+/** Executing an AoE attack given by shape. */
+trajectory mode_shaped( avatar &you, shape_factory &shape_fac, aim_activity_actor &activity );
+
 } // namespace target_handler
 
 int range_with_even_chance_of_good_hit( int dispersion );
@@ -79,6 +86,9 @@ int throw_dispersion_per_dodge( const Character &c, bool add_encumbrance );
 int throwing_dispersion( const Character &c, const item &to_throw, Creature *critter,
                          bool is_blind_throw );
 int throw_cost( const player &c, const item &to_throw );
+
+/** AoE attack, with area given by shape */
+void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &attacker );
 
 } // namespace ranged
 

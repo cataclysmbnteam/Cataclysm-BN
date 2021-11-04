@@ -1,11 +1,10 @@
-#include "shape.h"
-#include "shape_impl.h"
-
 #include <set>
 
 #include "debug.h"
 #include "json.h"
 #include "make_static.h"
+#include "shape.h"
+#include "shape_impl.h"
 #include "point_float.h"
 
 shape::shape() = default;
@@ -39,6 +38,29 @@ double shape::distance_at( const rl_vec3d &p ) const
     return impl->signed_distance( p );
 }
 
+// TODO: Find good file
+#include "map.h"
+#include "map_iterator.h"
+std::map<tripoint, double> shape::coverage( const map &here ) const
+{
+    std::map<tripoint, double> cov;
+    inclusive_cuboid<tripoint> bb = bounding_box();
+    for( const tripoint &p : here.points_in_rectangle( bb.p_min, bb.p_max ) ) {
+        double shape_distance = distance_at( p );
+        if( shape_distance > 0.0 ) {
+            continue;
+        }
+        // TODO: Proper origin
+        // TODO: Proper range
+        // TODO: Proper limiting terrain
+        if( /*here.sees( attacker.pos(), p, 60 )*/ true ) {
+            cov[p] = -std::max( shape_distance, -1.0 );
+        }
+    }
+
+    return cov;
+}
+
 
 shape_factory::shape_factory() = default;
 shape_factory::shape_factory( const shape_factory & ) = default;
@@ -63,7 +85,7 @@ void shape_factory::deserialize( JsonIn &jsin )
 {
     jsin.start_array();
     std::string type_string = jsin.get_string();
-    if( type_string == "cone_factory" ) {
+    if( type_string == "cone" ) {
         impl = std::make_shared<cone_factory>();
         impl->deserialize( jsin );
     } else {

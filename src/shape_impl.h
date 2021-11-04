@@ -14,6 +14,7 @@
 #include "point.h"
 #include "point_float.h"
 #include "map_iterator.h"
+#include "make_static.h"
 #include "json.h"
 
 template<typename T>
@@ -99,7 +100,7 @@ class offset_shape : public shape_impl
 
         inclusive_cuboid<rl_vec3d> bounding_box() const override {
             const inclusive_cuboid<rl_vec3d> &bb = shape->bounding_box();
-            return inclusive_cuboid<rl_vec3d>( bb.p_min - offset, bb.p_max - offset );
+            return inclusive_cuboid<rl_vec3d>( bb.p_min + offset, bb.p_max + offset );
         }
 
     private:
@@ -125,18 +126,17 @@ class rotate_z_shape : public shape_impl
         inclusive_cuboid<rl_vec3d> bounding_box() const override {
             const inclusive_cuboid<rl_vec3d> &bb = shape->bounding_box();
             const std::set<rl_vec3d> pts = {
-                bb.p_min,
                 rl_vec3d( bb.p_max.x, bb.p_min.y, bb.p_min.z ),
                 rl_vec3d( bb.p_min.x, bb.p_max.y, bb.p_min.z ),
                 rl_vec3d( bb.p_max.x, bb.p_max.y, bb.p_min.z ),
                 rl_vec3d( bb.p_min.x, bb.p_min.y, bb.p_max.z ),
                 rl_vec3d( bb.p_max.x, bb.p_min.y, bb.p_max.z ),
-                rl_vec3d( bb.p_min.x, bb.p_max.y, bb.p_max.z ),
-                bb.p_max
+                rl_vec3d( bb.p_min.x, bb.p_max.y, bb.p_max.z )
             };
-            rl_vec3d min;
-            rl_vec3d max;
-            for( const rl_vec3d &v : pts ) {
+            rl_vec3d min = bb.p_min.rotated( -angle_z );
+            rl_vec3d max = bb.p_max.rotated( -angle_z );
+            for( const rl_vec3d &unrotated : pts ) {
+                rl_vec3d v = unrotated.rotated( -angle_z );
                 min.x = std::min( min.x, v.x );
                 min.y = std::min( min.y, v.y );
                 min.z = std::min( min.z, v.z );
@@ -163,7 +163,6 @@ class shape_factory_impl
         virtual void deserialize( JsonIn & ) {};
 };
 
-#include "make_static.h"
 class cone_factory : public shape_factory_impl
 {
     private:
@@ -190,7 +189,7 @@ class cone_factory : public shape_factory_impl
         }
 
         const std::string &get_type() const override {
-            return STATIC( "cone_factory" );
+            return STATIC( "cone" );
         }
 
         void serialize( JsonOut &jsout ) const override {

@@ -104,6 +104,18 @@ TEST_CASE( "cone_factory_test", "[shape]" )
         CHECK( s->distance_at( rl_vec3d( 8, 8, 0 ) ) > 0.0 );
         CHECK( s->distance_at( rl_vec3d( 9, 9, 0 ) ) > 0.0 );
         CHECK( s->distance_at( rl_vec3d( 10, 10, 0 ) ) > 0.0 );
+
+        auto bb = s->bounding_box();
+        CAPTURE( bb.p_min );
+        CAPTURE( bb.p_max );
+        CHECK( bb.contains( tripoint( 1, 1, 0 ) ) );
+        CHECK( bb.contains( tripoint( 2, 2, 0 ) ) );
+        CHECK( bb.contains( tripoint( 3, 3, 0 ) ) );
+        CHECK( bb.contains( tripoint( 4, 4, 0 ) ) );
+        CHECK( bb.contains( tripoint( 5, 5, 0 ) ) );
+
+        CHECK( !bb.contains( tripoint( -5, 0, 0 ) ) );
+        CHECK( !bb.contains( tripoint( 0, -5, 0 ) ) );
     }
 
     SECTION( "(15,5,0) to (-15,5,0)" ) {

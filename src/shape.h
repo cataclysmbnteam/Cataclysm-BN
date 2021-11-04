@@ -24,7 +24,9 @@ class shape
         double distance_at( const tripoint &p ) const;
         double distance_at( const rl_vec3d &p ) const;
         inclusive_cuboid<tripoint> bounding_box() const;
+        // TODO: Envelope instead of transformed bb
         inclusive_cuboid<rl_vec3d> bounding_box_float() const;
+        std::map<tripoint, double> coverage( const map &m ) const;
 
         shape();
         shape( const std::shared_ptr<shape_impl> & );
