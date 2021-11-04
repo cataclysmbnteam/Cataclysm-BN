@@ -18,6 +18,7 @@
 #include <memory>
 #include <optional>
 #include <ostream>
+#include <regex>
 #include <set>
 #include <sstream>
 #include <sys/stat.h>
@@ -29,6 +30,7 @@
 #include "cached_options.h"
 #include "color.h"
 #include "cursesdef.h"
+#include "demangle.h"
 #include "enum_bitset.h"
 #include "enum_conversions.h"
 #include "filesystem.h"
@@ -887,6 +889,57 @@ constexpr int bt_cnt = 20;
 static void *bt[bt_cnt];
 #endif
 
+#if !defined(_WIN32) && !defined(__ANDROID__)
+static void write_demangled_frame( std::ostream &out, const char *frame )
+{
+#if defined(__linux__)
+    // ./cataclysm(_ZN4game13handle_actionEv+0x47e8) [0xaaaae91e80fc]
+    static const std::regex symbol_regex( R"(^(.*)\((.*)\+(0x?[a-f0-9]*)\)\s\[(0x[a-f0-9]+)\]$)" );
+    std::cmatch match_result;
+    if( std::regex_search( frame, match_result, symbol_regex ) && match_result.size() == 5 ) {
+        std::csub_match file_name = match_result[1];
+        std::csub_match raw_symbol_name = match_result[2];
+        std::csub_match offset = match_result[3];
+        std::csub_match address = match_result[4];
+        out << "\n    " << file_name.str() << "(" << demangle( raw_symbol_name.str().c_str() ) << "+" <<
+            offset.str() << ") [" << address.str() << "]";
+    } else {
+        out << "\n    " << frame;
+    }
+#elif defined(MACOSX)
+    //1   cataclysm-tiles                     0x0000000102ba2244 _ZL9log_crashPKcS0_ + 608
+    static const std::regex symbol_regex( R"(^(.*)(0x[a-f0-9]{16})\s(.*)\s\+\s([0-9]+)$)" );
+    std::cmatch match_result;
+    if( std::regex_search( frame, match_result, symbol_regex ) && match_result.size() == 5 ) {
+        std::csub_match prefix = match_result[1];
+        std::csub_match address = match_result[2];
+        std::csub_match raw_symbol_name = match_result[3];
+        std::csub_match offset = match_result[4];
+        out << "\n    " << prefix.str() << address.str() << ' ' << demangle( raw_symbol_name.str().c_str() )
+            << " + " << offset.str();
+    } else {
+        out << "\n    " << frame;
+    }
+#elif defined(BSD)
+    static const std::regex symbol_regex( R"(^(0x[a-f0-9]+)\s<(.*)\+(0?x?[a-f0-9]*)>\sat\s(.*)$)" );
+    std::cmatch match_result;
+    if( std::regex_search( frame, match_result, symbol_regex ) && match_result.size() == 5 ) {
+        std::csub_match address = match_result[1];
+        std::csub_match raw_symbol_name = match_result[2];
+        std::csub_match offset = match_result[3];
+        std::csub_match file_name = match_result[4];
+        out << "\n    " << address.str() << " <" << demangle( raw_symbol_name.str().c_str() ) << "+" <<
+            offset.str() << "> at " << file_name.str();
+    } else {
+        out << "\n    " << frame;
+    }
+#else
+    out << "\n    " << frame;
+#endif
+}
+#endif // !defined(_WIN32) && !defined(__ANDROID__)
+
+#if !defined(__ANDROID__)
 void debug_write_backtrace( std::ostream &out )
 {
 #if defined(_WIN32)
