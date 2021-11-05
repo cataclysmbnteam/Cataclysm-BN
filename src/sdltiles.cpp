@@ -889,7 +889,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         for( int col = min_col; col < max_col; col++ ) {
             const tripoint_abs_omt omp = corner_NW + point( col, row );
 
-            const bool see = overmap_buffer.seen( omp );
+            const bool see = has_debug_vision || overmap_buffer.seen( omp );
             const bool los = see && you.overmap_los( omp, sight_points );
             // the full string from the ter_id including _north etc.
             std::string id;
