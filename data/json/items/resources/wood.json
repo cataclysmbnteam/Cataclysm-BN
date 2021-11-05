@@ -81,6 +81,7 @@
     "volume": "3750 ml",
     "bashing": 25,
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE" ],
+    "weapon_category": [ "POLEARMS" ],
     "price": 4000,
     "price_postapoc": 50,
     "qualities": [ [ "HAMMER", 1 ] ]
