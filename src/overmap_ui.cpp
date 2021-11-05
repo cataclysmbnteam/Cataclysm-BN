@@ -294,10 +294,10 @@ static void update_note_preview( const std::string &note,
     wnoutrefresh( *w_preview_map );
 }
 
-weather_type_id get_weather_at_point( const tripoint_abs_omt &pos )
+weather_type_id get_weather_at_point( const point_abs_omt &pos )
 {
     // Weather calculation is a bit expensive, so it's cached here.
-    static std::map<tripoint_abs_omt, weather_type_id> weather_cache;
+    static std::map<point_abs_omt, weather_type_id> weather_cache;
     static time_point last_weather_display = calendar::before_time_starts;
     if( last_weather_display != calendar::turn ) {
         last_weather_display = calendar::turn;
@@ -306,8 +306,9 @@ weather_type_id get_weather_at_point( const tripoint_abs_omt &pos )
     auto iter = weather_cache.find( pos );
     if( iter == weather_cache.end() ) {
         // TODO: fix point types
-        const tripoint abs_ms_pos = project_to<coords::ms>( pos ).raw();
-        const auto &wgen = overmap_buffer.get_settings( pos ).weather;
+        tripoint_abs_omt pos_z( pos, OVERMAP_HEIGHT );
+        const tripoint abs_ms_pos = project_to<coords::ms>( pos_z ).raw();
+        const auto &wgen = overmap_buffer.get_settings( pos_z ).weather;
         auto weather = wgen.get_weather_conditions( abs_ms_pos, calendar::turn, g->get_seed() );
         iter = weather_cache.insert( std::make_pair( pos, weather ) ).first;
     }
@@ -763,7 +764,7 @@ static tripoint_abs_omt show_notes_manager( const tripoint_abs_omt &origin )
 
 static void draw_ascii( const catacurses::window &w,
                         const tripoint_abs_omt &center,
-                        const tripoint_abs_omt &orig,
+                        const tripoint_abs_omt &/*orig*/,
                         bool blink,
                         bool show_explored,
                         bool /*fast_scroll*/,
@@ -777,7 +778,7 @@ static void draw_ascii( const catacurses::window &w,
     const int om_half_width = om_map_width / 2;
     const int om_half_height = om_map_height / 2;
     const bool viewing_weather =
-        ( ( uistate.overmap_debug_weather || uistate.overmap_visible_weather ) && center.z() == 10 );
+        ( ( uistate.overmap_debug_weather || uistate.overmap_visible_weather ) && center.z() >= 0 );
 
     avatar &player_character = get_avatar();
     // Target of current mission
@@ -952,9 +953,12 @@ static void draw_ascii( const catacurses::window &w,
         }
     }
 
+    tripoint_abs_omt pl_pos = get_player_character().global_omt_location();
+
     for( int i = 0; i < om_map_width; ++i ) {
         for( int j = 0; j < om_map_height; ++j ) {
             const tripoint_abs_omt omp = corner + point( i, j );
+            const tripoint_abs_omt omp_sky( omp.xy(), OVERMAP_HEIGHT );
             oter_id cur_ter = oter_str_id::NULL_ID();
             nc_color ter_color = c_black;
             std::string ter_sym = " ";
@@ -967,7 +971,7 @@ static void draw_ascii( const catacurses::window &w,
 
             // Check if location is within player line-of-sight
             const bool los = see && player_character.overmap_los( omp, sight_points );
-            const bool los_sky = player_character.overmap_los( omp, sight_points * 2 );
+            const bool los_sky = player_character.overmap_los( omp_sky, sight_points * 2 );
             int mycount = std::count( path_route.begin(), path_route.end(), omp );
             bool player_path_count = false;
             std::vector<tripoint_abs_omt>::iterator it =
@@ -975,12 +979,12 @@ static void draw_ascii( const catacurses::window &w,
             if( it != player_path_route.end() ) {
                 player_path_count = true;
             }
-            if( blink && omp == orig ) {
+            if( blink && omp == pl_pos ) {
                 // Display player pos, should always be visible
                 ter_color = player_character.symbol_color();
                 ter_sym = "@";
             } else if( viewing_weather && ( uistate.overmap_debug_weather || los_sky ) ) {
-                const weather_type_id type = get_weather_at_point( omp );
+                const weather_type_id type = get_weather_at_point( omp_sky.xy() );
                 ter_color = type->map_color;
                 ter_sym = type->get_symbol();
             } else if( data.debug_scent && get_scent_glyph( omp, ter_color, ter_sym ) ) {
@@ -1326,12 +1330,12 @@ static void draw_om_sidebar(
 
     // Describe the weather conditions on the following line, if weather is visible
     if( viewing_weather ) {
-        const bool weather_is_visible = ( uistate.overmap_debug_weather ||
-                                          player_character.overmap_los( center, sight_points * 2 ) );
+        const bool weather_is_visible = center.z() >= 0 && ( uistate.overmap_debug_weather ||
+                                        player_character.overmap_los( tripoint_abs_omt( center.xy(), OVERMAP_HEIGHT ), sight_points * 2 ) );
         if( weather_is_visible ) {
             // NOLINTNEXTLINE(cata-use-named-point-constants)
-            mvwprintz( wbar, point( 3, ++lines ), get_weather_at_point( center )->color,
-                       get_weather_at_point( center )->name.translated() );
+            mvwprintz( wbar, point( 3, ++lines ), get_weather_at_point( center.xy() )->color,
+                       get_weather_at_point( center.xy() )->name.translated() );
         } else {
             // NOLINTNEXTLINE(cata-use-named-point-constants)
             mvwprintz( wbar, point( 1, ++lines ), c_dark_gray, _( "# Weather unknown" ) );

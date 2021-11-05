@@ -876,7 +876,8 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                              you.overmap_sight_range( g->light_level( you.posz() ) ) :
                              100;
     const bool showhordes = uistate.overmap_show_hordes;
-    const bool viewing_weather = uistate.overmap_debug_weather || uistate.overmap_visible_weather;
+    const bool viewing_weather = ( ( uistate.overmap_debug_weather || uistate.overmap_visible_weather )
+                                   && center_abs_omt.z() >= 0 );
     o = corner_NW.raw().xy();
 
     const auto global_omt_to_draw_position = []( const tripoint_abs_omt & omp ) {
@@ -899,13 +900,15 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 const tripoint_abs_omt omp_sky( omp.xy(), OVERMAP_HEIGHT );
                 if( uistate.overmap_debug_weather ||
                     you.overmap_los( omp_sky, sight_points * 2 ) ) {
-                    id = overmap_ui::get_weather_at_point( omp_sky ).c_str();
+                    id = overmap_ui::get_weather_at_point( omp_sky.xy() ).c_str();
                 }
-            } else if( !see ) {
-                id = "unknown_terrain";
             }
             if( id.empty() ) {
-                id = get_omt_id_rotation_and_subtile( omp, rotation, subtile );
+                if( see ) {
+                    id = get_omt_id_rotation_and_subtile( omp, rotation, subtile );
+                } else {
+                    id = "unknown_terrain";
+                }
             }
 
             const lit_level ll = overmap_buffer.is_explored( omp ) ? lit_level::LOW : lit_level::LIT;
