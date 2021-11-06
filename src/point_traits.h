@@ -78,6 +78,30 @@ struct point_traits <
     static const float &z( const Point &p ) {
         return p.z;
     }
+    // TODO: Template
+    constexpr static float &at( Point &p, size_t i ) {
+        switch( i ) {
+            case 0:
+                return x( p );
+            case 1:
+                return y( p );
+            case 2:
+                return z( p );
+        }
+        // Template would make this impossible
+        return x( p );
+    }
+    constexpr static const float &at( const Point &p, size_t i ) {
+        switch( i ) {
+            case 0:
+                return x( p );
+            case 1:
+                return y( p );
+            case 2:
+                return z( p );
+        }
+        return x( p );
+    }
 };
 
 #endif // CATA_SRC_POINT_TRAITS_H

@@ -10,6 +10,7 @@
 #include "cata_utility.h"
 #include "cuboid_rectangle.h"
 #include "line.h"
+#include "matrix_math.h"
 #include "shape.h"
 #include "point.h"
 #include "point_float.h"
@@ -114,13 +115,20 @@ class offset_shape : public shape_impl
  */
 class rotate_z_shape : public shape_impl
 {
+    private:
+        std::shared_ptr<shape_impl> shape;
+        matrix_3d mat;
+        matrix_3d mat_inv;
+
     public:
         rotate_z_shape( const std::shared_ptr<shape_impl> &shape, double angle_z )
-            : shape( shape ), angle_z( -angle_z )
+            : shape( shape )
+            , mat( matrices::rotation_z_axis( -angle_z ) )
+            , mat_inv( matrices::rotation_z_axis( angle_z ) )
         {}
 
         double signed_distance( const rl_vec3d &p ) const override {
-            return shape->signed_distance( p.rotated( angle_z ) );
+            return shape->signed_distance( mat * p );
         }
 
         inclusive_cuboid<rl_vec3d> bounding_box() const override {
@@ -133,10 +141,10 @@ class rotate_z_shape : public shape_impl
                 rl_vec3d( bb.p_max.x, bb.p_min.y, bb.p_max.z ),
                 rl_vec3d( bb.p_min.x, bb.p_max.y, bb.p_max.z )
             };
-            rl_vec3d min = bb.p_min.rotated( -angle_z );
-            rl_vec3d max = bb.p_max.rotated( -angle_z );
+            rl_vec3d min = mat_inv * bb.p_min;
+            rl_vec3d max = mat_inv * bb.p_max;
             for( const rl_vec3d &unrotated : pts ) {
-                rl_vec3d v = unrotated.rotated( -angle_z );
+                rl_vec3d v = mat_inv * unrotated;
                 min.x = std::min( min.x, v.x );
                 min.y = std::min( min.y, v.y );
                 min.z = std::min( min.z, v.z );
@@ -146,10 +154,6 @@ class rotate_z_shape : public shape_impl
             }
             return inclusive_cuboid<rl_vec3d>( min, max );
         }
-
-    private:
-        std::shared_ptr<shape_impl> shape;
-        double angle_z;
 };
 
 class shape_factory_impl

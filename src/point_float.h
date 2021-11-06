@@ -12,7 +12,6 @@ struct rl_vec2d {
     float x;
     float y;
 
-    // vec2d(){}
     explicit rl_vec2d( float x = 0, float y = 0 ) : x( x ), y( y ) {}
     template<typename Point, typename Traits = point_traits<Point>>
     constexpr explicit rl_vec2d( const Point &p ) : x( Traits::x( p ) ), y( Traits::y( p ) ) {}
