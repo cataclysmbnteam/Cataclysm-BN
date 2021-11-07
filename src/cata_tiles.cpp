@@ -1586,12 +1586,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         };
 
         const auto is_mapbuffer = []( const tripoint & p ) {
-            for( const auto &it : MAPBUFFER ) {
-                if( it.first == p ) {
-                    return true;
-                }
-            }
-            return false;
+            return MAPBUFFER.is_submap_loaded( p );
         };
 
         constexpr int THICC = 1; // line thickness

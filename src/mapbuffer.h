@@ -65,6 +65,10 @@ class mapbuffer
             return submaps.end();
         }
 
+        bool is_submap_loaded( const tripoint &p ) const {
+            return submaps.count( p ) > 0;
+        }
+
     private:
         // There's a very good reason this is private,
         // if not handled carefully, this can erase in-use submaps and crash the game.
