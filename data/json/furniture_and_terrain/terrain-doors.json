@@ -2262,7 +2262,7 @@
       "pry_quality": 4,
       "noise": 24,
       "sound": "metal screeching!",
-      "difficulty": 8,
+      "difficulty": 4,
       "new_ter_type": "t_door_metal_o"
     }
   },
