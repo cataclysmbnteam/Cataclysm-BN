@@ -4148,7 +4148,7 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
     } else if( member_name == "active_furniture" ) {
         jsin.start_array();
         while( !jsin.end_array() ) {
-            point p;
+            point_sm_ms p;
             jsin.read( p );
             active_furniture[p].deserialize( jsin );
         }

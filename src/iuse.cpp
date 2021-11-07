@@ -19,6 +19,7 @@
 
 #include "action.h"
 #include "activity_actor.h"
+#include "active_tile_data_def.h"
 #include "artifact.h"
 #include "avatar.h"
 #include "bodypart.h"
@@ -9058,7 +9059,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
         const tripoint vpos = *vpos_;
 
         const optional_vpart_position target_vp = g->m.veh_at( vpos );
-        tripoint target_global = g->m.getabs( vpos );
+        tripoint_abs_ms target_global( g->m.getabs( vpos ) );
         vehicle_connector_tile *grid_connection = active_tiles::furn_at<vehicle_connector_tile>
                 ( target_global );
         if( !target_vp && !grid_connection ) {
@@ -9081,8 +9082,8 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
             point vcoords = source_vp->mount();
             vehicle_part source_part( vpid, vcoords, item( *it ) );
             if( grid_connection != nullptr ) {
-                source_part.target.first = target_global;
-                source_part.target.second = target_global;
+                source_part.target.first = target_global.raw();
+                source_part.target.second = target_global.raw();
                 source_part.set_flag( vehicle_part::targets_grid );
                 if( p != nullptr && p->has_item( *it ) ) {
                     p->add_msg_if_player( m_good, _( "You connect the %s to the electric grid." ),
@@ -9100,7 +9101,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
                     return 0;
                 }
 
-                source_part.target.first = target_global;
+                source_part.target.first = target_global.raw();
                 source_part.target.second = g->m.getabs( target_veh->global_pos3() );
                 source_veh->install_part( vcoords, source_part );
 

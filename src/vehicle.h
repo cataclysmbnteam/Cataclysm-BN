@@ -730,6 +730,9 @@ class vehicle
          * @param where Location of the other vehicle's origin tile.
          */
         static vehicle *find_vehicle( const tripoint &where );
+        static vehicle *find_vehicle( const tripoint_abs_ms &where ) {
+            return find_vehicle( where.raw() );
+        }
 
     private:
         /**
