@@ -40,7 +40,8 @@
     "symbol": "#",
     "color": "brown_yellow",
     "looks_like": "frame_wood_light",
-    "flags": [ "NONCONDUCTIVE" ]
+    "use_action": "DISASSEMBLE",
+    "flags": [ "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE" ]
   },
   {
     "id": "acetylene_machine",
