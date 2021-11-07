@@ -694,6 +694,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     werase( w_info );
 
     Character &player_character = get_player_character();
+    map &here = get_map();
 
     const optional_vpart_position vp = g->m.veh_at( target );
     std::string veh_msg;
@@ -744,10 +745,12 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
              );
     map::apparent_light_info al = map::apparent_light_helper( map_cache, target );
     int apparent_light = static_cast<int>(
-                             g->m.apparent_light_at( target, g->m.get_visibility_variables_cache() ) );
-    mvwprintw( w_info, point( 1, off++ ), _( "outside: %d obstructed: %d" ),
-               static_cast<int>( g->m.is_outside( target ) ),
-               static_cast<int>( al.obstructed ) );
+                             here.apparent_light_at( target, here.get_visibility_variables_cache() ) );
+    mvwprintw( w_info, point( 1, off++ ), _( "outside: %d obstructed: %d floor: %d" ),
+               static_cast<int>( here.is_outside( target ) ),
+               static_cast<int>( al.obstructed ),
+               static_cast<int>( here.has_floor( target ) )
+             );
     mvwprintw( w_info, point( 1, off++ ), _( "light_at: %s" ),
                map_cache.lm[target.x][target.y].to_string() );
     mvwprintw( w_info, point( 1, off++ ), _( "apparent light: %.5f (%d)" ),
