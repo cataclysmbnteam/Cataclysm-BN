@@ -2487,6 +2487,16 @@ std::list<item *> Character::get_dependent_worn_items( const item &it )
 
 void Character::drop( item_location loc, const tripoint &where )
 {
+    item &oThisItem = *loc;
+    if( is_wielding( oThisItem ) ) {
+        const auto ret = can_unwield( *loc );
+
+        if( !ret.success() ) {
+            add_msg( m_info, "%s", ret.c_str() );
+            return;
+        }
+    }
+
     drop( { drop_location( loc, loc->count() ) }, where );
 }
 
