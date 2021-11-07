@@ -25,7 +25,6 @@
     "type": "item_group",
     "//": "Industrial machinery used for construction",
     "items": [
-      [ "UPS_off", 5 ],
       [ "brick_kiln", 80 ],
       [ "kiln", 40 ],
       [ "con_mix", 120 ],

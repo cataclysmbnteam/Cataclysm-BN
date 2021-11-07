@@ -152,7 +152,7 @@
       [ "rad_monitor", 10 ],
       [ "oxygen_tank", 10 ],
       [ "smoxygen_tank", 15 ],
-      { "item": "heavy_battery_cell", "prob": 5, "charges": [ 0, 1000 ], "container-item": "UPS_off" },
+      [ "adv_UPS_off", 5 ],
       [ "prussian_blue", 25 ],
       [ "iodine", 50 ]
     ]
