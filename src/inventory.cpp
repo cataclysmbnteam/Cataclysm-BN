@@ -303,7 +303,8 @@ item &inventory::add_item( item newit, bool keep_invlet, bool assign_invlet, boo
                 }
                 elem.push_back( newit );
                 return elem.back();
-            } else if( keep_invlet && assign_invlet && it_ref->invlet == newit.invlet ) {
+            } else if( keep_invlet && assign_invlet && it_ref->invlet == newit.invlet &&
+                       it_ref->invlet != '\0' ) {
                 // If keep_invlet is true, we'll be forcing other items out of their current invlet.
                 assign_empty_invlet( *it_ref, g->u );
             }
@@ -1057,12 +1058,14 @@ void inventory::assign_empty_invlet( item &it, const Character &p, const bool fo
         avatar &u = g->u;
         inventory_selector selector( u );
 
+        std::vector<char> binds = selector.all_bound_keys();
+
         for( const auto &inv_char : inv_chars ) {
             if( assigned_invlet.count( inv_char ) ) {
                 // don't overwrite assigned keys
                 continue;
             }
-            if( !selector.action_bound_to_key( inv_char ).empty() ) {
+            if( std::find( binds.begin(), binds.end(), inv_char ) != binds.end() ) {
                 // don't auto-assign bound keys
                 continue;
             }

@@ -644,6 +644,8 @@ class inventory_selector
 
     public:
         std::string action_bound_to_key( char key ) const;
+        /** Returns all keys in the current context which are bound to an action. Warning: may contain duplicates. */
+        std::vector<char> all_bound_keys( ) const;
 };
 
 inventory_selector::stat display_stat( const std::string &caption, int cur_value, int max_value,
