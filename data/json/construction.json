@@ -4411,5 +4411,29 @@
     "pre_terrain": "t_railroad_rubble",
     "dark_craftable": true,
     "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
+    "id": "constr_f_autodoc",
+    "description": "Install Autodoc",
+    "category": "WORKSHOP",
+    "required_skills": [ [ "electronics", 5 ] ],
+    "time": "20 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ] ],
+    "components": [ [ [ "autodoc", 1 ] ], [ [ "power_supply", 2 ] ], [ [ "heavy_battery_cell", 2 ] ], [ [ "cable", 40 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_autodoc"
+  },
+  {
+    "type": "construction",
+    "id": "constr_f_autodoc_couch",
+    "description": "Install Autodoc couch",
+    "category": "WORKSHOP",
+    "required_skills": [ [ "electronics", 4 ] ],
+    "time": "10 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ] ],
+    "components": [ [ [ "autodoc_couch", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_autodoc_couch"
   }
 ]

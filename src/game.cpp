@@ -517,6 +517,7 @@ void game::reload_tileset()
         popup( _( "Loading the tileset failed: %s" ), err.what() );
     }
     g->reset_zoom();
+    g->mark_main_ui_adaptor_resize();
 #endif // TILES
 }
 
@@ -2053,7 +2054,11 @@ int game::inventory_item_menu( item_location locThisItem,
         std::vector<iteminfo> vDummy;
 
         const bool bHPR = get_auto_pickup().has_rule( &oThisItem );
-        const hint_rating rate_drop_item = u.weapon.has_flag( "NO_UNWIELD" ) ? hint_rating::cant :
+        const bool cant_unwield_weapon = u.weapon.has_flag( "NO_UNWIELD" );
+        const bool cant_drop_this = cant_unwield_weapon && u.is_wielding( oThisItem );
+        const hint_rating rate_wield_item = cant_unwield_weapon ? hint_rating::cant :
+                                            hint_rating::good;
+        const hint_rating rate_drop_item = cant_drop_this ? hint_rating::cant :
                                            hint_rating::good;
 
         uilist action_menu;
@@ -2078,8 +2083,8 @@ int game::inventory_item_menu( item_location locThisItem,
         addentry( 'R', pgettext( "action", "read" ), u.rate_action_read( oThisItem ) );
         addentry( 'E', pgettext( "action", "eat" ), u.rate_action_eat( oThisItem ) );
         addentry( 'W', pgettext( "action", "wear" ), u.rate_action_wear( oThisItem ) );
-        addentry( 'w', pgettext( "action", "wield" ), hint_rating::good );
-        addentry( 't', pgettext( "action", "throw" ), hint_rating::good );
+        addentry( 'w', pgettext( "action", "wield" ), rate_wield_item );
+        addentry( 't', pgettext( "action", "throw" ), rate_drop_item );
         addentry( 'c', pgettext( "action", "change side" ), u.rate_action_change_side( oThisItem ) );
         addentry( 'T', pgettext( "action", "take off" ), u.rate_action_takeoff( oThisItem ) );
         addentry( 'd', pgettext( "action", "drop" ), rate_drop_item );
@@ -7013,10 +7018,12 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
             center.x = lp.x;
             center.y = lp.y;
             zoom_in();
+            mark_main_ui_adaptor_resize();
         } else if( action == "zoom_out" ) {
             center.x = lp.x;
             center.y = lp.y;
             zoom_out();
+            mark_main_ui_adaptor_resize();
         }
     } while( action != "QUIT" && action != "CONFIRM" && action != "SELECT" && action != "TRAVEL_TO" &&
              action != "throw_blind" );
@@ -7189,6 +7196,27 @@ void game::reset_zoom()
     tileset_zoom = DEFAULT_TILESET_ZOOM;
     rescale_tileset( tileset_zoom );
 #endif // TILES
+}
+
+void game::set_zoom( const int level )
+{
+#if defined(TILES)
+    if( tileset_zoom != level ) {
+        tileset_zoom = level;
+        rescale_tileset( tileset_zoom );
+    }
+#else
+    static_cast<void>( level );
+#endif // TILES
+}
+
+int game::get_zoom() const
+{
+#if defined(TILES)
+    return tileset_zoom;
+#else
+    return DEFAULT_TILESET_ZOOM;
+#endif
 }
 
 int game::get_moves_since_last_save() const

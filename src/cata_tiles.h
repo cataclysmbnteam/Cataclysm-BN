@@ -45,18 +45,6 @@ struct tile_type {
     std::vector<std::string> available_subtiles;
 };
 
-/* Enums */
-enum MULTITILE_TYPE {
-    center,
-    corner,
-    edge,
-    t_connection,
-    end_piece,
-    unconnected,
-    open_,
-    broken,
-    num_multitile_types
-};
 // Make sure to change TILE_CATEGORY_IDS if this changes!
 enum TILE_CATEGORY {
     C_NONE,
@@ -71,6 +59,8 @@ enum TILE_CATEGORY {
     C_BULLET,
     C_HIT_ENTITY,
     C_WEATHER,
+    C_OVERMAP_TERRAIN,
+    C_OVERMAP_NOTE
 };
 
 class tile_lookup_res
@@ -354,6 +344,7 @@ class cata_tiles
         void draw( const point &dest, const tripoint &center, int width, int height,
                    std::multimap<point, formatted_text> &overlay_strings,
                    color_block_overlay_container &color_blocks );
+        void draw_om( const point &dest, const tripoint_abs_omt &center_abs_omt, bool blink );
 
         bool terrain_requires_animation() const;
 
@@ -566,6 +557,9 @@ class cata_tiles
         point player_to_screen( const point & ) const;
         static std::vector<options_manager::id_and_option> build_renderer_list();
         static std::vector<options_manager::id_and_option> build_display_list();
+    private:
+        std::string get_omt_id_rotation_and_subtile(
+            const tripoint_abs_omt &omp, int &rota, int &subtile );
     protected:
         template <typename maptype>
         void tile_loading_report( const maptype &tiletypemap, TILE_CATEGORY category,

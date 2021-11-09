@@ -349,14 +349,16 @@
     "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "bundle of rags", "str_pl": "bundles of rags" },
-    "description": "Cotton rags, bundled tightly together for storage.  Disassemble to unpack.",
+    "description": "Cotton rags, bundled tightly together for storage.  Activate or disassemble to unpack.",
     "weight": "800 g",
     "volume": "750 ml",
     "price": 0,
     "price_postapoc": 5,
     "material": "cotton",
     "symbol": ",",
-    "color": "white"
+    "color": "white",
+    "use_action": "DISASSEMBLE",
+    "flags": [ "NO_REPAIR", "NO_SALVAGE" ]
   },
   {
     "id": "bundle_leather",
@@ -370,7 +372,9 @@
     "price_postapoc": 50,
     "material": "leather",
     "symbol": ",",
-    "color": "brown"
+    "color": "brown",
+    "use_action": "DISASSEMBLE",
+    "flags": [ "NO_REPAIR", "NO_SALVAGE" ]
   },
   {
     "id": "bundle_wool",
@@ -384,7 +388,9 @@
     "price_postapoc": 50,
     "material": "wool",
     "symbol": ",",
-    "color": "white"
+    "color": "white",
+    "use_action": "DISASSEMBLE",
+    "flags": [ "NO_REPAIR", "NO_SALVAGE" ]
   },
   {
     "type": "GENERIC",
@@ -2984,7 +2990,7 @@
     "symbol": "!",
     "color": "green",
     "use_action": "DISASSEMBLE",
-    "flags": [ "NO_REPAIR" ]
+    "flags": [ "NO_REPAIR", "NO_SALVAGE" ]
   },
   {
     "id": "premium_survival_kit",
@@ -2999,7 +3005,7 @@
     "symbol": "!",
     "color": "green",
     "use_action": { "type": "unpack", "group": "premium_contents", "items_fit": true, "filthy_volume_threshold": "10 L" },
-    "flags": [ "NO_REPAIR" ]
+    "flags": [ "NO_REPAIR", "NO_SALVAGE" ]
   },
   {
     "id": "plastic_six_dice",

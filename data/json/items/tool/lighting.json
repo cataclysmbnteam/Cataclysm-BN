@@ -15,7 +15,7 @@
     "symbol": ",",
     "color": "light_green",
     "use_action": { "target": "atomic_lamp_off", "msg": "You close the lamp's cover.", "menu_text": "Close cover", "type": "transform" },
-    "flags": [ "LIGHT_15", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "LIGHT_20", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "atomic_lamp_off",
@@ -62,7 +62,7 @@
       "menu_text": "Close cover",
       "type": "transform"
     },
-    "flags": [ "LIGHT_10", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "LIGHT_8", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "atomic_light_off",
@@ -185,10 +185,10 @@
     "copy-from": "electric_lantern",
     "type": "TOOL",
     "name": { "str": "electric lantern (on)", "str_pl": "electric lanterns (on)" },
-    "power_draw": 1000,
+    "power_draw": 3500,
     "revert_to": "electric_lantern",
     "use_action": { "menu_text": "Turn off", "type": "transform", "target": "electric_lantern", "msg": "You turn the lamp off." },
-    "flags": [ "RADIO_MODABLE", "LIGHT_15", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "RADIO_MODABLE", "LIGHT_20", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "flashlight",
@@ -238,7 +238,7 @@
     "power_draw": 10000,
     "revert_to": "flashlight",
     "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "You turn the flashlight off.", "target": "flashlight" },
-    "flags": [ "LIGHT_300", "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP" ]
+    "flags": [ "LIGHT_300", "TRADER_AVOID", "BELT_CLIP" ]
   },
   {
     "id": "gasoline_lantern",
@@ -279,7 +279,7 @@
     "turns_per_charge": 60,
     "revert_to": "gasoline_lantern",
     "use_action": { "target": "gasoline_lantern", "msg": "The lantern is extinguished.", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "LIGHT_15", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "LIGHT_20", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "glowstick",
@@ -393,7 +393,7 @@
     "color": "blue",
     "charges_per_use": 1,
     "ammo": "battery",
-    "flags": [ "BELT_CLIP" ],
+    "flags": [ "BELT_CLIP", "DURABLE_MELEE" ],
     "use_action": {
       "type": "transform",
       "msg": "You turn the heavy duty flashlight on.",
@@ -431,7 +431,7 @@
       "msg": "You turn the heavy duty flashlight off.",
       "target": "heavy_flashlight"
     },
-    "flags": [ "LIGHT_500", "CHARGEDIM", "BELT_CLIP" ]
+    "flags": [ "LIGHT_500", "DURABLE_MELEE", "BELT_CLIP" ]
   },
   {
     "abstract": "lightstrip_base",
@@ -529,7 +529,7 @@
     "turns_per_charge": 240,
     "revert_to": "oil_lamp",
     "use_action": { "target": "oil_lamp", "msg": "The lantern is extinguished.", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "LIGHT_10", "TRADER_AVOID", "FIRE", "ALLOWS_REMOTE_USE", "WATER_EXTINGUISH" ]
+    "flags": [ "LIGHT_20", "TRADER_AVOID", "FIRE", "ALLOWS_REMOTE_USE", "WATER_EXTINGUISH" ]
   },
   {
     "id": "oxylamp",
@@ -598,10 +598,10 @@
     "type": "TOOL",
     "name": { "str": "reading light (active)", "str_pl": "reading lights (active)" },
     "description": "A little clip-on LED light, meant for reading books in the dark.  This one is turned on.",
-    "power_draw": 1000,
+    "power_draw": 4000,
     "revert_to": "reading_light",
     "use_action": { "target": "reading_light", "msg": "You switch off the reading light.", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "LIGHT_15", "CHARGEDIM" ]
+    "flags": [ "LIGHT_20" ]
   },
   {
     "id": "smart_lamp",
@@ -651,10 +651,10 @@
     "type": "TOOL",
     "name": { "str": "smart lamp (on)", "str_pl": "smart lamps (on)" },
     "description": "This is a smart lamp, this smart lamp is turned on.  It can be deactivated remotely.",
-    "power_draw": 10000,
+    "power_draw": 8500,
     "revert_to": "smart_lamp",
     "use_action": { "target": "smart_lamp", "msg": "Your smart lamp turned off", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_2", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID" ],
+    "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_2", "LIGHT_240", "TRADER_AVOID" ],
     "magazine_well": "250 ml"
   },
   {
@@ -715,6 +715,6 @@
       }
     ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "FIRE", "LIGHT_310", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH" ]
+    "flags": [ "FIRE", "LIGHT_300", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH" ]
   }
 ]

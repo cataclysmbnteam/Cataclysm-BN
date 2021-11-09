@@ -303,7 +303,8 @@ item &inventory::add_item( item newit, bool keep_invlet, bool assign_invlet, boo
                 }
                 elem.push_back( newit );
                 return elem.back();
-            } else if( keep_invlet && assign_invlet && it_ref->invlet == newit.invlet ) {
+            } else if( keep_invlet && assign_invlet && it_ref->invlet == newit.invlet &&
+                       it_ref->invlet != '\0' ) {
                 // If keep_invlet is true, we'll be forcing other items out of their current invlet.
                 assign_empty_invlet( *it_ref, g->u );
             }
@@ -460,7 +461,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
                 furn_item.set_flag( "PSEUDO" );
                 if( furn_item.has_flag( "USES_GRID_POWER" ) ) {
                     // TODO: The grid tracker should correspond to map!
-                    auto &grid = get_distribution_grid_tracker().grid_at( m.getabs( p ) );
+                    auto &grid = get_distribution_grid_tracker().grid_at( tripoint_abs_ms( m.getabs( p ) ) );
                     furn_item.charges = grid.get_resource();
                 } else {
                     furn_item.charges = ammo ? count_charges_in_list( ammo, m.i_at( p ) ) : 0;
@@ -1057,12 +1058,14 @@ void inventory::assign_empty_invlet( item &it, const Character &p, const bool fo
         avatar &u = g->u;
         inventory_selector selector( u );
 
+        std::vector<char> binds = selector.all_bound_keys();
+
         for( const auto &inv_char : inv_chars ) {
             if( assigned_invlet.count( inv_char ) ) {
                 // don't overwrite assigned keys
                 continue;
             }
-            if( !selector.action_bound_to_key( inv_char ).empty() ) {
+            if( std::find( binds.begin(), binds.end(), inv_char ) != binds.end() ) {
                 // don't auto-assign bound keys
                 continue;
             }

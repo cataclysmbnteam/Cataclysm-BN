@@ -13,20 +13,7 @@
     "flags": [ "TRANSPARENT", "AUTODOC", "CONTAINER" ],
     "examine_action": "autodoc",
     "surgery_skill_multiplier": 1.0,
-    "deconstruct": {
-      "items": [
-        { "item": "processor", "count": [ 1, 2 ] },
-        { "item": "RAM", "count": [ 4, 8 ] },
-        { "item": "cable", "charges": [ 4, 6 ] },
-        { "item": "small_lcd_screen", "count": [ 1, 2 ] },
-        { "item": "e_scrap", "count": [ 10, 16 ] },
-        { "item": "circuit", "count": [ 6, 10 ] },
-        { "item": "power_supply", "count": [ 2, 4 ] },
-        { "item": "amplifier", "count": [ 2, 4 ] },
-        { "item": "plastic_chunk", "count": [ 10, 12 ] },
-        { "item": "scrap", "count": [ 6, 8 ] }
-      ]
-    },
+    "deconstruct": { "items": [ { "item": "autodoc", "count": 1 } ] },
     "bash": {
       "str_min": 8,
       "str_max": 150,
@@ -59,14 +46,7 @@
     "comfort": 4,
     "floor_bedding_warmth": 500,
     "required_str": 10,
-    "deconstruct": {
-      "items": [
-        { "item": "2x4", "count": 12 },
-        { "item": "rag", "count": [ 30, 33 ] },
-        { "item": "nail", "charges": [ 8, 10 ] },
-        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 }
-      ]
-    },
+    "deconstruct": { "items": [ { "item": "autodoc_couch", "count": 1 } ] },
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE", "AUTODOC_COUCH" ],
     "bash": {
       "str_min": 10,

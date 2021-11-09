@@ -178,7 +178,9 @@
     "to_hit": -2,
     "material": "steel",
     "symbol": ";",
-    "color": "brown"
+    "color": "brown",
+    "use_action": "DISASSEMBLE",
+    "flags": [ "NO_REPAIR", "NO_SALVAGE" ]
   },
   {
     "id": "kiln_full",

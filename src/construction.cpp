@@ -1023,7 +1023,8 @@ void complete_construction( player *p )
     if( !built.post_terrain.empty() ) {
         if( built.post_is_furniture ) {
             g->m.furn_set( terp, furn_str_id( built.post_terrain ) );
-            active_tile_data *active = active_tiles::furn_at<active_tile_data>( g->m.getabs( terp ) );
+            active_tile_data *active = active_tiles::furn_at<active_tile_data>(
+                                           tripoint_abs_ms( g->m.getabs( terp ) ) );
             if( active != nullptr ) {
                 active->set_last_updated( calendar::turn );
             }

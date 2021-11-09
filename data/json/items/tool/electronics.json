@@ -116,11 +116,11 @@
     "id": "cell_phone_flashlight",
     "copy-from": "cell_phone",
     "type": "TOOL",
-    "name": { "str": "cellphone - Flashlight", "str_pl": "cellphones - Flashlight" },
-    "power_draw": 500,
+    "name": { "str": "cellphone - Screenlight", "str_pl": "cellphones - Screenlight" },
+    "power_draw": 2500,
     "revert_to": "cell_phone",
     "use_action": { "target": "cell_phone", "msg": "You stop lighting up the screen.", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "WATCH", "LIGHT_8", "CHARGEDIM", "TRADER_AVOID" ]
+    "flags": [ "WATCH", "LIGHT_8", "TRADER_AVOID" ]
   },
   {
     "id": "control_laptop",
@@ -339,10 +339,10 @@
     "copy-from": "laptop",
     "type": "TOOL",
     "name": { "str": "laptop computer - lit screen", "str_pl": "laptop computers - lit screen" },
-    "power_draw": 1000,
+    "power_draw": 5000,
     "revert_to": "laptop",
     "use_action": { "target": "laptop", "msg": "You stop lighting up the screen.", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "WATCH", "LIGHT_10", "TRADER_AVOID", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "WATCH", "LIGHT_20", "TRADER_AVOID", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "mp3",
@@ -370,7 +370,7 @@
     "type": "TOOL",
     "name": { "str": "mp3 player (on)", "str_pl": "mp3 players (on)" },
     "description": "This mp3 player is turned on and playing some great tunes, raising your morale steadily while on your person.  It runs through batteries quickly; you can turn it off by using it.  It also obscures your hearing.",
-    "power_draw": 1000,
+    "power_draw": 3500,
     "revert_to": "mp3",
     "use_action": "MP3_ON",
     "flags": [ "TRADER_AVOID", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
@@ -478,7 +478,7 @@
     "type": "TOOL",
     "name": { "str": "smartphone - music", "str_pl": "smartphones - music" },
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
-    "power_draw": 300,
+    "power_draw": 7000,
     "revert_to": "smart_phone",
     "use_action": "MP3_ON",
     "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ],
@@ -489,7 +489,7 @@
     "copy-from": "smart_phone",
     "type": "TOOL",
     "name": { "str": "smartphone - Flashlight", "str_pl": "smartphones - Flashlight" },
-    "power_draw": 1500,
+    "power_draw": 5000,
     "revert_to": "smart_phone",
     "use_action": {
       "target": "smart_phone",
@@ -497,7 +497,7 @@
       "menu_text": "Turn off flashlight",
       "type": "transform"
     },
-    "flags": [ "WATCH", "LIGHT_20", "CHARGEDIM", "TRADER_AVOID", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "WATCH", "LIGHT_20", "TRADER_AVOID", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "UPS_off",

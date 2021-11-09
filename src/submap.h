@@ -247,7 +247,7 @@ class submap : maptile_soa<SEEX, SEEY>
         std::vector<std::unique_ptr<vehicle>> vehicles;
         std::map<tripoint, partial_con> partial_constructions;
         std::unique_ptr<basecamp> camp;  // only allowing one basecamp per submap
-        std::map<point, cata::poly_serialized<active_tile_data>> active_furniture;
+        std::map<point_sm_ms, cata::poly_serialized<active_tile_data>> active_furniture;
 
     private:
         std::map<point, computer> computers;

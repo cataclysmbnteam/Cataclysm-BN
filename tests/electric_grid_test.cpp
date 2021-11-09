@@ -1,6 +1,7 @@
 #include <vector>
 
 #include "active_tile_data.h"
+#include "active_tile_data_def.h"
 #include "catch/catch.hpp"
 #include "coordinate_conversions.h"
 #include "distribution_grid.h"
@@ -74,12 +75,12 @@ static inline void test_grid_veh( distribution_grid &grid, vehicle &veh, battery
 }
 
 static void connect_grid_vehicle( map &m, vehicle &veh, vehicle_connector_tile &connector,
-                                  const tripoint &connector_abs_pos )
+                                  const tripoint_abs_ms &connector_abs_pos )
 {
     const point cable_part_pos;
     vehicle_part source_part( vpart_id( "jumper_cable" ), cable_part_pos, item( "jumper_cable" ) );
-    source_part.target.first = connector_abs_pos;
-    source_part.target.second = connector_abs_pos;
+    source_part.target.first = connector_abs_pos.raw();
+    source_part.target.second = connector_abs_pos.raw();
     source_part.set_flag( vehicle_part::targets_grid );
     connector.connected_vehicles.clear();
     connector.connected_vehicles.emplace_back( m.getabs( veh.global_pos3() ) );
@@ -105,8 +106,8 @@ static grid_setup set_up_grid( map &m )
     const tripoint vehicle_local_pos = tripoint( 10, 10, 0 );
     const tripoint connector_local_pos = tripoint( 13, 10, 0 );
     const tripoint battery_local_pos = tripoint( 14, 10, 0 );
-    const tripoint connector_abs_pos = m.getabs( connector_local_pos );
-    const tripoint battery_abs_pos = m.getabs( battery_local_pos );
+    const tripoint_abs_ms connector_abs_pos( m.getabs( connector_local_pos ) );
+    const tripoint_abs_ms battery_abs_pos( m.getabs( battery_local_pos ) );
     m.furn_set( connector_local_pos, furn_str_id( "f_cable_connector" ) );
     m.furn_set( battery_local_pos, furn_str_id( "f_battery" ) );
     vehicle *veh = m.add_vehicle( vproto_id( "car" ), vehicle_local_pos, 0, 0, 0, false );

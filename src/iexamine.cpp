@@ -13,6 +13,7 @@
 #include <utility>
 
 #include "activity_actor.h"
+#include "active_tile_data_def.h"
 #include "ammo.h"
 #include "avatar.h"
 #include "basecamp.h"
@@ -1537,14 +1538,17 @@ void iexamine::transform( player &, const tripoint &pos )
     std::string message;
 
     if( g->m.has_furn( pos ) ) {
-        g->m.furn_set( pos, g->m.get_furn_transforms_into( pos ) );
         message = g->m.furn( pos ).obj().message;
+        if( !message.empty() ) {
+            add_msg( _( message ) );
+        }
+        g->m.furn_set( pos, g->m.get_furn_transforms_into( pos ) );
     } else {
-        g->m.ter_set( pos, g->m.get_ter_transforms_into( pos ) );
         message = g->m.ter( pos ).obj().message;
-    }
-    if( !message.empty() ) {
-        add_msg( _( message ) );
+        if( !message.empty() ) {
+            add_msg( _( message ) );
+        }
+        g->m.ter_set( pos, g->m.get_ter_transforms_into( pos ) );
     }
 }
 
@@ -5894,7 +5898,7 @@ void iexamine::dimensional_portal( player &p, const tripoint &examp )
 
 void iexamine::check_power( player &, const tripoint &examp )
 {
-    tripoint abspos = g->m.getabs( examp );
+    tripoint_abs_ms abspos( g->m.getabs( examp ) );
     battery_tile *battery = active_tiles::furn_at<battery_tile>( abspos );
     if( battery != nullptr ) {
         add_msg( m_info, _( "This battery stores %d kJ of electric power." ), battery->get_resource() );
