@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - upload
+      - lua
 jobs:
   release:
     name: Create Release

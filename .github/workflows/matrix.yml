@@ -4,6 +4,7 @@ on:
   push:
     branches:
     - upload
+    - lua
   pull_request:
     branches:
     - upload

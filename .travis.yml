@@ -27,6 +27,7 @@ branches:
   only:
   - testing
   - upload
+  - lua
 
 # Overall strategy for what sorts of builds to include:
 # We want a build for each compiler and each platform.
