@@ -323,7 +323,9 @@
       "THERMOMETER",
       "BAROMETER",
       "HYGROMETER",
-      "USE_UPS"
+      "USE_UPS",
+      "NO_UNLOAD",
+      "NO_RELOAD"
     ],
     "coverage": 15,
     "symbol": "[",
