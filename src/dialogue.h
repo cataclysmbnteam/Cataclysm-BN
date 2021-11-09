@@ -100,7 +100,7 @@ struct talk_effect_fun_t {
         void set_adjust_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_u_buy_item( const itype_id &item_name, int cost, int count,
                              const std::string &container_name );
-        void set_u_spend_cash( int amount );
+        void set_u_spend_ecash( int amount );
         void set_u_sell_item( const itype_id &item_name, int cost, int count );
         void set_consume_item( const JsonObject &jo, const std::string &member, int count,
                                bool is_npc = false );

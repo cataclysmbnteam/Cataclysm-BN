@@ -267,11 +267,10 @@ TEST_CASE( "npc_talk_service", "[npc_talk]" )
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a cash test response." );
     talker_npc.remove_effect( effect_currently_busy );
-    gen_response_lines( d, 4 );
+    gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a cash test response." );
-    CHECK( d.responses[2].text == "This is an npc service test response." );
-    CHECK( d.responses[3].text == "This is an npc available test response." );
+    CHECK( d.responses[2].text == "This is an npc available test response." );
 }
 
 TEST_CASE( "npc_talk_location", "[npc_talk]" )
