@@ -17,6 +17,7 @@ lang/extract_json_strings.py \
     -e "data/json/anatomy.json" \
     -e "data/mods/replacements.json" \
     -e "data/raw/color_templates/no_bright_background.json" \
+    -E "data/mods/TEST_DATA/" \
     \
     -s "data/json/flags.json" \
     -s "data/json/overmap_terrain.json" \

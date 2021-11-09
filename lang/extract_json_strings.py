@@ -20,6 +20,7 @@ parser.add_option("-p", "--project", action="store", dest="project_name", help="
 parser.add_option("-v", "--verbose", action="store_true", default=False, dest="verbose", help="be verbose")
 parser.add_option("-i", "--input", action="append",  dest="input_folders", help="list of input folders")
 parser.add_option("-e", "--exclude", action="append", default=[], dest="excluded_files", help="exclude individual files from scan")
+parser.add_option("-E", "--exclude-dir", action="append", default=[], dest="excluded_dirs", help="exclude individual directories from scan")
 parser.add_option("--tracked-only", action="store_true", default=False, dest="tracked_only", help="scan only git tracked files")
 parser.add_option("-o", "--output", action="store", dest="output_file", help="output file")
 parser.add_option("-s", "--suppress", action="append", default=[], dest="suppress_warning_for_files", help="suppress 'nothing translatable found' warnings for given files")
@@ -63,6 +64,7 @@ def warning_supressed(filename):
 
 # these files will not be parsed. Full related path.
 ignore_files = {os.path.normpath(i) for i in options.excluded_files }
+ignore_dirs = {os.path.normpath(i) for i in options.excluded_dirs }
 
 # these objects have no translatable strings
 ignorable = {
@@ -1094,6 +1096,8 @@ def extract_all_from_dir(state, json_dir):
     for f in allfiles:
         full_name = os.path.join(json_dir, f)
         if os.path.isdir(full_name):
+            if os.path.normpath(full_name) in ignore_dirs:
+                continue
             dirs.append(f)
         elif f in skiplist or full_name in ignore_files:
             continue
