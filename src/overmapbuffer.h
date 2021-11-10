@@ -573,6 +573,12 @@ class overmapbuffer
          * @param p Overmap coordinates of the point in the grid
          */
         std::set<tripoint_abs_omt> electric_grid_at( const tripoint_abs_omt &p );
+
+        /**
+         * Retrieve electric grid connections from given point.
+         * Returned vector may be empty.
+         */
+        std::vector<tripoint_rel_omt> electric_grid_connectivity_at( const tripoint_abs_omt &p );
 };
 
 extern overmapbuffer overmap_buffer;

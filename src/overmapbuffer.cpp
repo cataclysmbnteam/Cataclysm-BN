@@ -1659,3 +1659,20 @@ std::set<tripoint_abs_omt> overmapbuffer::electric_grid_at( const tripoint_abs_o
 
     return result;
 }
+
+std::vector<tripoint_rel_omt>
+overmapbuffer::electric_grid_connectivity_at( const tripoint_abs_omt &p )
+{
+    std::vector<tripoint_rel_omt> ret;
+    ret.reserve( six_cardinal_directions.size() );
+
+    overmap_with_local_coords omc = get_om_global( p );
+    const auto &connections_bitset = omc.om->electric_grid_connections[omc.local];
+    for( size_t i = 0; i < six_cardinal_directions.size(); i++ ) {
+        if( connections_bitset.test( i ) ) {
+            ret.emplace_back( six_cardinal_directions[i] );
+        }
+    }
+
+    return ret;
+}

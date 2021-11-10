@@ -943,6 +943,8 @@ void Item_factory::init()
     add_iuse( "RADIO_ON", &iuse::radio_on );
     add_iuse( "REMOTEVEH", &iuse::remoteveh );
     add_iuse( "REMOVE_ALL_MODS", &iuse::remove_all_mods );
+    add_iuse( "REPORT_GRID_CHARGE", &iuse::report_grid_charge );
+    add_iuse( "REPORT_GRID_CONNECTIONS", &iuse::report_grid_connections );
     add_iuse( "RM13ARMOR_OFF", &iuse::rm13armor_off );
     add_iuse( "RM13ARMOR_ON", &iuse::rm13armor_on );
     add_iuse( "ROBOTCONTROL", &iuse::robotcontrol );

@@ -34,6 +34,7 @@
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
+#include "distribution_grid.h"
 #include "effect.h" // for weed_msg
 #include "enums.h"
 #include "event.h"
@@ -9744,6 +9745,40 @@ int iuse::toggle_heats_food( player *p, item *it, bool, const tripoint & )
         it->item_tags.erase( flag_HEATS_FOOD );
         p->add_msg_if_player( _( "You will no longer use %s to heat food." ), it->tname().c_str() );
     }
+
+    return 0;
+}
+
+int iuse::report_grid_charge( player *p, item *, bool, const tripoint &pos )
+{
+    tripoint_abs_ms pos_abs( get_map().getabs( pos ) );
+    const distribution_grid &gr = get_distribution_grid_tracker().grid_at( pos_abs );
+
+    int amt = gr.get_resource();
+    p->add_msg_if_player( _( "This electric grid stores %d kJ of electric power." ), amt );
+
+    return 0;
+}
+
+int iuse::report_grid_connections( player *p, item *, bool, const tripoint &pos )
+{
+    tripoint_abs_omt pos_abs = project_to<coords::omt>( tripoint_abs_ms( get_map().getabs( pos ) ) );
+    std::vector<tripoint_rel_omt> connections = overmap_buffer.electric_grid_connectivity_at( pos_abs );
+
+    std::vector<std::string> connection_names;
+    for( const tripoint_rel_omt &delta : connections ) {
+        connection_names.push_back( direction_name( direction_from( delta.raw() ) ) );
+    }
+
+    std::string msg;
+    if( connection_names.empty() ) {
+        msg = _( "This electric grid has no connections." );
+    } else {
+        //~ %s is list of directions
+        msg = string_format( _( "This electric grid has connections: %s." ),
+                             enumerate_as_string( connection_names ) );
+    }
+    p->add_msg_if_player( msg );
 
     return 0;
 }
