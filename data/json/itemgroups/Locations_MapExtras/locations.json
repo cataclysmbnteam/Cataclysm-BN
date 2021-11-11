@@ -1585,7 +1585,7 @@
       [ "radio", 20 ],
       [ "geiger_off", 8 ],
       [ "rad_monitor", 4 ],
-      { "item": "heavy_battery_cell", "prob": 5, "charges": [ 0, 1000 ], "container-item": "UPS_off" },
+      { "group": "used_UPS", "prob": 5 },
       [ "flyer", 10 ],
       [ "bio_purifier", 10 ],
       [ "bio_climate", 10 ],

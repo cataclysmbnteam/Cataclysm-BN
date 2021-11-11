@@ -4,7 +4,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "advanced UPS", "str_pl": "advanced UPS's" },
-    "description": "This is an advanced version of the unified power supply, or UPS.  Designed for military use to power advanced weapons, it uses plutonium fuel cells and provides better efficiency.  It can power many household electronics as well, but requires plutonium cells instead of being rechargeable.",
+    "description": "This is an advanced version of the unified power supply, or UPS.  Designed for military use to power advanced weapons, it uses plutonium fuel cells which provide better efficiency, but are not rechargeable.  It can power many household electronics as well.",
     "weight": "453 g",
     "volume": "2 L",
     "price": 560000,

@@ -220,7 +220,7 @@
     "//": "Equipment of any size commonly used by engineers and mechanics",
     "ammo": 100,
     "items": [
-      [ "UPS_off", 5 ],
+      { "group": "charged_UPS", "prob": 5 },
       [ "jack", 80 ],
       [ "jack_small", 80 ],
       {
@@ -489,5 +489,17 @@
       [ "circsaw_blade", 10 ],
       [ "elec_chainsaw_off", 35 ]
     ]
+  },
+  {
+    "id": "charged_UPS",
+    "type": "item_group",
+    "//": "A standard civilian UPS, with 80-100% charge.  Use for storage locations where items tend to spawn loaded or charged.",
+    "items": [ { "item": "heavy_battery_cell", "charges": [ 800, 1000 ], "container-item": "UPS_off" } ]
+  },
+  {
+    "id": "used_UPS",
+    "type": "item_group",
+    "//": "A standard civilian UPS, with 0-100% charge.  Use for spawns where the item may have seen heavy use before being dropped.",
+    "items": [ { "item": "heavy_battery_cell", "charges": [ 800, 1000 ], "container-item": "UPS_off" } ]
   }
 ]

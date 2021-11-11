@@ -2009,7 +2009,7 @@
       [ "legpouch_large", 6 ],
       [ "chestpouch", 9 ],
       [ "ammo_satchel", 4 ],
-      { "item": "heavy_battery_cell", "prob": 5, "charges": [ 0, 1000 ], "container-item": "UPS_off" },
+      { "group": "used_UPS", "prob": 5 },
       { "item": "adv_UPS_off", "prob": 3, "charges": [ 0, 2000 ] },
       [ "tacvest", 10 ],
       [ "molle_pack", 8 ],
