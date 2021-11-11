@@ -34,7 +34,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
+    "magazine_well": "250 ml",
     "magazines": [ [ "32", [ "sigp230mag" ] ] ]
   },
   {
@@ -114,7 +114,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
+    "magazine_well": "250 ml",
     "magazines": [ [ "32", [ "ppkmag" ] ] ]
   },
   {

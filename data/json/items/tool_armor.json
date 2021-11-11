@@ -181,7 +181,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "miner_hat_on",
@@ -196,7 +196,7 @@
     "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "The %s flicks off.", "target": "miner_hat" },
     "covers": [ "head" ],
     "techniques": [ "WBLOCK_1" ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "welding_mask",
@@ -426,7 +426,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "thermal_socks_on",
@@ -440,7 +440,7 @@
     "revert_to": "thermal_socks",
     "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "Your %s deactivates.", "target": "thermal_socks" },
     "warmth": 60,
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "thermal_suit",
@@ -484,7 +484,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "thermal_suit_on",
@@ -498,7 +498,7 @@
     "revert_to": "thermal_suit",
     "warmth": 60,
     "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "Your %s deactivates.", "target": "thermal_suit" },
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "thermal_gloves",
@@ -542,7 +542,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "thermal_gloves_on",
@@ -556,7 +556,7 @@
     "revert_to": "thermal_gloves",
     "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "Your %s deactivates.", "target": "thermal_gloves" },
     "warmth": 60,
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "thermal_mask",
@@ -600,7 +600,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "thermal_mask_on",
@@ -614,7 +614,7 @@
     "revert_to": "thermal_mask",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "thermal_mask" },
     "warmth": 60,
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "binoculars",
@@ -680,7 +680,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "wearable_light_on",
@@ -694,7 +694,7 @@
     "revert_to": "wearable_light",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "wearable_light" },
     "covers": [ "head" ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "survivor_light",
@@ -738,7 +738,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "survivor_light_on",
@@ -752,7 +752,7 @@
     "revert_to": "survivor_light",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "survivor_light" },
     "covers": [ "head" ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "wearable_atomic_light",
@@ -1464,7 +1464,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "goggles_nv_on",
@@ -1480,7 +1480,7 @@
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "goggles_nv" },
     "warmth": 25,
     "encumbrance": 20,
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "goggles_ir",
@@ -1527,7 +1527,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "goggles_ir_on",
@@ -1543,7 +1543,7 @@
     "covers": [ "eyes" ],
     "warmth": 25,
     "encumbrance": 20,
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "wearable_rx12",
@@ -2365,7 +2365,7 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": 2
+    "magazine_well": "500 ml"
   },
   {
     "id": "thermal_outfit_on",
@@ -2380,7 +2380,7 @@
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "thermal_outfit" },
     "covers": [ "head", "mouth", "torso", "arms", "legs", "hands", "feet" ],
     "warmth": 60,
-    "magazine_well": 2
+    "magazine_well": "500 ml"
   },
   {
     "type": "TOOL_ARMOR",
@@ -2735,7 +2735,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "powered_earmuffs_on",
@@ -2762,7 +2762,7 @@
     "encumbrance": 5,
     "coverage": 10,
     "material_thickness": 2,
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "stethoscope",
@@ -3051,7 +3051,7 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": 2
+    "magazine_well": "500 ml"
   },
   {
     "id": "electric_blanket_on",
@@ -3064,7 +3064,7 @@
     "power_draw": 100000,
     "revert_to": "electric_blanket",
     "use_action": { "type": "transform", "msg": "You turn the blanket's heating elements off.", "target": "electric_blanket" },
-    "magazine_well": 2
+    "magazine_well": "500 ml"
   },
   {
     "id": "foodperson_mask",
@@ -3104,7 +3104,7 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": 2,
+    "magazine_well": "500 ml",
     "flags": [ "OUTER", "SUN_GLASSES" ]
   },
   {

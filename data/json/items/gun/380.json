@@ -93,7 +93,7 @@
     "ammo": "380",
     "dispersion": 480,
     "durability": 7,
-    "magazine_well": 1,
+    "magazine_well": "250 ml",
     "magazines": [ [ "380", [ "hptcf380mag_8rd", "hptcf380mag_10rd" ] ] ]
   },
   {
@@ -116,7 +116,7 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 225,
-    "magazine_well": 1,
+    "magazine_well": "250 ml",
     "magazines": [ [ "380", [ "taurus_spectrum_mag" ] ] ]
   }
 ]

@@ -478,7 +478,7 @@
     "dispersion": 395,
     "durability": 7,
     "barrel_length": "81 ml",
-    "magazine_well": 1,
+    "magazine_well": "250 ml",
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "sling", 1 ],
