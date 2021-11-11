@@ -125,3 +125,73 @@ TEST_CASE( "cone_factory_test", "[shape]" )
         CHECK( s->distance_at( rl_vec3d( 10, 5, 0 ) ) < 0.0 );
     }
 }
+
+// TODO: Better file
+#include "map.h"
+#include "ranged.h"
+#include "projectile.h"
+#include "map_helpers.h"
+std::map<tripoint, double> expected_coverage(
+    const shape &sh, const map &here, const projectile &proj );
+
+static void shape_coverage_vs_distance_no_obstacle( const shape_factory_impl &c,
+        const tripoint &origin, const tripoint &end )
+{
+    std::shared_ptr<shape> s = c.create( origin, end );
+    projectile p;
+    p.impact = damage_instance();
+    p.impact.add_damage( DT_STAB, 10 );
+    auto cov = expected_coverage( *s, get_map(), p );
+
+    map &here = get_map();
+    auto bb = s->bounding_box();
+    REQUIRE( bb.p_min != bb.p_max );
+    bool had_any = false;
+    for( const tripoint &p : here.points_in_rectangle( bb.p_min, bb.p_max ) ) {
+        double signed_distance = s->distance_at( p );
+        bool distance_on_shape_is_negative = signed_distance < 0.0;
+        bool point_is_covered = cov.find( p ) != cov.end() && cov.at( p ) > 0.0;
+        CAPTURE( p );
+        CAPTURE( signed_distance );
+        CAPTURE( cov[p] );
+        CHECK( distance_on_shape_is_negative == point_is_covered );
+        had_any |= distance_on_shape_is_negative;
+    }
+
+    CHECK( had_any );
+}
+
+TEST_CASE( "expected shape coverage mass test", "[shape]" )
+{
+    clear_map();
+    cone_factory c( deg2rad( 15 ), 10.0 );
+    const tripoint origin( 60, 60, 0 );
+    for( const tripoint &end : points_in_radius<tripoint>( origin, 5 ) ) {
+        shape_coverage_vs_distance_no_obstacle( c, origin, end );
+    }
+
+    // Hard case
+    shape_coverage_vs_distance_no_obstacle( c, {65, 65, 0}, tripoint{65, 65, 0} + point( 2, 1 ) );
+}
+
+TEST_CASE( "expected shape coverage without obstacles", "[shape]" )
+{
+    clear_map();
+    cone_factory c( deg2rad( 22.5 ), 10.0 );
+    const tripoint origin( 60, 60, 0 );
+    const tripoint offset( 5, 5, 0 );
+    const tripoint end = origin + offset;
+    std::shared_ptr<shape> s = c.create( origin, end );
+    projectile p;
+    p.impact = damage_instance();
+    p.impact.add_damage( DT_STAB, 10 );
+    auto cov = expected_coverage( *s, get_map(), p );
+
+    CHECK( cov[origin + point( 4, 4 )] == 1.0 );
+    CHECK( cov[origin + point( 3, 3 )] == 1.0 );
+    CHECK( cov[origin + point( 2, 2 )] == 1.0 );
+    CHECK( cov[origin + point( 1, 1 )] == 1.0 );
+
+    CHECK( cov[origin + point( 2, 1 )] == 1.0 );
+    CHECK( cov[origin + point( 1, 2 )] == 1.0 );
+}

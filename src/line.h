@@ -154,18 +154,22 @@ std::vector<point> line_to( const point &p1, const point &p2, int t = 0 );
 std::vector<tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int t = 0, int t2 = 0 );
 // sqrt(dX^2 + dY^2)
 
+inline int trig_dist_squared( const tripoint &loc1, const tripoint &loc2 )
+{
+    return ( ( loc1.x - loc2.x ) * ( loc1.x - loc2.x ) ) +
+           ( ( loc1.y - loc2.y ) * ( loc1.y - loc2.y ) ) +
+           ( ( loc1.z - loc2.z ) * ( loc1.z - loc2.z ) );
+}
 inline float trig_dist( const tripoint &loc1, const tripoint &loc2 )
 {
-    return std::sqrt( static_cast<double>( ( loc1.x - loc2.x ) * ( loc1.x - loc2.x ) ) +
-                      ( ( loc1.y - loc2.y ) * ( loc1.y - loc2.y ) ) +
-                      ( ( loc1.z - loc2.z ) * ( loc1.z - loc2.z ) ) );
+    return std::sqrt( static_cast<double>( trig_dist_squared( loc1, loc2 ) ) );
 }
 inline float trig_dist( const point &loc1, const point &loc2 )
 {
     return trig_dist( tripoint( loc1, 0 ), tripoint( loc2, 0 ) );
 }
 
-// Roguelike distance; maximum of dX and dY
+// Manhattan distance; maximum of dX and dY
 inline int square_dist( const tripoint &loc1, const tripoint &loc2 )
 {
     const tripoint d = ( loc1 - loc2 ).abs();

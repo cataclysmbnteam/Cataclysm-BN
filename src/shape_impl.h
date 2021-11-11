@@ -189,7 +189,7 @@ class cone_factory : public shape_factory_impl
             std::shared_ptr<rotate_z_shape> r = std::make_shared<rotate_z_shape>( c, rotation_angle );
             std::shared_ptr<offset_shape> o = std::make_shared<offset_shape>( r,
                                               rl_vec3d( start.x, start.y, start.z ) );
-            return std::make_shared<shape>( o );
+            return std::make_shared<shape>( o, start );
         }
 
         const std::string &get_type() const override {

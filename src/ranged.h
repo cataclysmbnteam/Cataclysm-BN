@@ -90,6 +90,8 @@ int throw_cost( const player &c, const item &to_throw );
 /** AoE attack, with area given by shape */
 void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &attacker );
 
+std::vector<std::pair<tripoint, double>> expected_coverage( const shape &sh, const map &m );
+
 } // namespace ranged
 
 #endif // CATA_SRC_RANGED_H

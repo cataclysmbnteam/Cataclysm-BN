@@ -13,7 +13,6 @@ class shape_impl;
 class shape_factory_impl;
 class JsonIn;
 class JsonOut;
-class map;
 
 /**
  * Class describing shapes in 3D space. The shapes can cover some points partially.
@@ -26,13 +25,13 @@ class shape
         inclusive_cuboid<tripoint> bounding_box() const;
         // TODO: Envelope instead of transformed bb
         inclusive_cuboid<rl_vec3d> bounding_box_float() const;
-        std::map<tripoint, double> coverage( const map &m ) const;
+        const tripoint &get_origin() const;
 
-        shape();
-        shape( const std::shared_ptr<shape_impl> & );
+        shape( const std::shared_ptr<shape_impl> &, const tripoint &origin );
         shape( const shape & );
     private:
         std::shared_ptr<shape_impl> impl;
+        tripoint origin;
 };
 
 /**

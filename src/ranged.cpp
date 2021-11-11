@@ -129,6 +129,8 @@ void make_gun_sound_effect( const player &p, bool burst, item *weapon );
 bool can_use_bipod( const map &m, const tripoint &pos );
 dispersion_sources calculate_dispersion( const map &m, const player &p, const item &gun,
         int at_recoil, bool burst );
+std::map<tripoint, double> expected_coverage(
+    const shape &sh, const map &m, const projectile &proj );
 
 class target_ui
 {
@@ -2512,7 +2514,9 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
     } else if( mode == TargetMode::Turrets ) {
         update_turrets_in_range();
     } else if( mode == TargetMode::Shape ) {
-        shape_coverage = shape_gen->create( src, dst )->coverage( here );
+        std::shared_ptr<shape> sh = shape_gen->create( src, dst );
+        projectile proj = make_gun_projectile( *relevant );
+        shape_coverage = expected_coverage( *sh, here, proj );
     }
 
     // Update UI controls & colors
@@ -3610,32 +3614,115 @@ bool ranged::gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::
 
 
 // TODO: Move to proper file n' shit
+#include "map_iterator.h"
 void ranged::execute_shaped_attack( const shape &sh, const projectile &proj, Creature &attacker )
 {
     map &here = get_map();
-    std::map<tripoint, double> coverage_all = sh.coverage( here );
-    for( const std::pair<tripoint, double> &pr : coverage_all ) {
-        const tripoint &p = pr.first;
-        double coverage = pr.second;
-        // TODO: Hits between creature size and 0.0
-        if( coverage <= 0.0 ) {
+    inclusive_cuboid<tripoint> bb = sh.bounding_box();
+    for( const tripoint &p : here.points_in_rectangle( bb.p_min, bb.p_max ) ) {
+        double signed_distance = sh.distance_at( p );
+        if( signed_distance > 0.0 ) {
             continue;
         }
+
         Creature *critter = g->critter_at( p );
         if( critter == nullptr || p == attacker.pos() ) {
             // TODO: Terrain, vehicles
             continue;
         }
         // TODO: Proper origin
-        // TODO: Proper range
         // TODO: Proper limiting terrain
-        if( !here.sees( attacker.pos(), p, 60 ) ) {
-            continue;
-        }
 
         dealt_projectile_attack attack {
             proj, nullptr, dealt_damage_instance(), attacker.pos(), 0.5
         };
         critter->deal_projectile_attack( &attacker, attack );
     }
+}
+
+struct tripoint_distance {
+    tripoint_distance( const tripoint &p, int distance_squared )
+        : p( p )
+        , distance_squared( distance_squared )
+    {}
+    tripoint_distance( const tripoint_distance & ) = default;
+    tripoint p;
+    int distance_squared;
+
+    // Inverted because it's descending by default
+    bool operator<( const tripoint_distance &rhs ) const {
+        return !( distance_squared < rhs.distance_squared );
+    }
+};
+
+std::map<tripoint, double> expected_coverage(
+    const shape &sh, const map &here, const projectile &proj )
+{
+    inclusive_cuboid<tripoint> bb = sh.bounding_box();
+    // Same as in map::shoot (should probably be a function!)
+    int expected_bash_force = std::accumulate( proj.impact.begin(), proj.impact.end(), 0.0,
+    []( double acc, const damage_unit & du ) {
+        return acc + du.amount + du.res_pen;
+    } );
+    const tripoint &origin = sh.get_origin();
+    std::priority_queue<tripoint_distance> queue;
+    for( const tripoint &p : here.points_in_rectangle( bb.p_min, bb.p_max ) ) {
+        double signed_distance = sh.distance_at( p );
+        double coverage = std::min( 1.0, -signed_distance );
+        if( coverage > 0.0 ) {
+            queue.emplace( p, trig_dist_squared( origin, p ) );
+        }
+    }
+
+    std::map<tripoint, double> final_coverage;
+    // Hack: we want others to inherit coverage, we remove it later
+    final_coverage[origin] = 1.0;
+    while( !queue.empty() ) {
+        tripoint p = queue.top().p;
+        queue.pop();
+        double parent_coverage = 0.0;
+        // TODO: This isn't correct
+        for( const tripoint &closer : squares_closer_to( p, origin ) ) {
+            auto iter = final_coverage.find( closer );
+            if( iter != final_coverage.end() ) {
+                parent_coverage = std::max( parent_coverage, iter->second );
+            }
+        }
+        if( parent_coverage <= 0.0 ) {
+            continue;
+        }
+
+        double current_coverage = parent_coverage;
+        if( here.passable( p ) ||
+            // Necessary evil. TODO: Make map::shoot not evil.
+            ( here.is_transparent( p ) && here.has_flag_furn( TFLAG_PERMEABLE, p ) ) ) {
+
+        } else {
+            int bash_str = here.bash_strength( p );
+            int bash_res = here.bash_resistance( p );
+            if( expected_bash_force < bash_res ) {
+                continue;
+            }
+            int range_width = bash_str - bash_res;
+            int fail_width = bash_str - expected_bash_force;
+            double bash_through_chance = 1.0 - static_cast<double>( fail_width + 1 ) / ( range_width + 1 );
+            current_coverage *= bash_through_chance;
+        }
+
+        if( here.veh_at( p ) ) {
+            // If a vehicle part is blocking, assume it's indestructible
+            continue;
+        }
+
+        if( current_coverage > 0.0 ) {
+            final_coverage[p] = current_coverage;
+        }
+    }
+
+    final_coverage.erase( origin );
+    printf( "\nStarting at %d,%d,%d\n", origin.x, origin.y, origin.z );
+    for( const auto &pr : final_coverage ) {
+        printf( "%d,%d,%d: %.1f\n", pr.first.x, pr.first.y, pr.first.z, pr.second );
+    }
+    return final_coverage;
 }

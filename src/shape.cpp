@@ -7,11 +7,16 @@
 #include "shape_impl.h"
 #include "point_float.h"
 
-shape::shape() = default;
 shape::shape( const shape & ) = default;
-shape::shape( const std::shared_ptr<shape_impl> &impl )
+shape::shape( const std::shared_ptr<shape_impl> &impl, const tripoint &origin )
     : impl( impl )
+    , origin( origin )
 {}
+
+const tripoint &shape::get_origin() const
+{
+    return origin;
+}
 
 inclusive_cuboid<tripoint> shape::bounding_box() const
 {
@@ -37,30 +42,6 @@ double shape::distance_at( const rl_vec3d &p ) const
 {
     return impl->signed_distance( p );
 }
-
-// TODO: Find good file
-#include "map.h"
-#include "map_iterator.h"
-std::map<tripoint, double> shape::coverage( const map &here ) const
-{
-    std::map<tripoint, double> cov;
-    inclusive_cuboid<tripoint> bb = bounding_box();
-    for( const tripoint &p : here.points_in_rectangle( bb.p_min, bb.p_max ) ) {
-        double shape_distance = distance_at( p );
-        if( shape_distance > 0.0 ) {
-            continue;
-        }
-        // TODO: Proper origin
-        // TODO: Proper range
-        // TODO: Proper limiting terrain
-        if( /*here.sees( attacker.pos(), p, 60 )*/ true ) {
-            cov[p] = -std::max( shape_distance, -1.0 );
-        }
-    }
-
-    return cov;
-}
-
 
 shape_factory::shape_factory() = default;
 shape_factory::shape_factory( const shape_factory & ) = default;
@@ -98,7 +79,7 @@ void shape_factory::deserialize( JsonIn &jsin )
 std::shared_ptr<shape> shape_factory::create( const tripoint &start, const tripoint &end ) const
 {
     if( impl == nullptr ) {
-        return std::make_shared<shape>( std::make_shared<empty_shape>() );
+        return std::make_shared<shape>( std::make_shared<empty_shape>(), tripoint_zero );
     }
     return impl->create( start, end );
 }
