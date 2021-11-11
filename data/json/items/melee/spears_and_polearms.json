@@ -77,7 +77,7 @@
     "techniques": [ "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
     "flags": [ "FRAGILE_MELEE", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "REACH_ATTACK", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "BLADED_FARMING", "HOOKING_POLEARMS", "POLEARMS" ]
+    "weapon_category": [ "BLADED_FARMING", "HOOKING_WEAPONRY", "POLEARMS" ]
   },
   {
     "id": "spear_spike",
@@ -289,7 +289,7 @@
     "price": 50000,
     "material": [ "wood", "steel" ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "POLEARMS" ],
+    "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
     "techniques": [ "WBLOCK_1", "WIDE", "SWEEP" ],
     "weight": "3175 g",
     "volume": "3750 ml",
@@ -329,7 +329,7 @@
     "material": [ "steel", "wood" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -28 ] ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "HOOKING_POLEARMS", "POLEARMS" ],
+    "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
     "techniques": [ "WIDE", "WBLOCK_1" ],
     "weight": "2100 g",
     "volume": "2500 ml",
@@ -353,7 +353,7 @@
     "cutting": 45,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -24 ] ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "HOOKING_POLEARMS", "POLEARMS" ],
+    "weapon_category": [ "POLEARMS" ],
     "price": 80000,
     "price_postapoc": 9500
   },
@@ -411,7 +411,7 @@
     "bashing": 6,
     "cutting": 40,
     "flags": [ "STAB", "POLEARM", "REACH_ATTACK", "SHEATH_SPEAR" ],
-    "weapon_category": [ "HOOKING_POLEARMS", "POLEARMS" ],
+    "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
     "//": "Description says it can slash. STAB currently doesn't slash, but at least it doesn't give the spear bonus",
     "price": 8000,
     "price_postapoc": 4500,
@@ -582,7 +582,7 @@
     "techniques": [ "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "REACH_ATTACK", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "BLADED_FARMING", "HOOKING_POLEARMS", "POLEARMS" ]
+    "weapon_category": [ "BLADED_FARMING", "HOOKING_WEAPONRY", "POLEARMS" ]
   },
   {
     "id": "spear_dory",
@@ -624,7 +624,7 @@
     "color": "yellow",
     "techniques": [ "WBLOCK_1", "DEF_DISARM" ],
     "flags": [ "DURABLE_MELEE", "POLEARM", "REACH_ATTACK", "ALWAYS_TWOHAND", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
-    "weapon_category": [ "POLEARMS" ]
+    "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ]
   },
   {
     "id": "spear_stone",
