@@ -2,6 +2,7 @@
 
 #include "active_tile_data.h"
 #include "active_tile_data_def.h"
+#include "cata_utility.h"
 #include "catch/catch.hpp"
 #include "coordinate_conversions.h"
 #include "distribution_grid.h"
@@ -10,6 +11,7 @@
 #include "map_helpers.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "stringmaker.h"
 #include "vehicle.h"
 
 static itype_id itype_battery( "battery" );
@@ -95,13 +97,18 @@ struct grid_setup {
     battery_tile &battery;
 };
 
+static void clear_grid_connections( map &m )
+{
+    // TODO: fix point types
+    auto om = overmap_buffer.get_om_global( project_to<coords::omt>( tripoint_abs_sm(
+            m.get_abs_sub() ) ) );
+    om.om->set_electric_grid_connections( om.local, {} );
+}
+
 static grid_setup set_up_grid( map &m )
 {
     // TODO: clear_grids()
-    // TODO: fix point types
-    auto om = overmap_buffer.get_om_global( project_to<coords::omt>(
-            tripoint_abs_sm( m.get_abs_sub() ) ) );
-    om.om->set_electric_grid_connections( om.local, {} );
+    clear_grid_connections( m );
 
     const tripoint vehicle_local_pos = tripoint( 10, 10, 0 );
     const tripoint connector_local_pos = tripoint( 13, 10, 0 );
@@ -150,5 +157,167 @@ TEST_CASE( "grid_and_vehicle_outside_bubble", "[grids][vehicle]" )
         auto setup = set_up_grid( m );
         m.save();
         test_grid_veh( setup.grid, setup.veh, setup.battery );
+    }
+}
+
+struct grid_setup_consumer {
+    distribution_grid &grid;
+    steady_consumer_tile &consumer;
+    battery_tile &battery;
+    tripoint_abs_ms consumer_pos;
+};
+
+static inline grid_setup_consumer set_up_grid_with_consumer( map &m, const char *consumer_id )
+{
+    // TODO: clear_grids()
+    clear_grid_connections( m );
+
+    const tripoint consumer_local_pos = tripoint( 13, 9, 0 );
+    const tripoint battery_local_pos = tripoint( 14, 10, 0 );
+    const tripoint_abs_ms consumer_abs_pos( m.getabs( consumer_local_pos ) );
+    const tripoint_abs_ms battery_abs_pos( m.getabs( battery_local_pos ) );
+    m.furn_set( consumer_local_pos, furn_str_id( consumer_id ) );
+    m.furn_set( battery_local_pos, furn_str_id( "f_battery" ) );
+    steady_consumer_tile *consumer =
+        active_tiles::furn_at<steady_consumer_tile>( consumer_abs_pos );
+    battery_tile *battery = active_tiles::furn_at<battery_tile>( battery_abs_pos );
+
+    CAPTURE( consumer_abs_pos );
+    CAPTURE( battery_abs_pos );
+    REQUIRE( consumer );
+    REQUIRE( battery );
+
+    distribution_grid &grid = get_distribution_grid_tracker().grid_at( consumer_abs_pos );
+    REQUIRE( !grid.empty() );
+    REQUIRE( &grid == &get_distribution_grid_tracker().grid_at( battery_abs_pos ) );
+    return grid_setup_consumer{grid, *consumer, *battery, consumer_abs_pos};
+}
+
+static void require_empty_queue( const grid_furn_transform_queue &q )
+{
+    static const grid_furn_transform_queue empty_queue;
+    REQUIRE( q == empty_queue );
+}
+
+static inline void test_steady_consumer( grid_setup_consumer &setup )
+{
+    grid_furn_transform_queue &tf_queue = get_distribution_grid_tracker().get_transform_queue();
+    auto _cleanup = on_out_of_scope( [&]() {
+        tf_queue.clear();
+    } );
+
+    distribution_grid &grid = setup.grid;
+    steady_consumer_tile &consumer = setup.consumer;
+    battery_tile &battery = setup.battery;
+
+    CAPTURE( battery.max_stored );
+    CAPTURE( consumer.power );
+    CAPTURE( consumer.consume_every );
+    CAPTURE( consumer.transform.id );
+    REQUIRE( consumer.consume_every > 1_seconds );
+
+    WHEN( "the battery is fully charged" ) {
+        int excess = battery.mod_resource( battery.max_stored );
+        REQUIRE( excess == 0 );
+        REQUIRE( battery.get_resource() == battery.max_stored );
+        REQUIRE( grid.get_resource() == battery.get_resource() );
+
+        AND_WHEN( "1 consumer tick passes" ) {
+            time_point to = calendar::turn + consumer.consume_every;
+            grid.update( to );
+            THEN( "the battery has been drained by specified amount per tick" ) {
+                REQUIRE( grid.get_resource() == battery.max_stored - consumer.power );
+                require_empty_queue( tf_queue );
+            }
+        }
+
+        AND_WHEN( "less than 1 consumer tick passes" ) {
+            time_point to = calendar::turn + consumer.consume_every - 1_seconds;
+            grid.update( to );
+            THEN( "no changes" ) {
+                REQUIRE( grid.get_resource() == battery.max_stored );
+                require_empty_queue( tf_queue );
+            }
+
+            AND_WHEN( "3 consumer ticks pass" ) {
+                to += consumer.consume_every * 3;
+                grid.update( to );
+                THEN( "the battery has been drained by 3x specified amount per tick" ) {
+                    REQUIRE( grid.get_resource() == battery.max_stored - consumer.power * 3 );
+                    require_empty_queue( tf_queue );
+                }
+            }
+        }
+    }
+
+    WHEN( "the battery has power for 1 consumer tick" ) {
+        int excess = battery.mod_resource( 1 );
+        REQUIRE( excess == 0 );
+        REQUIRE( battery.get_resource() == 1 );
+        REQUIRE( grid.get_resource() == battery.get_resource() );
+
+        AND_WHEN( "1 consumer tick passes" ) {
+            time_point to = calendar::turn + consumer.consume_every;
+            grid.update( to );
+            THEN( "the battery has been fully drained" ) {
+                REQUIRE( grid.get_resource() == 0 );
+                require_empty_queue( tf_queue );
+            }
+        }
+
+        AND_WHEN( "less than 1 consumer tick passes" ) {
+            time_point to = calendar::turn + consumer.consume_every - 1_seconds;
+            grid.update( to );
+            THEN( "no changes" ) {
+                REQUIRE( grid.get_resource() == 1 );
+                require_empty_queue( tf_queue );
+            }
+
+            AND_WHEN( "3 consumer ticks pass" ) {
+                to += consumer.consume_every * 3;
+                grid.update( to );
+                THEN( "the battery has been fully drained, and transform has been queued" ) {
+                    REQUIRE( grid.get_resource() == 0 );
+
+                    const grid_furn_transform_queue single_dead_lamp = {{
+                            {
+                                setup.consumer_pos, furn_str_id( "f_floor_lamp" )
+                            }
+                        }
+                    };
+
+                    REQUIRE( tf_queue == single_dead_lamp );
+                }
+            }
+        }
+    }
+}
+
+TEST_CASE( "steady_consumer_in_bubble", "[grids]" )
+{
+    calendar::turn = calendar::turn_zero;
+    clear_map_and_put_player_underground();
+
+    GIVEN( "consumer and battery are on one grid" ) {
+        auto setup = set_up_grid_with_consumer( g->m, "f_floor_lamp_on" );
+        test_steady_consumer( setup );
+    }
+}
+
+TEST_CASE( "steady_consumer_outside_bubble", "[grids]" )
+{
+    calendar::turn = calendar::turn_zero;
+    clear_map_and_put_player_underground();
+
+    const tripoint old_abs_sub = g->m.get_abs_sub();
+    // Ugly: we move the real map instead of the tinymap to reuse clear_map() results
+    g->m.load( g->m.get_abs_sub() + point( g->m.getmapsize(), 0 ), true );
+    GIVEN( "consumer and battery are on one grid" ) {
+        tinymap m;
+        m.load( old_abs_sub, false );
+        auto setup = set_up_grid_with_consumer( m, "f_floor_lamp_on" );
+        m.save();
+
+        test_steady_consumer( setup );
     }
 }

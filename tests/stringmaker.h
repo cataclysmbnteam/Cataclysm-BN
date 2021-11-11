@@ -6,6 +6,7 @@
 #include "catch/catch.hpp"
 #include "cata_variant.h"
 #include "dialogue.h"
+#include "distribution_grid.h"
 #include "item.h"
 
 // StringMaker specializations for Cata types for reporting via Catch2 macros
@@ -67,6 +68,17 @@ template<>
 struct StringMaker<talk_response> {
     static std::string convert( const talk_response &r ) {
         return string_format( "talk_response( text=\"%s\" )", r.text );
+    }
+};
+
+template<>
+struct StringMaker<grid_furn_transform_queue> {
+    static std::string convert( const grid_furn_transform_queue &q ) {
+        std::string msg = "\n";
+        for( size_t i = 0; i < q.queue.size(); i++ ) {
+            msg += string_format( "% 2d: %s %s\n", i, q.queue[i].p.to_string(), q.queue[i].id );
+        }
+        return string_format( "grid_furn_transform_queue(%s)", msg );
     }
 };
 

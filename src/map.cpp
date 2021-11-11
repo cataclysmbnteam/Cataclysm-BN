@@ -1386,7 +1386,9 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
         get_distribution_grid_tracker().on_changed( tripoint_abs_ms( getabs( p ) ) );
     }
     if( new_t.active ) {
-        current_submap->active_furniture[point_sm_ms( l )].reset( new_t.active->clone() );
+        active_tile_data *atd = new_t.active->clone();
+        atd->set_last_updated( calendar::turn );
+        current_submap->active_furniture[point_sm_ms( l )].reset( atd );
         get_distribution_grid_tracker().on_changed( tripoint_abs_ms( getabs( p ) ) );
     }
 }

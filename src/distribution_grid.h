@@ -11,6 +11,7 @@
 #include "cuboid_rectangle.h"
 #include "memory_fast.h"
 #include "point.h"
+#include "type_id.h"
 
 class map;
 class mapbuffer;
@@ -57,6 +58,37 @@ class distribution_grid
         }
 };
 
+class distribution_grid_tracker;
+
+struct transform_queue_entry {
+    tripoint_abs_ms p;
+    furn_str_id id;
+
+    bool operator==( const transform_queue_entry &l ) const {
+        return p == l.p && id == l.id;
+    }
+};
+
+class grid_furn_transform_queue
+{
+    public:
+        std::vector<transform_queue_entry> queue;
+
+        void add( const tripoint_abs_ms &p, const furn_str_id &id ) {
+            queue.emplace_back( transform_queue_entry{ p, id } );
+        }
+
+        void apply( mapbuffer &mb, distribution_grid_tracker &grid_tracker );
+
+        void clear() {
+            queue.clear();
+        }
+
+        bool operator==( const grid_furn_transform_queue &l ) const {
+            return queue == l.queue;
+        }
+};
+
 /**
  * Contains and manages all the active distribution grids.
  */
@@ -80,6 +112,8 @@ class distribution_grid_tracker
 
         mapbuffer &mb;
 
+        grid_furn_transform_queue transform_queue;
+
     public:
         distribution_grid_tracker();
         distribution_grid_tracker( mapbuffer &buffer );
@@ -99,6 +133,11 @@ class distribution_grid_tracker
         std::uintptr_t debug_grid_id( const tripoint_abs_omt &omp ) const;
 
         void update( time_point to );
+
+        grid_furn_transform_queue &get_transform_queue() {
+            return transform_queue;
+        }
+
         /**
          * Loads grids in an area given by submap coords.
          */

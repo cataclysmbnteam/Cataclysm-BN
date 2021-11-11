@@ -423,7 +423,11 @@ ter_t null_terrain_t()
 template<typename C, typename F>
 void load_season_array( const JsonObject &jo, const std::string &key, C &container, F load_func )
 {
-    if( jo.has_string( key ) ) {
+    if( !jo.has_member( key ) ) {
+        // Throw 'member not found' error
+        jo.get_member( key );
+
+    } else if( jo.has_string( key ) ) {
         container.fill( load_func( jo.get_string( key ) ) );
 
     } else if( jo.has_array( key ) ) {
