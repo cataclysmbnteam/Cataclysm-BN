@@ -652,7 +652,7 @@ float rl_vec2d::dot_product( const rl_vec2d &v ) const
 
 float rl_vec3d::dot_product( const rl_vec3d &v ) const
 {
-    return x * v.x + y * v.y + y * v.z;
+    return x * v.x + y * v.y + z * v.z;
 }
 
 rl_vec3d rl_vec3d::cross_product( const rl_vec3d &v ) const

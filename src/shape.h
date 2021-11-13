@@ -22,6 +22,9 @@ class shape
     public:
         double distance_at( const tripoint &p ) const;
         double distance_at( const rl_vec3d &p ) const;
+        /**
+         * Approximation of bounding box, guaranteed to contain all points.
+         */
         inclusive_cuboid<tripoint> bounding_box() const;
         // TODO: Envelope instead of transformed bb
         inclusive_cuboid<rl_vec3d> bounding_box_float() const;

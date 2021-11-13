@@ -1,6 +1,17 @@
 #include "shape_impl.h"
 #include "catch/catch.hpp"
 
+class square_distance_from_zero_shape : public shape_impl
+{
+        double signed_distance( const rl_vec3d &p ) const override {
+            return p.dot_product( p );
+        }
+
+        inclusive_cuboid<rl_vec3d> bounding_box() const override {
+            return inclusive_cuboid<rl_vec3d>( rl_vec3d(), rl_vec3d() );
+        }
+};
+
 TEST_CASE( "cone_test", "[shape]" )
 {
     SECTION( "90 degrees, length 1" ) {
@@ -75,6 +86,55 @@ TEST_CASE( "offset_rotated_cone_test", "[shape]" )
     }
 }
 
+TEST_CASE( "rotate_z_shape_test", "[shape]" )
+{
+    std::shared_ptr<shape_impl> s = std::make_shared<square_distance_from_zero_shape>();
+    REQUIRE( s->signed_distance( rl_vec3d( 1.0, 0.0, 0.0 ) ) == Approx( 1.0 ) );
+    SECTION( "rotate unit vector by multiples of 22.5 degrees" ) {
+        for( int mult = -8; mult <= 8; mult++ ) {
+            std::shared_ptr<shape_impl> r = std::make_shared<rotate_z_shape>( s, deg2rad( mult * 22.5 ) );
+            CHECK( r->signed_distance( rl_vec3d( 1.0, 0.0, 0.0 ) ) == Approx( 1.0 ) );
+            CHECK( r->signed_distance( rl_vec3d( 0.0, 1.0, 0.0 ) ) == Approx( 1.0 ) );
+            CHECK( r->signed_distance( rl_vec3d( 0.0, 0.0, 1.0 ) ) == Approx( 1.0 ) );
+        }
+    }
+}
+
+TEST_CASE( "cylinder_test", "[shape]" )
+{
+    constexpr double length = 1.0;
+    constexpr double radius = 0.5;
+    std::shared_ptr<shape_impl> cyl = std::make_shared<cylinder>( length, radius );
+    SECTION( "just the cylinder" ) {
+        std::shared_ptr<shape_impl> s = cyl;
+        CHECK( s->signed_distance( rl_vec3d{0.0, 0.0, 0.0} ) == Approx( 0.0 ) );
+        CHECK( s->signed_distance( rl_vec3d{0.0, -length, 0.0} ) == Approx( 0.0 ) );
+        CHECK( s->signed_distance( rl_vec3d{radius, 0.0, 0.0} ) == Approx( 0.0 ) );
+        CHECK( s->signed_distance( rl_vec3d{-radius, 0.0, 0.0} ) == Approx( 0.0 ) );
+        CHECK( s->signed_distance( rl_vec3d{0.0, 0.0, radius} ) == Approx( 0.0 ) );
+        CHECK( s->signed_distance( rl_vec3d{0.0, 0.0, -radius} ) == Approx( 0.0 ) );
+        CHECK( s->signed_distance(
+                   rl_vec3d{M_SQRT2 / 2.0 * radius, 0.0, M_SQRT2 / 2.0 * radius} ) == Approx( 0.0 ) );
+    }
+
+    SECTION( "offset by (radius, 2*length, 0)" ) {
+        std::shared_ptr<shape_impl> s = std::make_shared<offset_shape>( cyl,
+                                        rl_vec3d( radius, 2.0 * length, 0.0 ) );
+        CHECK( s->signed_distance( rl_vec3d{0.0, 2.0, 0.0} ) == Approx( 0.0 ) );
+        CHECK( s->signed_distance( rl_vec3d{0.0, 1.0, 0.0} ) == Approx( 0.0 ) );
+        CHECK( s->signed_distance( rl_vec3d{1.0, 1.0, 0.0} ) == Approx( 0.0 ) );
+        CHECK( s->signed_distance( rl_vec3d{0.5, 1.0, 0.5} ) == Approx( 0.0 ) );
+    }
+
+    SECTION( "rotated to point in positive x direction" ) {
+        std::shared_ptr<shape_impl> s = std::make_shared<rotate_z_shape>( cyl, deg2rad( -90 ) );
+        CHECK( s->signed_distance( rl_vec3d{0.0, 0.0, 0.0} ) == Approx( 0.0 ) );
+        CHECK( s->signed_distance( rl_vec3d{-length, 0.0, 0.0} ) == Approx( 0.0 ) );
+        CHECK( s->signed_distance( rl_vec3d{0.0, radius, 0.0} ) == Approx( 0.0 ) );
+        CHECK( s->signed_distance( rl_vec3d{0.0, 0.0, radius} ) == Approx( 0.0 ) );
+    }
+}
+
 TEST_CASE( "cone_factory_test", "[shape]" )
 {
     cone_factory c( deg2rad( 15 ), 10.0 );
@@ -113,9 +173,6 @@ TEST_CASE( "cone_factory_test", "[shape]" )
         CHECK( bb.contains( tripoint( 3, 3, 0 ) ) );
         CHECK( bb.contains( tripoint( 4, 4, 0 ) ) );
         CHECK( bb.contains( tripoint( 5, 5, 0 ) ) );
-
-        CHECK( !bb.contains( tripoint( -5, 0, 0 ) ) );
-        CHECK( !bb.contains( tripoint( 0, -5, 0 ) ) );
     }
 
     SECTION( "(15,5,0) to (-15,5,0)" ) {
@@ -132,7 +189,7 @@ TEST_CASE( "cone_factory_test", "[shape]" )
 #include "projectile.h"
 #include "map_helpers.h"
 std::map<tripoint, double> expected_coverage(
-    const shape &sh, const map &here, const projectile &proj );
+    const shape &sh, const map &m, int bash_power );
 
 static void shape_coverage_vs_distance_no_obstacle( const shape_factory_impl &c,
         const tripoint &origin, const tripoint &end )
@@ -141,7 +198,7 @@ static void shape_coverage_vs_distance_no_obstacle( const shape_factory_impl &c,
     projectile p;
     p.impact = damage_instance();
     p.impact.add_damage( DT_STAB, 10 );
-    auto cov = expected_coverage( *s, get_map(), p );
+    auto cov = expected_coverage( *s, get_map(), 3 );
 
     map &here = get_map();
     auto bb = s->bounding_box();
@@ -182,10 +239,7 @@ TEST_CASE( "expected shape coverage without obstacles", "[shape]" )
     const tripoint offset( 5, 5, 0 );
     const tripoint end = origin + offset;
     std::shared_ptr<shape> s = c.create( origin, end );
-    projectile p;
-    p.impact = damage_instance();
-    p.impact.add_damage( DT_STAB, 10 );
-    auto cov = expected_coverage( *s, get_map(), p );
+    auto cov = expected_coverage( *s, get_map(), 3 );
 
     CHECK( cov[origin + point( 4, 4 )] == 1.0 );
     CHECK( cov[origin + point( 3, 3 )] == 1.0 );
@@ -194,4 +248,25 @@ TEST_CASE( "expected shape coverage without obstacles", "[shape]" )
 
     CHECK( cov[origin + point( 2, 1 )] == 1.0 );
     CHECK( cov[origin + point( 1, 2 )] == 1.0 );
+}
+
+TEST_CASE( "expected shape coverage through windows", "[shape]" )
+{
+    clear_map();
+    cone_factory c( deg2rad( 22.5 ), 10.0 );
+    const tripoint origin( 60, 60, 0 );
+    const tripoint offset( 5, 0, 0 );
+    const tripoint end = origin + offset;
+    map &here = get_map();
+    for( int wall_offset = -10; wall_offset <= 10; wall_offset++ ) {
+        here.ter_set( tripoint( 62, 60 + wall_offset, 0 ), t_window );
+    }
+
+    std::shared_ptr<shape> s = c.create( origin, end );
+    auto cov = expected_coverage( *s, here, 3 );
+    CHECK( cov[origin + point( 1, 0 )] == 1.0 );
+
+    CHECK( cov[origin + point( 2, 0 )] == Approx( 0.25 ) );
+    CHECK( cov[origin + point( 3, 0 )] == Approx( 0.25 ) );
+    CHECK( cov[origin + point( 4, 0 )] == Approx( 0.25 ) );
 }

@@ -70,6 +70,35 @@ class cone : public shape_impl
         }
 };
 
+class cylinder : public shape_impl
+{
+    private:
+        double half_length;
+        double radius;
+
+    public:
+        cylinder( double length, double radius )
+            : half_length( 0.5 * length )
+            , radius( radius )
+        {}
+
+        double signed_distance( const rl_vec3d &p ) const override {
+            // https://www.iquilezles.org/www/articles/distfunctions/distfunctions.htm
+            // Plus adjustments (and fix!)
+            double dx = std::sqrt( p.x * p.x + p.z * p.z ) - radius;
+            double dy = std::abs( p.y + half_length ) - half_length;
+            double lx = std::max( dx, 0.0 );
+            double ly = std::max( dy, 0.0 );
+
+            return std::min( std::max( dx, dy ), 0.0 ) + std::sqrt( lx * lx + ly * ly );
+        }
+
+        inclusive_cuboid<rl_vec3d> bounding_box() const override {
+            return inclusive_cuboid<rl_vec3d>( rl_vec3d( radius, -2 * half_length, 0 ),
+                                               rl_vec3d( radius, 0, 0 ) );
+        }
+};
+
 class empty_shape : public shape_impl
 {
     public:
@@ -156,6 +185,45 @@ class rotate_z_shape : public shape_impl
         }
 };
 
+class shape_min : public shape_impl
+{
+    private:
+        std::vector<std::shared_ptr<shape_impl>> elements;
+    public:
+
+        shape_min( const std::shared_ptr<shape_impl> &l, const std::shared_ptr<shape_impl> &r )
+            : elements( {l, r} )
+        {}
+
+        double signed_distance( const rl_vec3d &p ) const override {
+            double min = HUGE_VAL;
+            for( const auto &e : elements ) {
+                min = std::min( min, e->signed_distance( p ) );
+            }
+            return min;
+        }
+
+        inclusive_cuboid<rl_vec3d> bounding_box() const override {
+            rl_vec3d min;
+            rl_vec3d max;
+            std::set<rl_vec3d> pts;
+            for( const auto &e : elements ) {
+                auto bb = e->bounding_box();
+                pts.emplace( bb.p_min );
+                pts.emplace( bb.p_max );
+            }
+            for( const rl_vec3d &v : pts ) {
+                min.x = std::min( min.x, v.x );
+                min.y = std::min( min.y, v.y );
+                min.z = std::min( min.z, v.z );
+                max.x = std::max( max.x, v.x );
+                max.y = std::max( max.y, v.y );
+                max.z = std::max( max.z, v.z );
+            }
+            return inclusive_cuboid<rl_vec3d>( min, max );
+        }
+};
+
 class shape_factory_impl
 {
     public:
@@ -182,11 +250,17 @@ class cone_factory : public shape_factory_impl
         {}
 
         std::shared_ptr<shape> create( const tripoint &start, const tripoint &end ) const override {
-            auto c = std::make_shared<cone>( half_angle, length );
+            std::shared_ptr<cone> c = std::make_shared<cone>( half_angle, length );
+            // Very thin cones may lack points close to origin after discretization, so let's hack it
+            std::shared_ptr<cylinder> cyl = std::make_shared<cylinder>( length - 1.0, 0.5 );
+            // Offset to prevent it reaching backwards when rotated
+            std::shared_ptr<shape_impl> offset_cyl = std::make_shared<offset_shape>( cyl,
+                    rl_vec3d( 0.0, -0.5, 0.0 ) );
+            auto mindist = std::make_shared<shape_min>( c, offset_cyl );
             tripoint diff = end - start;
             // Plus 90 deg because @ref cone extends in -y direction
             double rotation_angle = atan2( diff.y, diff.x ) + deg2rad( 90 );
-            std::shared_ptr<rotate_z_shape> r = std::make_shared<rotate_z_shape>( c, rotation_angle );
+            std::shared_ptr<rotate_z_shape> r = std::make_shared<rotate_z_shape>( mindist, rotation_angle );
             std::shared_ptr<offset_shape> o = std::make_shared<offset_shape>( r,
                                               rl_vec3d( start.x, start.y, start.z ) );
             return std::make_shared<shape>( o, start );
