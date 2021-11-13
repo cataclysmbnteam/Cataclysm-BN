@@ -452,7 +452,7 @@ static void damage_targets( const spell &sp, Creature &caster,
             add_effect_to_target( target, sp );
         }
         if( sp.damage() > 0 ) {
-            cr->deal_projectile_attack( &caster, atk, true );
+            cr->deal_projectile_attack( &caster, atk );
         } else if( sp.damage() < 0 ) {
             sp.heal( target );
             if( g->u.sees( cr->pos() ) ) {

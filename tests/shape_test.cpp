@@ -188,8 +188,6 @@ TEST_CASE( "cone_factory_test", "[shape]" )
 #include "ranged.h"
 #include "projectile.h"
 #include "map_helpers.h"
-std::map<tripoint, double> expected_coverage(
-    const shape &sh, const map &m, int bash_power );
 
 static void shape_coverage_vs_distance_no_obstacle( const shape_factory_impl &c,
         const tripoint &origin, const tripoint &end )
@@ -198,7 +196,7 @@ static void shape_coverage_vs_distance_no_obstacle( const shape_factory_impl &c,
     projectile p;
     p.impact = damage_instance();
     p.impact.add_damage( DT_STAB, 10 );
-    auto cov = expected_coverage( *s, get_map(), 3 );
+    auto cov = ranged::expected_coverage( *s, get_map(), 3 );
 
     map &here = get_map();
     auto bb = s->bounding_box();
@@ -239,7 +237,7 @@ TEST_CASE( "expected shape coverage without obstacles", "[shape]" )
     const tripoint offset( 5, 5, 0 );
     const tripoint end = origin + offset;
     std::shared_ptr<shape> s = c.create( origin, end );
-    auto cov = expected_coverage( *s, get_map(), 3 );
+    auto cov = ranged::expected_coverage( *s, get_map(), 3 );
 
     CHECK( cov[origin + point( 4, 4 )] == 1.0 );
     CHECK( cov[origin + point( 3, 3 )] == 1.0 );
@@ -263,7 +261,7 @@ TEST_CASE( "expected shape coverage through windows", "[shape]" )
     }
 
     std::shared_ptr<shape> s = c.create( origin, end );
-    auto cov = expected_coverage( *s, here, 3 );
+    auto cov = ranged::expected_coverage( *s, here, 3 );
     CHECK( cov[origin + point( 1, 0 )] == 1.0 );
 
     CHECK( cov[origin + point( 2, 0 )] == Approx( 0.25 ) );

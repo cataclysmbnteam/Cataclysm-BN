@@ -515,6 +515,42 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
     dealt_dam.bp_hit = bp_token;
 }
 
+namespace ranged
+{
+
+dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, const damage_instance &di )
+{
+    if( target.has_effect( effect_ridden ) ) {
+        monster *mons = dynamic_cast<monster *>( &target );
+        if( mons && mons->mounted_player ) {
+            if( !mons->has_flag( MF_MECH_DEFENSIVE ) &&
+                one_in( std::max( 2, mons->get_size() - mons->mounted_player->get_size() ) ) ) {
+                return hit_with_aoe( *mons->mounted_player, source, di );
+            }
+        }
+    }
+
+    const auto all_body_parts = target.get_body();
+    float hit_size_sum = std::accumulate( all_body_parts.begin(), all_body_parts.end(), 0.0f,
+    []( float acc, const std::pair<bodypart_str_id, bodypart> &pr ) {
+        return acc + pr.first->hit_size;
+    } );
+    dealt_damage_instance dealt_damage;
+    for( const std::pair<bodypart_str_id, bodypart> &pr : all_body_parts ) {
+        damage_instance impact = di;
+        impact.mult_damage( pr.first->hit_size / hit_size_sum );
+        dealt_damage_instance bp_damage = target.deal_damage( source, pr.first.id(), impact );
+        for( size_t i = 0; i < dealt_damage.dealt_dams.size(); i++ ) {
+            dealt_damage.dealt_dams[i] += bp_damage.dealt_dams[i];
+        }
+    }
+
+    dealt_damage.bp_hit = bodypart_str_id::NULL_ID()->token;
+    return dealt_damage;
+}
+
+} // namespace ranged
+
 /**
  * Attempts to harm a creature with a projectile.
  *
@@ -522,8 +558,7 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
  * @param attack A structure describing the attack and its results.
  * @param print_messages enables message printing by default.
  */
-void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
-                                       bool print_messages )
+void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack )
 {
     const bool magic = attack.proj.proj_effects.count( "magic" ) > 0;
     const bool targetted_crit_allowed = attack.proj.proj_effects.count( "NO_CRIT" ) == 0;
@@ -538,7 +573,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         if( mons && mons->mounted_player ) {
             if( !mons->has_flag( MF_MECH_DEFENSIVE ) &&
                 one_in( std::max( 2, mons->get_size() - mons->mounted_player->get_size() ) ) ) {
-                mons->mounted_player->deal_projectile_attack( source, attack, print_messages );
+                mons->mounted_player->deal_projectile_attack( source, attack );
                 return;
             }
         }
@@ -558,9 +593,6 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     if( goodhit >= 1.0 && !magic ) {
         attack.missed_by = 1.0; // Arbitrary value
-        if( !print_messages ) {
-            return;
-        }
         // "Avoid" rather than "dodge", because it includes removing self from the line of fire
         //  rather than just Matrix-style bullet dodging
         if( source != nullptr && g->u.sees( *source ) ) {
@@ -640,7 +672,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         damage_mult *= 0.5;
     }
 
-    if( print_messages && source != nullptr && !message.empty() && u_see_this ) {
+    if( source != nullptr && !message.empty() && u_see_this ) {
         source->add_msg_if_player( m_good, message );
     }
 
@@ -741,7 +773,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         add_effect( effect_stunned, 1_turns * rng( stun_strength / 2, stun_strength ) );
     }
 
-    if( u_see_this && print_messages ) {
+    if( u_see_this ) {
         if( damage_mult == 0 ) {
             if( source != nullptr ) {
                 add_msg( source->is_player() ? _( "You miss!" ) : _( "The shot misses!" ) );

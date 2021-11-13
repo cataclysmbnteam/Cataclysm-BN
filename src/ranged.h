@@ -1,6 +1,7 @@
 #ifndef CATA_SRC_RANGED_H
 #define CATA_SRC_RANGED_H
 
+#include <map>
 #include <vector>
 
 #include "type_id.h"
@@ -22,6 +23,8 @@ struct itype;
 struct tripoint;
 struct projectile;
 struct vehicle_part;
+struct dealt_damage_instance;
+struct damage_instance;
 
 namespace target_handler
 {
@@ -90,7 +93,9 @@ int throw_cost( const player &c, const item &to_throw );
 /** AoE attack, with area given by shape */
 void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &attacker );
 
-std::vector<std::pair<tripoint, double>> expected_coverage( const shape &sh, const map &m );
+std::map<tripoint, double> expected_coverage( const shape &sh, const map &m, int bash_power );
+
+dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, const damage_instance &di );
 
 } // namespace ranged
 
