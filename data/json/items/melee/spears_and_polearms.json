@@ -34,7 +34,7 @@
     "cutting": 11,
     "price_postapoc": 10,
     "flags": [ "SPEAR" ],
-    "weapon_category": [ "POLEARMS" ],
+    "weapon_category": [ "POLEARMS", "FENCING_WEAPONRY" ],
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ]
   },

@@ -402,7 +402,7 @@
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "weapon_category": [ "MEDIUM_SWORDS" ]
+    "weapon_category": [ "MEDIUM_SWORDS", "FENCING_WEAPONRY" ]
   },
   {
     "id": "kris",
@@ -578,6 +578,7 @@
     "material": "steel",
     "techniques": [ "WBLOCK_2", "PRECISE" ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "FENCING_WEAPONRY" ],
     "weight": "1814 g",
     "volume": "2750 ml",
     "bashing": 9,
@@ -1084,7 +1085,8 @@
     "bashing": 1,
     "cutting": 2,
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
-    "flags": [ "STAB", "SHEATH_SWORD" ]
+    "flags": [ "STAB", "SHEATH_SWORD" ],
+    "weapon_category": [ "FENCING_WEAPONRY" ]
   },
   {
     "id": "fencing_epee",
@@ -1102,7 +1104,8 @@
     "bashing": 3,
     "cutting": 7,
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
-    "flags": [ "STAB", "SHEATH_SWORD" ]
+    "flags": [ "STAB", "SHEATH_SWORD" ],
+    "weapon_category": [ "FENCING_WEAPONRY" ]
   },
   {
     "id": "fencing_sabre",
@@ -1120,7 +1123,8 @@
     "bashing": 1,
     "cutting": 6,
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
-    "flags": [ "STAB", "SHEATH_SWORD" ]
+    "flags": [ "STAB", "SHEATH_SWORD" ],
+    "weapon_category": [ "FENCING_WEAPONRY" ]
   },
   {
     "id": "fencing_foil_sharpened",
@@ -1234,7 +1238,8 @@
       "draw_cost": 80,
       "flags": [ "SHEATH_SWORD" ]
     },
-    "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ]
+    "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
+    "weapon_category": [ "BATONS", "FENCING_WEAPONRY" ]
   },
   {
     "id": "sword_cane",
@@ -1253,7 +1258,8 @@
     "cutting": 25,
     "looks_like": "rapier",
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
-    "flags": [ "STAB", "SHEATH_SWORD" ]
+    "flags": [ "STAB", "SHEATH_SWORD" ],
+    "weapon_category": [ "SHORT_SWORDS", "FENCING_WEAPONRY" ]
   },
   {
     "id": "broadsword",
@@ -1274,7 +1280,7 @@
     "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "weapon_category": [ "MEDIUM_SWORDS" ]
+    "weapon_category": [ "MEDIUM_SWORDS", "FENCING_WEAPONRY" ]
   },
   {
     "id": "broadsword_inferior",
@@ -1352,7 +1358,8 @@
     "color": "light_gray",
     "techniques": [ "RAPID", "WBLOCK_2", "PRECISE" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "FENCING_WEAPONRY" ]
   },
   {
     "id": "katana",
