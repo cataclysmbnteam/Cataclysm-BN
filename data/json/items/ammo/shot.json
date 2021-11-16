@@ -135,6 +135,7 @@
     "price_postapoc": 400,
     "range": 8,
     "damage": { "damage_type": "stab", "amount": 20 },
+    "dispersion": 1000,
     "loudness": 80,
     "shape": [ "cone", { "half_angle": 15, "length": 8 } ],
     "extend": { "effects": [ "NOGIB" ] }

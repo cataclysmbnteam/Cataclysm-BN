@@ -803,8 +803,10 @@ int player::fire_gun( const tripoint &target, const int max_shots, item &gun )
         shape = gun.ammo_current()->ammo->shape;
     }
 
+    // Shaped attacks don't allow aiming, so they don't suffer from lack of aim either
+    int character_recoil = shape ? recoil_vehicle() : recoil_total();
     // Penalty is (intentionally) based off mode shots, not ammo-limited.
-    dispersion_sources dispersion = calculate_dispersion( g->m, *this, gun, recoil_total(),
+    dispersion_sources dispersion = calculate_dispersion( g->m, *this, gun, character_recoil,
                                     max_shots > 1 );
 
     bool aoe_attack = gun.gun_skill() == skill_launcher || shape;
