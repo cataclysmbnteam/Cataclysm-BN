@@ -293,12 +293,8 @@ static void test_steady_consumer( grid_setup_consumer &setup )
                 THEN( "the battery has been fully drained, and transform has been queued" ) {
                     REQUIRE( grid.get_resource() == 0 );
 
-                    const grid_furn_transform_queue single_dead_lamp = {{
-                            {
-                                setup.consumer_pos, f_floor_lamp
-                            }
-                        }
-                    };
+                    grid_furn_transform_queue single_dead_lamp;
+                    single_dead_lamp.add( setup.consumer_pos, f_floor_lamp );
 
                     REQUIRE( tf_queue == single_dead_lamp );
                 }
@@ -349,12 +345,8 @@ static void test_charge_watcher( grid_setup_watcher &setup )
             grid.update( to );
 
             THEN( "transform has been queued" ) {
-                const grid_furn_transform_queue single_lit_lamp = { {
-                        {
-                            setup.watcher_pos, f_floor_lamp_on
-                        }
-                    }
-                };
+                grid_furn_transform_queue single_lit_lamp;
+                single_lit_lamp.add( setup.watcher_pos, f_floor_lamp_on );
 
                 REQUIRE( tf_queue == single_lit_lamp );
             }

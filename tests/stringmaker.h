@@ -74,11 +74,7 @@ struct StringMaker<talk_response> {
 template<>
 struct StringMaker<grid_furn_transform_queue> {
     static std::string convert( const grid_furn_transform_queue &q ) {
-        std::string msg = "\n";
-        for( size_t i = 0; i < q.queue.size(); i++ ) {
-            msg += string_format( "% 2d: %s %s\n", i, q.queue[i].p.to_string(), q.queue[i].id );
-        }
-        return string_format( "grid_furn_transform_queue(%s)", msg );
+        return string_format( "grid_furn_transform_queue(\n%s)", q.to_string() );
     }
 };
 

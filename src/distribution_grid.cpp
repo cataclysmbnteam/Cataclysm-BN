@@ -288,6 +288,15 @@ void grid_furn_transform_queue::apply( mapbuffer &mb, distribution_grid_tracker 
     }
 }
 
+std::string grid_furn_transform_queue::to_string() const
+{
+    std::string ret;
+    for( size_t i = 0; i < queue.size(); i++ ) {
+        ret += string_format( "% 2d: %s %s\n", i, queue[i].p.to_string(), queue[i].id );
+    }
+    return ret;
+}
+
 void distribution_grid_tracker::update( time_point to )
 {
     // TODO: Don't recalc this every update
@@ -299,7 +308,7 @@ void distribution_grid_tracker::update( time_point to )
         }
     }
     transform_queue.apply( mb, *this );
-    transform_queue.queue.clear();
+    transform_queue.clear();
 }
 
 void distribution_grid_tracker::load( half_open_rectangle<point_abs_sm> area )

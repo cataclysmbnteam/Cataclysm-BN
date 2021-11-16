@@ -69,11 +69,23 @@ struct transform_queue_entry {
     }
 };
 
+/**
+ * Represents queued active tile / furniture transformations.
+ *
+ * Some active tiles can turn into other active tiles, or even inactive tiles, as a result
+ * of an update. If such transformation is applied immediately, it could trigger recalculation of
+ * the grid that's being updated, which would require additional code to handle.
+ *
+ * As a simpler alternative, we queue active tile transformations and apply them only after
+ * all grids have been updated. The transformations are applied according to FIFO method,
+ * so if some tile has multiple competing transforms queued, the last one will win out.
+ */
 class grid_furn_transform_queue
 {
-    public:
+    private:
         std::vector<transform_queue_entry> queue;
 
+    public:
         void add( const tripoint_abs_ms &p, const furn_str_id &id ) {
             queue.emplace_back( transform_queue_entry{ p, id } );
         }
@@ -87,6 +99,8 @@ class grid_furn_transform_queue
         bool operator==( const grid_furn_transform_queue &l ) const {
             return queue == l.queue;
         }
+
+        std::string to_string() const;
 };
 
 /**
