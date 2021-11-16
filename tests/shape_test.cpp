@@ -139,7 +139,7 @@ TEST_CASE( "cone_factory_test", "[shape]" )
 {
     cone_factory c( deg2rad( 15 ), 10.0 );
     SECTION( "(0,0,0) to (5,5,0)" ) {
-        std::shared_ptr<shape> s = c.create( tripoint_zero, tripoint( 5, 5, 0 ) );
+        std::shared_ptr<shape> s = c.create( rl_vec3d(), rl_vec3d( 5, 5, 0 ) );
         CHECK( s->distance_at( rl_vec3d( 1, 1, 0 ) ) < 0.0 );
 
         CHECK( s->distance_at( rl_vec3d( 1, 0, 0 ) ) > 0.0 );
@@ -176,7 +176,7 @@ TEST_CASE( "cone_factory_test", "[shape]" )
     }
 
     SECTION( "(15,5,0) to (-15,5,0)" ) {
-        std::shared_ptr<shape> s = c.create( tripoint( 15, 5, 0 ), tripoint( -15, 5, 0 ) );
+        std::shared_ptr<shape> s = c.create( rl_vec3d( 15, 5, 0 ), rl_vec3d( -15, 5, 0 ) );
         CHECK( s->distance_at( rl_vec3d( 20, 5, 0 ) ) > 0.0 );
         CHECK( s->distance_at( rl_vec3d( 0, 5, 0 ) ) > 0.0 );
         CHECK( s->distance_at( rl_vec3d( 10, 5, 0 ) ) < 0.0 );
@@ -192,7 +192,7 @@ TEST_CASE( "cone_factory_test", "[shape]" )
 static void shape_coverage_vs_distance_no_obstacle( const shape_factory_impl &c,
         const tripoint &origin, const tripoint &end )
 {
-    std::shared_ptr<shape> s = c.create( origin, end );
+    std::shared_ptr<shape> s = c.create( rl_vec3d( origin ), rl_vec3d( end ) );
     projectile p;
     p.impact = damage_instance();
     p.impact.add_damage( DT_STAB, 10 );
@@ -236,7 +236,7 @@ TEST_CASE( "expected shape coverage without obstacles", "[shape]" )
     const tripoint origin( 60, 60, 0 );
     const tripoint offset( 5, 5, 0 );
     const tripoint end = origin + offset;
-    std::shared_ptr<shape> s = c.create( origin, end );
+    std::shared_ptr<shape> s = c.create( rl_vec3d( origin ), rl_vec3d( end ) );
     auto cov = ranged::expected_coverage( *s, get_map(), 3 );
 
     CHECK( cov[origin + point( 4, 4 )] == 1.0 );
@@ -260,7 +260,7 @@ TEST_CASE( "expected shape coverage through windows", "[shape]" )
         here.ter_set( tripoint( 62, 60 + wall_offset, 0 ), t_window );
     }
 
-    std::shared_ptr<shape> s = c.create( origin, end );
+    std::shared_ptr<shape> s = c.create( rl_vec3d( origin ), rl_vec3d( end ) );
     auto cov = ranged::expected_coverage( *s, here, 3 );
     CHECK( cov[origin + point( 1, 0 )] == 1.0 );
 

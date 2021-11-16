@@ -51,6 +51,7 @@ class shape_factory
         void deserialize( JsonIn &jsin );
 
         std::shared_ptr<shape> create( const tripoint &start, const tripoint &end ) const;
+        std::shared_ptr<shape> create( const rl_vec3d &start, const rl_vec3d &end ) const;
     private:
         std::shared_ptr<shape_factory_impl> impl;
 };

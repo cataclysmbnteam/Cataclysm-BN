@@ -9,6 +9,8 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+#include "explosion.h"
+
 struct tripoint_distance {
     tripoint_distance( const tripoint &p, int distance_squared )
         : p( p )
@@ -60,7 +62,7 @@ void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &a
     while( !queue.empty() ) {
         tripoint p = queue.top().p;
         queue.pop();
-        if( closed.count( p ) != 0 ) {
+        if( closed.count( p ) != 0 || !here.inbounds( p ) ) {
             continue;
         }
         closed.insert( p );
@@ -102,6 +104,16 @@ void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &a
             }
         }
     }
+
+    std::map<tripoint, nc_color> explosion_colors;
+    for( const std::pair<tripoint, aoe_flood_node> &pr : open ) {
+        if( pr.second.parent_coverage > 0.0 ) {
+            explosion_colors[pr.first] = c_red;
+        }
+    }
+    // TODO: Better animation
+    // TODO: Animate before applying effects
+    explosion_handler::draw_custom_explosion( origin, explosion_colors, "explosion" );
 }
 
 std::map<tripoint, double> expected_coverage( const shape &sh, const map &here, int bash_power )

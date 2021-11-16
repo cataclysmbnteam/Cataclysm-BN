@@ -830,7 +830,6 @@ int player::fire_gun( const tripoint &target, const int max_shots, item &gun )
             projectile.proj_effects.insert( "NO_CRIT" );
         }
         if( !shape ) {
-
             auto shot = projectile_attack( projectile, pos(), aim, dispersion, this, in_veh );
             if( shot.missed_by <= .1 ) {
                 // TODO: check head existence for headshot
@@ -841,13 +840,17 @@ int player::fire_gun( const tripoint &target, const int max_shots, item &gun )
                 hits++;
             }
         } else {
-            /* // TODO: Dispersion
-            double angle_offset = dispersion.roll() / 60 * (one_in(2) ? 1 : -1);
+            // 30 degree cap, like for projectiles
+            double angle_offset_arcmin = std::min( dispersion.roll(), 1800.0 ) * ( one_in( 2 ) ? 1 : -1 );
+            double angle_offset = degmin2rad( angle_offset_arcmin );
             double dx = aim.x - pos().x;
             double dy = aim.y - pos().y;
-            double rad = atan2( dy, dx ) + angle_offset;
-            */
-            ranged::execute_shaped_attack( *shape->create( pos(), aim ), projectile, *this );
+            double new_angle = atan2( dy, dx ) + angle_offset;
+            // Always using trig here, rotations in maximum metric are weird
+            double length = trig_dist( pos(), aim );
+            rl_vec3d vec_pos( pos() );
+            rl_vec3d new_aim = vec_pos + rl_vec3d( length, 0, 0 ).rotated( new_angle );
+            ranged::execute_shaped_attack( *shape->create( vec_pos, new_aim ), projectile, *this );
         }
         curshot++;
 

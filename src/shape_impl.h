@@ -227,7 +227,7 @@ class shape_min : public shape_impl
 class shape_factory_impl
 {
     public:
-        virtual std::shared_ptr<shape> create( const tripoint &start, const tripoint &end ) const = 0;
+        virtual std::shared_ptr<shape> create( const rl_vec3d &start, const rl_vec3d &end ) const = 0;
         virtual const std::string &get_type() const = 0;
         virtual ~shape_factory_impl() = default;
 
@@ -249,7 +249,7 @@ class cone_factory : public shape_factory_impl
             , length( length )
         {}
 
-        std::shared_ptr<shape> create( const tripoint &start, const tripoint &end ) const override {
+        std::shared_ptr<shape> create( const rl_vec3d &start, const rl_vec3d &end ) const override {
             std::shared_ptr<cone> c = std::make_shared<cone>( half_angle, length );
             // Very thin cones may lack points close to origin after discretization, so let's hack it
             std::shared_ptr<cylinder> cyl = std::make_shared<cylinder>( length - 1.0, 0.5 );
@@ -257,13 +257,13 @@ class cone_factory : public shape_factory_impl
             std::shared_ptr<shape_impl> offset_cyl = std::make_shared<offset_shape>( cyl,
                     rl_vec3d( 0.0, -0.5, 0.0 ) );
             auto mindist = std::make_shared<shape_min>( c, offset_cyl );
-            tripoint diff = end - start;
+            rl_vec3d diff = end - start;
             // Plus 90 deg because @ref cone extends in -y direction
             double rotation_angle = atan2( diff.y, diff.x ) + deg2rad( 90 );
             std::shared_ptr<rotate_z_shape> r = std::make_shared<rotate_z_shape>( mindist, rotation_angle );
             std::shared_ptr<offset_shape> o = std::make_shared<offset_shape>( r,
                                               rl_vec3d( start.x, start.y, start.z ) );
-            return std::make_shared<shape>( o, start );
+            return std::make_shared<shape>( o, start.as_point() );
         }
 
         const std::string &get_type() const override {

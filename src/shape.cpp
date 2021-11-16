@@ -78,6 +78,11 @@ void shape_factory::deserialize( JsonIn &jsin )
 
 std::shared_ptr<shape> shape_factory::create( const tripoint &start, const tripoint &end ) const
 {
+    return create( rl_vec3d( start ), rl_vec3d( end ) );
+}
+
+std::shared_ptr<shape> shape_factory::create( const rl_vec3d &start, const rl_vec3d &end ) const
+{
     if( impl == nullptr ) {
         return std::make_shared<shape>( std::make_shared<empty_shape>(), tripoint_zero );
     }

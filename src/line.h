@@ -169,7 +169,7 @@ inline float trig_dist( const point &loc1, const point &loc2 )
     return trig_dist( tripoint( loc1, 0 ), tripoint( loc2, 0 ) );
 }
 
-// Manhattan distance; maximum of dX and dY
+// Chebyshev distance; maximum of dX and dY
 inline int square_dist( const tripoint &loc1, const tripoint &loc2 )
 {
     const tripoint d = ( loc1 - loc2 ).abs();
