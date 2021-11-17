@@ -1314,7 +1314,8 @@ furn_id map::furn( const tripoint &p ) const
     return current_submap->get_furn( l );
 }
 
-void map::furn_set( const tripoint &p, const furn_id &new_furniture )
+void map::furn_set( const tripoint &p, const furn_id &new_furniture,
+                    cata::poly_serialized<active_tile_data> new_active )
 {
     if( !inbounds( p ) ) {
         return;
@@ -1385,10 +1386,15 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
         // TODO: Only for g->m? Observer pattern?
         get_distribution_grid_tracker().on_changed( tripoint_abs_ms( getabs( p ) ) );
     }
-    if( new_t.active ) {
-        active_tile_data *atd = new_t.active->clone();
-        atd->set_last_updated( calendar::turn );
-        current_submap->active_furniture[point_sm_ms( l )].reset( atd );
+    if( new_t.active || new_active ) {
+        cata::poly_serialized<active_tile_data> atd;
+        if( new_active ) {
+            atd = new_active;
+        } else {
+            atd = new_t.active->clone();
+            atd->set_last_updated( calendar::turn );
+        }
+        current_submap->active_furniture[point_sm_ms( l )] = atd;
         get_distribution_grid_tracker().on_changed( tripoint_abs_ms( getabs( p ) ) );
     }
 }

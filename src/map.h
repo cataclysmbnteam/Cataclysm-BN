@@ -91,6 +91,11 @@ struct pathfinding_settings;
 template<typename T>
 struct weighted_int_list;
 
+namespace cata
+{
+template <class T> class poly_serialized;
+} // namespace cata
+
 class map_stack : public item_stack
 {
     private:
@@ -790,7 +795,15 @@ class map
         furn_id furn( const point &p ) const {
             return furn( tripoint( p, abs_sub.z ) );
         }
-        void furn_set( const tripoint &p, const furn_id &new_furniture );
+        /**
+        * Sets the furniture at given position.
+        *
+        * @param p Position within the map
+        * @param new_furniture Id of new furniture
+        * @param new_active Override default active tile of new furniture
+        */
+        void furn_set( const tripoint &p, const furn_id &new_furniture,
+                       cata::poly_serialized<active_tile_data> new_active = nullptr );
         void furn_set( const point &p, const furn_id &new_furniture ) {
             furn_set( tripoint( p, abs_sub.z ), new_furniture );
         }
