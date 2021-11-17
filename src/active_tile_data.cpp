@@ -52,13 +52,15 @@ template charge_watcher_tile *furn_at<charge_watcher_tile>( const tripoint_abs_m
 
 void furn_transform::serialize( JsonOut &jsout ) const
 {
+    jsout.start_object();
     jsout.member( "id", id );
     jsout.member( "msg", msg );
+    jsout.end_object();
 }
 
 void furn_transform::deserialize( JsonIn &jsin )
 {
-    JsonObject jo( jsin );
+    JsonObject jo = jsin.get_object();
 
     jo.read( "id", id );
     jo.read( "msg", msg );
