@@ -1,5 +1,6 @@
 #include <unordered_set>
 
+#include "character.h"
 #include "debug.h"
 #include "distribution_grid.h"
 #include "coordinate_conversions.h"
@@ -8,6 +9,7 @@
 #include "map.h"
 #include "mapbuffer.h"
 #include "map_iterator.h"
+#include "messages.h"
 #include "submap.h"
 #include "options.h"
 #include "overmapbuffer.h"
@@ -256,7 +258,8 @@ std::uintptr_t distribution_grid_tracker::debug_grid_id( const tripoint_abs_omt 
     }
 }
 
-void grid_furn_transform_queue::apply( mapbuffer &mb, distribution_grid_tracker &grid_tracker )
+void grid_furn_transform_queue::apply( mapbuffer &mb, distribution_grid_tracker &grid_tracker,
+                                       Character &u, map &m )
 {
     for( const auto &qt : queue ) {
         tripoint_abs_sm p_abs_sm;
@@ -272,6 +275,13 @@ void grid_furn_transform_queue::apply( mapbuffer &mb, distribution_grid_tracker 
         const furn_t &new_t = qt.id.obj();
 
         sm->set_furn( p_within_sm.raw(), qt.id );
+
+        if( !qt.msg.empty() ) {
+            const tripoint pos_local = m.getlocal( qt.p.raw() );
+            if( u.sees( pos_local ) ) {
+                add_msg( "%s", _( qt.msg ) );
+            }
+        }
 
         // TODO: this is copy-pasted from map.cpp
         if( old_t.active ) {
@@ -291,8 +301,10 @@ void grid_furn_transform_queue::apply( mapbuffer &mb, distribution_grid_tracker 
 std::string grid_furn_transform_queue::to_string() const
 {
     std::string ret;
-    for( size_t i = 0; i < queue.size(); i++ ) {
-        ret += string_format( "% 2d: %s %s\n", i, queue[i].p.to_string(), queue[i].id );
+    size_t i = 0;
+    for( const transform_queue_entry &q : queue ) {
+        ret += string_format( "% 2d: %s %s \"%s\"\n", i, q.p.to_string(), q.id, q.msg );
+        i++;
     }
     return ret;
 }
@@ -307,7 +319,7 @@ void distribution_grid_tracker::update( time_point to )
             pr.second->update( to );
         }
     }
-    transform_queue.apply( mb, *this );
+    transform_queue.apply( mb, *this, get_player_character(), get_map() );
     transform_queue.clear();
 }
 

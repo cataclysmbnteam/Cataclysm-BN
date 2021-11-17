@@ -4,7 +4,6 @@
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "distribution_grid.h"
-#include "messages.h"
 #include "item.h"
 #include "itype.h"
 #include "json.h"
@@ -215,10 +214,7 @@ void charge_watcher_tile::update_internal( time_point /*to*/, const tripoint_abs
     int amt_stored = grid.get_resource();
 
     if( amt_stored >= min_power ) {
-        get_distribution_grid_tracker().get_transform_queue().add( p, transform.id );
-        if( !transform.msg.empty() ) {
-            add_msg( "%s", _( transform.msg ) );
-        }
+        get_distribution_grid_tracker().get_transform_queue().add( p, transform.id, transform.msg );
     }
 }
 
@@ -325,11 +321,7 @@ void steady_consumer_tile::update_internal( time_point to, const tripoint_abs_ms
         return;
     }
 
-    get_distribution_grid_tracker().get_transform_queue().add( p, transform.id );
-
-    if( !transform.msg.empty() ) {
-        add_msg( "%s", _( transform.msg ) );
-    }
+    get_distribution_grid_tracker().get_transform_queue().add( p, transform.id, transform.msg );
 }
 
 active_tile_data *steady_consumer_tile::clone() const

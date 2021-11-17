@@ -13,6 +13,7 @@
 #include "point.h"
 #include "type_id.h"
 
+class Character;
 class map;
 class mapbuffer;
 
@@ -63,9 +64,10 @@ class distribution_grid_tracker;
 struct transform_queue_entry {
     tripoint_abs_ms p;
     furn_str_id id;
+    std::string msg;
 
     bool operator==( const transform_queue_entry &l ) const {
-        return p == l.p && id == l.id;
+        return p == l.p && id == l.id && msg == l.msg;
     }
 };
 
@@ -86,11 +88,11 @@ class grid_furn_transform_queue
         std::vector<transform_queue_entry> queue;
 
     public:
-        void add( const tripoint_abs_ms &p, const furn_str_id &id ) {
-            queue.emplace_back( transform_queue_entry{ p, id } );
+        void add( const tripoint_abs_ms &p, const furn_str_id &id, const std::string &msg ) {
+            queue.emplace_back( transform_queue_entry{ p, id, msg } );
         }
 
-        void apply( mapbuffer &mb, distribution_grid_tracker &grid_tracker );
+        void apply( mapbuffer &mb, distribution_grid_tracker &grid_tracker, Character &u, map &m );
 
         void clear() {
             queue.clear();

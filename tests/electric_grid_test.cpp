@@ -6,7 +6,6 @@
 #include "catch/catch.hpp"
 #include "coordinate_conversions.h"
 #include "distribution_grid.h"
-#include "game.h"
 #include "map.h"
 #include "mapbuffer.h"
 #include "map_helpers.h"
@@ -147,7 +146,7 @@ TEST_CASE( "grid_and_vehicle_in_bubble", "[grids][vehicle]" )
 {
     clear_map_and_put_player_underground();
     GIVEN( "vehicle and battery are on one grid" ) {
-        auto setup = set_up_grid( g->m );
+        auto setup = set_up_grid( get_map() );
         test_grid_veh( setup.grid, setup.veh, setup.battery );
     }
 }
@@ -155,14 +154,15 @@ TEST_CASE( "grid_and_vehicle_in_bubble", "[grids][vehicle]" )
 TEST_CASE( "grid_and_vehicle_outside_bubble", "[grids][vehicle]" )
 {
     clear_map_and_put_player_underground();
-    const tripoint old_abs_sub = g->m.get_abs_sub();
+    map &m = get_map();
+    const tripoint old_abs_sub = m.get_abs_sub();
     // Ugly: we move the real map instead of the tinymap to reuse clear_map() results
-    g->m.load( g->m.get_abs_sub() + point( g->m.getmapsize(), 0 ), true );
+    m.load( m.get_abs_sub() + point( m.getmapsize(), 0 ), true );
     GIVEN( "vehicle and battery are on one grid" ) {
-        tinymap m;
-        m.load( old_abs_sub, false );
-        auto setup = set_up_grid( m );
-        m.save();
+        tinymap tm;
+        tm.load( old_abs_sub, false );
+        auto setup = set_up_grid( tm );
+        tm.save();
         test_grid_veh( setup.grid, setup.veh, setup.battery );
     }
 }
@@ -294,7 +294,7 @@ static void test_steady_consumer( grid_setup_consumer &setup )
                     REQUIRE( grid.get_resource() == 0 );
 
                     grid_furn_transform_queue single_dead_lamp;
-                    single_dead_lamp.add( setup.consumer_pos, f_floor_lamp );
+                    single_dead_lamp.add( setup.consumer_pos, f_floor_lamp, "The lamp flickers and dies." );
 
                     REQUIRE( tf_queue == single_dead_lamp );
                 }
@@ -346,7 +346,7 @@ static void test_charge_watcher( grid_setup_watcher &setup )
 
             THEN( "transform has been queued" ) {
                 grid_furn_transform_queue single_lit_lamp;
-                single_lit_lamp.add( setup.watcher_pos, f_floor_lamp_on );
+                single_lit_lamp.add( setup.watcher_pos, f_floor_lamp_on, "The lamp lights up." );
 
                 REQUIRE( tf_queue == single_lit_lamp );
             }
@@ -361,7 +361,7 @@ TEST_CASE( "steady_consumer_in_bubble", "[grids]" )
 
     GIVEN( "consumer and battery are on one grid" ) {
         grid_setup_consumer setup = set_up_grid_with_consumer<steady_consumer_tile, grid_setup_consumer>
-                                    ( g->m, f_floor_lamp_on );
+                                    ( get_map(), f_floor_lamp_on );
         test_steady_consumer( setup );
     }
 }
@@ -373,7 +373,7 @@ TEST_CASE( "charge_watcher_in_bubble", "[grids]" )
 
     GIVEN( "watcher and battery are on one grid" ) {
         grid_setup_watcher setup = set_up_grid_with_consumer<charge_watcher_tile, grid_setup_watcher>
-                                   ( g->m, f_floor_lamp );
+                                   ( get_map(), f_floor_lamp );
         test_charge_watcher( setup );
     }
 }
@@ -387,13 +387,13 @@ TEST_CASE( "grid_furn_transform_queue_in_bubble", "[grids]" )
     tripoint_abs_ms pos_abs( get_map().getabs( pos_local ) );
 
     grid_furn_transform_queue tf_queue;
-    tf_queue.add( pos_abs, f_floor_lamp_on );
+    tf_queue.add( pos_abs, f_floor_lamp_on, "" );
 
     CAPTURE( pos_abs );
     REQUIRE( get_map().furn( pos_local ).id() != f_floor_lamp_on );
     REQUIRE( active_tiles::furn_at<active_tile_data>( pos_abs ) == nullptr );
 
-    tf_queue.apply( MAPBUFFER, get_distribution_grid_tracker() );
+    tf_queue.apply( MAPBUFFER, get_distribution_grid_tracker(), get_player_character(), get_map() );
 
     REQUIRE( get_map().furn( pos_local ).id() == f_floor_lamp_on );
     REQUIRE( active_tiles::furn_at<steady_consumer_tile>( pos_abs ) != nullptr );
@@ -411,10 +411,11 @@ TEST_CASE( "grid_furn_transform_queue_outside_bubble", "[grids]" )
     std::tie( pos_abs_sm, pos_in_sm ) = project_remain<coords::sm>( pos_abs );
 
     // Ugly: we move the real map to have submap exist in mapbuffer only
-    g->m.load( g->m.get_abs_sub() + point( g->m.getmapsize(), 0 ), true );
+    map &m = get_map();
+    m.load( m.get_abs_sub() + point( m.getmapsize(), 0 ), true );
 
     grid_furn_transform_queue tf_queue;
-    tf_queue.add( pos_abs, f_floor_lamp_on );
+    tf_queue.add( pos_abs, f_floor_lamp_on, "" );
 
     submap *sm = nullptr;
     CAPTURE( pos_abs );
@@ -425,7 +426,7 @@ TEST_CASE( "grid_furn_transform_queue_outside_bubble", "[grids]" )
     REQUIRE( sm->get_furn( pos_in_sm.raw() ).id() != f_floor_lamp_on );
     REQUIRE( active_tiles::furn_at<active_tile_data>( pos_abs ) == nullptr );
 
-    tf_queue.apply( MAPBUFFER, get_distribution_grid_tracker() );
+    tf_queue.apply( MAPBUFFER, get_distribution_grid_tracker(), get_player_character(), get_map() );
 
     sm = MAPBUFFER.lookup_submap( pos_abs_sm );
     REQUIRE( sm );
