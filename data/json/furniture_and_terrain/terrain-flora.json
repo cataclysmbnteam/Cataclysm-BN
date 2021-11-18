@@ -1794,9 +1794,14 @@
     "examine_action": "harvest_ter_nectar",
     "looks_like": "t_shrub_strawberry",
     "harvest_by_season": [
-      { "seasons": [ "autumn" ], "entries": [ { "drop": "rose_hips", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ] },
-      { "drop": "seed_rose", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] },
-      { "drop": "withered", "base_num": [ 1, 2 ] }
+      {
+        "seasons": [ "autumn" ],
+        "entries": [
+          { "drop": "rose_hips", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] },
+          { "drop": "seed_rose", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] },
+          { "drop": "withered", "base_num": [ 1, 2 ] }
+        ]
+      }
     ],
     "//": "Insert rose (flower) harvest in summer once flowers have a use (same for other generic flowers).",
     "bash": {
