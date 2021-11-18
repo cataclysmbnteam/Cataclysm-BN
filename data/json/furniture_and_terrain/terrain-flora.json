@@ -749,7 +749,8 @@
         "seasons": [ "summer" ],
         "entries": [
           { "drop": "mulberries", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] },
-          { "drop": "seed_mulberries", "base_num": [ 3, 5 ], "scale_num": [ 0, 0.25 ] }
+          { "drop": "seed_mulberries", "base_num": [ 3, 5 ], "scale_num": [ 0, 0.25 ] },
+          { "drop": "withered", "base_num": [ 1, 2 ] }
         ]
       }
     ],
@@ -804,7 +805,8 @@
         "seasons": [ "summer" ],
         "entries": [
           { "drop": "elderberries", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] },
-          { "drop": "seed_elderberries", "base_num": [ 3, 5 ], "scale_num": [ 0, 0.25 ] }
+          { "drop": "seed_elderberries", "base_num": [ 3, 5 ], "scale_num": [ 0, 0.25 ] },
+          { "drop": "withered", "base_num": [ 1, 2 ] }
         ]
       }
     ],
@@ -1472,7 +1474,8 @@
         "seasons": [ "summer" ],
         "entries": [
           { "drop": "blueberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] },
-          { "drop": "seed_blueberries", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] }
+          { "drop": "seed_blueberries", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] },
+          { "drop": "withered", "base_num": [ 1, 2 ] }
         ]
       }
     ],
@@ -1525,7 +1528,8 @@
         "seasons": [ "summer" ],
         "entries": [
           { "drop": "strawberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] },
-          { "drop": "seed_strawberries", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] }
+          { "drop": "seed_strawberries", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] },
+          { "drop": "withered", "base_num": [ 1, 2 ] }
         ]
       }
     ],
@@ -1578,7 +1582,8 @@
         "seasons": [ "summer" ],
         "entries": [
           { "drop": "blackberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] },
-          { "drop": "seed_blackberries", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] }
+          { "drop": "seed_blackberries", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] },
+          { "drop": "withered", "base_num": [ 1, 2 ] }
         ]
       }
     ],
@@ -1631,7 +1636,8 @@
         "seasons": [ "summer" ],
         "entries": [
           { "drop": "huckleberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] },
-          { "drop": "seed_huckleberries", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] }
+          { "drop": "seed_huckleberries", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] },
+          { "drop": "withered", "base_num": [ 1, 2 ] }
         ]
       }
     ],
@@ -1684,7 +1690,8 @@
         "seasons": [ "summer" ],
         "entries": [
           { "drop": "raspberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] },
-          { "drop": "seed_raspberries", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] }
+          { "drop": "seed_raspberries", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] },
+          { "drop": "withered", "base_num": [ 1, 2 ] }
         ]
       }
     ],
@@ -1737,7 +1744,8 @@
         "seasons": [ "summer" ],
         "entries": [
           { "drop": "grapes", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] },
-          { "drop": "seed_grapes", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] }
+          { "drop": "seed_grapes", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] },
+          { "drop": "withered", "base_num": [ 1, 2 ] }
         ]
       }
     ],
@@ -1785,7 +1793,11 @@
     "transforms_into": "t_shrub_rose_harvested",
     "examine_action": "harvest_ter_nectar",
     "looks_like": "t_shrub_strawberry",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "rose_hips", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [
+      { "seasons": [ "autumn" ], "entries": [ { "drop": "rose_hips", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ] },
+      { "drop": "seed_rose", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] },
+      { "drop": "withered", "base_num": [ 1, 2 ] }
+    ],
     "//": "Insert rose (flower) harvest in summer once flowers have a use (same for other generic flowers).",
     "bash": {
       "str_min": 4,
@@ -2067,7 +2079,12 @@
     "coverage": 20,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "SHRUB" ],
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "spring" ], "entries": [ { "drop": "fiddlehead_raw", "base_num": [ 1, 4 ] } ] } ],
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring" ],
+        "entries": [ { "drop": "fiddlehead_raw", "base_num": [ 1, 4 ] }, { "drop": "withered", "base_num": [ 1, 2 ] } ]
+      }
+    ],
     "transforms_into": "t_fern_harvested",
     "bash": {
       "str_min": 2,

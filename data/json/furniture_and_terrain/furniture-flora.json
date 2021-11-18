@@ -24,7 +24,12 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "harvest_furn_nectar",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "entries": [ { "drop": "raw_dandelion", "base_num": [ 1, 4 ] } ] } ],
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring", "summer", "autumn" ],
+        "entries": [ { "drop": "raw_dandelion", "base_num": [ 1, 4 ] }, { "drop": "seed_raw_dandelion", "base_num": [ 0, 1 ] } ]
+      }
+    ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -39,7 +44,12 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "harvest_furn_nectar",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "entries": [ { "drop": "raw_burdock", "base_num": [ 1, 4 ] } ] } ],
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring", "summer", "autumn" ],
+        "entries": [ { "drop": "raw_burdock", "base_num": [ 1, 4 ] }, { "drop": "seed_raw_burdock", "base_num": [ 0, 1 ] } ]
+      }
+    ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -54,7 +64,16 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "harvest_furn",
-    "harvest_by_season": [ { "seasons": [ "summer", "autumn" ], "entries": [ { "drop": "chamomile", "base_num": [ 1, 2 ] } ] } ],
+    "harvest_by_season": [
+      {
+        "seasons": [ "summer", "autumn" ],
+        "entries": [
+          { "drop": "chamomile", "base_num": [ 1, 2 ] },
+          { "drop": "seed_chamomile", "base_num": [ 0, 1 ] },
+          { "drop": "withered", "base_num": [ 1, 2 ] }
+        ]
+      }
+    ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -116,7 +135,11 @@
       { "seasons": [ "winter" ], "entries": [ { "drop": "cattail_rhizome" } ] },
       {
         "seasons": [ "spring", "summer", "autumn" ],
-        "entries": [ { "drop": "cattail_rhizome" }, { "drop": "cattail_stalk", "base_num": [ 1, 4 ] } ]
+        "entries": [
+          { "drop": "cattail_rhizome" },
+          { "drop": "cattail_stalk", "base_num": [ 1, 4 ] },
+          { "drop": "seed_cattail", "base_num": [ 0, 1 ] }
+        ]
       }
     ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
@@ -200,7 +223,16 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "harvest_furn_nectar",
-    "harvest_by_season": [ { "seasons": [ "summer" ], "entries": [ { "drop": "sunflower" } ] } ],
+    "harvest_by_season": [
+      {
+        "seasons": [ "summer" ],
+        "entries": [
+          { "drop": "sunflower" },
+          { "drop": "seed_sunflower", "base_num": [ 0, 1 ] },
+          { "drop": "withered", "base_num": [ 1, 2 ] }
+        ]
+      }
+    ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -263,7 +295,16 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "harvest_furn_nectar",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "entries": [ { "drop": "chicory_raw", "base_num": [ 1, 2 ] } ] } ],
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring", "summer", "autumn" ],
+        "entries": [
+          { "drop": "chicory_raw", "base_num": [ 1, 2 ] },
+          { "drop": "seed_chicory", "base_num": [ 0, 1 ] },
+          { "drop": "withered", "base_num": [ 1, 2 ] }
+        ]
+      }
+    ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -321,7 +362,12 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "harvest_furn",
-    "harvest_by_season": [ { "seasons": [ "summer", "autumn" ], "entries": [ { "drop": "seed_mustard", "base_num": [ 2, 6 ] } ] } ],
+    "harvest_by_season": [
+      {
+        "seasons": [ "summer", "autumn" ],
+        "entries": [ { "drop": "seed_mustard", "base_num": [ 2, 6 ] }, { "drop": "withered", "base_num": [ 1, 2 ] } ]
+      }
+    ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   }
 ]
