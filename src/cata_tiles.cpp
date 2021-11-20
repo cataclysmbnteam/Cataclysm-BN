@@ -3513,6 +3513,34 @@ void cata_tiles::draw_custom_explosion_frame()
         // Used to be divided into explosion_weak/explosion_medium/explosion.
     }
 }
+void cata_tiles::init_draw_cone_aoe( const tripoint &origin, const std::map<tripoint, double> &aoe )
+{
+    do_draw_cone_aoe = true;
+    cone_aoe_origin = origin;
+
+    bucketed_points buckets = bucket_by_distance( origin, aoe );
+    // That hardcoded 4 could be improved...
+    size_t max_bucket_count = std::min<size_t>( 4, clipped_aoe.size() );
+    waves = optimal_bucketing( buckets, max_bucket_count );
+    cone_aoe_layer = aoe;
+}
+void cata_tiles::draw_cone_aoe_frame()
+{
+    int subtile = 0;
+
+
+    for( const auto &pr : cone_aoe_layer ) {
+        int rotation = 0;
+        draw_from_id_string( bul_id, C_BULLET, empty_string, bul_pos, 0, 0, lit_level::LIT, false );
+    }
+}
+void cata_tiles::void_cone_aoe()
+{
+    do_draw_cone_aoe = true;
+    cone_aoe_origin = {-1, -1, -1};
+    cone_aoe_layer.clear();
+}
+
 void cata_tiles::draw_bullet_frame()
 {
     draw_from_id_string( bul_id, C_BULLET, empty_string, bul_pos, 0, 0, lit_level::LIT, false );

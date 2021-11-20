@@ -455,6 +455,10 @@ class cata_tiles
         void draw_custom_explosion_frame();
         void void_custom_explosion();
 
+        void init_draw_cone_aoe( const tripoint &origin, const std::map<tripoint, double> &aoe );
+        void draw_cone_aoe_frame();
+        void void_cone_aoe();
+
         void init_draw_bullet( const tripoint &p, std::string name );
         void draw_bullet_frame();
         void void_bullet();
@@ -607,12 +611,16 @@ class cata_tiles
         bool do_draw_weather = false;
         bool do_draw_sct = false;
         bool do_draw_zones = false;
+        bool do_draw_cone_aoe = false;
 
         tripoint exp_pos;
         int exp_rad = 0;
         std::string exp_name;
 
         std::map<tripoint, explosion_tile> custom_explosion_layer;
+
+        tripoint cone_aoe_origin;
+        bucketed_points cone_aoe_layer;
 
         tripoint bul_pos;
         std::string bul_id;

@@ -969,33 +969,17 @@ void game::draw_monster_override( const tripoint &, const mtype_id &, const int,
 }
 #endif
 
-namespace
-{
-struct point_with_value {
-    point_with_value() = default;
-    point_with_value( const point_with_value & ) = default;
-    point_with_value( const tripoint &pt, double val )
-        : pt( pt ), val( val )
-    {}
-    tripoint pt;
-    double val;
-};
-
-using one_bucket = std::vector<point_with_value>;
-using bucketed_points = std::list<one_bucket>;
-
 bucketed_points bucket_by_distance( const tripoint &origin, const one_bucket &to_bucket )
 {
     std::map<int, one_bucket> by_distance;
     for( const point_with_value &pv : to_bucket ) {
         int dist = trig_dist_squared( origin, pv.pt );
-        by_distance[dist].emplace_back( pv.pt, pv.val );
+        by_distance[dist].push_back( pv );
     }
     bucketed_points buckets;
     for( const std::pair<int, one_bucket> &bc : by_distance ) {
-        buckets.emplace_front( bc.second );
+        buckets.emplace_back( bc.second );
     }
-    buckets.reverse();
     return buckets;
 }
 
@@ -1048,14 +1032,14 @@ void draw_cone_aoe_curses( const tripoint &origin, const std::map<tripoint, doub
         return;
     }
 
-    // calculate screen offset relative to player + view offset position
+    // Calculate screen offset relative to player + view offset position
     const avatar &u = get_avatar();
     const tripoint center = u.pos() + u.view_offset;
     const tripoint topleft( center.x - catacurses::getmaxx( g->w_terrain ) / 2,
                             center.y - catacurses::getmaxy( g->w_terrain ) / 2, 0 );
 
     bucketed_points buckets = bucket_by_distance( origin, clipped_aoe );
-
+    // That hardcoded 4 could be improved...
     size_t max_bucket_count = std::min<size_t>( 4, clipped_aoe.size() );
     bucketed_points waves = optimal_bucketing( buckets, max_bucket_count );
 
@@ -1099,8 +1083,6 @@ void draw_cone_aoe_curses( const tripoint &origin, const std::map<tripoint, doub
     }
 }
 
-} // namespace
-
 namespace ranged
 {
 #if defined(TILES)
@@ -1110,12 +1092,12 @@ void draw_cone_aoe( const tripoint &origin, const std::map<tripoint, double> &ao
         return;
     }
 
-    if( true || !use_tiles ) {
+    if( !use_tiles ) {
         draw_cone_aoe_curses( origin, aoe );
         return;
     }
 
-    // tilecontext->init_draw_cone_aoe( origin, aoe );
+    tilecontext->init_draw_cone_aoe( origin, aoe );
 }
 #else
 void draw_cone_aoe( const tripoint &origin, const std::map<tripoint, double> &aoe )
