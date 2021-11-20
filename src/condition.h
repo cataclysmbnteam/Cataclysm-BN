@@ -36,7 +36,7 @@ const std::unordered_set<std::string> complex_conds = { {
         "u_has_items", "npc_has_items", "u_has_item_category", "npc_has_item_category",
         "u_has_bionics", "npc_has_bionics", "u_has_effect", "npc_has_effect", "u_need", "npc_need",
         "u_at_om_location", "npc_at_om_location", "npc_role_nearby", "npc_allies", "npc_service",
-        "u_has_cash", "u_are_owed",
+        "u_has_ecash", "u_are_owed",
         "npc_aim_rule", "npc_engagement_rule", "npc_rule", "npc_override",
         "npc_cbm_reserve_rule", "npc_cbm_recharge_rule",
         "days_since_cataclysm", "is_season", "mission_goal", "u_has_var", "npc_has_var",
@@ -93,7 +93,7 @@ struct conditional_t {
         void set_at_om_location( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_npc_role_nearby( const JsonObject &jo );
         void set_npc_allies( const JsonObject &jo );
-        void set_u_has_cash( const JsonObject &jo );
+        void set_u_has_ecash( const JsonObject &jo );
         void set_u_are_owed( const JsonObject &jo );
         void set_npc_aim_rule( const JsonObject &jo );
         void set_npc_engagement_rule( const JsonObject &jo );

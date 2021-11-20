@@ -2156,11 +2156,10 @@ void talk_effect_fun_t::set_remove_item_with( const JsonObject &jo, const std::s
     };
 }
 
-void talk_effect_fun_t::set_u_spend_cash( int amount )
+void talk_effect_fun_t::set_u_spend_ecash( int amount )
 {
     function = [amount]( const dialogue & d ) {
-        npc &np = *d.beta;
-        npc_trading::pay_npc( np, amount );
+        d.alpha->cash -= amount;
     };
 }
 
@@ -2346,7 +2345,7 @@ void talk_effect_fun_t::set_bulk_trade_accept( bool is_trade, bool is_npc )
                         price -= d.beta->value( pay );
                     }
                 }
-                d.beta->op_of_u.owed += price;
+                d.beta->op_of_u.owed = price;
             }
         }
         seller->use_charges( d.cur_item, seller_has );
@@ -2555,9 +2554,9 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_remove_trait( jo, "u_lose_trait" );
     } else if( jo.has_string( "npc_lose_trait" ) ) {
         subeffect_fun.set_remove_trait( jo, "npc_lose_trait", is_npc );
-    } else if( jo.has_int( "u_spend_cash" ) ) {
-        int cash_change = jo.get_int( "u_spend_cash" );
-        subeffect_fun.set_u_spend_cash( cash_change );
+    } else if( jo.has_int( "u_spend_ecash" ) ) {
+        int cash_change = jo.get_int( "u_spend_ecash" );
+        subeffect_fun.set_u_spend_ecash( cash_change );
     } else if( jo.has_string( "u_sell_item" ) || jo.has_string( "u_buy_item" ) ||
                jo.has_string( "u_consume_item" ) || jo.has_string( "npc_consume_item" ) ||
                jo.has_string( "u_remove_item_with" ) || jo.has_string( "npc_remove_item_with" ) ) {

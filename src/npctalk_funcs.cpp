@@ -552,48 +552,50 @@ void talk_function::give_equipment( npc &p )
     p.add_effect( effect_asked_for_item, 3_hours );
 }
 
-void talk_function::give_aid( npc &p )
+static void give_aid_to( Character &guy )
 {
-    p.add_effect( effect_currently_busy, 30_minutes );
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        const body_part bp_healed = player::hp_to_bp( static_cast<hp_part>( i ) );
-        g->u.heal( convert_bp( bp_healed ), 5 * rng( 2, 5 ) );
-        if( g->u.has_effect( effect_bite, bp_healed ) ) {
-            g->u.remove_effect( effect_bite, bp_healed );
+    for( const bodypart_id &bp : guy.get_all_body_parts() ) {
+        bodypart_str_id bp_healed = bp->main_part;
+        guy.heal( bp_healed, 5 * rng( 2, 5 ) );
+        if( guy.has_effect( effect_bite, bp_healed ) ) {
+            guy.remove_effect( effect_bite, bp_healed );
         }
-        if( g->u.has_effect( effect_bleed, bp_healed ) ) {
-            g->u.remove_effect( effect_bleed, bp_healed );
+        if( guy.has_effect( effect_bleed, bp_healed ) ) {
+            guy.remove_effect( effect_bleed, bp_healed );
         }
-        if( g->u.has_effect( effect_infected, bp_healed ) ) {
-            g->u.remove_effect( effect_infected, bp_healed );
+        if( guy.has_effect( effect_infected, bp_healed ) ) {
+            guy.remove_effect( effect_infected, bp_healed );
         }
     }
-    const int moves = to_moves<int>( 100_minutes );
-    g->u.assign_activity( ACT_WAIT_NPC, moves );
-    g->u.activity.str_values.push_back( p.name );
+}
+
+void talk_function::give_aid( npc &p )
+{
+    Character &u = get_player_character();
+
+    give_aid_to( get_player_character() );
+
+    p.add_effect( effect_currently_busy, 30_minutes );
+    const int moves = to_moves<int>( 30_minutes );
+    u.assign_activity( ACT_WAIT_NPC, moves );
+    u.activity.str_values.push_back( p.name );
 }
 
 void talk_function::give_all_aid( npc &p )
 {
-    p.add_effect( effect_currently_busy, 30_minutes );
-    give_aid( p );
+    Character &u = get_player_character();
+
+    give_aid_to( get_player_character() );
     for( npc &guy : g->all_npcs() ) {
-        if( guy.is_walking_with() && rl_dist( guy.pos(), g->u.pos() ) < PICKUP_RANGE ) {
-            for( int i = 0; i < num_hp_parts; i++ ) {
-                const body_part bp_healed = player::hp_to_bp( static_cast<hp_part>( i ) );
-                guy.heal( convert_bp( bp_healed ), 5 * rng( 2, 5 ) );
-                if( guy.has_effect( effect_bite, bp_healed ) ) {
-                    guy.remove_effect( effect_bite, bp_healed );
-                }
-                if( guy.has_effect( effect_bleed, bp_healed ) ) {
-                    guy.remove_effect( effect_bleed, bp_healed );
-                }
-                if( guy.has_effect( effect_infected, bp_healed ) ) {
-                    guy.remove_effect( effect_infected, bp_healed );
-                }
-            }
+        if( guy.is_walking_with() && rl_dist( guy.pos(), u.pos() ) < PICKUP_RANGE ) {
+            give_aid_to( guy );
         }
     }
+
+    p.add_effect( effect_currently_busy, 60_minutes );
+    const int moves = to_moves<int>( 60_minutes );
+    u.assign_activity( ACT_WAIT_NPC, moves );
+    u.activity.str_values.push_back( p.name );
 }
 
 static void generic_barber( const std::string &mut_type )

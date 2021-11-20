@@ -116,8 +116,7 @@
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [
       { "text": "This is a basic test response.", "topic": "TALK_DONE" },
-      { "text": "This is a cash test response.", "topic": "TALK_DONE", "condition": { "u_has_cash": 500 } },
-      { "text": "This is an npc service test response.", "topic": "TALK_DONE", "condition": { "npc_service": true } },
+      { "text": "This is a cash test response.", "topic": "TALK_DONE", "condition": { "u_has_ecash": 500 } },
       { "text": "This is an npc available test response.", "topic": "TALK_DONE", "condition": "npc_available" }
     ]
   },
@@ -301,19 +300,19 @@
       {
         "text": "This is an switch 1 test response.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_cash": 500 },
+        "condition": { "u_has_ecash": 500 },
         "switch": true
       },
       {
         "text": "This is an switch 2 test response.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_cash": 50 },
+        "condition": { "u_has_ecash": 50 },
         "switch": true
       },
       {
         "text": "This is an switch default 1 test response.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_cash": 5 },
+        "condition": { "u_has_ecash": 5 },
         "switch": true,
         "default": true
       },
@@ -334,7 +333,7 @@
           "or": [
             { "u_has_any_trait": [ "CANINE_EARS", "LUPINE_EARS", "FELINE_EARS", "URSINE_EARS", "ELFA_EARS" ] },
             "npc_available",
-            { "u_has_cash": 500 }
+            { "u_has_ecash": 500 }
           ]
         }
       }
@@ -353,7 +352,7 @@
           "and": [
             { "u_has_any_trait": [ "CANINE_EARS", "LUPINE_EARS", "FELINE_EARS", "URSINE_EARS", "ELFA_EARS" ] },
             "npc_available",
-            { "u_has_cash": 500 }
+            { "u_has_ecash": 500 }
           ]
         }
       }
@@ -372,7 +371,7 @@
           "and": [
             { "not": { "or": [ { "u_has_strength": 10 }, { "u_has_dexterity": 10 } ] } },
             { "or": [ { "not": "npc_available" }, { "u_has_intelligence": 10 } ] },
-            { "u_has_cash": 500 }
+            { "u_has_ecash": 500 }
           ]
         }
       }
@@ -386,7 +385,7 @@
       { "text": "This is a basic test response.", "topic": "TALK_DONE" },
       {
         "truefalsetext": {
-          "condition": { "u_has_cash": 500 },
+          "condition": { "u_has_ecash": 500 },
           "true": "This is a true/false true response.",
           "false": "This is a true/false false response."
         },
@@ -394,7 +393,7 @@
       },
       {
         "text": "This is a conditional trial response.",
-        "trial": { "type": "CONDITION", "condition": { "u_has_cash": 500 } },
+        "trial": { "type": "CONDITION", "condition": { "u_has_ecash": 500 } },
         "success": { "topic": "TALK_TEST_TRUE_CONDITION_NEXT" },
         "failure": { "topic": "TALK_TEST_FALSE_CONDITION_NEXT" }
       }
@@ -402,7 +401,7 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_TEST_EFFECTS",
+    "id": "TALK_TEST_EFFECTS_CHAREFFECTS",
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [
       { "text": "This is a basic test response.", "topic": "TALK_DONE" },
@@ -414,8 +413,7 @@
       {
         "text": "This is a npc_add_effect - infection response",
         "topic": "TALK_DONE",
-        "effect": { "npc_add_effect": "infection" },
-        "//": "Response 2"
+        "effect": { "npc_add_effect": "infection" }
       },
       {
         "text": "This is a u_lose_effect - infection response",
@@ -425,9 +423,16 @@
       {
         "text": "This is a npc_lose_effect - infection response",
         "topic": "TALK_DONE",
-        "effect": { "npc_lose_effect": "infection" },
-        "//": "Response 4"
-      },
+        "effect": { "npc_lose_effect": "infection" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_EFFECTS_CHARTRAIT",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [
+      { "text": "This is a basic test response.", "topic": "TALK_DONE" },
       {
         "text": "This is a u_add_trait - FED MARSHALL response",
         "topic": "TALK_DONE",
@@ -446,9 +451,16 @@
       {
         "text": "This is a npc_lose_trait - FED MARSHALL response",
         "topic": "TALK_DONE",
-        "effect": { "npc_lose_trait": "PROF_FED" },
-        "//": "Response 8"
-      },
+        "effect": { "npc_lose_trait": "PROF_FED" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_EFFECTS_BUY_SPEND",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [
+      { "text": "This is a basic test response.", "topic": "TALK_DONE" },
       {
         "text": "This is a u_buy_item bottle of beer response",
         "topic": "TALK_DONE",
@@ -459,7 +471,15 @@
         "topic": "TALK_DONE",
         "effect": { "u_buy_item": "bottle_plastic" }
       },
-      { "text": "This is a u_spend_cash response", "topic": "TALK_DONE", "effect": { "u_spend_cash": 500 } },
+      { "text": "This is a u_spend_ecash response", "topic": "TALK_DONE", "effect": { "u_spend_ecash": 500 } }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_EFFECTS_CHAIN",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [
+      { "text": "This is a basic test response.", "topic": "TALK_DONE" },
       {
         "text": "This is a multi-effect response",
         "topic": "TALK_DONE",
@@ -468,37 +488,57 @@
           { "npc_add_effect": "infected" },
           { "u_add_trait": "PROF_SWAT" },
           { "npc_add_trait": "PROF_SWAT" },
-          { "u_spend_cash": 1000 },
+          { "u_spend_ecash": 1000 },
           { "u_buy_item": "manual_speech" },
           { "u_buy_item": "dnd_handbook" },
           "hostile"
-        ],
-        "//": "Response 12"
-      },
+        ]
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_EFFECTS_OPINION",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [
+      { "text": "This is a basic test response.", "topic": "TALK_DONE" },
       {
         "text": "This is an opinion response",
         "topic": "TALK_DONE",
         "opinion": { "trust": 10, "fear": 11, "value": 12, "anger": 13, "owed": 14 }
-      },
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_EFFECTS_SELL_CONSUME",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [
+      { "text": "This is a basic test response.", "topic": "TALK_DONE" },
       {
         "text": "This is a u_sell_item plastic bottle response",
         "topic": "TALK_DONE",
-        "effect": [ { "u_sell_item": "bottle_plastic" }, { "u_sell_item": "beer", "count": 2 } ],
-        "//": "Response 14"
+        "effect": [ { "u_sell_item": "bottle_plastic" }, { "u_sell_item": "beer", "count": 2 } ]
       },
       {
         "text": "This is a npc_consume_item beer response",
         "topic": "TALK_DONE",
-        "effect": { "npc_consume_item": "beer", "count": 1 },
-        "//": "Response 15, out of order"
+        "effect": { "npc_consume_item": "beer", "count": 1 }
       },
       { "text": "This is a u_buy_item beer response again", "topic": "TALK_DONE", "effect": { "u_buy_item": "beer" } },
       {
         "text": "This is a u_consume_item beer response",
         "topic": "TALK_DONE",
-        "effect": { "u_consume_item": "beer", "count": 1 },
-        "//": "Response 17"
-      },
+        "effect": { "u_consume_item": "beer", "count": 1 }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_EFFECTS_NPC_CLASS",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [
+      { "text": "This is a basic test response.", "topic": "TALK_DONE" },
       {
         "text": "This is a npc_class_change response",
         "topic": "TALK_DONE",
@@ -528,7 +568,7 @@
         "condition": { "u_has_items": { "item": "beer", "count": 2 } }
       },
       {
-        "text": "Test failure!  This is a u_has_items test response.",
+        "text": "!!!Failure!!!  This is a u_has_items test response.",
         "topic": "TALK_DONE",
         "condition": { "u_has_items": { "item": "bottle_glass", "count": 2 } }
       },
@@ -543,7 +583,7 @@
         "condition": { "u_has_item_category": "books", "count": 2 }
       },
       {
-        "text": "Failure!  This is a u_has_item_category books count 3 test response.",
+        "text": "!!!Failure!!!  This is a u_has_item_category books count 3 test response.",
         "topic": "TALK_DONE",
         "condition": { "u_has_item_category": "books", "count": 3 }
       }
@@ -719,35 +759,35 @@
   {
     "type": "talk_topic",
     "id": "TALK_TEST_SPEAKER_EFFECT_SIMPLE",
-    "speaker_effect": { "effect": { "u_spend_cash": 500 } },
+    "speaker_effect": { "effect": { "u_spend_ecash": 500 } },
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [ { "text": "This is a basic test response.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_TEST_SPEAKER_EFFECT_SIMPLE_CONDITIONAL",
-    "speaker_effect": { "condition": { "u_has_cash": 750 }, "effect": { "u_spend_cash": 500 } },
+    "speaker_effect": { "condition": { "u_has_ecash": 8750 }, "effect": { "u_spend_ecash": 500 } },
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [ { "text": "This is a basic test response.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_TEST_SPEAKER_EFFECT_SENTINEL",
-    "speaker_effect": { "sentinel": "spend500", "effect": { "u_spend_cash": 500 } },
+    "speaker_effect": { "sentinel": "spend500", "effect": { "u_spend_ecash": 500 } },
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [ { "text": "This is a basic test response.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_TEST_SPEAKER_EFFECT_SENTINEL_CONDITIONAL",
-    "speaker_effect": { "sentinel": "spend500", "condition": { "u_are_owed": 750 }, "effect": { "u_spend_cash": 500 } },
+    "speaker_effect": { "sentinel": "spend500", "condition": { "u_has_ecash": 9500 }, "effect": { "u_spend_ecash": 500 } },
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [ { "text": "This is a basic test response.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_TEST_SPEAKER_EFFECT_COMPOUND",
-    "speaker_effect": [ { "effect": { "u_spend_cash": 500 } }, { "effect": { "u_spend_cash": 500 } } ],
+    "speaker_effect": [ { "effect": { "u_spend_ecash": 500 } }, { "effect": { "u_spend_ecash": 500 } } ],
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [ { "text": "This is a basic test response.", "topic": "TALK_DONE" } ]
   },
@@ -755,8 +795,8 @@
     "type": "talk_topic",
     "id": "TALK_TEST_SPEAKER_EFFECT_COMPOUND_CONDITIONAL",
     "speaker_effect": [
-      { "condition": { "u_are_owed": 1500 }, "effect": { "u_spend_cash": 1000 } },
-      { "condition": { "u_are_owed": 750 }, "effect": { "u_spend_cash": 500 } }
+      { "condition": { "u_has_ecash": 8000 }, "effect": { "u_spend_ecash": 1000 } },
+      { "condition": { "u_has_ecash": 6000 }, "effect": { "u_spend_ecash": 500 } }
     ],
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [ { "text": "This is a basic test response.", "topic": "TALK_DONE" } ]
@@ -764,7 +804,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_TEST_SPEAKER_EFFECT_COMPOUND_SENTINEL",
-    "speaker_effect": [ { "sentinel": "spend250", "effect": { "u_spend_cash": 250 } }, { "effect": { "u_spend_cash": 500 } } ],
+    "speaker_effect": [ { "sentinel": "spend250", "effect": { "u_spend_ecash": 250 } }, { "effect": { "u_spend_ecash": 500 } } ],
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [ { "text": "This is a basic test response.", "topic": "TALK_DONE" } ]
   },
@@ -772,15 +812,15 @@
     "type": "talk_topic",
     "id": "TALK_TEST_SPEAKER_EFFECT_COMPOUND_SENTINEL_CONDITIONAL",
     "speaker_effect": [
-      { "sentinel": "spend250", "condition": { "u_are_owed": 750 }, "effect": { "u_spend_cash": 250 } },
-      { "sentinel": "spend500", "condition": { "u_are_owed": 750 }, "effect": { "u_spend_cash": 500 } }
+      { "sentinel": "spend250", "condition": { "u_has_ecash": 2000 }, "effect": { "u_spend_ecash": 250 } },
+      { "sentinel": "spend500", "condition": { "u_has_ecash": 2000 }, "effect": { "u_spend_ecash": 500 } }
     ],
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [ { "text": "This is a basic test response.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_TEST_SPEAKER_EFFECT_COMPOUND_SENTINEL_CONDITIONAL",
+    "id": "TALK_TEST_SPEAKER_EFFECT_MAPGEN_UPDATE",
     "dynamic_line": [ "This is an example of mapgen_update effect variations" ],
     "responses": [
       {
