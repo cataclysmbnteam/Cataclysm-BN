@@ -3089,6 +3089,10 @@ void target_ui::draw_terrain_overlay()
             } else {
 #endif
                 get_map().drawsq( g->w_terrain, tile, params );
+                Creature *critter = g->critter_at( tile );
+                if( critter != nullptr ) {
+                    g->draw_critter_highlighted( *critter, center );
+                }
 #ifdef TILES
             }
 #endif

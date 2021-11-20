@@ -98,22 +98,21 @@ void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &a
                     queue.emplace( child, trig_dist_squared( origin, p ) );
                 }
             }
-            Creature *critter = g->critter_at( p );
-            if( critter != nullptr ) {
-                ranged::hit_with_aoe( *critter, &attacker, proj.impact );
-            }
+
+            final_coverage[p] = current_coverage;
         }
     }
 
-    std::map<tripoint, nc_color> explosion_colors;
-    for( const std::pair<tripoint, aoe_flood_node> &pr : open ) {
-        if( pr.second.parent_coverage > 0.0 ) {
-            explosion_colors[pr.first] = c_red;
+    draw_cone_aoe( origin, final_coverage );
+
+    // Here and not above because we want the animation first
+    // Terrain will be shown damaged, but having it in unknown state would complicate timing the animation
+    for( const std::pair<tripoint, double> &pr : final_coverage ) {
+        Creature *critter = g->critter_at( pr.first );
+        if( critter != nullptr ) {
+            ranged::hit_with_aoe( *critter, &attacker, proj.impact );
         }
     }
-    // TODO: Better animation
-    // TODO: Animate before applying effects
-    explosion_handler::draw_custom_explosion( origin, explosion_colors, "explosion" );
 }
 
 std::map<tripoint, double> expected_coverage( const shape &sh, const map &here, int bash_power )

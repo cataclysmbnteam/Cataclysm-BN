@@ -83,6 +83,13 @@ class bullet_animation : public basic_animation
         }
 };
 
+class wave_animation : public basic_animation
+{
+    public:
+        wave_animation() : basic_animation( 1 ) {
+        }
+};
+
 bool is_point_visible( const tripoint &p, int margin = 0 )
 {
     return g->is_in_viewport( p, margin ) && g->u.sees( p );
@@ -961,6 +968,166 @@ void game::draw_monster_override( const tripoint &, const mtype_id &, const int,
 {
 }
 #endif
+
+namespace
+{
+struct point_with_value {
+    point_with_value() = default;
+    point_with_value( const point_with_value & ) = default;
+    point_with_value( const tripoint &pt, double val )
+        : pt( pt ), val( val )
+    {}
+    tripoint pt;
+    double val;
+};
+
+using one_bucket = std::vector<point_with_value>;
+using bucketed_points = std::list<one_bucket>;
+
+bucketed_points bucket_by_distance( const tripoint &origin, const one_bucket &to_bucket )
+{
+    std::map<int, one_bucket> by_distance;
+    for( const point_with_value &pv : to_bucket ) {
+        int dist = trig_dist_squared( origin, pv.pt );
+        by_distance[dist].emplace_back( pv.pt, pv.val );
+    }
+    bucketed_points buckets;
+    for( const std::pair<int, one_bucket> &bc : by_distance ) {
+        buckets.emplace_front( bc.second );
+    }
+    buckets.reverse();
+    return buckets;
+}
+
+bucketed_points optimal_bucketing( const bucketed_points &buckets, size_t max_buckets )
+{
+    if( buckets.size() <= max_buckets ) {
+        return buckets;
+    }
+    assert( max_buckets > 1 );
+
+    std::vector<size_t> sizes = {};
+    for( const one_bucket &bc : buckets ) {
+        sizes.emplace_back( bc.size() );
+    }
+
+    bucketed_points optimal = buckets;
+    // TODO: Good algorithm here, this one is a greedy finder of smallest adjacent size sums
+    for( size_t i = 0; i < buckets.size() - max_buckets; i++ ) {
+        auto smallest = sizes.begin();
+        size_t smallest_sum = *smallest + *( smallest + 1 );
+        for( auto iter = sizes.begin() + 1; ( iter + 1 ) != sizes.end(); iter++ ) {
+            size_t sum = *iter + *( iter + 1 );
+            if( sum < smallest_sum ) {
+                smallest = iter;
+                smallest_sum = sum;
+            }
+        }
+
+        size_t distance = std::distance( sizes.begin(), smallest );
+        sizes[distance] += sizes[distance + 1];
+        sizes.erase( smallest + 1 );
+        auto left_bucket = std::next( optimal.begin(), distance );
+        auto right_bucket = std::next( left_bucket );
+        left_bucket->insert( left_bucket->end(), right_bucket->begin(), right_bucket->end() );
+        optimal.erase( right_bucket );
+    }
+
+    return optimal;
+}
+
+void draw_cone_aoe_curses( const tripoint &origin, const std::map<tripoint, double> &aoe )
+{
+    one_bucket clipped_aoe;
+    for( const std::pair<tripoint, double> &pr : aoe ) {
+        if( is_point_visible( pr.first ) ) {
+            clipped_aoe.emplace_back( pr.first, pr.second );
+        }
+    }
+    if( clipped_aoe.empty() ) {
+        return;
+    }
+
+    // calculate screen offset relative to player + view offset position
+    const avatar &u = get_avatar();
+    const tripoint center = u.pos() + u.view_offset;
+    const tripoint topleft( center.x - catacurses::getmaxx( g->w_terrain ) / 2,
+                            center.y - catacurses::getmaxy( g->w_terrain ) / 2, 0 );
+
+    bucketed_points buckets = bucket_by_distance( origin, clipped_aoe );
+
+    size_t max_bucket_count = std::min<size_t>( 4, clipped_aoe.size() );
+    bucketed_points waves = optimal_bucketing( buckets, max_bucket_count );
+
+
+    auto it = waves.begin();
+    shared_ptr_fast<game::draw_callback_t> wave_cb =
+    make_shared_fast<game::draw_callback_t>( [&]() {
+        // All the buckets up until now
+        for( auto inner_it = waves.begin(); inner_it != std::next( it ); inner_it++ ) {
+            for( const point_with_value &pr : *inner_it ) {
+                // update tripoint in relation to top left corner of curses window
+                // mvwputch already filters out of bounds coordinates
+                const tripoint p = pr.pt - topleft;
+                int intensity = ( pr.val >= 1.0 ) + ( pr.val >= 0.5 ) + ( inner_it == it );
+                nc_color col;
+                switch( intensity ) {
+                    case 3:
+                        col = c_red;
+                        break;
+                    case 2:
+                        col = c_yellow;
+                        break;
+                    case 1:
+                        col = c_white;
+                        break;
+                    default:
+                        col = c_dark_gray;
+                        break;
+                }
+
+                // TODO: Prettier
+                mvwputch( g->w_terrain, p.xy(), col, '*' );
+            }
+        }
+    } );
+    g->add_draw_callback( wave_cb );
+
+    wave_animation anim;
+    for( it = waves.begin(); it != waves.end(); it++ ) {
+        anim.progress();
+    }
+}
+
+} // namespace
+
+namespace ranged
+{
+#if defined(TILES)
+void draw_cone_aoe( const tripoint &origin, const std::map<tripoint, double> &aoe )
+{
+    if( test_mode ) {
+        return;
+    }
+
+    if( true || !use_tiles ) {
+        draw_cone_aoe_curses( origin, aoe );
+        return;
+    }
+
+    // tilecontext->init_draw_cone_aoe( origin, aoe );
+}
+#else
+void draw_cone_aoe( const tripoint &origin, const std::map<tripoint, double> &aoe )
+{
+    if( test_mode ) {
+        return;
+    }
+
+    draw_cone_aoe_curses( origin, aoe );
+}
+#endif
+}
 
 bool minimap_requires_animation()
 {

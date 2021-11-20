@@ -97,6 +97,8 @@ std::map<tripoint, double> expected_coverage( const shape &sh, const map &m, int
 
 dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, const damage_instance &di );
 
+void draw_cone_aoe( const tripoint &origin, const std::map<tripoint, double> &aoe );
+
 } // namespace ranged
 
 #endif // CATA_SRC_RANGED_H
