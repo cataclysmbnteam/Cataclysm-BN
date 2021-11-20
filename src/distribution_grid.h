@@ -11,7 +11,9 @@
 #include "cuboid_rectangle.h"
 #include "memory_fast.h"
 #include "point.h"
+#include "type_id.h"
 
+class Character;
 class map;
 class mapbuffer;
 
@@ -57,6 +59,52 @@ class distribution_grid
         }
 };
 
+class distribution_grid_tracker;
+
+struct transform_queue_entry {
+    tripoint_abs_ms p;
+    furn_str_id id;
+    std::string msg;
+
+    bool operator==( const transform_queue_entry &l ) const {
+        return p == l.p && id == l.id && msg == l.msg;
+    }
+};
+
+/**
+ * Represents queued active tile / furniture transformations.
+ *
+ * Some active tiles can turn into other active tiles, or even inactive tiles, as a result
+ * of an update. If such transformation is applied immediately, it could trigger recalculation of
+ * the grid that's being updated, which would require additional code to handle.
+ *
+ * As a simpler alternative, we queue active tile transformations and apply them only after
+ * all grids have been updated. The transformations are applied according to FIFO method,
+ * so if some tile has multiple competing transforms queued, the last one will win out.
+ */
+class grid_furn_transform_queue
+{
+    private:
+        std::vector<transform_queue_entry> queue;
+
+    public:
+        void add( const tripoint_abs_ms &p, const furn_str_id &id, const std::string &msg ) {
+            queue.emplace_back( transform_queue_entry{ p, id, msg } );
+        }
+
+        void apply( mapbuffer &mb, distribution_grid_tracker &grid_tracker, Character &u, map &m );
+
+        void clear() {
+            queue.clear();
+        }
+
+        bool operator==( const grid_furn_transform_queue &l ) const {
+            return queue == l.queue;
+        }
+
+        std::string to_string() const;
+};
+
 /**
  * Contains and manages all the active distribution grids.
  */
@@ -80,6 +128,8 @@ class distribution_grid_tracker
 
         mapbuffer &mb;
 
+        grid_furn_transform_queue transform_queue;
+
     public:
         distribution_grid_tracker();
         distribution_grid_tracker( mapbuffer &buffer );
@@ -99,6 +149,11 @@ class distribution_grid_tracker
         std::uintptr_t debug_grid_id( const tripoint_abs_omt &omp ) const;
 
         void update( time_point to );
+
+        grid_furn_transform_queue &get_transform_queue() {
+            return transform_queue;
+        }
+
         /**
          * Loads grids in an area given by submap coords.
          */

@@ -1,5 +1,6 @@
 #include <unordered_set>
 
+#include "character.h"
 #include "debug.h"
 #include "distribution_grid.h"
 #include "coordinate_conversions.h"
@@ -8,6 +9,7 @@
 #include "map.h"
 #include "mapbuffer.h"
 #include "map_iterator.h"
+#include "messages.h"
 #include "submap.h"
 #include "options.h"
 #include "overmapbuffer.h"
@@ -166,9 +168,8 @@ distribution_grid &distribution_grid_tracker::make_distribution_grid_at(
     if( !get_option<bool>( "ELECTRIC_GRID" ) ) {
         return empty_grid;
     }
-    // TODO: fix point types
     const std::set<tripoint_abs_omt> overmap_positions = overmap_buffer.electric_grid_at(
-                project_to<coords::omt>( tripoint_abs_sm( sm_pos ) ) );
+                project_to<coords::omt>( sm_pos ) );
     assert( !overmap_positions.empty() );
     std::vector<tripoint_abs_sm> submap_positions;
     for( const tripoint_abs_omt &omp : overmap_positions ) {
@@ -257,6 +258,57 @@ std::uintptr_t distribution_grid_tracker::debug_grid_id( const tripoint_abs_omt 
     }
 }
 
+void grid_furn_transform_queue::apply( mapbuffer &mb, distribution_grid_tracker &grid_tracker,
+                                       Character &u, map &m )
+{
+    for( const auto &qt : queue ) {
+        tripoint_abs_sm p_abs_sm;
+        point_sm_ms p_within_sm;
+        std::tie( p_abs_sm, p_within_sm ) = project_remain<coords::sm>( qt.p );
+
+        submap *sm = mb.lookup_submap( p_abs_sm );
+        if( sm == nullptr ) {
+            return;
+        }
+
+        const furn_t &old_t = sm->get_furn( p_within_sm.raw() ).obj();
+        const furn_t &new_t = qt.id.obj();
+
+        sm->set_furn( p_within_sm.raw(), qt.id );
+
+        if( !qt.msg.empty() ) {
+            const tripoint pos_local = m.getlocal( qt.p.raw() );
+            if( u.sees( pos_local ) ) {
+                add_msg( "%s", _( qt.msg ) );
+            }
+        }
+
+        // TODO: this is copy-pasted from map.cpp
+        if( old_t.active ) {
+            sm->active_furniture.erase( p_within_sm );
+            // TODO: Only for g->m? Observer pattern?
+            grid_tracker.on_changed( qt.p );
+        }
+        if( new_t.active ) {
+            active_tile_data *atd = new_t.active->clone();
+            atd->set_last_updated( calendar::turn );
+            sm->active_furniture[p_within_sm].reset( atd );
+            grid_tracker.on_changed( qt.p );
+        }
+    }
+}
+
+std::string grid_furn_transform_queue::to_string() const
+{
+    std::string ret;
+    size_t i = 0;
+    for( const transform_queue_entry &q : queue ) {
+        ret += string_format( "% 2d: %s %s \"%s\"\n", i, q.p.to_string(), q.id, q.msg );
+        i++;
+    }
+    return ret;
+}
+
 void distribution_grid_tracker::update( time_point to )
 {
     // TODO: Don't recalc this every update
@@ -267,6 +319,8 @@ void distribution_grid_tracker::update( time_point to )
             pr.second->update( to );
         }
     }
+    transform_queue.apply( mb, *this, get_player_character(), get_map() );
+    transform_queue.clear();
 }
 
 void distribution_grid_tracker::load( half_open_rectangle<point_abs_sm> area )
