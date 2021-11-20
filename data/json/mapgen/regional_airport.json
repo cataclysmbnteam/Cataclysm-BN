@@ -872,7 +872,7 @@
       "O": [
         { "item": "supplies_electronics", "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "mechanics", "chance": 20, "repeat": [ 1, 2 ] },
-        { "item": "supplies_civilian_helicopter", "chance": 15 }
+        { "item": "civilian_helicopter_parts", "chance": 15 }
       ]
     },
     "vendingmachines": { "8": { "item_group": "vending_drink" }, "9": { "item_group": "vending_food" } },

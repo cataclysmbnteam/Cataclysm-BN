@@ -532,18 +532,18 @@
     ]
   },
  {
-    "id": "supplies_civilian_helicopter",
+    "id": "civilian_helicopter_parts",
     "type": "item_group",
-    "//": "General supplies for civilian helicopter",
+    "//": "Parts for civilian helicopter",
     "items": [
       [ "small_turbine_engine", 50 ],
       [ "small_helicopter_rotor", 50 ]
     ]
   },
  {
-    "id": "supplies_military_helicopter",
+    "id": "military_helicopter_parts",
     "type": "item_group",
-    "//": "General supplies for military helicopter",
+    "//": "GParts for military helicopter",
     "items": [
       [ "medium_turbine_engine", 30 ],
       [ "large_turbine_engine", 20 ],
