@@ -6,6 +6,7 @@
     "magazine": 100,
     "subtype": "distribution",
     "entries": [
+      { "group": "ammo_atomic_batteries", "prob": 10 },
       { "item": "12mm", "prob": 20 },
       { "item": "adrenaline_injector", "prob": 20 },
       { "item": "ampoule", "prob": 100 },

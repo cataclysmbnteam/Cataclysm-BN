@@ -214,6 +214,7 @@
     "subtype": "distribution",
     "entries": [
       { "group": "mags_obscure", "prob": 40 },
+      { "group": "ammo_atomic_batteries", "prob": 5 },
       { "item": "corpse", "prob": 10 },
       { "item": "holy_symbol", "prob": 1 },
       { "item": "mutagen", "prob": 8 },
@@ -307,8 +308,8 @@
       { "item": "bot_grenade_hack", "prob": 1 },
       { "item": "bot_flashbang_hack", "prob": 1 },
       { "item": "bot_gasbomb_hack", "prob": 1 },
-      { "item": "UPS_off", "prob": 5 },
-      { "item": "adv_UPS_off", "prob": 3 },
+      { "group": "used_UPS", "prob": 5 },
+      { "item": "adv_UPS_off", "prob": 3, "charges": [ 0, 2000 ] },
       { "item": "bio_power_storage", "prob": 10 },
       { "item": "bio_flashlight", "prob": 10 },
       { "item": "bio_lighter", "prob": 10 },

@@ -689,5 +689,25 @@
     "id": "ammo_pocket_batteries_full",
     "subtype": "distribution",
     "entries": [ { "group": "ammo_light_batteries_full", "prob": 5 }, { "group": "ammo_medium_batteries_full", "prob": 5 } ]
+  },
+  {
+    "id": "ammo_atomic_batteries",
+    "type": "item_group",
+    "items": [
+      { "item": "light_battery_cell", "prob": 4, "charges": [ 500, 1000 ] },
+      { "item": "light_minus_atomic_battery_cell", "prob": 3, "charges": [ 250, 500 ] },
+      { "item": "medium_battery_cell", "prob": 2, "charges": [ 2500, 5000 ] },
+      { "item": "heavy_battery_cell", "prob": 1, "charges": [ 5000, 10000 ] }
+    ]
+  },
+  {
+    "id": "ammo_atomic_batteries_full",
+    "type": "item_group",
+    "items": [
+      { "item": "light_battery_cell", "prob": 4, "charges": 1000 },
+      { "item": "light_minus_atomic_battery_cell", "prob": 3, "charges": 500 },
+      { "item": "medium_battery_cell", "prob": 2, "charges": 5000 },
+      { "item": "heavy_battery_cell", "prob": 1, "charges": 10000 }
+    ]
   }
 ]

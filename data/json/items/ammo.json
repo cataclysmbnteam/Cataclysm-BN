@@ -225,7 +225,7 @@
     "name": { "str": "plutonium fuel cell" },
     "symbol": "=",
     "color": "green",
-    "description": "This is neither a fuel cell, nor nuclear, but the name stuck.  It uses plutonium-244 as a catalyst to stabilize a complicated nanocompound that can store enormous amounts of power.  Unfortunately it cannot be recharged by conventional means: expended cells had to be sent to a central reprocessing facility that almost certainly doesn't exist anymore.",
+    "description": "This power cell was designed to store enormous amounts of power, using plutonium-244 and now-irreplaceable compounds to make compact reactors more practical than ever.  Unfortunately it cannot be recharged by conventional means: expended cells had to be sent to a central reprocessing facility that almost certainly doesn't exist anymore.",
     "material": [ "steel", "plastic" ],
     "flags": [ "LEAK_DAM", "RADIOACTIVE" ],
     "volume": "250 ml",
