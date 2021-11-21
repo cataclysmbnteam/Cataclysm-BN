@@ -27,7 +27,7 @@ constexpr T sign( T x )
 class shape_impl
 {
     public:
-        virtual ~shape_impl() {}
+        virtual ~shape_impl() = default;
         virtual double signed_distance( const rl_vec3d &p ) const = 0;
 
         virtual inclusive_cuboid<rl_vec3d> bounding_box() const = 0;

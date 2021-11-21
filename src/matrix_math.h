@@ -32,6 +32,7 @@ struct matrix {
             return result;
         }
 
+        // NOLINTNEXTLINE(cata-xy): We don't want point dependence in this .h
         inline constexpr const T &at( size_t x, size_t y ) const {
             return data.at( y * w + x );
         }

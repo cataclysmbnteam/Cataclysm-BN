@@ -106,7 +106,7 @@ TEST_CASE( "cylinder_test", "[shape]" )
     constexpr double radius = 0.5;
     std::shared_ptr<shape_impl> cyl = std::make_shared<cylinder>( length, radius );
     SECTION( "just the cylinder" ) {
-        std::shared_ptr<shape_impl> s = cyl;
+        const std::shared_ptr<shape_impl> &s = cyl;
         CHECK( s->signed_distance( rl_vec3d{0.0, 0.0, 0.0} ) == Approx( 0.0 ) );
         CHECK( s->signed_distance( rl_vec3d{0.0, -length, 0.0} ) == Approx( 0.0 ) );
         CHECK( s->signed_distance( rl_vec3d{radius, 0.0, 0.0} ) == Approx( 0.0 ) );
@@ -154,25 +154,19 @@ TEST_CASE( "cone_factory_test", "[shape]" )
 
         CHECK( s->distance_at( rl_vec3d( 0, 0, 0 ) ) == Approx( 0.0 ) );
 
-        CHECK( s->distance_at( rl_vec3d( 2, 2, 0 ) ) < 0.0 );
-        CHECK( s->distance_at( rl_vec3d( 3, 3, 0 ) ) < 0.0 );
-        CHECK( s->distance_at( rl_vec3d( 4, 4, 0 ) ) < 0.0 );
-        CHECK( s->distance_at( rl_vec3d( 5, 5, 0 ) ) < 0.0 );
-        CHECK( s->distance_at( rl_vec3d( 6, 6, 0 ) ) < 0.0 );
-        CHECK( s->distance_at( rl_vec3d( 7, 7, 0 ) ) < 0.0 );
-
-        CHECK( s->distance_at( rl_vec3d( 8, 8, 0 ) ) > 0.0 );
-        CHECK( s->distance_at( rl_vec3d( 9, 9, 0 ) ) > 0.0 );
-        CHECK( s->distance_at( rl_vec3d( 10, 10, 0 ) ) > 0.0 );
+        for( size_t i = 2; i <= 7; i++ ) {
+            CHECK( s->distance_at( rl_vec3d( i, i, 0 ) ) < 0.0 );
+        }
+        for( size_t i = 8; i <= 10; i++ ) {
+            CHECK( s->distance_at( rl_vec3d( i, i, 0 ) ) > 0.0 );
+        }
 
         auto bb = s->bounding_box();
         CAPTURE( bb.p_min );
         CAPTURE( bb.p_max );
-        CHECK( bb.contains( tripoint( 1, 1, 0 ) ) );
-        CHECK( bb.contains( tripoint( 2, 2, 0 ) ) );
-        CHECK( bb.contains( tripoint( 3, 3, 0 ) ) );
-        CHECK( bb.contains( tripoint( 4, 4, 0 ) ) );
-        CHECK( bb.contains( tripoint( 5, 5, 0 ) ) );
+        for( size_t i = 0; i <= 5; i++ ) {
+            CHECK( bb.contains( tripoint( i, i, 0 ) ) );
+        }
     }
 
     SECTION( "(15,5,0) to (-15,5,0)" ) {
@@ -239,10 +233,9 @@ TEST_CASE( "expected shape coverage without obstacles", "[shape]" )
     std::shared_ptr<shape> s = c.create( rl_vec3d( origin ), rl_vec3d( end ) );
     auto cov = ranged::expected_coverage( *s, get_map(), 3 );
 
-    CHECK( cov[origin + point( 4, 4 )] == 1.0 );
-    CHECK( cov[origin + point( 3, 3 )] == 1.0 );
-    CHECK( cov[origin + point( 2, 2 )] == 1.0 );
-    CHECK( cov[origin + point( 1, 1 )] == 1.0 );
+    for( size_t i = 0; i <= 4; i++ ) {
+        CHECK( cov[origin + point( i, i )] == 1.0 );
+    }
 
     CHECK( cov[origin + point( 2, 1 )] == 1.0 );
     CHECK( cov[origin + point( 1, 2 )] == 1.0 );
@@ -262,9 +255,9 @@ TEST_CASE( "expected shape coverage through windows", "[shape]" )
 
     std::shared_ptr<shape> s = c.create( rl_vec3d( origin ), rl_vec3d( end ) );
     auto cov = ranged::expected_coverage( *s, here, 3 );
-    CHECK( cov[origin + point( 1, 0 )] == 1.0 );
+    CHECK( cov[origin + point_east] == 1.0 );
 
-    CHECK( cov[origin + point( 2, 0 )] == Approx( 0.25 ) );
-    CHECK( cov[origin + point( 3, 0 )] == Approx( 0.25 ) );
-    CHECK( cov[origin + point( 4, 0 )] == Approx( 0.25 ) );
+    CHECK( cov[origin + 2 * point_east] == Approx( 0.25 ) );
+    CHECK( cov[origin + 3 * point_east] == Approx( 0.25 ) );
+    CHECK( cov[origin + 4 * point_east] == Approx( 0.25 ) );
 }

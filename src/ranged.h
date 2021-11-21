@@ -93,7 +93,7 @@ int throw_cost( const player &c, const item &to_throw );
 /** AoE attack, with area given by shape */
 void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &attacker );
 
-std::map<tripoint, double> expected_coverage( const shape &sh, const map &m, int bash_power );
+std::map<tripoint, double> expected_coverage( const shape &sh, const map &here, int bash_power );
 
 dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, const damage_instance &di );
 

@@ -969,12 +969,13 @@ void game::draw_monster_override( const tripoint &, const mtype_id &, const int,
 }
 #endif
 
-bucketed_points bucket_by_distance( const tripoint &origin, const one_bucket &to_bucket )
+bucketed_points bucket_by_distance( const tripoint &origin,
+                                    const std::map<tripoint, double> &to_bucket )
 {
     std::map<int, one_bucket> by_distance;
-    for( const point_with_value &pv : to_bucket ) {
-        int dist = trig_dist_squared( origin, pv.pt );
-        by_distance[dist].push_back( pv );
+    for( const std::pair<tripoint, double> &pv : to_bucket ) {
+        int dist = trig_dist_squared( origin, pv.first );
+        by_distance[dist].emplace_back( pv.first, pv.second );
     }
     bucketed_points buckets;
     for( const std::pair<int, one_bucket> &bc : by_distance ) {
@@ -1020,29 +1021,13 @@ bucketed_points optimal_bucketing( const bucketed_points &buckets, size_t max_bu
     return optimal;
 }
 
-void draw_cone_aoe_curses( const tripoint &origin, const std::map<tripoint, double> &aoe )
+void draw_cone_aoe_curses( const tripoint &, const bucketed_points &waves )
 {
-    one_bucket clipped_aoe;
-    for( const std::pair<tripoint, double> &pr : aoe ) {
-        if( is_point_visible( pr.first ) ) {
-            clipped_aoe.emplace_back( pr.first, pr.second );
-        }
-    }
-    if( clipped_aoe.empty() ) {
-        return;
-    }
-
     // Calculate screen offset relative to player + view offset position
     const avatar &u = get_avatar();
     const tripoint center = u.pos() + u.view_offset;
     const tripoint topleft( center.x - catacurses::getmaxx( g->w_terrain ) / 2,
                             center.y - catacurses::getmaxy( g->w_terrain ) / 2, 0 );
-
-    bucketed_points buckets = bucket_by_distance( origin, clipped_aoe );
-    // That hardcoded 4 could be improved...
-    size_t max_bucket_count = std::min<size_t>( 4, clipped_aoe.size() );
-    bucketed_points waves = optimal_bucketing( buckets, max_bucket_count );
-
 
     auto it = waves.begin();
     shared_ptr_fast<game::draw_callback_t> wave_cb =
@@ -1092,12 +1077,44 @@ void draw_cone_aoe( const tripoint &origin, const std::map<tripoint, double> &ao
         return;
     }
 
+    bucketed_points buckets = bucket_by_distance( origin, aoe );
+    // That hardcoded value could be improved... Not sure about the name
+    size_t max_bucket_count = std::min<size_t>( 10, aoe.size() );
+    bucketed_points waves = optimal_bucketing( buckets, max_bucket_count );
+
     if( !use_tiles ) {
-        draw_cone_aoe_curses( origin, aoe );
+        draw_cone_aoe_curses( origin, waves );
         return;
     }
 
-    tilecontext->init_draw_cone_aoe( origin, aoe );
+    // This is copied from explosion code
+    // Not sure if it couldn't be cleaner, without that lambda capture thing
+    one_bucket combined_layer;
+    combined_layer.reserve( aoe.size() );
+
+    wave_animation anim;
+
+    shared_ptr_fast<game::draw_callback_t> wave_cb =
+    make_shared_fast<game::draw_callback_t>( [&]() {
+        tilecontext->init_draw_cone_aoe( origin, combined_layer );
+    } );
+    g->add_draw_callback( wave_cb );
+
+    for( const one_bucket &layer : waves ) {
+        // Older layers get a fade effect
+        for( point_with_value &pv : combined_layer ) {
+            pv.val *= 1.0 - ( 2.0 / max_bucket_count );
+        }
+        combined_layer.insert( combined_layer.end(), layer.begin(), layer.end() );
+        if( std::any_of( combined_layer.begin(), combined_layer.end(),
+        []( const point_with_value & element ) {
+        return is_point_visible( element.pt );
+        } ) ) {
+            anim.progress();
+        }
+    }
+
+    tilecontext->void_cone_aoe();
 }
 #else
 void draw_cone_aoe( const tripoint &origin, const std::map<tripoint, double> &aoe )

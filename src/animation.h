@@ -8,11 +8,6 @@
 #include "color.h"
 #include "point.h"
 
-struct point_with_value;
-
-using one_bucket = std::vector<point_with_value>;
-using bucketed_points = std::list<one_bucket>;
-
 enum explosion_neighbors {
     N_NO_NEIGHBORS = 0,
     N_NORTH = 1,
@@ -50,6 +45,12 @@ struct point_with_value {
     double val;
 };
 
+using one_bucket = std::vector<point_with_value>;
+using bucketed_points = std::list<one_bucket>;
+
+// TODO: Better file
+bucketed_points bucket_by_distance( const tripoint &origin, const one_bucket &to_bucket );
+bucketed_points optimal_bucketing( const bucketed_points &buckets, size_t max_buckets );
 
 bool minimap_requires_animation();
 bool terrain_requires_animation();

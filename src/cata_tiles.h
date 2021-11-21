@@ -455,7 +455,7 @@ class cata_tiles
         void draw_custom_explosion_frame();
         void void_custom_explosion();
 
-        void init_draw_cone_aoe( const tripoint &origin, const std::map<tripoint, double> &aoe );
+        void init_draw_cone_aoe( const tripoint &origin, const one_bucket &layer );
         void draw_cone_aoe_frame();
         void void_cone_aoe();
 
@@ -620,7 +620,7 @@ class cata_tiles
         std::map<tripoint, explosion_tile> custom_explosion_layer;
 
         tripoint cone_aoe_origin;
-        bucketed_points cone_aoe_layer;
+        one_bucket cone_aoe_layer;
 
         tripoint bul_pos;
         std::string bul_id;
