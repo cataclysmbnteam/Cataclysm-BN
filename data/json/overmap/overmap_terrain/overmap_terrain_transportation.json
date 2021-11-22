@@ -71,7 +71,14 @@
   },
   {
     "type": "overmap_terrain",
+    "//": "Legacy bridge that blocks river",
     "id": "bridge",
+    "copy-from": "generic_bridge",
+    "flags": [ "RIVER" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bridge_under",
     "copy-from": "generic_bridge",
     "color": "blue",
     "flags": [ "RIVER" ]

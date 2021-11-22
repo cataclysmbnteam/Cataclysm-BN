@@ -1920,6 +1920,10 @@ bool overmap::generate_over( const int z )
     bool requires_over = false;
     std::vector<point_om_omt> bridge_points;
 
+    if( !get_option<bool>( "ELEVATED_BRIDGES" ) ) {
+        return requires_over;
+    }
+
     // These are so common that it's worth checking first as int.
     const std::set<oter_id> skip_below = {
         oter_id( "empty_rock" ), oter_id( "forest" ), oter_id( "field" ),
@@ -1930,7 +1934,8 @@ bool overmap::generate_over( const int z )
         for( int i = 0; i < OMAPX; i++ ) {
             for( int j = 0; j < OMAPY; j++ ) {
                 tripoint_om_omt p( i, j, z );
-                const oter_id oter_below = ter( p + tripoint_below );
+                tripoint_om_omt p_below( p + tripoint_below );
+                const oter_id oter_below = ter( p_below );
                 const oter_id oter_ground = ter( tripoint_om_omt( p.xy(), 0 ) );
 
                 // implicitly skip skip_below oter_ids
@@ -1940,6 +1945,7 @@ bool overmap::generate_over( const int z )
 
                 if( is_ot_match( "bridge", oter_ground, ot_match_type::type ) ) {
                     ter_set( p, oter_id( "bridge_road" + oter_get_rotation_string( oter_ground ) ) );
+                    ter_set( p_below, oter_id( "bridge_under" + oter_get_rotation_string( oter_ground ) ) );
                     bridge_points.emplace_back( i, j );
                 }
             }
@@ -1954,10 +1960,10 @@ bool overmap::generate_over( const int z )
         const oter_id oter_ground_south = ter( bp_om + tripoint_south );
         const oter_id oter_ground_east = ter( bp_om + tripoint_east );
         const oter_id oter_ground_west = ter( bp_om + tripoint_west );
-        const bool is_bridge_north = is_ot_match( "bridge", oter_ground_north, ot_match_type::type );
-        const bool is_bridge_south = is_ot_match( "bridge", oter_ground_south, ot_match_type::type );
-        const bool is_bridge_east = is_ot_match( "bridge", oter_ground_east, ot_match_type::type );
-        const bool is_bridge_west = is_ot_match( "bridge", oter_ground_west, ot_match_type::type );
+        const bool is_bridge_north = is_ot_match( "bridge_under", oter_ground_north, ot_match_type::type );
+        const bool is_bridge_south = is_ot_match( "bridge_under", oter_ground_south, ot_match_type::type );
+        const bool is_bridge_east = is_ot_match( "bridge_under", oter_ground_east, ot_match_type::type );
+        const bool is_bridge_west = is_ot_match( "bridge_under", oter_ground_west, ot_match_type::type );
 
         if( is_bridge_north ^ is_bridge_south || is_bridge_east ^ is_bridge_west ) {
             std::string ramp_facing;

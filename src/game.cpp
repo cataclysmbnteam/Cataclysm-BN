@@ -561,6 +561,10 @@ void game::setup()
 
     load_world_modfiles( ui );
 
+    if( get_option<bool>( "ELEVATED_BRIDGES" ) && !get_option<bool>( "ZLEVELS" ) ) {
+        debugmsg( "\"Elevated bridges\" mod requires z-levels to be ENABLED to work properly!" );
+    }
+
     m = map( get_option<bool>( "ZLEVELS" ) );
 
     next_npc_id = character_id( 1 );

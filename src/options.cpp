@@ -2326,7 +2326,7 @@ void options_manager::add_options_world_default()
     add_empty_line();
 
     add( "ZLEVELS", "world_default", translate_marker( "Z-levels" ),
-         translate_marker( "If true, enables several features related to vertical movement, such as hauling items up stairs, climbing downspouts, and flying aircraft.  May cause problems if toggled mid-game." ),
+         translate_marker( "If true, enables several features related to vertical movement, such as hauling items up stairs, climbing downspouts, flying aircraft and ramps.  May cause problems if toggled mid-game." ),
          true
        );
 
@@ -2341,6 +2341,12 @@ void options_manager::add_options_world_default()
     add( "DISABLE_LIFTING", "world_default",
          translate_marker( "Disables lifting requirements for vehicle parts." ),
          translate_marker( "If true, strength checks and/or lifting qualities no longer need to be met in order to change parts." ),
+         false, COPT_ALWAYS_HIDE
+       );
+
+    add( "ELEVATED_BRIDGES", "world_default",
+         translate_marker( "Generate elevated bridges." ),
+         translate_marker( "If true, bridges are generated at z+1 level, allowing boats to pass underneath." ),
          false, COPT_ALWAYS_HIDE
        );
 }
