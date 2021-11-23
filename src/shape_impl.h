@@ -224,6 +224,30 @@ class shape_min : public shape_impl
         }
 };
 
+class shape_exclude_circle : public shape_impl
+{
+    private:
+        std::shared_ptr<shape_impl> base;
+        double excluded_radius_squared;
+    public:
+        shape_exclude_circle( const std::shared_ptr<shape_impl> &base, double excluded_radius )
+            : base( base )
+            , excluded_radius_squared( excluded_radius * excluded_radius )
+        {}
+
+        double signed_distance( const rl_vec3d &p ) const override {
+            if( p.dot_product( p ) <= excluded_radius_squared ) {
+                return 1.0;
+            }
+
+            return base->signed_distance( p );
+        }
+
+        inclusive_cuboid<rl_vec3d> bounding_box() const override {
+            return base->bounding_box();
+        }
+};
+
 class shape_factory_impl
 {
     public:
@@ -257,10 +281,12 @@ class cone_factory : public shape_factory_impl
             std::shared_ptr<shape_impl> offset_cyl = std::make_shared<offset_shape>( cyl,
                     rl_vec3d( 0.0, -0.5, 0.0 ) );
             auto mindist = std::make_shared<shape_min>( c, offset_cyl );
+            auto mindist_minus_origin = std::make_shared<shape_exclude_circle>( mindist, 0.5 );
             rl_vec3d diff = end - start;
             // Plus 90 deg because @ref cone extends in -y direction
             double rotation_angle = atan2( diff.y, diff.x ) + deg2rad( 90 );
-            std::shared_ptr<rotate_z_shape> r = std::make_shared<rotate_z_shape>( mindist, rotation_angle );
+            std::shared_ptr<rotate_z_shape> r = std::make_shared<rotate_z_shape>(
+                                                    mindist_minus_origin, rotation_angle );
             std::shared_ptr<offset_shape> o = std::make_shared<offset_shape>( r,
                                               rl_vec3d( start.x, start.y, start.z ) );
             return std::make_shared<shape>( o, start.as_point() );

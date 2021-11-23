@@ -3535,7 +3535,7 @@ void cata_tiles::draw_cone_aoe_frame()
             }
         };
 
-        size_t intensity = ( pv.val >= 1.0 ) + ( pv.val >= 0.7 ) + ( pv.val >= 0.3 );
+        size_t intensity = ( pv.val >= 1.0 ) + ( pv.val >= 0.5 );
         draw_from_id_string( sprite_ids[intensity], pv.pt, 0, rotation, lit_level::LIT, false );
     }
 }

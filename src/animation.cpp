@@ -1126,7 +1126,7 @@ void draw_cone_aoe( const tripoint &origin, const std::map<tripoint, double> &ao
     draw_cone_aoe_curses( origin, aoe );
 }
 #endif
-}
+} // namespace ranged
 
 bool minimap_requires_animation()
 {

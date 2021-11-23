@@ -140,6 +140,8 @@ TEST_CASE( "cone_factory_test", "[shape]" )
     cone_factory c( deg2rad( 15 ), 10.0 );
     SECTION( "(0,0,0) to (5,5,0)" ) {
         std::shared_ptr<shape> s = c.create( rl_vec3d(), rl_vec3d( 5, 5, 0 ) );
+        CHECK( s->distance_at( rl_vec3d( 0, 0, 0 ) ) > 0.0 );
+
         CHECK( s->distance_at( rl_vec3d( 1, 1, 0 ) ) < 0.0 );
 
         CHECK( s->distance_at( rl_vec3d( 1, 0, 0 ) ) > 0.0 );
@@ -151,8 +153,6 @@ TEST_CASE( "cone_factory_test", "[shape]" )
 
         CHECK( s->distance_at( rl_vec3d( 1, -1, 0 ) ) > 0.0 );
         CHECK( s->distance_at( rl_vec3d( -1, 1, 0 ) ) > 0.0 );
-
-        CHECK( s->distance_at( rl_vec3d( 0, 0, 0 ) ) == Approx( 0.0 ) );
 
         for( size_t i = 2; i <= 7; i++ ) {
             CHECK( s->distance_at( rl_vec3d( i, i, 0 ) ) < 0.0 );
@@ -196,6 +196,8 @@ static void shape_coverage_vs_distance_no_obstacle( const shape_factory_impl &c,
     auto bb = s->bounding_box();
     REQUIRE( bb.p_min != bb.p_max );
     bool had_any = false;
+    CHECK( s->distance_at( rl_vec3d( origin ) ) > 0.0 );
+    CHECK( cov[origin] <= 0.0 );
     for( const tripoint &p : here.points_in_rectangle( bb.p_min, bb.p_max ) ) {
         double signed_distance = s->distance_at( p );
         bool distance_on_shape_is_negative = signed_distance < 0.0;
@@ -233,7 +235,7 @@ TEST_CASE( "expected shape coverage without obstacles", "[shape]" )
     std::shared_ptr<shape> s = c.create( rl_vec3d( origin ), rl_vec3d( end ) );
     auto cov = ranged::expected_coverage( *s, get_map(), 3 );
 
-    for( size_t i = 0; i <= 4; i++ ) {
+    for( size_t i = 1; i <= 4; i++ ) {
         CHECK( cov[origin + point( i, i )] == 1.0 );
     }
 
