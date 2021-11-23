@@ -129,7 +129,7 @@ static void ramp_transition_angled( const vproto_id &veh_id, const int angle,
     if( player_character.pos() != map_starting_point ) {
         return;
     }
-    get_map().board_vehicle( map_starting_point, &player_character );
+    get_map().board_vehicle( map_starting_point, player_character.as_player() );
     REQUIRE( player_character.pos() == map_starting_point );
     if( player_character.pos() != map_starting_point ) {
         return;

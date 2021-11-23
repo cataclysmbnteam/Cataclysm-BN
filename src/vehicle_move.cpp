@@ -845,7 +845,10 @@ void vehicle::handle_trap( const tripoint &p, int part )
     if( pwh < 0 ) {
         return;
     }
-    const trap &tr = g->m.tr_at( p );
+    map &here = get_map();
+    Character &player_character = get_player_character();
+
+    const trap &tr = here.tr_at( p );
     const trap_id t = tr.loadid;
 
     if( t == tr_null ) {
@@ -858,8 +861,8 @@ void vehicle::handle_trap( const tripoint &p, int part )
         return;
     }
 
-    const bool seen = g->u.sees( p );
-    const bool known = g->u.knows_trap( p );
+    const bool seen = player_character.sees( p );
+    const bool known = player_character.knows_trap( p );
     if( seen ) {
         if( known ) {
             //~ %1$s: name of the vehicle; %2$s: name of the related vehicle part; %3$s: trap name

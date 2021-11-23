@@ -269,7 +269,7 @@ vehicle::vehicle() : vehicle( vproto_id() )
 
 vehicle::~vehicle() = default;
 
-bool vehicle::player_in_control( const player &p ) const
+bool vehicle::player_in_control( const Character &p ) const
 {
     // Debug switch to prevent vehicles from skidding
     // without having to place the player in them.
@@ -289,7 +289,7 @@ bool vehicle::player_in_control( const player &p ) const
     return remote_controlled( p );
 }
 
-bool vehicle::remote_controlled( const player &p ) const
+bool vehicle::remote_controlled( const Character &p ) const
 {
     vehicle *veh = g->remoteveh();
     if( veh != this ) {
