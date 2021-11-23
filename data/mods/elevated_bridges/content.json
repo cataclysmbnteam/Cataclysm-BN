@@ -1,5 +1,12 @@
 [
   {
+    "//": "Enable generation of elevated bridges",
+    "type": "EXTERNAL_OPTION",
+    "name": "ELEVATED_BRIDGES",
+    "stype": "bool",
+    "value": true
+  },
+  {
     "type": "construction",
     "id": "constr_concrete_ramp_low",
     "description": "Build Low End of a Concrete Ramp",
