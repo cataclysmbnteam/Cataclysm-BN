@@ -514,7 +514,7 @@
     "color": "green",
     "description": "Some dogbane seeds.",
     "charges": 2,
-    "seed_data": { "plant_name": "dogbane", "fruit": "dogbane", "byproducts": [ "withered" ], "grow": "14 days" }
+    "seed_data": { "plant_name": "dogbane", "fruit": "dogbane", "grow": "14 days" }
   },
   {
     "type": "COMESTIBLE",

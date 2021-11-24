@@ -2432,6 +2432,22 @@
     "components": [ [ [ "plant_fibre", 80 ] ] ]
   },
   {
+    "result": "cattail_stalk",
+    "type": "uncraft",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": "6 m",
+    "components": [ [ [ "plant_fibre", 10 ] ] ]
+  },
+  {
+    "result": "cattail_rhizome",
+    "type": "uncraft",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": "6 m",
+    "components": [ [ [ "plant_fibre", 25 ] ] ]
+  },
+  {
     "result": "ref_lighter",
     "type": "uncraft",
     "time": "30 s",

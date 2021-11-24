@@ -864,8 +864,9 @@
     "skill_used": "survival",
     "difficulty": 1,
     "time": "6 m",
+    "charges": 50,
     "autolearn": true,
-    "components": [ [ [ "dogbane", 1 ], [ "cattail_stalk", 1 ] ] ]
+    "components": [ [ [ "dogbane", 1 ], [ "cattail_stalk", 5 ], [ "cattail_rhizome", 2 ] ] ]
   },
   {
     "type": "recipe",
