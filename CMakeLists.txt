@@ -17,6 +17,7 @@ option(LUA "Support for in-game scripting with Lua." "OFF")
 option(BACKTRACE "Support for printing stack backtraces on crash" "ON")
 option(LIBBACKTRACE "Print backtrace with libbacktrace." "OFF")
 option(USE_HOME_DIR "Use user's home directory for save files." "ON")
+option(USE_PREFIX_DATA_DIR "Use UNIX system directories for game data in release build." "ON")
 set(LANGUAGES
     ""
     CACHE STRING "Compile localization files for specified languages. \
@@ -212,7 +213,9 @@ else ()
     message(STATUS "MANPAGE_ENTRY_PATH            : ${MANPAGE_ENTRY_PATH}\n")
     add_definitions(-DRELEASE)
     # Use CMAKE_INSTALL_PREFIX as storage of data,gfx, etc.. Useful only on *nix OS.
-    if (CMAKE_INSTALL_PREFIX AND NOT WIN32)
+    if (CMAKE_INSTALL_PREFIX
+        AND NOT WIN32
+        AND USE_PREFIX_DATA_DIR)
         add_definitions(-DPREFIX=${CMAKE_INSTALL_PREFIX})
         add_definitions(-DDATA_DIR_PREFIX)
     endif ()
