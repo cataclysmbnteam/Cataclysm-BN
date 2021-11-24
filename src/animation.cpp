@@ -16,6 +16,7 @@
 #include "point.h"
 #include "popup.h"
 #include "posix_time.h"
+#include "ranged.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
@@ -1021,7 +1022,7 @@ bucketed_points optimal_bucketing( const bucketed_points &buckets, size_t max_bu
     return optimal;
 }
 
-void draw_cone_aoe_curses( const tripoint &, const bucketed_points &waves )
+static void draw_cone_aoe_curses( const tripoint &, const bucketed_points &waves )
 {
     // Calculate screen offset relative to player + view offset position
     const avatar &u = get_avatar();
@@ -1070,7 +1071,6 @@ void draw_cone_aoe_curses( const tripoint &, const bucketed_points &waves )
 
 namespace ranged
 {
-#if defined(TILES)
 void draw_cone_aoe( const tripoint &origin, const std::map<tripoint, double> &aoe )
 {
     if( test_mode ) {
@@ -1082,6 +1082,7 @@ void draw_cone_aoe( const tripoint &origin, const std::map<tripoint, double> &ao
     size_t max_bucket_count = std::min<size_t>( 10, aoe.size() );
     bucketed_points waves = optimal_bucketing( buckets, max_bucket_count );
 
+#if defined(TILES)
     if( !use_tiles ) {
         draw_cone_aoe_curses( origin, waves );
         return;
@@ -1115,17 +1116,10 @@ void draw_cone_aoe( const tripoint &origin, const std::map<tripoint, double> &ao
     }
 
     tilecontext->void_cone_aoe();
-}
 #else
-void draw_cone_aoe( const tripoint &origin, const std::map<tripoint, double> &aoe )
-{
-    if( test_mode ) {
-        return;
-    }
-
-    draw_cone_aoe_curses( origin, aoe );
-}
+    draw_cone_aoe_curses( origin, waves );
 #endif
+}
 } // namespace ranged
 
 bool minimap_requires_animation()

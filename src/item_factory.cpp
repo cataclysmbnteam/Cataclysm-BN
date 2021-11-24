@@ -1206,6 +1206,9 @@ void Item_factory::check_definitions() const
             if( !type->ammo->drop.is_null() && !has_template( type->ammo->drop ) ) {
                 msg += string_format( "invalid drop item %s\n", type->ammo->drop.c_str() );
             }
+            if( type->ammo->range != 0 && type->ammo->shape ) {
+                msg += string_format( "shape is set, but range is %d != 0", type->ammo->range );
+            }
         }
         if( type->battery ) {
             if( type->battery->max_capacity < 0_J ) {

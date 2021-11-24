@@ -8,6 +8,7 @@
 #include "cuboid_rectangle.h"
 #include "point.h"
 #include "point_float.h"
+#include "translations.h"
 
 class shape_impl;
 class shape_factory_impl;
@@ -52,6 +53,10 @@ class shape_factory
 
         std::shared_ptr<shape> create( const tripoint &start, const tripoint &end ) const;
         std::shared_ptr<shape> create( const rl_vec3d &start, const rl_vec3d &end ) const;
+        double get_range() const;
+        std::string get_description() const;
+
+        shape_factory &operator=( const shape_factory &other );
     private:
         std::shared_ptr<shape_factory_impl> impl;
 };

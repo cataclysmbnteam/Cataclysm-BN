@@ -480,8 +480,7 @@ target_handler::trajectory target_handler::mode_shaped( avatar &you, shape_facto
     ui.you = &you;
     ui.mode = target_ui::TargetMode::Shape;
     ui.shape_gen = shape_fac;
-    // TODO:
-    ui.range = 60;
+    ui.range = shape_fac.get_range();
     ui.activity = &activity;
     ui.relevant = activity.get_weapon();
 

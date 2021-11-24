@@ -99,6 +99,15 @@ dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, const da
 
 void draw_cone_aoe( const tripoint &origin, const std::map<tripoint, double> &aoe );
 
+enum class hit_tier : int {
+    grazing = 0,
+    normal,
+    critical
+};
+
+void print_dmg_msg( Creature &target, Creature *source, const dealt_damage_instance &dealt_dam,
+                    hit_tier ht = hit_tier::normal );
+
 } // namespace ranged
 
 #endif // CATA_SRC_RANGED_H

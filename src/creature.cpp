@@ -38,6 +38,7 @@
 #include "player.h"
 #include "point.h"
 #include "projectile.h"
+#include "ranged.h"
 #include "rng.h"
 #include "string_id.h"
 #include "string_utils.h"
@@ -518,14 +519,8 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
 namespace ranged
 {
 
-enum class hit_tier : int {
-    grazing = 0,
-    normal,
-    critical
-};
-
 void print_dmg_msg( Creature &target, Creature *source, const dealt_damage_instance &dealt_dam,
-                    hit_tier ht = hit_tier::normal )
+                    hit_tier ht )
 {
     std::string message;
     game_message_type sct_color = m_neutral;

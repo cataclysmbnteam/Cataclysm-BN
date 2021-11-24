@@ -88,3 +88,19 @@ std::shared_ptr<shape> shape_factory::create( const rl_vec3d &start, const rl_ve
     }
     return impl->create( start, end );
 }
+
+double shape_factory::get_range() const
+{
+    if( impl == nullptr ) {
+        return 0.0;
+    }
+    return impl->get_range();
+}
+std::string shape_factory::get_description() const
+{
+    if( impl == nullptr ) {
+        return "BUGGED SHAPE DESCRIPTION";
+    }
+    return impl->get_description();
+}
+shape_factory &shape_factory::operator=( const shape_factory &other ) = default;

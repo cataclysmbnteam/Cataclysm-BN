@@ -255,6 +255,9 @@ class shape_factory_impl
         virtual const std::string &get_type() const = 0;
         virtual ~shape_factory_impl() = default;
 
+        virtual double get_range() const = 0;
+        virtual std::string get_description() const = 0;
+
         virtual void serialize( JsonOut & ) const {};
         virtual void deserialize( JsonIn & ) {};
 };
@@ -305,6 +308,16 @@ class cone_factory : public shape_factory_impl
             JsonObject jo = jsin.get_object();
             half_angle = deg2rad( jo.get_int( "half_angle" ) );
             jo.read( "length", length );
+        }
+
+        double get_range() const override {
+            return length;
+        }
+
+        std::string get_description() const override {
+            return string_format( _( "Cone of length <info>%d</info>, apex angle <info>%d</info>" ),
+                                  static_cast<int>( length ),
+                                  static_cast<int>( std::round( rad2deg( half_angle * 2 ) ) ) );
         }
 };
 

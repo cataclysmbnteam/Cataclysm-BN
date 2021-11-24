@@ -3,6 +3,7 @@
 #define CATA_SRC_ANIMATION_H
 
 #include <list>
+#include <map>
 #include <vector>
 
 #include "color.h"
@@ -49,7 +50,8 @@ using one_bucket = std::vector<point_with_value>;
 using bucketed_points = std::list<one_bucket>;
 
 // TODO: Better file
-bucketed_points bucket_by_distance( const tripoint &origin, const one_bucket &to_bucket );
+bucketed_points bucket_by_distance( const tripoint &origin,
+                                    const std::map<tripoint, double> &to_bucket );
 bucketed_points optimal_bucketing( const bucketed_points &buckets, size_t max_buckets );
 
 bool minimap_requires_animation();
