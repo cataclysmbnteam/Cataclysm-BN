@@ -1112,6 +1112,11 @@ def extract(state, item):
             print("WARNING: {}: nothing translatable found in item: {}".format(state.current_source_file, item))
 
 
+def log_verbose(msg):
+    if options.verbose:
+        print(msg)
+
+
 def extract_all_from_dir(state, json_dir):
     """Extract strings from every json file in the specified directory,
     recursing into any subdirectories."""
@@ -1123,18 +1128,20 @@ def extract_all_from_dir(state, json_dir):
         full_name = os.path.join(json_dir, f)
         if os.path.isdir(full_name):
             if os.path.normpath(full_name) in ignore_dirs:
-                continue
-            dirs.append(f)
-        elif f in skiplist or full_name in ignore_files:
-            continue
+                log_verbose("Skipping dir (ignored): {}".format(f))
+            else:
+                dirs.append(f)
+        elif f in skiplist:
+            log_verbose("Skipping file (skiplist): '{}'".format(f))
+        elif full_name in ignore_files:
+            log_verbose("Skipping file (ignored): '{}'".format(f))
         elif f.endswith(".json"):
             if not options.tracked_only or full_name in git_files_list:
                 extract_all_from_file(state, full_name)
             else:
-                if options.verbose:
-                    print("Skipping untracked file: '{}'".format(full_name))
-        if options.verbose:
-            print("Skipping file: '{}'".format(f))
+                log_verbose("Skipping file (untracked): '{}'".format(full_name))
+        else:
+            log_verbose("Skipping file (not json): '{}'".format(f))
     for d in dirs:
         extract_all_from_dir(state, os.path.join(json_dir, d))
 
@@ -1142,8 +1149,7 @@ def extract_all_from_dir(state, json_dir):
 def extract_all_from_file(state, json_file):
     "Extract translatable strings from every object in the specified file."
     state.current_source_file = json_file
-    if options.verbose:
-        print("Loading {}".format(json_file))
+    log_verbose("Loading {}".format(json_file))
 
     with open(json_file, encoding="utf-8") as fp:
         jsondata = json.load(fp)
