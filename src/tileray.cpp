@@ -4,6 +4,7 @@
 
 #include "line.h"
 #include "math_defines.h"
+#include "point_float.h"
 
 static const int sx[4] = { 1, -1, -1, 1 };
 static const int sy[4] = { 1, 1, -1, -1 };

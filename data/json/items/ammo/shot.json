@@ -133,8 +133,11 @@
     "description": "Weak shotgun ammunition.  Designed for hunting birds and other small game, its applications in combat are very limited.",
     "price": 100,
     "price_postapoc": 400,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "proportional": { "damage": { "damage_type": "stab", "amount": 0.3 }, "recoil": 0.6, "loudness": 0.8 },
+    "range": 0,
+    "damage": { "damage_type": "stab", "amount": 20, "armor_multiplier": 2.0 },
+    "dispersion": 1000,
+    "loudness": 80,
+    "shape": [ "cone", { "half_angle": 15, "length": 8 } ],
     "extend": { "effects": [ "NOGIB" ] }
   },
   {

@@ -114,9 +114,19 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
             return;
         }
     }
+    cata::optional<shape_factory> shape_gen;
+    if( weapon->ammo_current() && weapon->ammo_current()->ammo &&
+        weapon->ammo_current()->ammo->shape ) {
+        shape_gen = weapon->ammo_current()->ammo->shape;
+    }
 
     g->temp_exit_fullscreen();
-    target_handler::trajectory trajectory = target_handler::mode_fire( you, *this );
+    target_handler::trajectory trajectory;
+    if( !shape_gen ) {
+        trajectory = target_handler::mode_fire( you, *this );
+    } else {
+        trajectory = target_handler::mode_shaped( you, *shape_gen, *this );
+    }
     g->reenter_fullscreen();
 
     if( aborted ) {

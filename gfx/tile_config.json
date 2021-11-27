@@ -68,7 +68,15 @@
             "fg":0
         },
         {
-            "id":"animation_bullet_shrapnel",
+            "id":"shot_cone_weak",
+            "fg":0
+        },
+        {
+            "id":"shot_cone_medium",
+            "fg":0
+        },
+        {
+            "id":"shot_cone_strong",
             "fg":0
         },
         {

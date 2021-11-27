@@ -8169,8 +8169,7 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
         put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { weapon } );
         i_rem( &weapon );
     }
-    if( has_effect( effect_mending, part_to_damage->token ) && ( source == nullptr ||
-            !source->is_hallucination() ) ) {
+    if( has_effect( effect_mending, part_to_damage->token ) ) {
         effect &e = get_effect( effect_mending, part_to_damage->token );
         float remove_mend = dam / 20.0f;
         e.mod_duration( -e.get_max_duration() * remove_mend );

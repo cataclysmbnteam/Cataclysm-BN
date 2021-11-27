@@ -1,6 +1,7 @@
 #ifndef CATA_SRC_RANGED_H
 #define CATA_SRC_RANGED_H
 
+#include <map>
 #include <vector>
 
 #include "type_id.h"
@@ -16,9 +17,14 @@ class player;
 class spell;
 class turret_data;
 class vehicle;
+class shape;
+class shape_factory;
 struct itype;
 struct tripoint;
+struct projectile;
 struct vehicle_part;
+struct dealt_damage_instance;
+struct damage_instance;
 
 namespace target_handler
 {
@@ -44,6 +50,10 @@ trajectory mode_turrets( avatar &you, vehicle &veh, const std::vector<vehicle_pa
 
 /** Casting a spell */
 trajectory mode_spell( avatar &you, spell &casting, bool no_fail, bool no_mana );
+
+/** Executing an AoE attack given by shape. */
+trajectory mode_shaped( avatar &you, shape_factory &shape_fac, aim_activity_actor &activity );
+
 } // namespace target_handler
 
 int range_with_even_chance_of_good_hit( int dispersion );
@@ -79,6 +89,24 @@ int throw_dispersion_per_dodge( const Character &c, bool add_encumbrance );
 int throwing_dispersion( const Character &c, const item &to_throw, Creature *critter,
                          bool is_blind_throw );
 int throw_cost( const player &c, const item &to_throw );
+
+/** AoE attack, with area given by shape */
+void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &attacker );
+
+std::map<tripoint, double> expected_coverage( const shape &sh, const map &here, int bash_power );
+
+dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, const damage_instance &di );
+
+void draw_cone_aoe( const tripoint &origin, const std::map<tripoint, double> &aoe );
+
+enum class hit_tier : int {
+    grazing = 0,
+    normal,
+    critical
+};
+
+void print_dmg_msg( Creature &target, Creature *source, const dealt_damage_instance &dealt_dam,
+                    hit_tier ht = hit_tier::normal );
 
 } // namespace ranged
 

@@ -13,15 +13,21 @@
 #include "cached_options.h"
 
 /** Converts degrees to radians */
-constexpr double DEGREES( double v )
+constexpr double deg2rad( double v )
 {
     return v * M_PI / 180;
 }
 
-/** Converts arc minutes to radians */
-constexpr double ARCMIN( double v )
+/** Converts degrees to radians */
+constexpr double rad2deg( double v )
 {
-    return DEGREES( v ) / 60;
+    return v * 180 / M_PI;
+}
+
+/** Converts arc minutes to radians */
+constexpr double degmin2rad( double v )
+{
+    return deg2rad( v ) / 60;
 }
 
 /**
@@ -33,7 +39,7 @@ constexpr double ARCMIN( double v )
 inline double iso_tangent( double distance, double vertex )
 {
     // we can use the cosine formula (a² = b² + c² - 2bc⋅cosθ) to calculate the tangent
-    return std::sqrt( 2 * std::pow( distance, 2 ) * ( 1 - std::cos( ARCMIN( vertex ) ) ) );
+    return std::sqrt( 2 * std::pow( distance, 2 ) * ( 1 - std::cos( degmin2rad( vertex ) ) ) );
 }
 
 //! This compile-time usable function combines the sign of each (x, y, z) component into a single integer
@@ -148,18 +154,22 @@ std::vector<point> line_to( const point &p1, const point &p2, int t = 0 );
 std::vector<tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int t = 0, int t2 = 0 );
 // sqrt(dX^2 + dY^2)
 
+inline int trig_dist_squared( const tripoint &loc1, const tripoint &loc2 )
+{
+    return ( ( loc1.x - loc2.x ) * ( loc1.x - loc2.x ) ) +
+           ( ( loc1.y - loc2.y ) * ( loc1.y - loc2.y ) ) +
+           ( ( loc1.z - loc2.z ) * ( loc1.z - loc2.z ) );
+}
 inline float trig_dist( const tripoint &loc1, const tripoint &loc2 )
 {
-    return std::sqrt( static_cast<double>( ( loc1.x - loc2.x ) * ( loc1.x - loc2.x ) ) +
-                      ( ( loc1.y - loc2.y ) * ( loc1.y - loc2.y ) ) +
-                      ( ( loc1.z - loc2.z ) * ( loc1.z - loc2.z ) ) );
+    return std::sqrt( static_cast<double>( trig_dist_squared( loc1, loc2 ) ) );
 }
 inline float trig_dist( const point &loc1, const point &loc2 )
 {
     return trig_dist( tripoint( loc1, 0 ), tripoint( loc2, 0 ) );
 }
 
-// Roguelike distance; maximum of dX and dY
+// Chebyshev distance; maximum of dX and dY
 inline int square_dist( const tripoint &loc1, const tripoint &loc2 )
 {
     const tripoint d = ( loc1 - loc2 ).abs();
@@ -263,58 +273,5 @@ void calc_ray_end( int angle, int range, const tripoint &p, tripoint &out );
  * The function currently ignores the z component.
  */
 double coord_to_angle( const tripoint &a, const tripoint &b );
-
-// weird class for 2d vectors where dist is derived from rl_dist
-struct rl_vec2d {
-    float x;
-    float y;
-
-    // vec2d(){}
-    explicit rl_vec2d( float x = 0, float y = 0 ) : x( x ), y( y ) {}
-    explicit rl_vec2d( const point &p ) : x( p.x ), y( p.y ) {}
-
-    float magnitude() const;
-    rl_vec2d normalized() const;
-    rl_vec2d rotated( float angle ) const;
-    float dot_product( const rl_vec2d &v ) const;
-    bool is_null() const;
-
-    point as_point() const;
-
-    // scale.
-    rl_vec2d operator* ( float rhs ) const;
-    rl_vec2d operator/ ( float rhs ) const;
-    // subtract
-    rl_vec2d operator- ( const rl_vec2d &rhs ) const;
-    // unary negation
-    rl_vec2d operator- () const;
-    rl_vec2d operator+ ( const rl_vec2d &rhs ) const;
-};
-
-struct rl_vec3d {
-    float x;
-    float y;
-    float z;
-
-    explicit rl_vec3d( float x = 0, float y = 0, float z = 0 ) : x( x ), y( y ), z( z ) {}
-    explicit rl_vec3d( const tripoint &p ) : x( p.x ), y( p.y ), z( p.z ) {}
-
-    float magnitude() const;
-    rl_vec3d normalized() const;
-    rl_vec3d rotated( float angle ) const;
-    float dot_product( const rl_vec3d &v ) const;
-    bool is_null() const;
-
-    tripoint as_point() const;
-
-    // scale.
-    rl_vec3d operator* ( float rhs ) const;
-    rl_vec3d operator/ ( float rhs ) const;
-    // subtract
-    rl_vec3d operator- ( const rl_vec3d &rhs ) const;
-    // unary negation
-    rl_vec3d operator- () const;
-    rl_vec3d operator+ ( const rl_vec3d &rhs ) const;
-};
 
 #endif // CATA_SRC_LINE_H

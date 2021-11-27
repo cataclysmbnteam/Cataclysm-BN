@@ -42,6 +42,7 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
+#include "point_float.h"
 #include "regional_settings.h"
 #include "rng.h"
 #include "string_formatter.h"

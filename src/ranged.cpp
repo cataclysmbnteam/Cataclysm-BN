@@ -142,7 +142,8 @@ class target_ui
             Turrets,
             TurretManual,
             Reach,
-            Spell
+            Spell,
+            Shape
         };
 
         // Avatar
@@ -167,6 +168,8 @@ class target_ui
         bool no_mana = false;
         // Relevant activity
         aim_activity_actor *activity = nullptr;
+        // Generator of AoE shapes
+        cata::optional<shape_factory> shape_gen;
 
         // Initialize UI and run the event loop
         target_handler::trajectory run();
@@ -242,6 +245,9 @@ class target_ui
         // For AOE spells, list of tiles affected by the spell
         // relevant for TargetMode::Spell
         std::set<tripoint> spell_aoe;
+
+        // For shaped attacks, we want both points and coverage
+        std::map<tripoint, double> shape_coverage;
 
         // Represents a turret and a straight line from that turret to target
         struct turret_with_lof {
@@ -463,6 +469,20 @@ target_handler::trajectory target_handler::mode_spell( avatar &you, spell &casti
     ui.range = casting.range();
     ui.no_fail = no_fail;
     ui.no_mana = no_mana;
+
+    return ui.run();
+}
+
+target_handler::trajectory target_handler::mode_shaped( avatar &you, shape_factory &shape_fac,
+        aim_activity_actor &activity )
+{
+    target_ui ui = target_ui();
+    ui.you = &you;
+    ui.mode = target_ui::TargetMode::Shape;
+    ui.shape_gen = shape_fac;
+    ui.range = shape_fac.get_range();
+    ui.activity = &activity;
+    ui.relevant = activity.get_weapon();
 
     return ui.run();
 }
@@ -777,10 +797,18 @@ int player::fire_gun( const tripoint &target, const int max_shots, item &gun )
         debugmsg( "Attempted to fire zero or negative shots using %s", gun.tname() );
     }
 
+    cata::optional<shape_factory> shape;
+    if( gun.ammo_current() && gun.ammo_current()->ammo ) {
+        shape = gun.ammo_current()->ammo->shape;
+    }
+
+    // Shaped attacks don't allow aiming, so they don't suffer from lack of aim either
+    int character_recoil = shape ? recoil_vehicle() : recoil_total();
     // Penalty is (intentionally) based off mode shots, not ammo-limited.
-    dispersion_sources dispersion = calculate_dispersion( g->m, *this, gun, recoil_total(),
+    dispersion_sources dispersion = calculate_dispersion( g->m, *this, gun, character_recoil,
                                     max_shots > 1 );
 
+    bool aoe_attack = gun.gun_skill() == skill_launcher || shape;
     tripoint aim = target;
     int curshot = 0;
     int hits = 0; // total shots on target
@@ -802,7 +830,29 @@ int player::fire_gun( const tripoint &target, const int max_shots, item &gun )
         if( has_trait( trait_NORANGEDCRIT ) ) {
             projectile.proj_effects.insert( "NO_CRIT" );
         }
-        auto shot = projectile_attack( projectile, pos(), aim, dispersion, this, in_veh );
+        if( !shape ) {
+            auto shot = projectile_attack( projectile, pos(), aim, dispersion, this, in_veh );
+            if( shot.missed_by <= .1 ) {
+                // TODO: check head existence for headshot
+                g->events().send<event_type::character_gets_headshot>( getID() );
+            }
+
+            if( shot.hit_critter ) {
+                hits++;
+            }
+        } else {
+            // 30 degree cap, like for projectiles
+            double angle_offset_arcmin = std::min( dispersion.roll(), 1800.0 ) * ( one_in( 2 ) ? 1 : -1 );
+            double angle_offset = degmin2rad( angle_offset_arcmin );
+            double dx = aim.x - pos().x;
+            double dy = aim.y - pos().y;
+            double new_angle = atan2( dy, dx ) + angle_offset;
+            // Always using trig here, rotations in maximum metric are weird
+            double length = trig_dist( pos(), aim );
+            rl_vec3d vec_pos( pos() );
+            rl_vec3d new_aim = vec_pos + rl_vec3d( length, 0, 0 ).rotated( new_angle );
+            ranged::execute_shaped_attack( *shape->create( vec_pos, new_aim ), projectile, *this );
+        }
         curshot++;
 
         make_gun_sound_effect( *this, shots > 1, &gun );
@@ -828,16 +878,7 @@ int player::fire_gun( const tripoint &target, const int max_shots, item &gun )
             use_charges( itype_UPS, gun.get_gun_ups_drain() );
         }
 
-        if( shot.missed_by <= .1 ) {
-            // TODO: check head existence for headshot
-            g->events().send<event_type::character_gets_headshot>( getID() );
-        }
-
-        if( shot.hit_critter ) {
-            hits++;
-        }
-
-        if( gun.gun_skill() == skill_launcher ) {
+        if( aoe_attack ) {
             continue; // skip retargeting for launchers
         }
     }
@@ -863,7 +904,7 @@ int player::fire_gun( const tripoint &target, const int max_shots, item &gun )
     // Practice the base gun skill proportionally to number of hits, but always by one.
     practice( skill_gun, ( hits + 1 ) * 5 );
     // launchers train weapon skill for both hits and misses.
-    int practice_units = gun.gun_skill() == skill_launcher ? curshot : hits;
+    int practice_units = aoe_attack ? curshot : hits;
     practice( gun.gun_skill(), ( practice_units + 1 ) * 5 );
 
     return curshot;
@@ -1987,7 +2028,7 @@ target_handler::trajectory target_ui::run()
         you->add_msg_if_player( m_bad, _( "You don't have enough %s to cast this spell" ),
                                 casting->energy_string() );
     }
-    if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
+    if( mode == TargetMode::Fire || mode == TargetMode::TurretManual || mode == TargetMode::Shape ) {
         ensure_ranged_gun_mode();
         update_ammo_range_from_gun_mode();
         if( mode == TargetMode::Fire ) {
@@ -2191,7 +2232,7 @@ target_handler::trajectory target_ui::run()
     switch( loop_exit_code ) {
         case ExitCode::Abort: {
             traj.clear();
-            if( mode == TargetMode::Fire ) {
+            if( mode == TargetMode::Fire || mode == TargetMode::Shape ) {
                 activity->aborted = true;
             }
             break;
@@ -2474,6 +2515,15 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
         }
     } else if( mode == TargetMode::Turrets ) {
         update_turrets_in_range();
+    } else if( mode == TargetMode::Shape ) {
+        std::shared_ptr<shape> sh = shape_gen->create( src, dst );
+        projectile proj = make_gun_projectile( *relevant );
+        // Same as in map::shoot (should probably be a function!)
+        int expected_bash_force = std::accumulate( proj.impact.begin(), proj.impact.end(), 0.0,
+        []( double acc, const damage_unit & du ) {
+            return acc + du.amount + du.res_pen;
+        } );
+        shape_coverage = ranged::expected_coverage( *sh, here, expected_bash_force );
     }
 
     // Update UI controls & colors
@@ -3024,6 +3074,24 @@ void target_ui::draw_terrain_overlay()
             } else {
 #endif
                 get_map().drawsq( g->w_terrain, tile, params );
+#ifdef TILES
+            }
+#endif
+        }
+    } else if( mode == TargetMode::Shape ) {
+        drawsq_params params = drawsq_params().highlight( true ).center( center );
+        for( const std::pair<tripoint, double> &pr : shape_coverage ) {
+            const tripoint &tile = pr.first;
+#ifdef TILES
+            if( use_tiles ) {
+                g->draw_highlight( tile );
+            } else {
+#endif
+                get_map().drawsq( g->w_terrain, tile, params );
+                Creature *critter = g->critter_at( tile );
+                if( critter != nullptr ) {
+                    g->draw_critter_highlighted( *critter, center );
+                }
 #ifdef TILES
             }
 #endif

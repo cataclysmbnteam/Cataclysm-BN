@@ -21,6 +21,7 @@
 #include "iuse.h" // use_function
 #include "optional.h"
 #include "pldata.h" // add_type
+#include "shape.h"
 #include "stomach.h"
 #include "translations.h"
 #include "type_id.h"
@@ -733,6 +734,11 @@ struct islot_ammo : common_ranged_data {
      * Set this to make it show as combat ammo anyway
      */
     cata::optional<bool> force_stat_display;
+
+    /**
+     * AoE shape or null if it's a projectile.
+     */
+    cata::optional<shape_factory> shape;
 
     bool was_loaded;
 

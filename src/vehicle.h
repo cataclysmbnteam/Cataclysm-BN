@@ -26,7 +26,6 @@
 #include "item_group.h"
 #include "item_location.h"
 #include "item_stack.h"
-#include "line.h"
 #include "optional.h"
 #include "point.h"
 #include "tileray.h"
@@ -49,6 +48,7 @@ class vpart_info;
 struct itype;
 struct uilist_entry;
 template <typename T> class visitable;
+struct rl_vec2d;
 
 enum vpart_bitflags : int;
 enum ter_bitflags : int;

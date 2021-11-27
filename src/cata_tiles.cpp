@@ -1510,7 +1510,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     in_animation = do_draw_explosion || do_draw_custom_explosion ||
                    do_draw_bullet || do_draw_hit || do_draw_line ||
                    do_draw_cursor || do_draw_highlight || do_draw_weather ||
-                   do_draw_sct || do_draw_zones;
+                   do_draw_sct || do_draw_zones || do_draw_cone_aoe;
 
     draw_footsteps_frame( center );
     if( in_animation ) {
@@ -1550,6 +1550,9 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         if( do_draw_highlight ) {
             draw_highlight();
             void_highlight();
+        }
+        if( do_draw_cone_aoe ) {
+            draw_cone_aoe_frame();
         }
     } else if( g->u.view_offset != tripoint_zero && !g->u.in_vehicle ) {
         // check to see if player is located at ter
@@ -3210,6 +3213,12 @@ void cata_tiles::init_custom_explosion_layer( const std::map<tripoint, explosion
     custom_explosion_layer = layer;
     exp_name = name;
 }
+void cata_tiles::init_draw_cone_aoe( const tripoint &origin, const one_bucket &layer )
+{
+    do_draw_cone_aoe = true;
+    cone_aoe_origin = origin;
+    cone_aoe_layer = layer;
+}
 void cata_tiles::init_draw_bullet( const tripoint &p, std::string name )
 {
     do_draw_bullet = true;
@@ -3513,6 +3522,30 @@ void cata_tiles::draw_custom_explosion_frame()
         // Used to be divided into explosion_weak/explosion_medium/explosion.
     }
 }
+void cata_tiles::draw_cone_aoe_frame()
+{
+    for( const point_with_value &pv : cone_aoe_layer ) {
+        const tripoint diff = pv.pt - cone_aoe_origin;
+        int rotation = ( sgn( diff.x ) == sgn( diff.y ) ? 1 : 0 );
+        // Should probably jsonize for flamethrower, dragon breath etc.
+        static const std::array<std::string, 3> sprite_ids = {{
+                "shot_cone_weak",
+                "shot_cone_medium",
+                "shot_cone_strong"
+            }
+        };
+
+        size_t intensity = ( pv.val >= 1.0 ) + ( pv.val >= 0.5 );
+        draw_from_id_string( sprite_ids[intensity], pv.pt, 0, rotation, lit_level::LIT, false );
+    }
+}
+void cata_tiles::void_cone_aoe()
+{
+    do_draw_cone_aoe = true;
+    cone_aoe_origin = {-1, -1, -1};
+    cone_aoe_layer.clear();
+}
+
 void cata_tiles::draw_bullet_frame()
 {
     draw_from_id_string( bul_id, C_BULLET, empty_string, bul_pos, 0, 0, lit_level::LIT, false );

@@ -1206,6 +1206,9 @@ void Item_factory::check_definitions() const
             if( !type->ammo->drop.is_null() && !has_template( type->ammo->drop ) ) {
                 msg += string_format( "invalid drop item %s\n", type->ammo->drop.c_str() );
             }
+            if( type->ammo->range != 0 && type->ammo->shape ) {
+                msg += string_format( "shape is set, but range is %d != 0", type->ammo->range );
+            }
         }
         if( type->battery ) {
             if( type->battery->max_capacity < 0_J ) {
@@ -1612,6 +1615,7 @@ void islot_ammo::load( const JsonObject &jo )
     optional( jo, was_loaded, "loudness", loudness, -1 );
     assign( jo, "effects", ammo_effects );
     optional( jo, was_loaded, "show_stats", force_stat_display, cata::nullopt );
+    optional( jo, was_loaded, "shape", shape, cata::nullopt );
 }
 
 void islot_ammo::deserialize( JsonIn &jsin )

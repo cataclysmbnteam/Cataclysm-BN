@@ -13,6 +13,7 @@
 #include "string_formatter.h"
 #include "string_utils.h"
 #include "enums.h"
+#include "point_float.h"
 
 void bresenham( const point &p1, const point &p2, int t,
                 const std::function<bool( const point & )> &interact )
@@ -639,7 +640,8 @@ rl_vec3d rl_vec3d::rotated( float angle ) const
 {
     return rl_vec3d(
                x * std::cos( angle ) - y * std::sin( angle ),
-               x * std::sin( angle ) + y * std::cos( angle )
+               x * std::sin( angle ) + y * std::cos( angle ),
+               z
            );
 }
 
@@ -650,7 +652,14 @@ float rl_vec2d::dot_product( const rl_vec2d &v ) const
 
 float rl_vec3d::dot_product( const rl_vec3d &v ) const
 {
-    return x * v.x + y * v.y + y * v.z;
+    return x * v.x + y * v.y + z * v.z;
+}
+
+rl_vec3d rl_vec3d::cross_product( const rl_vec3d &v ) const
+{
+    return rl_vec3d( y * v.z - v.y * z,
+                     z * v.x - v.z * x,
+                     x * v.y - v.x * y );
 }
 
 bool rl_vec2d::is_null() const
@@ -689,30 +698,12 @@ rl_vec2d rl_vec2d::operator*( const float rhs ) const
     return ret;
 }
 
-rl_vec3d rl_vec3d::operator*( const float rhs ) const
-{
-    rl_vec3d ret;
-    ret.x = x * rhs;
-    ret.y = y * rhs;
-    ret.z = z * rhs;
-    return ret;
-}
-
 // subtract
 rl_vec2d rl_vec2d::operator-( const rl_vec2d &rhs ) const
 {
     rl_vec2d ret;
     ret.x = x - rhs.x;
     ret.y = y - rhs.y;
-    return ret;
-}
-
-rl_vec3d rl_vec3d::operator-( const rl_vec3d &rhs ) const
-{
-    rl_vec3d ret;
-    ret.x = x - rhs.x;
-    ret.y = y - rhs.y;
-    ret.z = z - rhs.z;
     return ret;
 }
 
@@ -725,29 +716,11 @@ rl_vec2d rl_vec2d::operator-() const
     return ret;
 }
 
-rl_vec3d rl_vec3d::operator-() const
-{
-    rl_vec3d ret;
-    ret.x = -x;
-    ret.y = -y;
-    ret.z = -z;
-    return ret;
-}
-
 rl_vec2d rl_vec2d::operator+( const rl_vec2d &rhs ) const
 {
     rl_vec2d ret;
     ret.x = x + rhs.x;
     ret.y = y + rhs.y;
-    return ret;
-}
-
-rl_vec3d rl_vec3d::operator+( const rl_vec3d &rhs ) const
-{
-    rl_vec3d ret;
-    ret.x = x + rhs.x;
-    ret.y = y + rhs.y;
-    ret.z = z + rhs.z;
     return ret;
 }
 
@@ -759,15 +732,6 @@ rl_vec2d rl_vec2d::operator/( const float rhs ) const
     return ret;
 }
 
-rl_vec3d rl_vec3d::operator/( const float rhs ) const
-{
-    rl_vec3d ret;
-    ret.x = x / rhs;
-    ret.y = y / rhs;
-    ret.z = z / rhs;
-    return ret;
-}
-
 void calc_ray_end( int angle, const int range, const tripoint &p, tripoint &out )
 {
     // forces input angle to be between 0 and 360, calculated from actual input
@@ -775,7 +739,7 @@ void calc_ray_end( int angle, const int range, const tripoint &p, tripoint &out 
     if( angle < 0 ) {
         angle += 360;
     }
-    const double rad = DEGREES( angle );
+    const double rad = deg2rad( angle );
     out.z = p.z;
     if( trigdist ) {
         out.x = p.x + range * std::cos( rad );

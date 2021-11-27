@@ -38,6 +38,7 @@
 #include "player.h"
 #include "point.h"
 #include "projectile.h"
+#include "ranged.h"
 #include "rng.h"
 #include "string_id.h"
 #include "string_utils.h"
@@ -515,6 +516,106 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
     dealt_dam.bp_hit = bp_token;
 }
 
+namespace ranged
+{
+
+void print_dmg_msg( Creature &target, Creature *source, const dealt_damage_instance &dealt_dam,
+                    hit_tier ht )
+{
+    std::string message;
+    game_message_type sct_color = m_neutral;
+    switch( ht ) {
+        case hit_tier::grazing:
+            message = _( "Grazing hit." );
+            sct_color = m_grazing;
+        case hit_tier::normal:
+            break;
+        case hit_tier::critical:
+            message = _( "Critical!" );
+            sct_color = m_critical;
+            break;
+    }
+
+    if( source != nullptr && !message.empty() ) {
+        source->add_msg_if_player( m_good, message );
+    }
+
+    if( dealt_dam.total_damage() == 0 ) {
+        //~ 1$ - monster name, 2$ - character's bodypart or monster's skin/armor
+        add_msg( _( "The shot reflects off %1$s %2$s!" ), target.disp_name( true ),
+                 ( target.is_monster() || dealt_dam.bp_hit == num_bp ) ?
+                 target.skin_name() :
+                 body_part_name_accusative( dealt_dam.bp_hit ) );
+    } else if( target.is_player() ) {
+        //monster hits player ranged
+        //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
+        target.add_msg_if_player( m_bad, _( "You were hit in the %1$s for %2$d damage." ),
+                                  body_part_name_accusative( dealt_dam.bp_hit ),
+                                  dealt_dam.total_damage() );
+    } else if( source != nullptr ) {
+        if( source->is_player() ) {
+            //player hits monster ranged
+            SCT.add( target.pos().xy(),
+                     direction_from( point_zero, target.pos().xy() - source->pos().xy() ),
+                     get_hp_bar( dealt_dam.total_damage(), target.get_hp_max(), true ).first,
+                     m_good, message, sct_color );
+
+            if( target.get_hp() > 0 ) {
+                SCT.add( target.pos().xy(),
+                         direction_from( point_zero, target.pos().xy() - source->pos().xy() ),
+                         get_hp_bar( target.get_hp(), target.get_hp_max(), true ).first, m_good,
+                         //~ "hit points", used in scrolling combat text
+                         _( "hp" ), m_neutral, "hp" );
+            } else {
+                SCT.removeCreatureHP();
+            }
+
+            //~ %1$s: creature name, %2$d: damage value
+            add_msg( m_good, _( "You hit %1$s for %2$d damage." ),
+                     target.disp_name(), dealt_dam.total_damage() );
+        } else {
+            //~ 1$ - shooter, 2$ - target
+            add_msg( _( "%1$s shoots %2$s." ),
+                     source->disp_name(), target.disp_name() );
+        }
+    }
+}
+
+dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, const damage_instance &di )
+{
+    const auto all_body_parts = target.get_body();
+    float hit_size_sum = std::accumulate( all_body_parts.begin(), all_body_parts.end(), 0.0f,
+    []( float acc, const std::pair<bodypart_str_id, bodypart> &pr ) {
+        return acc + pr.first->hit_size;
+    } );
+    dealt_damage_instance dealt_damage;
+    for( const std::pair<bodypart_str_id, bodypart> &pr : all_body_parts ) {
+        damage_instance impact = di;
+        impact.mult_damage( pr.first->hit_size / hit_size_sum );
+        dealt_damage_instance bp_damage = target.deal_damage( source, pr.first.id(), impact );
+        for( size_t i = 0; i < dealt_damage.dealt_dams.size(); i++ ) {
+            dealt_damage.dealt_dams[i] += bp_damage.dealt_dams[i];
+        }
+    }
+
+    dealt_damage.bp_hit = bodypart_str_id::NULL_ID()->token;
+    if( get_player_character().sees( target ) ) {
+        ranged::print_dmg_msg( target, source, dealt_damage );
+    }
+
+    if( target.has_effect( effect_ridden ) ) {
+        monster *mons = dynamic_cast<monster *>( &target );
+        if( mons && mons->mounted_player && !mons->has_flag( MF_MECH_DEFENSIVE ) ) {
+            // TODO: Return value
+            hit_with_aoe( *mons->mounted_player, source, di );
+        }
+    }
+
+    return dealt_damage;
+}
+
+} // namespace ranged
+
 /**
  * Attempts to harm a creature with a projectile.
  *
@@ -522,8 +623,7 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
  * @param attack A structure describing the attack and its results.
  * @param print_messages enables message printing by default.
  */
-void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
-                                       bool print_messages )
+void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack )
 {
     const bool magic = attack.proj.proj_effects.count( "magic" ) > 0;
     const bool targetted_crit_allowed = attack.proj.proj_effects.count( "NO_CRIT" ) == 0;
@@ -538,7 +638,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         if( mons && mons->mounted_player ) {
             if( !mons->has_flag( MF_MECH_DEFENSIVE ) &&
                 one_in( std::max( 2, mons->get_size() - mons->mounted_player->get_size() ) ) ) {
-                mons->mounted_player->deal_projectile_attack( source, attack, print_messages );
+                mons->mounted_player->deal_projectile_attack( source, attack );
                 return;
             }
         }
@@ -558,9 +658,6 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     if( goodhit >= 1.0 && !magic ) {
         attack.missed_by = 1.0; // Arbitrary value
-        if( !print_messages ) {
-            return;
-        }
         // "Avoid" rather than "dodge", because it includes removing self from the line of fire
         //  rather than just Matrix-style bullet dodging
         if( source != nullptr && g->u.sees( *source ) ) {
@@ -624,24 +721,17 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     double damage_mult = 1.0;
 
-    std::string message;
-    game_message_type gmtSCTcolor = m_neutral;
+    ranged::hit_tier ht = ranged::hit_tier::normal;
     if( magic ) {
         damage_mult *= rng_float( 0.9, 1.1 );
     } else if( targetted_crit_allowed && goodhit < accuracy_critical ) {
-        message = _( "Critical!" );
-        gmtSCTcolor = m_critical;
+        ht = ranged::hit_tier::critical;
         damage_mult *= 1.5;
     } else if( goodhit < accuracy_standard ) {
         damage_mult *= rng_float( 0.9, 1.1 );
     } else if( goodhit < accuracy_grazing ) {
-        message = _( "Grazing hit." );
-        gmtSCTcolor = m_grazing;
+        ht = ranged::hit_tier::grazing;
         damage_mult *= 0.5;
-    }
-
-    if( print_messages && source != nullptr && !message.empty() && u_see_this ) {
-        source->add_msg_if_player( m_good, message );
     }
 
     attack.missed_by = goodhit;
@@ -741,49 +831,13 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         add_effect( effect_stunned, 1_turns * rng( stun_strength / 2, stun_strength ) );
     }
 
-    if( u_see_this && print_messages ) {
+    if( u_see_this ) {
         if( damage_mult == 0 ) {
             if( source != nullptr ) {
                 add_msg( source->is_player() ? _( "You miss!" ) : _( "The shot misses!" ) );
             }
-        } else if( dealt_dam.total_damage() == 0 ) {
-            //~ 1$ - monster name, 2$ - character's bodypart or monster's skin/armor
-            add_msg( _( "The shot reflects off %1$s %2$s!" ), disp_name( true ),
-                     is_monster() ?
-                     skin_name() :
-                     body_part_name_accusative( bp_hit ) );
-        } else if( is_player() ) {
-            //monster hits player ranged
-            //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
-            add_msg_if_player( m_bad, _( "You were hit in the %1$s for %2$d damage." ),
-                               body_part_name_accusative( bp_hit ),
-                               dealt_dam.total_damage() );
-        } else if( source != nullptr ) {
-            if( source->is_player() ) {
-                //player hits monster ranged
-                SCT.add( point( posx(), posy() ),
-                         direction_from( point_zero, point( posx() - source->posx(), posy() - source->posy() ) ),
-                         get_hp_bar( dealt_dam.total_damage(), get_hp_max(), true ).first,
-                         m_good, message, gmtSCTcolor );
-
-                if( get_hp() > 0 ) {
-                    SCT.add( point( posx(), posy() ),
-                             direction_from( point_zero, point( posx() - source->posx(), posy() - source->posy() ) ),
-                             get_hp_bar( get_hp(), get_hp_max(), true ).first, m_good,
-                             //~ "hit points", used in scrolling combat text
-                             _( "hp" ), m_neutral, "hp" );
-                } else {
-                    SCT.removeCreatureHP();
-                }
-
-                //~ %1$s: creature name, %2$d: damage value
-                add_msg( m_good, _( "You hit %1$s for %2$d damage." ),
-                         disp_name(), dealt_dam.total_damage() );
-            } else if( u_see_this ) {
-                //~ 1$ - shooter, 2$ - target
-                add_msg( _( "%1$s shoots %2$s." ),
-                         source->disp_name(), disp_name() );
-            }
+        } else {
+            ranged::print_dmg_msg( *this, source, dealt_dam, ht );
         }
     }
 

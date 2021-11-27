@@ -90,6 +90,7 @@ struct pathfinding_cache;
 struct pathfinding_settings;
 template<typename T>
 struct weighted_int_list;
+struct rl_vec2d;
 
 namespace cata
 {

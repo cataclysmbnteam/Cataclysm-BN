@@ -125,6 +125,7 @@
 #include "pickup.h"
 #include "player.h"
 #include "player_activity.h"
+#include "point_float.h"
 #include "popup.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
@@ -3492,7 +3493,10 @@ void game::draw_pixel_minimap( const catacurses::window &w )
     w_pixel_minimap = w;
 }
 
-void game::draw_critter( const Creature &critter, const tripoint &center )
+static void draw_critter_internal( const catacurses::window &w, const Creature &critter,
+                                   const tripoint &center,
+                                   bool inverted,
+                                   const map &m, const avatar &u )
 {
     const int my = POSY + ( critter.posy() - center.y );
     const int mx = POSX + ( critter.posx() - center.x );
@@ -3508,18 +3512,28 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
             // TODO: Make this show something more informative than just green 'v'
             // TODO: Allow looking at this mon with look command
             // TODO: Redraw this after weather etc. animations
-            mvwputch( w_terrain, point( mx, my ), c_green_cyan, 'v' );
+            mvwputch( w, point( mx, my ), c_green_cyan, 'v' );
         }
         return;
     }
     if( u.sees( critter ) || &critter == &u ) {
-        critter.draw( w_terrain, center.xy(), false );
+        critter.draw( w, center.xy(), inverted );
         return;
     }
 
     if( u.sees_with_infrared( critter ) || u.sees_with_specials( critter ) ) {
-        mvwputch( w_terrain, point( mx, my ), c_red, '?' );
+        mvwputch( w, point( mx, my ), c_red, '?' );
     }
+}
+
+void game::draw_critter( const Creature &critter, const tripoint &center )
+{
+    draw_critter_internal( w_terrain, critter, center, false, m, u );
+}
+
+void game::draw_critter_highlighted( const Creature &critter, const tripoint &center )
+{
+    draw_critter_internal( w_terrain, critter, center, true, m, u );
 }
 
 bool game::is_in_viewport( const tripoint &p, int margin ) const
