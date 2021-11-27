@@ -11,7 +11,9 @@ on:
       - 'src/**.cpp'
       - 'src/**.h'
       - 'lang/extract_json_strings.py'
-      - 'lang/strip_line_numbers.py'
+      - 'lang/concat_pot_files.py'
+      - 'lang/dedup_pot_file.py'
+      - 'lang/bn_extract_json_strings.sh'
       - 'lang/update_pot.sh'
       - 'lang/unicode_check.py'
 
