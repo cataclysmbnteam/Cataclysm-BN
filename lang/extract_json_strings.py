@@ -11,6 +11,7 @@ import itertools
 import subprocess
 from optparse import OptionParser
 from sys import platform
+from copy import deepcopy
 
 # Must parse command line arguments here
 # 'options' variable is referenced in our defined functions below
@@ -829,6 +830,23 @@ extract_specials = {
     "trap": extract_trap,
     "vehicle_spawn": extract_vehspawn,
 }
+
+
+def add_context(entry, ctxt):
+    """
+    Add translation context to entry.
+    If string already has context, appends the new value to it.
+    Parameter 'entry' can be either a raw string or a translation dict.
+    """
+    entry = deepcopy(entry)
+    if type(entry) == dict:
+        if "ctxt" in entry:
+            entry["ctxt"] += "|" + ctxt
+        else:
+            entry["ctxt"] = ctxt
+        return entry
+    else:
+        return {"str": entry, "ctxt": ctxt}
 
 
 def writestr(state, string, context=None, format_strings=False, comment=None, pl_fmt=False):

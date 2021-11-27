@@ -76,6 +76,30 @@ TEST_CASE( "translations_macro_char_address", "[translations][i18n]" )
     }
 }
 
+TEST_CASE( "translations_add_context", "[translations][i18n]" )
+{
+    SECTION( "if context is absent, set new context as translation's context" ) {
+        translation orig = translation::to_translation( "msg" );
+        translation exp = translation::to_translation( "ctxt", "msg" );
+        translation combined = orig;
+        REQUIRE( combined == orig );
+        REQUIRE( combined != exp );
+        combined.add_context( "ctxt" );
+        REQUIRE( combined != orig );
+        REQUIRE( combined == exp );
+    }
+    SECTION( "if context is present, append new context to existing context" ) {
+        translation orig = translation::to_translation( "yay", "msg" );
+        translation exp = translation::to_translation( "yay|ctxt", "msg" );
+        translation combined = orig;
+        REQUIRE( combined == orig );
+        REQUIRE( combined != exp );
+        combined.add_context( "ctxt" );
+        REQUIRE( combined != orig );
+        REQUIRE( combined == exp );
+    }
+}
+
 #ifdef LOCALIZE
 // this test will only succeed when LOCALIZE is enabled
 // assuming [en] language is used for this test
