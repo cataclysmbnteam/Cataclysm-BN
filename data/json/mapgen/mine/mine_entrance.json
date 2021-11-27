@@ -162,6 +162,56 @@
   {
     "type": "mapgen",
     "method": "json",
+    "om_terrain": "mine_entrance_parking",
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_region_groundcover_urban",
+      "rows": [
+        "  ;;;;;;;;;;;;;;;;;;;;  ",
+        " Y;;;;;;;;;;;;;;;;;;;;Y ",
+        " ;;;;;;;;;;;;;;;;;;;;;; ",
+        " ;;;;;;;;;;;;;;;;;;;;;; ",
+        " ;;;;;;;;;;;;;;;;;;;;;; ",
+        " °°°°°°°;;;;;;;;°°°°°°° ",
+        " ;;;;;;;;;;;;;;;;;;;;;; ",
+        " ;;;;;;;;;;;;;;;;;;;;;; ",
+        " ;;;;;;;;;;;;;;;;;;;;;; ",
+        " ;;;;;;;;;;;;;;;;;;;;;; ",
+        " ;;;;;;;;;;;;;;;;;;;;;; ",
+        " °°°°°°°;;;;;;;;°°°°°°° ",
+        " ;;;;;;;;;;;;;;;;;;;;;; ",
+        " ;;;;;;;;;;;;;;;;;;;;;; ",
+        " ;;;;;;;;;;;;;;;;;;;;;; ",
+        " ;;;;;;;;;;;;;;;;;;;;;; ",
+        " ;;;;;;;;;;;;;;;;;;;;;; ",
+        " °°°°°°°;;;;;;;;°°°°°°° ",
+        " ;;;;;;;;;;;;;;;;;;;;;; ",
+        " ;;;;;;;;;;;;;;;;;;;;;; ",
+        " ;;;;;;;;;;;;;;;;;;;;;; ",
+        " ;;;;;;;;;;;;;;;;;;;;;; ",
+        " ;;;;;;;;;;;;;;;;;;;;;; ",
+        "                        "
+      ],
+      "terrain": {
+        " ": [ [ "t_region_groundcover", 4 ], [ "t_region_shrub", 2 ], [ "t_region_tree", 1 ] ],
+        ";": "t_pavement",
+        "°": "t_pavement_y",
+        "Y": "t_pavement"
+      },
+      "furniture": { "Y": "f_street_light" },
+      "place_vehicles": [
+        { "vehicle": "parkinglotbasic", "x": 3, "y": 9, "chance": 25, "rotation": 180 },
+        { "vehicle": "parkinglotbasic", "x": 3, "y": 15, "chance": 25, "rotation": 180 },
+        { "vehicle": "parkinglotbasic", "x": 3, "y": 21, "chance": 25, "rotation": 180 },
+        { "vehicle": "parkinglotbasic", "x": 20, "y": 7, "chance": 25 },
+        { "vehicle": "parkinglotbasic", "x": 20, "y": 13, "chance": 25 },
+        { "vehicle": "parkinglotbasic", "x": 20, "y": 19, "chance": 25 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": [ [ "mine_entrance_roof", "mine_entrance_loading_zone_roof" ] ],
     "object": {
       "rows": [
