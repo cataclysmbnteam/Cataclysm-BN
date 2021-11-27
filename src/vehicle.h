@@ -1751,8 +1751,6 @@ class vehicle
         const vehicle_part &cpart( int part_num ) const;
         // Determines whether the given part_num is valid for this vehicle
         bool valid_part( int part_num ) const;
-        // Forcibly removes a part from this vehicle. Only exists to support faction_camp.cpp
-        void force_erase_part( int part_num );
         // Updates the internal precalculated mount offsets after the vehicle has been displaced
         // used in map::displace_vehicle()
         std::set<int> advance_precalc_mounts( const point &new_pos, const tripoint &src,

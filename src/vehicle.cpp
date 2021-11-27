@@ -6974,11 +6974,6 @@ bool vehicle::valid_part( int part_num ) const
     return part_num >= 0 && part_num < static_cast<int>( parts.size() );
 }
 
-void vehicle::force_erase_part( int part_num )
-{
-    parts.erase( parts.begin() + part_num );
-}
-
 std::set<int> vehicle::advance_precalc_mounts( const point &new_pos, const tripoint &src,
         const tripoint &dp, int ramp_offset, const bool adjust_pos,
         std::set<int> parts_to_move )

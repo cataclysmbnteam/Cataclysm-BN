@@ -2464,10 +2464,8 @@ bool basecamp::start_garage_chop( const point &dir, const tripoint_abs_omt &omt_
     }
     // FIXME: use ranges, do this sensibly
     //Chopping up the car!
-    //std::vector<vehicle_part> p_all = car->parts;
-    int prt = 0;
     int skillLevel = comp->get_skill_level( skill_mechanics );
-    while( car->part_count() > 0 ) {
+    for( int prt = 0; prt < car->part_count(); prt++ ) {
         vehicle_stack contents = car->get_items( prt );
         for( auto iter = contents.begin(); iter != contents.end(); ) {
             comp->companion_mission_inv.add_item( *iter );
@@ -2507,7 +2505,6 @@ bool basecamp::start_garage_chop( const point &dir, const tripoint_abs_omt &omt_
                 comp->companion_mission_inv.add_item( itm );
             }
         }
-        car->force_erase_part( prt );
     }
     talk_function::companion_skill_trainer( *comp, skill_mechanics, 5_days, 2 );
     edit.mapgen_veh_destroy( omt_tgt, car );
