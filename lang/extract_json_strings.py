@@ -417,23 +417,31 @@ def extract_gunmod(state, item):
 
 
 def extract_profession(state, item):
-    nm = item["name"]
-    if type(nm) == dict:
-        writestr(state, nm["male"], context="profession_male")
-        writestr(state, item["description"], context="prof_desc_male",
-                 comment="Profession ({}) description".format(nm["male"]))
-
-        writestr(state, nm["female"], context="profession_female")
-        writestr(state, item["description"], context="prof_desc_female",
-                 comment="Profession ({0}) description".format(nm["female"]))
-    else:
-        writestr(state, nm, context="profession_male")
-        writestr(state, item["description"], context="prof_desc_male",
-                 comment="Profession (male {}) description".format(nm))
-
-        writestr(state, nm, context="profession_female")
-        writestr(state, item["description"], context="prof_desc_female",
-                 comment="Profession (female {}) description".format(nm))
+    comment_m = "???"
+    comment_f = "???"
+    if "name" in item:
+        nm = item["name"]
+        entry_m = None
+        entry_f = None
+        if type(nm) == dict and "male" in nm and "female" in nm:
+            # 2 different translation entries for male & female
+            entry_m = nm["male"]
+            entry_f = nm["female"]
+        else:
+            # 1 translation entry for both male & female
+            entry_m = nm
+            entry_f = nm
+        entry_m = add_context(entry_m, "profession_male")
+        entry_f = add_context(entry_f, "profession_female")
+        writestr(state, entry_m)
+        writestr(state, entry_f)
+        comment_m = entry_m["str"]
+        comment_f = entry_f["str"]
+    if "description" in item:
+        writestr(state, add_context(item["description"], "prof_desc_male"),
+                    comment="Profession (male {}) description".format(comment_m))
+        writestr(state, add_context(item["description"], "prof_desc_female"),
+                    comment="Profession (female {}) description".format(comment_f))
 
 
 def extract_scenario(state, item):
