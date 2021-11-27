@@ -11,7 +11,9 @@ on:
       - 'src/**.cpp'
       - 'src/**.h'
       - 'lang/extract_json_strings.py'
-      - 'lang/strip_line_numbers.py'
+      - 'lang/concat_pot_files.py'
+      - 'lang/dedup_pot_file.py'
+      - 'lang/bn_extract_json_strings.sh'
       - 'lang/update_pot.sh'
       - 'lang/unicode_check.py'
 
@@ -25,7 +27,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install gettext python3-pip
-          sudo pip3 install transifex-client
+          sudo pip3 install transifex-client polib
       - name: "Checkout"
         uses: actions/checkout@v2
       - name: "Generate translation template"
