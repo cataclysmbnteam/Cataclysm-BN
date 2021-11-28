@@ -74,6 +74,7 @@
     "//": "Legacy bridge that blocks river",
     "id": "bridge",
     "copy-from": "generic_bridge",
+    "extras": "bridgehead_ground",
     "flags": [ "RIVER" ]
   },
   {
