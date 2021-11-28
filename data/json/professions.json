@@ -999,7 +999,7 @@
     "id": "homemaker",
     "name": "Nursing Assistant",
     "//": "They don't have the doctor's passive bonus to surgery.  Nursing assistants aren't required to hold a doctorate.",
-    "description": "You were providing in-home care for the elderly, even as the whole world fell apart around you.  You can only pray that you don't see your former clients among the walking dead...",
+    "description": "You were providing in-home care for the elderly, even as the whole world fell apart around you.  You can only pray that you don't see your former clients among the walking dead…",
     "points": 1,
     "skills": [ { "level": 2, "name": "firstaid" }, { "level": 1, "name": "cooking" } ],
     "items": {
@@ -1129,7 +1129,7 @@
     "type": "profession",
     "id": "heli_pilot",
     "name": "Helicopter Pilot",
-    "description": "You earned a living ferrying businessmen and tourists from helipad to helipad, the Cataclysm has grounded you, but the sky still calls you...",
+    "description": "You earned a living ferrying businessmen and tourists from helipad to helipad, the Cataclysm has grounded you, but the sky still calls you…",
     "points": 2,
     "skills": [ { "level": 4, "name": "driving" }, { "level": 1, "name": "speech" }, { "level": 3, "name": "mechanics" } ],
     "items": {
@@ -3703,7 +3703,7 @@
     "type": "profession",
     "id": "miner",
     "name": "Miner",
-    "description": "You're a miner, not a minor!  Your canteen is dry, your jackhammer is out of gas, and you're on your last pair of batteries for your mining helmet...",
+    "description": "You're a miner, not a minor!  Your canteen is dry, your jackhammer is out of gas, and you're on your last pair of batteries for your mining helmet…",
     "points": 2,
     "items": {
       "both": {
@@ -3812,7 +3812,7 @@
     "type": "profession",
     "id": "naked",
     "name": "Naked and Afraid",
-    "description": "You were out filming a reality TV show in the woods and the cast and crew all seemed to have turned into zombies.  Looks like it's for real now...",
+    "description": "You were out filming a reality TV show in the woods and the cast and crew all seemed to have turned into zombies.  Looks like it's for real now…",
     "points": -1
   },
   {
