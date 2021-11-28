@@ -1202,7 +1202,13 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
             const std::vector<mod_id> &current_tab_mods = all_tabs[iCurrentTab].mods;
             if( active_header == 0 && !current_tab_mods.empty() ) {
                 // try-add
-                mman_ui->try_add( current_tab_mods[cursel[0]], active_mod_order );
+                const mod_id &to_add = current_tab_mods[cursel[0]];
+                std::pair<bool, std::string> ret = mman_ui->try_add( to_add, active_mod_order );
+                if( !ret.first ) {
+                    std::string msg = string_format( _( "Cannot add mod %s [%s].\n\n%s" ),
+                                                     to_add->name(), to_add, ret.second );
+                    popup( msg );
+                }
             } else if( active_header == 1 && !active_mod_order.empty() ) {
                 // try-rem
                 mman_ui->try_rem( cursel[1], active_mod_order );

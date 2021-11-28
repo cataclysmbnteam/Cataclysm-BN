@@ -264,12 +264,23 @@ void mod_manager::load_modfile( const JsonObject &jo, const std::string &path )
     assign( jo, "maintainers", modfile.maintainers );
     assign( jo, "version", modfile.version );
     assign( jo, "dependencies", modfile.dependencies );
+    assign( jo, "conflicts", modfile.conflicts );
     assign( jo, "core", modfile.core );
     assign( jo, "obsolete", modfile.obsolete );
 
     if( std::find( modfile.dependencies.begin(), modfile.dependencies.end(),
                    modfile.ident ) != modfile.dependencies.end() ) {
         jo.throw_error( "mod specifies self as a dependency", "dependencies" );
+    }
+    for( const auto &conf : modfile.conflicts ) {
+        if( conf == modfile.ident ) {
+            jo.throw_error( "mod specifies self as a conflict", "conflicts" );
+        }
+        if( std::find( modfile.dependencies.begin(), modfile.dependencies.end(),
+                       conf ) != modfile.dependencies.end() ) {
+            jo.throw_error( string_format( "mod specifies \"%s\" as both a dependency and a conflict", conf ),
+                            "conflicts" );
+        }
     }
 
     mod_map[modfile.ident] = std::move( modfile );
