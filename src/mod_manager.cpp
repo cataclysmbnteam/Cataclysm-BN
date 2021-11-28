@@ -59,7 +59,8 @@ std::string MOD_INFORMATION::description() const
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories()
 {
     static const std::vector<std::pair<std::string, std::string> > mod_list_categories = {
-        {"content", translate_marker( "CORE CONTENT PACKS" )},
+        {"core", translate_marker( "CORE GAME DATA" )},
+        {"content", translate_marker( "CONTENT PACKS" )},
         {"items", translate_marker( "ITEM ADDITION MODS" )},
         {"creatures", translate_marker( "CREATURE MODS" )},
         {"misc_additions", translate_marker( "MISC ADDITIONS" )},
