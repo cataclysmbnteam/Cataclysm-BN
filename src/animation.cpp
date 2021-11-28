@@ -683,7 +683,7 @@ void draw_line_curses( game &g, const std::vector<tripoint> &points )
 {
     map &here = get_map();
     for( const tripoint &p : points ) {
-        get_map().drawsq( g.w_terrain, p, drawsq_params().highlight( true ) );
+        here.drawsq( g.w_terrain, p, drawsq_params().highlight( true ) );
     }
 
     const tripoint p = points.empty() ? tripoint {POSX, POSY, 0} :

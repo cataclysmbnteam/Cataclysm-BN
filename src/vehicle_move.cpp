@@ -393,7 +393,6 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
     int lowest_velocity = coll_velocity;
     const int sign_before = sgn( velocity_before );
     bool empty = true;
-    map &here = get_map();
     for( int p = 0; static_cast<size_t>( p ) < parts.size(); p++ ) {
         const vpart_info &info = part_info( p );
         if( ( info.location != part_location_structure && info.rotor_diameter() == 0 ) ||
