@@ -115,7 +115,6 @@ mod_manager::mod_manager()
 {
     load_replacement_mods( PATH_INFO::mods_replacements() );
     refresh_mod_list();
-    set_usable_mods();
 }
 
 mod_manager::~mod_manager() = default;
@@ -380,16 +379,14 @@ inline bool compare_mod_by_name_and_category( const MOD_INFORMATION *const a,
                               std::make_pair( b->category, b->name() ) );
 }
 
-void mod_manager::set_usable_mods()
+std::vector<mod_id> mod_manager::get_all_sorted() const
 {
     std::vector<mod_id> available_cores, available_supplementals;
     std::vector<mod_id> ordered_mods;
 
     std::vector<const MOD_INFORMATION *> mods;
     for( const auto &pair : mod_map ) {
-        if( !pair.second.obsolete ) {
-            mods.push_back( &pair.second );
-        }
+        mods.push_back( &pair.second );
     }
     std::sort( mods.begin(), mods.end(), &compare_mod_by_name_and_category );
 
@@ -404,7 +401,7 @@ void mod_manager::set_usable_mods()
                          available_supplementals.end() );
     ordered_mods.insert( ordered_mods.begin(), available_cores.begin(), available_cores.end() );
 
-    usable_mods = ordered_mods;
+    return ordered_mods;
 }
 
 translatable_mod_info::translatable_mod_info()

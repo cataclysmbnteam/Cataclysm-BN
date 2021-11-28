@@ -643,7 +643,7 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
         for( size_t i = 0; i < mods.size(); ++i ) {
             std::string category_name = _( "MISSING MODS" );
             if( mods[i].is_valid() ) {
-                category_name = mods[i]->obsolete ? _( "OBSOLETE MODS" ) : _( mods[i]->category.second );
+                category_name = _( mods[i]->category.second );
             }
             if( sLastCategoryName != category_name ) {
                 sLastCategoryName = category_name;
@@ -702,6 +702,7 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
                         mod_entry_name = mod.name() + mod_entry_name;
                         if( mod.obsolete ) {
                             mod_entry_color = c_dark_gray;
+                            mod_entry_name += "*";
                         }
                     } else {
                         mod_entry_color = c_light_red;
@@ -890,10 +891,12 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
     ctxt.register_action( "SAVE_DEFAULT_MODS" );
     ctxt.register_action( "VIEW_MOD_DESCRIPTION" );
     ctxt.register_action( "FILTER" );
+    ctxt.register_action( "TOGGLE_SHOW_OBSOLETE" );
 
     point filter_pos;
     int filter_view_len = 0;
-    std::string current_filter = "init me!";
+    bool show_obsolete = false;
+    std::string current_filter;
     std::unique_ptr<string_input_popup> fpopup;
 
     catacurses::window w_header1;
@@ -966,7 +969,7 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
     }
 
     const std::map<std::string, std::string> &cat_tab_map = get_mod_list_cat_tab();
-    for( const mod_id &mod : mman->get_usable_mods() ) {
+    for( const mod_id &mod : mman->get_all_sorted() ) {
         int cat_idx = mod->category.first;
         const std::string &cat_id = get_mod_list_categories()[cat_idx].first;
 
@@ -1000,26 +1003,25 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
         return nullptr;
     };
 
-    // Helper function for applying filter to mod tabs
-    const auto apply_filter = [&]( const std::string & filter_str ) {
-        if( filter_str == current_filter ) {
-            return;
-        }
+    const auto recalc_visible = [&]( const std::string & filter_str, bool show_obsolete ) {
         const MOD_INFORMATION *selected_mod = nullptr;
         if( active_header == 0 ) {
             selected_mod = get_selected_mod();
         }
         for( mod_tab &tab : all_tabs ) {
-            if( filter_str.empty() ) {
-                tab.mods = tab.mods_unfiltered;
-            } else {
-                tab.mods.clear();
-                for( const mod_id &mod : tab.mods_unfiltered ) {
+            tab.mods.reserve( tab.mods_unfiltered.size() );
+            tab.mods.clear();
+            for( const mod_id &mod : tab.mods_unfiltered ) {
+                if( !show_obsolete && mod->obsolete ) {
+                    continue;
+                }
+                if( !filter_str.empty() ) {
                     std::string name = ( *mod ).name();
-                    if( lcmatch( name, filter_str ) ) {
-                        tab.mods.push_back( mod );
+                    if( !lcmatch( name, filter_str ) ) {
+                        continue;
                     }
                 }
+                tab.mods.push_back( mod );
             }
         }
         startsel[0] = 0;
@@ -1032,9 +1034,26 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
                 break;
             }
         }
+    };
+    recalc_visible( current_filter, show_obsolete );
+
+    // Helper function for applying filter to mod tabs
+    const auto apply_filter = [&]( const std::string & filter_str ) {
+        if( filter_str == current_filter ) {
+            return;
+        }
+        recalc_visible( filter_str, show_obsolete );
         current_filter = filter_str;
     };
-    apply_filter( "" );
+
+    // Helper function for toggling display of obsolete mods
+    const auto set_show_obsolete = [&]( bool value ) {
+        if( show_obsolete == value ) {
+            return;
+        }
+        recalc_visible( current_filter, value );
+        show_obsolete = value;
+    };
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         if( standalone ) {
@@ -1201,6 +1220,8 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
             if( active_header == 1 && active_mod_order.size() > 1 ) {
                 mman_ui->try_shift( '-', cursel[1], active_mod_order );
             }
+        } else if( action == "TOGGLE_SHOW_OBSOLETE" ) {
+            set_show_obsolete( !show_obsolete );
         } else if( action == "NEXT_CATEGORY_TAB" ) {
             if( active_header == 0 ) {
                 if( ++iCurrentTab >= get_mod_list_tabs().size() ) {

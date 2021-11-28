@@ -25,6 +25,11 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
 
     std::string info;
 
+    if( mod->obsolete ) {
+        info += colorize( _( "This mod is marked as obsolete and may contain severe errors." ), c_yellow );
+        info += "\n";
+    }
+
     if( !mod->authors.empty() ) {
         info += colorize( vgettext( "Author", "Authors", mod->authors.size() ),
                           c_light_blue ) + ": " + enumerate_as_string( mod->authors );
