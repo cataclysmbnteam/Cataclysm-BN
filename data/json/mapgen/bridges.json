@@ -112,7 +112,10 @@
       ],
       "palettes": [ "bridge_road_palette" ],
       "items": { "_": { "item": "road", "chance": 1 } },
-      "vehicles": { "^": { "vehicle": "highway", "chance": 10, "rotation": 90 }, "v": { "vehicle": "highway", "chance": 10, "rotation": 270 } }
+      "vehicles": {
+        "^": { "vehicle": "highway", "chance": 10, "rotation": 90 },
+        "v": { "vehicle": "highway", "chance": 10, "rotation": 270 }
+      }
     }
   },
   {
@@ -150,7 +153,10 @@
       ],
       "palettes": [ "bridge_ground_palette" ],
       "items": { "_": { "item": "road", "chance": 1 } },
-      "vehicles": { "^": { "vehicle": "highway", "chance": 10, "rotation": 90 }, "v": { "vehicle": "highway", "chance": 10, "rotation": 270 } }
+      "vehicles": {
+        "^": { "vehicle": "highway", "chance": 10, "rotation": 90 },
+        "v": { "vehicle": "highway", "chance": 10, "rotation": 270 }
+      }
     }
   },
   {
