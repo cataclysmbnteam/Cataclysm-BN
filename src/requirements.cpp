@@ -547,7 +547,7 @@ void inline_requirements( std::vector<std::vector<T>> &list,
         }
     }
 }
-
+#include "debug.h"
 void requirement_data::finalize()
 {
     for( auto &r : const_cast<std::map<requirement_id, requirement_data> &>( all() ) ) {
@@ -558,22 +558,58 @@ void requirement_data::finalize()
         []( const requirement_data & d ) -> const auto & {
             return d.get_components();
         } );
-        auto &vec = r.second.tools;
-        for( auto &list : vec ) {
+        // We're altering a vector of vectors, which SHOULD be safe, but better safe than sorry
+        const alter_tool_comp_vector &vec = r.second.tools;
+        alter_tool_comp_vector new_vec;
+        for( const std::vector<tool_comp> &list : vec ) {
             std::vector<tool_comp> new_list;
-            for( auto &comp : list ) {
+            for( const tool_comp &comp : list ) {
+                // Avoid double replacement
+                if( comp.subtype_expanded ) {
+                    new_list.push_back( comp );
+                    continue;
+                }
                 const std::list<itype_id> replacements = item_controller->subtype_replacement( comp.type );
                 for( const itype_id &replacing_type : replacements ) {
                     // One of the replacements is the type itself
                     const int charge_factor = replacing_type != comp.type
                                               ? replacing_type->charge_factor()
                                               : 1;
-                    new_list.emplace_back( replacing_type, charge_factor * comp.count );
+                    new_list.emplace_back( replacing_type, charge_factor * comp.count, true );
                 }
             }
 
-            list = new_list;
+            std::set<tool_comp> just_for_debug( new_list.begin(), new_list.end() );
+            if( just_for_debug.size() != new_list.size() ) {
+                std::stringstream ss;
+                for( const tool_comp &comp : list ) {
+                    const std::list<itype_id> replacements = item_controller->subtype_replacement( comp.type );
+                    if( replacements.size() > 1 ) {
+                        ss << comp.type.str() << " -> [ ";
+                        for( const itype_id &replacing_type : replacements ) {
+                            ss << replacing_type.str() << " ";
+                        }
+                        ss << "];";
+                    }
+                }
+                ss << "\nInitial: [ ";
+                for( const tool_comp &comp : list ) {
+                    ss << comp.type.str() << " ";
+                }
+                ss << "]";
+                ss << "\nFinal: [ ";
+                for( const tool_comp &comp : new_list ) {
+                    ss << comp.type.str() << " ";
+                }
+                ss << "]";
+                debugmsg( "Requirement %s bugged: %d != %d\n%s", r.first.str(), just_for_debug.size(),
+                          new_list.size(), ss.str() );
+            }
+
+            new_vec.emplace_back( new_list );
         }
+
+        r.second.tools = new_vec;
     }
 }
 void requirement_data::reset()
