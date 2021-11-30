@@ -8,7 +8,7 @@
     "difficulty": 4,
     "time": "30 m",
     "autolearn": true,
-    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "chitin_piece", 10 ] ] ]
+    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "chitin_piece", 3 ] ], [ [ "leather", 3 ] ] ]
   },
   {
     "result": "gauntlets_acidchitin",
@@ -17,11 +17,10 @@
     "subcategory": "CSC_ARMOR_HANDS",
     "skill_used": "tailor",
     "difficulty": 5,
-    "skills_required": [ [ "survival", 4 ], [ "firstaid", 2 ] ],
     "time": "1 h",
     "autolearn": true,
     "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "acidchitin_piece", 10 ] ] ]
+    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "acidchitin_piece", 3 ] ], [ [ "leather", 3 ] ] ]
   },
   {
     "result": "gauntlets_larmor",

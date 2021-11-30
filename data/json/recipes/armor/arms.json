@@ -29,12 +29,11 @@
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_ARMS",
-    "skill_used": "fabrication",
-    "difficulty": 5,
-    "skills_required": [ [ "tailor", 3 ] ],
+    "skill_used": "tailor",
+    "difficulty": 4,
     "time": "30 m",
     "autolearn": true,
-    "components": [ [ [ "string_36", 1 ], [ "string_6", 4 ] ], [ [ "chitin_piece", 4 ] ] ]
+    "components": [ [ [ "string_36", 1 ], [ "string_6", 4 ] ], [ [ "chitin_piece", 4 ] ], [ [ "leather", 4 ] ] ]
   },
   {
     "result": "armguard_acidchitin",
@@ -42,12 +41,11 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_ARMS",
     "skill_used": "fabrication",
-    "difficulty": 6,
-    "skills_required": [ [ "tailor", 3 ] ],
+    "difficulty": 5,
     "time": "30 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "string_36", 1 ], [ "string_6", 4 ] ], [ [ "acidchitin_piece", 6 ] ] ]
+    "components": [ [ [ "string_36", 1 ], [ "string_6", 4 ] ], [ [ "acidchitin_piece", 4 ] ], [ [ "leather", 4 ] ] ]
   },
   {
     "result": "armguard_hard",
