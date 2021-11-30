@@ -185,6 +185,10 @@ distribution_grid &distribution_grid_tracker::make_distribution_grid_at(
         parent_distribution_grids[smp] = dist_grid;
     }
 
+    if( !dist_grid->empty() ) {
+        grids_requiring_updates.emplace( dist_grid );
+    }
+
     // This ugly expression + lint suppresion are needed to convince clang-tidy
     // that we are, in fact, NOT leaking memory.
     return *parent_distribution_grids[submap_positions.front()];
@@ -196,6 +200,7 @@ distribution_grid &distribution_grid_tracker::make_distribution_grid_at(
 
 void distribution_grid_tracker::on_saved()
 {
+    grids_requiring_updates.clear();
     parent_distribution_grids.clear();
     if( !get_option<bool>( "ELECTRIC_GRID" ) ||
         world_generator->active_world == nullptr ) {
@@ -313,10 +318,10 @@ void distribution_grid_tracker::update( time_point to )
 {
     // TODO: Don't recalc this every update
     std::unordered_set<const distribution_grid *> updated;
-    for( auto &pr : parent_distribution_grids ) {
-        if( updated.count( pr.second.get() ) == 0 ) {
-            updated.emplace( pr.second.get() );
-            pr.second->update( to );
+    for( const shared_ptr_fast<distribution_grid> &grid : grids_requiring_updates ) {
+        if( updated.count( grid.get() ) == 0 ) {
+            updated.emplace( grid.get() );
+            grid->update( to );
         }
     }
     transform_queue.apply( mb, *this, get_player_character(), get_map() );
