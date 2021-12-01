@@ -76,7 +76,11 @@ int distribution_grid::mod_resource( int amt, bool recurse )
         for( const tile_location &loc : c.second ) {
             battery_tile *battery = active_tiles::furn_at<battery_tile>( loc.absolute );
             if( battery != nullptr ) {
+                int amt_before_battery = amt;
                 amt = battery->mod_resource( amt );
+                if( cached_amount_here ) {
+                    cached_amount_here = *cached_amount_here + amt_before_battery - amt;
+                }
                 if( amt == 0 ) {
                     return 0;
                 }
@@ -116,6 +120,13 @@ int distribution_grid::mod_resource( int amt, bool recurse )
 
 int distribution_grid::get_resource( bool recurse ) const
 {
+    if( !recurse ) {
+        if( cached_amount_here ) {
+            return *cached_amount_here;
+        } else {
+            cached_amount_here = 0;
+        }
+    }
     int res = 0;
     std::vector<vehicle *> connected_vehicles;
     for( const auto &c : contents ) {
@@ -123,6 +134,9 @@ int distribution_grid::get_resource( bool recurse ) const
             battery_tile *battery = active_tiles::furn_at<battery_tile>( loc.absolute );
             if( battery != nullptr ) {
                 res += battery->get_resource();
+                if( !recurse && cached_amount_here ) {
+                    cached_amount_here = *cached_amount_here + res;
+                }
                 continue;
             }
 
@@ -148,6 +162,9 @@ int distribution_grid::get_resource( bool recurse ) const
     // TODO: Giga ugly. We only charge the first vehicle to get it to use its recursive graph traversal because it's inaccessible from here due to being a template method
     if( !connected_vehicles.empty() ) {
         res = connected_vehicles.front()->fuel_left( itype_battery, true );
+    }
+    if( !recurse ) {
+        cached_amount_here = res;
     }
 
     return res;
@@ -182,7 +199,11 @@ distribution_grid &distribution_grid_tracker::make_distribution_grid_at(
     shared_ptr_fast<distribution_grid> dist_grid = make_shared_fast<distribution_grid>
             ( submap_positions, mb );
     for( const tripoint_abs_sm &smp : submap_positions ) {
-        parent_distribution_grids[smp] = dist_grid;
+        shared_ptr_fast<distribution_grid> &old_grid = parent_distribution_grids[smp];
+        if( old_grid != dist_grid ) {
+            grids_requiring_updates.erase( old_grid );
+            old_grid = dist_grid;
+        }
     }
 
     if( !dist_grid->empty() ) {
@@ -208,7 +229,6 @@ void distribution_grid_tracker::on_saved()
     }
     tripoint_abs_sm min_bounds( bounds.p_min, -OVERMAP_DEPTH );
     tripoint_abs_sm max_bounds( bounds.p_max, OVERMAP_HEIGHT );
-    // TODO: Only those which existed before the save
     for( const tripoint_abs_sm &sm_pos : tripoint_range<tripoint_abs_sm>( min_bounds, max_bounds ) ) {
         if( parent_distribution_grids.find( sm_pos ) == parent_distribution_grids.end() ) {
             make_distribution_grid_at( sm_pos );
@@ -225,7 +245,6 @@ void distribution_grid_tracker::on_changed( const tripoint_abs_ms &p )
         // TODO: Don't rebuild, update
         make_distribution_grid_at( sm_pos );
     }
-
 }
 
 void distribution_grid_tracker::on_options_changed()
@@ -316,13 +335,8 @@ std::string grid_furn_transform_queue::to_string() const
 
 void distribution_grid_tracker::update( time_point to )
 {
-    // TODO: Don't recalc this every update
-    std::unordered_set<const distribution_grid *> updated;
     for( const shared_ptr_fast<distribution_grid> &grid : grids_requiring_updates ) {
-        if( updated.count( grid.get() ) == 0 ) {
-            updated.emplace( grid.get() );
-            grid->update( to );
-        }
+        grid->update( to );
     }
     transform_queue.apply( mb, *this, get_player_character(), get_map() );
     transform_queue.clear();

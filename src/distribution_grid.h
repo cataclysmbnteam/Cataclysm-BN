@@ -46,6 +46,8 @@ class distribution_grid
         std::vector<tripoint_abs_ms> flat_contents;
         std::vector<tripoint_abs_sm> submap_coords;
 
+        mutable cata::optional<int> cached_amount_here;
+
         mapbuffer &mb;
 
     public:
