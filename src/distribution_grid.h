@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <vector>
 #include <map>
+#include <unordered_set>
 
 #include "calendar.h"
 #include "coordinates.h"
@@ -44,6 +45,8 @@ class distribution_grid
         std::map<tripoint_abs_sm, std::vector<tile_location>> contents;
         std::vector<tripoint_abs_ms> flat_contents;
         std::vector<tripoint_abs_sm> submap_coords;
+
+        mutable cata::optional<int> cached_amount_here;
 
         mapbuffer &mb;
 
@@ -129,6 +132,11 @@ class distribution_grid_tracker
         mapbuffer &mb;
 
         grid_furn_transform_queue transform_queue;
+
+        /**
+         * Most grids are empty or idle, this contains the rest.
+         */
+        std::unordered_set<shared_ptr_fast<distribution_grid>> grids_requiring_updates;
 
     public:
         distribution_grid_tracker();

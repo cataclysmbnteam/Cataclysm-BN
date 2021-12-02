@@ -4887,9 +4887,10 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
         auto &grid = get_distribution_grid_tracker().grid_at( abspos );
         item furn_item( itt, calendar::start_of_cataclysm, grid.get_resource() );
         int initial_quantity = quantity;
-        if( filter( furn_item ) && furn_item.use_charges( type, quantity, ret, p ) ) {
+        if( filter( furn_item ) ) {
+            furn_item.use_charges( type, quantity, ret, p );
             // That quantity math thing is atrocious. Punishment for the int& "argument".
-            grid.mod_resource( initial_quantity - quantity );
+            grid.mod_resource( quantity - initial_quantity );
         }
     } else if( itt != nullptr && itt->tool && !itt->tool->ammo_id.empty() ) {
         const itype_id ammo = ammotype( *itt->tool->ammo_id.begin() )->default_ammotype();
