@@ -58,37 +58,6 @@ std::string dependency_node::s_errors()
     return ret;
 }
 
-void dependency_node::check_cyclicity()
-{
-    std::stack<dependency_node *> nodes_to_check;
-    std::set<mod_id> nodes_visited;
-
-    for( auto &elem : parents ) {
-        nodes_to_check.push( elem );
-    }
-    nodes_visited.insert( key );
-
-    while( !nodes_to_check.empty() ) {
-        dependency_node *check = nodes_to_check.top();
-        nodes_to_check.pop();
-
-        if( nodes_visited.find( check->key ) != nodes_visited.end() ) {
-            if( all_errors[CYCLIC].empty() ) {
-                all_errors[CYCLIC].push_back( "Error: Circular Dependency Circuit Found!" );
-            }
-            continue;
-        }
-
-        // add check parents, if exist, to stack
-        if( !check->parents.empty() ) {
-            for( auto &elem : check->parents ) {
-                nodes_to_check.push( elem );
-            }
-        }
-        nodes_visited.insert( check->key );
-    }
-}
-
 bool dependency_node::has_errors()
 {
     bool ret = false;

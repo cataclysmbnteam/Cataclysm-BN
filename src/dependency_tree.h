@@ -47,7 +47,6 @@ class dependency_node
         std::vector< dependency_node * > get_dependents_as_nodes();
 
         void inherit_errors();
-        void check_cyclicity();
 };
 
 class dependency_tree
