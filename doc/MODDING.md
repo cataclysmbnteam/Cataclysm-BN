@@ -40,6 +40,8 @@ The `category` attribute denotes where the mod will appear in the mod selection 
 
 The `dependencies` attribute is used to tell Cataclysm that your mod is dependent on something present in another mod. If you have no dependencies outside of the core game, then just including `dda` in the list is good enough. If your mod depends on another one to work properly, adding that mod's `id` attribute to the array causes Cataclysm to force that mod to load before yours.
 
+For more details on `MOD_INFO` object, see [JSON_INFO.md](JSON_INFO.md/#mod-info).
+
 ## Actually adding things to your mod
 Now that you have a basic mod, you can get around to actually putting some stuff into it!
 

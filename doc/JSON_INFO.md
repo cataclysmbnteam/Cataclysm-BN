@@ -167,6 +167,7 @@ Use the `Home` key to return to the top.
 - [Mutation overlay ordering](#mutation-overlay-ordering)
   * [`id`](#-id--2)
   * [`order`](#-order-)
+- [MOD_INFO](#mod-info)
 - [MOD tileset](#mod-tileset)
   * [`compatibility`](#-compatibility-)
   * [`tiles-new`](#-tiles-new-)
@@ -3308,6 +3309,51 @@ The internal ID of the mutation. Can be provided as a single string, or an array
 (integer)
 
 The ordering value of the mutation overlay. Values range from 0 - 9999, 9999 being the topmost drawn layer. Mutations that are not in any list will default to 9999.
+
+# MOD_INFO
+
+`MOD_INFO` is an object that describes the mod itself. Each mod must have exactly one `MOD_INFO`, and unlike other objects it is loaded on game launch, before the title screen shows up. As such, any and all errors related to it will show up before the title screen shows up.
+
+To avoid confusion, it's best to put your `MOD_INFO` in `mod_info.json` file within the root directory of the mod.
+
+Example:
+```C++
+[
+  {
+    "type": "MOD_INFO",
+
+    // Mod's unique identifier, prefer to use only ASCII letters, numbers and underscore for clarity.
+    "id": "better_zeds",
+    // Mod's category, see [MODDING.md](MODDING.md) for list of supported values.
+    "category": "content",
+    // Mod's display name, in English.
+    "name": "Better Zombies",
+    // Mod's description, in English.
+    "description": "Reworks all base game zombies and adds 100+ new variants.",
+    // Original author(s) of the mod.
+    "authors": [ "That Guy", "His Friend" ],
+    // If the author(s) abandoned the mod for some reason, this entry lists current maintainers.
+    "maintainers": [ "Mr. BugFixer", "BugFixer Jr." ],
+    // Mod version string. This is for users' and maintainers' convenience, so you can use whatever is most convenient here (e.g. date).
+    "version": "02 Dec 2021",
+    // List of mod's dependencies. Dependencies are guaranteed to be loaded before the mod is loaded.
+    "dependencies": [ "dda", "zed_templates" ],
+    // List of mods that are incompatible with this mod.
+    "conflics": [ "worse_zeds" ],
+    // Special flag for core game data, can only be used by total overhaul mods. Only 1 core mod can be loaded at a time.
+    "core": false,
+    // Marks mod as obsolete. Obsolete mods don't show up in mod selection list by default, and have a warning on them.
+    "obsolete": false,
+    // Path of mod's files relative to the modinfo.json file. The game automatically loads all files from the folder with modinfo.json,
+    // and all the subfolders, so this field is only useful when you for whatever reason want to stick your modinfo.json in a subfolder of your mod.
+    "path": "../common-data/",
+    // Same principle as with 'path' field, this points to a (almost completely unused and most likely bugged to Hell) "legacy migration" files.
+    "legacy": "../legacy-data/"
+  }
+]
+```
+
+## 
 
 # MOD tileset
 
