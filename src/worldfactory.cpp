@@ -951,7 +951,6 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
     int startsel[2] = {0, 0};
     size_t cursel[2] = {0, 0};
     size_t iCurrentTab = 0;
-    std::vector<mod_id> current_tab_mods;
 
     struct mod_tab {
         std::string id;
@@ -1020,6 +1019,10 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
                 if( !show_obsolete && mod->obsolete ) {
                     continue;
                 }
+                auto it = std::find( active_mod_order.begin(), active_mod_order.end(), mod );
+                if( it != active_mod_order.end() ) {
+                    continue;
+                }
                 if( !filter_str.empty() ) {
                     std::string name = ( *mod ).name();
                     if( !lcmatch( name, filter_str ) ) {
@@ -1058,6 +1061,22 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
         }
         recalc_visible( current_filter, value );
         show_obsolete = value;
+    };
+
+    // Helper function for recalculating visible entries after adding mods.
+    // Also tries to keep cursor position, though it's rather imprecise
+    // when multiple mods are added simultaneously.
+    const auto recalc_after_add_remove = [&]() {
+        size_t sel = cursel[0];
+        recalc_visible( current_filter, show_obsolete );
+        if( active_header == 0 ) {
+            const std::vector<mod_id> &current_tab_mods = all_tabs[iCurrentTab].mods;
+            if( active_header == 0 && !current_tab_mods.empty() ) {
+                cursel[0] = std::min( current_tab_mods.size() - 1, sel );
+            }
+        } else {
+            cursel[0] = 0;
+        }
     };
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
@@ -1223,6 +1242,7 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
                     active_header = 0;
                 }
             }
+            recalc_after_add_remove();
         } else if( action == "ADD_MOD" ) {
             if( active_header == 1 && active_mod_order.size() > 1 ) {
                 mman_ui->try_shift( '+', cursel[1], active_mod_order );
