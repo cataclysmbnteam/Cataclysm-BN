@@ -213,6 +213,12 @@ class translation
         void make_plural();
 
         /**
+         * Add translation context.
+         * If translation already has a context, adds to the existing context.
+         **/
+        void add_context( const std::string &ctxt );
+
+        /**
          * Deserialize from json. Json format is:
          *     "text"
          * or

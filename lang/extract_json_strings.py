@@ -11,6 +11,7 @@ import itertools
 import subprocess
 from optparse import OptionParser
 from sys import platform
+from copy import deepcopy
 
 # Must parse command line arguments here
 # 'options' variable is referenced in our defined functions below
@@ -416,23 +417,31 @@ def extract_gunmod(state, item):
 
 
 def extract_profession(state, item):
-    nm = item["name"]
-    if type(nm) == dict:
-        writestr(state, nm["male"], context="profession_male")
-        writestr(state, item["description"], context="prof_desc_male",
-                 comment="Profession ({}) description".format(nm["male"]))
-
-        writestr(state, nm["female"], context="profession_female")
-        writestr(state, item["description"], context="prof_desc_female",
-                 comment="Profession ({0}) description".format(nm["female"]))
-    else:
-        writestr(state, nm, context="profession_male")
-        writestr(state, item["description"], context="prof_desc_male",
-                 comment="Profession (male {}) description".format(nm))
-
-        writestr(state, nm, context="profession_female")
-        writestr(state, item["description"], context="prof_desc_female",
-                 comment="Profession (female {}) description".format(nm))
+    comment_m = "???"
+    comment_f = "???"
+    if "name" in item:
+        nm = item["name"]
+        entry_m = None
+        entry_f = None
+        if type(nm) == dict and "male" in nm and "female" in nm:
+            # 2 different translation entries for male & female
+            entry_m = nm["male"]
+            entry_f = nm["female"]
+        else:
+            # 1 translation entry for both male & female
+            entry_m = nm
+            entry_f = nm
+        entry_m = add_context(entry_m, "profession_male")
+        entry_f = add_context(entry_f, "profession_female")
+        writestr(state, entry_m)
+        writestr(state, entry_f)
+        comment_m = entry_m["str"]
+        comment_f = entry_f["str"]
+    if "description" in item:
+        writestr(state, add_context(item["description"], "prof_desc_male"),
+                    comment="Profession (male {}) description".format(comment_m))
+        writestr(state, add_context(item["description"], "prof_desc_female"),
+                    comment="Profession (female {}) description".format(comment_f))
 
 
 def extract_scenario(state, item):
@@ -831,6 +840,23 @@ extract_specials = {
 }
 
 
+def add_context(entry, ctxt):
+    """
+    Add translation context to entry.
+    If string already has context, appends the new value to it.
+    Parameter 'entry' can be either a raw string or a translation dict.
+    """
+    entry = deepcopy(entry)
+    if type(entry) == dict:
+        if "ctxt" in entry:
+            entry["ctxt"] += "|" + ctxt
+        else:
+            entry["ctxt"] = ctxt
+        return entry
+    else:
+        return {"str": entry, "ctxt": ctxt}
+
+
 def writestr(state, string, context=None, format_strings=False, comment=None, pl_fmt=False):
     "Write the string to POT."
     if type(string) is list:
@@ -1086,6 +1112,11 @@ def extract(state, item):
             print("WARNING: {}: nothing translatable found in item: {}".format(state.current_source_file, item))
 
 
+def log_verbose(msg):
+    if options.verbose:
+        print(msg)
+
+
 def extract_all_from_dir(state, json_dir):
     """Extract strings from every json file in the specified directory,
     recursing into any subdirectories."""
@@ -1097,18 +1128,20 @@ def extract_all_from_dir(state, json_dir):
         full_name = os.path.join(json_dir, f)
         if os.path.isdir(full_name):
             if os.path.normpath(full_name) in ignore_dirs:
-                continue
-            dirs.append(f)
-        elif f in skiplist or full_name in ignore_files:
-            continue
+                log_verbose("Skipping dir (ignored): {}".format(f))
+            else:
+                dirs.append(f)
+        elif f in skiplist:
+            log_verbose("Skipping file (skiplist): '{}'".format(f))
+        elif full_name in ignore_files:
+            log_verbose("Skipping file (ignored): '{}'".format(f))
         elif f.endswith(".json"):
             if not options.tracked_only or full_name in git_files_list:
                 extract_all_from_file(state, full_name)
             else:
-                if options.verbose:
-                    print("Skipping untracked file: '{}'".format(full_name))
-        if options.verbose:
-            print("Skipping file: '{}'".format(f))
+                log_verbose("Skipping file (untracked): '{}'".format(full_name))
+        else:
+            log_verbose("Skipping file (not json): '{}'".format(f))
     for d in dirs:
         extract_all_from_dir(state, os.path.join(json_dir, d))
 
@@ -1116,8 +1149,7 @@ def extract_all_from_dir(state, json_dir):
 def extract_all_from_file(state, json_file):
     "Extract translatable strings from every object in the specified file."
     state.current_source_file = json_file
-    if options.verbose:
-        print("Loading {}".format(json_file))
+    log_verbose("Loading {}".format(json_file))
 
     with open(json_file, encoding="utf-8") as fp:
         jsondata = json.load(fp)
