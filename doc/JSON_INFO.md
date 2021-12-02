@@ -167,7 +167,7 @@ Use the `Home` key to return to the top.
 - [Mutation overlay ordering](#mutation-overlay-ordering)
   * [`id`](#-id--2)
   * [`order`](#-order-)
-- [MOD_INFO](#mod-info)
+- [MOD_INFO](#mod_info)
 - [MOD tileset](#mod-tileset)
   * [`compatibility`](#-compatibility-)
   * [`tiles-new`](#-tiles-new-)
@@ -3312,9 +3312,13 @@ The ordering value of the mutation overlay. Values range from 0 - 9999, 9999 bei
 
 # MOD_INFO
 
-`MOD_INFO` is an object that describes the mod itself. Each mod must have exactly one `MOD_INFO`, and unlike other objects it is loaded on game launch, before the title screen shows up. As such, any and all errors related to it will show up before the title screen shows up.
+Also see [MODDING.md](MODDING.md).
 
-To avoid confusion, it's best to put your `MOD_INFO` in `mod_info.json` file within the root directory of the mod.
+Object with `MOD_INFO` type describes the mod itself.
+Each mod must have exactly one `MOD_INFO`, and unlike other types of objects from mods it is loaded on game launch,
+before the title screen shows up. As such, any and all errors related to it will show up before the title screen shows up.
+
+Current convention is to put your `MOD_INFO` in `mod_info.json` file within the root directory of the mod.
 
 Example:
 ```C++
@@ -3324,7 +3328,7 @@ Example:
 
     // Mod's unique identifier, prefer to use only ASCII letters, numbers and underscore for clarity.
     "id": "better_zeds",
-    // Mod's category, see [MODDING.md](MODDING.md) for list of supported values.
+    // Mod's category, see MODDING.md for list of supported values.
     "category": "content",
     // Mod's display name, in English.
     "name": "Better Zombies",
@@ -3347,7 +3351,7 @@ Example:
     // Path of mod's files relative to the modinfo.json file. The game automatically loads all files from the folder with modinfo.json,
     // and all the subfolders, so this field is only useful when you for whatever reason want to stick your modinfo.json in a subfolder of your mod.
     "path": "../common-data/",
-    // Same principle as with 'path' field, this points to a (almost completely unused and most likely bugged to Hell) "legacy migration" files.
+    // Same principle as with 'path' field, this points to (almost completely unused and most likely bugged to Hell) "legacy migration" files.
     "legacy": "../legacy-data/"
   }
 ]
