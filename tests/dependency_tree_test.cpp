@@ -92,7 +92,7 @@ TEST_CASE( "deptree_basic", "[dependency_tree]" )
 
     t_key_dep_map conf_map = { {
             {
-                "e", {{ "f" }}
+                "e", { "f" }
             }
         }
     };
@@ -125,7 +125,7 @@ TEST_CASE( "deptree_missing_dependency", "[dependency_tree]" )
                 "a", {}
             },
             {
-                "c", {{ "e" }}
+                "c", { "e" }
             },
             {
                 "d", {{ "c", "b", "a" }}
@@ -159,7 +159,7 @@ TEST_CASE( "deptree_circular_dependency", "[dependency_tree]" )
                 "b", {{ "a", "d" }}
             },
             {
-                "c", {{ "a", "d"}}
+                "c", {{ "a", "d" }}
             },
             {
                 "d", {{ "c", "b", "a" }}
@@ -183,22 +183,22 @@ TEST_CASE( "deptree_multiple_dep_cycles", "[dependency_tree]" )
 {
     t_key_dep_map dep_map = { {
             {
-                "a", {{ "b" }}
+                "a", { "b" }
             },
             {
-                "b", {{ "a" }}
+                "b", { "a" }
             },
             {
-                "c", {{ "d" }}
+                "c", { "d" }
             },
             {
-                "d", {{ "c" }}
+                "d", { "c" }
             },
             {
-                "e", {{ "f" }}
+                "e", { "f" }
             },
             {
-                "f", {{ "e" }}
+                "f", { "e" }
             },
             {
                 "g", {{ "a", "c", "e" }}
@@ -228,23 +228,23 @@ TEST_CASE( "deptree_conflicting_dependency", "[dependency_tree]" )
                 "b", {}
             },
             {
-                "c", {{ "b" }}
+                "c", { "b" }
             },
             {
                 "d", {{ "a", "c" }}
             },
             {
-                "e", {{ "c" }}
+                "e", { "c" }
             }
         }
     };
 
     t_key_dep_map conf_map = { {
             {
-                "a", {{ "b" }}
+                "a", { "b" }
             },
             {
-                "e", {{ "d" }}
+                "e", { "d" }
             }
         }
     };
@@ -263,16 +263,16 @@ TEST_CASE( "deptree_complex_conflict", "[dependency_tree]" )
 {
     t_key_dep_map dep_map = { {
             {
-                "a", {{ "b" }}
+                "a", { "b" }
             },
             {
-                "b", {{ "c" }}
+                "b", { "c" }
             },
             {
-                "c", {{ "d" }}
+                "c", { "d" }
             },
             {
-                "d", {{ "a" }}
+                "d", { "a" }
             },
             {
                 "e", {{ "a", "b", "c", "d" }}
@@ -282,10 +282,10 @@ TEST_CASE( "deptree_complex_conflict", "[dependency_tree]" )
 
     t_key_dep_map conf_map = { {
             {
-                "a", {{ "c" }}
+                "a", { "c" }
             },
             {
-                "b", {{ "d" }}
+                "b", { "d" }
             }
         }
     };
