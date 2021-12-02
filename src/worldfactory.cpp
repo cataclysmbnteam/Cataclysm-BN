@@ -989,24 +989,29 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
 
     // Helper function for determining the currently selected mod
     const auto get_selected_mod = [&]() -> const MOD_INFORMATION* {
-        const std::vector<mod_id> &current_tab_mods = all_tabs[iCurrentTab].mods;
-        if( current_tab_mods.empty() )
+        if( active_header == 0 )
         {
-            return nullptr;
-        } else if( active_header == 0 )
+            const std::vector<mod_id> &current_tab_mods = all_tabs[iCurrentTab].mods;
+            if( current_tab_mods.empty() ) {
+                return nullptr;
+            } else {
+                return &current_tab_mods[cursel[0]].obj();
+            }
+        } else if( active_header == 1 )
         {
-            return &current_tab_mods[cursel[0]].obj();
-        } else if( !active_mod_order.empty() )
-        {
-            return &active_mod_order[cursel[1]].obj();
+            if( active_mod_order.empty() ) {
+                return nullptr;
+            } else {
+                return &active_mod_order[cursel[1]].obj();
+            }
         }
         return nullptr;
     };
 
     const auto recalc_visible = [&]( const std::string & filter_str, bool show_obsolete ) {
         const MOD_INFORMATION *selected_mod = nullptr;
-        if( active_header == 0 ) {
-            selected_mod = get_selected_mod();
+        if( active_header == 0 && all_tabs[iCurrentTab].mods.size() > cursel[0] ) {
+            selected_mod = &*all_tabs[iCurrentTab].mods[cursel[0]];
         }
         for( mod_tab &tab : all_tabs ) {
             tab.mods.reserve( tab.mods_unfiltered.size() );
