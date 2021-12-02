@@ -1061,7 +1061,7 @@ static bool mx_portal( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_minefield( map &m, const tripoint &abs_sub )
+static bool mx_minefield( map &m_orig, const tripoint &abs_sub )
 {
     const tripoint_abs_omt abs_omt( sm_to_omt_copy( abs_sub ) );
     const oter_id &center = overmap_buffer.ter( abs_omt );
@@ -1070,11 +1070,26 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
     const oter_id &west = overmap_buffer.ter( abs_omt + point_west );
     const oter_id &east = overmap_buffer.ter( abs_omt + point_east );
 
-    const bool bridge_at_center = is_ot_match( "bridge", center, ot_match_type::type );
-    const bool bridge_at_north = is_ot_match( "bridge", north, ot_match_type::type );
-    const bool bridge_at_south = is_ot_match( "bridge", south, ot_match_type::type );
-    const bool bridge_at_west = is_ot_match( "bridge", west, ot_match_type::type );
-    const bool bridge_at_east = is_ot_match( "bridge", east, ot_match_type::type );
+    std::string oter_name_base;
+    std::string oter_name_bridge;
+    bool use_tinymap;
+    if( get_option<bool>( "ELEVATED_BRIDGES" ) ) {
+        oter_name_base = "bridgehead_ground";
+        oter_name_bridge = "bridge_under";
+        use_tinymap = true;
+    } else {
+        oter_name_base = "bridge";
+        oter_name_bridge = "bridge";
+        use_tinymap = false;
+    }
+    tinymap m_tiny;
+    map &m = use_tinymap ? m_tiny : m_orig;
+
+    const bool bridgehead_at_center = is_ot_match( oter_name_base, center, ot_match_type::type );
+    const bool bridge_at_north = is_ot_match( oter_name_bridge, north, ot_match_type::type );
+    const bool bridge_at_south = is_ot_match( oter_name_bridge, south, ot_match_type::type );
+    const bool bridge_at_west = is_ot_match( oter_name_bridge, west, ot_match_type::type );
+    const bool bridge_at_east = is_ot_match( oter_name_bridge, east, ot_match_type::type );
 
     const bool road_at_north = is_ot_match( "road", north, ot_match_type::type );
     const bool road_at_south = is_ot_match( "road", south, ot_match_type::type );
@@ -1087,7 +1102,15 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
 
     bool did_something = false;
 
-    if( bridge_at_north && bridge_at_center && road_at_south ) {
+    if( !bridgehead_at_center ) {
+        return false;
+    }
+
+    if( bridge_at_north && bridgehead_at_center && road_at_south ) {
+        if( use_tinymap ) {
+            m.load( project_to<coords::sm>( abs_omt + point_south ), false );
+        }
+
         //Sandbag block at the left edge
         line_furn( &m, f_sandbag_half, point( 3, 4 ), point( 3, 7 ) );
         line_furn( &m, f_sandbag_half, point( 3, 7 ), point( 9, 7 ) );
@@ -1185,7 +1208,10 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
         did_something = true;
     }
 
-    if( bridge_at_south && bridge_at_center && road_at_north ) {
+    if( bridge_at_south && bridgehead_at_center && road_at_north ) {
+        if( use_tinymap ) {
+            m.load( project_to<coords::sm>( abs_omt + point_north ), false );
+        }
         //Two horizontal lines of sandbags
         line_furn( &m, f_sandbag_half, point( 5, 15 ), point( 10, 15 ) );
         line_furn( &m, f_sandbag_half, point( 13, 15 ), point( 18, 15 ) );
@@ -1286,7 +1312,10 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
         did_something = true;
     }
 
-    if( bridge_at_west && bridge_at_center && road_at_east ) {
+    if( bridge_at_west && bridgehead_at_center && road_at_east ) {
+        if( use_tinymap ) {
+            m.load( project_to<coords::sm>( abs_omt + point_east ), false );
+        }
         //Draw walls of first tent
         square_furn( &m, f_canvas_wall, point( 0, 3 ), point( 4, 13 ) );
 
@@ -1432,7 +1461,10 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
         did_something = true;
     }
 
-    if( bridge_at_east && bridge_at_center && road_at_west ) {
+    if( bridge_at_east && bridgehead_at_center && road_at_west ) {
+        if( use_tinymap ) {
+            m.load( project_to<coords::sm>( abs_omt + point_west ), false );
+        }
         //Spawn military cargo truck blocking the entry
         m.add_vehicle( vproto_id( "military_cargo_truck" ), point( 15, 11 ), 270, 70, 1 );
 

@@ -148,6 +148,9 @@ class game
         friend class advanced_inventory;
         friend class main_menu;
         friend distribution_grid_tracker &get_distribution_grid_tracker();
+        friend map &get_map();
+        friend Character &get_player_character();
+        friend avatar &get_avatar();
         friend weather_manager &get_weather();
 
     public:
@@ -745,9 +748,9 @@ class game
         bool npc_menu( npc &who );
 
         // Handle phasing through walls, returns true if it handled the move
-        bool phasing_move( const tripoint &dest );
+        bool phasing_move( const tripoint &dest, bool via_ramp = false );
         // Regular movement. Returns false if it failed for any reason
-        bool walk_move( const tripoint &dest );
+        bool walk_move( const tripoint &dest, bool via_ramp = false );
         void on_move_effects();
     private:
         // Game-start procedures
@@ -984,7 +987,6 @@ class game
         pimpl<weather_manager> weather_manager_ptr;
 
     public:
-        /** Make map a reference here, to avoid map.h in game.h */
         map &m;
         avatar &u;
         scent_map &scent;

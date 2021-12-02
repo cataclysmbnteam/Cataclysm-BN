@@ -1918,7 +1918,8 @@ void vehicle::use_bike_rack( int part )
         success = try_to_rack_nearby_vehicle( racks_parts );
     }
     if( success ) {
-        g->m.invalidate_map_cache( g->get_levz() );
+        get_map().invalidate_map_cache( g->get_levz() );
+        get_map().reset_vehicle_cache( g->get_levz() );
     }
 }
 

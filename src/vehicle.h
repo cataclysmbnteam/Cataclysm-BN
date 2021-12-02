@@ -369,7 +369,7 @@ struct vehicle_part {
 
         /** mount translated to face.dir [0] and turn_dir [1] */
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        std::array<point, 2> precalc = { { point( -1, -1 ), point( -1, -1 ) } };
+        std::array<tripoint, 2> precalc = { { tripoint( -1, -1, 0 ), tripoint( -1, -1, 0 ) } };
 
         /** current part health with range [0,durability] */
         int hp() const;
@@ -774,9 +774,9 @@ class vehicle
         bool mod_hp( vehicle_part &pt, int qty, damage_type dt = DT_NULL );
 
         // check if given player controls this vehicle
-        bool player_in_control( const player &p ) const;
+        bool player_in_control( const Character &p ) const;
         // check if player controls this vehicle remotely
-        bool remote_controlled( const player &p ) const;
+        bool remote_controlled( const Character &p ) const;
 
         // init parts state for randomly generated vehicle
         void init_state( int init_veh_fuel, int init_veh_status );
@@ -1058,10 +1058,10 @@ class vehicle
         point coord_translate( const point &p ) const;
 
         // Translate mount coordinates "p" into tile coordinates "q" using given pivot direction and anchor
-        void coord_translate( int dir, const point &pivot, const point &p, point &q ) const;
+        void coord_translate( int dir, const point &pivot, const point &p, tripoint &q ) const;
         // Translate mount coordinates "p" into tile coordinates "q" using given tileray and anchor
         // should be faster than previous call for repeated translations
-        void coord_translate( tileray tdir, const point &pivot, const point &p, point &q ) const;
+        void coord_translate( tileray tdir, const point &pivot, const point &p, tripoint &q ) const;
 
         // Rotates mount coordinates "p" from old_dir to new_dir along pivot
         point rotate_mount( int old_dir, int new_dir, const point &pivot, const point &p ) const;
@@ -1701,7 +1701,7 @@ class vehicle
          * This should be called only when the vehicle has actually been moved, not when
          * the map is just shifted (in the later case simply set smx/smy directly).
          */
-        void set_submap_moved( const point &p );
+        void set_submap_moved( const tripoint &p );
         void use_autoclave( int p );
         void use_washing_machine( int p );
         void use_dishwasher( int p );
@@ -1741,8 +1741,24 @@ class vehicle
         // Cached points occupied by the vehicle
         std::set<tripoint> occupied_points;
 
-    public:
         std::vector<vehicle_part> parts;   // Parts which occupy different tiles
+    public:
+        // Number of parts contained in this vehicle
+        int part_count() const;
+        // Returns the vehicle_part with the given part number
+        vehicle_part &part( int part_num );
+        // Same as vehicle::part() except with const binding
+        const vehicle_part &cpart( int part_num ) const;
+        // Determines whether the given part_num is valid for this vehicle
+        bool valid_part( int part_num ) const;
+        // Updates the internal precalculated mount offsets after the vehicle has been displaced
+        // used in map::displace_vehicle()
+        std::set<int> advance_precalc_mounts( const point &new_pos, const tripoint &src,
+                                              const tripoint &dp, int ramp_offset,
+                                              bool adjust_pos, std::set<int> parts_to_move );
+        // make sure the vehicle is supported across z-levels or on the same z-level
+        bool level_vehicle();
+
         std::vector<tripoint_abs_omt> omt_path; // route for overmap-scale auto-driving
         std::vector<int> alternators;      // List of alternator indices
         std::vector<int> engines;          // List of engine indices
@@ -1891,6 +1907,7 @@ class vehicle
         int requested_z_change = 0;
 
     public:
+        bool is_on_ramp = false;
         bool is_autodriving = false;
         bool is_following = false;
         bool is_patrolling = false;

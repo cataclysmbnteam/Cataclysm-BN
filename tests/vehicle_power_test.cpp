@@ -44,7 +44,7 @@ TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
         REQUIRE( veh_ptr != nullptr );
 
         REQUIRE( !veh_ptr->reactors.empty() );
-        vehicle_part &reactor = veh_ptr->parts[ veh_ptr->reactors.front() ];
+        vehicle_part &reactor = veh_ptr->part( veh_ptr->reactors.front() );
 
         GIVEN( "the reactor is empty" ) {
             reactor.ammo_unset();
@@ -195,7 +195,7 @@ TEST_CASE( "Vehicle charging station", "[vehicle][power]" )
 
         auto cargo_part_index = veh_ptr->part_with_feature( point_zero, "CARGO", true );
         REQUIRE( cargo_part_index >= 0 );
-        vehicle_part &cargo_part = veh_ptr->parts[ cargo_part_index ];
+        vehicle_part &cargo_part = veh_ptr->part( cargo_part_index );
 
         auto chargers = veh_ptr->get_parts_at( vehicle_origin, "RECHARGE", part_status_flag::available );
         REQUIRE( chargers.size() == 1 );

@@ -81,6 +81,7 @@
 #include "visitable.h"
 #include "vitamin.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
 #include "weather.h"
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
@@ -380,6 +381,7 @@ int unpack_actor::use( player &p, item &it, bool, const tripoint & ) const
 
     p.add_msg_if_player( _( "You unpack the %s." ), it.tname() );
 
+    map &here = get_map();
     for( item &content : items ) {
         if( content.is_armor() ) {
             if( items_fit ) {
@@ -398,7 +400,7 @@ int unpack_actor::use( player &p, item &it, bool, const tripoint & ) const
             content.set_flag( "FILTHY" );
         }
 
-        g->m.add_item_or_charges( p.pos(), content );
+        here.add_item_or_charges( p.pos(), content );
     }
 
     p.i_rem( &it );
@@ -561,20 +563,21 @@ int explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) cons
     if( do_flashbang ) {
         explosion_handler::flashbang( pos, flashbang_player_immune, "explosion" );
     }
+    map &here = get_map();
     if( fields_radius >= 0 && fields_type.id() ) {
         std::vector<tripoint> gas_sources = points_for_gas_cloud( pos, fields_radius );
         for( auto &gas_source : gas_sources ) {
             const int field_intensity = rng( fields_min_intensity, fields_max_intensity );
-            g->m.add_field( gas_source, fields_type, field_intensity, 1_turns );
+            here.add_field( gas_source, fields_type, field_intensity, 1_turns );
         }
     }
     if( scrambler_blast_radius >= 0 ) {
-        for( const tripoint &dest : g->m.points_in_radius( pos, scrambler_blast_radius ) ) {
+        for( const tripoint &dest : here.points_in_radius( pos, scrambler_blast_radius ) ) {
             explosion_handler::scrambler_blast( dest );
         }
     }
     if( emp_blast_radius >= 0 ) {
-        for( const tripoint &dest : g->m.points_in_radius( pos, emp_blast_radius ) ) {
+        for( const tripoint &dest : here.points_in_radius( pos, emp_blast_radius ) ) {
             explosion_handler::emp_blast( dest );
         }
     }
@@ -630,7 +633,7 @@ int unfold_vehicle_iuse::use( player &p, item &it, bool, const tripoint & ) cons
         }
     }
 
-    vehicle *veh = g->m.add_vehicle( vehicle_id, p.pos(), 0, 0, 0, false );
+    vehicle *veh = get_map().add_vehicle( vehicle_id, p.pos(), 0, 0, 0, false );
     if( veh == nullptr ) {
         p.add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it.tname() );
         return 0;
@@ -655,10 +658,10 @@ int unfold_vehicle_iuse::use( player &p, item &it, bool, const tripoint & ) cons
     veh_data.str( data );
     if( !data.empty() && data[0] >= '0' && data[0] <= '9' ) {
         // starts with a digit -> old format
-        for( auto &elem : veh->parts ) {
+        for( const vpart_reference &vpr : veh->get_all_parts() ) {
             int tmp;
             veh_data >> tmp;
-            veh->set_hp( elem, tmp );
+            veh->set_hp( vpr.part(), tmp );
         }
     } else {
         try {
@@ -667,9 +670,9 @@ int unfold_vehicle_iuse::use( player &p, item &it, bool, const tripoint & ) cons
             // cached values (like precalc, passenger_id, ...)
             std::vector<vehicle_part> parts;
             json.read( parts );
-            for( size_t i = 0; i < parts.size() && i < veh->parts.size(); i++ ) {
+            for( size_t i = 0; i < parts.size() && i < static_cast<size_t>( veh->part_count() ); i++ ) {
                 const vehicle_part &src = parts[i];
-                vehicle_part &dst = veh->parts[i];
+                vehicle_part &dst = veh->part( i );
                 // and now only copy values, that are
                 // expected to be consistent.
                 veh->set_hp( dst, src.hp() );
@@ -746,7 +749,7 @@ void consume_drug_iuse::info( const item &, std::vector<iteminfo> &dump ) const
 {
     const std::string vits = enumerate_as_string( vitamins.begin(), vitamins.end(),
     []( const decltype( vitamins )::value_type & v ) {
-        const time_duration rate = g->u.vitamin_rate( v.first );
+        const time_duration rate = get_player_character().vitamin_rate( v.first );
         if( rate <= 0_turns ) {
             return std::string();
         }
@@ -810,10 +813,11 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
     for( const auto &stat_adjustment : stat_adjustments ) {
         p.mod_stat( stat_adjustment.first, stat_adjustment.second );
     }
+    map &here = get_map();
     for( const auto &field : fields_produced ) {
         const field_type_id fid = field_type_id( field.first );
         for( int i = 0; i < 3; i++ ) {
-            g->m.add_field( {p.posx() + static_cast<int>( rng( -2, 2 ) ), p.posy() + static_cast<int>( rng( -2, 2 ) ), p.posz()},
+            here.add_field( {p.posx() + static_cast<int>( rng( -2, 2 ) ), p.posy() + static_cast<int>( rng( -2, 2 ) ), p.posz()},
                             fid,
                             field.second );
         }
@@ -991,11 +995,12 @@ void place_npc_iuse::load( const JsonObject &obj )
 
 int place_npc_iuse::use( player &p, item &, bool, const tripoint & ) const
 {
+    map &here = get_map();
     cata::optional<tripoint> target_pos;
     if( place_randomly ) {
         const tripoint_range<tripoint> target_range = points_in_radius( p.pos(), 1 );
         target_pos = random_point( target_range, []( const tripoint & t ) {
-            return !g->m.passable( t );
+            return !get_map().passable( t );
         } );
     } else {
         const std::string query = _( "Place npc where?" );
@@ -1004,12 +1009,12 @@ int place_npc_iuse::use( player &p, item &, bool, const tripoint & ) const
     if( !target_pos ) {
         return 0;
     }
-    if( !g->m.passable( target_pos.value() ) ) {
+    if( !here.passable( target_pos.value() ) ) {
         p.add_msg_if_player( m_info, _( "There is no square to spawn npc in!" ) );
         return 0;
     }
 
-    g->m.place_npc( target_pos.value().xy(), npc_class_id );
+    here.place_npc( target_pos.value().xy(), npc_class_id );
     p.mod_moves( -moves );
     p.add_msg_if_player( m_info, "%s", _( summon_msg ) );
     return 1;
@@ -1208,7 +1213,8 @@ int deploy_furn_actor::use( player &p, item &it, bool, const tripoint &pos ) con
         return 0;
     }
 
-    optional_vpart_position veh_there = g->m.veh_at( pnt );
+    map &here = get_map();
+    optional_vpart_position veh_there = here.veh_at( pnt );
     if( veh_there.has_value() ) {
         // TODO: check for protrusion+short furniture, wheels+tiny furniture, NOCOLLIDE flag, etc.
         // and/or integrate furniture deployment with construction (which already seems to perform these checks sometimes?)
@@ -1218,17 +1224,17 @@ int deploy_furn_actor::use( player &p, item &it, bool, const tripoint &pos ) con
     }
 
     // For example: dirt = 2, long grass = 3
-    if( g->m.move_cost( pnt ) != 2 && g->m.move_cost( pnt ) != 3 ) {
+    if( here.move_cost( pnt ) != 2 && here.move_cost( pnt ) != 3 ) {
         p.add_msg_if_player( m_info, _( "You can't deploy a %s there." ), it.tname() );
         return 0;
     }
 
-    if( g->m.has_furn( pnt ) ) {
+    if( here.has_furn( pnt ) ) {
         p.add_msg_if_player( m_info, _( "There is already furniture at that location." ) );
         return 0;
     }
 
-    g->m.furn_set( pnt, furn_type );
+    here.furn_set( pnt, furn_type );
     p.mod_moves( to_turns<int>( 2_seconds ) );
     return 1;
 }
@@ -1323,14 +1329,15 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
         p.add_msg_if_player( _( "But you're already smokin' hot." ) );
         return false;
     }
-    if( g->m.get_field( pos, fd_fire ) ) {
+    map &here = get_map();
+    if( here.get_field( pos, fd_fire ) ) {
         // check if there's already a fire
         p.add_msg_if_player( m_info, _( "There is already a fire." ) );
         return false;
     }
     // Check for a brazier.
     bool has_unactivated_brazier = false;
-    for( const auto &i : g->m.i_at( pos ) ) {
+    for( const item &i : here.i_at( pos ) ) {
         if( i.typeId() == itype_brazier ) {
             has_unactivated_brazier = true;
         }
@@ -1342,7 +1349,7 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
 
 void firestarter_actor::resolve_firestarter_use( player &p, const tripoint &pos )
 {
-    if( g->m.add_field( pos, fd_fire, 1, 10_minutes ) ) {
+    if( get_map().add_field( pos, fd_fire, 1, 10_minutes ) ) {
         if( !p.has_trait( trait_PYROMANIA ) ) {
             p.add_msg_if_player( _( "You successfully light a fire." ) );
         } else {
@@ -1393,11 +1400,12 @@ float firestarter_actor::light_mod( const tripoint &pos ) const
 
 int firestarter_actor::moves_cost_by_fuel( const tripoint &pos ) const
 {
-    if( g->m.flammable_items_at( pos, 100 ) ) {
+    map &here = get_map();
+    if( here.flammable_items_at( pos, 100 ) ) {
         return moves_cost_fast;
     }
 
-    if( g->m.flammable_items_at( pos, 10 ) ) {
+    if( here.flammable_items_at( pos, 10 ) ) {
         return ( moves_cost_slow + moves_cost_fast ) / 2;
     }
 
@@ -1430,7 +1438,7 @@ int firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos ) 
                              _( "If the current weather holds, it will take around %d minutes to light a fire." ) :
                              _( "At your skill level, it will take around %d minutes to light a fire." ),
                              moves / to_moves<int>( 1_minutes ) );
-    } else if( moves < to_moves<int>( 2_turns ) && g->m.is_flammable( pos ) ) {
+    } else if( moves < to_moves<int>( 2_turns ) && get_map().is_flammable( pos ) ) {
         // If less than 2 turns, don't start a long action
         resolve_firestarter_use( p, pos );
         p.mod_moves( -moves );
@@ -1639,6 +1647,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
     // Force an encumbrance update in case they were wearing that item.
     p.reset_encumbrance();
 
+    map &here = get_map();
     for( const auto &salvaged : materials_salvaged ) {
         itype_id mat_name = salvaged.first;
         int amount = salvaged.second;
@@ -1653,7 +1662,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
                 p.i_add_or_drop( result, amount );
             } else {
                 for( int i = 0; i < amount; i++ ) {
-                    g->m.spawn_an_item( pos.xy(), result, amount, 0 );
+                    here.spawn_an_item( pos.xy(), result, amount, 0 );
                 }
             }
         } else {
@@ -1793,7 +1802,7 @@ int inscribe_actor::use( player &p, item &it, bool t, const tripoint & ) const
                                              dest_.value() );
     }
 
-    item_location loc = game_menus::inv::titled_menu( g->u, _( "Inscribe which item?" ) );
+    item_location loc = game_menus::inv::titled_menu( get_avatar(), _( "Inscribe which item?" ) );
     if( !loc ) {
         p.add_msg_if_player( m_info, _( "Never mind." ) );
         return 0;
@@ -2992,7 +3001,7 @@ static item_location get_item_location( player &p, item &it, const tripoint &pos
     }
 
     // Item in a vehicle
-    if( const optional_vpart_position &vp = g->m.veh_at( pos ) ) {
+    if( const optional_vpart_position &vp = get_map().veh_at( pos ) ) {
         vehicle_cursor vc( vp->vehicle(), vp->part_index() );
         bool found_in_vehicle = false;
         vc.visit_items( [&]( const item * e ) {
@@ -3312,11 +3321,12 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
         return RT_REFIT;
     }
 
-    const bool smol = g->u.get_size() == MS_TINY;
+    Character &player_character = get_player_character();
+    const bool smol = player_character.get_size() == MS_TINY;
 
     const bool is_undersized = fix.has_flag( flag_UNDERSIZE );
     const bool is_oversized = fix.has_flag( flag_OVERSIZE );
-    const bool resizing_matters = fix.get_encumber( g->u ) != 0;
+    const bool resizing_matters = fix.get_encumber( player_character ) != 0;
 
     const bool too_big_while_smol = smol && !is_undersized && !is_oversized;
     if( too_big_while_smol && can_be_refitted && resizing_matters ) {
@@ -3624,7 +3634,7 @@ std::unique_ptr<iuse_actor> heal_actor::clone() const
     return std::make_unique<heal_actor>( *this );
 }
 
-int heal_actor::get_heal_value( const player &healer, hp_part healed ) const
+int heal_actor::get_heal_value( const Character &healer, hp_part healed ) const
 {
     int heal_base;
     float bonus_mult;
@@ -3647,7 +3657,7 @@ int heal_actor::get_heal_value( const player &healer, hp_part healed ) const
     return heal_base;
 }
 
-int heal_actor::get_bandaged_level( const player &healer ) const
+int heal_actor::get_bandaged_level( const Character &healer ) const
 {
     if( bandages_power > 0 ) {
         /** @EFFECT_FIRSTAID increases healing item effects */
@@ -3657,7 +3667,7 @@ int heal_actor::get_bandaged_level( const player &healer ) const
     return bandages_power;
 }
 
-int heal_actor::get_disinfected_level( const player &healer ) const
+int heal_actor::get_disinfected_level( const Character &healer ) const
 {
     if( disinfectant_power > 0 ) {
         /** @EFFECT_FIRSTAID increases healing item effects */
@@ -3683,8 +3693,9 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
 
     const body_part bp_healed = player::hp_to_bp( healed );
 
+    Character &player_character = get_player_character();
     const bool u_see = healer.is_player() || patient.is_player() ||
-                       g->u.sees( healer ) || g->u.sees( patient );
+                       player_character.sees( healer ) || player_character.sees( patient );
     const bool player_healing_player = healer.is_player() && patient.is_player();
     // Need a helper here - messages are from healer's point of view
     // but it would be cool if NPCs could use this function too
@@ -3919,6 +3930,7 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
         dump.emplace_back( "HEAL", _( "<bold>Healing effects</bold> " ) );
     }
 
+    Character &player_character = get_player_character();
     if( head_power > 0 || torso_power > 0 || limb_power > 0 ) {
         dump.emplace_back( "HEAL", _( "Base healing: " ) );
         dump.emplace_back( "HEAL_BASE", _( "Head: " ), "", iteminfo::no_newline, head_power );
@@ -3927,10 +3939,10 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
         if( g != nullptr ) {
             dump.emplace_back( "HEAL", _( "Actual healing: " ) );
             dump.emplace_back( "HEAL_ACT", _( "Head: " ), "", iteminfo::no_newline,
-                               get_heal_value( g->u, hp_head ) );
+                               get_heal_value( player_character, hp_head ) );
             dump.emplace_back( "HEAL_ACT", _( "  Torso: " ), "", iteminfo::no_newline,
-                               get_heal_value( g->u, hp_torso ) );
-            dump.emplace_back( "HEAL_ACT", _( "  Limbs: " ), get_heal_value( g->u, hp_arm_l ) );
+                               get_heal_value( player_character, hp_torso ) );
+            dump.emplace_back( "HEAL_ACT", _( "  Limbs: " ), get_heal_value( player_character, hp_arm_l ) );
         }
     }
 
@@ -3939,7 +3951,7 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
                            texitify_base_healing_power( static_cast<int>( bandages_power ) ) );
         if( g != nullptr ) {
             dump.emplace_back( "HEAL", _( "Actual bandaging quality: " ),
-                               texitify_healing_power( get_bandaged_level( g->u ) ) );
+                               texitify_healing_power( get_bandaged_level( player_character ) ) );
         }
     }
 
@@ -3948,7 +3960,7 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
                            texitify_base_healing_power( static_cast<int>( disinfectant_power ) ) );
         if( g != nullptr ) {
             dump.emplace_back( "HEAL", _( "Actual disinfecting quality: " ),
-                               texitify_healing_power( get_disinfected_level( g->u ) ) );
+                               texitify_healing_power( get_disinfected_level( player_character ) ) );
         }
     }
 
@@ -4007,15 +4019,17 @@ std::unique_ptr<iuse_actor> place_trap_actor::clone() const
 
 static bool is_solid_neighbor( const tripoint &pos, const point &offset )
 {
+    map &here = get_map();
     const tripoint a = pos + offset;
     const tripoint b = pos - offset;
-    return g->m.move_cost( a ) != 2 && g->m.move_cost( b ) != 2;
+    return here.move_cost( a ) != 2 && here.move_cost( b ) != 2;
 }
 
 static bool has_neighbor( const tripoint &pos, const ter_id &terrain_id )
 {
-    for( const tripoint &t : g->m.points_in_radius( pos, 1, 0 ) ) {
-        if( g->m.ter( t ) == terrain_id ) {
+    map &here = get_map();
+    for( const tripoint &t : here.points_in_radius( pos, 1, 0 ) ) {
+        if( here.ter( t ) == terrain_id ) {
             return true;
         }
     }
@@ -4029,7 +4043,8 @@ bool place_trap_actor::is_allowed( player &p, const tripoint &pos, const std::st
                              name );
         return false;
     }
-    if( g->m.move_cost( pos ) != 2 ) {
+    map &here = get_map();
+    if( here.move_cost( pos ) != 2 ) {
         p.add_msg_if_player( m_info, _( "You can't place a %s there." ), name );
         return false;
     }
@@ -4045,7 +4060,7 @@ bool place_trap_actor::is_allowed( player &p, const tripoint &pos, const std::st
                              needs_neighbor_terrain.obj().name() );
         return false;
     }
-    const trap &existing_trap = g->m.tr_at( pos );
+    const trap &existing_trap = here.tr_at( pos );
     if( !existing_trap.is_null() ) {
         if( existing_trap.can_see( pos, p ) ) {
             p.add_msg_if_player( m_info, _( "You can't place a %s there.  It contains a trap already." ),
@@ -4061,8 +4076,9 @@ bool place_trap_actor::is_allowed( player &p, const tripoint &pos, const std::st
 
 static void place_and_add_as_known( player &p, const tripoint &pos, const trap_str_id &id )
 {
-    g->m.trap_set( pos, id );
-    const trap &tr = g->m.tr_at( pos );
+    map &here = get_map();
+    here.trap_set( pos, id );
+    const trap &tr = here.tr_at( pos );
     if( !tr.can_see( pos, p ) ) {
         p.add_known_trap( pos, tr );
     }
@@ -4090,13 +4106,14 @@ int place_trap_actor::use( player &p, item &it, bool, const tripoint & ) const
         return 0;
     }
 
+    map &here = get_map();
     int distance_to_trap_center = unburied_data.trap.obj().get_trap_radius() +
                                   outer_layer_trap.obj().get_trap_radius() + 1;
     if( unburied_data.trap.obj().get_trap_radius() > 0 ) {
         // Math correction for multi-tile traps
         pos.x = ( pos.x - p.posx() ) * distance_to_trap_center + p.posx();
         pos.y = ( pos.y - p.posy() ) * distance_to_trap_center + p.posy();
-        for( const tripoint &t : g->m.points_in_radius( pos, outer_layer_trap.obj().get_trap_radius(),
+        for( const tripoint &t : here.points_in_radius( pos, outer_layer_trap.obj().get_trap_radius(),
                 0 ) ) {
             if( !is_allowed( p, t, it.tname() ) ) {
                 p.add_msg_if_player( m_info,
@@ -4108,7 +4125,7 @@ int place_trap_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     const bool has_shovel = p.has_quality( quality_id( "DIG" ), 3 );
-    const bool is_diggable = g->m.has_flag( "DIGGABLE", pos );
+    const bool is_diggable = here.has_flag( "DIGGABLE", pos );
     bool bury = false;
     if( could_bury && has_shovel && is_diggable ) {
         bury = query_yn( _( bury_question ) );
@@ -4120,7 +4137,7 @@ int place_trap_actor::use( player &p, item &it, bool, const tripoint & ) const
     p.mod_moves( -data.moves );
 
     place_and_add_as_known( p, pos, data.trap );
-    for( const tripoint &t : g->m.points_in_radius( pos, data.trap.obj().get_trap_radius(), 0 ) ) {
+    for( const tripoint &t : here.points_in_radius( pos, data.trap.obj().get_trap_radius(), 0 ) ) {
         if( t != pos ) {
             place_and_add_as_known( p, t, outer_layer_trap );
         }
@@ -4136,9 +4153,10 @@ void emit_actor::load( const JsonObject &obj )
 
 int emit_actor::use( player &, item &it, bool, const tripoint &pos ) const
 {
+    map &here = get_map();
     const float scaling = scale_qty ? it.charges : 1;
     for( const auto &e : emits ) {
-        g->m.emit_field( pos, e, scaling );
+        here.emit_field( pos, e, scaling );
     }
 
     return 1;
@@ -4524,13 +4542,14 @@ int deploy_tent_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
     const tripoint direction = *dir;
 
+    map &here = get_map();
     // We place the center of the structure (radius + 1)
     // spaces away from the player.
     // First check there's enough room.
     const tripoint center = p.pos() + tripoint( ( radius + 1 ) * direction.x,
                             ( radius + 1 ) * direction.y, 0 );
-    for( const tripoint &dest : g->m.points_in_radius( center, radius ) ) {
-        if( const auto vp = g->m.veh_at( dest ) ) {
+    for( const tripoint &dest : here.points_in_radius( center, radius ) ) {
+        if( const auto vp = here.veh_at( dest ) ) {
             add_msg( m_info, _( "The %s is in the way." ), vp->vehicle().name );
             return 0;
         }
@@ -4538,28 +4557,28 @@ int deploy_tent_actor::use( player &p, item &it, bool, const tripoint & ) const
             add_msg( m_info, _( "The %s is in the way." ), c->disp_name() );
             return 0;
         }
-        if( g->m.impassable( dest ) || !g->m.has_flag( "FLAT", dest ) ) {
+        if( here.impassable( dest ) || !here.has_flag( "FLAT", dest ) ) {
             add_msg( m_info, _( "The %s in that direction isn't suitable for placing the %s." ),
-                     g->m.name( dest ), it.tname() );
+                     here.name( dest ), it.tname() );
             return 0;
         }
-        if( g->m.has_furn( dest ) ) {
-            add_msg( m_info, _( "There is already furniture (%s) there." ), g->m.furnname( dest ) );
+        if( here.has_furn( dest ) ) {
+            add_msg( m_info, _( "There is already furniture (%s) there." ), here.furnname( dest ) );
             return 0;
         }
     }
     // Make a square of floor surrounded by wall.
-    for( const tripoint &dest : g->m.points_in_radius( center, radius ) ) {
-        g->m.furn_set( dest, wall );
+    for( const tripoint &dest : here.points_in_radius( center, radius ) ) {
+        here.furn_set( dest, wall );
     }
-    for( const tripoint &dest : g->m.points_in_radius( center, radius - 1 ) ) {
-        g->m.furn_set( dest, floor );
+    for( const tripoint &dest : here.points_in_radius( center, radius - 1 ) ) {
+        here.furn_set( dest, floor );
     }
     // Place the center floor and the door.
     if( floor_center ) {
-        g->m.furn_set( center, *floor_center );
+        here.furn_set( center, *floor_center );
     }
-    g->m.furn_set( p.pos() + direction, door_closed );
+    here.furn_set( p.pos() + direction, door_closed );
     add_msg( m_info, _( "You set up the %s on the ground." ), it.tname() );
     add_msg( m_info, _( "Examine the center square to pack it up again." ) );
     return 1;
@@ -4567,8 +4586,9 @@ int deploy_tent_actor::use( player &p, item &it, bool, const tripoint & ) const
 
 bool deploy_tent_actor::check_intact( const tripoint &center ) const
 {
-    for( const tripoint &dest : g->m.points_in_radius( center, radius ) ) {
-        const furn_id fid = g->m.furn( dest );
+    map &here = get_map();
+    for( const tripoint &dest : here.points_in_radius( center, radius ) ) {
+        const furn_id fid = here.furn( dest );
         if( dest == center && floor_center ) {
             if( fid != *floor_center ) {
                 return false;
