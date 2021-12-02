@@ -145,7 +145,6 @@ void mod_manager::refresh_mod_list()
 {
     clear();
 
-    std::map<mod_id, std::vector<mod_id>> mod_dependency_map;
     load_mods_from( PATH_INFO::moddir() );
     load_mods_from( PATH_INFO::user_moddir() );
 
@@ -162,11 +161,16 @@ void mod_manager::refresh_mod_list()
     // remove these mods from the list, so they do not appear to the user
     remove_mod( mod_id( "user:default" ) );
     remove_mod( mod_id( "dev:default" ) );
-    for( auto &elem : mod_map ) {
-        const auto &deps = elem.second.dependencies;
+
+    std::map<mod_id, std::vector<mod_id>> mod_dependency_map;
+    std::map<mod_id, std::vector<mod_id>> mod_conflict_map;
+    for( const auto &elem : mod_map ) {
+        const t_mod_list &deps = elem.second.dependencies;
         mod_dependency_map[elem.second.ident] = std::vector<mod_id>( deps.begin(), deps.end() );
+        const t_mod_list &confs = elem.second.conflicts;
+        mod_conflict_map[elem.second.ident] = std::vector<mod_id>( confs.begin(), confs.end() );
     }
-    tree->init( mod_dependency_map );
+    tree->init( mod_dependency_map, mod_conflict_map );
 }
 
 void mod_manager::remove_mod( const mod_id &ident )

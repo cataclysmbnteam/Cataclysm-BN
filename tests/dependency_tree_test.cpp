@@ -28,7 +28,7 @@ dependency_tree make_tree( const t_key_dep_map &dependencies, const t_key_dep_ma
 {
     dependency_tree tree;
 
-    tree.init( build_map( dependencies ) );
+    tree.init( build_map( dependencies ), build_map( conflicts ) );
 
     return tree;
 }
@@ -140,7 +140,7 @@ TEST_CASE( "deptree_missing_dependency", "[dependency_tree]" )
     REQUIRE( node );
 
     REQUIRE( node->has_errors() );
-    CHECK( node->s_errors() == "Missing Dependency(ies): <b>, <e>" );
+    CHECK( node->s_errors() == "Missing Dependency(ies): [b], [e]" );
     CHECK_FALSE( node->is_available() );
     CHECK( node->get_dependencies_as_strings() == mod_manager::t_mod_list{ {
             mod_id( "c" ),
@@ -158,7 +158,7 @@ TEST_CASE( "deptree_circular_dependency", "[dependency_tree]" )
                 "b", {{ "a", "d" }}
             },
             {
-                "c", {{ "a", "d" }}
+                "c", {{ "a", "d"}}
             },
             {
                 "d", {{ "c", "b", "a" }}
@@ -174,6 +174,130 @@ TEST_CASE( "deptree_circular_dependency", "[dependency_tree]" )
     REQUIRE( node );
 
     REQUIRE( node->has_errors() );
-    CHECK( node->s_errors() == "In Circular Dependency Cycle" );
+    CHECK( node->s_errors() == "Has dependency cycle(s): /b/d/c/" );
+    CHECK_FALSE( node->is_available() );
+}
+
+TEST_CASE( "deptree_multiple_dep_cycles", "[dependency_tree]" )
+{
+    t_key_dep_map dep_map = { {
+            {
+                "a", {{ "b" }}
+            },
+            {
+                "b", {{ "a" }}
+            },
+            {
+                "c", {{ "d" }}
+            },
+            {
+                "d", {{ "c" }}
+            },
+            {
+                "e", {{ "f" }}
+            },
+            {
+                "f", {{ "e" }}
+            },
+            {
+                "g", {{ "a", "c", "e" }}
+            }
+        }
+    };
+
+    t_key_dep_map conf_map = {};
+
+    dependency_tree tree = make_tree( dep_map, conf_map );
+
+    dependency_node *node = tree.get_node( mod_id( "g" ) );
+    REQUIRE( node );
+
+    REQUIRE( node->has_errors() );
+    CHECK( node->s_errors() == "Has dependency cycle(s): /f/e/, /d/c/, /b/a/" );
+    CHECK_FALSE( node->is_available() );
+}
+
+TEST_CASE( "deptree_conflicting_dependency", "[dependency_tree]" )
+{
+    t_key_dep_map dep_map = { {
+            {
+                "a", {}
+            },
+            {
+                "b", {}
+            },
+            {
+                "c", {{ "b" }}
+            },
+            {
+                "d", {{ "a", "c" }}
+            },
+            {
+                "e", {{ "c" }}
+            }
+        }
+    };
+
+    t_key_dep_map conf_map = { {
+            {
+                "a", {{ "b" }}
+            },
+            {
+                "e", {{ "d" }}
+            }
+        }
+    };
+
+    dependency_tree tree = make_tree( dep_map, conf_map );
+
+    dependency_node *node = tree.get_node( mod_id( "d" ) );
+    REQUIRE( node );
+
+    REQUIRE( node->has_errors() );
+    CHECK( node->s_errors() == "Has conflicting dependencies: [a] with [b]" );
+    CHECK_FALSE( node->is_available() );
+}
+
+TEST_CASE( "deptree_complex_conflict", "[dependency_tree]" )
+{
+    t_key_dep_map dep_map = { {
+            {
+                "a", {{ "b" }}
+            },
+            {
+                "b", {{ "c" }}
+            },
+            {
+                "c", {{ "d" }}
+            },
+            {
+                "d", {{ "a" }}
+            },
+            {
+                "e", {{ "a", "b", "c", "d" }}
+            }
+        }
+    };
+
+    t_key_dep_map conf_map = { {
+            {
+                "a", {{ "c" }}
+            },
+            {
+                "b", {{ "d" }}
+            }
+        }
+    };
+
+    dependency_tree tree = make_tree( dep_map, conf_map );
+
+    dependency_node *node = tree.get_node( mod_id( "e" ) );
+    REQUIRE( node );
+
+    REQUIRE( node->has_errors() );
+    CHECK( node->s_errors() ==
+           "Has conflicting dependencies: [c] with [a], [b] with [d]\n"
+           "Has dependency cycle(s): /d/c/b/a/"
+         );
     CHECK_FALSE( node->is_available() );
 }

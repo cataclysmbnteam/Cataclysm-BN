@@ -6,11 +6,15 @@
 #include <set>
 #include <utility>
 
-#include "debug.h"
 #include "output.h"
 #include "string_id.h"
 
-std::array<std::string, 3> error_keyvals = {{ "Missing Dependency(ies): ", "", "" }};
+std::array<std::string, static_cast<int>( node_error_type::num )> error_keyvals = {{
+        translate_marker( "Missing Dependency(ies): " ),
+        translate_marker( "Has conflicting dependencies: " ),
+        translate_marker( "Has dependency cycle(s): " )
+    }
+};
 
 // dependency_node
 dependency_node::dependency_node(): index( -1 ), lowlink( -1 ), on_stack( false )
@@ -38,12 +42,25 @@ void dependency_node::add_child( dependency_node *child )
     }
 }
 
+void dependency_node::add_conflict( dependency_node *conflict )
+{
+    if( !conflict ) {
+        return;
+    }
+    for( dependency_node *c : conflicts ) {
+        if( c == conflict ) {
+            return;
+        }
+    }
+    conflicts.push_back( conflict );
+}
+
 bool dependency_node::is_available()
 {
     return all_errors.empty();
 }
 
-std::map<NODE_ERROR_TYPE, std::vector<std::string > > dependency_node::errors()
+std::map<node_error_type, std::vector<std::string > > dependency_node::errors()
 {
     return all_errors;
 }
@@ -52,7 +69,10 @@ std::string dependency_node::s_errors()
 {
     std::string ret;
     for( auto &elem : all_errors ) {
-        ret += error_keyvals[static_cast<unsigned>( elem.first )];
+        if( !ret.empty() ) {
+            ret += "\n";
+        }
+        ret += _( error_keyvals[static_cast<size_t>( elem.first )] );
         ret += enumerate_as_string( elem.second, enumeration_conjunction::none );
     }
     return ret;
@@ -86,10 +106,10 @@ void dependency_node::inherit_errors()
 
         // add check errors
         if( !check->errors().empty() ) {
-            std::map<NODE_ERROR_TYPE, std::vector<std::string > > cerrors = check->errors();
+            std::map<node_error_type, std::vector<std::string > > cerrors = check->errors();
             for( auto &cerror : cerrors ) {
                 std::vector<std::string> node_errors = cerror.second;
-                NODE_ERROR_TYPE error_type = cerror.first;
+                node_error_type error_type = cerror.first;
                 std::vector<std::string> cur_errors = all_errors[error_type];
                 for( auto &node_error : node_errors ) {
                     if( std::find( cur_errors.begin(), cur_errors.end(), node_error ) ==
@@ -231,10 +251,13 @@ std::vector<dependency_node *> dependency_node::get_dependents_as_nodes()
 
 dependency_tree::dependency_tree() = default;
 
-void dependency_tree::init( std::map<mod_id, std::vector<mod_id> > key_dependency_map )
+void dependency_tree::init(
+    std::map<mod_id, std::vector<mod_id> > key_dependency_map,
+    std::map<mod_id, std::vector<mod_id> > key_conflict_map
+)
 {
     build_node_map( key_dependency_map );
-    build_connections( key_dependency_map );
+    build_connections( key_dependency_map, key_conflict_map );
 }
 
 void dependency_tree::build_node_map(
@@ -249,7 +272,9 @@ void dependency_tree::build_node_map(
 }
 
 void dependency_tree::build_connections(
-    std::map<mod_id, std::vector<mod_id > > key_dependency_map )
+    std::map<mod_id, std::vector<mod_id > > key_dependency_map,
+    std::map<mod_id, std::vector<mod_id > > key_conflict_map
+)
 {
     for( auto &elem : key_dependency_map ) {
         const auto iter = master_node_map.find( elem.first );
@@ -267,7 +292,26 @@ void dependency_tree::build_connections(
                     vnode->add_child( knode );
                 } else {
                     // missing dependency!
-                    knode->all_errors[DEPENDENCY].push_back( "<" + vnode_parent.str() + ">" );
+                    knode->all_errors[node_error_type::missing_dep].push_back( "[" + vnode_parent.str() + "]" );
+                }
+            }
+        }
+    }
+
+    for( auto &elem : key_conflict_map ) {
+        const auto iter = master_node_map.find( elem.first );
+        if( iter != master_node_map.end() ) {
+            dependency_node *knode = &iter->second;
+
+            // apply parents list
+            std::vector<mod_id> vnode_conflicts = elem.second;
+            for( auto &vnode_conflict : vnode_conflicts ) {
+                const auto iter = master_node_map.find( vnode_conflict );
+                if( iter != master_node_map.end() ) {
+                    dependency_node *vnode = &iter->second;
+
+                    knode->add_conflict( vnode );
+                    vnode->add_conflict( knode );
                 }
             }
         }
@@ -279,7 +323,11 @@ void dependency_tree::build_connections(
     for( auto &elem : master_node_map ) {
         elem.second.inherit_errors();
     }
+
+    // check for conflicts between dependencies
+    check_for_conflicting_dependencies();
 }
+
 std::vector<mod_id> dependency_tree::get_dependencies_of_X_as_strings( mod_id key )
 {
     const auto iter = master_node_map.find( key );
@@ -288,6 +336,7 @@ std::vector<mod_id> dependency_tree::get_dependencies_of_X_as_strings( mod_id ke
     }
     return std::vector<mod_id>();
 }
+
 std::vector<dependency_node *> dependency_tree::get_dependencies_of_X_as_nodes( mod_id key )
 {
     const auto iter = master_node_map.find( key );
@@ -354,20 +403,19 @@ void dependency_tree::check_for_strongly_connected_components()
         }
     }
 
-    // now go through and make a set of these
-    std::set<dependency_node *> in_circular_connection;
-    for( auto &elem : strongly_connected_components ) {
-        if( elem.size() > 1 ) {
-            for( auto &elem_node : elem ) {
-                //DebugLog( DL::Debug, DC::Game ) << "--" << elem_node->key.str() << "\n";
-                in_circular_connection.insert( elem_node );
-            }
-
+    for( auto &list : strongly_connected_components ) {
+        if( list.size() <= 1 ) {
+            continue;
         }
-    }
-    // now go back through this and give them all the circular error code!
-    for( const auto &elem : in_circular_connection ) {
-        ( elem )->all_errors[CYCLIC].push_back( "In Circular Dependency Cycle" );
+
+        std::string err_msg = "/";
+        for( const auto &node : list ) {
+            err_msg += node->key.str();
+            err_msg += "/";
+        }
+        for( auto &elem : list ) {
+            elem->all_errors[node_error_type::cyclic_dep].push_back( err_msg );
+        }
     }
 }
 
@@ -402,5 +450,27 @@ void dependency_tree::strong_connect( dependency_node *dnode )
 
         strongly_connected_components.push_back( scc );
         dnode->on_stack = false;
+    }
+}
+
+void dependency_tree::check_for_conflicting_dependencies()
+{
+    for( auto &node : master_node_map ) {
+        dependency_node *this_node = &node.second;
+        std::vector<dependency_node *> deps = get_dependencies_of_X_as_nodes( node.first );
+
+        for( size_t i = 0; i < deps.size(); i++ ) {
+            const dependency_node *curr = deps[i];
+            for( size_t j = i + 1; j < deps.size(); j++ ) {
+                const dependency_node *other = deps[j];
+                const auto it = std::find( curr->conflicts.begin(), curr->conflicts.end(), other );
+                if( it != curr->conflicts.end() ) {
+                    //~ Single entry in list of conflicting dependencies, both %s are mod ids.
+                    //~ Example of final string: "[aftershock] with [classic-zombies]"
+                    std::string msg = string_format( _( "[%1$s] with [%2$s]" ), curr->key, other->key );
+                    this_node->all_errors[node_error_type::conflicting_deps].push_back( msg );
+                }
+            }
+        }
     }
 }

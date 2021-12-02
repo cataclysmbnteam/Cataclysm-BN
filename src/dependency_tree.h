@@ -9,17 +9,18 @@
 
 #include "type_id.h"
 
-enum NODE_ERROR_TYPE {
-    DEPENDENCY,
-    CYCLIC,
-    OTHER
+enum class node_error_type : int {
+    missing_dep = 0,
+    conflicting_deps,
+    cyclic_dep,
+    num
 };
 
 class dependency_node
 {
     public:
-        std::vector<dependency_node *> parents, children;
-        std::map<NODE_ERROR_TYPE, std::vector<std::string> > all_errors;
+        std::vector<dependency_node *> parents, children, conflicts;
+        std::map<node_error_type, std::vector<std::string> > all_errors;
         mod_id key;
         bool availability;
 
@@ -33,9 +34,11 @@ class dependency_node
 
         void add_parent( dependency_node *parent );
         void add_child( dependency_node *child );
+        void add_conflict( dependency_node *conflict );
+
         bool is_available();
         bool has_errors();
-        std::map<NODE_ERROR_TYPE, std::vector<std::string > > errors();
+        std::map<node_error_type, std::vector<std::string > > errors();
         std::string s_errors();
 
         // Tree traversal
@@ -54,7 +57,10 @@ class dependency_tree
     public:
         dependency_tree();
 
-        void init( std::map<mod_id, std::vector<mod_id> > key_dependency_map );
+        void init(
+            std::map<mod_id, std::vector<mod_id> > key_dependency_map,
+            std::map<mod_id, std::vector<mod_id> > key_conflict_map
+        );
 
         void clear();
 
@@ -73,7 +79,10 @@ class dependency_tree
     private:
         // Don't need to be called directly. Only reason to call these are during initialization phase.
         void build_node_map( std::map<mod_id, std::vector<mod_id > > key_dependency_map );
-        void build_connections( std::map<mod_id, std::vector<mod_id > > key_dependency_map );
+        void build_connections(
+            std::map<mod_id, std::vector<mod_id > > key_dependency_map,
+            std::map<mod_id, std::vector<mod_id > > key_conflict_map
+        );
 
         /*
         Cyclic Dependency checks using Tarjan's Strongly Connected Components algorithm
@@ -90,6 +99,7 @@ class dependency_tree
         std::vector<dependency_node *> nodes_on_stack;
         int open_index;
 
+        void check_for_conflicting_dependencies();
 };
 
 #endif // CATA_SRC_DEPENDENCY_TREE_H
