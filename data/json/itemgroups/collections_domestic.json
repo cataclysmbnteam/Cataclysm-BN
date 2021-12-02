@@ -1049,7 +1049,7 @@
       { "item": "string_36", "prob": 75, "count": [ 1, 4 ] },
       { "item": "string_6", "prob": 50, "count": [ 1, 4 ] },
       { "item": "superglue", "prob": 40 },
-      { "item": "duct_tape", "prob": 60, "count": [ 1, 2 ] },
+      { "item": "duct_tape", "prob": 20 },
       { "item": "matches", "prob": 45 },
       { "item": "lighter", "prob": 45 },
       { "item": "ref_lighter", "prob": 10 }

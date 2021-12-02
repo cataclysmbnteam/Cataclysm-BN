@@ -65,6 +65,21 @@
     ]
   },
   {
+    "id": "tools_drawer",
+    "type": "item_group",
+    "//": "Limited selection of common domestic tools in junk drawers",
+    "items": [
+      [ "xacto", 80 ],
+      [ "scissors", 80 ],
+      [ "screwdriver", 70 ],
+      [ "hammer", 60 ],
+      [ "pliers", 60 ],
+      [ "thermometer", 50 ],
+      [ "magnifying_glass", 50 ],
+      [ "sewing_kit", 40 ]
+    ]
+  },
+  {
     "id": "tools_general",
     "type": "item_group",
     "//": "Common tools you might find in a hardware store or in a shop.",
@@ -294,7 +309,7 @@
     "id": "tools_recharging",
     "type": "item_group",
     "//": "Used for general spawns of battery charging equipment, except for cases where only certain tools are appropriate",
-    "items": [ [ "hand_crank_charger", 25 ], [ "battery_charger", 15 ], [ "recharge_station", 10 ] ]
+    "items": [ [ "hand_crank_charger", 50 ], [ "battery_charger", 40 ], [ "recharge_station", 10 ] ]
   },
   {
     "id": "tools_survival",
