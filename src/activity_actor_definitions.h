@@ -14,6 +14,7 @@
 #include "units_energy.h"
 
 class Creature;
+class vehicle;
 
 class aim_activity_actor : public activity_actor
 {

@@ -43,6 +43,8 @@
 #include "translations.h"
 #include "uistate.h"
 #include "units.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 static const itype_id itype_bone_human( "bone_human" );
 static const itype_id itype_electrohack( "electrohack" );
