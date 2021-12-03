@@ -1,4 +1,5 @@
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 
 #include <algorithm>
 #include <cmath>

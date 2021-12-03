@@ -13,6 +13,7 @@
 
 #include "action.h"
 #include "activity_handlers.h"
+#include "activity_actor_definitions.h"
 #include "anatomy.h"
 #include "avatar.h"
 #include "bionics.h"
