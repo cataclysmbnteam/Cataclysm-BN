@@ -175,7 +175,7 @@ TEST_CASE( "deptree_circular_dependency", "[dependency_tree]" )
     REQUIRE( node );
 
     REQUIRE( node->has_errors() );
-    CHECK( node->s_errors() == "Has dependency cycle(s): /b/d/c/" );
+    CHECK( node->s_errors() == "Has dependency cycle(s): /c/d/b/" );
     CHECK_FALSE( node->is_available() );
 }
 
