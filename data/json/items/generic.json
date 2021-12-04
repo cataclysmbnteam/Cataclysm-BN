@@ -2176,21 +2176,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "tanned_hide",
-    "symbol": ",",
-    "color": "brown",
-    "name": { "str": "tanned hide" },
-    "description": "A folded sheet of leather made from carefully tanned animal hide.  Can be cut up or used as is.",
-    "price": 5000,
-    "price_postapoc": 500,
-    "material": [ "leather" ],
-    "weight": "600 g",
-    "volume": "1500 ml",
-    "category": "spare_parts",
-    "to_hit": -1
-  },
-  {
-    "type": "GENERIC",
     "id": "cured_pelt",
     "symbol": ",",
     "color": "brown",
@@ -2202,21 +2187,6 @@
     "flags": [ "NO_SALVAGE" ],
     "weight": "114 g",
     "volume": "170 ml",
-    "category": "spare_parts",
-    "to_hit": -1
-  },
-  {
-    "type": "GENERIC",
-    "id": "tanned_pelt",
-    "symbol": ",",
-    "color": "brown",
-    "name": { "str": "tanned pelt" },
-    "description": "A folded sheet of leather made from carefully tanned animal hide, with the fur still intact.  Can be cut up or used as is.",
-    "price": 5000,
-    "price_postapoc": 500,
-    "material": [ "fur" ],
-    "weight": "684 g",
-    "volume": "1500 ml",
     "category": "spare_parts",
     "to_hit": -1
   },

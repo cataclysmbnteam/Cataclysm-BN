@@ -1614,20 +1614,6 @@
     "components": [ [ [ "neoprene", 1 ] ], [ [ "scrap_neoprene", 20 ] ] ]
   },
   {
-    "result": "tanned_hide",
-    "type": "uncraft",
-    "time": "1 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "leather", 6 ] ] ]
-  },
-  {
-    "result": "tanned_pelt",
-    "type": "uncraft",
-    "time": "1 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "fur", 6 ] ] ]
-  },
-  {
     "result": "eink_tablet_pc",
     "type": "uncraft",
     "time": "30 s",

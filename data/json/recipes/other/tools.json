@@ -1756,7 +1756,7 @@
     "time": "30 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 60 ] ],
-    "components": [ [ [ "leather", 4 ], [ "tanned_hide", 1 ], [ "fur", 4 ], [ "tanned_pelt", 1 ] ] ]
+    "components": [ [ [ "leather", 4 ], [ "fur", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -2401,7 +2401,7 @@
     "time": "3 h",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "sewing_standard", 100 ], [ "cordage", 2 ] ],
-    "components": [ [ [ "leather", 30 ], [ "tanned_hide", 5 ], [ "fur", 30 ], [ "tanned_pelt", 5 ] ], [ [ "wire", 2 ] ] ]
+    "components": [ [ [ "leather", 30 ], [ "fur", 30 ] ], [ [ "wire", 2 ] ] ]
   },
   {
     "result": "jack",

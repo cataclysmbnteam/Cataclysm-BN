@@ -101,7 +101,7 @@
     "time": "40 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 8 ] ],
-    "components": [ [ [ "leather", 8 ], [ "tanned_hide", 2 ] ] ]
+    "components": [ [ [ "leather", 8 ] ] ]
   },
   {
     "result": "hakama",
@@ -223,7 +223,7 @@
     "time": "5 m",
     "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 3 ] ],
     "using": [ [ "sewing_standard", 10 ] ],
-    "components": [ [ [ "fur", 10 ], [ "tanned_pelt", 2 ] ] ]
+    "components": [ [ [ "fur", 10 ] ] ]
   },
   {
     "result": "leggings",
@@ -263,7 +263,7 @@
     "using": [ [ "blacksmithing_standard", 28 ], [ "steel_standard", 7 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ] ]
+    "components": [ [ [ "fur", 6 ], [ "leather", 6 ] ] ]
   },
   {
     "result": "legguard_metal",
@@ -277,7 +277,7 @@
     "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "using": [ [ "cordage", 4 ], [ "steel_tiny", 4 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ] ]
+    "components": [ [ [ "fur", 6 ], [ "leather", 6 ] ] ]
   },
   {
     "result": "legguard_paper",
@@ -427,7 +427,7 @@
     "time": "30 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 10 ] ],
-    "components": [ [ [ "fur", 6 ], [ "tanned_pelt", 1 ] ] ]
+    "components": [ [ [ "fur", 6 ] ] ]
   },
   {
     "result": "pants_fur",
@@ -440,7 +440,7 @@
     "time": "40 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 18 ] ],
-    "components": [ [ [ "rag", 10 ] ], [ [ "fur", 6 ], [ "tanned_pelt", 1 ] ] ]
+    "components": [ [ [ "rag", 10 ] ], [ [ "fur", 6 ] ] ]
   },
   {
     "result": "pants_faux_fur",
@@ -464,7 +464,7 @@
     "time": "50 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 10 ] ],
-    "components": [ [ [ "leather", 10 ], [ "tanned_hide", 2 ] ] ]
+    "components": [ [ [ "leather", 10 ] ] ]
   },
   {
     "result": "pants_survivor",
@@ -618,6 +618,6 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "using": [ [ "forging_standard", 6 ], [ "bronzesmithing_tools", 1 ] ],
-    "components": [ [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ], [ [ "scrap_bronze", 12 ] ] ]
+    "components": [ [ [ "fur", 6 ], [ "leather", 6 ] ], [ [ "scrap_bronze", 12 ] ] ]
   }
 ]

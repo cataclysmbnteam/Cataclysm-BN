@@ -3520,7 +3520,7 @@
     "time": "60m",
     "on_display": false,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "tanned_hide", 2 ] ], [ [ "scrap", 20 ] ], [ [ "wire", 8 ] ] ],
+    "components": [ [ [ "2x4", 4 ] ], [ [ "leather", 12 ] ], [ [ "scrap", 20 ] ], [ [ "wire", 8 ] ] ],
     "pre_flags": [ "FLAT" ],
     "post_terrain": "f_bellows"
   },

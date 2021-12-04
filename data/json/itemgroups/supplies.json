@@ -39,8 +39,8 @@
     "items": [
       { "item": "rag", "prob": 200, "count": [ 3, 6 ] },
       { "item": "neoprene", "prob": 10, "count": [ 3, 6 ] },
-      { "item": "tanned_hide", "prob": 50 },
-      { "item": "tanned_pelt", "prob": 50 }
+      { "item": "fur", "prob": 50, "count": [ 3, 6 ] },
+      { "item": "leather", "prob": 50, "count": [ 3, 6 ]  }
     ]
   },
   {

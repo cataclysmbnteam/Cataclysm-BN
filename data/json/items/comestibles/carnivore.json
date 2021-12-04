@@ -807,11 +807,11 @@
     "quench": -2,
     "healthy": -1,
     "calories": 350,
-    "description": "A carefully folded raw skin harvested from an animal.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
+    "description": "A carefully folded raw skin harvested from an animal.  You can cure or smoke it for storage and tanning, or eat it if you're desperate enough.",
     "price": 330,
     "price_postapoc": 20,
     "material": "flesh",
-    "flags": "TRADER_AVOID",
+    "flags": [ "RAW", "TRADER_AVOID" ],
     "stack_size": 1,
     "fun": -12
   },
@@ -823,7 +823,7 @@
     "spoils_in": "6 hours",
     "use_action": "POISON",
     "price_postapoc": 10,
-    "description": "A carefully folded poisonous raw skin harvested from an unnatural creature.  You can cure it for storage and tanning.",
+    "description": "A carefully folded poisonous raw skin harvested from an unnatural creature.  You can cure or smoke it for storage and tanning.",
     "price": 0
   },
   {
@@ -831,7 +831,7 @@
     "id": "raw_hleather",
     "copy-from": "raw_leather",
     "name": "raw human skin",
-    "description": "A carefully folded raw skin harvested from a human.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
+    "description": "A carefully folded raw skin harvested from a human.  You can cure or smoke it for storage and tanning, or eat it if you're desperate enough.",
     "material": "hflesh"
   },
   {
@@ -848,7 +848,7 @@
     "quench": -20,
     "healthy": -5,
     "calories": 350,
-    "description": "A carefully folded raw skin harvested from a fur-bearing animal.  It still has the fur attached.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
+    "description": "A carefully folded raw skin harvested from a fur-bearing animal.  It still has the fur attached.  You can cure or smoke it for storage and tanning, or eat it if you're desperate enough.",
     "price": 330,
     "price_postapoc": 100,
     "material": [ "fur", "flesh" ],
@@ -863,7 +863,7 @@
     "copy-from": "raw_fur",
     "spoils_in": "6 hours",
     "use_action": "POISON",
-    "description": "A carefully folded raw skin harvested from a fur-bearing unnatural creature.  It still has the fur attached and is poisonous.  You can cure it for storage and tanning.",
+    "description": "A carefully folded raw skin harvested from a fur-bearing unnatural creature.  It still has the fur attached and is poisonous.  You can cure or smoke it for storage and tanning.",
     "price": 0,
     "price_postapoc": 50,
     "flags": [ "NO_SALVAGE" ]
@@ -873,7 +873,7 @@
     "id": "raw_hfur",
     "copy-from": "raw_fur",
     "name": "raw human pelt",
-    "description": "A carefully folded raw skin harvested from a fur-bearing mutant human.  It still has the fur attached.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
+    "description": "A carefully folded raw skin harvested from a fur-bearing mutant human.  It still has the fur attached.  You can cure or smoke it for storage and tanning, or eat it if you're desperate enough.",
     "material": [ "fur", "hflesh" ]
   },
   {

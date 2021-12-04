@@ -107,7 +107,7 @@
     "time": "2 h",
     "using": [ [ "sewing_standard", 100 ] ],
     "components": [
-      [ [ "leather", 12 ], [ "tanned_hide", 2 ], [ "fur", 12 ], [ "tanned_pelt", 2 ] ],
+      [ [ "leather", 12 ], [ "fur", 12 ] ],
       [ [ "cordage_superior", 2, "LIST" ] ]
     ]
   },
@@ -123,7 +123,7 @@
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "using": [ [ "sewing_standard", 100 ] ],
     "components": [
-      [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "fur", 6 ], [ "tanned_pelt", 1 ] ],
+      [ [ "leather", 6 ], [ "fur", 6 ] ],
       [ [ "2x4", 4 ] ],
       [ [ "rope_superior_short", 2, "LIST" ] ]
     ]
@@ -1115,7 +1115,7 @@
     "components": [
       [ [ "pipe", 4 ] ],
       [ [ "spring", 2 ] ],
-      [ [ "leather", 12 ], [ "fur", 12 ], [ "tanned_hide", 3 ], [ "tanned_pelt", 3 ] ],
+      [ [ "leather", 12 ], [ "fur", 12 ] ],
       [ [ "rag", 8 ] ]
     ]
   },

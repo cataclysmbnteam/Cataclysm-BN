@@ -60,7 +60,7 @@
     "time": "50 m",
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "stick", 10 ], [ "2x4", 5 ] ], [ [ "leather", 20 ], [ "tanned_hide", 4 ] ], [ [ "filament", 40, "LIST" ] ] ]
+    "components": [ [ [ "stick", 10 ], [ "2x4", 5 ] ], [ [ "leather", 20 ] ], [ [ "filament", 40, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -75,7 +75,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "stick", 3 ], [ "2x4", 2 ] ],
-      [ [ "leather", 4 ], [ "tanned_hide", 1 ] ],
+      [ [ "leather", 4 ] ],
       [ [ "damaged_shelter_kit", 1 ] ],
       [ [ "filament", 5, "LIST" ] ]
     ]
@@ -93,7 +93,7 @@
     "decomp_learn": 0,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "fur", 24 ], [ "tanned_pelt", 4 ] ], [ [ "filament", 10, "LIST" ] ] ]
+    "components": [ [ [ "fur", 24 ] ], [ [ "filament", 10, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -214,7 +214,7 @@
     "book_learn": [ [ "scots_cookbook", 3 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
     "components": [
-      [ [ "large_stomach_sealed", 1 ], [ "tanned_hide", 2 ], [ "leather", 10 ], [ "tanned_pelt", 2 ], [ "fur", 10 ] ],
+      [ [ "large_stomach_sealed", 1 ], [ "leather", 10 ], [ "fur", 10 ] ],
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "rag", 3 ] ],
       [ [ "adhesive", 1, "LIST" ], [ "medical_tape", 50 ] ]
@@ -244,7 +244,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 30 ] ],
-    "components": [ [ [ "leather", 12 ], [ "fur", 12 ], [ "tanned_hide", 3 ], [ "tanned_pelt", 3 ] ] ]
+    "components": [ [ [ "leather", 12 ], [ "fur", 12 ] ] ]
   },
   {
     "type": "recipe",
