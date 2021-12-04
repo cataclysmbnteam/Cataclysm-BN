@@ -611,7 +611,7 @@ vehicle_profile vehicle::autodrive_controller::compute_profile( orientation faci
         }
     }
     for( int part_num : driven_veh.rotors ) {
-        const vehicle_part &part = driven_veh.part( part_num );
+        const vehicle_part &part = driven_veh.cpart( part_num );
         const int diameter = part.info().rotor_diameter();
         const int radius = ( diameter + 1 ) / 2;
         if( radius > 0 ) {
@@ -817,7 +817,7 @@ void vehicle::autodrive_controller::precompute_data()
         // initialize car and driver properties
         data.land_ok = driven_veh.valid_wheel_config();
         data.water_ok = driven_veh.can_float();
-        data.air_ok = driven_veh.is_flyable();
+        data.air_ok = driven_veh.is_rotorcraft();
         data.max_speed_tps = std::min( MAX_SPEED_TPS, driven_veh.safe_velocity() / VMIPH_PER_TPS );
         data.acceleration.resize( data.max_speed_tps );
         for( int speed_tps = 0; speed_tps < data.max_speed_tps; speed_tps++ ) {
