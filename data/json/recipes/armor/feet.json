@@ -32,6 +32,7 @@
     "difficulty": 4,
     "time": "40 m",
     "autolearn": true,
+    "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
     "using": [ [ "cordage", 1 ] ],
     "components": [ [ [ "chitin_piece", 16 ] ], [ [ "leather", 16 ] ] ]
   },
@@ -44,6 +45,7 @@
     "difficulty": 5,
     "time": "1 h 20 m",
     "autolearn": true,
+    "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
     "using": [ [ "cordage", 1 ] ],
     "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "acidchitin_piece", 16 ] ], [ [ "leather", 16 ] ] ]
