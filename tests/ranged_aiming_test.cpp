@@ -189,7 +189,8 @@ TEST_CASE( "Aiming a turret from a solid vehicle", "[ranged][aiming]" )
     } );
     REQUIRE( impassable_tiles_before == 0 );
 
-    vehicle *veh = g->m.add_vehicle( vproto_id( "turret_test" ), shooter_pos, 0, 100, 0, false );
+    vehicle *veh = g->m.add_vehicle( vproto_id( "turret_test" ), shooter_pos, 0_degrees, 100, 0,
+                                     false );
     REQUIRE( veh != nullptr );
 
     WHEN( "Shooter's line of fire becomes blocked by vehicle's windshield" ) {

@@ -2876,8 +2876,9 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
 {
     const auto override = vpart_override.find( p );
     const bool overridden = override != vpart_override.end();
+    map &here = get_map();
     // first memorize the actual vpart
-    const optional_vpart_position vp = g->m.veh_at( p );
+    const optional_vpart_position vp = here.veh_at( p );
     if( vp && !invisible[0] ) {
         const vehicle &veh = vp->vehicle();
         const int veh_part = vp->part_index();
@@ -2887,7 +2888,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
         const vpart_id &vp_id = veh.part_id_string( veh_part, part_mod );
         const int subtile = part_mod == 1 ? open_ : part_mod == 2 ? broken : 0;
         const int rotation = to_degrees( veh.face.dir() );
-        const std::string vpname = "vp_" + vp_id;
+        const std::string vpname = "vp_" + vp_id.str();
         avatar &you = get_avatar();
         if( !veh.forward_velocity() && !veh.player_in_control( you ) &&
             here.check_seen_cache( p ) ) {

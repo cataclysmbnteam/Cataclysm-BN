@@ -36,6 +36,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "units_angle.h"
+#include "units_utility.h"
 #include "veh_type.h"
 #include "vpart_position.h"
 

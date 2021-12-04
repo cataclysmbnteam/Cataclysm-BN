@@ -7,6 +7,8 @@
 
 #include "point_traits.h"
 
+#include "units_angle.h"
+
 template<size_t w, size_t h, typename T = float>
 struct matrix {
     private:
@@ -43,7 +45,7 @@ using matrix_3d = matrix<3u, 3u, double>;
 namespace matrices
 {
 
-matrix_3d rotation_z_axis( double angle );
+matrix_3d rotation_z_axis( units::angle angle );
 
 } // namespace matrices
 

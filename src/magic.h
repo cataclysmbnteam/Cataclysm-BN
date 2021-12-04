@@ -550,7 +550,7 @@ void vomit( const spell &sp, Creature &caster, const tripoint &target );
 void explosion( const spell &sp, Creature &, const tripoint &target );
 void flashbang( const spell &sp, Creature &caster, const tripoint &target );
 void mod_moves( const spell &sp, Creature &caster, const tripoint &target );
-void map( const spell &sp, Creature &caster, const tripoint & );
+void map_area( const spell &sp, Creature &caster, const tripoint & );
 void morale( const spell &sp, Creature &caster, const tripoint &target );
 void charm_monster( const spell &sp, Creature &caster, const tripoint &target );
 void mutate( const spell &sp, Creature &caster, const tripoint &target );

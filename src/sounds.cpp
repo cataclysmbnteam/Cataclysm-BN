@@ -679,7 +679,8 @@ void sfx::do_vehicle_engine_sfx()
     }
 
     static const channel ch = channel::interior_engine_sound;
-    if( !g->u.in_vehicle ) {
+    const Character &player_character = get_player_character();
+    if( !player_character.in_vehicle ) {
         fade_audio_channel( ch, 300 );
         add_msg( m_debug, "STOP interior_engine_sound, OUT OF CAR" );
         return;
@@ -765,11 +766,11 @@ void sfx::do_vehicle_engine_sfx()
     if( current_gear > previous_gear ) {
         play_variant_sound( "vehicle", "gear_shift", get_heard_volume( player_character.pos() ),
                             0_degrees, 0.8, 0.8 );
-        add_msg_debug( "GEAR UP" );
+        add_msg( m_debug, "GEAR UP" );
     } else if( current_gear < previous_gear ) {
         play_variant_sound( "vehicle", "gear_shift", get_heard_volume( player_character.pos() ),
                             0_degrees, 1.2, 1.2 );
-        add_msg_debug( "GEAR DOWN" );
+        add_msg( m_debug, "GEAR DOWN" );
     }
     if( ( safe_speed != 0 ) ) {
         if( current_gear == 0 ) {

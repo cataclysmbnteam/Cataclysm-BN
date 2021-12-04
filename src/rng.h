@@ -9,7 +9,7 @@
 #include <type_traits>
 
 #include "optional.h"
-#include "units_fwd.h"
+#include "units_angle.h"
 
 class map;
 class time_duration;

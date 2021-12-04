@@ -62,6 +62,7 @@
 #include "string_id.h"
 #include "submap.h"
 #include "translations.h"
+#include "units_utility.h"
 #include "veh_type.h"
 #include "vehicle_selector.h"
 #include "weather.h"

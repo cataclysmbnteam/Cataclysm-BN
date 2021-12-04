@@ -63,6 +63,8 @@
 #include "type_id.h"
 #include "ui_manager.h"
 #include "units.h"
+#include "units_angle.h"
+#include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -843,7 +845,7 @@ int player::fire_gun( const tripoint &target, const int max_shots, item &gun )
         } else {
             // 30 degree cap, like for projectiles
             double angle_offset_arcmin = std::min( dispersion.roll(), 1800.0 ) * ( one_in( 2 ) ? 1 : -1 );
-            double angle_offset = degmin2rad( angle_offset_arcmin );
+            double angle_offset = units::to_radians( units::from_arcmin( angle_offset_arcmin ) );
             double dx = aim.x - pos().x;
             double dy = aim.y - pos().y;
             double new_angle = atan2( dy, dx ) + angle_offset;

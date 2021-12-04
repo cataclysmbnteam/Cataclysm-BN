@@ -185,6 +185,8 @@ std::set<tripoint> spell_effect::spell_effect_cone( const spell &sp, const tripo
         const tripoint &target, const int aoe_radius, const bool ignore_walls )
 {
     std::set<tripoint> targets;
+    // cones go all the way to end (if they don't hit an obstacle)
+    const int range = sp.range() + 1;
     const units::angle initial_angle = coord_to_angle( source, target );
     const units::angle half_width = units::from_degrees( aoe_radius / 2.0 );
     const units::angle start_angle = initial_angle - half_width;
@@ -933,7 +935,7 @@ void spell_effect::mod_moves( const spell &sp, Creature &caster, const tripoint 
     }
 }
 
-void spell_effect::map( const spell &sp, Creature &caster, const tripoint & )
+void spell_effect::map_area( const spell &sp, Creature &caster, const tripoint & )
 {
     const avatar *you = caster.as_avatar();
     if( !you ) {
