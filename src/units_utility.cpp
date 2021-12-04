@@ -20,6 +20,15 @@ const char *velocity_units( const units_type vel_units )
     return "error: unknown units!";
 }
 
+units::angle normalize( units::angle a, units::angle mod )
+{
+    a = units::fmod( a, mod );
+    if( a < 0_degrees ) {
+        a += mod;
+    }
+    return a;
+}
+
 const char *weight_units()
 {
     return get_option<std::string>( "USE_METRIC_WEIGHTS" ) == "lbs" ? _( "lbs" ) : _( "kg" );

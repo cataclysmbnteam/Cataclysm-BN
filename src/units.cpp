@@ -44,6 +44,18 @@ void energy::deserialize( JsonIn &jsin )
     *this = read_from_json_string( jsin, units::energy_units );
 }
 
+template<>
+void angle::serialize( JsonOut &jsout ) const
+{
+    jsout.write( string_format( "%f rad", value_ ) );
+}
+
+template<>
+void angle::deserialize( JsonIn &jsin )
+{
+    *this = read_from_json_string( jsin, units::angle_units );
+}
+
 std::string display( const units::energy v )
 {
     const int kj = units::to_kilojoule( v );
