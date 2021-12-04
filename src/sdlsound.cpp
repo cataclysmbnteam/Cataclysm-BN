@@ -31,6 +31,7 @@
 #include "rng.h"
 #include "sdl_wrappers.h"
 #include "sounds.h"
+#include "units_angle.h"
 
 #define dbg(x) DebugLogFL((x),DC::SDL)
 
@@ -506,7 +507,7 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
 }
 
 void sfx::play_variant_sound( const std::string &id, const std::string &variant, int volume,
-                              int angle, double pitch_min, double pitch_max )
+                              units::angle angle, double pitch_min, double pitch_max )
 {
     if( test_mode ) {
         return;
@@ -543,7 +544,7 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
         }
     }
     if( !failed ) {
-        if( Mix_SetPosition( channel, static_cast<Sint16>( angle ), 1 ) == 0 ) {
+        if( Mix_SetPosition( channel, static_cast<Sint16>( to_degrees( angle ) ), 1 ) == 0 ) {
             // Not critical
             dbg( DL::Info ) << "Mix_SetPosition failed: " << Mix_GetError();
         }

@@ -381,7 +381,6 @@ Character &get_player_character()
 
 // *INDENT-OFF*
 Character::Character() :
-
     visitable<Character>(),
     damage_bandaged( {{ 0 }} ),
     damage_disinfected( {{ 0 }} ),

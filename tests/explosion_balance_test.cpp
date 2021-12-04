@@ -109,7 +109,8 @@ static void check_vehicle_damage( const std::string &explosive_id, const std::st
     clear_map_and_put_player_underground();
     tripoint origin( 30, 30, 0 );
 
-    vehicle *target_vehicle = g->m.add_vehicle( vproto_id( vehicle_id ), origin, 0, -1, 0 );
+    vehicle *target_vehicle = get_map().add_vehicle( vproto_id( vehicle_id ), origin, 0_degrees,
+                              -1, 0 );
     std::vector<int> before_hp = get_part_hp( target_vehicle );
 
     while( g->m.veh_at( origin ) ) {
