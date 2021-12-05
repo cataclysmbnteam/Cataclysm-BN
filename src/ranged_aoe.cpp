@@ -55,7 +55,14 @@ void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &a
     std::map<tripoint, aoe_flood_node> open;
     std::set<tripoint> closed;
 
-    queue.emplace( origin, 0 );
+    for( const tripoint &child : here.points_in_radius( origin, 1 ) ) {
+        double coverage = sigdist_to_coverage( sh.distance_at( child ) );
+        if( coverage > 0.0 ) {
+            open[child] = aoe_flood_node( origin, 1.0 );
+            queue.emplace( child, trig_dist_squared( origin, child ) );
+        }
+    }
+
     open[origin] = aoe_flood_node( origin, 1.0 );
 
     std::map<tripoint, double> final_coverage;
@@ -95,7 +102,7 @@ void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &a
                 if( coverage > 0.0 && closed.count( child ) == 0 &&
                     ( open.count( child ) == 0 || open.at( child ).parent_coverage < current_coverage ) ) {
                     open[child] = aoe_flood_node( p, current_coverage );
-                    queue.emplace( child, trig_dist_squared( origin, p ) );
+                    queue.emplace( child, trig_dist_squared( origin, child ) );
                 }
             }
 
@@ -115,6 +122,7 @@ void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &a
     }
 }
 
+// TODO: Make this not a CTRL+C+V
 std::map<tripoint, double> expected_coverage( const shape &sh, const map &here, int bash_power )
 {
     const auto sigdist_to_coverage = []( const double sigdist ) {
@@ -125,7 +133,14 @@ std::map<tripoint, double> expected_coverage( const shape &sh, const map &here, 
     std::map<tripoint, aoe_flood_node> open;
     std::set<tripoint> closed;
 
-    queue.emplace( origin, 0 );
+    for( const tripoint &child : here.points_in_radius( origin, 1 ) ) {
+        double coverage = sigdist_to_coverage( sh.distance_at( child ) );
+        if( coverage > 0.0 ) {
+            open[child] = aoe_flood_node( origin, 1.0 );
+            queue.emplace( child, trig_dist_squared( origin, child ) );
+        }
+    }
+
     open[origin] = aoe_flood_node( origin, 1.0 );
 
     std::map<tripoint, double> final_coverage;
@@ -169,7 +184,7 @@ std::map<tripoint, double> expected_coverage( const shape &sh, const map &here, 
                 if( coverage > 0.0 && closed.count( child ) == 0 &&
                     ( open.count( child ) == 0 || open.at( child ).parent_coverage < current_coverage ) ) {
                     open[child] = aoe_flood_node( p, current_coverage );
-                    queue.emplace( child, trig_dist_squared( origin, p ) );
+                    queue.emplace( child, trig_dist_squared( origin, child ) );
                 }
             }
             final_coverage[p] = current_coverage;
