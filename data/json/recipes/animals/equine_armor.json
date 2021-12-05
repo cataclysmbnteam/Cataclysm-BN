@@ -30,12 +30,7 @@
     "subcategory": "CSC_ANIMALS_EQUINE ARMOR",
     "time": "364 m",
     "using": [ [ "chainmail_standard", 7 ] ],
-    "components": [
-      [ [ "link_sheet", 35 ] ],
-      [ [ "chain_link", 917 ] ],
-      [ [ "wire", 7 ] ],
-      [ [ "fur", 42 ], [ "leather", 42 ] ]
-    ]
+    "components": [ [ [ "link_sheet", 35 ] ], [ [ "chain_link", 917 ] ], [ [ "wire", 7 ] ], [ [ "fur", 42 ], [ "leather", 42 ] ] ]
   },
   {
     "result": "kevlar_armor_horse",

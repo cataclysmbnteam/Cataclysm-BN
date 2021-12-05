@@ -35,11 +35,7 @@
     "time": "4 h",
     "book_learn": [ [ "textbook_armschina", 2 ] ],
     "using": [ [ "sewing_standard", 68 ] ],
-    "components": [
-      [ [ "cordage_superior", 4, "LIST" ] ],
-      [ [ "rag", 4 ] ],
-      [ [ "leather", 42 ], [ "fur", 42 ] ]
-    ]
+    "components": [ [ [ "cordage_superior", 4, "LIST" ] ], [ [ "rag", 4 ] ], [ [ "leather", 42 ], [ "fur", 42 ] ] ]
   },
   {
     "result": "bikini_top",
@@ -332,10 +328,7 @@
     "time": "2 h 30 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 360 ] ],
-    "components": [
-      [ [ "leather", 56 ], [ "fur", 56 ] ],
-      [ [ "rope_natural_short", 2, "LIST" ] ]
-    ]
+    "components": [ [ [ "leather", 56 ], [ "fur", 56 ] ], [ [ "rope_natural_short", 2, "LIST" ] ] ]
   },
   {
     "result": "greatcoat",

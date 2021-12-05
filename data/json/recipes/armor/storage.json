@@ -899,12 +899,7 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 150 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [
-      [ [ "leather", 55 ] ],
-      [ [ "sheet_metal_small", 8 ] ],
-      [ [ "cordage", 2, "LIST" ] ],
-      [ [ "leather_pouch", 2 ] ]
-    ]
+    "components": [ [ [ "leather", 55 ] ], [ [ "sheet_metal_small", 8 ] ], [ [ "cordage", 2, "LIST" ] ], [ [ "leather_pouch", 2 ] ] ]
   },
   {
     "result": "travelpack",

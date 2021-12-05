@@ -40,7 +40,7 @@
       { "item": "rag", "prob": 200, "count": [ 3, 6 ] },
       { "item": "neoprene", "prob": 10, "count": [ 3, 6 ] },
       { "item": "fur", "prob": 50, "count": [ 3, 6 ] },
-      { "item": "leather", "prob": 50, "count": [ 3, 6 ]  }
+      { "item": "leather", "prob": 50, "count": [ 3, 6 ] }
     ]
   },
   {
