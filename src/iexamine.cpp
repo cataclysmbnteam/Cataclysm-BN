@@ -13,6 +13,7 @@
 #include <utility>
 
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "active_tile_data_def.h"
 #include "ammo.h"
 #include "avatar.h"

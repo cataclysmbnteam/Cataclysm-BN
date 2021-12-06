@@ -220,7 +220,7 @@
     "price_postapoc": 1250,
     "to_hit": -2,
     "bashing": 2,
-    "material": [ "chitin" ],
+    "material": [ "chitin", "leather" ],
     "symbol": "[",
     "looks_like": "helmet_larmor",
     "color": "green",
@@ -228,7 +228,7 @@
     "coverage": 95,
     "encumbrance": 10,
     "warmth": 10,
-    "material_thickness": 3,
+    "material_thickness": 4,
     "environmental_protection": 4,
     "flags": [ "WATERPROOF", "STURDY" ]
   },
@@ -262,7 +262,7 @@
     "name": { "str": "biosilicified chitin helmet" },
     "description": "A helmet crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Covers the entire head; acid-resistant and very durable.",
     "price_postapoc": 1750,
-    "material": [ "acidchitin" ],
+    "material": [ "acidchitin", "leather" ],
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
     "relative": { "bashing": 1, "material_thickness": 1 }
   },

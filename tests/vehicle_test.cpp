@@ -19,7 +19,7 @@ TEST_CASE( "detaching_vehicle_unboards_passengers" )
     clear_map();
     const tripoint test_origin( 60, 60, 0 );
     const tripoint vehicle_origin = test_origin;
-    vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "bicycle" ), vehicle_origin, -90, 0, 0 );
+    vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "bicycle" ), vehicle_origin, -90_degrees, 0, 0 );
     g->m.board_vehicle( test_origin, &g->u );
     REQUIRE( g->u.in_vehicle );
     g->m.detach_vehicle( veh_ptr );
@@ -32,7 +32,7 @@ TEST_CASE( "destroy_grabbed_vehicle_section" )
         const tripoint test_origin( 60, 60, 0 );
         g->place_player( test_origin );
         const tripoint vehicle_origin = test_origin + tripoint_south_east;
-        vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "bicycle" ), vehicle_origin, -90, 0, 0 );
+        vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "bicycle" ), vehicle_origin, -90_degrees, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
         tripoint grab_point = test_origin + tripoint_east;
         g->u.grab( OBJECT_VEHICLE, grab_point );
@@ -54,7 +54,7 @@ TEST_CASE( "add_item_to_broken_vehicle_part" )
     clear_map();
     const tripoint test_origin( 60, 60, 0 );
     const tripoint vehicle_origin = test_origin;
-    vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "bicycle" ), vehicle_origin, 0, 0, 0 );
+    vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "bicycle" ), vehicle_origin, 0_degrees, 0, 0 );
     REQUIRE( veh_ptr != nullptr );
 
     const tripoint pos = vehicle_origin + tripoint_west;

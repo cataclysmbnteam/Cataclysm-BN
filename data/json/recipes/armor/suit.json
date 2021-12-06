@@ -72,12 +72,12 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
-    "difficulty": 7,
+    "difficulty": 4,
     "time": "1 h 40 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
+    "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
     "using": [ [ "cordage", 2 ] ],
-    "components": [ [ [ "chitin_piece", 72 ] ] ]
+    "components": [ [ [ "chitin_piece", 36 ] ], [ [ "leather", 36 ] ] ]
   },
   {
     "result": "armor_acidchitin",
@@ -85,13 +85,13 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
-    "difficulty": 8,
-    "skills_required": [ [ "survival", 4 ], [ "firstaid", 2 ] ],
+    "difficulty": 5,
     "time": "3 h 20 m",
     "autolearn": true,
+    "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
     "using": [ [ "cordage", 2 ] ],
     "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "acidchitin_piece", 72 ] ] ]
+    "components": [ [ [ "acidchitin_piece", 36 ] ], [ [ "leather", 36 ] ] ]
   },
   {
     "result": "armor_farmor",

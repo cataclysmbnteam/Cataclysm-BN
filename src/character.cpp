@@ -13,6 +13,7 @@
 
 #include "action.h"
 #include "activity_handlers.h"
+#include "activity_actor_definitions.h"
 #include "anatomy.h"
 #include "avatar.h"
 #include "bionics.h"
@@ -381,7 +382,6 @@ Character &get_player_character()
 
 // *INDENT-OFF*
 Character::Character() :
-
     visitable<Character>(),
     damage_bandaged( {{ 0 }} ),
     damage_disinfected( {{ 0 }} ),

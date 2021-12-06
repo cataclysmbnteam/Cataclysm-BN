@@ -12,6 +12,7 @@
 #include <vector>
 
 #include "action.h"
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"

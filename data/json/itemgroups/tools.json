@@ -11,6 +11,7 @@
     "//": "Portable tools used for carpentry",
     "items": [
       { "group": "tools_common", "prob": 100 },
+      { "group": "tools_recharging", "prob": 5 },
       [ "circsaw_off", 100 ],
       [ "cordless_drill", 100 ],
       [ "hand_drill", 20 ],
@@ -59,10 +60,23 @@
       [ "crowbar", 10 ],
       [ "thermometer", 5 ],
       [ "multitool", 10 ],
-      [ "recharge_station", 10 ],
-      [ "hand_crank_charger", 25 ],
       [ "metal_file", 10 ],
       [ "clamp", 10 ]
+    ]
+  },
+  {
+    "id": "tools_drawer",
+    "type": "item_group",
+    "//": "Limited selection of common domestic tools in junk drawers",
+    "items": [
+      [ "xacto", 80 ],
+      [ "scissors", 80 ],
+      [ "screwdriver", 70 ],
+      [ "hammer", 60 ],
+      [ "pliers", 60 ],
+      [ "thermometer", 50 ],
+      [ "magnifying_glass", 50 ],
+      [ "sewing_kit", 40 ]
     ]
   },
   {
@@ -79,6 +93,7 @@
       { "group": "tools_lighting_industrial", "prob": 100 },
       { "group": "tools_mechanic", "prob": 20 },
       { "group": "tools_plumbing", "prob": 20 },
+      { "group": "tools_recharging", "prob": 10 },
       [ "jumper_cable_heavy", 2 ],
       [ "jerrycan", 10 ],
       [ "jerrycan_big", 10 ],
@@ -147,6 +162,7 @@
     "//": "Portable tools for plumbing and pipefitting",
     "items": [
       { "group": "tools_common", "prob": 100 },
+      { "group": "tools_recharging", "prob": 5 },
       [ "wrench", 200 ],
       [ "claw_bar", 2 ],
       [ "crowbar", 10 ],
@@ -178,11 +194,10 @@
     "//": "Portable tools used by electricians and for electronics repair",
     "items": [
       { "group": "tools_common", "prob": 100 },
+      { "group": "tools_recharging", "prob": 50 },
       [ "soldering_iron", 100 ],
       [ "magnifying_glass", 100 ],
-      [ "voltmeter", 100 ],
-      [ "recharge_station", 10 ],
-      [ "hand_crank_charger", 40 ]
+      [ "voltmeter", 100 ]
     ]
   },
   {
@@ -209,6 +224,7 @@
       { "group": "tools_common", "prob": 100 },
       { "group": "tools_lighting", "prob": 50 },
       { "group": "tools_tailor", "prob": 50 },
+      { "group": "tools_recharging", "prob": 20 },
       [ "toolbox", 4 ],
       [ "toolbox_workshop", 1 ]
     ]
@@ -288,6 +304,12 @@
     "type": "item_group",
     "//": "Light sources used as industrial working equipment.",
     "items": [ [ "flashlight", 100 ], [ "heavy_flashlight", 40 ], [ "wearable_light", 60 ] ]
+  },
+  {
+    "id": "tools_recharging",
+    "type": "item_group",
+    "//": "Used for general spawns of battery charging equipment, except for cases where only certain tools are appropriate",
+    "items": [ [ "hand_crank_charger", 50 ], [ "battery_charger", 40 ], [ "recharge_station", 10 ] ]
   },
   {
     "id": "tools_survival",

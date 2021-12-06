@@ -15,6 +15,7 @@
 #include <utility>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "avatar_action.h"
 #include "calendar.h"

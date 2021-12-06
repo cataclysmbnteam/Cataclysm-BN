@@ -1742,8 +1742,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     // vehicle display
     if( veh ) {
         veh->print_fuel_indicators( w, point( 39, 2 ) );
-        mvwprintz( w, point( 35, 4 ), c_light_gray,
-                   std::to_string( ( veh->face.dir() + 90 ) % 360 ) + "°" );
+        mvwprintz( w, point( 35, 4 ), c_light_gray, veh->face.to_string_azimuth_from_north() );
         // target speed > current speed
         const float strain = veh->strain();
         if( veh->cruise_on ) {
@@ -1857,8 +1856,7 @@ static void draw_veh_compact( const avatar &u, const catacurses::window &w )
     }
     if( veh ) {
         veh->print_fuel_indicators( w, point_zero );
-        mvwprintz( w, point( 6, 0 ), c_light_gray,
-                   std::to_string( ( veh->face.dir() + 90 ) % 360 ) + "°" );
+        mvwprintz( w, point( 6, 0 ), c_light_gray, veh->face.to_string_azimuth_from_north() );
         // target speed > current speed
         const float strain = veh->strain();
         if( veh->cruise_on ) {
@@ -1890,8 +1888,7 @@ static void draw_veh_padding( const avatar &u, const catacurses::window &w )
     }
     if( veh ) {
         veh->print_fuel_indicators( w, point_east );
-        mvwprintz( w, point( 7, 0 ), c_light_gray,
-                   std::to_string( ( veh->face.dir() + 90 ) % 360 ) + "°" );
+        mvwprintz( w, point( 7, 0 ), c_light_gray, veh->face.to_string_azimuth_from_north() );
         // target speed > current speed
         const float strain = veh->strain();
         nc_color col_vel = strain <= 0 ? c_light_blue :

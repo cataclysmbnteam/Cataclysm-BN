@@ -19,6 +19,7 @@
 
 #include "action.h"
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "active_tile_data_def.h"
 #include "artifact.h"
 #include "avatar.h"
@@ -5639,7 +5640,8 @@ int iuse::unfold_generic( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), p->pos(), 0, 0, 0, false );
+    map &here = get_map();
+    vehicle *veh = here.add_vehicle( vproto_id( "none" ), p->pos(), 0_degrees, 0, 0, false );
     if( veh == nullptr ) {
         p->add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it->tname() );
         return 0;
