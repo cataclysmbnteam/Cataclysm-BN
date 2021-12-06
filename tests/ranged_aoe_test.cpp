@@ -46,7 +46,7 @@ static void shape_coverage_vs_distance_no_obstacle( const shape_factory_impl &c,
 TEST_CASE( "expected shape coverage mass test", "[shape]" )
 {
     clear_map();
-    cone_factory c( deg2rad( 15 ), 10.0 );
+    cone_factory c( 15_degrees, 10.0 );
     const tripoint origin( 60, 60, 0 );
     for( const tripoint &end : points_in_radius<tripoint>( origin, 5 ) ) {
         shape_coverage_vs_distance_no_obstacle( c, origin, end );
@@ -59,7 +59,7 @@ TEST_CASE( "expected shape coverage mass test", "[shape]" )
 TEST_CASE( "expected shape coverage without obstacles", "[shape]" )
 {
     clear_map();
-    cone_factory c( deg2rad( 22.5 ), 10.0 );
+    cone_factory c( 22.5_degrees, 10.0 );
     const tripoint origin( 60, 60, 0 );
     const tripoint offset( 5, 5, 0 );
     const tripoint end = origin + offset;
@@ -77,7 +77,7 @@ TEST_CASE( "expected shape coverage without obstacles", "[shape]" )
 TEST_CASE( "expected shape coverage through windows", "[shape]" )
 {
     clear_map();
-    cone_factory c( deg2rad( 22.5 ), 10.0 );
+    cone_factory c( 22.5_degrees, 10.0 );
     const tripoint origin( 60, 60, 0 );
     const tripoint offset( 5, 0, 0 );
     const tripoint end = origin + offset;
