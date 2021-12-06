@@ -38,25 +38,11 @@
     "//2": "This group is for a junk drawer.",
     "subtype": "collection",
     "entries": [
-      { "item": "xacto", "prob": 80 },
-      { "item": "scissors", "prob": 80 },
-      { "item": "screwdriver", "prob": 70 },
-      { "item": "hammer", "prob": 60 },
-      { "item": "pliers", "prob": 60 },
-      { "item": "flashlight", "prob": 75 },
-      { "item": "hammer", "prob": 75 },
-      { "item": "permanent_marker", "prob": 75 },
-      { "item": "permanent_marker", "prob": 40 },
-      { "item": "paper", "prob": 55 },
-      { "item": "light_battery_cell", "count": [ 1, 2 ], "prob": 85 },
-      { "item": "battery_charger", "prob": 85 },
-      { "item": "string_36", "count": [ 1, 4 ], "prob": 80 },
-      { "item": "string_36", "count": [ 1, 4 ], "prob": 50 },
-      { "item": "string_36", "count": [ 1, 4 ], "prob": 20 },
-      { "item": "duct_tape", "prob": 50 },
-      { "item": "duct_tape", "prob": 30 },
-      { "item": "candle", "prob": 75 },
-      { "distribution": [ { "item": "matches" }, { "item": "lighter" } ], "prob": 90 }
+      { "group": "tools_drawer", "count": [ 1, 3 ], "prob": 75 },
+      { "group": "tools_recharging", "prob": 50 },
+      { "group": "tools_lighting", "prob": 50 },
+      { "group": "ammo_pocket_batteries", "prob": 75 },
+      { "group": "household_clutter", "count": [ 1, 3 ], "prob": 75 }
     ]
   },
   {
