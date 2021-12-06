@@ -9,6 +9,8 @@
 #include <vector>
 
 #include "units_def.h"
+
+#include "units_angle.h"
 #include "units_volume.h"
 #include "units_mass.h"
 #include "units_energy.h"
@@ -39,6 +41,11 @@ inline std::ostream &operator<<( std::ostream &o, energy_in_joule_tag )
 inline std::ostream &operator<<( std::ostream &o, money_in_cent_tag )
 {
     return o << "cent";
+}
+
+inline std::ostream &operator<<( std::ostream &o, angle_in_radians_tag )
+{
+    return o << "rad";
 }
 
 inline std::ostream &operator<<( std::ostream &o, temperature_in_millidegree_celsius_tag )
@@ -79,6 +86,12 @@ static const std::vector<std::pair<std::string, money>> money_units = { {
 static const std::vector<std::pair<std::string, volume>> volume_units = { {
         { "ml", 1_ml },
         { "L", 1_liter }
+    }
+};
+static const std::vector<std::pair<std::string, angle>> angle_units = { {
+        { "arcmin", 1_arcmin },
+        { "°", 1_degrees },
+        { "rad", 1_radians },
     }
 };
 } // namespace units

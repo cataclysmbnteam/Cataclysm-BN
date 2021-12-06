@@ -64,6 +64,8 @@
 #include "type_id.h"
 #include "ui_manager.h"
 #include "units.h"
+#include "units_angle.h"
+#include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -844,7 +846,7 @@ int player::fire_gun( const tripoint &target, const int max_shots, item &gun )
         } else {
             // 30 degree cap, like for projectiles
             double angle_offset_arcmin = std::min( dispersion.roll(), 1800.0 ) * ( one_in( 2 ) ? 1 : -1 );
-            double angle_offset = degmin2rad( angle_offset_arcmin );
+            double angle_offset = units::to_radians( units::from_arcmin( angle_offset_arcmin ) );
             double dx = aim.x - pos().x;
             double dy = aim.y - pos().y;
             double new_angle = atan2( dy, dx ) + angle_offset;
@@ -1218,7 +1220,8 @@ static double confidence_estimate( int range, double target_size,
     if( range == 0 ) {
         return 2 * target_size;
     }
-    const double max_lateral_offset = iso_tangent( range, dispersion.max() );
+    const double max_lateral_offset =
+        iso_tangent( range, units::from_arcmin( dispersion.max() ) );
     return 1 / ( max_lateral_offset / target_size );
 }
 
@@ -2824,11 +2827,12 @@ void target_ui::recalc_aim_turning_penalty()
         // Raise it proportionally to how much
         // the player has to turn from previous aiming point
         const double recoil_per_degree = MAX_RECOIL / 180.0;
-        const double angle_curr = coord_to_angle( src, curr_recoil_pos );
-        const double angle_desired = coord_to_angle( src, dst );
-        const double phi = std::fmod( std::abs( angle_curr - angle_desired ), 360.0 );
-        const double angle = phi > 180.0 ? 360.0 - phi : phi;
-        predicted_recoil = std::min( MAX_RECOIL, curr_recoil + angle * recoil_per_degree );
+        const units::angle angle_curr = coord_to_angle( src, curr_recoil_pos );
+        const units::angle angle_desired = coord_to_angle( src, dst );
+        const units::angle phi = normalize( angle_curr - angle_desired );
+        const units::angle angle = std::min( phi, 360.0_degrees - phi );
+        predicted_recoil =
+            std::min( MAX_RECOIL, curr_recoil + to_degrees( angle ) * recoil_per_degree );
     }
 }
 

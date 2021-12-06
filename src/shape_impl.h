@@ -17,6 +17,7 @@
 #include "map_iterator.h"
 #include "make_static.h"
 #include "json.h"
+#include "units_angle.h"
 
 template<typename T>
 constexpr T sign( T x )
@@ -46,10 +47,10 @@ class cone : public shape_impl
         double cos_angle;
 
     public:
-        cone( double half_angle, double h )
+        cone( units::angle half_angle, double h )
             : h( h )
-            , sin_angle( std::sin( half_angle ) )
-            , cos_angle( std::cos( half_angle ) )
+            , sin_angle( sin( half_angle ) )
+            , cos_angle( cos( half_angle ) )
         {}
 
         double signed_distance( const rl_vec3d &p ) const override {
@@ -150,7 +151,7 @@ class rotate_z_shape : public shape_impl
         matrix_3d mat_inv;
 
     public:
-        rotate_z_shape( const std::shared_ptr<shape_impl> &shape, double angle_z )
+        rotate_z_shape( const std::shared_ptr<shape_impl> &shape, units::angle angle_z )
             : shape( shape )
             , mat( matrices::rotation_z_axis( -angle_z ) )
             , mat_inv( matrices::rotation_z_axis( angle_z ) )
@@ -266,12 +267,12 @@ class cone_factory : public shape_factory_impl
 {
     private:
         /** TODO: Angles deserve a proper unit type */
-        double half_angle;
+        units::angle half_angle;
         double length;
     public:
         cone_factory() = default;
         cone_factory( const cone_factory & ) = default;
-        cone_factory( double half_angle, double length )
+        cone_factory( units::angle half_angle, double length )
             : half_angle( half_angle )
             , length( length )
         {}
@@ -287,7 +288,7 @@ class cone_factory : public shape_factory_impl
             auto mindist_minus_origin = std::make_shared<shape_exclude_circle>( mindist, 0.5 );
             rl_vec3d diff = end - start;
             // Plus 90 deg because @ref cone extends in -y direction
-            double rotation_angle = atan2( diff.y, diff.x ) + deg2rad( 90 );
+            units::angle rotation_angle = units::atan2( diff.y, diff.x ) + 90_degrees;
             std::shared_ptr<rotate_z_shape> r = std::make_shared<rotate_z_shape>(
                                                     mindist_minus_origin, rotation_angle );
             std::shared_ptr<offset_shape> o = std::make_shared<offset_shape>( r,
@@ -301,12 +302,12 @@ class cone_factory : public shape_factory_impl
 
         void serialize( JsonOut &jsout ) const override {
             jsout.start_object();
-            jsout.member( "half_angle", static_cast<int>( std::round( rad2deg( half_angle ) ) ) );
+            jsout.member( "half_angle", static_cast<int>( std::round( units::to_degrees( half_angle ) ) ) );
             jsout.member( "length", length );
         }
         void deserialize( JsonIn &jsin ) override {
             JsonObject jo = jsin.get_object();
-            half_angle = deg2rad( jo.get_int( "half_angle" ) );
+            half_angle = units::from_degrees( jo.get_int( "half_angle" ) );
             jo.read( "length", length );
         }
 
@@ -317,7 +318,7 @@ class cone_factory : public shape_factory_impl
         std::string get_description() const override {
             return string_format( _( "Cone of length <info>%d</info>, apex angle <info>%d</info>" ),
                                   static_cast<int>( length ),
-                                  static_cast<int>( std::round( rad2deg( half_angle * 2 ) ) ) );
+                                  static_cast<int>( std::round( units::to_degrees( half_angle * 2 ) ) ) );
         }
 };
 

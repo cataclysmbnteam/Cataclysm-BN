@@ -3,11 +3,11 @@
 namespace matrices
 {
 
-matrix_3d rotation_z_axis( double angle )
+matrix_3d rotation_z_axis( units::angle angle )
 {
     return matrix_3d( {
-        std::cos( angle ), -std::sin( angle ), 0,
-        std::sin( angle ), std::cos( angle ), 0,
+        cos( angle ), -sin( angle ), 0,
+        sin( angle ), cos( angle ), 0,
         0, 0, 1
     } );
 }

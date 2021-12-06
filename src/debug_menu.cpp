@@ -1507,7 +1507,7 @@ void debug()
 
                     if( veh_cond_menu.ret >= 0 && veh_cond_menu.ret < 3 ) {
                         // TODO: Allow picking this when add_vehicle has 3d argument
-                        vehicle *veh = g->m.add_vehicle( selected_opt, dest, -90, 100, veh_cond_menu.ret - 1 );
+                        vehicle *veh = g->m.add_vehicle( selected_opt, dest, -90_degrees, 100, veh_cond_menu.ret - 1 );
                         if( veh != nullptr ) {
                             g->m.board_vehicle( dest, &u );
                         }

@@ -2,9 +2,10 @@
 #ifndef CATA_SRC_UNITS_DEF_H
 #define CATA_SRC_UNITS_DEF_H
 
+#include <cmath>
+
 class JsonIn;
 class JsonOut;
-
 
 namespace units
 {
@@ -125,6 +126,18 @@ class quantity
     private:
         value_type value_;
 };
+
+template<typename V, typename U>
+inline quantity<V, U> fabs( quantity<V, U> q )
+{
+    return quantity<V, U>( std::fabs( q.value() ), U{} );
+}
+
+template<typename V, typename U>
+inline quantity<V, U> fmod( quantity<V, U> num, quantity<V, U> den )
+{
+    return quantity<V, U>( std::fmod( num.value(), den.value() ), U{} );
+}
 
 /**
  * Multiplication and division with scalars. Result is a quantity with the same unit

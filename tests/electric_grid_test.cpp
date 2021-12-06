@@ -123,7 +123,7 @@ static grid_setup set_up_grid( map &m )
     const tripoint_abs_ms battery_abs_pos( m.getabs( battery_local_pos ) );
     m.furn_set( connector_local_pos, f_cable_connector );
     m.furn_set( battery_local_pos, f_battery );
-    vehicle *veh = m.add_vehicle( vproto_id( "car" ), vehicle_local_pos, 0, 0, 0, false );
+    vehicle *veh = m.add_vehicle( vproto_id( "car" ), vehicle_local_pos, 0_degrees, 0, 0, false );
     vehicle_connector_tile *grid_connector =
         active_tiles::furn_at<vehicle_connector_tile>( connector_abs_pos );
     battery_tile *battery = active_tiles::furn_at<battery_tile>( battery_abs_pos );

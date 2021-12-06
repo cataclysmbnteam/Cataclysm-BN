@@ -187,10 +187,12 @@ std::set<tripoint> spell_effect::spell_effect_cone( const spell &sp, const tripo
     std::set<tripoint> targets;
     // cones go all the way to end (if they don't hit an obstacle)
     const int range = sp.range() + 1;
-    const int initial_angle = coord_to_angle( source, target );
+    const units::angle initial_angle = coord_to_angle( source, target );
+    const units::angle half_width = units::from_degrees( aoe_radius / 2.0 );
+    const units::angle start_angle = initial_angle - half_width;
+    const units::angle end_angle = initial_angle + half_width;
     std::set<tripoint> end_points;
-    for( int angle = initial_angle - std::floor( aoe_radius / 2.0 );
-         angle <= initial_angle + std::ceil( aoe_radius / 2.0 ); angle++ ) {
+    for( units::angle angle = start_angle; angle <= end_angle; angle += 1_degrees ) {
         tripoint potential;
         calc_ray_end( angle, range, source, potential );
         end_points.emplace( potential );
@@ -835,11 +837,12 @@ void spell_effect::spawn_summoned_monster( const spell &sp, Creature &caster,
 void spell_effect::spawn_summoned_vehicle( const spell &sp, Creature &caster,
         const tripoint &target )
 {
-    if( g->m.veh_at( target ) ) {
+    map &here = get_map();
+    if( here.veh_at( target ) ) {
         caster.add_msg_if_player( m_bad, _( "There is already a vehicle there." ) );
         return;
     }
-    if( vehicle *veh = g->m.add_vehicle( sp.summon_vehicle_id(), target, -90, 100, 0 ) ) {
+    if( vehicle *veh = here.add_vehicle( sp.summon_vehicle_id(), target, -90_degrees, 100, 0 ) ) {
         veh->magic = true;
         const time_duration summon_time = sp.duration_turns();
         if( !sp.has_flag( spell_flag::PERMANENT ) ) {
@@ -932,7 +935,7 @@ void spell_effect::mod_moves( const spell &sp, Creature &caster, const tripoint 
     }
 }
 
-void spell_effect::map( const spell &sp, Creature &caster, const tripoint & )
+void spell_effect::map_area( const spell &sp, Creature &caster, const tripoint & )
 {
     const avatar *you = caster.as_avatar();
     if( !you ) {
