@@ -94,7 +94,7 @@
     "price_postapoc": 1250,
     "to_hit": -1,
     "bashing": 4,
-    "material": [ "chitin" ],
+    "material": [ "chitin", "leather" ],
     "symbol": "[",
     "looks_like": "boots_bone",
     "color": "green",
@@ -102,7 +102,7 @@
     "coverage": 95,
     "encumbrance": 10,
     "warmth": 10,
-    "material_thickness": 3,
+    "material_thickness": 4,
     "environmental_protection": 4,
     "flags": [ "STURDY" ]
   },
@@ -113,7 +113,7 @@
     "name": { "str": "pair of biosilicified chitin boots", "str_pl": "pairs of biosilicified chitin boots" },
     "description": "Boots crafted from carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant and very durable.",
     "price_postapoc": 1750,
-    "material": [ "acidchitin" ],
+    "material": [ "acidchitin", "leather" ],
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
     "relative": { "bashing": 2, "material_thickness": 1 }
   },
