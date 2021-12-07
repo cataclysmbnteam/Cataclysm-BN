@@ -289,7 +289,7 @@ void dependency_tree::build_connections(
         }
     }
 
-    for( std::pair<const mod_id, std::vector<mod_id>> &elem : key_conflict_map ) {
+    for( const std::pair<const mod_id, std::vector<mod_id>> &elem : key_conflict_map ) {
         const auto iter = master_node_map.find( elem.first );
         if( iter != master_node_map.end() ) {
             dependency_node *knode = &iter->second;
