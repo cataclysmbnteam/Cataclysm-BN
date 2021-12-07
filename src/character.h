@@ -1847,9 +1847,6 @@ class Character : public Creature, public visitable<Character>
         /** Returns warmth provided by armor, etc. */
         std::map<bodypart_id, int> warmth( const std::map<bodypart_id, std::vector<const item *>>
                                            &clothing_map ) const;
-        /** Returns warmth provided by an armor's bonus, like hoods, pockets, etc. */
-        std::map<bodypart_id, int> bonus_item_warmth( const std::map<bodypart_id, std::vector<const item *>>
-                &clothing_map ) const;
         /** Can the player lie down and cover self with blankets etc. **/
         bool can_use_floor_warmth() const;
         /**
@@ -2294,5 +2291,11 @@ float threshold_for_nv_range( float range );
 float nv_range_from_per( int per );
 float nv_range_from_eye_encumbrance( int enc );
 } // namespace vision
+
+namespace warmth
+{
+/** Returns warmth provided by an armor's bonus, like hoods, pockets, etc. */
+std::map<bodypart_id, int> bonus_from_clothing( const Character &c );
+}
 
 #endif // CATA_SRC_CHARACTER_H

@@ -5175,7 +5175,7 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
     }
 
     std::map<bodypart_id, int> warmth_per_bp = warmth( clothing_map );
-    std::map<bodypart_id, int> bonus_warmth_per_bp = bonus_item_warmth( clothing_map );
+    std::map<bodypart_id, int> bonus_warmth_per_bp = warmth::bonus_from_clothing( *this );
     std::map<bodypart_id, int> wind_res_per_bp = get_wind_resistance( clothing_map );
     // We might not use this at all, so leave it empty
     // If we do need to use it, we'll initialize it (once) there
@@ -9127,44 +9127,44 @@ std::map<bodypart_id, int> Character::warmth( const std::map<bodypart_id, std::v
     return ret;
 }
 
-static int bestwarmth( const std::vector<const item *> &its, const flag_id &flag )
+namespace warmth
 {
-    int best = 0;
-    for( const item *w : its ) {
-        if( w->has_flag( flag.id().c_str() ) && w->get_warmth() > best ) {
-            best = w->get_warmth();
-        }
-    }
-    return best;
-}
 
-std::map<bodypart_id, int> Character::bonus_item_warmth( const
-        std::map<bodypart_id, std::vector<const item *>> &clothing_map ) const
+std::map<bodypart_id, int> bonus_from_clothing( const Character &c )
 {
     std::map<bodypart_id, int> ret;
-    for( const bodypart_id &bp : get_all_body_parts() ) {
+    for( const bodypart_id &bp : c.get_all_body_parts() ) {
         ret.emplace( bp, 0 );
     }
-    for( const std::pair<const bodypart_id, std::vector<const item *>> &on_bp : clothing_map ) {
-        const bodypart_id &bp = on_bp.first;
-        // If the player is not wielding anything big, check if hands can be put in pockets
-        if( ( bp == body_part_hand_l || bp == body_part_hand_r ) &&
-            weapon.volume() < 500_ml ) {
-            ret[bp] += bestwarmth( on_bp.second, flag_POCKETS );
+    for( const item &it : c.worn ) {
+        if( it.has_flag( flag_POCKETS ) ) {
+            ret[body_part_hand_l] = std::max( ret[body_part_hand_l], it.get_warmth() );
+            ret[body_part_hand_r] = std::max( ret[body_part_hand_r], it.get_warmth() );
         }
-
-        // If the player's head is not encumbered, check if hood can be put up
-        if( bp == body_part_head && encumb( body_part_head->token ) < 10 ) {
-            ret[bp] += bestwarmth( on_bp.second, flag_HOOD );
+        if( it.has_flag( flag_HOOD ) ) {
+            ret[body_part_head] = std::max( ret[body_part_head], it.get_warmth() );
         }
-
-        // If the player's mouth is not encumbered, check if collar can be put up
-        if( bp == body_part_mouth && encumb( body_part_mouth->token ) < 10 ) {
-            ret[bp] += bestwarmth( on_bp.second, flag_COLLAR );
+        if( it.has_flag( flag_COLLAR ) ) {
+            ret[body_part_mouth] = std::max( ret[body_part_mouth], it.get_warmth() );
         }
+    }
+    // If player is wielding something large, pockets are not usable
+    if( c.weapon.volume() > 500_ml ) {
+        ret[body_part_hand_l] = 0;
+        ret[body_part_hand_r] = 0;
+    }
+    // If player's head is encumbered, hood can't be put up
+    if( c.encumb( body_part_head->token ) > 10 ) {
+        ret[body_part_head] = 0;
+    }
+    // Similar for mouth
+    if( c.encumb( body_part_mouth->token ) > 10 ) {
+        ret[body_part_mouth] = 0;
     }
 
     return ret;
+}
+
 }
 
 bool Character::can_use_floor_warmth() const

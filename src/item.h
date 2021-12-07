@@ -1380,6 +1380,7 @@ class item : public visitable<item>
          */
         /*@{*/
         bool has_flag( const std::string &flag ) const;
+        bool has_flag( const flag_str_id &flag ) const;
 
         template<typename Container, typename T = std::decay_t<decltype( *std::declval<const Container &>().begin() )>>
         bool has_any_flag( const Container &flags ) const {
