@@ -19,7 +19,9 @@ enum class node_error_type : int {
 class dependency_node
 {
     public:
-        std::vector<dependency_node *> parents, children, conflicts;
+        std::vector<dependency_node *> parents;
+        std::vector<dependency_node *> children;
+        std::vector<const dependency_node *> conflicts;
         std::map<node_error_type, std::vector<std::string> > all_errors;
         mod_id key;
         bool availability;
@@ -34,7 +36,7 @@ class dependency_node
 
         void add_parent( dependency_node *parent );
         void add_child( dependency_node *child );
-        void add_conflict( dependency_node *conflict );
+        void add_conflict( const dependency_node *conflict );
 
         bool is_available();
         bool has_errors();

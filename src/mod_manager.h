@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "pimpl.h"
+#include "ret_val.h"
 #include "type_id.h"
 
 struct WORLD;
@@ -175,8 +176,7 @@ class mod_ui
         mod_manager &active_manager;
         dependency_tree &mm_tree;
 
-        std::pair<bool, std::string> try_add( const mod_id &mod_to_add,
-                                              std::vector<mod_id> &active_list );
+        ret_val<bool> try_add( const mod_id &mod_to_add, std::vector<mod_id> &active_list );
         void try_rem( size_t selection, std::vector<mod_id> &active_list );
         void try_shift( char direction, size_t &selection, std::vector<mod_id> &active_list );
 

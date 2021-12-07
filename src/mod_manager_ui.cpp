@@ -134,29 +134,23 @@ static void check_conflicts( const mod_id &mod, const std::vector<mod_id> &activ
     }
 }
 
-std::pair<bool, std::string> mod_ui::try_add( const mod_id &mod_to_add,
-        std::vector<mod_id> &active_list )
+ret_val<bool> mod_ui::try_add( const mod_id &mod_to_add, std::vector<mod_id> &active_list )
 {
     if( std::find( active_list.begin(), active_list.end(), mod_to_add ) != active_list.end() ) {
         // The same mod can not be added twice. That makes no sense.
-        return { false, _( "The mod is already on the list." ) };
+        return ret_val<bool>::make_failure( _( "The mod is already on the list." ) );
     }
     if( !mod_to_add.is_valid() ) {
-        return { false,
-                 string_format( _( "Unable to find mod with id \"%s\"." ), mod_to_add )
-               };
+        return ret_val<bool>::make_failure( _( "Unable to find mod with id \"%s\"." ), mod_to_add );
     }
     const MOD_INFORMATION &mod = *mod_to_add;
     dependency_node *checknode = mm_tree.get_node( mod.ident );
     if( !checknode ) {
-        return { false,
-                 _( "Failed to build dependency tree for the mod." )
-               };
+        return ret_val<bool>::make_failure( _( "Failed to build dependency tree for the mod." ) );
     }
     if( checknode->has_errors() ) {
-        return { false,
-                 string_format( _( "The mod has dependency problem(s):\n\n%s" ), checknode->s_errors() )
-               };
+        return ret_val<bool>::make_failure( _( "The mod has dependency problem(s):\n\n%s" ),
+                                            checknode->s_errors() );
     }
 
     // get dependencies of selection in the order that they would appear from the top of the active list
@@ -168,10 +162,9 @@ std::pair<bool, std::string> mod_ui::try_add( const mod_id &mod_to_add,
         check_conflicts( dep, active_list, conflicts );
     }
     if( !conflicts.empty() ) {
-        return { false,
-                 string_format( _( "The mod or some of its dependencies has conflict(s) with active mods:\n\n%s" ),
-                                fmt_conflicts( conflicts ) )
-               };
+        return ret_val<bool>::make_failure(
+                   _( "The mod or some of its dependencies has conflict(s) with active mods:\n\n%s" ),
+                   fmt_conflicts( conflicts ) );
     }
 
     // check to see if mod is a core, and if so check to see if there is already a core in the mod list
@@ -212,7 +205,7 @@ std::pair<bool, std::string> mod_ui::try_add( const mod_id &mod_to_add,
         active_list.push_back( mod.ident );
     }
 
-    return { true, "" };
+    return ret_val<bool>::make_success();
 }
 
 void mod_ui::try_rem( size_t selection, std::vector<mod_id> &active_list )

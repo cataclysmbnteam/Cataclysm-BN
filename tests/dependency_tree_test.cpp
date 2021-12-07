@@ -297,7 +297,7 @@ TEST_CASE( "deptree_complex_conflict", "[dependency_tree]" )
 
     REQUIRE( node->has_errors() );
     CHECK( node->s_errors() ==
-           "Has conflicting dependencies: [c] with [a], [b] with [d]\n"
+           "Has conflicting dependencies: [a] with [c], [b] with [d]\n"
            "Has dependency cycle(s): /d/c/b/a/"
          );
     CHECK_FALSE( node->is_available() );

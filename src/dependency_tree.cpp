@@ -30,29 +30,20 @@ dependency_node::dependency_node( mod_id _key ): index( -1 ), lowlink( -1 ), on_
 
 void dependency_node::add_parent( dependency_node *parent )
 {
-    if( parent ) {
-        parents.push_back( parent );
-    }
+    parents.push_back( parent );
 }
 
 void dependency_node::add_child( dependency_node *child )
 {
-    if( child ) {
-        children.push_back( child );
-    }
+    children.push_back( child );
 }
 
-void dependency_node::add_conflict( dependency_node *conflict )
+void dependency_node::add_conflict( const dependency_node *conflict )
 {
-    if( !conflict ) {
-        return;
+    auto it = std::find( conflicts.begin(), conflicts.end(), conflict );
+    if( it == conflicts.end() ) {
+        conflicts.push_back( conflict );
     }
-    for( dependency_node *c : conflicts ) {
-        if( c == conflict ) {
-            return;
-        }
-    }
-    conflicts.push_back( conflict );
 }
 
 bool dependency_node::is_available()
@@ -298,14 +289,13 @@ void dependency_tree::build_connections(
         }
     }
 
-    for( auto &elem : key_conflict_map ) {
+    for( std::pair<const mod_id, std::vector<mod_id>> &elem : key_conflict_map ) {
         const auto iter = master_node_map.find( elem.first );
         if( iter != master_node_map.end() ) {
             dependency_node *knode = &iter->second;
 
-            // apply parents list
-            std::vector<mod_id> vnode_conflicts = elem.second;
-            for( auto &vnode_conflict : vnode_conflicts ) {
+            const std::vector<mod_id> &vnode_conflicts = elem.second;
+            for( const mod_id &vnode_conflict : vnode_conflicts ) {
                 const auto iter = master_node_map.find( vnode_conflict );
                 if( iter != master_node_map.end() ) {
                     dependency_node *vnode = &iter->second;
@@ -403,17 +393,17 @@ void dependency_tree::check_for_strongly_connected_components()
         }
     }
 
-    for( auto &list : strongly_connected_components ) {
+    for( std::vector<dependency_node *> &list : strongly_connected_components ) {
         if( list.size() <= 1 ) {
             continue;
         }
 
         std::string err_msg = "/";
-        for( const auto &node : list ) {
+        for( const dependency_node *node : list ) {
             err_msg += node->key.str();
             err_msg += "/";
         }
-        for( auto &elem : list ) {
+        for( dependency_node *elem : list ) {
             elem->all_errors[node_error_type::cyclic_dep].push_back( err_msg );
         }
     }
@@ -453,23 +443,35 @@ void dependency_tree::strong_connect( dependency_node *dnode )
     }
 }
 
+static bool depnode_comparator( const dependency_node *a, const dependency_node *b )
+{
+    return mod_id::LexCmp().operator()( a->key, b->key );
+}
+
 void dependency_tree::check_for_conflicting_dependencies()
 {
     for( auto &node : master_node_map ) {
         dependency_node *this_node = &node.second;
-        std::vector<dependency_node *> deps = get_dependencies_of_X_as_nodes( node.first );
+        std::vector<dependency_node *> all_deps = get_dependencies_of_X_as_nodes( node.first );
+        std::sort( all_deps.begin(), all_deps.end(), depnode_comparator );
 
-        for( size_t i = 0; i < deps.size(); i++ ) {
-            const dependency_node *curr = deps[i];
-            for( size_t j = i + 1; j < deps.size(); j++ ) {
-                const dependency_node *other = deps[j];
-                const auto it = std::find( curr->conflicts.begin(), curr->conflicts.end(), other );
-                if( it != curr->conflicts.end() ) {
-                    //~ Single entry in list of conflicting dependencies, both %s are mod ids.
-                    //~ Example of final string: "[aftershock] with [classic-zombies]"
-                    std::string msg = string_format( _( "[%1$s] with [%2$s]" ), curr->key, other->key );
-                    this_node->all_errors[node_error_type::conflicting_deps].push_back( msg );
-                }
+        for( auto dep_it = all_deps.begin(); dep_it != all_deps.end(); dep_it++ ) {
+            const dependency_node *this_dep = *dep_it;
+            std::vector<const dependency_node *> this_dep_conflicts = this_dep->conflicts;
+            std::sort( this_dep_conflicts.begin(), this_dep_conflicts.end(), depnode_comparator );
+
+            std::vector<const dependency_node *> both;
+            std::set_intersection(
+                std::next( dep_it ), all_deps.end(),
+                this_dep_conflicts.begin(), this_dep_conflicts.end(),
+                std::back_inserter( both ), depnode_comparator
+            );
+
+            for( const dependency_node *this_dep_conf : both ) {
+                //~ Single entry in list of conflicting dependencies, both %s are mod ids.
+                //~ Example of final string: "[aftershock] with [classic-zombies]"
+                std::string msg = string_format( _( "[%1$s] with [%2$s]" ), this_dep->key, this_dep_conf->key );
+                this_node->all_errors[node_error_type::conflicting_deps].push_back( msg );
             }
         }
     }

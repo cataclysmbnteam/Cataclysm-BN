@@ -1227,10 +1227,10 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
             if( active_header == 0 && !current_tab_mods.empty() ) {
                 // try-add
                 const mod_id &to_add = current_tab_mods[cursel[0]];
-                std::pair<bool, std::string> ret = mman_ui->try_add( to_add, active_mod_order );
-                if( !ret.first ) {
+                ret_val<bool> ret = mman_ui->try_add( to_add, active_mod_order );
+                if( !ret.success() ) {
                     std::string msg = string_format( _( "Cannot add mod %s [%s].\n\n%s" ),
-                                                     to_add->name(), to_add, ret.second );
+                                                     to_add->name(), to_add, ret.str() );
                     popup( msg );
                 }
             } else if( active_header == 1 && !active_mod_order.empty() ) {
