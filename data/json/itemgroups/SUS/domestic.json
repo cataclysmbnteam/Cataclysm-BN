@@ -221,13 +221,13 @@
     "//3": "In the future could make several fridge lists, eg SUS_fridge_vegetarian or SUS_fridge_bachelor, and have this be a distribution to randomly choose them",
     "subtype": "collection",
     "entries": [
-      { "group": "fridge_fruit_and_veg_random", "count": [ 1, 5 ], "prob": 75 },
-      { "group": "fridge_dairy_random", "prob": 75, "count": [ 1, 3 ] },
-      { "group": "fridge_condiment_random", "prob": 75, "count": [ 1, 2 ] },
-      { "group": "fridge_meat_random", "prob": 75, "count": [ 1, 2 ] },
-      { "group": "fridge_breakfast_random", "prob": 50, "count": [ 1, 2 ] },
-      { "group": "fridge_drinks_random", "prob": 50, "count": [ 1, 2 ] },
       { "group": "fridge_alcohol_random", "prob": 25 },
+      { "group": "fridge_breakfast_random", "prob": 50, "count": [ 1, 2 ] },
+      { "group": "fridge_condiment_random", "prob": 75, "count": [ 1, 2 ] },
+      { "group": "fridge_dairy_random", "prob": 75, "count": [ 1, 3 ] },
+      { "group": "fridge_drinks_random", "prob": 50, "count": [ 1, 2 ] },
+      { "group": "fridge_fruit_and_veg_random", "count": [ 1, 5 ], "prob": 75 },
+      { "group": "fridge_meat_random", "prob": 75, "count": [ 1, 2 ] },
       { "group": "fridgesnacks", "prob": 75 }
     ]
   },
