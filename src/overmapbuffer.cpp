@@ -772,6 +772,7 @@ static int get_terrain_cost( const tripoint_abs_omt &omt_pos, const overmap_path
     }
     const oter_id &oter = overmap_buffer.ter_existing( omt_pos );
     if( is_ot_match( "road", oter, ot_match_type::type ) ||
+        is_ot_match( "bridge", oter, ot_match_type::type ) ||
         is_ot_match( "bridge_road", oter, ot_match_type::type ) ||
         is_ot_match( "bridgehead_ground", oter, ot_match_type::type ) ||
         is_ot_match( "bridgehead_ramp", oter, ot_match_type::type ) ||
@@ -796,7 +797,7 @@ static int get_terrain_cost( const tripoint_abs_omt &omt_pos, const overmap_path
         } else {
             return params.shore_cost;
         }
-    } else if( is_ot_match( "bridge", oter, ot_match_type::type ) ) {
+    } else if( is_ot_match( "bridge_under", oter, ot_match_type::type ) ) {
         return params.water_cost;
     } else if( is_ot_match( "open_air", oter, ot_match_type::type ) ) {
         return params.air_cost;
