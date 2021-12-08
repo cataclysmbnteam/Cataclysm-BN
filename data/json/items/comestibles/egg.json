@@ -38,7 +38,8 @@
     "looks_like": "egg_bird",
     "name": { "str": "unfertilized bird egg" },
     "description": "Nutritious egg laid by a bird.  This one is unfertilized and is probably from a farm.",
-    "rot_spawn_chance": 0
+    "rot_spawn_chance": 0,
+    "container": "carton_egg"
   },
   {
     "type": "COMESTIBLE",
