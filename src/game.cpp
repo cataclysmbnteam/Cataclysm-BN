@@ -1599,6 +1599,10 @@ bool game::do_turn()
         if( calendar::once_every( 1_hours ) ) {
             add_artifact_dreams();
         }
+    } else if( u.has_destination() ) {
+        wait_redraw = true;
+        wait_message = _( "Travelling…" );
+        wait_refresh_rate = 15_turns;
     } else if( const cata::optional<std::string> progress = u.activity.get_progress_message( u ) ) {
         wait_redraw = true;
         wait_message = *progress;
