@@ -1045,10 +1045,15 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     if( blink ) {
         // Draw path for auto-travel
         for( const tripoint_abs_omt &pos : you.omt_path ) {
+            const char *id;
             if( pos.z() == center_abs_omt.z() ) {
-                draw_from_id_string( "highlight", global_omt_to_draw_position( pos ), 0, 0, lit_level::LIT,
-                                     false );
+                id = "overmap_path";
+            } else if( pos.z() > center_abs_omt.z() ) {
+                id = "overmap_path_above";
+            } else {
+                id = "overmap_path_below";
             }
+            draw_from_id_string( id, global_omt_to_draw_position( pos ), 0, 0, lit_level::LIT, false );
         }
 
         // reduce the area where the map cursor is drawn so it doesn't get cut off
