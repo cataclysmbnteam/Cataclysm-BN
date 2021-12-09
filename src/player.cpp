@@ -148,9 +148,6 @@ static const trait_id trait_MOREPAIN( "MORE_PAIN" );
 static const trait_id trait_MOREPAIN2( "MORE_PAIN2" );
 static const trait_id trait_MOREPAIN3( "MORE_PAIN3" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
-static const trait_id trait_NOMAD( "NOMAD" );
-static const trait_id trait_NOMAD2( "NOMAD2" );
-static const trait_id trait_NOMAD3( "NOMAD3" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PAINRESIST( "PAINRESIST" );
@@ -388,58 +385,6 @@ void player::process_turn()
         if( !martial_arts_data->has_martialart( ma ) && can_autolearn( ma ) ) {
             martial_arts_data->add_martialart( ma );
             add_msg_if_player( m_info, _( "You have learned a new style: %s!" ), ma.obj().name );
-        }
-    }
-
-    // Update time spent conscious in this overmap tile for the Nomad traits.
-    if( !is_npc() && ( has_trait( trait_NOMAD ) || has_trait( trait_NOMAD2 ) ||
-                       has_trait( trait_NOMAD3 ) ) &&
-        !has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
-        const tripoint_abs_omt ompos = global_omt_location();
-        const point_abs_omt pos = ompos.xy();
-        if( overmap_time.find( pos ) == overmap_time.end() ) {
-            overmap_time[pos] = 1_turns;
-        } else {
-            overmap_time[pos] += 1_turns;
-        }
-    }
-    // Decay time spent in other overmap tiles.
-    if( !is_npc() && calendar::once_every( 1_hours ) ) {
-        const tripoint_abs_omt ompos = global_omt_location();
-        const time_point now = calendar::turn;
-        time_duration decay_time = 0_days;
-        if( has_trait( trait_NOMAD ) ) {
-            decay_time = 7_days;
-        } else if( has_trait( trait_NOMAD2 ) ) {
-            decay_time = 14_days;
-        } else if( has_trait( trait_NOMAD3 ) ) {
-            decay_time = 28_days;
-        }
-        auto it = overmap_time.begin();
-        while( it != overmap_time.end() ) {
-            if( it->first == ompos.xy() ) {
-                it++;
-                continue;
-            }
-            // Find the amount of time passed since the player touched any of the overmap tile's submaps.
-            const tripoint_abs_omt tpt( it->first, 0 );
-            const time_point last_touched = overmap_buffer.scent_at( tpt ).creation_time;
-            const time_duration since_visit = now - last_touched;
-            // If the player has spent little time in this overmap tile, let it decay after just an hour instead of the usual extended decay time.
-            const time_duration modified_decay_time = it->second > 5_minutes ? decay_time : 1_hours;
-            if( since_visit > modified_decay_time ) {
-                // Reduce the tracked time spent in this overmap tile.
-                const time_duration decay_amount = std::min( since_visit - modified_decay_time, 1_hours );
-                const time_duration updated_value = it->second - decay_amount;
-                if( updated_value <= 0_turns ) {
-                    // We can stop tracking this tile if there's no longer any time recorded there.
-                    it = overmap_time.erase( it );
-                    continue;
-                } else {
-                    it->second = updated_value;
-                }
-            }
-            it++;
         }
     }
 }
