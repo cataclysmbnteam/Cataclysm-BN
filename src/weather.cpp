@@ -756,14 +756,17 @@ int get_local_windchill( double temperature_f, double humidity, double wind_mph 
         /// Model 1, cold wind chill (only valid for temps below 50F)
         /// Is also used as a standard in North America.
 
+        // This model fails when wind is less than 3 mph
+        wind_mph = std::max( 3.0, wind_mph );
+
         // Temperature is removed at the end, because get_local_windchill is meant to calculate the difference.
         // Source : http://en.wikipedia.org/wiki/Wind_chill#North_American_and_United_Kingdom_wind_chill_index
         windchill_f = 35.74 + 0.6215 * temperature_f - 35.75 * std::pow( wind_mph,
                       0.16 ) + 0.4275 * temperature_f * std::pow( wind_mph, 0.16 ) - temperature_f;
-        if( wind_mph < 3 ) {
-            // This model fails when wind is less than 3 mph
-            windchill_f = 0;
-        }
+
+        // MUST be -7.2 for temperature_f == 0, or it won't work with the formula for 50F+
+        windchill_f = std::min( -7.2, windchill_f );
+
     } else {
         /// Model 2, warm wind chill
 

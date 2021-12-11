@@ -132,18 +132,6 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
 
     SECTION( "below 50F - North American and UK wind chill index" ) {
 
-        // "Windchill temperature is defined only for temperatures at or below 10C (50F)
-        // and wind speeds above 4.8 kilometres per hour (3.0 mph)."
-
-        WHEN( "wind speed is less than 3 mph" ) {
-            THEN( "windchill is undefined and effectively 0" ) {
-                CHECK( 0 == get_local_windchill( 30.0f, 0.0f, 2.9f ) );
-                CHECK( 0 == get_local_windchill( 30.0f, 0.0f, 2.0f ) );
-                CHECK( 0 == get_local_windchill( 30.0f, 0.0f, 1.0f ) );
-                CHECK( 0 == get_local_windchill( 30.0f, 0.0f, 0.0f ) );
-            }
-        }
-
         // "As the air temperature falls, the chilling effect of any wind that is present increases.
         // For example, a 16 km/h (9.9 mph) wind will lower the apparent temperature by a wider
         // margin at an air temperature of −20C (−4F), than a wind of the same speed would if
@@ -216,9 +204,6 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
         WHEN( "wind speed is at least 3 mph" ) {
             THEN( "windchill gets colder as wind increases" ) {
                 // Just below freezing
-                CHECK( -2 == get_local_windchill( 30.0f, 0.0f, 3.0f ) );
-                CHECK( -4 == get_local_windchill( 30.0f, 0.0f, 4.0f ) );
-                CHECK( -5 == get_local_windchill( 30.0f, 0.0f, 5.0f ) );
                 CHECK( -8 == get_local_windchill( 30.0f, 0.0f, 10.0f ) );
                 CHECK( -12 == get_local_windchill( 30.0f, 0.0f, 20.0f ) );
                 CHECK( -15 == get_local_windchill( 30.0f, 0.0f, 30.0f ) );
@@ -243,9 +228,9 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
         // (as low as −46C or −50F) when humidity levels are also low."
 
         THEN( "wind chill index is unaffected by humidity" ) {
-            CHECK( -6 == get_local_windchill( 40.0f, 0.0f, 10.0f ) );
-            CHECK( -6 == get_local_windchill( 40.0f, 50.0f, 10.0f ) );
-            CHECK( -6 == get_local_windchill( 40.0f, 100.0f, 10.0f ) );
+            CHECK( -7 == get_local_windchill( 40.0f, 0.0f, 10.0f ) );
+            CHECK( -7 == get_local_windchill( 40.0f, 50.0f, 10.0f ) );
+            CHECK( -7 == get_local_windchill( 40.0f, 100.0f, 10.0f ) );
 
             CHECK( -22 == get_local_windchill( 10.0f, 0.0f, 30.0f ) );
             CHECK( -22 == get_local_windchill( 10.0f, 50.0f, 30.0f ) );
