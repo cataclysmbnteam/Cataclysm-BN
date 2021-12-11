@@ -112,6 +112,23 @@ TEST_CASE( "weather realism", "[.]" )
     }
 }
 
+TEST_CASE( "windchill sanity check", "[wind_chill][slow]" )
+{
+    // Windchill function must be strictly monotonous with temperature
+    // At all possible wind velocities and humidities
+    for( double humidity = 0.0; humidity <= 100.0; humidity += 1.0 ) {
+        for( double wind_mph = 0.0; wind_mph <= 100.0; wind_mph += 1.0 ) {
+            int last_windchill = INT_MIN;
+            for( int temperature_f = -200; temperature_f <= 200; temperature_f++ ) {
+                int cur_windchill = get_local_windchill( temperature_f, humidity, wind_mph );
+                CAPTURE( temperature_f, humidity, wind_mph );
+                CHECK( cur_windchill >= last_windchill );
+                last_windchill = cur_windchill;
+            }
+        }
+    }
+}
+
 TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
 {
     // `get_local_windchill` returns degrees F offset from current temperature,
