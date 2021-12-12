@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "pimpl.h"
+#include "ret_val.h"
 #include "type_id.h"
 
 struct WORLD;
@@ -70,6 +71,9 @@ struct MOD_INFORMATION {
         /** What other mods must be loaded prior to this one? */
         std::vector<mod_id> dependencies;
 
+        /** What mods cannot be loaded together with this one? */
+        std::vector<mod_id> conflicts;
+
         /** Core mods are loaded before any other mods */
         bool core = false;
 
@@ -116,9 +120,7 @@ class mod_manager
         void load_mods_list( WORLDPTR world ) const;
         const t_mod_list &get_default_mods() const;
         bool set_default_mods( const t_mod_list &mods );
-        const std::vector<mod_id> &get_usable_mods() const {
-            return usable_mods;
-        }
+        std::vector<mod_id> get_all_sorted() const;
 
     private:
         // Make this accessible for now
@@ -163,10 +165,6 @@ class mod_manager
         t_mod_list default_mods;
         /** Second field is optional replacement mod */
         std::map<mod_id, mod_id> mod_replacements;
-
-        std::vector<mod_id> usable_mods;
-
-        void set_usable_mods();
 };
 
 class mod_ui
@@ -178,8 +176,7 @@ class mod_ui
         mod_manager &active_manager;
         dependency_tree &mm_tree;
 
-        void try_add( const mod_id &mod_to_add,
-                      std::vector<mod_id> &active_list );
+        ret_val<bool> try_add( const mod_id &mod_to_add, std::vector<mod_id> &active_list );
         void try_rem( size_t selection, std::vector<mod_id> &active_list );
         void try_shift( char direction, size_t &selection, std::vector<mod_id> &active_list );
 

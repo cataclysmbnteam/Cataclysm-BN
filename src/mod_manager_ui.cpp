@@ -25,6 +25,11 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
 
     std::string info;
 
+    if( mod->obsolete ) {
+        info += colorize( _( "This mod is marked as obsolete and may contain severe errors." ), c_yellow );
+        info += "\n";
+    }
+
     if( !mod->authors.empty() ) {
         info += colorize( vgettext( "Author", "Authors", mod->authors.size() ),
                           c_light_blue ) + ": " + enumerate_as_string( mod->authors );
@@ -53,6 +58,20 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
                           c_light_blue ) + ": " + str + "\n";
     }
 
+    if( !mod->conflicts.empty() ) {
+        const auto &list = mod->conflicts;
+        auto str = enumerate_as_string( list.begin(), list.end(), [&]( const mod_id & e ) {
+            if( e.is_valid() ) {
+                return string_format( "[%s]", e->name() );
+            } else {
+                return string_format( "[<color_dark_gray>%s</color>]", e.str() );
+            }
+        } );
+        //~ Followed by list of mods the current mod conflicts with
+        info += colorize( vgettext( "Conflict", "Conflicts", list.size() ),
+                          c_light_blue ) + ": " + str + "\n";
+    }
+
     if( !mod->version.empty() ) {
         info += colorize( _( "Mod version" ), c_light_blue ) + ": " + mod->version + "\n";
     }
@@ -70,35 +89,83 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
     return info;
 }
 
-void mod_ui::try_add( const mod_id &mod_to_add,
-                      std::vector<mod_id> &active_list )
+struct conflict_pair {
+    mod_id what;
+    mod_id with;
+};
+
+static std::string fmt_conflicts( const std::vector<conflict_pair> &list )
+{
+    std::string ret;
+
+    for( const conflict_pair &elem : list ) {
+        //~ Single entry in the list of which mods conflict with which mods.
+        //~ Please be mindful of spaces.
+        //~ "%s [%s]" parts are mod names with internal ids.
+        //~ The final result reads as "Mod X [id_x] with Mod Y [id_y]"
+        ret += string_format( _( "  %s [%s]\n    with %s [%s]\n" ),
+                              elem.what->name(), elem.what,
+                              elem.with->name(), elem.with );
+    }
+
+    return ret;
+}
+
+static void check_conflict( const mod_id &what, const mod_id &with,
+                            std::vector<conflict_pair> &ret )
+{
+    auto it = std::find( what->conflicts.begin(), what->conflicts.end(), with );
+    if( it != what->conflicts.end() ) {
+        ret.emplace_back( conflict_pair{ what, with } );
+        return;
+    }
+
+    it = std::find( with->conflicts.begin(), with->conflicts.end(), what );
+    if( it != with->conflicts.end() ) {
+        ret.emplace_back( conflict_pair{ what, with } );
+    }
+}
+
+static void check_conflicts( const mod_id &mod, const std::vector<mod_id> &active_list,
+                             std::vector<conflict_pair> &ret )
+{
+    for( const auto &elem : active_list ) {
+        check_conflict( mod, elem, ret );
+    }
+}
+
+ret_val<bool> mod_ui::try_add( const mod_id &mod_to_add, std::vector<mod_id> &active_list )
 {
     if( std::find( active_list.begin(), active_list.end(), mod_to_add ) != active_list.end() ) {
         // The same mod can not be added twice. That makes no sense.
-        return;
+        return ret_val<bool>::make_failure( _( "The mod is already on the list." ) );
     }
     if( !mod_to_add.is_valid() ) {
-        debugmsg( "Unable to load mod \"%s\".", mod_to_add.c_str() );
-        return;
+        return ret_val<bool>::make_failure( _( "Unable to find mod with id \"%s\"." ), mod_to_add );
     }
     const MOD_INFORMATION &mod = *mod_to_add;
-    bool errs;
-    try {
-        dependency_node *checknode = mm_tree.get_node( mod.ident );
-        if( !checknode ) {
-            return;
-        }
-        errs = checknode->has_errors();
-    } catch( std::exception &e ) {
-        errs = true;
+    dependency_node *checknode = mm_tree.get_node( mod.ident );
+    if( !checknode ) {
+        return ret_val<bool>::make_failure( _( "Failed to build dependency tree for the mod." ) );
+    }
+    if( checknode->has_errors() ) {
+        return ret_val<bool>::make_failure( _( "The mod has dependency problem(s):\n\n%s" ),
+                                            checknode->s_errors() );
     }
 
-    if( errs ) {
-        // cannot add, something wrong!
-        return;
-    }
     // get dependencies of selection in the order that they would appear from the top of the active list
     std::vector<mod_id> dependencies = mm_tree.get_dependencies_of_X_as_strings( mod.ident );
+
+    std::vector<conflict_pair> conflicts;
+    check_conflicts( mod_to_add, active_list, conflicts );
+    for( const auto &dep : dependencies ) {
+        check_conflicts( dep, active_list, conflicts );
+    }
+    if( !conflicts.empty() ) {
+        return ret_val<bool>::make_failure(
+                   _( "The mod or some of its dependencies has conflict(s) with active mods:\n\n%s" ),
+                   fmt_conflicts( conflicts ) );
+    }
 
     // check to see if mod is a core, and if so check to see if there is already a core in the mod list
     if( mod.core ) {
@@ -137,6 +204,8 @@ void mod_ui::try_add( const mod_id &mod_to_add,
         // and finally add the one we are trying to add!
         active_list.push_back( mod.ident );
     }
+
+    return ret_val<bool>::make_success();
 }
 
 void mod_ui::try_rem( size_t selection, std::vector<mod_id> &active_list )

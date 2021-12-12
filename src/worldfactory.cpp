@@ -643,7 +643,7 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
         for( size_t i = 0; i < mods.size(); ++i ) {
             std::string category_name = _( "MISSING MODS" );
             if( mods[i].is_valid() ) {
-                category_name = mods[i]->obsolete ? _( "OBSOLETE MODS" ) : _( mods[i]->category.second );
+                category_name = _( mods[i]->category.second );
             }
             if( sLastCategoryName != category_name ) {
                 sLastCategoryName = category_name;
@@ -702,6 +702,7 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
                         mod_entry_name = mod.name() + mod_entry_name;
                         if( mod.obsolete ) {
                             mod_entry_color = c_dark_gray;
+                            mod_entry_name += "*";
                         }
                     } else {
                         mod_entry_color = c_light_red;
@@ -890,10 +891,12 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
     ctxt.register_action( "SAVE_DEFAULT_MODS" );
     ctxt.register_action( "VIEW_MOD_DESCRIPTION" );
     ctxt.register_action( "FILTER" );
+    ctxt.register_action( "TOGGLE_SHOW_OBSOLETE" );
 
     point filter_pos;
     int filter_view_len = 0;
-    std::string current_filter = "init me!";
+    bool show_obsolete = false;
+    std::string current_filter;
     std::unique_ptr<string_input_popup> fpopup;
 
     catacurses::window w_header1;
@@ -948,7 +951,6 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
     int startsel[2] = {0, 0};
     size_t cursel[2] = {0, 0};
     size_t iCurrentTab = 0;
-    std::vector<mod_id> current_tab_mods;
 
     struct mod_tab {
         std::string id;
@@ -966,7 +968,7 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
     }
 
     const std::map<std::string, std::string> &cat_tab_map = get_mod_list_cat_tab();
-    for( const mod_id &mod : mman->get_usable_mods() ) {
+    for( const mod_id &mod : mman->get_all_sorted() ) {
         int cat_idx = mod->category.first;
         const std::string &cat_id = get_mod_list_categories()[cat_idx].first;
 
@@ -986,40 +988,48 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
 
     // Helper function for determining the currently selected mod
     const auto get_selected_mod = [&]() -> const MOD_INFORMATION* {
-        const std::vector<mod_id> &current_tab_mods = all_tabs[iCurrentTab].mods;
-        if( current_tab_mods.empty() )
+        if( active_header == 0 )
         {
-            return nullptr;
-        } else if( active_header == 0 )
+            const std::vector<mod_id> &current_tab_mods = all_tabs[iCurrentTab].mods;
+            if( current_tab_mods.empty() ) {
+                return nullptr;
+            } else {
+                return &current_tab_mods[cursel[0]].obj();
+            }
+        } else if( active_header == 1 )
         {
-            return &current_tab_mods[cursel[0]].obj();
-        } else if( !active_mod_order.empty() )
-        {
-            return &active_mod_order[cursel[1]].obj();
+            if( active_mod_order.empty() ) {
+                return nullptr;
+            } else {
+                return &active_mod_order[cursel[1]].obj();
+            }
         }
         return nullptr;
     };
 
-    // Helper function for applying filter to mod tabs
-    const auto apply_filter = [&]( const std::string & filter_str ) {
-        if( filter_str == current_filter ) {
-            return;
-        }
+    const auto recalc_visible = [&]( const std::string & filter_str, bool show_obsolete ) {
         const MOD_INFORMATION *selected_mod = nullptr;
-        if( active_header == 0 ) {
-            selected_mod = get_selected_mod();
+        if( active_header == 0 && all_tabs[iCurrentTab].mods.size() > cursel[0] ) {
+            selected_mod = &*all_tabs[iCurrentTab].mods[cursel[0]];
         }
         for( mod_tab &tab : all_tabs ) {
-            if( filter_str.empty() ) {
-                tab.mods = tab.mods_unfiltered;
-            } else {
-                tab.mods.clear();
-                for( const mod_id &mod : tab.mods_unfiltered ) {
+            tab.mods.reserve( tab.mods_unfiltered.size() );
+            tab.mods.clear();
+            for( const mod_id &mod : tab.mods_unfiltered ) {
+                if( !show_obsolete && mod->obsolete ) {
+                    continue;
+                }
+                auto it = std::find( active_mod_order.begin(), active_mod_order.end(), mod );
+                if( it != active_mod_order.end() ) {
+                    continue;
+                }
+                if( !filter_str.empty() ) {
                     std::string name = ( *mod ).name();
-                    if( lcmatch( name, filter_str ) ) {
-                        tab.mods.push_back( mod );
+                    if( !lcmatch( name, filter_str ) ) {
+                        continue;
                     }
                 }
+                tab.mods.push_back( mod );
             }
         }
         startsel[0] = 0;
@@ -1032,9 +1042,42 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
                 break;
             }
         }
+    };
+    recalc_visible( current_filter, show_obsolete );
+
+    // Helper function for applying filter to mod tabs
+    const auto apply_filter = [&]( const std::string & filter_str ) {
+        if( filter_str == current_filter ) {
+            return;
+        }
+        recalc_visible( filter_str, show_obsolete );
         current_filter = filter_str;
     };
-    apply_filter( "" );
+
+    // Helper function for toggling display of obsolete mods
+    const auto set_show_obsolete = [&]( bool value ) {
+        if( show_obsolete == value ) {
+            return;
+        }
+        recalc_visible( current_filter, value );
+        show_obsolete = value;
+    };
+
+    // Helper function for recalculating visible entries after adding mods.
+    // Also tries to keep cursor position, though it's rather imprecise
+    // when multiple mods are added simultaneously.
+    const auto recalc_after_add_remove = [&]() {
+        size_t sel = cursel[0];
+        recalc_visible( current_filter, show_obsolete );
+        if( active_header == 0 ) {
+            const std::vector<mod_id> &current_tab_mods = all_tabs[iCurrentTab].mods;
+            if( active_header == 0 && !current_tab_mods.empty() ) {
+                cursel[0] = std::min( current_tab_mods.size() - 1, sel );
+            }
+        } else {
+            cursel[0] = 0;
+        }
+    };
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         if( standalone ) {
@@ -1183,7 +1226,13 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
             const std::vector<mod_id> &current_tab_mods = all_tabs[iCurrentTab].mods;
             if( active_header == 0 && !current_tab_mods.empty() ) {
                 // try-add
-                mman_ui->try_add( current_tab_mods[cursel[0]], active_mod_order );
+                const mod_id &to_add = current_tab_mods[cursel[0]];
+                ret_val<bool> ret = mman_ui->try_add( to_add, active_mod_order );
+                if( !ret.success() ) {
+                    std::string msg = string_format( _( "Cannot add mod %s [%s].\n\n%s" ),
+                                                     to_add->name(), to_add, ret.str() );
+                    popup( msg );
+                }
             } else if( active_header == 1 && !active_mod_order.empty() ) {
                 // try-rem
                 mman_ui->try_rem( cursel[1], active_mod_order );
@@ -1193,6 +1242,7 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
                     active_header = 0;
                 }
             }
+            recalc_after_add_remove();
         } else if( action == "ADD_MOD" ) {
             if( active_header == 1 && active_mod_order.size() > 1 ) {
                 mman_ui->try_shift( '+', cursel[1], active_mod_order );
@@ -1201,6 +1251,8 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
             if( active_header == 1 && active_mod_order.size() > 1 ) {
                 mman_ui->try_shift( '-', cursel[1], active_mod_order );
             }
+        } else if( action == "TOGGLE_SHOW_OBSOLETE" ) {
+            set_show_obsolete( !show_obsolete );
         } else if( action == "NEXT_CATEGORY_TAB" ) {
             if( active_header == 0 ) {
                 if( ++iCurrentTab >= get_mod_list_tabs().size() ) {

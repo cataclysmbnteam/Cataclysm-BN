@@ -59,7 +59,8 @@ std::string MOD_INFORMATION::description() const
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories()
 {
     static const std::vector<std::pair<std::string, std::string> > mod_list_categories = {
-        {"content", translate_marker( "CORE CONTENT PACKS" )},
+        {"core", translate_marker( "CORE GAME DATA" )},
+        {"content", translate_marker( "CONTENT PACKS" )},
         {"items", translate_marker( "ITEM ADDITION MODS" )},
         {"creatures", translate_marker( "CREATURE MODS" )},
         {"misc_additions", translate_marker( "MISC ADDITIONS" )},
@@ -114,7 +115,6 @@ mod_manager::mod_manager()
 {
     load_replacement_mods( PATH_INFO::mods_replacements() );
     refresh_mod_list();
-    set_usable_mods();
 }
 
 mod_manager::~mod_manager() = default;
@@ -145,7 +145,6 @@ void mod_manager::refresh_mod_list()
 {
     clear();
 
-    std::map<mod_id, std::vector<mod_id>> mod_dependency_map;
     load_mods_from( PATH_INFO::moddir() );
     load_mods_from( PATH_INFO::user_moddir() );
 
@@ -162,11 +161,16 @@ void mod_manager::refresh_mod_list()
     // remove these mods from the list, so they do not appear to the user
     remove_mod( mod_id( "user:default" ) );
     remove_mod( mod_id( "dev:default" ) );
-    for( auto &elem : mod_map ) {
-        const auto &deps = elem.second.dependencies;
+
+    std::map<mod_id, std::vector<mod_id>> mod_dependency_map;
+    std::map<mod_id, std::vector<mod_id>> mod_conflict_map;
+    for( const auto &elem : mod_map ) {
+        const t_mod_list &deps = elem.second.dependencies;
         mod_dependency_map[elem.second.ident] = std::vector<mod_id>( deps.begin(), deps.end() );
+        const t_mod_list &confs = elem.second.conflicts;
+        mod_conflict_map[elem.second.ident] = std::vector<mod_id>( confs.begin(), confs.end() );
     }
-    tree->init( mod_dependency_map );
+    tree->init( mod_dependency_map, mod_conflict_map );
 }
 
 void mod_manager::remove_mod( const mod_id &ident )
@@ -264,12 +268,23 @@ void mod_manager::load_modfile( const JsonObject &jo, const std::string &path )
     assign( jo, "maintainers", modfile.maintainers );
     assign( jo, "version", modfile.version );
     assign( jo, "dependencies", modfile.dependencies );
+    assign( jo, "conflicts", modfile.conflicts );
     assign( jo, "core", modfile.core );
     assign( jo, "obsolete", modfile.obsolete );
 
     if( std::find( modfile.dependencies.begin(), modfile.dependencies.end(),
                    modfile.ident ) != modfile.dependencies.end() ) {
         jo.throw_error( "mod specifies self as a dependency", "dependencies" );
+    }
+    for( const auto &conf : modfile.conflicts ) {
+        if( conf == modfile.ident ) {
+            jo.throw_error( "mod specifies self as a conflict", "conflicts" );
+        }
+        if( std::find( modfile.dependencies.begin(), modfile.dependencies.end(),
+                       conf ) != modfile.dependencies.end() ) {
+            jo.throw_error( string_format( "mod specifies \"%s\" as both a dependency and a conflict", conf ),
+                            "conflicts" );
+        }
     }
 
     mod_map[modfile.ident] = std::move( modfile );
@@ -379,16 +394,14 @@ inline bool compare_mod_by_name_and_category( const MOD_INFORMATION *const a,
                               std::make_pair( b->category, b->name() ) );
 }
 
-void mod_manager::set_usable_mods()
+std::vector<mod_id> mod_manager::get_all_sorted() const
 {
     std::vector<mod_id> available_cores, available_supplementals;
     std::vector<mod_id> ordered_mods;
 
     std::vector<const MOD_INFORMATION *> mods;
     for( const auto &pair : mod_map ) {
-        if( !pair.second.obsolete ) {
-            mods.push_back( &pair.second );
-        }
+        mods.push_back( &pair.second );
     }
     std::sort( mods.begin(), mods.end(), &compare_mod_by_name_and_category );
 
@@ -403,7 +416,7 @@ void mod_manager::set_usable_mods()
                          available_supplementals.end() );
     ordered_mods.insert( ordered_mods.begin(), available_cores.begin(), available_cores.end() );
 
-    usable_mods = ordered_mods;
+    return ordered_mods;
 }
 
 translatable_mod_info::translatable_mod_info()
