@@ -2298,6 +2298,6 @@ std::map<bodypart_id, int> from_effects( const Character &c );
 /** Returns wind resistance provided by armor, etc **/
 std::map<bodypart_id, int> wind_resistance_from_clothing(
     const std::map<bodypart_id, std::vector<const item *>> &clothing_map );
-}
+} // namespace warmth
 
 #endif // CATA_SRC_CHARACTER_H
