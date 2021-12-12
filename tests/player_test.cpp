@@ -301,7 +301,7 @@ TEST_CASE( "Player body temperatures within expected bounds.", "[bodytemp][slow]
 
     SECTION( "Arctic gear target temperatures" ) {
         equip_clothing( dummy, arctic_clothing );
-        test_temperature_spread( dummy, {{-53_c, -41_c, -27_c, -6_c, 18_c, 35_c, 50_c,}} );
+        test_temperature_spread( dummy, {{-61_c, -46_c, -29_c, -6_c, 18_c, 35_c, 50_c,}} );
     }
 }
 
