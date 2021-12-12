@@ -2,7 +2,7 @@
   {
     "name": "GROUP_PARK_SCENIC",
     "type": "monstergroup",
-	"default": "mon_null",
+    "default": "mon_null",
     "monsters": [
       { "monster": "mon_zombie", "freq": 100, "cost_multiplier": 1 },
       { "monster": "mon_zombie_child", "freq": 100, "cost_multiplier": 1 },
@@ -35,7 +35,7 @@
     "default": "mon_null",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_zombie_child", "freq": 295, "cost_multiplier": 1,           "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombie_child", "freq": 295, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zombie", "freq": 100, "cost_multiplier": 2 },
       { "monster": "mon_zombie_tough", "freq": 75, "cost_multiplier": 3 },
       { "monster": "mon_zombie_fat", "freq": 50, "cost_multiplier": 2 },
