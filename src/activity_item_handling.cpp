@@ -892,9 +892,9 @@ static int move_cost( const item &it, const tripoint &src, const tripoint &dest 
 
         if( const cata::optional<vpart_reference> vp = g->m.veh_at(
                     cart_position ).part_with_feature( "CARGO", false ) ) {
-            auto veh = vp->vehicle();
-            auto vstor = vp->part_index();
-            auto capacity = veh.free_volume( vstor );
+            const vehicle &veh = vp->vehicle();
+            size_t vstor = vp->part_index();
+            units::volume capacity = veh.free_volume( vstor );
 
             return move_cost_cart( it, src, dest, capacity );
         }

@@ -102,7 +102,6 @@
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
 static const activity_id ACT_ATM( "ACT_ATM" );
-static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_BURROW( "ACT_BURROW" );
 static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
@@ -319,7 +318,6 @@ activity_handlers::do_turn_functions = {
     { ACT_BUTCHER, butcher_do_turn },
     { ACT_BUTCHER_FULL, butcher_do_turn },
     { ACT_TRAVELLING, travel_do_turn },
-    { ACT_AUTODRIVE, drive_do_turn },
     { ACT_FIELD_DRESS, butcher_do_turn },
     { ACT_SKIN, butcher_do_turn },
     { ACT_QUARTER, butcher_do_turn },
@@ -2978,39 +2976,6 @@ void activity_handlers::adv_inventory_do_turn( player_activity *, player *p )
     create_advanced_inv();
 }
 
-void activity_handlers::drive_do_turn( player_activity *act, player *p )
-{
-    vehicle *player_veh = veh_pointer_or_null( g->m.veh_at( p->pos() ) );
-    if( !player_veh ) {
-        act->set_to_null();
-        p->cancel_activity();
-        return;
-    }
-    if( p->in_vehicle && p->controlling_vehicle && player_veh->is_autodriving &&
-        !g->u.omt_path.empty() && !player_veh->omt_path.empty() ) {
-        player_veh->do_autodrive();
-        if( g->u.global_omt_location() == g->u.omt_path.back() ) {
-            g->u.omt_path.pop_back();
-        }
-        p->moves = 0;
-    } else {
-        p->add_msg_if_player( m_info, _( "Auto-drive canceled." ) );
-        if( !player_veh->omt_path.empty() ) {
-            player_veh->omt_path.clear();
-        }
-        player_veh->is_autodriving = false;
-        act->set_to_null();
-        p->cancel_activity();
-        return;
-    }
-    if( player_veh->omt_path.empty() ) {
-        act->set_to_null();
-        player_veh->is_autodriving = false;
-        p->add_msg_if_player( m_info, _( "You have reached your destination." ) );
-        p->cancel_activity();
-    }
-}
-
 void activity_handlers::travel_do_turn( player_activity *act, player *p )
 {
     if( !p->omt_path.empty() ) {
@@ -3020,13 +2985,22 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
             act->set_to_null();
             return;
         }
+        const tripoint_abs_omt next_omt = p->omt_path.back();
+        tripoint_abs_ms waypoint;
+        if( p->omt_path.size() == 1 ) {
+            // if next omt is the final one, target its midpoint
+            waypoint = midpoint( project_bounds<coords::ms>( next_omt ) );
+        } else {
+            // otherwise target the middle of the edge nearest to our current location
+            const tripoint_abs_ms cur_omt_mid = midpoint( project_bounds<coords::ms>
+                                                ( p->global_omt_location() ) );
+            waypoint = clamp( cur_omt_mid, project_bounds<coords::ms>( next_omt ) );
+        }
         map &here = get_map();
         // TODO: fix point types
-        tripoint sm_tri = here.getlocal(
-                              project_to<coords::ms>( p->omt_path.back() ).raw() );
-        tripoint centre_sub = sm_tri + point( SEEX, SEEY );
-        if( !g->m.passable( centre_sub ) ) {
-            tripoint_range<tripoint> candidates = g->m.points_in_radius( centre_sub, 2 );
+        tripoint centre_sub = here.getlocal( waypoint.raw() );
+        if( !here.passable( centre_sub ) ) {
+            tripoint_range<tripoint> candidates = here.points_in_radius( centre_sub, 2 );
             for( const tripoint &elem : candidates ) {
                 if( g->m.passable( elem ) ) {
                     centre_sub = elem;

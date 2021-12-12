@@ -14,6 +14,7 @@
 #include "units_energy.h"
 
 class Creature;
+class vehicle;
 
 class aim_activity_actor : public activity_actor
 {
@@ -77,6 +78,31 @@ class aim_activity_actor : public activity_actor
         // Load/unload a RELOAD_AND_SHOOT weapon
         bool load_RAS_weapon();
         void unload_RAS_weapon();
+};
+
+class autodrive_activity_actor : public activity_actor
+{
+    private:
+        vehicle *player_vehicle = nullptr;
+
+    public:
+        autodrive_activity_actor() = default;
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_AUTODRIVE" );
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override;
+        void canceled( player_activity &, Character & ) override;
+        void finish( player_activity &act, Character & ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<autodrive_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
 
 class dig_activity_actor : public activity_actor

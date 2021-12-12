@@ -46,7 +46,7 @@ template <typename E> struct enum_traits;
 namespace pf
 {
 template<typename Point>
-struct path;
+struct directed_path;
 } // namespace pf
 
 struct city {
@@ -474,15 +474,15 @@ class overmap
         void build_mine( const tripoint_om_omt &origin, int s );
 
         // Connection laying
-        pf::path<point_om_omt> lay_out_connection(
+        pf::directed_path<point_om_omt> lay_out_connection(
             const overmap_connection &connection, const point_om_omt &source,
             const point_om_omt &dest, int z, bool must_be_unexplored ) const;
-        pf::path<point_om_omt> lay_out_street(
+        pf::directed_path<point_om_omt> lay_out_street(
             const overmap_connection &connection, const point_om_omt &source,
             om_direction::type dir, size_t len ) const;
 
         void build_connection(
-            const overmap_connection &connection, const pf::path<point_om_omt> &path, int z,
+            const overmap_connection &connection, const pf::directed_path<point_om_omt> &path, int z,
             const om_direction::type &initial_dir = om_direction::type::invalid );
         void build_connection( const point_om_omt &source, const point_om_omt &dest, int z,
                                const overmap_connection &connection, bool must_be_unexplored,
