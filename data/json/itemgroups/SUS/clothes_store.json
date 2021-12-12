@@ -117,7 +117,7 @@
     "entries": [
       { "item": "thread", "count": [ 2, 7 ], "prob": 75 },
       { "item": "rag", "count": [ 5, 15 ], "prob": 75 },
-      { "item": "tanned_pelt", "count": [ 1, 7 ], "prob": 70 }
+      { "item": "fur", "count": [ 6, 40 ], "prob": 70 }
     ]
   }
 ]

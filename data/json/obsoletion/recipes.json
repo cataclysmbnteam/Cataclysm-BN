@@ -2000,12 +2000,12 @@
   },
   {
     "type": "recipe",
-    "result": "tanning_hidemodern",
+    "result": "tanning_hide_modern",
     "obsolete": true
   },
   {
     "type": "recipe",
-    "result": "tanning_peltmodern",
+    "result": "tanning_pelt_modern",
     "obsolete": true
   },
   {
@@ -2635,6 +2635,27 @@
   {
     "result": "portable_game",
     "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tanned_hide",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tanned_hide",
+    "id_suffix": "from_pieces",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tanning_hide",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tanning_pelt",
     "obsolete": true
   }
 ]

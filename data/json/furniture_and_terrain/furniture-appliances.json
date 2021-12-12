@@ -427,7 +427,7 @@
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
       "items": [
-        { "item": "tanned_hide", "count": [ 1, 2 ] },
+        { "item": "leather", "count": [ 6, 12 ] },
         { "item": "2x4", "count": [ 2, 4 ] },
         { "item": "scrap", "count": [ 2, 6 ] },
         { "item": "wire", "count": [ 1, 4 ] }

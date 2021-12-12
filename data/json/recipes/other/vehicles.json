@@ -106,10 +106,7 @@
     "autolearn": true,
     "time": "2 h",
     "using": [ [ "sewing_standard", 100 ] ],
-    "components": [
-      [ [ "leather", 12 ], [ "tanned_hide", 2 ], [ "fur", 12 ], [ "tanned_pelt", 2 ] ],
-      [ [ "cordage_superior", 2, "LIST" ] ]
-    ]
+    "components": [ [ [ "leather", 12 ], [ "fur", 12 ] ], [ [ "cordage_superior", 2, "LIST" ] ] ]
   },
   {
     "result": "yoke_harness",
@@ -122,11 +119,7 @@
     "book_learn": [ [ "textbook_fabrication", 5 ], [ "textbook_carpentry", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "using": [ [ "sewing_standard", 100 ] ],
-    "components": [
-      [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "fur", 6 ], [ "tanned_pelt", 1 ] ],
-      [ [ "2x4", 4 ] ],
-      [ [ "rope_superior_short", 2, "LIST" ] ]
-    ]
+    "components": [ [ [ "leather", 6 ], [ "fur", 6 ] ], [ [ "2x4", 4 ] ], [ [ "rope_superior_short", 2, "LIST" ] ] ]
   },
   {
     "result": "hd_tow_cable",
@@ -1112,12 +1105,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 50 ], [ "welding_standard", 5 ] ],
-    "components": [
-      [ [ "pipe", 4 ] ],
-      [ [ "spring", 2 ] ],
-      [ [ "leather", 12 ], [ "fur", 12 ], [ "tanned_hide", 3 ], [ "tanned_pelt", 3 ] ],
-      [ [ "rag", 8 ] ]
-    ]
+    "components": [ [ [ "pipe", 4 ] ], [ [ "spring", 2 ] ], [ [ "leather", 12 ], [ "fur", 12 ] ], [ [ "rag", 8 ] ] ]
   },
   {
     "type": "recipe",

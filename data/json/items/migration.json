@@ -1305,5 +1305,15 @@
     ],
     "type": "MIGRATION",
     "replace": "gunpowder"
+  },
+  {
+    "id": [ "tanning_hide", "tanned_hide" ],
+    "type": "MIGRATION",
+    "replace": "leather"
+  },
+  {
+    "id": [ "tanning_pelt", "tanned_pelt" ],
+    "type": "MIGRATION",
+    "replace": "fur"
   }
 ]
