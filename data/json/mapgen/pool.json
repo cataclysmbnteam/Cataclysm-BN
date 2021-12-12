@@ -647,6 +647,12 @@
     }
   },
   {
+    "name": "GROUP_MAPGEN_POOL",
+    "type": "monstergroup",
+    "default": "mon_null",
+    "monsters": [ { "monster": "mon_zombie_swimmer", "freq": 500, "cost_multiplier": 0 } ]
+  },
+  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": "pool_5",
