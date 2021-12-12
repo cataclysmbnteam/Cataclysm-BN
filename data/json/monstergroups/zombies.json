@@ -372,13 +372,13 @@
   {
     "type": "monstergroup",
     "name": "GROUP_SCHOOL",
-    "default": "mon_null",
     "//": "School monster spawns.",
     "monsters": [
-      { "monster": "mon_zombie_child", "freq": 650, "cost_multiplier": 1 },
-      { "monster": "mon_zombie_fat", "freq": 50, "cost_multiplier": 1 },
-      { "monster": "mon_zombie_tough", "freq": 50, "cost_multiplier": 1 },
-      { "monster": "mon_zombie", "freq": 150, "cost_multiplier": 1 }
+      { "monster": "mon_null", "weight": 1 },
+      { "monster": "mon_zombie_child", "weight": 4 },
+      { "monster": "mon_zombie_fat", "weight": 1 },
+      { "monster": "mon_zombie_tough", "weight": 1 },
+      { "monster": "mon_zombie", "weight": 3 }
     ]
   },
   {
