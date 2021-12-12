@@ -8779,16 +8779,16 @@ void Character::apply_persistent_morale()
         float min_time, max_time;
         if( has_trait( trait_NOMAD ) ) {
             max_unhappiness = 20;
-            min_time = to_moves<float>( 12_hours );
-            max_time = to_moves<float>( 1_days );
+            min_time = to_moves<float>( 2_days );
+            max_time = to_moves<float>( 4_days );
         } else if( has_trait( trait_NOMAD2 ) ) {
             max_unhappiness = 40;
-            min_time = to_moves<float>( 4_hours );
-            max_time = to_moves<float>( 8_hours );
+            min_time = to_moves<float>( 1_days );
+            max_time = to_moves<float>( 2_days );
         } else { // traid_NOMAD3
             max_unhappiness = 60;
-            min_time = to_moves<float>( 1_hours );
-            max_time = to_moves<float>( 2_hours );
+            min_time = to_moves<float>( 12_hours );
+            max_time = to_moves<float>( 1_days );
         }
         // The penalty starts at 1 at min_time and scales up to max_unhappiness at max_time.
         const float t = ( total_time - min_time ) / ( max_time - min_time );
