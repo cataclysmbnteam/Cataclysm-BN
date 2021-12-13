@@ -1,6 +1,7 @@
 [
   {
     "type": "COMESTIBLE",
+    "category": "condiment",
     "id": "sauce_red",
     "name": "red sauce",
     "weight": "64 g",
@@ -25,6 +26,7 @@
   {
     "id": "maple_sap",
     "type": "COMESTIBLE",
+    "category": "condiment",
     "symbol": "~",
     "color": "light_cyan",
     "name": { "str_sp": "maple sap" },
@@ -50,6 +52,7 @@
   {
     "id": "mayonnaise",
     "type": "COMESTIBLE",
+    "category": "condiment",
     "symbol": "~",
     "color": "white",
     "name": { "str_sp": "mayonnaise" },
@@ -71,6 +74,7 @@
   {
     "id": "ketchup",
     "type": "COMESTIBLE",
+    "category": "condiment",
     "symbol": "~",
     "color": "red",
     "name": "ketchup",
@@ -91,6 +95,7 @@
   {
     "id": "mustard",
     "type": "COMESTIBLE",
+    "category": "condiment",
     "symbol": "~",
     "color": "yellow",
     "name": { "str_sp": "mustard" },
@@ -112,6 +117,7 @@
   {
     "id": "honey_bottled",
     "type": "COMESTIBLE",
+    "category": "condiment",
     "symbol": "~",
     "color": "yellow",
     "name": { "str_sp": "forest honey" },
@@ -134,6 +140,7 @@
   {
     "id": "peanutbutter",
     "type": "COMESTIBLE",
+    "category": "condiment",
     "symbol": "~",
     "color": "brown",
     "spoils_in": "180 days",
@@ -158,12 +165,14 @@
   {
     "id": "peanutbutter_imitation",
     "type": "COMESTIBLE",
+    "category": "condiment",
     "name": "imitation peanutbutter",
     "description": "A thick, nutty brown paste.",
     "copy-from": "peanutbutter"
   },
   {
     "type": "COMESTIBLE",
+    "category": "condiment",
     "id": "vinegar",
     "name": { "str_sp": "vinegar" },
     "weight": "15 g",
@@ -183,6 +192,7 @@
   },
   {
     "type": "COMESTIBLE",
+    "category": "condiment",
     "id": "cooking_oil",
     "name": { "str_sp": "vegetable cooking oil" },
     "weight": "15 g",
@@ -207,6 +217,7 @@
   },
   {
     "type": "COMESTIBLE",
+    "category": "condiment",
     "id": "cooking_oil2",
     "name": { "str_sp": "animal cooking oil" },
     "copy-from": "cooking_oil",
@@ -216,6 +227,7 @@
   },
   {
     "type": "COMESTIBLE",
+    "category": "condiment",
     "id": "molasses",
     "name": { "str_sp": "molasses" },
     "weight": "89 g",
@@ -241,6 +253,7 @@
   {
     "id": "horseradish",
     "type": "COMESTIBLE",
+    "category": "condiment",
     "symbol": "~",
     "color": "white",
     "name": { "str_sp": "horseradish" },
@@ -261,6 +274,7 @@
   },
   {
     "type": "COMESTIBLE",
+    "category": "condiment",
     "id": "coffee_syrup",
     "name": { "str_sp": "coffee syrup" },
     "weight": "32 g",
