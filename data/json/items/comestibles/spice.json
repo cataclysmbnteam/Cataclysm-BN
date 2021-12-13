@@ -3,6 +3,7 @@
     "id": "chilly-p",
     "copy-from": "spice",
     "type": "COMESTIBLE",
+    "category": "condiment",
     "name": { "str_sp": "chili powder" },
     "description": "Chilly P, Yo!  Not edible on its own, but it could be used to make seasoning.",
     "color": "red"
@@ -11,6 +12,7 @@
     "id": "cinnamon",
     "copy-from": "spice",
     "type": "COMESTIBLE",
+    "category": "condiment",
     "name": { "str_sp": "cinnamon" },
     "description": "Ground cinnamon bark with a sweet but slightly spicy aroma.",
     "color": "brown"
@@ -19,6 +21,7 @@
     "id": "curry_powder",
     "copy-from": "spice",
     "type": "COMESTIBLE",
+    "category": "condiment",
     "name": { "str_sp": "curry powder" },
     "description": "A blend of spices meant to be used in some South Asian dishes.  Can't be eaten raw, why would you even try that?",
     "color": "red"
@@ -27,6 +30,7 @@
     "id": "pepper",
     "copy-from": "spice",
     "type": "COMESTIBLE",
+    "category": "condiment",
     "name": { "str_sp": "black pepper" },
     "description": "Ground black spice berries with a pungent aroma.",
     "color": "dark_gray"
@@ -35,6 +39,7 @@
     "id": "salt",
     "copy-from": "spice",
     "type": "COMESTIBLE",
+    "category": "condiment",
     "name": { "str_sp": "salt" },
     "description": "Yuck!  You surely wouldn't want to eat this.  It's good for preserving meat and cooking, though.",
     "color": "white"
@@ -43,6 +48,7 @@
     "id": "seasoning_italian",
     "copy-from": "spice",
     "type": "COMESTIBLE",
+    "category": "condiment",
     "name": { "str_sp": "Italian seasoning" },
     "description": "A fragrant mix of dried oregano, basil, thyme and other spices.",
     "color": "green"
@@ -51,12 +57,14 @@
     "id": "seasoning_salt",
     "copy-from": "salt",
     "type": "COMESTIBLE",
+    "category": "condiment",
     "name": { "str_sp": "seasoned salt" },
     "description": "Salt mixed with a fragrant blend of secret herbs and spices.",
     "color": "brown"
   },
   {
     "type": "COMESTIBLE",
+    "category": "condiment",
     "id": "sugar",
     "name": { "str_sp": "sugar" },
     "weight": "5 g",
@@ -77,6 +85,7 @@
   },
   {
     "type": "COMESTIBLE",
+    "category": "condiment",
     "id": "sprinkles",
     "name": { "str_sp": "sprinkles" },
     "weight": "4 g",
@@ -90,6 +99,7 @@
   },
   {
     "type": "COMESTIBLE",
+    "category": "condiment",
     "id": "wild_herbs",
     "name": { "str_sp": "wild herbs" },
     "weight": "7 g",
@@ -111,6 +121,7 @@
   {
     "id": "soysauce",
     "type": "COMESTIBLE",
+    "category": "condiment",
     "symbol": "~",
     "color": "brown",
     "name": { "str_sp": "soy sauce" },
@@ -132,6 +143,7 @@
   },
   {
     "type": "COMESTIBLE",
+    "category": "condiment",
     "id": "thyme",
     "name": "thyme",
     "description": "A stalk of thyme.  Smells delicious.",
@@ -151,6 +163,7 @@
     "id": "mustard_powder",
     "copy-from": "spice",
     "type": "COMESTIBLE",
+    "category": "condiment",
     "name": { "str_sp": "mustard powder" },
     "description": "A fragnant yellow powder.  Not edible in this form.",
     "color": "red"
