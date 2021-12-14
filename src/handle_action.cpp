@@ -2050,7 +2050,7 @@ bool game::handle_action()
                 u.power_bionics();
                 break;
             case ACTION_MUTATIONS:
-                u.power_mutations();
+                mutations::power_mutations( u );
                 break;
 
             case ACTION_SORT_ARMOR:

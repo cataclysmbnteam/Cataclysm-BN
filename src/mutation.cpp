@@ -164,7 +164,7 @@ void Character::set_mutation( const trait_id &trait )
     if( iter != my_mutations.end() ) {
         return;
     }
-    my_mutations.emplace( trait, trait_data{} );
+    my_mutations.emplace( trait, mutation_state{} );
     rebuild_mutation_cache();
     mutation_effect( trait );
     recalc_sight_limits();
@@ -480,7 +480,7 @@ bool Character::can_install_cbm_on_bp( const std::vector<bodypart_id> &bps ) con
 void Character::activate_mutation( const trait_id &mut )
 {
     const mutation_branch &mdata = mut.obj();
-    trait_data &tdata = my_mutations[mut];
+    mutation_state &tdata = my_mutations[mut];
     int cost = mdata.cost;
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
@@ -666,7 +666,7 @@ void Character::deactivate_mutation( const trait_id &mut )
 
 trait_id Character::trait_by_invlet( const int ch ) const
 {
-    for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
+    for( const std::pair<const trait_id, mutation_state> &mut : my_mutations ) {
         if( mut.second.key == ch ) {
             return mut.first;
         }
@@ -1752,4 +1752,14 @@ std::string Character::visible_mutations( const int visibility_cap ) const
         return std::string();
     } );
     return trait_str;
+}
+
+void Character::set_mutation_state( const trait_id &mut, const mutation_state &new_state )
+{
+    auto iter = my_mutations.find( mut );
+    if( iter != my_mutations.end() ) {
+        iter->second = new_state;
+    }
+
+    debugmsg( "Tried to set state of mutation %s that isn't in my_mutations", mut.str() );
 }

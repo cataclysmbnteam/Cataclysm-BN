@@ -524,4 +524,26 @@ mutagen_attempt mutagen_common_checks( Character &guy, const item &it, bool stro
 
 void test_crossing_threshold( Character &guy, const mutation_category_trait &m_category );
 
+namespace mutations
+{
+
+enum class power_mut_ui_cmd {
+    Exit,
+    Activate,
+    Deactivate,
+};
+struct power_mut_ui_result {
+    power_mut_ui_result() = default;
+    power_mut_ui_result( power_mut_ui_cmd cmd, const trait_id &mut )
+        : cmd( cmd ), mut( mut )
+    {}
+    power_mut_ui_cmd cmd;
+    trait_id mut;
+};
+
+power_mut_ui_result power_mutations_ui( Character &c );
+void power_mutations( Character &c );
+
+} // namespace mutations
+
 #endif // CATA_SRC_MUTATION_H

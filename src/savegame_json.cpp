@@ -331,7 +331,7 @@ void character_id::deserialize( JsonIn &jsin )
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// Character.h, avatar + npc
 
-void Character::trait_data::serialize( JsonOut &json ) const
+void mutation_state::serialize( JsonOut &json ) const
 {
     json.start_object();
     json.member( "key", key );
@@ -340,7 +340,7 @@ void Character::trait_data::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void Character::trait_data::deserialize( JsonIn &jsin )
+void mutation_state::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
     data.allow_omitted_members();

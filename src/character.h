@@ -248,6 +248,26 @@ struct consumption_event {
     void deserialize( JsonIn &jsin );
 };
 
+struct mutation_state {
+    mutation_state() = default;
+    mutation_state( const mutation_state & ) = default;
+    mutation_state( bool powered, char key, int charge )
+        : powered( powered ), key( key ), charge( charge )
+    {}
+    /** Whether the mutation is activated. */
+    bool powered = false;
+    /** Key to select the mutation in the UI. */
+    char key = ' ';
+    /**
+     * Time (in turns) until the mutation increase hunger/thirst/fatigue according
+     * to its cost (@ref mutation_branch::cost). When those costs have been paid, this
+     * is reset to @ref mutation_branch::cooldown.
+     */
+    int charge = 0;
+    void serialize( JsonOut &json ) const;
+    void deserialize( JsonIn &jsin );
+};
+
 enum class character_stat : char {
     STRENGTH,
     DEXTERITY,
@@ -2081,24 +2101,15 @@ class Character : public Creature, public visitable<Character>
         action_id get_next_auto_move_direction();
         bool defer_move( const tripoint &next );
 
+        const std::unordered_map<trait_id, mutation_state> &get_mutation_states() const {
+            return my_mutations;
+        }
+        void set_mutation_state( const trait_id &mut, const mutation_state &new_state );
+
     protected:
         Character();
         Character( Character && );
         Character &operator=( Character && );
-        struct trait_data {
-            /** Whether the mutation is activated. */
-            bool powered = false;
-            /** Key to select the mutation in the UI. */
-            char key = ' ';
-            /**
-             * Time (in turns) until the mutation increase hunger/thirst/fatigue according
-             * to its cost (@ref mutation_branch::cost). When those costs have been paid, this
-             * is reset to @ref mutation_branch::cooldown.
-             */
-            int charge = 0;
-            void serialize( JsonOut &json ) const;
-            void deserialize( JsonIn &jsin );
-        };
 
         // The player's position on the local map.
         tripoint position;
@@ -2134,7 +2145,7 @@ class Character : public Creature, public visitable<Character>
          * If there is not entry for a mutation, the character does not have it. If the map
          * contains the entry, the character has the mutation.
          */
-        std::unordered_map<trait_id, trait_data> my_mutations;
+        std::unordered_map<trait_id, mutation_state> my_mutations;
         /**
          * Contains mutation ids of the base traits.
          */
@@ -2191,7 +2202,7 @@ class Character : public Creature, public visitable<Character>
     private:
         /** suffer() subcalls */
         void suffer_water_damage( const mutation_branch &mdata );
-        void suffer_mutation_power( const mutation_branch &mdata, Character::trait_data &tdata );
+        void suffer_mutation_power( const mutation_branch &mdata, mutation_state &tdata );
         void suffer_while_underwater();
         void suffer_from_addictions();
         void suffer_while_awake( int current_stim );
