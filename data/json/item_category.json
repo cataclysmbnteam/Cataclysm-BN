@@ -132,7 +132,7 @@
     "zone": "LOOT_BATTERY",
     "sort_rank": 6
   },
-    {
+  {
     "id": "condiment",
     "type": "ITEM_CATEGORY",
     "name": { "str": "CONDIMENTS" },
