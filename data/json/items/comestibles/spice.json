@@ -57,7 +57,6 @@
     "id": "seasoning_salt",
     "copy-from": "salt",
     "type": "COMESTIBLE",
-    "category": "condiment",
     "name": { "str_sp": "seasoned salt" },
     "description": "Salt mixed with a fragrant blend of secret herbs and spices.",
     "color": "brown"
@@ -85,7 +84,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "category": "condiment",
     "id": "sprinkles",
     "name": { "str_sp": "sprinkles" },
     "weight": "4 g",
