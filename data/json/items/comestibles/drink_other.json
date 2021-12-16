@@ -165,7 +165,6 @@
   {
     "id": "peanutbutter_imitation",
     "type": "COMESTIBLE",
-    "category": "condiment",
     "name": "imitation peanutbutter",
     "description": "A thick, nutty brown paste.",
     "copy-from": "peanutbutter"
@@ -217,7 +216,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "category": "condiment",
     "id": "cooking_oil2",
     "name": { "str_sp": "animal cooking oil" },
     "copy-from": "cooking_oil",
