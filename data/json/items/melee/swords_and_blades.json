@@ -15,7 +15,7 @@
     "to_hit": 1,
     "price_postapoc": 50,
     "flags": [ "SHEATH_SWORD" ],
-    "weapon_category": [ "MEDIUM_SWORDS" ],
+    "weapon_category": [ "CONSTRUCTED_SWORDS", "MEDIUM_SWORDS" ],
     "techniques": [ "WBLOCK_1" ]
   },
   {
@@ -34,7 +34,7 @@
     "to_hit": 2,
     "price_postapoc": 100,
     "techniques": [ "WBLOCK_1" ],
-    "weapon_category": [ "MEDIUM_SWORDS" ]
+    "weapon_category": [ "CONSTRUCTED_SWORDS", "MEDIUM_SWORDS" ]
   },
   {
     "type": "GENERIC",
@@ -52,7 +52,7 @@
     "to_hit": 1,
     "price_postapoc": 250,
     "flags": [ "SHEATH_SWORD" ],
-    "weapon_category": [ "MEDIUM_SWORDS" ],
+    "weapon_category": [ "CONSTRUCTED_SWORDS", "MEDIUM_SWORDS" ],
     "qualities": [ [ "BUTCHER", -50 ] ],
     "techniques": [ "WBLOCK_1" ]
   },
@@ -73,6 +73,7 @@
     "price_postapoc": 2500,
     "flags": [ "SHEATH_SWORD" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 7 ] ],
+    "weapon_category": [ "CONSTRUCTED_SWORDS", "MEDIUM_SWORDS" ],
     "techniques": [ "WBLOCK_2" ]
   },
   {
@@ -402,7 +403,7 @@
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "weapon_category": [ "MEDIUM_SWORDS", "FENCING_WEAPONRY" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS", "FENCING_WEAPONRY" ]
   },
   {
     "id": "kris",
@@ -578,7 +579,7 @@
     "material": "steel",
     "techniques": [ "WBLOCK_2", "PRECISE" ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "weapon_category": [ "FENCING_WEAPONRY" ],
+    "weapon_category": [ "MEDIEVAL_SWORDS", "LONG_SWORDS", "FENCING_WEAPONRY" ],
     "weight": "1814 g",
     "volume": "2750 ml",
     "bashing": 9,
@@ -635,7 +636,7 @@
     "price_postapoc": 6000,
     "material": "steel",
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "weapon_category": [ "LONG_SWORDS" ],
+    "weapon_category": [ "MEDIEVAL_SWORDS", "LONG_SWORDS" ],
     "techniques": [ "WBLOCK_2" ],
     "weight": "1814 g",
     "volume": "2750 ml",
@@ -702,7 +703,7 @@
     "cutting": 31,
     "to_hit": 1,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "weapon_category": [ "MEDIUM_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ]
   },
   {
     "id": "arming_sword_fake",
@@ -903,7 +904,7 @@
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 13 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "weapon_category": [ "SHORT_SWORDS" ]
+    "weapon_category": [ "JAPANESE_SWORDS", "SHORT_SWORDS" ]
   },
   {
     "id": "zweihander",
@@ -923,7 +924,8 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
+    "weapon_category": [ "MEDIEVAL_SWORDS" ]
   },
   {
     "id": "kirpan",
@@ -1029,7 +1031,7 @@
     "techniques": [ "WBLOCK_1", "RAPID", "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "LONG_SWORDS" ]
+    "weapon_category": [ "JAPANESE_SWORDS", "LONG_SWORDS" ]
   },
   {
     "id": "nodachi_fake",
@@ -1280,7 +1282,7 @@
     "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "weapon_category": [ "MEDIUM_SWORDS", "FENCING_WEAPONRY" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS", "FENCING_WEAPONRY" ]
   },
   {
     "id": "broadsword_inferior",
@@ -1380,7 +1382,7 @@
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "weapon_category": [ "MEDIUM_SWORDS" ]
+    "weapon_category": [ "JAPANESE_SWORDS", "MEDIUM_SWORDS" ]
   },
   {
     "id": "katana_fake",
@@ -1698,7 +1700,7 @@
     "techniques": "WBLOCK_2",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "weapon_category": [ "SHORT_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "SHORT_SWORDS" ]
   },
   {
     "type": "GENERIC",

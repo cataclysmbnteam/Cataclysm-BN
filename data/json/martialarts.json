@@ -584,28 +584,7 @@
       "tec_swordsmanship_unterhau",
       "tec_swordsmanship_mordhau"
     ],
-    "weapons": [
-      "arming_sword",
-      "arming_sword_inferior",
-      "arming_sword_fake",
-      "broadsword",
-      "broadsword_inferior",
-      "broadsword_fake",
-      "estoc",
-      "estoc_inferior",
-      "estoc_fake",
-      "glass_macuahuitl",
-      "longsword",
-      "longsword_inferior",
-      "longsword_fake",
-      "sword_crude",
-      "sword_nail",
-      "sword_wood",
-      "sword_metal",
-      "zweihander",
-      "zweihander_inferior",
-      "zweihander_fake"
-    ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "CONSTRUCTED_SWORDS" ]
   },
   {
     "type": "martial_art",
