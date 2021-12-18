@@ -1759,7 +1759,7 @@ void Character::set_mutation_state( const trait_id &mut, const mutation_state &n
     auto iter = my_mutations.find( mut );
     if( iter != my_mutations.end() ) {
         iter->second = new_state;
+    } else {
+        debugmsg( "Tried to set state of mutation %s that isn't in my_mutations", mut.str() );
     }
-
-    debugmsg( "Tried to set state of mutation %s that isn't in my_mutations", mut.str() );
 }

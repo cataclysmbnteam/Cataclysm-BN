@@ -1506,13 +1506,6 @@
   },
   {
     "type": "keybinding",
-    "id": "TOGGLE_EXAMINE",
-    "category": "MUTATIONS",
-    "name": "Toggle activate/examine",
-    "bindings": [ { "input_method": "keyboard", "key": "!" } ]
-  },
-  {
-    "type": "keybinding",
     "name": "Pause",
     "category": "DEFAULTMODE",
     "id": "pause",

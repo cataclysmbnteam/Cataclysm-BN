@@ -17,9 +17,8 @@
 #include "ui_manager.h"
 #include "value_ptr.h"
 
-// '!' and '=' are uses as default bindings in the menu
 const invlet_wrapper
-mutation_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"#&()*+./:;@[\\]^_{|}" );
+mutation_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"#&()*+./:;@[\\]^_{|}!=" );
 
 static void draw_exam_window( const catacurses::window &win, const int border_y )
 {
@@ -36,28 +35,28 @@ const auto shortcut_desc = []( const std::string &comment, const std::string &ke
 
 enum class mutation_menu_mode {
     activating,
-    examining,
     reassigning,
+};
+enum class mutation_tab_mode {
+    active,
+    passive
 };
 
 static void show_mutations_titlebar( const catacurses::window &window,
-                                     const mutation_menu_mode menu_mode, const input_context &ctxt )
+                                     const mutation_menu_mode menu_mode,
+                                     cata::optional<trait_id> &reassigning_id,
+                                     const input_context &ctxt )
 {
     werase( window );
     std::string desc;
-    if( menu_mode == mutation_menu_mode::reassigning ) {
+    if( menu_mode == mutation_menu_mode::reassigning && !reassigning_id ) {
         desc += std::string( _( "Reassigning." ) ) + "  " +
-                _( "Select a mutation to reassign or press [<color_yellow>SPACE</color>] to cancel. " );
-    }
-    if( menu_mode == mutation_menu_mode::activating ) {
-        desc += colorize( _( "Activating" ),
-                          c_green ) + "  " + shortcut_desc( _( "%s to examine mutation, " ),
-                                  ctxt.get_desc( "TOGGLE_EXAMINE" ) );
-    }
-    if( menu_mode == mutation_menu_mode::examining ) {
-        desc += colorize( _( "Examining" ),
-                          c_light_blue ) + "  " + shortcut_desc( _( "%s to activate mutation, " ),
-                                  ctxt.get_desc( "TOGGLE_EXAMINE" ) );
+                _( "Select a mutation to reassign. " );
+    } else if( menu_mode == mutation_menu_mode::reassigning && reassigning_id ) {
+        desc += string_format( _( "Reassigning %s.  Press a key to assign it to." ),
+                               colorize( reassigning_id->obj().name(), c_blue ) );
+    } else if( menu_mode == mutation_menu_mode::activating ) {
+        desc += colorize( _( "Activating " ), c_green );
     }
     if( menu_mode != mutation_menu_mode::reassigning ) {
         desc += shortcut_desc( _( "%s to reassign invlet, " ), ctxt.get_desc( "REASSIGN" ) );
@@ -122,33 +121,43 @@ static cata::optional<power_mut_ui_result> try_activate_mutation( const mutation
             popup( _( "You don't have enough in you to activate your %s!" ), mut_data.name() );
         }
     } else {
-        popup( _( "You cannot activate %s!  To read a description of "
-                  "%s, press '!', then '%c'." ),
-               mut_data.name(), mut_data.name(), c.get_mutation_states().at( mut_id ).key );
+        popup( _( "You cannot activate %s!" ), mut_data.name() );
     }
     return {};
+}
+
+// TODO: Change this to a proper structure
+static const std::string mut_string = "mutation-";
+
+static void register_mutation( input_context &ctx, const trait_id &mut )
+{
+    ctx.register_action( string_format( "%s%s", mut_string.c_str(), mut.str() ),
+                         to_translation( mut.obj().name() ) );
+}
+
+static trait_id action_to_mutation( const std::string &action )
+{
+    if( std::equal( mut_string.begin(), mut_string.end(), action.begin() ) ) {
+        std::string substring = action.substr( mut_string.length() );
+        trait_id mut( substring );
+        assert( mut.is_valid() );
+        assert( mut );
+        return mut;
+    }
+
+    return trait_id::NULL_ID();
 }
 
 power_mut_ui_result power_mutations_ui( Character &c )
 {
     std::vector<trait_id> passive;
     std::vector<trait_id> active;
+    invlet_wrapper free_chars = mutation_chars;
     for( const std::pair<const trait_id, mutation_state> &mut : c.get_mutation_states() ) {
-        if( !mut.first->activated && ! mut.first->transform ) {
+        if( !mut.first->activated && !mut.first->transform ) {
             passive.push_back( mut.first );
         } else {
             active.push_back( mut.first );
-        }
-        // New mutations are initialized with no key at all, so we have to do this here.
-        if( mut.second.key == ' ' ) {
-            for( const auto &letter : mutation_chars ) {
-                if( c.trait_by_invlet( letter ).is_null() ) {
-                    mutation_state this_state = mut.second;
-                    this_state.key = letter;
-                    c.set_mutation_state( mut.first, this_state );
-                    break;
-                }
-            }
         }
     }
 
@@ -185,12 +194,14 @@ power_mut_ui_result power_mutations_ui( Character &c )
 
     int second_column = 0;
 
+    int cursor = 0;
     int scroll_position = 0;
     int max_scroll_position = 0;
     int list_height = 0;
     mutation_menu_mode menu_mode = mutation_menu_mode::activating;
+    mutation_tab_mode tab_mode = mutation_tab_mode::active;
     const auto recalc_max_scroll_position = [&]() {
-        list_height = ( menu_mode == mutation_menu_mode::examining ?
+        list_height = ( true ?
                         DESCRIPTION_LINE_Y : HEIGHT - 1 ) - list_start_y;
         max_scroll_position = mutations_count - list_height;
         if( max_scroll_position < 0 ) {
@@ -229,9 +240,9 @@ power_mut_ui_result power_mutations_ui( Character &c )
     ui.mark_resize();
 
     input_context ctxt( "MUTATIONS" );
-    ctxt.register_updown();
+    ctxt.register_cardinal();
     ctxt.register_action( "ANY_INPUT" );
-    ctxt.register_action( "TOGGLE_EXAMINE" );
+    ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "REASSIGN" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
@@ -244,12 +255,26 @@ power_mut_ui_result power_mutations_ui( Character &c )
     }
 #endif
 
-    // TODO: Structure instead of ugly hack - biggest problem is Android testing
-    for( const auto &a : active ) {
-        ctxt.register_action( string_format( "mutation-%s", a.str() ), to_translation( a.obj().name() ) );
+    // We do this
+    for( const std::pair<const trait_id, mutation_state> &mut : c.get_mutation_states() ) {
+        if( mut.second.key == ' ' ) {
+            for( const auto &letter : mutation_chars ) {
+                if( c.trait_by_invlet( letter ).is_null() ) {
+                    mutation_state this_state = mut.second;
+                    this_state.key = letter;
+                    c.set_mutation_state( mut.first, this_state );
+                    break;
+                }
+            }
+        }
     }
 
-    cata::optional<trait_id> examine_id;
+    // TODO: Structure instead of ugly hack - biggest problem is Android testing
+    for( const auto &a : active ) {
+        register_mutation( ctxt, a );
+    }
+
+    cata::optional<trait_id> reassigning_id;
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( wBio );
@@ -264,22 +289,32 @@ power_mut_ui_result power_mutations_ui( Character &c )
         mvwprintz( wBio, point( 2, HEADER_LINE_Y + 1 ), c_light_blue, _( "Passive:" ) );
         mvwprintz( wBio, point( second_column, HEADER_LINE_Y + 1 ), c_light_blue, _( "Active:" ) );
 
-        if( menu_mode == mutation_menu_mode::examining ) {
+        if( true ) {
             draw_exam_window( wBio, DESCRIPTION_LINE_Y );
         }
-        nc_color type;
+
+        const std::vector<trait_id> &mut_list = tab_mode == mutation_tab_mode::active ? active : passive;
+        const trait_id &under_cursor = ( cursor >= 0 && cursor < static_cast<int>( mut_list.size() ) )
+                                       ? mut_list[cursor]
+                                       : trait_id::NULL_ID();
         if( passive.empty() ) {
             mvwprintz( wBio, point( 2, list_start_y ), c_light_gray, _( "None" ) );
         } else {
             for( int i = scroll_position; static_cast<size_t>( i ) < passive.size(); i++ ) {
-                const mutation_branch &md = passive[i].obj();
-                const mutation_state &td = c.get_mutation_states().at( passive[i] );
+                const trait_id &cur = passive[i];
+                const mutation_branch &md = cur.obj();
+                const mutation_state &state = c.get_mutation_states().at( cur );
                 if( i - scroll_position == list_height ) {
                     break;
                 }
-                type = c.has_base_trait( passive[i] ) ? c_cyan : c_light_cyan;
+                nc_color type = c.has_base_trait( cur ) ? c_cyan : c_light_cyan;
+                if( reassigning_id && cur == *reassigning_id ) {
+                    type = red_background( type );
+                } else if( cur == under_cursor ) {
+                    type = cyan_background( type );
+                }
                 mvwprintz( wBio, point( 2, list_start_y + i - scroll_position ),
-                           type, "%c %s", td.key, md.name() );
+                           type, "%c %s", state.key, md.name() );
             }
         }
 
@@ -287,19 +322,26 @@ power_mut_ui_result power_mutations_ui( Character &c )
             mvwprintz( wBio, point( second_column, list_start_y ), c_light_gray, _( "None" ) );
         } else {
             for( int i = scroll_position; static_cast<size_t>( i ) < active.size(); i++ ) {
+                const trait_id &cur = active[i];
                 const mutation_branch &md = active[i].obj();
-                const mutation_state &td = c.get_mutation_states().at( active[i] );
+                const mutation_state &state = c.get_mutation_states().at( cur );
                 if( i - scroll_position == list_height ) {
                     break;
                 }
-                if( td.powered ) {
-                    type = c.has_base_trait( active[i] ) ? c_green : c_light_green;
+                nc_color type;
+                if( state.powered ) {
+                    type = c.has_base_trait( cur ) ? c_green : c_light_green;
                 } else {
-                    type = c.has_base_trait( active[i] ) ? c_red : c_light_red;
+                    type = c.has_base_trait( cur ) ? c_red : c_light_red;
+                }
+                if( reassigning_id && cur == *reassigning_id ) {
+                    type = red_background( type );
+                } else if( cur == under_cursor ) {
+                    type = cyan_background( type );
                 }
                 // TODO: track resource(s) used and specify
                 mvwputch( wBio, point( second_column, list_start_y + i - scroll_position ),
-                          type, td.key );
+                          type, state.key );
                 std::string mut_desc;
                 mut_desc += md.name();
                 if( md.cost > 0 && md.cooldown > 0 ) {
@@ -312,7 +354,7 @@ power_mut_ui_result power_mutations_ui( Character &c )
                 } else if( md.cooldown > 0 ) {
                     mut_desc += string_format( _( " - %d turns" ), md.cooldown );
                 }
-                if( td.powered ) {
+                if( state.powered ) {
                     mut_desc += _( " - Active" );
                 }
                 mvwprintz( wBio, point( second_column + 2, list_start_y + i - scroll_position ),
@@ -323,11 +365,11 @@ power_mut_ui_result power_mutations_ui( Character &c )
         draw_scrollbar( wBio, scroll_position, list_height, mutations_count,
                         point( 0, list_start_y ), c_white, true );
         wnoutrefresh( wBio );
-        show_mutations_titlebar( w_title, menu_mode, ctxt );
+        show_mutations_titlebar( w_title, menu_mode, reassigning_id, ctxt );
 
-        if( menu_mode == mutation_menu_mode::examining && examine_id.has_value() ) {
+        if( under_cursor ) {
             werase( w_description );
-            fold_and_print( w_description, point_zero, WIDTH - 2, c_light_blue, examine_id.value()->desc() );
+            fold_and_print( w_description, point_zero, WIDTH - 2, c_light_blue, under_cursor->desc() );
             wnoutrefresh( w_description );
         }
     } );
@@ -340,96 +382,76 @@ power_mut_ui_result power_mutations_ui( Character &c )
         bool handled = false;
         const std::string action = ctxt.handle_input();
         const input_event evt = ctxt.get_raw_input();
+        trait_id mut_id = trait_id::NULL_ID();
         if( action == "ANY_INPUT" && evt.type == CATA_INPUT_KEYBOARD && !evt.sequence.empty() ) {
             const int ch = evt.get_first_input();
-            const trait_id mut_id = c.trait_by_invlet( ch );
-            if( !mut_id.is_null() ) {
-                const mutation_branch &mut_data = mut_id.obj();
-                switch( menu_mode ) {
-                    case mutation_menu_mode::reassigning: {
-                        query_popup pop;
-                        pop.message( _( "%s; enter new letter." ),
-                                     mutation_branch::get_name( mut_id ) )
-                        .context( "POPUP_WAIT" )
-                        .allow_cancel( true )
-                        .allow_anykey( true );
-
-                        bool pop_exit = false;
-                        while( !pop_exit ) {
-                            const query_popup::result ret = pop.query();
-                            bool pop_handled = false;
-                            if( ret.evt.type == CATA_INPUT_KEYBOARD && !ret.evt.sequence.empty() ) {
-                                const int newch = ret.evt.get_first_input();
-                                if( mutation_chars.valid( newch ) ) {
-                                    const trait_id other_mut_id = c.trait_by_invlet( newch );
-                                    const std::unordered_map<trait_id, mutation_state> &states = c.get_mutation_states();
-                                    mutation_state this_state = states.at( mut_id );
-                                    if( !other_mut_id.is_null() ) {
-                                        mutation_state other_state = states.at( other_mut_id );
-                                        std::swap( this_state.key, other_state.key );
-                                        c.set_mutation_state( other_mut_id, other_state );
-                                    } else {
-                                        this_state.key = newch;
-                                    }
-                                    c.set_mutation_state( mut_id, this_state );
-                                    pop_exit = true;
-                                    pop_handled = true;
-                                }
-                            }
-                            if( !pop_handled ) {
-                                if( ret.action == "QUIT" ) {
-                                    pop_exit = true;
-                                } else if( ret.action != "HELP_KEYBINDINGS" &&
-                                           ret.evt.type == CATA_INPUT_KEYBOARD ) {
-                                    popup( _( "Invalid mutation letter.  Only those characters are valid:\n\n%s" ),
-                                           mutation_chars.get_allowed_chars() );
-                                }
-                            }
-                        }
-
-                        menu_mode = mutation_menu_mode::activating;
-                        examine_id = cata::nullopt;
-                        // TODO: show a message like when reassigning a key to an item?
-                        break;
-                    }
-                    case mutation_menu_mode::activating: {
-                        cata::optional<power_mut_ui_result> maybe_ret = try_activate_mutation( mut_data, c );
-                        if( maybe_ret ) {
-                            ret = *maybe_ret;
-                            exit = true;
-                        }
-                        break;
-                    }
-                    case mutation_menu_mode::examining:
-                        // Describing mutations, not activating them!
-                        examine_id = mut_id;
-                        break;
-                }
-                handled = true;
-            } else if( mutation_chars.valid( ch ) ) {
-                handled = true;
+            mut_id = c.trait_by_invlet( ch );
+            // This case has to be special cased
+            if( !mut_id && reassigning_id ) {
+                const std::unordered_map<trait_id, mutation_state> &states = c.get_mutation_states();
+                mutation_state this_state = states.at( *reassigning_id );
+                c.set_mutation_state( *reassigning_id, this_state );
             }
         }
-        if( !handled ) {
-            if( action == "DOWN" ) {
-                if( scroll_position < max_scroll_position ) {
-                    scroll_position++;
+
+        if( !mut_id && menu_mode == mutation_menu_mode::activating ) {
+            trait_id mut = action_to_mutation( action );
+            if( mut ) {
+                cata::optional<power_mut_ui_result> maybe_ret = try_activate_mutation( *mut, c );
+                handled = true;
+                if( maybe_ret ) {
+                    ret = *maybe_ret;
+                    exit = true;
                 }
-            } else if( action == "UP" ) {
-                if( scroll_position > 0 ) {
-                    scroll_position--;
+            }
+        }
+
+        if( !mut_id ) {
+            if( action == "DOWN" || action == "UP" ) {
+                int dir = action == "UP" ? -1 : 1;
+                int max = tab_mode == mutation_tab_mode::active ? active.size() : passive.size();
+                cursor = ( cursor + max + dir ) % max;
+            } else if( action == "NEXT_TAB" || action == "PREV_TAB"
+                       || action == "LEFT" || action == "RIGHT" ) {
+                if( tab_mode == mutation_tab_mode::active ) {
+                    tab_mode = mutation_tab_mode::passive;
+                    cursor = std::min<int>( cursor, passive.size() - 1 );
+                } else {
+                    tab_mode = mutation_tab_mode::active;
+                    cursor = std::min<int>( cursor, active.size() - 1 );
+                }
+            } else if( action == "CONFIRM" ) {
+                const std::vector<trait_id> &mut_list = tab_mode == mutation_tab_mode::active ? active : passive;
+                if( !mut_list.empty() ) {
+                    mut_id = mut_list[cursor];
                 }
             } else if( action == "REASSIGN" ) {
-                menu_mode = mutation_menu_mode::reassigning;
-                examine_id = cata::nullopt;
-            } else if( action == "TOGGLE_EXAMINE" ) {
-                // switches between activation and examination
-                menu_mode = menu_mode == mutation_menu_mode::activating ?
-                            mutation_menu_mode::examining : mutation_menu_mode::activating;
-                examine_id = cata::nullopt;
+                menu_mode = menu_mode == mutation_menu_mode::reassigning
+                            ? mutation_menu_mode::activating
+                            : mutation_menu_mode::reassigning;
             } else if( action == "QUIT" ) {
                 ret.cmd = power_mut_ui_cmd::Exit;
                 exit = true;
+            }
+        }
+
+        if( mut_id ) {
+            if( reassigning_id && *reassigning_id != mut_id ) {
+                const std::unordered_map<trait_id, mutation_state> &states = c.get_mutation_states();
+                mutation_state mut_state = states.at( mut_id );
+                mutation_state reassigning_state = states.at( *reassigning_id );
+                std::swap( mut_state.key, reassigning_state.key );
+                c.set_mutation_state( *reassigning_id, reassigning_state );
+                c.set_mutation_state( mut_id, mut_state );
+                reassigning_id.reset();
+            } else if( menu_mode == mutation_menu_mode::reassigning ) {
+                reassigning_id = mut_id;
+            } else if( menu_mode == mutation_menu_mode::activating ) {
+                cata::optional<power_mut_ui_result> maybe_ret = try_activate_mutation( *mut_id, c );
+                if( maybe_ret ) {
+                    ret = *maybe_ret;
+                    exit = true;
+                }
             }
         }
     }
