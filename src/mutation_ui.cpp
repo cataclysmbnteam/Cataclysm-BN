@@ -17,9 +17,6 @@
 #include "ui_manager.h"
 #include "value_ptr.h"
 
-const invlet_wrapper
-mutation_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"#&()*+./:;@[\\]^_{|}!=" );
-
 static void draw_exam_window( const catacurses::window &win, const int border_y )
 {
     const int width = getmaxx( win );
@@ -152,7 +149,6 @@ power_mut_ui_result power_mutations_ui( Character &c )
 {
     std::vector<trait_id> passive;
     std::vector<trait_id> active;
-    invlet_wrapper free_chars = mutation_chars;
     for( const std::pair<const trait_id, mutation_state> &mut : c.get_mutation_states() ) {
         if( !mut.first->activated && !mut.first->transform ) {
             passive.push_back( mut.first );
@@ -255,10 +251,15 @@ power_mut_ui_result power_mutations_ui( Character &c )
     }
 #endif
 
-    // We do this
+    // TODO: Structure instead of ugly hack - biggest problem is Android testing
+    for( const auto &a : active ) {
+        register_mutation( ctxt, a );
+    }
+
+    // We do this after registering all actions, to avoid assigning used chars
     for( const std::pair<const trait_id, mutation_state> &mut : c.get_mutation_states() ) {
         if( mut.second.key == ' ' ) {
-            for( const auto &letter : mutation_chars ) {
+            for( const auto &letter : ctxt.get_available_single_char_hotkeys() ) {
                 if( c.trait_by_invlet( letter ).is_null() ) {
                     mutation_state this_state = mut.second;
                     this_state.key = letter;
@@ -267,11 +268,6 @@ power_mut_ui_result power_mutations_ui( Character &c )
                 }
             }
         }
-    }
-
-    // TODO: Structure instead of ugly hack - biggest problem is Android testing
-    for( const auto &a : active ) {
-        register_mutation( ctxt, a );
     }
 
     cata::optional<trait_id> reassigning_id;

@@ -10,6 +10,7 @@
 
 #include "calendar.h"
 #include "character.h"
+#include "character_keybinds.h"
 #include "enums.h"
 #include "item.h"
 #include "player.h"
@@ -19,6 +20,7 @@
 class JsonIn;
 class JsonObject;
 class JsonOut;
+class character_keybinds;
 class faction;
 class mission;
 class monster;
@@ -219,6 +221,8 @@ class avatar : public player
             return mon_visible;
         }
 
+        const character_keybinds &get_character_keybinds() const;
+
     private:
         std::unique_ptr<map_memory> player_map_memory;
         bool show_map_memory = true;
@@ -255,6 +259,9 @@ class avatar : public player
         int per_upgrade = 0;
 
         monster_visible_info mon_visible;
+
+        // Keybinds just for this specific character
+        pimpl<character_keybinds> keybinds;
 };
 
 avatar &get_avatar();

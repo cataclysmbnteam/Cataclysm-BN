@@ -47,6 +47,7 @@
 #include "catacharset.h"
 #include "character.h"
 #include "character_martial_arts.h"
+#include "character_keybinds.h"
 #include "clzones.h"
 #include "colony.h"
 #include "color.h"
@@ -2522,6 +2523,11 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "MOUSE_MOVE" );
     ctxt.register_action( "SELECT" );
     ctxt.register_action( "SEC_SELECT" );
+    // TODO: Proper check if the character is the one we want (initialized etc.)
+    const avatar &u = get_avatar();
+    for( const auto &pr : u.get_character_keybinds() ) {
+        ctxt.register_action(pr.first);
+    }
     return ctxt;
 }
 

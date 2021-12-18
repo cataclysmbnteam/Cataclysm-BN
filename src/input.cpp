@@ -184,6 +184,39 @@ void input_manager::init()
     }
 }
 
+// TODO?: Remove input_manager argument, it's only used for keycode mapping
+static action_attributes load_keybinding( JsonObject &action, const input_manager &im, bool is_user_preferences )
+{
+    action_attributes ret;
+    action.read( "name", ret.name );
+
+    for( const JsonObject keybinding : action.get_array( "bindings" ) ) {
+        std::string input_method = keybinding.get_string( "input_method" );
+        input_event new_event;
+        if( input_method == "keyboard" ) {
+            new_event.type = CATA_INPUT_KEYBOARD;
+        } else if( input_method == "gamepad" ) {
+            new_event.type = CATA_INPUT_GAMEPAD;
+        } else if( input_method == "mouse" ) {
+            new_event.type = CATA_INPUT_MOUSE;
+        }
+
+        if( keybinding.has_array( "key" ) ) {
+            for( const std::string line : keybinding.get_array( "key" ) ) {
+                new_event.sequence.push_back( im.get_keycode( line ) );
+            }
+        } else { // assume string if not array, and throw if not string
+            new_event.sequence.push_back(
+                im.get_keycode( keybinding.get_string( "key" ) )
+            );
+        }
+
+        ret.input_events.push_back(new_event);
+    }
+
+    return ret;
+}
+
 void input_manager::load( const std::string &file_name, bool is_user_preferences )
 {
     std::ifstream data_file( file_name.c_str(), std::ifstream::in | std::ifstream::binary );
@@ -215,61 +248,16 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
         const std::string action_id = action.get_string( "id" );
         const std::string context = action.get_string( "category", default_context_id );
         t_actions &actions = action_contexts[context];
-        if( !is_user_preferences && action.has_member( "name" ) ) {
+        action_attributes attrs = load_keybinding(action, *this, is_user_preferences);
+        if(!is_user_preferences && !attrs.name.empty()) {
             // Action names are not user preferences. Some experimental builds
             // post-0.A had written action names into the user preferences
             // config file. Any names that exist in user preferences will be
             // ignored.
-            action.read( "name", actions[action_id].name );
+            actions[action_id].name = attrs.name;
         }
 
-        t_input_event_list events;
-        for( const JsonObject keybinding : action.get_array( "bindings" ) ) {
-            std::string input_method = keybinding.get_string( "input_method" );
-            input_event new_event;
-            if( input_method == "keyboard" ) {
-                new_event.type = CATA_INPUT_KEYBOARD;
-            } else if( input_method == "gamepad" ) {
-                new_event.type = CATA_INPUT_GAMEPAD;
-            } else if( input_method == "mouse" ) {
-                new_event.type = CATA_INPUT_MOUSE;
-            }
-
-            if( keybinding.has_array( "key" ) ) {
-                for( const std::string line : keybinding.get_array( "key" ) ) {
-                    new_event.sequence.push_back( get_keycode( line ) );
-                }
-            } else { // assume string if not array, and throw if not string
-                new_event.sequence.push_back(
-                    get_keycode( keybinding.get_string( "key" ) )
-                );
-            }
-
-            events.push_back( new_event );
-        }
-
-        // An invariant of this class is that user-created, local keybindings
-        // with an empty set of input_events do not exist in the
-        // action_contexts map. In prior versions of this class, this was not
-        // true, so users of experimental builds post-0.A will have empty
-        // local keybindings saved in their keybindings.json config.
-        //
-        // To be backwards compatible with keybindings.json from prior
-        // experimental builds, we will detect user-created, local keybindings
-        // with empty input_events and disregard them. When keybindings are
-        // later saved, these remnants won't be saved.
-        if( !is_user_preferences ||
-            !events.empty() ||
-            context == default_context_id ||
-            actions.count( action_id ) > 0 ) {
-            // In case this is the second file containing user preferences,
-            // this replaces the default bindings with the user's preferences.
-            action_attributes &attributes = actions[action_id];
-            attributes.input_events = events;
-            if( action.has_member( "is_user_created" ) ) {
-                attributes.is_user_created = action.get_bool( "is_user_created" );
-            }
-        }
+        actions[action_id] = attrs;
     }
 }
 
