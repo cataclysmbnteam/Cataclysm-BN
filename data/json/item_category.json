@@ -45,6 +45,7 @@
   {
     "id": "food",
     "type": "ITEM_CATEGORY",
+    "priority_zones": [ { "id": "LOOT_CONDIMENT", "condiment": true } ],
     "name": { "str": "FOOD" },
     "//": "zone is hardcoded",
     "sort_rank": -17
