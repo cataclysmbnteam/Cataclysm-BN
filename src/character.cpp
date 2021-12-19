@@ -9187,7 +9187,7 @@ std::map<bodypart_id, int> from_effects( const Character &c )
     return ret;
 }
 
-}
+} // namespace warmth
 
 bool Character::can_use_floor_warmth() const
 {

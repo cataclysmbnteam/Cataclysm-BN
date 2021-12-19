@@ -93,7 +93,7 @@ class temperatures_wrapper : public decltype( player::temp_cur )
         {}
 };
 
-std::ostream &operator<<( std::ostream &os, const temperatures_wrapper &temps );
+std::ostream &operator<<( std::ostream &os, const temperatures_wrapper &arr );
 std::ostream &operator<<( std::ostream &os, const temperatures_wrapper &arr )
 {
     os << "[\n";
