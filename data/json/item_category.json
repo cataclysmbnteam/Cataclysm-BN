@@ -133,13 +133,6 @@
     "sort_rank": 6
   },
   {
-    "id": "condiment",
-    "type": "ITEM_CATEGORY",
-    "name": { "str": "CONDIMENTS" },
-    "zone": "LOOT_CONDIMENT",
-    "sort_rank": 7
-  },
-  {
     "id": "spare_parts",
     "type": "ITEM_CATEGORY",
     "name": { "str": "SPARE PARTS" },
