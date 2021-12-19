@@ -5,7 +5,7 @@
     "comestible_type": "FOOD",
     "name": { "str": "Spice" },
     "//": "Spices are inedible in their base form but useful in crafting",
-    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "flags": [ "CONDIMENT", "NUTRIENT_OVERRIDE" ],
     "weight": "5 g",
     "volume": "250 ml",
     "price": 250,
