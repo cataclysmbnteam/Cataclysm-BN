@@ -25,7 +25,6 @@
   {
     "id": "maple_sap",
     "type": "COMESTIBLE",
-    "category": "condiment",
     "symbol": "~",
     "color": "light_cyan",
     "name": { "str_sp": "maple sap" },
@@ -43,7 +42,7 @@
     "//": "need 40 charges of maple sap to make 16 charges of maple syrup",
     "proportional": { "calories": 0.4 },
     "fun": 1,
-    "flags": [ "EATEN_COLD", "RAW" ],
+    "flags": [ "CONDIMENT", "EATEN_COLD", "RAW" ],
     "phase": "liquid",
     "vitamins": [  ],
     "freezing_point": 30
@@ -113,7 +112,6 @@
   {
     "id": "honey_bottled",
     "type": "COMESTIBLE",
-    "category": "condiment",
     "symbol": "~",
     "color": "yellow",
     "name": { "str_sp": "forest honey" },
@@ -130,7 +128,7 @@
     "charges": 16,
     "healthy": 1,
     "fun": 3,
-    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "flags": [ "CONDIMENT", "NUTRIENT_OVERRIDE" ],
     "phase": "liquid"
   },
   {
@@ -166,7 +164,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "category": "condiment",
     "id": "vinegar",
     "name": { "str_sp": "vinegar" },
     "weight": "15 g",
@@ -182,11 +179,11 @@
     "phase": "liquid",
     "charges": 16,
     "fun": -4,
+	"flag": [ "CONDIMENT" ],
     "freezing_point": 28
   },
   {
     "type": "COMESTIBLE",
-    "category": "condiment",
     "id": "cooking_oil",
     "name": { "str_sp": "vegetable cooking oil" },
     "weight": "15 g",
@@ -205,7 +202,7 @@
     "charges": 16,
     "phase": "liquid",
     "fun": -25,
-    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "flags": [ "CONDIMENT", "NUTRIENT_OVERRIDE" ],
     "vitamins": [  ],
     "freezing_point": 14
   },
@@ -220,7 +217,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "category": "condiment",
     "id": "molasses",
     "name": { "str_sp": "molasses" },
     "weight": "89 g",
@@ -239,14 +235,13 @@
     "phase": "liquid",
     "charges": 4,
     "fun": 2,
-    "flags": [ "USE_EAT_VERB" ],
+    "flags": [ "CONDIMENT", "USE_EAT_VERB" ],
     "vitamins": [ [ "calcium", 18 ], [ "iron", 23 ] ],
     "freezing_point": -20
   },
   {
     "id": "horseradish",
     "type": "COMESTIBLE",
-    "category": "condiment",
     "symbol": "~",
     "color": "white",
     "name": { "str_sp": "horseradish" },
@@ -263,11 +258,11 @@
     "charges": 48,
     "healthy": 1,
     "fun": -20,
+	"flag": [ "CONDIMENT" ],
     "phase": "liquid"
   },
   {
     "type": "COMESTIBLE",
-    "category": "condiment",
     "id": "coffee_syrup",
     "name": { "str_sp": "coffee syrup" },
     "weight": "32 g",
@@ -290,5 +285,6 @@
     "charges": 8,
     "calories": 80,
     "fun": 6
+	"flag": [ "CONDIMENT" ]
   }
 ]
