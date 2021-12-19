@@ -53,7 +53,7 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "seasoned salt" },
     "description": "Salt mixed with a fragrant blend of secret herbs and spices.",
-    "color": "brown",
+    "color": "brown"
   },
   {
     "type": "COMESTIBLE",
