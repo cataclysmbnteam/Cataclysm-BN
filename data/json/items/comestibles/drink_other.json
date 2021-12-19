@@ -284,7 +284,7 @@
     "phase": "liquid",
     "charges": 8,
     "calories": 80,
-    "fun": 6
+    "fun": 6,
     "flag": [ "CONDIMENT" ]
   }
 ]
