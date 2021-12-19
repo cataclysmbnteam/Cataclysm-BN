@@ -9,7 +9,7 @@
     "id": "LOOT_FOOD",
     "type": "LOOT_ZONE",
     "name": "Loot: Food",
-    "description": "Destination for comestibles.  If more specific food zone is not defined, all food is moved here."
+    "description": "Destination for comestibles.  If more specific food zone is not defined, all food will be moved to here."
   },
   {
     "id": "LOOT_PFOOD",
@@ -183,7 +183,7 @@
     "id": "LOOT_CUSTOM",
     "type": "LOOT_ZONE",
     "name": "Loot: Custom",
-    "description": "Destination for loot with a custom filter that you can modify"
+    "description": "Destination for loot with a custom filter that you can modify."
   },
   {
     "id": "LOOT_IGNORE",
