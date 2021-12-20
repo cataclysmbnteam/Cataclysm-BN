@@ -459,23 +459,6 @@
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
   },
   {
-    "id": "carton_egg",
-    "type": "CONTAINER",
-    "category": "container",
-    "name": { "str": "egg carton" },
-    "description": "A recycled-paper carton for storing a dozen eggs safely.  Aside from keeping your eggs in one basket, it's only good for scrap cardboard.",
-    "weight": "60 g",
-    "volume": "750 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "material": "cardboard",
-    "symbol": ")",
-    "looks_like": "box_small",
-    "color": "brown",
-    "contains": "600 ml",
-    "seals": true
-  },
-  {
     "id": "carton_sealed",
     "type": "CONTAINER",
     "category": "container",

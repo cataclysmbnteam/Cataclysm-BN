@@ -551,12 +551,12 @@
       { "item": "beer", "count": [ 1, 6 ], "prob": 35 },
       { "item": "belgian_ale", "count": [ 1, 6 ], "prob": 10 },
       { "item": "european_pilsner", "count": [ 1, 6 ], "prob": 25 },
-      { "item": "fruit_wine", "charges-min": 1, "prob": 15 },
+      { "item": "fruit_wine", "charges-min": 11, "prob": 15 },
       { "item": "imperial_stout", "count": [ 1, 6 ], "prob": 4 },
       { "item": "india_pale_ale", "count": [ 1, 6 ], "prob": 25 },
       { "item": "pale_ale", "count": [ 1, 6 ], "prob": 25 },
       { "item": "stout", "count": [ 1, 6 ], "prob": 15 },
-      { "item": "wine_barley", "charges-min": 1, "prob": 2 }
+      { "item": "wine_barley", "count": [ 1, 6 ], "prob": 2 }
     ]
   },
   {
@@ -565,15 +565,15 @@
     "//": "Includes dairy substitutes.",
     "subtype": "distribution",
     "entries": [
-      { "item": "almond_milk", "prob": 2 },
-      { "item": "butter", "prob": 10, "charges": [ 1, 32 ], "container-item": "wrapper" },
-      { "item": "can_cheese", "prob": 5, "container-item": "can_food_unsealed" },
-      { "item": "cheese", "prob": 20 },
+      { "item": "almond_milk", "prob": 2, "charges": [ 8, 15 ] },
+      { "item": "butter", "prob": 10, "charges": [ 16, 32 ], "container-item": "wrapper" },
+      { "item": "can_cheese", "prob": 5, "charges": [ 4, 8 ], "container-item": "can_food_unsealed" },
+      { "item": "cheese", "prob": 20, "charges": [ 4, 8 ] },
       { "item": "cheese_hard", "prob": 15 },
-      { "item": "ghee", "prob": 5, "charges": [ 1, 32 ], "container-item": "jar_glass" },
-      { "item": "milk", "prob": 30 },
+      { "item": "ghee", "prob": 5, "charges": [ 16, 32 ], "container-item": "jar_glass" },
+      { "item": "milk", "prob": 30, "charges": [ 8, 15 ] },
       { "item": "pudding", "prob": 5 },
-      { "item": "soy_milk", "prob": 3 },
+      { "item": "soy_milk", "prob": 3, "charges": [ 8, 15 ] },
       { "item": "yoghurt", "prob": 5 }
     ]
   },
@@ -584,24 +584,24 @@
     "entries": [
       { "item": "apple_cider", "charges-min": 1, "prob": 20 },
       { "item": "choc_drink", "count": [ 1, 6 ], "prob": 30 },
-      { "item": "cola", "count": [ 1, 6 ], "prob": 70 },
-      { "item": "cola", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
-      { "item": "colamdew", "count": [ 1, 6 ], "prob": 35 },
-      { "item": "colamdew", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
+      { "item": "cola", "count": [ 1, 6 ], "prob": 25 },
+      { "item": "cola", "charges": [ 4, 8 ], "prob": 25, "container-item": "bottle_twoliter" },
+      { "item": "colamdew", "count": [ 1, 6 ], "prob": 25 },
+      { "item": "colamdew", "charges": [ 4, 8 ], "prob": 25, "container-item": "bottle_twoliter" },
       { "item": "cranberry_juice", "count": [ 1, 6 ], "prob": 50 },
-      { "item": "creamsoda", "count": [ 1, 6 ], "prob": 35 },
-      { "item": "creamsoda", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
-      { "item": "crispycran", "count": [ 1, 6 ], "prob": 20 },
+      { "item": "creamsoda", "count": [ 1, 6 ], "prob": 25 },
+      { "item": "creamsoda", "charges": [ 4, 8 ], "prob": 25, "container-item": "bottle_twoliter" },
+      { "item": "crispycran", "count": [ 1, 6 ], "prob": 25 },
       { "item": "juice", "count": [ 1, 6 ], "prob": 50 },
       { "item": "lemonade", "count": [ 1, 6 ], "prob": 50 },
-      { "item": "lemonlime", "count": [ 1, 6 ], "prob": 35 },
-      { "item": "lemonlime", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
+      { "item": "lemonlime", "count": [ 1, 6 ], "prob": 25 },
+      { "item": "lemonlime", "charges": [ 4, 8 ], "prob": 25, "container-item": "bottle_twoliter" },
       { "item": "oj", "count": [ 1, 6 ], "prob": 50 },
-      { "item": "orangesoda", "count": [ 1, 6 ], "prob": 20 },
-      { "item": "orangesoda", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
-      { "item": "purple_drink", "count": [ 1, 6 ], "prob": 35 },
-      { "item": "rootbeer", "count": [ 1, 6 ], "prob": 65 },
-      { "item": "rootbeer", "charges-min": 1, "prob": 15, "container-item": "bottle_twoliter" },
+      { "item": "orangesoda", "count": [ 1, 6 ], "prob": 25 },
+      { "item": "orangesoda", "charges": [ 4, 8 ], "prob": 25, "container-item": "bottle_twoliter" },
+      { "item": "purple_drink", "count": [ 1, 6 ], "prob": 25 },
+      { "item": "rootbeer", "count": [ 1, 6 ], "prob": 25 },
+      { "item": "rootbeer", "charges": [ 4, 8 ], "prob": 25, "container-item": "bottle_twoliter" },
       { "item": "sports_drink", "count": [ 1, 6 ], "prob": 30 },
       { "item": "water_clean", "count": [ 1, 6 ], "prob": 50 },
       { "item": "water_mineral", "count": [ 1, 6 ], "prob": 50 }
@@ -612,11 +612,40 @@
     "id": "fridge_fruit_and_veg_random",
     "subtype": "distribution",
     "entries": [
-      { "group": "fresh_produce", "prob": 50 },
-      { "item": "pickle", "prob": 25, "charges-min": 1, "container-item": "jar_glass" },
-      { "item": "sauerkraut", "prob": 10, "charges-min": 1, "container-item": "jar_glass" },
-      { "item": "veggy_canned", "prob": 15, "charges-min": 1, "container-item": "jar_glass" },
-      { "item": "veggy_pickled", "prob": 25, "charges-min": 1, "container-item": "jar_glass" }
+      { "group": "fresh_produce", "prob": 75 },
+      { "item": "pickle", "prob": 10, "charges-min": 1, "container-item": "jar_glass" },
+      { "item": "sauerkraut", "prob": 5, "charges-min": 1, "container-item": "jar_glass" },
+      { "item": "veggy_canned", "prob": 5, "charges-min": 1, "container-item": "jar_glass" },
+      { "item": "veggy_pickled", "prob": 5, "charges-min": 1, "container-item": "jar_glass" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "fridge_leftovers_random",
+    "//": "More controlled selection than fridgesnacks, may warrant merging the two itemgroups in the future.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "veggy_salad", "charges-min": 1, "prob": 10 },
+      { "item": "blt", "charges-min": 1, "prob": 10 },
+      { "item": "protein_shake", "charges-min": 1, "prob": 5 },
+      { "item": "fries", "charges-min": 1, "prob": 10 },
+      { "item": "cheese_fries", "charges-min": 1, "prob": 10 },
+      { "item": "onion_rings", "charges-min": 1, "prob": 10 },
+      { "item": "milkshake", "charges-min": 1, "prob": 10 },
+      { "item": "milkshake_fastfood", "charges-min": 1, "prob": 10 },
+      { "item": "milkshake_deluxe", "charges-min": 1, "prob": 5 },
+      { "item": "pizza_meat", "charges-min": 1, "prob": 10 },
+      { "item": "pizza_veggy", "charges-min": 1, "prob": 10 },
+      { "item": "pizza_cheese", "charges-min": 1, "prob": 10 },
+      { "item": "pizza_supreme", "charges-min": 1, "prob": 10 },
+      { "item": "cheeseburger", "charges-min": 1, "prob": 10 },
+      { "item": "hamburger", "charges-min": 1, "prob": 10 },
+      { "item": "fish_fried", "charges-min": 1, "prob": 10 },
+      { "item": "fish_sandwich", "charges-min": 1, "prob": 10 },
+      { "item": "sloppyjoe", "charges-min": 1, "prob": 10 },
+      { "item": "sandwich_t", "charges-min": 1, "prob": 10 },
+      { "item": "junk_burrito", "charges-min": 1, "prob": 10 },
+      { "item": "chili", "charges-min": 1, "prob": 10 }
     ]
   },
   {
@@ -635,14 +664,31 @@
   },
   {
     "type": "item_group",
+    "id": "fridge_bread_random",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "biscuit", "prob": 15, "charges": [ 5, 10 ] },
+      { "item": "bread", "prob": 25, "charges-min": 1 },
+      { "item": "brioche", "prob": 10, "charges": [ 3, 6 ] },
+      { "item": "cake2", "prob": 5, "charges": [ 6, 12 ] },
+      { "item": "cake3", "prob": 5, "charges": [ 6, 12 ] },
+      { "item": "cornbread", "prob": 10, "charges-min": 1 },
+      { "item": "crackers", "prob": 10, "charges": [ 4, 8 ] },
+      { "item": "flatbread", "prob": 10 },
+      { "item": "grahmcrackers", "prob": 5, "charges": [ 1, 8 ] },
+      { "item": "jihelucake", "prob": 5, "charges": [ 6, 12 ] }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "fridge_breakfast_random",
     "subtype": "distribution",
     "entries": [
       { "item": "bacon", "prob": 25 },
-      { "item": "cereal", "prob": 4, "charges-min": 1 },
-      { "item": "cereal2", "prob": 3, "charges-min": 1 },
-      { "item": "cereal3", "prob": 3, "charges-min": 1 },
-      { "item": "egg_bird_unfert", "prob": 40, "charges-min": 1, "container-item": "carton_egg" },
+      { "item": "cereal", "prob": 8, "charges": [ 2, 4 ] },
+      { "item": "cereal2", "prob": 6, "charges": [ 6, 12 ] },
+      { "item": "cereal3", "prob": 6, "charges": [ 2, 4 ] },
+      { "item": "egg_bird_unfert", "prob": 30, "charges": [ 6, 12 ] },
       { "item": "jam_fruit", "prob": 20, "charges-min": 1, "container-item": "jar_3l_glass" }
     ]
   },
