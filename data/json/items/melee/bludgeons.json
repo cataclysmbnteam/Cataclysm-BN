@@ -214,7 +214,7 @@
     "material": "wood",
     "techniques": [ "RAPID", "WBLOCK_2", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "weapon_category": [ "MEDIUM_SWORDS" ],
+    "weapon_category": [ "JAPANESE_SWORDS", "MEDIUM_SWORDS" ],
     "weight": "1133 g",
     "volume": "2 L",
     "//": "MA reference I used held that a bokken crushes rather than cuts (or impales) but is otherwise just as damaging as a katana.  Nerfed by popular demand.",
