@@ -179,7 +179,7 @@
     "phase": "liquid",
     "charges": 16,
     "fun": -4,
-    "flag": [ "CONDIMENT" ],
+    "flags": [ "CONDIMENT" ],
     "freezing_point": 28
   },
   {
@@ -258,7 +258,7 @@
     "charges": 48,
     "healthy": 1,
     "fun": -20,
-    "flag": [ "CONDIMENT" ],
+    "flags": [ "CONDIMENT" ],
     "phase": "liquid"
   },
   {
@@ -285,6 +285,6 @@
     "charges": 8,
     "calories": 80,
     "fun": 6,
-    "flag": [ "CONDIMENT" ]
+    "flags": [ "CONDIMENT" ]
   }
 ]
