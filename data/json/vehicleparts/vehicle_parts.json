@@ -1283,7 +1283,7 @@
     "type": "vehicle_part",
     "name": { "str": "vehicle-mounted heater" },
     "item": "mountable_heater",
-    "location": "center",
+    "location": "on_ceiling",
     "symbol": ";",
     "broken_symbol": ":",
     "color": "red",
