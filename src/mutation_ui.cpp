@@ -458,16 +458,16 @@ player::power_mut_ui_result player::power_mutations_ui()
                 int lowerlim;
 
                 if (tab_mode == mutation_tab_mode::passive) {
-                    lowerlim = passive.size() - 1;
+                    lowerlim = static_cast<int>(passive.size()) - 1;
                 }
                 else if (tab_mode == mutation_tab_mode::active){
-                    lowerlim = active.size() - 1;
+                    lowerlim = static_cast<int>(active.size()) - 1;
                 }
                 else {
                     continue;
                 }
 
-                if (static_cast<size_t>(cursor) < lowerlim) {
+                if (cursor < lowerlim) {
                     cursor++;
                 }
                 else {
@@ -518,19 +518,16 @@ player::power_mut_ui_result player::power_mutations_ui()
             else if (action == "NEXT_TAB") {
                 if (tab_mode == mutation_tab_mode::active && !passive.empty()) {
                     tab_mode = mutation_tab_mode::passive;
-                    examine_id = GetTrait(active, passive, cursor, tab_mode);
-                    scroll_position = 0;
-                    cursor = 0;
                 }
                 else if (tab_mode == mutation_tab_mode::passive && !active.empty()){
                     tab_mode = mutation_tab_mode::active;
-                    examine_id = GetTrait(active, passive, cursor, tab_mode);
-                    scroll_position = 0;
-                    cursor = 0;
                 }
                 else {
                     continue;
                 }
+                examine_id = GetTrait(active, passive, cursor, tab_mode);
+                scroll_position = 0;
+                cursor = 0;
             }
             else if (action == "PREV_TAB") {
                 if (tab_mode == mutation_tab_mode::active && !passive.empty()) {
