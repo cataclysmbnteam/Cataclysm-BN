@@ -532,19 +532,16 @@ player::power_mut_ui_result player::power_mutations_ui()
             else if (action == "PREV_TAB") {
                 if (tab_mode == mutation_tab_mode::active && !passive.empty()) {
                     tab_mode = mutation_tab_mode::passive;
-                    examine_id = GetTrait(active, passive, cursor, tab_mode);
-                    scroll_position = 0;
-                    cursor = 0;
                 }
                 else if (tab_mode == mutation_tab_mode::passive && !active.empty()) {
                     tab_mode = mutation_tab_mode::active;
-                    examine_id = GetTrait(active, passive, cursor, tab_mode);
-                    scroll_position = 0;
-                    cursor = 0;
                 }
                 else {
                     continue;
                 }
+                examine_id = GetTrait(active, passive, cursor, tab_mode);
+                scroll_position = 0;
+                cursor = 0;
             }
             else if (action == "CONFIRM") {
                 trait_id mut_id;
