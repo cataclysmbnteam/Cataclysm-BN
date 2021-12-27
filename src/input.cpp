@@ -14,6 +14,7 @@
 
 #include "action.h"
 #include "catacharset.h"
+#include "character_keybinds.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "filesystem.h"
@@ -110,9 +111,6 @@ input_manager inp_mngr;
 
 void input_manager::init()
 {
-    std::map<char, action_id> keymap;
-    std::string keymap_file_loaded_from;
-    std::set<action_id> unbound_keymap;
     init_keycode_mapping();
     reset_timeout();
 
@@ -136,59 +134,14 @@ void input_manager::init()
     } catch( const JsonError &err ) {
         throw std::runtime_error( err.what() );
     }
-
-    if( keymap_file_loaded_from.empty() || ( keymap.empty() && unbound_keymap.empty() ) ) {
-        // No keymap file was loaded, or the file has no mappings and no unmappings,
-        // we can skip the remaining part of the function, especially the save function
-        return;
-    }
-    t_actions &actions = action_contexts["DEFAULTMODE"];
-    std::set<action_id> touched;
-    for( std::map<char, action_id>::const_iterator a = keymap.begin(); a != keymap.end(); ++a ) {
-        const std::string action_id = action_ident( a->second );
-        // Put the binding from keymap either into the global context
-        // (if an action with that ident already exists there - think movement keys)
-        // or otherwise to the DEFAULTMODE context.
-        std::string context = "DEFAULTMODE";
-        if( action_contexts[default_context_id].count( action_id ) > 0 ) {
-            context = default_context_id;
-        } else if( touched.count( a->second ) == 0 ) {
-            // Note: movement keys are somehow special as the default in keymap
-            // does not contain the arrow keys, so we don't clear existing keybindings
-            // for them.
-            // If the keymap contains a binding for this action, erase all the
-            // previously (default!) existing bindings, to only keep the bindings,
-            // the user is used to
-            action_contexts[action_id].clear();
-            touched.insert( a->second );
-        }
-        add_input_for_action( action_id, context, input_event( a->first, CATA_INPUT_KEYBOARD ) );
-    }
-    // Unmap actions that are explicitly not mapped
-    for( const auto &elem : unbound_keymap ) {
-        const std::string action_id = action_ident( elem );
-        actions[action_id].input_events.clear();
-    }
-    // Imported old bindings from old keymap file, save those to the new
-    // keybindings.json file.
-    try {
-        save();
-    } catch( std::exception &err ) {
-        debugmsg( "Could not write imported keybindings: %s", err.what() );
-        return;
-    }
-    // Finally if we did import a file, and saved it to the new keybindings
-    // file, delete the old keymap file to prevent re-importing it.
-    if( !keymap_file_loaded_from.empty() ) {
-        remove_file( keymap_file_loaded_from );
-    }
 }
 
 // TODO?: Remove input_manager argument, it's only used for keycode mapping
-static action_attributes load_keybinding( JsonObject &action, const input_manager &im, bool is_user_preferences )
+static action_attributes load_keybinding( JsonObject &action, const input_manager &im )
 {
     action_attributes ret;
     action.read( "name", ret.name );
+    action.read( "is_user_created", ret.is_user_created );
 
     for( const JsonObject keybinding : action.get_array( "bindings" ) ) {
         std::string input_method = keybinding.get_string( "input_method" );
@@ -211,7 +164,7 @@ static action_attributes load_keybinding( JsonObject &action, const input_manage
             );
         }
 
-        ret.input_events.push_back(new_event);
+        ret.input_events.push_back( new_event );
     }
 
     return ret;
@@ -248,17 +201,65 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
         const std::string action_id = action.get_string( "id" );
         const std::string context = action.get_string( "category", default_context_id );
         t_actions &actions = action_contexts[context];
-        action_attributes attrs = load_keybinding(action, *this, is_user_preferences);
-        if(!is_user_preferences && !attrs.name.empty()) {
-            // Action names are not user preferences. Some experimental builds
-            // post-0.A had written action names into the user preferences
-            // config file. Any names that exist in user preferences will be
-            // ignored.
-            actions[action_id].name = attrs.name;
+        action_attributes attrs = load_keybinding( action, *this );
+        if( is_user_preferences ) {
+            // Action names can't be taken from user preferences
+            // They also should not be overwritten by empty name
+            attrs.name = actions[action_id].name;
         }
 
         actions[action_id] = attrs;
     }
+}
+
+// TODO: Get rid of input_manager argument, make @ref get_keyname more accessible
+static void save_binding(
+    const std::string &action, const std::string &category, const action_attributes &attrs,
+    JsonOut &jsout, const input_manager &mngr )
+{
+    const auto &events = attrs.input_events;
+    jsout.start_object();
+
+    jsout.member( "id", action );
+    jsout.member( "category", category );
+    bool is_user_created = attrs.is_user_created;
+    if( is_user_created ) {
+        jsout.member( "is_user_created", is_user_created );
+    }
+
+    jsout.member( "bindings" );
+    jsout.start_array();
+    for( const auto &event : events ) {
+        jsout.start_object();
+        switch( event.type ) {
+            case CATA_INPUT_KEYBOARD:
+                jsout.member( "input_method", "keyboard" );
+                break;
+            case CATA_INPUT_GAMEPAD:
+                jsout.member( "input_method", "gamepad" );
+                break;
+            case CATA_INPUT_MOUSE:
+                jsout.member( "input_method", "mouse" );
+                break;
+            default:
+                throw std::runtime_error( "unknown input_event_t" );
+        }
+        jsout.member( "key" );
+        jsout.start_array();
+        for( size_t i = 0; i < event.sequence.size(); i++ ) {
+            jsout.write( mngr.get_keyname( event.sequence[i], event.type, true ) );
+        }
+        jsout.end_array();
+        jsout.end_object();
+    }
+    jsout.end_array();
+
+    jsout.end_object();
+}
+
+static std::string find_character_keybinds()
+{
+    return string_format( "%s.keybinds.json", g->get_player_base_save_path() );
 }
 
 void input_manager::save()
@@ -267,52 +268,34 @@ void input_manager::save()
         JsonOut jsout( data_file, true );
 
         jsout.start_array();
-        for( t_action_contexts::const_iterator a = action_contexts.begin(); a != action_contexts.end();
-             ++a ) {
-            const t_actions &actions = a->second;
-            for( const auto &action : actions ) {
-                const t_input_event_list &events = action.second.input_events;
-                jsout.start_object();
-
-                jsout.member( "id", action.first );
-                jsout.member( "category", a->first );
-                bool is_user_created = action.second.is_user_created;
-                if( is_user_created ) {
-                    jsout.member( "is_user_created", is_user_created );
+        for( const auto &a : action_contexts ) {
+            for( const auto &action : a.second ) {
+                if( action.second.is_custom ) {
+                    // Custom actions are handled elsewhere
+                    continue;
                 }
-
-                jsout.member( "bindings" );
-                jsout.start_array();
-                for( const auto &event : events ) {
-                    jsout.start_object();
-                    switch( event.type ) {
-                        case CATA_INPUT_KEYBOARD:
-                            jsout.member( "input_method", "keyboard" );
-                            break;
-                        case CATA_INPUT_GAMEPAD:
-                            jsout.member( "input_method", "gamepad" );
-                            break;
-                        case CATA_INPUT_MOUSE:
-                            jsout.member( "input_method", "mouse" );
-                            break;
-                        default:
-                            throw std::runtime_error( "unknown input_event_t" );
-                    }
-                    jsout.member( "key" );
-                    jsout.start_array();
-                    for( size_t i = 0; i < event.sequence.size(); i++ ) {
-                        jsout.write( get_keyname( event.sequence[i], event.type, true ) );
-                    }
-                    jsout.end_array();
-                    jsout.end_object();
-                }
-                jsout.end_array();
-
-                jsout.end_object();
+                save_binding( action.first, a.first, action.second, jsout, *this );
             }
         }
         jsout.end_array();
     }, _( "key bindings configuration" ) );
+
+    // Now custom keybindings
+    // TODO: Make this not happen if a character isn't loaded
+    write_to_file( find_character_keybinds(), [&]( std::ostream & data_file ) {
+        JsonOut jsout( data_file, true );
+
+        jsout.start_array();
+        for( const auto &a : action_contexts ) {
+            for( const auto &action : a.second ) {
+                if( !action.second.is_custom ) {
+                    continue;
+                }
+                save_binding( action.first, a.first, action.second, jsout, *this );
+            }
+        }
+        jsout.end_array();
+    }, _( "character key bindings configuration" ) );
 }
 
 void input_manager::add_keycode_pair( int ch, const std::string &name )
@@ -385,6 +368,15 @@ void input_manager::init_keycode_mapping()
     keyname_to_keycode["SCROLL_UP"] = SCROLLWHEEL_UP;
     keyname_to_keycode["SCROLL_DOWN"] = SCROLLWHEEL_DOWN;
     keyname_to_keycode["MOUSE_MOVE"] = MOUSE_MOVE;
+}
+
+void input_manager::reset()
+{
+    action_contexts.clear();
+    keycode_to_keyname.clear();
+    gamepad_keycode_to_keyname.clear();
+    keyname_to_keycode.clear();
+    init();
 }
 
 int input_manager::get_keycode( const std::string &name ) const
@@ -572,6 +564,31 @@ void input_manager::add_input_for_action(
         }
     }
     events.push_back( event );
+}
+
+void input_manager::add_custom_action( const std::string &action_descriptor,
+                                       const std::string &context,
+                                       const translation &name )
+{
+    action_attributes attrs;
+    attrs.is_custom = true;
+    attrs.parent_context = context;
+    attrs.name = name;
+    // TODO: Add to parent context as well, link two instances somehow
+    action_contexts[default_context_id][action_descriptor] = attrs;
+}
+
+std::vector<std::string> input_manager::get_custom_actions_for_context(
+    const std::string &context ) const
+{
+    std::vector<std::string> ret;
+    auto iter = action_contexts.find( context );
+    if( iter != action_contexts.end() ) {
+        for( auto &action : iter->second ) {
+            ret.emplace_back( action.first );
+        }
+    }
+    return ret;
 }
 
 bool input_context::action_uses_input( const std::string &action_id,
@@ -1040,7 +1057,8 @@ action_id input_context::display_menu( const bool permit_execute_action )
     // keybindings before the user changed anything.
     input_manager::t_action_contexts old_action_contexts( inp_mngr.action_contexts );
     // current status: adding/removing/executing/showing keybindings
-    enum { s_remove, s_add, s_add_global, s_execute, s_show } status = s_show;
+    enum { s_remove, s_add, s_add_global, s_add_character, s_add_character_global, s_execute, s_show } status
+        = s_show;
     // copy of registered_actions, but without the ANY_INPUT and COORDINATE, which should not be shown
     std::vector<std::string> org_registered_actions( registered_actions );
     org_registered_actions.erase( std::remove_if( org_registered_actions.begin(),
@@ -1053,14 +1071,34 @@ action_id input_context::display_menu( const bool permit_execute_action )
     static const nc_color global_key = c_light_gray;
     static const nc_color local_key = c_light_green;
     static const nc_color unbound_key = c_light_red;
+    static const nc_color global_character_key = c_blue;
+    static const nc_color local_character_key = c_cyan;
     // (vertical) scroll offset
     size_t scroll_offset = 0;
     // keybindings help
     std::string legend;
     legend += colorize( _( "Unbound keys" ), unbound_key ) + "\n";
-    legend += colorize( _( "Keybinding active only on this screen" ), local_key ) + "\n";
-    legend += colorize( _( "Keybinding active globally" ), global_key ) + "\n";
-    legend += _( "Press - to remove keybinding\nPress + to add local keybinding\nPress = to add global keybinding\n" );
+    legend += std::string( _( "Keybinding active (respectively):" ) ) + "\n";
+    legend += colorize( pgettext( "Scope of a keybinding", _( "only on this screen" ) ),
+                        local_key ) + ", ";
+    legend += colorize( pgettext( "Scope of a keybinding", _( "globally" ) ), global_key ) + ", ";
+    legend += colorize( pgettext( "Scope of a keybinding",
+                                  _( "only on this screen, for this character" ) ),
+                        local_character_key ) + ", ";
+    legend += colorize( pgettext( "Scope of a keybinding", _( "globally, only for this character" ) ),
+                        global_character_key ) + ".";
+    legend += "\n";
+    legend += _( "Press - to remove keybinding\n" );
+    legend += string_format(
+                  _( "To add a keybinding, press one of: %1$s/%2$s/%3$s/%4$s\n" ),
+                  colorize( pgettext( "Key to create a new keybinding, followed by its scope (in parentheses). \"local\" means \"only active on this screen\".",
+                                      "+ (local)" ), local_key ),
+                  colorize( pgettext( "Key to create a new keybinding, followed by its scope (in parentheses). \"global\" means \"active everywhere\".",
+                                      "= (global)" ), global_key ),
+                  colorize( pgettext( "Key to create a new keybinding, followed by its scope (in parentheses). \"local, character\" means \"only active on this screen, for this player character\".",
+                                      "] (local, character)" ), local_character_key ),
+                  colorize( pgettext( "Key to create a new keybinding, followed by its scope (in parentheses). \"global, character\" means \"active everywhere, but only for this player character\".",
+                                      "} (global, character)" ), global_character_key ) );
     if( permit_execute_action ) {
         legend += _( "Press . to execute action\n" );
     }
@@ -1152,6 +1190,10 @@ action_id input_context::display_menu( const bool permit_execute_action )
             status = s_add;
         } else if( action == "ADD_GLOBAL" || raw_input_char == '=' ) {
             status = s_add_global;
+        } else if( action == "ADD_CHARACTER_LOCAL" || raw_input_char == ']' ) {
+            status = s_add_character;
+        } else if( action == "ADD_CHARACTER_LOCAL" || raw_input_char == '}' ) {
+            status = s_add_character_global;
         } else if( action == "REMOVE" || raw_input_char == '-' ) {
             status = s_remove;
         } else if( ( action == "EXECUTE" || raw_input_char == '.' ) && permit_execute_action ) {
@@ -1167,32 +1209,39 @@ action_id input_context::display_menu( const bool permit_execute_action )
             }
             const std::string &action_id = filtered_registered_actions[action_index];
 
-            // Check if this entry is local or global.
-            bool is_local = false;
-            const action_attributes &actions = inp_mngr.get_action_attributes( action_id, category, &is_local );
-            bool is_empty = actions.input_events.empty();
+            // Check if existing entry is local or global.
+            bool has_local_already = false;
+            // TODO: Make get_action_attributes return that bool nicely, not through a pointer param
+            const action_attributes &actions = inp_mngr.get_action_attributes( action_id, category, &has_local_already );
+            bool has_empty = actions.input_events.empty();
             const std::string name = get_action_name( action_id );
+
+            const bool adding = status == s_add ||
+            status == s_add_global
+            || status == s_add_character
+            || status == s_add_character_global;
 
             // We don't want to completely delete a global context entry.
             // Only attempt removal for a local context, or when there's
             // bindings for the default context.
-            if( status == s_remove && ( is_local || !is_empty ) ) {
-                if( !get_option<bool>( "QUERY_KEYBIND_REMOVAL" ) || query_yn( is_local &&
-                        is_empty ? _( "Reset to global bindings for %s?" ) : _( "Clear keys for %s?" ), name ) ) {
+            if( status == s_remove && ( has_local_already || !has_empty ) ) {
+                if( !get_option<bool>( "QUERY_KEYBIND_REMOVAL" ) || query_yn( has_local_already &&
+                        has_empty ? _( "Reset to global bindings for %s?" ) : _( "Clear keys for %s?" ), name ) ) {
 
                     // If it's global, reset the global actions.
                     std::string category_to_access = category;
-                    if( !is_local ) {
+                    if( !has_local_already ) {
                         category_to_access = default_context_id;
                     }
 
                     inp_mngr.remove_input_for_action( action_id, category_to_access );
                     changed = true;
                 }
-            } else if( status == s_add_global && is_local ) {
+            } else if( status == s_add_global && has_local_already ) {
                 // Disallow adding global actions to an action that already has a local defined.
-                popup( _( "There are already local keybindings defined for this action, please remove them first." ) );
-            } else if( status == s_add || status == s_add_global ) {
+                // TODO?: Offer removal?
+                popup( _( "There are already local keybindings defined for this action, they must be removed before adding a global keybinding." ) );
+            } else if( adding ) {
                 const input_event new_event = query_popup()
                                               .message( _( "New key for %s" ), name )
                                               .allow_anykey( true )

@@ -523,6 +523,7 @@ void DynamicDataLoader::unload_data()
 {
     finalized = false;
 
+    inp_mngr.reset();
     achievement::reset();
     activity_type::reset();
     ammo_effects::reset();

@@ -20,6 +20,9 @@
 #include "trait_group.h"
 #include "translations.h"
 
+// To create nested bindings
+#include "input.h"
+
 using TraitGroupMap =
     std::map<trait_group::Trait_group_tag, shared_ptr_fast<Trait_group>>;
 using TraitSet = std::set<trait_id>;
@@ -683,6 +686,8 @@ void mutation_branch::finalize()
         for( const std::string &cat : branch.category ) {
             mutations_category[cat].push_back( trait_id( branch.id ) );
         }
+
+        inp_mngr.add_custom_action( branch.id.str(), "mutations", branch.raw_name );
     }
     finalize_trait_blacklist();
 }

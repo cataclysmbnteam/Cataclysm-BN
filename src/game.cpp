@@ -317,7 +317,7 @@ game::~game() = default;
 // Load everything that will not depend on any mods
 void game::load_static_data()
 {
-    // UI stuff, not mod-specific per definition
+    // UI stuff that does not depend on mods
     inp_mngr.init();            // Load input config JSON
     // Init mappings for loading the json stuff
     DynamicDataLoader::get_instance();
@@ -2523,10 +2523,8 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "MOUSE_MOVE" );
     ctxt.register_action( "SELECT" );
     ctxt.register_action( "SEC_SELECT" );
-    // TODO: Proper check if the character is the one we want (initialized etc.)
-    const avatar &u = get_avatar();
-    for( const auto &pr : u.get_character_keybinds() ) {
-        ctxt.register_action(pr.first);
+    for( const std::string &action : inp_mngr.get_custom_actions_for_context( "DEFAULTMODE" ) ) {
+        ctxt.register_action( action );
     }
     return ctxt;
 }

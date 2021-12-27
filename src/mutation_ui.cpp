@@ -252,7 +252,7 @@ power_mut_ui_result power_mutations_ui( Character &c )
 #endif
 
     // TODO: Structure instead of ugly hack - biggest problem is Android testing
-    for( const auto &a : active ) {
+    for( const trait_id &a : active ) {
         register_mutation( ctxt, a );
     }
 

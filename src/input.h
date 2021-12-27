@@ -178,10 +178,14 @@ struct input_event {
  * A set of attributes for an action
  */
 struct action_attributes {
-    action_attributes() : is_user_created( false ) {}
-    bool is_user_created;
+    action_attributes() = default;
+    bool is_user_created = false;
+    /** Runtime generated keybinding, don't save with the rest. */
+    bool is_custom = false;
     translation name;
     std::vector<input_event> input_events;
+    // TODO?: cata::optional?
+    std::string parent_context;
 };
 
 // Definitions for joystick/gamepad.
@@ -242,10 +246,21 @@ class input_manager
          */
         void init();
         /**
-         * Opposite of @ref init, save the data that has been loaded by @ref init,
+         * Save the data that has been loaded by @ref init,
          * and possibly been modified.
          */
         void save();
+        /**
+         * Reloads the mod-independent data.
+         */
+        void reset();
+
+        /**
+         * Adds a mod-dependent action.
+         */
+        void add_custom_action( const std::string &action_descriptor, const std::string &context,
+                                const translation &name );
+        std::vector<std::string> get_custom_actions_for_context( const std::string &context ) const;
 
         /**
          * Return the previously pressed key, or 0 if there is no previous input
