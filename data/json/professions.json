@@ -2718,15 +2718,7 @@
       { "level": 2, "name": "survival" }
     ],
     "items": {
-      "both": [
-        "tank_top",
-        "shorts_cargo",
-        "footrags",
-        "gloves_wraps",
-        "hat_cotton",
-        "bandana",
-        "wristwatch"
-      ],
+      "both": [ "tank_top", "shorts_cargo", "footrags", "gloves_wraps", "hat_cotton", "bandana", "wristwatch" ],
       "male": [ "briefs" ],
       "female": [ "panties" ]
     }
