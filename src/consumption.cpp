@@ -861,7 +861,7 @@ bool player::eat( item &food, bool force )
     if( spoiled && !saprophage ) {
         add_msg_if_player( m_bad, _( "Ick, this %s doesn't taste so good…" ), food.tname() );
         if( !has_trait( trait_SAPROVORE ) && !has_trait( trait_EATDEAD ) &&
-            !has_bionic( bio_digestion ) {
+            !has_bionic( bio_digestion ) ) {
             add_effect( effect_foodpoison, rng( 6_minutes, ( nutr + 1 ) * 6_minutes ) );
         }
     } else if( spoiled && saprophage ) {
