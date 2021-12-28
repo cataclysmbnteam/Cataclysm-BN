@@ -39,7 +39,7 @@
     "power_draw": 1000000,
     "looks_like": "microwave",
     "ammo": "battery",
-    "magazines": [ [ "battery", [ "storage_battery", "medium_storage_battery", "large_storage_battery" ] ] ],
+    "magazines": [ [ "battery", [ "medium_storage_battery", "storage_battery", "large_storage_battery" ] ] ],
     "magazine_well": "1000 ml"
   },
   {
