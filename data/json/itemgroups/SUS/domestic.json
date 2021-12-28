@@ -223,13 +223,13 @@
     "entries": [
       { "group": "fridge_alcohol_random", "prob": 25 },
       { "group": "fridge_bread_random", "prob": 75 },
-      { "group": "fridge_breakfast_random", "prob": 50, "count": [ 1, 2 ] },
+      { "group": "fridge_breakfast_random", "prob": 25, "count": [ 1, 2 ] },
       { "group": "fridge_condiment_random", "prob": 25, "count": [ 1, 2 ] },
-      { "group": "fridge_dairy_random", "prob": 50, "count": [ 1, 3 ] },
+      { "group": "fridge_dairy_random", "prob": 25, "count": [ 1, 3 ] },
       { "group": "fridge_drinks_random", "prob": 50, "count": [ 1, 2 ] },
-      { "group": "fridge_fruit_and_veg_random", "count": [ 2, 5 ], "prob": 75 },
-      { "group": "fridge_leftovers_random", "prob": 75 },
-      { "group": "fridge_meat_random", "prob": 75, "count": [ 1, 2 ] }
+      { "group": "fridge_fruit_and_veg_random", "count": [ 3, 6 ], "prob": 75 },
+      { "group": "fridge_leftovers_random", "prob": 50 },
+      { "group": "fridge_meat_random", "prob": 50, "count": [ 1, 2 ] }
     ]
   },
   {

@@ -551,7 +551,7 @@
       { "item": "beer", "count": [ 1, 6 ], "prob": 35 },
       { "item": "belgian_ale", "count": [ 1, 6 ], "prob": 10 },
       { "item": "european_pilsner", "count": [ 1, 6 ], "prob": 25 },
-      { "item": "fruit_wine", "charges-min": 11, "prob": 15 },
+      { "item": "fruit_wine", "charges": [ 11, 21 ], "prob": 15 },
       { "item": "imperial_stout", "count": [ 1, 6 ], "prob": 4 },
       { "item": "india_pale_ale", "count": [ 1, 6 ], "prob": 25 },
       { "item": "pale_ale", "count": [ 1, 6 ], "prob": 25 },
@@ -582,7 +582,7 @@
     "id": "fridge_drinks_random",
     "subtype": "distribution",
     "entries": [
-      { "item": "apple_cider", "charges-min": 1, "prob": 20 },
+      { "item": "apple_cider", "charges": [ 1, 2 ], "prob": 20 },
       { "item": "choc_drink", "count": [ 1, 6 ], "prob": 30 },
       { "item": "cola", "count": [ 1, 6 ], "prob": 25 },
       { "item": "cola", "charges": [ 4, 8 ], "prob": 25, "container-item": "bottle_twoliter" },
@@ -613,10 +613,10 @@
     "subtype": "distribution",
     "entries": [
       { "group": "fresh_produce", "prob": 75 },
-      { "item": "pickle", "prob": 10, "charges-min": 1, "container-item": "jar_glass" },
-      { "item": "sauerkraut", "prob": 5, "charges-min": 1, "container-item": "jar_glass" },
-      { "item": "veggy_canned", "prob": 5, "charges-min": 1, "container-item": "jar_glass" },
-      { "item": "veggy_pickled", "prob": 5, "charges-min": 1, "container-item": "jar_glass" }
+      { "item": "pickle", "prob": 10, "charges": [ 1, 2 ], "container-item": "jar_glass" },
+      { "item": "sauerkraut", "prob": 5, "charges": [ 1, 2 ], "container-item": "jar_glass" },
+      { "item": "veggy_canned", "prob": 5, "charges": [ 1, 2 ], "container-item": "jar_glass" },
+      { "item": "veggy_pickled", "prob": 5, "charges": [ 1, 2 ], "container-item": "jar_glass" }
     ]
   },
   {
@@ -668,11 +668,11 @@
     "subtype": "distribution",
     "entries": [
       { "item": "biscuit", "prob": 15, "charges": [ 5, 10 ] },
-      { "item": "bread", "prob": 25, "charges-min": 1 },
+      { "item": "bread", "prob": 25, "charges": [ 1, 2 ] },
       { "item": "brioche", "prob": 10, "charges": [ 3, 6 ] },
       { "item": "cake2", "prob": 5, "charges": [ 6, 12 ] },
       { "item": "cake3", "prob": 5, "charges": [ 6, 12 ] },
-      { "item": "cornbread", "prob": 10, "charges-min": 1 },
+      { "item": "cornbread", "prob": 10, "charges": [ 1, 2 ] },
       { "item": "crackers", "prob": 10, "charges": [ 4, 8 ] },
       { "item": "flatbread", "prob": 10 },
       { "item": "grahmcrackers", "prob": 5, "charges": [ 1, 8 ] },
