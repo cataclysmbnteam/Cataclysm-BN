@@ -18,6 +18,7 @@
 #include "units.h"
 #include "hash_utils.h"
 #include "overmapbuffer.h"
+#include "vpart_position.h"
 
 static weather_type_id WEATHER_CLOUDY = weather_type_id( "cloudy" );
 
@@ -83,8 +84,36 @@ std::ostream &operator<<( std::ostream &os, const std::vector<body_part_temp> &b
     return os << "]\n";
 }
 
+class temperatures_wrapper : public decltype( player::temp_cur )
+{
+        using base_type = decltype( player::temp_cur );
+    public:
+        temperatures_wrapper( const base_type & base )
+            : base_type( base )
+        {}
+};
+
+std::ostream &operator<<( std::ostream &os, const temperatures_wrapper &arr );
+std::ostream &operator<<( std::ostream &os, const temperatures_wrapper &arr )
+{
+    os << "[\n";
+    for( size_t i = 0; i < arr.size() / 2; i++ ) {
+        os << string_format( "%6d, ", arr[i] );
+    }
+    // Ugly split like that because otherwise it gets wrapped seemingly randomly
+    os << "\n";
+    for( size_t i = arr.size() / 2; i < arr.size() - 1; i++ ) {
+        os << string_format( "%6d, ", arr[i] );
+    }
+    os << string_format( "%6d", arr[arr.size() - 1] );
+
+    os << "\n]";
+    return os;
+}
+
 // Run update_bodytemp() until core body temperature settles.
-static int converge_temperature( player &p, size_t iters, int start_temperature = BODYTEMP_NORM )
+static decltype( player::temp_cur ) converge_temperature( player &p, size_t iters,
+        int start_temperature = BODYTEMP_NORM )
 {
     constexpr size_t n_history = 10;
     REQUIRE( get_weather().weather_id == WEATHER_CLOUDY );
@@ -128,7 +157,7 @@ static int converge_temperature( player &p, size_t iters, int start_temperature 
     CAPTURE( last_n_history );
     // If it doesn't converge, it's usually very close to it anyway, so don't fail
     CHECK( converged );
-    return p.temp_cur[0];
+    return p.temp_cur;
 }
 
 static void equip_clothing( player &p, const std::vector<std::string> &clothing )
@@ -166,7 +195,7 @@ static void test_temperature_spread( player &p,
         get_weather().clear_temp_cache();
         CAPTURE( air_temperatures[i] );
         CAPTURE( get_weather().temperature );
-        int converged_temperature = converge_temperature( p, 1500, bodytemps[i].value );
+        int converged_temperature = converge_temperature( p, 1500, bodytemps[i].value )[0];
         auto expected_body_temperature = bodytemps[i].name;
         CAPTURE( expected_body_temperature );
         int air_temperature_celsius = to_celsius( air_temperatures[i] );
@@ -218,17 +247,17 @@ const std::vector<std::string> arctic_clothing = {{
     }
 };
 
-static void guarantee_neutral_weather( const player &p )
+static void guarantee_neutral_weather( const player &p, weather_manager &weather )
 {
-    get_weather().weather_id = WEATHER_CLOUDY;
-    get_weather().weather_override = WEATHER_CLOUDY;
-    get_weather().windspeed = 0;
-    get_weather().override_humidity( 0 );
+    weather.weather_id = WEATHER_CLOUDY;
+    weather.weather_override = WEATHER_CLOUDY;
+    weather.windspeed = 0;
+    weather.override_humidity( 0 );
     REQUIRE( !get_map().has_flag( TFLAG_SWIMMABLE, p.pos() ) );
     REQUIRE( !get_map().has_flag( TFLAG_DEEP_WATER, p.pos() ) );
     REQUIRE( !g->is_in_sunlight( p.pos() ) );
+    REQUIRE( !get_map().veh_at( p.pos() ) );
 
-    const weather_manager &weather = get_weather();
     const w_point &wp = weather.get_precise();
     const oter_id &cur_om_ter = overmap_buffer.ter( p.global_omt_location() );
     bool sheltered = g->is_sheltered( p.pos() );
@@ -254,25 +283,25 @@ TEST_CASE( "Player body temperatures within expected bounds.", "[bodytemp][slow]
     clear_map();
     clear_avatar();
     player &dummy = get_avatar();
-    guarantee_neutral_weather( dummy );
+    guarantee_neutral_weather( dummy, get_weather() );
 
     SECTION( "Nude target temperatures." ) {
-        test_temperature_spread( dummy, {{-26_c, -11_c, 11_c, 26_c, 41_c, 56_c, 71_c,}} );
+        test_temperature_spread( dummy, {{-19_c, -4_c, 11_c, 26_c, 41_c, 56_c, 71_c,}} );
     }
 
     SECTION( "Lightly clothed target temperatures" ) {
         equip_clothing( dummy, light_clothing );
-        test_temperature_spread( dummy, {{-29_c, -14_c, 1_c, 24_c, 39_c, 54_c, 69_c,}} );
+        test_temperature_spread( dummy, {{-22_c, -7_c, 8_c, 24_c, 39_c, 54_c, 69_c,}} );
     }
 
     SECTION( "Heavily clothed target temperatures" ) {
         equip_clothing( dummy, heavy_clothing );
-        test_temperature_spread( dummy, {{-46_c, -30_c, -11_c, 8_c, 33_c, 48_c, 63_c,}} );
+        test_temperature_spread( dummy, {{-31_c, -17_c, 1_c, 19_c, 36_c, 52_c, 67_c,}} );
     }
 
     SECTION( "Arctic gear target temperatures" ) {
         equip_clothing( dummy, arctic_clothing );
-        test_temperature_spread( dummy, {{-83_c, -68_c, -50_c, -24_c, 3_c, 27_c, 43_c,}} );
+        test_temperature_spread( dummy, {{-61_c, -46_c, -29_c, -6_c, 18_c, 35_c, 50_c,}} );
     }
 }
 
@@ -282,24 +311,34 @@ TEST_CASE( "Player body temperatures within expected bounds.", "[bodytemp][slow]
  */
 static std::array<units::temperature, bodytemps.size()> find_temperature_points( player &p )
 {
+    constexpr int min_air_temp = -200;
+    constexpr int max_air_temp = 200;
     std::array<std::pair<int, int>, bodytemps.size()> value_distances;
     std::fill( value_distances.begin(), value_distances.end(), std::make_pair( 0, INT_MAX ) );
-    int last_converged_temperature = INT_MIN;
-    for( int i = -200; i < 200; i++ ) {
+    std::vector<temperatures_wrapper> all_converged_temperatures;
+    all_converged_temperatures.resize( max_air_temp - min_air_temp, temperatures_wrapper( {} ) );
+    for( int i = min_air_temp; i < max_air_temp; i++ ) {
         get_weather().temperature = i;
         get_weather().clear_temp_cache();
-        int converged_temperature = converge_temperature( p, 10000 );
-        CAPTURE( i );
-        CAPTURE( units::from_fahrenheit( i ) );
-        CHECK( converged_temperature >= last_converged_temperature );
+        all_converged_temperatures[i - min_air_temp] = converge_temperature( p, 10000 );
+        int converged_torso_temp = all_converged_temperatures[i - min_air_temp][0];
         // 0 - FREEZING, 6 - SCORCHING
         for( size_t temperature_index = 0; temperature_index < bodytemps.size(); temperature_index++ ) {
-            int distance_to_definition = std::abs( bodytemps[temperature_index].value - converged_temperature );
+            int distance_to_definition = std::abs( bodytemps[temperature_index].value - converged_torso_temp );
             if( distance_to_definition < value_distances[temperature_index].second ) {
                 value_distances[temperature_index] = std::make_pair( i, distance_to_definition );
             }
         }
-        last_converged_temperature = converged_temperature;
+    }
+
+    // Check if higher starting temperature means higher end temperature (it obviously should, but doesn't?)
+    for( int air_temperature = min_air_temp + 1; air_temperature < max_air_temp; air_temperature++ ) {
+        CAPTURE( air_temperature );
+        CAPTURE( units::from_fahrenheit( air_temperature ) );
+        size_t index = air_temperature - min_air_temp;
+        CAPTURE( all_converged_temperatures[index] );
+        CAPTURE( all_converged_temperatures[index - 1] );
+        CHECK( all_converged_temperatures[index][0] >= all_converged_temperatures[index - 1][0] );
     }
 
     std::array<units::temperature, 7> points;
@@ -331,7 +370,7 @@ TEST_CASE( "Find air temperatures for given body temperatures.", "[.][bodytemp]"
     clear_map();
     clear_avatar();
     player &dummy = get_avatar();
-    guarantee_neutral_weather( dummy );
+    guarantee_neutral_weather( dummy, get_weather() );
 
     SECTION( "Nude target temperatures." ) {
         const auto points = find_temperature_points( dummy );
@@ -372,7 +411,7 @@ static int find_converging_water_temp( player &p, int expected_water, int expect
         const int actual_temperature = get_weather().get_water_temperature( p.pos() );
         REQUIRE( actual_temperature == actual_water );
 
-        int converged_temperature = converge_temperature( p, 10000 );
+        int converged_temperature = converge_temperature( p, 10000 )[0];
         bool high_enough = expected_bodytemp - tol <= converged_temperature;
         bool low_enough  = expected_bodytemp + tol >= converged_temperature;
         if( high_enough && low_enough ) {

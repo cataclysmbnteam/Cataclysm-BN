@@ -1192,6 +1192,17 @@ const effect &Creature::get_effect( const efftype_id &eff_id, body_part bp ) con
     }
     return effect::null_effect;
 }
+std::vector<const effect *> Creature::get_all_effects_of_type( const efftype_id &eff_id ) const
+{
+    std::vector<const effect *> ret;
+    auto got_outer = effects->find( eff_id );
+    if( got_outer != effects->end() ) {
+        for( const auto &pr : got_outer->second ) {
+            ret.push_back( &pr.second );
+        }
+    }
+    return ret;
+}
 time_duration Creature::get_effect_dur( const efftype_id &eff_id, body_part bp ) const
 {
     const effect &eff = get_effect( eff_id, bp );

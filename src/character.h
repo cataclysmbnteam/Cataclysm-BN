@@ -544,10 +544,6 @@ class Character : public Creature, public visitable<Character>
         /** Returns true if the player is in a climate controlled area or armor */
         bool in_climate_control();
 
-        /** Returns wind resistance provided by armor, etc **/
-        std::map<bodypart_id, int> get_wind_resistance( const
-                std::map<bodypart_id, std::vector<const item *>> &clothing_map ) const;
-
         /** Returns true if the player isn't able to see */
         bool is_blind() const;
 
@@ -1847,9 +1843,6 @@ class Character : public Creature, public visitable<Character>
         /** Returns warmth provided by armor, etc. */
         std::map<bodypart_id, int> warmth( const std::map<bodypart_id, std::vector<const item *>>
                                            &clothing_map ) const;
-        /** Returns warmth provided by an armor's bonus, like hoods, pockets, etc. */
-        std::map<bodypart_id, int> bonus_item_warmth( const std::map<bodypart_id, std::vector<const item *>>
-                &clothing_map ) const;
         /** Can the player lie down and cover self with blankets etc. **/
         bool can_use_floor_warmth() const;
         /**
@@ -2294,5 +2287,17 @@ float threshold_for_nv_range( float range );
 float nv_range_from_per( int per );
 float nv_range_from_eye_encumbrance( int enc );
 } // namespace vision
+
+namespace warmth
+{
+
+std::map<bodypart_id, int> from_clothing( const
+        std::map<bodypart_id, std::vector<const item *>> &clothing_map );
+std::map<bodypart_id, int> from_effects( const Character &c );
+
+/** Returns wind resistance provided by armor, etc **/
+std::map<bodypart_id, int> wind_resistance_from_clothing(
+    const std::map<bodypart_id, std::vector<const item *>> &clothing_map );
+} // namespace warmth
 
 #endif // CATA_SRC_CHARACTER_H
