@@ -113,7 +113,7 @@
     "id": "CONDIMENT",
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],
-    "info": "This item is <info>condiment that you can use for cooking</info>, and eating this is usually <bad> a bad idea</bad>."
+    "info": "This item is <info>condiment that you can use for cooking</info>, and eating this is usually <bad>a bad idea</bad>."
   },
   {
     "id": "DEAF",
