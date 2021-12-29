@@ -625,27 +625,27 @@
     "//": "More controlled selection than fridgesnacks, may warrant merging the two itemgroups in the future.",
     "subtype": "distribution",
     "entries": [
-      { "item": "veggy_salad", "charges-min": 1, "prob": 10 },
-      { "item": "blt", "charges-min": 1, "prob": 10 },
-      { "item": "protein_shake", "charges-min": 1, "prob": 5 },
-      { "item": "fries", "charges-min": 1, "prob": 10 },
-      { "item": "cheese_fries", "charges-min": 1, "prob": 10 },
-      { "item": "onion_rings", "charges-min": 1, "prob": 10 },
-      { "item": "milkshake", "charges-min": 1, "prob": 10 },
-      { "item": "milkshake_fastfood", "charges-min": 1, "prob": 10 },
-      { "item": "milkshake_deluxe", "charges-min": 1, "prob": 5 },
-      { "item": "pizza_meat", "charges-min": 1, "prob": 10 },
-      { "item": "pizza_veggy", "charges-min": 1, "prob": 10 },
-      { "item": "pizza_cheese", "charges-min": 1, "prob": 10 },
-      { "item": "pizza_supreme", "charges-min": 1, "prob": 10 },
-      { "item": "cheeseburger", "charges-min": 1, "prob": 10 },
-      { "item": "hamburger", "charges-min": 1, "prob": 10 },
-      { "item": "fish_fried", "charges-min": 1, "prob": 10 },
-      { "item": "fish_sandwich", "charges-min": 1, "prob": 10 },
-      { "item": "sloppyjoe", "charges-min": 1, "prob": 10 },
-      { "item": "sandwich_t", "charges-min": 1, "prob": 10 },
-      { "item": "junk_burrito", "charges-min": 1, "prob": 10 },
-      { "item": "chili", "charges-min": 1, "prob": 10 }
+      { "item": "veggy_salad", "prob": 10 },
+      { "item": "blt", "charges": [ 1, 2 ], "prob": 10 },
+      { "item": "protein_shake", "charges": [ 1, 2 ], "prob": 5 },
+      { "item": "fries", "prob": 10 },
+      { "item": "cheese_fries", "prob": 10 },
+      { "item": "onion_rings", "prob": 10 },
+      { "item": "milkshake", "charges": [ 1, 2 ], "prob": 10 },
+      { "item": "milkshake_fastfood", "charges": [ 1, 2 ], "prob": 10 },
+      { "item": "milkshake_deluxe", "charges": [ 1, 2 ], "prob": 5 },
+      { "item": "pizza_meat", "charges": [ 1, 4 ], "prob": 10 },
+      { "item": "pizza_veggy", "charges": [ 1, 4 ], "prob": 10 },
+      { "item": "pizza_cheese", "charges": [ 1, 4 ], "prob": 10 },
+      { "item": "pizza_supreme", "charges": [ 1, 4 ], "prob": 10 },
+      { "item": "cheeseburger", "prob": 10 },
+      { "item": "hamburger", "prob": 10 },
+      { "item": "fish_fried", "prob": 10 },
+      { "item": "fish_sandwich", "prob": 10 },
+      { "item": "sloppyjoe", "prob": 10 },
+      { "item": "sandwich_t", "charges": [ 1, 2 ], "prob": 10 },
+      { "item": "junk_burrito", "prob": 10 },
+      { "item": "chili", "charges": [ 1, 2 ], "prob": 10 }
     ]
   },
   {
@@ -654,11 +654,11 @@
     "//": "Includes meat substitutes.",
     "subtype": "distribution",
     "entries": [
-      { "item": "bologna", "prob": 20 },
-      { "item": "fish_pickled", "prob": 10, "charges-min": 1, "container-item": "jar_glass" },
-      { "item": "hotdogs_frozen", "prob": 20 },
+      { "item": "bologna", "prob": 20, "charges": [ 5, 10 ] },
+      { "item": "fish_pickled", "prob": 10, "charges": [ 1, 2 ], "container-item": "jar_glass" },
+      { "item": "hotdogs_frozen", "prob": 20, "charges": [ 5, 10 ] },
       { "item": "lunchmeat", "prob": 30 },
-      { "item": "meat_pickled", "prob": 5, "charges-min": 1, "container-item": "jar_glass" },
+      { "item": "meat_pickled", "prob": 5, "charges": [ 1, 2 ], "container-item": "jar_glass" },
       { "item": "tofu", "prob": 15 }
     ]
   },
@@ -684,12 +684,12 @@
     "id": "fridge_breakfast_random",
     "subtype": "distribution",
     "entries": [
-      { "item": "bacon", "prob": 25 },
+      { "item": "bacon", "prob": 25, "charges": [ 1, 2 ] },
       { "item": "cereal", "prob": 8, "charges": [ 2, 4 ] },
       { "item": "cereal2", "prob": 6, "charges": [ 6, 12 ] },
       { "item": "cereal3", "prob": 6, "charges": [ 2, 4 ] },
       { "item": "egg_bird_unfert", "prob": 30, "charges": [ 6, 12 ] },
-      { "item": "jam_fruit", "prob": 20, "charges-min": 1, "container-item": "jar_3l_glass" }
+      { "item": "jam_fruit", "prob": 20, "charges": [ 48, 96 ], "container-item": "jar_3l_glass" }
     ]
   },
   {
