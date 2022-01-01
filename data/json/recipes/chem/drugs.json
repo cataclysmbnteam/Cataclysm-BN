@@ -227,7 +227,7 @@
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
       [ [ "syringe", 1 ] ],
-      [ [ "charcoal", 5 ], [ "coal_lump", 5 ] ],
+      [ [ "charcoal", 5 ] ],
       [ [ "datura_seed", 8 ] ],
       [ [ "salt_water", 1 ], [ "saline", 5 ] ],
       [ [ "bleach", 1 ], [ "oxy_powder", 100 ] ]
@@ -334,7 +334,7 @@
       [ [ "material_quicklime", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "ammonia", 1 ] ],
-      [ [ "charcoal", 5 ], [ "coal_lump", 5 ] ],
+      [ [ "charcoal", 5 ] ],
       [ [ "lye_powder", 5 ] ]
     ]
   },
