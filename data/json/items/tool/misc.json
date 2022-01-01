@@ -763,7 +763,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "survival marker" },
-    "description": "This is a sharpened piece of charcoal that is almost guaranteed to make your hands all covered in charcoal.  Use it to write something down.",
+    "description": "This is a sharpened piece of coal or charcoal that is almost guaranteed to make your hands all covered in soot.  Use it to write something down.",
     "weight": "113 g",
     "volume": "15 ml",
     "price": 0,
