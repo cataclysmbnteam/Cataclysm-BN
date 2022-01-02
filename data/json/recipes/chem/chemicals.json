@@ -163,7 +163,7 @@
     "components": [
       [ [ "water_clean", 1 ], [ "water", 1 ] ],
       [ [ "scrap", 1 ] ],
-      [ [ "coal_lump", 5 ], [ "lye_powder", 20 ] ]
+      [ [ "charcoal", 5 ], [ "coal_lump", 5 ], [ "lye_powder", 20 ] ]
     ]
   },
   {
