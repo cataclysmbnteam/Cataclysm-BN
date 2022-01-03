@@ -1148,6 +1148,7 @@
   {
     "type": "recipe",
     "result": "leather",
+    "id_suffix": "shaving",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "survival",

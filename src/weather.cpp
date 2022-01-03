@@ -748,43 +748,63 @@ std::string print_pressure( double pressure, int decimals )
     return string_format( pgettext( "air pressure in kPa", "%s kPa" ), ret );
 }
 
+static double local_windchill_lowtemp( double temperature_f, double, double wind_mph )
+{
+    /// Model 1, cold wind chill (only valid for temps below 50F)
+    /// Is also used as a standard in North America.
+
+    // This model fails when wind is less than 3 mph
+    double wind_mph_lowcapped = std::max( 3.0, wind_mph );
+
+    // Temperature is removed at the end, because get_local_windchill is meant to calculate the difference.
+    // Source : http://en.wikipedia.org/wiki/Wind_chill#North_American_and_United_Kingdom_wind_chill_index
+    return 35.74
+           + 0.6215 * temperature_f
+           - 35.75 * std::pow( wind_mph_lowcapped, 0.16 )
+           + 0.4275 * temperature_f * std::pow( wind_mph_lowcapped, 0.16 )
+           - temperature_f;
+}
+
+static double local_windchill_hightemp( double temperature_f, double humidity, double wind_mph )
+{
+    /// Model 2, warm wind chill
+
+    // Source : http://en.wikipedia.org/wiki/Wind_chill#Australian_Apparent_Temperature
+    // Convert to meters per second.
+    double wind_meters_per_sec = wind_mph * 0.44704;
+    double temperature_c = units::fahrenheit_to_celsius( temperature_f );
+
+    // Cap the vapor pressure term to 50C of extra heat, as this term
+    // otherwise grows logistically to an asymptotic value of about 2e7
+    // for large values of temperature. This is presumably due to the
+    // model being designed for reasonable ambient temperature values,
+    // rather than extremely high ones.
+    double windchill_c = 0.33 * std::min<float>( 150.00, humidity / 100.00 * 6.105 *
+                         std::exp( 17.27 * temperature_c / ( 237.70 + temperature_c ) ) )
+                         - 0.70 * wind_meters_per_sec
+                         - 4.00;
+    // Convert to Fahrenheit, but omit the '+ 32' because we are only dealing with a piece of the felt air temperature equation.
+    return windchill_c * 9 / 5;
+}
+
 int get_local_windchill( double temperature_f, double humidity, double wind_mph )
 {
-    double windchill_f = 0;
-
-    if( temperature_f < 50 ) {
-        /// Model 1, cold wind chill (only valid for temps below 50F)
-        /// Is also used as a standard in North America.
-
-        // Temperature is removed at the end, because get_local_windchill is meant to calculate the difference.
-        // Source : http://en.wikipedia.org/wiki/Wind_chill#North_American_and_United_Kingdom_wind_chill_index
-        windchill_f = 35.74 + 0.6215 * temperature_f - 35.75 * std::pow( wind_mph,
-                      0.16 ) + 0.4275 * temperature_f * std::pow( wind_mph, 0.16 ) - temperature_f;
-        if( wind_mph < 3 ) {
-            // This model fails when wind is less than 3 mph
-            windchill_f = 0;
-        }
-    } else {
-        /// Model 2, warm wind chill
-
-        // Source : http://en.wikipedia.org/wiki/Wind_chill#Australian_Apparent_Temperature
-        // Convert to meters per second.
-        double wind_meters_per_sec = wind_mph * 0.44704;
-        double temperature_c = units::fahrenheit_to_celsius( temperature_f );
-
-        // Cap the vapor pressure term to 50C of extra heat, as this term
-        // otherwise grows logistically to an asymptotic value of about 2e7
-        // for large values of temperature. This is presumably due to the
-        // model being designed for reasonable ambient temperature values,
-        // rather than extremely high ones.
-        double windchill_c = 0.33 * std::min<float>( 150.00, humidity / 100.00 * 6.105 *
-                             std::exp( 17.27 * temperature_c / ( 237.70 + temperature_c ) ) ) - 0.70 *
-                             wind_meters_per_sec - 4.00;
-        // Convert to Fahrenheit, but omit the '+ 32' because we are only dealing with a piece of the felt air temperature equation.
-        windchill_f = windchill_c * 9 / 5;
+    // The function must be continuous and strictly non-decreasing with temperature
+    constexpr double low_temp = 30.0;
+    constexpr double high_temp = 70.0;
+    if( temperature_f >= high_temp ) {
+        return std::ceil( local_windchill_hightemp( temperature_f, humidity, wind_mph ) );
     }
 
-    return std::ceil( windchill_f );
+    // lerp-ing both functions results in a non-monotonous function
+    double windchill_f_hightemp = local_windchill_hightemp( high_temp, humidity, wind_mph );
+    double windchill_f_lowtemp = std::min( windchill_f_hightemp, local_windchill_lowtemp( low_temp,
+                                           humidity, wind_mph ) );
+
+    double t = ( temperature_f - low_temp ) / ( high_temp - low_temp );
+    return std::ceil( lerp( std::min( windchill_f_lowtemp, windchill_f_hightemp ),
+                            windchill_f_hightemp,
+                            t ) );
 }
 
 nc_color get_wind_color( double windpower )

@@ -5080,6 +5080,11 @@ bool item::has_flag( const std::string &f ) const
     return ret;
 }
 
+bool item::has_flag( const flag_str_id &flag ) const
+{
+    return has_flag( flag.str() );
+}
+
 item &item::set_flag( const std::string &flag )
 {
     item_tags.insert( flag );

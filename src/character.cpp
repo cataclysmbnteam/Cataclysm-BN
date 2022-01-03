@@ -3745,43 +3745,35 @@ bool Character::in_climate_control()
     return regulated_area;
 }
 
-std::map<bodypart_id, int> Character::get_wind_resistance( const std::map <bodypart_id,
-        std::vector<const item *>> &clothing_map ) const
+static int wind_resistance_from_item_list( const std::vector<const item *> &items )
+{
+    int total_exposed = 100;
+
+    for( const item *it : items ) {
+        const item &i = *it;
+        int penalty = 100 - i.wind_resist();
+        int coverage = std::max( 0, i.get_coverage() - penalty );
+        total_exposed = total_exposed * ( 100 - coverage ) / 100;
+    }
+
+    return 100 - total_exposed;
+}
+
+namespace warmth
 {
 
+std::map<bodypart_id, int> wind_resistance_from_clothing(
+    const std::map<bodypart_id, std::vector<const item *>> &clothing_map )
+{
     std::map<bodypart_id, int> ret;
-    for( const bodypart_id &bp : get_all_body_parts() ) {
-        ret.emplace( bp, 0 );
-    }
-
-    // Your shell provides complete wind protection if you're inside it
-    if( has_active_mutation( trait_SHELL2 ) ) {
-        for( std::pair<const bodypart_id, int> &this_bp : ret ) {
-            this_bp.second = 100;
-        }
-        return ret;
-    }
-
     for( const std::pair<const bodypart_id, std::vector<const item *>> &on_bp : clothing_map ) {
-        const bodypart_id &bp = on_bp.first;
-
-        int coverage = 0;
-        float totalExposed = 1.0f;
-        int totalCoverage = 0;
-        int penalty = 100;
-
-        for( const item *it : on_bp.second ) {
-            const item &i = *it;
-            penalty = 100 - i.wind_resist();
-            coverage = std::max( 0, i.get_coverage() - penalty );
-            totalExposed *= ( 1.0 - coverage / 100.0 ); // Coverage is between 0 and 1?
-        }
-
-        ret[bp] = totalCoverage = 100 - totalExposed * 100;
+        ret[on_bp.first] = wind_resistance_from_item_list( on_bp.second );
     }
 
     return ret;
 }
+
+} // namespace warmth
 
 void layer_details::reset()
 {
@@ -5140,8 +5132,10 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
     const bool submerged_low = !in_vehicle && ( submerged || ter_at_pos->has_flag( TFLAG_SWIMMABLE ) );
 
     std::map<bodypart_id, std::vector<const item *>> clothing_map;
+    std::map<bodypart_id, std::vector<const item *>> bonus_clothing_map;
     for( const bodypart_id &bp : get_all_body_parts() ) {
         clothing_map.emplace( bp, std::vector<const item *>() );
+        bonus_clothing_map.emplace( bp, std::vector<const item *>() );
         // HACK: we're using temp_conv here to temporarily save
         //       temperature values from before equalization.
         temp_conv[bp->token] = temp_cur[bp->token];
@@ -5171,12 +5165,52 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
             if( covered.test( token ) ) {
                 clothing_map[convert_bp( token )].emplace_back( &it );
             }
+            if( it.has_flag( flag_HOOD ) ) {
+                bonus_clothing_map[body_part_head].emplace_back( &it );
+            }
+            if( it.has_flag( flag_COLLAR ) ) {
+                bonus_clothing_map[body_part_mouth].emplace_back( &it );
+            }
+            if( it.has_flag( flag_POCKETS ) ) {
+                bonus_clothing_map[body_part_hand_l].emplace_back( &it );
+                bonus_clothing_map[body_part_hand_r].emplace_back( &it );
+            }
         }
     }
+    // If player is wielding something large, pockets are not usable
+    if( weapon.volume() >= 500_ml ) {
+        bonus_clothing_map[body_part_hand_l].clear();
+        bonus_clothing_map[body_part_hand_r].clear();
+    }
+    // If player's head is encumbered, hood can't be put up
+    if( encumb( body_part_head->token ) >= 10 ) {
+        bonus_clothing_map[body_part_head].clear();
+    }
+    // Similar for mouth
+    if( encumb( body_part_mouth->token ) >= 10 ) {
+        bonus_clothing_map[body_part_mouth].clear();
+    }
 
-    std::map<bodypart_id, int> warmth_per_bp = warmth( clothing_map );
-    std::map<bodypart_id, int> bonus_warmth_per_bp = bonus_item_warmth( clothing_map );
-    std::map<bodypart_id, int> wind_res_per_bp = get_wind_resistance( clothing_map );
+    std::map<bodypart_id, int> warmth_per_bp = warmth::from_clothing( clothing_map );
+    std::map<bodypart_id, int> bonus_warmth_per_bp = warmth::from_clothing( bonus_clothing_map );
+    for( const auto &pr : warmth::from_effects( *this ) ) {
+        warmth_per_bp[pr.first] += pr.second;
+    }
+
+    std::map<bodypart_id, int> wind_res_per_bp = warmth::wind_resistance_from_clothing( clothing_map );
+    std::map<bodypart_id, int> wind_res_per_bp_bonus = warmth::wind_resistance_from_clothing(
+                bonus_clothing_map );
+    for( std::pair<const bodypart_id, int> &bp_wind_res : wind_res_per_bp ) {
+        int exposed = std::max( 0, 100 - bp_wind_res.second );
+        int exposed_bonus = std::max( 0, 100 - wind_res_per_bp_bonus.at( bp_wind_res.first ) );
+        int exposed_final = exposed * exposed_bonus / ( 100 * 100 );
+        bp_wind_res.second = 100 - exposed_final;
+    }
+    if( has_active_mutation( trait_SHELL2 ) ) {
+        for( std::pair<const bodypart_id, int> &bp_wind_res : wind_res_per_bp ) {
+            bp_wind_res.second = 100;
+        }
+    }
     // We might not use this at all, so leave it empty
     // If we do need to use it, we'll initialize it (once) there
     std::map<bodypart_id, int> fire_armor_per_bp;
@@ -9127,45 +9161,33 @@ std::map<bodypart_id, int> Character::warmth( const std::map<bodypart_id, std::v
     return ret;
 }
 
-static int bestwarmth( const std::vector<const item *> &its, const flag_id &flag )
+namespace warmth
 {
-    int best = 0;
-    for( const item *w : its ) {
-        if( w->has_flag( flag.id().c_str() ) && w->get_warmth() > best ) {
-            best = w->get_warmth();
-        }
-    }
-    return best;
-}
 
-std::map<bodypart_id, int> Character::bonus_item_warmth( const
-        std::map<bodypart_id, std::vector<const item *>> &clothing_map ) const
+std::map<bodypart_id, int> from_clothing( const
+        std::map<bodypart_id, std::vector<const item *>> &bonus_clothing_map )
 {
     std::map<bodypart_id, int> ret;
-    for( const bodypart_id &bp : get_all_body_parts() ) {
-        ret.emplace( bp, 0 );
-    }
-    for( const std::pair<const bodypart_id, std::vector<const item *>> &on_bp : clothing_map ) {
-        const bodypart_id &bp = on_bp.first;
-        // If the player is not wielding anything big, check if hands can be put in pockets
-        if( ( bp == body_part_hand_l || bp == body_part_hand_r ) &&
-            weapon.volume() < 500_ml ) {
-            ret[bp] += bestwarmth( on_bp.second, flag_POCKETS );
-        }
-
-        // If the player's head is not encumbered, check if hood can be put up
-        if( bp == body_part_head && encumb( body_part_head->token ) < 10 ) {
-            ret[bp] += bestwarmth( on_bp.second, flag_HOOD );
-        }
-
-        // If the player's mouth is not encumbered, check if collar can be put up
-        if( bp == body_part_mouth && encumb( body_part_mouth->token ) < 10 ) {
-            ret[bp] += bestwarmth( on_bp.second, flag_COLLAR );
-        }
+    for( const std::pair<bodypart_id, std::vector<const item *>> &pr : bonus_clothing_map ) {
+        ret[pr.first] = std::accumulate( pr.second.begin(), pr.second.end(), 0,
+        []( int acc, const item * it ) {
+            return std::max( acc, it->get_warmth() );
+        } );
     }
 
     return ret;
 }
+
+std::map<bodypart_id, int> from_effects( const Character &c )
+{
+    std::map<bodypart_id, int> ret;
+    for( const effect *e : c.get_all_effects_of_type( effect_heating_bionic ) ) {
+        ret[e->get_bp()] += e->get_intensity();
+    }
+    return ret;
+}
+
+} // namespace warmth
 
 bool Character::can_use_floor_warmth() const
 {
