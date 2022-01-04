@@ -42,7 +42,7 @@
     "subcategory": "CSC_FOOD_SEEDS",
     "skill_used": "survival",
     "difficulty": 2,
-    "time": 5000,
+    "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "cattail_stalk", 1 ] ] ],
