@@ -2703,6 +2703,7 @@
       "bio_voice",
       "bio_ankles",
       "bio_trip",
+	  "bio_stiff",
       "bio_metabolics",
       "bio_power_storage_mkII",
       "bio_adrenaline",
