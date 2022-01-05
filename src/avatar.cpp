@@ -80,30 +80,15 @@ static const bionic_id bio_watch( "bio_watch" );
 
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_contacts( "contacts" );
-static const efftype_id effect_depressants( "depressants" );
-static const efftype_id effect_happy( "happy" );
-static const efftype_id effect_irradiated( "irradiated" );
-static const efftype_id effect_pkill( "pkill" );
-static const efftype_id effect_sad( "sad" );
 static const efftype_id effect_sleep( "sleep" );
-static const efftype_id effect_sleep_deprived( "sleep_deprived" );
 static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
-static const efftype_id effect_stim( "stim" );
-static const efftype_id effect_stim_overdose( "stim_overdose" );
-static const efftype_id effect_thirsty( "thirsty" );
 
 static const itype_id itype_guidebook( "guidebook" );
 
 static const trait_id trait_CENOBITE( "CENOBITE" );
-static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
-static const trait_id trait_STIMBOOST( "STIMBOOST" );
-static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
-static const trait_id trait_WEBBED( "WEBBED" );
-static const trait_id trait_WHISKERS( "WHISKERS" );
-static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
 
 static const std::string flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
 
