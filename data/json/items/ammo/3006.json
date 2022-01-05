@@ -68,9 +68,9 @@
   },
   {
     "id": "bp_3006fmj",
-    "copy-from": "bp_3006",
+    "copy-from": "3006fmj",
     "type": "AMMO",
-    "name": { "str": ".30-06 Springfield M2 AP, black powder" },
+    "name": { "str": ".30-06 M2 AP, black powder" },
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "stab", "amount": 0.76, "armor_penetration": 0.5 },
