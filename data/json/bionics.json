@@ -207,7 +207,7 @@
     "occupied_bodyparts": [ [ "torso", 16 ], [ "arm_l", 4 ], [ "arm_r", 4 ] ],
     "act_cost": "100 kJ",
     "fake_item": "bio_lightning",
-    "flags": [ "BIONIC_GUN", "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_GUN" ]
   },
   {
     "id": "bio_claws",
@@ -608,7 +608,7 @@
     "occupied_bodyparts": [ [ "hand_r", 1 ] ],
     "act_cost": "30 kJ",
     "fake_item": "bio_laser_gun",
-    "flags": [ "BIONIC_GUN", "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_GUN" ]
   },
   {
     "id": "bio_leaky",
