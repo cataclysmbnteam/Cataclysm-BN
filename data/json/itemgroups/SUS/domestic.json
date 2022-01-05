@@ -193,7 +193,10 @@
         ],
         "prob": 80
       },
-      { "item": "jam_fruit", "prob": 80 },
+      {
+        "distribution": [ { "item": "jam_fruit", "container-item": "jar_glass_sealed", "prob": 90 }, { "item": "jam_fruit", "prob": 10 } ],
+        "prob": 80
+      },
       { "item": "peanutbutter", "prob": 80 },
       { "item": "syrup", "prob": 50 },
       {
@@ -227,7 +230,7 @@
       { "group": "fridge_condiment_random", "prob": 25, "count": [ 1, 2 ] },
       { "group": "fridge_dairy_random", "prob": 25, "count": [ 1, 3 ] },
       { "group": "fridge_drinks_random", "prob": 50, "count": [ 1, 2 ] },
-      { "group": "fridge_fruit_and_veg_random", "count": [ 3, 6 ], "prob": 75 },
+      { "group": "fridge_fruit_and_veg_random", "count": [ 2, 3 ], "prob": 75 },
       { "group": "fridge_leftovers_random", "prob": 50 },
       { "group": "fridge_meat_random", "prob": 50, "count": [ 1, 2 ] }
     ]

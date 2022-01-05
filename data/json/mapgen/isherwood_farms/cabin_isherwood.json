@@ -170,7 +170,7 @@
         "d": { "item": "allclothes", "chance": 55, "repeat": [ 1, 2 ] },
         "D": { "item": "allclothes", "chance": 50, "repeat": [ 2, 3 ] },
         "o": { "item": "oven", "chance": 100, "repeat": [ 1, 3 ] },
-        "f": { "item": "fresh_produce", "chance": 100, "repeat": [ 5, 10 ] },
+        "f": { "item": "fresh_produce", "chance": 100, "repeat": [ 2, 4 ] },
         "S": { "item": "shower", "chance": 100, "repeat": [ 1, 2 ] },
         "R": { "item": "trash", "chance": 25, "repeat": [ 1, 2 ] },
         "w": { "item": "stash_wood", "chance": 100, "repeat": [ 5, 15 ] },
