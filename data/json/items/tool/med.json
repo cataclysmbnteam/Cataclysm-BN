@@ -36,12 +36,10 @@
     "color": "yellow",
     "use_action": "AUTOCLAVE",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "power_draw": 1500000,
+    "power_draw": 1000000,
     "looks_like": "microwave",
     "ammo": "battery",
-    "magazines": [
-      [ "battery", [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
-    ],
+    "magazines": [ [ "battery", [ "medium_storage_battery", "storage_battery", "large_storage_battery" ] ] ],
     "magazine_well": "1000 ml"
   },
   {
