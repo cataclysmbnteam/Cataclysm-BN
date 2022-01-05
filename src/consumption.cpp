@@ -739,7 +739,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
 
     if( food.rotten() ) {
         const bool saprovore = has_trait( trait_SAPROVORE );
-        if( !saprophage && !saprovore ) {
+        if( !saprophage && !saprovore && !has_bionic( bio_digestion ) ) {
             add_consequence( _( "This is rotten and smells awful!" ), edible_rating::rotten );
         }
     }
@@ -863,7 +863,7 @@ bool player::eat( item &food, bool force )
     if( spoiled && !saprophage ) {
         add_msg_if_player( m_bad, _( "Ick, this %s doesn't taste so good…" ), food.tname() );
         if( !has_trait( trait_SAPROVORE ) && !has_trait( trait_EATDEAD ) &&
-            ( !has_bionic( bio_digestion ) || one_in( 3 ) ) ) {
+            !has_bionic( bio_digestion ) ) {
             add_effect( effect_foodpoison, rng( 6_minutes, ( nutr + 1 ) * 6_minutes ) );
         }
     } else if( spoiled && saprophage ) {
