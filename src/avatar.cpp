@@ -1031,7 +1031,7 @@ void avatar::disp_morale()
     morale->display( equilibrium, pain_penalty, fatigue_penalty );
 }
 
-int avatar::calc_focus_equilibrium( bool ignore_pain ) const
+int player::calc_focus_equilibrium( bool ignore_pain ) const
 {
     int focus_equilibrium = 100;
 
@@ -1096,7 +1096,7 @@ int avatar::calc_focus_equilibrium( bool ignore_pain ) const
     return focus_equilibrium;
 }
 
-int avatar::calc_focus_change() const
+int player::calc_focus_change() const
 {
     int focus_gap = calc_focus_equilibrium() - focus_pool;
 
@@ -1127,12 +1127,12 @@ int avatar::calc_focus_change() const
     return gain;
 }
 
-void avatar::update_mental_focus()
+void player::update_mental_focus()
 {
     focus_pool += calc_focus_change();
 }
 
-void avatar::reset_stats()
+void player::reset_stats()
 {
     const int current_stim = get_stim();
 

@@ -433,6 +433,7 @@ class Character : public Creature, public visitable<Character>
         /** Combat getters */
         float get_dodge_base() const override;
         float get_hit_base() const override;
+        float get_dodge() const override;
 
         const tripoint &pos() const override;
         /** Returns the player's sight range */
