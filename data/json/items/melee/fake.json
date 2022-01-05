@@ -12,7 +12,7 @@
     "volume": "500 ml",
     "bashing": 8,
     "cutting": 16,
-    "flags": [ "STAB", "UNARMED_WEAPON", "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID" ],
+    "flags": [ "STAB", "UNARMED_WEAPON", "NO_DROP", "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ]
   },
   {
@@ -29,7 +29,7 @@
     "techniques": [ "WBLOCK_2" ],
     "volume": "750 ml",
     "cutting": 36,
-    "flags": [ "UNARMED_WEAPON", "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID" ],
+    "flags": [ "UNARMED_WEAPON", "NO_DROP", "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 22 ] ]
   }
 ]
