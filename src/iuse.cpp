@@ -2312,6 +2312,7 @@ int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
 
             corpse.set_var( "bionics_scanned_by", p->getID().get_value() );
             if( !cbms.empty() ) {
+                corpse.set_flag( "CBM_SCANNED" );
                 std::string bionics_string =
                     enumerate_as_string( cbms.begin(), cbms.end(),
                 []( const item * entry ) -> std::string {

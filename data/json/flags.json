@@ -1207,6 +1207,11 @@
     "context": [  ]
   },
   {
+    "id": "CBM_SCANNED",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "CHALLENGE",
     "type": "json_flag",
     "context": [  ]
