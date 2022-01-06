@@ -4443,7 +4443,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     }
     if( has_flag( flag_CBM_SCANNED ) ) {
         tagtext += _( " (CBM detected)" );
-    } if( has_flag( flag_ETHEREAL_ITEM ) ) {
+    }
+    if( has_flag( flag_ETHEREAL_ITEM ) ) {
         tagtext += string_format( _( " (%s turns)" ), get_var( "ethereal" ) );
     } else if( goes_bad() || is_food() ) {
         if( has_own_flag( "DIRTY" ) ) {
