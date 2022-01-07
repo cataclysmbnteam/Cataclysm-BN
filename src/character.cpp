@@ -3459,15 +3459,6 @@ void Character::reset_stats()
     mod_str_bonus( std::floor( mutation_value( "str_modifier" ) ) );
     mod_dodge_bonus( std::floor( mutation_value( "dodge_modifier" ) ) );
 
-    /** @EFFECT_STR_MAX above 15 decreases Dodge bonus by 1 (NEGATIVE) */
-    if( str_max >= 16 ) {
-        mod_dodge_bonus( -1 );   // Penalty if we're huge
-    }
-    /** @EFFECT_STR_MAX below 6 increases Dodge bonus by 1 */
-    else if( str_max <= 5 ) {
-        mod_dodge_bonus( 1 );   // Bonus if we're small
-    }
-
     apply_skill_boost();
 
     nv_cached = false;
@@ -7488,21 +7479,15 @@ void Character::cough( bool harmful, int loudness )
 
 void Character::wake_up()
 {
-    // Do not remove effect_sleep or effect_alarm_clock now otherwise it invalidates an effect
-    // iterator in player::process_effects().
-    // We just set it for later removal (also happening in player::process_effects(), so no side
-    // effects) with a duration of 0 turns.
-
-    if( has_effect( effect_sleep ) ) {
-        g->events().send<event_type::character_wakes_up>( getID() );
-        get_effect( effect_sleep ).set_duration( 0_turns );
-    }
     remove_effect( effect_slept_through_alarm );
     remove_effect( effect_lying_down );
-    if( has_effect( effect_alarm_clock ) ) {
-        get_effect( effect_alarm_clock ).set_duration( 0_turns );
+    remove_effect( effect_alarm_clock );
+    if( has_effect( effect_sleep ) ) {
+        g->events().send<event_type::character_wakes_up>( getID() );
+        remove_effect( effect_sleep );
+        // Wake up might be called more than once per turn, but we only need to recalc after removing sleep
+        recalc_sight_limits();
     }
-    recalc_sight_limits();
 }
 
 int Character::get_shout_volume() const

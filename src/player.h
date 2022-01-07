@@ -248,10 +248,6 @@ class player : public Character
         double melee_value( const item &weap ) const; // As above, but only as melee
         double unarmed_value() const; // Evaluate yourself!
 
-        /** Returns Creature::get_dodge_base modified by the player's skill level */
-        float get_dodge_base() const override;   // Returns the players's dodge, modded by clothing etc
-        /** Returns Creature::get_dodge() modified by any player effects */
-        float get_dodge() const override;
         /** Returns the player's dodge_roll to be compared against an aggressor's hit_roll() */
         float dodge_roll() override;
 
@@ -459,6 +455,15 @@ class player : public Character
         int sleep_spot( const tripoint &p ) const;
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
         bool can_sleep();
+
+        /** Uses morale and other factors to return the player's focus target goto value */
+        int calc_focus_equilibrium( bool ignore_pain = false ) const;
+        /** Calculates actual focus gain/loss value from focus equilibrium*/
+        int calc_focus_change() const;
+        /** Uses calc_focus_change to update the player's current focus */
+        void update_mental_focus();
+        /** Resets stats, and applies effects in an idempotent manner */
+        void reset_stats() override;
 
     private:
         enum class power_mut_ui_cmd {
