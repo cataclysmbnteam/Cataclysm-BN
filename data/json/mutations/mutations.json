@@ -3613,7 +3613,7 @@
     "id": "WEB_RAPPEL",
     "name": { "str": "Web Diver" },
     "points": 1,
-    "description": "Your webbing is easily strong enough to support your weight.  You'll use it to descend down any sheer drops you may encounter.",
+    "description": "Your webbing is easily strong enough to support your weight.  You'll use it to descend down any sheer drops you may encounter, and to catch yourself should you fall.",
     "prereqs": [ "WEB_WEAVER" ],
     "threshreq": [ "THRESH_SPIDER" ],
     "category": [ "SPIDER" ]
@@ -3623,15 +3623,14 @@
     "id": "WEB_ROPE",
     "name": { "str": "Rope Webs" },
     "points": 2,
-    "description": "With spinnerets like THESE, who needs rope?!  Activate to produce rope.",
+    "description": "With spinnerets like THESE, who needs rope?!  Activate to sling a web rope that you can climb, and can be disassembled into rope.",
     "prereqs": [ "WEB_WEAVER" ],
     "threshreq": [ "THRESH_SPIDER" ],
     "category": [ "SPIDER" ],
     "active": true,
     "cost": 30,
     "hunger": true,
-    "thirst": true,
-    "spawn_item": { "type": "rope_30", "message": "You spin a rope from your silk." }
+    "thirst": true
   },
   {
     "type": "mutation",
