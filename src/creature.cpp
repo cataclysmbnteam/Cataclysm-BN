@@ -1037,12 +1037,13 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur,
         // Then check if the effect is blocked by another
         for( const auto &elem : *effects ) {
             for( auto &_effect_it : elem.second ) {
-                for( const auto &blocked_effect : _effect_it.second.get_blocks_effects() ) {
-                    if( blocked_effect == eff_id ) {
-                        // The effect is blocked by another, return
-                        return;
+                if( !_effect_it.second.is_removed() )
+                    for( const auto &blocked_effect : _effect_it.second.get_blocks_effects() ) {
+                        if( blocked_effect == eff_id ) {
+                            // The effect is blocked by another, return
+                            return;
+                        }
                     }
-                }
             }
         }
 
@@ -1116,7 +1117,8 @@ bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_str_id &b
     }
     const effect_type &type = eff_id.obj();
 
-    if( Character *ch = as_character() ) {
+    Character *ch = as_character();
+    if( ch != nullptr ) {
         if( is_player() ) {
             if( !type.get_remove_message().empty() ) {
                 add_msg( type.lose_game_message_type(), _( type.get_remove_message() ) );
@@ -1138,6 +1140,11 @@ bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_str_id &b
         effect &e = get_effect( eff_id, bp->token );
         on_effect_int_change( e.get_id(), 0, e.get_bp() );
         e.set_removed();
+    }
+    // Sleep is a special case, since it affects max sight range and other effects
+    // Must be below the set_removed above or we'll get an infinite loop
+    if( ch != nullptr && eff_id == effect_sleep ) {
+        ch->wake_up();
     }
     return true;
 }

@@ -84,25 +84,36 @@
 #include "weather.h"
 #include "weather_gen.h"
 
+static const activity_id ACT_READ( "ACT_READ" );
+
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bloodworms( "bloodworms" );
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_brainworms( "brainworms" );
 static const efftype_id effect_darkness( "darkness" );
+static const efftype_id effect_depressants( "depressants" );
 static const efftype_id effect_dermatik( "dermatik" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_fungus( "fungus" );
+static const efftype_id effect_happy( "happy" );
+static const efftype_id effect_irradiated( "irradiated" );
 static const efftype_id effect_masked_scent( "masked_scent" );
 static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_paincysts( "paincysts" );
+static const efftype_id effect_pkill( "pkill" );
+static const efftype_id effect_sad( "sad" );
+static const efftype_id effect_sleep_deprived( "sleep_deprived" );
 static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_stim_overdose( "stim_overdose" );
+static const efftype_id effect_stim( "stim" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tapeworm( "tapeworm" );
+static const efftype_id effect_thirsty( "thirsty" );
 static const efftype_id effect_weed_high( "weed_high" );
 
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
@@ -119,38 +130,45 @@ static const itype_id itype_UPS_off( "UPS_off" );
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 
+static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
+static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_CF_HAIR( "CF_HAIR" );
-static const trait_id trait_CHITIN_FUR( "CHITIN_FUR" );
+static const trait_id trait_CHITIN2( "CHITIN2" );
+static const trait_id trait_CHITIN3( "CHITIN3" );
 static const trait_id trait_CHITIN_FUR2( "CHITIN_FUR2" );
 static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
+static const trait_id trait_CHITIN_FUR( "CHITIN_FUR" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
+static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_DEFT( "DEFT" );
-static const trait_id trait_EASYSLEEPER( "EASYSLEEPER" );
 static const trait_id trait_EASYSLEEPER2( "EASYSLEEPER2" );
+static const trait_id trait_EASYSLEEPER( "EASYSLEEPER" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_FAT( "FAT" );
 static const trait_id trait_FELINE_FUR( "FELINE_FUR" );
 static const trait_id trait_FUR( "FUR" );
+static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
+static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
 static const trait_id trait_INSOMNIA( "INSOMNIA" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
 static const trait_id trait_LIGHTFUR( "LIGHTFUR" );
 static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
 static const trait_id trait_LUPINE_FUR( "LUPINE_FUR" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
-static const trait_id trait_M_SKIN3( "M_SKIN3" );
-static const trait_id trait_MOREPAIN( "MORE_PAIN" );
 static const trait_id trait_MOREPAIN2( "MORE_PAIN2" );
 static const trait_id trait_MOREPAIN3( "MORE_PAIN3" );
+static const trait_id trait_MOREPAIN( "MORE_PAIN" );
+static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
-static const trait_id trait_NOMAD( "NOMAD" );
 static const trait_id trait_NOMAD2( "NOMAD2" );
 static const trait_id trait_NOMAD3( "NOMAD3" );
+static const trait_id trait_NOMAD( "NOMAD" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PAINRESIST( "PAINRESIST" );
@@ -167,17 +185,22 @@ static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SLIMY( "SLIMY" );
 static const trait_id trait_SPINES( "SPINES" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
+static const trait_id trait_STIMBOOST( "STIMBOOST" );
 static const trait_id trait_STRONGSTOMACH( "STRONGSTOMACH" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
+static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
 static const trait_id trait_THORNS( "THORNS" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
 static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 static const trait_id trait_WEAKSTOMACH( "WEAKSTOMACH" );
+static const trait_id trait_WEBBED( "WEBBED" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
+static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
+static const trait_id trait_WHISKERS( "WHISKERS" );
 
 static const std::string flag_SPLINT( "SPLINT" );
 
@@ -4441,4 +4464,271 @@ void player::add_msg_player_or_say( const game_message_params &params,
 bool player::query_yn( const std::string &mes ) const
 {
     return ::query_yn( mes );
+}
+
+int player::calc_focus_equilibrium( bool ignore_pain ) const
+{
+    int focus_equilibrium = 100;
+
+    if( activity.id() == ACT_READ ) {
+        item_location loc = activity.targets[0];
+        if( loc && loc->is_book() ) {
+            auto &bt = *loc->type->book;
+            // apply a penalty when we're actually learning something
+            const SkillLevel &skill_level = get_skill_level_object( bt.skill );
+            if( skill_level.can_train() && skill_level < bt.level ) {
+                focus_equilibrium -= 50;
+            }
+        }
+    }
+
+    int eff_morale = get_morale_level();
+    // Factor in perceived pain, since it's harder to rest your mind while your body hurts.
+    // Cenobites don't mind, though
+    if( !ignore_pain && !has_trait( trait_CENOBITE ) ) {
+        eff_morale = eff_morale - get_perceived_pain();
+    }
+
+    if( eff_morale < -99 ) {
+        // At very low morale, focus is at it's minimum
+        focus_equilibrium = 1;
+    } else if( eff_morale <= 50 ) {
+        // At -99 to +50 morale, each point of morale gives or takes 1 point of focus
+        focus_equilibrium += eff_morale;
+    } else {
+        /* Above 50 morale, we apply strong diminishing returns.
+        * Each block of 50 takes twice as many morale points as the previous one:
+        * 150 focus at 50 morale (as before)
+        * 200 focus at 150 morale (100 more morale)
+        * 250 focus at 350 morale (200 more morale)
+        * ...
+        * Cap out at 400% focus gain with 3,150+ morale, mostly as a sanity check.
+        */
+
+        int block_multiplier = 1;
+        int morale_left = eff_morale;
+        while( focus_equilibrium < 400 ) {
+            if( morale_left > 50 * block_multiplier ) {
+                // We can afford the entire block.  Get it and continue.
+                morale_left -= 50 * block_multiplier;
+                focus_equilibrium += 50;
+                block_multiplier *= 2;
+            } else {
+                // We can't afford the entire block.  Each block_multiplier morale
+                // points give 1 focus, and then we're done.
+                focus_equilibrium += morale_left / block_multiplier;
+                break;
+            }
+        }
+    }
+
+    // This should be redundant, but just in case...
+    if( focus_equilibrium < 1 ) {
+        focus_equilibrium = 1;
+    } else if( focus_equilibrium > 400 ) {
+        focus_equilibrium = 400;
+    }
+    return focus_equilibrium;
+}
+
+int player::calc_focus_change() const
+{
+    int focus_gap = calc_focus_equilibrium() - focus_pool;
+
+    // handle negative gain rates in a symmetric manner
+    int base_change = 1;
+    if( focus_gap < 0 ) {
+        base_change = -1;
+        focus_gap = -focus_gap;
+    }
+
+    // for every 100 points, we have a flat gain of 1 focus.
+    // for every n points left over, we have an n% chance of 1 focus
+    int gain = focus_gap / 100;
+    if( rng( 1, 100 ) <= focus_gap % 100 ) {
+        gain++;
+    }
+
+    gain *= base_change;
+
+    // Fatigue will incrementally decrease any focus above related cap
+    if( ( get_fatigue() >= fatigue_levels::tired && focus_pool > 100 ) ||
+        ( get_fatigue() >= fatigue_levels::dead_tired && focus_pool > 75 ) ||
+        ( get_fatigue() >= fatigue_levels::exhausted && focus_pool > 50 ) ||
+        ( get_fatigue() >= fatigue_levels::massive && focus_pool > 25 ) ) {
+
+        gain = std::min( gain, -1 );
+    }
+    return gain;
+}
+
+void player::update_mental_focus()
+{
+    focus_pool += calc_focus_change();
+}
+
+void player::reset_stats()
+{
+    const int current_stim = get_stim();
+
+    // Trait / mutation buffs
+    if( has_trait( trait_THICK_SCALES ) ) {
+        add_miss_reason( _( "Your thick scales get in the way." ), 2 );
+    }
+    if( has_trait( trait_CHITIN2 ) || has_trait( trait_CHITIN3 ) || has_trait( trait_CHITIN_FUR3 ) ) {
+        add_miss_reason( _( "Your chitin gets in the way." ), 1 );
+    }
+    if( has_trait( trait_COMPOUND_EYES ) && !wearing_something_on( bodypart_id( "eyes" ) ) ) {
+        mod_per_bonus( 2 );
+    }
+    if( has_trait( trait_INSECT_ARMS ) ) {
+        add_miss_reason( _( "Your insect limbs get in the way." ), 2 );
+    }
+    if( has_trait( trait_INSECT_ARMS_OK ) ) {
+        if( !wearing_something_on( bodypart_id( "torso" ) ) ) {
+            mod_dex_bonus( 1 );
+        } else {
+            mod_dex_bonus( -1 );
+            add_miss_reason( _( "Your clothing restricts your insect arms." ), 1 );
+        }
+    }
+    if( has_trait( trait_WEBBED ) ) {
+        add_miss_reason( _( "Your webbed hands get in the way." ), 1 );
+    }
+    if( has_trait( trait_ARACHNID_ARMS ) ) {
+        add_miss_reason( _( "Your arachnid limbs get in the way." ), 4 );
+    }
+    if( has_trait( trait_ARACHNID_ARMS_OK ) ) {
+        if( !wearing_something_on( bodypart_id( "torso" ) ) ) {
+            mod_dex_bonus( 2 );
+        } else if( !exclusive_flag_coverage( "OVERSIZE" ).test( bp_torso ) ) {
+            mod_dex_bonus( -2 );
+            add_miss_reason( _( "Your clothing constricts your arachnid limbs." ), 2 );
+        }
+    }
+    const auto set_fake_effect_dur = [this]( const efftype_id & type, const time_duration & dur ) {
+        effect &eff = get_effect( type );
+        if( eff.get_duration() == dur ) {
+            return;
+        }
+
+        if( eff.is_null() && dur > 0_turns ) {
+            add_effect( type, dur, num_bp );
+        } else if( dur > 0_turns ) {
+            eff.set_duration( dur );
+        } else {
+            remove_effect( type, num_bp );
+        }
+    };
+    // Painkiller
+    set_fake_effect_dur( effect_pkill, 1_turns * get_painkiller() );
+
+    // Pain
+    if( get_perceived_pain() > 0 ) {
+        const auto ppen = get_pain_penalty();
+        mod_str_bonus( -ppen.strength );
+        mod_dex_bonus( -ppen.dexterity );
+        mod_int_bonus( -ppen.intelligence );
+        mod_per_bonus( -ppen.perception );
+        if( ppen.dexterity > 0 ) {
+            add_miss_reason( _( "Your pain distracts you!" ), static_cast<unsigned>( ppen.dexterity ) );
+        }
+    }
+
+    // Radiation
+    set_fake_effect_dur( effect_irradiated, 1_turns * get_rad() );
+    // Morale
+    const int morale = get_morale_level();
+    set_fake_effect_dur( effect_happy, 1_turns * morale );
+    set_fake_effect_dur( effect_sad, 1_turns * -morale );
+
+    // Stimulants
+    set_fake_effect_dur( effect_stim, 1_turns * current_stim );
+    set_fake_effect_dur( effect_depressants, 1_turns * -current_stim );
+    if( has_trait( trait_STIMBOOST ) ) {
+        set_fake_effect_dur( effect_stim_overdose, 1_turns * ( current_stim - 60 ) );
+    } else {
+        set_fake_effect_dur( effect_stim_overdose, 1_turns * ( current_stim - 30 ) );
+    }
+    // Starvation
+    if( get_kcal_percent() < 0.95f ) {
+        // kcal->percentage of base str
+        static const std::vector<std::pair<float, float>> starv_thresholds = { {
+                std::make_pair( 0.0f, 0.5f ),
+                std::make_pair( 0.8f, 0.1f ),
+                std::make_pair( 0.95f, 0.0f )
+            }
+        };
+
+        const int str_penalty = std::floor( multi_lerp( starv_thresholds, get_kcal_percent() ) );
+        add_miss_reason( _( "You're weak from hunger." ),
+                         static_cast<unsigned>( str_penalty / 2 ) );
+        mod_str_bonus( -str_penalty );
+        mod_dex_bonus( -( str_penalty / 2 ) );
+        mod_int_bonus( -( str_penalty / 2 ) );
+    }
+    // Thirst
+    set_fake_effect_dur( effect_thirsty, 1_turns * ( get_thirst() - thirst_levels::very_thirsty ) );
+    if( get_sleep_deprivation() >= sleep_deprivation_levels::harmless ) {
+        set_fake_effect_dur( effect_sleep_deprived, 1_turns * get_sleep_deprivation() );
+    } else if( has_effect( effect_sleep_deprived ) ) {
+        remove_effect( effect_sleep_deprived );
+    }
+
+    // Dodge-related effects
+    mod_dodge_bonus( mabuff_dodge_bonus() -
+                     ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 20.0f - encumb( bp_torso ) / 10.0f );
+    // Whiskers don't work so well if they're covered
+    if( has_trait( trait_WHISKERS ) && !wearing_something_on( bodypart_id( "mouth" ) ) ) {
+        mod_dodge_bonus( 1.5 );
+    }
+    if( has_trait( trait_WHISKERS_RAT ) && !wearing_something_on( bodypart_id( "mouth" ) ) ) {
+        mod_dodge_bonus( 3 );
+    }
+    // depending on mounts size, attacks will hit the mount and use their dodge rating.
+    // if they hit the player, the player cannot dodge as effectively.
+    if( is_mounted() ) {
+        mod_dodge_bonus( -4 );
+    }
+    // Spider hair is basically a full-body set of whiskers, once you get the brain for it
+    if( has_trait( trait_CHITIN_FUR3 ) ) {
+        static const std::array<bodypart_id, 5> parts{ { bodypart_id( "head" ), bodypart_id( "arm_r" ), bodypart_id( "arm_l" ), bodypart_id( "leg_r" ), bodypart_id( "leg_l" ) } };
+        for( const bodypart_id &bp : parts ) {
+            if( !wearing_something_on( bp ) ) {
+                mod_dodge_bonus( +1 );
+            }
+        }
+        // Torso handled separately, bigger bonus
+        if( !wearing_something_on( bodypart_id( "torso" ) ) ) {
+            mod_dodge_bonus( 4 );
+        }
+    }
+
+    // Apply static martial arts buffs
+    martial_arts_data->ma_static_effects( *this );
+
+    if( calendar::once_every( 1_minutes ) ) {
+        update_mental_focus();
+    }
+
+    // Effects
+    for( const auto &maps : *effects ) {
+        for( auto i : maps.second ) {
+            const auto &it = i.second;
+            if( it.is_removed() ) {
+                continue;
+            }
+            bool reduced = resists_effect( it );
+            mod_str_bonus( it.get_mod( "STR", reduced ) );
+            mod_dex_bonus( it.get_mod( "DEX", reduced ) );
+            mod_per_bonus( it.get_mod( "PER", reduced ) );
+            mod_int_bonus( it.get_mod( "INT", reduced ) );
+        }
+    }
+
+    Character::reset_stats();
+
+    recalc_sight_limits();
+    recalc_speed_bonus();
+
 }

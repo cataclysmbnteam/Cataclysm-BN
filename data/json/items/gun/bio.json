@@ -19,7 +19,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 200,
-    "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "NO_UNWIELD", "TRADER_AVOID" ]
+    "flags": [ "NEVER_JAMS", "NO_DROP", "RELOAD_EJECT", "NO_UNWIELD", "TRADER_AVOID" ]
   },
   {
     "id": "bio_emp_gun",
@@ -42,7 +42,7 @@
     "loudness": 20,
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 5 ] ],
     "ammo_effects": [ "DRAW_AS_LINE", "WIDE", "EMP" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "TRADER_AVOID" ]
+    "flags": [ "NEVER_JAMS", "NO_DROP", "NO_UNLOAD", "TRADER_AVOID" ]
   },
   {
     "id": "bio_laser_gun",
@@ -62,7 +62,7 @@
     "durability": 10,
     "loudness": 7,
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NEVER_JAMS", "TRADER_AVOID", "FIRESTARTER" ],
+    "flags": [ "NEVER_JAMS", "NO_DROP", "TRADER_AVOID", "FIRESTARTER" ],
     "use_action": { "type": "firestarter", "moves": 200 }
   },
   {
@@ -83,7 +83,7 @@
     "durability": 10,
     "loudness": 10,
     "ammo_effects": [ "LIGHTNING", "BOUNCE" ],
-    "flags": [ "NEVER_JAMS", "TRADER_AVOID" ]
+    "flags": [ "NEVER_JAMS", "NO_DROP", "TRADER_AVOID" ]
   },
   {
     "id": "mut_quills",

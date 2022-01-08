@@ -728,7 +728,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "egg_bird_unfert", "prob": 65, "count-min": 6, "count-max": 12 },
+      { "item": "egg_bird_unfert", "prob": 65, "charges": [ 6, 12 ] },
       { "item": "milk", "prob": 80 },
       { "item": "milk_raw", "prob": 5 },
       { "item": "milk_raw", "prob": 5 },
@@ -812,7 +812,8 @@
     "type": "item_group",
     "items": [
       [ "vinegar", 20 ],
-      [ "jam_fruit", 5 ],
+      [ "jam_fruit", 1 ],
+      { "item": "jam_fruit", "prob": 4, "charges": 16, "container-item": "jar_glass_sealed" },
       [ "bread", 17 ],
       [ "meat", 20 ],
       [ "cornbread", 7 ],

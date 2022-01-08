@@ -604,7 +604,7 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "skill_used": "fabrication",
     "difficulty": 7,
-    "time": 55000,
+    "time": "3 h",
     "book_learn": [ [ "textbook_armschina", 5 ] ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
     "components": [
@@ -627,7 +627,7 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "skill_used": "fabrication",
     "difficulty": 6,
-    "time": 45000,
+    "time": "3 h",
     "book_learn": [ [ "textbook_weapwest", 4 ] ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
     "components": [
@@ -650,7 +650,7 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "skill_used": "fabrication",
     "difficulty": 7,
-    "time": 55000,
+    "time": "3 h",
     "book_learn": [ [ "textbook_weapwest", 5 ] ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
     "components": [

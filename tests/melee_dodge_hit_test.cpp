@@ -20,7 +20,7 @@
 //
 // - Character::get_hit_base, monster::get_hit_base
 // - Character::get_dodge_base, monster::get_dodge_base
-// - player::get_dodge, monster::get_dodge
+// - Character::get_dodge, monster::get_dodge
 
 // Return the avatar's `get_hit_base` with a given DEX stat.
 static float hit_base_with_dex( avatar &dummy, int dexterity )
@@ -46,7 +46,8 @@ static float dodge_with_effect( Creature &critter, std::string effect_name )
 {
     // Set one effect and leave other attributes alone
     critter.clear_effects();
-    critter.add_effect( efftype_id( effect_name ), 1_hours );
+    critter.add_effect( efftype_id( effect_name ), 1_hours, bodypart_str_id::NULL_ID(), 1, true, true );
+    CHECK( critter.has_effect( efftype_id( effect_name ) ) );
 
     return critter.get_dodge();
 }
@@ -192,7 +193,7 @@ TEST_CASE( "monster::get_dodge with effects", "[monster][melee][dodge][effect]" 
     }
 }
 
-TEST_CASE( "player::get_dodge", "[player][melee][dodge]" )
+TEST_CASE( "Character::get_dodge", "[player][melee][dodge]" )
 {
     clear_map();
 
@@ -215,7 +216,7 @@ TEST_CASE( "player::get_dodge", "[player][melee][dodge]" )
     }
 }
 
-TEST_CASE( "player::get_dodge with effects", "[player][melee][dodge][effect]" )
+TEST_CASE( "Character::get_dodge with effects", "[player][melee][dodge][effect]" )
 {
     clear_map();
 
