@@ -2381,7 +2381,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
-    "flags": [ "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW" ],
+    "flags": [ "OBSTACLE", "OPENABLE", "BOARDABLE", "AISLE", "WINDOW" ],
     "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] } ],
     "damage_reduction": { "all": 8 }
   },
@@ -2404,7 +2404,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
-    "flags": [ "OBSTACLE", "OPENABLE", "BOARDABLE", "OPAQUE" ],
+    "flags": [ "OBSTACLE", "OPENABLE", "BOARDABLE", "AISLE", "OPAQUE" ],
     "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] } ],
     "damage_reduction": { "all": 12 }
   },
