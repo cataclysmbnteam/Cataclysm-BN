@@ -1085,7 +1085,7 @@ bool trapfunc::sinkhole( const tripoint &p, Creature *c, item *i )
                                    _( "You step into a sinkhole!  Throw your rope out to try to catch something?" ) ) ) {
             success = sinkhole_safety_roll( pl, itype_rope_30, 12 );
         } else if( pl->has_trait( trait_WEB_RAPPEL ) && query_yn(
-                       _( "You step into a sinkhole!  Throw a web out to try to catch something? " ) ) ) {
+                       _( "You step into a sinkhole!  Throw a web out to try to catch something?" ) ) ) {
             success = sinkhole_safety_roll( pl, itype_rope_30, 3 );
         }
 
