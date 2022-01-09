@@ -2927,11 +2927,7 @@ void map::collapse_at( const tripoint &p, const bool silent, const bool was_supp
     // it would be great to check if collapsing ceilings smashed through the floor, but
     // that's not handled for now
 }
-void map::check_nearby_suspension(const tripoint &point)
-{
-    std::set<tripoint> visitedList;
-    check_nearby_suspension(point);
-}
+
 void map::check_nearby_suspension(const tripoint &point)
 {
     //First check all neighbors for the existence of supsension tiles.
