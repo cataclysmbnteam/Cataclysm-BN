@@ -4433,7 +4433,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
         case 3: {
 
             if( ( p.get_kcal_percent() < 0.5f ) || ( p.get_thirst() > thirst_levels::dehydrated ) ) {
-                p.add_msg_if_player( _( "You just don't have it in you to spin that much web..." ) );
+                p.add_msg_if_player( _( "You just don't have it in you to spin that much web…" ) );
                 break;
             }
             const int range = 6; //this means we could web across a gap of 5.
