@@ -84,7 +84,6 @@ static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const trait_id trait_WEB_ROPE( "WEB_ROPE" );
-static const trait_id trait_WEB_BRIDGE( "WEB_BRIDGE" );
 
 namespace io
 {
@@ -533,15 +532,15 @@ void Character::activate_mutation( const trait_id &mut )
     if( mut == trait_WEB_WEAVER ) {
         g->m.add_field( pos(), fd_web, 1 );
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
-    }else if( mut == trait_WEB_ROPE) {
-        if (g->m.move_cost(pos()) != 2 && g->m.move_cost(pos()) != 3) {
-            add_msg_if_player(m_info, _("You can't spin a web rope there."));
-        } else if (g->m.has_furn(pos())) {
-            add_msg_if_player(m_info, _("There is already furniture at that location."));
+    } else if( mut == trait_WEB_ROPE ) {
+        if( g->m.move_cost( pos() ) != 2 && g->m.move_cost( pos() ) != 3 ) {
+            add_msg_if_player( m_info, _( "You can't spin a web rope there." ) );
+        } else if( g->m.has_furn( pos() ) ) {
+            add_msg_if_player( m_info, _( "There is already furniture at that location." ) );
         } else {
-            add_msg_if_player(m_good, _("You spin a climbable rope of web."));
-            g->m.furn_set(pos(), furn_str_id("f_rope_up_web"));
-            mod_moves(to_turns<int>(2_seconds));
+            add_msg_if_player( m_good, _( "You spin a climbable rope of web." ) );
+            g->m.furn_set( pos(), furn_str_id( "f_rope_up_web" ) );
+            mod_moves( to_turns<int>( 2_seconds ) );
         }
         tdata.powered = false;
     } else if( mut == trait_BURROW ) {

@@ -4343,7 +4343,9 @@ void iexamine::ledge( player &p, const tripoint &examp )
     cmenu.text = _( "There is a ledge here.  What do you want to do?" );
     cmenu.addentry( 1, true, 'j', _( "Jump over." ) );
     cmenu.addentry( 2, true, 'c', _( "Climb down." ) );
-    if (p.has_trait(trait_WEB_BRDIGE)) cmenu.addentry(3, true, 'w', _("Spin Web Bridge."));
+    if( p.has_trait( trait_WEB_BRDIGE ) ) {
+        cmenu.addentry( 3, true, 'w', _( "Spin Web Bridge." ) );
+    }
 
     cmenu.query();
 
@@ -4430,36 +4432,33 @@ void iexamine::ledge( player &p, const tripoint &examp )
         }
         case 3: {
 
-            if ((p.get_kcal_percent() < 0.5f) || (p.get_thirst() > thirst_levels::dehydrated))
-            {
-                p.add_msg_if_player(_("You just don't have it in you to spin that much web..."));
+            if( ( p.get_kcal_percent() < 0.5f ) || ( p.get_thirst() > thirst_levels::dehydrated ) ) {
+                p.add_msg_if_player( _( "You just don't have it in you to spin that much web..." ) );
                 break;
             }
             const int range = 6; //this means we could web across a gap of 5.
             int successRange = 0;
             bool success = false;
-            for (int i = 2; i <= range; i++)
-            {
+            for( int i = 2; i <= range; i++ ) {
                 //break at the first non empty space encountered
-                if (g->m.ter(tripoint(p.posx() + i * sgn(examp.x - p.posx()), p.posy() + i * sgn(examp.y - p.posy()), p.posz())).obj().trap != tr_ledge) {
+                if( g->m.ter( tripoint( p.posx() + i * sgn( examp.x - p.posx() ),
+                                        p.posy() + i * sgn( examp.y - p.posy() ), p.posz() ) ).obj().trap != tr_ledge ) {
                     successRange = i;
                     success = true;
                     break;
                 }
             }
-            if (!success) {
-                p.add_msg_if_player(_("There is nothing for your to attach your web to!"));
-            }
-            else {
-                for (int i = 1; i < successRange; i++)
-                {
-                    tripoint dest(p.posx() + i * sgn(examp.x - p.posx()), p.posy() + i * sgn(examp.y - p.posy()),
-                        p.posz());
+            if( !success ) {
+                p.add_msg_if_player( _( "There is nothing for your to attach your web to!" ) );
+            } else {
+                for( int i = 1; i < successRange; i++ ) {
+                    tripoint dest( p.posx() + i * sgn( examp.x - p.posx() ), p.posy() + i * sgn( examp.y - p.posy() ),
+                                   p.posz() );
 
-                    g->m.ter_set(dest, t_web_bridge);
+                    g->m.ter_set( dest, t_web_bridge );
                 }
-                p.mod_stored_nutr(60);
-                p.mod_thirst(60);
+                p.mod_stored_nutr( 60 );
+                p.mod_thirst( 60 );
             }
             break;
         }
