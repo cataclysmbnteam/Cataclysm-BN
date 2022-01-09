@@ -2917,13 +2917,64 @@ void map::collapse_at( const tripoint &p, const bool silent, const bool was_supp
             // this tile used to support a roof, now it doesn't, which means there is only
             // open air above us
             if( zlevels ) {
+                //If suspended, make a suspension check
                 ter_set( tz, t_open_air );
                 furn_set( tz, f_null );
+                check_nearby_suspension(tz);
             }
         }
     }
     // it would be great to check if collapsing ceilings smashed through the floor, but
     // that's not handled for now
+}
+void map::check_nearby_suspension(const tripoint &point)
+{
+    std::set<tripoint> visitedList;
+    check_nearby_suspension(point);
+}
+void map::check_nearby_suspension(const tripoint &point)
+{
+    //First check all neighbors for the existence of supsension tiles.
+    for (const tripoint& neighbor : points_in_radius(point, 1)) {
+        if (neighbor != point && has_flag("SUSPENDED", neighbor))
+        {
+            check_for_suspension_collapse(neighbor);
+        }
+    }
+}
+
+void map::check_for_suspension_collapse(const tripoint &point)
+{
+    //success check
+    bool secure = false;
+    //check the four orientations (up/down, left/right, and both diagonals)
+    if (
+        ter(tripoint(point.x + 1, point.y, point.z )) != t_open_air
+        && ter(tripoint(point.x - 1, point.y, point.z)) != t_open_air) {
+        secure = true;
+    }
+    if (!secure
+        && ter(tripoint(point.x + 1, point.y+1, point.z)) != t_open_air
+        && ter(tripoint(point.x - 1, point.y-1, point.z)) != t_open_air) {
+        secure = true;
+    }
+    if (!secure
+        && ter(tripoint(point.x, point.y+1, point.z)) != t_open_air
+        && ter(tripoint(point.x, point.y-1, point.z)) != t_open_air) {
+        secure = true;
+    }
+    if (!secure
+        && ter(tripoint(point.x + 1, point.y-1, point.z)) != t_open_air
+        && ter(tripoint(point.x - 1, point.y+1, point.z)) != t_open_air) {
+        secure = true;
+    }
+
+    //if all fail, destroy, and call check nearby suspension on self.
+    if (!secure) {
+        ter_set(point, t_open_air);
+        furn_set(point, f_null);
+        check_nearby_suspension(point);
+    }
 }
 
 void map::smash_items( const tripoint &p, const int power, const std::string &cause_message )
@@ -3262,7 +3313,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     // Set this now in case the ter_set below changes this
     const bool will_collapse = smash_ter && has_flag( "SUPPORTS_ROOF", p ) && !has_flag( "INDOORS", p );
     const bool tent = smash_furn && !bash->tent_centers.empty();
-
+    const bool suspended = smash_ter && has_flag("SUSPENDED", p);
     // Special code to collapse the tent if destroyed
     if( tent ) {
         // Get ids of possible centers
@@ -3372,7 +3423,14 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     if( will_collapse && !has_flag( "SUPPORTS_ROOF", p ) ) {
         collapse_at( p, params.silent, true, bash->explosive > 0 );
     }
-
+    if (suspended)
+    {
+        //Its important that we change the ter value before recursing, otherwise we'll hit an infinite loop
+        //This could be prevented by aseembling a visited list, but in order to avoid that cost, we're going
+        //build our recursion to just be resilliant.
+        ter_set(p, t_open_air);
+        check_nearby_suspension(p);
+    }
     params.did_bash = true;
     params.success |= success; // Not always true, so that we can tell when to stop destroying
     params.bashed_solid = true;

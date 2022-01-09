@@ -84,6 +84,7 @@ static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const trait_id trait_WEB_ROPE( "WEB_ROPE" );
+static const trait_id trait_WEB_BRIDGE( "WEB_BRIDGE" );
 
 namespace io
 {

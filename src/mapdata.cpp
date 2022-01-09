@@ -183,7 +183,8 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "THIN_OBSTACLE",            TFLAG_THIN_OBSTACLE },  // Passable by players and monsters. Vehicles destroy it.
         { "SMALL_PASSAGE",            TFLAG_SMALL_PASSAGE },   // A small passage, that large or huge things cannot pass through
         { "Z_TRANSPARENT",            TFLAG_Z_TRANSPARENT },  // Doesn't block vision passing through the z-level
-        { "SUN_ROOF_ABOVE",           TFLAG_SUN_ROOF_ABOVE }   // This furniture has a "fake roof" above, that blocks sunlight (see #44421).
+        { "SUN_ROOF_ABOVE",           TFLAG_SUN_ROOF_ABOVE },  // This furniture has a "fake roof" above, that blocks sunlight (see #44421).
+        { "SUSPENDED",                TFLAG_SUSPENDED }       // This furniture is suspended between other terrain, and will cause a cascading failure on break.
     }
 };
 
@@ -663,6 +664,7 @@ ter_id t_null,
        t_stairs_down, t_stairs_up, t_manhole, t_ladder_up, t_ladder_down, t_slope_down,
        t_slope_up, t_rope_up,
        t_manhole_cover,
+       t_web_bridge,
        // Special
        t_card_science, t_card_military, t_card_industrial, t_card_reader_broken, t_slot_machine,
        t_elevator_control, t_elevator_control_off, t_elevator, t_pedestal_wyrm,
@@ -886,6 +888,7 @@ void set_ter_ids()
     t_water_moving_sh = ter_id( "t_water_moving_sh" );
     t_water_sh = ter_id( "t_water_sh" );
     t_water_dp = ter_id( "t_water_dp" );
+    t_web_bridge = ter_id( "t_web_bridge" );
     t_swater_sh = ter_id( "t_swater_sh" );
     t_swater_dp = ter_id( "t_swater_dp" );
     t_water_pool = ter_id( "t_water_pool" );
