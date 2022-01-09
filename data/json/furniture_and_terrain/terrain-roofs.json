@@ -359,7 +359,7 @@
     "type": "terrain",
     "id": "t_web_bridge",
     "name": "web bridge",
-    "description": "A hammock like bridge spun from spider silk",
+    "description": "A hammock like bridge spun from spider silk.",
     "symbol": "w",
     "looks_like": "fd_web",
     "color": "white",
