@@ -2940,36 +2940,38 @@ void map::check_nearby_suspension( const tripoint &point )
 
 void map::check_for_suspension_collapse( const tripoint &point )
 {
-    //success check
-    bool secure = false;
-    //check the four orientations (up/down, left/right, and both diagonals)
-    if(
-        ter( point + tripoint_east ) != t_open_air
-        && ter( point + tripoint_west ) != t_open_air ) {
-        secure = true;
-    }
-    if( !secure
-        && ter( point + tripoint_south_east ) != t_open_air
-        && ter( point + tripoint_north_west ) != t_open_air ) {
-        secure = true;
-    }
-    if( !secure
-        && ter( point + tripoint_south ) != t_open_air
-        && ter( point + tripoint_north ) != t_open_air ) {
-        secure = true;
-    }
-    if( !secure
-        && ter( point + tripoint_north_east ) != t_open_air
-        && ter( point + tripoint_south_west ) != t_open_air ) {
-        secure = true;
-    }
-
     //if all fail, destroy, and call check nearby suspension on self.
-    if( !secure ) {
+    if( check_suspension_validity( point ) ) {
         ter_set( point, t_open_air );
         furn_set( point, f_null );
         check_nearby_suspension( point );
     }
+}
+
+bool map::check_suspension_validity( const tripoint &point )
+{
+    //check the four orientations (up/down, left/right, and both diagonals)
+    if(
+        ter( point + tripoint_east ) != t_open_air
+        && ter( point + tripoint_west ) != t_open_air ) {
+        return true;
+    }
+    if(
+        ter( point + tripoint_south_east ) != t_open_air
+        && ter( point + tripoint_north_west ) != t_open_air ) {
+        return true;
+    }
+    if(
+        ter( point + tripoint_south ) != t_open_air
+        && ter( point + tripoint_north ) != t_open_air ) {
+        return true;
+    }
+    if(
+        ter( point + tripoint_north_east ) != t_open_air
+        && ter( point + tripoint_south_west ) != t_open_air ) {
+        return true;
+    }
+    return false;
 }
 
 void map::smash_items( const tripoint &p, const int power, const std::string &cause_message )
@@ -3419,9 +3421,9 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         collapse_at( p, params.silent, true, bash->explosive > 0 );
     }
     if( suspended ) {
-        //Its important that we change the ter value before recursing, otherwise we'll hit an infinite loop
-        //This could be prevented by aseembling a visited list, but in order to avoid that cost, we're going
-        //build our recursion to just be resilliant.
+        // Its important that we change the ter value before recursing, otherwise we'll hit an infinite loop.
+        // This could be prevented by assembling a visited list, but in order to avoid that cost, we're going
+        // build our recursion to just be resilient.
         ter_set( p, t_open_air );
         check_nearby_suspension( p );
     }

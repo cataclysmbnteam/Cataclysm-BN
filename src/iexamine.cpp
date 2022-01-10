@@ -4437,13 +4437,13 @@ void iexamine::ledge( player &p, const tripoint &examp )
                 break;
             }
             const int range = 6; //this means we could web across a gap of 5.
-            int successRange = 0;
+            int success_range = 0;
             bool success = false;
             for( int i = 2; i <= range; i++ ) {
                 //break at the first non empty space encountered
                 if( g->m.ter( tripoint( p.posx() + i * sgn( examp.x - p.posx() ),
                                         p.posy() + i * sgn( examp.y - p.posy() ), p.posz() ) ).obj().trap != tr_ledge ) {
-                    successRange = i;
+                    success_range = i;
                     success = true;
                     break;
                 }
@@ -4451,13 +4451,13 @@ void iexamine::ledge( player &p, const tripoint &examp )
             if( !success ) {
                 p.add_msg_if_player( _( "There is nothing for your to attach your web to!" ) );
             } else {
-                for( int i = 1; i < successRange; i++ ) {
+                for( int i = 1; i < success_range; i++ ) {
                     tripoint dest( p.posx() + i * sgn( examp.x - p.posx() ), p.posy() + i * sgn( examp.y - p.posy() ),
                                    p.posz() );
 
                     g->m.ter_set( dest, t_web_bridge );
                 }
-                p.mod_stored_nutr( 60 );
+                p.mod_stored_kcal( -60 );
                 p.mod_thirst( 60 );
             }
             break;
