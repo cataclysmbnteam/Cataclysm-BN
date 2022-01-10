@@ -2944,23 +2944,23 @@ void map::check_for_suspension_collapse( const tripoint &point )
     bool secure = false;
     //check the four orientations (up/down, left/right, and both diagonals)
     if(
-        ter( point + tripoint( 1, 0, 0 ) ) != t_open_air
-        && ter( point + tripoint( - 1, 0, 0 ) ) != t_open_air ) {
+        ter( point + tripoint_east ) != t_open_air
+        && ter( point + tripoint_west ) != t_open_air ) {
         secure = true;
     }
     if( !secure
-        && ter( point + tripoint( 1,  1, 0 ) ) != t_open_air
-        && ter( point + tripoint( -1, -1, 0 ) ) != t_open_air ) {
+        && ter( point + tripoint_south_east ) != t_open_air
+        && ter( point + tripoint_north_west ) != t_open_air ) {
         secure = true;
     }
     if( !secure
-        && ter( point + tripoint( 0,  1, 0 ) ) != t_open_air
-        && ter( point + tripoint( 0, -1, 0 ) ) != t_open_air ) {
+        && ter( point + tripoint_south ) != t_open_air
+        && ter( point + tripoint_north ) != t_open_air ) {
         secure = true;
     }
     if( !secure
-        && ter( point + tripoint( 1, -1, 0 ) ) != t_open_air
-        && ter( point + tripoint( -1, 1, 0 ) ) != t_open_air ) {
+        && ter( point + tripoint_north_east ) != t_open_air
+        && ter( point + tripoint_south_west ) != t_open_air ) {
         secure = true;
     }
 
