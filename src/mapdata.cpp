@@ -664,6 +664,7 @@ ter_id t_null,
        t_stairs_down, t_stairs_up, t_manhole, t_ladder_up, t_ladder_down, t_slope_down,
        t_slope_up, t_rope_up,
        t_manhole_cover,
+       t_web_bridge,
        // Special
        t_card_science, t_card_military, t_card_industrial, t_card_reader_broken, t_slot_machine,
        t_elevator_control, t_elevator_control_off, t_elevator, t_pedestal_wyrm,
@@ -887,6 +888,7 @@ void set_ter_ids()
     t_water_moving_sh = ter_id( "t_water_moving_sh" );
     t_water_sh = ter_id( "t_water_sh" );
     t_water_dp = ter_id( "t_water_dp" );
+    t_web_bridge = ter_id("t_web_bridge");
     t_swater_sh = ter_id( "t_swater_sh" );
     t_swater_dp = ter_id( "t_swater_dp" );
     t_water_pool = ter_id( "t_water_pool" );
