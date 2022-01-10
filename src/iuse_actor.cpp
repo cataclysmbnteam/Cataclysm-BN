@@ -4724,7 +4724,10 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
     // We need extra thread to lose it on bad rolls
     const int thread_needed = mod.volume() / 125_ml + 10;
 
-    const auto valid_mods = mod.find_armor_data()->valid_mods;
+    std::vector<std::string> valid_mods;
+    if( mod.find_armor_data() ) {
+        valid_mods = mod.find_armor_data()->valid_mods;
+    }
 
     const auto get_compare_color = [&]( const int before, const int after,
     const bool higher_is_better ) {
