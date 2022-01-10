@@ -2856,38 +2856,10 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
-    "result": "straw_basket",
-    "type": "uncraft",
-    "time": "2 m",
-    "components": [ [ [ "straw_pile", 4 ] ] ],
-    "flags": [ "BLIND_HARD" ]
-  },
-  {
     "result": "straw_doll",
     "type": "uncraft",
     "time": "1 m",
     "components": [ [ [ "straw_pile", 1 ] ] ],
-    "flags": [ "BLIND_HARD" ]
-  },
-  {
-    "result": "straw_fedora",
-    "type": "uncraft",
-    "time": "1 m 30 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "straw_pile", 5 ] ] ]
-  },
-  {
-    "result": "straw_hat",
-    "type": "uncraft",
-    "time": "1 m 30 s",
-    "components": [ [ [ "straw_pile", 2 ] ] ],
-    "flags": [ "BLIND_HARD" ]
-  },
-  {
-    "result": "straw_sandals",
-    "type": "uncraft",
-    "time": "2 m",
-    "components": [ [ [ "straw_pile", 2 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {

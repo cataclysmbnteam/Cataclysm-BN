@@ -2639,6 +2639,26 @@
   },
   {
     "type": "recipe",
+    "result": "straw_basketuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "straw_fedorauncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "straw_hatuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "straw_sandalsuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "tanned_hide",
     "obsolete": true
   },
