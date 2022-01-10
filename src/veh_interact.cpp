@@ -802,7 +802,7 @@ bool veh_interact::update_part_requirements()
         str = veh->lift_strength();
         use_aid = ( max_jack >= lvl ) || can_self_jack();
         use_str = g->u.can_lift( str );
-    } else if( get_option<bool>( "DISABLE_LIFTING" ) || sel_vpart_info->has_flag("NO_LIFT_REQ") ) {
+    } else if( get_option<bool>( "DISABLE_LIFTING" ) || sel_vpart_info->has_flag( "NO_LIFT_REQ" ) ) {
         use_aid = true;
         use_str = true;
     } else {
