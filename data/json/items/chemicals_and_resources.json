@@ -51,7 +51,12 @@
     "weight": "500 g",
     "//": "density is around 2g/cm3",
     "bashing": 1,
-    "ammo_type": "components"
+    "ammo_type": "rock",
+    "damage": { "damage_type": "stab", "amount": 7 },
+    "range": 10,
+    "dispersion": 14,
+    "loudness": 0,
+    "extend": { "effects": [ "BLINDS_EYES", "NEVER_MISFIRES", "NON-FOULING" ] }
   },
   {
     "type": "AMMO",
@@ -84,8 +89,13 @@
     "volume": "250 ml",
     "weight": "14 g",
     "bashing": 1,
-    "ammo_type": "components",
-    "count": 50
+    "ammo_type": "pebble",
+    "count": 50,
+    "damage": { "damage_type": "stab", "amount": 2 },
+    "range": 10,
+    "dispersion": 14,
+    "loudness": 0,
+    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ]
   },
   {
     "type": "AMMO",

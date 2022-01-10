@@ -438,7 +438,7 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "type": "GENERIC",
+    "type": "AMMO",
     "id": "petrified_eye",
     "symbol": "*",
     "color": "dark_gray",
@@ -447,14 +447,20 @@
     "price": 200000,
     "price_postapoc": 1000,
     "material": "stone",
+    "ammo_type": "rock",
     "weight": "907 g",
     "volume": "250 ml",
     "bashing": 6,
+    "damage": { "damage_type": "stab", "amount": 7 },
+    "range": 10,
+    "dispersion": 14,
+    "loudness": 0,
     "to_hit": -1,
+    "effects": [ "NEVER_MISFIRES", "NON-FOULING", "RECOVER_80" ],
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "AMMO",
     "id": "spiral_stone",
     "symbol": "*",
     "color": "light_gray",
@@ -464,10 +470,16 @@
     "price": 20000,
     "price_postapoc": 1000,
     "material": "stone",
+    "ammo_type": "rock",
     "weight": "493 g",
     "volume": "250 ml",
     "bashing": 6,
+    "damage": { "damage_type": "stab", "amount": 7 },
+    "range": 10,
+    "dispersion": 14,
+    "loudness": 0,
     "to_hit": -1,
+    "effects": [ "NEVER_MISFIRES", "NON-FOULING", "RECOVER_80" ],
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {

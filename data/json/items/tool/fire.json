@@ -235,6 +235,7 @@
   },
   {
     "id": "tinderbox_on",
+    "sub": "ref_lighter_on",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "ember carrier (lit)", "str_pl": "ember carriers (lit)" },
