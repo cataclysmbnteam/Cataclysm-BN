@@ -593,7 +593,7 @@
       "C": "f_charger",
       "B": "f_battery",
       "$": "f_shower",
-      "A": "f_air_filter"	  
+      "A": "f_air_filter"
     },
     "toilets": { "T": {  } },
     "items": {
