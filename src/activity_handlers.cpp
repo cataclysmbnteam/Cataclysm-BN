@@ -3765,7 +3765,7 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     if( five_percent_steps > 0 ) {
         if( !p->craft_consume_tools( *craft, five_percent_steps, false ) ) {
             // So we don't skip over any tool comsuption
-            craft->item_counter -= craft->item_counter % 500'000 + 1;
+            craft->item_counter -= craft->item_counter % 500000 + 1;
             p->cancel_activity();
             return;
         }
