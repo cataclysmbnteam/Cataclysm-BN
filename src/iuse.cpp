@@ -342,6 +342,7 @@ static const mtype_id mon_wasp( "mon_wasp" );
 
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_shock( "bio_shock" );
+static const bionic_id bio_digestion( "bio_digestion" );
 static const std::string flag_ACID( "ACID" );
 static const std::string flag_CURRENT( "CURRENT" );
 static const std::string flag_DIGGABLE( "DIGGABLE" );
@@ -875,7 +876,7 @@ int iuse::antiasthmatic( player *p, item *it, bool, const tripoint & )
 
 int iuse::poison( player *p, item *it, bool, const tripoint & )
 {
-    if( ( p->has_trait( trait_EATDEAD ) ) ) {
+    if( ( p->has_trait( trait_EATDEAD ) || p->has_bionic( bio_digestion ) ) ) {
         return it->type->charges_to_use();
     }
 
