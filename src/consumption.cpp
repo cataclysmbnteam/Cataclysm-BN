@@ -914,7 +914,7 @@ bool player::eat( item &food, bool force )
     // If it's poisonous... poison us.
     // TODO: Move this to a flag
     if( food.poison > 0 && !has_trait( trait_POISRESIST ) &&
-        !has_trait( trait_EATDEAD ) ) {
+        !has_trait( trait_EATDEAD ) && !has_bionic( bio_digestion ) ) {
         if( food.poison >= rng( 2, 4 ) ) {
             add_effect( effect_poison, food.poison * 10_minutes );
         }
