@@ -9871,10 +9871,8 @@ void Character::place_corpse()
     for( const bionic &bio : *my_bionics ) {
         if( bio.info().itype().is_valid() ) {
             item cbm( bio.id.str(), calendar::turn );
-            cbm.set_flag( "FILTHY" );
             cbm.set_flag( "NO_STERILE" );
             cbm.set_flag( "NO_PACKED" );
-            cbm.faults.emplace( fault_id( "fault_bionic_salvaged" ) );
             body.components.push_back( cbm );
         }
     }
@@ -9882,9 +9880,13 @@ void Character::place_corpse()
     // Restore amount of installed pseudo-modules of Power Storage Units
     std::pair<int, int> storage_modules = amount_of_storage_bionics();
     for( int i = 0; i < storage_modules.first; ++i ) {
+        item.set_flag( "NO_STERILE" );
+        item.set_flag( "NO_PACKED" );
         body.components.push_back( item( "bio_power_storage" ) );
     }
     for( int i = 0; i < storage_modules.second; ++i ) {
+        item.set_flag( "NO_STERILE" );
+        item.set_flag( "NO_PACKED" );
         body.components.push_back( item( "bio_power_storage_mkII" ) );
     }
     g->m.add_item_or_charges( pos(), body );
