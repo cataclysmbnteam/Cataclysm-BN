@@ -1745,7 +1745,7 @@ void Character::deduct_mutation_cost( const trait_id &mut )
         }
         if( mdata.hunger ) {
             // burn some energy
-            mod_stored_kcal( -cost );
+            mod_stored_kcal( -cost*6 );
         }
         if( mdata.thirst ) {
             mod_thirst( cost );
