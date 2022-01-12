@@ -4256,7 +4256,7 @@
     "cancels": [ "PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3" ],
     "prereqs": [ "UGLY" ],
     "changes_to": [ "DEFORMED2" ],
-    "category": [ "FISH", "CATTLE", "INSECT", "CEPHALOPOD", "FELINE", "LUPINE" ]
+    "category": [ "FISH", "CATTLE", "INSECT", "CEPHALOPOD", "FELINE", "LUPINE", "SPIDER" ]
   },
   {
     "type": "mutation",
@@ -5181,7 +5181,7 @@
     "description": "Your muscle response is dependent on ambient temperatures.  You lose 1% of your speed for every 5 (2.8) degrees below 65 F (18.3 C).  This sluggishness helps you conserve energy, however.",
     "changes_to": [ "COLDBLOOD2" ],
     "types": [ "METABOLISM" ],
-    "category": [ "FISH", "CEPHALOPOD", "SPIDER" ],
+    "category": [ "FISH", "CEPHALOPOD" ],
     "temperature_speed_modifier": 0.2,
     "metabolism_modifier": -0.333
   },
@@ -5195,7 +5195,7 @@
     "prereqs": [ "COLDBLOOD" ],
     "changes_to": [ "COLDBLOOD3" ],
     "types": [ "METABOLISM" ],
-    "category": [ "RAPTOR", "PLANT" ],
+    "category": [ "RAPTOR", "PLANT", "SPIDER" ],
     "temperature_speed_modifier": 0.333,
     "metabolism_modifier": -0.5
   },
@@ -5257,7 +5257,7 @@
     "mixed_effect": true,
     "points": -1,
     "description": "You hiss when speaking.  Persuading NPCs will be more difficult, but threatening them will be easier.",
-    "category": [ "LIZARD", "RAPTOR" ],
+    "category": [ "LIZARD", "RAPTOR", "SPIDER" ],
     "social_modifiers": { "persuade": -20, "lie": -10, "intimidate": 10 }
   },
   {
@@ -5319,7 +5319,6 @@
     "types": [ "HANDS" ],
     "changes_to": [ "INSECT_ARMS_OK", "ARACHNID_ARMS" ],
     "prereqs": [ "CHITIN", "CHITIN2", "CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3" ],
-    "prereqs2": [ "ANTENNAE" ],
     "threshreq": [ "THRESH_INSECT", "THRESH_SPIDER" ],
     "category": [ "INSECT", "SPIDER" ],
     "restricts_gear": [ "torso" ],
