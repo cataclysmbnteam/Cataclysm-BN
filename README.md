@@ -46,8 +46,6 @@ https://discord.gg/XW7XhXuZ89
 Unofficial DDA modding community discord has a BN channel:
 https://discord.gg/B5q4XCa
 
-Also check out the BN channel on DDA discord:
-https://discord.gg/jFEc7Yp
 
 
 
