@@ -2536,7 +2536,7 @@
     "book_learn": [ [ "mag_survival", 2 ], [ "textbook_survival", 1 ], [ "cookbook", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "tools": [ [ [ "nail", -1 ], [ "spike", -1 ], [ "sharp_rock", -1 ], [ "rebar", -1 ], [ "spear_rebar", -1 ] ] ],
-    "components": [ [ [ "can_medium", 1 ] ], [ [ "scrap", 3 ] ] ]
+    "components": [ [ [ "can_medium_unsealed", 1 ] ], [ [ "scrap", 3 ] ] ]
   },
   {
     "type": "recipe",
