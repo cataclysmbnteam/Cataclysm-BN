@@ -3637,7 +3637,7 @@
     "type": "mutation",
     "id": "WEB_BRIDGE",
     "name": { "str": "Arachnitect" },
-    "points": 5,
+    "points": 2,
     "description": "The pinnacle of silk spinning.  Spin suspended walkways between ledges to span small gaps.",
     "prereqs": [ "WEB_ROPE" ],
     "threshreq": [ "THRESH_SPIDER" ],
