@@ -485,38 +485,11 @@ void Character::activate_mutation( const trait_id &mut )
     int cost = mdata.cost;
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
-    if( ( mdata.hunger && get_kcal_percent() < 0.5f ) || ( mdata.thirst &&
-            get_thirst() >= thirst_levels::dehydrated ) ||
-        ( mdata.fatigue && get_fatigue() >= fatigue_levels::exhausted ) ) {
-        // Insufficient Foo to *maintain* operation is handled in player::suffer
-        add_msg_if_player( m_warning, _( "You feel like using your %s would kill you!" ),
-                           mdata.name() );
+    if( !can_use_mutation( mut, *this ) ) {
         return;
     }
-    if( tdata.powered && tdata.charge > 0 ) {
-        // Already-on units just lose a bit of charge
-        tdata.charge--;
-    } else {
-        // Not-on units, or those with zero charge, have to pay the power cost
-        if( mdata.cooldown > 0 ) {
-            tdata.charge = mdata.cooldown - 1;
-        }
-        if( mdata.hunger ) {
-            // burn some energy
-            mod_stored_kcal( cost );
-        }
-        if( mdata.thirst ) {
-            mod_thirst( cost );
-        }
-        if( mdata.fatigue ) {
-            mod_fatigue( cost );
-        }
-        tdata.powered = true;
-
-        // Handle stat changes from activation
-        apply_mods( mut, true );
-        recalc_sight_limits();
-    }
+    deduct_mutation_cost( mut );
+    tdata.powered = true;
 
     if( !mut->enchantments.empty() ) {
         recalculate_enchantment_cache();
@@ -532,17 +505,6 @@ void Character::activate_mutation( const trait_id &mut )
     if( mut == trait_WEB_WEAVER ) {
         g->m.add_field( pos(), fd_web, 1 );
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
-    } else if( mut == trait_WEB_ROPE ) {
-        if( g->m.move_cost( pos() ) != 2 && g->m.move_cost( pos() ) != 3 ) {
-            add_msg_if_player( m_info, _( "You can't spin a web rope there." ) );
-        } else if( g->m.has_furn( pos() ) ) {
-            add_msg_if_player( m_info, _( "There is already furniture at that location." ) );
-        } else {
-            add_msg_if_player( m_good, _( "You spin a climbable rope of web." ) );
-            g->m.furn_set( pos(), furn_str_id( "f_rope_up_web" ) );
-            mod_moves( to_turns<int>( 2_seconds ) );
-        }
-        tdata.powered = false;
     } else if( mut == trait_BURROW ) {
         tdata.powered = false;
         item burrowing_item( itype_id( "fake_burrowing" ) );
@@ -1747,6 +1709,55 @@ bool are_same_type_traits( const trait_id &trait_a, const trait_id &trait_b )
 bool contains_trait( std::vector<string_id<mutation_branch>> traits, const trait_id &trait )
 {
     return std::find( traits.begin(), traits.end(), trait ) != traits.end();
+}
+
+bool can_use_mutation( const trait_id &mut, Character &character )
+{
+    const mutation_branch &mdata = mut.obj();
+    int cost = mdata.cost;
+    // You can take yourself halfway to Near Death levels of hunger/thirst.
+    // Fatigue can go to Exhausted.
+    if( ( mdata.hunger && character.get_kcal_percent() < 0.5f ) || ( mdata.thirst &&
+            character.get_thirst() >= thirst_levels::dehydrated ) ||
+        ( mdata.fatigue && character.get_fatigue() >= fatigue_levels::exhausted ) ) {
+        // Insufficient Foo to *maintain* operation is handled in player::suffer
+        character.add_msg_if_player( m_warning, _( "You feel like using your %s would kill you!" ),
+                                     mdata.name() );
+
+        return false;
+    } else {
+        return true;
+    }
+}
+
+void Character::deduct_mutation_cost( const trait_id &mut )
+{
+    const mutation_branch &mdata = mut.obj();
+    trait_data &tdata = my_mutations[mut];
+    int cost = mdata.cost;
+    if( tdata.powered && tdata.charge > 0 ) {
+        // Already-on units just lose a bit of charge
+        tdata.charge--;
+    } else {
+        // Not-on units, or those with zero charge, have to pay the power cost
+        if( mdata.cooldown > 0 ) {
+            tdata.charge = mdata.cooldown - 1;
+        }
+        if( mdata.hunger ) {
+            // burn some energy
+            mod_stored_kcal( -cost );
+        }
+        if( mdata.thirst ) {
+            mod_thirst( cost );
+        }
+        if( mdata.fatigue ) {
+            mod_fatigue( cost );
+        }
+
+        // Handle stat changes from activation
+        apply_mods( mut, true );
+        recalc_sight_limits();
+    }
 }
 
 std::string Character::visible_mutations( const int visibility_cap ) const

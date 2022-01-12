@@ -493,6 +493,9 @@ bool are_opposite_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool are_same_type_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool contains_trait( std::vector<string_id<mutation_branch>> traits, const trait_id &trait );
 
+/** Check to see if the specified character has enough resources to use that mutation. */
+bool can_use_mutation( const trait_id &mut, Character &character );
+
 enum class mutagen_technique : int {
     consumed_mutagen,
     injected_mutagen,

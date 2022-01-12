@@ -3630,7 +3630,8 @@
     "active": true,
     "cost": 30,
     "hunger": true,
-    "thirst": true
+    "thirst": true,
+    "spawn_item": { "type": "rope_30", "message": "You spin a rope from your silk." }
   },
   {
     "type": "mutation",
@@ -3640,7 +3641,10 @@
     "description": "The pinnacle of silk spinning.  Spin suspended walkways between ledges to span small gaps.",
     "prereqs": [ "WEB_ROPE" ],
     "threshreq": [ "THRESH_SPIDER" ],
-    "category": [ "SPIDER" ]
+    "category": [ "SPIDER" ],
+    "cost": 60,
+    "hunger": true,
+    "thirst": true
   },
   {
     "type": "mutation",

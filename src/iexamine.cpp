@@ -66,6 +66,7 @@
 #include "mission_companion.h"
 #include "monster.h"
 #include "mtype.h"
+#include "mutation.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
@@ -163,6 +164,7 @@ static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 
 static const ter_str_id t_dimensional_portal( "t_dimensional_portal" );
+static const ter_str_id t_web_bridge( "t_web_bridge" );
 
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
@@ -4432,8 +4434,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
         }
         case 3: {
 
-            if( ( p.get_kcal_percent() < 0.5f ) || ( p.get_thirst() > thirst_levels::dehydrated ) ) {
-                p.add_msg_if_player( _( "You just don't have it in you to spin that much web…" ) );
+            if( !can_use_mutation( trait_WEB_BRDIGE, p ) ) {
                 break;
             }
             const int range = 6; //this means we could web across a gap of 5.
@@ -4457,8 +4458,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
 
                     g->m.ter_set( dest, t_web_bridge );
                 }
-                p.mod_stored_kcal( -60 );
-                p.mod_thirst( 60 );
+                p.deduct_mutation_cost( trait_WEB_BRDIGE );
             }
             break;
         }

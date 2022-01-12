@@ -2920,7 +2920,7 @@ void map::collapse_at( const tripoint &p, const bool silent, const bool was_supp
                 //If suspended, make a suspension check
                 ter_set( tz, t_open_air );
                 furn_set( tz, f_null );
-                check_nearby_suspension( tz );
+                propogate_suspension_check( tz );
             }
         }
     }
@@ -2928,27 +2928,27 @@ void map::collapse_at( const tripoint &p, const bool silent, const bool was_supp
     // that's not handled for now
 }
 
-void map::check_nearby_suspension( const tripoint &point )
+void map::propogate_suspension_check( const tripoint &point )
 {
     //First check all neighbors for the existence of supsension tiles.
     for( const tripoint &neighbor : points_in_radius( point, 1 ) ) {
         if( neighbor != point && has_flag( "SUSPENDED", neighbor ) ) {
-            check_for_suspension_collapse( neighbor );
+            collapse_invalid_suspension( neighbor );
         }
     }
 }
 
-void map::check_for_suspension_collapse( const tripoint &point )
+void map::collapse_invalid_suspension( const tripoint &point )
 {
     //if all fail, destroy, and call check nearby suspension on self.
-    if( check_suspension_validity( point ) ) {
+    if( is_suspension_valid( point ) ) {
         ter_set( point, t_open_air );
         furn_set( point, f_null );
-        check_nearby_suspension( point );
+        propogate_suspension_check( point );
     }
 }
 
-bool map::check_suspension_validity( const tripoint &point )
+bool map::is_suspension_valid( const tripoint &point )
 {
     //check the four orientations (up/down, left/right, and both diagonals)
     if(
@@ -3425,7 +3425,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         // This could be prevented by assembling a visited list, but in order to avoid that cost, we're going
         // build our recursion to just be resilient.
         ter_set( p, t_open_air );
-        check_nearby_suspension( p );
+        propogate_suspension_check( p );
     }
     params.did_bash = true;
     params.success |= success; // Not always true, so that we can tell when to stop destroying

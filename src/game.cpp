@@ -113,6 +113,7 @@
 #include "monstergenerator.h"
 #include "morale_types.h"
 #include "mtype.h"
+#include "mutation.h"
 #include "npc.h"
 #include "npc_class.h"
 #include "omdata.h"
@@ -246,6 +247,7 @@ static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_THICKSKIN( "THICKSKIN" );
+static const trait_id trait_WEB_ROPE( "WEB_ROPE" );
 
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
@@ -10396,8 +10398,27 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
         const int cost = u.climbing_cost( u.pos(), stairs );
         if( cost == 0 ) {
-            add_msg( m_info, _( "You can't climb here - you need walls and/or furniture to brace against." ) );
+            if( u.has_trait( trait_WEB_ROPE ) )  {
+                if( can_use_mutation( trait_WEB_ROPE, u ) ) {
+                    if( g->m.move_cost( u.pos() ) != 2 && g->m.move_cost( u.pos() ) != 3 ) {
+                        add_msg( m_info, _( "You can't spin a web rope there." ) );
+                    } else if( g->m.has_furn( u.pos() ) ) {
+                        add_msg( m_info, _( "There is already furniture at that location." ) );
+                    } else {
+                        add_msg( m_good, _( "You spin a climbable rope of web." ) );
+                        g->m.furn_set( u.pos(), furn_str_id( "f_rope_up_web" ) );
+                        u.mod_moves( to_turns<int>( 2_seconds ) );
+                        u.deduct_mutation_cost( trait_WEB_ROPE );
+                        vertical_move( movez, force, peeking );
+                    }
+                }
+
+            } else {
+                add_msg( m_info, _( "You can't climb here - you need walls and/or furniture to brace against." ) );
+
+            }
             return;
+
         }
 
         std::vector<tripoint> pts;
