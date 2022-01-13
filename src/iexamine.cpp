@@ -4456,7 +4456,6 @@ void iexamine::ledge( player &p, const tripoint &examp )
                     tripoint dest( p.posx() + i * sgn( examp.x - p.posx() ), p.posy() + i * sgn( examp.y - p.posy() ),
                                    p.posz() );
 
-                    add_msg("Making web @ (%d,%d,%d)", dest.x, dest.y, dest.z);
                     g->m.ter_set( dest, t_web_bridge );
                 }
                 p.mutation_spend_resources( trait_WEB_BRDIGE );

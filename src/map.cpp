@@ -7900,12 +7900,12 @@ bool map::build_floor_cache( const int zlev )
     auto &floor_cache = ch.floor_cache;
     std::uninitialized_fill_n(
         &floor_cache[0][0], ( MAPSIZE_X ) * ( MAPSIZE_Y ), true );
-    
+
     // We check for failed suspension here so we can piggyback off of the floor_cache's dirty logic.
     // This allows us to only calculate suspension when a new submap is loaded.
     // We don't nest it deeper in the floor cache loops because we want to already have established where floors are before the floorcache is built.
-    resolve_suspensions_at_level(zlev);
-    
+    resolve_suspensions_at_level( zlev );
+
     bool lowest_z_lev = zlev <= -OVERMAP_DEPTH;
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
@@ -7952,37 +7952,39 @@ void map::build_floor_caches()
     }
 }
 
-void map::resolve_suspensions_at_level(const int &zlev)
+void map::resolve_suspensions_at_level( const int &zlev )
 {
-        bool lowest_z_lev = zlev <= -OVERMAP_DEPTH;
-        for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
-            for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-                const submap *cur_submap = get_submap_at_grid( { smx, smy, zlev } );
-                const submap *below_submap = !lowest_z_lev ? get_submap_at_grid( { smx, smy, zlev - 1 } ) : nullptr;
+    bool lowest_z_lev = zlev <= -OVERMAP_DEPTH;
+    for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
+        for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
+            const submap *cur_submap = get_submap_at_grid( { smx, smy, zlev } );
+            const submap *below_submap = !lowest_z_lev ? get_submap_at_grid( { smx, smy, zlev - 1 } ) : nullptr;
 
-                if( cur_submap == nullptr ) {
-                    debugmsg( "Tried to run suspension check at (%d,%d,%d) but the submap is not loaded", smx, smy, zlev );
-                    continue;
-                }
-                if( !lowest_z_lev && below_submap == nullptr ) {
-                    debugmsg( "Tried to run suspension check at (%d,%d,%d) but the submap is not loaded", smx, smy,
-                              zlev - 1 );
-                    continue;
-                }
+            if( cur_submap == nullptr ) {
+                debugmsg( "Tried to run suspension check at (%d,%d,%d) but the submap is not loaded", smx, smy,
+                          zlev );
+                continue;
+            }
+            if( !lowest_z_lev && below_submap == nullptr ) {
+                debugmsg( "Tried to run suspension check at (%d,%d,%d) but the submap is not loaded", smx, smy,
+                          zlev - 1 );
+                continue;
+            }
 
-                for( int sx = 0; sx < SEEX; ++sx ) {
-                    for( int sy = 0; sy < SEEY; ++sy ) {
-                        point sp( sx, sy );
-                        const ter_t &terrain = cur_submap->get_ter( sp ).obj();
-                        if( terrain.has_flag( TFLAG_SUSPENDED ) ) {
-                            coords::project_combine(point_om_sm(point(smx, smy)),point_sm_ms(sp));
-                            tripoint loc(coords::project_combine(point_om_sm(point(smx, smy)), point_sm_ms(sp)).raw(), zlev);
-                            collapse_invalid_suspension( loc );
-                        }
+            for( int sx = 0; sx < SEEX; ++sx ) {
+                for( int sy = 0; sy < SEEY; ++sy ) {
+                    point sp( sx, sy );
+                    const ter_t &terrain = cur_submap->get_ter( sp ).obj();
+                    if( terrain.has_flag( TFLAG_SUSPENDED ) ) {
+                        coords::project_combine( point_om_sm( point( smx, smy ) ), point_sm_ms( sp ) );
+                        tripoint loc( coords::project_combine( point_om_sm( point( smx, smy ) ), point_sm_ms( sp ) ).raw(),
+                                      zlev );
+                        collapse_invalid_suspension( loc );
                     }
                 }
             }
         }
+    }
 }
 
 static void vehicle_caching_internal( level_cache &zch, const vpart_reference &vp, vehicle *v )
