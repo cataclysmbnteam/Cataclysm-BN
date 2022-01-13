@@ -488,7 +488,7 @@ void Character::activate_mutation( const trait_id &mut )
     if( !can_use_mutation( mut, *this ) ) {
         return;
     }
-    deduct_mutation_cost( mut );
+    mutation_spend_resources( mut );
     tdata.powered = true;
 
     if( !mut->enchantments.empty() ) {
@@ -1711,7 +1711,7 @@ bool contains_trait( std::vector<string_id<mutation_branch>> traits, const trait
     return std::find( traits.begin(), traits.end(), trait ) != traits.end();
 }
 
-bool can_use_mutation( const trait_id &mut, Character &character )
+bool can_use_mutation( const trait_id &mut, const Character &character )
 {
     const mutation_branch &mdata = mut.obj();
     int cost = mdata.cost;
@@ -1720,17 +1720,25 @@ bool can_use_mutation( const trait_id &mut, Character &character )
     if( ( mdata.hunger && character.get_kcal_percent() < 0.5f ) || ( mdata.thirst &&
             character.get_thirst() >= thirst_levels::dehydrated ) ||
         ( mdata.fatigue && character.get_fatigue() >= fatigue_levels::exhausted ) ) {
-        // Insufficient Foo to *maintain* operation is handled in player::suffer
-        character.add_msg_if_player( m_warning, _( "You feel like using your %s would kill you!" ),
-                                     mdata.name() );
-
+        // Insufficient Food to *maintain* operation is handled in player::suffer
         return false;
     } else {
         return true;
     }
 }
 
-void Character::deduct_mutation_cost( const trait_id &mut )
+bool can_use_mutation_warn( const trait_id &mut, const Character &character )
+{
+    const bool result = can_use_mutation( mut, character );
+    if( result ) {
+        character.add_msg_if_player( m_warning, _( "You feel like using your %s would kill you!" ),
+                                     mut.obj().name() );
+    }
+
+    return result;
+}
+
+void Character::mutation_spend_resources( const trait_id &mut )
 {
     const mutation_branch &mdata = mut.obj();
     trait_data &tdata = my_mutations[mut];
@@ -1745,7 +1753,7 @@ void Character::deduct_mutation_cost( const trait_id &mut )
         }
         if( mdata.hunger ) {
             // burn some energy
-            mod_stored_kcal( -cost*6 );
+            mod_stored_kcal( -cost * 6 );
         }
         if( mdata.thirst ) {
             mod_thirst( cost );

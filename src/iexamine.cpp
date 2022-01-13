@@ -4434,7 +4434,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
         }
         case 3: {
 
-            if( !can_use_mutation( trait_WEB_BRDIGE, p ) ) {
+            if( !can_use_mutation_warn( trait_WEB_BRDIGE, p ) ) {
                 break;
             }
             const int range = 6; //this means we could web across a gap of 5.
@@ -4443,7 +4443,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
             for( int i = 2; i <= range; i++ ) {
                 //break at the first non empty space encountered
                 if( g->m.ter( tripoint( p.posx() + i * sgn( examp.x - p.posx() ),
-                                        p.posy() + i * sgn( examp.y - p.posy() ), p.posz() ) ).obj().trap != tr_ledge ) {
+                                        p.posy() + i * sgn( examp.y - p.posy() ), p.posz() ) ) != t_open_air ) {
                     success_range = i;
                     success = true;
                     break;
@@ -4458,7 +4458,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
 
                     g->m.ter_set( dest, t_web_bridge );
                 }
-                p.deduct_mutation_cost( trait_WEB_BRDIGE );
+                p.mutation_spend_resources( trait_WEB_BRDIGE );
             }
             break;
         }

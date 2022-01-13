@@ -10397,6 +10397,16 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
 
         const int cost = u.climbing_cost( u.pos(), stairs );
+
+
+        std::vector<tripoint> pts;
+        for( const auto &pt : m.points_in_radius( stairs, 1 ) ) {
+            if( m.passable( pt ) &&
+                m.has_floor_or_support( pt ) ) {
+                pts.push_back( pt );
+            }
+        }
+
         if( cost == 0 ) {
             if( u.has_trait( trait_WEB_ROPE ) )  {
                 if( can_use_mutation( trait_WEB_ROPE, u ) ) {
@@ -10404,12 +10414,16 @@ void game::vertical_move( int movez, bool force, bool peeking )
                         add_msg( m_info, _( "You can't spin a web rope there." ) );
                     } else if( g->m.has_furn( u.pos() ) ) {
                         add_msg( m_info, _( "There is already furniture at that location." ) );
+                    } else if( pts.empty() ) {
+                        add_msg( m_info, _( "There is nothing above you that you can attach a web to." ) );
                     } else {
-                        add_msg( m_good, _( "You spin a climbable rope of web." ) );
-                        g->m.furn_set( u.pos(), furn_str_id( "f_rope_up_web" ) );
-                        u.mod_moves( to_turns<int>( 2_seconds ) );
-                        u.deduct_mutation_cost( trait_WEB_ROPE );
-                        vertical_move( movez, force, peeking );
+                        if( query_yn( "Spin a rope and climb?" ) ) {
+                            add_msg( m_good, _( "You spin a climbable rope of web." ) );
+                            g->m.furn_set( u.pos(), furn_str_id( "f_rope_up_web" ) );
+                            u.mod_moves( to_turns<int>( 2_seconds ) );
+                            u.mutation_spend_resources( trait_WEB_ROPE );
+                            vertical_move( movez, force, peeking );
+                        }
                     }
                 }
 
@@ -10421,13 +10435,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
         }
 
-        std::vector<tripoint> pts;
-        for( const auto &pt : m.points_in_radius( stairs, 1 ) ) {
-            if( m.passable( pt ) &&
-                m.has_floor_or_support( pt ) ) {
-                pts.push_back( pt );
-            }
-        }
+
 
         if( cost <= 0 || pts.empty() ) {
             add_msg( m_info,
