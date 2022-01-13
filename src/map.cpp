@@ -2938,9 +2938,10 @@ void map::propagate_suspension_check( const tripoint &point )
 
 void map::collapse_invalid_suspension( const tripoint &point )
 {
-    if( is_suspension_valid( point ) ) {
+    if( !is_suspension_valid( point ) ) {
         ter_set( point, t_open_air );
         furn_set( point, f_null );
+
         propagate_suspension_check( point );
     }
 }
@@ -7899,9 +7900,13 @@ bool map::build_floor_cache( const int zlev )
     auto &floor_cache = ch.floor_cache;
     std::uninitialized_fill_n(
         &floor_cache[0][0], ( MAPSIZE_X ) * ( MAPSIZE_Y ), true );
-
+    
+    // We check for failed suspension here so we can piggyback off of the floor_cache's dirty logic.
+    // This allows us to only calculate suspension when a new submap is loaded.
+    // We don't nest it deeper in the floor cache loops because we want to already have established where floors are before the floorcache is built.
+    resolve_suspensions_at_level(zlev);
+    
     bool lowest_z_lev = zlev <= -OVERMAP_DEPTH;
-
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
             const submap *cur_submap = get_submap_at_grid( { smx, smy, zlev } );
@@ -7947,26 +7952,21 @@ void map::build_floor_caches()
     }
 }
 
-void map::check_all_suspension()
+void map::resolve_suspensions_at_level(const int &zlev)
 {
-    const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
-    const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
-    for( int z = minz; z <= maxz; z++ ) {
-
-        bool lowest_z_lev = z <= -OVERMAP_DEPTH;
-
+        bool lowest_z_lev = zlev <= -OVERMAP_DEPTH;
         for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
             for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-                const submap *cur_submap = get_submap_at_grid( { smx, smy, z } );
-                const submap *below_submap = !lowest_z_lev ? get_submap_at_grid( { smx, smy, z - 1 } ) : nullptr;
+                const submap *cur_submap = get_submap_at_grid( { smx, smy, zlev } );
+                const submap *below_submap = !lowest_z_lev ? get_submap_at_grid( { smx, smy, zlev - 1 } ) : nullptr;
 
                 if( cur_submap == nullptr ) {
-                    debugmsg( "Tried to run suspension check at (%d,%d,%d) but the submap is not loaded", smx, smy, z );
+                    debugmsg( "Tried to run suspension check at (%d,%d,%d) but the submap is not loaded", smx, smy, zlev );
                     continue;
                 }
                 if( !lowest_z_lev && below_submap == nullptr ) {
                     debugmsg( "Tried to run suspension check at (%d,%d,%d) but the submap is not loaded", smx, smy,
-                              z - 1 );
+                              zlev - 1 );
                     continue;
                 }
 
@@ -7975,15 +7975,14 @@ void map::check_all_suspension()
                         point sp( sx, sy );
                         const ter_t &terrain = cur_submap->get_ter( sp ).obj();
                         if( terrain.has_flag( TFLAG_SUSPENDED ) ) {
-                            const tripoint &loc = tripoint( sx, sy, z );
+                            coords::project_combine(point_om_sm(point(smx, smy)),point_sm_ms(sp));
+                            tripoint loc(coords::project_combine(point_om_sm(point(smx, smy)), point_sm_ms(sp)).raw(), zlev);
                             collapse_invalid_suspension( loc );
                         }
                     }
                 }
             }
         }
-
-    }
 }
 
 static void vehicle_caching_internal( level_cache &zch, const vpart_reference &vp, vehicle *v )

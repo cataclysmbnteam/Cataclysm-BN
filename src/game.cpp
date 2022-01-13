@@ -1550,9 +1550,6 @@ bool game::do_turn()
     }
     scent.update( u.pos(), m );
 
-    // We need to check for suspension before building the floor cache
-    m.check_all_suspension();
-
     // We need floor cache before checking falling 'n stuff
     m.build_floor_caches();
 
