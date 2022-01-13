@@ -1758,6 +1758,7 @@ class map
         // We want this visible in `game`, because we want it built earlier in the turn than the rest
         void build_floor_caches();
 
+        void check_all_suspension();
     protected:
         void generate_lightmap( int zlev );
         void build_seen_cache( const tripoint &origin, int target_z );

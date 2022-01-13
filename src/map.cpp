@@ -7947,6 +7947,44 @@ void map::build_floor_caches()
     }
 }
 
+void map::check_all_suspension()
+{
+    const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
+    const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
+    for( int z = minz; z <= maxz; z++ ) {
+
+        bool lowest_z_lev = z <= -OVERMAP_DEPTH;
+
+        for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
+            for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
+                const submap *cur_submap = get_submap_at_grid( { smx, smy, z } );
+                const submap *below_submap = !lowest_z_lev ? get_submap_at_grid( { smx, smy, z - 1 } ) : nullptr;
+
+                if( cur_submap == nullptr ) {
+                    debugmsg( "Tried to run suspension check at (%d,%d,%d) but the submap is not loaded", smx, smy, z );
+                    continue;
+                }
+                if( !lowest_z_lev && below_submap == nullptr ) {
+                    debugmsg( "Tried to run suspension check at (%d,%d,%d) but the submap is not loaded", smx, smy,
+                              z - 1 );
+                    continue;
+                }
+
+                for( int sx = 0; sx < SEEX; ++sx ) {
+                    for( int sy = 0; sy < SEEY; ++sy ) {
+                        point sp( sx, sy );
+                        const ter_t &terrain = cur_submap->get_ter( sp ).obj();
+                        if( terrain.has_flag( TFLAG_SUSPENDED ) ) {
+                            collapse_invalid_suspension( const tripoint( sx, sy, z ) );
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+}
+
 static void vehicle_caching_internal( level_cache &zch, const vpart_reference &vp, vehicle *v )
 {
     auto &outside_cache = zch.outside_cache;
