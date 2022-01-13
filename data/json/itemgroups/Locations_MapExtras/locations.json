@@ -2055,7 +2055,7 @@
     "id": "vault",
     "items": [
       { "group": "ammo_atomic_batteries", "prob": 10 },
-      { "group": "schematics", "prob": 5 },
+      { "group": "schematics", "prob": 10 },
       { "group": "bionics_common", "prob": 40 },
       { "group": "bionics_tech", "prob": 40 },
       { "group": "bionics_zapper", "prob": 40 },
