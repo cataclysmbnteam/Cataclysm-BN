@@ -2056,6 +2056,13 @@
     "items": [
       { "group": "ammo_atomic_batteries", "prob": 10 },
       { "group": "schematics", "prob": 5 },
+      { "group": "bionics_common", "prob": 40 },
+      { "group": "bionics_tech", "prob": 40 },
+      { "group": "bionics_zapper", "prob": 40 },
+      { "group": "bionics_op2_utl", "prob": 20 },
+      { "group": "guns_obscure", "prob": 40 },
+      { "group": "antique_rare", "prob": 40 },
+      { "group": "medieval", "prob": 20 },
       [ "recipe_mil_augs", 5 ],
       [ "recipe_caseless", 5 ],
       [ "recipe_labchem", 5 ],
