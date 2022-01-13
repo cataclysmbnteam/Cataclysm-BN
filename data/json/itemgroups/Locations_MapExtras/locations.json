@@ -2053,10 +2053,7 @@
   {
     "type": "item_group",
     "id": "vault",
-    "items": [
-      { "group": "vault_good", "prob": 500 },
-      { "group": "vault_bad", "prob": 500 }
-    ]
+    "items": [ { "group": "vault_good", "prob": 500 }, { "group": "vault_bad", "prob": 500 } ]
   },
   {
     "type": "item_group",
