@@ -9880,13 +9880,9 @@ void Character::place_corpse()
     // Restore amount of installed pseudo-modules of Power Storage Units
     std::pair<int, int> storage_modules = amount_of_storage_bionics();
     for( int i = 0; i < storage_modules.first; ++i ) {
-        item.set_flag( "NO_STERILE" );
-        item.set_flag( "NO_PACKED" );
         body.components.push_back( item( "bio_power_storage" ) );
     }
     for( int i = 0; i < storage_modules.second; ++i ) {
-        item.set_flag( "NO_STERILE" );
-        item.set_flag( "NO_PACKED" );
         body.components.push_back( item( "bio_power_storage_mkII" ) );
     }
     g->m.add_item_or_charges( pos(), body );
