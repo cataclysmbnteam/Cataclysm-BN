@@ -3053,7 +3053,7 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
     }
 }
 
-ter_id map::get_roof( const tripoint &p, const bool allow_air )
+ter_id map::get_roof( const tripoint &p, const bool allow_air ) const
 {
     // This function should not be called from the 2D mode
     // Just use t_dirt instead
@@ -3109,24 +3109,189 @@ static bool furn_is_supported( const map &m, const tripoint &p )
     return false;
 }
 
+static int get_sound_volume( const map_bash_info &bash )
+{
+    int smin = bash.str_min;
+    int smax = bash.str_max;
+    return bash.sound_vol.value_or( std::min( static_cast<int>( smin * 1.5 ), smax ) );;
+}
+
+void map::bash_ter_success( const tripoint &p, bash_params &params )
+{
+    const auto &terid = ter( p ).obj();
+    const map_bash_info &bash = terid.bash;
+    if( has_flag_ter( "FUNGUS", p ) ) {
+        fungal_effects( *g, *this ).create_spores( p );
+    }
+    const std::string soundfxvariant = terid.id.str();
+    const bool will_collapse = has_flag( "SUPPORTS_ROOF", p ) && !has_flag( "INDOORS", p );
+
+    if( params.bashing_from_above && bash.ter_set_bashed_from_above ) {
+        // If this terrain is being bashed from above and this terrain
+        // has a valid post-destroy bashed-from-above terrain, set it
+        ter_set( p, bash.ter_set_bashed_from_above );
+    } else if( bash.ter_set ) {
+        // If the terrain has a valid post-destroy terrain, set it
+        ter_set( p, bash.ter_set );
+    } else {
+        tripoint below( p.xy(), p.z - 1 );
+        const auto &ter_below = ter( below ).obj();
+        if( bash.bash_below && ter_below.has_flag( "SUPPORTS_ROOF" ) ) {
+            // When bashing the tile below, don't allow bashing the floor
+            bash_params params_below = params; // Make a copy
+            params_below.bashing_from_above = true;
+            // TODO: Don't bash furn
+            bash_ter_furn( below, params_below );
+        }
+
+        ter_set( p, t_open_air );
+    }
+
+    if( true ) {
+        spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
+    }
+
+    if( ter( p ) == t_open_air ) {
+        if( !zlevels ) {
+            // We destroyed something, so we aren't just "plugging" air with dirt here
+            ter_set( p, t_dirt );
+        } else {
+            tripoint below( p.xy(), p.z - 1 );
+            const auto roof = get_roof( below, params.bash_floor && ter( below ).obj().movecost != 0 );
+            ter_set( p, roof );
+        }
+    }
+
+    if( will_collapse && !has_flag( "SUPPORTS_ROOF", p ) ) {
+        collapse_at( p, params.silent, true, bash.explosive > 0 );
+    }
+
+    if( !bash.sound.empty() && !params.silent ) {
+        static const std::string soundfxid = "smash_success";
+        int sound_volume = get_sound_volume( bash );
+        sounds::sound( p, sound_volume, sounds::sound_t::combat, bash.sound, false,
+                       soundfxid, soundfxvariant );
+    }
+
+    if( bash.explosive > 0 ) {
+        explosion_handler::explosion( p, bash.explosive, 0.8, false );
+    }
+
+    params.did_bash = true;
+    params.bashed_solid = true;
+}
+
+void map::bash_furn_success( const tripoint &p, bash_params &params )
+{
+    const auto &furnid = furn( p ).obj();
+    const map_bash_info &bash = furnid.bash;
+
+
+    if( has_flag_furn( "FUNGUS", p ) ) {
+        fungal_effects( *g, *this ).create_spores( p );
+    }
+    std::string soundfxvariant = furnid.id.str();
+    const bool tent = !bash.tent_centers.empty();
+
+    // Special code to collapse the tent if destroyed
+    if( tent ) {
+        // Get ids of possible centers
+        std::set<furn_id> centers;
+        for( const auto &cur_id : bash.tent_centers ) {
+            if( cur_id.is_valid() ) {
+                centers.insert( cur_id );
+            }
+        }
+
+        cata::optional<std::pair<tripoint, furn_id>> tentp;
+
+        // Find the center of the tent
+        // First check if we're not currently bashing the center
+        if( centers.count( furn( p ) ) > 0 ) {
+            tentp.emplace( p, furn( p ) );
+        } else {
+            for( const tripoint &pt : points_in_radius( p, bash.collapse_radius ) ) {
+                const furn_id &f_at = furn( pt );
+                // Check if we found the center of the current tent
+                if( centers.count( f_at ) > 0 ) {
+                    tentp.emplace( pt, f_at );
+                    break;
+                }
+            }
+        }
+        // Didn't find any tent center, wreck the current tile
+        if( !tentp ) {
+            spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
+            furn_set( p, bash.furn_set );
+        } else {
+            // Take the tent down
+            const int rad = tentp->second.obj().bash.collapse_radius;
+            for( const tripoint &pt : points_in_radius( tentp->first, rad ) ) {
+                const furn_id frn = furn( pt );
+                if( frn == f_null ) {
+                    continue;
+                }
+
+                const map_bash_info &recur_bash = frn.obj().bash;
+                // Check if we share a center type and thus a "tent type"
+                for( const auto &cur_id : recur_bash.tent_centers ) {
+                    if( centers.count( cur_id.id() ) > 0 ) {
+                        // Found same center, wreck current tile
+                        spawn_items( p, item_group::items_from( recur_bash.drop_group, calendar::turn ) );
+                        furn_set( pt, recur_bash.furn_set );
+                        break;
+                    }
+                }
+            }
+        }
+        soundfxvariant = "smash_cloth";
+    } else {
+        furn_set( p, bash.furn_set );
+        for( item &it : i_at( p ) )  {
+            it.on_drop( p, *this );
+        }
+        // HACK: Hack alert.
+        // Signs have cosmetics associated with them on the submap since
+        // furniture can't store dynamic data to disk. To prevent writing
+        // mysteriously appearing for a sign later built here, remove the
+        // writing from the submap.
+        delete_signage( p );
+    }
+
+    if( !tent ) {
+        spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
+    }
+
+    if( !bash.sound.empty() && !params.silent ) {
+        static const std::string soundfxid = "smash_success";
+        int sound_volume = get_sound_volume( bash );
+        sounds::sound( p, sound_volume, sounds::sound_t::combat, bash.sound, false,
+                       soundfxid, soundfxvariant );
+    }
+
+    if( bash.explosive > 0 ) {
+        explosion_handler::explosion( p, bash.explosive, 0.8, false );
+    }
+
+    params.did_bash = true;
+    params.bashed_solid = true;
+}
+
 void map::bash_ter_furn( const tripoint &p, bash_params &params )
 {
     int sound_volume = 0;
-    std::string soundfxid;
     std::string soundfxvariant;
-    const auto &terid = ter( p ).obj();
-    const auto &furnid = furn( p ).obj();
+    const auto &ter_obj = ter( p ).obj();
+    const auto &furn_obj = furn( p ).obj();
     bool smash_furn = false;
     bool smash_ter = false;
     const map_bash_info *bash = nullptr;
 
-    bool success = false;
-
-    if( has_furn( p ) && furnid.bash.str_max != -1 ) {
-        bash = &furnid.bash;
+    if( has_furn( p ) && furn_obj.bash.str_max != -1 ) {
+        bash = &furn_obj.bash;
         smash_furn = true;
-    } else if( ter( p ).obj().bash.str_max != -1 ) {
-        bash = &ter( p ).obj().bash;
+    } else if( ter_obj.bash.str_max != -1 ) {
+        bash = &ter_obj.bash;
         smash_ter = true;
     }
 
@@ -3181,10 +3346,11 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         return;
     }
 
+    bool success = params.destroy;
+
     int smin = bash->str_min;
     int smax = bash->str_max;
-    int sound_vol = bash->sound_vol;
-    int sound_fail_vol = bash->sound_fail_vol;
+    cata::optional<int> sound_fail_vol = bash->sound_fail_vol;
     if( !params.destroy ) {
         if( bash->str_min_blocked != -1 || bash->str_max_blocked != -1 ) {
             if( furn_is_supported( *this, p ) ) {
@@ -3215,170 +3381,22 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         }
     }
 
-    if( smash_furn ) {
-        soundfxvariant = furnid.id.str();
-    } else {
-        soundfxvariant = terid.id.str();
-    }
-
     if( !params.destroy && !success ) {
-        if( sound_fail_vol == -1 ) {
-            sound_volume = 12;
-        } else {
-            sound_volume = sound_fail_vol;
-        }
+        sound_volume = sound_fail_vol.value_or( 12 );
 
         params.did_bash = true;
         if( !params.silent ) {
             sounds::sound( p, sound_volume, sounds::sound_t::combat, bash->sound_fail, false,
                            "smash_fail", soundfxvariant );
         }
-
-        return;
-    }
-
-    // Clear out any partially grown seeds
-    if( has_flag_ter_or_furn( "PLANT", p ) ) {
-        i_clear( p );
-    }
-
-    if( ( smash_furn && has_flag_furn( "FUNGUS", p ) ) ||
-        ( smash_ter && has_flag_ter( "FUNGUS", p ) ) ) {
-        fungal_effects( *g, *this ).create_spores( p );
-    }
-
-    if( params.destroy ) {
-        sound_volume = smin * 2;
     } else {
-        if( sound_vol == -1 ) {
-            sound_volume = std::min( static_cast<int>( smin * 1.5 ), smax );
+        if( smash_ter ) {
+            bash_ter_success( p, params );
         } else {
-            sound_volume = sound_vol;
-        }
-    }
-
-    soundfxid = "smash_success";
-    const translation &sound = bash->sound;
-    // Set this now in case the ter_set below changes this
-    const bool will_collapse = smash_ter && has_flag( "SUPPORTS_ROOF", p ) && !has_flag( "INDOORS", p );
-    const bool tent = smash_furn && !bash->tent_centers.empty();
-
-    // Special code to collapse the tent if destroyed
-    if( tent ) {
-        // Get ids of possible centers
-        std::set<furn_id> centers;
-        for( const auto &cur_id : bash->tent_centers ) {
-            if( cur_id.is_valid() ) {
-                centers.insert( cur_id );
-            }
+            bash_furn_success( p, params );
         }
 
-        cata::optional<std::pair<tripoint, furn_id>> tentp;
-
-        // Find the center of the tent
-        // First check if we're not currently bashing the center
-        if( centers.count( furn( p ) ) > 0 ) {
-            tentp.emplace( p, furn( p ) );
-        } else {
-            for( const tripoint &pt : points_in_radius( p, bash->collapse_radius ) ) {
-                const furn_id &f_at = furn( pt );
-                // Check if we found the center of the current tent
-                if( centers.count( f_at ) > 0 ) {
-                    tentp.emplace( pt, f_at );
-                    break;
-                }
-            }
-        }
-        // Didn't find any tent center, wreck the current tile
-        if( !tentp ) {
-            spawn_items( p, item_group::items_from( bash->drop_group, calendar::turn ) );
-            furn_set( p, bash->furn_set );
-        } else {
-            // Take the tent down
-            const int rad = tentp->second.obj().bash.collapse_radius;
-            for( const tripoint &pt : points_in_radius( tentp->first, rad ) ) {
-                const auto frn = furn( pt );
-                if( frn == f_null ) {
-                    continue;
-                }
-
-                const auto recur_bash = &frn.obj().bash;
-                // Check if we share a center type and thus a "tent type"
-                for( const auto &cur_id : recur_bash->tent_centers ) {
-                    if( centers.count( cur_id.id() ) > 0 ) {
-                        // Found same center, wreck current tile
-                        spawn_items( p, item_group::items_from( recur_bash->drop_group, calendar::turn ) );
-                        furn_set( pt, recur_bash->furn_set );
-                        break;
-                    }
-                }
-            }
-        }
-        soundfxvariant = "smash_cloth";
-    } else if( smash_furn ) {
-        furn_set( p, bash->furn_set );
-        for( item &it : i_at( p ) )  {
-            it.on_drop( p, *this );
-        }
-        // HACK: Hack alert.
-        // Signs have cosmetics associated with them on the submap since
-        // furniture can't store dynamic data to disk. To prevent writing
-        // mysteriously appearing for a sign later built here, remove the
-        // writing from the submap.
-        delete_signage( p );
-    } else if( !smash_ter ) {
-        // Handle error earlier so that we can assume smash_ter is true below
-        debugmsg( "data/json/terrain.json does not have %s.bash.ter_set set!",
-                  ter( p ).obj().id.c_str() );
-    } else if( params.bashing_from_above && bash->ter_set_bashed_from_above ) {
-        // If this terrain is being bashed from above and this terrain
-        // has a valid post-destroy bashed-from-above terrain, set it
-        ter_set( p, bash->ter_set_bashed_from_above );
-    } else if( bash->ter_set ) {
-        // If the terrain has a valid post-destroy terrain, set it
-        ter_set( p, bash->ter_set );
-    } else {
-        tripoint below( p.xy(), p.z - 1 );
-        const auto &ter_below = ter( below ).obj();
-        if( bash->bash_below && ter_below.has_flag( "SUPPORTS_ROOF" ) ) {
-            // When bashing the tile below, don't allow bashing the floor
-            bash_params params_below = params; // Make a copy
-            params_below.bashing_from_above = true;
-            bash_ter_furn( below, params_below );
-        }
-
-        ter_set( p, t_open_air );
-    }
-
-    if( !tent ) {
-        spawn_items( p, item_group::items_from( bash->drop_group, calendar::turn ) );
-    }
-
-    if( smash_ter && ter( p ) == t_open_air ) {
-        if( !zlevels ) {
-            // We destroyed something, so we aren't just "plugging" air with dirt here
-            ter_set( p, t_dirt );
-        } else {
-            tripoint below( p.xy(), p.z - 1 );
-            const auto roof = get_roof( below, params.bash_floor && ter( below ).obj().movecost != 0 );
-            ter_set( p, roof );
-        }
-    }
-
-    if( bash->explosive > 0 ) {
-        explosion_handler::explosion( p, bash->explosive, 0.8, false );
-    }
-
-    if( will_collapse && !has_flag( "SUPPORTS_ROOF", p ) ) {
-        collapse_at( p, params.silent, true, bash->explosive > 0 );
-    }
-
-    params.did_bash = true;
-    params.success |= success; // Not always true, so that we can tell when to stop destroying
-    params.bashed_solid = true;
-    if( !sound.empty() && !params.silent ) {
-        sounds::sound( p, sound_volume, sounds::sound_t::combat, sound, false,
-                       soundfxid, soundfxvariant );
+        params.success |= success; // Not always true, so that we can tell when to stop destroying
     }
 }
 
@@ -3559,9 +3577,8 @@ void map::crush( const tripoint &p )
 
 void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
 {
-    // TODO: Make bashing count fully, but other types much less
     float initial_damage = 0.0;
-    for( damage_unit dam : proj.impact ) {
+    for( const damage_unit &dam : proj.impact ) {
         initial_damage += dam.amount;
         initial_damage += dam.res_pen;
     }
@@ -3579,7 +3596,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0, abs );
     }
 
-    const bool inc = ammo_effects.count( "INCENDIARY" );
+    const bool inc = ammo_effects.count( "INCENDIARY" ) || proj.impact.type_damage( DT_HEAT ) > 0;
     if( const optional_vpart_position vp = veh_at( p ) ) {
         dam = vp->vehicle().damage( vp->part_index(), dam, inc ? DT_HEAT : DT_STAB, hit_items );
     }
@@ -3589,6 +3606,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     };
 
     ter_id terrain = ter( p );
+
     if( terrain == t_wall_wood_broken ||
         terrain == t_wall_log_broken ||
         terrain == t_door_b ) {

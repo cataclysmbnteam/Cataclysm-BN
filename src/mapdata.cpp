@@ -205,6 +205,13 @@ static void load_map_bash_tent_centers( const JsonArray &ja, std::vector<furn_st
     }
 }
 
+void correct_if_magic( cata::optional<int> &val )
+{
+    if( val.value_or( 0 ) == -1 ) {
+        val.reset();
+    }
+}
+
 map_bash_info::map_bash_info() : str_min( -1 ), str_max( -1 ),
     str_min_blocked( -1 ), str_max_blocked( -1 ),
     str_min_supported( -1 ), str_max_supported( -1 ),
@@ -232,8 +239,11 @@ bool map_bash_info::load( const JsonObject &jsobj, const std::string &member,
 
     explosive = j.get_int( "explosive", -1 );
 
-    sound_vol = j.get_int( "sound_vol", -1 );
-    sound_fail_vol = j.get_int( "sound_fail_vol", -1 );
+    assign( j, "sound_vol", sound_vol );
+    correct_if_magic( sound_vol );
+
+    assign( j, "sound_fail_vol", sound_fail_vol );
+    correct_if_magic( sound_fail_vol );
 
     collapse_radius = j.get_int( "collapse_radius", 1 );
 

@@ -12,6 +12,7 @@
 #include "active_tile_data.h"
 #include "calendar.h"
 #include "color.h"
+#include "optional.h"
 #include "poly_serialized.h"
 #include "translations.h"
 #include "type_id.h"
@@ -35,8 +36,8 @@ struct map_bash_info {
     int str_min_supported;  // Alternative values for floor supported by something from below
     int str_max_supported;
     int explosive;          // Explosion on destruction
-    int sound_vol;          // sound volume of breaking terrain/furniture
-    int sound_fail_vol;     // sound volume on fail
+    cata::optional<int> sound_vol;          // sound volume of breaking terrain/furniture
+    cata::optional<int> sound_fail_vol;     // sound volume on fail
     int collapse_radius;    // Radius of the tent supported by this tile
     int fd_bash_move_cost = 100; // cost to bash a field
     bool destroy_only;      // Only used for destroying, not normally bashable

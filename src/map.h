@@ -1881,10 +1881,14 @@ class map
         void bash_vehicle( const tripoint &p, bash_params &params );
         void bash_field( const tripoint &p, bash_params &params );
 
+        // Successfully bashing things down
+        void bash_ter_success( const tripoint &p, bash_params &params );
+        void bash_furn_success( const tripoint &p, bash_params &params );
+
         // Gets the roof type of the tile at p
         // Second argument refers to whether we have to get a roof (we're over an unpassable tile)
         // or can just return air because we bashed down an entire floor tile
-        ter_id get_roof( const tripoint &p, bool allow_air );
+        ter_id get_roof( const tripoint &p, bool allow_air ) const;
 
     public:
         void process_items();

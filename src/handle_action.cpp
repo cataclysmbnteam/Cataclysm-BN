@@ -706,17 +706,16 @@ static void smash()
             add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), fd_to_smsh.first->get_name() );
             return;
         } else if( smashskill >= rng( bash_info.str_min, bash_info.str_max ) ) {
-            sounds::sound( smashp, bash_info.sound_vol, sounds::sound_t::combat, bash_info.sound, true, "smash",
-                           "field" );
+            sounds::sound( smashp, bash_info.sound_vol.value_or( -1 ),
+                           sounds::sound_t::combat, bash_info.sound, true, "smash", "field" );
             m.remove_field( smashp, fd_to_smsh.first );
             m.spawn_items( smashp, item_group::items_from( bash_info.drop_group, calendar::turn ) );
             u.mod_moves( - bash_info.fd_bash_move_cost );
             add_msg( m_info, bash_info.field_bash_msg_success.translated() );
             return;
         } else {
-            sounds::sound( smashp, bash_info.sound_fail_vol, sounds::sound_t::combat, bash_info.sound_fail,
-                           true, "smash",
-                           "field" );
+            sounds::sound( smashp, bash_info.sound_fail_vol.value_or( -1 ),
+                           sounds::sound_t::combat, bash_info.sound_fail, true, "smash", "field" );
             return;
         }
     }
