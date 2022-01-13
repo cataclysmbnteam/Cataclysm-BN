@@ -10399,9 +10399,6 @@ void game::vertical_move( int movez, bool force, bool peeking )
             return;
         }
 
-        const int cost = u.climbing_cost( u.pos(), stairs );
-
-
         std::vector<tripoint> pts;
         for( const auto &pt : m.points_in_radius( stairs, 1 ) ) {
             if( m.passable( pt ) &&
@@ -10409,6 +10406,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
                 pts.push_back( pt );
             }
         }
+
+        const int cost = u.climbing_cost( u.pos(), stairs );
 
         if( cost == 0 ) {
             if( u.has_trait( trait_WEB_ROPE ) )  {
