@@ -7975,7 +7975,8 @@ void map::check_all_suspension()
                         point sp( sx, sy );
                         const ter_t &terrain = cur_submap->get_ter( sp ).obj();
                         if( terrain.has_flag( TFLAG_SUSPENDED ) ) {
-                            collapse_invalid_suspension( const tripoint( sx, sy, z ) );
+                            const tripoint &loc = tripoint( sx, sy, z );
+                            collapse_invalid_suspension( loc );
                         }
                     }
                 }

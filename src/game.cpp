@@ -10438,8 +10438,6 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
         }
 
-
-
         if( cost <= 0 || pts.empty() ) {
             add_msg( m_info,
                      _( "You can't climb here - there is no terrain above you that would support your weight." ) );
