@@ -404,7 +404,6 @@
       { "item": "rm51_assault_rifle", "prob": 10, "charges-min": 0, "charges-max": 50 },
       { "item": "rm88_battle_rifle", "prob": 10, "charges-min": 0, "charges-max": 50 },
       { "item": "m110a1", "prob": 10, "charges-min": 0, "charges-max": 20 },
-      { "item": "ksg", "prob": 10, "charges-min": 0, "charges-max": 7 },
       { "item": "ksg-25", "prob": 10, "charges-min": 0, "charges-max": 12 },
       { "item": "tavor_12", "prob": 10, "charges-min": 0, "charges-max": 16 },
       { "item": "SPAS_12", "prob": 10, "charges-min": 0, "charges-max": 9 },
