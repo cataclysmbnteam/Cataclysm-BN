@@ -2064,11 +2064,10 @@
       { "group": "guns_obscure", "prob": 20 },
       { "group": "guns_bank_vault", "prob": 20 },
       { "group": "antique_bank_vault", "prob": 20 },
+      { "group": "books_bank_vault", "prob": 20 },
       { "group": "schematics", "prob": 10 },
       [ "standard_template_construct", 8 ],
-      [ "recipe_mil_augs", 5 ],
-      [ "recipe_caseless", 5 ],
-      [ "recipe_labchem", 5 ],
+      [ "bionic_scanner", 5 ],
       [ "spiral_stone", 1 ]
     ]
   },
