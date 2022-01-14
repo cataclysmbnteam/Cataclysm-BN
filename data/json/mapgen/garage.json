@@ -3,7 +3,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_garage" ],
-    "weight": 800,
+    "weight": 850,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -85,7 +85,7 @@
     "method": "json",
     "//": "Electric vehicle service station, including service for bubble cars and atomic sports cars.",
     "om_terrain": [ "s_garage" ],
-    "weight": 200,
+    "weight": 150,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
