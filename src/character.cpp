@@ -183,6 +183,8 @@ static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_toolset( "toolset" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
+static const itype_id itype_power_storage( "bio_power_storage" );
+static const itype_id itype_power_storage_mkII( "bio_power_storage_mkII" );
 
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_dodge( "dodge" );
@@ -9871,10 +9873,8 @@ void Character::place_corpse()
     for( const bionic &bio : *my_bionics ) {
         if( bio.info().itype().is_valid() ) {
             item cbm( bio.id.str(), calendar::turn );
-            cbm.set_flag( "FILTHY" );
             cbm.set_flag( "NO_STERILE" );
             cbm.set_flag( "NO_PACKED" );
-            cbm.faults.emplace( fault_id( "fault_bionic_salvaged" ) );
             body.components.push_back( cbm );
         }
     }
@@ -9882,10 +9882,16 @@ void Character::place_corpse()
     // Restore amount of installed pseudo-modules of Power Storage Units
     std::pair<int, int> storage_modules = amount_of_storage_bionics();
     for( int i = 0; i < storage_modules.first; ++i ) {
-        body.components.push_back( item( "bio_power_storage" ) );
+        item cbm( itype_power_storage );
+        cbm.set_flag( "NO_STERILE" );
+        cbm.set_flag( "NO_PACKED" );
+        body.components.push_back( cbm );
     }
     for( int i = 0; i < storage_modules.second; ++i ) {
-        body.components.push_back( item( "bio_power_storage_mkII" ) );
+        item cbm( itype_power_storage_mkII );
+        cbm.set_flag( "NO_STERILE" );
+        cbm.set_flag( "NO_PACKED" );
+        body.components.push_back( cbm );
     }
     g->m.add_item_or_charges( pos(), body );
 }
