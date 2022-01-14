@@ -2062,7 +2062,7 @@
     "items": [
       { "group": "bionics_bank_vault", "prob": 50 },
       { "group": "guns_obscure", "prob": 20 },
-      { "group": "guns_milspec_bank_vault", "prob": 10 },
+      { "group": "guns_bank_vault", "prob": 10 },
       { "group": "antique_bank_vault", "prob": 20 },
       { "group": "schematics", "prob": 10 },
       [ "standard_template_construct", 8 ],
