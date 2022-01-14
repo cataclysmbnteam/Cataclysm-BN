@@ -591,7 +591,9 @@
       "S": "f_sink",
       "%": "f_trashcan",
       "C": "f_charger",
-      "B": "f_battery"
+      "B": "f_battery",
+      "$": "f_shower",
+      "A": "f_air_filter"
     },
     "toilets": { "T": {  } },
     "items": {

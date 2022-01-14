@@ -27,6 +27,8 @@
       "c": "f_cupboard",
       "l": "f_locker",
       "S": "f_sink",
+      "$": "f_shower",
+      "A": "f_air_filter",
       "%": "f_trashcan",
       "B": "f_battery",
       "C": "f_charger"
