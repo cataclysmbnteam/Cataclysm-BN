@@ -397,7 +397,6 @@
       [ "bio_power_armor_interface_mkII", 10 ],
       [ "bio_shock_absorber", 10 ],
       [ "bio_purifier", 10 ],
-      [ "bio_meteorologist", 10 ],
       [ "bio_fuel_cell_gasoline", 10 ],
       [ "bio_ethanol", 10 ],
       [ "bio_cable", 10 ],
@@ -405,6 +404,7 @@
       [ "bio_lockpick", 10 ],
       [ "bio_radscrubber", 10 ],
       [ "bio_recycler", 10 ],
+      [ "bio_painkiller", 10 ],
       [ "bio_time_freeze", 4 ],
       [ "bio_teleport", 4 ],
       [ "bio_probability_travel", 4 ]
