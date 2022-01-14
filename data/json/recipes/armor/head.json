@@ -1321,6 +1321,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "45 m",
+    "reversible": true,
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ], [ "mag_beauty", 1 ], [ "textbook_tailor", 0 ] ],
     "components": [ [ [ "straw_pile", 7 ], [ "birchbark", 10 ] ] ]
   },
@@ -1332,6 +1333,7 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "20 m",
+    "reversible": true,
     "autolearn": true,
     "components": [ [ [ "straw_pile", 3 ], [ "birchbark", 5 ] ] ]
   },

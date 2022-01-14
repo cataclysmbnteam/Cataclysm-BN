@@ -466,6 +466,7 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "28 m",
+    "reversible": true,
     "autolearn": true,
     "components": [ [ [ "straw_pile", 4 ], [ "birchbark", 6 ] ] ]
   },
