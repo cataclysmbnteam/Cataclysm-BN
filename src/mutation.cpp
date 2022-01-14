@@ -482,10 +482,9 @@ void Character::activate_mutation( const trait_id &mut )
 {
     const mutation_branch &mdata = mut.obj();
     trait_data &tdata = my_mutations[mut];
-    int cost = mdata.cost;
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
-    if( !can_use_mutation( mut, *this ) ) {
+    if( !can_use_mutation_warn( mut, *this ) ) {
         return;
     }
     mutation_spend_resources( mut );
@@ -1714,7 +1713,6 @@ bool contains_trait( std::vector<string_id<mutation_branch>> traits, const trait
 bool can_use_mutation( const trait_id &mut, const Character &character )
 {
     const mutation_branch &mdata = mut.obj();
-    int cost = mdata.cost;
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
     if( ( mdata.hunger && character.get_kcal_percent() < 0.5f ) || ( mdata.thirst &&
