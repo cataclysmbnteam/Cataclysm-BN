@@ -7952,22 +7952,16 @@ void map::build_floor_caches()
     }
 }
 
-void map::resolve_suspensions_at_level( const int &zlev )
+void map::resolve_suspensions_at_level( const int &z )
 {
-    bool lowest_z_lev = zlev <= -OVERMAP_DEPTH;
+    bool lowest_z_lev = z <= -OVERMAP_DEPTH;
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            const submap *cur_submap = get_submap_at_grid( { smx, smy, zlev } );
-            const submap *below_submap = !lowest_z_lev ? get_submap_at_grid( { smx, smy, zlev - 1 } ) : nullptr;
+            const submap *cur_submap = get_submap_at_grid( { smx, smy, z } );
 
             if( cur_submap == nullptr ) {
                 debugmsg( "Tried to run suspension check at (%d,%d,%d) but the submap is not loaded", smx, smy,
-                          zlev );
-                continue;
-            }
-            if( !lowest_z_lev && below_submap == nullptr ) {
-                debugmsg( "Tried to run suspension check at (%d,%d,%d) but the submap is not loaded", smx, smy,
-                          zlev - 1 );
+                          z );
                 continue;
             }
 
@@ -7978,7 +7972,7 @@ void map::resolve_suspensions_at_level( const int &zlev )
                     if( terrain.has_flag( TFLAG_SUSPENDED ) ) {
                         coords::project_combine( point_om_sm( point( smx, smy ) ), point_sm_ms( sp ) );
                         tripoint loc( coords::project_combine( point_om_sm( point( smx, smy ) ), point_sm_ms( sp ) ).raw(),
-                                      zlev );
+                                      z );
                         collapse_invalid_suspension( loc );
                     }
                 }
