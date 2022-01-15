@@ -560,6 +560,8 @@
     "fire_resist": 3,
     "elec_resist": 4,
     "chip_resist": 0,
+    "repaired_with": "glass_shard",
+    "salvaged_into": "glass_shard",
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "scratched",
