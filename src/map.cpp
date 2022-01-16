@@ -7951,7 +7951,6 @@ void map::build_floor_caches()
 
 void map::add_susensions_to_cache( const int &z )
 {
-    bool lowest_z_lev = z <= -OVERMAP_DEPTH;
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
             const submap *cur_submap = get_submap_at_grid( { smx, smy, z } );
