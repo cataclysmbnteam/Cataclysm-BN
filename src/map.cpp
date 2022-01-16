@@ -3116,8 +3116,9 @@ static int get_sound_volume( const map_bash_info &bash )
     return bash.sound_vol.value_or( std::min( static_cast<int>( smin * 1.5 ), smax ) );;
 }
 
-void map::bash_ter_success( const tripoint &p, bash_params &params )
+bash_results map::bash_ter_success( const tripoint &p, const bash_params &params )
 {
+    bash_results result;
     const auto &terid = ter( p ).obj();
     const map_bash_info &bash = terid.bash;
     if( has_flag_ter( "FUNGUS", p ) ) {
@@ -3177,12 +3178,14 @@ void map::bash_ter_success( const tripoint &p, bash_params &params )
         explosion_handler::explosion( p, bash.explosive, 0.8, false );
     }
 
-    params.did_bash = true;
-    params.bashed_solid = true;
+    result.did_bash = true;
+    result.bashed_solid = true;
+    return result;
 }
 
-void map::bash_furn_success( const tripoint &p, bash_params &params )
+bash_results map::bash_furn_success( const tripoint &p, const bash_params &params )
 {
+    bash_results result;
     const auto &furnid = furn( p ).obj();
     const map_bash_info &bash = furnid.bash;
 
@@ -3273,12 +3276,14 @@ void map::bash_furn_success( const tripoint &p, bash_params &params )
         explosion_handler::explosion( p, bash.explosive, 0.8, false );
     }
 
-    params.did_bash = true;
-    params.bashed_solid = true;
+    result.did_bash = true;
+    result.bashed_solid = true;
+    return result;
 }
 
-void map::bash_ter_furn( const tripoint &p, bash_params &params )
+bash_results map::bash_ter_furn( const tripoint &p, const bash_params &params )
 {
+    bash_results result;
     int sound_volume = 0;
     std::string soundfxvariant;
     const auto &ter_obj = ter( p ).obj();
@@ -3287,7 +3292,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     bool smash_ter = false;
     const map_bash_info *bash = nullptr;
 
-    if( has_furn( p ) && furn_obj.bash.str_max != -1 ) {
+    if( furn_obj.id && furn_obj.bash.str_max != -1 ) {
         bash = &furn_obj.bash;
         smash_furn = true;
     } else if( ter_obj.bash.str_max != -1 ) {
@@ -3339,11 +3344,11 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
                                false, "smash_fail", "default" );
             }
 
-            params.did_bash = true;
-            params.bashed_solid = true;
+            result.did_bash = true;
+            result.bashed_solid = true;
         }
 
-        return;
+        return result;
     }
 
     bool success = params.destroy;
@@ -3381,66 +3386,69 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         }
     }
 
-    if( !params.destroy && !success ) {
+    if( !success ) {
         sound_volume = sound_fail_vol.value_or( 12 );
 
-        params.did_bash = true;
+        result.did_bash = true;
         if( !params.silent ) {
             sounds::sound( p, sound_volume, sounds::sound_t::combat, bash->sound_fail, false,
                            "smash_fail", soundfxvariant );
         }
     } else {
         if( smash_ter ) {
-            bash_ter_success( p, params );
+            result |= bash_ter_success( p, params );
         } else {
-            bash_furn_success( p, params );
+            result |= bash_furn_success( p, params );
         }
 
-        params.success |= success; // Not always true, so that we can tell when to stop destroying
+        result.success = true;
     }
+    return result;
 }
 
-bash_params map::bash( const tripoint &p, const int str,
-                       bool silent, bool destroy, bool bash_floor,
-                       const vehicle *bashing_vehicle )
+bash_results map::bash( const tripoint &p, const int str,
+                        bool silent, bool destroy, bool bash_floor,
+                        const vehicle *bashing_vehicle )
 {
     bash_params bsh{
-        str, silent, destroy, bash_floor, static_cast<float>( rng_float( 0, 1.0f ) ), false, false, false, false
+        str, silent, destroy, bash_floor, static_cast<float>( rng_float( 0, 1.0f ) ), false
     };
+    bash_results result;
     if( !inbounds( p ) ) {
-        return bsh;
+        return result;
     }
 
     bool bashed_sealed = false;
     if( has_flag( "SEALED", p ) ) {
-        bash_ter_furn( p, bsh );
+        result |= bash_ter_furn( p, bsh );
         bashed_sealed = true;
     }
 
-    bash_field( p, bsh );
+    result |= bash_field( p, bsh );
 
     // Don't bash items inside terrain/furniture with SEALED flag
     if( !bashed_sealed ) {
-        bash_items( p, bsh );
+        result |= bash_items( p, bsh );
     }
     // Don't bash the vehicle doing the bashing
     const vehicle *veh = veh_pointer_or_null( veh_at( p ) );
     if( veh != nullptr && veh != bashing_vehicle ) {
-        bash_vehicle( p, bsh );
+        result |= bash_vehicle( p, bsh );
     }
 
     // If we still didn't bash anything solid (a vehicle) or a tile with SEALED flag, bash ter/furn
-    if( !bsh.bashed_solid && !bashed_sealed ) {
-        bash_ter_furn( p, bsh );
+    if( !result.bashed_solid && !bashed_sealed ) {
+        result |= bash_ter_furn( p, bsh );
     }
 
-    return bsh;
+    return result;
 }
 
-void map::bash_items( const tripoint &p, bash_params &params )
+bash_results map::bash_items( const tripoint &p, const bash_params &params )
 {
+    bash_results result;
     if( !has_items( p ) ) {
-        return;
+        return result;
     }
 
     std::vector<item> smashed_contents;
@@ -3449,7 +3457,7 @@ void map::bash_items( const tripoint &p, bash_params &params )
     for( auto bashed_item = bashed_items.begin(); bashed_item != bashed_items.end(); ) {
         // the check for active suppresses Molotovs smashing themselves with their own explosion
         if( bashed_item->made_of( material_id( "glass" ) ) && !bashed_item->active && one_in( 2 ) ) {
-            params.did_bash = true;
+            result.did_bash = true;
             smashed_glass = true;
             for( const item *bashed_content : bashed_item->contents.all_items_top() ) {
                 smashed_contents.push_back( item( *bashed_content ) );
@@ -3467,10 +3475,12 @@ void map::bash_items( const tripoint &p, bash_params &params )
         sounds::sound( p, 12, sounds::sound_t::combat, _( "glass shattering" ), false,
                        "smash_success", "smash_glass_contents" );
     }
+    return result;
 }
 
-void map::bash_vehicle( const tripoint &p, bash_params &params )
+bash_results map::bash_vehicle( const tripoint &p, const bash_params &params )
 {
+    bash_results result;
     // Smash vehicle if present
     if( const optional_vpart_position vp = veh_at( p ) ) {
         vp->vehicle().damage( vp->part_index(), params.strength, DT_BASH );
@@ -3479,19 +3489,31 @@ void map::bash_vehicle( const tripoint &p, bash_params &params )
                            "smash_success", "hit_vehicle" );
         }
 
-        params.did_bash = true;
-        params.success = true;
-        params.bashed_solid = true;
+        result.did_bash = true;
+        result.success = true;
+        result.bashed_solid = true;
     }
+    return result;
 }
 
-void map::bash_field( const tripoint &p, bash_params &params )
+bash_results map::bash_field( const tripoint &p, const bash_params & )
 {
+    bash_results result;
     if( get_field( p, fd_web ) != nullptr ) {
-        params.did_bash = true;
-        params.bashed_solid = true; // To prevent bashing furniture/vehicles
+        result.did_bash = true;
+        result.bashed_solid = true; // To prevent bashing furniture/vehicles
         remove_field( p, fd_web );
     }
+
+    return result;
+}
+
+bash_results &bash_results::operator|=( const bash_results &other )
+{
+    did_bash |= other.did_bash;
+    success |= other.success;
+    bashed_solid |= other.bashed_solid;
+    return *this;
 }
 
 void map::destroy( const tripoint &p, const bool silent )
