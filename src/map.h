@@ -1757,8 +1757,8 @@ class map
         bool build_floor_cache( int zlev );
         // We want this visible in `game`, because we want it built earlier in the turn than the rest
         void build_floor_caches();
-
-        void resolve_suspensions_at_level( const int &z );
+        // Checks all tiles on a z level and adds those that are invalid to the support_dirty_cache */
+        void add_susensions_to_cache( const int &z );
     protected:
         void generate_lightmap( int zlev );
         void build_seen_cache( const tripoint &origin, int target_z );

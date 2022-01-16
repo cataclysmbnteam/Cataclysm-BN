@@ -2037,6 +2037,8 @@ bool map::has_floor_or_support( const tripoint &p ) const
 
 void map::drop_everything( const tripoint &p )
 {
+    //Do a suspension check so that there won't be a floor there for the rest of this check.
+    collapse_invalid_suspension( p );
     if( has_floor( p ) ) {
         return;
     }
@@ -7901,11 +7903,6 @@ bool map::build_floor_cache( const int zlev )
     std::uninitialized_fill_n(
         &floor_cache[0][0], ( MAPSIZE_X ) * ( MAPSIZE_Y ), true );
 
-    // We check for failed suspension here so we can piggyback off of the floor_cache's dirty logic.
-    // This allows us to only calculate suspension when a new submap is loaded.
-    // We don't nest it deeper in the floor cache loops because we want to already have established where floors are before the floorcache is built.
-    resolve_suspensions_at_level( zlev );
-
     bool lowest_z_lev = zlev <= -OVERMAP_DEPTH;
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
@@ -7952,7 +7949,7 @@ void map::build_floor_caches()
     }
 }
 
-void map::resolve_suspensions_at_level( const int &z )
+void map::add_susensions_to_cache( const int &z )
 {
     bool lowest_z_lev = z <= -OVERMAP_DEPTH;
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
@@ -7970,10 +7967,11 @@ void map::resolve_suspensions_at_level( const int &z )
                     point sp( sx, sy );
                     const ter_t &terrain = cur_submap->get_ter( sp ).obj();
                     if( terrain.has_flag( TFLAG_SUSPENDED ) ) {
-                        coords::project_combine( point_om_sm( point( smx, smy ) ), point_sm_ms( sp ) );
                         tripoint loc( coords::project_combine( point_om_sm( point( smx, smy ) ), point_sm_ms( sp ) ).raw(),
                                       z );
-                        collapse_invalid_suspension( loc );
+                        if( !is_suspension_valid( loc ) ) {
+                            support_dirty( loc );
+                        }
                     }
                 }
             }
@@ -8046,6 +8044,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         const bool affects_seen_cache =  z == zlev || fov_3d;
         build_outside_cache( z );
         build_transparency_cache( z );
+        add_susensions_to_cache( z );
         seen_cache_dirty |= ( build_floor_cache( z ) && affects_seen_cache );
         seen_cache_dirty |= get_cache( z ).seen_cache_dirty && affects_seen_cache;
     }
