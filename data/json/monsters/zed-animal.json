@@ -178,7 +178,7 @@
     "dodge": 2,
     "vision_night": 5,
     "harvest": "zombie_fur",
-    "special_attacks": [ [ "HOWL", 10 ], { "type": "bite", "attack_upper": false, "cooldown": 2, "accuracy": 4, "infection_chance": 8 } ],
+    "special_attacks": [ [ "HOWL", 10 ], { "type": "bite", "cooldown": 2, "accuracy": 4, "infection_chance": 8 } ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
