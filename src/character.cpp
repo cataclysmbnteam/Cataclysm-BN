@@ -635,7 +635,7 @@ double Character::aim_speed_encumbrance_modifier() const
 double Character::aim_cap_from_volume( const item &gun ) const
 {
     skill_id gun_skill = gun.gun_skill();
-    double aim_cap = std::min( 49.0, 49.0 - static_cast<float>( gun.volume() / 75_ml ) );
+    double aim_cap = std::min( 49.0, 49.0 - static_cast<float>( gun.base_volume() / 75_ml ) );
     // TODO: also scale with skill level.
     if( gun_skill == skill_smg ) {
         aim_cap = std::max( 12.0, aim_cap );
