@@ -1714,14 +1714,9 @@ bool can_use_mutation( const trait_id &mut, const Character &character )
     const mutation_branch &mdata = mut.obj();
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
-    if( ( mdata.hunger && character.get_kcal_percent() < 0.5f ) || ( mdata.thirst &&
-            character.get_thirst() >= thirst_levels::dehydrated ) ||
-        ( mdata.fatigue && character.get_fatigue() >= fatigue_levels::exhausted ) ) {
-        // Insufficient Food to *maintain* operation is handled in player::suffer
-        return false;
-    } else {
-        return true;
-    }
+    return !( ( mdata.hunger && character.get_kcal_percent() < 0.5f ) ||
+              ( mdata.thirst && character.get_thirst() >= thirst_levels::dehydrated ) ||
+              ( mdata.fatigue && character.get_fatigue() >= fatigue_levels::exhausted ) );
 }
 
 bool can_use_mutation_warn( const trait_id &mut, const Character &character )
