@@ -15,7 +15,7 @@
 #include "cuboid_rectangle.h"
 #include "catacharset.h"
 #include "color.h"
-#include "common_types.h"
+#include "numeric_interval.h"
 #include "coordinates.h"
 #include "int_id.h"
 #include "overmap_location.h"

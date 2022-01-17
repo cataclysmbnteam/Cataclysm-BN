@@ -18,7 +18,7 @@
 #include "catacharset.h"
 #include "character_id.h"
 #include "clzones.h"
-#include "common_types.h"
+#include "numeric_interval.h"
 #include "computer.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"

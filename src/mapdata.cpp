@@ -198,6 +198,14 @@ static const std::unordered_map<std::string, ter_connects> ter_connects_map = { 
     }
 };
 
+bool ranged_bash_info::load( const JsonObject &jo )
+{
+    assign(jo, "reduction", reduction);
+    assign(jo, "reduction_laser", reduction_laser);
+    assign(jo, "destroy_threshold", destroy_threshold);
+    assign(jo, "flammable", flammable);
+}
+
 static void load_map_bash_tent_centers( const JsonArray &ja, std::vector<furn_str_id> &centers )
 {
     for( const std::string &line : ja ) {
@@ -280,6 +288,8 @@ bool map_bash_info::load( const JsonObject &jsobj, const std::string &member,
     if( j.has_array( "tent_centers" ) ) {
         load_map_bash_tent_centers( j.get_array( "tent_centers" ), tent_centers );
     }
+
+    assign(j, "ranged", ranged);
 
     return true;
 }
