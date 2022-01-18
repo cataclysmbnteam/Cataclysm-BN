@@ -112,7 +112,6 @@ static const bionic_id bio_remote( "bio_remote" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_SHELL2( "SHELL2" );
-static const trait_id trait_WAYFARER( "WAYFARER" );
 
 static const std::string flag_LITCIG( "LITCIG" );
 static const std::string flag_LOCKED( "LOCKED" );
@@ -2128,8 +2127,6 @@ bool game::handle_action()
                     add_msg( m_info, _( "You can't operate a vehicle while you're in your shell." ) );
                 } else if( u.is_mounted() ) {
                     u.dismount();
-                } else if( u.has_trait( trait_WAYFARER ) ) {
-                    add_msg( m_info, _( "You refuse to take control of this vehicle." ) );
                 } else {
                     control_vehicle();
                 }
