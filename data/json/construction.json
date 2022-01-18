@@ -3253,9 +3253,10 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "15 m",
+    "qualities": [ { "id": "DIG", "level": 1 } ],
     "components": [ [ [ "rock", 20 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
-    "pre_terrain": "t_pit_shallow",
+    "pre_terrain": "t_dirt",
     "dark_craftable": true,
     "post_terrain": "f_firering"
   },
