@@ -1722,7 +1722,7 @@ bool can_use_mutation( const trait_id &mut, const Character &character )
 bool can_use_mutation_warn( const trait_id &mut, const Character &character )
 {
     const bool result = can_use_mutation( mut, character );
-    if( result ) {
+    if( !result ) {
         character.add_msg_if_player( m_warning, _( "You feel like using your %s would kill you!" ),
                                      mut.obj().name() );
     }

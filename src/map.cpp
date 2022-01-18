@@ -2038,7 +2038,9 @@ bool map::has_floor_or_support( const tripoint &p ) const
 void map::drop_everything( const tripoint &p )
 {
     //Do a suspension check so that there won't be a floor there for the rest of this check.
-    collapse_invalid_suspension( p );
+    if( has_flag( "SUSPENDED", p ) ) {
+        collapse_invalid_suspension( p );
+    }
     if( has_floor( p ) ) {
         return;
     }

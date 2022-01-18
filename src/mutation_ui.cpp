@@ -355,7 +355,7 @@ player::power_mut_ui_result player::power_mutations_ui()
                                 ret.cmd = power_mut_ui_cmd::Deactivate;
                                 ret.mut = mut_id;
                                 exit = true;
-                            } else if( can_use_mutation( mut_id, *this ) ) {
+                            } else if( can_use_mutation_warn( mut_id, *this ) ) {
                                 if( trans && !trans->msg_transform.empty() ) {
                                     add_msg_if_player( m_neutral, trans->msg_transform );
                                 } else {
