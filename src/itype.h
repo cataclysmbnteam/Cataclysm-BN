@@ -744,6 +744,8 @@ struct islot_ammo : common_ranged_data {
 
     void load( const JsonObject &jo );
     void deserialize( JsonIn &jsin );
+
+    // 
 };
 
 struct islot_bionic {

@@ -198,12 +198,14 @@ static const std::unordered_map<std::string, ter_connects> ter_connects_map = { 
     }
 };
 
-bool ranged_bash_info::load( const JsonObject &jo )
+void ranged_bash_info::deserialize( JsonIn &jsin )
 {
-    assign(jo, "reduction", reduction);
-    assign(jo, "reduction_laser", reduction_laser);
-    assign(jo, "destroy_threshold", destroy_threshold);
-    assign(jo, "flammable", flammable);
+    JsonObject jo = jsin.get_object();
+
+    assign( jo, "reduction", reduction );
+    assign( jo, "reduction_laser", reduction_laser );
+    assign( jo, "destroy_threshold", destroy_threshold );
+    assign( jo, "flammable", flammable );
 }
 
 static void load_map_bash_tent_centers( const JsonArray &ja, std::vector<furn_str_id> &centers )
@@ -289,7 +291,7 @@ bool map_bash_info::load( const JsonObject &jsobj, const std::string &member,
         load_map_bash_tent_centers( j.get_array( "tent_centers" ), tent_centers );
     }
 
-    assign(j, "ranged", ranged);
+    assign( j, "ranged", ranged );
 
     return true;
 }
@@ -319,30 +321,26 @@ bool map_deconstruct_info::load( const JsonObject &jsobj, const std::string &mem
 furn_workbench_info::furn_workbench_info() : multiplier( 1.0f ), allowed_mass( units::mass_max ),
     allowed_volume( units::volume_max ) {}
 
-bool furn_workbench_info::load( const JsonObject &jsobj, const std::string &member )
+void furn_workbench_info::deserialize( JsonIn &jsin )
 {
-    JsonObject j = jsobj.get_object( member );
+    JsonObject j = jsin.get_object();
 
     assign( j, "multiplier", multiplier );
     assign( j, "mass", allowed_mass );
     assign( j, "volume", allowed_volume );
-
-    return true;
 }
 
 plant_data::plant_data() : transform( furn_str_id::NULL_ID() ), base( furn_str_id::NULL_ID() ),
     growth_multiplier( 1.0f ), harvest_multiplier( 1.0f ) {}
 
-bool plant_data::load( const JsonObject &jsobj, const std::string &member )
+void plant_data::deserialize( JsonIn &jsin )
 {
-    JsonObject j = jsobj.get_object( member );
+    JsonObject j = jsin.get_object();
 
     assign( j, "transform", transform );
     assign( j, "base", base );
     assign( j, "growth_multiplier", growth_multiplier );
     assign( j, "harvest_multiplier", harvest_multiplier );
-
-    return true;
 }
 
 pry_result::pry_result() : pry_quality( -1 ), pry_bonus_mult( 1 ),
@@ -1248,7 +1246,7 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
 {
     if( jo.has_member( "examine_action" ) ) {
         examine = iexamine_function_from_string( jo.get_string( "examine_action" ) );
-    } else {
+    } else if( !was_loaded ) {
         examine = iexamine_function_from_string( "none" );
     }
 
@@ -1280,10 +1278,19 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
 
     mandatory( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "message", message );
+
+    assign( jo, "flags", flags );
+    bitflags.reset();
+    transparent = false;
+
+    for( const std::string &flag : flags ) {
+        set_flag( flag );
+    }
 }
 
 void ter_t::load( const JsonObject &jo, const std::string &src )
 {
+    connect_group = TERCONN_NONE;
     map_data_common_t::load( jo, src );
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "move_cost", movecost );
@@ -1297,12 +1304,7 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     load_symbol( jo );
 
     trap = tr_null;
-    transparent = false;
-    connect_group = TERCONN_NONE;
 
-    for( auto &flag : jo.get_string_array( "flags" ) ) {
-        set_flag( flag );
-    }
     // connect_group is initialized to none, then terrain flags are set, then finally
     // connections from JSON are set. This is so that wall flags can set wall connections
     // but can be overridden by explicit connections in JSON.
@@ -1454,10 +1456,6 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "light_emitted", light_emitted );
 
-    for( auto &flag : jo.get_string_array( "flags" ) ) {
-        set_flag( flag );
-    }
-
     optional( jo, was_loaded, "open", open, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
     optional( jo, was_loaded, "close", close, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
     optional( jo, was_loaded, "transforms_into", transforms_into, string_id_reader<furn_t> {},
@@ -1467,17 +1465,9 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     deconstruct.load( jo, "deconstruct", true );
     pry.load( jo, "pry", pry_result::furniture );
 
-    if( jo.has_object( "workbench" ) ) {
-        workbench = cata::make_value<furn_workbench_info>();
-        workbench->load( jo, "workbench" );
-    }
-    if( jo.has_object( "plant_data" ) ) {
-        plant = cata::make_value<plant_data>();
-        plant->load( jo, "plant_data" );
-    }
-    if( jo.has_float( "surgery_skill_multiplier" ) ) {
-        surgery_skill_multiplier = cata::make_value<float>( jo.get_float( "surgery_skill_multiplier" ) );
-    }
+    optional( jo, was_loaded, "workbench", workbench );
+    optional( jo, was_loaded, "plant_data", plant );
+    assign( jo, "surgery_skill_multiplier", surgery_skill_multiplier );
 
     if( jo.has_member( "active" ) ) {
         JsonIn &jsin = *jo.get_raw( "active" );

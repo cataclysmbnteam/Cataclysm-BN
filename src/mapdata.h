@@ -35,7 +35,13 @@ struct ranged_bash_info {
     cata::optional<numeric_interval<int>> reduction_laser;
     int destroy_threshold = 0; // If reduced dmg is still above this value, destroy us.
     bool flammable = false; // If true, getting hit with any heat damage creates a fire.
-    bool load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
+
+    // In C++20, this would be = default
+    bool operator==( const ranged_bash_info &rhs ) const {
+        return std::tie( reduction, reduction_laser, destroy_threshold, flammable ) ==
+               std::tie( rhs.reduction, rhs.reduction_laser, rhs.destroy_threshold, rhs.flammable );
+    }
 };
 
 struct map_bash_info {
@@ -90,7 +96,13 @@ struct furn_workbench_info {
     units::mass allowed_mass;
     units::volume allowed_volume;
     furn_workbench_info();
-    bool load( const JsonObject &jsobj, const std::string &member );
+    void deserialize( JsonIn &jsin );
+
+    // In C++20, this would be = default
+    bool operator==( const furn_workbench_info &rhs ) const {
+        return std::tie( multiplier, allowed_mass, allowed_volume )
+               == std::tie( rhs.multiplier, rhs.allowed_mass, rhs.allowed_volume );
+    }
 };
 struct plant_data {
     // What the furniture turns into when it grows or you plant seeds in it
@@ -102,7 +114,14 @@ struct plant_data {
     // What percent of the normal harvest this crop gives
     float harvest_multiplier;
     plant_data();
-    bool load( const JsonObject &jsobj, const std::string &member );
+
+    void deserialize( JsonIn &jsin );
+
+    // In C++20, this would be = default
+    bool operator==( const plant_data &rhs ) const {
+        return std::tie( transform, base, growth_multiplier, harvest_multiplier )
+               == std::tie( rhs.transform, rhs.base, rhs.growth_multiplier, rhs.harvest_multiplier );
+    }
 };
 
 struct lockpicking_open_result {
@@ -445,7 +464,7 @@ struct furn_t : map_data_common_t {
 
     cata::value_ptr<plant_data> plant;
 
-    cata::value_ptr<float> surgery_skill_multiplier;
+    cata::optional<float> surgery_skill_multiplier;
 
     cata::poly_serialized<active_tile_data> active;
 

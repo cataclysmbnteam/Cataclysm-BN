@@ -24,6 +24,15 @@
   },
   {
     "type": "terrain",
+    "id": "t_window_copyfrom",
+    "copy-from": "t_window",
+    "name": "window",
+    "description": "A giant sheet of glass inserted into a window, typically found on the side of shops to showcase goods.",
+    "symbol": "\"",
+    "color": "light_cyan"
+  },
+  {
+    "type": "terrain",
     "id": "t_window_taped",
     "name": "taped window",
     "description": "Duct tape covers this window, blocking sunlight and visibility.  You could remove the duct tape by cutting it off.",

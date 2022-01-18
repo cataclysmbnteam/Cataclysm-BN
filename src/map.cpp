@@ -3630,23 +3630,23 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     ter_id terrain = ter( p );
     ter_t ter = terrain.obj();
 
-    if(ter.bash.ranged) {
+    if( ter.bash.ranged ) {
         const ranged_bash_info &ri = *ter.bash.ranged;
-        if(ri.reduction_laser && ammo_effects.count( "LASER" ) != 0) {
-            dam -= rng(ri.reduction_laser->min, ri.reduction_laser->max);
+        if( ri.reduction_laser && ammo_effects.count( "LASER" ) != 0 ) {
+            dam -= rng( ri.reduction_laser->min, ri.reduction_laser->max );
         } else {
-            dam -= rng(ri.reduction.min, ri.reduction.max);
-            if(dam > ri.destroy_threshold) {
+            dam -= rng( ri.reduction.min, ri.reduction.max );
+            if( dam > ri.destroy_threshold ) {
                 bash_params params{0, false, true, hit_items, 1.0, false};
-                bash_ter_success(p, params);
+                bash_ter_success( p, params );
             }
         }
-        if(ri.flammable && inc) {
-            add_field(p, fd_fire, 1);
+        if( ri.flammable && inc ) {
+            add_field( p, fd_fire, 1 );
         }
     } else if( terrain == t_wall_wood_broken ||
-        terrain == t_wall_log_broken ||
-        terrain == t_door_b ) {
+               terrain == t_wall_log_broken ||
+               terrain == t_door_b ) {
         if( hit_items || one_in( 8 ) ) { // 1 in 8 chance of hitting the door
             dam -= rng( 20, 40 );
             if( dam > 0 ) {
