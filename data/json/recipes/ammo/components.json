@@ -6,7 +6,7 @@
     "subcategory": "CSC_AMMO_COMPONENTS",
     "skill_used": "cooking",
     "difficulty": 4,
-    "time": "20 m",
+    "time": "2 m",
     "autolearn": [ [ "cooking", 5 ], [ "fabrication", 5 ] ],
     "book_learn": [
       [ "textbook_anarch", 6 ],
@@ -15,8 +15,11 @@
       [ "textbook_armschina", 5 ],
       [ "book_icef", 5 ]
     ],
+    "charges": 10,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "chem_saltpetre", 150 ] ], [ [ "chem_sulphur", 300 ] ], [ [ "charcoal", 10 ], [ "coal_lump", 10 ] ] ]
+    "//": "Roughly consistent by weight, saltpeter is in smaller stack sizes than most chems, so much less is used.",
+    "//2": "Charcoal is in excess of the amount required however, due to even smaller stack size.",
+    "components": [ [ [ "chem_saltpetre", 2 ] ], [ [ "chem_sulphur", 5 ] ], [ [ "charcoal", 1 ], [ "coal_lump", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -27,7 +30,7 @@
     "skill_used": "fabrication",
     "skills_required": [ "cooking", 1 ],
     "difficulty": 4,
-    "time": "20 m",
+    "time": "2 m",
     "book_learn": [
       [ "textbook_anarch", 4 ],
       [ "recipe_bullets", 2 ],
@@ -36,9 +39,10 @@
       [ "adv_chemistry", 3 ],
       [ "textbook_chemistry", 3 ]
     ],
+    "charges": 10,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "hotplate", 50 ], [ "toolset", 50 ] ] ],
-    "components": [ [ [ "oxy_powder", 200 ] ], [ [ "ammonia", 2 ], [ "lye_powder", 200 ] ], [ [ "charcoal", 25 ] ] ]
+    "tools": [ [ [ "hotplate", 5 ], [ "toolset", 5 ] ] ],
+    "components": [ [ [ "oxy_powder", 5 ] ], [ [ "lye_powder", 5 ] ], [ [ "charcoal", 1 ], [ "coal_lump", 1 ] ] ]
   },
   {
     "type": "recipe",
