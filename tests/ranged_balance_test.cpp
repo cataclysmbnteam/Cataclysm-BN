@@ -254,7 +254,7 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance] [slow]" )
     SECTION( "an unskilled shooter with an inaccurate rifle" ) {
         arm_character( shooter, "m1918" );
         test_shooting_scenario( shooter, 5, 9, 25 );
-        test_fast_shooting( shooter, 80, 0.2 );
+        test_fast_shooting( shooter, 80, 0.4 );
     }
 }
 
@@ -293,7 +293,7 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
     SECTION( "a skilled shooter with an accurate rifle" ) {
         arm_character( shooter, "ar15", { "tele_sight" } );
         test_shooting_scenario( shooter, 10, 22, 48 );
-        test_fast_shooting( shooter, 85, 0.3 );
+        test_fast_shooting( shooter, 85, 0.7 );
     }
 }
 
@@ -317,7 +317,7 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
     SECTION( "an expert archer with an excellent crossbow" ) {
         arm_character( shooter, "compcrossbow", { "holo_sight" }, "bolt_cf" );
         test_shooting_scenario( shooter, 12, 20, 100 );
-        test_fast_shooting( shooter, 50, 0.4 );
+        test_fast_shooting( shooter, 50, 0.5 );
     }
     SECTION( "an expert shooter with an excellent shotgun" ) {
         arm_character( shooter, "m1014", { "holo_sight" } );
