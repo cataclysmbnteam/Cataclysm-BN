@@ -2952,23 +2952,19 @@ void map::collapse_invalid_suspension( const tripoint &point )
 
 bool map::is_suspension_valid( const tripoint &point )
 {
-    if(
-        ter( point + tripoint_east ) != t_open_air
+    if( ter( point + tripoint_east ) != t_open_air
         && ter( point + tripoint_west ) != t_open_air ) {
         return true;
     }
-    if(
-        ter( point + tripoint_south_east ) != t_open_air
+    if( ter( point + tripoint_south_east ) != t_open_air
         && ter( point + tripoint_north_west ) != t_open_air ) {
         return true;
     }
-    if(
-        ter( point + tripoint_south ) != t_open_air
+    if( ter( point + tripoint_south ) != t_open_air
         && ter( point + tripoint_north ) != t_open_air ) {
         return true;
     }
-    if(
-        ter( point + tripoint_north_east ) != t_open_air
+    if( ter( point + tripoint_north_east ) != t_open_air
         && ter( point + tripoint_south_west ) != t_open_air ) {
         return true;
     }
