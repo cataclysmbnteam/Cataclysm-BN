@@ -281,6 +281,27 @@
   },
   {
     "type": "item_group",
+    "id": "books_bank_vault",
+    "items": [
+      [ "recipe_raptor", 10 ],
+      [ "recipe_alpha", 10 ],
+      [ "recipe_chimera", 10 ],
+      [ "recipe_elfa", 10 ],
+      [ "recipe_medicalmut", 10 ],
+      [ "recipe_serum", 10 ],
+      [ "recipe_creepy", 10 ],
+      [ "recipe_animal", 10 ],
+      [ "recipe_maiar", 10 ],
+      [ "recipe_labchem", 10 ],
+      [ "recipe_mil_augs", 10 ],
+      [ "recipe_caseless", 10 ],
+      [ "textbook_atomic_lab", 10 ],
+      [ "recipe_lab_elec", 10 ],
+      [ "recipe_lab_cvd", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "mutagens",
     "items": [
       [ "mutagen", 8 ],

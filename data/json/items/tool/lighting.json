@@ -118,7 +118,7 @@
     "id": "candle_lit",
     "type": "TOOL",
     "category": "tools",
-    "name": { "str": "candle" },
+    "name": { "str": "candle (lit)", "str_pl": "candles (lit)" },
     "description": "This is a thick candle.  It doesn't provide very much light, but it can burn for quite a long time.  This candle is lit.",
     "weight": "225 g",
     "volume": "250 ml",

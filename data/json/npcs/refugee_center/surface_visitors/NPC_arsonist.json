@@ -21,8 +21,7 @@
     "traits": [
       { "group": "BG_survival_story_CRIMINAL" },
       { "group": "NPC_starting_traits" },
-      { "group": "Appearance_demographics" },
-      [ "FELINE_EARS", 100 ]
+      { "group": "Appearance_demographics" }
     ],
     "bonus_dex": { "rng": [ -2, 0 ] },
     "bonus_int": { "rng": [ -2, 0 ] },
