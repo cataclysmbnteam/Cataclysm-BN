@@ -628,13 +628,8 @@
     "material": [ "plastic", "rubber" ],
     "volume": "250 ml",
     "weight": "2 g",
-    "ammo_type": "pebble",
-    "damage": { "damage_type": "bash", "amount": 2 },
-    "range": 10,
-    "dispersion": 7,
-    "loudness": 0,
-    "count": 25,
-    "effects": [ "NOGIB", "NEVER_MISFIRES", "NON-FOULING" ]
+    "ammo_type": "components",
+    "count": 25
   },
   {
     "type": "AMMO",
