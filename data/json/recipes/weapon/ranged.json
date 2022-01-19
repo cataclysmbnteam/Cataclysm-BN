@@ -422,7 +422,7 @@
       { "id": "HAMMER_FINE", "level": 1 },
       { "id": "SAW_M_FINE", "level": 1 },
       { "id": "SCREW_FINE", "level": 1 },
-      { "id": "GLARE", "level": 1 }
+      { "id": "GLARE", "level": 2 }
     ],
     "tools": [
       [

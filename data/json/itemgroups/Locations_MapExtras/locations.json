@@ -2053,12 +2053,30 @@
   {
     "type": "item_group",
     "id": "vault",
+    "items": [ { "group": "vault_good", "prob": 500 }, { "group": "vault_bad", "prob": 500 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "vault_good",
+    "//": "Useful or good stuff for bank vaults.",
+    "items": [
+      { "group": "bionics_bank_vault", "prob": 50 },
+      { "group": "guns_obscure", "prob": 20 },
+      { "group": "guns_bank_vault", "prob": 20 },
+      { "group": "antique_bank_vault", "prob": 20 },
+      { "group": "books_bank_vault", "prob": 20 },
+      { "group": "schematics", "prob": 10 },
+      [ "standard_template_construct", 8 ],
+      [ "bionic_scanner", 5 ],
+      [ "spiral_stone", 1 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "vault_bad",
+    "//": "Mostly worthless stuff for bank vaults.",
     "items": [
       { "group": "ammo_atomic_batteries", "prob": 10 },
-      { "group": "schematics", "prob": 5 },
-      [ "recipe_mil_augs", 5 ],
-      [ "recipe_caseless", 5 ],
-      [ "recipe_labchem", 5 ],
       [ "file", 20 ],
       [ "platinum_small", 10 ],
       [ "gold_small", 10 ],
@@ -2087,10 +2105,6 @@
       [ "crown_golden", 5 ],
       [ "diamond_dental_grill", 5 ],
       [ "gold_dental_grill", 5 ],
-      [ "bio_time_freeze", 4 ],
-      [ "bio_teleport", 4 ],
-      [ "bio_probability_travel", 4 ],
-      [ "standard_template_construct", 4 ],
       [ "briefcase", 4 ],
       [ "small_relic", 3 ],
       [ "holy_symbol", 3 ],
@@ -2099,7 +2113,6 @@
       [ "coin_quarter", 2 ],
       [ "straw_doll", 2 ],
       [ "petrified_eye", 1 ],
-      [ "spiral_stone", 1 ],
       [ "etched_skull", 1 ]
     ]
   },

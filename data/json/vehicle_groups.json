@@ -265,6 +265,23 @@
     ]
   },
   {
+    "id": "garage_electric",
+    "type": "vehicle_group",
+    "vehicles": [
+      [ "bubble_car", 9 ],
+      [ "car_chassis", 15 ],
+      [ "car_sports_atomic", 1 ],
+      [ "car_racing_electric", 1 ],
+      [ "electric_car", 19 ],
+      [ "engine_crane", 15 ],
+      [ "portable_generator", 10 ],
+      [ "rara_x", 2 ],
+      [ "suv_electric", 12 ],
+      [ "suv_electric_rack", 6 ],
+      [ "welding_cart", 10 ]
+    ]
+  },
+  {
     "type": "vehicle_group",
     "id": "military_vehicles",
     "vehicles": [

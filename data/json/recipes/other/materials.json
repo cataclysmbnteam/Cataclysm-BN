@@ -342,12 +342,13 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "difficulty": 4,
+    "skills_required": [ "mechanics", 2 ],
     "time": "10 m",
-    "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "GLARE", "level": 2 } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "GLARE", "level": 2 } ],
+    "using": [ [ "steel_tiny", 1 ] ],
     "tools": [ [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 10 ] ], [ [ "soldering_iron", 10 ] ] ],
-    "components": [ [ [ "sheet_metal", 1 ] ], [ [ "scrap", 2 ] ], [ [ "circuit", 1 ] ] ]
+    "components": [ [ [ "sheet_metal", 2 ] ], [ [ "pipe", 2 ] ], [ [ "chain", 1 ] ], [ [ "circuit", 1 ] ] ]
   },
   {
     "type": "recipe",

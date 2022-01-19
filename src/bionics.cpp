@@ -325,7 +325,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string src )
 
 void bionic_data::finalize() const
 {
-    if( has_flag( STATIC( flag_str_id( "BIO_FAULTY" ) ) ) ) {
+    if( has_flag( STATIC( flag_str_id( "BIONIC_FAULTY" ) ) ) ) {
         faulty_bionics.push_back( id );
     }
 }
@@ -2379,14 +2379,20 @@ void Character::bionics_install_failure( const std::string &installer,
                     add_msg( m_bad, _( "%s lose power capacity!" ), disp_name() );
                     set_max_power_level( units::from_kilojoule( rng( 0,
                                          units::to_kilojoule( get_max_power_level() ) - 25 ) ) );
+                    if( get_max_power_level() < units::from_kilojoule( 0 ) ) {
+                        set_max_power_level( units::from_kilojoule( 0 ) );
+                    }
                     if( is_player() ) {
                         g->memorial().add(
                             pgettext( "memorial_male", "Lost %d units of power capacity." ),
                             pgettext( "memorial_female", "Lost %d units of power capacity." ),
                             units::to_kilojoule( old_power - get_max_power_level() ) );
                     }
+                    // If no faults available and no power capacity, downgrade to second-worst complication.
+                } else {
+                    do_damage_for_bionic_failure( 5, difficulty * 5 );
+                    break;
                 }
-                // TODO: What if we can't lose power capacity?  No penalty?
             } else {
                 const bionic_id &id = random_entry( valid );
                 add_bionic( id );

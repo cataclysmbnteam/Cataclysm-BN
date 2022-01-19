@@ -248,6 +248,7 @@ static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_THICKSKIN( "THICKSKIN" );
 static const trait_id trait_WEB_ROPE( "WEB_ROPE" );
+static const trait_id trait_WAYFARER( "WAYFARER" );
 
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
@@ -5437,6 +5438,10 @@ void game::control_vehicle()
                         ( veh->avail_part_with_feature( veh_part, "CONTROL_ANIMAL", true ) >= 0 &&
                           veh->has_engine_type( fuel_type_animal, false ) && veh->has_harnessed_animal() ) ) &&
                u.in_vehicle ) {
+        if( u.has_trait( trait_WAYFARER ) ) {
+            add_msg( m_info, _( "You refuse to take control of this vehicle." ) );
+            return;
+        }
         if( !veh->interact_vehicle_locked() ) {
             veh->handle_potential_theft( dynamic_cast<player &>( u ) );
             return;

@@ -417,9 +417,6 @@ void npc::randomize( const npc_class_id &type )
     recalc_hp();
 
     starting_weapon( myclass );
-    starting_clothes( *this, myclass, male );
-    starting_inv( *this, myclass );
-    has_new_items = true;
     clear_mutations();
 
     // Add fixed traits
@@ -434,6 +431,11 @@ void npc::randomize( const npc_class_id &type )
             mutate_category( mr.first );
         }
     }
+
+    starting_clothes( *this, myclass, male );
+    starting_inv( *this, myclass );
+    has_new_items = true;
+
     // Add bionics
     for( const auto &bl : type->bionic_list ) {
         int chance = bl.second;
