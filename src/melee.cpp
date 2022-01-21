@@ -599,9 +599,8 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
     // using 16_gram normalizes it to 8 str. Same effort expenditure
     // for each strike, regardless of weight. This is compensated
     // for by the additional move cost as weapon weight increases
-    const int weight_cost = cur_weapon.weight() / ( 16_gram );
-    const int encumbrance_cost = roll_remainder( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) *
-                                 2.0f );
+    const int weight_cost = cur_weapon.weight() / ( 8_gram + 1_gram * std::max( 1, str_cur ) );
+    const int encumbrance_cost = ( encumb( bp_arm_l ) + encumb( bp_arm_r ) );
     const int deft_bonus = hit_spread < 0 && has_trait( trait_DEFT ) ? 50 : 0;
     /** @EFFECT_MELEE reduces stamina cost of melee attacks */
     const int mod_sta = ( weight_cost + encumbrance_cost - melee - deft_bonus + 50 ) * -1;
@@ -2171,7 +2170,7 @@ int Character::attack_cost( const item &weap ) const
     /** @EFFECT_DEX increases attack speed */
     const int dexbonus = dex_cur / 2;
     const int encumbrance_penalty = encumb( bp_torso ) +
-                                    ( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 2;
+                                    ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) / 2;
     const int ma_move_cost = mabuff_attack_cost_penalty();
     const float stamina_ratio = static_cast<float>( get_stamina() ) / static_cast<float>
                                 ( get_stamina_max() );
