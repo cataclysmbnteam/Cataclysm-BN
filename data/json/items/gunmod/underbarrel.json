@@ -391,6 +391,7 @@
     "location": "underbarrel",
     "mod_targets": [ "pistol" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 15 ] ],
+    "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
     "flags": [ "STAB" ]
   },
   {
