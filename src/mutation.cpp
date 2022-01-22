@@ -481,41 +481,13 @@ void Character::activate_mutation( const trait_id &mut )
 {
     const mutation_branch &mdata = mut.obj();
     trait_data &tdata = my_mutations[mut];
-    int cost = mdata.cost;
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
-    if( ( mdata.hunger && get_kcal_percent() < 0.5f ) || ( mdata.thirst &&
-            get_thirst() >= thirst_levels::dehydrated ) ||
-        ( mdata.fatigue && get_fatigue() >= fatigue_levels::exhausted ) ) {
-        // Insufficient Foo to *maintain* operation is handled in player::suffer
-        add_msg_if_player( m_warning, _( "You feel like using your %s would kill you!" ),
-                           mdata.name() );
+    if( !can_use_mutation_warn( mut, *this ) ) {
         return;
     }
-    if( tdata.powered && tdata.charge > 0 ) {
-        // Already-on units just lose a bit of charge
-        tdata.charge--;
-    } else {
-        // Not-on units, or those with zero charge, have to pay the power cost
-        if( mdata.cooldown > 0 ) {
-            tdata.charge = mdata.cooldown - 1;
-        }
-        if( mdata.hunger ) {
-            // burn some energy
-            mod_stored_nutr( cost );
-        }
-        if( mdata.thirst ) {
-            mod_thirst( cost );
-        }
-        if( mdata.fatigue ) {
-            mod_fatigue( cost );
-        }
-        tdata.powered = true;
-
-        // Handle stat changes from activation
-        apply_mods( mut, true );
-        recalc_sight_limits();
-    }
+    mutation_spend_resources( mut );
+    tdata.powered = true;
 
     if( !mut->enchantments.empty() ) {
         recalculate_enchantment_cache();
@@ -1735,6 +1707,57 @@ bool are_same_type_traits( const trait_id &trait_a, const trait_id &trait_b )
 bool contains_trait( std::vector<string_id<mutation_branch>> traits, const trait_id &trait )
 {
     return std::find( traits.begin(), traits.end(), trait ) != traits.end();
+}
+
+bool can_use_mutation( const trait_id &mut, const Character &character )
+{
+    const mutation_branch &mdata = mut.obj();
+    // You can take yourself halfway to Near Death levels of hunger/thirst.
+    // Fatigue can go to Exhausted.
+    return !( ( mdata.hunger && character.get_kcal_percent() < 0.5f ) ||
+              ( mdata.thirst && character.get_thirst() >= thirst_levels::dehydrated ) ||
+              ( mdata.fatigue && character.get_fatigue() >= fatigue_levels::exhausted ) );
+}
+
+bool can_use_mutation_warn( const trait_id &mut, const Character &character )
+{
+    const bool result = can_use_mutation( mut, character );
+    if( !result ) {
+        character.add_msg_if_player( m_warning, _( "You feel like using your %s would kill you!" ),
+                                     mut.obj().name() );
+    }
+
+    return result;
+}
+
+void Character::mutation_spend_resources( const trait_id &mut )
+{
+    const mutation_branch &mdata = mut.obj();
+    trait_data &tdata = my_mutations[mut];
+    int cost = mdata.cost;
+    if( tdata.powered && tdata.charge > 0 ) {
+        // Already-on units just lose a bit of charge
+        tdata.charge--;
+    } else {
+        // Not-on units, or those with zero charge, have to pay the power cost
+        if( mdata.cooldown > 0 ) {
+            tdata.charge = mdata.cooldown - 1;
+        }
+        if( mdata.hunger ) {
+            // burn some energy
+            mod_stored_kcal( -cost * 6 );
+        }
+        if( mdata.thirst ) {
+            mod_thirst( cost );
+        }
+        if( mdata.fatigue ) {
+            mod_fatigue( cost );
+        }
+
+        // Handle stat changes from activation
+        apply_mods( mut, true );
+        recalc_sight_limits();
+    }
 }
 
 std::string Character::visible_mutations( const int visibility_cap ) const

@@ -2037,6 +2037,10 @@ bool map::has_floor_or_support( const tripoint &p ) const
 
 void map::drop_everything( const tripoint &p )
 {
+    //Do a suspension check so that there won't be a floor there for the rest of this check.
+    if( has_flag( "SUSPENDED", p ) ) {
+        collapse_invalid_suspension( p );
+    }
     if( has_floor( p ) ) {
         return;
     }
@@ -2905,11 +2909,11 @@ void map::collapse_at( const tripoint &p, const bool silent, const bool was_supp
                 continue;
             }
             // if a wall collapses, walls without support from below risk collapsing and
-            //propogate the collapse upwards
+            //propagate the collapse upwards
             if( zlevels && wall && p == t && has_flag( "WALL", tz ) ) {
                 collapse_at( tz, silent );
             }
-            // floors without support from below risk collapsing into open air and can propogate
+            // floors without support from below risk collapsing into open air and can propagate
             // the collapse horizontally but not vertically
             if( p != t && ( has_flag( "SUPPORTS_ROOF", t ) && has_flag( "COLLAPSES", t ) ) ) {
                 collapse_at( t, silent );
@@ -2919,11 +2923,52 @@ void map::collapse_at( const tripoint &p, const bool silent, const bool was_supp
             if( zlevels ) {
                 ter_set( tz, t_open_air );
                 furn_set( tz, f_null );
+                propagate_suspension_check( tz );
             }
         }
     }
     // it would be great to check if collapsing ceilings smashed through the floor, but
     // that's not handled for now
+}
+
+void map::propagate_suspension_check( const tripoint &point )
+{
+    for( const tripoint &neighbor : points_in_radius( point, 1 ) ) {
+        if( neighbor != point && has_flag( "SUSPENDED", neighbor ) ) {
+            collapse_invalid_suspension( neighbor );
+        }
+    }
+}
+
+void map::collapse_invalid_suspension( const tripoint &point )
+{
+    if( !is_suspension_valid( point ) ) {
+        ter_set( point, t_open_air );
+        furn_set( point, f_null );
+
+        propagate_suspension_check( point );
+    }
+}
+
+bool map::is_suspension_valid( const tripoint &point )
+{
+    if( ter( point + tripoint_east ) != t_open_air
+        && ter( point + tripoint_west ) != t_open_air ) {
+        return true;
+    }
+    if( ter( point + tripoint_south_east ) != t_open_air
+        && ter( point + tripoint_north_west ) != t_open_air ) {
+        return true;
+    }
+    if( ter( point + tripoint_south ) != t_open_air
+        && ter( point + tripoint_north ) != t_open_air ) {
+        return true;
+    }
+    if( ter( point + tripoint_north_east ) != t_open_air
+        && ter( point + tripoint_south_west ) != t_open_air ) {
+        return true;
+    }
+    return false;
 }
 
 void map::smash_items( const tripoint &p, const int power, const std::string &cause_message )
@@ -3119,14 +3164,14 @@ static int get_sound_volume( const map_bash_info &bash )
 bash_results map::bash_ter_success( const tripoint &p, const bash_params &params )
 {
     bash_results result;
-    const auto &terid = ter( p ).obj();
-    const map_bash_info &bash = terid.bash;
+    const auto &terobj = ter( p ).obj();
+    const map_bash_info &bash = terobj.bash;
     if( has_flag_ter( "FUNGUS", p ) ) {
         fungal_effects( *g, *this ).create_spores( p );
     }
-    const std::string soundfxvariant = terid.id.str();
-    const bool will_collapse = has_flag( "SUPPORTS_ROOF", p ) && !has_flag( "INDOORS", p );
-
+    const std::string soundfxvariant = terobj.id.str();
+    const bool will_collapse = terobj.has_flag( "SUPPORTS_ROOF" ) && !terobj.has_flag( TFLAG_INDOORS );
+    const bool suspended = terobj.has_flag( TFLAG_SUSPENDED );
     if( params.bashing_from_above && bash.ter_set_bashed_from_above ) {
         // If this terrain is being bashed from above and this terrain
         // has a valid post-destroy bashed-from-above terrain, set it
@@ -3134,6 +3179,12 @@ bash_results map::bash_ter_success( const tripoint &p, const bash_params &params
     } else if( bash.ter_set ) {
         // If the terrain has a valid post-destroy terrain, set it
         ter_set( p, bash.ter_set );
+    } else if( suspended ) {
+        // Its important that we change the ter value before recursing, otherwise we'll hit an infinite loop.
+        // This could be prevented by assembling a visited list, but in order to avoid that cost, we're going
+        // build our recursion to just be resilient.
+        ter_set( p, t_open_air );
+        propagate_suspension_check( p );
     } else {
         tripoint below( p.xy(), p.z - 1 );
         const auto &ter_below = ter( below ).obj();
@@ -3400,8 +3451,6 @@ bash_results map::bash_ter_furn( const tripoint &p, const bash_params &params )
         } else {
             result |= bash_furn_success( p, params );
         }
-
-        result.success = true;
     }
     return result;
 }
@@ -7906,7 +7955,6 @@ bool map::build_floor_cache( const int zlev )
         &floor_cache[0][0], ( MAPSIZE_X ) * ( MAPSIZE_Y ), true );
 
     bool lowest_z_lev = zlev <= -OVERMAP_DEPTH;
-
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
             const submap *cur_submap = get_submap_at_grid( { smx, smy, zlev } );
@@ -7949,6 +7997,35 @@ void map::build_floor_caches()
     const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
     for( int z = minz; z <= maxz; z++ ) {
         build_floor_cache( z );
+    }
+}
+
+void map::add_susensions_to_cache( const int &z )
+{
+    for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
+        for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
+            const submap *cur_submap = get_submap_at_grid( { smx, smy, z } );
+
+            if( cur_submap == nullptr ) {
+                debugmsg( "Tried to run suspension check at (%d,%d,%d) but the submap is not loaded", smx, smy,
+                          z );
+                continue;
+            }
+
+            for( int sx = 0; sx < SEEX; ++sx ) {
+                for( int sy = 0; sy < SEEY; ++sy ) {
+                    point sp( sx, sy );
+                    const ter_t &terrain = cur_submap->get_ter( sp ).obj();
+                    if( terrain.has_flag( TFLAG_SUSPENDED ) ) {
+                        tripoint loc( coords::project_combine( point_om_sm( point( smx, smy ) ), point_sm_ms( sp ) ).raw(),
+                                      z );
+                        if( !is_suspension_valid( loc ) ) {
+                            support_dirty( loc );
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -8017,6 +8094,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         const bool affects_seen_cache =  z == zlev || fov_3d;
         build_outside_cache( z );
         build_transparency_cache( z );
+        add_susensions_to_cache( z );
         seen_cache_dirty |= ( build_floor_cache( z ) && affects_seen_cache );
         seen_cache_dirty |= get_cache( z ).seen_cache_dirty && affects_seen_cache;
     }

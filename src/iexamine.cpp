@@ -66,6 +66,7 @@
 #include "mission_companion.h"
 #include "monster.h"
 #include "mtype.h"
+#include "mutation.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
@@ -163,6 +164,7 @@ static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 
 static const ter_str_id t_dimensional_portal( "t_dimensional_portal" );
+static const ter_str_id t_web_bridge( "t_web_bridge" );
 
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
@@ -181,6 +183,7 @@ static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+static const trait_id trait_WEB_BRDIGE( "WEB_BRIDGE" );
 
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 static const quality_id qual_DIG( "DIG" );
@@ -4342,6 +4345,9 @@ void iexamine::ledge( player &p, const tripoint &examp )
     cmenu.text = _( "There is a ledge here.  What do you want to do?" );
     cmenu.addentry( 1, true, 'j', _( "Jump over." ) );
     cmenu.addentry( 2, true, 'c', _( "Climb down." ) );
+    if( p.has_trait( trait_WEB_BRDIGE ) ) {
+        cmenu.addentry( 3, true, 'w', _( "Spin Web Bridge." ) );
+    }
 
     cmenu.query();
 
@@ -4424,6 +4430,36 @@ void iexamine::ledge( player &p, const tripoint &examp )
                 g->vertical_move( -1, true );
             }
             g->m.creature_on_trap( p );
+            break;
+        }
+        case 3: {
+
+            if( !can_use_mutation_warn( trait_WEB_BRDIGE, p ) ) {
+                break;
+            }
+            const int range = 6; //this means we could web across a gap of 5.
+            int success_range = 0;
+            bool success = false;
+            for( int i = 2; i <= range; i++ ) {
+                //break at the first non empty space encountered
+                if( g->m.ter( tripoint( p.posx() + i * sgn( examp.x - p.posx() ),
+                                        p.posy() + i * sgn( examp.y - p.posy() ), p.posz() ) ) != t_open_air ) {
+                    success_range = i;
+                    success = true;
+                    break;
+                }
+            }
+            if( !success ) {
+                p.add_msg_if_player( _( "There is nothing for your to attach your web to!" ) );
+            } else {
+                for( int i = 1; i < success_range; i++ ) {
+                    tripoint dest( p.posx() + i * sgn( examp.x - p.posx() ), p.posy() + i * sgn( examp.y - p.posy() ),
+                                   p.posz() );
+
+                    g->m.ter_set( dest, t_web_bridge );
+                }
+                p.mutation_spend_resources( trait_WEB_BRDIGE );
+            }
             break;
         }
         default:

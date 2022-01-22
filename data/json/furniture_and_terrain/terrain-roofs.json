@@ -354,5 +354,26 @@
       "ter_set": "t_open_air",
       "bash_below": true
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_web_bridge",
+    "name": "web bridge",
+    "description": "A hammock like bridge spun from spider silk.",
+    "symbol": "w",
+    "looks_like": "fd_web",
+    "color": "white",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "FLAMMABLE", "SUSPENDED", "COLLAPSES" ],
+    "bash": {
+      "str_min": 1,
+      "str_max": 6,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 8,
+      "sound_fail_vol": 4,
+      "ter_set": "t_open_air",
+      "bash_below": true
+    }
   }
 ]
