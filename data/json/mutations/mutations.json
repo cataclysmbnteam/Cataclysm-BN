@@ -151,7 +151,7 @@
     "description": "You heal faster when sleeping and will even recover a small amount of HP when not sleeping.",
     "starting_trait": true,
     "types": [ "HEALING" ],
-    "changes_to": [ "FASTHEALER2", "REGEN_LIZ" ],
+    "changes_to": [ "FASTHEALER2" ],
     "category": [ "MEDICAL" ],
     "healing_awake": 0.2,
     "healing_resting": 0.5,
@@ -691,7 +691,7 @@
     "description": "Without glasses, your seeing radius is severely reduced!  However, you are guaranteed to start with a pair of glasses.",
     "starting_trait": true,
     "cancels": [ "URSINE_EYE", "EAGLEEYED", "HYPEROPIC" ],
-    "category": [ "BEAST", "TROGLOBITE" ]
+    "category": [ "BEAST", "TROGLOBITE", "URSINE" ]
   },
   {
     "type": "mutation",
@@ -1237,7 +1237,7 @@
     "prereqs": [ "NIGHTVISION" ],
     "changes_to": [ "NIGHTVISION3" ],
     "cancels": [ "ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE" ],
-    "category": [ "FISH", "BEAST", "INSECT", "RAT", "CHIMERA", "LUPINE", "MOUSE" ],
+    "category": [ "FISH", "BEAST", "INSECT", "RAT", "CHIMERA", "LUPINE", "MOUSE", "FELINE", "URSINE" ],
     "active": true,
     "starts_active": true,
     "night_vision_range": 4.5
@@ -1251,7 +1251,8 @@
     "prereqs": [ "NIGHTVISION2" ],
     "leads_to": [ "INFRARED" ],
     "cancels": [ "ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE" ],
-    "category": [ "FISH", "TROGLOBITE", "SPIDER" ],
+    "threshreq": [ "THRESH_FISH", "THRESH_TROGLOBITE", "THRESH_SPIDER", "THRESH_INSECT", "THRESH_ELFA", "THRESH_CEPHALOPOD" ],
+    "category": [ "FISH", "TROGLOBITE", "SPIDER", "INSECT", "ELFA", "CEPHALOPOD" ],
     "active": true,
     "starts_active": true,
     "night_vision_range": 10
@@ -1264,7 +1265,7 @@
     "visibility": 8,
     "ugliness": 5,
     "description": "Your eyes still bulge, yet your pupils look different somehow.  Water doesn't seem to cause any trouble at all, though.",
-    "leads_to": [ "CEPH_VISION" ],
+    "leads_to": [ "NIGHTVISION3" ],
     "cancels": [ "BIRD_EYE", "LIZ_EYE", "FEL_EYE", "URSINE_EYE", "COMPOUND_EYES", "ELFAEYES" ],
     "category": [ "CEPHALOPOD" ]
   },
@@ -1274,11 +1275,10 @@
     "name": { "str": "Cephalopod Vision" },
     "points": 3,
     "description": "Your brain has caught up with your eyes.  You can see much better in the dark, but sunlight seems much brighter now.  Activate to toggle NV-visible areas on or off.",
-    "prereqs": [ "CEPH_EYES" ],
     "cancels": [ "LIZ_IR", "FEL_NV", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3", "ELFA_NV", "ELFA_FNV" ],
-    "category": [ "CEPHALOPOD" ],
     "active": true,
     "starts_active": true,
+    "valid": false,
     "night_vision_range": 10
   },
   {
@@ -1287,9 +1287,9 @@
     "name": { "str": "Fey Eyes" },
     "points": 1,
     "description": "Your eyes have turned… green.  It's tough to tell the exact shade as it seems to shift.  The effect is… pleasant.",
-    "leads_to": [ "ELFA_NV" ],
     "valid": false,
     "cancels": [ "BIRD_EYE", "LIZ_EYE", "FEL_EYE", "URSINE_EYE", "COMPOUND_EYES" ],
+    "leads_to": [ "NIGHTVISION2" ],
     "category": [ "ELFA" ],
     "social_modifiers": { "lie": 5, "persuade": 5, "intimidate": -5 }
   },
@@ -1302,9 +1302,9 @@
     "prereqs": [ "ELFAEYES" ],
     "changes_to": [ "ELFA_FNV" ],
     "cancels": [ "LIZ_IR", "FEL_NV", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3" ],
-    "category": [ "ELFA" ],
     "active": true,
     "starts_active": true,
+    "valid": false,
     "night_vision_range": 4.5
   },
   {
@@ -1315,9 +1315,9 @@
     "description": "You have great low-light vision now, though that doesn't allow you to perform fine tasks such as crafting and reading in darkness.  Activate to toggle NV-visible areas on or off.",
     "prereqs": [ "ELFA_NV" ],
     "cancels": [ "LIZ_IR", "FEL_NV", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3" ],
-    "category": [ "ELFA" ],
     "active": true,
     "starts_active": true,
+    "valid": false,
     "night_vision_range": 10
   },
   {
@@ -1329,7 +1329,7 @@
     "ugliness": 1,
     "description": "Your eyes have mutated, now having a slitted pupil and glittering in light, much like those of cats.  This is visually striking, but it isn't helping you see at night.",
     "social_modifiers": { "lie": 2, "persuade": 2 },
-    "leads_to": [ "FEL_NV" ],
+    "leads_to": [ "NIGHTVISION2" ],
     "cancels": [ "ELFAEYES", "LIZ_EYE", "BIRD_EYE", "URSINE_EYE", "COMPOUND_EYES" ],
     "category": [ "FELINE", "BEAST" ]
   },
@@ -1341,9 +1341,9 @@
     "description": "Your optic nerves and brain caught up with your eyes.  Now you can see pretty well at night.  Activate to toggle NV-visible areas on or off.",
     "prereqs": [ "FEL_EYE" ],
     "cancels": [ "ELFA_NV", "ELFA_FNV", "LIZ_IR", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3" ],
-    "category": [ "FELINE" ],
     "active": true,
     "starts_active": true,
+    "valid": false,
     "night_vision_range": 4.5
   },
   {
@@ -1364,7 +1364,7 @@
       "MYOPIC",
       "HYPEROPIC"
     ],
-    "category": [ "URSINE" ],
+    "valid": false,
     "active": true,
     "starts_active": true,
     "night_vision_range": 4.5
@@ -1377,7 +1377,7 @@
     "visibility": 1,
     "description": "Your vision has become particularly acute: you suspect you could pick out zombies much farther away.  Perception +4.",
     "cancels": [ "ELFAEYES", "FEL_EYE", "LIZ_EYE", "URSINE_EYE", "COMPOUND_EYES" ],
-    "prereqs": [ "PER_UP" ],
+    "prereqs": [ "PER_UP_2" ],
     "threshreq": [ "THRESH_BIRD" ],
     "category": [ "BIRD" ],
     "passive_mods": { "per_mod": 4 }
@@ -1424,7 +1424,7 @@
     "types": [ "HEALING" ],
     "prereqs": [ "FASTHEALER" ],
     "changes_to": [ "REGEN" ],
-    "category": [ "PLANT" ],
+    "category": [ "PLANT", "LIZARD" ],
     "healing_awake": 0.66,
     "healing_resting": 0.5,
     "mending_modifier": 4.0
@@ -1451,7 +1451,7 @@
     "purifiable": false,
     "description": "Your broken limbs mend themselves without significant difficulty.",
     "cancels": [ "ROT1", "ROT2", "ROT3" ],
-    "prereqs": [ "FASTHEALER" ],
+    "prereqs": [ "FASTHEALER2" ],
     "threshreq": [ "THRESH_LIZARD" ],
     "category": [ "LIZARD" ],
     "mending_modifier": 20.0
@@ -1819,7 +1819,7 @@
     "points": 1,
     "visibility": 10,
     "ugliness": 3,
-    "bodytemp_modifiers": [ 750, 1500 ],
+    "bodytemp_modifiers": [ 400, 1200 ],
     "bodytemp_sleep": 500,
     "description": "Thick black fur has grown to cover your entire body, providing a marginal protection against bashing attacks, and considerable protection from cold.",
     "types": [ "SKIN" ],
@@ -1835,7 +1835,7 @@
     "points": 2,
     "visibility": 10,
     "ugliness": 3,
-    "bodytemp_modifiers": [ 750, 1500 ],
+    "bodytemp_modifiers": [ 400, 1200 ],
     "bodytemp_sleep": 500,
     "description": "Your fur has grown out and thickened, providing noticeable protection from bashing attacks as well as considerable insulation.",
     "types": [ "SKIN" ],
@@ -1850,7 +1850,7 @@
     "points": 1,
     "visibility": 10,
     "ugliness": 3,
-    "bodytemp_modifiers": [ 750, 1500 ],
+    "bodytemp_modifiers": [ 400, 1200 ],
     "bodytemp_sleep": 500,
     "description": "Dense gray fur has grown to cover your entire body, providing a marginal protection against bashing attacks, and considerable protection from cold.",
     "types": [ "SKIN" ],
@@ -1865,7 +1865,7 @@
     "points": 0,
     "visibility": 10,
     "ugliness": 3,
-    "bodytemp_modifiers": [ 500, 1000 ],
+    "bodytemp_modifiers": [ 250, 1000 ],
     "bodytemp_sleep": 300,
     "description": "You've grown sleek brown fur, providing some protection from cold.",
     "types": [ "SKIN" ],
@@ -2650,6 +2650,7 @@
     "description": "Your eyes are compound, like those of an insect.  This increases your Perception by 2 so long as you aren't wearing eyewear.",
     "cancels": [ "ELFAEYES", "FEL_EYE", "URSINE_EYE", "BIRD_EYE", "LIZ_EYE" ],
     "prereqs": [ "EYEBULGE" ],
+    "leads_to": [ "NIGHTVISION2" ],
     "category": [ "INSECT" ]
   },
   {
@@ -4801,7 +4802,6 @@
     "cancels": [ "MOUTH_TENTACLES" ],
     "prereqs": [ "BEAK" ],
     "threshreq": [ "THRESH_BIRD" ],
-    "category": [ "BIRD" ],
     "wet_protection": [ { "part": "mouth", "ignored": 2 } ],
     "active": true,
     "restricts_gear": [ "mouth" ]
@@ -5502,7 +5502,7 @@
     "points": -1,
     "visibility": 10,
     "ugliness": 3,
-    "bodytemp_modifiers": [ 500, 750 ],
+    "bodytemp_modifiers": [ 300, 750 ],
     "bodytemp_sleep": 200,
     "mixed_effect": true,
     "description": "Your protective shell has grown large enough to accommodate--if need be--your whole body.  Activate to pull your head and limbs into your shell, trading mobility and vision for warmth and shelter.",
