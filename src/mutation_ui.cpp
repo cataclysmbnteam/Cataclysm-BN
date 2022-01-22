@@ -364,6 +364,9 @@ player::power_mut_ui_result player::power_mutations_ui()
                                 ret.cmd = power_mut_ui_cmd::Activate;
                                 ret.mut = mut_id;
                                 exit = true;
+                            } else {
+                                popup( _( "You feel like using your %s would kill you!" ),
+                                       mut_data.name() );
                             }
                         } else {
                             popup( _( "You cannot activate %s!  To read a description of "

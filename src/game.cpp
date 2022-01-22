@@ -10413,13 +10413,13 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
         if( cost == 0 ) {
             if( u.has_trait( trait_WEB_ROPE ) )  {
-                if( can_use_mutation_warn( trait_WEB_ROPE, u ) ) {
+                if( pts.empty() ) {
+                    add_msg( m_info, _( "There is nothing above you that you can attach a web to." ) );
+                } else if( can_use_mutation_warn( trait_WEB_ROPE, u ) ) {
                     if( g->m.move_cost( u.pos() ) != 2 && g->m.move_cost( u.pos() ) != 3 ) {
                         add_msg( m_info, _( "You can't spin a web rope there." ) );
                     } else if( g->m.has_furn( u.pos() ) ) {
                         add_msg( m_info, _( "There is already furniture at that location." ) );
-                    } else if( pts.empty() ) {
-                        add_msg( m_info, _( "There is nothing above you that you can attach a web to." ) );
                     } else {
                         if( query_yn( "Spin a rope and climb?" ) ) {
                             add_msg( m_good, _( "You spin a rope of web." ) );
