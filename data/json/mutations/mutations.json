@@ -1390,7 +1390,8 @@
     "description": "Your eyes have mutated to pick up radiation in the infrared spectrum.",
     "prereqs": [ "NIGHTVISION3" ],
     "cancels": [ "LIZ_IR" ],
-    "category": [ "INSECT", "TROGLOBITE", "SPIDER" ]
+    "category": [ "INSECT", "TROGLOBITE", "SPIDER" ],
+    "threshreq": [ "THRESH_INSECT", "THRESH_TROGLOBITE", "THRESH_SPIDER" ]
   },
   {
     "type": "mutation",
