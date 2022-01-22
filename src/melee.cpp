@@ -2170,7 +2170,7 @@ int Character::attack_cost( const item &weap ) const
     /** @EFFECT_DEX increases attack speed */
     const int dexbonus = dex_cur / 2;
     const int encumbrance_penalty = encumb( bp_torso ) +
-                                    ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) / 2;
+                                    ( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 2;
     const int ma_move_cost = mabuff_attack_cost_penalty();
     const float stamina_ratio = static_cast<float>( get_stamina() ) / static_cast<float>
                                 ( get_stamina_max() );
