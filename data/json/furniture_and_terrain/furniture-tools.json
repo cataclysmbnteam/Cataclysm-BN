@@ -1130,7 +1130,7 @@
     "symbol": "<",
     "color": "white",
     "move_cost_mod": 1,
-    "required_str": 10,
+    "required_str": -1,
     "flags": [ "LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE" ],
     "examine_action": "deployed_furniture",
     "deployed_item": "grapnel",
@@ -1140,6 +1140,27 @@
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [ { "item": "grip_hook", "count": [ 4, 4 ] }, { "item": "rope_30", "count": [ 1, 1 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_rope_up_web",
+    "name": "web rope leading up",
+    "looks_like": "t_rope_up",
+    "description": "A web rope.  You could climb it up.",
+    "symbol": "<",
+    "color": "white",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE" ],
+    "examine_action": "deployed_furniture",
+    "deployed_item": "rope_30",
+    "bash": {
+      "str_min": 3,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "rope_30", "count": [ 1, 1 ] } ]
     }
   }
 ]

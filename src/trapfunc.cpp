@@ -55,6 +55,7 @@ static const itype_id itype_rope_30( "rope_30" );
 
 static const trait_id trait_WINGS_BIRD( "WINGS_BIRD" );
 static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
+static const trait_id trait_WEB_RAPPEL( "WEB_RAPPEL" );
 
 static const mtype_id mon_blob( "mon_blob" );
 static const mtype_id mon_shadow( "mon_shadow" );
@@ -766,6 +767,8 @@ bool trapfunc::pit( const tripoint &p, Creature *c, item * )
         if( ( n->has_trait( trait_WINGS_BIRD ) ) || ( ( one_in( 2 ) ) &&
                 ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
             n->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
+        } else if( n->has_trait( trait_WEB_RAPPEL ) ) {
+            n->add_msg_if_player( _( "You quickly spin a line of silk and rappel down." ) );
         } else if( n->has_active_bionic( bio_shock_absorber ) ) {
             n->add_msg_if_player( m_info,
                                   _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
@@ -815,6 +818,8 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
         if( ( n->has_trait( trait_WINGS_BIRD ) ) || ( ( one_in( 2 ) ) &&
                 ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
             n->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
+        } else if( n->has_trait( trait_WEB_RAPPEL ) ) {
+            n->add_msg_if_player( _( "You quickly spin a line of silk and rappel down." ) );
         } else if( n->has_active_bionic( bio_shock_absorber ) ) {
             n->add_msg_if_player( m_info,
                                   _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
@@ -892,6 +897,8 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
         if( ( n->has_trait( trait_WINGS_BIRD ) ) || ( ( one_in( 2 ) ) &&
                 ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
             n->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
+        } else if( n->has_trait( trait_WEB_RAPPEL ) ) {
+            n->add_msg_if_player( _( "You quickly spin a line of silk and rappel down." ) );
         } else if( n->has_active_bionic( bio_shock_absorber ) ) {
             n->add_msg_if_player( m_info,
                                   _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
@@ -1077,6 +1084,9 @@ bool trapfunc::sinkhole( const tripoint &p, Creature *c, item *i )
         } else if( query_for_item( pl, itype_rope_30,
                                    _( "You step into a sinkhole!  Throw your rope out to try to catch something?" ) ) ) {
             success = sinkhole_safety_roll( pl, itype_rope_30, 12 );
+        } else if( pl->has_trait( trait_WEB_RAPPEL ) && query_yn(
+                       _( "You step into a sinkhole!  Throw a web out to try to catch something?" ) ) ) {
+            success = sinkhole_safety_roll( pl, itype_rope_30, 3 );
         }
 
         pl->add_msg_player_or_npc( m_warning, _( "The sinkhole collapses!" ),
@@ -1114,6 +1124,8 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
             if( g->u.has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) &&
                     g->u.has_trait( trait_WINGS_BUTTERFLY ) ) ) {
                 add_msg( _( "You flap your wings and flutter down gracefully." ) );
+            } else if( g->u.has_trait( trait_WEB_RAPPEL ) ) {
+                add_msg( _( "You quickly spin a line of silk and rappel down." ) );
             } else if( g->u.has_active_bionic( bio_shock_absorber ) ) {
                 add_msg( m_info,
                          _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
@@ -1195,6 +1207,9 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
             pl->has_trait( trait_WINGS_BUTTERFLY ) ) ) {
         pl->add_msg_player_or_npc( _( "You flap your wings and flutter down gracefully." ),
                                    _( "<npcname> flaps their wings and flutters down gracefully." ) );
+    } else if( pl->has_trait( trait_WEB_RAPPEL ) ) {
+        pl->add_msg_player_or_npc( _( "You quickly spin a line of silk and rappel down." ),
+                                   _( "<npcname> quickly spins a line of silk and rappels down." ) );
     } else if( pl->has_active_bionic( bio_shock_absorber ) ) {
         pl->add_msg_if_player( m_info,
                                _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );

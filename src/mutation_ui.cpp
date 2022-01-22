@@ -355,9 +355,7 @@ player::power_mut_ui_result player::power_mutations_ui()
                                 ret.cmd = power_mut_ui_cmd::Deactivate;
                                 ret.mut = mut_id;
                                 exit = true;
-                            } else if( ( !mut_data.hunger || get_kcal_percent() >= 0.8f ) &&
-                                       ( !mut_data.thirst || get_thirst() <= thirst_levels::dehydrated ) &&
-                                       ( !mut_data.fatigue || get_fatigue() <= 400 ) ) {
+                            } else if( can_use_mutation_warn( mut_id, *this ) ) {
                                 if( trans && !trans->msg_transform.empty() ) {
                                     add_msg_if_player( m_neutral, trans->msg_transform );
                                 } else {
@@ -367,7 +365,8 @@ player::power_mut_ui_result player::power_mutations_ui()
                                 ret.mut = mut_id;
                                 exit = true;
                             } else {
-                                popup( _( "You don't have enough in you to activate your %s!" ), mut_data.name() );
+                                popup( _( "You feel like using your %s would kill you!" ),
+                                       mut_data.name() );
                             }
                         } else {
                             popup( _( "You cannot activate %s!  To read a description of "

@@ -1099,6 +1099,12 @@ class map
         /** Causes a collapse at p, such as from destroying a wall */
         void collapse_at( const tripoint &p, bool silent, bool was_supporting = false,
                           bool destroy_pos = true );
+        /** Checks surrounding tiles for suspension, and has them check for collapse. !!Should only be called after the tile at this point has been destroyed!!*/
+        void propagate_suspension_check( const tripoint &point );
+        /** Triggers a recursive collapse of suspended tiles based on their support validity*/
+        void collapse_invalid_suspension( const tripoint &point );
+        /** Checks the four orientations in which a suspended tile could be valid, and returns if the tile is valid*/
+        bool is_suspension_valid( const tripoint &point );
         /** Tries to smash the items at the given tripoint. Used by the explosion code */
         void smash_items( const tripoint &p, int power, const std::string &cause_message );
         /**
@@ -1751,7 +1757,8 @@ class map
         bool build_floor_cache( int zlev );
         // We want this visible in `game`, because we want it built earlier in the turn than the rest
         void build_floor_caches();
-
+        // Checks all tiles on a z level and adds those that are invalid to the support_dirty_cache */
+        void add_susensions_to_cache( const int &z );
     protected:
         void generate_lightmap( int zlev );
         void build_seen_cache( const tripoint &origin, int target_z );
