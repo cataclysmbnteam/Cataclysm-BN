@@ -18,5 +18,15 @@
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "RANDOM_DAMAGE", "RANDOM_DURATION", "RANDOM_TARGET" ],
     "energy_source": "NONE",
     "damage_type": "bio"
+  },
+  {
+    "type": "SPELL",
+    "id": "hyper_metabolism_regen",
+    "name": { "str": "Hyper-Metabolism Regen" },
+    "description": "Steady self-healing when Hyper-Metabolism is active.",
+    "valid_targets": [ "self" ],
+    "effect": "target_attack",
+    "min_damage": -1,
+    "max_damage": -1
   }
 ]
