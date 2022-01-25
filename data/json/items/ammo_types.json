@@ -622,5 +622,11 @@
     "id": "glass_shard",
     "name": "glass shards",
     "default": "glass_shard"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "cannon",
+    "name": "cannon",
+    "default": "cannon_shot"
   }
 ]

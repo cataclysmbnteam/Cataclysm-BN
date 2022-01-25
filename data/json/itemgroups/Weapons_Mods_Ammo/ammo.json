@@ -709,5 +709,11 @@
       { "item": "medium_atomic_battery_cell", "prob": 2, "charges": 5000 },
       { "item": "heavy_atomic_battery_cell", "prob": 1, "charges": 10000 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_cannon",
+    "subtype": "distribution",
+    "entries": [ { "item": "cannon_shot", "prob": 100 } ]
   }
 ]
