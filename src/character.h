@@ -448,6 +448,8 @@ class Character : public Creature, public visitable<Character>
         int  clairvoyance() const;
         /** Returns true if the player has some form of impaired sight */
         bool sight_impaired() const;
+        /** Returns true if the player is capable of seeing through roots, and on a root*/
+        bool root_sight();
         /** Returns true if the player or their vehicle has an alarm clock */
         bool has_alarm_clock() const;
         /** Returns true if the player or their vehicle has a watch */

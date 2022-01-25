@@ -5548,6 +5548,122 @@ void map::remove_field( const tripoint &p, const field_type_id &field_to_remove 
     }
 }
 
+void map::spread_radial_field(const tripoint &p, const field_type_id &field_to_spread, const int &increment, const int &range, const float &propChanceFactor)
+{
+    // 7 3 5
+    // 1 . 2
+    // 6 4 8
+    static const int x_offset[8] = { -1, 1,  0, 0,  1, -1, -1, 1 };
+    static const int y_offset[8] = { 0, 0, -1, 1, -1,  1, -1, 1 };
+    add_msg(_("Vine spreading active!"));
+    if (!inbounds(p)) {
+        return;
+    }
+
+    if (!field_to_spread) {
+        return;
+    }
+
+    field_entry* field_ptr = get_field(p, field_to_spread);
+    if (field_ptr == nullptr) {
+        add_field(p, field_to_spread, 1);
+    }
+    else {
+        //if the field already exists, bump its intensity.
+        add_field(p, field_to_spread, std::min(field_ptr->get_field_intensity()+1, field_ptr->get_max_field_intensity()));
+    }
+
+    for (int i = 0; i < 8; i++) {
+        spread_linear_field(p, field_to_spread, increment, range, tripoint(x_offset[i], y_offset[i], 0), propChanceFactor);
+    }
+}
+
+void map::spread_linear_field(const tripoint &p, const field_type_id &field_to_spread, const int &increment, const int &range, const tripoint &direction, const float& propChanceFactor)
+{
+    tripoint newPoint(p + direction);
+    field_entry* field_ptr = get_field(newPoint, field_to_spread);
+    int tempInc = increment;
+    int tempRange = range;
+
+    if (field_ptr == nullptr) {
+        add_field(newPoint, field_to_spread, 1);
+        add_msg(_("Laying vines at range %s."), range);
+        tempInc--;
+    }else {
+        //if the field already exists, bump its intensity.
+        add_field(p, field_to_spread, std::min(field_ptr->get_field_intensity() + 1, field_ptr->get_max_field_intensity()));
+    }
+    tempRange--;
+    if (tempInc == 0 || tempRange == 0 || !x_in_y(propChanceFactor, 1)) {
+        return;
+    }
+    
+    spread_linear_field(newPoint, field_to_spread, tempInc, tempRange, direction, propChanceFactor);
+
+}
+
+void map::spread_circular_fields(const tripoint& point, const int& maxRange)//, const std::set<std::pair<field_type_id, float>> fields)
+{
+    // 7 3 5
+    // 1 . 2
+    // 6 4 8
+    static const int x_offset[8] = { -1, 1,  0, 0,  1, -1, -1, 1 };
+    static const int y_offset[8] = { 0, 0, -1, 1, -1,  1, -1, 1 };
+    std::set<tripoint> closed;
+    std::set<tripoint> current;
+    std::set<tripoint> open;
+    int waves = 0;
+    field_type_id full_field_list[3] = { fd_roots1, fd_roots2, fd_roots3 };
+    float field_chance[3] = { .8, .5, .1 };
+    int currentIntensity;
+    //for (auto& fType : fields) {
+    //    full_field_list.insert(fType.first);
+    //}
+    
+    current.insert(point);
+
+    //For each thing in the current list:
+    while (current.size() != 0 && waves < maxRange) {
+
+        for (auto& currentPoint : current) {
+
+            //first add it to the closed list.
+            closed.insert(currentPoint);
+            currentIntensity = 0;
+            field& curfield = get_field(currentPoint);
+
+            //check to see if we can do anything here. (roll the % upgrade math).
+            for (int index = 2; index >= -1; index--) {
+                int cappedIndex = std::min(index + 1, 2);
+                if (index == -1 || curfield.find_field_c(full_field_list[index]) != 0){
+                    currentIntensity = cappedIndex;
+                    if (waves<=1 || x_in_y(field_chance[cappedIndex],1)) {// 
+                        currentIntensity = cappedIndex + 1;
+                        add_field(currentPoint, full_field_list[cappedIndex], currentIntensity);
+                        break;
+                    }
+                }
+            }
+
+            //If the intensity is >=2 after we have attempted to upgrade:
+            if (currentIntensity >= 2) {
+                tripoint testDir;
+                //add each neighbor that isn't in the closed list to the open list.
+                for (int dir = 0; dir < 8; dir++) {
+                    testDir = currentPoint + tripoint(x_offset[dir], y_offset[dir], currentPoint.z);
+                    if (closed.count(testDir) == 0 && open.count(testDir) == 0) open.insert(testDir);
+                }
+            }
+        }
+
+        //increment the wave counter.
+        waves++;
+        //current list = open list
+        current = open;
+        open.clear();
+    }
+}
+
 void map::add_splatter( const field_type_id &type, const tripoint &where, int intensity )
 {
     if( intensity <= 0 ) {
@@ -5663,6 +5779,7 @@ void map::update_visibility_cache( const int zlev )
     visibility_variables_cache.u_clairvoyance = g->u.clairvoyance();
     visibility_variables_cache.u_sight_impaired = g->u.sight_impaired();
     visibility_variables_cache.u_is_boomered = g->u.has_effect( effect_boomered );
+    visibility_variables_cache.u_root_sight = g->u.root_sight();
 
     int sm_squares_seen[MAPSIZE][MAPSIZE];
     std::memset( sm_squares_seen, 0, sizeof( sm_squares_seen ) );

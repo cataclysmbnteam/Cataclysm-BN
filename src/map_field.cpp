@@ -72,6 +72,7 @@ static const bionic_id bio_heatsink( "bio_heatsink" );
 
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_bleed("bleed");
 static const efftype_id effect_corroding( "corroding" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_onfire( "onfire" );
@@ -1651,6 +1652,22 @@ void map::monster_in_field( monster &z )
             if( !z.has_flag( MF_WEBWALK ) ) {
                 z.add_effect( effect_webbed, 1_turns, num_bp, cur.get_field_intensity() );
                 cur.set_field_intensity( 0 );
+            }
+        }
+        if( cur_field_type == fd_roots1 ) {
+            if( one_in(2)) {
+                z.moves -= 30;
+            }
+        }if( cur_field_type == fd_roots2 ) {
+            z.moves -= 30;
+            if( one_in(2)) {
+                z.moves -= 30;
+            }
+        }if( cur_field_type == fd_roots3 ) {
+            z.moves -= 30;
+            if( one_in(2)) {
+                z.moves -= 60;
+                z.add_effect(effect_bleed, 15_turns, bp_torso);
             }
         }
         if( cur_field_type == fd_acid ) {

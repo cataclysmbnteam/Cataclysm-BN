@@ -354,6 +354,7 @@ class Creature
          * removed. */
         bool remove_effect( const efftype_id &eff_id, body_part bp = num_bp );
         virtual bool remove_effect( const efftype_id &eff_id, const bodypart_str_id &bp );
+        bool has_root_sight();
         /** Remove all effects. */
         void clear_effects();
         /** Check if creature has the matching effect. bp = num_bp means to check if the Creature has any effect

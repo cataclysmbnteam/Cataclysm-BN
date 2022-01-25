@@ -90,6 +90,7 @@ static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_narcosis( "narcosis" );
+static const efftype_id effect_rooted( "rooted" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_stunned( "stunned" );
 
@@ -788,7 +789,7 @@ float Character::get_dodge() const
     float ret = Creature::get_dodge();
     // Chop in half if we are unable to move
     if( has_effect( effect_beartrap ) || has_effect( effect_lightsnare ) ||
-        has_effect( effect_heavysnare ) ) {
+        has_effect( effect_heavysnare ) || has_effect( effect_rooted )) {
         ret /= 2;
     }
 

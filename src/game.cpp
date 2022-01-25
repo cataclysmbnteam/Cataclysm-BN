@@ -221,6 +221,7 @@ static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_paid( "paid" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_ridden( "ridden" );
+static const efftype_id effect_rooted( "rooted" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
@@ -10173,6 +10174,10 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
 
     if( c->is_hallucination() ) {
         // Don't fling hallucinations
+        return;
+    }
+
+    if (c->has_effect(effect_rooted)) {
         return;
     }
 

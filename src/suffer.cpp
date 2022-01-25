@@ -97,6 +97,7 @@ static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_rooted( "rooted" );
 static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
@@ -157,6 +158,7 @@ static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const trait_id trait_WINGS_INSECT( "WINGS_INSECT" );
+static const trait_id trait_SPREAD_ROOTS("SPREAD_ROOTS");
 
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_cop( "mon_zombie_cop" );
@@ -990,6 +992,18 @@ void Character::suffer_from_other_mutations()
         // this adds intensity to if its not already there.
         g->m.add_field( pos(), fd_web, 1 );
 
+    }
+    //Root spreaders...spread roots
+    if( has_active_mutation( trait_SPREAD_ROOTS ) && !in_vehicle ) {
+        int range = 8;
+        if (g->is_in_sunlight(pos())) {
+            range += 2;
+        };
+        if (get_map().light_at(pos()) == lit_level::DARK) {
+            range -= 3;
+        }
+        get_map().spread_circular_fields(pos(), range);
+        add_effect(effect_rooted, 1_turns, bp_torso);
     }
 
     // Blind/Deaf for brief periods about once an hour,

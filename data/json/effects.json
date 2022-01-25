@@ -570,6 +570,16 @@
   },
   {
     "type": "effect_type",
+    "id": "rooted",
+    "name": [ "Rooted in place" ],
+    "desc": [ "You are held firm by your roots!" ],
+    "apply_message": "You weave your roots into the soil.",
+    "rating": "good",
+    "show_in_info": true,
+    "permanent": false
+  },
+  {
+    "type": "effect_type",
     "id": "glare",
     "name": [ "Glare" ],
     "desc": [ "The sun is in your eyes." ],

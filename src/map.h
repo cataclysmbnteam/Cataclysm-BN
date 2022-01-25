@@ -118,6 +118,7 @@ struct visibility_variables {
     bool variables_set;
     bool u_sight_impaired;
     bool u_is_boomered;
+    bool u_root_sight;
     // Cached values for map visibility calculations
     int g_light_level;
     int u_clairvoyance;
@@ -1443,6 +1444,29 @@ class map
          */
         void remove_field( const tripoint &p, const field_type_id &field_to_remove );
 
+
+        /**
+        * Propogates a line of the specified field in all directions from the designated position by the listed amount, up to the specified range. 
+        */
+        void spread_radial_field(const tripoint &p, const field_type_id &field_to_spread, const int &increment, const int &range, const float &propChanceFactor = 1);
+
+        void spread_linear_field(const tripoint &p, const field_type_id &field_to_spread, const int &increment, const int &range, const tripoint &direction, const float &propChanceFactor = 1);
+        /**
+        * A helper method to find which of a set of fields exist at a point
+        */
+        //std::set<field_type_id> get_fields_at(const tripoint& point, const field_type_id fields[]);
+        /**
+        * A helper method to clear all fields in the given set from a point, and then add the new field.
+        */
+        //void replace_fields_at(const tripoint& point, const std::set<field_type_id> fields, const field_type_id &newField, const int &intensity);
+
+        /**
+        * Propagates fields in an ascending/upgrading cascade out from a given point in a regular or non-regular pattern.
+        * @param point Location to start spawning from
+        * @param maxRange The maximum allowed radange (radius) of the spawned fields
+        * @param fields A list of pairs in the form of <field ID, chance to spawn>.
+        */
+        void spread_circular_fields(const tripoint& point, const int& maxRange);//, const std::set<std::pair<field_type_id, float>> fields);
         // Splatters of various kind
         void add_splatter( const field_type_id &type, const tripoint &where, int intensity = 1 );
         void add_splatter_trail( const field_type_id &type, const tripoint &from, const tripoint &to );

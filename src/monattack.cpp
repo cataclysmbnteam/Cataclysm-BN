@@ -111,6 +111,7 @@ static const efftype_id effect_paralyzepoison( "paralyzepoison" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_raising( "raising" );
 static const efftype_id effect_rat( "rat" );
+static const efftype_id effect_rooted( "rooted" );
 static const efftype_id effect_shrieking( "shrieking" );
 static const efftype_id effect_slimed( "slimed" );
 static const efftype_id effect_stunned( "stunned" );
@@ -2556,6 +2557,13 @@ bool mattack::ranged_pull( monster *z )
         return false;
     }
 
+    if (target->has_effect(effect_rooted)) {
+        target->add_msg_player_or_npc(m_good,
+            _("The %s tries to drag you, but your roots hold you fast."),
+            _("The %s tries to drag <npcname>, but their roots hold them fast."), z->name());
+        return false;
+    }
+
     player *foe = dynamic_cast< player * >( target );
     std::vector<tripoint> line = g->m.find_clear_path( z->pos(), target->pos() );
     bool seen = g->u.sees( *z );
@@ -2724,6 +2732,12 @@ bool mattack::grab_drag( monster *z )
         return false;
     }
 
+    if (target->has_effect(effect_rooted)) {
+        target->add_msg_player_or_npc(m_good,
+            _("The %s tries to drag you, but your roots hold you fast."),
+            _("The %s tries to drag <npcname>, but their roots hold them fast."), z->name());
+        return false;
+    }
     // First, grab the target
     grab( z );
 

@@ -319,6 +319,9 @@ field_type_id fd_null,
               fd_gibs_flesh,
               fd_gibs_veggy,
               fd_web,
+              fd_roots1,
+              fd_roots2,
+              fd_roots3,
               fd_slime,
               fd_acid,
               fd_sap,
@@ -375,6 +378,9 @@ void field_types::set_field_type_ids()
     fd_gibs_flesh = field_type_id( "fd_gibs_flesh" );
     fd_gibs_veggy = field_type_id( "fd_gibs_veggy" );
     fd_web = field_type_id( "fd_web" );
+    fd_roots1 = field_type_id("fd_roots1");
+    fd_roots2 = field_type_id("fd_roots2");
+    fd_roots3 = field_type_id("fd_roots3");
     fd_slime = field_type_id( "fd_slime" );
     fd_acid = field_type_id( "fd_acid" );
     fd_sap = field_type_id( "fd_sap" );

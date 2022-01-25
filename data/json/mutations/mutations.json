@@ -5144,6 +5144,17 @@
   },
   {
     "type": "mutation",
+    "id": "SPREAD_ROOTS",
+    "name": { "str": "Root Network" },
+    "points": 3,
+    "visibility": 5,
+    "ugliness": 5,
+    "description": "You can send roots out in all directions",
+    "category": [ "PLANT" ],
+    "active": true
+  },
+  {
+    "type": "mutation",
     "id": "CHLOROMORPH",
     "name": { "str": "Chloromorphosis" },
     "points": 10,

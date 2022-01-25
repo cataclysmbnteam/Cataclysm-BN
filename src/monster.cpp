@@ -79,6 +79,7 @@ static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_paralyzepoison( "paralyzepoison" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_ridden( "ridden" );
+static const efftype_id effect_rooted( "rooted" );
 static const efftype_id effect_run( "run" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_supercharged( "supercharged" );
@@ -1945,7 +1946,8 @@ float monster::get_dodge() const
 
     float ret = Creature::get_dodge();
     if( has_effect( effect_lightsnare ) || has_effect( effect_heavysnare ) ||
-        has_effect( effect_beartrap ) || has_effect( effect_tied ) ) {
+        has_effect( effect_beartrap ) || has_effect( effect_tied ) ||
+        has_effect( effect_rooted )) {
         ret /= 2;
     }
 

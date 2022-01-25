@@ -163,6 +163,7 @@ static const efftype_id effect_pkill3( "pkill3" );
 static const efftype_id effect_recently_coughed( "recently_coughed" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
+static const efftype_id effect_rooted( "rooted" );
 static const efftype_id effect_saddled( "monster_saddled" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
@@ -300,6 +301,7 @@ static const trait_id trait_SHOUT3( "SHOUT3" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_SLIMY( "SLIMY" );
 static const trait_id trait_SLOWLEARNER( "SLOWLEARNER" );
+static const trait_id trait_SPREAD_ROOTS("SPREAD_ROOTS");
 static const trait_id trait_STRONGSTOMACH( "STRONGSTOMACH" );
 static const trait_id trait_THRESH_CEPHALOPOD( "THRESH_CEPHALOPOD" );
 static const trait_id trait_THRESH_INSECT( "THRESH_INSECT" );
@@ -823,6 +825,9 @@ bool Character::sight_impaired() const
              has_trait( trait_PER_SLIME ) );
 }
 
+bool Character::root_sight() {
+    return (has_trait(trait_SPREAD_ROOTS) && (get_map().get_field(pos(), fd_roots1) != nullptr));
+}
 bool Character::has_alarm_clock() const
 {
     return ( has_item_with_flag( "ALARMCLOCK", true ) ||
@@ -1522,6 +1527,9 @@ bool Character::move_effects( bool attacking )
 {
     if( has_effect( effect_downed ) ) {
         try_remove_downed( *this );
+        return false;
+    }
+    if( has_effect( effect_rooted ) ) {
         return false;
     }
     if( has_effect( effect_webbed ) ) {
