@@ -4187,10 +4187,6 @@ void Character::set_stored_kcal( int kcal )
 {
     if( stored_calories != kcal ) {
         stored_calories = std::min( kcal, max_stored_kcal() );
-
-        if( kcal > max_stored_kcal() && has_trait( trait_EATHEALTH ) ) {
-            healall( roll_remainder( ( kcal - max_stored_kcal() ) / 50.0f ) );
-        }
     }
 }
 
