@@ -571,12 +571,25 @@
   {
     "type": "effect_type",
     "id": "rooted",
-    "name": [ "Rooted in place" ],
+    "name": [ "Rooted" ],
     "desc": [ "You are held firm by your roots!" ],
     "apply_message": "You weave your roots into the soil.",
     "rating": "good",
     "show_in_info": true,
     "permanent": false
+  },
+  {
+    "type": "effect_type",
+    "id": "tangled",
+    "name": [ "Tangled" ],
+    "desc": [ "The roots interfere with movement!" ],
+    "rating": "bad",
+    "show_in_info": true,
+    "permanent": false,
+    "max_intensity": 3,
+    "max_duration": "5 s",
+    "base_mods": { "speed_mod": [ -10 ], "dex_mod":  [-2] },
+    "scaling_mods": { "speed_mod": [ -10 ], "dex_mod":  [-2] }
   },
   {
     "type": "effect_type",

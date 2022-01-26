@@ -72,8 +72,9 @@ static const bionic_id bio_heatsink( "bio_heatsink" );
 
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_blind( "blind" );
-static const efftype_id effect_bleed("bleed");
+static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_corroding( "corroding" );
+static const efftype_id effect_tangled( "tangled" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_poison( "poison" );
@@ -92,6 +93,7 @@ static const trait_id trait_M_SKIN2( "M_SKIN2" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+static const trait_id trait_SPREAD_ROOTS( "SPREAD_ROOTS" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 
 void map::create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass )
@@ -1259,6 +1261,28 @@ void map::player_in_field( player &u )
                 continue;
             }
         }
+        if( ft == fd_roots1 || ft == fd_roots2 || ft == fd_roots3 ) {
+            // Moving through multiple webs stacks the effect.
+            if( !u.has_trait( trait_SPREAD_ROOTS ) && !u.in_vehicle ) {
+                // Between 5 and 15 minus your current web level.
+                int intensity = 0;
+                if( ft == fd_roots1 ) {
+                    intensity = 1;
+                } else if( ft == fd_roots2 ) {
+                    intensity = 2;
+                } else if( ft == fd_roots3 ) {
+                    intensity = 3;
+                }
+                u.add_effect( effect_tangled, 2_turns, bp_torso, intensity );
+                continue;
+                // If you are in a vehicle destroy the roots.
+                // It should of been destroyed when you ran over it anyway.
+            } else if( u.in_vehicle ) {
+                cur.set_field_intensity( 0 );
+                continue;
+            }
+        }
+
         if( ft == fd_acid ) {
             // Assume vehicles block acid damage entirely,
             // you're certainly not standing in it.
@@ -1655,20 +1679,13 @@ void map::monster_in_field( monster &z )
             }
         }
         if( cur_field_type == fd_roots1 ) {
-            if( one_in(2)) {
-                z.moves -= 30;
-            }
-        }if( cur_field_type == fd_roots2 ) {
-            z.moves -= 30;
-            if( one_in(2)) {
-                z.moves -= 30;
-            }
-        }if( cur_field_type == fd_roots3 ) {
-            z.moves -= 30;
-            if( one_in(2)) {
-                z.moves -= 60;
-                z.add_effect(effect_bleed, 15_turns, bp_torso);
-            }
+            z.add_effect( effect_tangled, 2_turns, bp_torso, 1 );
+        }
+        if( cur_field_type == fd_roots2 ) {
+            z.add_effect( effect_tangled, 2_turns, bp_torso, 2 );
+        }
+        if( cur_field_type == fd_roots3 ) {
+            z.add_effect( effect_tangled, 2_turns, bp_torso, 3 );
         }
         if( cur_field_type == fd_acid ) {
             if( !z.flies() ) {

@@ -106,6 +106,7 @@ static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_paincysts( "paincysts" );
 static const efftype_id effect_pkill( "pkill" );
+static const efftype_id effect_rooted( "rooted" );
 static const efftype_id effect_sad( "sad" );
 static const efftype_id effect_sleep_deprived( "sleep_deprived" );
 static const efftype_id effect_sleep( "sleep" );
@@ -113,6 +114,7 @@ static const efftype_id effect_stim_overdose( "stim_overdose" );
 static const efftype_id effect_stim( "stim" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tapeworm( "tapeworm" );
+static const efftype_id effect_tangled( "tangled" );
 static const efftype_id effect_thirsty( "thirsty" );
 static const efftype_id effect_weed_high( "weed_high" );
 
@@ -192,6 +194,8 @@ static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
 static const trait_id trait_THORNS( "THORNS" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
 static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
+static const trait_id trait_VINES2( "VINES2" );
+static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 static const trait_id trait_WEAKSTOMACH( "WEAKSTOMACH" );
@@ -992,7 +996,6 @@ void player::on_hit( Creature *source, bodypart_id bp_hit,
     if( source == nullptr || proj != nullptr ) {
         return;
     }
-
     bool u_see = g->u.sees( *this );
     if( has_active_bionic( bionic_id( "bio_ods" ) ) && get_power_level() > 5_kJ ) {
         if( is_player() ) {
@@ -1027,6 +1030,15 @@ void player::on_hit( Creature *source, bodypart_id bp_hit,
         damage_instance spine_damage;
         spine_damage.add_damage( DT_STAB, spine );
         source->deal_damage( this, bodypart_id( "torso" ), spine_damage );
+    }
+    if( has_effect( effect_rooted ) && source->has_effect( effect_tangled ) &&
+        ( has_trait( trait_VINES2 ) || has_trait( trait_VINES3 ) ) ) {
+        float num_attacks = has_trait( trait_VINES2 ) ? 2 : 3 ;
+        damage_instance vine_damage;
+        vine_damage.add_damage( DT_BASH, get_str() / 2.0f, 0, 1.0f, num_attacks );
+        source->deal_damage( this, bodypart_id( "torso" ), vine_damage );
+        add_msg( m_good, _( "Your vines retaliate against the %1s for %2s damage!" ), source->disp_name(),
+                 static_cast<int>( vine_damage.total_damage() ) );
     }
     if( ( !( wearing_something_on( bp_hit ) ) ) && ( has_trait( trait_THORNS ) ) &&
         ( !( source->has_weapon() ) ) ) {

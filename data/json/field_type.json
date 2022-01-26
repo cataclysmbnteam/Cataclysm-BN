@@ -102,6 +102,7 @@
     "priority": 2,
     "phase": "solid",
     "display_items": true,
+    "half_life": "8 seconds",
     "bash": {
       "str_min": 1,
       "str_max": 3,
@@ -123,6 +124,7 @@
     "priority": 2,
     "phase": "solid",
     "display_items": true,
+    "half_life": "12 seconds",
     "bash": {
       "str_min": 1,
       "str_max": 3,
@@ -137,12 +139,13 @@
     "id": "fd_roots3",
     "type": "field_type",
     "legacy_enum_id": 5,
-    "intensity_levels": [{ "name": "full growth", "sym": "#", "intensity": 3 }],
+    "intensity_levels": [{ "name": "full growth", "sym": "#", "intensity": 3}],
     "description_affix": "covered_in",
     "immunity_data": { "traits": [ "ROOTS3" ] },
     "priority": 2,
     "phase": "solid",
     "display_items": true,
+    "half_life": "16 seconds",
     "bash": {
       "str_min": 1,
       "str_max": 3,
