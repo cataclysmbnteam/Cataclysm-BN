@@ -141,7 +141,7 @@ static const trait_id trait_RADIOACTIVE2( "RADIOACTIVE2" );
 static const trait_id trait_RADIOACTIVE3( "RADIOACTIVE3" );
 static const trait_id trait_RADIOGENIC( "RADIOGENIC" );
 static const trait_id trait_REGEN_LIZ( "REGEN_LIZ" );
-static const trait_id trait_ROOTS3( "ROOTS3" );
+static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_SHARKTEETH( "SHARKTEETH" );
 static const trait_id trait_SHELL2( "SHELL2" );
@@ -150,6 +150,7 @@ static const trait_id trait_SHOUT2( "SHOUT2" );
 static const trait_id trait_SHOUT3( "SHOUT3" );
 static const trait_id trait_SORES( "SORES" );
 static const trait_id trait_SUNBURN( "SUNBURN" );
+static const trait_id trait_SOLAR_POWERED( "SOLAR_POWERED" );
 static const trait_id trait_TROGLO( "TROGLO" );
 static const trait_id trait_TROGLO2( "TROGLO2" );
 static const trait_id trait_TROGLO3( "TROGLO3" );
@@ -158,7 +159,7 @@ static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const trait_id trait_WINGS_INSECT( "WINGS_INSECT" );
-static const trait_id trait_SPREAD_ROOTS("SPREAD_ROOTS");
+static const trait_id trait_SPREAD_ROOTS( "SPREAD_ROOTS" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_cop( "mon_zombie_cop" );
@@ -754,6 +755,14 @@ void Character::suffer_in_sunlight()
         suffer_from_sunburn();
     }
 
+    if( has_trait( trait_SOLAR_POWERED ) &&
+        get_weather().weather_id->sun_intensity >= sun_intensity_type::normal ) {
+        int bonus = (get_weather().weather_id->sun_intensity >= sun_intensity_type::high) ? 2 : 1;
+        mod_str_bonus( bonus );
+        mod_dex_bonus( bonus );
+        mod_int_bonus( bonus );
+        mod_per_bonus( bonus );
+    }
     if( ( has_trait( trait_TROGLO ) || has_trait( trait_TROGLO2 ) ) &&
         get_weather().weather_id->sun_intensity >= sun_intensity_type::high ) {
         mod_str_bonus( -1 );
@@ -956,7 +965,7 @@ void Character::suffer_from_other_mutations()
     bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
     int root_vitamins = 0;
     int root_water = 0;
-    if( has_trait( trait_ROOTS3 ) && g->m.has_flag( flag_PLOWABLE, pos() ) && !wearing_shoes ) {
+    if( has_trait( trait_ROOTS2 ) && g->m.has_flag( flag_PLOWABLE, pos() ) && !wearing_shoes ) {
         root_vitamins += 1;
         if( get_thirst() <= thirst_levels::turgid ) {
             root_water += 51;
@@ -996,14 +1005,14 @@ void Character::suffer_from_other_mutations()
     //Root spreaders...spread roots
     if( has_active_mutation( trait_SPREAD_ROOTS ) && !in_vehicle ) {
         int range = 8;
-        if (g->is_in_sunlight(pos())) {
+        if( g->is_in_sunlight( pos() ) ) {
             range += 2;
         };
-        if (get_map().light_at(pos()) == lit_level::DARK) {
+        if( get_map().light_at( pos() ) == lit_level::DARK ) {
             range -= 3;
         }
-        get_map().spread_circular_fields(pos(), range);
-        add_effect(effect_rooted, 1_turns, bp_torso);
+        get_map().spread_circular_fields( pos(), range );
+        add_effect( effect_rooted, 1_turns, bp_torso );
     }
 
     // Blind/Deaf for brief periods about once an hour,

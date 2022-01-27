@@ -2151,8 +2151,7 @@
     "ugliness": 4,
     "pierce_dmg_bonus": 2,
     "description": "Your skin is covered in small, woody thorns.  Whenever an unarmed opponent strikes a part of your body that is not covered by clothing, they will receive minor damage.  Your punches may also deal extra damage.",
-    "prereqs": [ "BARK" ],
-    "category": [ "PLANT" ]
+    "prereqs": [ "BARK" ]
   },
   {
     "type": "mutation",
@@ -3172,10 +3171,10 @@
     "description": "You can survive injuries that would incapacitate humans: you get a 20% bonus to all hit points.  Stacks with Tough, etc.",
     "social_modifiers": { "intimidate": 2 },
     "prereqs": [ "LARGE_OK", "HUGE_OK", "STR_UP_3", "STR_UP_4", "MASOCHIST_MED" ],
-    "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_LIZARD", "THRESH_BEAST" ],
+    "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_LIZARD", "THRESH_BEAST", "THRESH_PLANT" ],
     "cancels": [ "FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW" ],
     "changes_to": [ "MUT_TOUGH2" ],
-    "category": [ "URSINE", "CATTLE", "CHIMERA", "BEAST", "LIZARD", "MEDICAL" ],
+    "category": [ "URSINE", "CATTLE", "CHIMERA", "BEAST", "LIZARD", "MEDICAL", "PLANT" ],
     "hp_modifier_secondary": 0.2
   },
   {
@@ -3700,7 +3699,7 @@
     "prereqs": [ "STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4" ],
     "cancels": [ "SMALL", "SMALL2" ],
     "changes_to": [ "LARGE_OK", "HUGE" ],
-    "category": [ "URSINE", "CATTLE", "LIZARD" ],
+    "category": [ "URSINE", "CATTLE", "LIZARD", "PLANT" ],
     "passive_mods": { "str_mod": 2 },
     "weight_capacity_modifier": 1.05
   },
@@ -3714,10 +3713,10 @@
     "prereqs": [ "LARGE" ],
     "prereqs2": [ "STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4" ],
     "cancels": [ "SMALL", "SMALL2" ],
-    "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE", "THRESH_LIZARD" ],
+    "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE", "THRESH_LIZARD", "THRESH_PLANT" ],
     "changes_to": [ "HUGE" ],
     "leads_to": [ "MUT_TOUGH" ],
-    "category": [ "URSINE", "CATTLE", "LIZARD" ],
+    "category": [ "URSINE", "CATTLE", "LIZARD", "PLANT" ],
     "passive_mods": { "str_mod": 2 },
     "weight_capacity_modifier": 1.05
   },
@@ -5007,6 +5006,7 @@
     "description": "Your muscles are very slow to move.  You move 30% slower.",
     "types": [ "RUNNING" ],
     "prereqs": [ "PONDEROUS2" ],
+    "changes_to": [ "ANCIENT_PACE" ],
     "category": [ "PLANT" ],
     "movecost_modifier": 1.3
   },
@@ -5014,8 +5014,21 @@
     "type": "mutation",
     "id": "SUNLIGHT_DEPENDENT",
     "name": { "str": "Sunlight Dependent" },
-    "points": -5,
-    "description": "You feel very sluggish when not in direct sunlight.  You suffer a 5% drop in speed when in shade, and a 10% drop in speed when in the dark.",
+    "points": -6,
+    "description": "You feel very sluggish, and its even worse when not in direct sunlight.  You suffer a 5% drop in speed at all times, that worses to 10% when in shade, and 15% when in darkness.",
+    "cancels": [ "TROGLO", "TROGLO2", "TROGLO3" ],
+    "leads_to": [ "SOLAR_POWERED" ],
+    "category": [ "PLANT" ],
+    "speed_modifier": 0.95
+  },  {
+    "type": "mutation",
+    "id": "SOLAR_POWERED",
+    "name": { "str": "Solar Powered" },
+    "prereqs": [ "SUNLIGHT_DEPENDENT" ],
+    "prereqs2": [ "LEAVES2" ],
+    "threshreq": [ "THRESH_PLANT" ],
+    "points": 3,
+    "description": "At least your fixation on the sun has its upsides. You feel empowered by the sunlight on your skin, and get up to +2 to all stats based on sunlight levels.",
     "cancels": [ "TROGLO", "TROGLO2", "TROGLO3" ],
     "category": [ "PLANT" ]
   },
@@ -5123,7 +5136,6 @@
     "types": [ "LEGS" ],
     "prereqs": [ "ROOTS1" ],
     "threshreq": [ "THRESH_PLANT" ],
-    "changes_to": [ "ROOTS3" ],
     "category": [ "PLANT" ],
     "encumbrance_covered": [ [ "foot_l", 10 ], [ "foot_r", 10 ] ]
   },
@@ -5139,7 +5151,6 @@
     "prereqs": [ "ROOTS2" ],
     "prereqs2": [ "SAPROPHAGE" ],
     "threshreq": [ "THRESH_PLANT" ],
-    "category": [ "PLANT" ],
     "encumbrance_covered": [ [ "foot_l", 10 ], [ "foot_r", 10 ] ]
   },
   {
@@ -5149,9 +5160,15 @@
     "points": 3,
     "visibility": 5,
     "ugliness": 5,
-    "description": "You can send roots out in all directions",
+    "description": "You can send your roots through the earth to anchor yourself in place, and rapidly grow a root field surrounding you. Your root field will slow enemies who walk through it, and retaliate against attackers.",
     "category": [ "PLANT" ],
-    "active": true
+    "prereqs": [ "ROOTS2" ],
+    "prereqs2": [ "VINES2" ],
+    "threshreq": [ "THRESH_PLANT" ],
+    "active": true,
+    "cost": 2,
+    "thist":  true,
+    "hunger": true
   },
   {
     "type": "mutation",
@@ -5164,7 +5181,7 @@
     "valid": false,
     "purifiable": false,
     "types": [ "LEGS" ],
-    "prereqs": [ "ROOTS2", "ROOTS3" ],
+    "prereqs": [ "ROOTS2" ],
     "prereqs2": [ "SAPROPHAGE" ],
     "threshreq": [ "THRESH_PLANT" ],
     "cancels": [ "SMELLY", "SMELLY2" ],
@@ -5174,11 +5191,29 @@
   },
   {
     "type": "mutation",
+    "id": "ANCIENT_PACE",
+    "name": { "str": "Pace of the Ancients" },
+    "points": -8,
+    "description": "Your physiology and mindset are more attuned to the passing of seasons than minutes. You move between 25-40% slower based on terrain, though you find yourself eating far less than you used to.",
+    "valid": false,
+    "purifiable": false,
+    "mixed_effect": true,
+    "types": [ "METABOLISM" ],
+    "prereqs": [ "ROOTS2" ],
+    "prereqs2": [ "PONDEROUS3" ],
+    "threshreq": [ "THRESH_PLANT" ],
+    "category": [ "PLANT" ],
+    "movecost_modifier": 1.25,
+    "metabolism_modifier": -0.4
+  },
+
+  {
+    "type": "mutation",
     "id": "TREE_COMMUNION",
     "name": { "str": "Mycorrhizal Communion" },
     "points": 2,
     "description": "You have gained the ability to commune with trees and comprehend their ancient wisdom.  Activate next to a tree to gradually gain overmap vision through connected forests.",
-    "prereqs": [ "HAIRROOTS", "ROOTS2", "ROOTS3" ],
+    "prereqs": [ "HAIRROOTS", "ROOTS2"],
     "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
     "category": [ "PLANT", "ELFA" ],
     "active": true,
@@ -5207,7 +5242,7 @@
     "prereqs": [ "COLDBLOOD" ],
     "changes_to": [ "COLDBLOOD3" ],
     "types": [ "METABOLISM" ],
-    "category": [ "RAPTOR", "PLANT", "SPIDER" ],
+    "category": [ "RAPTOR", "SPIDER" ],
     "temperature_speed_modifier": 0.333,
     "metabolism_modifier": -0.5
   },
@@ -5233,10 +5268,10 @@
     "mixed_effect": true,
     "description": "Your body has become permanently cold-blooded.  Your speed lowers or raises 1% for every 2 (1.1) degrees below or above 65 F (18.3 C).  You only need to eat half as much as an average human.",
     "prereqs": [ "COLDBLOOD3" ],
-    "threshreq": [ "THRESH_LIZARD", "THRESH_PLANT" ],
+    "threshreq": [ "THRESH_LIZARD" ],
     "purifiable": false,
     "types": [ "METABOLISM" ],
-    "category": [ "LIZARD", "PLANT" ],
+    "category": [ "LIZARD" ],
     "temperature_speed_modifier": 0.5,
     "metabolism_modifier": -0.5
   },

@@ -242,6 +242,7 @@ static const bionic_id bio_ups( "bio_ups" );
 // Aftershock stuff!
 static const bionic_id afs_bio_linguistic_coprocessor( "afs_bio_linguistic_coprocessor" );
 
+static const trait_id trait_ANCIENT_PACE("ANCIENT_PACE");
 static const trait_id trait_BARK( "BARK" );
 static const trait_id trait_BIRD_EYE( "BIRD_EYE" );
 static const trait_id trait_CEPH_EYES( "CEPH_EYES" );
@@ -1529,9 +1530,6 @@ bool Character::move_effects( bool attacking )
         try_remove_downed( *this );
         return false;
     }
-    if( has_effect( effect_rooted ) ) {
-        return false;
-    }
     if( has_effect( effect_webbed ) ) {
         try_remove_webs( *this );
         return false;
@@ -1540,6 +1538,9 @@ bool Character::move_effects( bool attacking )
         try_remove_lightsnare( *this );
         return false;
 
+    }
+    if (has_effect(effect_rooted) && !attacking) {
+        return false;
     }
     if( has_effect( effect_heavysnare ) ) {
         try_remove_heavysnare( *this );
@@ -9847,8 +9848,8 @@ int Character::run_cost( int base_cost, bool diag ) const
             movecost += 8;
         }
 
-        if( has_trait( trait_ROOTS3 ) && g->m.has_flag( "DIGGABLE", pos() ) ) {
-            movecost += 10 * footwear_factor();
+        if( has_trait(trait_ANCIENT_PACE) && !g->m.has_flag( "DIGGABLE", pos() ) ) {
+            movecost += 15;
         }
 
         movecost += bonus_from_enchantments( movecost, enchant_vals::mod::MOVE_COST );
