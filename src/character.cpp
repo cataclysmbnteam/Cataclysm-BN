@@ -205,7 +205,6 @@ static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_ANTLERS( "ANTLERS" );
 static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
-static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
