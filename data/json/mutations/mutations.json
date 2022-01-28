@@ -5194,7 +5194,7 @@
     "id": "ANCIENT_PACE",
     "name": { "str": "Pace of the Ancients" },
     "points": -8,
-    "description": "Your physiology and mindset are more attuned to the passing of seasons than minutes. You move between 25-40% slower based on terrain, though you find yourself eating far less than you used to.",
+    "description": "Your physiology and mindset are more attuned to the passing of seasons than minutes. You move between 25-40% slower based on terrain, and you find yourself eating far less than you used to.",
     "valid": false,
     "purifiable": false,
     "mixed_effect": true,
