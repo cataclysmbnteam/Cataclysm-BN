@@ -757,7 +757,7 @@ void Character::suffer_in_sunlight()
 
     if( has_trait( trait_SOLAR_POWERED ) &&
         get_weather().weather_id->sun_intensity >= sun_intensity_type::normal ) {
-        int bonus = (get_weather().weather_id->sun_intensity >= sun_intensity_type::high) ? 2 : 1;
+        int bonus = ( get_weather().weather_id->sun_intensity >= sun_intensity_type::high ) ? 2 : 1;
         mod_str_bonus( bonus );
         mod_dex_bonus( bonus );
         mod_int_bonus( bonus );

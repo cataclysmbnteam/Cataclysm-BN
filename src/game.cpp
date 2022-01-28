@@ -10177,7 +10177,7 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
         return;
     }
 
-    if (c->has_effect(effect_rooted)) {
+    if( c->has_effect( effect_rooted ) ) {
         return;
     }
 

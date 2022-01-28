@@ -1947,7 +1947,7 @@ float monster::get_dodge() const
     float ret = Creature::get_dodge();
     if( has_effect( effect_lightsnare ) || has_effect( effect_heavysnare ) ||
         has_effect( effect_beartrap ) || has_effect( effect_tied ) ||
-        has_effect( effect_rooted )) {
+        has_effect( effect_rooted ) ) {
         ret /= 2;
     }
 

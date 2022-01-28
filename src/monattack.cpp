@@ -2557,10 +2557,10 @@ bool mattack::ranged_pull( monster *z )
         return false;
     }
 
-    if (target->has_effect(effect_rooted)) {
-        target->add_msg_player_or_npc(m_good,
-            _("The %s tries to drag you, but your roots hold you fast."),
-            _("The %s tries to drag <npcname>, but their roots hold them fast."), z->name());
+    if( target->has_effect( effect_rooted ) ) {
+        target->add_msg_player_or_npc( m_good,
+                                       _( "The %s tries to drag you, but your roots hold you fast." ),
+                                       _( "The %s tries to drag <npcname>, but their roots hold them fast." ), z->name() );
         return false;
     }
 
@@ -2732,10 +2732,10 @@ bool mattack::grab_drag( monster *z )
         return false;
     }
 
-    if (target->has_effect(effect_rooted)) {
-        target->add_msg_player_or_npc(m_good,
-            _("The %s tries to drag you, but your roots hold you fast."),
-            _("The %s tries to drag <npcname>, but their roots hold them fast."), z->name());
+    if( target->has_effect( effect_rooted ) ) {
+        target->add_msg_player_or_npc( m_good,
+                                       _( "The %s tries to drag you, but your roots hold you fast." ),
+                                       _( "The %s tries to drag <npcname>, but their roots hold them fast." ), z->name() );
         return false;
     }
     // First, grab the target

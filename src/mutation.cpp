@@ -46,7 +46,7 @@ static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 
 static const efftype_id effect_accumulated_mutagen( "accumulated_mutagen" );
 static const efftype_id effect_stunned( "stunned" );
-static const efftype_id effect_rooted("rooted");
+static const efftype_id effect_rooted( "rooted" );
 
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
@@ -510,9 +510,9 @@ void Character::activate_mutation( const trait_id &mut )
         item burrowing_item( itype_id( "fake_burrowing" ) );
         invoke_item( &burrowing_item );
         return;  // handled when the activity finishes
-    } else if( mut == trait_SPREAD_ROOTS) {
-        add_msg_if_player(_("You start sending roots out around you!"));
-        add_effect(effect_rooted, 1_turns, bp_torso);
+    } else if( mut == trait_SPREAD_ROOTS ) {
+        add_msg_if_player( _( "You start sending roots out around you!" ) );
+        add_effect( effect_rooted, 1_turns, bp_torso );
         //g->m.spread_circular_fields(pos(),6);//spread_radial_field(pos(), fd_roots, 1, 6);
     } else if( mut == trait_SLIMESPAWNER ) {
         monster *const slime = g->place_critter_around( mtype_id( "mon_player_blob" ), pos(), 1 );
