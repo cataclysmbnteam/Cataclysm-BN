@@ -21,9 +21,6 @@ namespace cata
 {
 template<typename T>
 class optional;
-
-template<typename T>
-class value_ptr;
 } // namespace cata
 namespace detail
 {
@@ -33,10 +30,6 @@ class is_optional_helper : public std::false_type
 };
 template<typename T>
 class is_optional_helper<cata::optional<T>> : public std::true_type
-{
-};
-template<typename T>
-class is_optional_helper<cata::value_ptr<T>> : public std::true_type
 {
 };
 } // namespace detail
@@ -161,8 +154,8 @@ bool assign( const JsonObject &jo, const std::string &name, std::pair<T, T> &val
     return true;
 }
 
-// Note: is_optional excludes any types based on cata::optional and cata::value_ptr, which are
-// handled below in separate functions.
+// Note: is_optional excludes any types based on cata::optional, which is
+// handled below in a separate function.
 template < typename T, typename std::enable_if < std::is_class<T>::value &&!is_optional<T>::value,
            int >::type = 0 >
 bool assign( const JsonObject &jo, const std::string &name, T &val, bool strict = false )
@@ -663,23 +656,6 @@ inline bool assign( const JsonObject &jo, const std::string &name, cata::optiona
     }
     if( !val ) {
         val.emplace();
-    }
-    return assign( jo, name, *val, strict );
-}
-
-template<typename T>
-inline bool assign( const JsonObject &jo, const std::string &name, cata::value_ptr<T> &val,
-                    const bool strict = false )
-{
-    if( !jo.has_member( name ) ) {
-        return false;
-    }
-    if( jo.has_null( name ) ) {
-        val.reset();
-        return true;
-    }
-    if( !val ) {
-        val.reset( new T() );
     }
     return assign( jo, name, *val, strict );
 }

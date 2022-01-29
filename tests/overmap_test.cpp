@@ -4,9 +4,9 @@
 
 #include "calendar.h"
 #include "catch/catch.hpp"
-#include "common_types.h"
 #include "enums.h"
 #include "game_constants.h"
+#include "numeric_interval.h"
 #include "omdata.h"
 #include "overmap.h"
 #include "overmap_types.h"

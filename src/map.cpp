@@ -3725,25 +3725,6 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
                            "smash", "door_boarded" );
             ter_set( p, t_door_b );
         }
-    } else if( terrain == t_window_domestic_taped ||
-               terrain == t_curtains ||
-               terrain == t_window_domestic ) {
-        if( ammo_effects.count( "LASER" ) ) {
-            if( terrain == t_window_domestic_taped ||
-                terrain == t_curtains ) {
-                dam -= rng( 1, 5 );
-            }
-            dam -= rng( 0, 5 );
-        } else {
-            dam -= rng( 1, 3 );
-            if( dam > 0 ) {
-                break_glass( p, 16 );
-                ter_set( p, t_window_frame );
-                spawn_item( p, itype_sheet, 1 );
-                spawn_item( p, itype_stick );
-                spawn_item( p, itype_string_36 );
-            }
-        }
     } else if( terrain == t_window_taped ||
                terrain == t_window_alarm_taped ||
                terrain == t_window ||

@@ -7,7 +7,6 @@
 
 #include "calendar.h"
 #include "catch/catch.hpp"
-#include "common_types.h"
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
@@ -19,6 +18,7 @@
 #include "memory_fast.h"
 #include "npc.h"
 #include "npc_class.h"
+#include "numeric_interval.h"
 #include "optional.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
