@@ -1715,7 +1715,7 @@
     "points": 0,
     "visibility": 4,
     "ugliness": 1,
-    "bodytemp_modifiers": [ 3250, 800 ],
+    "bodytemp_modifiers": [ 250, 800 ],
     "bodytemp_sleep": 250,
     "description": "You shan't need to migrate south with your layer of down.  It's even better with no apes around to kill you for it!",
     "types": [ "SKIN" ],
