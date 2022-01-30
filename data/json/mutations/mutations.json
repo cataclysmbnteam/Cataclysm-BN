@@ -213,7 +213,7 @@
     "starting_trait": true,
     "changes_to": [ "NIGHTVISION2" ],
     "cancels": [ "ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE" ],
-    "category": [ "BIRD", "CATTLE", "INSECT" ],
+    "category": [ "BIRD", "CATTLE", "INSECT", "URSINE" ],
     "active": true,
     "starts_active": true,
     "night_vision_range": 2
@@ -1290,7 +1290,7 @@
     "ugliness": 1,
     "description": "Your eyes have mutated, now having a slitted pupil and glittering in light, much like those of cats.  This is visually striking, but it isn't helping you see at night.",
     "social_modifiers": { "lie": 2, "persuade": 2 },
-    "leads_to": [ "NIGHTVISION2" ],
+    "prereqs": [ "NIGHTVISION" ],
     "cancels": [ "ELFAEYES", "LIZ_EYE", "BIRD_EYE", "URSINE_EYE", "COMPOUND_EYES" ],
     "category": [ "FELINE", "BEAST" ]
   },
@@ -4207,7 +4207,8 @@
     "description": "You're a real head-turner.  Some people will react well to your appearance, and most people have an easier time trusting you.",
     "cancels": [ "UGLY", "DEFORMED", "DEFORMED2", "DEFORMED3" ],
     "prereqs": [ "PRETTY" ],
-    "changes_to": [ "BEAUTIFUL2" ]
+    "changes_to": [ "BEAUTIFUL2" ],
+    "category": [ "FELINE", "LUPINE" ]
   },
   {
     "type": "mutation",
