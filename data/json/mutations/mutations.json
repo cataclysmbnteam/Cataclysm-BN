@@ -258,7 +258,7 @@
     "changes_to": [ "BOVINE_BULK2" ],
     "category": [ "CATTLE" ],
     "movecost_swim_modifier": 1.3,
-    "hp_modifier": 0.1
+    "hp_adjustment": 15
   },
   {
     "type": "mutation",
@@ -270,7 +270,7 @@
     "prereqs": [ "BOVINE_BULK" ],
     "category": [ "CATTLE" ],
     "movecost_swim_modifier": 1.7,
-    "hp_modifier": 0.2
+    "hp_adjustment": 30
   },
   {
     "type": "mutation",
