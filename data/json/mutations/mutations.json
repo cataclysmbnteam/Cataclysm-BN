@@ -94,7 +94,7 @@
     "description": "You're skilled at clearing obstacles; terrain like railings or counters are as easy for you to move on as solid ground.",
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "BADKNEES" ],
+    "cancels": [ "BADKNEES", "FELINE_FLEXIBILITY" ],
     "movecost_obstacle_modifier": 0.5
   },
   {
@@ -253,7 +253,7 @@
     "id": "BOVINE_BULK",
     "name": { "str": "Bovine Bulk" },
     "points": 2,
-    "description": "You've added a lot of weight, much of it muscle!  You get a 10% bonus to all hit points.  Swimming will be more difficult from now on.",
+    "description": "You've added a lot of weight, much of it muscle!  You get a +15 bonus to all hit points.  Swimming will be more difficult from now on.",
     "cancels": [ "FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW" ],
     "changes_to": [ "BOVINE_BULK2" ],
     "category": [ "CATTLE" ],
@@ -265,7 +265,7 @@
     "id": "BOVINE_BULK2",
     "name": { "str": "Bull Roids" },
     "points": 4,
-    "description": "There is no way you'd be allowed to compete in pre-Cataclysm sports.  You get a 20% bonus to all hit points.  Swimming is no longer recommended for someone built like you.",
+    "description": "There is no way you'd be allowed to compete in pre-Cataclysm sports.  You get a +30 bonus to all hit points.  Swimming is no longer recommended for someone built like you.",
     "cancels": [ "FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW" ],
     "prereqs": [ "BOVINE_BULK" ],
     "category": [ "CATTLE" ],
@@ -315,7 +315,7 @@
     "id": "THICKSKIN",
     "name": { "str": "Thick-Skinned" },
     "points": 1,
-    "description": "Your skin is tough.  Cutting and bashing damage is slightly reduced for you.  There's a small chance you don't cut yourself on sharp terrain.",
+    "description": "Your skin is tough.  Physical damage is slightly reduced for you.  There's a small chance you don't cut yourself on sharp terrain.",
     "starting_trait": true,
     "category": [ "LIZARD", "CATTLE", "CHIMERA", "RAPTOR" ],
     "cancels": [ "THINSKIN" ],
@@ -695,7 +695,7 @@
     "description": "Whether due to injury or age, your knees aren't particularly strong or flexible.  Moving over rough terrain will slow you down more than normal.",
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "PARKOUR" ],
+    "cancels": [ "PARKOUR", "FELINE_FLEXIBILITY" ],
     "movecost_obstacle_modifier": 1.25
   },
   {
@@ -899,7 +899,7 @@
     "id": "THINSKIN",
     "name": { "str": "Thin-Skinned" },
     "points": -1,
-    "description": "Your skin is fragile.  Cutting and bashing damage is slightly increased for you.",
+    "description": "Your skin is fragile.  Physical damage is slightly increased for you.",
     "starting_trait": true,
     "cancels": [ "THICKSKIN" ],
     "armor": [ { "parts": "ALL", "physical": -2 } ]
@@ -1293,19 +1293,6 @@
     "leads_to": [ "CEPH_VISION" ],
     "cancels": [ "BIRD_EYE", "LIZ_EYE", "FEL_EYE", "URSINE_EYE", "COMPOUND_EYES", "ELFAEYES" ],
     "category": [ "CEPHALOPOD" ]
-  },
-  {
-    "type": "mutation",
-    "id": "MANSBESTFRIEND",
-    "name": { "str": "Man's Best Friend" },
-    "points": 1,
-    "description": "Man's oldest and most well known friends are all Lupines.  Somehow you've mutated something that reminds other survivors of your more domestic relatives.  A softer edge around the eyes, maybe.",
-    "valid": false,
-    "prereqs": [ "LIGHTFUR" ],
-    "cancels": [ "BIRD_EYE", "LIZ_EYE", "FEL_EYE", "URSINE_EYE", "COMPOUND_EYES" ],
-    "category": [ "LUPINE" ],
-    "mixed_effect": true,
-    "social_modifiers": { "lie": -5, "persuade": 5, "intimidate": -5 }
   },
   {
     "type": "mutation",
@@ -1917,20 +1904,19 @@
     "type": "mutation",
     "id": "LYNX_FUR",
     "name": { "str": "Lynx Fur" },
-    "points": 1,
+    "points": 0,
     "visibility": 8,
     "ugliness": 1,
-    "description": "Your fur has grown out significantly around your cheeks and neck.  It provides minor protection against attacks.",
+    "description": "Your fur has grown out significantly around your cheeks and neck.",
     "types": [ "SKIN" ],
     "prereqs": [ "FELINE_FUR" ],
-    "category": [ "FELINE" ],
-    "armor": [ { "parts": [ "head", "mouth" ], "bash": 1 } ]
+    "category": [ "FELINE" ]
   },
   {
     "type": "mutation",
     "id": "PATCHSKIN1",
     "name": { "str": "Patchwork Skin" },
-    "points": 2,
+    "points": 1,
     "visibility": 10,
     "ugliness": 6,
     "bodytemp_modifiers": [ 125, 250 ],
@@ -1949,12 +1935,7 @@
       { "part": "hand_r", "ignored": 1 },
       { "part": "torso", "ignored": 10 }
     ],
-    "armor": [
-      {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "cut": 1
-      }
-    ],
+    "armor": [ { "parts": "ALL", "physical": 2 } ],
     "category": [ "CHIMERA" ],
     "types": [ "SKIN" ],
     "prereqs": [ "SKIN_ROUGH" ],
@@ -1983,12 +1964,7 @@
       { "part": "hand_r", "ignored": 2 },
       { "part": "torso", "ignored": 20 }
     ],
-    "armor": [
-      {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "cut": 2
-      }
-    ],
+    "armor": [ { "parts": "ALL", "physical": 5 } ],
     "category": [ "CHIMERA" ],
     "types": [ "SKIN" ],
     "prereqs": [ "PATCHSKIN1" ]
@@ -2787,9 +2763,10 @@
     "name": { "str": "Strong Legs" },
     "points": 1,
     "visibility": 1,
-    "description": "Your legs have gained muscle mass to propel you across any terrain.",
+    "description": "Your legs have gained muscle mass to propel you across any terrain, and help carry a bit more.",
     "prereqs": [ "PADDED_FEET" ],
-    "movecost_modifier": 0.88,
+    "movecost_modifier": 0.8,
+    "weight_capacity_modifier": 1.2,
     "category": [ "FELINE", "LUPINE" ]
   },
   {
@@ -4612,9 +4589,8 @@
     "type": "mutation",
     "id": "PERSISTENCE_HUNTER",
     "name": { "str": "Persistence Hunter" },
-    "points": 2,
+    "points": 1,
     "description": "You can pursue prey for miles and miles at a variety of paces until they stop from exhaustion.",
-    "types": [ "METABOLISM" ],
     "changes_to": [ "PERSISTENCE_HUNTER2" ],
     "category": [ "LUPINE" ],
     "fatigue_modifier": -0.1,
@@ -4624,9 +4600,8 @@
     "type": "mutation",
     "id": "PERSISTENCE_HUNTER2",
     "name": { "str": "Extreme Persistence Hunter" },
-    "points": 10,
+    "points": 2,
     "description": "You can pursue prey for days until they literally die from exhaustion.  It's too bad zombies don't fatigue either.",
-    "types": [ "METABOLISM" ],
     "prereqs": [ "PERSISTENCE_HUNTER" ],
     "threshreq": [ "THRESH_LUPINE" ],
     "category": [ "LUPINE" ],
@@ -6527,35 +6502,14 @@
     "id": "FELINE_FLEXIBILITY",
     "name": { "str": "Feline Flexibility" },
     "points": 4,
-    "description": "Your muscles, joints, and the movement center of your brain have changed internally somewhat, allowing you to traverse obstacles with ease.",
+    "description": "Your muscles, joints, and the movement center of your brain have changed internally somewhat, allowing you to traverse obstacles with ease.  It also helps you avoid attacks a bit more easily.",
     "valid": false,
     "purifiable": false,
+    "cancels": [ "PARKOUR", "BADKNEES" ],
     "threshreq": [ "THRESH_FELINE" ],
     "category": [ "FELINE" ],
-    "movecost_obstacle_modifier": 0.5
-  },
-  {
-    "type": "mutation",
-    "id": "HATES_WATER",
-    "name": { "str": "Hates Water" },
-    "points": -2,
-    "description": "You really hate getting your fur all wet.  This increases morale penalties for being wet, and you will get them even when wearing appropriate clothing.",
-    "valid": false,
-    "prereqs": [ "FELINE_FUR" ],
-    "category": [ "FELINE" ],
-    "cancels": [ "OUTDOORSMAN" ],
-    "wet_protection": [
-      { "part": "head", "good": -12 },
-      { "part": "leg_l", "good": -16 },
-      { "part": "leg_r", "good": -16 },
-      { "part": "foot_l", "good": -4 },
-      { "part": "foot_r", "good": -4 },
-      { "part": "arm_l", "good": -16 },
-      { "part": "arm_r", "good": -16 },
-      { "part": "hand_l", "good": -16 },
-      { "part": "hand_r", "good": -16 },
-      { "part": "torso", "good": -30 }
-    ]
+    "movecost_obstacle_modifier": 0.3,
+    "dodge_modifier": 1
   },
   {
     "type": "mutation",
