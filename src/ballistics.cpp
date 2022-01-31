@@ -305,7 +305,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     int projectile_skip_calculation = range * projectile_skip_multiplier;
     int projectile_skip_current_frame = rng( 0, projectile_skip_calculation );
     bool has_momentum = true;
-
+    map &here = get_map();
     for( size_t i = 1; i < traj_len && ( has_momentum || stream ); ++i ) {
         prev_point = tp;
         tp = trajectory[i];
