@@ -196,8 +196,7 @@
         { "monster": "GROUP_CHURCH_ZOMBIE", "x": [ 0, 23 ], "y": [ 72, 95 ], "repeat": [ 1, 2 ], "density": 0.2 },
         { "monster": "GROUP_CHURCH_ZOMBIE", "x": [ 24, 47 ], "y": [ 72, 95 ], "repeat": [ 1, 2 ], "density": 0.2 },
         { "monster": "GROUP_CHURCH_BLANK", "x": [ 23, 23 ], "y": [ 92, 92 ], "density": 0.1 }
-      ],
-      "place_monster": [ { "monster": "mon_flesh_angel", "x": 24, "y": 92, "chance": 75 } ]
+      ]
     }
   }
 ]

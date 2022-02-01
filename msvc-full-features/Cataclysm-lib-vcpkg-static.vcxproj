@@ -65,8 +65,7 @@
         <ClCompile>
             <WarningLevel>Level1</WarningLevel>
             <PrecompiledHeader>Use</PrecompiledHeader>
-            <SDLCheck>false</SDLCheck>
-            <BufferSecurityCheck>false</BufferSecurityCheck>
+            <SDLCheck>true</SDLCheck>
             <CompileAsManaged>false</CompileAsManaged>
             <MultiProcessorCompilation>true</MultiProcessorCompilation>
             <MinimalRebuild>false</MinimalRebuild>

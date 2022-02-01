@@ -18,7 +18,6 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include "active_tile_data_def.h"
 #include "avatar.h"
 #include "bionics.h"
 #include "cata_utility.h"
@@ -26,9 +25,6 @@
 #include "clzones.h"
 #include "colony.h"
 #include "coordinate_conversions.h"
-#include "coordinates.h"
-#include "creature.h"
-#include "cuboid_rectangle.h"
 #include "debug.h"
 #include "distribution_grid.h"
 #include "enums.h"
@@ -58,14 +54,12 @@
 #include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
-#include "point_float.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "submap.h"
 #include "translations.h"
-#include "units_utility.h"
 #include "veh_type.h"
 #include "vehicle_selector.h"
 #include "weather.h"
@@ -164,7 +158,7 @@ class DefaultRemovePartHandler : public RemovePartHandler
             // TODO: maybe do this for all the nearby NPCs as well?
 
             if( g->u.get_grab_type() == OBJECT_VEHICLE && g->u.grab_point == veh.global_part_pos3( part ) ) {
-                if( veh.parts_at_relative( veh.part( part ).mount, false ).empty() ) {
+                if( veh.parts_at_relative( veh.parts[part].mount, false ).empty() ) {
                     add_msg( m_info, _( "The vehicle part you were holding has been destroyed!" ) );
                     g->u.grab( OBJECT_NONE );
                 }
@@ -238,9 +232,9 @@ void vehicle_stack::insert( const item &newitem )
 
 units::volume vehicle_stack::max_volume() const
 {
-    if( myorigin->part_flag( part_num, "CARGO" ) && !myorigin->part( part_num ).is_broken() ) {
+    if( myorigin->part_flag( part_num, "CARGO" ) && !myorigin->parts[part_num].is_broken() ) {
         // Set max volume for vehicle cargo to prevent integer overflow
-        return std::min( myorigin->part( part_num ).info().size, 10000_liter );
+        return std::min( myorigin->parts[part_num].info().size, 10000_liter );
     }
     return 0_ml;
 }
@@ -250,9 +244,9 @@ units::volume vehicle_stack::max_volume() const
 vehicle::vehicle( const vproto_id &type_id, int init_veh_fuel,
                   int init_veh_status ): type( type_id )
 {
-    turn_dir = 0_degrees;
-    face.init( 0_degrees );
-    move.init( 0_degrees );
+    turn_dir = 0;
+    face.init( 0 );
+    move.init( 0 );
     of_turn_carry = 0;
 
     if( !type.str().empty() && type.is_valid() ) {
@@ -273,7 +267,7 @@ vehicle::vehicle() : vehicle( vproto_id() )
 
 vehicle::~vehicle() = default;
 
-bool vehicle::player_in_control( const Character &p ) const
+bool vehicle::player_in_control( const player &p ) const
 {
     // Debug switch to prevent vehicles from skidding
     // without having to place the player in them.
@@ -293,7 +287,7 @@ bool vehicle::player_in_control( const Character &p ) const
     return remote_controlled( p );
 }
 
-bool vehicle::remote_controlled( const Character &p ) const
+bool vehicle::remote_controlled( const player &p ) const
 {
     vehicle *veh = g->remoteveh();
     if( veh != this ) {
@@ -713,7 +707,7 @@ void vehicle::autopilot_patrol()
      */
     // if we are close to a waypoint, then return to come back to this function next turn.
     if( autodrive_local_target != tripoint_zero ) {
-        if( rl_dist( global_square_location().raw(), autodrive_local_target ) <= 3 ) {
+        if( rl_dist( g->m.getabs( global_pos3() ), autodrive_local_target ) <= 3 ) {
             autodrive_local_target = tripoint_zero;
             return;
         }
@@ -727,7 +721,7 @@ void vehicle::autopilot_patrol()
     }
     zone_manager &mgr = zone_manager::get_manager();
     const auto &zone_src_set = mgr.get_near( zone_type_id( "VEHICLE_PATROL" ),
-                               global_square_location().raw(), 60 );
+                               g->m.getabs( global_pos3() ), 60 );
     if( zone_src_set.empty() ) {
         is_patrolling = false;
         return;
@@ -757,21 +751,24 @@ void vehicle::autopilot_patrol()
                              point_along,
                              min.z );
     tripoint chosen_tri = min_tri;
-    if( rl_dist( max_tri, global_square_location().raw() ) >= rl_dist( min_tri,
-            global_square_location().raw() ) ) {
+    if( rl_dist( max_tri, g->m.getabs( global_pos3() ) ) >= rl_dist( min_tri,
+            g->m.getabs( global_pos3() ) ) ) {
         chosen_tri = max_tri;
     }
     autodrive_local_target = chosen_tri;
     drive_to_local_target( autodrive_local_target, false );
 }
 
-std::set<point> vehicle::immediate_path( units::angle rotate )
+std::set<point> vehicle::immediate_path( int rotate )
 {
     std::set<point> points_to_check;
     const int distance_to_check = 10 + ( velocity / 800 );
-    units::angle adjusted_angle = normalize( face.dir() + rotate );
+    int adjusted_angle = ( face.dir() + rotate ) % 360;
+    if( adjusted_angle < 0 ) {
+        adjusted_angle += 360;
+    }
     // clamp to multiples of 15.
-    adjusted_angle = round_to_multiple_of( adjusted_angle, 15_degrees );
+    adjusted_angle = ( ( adjusted_angle + 15 / 2 ) / 15 ) * 15;
     tileray collision_vector;
     collision_vector.init( adjusted_angle );
     point top_left_actual = global_pos3().xy() + coord_translate( front_left );
@@ -789,27 +786,47 @@ std::set<point> vehicle::immediate_path( units::angle rotate )
     return points_to_check;
 }
 
-static int get_turn_from_angle( const units::angle angle, const tripoint &vehpos,
-                                const tripoint &target, bool reverse = false )
+static int get_turn_from_angle( const double angle, const tripoint &vehpos, const tripoint &target,
+                                bool reverse = false )
 {
-    if( angle > 10.0_degrees && angle <= 45.0_degrees ) {
+    if( angle > 10.0 && angle <= 45.0 ) {
         return reverse ? 4 : 1;
-    } else if( angle > 45.0_degrees && angle <= 90.0_degrees ) {
+    } else if( angle > 45.0 && angle <= 90.0 ) {
         return 3;
-    } else if( angle > 90.0_degrees && angle < 180.0_degrees ) {
+    } else if( angle > 90.0 && angle < 180.0 ) {
         return reverse ? 1 : 4;
-    } else if( angle < -10.0_degrees && angle >= -45.0_degrees ) {
+    } else if( angle < -10.0 && angle >= -45.0 ) {
         return reverse ? -4 : -1;
-    } else if( angle < -45.0_degrees && angle >= -90.0_degrees ) {
+    } else if( angle < -45.0 && angle >= -90.0 ) {
         return -3;
-    } else if( angle < -90.0_degrees && angle > -180.0_degrees ) {
+    } else if( angle < -90.0 && angle > -180.0 ) {
         return reverse ? -1 : -4;
         // edge case of being exactly on the button for the target.
         // just keep driving, the next path point will be picked up.
-    } else if( ( angle == 180_degrees || angle == -180_degrees ) && vehpos == target ) {
+    } else if( ( angle == 180 || angle == -180 ) && vehpos == target ) {
         return 0;
     }
     return 0;
+}
+
+void vehicle::stop_autodriving()
+{
+    if( !is_autodriving && !is_patrolling && !is_following ) {
+        return;
+    }
+    if( velocity > 0 ) {
+        if( is_patrolling || is_following ) {
+            autodrive( point( 0, 10 ) );
+        } else {
+            pldrive( point( 0, 10 ) );
+        }
+    }
+    is_autodriving = false;
+    is_patrolling = false;
+    is_following = false;
+    autopilot_on = false;
+    autodrive_local_target = tripoint_zero;
+    collision_check_points.clear();
 }
 
 void vehicle::drive_to_local_target( const tripoint &target, bool follow_protocol )
@@ -819,8 +836,8 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
         return;
     }
     refresh();
-    tripoint vehpos = global_square_location().raw();
-    units::angle angle = get_angle_from_targ( target );
+    tripoint vehpos = g->m.getabs( global_pos3() );
+    double angle = get_angle_from_targ( target );
     // now we got the angle to the target, we can work out when we are heading towards disaster.
     // Check the tileray in the direction we need to head towards.
     std::set<point> points_to_check = immediate_path( angle );
@@ -870,6 +887,10 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
                            string_format( _( "the %s emitting a beep and saying \"Obstacle detected!\"" ),
                                           name ) );
         }
+        if( velocity > 0 ) {
+            follow_protocol ||
+            is_patrolling ? autodrive( point( 0, 10 ) ) : pldrive( point( 0, 10 ) );
+        }
         stop_autodriving();
         return;
     }
@@ -909,12 +930,13 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
             accel_y = 1;
         }
     }
-    selfdrive( point( turn_x, accel_y ) );
+    follow_protocol ||
+    is_patrolling ? autodrive( point( turn_x, accel_y ) ) : pldrive( point( turn_x, accel_y ) );
 }
 
-units::angle vehicle::get_angle_from_targ( const tripoint &targ )
+double vehicle::get_angle_from_targ( const tripoint &targ )
 {
-    tripoint vehpos = global_square_location().raw();
+    tripoint vehpos = g->m.getabs( global_pos3() );
     rl_vec2d facevec = face_vec();
     point rel_pos_target = targ.xy() - vehpos.xy();
     rl_vec2d targetvec = rl_vec2d( rel_pos_target.x, rel_pos_target.y );
@@ -923,7 +945,55 @@ units::angle vehicle::get_angle_from_targ( const tripoint &targ )
     // dot product.
     double dotx = ( facevec.x * targetvec.x ) + ( facevec.y * targetvec.y );
 
-    return units::atan2( crossy, dotx );
+    return atan2( crossy, dotx ) * 180 / M_PI;
+}
+
+void vehicle::do_autodrive()
+{
+    if( omt_path.empty() ) {
+        stop_autodriving();
+    }
+    tripoint vehpos = global_pos3();
+    tripoint veh_omt_pos = ms_to_omt_copy( g->m.getabs( vehpos ) );
+    // we're at or close to the waypoint, pop it out and look for the next one.
+    if( ( is_autodriving && !g->u.omt_path.empty() && !omt_path.empty() ) &&
+        veh_omt_pos == omt_path.back() ) {
+        g->u.omt_path.pop_back();
+        omt_path.pop_back();
+    }
+    if( omt_path.empty() ) {
+        stop_autodriving();
+        return;
+    }
+
+    point omt_diff = omt_path.back().xy() - veh_omt_pos.xy();
+    if( omt_diff.x > 3 || omt_diff.x < -3 || omt_diff.y > 3 || omt_diff.y < -3 ) {
+        // we've gone walkabout somehow, call off the whole thing
+        stop_autodriving();
+        return;
+    }
+    point side;
+    if( omt_diff.x > 0 ) {
+        side.x = 2 * SEEX - 1;
+    } else if( omt_diff.x < 0 ) {
+        side.x = 0;
+    } else {
+        side.x = SEEX;
+    }
+    if( omt_diff.y > 0 ) {
+        side.y = 2 * SEEY - 1;
+    } else if( omt_diff.y < 0 ) {
+        side.y = 0;
+    } else {
+        side.y = SEEY;
+    }
+    // get the shared border mid-point of the next path omt
+    tripoint global_a = tripoint( veh_omt_pos.x * ( 2 * SEEX ), veh_omt_pos.y * ( 2 * SEEY ),
+                                  veh_omt_pos.z );
+    tripoint autodrive_temp_target = ( global_a + tripoint( side,
+                                       sm_pos.z ) - g->m.getabs( vehpos ) ) + vehpos;
+    autodrive_local_target = g->m.getabs( autodrive_temp_target );
+    drive_to_local_target( autodrive_local_target, false );
 }
 
 /**
@@ -961,13 +1031,11 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
         int roll = dice( 1, 1000 );
         int pct_af = ( percent_of_parts_to_affect * 1000.0f );
         if( roll < pct_af ) {
-            double dist =  damage_size == 0.0f ? 1.0f :
-                           clamp( 1.0f - trig_dist( damage_origin, part.precalc[0].xy() ) /
-                                  damage_size, 0.0f, 1.0f );
+            double dist = damage_size == 0.0 ? 1.0 :
+                          clamp( 1.0 - trig_dist( damage_origin, part.precalc[0] ) / damage_size, 0.0, 1.0 );
             //Everywhere else, drop by 10-120% of max HP (anything over 100 = broken)
             if( mod_hp( part, 0 - ( rng_float( hp_percent_loss_min * dist,
-                                               hp_percent_loss_max * dist ) *
-                                    part.info().durability ), DT_BASH ) ) {
+                                               hp_percent_loss_max * dist ) * part.info().durability ), DT_BASH ) ) {
                 part.ammo_unset();
             }
         }
@@ -1167,10 +1235,9 @@ int vehicle::part_vpower_w( const int index, const bool at_full_hp ) const
         pwr += ( g->u.str_cur - 8 ) * part_info( index ).engine_muscle_power_factor();
         /// wind-powered vehicles have differing power depending on wind direction
         if( vp.info().fuel_type == fuel_type_wind ) {
-            const weather_manager &weather = get_weather();
-            int windpower = weather.windspeed;
+            int windpower = g->weather.windspeed;
             rl_vec2d windvec;
-            double raddir = ( ( weather.winddirection + 180 ) % 360 ) * ( M_PI / 180 );
+            double raddir = ( ( g->weather.winddirection + 180 ) % 360 ) * ( M_PI / 180 );
             windvec = windvec.normalized();
             windvec.y = -std::cos( raddir );
             windvec.x = std::sin( raddir );
@@ -1685,18 +1752,18 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
         }
     }
 
-    units::angle relative_dir = normalize( carry_veh->face.dir() - face.dir() );
-    units::angle relative_180 = units::fmod( relative_dir, 180_degrees );
-    units::angle face_dir_180 = normalize( face.dir(), 180_degrees );
+    int relative_dir = modulo( carry_veh->face.dir() - face.dir(), 360 );
+    int relative_180 = modulo( relative_dir, 180 );
+    int face_dir_180 = modulo( face.dir(), 180 );
 
     // if the carrier is skewed N/S and the carried vehicle isn't aligned with
     // the carrier, force the carried vehicle to be at a right angle
-    if( face_dir_180 >= 45_degrees && face_dir_180 <= 135_degrees ) {
-        if( relative_180 >= 45_degrees && relative_180 <= 135_degrees ) {
-            if( relative_dir < 180_degrees ) {
-                relative_dir = 90_degrees;
+    if( face_dir_180 >= 45 && face_dir_180 <= 135 ) {
+        if( relative_180 >= 45 && relative_180 <= 135 ) {
+            if( relative_dir < 180 ) {
+                relative_dir = 90;
             } else {
-                relative_dir = 270_degrees;
+                relative_dir = 270;
             }
         }
     }
@@ -1757,10 +1824,8 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
         for( auto carry_map : carry_data ) {
             std::string offset = string_format( "%s%3d", carry_map.old_mount == mount_zero ? axis : " ",
                                                 axis == "X" ? carry_map.old_mount.x : carry_map.old_mount.y );
-            std::string unique_id = string_format( "%s%3d%s", offset,
-                                                   static_cast<int>( to_degrees( relative_dir ) ),
-                                                   carry_veh->name );
-            for( int carry_part : carry_map.carry_parts_here ) {
+            std::string unique_id = string_format( "%s%3d%s", offset, relative_dir, carry_veh->name );
+            for( auto carry_part : carry_map.carry_parts_here ) {
                 parts.push_back( carry_veh->parts[ carry_part ] );
                 vehicle_part &carried_part = parts.back();
                 carried_part.mount = carry_map.carry_mount;
@@ -1939,15 +2004,12 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
 void vehicle::part_removal_cleanup()
 {
     bool changed = false;
-    map &here = get_map();
     for( std::vector<vehicle_part>::iterator it = parts.begin(); it != parts.end(); /* noop */ ) {
         if( it->removed ) {
             auto items = get_items( std::distance( parts.begin(), it ) );
             while( !items.empty() ) {
                 items.erase( items.begin() );
             }
-            const tripoint &pt = global_part_pos3( *it );
-            here.clear_vehicle_point_from_cache( this, pt );
             it = parts.erase( it );
             changed = true;
         } else {
@@ -1958,10 +2020,10 @@ void vehicle::part_removal_cleanup()
     if( changed || parts.empty() ) {
         refresh();
         if( parts.empty() ) {
-            here.destroy_vehicle( this );
+            g->m.destroy_vehicle( this );
             return;
         } else {
-            here.add_vehicle_to_cache( this );
+            g->m.update_vehicle_cache( this, sm_pos.z );
         }
     }
     shift_if_needed();
@@ -2030,22 +2092,20 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
     if( veh_record.empty() ) {
         return false;
     }
-    units::angle new_dir =
-        normalize( units::from_degrees( std::stoi( veh_record.substr( 4, 3 ) ) ) + face.dir() );
-    units::angle host_dir = normalize( face.dir(), 180_degrees );
+    int new_dir = modulo( std::stoi( veh_record.substr( 4, 3 ) ) + face.dir(), 360 );
+    int host_dir = modulo( face.dir(), 180 );
     // if the host is skewed N/S, and the carried vehicle is going to come at an angle,
     // force it to east/west instead
-    if( host_dir >= 45_degrees && host_dir <= 135_degrees ) {
-        if( new_dir <= 45_degrees || new_dir >= 315_degrees ) {
-            new_dir = 0_degrees;
-        } else if( new_dir >= 135_degrees && new_dir <= 225_degrees ) {
-            new_dir = 180_degrees;
+    if( host_dir >= 45 && host_dir <= 135 ) {
+        if( new_dir <= 45 || new_dir >= 315 ) {
+            new_dir = 0;
+        } else if( new_dir >= 135 && new_dir <= 225 ) {
+            new_dir = 180;
         }
     }
     vehicle *new_vehicle = g->m.add_vehicle( vproto_id( "none" ), new_pos3, new_dir );
     if( new_vehicle == nullptr ) {
-        add_msg( m_debug, "Unable to unload bike rack, host face %d, new_dir %d!",
-                 to_degrees( face.dir() ), to_degrees( new_dir ) );
+        add_msg( m_debug, "Unable to unload bike rack, host face %d, new_dir %d!", face.dir(), new_dir );
         return false;
     }
 
@@ -2566,7 +2626,7 @@ bool vehicle::has_part( const tripoint &pos, const std::string &flag, bool enabl
     const tripoint relative_pos = pos - global_pos3();
 
     for( const auto &e : parts ) {
-        if( e.precalc[0] != relative_pos ) {
+        if( e.precalc[0].x != relative_pos.x || e.precalc[0].y != relative_pos.y ) {
             continue;
         }
         if( !e.removed && ( !enabled || e.enabled ) && !e.is_broken() && e.info().has_flag( flag ) ) {
@@ -2582,7 +2642,7 @@ std::vector<vehicle_part *> vehicle::get_parts_at( const tripoint &pos, const st
     const tripoint relative_pos = pos - global_pos3();
     std::vector<vehicle_part *> res;
     for( auto &e : parts ) {
-        if( e.precalc[ 0 ] != relative_pos ) {
+        if( e.precalc[ 0 ].x != relative_pos.x || e.precalc[ 0 ].y != relative_pos.y ) {
             continue;
         }
         if( !e.removed &&
@@ -2602,7 +2662,7 @@ std::vector<const vehicle_part *> vehicle::get_parts_at( const tripoint &pos,
     const tripoint relative_pos = pos - global_pos3();
     std::vector<const vehicle_part *> res;
     for( const auto &e : parts ) {
-        if( e.precalc[ 0 ] != relative_pos ) {
+        if( e.precalc[ 0 ].x != relative_pos.x || e.precalc[ 0 ].y != relative_pos.y ) {
             continue;
         }
         if( !e.removed &&
@@ -2892,7 +2952,7 @@ bool vehicle::part_flag( int part, const vpart_bitflags flag ) const
 int vehicle::part_at( const point &dp ) const
 {
     for( const vpart_reference &vp : get_all_parts() ) {
-        if( vp.part().precalc[0].xy() == dp && !vp.part().removed ) {
+        if( vp.part().precalc[0] == dp && !vp.part().removed ) {
             return static_cast<int>( vp.part_index() );
         }
     }
@@ -2986,13 +3046,12 @@ int vehicle::roof_at_part( const int part ) const
 
 point vehicle::coord_translate( const point &p ) const
 {
-    tripoint q;
+    point q;
     coord_translate( pivot_rotation[0], pivot_anchor[0], p, q );
-    return q.xy();
+    return q;
 }
 
-void vehicle::coord_translate( units::angle dir, const point &pivot, const point &p,
-                               tripoint &q ) const
+void vehicle::coord_translate( int dir, const point &pivot, const point &p, point &q ) const
 {
     tileray tdir( dir );
     tdir.advance( p.x - pivot.x );
@@ -3000,12 +3059,19 @@ void vehicle::coord_translate( units::angle dir, const point &pivot, const point
     q.y = tdir.dy() + tdir.ortho_dy( p.y - pivot.y );
 }
 
-void vehicle::coord_translate( tileray tdir, const point &pivot, const point &p, tripoint &q ) const
+void vehicle::coord_translate( tileray tdir, const point &pivot, const point &p, point &q ) const
 {
     tdir.clear_advance();
     tdir.advance( p.x - pivot.x );
     q.x = tdir.dx() + tdir.ortho_dx( p.y - pivot.y );
     q.y = tdir.dy() + tdir.ortho_dy( p.y - pivot.y );
+}
+
+point vehicle::rotate_mount( int old_dir, int new_dir, const point &pivot, const point &p ) const
+{
+    point q;
+    coord_translate( new_dir - old_dir, pivot, p, q );
+    return q;
 }
 
 tripoint vehicle::mount_to_tripoint( const point &mount ) const
@@ -3015,18 +3081,18 @@ tripoint vehicle::mount_to_tripoint( const point &mount ) const
 
 tripoint vehicle::mount_to_tripoint( const point &mount, const point &offset ) const
 {
-    tripoint mnt_translated;
+    point mnt_translated;
     coord_translate( pivot_rotation[0], pivot_anchor[ 0 ], mount + offset, mnt_translated );
     return global_pos3() + mnt_translated;
 }
 
-void vehicle::precalc_mounts( int idir, units::angle dir, const point &pivot )
+void vehicle::precalc_mounts( int idir, int dir, const point &pivot )
 {
     if( idir < 0 || idir > 1 ) {
         idir = 0;
     }
     tileray tdir( dir );
-    std::unordered_map<point, tripoint> mount_to_precalc;
+    std::unordered_map<point, point> mount_to_precalc;
     for( auto &p : parts ) {
         if( p.removed ) {
             continue;
@@ -3087,16 +3153,6 @@ monster *vehicle::get_pet( int p ) const
     return nullptr;
 }
 
-tripoint_abs_ms vehicle::global_square_location() const
-{
-    return tripoint_abs_ms( get_map().getabs( global_pos3() ) );
-}
-
-tripoint_abs_omt vehicle::global_omt_location() const
-{
-    return project_to<coords::omt>( global_square_location() );
-}
-
 tripoint vehicle::global_pos3() const
 {
     return sm_to_ms_copy( sm_pos ) + pos;
@@ -3112,10 +3168,11 @@ tripoint vehicle::global_part_pos3( const vehicle_part &pt ) const
     return global_pos3() + pt.precalc[ 0 ];
 }
 
-void vehicle::set_submap_moved( const tripoint &p )
+void vehicle::set_submap_moved( const point &p )
 {
-    const point_abs_ms old_msp = global_square_location().xy();
-    sm_pos = p;
+    const point old_msp = g->m.getabs( global_pos3().xy() );
+    sm_pos.x = p.x;
+    sm_pos.y = p.y;
     if( !tracking_on ) {
         return;
     }
@@ -3170,9 +3227,9 @@ point vehicle::pivot_displacement() const
     // the vehicle.
 
     // rotate the old pivot point around the new pivot point with the old rotation angle
-    tripoint dp;
+    point dp;
     coord_translate( pivot_rotation[0], pivot_anchor[1], pivot_anchor[0], dp );
-    return dp.xy();
+    return dp;
 }
 
 int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
@@ -3623,8 +3680,7 @@ bool vehicle::do_environmental_effects()
          * - The weather is any effect that would cause the player to be wet. */
         if( vp.part().blood > 0 && g->m.is_outside( vp.pos() ) ) {
             needed = true;
-            if( get_weather().weather_id->rains &&
-                get_weather().weather_id->precip != precip_class::very_light ) {
+            if( g->weather.weather >= WEATHER_LIGHT_DRIZZLE && g->weather.weather <= WEATHER_ACID_RAIN ) {
                 vp.part().blood--;
             }
         }
@@ -4284,7 +4340,7 @@ bool vehicle::balanced_wheel_config() const
 
     // Check center of mass inside support of wheels (roughly)
     const point &com = local_center_of_mass();
-    const inclusive_rectangle<point> support( min, max );
+    const inclusive_rectangle support( min, max );
     return support.contains( com );
 }
 
@@ -4527,7 +4583,7 @@ int vehicle::total_solar_epower_w() const
     }
     // Weather doesn't change much across the area of the vehicle, so just
     // sample it once.
-    const weather_type_id &wtype = current_weather( global_pos3() );
+    weather_type wtype = current_weather( global_pos3() );
     const float tick_sunlight = incident_sunlight( wtype, calendar::turn );
     double intensity = tick_sunlight / default_daylight_level();
     return epower_w * intensity;
@@ -4535,22 +4591,21 @@ int vehicle::total_solar_epower_w() const
 
 int vehicle::total_wind_epower_w() const
 {
-    map &here = get_map();
-    const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
-    const weather_manager &weather = get_weather();
+    const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( global_pos3() ) ) );
+    const w_point weatherPoint = *g->weather.weather_precise;
     int epower_w = 0;
     for( int part : wind_turbines ) {
         if( parts[ part ].is_unavailable() ) {
             continue;
         }
 
-        if( !is_sm_tile_outside( here.getabs( global_part_pos3( part ) ) ) ) {
+        if( !is_sm_tile_outside( g->m.getabs( global_part_pos3( part ) ) ) ) {
             continue;
         }
 
-        double windpower = get_local_windpower( weather.windspeed, cur_om_ter, global_part_pos3( part ),
-                                                weather.winddirection, false );
-        if( windpower <= ( weather.windspeed / 10.0 ) ) {
+        double windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, global_part_pos3( part ),
+                                                g->weather.winddirection, false );
+        if( windpower <= ( g->weather.windspeed / 10.0 ) ) {
             continue;
         }
         epower_w += part_epower_w( part ) * windpower;
@@ -4827,10 +4882,10 @@ int traverse( StartPoint *start, int amount,
     visited_elements.insert( start );
     auto &grid_tracker = get_distribution_grid_tracker();
 
-    auto process_vehicle = [&]( const tripoint_abs_ms & target_pos ) {
+    auto process_vehicle = [&]( const tripoint & target_pos ) {
         auto *veh = vehicle::find_vehicle( target_pos );
         if( veh == nullptr ) {
-            debugmsg( "lost vehicle at %s", target_pos.to_string() );
+            debugmsg( "lost vehicle at %d,%d,%d", target_pos.x, target_pos.y, target_pos.z );
         }
         // Add this connected vehicle to the queue of vehicles to search next,
         // but only if we haven't seen this one before.
@@ -4848,10 +4903,10 @@ int traverse( StartPoint *start, int amount,
         return false;
     };
 
-    auto process_grid = [&]( const tripoint_abs_ms & target_pos ) {
+    auto process_grid = [&]( const tripoint & target_pos ) {
         auto *grid = &grid_tracker.grid_at( target_pos );
         if( !*grid ) {
-            debugmsg( "lost grid at %s", target_pos.to_string() );
+            debugmsg( "lost grid at %d,%d,%d", target_pos.x, target_pos.y, target_pos.z );
         }
         if( *grid && visited_elements.count( grid ) == 0 ) {
             connected_elements.emplace( grid );
@@ -4872,15 +4927,15 @@ int traverse( StartPoint *start, int amount,
         connected_elements.pop();
 
         if( current.type == vehicle_or_grid<IsConst>::type_t::vehicle ) {
-            const vehicle &current_veh = *current.veh;
+            auto &current_veh = *current.veh;
             for( auto &p : current_veh.loose_parts ) {
                 if( !current_veh.part_info( p ).has_flag( "POWER_TRANSFER" ) ) {
                     // Ignore loose parts that aren't power transfer cables
                     continue;
                 }
 
-                const tripoint_abs_ms target_pos( current_veh.cpart( p ).target.second );
-                if( current_veh.cpart( p ).has_flag( vehicle_part::targets_grid ) ) {
+                const tripoint target_pos = current_veh.parts[p].target.second;
+                if( current_veh.parts[p].has_flag( vehicle_part::targets_grid ) ) {
                     if( process_grid( target_pos ) ) {
                         break;
                     }
@@ -4899,7 +4954,7 @@ int traverse( StartPoint *start, int amount,
                     continue;
                 }
 
-                for( const tripoint_abs_ms &target_pos : connector->connected_vehicles ) {
+                for( const tripoint &target_pos : connector->connected_vehicles ) {
                     if( process_vehicle( target_pos ) ) {
                         break;
                     }
@@ -5363,7 +5418,6 @@ void vehicle::gain_moves()
         } else {
             velocity -= vslowdown;
         }
-        is_on_ramp = false;
     } else {
         of_turn = .001;
     }
@@ -5771,21 +5825,19 @@ void vehicle::do_towing_move()
     }
     if( towed_veh->global_pos3().z != global_pos3().z ) {
         // how the hellicopter did this happen?
-        // yes, this can happen when towing over a bridge (see #47293)
         invalidate = true;
-        add_msg( m_info, _( "A towing cable snaps off of %s." ), tow_data.get_towed()->disp_name() );
     }
     if( invalidate ) {
-        invalidate_towing( true );
+        invalidate_towing();
         return;
     }
     const tripoint tower_tow_point = g->m.getabs( global_part_pos3( tow_index ) );
     const tripoint towed_tow_point = g->m.getabs( towed_veh->global_part_pos3( other_tow_index ) );
     // same as above, but where the pulling vehicle is pulling from
-    units::angle towing_veh_angle = towed_veh->get_angle_from_targ( tower_tow_point );
+    double towing_veh_angle = towed_veh->get_angle_from_targ( tower_tow_point );
     const bool reverse = towed_veh->tow_data.tow_direction == TOW_BACK;
     int accel_y = 0;
-    tripoint vehpos = global_square_location().raw();
+    tripoint vehpos = g->m.getabs( towed_veh->global_pos3() );
     int turn_x = get_turn_from_angle( towing_veh_angle, vehpos, tower_tow_point, reverse );
     if( rl_dist( towed_tow_point, tower_tow_point ) < 6 ) {
         accel_y = reverse ? -1 : 1;
@@ -5802,10 +5854,10 @@ void vehicle::do_towing_move()
         towed_veh->velocity = reverse ? -velocity : velocity;
     }
     if( towed_veh->tow_data.tow_direction == TOW_FRONT ) {
-        towed_veh->selfdrive( point( turn_x, accel_y ) );
+        towed_veh->autodrive( point( turn_x, accel_y ) );
     } else if( towed_veh->tow_data.tow_direction == TOW_BACK ) {
         accel_y = 10;
-        towed_veh->selfdrive( point( turn_x, accel_y ) );
+        towed_veh->autodrive( point( turn_x, accel_y ) );
     } else {
         towed_veh->skidding = true;
         std::vector<tripoint> lineto = line_to( g->m.getlocal( towed_tow_point ),
@@ -6037,10 +6089,10 @@ void vehicle::remove_remote_part( int part_num )
 {
     if( parts[part_num].has_flag( vehicle_part::targets_grid ) ) {
         vehicle_connector_tile *connector =
-            active_tiles::furn_at<vehicle_connector_tile>( tripoint_abs_ms( parts[part_num].target.second ) );
+            active_tiles::furn_at<vehicle_connector_tile>( parts[part_num].target.second );
         if( connector != nullptr ) {
             auto &vehs = connector->connected_vehicles;
-            auto iter = std::find( vehs.begin(), vehs.end(), tripoint_abs_ms( g->m.getabs( global_pos3() ) ) );
+            auto iter = std::find( vehs.begin(), vehs.end(), g->m.getabs( global_pos3() ) );
             if( iter != vehs.end() ) {
                 vehs.erase( iter );
             }
@@ -6160,7 +6212,7 @@ bool vpart_position::is_inside() const
     // this should be called elsewhere and not in a function that intends to just query
     // it's also a no-op if the insides are up to date.
     vehicle().refresh_insides();
-    return vehicle().part( part_index() ).inside;
+    return vehicle().parts[part_index()].inside;
 }
 
 void vehicle::unboard_all()
@@ -6506,7 +6558,7 @@ void vehicle::leak_fuel( vehicle_part &pt )
     }
 
     // leak in random directions but prefer closest tiles and avoid walls or other obstacles
-    std::vector<tripoint> tiles = closest_points_first( global_part_pos3( pt ), 1 );
+    std::vector<tripoint> tiles = closest_tripoints_first( global_part_pos3( pt ), 1 );
     tiles.erase( std::remove_if( tiles.begin(), tiles.end(), []( const tripoint & e ) {
         return !g->m.passable( e );
     } ), tiles.end() );
@@ -6557,9 +6609,9 @@ bool vehicle::restore( const std::string &data )
         return false;
     }
     refresh();
-    face.init( 0_degrees );
-    turn_dir = 0_degrees;
-    turn( 0_degrees );
+    face.init( 0 );
+    turn_dir = 0;
+    turn( 0 );
     precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
     precalc_mounts( 1, pivot_rotation[1], pivot_anchor[1] );
     last_update = calendar::turn;
@@ -6581,8 +6633,8 @@ std::set<tripoint> &vehicle::get_points( const bool force_refresh )
 
 vehicle_part &vpart_reference::part() const
 {
-    assert( part_index() < static_cast<size_t>( vehicle().part_count() ) );
-    return vehicle().part( part_index() );
+    assert( part_index() < vehicle().parts.size() );
+    return vehicle().parts[part_index()];
 }
 
 const vpart_info &vpart_reference::info() const
@@ -6597,7 +6649,7 @@ player *vpart_reference::get_passenger() const
 
 point vpart_position::mount() const
 {
-    return vehicle().part( part_index() ).mount;
+    return vehicle().parts[part_index()].mount;
 }
 
 tripoint vpart_position::pos() const
@@ -6681,8 +6733,7 @@ void vehicle::update_time( const time_point &update_to )
         return;
     }
     // Get one weather data set per vehicle, they don't differ much across vehicle area
-    const weather_sum accum_weather = sum_conditions( update_from, update_to,
-                                      global_square_location().raw() );
+    auto accum_weather = sum_conditions( update_from, update_to, g->m.getabs( global_pos3() ) );
     // make some reference objects to use to check for reload
     const item water( "water" );
     const item water_clean( "water_clean" );
@@ -6860,7 +6911,7 @@ bounding_box vehicle::get_bounding_box()
 
     int i_use = 0;
     for( const tripoint &p : get_points( true ) ) {
-        const point pt = parts[part_at( p.xy() )].precalc[i_use].xy();
+        const point pt = parts[part_at( p.xy() )].precalc[i_use];
         if( pt.x < min_x ) {
             min_x = pt.x;
         }
@@ -6883,90 +6934,6 @@ bounding_box vehicle::get_bounding_box()
 vehicle_part_range vehicle::get_all_parts() const
 {
     return vehicle_part_range( const_cast<vehicle &>( *this ) );
-}
-
-int vehicle::part_count() const
-{
-    return static_cast<int>( parts.size() );
-}
-
-vehicle_part &vehicle::part( int part_num )
-{
-    return parts[part_num];
-}
-
-const vehicle_part &vehicle::cpart( int part_num ) const
-{
-    return const_cast<vehicle_part &>( parts[part_num] );
-}
-
-bool vehicle::valid_part( int part_num ) const
-{
-    return part_num >= 0 && part_num < static_cast<int>( parts.size() );
-}
-
-std::set<int> vehicle::advance_precalc_mounts( const point &new_pos, const tripoint &src,
-        const tripoint &dp, int ramp_offset, const bool adjust_pos,
-        std::set<int> parts_to_move )
-{
-    map &here = get_map();
-    std::set<int> smzs;
-    // when a vehicle part enters the low end of a down ramp, or the high end of an up ramp,
-    // it immediately translates down or up a z-level, respectively, ending up on the low
-    // end of an up ramp or high end of a down ramp, respectively.  The two ends are set
-    // past each other, like so:
-    // (side view)  z+1   Rdh RDl
-    //              z+0   RUh Rul
-    // A vehicle moving left to right on z+1 drives down to z+0 by entering the ramp down low end.
-    // A vehicle moving right to left on z+0 drives up to z+1 by entering the ramp up high end.
-    // A vehicle moving left to right on z+0 should ideally collide into a wall before entering
-    //   the ramp up high end, but even if it does, it briefly transitions to z+1 before returning
-    //   to z0 by entering the ramp down low end.
-    // A vehicle moving right to left on z+1 drives down to z+0 by entering the ramp down low end,
-    //   then immediately returns to z+1 by entering the ramp up high end.
-    // When a vehicle's pivot point transitions a z-level via a ramp, all other pre-calc points
-    // make the opposite transition, so that points that were above an ascending pivot point are
-    // now level with it, and parts that were level with an ascending pivot point are now below
-    // it.
-    // parts that enter the translation portion of a ramp on the same displacement as the
-    // pivot point stay at the same relative z to the pivot point, as the ramp_offset adjustments
-    // cancel out.
-    // if a vehicle manages move partially up or down a ramp and then veers off course, it
-    // can get split across the z-levels and continue moving, enough though large parts of the
-    // vehicle are unsupported.  In that case, move the unsupported parts down until they are
-    // supported.
-    int index = -1;
-    for( vehicle_part &prt : parts ) {
-        index += 1;
-        here.clear_vehicle_point_from_cache( this, src + prt.precalc[0] );
-        // no parts means this is a normal horizontal or vertical move
-        if( parts_to_move.empty() ) {
-            prt.precalc[0] = prt.precalc[1];
-            // partial part movement means we're zero-ing out after missing a ramp
-        } else if( adjust_pos && parts_to_move.find( index ) == parts_to_move.end() ) {
-            prt.precalc[0].z -= dp.z;
-        } else if( !adjust_pos &&  parts_to_move.find( index ) != parts_to_move.end() ) {
-            prt.precalc[0].z += dp.z;
-        }
-        if( here.has_flag( TFLAG_RAMP_UP, src + dp + prt.precalc[0] ) ) {
-            prt.precalc[0].z += 1;
-        } else if( here.has_flag( TFLAG_RAMP_DOWN, src + dp + prt.precalc[0] ) ) {
-            prt.precalc[0].z -= 1;
-        }
-        prt.precalc[0].z -= ramp_offset;
-        prt.precalc[1].z = prt.precalc[0].z;
-        smzs.insert( prt.precalc[0].z );
-    }
-    if( adjust_pos ) {
-        if( parts_to_move.empty() ) {
-            pivot_anchor[0] = pivot_anchor[1];
-            pivot_rotation[0] = pivot_rotation[1];
-        }
-        pos = new_pos;
-    }
-    // Invalidate vehicle's point cache
-    occupied_cache_time = calendar::before_time_starts;
-    return smzs;
 }
 
 bool vehicle::refresh_zones()
@@ -7002,7 +6969,7 @@ bool vehicle::refresh_zones()
 template<>
 bool vehicle_part_with_feature_range<std::string>::matches( const size_t part ) const
 {
-    const vehicle_part &vp = this->vehicle().part( part );
+    const vehicle_part &vp = this->vehicle().parts[part];
     return vp.info().has_flag( feature_ ) &&
            !vp.removed &&
            ( !( part_status_flag::working & required_ ) || !vp.is_broken() ) &&
@@ -7013,7 +6980,7 @@ bool vehicle_part_with_feature_range<std::string>::matches( const size_t part ) 
 template<>
 bool vehicle_part_with_feature_range<vpart_bitflags>::matches( const size_t part ) const
 {
-    const vehicle_part &vp = this->vehicle().part( part );
+    const vehicle_part &vp = this->vehicle().parts[part];
     return vp.info().has_flag( feature_ ) &&
            !vp.removed &&
            ( !( part_status_flag::working & required_ ) || !vp.is_broken() ) &&

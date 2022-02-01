@@ -8,7 +8,6 @@
     "description": "A plastic single shot pistol that can be loaded with signal flares.",
     "weight": "213 g",
     "volume": "500 ml",
-    "ascii_picture": "flaregunb",
     "price": 5000,
     "price_postapoc": 500,
     "material": [ "plastic", "steel" ],
@@ -28,6 +27,6 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS", "RELOAD_EJECT", "PYROMANIAC_WEAPON" ]
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS", "RELOAD_EJECT" ]
   }
 ]

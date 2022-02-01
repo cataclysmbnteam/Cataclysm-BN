@@ -6,8 +6,6 @@
     "magazine": 100,
     "items": [
       { "group": "tools_science", "prob": 50 },
-      { "group": "ammo_atomic_batteries", "prob": 10 },
-      { "group": "ammo_atomic_batteries_full", "prob": 5 },
       [ "ether", 5 ],
       [ "water_clean", 90 ],
       { "item": "bleach", "prob": 20, "charges-min": 1 },
@@ -80,6 +78,7 @@
       [ "canister_goo", 8 ],
       [ "EMPbomb", 2 ],
       [ "pheromone", 1 ],
+      [ "flux_comp_gen", 3 ],
       [ "portal", 2 ],
       [ "bot_manhack", 1 ],
       [ "UPS_off", 5 ],
@@ -281,27 +280,6 @@
   },
   {
     "type": "item_group",
-    "id": "books_bank_vault",
-    "items": [
-      [ "recipe_raptor", 10 ],
-      [ "recipe_alpha", 10 ],
-      [ "recipe_chimera", 10 ],
-      [ "recipe_elfa", 10 ],
-      [ "recipe_medicalmut", 10 ],
-      [ "recipe_serum", 10 ],
-      [ "recipe_creepy", 10 ],
-      [ "recipe_animal", 10 ],
-      [ "recipe_maiar", 10 ],
-      [ "recipe_labchem", 10 ],
-      [ "recipe_mil_augs", 10 ],
-      [ "recipe_caseless", 10 ],
-      [ "textbook_atomic_lab", 10 ],
-      [ "recipe_lab_elec", 10 ],
-      [ "recipe_lab_cvd", 10 ]
-    ]
-  },
-  {
-    "type": "item_group",
     "id": "mutagens",
     "items": [
       [ "mutagen", 8 ],
@@ -370,8 +348,6 @@
     "type": "item_group",
     "id": "teleport",
     "items": [
-      { "group": "ammo_atomic_batteries", "prob": 10 },
-      { "group": "ammo_atomic_batteries_full", "prob": 10 },
       [ "screwdriver", 40 ],
       [ "screwdriver_set", 40 ],
       [ "wrench", 30 ],

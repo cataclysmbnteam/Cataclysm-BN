@@ -23,6 +23,7 @@
       "clip_size": 1
     },
     "dispersion_modifier": 60,
+    "min_skills": [ [ "weapon", 2 ], [ "rifle", 1 ] ],
     "flags": [ "STR_RELOAD", "NON-FOULING" ]
   },
   {
@@ -41,6 +42,7 @@
     "description": "An alternative set of iron sights mounted at 45° for use when a scope or other modification prevents use of the primary sights.",
     "location": "rail",
     "mod_targets": [ "smg", "rifle", "shotgun" ],
+    "min_skills": [ [ "weapon", 3 ], [ "gun", 4 ] ],
     "proportional": { "sight_dispersion": 1.25 },
     "delete": { "flags": [ "DISABLE_SIGHTS" ] }
   },
@@ -66,6 +68,7 @@
     "color": "light_gray",
     "location": "rail",
     "mod_targets": [ "shotgun", "smg", "rifle" ],
+    "min_skills": [ [ "gun", 1 ] ],
     "add_mod": [ [ "sights", 1 ] ]
   },
   {
@@ -92,7 +95,8 @@
     "location": "rail",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
     "sight_dispersion": 30,
-    "aim_speed": 8
+    "aim_speed": 8,
+    "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ]
   },
   {
     "id": "stabilizer",
@@ -110,7 +114,8 @@
     "location": "rail",
     "mod_targets": [ "smg", "rifle", "crossbow" ],
     "dispersion_modifier": -1,
-    "handling_modifier": 10
+    "handling_modifier": 10,
+    "min_skills": [ [ "weapon", 6 ] ]
   },
   {
     "id": "stabilizer_mod",

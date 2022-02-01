@@ -38,7 +38,6 @@
 #include "player.h"
 #include "point.h"
 #include "projectile.h"
-#include "ranged.h"
 #include "rng.h"
 #include "string_id.h"
 #include "string_utils.h"
@@ -210,7 +209,7 @@ bool Creature::sees( const Creature &critter ) const
     if( wanted_range <= 1 && ( posz() == critter.posz() || g->m.sees( pos(), critter.pos(), 1 ) ) ) {
         return visible( ch );
     } else if( ( wanted_range > 1 && critter.digging() ) ||
-               ( critter.has_flag( MF_NIGHT_INVISIBILITY ) && g->m.light_at( critter.pos() ) <= lit_level::LOW ) ||
+               ( critter.has_flag( MF_NIGHT_INVISIBILITY ) && g->m.light_at( critter.pos() ) <= LL_LOW ) ||
                ( critter.is_underwater() && !is_underwater() && g->m.is_divable( critter.pos() ) ) ||
                ( g->m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, critter.pos() ) &&
                  !( std::abs( posx() - critter.posx() ) <= 1 && std::abs( posy() - critter.posy() ) <= 1 &&
@@ -296,7 +295,7 @@ bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
 static bool overlaps_vehicle( const std::set<tripoint> &veh_area, const tripoint &pos,
                               const int area )
 {
-    for( const tripoint &tmp : tripoint_range<tripoint>( pos - tripoint( area, area, 0 ),
+    for( const tripoint &tmp : tripoint_range( pos - tripoint( area, area, 0 ),
             pos + tripoint( area - 1, area - 1, 0 ) ) ) {
         if( veh_area.count( tmp ) > 0 ) {
             return true;
@@ -312,10 +311,9 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     player &u = g->u; // Could easily protect something that isn't the player
     constexpr int hostile_adj = 2; // Priority bonus for hostile targets
     const int iff_dist = ( range + area ) * 3 / 2 + 6; // iff check triggers at this distance
-    // iff safety margin (degrees). less accuracy, more paranoia
-    units::angle iff_hangle = units::from_degrees( 15 + area );
+    int iff_hangle = 15 + area; // iff safety margin (degrees). less accuracy, more paranoia
     float best_target_rating = -1.0f; // bigger is better
-    units::angle u_angle = {};         // player angle relative to turret
+    int u_angle = 0;         // player angle relative to turret
     boo_hoo = 0;         // how many targets were passed due to IFF. Tragically.
     bool self_area_iff = false; // Need to check if the target is near the vehicle we're a part of
     bool area_iff = false;      // Need to check distance from target to player
@@ -331,8 +329,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         if( in_veh && veh_pointer_or_null( vp ) == in_veh && vp->is_inside() ) {
             angle_iff = false; // No angle IFF, but possibly area IFF
         } else if( pldist < 3 ) {
-            // granularity increases with proximity
-            iff_hangle = ( pldist == 2 ? 30_degrees : 60_degrees );
+            iff_hangle = ( pldist == 2 ? 30 : 60 );  // granularity increases with proximity
         }
         u_angle = coord_to_angle( pos(), u.pos() );
     }
@@ -413,10 +410,10 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         // only when the target is actually "hostile enough"
         bool maybe_boo = false;
         if( angle_iff ) {
-            units::angle tangle = coord_to_angle( pos(), m->pos() );
-            units::angle diff = units::fabs( u_angle - tangle );
+            int tangle = coord_to_angle( pos(), m->pos() );
+            int diff = std::abs( u_angle - tangle );
             // Player is in the angle and not too far behind the target
-            if( ( diff + iff_hangle > 360_degrees || diff < iff_hangle ) &&
+            if( ( diff + iff_hangle > 360 || diff < iff_hangle ) &&
                 ( dist * 3 / 2 + 6 > pldist ) ) {
                 maybe_boo = true;
             }
@@ -518,106 +515,6 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
     dealt_dam.bp_hit = bp_token;
 }
 
-namespace ranged
-{
-
-void print_dmg_msg( Creature &target, Creature *source, const dealt_damage_instance &dealt_dam,
-                    hit_tier ht )
-{
-    std::string message;
-    game_message_type sct_color = m_neutral;
-    switch( ht ) {
-        case hit_tier::grazing:
-            message = _( "Grazing hit." );
-            sct_color = m_grazing;
-        case hit_tier::normal:
-            break;
-        case hit_tier::critical:
-            message = _( "Critical!" );
-            sct_color = m_critical;
-            break;
-    }
-
-    if( source != nullptr && !message.empty() ) {
-        source->add_msg_if_player( m_good, message );
-    }
-
-    if( dealt_dam.total_damage() == 0 ) {
-        //~ 1$ - monster name, 2$ - character's bodypart or monster's skin/armor
-        add_msg( _( "The shot reflects off %1$s %2$s!" ), target.disp_name( true ),
-                 ( target.is_monster() || dealt_dam.bp_hit == num_bp ) ?
-                 target.skin_name() :
-                 body_part_name_accusative( dealt_dam.bp_hit ) );
-    } else if( target.is_player() ) {
-        //monster hits player ranged
-        //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
-        target.add_msg_if_player( m_bad, _( "You were hit in the %1$s for %2$d damage." ),
-                                  body_part_name_accusative( dealt_dam.bp_hit ),
-                                  dealt_dam.total_damage() );
-    } else if( source != nullptr ) {
-        if( source->is_player() ) {
-            //player hits monster ranged
-            SCT.add( target.pos().xy(),
-                     direction_from( point_zero, target.pos().xy() - source->pos().xy() ),
-                     get_hp_bar( dealt_dam.total_damage(), target.get_hp_max(), true ).first,
-                     m_good, message, sct_color );
-
-            if( target.get_hp() > 0 ) {
-                SCT.add( target.pos().xy(),
-                         direction_from( point_zero, target.pos().xy() - source->pos().xy() ),
-                         get_hp_bar( target.get_hp(), target.get_hp_max(), true ).first, m_good,
-                         //~ "hit points", used in scrolling combat text
-                         _( "hp" ), m_neutral, "hp" );
-            } else {
-                SCT.removeCreatureHP();
-            }
-
-            //~ %1$s: creature name, %2$d: damage value
-            add_msg( m_good, _( "You hit %1$s for %2$d damage." ),
-                     target.disp_name(), dealt_dam.total_damage() );
-        } else {
-            //~ 1$ - shooter, 2$ - target
-            add_msg( _( "%1$s shoots %2$s." ),
-                     source->disp_name(), target.disp_name() );
-        }
-    }
-}
-
-dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, const damage_instance &di )
-{
-    const auto all_body_parts = target.get_body();
-    float hit_size_sum = std::accumulate( all_body_parts.begin(), all_body_parts.end(), 0.0f,
-    []( float acc, const std::pair<bodypart_str_id, bodypart> &pr ) {
-        return acc + pr.first->hit_size;
-    } );
-    dealt_damage_instance dealt_damage;
-    for( const std::pair<bodypart_str_id, bodypart> &pr : all_body_parts ) {
-        damage_instance impact = di;
-        impact.mult_damage( pr.first->hit_size / hit_size_sum );
-        dealt_damage_instance bp_damage = target.deal_damage( source, pr.first.id(), impact );
-        for( size_t i = 0; i < dealt_damage.dealt_dams.size(); i++ ) {
-            dealt_damage.dealt_dams[i] += bp_damage.dealt_dams[i];
-        }
-    }
-
-    dealt_damage.bp_hit = bodypart_str_id::NULL_ID()->token;
-    if( get_player_character().sees( target ) ) {
-        ranged::print_dmg_msg( target, source, dealt_damage );
-    }
-
-    if( target.has_effect( effect_ridden ) ) {
-        monster *mons = dynamic_cast<monster *>( &target );
-        if( mons && mons->mounted_player && !mons->has_flag( MF_MECH_DEFENSIVE ) ) {
-            // TODO: Return value
-            hit_with_aoe( *mons->mounted_player, source, di );
-        }
-    }
-
-    return dealt_damage;
-}
-
-} // namespace ranged
-
 /**
  * Attempts to harm a creature with a projectile.
  *
@@ -625,7 +522,8 @@ dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, const da
  * @param attack A structure describing the attack and its results.
  * @param print_messages enables message printing by default.
  */
-void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack )
+void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
+                                       bool print_messages )
 {
     const bool magic = attack.proj.proj_effects.count( "magic" ) > 0;
     const bool targetted_crit_allowed = attack.proj.proj_effects.count( "NO_CRIT" ) == 0;
@@ -640,7 +538,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         if( mons && mons->mounted_player ) {
             if( !mons->has_flag( MF_MECH_DEFENSIVE ) &&
                 one_in( std::max( 2, mons->get_size() - mons->mounted_player->get_size() ) ) ) {
-                mons->mounted_player->deal_projectile_attack( source, attack );
+                mons->mounted_player->deal_projectile_attack( source, attack, print_messages );
                 return;
             }
         }
@@ -660,6 +558,9 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     if( goodhit >= 1.0 && !magic ) {
         attack.missed_by = 1.0; // Arbitrary value
+        if( !print_messages ) {
+            return;
+        }
         // "Avoid" rather than "dodge", because it includes removing self from the line of fire
         //  rather than just Matrix-style bullet dodging
         if( source != nullptr && g->u.sees( *source ) ) {
@@ -723,17 +624,24 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     double damage_mult = 1.0;
 
-    ranged::hit_tier ht = ranged::hit_tier::normal;
+    std::string message;
+    game_message_type gmtSCTcolor = m_neutral;
     if( magic ) {
         damage_mult *= rng_float( 0.9, 1.1 );
     } else if( targetted_crit_allowed && goodhit < accuracy_critical ) {
-        ht = ranged::hit_tier::critical;
+        message = _( "Critical!" );
+        gmtSCTcolor = m_critical;
         damage_mult *= 1.5;
     } else if( goodhit < accuracy_standard ) {
         damage_mult *= rng_float( 0.9, 1.1 );
     } else if( goodhit < accuracy_grazing ) {
-        ht = ranged::hit_tier::grazing;
+        message = _( "Grazing hit." );
+        gmtSCTcolor = m_grazing;
         damage_mult *= 0.5;
+    }
+
+    if( print_messages && source != nullptr && !message.empty() && u_see_this ) {
+        source->add_msg_if_player( m_good, message );
     }
 
     attack.missed_by = goodhit;
@@ -833,13 +741,49 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         add_effect( effect_stunned, 1_turns * rng( stun_strength / 2, stun_strength ) );
     }
 
-    if( u_see_this ) {
+    if( u_see_this && print_messages ) {
         if( damage_mult == 0 ) {
             if( source != nullptr ) {
                 add_msg( source->is_player() ? _( "You miss!" ) : _( "The shot misses!" ) );
             }
-        } else {
-            ranged::print_dmg_msg( *this, source, dealt_dam, ht );
+        } else if( dealt_dam.total_damage() == 0 ) {
+            //~ 1$ - monster name, 2$ - character's bodypart or monster's skin/armor
+            add_msg( _( "The shot reflects off %1$s %2$s!" ), disp_name( true ),
+                     is_monster() ?
+                     skin_name() :
+                     body_part_name_accusative( bp_hit ) );
+        } else if( is_player() ) {
+            //monster hits player ranged
+            //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
+            add_msg_if_player( m_bad, _( "You were hit in the %1$s for %2$d damage." ),
+                               body_part_name_accusative( bp_hit ),
+                               dealt_dam.total_damage() );
+        } else if( source != nullptr ) {
+            if( source->is_player() ) {
+                //player hits monster ranged
+                SCT.add( point( posx(), posy() ),
+                         direction_from( point_zero, point( posx() - source->posx(), posy() - source->posy() ) ),
+                         get_hp_bar( dealt_dam.total_damage(), get_hp_max(), true ).first,
+                         m_good, message, gmtSCTcolor );
+
+                if( get_hp() > 0 ) {
+                    SCT.add( point( posx(), posy() ),
+                             direction_from( point_zero, point( posx() - source->posx(), posy() - source->posy() ) ),
+                             get_hp_bar( get_hp(), get_hp_max(), true ).first, m_good,
+                             //~ "hit points", used in scrolling combat text
+                             _( "hp" ), m_neutral, "hp" );
+                } else {
+                    SCT.removeCreatureHP();
+                }
+
+                //~ %1$s: creature name, %2$d: damage value
+                add_msg( m_good, _( "You hit %1$s for %2$d damage." ),
+                         disp_name(), dealt_dam.total_damage() );
+            } else if( u_see_this ) {
+                //~ 1$ - shooter, 2$ - target
+                add_msg( _( "%1$s shoots %2$s." ),
+                         source->disp_name(), disp_name() );
+            }
         }
     }
 
@@ -1037,13 +981,12 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur,
         // Then check if the effect is blocked by another
         for( const auto &elem : *effects ) {
             for( auto &_effect_it : elem.second ) {
-                if( !_effect_it.second.is_removed() )
-                    for( const auto &blocked_effect : _effect_it.second.get_blocks_effects() ) {
-                        if( blocked_effect == eff_id ) {
-                            // The effect is blocked by another, return
-                            return;
-                        }
+                for( const auto &blocked_effect : _effect_it.second.get_blocks_effects() ) {
+                    if( blocked_effect == eff_id ) {
+                        // The effect is blocked by another, return
+                        return;
                     }
+                }
             }
         }
 
@@ -1117,8 +1060,7 @@ bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_str_id &b
     }
     const effect_type &type = eff_id.obj();
 
-    Character *ch = as_character();
-    if( ch != nullptr ) {
+    if( Character *ch = as_character() ) {
         if( is_player() ) {
             if( !type.get_remove_message().empty() ) {
                 add_msg( type.lose_game_message_type(), _( type.get_remove_message() ) );
@@ -1140,11 +1082,6 @@ bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_str_id &b
         effect &e = get_effect( eff_id, bp->token );
         on_effect_int_change( e.get_id(), 0, e.get_bp() );
         e.set_removed();
-    }
-    // Sleep is a special case, since it affects max sight range and other effects
-    // Must be below the set_removed above or we'll get an infinite loop
-    if( ch != nullptr && eff_id == effect_sleep ) {
-        ch->wake_up();
     }
     return true;
 }
@@ -1198,17 +1135,6 @@ const effect &Creature::get_effect( const efftype_id &eff_id, body_part bp ) con
         }
     }
     return effect::null_effect;
-}
-std::vector<const effect *> Creature::get_all_effects_of_type( const efftype_id &eff_id ) const
-{
-    std::vector<const effect *> ret;
-    auto got_outer = effects->find( eff_id );
-    if( got_outer != effects->end() ) {
-        for( const auto &pr : got_outer->second ) {
-            ret.push_back( &pr.second );
-        }
-    }
-    return ret;
 }
 time_duration Creature::get_effect_dur( const efftype_id &eff_id, body_part bp ) const
 {
@@ -1959,17 +1885,4 @@ void Creature::describe_infrared( std::vector<std::string> &buf ) const
 void Creature::describe_specials( std::vector<std::string> &buf ) const
 {
     buf.push_back( _( "You sense a creature here." ) );
-}
-
-effects_map Creature::get_all_effects() const
-{
-    effects_map effects_without_removed;
-    for( auto &outer : *effects ) {
-        for( auto &inner : outer.second ) {
-            if( !inner.second.is_removed() ) {
-                effects_without_removed[outer.first][inner.first] = inner.second;
-            }
-        }
-    }
-    return effects_without_removed;
 }

@@ -9,7 +9,7 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_resin_roof",
-    "flags": [ "NOITEM", "PERMEABLE", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 250,
       "str_max": 700,
@@ -65,7 +65,6 @@
     "description": "This nearly opaque, plastic-like floor is smooth and flat.  The material is hard, warm to the touch, and slightly damp.",
     "symbol": "~",
     "color": "light_gray",
-    "looks_like": "t_floor_resin",
     "move_cost": 1,
     "flags": [ "TRANSPARENT", "COLLAPSES", "FLAT", "ROAD", "NONFLAMMABLE" ],
     "bash": {
@@ -84,7 +83,6 @@
     "description": "A wide, domed section of nearly opaque, plastic-like material.  When the light hits it, a network of multicolored conduits like blood vessels can be seen snaking through its glistening interior.",
     "symbol": "~",
     "color": "dark_gray",
-    "looks_like": "t_floor_resin",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "NONFLAMMABLE" ],
     "bash": {

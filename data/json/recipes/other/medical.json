@@ -102,12 +102,7 @@
     "book_learn": [ [ "textbook_firstaid", 8 ], [ "textbook_chemistry", 7 ], [ "adv_chemistry", 6 ], [ "emergency_book", 8 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 18, "LIST" ] ] ],
-    "components": [
-      [ [ "iodine", 2 ] ],
-      [ [ "aspirin", 4 ], [ "chem_phenol", 40 ] ],
-      [ [ "oxy_powder", 50 ] ],
-      [ [ "salt_water", 1 ], [ "saline", 5 ] ]
-    ]
+    "components": [ [ [ "iodine", 2 ] ], [ [ "aspirin", 4 ] ], [ [ "oxy_powder", 50 ] ], [ [ "salt_water", 1 ], [ "saline", 5 ] ] ]
   },
   {
     "type": "recipe",

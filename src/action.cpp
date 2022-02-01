@@ -578,32 +578,31 @@ bool can_move_vertical_at( const tripoint &p, int movez )
 
 bool can_examine_at( const tripoint &p )
 {
-    map &here = get_map();
-    Character &u = get_player_character();
-    if( here.veh_at( p ) ) {
+    if( g->m.veh_at( p ) ) {
         return true;
     }
-    if( here.has_flag( flag_CONSOLE, p ) ) {
+    if( g->m.has_flag( flag_CONSOLE, p ) ) {
         return true;
     }
-    if( here.has_items( p ) ) {
+    if( g->m.has_items( p ) ) {
         return true;
     }
-    const furn_t &xfurn_t = here.furn( p ).obj();
-    const ter_t &xter_t = here.ter( p ).obj();
+    const furn_t &xfurn_t = g->m.furn( p ).obj();
+    const ter_t &xter_t = g->m.ter( p ).obj();
 
-    if( here.has_furn( p ) && xfurn_t.examine != &iexamine::none ) {
+    if( g->m.has_furn( p ) && xfurn_t.examine != &iexamine::none ) {
         return true;
     } else if( xter_t.examine != &iexamine::none ) {
         return true;
     }
 
     Creature *c = g->critter_at( p );
-    if( c != nullptr && p != u.pos() ) {
+    if( c != nullptr && p != g->u.pos() ) {
         return true;
     }
 
-    return here.can_see_trap_at( p, u );
+    const trap &tr = g->m.tr_at( p );
+    return tr.can_see( p, g->u );
 }
 
 static bool can_pickup_at( const tripoint &p )

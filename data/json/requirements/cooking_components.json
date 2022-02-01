@@ -38,35 +38,6 @@
     ]
   },
   {
-    "id": "eggs_small",
-    "type": "requirement",
-    "//": "All of the different eggs, which are small",
-    "components": [
-      [
-        [ "egg_bird", 1 ],
-        [ "egg_bird_unfert", 1 ],
-        [ "egg_chicken", 1 ],
-        [ "egg_grouse", 1 ],
-        [ "egg_crow", 1 ],
-        [ "egg_duck", 1 ],
-        [ "egg_goose_canadian", 1 ],
-        [ "egg_turkey", 1 ],
-        [ "egg_pheasant", 1 ],
-        [ "egg_cockatrice", 1 ],
-        [ "egg_reptile", 1 ],
-        [ "spider_egg", 1 ],
-        [ "egg_roach", 1 ],
-        [ "egg_locust", 1 ]
-      ]
-    ]
-  },
-  {
-    "id": "eggs_small_dry",
-    "type": "requirement",
-    "//": "All of the different eggs, which are small and powdered",
-    "components": [ [ [ "eggs_small", 1, "LIST" ], [ "powder_eggs", 1 ] ] ]
-  },
-  {
     "id": "milk_standard",
     "type": "requirement",
     "//": "Pasteurized milk, including reconstituted",
@@ -283,7 +254,9 @@
         [ "cabbage", 1 ],
         [ "irradiated_cabbage", 1 ],
         [ "sauerkraut", 1 ],
-        [ "eggs_small_dry", 1, "LIST" ],
+        [ "powder_eggs", 1 ],
+        [ "eggs_bird", 1, "LIST" ],
+        [ "egg_reptile", 1 ],
         [ "can_beans", 1 ],
         [ "beans_cooked", 1 ],
         [ "spaghetti_raw", 1 ],
@@ -328,7 +301,9 @@
         [ "cornmeal", 2 ],
         [ "milk_powder", 1 ],
         [ "crackers", 1 ],
-        [ "eggs_small_dry", 1, "LIST" ],
+        [ "powder_eggs", 1 ],
+        [ "eggs_bird", 1, "LIST" ],
+        [ "egg_reptile", 1 ],
         [ "dry_beans", 1 ],
         [ "raw_beans", 1 ],
         [ "dry_lentils", 1 ],
@@ -371,7 +346,9 @@
         [ "sausage", 1 ],
         [ "sausage_cooked", 1 ],
         [ "bratwurst_sausage", 1 ],
-        [ "eggs_small_dry", 2, "LIST" ]
+        [ "powder_eggs", 2 ],
+        [ "eggs_bird", 2, "LIST" ],
+        [ "egg_reptile", 2 ]
       ],
       [
         [ "veggy_wild", 2 ],
@@ -669,7 +646,9 @@
     "components": [
       [
         [ "veggy_any", 1, "LIST" ],
-        [ "eggs_small_dry", 1, "LIST" ],
+        [ "powder_eggs", 1 ],
+        [ "eggs_bird", 1, "LIST" ],
+        [ "egg_reptile", 1 ],
         [ "mushroom_cooked", 1 ],
         [ "morel_cooked", 1 ],
         [ "mushroom", 1 ],
@@ -702,7 +681,9 @@
         [ "irradiated_celery", 1 ],
         [ "veggy_green", 1, "LIST" ],
         [ "sauerkraut", 1 ],
-        [ "eggs_small_dry", 1, "LIST" ],
+        [ "powder_eggs", 1 ],
+        [ "eggs_bird", 1, "LIST" ],
+        [ "egg_reptile", 1 ],
         [ "dry_beans", 1 ],
         [ "raw_beans", 1 ],
         [ "dry_rice", 1 ],

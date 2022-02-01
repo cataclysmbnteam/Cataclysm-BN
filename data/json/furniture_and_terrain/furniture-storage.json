@@ -98,15 +98,6 @@
         { "item": "nail", "charges": [ 2, 10 ] },
         { "item": "rag", "count": [ 8, 12 ] }
       ]
-    },
-    "pry": {
-      "success_message": "You wedge open the coffin.",
-      "fail_message": "You pry, but the coffin remains closed.",
-      "pry_quality": 2,
-      "pry_bonus_mult": 3,
-      "noise": 12,
-      "difficulty": 7,
-      "new_furn_type": "f_coffin_o"
     }
   },
   {
@@ -173,14 +164,6 @@
       "sound": "smash!",
       "sound_fail": "wham!",
       "items": [ { "item": "2x4", "count": [ 1, 5 ] }, { "item": "nail", "charges": [ 2, 10 ] } ]
-    },
-    "pry": {
-      "success_message": "You pop open the crate.",
-      "fail_message": "You pry, but cannot pop open the crate.",
-      "pry_quality": 1,
-      "noise": 12,
-      "difficulty": 6,
-      "new_furn_type": "f_crate_o"
     }
   },
   {
@@ -294,7 +277,7 @@
         { "item": "2x4", "count": [ 1, 4 ] },
         { "item": "splinter", "count": [ 1, 4 ] },
         { "item": "nail", "charges": [ 4, 8 ] },
-        { "item": "glass_shard", "count": [ 1, 10 ] },
+        { "item": "glass_shard", "count": [ 16, 100 ] },
         { "item": "scrap", "count": [ 0, 2 ] }
       ]
     }
@@ -850,7 +833,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 12,
       "furn_set": "f_displaycase_b",
-      "items": [ { "item": "glass_shard", "count": [ 1, 5 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
     }
   },
   {

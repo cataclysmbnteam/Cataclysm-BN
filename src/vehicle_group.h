@@ -12,7 +12,6 @@
 #include "string_id.h"
 #include "type_id.h"
 #include "weighted_list.h"
-#include "units_angle.h"
 
 class JsonObject;
 class VehicleGroup;
@@ -54,16 +53,16 @@ class VehicleGroup
 struct VehicleFacings {
     VehicleFacings( const JsonObject &jo, const std::string &key );
 
-    units::angle pick() const;
+    int pick() const;
 
-    std::vector<units::angle> values;
+    std::vector<int> values;
 };
 
 struct VehicleLocation {
     VehicleLocation( const jmapgen_int &x, const jmapgen_int &y, const VehicleFacings &facings )
         : x( x ), y( y ), facings( facings ) {}
 
-    units::angle pick_facing() const {
+    int pick_facing() const {
         return facings.pick();
     }
 

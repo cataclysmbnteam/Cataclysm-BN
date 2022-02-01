@@ -58,8 +58,7 @@
 static constexpr tripoint editmap_boundary_min( 0, 0, -OVERMAP_DEPTH );
 static constexpr tripoint editmap_boundary_max( MAPSIZE_X, MAPSIZE_Y, OVERMAP_HEIGHT + 1 );
 
-static constexpr half_open_cuboid<tripoint> editmap_boundaries(
-    editmap_boundary_min, editmap_boundary_max );
+static constexpr half_open_box editmap_boundaries( editmap_boundary_min, editmap_boundary_max );
 
 static const ter_id undefined_ter_id( -1 );
 
@@ -463,7 +462,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
         hilights["mplan"].points.clear();
     }
     drawsq_params params = drawsq_params().center( center );
-    for( const tripoint &p : tripoint_range<tripoint>( start, end ) ) {
+    for( const tripoint &p : tripoint_range( start, end ) ) {
         int sym = game_map ? '%' : ' ';
         if( p.x >= 0 && p.x < msize && p.y >= 0 && p.y < msize ) {
             if( game_map ) {
@@ -641,11 +640,10 @@ void editmap::draw_main_ui_overlay()
                         const vpart_id &vp_id = veh.part_id_string( veh_part, part_mod );
                         const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
                         bool draw_highlight = cargopart && !veh.get_items( cargopart->part_index() ).empty();
-                        units::angle veh_dir = veh.face.dir();
+                        int veh_dir = veh.face.dir();
                         g->draw_vpart_override( map_p, vp_id, part_mod, veh_dir, draw_highlight, vp->mount() );
                     } else {
-                        g->draw_vpart_override( map_p, vpart_id::NULL_ID(), 0, 0_degrees, false,
-                                                point_zero );
+                        g->draw_vpart_override( map_p, vpart_id::NULL_ID(), 0, 0, false, point_zero );
                     }
                     g->draw_below_override( map_p, g->m.has_zlevels() &&
                                             tmpmap.ter( tmp_p ).obj().has_flag( TFLAG_NO_FLOOR ) );
@@ -695,7 +693,6 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     werase( w_info );
 
     Character &player_character = get_player_character();
-    map &here = get_map();
 
     const optional_vpart_position vp = g->m.veh_at( target );
     std::string veh_msg;
@@ -746,12 +743,10 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
              );
     map::apparent_light_info al = map::apparent_light_helper( map_cache, target );
     int apparent_light = static_cast<int>(
-                             here.apparent_light_at( target, here.get_visibility_variables_cache() ) );
-    mvwprintw( w_info, point( 1, off++ ), _( "outside: %d obstructed: %d floor: %d" ),
-               static_cast<int>( here.is_outside( target ) ),
-               static_cast<int>( al.obstructed ),
-               static_cast<int>( here.has_floor( target ) )
-             );
+                             g->m.apparent_light_at( target, g->m.get_visibility_variables_cache() ) );
+    mvwprintw( w_info, point( 1, off++ ), _( "outside: %d obstructed: %d" ),
+               static_cast<int>( g->m.is_outside( target ) ),
+               static_cast<int>( al.obstructed ) );
     mvwprintw( w_info, point( 1, off++ ), _( "light_at: %s" ),
                map_cache.lm[target.x][target.y].to_string() );
     mvwprintw( w_info, point( 1, off++ ), _( "apparent light: %.5f (%d)" ),
@@ -1774,8 +1769,8 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     hilights["mapgentgt"].points[target + point( 1 + SEEX, -SEEY )] = 1;
 
     // Coordinates of the overmap terrain that should be generated.
-    const point_abs_omt omt_pos2 = tc.abs_omt();
-    const tripoint_abs_omt omt_pos( omt_pos2, target.z );
+    const point omt_pos2 = ms_to_omt_copy( tc.abs_pos );
+    const tripoint omt_pos( omt_pos2, target.z );
     const oter_id &omt_ref = overmap_buffer.ter( omt_pos );
     // Copy to store the original value, to restore it upon canceling
     const oter_id orig_oters = omt_ref;
@@ -1783,9 +1778,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     tinymap tmpmap;
     // TODO: add a do-not-save-generated-submaps parameter
     // TODO: keep track of generated submaps to delete them properly and to avoid memory leaks
-    // TODO: fix point types
-    tmpmap.generate( tripoint( project_to<coords::sm>( omt_pos.xy() ).raw(), target.z ),
-                     calendar::turn );
+    tmpmap.generate( tripoint( omt_pos.x * 2, omt_pos.y * 2, target.z ), calendar::turn );
 
     gmenu.border_color = c_light_gray;
     gmenu.hilight_color = c_black_white;
@@ -1827,10 +1820,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
             lastsel = gmenu.selected;
             overmap_buffer.ter_set( omt_pos, oter_id( gmenu.selected ) );
             cleartmpmap( tmpmap );
-            // TODO: fix point types
-            tmpmap.generate(
-                tripoint( project_to<coords::sm>( omt_pos.xy() ).raw(), target.z ),
-                calendar::turn );
+            tmpmap.generate( tripoint( omt_pos.x * 2, omt_pos.y * 2, target.z ), calendar::turn );
         }
 
         if( showpreview ) {
@@ -1854,10 +1844,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
 
         if( gpmenu.ret == 0 ) {
             cleartmpmap( tmpmap );
-            // TODO: fix point types
-            tmpmap.generate(
-                tripoint( project_to<coords::sm>( omt_pos.xy() ).raw(), target.z ),
-                calendar::turn );
+            tmpmap.generate( tripoint( omt_pos.x * 2, omt_pos.y * 2, target.z ), calendar::turn );
         } else if( gpmenu.ret == 1 ) {
             tmpmap.rotate( 1 );
         } else if( gpmenu.ret == 2 ) {
@@ -1930,10 +1917,10 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     cleartmpmap( tmpmap );
 }
 
-vehicle *editmap::mapgen_veh_query( const tripoint_abs_omt &omt_tgt )
+vehicle *editmap::mapgen_veh_query( const tripoint &omt_tgt )
 {
     tinymap target_bay;
-    target_bay.load( project_to<coords::sm>( omt_tgt ), false );
+    target_bay.load( tripoint( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z ), false );
 
     std::vector<vehicle *> possible_vehicles;
     for( int x = 0; x < 2; x++ ) {
@@ -1964,20 +1951,19 @@ vehicle *editmap::mapgen_veh_query( const tripoint_abs_omt &omt_tgt )
     return nullptr;
 }
 
-bool editmap::mapgen_veh_destroy( const tripoint_abs_omt &omt_tgt, vehicle *car_target )
+bool editmap::mapgen_veh_destroy( const tripoint &omt_tgt, vehicle *car_target )
 {
-    map &here = get_map();
     tinymap target_bay;
-    target_bay.load( project_to<coords::sm>( omt_tgt ), false );
+    target_bay.load( tripoint( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z ), false );
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
             submap *destsm = target_bay.get_submap_at_grid( { x, y, target.z } );
             for( auto &z : destsm->vehicles ) {
                 if( z.get() == car_target ) {
                     std::unique_ptr<vehicle> old_veh = target_bay.detach_vehicle( z.get() );
-                    here.clear_vehicle_cache( omt_tgt.z() );
-                    here.reset_vehicle_cache( omt_tgt.z() );
-                    here.clear_vehicle_list( omt_tgt.z() );
+                    g->m.clear_vehicle_cache( omt_tgt.z );
+                    g->m.reset_vehicle_cache( omt_tgt.z );
+                    g->m.clear_vehicle_list( omt_tgt.z );
                     //Rebuild vehicle_list?
                     return true;
                 }

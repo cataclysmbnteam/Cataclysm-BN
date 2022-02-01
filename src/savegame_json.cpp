@@ -594,19 +594,20 @@ void Character::load( const JsonObject &data )
     assign( data, "max_power_level", max_power_level, false, 0_kJ );
 
     // Bionic power should not be negative!
-    if( power_level < 0_J ) {
-        power_level = 0_J;
+    if( power_level < 0_mJ ) {
+        power_level = 0_mJ;
     }
 
     JsonArray overmap_time_array = data.get_array( "overmap_time" );
     overmap_time.clear();
     while( overmap_time_array.has_more() ) {
-        point_abs_omt pt;
+        point pt;
         overmap_time_array.read_next( pt );
         time_duration tdr = 0_turns;
         overmap_time_array.read_next( tdr );
         overmap_time[pt] = tdr;
     }
+    data.read( "stomach", stomach );
     data.read( "automoveroute", auto_move_route );
 
     known_traps.clear();
@@ -723,7 +724,9 @@ void Character::store( JsonOut &json ) const
     json.end_object();
 
     // npc; unimplemented
-    if( power_level < 1_kJ ) {
+    if( power_level < 1_J ) {
+        json.member( "power_level", std::to_string( units::to_millijoule( power_level ) ) + " mJ" );
+    } else if( power_level < 1_kJ ) {
         json.member( "power_level", std::to_string( units::to_joule( power_level ) ) + " J" );
     } else {
         json.member( "power_level", units::to_kilojoule( power_level ) );
@@ -733,12 +736,13 @@ void Character::store( JsonOut &json ) const
     if( !overmap_time.empty() ) {
         json.member( "overmap_time" );
         json.start_array();
-        for( const std::pair<const point_abs_omt, time_duration> &pr : overmap_time ) {
+        for( const std::pair<const point, time_duration> &pr : overmap_time ) {
             json.write( pr.first );
             json.write( pr.second );
         }
         json.end_array();
     }
+    json.member( "stomach", stomach );
     json.member( "automoveroute", auto_move_route );
     json.member( "known_traps" );
     json.start_array();
@@ -823,10 +827,9 @@ void player::store( JsonOut &json ) const
 
     json.member( "ammo_location", ammo_location );
 
-    // TODO: move to Character
     json.member( "camps" );
     json.start_array();
-    for( const tripoint_abs_omt &bcpt : camps ) {
+    for( const tripoint &bcpt : camps ) {
         json.start_object();
         json.member( "pos", bcpt );
         json.end_object();
@@ -908,11 +911,10 @@ void player::load( const JsonObject &data )
         last_target = g->critter_tracker->from_temporary_id( tmptar );
     }
     data.read( "destination_point", destination_point );
-    // TODO: move to Character
     camps.clear();
     for( JsonObject bcdata : data.get_array( "camps" ) ) {
         bcdata.allow_omitted_members();
-        tripoint_abs_omt bcpt;
+        tripoint bcpt;
         bcdata.read( "pos", bcpt );
         camps.insert( bcpt );
     }
@@ -1407,7 +1409,7 @@ void npc::load( const JsonObject &data )
     std::string facID;
     std::string comp_miss_id;
     std::string comp_miss_role;
-    tripoint_abs_omt comp_miss_pt;
+    tripoint comp_miss_pt;
     std::string classid;
     std::string companion_mission_role;
     time_point companion_mission_t = calendar::start_of_cataclysm;
@@ -1462,9 +1464,9 @@ void npc::load( const JsonObject &data )
         data.read( "last_player_seen_pos", last_player_seen_pos );
     }
 
-    data.read( "goalx", goal.x() );
-    data.read( "goaly", goal.y() );
-    data.read( "goalz", goal.z() );
+    data.read( "goalx", goal.x );
+    data.read( "goaly", goal.y );
+    data.read( "goalz", goal.z );
 
     data.read( "guardx", guard_pos.x );
     data.read( "guardy", guard_pos.y );
@@ -1563,7 +1565,7 @@ void npc::load( const JsonObject &data )
         companion_mission_role_id = companion_mission_role;
     }
 
-    std::vector<tripoint_abs_omt> companion_mission_pts;
+    std::vector<tripoint> companion_mission_pts;
     data.read( "companion_mission_points", companion_mission_pts );
     if( !companion_mission_pts.empty() ) {
         for( auto pt : companion_mission_pts ) {
@@ -1639,9 +1641,9 @@ void npc::store( JsonOut &json ) const
 
     json.member( "last_player_seen_pos", last_player_seen_pos );
 
-    json.member( "goalx", goal.x() );
-    json.member( "goaly", goal.y() );
-    json.member( "goalz", goal.z() );
+    json.member( "goalx", goal.x );
+    json.member( "goaly", goal.y );
+    json.member( "goalz", goal.z );
 
     json.member( "guardx", guard_pos.x );
     json.member( "guardy", guard_pos.y );
@@ -2178,7 +2180,7 @@ void item::io( Archive &archive )
     archive.io( "charges", charges, 0 );
     charges = std::max( charges, 0 );
 
-    archive.io( "energy", energy, 0_J );
+    archive.io( "energy", energy, 0_mJ );
 
     archive.io( "burnt", burnt, 0 );
     archive.io( "poison", poison, 0 );
@@ -2445,21 +2447,11 @@ void vehicle_part::deserialize( JsonIn &jsin )
     data.read( "mount_dx", mount.x );
     data.read( "mount_dy", mount.y );
     data.read( "open", open );
-    int direction_int;
-    data.read( "direction", direction_int );
-    direction = units::from_degrees( direction_int );
+    data.read( "direction", direction );
     data.read( "blood", blood );
     data.read( "enabled", enabled );
     data.read( "flags", flags );
     data.read( "passenger_id", passenger_id );
-    if( data.has_int( "z_offset" ) ) {
-        int z_offset = data.get_int( "z_offset" );
-        if( std::abs( z_offset ) > 10 ) {
-            data.throw_error( "z_offset out of range", "z_offset" );
-        }
-        precalc[0].z = z_offset;
-        precalc[1].z = z_offset;
-    }
     JsonArray ja = data.get_array( "carry" );
     size_t sz = ja.size();
     for( size_t index = 0; index < sz; index++ ) {
@@ -2517,7 +2509,7 @@ void vehicle_part::serialize( JsonOut &json ) const
     json.member( "mount_dx", mount.x );
     json.member( "mount_dy", mount.y );
     json.member( "open", open );
-    json.member( "direction", std::lround( to_degrees( direction ) ) );
+    json.member( "direction", direction );
     json.member( "blood", blood );
     json.member( "enabled", enabled );
     json.member( "flags", flags );
@@ -2533,9 +2525,6 @@ void vehicle_part::serialize( JsonOut &json ) const
     }
     json.member( "passenger_id", passenger_id );
     json.member( "crew_id", crew_id );
-    if( precalc[0].z ) {
-        json.member( "z_offset", precalc[0].z );
-    }
     json.member( "items", items );
     if( target.first != tripoint_min ) {
         json.member( "target_first_x", target.first.x );
@@ -2554,21 +2543,21 @@ void vehicle_part::serialize( JsonOut &json ) const
 /*
  * label
  */
-void label::deserialize( JsonIn &jsin )
+static void deserialize( label &val, JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
     data.allow_omitted_members();
-    data.read( "x", x );
-    data.read( "y", y );
-    data.read( "text", text );
+    data.read( "x", val.x );
+    data.read( "y", val.y );
+    data.read( "text", val.text );
 }
 
-void label::serialize( JsonOut &json ) const
+static void serialize( const label &val, JsonOut &json )
 {
     json.start_object();
-    json.member( "x", x );
-    json.member( "y", y );
-    json.member( "text", text );
+    json.member( "x", val.x );
+    json.member( "y", val.y );
+    json.member( "text", val.text );
     json.end_object();
 }
 
@@ -2589,9 +2578,7 @@ void vehicle::deserialize( JsonIn &jsin )
     data.read( "om_id", om_id );
     data.read( "faceDir", fdir );
     data.read( "moveDir", mdir );
-    int turn_dir_int;
-    data.read( "turn_dir", turn_dir_int );
-    turn_dir = units::from_degrees( turn_dir_int );
+    data.read( "turn_dir", turn_dir );
     data.read( "velocity", velocity );
     data.read( "falling", is_falling );
     data.read( "floating", is_floating );
@@ -2610,9 +2597,8 @@ void vehicle::deserialize( JsonIn &jsin )
         last_update = calendar::turn;
     }
 
-    units::angle fdir_angle = units::from_degrees( fdir );
-    face.init( fdir_angle );
-    move.init( units::from_degrees( mdir ) );
+    face.init( fdir );
+    move.init( mdir );
     data.read( "name", name );
     std::string temp_id;
     std::string temp_old_id;
@@ -2639,7 +2625,7 @@ void vehicle::deserialize( JsonIn &jsin )
     // is what they're expecting.
     data.read( "pivot", pivot_anchor[0] );
     pivot_anchor[1] = pivot_anchor[0];
-    pivot_rotation[1] = pivot_rotation[0] = fdir_angle;
+    pivot_rotation[1] = pivot_rotation[0] = fdir;
     data.read( "is_following", is_following );
     data.read( "is_patrolling", is_patrolling );
     data.read( "autodrive_local_target", autodrive_local_target );
@@ -2765,9 +2751,9 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "posx", pos.x );
     json.member( "posy", pos.y );
     json.member( "om_id", om_id );
-    json.member( "faceDir", std::lround( to_degrees( face.dir() ) ) );
-    json.member( "moveDir", std::lround( to_degrees( move.dir() ) ) );
-    json.member( "turn_dir", std::lround( to_degrees( turn_dir ) ) );
+    json.member( "faceDir", face.dir() );
+    json.member( "moveDir", move.dir() );
+    json.member( "turn_dir", turn_dir );
     json.member( "velocity", velocity );
     json.member( "falling", is_falling );
     json.member( "floating", is_floating );
@@ -2854,12 +2840,12 @@ void mission::deserialize( JsonIn &jsin )
     jo.read( "uid", uid );
     JsonArray ja = jo.get_array( "target" );
     if( ja.size() == 3 ) {
-        target.x() = ja.get_int( 0 );
-        target.y() = ja.get_int( 1 );
-        target.z() = ja.get_int( 2 );
+        target.x = ja.get_int( 0 );
+        target.y = ja.get_int( 1 );
+        target.z = ja.get_int( 2 );
     } else if( ja.size() == 2 ) {
-        target.x() = ja.get_int( 0 );
-        target.y() = ja.get_int( 1 );
+        target.x = ja.get_int( 0 );
+        target.y = ja.get_int( 1 );
     }
 
     if( jo.has_int( "follow_up" ) ) {
@@ -2915,9 +2901,9 @@ void mission::serialize( JsonOut &json ) const
 
     json.member( "target" );
     json.start_array();
-    json.write( target.x() );
-    json.write( target.y() );
-    json.write( target.z() );
+    json.write( target.x );
+    json.write( target.y );
+    json.write( target.z );
     json.end_array();
 
     json.member( "item_id", item_id );
@@ -3348,19 +3334,19 @@ void map_memory::load_legacy( JsonIn &jsin )
     }
 }
 
-void point::deserialize( JsonIn &jsin )
+void deserialize( point &p, JsonIn &jsin )
 {
     jsin.start_array();
-    x = jsin.get_int();
-    y = jsin.get_int();
+    p.x = jsin.get_int();
+    p.y = jsin.get_int();
     jsin.end_array();
 }
 
-void point::serialize( JsonOut &jsout ) const
+void serialize( const point &p, JsonOut &jsout )
 {
     jsout.start_array();
-    jsout.write( x );
-    jsout.write( y );
+    jsout.write( p.x );
+    jsout.write( p.y );
     jsout.end_array();
 }
 
@@ -3515,7 +3501,7 @@ void pickup::act_item::deserialize( JsonIn &jsin )
 // basecamp
 void basecamp::serialize( JsonOut &json ) const
 {
-    if( omt_pos != tripoint_abs_omt() ) {
+    if( omt_pos != tripoint_zero ) {
         json.start_object();
         json.member( "name", name );
         json.member( "pos", omt_pos );
@@ -3612,7 +3598,7 @@ void basecamp::deserialize( JsonIn &jsin )
     }
     for( JsonObject edata : data.get_array( "fortifications" ) ) {
         edata.allow_omitted_members();
-        tripoint_abs_omt restore_pos;
+        tripoint restore_pos;
         edata.read( "pos", restore_pos );
         fortifications.push_back( restore_pos );
     }
@@ -4164,7 +4150,7 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
     } else if( member_name == "active_furniture" ) {
         jsin.start_array();
         while( !jsin.end_array() ) {
-            point_sm_ms p;
+            point p;
             jsin.read( p );
             active_furniture[p].deserialize( jsin );
         }
@@ -4216,31 +4202,6 @@ void advanced_inv_save_state::deserialize( const JsonObject &jo, const std::stri
     pane_right.deserialize( jo, prefix + "pane_right_" );
 }
 
-void wisheffect_state::serialize( JsonOut &json ) const
-{
-    // Empty for now
-    json.start_object();
-    json.end_object();
-}
-
-void wisheffect_state::deserialize( const JsonObject &jo )
-{
-    // Empty for now
-    jo.allow_omitted_members();
-}
-
-void debug_menu_state::serialize( JsonOut &json ) const
-{
-    json.start_object();
-    json.member( "effect", effect );
-    json.end_object();
-}
-
-void debug_menu_state::deserialize( const JsonObject &jo )
-{
-    jo.read( "effect", effect );
-}
-
 void uistatedata::serialize( JsonOut &json ) const
 {
     const unsigned int input_history_save_max = 25;
@@ -4255,7 +4216,6 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "adv_inv_container_in_vehicle", adv_inv_container_in_vehicle );
     json.member( "adv_inv_container_type", adv_inv_container_type );
     json.member( "adv_inv_container_content_type", adv_inv_container_content_type );
-    json.member( "debug_menu", debug_menu );
     json.member( "editmap_nsa_viewmode", editmap_nsa_viewmode );
     json.member( "overmap_blinking", overmap_blinking );
     json.member( "overmap_show_overlays", overmap_show_overlays );
@@ -4273,8 +4233,6 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "favorite_recipes", favorite_recipes );
     json.member( "recent_recipes", recent_recipes );
     json.member( "bionic_ui_sort_mode", bionic_sort_mode );
-    json.member( "overmap_debug_weather", overmap_debug_weather );
-    json.member( "overmap_visible_weather", overmap_visible_weather );
 
     json.member( "input_history" );
     json.start_object();
@@ -4307,7 +4265,6 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "adv_inv_container_in_vehicle", adv_inv_container_in_vehicle );
     jo.read( "adv_inv_container_type", adv_inv_container_type );
     jo.read( "adv_inv_container_content_type", adv_inv_container_content_type );
-    jo.read( "debug_menu", debug_menu );
     jo.read( "editmap_nsa_viewmode", editmap_nsa_viewmode );
     jo.read( "overmap_blinking", overmap_blinking );
     jo.read( "overmap_show_overlays", overmap_show_overlays );
@@ -4320,8 +4277,6 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "favorite_recipes", favorite_recipes );
     jo.read( "recent_recipes", recent_recipes );
     jo.read( "bionic_ui_sort_mode", bionic_sort_mode );
-    jo.read( "overmap_debug_weather", overmap_debug_weather );
-    jo.read( "overmap_visible_weather", overmap_visible_weather );
 
     if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
         // This is an old save: 1 means view items, 2 means view monsters,

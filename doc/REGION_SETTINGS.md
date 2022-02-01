@@ -486,7 +486,7 @@ The **weather** section defines the base weather attributes used for the region.
 ### Fields
 
 |     Identifier                 |                              Description                              |
-| ------------------------------ | --------------------------------------------------------------------- |
+| ------------------------------ | --------------------------------------------------------------------- |                 |
 | `spring_temp`                  | Mid spring temperature for the region in degrees Celsius              |
 | `summer_temp`                  | Mid summer temperature for the region in degrees Celsius              |
 | `autumn_temp`                  | Mid autumn temperature for the region in degrees Celsius              |
@@ -497,7 +497,6 @@ The **weather** section defines the base weather attributes used for the region.
 | `base_wind`                    | Base wind for the region in mph units. Roughly the yearly average.    |
 | `base_wind_distrib_peaks`      | How high the wind peaks can go. Higher values produce windier days.   |
 | `base_wind_season_variation`   | How the wind varies with season. Lower values produce more variation  |
-| `weather_types`				 | Ids of the weather types allowed in this region. First value will be the default weather type. Declaration order will affect weather selection, see [WEATHER_TYPE.md](WEATHER_TYPE.md) for details. |
 
 
 ### Example
@@ -515,23 +514,7 @@ The **weather** section defines the base weather attributes used for the region.
 		"base_wind": 5.7,
 		"base_wind_distrib_peaks": 30,
 		"base_wind_season_variation": 64,
-		"base_acid": 0.0,
-		"weather_types": [
-			"clear",
-			"sunny",
-			"cloudy",
-			"light_drizzle",
-			"drizzle",
-			"rain",
-			"thunder",
-			"lightning",
-			"acid_drizzle",
-			"acid_rain",
-			"flurries",
-			"snowing",
-			"snowstorm"
-      	]
-    	},
+		"base_acid": 0.0
 	}
 }
 ```

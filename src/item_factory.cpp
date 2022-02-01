@@ -367,7 +367,7 @@ void Item_factory::finalize_pre( itype &obj )
             } else if( obj.gun->skill_used == skill_id( "pistol" ) && obj.has_flag( "RELOAD_ONE" ) ) {
                 return translate_marker( "revolver" );
             } else {
-                return translate_marker( "semi" );
+                return translate_marker( "semi-auto" );
             }
         };
 
@@ -943,8 +943,6 @@ void Item_factory::init()
     add_iuse( "RADIO_ON", &iuse::radio_on );
     add_iuse( "REMOTEVEH", &iuse::remoteveh );
     add_iuse( "REMOVE_ALL_MODS", &iuse::remove_all_mods );
-    add_iuse( "REPORT_GRID_CHARGE", &iuse::report_grid_charge );
-    add_iuse( "REPORT_GRID_CONNECTIONS", &iuse::report_grid_connections );
     add_iuse( "RM13ARMOR_OFF", &iuse::rm13armor_off );
     add_iuse( "RM13ARMOR_ON", &iuse::rm13armor_on );
     add_iuse( "ROBOTCONTROL", &iuse::robotcontrol );
@@ -1206,12 +1204,9 @@ void Item_factory::check_definitions() const
             if( !type->ammo->drop.is_null() && !has_template( type->ammo->drop ) ) {
                 msg += string_format( "invalid drop item %s\n", type->ammo->drop.c_str() );
             }
-            if( type->ammo->range != 0 && type->ammo->shape ) {
-                msg += string_format( "shape is set, but range is %d != 0", type->ammo->range );
-            }
         }
         if( type->battery ) {
-            if( type->battery->max_capacity < 0_J ) {
+            if( type->battery->max_capacity < 0_mJ ) {
                 msg += "battery cannot have negative maximum charge\n";
             }
         }
@@ -1615,7 +1610,6 @@ void islot_ammo::load( const JsonObject &jo )
     optional( jo, was_loaded, "loudness", loudness, -1 );
     assign( jo, "effects", ammo_effects );
     optional( jo, was_loaded, "show_stats", force_stat_display, cata::nullopt );
-    optional( jo, was_loaded, "shape", shape, cata::nullopt );
 }
 
 void islot_ammo::deserialize( JsonIn &jsin )
@@ -2221,8 +2215,6 @@ void Item_factory::load( islot_bionic &slot, const JsonObject &jo, const std::st
 
     assign( jo, "difficulty", slot.difficulty, strict, 0 );
     assign( jo, "is_upgrade", slot.is_upgrade );
-
-    assign( jo, "installation_data", slot.installation_data );
 }
 
 void Item_factory::load_bionic( const JsonObject &jo, const std::string &src )

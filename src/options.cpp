@@ -1890,13 +1890,6 @@ void options_manager::add_options_graphics()
 
     get_option( "TILES" ).setPrerequisite( "USE_TILES" );
 
-    add( "USE_TILES_OVERMAP", "graphics", translate_marker( "Use tiles to display overmap" ),
-         translate_marker( "If true, replaces some TTF-rendered text with tiles for overmap display." ),
-         false, COPT_CURSES_HIDE
-       );
-
-    get_option( "USE_TILES_OVERMAP" ).setPrerequisite( "USE_TILES" );
-
     add_empty_line();
 
     add( "MEMORY_MAP_MODE", "graphics", translate_marker( "Memory map drawing mode" ),
@@ -2230,7 +2223,7 @@ void options_manager::add_options_world_default()
     add( "MONSTER_UPGRADE_FACTOR", "world_default",
          translate_marker( "Monster evolution scaling factor" ),
          translate_marker( "A scaling factor that determines the time between monster upgrades.  A higher number means slower evolution.  Set to 0.00 to turn off monster upgrades." ),
-         0.0, 100, 2.0, 0.01
+         0.0, 100, 1.0, 0.01
        );
 
     add_empty_line();
@@ -2326,7 +2319,7 @@ void options_manager::add_options_world_default()
     add_empty_line();
 
     add( "ZLEVELS", "world_default", translate_marker( "Z-levels" ),
-         translate_marker( "If true, enables several features related to vertical movement, such as hauling items up stairs, climbing downspouts, flying aircraft and ramps.  May cause problems if toggled mid-game." ),
+         translate_marker( "If true, enables several features related to vertical movement, such as hauling items up stairs, climbing downspouts, and flying aircraft.  May cause problems if toggled mid-game." ),
          true
        );
 
@@ -2341,12 +2334,6 @@ void options_manager::add_options_world_default()
     add( "DISABLE_LIFTING", "world_default",
          translate_marker( "Disables lifting requirements for vehicle parts." ),
          translate_marker( "If true, strength checks and/or lifting qualities no longer need to be met in order to change parts." ),
-         false, COPT_ALWAYS_HIDE
-       );
-
-    add( "ELEVATED_BRIDGES", "world_default",
-         translate_marker( "Generate elevated bridges." ),
-         translate_marker( "If true, bridges are generated at z+1 level, allowing boats to pass underneath." ),
          false, COPT_ALWAYS_HIDE
        );
 }
@@ -2617,12 +2604,10 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
             tilecontext->load_tileset( get_option<std::string>( "TILES" ) );
             //game_ui::init_ui is called when zoom is changed
             g->reset_zoom();
-            g->mark_main_ui_adaptor_resize();
             tilecontext->do_tile_loading_report();
         } catch( const std::exception &err ) {
             popup( _( "Loading the tileset failed: %s" ), err.what() );
             use_tiles = false;
-            use_tiles_overmap = false;
         }
     } else if( ingame && pixel_minimap_option && pixel_minimap_height_changed ) {
         g->mark_main_ui_adaptor_resize();
@@ -2847,7 +2832,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             if( is_visible( i ) ) {
                 visible_items.push_back( i );
                 if( i == iCurrentLine ) {
-                    curr_line_visible = static_cast<int>( visible_items.size() ) - 1;
+                    curr_line_visible = static_cast<int>( visible_items.size() );
                 }
             }
         }
@@ -3289,7 +3274,6 @@ void options_manager::cache_to_globals()
     json_report_unused_fields = ::get_option<bool>( "REPORT_UNUSED_JSON_FIELDS" );
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
-    use_tiles_overmap = ::get_option<bool>( "USE_TILES_OVERMAP" );
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );

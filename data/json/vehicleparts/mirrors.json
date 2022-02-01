@@ -19,7 +19,7 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
     "flags": [ "VISION", "PROTRUSION", "UNMOUNT_ON_DAMAGE", "FOLDABLE" ],
-    "breaks_into": [ { "item": "glass_shard", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "glass_shard", "count": [ 0, 16 ] } ]
   },
   {
     "copy-from": "wing_mirror_abstract",
@@ -61,6 +61,6 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
     "flags": [ "VISION", "FOLDABLE" ],
-    "breaks_into": [ { "item": "glass_shard", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "glass_shard", "count": [ 0, 16 ] } ]
   }
 ]

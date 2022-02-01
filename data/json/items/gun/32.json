@@ -34,7 +34,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": "250 ml",
+    "magazine_well": 1,
     "magazines": [ [ "32", [ "sigp230mag" ] ] ]
   },
   {
@@ -59,7 +59,7 @@
     "dispersion": 360,
     "durability": 6,
     "min_cycle_recoil": 135,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 5 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
     "built_in_mods": [ "folding_stock" ],
     "valid_mod_locations": [
       [ "accessories", 3 ],
@@ -90,7 +90,6 @@
     "price": 45000,
     "price_postapoc": 1250,
     "to_hit": -1,
-    "ascii_picture": "ppk",
     "bashing": 8,
     "material": [ "steel", "wood" ],
     "symbol": "(",
@@ -114,7 +113,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": "250 ml",
+    "magazine_well": 1,
     "magazines": [ [ "32", [ "ppkmag" ] ] ]
   },
   {
@@ -129,7 +128,6 @@
     "price": 14000,
     "price_postapoc": 1000,
     "to_hit": -3,
-    "ascii_picture": "P3AT",
     "bashing": 1,
     "material": [ "steel", "plastic", "aluminum" ],
     "color": "dark_gray",

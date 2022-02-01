@@ -163,7 +163,7 @@
     "magazines": [
       [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
     ],
-    "magazine_well": "1000 ml"
+    "magazine_well": 4
   },
   {
     "id": "kiln_done",
@@ -178,9 +178,7 @@
     "to_hit": -2,
     "material": "steel",
     "symbol": ";",
-    "color": "brown",
-    "use_action": "DISASSEMBLE",
-    "flags": [ "NO_REPAIR", "NO_SALVAGE" ]
+    "color": "brown"
   },
   {
     "id": "kiln_full",

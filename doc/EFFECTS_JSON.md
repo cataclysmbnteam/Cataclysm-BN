@@ -154,7 +154,7 @@ if it doesn't exist.
 ```C++
     "rating": "good"        - Defaults to "neutral" if missing
 ```
-This is used for how the messages when the effect is applied and removed are displayed. Also this affects "blood_analysis_description" (see below) field: effects with "good" rating will be colored green, effects with any other rating will be colored red when character conducts a blood analysis through some means.
+This is used for how the messages when the effect is applied and removed are displayed.
 Valid entries are:
 ```C++
 "good"
@@ -542,9 +542,3 @@ Intensity 4
     -1003 + 3 * 501 = 500   "sleep_chance_bot" doesn't exist, so a 1 in 500 chance of passing out for rng(2500, 3500) turns. "sleep_tick" doesn't exist, so it rolls every turn.
     5 + 3 * 10 =            35 morale
 ```
-
-### Blood analysis description
-```C++
-    "blood_analysis_description": "Minor Painkiller"
-```
-This description will be displayed for every effect which has this field when character conducts a blood analysis (for example, through Blood Analysis CBM).

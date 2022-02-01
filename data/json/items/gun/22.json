@@ -21,7 +21,7 @@
     "dispersion": 280,
     "durability": 6,
     "min_cycle_recoil": 39,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 6 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 6 ] ],
     "barrel_length": "250 ml",
     "valid_mod_locations": [
       [ "accessories", 3 ],
@@ -53,7 +53,6 @@
     "price_postapoc": 2000,
     "to_hit": -1,
     "bashing": 12,
-    "ascii_picture": "marlin_39a",
     "material": [ "iron", "wood" ],
     "symbol": "(",
     "color": "brown",
@@ -129,7 +128,6 @@
     "price_postapoc": 500,
     "to_hit": -1,
     "bashing": 10,
-    "ascii_picture": "sm_pipe_gun",
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
@@ -169,7 +167,6 @@
     "price_postapoc": 750,
     "to_hit": -1,
     "bashing": 12,
-    "ascii_picture": "ruger1022",
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
@@ -195,7 +192,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": "250 ml",
+    "magazine_well": 1,
     "magazines": [ [ "22", [ "ruger1022mag", "ruger1022bigmag" ] ] ]
   },
   {
@@ -222,7 +219,6 @@
     "price_postapoc": 750,
     "to_hit": -2,
     "bashing": 9,
-    "ascii_picture": "sig_mosquito",
     "material": [ "aluminum", "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -246,7 +242,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": "250 ml",
+    "magazine_well": 1,
     "magazines": [ [ "22", [ "mosquitomag" ] ] ]
   },
   {
@@ -261,7 +257,6 @@
     "price": 35000,
     "price_postapoc": 750,
     "to_hit": -2,
-    "ascii_picture": "sw_22a",
     "bashing": 9,
     "material": [ "aluminum", "steel", "plastic" ],
     "color": "dark_gray",
@@ -269,7 +264,7 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 39,
-    "magazine_well": "250 ml",
+    "magazine_well": 1,
     "magazines": [ [ "22", [ "sw22mag" ] ] ]
   },
   {
@@ -313,7 +308,7 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 39,
-    "magazine_well": "250 ml",
+    "magazine_well": 1,
     "magazines": [ [ "22", [ "wp22mag" ] ] ]
   }
 ]

@@ -54,9 +54,7 @@ void UsePointApisCheck::registerMatchers( MatchFinder *Finder )
                     isXParam()
                 ).bind( "xparam" )
             ),
-            hasDeclaration(
-                cxxMethodDecl( unless( ofClass( isPointOrCoordPointType() ) ) ).bind( "callee" )
-            )
+            hasDeclaration( cxxMethodDecl( unless( ofClass( isPointType() ) ) ).bind( "callee" ) )
         ).bind( "constructorCall" ),
         this
     );

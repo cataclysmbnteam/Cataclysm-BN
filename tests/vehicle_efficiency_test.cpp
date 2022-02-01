@@ -172,8 +172,7 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
     clear_game( terrain );
 
     const tripoint map_starting_point( 60, 60, 0 );
-    map &here = get_map();
-    vehicle *veh_ptr = here.add_vehicle( veh_id, map_starting_point, -90_degrees, 0, 0 );
+    vehicle *veh_ptr = g->m.add_vehicle( veh_id, map_starting_point, -90, 0, 0 );
 
     REQUIRE( veh_ptr != nullptr );
     if( veh_ptr == nullptr ) {
@@ -247,7 +246,7 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
                 veh.cruise_velocity = accelerating ? target_velocity : 0;
             } else {
                 veh.velocity = 0;
-                veh.last_turn = 0_degrees;
+                veh.last_turn = 0;
                 veh.of_turn_carry = 0;
             }
             reset_counter = 0;

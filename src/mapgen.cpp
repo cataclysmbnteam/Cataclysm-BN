@@ -55,7 +55,6 @@
 #include "overmapbuffer.h"
 #include "player.h"
 #include "point.h"
-#include "point_float.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -127,8 +126,7 @@ void map::generate( const tripoint &p, const time_point &when )
         }
     }
     // x, and y are submap coordinates, convert to overmap terrain coordinates
-    // TODO: fix point types
-    tripoint_abs_omt abs_omt( sm_to_omt_copy( p ) );
+    tripoint abs_omt = sm_to_omt_copy( p );
     oter_id terrain_type = overmap_buffer.ter( abs_omt );
 
     // This attempts to scale density of zombies inversely with distance from the nearest city.
@@ -557,7 +555,7 @@ size_t mapgen_function_json_base::calc_index( const point &p ) const
 static bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y,
                                  const point &mapgensize, const JsonObject &jso )
 {
-    half_open_rectangle<point> bounds( point_zero, mapgensize );
+    half_open_rectangle bounds( point_zero, mapgensize );
     if( !bounds.contains( point( x.val, y.val ) ) ) {
         return false;
     }
@@ -940,8 +938,7 @@ class jmapgen_sign : public jmapgen_piece
 
                 std::string cityname = "illegible city name";
                 tripoint abs_sub = dat.m.get_abs_sub();
-                // TODO: fix point types
-                const city *c = overmap_buffer.closest_city( tripoint_abs_sm( abs_sub ) ).city;
+                const city *c = overmap_buffer.closest_city( abs_sub ).city;
                 if( c != nullptr ) {
                     cityname = c->name;
                 }
@@ -992,8 +989,7 @@ class jmapgen_graffiti : public jmapgen_piece
 
                 std::string cityname = "illegible city name";
                 tripoint abs_sub = dat.m.get_abs_sub();
-                // TODO: fix point types
-                const city *c = overmap_buffer.closest_city( tripoint_abs_sm( abs_sub ) ).city;
+                const city *c = overmap_buffer.closest_city( abs_sub ).city;
                 if( c != nullptr ) {
                     cityname = c->name;
                 }
@@ -1345,7 +1341,7 @@ class jmapgen_vehicle : public jmapgen_piece
     public:
         vgroup_id type;
         jmapgen_int chance;
-        std::vector<units::angle> rotation;
+        std::vector<int> rotation;
         int fuel;
         int status;
         jmapgen_vehicle( const JsonObject &jsi ) :
@@ -1356,11 +1352,9 @@ class jmapgen_vehicle : public jmapgen_piece
             , fuel( jsi.get_int( "fuel", -1 ) )
             , status( jsi.get_int( "status", -1 ) ) {
             if( jsi.has_array( "rotation" ) ) {
-                for( const JsonValue &elt : jsi.get_array( "rotation" ) ) {
-                    rotation.push_back( units::from_degrees( elt.get_int() ) );
-                }
+                rotation = jsi.get_int_array( "rotation" );
             } else {
-                rotation.push_back( units::from_degrees( jsi.get_int( "rotation", 0 ) ) );
+                rotation.push_back( jsi.get_int( "rotation", 0 ) );
             }
 
             if( !type.is_valid() ) {
@@ -2897,6 +2891,8 @@ void map::draw_map( mapgendata &dat )
             draw_triffid( dat );
         } else if( is_ot_match( "office", terrain_type, ot_match_type::prefix ) ) {
             draw_office_tower( dat );
+        } else if( is_ot_match( "spider", terrain_type, ot_match_type::prefix ) ) {
+            draw_spider_pit( dat );
         } else if( is_ot_match( "temple", terrain_type, ot_match_type::prefix ) ) {
             draw_temple( dat );
         } else if( is_ot_match( "mine", terrain_type, ot_match_type::prefix ) ) {
@@ -2931,7 +2927,7 @@ void map::draw_office_tower( mapgendata &dat )
         int num_chairs = rng( 0, 6 );
         for( int i = 0; i < num_chairs; i++ ) {
             add_vehicle( vproto_id( "swivel_chair" ), point( rng( 6, 16 ), rng( 6, 16 ) ),
-                         0_degrees, -1, -1, false );
+                         0, -1, -1, false );
         }
     };
 
@@ -3289,54 +3285,54 @@ void map::draw_office_tower( mapgendata &dat )
             if( dat.west() == "office_tower_b_entrance" ) {
                 rotate( 1 );
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "car" ), point( 17, 7 ), 180_degrees );
+                    add_vehicle( vproto_id( "car" ), point( 17, 7 ), 180 );
                 }
                 if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "motorcycle" ), point( 17, 13 ), 180_degrees );
+                    add_vehicle( vproto_id( "motorcycle" ), point( 17, 13 ), 180 );
                 }
                 if( x_in_y( 1, 5 ) ) {
                     if( one_in( 3 ) ) {
-                        add_vehicle( vproto_id( "fire_truck" ), point( 6, 13 ), 0_degrees );
+                        add_vehicle( vproto_id( "fire_truck" ), point( 6, 13 ), 0 );
                     } else {
-                        add_vehicle( vproto_id( "pickup" ), point( 17, 19 ), 180_degrees );
+                        add_vehicle( vproto_id( "pickup" ), point( 17, 19 ), 180 );
                     }
                 }
             } else if( dat.north() == "office_tower_b_entrance" ) {
                 rotate( 2 );
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "car" ), point( 10, 17 ), 270_degrees );
+                    add_vehicle( vproto_id( "car" ), point( 10, 17 ), 270 );
                 }
                 if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "motorcycle" ), point( 4, 18 ), 270_degrees );
+                    add_vehicle( vproto_id( "motorcycle" ), point( 4, 18 ), 270 );
                 }
                 if( x_in_y( 1, 5 ) ) {
                     if( one_in( 3 ) ) {
-                        add_vehicle( vproto_id( "fire_truck" ), point( 6, 13 ), 0_degrees );
+                        add_vehicle( vproto_id( "fire_truck" ), point( 6, 13 ), 0 );
                     } else {
-                        add_vehicle( vproto_id( "pickup" ), point( 16, 17 ), 270_degrees );
+                        add_vehicle( vproto_id( "pickup" ), point( 16, 17 ), 270 );
                     }
                 }
             } else if( dat.east() == "office_tower_b_entrance" ) {
                 rotate( 3 );
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "car" ), point( 6, 4 ), 0_degrees );
+                    add_vehicle( vproto_id( "car" ), point( 6, 4 ), 0 );
                 }
                 if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "motorcycle" ), point( 6, 10 ), 180_degrees );
+                    add_vehicle( vproto_id( "motorcycle" ), point( 6, 10 ), 180 );
                 }
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "pickup" ), point( 6, 16 ), 0_degrees );
+                    add_vehicle( vproto_id( "pickup" ), point( 6, 16 ), 0 );
                 }
 
             } else {
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "pickup" ), point( 7, 6 ), 90_degrees );
+                    add_vehicle( vproto_id( "pickup" ), point( 7, 6 ), 90 );
                 }
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "car" ), point( 14, 6 ), 90_degrees );
+                    add_vehicle( vproto_id( "car" ), point( 14, 6 ), 90 );
                 }
                 if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "motorcycle" ), point( 19, 6 ), 90_degrees );
+                    add_vehicle( vproto_id( "motorcycle" ), point( 19, 6 ), 90 );
                 }
             }
         } else if( ( dat.west() == "office_tower_b_entrance" && dat.north() == "office_tower_b" ) ||
@@ -3376,49 +3372,49 @@ void map::draw_office_tower( mapgendata &dat )
             if( dat.north() == "office_tower_b_entrance" ) {
                 rotate( 1 );
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "car" ), point( 8, 15 ), 0_degrees );
+                    add_vehicle( vproto_id( "car" ), point( 8, 15 ), 0 );
                 }
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "pickup" ), point( 7, 10 ), 180_degrees );
+                    add_vehicle( vproto_id( "pickup" ), point( 7, 10 ), 180 );
                 }
                 if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "beetle" ), point( 7, 3 ), 0_degrees );
+                    add_vehicle( vproto_id( "beetle" ), point( 7, 3 ), 0 );
                 }
             } else if( dat.east() == "office_tower_b_entrance" ) {
                 rotate( 2 );
                 if( x_in_y( 1, 5 ) ) {
                     if( one_in( 3 ) ) {
-                        add_vehicle( vproto_id( "fire_truck" ), point( 6, 13 ), 0_degrees );
+                        add_vehicle( vproto_id( "fire_truck" ), point( 6, 13 ), 0 );
                     } else {
-                        add_vehicle( vproto_id( "pickup" ), point( 7, 7 ), 270_degrees );
+                        add_vehicle( vproto_id( "pickup" ), point( 7, 7 ), 270 );
                     }
                 }
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "car" ), point( 13, 8 ), 90_degrees );
+                    add_vehicle( vproto_id( "car" ), point( 13, 8 ), 90 );
                 }
                 if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "beetle" ), point( 20, 7 ), 90_degrees );
+                    add_vehicle( vproto_id( "beetle" ), point( 20, 7 ), 90 );
                 }
             } else if( dat.south() == "office_tower_b_entrance" ) {
                 rotate( 3 );
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "pickup" ), point( 16, 7 ), 0_degrees );
+                    add_vehicle( vproto_id( "pickup" ), point( 16, 7 ), 0 );
                 }
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "car" ), point( 15, 13 ), 180_degrees );
+                    add_vehicle( vproto_id( "car" ), point( 15, 13 ), 180 );
                 }
                 if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "beetle" ), point( 15, 20 ), 180_degrees );
+                    add_vehicle( vproto_id( "beetle" ), point( 15, 20 ), 180 );
                 }
             } else {
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "pickup" ), point( 16, 16 ), 90_degrees );
+                    add_vehicle( vproto_id( "pickup" ), point( 16, 16 ), 90 );
                 }
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "car" ), point( 9, 15 ), 270_degrees );
+                    add_vehicle( vproto_id( "car" ), point( 9, 15 ), 270 );
                 }
                 if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "beetle" ), point( 4, 16 ), 270_degrees );
+                    add_vehicle( vproto_id( "beetle" ), point( 4, 16 ), 270 );
                 }
             }
         } else {
@@ -3456,56 +3452,56 @@ void map::draw_office_tower( mapgendata &dat )
                 rotate( 1 );
                 if( x_in_y( 1, 5 ) ) {
                     if( one_in( 3 ) ) {
-                        add_vehicle( vproto_id( "cube_van" ), point( 17, 4 ), 180_degrees );
+                        add_vehicle( vproto_id( "cube_van" ), point( 17, 4 ), 180 );
                     } else {
-                        add_vehicle( vproto_id( "cube_van_cheap" ), point( 17, 4 ), 180_degrees );
+                        add_vehicle( vproto_id( "cube_van_cheap" ), point( 17, 4 ), 180 );
                     }
                 }
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "pickup" ), point( 17, 10 ), 180_degrees );
+                    add_vehicle( vproto_id( "pickup" ), point( 17, 10 ), 180 );
                 }
                 if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "car" ), point( 17, 17 ), 180_degrees );
+                    add_vehicle( vproto_id( "car" ), point( 17, 17 ), 180 );
                 }
             } else if( dat.east() == "office_tower_b" && dat.north() == "office_tower_b" ) {
                 rotate( 2 );
                 if( x_in_y( 1, 5 ) ) {
                     if( one_in( 3 ) ) {
-                        add_vehicle( vproto_id( "cube_van" ), point( 6, 17 ), 270_degrees );
+                        add_vehicle( vproto_id( "cube_van" ), point( 6, 17 ), 270 );
                     } else {
-                        add_vehicle( vproto_id( "cube_van_cheap" ), point( 6, 17 ), 270_degrees );
+                        add_vehicle( vproto_id( "cube_van_cheap" ), point( 6, 17 ), 270 );
                     }
                 }
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "pickup" ), point( 12, 17 ), 270_degrees );
+                    add_vehicle( vproto_id( "pickup" ), point( 12, 17 ), 270 );
                 }
                 if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "fire_truck" ), point( 18, 17 ), 270_degrees );
+                    add_vehicle( vproto_id( "fire_truck" ), point( 18, 17 ), 270 );
                 }
             } else if( dat.east() == "office_tower_b" && dat.south() == "office_tower_b" ) {
                 rotate( 3 );
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "cube_van_cheap" ), point( 6, 6 ), 0_degrees );
+                    add_vehicle( vproto_id( "cube_van_cheap" ), point( 6, 6 ), 0 );
                 }
                 if( x_in_y( 1, 5 ) ) {
                     if( one_in( 3 ) ) {
-                        add_vehicle( vproto_id( "fire_truck" ), point( 6, 13 ), 0_degrees );
+                        add_vehicle( vproto_id( "fire_truck" ), point( 6, 13 ), 0 );
                     } else {
-                        add_vehicle( vproto_id( "pickup" ), point( 6, 13 ), 0_degrees );
+                        add_vehicle( vproto_id( "pickup" ), point( 6, 13 ), 0 );
                     }
                 }
                 if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "car" ), point( 5, 19 ), 180_degrees );
+                    add_vehicle( vproto_id( "car" ), point( 5, 19 ), 180 );
                 }
             } else {
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "flatbed_truck" ), point( 16, 6 ), 90_degrees );
+                    add_vehicle( vproto_id( "flatbed_truck" ), point( 16, 6 ), 90 );
                 }
                 if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "cube_van_cheap" ), point( 10, 6 ), 90_degrees );
+                    add_vehicle( vproto_id( "cube_van_cheap" ), point( 10, 6 ), 90 );
                 }
                 if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "car" ), point( 4, 6 ), 90_degrees );
+                    add_vehicle( vproto_id( "car" ), point( 4, 6 ), 90 );
                 }
             }
         }
@@ -5022,6 +5018,29 @@ void map::draw_mine( mapgendata &dat )
     }
 }
 
+void map::draw_spider_pit( mapgendata &dat )
+{
+    const oter_id &terrain_type = dat.terrain_type();
+    if( terrain_type == "spider_pit_under" ) {
+        for( int i = 0; i < SEEX * 2; i++ ) {
+            for( int j = 0; j < SEEY * 2; j++ ) {
+                if( ( i >= 3 && i <= SEEX * 2 - 4 && j >= 3 && j <= SEEY * 2 - 4 ) ||
+                    one_in( 4 ) ) {
+                    ter_set( point( i, j ), t_rock_floor );
+                    if( !one_in( 3 ) ) {
+                        add_field( {i, j, abs_sub.z}, fd_web, rng( 1, 3 ) );
+                    }
+                } else {
+                    ter_set( point( i, j ), t_rock );
+                }
+            }
+        }
+        ter_set( point( rng( 3, SEEX * 2 - 4 ), rng( 3, SEEY * 2 - 4 ) ), t_slope_up );
+        place_items( item_group_id( "spider" ), 85, point_zero, point( EAST_EDGE, SOUTH_EDGE ), false,
+                     calendar::start_of_cataclysm );
+    }
+}
+
 void map::draw_anthill( mapgendata &dat )
 {
     const oter_id &terrain_type = dat.terrain_type();
@@ -5391,8 +5410,7 @@ void map::place_spawns( const mongroup_id &group, const int chance,
                         const bool individual, const bool friendly, const std::string &name, const int mission_id )
 {
     if( !group.is_valid() ) {
-        // TODO: fix point types
-        const tripoint_abs_omt omt( sm_to_omt_copy( get_abs_sub() ) );
+        const tripoint omt = sm_to_omt_copy( get_abs_sub() );
         const oter_id &oid = overmap_buffer.ter( omt );
         debugmsg( "place_spawns: invalid mongroup '%s', om_terrain = '%s' (%s)", group.c_str(),
                   oid.id().c_str(), oid->get_mapgen_id().c_str() );
@@ -5468,7 +5486,7 @@ void map::place_vending( const point &p, const item_group_id &type, bool reinfor
             furn_set( p, f_vending_o );
             for( const auto &loc : points_in_radius( { p, abs_sub.z }, 1 ) ) {
                 if( one_in( 4 ) ) {
-                    spawn_item( loc, "glass_shard", rng( 1, 2 ) );
+                    spawn_item( loc, "glass_shard", rng( 1, 25 ) );
                 }
             }
         } else {
@@ -5524,8 +5542,7 @@ std::vector<item *> map::place_items( const item_group_id &loc, const int chance
         return res;
     }
     if( !item_group::group_is_defined( loc ) ) {
-        // TODO: fix point types
-        const tripoint_abs_omt omt( sm_to_omt_copy( get_abs_sub() ) );
+        const tripoint omt = sm_to_omt_copy( get_abs_sub() );
         const oter_id &oid = overmap_buffer.ter( omt );
         debugmsg( "place_items: invalid item group '%s', om_terrain = '%s' (%s)",
                   loc.c_str(), oid.id().c_str(), oid->get_mapgen_id().c_str() );
@@ -5598,25 +5615,25 @@ void map::add_spawn( const mtype_id &type, int count, const tripoint &p, bool fr
     place_on_submap->spawns.push_back( tmp );
 }
 
-vehicle *map::add_vehicle( const vgroup_id &type, const tripoint &p, const units::angle dir,
+vehicle *map::add_vehicle( const vgroup_id &type, const tripoint &p, const int dir,
                            const int veh_fuel, const int veh_status, const bool merge_wrecks )
 {
     return add_vehicle( type.obj().pick(), p, dir, veh_fuel, veh_status, merge_wrecks );
 }
 
-vehicle *map::add_vehicle( const vgroup_id &type, const point &p, units::angle dir,
+vehicle *map::add_vehicle( const vgroup_id &type, const point &p, int dir,
                            int veh_fuel, int veh_status, bool merge_wrecks )
 {
     return add_vehicle( type.obj().pick(), p, dir, veh_fuel, veh_status, merge_wrecks );
 }
 
-vehicle *map::add_vehicle( const vproto_id &type, const point &p, units::angle dir,
+vehicle *map::add_vehicle( const vproto_id &type, const point &p, int dir,
                            int veh_fuel, int veh_status, bool merge_wrecks )
 {
     return add_vehicle( type, tripoint( p, abs_sub.z ), dir, veh_fuel, veh_status, merge_wrecks );
 }
 
-vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units::angle dir,
+vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const int dir,
                            const int veh_fuel, const int veh_status, const bool merge_wrecks )
 {
     if( !type.is_valid() ) {
@@ -5625,7 +5642,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units
     }
     if( !inbounds( p ) ) {
         dbg( DL::Warn ) << string_format( "Out of bounds add_vehicle t=%s d=%d p=%s",
-                                          type, to_degrees( dir ), p.to_string() );
+                                          type.c_str(), dir, p.to_string() );
         return nullptr;
     }
 
@@ -5725,15 +5742,15 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
             //Where are we on the global scale?
             const tripoint global_pos = wreckage->global_pos3();
 
-            for( const vpart_reference &vpr : veh->get_all_parts() ) {
-                const tripoint part_pos = veh->global_part_pos3( vpr.part() ) - global_pos;
+            for( auto &part : veh->parts ) {
+                const tripoint part_pos = veh->global_part_pos3( part ) - global_pos;
                 // TODO: change mount points to be tripoint
-                wreckage->install_part( part_pos.xy(), vpr.part() );
+                wreckage->install_part( part_pos.xy(), part );
             }
 
-            for( const vpart_reference &vpr : other_veh->get_all_parts() ) {
-                const tripoint part_pos = other_veh->global_part_pos3( vpr.part() ) - global_pos;
-                wreckage->install_part( part_pos.xy(), vpr.part() );
+            for( auto &part : other_veh->parts ) {
+                const tripoint part_pos = other_veh->global_part_pos3( part ) - global_pos;
+                wreckage->install_part( part_pos.xy(), part );
 
             }
 
@@ -5811,9 +5828,8 @@ void map::rotate( int turns, const bool setpos_safe )
     // TODO: This radius can be smaller - how small?
     const int radius = HALF_MAPSIZE + 3;
     // uses submap coordinates
-    // TODO: fix point types
-    const std::vector<shared_ptr_fast<npc>> npcs =
-            overmap_buffer.get_npcs_near( tripoint_abs_sm( abs_sub ), radius );
+    const std::vector<shared_ptr_fast<npc>> npcs = overmap_buffer.get_npcs_near( abs_sub,
+                                         radius );
     for( const shared_ptr_fast<npc> &i : npcs ) {
         npc &np = *i;
         const tripoint sq = np.global_square_location();
@@ -5844,7 +5860,7 @@ void map::rotate( int turns, const bool setpos_safe )
             // to be between 0-11,0-11 and teleports NPCs when used inside of update_mapgen
             // calls
             const tripoint new_global_sq = sq - local_sq + new_pos;
-            np.setpos( get_map().getlocal( new_global_sq ) );
+            np.setpos( g->m.getlocal( new_global_sq ) );
         } else {
             // OK, this is ugly: we remove the NPC from the whole map
             // Then we place it back from scratch
@@ -6532,7 +6548,7 @@ bool update_mapgen_function_json::setup_internal( const JsonObject &/*jo*/ )
     return true;
 }
 
-bool update_mapgen_function_json::update_map( const tripoint_abs_omt &omt_pos, const point &offset,
+bool update_mapgen_function_json::update_map( const tripoint &omt_pos, const point &offset,
         mission *miss, bool verify ) const
 {
     if( omt_pos == overmap::invalid_tripoint ) {
@@ -6540,8 +6556,7 @@ bool update_mapgen_function_json::update_map( const tripoint_abs_omt &omt_pos, c
         return false;
     }
     tinymap update_tmap;
-    // TODO: fix point types
-    const tripoint sm_pos = project_to<coords::sm>( omt_pos ).raw();
+    const tripoint sm_pos = omt_to_sm_copy( omt_pos );
     update_tmap.load( sm_pos, true );
 
     mapgendata md( omt_pos, update_tmap, 0.0f, calendar::start_of_cataclysm, miss );
@@ -6598,7 +6613,7 @@ mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer )
 {
     if( jo.has_string( "mapgen_update_id" ) ) {
         const std::string mapgen_update_id = jo.get_string( "mapgen_update_id" );
-        const auto update_function = [mapgen_update_id]( const tripoint_abs_omt & omt_pos,
+        const auto update_function = [mapgen_update_id]( const tripoint & omt_pos,
         mission * miss ) {
             run_mapgen_update_func( mapgen_update_id, omt_pos, miss, false );
         };
@@ -6608,11 +6623,11 @@ mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer )
     update_mapgen_function_json json_data( json_source_location{} );
     mapgen_defer::defer = defer;
     if( !json_data.setup_update( jo ) ) {
-        const auto null_function = []( const tripoint_abs_omt &, mission * ) {
+        const auto null_function = []( const tripoint &, mission * ) {
         };
         return null_function;
     }
-    const auto update_function = [json_data]( const tripoint_abs_omt & omt_pos, mission * miss ) {
+    const auto update_function = [json_data]( const tripoint & omt_pos, mission * miss ) {
         json_data.update_map( omt_pos, point_zero, miss );
     };
     defer = mapgen_defer::defer;
@@ -6620,7 +6635,7 @@ mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer )
     return update_function;
 }
 
-bool run_mapgen_update_func( const std::string &update_mapgen_id, const tripoint_abs_omt &omt_pos,
+bool run_mapgen_update_func( const std::string &update_mapgen_id, const tripoint &omt_pos,
                              mission *miss, bool cancel_on_collision )
 {
     const auto update_function = update_mapgen.find( update_mapgen_id );
@@ -6651,12 +6666,7 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
 
     const auto update_function = update_mapgen.find( update_mapgen_id );
 
-    if( !update_mapgen_id.empty() && update_function == update_mapgen.end() ) {
-        debugmsg( "Couldn't find mapgen function with id %s", update_mapgen_id );
-        return std::make_pair( terrains, furnitures );
-    }
-
-    if( update_mapgen_id.empty() || update_function->second.empty() ) {
+    if( update_function == update_mapgen.end() || update_function->second.empty() ) {
         return std::make_pair( terrains, furnitures );
     }
 
@@ -6701,13 +6711,3 @@ bool has_mapgen_for( const std::string &key )
 {
     return oter_mapgen.has( key );
 }
-
-namespace mapgen
-{
-
-bool has_update_id( const mapgen_id &id )
-{
-    return update_mapgen.find( id ) != update_mapgen.end();
-}
-
-} // namespace mapgen

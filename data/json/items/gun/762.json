@@ -19,7 +19,7 @@
     "skill": "rifle",
     "dispersion": 180,
     "durability": 9,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -57,7 +57,7 @@
     "skill": "rifle",
     "dispersion": 160,
     "durability": 9,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "barrel_length": "250 ml",
     "default_mods": [ "folding_stock" ],
     "valid_mod_locations": [
@@ -88,7 +88,6 @@
     "price": 38000,
     "price_postapoc": 3500,
     "to_hit": -1,
-    "ascii_picture": "sks",
     "bashing": 12,
     "material": [ "steel", "wood" ],
     "symbol": "(",
@@ -137,7 +136,7 @@
     "skill": "rifle",
     "dispersion": 180,
     "durability": 8,
-    "modes": [ [ "DEFAULT", "semi", 1 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -174,7 +173,7 @@
     "dispersion": 240,
     "ranged_damage": -5,
     "durability": 7,
-    "modes": [ [ "DEFAULT", "semi", 1 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],

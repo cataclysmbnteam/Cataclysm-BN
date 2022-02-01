@@ -19,8 +19,6 @@
 
 #include "action.h"
 #include "activity_actor.h"
-#include "activity_actor_definitions.h"
-#include "active_tile_data_def.h"
 #include "artifact.h"
 #include "avatar.h"
 #include "bodypart.h"
@@ -35,7 +33,6 @@
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
-#include "distribution_grid.h"
 #include "effect.h" // for weed_msg
 #include "enums.h"
 #include "event.h"
@@ -247,6 +244,7 @@ static const itype_id itype_handrolled_cig( "handrolled_cig" );
 static const itype_id itype_hygrometer( "hygrometer" );
 static const itype_id itype_joint( "joint" );
 static const itype_id itype_log( "log" );
+static const itype_id itype_manhole_cover( "manhole_cover" );
 static const itype_id itype_mask_h20survivor_on( "mask_h20survivor_on" );
 static const itype_id itype_mininuke_act( "mininuke_act" );
 static const itype_id itype_molotov( "molotov" );
@@ -266,6 +264,7 @@ static const itype_id itype_radio_on( "radio_on" );
 static const itype_id itype_rebreather_on( "rebreather_on" );
 static const itype_id itype_rebreather_xl_on( "rebreather_xl_on" );
 static const itype_id itype_rmi2_corpse( "rmi2_corpse" );
+static const itype_id itype_sheet( "sheet" );
 static const itype_id itype_shocktonfa_off( "shocktonfa_off" );
 static const itype_id itype_shocktonfa_on( "shocktonfa_on" );
 static const itype_id itype_smart_phone( "smart_phone" );
@@ -273,6 +272,8 @@ static const itype_id itype_smartphone_music( "smartphone_music" );
 static const itype_id itype_soap( "soap" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_spiral_stone( "spiral_stone" );
+static const itype_id itype_stick( "stick" );
+static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_thermometer( "thermometer" );
 static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_soiled( "towel_soiled" );
@@ -1234,10 +1235,9 @@ int iuse::purify_smart( player *p, item *it, bool, const tripoint & )
 static void spawn_spores( const player &p )
 {
     int spores_spawned = 0;
-    map &here = get_map();
-    fungal_effects fe( *g, here );
-    for( const tripoint &dest : closest_points_first( p.pos(), 4 ) ) {
-        if( here.impassable( dest ) ) {
+    fungal_effects fe( *g, g->m );
+    for( const tripoint &dest : closest_tripoints_first( p.pos(), 4 ) ) {
+        if( g->m.impassable( dest ) ) {
             continue;
         }
         float dist = rl_dist( dest, p.pos() );
@@ -1746,11 +1746,8 @@ static bool good_fishing_spot( tripoint pos )
 {
     std::unordered_set<tripoint> fishable_locations = g->get_fishable_locations( 60, pos );
     std::vector<monster *> fishables = g->get_fishable_monsters( fishable_locations );
-    map &here = get_map();
     // isolated little body of water with no definite fish population
-    // TODO: fix point types
-    const oter_id &cur_omt =
-        overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getabs( pos ) ) ) );
+    const oter_id &cur_omt = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( pos ) ) );
     std::string om_id = cur_omt.id().c_str();
     if( fishables.empty() && !g->m.has_flag( "CURRENT", pos ) &&
         om_id.find( "river_" ) == std::string::npos && !cur_omt->is_lake() && !cur_omt->is_lake_shore() ) {
@@ -2132,15 +2129,6 @@ int iuse::directional_antenna( player *p, item *it, bool, const tripoint & )
     auto radios = p->items_with( []( const item & it ) {
         return it.typeId() == itype_radio_on;
     } );
-    // If we don't wield the radio, also check on the ground
-    if( radios.empty() ) {
-        map_stack items = get_map().i_at( p->pos() );
-        for( item &an_item : items ) {
-            if( an_item.typeId() == itype_radio_on ) {
-                radios.push_back( &an_item );
-            }
-        }
-    }
     if( radios.empty() ) {
         add_msg( m_info, _( "Must have an active radio to check for signal direction." ) );
         return 0;
@@ -2153,9 +2141,9 @@ int iuse::directional_antenna( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     // Report direction.
-    // TODO: fix point types
-    const tripoint_abs_sm player_pos( p->global_sm_location() );
-    direction angle = direction_from( player_pos.xy(), tref.abs_sm_pos );
+    const auto player_pos = p->global_sm_location();
+    direction angle = direction_from( player_pos.xy(),
+                                      tref.abs_sm_pos );
     add_msg( _( "The signal seems strongest to the %s." ), direction_name( angle ) );
     return it->type->charges_to_use();
 }
@@ -2317,10 +2305,9 @@ int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
                 []( const item * entry ) -> std::string {
                     return entry->display_name();
                 }, enumeration_conjunction::none );
-                //~ %1 is corpse name, %2 is direction, %3 is bionic name
-                p->add_msg_if_player( m_good, _( "A %1$s located %2$s contains %3$s." ),
+                p->add_msg_if_player( m_good, _( "A %1$s located %2$s contains %3$s" ),
                                       corpse.display_name().c_str(),
-                                      direction_name( direction_from( p->pos(), pt ) ).c_str(),
+                                      direction_name( direction_from( pt, p->pos() ) ).c_str(),
                                       bionics_string.c_str()
                                     );
             }
@@ -2411,49 +2398,112 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    const pry_result *pry = nullptr;
-    bool pry_furn;
+    const std::set<ter_id> allowed_ter_id {
+        t_door_locked,
+        t_door_locked_alarm,
+        t_door_locked_interior,
+        t_door_locked_peep,
+        t_door_c,
+        t_door_c_peep,
+        t_manhole_cover,
+        t_window_domestic,
+        t_curtains,
+        t_window_no_curtains
+    };
+    const std::set<furn_id> allowed_furn_id {
+        f_crate_c,
+        f_coffin_c
+    };
 
-    const std::function<bool( const tripoint & )> can_pry = [&p]( const tripoint & pnt ) {
-        if( pnt == p->pos() ) {
+    const std::function<bool( const tripoint & )> f = [&allowed_ter_id,
+    &allowed_furn_id]( const tripoint & pnt ) {
+        if( pnt == g->u.pos() ) {
             return false;
         }
         const ter_id ter = g->m.ter( pnt );
-        const furn_id furn = g->m.furn( pnt );
+        const auto furn = g->m.furn( pnt );
 
-        const bool is_allowed = ter->pry.pry_quality != -1 || furn->pry.pry_quality != -1;
+        const bool is_allowed = allowed_ter_id.find( ter ) != allowed_ter_id.end() ||
+                                allowed_furn_id.find( furn ) != allowed_furn_id.end();
         return is_allowed;
     };
 
     const cata::optional<tripoint> pnt_ = ( pos != p->pos() ) ? pos : choose_adjacent_highlight(
-            _( "Pry where?" ), _( "There is nothing to pry nearby." ), can_pry, false );
+            _( "Pry where?" ), _( "There is nothing to pry nearby." ), f, false );
     if( !pnt_ ) {
         return 0;
     }
     const tripoint &pnt = *pnt_;
-    const ter_id ter = g->m.ter( pnt );
+    const ter_id type = g->m.ter( pnt );
     const furn_id furn = g->m.furn( pnt );
-
-    if( !can_pry( pnt ) ) {
+    if( !f( pnt ) ) {
         if( pnt == p->pos() ) {
             p->add_msg_if_player( m_info, _( "You attempt to pry open your wallet "
                                              "but alas.  You are just too miserly." ) );
-        } else if( !ter->has_flag( "LOCKED" ) && ter->open ) {
-            p->add_msg_if_player( m_info, _( "You notice the door is unlocked, so you simply open it." ) );
-            g->m.ter_set( pnt, ter->open );
         } else {
             p->add_msg_if_player( m_info, _( "You can't pry that." ) );
         }
-
         return 0;
     }
+    const char *succ_action;
+    const char *fail_action;
+    ter_id new_type = t_null;
+    bool noisy;
+    int pry_quality;
+    int difficulty;
 
-    if( furn->pry.pry_quality != -1 ) {
-        pry_furn = true;
-        pry = &furn->pry;
+    if( type == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior ) {
+        succ_action = _( "You pry open the door." );
+        fail_action = _( "You pry, but cannot pry open the door." );
+        new_type = t_door_o;
+        pry_quality = 2;
+        noisy = true;
+        difficulty = 6;
+    } else if( type == t_door_locked_peep ) {
+        succ_action = _( "You pry open the door." );
+        fail_action = _( "You pry, but cannot pry open the door." );
+        new_type = t_door_o_peep;
+        pry_quality = 2;
+        noisy = true;
+        difficulty = 6;
+    } else if( type == t_door_c ) {
+        p->add_msg_if_player( m_info, _( "You notice the door is unlocked, so you simply open it." ) );
+        g->m.ter_set( pnt, t_door_o );
+        p->mod_moves( -100 );
+        return 0;
+    } else if( type == t_door_c_peep ) {
+        p->add_msg_if_player( m_info, _( "You notice the door is unlocked, so you simply open it." ) );
+        g->m.ter_set( pnt, t_door_o_peep );
+        p->mod_moves( -100 );
+        return 0;
+    } else if( type == t_manhole_cover ) {
+        succ_action = _( "You lift the manhole cover." );
+        fail_action = _( "You pry, but cannot lift the manhole cover." );
+        pry_quality = 1;
+        new_type = t_manhole;
+        noisy = false;
+        difficulty = 4;
+    } else if( furn == f_crate_c ) {
+        succ_action = _( "You pop open the crate." );
+        fail_action = _( "You pry, but cannot pop open the crate." );
+        pry_quality = 1;
+        noisy = true;
+        difficulty = 6;
+    } else if( furn == f_coffin_c ) {
+        succ_action = _( "You wedge open the coffin." );
+        fail_action = _( "You pry, but the coffin remains closed." );
+        pry_quality = 2;
+        noisy = true;
+        difficulty = 5;
+    } else if( type == t_window_domestic || type == t_curtains || type == t_window_no_curtains ) {
+        succ_action = _( "You pry open the window." );
+        fail_action = _( "You pry, but cannot pry open the window." );
+        new_type = ( type == t_window_no_curtains ) ? t_window_no_curtains_open : t_window_open;
+        pry_quality = 2;
+        noisy = true;
+        difficulty = 6;
     } else {
-        pry_furn = false;
-        pry = &ter->pry;
+        return 0;
     }
 
     // Doors need PRY 2 which is on a crowbar, crates need PRY 1 which is on a crowbar
@@ -2463,37 +2513,38 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
     // then managing to open a door.
     const int pry_level = it->get_quality( quality_id( "PRY" ) );
 
-    if( pry_level < pry->pry_quality ) {
+    if( pry_level < pry_quality ) {
         p->add_msg_if_player( _( "You can't get sufficient leverage to open that with your %s." ),
                               it->tname() );
         p->mod_moves( 10 ); // spend a few moves trying it.
         return 0;
     }
 
-    // For every level of PRY over the requirement, remove n from the difficulty.
-    // Then multiply n by pry_bonus_mult. It's recommended that you don't allow
-    // the result to be negative if you can help it.
-    int diff = pry->difficulty;
-    diff -= ( ( pry_level - pry->pry_quality ) * pry->pry_bonus_mult );
+    // For every level of PRY over the requirement, remove n from the difficulty (so -2 with a PRY 4 tool)
+    difficulty -= ( pry_level - pry_quality );
 
     /** @EFFECT_STR speeds up crowbar prying attempts */
-    p->mod_moves( -std::max( 20, diff * 50 - p->str_cur * 10 ) );
+    p->mod_moves( -std::max( 20, difficulty * 20 - p->str_cur * 5 ) );
     /** @EFFECT_STR increases chance of crowbar prying success */
 
-    if( dice( 4, diff ) < dice( 4, p->str_cur ) ) {
-        p->add_msg_if_player( m_good, pry->success_message );
+    if( dice( 4, difficulty ) < dice( 4, p->str_cur ) ) {
+        p->add_msg_if_player( m_good, succ_action );
 
-        if( pry_furn ) {
-            g->m.furn_set( pnt, pry->new_furn_type );
+        if( g->m.furn( pnt ) == f_crate_c ) {
+            g->m.furn_set( pnt, f_crate_o );
+        } else if( g->m.furn( pnt ) == f_coffin_c ) {
+            g->m.furn_set( pnt, f_coffin_o );
         } else {
-            g->m.ter_set( pnt, pry->new_ter_type );
+            g->m.ter_set( pnt, new_type );
         }
 
-        if( pry->noise > 0 ) {
-            sounds::sound( pnt, pry->noise, sounds::sound_t::combat, pry->sound, true, "tool", "crowbar" );
+        if( noisy ) {
+            sounds::sound( pnt, 12, sounds::sound_t::combat, _( "crunch!" ), true, "tool", "crowbar" );
         }
-        g->m.spawn_items( pnt, item_group::items_from( pry->pry_items, calendar::turn ) );
-        if( pry->alarm ) {
+        if( type == t_manhole_cover ) {
+            g->m.spawn_item( pnt, itype_manhole_cover );
+        }
+        if( type == t_door_locked_alarm ) {
             g->events().send<event_type::triggers_alarm>( p->getID() );
             sounds::sound( p->pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                            "alarm" );
@@ -2503,35 +2554,23 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
             }
         }
     } else {
-        if( pry->breakable ) {
+        if( type == t_window_domestic || type == t_curtains ) {
             //chance of breaking the glass if pry attempt fails
             /** @EFFECT_STR reduces chance of breaking window with crowbar */
 
             /** @EFFECT_MECHANICS reduces chance of breaking window with crowbar */
-            if( dice( 4, diff ) > ( dice( 2, p->get_skill_level( skill_mechanics ) ) + dice( 2,
-                                    p->str_cur ) ) * pry_level ) {
-                p->add_msg_if_player( m_mixed, pry->break_message );
-                sounds::sound( pnt, pry->break_noise, sounds::sound_t::combat, pry->break_sound, true, "smash",
-                               "door" );
-                if( pry_furn ) {
-                    g->m.furn_set( pnt, pry->break_furn_type );
-                } else {
-                    g->m.ter_set( pnt, pry->break_ter_type );
-                }
-                g->m.spawn_items( pnt, item_group::items_from( pry->break_items, calendar::turn ) );
-                if( pry->alarm ) {
-                    g->events().send<event_type::triggers_alarm>( p->getID() );
-                    sounds::sound( p->pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
-                                   "alarm" );
-                    if( !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
-                        g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
-                                             p->global_sm_location() );
-                    }
-                }
+            if( dice( 4, difficulty ) > dice( 2, p->get_skill_level( skill_mechanics ) ) + dice( 2,
+                    p->str_cur ) ) {
+                p->add_msg_if_player( m_mixed, _( "You break the glass." ) );
+                sounds::sound( pnt, 24, sounds::sound_t::combat, _( "glass breaking!" ), true, "smash", "glass" );
+                g->m.ter_set( pnt, t_window_frame );
+                g->m.spawn_item( pnt, itype_sheet, 2 );
+                g->m.spawn_item( pnt, itype_stick );
+                g->m.spawn_item( pnt, itype_string_36 );
                 return it->type->charges_to_use();
             }
         }
-        p->add_msg_if_player( pry->fail_message );
+        p->add_msg_if_player( fail_action );
     }
     return it->type->charges_to_use();
 }
@@ -3585,7 +3624,7 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
             case 1:
                 sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "BUGFIXES!" ),
                                true, "speech", it->typeId().str() );
-                explosion_handler::draw_explosion( pos, explosion_radius, c_light_cyan, "explosion" );
+                explosion_handler::draw_explosion( pos, explosion_radius, c_light_cyan );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     monster *const mon = g->critter_at<monster>( dest, true );
                     if( mon && ( mon->type->in_species( INSECT ) || mon->is_hallucination() ) ) {
@@ -3597,7 +3636,7 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
             case 2:
                 sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "BUFFS!" ),
                                true, "speech", it->typeId().str() );
-                explosion_handler::draw_explosion( pos, explosion_radius, c_green, "explosion" );
+                explosion_handler::draw_explosion( pos, explosion_radius, c_green );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
                         monster &critter = *mon_ptr;
@@ -3637,7 +3676,7 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
             case 3:
                 sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "NERFS!" ),
                                true, "speech", it->typeId().str() );
-                explosion_handler::draw_explosion( pos, explosion_radius, c_red, "explosion" );
+                explosion_handler::draw_explosion( pos, explosion_radius, c_red );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
                         monster &critter = *mon_ptr;
@@ -3676,7 +3715,7 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
             case 4:
                 sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "REVERTS!" ),
                                true, "speech", it->typeId().str() );
-                explosion_handler::draw_explosion( pos, explosion_radius, c_pink, "explosion" );
+                explosion_handler::draw_explosion( pos, explosion_radius, c_pink );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
                         monster &critter = *mon_ptr;
@@ -3694,7 +3733,7 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
             case 5:
                 sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "BEES!" ),
                                true, "speech", it->typeId().str() );
-                explosion_handler::draw_explosion( pos, explosion_radius, c_yellow, "explosion" );
+                explosion_handler::draw_explosion( pos, explosion_radius, c_yellow );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if( one_in( 5 ) && !g->critter_at( dest ) ) {
                         g->m.add_field( dest, fd_bees, rng( 1, 3 ) );
@@ -5105,7 +5144,7 @@ int iuse::mop( player *p, item *it, bool, const tripoint & )
         fd_sludge
     };
     const std::function<bool( const tripoint & )> f = [&to_check]( const tripoint & pnt ) {
-        if( !g->m.has_flag( "LIQUIDCONT", pnt ) && !g->m.has_flag( "SEALED", pnt ) ) {
+        if( !g->m.has_flag( "LIQUIDCONT", pnt ) ) {
             map_stack items = g->m.i_at( pnt );
             auto found = std::find_if( items.begin(), items.end(), []( const item & it ) {
                 return it.made_of( LIQUID );
@@ -5124,7 +5163,7 @@ int iuse::mop( player *p, item *it, bool, const tripoint & )
             vehicle *const veh = &vp->vehicle();
             std::vector<int> parts_here = veh->parts_at_relative( vp->mount(), true );
             for( int elem : parts_here ) {
-                if( veh->part( elem ).blood > 0 ) {
+                if( veh->parts[elem].blood > 0 ) {
                     return true;
                 }
                 vehicle_stack items = veh->get_items( elem );
@@ -5246,8 +5285,9 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                 break;
 
             case AEA_MAP: {
-                const tripoint_abs_omt center = p->global_omt_location();
-                const bool new_map = overmap_buffer.reveal( center.xy(), 20, center.z() );
+                const tripoint center = p->global_omt_location();
+                const bool new_map = overmap_buffer.reveal(
+                                         center.xy(), 20, center.z );
                 if( new_map ) {
                     p->add_msg_if_player( m_warning, _( "You have a vision of the surrounding area…" ) );
                     p->moves -= to_moves<int>( 1_seconds );
@@ -5399,7 +5439,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_FIRESTORM: {
                 p->add_msg_if_player( m_bad, _( "Fire rains down around you!" ) );
-                std::vector<tripoint> ps = closest_points_first( p->pos(), 3 );
+                std::vector<tripoint> ps = closest_tripoints_first( p->pos(), 3 );
                 for( auto p_it : ps ) {
                     if( !one_in( 3 ) ) {
                         g->m.add_field( p_it, fd_fire, 1 + rng( 0, 1 ) * rng( 0, 1 ), 3_minutes );
@@ -5440,7 +5480,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_FLASH:
                 p->add_msg_if_player( _( "The %s flashes brightly!" ), it->tname() );
-                explosion_handler::flashbang( p->pos(), false, "explosion" );
+                explosion_handler::flashbang( p->pos() );
                 break;
 
             case AEA_VOMIT:
@@ -5640,8 +5680,7 @@ int iuse::unfold_generic( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    map &here = get_map();
-    vehicle *veh = here.add_vehicle( vproto_id( "none" ), p->pos(), 0_degrees, 0, 0, false );
+    vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), p->pos(), 0, 0, 0, false );
     if( veh == nullptr ) {
         p->add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it->tname() );
         return 0;
@@ -6951,10 +6990,8 @@ static object_names_collection enumerate_objects_around_point( const tripoint &p
         std::unordered_set<tripoint> &ignored_points,
         std::unordered_set<const vehicle *> &vehicles_recorded )
 {
-    map &here = get_map();
-    const tripoint_range<tripoint> bounds =
-        here.points_in_radius( bounds_center_point, bounds_radius );
-    const tripoint_range<tripoint> points_in_radius = here.points_in_radius( point, radius );
+    const tripoint_range bounds = g->m.points_in_radius( bounds_center_point, bounds_radius );
+    const tripoint_range points_in_radius = g->m.points_in_radius( point, radius );
     int dist = rl_dist( camera_pos, point );
 
     bool item_found = false;
@@ -6998,7 +7035,7 @@ static object_names_collection enumerate_objects_around_point( const tripoint &p
                 ret_obj.furniture[ furn_desc ] ++;
             }
         } else if( veh_part_pos.has_value() ) {
-            const vehicle &veh = veh_part_pos->vehicle();
+            const vehicle veh = veh_part_pos->vehicle();
             const std::string veh_name = colorize( veh.disp_name(), c_light_blue );
             const vehicle *veh_hash = &veh_part_pos->vehicle();
 
@@ -7105,8 +7142,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
 
     std::string timestamp = to_string( time_point( calendar::turn ) );
     int dist = rl_dist( camera_pos, aim_point );
-    map &here = get_map();
-    const tripoint_range<tripoint> bounds = here.points_in_radius( aim_point, 2 );
+    const tripoint_range bounds = g->m.points_in_radius( aim_point, 2 );
     extended_photo_def photo;
     bool need_store_weather = false;
     int outside_tiles_num = 0;
@@ -7310,9 +7346,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
                                               obj_list );
     }
 
-    // TODO: fix point types
-    const oter_id &cur_ter =
-        overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( g->m.getabs( aim_point ) ) ) );
+    const oter_id &cur_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( aim_point ) ) );
     std::string overmap_desc = string_format( _( "In the background you can see a %s" ),
                                colorize( cur_ter->get_name(), cur_ter->get_color() ) );
     if( outside_tiles_num == total_tiles_num ) {
@@ -7341,8 +7375,9 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
         } else {
             photo_text += _( "It is day. " );
         }
-        photo_text += string_format( _( "The weather is %s." ), colorize( get_weather().weather_id->name,
-                                     get_weather().weather_id->color ) );
+
+        const weather_datum w_data = weather_data( g->weather.weather );
+        photo_text += string_format( _( "The weather is %s." ), colorize( w_data.name, w_data.color ) );
     }
 
     for( const auto &figure : description_figures_appearance ) {
@@ -7525,7 +7560,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
         }
         tripoint aim_point = *aim_point_;
         bool incorrect_focus = false;
-        tripoint_range<tripoint> aim_bounds = g->m.points_in_radius( aim_point, 2 );
+        tripoint_range aim_bounds = g->m.points_in_radius( aim_point, 2 );
 
         std::vector<tripoint> trajectory = line_to( p->pos(), aim_point, 0, 0 );
         trajectory.push_back( aim_point );
@@ -9062,7 +9097,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
         const tripoint vpos = *vpos_;
 
         const optional_vpart_position target_vp = g->m.veh_at( vpos );
-        tripoint_abs_ms target_global( g->m.getabs( vpos ) );
+        tripoint target_global = g->m.getabs( vpos );
         vehicle_connector_tile *grid_connection = active_tiles::furn_at<vehicle_connector_tile>
                 ( target_global );
         if( !target_vp && !grid_connection ) {
@@ -9085,8 +9120,8 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
             point vcoords = source_vp->mount();
             vehicle_part source_part( vpid, vcoords, item( *it ) );
             if( grid_connection != nullptr ) {
-                source_part.target.first = target_global.raw();
-                source_part.target.second = target_global.raw();
+                source_part.target.first = target_global;
+                source_part.target.second = target_global;
                 source_part.set_flag( vehicle_part::targets_grid );
                 if( p != nullptr && p->has_item( *it ) ) {
                     p->add_msg_if_player( m_good, _( "You connect the %s to the electric grid." ),
@@ -9104,15 +9139,15 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
                     return 0;
                 }
 
-                source_part.target.first = target_global.raw();
-                source_part.target.second = target_veh->global_square_location().raw();
+                source_part.target.first = target_global;
+                source_part.target.second = g->m.getabs( target_veh->global_pos3() );
                 source_veh->install_part( vcoords, source_part );
 
                 if( target_vp ) {
                     vcoords = target_vp->mount();
                     vehicle_part target_part( vpid, vcoords, item( *it ) );
                     target_part.target.first = source_global;
-                    target_part.target.second = source_veh->global_square_location().raw();
+                    target_part.target.second = g->m.getabs( source_veh->global_pos3() );
                     target_veh->install_part( vcoords, target_part );
 
                     if( p != nullptr && p->has_item( *it ) ) {
@@ -9157,11 +9192,10 @@ int iuse::hairkit( player *p, item *it, bool, const tripoint & )
 
 int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
 {
-    const weather_manager &weather = get_weather();
-    const w_point &weatherPoint = get_weather().get_precise();
+    const w_point weatherPoint = *g->weather.weather_precise;
 
     /* Possibly used twice. Worth spending the time to precalculate. */
-    const auto player_local_temp = weather.get_temperature( p->pos() );
+    const auto player_local_temp = g->weather.get_temperature( p->pos() );
 
     if( it->typeId() == itype_weather_reader ) {
         p->add_msg_if_player( m_neutral, _( "The %s's monitor slowly outputs the data…" ),
@@ -9177,7 +9211,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         }
         // TODO: Don't output air temp if we aren't near air
         if( g->m.has_flag( TFLAG_SWIMMABLE, p->pos() ) ) {
-            const double water_temp = weather.get_cur_weather_gen().get_water_temperature( p->pos(),
+            const double water_temp = g->weather.get_cur_weather_gen().get_water_temperature( p->pos(),
                                       calendar::turn, g->get_seed() );
             p->add_msg_if_player( m_neutral, _( "Water temperature: %s." ),
                                   print_temperature( water_temp ) );
@@ -9187,13 +9221,13 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         if( it->typeId() == itype_hygrometer ) {
             p->add_msg_if_player(
                 m_neutral, _( "The %1$s reads %2$s." ), it->tname(),
-                print_humidity( get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
-                                                    g->is_sheltered( p->pos() ) ) ) );
+                print_humidity( get_local_humidity( weatherPoint.humidity, g->weather.weather,
+                                                    g->is_sheltered( g->u.pos() ) ) ) );
         } else {
             p->add_msg_if_player(
                 m_neutral, _( "Relative Humidity: %s." ),
-                print_humidity( get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
-                                                    g->is_sheltered( p->pos() ) ) ) );
+                print_humidity( get_local_humidity( weatherPoint.humidity, g->weather.weather,
+                                                    g->is_sheltered( g->u.pos() ) ) ) );
         }
     }
     if( it->has_flag( "BAROMETER" ) ) {
@@ -9214,8 +9248,8 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
         /* windpower defined in internal velocity units (=.01 mph) */
-        const double windpower = 100 * get_local_windpower( weather.windspeed + vehwindspeed, cur_om_ter,
-                                 p->pos(), weather.winddirection, g->is_sheltered( p->pos() ) );
+        const double windpower = 100 * get_local_windpower( g->weather.windspeed + vehwindspeed, cur_om_ter,
+                                 p->pos(), g->weather.winddirection, g->is_sheltered( p->pos() ) );
 
         p->add_msg_if_player( m_neutral, _( "Wind Speed: %.1f %s." ),
                               convert_velocity( windpower, VU_WIND ),
@@ -9225,7 +9259,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
             print_temperature(
                 get_local_windchill( weatherPoint.temperature, weatherPoint.humidity, windpower / 100 ) +
                 player_local_temp ) );
-        std::string dirstring = get_dirstring( weather.winddirection );
+        std::string dirstring = get_dirstring( g->weather.winddirection );
         p->add_msg_if_player( m_neutral, _( "Wind Direction: From the %s." ), dirstring );
     }
 
@@ -9747,40 +9781,6 @@ int iuse::toggle_heats_food( player *p, item *it, bool, const tripoint & )
         it->item_tags.erase( flag_HEATS_FOOD );
         p->add_msg_if_player( _( "You will no longer use %s to heat food." ), it->tname().c_str() );
     }
-
-    return 0;
-}
-
-int iuse::report_grid_charge( player *p, item *, bool, const tripoint &pos )
-{
-    tripoint_abs_ms pos_abs( get_map().getabs( pos ) );
-    const distribution_grid &gr = get_distribution_grid_tracker().grid_at( pos_abs );
-
-    int amt = gr.get_resource();
-    p->add_msg_if_player( _( "This electric grid stores %d kJ of electric power." ), amt );
-
-    return 0;
-}
-
-int iuse::report_grid_connections( player *p, item *, bool, const tripoint &pos )
-{
-    tripoint_abs_omt pos_abs = project_to<coords::omt>( tripoint_abs_ms( get_map().getabs( pos ) ) );
-    std::vector<tripoint_rel_omt> connections = overmap_buffer.electric_grid_connectivity_at( pos_abs );
-
-    std::vector<std::string> connection_names;
-    for( const tripoint_rel_omt &delta : connections ) {
-        connection_names.push_back( direction_name( direction_from( delta.raw() ) ) );
-    }
-
-    std::string msg;
-    if( connection_names.empty() ) {
-        msg = _( "This electric grid has no connections." );
-    } else {
-        //~ %s is list of directions
-        msg = string_format( _( "This electric grid has connections: %s." ),
-                             enumerate_as_string( connection_names ) );
-    }
-    p->add_msg_if_player( msg );
 
     return 0;
 }

@@ -1,13 +1,17 @@
 [
   {
     "type": "furniture",
-    "abstract": "f_floor_lamp_base",
+    "id": "f_floor_lamp",
+    "name": "floor lamp",
     "symbol": "T",
+    "looks_like": "f_rack_coat",
+    "description": "A tall standing lamp, meant to plug into a wall and light up a room.",
     "color": "light_gray",
-    "name": "-",
-    "description": "-",
     "move_cost_mod": 2,
     "required_str": 1,
+    "examine_action": "transform",
+    "transforms_into": "f_floor_lamp_on",
+    "message": "Click (off)",
     "flags": [ "TRANSPARENT", "PLACE_ITEM", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
@@ -27,57 +31,21 @@
         { "item": "scrap", "count": [ 1, 2 ] },
         { "item": "cable", "charges": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 0, 1 ] },
-        { "item": "glass_shard", "count": [ 0, 2 ] },
+        { "item": "glass_shard", "count": [ 0, 8 ] },
         { "item": "pipe", "count": [ 0, 1 ] }
       ]
     }
   },
   {
     "type": "furniture",
-    "id": "f_floor_lamp",
-    "symbol": "T",
-    "color": "light_gray",
-    "copy-from": "f_floor_lamp_base",
-    "name": "floor lamp (no power)",
-    "description": "A tall standing lamp, plugged into a wall.  This one has no power.",
-    "examine_action": "transform",
-    "transforms_into": "f_floor_lamp_off",
-    "message": "You turn the lamp off.",
-    "active": [ "charge_watcher", { "min_power": 5, "transform": { "id": "f_floor_lamp_on", "msg": "The lamp lights up." } } ]
-  },
-  {
-    "type": "furniture",
-    "id": "f_floor_lamp_off",
-    "symbol": "T",
-    "color": "light_gray",
-    "copy-from": "f_floor_lamp_base",
-    "looks_like": "f_floor_lamp",
-    "name": "floor lamp (off)",
-    "description": "A tall standing lamp, meant to plug into a wall and light up a room.",
-    "examine_action": "transform",
-    "transforms_into": "f_floor_lamp",
-    "message": "You turn the lamp on."
-  },
-  {
-    "type": "furniture",
     "id": "f_floor_lamp_on",
     "symbol": "T",
-    "color": "yellow",
-    "copy-from": "f_floor_lamp_base",
     "looks_like": "f_floor_lamp",
-    "name": "floor lamp (on)",
-    "description": "A tall standing lamp, plugged into a wall.",
+    "color": "yellow",
+    "copy-from": "f_floor_lamp",
     "examine_action": "transform",
-    "transforms_into": "f_floor_lamp_off",
-    "message": "You turn the lamp off.",
-    "light_emitted": 160,
-    "active": [
-      "steady_consumer",
-      {
-        "power": 1,
-        "consume_every": "20 s",
-        "transform": { "id": "f_floor_lamp", "msg": "The lamp flickers and dies." }
-      }
-    ]
+    "transforms_into": "f_floor_lamp",
+    "message": "Click (on)",
+    "light_emitted": 160
   }
 ]

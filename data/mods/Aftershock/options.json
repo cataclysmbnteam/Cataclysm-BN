@@ -4,5 +4,11 @@
     "type": "requirement",
     "//": "Anesthetic cost removed in this mod, as autodocs do all the heavy lifting.",
     "tools": [  ]
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "CBM_SLOTS_ENABLED",
+    "stype": "bool",
+    "value": true
   }
 ]

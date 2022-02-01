@@ -42,7 +42,7 @@ void explosion( const tripoint &p, const explosion_data &ex );
 constexpr float power_to_dmg_mult = 2.0f / 15.0f;
 
 /** Triggers a flashbang explosion at p. */
-void flashbang( const tripoint &p, bool player_immune, const std::string &exp_name );
+void flashbang( const tripoint &p, bool player_immune = false );
 /** Triggers a resonance cascade at p. */
 void resonance_cascade( const tripoint &p );
 /** Triggers a scrambler blast at p. */
@@ -53,12 +53,10 @@ void emp_blast( const tripoint &p );
 // parameters force, stun, and dam_mult are passed to knockback()
 // ignore_player determines if player is affected, useful for bionic, etc.
 void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult,
-                bool ignore_player, const std::string &exp_name );
+                bool ignore_player );
 
-void draw_explosion( const tripoint &p, int radius, const nc_color &col,
-                     const std::string &exp_name );
-void draw_custom_explosion( const tripoint &p, const std::map<tripoint, nc_color> &area,
-                            const std::string &exp_name );
+void draw_explosion( const tripoint &p, int radius, const nc_color &col );
+void draw_custom_explosion( const tripoint &p, const std::map<tripoint, nc_color> &area );
 
 projectile shrapnel_from_legacy( int power, float blast_radius );
 float blast_radius_from_legacy( int power, float distance_factor );

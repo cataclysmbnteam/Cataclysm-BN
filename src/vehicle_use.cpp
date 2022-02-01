@@ -150,10 +150,10 @@ void handbrake()
     vehicle *const veh = &vp->vehicle();
     add_msg( _( "You pull a handbrake." ) );
     veh->cruise_velocity = 0;
-    if( veh->last_turn != 0_degrees && rng( 15, 60 ) * 100 < std::abs( veh->velocity ) ) {
+    if( veh->last_turn != 0 && rng( 15, 60 ) * 100 < std::abs( veh->velocity ) ) {
         veh->skidding = true;
         add_msg( m_warning, _( "You lose control of %s." ), veh->name );
-        veh->turn( veh->last_turn > 0_degrees ? 60_degrees : -60_degrees );
+        veh->turn( veh->last_turn > 0 ? 60 : -60 );
     } else {
         int braking_power = std::abs( veh->velocity ) / 2 + 10 * 100;
         if( std::abs( veh->velocity ) < braking_power ) {
@@ -471,7 +471,7 @@ bool vehicle::interact_vehicle_locked()
                 g->u.assign_activity( ACT_HOTWIRE_CAR, moves, -1, INT_MIN, _( "Hotwire" ) );
                 // use part 0 as the reference point
                 point q = coord_translate( parts[0].mount );
-                const tripoint abs_veh_pos = global_square_location().raw();
+                const tripoint abs_veh_pos = g->m.getabs( global_pos3() );
                 //[0]
                 g->u.activity.values.push_back( abs_veh_pos.x + q.x );
                 //[1]
@@ -546,7 +546,7 @@ std::string vehicle::tracking_toggle_string()
 void vehicle::autopilot_patrol_check()
 {
     zone_manager &mgr = zone_manager::get_manager();
-    if( mgr.has_near( zone_type_id( "VEHICLE_PATROL" ), global_square_location().raw(), 60 ) ) {
+    if( mgr.has_near( zone_type_id( "VEHICLE_PATROL" ), g->m.getabs( global_pos3() ), 60 ) ) {
         enable_patrol();
     } else {
         g->zones_manager();
@@ -580,6 +580,7 @@ void vehicle::toggle_autopilot()
             autopilot_on = false;
             is_patrolling = false;
             is_following = false;
+            is_autodriving = false;
             autodrive_local_target = tripoint_zero;
             stop_engines();
             break;
@@ -587,6 +588,7 @@ void vehicle::toggle_autopilot()
             autopilot_on = true;
             is_following = true;
             is_patrolling = false;
+            is_autodriving = true;
             start_engines();
             refresh();
         default:
@@ -892,7 +894,7 @@ double vehicle::engine_cold_factor( const int e ) const
         return 0.0;
     }
 
-    int eff_temp = get_weather().get_temperature( g->u.pos() );
+    int eff_temp = g->weather.get_temperature( g->u.pos() );
     if( !parts[ engines[ e ] ].faults().count( fault_glowplug ) ) {
         eff_temp = std::min( eff_temp, 20 );
     }
@@ -1916,8 +1918,7 @@ void vehicle::use_bike_rack( int part )
         success = try_to_rack_nearby_vehicle( racks_parts );
     }
     if( success ) {
-        get_map().invalidate_map_cache( g->get_levz() );
-        get_map().reset_vehicle_cache( g->get_levz() );
+        g->m.invalidate_map_cache( g->get_levz() );
     }
 }
 

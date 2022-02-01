@@ -18,7 +18,7 @@
       [ "cig_butt", 10 ],
       [ "string_36", 5 ],
       [ "scrap", 10 ],
-      { "item": "glass_shard", "prob": 10, "count": [ 0, 1 ] },
+      { "item": "glass_shard", "prob": 10, "count": [ 1, 8 ] },
       [ "wire", 5 ],
       [ "splinter", 10 ],
       [ "rag", 15 ],
@@ -197,8 +197,10 @@
       [ "tailors_kit", 50 ],
       [ "thread", 10 ],
       [ "string_6", 50 ],
-      [ "leather", 50 ],
-      [ "fur", 35 ]
+      [ "leather", 10 ],
+      [ "fur", 7 ],
+      [ "tanned_hide", 20 ],
+      [ "tanned_pelt", 20 ]
     ]
   },
   {
@@ -253,8 +255,8 @@
       [ "usb_drive", 10 ],
       [ "manual_electronics", 20 ],
       [ "cable", 60 ],
-      [ "cell_phone", 1 ],
-      [ "smart_phone", 120 ],
+      [ "cell_phone", 60 ],
+      [ "smart_phone", 60 ],
       [ "wristwatch", 60 ],
       [ "mobile_memory_card_used", 10 ],
       [ "fitness_band", 5 ]

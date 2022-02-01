@@ -12,11 +12,6 @@
   },
   {
     "type": "construction_category",
-    "id": "WORKSHOP",
-    "name": "Workshop"
-  },
-  {
-    "type": "construction_category",
     "id": "FURN",
     "name": "Furniture"
   },

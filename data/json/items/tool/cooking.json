@@ -91,7 +91,7 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": "500 ml"
+    "magazine_well": 2
   },
   {
     "id": "carver_on",
@@ -107,7 +107,7 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 25 ] ],
     "use_action": "CARVER_ON",
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
-    "magazine_well": "500 ml"
+    "magazine_well": 2
   },
   {
     "id": "char_purifier",
@@ -247,7 +247,7 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": "500 ml"
+    "magazine_well": 2
   },
   {
     "id": "dehydrator",
@@ -272,7 +272,7 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": "500 ml"
+    "magazine_well": 2
   },
   {
     "id": "eggs_ferment",
@@ -403,7 +403,7 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": "500 ml"
+    "magazine_well": 2
   },
   {
     "id": "gasoline_cooker",
@@ -446,6 +446,26 @@
     "use_action": "HEATPACK"
   },
   {
+    "id": "hobo_stove",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "hobo stove" },
+    "description": "This is a small improvised wood stove, made from a metal can or similar container of the right size.  Useful for defrosting and reheating food, uses simple tinder.",
+    "weight": "500 g",
+    "volume": "250 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -1,
+    "bashing": 2,
+    "material": "steel",
+    "symbol": ",",
+    "color": "light_gray",
+    "ammo": "tinder",
+    "max_charges": 100,
+    "charges_per_use": 25,
+    "use_action": "HOTPLATE"
+  },
+  {
     "id": "hotplate",
     "type": "TOOL",
     "category": "tools",
@@ -469,7 +489,7 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": "500 ml"
+    "magazine_well": 2
   },
   {
     "id": "jar_eggs_pickled",
@@ -590,7 +610,7 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": "500 ml"
+    "magazine_well": 2
   },
   {
     "id": "mess_tin",
@@ -676,7 +696,7 @@
         [ "medium_plus_battery_cell", "medium_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": "500 ml"
+    "magazine_well": 2
   },
   {
     "id": "mortar_pestle",
@@ -719,7 +739,7 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": "500 ml"
+    "magazine_well": 2
   },
   {
     "id": "multi_cooker_filled",
@@ -954,7 +974,7 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": "500 ml"
+    "magazine_well": 2
   },
   {
     "id": "waffleiron",
@@ -1006,6 +1026,6 @@
         ]
       ]
     ],
-    "magazine_well": "250 ml"
+    "magazine_well": 1
   }
 ]

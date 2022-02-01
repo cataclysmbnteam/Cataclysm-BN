@@ -15,6 +15,7 @@
     "location": "grip",
     "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "crossbow", "launcher" ],
     "handling_modifier": -5,
+    "min_skills": [ [ "weapon", 3 ] ],
     "weight_multiplier": 0.75,
     "flags": [ "REDUCED_BASHING" ]
   },
@@ -34,7 +35,8 @@
     "color": "dark_gray",
     "location": "grip",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher", "bow" ],
-    "handling_modifier": 4
+    "handling_modifier": 4,
+    "min_skills": [ [ "weapon", 2 ] ]
   },
   {
     "id": "breacher_grip",

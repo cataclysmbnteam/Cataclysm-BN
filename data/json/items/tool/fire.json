@@ -30,7 +30,7 @@
       ]
     ],
     "flags": [ "FIRESTARTER" ],
-    "magazine_well": "250 ml"
+    "magazine_well": 1
   },
   {
     "id": "fire_drill",

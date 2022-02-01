@@ -36,11 +36,13 @@
     "color": "yellow",
     "use_action": "AUTOCLAVE",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "power_draw": 1000000,
+    "power_draw": 1500000,
     "looks_like": "microwave",
     "ammo": "battery",
-    "magazines": [ [ "battery", [ "medium_storage_battery", "storage_battery", "large_storage_battery" ] ] ],
-    "magazine_well": "1000 ml"
+    "magazines": [
+      [ "battery", [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
+    ],
+    "magazine_well": 4
   },
   {
     "id": "inhaler",
@@ -97,7 +99,7 @@
     "color": "light_gray",
     "techniques": "PRECISE",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 3 ] ],
-    "flags": [ "SPEAR", "SHEATH_KNIFE" ]
+    "flags": [ "SPEAR" ]
   },
   {
     "id": "smoxygen_tank",
@@ -209,34 +211,5 @@
       "menu_text": "Unwrap badge",
       "type": "transform"
     }
-  },
-  {
-    "id": "autodoc_couch",
-    "type": "TOOL",
-    "name": "Autodoc operation couch",
-    "symbol": "H",
-    "looks_like": "f_autodoc_couch",
-    "description": "A plush red sofa made less comfortable by the medical machinery directly above it.  It has a single leather strap on the right armrest.",
-    "weight": "100000 g",
-    "volume": "40 L",
-    "price": 10000,
-    "price_postapoc": 500,
-    "to_hit": -3,
-    "bashing": 6,
-    "material": [ "wood" ]
-  },
-  {
-    "type": "TOOL",
-    "id": "autodoc",
-    "name": { "str": "Autodoc Mk. XI" },
-    "description": "A surgical apparatus used for installation and removal of bionics.  It's only as skilled as its operator.",
-    "color": "light_cyan",
-    "symbol": "&",
-    "looks_like": "f_robotic_arm",
-    "weight": "120000 g",
-    "volume": "50 L",
-    "material": [ "steel", "plastic" ],
-    "bashing": 8,
-    "price": 40000
   }
 ]

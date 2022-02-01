@@ -99,6 +99,14 @@ class avatar : public player
 
         /** Provides the window and detailed morale data */
         void disp_morale();
+        /** Uses morale and other factors to return the player's focus target goto value */
+        int calc_focus_equilibrium( bool ignore_pain = false ) const;
+        /** Calculates actual focus gain/loss value from focus equilibrium*/
+        int calc_focus_change() const;
+        /** Uses calc_focus_change to update the player's current focus */
+        void update_mental_focus();
+        /** Resets stats, and applies effects in an idempotent manner */
+        void reset_stats() override;
         /** Resets all missions before saving character to template */
         void reset_all_misions();
 
@@ -113,7 +121,7 @@ class avatar : public player
          * Returns the target of the active mission or @ref overmap::invalid_tripoint if there is
          * no active mission.
          */
-        tripoint_abs_omt get_active_mission_target() const;
+        tripoint get_active_mission_target() const;
         /**
          * Set which mission is active. The mission must be listed in @ref active_missions.
          */

@@ -27,6 +27,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "skill_used": "fabrication",
+    "skills_required": [  ],
     "time": "1 m",
     "reversible": true,
     "autolearn": true,
@@ -335,20 +336,6 @@
   },
   {
     "type": "recipe",
-    "result": "sword_metal",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_CUTTING",
-    "skill_used": "fabrication",
-    "difficulty": 5,
-    "time": "5 h",
-    "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 1 ], [ "leather", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "battleaxe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
@@ -489,6 +476,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "skill_used": "fabrication",
+    "skills_required": [  ],
     "difficulty": 1,
     "time": "8 m",
     "reversible": true,
@@ -604,7 +592,7 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "skill_used": "fabrication",
     "difficulty": 7,
-    "time": "3 h",
+    "time": 55000,
     "book_learn": [ [ "textbook_armschina", 5 ] ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
     "components": [
@@ -627,7 +615,7 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "skill_used": "fabrication",
     "difficulty": 6,
-    "time": "3 h",
+    "time": 45000,
     "book_learn": [ [ "textbook_weapwest", 4 ] ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
     "components": [
@@ -650,7 +638,7 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "skill_used": "fabrication",
     "difficulty": 7,
-    "time": "3 h",
+    "time": 55000,
     "book_learn": [ [ "textbook_weapwest", 5 ] ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
     "components": [

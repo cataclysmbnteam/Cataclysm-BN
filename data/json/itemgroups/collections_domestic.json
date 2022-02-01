@@ -222,8 +222,8 @@
       { "item": "water", "prob": 10, "container-item": "glass" },
       { "group": "glass_of_wine", "prob": 10 },
       [ "gummy_vitamins", 10 ],
-      [ "cell_phone", 1 ],
-      [ "smart_phone", 15 ],
+      [ "cell_phone", 3 ],
+      [ "smart_phone", 10 ],
       [ "eyedrops", 10 ],
       [ "holy_symbol", 5 ],
       [ "pills_sleep", 5 ],
@@ -358,7 +358,7 @@
       { "item": "deck_of_cards", "prob": 2 },
       { "item": "usb_drive", "prob": 5 },
       { "group": "alcohol", "prob": 163 },
-      { "item": "cell_phone", "prob": 1 },
+      { "item": "cell_phone", "prob": 15 },
       { "item": "smart_phone", "prob": 25 },
       { "item": "wristwatch", "prob": 15 },
       { "item": "pocketwatch", "prob": 5 },
@@ -591,7 +591,7 @@
       { "item": "soy_milk", "prob": 50 },
       { "item": "butter", "prob": 45, "charges-min": 1, "charges-max": 32, "container-item": "wrapper" },
       { "item": "ghee", "prob": 5, "charges-min": 1, "charges-max": 32, "container-item": "jar_glass" },
-      { "item": "egg_bird_unfert", "prob": 65, "charges": [ 1, 12 ] },
+      { "item": "egg_bird_unfert", "prob": 65, "count-min": 1, "count-max": 12 },
       { "item": "yoghurt", "prob": 50 },
       { "item": "pudding", "prob": 60 },
       { "item": "veggy_salad", "prob": 25 },
@@ -705,8 +705,7 @@
       { "item": "apricot", "prob": 5 },
       { "item": "irradiated_apricot", "prob": 2 },
       { "item": "coconut", "prob": 5 },
-      { "item": "jam_fruit", "prob": 2 },
-      { "item": "jam_fruit", "prob": 8, "charges": 16, "container-item": "jar_glass_sealed" },
+      { "item": "jam_fruit", "prob": 10 },
       { "item": "juice", "prob": 50 },
       { "item": "potato", "prob": 10 },
       { "item": "pickle", "prob": 40, "charges": 6, "container-item": "jar_glass_sealed" },
@@ -823,7 +822,7 @@
       { "item": "laptop", "prob": 10 },
       { "item": "atomic_light", "prob": 2 },
       { "item": "atomic_lamp", "prob": 2 },
-      { "item": "cell_phone", "prob": 1 },
+      { "item": "cell_phone", "prob": 15 },
       { "item": "smart_phone", "prob": 30 },
       { "item": "eink_tablet_pc", "prob": 2 },
       { "item": "smart_lamp", "prob": 2 },
@@ -1038,22 +1037,6 @@
       [ "fencing_sabre", 20 ],
       [ "fencing_epee", 20 ],
       [ "fencing_mask", 20 ]
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "household_clutter",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "permanent_marker", "prob": 50, "count": [ 1, 2 ] },
-      { "item": "paper", "prob": 75 },
-      { "item": "string_36", "prob": 75, "count": [ 1, 4 ] },
-      { "item": "string_6", "prob": 50, "count": [ 1, 4 ] },
-      { "item": "superglue", "prob": 40 },
-      { "item": "duct_tape", "prob": 20 },
-      { "item": "matches", "prob": 45 },
-      { "item": "lighter", "prob": 45 },
-      { "item": "ref_lighter", "prob": 10 }
     ]
   }
 ]

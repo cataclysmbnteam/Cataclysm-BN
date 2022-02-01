@@ -36,6 +36,7 @@
     "color": "dark_gray",
     "location": "stock",
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher" ],
+    "min_skills": [ [ "weapon", 3 ] ],
     "flags": [ "NEEDS_UNFOLD", "COLLAPSIBLE_STOCK" ]
   },
   {
@@ -55,6 +56,7 @@
     "location": "stock",
     "handling_modifier": 5,
     "mod_targets": [ "pistol", "smg", "rifle", "shotgun" ],
+    "min_skills": [ [ "weapon", 3 ] ],
     "flags": [ "NEEDS_UNFOLD" ]
   },
   {
@@ -71,7 +73,8 @@
     "color": "dark_gray",
     "location": "stock",
     "mod_targets": [ "pistol", "crossbow" ],
-    "handling_modifier": 15
+    "handling_modifier": 15,
+    "min_skills": [ [ "weapon", 2 ] ]
   },
   {
     "id": "recoil_stock",
@@ -91,7 +94,8 @@
     "color": "dark_gray",
     "location": "stock",
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher" ],
-    "handling_modifier": 10
+    "handling_modifier": 10,
+    "min_skills": [ [ "weapon", 2 ] ]
   },
   {
     "id": "cheek_pad",
@@ -111,6 +115,7 @@
     "location": "stock",
     "mod_targets": [ "rifle" ],
     "dispersion_modifier": -1,
-    "handling_modifier": 5
+    "handling_modifier": 5,
+    "min_skills": [ [ "weapon", 2 ] ]
   }
 ]

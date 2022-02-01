@@ -423,12 +423,5 @@
     "id": "sloc_private_resort",
     "name": "Private resort",
     "terrain": [ "p_resort_2ss" ]
-  },
-  {
-    "type": "start_location",
-    "id": "sloc_mansion",
-    "name": "Mansion",
-    "terrain": [ "mansion_+2", "mansion_+1", "mansion_+4", "mansion_+3" ],
-    "flags": [ "ALLOW_OUTSIDE" ]
   }
 ]

@@ -29,15 +29,12 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "color.h"
 #include "coordinate_conversions.h"
-#include "coordinates.h"
 #include "cursesdef.h"
 #include "debug.h"
-#include "effect.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "faction.h"
@@ -92,7 +89,6 @@
 #include "type_id.h"
 #include "ui.h"
 #include "ui_manager.h"
-#include "uistate.h"
 #include "units.h"
 #include "units_utility.h"
 #include "vehicle.h"
@@ -103,7 +99,11 @@
 #include "weather_gen.h"
 #include "weighted_list.h"
 
+static const efftype_id effect_asthma( "asthma" );
+
 static const mtype_id mon_generator( "mon_generator" );
+
+static const trait_id trait_ASTHMA( "ASTHMA" );
 
 extern std::map<std::string, weighted_int_list<std::shared_ptr<mapgen_function_json_nested>> >
         nested_mapgen;
@@ -127,6 +127,9 @@ enum debug_menu_index {
     DEBUG_KILL_NPCS,
     DEBUG_MUTATE,
     DEBUG_SPAWN_VEHICLE,
+    DEBUG_CHANGE_SKILLS,
+    DEBUG_LEARN_MA,
+    DEBUG_UNLOCK_RECIPES,
     DEBUG_EDIT_PLAYER,
     DEBUG_SPAWN_ARTIFACT,
     DEBUG_SPAWN_CLAIRVOYANCE,
@@ -173,6 +176,8 @@ enum debug_menu_index {
     DEBUG_DISPLAY_RADIATION,
     DEBUG_DISPLAY_TRANSPARENCY,
     DEBUG_DISPLAY_SUBMAP_GRID,
+    DEBUG_LEARN_SPELLS,
+    DEBUG_LEVEL_SPELLS,
     DEBUG_TEST_MAP_EXTRA_DISTRIBUTION,
     DEBUG_VEHICLE_BATTERY_CHARGE,
     DEBUG_HOUR_TIMER,
@@ -191,6 +196,27 @@ class mission_debug
         static void edit_npc( npc &who );
         static std::string describe( const mission &m );
 };
+
+static int player_uilist()
+{
+    std::vector<uilist_entry> uilist_initializer = {
+        { uilist_entry( DEBUG_MUTATE, true, 'M', _( "Mutate" ) ) },
+        { uilist_entry( DEBUG_CHANGE_SKILLS, true, 's', _( "Change all skills" ) ) },
+        { uilist_entry( DEBUG_LEARN_MA, true, 'l', _( "Learn all melee styles" ) ) },
+        { uilist_entry( DEBUG_UNLOCK_RECIPES, true, 'r', _( "Unlock all recipes" ) ) },
+        { uilist_entry( DEBUG_EDIT_PLAYER, true, 'p', _( "Edit player/NPC" ) ) },
+        { uilist_entry( DEBUG_DAMAGE_SELF, true, 'd', _( "Damage self" ) ) },
+        { uilist_entry( DEBUG_SET_AUTOMOVE, true, 'a', _( "Set automove route" ) ) },
+    };
+    if( !spell_type::get_all().empty() ) {
+        uilist_initializer.emplace_back( uilist_entry( DEBUG_LEARN_SPELLS, true, 'S',
+                                         _( "Learn all spells" ) ) );
+        uilist_initializer.emplace_back( uilist_entry( DEBUG_LEVEL_SPELLS, true, 'L',
+                                         _( "Level a spell" ) ) );
+    }
+
+    return uilist( _( "Player…" ), uilist_initializer );
+}
 
 static int info_uilist( bool display_all_entries = true )
 {
@@ -345,8 +371,7 @@ static int debug_menu_uilist( bool display_all_entries = true )
                 action = spawning_uilist();
                 break;
             case 3:
-                action = -1;
-                debug_menu::character_edit_menu( get_player_character() );
+                action = player_uilist();
                 break;
             case 4:
                 action = teleport_uilist();
@@ -380,17 +405,17 @@ void teleport_short()
 
 void teleport_long()
 {
-    const tripoint_abs_omt where( ui::omap::choose_point() );
+    const tripoint where( ui::omap::choose_point() );
     if( where == overmap::invalid_tripoint ) {
         return;
     }
     g->place_player_overmap( where );
-    add_msg( _( "You teleport to submap %s." ), where.to_string() );
+    add_msg( _( "You teleport to submap (%d,%d,%d)." ), where.x, where.y, where.z );
 }
 
 void teleport_overmap( bool specific_coordinates )
 {
-    tripoint_abs_omt where;
+    tripoint where;
     if( specific_coordinates ) {
         const std::string text = string_input_popup()
                                  .title( "Teleport where?" )
@@ -404,7 +429,7 @@ void teleport_overmap( bool specific_coordinates )
         coord.x = !coord_strings.empty() ? std::atoi( coord_strings[0].c_str() ) : 0;
         coord.y = coord_strings.size() >= 2 ? std::atoi( coord_strings[1].c_str() ) : 0;
         coord.z = coord_strings.size() >= 3 ? std::atoi( coord_strings[2].c_str() ) : 0;
-        where = tripoint_abs_omt( OMAPX * coord.x, OMAPY * coord.y, coord.z );
+        where = tripoint( OMAPX * coord.x, OMAPY * coord.y, coord.z );
     } else {
         const cata::optional<tripoint> dir_ = choose_direction( _( "Where is the desired overmap?" ) );
         if( !dir_ ) {
@@ -416,8 +441,8 @@ void teleport_overmap( bool specific_coordinates )
 
     g->place_player_overmap( where );
 
-    const tripoint_abs_om new_pos = project_to<coords::om>( g->u.global_omt_location() );
-    add_msg( _( "You teleport to overmap %s." ), new_pos.to_string() );
+    const tripoint new_pos( omt_to_om_copy( g->u.global_omt_location() ) );
+    add_msg( _( "You teleport to overmap (%d,%d,%d)." ), new_pos.x, new_pos.y, new_pos.z );
 }
 
 void spawn_nested_mapgen()
@@ -436,15 +461,13 @@ void spawn_nested_mapgen()
             return;
         }
 
-        map &here = get_map();
-        const tripoint_abs_ms abs_ms( here.getabs( *where ) );
-        const tripoint_abs_omt abs_omt = project_to<coords::omt>( abs_ms );
-        const tripoint_abs_sm abs_sub = project_to<coords::sm>( abs_ms );
+        const tripoint abs_ms = g->m.getabs( *where );
+        const tripoint abs_omt = ms_to_omt_copy( abs_ms );
+        const tripoint abs_sub = ms_to_sm_copy( abs_ms );
 
         map target_map;
         target_map.load( abs_sub, true );
-        // TODO: fix point types
-        const tripoint local_ms = target_map.getlocal( abs_ms.raw() );
+        const tripoint local_ms = target_map.getlocal( abs_ms );
         mapgendata md( abs_omt, target_map, 0.0f, calendar::turn, nullptr );
         const auto &ptr = nested_mapgen[nest_str[nest_choice]].pick();
         if( ptr == nullptr ) {
@@ -457,7 +480,7 @@ void spawn_nested_mapgen()
     }
 }
 
-static Character &pick_character( Character &preselected )
+void character_edit_menu()
 {
     std::vector< tripoint > locations;
     uilist charmenu;
@@ -468,34 +491,20 @@ static Character &pick_character( Character &preselected )
         charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, guy.name );
         locations.emplace_back( guy.pos() );
     }
-    avatar &u = get_avatar();
-    u.view_offset = u.pos() - preselected.pos();
-    auto iter = std::find_if( locations.begin(), locations.end(), [&preselected]( const tripoint & p ) {
-        return p == preselected.pos();
-    } );
-    size_t preselect_index = iter != locations.end() ? std::distance( locations.begin(), iter ) : 0;
 
     pointmenu_cb callback( locations );
     charmenu.callback = &callback;
     charmenu.w_y_setup = 0;
-    charmenu.set_selected( preselect_index );
     charmenu.query();
     if( charmenu.ret < 0 || static_cast<size_t>( charmenu.ret ) >= locations.size() ) {
-        return preselected;
+        return;
     }
     const size_t index = charmenu.ret;
-    Character *c = g->critter_at<Character>( locations[index] );
-    return c != nullptr ? *c : preselected;
-}
+    // The NPC is also required for "Add mission", so has to be in this scope
+    npc *np = g->critter_at<npc>( locations[index], false );
+    player &p = np ? static_cast<player &>( *np ) : static_cast<player &>( g->u );
+    uilist nmenu;
 
-void character_edit_menu( Character &c )
-{
-    npc *np = c.is_npc() ? static_cast<npc *>( &c ) : nullptr;
-    player &p = static_cast<player &>( c );
-
-    const tripoint start_view_offset = get_avatar().view_offset;
-
-    std::string nmenu_label;
     if( np != nullptr ) {
         std::stringstream data;
         data << np->name << " " << ( np->male ? _( "Male" ) : _( "Female" ) ) << std::endl;
@@ -506,9 +515,9 @@ void character_edit_menu( Character &c )
              << "; " <<
              "api: " << np->get_faction_ver() << std::endl;
         if( np->has_destination() ) {
-            data << string_format(
-                     _( "Destination: %s %s" ), np->goal.to_string(),
-                     overmap_buffer.ter( np->goal )->get_name() ) << std::endl;
+            data << string_format( _( "Destination: %d:%d:%d (%s)" ),
+                                   np->goal.x, np->goal.y, np->goal.z,
+                                   overmap_buffer.ter( np->goal )->get_name() ) << std::endl;
         } else {
             data << _( "No destination." ) << std::endl;
         }
@@ -530,69 +539,46 @@ void character_edit_menu( Character &c )
         }
         data << string_format( _( "Total morale: %d" ), np->get_morale_level() ) << std::endl;
 
-        nmenu_label = data.str();
+        nmenu.text = data.str();
     } else {
-        nmenu_label = _( "Player" );
+        nmenu.text = _( "Player" );
     }
 
-    enum edit_character {
-        pick, desc, skills, stats, items, delete_items, item_worn,
-        hp, stamina, morale, pain, needs, healthy, status, mission_add, mission_edit,
-        tele, mutate, npc_class, attitude, opinion, effects,
-        learn_ma, unlock_recipes, learn_spells, level_spells
+    enum {
+        D_DESC, D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
+        D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
+        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_ASTHMA
     };
-
-    // Maybe TODO: this could actually be static if not for translations
-    const std::vector<uilist_entry> static_entries = {{
-            uilist_entry( edit_character::pick, true, 'p', _( "[p]ick different character" ) ),
-            uilist_entry( edit_character::desc, true, 'D',  _( "Edit [D]escription - Name, Age, Height" ) ),
-            uilist_entry( edit_character::skills, true, 's',  _( "Edit [s]kills" ) ),
-            uilist_entry( edit_character::stats, true, 't',  _( "Edit s[t]ats" ) ),
-            uilist_entry( edit_character::items, true, 'i',  _( "Grant [i]tems" ) ),
-            uilist_entry( edit_character::delete_items, true, 'd',  _( "[d]elete (all) items" ) ),
-            uilist_entry( edit_character::item_worn, true, 'w',  _( "[w]ear/[w]ield an item from player's inventory" ) ),
-            uilist_entry( edit_character::hp, true, 'h',  _( "Set [h]it points" ) ),
-            uilist_entry( edit_character::stamina, true, 'S',  _( "Set [S]tamina" ) ),
-            uilist_entry( edit_character::morale, true, 'o',  _( "Set m[o]rale" ) ),
-            uilist_entry( edit_character::pain, true, 'P',  _( "Cause [P]ain" ) ),
-            uilist_entry( edit_character::healthy, true, 'a',  _( "Set he[a]lth" ) ),
-            uilist_entry( edit_character::needs, true, 'n',  _( "Set [n]eeds" ) ),
-            uilist_entry( edit_character::mutate, true, 'u',  _( "M[u]tate" ) ),
-            uilist_entry( edit_character::status, true, '@',  _( "Status Window [@]" ) ),
-            uilist_entry( edit_character::tele, true, 'e',  _( "t[e]leport" ) ),
-            uilist_entry( edit_character::mission_edit, true, 'M',  _( "Edit [M]issions (WARNING: Unstable!)" ) ),
-            uilist_entry( edit_character::effects, true, 'E',  _( "Edit [E]ffects" ) ),
-            uilist_entry( edit_character::learn_ma, true, 'l', _( "[l]earn all melee styles" ) ),
-            uilist_entry( edit_character::unlock_recipes, true, 'r', _( "Unlock all [r]ecipes" ) )
-        }
-    };
-
-    std::vector<uilist_entry> menu_entries = static_entries;
-    if( !spell_type::get_all().empty() ) {
-        menu_entries.emplace_back( edit_character::learn_spells, true, 'S', _( "Learn all [S]pells" ) );
-        menu_entries.emplace_back( edit_character::level_spells, true, 'L', _( "[L]evel a spell" ) );
-    }
+    nmenu.addentry( D_DESC, true, 'D', "%s", _( "Edit [D]escription - Name, Age, Height" ) );
+    nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
+    nmenu.addentry( D_STATS, true, 't', "%s", _( "Edit s[t]ats" ) );
+    nmenu.addentry( D_ITEMS, true, 'i', "%s", _( "Grant [i]tems" ) );
+    nmenu.addentry( D_DELETE_ITEMS, true, 'd', "%s", _( "[d]elete (all) items" ) );
+    nmenu.addentry( D_ITEM_WORN, true, 'w', "%s",
+                    _( "[w]ear/[w]ield an item from player's inventory" ) );
+    nmenu.addentry( D_HP, true, 'h', "%s", _( "Set [h]it points" ) );
+    nmenu.addentry( D_STAMINA, true, 'S', "%s", _( "Set [S]tamina" ) );
+    nmenu.addentry( D_MORALE, true, 'o', "%s", _( "Set m[o]rale" ) );
+    nmenu.addentry( D_PAIN, true, 'p', "%s", _( "Cause [p]ain" ) );
+    nmenu.addentry( D_HEALTHY, true, 'a', "%s", _( "Set he[a]lth" ) );
+    nmenu.addentry( D_NEEDS, true, 'n', "%s", _( "Set [n]eeds" ) );
+    nmenu.addentry( D_MUTATE, true, 'u', "%s", _( "M[u]tate" ) );
+    nmenu.addentry( D_STATUS, true, '@', "%s", _( "Status Window [@]" ) );
+    nmenu.addentry( D_TELE, true, 'e', "%s", _( "t[e]leport" ) );
+    nmenu.addentry( D_ASTHMA, true, 'k', "%s", _( "Cause asthma attac[k]" ) );
+    nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit [M]issions (WARNING: Unstable!)" ) );
     if( p.is_npc() ) {
-        menu_entries.emplace_back( edit_character::mission_add, true, 'm',  _( "Add [m]ission" ) );
-        menu_entries.emplace_back( edit_character::npc_class, true, 'c',
-                                   _( "Randomize with [c]lass" ) );
-        menu_entries.emplace_back( edit_character::attitude, true, 'A',  _( "Set [A]ttitude" ) );
-        menu_entries.emplace_back( edit_character::opinion, true, 'O',  _( "Set [O]pinion" ) );
+        nmenu.addentry( D_MISSION_ADD, true, 'm', "%s", _( "Add [m]ission" ) );
+        nmenu.addentry( D_CLASS, true, 'c', "%s", _( "Randomize with [c]lass" ) );
+        nmenu.addentry( D_ATTITUDE, true, 'A', "%s", _( "Set [A]ttitude" ) );
+        nmenu.addentry( D_OPINION, true, 'O', "%s", _( "Set [O]pinion" ) );
     }
-    uilist nmenu( nmenu_label, menu_entries );
+    nmenu.query();
     switch( nmenu.ret ) {
-        case edit_character::pick: {
-            Character &other = pick_character( c );
-            get_avatar().view_offset = other.pos() - get_avatar().pos();
-            // TODO: Make it not able to cause a stack overflow
-            character_edit_menu( other );
-            get_avatar().view_offset = start_view_offset;
-        }
-        return;
-        case edit_character::skills:
+        case D_SKILLS:
             wishskill( &p );
             break;
-        case edit_character::stats: {
+        case D_STATS: {
             uilist smenu;
             smenu.addentry( 0, true, 'S', "%s: %d", _( "Maximum strength" ), p.str_max );
             smenu.addentry( 1, true, 'D', "%s: %d", _( "Maximum dexterity" ), p.dex_max );
@@ -626,10 +612,10 @@ void character_edit_menu( Character &c )
             }
         }
         break;
-        case edit_character::items:
+        case D_ITEMS:
             wishitem( &p );
             break;
-        case edit_character::delete_items:
+        case D_DELETE_ITEMS:
             if( !query_yn( _( "Delete all items from the target?" ) ) ) {
                 break;
             }
@@ -640,7 +626,7 @@ void character_edit_menu( Character &c )
             p.inv.clear();
             p.weapon = item();
             break;
-        case edit_character::item_worn: {
+        case D_ITEM_WORN: {
             item_location loc = game_menus::inv::titled_menu( g->u, _( "Make target equip" ) );
             if( !loc ) {
                 break;
@@ -654,7 +640,7 @@ void character_edit_menu( Character &c )
             }
         }
         break;
-        case edit_character::hp: {
+        case D_HP: {
             const int torso_hp = p.get_part_hp_cur( bodypart_id( "torso" ) );
             const int head_hp = p.get_part_hp_cur( bodypart_id( "head" ) );
             const int arm_l_hp = p.get_part_hp_cur( bodypart_id( "arm_l" ) );
@@ -722,7 +708,7 @@ void character_edit_menu( Character &c )
             }
         }
         break;
-        case edit_character::stamina:
+        case D_STAMINA:
             int value;
             if( query_int( value, _( "Set stamina to?  Current: %d. Max: %d." ), p.get_stamina(),
                            p.get_stamina_max() ) ) {
@@ -733,7 +719,7 @@ void character_edit_menu( Character &c )
                 }
             }
             break;
-        case edit_character::morale: {
+        case D_MORALE: {
             int current_morale_level = p.get_morale_level();
             int value;
             if( query_int( value, _( "Set the morale to?  Currently: %d" ), current_morale_level ) ) {
@@ -743,7 +729,7 @@ void character_edit_menu( Character &c )
             }
         }
         break;
-        case edit_character::opinion: {
+        case D_OPINION: {
             uilist smenu;
             smenu.addentry( 0, true, 'h', "%s: %d", _( "trust" ), np->op_of_u.trust );
             smenu.addentry( 1, true, 's', "%s: %d", _( "fear" ), np->op_of_u.fear );
@@ -785,7 +771,7 @@ void character_edit_menu( Character &c )
             }
         }
         break;
-        case edit_character::desc: {
+        case D_DESC: {
             uilist smenu;
             smenu.text = _( "Select a value and press enter to change it." );
             smenu.addentry( 0, true, 'n', "%s: %s", _( "Current name" ), p.get_name() );
@@ -832,14 +818,14 @@ void character_edit_menu( Character &c )
             }
         }
         break;
-        case edit_character::pain: {
+        case D_PAIN: {
             int value;
             if( query_int( value, _( "Cause how much pain?  pain: %d" ), p.get_pain() ) ) {
                 p.mod_pain( value );
             }
         }
         break;
-        case edit_character::needs: {
+        case D_NEEDS: {
             uilist smenu;
             smenu.addentry( 0, true, 's', "%s: %d", _( "Stored kCal" ), p.get_stored_kcal() );
             smenu.addentry( 1, true, 't', "%s: %d", _( "Thirst" ), p.get_thirst() );
@@ -880,6 +866,7 @@ void character_edit_menu( Character &c )
                     }
                     break;
                 case 4:
+                    p.initialize_stomach_contents();
                     p.set_thirst( 0 );
                     p.set_fatigue( 0 );
                     p.set_sleep_deprivation( 0 );
@@ -897,10 +884,10 @@ void character_edit_menu( Character &c )
 
         }
         break;
-        case edit_character::mutate:
+        case D_MUTATE:
             wishmutate( &p );
             break;
-        case edit_character::healthy: {
+        case D_HEALTHY: {
             uilist smenu;
             smenu.addentry( 0, true, 'h', "%s: %d", _( "Health" ), p.get_healthy() );
             smenu.addentry( 1, true, 'm', "%s: %d", _( "Health modifier" ), p.get_healthy_mod() );
@@ -928,10 +915,10 @@ void character_edit_menu( Character &c )
             }
         }
         break;
-        case edit_character::status:
+        case D_STATUS:
             p.disp_info();
             break;
-        case edit_character::mission_add: {
+        case D_MISSION_ADD: {
             uilist types;
             types.text = _( "Choose mission type" );
             const auto all_missions = mission_type::get_all();
@@ -947,10 +934,10 @@ void character_edit_menu( Character &c )
             }
         }
         break;
-        case edit_character::mission_edit:
+        case D_MISSION_EDIT:
             mission_debug::edit( p );
             break;
-        case edit_character::tele: {
+        case D_TELE: {
             if( const cata::optional<tripoint> newpos = g->look_around() ) {
                 p.setpos( *newpos );
                 if( p.is_player() ) {
@@ -962,7 +949,7 @@ void character_edit_menu( Character &c )
             }
         }
         break;
-        case edit_character::npc_class: {
+        case D_CLASS: {
             uilist classes;
             classes.text = _( "Choose new class" );
             std::vector<npc_class_id> ids;
@@ -979,7 +966,7 @@ void character_edit_menu( Character &c )
             }
         }
         break;
-        case edit_character::attitude: {
+        case D_ATTITUDE: {
             uilist attitudes_ui;
             attitudes_ui.text = _( "Choose new attitude" );
             std::vector<npc_attitude> attitudes;
@@ -1000,88 +987,12 @@ void character_edit_menu( Character &c )
             }
         }
         break;
-        case edit_character::learn_ma:
-            add_msg( m_info, _( "Martial arts debug." ) );
-            add_msg( _( "Your eyes blink rapidly as knowledge floods your brain." ) );
-            for( auto &style : all_martialart_types() ) {
-                if( style != matype_id( "style_none" ) ) {
-                    c.martial_arts_data->add_martialart( style );
-                }
-            }
-            add_msg( m_good, _( "You now know a lot more than just 10 styles of kung fu." ) );
-            break;
-
-        case edit_character::effects:
-            effect_edit_menu( c );
-            break;
-
-        case edit_character::unlock_recipes: {
-            add_msg( m_info, _( "Recipe debug." ) );
-            add_msg( _( "Your eyes blink rapidly as knowledge floods your brain." ) );
-            for( const auto &e : recipe_dict ) {
-                p.learn_recipe( &e.second );
-            }
-            add_msg( m_good, _( "You know how to craft that now." ) );
-        }
-        break;
-        case edit_character::learn_spells:
-            if( spell_type::get_all().empty() ) {
-                add_msg( m_bad, _( "There are no spells to learn.  You must install a mod that adds some." ) );
-            } else {
-                for( const spell_type &learn : spell_type::get_all() ) {
-                    c.magic->learn_spell( &learn, g->u, true );
-                }
-                add_msg( m_good,
-                         _( "You have become an Archwizardpriest!  What will you do with your newfound power?" ) );
-            }
-            break;
-        case edit_character::level_spells: {
-            std::vector<spell *> spells = c.magic->get_spells();
-            if( spells.empty() ) {
-                add_msg( m_bad, _( "Try learning some spells first." ) );
-                return;
-            }
-            std::vector<uilist_entry> uiles;
-            {
-                uilist_entry uile( _( "Spell" ) );
-                uile.ctxt = string_format( "%s %s",
-                                           //~ translation should not exceed 4 console cells
-                                           right_justify( _( "LVL" ), 4 ),
-                                           //~ translation should not exceed 4 console cells
-                                           right_justify( _( "MAX" ), 4 ) );
-                uile.enabled = false;
-                uile.force_color = c_light_blue;
-                uiles.emplace_back( uile );
-            }
-            int retval = 0;
-            for( spell *sp : spells ) {
-                uilist_entry uile( sp->name() );
-                uile.ctxt = string_format( "%4d %4d", sp->get_level(), sp->get_max_level() );
-                uile.retval = retval++;
-                uile.enabled = !sp->is_max_level();
-                uiles.emplace_back( uile );
-            }
-            int action = uilist( _( "Debug level spell:" ), uiles );
-            if( action < 0 ) {
-                break;
-            }
-            int desired_level = 0;
-            int cur_level = spells[action]->get_level();
-            query_int( desired_level, _( "Desired Spell Level: (Current %d)" ), cur_level );
-            desired_level = std::min( desired_level, spells[action]->get_max_level() );
-            while( cur_level < desired_level ) {
-                spells[action]->gain_level();
-                cur_level = spells[action]->get_level();
-            }
-            add_msg( m_good, _( "%s is now level %d!" ), spells[action]->name(), spells[action]->get_level() );
+        case D_ASTHMA: {
+            p.set_mutation( trait_ASTHMA );
+            p.add_effect( effect_asthma, 10_minutes );
             break;
         }
-        case UILIST_CANCEL:
-            return;
     }
-
-    // TODO: Stack overflow possibility
-    character_edit_menu( c );
 }
 
 static std::string mission_status_string( mission::mission_status status )
@@ -1109,7 +1020,7 @@ std::string mission_debug::describe( const mission &m )
     data << _( " Status:" ) << mission_status_string( m.status );
     data << _( " ID:" ) << m.uid;
     data << _( " NPC ID:" ) << m.npc_id;
-    data << _( " Target:" ) << m.target.to_string();
+    data << _( " Target:" ) << m.target.x << "," << m.target.y << "," << m.target.z;
     data << _( "Player ID:" ) << m.player_id;
 
     return data.str();
@@ -1414,7 +1325,11 @@ void debug()
             }
 
             add_msg( m_info, _( "(you: %d:%d)" ), u.posx(), u.posy() );
-            add_msg( m_info, _( "Thirst: %d, kCal: %d / %d" ), u.get_thirst(), u.get_stored_kcal(),
+            std::string stom =
+                _( "Stomach Contents: kCal: %d" );
+            add_msg( m_info, stom.c_str(), u.stomach.get_calories() );
+            stom = _( "Thirst: %d, kCal: %d / %d" );
+            add_msg( m_info, stom.c_str(), u.get_thirst(), u.get_stored_kcal(),
                      u.max_stored_kcal() );
             add_msg( m_info, _( "Body Mass Index: %.0f\nBasal Metabolic Rate: %i" ), u.bmi(), u.bmr() );
             if( get_option<bool>( "STATS_THROUGH_KILLS" ) ) {
@@ -1445,8 +1360,8 @@ void debug()
                 break;
             }
 
-            const tripoint_range<tripoint> points = get_map().points_in_rectangle(
-                    first.position.value(), second.position.value() );
+            const tripoint_range points = get_map().points_in_rectangle(
+                                              first.position.value(), second.position.value() );
 
             std::vector<Creature *> creatures = g->get_creatures_if(
             [&points]( const Creature & critter ) -> bool {
@@ -1507,13 +1422,43 @@ void debug()
 
                     if( veh_cond_menu.ret >= 0 && veh_cond_menu.ret < 3 ) {
                         // TODO: Allow picking this when add_vehicle has 3d argument
-                        vehicle *veh = g->m.add_vehicle( selected_opt, dest, -90_degrees, 100, veh_cond_menu.ret - 1 );
+                        vehicle *veh = g->m.add_vehicle( selected_opt, dest, -90, 100, veh_cond_menu.ret - 1 );
                         if( veh != nullptr ) {
                             g->m.board_vehicle( dest, &u );
                         }
                     }
                 }
             }
+            break;
+
+        case DEBUG_CHANGE_SKILLS: {
+            debug_menu::wishskill( &u );
+        }
+        break;
+
+        case DEBUG_LEARN_MA:
+            add_msg( m_info, _( "Martial arts debug." ) );
+            add_msg( _( "Your eyes blink rapidly as knowledge floods your brain." ) );
+            for( auto &style : all_martialart_types() ) {
+                if( style != matype_id( "style_none" ) ) {
+                    u.martial_arts_data->add_martialart( style );
+                }
+            }
+            add_msg( m_good, _( "You now know a lot more than just 10 styles of kung fu." ) );
+            break;
+
+        case DEBUG_UNLOCK_RECIPES: {
+            add_msg( m_info, _( "Recipe debug." ) );
+            add_msg( _( "Your eyes blink rapidly as knowledge floods your brain." ) );
+            for( const auto &e : recipe_dict ) {
+                u.learn_recipe( &e.second );
+            }
+            add_msg( m_good, _( "You know how to craft that now." ) );
+        }
+        break;
+
+        case DEBUG_EDIT_PLAYER:
+            debug_menu::character_edit_menu();
             break;
 
         case DEBUG_SPAWN_ARTIFACT:
@@ -1534,32 +1479,29 @@ void debug()
             break;
 
         case DEBUG_CHANGE_WEATHER: {
-            weather_manager &weather = get_weather();
             uilist weather_menu;
             weather_menu.text = _( "Select new weather pattern:" );
-            weather_menu.addentry( 0, true, MENU_AUTOASSIGN, !weather.weather_override ?
+            weather_menu.addentry( 0, true, MENU_AUTOASSIGN, g->weather.weather_override == WEATHER_NULL ?
                                    _( "Keep normal weather patterns" ) : _( "Disable weather forcing" ) );
-            for( size_t i = 0; i < weather_types::get_all().size(); i++ ) {
-                weather_menu.addentry( i, true, MENU_AUTOASSIGN,
-                                       weather_types::get_all()[i].name.translated() );
+            for( int weather_id = 1; weather_id < NUM_WEATHER_TYPES; weather_id++ ) {
+                weather_menu.addentry( weather_id, true, MENU_AUTOASSIGN,
+                                       weather::name( static_cast<weather_type>( weather_id ) ) );
             }
 
             weather_menu.query();
 
-            if( weather_menu.ret >= 0 &&
-                static_cast<size_t>( weather_menu.ret ) < weather_types::get_all().size() ) {
-                const weather_type_id selected_weather = weather_types::get_all()[weather_menu.ret].id;
-                weather.weather_override = selected_weather;
-                weather.set_nextweather( calendar::turn );
+            if( weather_menu.ret >= 0 && weather_menu.ret < NUM_WEATHER_TYPES ) {
+                weather_type selected_weather = static_cast<weather_type>( weather_menu.ret );
+                g->weather.weather_override = selected_weather;
+                g->weather.set_nextweather( calendar::turn );
             }
         }
         break;
 
         case DEBUG_WIND_DIRECTION: {
-            weather_manager &weather = get_weather();
             uilist wind_direction_menu;
             wind_direction_menu.text = _( "Select new wind direction:" );
-            wind_direction_menu.addentry( 0, true, MENU_AUTOASSIGN, weather.wind_direction_override ?
+            wind_direction_menu.addentry( 0, true, MENU_AUTOASSIGN, g->weather.wind_direction_override ?
                                           _( "Disable direction forcing" ) : _( "Keep normal wind direction" ) );
             int count = 1;
             for( int angle = 0; angle <= 315; angle += 45 ) {
@@ -1568,19 +1510,18 @@ void debug()
             }
             wind_direction_menu.query();
             if( wind_direction_menu.ret == 0 ) {
-                weather.wind_direction_override = cata::nullopt;
+                g->weather.wind_direction_override = cata::nullopt;
             } else if( wind_direction_menu.ret >= 0 && wind_direction_menu.ret < 9 ) {
-                weather.wind_direction_override = ( wind_direction_menu.ret - 1 ) * 45;
-                weather.set_nextweather( calendar::turn );
+                g->weather.wind_direction_override = ( wind_direction_menu.ret - 1 ) * 45;
+                g->weather.set_nextweather( calendar::turn );
             }
         }
         break;
 
         case DEBUG_WIND_SPEED: {
-            weather_manager &weather = get_weather();
             uilist wind_speed_menu;
             wind_speed_menu.text = _( "Select new wind speed:" );
-            wind_speed_menu.addentry( 0, true, MENU_AUTOASSIGN, weather.wind_direction_override ?
+            wind_speed_menu.addentry( 0, true, MENU_AUTOASSIGN, g->weather.wind_direction_override ?
                                       _( "Disable speed forcing" ) : _( "Keep normal wind speed" ) );
             int count = 1;
             for( int speed = 0; speed <= 100; speed += 10 ) {
@@ -1590,11 +1531,11 @@ void debug()
             }
             wind_speed_menu.query();
             if( wind_speed_menu.ret == 0 ) {
-                weather.windspeed_override = cata::nullopt;
+                g->weather.windspeed_override = cata::nullopt;
             } else if( wind_speed_menu.ret >= 0 && wind_speed_menu.ret < 12 ) {
                 int selected_wind_speed = ( wind_speed_menu.ret - 1 ) * 10;
-                weather.windspeed_override = selected_wind_speed;
-                weather.set_nextweather( calendar::turn );
+                g->weather.windspeed_override = selected_wind_speed;
+                g->weather.set_nextweather( calendar::turn );
             }
         }
         break;
@@ -1813,6 +1754,20 @@ void debug()
             } while( smenu.ret != UILIST_CANCEL );
         }
         break;
+        case DEBUG_SET_AUTOMOVE: {
+            const cata::optional<tripoint> dest = g->look_around();
+            if( !dest || *dest == u.pos() ) {
+                break;
+            }
+
+            auto rt = m.route( u.pos(), *dest, u.get_pathfinding_settings(), u.get_path_avoid() );
+            if( !rt.empty() ) {
+                u.set_destination( rt );
+            } else {
+                popup( "Couldn't find path" );
+            }
+        }
+        break;
         case DEBUG_SHOW_MUT_CAT:
             for( const auto &elem : u.mutation_category_level ) {
                 add_msg( "%s: %d", elem.first.c_str(), elem.second );
@@ -1873,21 +1828,22 @@ void debug()
 #endif
             break;
         case DEBUG_MAP_EXTRA: {
-            const std::vector<std::string> &mx_str = MapExtras::get_all_function_names();
+            std::unordered_map<std::string, map_extra_pointer> FM = MapExtras::all_functions();
             uilist mx_menu;
-            for( const std::string &extra : mx_str ) {
-                mx_menu.addentry( -1, true, -1, extra );
+            std::vector<std::string> mx_str;
+            for( auto &extra : FM ) {
+                mx_menu.addentry( -1, true, -1, extra.first );
+                mx_str.push_back( extra.first );
             }
             mx_menu.query();
             int mx_choice = mx_menu.ret;
             if( mx_choice >= 0 && mx_choice < static_cast<int>( mx_str.size() ) ) {
-                const tripoint_abs_omt where_omt( ui::omap::choose_point() );
+                const tripoint where_omt( ui::omap::choose_point() );
                 if( where_omt != overmap::invalid_tripoint ) {
-                    tripoint_abs_sm where_sm = project_to<coords::sm>( where_omt );
+                    tripoint where_sm = omt_to_sm_copy( where_omt );
                     tinymap mx_map;
-                    // TODO: fix point types
-                    mx_map.load( where_sm.raw(), false );
-                    MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm.raw() );
+                    mx_map.load( where_sm, false );
+                    MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm );
                     g->load_npcs();
                     g->m.invalidate_map_cache( g->get_levz() );
                 }
@@ -1943,7 +1899,7 @@ void debug()
             }
             break;
         case DEBUG_TEST_WEATHER: {
-            get_weather().get_cur_weather_gen().test_weather( g->get_seed() );
+            g->weather.get_cur_weather_gen().test_weather( g->get_seed() );
         }
         break;
 
@@ -1993,6 +1949,58 @@ void debug()
             popup( popup_msg );
         }
         break;
+        case DEBUG_LEARN_SPELLS:
+            if( spell_type::get_all().empty() ) {
+                add_msg( m_bad, _( "There are no spells to learn.  You must install a mod that adds some." ) );
+            } else {
+                for( const spell_type &learn : spell_type::get_all() ) {
+                    g->u.magic->learn_spell( &learn, g->u, true );
+                }
+                add_msg( m_good,
+                         _( "You have become an Archwizardpriest!  What will you do with your newfound power?" ) );
+            }
+            break;
+        case DEBUG_LEVEL_SPELLS: {
+            std::vector<spell *> spells = g->u.magic->get_spells();
+            if( spells.empty() ) {
+                add_msg( m_bad, _( "Try learning some spells first." ) );
+                return;
+            }
+            std::vector<uilist_entry> uiles;
+            {
+                uilist_entry uile( _( "Spell" ) );
+                uile.ctxt = string_format( "%s %s",
+                                           //~ translation should not exceed 4 console cells
+                                           right_justify( _( "LVL" ), 4 ),
+                                           //~ translation should not exceed 4 console cells
+                                           right_justify( _( "MAX" ), 4 ) );
+                uile.enabled = false;
+                uile.force_color = c_light_blue;
+                uiles.emplace_back( uile );
+            }
+            int retval = 0;
+            for( spell *sp : spells ) {
+                uilist_entry uile( sp->name() );
+                uile.ctxt = string_format( "%4d %4d", sp->get_level(), sp->get_max_level() );
+                uile.retval = retval++;
+                uile.enabled = !sp->is_max_level();
+                uiles.emplace_back( uile );
+            }
+            int action = uilist( _( "Debug level spell:" ), uiles );
+            if( action < 0 ) {
+                return;
+            }
+            int desired_level = 0;
+            int cur_level = spells[action]->get_level();
+            query_int( desired_level, _( "Desired Spell Level: (Current %d)" ), cur_level );
+            desired_level = std::min( desired_level, spells[action]->get_max_level() );
+            while( cur_level < desired_level ) {
+                spells[action]->gain_level();
+                cur_level = spells[action]->get_level();
+            }
+            add_msg( m_good, _( "%s is now level %d!" ), spells[action]->name(), spells[action]->get_level() );
+            break;
+        }
 
         case DEBUG_VEHICLE_BATTERY_CHARGE: {
             optional_vpart_position v_part_pos = g->m.veh_at( u.pos() );

@@ -2,11 +2,9 @@
 #ifndef CATA_TESTS_STRINGMAKER_H
 #define CATA_TESTS_STRINGMAKER_H
 
-#include "cuboid_rectangle.h"
 #include "catch/catch.hpp"
 #include "cata_variant.h"
 #include "dialogue.h"
-#include "distribution_grid.h"
 #include "item.h"
 
 // StringMaker specializations for Cata types for reporting via Catch2 macros
@@ -29,22 +27,15 @@ struct StringMaker<item> {
 };
 
 template<>
-struct StringMaker<point> {
-    static std::string convert( const point &p ) {
-        return string_format( "point( %d, %d )", p.x, p.y );
-    }
-};
-
-template<typename Point>
-struct StringMaker<rectangle<Point>> {
-    static std::string convert( const rectangle<Point> &r ) {
+struct StringMaker<rectangle> {
+    static std::string convert( const rectangle &r ) {
         return string_format( "[%s-%s]", r.p_min.to_string(), r.p_max.to_string() );
     }
 };
 
-template<typename Tripoint>
-struct StringMaker<cuboid<Tripoint>> {
-    static std::string convert( const cuboid<Tripoint> &b ) {
+template<>
+struct StringMaker<box> {
+    static std::string convert( const box &b ) {
         return string_format( "[%s-%s]", b.p_min.to_string(), b.p_max.to_string() );
     }
 };
@@ -68,13 +59,6 @@ template<>
 struct StringMaker<talk_response> {
     static std::string convert( const talk_response &r ) {
         return string_format( "talk_response( text=\"%s\" )", r.text );
-    }
-};
-
-template<>
-struct StringMaker<grid_furn_transform_queue> {
-    static std::string convert( const grid_furn_transform_queue &q ) {
-        return string_format( "grid_furn_transform_queue(\n%s)", q.to_string() );
     }
 };
 

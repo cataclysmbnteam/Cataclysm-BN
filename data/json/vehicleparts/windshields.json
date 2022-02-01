@@ -1,7 +1,7 @@
 [
   {
     "abstract": "windshield_abstract",
-    "breaks_into": [ { "count": [ 2, 5 ], "item": "glass_shard" } ],
+    "breaks_into": [ { "count": [ 25, 50 ], "item": "glass_shard" } ],
     "broken_color": "light_gray",
     "broken_symbol": "0",
     "color": "light_cyan",
@@ -23,7 +23,7 @@
   },
   {
     "abstract": "reinforced_windshield_abstract",
-    "breaks_into": [ { "count": [ 2, 5 ], "item": "glass_shard" }, { "count": [ 4, 8 ], "item": "wire" } ],
+    "breaks_into": [ { "count": [ 25, 50 ], "item": "glass_shard" }, { "count": [ 4, 8 ], "item": "wire" } ],
     "broken_color": "light_gray",
     "broken_symbol": "0",
     "color": "light_blue",

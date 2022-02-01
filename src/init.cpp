@@ -92,8 +92,6 @@
 #include "veh_type.h"
 #include "vehicle_group.h"
 #include "vitamin.h"
-#include "weather.h"
-#include "weather_type.h"
 #include "worldfactory.h"
 
 #if defined(TILES)
@@ -239,7 +237,6 @@ void DynamicDataLoader::initialize()
     add( "json_flag", &json_flag::load_all );
     add( "fault", &fault::load_fault );
     add( "field_type", &field_types::load );
-    add( "weather_type", &weather_types::load );
     add( "ammo_effect", &ammo_effects::load );
     add( "emit", &emit::load_emit );
     add( "activity_type", &activity_type::load );
@@ -606,7 +603,6 @@ void DynamicDataLoader::unload_data()
     VehicleSpawn::reset();
     vitamin::reset();
     vpart_info::reset();
-    weather_types::reset();
     zone_type::reset_zones();
 #if defined(LOCALIZE)
     l10n_data::unload_mod_catalogues();
@@ -641,7 +637,6 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Flags" ), &json_flag::finalize_all },
             { _( "Body parts" ), &body_part_type::finalize_all },
             { _( "Bionics" ), &bionic_data::finalize_all },
-            { _( "Weather types" ), &weather_types::finalize_all },
             { _( "Field types" ), &field_types::finalize_all },
             { _( "Ammo effects" ), &ammo_effects::finalize_all },
             { _( "Emissions" ), &emit::finalize },
@@ -727,7 +722,6 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
                 }
             },
             { _( "Vitamins" ), &vitamin::check_consistency },
-            { _( "Weather types" ), &weather_types::check_consistency },
             { _( "Field types" ), &field_types::check_consistency },
             { _( "Ammo effects" ), &ammo_effects::check_consistency },
             { _( "Emissions" ), &emit::check_consistency },

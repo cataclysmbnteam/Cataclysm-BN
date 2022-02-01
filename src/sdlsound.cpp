@@ -20,7 +20,6 @@
 #    include <SDL_mixer.h>
 #endif
 
-#include "cached_options.h"
 #include "debug.h"
 #include "init.h"
 #include "json.h"
@@ -31,7 +30,6 @@
 #include "rng.h"
 #include "sdl_wrappers.h"
 #include "sounds.h"
-#include "units_angle.h"
 
 #define dbg(x) DebugLogFL((x),DC::SDL)
 
@@ -161,10 +159,6 @@ void musicFinished();
 
 static void play_music_file( const std::string &filename, int volume )
 {
-    if( test_mode ) {
-        return;
-    }
-
     if( !check_sound( volume ) ) {
         return;
     }
@@ -186,10 +180,6 @@ static void play_music_file( const std::string &filename, int volume )
 /** Callback called when we finish playing music. */
 void musicFinished()
 {
-    if( test_mode ) {
-        return;
-    }
-
     Mix_HaltMusic();
     Mix_FreeMusic( current_music );
     current_music = nullptr;
@@ -255,10 +245,6 @@ void play_music( const std::string &playlist )
 
 void stop_music()
 {
-    if( test_mode ) {
-        return;
-    }
-
     Mix_FreeMusic( current_music );
     Mix_HaltMusic();
     current_music = nullptr;
@@ -270,10 +256,6 @@ void stop_music()
 
 void update_music_volume()
 {
-    if( test_mode ) {
-        return;
-    }
-
     if( !sounds::sound_enabled ) {
         stop_music();
         return;
@@ -479,10 +461,6 @@ static Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch )
 
 void sfx::play_variant_sound( const std::string &id, const std::string &variant, int volume )
 {
-    if( test_mode ) {
-        return;
-    }
-
     add_msg( m_debug, "sound id: %s, variant: %s, volume: %d ", id, variant, volume );
 
     if( !check_sound( volume ) ) {
@@ -507,12 +485,8 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
 }
 
 void sfx::play_variant_sound( const std::string &id, const std::string &variant, int volume,
-                              units::angle angle, double pitch_min, double pitch_max )
+                              int angle, double pitch_min, double pitch_max )
 {
-    if( test_mode ) {
-        return;
-    }
-
     add_msg( m_debug, "sound id: %s, variant: %s, volume: %d ", id, variant, volume );
 
     if( !check_sound( volume ) ) {
@@ -544,7 +518,7 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
         }
     }
     if( !failed ) {
-        if( Mix_SetPosition( channel, static_cast<Sint16>( to_degrees( angle ) ), 1 ) == 0 ) {
+        if( Mix_SetPosition( channel, static_cast<Sint16>( angle ), 1 ) == 0 ) {
             // Not critical
             dbg( DL::Info ) << "Mix_SetPosition failed: " << Mix_GetError();
         }
@@ -560,9 +534,6 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
 void sfx::play_ambient_variant_sound( const std::string &id, const std::string &variant, int volume,
                                       channel channel, int fade_in_duration, double pitch, int loops )
 {
-    if( test_mode ) {
-        return;
-    }
     if( !check_sound( volume ) ) {
         return;
     }

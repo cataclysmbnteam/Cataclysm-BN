@@ -45,6 +45,18 @@ struct tile_type {
     std::vector<std::string> available_subtiles;
 };
 
+/* Enums */
+enum MULTITILE_TYPE {
+    center,
+    corner,
+    edge,
+    t_connection,
+    end_piece,
+    unconnected,
+    open_,
+    broken,
+    num_multitile_types
+};
 // Make sure to change TILE_CATEGORY_IDS if this changes!
 enum TILE_CATEGORY {
     C_NONE,
@@ -59,8 +71,6 @@ enum TILE_CATEGORY {
     C_BULLET,
     C_HIT_ENTITY,
     C_WEATHER,
-    C_OVERMAP_TERRAIN,
-    C_OVERMAP_NOTE
 };
 
 class tile_lookup_res
@@ -344,7 +354,6 @@ class cata_tiles
         void draw( const point &dest, const tripoint &center, int width, int height,
                    std::multimap<point, formatted_text> &overlay_strings,
                    color_block_overlay_container &color_blocks );
-        void draw_om( const point &dest, const tripoint_abs_omt &center_abs_omt, bool blink );
 
         bool terrain_requires_animation() const;
 
@@ -446,18 +455,13 @@ class cata_tiles
 
     public:
         // Animation layers
-        void init_explosion( const tripoint &p, int radius, const std::string &name );
+        void init_explosion( const tripoint &p, int radius );
         void draw_explosion_frame();
         void void_explosion();
 
-        void init_custom_explosion_layer( const std::map<tripoint, explosion_tile> &layer,
-                                          const std::string &name );
+        void init_custom_explosion_layer( const std::map<tripoint, explosion_tile> &layer );
         void draw_custom_explosion_frame();
         void void_custom_explosion();
-
-        void init_draw_cone_aoe( const tripoint &origin, const one_bucket &layer );
-        void draw_cone_aoe_frame();
-        void void_cone_aoe();
 
         void init_draw_bullet( const tripoint &p, std::string name );
         void draw_bullet_frame();
@@ -518,7 +522,7 @@ class cata_tiles
         void void_item_override();
 
         void init_draw_vpart_override( const tripoint &p, const vpart_id &id, int part_mod,
-                                       units::angle veh_dir, bool hilite, const point &mount );
+                                       int veh_dir, bool hilite, const point &mount );
         void void_vpart_override();
 
         void init_draw_below_override( const tripoint &p, bool draw );
@@ -561,9 +565,6 @@ class cata_tiles
         point player_to_screen( const point & ) const;
         static std::vector<options_manager::id_and_option> build_renderer_list();
         static std::vector<options_manager::id_and_option> build_display_list();
-    private:
-        std::string get_omt_id_rotation_and_subtile(
-            const tripoint_abs_omt &omp, int &rota, int &subtile );
     protected:
         template <typename maptype>
         void tile_loading_report( const maptype &tiletypemap, TILE_CATEGORY category,
@@ -611,16 +612,11 @@ class cata_tiles
         bool do_draw_weather = false;
         bool do_draw_sct = false;
         bool do_draw_zones = false;
-        bool do_draw_cone_aoe = false;
 
         tripoint exp_pos;
         int exp_rad = 0;
-        std::string exp_name;
 
         std::map<tripoint, explosion_tile> custom_explosion_layer;
-
-        tripoint cone_aoe_origin;
-        one_bucket cone_aoe_layer;
 
         tripoint bul_pos;
         std::string bul_id;
@@ -656,9 +652,9 @@ class cata_tiles
         std::map<tripoint, field_type_id> field_override;
         // bool represents item highlight
         std::map<tripoint, std::tuple<itype_id, mtype_id, bool>> item_override;
-        // int, angle, bool represents part_mod, veh_dir, and highlight respectively
+        // int, int, bool represents part_mod, veh_dir, and highlight respectively
         // point represents the mount direction
-        std::map<tripoint, std::tuple<vpart_id, int, units::angle, bool, point>> vpart_override;
+        std::map<tripoint, std::tuple<vpart_id, int, int, bool, point>> vpart_override;
         std::map<tripoint, bool> draw_below_override;
         // int represents spawn count
         std::map<tripoint, std::tuple<mtype_id, int, bool, Creature::Attitude>> monster_override;

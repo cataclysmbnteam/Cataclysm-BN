@@ -172,7 +172,8 @@ int minesweeper_game::start_game()
 
     int iScore = 5;
 
-    point pl;
+    int iPlayerY = 0;
+    int iPlayerX = 0;
 
     bool started = false;
     bool boom = false;
@@ -248,7 +249,7 @@ int minesweeper_game::start_game()
                         break;
                     }
                 }
-                if( !boom && pl == point( x, y ) ) {
+                if( !boom && iPlayerX == x && iPlayerY == y ) {
                     col = hilite( col );
                 }
                 mvwputch( w_minesweeper, offset + point( x, y ), col, ch );
@@ -289,7 +290,8 @@ int minesweeper_game::start_game()
         if( action == "NEW" ) {
             new_level();
 
-            pl = point_zero;
+            iPlayerY = 0;
+            iPlayerX = 0;
 
             started = true;
             boom = false;
@@ -309,26 +311,28 @@ int minesweeper_game::start_game()
         }
 
         if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-            const point newp = pl + vec->xy();
-            if( half_open_rectangle<point>( point_zero, level ).contains( newp ) ) {
-                pl = newp;
+            const int new_x = iPlayerX + vec->x;
+            const int new_y = iPlayerY + vec->y;
+            if( new_x >= 0 && new_x < level.x && new_y >= 0 && new_y < level.y ) {
+                iPlayerX = new_x;
+                iPlayerY = new_y;
             }
         } else if( action == "FLAG" ) {
-            if( mLevelReveal[pl.y][pl.x] == unknown ) {
-                mLevelReveal[pl.y][pl.x] = flag;
-            } else if( mLevelReveal[pl.y][pl.x] == flag ) {
-                mLevelReveal[pl.y][pl.x] = unknown;
+            if( mLevelReveal[iPlayerY][iPlayerX] == unknown ) {
+                mLevelReveal[iPlayerY][iPlayerX] = flag;
+            } else if( mLevelReveal[iPlayerY][iPlayerX] == flag ) {
+                mLevelReveal[iPlayerY][iPlayerX] = unknown;
             }
         } else if( action == "CONFIRM" ) {
-            if( mLevelReveal[pl.y][pl.x] != seen ) {
-                if( mLevel[pl.y][pl.x] == bomb ) {
+            if( mLevelReveal[iPlayerY][iPlayerX] != seen ) {
+                if( mLevel[iPlayerY][iPlayerX] == bomb ) {
                     boom = true;
                     reveal_all();
                     ui.invalidate_ui();
                     popup_top( _( "Boom, you're dead!  Better luck next time." ) );
                     action = "QUIT";
-                } else if( mLevelReveal[pl.y][pl.x] == unknown ) {
-                    rec_reveal( pl );
+                } else if( mLevelReveal[iPlayerY][iPlayerX] == unknown ) {
+                    rec_reveal( point( iPlayerY, iPlayerX ) );
                 }
             }
         }

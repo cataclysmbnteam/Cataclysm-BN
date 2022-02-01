@@ -15,8 +15,7 @@
     "type": "overmap_terrain",
     "abstract": "generic_forest",
     "name": "generic_forest",
-    "land_use_code": "forest",
-    "connect_group": "forest"
+    "land_use_code": "forest"
   },
   {
     "type": "overmap_terrain",

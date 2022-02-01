@@ -8,7 +8,6 @@
 #include <utility>
 
 #include "activity_actor.h"
-#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "catch/catch.hpp"
 #include "inventory.h"

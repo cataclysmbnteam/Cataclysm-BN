@@ -14,7 +14,7 @@
     "reversible": true,
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 10 ], [ "req_shot", 1 ] ],
     "tools": [ [ [ "press", -1 ] ] ],
-    "components": [ [ [ "gunpowder", 6 ] ] ]
+    "components": [ [ [ "gunpowder", 6 ], [ "gunpowder_pistol", 6 ], [ "gunpowder_shotgun", 6 ] ] ]
   },
   {
     "result": "bp_shot_buck",
@@ -65,7 +65,7 @@
     "tools": [ [ [ "press", -1 ] ] ],
     "book_learn": [ [ "recipe_bullets", 1 ], [ "manual_shotgun", 1 ] ],
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 10 ], [ "req_shot", 1 ] ],
-    "components": [ [ [ "gunpowder", 3 ] ] ]
+    "components": [ [ [ "gunpowder", 3 ], [ "gunpowder_pistol", 3 ], [ "gunpowder_shotgun", 3 ] ] ]
   },
   {
     "result": "bp_shot_fowl",
@@ -114,7 +114,7 @@
     "tools": [ [ [ "press", -1 ] ] ],
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_shotgun", 3 ] ],
     "using": [ [ "req_shot", 1 ] ],
-    "components": [ [ [ "gunpowder", 3 ] ], [ [ "magnesium", 5 ] ] ]
+    "components": [ [ [ "gunpowder", 3 ], [ "gunpowder_pistol", 3 ], [ "gunpowder_shotgun", 3 ] ], [ [ "magnesium", 5 ] ] ]
   },
   {
     "result": "bp_shot_pyro",
@@ -165,7 +165,7 @@
     "difficulty": 3,
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_shotgun", 3 ] ],
     "using": [ [ "bullet_forming", 1 ], [ "ammo_bullet", 20 ], [ "req_shot", 1 ] ],
-    "components": [ [ [ "gunpowder", 6 ] ] ]
+    "components": [ [ [ "gunpowder", 6 ], [ "gunpowder_pistol", 6 ], [ "gunpowder_shotgun", 6 ] ] ]
   },
   {
     "result": "bp_shot_foster",
@@ -216,7 +216,7 @@
     "tools": [ [ [ "press", -1 ] ] ],
     "book_learn": [ [ "recipe_bullets", 4 ], [ "manual_shotgun", 4 ] ],
     "using": [ [ "req_shot", 1 ] ],
-    "components": [ [ [ "gunpowder", 6 ] ], [ [ "combatnail", 10 ] ] ]
+    "components": [ [ [ "gunpowder", 6 ], [ "gunpowder_pistol", 6 ], [ "gunpowder_shotgun", 6 ] ], [ [ "combatnail", 10 ] ] ]
   },
   {
     "result": "bp_shot_dart",
@@ -267,7 +267,7 @@
     "tools": [ [ [ "press", -1 ] ] ],
     "using": [ [ "req_shot", 1 ] ],
     "components": [
-      [ [ "gunpowder", 6 ] ],
+      [ [ "gunpowder", 6 ], [ "gunpowder_pistol", 6 ], [ "gunpowder_shotgun", 6 ] ],
       [
         [ "scrap", 1 ],
         [ "nail", 5 ],

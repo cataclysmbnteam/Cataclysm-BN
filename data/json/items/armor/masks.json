@@ -108,6 +108,7 @@
     "id": "mask_bal",
     "repairs_like": "xlkevlar",
     "type": "ARMOR",
+    "category": "armor",
     "name": { "str": "ballistic mask" },
     "description": "A protective reinforced Kevlar mask that covers the face.  Provides excellent protection from ballistic threats.",
     "weight": "512 g",
@@ -152,6 +153,7 @@
   {
     "id": "mask_guy_fawkes",
     "type": "ARMOR",
+    "category": "armor",
     "name": { "str": "Guy Fawkes mask" },
     "description": "Remember, remember, the fifth of November.",
     "weight": "45 g",
@@ -175,6 +177,7 @@
     "id": "mask_hockey",
     "repairs_like": "mask_gas",
     "type": "ARMOR",
+    "category": "armor",
     "name": { "str": "hockey mask" },
     "//": "Jason-type costume masks are much cheaper and less protective.",
     "description": "A protective face mask made of thick plastic.  Commonly worn by hockey goalies.",

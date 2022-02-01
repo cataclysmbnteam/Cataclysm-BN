@@ -37,7 +37,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "magazine_well": "250 ml",
+    "magazine_well": 1,
     "magazines": [ [ "3006", [ "blrmag" ] ] ]
   },
   {
@@ -52,7 +52,6 @@
     "price": 90000,
     "price_postapoc": 3500,
     "to_hit": -1,
-    "ascii_picture": "m1_garand",
     "bashing": 12,
     "material": [ "steel", "wood" ],
     "symbol": "(",
@@ -77,7 +76,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": "250 ml",
+    "magazine_well": 1,
     "magazines": [ [ "3006", [ "garandclip" ] ] ]
   },
   {
@@ -130,7 +129,6 @@
     "price": 350000,
     "price_postapoc": 4000,
     "to_hit": -1,
-    "ascii_picture": "1918_BAR",
     "bashing": 12,
     "material": [ "steel", "wood" ],
     "symbol": "(",
@@ -140,7 +138,7 @@
     "dispersion": 180,
     "durability": 8,
     "min_cycle_recoil": 3420,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 3 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "barrel_length": "1000 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -171,7 +169,6 @@
     "price": 87000,
     "price_postapoc": 3500,
     "to_hit": -1,
-    "ascii_picture": "rem700_3006",
     "bashing": 12,
     "material": [ "steel", "plastic" ],
     "color": "brown",

@@ -20,7 +20,7 @@
     "dispersion": 150,
     "durability": 8,
     "min_cycle_recoil": 2700,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "barrel_length": "500 ml",
     "magazines": [ [ "308", [ "falmag", "falbigmag", "fal_makeshiftmag" ] ] ]
   },
@@ -45,7 +45,7 @@
     "dispersion": 150,
     "min_cycle_recoil": 2700,
     "durability": 8,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "BURST", "burst", 3 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ],
     "magazines": [ [ "308", [ "g3mag", "g3bigmag", "g3_makeshiftmag" ] ] ]
   },
   {
@@ -89,7 +89,7 @@
     "price": 195000,
     "price_postapoc": 6500,
     "material": [ "steel", "plastic" ],
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -164,7 +164,6 @@
     "price": 1000000,
     "price_postapoc": 7500,
     "to_hit": -1,
-    "ascii_picture": "m240",
     "bashing": 13,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
@@ -304,11 +303,10 @@
     "name": { "str_sp": "FN SCAR-H" },
     "description": "A highly accurate and modular battle rifle specially designed for the United States Special Operations Command.  The 'H' in its name stands for heavy, as it uses the powerful .308 round.",
     "weight": "3640 g",
-    "ascii_picture": "scar-H",
     "ammo": "308",
     "ranged_damage": { "damage_type": "stab", "amount": -3 },
     "min_cycle_recoil": 2700,
-    "magazine_well": "250 ml",
+    "magazine_well": 1,
     "magazines": [ [ "308", [ "scarhmag", "scarhbigmag", "scarhmag_30rd", "scarh_makeshiftmag" ] ] ]
   },
   {
@@ -371,7 +369,7 @@
     "dispersion": 180,
     "durability": 8,
     "min_cycle_recoil": 2700,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "default_mods": [ "adjustable_stock" ],
     "magazines": [ [ "308", [ "hk417mag_20rd", "hk417mag_10rd", "hk417_makeshiftmag" ] ] ]
   },

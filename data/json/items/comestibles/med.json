@@ -13,7 +13,7 @@
     "symbol": "!",
     "color": "red",
     "use_action": "DISASSEMBLE",
-    "flags": [ "NO_REPAIR", "NO_SALVAGE" ]
+    "flags": [ "NO_REPAIR" ]
   },
   {
     "id": "melatonin_tablet",
@@ -408,7 +408,10 @@
       "type": "consume_drug",
       "activation_message": "You snort a bump of coke.",
       "effects": [ { "id": "cocaine_high", "duration": "60 minutes" } ],
-      "stat_adjustments": { "hunger": -10 }
+      "stat_adjustments": { "hunger": -10 },
+      "fields_produced": { "fd_cracksmoke": 2 },
+      "charges_needed": { "fire": 1 },
+      "tools_needed": { "apparatus": -1 }
     }
   },
   {

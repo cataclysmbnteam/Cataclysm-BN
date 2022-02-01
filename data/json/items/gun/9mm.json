@@ -19,7 +19,7 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 450,
-    "magazine_well": "250 ml",
+    "magazine_well": 1,
     "magazines": [ [ "9mm", [ "m9mag", "m9bigmag" ] ] ]
   },
   {
@@ -45,7 +45,7 @@
     "dispersion": 280,
     "durability": 6,
     "min_cycle_recoil": 450,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "barrel", 1 ],
@@ -61,7 +61,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": "250 ml",
+    "magazine_well": 1,
     "magazines": [ [ "9mm", [ "calicomag" ] ] ]
   },
   {
@@ -103,7 +103,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": "250 ml",
+    "magazine_well": 1,
     "magazines": [ [ "9mm", [ "m9bigmag", "m9mag" ] ] ]
   },
   {
@@ -119,7 +119,6 @@
     "price_postapoc": 2500,
     "to_hit": -2,
     "bashing": 8,
-    "ascii_picture": "glock_19",
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -129,7 +128,7 @@
     "durability": 6,
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 380,
-    "magazine_well": "250 ml",
+    "magazine_well": 1,
     "magazines": [ [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ] ] ]
   },
   {
@@ -144,7 +143,6 @@
     "price": 280000,
     "price_postapoc": 3500,
     "to_hit": -2,
-    "ascii_picture": "hk_mp5a2",
     "bashing": 10,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
@@ -156,7 +154,7 @@
     "durability": 8,
     "min_cycle_recoil": 450,
     "blackpowder_tolerance": 32,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "BURST", "burst", 3 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "barrel", 1 ],
@@ -181,7 +179,6 @@
     "name": { "str": "H&K MP5SD" },
     "description": "The H&K MP5SD offers subsonic performance in almost the same footprint as the H&K MP5, retaining its handiness.  The large suppressor cuts down on muzzle flash greatly, aiding in night operations.  It has also seen some popularity with SWAT teams, as it lowers the risk of fire and explosions in illegal laboratories.  With body armor in more common use, the MP5SD has waned in popularity among special forces due to its decreased terminal performance.",
     "weight": "3230 g",
-    "ascii_picture": "hk_mp5sd",
     "price": 3000000,
     "price_postapoc": 14000,
     "valid_mod_locations": [
@@ -197,7 +194,7 @@
       [ "sling", 1 ],
       [ "stock", 1 ]
     ],
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "BURST", "burst", 3 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ],
     "built_in_mods": [ "mp5sd_suppressor" ]
   },
   {
@@ -210,7 +207,6 @@
     "volume": "1753 ml",
     "price_postapoc": 3500,
     "bashing": 8,
-    "ascii_picture": "hk_mp5-pdw",
     "dispersion": 270,
     "ranged_damage": 0,
     "built_in_mods": [ "folding_stock", "grip" ],
@@ -237,7 +233,7 @@
     "description": "The PTR 603 is a semi-automatic copy of the famous MP5 series, domestically produced for the US market on original Heckler and Koch tooling by PTR Industries.  Like the MP5, its roller delayed blowback action offers smooth shooting and precision, setting it apart from other submachine guns and pistol caliber carbines.  This model is configured as a pistol to avoid inconvenient and costly NFA regulations.  A welded on section of M1913 rail offers convenient mounting for aftermarket optics, but precludes the use of claw mounts.",
     "relative": { "weight": -550, "volume": "-500 ml", "handling_modifier": -6 },
     "//": "Attach a pistol stock and you get a semi MP5 again.",
-    "modes": [ [ "DEFAULT", "semi", 1 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "bashing": 7,
     "dispersion": 270,
     "valid_mod_locations": [
@@ -312,7 +308,7 @@
       [ "sling", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": "250 ml",
+    "magazine_well": 1,
     "magazines": [ [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ] ] ]
   },
   {
@@ -321,7 +317,7 @@
     "type": "GUN",
     "name": { "str_sp": "Kel-Tec SUB-2000" },
     "description": "If you see it - it is bug!",
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "clip_size": 300,
     "magazines": [  ]
   },
@@ -337,7 +333,6 @@
     "price": 65000,
     "price_postapoc": 2500,
     "to_hit": -2,
-    "ascii_picture": "beretta_m9",
     "bashing": 8,
     "material": [ "steel", "aluminum" ],
     "symbol": "(",
@@ -347,7 +342,7 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 450,
-    "magazine_well": "250 ml",
+    "magazine_well": 1,
     "magazines": [ [ "9mm", [ "m9mag", "m9bigmag" ] ] ]
   },
   {
@@ -370,7 +365,7 @@
     "dispersion": 440,
     "durability": 7,
     "min_cycle_recoil": 450,
-    "magazine_well": "250 ml",
+    "magazine_well": 1,
     "magazines": [ [ "9mm", [ "px4mag" ] ] ]
   },
   {
@@ -386,7 +381,6 @@
     "price": 10000,
     "price_postapoc": 500,
     "to_hit": -1,
-    "ascii_picture": "ps_pipe_gun",
     "bashing": 10,
     "material": [ "steel", "wood" ],
     "symbol": "(",
@@ -527,7 +521,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": "250 ml",
+    "magazine_well": 1,
     "magazines": [ [ "9mm", [ "tec9mag" ] ] ]
   },
   {
@@ -552,7 +546,7 @@
     "durability": 9,
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 450,
-    "magazine_well": "250 ml",
+    "magazine_well": 1,
     "magazines": [ [ "9mm", [ "usp9mag" ] ] ]
   },
   {
@@ -576,7 +570,7 @@
     "dispersion": 360,
     "durability": 7,
     "min_cycle_recoil": 450,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "built_in_mods": [ "folding_stock" ],
     "valid_mod_locations": [
       [ "accessories", 3 ],
@@ -592,7 +586,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazine_well": "250 ml",
+    "magazine_well": 1,
     "magazines": [ [ "9mm", [ "uzimag" ] ] ]
   },
   {
@@ -607,7 +601,6 @@
     "price": 69000,
     "price_postapoc": 2500,
     "to_hit": -2,
-    "ascii_picture": "glock_17",
     "bashing": 8,
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
@@ -617,7 +610,7 @@
     "durability": 6,
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 380,
-    "magazine_well": "250 ml",
+    "magazine_well": 1,
     "//2": "Glock 17s cannot load a 15 round magazine. See http://guns-of-fun.com/portals/0/LiveContent/Mounts/Glock-Mags-Comp.jpg and #33038",
     "magazines": [ [ "9mm", [ "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd", "glockbigmag" ] ] ]
   },
@@ -628,10 +621,9 @@
     "name": { "str": "Glock 18C" },
     "description": "A selective fire variation on the Glock 17, originally designed for Austria's EKO Cobra unit.  It has compensator cuts along its barrel to make recoil more manageable.",
     "weight": "620 g",
-    "ascii_picture": "glock_18c",
     "price": 100000,
     "price_postapoc": 2500,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 6 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 6 ] ],
     "built_in_mods": [ "barrel_ported" ]
   },
   {
@@ -670,7 +662,7 @@
     "dispersion": 480,
     "durability": 6,
     "min_cycle_recoil": 450,
-    "magazine_well": "250 ml",
+    "magazine_well": 1,
     "magazines": [ [ "9mm", [ "p320mag_17rd_9x19mm" ] ] ]
   },
   {
@@ -691,7 +683,7 @@
     "ammo": "9mm",
     "dispersion": 480,
     "durability": 8,
-    "magazine_well": "250 ml",
+    "magazine_well": 1,
     "magazines": [ [ "9mm", [ "bhp9mag_13rd", "bhp9mag_15rd" ] ] ]
   },
   {
@@ -712,7 +704,7 @@
     "ammo": "9mm",
     "dispersion": 480,
     "durability": 8,
-    "magazine_well": "250 ml",
+    "magazine_well": 1,
     "magazines": [ [ "9mm", [ "p38mag" ] ] ]
   },
   {
@@ -732,7 +724,7 @@
     "ammo": "9mm",
     "dispersion": 480,
     "durability": 9,
-    "magazine_well": "250 ml",
+    "magazine_well": 1,
     "magazines": [ [ "9mm", [ "ppq9mag_10rd", "ppq9mag_15rd", "ppq9mag_17rd" ] ] ]
   },
   {
@@ -753,7 +745,7 @@
     "ammo": "9mm",
     "dispersion": 480,
     "durability": 7,
-    "magazine_well": "250 ml",
+    "magazine_well": 1,
     "magazines": [ [ "9mm", [ "hptc9mag_8rd", "hptc9mag_10rd", "hptc9mag_15rd" ] ] ]
   },
   {
@@ -774,7 +766,7 @@
     "ammo": "9mm",
     "dispersion": 480,
     "durability": 8,
-    "magazine_well": "250 ml",
+    "magazine_well": 1,
     "magazines": [ [ "9mm", [ "cz75mag_12rd", "cz75mag_20rd", "cz75mag_26rd" ] ] ]
   },
   {
@@ -795,7 +787,7 @@
     "ammo": "9mm",
     "dispersion": 480,
     "durability": 8,
-    "magazine_well": "250 ml",
+    "magazine_well": 1,
     "magazines": [ [ "9mm", [ "ccpmag" ] ] ]
   }
 ]

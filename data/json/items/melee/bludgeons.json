@@ -379,7 +379,7 @@
     "material": [ "glass", "cotton" ],
     "weight": "115 g",
     "price_postapoc": 10,
-    "volume": "250 ml",
+    "volume": "30 ml",
     "cutting": 6,
     "flags": [ "SHEATH_KNIFE", "CONDUCTIVE", "FRAGILE_MELEE" ],
     "qualities": [ [ "BUTCHER", -18 ] ]
@@ -530,9 +530,9 @@
     "material": [ "wood", "iron" ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
-    "weight": "2500 g",
+    "weight": "2200 g",
     "volume": "3 L",
-    "bashing": 30,
+    "bashing": 29,
     "to_hit": 3,
     "qualities": [ [ "HAMMER", 1 ] ]
   },
@@ -569,7 +569,7 @@
         [ "medium_plus_battery_cell", "medium_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": "500 ml"
+    "magazine_well": 2
   },
   {
     "id": "l-stick_on",
@@ -579,10 +579,10 @@
     "description": "Produced by the Light corporation, this stylish staff not only functions as a light source, but doubles as a light-weight weapon, due to the superalloy materials it is made of.  Due to proprietary efficiency improvements over standard light sources, the L-stick or light stick as it is commonly called, batteries last longer than other light sources.  The staff is glowing brightly, which is slowly draining the batteries.",
     "material": [ "superalloy", "steel" ],
     "revert_to": "l-stick",
-    "power_draw": 10000,
+    "power_draw": 5000,
     "use_action": { "target": "l-stick", "msg": "The l-stick(tm)'s light fades away.", "menu_text": "Turn off", "type": "transform" },
     "flags": [ "LIGHT_300", "DURABLE_MELEE", "TRADER_AVOID", "SHEATH_SPEAR" ],
-    "magazine_well": "500 ml"
+    "magazine_well": 2
   },
   {
     "id": "lucern_hammer",
@@ -885,9 +885,9 @@
     "material": "wood",
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
-    "weight": "2000 g",
+    "weight": "1400 g",
     "volume": "3 L",
-    "bashing": 20,
+    "bashing": 26,
     "to_hit": 3,
     "price_postapoc": 1000
   },
@@ -986,7 +986,7 @@
     "category": "weapons",
     "name": { "str": "powered quarterstaff", "str_pl": "powered quarterstaves" },
     "description": "This is an ironshod quarterstaff that has a high-voltage stun gun built into the handle.  The stun gun is wired to the metal caps at either end of the staff, allowing you to zap a dangerous opponent should beating them senseless with it prove too hazardous.",
-    "weight": "2650 g",
+    "weight": "2351 g",
     "volume": "3250 ml",
     "price": 8000,
     "to_hit": 3,
@@ -1007,7 +1007,7 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": "500 ml"
+    "magazine_well": 2
   },
   {
     "id": "shocktonfa_off",
@@ -1035,18 +1035,19 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": "500 ml"
+    "magazine_well": 2
   },
   {
     "id": "shocktonfa_on",
     "copy-from": "shocktonfa_off",
     "type": "TOOL",
     "name": { "str": "tactical tonfa (on)", "str_pl": "tactical tonfas (on)" },
-    "description": "This is a reinforced plastic tonfa; the core is hollowed out and is filled with capacitors and a high-yield rechargeable storage battery.  When a switch on the handle is pressed, a high-voltage current is transmitted to the two electrodes mounted in the end of the weapon, and by extension to anyone unfortunate enough to be in contact with them.",
+    "description": "This is a reinforced plastic tonfa; the core is hollowed out and is filled with capacitors and a high-yield rechargeable storage battery.  When a switch on the handle is pressed, a high-voltage current is transmitted to the two electrodes mounted in the end of the weapon, and by extension to anyone unfortunate enough to be in contact with them.  The integral flashlight is turned on, continually draining power and lighting the surrounding area.",
+    "power_draw": 15000,
     "revert_to": "shocktonfa_off",
     "use_action": "SHOCKTONFA_ON",
-    "flags": [ "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "BELT_CLIP" ],
-    "magazine_well": "500 ml"
+    "flags": [ "LIGHT_450", "CHARGEDIM", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "BELT_CLIP" ],
+    "magazine_well": 2
   },
   {
     "type": "GENERIC",

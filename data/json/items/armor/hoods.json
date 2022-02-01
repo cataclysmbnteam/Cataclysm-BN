@@ -24,6 +24,7 @@
   {
     "id": "chainmail_hood",
     "type": "ARMOR",
+    "category": "armor",
     "name": { "str": "chainmail coif" },
     "description": "A customized chainmail hood.  Can be worn comfortably under helmets.",
     "weight": "2006 g",
@@ -44,6 +45,7 @@
   {
     "id": "hood_fsurvivor",
     "type": "ARMOR",
+    "category": "armor",
     "name": { "str": "survivor firehood" },
     "description": "A customized armored Nomex and Kevlar hood, very strong and durable.",
     "weight": "1220 g",
@@ -67,6 +69,7 @@
   {
     "id": "hood_lsurvivor",
     "type": "ARMOR",
+    "category": "armor",
     "name": { "str": "light survivor hood" },
     "description": "A customized armored cloth and Kevlar hood, very light and durable.",
     "weight": "628 g",
@@ -110,6 +113,7 @@
   {
     "id": "hood_survivor",
     "type": "ARMOR",
+    "category": "armor",
     "name": { "str": "survivor hood" },
     "description": "A customized, heavily armored leather and Kevlar hood, designed to provide comfort and protection from harm.",
     "weight": "820 g",
@@ -134,6 +138,7 @@
   {
     "id": "hood_wsurvivor",
     "type": "ARMOR",
+    "category": "armor",
     "name": { "str": "winter survivor hood" },
     "description": "A customized armored fur and Kevlar hood, very warm and durable.",
     "weight": "870 g",
@@ -157,6 +162,7 @@
   {
     "id": "hood_xlsurvivor",
     "type": "ARMOR",
+    "category": "armor",
     "name": { "str": "XL survivor hood" },
     "description": "A massive customized, heavily armored leather and Kevlar hood, designed to provide comfort and protection from harm.",
     "weight": "1640 g",

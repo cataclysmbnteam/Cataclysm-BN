@@ -101,8 +101,18 @@
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
       { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
-      { "drop": "bio_power_storage_mkII", "type": "bionic", "flags": [ "NO_STERILE", "NO_PACKED" ] },
-      { "drop": "bionics_op", "type": "bionic_group", "flags": [ "NO_STERILE", "NO_PACKED" ] }
+      {
+        "drop": "bio_power_storage_mkII",
+        "type": "bionic",
+        "flags": [ "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      },
+      {
+        "drop": "bionics_op",
+        "type": "bionic_group",
+        "flags": [ "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      }
     ]
   },
   {
@@ -122,8 +132,18 @@
       { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
       { "drop": "feather", "type": "skin", "mass_ratio": 0.0001 },
-      { "drop": "bio_power_storage_mkII", "type": "bionic", "flags": [ "NO_STERILE", "NO_PACKED" ] },
-      { "drop": "bionics_op", "type": "bionic_group", "flags": [ "NO_STERILE", "NO_PACKED" ] }
+      {
+        "drop": "bio_power_storage_mkII",
+        "type": "bionic",
+        "flags": [ "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      },
+      {
+        "drop": "bionics_op",
+        "type": "bionic_group",
+        "flags": [ "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      }
     ]
   },
   {
@@ -143,8 +163,18 @@
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
       { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
-      { "drop": "bio_power_storage_mkII", "type": "bionic", "flags": [ "NO_STERILE", "NO_PACKED" ] },
-      { "drop": "bionics_op", "type": "bionic_group", "flags": [ "NO_STERILE", "NO_PACKED" ] }
+      {
+        "drop": "bio_power_storage_mkII",
+        "type": "bionic",
+        "flags": [ "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      },
+      {
+        "drop": "bionics_op",
+        "type": "bionic_group",
+        "flags": [ "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      }
     ]
   },
   {
@@ -164,8 +194,18 @@
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
       { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
-      { "drop": "bio_power_storage_mkII", "type": "bionic", "flags": [ "NO_STERILE", "NO_PACKED" ] },
-      { "drop": "bionics_op", "type": "bionic_group", "flags": [ "NO_STERILE", "NO_PACKED" ] },
+      {
+        "drop": "bio_power_storage_mkII",
+        "type": "bionic",
+        "flags": [ "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      },
+      {
+        "drop": "bionics_op",
+        "type": "bionic_group",
+        "flags": [ "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      },
       { "drop": "feather", "type": "skin", "mass_ratio": 0.0001 }
     ]
   },
@@ -210,8 +250,18 @@
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "pheromone", "type": "bionic", "max": 1 },
-      { "drop": "bio_power_storage_mkII", "type": "bionic", "flags": [ "NO_STERILE", "NO_PACKED" ] },
-      { "drop": "bionics_op", "type": "bionic_group", "flags": [ "NO_STERILE", "NO_PACKED" ] }
+      {
+        "drop": "bio_power_storage_mkII",
+        "type": "bionic",
+        "flags": [ "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      },
+      {
+        "drop": "bionics_op",
+        "type": "bionic_group",
+        "flags": [ "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      }
     ]
   },
   {
@@ -226,8 +276,18 @@
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "pheromone", "type": "bionic", "max": 1 },
-      { "drop": "bio_power_storage_mkII", "type": "bionic", "flags": [ "NO_STERILE", "NO_PACKED" ] },
-      { "drop": "bionics_op", "type": "bionic_group", "flags": [ "NO_STERILE", "NO_PACKED" ] },
+      {
+        "drop": "bio_power_storage_mkII",
+        "type": "bionic",
+        "flags": [ "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      },
+      {
+        "drop": "bionics_op",
+        "type": "bionic_group",
+        "flags": [ "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      },
       { "drop": "feather", "type": "skin", "mass_ratio": 0.0001 }
     ]
   }

@@ -54,7 +54,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
 
     // check if all tiles within radius are loaded within current submap and passable
     const auto suitable = []( const tripoint & pos, const int radius ) {
-        std::vector<tripoint> tiles = closest_points_first( pos, radius );
+        std::vector<tripoint> tiles = closest_tripoints_first( pos, radius );
         return std::all_of( tiles.begin(), tiles.end(), []( const tripoint & e ) {
             if( !g->m.inbounds( e ) ) {
                 return false;
@@ -72,7 +72,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     // move player randomly until we find a suitable position
     while( !suitable( p.pos(), 1 ) ) {
         CHECK( !p.in_vehicle );
-        p.setpos( random_entry( closest_points_first( p.pos(), 1 ) ) );
+        p.setpos( random_entry( closest_tripoints_first( p.pos(), 1 ) ) );
     }
 
     item temp_liquid( liquid_id );
@@ -292,7 +292,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     }
 
     GIVEN( "A player surrounded by several bottles of water" ) {
-        std::vector<tripoint> tiles = closest_points_first( p.pos(), 1 );
+        std::vector<tripoint> tiles = closest_tripoints_first( p.pos(), 1 );
         tiles.erase( tiles.begin() ); // player tile
 
         int our = 0; // bottles placed on player tile
@@ -409,10 +409,10 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     }
 
     GIVEN( "An adjacent vehicle contains several bottles of water" ) {
-        std::vector<tripoint> tiles = closest_points_first( p.pos(), 1 );
+        std::vector<tripoint> tiles = closest_tripoints_first( p.pos(), 1 );
         tiles.erase( tiles.begin() ); // player tile
         tripoint veh = random_entry( tiles );
-        REQUIRE( g->m.add_vehicle( vproto_id( "shopping_cart" ), veh, 0_degrees, 0, 0 ) );
+        REQUIRE( g->m.add_vehicle( vproto_id( "shopping_cart" ), veh, 0, 0, 0 ) );
 
         REQUIRE( std::count_if( tiles.begin(), tiles.end(), []( const tripoint & e ) {
             return static_cast<bool>( g->m.veh_at( e ) );

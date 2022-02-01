@@ -23,7 +23,7 @@ TEST_CASE( "creature_in_field", "[monster],[field]" )
             }
         }
         WHEN( "A monster in a vehicle stands in it" ) {
-            g->m.add_vehicle( vproto_id( "handjack" ), target_location, 0_degrees );
+            g->m.add_vehicle( vproto_id( "handjack" ), target_location, 0 );
             monster &test_monster = spawn_test_monster( "mon_zombie", target_location );
             REQUIRE( test_monster.get_hp() == test_monster.get_hp_max() );
             THEN( "the monster doesn't take damage" ) {

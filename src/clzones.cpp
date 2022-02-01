@@ -613,8 +613,7 @@ void zone_manager::cache_data()
         auto &cache = area_cache[type_hash];
 
         // Draw marked area
-        for( const tripoint &p : tripoint_range<tripoint>( elem.get_start_point(),
-                elem.get_end_point() ) ) {
+        for( const tripoint &p : tripoint_range( elem.get_start_point(), elem.get_end_point() ) ) {
             cache.insert( p );
         }
     }
@@ -635,8 +634,7 @@ void zone_manager::cache_vzones()
         // TODO: looks very similar to the above cache_data - maybe merge it?
 
         // Draw marked area
-        for( const tripoint &p : tripoint_range<tripoint>( elem->get_start_point(),
-                elem->get_end_point() ) ) {
+        for( const tripoint &p : tripoint_range( elem->get_start_point(), elem->get_end_point() ) ) {
             cache.insert( p );
         }
     }

@@ -20,7 +20,7 @@
     "dispersion": 150,
     "durability": 8,
     "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "barrel_length": "250 ml",
     "built_in_mods": [ "folding_stock" ],
     "magazines": [
@@ -168,7 +168,7 @@
     "dispersion": 180,
     "durability": 8,
     "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "magazines": [
       [
         "223",
@@ -210,7 +210,7 @@
     "dispersion": 150,
     "durability": 8,
     "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "magazines": [ [ "223", [ "g36mag_30rd", "g36mag_100rd" ] ] ]
   },
   {
@@ -225,7 +225,6 @@
     "price": 750000,
     "price_postapoc": 8000,
     "to_hit": -1,
-    "ascii_picture": "m249_saw",
     "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
@@ -278,10 +277,9 @@
     "copy-from": "h&k416a5",
     "type": "GUN",
     "name": { "str": "M27 IAR" },
-    "ascii_picture": "m27_iar",
     "description": "A H&K416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
     "weight": "3710 g",
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "magazines": [
       [
         "223",
@@ -316,7 +314,6 @@
     "price": 240000,
     "price_postapoc": 5000,
     "to_hit": -1,
-    "ascii_picture": "m4a1",
     "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
@@ -326,7 +323,7 @@
     "dispersion": 180,
     "durability": 6,
     "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "magazines": [
       [
         "223",
@@ -368,7 +365,7 @@
     "dispersion": 150,
     "durability": 7,
     "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "BURST", "burst", 3 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ] ],
     "magazines": [
       [
         "223",
@@ -396,7 +393,7 @@
     "type": "GUN",
     "name": { "str": "M16A4" },
     "description": "If you see it - it is bug!",
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "2 rd.", 2 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "2 rd.", 2 ] ],
     "clip_size": 300,
     "magazines": [  ]
   },
@@ -475,7 +472,6 @@
     "price": 92100,
     "price_postapoc": 3750,
     "to_hit": -1,
-    "ascii_picture": "mini-14",
     "bashing": 12,
     "material": [ "steel", "wood" ],
     "symbol": "(",
@@ -515,7 +511,6 @@
     "price_postapoc": 6000,
     "to_hit": -1,
     "bashing": 12,
-    "ascii_picture": "scar-L",
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -524,7 +519,7 @@
     "dispersion": 150,
     "durability": 8,
     "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "magazines": [
       [
         "223",
@@ -564,7 +559,7 @@
     "dispersion": 180,
     "durability": 9,
     "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "BURST", "burst", 3 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ],
     "built_in_mods": [ "folding_stock" ],
     "magazines": [
       [
@@ -607,7 +602,7 @@
     "dispersion": 140,
     "durability": 8,
     "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "built_in_mods": [ "grip" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],

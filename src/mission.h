@@ -83,13 +83,13 @@ struct enum_traits<mission_goal> {
 
 struct mission_place {
     // Return true if the place (global overmap terrain coordinate) is valid for starting a mission
-    static bool never( const tripoint_abs_omt & ) {
+    static bool never( const tripoint & ) {
         return false;
     }
-    static bool always( const tripoint_abs_omt & ) {
+    static bool always( const tripoint & ) {
         return true;
     }
-    static bool near_town( const tripoint_abs_omt & );
+    static bool near_town( const tripoint & );
 };
 
 /* mission_start functions are first run when a mission is accepted; this
@@ -143,7 +143,7 @@ struct mission_target_params {
     mission *mission_pointer = nullptr;
 
     bool origin_u = true;
-    cata::optional<tripoint_rel_omt> offset;
+    cata::optional<tripoint> offset;
     cata::optional<std::string> replaceable_overmap_terrain;
     cata::optional<overmap_special_id> overmap_special;
     cata::optional<int> reveal_radius;
@@ -160,25 +160,21 @@ struct mission_target_params {
 
 namespace mission_util
 {
-tripoint_abs_omt random_house_in_closest_city();
-tripoint_abs_omt target_closest_lab_entrance( const tripoint_abs_omt &origin, int reveal_rad,
-        mission *miss );
-bool reveal_road( const tripoint_abs_omt &source, const tripoint_abs_omt &dest,
-                  overmapbuffer &omb );
-tripoint_abs_omt reveal_om_ter( const std::string &omter, int reveal_rad, bool must_see,
-                                int target_z = 0 );
-tripoint_abs_omt target_om_ter( const std::string &omter, int reveal_rad, mission *miss,
-                                bool must_see, int target_z = 0 );
-tripoint_abs_omt target_om_ter_random(
-    const std::string &omter, int reveal_rad, mission *miss, bool must_see, int range,
-    tripoint_abs_omt loc = overmap::invalid_tripoint );
+tripoint random_house_in_closest_city();
+tripoint target_closest_lab_entrance( const tripoint &origin, int reveal_rad, mission *miss );
+bool reveal_road( const tripoint &source, const tripoint &dest, overmapbuffer &omb );
+tripoint reveal_om_ter( const std::string &omter, int reveal_rad, bool must_see, int target_z = 0 );
+tripoint target_om_ter( const std::string &omter, int reveal_rad, mission *miss, bool must_see,
+                        int target_z = 0 );
+tripoint target_om_ter_random( const std::string &omter, int reveal_rad, mission *miss,
+                               bool must_see, int range, tripoint loc = overmap::invalid_tripoint );
 void set_reveal( const std::string &terrain,
                  std::vector<std::function<void( mission *miss )>> &funcs );
 void set_reveal_any( const JsonArray &ja,
                      std::vector<std::function<void( mission *miss )>> &funcs );
 mission_target_params parse_mission_om_target( const JsonObject &jo );
-cata::optional<tripoint_abs_omt> assign_mission_target( const mission_target_params &params );
-tripoint_abs_omt get_om_terrain_pos( const mission_target_params &params );
+cata::optional<tripoint> assign_mission_target( const mission_target_params &params );
+tripoint get_om_terrain_pos( const mission_target_params &params );
 void set_assign_om_target( const JsonObject &jo,
                            std::vector<std::function<void( mission *miss )>> &funcs );
 bool set_update_mapgen( const JsonObject &jo,
@@ -238,7 +234,7 @@ struct mission_type {
         string_id<oter_type_t> target_id;
         mission_type_id follow_up = mission_type_id( "MISSION_NULL" );
 
-        std::function<bool( const tripoint_abs_omt & )> place = mission_place::always;
+        std::function<bool( const tripoint & )> place = mission_place::always;
         std::function<void( mission * )> start = mission_start::standard;
         std::function<void( mission * )> end = mission_end::standard;
         std::function<void( mission * )> fail = mission_fail::standard;
@@ -265,7 +261,7 @@ struct mission_type {
          * around tripoint p, see @ref mission_start.
          * Returns @ref MISSION_NULL if no suitable type could be found.
          */
-        static mission_type_id get_random_id( mission_origin origin, const tripoint_abs_omt &p );
+        static mission_type_id get_random_id( mission_origin origin, const tripoint &p );
         /**
          * Get all mission types at once.
          */
@@ -314,7 +310,7 @@ class mission
         int uid = 0;
         // Marked on the player's map. (INT_MIN, INT_MIN) for none,
         // global overmap terrain coordinates.
-        tripoint_abs_omt target;
+        tripoint target;
         // Item that needs to be found (or whatever)
         itype_id item_id;
         // The number of above items needed
@@ -360,7 +356,7 @@ class mission
         time_point get_deadline() const;
         std::string get_description() const;
         bool has_target() const;
-        const tripoint_abs_omt &get_target() const;
+        const tripoint &get_target() const;
         const mission_type &get_type() const;
         bool has_follow_up() const;
         mission_type_id get_follow_up() const;
@@ -385,7 +381,7 @@ class mission
         /**
          * Simple setters, no checking if the values is performed. */
         /*@{*/
-        void set_target( const tripoint_abs_omt &p );
+        void set_target( const tripoint &p );
         void set_target_npc_id( const character_id &npc_id );
         /*@}*/
 
@@ -417,7 +413,7 @@ class mission
          * Returns the new mission.
          */
         static mission *reserve_new( const mission_type_id &type, const character_id &npc_id );
-        static mission *reserve_random( mission_origin origin, const tripoint_abs_omt &p,
+        static mission *reserve_random( mission_origin origin, const tripoint &p,
                                         const character_id &npc_id );
         /**
          * Returns the mission with the matching id (@ref uid). Returns NULL if no mission with that

@@ -30,7 +30,12 @@
     "subcategory": "CSC_ANIMALS_EQUINE ARMOR",
     "time": "364 m",
     "using": [ [ "chainmail_standard", 7 ] ],
-    "components": [ [ [ "link_sheet", 35 ] ], [ [ "chain_link", 917 ] ], [ [ "wire", 7 ] ], [ [ "fur", 42 ], [ "leather", 42 ] ] ]
+    "components": [
+      [ [ "link_sheet", 35 ] ],
+      [ [ "chain_link", 917 ] ],
+      [ [ "wire", 7 ] ],
+      [ [ "fur", 42 ], [ "tanned_pelt", 7 ], [ "leather", 42 ], [ "tanned_hide", 7 ] ]
+    ]
   },
   {
     "result": "kevlar_armor_horse",
@@ -42,7 +47,7 @@
     "time": "210 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 190 ] ],
-    "components": [ [ [ "kevlar_plate", 56 ] ], [ [ "rag", 42 ] ], [ [ "leather", 24 ] ] ]
+    "components": [ [ [ "kevlar_plate", 56 ] ], [ [ "rag", 42 ] ], [ [ "leather", 24 ], [ "tanned_hide", 4 ] ] ]
   },
   {
     "result": "leather_armor_horse",
@@ -77,7 +82,7 @@
         [ "pine_bough", 60 ]
       ],
       [ [ "salt", 150 ] ],
-      [ [ "leather", 105 ] ],
+      [ [ "leather", 105 ], [ "tanned_hide", 17 ] ],
       [ [ "rag", 18 ] ]
     ]
   },
@@ -130,7 +135,7 @@
       [ [ "wax", 6 ], [ "any_tallow", 24, "LIST" ], [ "vinegar", 30 ], [ "pine_bough", 60 ] ],
       [ [ "salt", 150 ] ],
       [ [ "bone", 39 ], [ "bone_human", 39 ], [ "bone_tainted", 75 ] ],
-      [ [ "leather", 105 ] ]
+      [ [ "leather", 105 ], [ "tanned_hide", 17 ] ]
     ]
   },
   {

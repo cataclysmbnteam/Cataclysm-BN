@@ -250,7 +250,7 @@
         { "item": "hose", "count": 1 },
         { "item": "cu_pipe", "count": [ 1, 4 ] },
         { "item": "scrap_copper", "count": [ 0, 2 ] },
-        { "item": "glass_shard", "count": [ 2, 4 ] },
+        { "item": "glass_shard", "count": [ 25, 50 ] },
         { "item": "motor_tiny", "prob": 25 }
       ]
     }
@@ -427,7 +427,7 @@
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
       "items": [
-        { "item": "leather", "count": [ 6, 12 ] },
+        { "item": "tanned_hide", "count": [ 1, 2 ] },
         { "item": "2x4", "count": [ 2, 4 ] },
         { "item": "scrap", "count": [ 2, 6 ] },
         { "item": "wire", "count": [ 1, 4 ] }
@@ -643,44 +643,6 @@
   },
   {
     "type": "furniture",
-    "id": "f_solar_unit_v2",
-    "name": "mounted upgraded solar panel",
-    "description": "A mounted upgraded solar panel connected to building's electric grid.",
-    "symbol": "#",
-    "looks_like": "f_solar_unit",
-    "color": "yellow",
-    "move_cost_mod": 2,
-    "required_str": -1,
-    "active": [ "solar", { "power": 100 } ],
-    "flags": [ "TRANSPARENT" ],
-    "deconstruct": {
-      "items": [
-        { "item": "scrap", "count": 6 },
-        { "item": "plastic_chunk", "count": 2 },
-        { "item": "steel_chunk", "count": 3 },
-        { "item": "pipe", "count": 4 },
-        { "item": "solar_panel_v2", "count": 1 }
-      ]
-    },
-    "bash": {
-      "str_min": 10,
-      "str_max": 20,
-      "sound": "whack!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "solar_cell", "count": [ 1, 8 ] },
-        { "item": "scrap", "count": [ 3, 6 ] },
-        { "item": "amplifier", "prob": 50 },
-        { "item": "cable", "charges": [ 10, 15 ] },
-        { "item": "power_supply", "prob": 50 },
-        { "item": "scrap", "count": [ 4, 6 ] },
-        { "item": "plastic_chunk", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": 3 }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
     "id": "f_battery",
     "looks_like": "f_locker",
     "name": "mounted battery",
@@ -718,80 +680,6 @@
   },
   {
     "type": "furniture",
-    "id": "f_battery_large",
-    "looks_like": "f_locker",
-    "name": "mounted storage battery",
-    "description": "A storage battery mount salvaged from a vehicle, and connected to building's electric grid.",
-    "symbol": ":",
-    "color": "blue_white",
-    "move_cost_mod": -1,
-    "coverage": 90,
-    "required_str": -1,
-    "active": [ "battery", { "max_stored": 40000 } ],
-    "examine_action": "check_power",
-    "deconstruct": {
-      "items": [
-        { "item": "sheet_metal_small", "count": [ 4, 6 ] },
-        { "item": "plastic_chunk", "count": 2 },
-        { "item": "pipe", "count": 4 },
-        { "item": "cable", "charges": [ 5, 10 ] },
-        { "item": "storage_battery", "count": 1 }
-      ]
-    },
-    "bash": {
-      "str_min": 16,
-      "str_max": 40,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap", "count": [ 4, 8 ] },
-        { "item": "plastic_chunk", "count": [ 1, 2 ] },
-        { "item": "sheet_metal_small", "count": [ 1, 4 ] },
-        { "item": "pipe", "count": 1 },
-        { "item": "cable", "charges": [ 2, 8 ] },
-        { "item": "small_storage_battery", "count": [ 30, 60 ] }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_battery_huge",
-    "looks_like": "f_locker",
-    "name": "mounted large storage battery",
-    "description": "A huge storage battery mount salvaged from a vehicle, and connected to building's electric grid.",
-    "symbol": ":",
-    "color": "blue_white",
-    "move_cost_mod": -1,
-    "coverage": 90,
-    "required_str": -1,
-    "active": [ "battery", { "max_stored": 80000 } ],
-    "examine_action": "check_power",
-    "deconstruct": {
-      "items": [
-        { "item": "sheet_metal_small", "count": [ 4, 6 ] },
-        { "item": "plastic_chunk", "count": 2 },
-        { "item": "pipe", "count": 4 },
-        { "item": "cable", "charges": [ 5, 10 ] },
-        { "item": "large_storage_battery", "count": 1 }
-      ]
-    },
-    "bash": {
-      "str_min": 16,
-      "str_max": 40,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap", "count": [ 4, 8 ] },
-        { "item": "plastic_chunk", "count": [ 1, 2 ] },
-        { "item": "sheet_metal_small", "count": [ 1, 4 ] },
-        { "item": "pipe", "count": 1 },
-        { "item": "cable", "charges": [ 2, 8 ] },
-        { "item": "small_storage_battery", "count": [ 50, 100 ] }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
     "id": "f_charger",
     "looks_like": "f_utility_shelf",
     "name": "battery charger",
@@ -804,9 +692,11 @@
     "active": [ "charger", { "power": 100 } ],
     "deconstruct": {
       "items": [
-        { "item": "cable", "charges": [ 2, 5 ] },
-        { "item": "battery_charger", "count": 1 },
-        { "item": "power_supply", "count": 1 }
+        { "item": "sheet_metal_small", "count": [ 4, 6 ] },
+        { "item": "plastic_chunk", "count": 2 },
+        { "item": "pipe", "count": 4 },
+        { "item": "cable", "charges": [ 5, 10 ] },
+        { "item": "battery_charger", "count": 1 }
       ]
     },
     "bash": {
@@ -873,36 +763,6 @@
         { "item": "scrap", "count": [ 0, 2 ] },
         { "item": "cable", "charges": [ 1, 4 ] },
         { "item": "plastic_chunk", "count": [ 1, 2 ] }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_welderrig",
-    "looks_like": "weldrig",
-    "name": "grid welder rig",
-    "symbol": "#",
-    "description": "A vehicle welding rig connected to a electrical grid.",
-    "color": "red",
-    "move_cost_mod": -1,
-    "coverage": 10,
-    "required_str": -1,
-    "crafting_pseudo_item": "fake_gridwelder",
-    "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": {
-      "items": [ { "item": "weldrig", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
-    },
-    "bash": {
-      "str_min": 4,
-      "str_max": 30,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "power_supply", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 0, 2 ] },
-        { "item": "cable", "charges": [ 1, 4 ] },
-        { "item": "plastic_chunk", "count": [ 1, 2 ] },
-        { "item": "frame", "count": [ 0, 1 ] }
       ]
     }
   },
@@ -1127,30 +987,6 @@
         { "item": "scrap_copper", "count": [ 1, 2 ] },
         { "item": "motor_tiny", "prob": 25 }
       ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_gridsolderingiron",
-    "looks_like": "soldering_iron",
-    "name": "grid soldering iron",
-    "symbol": "=",
-    "description": "A soldering iron connected to a electrical grid.",
-    "color": "light_gray",
-    "move_cost_mod": 1,
-    "coverage": 10,
-    "required_str": -1,
-    "crafting_pseudo_item": "fake_gridsolderingiron",
-    "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": {
-      "items": [ { "item": "soldering_iron", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
-    },
-    "bash": {
-      "str_min": 2,
-      "str_max": 10,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [ { "item": "scrap", "count": [ 0, 2 ] }, { "item": "cable", "charges": [ 1, 4 ] } ]
     }
   }
 ]

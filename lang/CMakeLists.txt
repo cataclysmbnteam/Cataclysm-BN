@@ -66,7 +66,6 @@ foreach (LANG ${LANGUAGES})
       add_custom_command (
         TARGET translations_prepare
         PRE_BUILD
-        COMMAND lang/update_pot.sh
         COMMAND msgen ${CMAKE_SOURCE_DIR}/lang/po/cataclysm-bn.pot --output-file=${CMAKE_SOURCE_DIR}/lang/po/en.po
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
       )

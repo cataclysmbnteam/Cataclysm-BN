@@ -6,14 +6,10 @@
 
 #include "enums.h"
 #include "point.h"
-#include "point_traits.h"
 
-template<typename Tripoint>
 class tripoint_range
 {
-        static_assert( Tripoint::dimension == 3, "Requires tripoint type" );
     private:
-        using traits = point_traits<Tripoint>;
         /**
          * Generates points in a rectangle.
          */
@@ -21,50 +17,47 @@ class tripoint_range
         {
                 friend class tripoint_range;
             private:
-                Tripoint p;
+                tripoint p;
                 const tripoint_range &range;
-
             public:
-                using value_type = Tripoint;
+                using value_type = tripoint;
                 using difference_type = std::ptrdiff_t;
-                using pointer = value_type *;
-                using reference = value_type &;
+                using pointer = tripoint *;
+                using reference = tripoint &;
                 using iterator_category = std::forward_iterator_tag;
 
-                point_generator( const Tripoint &_p, const tripoint_range &_range )
+                point_generator( const tripoint &_p, const tripoint_range &_range )
                     : p( _p ), range( _range ) {
                 }
 
                 // Increment x, then if it goes outside range, "wrap around" and increment y
                 // Same for y and z
                 inline point_generator &operator++() {
-                    traits::x( p )++;
-                    if( traits::x( p ) <= traits::x( range.maxp ) ) {
+                    p.x++;
+                    if( p.x <= range.maxp.x ) {
                         return *this;
                     }
 
-                    traits::y( p )++;
-                    traits::x( p ) = traits::x( range.minp );
-                    if( traits::y( p ) <= traits::y( range.maxp ) ) {
+                    p.y++;
+                    p.x = range.minp.x;
+                    if( p.y <= range.maxp.y ) {
                         return *this;
                     }
 
-                    traits::z( p )++;
-                    traits::y( p ) = traits::y( range.minp );
+                    p.z++;
+                    p.y = range.minp.y;
                     return *this;
                 }
 
-                inline const Tripoint &operator*() const {
+                inline const tripoint &operator*() const {
                     return p;
                 }
 
                 inline bool operator!=( const point_generator &other ) const {
                     // Reverse coordinates order, because it will usually only be compared with endpoint
                     // which will always differ in Z, except for the very last comparison
-                    // TODO: In C++17 this range should use a sentinel to
-                    // optimise the comparison.
-                    const Tripoint &pt = other.p;
-                    return traits::z( p ) != traits::z( pt ) || p.xy() != pt.xy();
+                    const tripoint &pt = other.p;
+                    return p.z != pt.z || p.y != pt.y || p.x != pt.x;
                 }
 
                 inline bool operator==( const point_generator &other ) const {
@@ -72,16 +65,20 @@ class tripoint_range
                 }
         };
 
-        Tripoint minp;
-        Tripoint maxp;
+        tripoint minp;
+        tripoint maxp;
     public:
-        using value_type = typename point_generator::value_type;
-        using difference_type = typename point_generator::difference_type;
-        using pointer = typename point_generator::pointer;
-        using reference = typename point_generator::reference;
-        using iterator_category = typename point_generator::iterator_category;
+        using value_type = point_generator::value_type;
+        using difference_type = point_generator::difference_type;
+        using pointer = point_generator::pointer;
+        using reference = point_generator::reference;
+        using iterator_category = point_generator::iterator_category;
 
-        tripoint_range( const Tripoint &_minp, const Tripoint &_maxp ) :
+        tripoint_range( const tripoint &_minp, const tripoint &_maxp ) :
+            minp( _minp ), maxp( _maxp ) {
+        }
+
+        tripoint_range( tripoint &&_minp, tripoint &&_maxp ) :
             minp( _minp ), maxp( _maxp ) {
         }
 
@@ -92,20 +89,20 @@ class tripoint_range
         point_generator end() const {
             // Return the point AFTER the last one
             // That is, point under (in z-levels) the first one, but one z-level below the last one
-            return point_generator( Tripoint( minp.xy(), traits::z( maxp ) + 1 ), *this );
+            return point_generator( tripoint( minp.xy(), maxp.z + 1 ), *this );
         }
 
         size_t size() const {
-            Tripoint range( maxp - minp );
-            return std::max( ++traits::x( range ) * ++traits::y( range ) * ++traits::z( range ), 0 );
+            tripoint range( maxp - minp );
+            return std::max( ++range.x * ++range.y * ++range.z, 0 );
         }
 
         bool empty() const {
             return size() == 0;
         }
 
-        bool is_point_inside( const Tripoint &point ) const {
-            for( const Tripoint &current : *this ) {
+        bool is_point_inside( const tripoint &point ) const {
+            for( const tripoint &current : *this ) {
                 if( current == point ) {
                     return true;
                 }
@@ -113,21 +110,19 @@ class tripoint_range
             return false;
         }
 
-        const Tripoint &min() const {
+        const tripoint &min() const {
             return minp;
         }
-        const Tripoint &max() const {
+        const tripoint &max() const {
             return maxp;
         }
 };
 
-template<typename Tripoint>
-inline tripoint_range<Tripoint> points_in_radius( const Tripoint &center, const int radius,
-        const int radiusz = 0 )
+inline tripoint_range points_in_radius( const tripoint &center, const int radius,
+                                        const int radiusz = 0 )
 {
-    static_assert( Tripoint::dimension == 3, "Requires tripoint type" );
     const tripoint offset( radius, radius, radiusz );
-    return tripoint_range<Tripoint>( center - offset, center + offset );
+    return tripoint_range( center - offset, center + offset );
 }
 
 #endif // CATA_SRC_MAP_ITERATOR_H

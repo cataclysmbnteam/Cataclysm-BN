@@ -52,77 +52,46 @@ struct mvwzstr {
  * uilist_entry: entry line for uilist
  */
 struct uilist_entry {
-    // Return this int
-    int retval = -1;
-    // Darken, and forbid scrolling if hilight_disabled is false
-    bool enabled = true;
-    // If true, will never darken this option, even when disabled
-    bool force_color = false;
-    // Keycode from (int)getch(). Setting to MENU_AUTOASSIGN will automagically pick first free character: 1-9 a-z A-Z
-    int hotkey = MENU_AUTOASSIGN;
-    // Entry text
-    std::string txt;
-    // Optional, possibly longer, description
-    std::string desc;
-    // Second column text
-    std::string ctxt;
-    // Hotkey color
+    int retval;                 // return this int
+    bool enabled;               // darken, and forbid scrolling if hilight_disabled is false
+    bool force_color = false;   // Never darken this option
+    int hotkey;                 // keycode from (int)getch(). -1: automagically pick first free character: 1-9 a-z A-Z
+    std::string txt;            // what it says on the tin
+    std::string desc;           // optional, possibly longer, description
+    std::string ctxt;           // second column text
     nc_color hotkey_color;
-    // Text color
-    nc_color text_color = c_red_red;
+    nc_color text_color;
     mvwzstr extratxt;
     // Use 'hilite_color' when selected instead of uilist's 'hilight_color'
     bool override_hilite_color = false;
     nc_color hilite_color;
 
-    uilist_entry( std::string T ) : txt( T ) {}
-
-    // Verbose constuctors. Try to avoid using these in favor of more readable builder methods.
-    uilist_entry( std::string T, std::string D ) : txt( T ), desc( D ) {}
-    uilist_entry( std::string T, int K ) : hotkey( K ), txt( T ) {}
+    uilist_entry( std::string T ) : retval( -1 ), enabled( true ), hotkey( -1 ), txt( T ) {
+        text_color = c_red_red;
+    }
+    uilist_entry( std::string T, std::string D ) : retval( -1 ), enabled( true ), hotkey( -1 ),
+        txt( T ), desc( D ) {
+        text_color = c_red_red;
+    }
+    uilist_entry( std::string T, int K ) : retval( -1 ), enabled( true ), hotkey( K ), txt( T ) {
+        text_color = c_red_red;
+    }
     uilist_entry( int R, bool E, int K, std::string T ) : retval( R ), enabled( E ), hotkey( K ),
-        txt( T ) {}
+        txt( T ) {
+        text_color = c_red_red;
+    }
     uilist_entry( int R, bool E, int K, std::string T, std::string D ) : retval( R ), enabled( E ),
-        hotkey( K ), txt( T ), desc( D ) {}
+        hotkey( K ), txt( T ), desc( D ) {
+        text_color = c_red_red;
+    }
     uilist_entry( int R, bool E, int K, std::string T, std::string D, std::string C ) : retval( R ),
-        enabled( E ), hotkey( K ), txt( T ), desc( D ), ctxt( C ) {}
+        enabled( E ),
+        hotkey( K ), txt( T ), desc( D ), ctxt( C ) {
+        text_color = c_red_red;
+    }
     uilist_entry( int R, bool E, int K, std::string T, nc_color H, nc_color C ) : retval( R ),
-        enabled( E ), hotkey( K ), txt( T ), hotkey_color( H ), text_color( C ) {}
-
-    uilist_entry &with_retval( int R ) {
-        retval = R;
-        return *this;
-    }
-
-    uilist_entry &with_hotkey( int K ) {
-        hotkey = K;
-        return *this;
-    }
-
-    uilist_entry &with_enabled( bool E ) {
-        enabled = E;
-        return *this;
-    }
-
-    uilist_entry &with_descr( std::string s ) {
-        desc = std::move( s );
-        return *this;
-    }
-
-    uilist_entry &with_ctxt( std::string s ) {
-        ctxt = std::move( s );
-        return *this;
-    }
-
-    uilist_entry &with_hk_color( nc_color c ) {
-        hotkey_color = c;
-        return *this;
-    }
-
-    uilist_entry &with_txt_color( nc_color c ) {
-        text_color = c;
-        return *this;
-    }
+        enabled( E ), hotkey( K ), txt( T ),
+        hotkey_color( H ), text_color( C ) {}
 };
 
 /**

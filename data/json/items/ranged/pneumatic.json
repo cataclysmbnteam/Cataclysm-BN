@@ -90,7 +90,7 @@
     "recoil": 300,
     "clip_size": 20,
     "reload": 600,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 3 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "loudness": 14,
     "valid_mod_locations": [ [ "accessories", 3 ], [ "sling", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "stock", 1 ] ]
   }

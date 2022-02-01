@@ -22,7 +22,6 @@
 #include "point.h"
 #include "shadowcasting.h"
 #include "type_id.h"
-#include "weather.h"
 
 enum class vision_test_flags {
     none = 0,
@@ -58,7 +57,7 @@ static void full_map_test( const std::vector<std::string> &setup,
     g->place_player( tripoint( 60, 60, 0 ) );
     clear_avatar();
     clear_map();
-    get_weather().weather_id = weather_type_id( "clear" );
+    get_weather().weather = WEATHER_CLEAR;
     g->reset_light_level();
 
     if( !!( flags & vision_test_flags::crouching ) ) {

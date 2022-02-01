@@ -20,7 +20,7 @@
     "skill": "rifle",
     "dispersion": 150,
     "durability": 8,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "barrel_length": "250 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -60,7 +60,7 @@
     "dispersion": 150,
     "durability": 7,
     "barrel_length": "250 ml",
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "BURST", "2 rd.", 2 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "2 rd.", 2 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],

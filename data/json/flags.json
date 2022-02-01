@@ -57,12 +57,6 @@
     "conflicts": [ "OUTER", "SKINTIGHT", "WAIST", "PERSONAL", "AURA" ]
   },
   {
-    "id": "BIONIC_INSTALLATION_DATA",
-    "type": "json_flag",
-    "context": [ "GENERIC" ],
-    "info": "This item <info>provides</info> instructions and other required data for several bionics, allowing installation of them with <good>minimal failure chance</good>."
-  },
-  {
     "id": "BIONIC_NPC_USABLE",
     "type": "json_flag",
     "context": [ "BIONIC_ITEM" ],
@@ -845,12 +839,6 @@
     "info": "This gear has certain parts padded with steel to <good>increase protection</good> with moderate <bad>increase to encumbrance</bad>."
   },
   {
-    "id": "alloy_padded",
-    "type": "json_flag",
-    "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "info": "This gear has certain parts padded with superalloy to <good>increase protection</good> with moderate <bad>increase to encumbrance</bad>."
-  },
-  {
     "id": "wooled",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -1538,11 +1526,6 @@
     "context": [  ]
   },
   {
-    "id": "NO_LIFT_REQ",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
     "id": "NO_PACKED",
     "type": "json_flag",
     "context": [  ]
@@ -2013,22 +1996,5 @@
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],
     "info": "This is unsafe to consume, so it won't be consumed when included in auto drink or eat zones."
-  },
-  {
-    "id": "PYROMANIAC_WEAPON",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
-    "id": "BUTCHER_RACK",
-    "type": "json_flag",
-    "context": [ "TOOL" ],
-    "info": "This item <good>can be used as a <info>butchering</info> rack</good>."
-  },
-  {
-    "id": "FLAT_SURFACE",
-    "type": "json_flag",
-    "context": [ "TOOL" ],
-    "info": "This item <good>can be used as a flat surface</good> for <info>butchering</info>."
   }
 ]

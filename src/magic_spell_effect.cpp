@@ -161,7 +161,7 @@ static bool in_spell_aoe( const tripoint &start, const tripoint &end, const int 
     }
     const std::vector<tripoint> trajectory = line_to( start, end );
     for( const tripoint &pt : trajectory ) {
-        if( g->m.impassable( pt ) && !g->m.has_flag( "THIN_OBSTACLE", pt ) ) {
+        if( g->m.impassable( pt ) ) {
             return false;
         }
     }
@@ -187,12 +187,10 @@ std::set<tripoint> spell_effect::spell_effect_cone( const spell &sp, const tripo
     std::set<tripoint> targets;
     // cones go all the way to end (if they don't hit an obstacle)
     const int range = sp.range() + 1;
-    const units::angle initial_angle = coord_to_angle( source, target );
-    const units::angle half_width = units::from_degrees( aoe_radius / 2.0 );
-    const units::angle start_angle = initial_angle - half_width;
-    const units::angle end_angle = initial_angle + half_width;
+    const int initial_angle = coord_to_angle( source, target );
     std::set<tripoint> end_points;
-    for( units::angle angle = start_angle; angle <= end_angle; angle += 1_degrees ) {
+    for( int angle = initial_angle - std::floor( aoe_radius / 2.0 );
+         angle <= initial_angle + std::ceil( aoe_radius / 2.0 ); angle++ ) {
         tripoint potential;
         calc_ray_end( angle, range, source, potential );
         end_points.emplace( potential );
@@ -200,7 +198,7 @@ std::set<tripoint> spell_effect::spell_effect_cone( const spell &sp, const tripo
     for( const tripoint &ep : end_points ) {
         std::vector<tripoint> trajectory = line_to( source, ep );
         for( const tripoint &tp : trajectory ) {
-            if( ignore_walls || g->m.passable( tp ) || g->m.has_flag( "THIN_OBSTACLE", tp ) ) {
+            if( ignore_walls || g->m.passable( tp ) ) {
                 targets.emplace( tp );
             } else {
                 break;
@@ -218,7 +216,7 @@ static bool test_always_true( const tripoint & )
 }
 static bool test_passable( const tripoint &p )
 {
-    return ( g->m.passable( p ) || g->m.has_flag( "THIN_OBSTACLE", p ) );
+    return g->m.passable( p );
 }
 
 std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoint &source,
@@ -388,12 +386,7 @@ static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &ta
         explosion_colors[pt] = sp.damage_type_color();
     }
 
-    if( sp.id()->sprite.length() > 0 ) {
-        explosion_handler::draw_custom_explosion( g->u.pos(), explosion_colors, sp.id()->sprite );
-    } else {
-        explosion_handler::draw_custom_explosion( g->u.pos(), explosion_colors, "explosion" );
-    }
-
+    explosion_handler::draw_custom_explosion( g->u.pos(), explosion_colors );
     return targets;
 }
 
@@ -454,7 +447,7 @@ static void damage_targets( const spell &sp, Creature &caster,
             add_effect_to_target( target, sp );
         }
         if( sp.damage() > 0 ) {
-            cr->deal_projectile_attack( &caster, atk );
+            cr->deal_projectile_attack( &caster, atk, true );
         } else if( sp.damage() < 0 ) {
             sp.heal( target );
             if( g->u.sees( cr->pos() ) ) {
@@ -469,7 +462,7 @@ void spell_effect::projectile_attack( const spell &sp, Creature &caster,
 {
     std::vector<tripoint> trajectory = line_to( caster.pos(), target );
     for( std::vector<tripoint>::iterator iter = trajectory.begin(); iter != trajectory.end(); iter++ ) {
-        if( g->m.impassable( *iter ) && !g->m.has_flag( "THIN_OBSTACLE", *iter ) ) {
+        if( g->m.impassable( *iter ) ) {
             if( iter != trajectory.begin() ) {
                 target_attack( sp, caster, *( iter - 1 ) );
             } else {
@@ -554,7 +547,7 @@ int area_expander::run( const tripoint &center )
         for( size_t i = 0; i < 8; i++ ) {
             tripoint pt = best.position + point( x_offset[ i ], y_offset[ i ] );
 
-            if( g->m.impassable( pt ) && !g->m.has_flag( "THIN_OBSTACLE", pt ) ) {
+            if( g->m.impassable( pt ) ) {
                 continue;
             }
 
@@ -837,12 +830,11 @@ void spell_effect::spawn_summoned_monster( const spell &sp, Creature &caster,
 void spell_effect::spawn_summoned_vehicle( const spell &sp, Creature &caster,
         const tripoint &target )
 {
-    map &here = get_map();
-    if( here.veh_at( target ) ) {
+    if( g->m.veh_at( target ) ) {
         caster.add_msg_if_player( m_bad, _( "There is already a vehicle there." ) );
         return;
     }
-    if( vehicle *veh = here.add_vehicle( sp.summon_vehicle_id(), target, -90_degrees, 100, 0 ) ) {
+    if( vehicle *veh = g->m.add_vehicle( sp.summon_vehicle_id(), target, -90, 100, 0 ) ) {
         veh->magic = true;
         const time_duration summon_time = sp.duration_turns();
         if( !sp.has_flag( spell_flag::PERMANENT ) ) {
@@ -910,13 +902,8 @@ void spell_effect::explosion( const spell &sp, Creature &, const tripoint &targe
 
 void spell_effect::flashbang( const spell &sp, Creature &caster, const tripoint &target )
 {
-    if( sp.id()->sprite.length() > 0 ) {
-        explosion_handler::flashbang( target, caster.is_avatar() &&
-                                      !sp.is_valid_target( valid_target::target_self ), sp.id()->sprite );
-    } else {
-        explosion_handler::flashbang( target, caster.is_avatar() &&
-                                      !sp.is_valid_target( valid_target::target_self ), "explosion" );
-    }
+    explosion_handler::flashbang( target, caster.is_avatar() &&
+                                  !sp.is_valid_target( valid_target::target_self ) );
 }
 
 void spell_effect::mod_moves( const spell &sp, Creature &caster, const tripoint &target )
@@ -935,15 +922,15 @@ void spell_effect::mod_moves( const spell &sp, Creature &caster, const tripoint 
     }
 }
 
-void spell_effect::map_area( const spell &sp, Creature &caster, const tripoint & )
+void spell_effect::map( const spell &sp, Creature &caster, const tripoint & )
 {
     const avatar *you = caster.as_avatar();
     if( !you ) {
         // revealing the map only makes sense for the avatar
         return;
     }
-    const tripoint_abs_omt center = you->global_omt_location();
-    overmap_buffer.reveal( center.xy(), sp.aoe(), center.z() );
+    const tripoint center = you->global_omt_location();
+    overmap_buffer.reveal( center.xy(), sp.aoe(), center.z );
 }
 
 void spell_effect::morale( const spell &sp, Creature &caster, const tripoint &target )

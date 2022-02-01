@@ -227,7 +227,7 @@ static std::map<const Creature *, int> do_blast( const tripoint &p, const float 
         }
     }
 
-    draw_custom_explosion( g->u.pos(), explosion_colors, "explosion" );
+    draw_custom_explosion( g->u.pos(), explosion_colors );
 
     for( const tripoint &pt : closed ) {
         const float force = power * blast_percentage( radius, dist_map.at( pt ) );
@@ -322,7 +322,7 @@ static std::map<const Creature *, int> shrapnel( const tripoint &src, const proj
     // TODO: Calculate range based on max effective range for projectiles.
     // Basically bisect between 0 and map diameter using shrapnel_calc().
     // Need to update shadowcasting to support limiting range without adjusting initial distance.
-    const tripoint_range<tripoint> area = g->m.points_on_zlevel( src.z );
+    const tripoint_range area = g->m.points_on_zlevel( src.z );
 
     g->m.build_obstacle_cache( area.min(), area.max() + tripoint_south_east, obstacle_cache );
 
@@ -484,9 +484,9 @@ void explosion( const tripoint &p, const explosion_data &ex )
     }
 }
 
-void flashbang( const tripoint &p, bool player_immune, const std::string &exp_name )
+void flashbang( const tripoint &p, bool player_immune )
 {
-    draw_explosion( p, 8, c_white, exp_name );
+    draw_explosion( p, 8, c_white );
     int dist = rl_dist( g->u.pos(), p );
     if( dist <= 8 && !player_immune ) {
         if( !g->u.has_bionic( bio_ears ) && !g->u.is_wearing( itype_rm13_armor_on ) ) {
@@ -533,9 +533,9 @@ void flashbang( const tripoint &p, bool player_immune, const std::string &exp_na
 }
 
 void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult,
-                bool ignore_player, const std::string &exp_name )
+                bool ignore_player )
 {
-    draw_explosion( p, radius, c_blue, exp_name );
+    draw_explosion( p, radius, c_blue );
 
     sounds::sound( p, force * force * dam_mult / 2, sounds::sound_t::combat, _( "Crack!" ), false,
                    "misc", "shockwave" );

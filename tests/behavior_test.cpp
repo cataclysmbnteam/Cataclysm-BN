@@ -151,10 +151,9 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
     behavior::character_oracle_t oracle( &test_npc );
     CHECK( npc_needs.tick( &oracle ) == "idle" );
     SECTION( "Freezing" ) {
-        weather_manager &weather = get_weather();
-        weather.temperature = -100;
-        weather.clear_temp_cache();
-        test_npc.update_bodytemp( get_map(), weather );
+        g->weather.temperature = -100;
+        get_weather().clear_temp_cache();
+        test_npc.update_bodytemp( get_map(), g->weather );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
         item &sweater = test_npc.i_add( item( itype_id( "sweater" ) ) );
         CHECK( npc_needs.tick( &oracle ) == "wear_warmer_clothes" );

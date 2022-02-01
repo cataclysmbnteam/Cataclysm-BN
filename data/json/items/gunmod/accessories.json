@@ -14,7 +14,8 @@
     "color": "dark_gray",
     "location": "accessories",
     "mod_targets": [ "bow" ],
-    "dispersion_modifier": -100
+    "dispersion_modifier": -100,
+    "min_skills": [ [ "gun", 1 ] ]
   },
   {
     "id": "bow_stabilizer",
@@ -30,7 +31,8 @@
     "color": "brown",
     "location": "stabilizer",
     "mod_targets": [ "bow" ],
-    "dispersion_modifier": -100
+    "dispersion_modifier": -100,
+    "min_skills": [ [ "archery", 1 ] ]
   },
   {
     "id": "bow_stabilizer_set",
@@ -47,6 +49,7 @@
     "location": "stabilizer",
     "mod_targets": [ "bow" ],
     "dispersion_modifier": -150,
+    "min_skills": [ [ "archery", 2 ] ],
     "flags": [ "NEEDS_UNFOLD" ]
   },
   {
@@ -64,7 +67,8 @@
     "location": "dampening",
     "mod_targets": [ "bow" ],
     "dispersion_modifier": -50,
-    "loudness_modifier": -8
+    "loudness_modifier": -8,
+    "min_skills": [ [ "weapon", 2 ] ]
   },
   {
     "id": "belt_clip",

@@ -1380,7 +1380,6 @@ class item : public visitable<item>
          */
         /*@{*/
         bool has_flag( const std::string &flag ) const;
-        bool has_flag( const flag_str_id &flag ) const;
 
         template<typename Container, typename T = std::decay_t<decltype( *std::declval<const Container &>().begin() )>>
         bool has_any_flag( const Container &flags ) const {
@@ -1446,7 +1445,7 @@ class item : public visitable<item>
          * @param width If greater 0, the light is emitted in an arc, this is the angle of it.
          * @param direction The direction of the light arc. In degrees.
          */
-        bool getlight( float &luminance, units::angle &width, units::angle &direction ) const;
+        bool getlight( float &luminance, int &width, int &direction ) const;
         /**
          * How much light (see lightmap.cpp) the item emits (it's assumed to be circular).
          */

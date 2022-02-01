@@ -18,6 +18,7 @@
     "install_time": "1 m",
     "ammo_modifier": [ "300blk" ],
     "magazine_adaptor": [ [ "300blk", [ "stanag30", "stanag50", "survivor223mag" ] ] ],
+    "min_skills": [ [ "weapon", 1 ] ],
     "flags": [ "IRREMOVABLE" ]
   }
 ]

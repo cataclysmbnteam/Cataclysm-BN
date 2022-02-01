@@ -20,7 +20,7 @@
     "dispersion": 280,
     "durability": 7,
     "min_cycle_recoil": 540,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 6 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 6 ] ],
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "barrel", 1 ],
@@ -36,7 +36,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": "500 ml",
+    "magazine_well": 2,
     "magazines": [ [ "45", [ "tdi_mag", "glock_21mag", "glock_21mag26" ] ] ]
   },
   {
@@ -51,7 +51,6 @@
     "price": 290000,
     "price_postapoc": 3000,
     "to_hit": -2,
-    "ascii_picture": "hk_ump",
     "bashing": 11,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
@@ -62,7 +61,7 @@
     "dispersion": 240,
     "durability": 8,
     "min_cycle_recoil": 540,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "barrel", 1 ],
@@ -93,7 +92,6 @@
     "price": 78400,
     "price_postapoc": 2500,
     "to_hit": -2,
-    "ascii_picture": "m1911",
     "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
@@ -103,7 +101,7 @@
     "durability": 7,
     "min_cycle_recoil": 540,
     "blackpowder_tolerance": 48,
-    "magazine_well": "250 ml",
+    "magazine_well": 1,
     "magazines": [ [ "45", [ "m1911mag", "m1911bigmag" ] ] ]
   },
   {
@@ -141,7 +139,7 @@
     "dispersion": 520,
     "durability": 7,
     "min_cycle_recoil": 540,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 5 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
     "built_in_mods": [ "wire_stock" ],
     "valid_mod_locations": [
       [ "accessories", 3 ],
@@ -158,7 +156,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": "250 ml",
+    "magazine_well": 1,
     "magazines": [ [ "45", [ "mac10mag", "smg_45_mag" ] ] ]
   },
   {
@@ -173,7 +171,6 @@
     "price": 10000,
     "price_postapoc": 500,
     "to_hit": -1,
-    "ascii_picture": "ps_pipe_gun",
     "bashing": 10,
     "material": [ "steel", "wood" ],
     "symbol": "(",
@@ -288,7 +285,7 @@
     "dispersion": 360,
     "durability": 7,
     "min_cycle_recoil": 540,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "barrel_length": "500 ml",
     "valid_mod_locations": [
       [ "accessories", 3 ],
@@ -348,7 +345,7 @@
     "ammo": "45",
     "dispersion": 480,
     "durability": 9,
-    "magazine_well": "250 ml",
+    "magazine_well": 1,
     "magazines": [ [ "45", [ "ppq45mag" ] ] ]
   },
   {
@@ -369,7 +366,7 @@
     "ammo": "45",
     "dispersion": 480,
     "durability": 7,
-    "magazine_well": "250 ml",
+    "magazine_well": 1,
     "magazines": [ [ "45", [ "hptjhpmag" ] ] ]
   },
   {
@@ -379,11 +376,11 @@
     "type": "GUN",
     "name": { "str": "Glock 21" },
     "description": "A full-sized version of the highly successful Glock.  This model is chambered in .45 ACP.",
+    "ascii_picture": "glock_20",
     "weight": "835 g",
     "volume": "490 ml",
     "price": 60200,
     "price_postapoc": 2600,
-    "ascii_picture": "glock_20",
     "to_hit": -2,
     "bashing": 8,
     "material": [ "plastic", "steel" ],
@@ -394,7 +391,7 @@
     "durability": 8,
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 450,
-    "magazine_well": "250 ml",
+    "magazine_well": 1,
     "magazines": [ [ "45", [ "glock_21mag", "glock_21mag26" ] ] ]
   }
 ]

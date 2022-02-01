@@ -72,7 +72,7 @@
     "symbol": "&",
     "color": "light_cyan",
     "copy-from": "f_autodoc",
-    "flags": [ "TRANSPARENT", "AUTODOC", "CONTAINER" ],
+    "flags": [ "TRANSPARENT", "AUTODOC" ],
     "description": "A multitude of surgical arms seamlessly meld with the chromed ceiling.  They expectantly unravel with your approach, animated by an AI whose performances blur the lines between medicine and art.",
     "examine_action": "autodoc",
     "//": "Easy installation",
@@ -115,7 +115,7 @@
     "color": "light_red",
     "copy-from": "f_autodoc",
     "description": "A commercial surgical robot often found within licensed clinics and corporate hospitals.  Its various AI routines assist during surgery, but they are no replacement for the actual operator's skill.",
-    "flags": [ "TRANSPARENT", "AUTODOC", "CONTAINER" ],
+    "flags": [ "TRANSPARENT", "AUTODOC" ],
     "examine_action": "autodoc",
     "surgery_skill_multiplier": 1.6,
     "deconstruct": {
@@ -155,7 +155,7 @@
     "color": "light_red",
     "copy-from": "f_autodoc",
     "description": "The kind of worn-down and dubiously safe surgical device that is perfectly at home in a back alley clinic.  It would take great skill to safely operate this.",
-    "flags": [ "TRANSPARENT", "AUTODOC", "CONTAINER" ],
+    "flags": [ "TRANSPARENT", "AUTODOC" ],
     "examine_action": "autodoc",
     "surgery_skill_multiplier": 0.6,
     "deconstruct": {

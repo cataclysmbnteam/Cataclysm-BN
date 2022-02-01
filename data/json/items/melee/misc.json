@@ -77,6 +77,6 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": "500 ml"
+    "magazine_well": 2
   }
 ]

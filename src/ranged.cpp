@@ -12,7 +12,6 @@
 #include <utility>
 #include <vector>
 
-#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "ballistics.h"
 #include "bodypart.h"
@@ -64,8 +63,6 @@
 #include "type_id.h"
 #include "ui_manager.h"
 #include "units.h"
-#include "units_angle.h"
-#include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -113,7 +110,6 @@ static const std::string flag_MOUNTED_GUN( "MOUNTED_GUN" );
 static const std::string flag_NEVER_JAMS( "NEVER_JAMS" );
 static const std::string flag_NON_FOULING( "NON-FOULING" );
 static const std::string flag_PRIMITIVE_RANGED_WEAPON( "PRIMITIVE_RANGED_WEAPON" );
-static const std::string flag_PYROMANIAC_WEAPON( "PYROMANIAC_WEAPON" );
 static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
 static const std::string flag_RESTRICT_HANDS( "RESTRICT_HANDS" );
 static const std::string flag_UNDERWATER_GUN( "UNDERWATER_GUN" );
@@ -145,8 +141,7 @@ class target_ui
             Turrets,
             TurretManual,
             Reach,
-            Spell,
-            Shape
+            Spell
         };
 
         // Avatar
@@ -171,8 +166,6 @@ class target_ui
         bool no_mana = false;
         // Relevant activity
         aim_activity_actor *activity = nullptr;
-        // Generator of AoE shapes
-        cata::optional<shape_factory> shape_gen;
 
         // Initialize UI and run the event loop
         target_handler::trajectory run();
@@ -248,9 +241,6 @@ class target_ui
         // For AOE spells, list of tiles affected by the spell
         // relevant for TargetMode::Spell
         std::set<tripoint> spell_aoe;
-
-        // For shaped attacks, we want both points and coverage
-        std::map<tripoint, double> shape_coverage;
 
         // Represents a turret and a straight line from that turret to target
         struct turret_with_lof {
@@ -472,20 +462,6 @@ target_handler::trajectory target_handler::mode_spell( avatar &you, spell &casti
     ui.range = casting.range();
     ui.no_fail = no_fail;
     ui.no_mana = no_mana;
-
-    return ui.run();
-}
-
-target_handler::trajectory target_handler::mode_shaped( avatar &you, shape_factory &shape_fac,
-        aim_activity_actor &activity )
-{
-    target_ui ui = target_ui();
-    ui.you = &you;
-    ui.mode = target_ui::TargetMode::Shape;
-    ui.shape_gen = shape_fac;
-    ui.range = shape_fac.get_range();
-    ui.activity = &activity;
-    ui.relevant = activity.get_weapon();
 
     return ui.run();
 }
@@ -800,18 +776,10 @@ int player::fire_gun( const tripoint &target, const int max_shots, item &gun )
         debugmsg( "Attempted to fire zero or negative shots using %s", gun.tname() );
     }
 
-    cata::optional<shape_factory> shape;
-    if( gun.ammo_current() && gun.ammo_current()->ammo ) {
-        shape = gun.ammo_current()->ammo->shape;
-    }
-
-    // Shaped attacks don't allow aiming, so they don't suffer from lack of aim either
-    int character_recoil = shape ? recoil_vehicle() : recoil_total();
     // Penalty is (intentionally) based off mode shots, not ammo-limited.
-    dispersion_sources dispersion = calculate_dispersion( g->m, *this, gun, character_recoil,
+    dispersion_sources dispersion = calculate_dispersion( g->m, *this, gun, recoil_total(),
                                     max_shots > 1 );
 
-    bool aoe_attack = gun.gun_skill() == skill_launcher || shape;
     tripoint aim = target;
     int curshot = 0;
     int hits = 0; // total shots on target
@@ -833,29 +801,7 @@ int player::fire_gun( const tripoint &target, const int max_shots, item &gun )
         if( has_trait( trait_NORANGEDCRIT ) ) {
             projectile.proj_effects.insert( "NO_CRIT" );
         }
-        if( !shape ) {
-            auto shot = projectile_attack( projectile, pos(), aim, dispersion, this, in_veh );
-            if( shot.missed_by <= .1 ) {
-                // TODO: check head existence for headshot
-                g->events().send<event_type::character_gets_headshot>( getID() );
-            }
-
-            if( shot.hit_critter ) {
-                hits++;
-            }
-        } else {
-            // 30 degree cap, like for projectiles
-            double angle_offset_arcmin = std::min( dispersion.roll(), 1800.0 ) * ( one_in( 2 ) ? 1 : -1 );
-            double angle_offset = units::to_radians( units::from_arcmin( angle_offset_arcmin ) );
-            double dx = aim.x - pos().x;
-            double dy = aim.y - pos().y;
-            double new_angle = atan2( dy, dx ) + angle_offset;
-            // Always using trig here, rotations in maximum metric are weird
-            double length = trig_dist( pos(), aim );
-            rl_vec3d vec_pos( pos() );
-            rl_vec3d new_aim = vec_pos + rl_vec3d( length, 0, 0 ).rotated( new_angle );
-            ranged::execute_shaped_attack( *shape->create( vec_pos, new_aim ), projectile, *this );
-        }
+        auto shot = projectile_attack( projectile, pos(), aim, dispersion, this, in_veh );
         curshot++;
 
         make_gun_sound_effect( *this, shots > 1, &gun );
@@ -864,7 +810,8 @@ int player::fire_gun( const tripoint &target, const int max_shots, item &gun )
         cycle_action( gun, pos() );
 
         if( has_trait( trait_PYROMANIA ) && !has_morale( MORALE_PYROMANIA_STARTFIRE ) ) {
-            if( gun.has_flag( flag_PYROMANIAC_WEAPON ) ) {
+            if( gun.ammo_current() == itype_flammable || gun.ammo_current() == itype_66mm ||
+                gun.ammo_current() == itype_84x246mm || gun.ammo_current() == itype_m235 ) {
                 add_msg_if_player( m_good, _( "You feel a surge of euphoria as flames roar out of the %s!" ),
                                    gun.tname() );
                 add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
@@ -881,7 +828,16 @@ int player::fire_gun( const tripoint &target, const int max_shots, item &gun )
             use_charges( itype_UPS, gun.get_gun_ups_drain() );
         }
 
-        if( aoe_attack ) {
+        if( shot.missed_by <= .1 ) {
+            // TODO: check head existence for headshot
+            g->events().send<event_type::character_gets_headshot>( getID() );
+        }
+
+        if( shot.hit_critter ) {
+            hits++;
+        }
+
+        if( gun.gun_skill() == skill_launcher ) {
             continue; // skip retargeting for launchers
         }
     }
@@ -907,7 +863,7 @@ int player::fire_gun( const tripoint &target, const int max_shots, item &gun )
     // Practice the base gun skill proportionally to number of hits, but always by one.
     practice( skill_gun, ( hits + 1 ) * 5 );
     // launchers train weapon skill for both hits and misses.
-    int practice_units = aoe_attack ? curshot : hits;
+    int practice_units = gun.gun_skill() == skill_launcher ? curshot : hits;
     practice( gun.gun_skill(), ( practice_units + 1 ) * 5 );
 
     return curshot;
@@ -1220,8 +1176,7 @@ static double confidence_estimate( int range, double target_size,
     if( range == 0 ) {
         return 2 * target_size;
     }
-    const double max_lateral_offset =
-        iso_tangent( range, units::from_arcmin( dispersion.max() ) );
+    const double max_lateral_offset = iso_tangent( range, dispersion.max() );
     return 1 / ( max_lateral_offset / target_size );
 }
 
@@ -1621,7 +1576,7 @@ int time_to_attack( const Character &p, const itype &firing )
 static void cycle_action( item &weap, const tripoint &pos )
 {
     // eject casings and linkages in random direction avoiding walls using player position as fallback
-    std::vector<tripoint> tiles = closest_points_first( pos, 1 );
+    std::vector<tripoint> tiles = closest_tripoints_first( pos, 1 );
     tiles.erase( tiles.begin() );
     tiles.erase( std::remove_if( tiles.begin(), tiles.end(), [&]( const tripoint & e ) {
         return !g->m.passable( e );
@@ -2032,7 +1987,7 @@ target_handler::trajectory target_ui::run()
         you->add_msg_if_player( m_bad, _( "You don't have enough %s to cast this spell" ),
                                 casting->energy_string() );
     }
-    if( mode == TargetMode::Fire || mode == TargetMode::TurretManual || mode == TargetMode::Shape ) {
+    if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
         ensure_ranged_gun_mode();
         update_ammo_range_from_gun_mode();
         if( mode == TargetMode::Fire ) {
@@ -2174,10 +2129,8 @@ target_handler::trajectory target_ui::run()
             shifting_view = !shifting_view;
         } else if( action == "zoom_in" ) {
             g->zoom_in();
-            g->mark_main_ui_adaptor_resize();
         } else if( action == "zoom_out" ) {
             g->zoom_out();
-            g->mark_main_ui_adaptor_resize();
         } else if( action == "QUIT" ) {
             loop_exit_code = ExitCode::Abort;
             break;
@@ -2236,7 +2189,7 @@ target_handler::trajectory target_ui::run()
     switch( loop_exit_code ) {
         case ExitCode::Abort: {
             traj.clear();
-            if( mode == TargetMode::Fire || mode == TargetMode::Shape ) {
+            if( mode == TargetMode::Fire ) {
                 activity->aborted = true;
             }
             break;
@@ -2519,15 +2472,6 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
         }
     } else if( mode == TargetMode::Turrets ) {
         update_turrets_in_range();
-    } else if( mode == TargetMode::Shape ) {
-        std::shared_ptr<shape> sh = shape_gen->create( src, dst );
-        projectile proj = make_gun_projectile( *relevant );
-        // Same as in map::shoot (should probably be a function!)
-        int expected_bash_force = std::accumulate( proj.impact.begin(), proj.impact.end(), 0.0,
-        []( double acc, const damage_unit & du ) {
-            return acc + du.amount + du.res_pen;
-        } );
-        shape_coverage = ranged::expected_coverage( *sh, here, expected_bash_force );
     }
 
     // Update UI controls & colors
@@ -2577,7 +2521,7 @@ tripoint target_ui::choose_initial_target()
 
     // Try closest practice target
     map &here = get_map();
-    const std::vector<tripoint> nearby = closest_points_first( src, range );
+    const std::vector<tripoint> nearby = closest_tripoints_first( src, range );
     const auto target_spot = std::find_if( nearby.begin(), nearby.end(),
     [this, &here]( const tripoint & pt ) {
         return here.tr_at( pt ).id == tr_practice_target && this->you->sees( pt );
@@ -2827,12 +2771,11 @@ void target_ui::recalc_aim_turning_penalty()
         // Raise it proportionally to how much
         // the player has to turn from previous aiming point
         const double recoil_per_degree = MAX_RECOIL / 180.0;
-        const units::angle angle_curr = coord_to_angle( src, curr_recoil_pos );
-        const units::angle angle_desired = coord_to_angle( src, dst );
-        const units::angle phi = normalize( angle_curr - angle_desired );
-        const units::angle angle = std::min( phi, 360.0_degrees - phi );
-        predicted_recoil =
-            std::min( MAX_RECOIL, curr_recoil + to_degrees( angle ) * recoil_per_degree );
+        const double angle_curr = coord_to_angle( src, curr_recoil_pos );
+        const double angle_desired = coord_to_angle( src, dst );
+        const double phi = std::fmod( std::abs( angle_curr - angle_desired ), 360.0 );
+        const double angle = phi > 180.0 ? 360.0 - phi : phi;
+        predicted_recoil = std::min( MAX_RECOIL, curr_recoil + angle * recoil_per_degree );
     }
 }
 
@@ -2932,8 +2875,7 @@ void target_ui::update_ammo_range_from_gun_mode()
 {
     if( mode == TargetMode::TurretManual ) {
         itype_id ammo_current = turret->ammo_current();
-        // Test no-ammo and not a UPS weapon
-        if( !ammo_current && ( relevant->get_gun_ups_drain() == 0 ) ) {
+        if( !ammo_current ) {
             ammo = nullptr;
             range = 0;
         } else {
@@ -3079,24 +3021,6 @@ void target_ui::draw_terrain_overlay()
             } else {
 #endif
                 get_map().drawsq( g->w_terrain, tile, params );
-#ifdef TILES
-            }
-#endif
-        }
-    } else if( mode == TargetMode::Shape ) {
-        drawsq_params params = drawsq_params().highlight( true ).center( center );
-        for( const std::pair<tripoint, double> &pr : shape_coverage ) {
-            const tripoint &tile = pr.first;
-#ifdef TILES
-            if( use_tiles ) {
-                g->draw_highlight( tile );
-            } else {
-#endif
-                get_map().drawsq( g->w_terrain, tile, params );
-                Creature *critter = g->critter_at( tile );
-                if( critter != nullptr ) {
-                    g->draw_critter_highlighted( *critter, center );
-                }
 #ifdef TILES
             }
 #endif

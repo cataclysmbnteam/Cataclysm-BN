@@ -8,7 +8,6 @@
 #include <vector>
 
 #include "calendar.h"
-#include "coordinates.h"
 #include "io_tags.h"
 #include "monster.h"
 #include "point.h"
@@ -80,10 +79,10 @@ struct mongroup {
     mongroup_id type;
     // Note: position is not saved as such in the json
     // Instead, a vector of positions is saved for
-    tripoint_om_sm pos;
+    tripoint pos = tripoint_zero;
     unsigned int radius = 1;
     unsigned int population = 1;
-    tripoint_om_sm target; // location the horde is interested in.
+    tripoint target = tripoint_zero; // location the horde is interested in.
     int interest = 0; //interest to target in percents
     bool dying = false;
     bool horde = false;
@@ -108,10 +107,6 @@ struct mongroup {
         , radius( prad )
         , population( ppop ) {
     }
-    mongroup( const mongroup_id &ptype, const tripoint_om_sm &ppos,
-              unsigned int prad, unsigned int ppop ) :
-        // TODO: fix point types
-        mongroup( ptype, ppos.raw(), prad, ppop ) {}
     mongroup( const std::string &ptype, tripoint ppos, unsigned int prad, unsigned int ppop,
               tripoint ptarget, int pint, bool pdie, bool phorde, bool pdiff ) :
         type( ptype ), pos( ppos ), radius( prad ), population( ppop ), target( ptarget ),
@@ -120,9 +115,9 @@ struct mongroup {
     bool is_safe() const;
     bool empty() const;
     void clear();
-    void set_target( const point_om_sm &p ) {
-        target.x() = p.x();
-        target.y() = p.y();
+    void set_target( const point &p ) {
+        target.x = p.x;
+        target.y = p.y;
     }
     void wander( const overmap & );
     void inc_interest( int inc ) {

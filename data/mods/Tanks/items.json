@@ -486,7 +486,7 @@
     "clip_size": 2,
     "reload": 1300,
     "loudness": 200,
-    "flags": [ "NO_RELOAD", "MOUNTED_GUN", "PYROMANIAC_WEAPON" ]
+    "flags": [ "NO_RELOAD", "MOUNTED_GUN" ]
   },
   {
     "type": "BOOK",

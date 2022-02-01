@@ -17,7 +17,7 @@
     "material": "egg",
     "volume": "50 ml",
     "stack_size": 1,
-    "fun": -3,
+    "fun": -8,
     "flags": [ "RAW" ],
     "rot_spawn": "GROUP_EGG_BIRD_WILD",
     "vitamins": [ [ "vitA", 9 ], [ "calcium", 3 ], [ "iron", 4 ], [ "vitB", 21 ] ],
@@ -119,7 +119,7 @@
     "material": "egg",
     "volume": "250 ml",
     "stack_size": 4,
-    "fun": -4,
+    "fun": -12,
     "flags": [ "RAW" ],
     "rot_spawn": "GROUP_EGG_SNAKE",
     "rot_spawn_chance": 60
@@ -137,9 +137,9 @@
     "price_postapoc": 500,
     "material": "egg",
     "volume": "600 ml",
-    "fun": -5,
+    "fun": -10,
     "proportional": { "weight": 12.0, "calories": 12.0 },
-    "vitamins": [ [ "vitA", 108 ], [ "calcium", 36 ], [ "iron", 48 ], [ "vitB", 252 ], [ "mutant_toxin", 25 ] ],
+    "vitamins": [ [ "vitA", 108 ], [ "calcium", 36 ], [ "iron", 48 ], [ "vitB", 252 ] ],
     "rot_spawn": "GROUP_EGG_ANT",
     "rot_spawn_chance": 60
   },
@@ -151,13 +151,14 @@
     "color": "white",
     "symbol": "%",
     "quench": 10,
-    "description": "A egg from a giant spider, a bit bigger than a chicken one.  Incredibly gross.",
+    "description": "A fist-sized egg from a giant spider.  Incredibly gross.",
     "price": 80,
     "price_postapoc": 200,
     "material": "egg",
-    "proportional": { "weight": 1.1, "calories": 1.1, "volume": 1.1 },
-    "vitamins": [ [ "vitA", 40 ], [ "calcium", 13 ], [ "iron", 18 ], [ "vitB", 92 ], [ "mutant_toxin", 25 ] ],
-    "fun": -5
+    "volume": "250 ml",
+    "proportional": { "weight": 4.4, "calories": 4.4 },
+    "vitamins": [ [ "vitA", 40 ], [ "calcium", 13 ], [ "iron", 18 ], [ "vitB", 92 ] ],
+    "fun": -20
   },
   {
     "type": "COMESTIBLE",
@@ -166,10 +167,10 @@
     "copy-from": "spider_egg",
     "color": "white",
     "symbol": "%",
-    "spoils_in": "5 days",
+    "spoils_in": "4 days 16 hours",
     "healthy": -1,
     "quench": 3,
-    "description": "A egg from a giant roach, a bit bigger than a chicken one.  Incredibly gross.",
+    "description": "A fist-sized egg from a giant roach.  Incredibly gross.",
     "price": 80,
     "material": "egg",
     "rot_spawn": "GROUP_EGG_ROACH"
@@ -189,9 +190,9 @@
     "copy-from": "spider_egg",
     "color": "green",
     "symbol": "o",
-    "spoils_in": "5 days",
+    "spoils_in": "4 days 16 hours",
     "quench": 3,
-    "description": "A egg from a locust, a bit bigger than a chicken one.",
+    "description": "A fist-sized egg from a locust.",
     "price": 80,
     "material": "egg",
     "rot_spawn": "GROUP_EGG_LOCUST"
@@ -257,7 +258,7 @@
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 16,
-    "fun": -3,
+    "fun": -4,
     "vitamins": [ [ "vitB", 2 ] ]
   },
   {

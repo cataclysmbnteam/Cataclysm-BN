@@ -2138,25 +2138,25 @@
   {
     "type": "speech",
     "speaker": "mon_leech_blossom",
-    "sound": "visceral chittering.",
+    "sound": "\"visceral chittering.\"",
     "volume": 15
   },
   {
     "type": "speech",
     "speaker": "mon_leech_blossom",
-    "sound": "a clear, high-pitched hum.",
+    "sound": "\"a clear high-pitched hum.\"",
     "volume": 15
   },
   {
     "type": "speech",
     "speaker": "mon_leech_blossom",
-    "sound": "the hum of static electricity.",
+    "sound": "\"the hum of static electricity.\"",
     "volume": 15
   },
   {
     "type": "speech",
     "speaker": "mon_leech_blossom",
-    "sound": "a low buzzing sound.",
+    "sound": "\"a low buzzing sound.\"",
     "volume": 15
   },
   {

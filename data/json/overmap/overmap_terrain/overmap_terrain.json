@@ -100,7 +100,6 @@
     "name": "island",
     "sym": "F",
     "color": "green",
-    "looks_like": "forest",
     "see_cost": 1
   },
   {
@@ -109,7 +108,6 @@
     "name": "island",
     "sym": "F",
     "color": "cyan",
-    "looks_like": "forest_water",
     "see_cost": 1
   },
   {
@@ -118,7 +116,6 @@
     "name": "island",
     "sym": ".",
     "color": "brown",
-    "looks_like": "field",
     "see_cost": 1
   },
   {
@@ -618,23 +615,6 @@
     "color": "green",
     "see_cost": 5,
     "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "spider_pit",
-    "name": "spider pit",
-    "sym": "S",
-    "color": "white",
-    "see_cost": 3,
-    "flags": [ "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "spider_pit_under",
-    "name": "cavern",
-    "sym": "0",
-    "color": "light_gray",
-    "see_cost": 5
   },
   {
     "type": "overmap_terrain",

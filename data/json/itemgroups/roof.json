@@ -45,7 +45,7 @@
       [ "heroin", 1 ],
       [ "string_6", 2 ],
       [ "chain", 20 ],
-      { "item": "glass_shard", "prob": 20, "count": [ 0, 1 ] },
+      { "item": "glass_shard", "prob": 20, "count": [ 1, 8 ] },
       [ "ceramic_shard", 15 ],
       [ "stick", 95 ],
       [ "joint_roach", 5 ],

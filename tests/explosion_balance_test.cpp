@@ -23,7 +23,6 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "vpart_range.h"
 
 enum class outcome_type {
     Kill, Casualty
@@ -45,7 +44,7 @@ static void check_lethality( const std::string &explosive_id, const int range, f
         // Spawn some monsters in a circle.
         tripoint origin( 30, 30, 0 );
         int num_subjects_this_time = 0;
-        for( const tripoint &monster_position : closest_points_first( origin, range ) ) {
+        for( const tripoint &monster_position : closest_tripoints_first( origin, range ) ) {
             if( rl_dist( monster_position, origin ) != range ) {
                 continue;
             }
@@ -95,9 +94,9 @@ static void check_lethality( const std::string &explosive_id, const int range, f
 static std::vector<int> get_part_hp( vehicle *veh )
 {
     std::vector<int> part_hp;
-    part_hp.reserve( veh->part_count() );
-    for( const vpart_reference &vpr : veh->get_all_parts() ) {
-        part_hp.push_back( vpr.part().hp() );
+    part_hp.reserve( veh->parts.size() );
+    for( vehicle_part &part : veh->parts ) {
+        part_hp.push_back( part.hp() );
     }
     return part_hp;
 }
@@ -109,8 +108,7 @@ static void check_vehicle_damage( const std::string &explosive_id, const std::st
     clear_map_and_put_player_underground();
     tripoint origin( 30, 30, 0 );
 
-    vehicle *target_vehicle = get_map().add_vehicle( vproto_id( vehicle_id ), origin, 0_degrees,
-                              -1, 0 );
+    vehicle *target_vehicle = g->m.add_vehicle( vproto_id( vehicle_id ), origin, 0, -1, 0 );
     std::vector<int> before_hp = get_part_hp( target_vehicle );
 
     while( g->m.veh_at( origin ) ) {
@@ -129,12 +127,12 @@ static void check_vehicle_damage( const std::string &explosive_id, const std::st
     REQUIRE( before_hp.size() == after_hp.size() );
     for( size_t i = 0; i < before_hp.size(); ++i ) {
         CAPTURE( i );
-        INFO( target_vehicle->part( i ).name() );
-        if( target_vehicle->part( i ).info().get_id() == vpart_id( "battery_car" ) ||
-            target_vehicle->part( i ).info().get_id() == vpart_id( "headlight" ) ||
-            target_vehicle->part( i ).info().get_id() == vpart_id( "windshield" ) ) {
+        INFO( target_vehicle->parts[ i ].name() );
+        if( target_vehicle->parts[ i ].info().get_id() == vpart_id( "battery_car" ) ||
+            target_vehicle->parts[ i ].info().get_id() == vpart_id( "headlight" ) ||
+            target_vehicle->parts[ i ].info().get_id() == vpart_id( "windshield" ) ) {
             CHECK( before_hp[ i ] >= after_hp[ i ] );
-        } else if( !( target_vehicle->part( i ).info().get_id() == vpart_id( "vehicle_clock" ) ) ) {
+        } else if( !( target_vehicle->parts[ i ].info().get_id() == vpart_id( "vehicle_clock" ) ) ) {
             CHECK( before_hp[ i ] == after_hp[ i ] );
         }
     }
@@ -166,7 +164,7 @@ TEST_CASE( "shrapnel behind wall", "[grenade],[explosion],[balance]" )
     REQUIRE( actor->explosion.radius <= 0 );
     REQUIRE( actor->explosion.fragment->range > 2 );
 
-    for( const tripoint &pt : closest_points_first( origin, 2 ) ) {
+    for( const tripoint &pt : closest_tripoints_first( origin, 2 ) ) {
         if( square_dist( origin, pt ) > 1 ) {
             g->m.ter_set( pt, t_wall_metal );
         }
@@ -218,14 +216,14 @@ TEST_CASE( "shrapnel at max grenade range", "[grenade],[explosion]" )
     REQUIRE( actor->explosion.fragment->range > 1 );
 
     const int range = actor->explosion.fragment->range;
-    for( const tripoint &pt : closest_points_first( origin, range + 1 ) ) {
+    for( const tripoint &pt : closest_tripoints_first( origin, range + 1 ) ) {
         spawn_test_monster( "mon_zombie", pt );
     }
 
     grenade.charges = 0;
     grenade.type->invoke( g->u, grenade, origin );
 
-    for( const tripoint &pt : closest_points_first( origin, range + 1 ) ) {
+    for( const tripoint &pt : closest_tripoints_first( origin, range + 1 ) ) {
         const monster *m = g->critter_at<monster>( pt );
         REQUIRE( m != nullptr );
         CAPTURE( m->pos() );

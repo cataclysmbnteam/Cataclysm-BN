@@ -2,9 +2,8 @@
 #ifndef CATA_SRC_MAPGENDATA_H
 #define CATA_SRC_MAPGENDATA_H
 
-#include "calendar.h"
-#include "coordinates.h"
 #include "type_id.h"
+#include "calendar.h"
 #include "weighted_list.h"
 
 struct point;
@@ -67,8 +66,7 @@ class mapgendata
                     oter_id up, oter_id down, int z, const regional_settings &rsettings, map &mp,
                     const oter_id &terrain_type, float density, const time_point &when, ::mission *miss );
 
-        mapgendata( const tripoint_abs_omt &over, map &m, float density, const time_point &when,
-                    ::mission *miss );
+        mapgendata( const tripoint &over, map &m, float density, const time_point &when, ::mission *miss );
 
         /**
          * Creates a copy of this mapgen data, but stores a different @ref terrain_type.

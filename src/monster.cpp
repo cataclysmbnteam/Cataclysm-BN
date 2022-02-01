@@ -1537,7 +1537,8 @@ void monster::melee_attack( Creature &target, float accuracy )
     }
 }
 
-void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack )
+void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
+                                      bool print_messages )
 {
     const auto &proj = attack.proj;
     double &missed_by = attack.missed_by; // We can change this here
@@ -1558,7 +1559,7 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
         missed_by = accuracy_critical;
     }
 
-    Creature::deal_projectile_attack( source, attack );
+    Creature::deal_projectile_attack( source, attack, print_messages );
 
     if( !is_hallucination() && attack.hit_critter == this ) {
         // Maybe TODO: Get difficulty from projectile speed/size/missed_by
@@ -2202,9 +2203,9 @@ void monster::process_turn()
                     }
                 }
             }
-            if( get_weather().lightning_active && !has_effect( effect_supercharged ) &&
+            if( g->weather.lightning_active && !has_effect( effect_supercharged ) &&
                 g->m.is_outside( pos() ) ) {
-                get_weather().lightning_active = false; // only one supercharge per strike
+                g->weather.lightning_active = false; // only one supercharge per strike
                 sounds::sound( pos(), 300, sounds::sound_t::combat, _( "BOOOOOOOM!!!" ), false, "environment",
                                "thunder_near" );
                 sounds::sound( pos(), 20, sounds::sound_t::combat, _( "vrrrRRRUUMMMMMMMM!" ), false, "explosion",
@@ -2301,8 +2302,7 @@ void monster::die( Creature *nkiller )
         const tripoint abssub = ms_to_sm_copy( g->m.getabs( pos() ) );
         // Do it for overmap above/below too
         for( const tripoint &p : points_in_radius( abssub, HALF_MAPSIZE, 1 ) ) {
-            // TODO: fix point types
-            for( auto &mgp : overmap_buffer.groups_at( tripoint_abs_sm( p ) ) ) {
+            for( auto &mgp : overmap_buffer.groups_at( p ) ) {
                 if( MonsterGroupManager::IsMonsterInGroup( mgp->type, type->id ) ) {
                     mgp->dying = true;
                 }

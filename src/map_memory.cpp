@@ -1,7 +1,6 @@
 #include "map_memory.h"
 
 #include "coordinate_conversions.h"
-#include "cuboid_rectangle.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "fstream_utils.h"
@@ -129,7 +128,7 @@ bool map_memory::prepare_region( const tripoint &p1, const tripoint &p2 )
     point sm_size = sm_p2.xy() - sm_p1.xy();
 
     if( sm_pos.z == cache_pos.z ) {
-        inclusive_rectangle<point> rect( cache_pos.xy(), cache_pos.xy() + cache_size );
+        inclusive_rectangle rect( cache_pos.xy(), cache_pos.xy() + cache_size );
         if( rect.contains( sm_p1.xy() ) && rect.contains( sm_p2.xy() ) ) {
             return false;
         }
@@ -327,7 +326,7 @@ bool map_memory::save( const tripoint &pos )
     submaps.clear();
 
     constexpr point MM_HSIZE_P = point( MM_SIZE / 2, MM_SIZE / 2 );
-    half_open_rectangle<point> rect_keep( sm_center.xy() - MM_HSIZE_P, sm_center.xy() + MM_HSIZE_P );
+    half_open_rectangle rect_keep( sm_center.xy() - MM_HSIZE_P, sm_center.xy() + MM_HSIZE_P );
 
     dbg( DL::Info ) << "[SAVE] Saving memory map around " << sm_center << ". Keeping submaps within "
                     << rect_keep.p_min << "->" << rect_keep.p_max;
@@ -355,11 +354,8 @@ bool map_memory::save( const tripoint &pos )
             result = result & res;
         }
         tripoint regp_sm = mmr_to_sm_copy( regp );
-        half_open_rectangle<point> rect_reg(
-            regp_sm.xy(),
-            regp_sm.xy() + point( MM_REG_SIZE, MM_REG_SIZE )
-        );
-        if( rect_reg.overlaps( rect_keep ) ) {
+        half_open_rectangle rect_reg( regp_sm.xy(), regp_sm.xy() + point( MM_REG_SIZE, MM_REG_SIZE ) );
+        if( rect_reg.overlaps_half_open( rect_keep ) ) {
             dbg( DL::Info ) << "Keeping mm_region " << regp << " [" << regp_sm << "]";
             // Put submaps back
             for( size_t y = 0; y < MM_REG_SIZE; y++ ) {

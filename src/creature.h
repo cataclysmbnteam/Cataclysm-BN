@@ -239,7 +239,8 @@ class Creature
 
         // Makes a ranged projectile attack against the creature
         // Sets relevant values in `attack`.
-        virtual void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack );
+        virtual void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
+                                             bool print_messages = true );
 
         /**
          * Deals the damage via an attack. Allows armor mitigation etc.
@@ -365,8 +366,6 @@ class Creature
         /** Return the effect that matches the given arguments exactly. */
         const effect &get_effect( const efftype_id &eff_id, body_part bp = num_bp ) const;
         effect &get_effect( const efftype_id &eff_id, body_part bp = num_bp );
-        /** Returns pointers to all effects matching given type. */
-        std::vector<const effect *> get_all_effects_of_type( const efftype_id &eff_id ) const;
         /** Returns the duration of the matching effect. Returns 0 if effect doesn't exist. */
         time_duration get_effect_dur( const efftype_id &eff_id, body_part bp = num_bp ) const;
         /** Returns the intensity of the matching effect. Returns 0 if effect doesn't exist. */
@@ -766,9 +765,6 @@ class Creature
         virtual nc_color basic_symbol_color() const = 0;
         virtual const std::string &symbol() const = 0;
         virtual bool is_symbol_highlighted() const;
-
-        // TODO: There may be a cleaner way of doing it than exposing the map
-        effects_map get_all_effects() const;
 
     protected:
         Creature *killer = nullptr; // whoever killed us. this should be NULL unless we are dead

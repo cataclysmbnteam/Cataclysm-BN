@@ -105,7 +105,6 @@
     "qualities": [ [ { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 1 } ] ],
     "byproducts": [ { "item": "log", "count": [ 2, 3 ] } ],
     "pre_terrain": "t_trunk",
-    "dark_craftable": true,
     "post_terrain": "t_dirt"
   },
   {

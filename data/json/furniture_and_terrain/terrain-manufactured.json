@@ -595,7 +595,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 12,
       "ter_set": "t_floor",
-      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "scrap", "count": [ 0, 2 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] }, { "item": "scrap", "count": [ 0, 2 ] } ]
     }
   },
   {

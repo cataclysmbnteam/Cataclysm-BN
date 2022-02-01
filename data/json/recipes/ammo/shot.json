@@ -119,7 +119,7 @@
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax", 1 ] ],
-      [ [ "gunpowder", 35 ] ],
+      [ [ "gunpowder_shotgun", 35 ] ],
       [ [ "40x53mm_m169_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ]
     ]
@@ -143,7 +143,7 @@
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax", 1 ] ],
-      [ [ "gunpowder", 35 ] ],
+      [ [ "gunpowder_shotgun", 35 ] ],
       [ [ "40x53mm_m169_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ]
     ]
@@ -167,7 +167,7 @@
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax", 1 ] ],
       [ [ "combatnail", 100 ] ],
-      [ [ "gunpowder", 35 ] ],
+      [ [ "gunpowder_shotgun", 35 ] ],
       [ [ "40x53mm_m169_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ]
     ]
@@ -191,7 +191,7 @@
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax", 1 ] ],
-      [ [ "gunpowder", 30 ] ],
+      [ [ "gunpowder_shotgun", 30 ] ],
       [ [ "40x46mm_m118_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ]
     ]
@@ -215,7 +215,7 @@
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax", 1 ] ],
-      [ [ "gunpowder", 30 ] ],
+      [ [ "gunpowder_shotgun", 30 ] ],
       [ [ "40x46mm_m199_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ]
     ]
@@ -239,7 +239,7 @@
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax", 1 ] ],
-      [ [ "gunpowder", 30 ] ],
+      [ [ "gunpowder_shotgun", 30 ] ],
       [ [ "40x46mm_m118_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ]
     ]
@@ -263,7 +263,7 @@
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax", 1 ] ],
-      [ [ "gunpowder", 30 ] ],
+      [ [ "gunpowder_shotgun", 30 ] ],
       [ [ "40x46mm_m199_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ]
     ]
@@ -287,7 +287,7 @@
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax", 1 ] ],
       [ [ "combatnail", 70 ] ],
-      [ [ "gunpowder", 30 ] ],
+      [ [ "gunpowder_shotgun", 30 ] ],
       [ [ "40x46mm_m118_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ]
     ]
@@ -311,7 +311,7 @@
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax", 1 ] ],
       [ [ "combatnail", 70 ] ],
-      [ [ "gunpowder", 30 ] ],
+      [ [ "gunpowder_shotgun", 30 ] ],
       [ [ "40x46mm_m199_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ]
     ]
@@ -330,7 +330,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 10 ], [ "ammo_shot", 1 ] ],
-    "components": [ [ [ "gunpowder", 6 ] ] ]
+    "components": [ [ [ "gunpowder", 6 ], [ "gunpowder_pistol", 6 ], [ "gunpowder_shotgun", 6 ] ] ]
   },
   {
     "result": "reloaded_410shot_000",
@@ -346,7 +346,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 5 ], [ "ammo_410shot", 1 ] ],
-    "components": [ [ [ "gunpowder", 5 ] ] ]
+    "components": [ [ [ "gunpowder", 5 ], [ "gunpowder_pistol", 5 ], [ "gunpowder_shotgun", 5 ] ] ]
   },
   {
     "result": "reloaded_shot_bird",
@@ -362,7 +362,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 10 ], [ "ammo_shot", 1 ] ],
-    "components": [ [ [ "gunpowder", 3 ] ] ]
+    "components": [ [ [ "gunpowder", 3 ], [ "gunpowder_pistol", 3 ], [ "gunpowder_shotgun", 3 ] ] ]
   },
   {
     "result": "reloaded_shot_dragon",
@@ -378,7 +378,7 @@
     "charges": 1,
     "using": [ [ "ammo_shot", 1 ] ],
     "tools": [ [ [ "press", -1 ], [ "press_dowel", -1 ] ] ],
-    "components": [ [ [ "gunpowder", 3 ] ], [ [ "magnesium", 5 ] ] ]
+    "components": [ [ [ "gunpowder", 3 ], [ "gunpowder_pistol", 3 ], [ "gunpowder_shotgun", 3 ] ], [ [ "magnesium", 5 ] ] ]
   },
   {
     "result": "reloaded_shot_flechette",
@@ -395,7 +395,7 @@
     "reversible": true,
     "using": [ [ "ammo_shot", 1 ] ],
     "tools": [ [ [ "press", -1 ], [ "press_dowel", -1 ] ] ],
-    "components": [ [ [ "gunpowder", 6 ] ], [ [ "combatnail", 10 ] ] ]
+    "components": [ [ [ "gunpowder", 6 ], [ "gunpowder_pistol", 6 ], [ "gunpowder_shotgun", 6 ] ], [ [ "combatnail", 10 ] ] ]
   },
   {
     "result": "reloaded_shot_slug",
@@ -411,7 +411,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "shot_forming", 1 ], [ "ammo_bullet", 20 ], [ "ammo_shot", 1 ] ],
-    "components": [ [ [ "gunpowder", 6 ] ] ]
+    "components": [ [ [ "gunpowder", 6 ], [ "gunpowder_pistol", 6 ], [ "gunpowder_shotgun", 6 ] ] ]
   },
   {
     "result": "bp_shot_00",
@@ -510,7 +510,7 @@
     "using": [ [ "ammo_shot", 2 ] ],
     "tools": [ [ [ "press", -1 ], [ "press_dowel", -1 ] ] ],
     "components": [
-      [ [ "gunpowder", 12 ] ],
+      [ [ "gunpowder", 12 ], [ "gunpowder_pistol", 12 ], [ "gunpowder_shotgun", 12 ] ],
       [
         [ "scrap", 1 ],
         [ "nail", 10 ],

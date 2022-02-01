@@ -47,7 +47,7 @@
     "tools": [ [ [ "tongs", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
-      [ [ "steel_tiny", 1, "LIST" ], [ "scrap_bronze", 1 ] ],
+      [ [ "steel_tiny", 1, "LIST" ] ],
       [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
@@ -126,7 +126,7 @@
     "tools": [ [ [ "fire", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 10, "LIST" ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "arrow_fire_hardened_fletched", 10 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
   },
@@ -152,7 +152,6 @@
         [ "rock", 1 ],
         [ "ceramic_shard", 1 ],
         [ "scrap", 2 ],
-        [ "scrap_copper", 4 ],
         [ "nail", 10 ],
         [ "sharp_rock", 1 ]
       ],
@@ -175,7 +174,7 @@
     "tools": [ [ [ "tongs", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
-      [ [ "steel_tiny", 1, "LIST" ], [ "scrap_bronze", 1 ] ],
+      [ [ "steel_tiny", 1, "LIST" ] ],
       [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
@@ -268,7 +267,7 @@
     "tools": [ [ [ "fire", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 10, "LIST" ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "bolt_crude", 10 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
   },
@@ -312,7 +311,6 @@
         [ "rock", 1 ],
         [ "ceramic_shard", 1 ],
         [ "scrap", 2 ],
-        [ "scrap_copper", 4 ],
         [ "nail", 10 ],
         [ "sharp_rock", 1 ]
       ],

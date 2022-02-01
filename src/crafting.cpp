@@ -493,7 +493,7 @@ std::vector<const item *> player::get_eligible_containers_for_crafting() const
     }
 
     // get all potential containers within PICKUP_RANGE tiles including vehicles
-    for( const tripoint &loc : closest_points_first( pos(), PICKUP_RANGE ) ) {
+    for( const tripoint &loc : closest_tripoints_first( pos(), PICKUP_RANGE ) ) {
         // can not reach this -> can not access its contents
         if( pos() != loc && !g->m.clear_path( pos(), loc, PICKUP_RANGE, 1, 100 ) ) {
             continue;
@@ -644,7 +644,7 @@ static void set_components( std::list<item> &components, const std::list<item> &
 static item_location set_item_map( const tripoint &loc, item &newit )
 {
     // Includes loc
-    for( const tripoint &tile : closest_points_first( loc, 2 ) ) {
+    for( const tripoint &tile : closest_tripoints_first( loc, 2 ) ) {
         // Pass false to disallow overflow, null_item_reference indicates failure.
         item *it_on_map = &g->m.add_item_or_charges( tile, newit, false );
         if( it_on_map != &null_item_reference() ) {

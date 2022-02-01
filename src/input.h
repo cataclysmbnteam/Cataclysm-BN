@@ -404,10 +404,6 @@ class input_context
         }
 
 #if defined(__ANDROID__)
-        input_context( const input_context &other ) : input_context() {
-            *this = other;
-        }
-
         virtual ~input_context() {
             input_context_stack.remove( this );
         }

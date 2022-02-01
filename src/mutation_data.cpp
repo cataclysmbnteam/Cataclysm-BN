@@ -290,6 +290,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "mixed_effect", mixed_effect, false );
     optional( jo, was_loaded, "active", activated, false );
     optional( jo, was_loaded, "starts_active", starts_active, false );
+    optional( jo, was_loaded, "destroys_gear", destroys_gear, false );
     optional( jo, was_loaded, "allow_soft_gear", allow_soft_gear, false );
     optional( jo, was_loaded, "cost", cost, 0 );
     optional( jo, was_loaded, "time", cooldown, 0 );
@@ -319,11 +320,6 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         auto bodytemp_array = jo.get_array( "bodytemp_modifiers" );
         bodytemp_min = bodytemp_array.get_int( 0 );
         bodytemp_max = bodytemp_array.get_int( 1 );
-        if( bodytemp_max < bodytemp_min ) {
-            std::swap( bodytemp_min, bodytemp_max );
-            jo.throw_error( _( "First temperature modifier can't be higher than the second" ),
-                            "bodytemp_modifiers" );
-        }
     }
 
     optional( jo, was_loaded, "bodytemp_sleep", bodytemp_sleep, 0 );

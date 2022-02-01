@@ -349,16 +349,14 @@
     "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "bundle of rags", "str_pl": "bundles of rags" },
-    "description": "Cotton rags, bundled tightly together for storage.  Activate or disassemble to unpack.",
+    "description": "Cotton rags, bundled tightly together for storage.  Disassemble to unpack.",
     "weight": "800 g",
     "volume": "750 ml",
     "price": 0,
     "price_postapoc": 5,
     "material": "cotton",
     "symbol": ",",
-    "color": "white",
-    "use_action": "DISASSEMBLE",
-    "flags": [ "NO_REPAIR", "NO_SALVAGE" ]
+    "color": "white"
   },
   {
     "id": "bundle_leather",
@@ -372,9 +370,7 @@
     "price_postapoc": 50,
     "material": "leather",
     "symbol": ",",
-    "color": "brown",
-    "use_action": "DISASSEMBLE",
-    "flags": [ "NO_REPAIR", "NO_SALVAGE" ]
+    "color": "brown"
   },
   {
     "id": "bundle_wool",
@@ -388,9 +384,7 @@
     "price_postapoc": 50,
     "material": "wool",
     "symbol": ",",
-    "color": "white",
-    "use_action": "DISASSEMBLE",
-    "flags": [ "NO_REPAIR", "NO_SALVAGE" ]
+    "color": "white"
   },
   {
     "type": "GENERIC",
@@ -1202,7 +1196,7 @@
     "price": 1000,
     "price_postapoc": 10,
     "material": [ "aluminum", "plastic" ],
-    "weight": "4440 g",
+    "weight": "5400 g",
     "volume": "750 ml",
     "bashing": 6,
     "cutting": 6,
@@ -1220,7 +1214,7 @@
     "price": 9000,
     "price_postapoc": 10,
     "material": [ "aluminum", "plastic" ],
-    "weight": "3340 g",
+    "weight": "4480 g",
     "volume": "750 ml",
     "bashing": 6,
     "cutting": 6,
@@ -1238,7 +1232,7 @@
     "price": 18000,
     "price_postapoc": 10,
     "material": [ "aluminum", "plastic" ],
-    "weight": "3350 g",
+    "weight": "25000 g",
     "volume": "18750 ml",
     "bashing": 6,
     "cutting": 6,
@@ -1256,7 +1250,7 @@
     "price": 9000,
     "price_postapoc": 10,
     "material": [ "aluminum", "plastic" ],
-    "weight": "3340 g",
+    "weight": "5360 g",
     "volume": "750 ml",
     "bashing": 6,
     "cutting": 6,
@@ -1274,7 +1268,7 @@
     "price": 9000,
     "price_postapoc": 10,
     "material": [ "aluminum", "plastic" ],
-    "weight": "3340 g",
+    "weight": "4700 g",
     "volume": "750 ml",
     "bashing": 6,
     "cutting": 6,
@@ -1292,7 +1286,7 @@
     "price": 9000,
     "price_postapoc": 10,
     "material": [ "aluminum", "plastic" ],
-    "weight": "3340 g",
+    "weight": "4536 g",
     "volume": "750 ml",
     "bashing": 6,
     "cutting": 6,
@@ -1310,7 +1304,7 @@
     "price": 9000,
     "price_postapoc": 10,
     "material": [ "aluminum", "plastic" ],
-    "weight": "3340 g",
+    "weight": "5870 g",
     "volume": "750 ml",
     "bashing": 6,
     "cutting": 6,
@@ -2176,6 +2170,21 @@
   },
   {
     "type": "GENERIC",
+    "id": "tanned_hide",
+    "symbol": ",",
+    "color": "brown",
+    "name": { "str": "tanned hide" },
+    "description": "A folded sheet of leather made from carefully tanned animal hide.  Can be cut up or used as is.",
+    "price": 5000,
+    "price_postapoc": 500,
+    "material": [ "leather" ],
+    "weight": "600 g",
+    "volume": "1500 ml",
+    "category": "spare_parts",
+    "to_hit": -1
+  },
+  {
+    "type": "GENERIC",
     "id": "cured_pelt",
     "symbol": ",",
     "color": "brown",
@@ -2187,6 +2196,21 @@
     "flags": [ "NO_SALVAGE" ],
     "weight": "114 g",
     "volume": "170 ml",
+    "category": "spare_parts",
+    "to_hit": -1
+  },
+  {
+    "type": "GENERIC",
+    "id": "tanned_pelt",
+    "symbol": ",",
+    "color": "brown",
+    "name": { "str": "tanned pelt" },
+    "description": "A folded sheet of leather made from carefully tanned animal hide, with the fur still intact.  Can be cut up or used as is.",
+    "price": 5000,
+    "price_postapoc": 500,
+    "material": [ "fur" ],
+    "weight": "684 g",
+    "volume": "1500 ml",
     "category": "spare_parts",
     "to_hit": -1
   },
@@ -2960,7 +2984,7 @@
     "symbol": "!",
     "color": "green",
     "use_action": "DISASSEMBLE",
-    "flags": [ "NO_REPAIR", "NO_SALVAGE" ]
+    "flags": [ "NO_REPAIR" ]
   },
   {
     "id": "premium_survival_kit",
@@ -2975,7 +2999,7 @@
     "symbol": "!",
     "color": "green",
     "use_action": { "type": "unpack", "group": "premium_contents", "items_fit": true, "filthy_volume_threshold": "10 L" },
-    "flags": [ "NO_REPAIR", "NO_SALVAGE" ]
+    "flags": [ "NO_REPAIR" ]
   },
   {
     "id": "plastic_six_dice",

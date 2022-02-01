@@ -111,8 +111,7 @@
       "sloc_golfcourse_mid_course",
       "sloc_golfcourse_clubhouse",
       "sloc_church",
-      "sloc_cemetery",
-      "sloc_mansion"
+      "sloc_cemetery"
     ],
     "missions": [ "MISSION_INFECTED_START_FIND_ANTIBIOTICS" ]
   },

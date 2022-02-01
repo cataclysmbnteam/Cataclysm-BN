@@ -128,7 +128,7 @@
         "#####|xppppppppppppp|| #|#  ####  #|# ~#~~~######|####|        6666|####",
         "#####|222222ppY66ppp||  |##########|   # ~~~    # ~~~~##           |####",
         "#####|ppppp2pppppppp||# |||   ## ##|# ~~#~~~~~~ #~~~#          BB  |####",
-        "#####|p/?pp{pppppppp33# 3##| ##|   {~~~~~~~~~~~~~~~~##||||||BB#||  |####",
+        "#####|p//pp{pppppppp33# 3##| ##|   {~~~~~~~~~~~~~~~~##||||||BB#||  |####",
         "#####|ppppp2pppppppp33  3 #| # +   { ##   ########~~ #|#########   |####",
         "#####|222222ppY66ppp|| #|##|###|   |||||||||||||||~~~~|###|#   #   |####",
         "#####|xppppppppppppp||  |#|||||| ##|##########~~#|##~~|###|#   # ##|####",
@@ -155,9 +155,8 @@
         "#####################################||||||#############################",
         "########################################################################"
       ],
-      "//": "0 to 21 Y for the first bash definition is intentional, to avoid letting bad RNG ruin the nanofab.",
       "set": [
-        { "point": "bash", "x": [ 0, 23 ], "y": [ 0, 21 ], "repeat": [ 50, 100 ] },
+        { "point": "bash", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 50, 100 ] },
         { "point": "bash", "x": [ 24, 47 ], "y": [ 0, 23 ], "repeat": [ 50, 100 ] },
         { "point": "bash", "x": [ 48, 71 ], "y": [ 0, 23 ], "repeat": [ 50, 100 ] },
         { "point": "bash", "x": [ 0, 23 ], "y": [ 24, 47 ], "repeat": [ 50, 100 ] },
@@ -175,10 +174,7 @@
         "Y": "t_thconc_floor_olight",
         "p": "t_metal_floor"
       },
-      "mapping": {
-        "r": { "item": { "item": "standard_template_construct" } },
-        "R": { "item": { "item": "nanomaterial", "chance": 80, "repeat": 2 } }
-      },
+      "mapping": { "r": { "item": { "item": "standard_template_construct" } }, "R": { "item": { "item": "nanomaterial" } } },
       "toilets": { ";": {  } },
       "place_items": [
         { "item": "office_mess", "x": [ 8, 23 ], "y": [ 4, 23 ], "chance": 100, "repeat": [ 20, 70 ] },

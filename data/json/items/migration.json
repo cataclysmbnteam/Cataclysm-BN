@@ -406,12 +406,12 @@
   {
     "id": "pda",
     "type": "MIGRATION",
-    "replace": "smart_phone"
+    "replace": "cell_phone"
   },
   {
     "id": "pda_flashlight",
     "type": "MIGRATION",
-    "replace": "smart_phone"
+    "replace": "cell_phone"
   },
   {
     "id": "crude_brick",
@@ -1293,27 +1293,5 @@
     "id": "1cyl_combustion_small",
     "type": "MIGRATION",
     "replace": "1cyl_combustion"
-  },
-  {
-    "id": [
-      "gunpowder_artillery",
-      "gunpowder_large_rifle",
-      "gunpowder_rifle",
-      "gunpowder_magnum_pistol",
-      "gunpowder_pistol",
-      "gunpowder_shotgun"
-    ],
-    "type": "MIGRATION",
-    "replace": "gunpowder"
-  },
-  {
-    "id": [ "tanning_hide", "tanned_hide" ],
-    "type": "MIGRATION",
-    "replace": "leather"
-  },
-  {
-    "id": [ "tanning_pelt", "tanned_pelt" ],
-    "type": "MIGRATION",
-    "replace": "fur"
   }
 ]

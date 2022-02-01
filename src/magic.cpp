@@ -229,7 +229,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
         { "explosion", spell_effect::explosion },
         { "flashbang", spell_effect::flashbang },
         { "mod_moves", spell_effect::mod_moves },
-        { "map", spell_effect::map_area },
+        { "map", spell_effect::map },
         { "morale", spell_effect::morale },
         { "charm_monster", spell_effect::charm_monster },
         { "mutate", spell_effect::mutate },
@@ -240,7 +240,6 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
-    optional( jo, was_loaded, "sprite", sprite, "" );
     optional( jo, was_loaded, "skill", skill, skill_id( "spellcraft" ) );
     optional( jo, was_loaded, "message", message, to_translation( "You cast %s!" ) );
     optional( jo, was_loaded, "sound_description", sound_description,

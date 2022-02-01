@@ -9,7 +9,7 @@
     "description": "A broken shard of glass covered in sharp edges.  With a piece of rag you could use it to make it a primitive weapon.",
     "material": "glass",
     "weight": "75 g",
-    "volume": "250 ml",
+    "volume": "30 ml",
     "cutting": 6,
     "ammo_type": "glass_shard",
     "flags": [ "HURT_WHEN_WIELDED", "TRADER_AVOID" ],

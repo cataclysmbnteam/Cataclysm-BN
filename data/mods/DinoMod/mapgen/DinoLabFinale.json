@@ -81,8 +81,7 @@
         { "monster": [ "mon_gallimimus_bio_op" ], "x": [ 11 ], "y": 13 },
         { "monster": [ "mon_pachycephalosaurus_bio_op" ], "x": [ 12 ], "y": 13, "chance": 50 },
         { "monster": [ "mon_trice_bio_op" ], "x": [ 13 ], "y": 14, "chance": 25 }
-      ],
-      "items": { "?": { "item": "autodoc_supplies", "chance": 100 } }
+      ]
     }
   },
   {
@@ -128,7 +127,7 @@
         "R": { "item": [ { "item": "dimensional_anchor" }, { "item": "phase_immersion_suit" } ] },
         "z": {
           "item": [
-            { "item": "glass_shard", "repeat": [ 2, 5 ], "chance": 100 },
+            { "item": "glass_shard", "repeat": [ 25, 50 ], "chance": 100 },
             { "item": "wire" },
             { "item": "scrap", "repeat": [ 3, 5 ], "chance": 100 }
           ]
@@ -201,7 +200,7 @@
         "R": { "item": [ { "item": "dimensional_anchor" }, { "item": "phase_immersion_suit" } ] },
         "z": {
           "item": [
-            { "item": "glass_shard", "repeat": [ 2, 5 ], "chance": 100 },
+            { "item": "glass_shard", "repeat": [ 25, 50 ], "chance": 100 },
             { "item": "wire" },
             { "item": "scrap", "repeat": [ 3, 5 ], "chance": 100 }
           ]

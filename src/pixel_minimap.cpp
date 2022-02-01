@@ -319,7 +319,7 @@ void pixel_minimap::update_cache_at( const tripoint &sm_pos )
 
             SDL_Color color;
 
-            if( lighting == lit_level::BLANK || lighting == lit_level::DARK ) {
+            if( lighting == LL_BLANK || lighting == LL_DARK ) {
                 // TODO: Map memory?
                 color = { 0x00, 0x00, 0x00, 0xFF };
             } else {
@@ -327,12 +327,12 @@ void pixel_minimap::update_cache_at( const tripoint &sm_pos )
 
                 //color terrain according to lighting conditions
                 if( nv_goggle ) {
-                    if( lighting == lit_level::LOW ) {
+                    if( lighting == LL_LOW ) {
                         color = color_pixel_nightvision( color );
-                    } else if( lighting != lit_level::DARK && lighting != lit_level::BLANK ) {
+                    } else if( lighting != LL_DARK && lighting != LL_BLANK ) {
                         color = color_pixel_overexposed( color );
                     }
-                } else if( lighting == lit_level::LOW ) {
+                } else if( lighting == LL_LOW ) {
                     color = color_pixel_grayscale( color );
                 }
 
@@ -518,7 +518,7 @@ void pixel_minimap::render_critters( const tripoint &center )
             const tripoint p = tripoint{ start_x + x, start_y + y, center.z };
             const lit_level lighting = access_cache.visibility_cache[p.x][p.y];
 
-            if( lighting == lit_level::DARK || lighting == lit_level::BLANK ) {
+            if( lighting == LL_DARK || lighting == LL_BLANK ) {
                 continue;
             }
 

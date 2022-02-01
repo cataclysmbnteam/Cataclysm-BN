@@ -63,6 +63,7 @@ static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_rat( "rat" );
 
 static const itype_id itype_processor( "processor" );
+static const itype_id itype_ruined_chunks( "ruined_chunks" );
 
 static const species_id species_BLOB( "BLOB" );
 static const species_id ZOMBIE( "ZOMBIE" );
@@ -217,6 +218,12 @@ void mdeath::splatter( monster &z )
                                 chunk_amt / ( gib_distance - 1 ) );
                 gibbed_weight -= entry.mass_ratio / overflow_ratio / 20 * z_weight;
             }
+        }
+        if( gibbed_weight > 0 ) {
+            const int chunk_amount =
+                gibbed_weight / to_gram( itype_ruined_chunks->weight );
+            scatter_chunks( itype_ruined_chunks, chunk_amount, z, gib_distance,
+                            chunk_amount / ( gib_distance + 1 ) );
         }
         // add corpse with gib flag
         item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name, z.get_upgrade_time() );

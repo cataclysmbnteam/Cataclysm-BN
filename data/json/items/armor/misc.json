@@ -77,6 +77,7 @@
     "id": "mouthpiece",
     "repairs_like": "goggles_swim",
     "type": "ARMOR",
+    "category": "armor",
     "name": { "str": "protective mouthpiece" },
     "description": "A protective piece of equipment commonly used by athletes, which is worn inside the mouth to protect your teeth.",
     "weight": "20 g",

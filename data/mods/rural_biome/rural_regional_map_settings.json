@@ -611,22 +611,7 @@
       "base_acid": 0.0,
       "base_wind": 3.4,
       "base_wind_distrib_peaks": 80,
-      "base_wind_season_variation": 50,
-      "weather_types": [
-        "clear",
-        "sunny",
-        "cloudy",
-        "light_drizzle",
-        "drizzle",
-        "rain",
-        "thunder",
-        "lightning",
-        "acid_drizzle",
-        "acid_rain",
-        "flurries",
-        "snowing",
-        "snowstorm"
-      ]
+      "base_wind_season_variation": 50
     },
     "overmap_feature_flag_settings": {
       "clear_blacklist": false,
