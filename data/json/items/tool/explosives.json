@@ -251,9 +251,9 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "EMP bomb" },
-    "description": "This substantial device is a bomb that generates an electromagnetic pulse.  When activated, the plutonium fuel cell is drained into a flux compression generator, the detonation of which creates a strong magnetic field.  When this magnetic field is fed into the antenna, it creates a strong electro-magnetic pulse.",
-    "weight": "4543 g",
-    "volume": "15500 ml",
+    "description": "This substantial device is a bomb that generates an electromagnetic pulse.  When this magnetic field is fed into the antenna, it creates a strong electro-magnetic pulse.  It will also create a sizable explosion, so stay clear of it.",
+    "weight": "1 kg",
+    "volume": "1000 ml",
     "price": 60000,
     "price_postapoc": 3000,
     "to_hit": -1,
@@ -261,16 +261,12 @@
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "explode_in_fire": true,
-    "explosion": {
-      "damage": 50,
-      "radius": 10,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 70, "armor_multiplier": 3 }, "range": 10 }
-    },
+    "explosion": { "damage": 50, "radius": 7 },
     "color": "light_gray",
     "use_action": {
       "target": "EMPbomb_act",
       "msg": "You activate the EMP bomb.",
-      "target_charges": 50,
+      "target_charges": 10,
       "active": true,
       "menu_text": "Activate bomb",
       "type": "transform"
@@ -282,9 +278,9 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "active EMP bomb" },
-    "description": "This EMP bomb is active, and will shortly detonate, creating a large EMP field that damages robots and drains bionic energy, as well as a sizeable explosion.  You may not want to be holding it much longer.",
-    "weight": "4543 g",
-    "volume": "15500 ml",
+    "description": "This EMP bomb is active, and will shortly detonate, creating a large EMP field that damages robots and drains bionic energy.  You may not want to be holding it much longer.  It will also create an explosion, which may hurt you.",
+    "weight": "1 kg",
+    "volume": "1000 ml",
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -1,
@@ -292,14 +288,10 @@
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "explode_in_fire": true,
-    "explosion": {
-      "damage": 50,
-      "radius": 10,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 70, "armor_multiplier": 3 }, "range": 10 }
-    },
+    "explosion": { "damage": 50, "radius": 7 },
     "color": "light_gray",
-    "initial_charges": 50,
-    "max_charges": 50,
+    "initial_charges": 10,
+    "max_charges": 10,
     "turns_per_charge": 1,
     "use_action": {
       "type": "explosion",
@@ -308,11 +300,7 @@
       "emp_blast_radius": 10,
       "sound_volume": 0,
       "sound_msg": "Tick.",
-      "explosion": {
-        "damage": 50,
-        "radius": 10,
-        "fragment": { "impact": { "damage_type": "cut", "amount": 70, "armor_multiplier": 3 }, "range": 10 }
-      },
+      "explosion": { "damage": 50, "radius": 7 },
       "no_deactivate_msg": "You've already activated the %s, try throwing it instead."
     },
     "flags": [ "TRADER_AVOID" ]
@@ -1013,7 +1001,7 @@
     "max_charges": 1,
     "turns_per_charge": 1,
     "use_action": "MOLOTOV_LIT",
-    "flags": [ "LIGHT_15", "TRADER_AVOID", "NPC_THROW_NOW", "NO_REPAIR", "WATER_EXTINGUISH", "ACT_ON_RANGED_HIT" ]
+    "flags": [ "LIGHT_20", "TRADER_AVOID", "NPC_THROW_NOW", "NO_REPAIR", "WATER_EXTINGUISH", "ACT_ON_RANGED_HIT" ]
   },
   {
     "id": "improvised_pipebomb",

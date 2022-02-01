@@ -39,7 +39,7 @@
     "id": "marlin_tubeloader",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": ".22 19-round tube loader" },
+    "name": { "str": ".22 19-round tube speedloader" },
     "description": "This is a tube which holds 19 rounds of .22, designed for quick reloading of a compatible rifle with tubular magazine.",
     "weight": "180 g",
     "volume": "250 ml",

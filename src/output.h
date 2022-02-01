@@ -9,6 +9,7 @@
 #include <forward_list>
 #include <functional>
 #include <iterator>
+#include <stack>
 #include <string>
 #include <type_traits>
 #include <utility>
@@ -146,6 +147,8 @@ extern int FULL_SCREEN_WIDTH; // width of "full screen" popups
 extern int FULL_SCREEN_HEIGHT; // height of "full screen" popups
 extern int OVERMAP_WINDOW_WIDTH; // width of overmap window
 extern int OVERMAP_WINDOW_HEIGHT; // height of overmap window
+extern int OVERMAP_WINDOW_TERM_WIDTH; // width of the overmap window in terminal characters
+extern int OVERMAP_WINDOW_TERM_HEIGHT; // same for height
 extern int OVERMAP_LEGEND_WIDTH; // width of overmap window legend
 
 nc_color msgtype_to_color( game_message_type type, bool bOldMsg = false );
@@ -193,8 +196,21 @@ nc_color msgtype_to_color( game_message_type type, bool bOldMsg = false );
  * color tags. For example `utf8_width("<color_red>text</color>")` would return 23, but
  * `utf8_width("<color_red>text</color>", true)` returns 4 (the length of "text").
  */
-
 /*@{*/
+
+/**
+ * Removes the prefix starting at the first occurrence of c1 until the first occurrence of c2
+ */
+std::string rm_prefix( std::string str, char c1 = '<', char c2 = '>' );
+
+/**
+ * Adds the color represented by the next color tag found in the string to the top of the stack.
+ * If color_error == report_color_error::yes a debugmsg will be shown when the tag is not valid.
+ */
+color_tag_parse_result::tag_type update_color_stack(
+    std::stack<nc_color> &color_stack, const std::string &seg,
+    report_color_error color_error = report_color_error::yes );
+
 /**
  * Removes the color tags from the input string. This might be required when the string is to
  * be used for functions that don't handle color tags.

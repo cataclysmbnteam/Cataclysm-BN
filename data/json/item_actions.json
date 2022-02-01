@@ -901,6 +901,16 @@
   },
   {
     "type": "item_action",
+    "id": "REPORT_GRID_CHARGE",
+    "name": { "str": "Check grid charge" }
+  },
+  {
+    "type": "item_action",
+    "id": "REPORT_GRID_CONNECTIONS",
+    "name": { "str": "Check grid connections" }
+  },
+  {
+    "type": "item_action",
     "id": "TOWEL",
     "name": { "str": "Dry/clean yourself" }
   },

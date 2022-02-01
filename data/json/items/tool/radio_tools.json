@@ -1,10 +1,10 @@
 [
   {
-    "id": "radio_car_box",
+    "id": "radio_car_base",
     "type": "GENERIC",
     "category": "other",
-    "name": { "str": "radio car box", "str_pl": "radio car boxes" },
-    "description": "An RC car, with radio-control and batteries included!  Disassemble to unpack and enjoy.",
+    "name": { "str": "radio car base" },
+    "description": "Generic radio car kit, you shouldn't see this.",
     "weight": "3200 g",
     "volume": "2 L",
     "price": 30000,
@@ -15,8 +15,17 @@
     "color": "red"
   },
   {
+    "id": "radio_car_box",
+    "copy-from": "radio_car_base",
+    "type": "GENERIC",
+    "name": { "str": "radio car box", "str_pl": "radio car boxes" },
+    "description": "An RC car, with radio-control and batteries included!  Disassemble to unpack and enjoy.",
+    "use_action": "DISASSEMBLE",
+    "flags": [ "NO_REPAIR", "NO_SALVAGE" ]
+  },
+  {
     "id": "radiocontrol",
-    "copy-from": "radio_car_box",
+    "copy-from": "radio_car_base",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "RC control" },
@@ -42,11 +51,11 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "radio_car",
-    "copy-from": "radio_car_box",
+    "copy-from": "radio_car_base",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "RC car" },
@@ -57,8 +66,7 @@
     "proportional": { "weight": 0.73, "volume": 0.75, "price": 0.8 },
     "use_action": "RADIOCAR",
     "flags": [ "RADIO_CONTAINER" ],
-    "magazines": [ [ "battery", [ "light_minus_disposable_cell", "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ],
-    "magazine_well": 0
+    "magazines": [ [ "battery", [ "light_minus_disposable_cell", "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ]
   },
   {
     "id": "radio_car_on",
@@ -68,7 +76,7 @@
     "description": "This remote-controlled car is on, and draining its batteries just like a real electric car!  Use a remote control to drive it around.",
     "turns_per_charge": 5,
     "use_action": "RADIOCARON",
-    "flags": [ "LIGHT_15", "RADIO_CONTAINER", "TRADER_AVOID" ]
+    "flags": [ "LIGHT_8", "RADIO_CONTAINER", "TRADER_AVOID" ]
   },
   {
     "id": "radio_mod",
@@ -118,7 +126,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "radio_on",
@@ -130,7 +138,7 @@
     "revert_to": "radio",
     "use_action": "RADIO_ON",
     "flags": [ "TRADER_AVOID" ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "two_way_radio",
@@ -163,7 +171,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "remotevehcontrol",
@@ -197,6 +205,6 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   }
 ]

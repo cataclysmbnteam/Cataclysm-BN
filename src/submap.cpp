@@ -286,7 +286,7 @@ void submap::rotate( int turns )
         elem->pos = new_pos;
         // turn the steering wheel, vehicle::turn does not actually
         // move the vehicle.
-        elem->turn( turns * 90 );
+        elem->turn( turns * 90_degrees );
         // The facing direction and recalculate the positions of the parts
         elem->face = elem->turn_dir;
         elem->precalc_mounts( 0, elem->turn_dir, elem->pivot_anchor[0] );
@@ -298,9 +298,9 @@ void submap::rotate( int turns )
     }
     computers = rot_comp;
 
-    std::map<point, cata::poly_serialized<active_tile_data>> rot_active_furn;
+    std::map<point_sm_ms, cata::poly_serialized<active_tile_data>> rot_active_furn;
     for( auto &elem : active_furniture ) {
-        rot_active_furn.emplace( rotate_point( elem.first ), elem.second );
+        rot_active_furn.emplace( point_sm_ms( rotate_point( elem.first.raw() ) ), elem.second );
     }
     active_furniture = rot_active_furn;
 }

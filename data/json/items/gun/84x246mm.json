@@ -11,7 +11,7 @@
     "price": 1300000,
     "price_postapoc": 6000,
     "material": "steel",
-    "flags": [ "RELOAD_ONE", "BACKBLAST", "NEVER_JAMS" ],
+    "flags": [ "RELOAD_ONE", "BACKBLAST", "NEVER_JAMS", "PYROMANIAC_WEAPON" ],
     "skill": "launcher",
     "ammo": "84x246mm",
     "weight": "6900 g",

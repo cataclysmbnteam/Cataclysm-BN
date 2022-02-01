@@ -21,7 +21,7 @@
     "difficulty": 2,
     "time": "6 m",
     "autolearn": true,
-    "using": [ [ "tailoring_cotton_knitting", 80 ] ]
+    "using": [ [ "tailoring_wool_knitting", 80 ] ]
   },
   {
     "type": "recipe",
@@ -210,7 +210,7 @@
     "time": "1 h 30 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rag", 30 ], [ "leather", 30 ], [ "felt_patch", 30 ], [ "tanned_hide", 5 ] ] ]
+    "components": [ [ [ "rag", 30 ], [ "leather", 30 ], [ "felt_patch", 30 ] ] ]
   },
   {
     "type": "recipe",
@@ -342,12 +342,13 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "difficulty": 4,
+    "skills_required": [ "mechanics", 2 ],
     "time": "10 m",
-    "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "GLARE", "level": 2 } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "GLARE", "level": 2 } ],
+    "using": [ [ "steel_tiny", 1 ] ],
     "tools": [ [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 10 ] ], [ [ "soldering_iron", 10 ] ] ],
-    "components": [ [ [ "sheet_metal", 1 ] ], [ [ "scrap", 2 ] ], [ [ "circuit", 1 ] ] ]
+    "components": [ [ [ "sheet_metal", 2 ] ], [ [ "pipe", 2 ] ], [ [ "chain", 1 ] ], [ [ "circuit", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -460,7 +461,7 @@
     "time": "1 h",
     "autolearn": true,
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "sheet_metal", -1 ] ], [ [ "forge", 75 ] ] ],
-    "components": [ [ [ "glass_shard", 182 ], [ "jar_glass", 91 ], [ "flask_glass", 182 ], [ "test_tube", 364 ] ] ]
+    "components": [ [ [ "glass_shard", 18 ], [ "jar_glass", 9 ], [ "flask_glass", 18 ], [ "test_tube", 36 ] ] ]
   },
   {
     "type": "recipe",
@@ -643,7 +644,6 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "survival",
-    "skills_required": [ "cooking", 1 ],
     "difficulty": 1,
     "time": "5 m",
     "autolearn": true,
@@ -652,6 +652,22 @@
       [ [ "salt_water", 1 ], [ "saline", 2 ], [ "salt", 2 ] ],
       [ [ "raw_leather", 1 ], [ "raw_tainted_leather", 1 ], [ "raw_hleather", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "cured_hide",
+    "id_suffix": "smoked",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "survival",
+    "skills_required": [ "cooking", 2 ],
+    "difficulty": 1,
+    "time": "20 m",
+    "batch_time_factors": [ 80, 1 ],
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "char_smoker", 5 ] ] ],
+    "components": [ [ [ "raw_leather", 1 ], [ "raw_tainted_leather", 1 ], [ "raw_hleather", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -668,13 +684,12 @@
   },
   {
     "type": "recipe",
-    "result": "tanning_hide",
+    "result": "leather",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "survival",
-    "skills_required": [ "cooking", 2 ],
     "difficulty": 3,
-    "time": "48 m",
+    "time": "12 m",
     "batch_time_factors": [ 20, 10 ],
     "autolearn": true,
     "qualities": [
@@ -683,13 +698,13 @@
       { "id": "BOIL", "level": 1 },
       { "id": "CONTAIN", "level": 1 }
     ],
-    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
     "components": [
-      [ [ "water_clean", 2 ], [ "water", 2 ] ],
-      [ [ "tanbark", 1 ], [ "acorns", 2 ], [ "hops", 2 ], [ "pine_bough", 6 ], [ "brain", 3 ] ],
-      [ [ "salt_water", 2 ], [ "saline", 10 ], [ "salt", 10 ] ],
+      [ [ "water_clean", 1 ], [ "water", 1 ] ],
+      [ [ "tanbark", 1 ], [ "acorns", 1 ], [ "hops", 1 ], [ "pine_bough", 1 ], [ "brain", 1 ] ],
+      [ [ "salt_water", 1 ], [ "saline", 2 ], [ "salt", 2 ] ],
       [ [ "edible_tallow_lard", 1, "LIST" ], [ "tallow_tainted", 1 ] ],
-      [ [ "cured_hide", 6 ] ]
+      [ [ "cured_hide", 1 ] ]
     ]
   },
   {
@@ -698,7 +713,6 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "survival",
-    "skills_required": [ "cooking", 1 ],
     "difficulty": 1,
     "time": "5 m",
     "autolearn": true,
@@ -710,13 +724,28 @@
   },
   {
     "type": "recipe",
-    "result": "tanning_pelt",
+    "result": "cured_pelt",
+    "id_suffix": "smoked",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "survival",
     "skills_required": [ "cooking", 2 ],
+    "difficulty": 1,
+    "time": "20 m",
+    "batch_time_factors": [ 80, 1 ],
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "char_smoker", 5 ] ] ],
+    "components": [ [ [ "raw_fur", 1 ], [ "raw_hfur", 1 ], [ "raw_tainted_fur", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "fur",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "survival",
     "difficulty": 3,
-    "time": "48 m",
+    "time": "12 m",
     "batch_time_factors": [ 20, 10 ],
     "autolearn": true,
     "qualities": [
@@ -725,56 +754,64 @@
       { "id": "BOIL", "level": 1 },
       { "id": "CONTAIN", "level": 1 }
     ],
-    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
     "components": [
-      [ [ "water_clean", 2 ], [ "water", 2 ] ],
-      [ [ "tanbark", 1 ], [ "acorns", 2 ], [ "hops", 2 ], [ "pine_bough", 6 ], [ "brain", 3 ] ],
-      [ [ "salt_water", 2 ], [ "saline", 10 ], [ "salt", 10 ] ],
+      [ [ "water_clean", 1 ], [ "water", 1 ] ],
+      [ [ "tanbark", 1 ], [ "acorns", 1 ], [ "hops", 1 ], [ "pine_bough", 1 ], [ "brain", 1 ] ],
+      [ [ "salt_water", 1 ], [ "saline", 2 ], [ "salt", 2 ] ],
       [ [ "edible_tallow_lard", 1, "LIST" ], [ "tallow_tainted", 1 ] ],
-      [ [ "cured_pelt", 6 ] ]
+      [ [ "cured_pelt", 1 ] ]
     ]
   },
   {
     "type": "recipe",
-    "result": "tanning_hide",
+    "result": "leather",
     "id_suffix": "modern",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "cooking",
-    "skills_required": [ "survival", 3 ],
-    "difficulty": 4,
-    "time": "20 m",
+    "skill_used": "survival",
+    "difficulty": 3,
+    "time": "5 m",
     "batch_time_factors": [ 50, 5 ],
-    "book_learn": [ [ "textbook_survival", 6 ], [ "textbook_chemistry", 5 ], [ "modern_tanner", 4 ] ],
+    "autolearn": true,
+    "book_learn": [ [ "textbook_survival", 2 ], [ "modern_tanner", 2 ] ],
     "qualities": [
       { "id": "CHEM", "level": 1 },
       { "id": "COOK", "level": 3 },
       { "id": "BOIL", "level": 2 },
       { "id": "CONTAIN", "level": 1 }
     ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "water_clean", 2 ], [ "water", 2 ] ], [ [ "lye_powder", 10 ], [ "aspirin", 10 ] ], [ [ "cured_hide", 6 ] ] ]
+    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [
+      [ [ "water_clean", 1 ], [ "water", 1 ] ],
+      [ [ "lye_powder", 2 ], [ "aspirin", 2 ], [ "chem_phenol", 20 ] ],
+      [ [ "cured_hide", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
-    "result": "tanning_pelt",
+    "result": "fur",
     "id_suffix": "modern",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "cooking",
-    "skills_required": [ "survival", 3 ],
-    "difficulty": 4,
-    "time": "20 m",
+    "skill_used": "survival",
+    "difficulty": 3,
+    "time": "5 m",
     "batch_time_factors": [ 50, 5 ],
-    "book_learn": [ [ "textbook_survival", 6 ], [ "textbook_chemistry", 5 ], [ "modern_tanner", 4 ] ],
+    "autolearn": true,
+    "book_learn": [ [ "textbook_survival", 2 ], [ "modern_tanner", 2 ] ],
     "qualities": [
       { "id": "CHEM", "level": 1 },
       { "id": "COOK", "level": 3 },
       { "id": "BOIL", "level": 2 },
       { "id": "CONTAIN", "level": 1 }
     ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "water_clean", 2 ], [ "water", 2 ] ], [ [ "lye_powder", 10 ], [ "aspirin", 10 ] ], [ [ "cured_pelt", 6 ] ] ]
+    "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
+    "components": [
+      [ [ "water_clean", 1 ], [ "water", 1 ] ],
+      [ [ "lye_powder", 2 ], [ "aspirin", 2 ], [ "chem_phenol", 20 ] ],
+      [ [ "cured_pelt", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -820,11 +857,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "frame_wood", -1 ], [ "frame_wood_light", -1 ] ] ],
     "batch_time_factors": [ 75, 4 ],
-    "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "material_soil", 2 ] ],
-      [ [ "withered", 2 ], [ "straw_pile", 2 ], [ "feces_cow", 1 ], [ "feces_roach", 1 ], [ "feces_manure", 1 ] ]
-    ]
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "material_soil", 2 ] ], [ [ "withered", 2 ], [ "straw_pile", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -860,8 +893,9 @@
     "skill_used": "survival",
     "difficulty": 1,
     "time": "6 m",
+    "charges": 50,
     "autolearn": true,
-    "components": [ [ [ "dogbane", 1 ], [ "cattail_stalk", 1 ] ] ]
+    "components": [ [ [ "dogbane", 1 ], [ "cattail_stalk", 5 ], [ "cattail_rhizome", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -1000,7 +1034,16 @@
     "autolearn": true,
     "using": [ [ "forging_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "tin", 12 ] ], [ [ "copper_scrap_equivalent", 2, "LIST" ] ] ]
+    "components": [
+      [
+        [ "tin", 12 ],
+        [ "material_aluminium_ingot", 1 ],
+        [ "aluminum_foil", 40 ],
+        [ "chem_aluminium_powder", 15 ],
+        [ "can_drink_unsealed", 2 ]
+      ],
+      [ [ "copper_scrap_equivalent", 2, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1012,7 +1055,7 @@
     "time": "1 h",
     "autolearn": true,
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "sheet_metal", -1 ] ], [ [ "forge", 75 ] ] ],
-    "components": [ [ [ "glass_shard", 400 ], [ "flask_glass", 126 ], [ "jar_glass", 42 ] ] ]
+    "components": [ [ [ "glass_shard", 40 ], [ "flask_glass", 12 ], [ "jar_glass", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -1105,31 +1148,8 @@
   },
   {
     "type": "recipe",
-    "result": "tanned_hide",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "time": "36 m",
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "tanned_pelt", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "tanned_hide",
-    "id_suffix": "from_pieces",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "tailor",
-    "time": "90 m",
-    "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 } ],
-    "components": [ [ [ "leather", 6 ] ], [ [ "filament", 4, "LIST" ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "leather",
+    "id_suffix": "shaving",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "survival",

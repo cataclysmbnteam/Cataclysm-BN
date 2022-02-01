@@ -108,6 +108,8 @@ bool check_empty_up_OK( const tripoint & ); // tile is empty and below OVERMAP_H
 bool check_up_OK( const tripoint & ); // tile is below OVERMAP_HEIGHT
 bool check_down_OK( const tripoint & ); // tile is above OVERMAP_DEPTH
 bool check_no_trap( const tripoint & );
+bool check_ramp_low( const tripoint & );
+bool check_ramp_high( const tripoint & );
 
 // Special actions to be run post-terrain-mod
 static void done_nothing( const tripoint & ) {}
@@ -124,6 +126,8 @@ void done_window_curtains( const tripoint & );
 void done_extract_maybe_revert_to_dirt( const tripoint & );
 void done_mark_firewood( const tripoint & );
 void done_mark_practice_target( const tripoint & );
+void done_ramp_low( const tripoint & );
+void done_ramp_high( const tripoint & );
 
 void failure_standard( const tripoint & );
 void failure_deconstruct( const tripoint & );
@@ -1023,7 +1027,8 @@ void complete_construction( player *p )
     if( !built.post_terrain.empty() ) {
         if( built.post_is_furniture ) {
             g->m.furn_set( terp, furn_str_id( built.post_terrain ) );
-            active_tile_data *active = active_tiles::furn_at<active_tile_data>( g->m.getabs( terp ) );
+            active_tile_data *active = active_tiles::furn_at<active_tile_data>(
+                                           tripoint_abs_ms( g->m.getabs( terp ) ) );
             if( active != nullptr ) {
                 active->set_last_updated( calendar::turn );
             }
@@ -1115,6 +1120,24 @@ bool construct::check_no_trap( const tripoint &p )
     return g->m.tr_at( p ).is_null();
 }
 
+bool construct::check_ramp_high( const tripoint &p )
+{
+    if( check_up_OK( p ) && check_up_OK( p + tripoint_above ) ) {
+        for( const point &car_d : four_cardinal_directions ) {
+            // check adjacent points on the z-level above for a completed down ramp
+            if( get_map().has_flag( TFLAG_RAMP_DOWN, p + car_d + tripoint_above ) ) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool construct::check_ramp_low( const tripoint &p )
+{
+    return check_up_OK( p ) && check_up_OK( p + tripoint_above );
+}
+
 void construct::done_trunk_plank( const tripoint &/*p*/ )
 {
     int num_logs = rng( 2, 3 );
@@ -1199,7 +1222,7 @@ void construct::done_vehicle( const tripoint &p )
     map &m = get_map();
     avatar &u = get_avatar();
 
-    vehicle *veh = m.add_vehicle( vproto_id( "none" ), p, 270, 0, 0 );
+    vehicle *veh = m.add_vehicle( vproto_id( "none" ), p, 270_degrees, 0, 0 );
 
     if( !veh ) {
         debugmsg( "error constructing vehicle" );
@@ -1417,6 +1440,18 @@ void construct::done_mark_practice_target( const tripoint &p )
     g->m.trap_set( p, tr_practice_target );
 }
 
+void construct::done_ramp_low( const tripoint &p )
+{
+    const tripoint top = p + tripoint_above;
+    get_map().ter_set( top, ter_id( "t_ramp_down_low" ) );
+}
+
+void construct::done_ramp_high( const tripoint &p )
+{
+    const tripoint top = p + tripoint_above;
+    get_map().ter_set( top, ter_id( "t_ramp_down_high" ) );
+}
+
 void construct::failure_standard( const tripoint & )
 {
     add_msg( m_info, _( "You cannot build there!" ) );
@@ -1524,7 +1559,9 @@ void load_construction( const JsonObject &jo )
             { "check_empty_up_OK", construct::check_empty_up_OK },
             { "check_up_OK", construct::check_up_OK },
             { "check_down_OK", construct::check_down_OK },
-            { "check_no_trap", construct::check_no_trap }
+            { "check_no_trap", construct::check_no_trap },
+            { "check_ramp_low", construct::check_ramp_low },
+            { "check_ramp_high", construct::check_ramp_high }
         }
     };
     static const std::map<std::string, std::function<void( const tripoint & )>> post_special_map = {{
@@ -1540,7 +1577,9 @@ void load_construction( const JsonObject &jo )
             { "done_window_curtains", construct::done_window_curtains },
             { "done_extract_maybe_revert_to_dirt", construct::done_extract_maybe_revert_to_dirt },
             { "done_mark_firewood", construct::done_mark_firewood },
-            { "done_mark_practice_target", construct::done_mark_practice_target }
+            { "done_mark_practice_target", construct::done_mark_practice_target },
+            { "done_ramp_low", construct::done_ramp_low },
+            { "done_ramp_high", construct::done_ramp_high }
         }
     };
     std::map<std::string, std::function<void( const tripoint & )>> explain_fail_map;

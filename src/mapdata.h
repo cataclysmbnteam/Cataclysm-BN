@@ -98,6 +98,46 @@ struct lockpicking_open_result {
     std::string open_message;
 };
 
+struct pry_result {
+    // Minimum prying quality required to pry open
+    int pry_quality;
+    // Multiplier for how much of an advantage is gained from using a better tool than the minimum
+    int pry_bonus_mult;
+    // Difficulty value used for roll
+    int difficulty;
+    // How much noise a successful prying attempt creates, if any
+    int noise;
+    // How much noise breaking creates, if any, defaults to noise if not set
+    int break_noise;
+    // Does a successful pry attempt potentially sound an alarm?
+    bool alarm;
+    // Does a failed pry attempt risk breaking it instead?
+    bool breakable;
+    // What terrain or furniture it will turn into when pried open
+    ter_str_id new_ter_type;
+    furn_str_id new_furn_type;
+    // What terrain or furniture it will turn into if you break it
+    ter_str_id break_ter_type;
+    furn_str_id break_furn_type;
+    // item group of items that are dropped on success or breakage
+    item_group_id pry_items;
+    item_group_id break_items;
+    // sound message made on success ('You hear a "smash!"')
+    translation sound;
+    // sound message made on breakage, if breakable is true
+    translation break_sound;
+    // Messages for succeeding or failing pry attempt, and breakage
+    std::string success_message;
+    std::string fail_message;
+    std::string break_message;
+    pry_result();
+    enum map_object_type {
+        furniture = 0,
+        terrain
+    };
+    bool load( const JsonObject &jsobj, const std::string &member, map_object_type obj_type );
+};
+
 /*
  * List of known flags, used in both terrain.json and furniture.json.
  * TRANSPARENT - Players and monsters can see through/past it. Also sets ter_t.transparent
@@ -202,6 +242,8 @@ enum ter_bitflags : int {
     TFLAG_GOES_UP,
     TFLAG_NO_FLOOR,
     TFLAG_SEEN_FROM_ABOVE,
+    TFLAG_RAMP_DOWN,
+    TFLAG_RAMP_UP,
     TFLAG_RAMP,
     TFLAG_HIDE_PLACE,
     TFLAG_BLOCK_WIND,
@@ -209,7 +251,9 @@ enum ter_bitflags : int {
     TFLAG_RAIL,
     TFLAG_THIN_OBSTACLE,
     TFLAG_SMALL_PASSAGE,
+    TFLAG_Z_TRANSPARENT,
     TFLAG_SUN_ROOF_ABOVE,
+    TFLAG_SUSPENDED,
 
     NUM_TERFLAGS
 };
@@ -232,6 +276,7 @@ enum ter_connects : int {
 struct map_data_common_t {
         map_bash_info        bash;
         map_deconstruct_info deconstruct;
+        pry_result           pry;
 
     public:
         virtual ~map_data_common_t() = default;

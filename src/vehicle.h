@@ -19,13 +19,13 @@
 #include "character_id.h"
 #include "clzones.h"
 #include "colony.h"
+#include "coordinates.h"
 #include "damage.h"
 #include "game_constants.h"
 #include "item.h"
 #include "item_group.h"
 #include "item_location.h"
 #include "item_stack.h"
-#include "line.h"
 #include "optional.h"
 #include "point.h"
 #include "tileray.h"
@@ -48,6 +48,7 @@ class vpart_info;
 struct itype;
 struct uilist_entry;
 template <typename T> class visitable;
+struct rl_vec2d;
 
 enum vpart_bitflags : int;
 enum ter_bitflags : int;
@@ -368,7 +369,7 @@ struct vehicle_part {
 
         /** mount translated to face.dir [0] and turn_dir [1] */
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        std::array<point, 2> precalc = { { point( -1, -1 ), point( -1, -1 ) } };
+        std::array<tripoint, 2> precalc = { { tripoint( -1, -1, 0 ), tripoint( -1, -1, 0 ) } };
 
         /** current part health with range [0,durability] */
         int hp() const;
@@ -418,7 +419,7 @@ struct vehicle_part {
         bool open = false;
 
         /** direction the part is facing */
-        int direction = 0;
+        units::angle direction = 0_degrees;
 
         /**
          * Coordinates for some kind of target; jumper cables and turrets use this
@@ -574,10 +575,24 @@ class turret_data
  */
 struct label : public point {
     label() = default;
-    label( const point &p ) : point( p ) {}
+    explicit label( const point &p ) : point( p ) {}
     label( const point &p, std::string text ) : point( p ), text( std::move( text ) ) {}
 
     std::string text;
+
+    void deserialize( JsonIn &jsin );
+    void serialize( JsonOut &json ) const;
+};
+
+enum class autodrive_result : int {
+    // the driver successfully performed course correction or simply did nothing
+    // in order to keep going forward
+    ok,
+    // something bad happened (navigation error, crash, loss of visibility, or just
+    // couldn't find a way around obstacles) and autodrive cannot continue
+    abort,
+    // arrived at the destination
+    finished
 };
 
 class RemovePartHandler;
@@ -726,6 +741,9 @@ class vehicle
          * @param where Location of the other vehicle's origin tile.
          */
         static vehicle *find_vehicle( const tripoint &where );
+        static vehicle *find_vehicle( const tripoint_abs_ms &where ) {
+            return find_vehicle( where.raw() );
+        }
 
     private:
         /**
@@ -745,8 +763,14 @@ class vehicle
     public:
         vehicle( const vproto_id &type_id, int init_veh_fuel = -1, int init_veh_status = -1 );
         vehicle();
+        vehicle( const vehicle & ) = delete;
         ~vehicle();
+        vehicle &operator=( vehicle && ) = default;
 
+    private:
+        vehicle &operator=( const vehicle & ) = default;
+
+    public:
         /** Disable or enable refresh() ; used to speed up performance when creating a vehicle */
         void suspend_refresh();
         void enable_refresh();
@@ -767,9 +791,9 @@ class vehicle
         bool mod_hp( vehicle_part &pt, int qty, damage_type dt = DT_NULL );
 
         // check if given player controls this vehicle
-        bool player_in_control( const player &p ) const;
+        bool player_in_control( const Character &p ) const;
         // check if player controls this vehicle remotely
-        bool remote_controlled( const player &p ) const;
+        bool remote_controlled( const Character &p ) const;
 
         // init parts state for randomly generated vehicle
         void init_state( int init_veh_fuel, int init_veh_status );
@@ -831,16 +855,18 @@ class vehicle
         }
         bool handle_potential_theft( player &p, bool check_only = false, bool prompt = true );
         // project a tileray forward to predict obstacles
-        std::set<point> immediate_path( int rotate = 0 );
+        std::set<point> immediate_path( units::angle rotate = 0_degrees );
         std::set<point> collision_check_points;
         void autopilot_patrol();
-        double get_angle_from_targ( const tripoint &targ );
+        units::angle get_angle_from_targ( const tripoint &targ );
         void drive_to_local_target( const tripoint &target, bool follow_protocol );
         tripoint get_autodrive_target() {
             return autodrive_local_target;
         }
-        void do_autodrive();
-        void stop_autodriving();
+        // Drive automatically towards some destination for one turn.
+        autodrive_result do_autodrive( Character &driver );
+        // Stop any kind of automatic vehicle control and apply the brakes.
+        void stop_autodriving( bool apply_brakes = true );
         /**
          *  Operate vehicle controls
          *  @param pos location of physical controls to operate (ignored during remote operation)
@@ -1051,13 +1077,11 @@ class vehicle
         point coord_translate( const point &p ) const;
 
         // Translate mount coordinates "p" into tile coordinates "q" using given pivot direction and anchor
-        void coord_translate( int dir, const point &pivot, const point &p, point &q ) const;
+        void coord_translate( units::angle dir, const point &pivot, const point &p,
+                              tripoint &q ) const;
         // Translate mount coordinates "p" into tile coordinates "q" using given tileray and anchor
         // should be faster than previous call for repeated translations
-        void coord_translate( tileray tdir, const point &pivot, const point &p, point &q ) const;
-
-        // Rotates mount coordinates "p" from old_dir to new_dir along pivot
-        point rotate_mount( int old_dir, int new_dir, const point &pivot, const point &p ) const;
+        void coord_translate( tileray tdir, const point &pivot, const point &p, tripoint &q ) const;
 
         tripoint mount_to_tripoint( const point &mount ) const;
         tripoint mount_to_tripoint( const point &mount, const point &offset ) const;
@@ -1087,7 +1111,7 @@ class vehicle
             bool isHorizontal = false );
 
         // Pre-calculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
-        void precalc_mounts( int idir, int dir, const point &pivot );
+        void precalc_mounts( int idir, units::angle dir, const point &pivot );
 
         // get a list of part indices where is a passenger inside
         std::vector<int> boarded_parts() const;
@@ -1101,13 +1125,11 @@ class vehicle
         monster *get_pet( int p ) const;
 
         bool enclosed_at( const tripoint &pos ); // not const because it calls refresh_insides
-        /**
-         * Get the coordinates (in map squares) of this vehicle, it's the same
-         * coordinate system that player::posx uses.
-         * Global apparently means relative to the currently loaded map (game::m).
-         * This implies:
-         * <code>g->m.veh_at(this->global_pos3()) == this;</code>
-         */
+        // Returns the location of the vehicle in global map square coordinates.
+        tripoint_abs_ms global_square_location() const;
+        // Returns the location of the vehicle in global overmap terrain coordinates.
+        tripoint_abs_omt global_omt_location() const;
+        // Returns the coordinates (in map squares) of the vehicle relative to the local map.
         tripoint global_pos3() const;
         /**
          * Get the coordinates of the studied part of the vehicle
@@ -1400,7 +1422,7 @@ class vehicle
         void cruise_thrust( int amount );
 
         // turn vehicle left (negative) or right (positive), degrees
-        void turn( int deg );
+        void turn( units::angle deg );
 
         // Returns if any collision occurred
         bool collision( std::vector<veh_collision> &colls,
@@ -1419,7 +1441,7 @@ class vehicle
         /**
          * vehicle is driving itself
          */
-        void autodrive( const point & );
+        void selfdrive( const point & );
         /**
          * can the helicopter descend/ascend here?
          */
@@ -1431,7 +1453,7 @@ class vehicle
          * @param p direction player is steering
          * @param z for vertical movement - e.g helicopters
          */
-        void pldrive( const point &p, int z = 0 );
+        void pldrive( Character &driver, const point &p, int z = 0 );
 
         // stub for per-vpart limit
         units::volume max_volume( int part ) const;
@@ -1681,11 +1703,11 @@ class vehicle
          * &wheels_on_rail          - resulting wheels that land on ter_flag_to_check
          * &turning_wheels_that_are_one_axis_counter - number of wheels that are on one axis and will land on rail
          */
-        void precalculate_vehicle_turning( int new_turn_dir, bool check_rail_direction,
+        void precalculate_vehicle_turning( units::angle new_turn_dir, bool check_rail_direction,
                                            ter_bitflags ter_flag_to_check, int &wheels_on_rail,
                                            int &turning_wheels_that_are_one_axis_counter ) const;
-        bool allow_auto_turn_on_rails( int &corrected_turn_dir ) const;
-        bool allow_manual_turn_on_rails( int &corrected_turn_dir ) const;
+        bool allow_auto_turn_on_rails( units::angle &corrected_turn_dir ) const;
+        bool allow_manual_turn_on_rails( units::angle &corrected_turn_dir ) const;
         bool is_wheel_state_correct_to_turn_on_rails( int wheels_on_rail, int wheel_count,
                 int turning_wheels_that_are_one_axis ) const;
         /**
@@ -1694,7 +1716,7 @@ class vehicle
          * This should be called only when the vehicle has actually been moved, not when
          * the map is just shifted (in the later case simply set smx/smy directly).
          */
-        void set_submap_moved( const point &p );
+        void set_submap_moved( const tripoint &p );
         void use_autoclave( int p );
         void use_washing_machine( int p );
         void use_dishwasher( int p );
@@ -1734,9 +1756,24 @@ class vehicle
         // Cached points occupied by the vehicle
         std::set<tripoint> occupied_points;
 
-    public:
         std::vector<vehicle_part> parts;   // Parts which occupy different tiles
-        std::vector<tripoint> omt_path; // route for overmap-scale auto-driving
+    public:
+        // Number of parts contained in this vehicle
+        int part_count() const;
+        // Returns the vehicle_part with the given part number
+        vehicle_part &part( int part_num );
+        // Same as vehicle::part() except with const binding
+        const vehicle_part &cpart( int part_num ) const;
+        // Determines whether the given part_num is valid for this vehicle
+        bool valid_part( int part_num ) const;
+        // Updates the internal precalculated mount offsets after the vehicle has been displaced
+        // used in map::displace_vehicle()
+        std::set<int> advance_precalc_mounts( const point &new_pos, const tripoint &src,
+                                              const tripoint &dp, int ramp_offset,
+                                              bool adjust_pos, std::set<int> parts_to_move );
+        // make sure the vehicle is supported across z-levels or on the same z-level
+        bool level_vehicle();
+
         std::vector<int> alternators;      // List of alternator indices
         std::vector<int> engines;          // List of engine indices
         std::vector<int> reactors;         // List of reactor indices
@@ -1789,6 +1826,8 @@ class vehicle
         mutable point mass_center_precalc;
         mutable point mass_center_no_precalc;
         tripoint autodrive_local_target = tripoint_zero; // current node the autopilot is aiming for
+        class autodrive_controller;
+        std::shared_ptr<autodrive_controller> active_autodrive_controller;
 
     public:
         // Subtract from parts.size() to get the real part count.
@@ -1832,9 +1871,9 @@ class vehicle
         int om_id;
         // direction, to which vehicle is turning (player control). will rotate frame on next move
         // must be a multiple of 15 degrees
-        int turn_dir = 0;
+        units::angle turn_dir = 0_degrees;
         // amount of last turning (for calculate skidding due to handbrake)
-        int last_turn = 0;
+        units::angle last_turn = 0_degrees;
         // goes from ~1 to ~0 while proceeding every turn
         float of_turn;
         // leftover from previous turn
@@ -1845,7 +1884,7 @@ class vehicle
         // the time point when it was successfully stolen
         cata::optional<time_point> theft_time;
         // rotation used for mount precalc values
-        std::array<int, 2> pivot_rotation = { { 0, 0 } };
+        std::array<units::angle, 2> pivot_rotation = { { 0_degrees, 0_degrees } };
 
         bounding_box rail_wheel_bounding_box;
         point front_left;
@@ -1884,6 +1923,8 @@ class vehicle
         int requested_z_change = 0;
 
     public:
+        bool is_on_ramp = false;
+        // vehicle being driven by player/npc automatically
         bool is_autodriving = false;
         bool is_following = false;
         bool is_patrolling = false;
@@ -1914,6 +1955,10 @@ class vehicle
 
         // current noise of vehicle (engine working, etc.)
         unsigned char vehicle_noise = 0;
+
+        // Returns debug data to overlay on the screen, a vector of {map tile position
+        // relative to vehicle pos, color and text}.
+        std::vector<std::tuple<point, int, std::string>> get_debug_overlay_data() const;
 };
 
 #endif // CATA_SRC_VEHICLE_H

@@ -290,11 +290,11 @@ The optional boolean keys "switch" and "default" are false by default.  Only the
 "responses": [
   { "text": "You know what, never mind.", "topic": "TALK_NONE" },
   { "text": "How does 5 Ben Franklins sound?",
-    "topic": "TALK_BIG_BRIBE", "condition": { "u_has_cash": 500 }, "switch": true },
+    "topic": "TALK_BIG_BRIBE", "condition": { "u_has_items": { "item": "100_usd", "count": 5 } }, "switch": true },
    { "text": "I could give you a big Grant.",
-    "topic": "TALK_BRIBE", "condition": { "u_has_cash": 50 }, "switch": true },
+    "topic": "TALK_BRIBE", "condition": { "u_has_item": "50_usd" }, "switch": true },
   { "text": "Lincoln liberated the slaves, what can he do for me?",
-    "topic": "TALK_TINY_BRIBE", "condition": { "u_has_cash": 5 }, "switch": true, "default": true },
+    "topic": "TALK_TINY_BRIBE", "condition": { "u_has_item": "5_usd" }, "switch": true, "default": true },
   { "text": "Maybe we can work something else out?", "topic": "TALK_BRIBE_OTHER",
     "switch": true, "default": true },
   { "text": "Gotta go!", "topic": "TALK_DONE" }
@@ -310,7 +310,7 @@ The player will have one response text if a condition is true, and another if it
 ```json
 {
     "truefalsetext": {
-        "condition": { "u_has_cash": 800 },
+        "condition": { "u_has_item": "FMCNote" },
         "true": "I may have the money, I'm not giving you any.",
         "false": "I don't have that money."
     },
@@ -410,8 +410,8 @@ Effect | Description
 
 Effect | Description
 ---|---
-`give_aid` | Removes all bites, infection, and bleeding from your character's body and heals 10-25 HP of injury on each of your character's body parts.
-`give_aid_all` | Performs `give_aid` on each of your character's NPC allies in range.
+`give_aid` | Removes all bites, infection, and bleeding from your character's body and heals 10-25 HP of injury on each of your character's body parts. Takes 30 minutes. NPC receives 30 minutes of `currently_busy` effect on start.
+`give_aid_all` | Performs `give_aid` on your character and each of your character's NPC allies in crafting range. Takes 1 hour. NPC receives 1 hour of `currently_busy` effect on start.
 `buy_haircut` | Gives your character a haircut morale boost for 12 hours.
 `buy_shave` | Gives your character a shave morale boost for 6 hours.
 `morale_chat` | Gives your character a pleasant conversation morale boost for 6 hours.
@@ -448,7 +448,7 @@ Effect | Description
 `u_sell_item: item_string`, (*optional* `cost: cost_num`, *optional* `count: count_num`) | Your character will give the NPC the item or `count_num` copies of the item, and will add `cost_num` to the NPC's `op_of_u.owed` if specified.<br/>If cost isn't present, the your character gives the NPC the item at no charge.<br/>This effect will fail if you do not have at least `count_num` copies of the item, so it should be checked with `u_has_items`.
 `u_bulk_trade_accept`<br/>`npc_bulk_trade_accept` | Only valid after a `repeat_response`.  The player trades all instances of the item from the `repeat_response` with the NPC.  For `u_bulk_trade_accept`, the player loses the items from their inventory and gains the same value of the NPC's faction currecy; for `npc_bulk_trade_accept`, the player gains the items from the NPC's inventory and loses the same value of the NPC's faction currency.  If there is remaining value, or the NPC doesn't have a faction currency, the remainder goes into the NPC's `op_of_u.owed`.
 `u_bulk_donate`<br/>`npc_bulk_donate` | Only valid after a `repeat_response`.  The player or NPC transfers all instances of the item from the `repeat_response`.  For `u_bulk_donate`, the player loses the items from their inventory and the NPC gains them; for `npc_bulk_donate`, the player gains the items from the NPC's inventory and the NPC loses them.
-`u_spend_cash: cost_num` | Remove `cost_num` from your character's cash.  Negative values means your character gains cash.  *deprecated* NPCs should not deal in e-cash anymore, only personal debts and items.
+`u_spend_ecash: amount` | Remove `amount` from your character's pre-cataclysm bank account.  Negative values means your character gains e-cash.  NPCs should **not** deal in e-cash, only personal debts and items (including faction currency).
 `add_debt: mod_list` | Increases the NPC's debt to the player by the values in the `mod_list`.<br/>The following would increase the NPC's debt to the player by 1500x the NPC's altruism and 1000x the NPC's opinion of the player's value: `{ "effect": { "add_debt": [ [ "ALTRUISM", 3 ], [ "VALUE", 2 ], [ "TOTAL", 500 ] ] } }`
 `u_consume_item`, `npc_consume_item: item_string`, (*optional* `count: count_num`) | You or the NPC will delete the item or `count_num` copies of the item from their inventory.<br/>This effect will fail if the you or NPC does not have at least `count_num` copies of the item, so it should be checked with `u_has_items` or `npc_has_items`.
 `u_remove_item_with`, `npc_remove_item_with: item_string` | You or the NPC will delete any instances of item in inventory.<br/>This is an unconditional remove and will not fail if you or the NPC does not have the item.
@@ -573,7 +573,7 @@ Condition | Type | Description
 #### Player Only conditions
 
 `"u_has_mission"` | string | `true` if the mission is assigned to the player character.
-`"u_has_cash"` | int | `true` if the player character has at least `u_has_cash` cash available.  *Deprecated*  Previously used to check if the player could buy something, but NPCs shouldn't use e-cash for trades anymore.
+`"u_has_ecash"` | int | `true` if the player character has at least `u_has_ecash` ecash available in his pre-cataclysm bank account.  NPCs should **not** deal in e-cash, only personal debts and items (including faction currency).
 `"u_are_owed"` | int | `true` if the NPC's op_of_u.owed is at least `u_are_owed`.  Can be used to check if the player can buy something from the NPC without needing to barter anything.
 `"u_has_camp"` | simple string | `true` is the player has one or more active base camps.
 
@@ -591,7 +591,7 @@ Condition | Type | Description
 `"mission_complete"` | simple string | `true` if the player has completed the NPC's current mission.
 `"mission_incomplete"` | simple string | `true` if the player hasn't completed the NPC's current mission.
 `"mission_has_generic_rewards"` | simple string | `true` if the NPC's current mission is flagged as having generic rewards.
-`"npc_service"` | int | `true` if the NPC does not have the `"currently_busy"` effect and the player character has at least `npc_service` cash available.  Useful to check if the player character can hire an NPC to perform a task that would take time to complete.  Functionally, this is identical to `"and": [ { "not": { "npc_has_effect": "currently_busy" } }, { "u_has_cash": service_cost } ]`
+`"npc_service"` | simple string | `true` if the NPC does not have the `"currently_busy"` effect.  Useful to check if the player character can hire an NPC to perform a task that would take time to complete.  Functionally, this is identical to `not": { "npc_has_effect": "currently_busy" }`. Same as `npc_available`.
 `"npc_allies"` | int | `true` if the player character has at least `npc_allies` number of NPC allies.
 `"npc_following"` | simple string | `true` if the NPC is following the player character.
 `"is_by_radio"` | simple string | `true` if the player is talking to the NPC over a radio.
@@ -666,14 +666,14 @@ Condition | Type | Description
   "topic": "TALK_EVAC_MERCHANT_NO",
   "condition": { "and": [ { "not": { "u_has_intelligence": 7 } }, { "u_has_strength": 11 } ] }
 },
-{ "text": "[$2000, 1d] 10 logs", "topic": "TALK_DONE", "effect": "buy_10_logs", "condition":
-{ "npc_service": 2000 } },
+{ "text": "[100 Merch, 1d] 10 logs", "topic": "TALK_DONE", "effect": "buy_10_logs", "condition":
+{ "and": [ "npc_service", { "u_has_items": { "item": "FMCNote", "count": 100 } } ] } },
 { "text": "Maybe later.", "topic": "TALK_RANCH_WOODCUTTER", "condition": "npc_available" },
 {
-  "text": "[$8] I'll take a beer",
+  "text": "[1 Merch] I'll take a beer",
   "topic": "TALK_DONE",
-  "condition": { "u_has_cash": 800 },
-  "effect": { "u_buy_item": "beer", "container": "bottle_glass", "count": 2, "cost": 800 }
+  "condition": { "u_has_item": "FMCNote" },
+  "effect": [{ "u_sell_item": "FMCNote" }, { "u_buy_item": "beer", "container": "bottle_glass", "count": 2 }]
 },
 {
   "text": "Okay.  Lead the way.",

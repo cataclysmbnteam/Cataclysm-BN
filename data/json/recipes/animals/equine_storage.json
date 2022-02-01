@@ -8,6 +8,6 @@
     "time": "120 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 40 ] ],
-    "components": [ [ [ "leather", 12 ], [ "tanned_hide", 3 ] ] ]
+    "components": [ [ [ "leather", 12 ] ] ]
   }
 ]

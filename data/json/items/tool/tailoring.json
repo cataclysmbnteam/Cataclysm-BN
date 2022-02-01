@@ -167,56 +167,6 @@
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
-    "id": "tanning_hide",
-    "type": "GENERIC",
-    "category": "spare_parts",
-    "name": { "str": "tanning leather hide" },
-    "description": "A treated animal hide which is undergoing the chemical processes required to become leather.  You will be able to activate it to unroll and make use of it when it is done.",
-    "weight": "600 g",
-    "volume": "1 L",
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": -2,
-    "material": [ "flesh", "leather" ],
-    "symbol": ",",
-    "color": "brown",
-    "use_action": {
-      "target": "tanned_hide",
-      "msg": "You carefully unfold the tanning leather hide and shake it clean.",
-      "moves": 150,
-      "type": "delayed_transform",
-      "transform_age": 28800,
-      "not_ready_msg": "The tanning leather hide isn't done yet.",
-      "//": "2 days"
-    },
-    "flags": [ "NO_SALVAGE" ]
-  },
-  {
-    "id": "tanning_pelt",
-    "type": "GENERIC",
-    "category": "spare_parts",
-    "name": { "str": "tanning fur pelt" },
-    "description": "A treated animal pelt which is undergoing the chemical processes required to become fur.  You will be able to activate it to unroll and make use of it when it is done.",
-    "weight": "684 g",
-    "volume": "1 L",
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": -2,
-    "material": [ "fur", "flesh" ],
-    "symbol": ",",
-    "color": "brown",
-    "use_action": {
-      "target": "tanned_pelt",
-      "msg": "You carefully unfold the tanning fur pelt and shake it clean.",
-      "moves": 150,
-      "type": "delayed_transform",
-      "transform_age": 28800,
-      "not_ready_msg": "The tanning fur pelt isn't done yet.",
-      "//": "2 days"
-    },
-    "flags": [ "NO_SALVAGE" ]
-  },
-  {
     "id": "tailoring_pattern_set",
     "type": "GENERIC",
     "category": "tools",
@@ -278,7 +228,7 @@
           "kevlar_rigid"
         ],
         "skill": "tailor",
-        "clothing_mods": [ "leather_padded", "steel_padded", "kevlar_padded", "furred", "wooled" ]
+        "clothing_mods": [ "leather_padded", "steel_padded", "alloy_padded", "kevlar_padded", "furred", "wooled" ]
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ]

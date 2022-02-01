@@ -16,7 +16,6 @@
     "location": "underbarrel",
     "mod_targets": [ "rifle", "launcher" ],
     "handling_modifier": 40,
-    "min_skills": [ [ "weapon", 2 ] ],
     "flags": [ "BIPOD", "SLOW_WIELD" ]
   },
   {
@@ -80,7 +79,6 @@
     "location": "underbarrel",
     "mod_targets": [ "shotgun", "smg", "rifle", "crossbow", "launcher" ],
     "handling_modifier": 10,
-    "min_skills": [ [ "weapon", 2 ] ],
     "flags": [ "PUMP_RAIL_COMPATIBLE" ]
   },
   {
@@ -230,7 +228,6 @@
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "bow", "launcher" ],
     "sight_dispersion": 30,
     "aim_speed": 9,
-    "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ],
     "flags": [ "PUMP_RAIL_COMPATIBLE" ]
   },
   {
@@ -272,7 +269,6 @@
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
     "gun_data": { "ammo": "40x46mm", "skill": "launcher", "dispersion": 300, "durability": 10, "clip_size": 1 },
-    "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
@@ -298,7 +294,6 @@
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
     "gun_data": { "ammo": "40x46mm", "skill": "launcher", "dispersion": 270, "durability": 10, "clip_size": 1 },
-    "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
@@ -353,7 +348,6 @@
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
     "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 330, "durability": 10, "clip_size": 4 },
-    "min_skills": [ [ "weapon", 2 ], [ "shotgun", 1 ] ],
     "flags": [ "RELOAD_ONE" ]
   },
   {
@@ -378,8 +372,7 @@
     "color": "light_gray",
     "location": "underbarrel",
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
-    "gun_data": { "ammo": "40x46mm", "skill": "launcher", "dispersion": 450, "durability": 10, "clip_size": 1 },
-    "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ]
+    "gun_data": { "ammo": "40x46mm", "skill": "launcher", "dispersion": 450, "durability": 10, "clip_size": 1 }
   },
   {
     "id": "pistol_bayonet",
@@ -397,7 +390,6 @@
     "color": "light_gray",
     "location": "underbarrel",
     "mod_targets": [ "pistol" ],
-    "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 15 ] ],
     "flags": [ "STAB" ]
   },
@@ -416,8 +408,7 @@
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
     "gun_data": { "ammo": "20x66mm", "skill": "shotgun", "dispersion": 320, "durability": 9, "reload": 125 },
-    "min_skills": [ [ "weapon", 2 ], [ "shotgun", 2 ] ],
-    "magazine_well": 1,
+    "magazine_well": "250 ml",
     "magazines": [ [ "20x66mm", [ "20x66_10_mag" ] ] ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
   },
@@ -444,7 +435,6 @@
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
     "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 375, "durability": 10, "clip_size": 2 },
-    "min_skills": [ [ "weapon", 2 ], [ "shotgun", 1 ] ],
     "flags": [ "RELOAD_ONE" ]
   },
   {

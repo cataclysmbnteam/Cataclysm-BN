@@ -7,6 +7,65 @@
   },
   {
     "type": "item_group",
+    "id": "migo_pod_storage",
+    "subtype": "distribution",
+    "//": "Various human artifacts stored in pods by the mi-go.  Focuses on electronics and things that would otherwise be obviously technological in nature, plus what could be personal effects of victims.",
+    "entries": [
+      { "group": "everyday_gear", "prob": 25, "count": [ 1, 3 ] },
+      { "group": "electronics", "prob": 25 },
+      { "group": "tools_science", "prob": 20 },
+      { "group": "tools_robotics", "prob": 15 },
+      { "group": "bionics", "prob": 15 },
+      { "group": "mil_hw", "prob": 5 },
+      { "group": "guns_survival", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "migo_pod_samples",
+    "subtype": "distribution",
+    "//": "Human and animal tissues preserved by the mi-go for study.",
+    "entries": [
+      { "group": "supplies_samples_lab", "prob": 25 },
+      { "item": "human_flesh", "prob": 20 },
+      { "item": "human_brain_embalmed", "prob": 15 },
+      { "item": "mutant_human_flesh", "prob": 15 },
+      { "item": "hstomach", "prob": 10 },
+      { "group": "monparts", "prob": 10 },
+      { "group": "cloning_vat", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "migo_table_study",
+    "subtype": "distribution",
+    "//": "Additional items potentially being studied by the mi-go, effectively the finale content.",
+    "entries": [
+      { "group": "energy_weapon_armory", "prob": 20 },
+      { "group": "ammo_common", "prob": 20, "charges": [ 10, 30 ] },
+      { "group": "ammo_any_batteries", "prob": 15 },
+      { "group": "bionics", "prob": 10 },
+      { "group": "helicopter", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "migo_table_corpses",
+    "subtype": "distribution",
+    "//": "Corpses and leftovers of human study by the mi-go.",
+    "entries": [
+      { "item": "bone_human", "prob": 25, "count": [ 1, 15 ] },
+      { "group": "clothing_outdoor_set", "prob": 20, "damage": [ 1, 3 ] },
+      { "group": "map_extra_science", "prob": 20 },
+      { "group": "map_extra_military", "prob": 10 },
+      { "group": "survival_armor", "prob": 10, "count": [ 1, 3 ], "damage": [ 1, 3 ] },
+      { "item": "corpse_bloody", "prob": 5 },
+      { "item": "corpse_painful", "prob": 5 },
+      { "item": "corpse_halved_upper", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "monparts",
     "subtype": "distribution",
     "entries": [
@@ -155,6 +214,7 @@
     "subtype": "distribution",
     "entries": [
       { "group": "mags_obscure", "prob": 40 },
+      { "group": "ammo_atomic_batteries", "prob": 5 },
       { "item": "corpse", "prob": 10 },
       { "item": "holy_symbol", "prob": 1 },
       { "item": "mutagen", "prob": 8 },
@@ -248,8 +308,8 @@
       { "item": "bot_grenade_hack", "prob": 1 },
       { "item": "bot_flashbang_hack", "prob": 1 },
       { "item": "bot_gasbomb_hack", "prob": 1 },
-      { "item": "UPS_off", "prob": 5 },
-      { "item": "adv_UPS_off", "prob": 3 },
+      { "group": "used_UPS", "prob": 5 },
+      { "item": "adv_UPS_off", "prob": 3, "charges": [ 0, 2000 ] },
       { "item": "bio_power_storage", "prob": 10 },
       { "item": "bio_flashlight", "prob": 10 },
       { "item": "bio_lighter", "prob": 10 },

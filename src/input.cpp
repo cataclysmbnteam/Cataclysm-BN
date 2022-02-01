@@ -127,6 +127,11 @@ void input_manager::init()
         throw std::runtime_error( err.what() );
     }
     try {
+        load( PATH_INFO::keybindings_edit_creature(), false );
+    } catch( const JsonError &err ) {
+        throw std::runtime_error( err.what() );
+    }
+    try {
         load( PATH_INFO::user_keybindings(), true );
     } catch( const JsonError &err ) {
         throw std::runtime_error( err.what() );
@@ -1338,7 +1343,7 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
     const point view_size( getmaxx( capture_win ), getmaxy( capture_win ) );
     const point win_min( getbegx( capture_win ),
                          getbegy( capture_win ) );
-    const half_open_rectangle win_bounds( win_min, win_min + view_size );
+    const half_open_rectangle<point> win_bounds( win_min, win_min + view_size );
     if( !win_bounds.contains( coordinate ) ) {
         return cata::nullopt;
     }

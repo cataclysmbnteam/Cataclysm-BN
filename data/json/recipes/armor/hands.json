@@ -8,7 +8,8 @@
     "difficulty": 4,
     "time": "30 m",
     "autolearn": true,
-    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "chitin_piece", 10 ] ] ]
+    "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
+    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "chitin_piece", 3 ] ], [ [ "leather", 3 ] ] ]
   },
   {
     "result": "gauntlets_acidchitin",
@@ -17,11 +18,11 @@
     "subcategory": "CSC_ARMOR_HANDS",
     "skill_used": "tailor",
     "difficulty": 5,
-    "skills_required": [ [ "survival", 4 ], [ "firstaid", 2 ] ],
     "time": "1 h",
     "autolearn": true,
+    "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
     "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "acidchitin_piece", 10 ] ] ]
+    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "acidchitin_piece", 3 ] ], [ [ "leather", 3 ] ] ]
   },
   {
     "result": "gauntlets_larmor",
@@ -33,7 +34,7 @@
     "time": "30 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 12 ] ],
-    "components": [ [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "fur", 6 ], [ "tanned_pelt", 1 ] ] ]
+    "components": [ [ [ "leather", 6 ], [ "fur", 6 ] ] ]
   },
   {
     "result": "gloves_bag",
@@ -251,7 +252,7 @@
     "using": [ [ "blacksmithing_standard", 24 ], [ "steel_standard", 6 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "fur", 10 ], [ "tanned_pelt", 2 ], [ "leather", 10 ], [ "tanned_hide", 2 ] ] ]
+    "components": [ [ [ "fur", 10 ], [ "leather", 10 ] ] ]
   },
   {
     "result": "gloves_survivor",
@@ -267,7 +268,7 @@
     "tools": [ [ [ "welder", 14 ], [ "welder_crude", 21 ], [ "soldering_iron", 21 ], [ "toolset", 21 ] ] ],
     "components": [
       [ [ "rag", 2 ] ],
-      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
+      [ [ "leather", 6 ] ],
       [ [ "duct_tape", 80 ] ],
       [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],
       [
@@ -365,7 +366,7 @@
     "tools": [ [ [ "welder", 14 ], [ "welder_crude", 21 ], [ "soldering_iron", 21 ], [ "toolset", 21 ] ] ],
     "components": [
       [ [ "rag", 2 ] ],
-      [ [ "fur", 8 ], [ "tanned_pelt", 1 ] ],
+      [ [ "fur", 8 ] ],
       [ [ "duct_tape", 80 ] ],
       [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],
       [
@@ -390,7 +391,7 @@
     "using": [ [ "sewing_standard", 100 ] ],
     "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
     "components": [
-      [ [ "leather", 16 ], [ "tanned_hide", 3 ] ],
+      [ [ "leather", 16 ] ],
       [ [ "rag", 6 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "duct_tape", 160 ] ],

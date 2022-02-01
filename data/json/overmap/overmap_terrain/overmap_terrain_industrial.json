@@ -1203,6 +1203,11 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "mine_entrance_parking",
+    "copy-from": "parking_2x1_0"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "mine_shaft_middle", "mine_shaft_middle_east" ],
     "name": "mine shaft",
     "sym": "O",

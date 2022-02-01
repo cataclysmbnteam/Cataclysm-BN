@@ -21,6 +21,7 @@
 #include "calendar.h"
 #include "colony.h"
 #include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "enums.h"
 #include "filter_utils.h"
 #include "game_constants.h"
@@ -58,6 +59,7 @@ class monster;
 class optional_vpart_position;
 class player;
 class submap;
+template<typename Tripoint>
 class tripoint_range;
 class vehicle;
 class zone_data;
@@ -88,6 +90,12 @@ struct pathfinding_cache;
 struct pathfinding_settings;
 template<typename T>
 struct weighted_int_list;
+struct rl_vec2d;
+
+namespace cata
+{
+template <class T> class poly_serialized;
+} // namespace cata
 
 class map_stack : public item_stack
 {
@@ -518,6 +526,7 @@ class map
          * @param update_vehicles If true, add vehicles to the vehicle cache.
          */
         void load( const tripoint &w, bool update_vehicles );
+        void load( const tripoint_abs_sm &w, bool update_vehicles );
         /**
          * Shift the map along the vector s.
          * This is like loading the map with coordinates derived from the current
@@ -598,7 +607,7 @@ class map
         */
         int combined_movecost( const tripoint &from, const tripoint &to,
                                const vehicle *ignored_vehicle = nullptr,
-                               int modifier = 0, bool flying = false ) const;
+                               int modifier = 0, bool flying = false, bool via_ramp = false ) const;
 
         /**
          * Returns true if a creature could walk from `from` to `to` in one step.
@@ -606,7 +615,7 @@ class map
          * by stairs or (in case of flying monsters) open air with no floors.
          */
         bool valid_move( const tripoint &from, const tripoint &to,
-                         bool bash = false, bool flying = false ) const;
+                         bool bash = false, bool flying = false, bool via_ramp = false ) const;
 
         /**
          * Size of map objects at `p` for purposes of ranged combat.
@@ -702,6 +711,7 @@ class map
         // Vehicles: Common to 2D and 3D
         VehicleList get_vehicles();
         void add_vehicle_to_cache( vehicle * );
+        void clear_vehicle_point_from_cache( vehicle *veh, const tripoint &pt );
         void update_vehicle_cache( vehicle *, int old_zlevel );
         void reset_vehicle_cache( int zlev );
         void clear_vehicle_cache( int zlev );
@@ -735,13 +745,18 @@ class map
         void board_vehicle( const tripoint &p, player *pl );
         // Remove given passenger from given vehicle part.
         // If dead_passenger, then null passenger is acceptable.
-        void unboard_vehicle( const vpart_reference &, player *passenger,
+        void unboard_vehicle( const vpart_reference &, Character *passenger,
                               bool dead_passenger = false );
         // Remove passenger from vehicle at p.
         void unboard_vehicle( const tripoint &p, bool dead_passenger = false );
         // Change vehicle coordinates and move vehicle's driver along.
         // WARNING: not checking collisions!
-        bool displace_vehicle( vehicle &veh, const tripoint &dp );
+        // optionally: include a list of parts to displace instead of the entire vehicle
+        bool displace_vehicle( vehicle &veh, const tripoint &dp, bool adjust_pos = true,
+                               const std::set<int> &parts_to_move = {} );
+        // make sure a vehicle that is split across z-levels is properly supported
+        // calls displace_vehicle() and shouldn't be called from displace_vehicle
+        void level_vehicle( vehicle &veh );
         // move water under wheels. true if moved
         bool displace_water( const tripoint &dp );
 
@@ -757,7 +772,7 @@ class map
                                          const std::vector<veh_collision> &collisions );
         // Throws vehicle passengers about the vehicle, possibly out of it
         // Returns change in vehicle orientation due to lost control
-        int shake_vehicle( vehicle &veh, int velocity_before, int direction );
+        units::angle shake_vehicle( vehicle &veh, int velocity_before, units::angle direction );
 
         // Actually moves the vehicle
         // Unlike displace_vehicle, this one handles collisions
@@ -787,7 +802,15 @@ class map
         furn_id furn( const point &p ) const {
             return furn( tripoint( p, abs_sub.z ) );
         }
-        void furn_set( const tripoint &p, const furn_id &new_furniture );
+        /**
+        * Sets the furniture at given position.
+        *
+        * @param p Position within the map
+        * @param new_furniture Id of new furniture
+        * @param new_active Override default active tile of new furniture
+        */
+        void furn_set( const tripoint &p, const furn_id &new_furniture,
+                       cata::poly_serialized<active_tile_data> new_active = nullptr );
         void furn_set( const point &p, const furn_id &new_furniture ) {
             furn_set( tripoint( p, abs_sub.z ), new_furniture );
         }
@@ -1076,6 +1099,12 @@ class map
         /** Causes a collapse at p, such as from destroying a wall */
         void collapse_at( const tripoint &p, bool silent, bool was_supporting = false,
                           bool destroy_pos = true );
+        /** Checks surrounding tiles for suspension, and has them check for collapse. !!Should only be called after the tile at this point has been destroyed!!*/
+        void propagate_suspension_check( const tripoint &point );
+        /** Triggers a recursive collapse of suspended tiles based on their support validity*/
+        void collapse_invalid_suspension( const tripoint &point );
+        /** Checks the four orientations in which a suspended tile could be valid, and returns if the tile is valid*/
+        bool is_suspension_valid( const tripoint &point );
         /** Tries to smash the items at the given tripoint. Used by the explosion code */
         void smash_items( const tripoint &p, int power, const std::string &cause_message );
         /**
@@ -1314,6 +1343,8 @@ class map
         void trap_set( const tripoint &p, const trap_id &type );
 
         const trap &tr_at( const tripoint &p ) const;
+        /// See @ref trap::can_see, which is called for the trap here.
+        bool can_see_trap_at( const tripoint &p, const Character &c ) const;
 
         void disarm_trap( const tripoint &p );
         void remove_trap( const tripoint &p );
@@ -1442,7 +1473,7 @@ class map
         computer *add_computer( const tripoint &p, const std::string &name, int security );
 
         // Camps
-        void add_camp( const tripoint &omt_pos, const std::string &name );
+        void add_camp( const tripoint_abs_omt &omt_pos, const std::string &name );
         void remove_submap_camp( const tripoint & );
         basecamp hoist_submap_camp( const tripoint &p );
         bool point_within_camp( const tripoint &point_check ) const;
@@ -1518,16 +1549,16 @@ class map
         void build_obstacle_cache( const tripoint &start, const tripoint &end,
                                    float( &obstacle_cache )[MAPSIZE_X][MAPSIZE_Y] );
 
-        vehicle *add_vehicle( const vgroup_id &type, const tripoint &p, int dir,
+        vehicle *add_vehicle( const vgroup_id &type, const tripoint &p, units::angle dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
                               bool merge_wrecks = true );
-        vehicle *add_vehicle( const vgroup_id &type, const point &p, int dir,
+        vehicle *add_vehicle( const vgroup_id &type, const point &p, units::angle dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
                               bool merge_wrecks = true );
-        vehicle *add_vehicle( const vproto_id &type, const tripoint &p, int dir,
+        vehicle *add_vehicle( const vproto_id &type, const tripoint &p, units::angle dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
                               bool merge_wrecks = true );
-        vehicle *add_vehicle( const vproto_id &type, const point &p, int dir,
+        vehicle *add_vehicle( const vproto_id &type, const point &p, units::angle dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
                               bool merge_wrecks = true );
         // Light/transparency
@@ -1710,7 +1741,6 @@ class map
         void draw_mine( mapgendata &dat );
         void draw_anthill( mapgendata &dat );
         void draw_slimepit( mapgendata &dat );
-        void draw_spider_pit( mapgendata &dat );
         void draw_triffid( mapgendata &dat );
         void draw_connections( mapgendata &dat );
 
@@ -1727,7 +1757,8 @@ class map
         bool build_floor_cache( int zlev );
         // We want this visible in `game`, because we want it built earlier in the turn than the rest
         void build_floor_caches();
-
+        // Checks all tiles on a z level and adds those that are invalid to the support_dirty_cache */
+        void add_susensions_to_cache( const int &z );
     protected:
         void generate_lightmap( int zlev );
         void build_seen_cache( const tripoint &origin, int target_z );
@@ -1824,7 +1855,7 @@ class map
 
         /**
          * Internal version of the drawsq. Keeps a cached maptile for less re-getting.
-         * Returns true if it has drawn all it should, false if `draw_from_above` should be called after.
+         * Returns false if it has drawn all it should, true if `draw_from_above` should be called after.
          */
         bool draw_maptile( const catacurses::window &w, const tripoint &p,
                            const maptile &tile, const drawsq_params &params ) const;
@@ -1842,7 +1873,8 @@ class map
         void add_light_source( const tripoint &p, float luminance );
         // Handle just cardinal directions and 45 deg angles.
         void apply_directional_light( const tripoint &p, int direction, float luminance );
-        void apply_light_arc( const tripoint &p, int angle, float luminance, int wideangle = 30 );
+        void apply_light_arc( const tripoint &p, units::angle, float luminance,
+                              units::angle wideangle = 30_degrees );
         void apply_light_ray( bool lit[MAPSIZE_X][MAPSIZE_Y],
                               const tripoint &s, const tripoint &e, float luminance );
         void add_light_from_items( const tripoint &p, item_stack::iterator begin,
@@ -1961,16 +1993,18 @@ class map
             return submaps_with_active_items;
         }
         // Clips the area to map bounds
-        tripoint_range points_in_rectangle( const tripoint &from, const tripoint &to ) const;
-        tripoint_range points_in_radius( const tripoint &center, size_t radius, size_t radiusz = 0 ) const;
+        tripoint_range<tripoint> points_in_rectangle(
+            const tripoint &from, const tripoint &to ) const;
+        tripoint_range<tripoint> points_in_radius(
+            const tripoint &center, size_t radius, size_t radiusz = 0 ) const;
         /**
          * Yields a range of all points that are contained in the map and have the z-level of
          * this map (@ref abs_sub).
          */
-        tripoint_range points_on_zlevel() const;
+        tripoint_range<tripoint> points_on_zlevel() const;
         /// Same as above, but uses the specific z-level. If the given z-level is invalid, it
         /// returns an empty range.
-        tripoint_range points_on_zlevel( int z ) const;
+        tripoint_range<tripoint> points_on_zlevel( int z ) const;
 
         std::list<item_location> get_active_items_in_radius( const tripoint &center, int radius ) const;
         std::list<item_location> get_active_items_in_radius( const tripoint &center, int radius,
@@ -1986,7 +2020,7 @@ class map
 
         level_cache &access_cache( int zlev );
         const level_cache &access_cache( int zlev ) const;
-        bool need_draw_lower_floor( const tripoint &p );
+        bool dont_draw_lower_floor( const tripoint &p );
 };
 
 map &get_map();

@@ -111,8 +111,6 @@ struct mutation_branch {
         bool activated     = false;
         // Should it activate as soon as it is gained?
         bool starts_active = false;
-        // Should it destroy gear on restricted body parts? (otherwise just pushes it off)
-        bool destroys_gear = false;
         // Allow soft (fabric) gear on restricted body parts
         bool allow_soft_gear  = false;
         // IF any of the three are true, it drains that as the "cost"
@@ -494,6 +492,12 @@ bool b_is_higher_trait_of_a( const trait_id &trait_a, const trait_id &trait_b );
 bool are_opposite_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool are_same_type_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool contains_trait( std::vector<string_id<mutation_branch>> traits, const trait_id &trait );
+
+/** Check to see if the specified character has enough resources to use that mutation. */
+bool can_use_mutation( const trait_id &mut, const Character &character );
+
+/** Calls can_use_mutation and if it fails, print a standard message. */
+bool can_use_mutation_warn( const trait_id &mut, const Character &character );
 
 enum class mutagen_technique : int {
     consumed_mutagen,

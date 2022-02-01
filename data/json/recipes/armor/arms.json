@@ -29,12 +29,12 @@
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_ARMS",
-    "skill_used": "fabrication",
-    "difficulty": 5,
-    "skills_required": [ [ "tailor", 3 ] ],
+    "skill_used": "tailor",
+    "difficulty": 4,
     "time": "30 m",
     "autolearn": true,
-    "components": [ [ [ "string_36", 1 ], [ "string_6", 4 ] ], [ [ "chitin_piece", 4 ] ] ]
+    "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
+    "components": [ [ [ "string_36", 1 ], [ "string_6", 4 ] ], [ [ "chitin_piece", 4 ] ], [ [ "leather", 4 ] ] ]
   },
   {
     "result": "armguard_acidchitin",
@@ -42,12 +42,12 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_ARMS",
     "skill_used": "fabrication",
-    "difficulty": 6,
-    "skills_required": [ [ "tailor", 3 ] ],
+    "difficulty": 5,
     "time": "30 m",
     "autolearn": true,
+    "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
     "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "string_36", 1 ], [ "string_6", 4 ] ], [ [ "acidchitin_piece", 6 ] ] ]
+    "components": [ [ [ "string_36", 1 ], [ "string_6", 4 ] ], [ [ "acidchitin_piece", 4 ] ], [ [ "leather", 4 ] ] ]
   },
   {
     "result": "armguard_hard",
@@ -72,7 +72,7 @@
     "time": "40 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 16 ] ],
-    "components": [ [ [ "leather", 12 ], [ "tanned_hide", 2 ], [ "fur", 12 ], [ "tanned_pelt", 2 ] ] ]
+    "components": [ [ [ "leather", 12 ], [ "fur", 12 ] ] ]
   },
   {
     "result": "armguard_lightplate",
@@ -84,10 +84,7 @@
     "skills_required": [ [ "tailor", 3 ] ],
     "time": "50 m",
     "book_learn": [ [ "textbook_armwest", 6 ] ],
-    "components": [
-      [ [ "steel_lump", 6 ], [ "steel_chunk", 24 ] ],
-      [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ]
-    ],
+    "components": [ [ [ "steel_lump", 6 ], [ "steel_chunk", 24 ] ], [ [ "fur", 6 ], [ "leather", 6 ] ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -192,7 +189,7 @@
     "time": "30 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 8 ] ],
-    "components": [ [ [ "leather", 4 ], [ "tanned_hide", 1 ], [ "fur", 4 ], [ "tanned_pelt", 1 ] ] ]
+    "components": [ [ [ "leather", 4 ], [ "fur", 4 ] ] ]
   },
   {
     "result": "chainmail_arms",
@@ -205,11 +202,6 @@
     "time": "40 m",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "using": [ [ "chainmail_standard", 3 ] ],
-    "components": [
-      [ [ "link_sheet", 3 ] ],
-      [ [ "chain_link", 75 ] ],
-      [ [ "wire", 1 ] ],
-      [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ]
-    ]
+    "components": [ [ [ "link_sheet", 3 ] ], [ [ "chain_link", 75 ] ], [ [ "wire", 1 ] ], [ [ "fur", 6 ], [ "leather", 6 ] ] ]
   }
 ]

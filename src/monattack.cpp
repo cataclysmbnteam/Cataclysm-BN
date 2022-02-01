@@ -493,18 +493,19 @@ bool mattack::shriek_stun( monster *z )
         return false;
     }
 
-    int target_angle = coord_to_angle( z->pos(), target->pos() );
-    int cone_angle = 20;
-    for( const tripoint &cone : g->m.points_in_radius( z->pos(), 4 ) ) {
-        int tile_angle = coord_to_angle( z->pos(), cone );
-        int diff = std::abs( target_angle - tile_angle );
+    units::angle target_angle = coord_to_angle( z->pos(), target->pos() );
+    units::angle cone_angle = 20_degrees;
+    map &here = get_map();
+    for( const tripoint &cone : here.points_in_radius( z->pos(), 4 ) ) {
+        units::angle tile_angle = coord_to_angle( z->pos(), cone );
+        units::angle diff = units::fabs( target_angle - tile_angle );
         // Skip the target, because it's outside cone or it's the source
-        if( diff + cone_angle > 360 || diff > cone_angle || cone == z->pos() ) {
+        if( diff + cone_angle > 360_degrees || diff > cone_angle || cone == z->pos() ) {
             continue;
         }
         // Affect the target
         // Small bash to every square, silent to not flood message box
-        g->m.bash( cone, 4, true );
+        here.bash( cone, 4, true );
 
         // If a monster is there, chance for stun
         Creature *target = g->critter_at( cone );
@@ -1886,10 +1887,11 @@ bool mattack::fungus_growth( monster *z )
 
 bool mattack::fungus_sprout( monster *z )
 {
+    Character &player_character = get_player_character();
     // To avoid map shift weirdness
     bool push_player = false;
     for( const tripoint &dest : g->m.points_in_radius( z->pos(), 1 ) ) {
-        if( g->u.pos() == dest ) {
+        if( player_character.pos() == dest ) {
             push_player = true;
         }
         if( monster *const wall = g->place_critter_at( mon_fungal_wall, dest ) ) {
@@ -1898,9 +1900,9 @@ bool mattack::fungus_sprout( monster *z )
     }
 
     if( push_player ) {
-        const int angle = coord_to_angle( z->pos(), g->u.pos() );
+        const units::angle angle = coord_to_angle( z->pos(), player_character.pos() );
         add_msg( m_bad, _( "You're shoved away as a fungal wall grows!" ) );
-        g->fling_creature( &g->u, angle, rng( 10, 50 ) );
+        g->fling_creature( &player_character, angle, rng( 10, 50 ) );
     }
 
     return true;
@@ -2203,7 +2205,7 @@ bool mattack::plant( monster *z )
     }
     z->set_hp( 0 );
     fe.spread_fungus( z->pos() );
-    for( const tripoint &p : closest_tripoints_first( z->pos(), 1 ) ) {
+    for( const tripoint &p : closest_points_first( z->pos(), 1 ) ) {
         if( !one_in( 3 ) ) {
             fe.fungalize( p, z );
         }
@@ -2272,7 +2274,7 @@ bool mattack::formblob( monster *z )
     }
 
     bool didit = false;
-    std::vector<tripoint> pts = closest_tripoints_first( z->pos(), 1 );
+    std::vector<tripoint> pts = closest_points_first( z->pos(), 1 );
     // Don't check own tile
     pts.erase( pts.begin() );
     for( const tripoint &dest : pts ) {
@@ -2358,7 +2360,7 @@ bool mattack::callblobs( monster *z )
     // and keep the rest near the brain blob for protection.
     tripoint enemy = g->u.pos();
     std::list<monster *> allies;
-    std::vector<tripoint> nearby_points = closest_tripoints_first( z->pos(), 3 );
+    std::vector<tripoint> nearby_points = closest_points_first( z->pos(), 3 );
     for( monster &candidate : g->all_monsters() ) {
         if( candidate.type->in_species( species_BLOB ) && candidate.type->id != mon_blob_brain ) {
             // Just give the allies consistent assignments.
@@ -2391,7 +2393,7 @@ bool mattack::jackson( monster *z )
 {
     // Jackson draws nearby zombies into the dance.
     std::list<monster *> allies;
-    std::vector<tripoint> nearby_points = closest_tripoints_first( z->pos(), 3 );
+    std::vector<tripoint> nearby_points = closest_points_first( z->pos(), 3 );
     for( monster &candidate : g->all_monsters() ) {
         if( candidate.type->in_species( ZOMBIE ) && candidate.type->id != mon_zombie_jackson ) {
             // Just give the allies consistent assignments.
@@ -2591,7 +2593,7 @@ bool mattack::ranged_pull( monster *z )
         // Recalculate the ray each step
         // We can't depend on either the target position being constant (obviously),
         // but neither on z pos staying constant, because we may want to shift the map mid-pull
-        const int dir = coord_to_angle( target->pos(), z->pos() );
+        const units::angle dir = coord_to_angle( target->pos(), z->pos() );
         tileray tdir( dir );
         tdir.advance();
         pt.x = target->posx() + tdir.dx();

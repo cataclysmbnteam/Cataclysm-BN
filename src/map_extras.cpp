@@ -16,6 +16,7 @@
 #include "character_id.h"
 #include "colony.h"
 #include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "enums.h"
@@ -41,6 +42,7 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
+#include "point_float.h"
 #include "regional_settings.h"
 #include "rng.h"
 #include "string_formatter.h"
@@ -50,6 +52,7 @@
 #include "trap.h"
 #include "type_id.h"
 #include "ui.h"
+#include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
@@ -373,7 +376,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
         }
     }
 
-    int dir1 = rng( 0, 359 );
+    units::angle dir1 = random_direction();
 
     auto crashed_hull = vgroup_id( "crashed_helicopters" )->pick();
 
@@ -402,8 +405,8 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
     int x1 = clamp( c.x + x_offset, x_min, x_max );
     int y1 = clamp( c.y + y_offset, y_min, y_max );
 
-    vehicle *wreckage = m.add_vehicle( crashed_hull, tripoint( x1, y1, abs_sub.z ), dir1, rng( 1, 33 ),
-                                       1 );
+    vehicle *wreckage = m.add_vehicle(
+                            crashed_hull, tripoint( x1, y1, abs_sub.z ), dir1, rng( 1, 33 ), 1 );
 
     const auto controls_at = []( vehicle * wreckage, const tripoint & pos ) {
         return !wreckage->get_parts_at( pos, "CONTROLS", part_status_flag::any ).empty() ||
@@ -600,7 +603,8 @@ static bool mx_collegekids( map &m, const tripoint & )
 
 static bool mx_roadblock( map &m, const tripoint &abs_sub )
 {
-    const tripoint abs_omt = sm_to_omt_copy( abs_sub );
+    // TODO: fix point types
+    const tripoint_abs_omt abs_omt( sm_to_omt_copy( abs_sub ) );
     const oter_id &north = overmap_buffer.ter( abs_omt + point_north );
     const oter_id &south = overmap_buffer.ter( abs_omt + point_south );
     const oter_id &west = overmap_buffer.ter( abs_omt + point_west );
@@ -661,7 +665,8 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
 
         if( one_in( 2 ) ) {
             // The truck's wrecked...with fuel.  Explosive barrel?
-            m.add_vehicle( vproto_id( "military_cargo_truck" ), point( 12, SEEY * 2 - 12 ), 0, 70, -1 );
+            m.add_vehicle( vproto_id( "military_cargo_truck" ), point( 12, SEEY * 2 - 12 ),
+                           0_degrees, 70, -1 );
             if( road_at_north ) {
                 spawn_turret( point( 12, 6 ) );
             }
@@ -675,8 +680,8 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
                 spawn_turret( point( 6, 12 ) );
             }
         } else {  // Vehicle & turrets
-            m.add_vehicle( vgroup_id( "military_vehicles" ), tripoint( 12, SEEY * 2 - 10, abs_sub.z ), 0, 70,
-                           -1 );
+            m.add_vehicle( vgroup_id( "military_vehicles" ),
+                           tripoint( 12, SEEY * 2 - 10, abs_sub.z ), 0_degrees, 70, -1 );
             if( road_at_north ) {
                 spawn_turret( point( 12, 6 ) );
             }
@@ -733,8 +738,8 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
             m.add_spawn( mon_turret_riot, 1, { 1, 12, abs_sub.z } );
         }
 
-        m.add_vehicle( vproto_id( "policecar" ), point( 8, 6 ), 20 );
-        m.add_vehicle( vproto_id( "policecar" ), point( 16, SEEY * 2 - 6 ), 145 );
+        m.add_vehicle( vproto_id( "policecar" ), point( 8, 6 ), 20_degrees );
+        m.add_vehicle( vproto_id( "policecar" ), point( 16, SEEY * 2 - 6 ), 145_degrees );
 
         line_furn( &m, f_sandbag_wall, point( 6, 10 ), point( 9, 10 ) );
         m.add_spawn( mon_turret_searchlight, 1, { 7, 11, abs_sub.z } );
@@ -765,7 +770,7 @@ static bool mx_marloss_pilgrimage( map &m, const tripoint &abs_sub )
     const tripoint leader_pos( rng( 4, 19 ), rng( 4, 19 ), abs_sub.z );
     const int max_followers = rng( 3, 12 );
     const int rad = 3;
-    const tripoint_range spawnzone = m.points_in_radius( leader_pos, rad );
+    const tripoint_range<tripoint> spawnzone = m.points_in_radius( leader_pos, rad );
 
     m.place_npc( leader_pos.xy(), string_id<npc_template>( "marloss_voice" ) );
     for( int spawned = 0 ; spawned <= max_followers ; spawned++ ) {
@@ -781,7 +786,7 @@ static bool mx_marloss_pilgrimage( map &m, const tripoint &abs_sub )
 
 static bool mx_bandits_block( map &m, const tripoint &abs_sub )
 {
-    const tripoint abs_omt = sm_to_omt_copy( abs_sub );
+    const tripoint_abs_omt abs_omt( sm_to_omt_copy( abs_sub ) );
     const oter_id &north = overmap_buffer.ter( abs_omt + point_north );
     const oter_id &south = overmap_buffer.ter( abs_omt + point_south );
     const oter_id &west = overmap_buffer.ter( abs_omt + point_west );
@@ -1010,7 +1015,8 @@ static bool mx_portal( map &m, const tripoint &abs_sub )
 {
     // All points except the borders are valid--we need the 1 square buffer so that we can do a 1 unit radius
     // around our chosen portal point without clipping against the edge of the map.
-    const tripoint_range points = m.points_in_rectangle( { 1, 1, abs_sub.z }, { SEEX * 2 - 2, SEEY * 2 - 2, abs_sub.z } );
+    const tripoint_range<tripoint> points =
+        m.points_in_rectangle( { 1, 1, abs_sub.z }, { SEEX * 2 - 2, SEEY * 2 - 2, abs_sub.z } );
 
     // Get a random point in our collection that does not have a trap and does not have the NO_FLOOR flag.
     const cata::optional<tripoint> portal_pos = random_point( points, [&]( const tripoint & p ) {
@@ -1057,20 +1063,35 @@ static bool mx_portal( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_minefield( map &m, const tripoint &abs_sub )
+static bool mx_minefield( map &m_orig, const tripoint &abs_sub )
 {
-    const tripoint abs_omt = sm_to_omt_copy( abs_sub );
+    const tripoint_abs_omt abs_omt( sm_to_omt_copy( abs_sub ) );
     const oter_id &center = overmap_buffer.ter( abs_omt );
     const oter_id &north = overmap_buffer.ter( abs_omt + point_north );
     const oter_id &south = overmap_buffer.ter( abs_omt + point_south );
     const oter_id &west = overmap_buffer.ter( abs_omt + point_west );
     const oter_id &east = overmap_buffer.ter( abs_omt + point_east );
 
-    const bool bridge_at_center = is_ot_match( "bridge", center, ot_match_type::type );
-    const bool bridge_at_north = is_ot_match( "bridge", north, ot_match_type::type );
-    const bool bridge_at_south = is_ot_match( "bridge", south, ot_match_type::type );
-    const bool bridge_at_west = is_ot_match( "bridge", west, ot_match_type::type );
-    const bool bridge_at_east = is_ot_match( "bridge", east, ot_match_type::type );
+    std::string oter_name_base;
+    std::string oter_name_bridge;
+    bool use_tinymap;
+    if( get_option<bool>( "ELEVATED_BRIDGES" ) ) {
+        oter_name_base = "bridgehead_ground";
+        oter_name_bridge = "bridge_under";
+        use_tinymap = true;
+    } else {
+        oter_name_base = "bridge";
+        oter_name_bridge = "bridge";
+        use_tinymap = false;
+    }
+    tinymap m_tiny;
+    map &m = use_tinymap ? m_tiny : m_orig;
+
+    const bool bridgehead_at_center = is_ot_match( oter_name_base, center, ot_match_type::type );
+    const bool bridge_at_north = is_ot_match( oter_name_bridge, north, ot_match_type::type );
+    const bool bridge_at_south = is_ot_match( oter_name_bridge, south, ot_match_type::type );
+    const bool bridge_at_west = is_ot_match( oter_name_bridge, west, ot_match_type::type );
+    const bool bridge_at_east = is_ot_match( oter_name_bridge, east, ot_match_type::type );
 
     const bool road_at_north = is_ot_match( "road", north, ot_match_type::type );
     const bool road_at_south = is_ot_match( "road", south, ot_match_type::type );
@@ -1083,7 +1104,15 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
 
     bool did_something = false;
 
-    if( bridge_at_north && bridge_at_center && road_at_south ) {
+    if( !bridgehead_at_center ) {
+        return false;
+    }
+
+    if( bridge_at_north && bridgehead_at_center && road_at_south ) {
+        if( use_tinymap ) {
+            m.load( project_to<coords::sm>( abs_omt + point_south ), false );
+        }
+
         //Sandbag block at the left edge
         line_furn( &m, f_sandbag_half, point( 3, 4 ), point( 3, 7 ) );
         line_furn( &m, f_sandbag_half, point( 3, 7 ), point( 9, 7 ) );
@@ -1098,7 +1127,7 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
 
         //50% chance to spawn a humvee in the left block
         if( one_in( 2 ) ) {
-            m.add_vehicle( vproto_id( "humvee" ), point( 5, 3 ), 270, 70, -1 );
+            m.add_vehicle( vproto_id( "humvee" ), point( 5, 3 ), 270_degrees, 70, -1 );
         }
 
         //Sandbag block at the right edge
@@ -1181,7 +1210,10 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
         did_something = true;
     }
 
-    if( bridge_at_south && bridge_at_center && road_at_north ) {
+    if( bridge_at_south && bridgehead_at_center && road_at_north ) {
+        if( use_tinymap ) {
+            m.load( project_to<coords::sm>( abs_omt + point_north ), false );
+        }
         //Two horizontal lines of sandbags
         line_furn( &m, f_sandbag_half, point( 5, 15 ), point( 10, 15 ) );
         line_furn( &m, f_sandbag_half, point( 13, 15 ), point( 18, 15 ) );
@@ -1238,8 +1270,8 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
 
         //50% chance to spawn two humvees blocking the road
         if( one_in( 2 ) ) {
-            m.add_vehicle( vproto_id( "humvee" ), point( 7, 19 ), 0, 70, -1 );
-            m.add_vehicle( vproto_id( "humvee" ), point( 15, 20 ), 180, 70, -1 );
+            m.add_vehicle( vproto_id( "humvee" ), point( 7, 19 ), 0_degrees, 70, -1 );
+            m.add_vehicle( vproto_id( "humvee" ), point( 15, 20 ), 180_degrees, 70, -1 );
         }
 
         //Spawn 6-20 mines in the upper submap.
@@ -1282,7 +1314,10 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
         did_something = true;
     }
 
-    if( bridge_at_west && bridge_at_center && road_at_east ) {
+    if( bridge_at_west && bridgehead_at_center && road_at_east ) {
+        if( use_tinymap ) {
+            m.load( project_to<coords::sm>( abs_omt + point_east ), false );
+        }
         //Draw walls of first tent
         square_furn( &m, f_canvas_wall, point( 0, 3 ), point( 4, 13 ) );
 
@@ -1313,7 +1348,7 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
             m.add_field( { 1, 6, abs_sub.z }, fd_gibs_flesh, 1 );
 
             //Add the culprit
-            m.add_vehicle( vproto_id( "car_fbi" ), point( 7, 7 ), 0, 70, 1 );
+            m.add_vehicle( vproto_id( "car_fbi" ), point( 7, 7 ), 0_degrees, 70, 1 );
 
             //Remove tent parts after drive-through
             square_furn( &m, f_null, point( 0, 6 ), point( 8, 9 ) );
@@ -1428,9 +1463,12 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
         did_something = true;
     }
 
-    if( bridge_at_east && bridge_at_center && road_at_west ) {
+    if( bridge_at_east && bridgehead_at_center && road_at_west ) {
+        if( use_tinymap ) {
+            m.load( project_to<coords::sm>( abs_omt + point_west ), false );
+        }
         //Spawn military cargo truck blocking the entry
-        m.add_vehicle( vproto_id( "military_cargo_truck" ), point( 15, 11 ), 270, 70, 1 );
+        m.add_vehicle( vproto_id( "military_cargo_truck" ), point( 15, 11 ), 270_degrees, 70, 1 );
 
         //Spawn sandbag barricades around the truck
         line_furn( &m, f_sandbag_half, point( 14, 3 ), point( 14, 8 ) );
@@ -2196,7 +2234,7 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
     // equipment in a box
     // (curved roads & intersections excluded, perhaps TODO)
 
-    const tripoint abs_omt = sm_to_omt_copy( abs_sub );
+    const tripoint_abs_omt abs_omt( sm_to_omt_copy( abs_sub ) );
     const oter_id &north = overmap_buffer.ter( abs_omt + point_north );
     const oter_id &south = overmap_buffer.ter( abs_omt + point_south );
     const oter_id &west = overmap_buffer.ter( abs_omt + point_west );
@@ -2472,10 +2510,10 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
     // vehicle placer
     switch( rng( 1, 6 ) ) {
         case 1:
-            m.add_vehicle( vproto_id( "road_roller" ), veh, rng( 0, 360 ) );
+            m.add_vehicle( vproto_id( "road_roller" ), veh, random_direction() );
             break;
         case 2:
-            m.add_vehicle( vproto_id( "excavator" ), veh, rng( 0, 360 ) );
+            m.add_vehicle( vproto_id( "excavator" ), veh, random_direction() );
             break;
         case 3:
         case 4:
@@ -2499,8 +2537,8 @@ static bool mx_mayhem( map &m, const tripoint &abs_sub )
     switch( rng( 1, 3 ) ) {
         //Car accident resulted in a shootout with two victims
         case 1: {
-            m.add_vehicle( vproto_id( "car" ), point( 18, 9 ), 270 );
-            m.add_vehicle( vproto_id( "4x4_car" ), point( 20, 5 ), 0 );
+            m.add_vehicle( vproto_id( "car" ), point( 18, 9 ), 270_degrees );
+            m.add_vehicle( vproto_id( "4x4_car" ), point( 20, 5 ), 0_degrees );
 
             m.spawn_item( { 16, 10, abs_sub.z }, itype_shot_hull );
             m.add_corpse( { 16, 9, abs_sub.z } );
@@ -2518,7 +2556,7 @@ static bool mx_mayhem( map &m, const tripoint &abs_sub )
         }
         //Some cocky moron with friends got dragged out of limo and shooted down by a military
         case 2: {
-            m.add_vehicle( vproto_id( "limousine" ), point( 18, 9 ), 270 );
+            m.add_vehicle( vproto_id( "limousine" ), point( 18, 9 ), 270_degrees );
 
             m.add_corpse( { 16, 9, abs_sub.z } );
             m.add_corpse( { 16, 11, abs_sub.z } );
@@ -2535,7 +2573,7 @@ static bool mx_mayhem( map &m, const tripoint &abs_sub )
         }
         //Some unfortunate stopped at the roadside to change tire, but was ambushed and killed
         case 3: {
-            m.add_vehicle( vproto_id( "car" ), point( 18, 12 ), 270 );
+            m.add_vehicle( vproto_id( "car" ), point( 18, 12 ), 270_degrees );
 
             m.add_field( { 16, 15, abs_sub.z }, fd_blood, rng( 1, 3 ) );
 
@@ -2944,6 +2982,12 @@ map_extra_pointer get_function( const std::string &name )
     return iter->second;
 }
 
+std::vector<std::string> all_function_names;
+std::vector<std::string> get_all_function_names()
+{
+    return all_function_names;
+}
+
 void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs_sub )
 {
     bool applied_successfully = false;
@@ -2958,12 +3002,14 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs
             break;
         }
         case map_extra_method::mapgen: {
-            mapgendata dat( sm_to_omt_copy( abs_sub ), m, 0.0f, calendar::turn, nullptr );
+            mapgendata dat( tripoint_abs_omt( sm_to_omt_copy( abs_sub ) ), m, 0.0f, calendar::turn,
+                            nullptr );
             applied_successfully = run_mapgen_func( extra.generator_id, dat );
             break;
         }
         case map_extra_method::update_mapgen: {
-            mapgendata dat( sm_to_omt_copy( abs_sub ), m, 0.0f, calendar::start_of_cataclysm, nullptr );
+            mapgendata dat( tripoint_abs_omt( sm_to_omt_copy( abs_sub ) ), m, 0.0f,
+                            calendar::start_of_cataclysm, nullptr );
             applied_successfully = run_mapgen_update_func( extra.generator_id, dat );
             break;
         }
@@ -2976,7 +3022,8 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs
         return;
     }
 
-    overmap_buffer.add_extra( sm_to_omt_copy( abs_sub ), id );
+    // TODO: fix point types
+    overmap_buffer.add_extra( tripoint_abs_omt( sm_to_omt_copy( abs_sub ) ), id );
 
     auto_notes::auto_note_settings &autoNoteSettings = get_auto_notes_settings();
 
@@ -2993,7 +3040,8 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs
                                get_note_string_from_color( extra.color ),
                                extra.name(),
                                extra.description() );
-            overmap_buffer.add_note( sm_to_omt_copy( abs_sub ), mx_note );
+            // TODO: fix point types
+            overmap_buffer.add_note( tripoint_abs_omt( sm_to_omt_copy( abs_sub ) ), mx_note );
         }
     }
 }
@@ -3021,6 +3069,7 @@ void check_consistency()
 void reset()
 {
     extras.reset();
+    all_function_names.clear();
 }
 
 void debug_spawn_test()
@@ -3099,6 +3148,7 @@ void map_extra::check() const
                 debugmsg( "invalid map extra function (%s) defined for map extra (%s)", generator_id, id.str() );
                 break;
             }
+            MapExtras::all_function_names.push_back( generator_id );
             break;
         }
         case map_extra_method::mapgen: {
@@ -3111,6 +3161,7 @@ void map_extra::check() const
                           id.str() );
                 break;
             }
+            MapExtras::all_function_names.push_back( generator_id );
             break;
         }
         case map_extra_method::null:

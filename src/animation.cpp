@@ -16,6 +16,7 @@
 #include "point.h"
 #include "popup.h"
 #include "posix_time.h"
+#include "ranged.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
@@ -80,6 +81,13 @@ class bullet_animation : public basic_animation
 {
     public:
         bullet_animation() : basic_animation( 1 ) {
+        }
+};
+
+class wave_animation : public basic_animation
+{
+    public:
+        wave_animation() : basic_animation( 1 ) {
         }
 };
 
@@ -244,7 +252,8 @@ void draw_custom_explosion_curses( game &g,
 } // namespace
 
 #if defined(TILES)
-void explosion_handler::draw_explosion( const tripoint &p, const int r, const nc_color &col )
+void explosion_handler::draw_explosion( const tripoint &p, const int r, const nc_color &col,
+                                        const std::string &exp_name )
 {
     if( test_mode ) {
         // avoid segfault from null tilecontext in tests
@@ -266,7 +275,7 @@ void explosion_handler::draw_explosion( const tripoint &p, const int r, const nc
     shared_ptr_fast<game::draw_callback_t> explosion_cb =
     make_shared_fast<game::draw_callback_t>( [&]() {
         // TODO: not xpos ypos?
-        tilecontext->init_explosion( p, i );
+        tilecontext->init_explosion( p, i, exp_name );
     } );
     g->add_draw_callback( explosion_cb );
 
@@ -282,15 +291,20 @@ void explosion_handler::draw_explosion( const tripoint &p, const int r, const nc
     }
 }
 #else
-void explosion_handler::draw_explosion( const tripoint &p, const int r, const nc_color &col )
+void explosion_handler::draw_explosion( const tripoint &p, const int r, const nc_color &col,
+                                        const std::string & )
 {
     draw_explosion_curses( *g, p, r, col );
 }
 #endif
 
 void explosion_handler::draw_custom_explosion( const tripoint &,
-        const std::map<tripoint, nc_color> &all_area )
+        const std::map<tripoint, nc_color> &all_area,
+        const std::string &exp_name )
 {
+#if !defined(TILES)
+    ( void )exp_name;
+#endif
     if( test_mode ) {
         // avoid segfault from null tilecontext in tests
         return;
@@ -414,7 +428,7 @@ void explosion_handler::draw_custom_explosion( const tripoint &,
 
     shared_ptr_fast<game::draw_callback_t> explosion_cb =
     make_shared_fast<game::draw_callback_t>( [&]() {
-        tilecontext->init_custom_explosion_layer( combined_layer );
+        tilecontext->init_custom_explosion_layer( combined_layer, exp_name );
     } );
     g->add_draw_callback( explosion_cb );
 
@@ -630,7 +644,7 @@ void draw_line_curses( game &g, const tripoint &center, const std::vector<tripoi
             mvwputch( w, point( k, j ), col, sym );
         } else {
             // This function reveals tile at p and writes it to the player's memory
-            g.m.drawsq( g.w_terrain, p, params );
+            get_map().drawsq( g.w_terrain, p, params );
         }
     }
 }
@@ -667,8 +681,9 @@ namespace
 {
 void draw_line_curses( game &g, const std::vector<tripoint> &points )
 {
+    map &here = get_map();
     for( const tripoint &p : points ) {
-        g.m.drawsq( g.w_terrain, p, drawsq_params().highlight( true ) );
+        here.drawsq( g.w_terrain, p, drawsq_params().highlight( true ) );
     }
 
     const tripoint p = points.empty() ? tripoint {POSX, POSY, 0} :
@@ -722,7 +737,7 @@ namespace
 void draw_weather_curses( const catacurses::window &win, const weather_printable &w )
 {
     for( const auto &drop : w.vdrops ) {
-        mvwputch( win, point( drop.first, drop.second ), w.colGlyph, w.cGlyph );
+        mvwputch( win, point( drop.first, drop.second ), w.colGlyph, w.get_symbol() );
     }
 }
 } //namespace
@@ -735,36 +750,7 @@ void game::draw_weather( const weather_printable &w )
         return;
     }
 
-    static const std::string weather_acid_drop {"weather_acid_drop"};
-    static const std::string weather_rain_drop {"weather_rain_drop"};
-    static const std::string weather_snowflake {"weather_snowflake"};
-
-    std::string weather_name;
-    switch( w.wtype ) {
-        // Acid weathers; uses acid droplet tile, fallthrough intended
-        case WEATHER_ACID_DRIZZLE:
-        case WEATHER_ACID_RAIN:
-            weather_name = weather_acid_drop;
-            break;
-        // Normal rainy weathers; uses normal raindrop tile, fallthrough intended
-        case WEATHER_LIGHT_DRIZZLE:
-        case WEATHER_DRIZZLE:
-        case WEATHER_RAINY:
-        case WEATHER_THUNDER:
-        case WEATHER_LIGHTNING:
-            weather_name = weather_rain_drop;
-            break;
-        // Snowy weathers; uses snowflake tile, fallthrough intended
-        case WEATHER_FLURRIES:
-        case WEATHER_SNOW:
-        case WEATHER_SNOWSTORM:
-            weather_name = weather_snowflake;
-            break;
-        default:
-            break;
-    }
-
-    tilecontext->init_draw_weather( w, std::move( weather_name ) );
+    tilecontext->init_draw_weather( w, w.wtype->animation.tile );
 }
 #else
 void game::draw_weather( const weather_printable &w )
@@ -943,8 +929,9 @@ void game::draw_item_override( const tripoint &, const itype_id &, const mtype_i
 #endif
 
 #if defined(TILES)
-void game::draw_vpart_override( const tripoint &p, const vpart_id &id, const int part_mod,
-                                const int veh_dir, const bool hilite, const point &mount )
+void game::draw_vpart_override(
+    const tripoint &p, const vpart_id &id, const int part_mod, const units::angle veh_dir,
+    const bool hilite, const point &mount )
 {
     if( use_tiles ) {
         tilecontext->init_draw_vpart_override( p, id, part_mod, veh_dir, hilite, mount );
@@ -952,7 +939,7 @@ void game::draw_vpart_override( const tripoint &p, const vpart_id &id, const int
 }
 #else
 void game::draw_vpart_override( const tripoint &, const vpart_id &, const int,
-                                const int, const bool, const point & )
+                                const units::angle, const bool, const point & )
 {
 }
 #endif
@@ -984,6 +971,158 @@ void game::draw_monster_override( const tripoint &, const mtype_id &, const int,
 {
 }
 #endif
+
+bucketed_points bucket_by_distance( const tripoint &origin,
+                                    const std::map<tripoint, double> &to_bucket )
+{
+    std::map<int, one_bucket> by_distance;
+    for( const std::pair<tripoint, double> &pv : to_bucket ) {
+        int dist = trig_dist_squared( origin, pv.first );
+        by_distance[dist].emplace_back( pv.first, pv.second );
+    }
+    bucketed_points buckets;
+    for( const std::pair<int, one_bucket> &bc : by_distance ) {
+        buckets.emplace_back( bc.second );
+    }
+    return buckets;
+}
+
+bucketed_points optimal_bucketing( const bucketed_points &buckets, size_t max_buckets )
+{
+    if( buckets.size() <= max_buckets ) {
+        return buckets;
+    }
+    assert( max_buckets > 1 );
+
+    std::vector<size_t> sizes = {};
+    for( const one_bucket &bc : buckets ) {
+        sizes.emplace_back( bc.size() );
+    }
+
+    bucketed_points optimal = buckets;
+    // TODO: Good algorithm here, this one is a greedy finder of smallest adjacent size sums
+    for( size_t i = 0; i < buckets.size() - max_buckets; i++ ) {
+        auto smallest = sizes.begin();
+        size_t smallest_sum = *smallest + *( smallest + 1 );
+        for( auto iter = sizes.begin() + 1; ( iter + 1 ) != sizes.end(); iter++ ) {
+            size_t sum = *iter + *( iter + 1 );
+            if( sum < smallest_sum ) {
+                smallest = iter;
+                smallest_sum = sum;
+            }
+        }
+
+        size_t distance = std::distance( sizes.begin(), smallest );
+        sizes[distance] += sizes[distance + 1];
+        sizes.erase( smallest + 1 );
+        auto left_bucket = std::next( optimal.begin(), distance );
+        auto right_bucket = std::next( left_bucket );
+        left_bucket->insert( left_bucket->end(), right_bucket->begin(), right_bucket->end() );
+        optimal.erase( right_bucket );
+    }
+
+    return optimal;
+}
+
+static void draw_cone_aoe_curses( const tripoint &, const bucketed_points &waves )
+{
+    // Calculate screen offset relative to player + view offset position
+    const avatar &u = get_avatar();
+    const tripoint center = u.pos() + u.view_offset;
+    const tripoint topleft( center.x - catacurses::getmaxx( g->w_terrain ) / 2,
+                            center.y - catacurses::getmaxy( g->w_terrain ) / 2, 0 );
+
+    auto it = waves.begin();
+    shared_ptr_fast<game::draw_callback_t> wave_cb =
+    make_shared_fast<game::draw_callback_t>( [&]() {
+        // All the buckets up until now
+        for( auto inner_it = waves.begin(); inner_it != std::next( it ); inner_it++ ) {
+            for( const point_with_value &pr : *inner_it ) {
+                // update tripoint in relation to top left corner of curses window
+                // mvwputch already filters out of bounds coordinates
+                const tripoint p = pr.pt - topleft;
+                int intensity = ( pr.val >= 1.0 ) + ( pr.val >= 0.5 ) + ( inner_it == it );
+                nc_color col;
+                switch( intensity ) {
+                    case 3:
+                        col = c_red;
+                        break;
+                    case 2:
+                        col = c_yellow;
+                        break;
+                    case 1:
+                        col = c_white;
+                        break;
+                    default:
+                        col = c_dark_gray;
+                        break;
+                }
+
+                // TODO: Prettier
+                mvwputch( g->w_terrain, p.xy(), col, '*' );
+            }
+        }
+    } );
+    g->add_draw_callback( wave_cb );
+
+    wave_animation anim;
+    for( it = waves.begin(); it != waves.end(); it++ ) {
+        anim.progress();
+    }
+}
+
+namespace ranged
+{
+void draw_cone_aoe( const tripoint &origin, const std::map<tripoint, double> &aoe )
+{
+    if( test_mode ) {
+        return;
+    }
+
+    bucketed_points buckets = bucket_by_distance( origin, aoe );
+    // That hardcoded value could be improved... Not sure about the name
+    size_t max_bucket_count = std::min<size_t>( 10, aoe.size() );
+    bucketed_points waves = optimal_bucketing( buckets, max_bucket_count );
+
+#if defined(TILES)
+    if( !use_tiles ) {
+        draw_cone_aoe_curses( origin, waves );
+        return;
+    }
+
+    // This is copied from explosion code
+    // Not sure if it couldn't be cleaner, without that lambda capture thing
+    one_bucket combined_layer;
+    combined_layer.reserve( aoe.size() );
+
+    wave_animation anim;
+
+    shared_ptr_fast<game::draw_callback_t> wave_cb =
+    make_shared_fast<game::draw_callback_t>( [&]() {
+        tilecontext->init_draw_cone_aoe( origin, combined_layer );
+    } );
+    g->add_draw_callback( wave_cb );
+
+    for( const one_bucket &layer : waves ) {
+        // Older layers get a fade effect
+        for( point_with_value &pv : combined_layer ) {
+            pv.val *= 1.0 - ( 2.0 / max_bucket_count );
+        }
+        combined_layer.insert( combined_layer.end(), layer.begin(), layer.end() );
+        if( std::any_of( combined_layer.begin(), combined_layer.end(),
+        []( const point_with_value & element ) {
+        return is_point_visible( element.pt );
+        } ) ) {
+            anim.progress();
+        }
+    }
+
+    tilecontext->void_cone_aoe();
+#else
+    draw_cone_aoe_curses( origin, waves );
+#endif
+}
+} // namespace ranged
 
 bool minimap_requires_animation()
 {

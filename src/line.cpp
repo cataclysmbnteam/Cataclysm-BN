@@ -13,6 +13,13 @@
 #include "string_formatter.h"
 #include "string_utils.h"
 #include "enums.h"
+#include "point_float.h"
+
+double iso_tangent( double distance, units::angle vertex )
+{
+    // we can use the cosine formula (a² = b² + c² - 2bc⋅cosθ) to calculate the tangent
+    return std::sqrt( 2 * std::pow( distance, 2 ) * ( 1 - cos( vertex ) ) );
+}
 
 void bresenham( const point &p1, const point &p2, int t,
                 const std::function<bool( const point & )> &interact )
@@ -296,14 +303,24 @@ int manhattan_dist( const point &loc1, const point &loc2 )
     return d.x + d.y;
 }
 
-double atan2( const point &p )
+int octile_dist( const point &loc1, const point &loc2, int multiplier )
 {
-    return atan2( static_cast<double>( p.y ), static_cast<double>( p.x ) );
+    const point d = ( loc1 - loc2 ).abs();
+    const int mind = std::min( d.x, d.y );
+    // sqrt(2) is approximately 99 / 70
+    return ( d.x + d.y - 2 * mind ) * multiplier + mind * multiplier * 99 / 70;
 }
 
-double atan2_degrees( const point &p )
+float octile_dist_exact( const point &loc1, const point &loc2 )
 {
-    return atan2( p ) * 180.0 / M_PI;
+    const point d = ( loc1 - loc2 ).abs();
+    const int mind = std::min( d.x, d.y );
+    return d.x + d.y - 2 * mind + mind * M_SQRT2;
+}
+
+units::angle atan2( const point &p )
+{
+    return units::atan2( p.y, p.x );
 }
 
 // This more general version of this function gives correct values for larger values.
@@ -639,7 +656,8 @@ rl_vec3d rl_vec3d::rotated( float angle ) const
 {
     return rl_vec3d(
                x * std::cos( angle ) - y * std::sin( angle ),
-               x * std::sin( angle ) + y * std::cos( angle )
+               x * std::sin( angle ) + y * std::cos( angle ),
+               z
            );
 }
 
@@ -650,7 +668,14 @@ float rl_vec2d::dot_product( const rl_vec2d &v ) const
 
 float rl_vec3d::dot_product( const rl_vec3d &v ) const
 {
-    return x * v.x + y * v.y + y * v.z;
+    return x * v.x + y * v.y + z * v.z;
+}
+
+rl_vec3d rl_vec3d::cross_product( const rl_vec3d &v ) const
+{
+    return rl_vec3d( y * v.z - v.y * z,
+                     z * v.x - v.z * x,
+                     x * v.y - v.x * y );
 }
 
 bool rl_vec2d::is_null() const
@@ -689,30 +714,12 @@ rl_vec2d rl_vec2d::operator*( const float rhs ) const
     return ret;
 }
 
-rl_vec3d rl_vec3d::operator*( const float rhs ) const
-{
-    rl_vec3d ret;
-    ret.x = x * rhs;
-    ret.y = y * rhs;
-    ret.z = z * rhs;
-    return ret;
-}
-
 // subtract
 rl_vec2d rl_vec2d::operator-( const rl_vec2d &rhs ) const
 {
     rl_vec2d ret;
     ret.x = x - rhs.x;
     ret.y = y - rhs.y;
-    return ret;
-}
-
-rl_vec3d rl_vec3d::operator-( const rl_vec3d &rhs ) const
-{
-    rl_vec3d ret;
-    ret.x = x - rhs.x;
-    ret.y = y - rhs.y;
-    ret.z = z - rhs.z;
     return ret;
 }
 
@@ -725,29 +732,11 @@ rl_vec2d rl_vec2d::operator-() const
     return ret;
 }
 
-rl_vec3d rl_vec3d::operator-() const
-{
-    rl_vec3d ret;
-    ret.x = -x;
-    ret.y = -y;
-    ret.z = -z;
-    return ret;
-}
-
 rl_vec2d rl_vec2d::operator+( const rl_vec2d &rhs ) const
 {
     rl_vec2d ret;
     ret.x = x + rhs.x;
     ret.y = y + rhs.y;
-    return ret;
-}
-
-rl_vec3d rl_vec3d::operator+( const rl_vec3d &rhs ) const
-{
-    rl_vec3d ret;
-    ret.x = x + rhs.x;
-    ret.y = y + rhs.y;
-    ret.z = z + rhs.z;
     return ret;
 }
 
@@ -759,50 +748,41 @@ rl_vec2d rl_vec2d::operator/( const float rhs ) const
     return ret;
 }
 
-rl_vec3d rl_vec3d::operator/( const float rhs ) const
-{
-    rl_vec3d ret;
-    ret.x = x / rhs;
-    ret.y = y / rhs;
-    ret.z = z / rhs;
-    return ret;
-}
-
-void calc_ray_end( int angle, const int range, const tripoint &p, tripoint &out )
+void calc_ray_end( units::angle angle, const int range, const tripoint &p, tripoint &out )
 {
     // forces input angle to be between 0 and 360, calculated from actual input
-    angle %= 360;
-    if( angle < 0 ) {
-        angle += 360;
+    angle = fmod( angle, 360_degrees );
+    if( angle < 0_degrees ) {
+        angle += 360_degrees;
     }
-    const double rad = DEGREES( angle );
     out.z = p.z;
     if( trigdist ) {
-        out.x = p.x + range * std::cos( rad );
-        out.y = p.y + range * std::sin( rad );
+        out.x = p.x + range * cos( angle );
+        out.y = p.y + range * sin( angle );
     } else {
         int mult = 0;
-        if( angle >= 135 && angle <= 315 ) {
+        if( angle >= 135_degrees && angle <= 315_degrees ) {
             mult = -1;
         } else {
             mult = 1;
         }
 
-        if( angle <= 45 || ( 135 <= angle && angle <= 215 ) || 315 < angle ) {
+        if( angle <= 45_degrees || ( 135_degrees <= angle && angle <= 215_degrees ) ||
+            315_degrees < angle ) {
             out.x = p.x + range * mult;
-            out.y = p.y + range * std::tan( rad ) * mult;
+            out.y = p.y + range * tan( angle ) * mult;
         } else {
-            out.x = p.x + range * 1 / std::tan( rad ) * mult;
+            out.x = p.x + range * 1 / tan( angle ) * mult;
             out.y = p.y + range * mult;
         }
     }
 }
 
-double coord_to_angle( const tripoint &a, const tripoint &b )
+units::angle coord_to_angle( const tripoint &a, const tripoint &b )
 {
-    double rad = atan2( b.y - a.y, b.x - a.x );
-    if( rad < 0 ) {
-        rad += 2 * M_PI;
+    units::angle rad = units::atan2( b.y - a.y, b.x - a.x );
+    if( rad < 0_degrees ) {
+        rad += 2_pi_radians;
     }
-    return rad * 180 / M_PI;
+    return rad;
 }

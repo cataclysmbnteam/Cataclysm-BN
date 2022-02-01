@@ -143,7 +143,14 @@
     "symbol": "0",
     "color": "dark_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT" ]
+    "flags": [ "TRANSPARENT" ],
+    "pry": {
+      "success_message": "You lift the manhole cover.",
+      "fail_message": "You pry, but cannot lift the manhole cover.",
+      "pry_quality": 1,
+      "difficulty": 4,
+      "new_ter_type": "t_manhole"
+    }
   },
   {
     "type": "terrain",
@@ -164,6 +171,86 @@
     "color": "dark_gray",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_ramp_down_high",
+    "name": "road ramp down (high end)",
+    "description": "The upper end of an asphalt ramp leading down.",
+    "symbol": ">",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "ROAD", "Z_TRANSPARENT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_ramp_down_low",
+    "name": "road ramp down (low end)",
+    "description": "The lower end of an asphalt ramp leading down.",
+    "symbol": ">",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "ROAD", "RAMP_DOWN", "Z_TRANSPARENT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_ramp_up_high",
+    "name": "road ramp up (high end)",
+    "description": "The upper end of an asphalt ramp leading up.",
+    "symbol": "<",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "ROAD", "RAMP_UP" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_ramp_up_low",
+    "name": "road ramp up (low end)",
+    "description": "The lower end of an asphalt ramp leading up.",
+    "symbol": "<",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "ROAD" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_sidewalk_ramp_down_high",
+    "name": "sidewalk ramp down (high end)",
+    "description": "The upper end of a sidewalk ramp leading down.",
+    "symbol": ">",
+    "color": "light_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "ROAD", "Z_TRANSPARENT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_sidewalk_ramp_down_low",
+    "name": "sidewalk ramp down (low end)",
+    "description": "The lower end of a sidewalk ramp leading down.",
+    "symbol": ">",
+    "color": "light_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "ROAD", "RAMP_DOWN", "Z_TRANSPARENT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_sidewalk_ramp_up_high",
+    "name": "sidewalk ramp up (high end)",
+    "description": "The upper end of a sidewalk ramp leading up.",
+    "symbol": "<",
+    "color": "light_gray",
+    "move_cost": 2,
+    "flags": [ "ROAD", "RAMP_UP" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_sidewalk_ramp_up_low",
+    "name": "sidewalk ramp up (low end)",
+    "description": "The lower end of a sidewalk ramp leading up.",
+    "symbol": "<",
+    "color": "light_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "ROAD" ]
   },
   {
     "type": "terrain",

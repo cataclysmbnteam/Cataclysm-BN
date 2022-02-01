@@ -89,7 +89,15 @@ struct component {
 
 struct tool_comp : public component {
     tool_comp() = default;
-    tool_comp( const itype_id &TYPE, int COUNT ) : component( TYPE, COUNT ) { }
+    tool_comp( const itype_id &TYPE, int COUNT, bool subtype_expanded = false )
+        : component( TYPE, COUNT )
+        , subtype_expanded( subtype_expanded )
+    { }
+
+    // If true, do not expand subtypes
+    // Prevents double-expanding of subtype,
+    // for example hotplate->[hotplate, mess_kit]->[hotplate, mess_kit, mess_kit]
+    bool subtype_expanded = false;
 
     void load( const JsonValue &value );
     void dump( JsonOut &jsout ) const;

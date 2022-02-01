@@ -40,6 +40,8 @@ The `category` attribute denotes where the mod will appear in the mod selection 
 
 The `dependencies` attribute is used to tell Cataclysm that your mod is dependent on something present in another mod. If you have no dependencies outside of the core game, then just including `dda` in the list is good enough. If your mod depends on another one to work properly, adding that mod's `id` attribute to the array causes Cataclysm to force that mod to load before yours.
 
+For more details on `MOD_INFO` object, see [JSON_INFO.md](JSON_INFO.md/#mod_info).
+
 ## Actually adding things to your mod
 Now that you have a basic mod, you can get around to actually putting some stuff into it!
 
@@ -96,9 +98,8 @@ Professions are what the game calls the character classes you can choose from wh
     "traits": [ "PROF_POLICE" ],
     "items": {
       "both": {
-        "items": [ "pants_army", "socks", "badge_deputy", "sheriffshirt", "police_belt", "boots", "whistle", "wristwatch" ],
+        "items": [ "pants_army", "socks", "badge_deputy", "sheriffshirt", "police_belt", "smart_phone", "boots", "whistle", "wristwatch" ],
         "entries": [
-          { "group": "charged_cell_phone" },
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },

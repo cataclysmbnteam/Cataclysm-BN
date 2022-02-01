@@ -11,7 +11,7 @@
     "using": [ [ "forging_standard", 5 ], [ "steel_standard", 5 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "fur", 12 ], [ "tanned_pelt", 2 ], [ "leather", 12 ], [ "tanned_hide", 2 ] ] ]
+    "components": [ [ [ "fur", 12 ], [ "leather", 12 ] ] ]
   },
   {
     "result": "apron_leather",
@@ -23,7 +23,7 @@
     "time": "3 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 30 ] ],
-    "components": [ [ [ "leather", 18 ], [ "tanned_hide", 3 ] ] ]
+    "components": [ [ [ "leather", 18 ] ] ]
   },
   {
     "result": "armor_lamellar",
@@ -35,11 +35,7 @@
     "time": "4 h",
     "book_learn": [ [ "textbook_armschina", 2 ] ],
     "using": [ [ "sewing_standard", 68 ] ],
-    "components": [
-      [ [ "cordage_superior", 4, "LIST" ] ],
-      [ [ "rag", 4 ] ],
-      [ [ "leather", 42 ], [ "tanned_hide", 7 ], [ "fur", 42 ], [ "tanned_pelt", 7 ] ]
-    ]
+    "components": [ [ [ "cordage_superior", 4, "LIST" ] ], [ [ "rag", 4 ] ], [ [ "leather", 42 ], [ "fur", 42 ] ] ]
   },
   {
     "result": "bikini_top",
@@ -174,7 +170,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_survival", 1 ], [ "trappers_companion", 3 ], [ "survival_book", 2 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
-    "components": [ [ [ "rag", 11 ] ], [ [ "fur", 12 ], [ "tanned_pelt", 2 ] ] ]
+    "components": [ [ [ "rag", 11 ] ], [ [ "fur", 12 ] ] ]
   },
   {
     "result": "coat_faux_fur",
@@ -226,7 +222,7 @@
     "using": [ [ "blacksmithing_standard", 32 ], [ "steel_standard", 8 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ] ]
+    "components": [ [ [ "fur", 6 ], [ "leather", 6 ] ] ]
   },
   {
     "result": "cuirass_scrap",
@@ -265,7 +261,7 @@
     "time": "3 h 20 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 60 ] ],
-    "components": [ [ [ "fur", 40 ], [ "tanned_pelt", 7 ] ] ]
+    "components": [ [ [ "fur", 40 ] ] ]
   },
   {
     "result": "duster_faux_fur",
@@ -290,7 +286,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "sewing_standard", 60 ] ],
-    "components": [ [ [ "leather", 29 ], [ "tanned_hide", 5 ] ] ]
+    "components": [ [ [ "leather", 29 ] ] ]
   },
   {
     "result": "duster_survivor",
@@ -332,10 +328,7 @@
     "time": "2 h 30 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 360 ] ],
-    "components": [
-      [ [ "leather", 56 ], [ "tanned_hide", 9 ], [ "fur", 56 ], [ "tanned_pelt", 9 ] ],
-      [ [ "rope_natural_short", 2, "LIST" ] ]
-    ]
+    "components": [ [ [ "leather", 56 ], [ "fur", 56 ] ], [ [ "rope_natural_short", 2, "LIST" ] ] ]
   },
   {
     "result": "greatcoat",
@@ -397,7 +390,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 3 ] ],
     "using": [ [ "sewing_standard", 30 ] ],
-    "components": [ [ [ "leather", 18 ], [ "tanned_hide", 3 ] ] ]
+    "components": [ [ [ "leather", 18 ] ] ]
   },
   {
     "result": "jacket_leather_mod",
@@ -647,7 +640,7 @@
     "time": "3 h 20 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 50 ] ],
-    "components": [ [ [ "fur", 34 ], [ "tanned_pelt", 6 ] ] ]
+    "components": [ [ [ "fur", 34 ] ] ]
   },
   {
     "result": "sleeveless_duster_faux_fur",
@@ -704,7 +697,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "sewing_standard", 50 ] ],
-    "components": [ [ [ "leather", 25 ], [ "tanned_hide", 4 ] ] ]
+    "components": [ [ [ "leather", 25 ] ] ]
   },
   {
     "result": "sleeveless_duster_leather",
@@ -837,7 +830,7 @@
     "time": "3 h 20 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 38 ] ],
-    "components": [ [ [ "fur", 28 ], [ "tanned_pelt", 5 ] ] ]
+    "components": [ [ [ "fur", 28 ] ] ]
   },
   {
     "result": "sleeveless_trenchcoat_faux_fur",
@@ -879,7 +872,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "sewing_standard", 38 ] ],
-    "components": [ [ [ "leather", 18 ], [ "tanned_hide", 3 ] ] ]
+    "components": [ [ [ "leather", 18 ] ] ]
   },
   {
     "result": "sleeveless_trenchcoat_survivor",
@@ -1037,7 +1030,7 @@
     "time": "3 h 20 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 45 ] ],
-    "components": [ [ [ "fur", 30 ], [ "tanned_pelt", 5 ] ] ]
+    "components": [ [ [ "fur", 30 ] ] ]
   },
   {
     "result": "trenchcoat_faux_fur",
@@ -1062,7 +1055,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "sewing_standard", 45 ] ],
-    "components": [ [ [ "leather", 22 ], [ "tanned_hide", 4 ] ] ]
+    "components": [ [ [ "leather", 22 ] ] ]
   },
   {
     "result": "trenchcoat_survivor",
@@ -1194,7 +1187,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 3 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
-    "components": [ [ [ "leather", 10 ], [ "tanned_hide", 2 ] ] ]
+    "components": [ [ [ "leather", 10 ] ] ]
   },
   {
     "result": "vest_leather",

@@ -62,7 +62,7 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": 2
+    "magazine_well": "500 ml"
   },
   {
     "id": "chemistry_set_basic",
@@ -99,8 +99,7 @@
         "battery",
         [ "battery_car", "battery_motorbike", "small_storage_battery", "medium_storage_battery", "storage_battery" ]
       ]
-    ],
-    "magazine_well": 0
+    ]
   },
   {
     "id": "vac_oven_small",
@@ -772,7 +771,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "analytical_set_basic",
@@ -797,7 +796,7 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": 2
+    "magazine_well": "500 ml"
   },
   {
     "id": "balance_small",
@@ -837,7 +836,7 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": 2
+    "magazine_well": "500 ml"
   },
   {
     "id": "cuvettes",
@@ -885,7 +884,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "voltmeter",
@@ -903,6 +902,7 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
+    "use_action": [ "REPORT_GRID_CHARGE", "REPORT_GRID_CONNECTIONS" ],
     "magazines": [
       [
         "battery",
@@ -917,7 +917,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "melting_point",
@@ -949,7 +949,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "vortex",
@@ -1168,7 +1168,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "rack_test_tube",

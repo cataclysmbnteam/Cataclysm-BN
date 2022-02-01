@@ -382,7 +382,7 @@ void conditional_t<T>::set_at_om_location( const JsonObject &jo, const std::stri
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
         }
-        const tripoint omt_pos = actor->global_omt_location();
+        const tripoint_abs_omt omt_pos = actor->global_omt_location();
         const oter_id &omt_ref = overmap_buffer.ter( omt_pos );
 
         if( location == "FACTION_CAMP_ANY" ) {
@@ -481,9 +481,9 @@ void conditional_t<T>::set_npc_allies( const JsonObject &jo )
 }
 
 template<class T>
-void conditional_t<T>::set_u_has_cash( const JsonObject &jo )
+void conditional_t<T>::set_u_has_ecash( const JsonObject &jo )
 {
-    const int min_cash = jo.get_int( "u_has_cash" );
+    const int min_cash = jo.get_int( "u_has_ecash" );
     condition = [min_cash]( const T & d ) {
         return d.alpha->cash >= min_cash;
     };
@@ -1047,8 +1047,8 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
         set_npc_allies( jo );
     } else if( jo.get_bool( "npc_service", false ) ) {
         set_npc_available();
-    } else if( jo.has_int( "u_has_cash" ) ) {
-        set_u_has_cash( jo );
+    } else if( jo.has_int( "u_has_ecash" ) ) {
+        set_u_has_ecash( jo );
     } else if( jo.has_int( "u_are_owed" ) ) {
         set_u_are_owed( jo );
     } else if( jo.has_string( "npc_aim_rule" ) ) {

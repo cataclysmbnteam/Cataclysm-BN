@@ -190,11 +190,13 @@ int turret_data::range() const
     if( !veh || !part ) {
         return 0;
     }
-    int res = part->base.gun_range();
     if( part->info().has_flag( "USE_TANKS" ) && ammo_data() ) {
-        res += ammo_data()->ammo->range;
+        if( ammo_data()->ammo->shape ) {
+            return ammo_data()->ammo->shape->get_range();
+        }
+        return part->base.gun_range() + ammo_data()->ammo->range;
     }
-    return res;
+    return part->base.gun_range();
 }
 
 bool turret_data::in_range( const tripoint &target ) const

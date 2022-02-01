@@ -46,27 +46,41 @@
   {
     "id": "BGSS_PREPPER_2_MAPS",
     "type": "talk_topic",
-    "dynamic_line": "Yeah, I do.  I'd be willing to part with them for, say, $1000.  Straight from your ATM account, no cash cards.",
+    "dynamic_line": {
+      "npc_has_var": "failed_to_bully",
+      "type": "generic",
+      "context": "BGSS_PREPPER_2",
+      "value": "yes",
+      "no": "No offense, but there's no guarantee you won't be ripped apart by <zombies> tomorrow, and I'd rather have the map on me when that happends.",
+      "yes": "And I'd really be interested if you'd <swear> drop it already."
+    },
     "responses": [
       {
-        "text": "[$1000] You have a deal.",
-        "topic": "BGSS_PREPPER_2_SOLD",
-        "condition": { "u_has_cash": 100000 },
-        "effect": { "u_spend_cash": 100000 }
+        "switch": true,
+        "text": "That's what you said last time, and it's already been a week.  We're parners, are we not?  Partners help each other.",
+        "condition": {
+          "and": [
+            { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } },
+            { "npc_has_var": "proving_worth", "type": "generic", "context": "BGSS_PREPPER_2", "value": "yes" }
+          ]
+        },
+        "topic": "BGSS_PREPPER_2_PERSUADED"
       },
       {
+        "switch": true,
+        "default": true,
         "text": "Whatever's in that map benefits both of us.",
         "condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } },
         "trial": { "type": "PERSUADE", "difficulty": 40, "mod": [ [ "VALUE", 3 ], [ "TRUST", 1 ] ] },
-        "success": { "topic": "BGSS_PREPPER_2_SOLD" },
-        "failure": { "topic": "BGSS_PREPPER_2_NOSALE" }
+        "success": { "topic": "BGSS_PREPPER_2_PERSUADED" },
+        "failure": { "topic": "BGSS_PREPPER_2_PERSUADE_FAILED" }
       },
       {
         "text": "How 'bout you <swear> hand it over and I don't get <swear> pissed off?",
         "condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } },
         "trial": { "type": "INTIMIDATE", "difficulty": 30, "mod": [ [ "BRAVERY", -1 ], [ "FEAR", 3 ] ] },
-        "success": { "topic": "BGSS_PREPPER_2_SOLD" },
-        "failure": { "topic": "BGSS_PREPPER_2_NOSALE" }
+        "success": { "topic": "BGSS_PREPPER_2_BULLIED" },
+        "failure": { "topic": "BGSS_PREPPER_2_BULLY_FAILED" }
       },
       { "text": "Sorry for changing the subject.  What was it you were saying?", "topic": "TALK_NONE" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
@@ -74,15 +88,10 @@
     ]
   },
   {
-    "id": "BGSS_PREPPER_2_SOLD",
+    "id": "BGSS_PREPPER_2_PERSUADED",
     "type": "talk_topic",
-    "dynamic_line": "All right.  Here they are.",
+    "dynamic_line": "You're right.  Here they are.",
     "responses": [
-      {
-        "text": "Thanks!  What was it you were saying before?",
-        "effect": [ { "npc_add_effect": "player_BGSS_SAIDYES" }, { "u_buy_item": "survivormap" } ],
-        "topic": "TALK_NONE"
-      },
       {
         "text": "Thanks!  <done_conversation_section>",
         "effect": [ { "npc_add_effect": "player_BGSS_SAIDYES" }, { "u_buy_item": "survivormap" } ],
@@ -96,23 +105,45 @@
     ]
   },
   {
-    "id": "BGSS_PREPPER_2_NOSALE",
+    "id": "BGSS_PREPPER_2_PERSUADE_FAILED",
     "type": "talk_topic",
-    "dynamic_line": "Nice try.  You want the maps, you pay up.",
+    "dynamic_line": "Nice try.  But tell you what: if you're capable enough to stay alive through the week, I'll consider it.",
     "responses": [
       {
-        "text": "Fine.  What was it you were saying before?",
-        "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 31536000 },
+        "text": "I'll hold you to this.",
+        "//": "Player can try again in a week",
+        "effect": [
+          { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 604800 },
+          { "npc_add_var": "proving_worth", "type": "generic", "context": "BGSS_PREPPER_2", "value": "yes" }
+        ],
         "topic": "TALK_NONE"
-      },
-      {
-        "text": "<done_conversation_section>",
-        "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 31536000 },
-        "topic": "TALK_FRIEND"
-      },
+      }
+    ]
+  },
+  {
+    "id": "BGSS_PREPPER_2_BULLY_FAILED",
+    "type": "talk_topic",
+    "dynamic_line": "Nice try.  You want the maps, you'll have to make your own.",
+    "//": "TODO: have NPC drop the map on death.",
+    "responses": [
       {
         "text": "<end_talking>",
-        "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 31536000 },
+        "effect": [
+          { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 31536000 },
+          { "npc_add_var": "failed_to_bully", "type": "generic", "context": "BGSS_PREPPER_2", "value": "yes" }
+        ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "BGSS_PREPPER_2_BULLIED",
+    "type": "talk_topic",
+    "dynamic_line": "Alright, alright, take it.  Fuck...",
+    "responses": [
+      {
+        "text": "<end_talking>",
+        "effect": [ { "npc_add_effect": "player_BGSS_SAIDYES" }, { "u_buy_item": "survivormap" } ],
         "topic": "TALK_DONE"
       }
     ]

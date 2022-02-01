@@ -21,6 +21,7 @@
 #include "iuse.h" // use_function
 #include "optional.h"
 #include "pldata.h" // add_type
+#include "shape.h"
 #include "stomach.h"
 #include "translations.h"
 #include "type_id.h"
@@ -734,6 +735,11 @@ struct islot_ammo : common_ranged_data {
      */
     cata::optional<bool> force_stat_display;
 
+    /**
+     * AoE shape or null if it's a projectile.
+     */
+    cata::optional<shape_factory> shape;
+
     bool was_loaded;
 
     void load( const JsonObject &jo );
@@ -753,6 +759,10 @@ struct islot_bionic {
      * Whether this CBM is an upgrade of another.
      */
     bool is_upgrade = false;
+    /**
+    * Item with installation data that can be used to provide almost guaranteed successful install of corresponding bionic.
+    */
+    itype_id installation_data;
 };
 
 struct islot_seed {

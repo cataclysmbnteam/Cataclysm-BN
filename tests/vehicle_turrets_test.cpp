@@ -63,7 +63,7 @@ TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [.]" )
 {
     for( auto e : turret_types() ) {
         SECTION( e->name() ) {
-            vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), point( 65, 65 ), 270, 0, 0 );
+            vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), point( 65, 65 ), 270_degrees, 0, 0 );
             REQUIRE( veh );
 
             const int idx = veh->install_part( point_zero, e->get_id(), true );
@@ -73,7 +73,7 @@ TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [.]" )
             veh->charge_battery( 10000 );
 
             auto ammo =
-                ammotype( veh->turret_query( veh->parts[idx] ).base()->ammo_default().str() );
+                ammotype( veh->turret_query( veh->part( idx ) ).base()->ammo_default().str() );
 
             if( veh->part_flag( idx, "USE_TANKS" ) ) {
                 auto *tank = biggest_tank( ammo );
@@ -82,13 +82,13 @@ TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [.]" )
 
                 auto tank_idx = veh->install_part( point_zero, tank->get_id(), true );
                 REQUIRE( tank_idx >= 0 );
-                REQUIRE( veh->parts[ tank_idx ].ammo_set( ammo->default_ammotype() ) );
+                REQUIRE( veh->part( tank_idx ).ammo_set( ammo->default_ammotype() ) );
 
             } else if( ammo ) {
-                veh->parts[ idx].ammo_set( ammo->default_ammotype() );
+                veh->part( idx ).ammo_set( ammo->default_ammotype() );
             }
 
-            auto qry = veh->turret_query( veh->parts[ idx ] );
+            auto qry = veh->turret_query( veh->part( idx ) );
             REQUIRE( qry );
 
             REQUIRE( qry.query() == turret_data::status::ready );

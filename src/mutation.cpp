@@ -166,7 +166,7 @@ void Character::set_mutation( const trait_id &trait )
     }
     my_mutations.emplace( trait, trait_data{} );
     rebuild_mutation_cache();
-    mutation_effect( trait, false );
+    mutation_effect( trait );
     recalc_sight_limits();
     reset_encumbrance();
 }
@@ -196,7 +196,7 @@ void Character::switch_mutations( const trait_id &switched, const trait_id &targ
 
     set_mutation( target );
     my_mutations[target].powered = start_powered;
-    mutation_effect( target, false );
+    mutation_effect( target );
 }
 
 int Character::get_mod( const trait_id &mut, const std::string &arg ) const
@@ -265,7 +265,7 @@ void Character::recalculate_size()
     }
 }
 
-void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_override )
+void Character::mutation_effect( const trait_id &mut )
 {
     if( mut == trait_GLASSJAW ) {
         recalc_hp();
@@ -314,19 +314,12 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
         if( !branch.conflicts_with_item( armor ) ) {
             return false;
         }
-        if( !worn_destroyed_override && branch.destroys_gear ) {
-            add_msg_player_or_npc( m_bad,
-                                   _( "Your %s is destroyed!" ),
-                                   _( "<npcname>'s %s is destroyed!" ),
-                                   armor.tname() );
-            armor.contents.spill_contents( pos() );
-        } else {
-            add_msg_player_or_npc( m_bad,
-                                   _( "Your %s is pushed off!" ),
-                                   _( "<npcname>'s %s is pushed off!" ),
-                                   armor.tname() );
-            g->m.add_item_or_charges( pos(), armor );
-        }
+
+        add_msg_player_or_npc( m_bad,
+                               _( "Your %s is pushed off!" ),
+                               _( "<npcname>'s %s is pushed off!" ),
+                               armor.tname() );
+        get_map().add_item_or_charges( pos(), armor );
         return true;
     } );
 
@@ -488,41 +481,13 @@ void Character::activate_mutation( const trait_id &mut )
 {
     const mutation_branch &mdata = mut.obj();
     trait_data &tdata = my_mutations[mut];
-    int cost = mdata.cost;
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
-    if( ( mdata.hunger && get_kcal_percent() < 0.5f ) || ( mdata.thirst &&
-            get_thirst() >= thirst_levels::dehydrated ) ||
-        ( mdata.fatigue && get_fatigue() >= fatigue_levels::exhausted ) ) {
-        // Insufficient Foo to *maintain* operation is handled in player::suffer
-        add_msg_if_player( m_warning, _( "You feel like using your %s would kill you!" ),
-                           mdata.name() );
+    if( !can_use_mutation_warn( mut, *this ) ) {
         return;
     }
-    if( tdata.powered && tdata.charge > 0 ) {
-        // Already-on units just lose a bit of charge
-        tdata.charge--;
-    } else {
-        // Not-on units, or those with zero charge, have to pay the power cost
-        if( mdata.cooldown > 0 ) {
-            tdata.charge = mdata.cooldown - 1;
-        }
-        if( mdata.hunger ) {
-            // burn some energy
-            mod_stored_nutr( cost );
-        }
-        if( mdata.thirst ) {
-            mod_thirst( cost );
-        }
-        if( mdata.fatigue ) {
-            mod_fatigue( cost );
-        }
-        tdata.powered = true;
-
-        // Handle stat changes from activation
-        apply_mods( mut, true );
-        recalc_sight_limits();
-    }
+    mutation_spend_resources( mut );
+    tdata.powered = true;
 
     if( !mut->enchantments.empty() ) {
         recalculate_enchantment_cache();
@@ -632,9 +597,9 @@ void Character::activate_mutation( const trait_id &mut )
         return;
     } else if( mut == trait_DEBUG_BIONIC_POWERGEN ) {
         int npower;
-        if( query_int( npower, "Modify bionic power by how much?  (Values are in millijoules)" ) ) {
-            mod_power_level( units::from_millijoule( npower ) );
-            add_msg_if_player( m_good, "Bionic power increased by %dmJ.", npower );
+        if( query_int( npower, "Modify bionic power by how much?  (Values are in joules)" ) ) {
+            mod_power_level( units::from_joule( npower ) );
+            add_msg_if_player( m_good, "Bionic power increased by %dJ.", npower );
             tdata.powered = false;
         }
         return;
@@ -1742,6 +1707,57 @@ bool are_same_type_traits( const trait_id &trait_a, const trait_id &trait_b )
 bool contains_trait( std::vector<string_id<mutation_branch>> traits, const trait_id &trait )
 {
     return std::find( traits.begin(), traits.end(), trait ) != traits.end();
+}
+
+bool can_use_mutation( const trait_id &mut, const Character &character )
+{
+    const mutation_branch &mdata = mut.obj();
+    // You can take yourself halfway to Near Death levels of hunger/thirst.
+    // Fatigue can go to Exhausted.
+    return !( ( mdata.hunger && character.get_kcal_percent() < 0.5f ) ||
+              ( mdata.thirst && character.get_thirst() >= thirst_levels::dehydrated ) ||
+              ( mdata.fatigue && character.get_fatigue() >= fatigue_levels::exhausted ) );
+}
+
+bool can_use_mutation_warn( const trait_id &mut, const Character &character )
+{
+    const bool result = can_use_mutation( mut, character );
+    if( !result ) {
+        character.add_msg_if_player( m_warning, _( "You feel like using your %s would kill you!" ),
+                                     mut.obj().name() );
+    }
+
+    return result;
+}
+
+void Character::mutation_spend_resources( const trait_id &mut )
+{
+    const mutation_branch &mdata = mut.obj();
+    trait_data &tdata = my_mutations[mut];
+    int cost = mdata.cost;
+    if( tdata.powered && tdata.charge > 0 ) {
+        // Already-on units just lose a bit of charge
+        tdata.charge--;
+    } else {
+        // Not-on units, or those with zero charge, have to pay the power cost
+        if( mdata.cooldown > 0 ) {
+            tdata.charge = mdata.cooldown - 1;
+        }
+        if( mdata.hunger ) {
+            // burn some energy
+            mod_stored_kcal( -cost * 6 );
+        }
+        if( mdata.thirst ) {
+            mod_thirst( cost );
+        }
+        if( mdata.fatigue ) {
+            mod_fatigue( cost );
+        }
+
+        // Handle stat changes from activation
+        apply_mods( mut, true );
+        recalc_sight_limits();
+    }
 }
 
 std::string Character::visible_mutations( const int visibility_cap ) const

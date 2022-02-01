@@ -146,30 +146,50 @@ class item_reader : public generic_typed_reader<item_reader>
 
 void profession::load( const JsonObject &jo, const std::string & )
 {
-    //If the "name" is an object then we have to deal with gender-specific titles,
+    // If the "name" is an object then we may have to deal with gender-specific titles
+    bool add_name_context = false;
     if( jo.has_object( "name" ) ) {
         JsonObject name_obj = jo.get_object( "name" );
-        // Specifying translation context here to avoid adding unnecessary json code for every profession
-        // NOLINTNEXTLINE(cata-json-translation-input)
-        _name_male = to_translation( "profession_male", name_obj.get_string( "male" ) );
-        // NOLINTNEXTLINE(cata-json-translation-input)
-        _name_female = to_translation( "profession_female", name_obj.get_string( "female" ) );
-    } else if( jo.has_string( "name" ) ) {
-        // Same profession names for male and female in English.
-        // Still need to different names in other languages.
-        const std::string name = jo.get_string( "name" );
-        _name_female = to_translation( "profession_female", name );
-        _name_male = to_translation( "profession_male", name );
+        if( name_obj.has_member( "male" ) && name_obj.has_member( "female" ) ) {
+            // Gender-specific titles
+            _name_male.deserialize( *name_obj.get_raw( "male" ) );
+            _name_female.deserialize( *name_obj.get_raw( "female" ) );
+        } else {
+            // Same profession names for male and female in English
+            name_obj.allow_omitted_members();
+            _name_male.deserialize( *jo.get_raw( "name" ) );
+            _name_female = _name_male;
+        }
+        add_name_context = true;
+    } else if( jo.has_member( "name" ) ) {
+        // Same profession names for male and female in English
+        _name_male.deserialize( *jo.get_raw( "name" ) );
+        _name_female = _name_male;
+        add_name_context = true;
     } else if( !was_loaded ) {
-        jo.throw_error( "missing mandatory member \"name\"" );
+        // Throw 'missing mandatory member' error
+        jo.get_member( "name" );
+        return;
     }
 
-    if( !was_loaded || jo.has_member( "description" ) ) {
-        const std::string desc = jo.get_string( "description" );
-        // These also may differ depending on the language settings!
-        _description_male = to_translation( "prof_desc_male", desc );
-        _description_female = to_translation( "prof_desc_female", desc );
+    if( add_name_context ) {
+        // Other languages may have different gender-specific titles, so add gender context
+        _name_male.add_context( "profession_male" );
+        _name_female.add_context( "profession_female" );
     }
+
+    if( jo.has_member( "description" ) ) {
+        _description_male.deserialize( *jo.get_raw( "description" ) );
+        _description_female = _description_male;
+        // These also may differ in other languages!
+        _description_male.add_context( "prof_desc_male" );
+        _description_female.add_context( "prof_desc_female" );
+    } else if( !was_loaded ) {
+        // Throw 'missing mandatory member' error
+        jo.get_member( "description" );
+        return;
+    }
+
     if( jo.has_string( "vehicle" ) ) {
         _starting_vehicle = vproto_id( jo.get_string( "vehicle" ) );
     }

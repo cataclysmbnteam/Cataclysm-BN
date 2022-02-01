@@ -19,7 +19,7 @@
       "sound_vol": 20,
       "sound_fail_vol": 14,
       "ter_set": "t_mdoor_frame",
-      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] }, { "item": "scrap", "count": [ 3, 5 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "scrap", "count": [ 3, 5 ] } ]
     }
   },
   {
@@ -42,7 +42,7 @@
       "sound_vol": 20,
       "sound_fail_vol": 14,
       "ter_set": "t_mdoor_frame",
-      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] }, { "item": "scrap", "count": [ 3, 5 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "scrap", "count": [ 3, 5 ] } ]
     }
   },
   {
@@ -65,7 +65,7 @@
       "sound_vol": 20,
       "sound_fail_vol": 14,
       "ter_set": "t_mdoor_frame",
-      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] }, { "item": "scrap", "count": [ 3, 5 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "scrap", "count": [ 3, 5 ] } ]
     }
   },
   {
@@ -88,7 +88,7 @@
       "sound_vol": 20,
       "sound_fail_vol": 14,
       "ter_set": "t_mdoor_frame",
-      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] }, { "item": "scrap", "count": [ 3, 5 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "scrap", "count": [ 3, 5 ] } ]
     }
   },
   {
@@ -111,11 +111,7 @@
       "sound_vol": 20,
       "sound_fail_vol": 14,
       "ter_set": "t_mdoor_frame",
-      "items": [
-        { "item": "glass_shard", "count": [ 42, 84 ] },
-        { "item": "wire", "prob": 20 },
-        { "item": "scrap", "count": [ 3, 5 ] }
-      ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "wire", "prob": 20 }, { "item": "scrap", "count": [ 3, 5 ] } ]
     }
   },
   {
@@ -138,11 +134,7 @@
       "sound_vol": 20,
       "sound_fail_vol": 14,
       "ter_set": "t_thconc_floor",
-      "items": [
-        { "item": "glass_shard", "count": [ 42, 84 ] },
-        { "item": "wire", "prob": 20 },
-        { "item": "scrap", "count": [ 3, 5 ] }
-      ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "wire", "prob": 20 }, { "item": "scrap", "count": [ 3, 5 ] } ]
     }
   },
   {
@@ -165,11 +157,7 @@
       "sound_vol": 20,
       "sound_fail_vol": 14,
       "ter_set": "t_mdoor_frame",
-      "items": [
-        { "item": "glass_shard", "count": [ 42, 84 ] },
-        { "item": "wire", "prob": 20 },
-        { "item": "scrap", "count": [ 3, 5 ] }
-      ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "wire", "prob": 20 }, { "item": "scrap", "count": [ 3, 5 ] } ]
     }
   },
   {
@@ -192,11 +180,7 @@
       "sound_vol": 20,
       "sound_fail_vol": 14,
       "ter_set": "t_thconc_floor",
-      "items": [
-        { "item": "glass_shard", "count": [ 42, 84 ] },
-        { "item": "wire", "prob": 20 },
-        { "item": "scrap", "count": [ 3, 5 ] }
-      ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "wire", "prob": 20 }, { "item": "scrap", "count": [ 3, 5 ] } ]
     }
   },
   {
@@ -839,7 +823,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_door_red_frame",
-      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
     }
   },
   {
@@ -863,7 +847,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_door_green_frame",
-      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
     }
   },
   {
@@ -887,7 +871,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_door_white_frame",
-      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
     }
   },
   {
@@ -911,7 +895,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_door_gray_frame",
-      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
     }
   },
   {
@@ -935,7 +919,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_door_red_frame",
-      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
     }
   },
   {
@@ -959,7 +943,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_door_green_frame",
-      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
     }
   },
   {
@@ -983,7 +967,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_door_white_frame",
-      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
     }
   },
   {
@@ -1007,7 +991,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_door_gray_frame",
-      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
     }
   },
   {
@@ -1407,6 +1391,25 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
+    },
+    "pry": {
+      "success_message": "You pry open the door.",
+      "fail_message": "You pry, but cannot pry open the door.",
+      "break_message": "You damage the door!",
+      "pry_quality": 2,
+      "pry_bonus_mult": 3,
+      "noise": 12,
+      "break_noise": 10,
+      "breakable": true,
+      "difficulty": 8,
+      "new_ter_type": "t_door_o",
+      "break_ter_type": "t_door_b",
+      "break_items": [
+        { "item": "2x4", "prob": 25 },
+        { "item": "wood_panel", "prob": 10 },
+        { "item": "splinter", "count": [ 1, 2 ] },
+        { "item": "nail", "charges": [ 0, 2 ] }
+      ]
     }
   },
   {
@@ -1441,6 +1444,25 @@
       "sound_fail": "whump!",
       "ter_set": "t_door_b",
       "items": [
+        { "item": "2x4", "prob": 25 },
+        { "item": "wood_panel", "prob": 10 },
+        { "item": "splinter", "count": [ 1, 2 ] },
+        { "item": "nail", "charges": [ 0, 2 ] }
+      ]
+    },
+    "pry": {
+      "success_message": "You pry open the door.",
+      "fail_message": "You pry, but cannot pry open the door.",
+      "break_message": "You damage the door!",
+      "pry_quality": 2,
+      "pry_bonus_mult": 3,
+      "noise": 12,
+      "break_noise": 10,
+      "breakable": true,
+      "difficulty": 8,
+      "new_ter_type": "t_door_o",
+      "break_ter_type": "t_door_b",
+      "break_items": [
         { "item": "2x4", "prob": 25 },
         { "item": "wood_panel", "prob": 10 },
         { "item": "splinter", "count": [ 1, 2 ] },
@@ -1485,6 +1507,25 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
       ]
+    },
+    "pry": {
+      "success_message": "You pry open the door.",
+      "fail_message": "You pry, but cannot pry open the door.",
+      "break_message": "You damage the door!",
+      "pry_quality": 2,
+      "pry_bonus_mult": 3,
+      "noise": 12,
+      "break_noise": 10,
+      "breakable": true,
+      "difficulty": 8,
+      "new_ter_type": "t_door_o_peep",
+      "break_ter_type": "t_door_b_peep",
+      "break_items": [
+        { "item": "2x4", "prob": 25 },
+        { "item": "wood_panel", "prob": 10 },
+        { "item": "splinter", "count": [ 1, 2 ] },
+        { "item": "nail", "charges": [ 0, 2 ] }
+      ]
     }
   },
   {
@@ -1509,6 +1550,26 @@
       "sound_fail": "whump!",
       "ter_set": "t_door_b",
       "items": [
+        { "item": "2x4", "prob": 25 },
+        { "item": "wood_panel", "prob": 10 },
+        { "item": "splinter", "count": [ 1, 2 ] },
+        { "item": "nail", "charges": [ 0, 2 ] }
+      ]
+    },
+    "pry": {
+      "success_message": "You pry open the door.",
+      "fail_message": "You pry, but cannot pry open the door.",
+      "break_message": "You damage the door!",
+      "pry_quality": 2,
+      "pry_bonus_mult": 3,
+      "noise": 12,
+      "break_noise": 10,
+      "alarm": true,
+      "breakable": true,
+      "difficulty": 8,
+      "new_ter_type": "t_door_o_peep",
+      "break_ter_type": "t_door_b_peep",
+      "break_items": [
         { "item": "2x4", "prob": 25 },
         { "item": "wood_panel", "prob": 10 },
         { "item": "splinter", "count": [ 1, 2 ] },
@@ -2172,7 +2233,7 @@
     "type": "terrain",
     "id": "t_door_metal_pickable",
     "name": "closed metal door",
-    "description": "An extremely resilient door made of assorted steel, carved and pounded into shape.  This one has an extra keyhole, so it's likely locked.  You could probably pick the lock.",
+    "description": "An extremely resilient door made of assorted steel, carved and pounded into shape.  This one has an extra keyhole, so it's likely locked.  You could probably pick the lock, or a very strong tool could pry it open.",
     "//": "Actually pickable, but locked",
     "symbol": "+",
     "looks_like": "t_door_metal_locked",
@@ -2194,6 +2255,15 @@
         { "item": "steel_plate", "prob": 75 },
         { "item": "hinge", "count": [ 1, 3 ] }
       ]
+    },
+    "pry": {
+      "success_message": "You pry open the door.",
+      "fail_message": "You pry, but cannot pry open the door.",
+      "pry_quality": 4,
+      "noise": 24,
+      "sound": "metal screeching!",
+      "difficulty": 4,
+      "new_ter_type": "t_door_metal_o"
     }
   },
   {
@@ -2301,7 +2371,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_door_frame",
-      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
     }
   },
   {
@@ -2325,7 +2395,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_thconc_floor",
-      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
     }
   },
   {
@@ -2349,7 +2419,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_door_frame",
-      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
     }
   },
   {
@@ -2373,7 +2443,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_thconc_floor",
-      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
     }
   },
   {

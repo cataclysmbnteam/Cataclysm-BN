@@ -35,7 +35,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
+    "magazine_well": "250 ml",
     "magazines": [ [ "44", [ "deaglemag" ] ] ]
   },
   {
@@ -86,6 +86,7 @@
     "price": 10000,
     "price_postapoc": 500,
     "to_hit": -1,
+    "ascii_picture": "lg_pipe_gun",
     "bashing": 10,
     "material": [ "steel", "wood" ],
     "color": "brown",
@@ -124,6 +125,7 @@
     "price": 86100,
     "price_postapoc": 2750,
     "to_hit": -2,
+    "ascii_picture": "redhawk",
     "bashing": 10,
     "material": [ "steel", "wood" ],
     "symbol": "(",

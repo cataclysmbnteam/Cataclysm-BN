@@ -29,9 +29,15 @@ Steps from current guide were tested on Windows 10 (64 bit), Visual Studio 2019 
 ```cmd
 git clone https://github.com/Microsoft/vcpkg.git
 cd vcpkg
+git checkout 6bc4362fb49e53f1fff7f51e4e27e1946755ecc6
 .\bootstrap-vcpkg.bat
 .\vcpkg integrate install
 ```
+Note: 
+```
+git checkout 6bc4362fb49e53f1fff7f51e4e27e1946755ecc6 
+``` 
+used to grab vcpkg version without font problems.
 
 4. Install a necessary pre-requisite package:
 

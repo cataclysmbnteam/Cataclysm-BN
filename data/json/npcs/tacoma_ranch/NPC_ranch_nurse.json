@@ -68,30 +68,30 @@
     "id": "TALK_RANCH_NURSE_AID",
     "type": "talk_topic",
     "dynamic_line": {
-      "npc_has_effect": "currently_busy",
-      "yes": "Come back later, I need to take care of a few things first.",
-      "no": "I can take a look at you or your companions if you are injured."
+      "npc_service": true,
+      "yes": "I can take a look at you or your companions if you are injured.  Supplies are in shortage, so unfortunately I'll have to ask you for 200 Merch, or 80 if it's just you.",
+      "no": "Come back later, I need to take care of a few things first."
     },
     "responses": [
       {
-        "text": "[$200, 30m] I need you to patch me up.",
+        "text": "[80 Merch, 30m] I need you to patch me up.",
         "topic": "TALK_RANCH_NURSE_AID_DONE",
-        "effect": [ "give_aid", { "u_spend_cash": 20000 } ],
-        "condition": { "npc_service": true }
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 80 } },
+        "effect": [ { "u_sell_item": "FMCNote", "count": 80 }, "give_aid" ]
       },
       {
-        "text": "[$500, 1h] I need you to patch me up.",
+        "text": "[200 Merch, 1h] I need you to patch up me and my companions.",
         "topic": "TALK_RANCH_NURSE_AID_DONE",
-        "effect": [ "give_all_aid", { "u_spend_cash": 50000 } ],
-        "condition": { "npc_service": true }
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 200 } },
+        "effect": [ { "u_sell_item": "FMCNote", "count": 200 }, "give_all_aid" ]
       },
-      { "text": "I should be fine.", "topic": "TALK_RANCH_NURSE" }
+      { "text": "On second thought, I should be fine.", "topic": "TALK_RANCH_NURSE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_NURSE_AID_DONE",
-    "dynamic_line": "That's the best I can do on short notice.",
+    "dynamic_line": "Hold still then.  It's the best I can do on short notice.",
     "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   },
   {

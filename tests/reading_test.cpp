@@ -415,7 +415,7 @@ TEST_CASE( "Losing book during reading", "[reading][book]" )
     }
 
     SECTION( "Book in car" ) {
-        vehicle *veh = g->m.add_vehicle( vproto_id( "car" ), u.pos(), 0, 0, 0 );
+        vehicle *veh = g->m.add_vehicle( vproto_id( "car" ), u.pos(), 0_degrees, 0, 0 );
         REQUIRE( veh != nullptr );
         int part = veh->part_with_feature( point_zero, "CARGO", true );
         REQUIRE( part >= 0 );

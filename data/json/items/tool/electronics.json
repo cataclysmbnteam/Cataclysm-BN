@@ -4,7 +4,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "advanced UPS", "str_pl": "advanced UPS's" },
-    "description": "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel cells rather than batteries.  Sadly, its plutonium reactor can't be charged in UPS charging station.",
+    "description": "This is an advanced version of the unified power supply, or UPS.  Designed for military use to power advanced weapons, it uses plutonium fuel cells which provide better efficiency, but are not rechargeable.  It can power many household electronics as well.",
     "weight": "453 g",
     "volume": "2 L",
     "price": 560000,
@@ -49,7 +49,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "camera_pro",
@@ -66,24 +66,11 @@
     "symbol": ";",
     "color": "yellow",
     "ammo": "battery",
+    "initial_charges": 160,
+    "max_charges": 200,
     "charges_per_use": 5,
     "use_action": "CAMERA",
-    "flags": [ "CAMERA_PRO", "ALWAYS_TWOHAND" ],
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": 1
+    "flags": [ "CAMERA_PRO", "ALWAYS_TWOHAND", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "cell_phone",
@@ -123,41 +110,33 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "cell_phone_flashlight",
     "copy-from": "cell_phone",
     "type": "TOOL",
-    "name": { "str": "cellphone - Flashlight", "str_pl": "cellphones - Flashlight" },
-    "power_draw": 500,
+    "name": { "str": "cellphone - Screenlight", "str_pl": "cellphones - Screenlight" },
+    "power_draw": 2500,
     "revert_to": "cell_phone",
     "use_action": { "target": "cell_phone", "msg": "You stop lighting up the screen.", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "WATCH", "LIGHT_8", "CHARGEDIM", "TRADER_AVOID" ]
+    "flags": [ "WATCH", "LIGHT_8", "TRADER_AVOID" ]
   },
   {
     "id": "control_laptop",
     "type": "TOOL",
     "category": "tools",
+    "copy-from": "laptop",
     "name": { "str": "control laptop" },
     "description": "A modified laptop, now capable of transmitting in the ultra-high frequencies utilized by robots.  Activate it to command robots from afar.",
-    "weight": "2721 g",
-    "volume": "1 L",
     "price": 10000,
     "price_postapoc": 8000,
-    "material": [ "plastic", "aluminum" ],
-    "symbol": ",",
-    "color": "yellow",
-    "ammo": "battery",
     "charges_per_use": 2,
     "use_action": "ROBOTCONTROL",
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": 2
+    "ammo": "battery",
+    "initial_charges": 500,
+    "max_charges": 700,
+    "flags": [ "WATCH", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "directional_antenna",
@@ -200,7 +179,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "e-ink tablet PC" },
-    "description": "A tablet PC using an efficient color e-ink display.  Before the Cataclysm, these were nifty gadgets; now, it's an almost priceless resource.  Runs on conventional batteries.",
+    "description": "A tablet PC using an efficient color e-ink display.  Before the Cataclysm, these were nifty gadgets; now, it's an almost priceless resource.",
     "weight": "250 g",
     "volume": "250 ml",
     "price": 20000,
@@ -210,24 +189,11 @@
     "symbol": ";",
     "color": "blue",
     "ammo": "battery",
+    "initial_charges": 160,
+    "max_charges": 200,
     "charges_per_use": 1,
     "use_action": "EINKTABLETPC",
-    "flags": [ "WATCH" ],
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_plus_battery_cell",
-          "light_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": 1
+    "flags": [ "WATCH", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "electrohack",
@@ -259,7 +225,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "geiger_off",
@@ -292,7 +258,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "geiger_on",
@@ -304,7 +270,7 @@
     "revert_to": "geiger_off",
     "use_action": "GEIGER",
     "flags": [ "TRADER_AVOID" ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "hand_crank_charger",
@@ -341,7 +307,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": "laptop computer",
-    "description": "A laptop computer with replaceable batteries.",
+    "description": "A laptop computer using UPS.",
     "symbol": ",",
     "color": "dark_gray",
     "material": [ "plastic", "aluminum" ],
@@ -351,6 +317,8 @@
     "price_postapoc": 250,
     "bashing": 6,
     "ammo": "battery",
+    "initial_charges": 500,
+    "max_charges": 700,
     "charges_per_use": 1,
     "use_action": [
       "EINKTABLETPC",
@@ -364,24 +332,17 @@
         "type": "transform"
       }
     ],
-    "flags": [ "WATCH" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": 2
+    "flags": [ "WATCH", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "laptop_screen_lit",
     "copy-from": "laptop",
     "type": "TOOL",
     "name": { "str": "laptop computer - lit screen", "str_pl": "laptop computers - lit screen" },
-    "power_draw": 1000,
+    "power_draw": 5000,
     "revert_to": "laptop",
     "use_action": { "target": "laptop", "msg": "You stop lighting up the screen.", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "WATCH", "LIGHT_10", "TRADER_AVOID" ]
+    "flags": [ "WATCH", "LIGHT_20", "TRADER_AVOID", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "mp3",
@@ -397,23 +358,11 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": "battery",
+    "initial_charges": 160,
+    "max_charges": 200,
+    "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ],
     "use_action": "MP3",
-    "charges_per_use": 1,
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_disposable_cell",
-          "light_minus_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": 1
+    "charges_per_use": 1
   },
   {
     "id": "mp3_on",
@@ -421,11 +370,10 @@
     "type": "TOOL",
     "name": { "str": "mp3 player (on)", "str_pl": "mp3 players (on)" },
     "description": "This mp3 player is turned on and playing some great tunes, raising your morale steadily while on your person.  It runs through batteries quickly; you can turn it off by using it.  It also obscures your hearing.",
-    "power_draw": 1000,
+    "power_draw": 3500,
     "revert_to": "mp3",
     "use_action": "MP3_ON",
-    "flags": [ "TRADER_AVOID" ],
-    "magazine_well": 1
+    "flags": [ "TRADER_AVOID", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "noise_emitter",
@@ -477,7 +425,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "handheld game system" },
-    "description": "This is a portable games console in working condition, with a backlit screen allowing you to play in the dark.  You can use it to play it for a little while, but this requires batteries.",
+    "description": "This is a portable games console in working condition, with an LED-screen allowing you to play in the dark.  You can use it to play it for a little while, but this requires UPS.",
     "weight": "200 g",
     "volume": "250 ml",
     "price": 12000,
@@ -486,23 +434,11 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
+    "initial_charges": 160,
+    "max_charges": 200,
+    "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ],
     "charges_per_use": 1,
-    "use_action": "PORTABLE_GAME",
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_disposable_cell",
-          "light_minus_disposable_cell",
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
-        ]
-      ]
-    ],
-    "magazine_well": 1
+    "use_action": "PORTABLE_GAME"
   },
   {
     "id": "smart_phone",
@@ -519,8 +455,8 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
-    "initial_charges": 110,
-    "max_charges": 120,
+    "initial_charges": 160,
+    "max_charges": 200,
     "charges_per_use": 1,
     "use_action": [
       {
@@ -542,18 +478,18 @@
     "type": "TOOL",
     "name": { "str": "smartphone - music", "str_pl": "smartphones - music" },
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
-    "power_draw": 300,
+    "power_draw": 7000,
     "revert_to": "smart_phone",
     "use_action": "MP3_ON",
     "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "smart_phone_flashlight",
     "copy-from": "smart_phone",
     "type": "TOOL",
     "name": { "str": "smartphone - Flashlight", "str_pl": "smartphones - Flashlight" },
-    "power_draw": 1500,
+    "power_draw": 5000,
     "revert_to": "smart_phone",
     "use_action": {
       "target": "smart_phone",
@@ -561,14 +497,14 @@
       "menu_text": "Turn off flashlight",
       "type": "transform"
     },
-    "flags": [ "WATCH", "LIGHT_20", "CHARGEDIM", "TRADER_AVOID", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "WATCH", "LIGHT_20", "TRADER_AVOID", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "UPS_off",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "UPS", "str_pl": "UPS's" },
-    "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power bionics, armor and some guns, but drains batteries quickly.",
+    "description": "This is a unified power supply, or UPS.  It is a civilian evolution of a military project.  Designed to power advanced weapons and armor, the civilian version serves as a portable power bank and inverter for many household electronics.",
     "weight": "680 g",
     "volume": "2500 ml",
     "price": 280000,
@@ -582,7 +518,7 @@
     "magazines": [
       [ "battery", [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
     ],
-    "magazine_well": 6,
+    "magazine_well": "1500 ml",
     "flags": [ "IS_UPS" ]
   },
   {
@@ -615,7 +551,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "bionic_scanner",

@@ -504,8 +504,8 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
 
     // Shopkeeps are happy to have large inventories.
     if( np.mission == NPC_MISSION_SHOPKEEP ) {
-        volume_left = 5'000_liter;
-        weight_left = 5'000_kilogram;
+        volume_left = 5000_liter;
+        weight_left = 5000_kilogram;
     }
 
     input_context ctxt( "NPC_TRADE" );

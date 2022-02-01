@@ -174,7 +174,7 @@
     "dispersion": 300,
     "durability": 10,
     "reload": 400,
-    "modes": [ [ "DEFAULT", "semi-auto", 1, "NPC_AVOID" ] ],
+    "modes": [ [ "DEFAULT", "semi", 1, "NPC_AVOID" ] ],
     "clip_size": 6,
     "flags": [ "MOUNTED_GUN" ]
   }

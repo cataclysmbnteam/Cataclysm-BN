@@ -440,7 +440,7 @@
         "/%fss_,___________,_ssf/",
         "/%fss_,___________,_ssf/"
       ],
-      "place_vehicles": [ { "vehicle": "helicopters", "chance": 30, "fuel": -1, "rotation": 180, "status": -1, "x": 8, "y": 12 } ],
+      "place_vehicles": [ { "vehicle": "helicopters", "chance": 80, "fuel": -1, "rotation": 180, "status": -1, "x": 8, "y": 12 } ],
       "palettes": [ "airport_palette" ]
     }
   },
@@ -864,11 +864,12 @@
       "F": { "item": "file_room", "chance": 70, "repeat": [ 1, 2 ] },
       "l": { "item": "clothing_work_set", "chance": 70 },
       "r": { "item": "mechanics", "chance": 30, "repeat": [ 1, 2 ] },
-      "k": { "item": "mechanics", "chance": 40, "repeat": [ 1, 3 ] },
+      "k": [ { "item": "mechanics", "chance": 40, "repeat": [ 1, 3 ] }, { "item": "civilian_helicopter_parts", "chance": 15 } ],
       "D": { "item": "trash", "chance": 70, "repeat": [ 3, 6 ] },
       "O": [
         { "item": "supplies_electronics", "chance": 20, "repeat": [ 1, 2 ] },
-        { "item": "mechanics", "chance": 20, "repeat": [ 1, 2 ] }
+        { "item": "mechanics", "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "civilian_helicopter_parts", "chance": 15 }
       ]
     },
     "vendingmachines": { "8": { "item_group": "vending_drink" }, "9": { "item_group": "vending_food" } },

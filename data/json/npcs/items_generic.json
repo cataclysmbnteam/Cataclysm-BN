@@ -419,7 +419,7 @@
       [ "carpentry_book", 1 ],
       [ "carrot", 3 ],
       { "item": "catfood", "prob": 3, "container-item": "can_food" },
-      [ "cell_phone", 5 ],
+      [ "cell_phone", 1 ],
       [ "smart_phone", 15 ],
       [ "ceramic_armor", 1 ],
       [ "cereal", 5 ],

@@ -156,5 +156,23 @@
     "starting_trait": false,
     "valid": false,
     "cancels": [ "FORGETFUL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "NOMAD2",
+    "name": { "str": "Antsy" },
+    "points": -2,
+    "description": "You can't bear to stay still for long.  Your morale will suffer unless you constantly explore new territory.",
+    "valid": false,
+    "//": "Un-obsolete NOMAD2 and NOMAD3 if we ever get a way to ensure that a category mutation can only develop if the character starts with a chargen-only trait, instead of automatically dragging the prereq in when it tries to develop the target mutation.",
+    "//2": "Reminder for if the above is accomplished: NOMAD2 was BIRD, FISH, and CHIMERA; NOMAD3 was CHIMERA."
+  },
+  {
+    "type": "mutation",
+    "id": "NOMAD3",
+    "name": { "str": "Restless" },
+    "points": -4,
+    "description": "Spending any amount of time in familiar places makes you miserable.  Must.  Keep.  Moving.",
+    "valid": false
   }
 ]

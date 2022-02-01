@@ -947,7 +947,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": "1 m",
-    "construction_blueprint": "faction_base_modular_hub_0",
+    "construction_blueprint": "empty",
     "blueprint_name": "basic survey",
     "blueprint_requires": [ { "id": "not_an_upgrade" } ]
   },
@@ -961,7 +961,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": "1 m",
-    "construction_blueprint": "faction_base_modular_hub_0",
+    "construction_blueprint": "empty",
     "blueprint_name": "basic survey",
     "blueprint_requires": [ { "id": "not_an_upgrade" } ]
   },
@@ -975,7 +975,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": "1 m",
-    "construction_blueprint": "faction_base_modular_hub_0",
+    "construction_blueprint": "empty",
     "blueprint_name": "basic survey",
     "blueprint_requires": [ { "id": "not_an_upgrade" } ]
   },
@@ -989,7 +989,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": "1 m",
-    "construction_blueprint": "faction_base_modular_hub_0",
+    "construction_blueprint": "empty",
     "blueprint_name": "basic survey",
     "blueprint_requires": [ { "id": "not_an_upgrade" } ]
   }

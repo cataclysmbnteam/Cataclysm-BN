@@ -72,12 +72,12 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
-    "difficulty": 7,
+    "difficulty": 4,
     "time": "1 h 40 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
+    "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
     "using": [ [ "cordage", 2 ] ],
-    "components": [ [ [ "chitin_piece", 72 ] ] ]
+    "components": [ [ [ "chitin_piece", 36 ] ], [ [ "leather", 36 ] ] ]
   },
   {
     "result": "armor_acidchitin",
@@ -85,13 +85,13 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
-    "difficulty": 8,
-    "skills_required": [ [ "survival", 4 ], [ "firstaid", 2 ] ],
+    "difficulty": 5,
     "time": "3 h 20 m",
     "autolearn": true,
+    "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
     "using": [ [ "cordage", 2 ] ],
     "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "acidchitin_piece", 72 ] ] ]
+    "components": [ [ [ "acidchitin_piece", 36 ] ], [ [ "leather", 36 ] ] ]
   },
   {
     "result": "armor_farmor",
@@ -103,7 +103,7 @@
     "time": "28 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 68 ] ],
-    "components": [ [ [ "fur", 48 ], [ "tanned_pelt", 8 ] ] ]
+    "components": [ [ [ "fur", 48 ] ] ]
   },
   {
     "result": "armor_larmor",
@@ -116,7 +116,7 @@
     "time": "28 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 52 ] ],
-    "components": [ [ [ "leather", 30 ], [ "tanned_hide", 5 ], [ "fur", 30 ], [ "tanned_pelt", 5 ] ] ]
+    "components": [ [ [ "leather", 30 ], [ "fur", 30 ] ] ]
   },
   {
     "result": "armor_lightplate",
@@ -130,7 +130,7 @@
     "using": [ [ "blacksmithing_standard", 80 ], [ "steel_standard", 20 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "fur", 20 ], [ "tanned_pelt", 3 ], [ "leather", 20 ], [ "tanned_hide", 3 ] ] ]
+    "components": [ [ [ "fur", 20 ], [ "leather", 20 ] ] ]
   },
   {
     "result": "armor_lightplate",
@@ -162,7 +162,7 @@
       [ [ "ragpouch", 1 ], [ "leather_pouch", 1 ], [ "dump_pouch", 1 ], [ "fanny", 1 ] ],
       [ [ "tool_belt", 1 ], [ "legrig", 1 ] ],
       [ [ "pants_cargo", 1 ], [ "pants_army", 1 ] ],
-      [ [ "leather", 24 ], [ "tanned_hide", 4 ] ]
+      [ [ "leather", 24 ] ]
     ]
   },
   {
@@ -209,7 +209,7 @@
     "using": [ [ "blacksmithing_standard", 120 ], [ "steel_standard", 30 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "fur", 16 ], [ "tanned_pelt", 3 ], [ "leather", 16 ], [ "tanned_hide", 3 ] ] ]
+    "components": [ [ [ "fur", 16 ], [ "leather", 16 ] ] ]
   },
   {
     "result": "armor_samurai",
@@ -223,7 +223,7 @@
     "using": [ [ "blacksmithing_standard", 64 ], [ "steel_standard", 16 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "fur", 28 ], [ "tanned_pelt", 6 ], [ "leather", 28 ], [ "tanned_hide", 6 ] ], [ [ "rag", 10 ] ] ]
+    "components": [ [ [ "fur", 28 ], [ "leather", 28 ] ], [ [ "rag", 10 ] ] ]
   },
   {
     "result": "armor_scavenger",
@@ -369,7 +369,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_survival", 1 ], [ "survival_book", 1 ] ],
     "using": [ [ "sewing_standard", 18 ] ],
-    "components": [ [ [ "fur", 15 ], [ "tanned_pelt", 3 ] ] ]
+    "components": [ [ [ "fur", 15 ] ] ]
   },
   {
     "result": "cloak_leather",
@@ -382,7 +382,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 18 ] ],
-    "components": [ [ [ "leather", 20 ], [ "tanned_hide", 3 ] ] ]
+    "components": [ [ [ "leather", 20 ] ] ]
   },
   {
     "result": "cloak_wool",
@@ -505,7 +505,7 @@
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "rag", 20 ] ],
-      [ [ "leather", 20 ], [ "tanned_hide", 4 ] ],
+      [ [ "leather", 20 ] ],
       [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
       [
@@ -641,7 +641,7 @@
     "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
     "components": [
       [ [ "rag", 20 ] ],
-      [ [ "leather", 20 ], [ "tanned_hide", 4 ] ],
+      [ [ "leather", 20 ] ],
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
       [
         [ "tacvest", 1 ],
@@ -784,8 +784,8 @@
     "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
     "components": [
       [ [ "rag", 10 ] ],
-      [ [ "leather", 20 ], [ "tanned_hide", 4 ] ],
-      [ [ "fur", 20 ], [ "tanned_pelt", 3 ] ],
+      [ [ "leather", 20 ] ],
+      [ [ "fur", 20 ] ],
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
       [
         [ "tacvest", 1 ],
@@ -816,7 +816,7 @@
     "tools": [ [ [ "welder", 112 ], [ "welder_crude", 168 ], [ "soldering_iron", 168 ], [ "toolset", 168 ] ] ],
     "components": [
       [ [ "rag", 30 ] ],
-      [ [ "leather", 40 ], [ "tanned_hide", 7 ] ],
+      [ [ "leather", 40 ] ],
       [ [ "steel_chunk", 8 ], [ "scrap", 24 ] ],
       [ [ "coat_rain", 2 ], [ "jacket_windbreaker", 2 ], [ "jacket_evac", 2 ], [ "coat_gut", 2 ] ],
       [
@@ -848,7 +848,7 @@
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "rag", 30 ] ],
-      [ [ "leather", 40 ], [ "tanned_hide", 7 ] ],
+      [ [ "leather", 40 ] ],
       [ [ "scrap", 8 ] ],
       [ [ "coat_rain", 2 ], [ "jacket_windbreaker", 2 ], [ "jacket_evac", 2 ], [ "coat_gut", 2 ] ],
       [

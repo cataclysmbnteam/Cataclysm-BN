@@ -168,7 +168,7 @@
     "id": "FLAT_SURF",
     "type": "json_flag",
     "context": [ "vehicle_part" ],
-    "info": "This has a flat surface.  It would be a nice place to eat."
+    "info": "This item <good>can be used as a flat surface</good> for <info>butchering</info>."
   },
   {
     "id": "WORKBENCH",

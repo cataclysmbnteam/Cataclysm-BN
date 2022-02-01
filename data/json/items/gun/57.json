@@ -11,6 +11,7 @@
     "price": 124900,
     "price_postapoc": 2750,
     "to_hit": -2,
+    "ascii_picture": "FN_five_seven",
     "bashing": 6,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
@@ -33,7 +34,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazine_well": 1,
+    "magazine_well": "250 ml",
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazines": [ [ "57", [ "fn57mag" ] ] ]
   },
@@ -58,7 +59,7 @@
     "dispersion": 260,
     "durability": 8,
     "min_cycle_recoil": 81,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
+    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 5 ] ],
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "barrel", 1 ],
@@ -72,7 +73,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazine_well": 2,
+    "magazine_well": "500 ml",
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazines": [ [ "57", [ "fnp90mag" ] ] ]
   }

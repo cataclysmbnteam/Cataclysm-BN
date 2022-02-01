@@ -33,6 +33,7 @@
 #include "achievement.h"
 #include "action.h"
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "artifact.h"
 #include "auto_note.h"
@@ -112,6 +113,7 @@
 #include "monstergenerator.h"
 #include "morale_types.h"
 #include "mtype.h"
+#include "mutation.h"
 #include "npc.h"
 #include "npc_class.h"
 #include "omdata.h"
@@ -125,6 +127,7 @@
 #include "pickup.h"
 #include "player.h"
 #include "player_activity.h"
+#include "point_float.h"
 #include "popup.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
@@ -182,6 +185,9 @@ class computer;
 
 const int core_version = 6;
 static constexpr int DANGEROUS_PROXIMITY = 5;
+
+static const activity_id ACT_OPERATION( "ACT_OPERATION" );
+static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 
 static const mtype_id mon_manhack( "mon_manhack" );
 
@@ -241,6 +247,8 @@ static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_THICKSKIN( "THICKSKIN" );
+static const trait_id trait_WEB_ROPE( "WEB_ROPE" );
+static const trait_id trait_WAYFARER( "WAYFARER" );
 
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
@@ -517,6 +525,7 @@ void game::reload_tileset()
         popup( _( "Loading the tileset failed: %s" ), err.what() );
     }
     g->reset_zoom();
+    g->mark_main_ui_adaptor_resize();
 #endif // TILES
 }
 
@@ -559,6 +568,10 @@ void game::setup()
 
     load_world_modfiles( ui );
 
+    if( get_option<bool>( "ELEVATED_BRIDGES" ) && !get_option<bool>( "ZLEVELS" ) ) {
+        debugmsg( "\"Elevated bridges\" mod requires z-levels to be ENABLED to work properly!" );
+    }
+
     m = map( get_option<bool>( "ZLEVELS" ) );
 
     next_npc_id = character_id( 1 );
@@ -572,10 +585,8 @@ void game::setup()
     calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
     calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
 
-    weather.weather = WEATHER_CLEAR; // Start with some nice weather...
-    // Weather shift in 30
-    weather.nextweather = calendar::start_of_cataclysm + time_duration::from_hours(
-                              get_option<int>( "INITIAL_TIME" ) ) + 30_minutes;
+    get_weather().weather_id = weather_type_id::NULL_ID();
+    get_weather().nextweather = calendar::before_time_starts;
 
     turnssincelastmon = 0; //Auto safe mode init
 
@@ -617,6 +628,12 @@ special_game_id game::gametype() const
 
 void game::load_map( const tripoint &pos_sm )
 {
+    // TODO: fix point types
+    load_map( tripoint_abs_sm( pos_sm ) );
+}
+
+void game::load_map( const tripoint_abs_sm &pos_sm )
+{
     m.load( pos_sm, true );
     grid_tracker_ptr->load( m );
 }
@@ -631,7 +648,7 @@ bool game::start_game()
     seed = rng_bits();
     new_game = true;
     start_calendar();
-    weather.nextweather = calendar::turn;
+    get_weather().nextweather = calendar::turn;
     safe_mode = ( get_option<bool>( "SAFEMODE" ) ? SAFE_MODE_ON : SAFE_MODE_OFF );
     mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
     get_safemode().load_global();
@@ -649,7 +666,7 @@ bool game::start_game()
 
     const start_location &start_loc = u.random_start_location ? scen->random_start_location().obj() :
                                       u.start_location.obj();
-    const tripoint omtstart = start_loc.find_player_initial_location();
+    const tripoint_abs_omt omtstart = start_loc.find_player_initial_location();
     if( omtstart == overmap::invalid_tripoint ) {
         return false;
     }
@@ -668,7 +685,8 @@ bool game::start_game()
         start_loc.add_map_extra( omtstart, scen->get_map_extra() );
     }
 
-    tripoint lev = omt_to_sm_copy( omtstart );
+    // TODO: fix point types
+    tripoint lev = project_to<coords::sm>( omtstart ).raw();
     // The player is centered in the map, but lev[xyz] refers to the top left point of the map
     lev.x -= HALF_MAPSIZE;
     lev.y -= HALF_MAPSIZE;
@@ -688,8 +706,8 @@ bool game::start_game()
     u.moves = 0;
     u.process_turn(); // process_turn adds the initial move points
     u.set_stamina( u.get_stamina_max() );
-    weather.temperature = SPRING_TEMPERATURE;
-    weather.update_weather();
+    get_weather().temperature = SPRING_TEMPERATURE;
+    get_weather().update_weather();
     u.next_climate_control_check = calendar::before_time_starts; // Force recheck at startup
     u.last_climate_control_ret = false;
 
@@ -811,8 +829,9 @@ bool game::start_game()
     return true;
 }
 
-vehicle *game::place_vehicle_nearby( const vproto_id &id, const point &origin, int min_distance,
-                                     int max_distance, const std::vector<std::string> &omt_search_types )
+vehicle *game::place_vehicle_nearby(
+    const vproto_id &id, const point_abs_omt &origin, int min_distance,
+    int max_distance, const std::vector<std::string> &omt_search_types )
 {
     std::vector<std::string> search_types = omt_search_types;
     if( search_types.empty() ) {
@@ -834,15 +853,18 @@ vehicle *game::place_vehicle_nearby( const vproto_id &id, const point &origin, i
         find_params.min_distance = min_distance;
         find_params.search_range = max_distance;
         // if player spawns underground, park their car on the surface.
-        const tripoint omt_origin( origin, 0 );
-        for( const tripoint &goal : overmap_buffer.find_all( omt_origin, find_params ) ) {
+        const tripoint_abs_omt omt_origin( origin, 0 );
+        for( const tripoint_abs_omt &goal : overmap_buffer.find_all( omt_origin, find_params ) ) {
             // try place vehicle there.
             tinymap target_map;
-            target_map.load( omt_to_sm_copy( goal ), false );
-            const tripoint tinymap_center( SEEX, SEEY, goal.z );
-            static const std::vector<int> angles = {0, 90, 180, 270};
-            vehicle *veh = target_map.add_vehicle( id, tinymap_center, random_entry( angles ), rng( 50, 80 ),
-                                                   0, false );
+            target_map.load( project_to<coords::sm>( goal ), false );
+            const tripoint tinymap_center( SEEX, SEEY, goal.z() );
+            static constexpr std::array<units::angle, 4> angles = {{
+                    0_degrees, 90_degrees, 180_degrees, 270_degrees
+                }
+            };
+            vehicle *veh = target_map.add_vehicle(
+                               id, tinymap_center, random_entry( angles ), rng( 50, 80 ), 0, false );
             if( veh ) {
                 tripoint abs_local = g->m.getlocal( target_map.getabs( tinymap_center ) );
                 veh->sm_pos =  ms_to_sm_remain( abs_local );
@@ -1410,6 +1432,7 @@ bool game::do_turn()
     }
 
     // starting a new turn, clear out temperature cache
+    weather_manager &weather = get_weather();
     weather.clear_temp_cache();
 
     if( npcs_dirty ) {
@@ -1565,8 +1588,7 @@ bool game::do_turn()
     }
 
     if( get_levz() >= 0 && !u.is_underwater() ) {
-        do_rain( weather.weather );
-        weather::effect( weather.weather )();
+        handle_weather_effects( weather.weather_id );
     }
 
     const bool player_is_sleeping = u.has_effect( effect_sleep );
@@ -1580,13 +1602,22 @@ bool game::do_turn()
         if( calendar::once_every( 1_hours ) ) {
             add_artifact_dreams();
         }
+    } else if( u.has_destination() ) {
+        wait_redraw = true;
+        wait_message = _( "Travelling…" );
+        wait_refresh_rate = 15_turns;
     } else if( const cata::optional<std::string> progress = u.activity.get_progress_message( u ) ) {
         wait_redraw = true;
         wait_message = *progress;
-        wait_refresh_rate = 5_minutes;
+        if( u.activity.id() == ACT_AUTODRIVE ) {
+            wait_refresh_rate = 1_turns;
+        } else {
+            wait_refresh_rate = 5_minutes;
+        }
     }
     if( wait_redraw ) {
-        if( first_redraw_since_waiting_started || calendar::once_every( 1_minutes ) ) {
+        if( first_redraw_since_waiting_started ||
+            calendar::once_every( std::min( 1_minutes, wait_refresh_rate ) ) ) {
             if( first_redraw_since_waiting_started || calendar::once_every( wait_refresh_rate ) ) {
                 ui_manager::redraw();
             }
@@ -1606,7 +1637,7 @@ bool game::do_turn()
     }
 
     u.update_bodytemp( m, weather );
-    u.update_body_wetness( *weather.weather_precise );
+    u.update_body_wetness( get_weather().get_precise() );
     u.apply_wetness_morale( weather.temperature );
 
     if( calendar::once_every( 1_minutes ) ) {
@@ -1983,7 +2014,7 @@ void game::validate_camps()
     if( camp.is_valid() ) {
         overmap_buffer.add_camp( camp );
         m.remove_submap_camp( u.pos() );
-    } else if( camp.camp_omt_pos() != tripoint_zero ) {
+    } else if( camp.camp_omt_pos() != tripoint_abs_omt() ) {
         std::string camp_name = _( "Faction Camp" );
         camp.set_name( camp_name );
         overmap_buffer.add_camp( camp );
@@ -2047,7 +2078,11 @@ int game::inventory_item_menu( item_location locThisItem,
         std::vector<iteminfo> vDummy;
 
         const bool bHPR = get_auto_pickup().has_rule( &oThisItem );
-        const hint_rating rate_drop_item = u.weapon.has_flag( "NO_UNWIELD" ) ? hint_rating::cant :
+        const bool cant_unwield_weapon = u.weapon.has_flag( "NO_UNWIELD" );
+        const bool cant_drop_this = cant_unwield_weapon && u.is_wielding( oThisItem );
+        const hint_rating rate_wield_item = cant_unwield_weapon ? hint_rating::cant :
+                                            hint_rating::good;
+        const hint_rating rate_drop_item = cant_drop_this ? hint_rating::cant :
                                            hint_rating::good;
 
         uilist action_menu;
@@ -2072,8 +2107,8 @@ int game::inventory_item_menu( item_location locThisItem,
         addentry( 'R', pgettext( "action", "read" ), u.rate_action_read( oThisItem ) );
         addentry( 'E', pgettext( "action", "eat" ), u.rate_action_eat( oThisItem ) );
         addentry( 'W', pgettext( "action", "wear" ), u.rate_action_wear( oThisItem ) );
-        addentry( 'w', pgettext( "action", "wield" ), hint_rating::good );
-        addentry( 't', pgettext( "action", "throw" ), hint_rating::good );
+        addentry( 'w', pgettext( "action", "wield" ), rate_wield_item );
+        addentry( 't', pgettext( "action", "throw" ), rate_drop_item );
         addentry( 'c', pgettext( "action", "change side" ), u.rate_action_change_side( oThisItem ) );
         addentry( 'T', pgettext( "action", "take off" ), u.rate_action_takeoff( oThisItem ) );
         addentry( 'd', pgettext( "action", "drop" ), rate_drop_item );
@@ -2801,7 +2836,7 @@ bool game::load( const save_t &name )
 
     u.load_map_memory();
 
-    weather.nextweather = calendar::turn;
+    get_weather().nextweather = calendar::turn;
 
     read_from_file_optional( worldpath + name.base_path() + SAVE_EXTENSION_LOG,
                              std::bind( &memorial_logger::load, &memorial(), _1 ) );
@@ -3147,13 +3182,13 @@ void game::display_faction_epilogues()
 }
 
 struct npc_dist_to_player {
-    const tripoint ppos{};
-    npc_dist_to_player() : ppos( g->u.global_omt_location() ) { }
+    const tripoint_abs_omt ppos{};
+    npc_dist_to_player() : ppos( get_player_character().global_omt_location() ) { }
     // Operator overload required to leverage sort API.
     bool operator()( const shared_ptr_fast<npc> &a,
                      const shared_ptr_fast<npc> &b ) const {
-        const tripoint apos = a->global_omt_location();
-        const tripoint bpos = b->global_omt_location();
+        const tripoint_abs_omt apos = a->global_omt_location();
+        const tripoint_abs_omt bpos = b->global_omt_location();
         return square_dist( ppos.xy(), apos.xy() ) <
                square_dist( ppos.xy(), bpos.xy() );
     }
@@ -3161,7 +3196,7 @@ struct npc_dist_to_player {
 
 void game::disp_NPCs()
 {
-    const tripoint ppos = u.global_omt_location();
+    const tripoint_abs_omt ppos = u.global_omt_location();
     const tripoint &lpos = u.pos();
     std::vector<shared_ptr_fast<npc>> npcs = overmap_buffer.get_npcs_near_player( 100 );
     std::sort( npcs.begin(), npcs.end(), npc_dist_to_player() );
@@ -3177,16 +3212,14 @@ void game::disp_NPCs()
     ui.mark_resize();
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
-        mvwprintz( w, point_zero, c_white, _( "Your overmap position: %d, %d, %d" ), ppos.x, ppos.y,
-                   ppos.z );
+        mvwprintz( w, point_zero, c_white, _( "Your overmap position: %s" ), ppos.to_string() );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        mvwprintz( w, point( 0, 1 ), c_white, _( "Your local position: %d, %d, %d" ), lpos.x, lpos.y,
-                   lpos.z );
+        mvwprintz( w, point( 0, 1 ), c_white, _( "Your local position: %s" ), lpos.to_string() );
         size_t i;
         for( i = 0; i < 20 && i < npcs.size(); i++ ) {
-            const tripoint apos = npcs[i]->global_omt_location();
-            mvwprintz( w, point( 0, i + 3 ), c_white, "%s: %d, %d, %d", npcs[i]->name,
-                       apos.x, apos.y, apos.z );
+            const tripoint_abs_omt apos = npcs[i]->global_omt_location();
+            mvwprintz( w, point( 0, i + 3 ), c_white, "%s: %s", npcs[i]->name,
+                       apos.to_string() );
         }
         for( const monster &m : all_monsters() ) {
             mvwprintz( w, point( 0, i + 3 ), c_white, "%s: %d, %d, %d", m.name(),
@@ -3483,7 +3516,10 @@ void game::draw_pixel_minimap( const catacurses::window &w )
     w_pixel_minimap = w;
 }
 
-void game::draw_critter( const Creature &critter, const tripoint &center )
+static void draw_critter_internal( const catacurses::window &w, const Creature &critter,
+                                   const tripoint &center,
+                                   bool inverted,
+                                   const map &m, const avatar &u )
 {
     const int my = POSY + ( critter.posy() - center.y );
     const int mx = POSX + ( critter.posx() - center.x );
@@ -3499,18 +3535,28 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
             // TODO: Make this show something more informative than just green 'v'
             // TODO: Allow looking at this mon with look command
             // TODO: Redraw this after weather etc. animations
-            mvwputch( w_terrain, point( mx, my ), c_green_cyan, 'v' );
+            mvwputch( w, point( mx, my ), c_green_cyan, 'v' );
         }
         return;
     }
     if( u.sees( critter ) || &critter == &u ) {
-        critter.draw( w_terrain, center.xy(), false );
+        critter.draw( w, center.xy(), inverted );
         return;
     }
 
     if( u.sees_with_infrared( critter ) || u.sees_with_specials( critter ) ) {
-        mvwputch( w_terrain, point( mx, my ), c_red, '?' );
+        mvwputch( w, point( mx, my ), c_red, '?' );
     }
+}
+
+void game::draw_critter( const Creature &critter, const tripoint &center )
+{
+    draw_critter_internal( w_terrain, critter, center, false, m, u );
+}
+
+void game::draw_critter_highlighted( const Creature &critter, const tripoint &center )
+{
+    draw_critter_internal( w_terrain, critter, center, true, m, u );
 }
 
 bool game::is_in_viewport( const tripoint &p, int margin ) const
@@ -3588,16 +3634,16 @@ void game::draw_minimap()
     werase( w_minimap );
     draw_border( w_minimap );
 
-    const tripoint curs = u.global_omt_location();
-    const point curs2( curs.xy() );
-    const tripoint targ = u.get_active_mission_target();
+    const tripoint_abs_omt curs = u.global_omt_location();
+    const point_abs_omt curs2( curs.xy() );
+    const tripoint_abs_omt targ = u.get_active_mission_target();
     bool drew_mission = targ == overmap::invalid_tripoint;
 
     for( int i = -2; i <= 2; i++ ) {
         for( int j = -2; j <= 2; j++ ) {
-            const point om( curs2 + point( i, j ) );
+            const point_abs_omt om( curs2 + point( i, j ) );
             nc_color ter_color;
-            tripoint omp( om, get_levz() );
+            tripoint_abs_omt omp( om, get_levz() );
             std::string ter_sym;
             const bool seen = overmap_buffer.seen( omp );
             const bool vehicle_here = overmap_buffer.has_vehicle( omp );
@@ -3723,11 +3769,11 @@ void game::draw_minimap()
 
     // Print arrow to mission if we have one!
     if( !drew_mission ) {
-        double slope = ( curs2.x != targ.x ) ? static_cast<double>( targ.y - curs2.y ) / static_cast<double>
-                       ( targ.x - curs2.x ) : 4;
+        double slope = curs2.x() != targ.x() ?
+                       static_cast<double>( targ.y() - curs2.y() ) / ( targ.x() - curs2.x() ) : 4;
 
-        if( curs2.x == targ.x || std::fabs( slope ) > 3.5 ) { // Vertical slope
-            if( targ.y > curs2.y ) {
+        if( curs2.x() == targ.x() || std::fabs( slope ) > 3.5 ) { // Vertical slope
+            if( targ.y() > curs2.y() ) {
                 mvwputch( w_minimap, point( 3, 6 ), c_red, "*" );
             } else {
                 mvwputch( w_minimap, point( 3, 0 ), c_red, "*" );
@@ -3736,8 +3782,9 @@ void game::draw_minimap()
             int arrowx = -1;
             int arrowy = -1;
             if( std::fabs( slope ) >= 1. ) { // y diff is bigger!
-                arrowy = ( targ.y > curs2.y ? 6 : 0 );
-                arrowx = static_cast<int>( 3 + 3 * ( targ.y > curs2.y ? slope : ( 0 - slope ) ) );
+                arrowy = targ.y() > curs2.y() ? 6 : 0;
+                arrowx =
+                    static_cast<int>( 3 + 3 * ( targ.y() > curs2.y() ? slope : ( 0 - slope ) ) );
                 if( arrowx < 0 ) {
                     arrowx = 0;
                 }
@@ -3745,8 +3792,8 @@ void game::draw_minimap()
                     arrowx = 6;
                 }
             } else {
-                arrowx = ( targ.x > curs2.x ? 6 : 0 );
-                arrowy = static_cast<int>( 3 + 3 * ( targ.x > curs2.x ? slope : ( 0 - slope ) ) );
+                arrowx = targ.x() > curs2.x() ? 6 : 0;
+                arrowy = static_cast<int>( 3 + 3 * ( targ.x() > curs2.x() ? slope : -slope ) );
                 if( arrowy < 0 ) {
                     arrowy = 0;
                 }
@@ -3755,9 +3802,9 @@ void game::draw_minimap()
                 }
             }
             char glyph = '*';
-            if( targ.z > u.posz() ) {
+            if( targ.z() > u.posz() ) {
                 glyph = '^';
-            } else if( targ.z < u.posz() ) {
+            } else if( targ.z() < u.posz() ) {
                 glyph = 'v';
             }
 
@@ -3771,15 +3818,10 @@ void game::draw_minimap()
             if( i > -3 && i < 3 && j > -3 && j < 3 ) {
                 continue; // only do hordes on the border, skip inner map
             }
-            const int omx = curs2.x + i;
-            const int omy = curs2.y + j;
-            tripoint omp( omx, omy, get_levz() );
+            const tripoint_abs_omt omp( curs2 + point( i, j ), get_levz() );
             if( overmap_buffer.get_horde_size( omp ) >= HORDE_VISIBILITY_SIZE ) {
-                const tripoint cur_pos {
-                    omx, omy, get_levz()
-                };
                 if( overmap_buffer.seen( omp )
-                    && g->u.overmap_los( cur_pos, sight_points ) ) {
+                    && g->u.overmap_los( omp, sight_points ) ) {
                     mvwputch( w_minimap, point( i + 3, j + 3 ), c_green,
                               overmap_buffer.get_horde_size( omp ) > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z' );
                 }
@@ -3805,6 +3847,7 @@ float game::natural_light_level( const int zlev ) const
     float ret = LIGHT_AMBIENT_MINIMAL;
 
     // Sunlight/moonlight related stuff
+    const weather_manager &weather = get_weather();
     if( !weather.lightning_active ) {
         ret = sunlight( calendar::turn );
     } else {
@@ -3812,7 +3855,7 @@ float game::natural_light_level( const int zlev ) const
         ret = default_daylight_level();
     }
 
-    ret += weather::light_modifier( weather.weather );
+    ret += get_weather().weather_id->light_modifier;
 
     // Artifact light level changes here. Even though some of these only have an effect
     // aboveground it is cheaper performance wise to simply iterate through the entire
@@ -3907,7 +3950,8 @@ std::unordered_set<tripoint> game::get_fishable_locations( int distance, const t
     const tripoint fishing_boundary_min( fish_pos + point( -distance, -distance ) );
     const tripoint fishing_boundary_max( fish_pos + point( distance, distance ) );
 
-    const inclusive_box fishing_boundaries( fishing_boundary_min, fishing_boundary_max );
+    const inclusive_cuboid<tripoint> fishing_boundaries(
+        fishing_boundary_min, fishing_boundary_max );
 
     const auto get_fishable_terrain = [&]( tripoint starting_point,
     std::unordered_set<tripoint> &fishable_terrain ) {
@@ -4419,7 +4463,7 @@ void game::monmove()
             guy.process_turn();
         }
         while( !guy.is_dead() && guy.moves > 0 && turns < 10 &&
-               ( !guy.in_sleep_state() || guy.activity.id() == activity_id( "ACT_OPERATION" ) )
+               ( !guy.in_sleep_state() || guy.activity.id() == ACT_OPERATION )
              ) {
             int moves = guy.moves;
             guy.move();
@@ -4473,12 +4517,13 @@ void game::overmap_npc_move()
                 elem->omt_path.clear();
             }
             if( elem->omt_path.empty() ) {
-                const tripoint &from = elem->global_omt_location();
-                const tripoint &to = elem->goal;
-                elem->omt_path = overmap_buffer.get_npc_path( elem->global_omt_location(), elem->goal );
+                const tripoint_abs_omt &from = elem->global_omt_location();
+                const tripoint_abs_omt &to = elem->goal;
+                elem->omt_path = overmap_buffer.get_travel_path( elem->global_omt_location(), elem->goal,
+                                 overmap_path_params::for_npc() );
                 if( elem->omt_path.empty() ) {
-                    add_msg( m_debug, "%s couldn't find overmap path from %d,%d,%d to %d,%d,%d",
-                             elem->get_name().c_str(), from.x, from.y, from.z, to.x, to.y, to.z );
+                    add_msg( m_debug, "%s couldn't find overmap path from %s to %s",
+                             elem->get_name(), from.to_string(), to.to_string() );
                     elem->goal = npc::no_goal_point;
                     elem->mission = NPC_MISSION_NULL;
                 }
@@ -4486,7 +4531,9 @@ void game::overmap_npc_move()
                 if( elem->omt_path.back() == elem->global_omt_location() ) {
                     elem->omt_path.pop_back();
                 }
-                elem->travel_overmap( omt_to_sm_copy( elem->omt_path.back() ) );
+                // TODO: fix point types
+                elem->travel_overmap(
+                    project_to<coords::sm>( elem->omt_path.back() ).raw() );
             }
             reload_npcs();
         }
@@ -4871,7 +4918,7 @@ static bool can_place_monster( const monster &mon, const tripoint &p )
 }
 
 static cata::optional<tripoint> choose_where_to_place_monster( const monster &mon,
-        const tripoint_range &range )
+        const tripoint_range<tripoint> &range )
 {
     return random_point( range, [&]( const tripoint & p ) {
         return can_place_monster( mon, p );
@@ -4920,7 +4967,7 @@ monster *game::place_critter_around( const shared_ptr_fast<monster> &mon,
     return critter_tracker->add( mon ) ? mon.get() : nullptr;
 }
 
-monster *game::place_critter_within( const mtype_id &id, const tripoint_range &range )
+monster *game::place_critter_within( const mtype_id &id, const tripoint_range<tripoint> &range )
 {
     // TODO: change this into an assert, it must never happen.
     if( id.is_null() ) {
@@ -4930,7 +4977,7 @@ monster *game::place_critter_within( const mtype_id &id, const tripoint_range &r
 }
 
 monster *game::place_critter_within( const shared_ptr_fast<monster> &mon,
-                                     const tripoint_range &range )
+                                     const tripoint_range<tripoint> &range )
 {
     const cata::optional<tripoint> where = choose_where_to_place_monster( *mon, range );
     if( !where ) {
@@ -5073,17 +5120,12 @@ bool game::is_empty( const tripoint &p )
 
 bool game::is_in_sunlight( const tripoint &p )
 {
-    return ( m.is_outside( p ) && light_level( p.z ) >= 40 &&
-             ( weather.weather == WEATHER_CLEAR || weather.weather == WEATHER_SUNNY ) );
+    return weather::is_in_sunlight( m, p, get_weather().weather_id );
 }
 
 bool game::is_sheltered( const tripoint &p )
 {
-    const optional_vpart_position vp = m.veh_at( p );
-
-    return ( !m.is_outside( p ) ||
-             p.z < 0 ||
-             ( vp && vp->is_inside() ) );
+    return weather::is_sheltered( m, p );
 }
 
 bool game::revive_corpse( const tripoint &p, item &it )
@@ -5357,7 +5399,7 @@ void game::moving_vehicle_dismount( const tripoint &dest_loc )
     }
     tileray ray( dest_loc.xy() + point( -u.posx(), -u.posy() ) );
     // TODO:: make dir() const correct!
-    const int d = ray.dir();
+    const units::angle d = ray.dir();
     add_msg( _( "You dive from the %s." ), veh->name );
     m.unboard_vehicle( u.pos() );
     u.moves -= 200;
@@ -5368,7 +5410,8 @@ void game::moving_vehicle_dismount( const tripoint &dest_loc )
         if( veh->velocity > 0 ) {
             fling_creature( &u, veh->face.dir(), veh->velocity / static_cast<float>( 100 ) );
         } else {
-            fling_creature( &u, veh->face.dir() + 180, -( veh->velocity ) / static_cast<float>( 100 ) );
+            fling_creature( &u, veh->face.dir() + 180_degrees,
+                            -( veh->velocity ) / static_cast<float>( 100 ) );
         }
     }
 }
@@ -5395,6 +5438,10 @@ void game::control_vehicle()
                         ( veh->avail_part_with_feature( veh_part, "CONTROL_ANIMAL", true ) >= 0 &&
                           veh->has_engine_type( fuel_type_animal, false ) && veh->has_harnessed_animal() ) ) &&
                u.in_vehicle ) {
+        if( u.has_trait( trait_WAYFARER ) ) {
+            add_msg( m_info, _( "You refuse to take control of this vehicle." ) );
+            return;
+        }
         if( !veh->interact_vehicle_locked() ) {
             veh->handle_potential_theft( dynamic_cast<player &>( u ) );
             return;
@@ -6645,8 +6692,9 @@ void game::zones_manager()
 
             } else if( action == "SHOW_ZONE_ON_MAP" ) {
                 //show zone position on overmap;
-                tripoint player_overmap_position = ms_to_omt_copy( m.getabs( u.pos() ) );
-                tripoint zone_overmap = ms_to_omt_copy( zones[active_index].get().get_center_point() );
+                tripoint_abs_omt player_overmap_position = u.global_omt_location();
+                // TODO: fix point types
+                tripoint_abs_omt zone_overmap( ms_to_omt_copy( zones[active_index].get().get_center_point() ) );
 
                 ui::omap::display_zones( player_overmap_position, zone_overmap, active_index );
             } else if( action == "ENABLE_ZONE" ) {
@@ -6707,7 +6755,9 @@ void game::pre_print_all_tile_info( const tripoint &lp, const catacurses::window
                                     const visibility_variables &cache )
 {
     // get global area info according to look_around caret position
-    const oter_id &cur_ter_m = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( lp ) ) );
+    // TODO: fix point types
+    const oter_id &cur_ter_m = overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( m.getabs(
+                                   lp ) ) ) );
     // we only need the area name and then pass it to print_all_tile_info() function below
     const std::string area_name = cur_ter_m->get_name();
     print_all_tile_info( lp, w_info, area_name, 1, first_line, last_line, cache );
@@ -7011,10 +7061,12 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
             center.x = lp.x;
             center.y = lp.y;
             zoom_in();
+            mark_main_ui_adaptor_resize();
         } else if( action == "zoom_out" ) {
             center.x = lp.x;
             center.y = lp.y;
             zoom_out();
+            mark_main_ui_adaptor_resize();
         }
     } while( action != "QUIT" && action != "CONFIRM" && action != "SELECT" && action != "TRAVEL_TO" &&
              action != "throw_blind" );
@@ -7050,7 +7102,7 @@ std::vector<map_item_stack> game::find_nearby_items( int iRadius )
         return ret;
     }
 
-    for( auto &points_p_it : closest_tripoints_first( u.pos(), iRadius ) ) {
+    for( auto &points_p_it : closest_points_first( u.pos(), iRadius ) ) {
         if( points_p_it.y >= u.posy() - iRadius && points_p_it.y <= u.posy() + iRadius &&
             u.sees( points_p_it ) &&
             m.sees_some_items( points_p_it, u ) ) {
@@ -7187,6 +7239,27 @@ void game::reset_zoom()
     tileset_zoom = DEFAULT_TILESET_ZOOM;
     rescale_tileset( tileset_zoom );
 #endif // TILES
+}
+
+void game::set_zoom( const int level )
+{
+#if defined(TILES)
+    if( tileset_zoom != level ) {
+        tileset_zoom = level;
+        rescale_tileset( tileset_zoom );
+    }
+#else
+    static_cast<void>( level );
+#endif // TILES
+}
+
+int game::get_zoom() const
+{
+#if defined(TILES)
+    return tileset_zoom;
+#else
+    return DEFAULT_TILESET_ZOOM;
+#endif
 }
 
 int game::get_moves_since_last_save() const
@@ -9095,7 +9168,7 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
     return harmful_stuff;
 }
 
-bool game::walk_move( const tripoint &dest_loc )
+bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
 {
     if( m.has_flag_ter( TFLAG_SMALL_PASSAGE, dest_loc ) ) {
         if( u.get_size() > MS_MEDIUM ) {
@@ -9238,7 +9311,8 @@ bool game::walk_move( const tripoint &dest_loc )
         multiplier *= 3;
     }
 
-    const int mcost = m.combined_movecost( u.pos(), dest_loc, grabbed_vehicle, modifier ) * multiplier;
+    const int mcost = m.combined_movecost( u.pos(), dest_loc, grabbed_vehicle, modifier,
+                                           via_ramp ) * multiplier;
     if( grabbed_move( dest_loc - u.pos() ) ) {
         return true;
     } else if( mcost == 0 ) {
@@ -9739,7 +9813,7 @@ point game::place_player( const tripoint &dest_loc )
     return submap_shift;
 }
 
-void game::place_player_overmap( const tripoint &om_dest )
+void game::place_player_overmap( const tripoint_abs_omt &om_dest )
 {
     // if player is teleporting around, they don't bring their horse with them
     if( u.is_mounted() ) {
@@ -9764,26 +9838,27 @@ void game::place_player_overmap( const tripoint &om_dest )
     m.access_cache( get_levz() ).map_memory_seen_cache.reset();
     // offset because load_map expects the coordinates of the top left corner, but the
     // player will be centered in the middle of the map.
-    const tripoint map_om_pos( tripoint( 2 * om_dest.x, 2 * om_dest.y,
-                                         om_dest.z ) + point( -HALF_MAPSIZE, -HALF_MAPSIZE ) );
-    const tripoint player_pos( u.pos().xy(), map_om_pos.z );
-    load_map( map_om_pos );
+    // TODO: fix point types
+    const tripoint map_sm_pos(
+        project_to<coords::sm>( om_dest ).raw() + point( -HALF_MAPSIZE, -HALF_MAPSIZE ) );
+    const tripoint player_pos( u.pos().xy(), map_sm_pos.z );
+    load_map( map_sm_pos );
     load_npcs();
     m.spawn_monsters( true ); // Static monsters
     update_overmap_seen();
     // update weather now as it could be different on the new location
-    weather.nextweather = calendar::turn;
+    get_weather().nextweather = calendar::turn;
     place_player( player_pos );
 }
 
-bool game::phasing_move( const tripoint &dest_loc )
+bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
 {
     if( !u.has_active_bionic( bionic_id( "bio_probability_travel" ) ) ||
         u.get_power_level() < 250_kJ ) {
         return false;
     }
 
-    if( dest_loc.z != u.posz() ) {
+    if( dest_loc.z != u.posz() && !via_ramp ) {
         // No vertical phasing yet
         return false;
     }
@@ -9955,8 +10030,11 @@ bool game::grabbed_furn_move( const tripoint &dp )
     sounds::sound( fdest, furntype.move_str_req * 2, sounds::sound_t::movement,
                    _( "a scraping noise." ), true, "misc", "scraping" );
 
+    active_tile_data *atd = active_tiles::furn_at<active_tile_data>
+                            ( tripoint_abs_ms( m.getabs( fpos ) ) );
+
     // Actually move the furniture.
-    m.furn_set( fdest, m.furn( fpos ) );
+    m.furn_set( fdest, m.furn( fpos ), atd ? atd->clone() : nullptr );
     m.furn_set( fpos, f_null );
 
     if( fire_intensity == 1 && !pulling_furniture ) {
@@ -10081,7 +10159,7 @@ void game::on_options_changed()
     grid_tracker_ptr->on_options_changed();
 }
 
-void game::fling_creature( Creature *c, const int &dir, float flvel, bool controlled )
+void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bool controlled )
 {
     if( c == nullptr ) {
         debugmsg( "game::fling_creature invoked on null target" );
@@ -10323,18 +10401,42 @@ void game::vertical_move( int movez, bool force, bool peeking )
             return;
         }
 
-        const int cost = u.climbing_cost( u.pos(), stairs );
-        if( cost == 0 ) {
-            add_msg( m_info, _( "You can't climb here - you need walls and/or furniture to brace against." ) );
-            return;
-        }
-
         std::vector<tripoint> pts;
         for( const auto &pt : m.points_in_radius( stairs, 1 ) ) {
             if( m.passable( pt ) &&
                 m.has_floor_or_support( pt ) ) {
                 pts.push_back( pt );
             }
+        }
+
+        const int cost = u.climbing_cost( u.pos(), stairs );
+
+        if( cost == 0 ) {
+            if( u.has_trait( trait_WEB_ROPE ) )  {
+                if( pts.empty() ) {
+                    add_msg( m_info, _( "There is nothing above you that you can attach a web to." ) );
+                } else if( can_use_mutation_warn( trait_WEB_ROPE, u ) ) {
+                    if( g->m.move_cost( u.pos() ) != 2 && g->m.move_cost( u.pos() ) != 3 ) {
+                        add_msg( m_info, _( "You can't spin a web rope there." ) );
+                    } else if( g->m.has_furn( u.pos() ) ) {
+                        add_msg( m_info, _( "There is already furniture at that location." ) );
+                    } else {
+                        if( query_yn( "Spin a rope and climb?" ) ) {
+                            add_msg( m_good, _( "You spin a rope of web." ) );
+                            g->m.furn_set( u.pos(), furn_str_id( "f_rope_up_web" ) );
+                            u.mod_moves( to_turns<int>( 2_seconds ) );
+                            u.mutation_spend_resources( trait_WEB_ROPE );
+                            vertical_move( movez, force, peeking );
+                        }
+                    }
+                }
+
+            } else {
+                add_msg( m_info, _( "You can't climb here - you need walls and/or furniture to brace against." ) );
+
+            }
+            return;
+
         }
 
         if( cost <= 0 || pts.empty() ) {
@@ -10597,7 +10699,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
     if( !npcs_to_bring.empty() ) {
         // Would look nicer randomly scrambled
-        std::vector<tripoint> candidates = closest_tripoints_first( u.pos(), 1 );
+        std::vector<tripoint> candidates = closest_points_first( u.pos(), 1 );
         candidates.erase( std::remove_if( candidates.begin(), candidates.end(),
         [this]( const tripoint & c ) {
             return !is_empty( c );
@@ -10896,9 +10998,9 @@ void game::vertical_notes( int z_before, int z_after )
     // Figure out where we know there are up/down connectors
     // Fill in all the tiles we know about (e.g. subway stations)
     static const int REVEAL_RADIUS = 40;
-    for( const tripoint &p : points_in_radius( u.global_omt_location(), REVEAL_RADIUS ) ) {
-        const tripoint cursp_before( p.xy(), z_before );
-        const tripoint cursp_after( p.xy(), z_after );
+    for( const tripoint_abs_omt &p : points_in_radius( u.global_omt_location(), REVEAL_RADIUS ) ) {
+        const tripoint_abs_omt cursp_before( p.xy(), z_before );
+        const tripoint_abs_omt cursp_after( p.xy(), z_after );
 
         if( !overmap_buffer.seen( cursp_before ) ) {
             continue;
@@ -10961,7 +11063,7 @@ point game::update_map( int &x, int &y )
 
     // this handles loading/unloading submaps that have scrolled on or off the viewport
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    inclusive_rectangle size_1( point( -1, -1 ), point( 1, 1 ) );
+    inclusive_rectangle<point> size_1( point( -1, -1 ), point( 1, 1 ) );
     point remaining_shift = shift;
     while( remaining_shift != point_zero ) {
         point this_shift = clamp( remaining_shift, size_1 );
@@ -11025,26 +11127,27 @@ point game::update_map( int &x, int &y )
 
 void game::update_overmap_seen()
 {
-    const tripoint ompos = u.global_omt_location();
+    const tripoint_abs_omt ompos = u.global_omt_location();
     const int dist = u.overmap_sight_range( light_level( u.posz() ) );
     const int dist_squared = dist * dist;
     // We can always see where we're standing
     overmap_buffer.set_seen( ompos, true );
-    for( const tripoint &p : points_in_radius( ompos, dist ) ) {
-        const point delta = p.xy() - ompos.xy();
-        const int h_squared = delta.x * delta.x + delta.y * delta.y;
+    for( const tripoint_abs_omt &p : points_in_radius( ompos, dist ) ) {
+        const point_rel_omt delta = p.xy() - ompos.xy();
+        const int h_squared = delta.x() * delta.x() + delta.y() * delta.y();
         if( trigdist && h_squared > dist_squared ) {
             continue;
         }
-        if( delta == point_zero ) {
+        if( delta == point_rel_omt() ) {
             // 1. This case is already handled outside of the loop
             // 2. Calculating multiplier would cause division by zero
             continue;
         }
         // If circular distances are enabled, scale overmap distances by the diagonality of the sight line.
-        const float multiplier = trigdist ? std::sqrt( h_squared ) / std::max( std::abs( delta.x ),
-                                 std::abs( delta.y ) ) : 1;
-        const std::vector<tripoint> line = line_to( ompos, p, 0 );
+        point abs_delta = delta.raw().abs();
+        int max_delta = std::max( abs_delta.x, abs_delta.y );
+        const float multiplier = trigdist ? std::sqrt( h_squared ) / max_delta : 1;
+        const std::vector<tripoint_abs_omt> line = line_to( ompos, p );
         float sight_points = dist;
         for( auto it = line.begin();
              it != line.end() && sight_points >= 0; ++it ) {
@@ -11052,11 +11155,11 @@ void game::update_overmap_seen()
             sight_points -= static_cast<int>( ter->get_see_cost() ) * multiplier;
         }
         if( sight_points >= 0 ) {
-            tripoint seen( p );
+            tripoint_abs_omt seen( p );
             do {
                 overmap_buffer.set_seen( seen, true );
-                --seen.z;
-            } while( seen.z >= 0 );
+                --seen.z();
+            } while( seen.z() >= 0 );
         }
     }
 }
@@ -11344,17 +11447,17 @@ void game::perhaps_add_random_npc()
         return;
     }
     bool spawn_allowed = false;
-    tripoint spawn_point;
+    tripoint_abs_omt spawn_point;
     int counter = 0;
     while( !spawn_allowed ) {
         if( counter >= 10 ) {
             return;
         }
         static constexpr int radius_spawn_range = 120;
-        const tripoint u_omt = u.global_omt_location();
+        const tripoint_abs_omt u_omt = u.global_omt_location();
         spawn_point = u_omt + point( rng( -radius_spawn_range, radius_spawn_range ),
                                      rng( -radius_spawn_range, radius_spawn_range ) );
-        spawn_point.z = 0;
+        spawn_point.z() = 0;
         const oter_id oter = overmap_buffer.ter( spawn_point );
         // shouldn't spawn on lakes or rivers.
         if( !is_river_or_lake( oter ) ) {
@@ -11372,7 +11475,9 @@ void game::perhaps_add_random_npc()
                             faction_id( "no_faction" ) );
     tmp->set_fac( new_solo_fac ? new_solo_fac->id : faction_id( "no_faction" ) );
     // adds the npc to the correct overmap.
-    tripoint submap_spawn = omt_to_sm_copy( spawn_point );
+    // Only spawn random NPCs on z-level 0
+    // TODO: fix point types
+    tripoint submap_spawn = omt_to_sm_copy( spawn_point.raw() );
     tmp->spawn_at_sm( tripoint( submap_spawn.xy(), 0 ) );
     overmap_buffer.insert_npc( tmp );
     tmp->form_opinion( u );
@@ -12158,7 +12263,8 @@ overmap &game::get_cur_om() const
     // The player is located in the middle submap of the map.
     const tripoint sm = m.get_abs_sub() + tripoint( HALF_MAPSIZE, HALF_MAPSIZE, 0 );
     const tripoint pos_om = sm_to_om_copy( sm );
-    return overmap_buffer.get( pos_om.xy() );
+    // TODO: fix point types
+    return overmap_buffer.get( point_abs_om( pos_om.xy() ) );
 }
 
 std::vector<npc *> game::allies()

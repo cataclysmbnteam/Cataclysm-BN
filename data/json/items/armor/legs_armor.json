@@ -2,7 +2,6 @@
   {
     "id": "2byshin_guard",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "pair of 2-by-shin guards", "str_pl": "pairs of 2-by-shin guards" },
     "description": "A pair of improvised shin guards made from broken pieces of a two by four that are tied to your shins with rags and string.  They offer good protection, but are really hard to run with.",
     "weight": "300 g",
@@ -26,7 +25,6 @@
     "id": "bunker_pants",
     "repairs_like": "pants_leather",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str_sp": "turnout trousers" },
     "//": "Fire-resistant outerwear ain't cheap.",
     "description": "A heavy pair of protective overalls worn by firefighters.  Highly resistant to heat and flame, they provide excellent protection from injury.",
@@ -45,14 +43,13 @@
     "storage": "1500 ml",
     "warmth": 30,
     "material_thickness": 4,
-    "valid_mods": [ "steel_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 6,
     "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF", "OUTER" ]
   },
   {
     "id": "chainmail_legs",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "chainmail leggings", "str_pl": "pairs of chainmail leggings" },
     "description": "Customized chainmail legs.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "weight": "4212 g",
@@ -116,7 +113,6 @@
   {
     "id": "knee_pads",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "pair of knee pads", "str_pl": "pairs of knee pads" },
     "description": "A pair of knee pads made of stout plastic and cloth.",
     "weight": "210 g",
@@ -136,7 +132,6 @@
   {
     "id": "legguard_bronze",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "pair of bronze greaves", "str_pl": "pairs of bronze greaves" },
     "description": "A pair of bronze leg guards with a simple leather lining.",
     "weight": "2520 g",
@@ -158,7 +153,6 @@
   {
     "id": "legguard_hard",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "pair of hard leg guards", "str_pl": "pairs of hard leg guards" },
     "description": "A pair of polyurethane leg guards with neoprene backing.",
     "weight": "625 g",
@@ -181,7 +175,6 @@
   {
     "id": "legguard_lightplate",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "pair of steel leg guards", "str_pl": "pairs of steel leg guards" },
     "description": "A full assembly of medieval leg protection.  Cuisses, poleyns, and greaves, with leather straps to secure each piece and connect it as part of a set.",
     "weight": "4080 g",
@@ -203,7 +196,6 @@
   {
     "id": "legguard_metal",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "pair of iron greaves", "str_pl": "pairs of iron greaves" },
     "description": "A pair of iron leg guards with a simple leather lining.",
     "weight": "2260 g",
@@ -246,7 +238,6 @@
   {
     "id": "legguard_scrap",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "pair of scrap leg guards", "str_pl": "pairs of scrap leg guards" },
     "description": "A pair of leg guards made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
     "weight": "3104 g",
@@ -270,7 +261,6 @@
   {
     "id": "lsurvivor_pants",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str_sp": "light survivor cargo pants" },
     "description": "Lightweight, Kevlar armored cargo pants designed to hold as much as possible.  Strong and mostly waterproof.",
     "weight": "920 g",
@@ -315,7 +305,6 @@
   {
     "id": "pants_survivor",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str_sp": "survivor cargo pants" },
     "description": "A pair of Kevlar armored pants covered with pouches and pockets.  Custom-built to be durable, comfortable, and easy to wear.",
     "weight": "2100 g",
@@ -332,7 +321,7 @@
     "storage": "3500 ml",
     "warmth": 15,
     "material_thickness": 4,
-    "valid_mods": [ "steel_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF" ]
   }

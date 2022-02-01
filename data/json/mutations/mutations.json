@@ -559,6 +559,7 @@
     "valid": false,
     "social_modifiers": { "intimidate": 10 },
     "prereqs": [ "PSYCHOPATH" ],
+    "category": [ "LUPINE" ],
     "cancels": [ "PACIFIST" ],
     "flags": [ "CANNIBAL" ]
   },
@@ -2446,7 +2447,6 @@
     "flags": [ "UNARMED_BONUS" ],
     "mixed_effect": true,
     "restricts_gear": [ "hand_l", "hand_r" ],
-    "destroys_gear": true,
     "description": "Your index fingers have grown into huge talons.  After a bit of practice, you find that this does not affect your dexterity, but allows for a deadly unarmed attack.  They also prevent wearing gloves.",
     "types": [ "CLAWS" ],
     "prereqs": [ "NAILS" ],
@@ -2675,7 +2675,6 @@
     "types": [ "LEGS" ],
     "category": [ "RAPTOR" ],
     "restricts_gear": [ "foot_l", "foot_r" ],
-    "destroys_gear": true,
     "attacks": {
       "attack_text_u": "You slash %s with a talon",
       "attack_text_npc": "%1$s slashes %2$s with a talon",
@@ -2697,7 +2696,6 @@
     "category": [ "CATTLE", "CHIMERA" ],
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ],
     "restricts_gear": [ "foot_l", "foot_r" ],
-    "destroys_gear": true,
     "armor": [ { "parts": [ "foot_l", "foot_r" ], "physical": 10 } ],
     "attacks": {
       "attack_text_u": "You kick %s with your hooves",
@@ -2855,7 +2853,6 @@
     "threshreq": [ "THRESH_FELINE", "THRESH_CHIMERA" ],
     "category": [ "FELINE", "CHIMERA" ],
     "restricts_gear": [ "mouth" ],
-    "destroys_gear": true,
     "social_modifiers": { "intimidate": 15 },
     "attacks": {
       "attack_text_u": "You tear into %s with your saber teeth",
@@ -3469,7 +3466,6 @@
     "category": [ "INSECT", "SPIDER" ],
     "wet_protection": [ { "part": "mouth", "ignored": 100 } ],
     "restricts_gear": [ "mouth" ],
-    "destroys_gear": true,
     "attacks": {
       "attack_text_u": "You bite %s with your fangs",
       "attack_text_npc": "%1$s bites %2$s with their fangs",
@@ -3618,7 +3614,7 @@
     "id": "WEB_RAPPEL",
     "name": { "str": "Web Diver" },
     "points": 1,
-    "description": "Your webbing is easily strong enough to support your weight.  You'll use it to descend down any sheer drops you may encounter.",
+    "description": "Your webbing is easily strong enough to support your weight.  You'll use it to descend down any sheer drops you may encounter, and to catch yourself should you fall.",
     "prereqs": [ "WEB_WEAVER" ],
     "threshreq": [ "THRESH_SPIDER" ],
     "category": [ "SPIDER" ]
@@ -3628,7 +3624,7 @@
     "id": "WEB_ROPE",
     "name": { "str": "Rope Webs" },
     "points": 2,
-    "description": "With spinnerets like THESE, who needs rope?!  Activate to produce rope.",
+    "description": "With spinnerets like THESE, who needs rope?!  Activate to sling a web rope that you can climb, and can be disassembled into rope.",
     "prereqs": [ "WEB_WEAVER" ],
     "threshreq": [ "THRESH_SPIDER" ],
     "category": [ "SPIDER" ],
@@ -3637,6 +3633,19 @@
     "hunger": true,
     "thirst": true,
     "spawn_item": { "type": "rope_30", "message": "You spin a rope from your silk." }
+  },
+  {
+    "type": "mutation",
+    "id": "WEB_BRIDGE",
+    "name": { "str": "Arachnitect" },
+    "points": 2,
+    "description": "The pinnacle of silk spinning.  Spin suspended walkways between ledges to span small gaps.",
+    "prereqs": [ "WEB_ROPE" ],
+    "threshreq": [ "THRESH_SPIDER" ],
+    "category": [ "SPIDER" ],
+    "cost": 60,
+    "hunger": true,
+    "thirst": true
   },
   {
     "type": "mutation",
@@ -3730,7 +3739,6 @@
     "hp_adjustment": -6,
     "fatigue_modifier": 0.15,
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
-    "destroys_gear": true,
     "weight_capacity_modifier": 1.1
   },
   {
@@ -3750,7 +3758,6 @@
     "category": [ "URSINE", "CATTLE" ],
     "passive_mods": { "str_mod": 4 },
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
-    "destroys_gear": true,
     "weight_capacity_modifier": 1.1
   },
   {
@@ -4168,6 +4175,7 @@
     "visibility": 2,
     "ugliness": 2,
     "description": "You have a pair of stubby little wings projecting from your shoulderblades.  They can be wiggled at will, but are useless.",
+    "types": [ "WINGS" ],
     "changes_to": [ "WINGS_BIRD", "WINGS_BAT", "WINGS_INSECT", "WINGS_BUTTERFLY" ]
   },
   {
@@ -4249,7 +4257,7 @@
     "cancels": [ "PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3" ],
     "prereqs": [ "UGLY" ],
     "changes_to": [ "DEFORMED2" ],
-    "category": [ "FISH", "CATTLE", "INSECT", "CEPHALOPOD", "FELINE", "LUPINE" ]
+    "category": [ "FISH", "CATTLE", "INSECT", "CEPHALOPOD", "FELINE", "LUPINE", "SPIDER" ]
   },
   {
     "type": "mutation",
@@ -4758,7 +4766,6 @@
     "category": [ "BIRD", "CEPHALOPOD" ],
     "wet_protection": [ { "part": "mouth", "ignored": 1 } ],
     "restricts_gear": [ "mouth" ],
-    "destroys_gear": true,
     "attacks": {
       "attack_text_u": "You peck %s",
       "attack_text_npc": "%1$s pecks %2$s",
@@ -4784,7 +4791,6 @@
     "category": [ "BIRD" ],
     "wet_protection": [ { "part": "mouth", "ignored": 2 } ],
     "restricts_gear": [ "mouth" ],
-    "destroys_gear": true,
     "attacks": [
       {
         "attack_text_u": "You jackhammer into %s with your beak",
@@ -4812,8 +4818,7 @@
     "category": [ "BIRD" ],
     "wet_protection": [ { "part": "mouth", "ignored": 2 } ],
     "active": true,
-    "restricts_gear": [ "mouth" ],
-    "destroys_gear": true
+    "restricts_gear": [ "mouth" ]
   },
   {
     "type": "mutation",
@@ -5177,7 +5182,7 @@
     "description": "Your muscle response is dependent on ambient temperatures.  You lose 1% of your speed for every 5 (2.8) degrees below 65 F (18.3 C).  This sluggishness helps you conserve energy, however.",
     "changes_to": [ "COLDBLOOD2" ],
     "types": [ "METABOLISM" ],
-    "category": [ "FISH", "CEPHALOPOD", "SPIDER" ],
+    "category": [ "FISH", "CEPHALOPOD" ],
     "temperature_speed_modifier": 0.2,
     "metabolism_modifier": -0.333
   },
@@ -5191,7 +5196,7 @@
     "prereqs": [ "COLDBLOOD" ],
     "changes_to": [ "COLDBLOOD3" ],
     "types": [ "METABOLISM" ],
-    "category": [ "RAPTOR", "PLANT" ],
+    "category": [ "RAPTOR", "PLANT", "SPIDER" ],
     "temperature_speed_modifier": 0.333,
     "metabolism_modifier": -0.5
   },
@@ -5253,7 +5258,7 @@
     "mixed_effect": true,
     "points": -1,
     "description": "You hiss when speaking.  Persuading NPCs will be more difficult, but threatening them will be easier.",
-    "category": [ "LIZARD", "RAPTOR" ],
+    "category": [ "LIZARD", "RAPTOR", "SPIDER" ],
     "social_modifiers": { "persuade": -20, "lie": -10, "intimidate": 10 }
   },
   {
@@ -5315,7 +5320,6 @@
     "types": [ "HANDS" ],
     "changes_to": [ "INSECT_ARMS_OK", "ARACHNID_ARMS" ],
     "prereqs": [ "CHITIN", "CHITIN2", "CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3" ],
-    "prereqs2": [ "ANTENNAE" ],
     "threshreq": [ "THRESH_INSECT", "THRESH_SPIDER" ],
     "category": [ "INSECT", "SPIDER" ],
     "restricts_gear": [ "torso" ],
@@ -5502,7 +5506,6 @@
     "category": [ "CEPHALOPOD" ],
     "wet_protection": [ { "part": "torso", "ignored": 26 } ],
     "restricts_gear": [ "torso" ],
-    "destroys_gear": true,
     "armor": [ { "parts": "torso", "bash": 6, "cut": 14 } ]
   },
   {
@@ -5523,7 +5526,6 @@
     "wet_protection": [ { "part": "torso", "ignored": 26 } ],
     "active": true,
     "restricts_gear": [ "torso" ],
-    "destroys_gear": true,
     "armor": [ { "parts": "torso", "bash": 9, "cut": 17 } ]
   },
   {
@@ -6345,28 +6347,7 @@
     "points": -1,
     "starting_trait": true,
     "description": "You're too adventurous for your own good.  The more time you spend somewhere, the unhappier it makes you to be there.",
-    "changes_to": [ "NOMAD2" ],
-    "category": [ "BIRD", "FISH", "CHIMERA" ],
     "valid": false
-  },
-  {
-    "type": "mutation",
-    "id": "NOMAD2",
-    "name": { "str": "Antsy" },
-    "points": -2,
-    "description": "You can't bear to stay still for long.  Your morale will suffer unless you constantly explore new territory.",
-    "prereqs": [ "NOMAD" ],
-    "changes_to": [ "NOMAD3" ],
-    "category": [ "BIRD", "FISH", "CHIMERA" ]
-  },
-  {
-    "type": "mutation",
-    "id": "NOMAD3",
-    "name": { "str": "Restless" },
-    "points": -4,
-    "description": "Spending any amount of time in familiar places makes you miserable.  Must.  Keep.  Moving.",
-    "prereqs": [ "NOMAD2" ],
-    "category": [ "CHIMERA" ]
   },
   {
     "type": "mutation",
