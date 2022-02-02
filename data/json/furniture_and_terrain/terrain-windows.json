@@ -486,11 +486,9 @@
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,
-    "delete":{"flags": [ "FLAMMABLE", "BARRICADABLE_WINDOW" ]},
-    "extend":{"flags": [ "ALARMED" ]},
-    "bash": {
-      "ter_set": "t_window_bars"
-    }
+    "delete": { "flags": [ "FLAMMABLE", "BARRICADABLE_WINDOW" ] },
+    "extend": { "flags": [ "ALARMED" ] },
+    "bash": { "ter_set": "t_window_bars" }
   },
   {
     "type": "terrain",

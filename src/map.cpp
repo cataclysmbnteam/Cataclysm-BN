@@ -3671,10 +3671,6 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     if( const optional_vpart_position vp = veh_at( p ) ) {
         dam = vp->vehicle().damage( vp->part_index(), dam, inc ? DT_HEAT : DT_STAB, hit_items );
     }
-    const auto break_glass = []( const tripoint & p, int vol ) {
-        sounds::sound( p, vol, sounds::sound_t::combat, _( "glass breaking!" ), false,
-                       "smash", "glass" );
-    };
 
     ter_id terrain = ter( p );
     ter_t ter = terrain.obj();
@@ -3690,110 +3686,12 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
                 bash_params params{0, false, true, hit_items, 1.0, false};
                 bash_ter_success( p, params );
             }
+            if( dam <= 0 && is_transparent( p ) && get_avatar().sees( p ) ) {
+                add_msg( _( "The shot is stopped by the %s!" ), tername( p ) );
+            }
             if( ri.flammable && inc ) {
                 add_field( p, fd_fire, 1 );
             }
-        }
-    } else if( terrain == t_door_c ||
-               terrain == t_door_locked ||
-               terrain == t_door_locked_peep ||
-               terrain == t_door_locked_alarm ) {
-        dam -= rng( 15, 30 );
-        if( dam > 0 ) {
-            sounds::sound( p, 10, sounds::sound_t::combat, _( "smash!" ), false, "smash", "door" );
-            ter_set( p, t_door_b );
-        }
-    } else if( terrain == t_door_boarded ||
-               terrain == t_door_boarded_damaged ||
-               terrain == t_rdoor_boarded ||
-               terrain == t_rdoor_boarded_damaged ) {
-        dam -= rng( 15, 35 );
-        if( dam > 0 ) {
-            sounds::sound( p, 10, sounds::sound_t::combat, _( "crash!" ), false,
-                           "smash", "door_boarded" );
-            ter_set( p, t_door_b );
-        }
-    } else if( terrain == t_wall_glass  ||
-               terrain == t_wall_glass_alarm ||
-               terrain == t_door_glass_c ||
-               terrain == t_laminated_glass ) {
-        if( ammo_effects.count( "LASER" ) ) {
-            dam -= rng( 0, 5 );
-        } else {
-            dam -= rng( 1, 8 );
-            if( dam > 0 ) {
-                if( terrain != t_laminated_glass || one_in( 40 ) ) {
-                    break_glass( p, 16 );
-                    ter_set( p, t_floor );
-                }
-            }
-        }
-    } else if( terrain == t_ballistic_glass || terrain == t_reinforced_glass ||
-               terrain == t_reinforced_door_glass_c
-               || terrain == t_reinforced_glass_shutter || terrain ==  t_reinforced_glass_shutter_open ) {
-        // reinforced glass stops most bullets
-        // laser beams are attenuated
-        if( ammo_effects.count( "LASER" ) ) {
-            dam -= rng( 0, 8 );
-        } else {
-            //Greatly weakens power of bullets
-            dam -= 40;
-            if( dam <= 0 && g->u.sees( p ) ) {
-                if( terrain == t_reinforced_door_glass_c ) {
-                    add_msg( _( "The shot is stopped by the reinforced glass door!" ) );
-                } else {
-                    add_msg( _( "The shot is stopped by the reinforced glass wall!" ) );
-                }
-            } else if( dam >= 40 ) {
-                //high powered bullets penetrate the glass, but only extremely strong
-                // ones (80 before reduction) actually destroy the glass itself.
-                break_glass( p, 16 );
-                ter_set( p, t_floor );
-            }
-        }
-    } else if( terrain == t_paper ) {
-        dam -= rng( 4, 16 );
-        if( dam > 0 ) {
-            sounds::sound( p, 8, sounds::sound_t::combat, _( "rrrrip!" ), true, "smash", "paper_torn" );
-            ter_set( p, t_dirt );
-        }
-        if( inc ) {
-            add_field( p, fd_fire, 1 );
-        }
-    } else if( terrain == t_gas_pump ) {
-        if( hit_items || one_in( 3 ) ) {
-            if( dam > 15 ) {
-                if( inc ) {
-                    explosion_handler::explosion( p, 40, 0.8, true );
-                } else {
-                    for( const tripoint &pt : points_in_radius( p, 2 ) ) {
-                        if( one_in( 3 ) && passable( pt ) ) {
-                            int gas_amount = rng( 10, 100 );
-                            item gas_spill( "gasoline", calendar::turn );
-                            gas_spill.charges = gas_amount;
-                            add_item_or_charges( pt, gas_spill );
-                        }
-                    }
-
-                    sounds::sound( p, 10, sounds::sound_t::combat, _( "smash!" ), true, "bullet_hit", "hit_metal" );
-                }
-                ter_set( p, t_gas_pump_smashed );
-            }
-            dam -= 60;
-        }
-    } else if( terrain == t_vat ) {
-        if( dam >= 10 ) {
-            sounds::sound( p, 20, sounds::sound_t::combat, _( "ke-rash!" ), true, "bullet_hit", "hit_metal" );
-            ter_set( p, t_floor );
-        } else {
-            dam = 0;
-        }
-    } else if( terrain == t_thconc_floor_olight ) {
-        if( one_in( 3 ) ) {
-            break_glass( p, 16 );
-            ter_set( p, t_thconc_floor );
-            spawn_item( p, itype_glass_shard, rng( 1, 2 ) );
-            dam = 0; //Prevent damaging additional items, since we shot at the ceiling.
         }
     } else if( impassable( p ) && !is_transparent( p ) ) {
         bash( p, dam, false );

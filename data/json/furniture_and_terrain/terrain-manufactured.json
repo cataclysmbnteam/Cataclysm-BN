@@ -42,7 +42,8 @@
       "sound": "crunch!",
       "sound_fail": "clang!",
       "ter_set": "t_gas_pump_smashed",
-      "items": [ { "item": "scrap", "count": 1 } ]
+      "items": [ { "item": "scrap", "count": 1 } ],
+      "ranged": { "reduction": [ 60, 60 ], "destroy_threshold": -45, "flammable": true, "block_unaimed_chance": "33%" }
     }
   },
   {
@@ -595,7 +596,8 @@
       "sound_vol": 16,
       "sound_fail_vol": 12,
       "ter_set": "t_floor",
-      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "scrap", "count": [ 0, 2 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "scrap", "count": [ 0, 2 ] } ],
+      "ranged": { "reduction": [ 10, 10 ] }
     }
   },
   {

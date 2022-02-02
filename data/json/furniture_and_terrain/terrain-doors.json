@@ -111,7 +111,8 @@
       "sound_vol": 20,
       "sound_fail_vol": 14,
       "ter_set": "t_mdoor_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "wire", "prob": 20 }, { "item": "scrap", "count": [ 3, 5 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] }, { "item": "wire", "prob": 20 }, { "item": "scrap", "count": [ 3, 5 ] } ],
+      "ranged": { "reduction": [ 40, 40 ], "reduction_laser": [ 0, 8 ], "destroy_threshold": 40 }
     }
   },
   {
@@ -217,7 +218,8 @@
         { "item": "wood_panel", "prob": 10 },
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 20, 40 ] }
     }
   },
   {
@@ -1449,7 +1451,8 @@
         { "item": "wood_panel", "prob": 10 },
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 15, 30 ] }
     },
     "pry": {
       "success_message": "You pry open the door.",
@@ -1507,7 +1510,8 @@
         { "item": "2x4", "prob": 25 },
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 15, 30 ] }
     },
     "pry": {
       "success_message": "You pry open the door.",
@@ -1555,7 +1559,8 @@
         { "item": "wood_panel", "prob": 10 },
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 15, 30 ] }
     },
     "pry": {
       "success_message": "You pry open the door.",
@@ -1837,7 +1842,8 @@
         { "item": "wood_panel", "prob": 10 },
         { "item": "nail", "charges": [ 2, 10 ] },
         { "item": "splinter", "count": [ 1, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 15, 35 ] }
     }
   },
   {
@@ -1865,7 +1871,8 @@
         { "item": "nail", "charges": [ 2, 20 ] },
         { "item": "splinter", "count": 1 },
         { "item": "hinge", "count": [ 1, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 15, 35 ] }
     }
   },
   {
@@ -1921,7 +1928,8 @@
         { "item": "wood_panel", "prob": 10 },
         { "item": "nail", "charges": [ 1, 8 ] },
         { "item": "splinter", "count": 1 }
-      ]
+      ],
+      "ranged": { "reduction": [ 15, 35 ] }
     }
   },
   {
@@ -1949,7 +1957,8 @@
         { "item": "nail", "charges": [ 6, 54 ] },
         { "item": "splinter", "count": 1 },
         { "item": "hinge", "count": [ 0, 1 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 15, 35 ] }
     }
   },
   {
@@ -2372,7 +2381,8 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_door_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ],
+      "ranged": { "reduction": [ 1, 8 ], "reduction_laser": [ 0, 5 ] }
     }
   },
   {
