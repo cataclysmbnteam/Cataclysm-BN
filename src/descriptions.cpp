@@ -229,6 +229,7 @@ std::string map_data_common_t::extended_description() const
                 ss << indent << "Laser res:" << bash.ranged->reduction_laser->min << "-" <<
                    bash.ranged->reduction_laser->max;
             }
+            ss << indent << "Block unaimed chance: " << bash.ranged->block_unaimed_chance;
         }
     }
 

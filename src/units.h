@@ -16,6 +16,7 @@
 #include "units_energy.h"
 #include "units_money.h"
 #include "units_temperature.h"
+#include "units_probability.h"
 
 namespace units
 {
@@ -51,6 +52,11 @@ inline std::ostream &operator<<( std::ostream &o, angle_in_radians_tag )
 inline std::ostream &operator<<( std::ostream &o, temperature_in_millidegree_celsius_tag )
 {
     return o << "mC";
+}
+
+inline std::ostream &operator<<( std::ostream &o, probability_in_one_in_million_tag )
+{
+    return o << "pm";
 }
 
 template<typename value_type, typename tag_type>
@@ -92,6 +98,12 @@ static const std::vector<std::pair<std::string, angle>> angle_units = { {
         { "arcmin", 1_arcmin },
         { "°", 1_degrees },
         { "rad", 1_radians },
+    }
+};
+static const std::vector<std::pair<std::string, probability>> probability_units = { {
+        { "pm", 1_pm },
+        { "pct", 1_pct },
+        { "%", 1_pct }
     }
 };
 } // namespace units

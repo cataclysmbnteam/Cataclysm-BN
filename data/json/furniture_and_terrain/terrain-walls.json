@@ -643,7 +643,8 @@
         { "item": "wood_panel", "count": [ 0, 2 ] },
         { "item": "nail", "charges": [ 4, 10 ] },
         { "item": "splinter", "count": [ 1, 5 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 20, 40 ], "block_unaimed_chance": "12.5%" }
     }
   },
   {
@@ -722,7 +723,8 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_null",
-      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
+      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ],
+      "ranged": { "reduction": [ 20, 40 ], "block_unaimed_chance": "12.5%" }
     }
   },
   {

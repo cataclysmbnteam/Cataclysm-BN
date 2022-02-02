@@ -214,6 +214,7 @@ void ranged_bash_info::deserialize( JsonIn &jsin )
     assign( jo, "reduction_laser", reduction_laser );
     assign( jo, "destroy_threshold", destroy_threshold );
     assign( jo, "flammable", flammable );
+    assign( jo, "block_unaimed_chance", block_unaimed_chance );
 }
 
 static void load_map_bash_tent_centers( const JsonArray &ja, std::vector<furn_str_id> &centers )

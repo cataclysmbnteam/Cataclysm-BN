@@ -1066,7 +1066,8 @@
         { "item": "nail", "charges": [ 1, 4 ] },
         { "item": "splinter", "count": [ 1, 4 ] },
         { "item": "hinge", "count": [ 1, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 20, 40 ], "block_unaimed_chance": "12.5%" }
     }
   },
   {

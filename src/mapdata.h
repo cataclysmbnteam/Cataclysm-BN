@@ -30,18 +30,27 @@ struct tripoint;
 using iexamine_function = void ( * )( player &, const tripoint & );
 
 struct ranged_bash_info {
-    numeric_interval<int> reduction; // Damage reduction when shot. Rolled like rng(min, max).
-    // As above, but for lasers. If set, lasers won't destroy us.
-    cata::optional<numeric_interval<int>> reduction_laser;
-    int destroy_threshold = 0; // If reduced dmg is still above this value, destroy us.
-    bool flammable = false; // If true, getting hit with any heat damage creates a fire.
-    void deserialize( JsonIn &jsin );
+        numeric_interval<int> reduction; // Damage reduction when shot. Rolled like rng(min, max).
+        // As above, but for lasers. If set, lasers won't destroy us.
+        cata::optional<numeric_interval<int>> reduction_laser;
+        int destroy_threshold = 0; // If reduced dmg is still above this value, destroy us.
+        bool flammable = false; // If true, getting hit with any heat damage creates a fire.
+        units::probability block_unaimed_chance =
+            100_pct; // Chance to intercept projectiles not aimed at this tile
+        void deserialize( JsonIn &jsin );
 
-    // In C++20, this would be = default
-    bool operator==( const ranged_bash_info &rhs ) const {
-        return std::tie( reduction, reduction_laser, destroy_threshold, flammable ) ==
-               std::tie( rhs.reduction, rhs.reduction_laser, rhs.destroy_threshold, rhs.flammable );
-    }
+    private:
+        auto tie() const {
+            return std::tie( reduction, reduction_laser, destroy_threshold, flammable, block_unaimed_chance );
+        }
+    public:
+
+        // In C++20, this would be = default
+        bool operator==( const ranged_bash_info &rhs ) const {
+            return tie() == rhs.tie();
+        }
+
+
 };
 
 struct map_bash_info {

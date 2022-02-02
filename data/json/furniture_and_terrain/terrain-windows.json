@@ -248,53 +248,23 @@
   {
     "type": "terrain",
     "id": "t_window_alarm",
+    "copy-from": "t_window",
     "name": "window",
     "description": "A giant sheet of glass inserted into a window, typically found on the side of shops to showcase goods.",
     "symbol": "\"",
     "color": "light_cyan",
     "move_cost": 0,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "ALARMED",
-      "NOITEM",
-      "REDUCE_SCENT",
-      "BARRICADABLE_WINDOW",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND"
-    ],
-    "bash": {
-      "str_min": 3,
-      "str_max": 6,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame"
-    }
+    "extend": { "flags": [ "ALARMED" ] }
   },
   {
     "type": "terrain",
     "id": "t_window_alarm_taped",
+    "copy-from": "t_window_taped",
     "name": "taped window",
     "description": "Duct tape covers this window, blocking out any sunlight and visibility.  You could remove the duct tape by cutting it off.",
     "symbol": "\"",
     "color": "dark_gray",
-    "move_cost": 0,
-    "coverage": 95,
-    "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "ALARMED", "WALL", "BARRICADABLE_WINDOW", "BLOCK_WIND" ],
-    "bash": {
-      "str_min": 6,
-      "str_max": 12,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 1, 5 ] } ]
-    }
+    "extend": { "flags": [ "ALARMED" ] }
   },
   {
     "type": "terrain",
@@ -355,13 +325,13 @@
   {
     "type": "terrain",
     "id": "t_window_boarded",
+    "copy-from": "t_window",
     "name": "boarded up window",
     "description": "A glass window that has been covered with nailed down planks, blocking sunlight and visibility.  It's not much stronger, but it could be further reinforced with strategically placed two by fours.",
     "symbol": "#",
     "color": "brown",
     "move_cost": 0,
     "coverage": 95,
-    "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 3,
@@ -371,7 +341,8 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "splinter", "count": [ 0, 2 ] }, { "item": "glass_shard", "count": [ 1, 4 ] } ]
+      "items": [ { "item": "splinter", "count": [ 0, 2 ] }, { "item": "glass_shard", "count": [ 1, 4 ] } ],
+      "ranged": { "reduction": [ 10, 30 ] }
     }
   },
   {
@@ -508,23 +479,17 @@
   {
     "type": "terrain",
     "id": "t_window_bars_alarm",
+    "copy-from": "t_window",
     "name": "window with metal bars",
     "looks_like": "t_window_bars",
     "description": "A giant sheet of glass inserted into a window with thick security grilles, making it impossible to crawl through.  Typically installed for high-value stores, or at least stores in bad neighborhoods.  This one has a small sticker in a corner stating, 'Protected by AtmoWeb, leading AI in terminating crime'.",
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,
-    "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "ALARMED", "CONNECT_TO_WALL", "BLOCK_WIND" ],
+    "delete":{"flags": [ "FLAMMABLE", "BARRICADABLE_WINDOW" ]},
+    "extend":{"flags": [ "ALARMED" ]},
     "bash": {
-      "str_min": 3,
-      "str_max": 6,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_bars",
-      "items": [ { "item": "glass_shard", "count": [ 1, 5 ] } ]
+      "ter_set": "t_window_bars"
     }
   },
   {

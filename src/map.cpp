@@ -3681,7 +3681,8 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
 
     if( ter.bash.ranged ) {
         const ranged_bash_info &ri = *ter.bash.ranged;
-        if( ri.reduction_laser && ammo_effects.count( "LASER" ) != 0 ) {
+        if( hit_items || check( ri.block_unaimed_chance ) ) {
+        } else if( ri.reduction_laser && ammo_effects.count( "LASER" ) != 0 ) {
             dam -= rng( ri.reduction_laser->min, ri.reduction_laser->max );
         } else {
             dam -= rng( ri.reduction.min, ri.reduction.max );
@@ -3689,22 +3690,9 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
                 bash_params params{0, false, true, hit_items, 1.0, false};
                 bash_ter_success( p, params );
             }
-        }
-        if( ri.flammable && inc ) {
-            add_field( p, fd_fire, 1 );
-        }
-    } else if( terrain == t_wall_wood_broken ||
-               terrain == t_wall_log_broken ||
-               terrain == t_door_b ) {
-        if( hit_items || one_in( 8 ) ) { // 1 in 8 chance of hitting the door
-            dam -= rng( 20, 40 );
-            if( dam > 0 ) {
-                sounds::sound( p, 10, sounds::sound_t::combat, _( "crash!" ), false,
-                               "smash", "wall" );
-                ter_set( p, t_dirt );
+            if( ri.flammable && inc ) {
+                add_field( p, fd_fire, 1 );
             }
-        } else {
-            dam -= rng( 0, 1 );
         }
     } else if( terrain == t_door_c ||
                terrain == t_door_locked ||
@@ -3724,39 +3712,6 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
             sounds::sound( p, 10, sounds::sound_t::combat, _( "crash!" ), false,
                            "smash", "door_boarded" );
             ter_set( p, t_door_b );
-        }
-    } else if( terrain == t_window_taped ||
-               terrain == t_window_alarm_taped ||
-               terrain == t_window ||
-               terrain == t_window_no_curtains ||
-               terrain == t_window_no_curtains_taped ||
-               terrain == t_window_alarm ) {
-        if( ammo_effects.count( "LASER" ) ) {
-            if( terrain == t_window_taped ||
-                terrain == t_window_alarm_taped ||
-                terrain == t_window_no_curtains_taped ) {
-                dam -= rng( 1, 5 );
-            }
-            dam -= rng( 0, 5 );
-        } else {
-            dam -= rng( 1, 3 );
-            if( dam > 0 ) {
-                break_glass( p, 16 );
-                ter_set( p, t_window_frame );
-            }
-        }
-    } else if( terrain == t_window_bars_alarm ) {
-        dam -= rng( 1, 3 );
-        if( dam > 0 ) {
-            break_glass( p, 16 );
-            ter_set( p, t_window_bars );
-            spawn_item( p, itype_glass_shard, 1 );
-        }
-    } else if( terrain == t_window_boarded ) {
-        dam -= rng( 10, 30 );
-        if( dam > 0 ) {
-            break_glass( p, 16 );
-            ter_set( p, t_window_frame );
         }
     } else if( terrain == t_wall_glass  ||
                terrain == t_wall_glass_alarm ||
