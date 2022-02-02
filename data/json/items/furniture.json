@@ -1,0 +1,30 @@
+[
+  {
+    "id": "fridge",
+    "type": "TOOL",
+    "looks_like": "f_fridge",
+    "name": "refrigerator",
+    "description": "A large and heavy fridge.",
+    "weight": "80 kg",
+    "volume": "210000 ml",
+    "price": 1000,
+    "price_postapoc": 150,
+    "material": "steel",
+    "symbol": "{",
+    "color": "light_cyan"
+  },
+  {
+    "id": "oven",
+    "type": "TOOL",
+    "looks_like": "f_oven",
+    "name": "oven",
+    "description": "A household electric oven.",
+    "weight": "60 kg",
+    "volume": "45000 ml",
+    "price": 1500,
+    "price_postapoc": 500,
+    "material": "steel",
+    "symbol": "#",
+    "color": "dark_gray"
+  }
+]

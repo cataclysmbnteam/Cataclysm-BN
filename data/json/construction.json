@@ -4170,18 +4170,12 @@
   {
     "type": "construction",
     "id": "constr_oven",
-    "description": "Build Oven",
+    "description": "Install Oven",
     "category": "FURN",
-    "required_skills": [ [ "fabrication", 4 ] ],
-    "time": "45 m",
-    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "SCREW", "level": 1 } ] ],
-    "components": [
-      [ [ "sheet_metal", 6 ] ],
-      [ [ "steel_chunk", 5 ] ],
-      [ [ "element", 4 ] ],
-      [ [ "cable", 5 ] ],
-      [ [ "pilot_light", 1 ] ]
-    ],
+    "required_skills": [  ],
+    "time": "10 m",
+    "qualities": [  ],
+    "components": [ [ [ "oven", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_terrain": "f_oven"
@@ -4189,30 +4183,37 @@
   {
     "type": "construction",
     "id": "constr_gridfridge",
-    "description": "Build Fridge",
+    "description": "Install Refrigerator",
     "category": "FURN",
-    "required_skills": [ [ "fabrication", 4 ] ],
-    "time": "45 m",
-    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "SCREW", "level": 1 } ] ],
-    "components": [
-      [ [ "sheet_metal", 6 ] ],
-      [ [ "steel_chunk", 3 ] ],
-      [ [ "element", 4 ] ],
-      [ [ "cable", 5 ] ],
-      [ [ "pilot_light", 1 ] ],
-      [ [ "steel_chunk", 3 ] ],
-      [ [ "scrap", 8 ] ],
-      [ [ "cable", 3 ] ],
-      [ [ "hose", 1 ] ],
-      [ [ "condensor_coil", 1 ] ],
-      [ [ "evaporator_coil", 1 ] ],
-      [ [ "refrigerant_tank", 1 ] ],
-      [ [ "thermostat", 1 ] ],
-      [ [ "motor_tiny", 1 ] ]
-    ],
+    "required_skills": [  ],
+    "time": "10 m",
+    "qualities": [  ],
+    "components": [ [ [ "fridge", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_gridfridge"
+    "post_terrain": "f_fridge"
+  },
+  {
+    "type": "construction",
+    "id": "constr_gridfridge_switch_off",
+    "description": "Toggle Refrigerator",
+    "required_skills": [  ],
+    "category": "FURN",
+    "time": "1 m",
+    "dark_craftable": true,
+    "pre_terrain": "f_fridge_on",
+    "post_terrain": "f_fridge_off"
+  },
+  {
+    "type": "construction",
+    "id": "constr_gridfridge_switch_on",
+    "description": "Toggle Refrigerator",
+    "required_skills": [  ],
+    "category": "FURN",
+    "time": "1 m",
+    "dark_craftable": true,
+    "pre_terrain": "f_fridge_off",
+    "post_terrain": "f_fridge_on"
   },
   {
     "type": "construction",
