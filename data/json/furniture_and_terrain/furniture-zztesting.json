@@ -43,7 +43,7 @@
     "examine_action": "transform",
     "transforms_into": "f_floor_lamp_off",
     "message": "You turn the lamp off.",
-    "active": [ "charge_watcher", { "min_power": 5, "transform": { "id": "f_floor_lamp_on", "msg": "The lamp lights up." } } ]
+    "active": [ "charge_watcher", { "min_power": 12, "transform": { "id": "f_floor_lamp_on", "msg": "The lamp lights up." } } ]
   },
   {
     "type": "furniture",
