@@ -2121,7 +2121,7 @@
     "type": "mutation",
     "id": "BARK",
     "name": { "str": "Bark" },
-    "points": 5,
+    "points": 7,
     "visibility": 10,
     "ugliness": 3,
     "description": "Your skin is coated in a light bark, like that of a tree.  This provides resistance to cutting and piercing damage and minor protection from fire.  Greatly reduces wet effects.",
@@ -2140,7 +2140,7 @@
       { "part": "hand_r", "ignored": 4 },
       { "part": "torso", "ignored": 30 }
     ],
-    "armor": [ { "parts": "ALL", "cut": 5, "stab": 5, "heat": 1 } ]
+    "armor": [ { "parts": "ALL", "bash": 5, "cut": 10, "stab": 10, "heat": 3, "acid": 3 } ]
   },
   {
     "type": "mutation",
