@@ -12,10 +12,13 @@
 #include <array>
 #include <string>
 
+#include "cuboid_rectangle.h"
 #include "catacharset.h"
 #include "color.h"
 #include "common_types.h"
+#include "coordinates.h"
 #include "int_id.h"
+#include "overmap_location.h"
 #include "point.h"
 #include "string_id.h"
 #include "translations.h"
@@ -201,6 +204,7 @@ struct oter_type_t {
         uint32_t symbol = 0;
         nc_color color = c_black;
         overmap_land_use_code_id land_use_code = overmap_land_use_code_id::NULL_ID();
+        std::vector<std::string> looks_like;
         unsigned char see_cost = 0;     // Affects how far the player can see in the overmap
         unsigned char travel_cost = 5;  // Affects the pathfinding and travel times
         std::string extras = "none";
@@ -237,9 +241,18 @@ struct oter_type_t {
             return has_flag( line_drawing );
         }
 
+        bool has_connections() const {
+            return !connect_group.empty();
+        }
+
+        bool connects_to( const oter_type_id &other ) const {
+            return has_connections() && connect_group == other->connect_group;
+        }
+
     private:
         std::bitset<num_oter_flags> flags;
         std::vector<oter_id> directional_peers;
+        std::string connect_group; // Group for connection when rendering overmap tiles
 
         void register_terrain( const oter_t &peer, size_t n, size_t max_n );
 };
@@ -271,6 +284,10 @@ struct oter_t {
             return utf32_to_utf8( from_land_use_code ? symbol_alt : symbol );
         }
 
+        uint32_t get_uint32_symbol() const {
+            return symbol;
+        }
+
         nc_color get_color( const bool from_land_use_code = false ) const {
             return from_land_use_code ? type->land_use_code->color : type->color;
         }
@@ -282,6 +299,7 @@ struct oter_t {
         size_t get_line() const {
             return line;
         }
+        void get_rotation_and_subtile( int &rotation, int &subtile ) const;
 
         unsigned char get_see_cost() const {
             return type->see_cost;
@@ -434,7 +452,7 @@ class overmap_special
         /** @returns true if this special requires a city */
         bool requires_city() const;
         /** @returns whether the special at specified tripoint can belong to the specified city. */
-        bool can_belong_to_city( const tripoint &p, const city &cit ) const;
+        bool can_belong_to_city( const tripoint_om_omt &p, const city &cit ) const;
 
         overmap_special_id id;
         std::list<overmap_special_terrain> terrains;
@@ -453,8 +471,6 @@ class overmap_special
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;
-        // Minimum size of the box that can contain whole overmap special
-        box dimensions;
     private:
         // These locations are the default values if ones are not specified for the individual OMTs.
         std::set<string_id<overmap_location>> default_locations;
@@ -494,7 +510,7 @@ void reset();
 
 const std::vector<overmap_special> &get_all();
 
-overmap_special_batch get_default_batch( const point &origin );
+overmap_special_batch get_default_batch( const point_abs_om &origin );
 /**
  * Generates a simple special from a building id.
  */

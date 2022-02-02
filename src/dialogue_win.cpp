@@ -93,9 +93,11 @@ static std::vector<page> split_to_pages( const std::vector<talk_data> &responses
         const std::vector<std::string> folded = foldstring( resp.text, fold_width );
         page_entry this_entry;
         this_entry.col = resp.col;
-        this_entry.lines.push_back( string_format( "%c: %s", resp.letter, folded[0] ) );
-        for( size_t i = 1; i < folded.size(); i++ ) {
-            this_entry.lines.push_back( string_format( "   %s", folded[i] ) );
+        if( !folded.empty() ) {
+            this_entry.lines.push_back( string_format( "%c: %s", resp.letter, folded[0] ) );
+            for( size_t i = 1; i < folded.size(); i++ ) {
+                this_entry.lines.push_back( string_format( "   %s", folded[i] ) );
+            }
         }
 
         // Add entry to current / new page

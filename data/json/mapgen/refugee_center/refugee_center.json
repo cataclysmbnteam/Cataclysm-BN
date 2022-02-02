@@ -307,7 +307,7 @@
       ],
       "place_npcs": [
         { "class": "scavenger_merc", "x": 49, "y": 3 },
-        { "class": "arsonist", "x": 38, "y": 19 },
+        { "class": "arsonist", "x": 38, "y": 19, "add_trait": "FELINE_EARS" },
         { "class": "old_guard_rep", "x": 47, "y": 10 },
         { "class": "guard", "x": 46, "y": 3 },
         { "class": "evac_merchant", "x": 71, "y": 0 },

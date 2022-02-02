@@ -119,7 +119,7 @@ def main(argv):
                 if changed:
                     with open(json_path, 'w', encoding='utf-8') as fs:
                         json.dump(content, fs, indent=2)
-                    subprocess.run(["tools/format/json_formatter", json_path], stdout=subprocess.DEVNULL)
+                    subprocess.run(["tools/format/json_formatter.cgi", json_path], stdout=subprocess.DEVNULL)
 
 if __name__ == "__main__":
     main(sys.argv[1:])

@@ -13,7 +13,7 @@ TEST_CASE( "vehicle_split_section" )
 {
     map &here = get_map();
     Character &player_character = get_player_character();
-    for( int dir = 0; dir < 360; dir += 15 ) {
+    for( units::angle dir = 0_degrees; dir < 360_degrees; dir += 15_degrees ) {
         CHECK( !player_character.in_vehicle );
         const tripoint test_origin( 15, 15, 0 );
         player_character.setpos( test_origin );
@@ -37,10 +37,10 @@ TEST_CASE( "vehicle_split_section" )
         CHECK( vehs.size() == 4 );
         if( vehs.size() == 4 ) {
             // correct number of parts
-            CHECK( vehs[ 0 ].v->parts.size() == 12 );
-            CHECK( vehs[ 1 ].v->parts.size() == 12 );
-            CHECK( vehs[ 2 ].v->parts.size() == 2 );
-            CHECK( vehs[ 3 ].v->parts.size() == 3 );
+            CHECK( vehs[ 0 ].v->part_count() == 12 );
+            CHECK( vehs[ 1 ].v->part_count() == 12 );
+            CHECK( vehs[ 2 ].v->part_count() == 2 );
+            CHECK( vehs[ 3 ].v->part_count() == 3 );
             std::vector<std::set<tripoint>> all_points;
             for( int i = 0; i < 4; i++ ) {
                 std::set<tripoint> &veh_points = vehs[ i ].v->get_points( true );
@@ -75,7 +75,7 @@ TEST_CASE( "vehicle_split_section" )
         vehs = here.get_vehicles();
         CHECK( vehs.size() == 1 );
         if( vehs.size() == 1 ) {
-            CHECK( vehs[ 0 ].v->parts.size() == 38 );
+            CHECK( vehs[ 0 ].v->part_count() == 38 );
         }
     }
 }

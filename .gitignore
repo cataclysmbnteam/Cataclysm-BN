@@ -89,6 +89,7 @@ cscope.*
 tags
 
 # Generated translation source
+/lang/po/cataclysm-bn.pot
 /lang/po/en.po
 
 # Compiled binary translations

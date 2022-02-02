@@ -7,6 +7,7 @@
 #include "assign.h"
 #include "calendar.h"
 #include "color.h"
+#include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "game.h"
@@ -141,7 +142,7 @@ bool scent_map::inbounds( const tripoint &p ) const
     static constexpr point scent_map_boundary_min{};
     static constexpr point scent_map_boundary_max( MAPSIZE_X, MAPSIZE_Y );
 
-    static constexpr half_open_rectangle scent_map_boundaries(
+    static constexpr half_open_rectangle<point> scent_map_boundaries(
         scent_map_boundary_min, scent_map_boundary_max );
 
     return scent_map_boundaries.contains( p.xy() );

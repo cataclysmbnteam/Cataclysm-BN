@@ -1069,6 +1069,15 @@ static int get_ranged_pierce( const common_ranged_data &ranged )
     return ranged.damage.damage_units.front().res_pen;
 }
 
+static float get_ranged_armor_mult( const common_ranged_data &ranged )
+{
+    if( ranged.damage.empty() ) {
+        return 0.0f;
+    }
+
+    return ranged.damage.damage_units.front().res_mult;
+}
+
 std::string item::info( bool showtext ) const
 {
     std::vector<iteminfo> dummy;
@@ -1819,23 +1828,57 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
 
     const islot_ammo &ammo = *ammo_data()->ammo;
     if( !ammo.damage.empty() || ammo.force_stat_display ) {
-        if( !ammo.damage.empty() && ammo.damage.damage_units.front().amount > 0 ) {
-            if( parts->test( iteminfo_parts::AMMO_DAMAGE_VALUE ) ) {
-                info.emplace_back( "AMMO", _( "Damage: " ), "",
-                                   iteminfo::no_newline, ammo.damage.total_damage() );
-            }
+        bool has_flat_dmg = !ammo.damage.empty() && ammo.damage.damage_units.front().amount > 0;
+        bool display_flat_dmg = parts->test( iteminfo_parts::AMMO_DAMAGE_VALUE );
+        // TODO: Multiple units
+        bool has_dmg_multiplier = ammo.damage.damage_units.front().damage_multiplier != 1.0;
+        bool display_dmg_multiplier = parts->test( iteminfo_parts::AMMO_DAMAGE_PROPORTIONAL );
+        bool didnt_print_dmg = false;
+        if( has_flat_dmg && has_dmg_multiplier
+            && has_dmg_multiplier && display_dmg_multiplier ) {
+            info.emplace_back( "AMMO", _( "Damage: " ), "",
+                               iteminfo::no_newline, ammo.damage.total_damage() );
+            info.emplace_back( "AMMO", "/", "",
+                               iteminfo::no_newline | iteminfo::is_decimal,
+                               ammo.damage.damage_units.front().damage_multiplier );
+            // Messy ifs...
+        } else if( display_dmg_multiplier && ( has_dmg_multiplier || !has_flat_dmg ) ) {
+            info.emplace_back( "AMMO", _( "Damage multiplier: " ), "",
+                               iteminfo::no_newline | iteminfo::is_decimal,
+                               ammo.damage.damage_units.front().damage_multiplier );
+        } else if( display_flat_dmg ) {
+            info.emplace_back( "AMMO", _( "Damage: " ), "",
+                               iteminfo::no_newline, ammo.damage.total_damage() );
         } else {
-            if( parts->test( iteminfo_parts::AMMO_DAMAGE_PROPORTIONAL ) ) {
-                info.emplace_back( "AMMO", _( "Damage multiplier: " ), "",
-                                   iteminfo::no_newline | iteminfo::is_decimal,
-                                   ammo.damage.damage_units.front().damage_multiplier );
-            }
+            didnt_print_dmg = true;
         }
-        if( parts->test( iteminfo_parts::AMMO_DAMAGE_AP ) ) {
-            info.emplace_back( "AMMO", space + _( "Armor-pierce: " ), get_ranged_pierce( ammo ) );
+
+        // Ugly, but handles edge cases better than mandatory space
+        static const std::string no_space;
+        const std::string &maybe_space = didnt_print_dmg ? no_space : space;
+
+        // TODO: Deduplicate with damage display
+        bool has_flat_arpen = get_ranged_pierce( ammo ) != 0;
+        bool display_flat_arpen = parts->test( iteminfo_parts::AMMO_DAMAGE_AP );
+        bool has_armor_mult = get_ranged_armor_mult( ammo ) != 1.0;
+        bool display_armor_mult = parts->test( iteminfo_parts::AMMO_DAMAGE_AP_PROPORTIONAL );
+        if( has_flat_arpen && display_flat_arpen
+            && has_armor_mult && display_armor_mult ) {
+            info.emplace_back( "AMMO", maybe_space + _( "Armor-pierce: " ), "",
+                               iteminfo::no_newline, get_ranged_pierce( ammo ) );
+            info.emplace_back( "AMMO", "/", "",
+                               iteminfo::is_decimal | iteminfo::lower_is_better,
+                               get_ranged_armor_mult( ammo ) );
+        } else if( has_armor_mult && display_armor_mult ) {
+            info.emplace_back( "AMMO", maybe_space + _( "Armor multiplier: " ), "",
+                               iteminfo::is_decimal | iteminfo::lower_is_better, get_ranged_armor_mult( ammo ) );
+        } else if( display_flat_arpen ) {
+            info.emplace_back( "AMMO", maybe_space + _( "Armor-pierce: " ), get_ranged_pierce( ammo ) );
         }
         if( parts->test( iteminfo_parts::AMMO_DAMAGE_RANGE ) ) {
-            info.emplace_back( "AMMO", _( "Range: " ), "", iteminfo::no_newline, ammo.range );
+            info.emplace_back( "AMMO", _( "Range: " ), "", iteminfo::no_newline, ammo.shape
+                               ? static_cast<int>( ammo.shape->get_range() )
+                               : ammo.range );
         }
         if( parts->test( iteminfo_parts::AMMO_DAMAGE_DISPERSION ) ) {
             info.emplace_back( "AMMO", space + _( "Dispersion: " ), "",
@@ -1848,6 +1891,12 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     }
 
     std::vector<std::string> fx;
+    if( ammo.shape &&
+        parts->test( iteminfo_parts::AMMO_SHAPE ) ) {
+        fx.emplace_back( string_format(
+                             _( "This ammo will produce effects with the following shape:\n<bold>%s</bold>" ),
+                             ammo.shape->get_description() ) );
+    }
     if( ammo.ammo_effects.count( "RECYCLED" ) &&
         parts->test( iteminfo_parts::AMMO_FX_RECYCLED ) ) {
         fx.emplace_back( _( "This ammo has been <bad>hand-loaded</bad>." ) );
@@ -2918,10 +2967,7 @@ void item::battery_info( std::vector<iteminfo> &info, const iteminfo_query * /*p
     }
 
     std::string info_string;
-    if( type->battery->max_capacity < 1_J ) {
-        info_string = string_format( _( "<bold>Capacity</bold>: %dmJ" ),
-                                     to_millijoule( type->battery->max_capacity ) );
-    } else if( type->battery->max_capacity < 1_kJ ) {
+    if( type->battery->max_capacity < 1_kJ ) {
         info_string = string_format( _( "<bold>Capacity</bold>: %dJ" ),
                                      to_joule( type->battery->max_capacity ) );
     } else if( type->battery->max_capacity >= 1_kJ ) {
@@ -3162,10 +3208,10 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
     insert_separation_line( info );
 
-    if( bid->capacity > 0_mJ ) {
-        info.push_back( iteminfo( "CBM", _( "<bold>Power Capacity</bold>:" ), _( " <num> mJ" ),
+    if( bid->capacity > 0_J ) {
+        info.push_back( iteminfo( "CBM", _( "<bold>Power Capacity</bold>:" ), _( " <num> J" ),
                                   iteminfo::no_newline,
-                                  units::to_millijoule( bid->capacity ) ) );
+                                  units::to_joule( bid->capacity ) ) );
     }
 
     insert_separation_line( info );
@@ -4071,7 +4117,7 @@ nc_color item::color_in_inventory() const
                 ret = c_yellow;
             }
         } else {
-            ret = c_red; // Book hasn't been identified yet: red
+            ret = c_red;  // Book hasn't been identified yet: red
         }
     }
     return ret;
@@ -4389,6 +4435,11 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             tagtext += _( " (hallucinogenic)" );
         }
     }
+    if( is_book() ) {
+        if( !g->u.has_identified( typeId() ) ) {
+            tagtext += _( " (unread)" );
+        }
+    }
     if( has_flag( flag_ETHEREAL_ITEM ) ) {
         tagtext += string_format( _( " (%s turns)" ), get_var( "ethereal" ) );
     } else if( goes_bad() || is_food() ) {
@@ -4537,6 +4588,7 @@ std::string item::display_name( unsigned int quantity ) const
             sidetxt = string_format( " (%s)", _( "right" ) );
             break;
     }
+    avatar &player_character = get_avatar();
     int amount = 0;
     int max_amount = 0;
     bool has_item = is_container() && contents.num_item_stacks() == 1;
@@ -4595,8 +4647,12 @@ std::string item::display_name( unsigned int quantity ) const
 
     // HACK: This is a hack to prevent possible crashing when displaying maps as items during character creation
     if( is_map() && calendar::turn != calendar::turn_zero ) {
-        const city *c = overmap_buffer.closest_city( omt_to_sm_copy( get_var( "reveal_map_center_omt",
-                        g->u.global_omt_location() ) ) ).city;
+        // TODO: fix point types
+        tripoint map_pos_omt =
+            get_var( "reveal_map_center_omt", player_character.global_omt_location().raw() );
+        tripoint_abs_sm map_pos =
+            project_to<coords::sm>( tripoint_abs_omt( map_pos_omt ) );
+        const city *c = overmap_buffer.closest_city( map_pos ).city;
         if( c != nullptr ) {
             name = string_format( "%s %s", c->name, name );
         }
@@ -4905,7 +4961,7 @@ int item::damage_melee( damage_type dt ) const
 
     // effectiveness is reduced by 10% per damage level
     int res = type->melee[ dt ];
-    res -= res * damage_level( 4 ) * 0.1;
+    res -= res * std::max( damage_level( 4 ), 0 ) * 0.1;
 
     // apply type specific flags
     switch( dt ) {
@@ -5022,6 +5078,11 @@ bool item::has_flag( const std::string &f ) const
     // now check for item specific flags
     ret = has_own_flag( f );
     return ret;
+}
+
+bool item::has_flag( const flag_str_id &flag ) const
+{
+    return has_flag( flag.str() );
 }
 
 item &item::set_flag( const std::string &flag )
@@ -6960,7 +7021,11 @@ int item::gun_range( bool with_ammo ) const
         ret += mod->type->gunmod->range;
     }
     if( with_ammo && ammo_data() ) {
-        ret += ammo_data()->ammo->range;
+        if( ammo_data()->ammo->shape ) {
+            ret = ammo_data()->ammo->shape->get_range();
+        } else {
+            ret += ammo_data()->ammo->range;
+        }
     }
     return std::min( std::max( 0, ret ), RANGE_HARD_CAP );
 }
@@ -7954,16 +8019,16 @@ const itype_id &item::typeId() const
     return type ? type->get_id() : itype_id::NULL_ID();
 }
 
-bool item::getlight( float &luminance, int &width, int &direction ) const
+bool item::getlight( float &luminance, units::angle &width, units::angle &direction ) const
 {
     luminance = 0;
-    width = 0;
-    direction = 0;
+    width = 0_degrees;
+    direction = 0_degrees;
     if( light.luminance > 0 ) {
         luminance = static_cast<float>( light.luminance );
         if( light.width > 0 ) {  // width > 0 is a light arc
-            width = light.width;
-            direction = light.direction;
+            width = units::from_degrees( light.width );
+            direction = units::from_degrees( light.direction );
         }
         return true;
     } else {
@@ -8558,7 +8623,7 @@ bool item::process_rot( float /*insulation*/, const bool seals,
     // note we're also gated by item::processing_speed
     time_duration smallest_interval = 10_minutes;
 
-    int temp = g->weather.get_temperature( pos );
+    int temp = get_weather().get_temperature( pos );
 
     switch( flag ) {
         case TEMP_NORMAL:
@@ -8592,7 +8657,7 @@ bool item::process_rot( float /*insulation*/, const bool seals,
     if( now - time > 1_hours ) {
         // This code is for items that were left out of reality bubble for long time
 
-        const weather_generator &wgen = g->weather.get_cur_weather_gen();
+        const weather_generator &wgen = get_weather().get_cur_weather_gen();
         const unsigned int seed = g->get_seed();
         int local_mod = g->new_game ? 0 : g->m.get_temperature( pos );
 
@@ -8865,23 +8930,15 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
     bool precipitation = false;
     bool windtoostrong = false;
     bool in_veh = carrier != nullptr && carrier->in_vehicle;
-    w_point weatherPoint = *g->weather.weather_precise;
-    int windpower = g->weather.windspeed;
-    switch( g->weather.weather ) {
-        case WEATHER_LIGHT_DRIZZLE:
+    int windpower = get_weather().windspeed;
+    switch( get_weather().weather_id->precip ) {
+        case precip_class::very_light:
             precipitation = one_in( 100 );
             break;
-        case WEATHER_DRIZZLE:
-        case WEATHER_FLURRIES:
+        case precip_class::light:
             precipitation = one_in( 50 );
             break;
-        case WEATHER_RAINY:
-        case WEATHER_SNOW:
-            precipitation = one_in( 25 );
-            break;
-        case WEATHER_THUNDER:
-        case WEATHER_LIGHTNING:
-        case WEATHER_SNOWSTORM:
+        case precip_class::heavy:
             precipitation = one_in( 10 );
             break;
         default:

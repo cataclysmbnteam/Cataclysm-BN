@@ -151,7 +151,10 @@ uilist::operator int() const
  */
 void uilist::init()
 {
-    assert( !test_mode ); // uilist should not be used in tests where there's no place for it
+    if( test_mode ) {
+        debugmsg( "uilist must not be used in test mode" );
+        return;
+    }
     w_x_setup = pos_scalar::auto_assign {};
     w_y_setup = pos_scalar::auto_assign {};
     w_width_setup = size_scalar::auto_assign {};
@@ -824,6 +827,11 @@ shared_ptr_fast<ui_adaptor> uilist::create_or_get_ui_adaptor()
  */
 void uilist::query( bool loop, int timeout )
 {
+    if( test_mode ) {
+        debugmsg( "Tried to open UI in test mode" );
+        ret = UILIST_ERROR;
+        return;
+    }
     keypress = 0;
     if( entries.empty() ) {
         ret = UILIST_ERROR;
@@ -1008,4 +1016,3 @@ void pointmenu_cb::select( uilist *const menu )
 {
     impl->select( menu );
 }
-

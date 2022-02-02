@@ -39,8 +39,9 @@ jobs:
             cmake: 1
             tiles: 1
             sound: 1
+            localize: 1
             native: linux64
-            title: GCC 7, Ubuntu, Tiles, CMake
+            title: GCC 7, Ubuntu, Tiles, CMake, Localize
           - compiler: g++-8
             os: ubuntu-latest
             cmake: 0
@@ -63,7 +64,7 @@ jobs:
             tiles: 1
             sound: 1
             native: osx
-            title: Clang 12, macOS 10.15, Tiles
+            title: Clang 12, macOS 10.15, Tiles, Localize
     name: ${{ matrix.title }}
     runs-on: ${{ matrix.os }}
     env:
@@ -74,6 +75,7 @@ jobs:
         SOUND: ${{ matrix.sound }}
         SANITIZE: ${{ matrix.sanitize }}
         TEST_STAGE: ${{ matrix.test-stage }}
+        LOCALIZE: ${{ matrix.localize }}
         EXTRA_TEST_OPTS:
         NATIVE: ${{ matrix.native }}
         RELEASE: 1

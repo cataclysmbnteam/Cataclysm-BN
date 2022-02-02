@@ -108,6 +108,27 @@
             "multitile":false
         },
         {
+            "id":"shot_cone_weak",
+            "fg":-1,
+            "bg":-1,
+            "rotates":false,
+            "multitile":false
+        },
+        {
+            "id":"shot_cone_medium",
+            "fg":-1,
+            "bg":-1,
+            "rotates":false,
+            "multitile":false
+        },
+        {
+            "id":"shot_cone_strong",
+            "fg":-1,
+            "bg":-1,
+            "rotates":false,
+            "multitile":false
+        },
+        {
             "id":"cursor",
             "fg":-1,
             "bg":-1,

@@ -13,6 +13,7 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "colony.h"
+#include "cuboid_rectangle.h"
 #include "field.h"
 #include "fragment_cloud.h" // IWYU pragma: keep
 #include "game.h"
@@ -49,7 +50,8 @@ static constexpr int LIGHTMAP_CACHE_Y = MAPSIZE_Y;
 static constexpr point lightmap_boundary_min{};
 static constexpr point lightmap_boundary_max( LIGHTMAP_CACHE_X, LIGHTMAP_CACHE_Y );
 
-const half_open_rectangle lightmap_boundaries( lightmap_boundary_min, lightmap_boundary_max );
+const half_open_rectangle<point> lightmap_boundaries(
+    lightmap_boundary_min, lightmap_boundary_max );
 
 std::string four_quadrants::to_string() const
 {
@@ -62,11 +64,11 @@ void map::add_light_from_items( const tripoint &p, item_stack::iterator begin,
                                 item_stack::iterator end )
 {
     for( auto itm_it = begin; itm_it != end; ++itm_it ) {
-        float ilum = 0.0; // brightness
-        int iwidth = 0; // 0-360 degrees. 0 is a circular light_source
-        int idir = 0;   // otherwise, it's a light_arc pointed in this direction
+        float ilum = 0.0f; // brightness
+        units::angle iwidth = 0_degrees; // 0-360 degrees. 0 is a circular light_source
+        units::angle idir = 0_degrees;   // otherwise, it's a light_arc pointed in this direction
         if( itm_it->getlight( ilum, iwidth, idir ) ) {
-            if( iwidth > 0 ) {
+            if( iwidth > 0_degrees ) {
                 apply_light_arc( p, idir, ilum, iwidth );
             } else {
                 add_light_source( p, ilum );
@@ -95,7 +97,7 @@ bool map::build_transparency_cache( const int zlev )
                                    static_cast<float>( LIGHT_TRANSPARENCY_OPEN_AIR ) );
     }
 
-    const float sight_penalty = weather::sight_penalty( g->weather.weather );
+    const float sight_penalty = get_weather().weather_id->sight_penalty;
 
     // Traverse the submaps in order
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
@@ -302,7 +304,7 @@ void map::build_sunlight_cache( int pzlev )
         const auto &prev_transparency_cache = prev_map_cache.transparency_cache;
         const auto &prev_floor_cache = prev_map_cache.floor_cache;
         const auto &outside_cache = map_cache.outside_cache;
-        const float sight_penalty = weather::sight_penalty( g->weather.weather );
+        const float sight_penalty = get_weather().weather_id->sight_penalty;
         // TODO: Replace these with a lookup inside the four_quadrants class.
         constexpr std::array<point, 5> cardinals = {
             {point_zero, point_north, point_west, point_east, point_south}
@@ -370,6 +372,8 @@ void map::generate_lightmap( const int zlev )
     auto &lm = map_cache.lm;
     auto &sm = map_cache.sm;
     auto &outside_cache = map_cache.outside_cache;
+    auto &prev_floor_cache = get_cache( clamp( zlev + 1, -OVERMAP_DEPTH, OVERMAP_DEPTH ) ).floor_cache;
+    bool top_floor = zlev == OVERMAP_DEPTH;
     std::memset( lm, 0, sizeof( lm ) );
     std::memset( sm, 0, sizeof( sm ) );
 
@@ -417,22 +421,22 @@ void map::generate_lightmap( const int zlev )
                     const int y = sy + smy * SEEY;
                     const tripoint p( x, y, zlev );
                     // Project light into any openings into buildings.
-                    if( !outside_cache[p.x][p.y] ) {
+                    if( !outside_cache[p.x][p.y] || ( !top_floor && prev_floor_cache[p.x][p.y] ) ) {
                         // Apply light sources for external/internal divide
                         for( int i = 0; i < 4; ++i ) {
                             point neighbour = p.xy() + point( dir_x[i], dir_y[i] );
                             if( lightmap_boundaries.contains( neighbour )
-                                && outside_cache[neighbour.x][neighbour.y]
+                                && outside_cache[neighbour.x][neighbour.y] &&
+                                ( top_floor || !prev_floor_cache[neighbour.x][neighbour.y] )
                               ) {
+                                const float source_light =
+                                    std::min( natural_light, lm[neighbour.x][neighbour.y].max() );
                                 if( light_transparency( p ) > LIGHT_TRANSPARENCY_SOLID ) {
-                                    update_light_quadrants(
-                                        lm[p.x][p.y], natural_light, quadrant::default_ );
-                                    apply_directional_light( p, dir_d[i], natural_light );
+                                    update_light_quadrants( lm[p.x][p.y], source_light, quadrant::default_ );
+                                    apply_directional_light( p, dir_d[i], source_light );
                                 } else {
-                                    update_light_quadrants(
-                                        lm[p.x][p.y], natural_light, dir_quadrants[i][0] );
-                                    update_light_quadrants(
-                                        lm[p.x][p.y], natural_light, dir_quadrants[i][1] );
+                                    update_light_quadrants( lm[p.x][p.y], source_light, dir_quadrants[i][0] );
+                                    update_light_quadrants( lm[p.x][p.y], source_light, dir_quadrants[i][1] );
                                 }
                             }
                         }
@@ -514,20 +518,22 @@ void map::generate_lightmap( const int zlev )
             }
 
             if( vp.has_flag( VPFLAG_CONE_LIGHT ) ) {
-                if( veh_luminance > LL_LIT ) {
+                if( veh_luminance > lit_level::LIT ) {
                     add_light_source( src, M_SQRT2 ); // Add a little surrounding light
-                    apply_light_arc( src, v->face.dir() + pt->direction, veh_luminance, 45 );
+                    apply_light_arc( src, v->face.dir() + pt->direction, veh_luminance,
+                                     45_degrees );
                 }
 
             } else if( vp.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ) {
-                if( veh_luminance > LL_LIT ) {
+                if( veh_luminance > lit_level::LIT ) {
                     add_light_source( src, M_SQRT2 ); // Add a little surrounding light
-                    apply_light_arc( src, v->face.dir() + pt->direction, veh_luminance, 90 );
+                    apply_light_arc( src, v->face.dir() + pt->direction, veh_luminance,
+                                     90_degrees );
                 }
 
             } else if( vp.has_flag( VPFLAG_HALF_CIRCLE_LIGHT ) ) {
                 add_light_source( src, M_SQRT2 ); // Add a little surrounding light
-                apply_light_arc( src, v->face.dir() + pt->direction, vp.bonus, 180 );
+                apply_light_arc( src, v->face.dir() + pt->direction, vp.bonus, 180_degrees );
 
             } else if( vp.has_flag( VPFLAG_CIRCLE_LIGHT ) ) {
                 const bool odd_turn = calendar::once_every( 2_turns );
@@ -584,26 +590,26 @@ void map::add_light_source( const tripoint &p, float luminance )
 lit_level map::light_at( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
-        return LL_DARK;    // Out of bounds
+        return lit_level::DARK;    // Out of bounds
     }
 
     const auto &map_cache = get_cache_ref( p.z );
     const auto &lm = map_cache.lm;
     const auto &sm = map_cache.sm;
     if( sm[p.x][p.y] >= LIGHT_SOURCE_BRIGHT ) {
-        return LL_BRIGHT;
+        return lit_level::BRIGHT;
     }
 
     const float max_light = lm[p.x][p.y].max();
     if( max_light >= LIGHT_AMBIENT_LIT ) {
-        return LL_LIT;
+        return lit_level::LIT;
     }
 
     if( max_light >= LIGHT_AMBIENT_LOW ) {
-        return LL_LOW;
+        return lit_level::LOW;
     }
 
-    return LL_DARK;
+    return lit_level::DARK;
 }
 
 float map::ambient_light_at( const tripoint &p ) const
@@ -695,7 +701,7 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
 
     // Clairvoyance overrides everything.
     if( dist <= cache.u_clairvoyance ) {
-        return LL_BRIGHT;
+        return lit_level::BRIGHT;
     }
     const auto &map_cache = get_cache_ref( p.z );
     const apparent_light_info a = apparent_light_helper( map_cache, p );
@@ -704,9 +710,9 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     // but the player can still see light sources.
     if( dist > g->u.unimpaired_range() ) {
         if( !a.obstructed && map_cache.sm[p.x][p.y] > 0.0 ) {
-            return LL_BRIGHT_ONLY;
+            return lit_level::BRIGHT_ONLY;
         } else {
-            return LL_DARK;
+            return lit_level::DARK;
         }
     }
     if( a.obstructed ) {
@@ -714,26 +720,26 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
             if( a.apparent_light > cache.g_light_level ) {
                 // This represents too hazy to see detail,
                 // but enough light getting through to illuminate.
-                return LL_BRIGHT_ONLY;
+                return lit_level::BRIGHT_ONLY;
             } else {
                 // If it's not brighter than the surroundings, it just ends up shadowy.
-                return LL_LOW;
+                return lit_level::LOW;
             }
         } else {
-            return LL_BLANK;
+            return lit_level::BLANK;
         }
     }
     // Then we just search for the light level in descending order.
     if( a.apparent_light > LIGHT_SOURCE_BRIGHT || map_cache.sm[p.x][p.y] > 0.0 ) {
-        return LL_BRIGHT;
+        return lit_level::BRIGHT;
     }
     if( a.apparent_light > LIGHT_AMBIENT_LIT ) {
-        return LL_LIT;
+        return lit_level::LIT;
     }
     if( a.apparent_light >= cache.vision_threshold ) {
-        return LL_LOW;
+        return lit_level::LOW;
     } else {
-        return LL_BLANK;
+        return lit_level::BLANK;
     }
 }
 
@@ -1306,7 +1312,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             offsetDistance = rl_dist( origin, mirror_pos );
         } else {
             offsetDistance = 60 - veh->part_info( mirror ).bonus *
-                             veh->parts[ mirror ].hp() / veh->part_info( mirror ).durability;
+                             veh->part( mirror ).hp() / veh->part_info( mirror ).durability;
             camera_cache[mirror_pos.x][mirror_pos.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
         }
 
@@ -1361,13 +1367,13 @@ void map::apply_light_source( const tripoint &p, float luminance )
     const point p2( p.xy() );
 
     if( inbounds( p ) ) {
-        const float min_light = std::max( static_cast<float>( LL_LOW ), luminance );
+        const float min_light = std::max( static_cast<float>( lit_level::LOW ), luminance );
         lm[p2.x][p2.y] = elementwise_max( lm[p2.x][p2.y], min_light );
         sm[p2.x][p2.y] = std::max( sm[p2.x][p2.y], luminance );
     }
-    if( luminance <= LL_LOW ) {
+    if( luminance <= lit_level::LOW ) {
         return;
-    } else if( luminance <= LL_BRIGHT_ONLY ) {
+    } else if( luminance <= lit_level::BRIGHT_ONLY ) {
         luminance = 1.49f;
     }
 
@@ -1469,7 +1475,8 @@ void map::apply_directional_light( const tripoint &p, int direction, float lumin
     }
 }
 
-void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wideangle )
+void map::apply_light_arc( const tripoint &p, units::angle angle, float luminance,
+                           units::angle wideangle )
 {
     if( luminance <= LIGHT_SOURCE_LOCAL ) {
         return;
@@ -1480,12 +1487,11 @@ void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wi
     apply_light_source( p, LIGHT_SOURCE_LOCAL );
 
     // Normalize (should work with negative values too)
-    const double wangle = wideangle / 2.0;
+    const units::angle wangle = wideangle / 2.0;
 
-    int nangle = angle % 360;
+    units::angle nangle = fmod( angle, 360_degrees );
 
     tripoint end;
-    double rad = M_PI * static_cast<double>( nangle ) / 180;
     int range = LIGHT_RANGE( luminance );
     calc_ray_end( nangle, range, p, end );
     apply_light_ray( lit, p, end, luminance );
@@ -1499,23 +1505,22 @@ void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wi
     }
 
     // attempt to determine beam intensity required to cover all squares
-    const double wstep = ( wangle / ( wdist * M_SQRT2 ) );
+    const units::angle wstep = ( wangle / ( wdist * M_SQRT2 ) );
 
     // NOLINTNEXTLINE(clang-analyzer-security.FloatLoopCounter)
-    for( double ao = wstep; ao <= wangle; ao += wstep ) {
+    for( units::angle ao = wstep; ao <= wangle; ao += wstep ) {
         if( trigdist ) {
             double fdist = ( ao * M_PI_2 ) / wangle;
-            double orad = ( M_PI * ao / 180.0 );
-            end.x = static_cast<int>( p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * std::cos(
-                                          rad + orad ) );
-            end.y = static_cast<int>( p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * std::sin(
-                                          rad + orad ) );
+            end.x = static_cast<int>(
+                        p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos( nangle + ao ) );
+            end.y = static_cast<int>(
+                        p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin( nangle + ao ) );
             apply_light_ray( lit, p, end, luminance );
 
-            end.x = static_cast<int>( p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * std::cos(
-                                          rad - orad ) );
-            end.y = static_cast<int>( p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * std::sin(
-                                          rad - orad ) );
+            end.x = static_cast<int>(
+                        p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos( nangle - ao ) );
+            end.y = static_cast<int>(
+                        p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin( nangle - ao ) );
             apply_light_ray( lit, p, end, luminance );
         } else {
             calc_ray_end( nangle + ao, range, p, end );

@@ -20,7 +20,7 @@
     "dispersion": 260,
     "durability": 8,
     "min_cycle_recoil": 81,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
+    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 5 ] ],
     "built_in_mods": [ "wire_stock" ],
     "valid_mod_locations": [
       [ "accessories", 3 ],
@@ -36,7 +36,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazine_well": 1,
+    "magazine_well": "250 ml",
     "magazines": [ [ "46", [ "hk46mag", "hk46bigmag" ] ] ]
   }
 ]

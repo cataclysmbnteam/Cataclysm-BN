@@ -4,6 +4,8 @@
 
 #include "units.h"
 
+#include <type_traits>
+
 /**
  * Type of object that a measurement is taken on.  Used, for example, to display wind speed in m/s
  * while displaying vehicle speed in km/h.
@@ -23,6 +25,20 @@ T divide_round_up( units::quantity<T, U> num, units::quantity<T, U> den )
     T n = num.value();
     T d = den.value();
     return ( n + d - 1 ) / d;
+}
+
+/** Given an angle, add or subtract multiples of 360_degrees until it's in the
+ * range [0, 360_degrees).
+ *
+ * With a second argument, can use a different maximum.
+ */
+units::angle normalize( units::angle, units::angle mod = 360_degrees );
+
+template<typename T, typename U, std::enable_if_t<std::is_floating_point<T>::value>* = nullptr>
+units::quantity<T, U> round_to_multiple_of( units::quantity<T, U> val, units::quantity<T, U> of )
+{
+    int multiple = std::lround( val / of );
+    return multiple * of;
 }
 
 /**

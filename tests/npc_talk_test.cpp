@@ -85,7 +85,9 @@ static std::string gen_dynamic_line( dialogue &d )
 
 static void change_om_type( const std::string &new_type )
 {
-    const tripoint omt_pos = ms_to_omt_copy( g->m.getabs( g->u.pos() ) );
+    // TODO: fix point types
+    const tripoint_abs_omt omt_pos( ms_to_omt_copy( get_map().getabs(
+                                        get_player_character().pos() ) ) );
     overmap_buffer.ter_set( omt_pos, oter_id( new_type ) );
 }
 
@@ -265,11 +267,10 @@ TEST_CASE( "npc_talk_service", "[npc_talk]" )
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a cash test response." );
     talker_npc.remove_effect( effect_currently_busy );
-    gen_response_lines( d, 4 );
+    gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a cash test response." );
-    CHECK( d.responses[2].text == "This is an npc service test response." );
-    CHECK( d.responses[3].text == "This is an npc available test response." );
+    CHECK( d.responses[2].text == "This is an npc available test response." );
 }
 
 TEST_CASE( "npc_talk_location", "[npc_talk]" )
@@ -562,170 +563,236 @@ TEST_CASE( "npc_talk_conditionals", "[npc_talk]" )
     CHECK( trial_effect.next_topic.id == "TALK_TEST_FALSE_CONDITION_NEXT" );
 }
 
-TEST_CASE( "npc_talk_items", "[npc_talk]" )
+static bool has_item( Character &p, const std::string &id, int count )
+{
+    item old_item = item( id );
+    if( old_item.count_by_charges() ) {
+        return p.has_charges( itype_id( id ), count );
+    } else {
+        return p.has_amount( itype_id( id ), count );
+    }
+}
+
+static bool has_beer_bottle( Character &p, int count )
+{
+    return has_item( p, "bottle_glass", 1 ) && has_item( p, "beer", count );
+}
+
+static void give_item( Character &p, const std::string &id, int count )
+{
+    for( int i = 0; i < count; i++ ) {
+        item it( id );
+        p.inv.add_item( it );
+    }
+}
+
+TEST_CASE( "npc_talk_effects_advanced", "[npc_talk]" )
 {
     dialogue d;
     npc &talker_npc = prep_test( d );
 
+    g->u.int_cur = 8;
+    g->u.cash = 1000;
     g->u.remove_items_with( []( const item & it ) {
         return it.get_category().get_id() == item_category_id( "books" ) ||
                it.get_category().get_id() == item_category_id( "food" ) ||
                it.typeId() == itype_id( "bottle_glass" );
     } );
-    d.add_topic( "TALK_TEST_HAS_ITEM" );
-    gen_response_lines( d, 1 );
-    CHECK( d.responses[0].text == "This is a basic test response." );
-    d.add_topic( "TALK_TEST_ITEM_REPEAT" );
-    gen_response_lines( d, 1 );
-    CHECK( d.responses[0].text == "This is a basic test response." );
 
-    const auto has_item = [&]( player & p, const std::string & id, int count ) {
-        item old_item = item( id );
-        if( old_item.count_by_charges() ) {
-            return p.has_charges( itype_id( id ), count );
-        } else {
-            return p.has_amount( itype_id( id ), count );
-        }
-    };
-    const auto has_beer_bottle = [&]( player & p, int count ) {
-        return has_item( p, "bottle_glass", 1 ) && has_item( p, "beer", count );
-    };
-    g->u.cash = 1000;
-    g->u.int_cur = 8;
-    d.add_topic( "TALK_TEST_EFFECTS" );
-    gen_response_lines( d, 19 );
-    // add and remove effect
-    REQUIRE_FALSE( g->u.has_effect( effect_infection ) );
-    talk_effect_t &effects = d.responses[1].success;
-    effects.apply( d );
-    CHECK( g->u.has_effect( effect_infection ) );
-    CHECK( g->u.get_effect_dur( effect_infection ) == time_duration::from_turns( 10 ) );
-    REQUIRE_FALSE( talker_npc.has_effect( effect_infection ) );
-    effects = d.responses[2].success;
-    effects.apply( d );
-    CHECK( talker_npc.has_effect( effect_infection ) );
-    CHECK( talker_npc.get_effect( effect_infection ).is_permanent() );
-    effects = d.responses[3].success;
-    effects.apply( d );
-    CHECK_FALSE( g->u.has_effect( effect_infection ) );
-    effects = d.responses[4].success;
-    effects.apply( d );
-    CHECK_FALSE( talker_npc.has_effect( effect_infection ) );
-    // add and remove trait
-    REQUIRE_FALSE( g->u.has_trait( trait_PROF_FED ) );
-    effects = d.responses[5].success;
-    effects.apply( d );
-    CHECK( g->u.has_trait( trait_PROF_FED ) );
-    REQUIRE_FALSE( talker_npc.has_trait( trait_PROF_FED ) );
-    effects = d.responses[6].success;
-    effects.apply( d );
-    CHECK( talker_npc.has_trait( trait_PROF_FED ) );
-    effects = d.responses[7].success;
-    effects.apply( d );
-    CHECK_FALSE( g->u.has_trait( trait_PROF_FED ) );
-    effects = d.responses[8].success;
-    effects.apply( d );
-    CHECK_FALSE( talker_npc.has_trait( trait_PROF_FED ) );
-    // buying and spending
-    talker_npc.op_of_u.owed = 1000;
-    REQUIRE_FALSE( has_beer_bottle( g->u, 2 ) );
-    REQUIRE( talker_npc.op_of_u.owed == 1000 );
-    effects = d.responses[9].success;
-    effects.apply( d );
-    CHECK( talker_npc.op_of_u.owed == 500 );
-    CHECK( has_beer_bottle( g->u, 2 ) );
-    REQUIRE_FALSE( has_item( g->u, "bottle_plastic", 1 ) );
-    effects = d.responses[10].success;
-    effects.apply( d );
-    CHECK( has_item( g->u, "bottle_plastic", 1 ) );
-    CHECK( talker_npc.op_of_u.owed == 500 );
-    effects = d.responses[11].success;
-    effects.apply( d );
-    CHECK( talker_npc.op_of_u.owed == 0 );
-    talker_npc.op_of_u.owed = 1000;
-    // effect chains
-    REQUIRE_FALSE( g->u.has_effect( effect_infected ) );
-    REQUIRE_FALSE( talker_npc.has_effect( effect_infected ) );
-    REQUIRE_FALSE( g->u.has_trait( trait_PROF_SWAT ) );
-    REQUIRE_FALSE( talker_npc.has_trait( trait_PROF_SWAT ) );
-    effects = d.responses[12].success;
-    effects.apply( d );
-    CHECK( g->u.has_effect( effect_infected ) );
-    CHECK( g->u.get_effect_dur( effect_infected ) == time_duration::from_turns( 10 ) );
-    CHECK( talker_npc.has_effect( effect_infected ) );
-    CHECK( talker_npc.get_effect( effect_infected ).is_permanent() );
-    CHECK( g->u.has_trait( trait_PROF_SWAT ) );
-    CHECK( talker_npc.has_trait( trait_PROF_SWAT ) );
-    CHECK( talker_npc.op_of_u.owed == 0 );
-    CHECK( talker_npc.get_attitude() == NPCATT_KILL );
-    // opinion changes
-    talker_npc.op_of_u = npc_opinion();
-    REQUIRE_FALSE( talker_npc.op_of_u.trust );
-    REQUIRE_FALSE( talker_npc.op_of_u.fear );
-    REQUIRE_FALSE( talker_npc.op_of_u.value );
-    REQUIRE_FALSE( talker_npc.op_of_u.anger );
-    REQUIRE_FALSE( talker_npc.op_of_u.owed );
-    effects = d.responses[13].success;
-    REQUIRE( effects.opinion.trust == 10 );
-    effects.apply( d );
-    CHECK( talker_npc.op_of_u.trust == 10 );
-    CHECK( talker_npc.op_of_u.fear == 11 );
-    CHECK( talker_npc.op_of_u.value == 12 );
-    CHECK( talker_npc.op_of_u.anger == 13 );
-    CHECK( talker_npc.op_of_u.owed == 14 );
+    SECTION( "basic_has_item" ) {
+        d.add_topic( "TALK_TEST_HAS_ITEM" );
+        gen_response_lines( d, 1 );
+        CHECK( d.responses[0].text == "This is a basic test response." );
+    }
 
-    d.add_topic( "TALK_TEST_HAS_ITEM" );
-    gen_response_lines( d, 7 );
-    CHECK( d.responses[1].text == "This is a basic test response." );
-    CHECK( d.responses[2].text == "This is a u_has_item beer test response." );
-    CHECK( d.responses[3].text == "This is a u_has_item bottle_glass test response." );
-    CHECK( d.responses[4].text == "This is a u_has_items beer test response." );
-    CHECK( d.responses[5].text == "This is a u_has_item_category books test response." );
-    CHECK( d.responses[6].text == "This is a u_has_item_category books count 2 test response." );
-    CHECK( d.responses[0].text == "This is a repeated item manual_speech test response" );
-    CHECK( d.responses[0].success.next_topic.item_type == itype_id( "manual_speech" ) );
+    SECTION( "basic_item_repeat" ) {
+        d.add_topic( "TALK_TEST_ITEM_REPEAT" );
+        gen_response_lines( d, 1 );
+        CHECK( d.responses[0].text == "This is a basic test response." );
+    }
 
-    d.add_topic( "TALK_TEST_ITEM_REPEAT" );
-    gen_response_lines( d, 8 );
-    CHECK( d.responses[0].text == "This is a repeated category books, food test response" );
-    CHECK( d.responses[0].success.next_topic.item_type == itype_id( "beer" ) );
-    CHECK( d.responses[1].text == "This is a repeated category books, food test response" );
-    CHECK( d.responses[1].success.next_topic.item_type == itype_id( "dnd_handbook" ) );
-    CHECK( d.responses[2].text == "This is a repeated category books, food test response" );
-    CHECK( d.responses[2].success.next_topic.item_type == itype_id( "manual_speech" ) );
-    CHECK( d.responses[3].text == "This is a repeated category books test response" );
-    CHECK( d.responses[3].success.next_topic.item_type == itype_id( "dnd_handbook" ) );
-    CHECK( d.responses[4].text == "This is a repeated category books test response" );
-    CHECK( d.responses[4].success.next_topic.item_type == itype_id( "manual_speech" ) );
-    CHECK( d.responses[5].text == "This is a repeated item beer, bottle_glass test response" );
-    CHECK( d.responses[5].success.next_topic.item_type == itype_id( "bottle_glass" ) );
-    CHECK( d.responses[6].text == "This is a repeated item beer, bottle_glass test response" );
-    CHECK( d.responses[6].success.next_topic.item_type == itype_id( "beer" ) );
-    CHECK( d.responses[7].text == "This is a basic test response." );
+    SECTION( "add_remove_effect" ) {
+        d.add_topic( "TALK_TEST_EFFECTS_CHAREFFECTS" );
+        gen_response_lines( d, 5 );
+        // add and remove effect
+        REQUIRE_FALSE( g->u.has_effect( effect_infection ) );
+        talk_effect_t &effects = d.responses[1].success;
+        effects.apply( d );
+        CHECK( g->u.has_effect( effect_infection ) );
+        CHECK( g->u.get_effect_dur( effect_infection ) == time_duration::from_turns( 10 ) );
+        REQUIRE_FALSE( talker_npc.has_effect( effect_infection ) );
+        effects = d.responses[2].success;
+        effects.apply( d );
+        CHECK( talker_npc.has_effect( effect_infection ) );
+        CHECK( talker_npc.get_effect( effect_infection ).is_permanent() );
+        effects = d.responses[3].success;
+        effects.apply( d );
+        CHECK_FALSE( g->u.has_effect( effect_infection ) );
+        effects = d.responses[4].success;
+        effects.apply( d );
+        CHECK_FALSE( talker_npc.has_effect( effect_infection ) );
+    }
 
-    // test sell and consume
-    d.add_topic( "TALK_TEST_EFFECTS" );
-    gen_response_lines( d, 19 );
-    REQUIRE( has_item( g->u, "bottle_plastic", 1 ) );
-    REQUIRE( has_beer_bottle( g->u, 2 ) );
-    REQUIRE( g->u.wield( g->u.i_at( g->u.inv.position_by_type( itype_id( "bottle_glass" ) ) ) ) );
-    effects = d.responses[14].success;
-    effects.apply( d );
-    CHECK_FALSE( has_item( g->u, "bottle_plastic", 1 ) );
-    CHECK_FALSE( has_item( g->u, "beer", 1 ) );
-    CHECK( has_item( talker_npc, "bottle_plastic", 1 ) );
-    CHECK( has_item( talker_npc, "beer", 2 ) );
-    effects = d.responses[15].success;
-    effects.apply( d );
-    CHECK_FALSE( has_item( talker_npc, "beer", 2 ) );
-    CHECK( has_item( talker_npc, "beer", 1 ) );
-    effects = d.responses[16].success;
-    effects.apply( d );
-    CHECK( has_item( g->u, "beer", 1 ) );
-    effects = d.responses[17].success;
-    effects.apply( d );
-    CHECK( has_item( g->u, "beer", 0 ) );
-    CHECK_FALSE( has_item( g->u, "beer", 1 ) );
+    SECTION( "add_remove_trait" ) {
+        d.add_topic( "TALK_TEST_EFFECTS_CHARTRAIT" );
+        gen_response_lines( d, 5 );
+        // add and remove trait
+        REQUIRE_FALSE( g->u.has_trait( trait_PROF_FED ) );
+        talk_effect_t &effects = d.responses[1].success;
+        effects.apply( d );
+        CHECK( g->u.has_trait( trait_PROF_FED ) );
+        REQUIRE_FALSE( talker_npc.has_trait( trait_PROF_FED ) );
+        effects = d.responses[2].success;
+        effects.apply( d );
+        CHECK( talker_npc.has_trait( trait_PROF_FED ) );
+        effects = d.responses[3].success;
+        effects.apply( d );
+        CHECK_FALSE( g->u.has_trait( trait_PROF_FED ) );
+        effects = d.responses[4].success;
+        effects.apply( d );
+        CHECK_FALSE( talker_npc.has_trait( trait_PROF_FED ) );
+    }
+
+    SECTION( "buy_and_spend" ) {
+        d.add_topic( "TALK_TEST_EFFECTS_BUY_SPEND" );
+        gen_response_lines( d, 4 );
+        // buying and spending
+        talker_npc.op_of_u.owed = 1000;
+        REQUIRE_FALSE( has_beer_bottle( g->u, 2 ) );
+        REQUIRE( talker_npc.op_of_u.owed == 1000 );
+        REQUIRE( g->u.cash == 1000 );
+        talk_effect_t &effects = d.responses[1].success;
+        effects.apply( d );
+        CHECK( talker_npc.op_of_u.owed == 500 );
+        CHECK( has_beer_bottle( g->u, 2 ) );
+        REQUIRE_FALSE( has_item( g->u, "bottle_plastic", 1 ) );
+        effects = d.responses[2].success;
+        effects.apply( d );
+        CHECK( has_item( g->u, "bottle_plastic", 1 ) );
+        // No price specified means gift
+        CHECK( talker_npc.op_of_u.owed == 500 );
+        effects = d.responses[3].success;
+        effects.apply( d );
+        // Ecash should NOT be used for trade or to settle a debt
+        CHECK( g->u.cash == 500 );
+        CHECK( talker_npc.op_of_u.owed == 500 );
+    }
+
+    SECTION( "effect_chains" ) {
+        d.add_topic( "TALK_TEST_EFFECTS_CHAIN" );
+        gen_response_lines( d, 2 );
+        // effect chains
+        REQUIRE_FALSE( g->u.has_effect( effect_infected ) );
+        REQUIRE_FALSE( talker_npc.has_effect( effect_infected ) );
+        REQUIRE_FALSE( g->u.has_trait( trait_PROF_SWAT ) );
+        REQUIRE_FALSE( talker_npc.has_trait( trait_PROF_SWAT ) );
+        talk_effect_t &effects = d.responses[1].success;
+        effects.apply( d );
+        CHECK( g->u.has_effect( effect_infected ) );
+        CHECK( g->u.get_effect_dur( effect_infected ) == time_duration::from_turns( 10 ) );
+        CHECK( talker_npc.has_effect( effect_infected ) );
+        CHECK( talker_npc.get_effect( effect_infected ).is_permanent() );
+        CHECK( g->u.has_trait( trait_PROF_SWAT ) );
+        CHECK( talker_npc.has_trait( trait_PROF_SWAT ) );
+        CHECK( talker_npc.op_of_u.owed == 0 );
+        CHECK( talker_npc.get_attitude() == NPCATT_KILL );
+    }
+
+    SECTION( "opinion" ) {
+        d.add_topic( "TALK_TEST_EFFECTS_OPINION" );
+        gen_response_lines( d, 2 );
+        // opinion changes
+        talker_npc.op_of_u = npc_opinion();
+        REQUIRE_FALSE( talker_npc.op_of_u.trust );
+        REQUIRE_FALSE( talker_npc.op_of_u.fear );
+        REQUIRE_FALSE( talker_npc.op_of_u.value );
+        REQUIRE_FALSE( talker_npc.op_of_u.anger );
+        REQUIRE_FALSE( talker_npc.op_of_u.owed );
+        talk_effect_t &effects = d.responses[1].success;
+        REQUIRE( effects.opinion.trust == 10 );
+        effects.apply( d );
+        CHECK( talker_npc.op_of_u.trust == 10 );
+        CHECK( talker_npc.op_of_u.fear == 11 );
+        CHECK( talker_npc.op_of_u.value == 12 );
+        CHECK( talker_npc.op_of_u.anger == 13 );
+        CHECK( talker_npc.op_of_u.owed == 14 );
+    }
+
+    SECTION( "has_item" ) {
+        give_item( g->u, "beer", 2 );
+        give_item( g->u, "bottle_glass", 1 );
+        give_item( g->u, "manual_speech", 1 );
+        give_item( g->u, "dnd_handbook", 1 );
+
+        d.add_topic( "TALK_TEST_HAS_ITEM" );
+        gen_response_lines( d, 7 );
+        CHECK( d.responses[0].text == "This is a repeated item manual_speech test response" );
+        CHECK( d.responses[0].success.next_topic.item_type == itype_id( "manual_speech" ) );
+        CHECK( d.responses[1].text == "This is a basic test response." );
+        CHECK( d.responses[2].text == "This is a u_has_item beer test response." );
+        CHECK( d.responses[3].text == "This is a u_has_item bottle_glass test response." );
+        CHECK( d.responses[4].text == "This is a u_has_items beer test response." );
+        CHECK( d.responses[5].text == "This is a u_has_item_category books test response." );
+        CHECK( d.responses[6].text == "This is a u_has_item_category books count 2 test response." );
+    }
+
+    SECTION( "item_repeat" ) {
+        give_item( g->u, "beer", 2 );
+        give_item( g->u, "bottle_glass", 1 );
+        give_item( g->u, "manual_speech", 1 );
+        give_item( g->u, "dnd_handbook", 1 );
+
+        d.add_topic( "TALK_TEST_ITEM_REPEAT" );
+        gen_response_lines( d, 8 );
+        CHECK( d.responses[0].text == "This is a repeated category books, food test response" );
+        CHECK( d.responses[0].success.next_topic.item_type == itype_id( "beer" ) );
+        CHECK( d.responses[1].text == "This is a repeated category books, food test response" );
+        CHECK( d.responses[1].success.next_topic.item_type == itype_id( "dnd_handbook" ) );
+        CHECK( d.responses[2].text == "This is a repeated category books, food test response" );
+        CHECK( d.responses[2].success.next_topic.item_type == itype_id( "manual_speech" ) );
+        CHECK( d.responses[3].text == "This is a repeated category books test response" );
+        CHECK( d.responses[3].success.next_topic.item_type == itype_id( "dnd_handbook" ) );
+        CHECK( d.responses[4].text == "This is a repeated category books test response" );
+        CHECK( d.responses[4].success.next_topic.item_type == itype_id( "manual_speech" ) );
+        CHECK( d.responses[5].text == "This is a repeated item beer, bottle_glass test response" );
+        CHECK( d.responses[5].success.next_topic.item_type == itype_id( "bottle_glass" ) );
+        CHECK( d.responses[6].text == "This is a repeated item beer, bottle_glass test response" );
+        CHECK( d.responses[6].success.next_topic.item_type == itype_id( "beer" ) );
+        CHECK( d.responses[7].text == "This is a basic test response." );
+    }
+
+    SECTION( "sell_and_consume" ) {
+        give_item( g->u, "beer", 2 );
+        give_item( g->u, "bottle_glass", 1 );
+        give_item( g->u, "bottle_plastic", 1 );
+
+        // test sell and consume
+        d.add_topic( "TALK_TEST_EFFECTS_SELL_CONSUME" );
+        gen_response_lines( d, 5 );
+        REQUIRE( g->u.cash == 1000 );
+        REQUIRE( has_item( g->u, "bottle_plastic", 1 ) );
+        REQUIRE( has_beer_bottle( g->u, 2 ) );
+        REQUIRE( g->u.wield( g->u.i_at( g->u.inv.position_by_type( itype_id( "bottle_glass" ) ) ) ) );
+        talk_effect_t &effects = d.responses[1].success;
+        effects.apply( d );
+        CHECK_FALSE( has_item( g->u, "bottle_plastic", 1 ) );
+        CHECK_FALSE( has_item( g->u, "beer", 1 ) );
+        CHECK( has_item( talker_npc, "bottle_plastic", 1 ) );
+        CHECK( has_item( talker_npc, "beer", 2 ) );
+        effects = d.responses[2].success;
+        effects.apply( d );
+        CHECK_FALSE( has_item( talker_npc, "beer", 2 ) );
+        CHECK( has_item( talker_npc, "beer", 1 ) );
+        effects = d.responses[3].success;
+        effects.apply( d );
+        CHECK( has_item( g->u, "beer", 1 ) );
+        effects = d.responses[4].success;
+        effects.apply( d );
+        CHECK( has_item( g->u, "beer", 0 ) );
+        CHECK_FALSE( has_item( g->u, "beer", 1 ) );
+        // Ecash should NOT be used for trade
+        REQUIRE( g->u.cash == 1000 );
+    }
 }
 
 TEST_CASE( "npc_talk_combat_commands", "[npc_talk]" )
@@ -859,68 +926,88 @@ TEST_CASE( "npc_talk_bionics", "[npc_talk]" )
 
 TEST_CASE( "npc_talk_effects", "[npc_talk]" )
 {
+    clear_avatar();
+
     dialogue d;
     npc &talker_npc = prep_test( d );
 
-    // speaker effects just use are owed because I don't want to do anything complicated
-    g->u.cash = 1000;
-    talker_npc.op_of_u.owed = 2000;
-    CHECK( talker_npc.op_of_u.owed == 2000 );
-    d.add_topic( "TALK_TEST_SPEAKER_EFFECT_SIMPLE" );
-    d.apply_speaker_effects( d.topic_stack.back() );
-    REQUIRE( talker_npc.op_of_u.owed == 1500 );
-    d.apply_speaker_effects( d.topic_stack.back() );
-    REQUIRE( talker_npc.op_of_u.owed == 1000 );
-    d.add_topic( "TALK_TEST_SPEAKER_EFFECT_SIMPLE_CONDITIONAL" );
-    d.apply_speaker_effects( d.topic_stack.back() );
-    REQUIRE( talker_npc.op_of_u.owed == 500 );
-    d.apply_speaker_effects( d.topic_stack.back() );
-    REQUIRE( talker_npc.op_of_u.owed == 0 );
-    talker_npc.op_of_u.owed = 2000;
-    CHECK( talker_npc.op_of_u.owed == 2000 );
-    d.add_topic( "TALK_TEST_SPEAKER_EFFECT_SENTINEL" );
-    d.apply_speaker_effects( d.topic_stack.back() );
-    REQUIRE( talker_npc.op_of_u.owed == 1500 );
-    d.apply_speaker_effects( d.topic_stack.back() );
-    REQUIRE( talker_npc.op_of_u.owed == 1500 );
-    d.add_topic( "TALK_TEST_SPEAKER_EFFECT_SENTINEL_CONDITIONAL" );
-    d.apply_speaker_effects( d.topic_stack.back() );
-    REQUIRE( talker_npc.op_of_u.owed == 1000 );
-    d.apply_speaker_effects( d.topic_stack.back() );
-    REQUIRE( talker_npc.op_of_u.owed == 1000 );
+    // Speaker effects test use cash for simplicity
+    g->u.cash = 10000;
+    CHECK( g->u.cash == 10000 );
 
-    talker_npc.op_of_u.owed = 4500;
-    CHECK( talker_npc.op_of_u.owed == 4500 );
-    d.add_topic( "TALK_TEST_SPEAKER_EFFECT_COMPOUND" );
-    d.apply_speaker_effects( d.topic_stack.back() );
-    REQUIRE( talker_npc.op_of_u.owed == 3500 );
-    d.apply_speaker_effects( d.topic_stack.back() );
-    REQUIRE( talker_npc.op_of_u.owed == 2500 );
-    d.add_topic( "TALK_TEST_SPEAKER_EFFECT_COMPOUND_CONDITIONAL" );
-    d.apply_speaker_effects( d.topic_stack.back() );
-    REQUIRE( talker_npc.op_of_u.owed == 1000 );
-    d.apply_speaker_effects( d.topic_stack.back() );
-    REQUIRE( talker_npc.op_of_u.owed == 500 );
-    talker_npc.op_of_u.owed = 3500;
-    CHECK( talker_npc.op_of_u.owed == 3500 );
-    d.add_topic( "TALK_TEST_SPEAKER_EFFECT_COMPOUND_SENTINEL" );
-    d.apply_speaker_effects( d.topic_stack.back() );
-    REQUIRE( talker_npc.op_of_u.owed == 2750 );
-    d.apply_speaker_effects( d.topic_stack.back() );
-    REQUIRE( talker_npc.op_of_u.owed == 2250 );
-    d.add_topic( "TALK_TEST_SPEAKER_EFFECT_COMPOUND_SENTINEL_CONDITIONAL" );
-    d.apply_speaker_effects( d.topic_stack.back() );
-    REQUIRE( talker_npc.op_of_u.owed == 1500 );
-    d.apply_speaker_effects( d.topic_stack.back() );
-    REQUIRE( talker_npc.op_of_u.owed == 1500 );
+    SECTION( "simple" ) {
+        d.add_topic( "TALK_TEST_SPEAKER_EFFECT_SIMPLE" );
+        d.apply_speaker_effects( d.topic_stack.back() );
+        REQUIRE( g->u.cash == 9500 );
+        d.apply_speaker_effects( d.topic_stack.back() );
+        REQUIRE( g->u.cash == 9000 );
 
-    // test change class
-    talker_npc.myclass = npc_class_id( "NC_TEST_CLASS" );
-    d.add_topic( "TALK_TEST_EFFECTS" );
-    gen_response_lines( d, 19 );
-    talk_effect_t &effects = d.responses[18].success;
-    effects.apply( d );
-    CHECK( talker_npc.myclass == npc_class_id( "NC_NONE" ) );
+        SECTION( "simple_conditional" ) {
+            d.add_topic( "TALK_TEST_SPEAKER_EFFECT_SIMPLE_CONDITIONAL" );
+            d.apply_speaker_effects( d.topic_stack.back() );
+            REQUIRE( g->u.cash == 8500 );
+            d.apply_speaker_effects( d.topic_stack.back() );
+            REQUIRE( g->u.cash == 8500 );
+        }
+    }
+
+    SECTION( "sentinel" ) {
+        d.add_topic( "TALK_TEST_SPEAKER_EFFECT_SENTINEL" );
+        d.apply_speaker_effects( d.topic_stack.back() );
+        REQUIRE( g->u.cash == 9500 );
+        d.apply_speaker_effects( d.topic_stack.back() );
+        REQUIRE( g->u.cash == 9500 );
+
+        SECTION( "sentinel_conditional" ) {
+            d.add_topic( "TALK_TEST_SPEAKER_EFFECT_SENTINEL_CONDITIONAL" );
+            d.apply_speaker_effects( d.topic_stack.back() );
+            REQUIRE( g->u.cash == 9000 );
+            d.apply_speaker_effects( d.topic_stack.back() );
+            REQUIRE( g->u.cash == 9000 );
+        }
+    }
+
+    SECTION( "compound" ) {
+        d.add_topic( "TALK_TEST_SPEAKER_EFFECT_COMPOUND" );
+        d.apply_speaker_effects( d.topic_stack.back() );
+        REQUIRE( g->u.cash == 9000 );
+        d.apply_speaker_effects( d.topic_stack.back() );
+        REQUIRE( g->u.cash == 8000 );
+
+        SECTION( "compound_conditional" ) {
+            d.add_topic( "TALK_TEST_SPEAKER_EFFECT_COMPOUND_CONDITIONAL" );
+            d.apply_speaker_effects( d.topic_stack.back() );
+            REQUIRE( g->u.cash == 6500 );
+            d.apply_speaker_effects( d.topic_stack.back() );
+            REQUIRE( g->u.cash == 6000 );
+        }
+    }
+
+    SECTION( "compound_sentinel" ) {
+        d.add_topic( "TALK_TEST_SPEAKER_EFFECT_COMPOUND_SENTINEL" );
+        d.apply_speaker_effects( d.topic_stack.back() );
+        REQUIRE( g->u.cash == 9250 );
+        d.apply_speaker_effects( d.topic_stack.back() );
+        REQUIRE( g->u.cash == 8750 );
+
+        SECTION( "sentinel_conditional" ) {
+            d.add_topic( "TALK_TEST_SPEAKER_EFFECT_COMPOUND_SENTINEL_CONDITIONAL" );
+            d.apply_speaker_effects( d.topic_stack.back() );
+            REQUIRE( g->u.cash == 8000 );
+            d.apply_speaker_effects( d.topic_stack.back() );
+            REQUIRE( g->u.cash == 8000 );
+        }
+    }
+
+    SECTION( "change_npc_class" ) {
+        // test change class
+        talker_npc.myclass = npc_class_id( "NC_TEST_CLASS" );
+        d.add_topic( "TALK_TEST_EFFECTS_NPC_CLASS" );
+        gen_response_lines( d, 2 );
+        talk_effect_t &effects = d.responses[1].success;
+        effects.apply( d );
+        CHECK( talker_npc.myclass == npc_class_id( "NC_NONE" ) );
+    }
 }
 
 TEST_CASE( "npc_talk_effect_change_first_topic", "[npc_talk]" )

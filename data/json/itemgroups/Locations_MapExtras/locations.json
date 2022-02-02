@@ -488,7 +488,7 @@
     "id": "oa_ig_rd_glass_trash",
     "//": "for ws_regional_dump",
     "items": [
-      { "item": "glass_shard", "prob": 100, "count-min": 8, "count-max": 168 },
+      { "item": "glass_shard", "prob": 100, "count-min": 2, "count-max": 10 },
       [ "bottle_glass", 30 ],
       [ "jar_glass", 20 ],
       [ "jar_3l_glass", 10 ]
@@ -677,7 +677,7 @@
       [ "jar_3l_glass", 120 ],
       [ "magnifying_glass", 20 ],
       [ "mirror", 30 ],
-      { "item": "glass_shard", "prob": 650, "count": [ 1, 8 ] },
+      { "item": "glass_shard", "prob": 650, "count": [ 0, 1 ] },
       [ "crackpipe", 5 ],
       [ "glass", 80 ],
       [ "glass_bowl", 80 ],
@@ -841,7 +841,7 @@
       [ "atomic_light", 1 ],
       [ "eink_tablet_pc", 1 ],
       [ "mobile_memory_card", 5 ],
-      [ "cell_phone", 10 ],
+      [ "cell_phone", 1 ],
       [ "smart_phone", 30 ],
       [ "rag", 1 ],
       [ "claw_bar", 3 ],
@@ -1110,7 +1110,6 @@
       [ "chemistry_set", 50 ],
       { "group": "ammo_pocket_batteries_full", "prob": 70 },
       [ "flashlight", 40 ],
-      [ "chem_acetone", 40 ],
       [ "chem_hexamine", 15 ]
     ]
   },
@@ -1474,7 +1473,7 @@
       { "item": "mag_melee", "prob": 10 },
       { "item": "mag_traps", "prob": 10 },
       { "item": "mp3", "prob": 9 },
-      { "item": "cell_phone", "prob": 20 },
+      { "item": "cell_phone", "prob": 1 },
       { "item": "smart_phone", "prob": 20 },
       { "item": "eink_tablet_pc", "prob": 5 },
       { "item": "camera", "prob": 3 },
@@ -1586,7 +1585,7 @@
       [ "radio", 20 ],
       [ "geiger_off", 8 ],
       [ "rad_monitor", 4 ],
-      [ "UPS_off", 5 ],
+      { "group": "used_UPS", "prob": 5 },
       [ "flyer", 10 ],
       [ "bio_purifier", 10 ],
       [ "bio_climate", 10 ],
@@ -1681,7 +1680,7 @@
       [ "atomic_light", 3 ],
       [ "atomic_lamp", 3 ],
       [ "smart_lamp", 5 ],
-      [ "cell_phone", 20 ],
+      [ "cell_phone", 1 ],
       [ "smart_phone", 40 ],
       [ "eink_tablet_pc", 15 ],
       [ "mobile_memory_card", 40 ],
@@ -2054,11 +2053,30 @@
   {
     "type": "item_group",
     "id": "vault",
+    "items": [ { "group": "vault_good", "prob": 500 }, { "group": "vault_bad", "prob": 500 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "vault_good",
+    "//": "Useful or good stuff for bank vaults.",
     "items": [
-      { "group": "schematics", "prob": 5 },
-      [ "recipe_mil_augs", 5 ],
-      [ "recipe_caseless", 5 ],
-      [ "recipe_labchem", 5 ],
+      { "group": "bionics_bank_vault", "prob": 50 },
+      { "group": "guns_obscure", "prob": 20 },
+      { "group": "guns_bank_vault", "prob": 20 },
+      { "group": "antique_bank_vault", "prob": 20 },
+      { "group": "books_bank_vault", "prob": 20 },
+      { "group": "schematics", "prob": 10 },
+      [ "standard_template_construct", 8 ],
+      [ "bionic_scanner", 5 ],
+      [ "spiral_stone", 1 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "vault_bad",
+    "//": "Mostly worthless stuff for bank vaults.",
+    "items": [
+      { "group": "ammo_atomic_batteries", "prob": 10 },
       [ "file", 20 ],
       [ "platinum_small", 10 ],
       [ "gold_small", 10 ],
@@ -2087,10 +2105,6 @@
       [ "crown_golden", 5 ],
       [ "diamond_dental_grill", 5 ],
       [ "gold_dental_grill", 5 ],
-      [ "bio_time_freeze", 4 ],
-      [ "bio_teleport", 4 ],
-      [ "bio_probability_travel", 4 ],
-      [ "standard_template_construct", 4 ],
       [ "briefcase", 4 ],
       [ "small_relic", 3 ],
       [ "holy_symbol", 3 ],
@@ -2099,7 +2113,6 @@
       [ "coin_quarter", 2 ],
       [ "straw_doll", 2 ],
       [ "petrified_eye", 1 ],
-      [ "spiral_stone", 1 ],
       [ "etched_skull", 1 ]
     ]
   },

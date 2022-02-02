@@ -159,7 +159,7 @@
       { "item": "smokebomb" },
       { "item": "bot_manhack" },
       { "item": "bot_turret_light" },
-      { "item": "UPS_off" },
+      { "item": "heavy_battery_cell", "charges": [ 500, 1000 ], "container-item": "UPS_off" },
       { "item": "mininuke" }
     ]
   }

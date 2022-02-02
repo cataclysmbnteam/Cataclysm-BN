@@ -12,6 +12,7 @@
 
 #include "calendar.h"
 #include "color.h"
+#include "coordinates.h"
 #include "enums.h"
 #include "explosion.h"
 #include "game_constants.h"
@@ -467,8 +468,9 @@ class reveal_map_actor : public iuse_actor
          */
         std::string message;
 
-        void reveal_targets( const tripoint &center, const std::pair<std::string, ot_match_type> &target,
-                             int reveal_distance ) const;
+        void reveal_targets(
+            const tripoint_abs_omt &center, const std::pair<std::string, ot_match_type> &target,
+            int reveal_distance ) const;
 
         reveal_map_actor( const std::string &type = "reveal_map" ) : iuse_actor( type ) {}
 
@@ -1006,11 +1008,11 @@ class heal_actor : public iuse_actor
         std::set<std::string> used_up_item_flags;
 
         /** How much hp would `healer` heal using this actor on `healed` body part. */
-        int get_heal_value( const player &healer, hp_part healed ) const;
+        int get_heal_value( const Character &healer, hp_part healed ) const;
         /** How many intensity levels will be applied using this actor by `healer`. */
-        int get_bandaged_level( const player &healer ) const;
+        int get_bandaged_level( const Character &healer ) const;
         /** How many intensity levels will be applied using this actor by `healer`. */
-        int get_disinfected_level( const player &healer ) const;
+        int get_disinfected_level( const Character &healer ) const;
         /** Does the actual healing. Used by both long and short actions. Returns charges used. */
         int finish_using( player &healer, player &patient, item &it, hp_part healed ) const;
 

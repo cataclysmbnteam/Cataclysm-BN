@@ -30,12 +30,7 @@
     "subcategory": "CSC_ANIMALS_CANINE ARMOR",
     "time": "52 m 30 s",
     "using": [ [ "chainmail_standard", 5 ] ],
-    "components": [
-      [ [ "link_sheet", 5 ] ],
-      [ [ "chain_link", 131 ] ],
-      [ [ "wire", 1 ] ],
-      [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ]
-    ]
+    "components": [ [ [ "link_sheet", 5 ] ], [ [ "chain_link", 131 ] ], [ [ "wire", 1 ] ], [ [ "fur", 6 ], [ "leather", 6 ] ] ]
   },
   {
     "result": "leather_harness_dog",
@@ -61,7 +56,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 3 ] ],
     "using": [ [ "sewing_standard", 15 ] ],
-    "components": [ [ [ "leather", 6 ], [ "tanned_hide", 1 ] ] ]
+    "components": [ [ [ "leather", 6 ] ] ]
   },
   {
     "result": "leatherbone_harness_dog",
@@ -97,7 +92,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 3 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
-    "components": [ [ [ "bone", 13 ], [ "bone_human", 13 ], [ "bone_tainted", 25 ] ], [ [ "leather", 6 ], [ "tanned_hide", 1 ] ] ]
+    "components": [ [ [ "bone", 13 ], [ "bone_human", 13 ], [ "bone_tainted", 25 ] ], [ [ "leather", 6 ] ] ]
   },
   {
     "result": "rubber_harness_dog",

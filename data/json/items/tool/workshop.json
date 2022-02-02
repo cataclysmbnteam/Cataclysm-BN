@@ -40,7 +40,8 @@
     "symbol": "#",
     "color": "brown_yellow",
     "looks_like": "frame_wood_light",
-    "flags": [ "NONCONDUCTIVE" ]
+    "use_action": "DISASSEMBLE",
+    "flags": [ "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE" ]
   },
   {
     "id": "acetylene_machine",
@@ -85,7 +86,7 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": 2
+    "magazine_well": "500 ml"
   },
   {
     "id": "brick_kiln",
@@ -202,7 +203,7 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": 2
+    "magazine_well": "500 ml"
   },
   {
     "id": "cordless_drill",
@@ -228,7 +229,7 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": 2
+    "magazine_well": "500 ml"
   },
   {
     "id": "distaff_spindle",
@@ -458,7 +459,7 @@
     "magazines": [
       [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
     ],
-    "magazine_well": 4
+    "magazine_well": "1000 ml"
   },
   {
     "id": "large_repairkit",
@@ -496,7 +497,7 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": 2,
+    "magazine_well": "500 ml",
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -744,7 +745,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "primitive_hammer",
@@ -840,7 +841,7 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": 2,
+    "magazine_well": "500 ml",
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -886,7 +887,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "toolbox",
@@ -977,7 +978,7 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper", "silver", "gold" ],
+        "materials": [ "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper", "silver", "gold", "glass" ],
         "skill": "mechanics",
         "cost_scaling": 0.1,
         "move_cost": 1000
@@ -1024,7 +1025,7 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "iron", "steel", "hardsteel", "aluminum", "copper", "bronze", "silver", "gold", "platinum", "superalloy" ],
+        "materials": [ "iron", "steel", "hardsteel", "aluminum", "copper", "bronze", "silver", "gold", "platinum", "superalloy", "glass" ],
         "skill": "fabrication",
         "tool_quality": 10,
         "cost_scaling": 0.1,
@@ -1038,7 +1039,7 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": 2
+    "magazine_well": "500 ml"
   },
   {
     "id": "welder_crude",
@@ -1062,7 +1063,7 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "iron", "steel", "hardsteel", "aluminum", "copper", "bronze", "silver", "gold", "platinum", "superalloy" ],
+        "materials": [ "iron", "steel", "hardsteel", "aluminum", "copper", "bronze", "silver", "gold", "platinum", "superalloy", "glass" ],
         "skill": "fabrication",
         "tool_quality": 5,
         "cost_scaling": 0.1,
@@ -1127,7 +1128,7 @@
     "color": "light_gray",
     "techniques": "PRECISE",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 2 ] ],
-    "flags": [ "SPEAR" ]
+    "flags": [ "SPEAR", "SHEATH_KNIFE" ]
   },
   {
     "id": "wrench",

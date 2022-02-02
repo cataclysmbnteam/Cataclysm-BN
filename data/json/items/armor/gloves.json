@@ -48,7 +48,6 @@
   {
     "id": "chainmail_hands",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "pair of chainmail gloves", "str_pl": "pairs of chainmail gloves" },
     "description": "Customized chainmail gloves.  They fully enclose the fingers and provide excellent protection, but are somewhat cumbersome.",
     "weight": "2006 g",
@@ -69,7 +68,6 @@
     "id": "fire_gauntlets",
     "repairs_like": "gauntlets_larmor",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "pair of fire gauntlets", "str_pl": "pairs of fire gauntlets" },
     "description": "A heavy pair of gloves, used by firefighters and metalworkers for heat protection.  Highly resistant to heat and flame, they provide excellent protection from injury.",
     "weight": "572 g",
@@ -92,7 +90,6 @@
   {
     "id": "gauntlets_chitin",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "pair of chitinous gauntlets", "str_pl": "pairs of chitinous gauntlets" },
     "description": "Gauntlets made from the exoskeletons of insects.  Very light and durable.",
     "weight": "760 g",
@@ -101,7 +98,7 @@
     "price_postapoc": 1250,
     "to_hit": -2,
     "bashing": 2,
-    "material": [ "chitin" ],
+    "material": [ "chitin", "leather" ],
     "symbol": "[",
     "looks_like": "gauntlets_larmor",
     "color": "green",
@@ -109,7 +106,7 @@
     "coverage": 95,
     "encumbrance": 10,
     "warmth": 10,
-    "material_thickness": 3,
+    "material_thickness": 4,
     "environmental_protection": 4,
     "flags": [ "STURDY" ]
   },
@@ -120,7 +117,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of biosilicified chitin gauntlets", "str_pl": "pairs of biosilicified chitin gauntlets" },
     "description": "Gauntlets crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant and very durable.",
-    "material": [ "acidchitin" ],
+    "material": [ "acidchitin", "leather" ],
     "price_postapoc": 1750,
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
     "relative": { "bashing": 1, "material_thickness": 1 }
@@ -172,7 +169,6 @@
   {
     "id": "gauntlets_larmor",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "pair of leather armor gauntlets", "str_pl": "pairs of leather armor gauntlets" },
     "description": "Heavy fingerless leather gloves.  Very flexible and comfortable.",
     "weight": "350 g",
@@ -236,7 +232,6 @@
   {
     "id": "gloves_fingerless_mod",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "pair of armored fingerless gloves", "str_pl": "pairs of armored fingerless gloves" },
     "description": "A pair of leather gloves with no fingers, allowing greater manual dexterity.  These have been crudely reinforced with steel guards across the back.",
     "weight": "380 g",
@@ -258,7 +253,6 @@
   {
     "id": "gloves_fsurvivor",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "pair of survivor firegloves", "str_pl": "pairs of survivor firegloves" },
     "description": "A pair of customized, Kevlar armored Nomex gloves, modified to be easy to wear while providing maximum protection under extreme conditions.",
     "weight": "410 g",
@@ -301,7 +295,6 @@
   {
     "id": "gloves_hsurvivor",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "pair of heavy survivor gloves", "str_pl": "pairs of heavy survivor gloves" },
     "description": "A pair of heavily customized, steel-backed armored Kevlar gloves, modified to be easy to wear while providing maximum protection under extreme conditions.",
     "weight": "1344 g",
@@ -361,7 +354,7 @@
     "encumbrance": 10,
     "warmth": 25,
     "material_thickness": 1,
-    "valid_mods": [ "steel_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "WATERPROOF" ]
   },
   {
@@ -409,7 +402,6 @@
   {
     "id": "gloves_lsurvivor",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "pair of light survivor gloves", "str_pl": "pairs of light survivor gloves" },
     "description": "A pair of customized, Kevlar armored cloth gloves, modified to be easy to wear while providing maximum protection under extreme conditions.",
     "weight": "190 g",
@@ -433,7 +425,6 @@
     "id": "gloves_survivor_fingerless",
     "type": "ARMOR",
     "looks_like": "gloves_lsurvivor",
-    "category": "armor",
     "name": { "str": "pair of fingerless survivor gloves", "str_pl": "pairs of fingerless survivor gloves" },
     "description": "A pair of customized, Kevlar armored cloth gloves with no fingers, modified to be easy to wear while providing maximum protection under extreme conditions.",
     "weight": "160 g",
@@ -477,7 +468,6 @@
   {
     "id": "gloves_plate",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "pair of armored gauntlets", "str_pl": "pairs of armored gauntlets" },
     "description": "An extremely heavy set of armor-plated leather gloves.",
     "weight": "980 g",
@@ -524,7 +514,6 @@
   {
     "id": "gloves_survivor",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "pair of survivor gloves", "str_pl": "pairs of survivor gloves" },
     "description": "A pair of customized, Kevlar armored leather gloves, modified to be easy to wear while providing maximum protection under extreme conditions.",
     "weight": "230 g",
@@ -548,7 +537,6 @@
     "id": "gloves_tactical",
     "repairs_like": "gloves_survivor",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "pair of tactical gloves", "str_pl": "pairs of tactical gloves" },
     "description": "A pair of reinforced Kevlar tactical gloves.  Commonly used by police and military units.",
     "weight": "220 g",
@@ -739,7 +727,6 @@
   {
     "id": "gloves_wsurvivor",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "pair of winter survivor gloves", "str_pl": "pairs of winter survivor gloves" },
     "description": "A pair of customized, Kevlar armored fur gloves, modified to be easy to wear while providing maximum protection under extreme conditions.",
     "weight": "300 g",
@@ -762,7 +749,6 @@
   {
     "id": "gloves_xlsurvivor",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "pair of XL survivor gloves", "str_pl": "pairs of XL survivor gloves" },
     "description": "A massive pair of customized, Kevlar armored leather gloves, modified to be easy to wear while providing maximum protection under extreme conditions.",
     "weight": "480 g",

@@ -184,7 +184,6 @@
       { "item": "novel_swash", "prob": 14 },
       { "item": "novel_western", "prob": 22 },
       { "item": "novel_war", "prob": 20 },
-      { "item": "novel_war2", "prob": 20 },
       { "item": "novel_adventure", "prob": 14 },
       { "item": "novel_experimental", "prob": 1 },
       { "item": "novel_road", "prob": 10 },
@@ -197,9 +196,7 @@
       { "item": "novel_pulp", "prob": 16 },
       { "item": "novel_thriller", "prob": 18 },
       { "item": "novel_coa", "prob": 5 },
-      { "item": "novel_coa2", "prob": 5 },
       { "item": "novel_crime", "prob": 20 },
-      { "item": "novel_crime2", "prob": 20 },
       { "item": "novel_horror", "prob": 18 },
       { "item": "novel_tragedy", "prob": 8 },
       { "item": "survnote", "prob": 1 }
@@ -226,7 +223,6 @@
       { "item": "story_book", "prob": 4 },
       { "item": "fairy_tales", "prob": 10 },
       { "item": "novel_coa", "prob": 10 },
-      { "item": "novel_coa2", "prob": 10 },
       { "item": "child_book", "prob": 50 },
       { "item": "manual_dodge_kid", "prob": 20 },
       { "item": "mag_comic", "prob": 20 }

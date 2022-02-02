@@ -70,7 +70,7 @@
     "symbol": ";",
     "color": "brown",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 11 ] ],
-    "flags": [ "STAB" ]
+    "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
     "id": "primitive_knife",

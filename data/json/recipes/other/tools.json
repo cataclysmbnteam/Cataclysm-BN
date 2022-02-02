@@ -243,7 +243,7 @@
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "flashlight", 1 ] ],
+      [ [ "heavy_flashlight", 1 ] ],
       [ [ "amplifier", 1 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "wire", 2 ] ],
@@ -639,7 +639,7 @@
     "time": "2 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "tools": [ [ [ "spike", -1 ], [ "sharp_rock", -1 ], [ "rebar", -1 ], [ "spear_rebar", -1 ] ] ],
+    "tools": [ [ [ "nail", -1 ], [ "spike", -1 ], [ "sharp_rock", -1 ], [ "rebar", -1 ], [ "spear_rebar", -1 ] ] ],
     "components": [ [ [ "55gal_drum", 1 ] ] ]
   },
   {
@@ -652,7 +652,7 @@
     "time": "2 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "tools": [ [ [ "spike", -1 ], [ "sharp_rock", -1 ], [ "rebar", -1 ], [ "spear_rebar", -1 ] ] ],
+    "tools": [ [ [ "nail", -1 ], [ "spike", -1 ], [ "sharp_rock", -1 ], [ "rebar", -1 ], [ "spear_rebar", -1 ] ] ],
     "components": [ [ [ "30gal_drum", 1 ] ] ]
   },
   {
@@ -752,21 +752,11 @@
     "result": "pipe_cleaner",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "mechanics",
+    "skill_used": "fabrication",
     "difficulty": 1,
     "time": "2 m",
-    "reversible": true,
-    "book_learn": [
-      [ "manual_shotgun", 0 ],
-      [ "manual_rifle", 0 ],
-      [ "manual_smg", 0 ],
-      [ "manual_pistol", 0 ],
-      [ "recipe_bullets", 0 ],
-      [ "textbook_mechanics", 1 ],
-      [ "mag_mechanics", 2 ],
-      [ "mag_rifle", 2 ]
-    ],
-    "components": [ [ [ "wire", 2 ], [ "cable", 2 ] ] ]
+    "autolearn": true,
+    "components": [ [ [ "wire", 2 ], [ "cable", 2 ] ], [ [ "rag", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1766,7 +1756,7 @@
     "time": "30 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 60 ] ],
-    "components": [ [ [ "leather", 4 ], [ "tanned_hide", 1 ], [ "fur", 4 ], [ "tanned_pelt", 1 ] ] ]
+    "components": [ [ [ "leather", 4 ], [ "fur", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -1982,17 +1972,11 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
-    "difficulty": 4,
-    "time": "30 m",
+    "difficulty": 3,
+    "time": "60 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_fabrication", 2 ], [ "textbook_mechanics", 3 ] ],
-    "qualities": [
-      { "id": "ANVIL", "level": 1 },
-      { "id": "HAMMER", "level": 3 },
-      { "id": "SAW_M", "level": 1 },
-      { "id": "DRILL", "level": 1 },
-      { "id": "SCREW", "level": 1 }
-    ],
+    "book_learn": [ [ "textbook_fabrication", 1 ], [ "textbook_mechanics", 2 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "components": [
       [ [ "scrap", 6 ] ],
       [ [ "pipe", 12 ], [ "cu_pipe", 12 ], [ "frame", 2 ] ],
@@ -2417,7 +2401,7 @@
     "time": "3 h",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "sewing_standard", 100 ], [ "cordage", 2 ] ],
-    "components": [ [ [ "leather", 30 ], [ "tanned_hide", 5 ], [ "fur", 30 ], [ "tanned_pelt", 5 ] ], [ [ "wire", 2 ] ] ]
+    "components": [ [ [ "leather", 30 ], [ "fur", 30 ] ], [ [ "wire", 2 ] ] ]
   },
   {
     "result": "jack",
@@ -2550,8 +2534,9 @@
     "time": "5 m",
     "autolearn": true,
     "book_learn": [ [ "mag_survival", 2 ], [ "textbook_survival", 1 ], [ "cookbook", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "can_food_unsealed", 2 ], [ "scrap", 4 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "tools": [ [ [ "nail", -1 ], [ "spike", -1 ], [ "sharp_rock", -1 ], [ "rebar", -1 ], [ "spear_rebar", -1 ] ] ],
+    "components": [ [ [ "can_medium_unsealed", 1 ] ], [ [ "scrap", 3 ] ] ]
   },
   {
     "type": "recipe",

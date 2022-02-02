@@ -4,7 +4,7 @@
     "id": "dda",
     "name": "Bright Nights",
     "description": "Core content for Cataclysm-BN",
-    "category": "content",
+    "category": "core",
     "core": true,
     "path": "../../json",
     "legacy": "../../legacy"

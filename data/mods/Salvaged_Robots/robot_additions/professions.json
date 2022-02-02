@@ -19,9 +19,9 @@
           "broken_skitterbot",
           "bot_manhack",
           "electrohack",
-          "laptop"
-        ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+          "laptop",
+          "smart_phone"
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]

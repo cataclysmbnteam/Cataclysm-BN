@@ -7,6 +7,7 @@
 #include <memory>
 #include <string>
 
+#include "coordinates.h"
 #include "point.h"
 
 class submap;
@@ -53,6 +54,9 @@ class mapbuffer
          * submap object, don't delete it on your own.
          */
         submap *lookup_submap( const tripoint &p );
+        submap *lookup_submap( const tripoint_abs_sm &p ) {
+            return lookup_submap( p.raw() );
+        }
 
     private:
         using submap_map_t = std::map<tripoint, submap *>;
@@ -63,6 +67,10 @@ class mapbuffer
         }
         inline submap_map_t::iterator end() {
             return submaps.end();
+        }
+
+        bool is_submap_loaded( const tripoint &p ) const {
+            return submaps.count( p ) > 0;
         }
 
     private:

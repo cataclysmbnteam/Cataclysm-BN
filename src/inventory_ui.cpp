@@ -1226,8 +1226,8 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
     }
     vehicle *const veh = &vp->vehicle();
     const int part = vp->part_index();
-    const auto items = veh->get_items( part );
-    const std::string name = to_upper_case( remove_color_tags( veh->parts[part].name() ) );
+    vehicle_stack items = veh->get_items( part );
+    const std::string name = to_upper_case( remove_color_tags( veh->part( part ).name() ) );
     const item_category vehicle_cat( name, no_translation( name ), 200 );
 
     const auto check_components = this->preset.get_checking_components();
@@ -1240,7 +1240,7 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
 void inventory_selector::add_nearby_items( int radius )
 {
     if( radius >= 0 ) {
-        for( const tripoint &pos : closest_tripoints_first( u.pos(), radius ) ) {
+        for( const tripoint &pos : closest_points_first( u.pos(), radius ) ) {
             // can not reach this -> can not access its contents
             if( u.pos() != pos && !g->m.clear_path( u.pos(), pos, rl_dist( u.pos(), pos ), 1, 100 ) ) {
                 continue;
@@ -1392,7 +1392,7 @@ size_t inventory_selector::get_layout_height() const
 
 size_t inventory_selector::get_header_height() const
 {
-    return display_stats || !hint.empty() ? 2 : 1;
+    return display_stats || !hint.empty() ? 3 : 1;
 }
 
 size_t inventory_selector::get_header_min_width() const
@@ -1428,7 +1428,7 @@ size_t inventory_selector::get_footer_min_width() const
 void inventory_selector::draw_header( const catacurses::window &w ) const
 {
     trim_and_print( w, point( border + 1, border ), getmaxx( w ) - 2 * ( border + 1 ), c_white, title );
-    trim_and_print( w, point( border + 1, border + 1 ), getmaxx( w ) - 2 * ( border + 1 ), c_dark_gray,
+    fold_and_print( w, point( border + 1, border + 1 ), getmaxx( w ) - 2 * ( border + 1 ), c_dark_gray,
                     hint );
 
     mvwhline( w, point( border, border + get_header_height() ), LINE_OXOX, getmaxx( w ) - 2 * border );
@@ -1887,6 +1887,16 @@ std::string inventory_selector::action_bound_to_key( char key ) const
         }
     }
     return std::string();
+}
+
+std::vector<char> inventory_selector::all_bound_keys() const
+{
+    std::vector<char> retv;
+    for( const std::string &action_descriptor : ctxt.get_registered_actions_copy() ) {
+        std::vector<char> to_add = ctxt.keys_bound_to( action_descriptor );
+        retv.insert( retv.end(), to_add.begin(), to_add.end() );
+    }
+    return retv;
 }
 
 item_location inventory_pick_selector::execute()

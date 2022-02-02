@@ -191,6 +191,21 @@ void translation::make_plural()
     cached_translation = nullptr;
 }
 
+void translation::add_context( const std::string &ctxt )
+{
+    if( this->ctxt ) {
+        // if context already exists, add to it
+        std::string &ctxt_this = *this->ctxt;
+        ctxt_this += "|";
+        ctxt_this += ctxt;
+    } else {
+        this->ctxt = cata::make_value<std::string>( ctxt );
+    }
+    // reset the cache
+    cached_language_version = INVALID_LANGUAGE_VERSION;
+    cached_translation = nullptr;
+}
+
 void translation::deserialize( JsonIn &jsin )
 {
     // reset the cache

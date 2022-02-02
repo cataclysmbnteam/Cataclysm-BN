@@ -22,7 +22,7 @@
     "dispersion": 220,
     "durability": 9,
     "barrel_length": "250 ml",
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "5 rd.", 5 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi", 1 ], [ "BURST", "5 rd.", 5 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "barrel", 1 ],
@@ -36,7 +36,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazine_well": 1,
+    "magazine_well": "250 ml",
     "magazines": [ [ "5x50", [ "5x50_100_mag", "5x50_50_mag" ] ] ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
   },
@@ -60,7 +60,7 @@
     "skill": "pistol",
     "dispersion": 280,
     "durability": 9,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "2 rd.", 2 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi", 1 ], [ "BURST", "2 rd.", 2 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "brass catcher", 1 ],
@@ -72,7 +72,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazine_well": 1,
+    "magazine_well": "250 ml",
     "magazines": [ [ "5x50", [ "5x50_50_mag", "5x50_100_mag" ] ] ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
   }

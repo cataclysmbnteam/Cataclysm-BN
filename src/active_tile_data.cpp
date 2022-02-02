@@ -1,4 +1,6 @@
 #include "active_tile_data.h"
+#include "active_tile_data_def.h"
+
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "distribution_grid.h"
@@ -24,15 +26,17 @@ namespace active_tiles
 {
 
 template<typename T>
-T *furn_at( const tripoint &p )
+T *furn_at( const tripoint_abs_ms &p )
 {
-    tripoint xy_offset = p;
-    // TODO: A "ms_to_sm" with explicit offset result
-    submap *sm = MAPBUFFER.lookup_submap( ms_to_sm_remain( xy_offset ) );
+    tripoint_abs_sm p_abs_sm;
+    point_sm_ms p_within_sm;
+    std::tie( p_abs_sm, p_within_sm ) = project_remain<coords::sm>( p );
+
+    submap *sm = MAPBUFFER.lookup_submap( p_abs_sm );
     if( sm == nullptr ) {
         return nullptr;
     }
-    auto iter = sm->active_furniture.find( xy_offset.xy() );
+    auto iter = sm->active_furniture.find( p_within_sm );
     if( iter == sm->active_furniture.end() ) {
         return nullptr;
     }
@@ -40,9 +44,27 @@ T *furn_at( const tripoint &p )
     return dynamic_cast<T *>( &*iter->second );
 }
 
-template active_tile_data *furn_at<active_tile_data>( const tripoint & );
-template vehicle_connector_tile *furn_at<vehicle_connector_tile>( const tripoint & );
-template battery_tile *furn_at<battery_tile>( const tripoint & );
+template active_tile_data *furn_at<active_tile_data>( const tripoint_abs_ms & );
+template vehicle_connector_tile *furn_at<vehicle_connector_tile>( const tripoint_abs_ms & );
+template battery_tile *furn_at<battery_tile>( const tripoint_abs_ms & );
+template steady_consumer_tile *furn_at<steady_consumer_tile>( const tripoint_abs_ms & );
+template charge_watcher_tile *furn_at<charge_watcher_tile>( const tripoint_abs_ms & );
+
+void furn_transform::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "id", id );
+    jsout.member( "msg", msg );
+    jsout.end_object();
+}
+
+void furn_transform::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+
+    jo.read( "id", id );
+    jo.read( "msg", msg );
+}
 
 } // namespace active_tiles
 
@@ -63,7 +85,7 @@ void active_tile_data::deserialize( JsonIn &jsin )
 
 class null_tile_data : public active_tile_data
 {
-        void update_internal( time_point, const tripoint &, distribution_grid & ) override
+        void update_internal( time_point, const tripoint_abs_ms &, distribution_grid & ) override
         {}
         active_tile_data *clone() const override {
             return new null_tile_data( *this );
@@ -88,7 +110,7 @@ inline int ticks_between( const time_point &from, const time_point &to,
             ( from ) / to_turns<int>( tick_length ) );
 }
 
-void solar_tile::update_internal( time_point to, const tripoint &p, distribution_grid &grid )
+void solar_tile::update_internal( time_point to, const tripoint_abs_ms &p, distribution_grid &grid )
 {
     constexpr time_point zero = time_point::from_turn( 0 );
     constexpr time_duration tick_length = 10_minutes;
@@ -107,7 +129,7 @@ void solar_tile::update_internal( time_point to, const tripoint &p, distribution
 
     // TODO: Use something that doesn't calc a ton of worthless crap
     float sunlight = sum_conditions( zero + rounded_then, zero + rounded_now,
-                                     p ).sunlight / default_daylight_level();
+                                     p.raw() ).sunlight / default_daylight_level();
     // int64 because we can have years in here
     std::int64_t produced = power * static_cast<std::int64_t>( sunlight ) / 1000;
     grid.mod_resource( static_cast<int>( std::min( static_cast<std::int64_t>( INT_MAX ), produced ) ) );
@@ -140,7 +162,7 @@ void solar_tile::load( JsonObject &jo )
 
 }
 
-void battery_tile::update_internal( time_point, const tripoint &, distribution_grid & )
+void battery_tile::update_internal( time_point, const tripoint_abs_ms &, distribution_grid & )
 {
     // TODO: Shouldn't have this function!
 }
@@ -188,17 +210,53 @@ int battery_tile::mod_resource( int amt )
     }
 }
 
-void charger_tile::update_internal( time_point to, const tripoint &p, distribution_grid &grid )
+void charge_watcher_tile::update_internal( time_point /*to*/, const tripoint_abs_ms &p,
+        distribution_grid &grid )
 {
-    tripoint loc_on_sm = p;
-    const tripoint sm_pos = ms_to_sm_remain( loc_on_sm );
-    submap *sm = MAPBUFFER.lookup_submap( sm_pos );
+    int amt_stored = grid.get_resource();
+
+    if( amt_stored >= min_power ) {
+        get_distribution_grid_tracker().get_transform_queue().add( p, transform.id, transform.msg );
+    }
+}
+
+active_tile_data *charge_watcher_tile::clone() const
+{
+    return new charge_watcher_tile( *this );
+}
+
+const std::string &charge_watcher_tile::get_type() const
+{
+    static const std::string type( "charge_watcher" );
+    return type;
+}
+
+void charge_watcher_tile::store( JsonOut &jsout ) const
+{
+    jsout.member( "min_power", min_power );
+    jsout.member( "transform", transform );
+}
+
+void charge_watcher_tile::load( JsonObject &jo )
+{
+    jo.read( "min_power", min_power );
+    jo.read( "transform", transform );
+}
+
+void charger_tile::update_internal( time_point to, const tripoint_abs_ms &p,
+                                    distribution_grid &grid )
+{
+    tripoint_abs_sm p_abs_sm;
+    point_sm_ms p_within_sm;
+    std::tie( p_abs_sm, p_within_sm ) = project_remain<coords::sm>( p );
+
+    submap *sm = MAPBUFFER.lookup_submap( p_abs_sm );
     if( sm == nullptr ) {
         return;
     }
     std::int64_t power = this->power * to_seconds<std::int64_t>( to - get_last_updated() );
     // TODO: Make not a copy from map.cpp
-    for( item &outer : sm->get_items( loc_on_sm.xy() ) ) {
+    for( item &outer : sm->get_items( p_within_sm.raw() ) ) {
         outer.visit_items( [&power, &grid]( item * it ) {
             item &n = *it;
             if( !n.has_flag( flag_RECHARGE ) && !n.has_flag( flag_USE_UPS ) ) {
@@ -246,7 +304,55 @@ void charger_tile::load( JsonObject &jo )
     jo.read( "power", power );
 }
 
-void vehicle_connector_tile::update_internal( time_point, const tripoint &, distribution_grid & )
+void steady_consumer_tile::update_internal( time_point to, const tripoint_abs_ms &p,
+        distribution_grid &grid )
+{
+    int ticks = ticks_between( get_last_updated(), to, consume_every );
+    if( ticks == 0 ) {
+        return;
+    }
+
+    std::int64_t power = this->power * ticks;
+    int missing = grid.mod_resource( -power );
+
+    if( missing == 0 ) {
+        return;
+    }
+
+    if( transform.id.is_null() ) {
+        return;
+    }
+
+    get_distribution_grid_tracker().get_transform_queue().add( p, transform.id, transform.msg );
+}
+
+active_tile_data *steady_consumer_tile::clone() const
+{
+    return new steady_consumer_tile( *this );
+}
+
+const std::string &steady_consumer_tile::get_type() const
+{
+    static const std::string type( "steady_consumer" );
+    return type;
+}
+
+void steady_consumer_tile::store( JsonOut &jsout ) const
+{
+    jsout.member( "power", power );
+    jsout.member( "consume_every", consume_every );
+    jsout.member( "transform", transform );
+}
+
+void steady_consumer_tile::load( JsonObject &jo )
+{
+    jo.read( "power", power );
+    jo.read( "consume_every", consume_every );
+    jo.read( "transform", transform );
+}
+
+void vehicle_connector_tile::update_internal( time_point, const tripoint_abs_ms &,
+        distribution_grid & )
 {
 }
 
@@ -277,9 +383,11 @@ static std::map<std::string, std::unique_ptr<active_tile_data>> build_type_map()
     const auto add_type = [&type_map]( active_tile_data * arg ) {
         type_map[arg->get_type()].reset( arg );
     };
-    add_type( new solar_tile() );
     add_type( new battery_tile() );
+    add_type( new charge_watcher_tile() );
     add_type( new charger_tile() );
+    add_type( new solar_tile() );
+    add_type( new steady_consumer_tile() );
     add_type( new vehicle_connector_tile() );
     return type_map;
 }

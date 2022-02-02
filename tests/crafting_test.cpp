@@ -593,15 +593,16 @@ TEST_CASE( "debug hammerspace", "[crafting]" )
 
 TEST_CASE( "oven electric grid", "[crafting][overmap][grids][slow]" )
 {
-    map &m = g->m;
+    map &m = get_map();
+    avatar &u = get_avatar();
     constexpr tripoint start_pos = tripoint( 60, 60, 0 );
-    const tripoint start_pos_abs = m.getabs( start_pos );
-    g->u.setpos( start_pos );
+    const tripoint_abs_ms start_pos_abs( m.getabs( start_pos ) );
+    u.setpos( start_pos );
     clear_avatar();
     clear_map();
     GIVEN( "player is near an oven on an electric grid with a battery on it" ) {
         // TODO: clear_grids()
-        auto om = overmap_buffer.get_om_global( sm_to_omt_copy( m.getabs( g->u.pos() ) ) );
+        auto om = overmap_buffer.get_om_global( u.global_omt_location() );
         om.om->set_electric_grid_connections( om.local, {} );
 
         m.furn_set( start_pos + point( 10, 0 ), furn_str_id( "f_battery" ) );
@@ -617,23 +618,51 @@ TEST_CASE( "oven electric grid", "[crafting][overmap][grids][slow]" )
             grid.mod_resource( 10 );
             REQUIRE( grid.get_resource() == 10 );
             AND_WHEN( "crafting inventory is built" ) {
-                g->u.invalidate_crafting_inventory();
-                const inventory &crafting_inv = g->u.crafting_inventory();
+                u.invalidate_crafting_inventory();
+                const inventory &crafting_inv = u.crafting_inventory();
                 THEN( "it contains an oven item with 10 charges" ) {
                     REQUIRE( crafting_inv.has_charges( itype_id( "fake_oven" ), 10 ) );
                 }
             }
 
-            AND_WHEN( "the player is near a pot and a bottle of water" ) {
-                g->u.invalidate_crafting_inventory();
-                g->m.add_item( g->u.pos(), item( "pot" ) );
-                g->m.add_item( g->u.pos(), item( "water" ).in_its_container() );
-                THEN( "clean water can be crafted" ) {
-                    const recipe &r = *recipe_id( "water_clean" );
-                    const inventory &crafting_inv = g->u.crafting_inventory();
-                    bool can_craft = r.deduped_requirements().can_make_with_inventory(
-                                         crafting_inv, r.get_component_filter() );
+            // Massive ladder of when/then
+            // Any way to clean it up without re-running the slow test for every check?
+            AND_WHEN( "the player is near a pot and a chunk of meat" ) {
+                u.invalidate_crafting_inventory();
+                m.add_item( u.pos(), item( "pot" ) );
+                m.add_item( u.pos(), item( "meat" ) );
+                THEN( "cooked meat can be crafted" ) {
+                    const recipe &r = *recipe_id( "meat_cooked" );
+                    const inventory &crafting_inv = u.crafting_inventory();
+                    const deduped_requirement_data &ddrd = r.deduped_requirements();
+                    bool can_craft = ddrd.can_make_with_inventory( crafting_inv, r.get_component_filter() );
                     REQUIRE( can_craft );
+                    AND_THEN( "there is only one possible tool/component selection" ) {
+                        const auto filter = r.get_component_filter();
+                        const auto tool_options = ddrd.feasible_alternatives(
+                                                      u.crafting_inventory(), filter, 1, cost_adjustment::start_only );
+                        REQUIRE( tool_options.size() == 1u );
+                        AND_WHEN( "the player crafts cooked meat" ) {
+                            u.make_craft( r.ident(), 1 );
+                            REQUIRE( u.activity.id() == activity_id( "ACT_CRAFT" ) );
+                            // TODO: Nice way to finish a craft job
+                            for( size_t i = 0; i < 10000; i++ ) {
+                                u.set_moves( 100000 );
+                                u.activity.do_turn( u );
+                                if( u.activity.id() == activity_id::NULL_ID() ) {
+                                    break;
+                                }
+                            }
+                            REQUIRE( u.activity.id() == activity_id::NULL_ID() );
+                            THEN( "the crafting inventory now contains cooked meat" ) {
+                                u.invalidate_crafting_inventory();
+                                CHECK( u.crafting_inventory().has_amount( itype_id( "meat_cooked" ), 1 ) );
+                                AND_THEN( "the grid contains less than 10 power" ) {
+                                    CHECK( grid.get_resource() < 10 );
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

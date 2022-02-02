@@ -21,7 +21,7 @@
     "time": "35 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 10 ] ],
-    "components": [ [ [ "leather", 10 ], [ "tanned_hide", 2 ] ] ]
+    "components": [ [ [ "leather", 10 ] ] ]
   },
   {
     "result": "boots_chitin",
@@ -32,8 +32,9 @@
     "difficulty": 4,
     "time": "40 m",
     "autolearn": true,
+    "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
     "using": [ [ "cordage", 1 ] ],
-    "components": [ [ [ "chitin_piece", 20 ] ], [ [ "leather", 4 ], [ "fur", 4 ], [ "rag", 4 ] ] ]
+    "components": [ [ [ "chitin_piece", 16 ] ], [ [ "leather", 16 ] ] ]
   },
   {
     "result": "boots_acidchitin",
@@ -42,12 +43,12 @@
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
     "difficulty": 5,
-    "skills_required": [ [ "survival", 4 ], [ "firstaid", 2 ] ],
     "time": "1 h 20 m",
     "autolearn": true,
+    "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
     "using": [ [ "cordage", 1 ] ],
     "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "acidchitin_piece", 20 ] ], [ [ "leather", 4 ], [ "fur", 4 ], [ "rag", 4 ] ] ]
+    "components": [ [ [ "acidchitin_piece", 16 ] ], [ [ "leather", 16 ] ] ]
   },
   {
     "result": "boots_fsurvivor",
@@ -81,7 +82,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_survival", 1 ] ],
     "using": [ [ "sewing_standard", 13 ] ],
-    "components": [ [ [ "leather", 7 ], [ "tanned_hide", 1 ] ], [ [ "fur", 7 ], [ "tanned_pelt", 1 ] ] ]
+    "components": [ [ [ "leather", 7 ] ], [ [ "fur", 7 ] ] ]
   },
   {
     "result": "boots_h20survivor",
@@ -134,7 +135,7 @@
     "time": "40 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 24 ] ],
-    "components": [ [ [ "leather", 18 ], [ "tanned_hide", 3 ], [ "fur", 18 ], [ "tanned_pelt", 3 ] ] ]
+    "components": [ [ [ "leather", 18 ], [ "fur", 18 ] ] ]
   },
   {
     "result": "boots_lsurvivor",
@@ -167,7 +168,7 @@
     "using": [ [ "blacksmithing_standard", 32 ], [ "steel_standard", 8 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "fur", 16 ], [ "tanned_pelt", 3 ], [ "leather", 16 ], [ "tanned_hide", 3 ] ] ]
+    "components": [ [ [ "fur", 16 ], [ "leather", 16 ] ] ]
   },
   {
     "result": "boots_scrap",
@@ -197,7 +198,7 @@
     "using": [ [ "sewing_standard", 80 ] ],
     "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
     "components": [
-      [ [ "leather", 8 ], [ "tanned_hide", 2 ] ],
+      [ [ "leather", 8 ] ],
       [ [ "kevlar_plate", 4 ] ],
       [ [ "duct_tape", 100 ] ],
       [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
@@ -213,7 +214,7 @@
     "time": "35 m",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 5 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
-    "components": [ [ [ "leather", 12 ], [ "tanned_hide", 2 ] ] ]
+    "components": [ [ [ "leather", 12 ] ] ]
   },
   {
     "result": "boots_winter",
@@ -240,7 +241,7 @@
     "using": [ [ "sewing_standard", 80 ] ],
     "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
     "components": [
-      [ [ "fur", 12 ], [ "tanned_pelt", 2 ] ],
+      [ [ "fur", 12 ] ],
       [ [ "kevlar_plate", 4 ] ],
       [ [ "duct_tape", 100 ] ],
       [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
@@ -259,7 +260,7 @@
     "using": [ [ "sewing_standard", 160 ] ],
     "tools": [ [ [ "welder", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ] ],
     "components": [
-      [ [ "leather", 24 ], [ "tanned_hide", 4 ] ],
+      [ [ "leather", 24 ] ],
       [ [ "rag", 6 ] ],
       [ [ "scrap", 4 ] ],
       [ [ "boots_combat", 2 ], [ "kevlar_plate", 10 ] ],
@@ -465,6 +466,7 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "28 m",
+    "reversible": true,
     "autolearn": true,
     "components": [ [ [ "straw_pile", 4 ], [ "birchbark", 6 ] ] ]
   },

@@ -90,7 +90,7 @@
     "encumbrance": 35,
     "warmth": 10,
     "material_thickness": 3,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "flags": [ "BELTED", "WATER_FRIENDLY", "NO_SALVAGE" ],
     "use_action": { "type": "unpack", "group": "gobag_contents", "filthy_volume_threshold": "10 L" }
   },
   {
@@ -139,7 +139,7 @@
   {
     "id": "miner_hat",
     "type": "TOOL_ARMOR",
-    "category": "armor",
+    "category": "clothing",
     "symbol": "[",
     "color": "yellow",
     "name": { "str": "mining helmet" },
@@ -181,7 +181,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "miner_hat_on",
@@ -190,13 +190,13 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "mining helmet (on)", "str_pl": "mining helmets (on)" },
     "description": "This is a mining helmet with a heavy-duty LED flashlight.  The flashlight is turned on, and continually draining its batteries.  Use it to turn it off.",
-    "flags": [ "LIGHT_450", "CHARGEDIM", "WATERPROOF", "TRADER_AVOID" ],
+    "flags": [ "LIGHT_500", "WATERPROOF", "TRADER_AVOID" ],
     "power_draw": 15000,
     "revert_to": "miner_hat",
     "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "The %s flicks off.", "target": "miner_hat" },
     "covers": [ "head" ],
     "techniques": [ "WBLOCK_1" ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "welding_mask",
@@ -300,11 +300,11 @@
   },
   {
     "type": "TOOL_ARMOR",
-    "id": "game_watch",
-    "name": { "str": "game watch", "str_pl": "game watches" },
     "category": "clothing",
+    "id": "game_watch",
+    "name": { "str": "smart watch", "str_pl": "smart watches" },
     "volume": "250 ml",
-    "description": "A waterproof digital watch with a built-in electronic game system, powered by standard batteries.  Activate to play.",
+    "description": "A waterproof smart watch, powered by UPS.  It has reliable weather data from its build-in sensors and some pre-installed apps.  Activate to use.",
     "weight": "112 g",
     "to_hit": -1,
     "color": "light_gray",
@@ -312,17 +312,33 @@
     "price": 6000,
     "price_postapoc": 100,
     "material": [ "plastic" ],
-    "flags": [ "WATCH", "WATER_FRIENDLY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
+    "flags": [
+      "WATCH",
+      "ALARMCLOCK",
+      "WATER_FRIENDLY",
+      "BELTED",
+      "FRAGILE",
+      "ALLOWS_NATURAL_ATTACKS",
+      "OVERSIZE",
+      "THERMOMETER",
+      "BAROMETER",
+      "HYGROMETER",
+      "USE_UPS",
+      "NO_UNLOAD",
+      "NO_RELOAD"
+    ],
     "coverage": 15,
     "symbol": "[",
     "ammo": "battery",
+    "initial_charges": 80,
+    "max_charges": 120,
     "charges_per_use": 1,
-    "use_action": "PORTABLE_GAME",
-    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ] ] ]
+    "use_action": [ "PORTABLE_GAME", "WEATHER_TOOL" ]
   },
   {
     "id": "holo_cloak",
     "type": "TOOL_ARMOR",
+    "category": "clothing",
     "name": { "str": "hologram cloak" },
     "description": "A cloak woven with metallic fibers and covered with hexagonal sheets of reflective carbide.  When activated, it will create a holographic decoy of its wearer.",
     "weight": "1552 g",
@@ -410,7 +426,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "thermal_socks_on",
@@ -424,7 +440,7 @@
     "revert_to": "thermal_socks",
     "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "Your %s deactivates.", "target": "thermal_socks" },
     "warmth": 60,
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "thermal_suit",
@@ -468,7 +484,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "thermal_suit_on",
@@ -482,7 +498,7 @@
     "revert_to": "thermal_suit",
     "warmth": 60,
     "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "Your %s deactivates.", "target": "thermal_suit" },
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "thermal_gloves",
@@ -526,7 +542,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "thermal_gloves_on",
@@ -540,7 +556,7 @@
     "revert_to": "thermal_gloves",
     "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "Your %s deactivates.", "target": "thermal_gloves" },
     "warmth": 60,
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "thermal_mask",
@@ -584,7 +600,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "thermal_mask_on",
@@ -598,12 +614,12 @@
     "revert_to": "thermal_mask",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "thermal_mask" },
     "warmth": 60,
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "binoculars",
     "type": "TOOL_ARMOR",
-    "category": "clothing",
+    "category": "tools",
     "symbol": ";",
     "color": "dark_gray",
     "name": { "str": "pair of binoculars", "str_pl": "pairs of binoculars" },
@@ -664,7 +680,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "wearable_light_on",
@@ -673,12 +689,12 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "headlamp (on)", "str_pl": "headlamps (on)" },
     "description": "This is an LED headlamp with an adjustable strap so as to be comfortably worn on your head or attached to your helmet.  It is turned on, and continually draining batteries.  Use it to turn it off.",
-    "flags": [ "LIGHT_300", "CHARGEDIM", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "TRADER_AVOID" ],
+    "flags": [ "LIGHT_300", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "TRADER_AVOID" ],
     "power_draw": 10000,
     "revert_to": "wearable_light",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "wearable_light" },
     "covers": [ "head" ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "survivor_light",
@@ -687,13 +703,13 @@
     "symbol": "[",
     "color": "blue",
     "name": { "str": "survivor headlamp" },
-    "description": "This is a custom-made LED headlamp reinforced to be more durable, brighter, and with a larger and more efficient battery pack.  The adjustable strap allows it to be comfortably worn on your head or attached to your helmet.  Use it to turn it on.",
+    "description": "This is a custom-made LED headlamp reinforced to be more durable and with a more efficient battery pack.  The adjustable strap allows it to be comfortably worn on your head or attached to your helmet.  Use it to turn it on.",
     "price": 6500,
     "price_postapoc": 250,
     "material": [ "plastic", "aluminum" ],
-    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
-    "weight": "620 g",
-    "volume": "500 ml",
+    "flags": [ "OVERSIZE", "BELTED", "DURABLE_MELEE", "ALLOWS_NATURAL_ATTACKS" ],
+    "weight": "820 g",
+    "volume": "750 ml",
     "bashing": 1,
     "charges_per_use": 1,
     "ammo": "battery",
@@ -722,7 +738,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "survivor_light_on",
@@ -730,13 +746,13 @@
     "repairs_like": "survivor_light",
     "type": "TOOL_ARMOR",
     "name": { "str": "survivor headlamp (on)", "str_pl": "survivor headlamps (on)" },
-    "description": "This is a custom-made LED headlamp reinforced to be more durable, brighter, and with a larger and more efficient battery pack.  The adjustable strap allows it to be comfortably worn on your head or attached to your helmet.  It is turned on, and continually draining batteries.  Use it to turn it off.",
-    "flags": [ "LIGHT_350", "CHARGEDIM", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
-    "power_draw": 10000,
+    "description": "This is a custom-made LED headlamp reinforced to be more durable, and with a more efficient battery pack.  The adjustable strap allows it to be comfortably worn on your head or attached to your helmet.  It is turned on, and continually draining batteries.  Use it to turn it off.",
+    "flags": [ "LIGHT_500", "OVERSIZE", "BELTED", "DURABLE_MELEE", "ALLOWS_NATURAL_ATTACKS" ],
+    "power_draw": 12500,
     "revert_to": "survivor_light",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "survivor_light" },
     "covers": [ "head" ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "wearable_atomic_light",
@@ -785,7 +801,7 @@
   {
     "id": "rm13_armor",
     "type": "TOOL_ARMOR",
-    "category": "armor",
+    "category": "clothing",
     "symbol": "[",
     "color": "dark_gray",
     "name": { "str": "RM13 combat armor" },
@@ -1071,6 +1087,7 @@
   {
     "id": "mask_filter",
     "type": "TOOL_ARMOR",
+    "category": "clothing",
     "name": { "str": "filter mask" },
     "description": "A mask that straps over your mouth and nose and filters air.  Protects from smoke, dust, and other contaminants quite well.  It must be prepared before use.",
     "flags": [ "SLEEP_IGNORE" ],
@@ -1097,8 +1114,8 @@
   {
     "id": "mask_gas",
     "type": "TOOL_ARMOR",
-    "name": { "str": "gas mask" },
     "category": "clothing",
+    "name": { "str": "gas mask" },
     "description": "A full gas mask that covers the face and eyes.  Provides excellent protection from smoke, teargas, and other contaminants.  It must be prepared before use.",
     "flags": [ "SLEEP_IGNORE" ],
     "weight": "897 g",
@@ -1124,8 +1141,8 @@
   {
     "id": "mask_gas_xl",
     "type": "TOOL_ARMOR",
-    "name": { "str": "XL gas mask" },
     "category": "clothing",
+    "name": { "str": "XL gas mask" },
     "description": "A rather roomy mask with filters attached, designed to accommodate exotic anatomy.  Provides excellent protection from smoke, teargas, and other contaminants.  It must be prepared before use.",
     "weight": "1397 g",
     "volume": "1500 ml",
@@ -1151,7 +1168,7 @@
   {
     "id": "mask_fsurvivor",
     "type": "TOOL_ARMOR",
-    "category": "armor",
+    "category": "clothing",
     "name": { "str": "survivor firemask" },
     "description": "A custom-built, Nomex-insulated gas mask that covers the face and eyes.  It provides excellent protection from heat, smoke, teargas, and shrapnel.  It must be prepared before use.",
     "weight": "708 g",
@@ -1179,7 +1196,7 @@
   {
     "id": "mask_fsurvivorxl",
     "type": "TOOL_ARMOR",
-    "category": "armor",
+    "category": "clothing",
     "name": { "str": "XL survivor firemask" },
     "description": "A custom-built, Nomex-insulated gas mask that covers the face and eyes regardless of your state of mutation.  It provides excellent protection from heat, smoke, teargas, and shrapnel.  It must be prepared before use.",
     "weight": "1108 g",
@@ -1208,7 +1225,7 @@
     "id": "mask_bunker",
     "repairs_like": "mask_gas",
     "type": "TOOL_ARMOR",
-    "category": "armor",
+    "category": "clothing",
     "symbol": "[",
     "color": "light_gray",
     "name": { "str": "firefighter PBA mask" },
@@ -1236,7 +1253,7 @@
   {
     "id": "mask_hsurvivor",
     "type": "TOOL_ARMOR",
-    "category": "armor",
+    "category": "clothing",
     "name": { "str": "heavy survivor mask" },
     "description": "A custom-built, steel reinforced gas mask that covers the face and eyes.  Provides excellent protection from smoke, teargas, and shrapnel.  It must be prepared before use.",
     "weight": "1612 g",
@@ -1264,7 +1281,7 @@
   {
     "id": "mask_lsurvivor",
     "type": "TOOL_ARMOR",
-    "category": "armor",
+    "category": "clothing",
     "name": { "str": "light survivor mask" },
     "description": "A custom-built, reinforced gas mask that covers the face and eyes.  Provides excellent protection from smoke, teargas, and shrapnel.  It must be prepared before use.",
     "weight": "466 g",
@@ -1293,7 +1310,7 @@
   {
     "id": "mask_survivor",
     "type": "TOOL_ARMOR",
-    "category": "armor",
+    "category": "clothing",
     "name": { "str": "survivor mask" },
     "description": "A custom-built, leather reinforced gas mask that covers the face and eyes.  Provides excellent protection from smoke, teargas, and shrapnel.  It must be prepared before use.",
     "weight": "682 g",
@@ -1321,7 +1338,7 @@
   {
     "id": "mask_survivorxl",
     "type": "TOOL_ARMOR",
-    "category": "armor",
+    "category": "clothing",
     "name": { "str": "XL survivor mask" },
     "description": "A custom-built, reinforced gas mask that covers the face and eyes regardless of your state of mutation.  Provides excellent protection from smoke, teargas, and shrapnel.  It must be prepared before use.",
     "weight": "982 g",
@@ -1349,7 +1366,7 @@
   {
     "id": "mask_wsurvivor",
     "type": "TOOL_ARMOR",
-    "category": "armor",
+    "category": "clothing",
     "name": { "str": "winter survivor mask" },
     "description": "A custom-built, fur-trimmed gas mask that covers the face and eyes.  Quite warm, it still provides excellent protection from smoke, teargas, and shrapnel.  It must be prepared before use.",
     "weight": "682 g",
@@ -1377,7 +1394,7 @@
   {
     "id": "mask_wsurvivorxl",
     "type": "TOOL_ARMOR",
-    "category": "armor",
+    "category": "clothing",
     "name": { "str": "XL winter survivor mask" },
     "description": "A custom-built, fur-trimmed gas mask that covers the face and eyes regardless of your state of mutation.  Quite warm, it still provides excellent protection from smoke, teargas, and shrapnel.  It must be prepared before use.",
     "weight": "1062 g",
@@ -1447,7 +1464,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "goggles_nv_on",
@@ -1463,7 +1480,7 @@
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "goggles_nv" },
     "warmth": 25,
     "encumbrance": 20,
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "goggles_ir",
@@ -1510,7 +1527,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "goggles_ir_on",
@@ -1526,7 +1543,7 @@
     "covers": [ "eyes" ],
     "warmth": 25,
     "encumbrance": 20,
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "wearable_rx12",
@@ -1572,7 +1589,7 @@
   {
     "id": "mask_h20survivor",
     "type": "TOOL_ARMOR",
-    "category": "armor",
+    "category": "clothing",
     "symbol": "[",
     "color": "dark_gray",
     "name": { "str": "survivor divemask" },
@@ -1620,7 +1637,7 @@
   {
     "id": "mask_h20survivorxl",
     "type": "TOOL_ARMOR",
-    "category": "armor",
+    "category": "clothing",
     "symbol": "[",
     "color": "dark_gray",
     "name": { "str": "XL survivor divemask" },
@@ -1843,6 +1860,7 @@
   {
     "id": "towel",
     "type": "TOOL_ARMOR",
+    "category": "clothing",
     "symbol": ",",
     "color": "cyan",
     "name": { "str": "towel" },
@@ -1862,6 +1880,7 @@
   {
     "id": "towel_wet",
     "type": "TOOL_ARMOR",
+    "category": "clothing",
     "repairs_like": "towel",
     "symbol": ",",
     "color": "blue",
@@ -1883,6 +1902,7 @@
   {
     "id": "towel_soiled",
     "type": "TOOL_ARMOR",
+    "category": "clothing",
     "repairs_like": "towel",
     "symbol": ",",
     "color": "magenta",
@@ -1903,8 +1923,8 @@
   },
   {
     "type": "TOOL_ARMOR",
-    "id": "straw_fedora",
     "category": "clothing",
+    "id": "straw_fedora",
     "name": { "str": "straw fedora" },
     "weight": "300 g",
     "color": "light_gray",
@@ -1949,8 +1969,8 @@
   {
     "id": "patchwork_scarf_loose",
     "type": "TOOL_ARMOR",
-    "repairs_like": "patchwork_scarf",
     "category": "clothing",
+    "repairs_like": "patchwork_scarf",
     "symbol": "[",
     "color": "light_gray",
     "name": { "str": "simple patchwork scarf (loose)", "str_pl": "simple patchwork scarves (loose)" },
@@ -1997,8 +2017,8 @@
   {
     "id": "long_patchwork_scarf_loose",
     "type": "TOOL_ARMOR",
-    "repairs_like": "long_patchwork_scarf",
     "category": "clothing",
+    "repairs_like": "long_patchwork_scarf",
     "symbol": "[",
     "color": "light_gray",
     "name": { "str": "long patchwork scarf (loose)", "str_pl": "long patchwork scarves (loose)" },
@@ -2050,8 +2070,8 @@
   {
     "id": "knit_scarf_loose",
     "type": "TOOL_ARMOR",
-    "repairs_like": "knit_scarf",
     "category": "clothing",
+    "repairs_like": "knit_scarf",
     "symbol": "[",
     "color": "dark_gray",
     "name": { "str": "knit scarf (loose)", "str_pl": "knit scarves (loose)" },
@@ -2098,8 +2118,8 @@
   {
     "id": "long_knit_scarf_loose",
     "type": "TOOL_ARMOR",
-    "repairs_like": "long_knit_scarf",
     "category": "clothing",
+    "repairs_like": "long_knit_scarf",
     "symbol": "[",
     "color": "dark_gray",
     "name": { "str": "long knit scarf (loose)", "str_pl": "long knit scarves (loose)" },
@@ -2146,8 +2166,8 @@
   {
     "id": "scarf_loose",
     "type": "TOOL_ARMOR",
-    "repairs_like": "scarf",
     "category": "clothing",
+    "repairs_like": "scarf",
     "symbol": "[",
     "color": "brown",
     "name": { "str": "wool scarf (loose)", "str_pl": "wool scarves (loose)" },
@@ -2194,8 +2214,8 @@
   {
     "id": "scarf_long_loose",
     "type": "TOOL_ARMOR",
-    "repairs_like": "scarf_long",
     "category": "clothing",
+    "repairs_like": "scarf_long",
     "symbol": "[",
     "color": "brown",
     "name": { "str": "long wool scarf (loose)", "str_pl": "long wool scarves (loose)" },
@@ -2242,8 +2262,8 @@
   {
     "id": "scarf_fur_loose",
     "type": "TOOL_ARMOR",
-    "repairs_like": "scarf_fur",
     "category": "clothing",
+    "repairs_like": "scarf_fur",
     "symbol": "[",
     "color": "brown",
     "name": { "str": "fur scarf (loose)", "str_pl": "fur scarves (loose)" },
@@ -2290,8 +2310,8 @@
   {
     "id": "scarf_fur_long_loose",
     "type": "TOOL_ARMOR",
-    "repairs_like": "scarf_fur_long",
     "category": "clothing",
+    "repairs_like": "scarf_fur_long",
     "symbol": "[",
     "color": "brown",
     "name": { "str": "long fur scarf (loose)", "str_pl": "long fur scarves (loose)" },
@@ -2345,7 +2365,7 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": 2
+    "magazine_well": "500 ml"
   },
   {
     "id": "thermal_outfit_on",
@@ -2360,13 +2380,13 @@
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "thermal_outfit" },
     "covers": [ "head", "mouth", "torso", "arms", "legs", "hands", "feet" ],
     "warmth": 60,
-    "magazine_well": 2
+    "magazine_well": "500 ml"
   },
   {
     "type": "TOOL_ARMOR",
+    "category": "clothing",
     "id": "mask_ski",
     "name": { "str": "ski mask" },
-    "category": "clothing",
     "weight": "86 g",
     "color": "dark_gray",
     "covers": [ "head", "mouth" ],
@@ -2390,10 +2410,10 @@
   },
   {
     "type": "TOOL_ARMOR",
+    "category": "clothing",
     "id": "mask_ski_loose",
     "repairs_like": "mask_ski",
     "name": { "str": "ski mask (open)", "str_pl": "ski masks (open)" },
-    "category": "clothing",
     "weight": "86 g",
     "color": "dark_gray",
     "covers": [ "head", "mouth" ],
@@ -2418,6 +2438,7 @@
   },
   {
     "type": "TOOL_ARMOR",
+    "category": "clothing",
     "id": "whistle",
     "name": { "str": "whistle" },
     "volume": "10 ml",
@@ -2473,8 +2494,8 @@
     "material_thickness": 1
   },
   {
-    "type": "TOOL_ARMOR",
     "id": "acoustic_guitar",
+    "type": "TOOL_ARMOR",
     "name": { "str": "acoustic guitar" },
     "category": "tools",
     "weight": "2500 g",
@@ -2674,7 +2695,7 @@
   {
     "id": "powered_earmuffs",
     "type": "TOOL_ARMOR",
-    "category": "armor",
+    "category": "clothing",
     "symbol": "[",
     "color": "blue",
     "name": { "str_sp": "shooter's earmuffs" },
@@ -2714,13 +2735,13 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "powered_earmuffs_on",
     "type": "TOOL_ARMOR",
+    "category": "clothing",
     "repairs_like": "powered_earmuffs",
-    "category": "armor",
     "symbol": "[",
     "color": "blue",
     "name": { "str_sp": "shooter's earmuffs" },
@@ -2741,11 +2762,12 @@
     "encumbrance": 5,
     "coverage": 10,
     "material_thickness": 2,
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "stethoscope",
     "type": "TOOL_ARMOR",
+    "category": "tools",
     "symbol": "y",
     "color": "dark_gray",
     "name": { "str": "stethoscope" },
@@ -2763,6 +2785,7 @@
   {
     "id": "makeshift_stethoscope",
     "type": "TOOL_ARMOR",
+    "category": "clothing",
     "symbol": "y",
     "color": "dark_gray",
     "name": { "str": "makeshift stethoscope" },
@@ -2780,6 +2803,7 @@
   {
     "id": "solarpack",
     "type": "TOOL_ARMOR",
+    "category": "clothing",
     "name": { "str": "solar backpack (folded)", "str_pl": "solar backpacks (folded)" },
     "description": "Personal portable charging system consisting of an array of solar panels neatly folded in a form of a large backpack.  It can be worn as one, and has an integrated cable to plug it into a cable charger system.",
     "weight": "7500 g",
@@ -2801,6 +2825,7 @@
   {
     "id": "solarpack_on",
     "type": "TOOL_ARMOR",
+    "category": "clothing",
     "repairs_like": "solarpack",
     "name": { "str": "solar backpack (unfolded)", "str_pl": "solar backpacks (unfolded)" },
     "description": "Unfolded array of portable solar panels ready to push some power into an active cable charger system.",
@@ -2825,7 +2850,7 @@
     "id": "helmet_riot",
     "repairs_like": "helmet_barbute",
     "type": "TOOL_ARMOR",
-    "category": "armor",
+    "category": "clothing",
     "name": { "str": "riot helmet" },
     "description": "A helmet with a plastic shield that covers your entire face.  Activate to raise the face shield.",
     "use_action": { "type": "transform", "target": "helmet_riot_raised", "msg": "You raise your visor." },
@@ -2850,8 +2875,8 @@
   {
     "id": "helmet_riot_raised",
     "type": "TOOL_ARMOR",
+    "category": "clothing",
     "repairs_like": "helmet_riot",
-    "category": "armor",
     "name": { "str": "riot helmet (raised visor)", "str_pl": "riot helmets (raised visor)" },
     "description": "A riot helmet with a plastic face shield which is raised up.  Activate to lower the shield.",
     "use_action": { "type": "transform", "target": "helmet_riot", "msg": "You put down your visor." },
@@ -2992,6 +3017,7 @@
   {
     "id": "electric_blanket",
     "type": "TOOL_ARMOR",
+    "category": "clothing",
     "name": { "str": "electric blanket" },
     "description": "A heated blanket made of polyester.  The most comfortable thing on Earth.  Its cost is usually negligible, but with the power out, it chews through batteries insanely quickly.",
     "weight": "1123 g",
@@ -3025,7 +3051,7 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": 2
+    "magazine_well": "500 ml"
   },
   {
     "id": "electric_blanket_on",
@@ -3038,12 +3064,13 @@
     "power_draw": 100000,
     "revert_to": "electric_blanket",
     "use_action": { "type": "transform", "msg": "You turn the blanket's heating elements off.", "target": "electric_blanket" },
-    "magazine_well": 2
+    "magazine_well": "500 ml"
   },
   {
     "id": "foodperson_mask",
     "repairs_like": "miner_hat",
     "type": "TOOL_ARMOR",
+    "category": "clothing",
     "name": { "str": "Foodperson mask" },
     "description": "Foodperson, the mascot your stomach deserves!",
     "weight": "1500 g",
@@ -3077,7 +3104,7 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": 2,
+    "magazine_well": "500 ml",
     "flags": [ "OUTER", "SUN_GLASSES" ]
   },
   {
@@ -3089,7 +3116,7 @@
     "turns_per_charge": 60,
     "revert_to": "foodperson_mask",
     "use_action": "FOODPERSON",
-    "flags": [ "OUTER", "SUN_GLASSES", "NO_TAKEOFF", "LIGHT_10", "WATCH", "NO_UNLOAD" ]
+    "flags": [ "OUTER", "SUN_GLASSES", "NO_TAKEOFF", "LIGHT_20", "WATCH", "NO_UNLOAD" ]
   },
   {
     "id": "attached_ear_plugs_on",

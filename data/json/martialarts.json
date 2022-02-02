@@ -789,6 +789,7 @@
       "sword_crude",
       "sword_nail",
       "sword_wood",
+      "sword_metal",
       "zweihander",
       "zweihander_inferior",
       "zweihander_fake"
@@ -965,6 +966,7 @@
       "sword_crude",
       "sword_nail",
       "sword_wood",
+      "sword_metal",
       "sword_xiphos",
       "tanto",
       "tanto_inferior",
@@ -1056,6 +1058,7 @@
       "sword_nail",
       "sword_crude",
       "sword_wood",
+      "sword_metal",
       "wakizashi",
       "wakizashi_inferior",
       "wakizashi_fake"

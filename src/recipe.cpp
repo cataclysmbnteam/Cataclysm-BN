@@ -321,7 +321,8 @@ void recipe::load( const JsonObject &jo, const std::string &src )
 
 void recipe::finalize()
 {
-    if( test_mode && check_blueprint_needs ) {
+    // TODO: Rethink bools used for slow checks
+    if( ( test_mode || json_report_unused_fields ) && check_blueprint_needs ) {
         check_blueprint_requirements();
     }
 
@@ -408,6 +409,11 @@ std::string recipe::get_consistency_error() const
 
     if( std::any_of( booksets.begin(), booksets.end(), is_invalid_book ) ) {
         return "defines invalid book";
+    }
+
+    // TODO: IDs instead of raw string
+    if( !blueprint.empty() && !mapgen::has_update_id( blueprint ) ) {
+        return "has invalid mapgen id";
     }
 
     return std::string();
@@ -665,10 +671,53 @@ const std::vector<std::pair<std::string, int>>  &recipe::blueprint_excludes() co
     return bp_excludes;
 }
 
+static std::string dump_requirements(
+    const requirement_data &reqs,
+    int move_cost,
+    const std::map<skill_id, int> &skills )
+{
+    std::ostringstream os;
+    JsonOut jsout( os, /*pretty_print=*/true );
+
+    jsout.start_object();
+
+    jsout.member( "time" );
+    if( move_cost % 100 == 0 ) {
+        dump_to_json_string( time_duration::from_turns( move_cost / 100 ),
+                             jsout, time_duration::units );
+    } else {
+        // cannot precisely represent the value using time_duration format,
+        // write integer instead.
+        jsout.write( move_cost );
+    }
+
+    jsout.member( "skills" );
+    jsout.start_array( /*wrap=*/!skills.empty() );
+    for( const std::pair<const skill_id, int> &p : skills ) {
+        jsout.start_array();
+        jsout.write( p.first );
+        jsout.write( p.second );
+        jsout.end_array();
+    }
+    jsout.end_array();
+
+    jsout.member( "inline" );
+    reqs.dump( jsout );
+
+    jsout.end_object();
+    return os.str();
+}
+
 void recipe::check_blueprint_requirements()
 {
+    if( !blueprint.empty() && !mapgen::has_update_id( blueprint ) ) {
+        debugmsg( "Blueprint %1$s has invalid mapgen id %2$s", ident_.str(), blueprint );
+        return;
+    }
     build_reqs total_reqs;
-    get_build_reqs_for_furn_ter_ids( get_changed_ids_from_update( blueprint ), total_reqs );
+    const std::pair<std::map<ter_id, int>, std::map<furn_id, int>> &changed_ids
+            = get_changed_ids_from_update( blueprint );
+    get_build_reqs_for_furn_ter_ids( changed_ids, total_reqs );
     requirement_data req_data_blueprint = std::accumulate(
             reqs_blueprint.begin(), reqs_blueprint.end(), requirement_data(),
     []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
@@ -684,35 +733,17 @@ void recipe::check_blueprint_requirements()
     req_data_calc.consolidate();
     if( time_blueprint != total_reqs.time || skills_blueprint != total_reqs.skills
         || !req_data_blueprint.has_same_requirements_as( req_data_calc ) ) {
-        std::ostringstream os;
-        JsonOut jsout( os, /*pretty_print=*/true );
+        std::string calc_req_str = dump_requirements( req_data_calc, total_reqs.time, total_reqs.skills );
+        std::string got_req_str = dump_requirements( req_data_blueprint, total_reqs.time,
+                                  total_reqs.skills );
 
-        jsout.start_object();
-
-        jsout.member( "time" );
-        if( total_reqs.time % 100 == 0 ) {
-            dump_to_json_string( time_duration::from_turns( total_reqs.time / 100 ),
-                                 jsout, time_duration::units );
-        } else {
-            // cannot precisely represent the value using time_duration format,
-            // write integer instead.
-            jsout.write( total_reqs.time );
+        std::stringstream ss;
+        for( auto &id_count : changed_ids.first ) {
+            ss << string_format( "%s: %d\n", id_count.first.id(), id_count.second );
         }
-
-        jsout.member( "skills" );
-        jsout.start_array( /*wrap=*/!total_reqs.skills.empty() );
-        for( const std::pair<const skill_id, int> &p : total_reqs.skills ) {
-            jsout.start_array();
-            jsout.write( p.first );
-            jsout.write( p.second );
-            jsout.end_array();
+        for( auto &id_count : changed_ids.second ) {
+            ss << string_format( "%s: %d\n", id_count.first.id(), id_count.second );
         }
-        jsout.end_array();
-
-        jsout.member( "inline" );
-        req_data_calc.dump( jsout );
-
-        jsout.end_object();
 
         debugmsg( "Specified blueprint requirements of %1$s does not match calculated requirements.  "
                   "Specify \"check_blueprint_needs\": false to disable the check or "
@@ -720,8 +751,12 @@ void recipe::check_blueprint_requirements()
                   // mark it for the auto-update python script
                   "~~~ auto-update-blueprint: %1$s\n"
                   "%2$s\n"
-                  "~~~ end-auto-update",
-                  ident_.str(), os.str() );
+                  "~~~ end-auto-update\n"
+                  "If the stated requirements match the above, but the error still appears, it is a bug.\n"
+                  "Stated requirements are expanded to:\n"
+                  "%3$s\n"
+                  "---Begin expected tile changes---\n%4$s---End expected tile changes--",
+                  ident_.str(), calc_req_str, got_req_str, ss.str() );
     }
 }
 

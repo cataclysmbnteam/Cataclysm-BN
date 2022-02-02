@@ -40,11 +40,11 @@ TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
 
     SECTION( "vehicle with reactor" ) {
         const tripoint reactor_origin = tripoint( 10, 10, 0 );
-        vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "reactor_test" ), reactor_origin, 0, 0, 0 );
+        vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "reactor_test" ), reactor_origin, 0_degrees, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
 
         REQUIRE( !veh_ptr->reactors.empty() );
-        vehicle_part &reactor = veh_ptr->parts[ veh_ptr->reactors.front() ];
+        vehicle_part &reactor = veh_ptr->part( veh_ptr->reactors.front() );
 
         GIVEN( "the reactor is empty" ) {
             reactor.ammo_unset();
@@ -68,14 +68,15 @@ TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
 
     SECTION( "vehicle with solar panels" ) {
         const tripoint solar_origin = tripoint( 5, 5, 0 );
-        vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "solar_panel_test" ), solar_origin, 0, 0, 0 );
+        vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "solar_panel_test" ), solar_origin, 0_degrees, 0,
+                                             0 );
         REQUIRE( veh_ptr != nullptr );
 
         GIVEN( "it is 3 hours after sunrise, with sunny weather" ) {
             calendar::turn = calendar::turn_zero + calendar::season_length() + 1_days;
             const time_point start_time = sunrise( calendar::turn ) + 3_hours;
             veh_ptr->update_time( start_time );
-            g->weather.weather_override = WEATHER_SUNNY;
+            get_weather().weather_override = weather_type_id( "sunny" );
 
             AND_GIVEN( "the battery has no charge" ) {
                 veh_ptr->discharge_battery( veh_ptr->fuel_left( fuel_type_battery ) );
@@ -105,7 +106,7 @@ TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
 
         GIVEN( "it is 3 hours after sunset, with clear weather" ) {
             const time_point at_night = sunset( calendar::turn ) + 3_hours;
-            g->weather.weather_override = WEATHER_CLEAR;
+            get_weather().weather_override = weather_type_id( "clear" );
             veh_ptr->update_time( at_night );
 
             AND_GIVEN( "the battery has no charge" ) {
@@ -132,7 +133,7 @@ TEST_CASE( "maximum reverse velocity", "[vehicle][power][reverse]" )
 
     GIVEN( "a scooter with combustion engine and charged battery" ) {
         const tripoint origin = tripoint( 10, 0, 0 );
-        vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "scooter_test" ), origin, 0, 0, 0 );
+        vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "scooter_test" ), origin, 0_degrees, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
         veh_ptr->charge_battery( 500 );
         REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) == 500 );
@@ -157,7 +158,8 @@ TEST_CASE( "maximum reverse velocity", "[vehicle][power][reverse]" )
 
     GIVEN( "a scooter with an electric motor and charged battery" ) {
         const tripoint origin = tripoint( 15, 0, 0 );
-        vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "scooter_electric_test" ), origin, 0, 0, 0 );
+        vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "scooter_electric_test" ), origin, 0_degrees, 0,
+                                             0 );
         REQUIRE( veh_ptr != nullptr );
         veh_ptr->charge_battery( 5000 );
         REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) == 5000 );
@@ -188,14 +190,15 @@ TEST_CASE( "Vehicle charging station", "[vehicle][power]" )
 
     GIVEN( "Vehicle with a charged battery and an active recharging station on a box" ) {
         const tripoint vehicle_origin = tripoint( 10, 10, 0 );
-        vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "recharge_test" ), vehicle_origin, 0, 100, 0 );
+        vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "recharge_test" ), vehicle_origin, 0_degrees, 100,
+                                             0 );
         REQUIRE( veh_ptr != nullptr );
         REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) > 1000 );
         veh_ptr->update_time( calendar::turn_zero );
 
         auto cargo_part_index = veh_ptr->part_with_feature( point_zero, "CARGO", true );
         REQUIRE( cargo_part_index >= 0 );
-        vehicle_part &cargo_part = veh_ptr->parts[ cargo_part_index ];
+        vehicle_part &cargo_part = veh_ptr->part( cargo_part_index );
 
         auto chargers = veh_ptr->get_parts_at( vehicle_origin, "RECHARGE", part_status_flag::available );
         REQUIRE( chargers.size() == 1 );

@@ -136,6 +136,7 @@ static const std::string flag_LUPINE( "LUPINE" );
 static const std::string flag_MYCUS_OK( "MYCUS_OK" );
 static const std::string flag_NEGATIVE_MONOTONY_OK( "NEGATIVE_MONOTONY_OK" );
 static const std::string flag_NO_BLOAT( "NO_BLOAT" );
+static const std::string flag_NO_INGEST( "NO_INGEST" );
 static const std::string flag_NO_PARASITES( "NO_PARASITES" );
 static const std::string flag_NO_RELOAD( "NO_RELOAD" );
 static const std::string flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
@@ -684,7 +685,8 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
     }
 
     // For all those folks who loved eating marloss berries.  D:< mwuhahaha
-    if( has_trait( trait_M_DEPENDENT ) && !food.has_flag( flag_MYCUS_OK ) ) {
+    if( has_trait( trait_M_DEPENDENT ) && !food.has_flag( flag_MYCUS_OK ) &&
+        !food.has_flag( flag_NO_INGEST ) ) {
         return ret_val<edible_rating>::make_failure( edible_rating::inedible_mutation,
                 _( "We can't eat that.  It's not right for us." ) );
     }
@@ -737,7 +739,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
 
     if( food.rotten() ) {
         const bool saprovore = has_trait( trait_SAPROVORE );
-        if( !saprophage && !saprovore ) {
+        if( !saprophage && !saprovore && !has_bionic( bio_digestion ) ) {
             add_consequence( _( "This is rotten and smells awful!" ), edible_rating::rotten );
         }
     }
@@ -861,7 +863,7 @@ bool player::eat( item &food, bool force )
     if( spoiled && !saprophage ) {
         add_msg_if_player( m_bad, _( "Ick, this %s doesn't taste so good…" ), food.tname() );
         if( !has_trait( trait_SAPROVORE ) && !has_trait( trait_EATDEAD ) &&
-            ( !has_bionic( bio_digestion ) || one_in( 3 ) ) ) {
+            !has_bionic( bio_digestion ) ) {
             add_effect( effect_foodpoison, rng( 6_minutes, ( nutr + 1 ) * 6_minutes ) );
         }
     } else if( spoiled && saprophage ) {
@@ -943,7 +945,7 @@ bool player::eat( item &food, bool force )
     }
 
     if( has_active_bionic( bio_taste_blocker ) ) {
-        mod_power_level( units::from_kilojoule( -std::min( 0, food.get_comestible_fun() ) ) );
+        mod_power_level( units::from_kilojoule( std::min( 0, food.get_comestible_fun() ) ) );
     }
 
     if( food.has_flag( flag_FUNGAL_VECTOR ) && !has_trait( trait_M_IMMUNE ) ) {

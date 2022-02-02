@@ -1,4 +1,5 @@
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 
 #include <algorithm>
 #include <cmath>
@@ -42,6 +43,8 @@
 #include "translations.h"
 #include "uistate.h"
 #include "units.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 static const itype_id itype_bone_human( "bone_human" );
 static const itype_id itype_electrohack( "electrohack" );
@@ -114,9 +117,19 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
             return;
         }
     }
+    cata::optional<shape_factory> shape_gen;
+    if( weapon->ammo_current() && weapon->ammo_current()->ammo &&
+        weapon->ammo_current()->ammo->shape ) {
+        shape_gen = weapon->ammo_current()->ammo->shape;
+    }
 
     g->temp_exit_fullscreen();
-    target_handler::trajectory trajectory = target_handler::mode_fire( you, *this );
+    target_handler::trajectory trajectory;
+    if( !shape_gen ) {
+        trajectory = target_handler::mode_fire( you, *this );
+    } else {
+        trajectory = target_handler::mode_shaped( you, *shape_gen, *this );
+    }
     g->reenter_fullscreen();
 
     if( aborted ) {
@@ -300,6 +313,77 @@ void aim_activity_actor::unload_RAS_weapon()
             you.moves = moves_before_unload;
         }
     }
+}
+
+void autodrive_activity_actor::start( player_activity &act, Character &who )
+{
+    const bool in_vehicle = who.in_vehicle && who.controlling_vehicle;
+    const optional_vpart_position vp = get_map().veh_at( who.pos() );
+    if( !( vp && in_vehicle ) ) {
+        who.cancel_activity();
+        return;
+    }
+
+    player_vehicle = &vp->vehicle();
+    player_vehicle->is_autodriving = true;
+    act.moves_left = calendar::INDEFINITELY_LONG;
+}
+
+void autodrive_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    if( who.in_vehicle && who.controlling_vehicle && player_vehicle ) {
+        if( who.moves <= 0 ) {
+            // out of moves? the driver's not doing anything this turn
+            // (but the vehicle will continue moving)
+            return;
+        }
+        switch( player_vehicle->do_autodrive( who ) ) {
+            case autodrive_result::ok:
+                if( who.moves > 0 ) {
+                    // if do_autodrive() didn't eat up all our moves, end the turn
+                    // equivalent to player pressing the "pause" button
+                    who.moves = 0;
+                }
+                sounds::reset_markers();
+                break;
+            case autodrive_result::abort:
+                who.cancel_activity();
+                break;
+            case autodrive_result::finished:
+                act.moves_left = 0;
+                break;
+        }
+    } else {
+        who.cancel_activity();
+    }
+}
+
+void autodrive_activity_actor::canceled( player_activity &act, Character &who )
+{
+    who.add_msg_if_player( m_info, _( "Auto-drive canceled." ) );
+    who.omt_path.clear();
+    if( player_vehicle ) {
+        player_vehicle->stop_autodriving( false );
+    }
+    act.set_to_null();
+}
+
+void autodrive_activity_actor::finish( player_activity &act, Character &who )
+{
+    who.add_msg_if_player( m_info, _( "You have reached your destination." ) );
+    player_vehicle->stop_autodriving( false );
+    act.set_to_null();
+}
+
+void autodrive_activity_actor::serialize( JsonOut &jsout ) const
+{
+    // Activity is not being saved but still provide some valid json if called.
+    jsout.write_null();
+}
+
+std::unique_ptr<activity_actor> autodrive_activity_actor::deserialize( JsonIn & )
+{
+    return autodrive_activity_actor().clone();
 }
 
 void dig_activity_actor::start( player_activity &act, Character & )
@@ -952,6 +1036,7 @@ namespace activity_actors
 const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( JsonIn & )>
 deserialize_functions = {
     { activity_id( "ACT_AIM" ), &aim_activity_actor::deserialize },
+    { activity_id( "ACT_AUTODRIVE" ), &autodrive_activity_actor::deserialize },
     { activity_id( "ACT_DIG" ), &dig_activity_actor::deserialize },
     { activity_id( "ACT_DIG_CHANNEL" ), &dig_channel_activity_actor::deserialize },
     { activity_id( "ACT_DROP" ), &drop_activity_actor::deserialize },

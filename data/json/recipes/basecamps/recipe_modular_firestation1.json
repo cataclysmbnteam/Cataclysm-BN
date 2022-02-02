@@ -674,7 +674,7 @@
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER" } ] ],
-        "components": [ [ [ "2x4", 4 ] ], [ [ "tanned_hide", 2 ] ], [ [ "scrap", 20 ] ], [ [ "wire", 8 ] ] ]
+        "components": [ [ [ "2x4", 4 ] ], [ [ "leather", 12 ] ], [ [ "scrap", 20 ] ], [ [ "wire", 8 ] ] ]
       }
     },
     "components": [ [ [ "hammer_sledge", 1 ] ], [ [ "30gal_drum", 1 ] ], [ [ "knife_combat", 1 ], [ "copper_knife", 1 ] ] ]

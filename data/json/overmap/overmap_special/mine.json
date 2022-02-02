@@ -3,7 +3,7 @@
     "type": "overmap_special",
     "id": "Mine Entrance",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "s_lot" },
+      { "point": [ 0, 0, 0 ], "overmap": "mine_entrance_parking_north" },
       { "point": [ 0, 1, 0 ], "overmap": "mine_entrance_north" },
       { "point": [ 1, 1, 0 ], "overmap": "mine_entrance_loading_zone_north" },
       { "point": [ 1, 0, 0 ], "overmap": "road_end_north" },
@@ -28,7 +28,7 @@
     "type": "overmap_special",
     "id": "Spiral mine",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "s_lot" },
+      { "point": [ 0, 0, 0 ], "overmap": "mine_entrance_parking_north" },
       { "point": [ 0, 1, 0 ], "overmap": "mine_entrance_north" },
       { "point": [ 1, 1, 0 ], "overmap": "mine_entrance_loading_zone_north" },
       { "point": [ 1, 0, 0 ], "overmap": "road_end_north" },
@@ -68,7 +68,7 @@
     "type": "overmap_special",
     "id": "Amigara mine",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "s_lot" },
+      { "point": [ 0, 0, 0 ], "overmap": "mine_entrance_parking_north" },
       { "point": [ 0, 1, 0 ], "overmap": "mine_entrance_north" },
       { "point": [ 1, 1, 0 ], "overmap": "mine_entrance_loading_zone_north" },
       { "point": [ 1, 0, 0 ], "overmap": "road_end_north" },
@@ -102,7 +102,7 @@
     "type": "overmap_special",
     "id": "Wyrms mine",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "s_lot" },
+      { "point": [ 0, 0, 0 ], "overmap": "mine_entrance_parking_north" },
       { "point": [ 0, 1, 0 ], "overmap": "mine_entrance_north" },
       { "point": [ 1, 1, 0 ], "overmap": "mine_entrance_loading_zone_north" },
       { "point": [ 1, 0, 0 ], "overmap": "road_end_north" },

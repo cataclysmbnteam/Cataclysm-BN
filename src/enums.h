@@ -312,4 +312,16 @@ constexpr bool is_decreasing( monotonically m )
     return m == monotonically::constant || m == monotonically::decreasing;
 }
 
+enum MULTITILE_TYPE {
+    center,
+    corner,
+    edge,
+    t_connection,
+    end_piece,
+    unconnected,
+    open_,
+    broken,
+    num_multitile_types
+};
+
 #endif // CATA_SRC_ENUMS_H

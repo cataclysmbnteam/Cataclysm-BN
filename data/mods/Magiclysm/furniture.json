@@ -119,7 +119,7 @@
       "str_max": 10,
       "sound": "glass breaking!",
       "sound_fail": "clang!",
-      "items": [ { "item": "scrap_copper", "count": [ 10, 20 ] }, { "item": "glass_shard", "count": [ 25, 50 ] } ]
+      "items": [ { "item": "scrap_copper", "count": [ 10, 20 ] }, { "item": "glass_shard", "count": [ 2, 4 ] } ]
     }
   },
   {
@@ -178,7 +178,7 @@
       "items": [
         { "item": "crystallized_mana", "charges": [ 0, 100 ] },
         { "item": "small_mana_crystal", "count": [ 0, 3 ] },
-        { "item": "glass_shard", "count": [ 8, 12 ] }
+        { "item": "glass_shard", "count": [ 1, 3 ] }
       ]
     }
   },

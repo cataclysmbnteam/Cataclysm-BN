@@ -11,6 +11,7 @@
     "price": 112600,
     "price_postapoc": 2750,
     "to_hit": -1,
+    "ascii_picture": "rem700",
     "bashing": 12,
     "material": [ "steel", "wood" ],
     "color": "brown",

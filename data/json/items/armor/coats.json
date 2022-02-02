@@ -3,7 +3,6 @@
     "id": "bunker_coat",
     "repairs_like": "aep_suit",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "turnout coat" },
     "description": "A heavy protective coat worn by firefighters.  Highly resistant to heat and flame, it provides excellent protection from injury.",
     "weight": "1930 g",
@@ -21,7 +20,7 @@
     "storage": "2500 ml",
     "warmth": 30,
     "material_thickness": 4,
-    "valid_mods": [ "steel_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 6,
     "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER" ]
   },
@@ -67,7 +66,7 @@
     "storage": "1 L",
     "warmth": 80,
     "material_thickness": 4,
-    "valid_mods": [ "steel_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
@@ -105,7 +104,7 @@
     "storage": "1250 ml",
     "warmth": 90,
     "material_thickness": 4,
-    "valid_mods": [ "steel_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "SUPER_FANCY" ]
   },
@@ -196,7 +195,7 @@
     "storage": "3 L",
     "warmth": 70,
     "material_thickness": 4,
-    "valid_mods": [ "steel_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "OUTER" ]
   },
@@ -243,7 +242,7 @@
     "storage": "6 L",
     "warmth": 50,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
@@ -280,13 +279,12 @@
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "valid_mods": [ "steel_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
   {
     "id": "duster_survivor",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "survivor duster" },
     "description": "A Kevlar armored custom full-length duster, covered with pouches and pockets.  Comfortable, durable, and great for storage.",
     "weight": "2592 g",
@@ -304,7 +302,7 @@
     "storage": "9 L",
     "warmth": 10,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER" ]
   },
@@ -328,7 +326,7 @@
     "storage": "5500 ml",
     "warmth": 50,
     "material_thickness": 4,
-    "valid_mods": [ "steel_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "COLLAR", "OUTER" ]
   },
@@ -416,7 +414,7 @@
     "storage": "3500 ml",
     "warmth": 20,
     "material_thickness": 2,
-    "valid_mods": [ "steel_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
@@ -534,7 +532,7 @@
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "valid_mods": [ "steel_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
@@ -558,7 +556,7 @@
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "valid_mods": [ "steel_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ]
   },
   {
@@ -798,7 +796,7 @@
     "storage": "2500 ml",
     "warmth": 50,
     "material_thickness": 4,
-    "valid_mods": [ "steel_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "COLLAR", "OUTER", "FANCY" ]
   },
   {
@@ -844,7 +842,7 @@
     "storage": "2 L",
     "warmth": 80,
     "material_thickness": 5,
-    "valid_mods": [ "steel_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "OUTER" ]
   },
@@ -893,7 +891,7 @@
     "storage": "6 L",
     "warmth": 50,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
@@ -930,13 +928,12 @@
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "valid_mods": [ "steel_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
   {
     "id": "sleeveless_duster_survivor",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "sleeveless survivor duster" },
     "//": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
     "description": "A custom Kevlar armored full-length duster without sleeves, covered with pouches and pockets.  Comfortable, durable, and great for storage.",
@@ -955,7 +952,7 @@
     "storage": "9 L",
     "warmth": 10,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER" ]
   },
@@ -1004,7 +1001,7 @@
     "storage": "6 L",
     "warmth": 50,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
@@ -1040,14 +1037,13 @@
     "storage": "6 L",
     "warmth": 30,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
     "id": "sleeveless_trenchcoat_survivor",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "sleeveless survivor trenchcoat" },
     "//": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
     "description": "A custom Kevlar armored trenchcoat without sleeves, covered with pouches and pockets.  Comfortable, durable, and great for storage.",
@@ -1066,7 +1062,7 @@
     "storage": "9 L",
     "warmth": 10,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER" ]
   },
@@ -1157,7 +1153,7 @@
     "storage": "6 L",
     "warmth": 50,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
@@ -1193,13 +1189,12 @@
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "valid_mods": [ "steel_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
     "id": "trenchcoat_survivor",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "survivor trenchcoat" },
     "description": "A Kevlar armored custom trenchcoat, covered with pouches and pockets.  Comfortable, durable, and great for storage.",
     "weight": "1920 g",
@@ -1217,7 +1212,7 @@
     "storage": "9 L",
     "warmth": 10,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER" ]
   },
@@ -1327,7 +1322,7 @@
     "storage": "3500 ml",
     "warmth": 50,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded" ],
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "WATERPROOF" ]
   }
 ]

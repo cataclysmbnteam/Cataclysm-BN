@@ -24,6 +24,7 @@
 #include "calendar.h"
 #include "character_id.h"
 #include "color.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "damage.h"
@@ -280,6 +281,8 @@ class Character : public Creature, public visitable<Character>
         bool in_species( const species_id &spec ) const override;
         // Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
         bool death_drops = true;
+        // Is currently in control of a vehicle
+        bool controlling_vehicle = false;
         const std::string &symbol() const override;
 
         enum class comfort_level {
@@ -430,6 +433,7 @@ class Character : public Creature, public visitable<Character>
         /** Combat getters */
         float get_dodge_base() const override;
         float get_hit_base() const override;
+        float get_dodge() const override;
 
         const tripoint &pos() const override;
         /** Returns the player's sight range */
@@ -437,7 +441,7 @@ class Character : public Creature, public visitable<Character>
         /** Returns the player maximum vision range factoring in mutations, diseases, and other effects */
         int  unimpaired_range() const;
         /** Returns true if overmap tile is within player line-of-sight */
-        bool overmap_los( const tripoint &omt, int sight_points );
+        bool overmap_los( const tripoint_abs_omt &omt, int sight_points );
         /** Returns the distance the player can see on the overmap */
         int  overmap_sight_range( int light_level ) const;
         /** Returns the distance the player can see through walls */
@@ -495,7 +499,7 @@ class Character : public Creature, public visitable<Character>
         /** Returns if the player has hibernation mutation and is asleep and well fed */
         bool is_hibernating() const;
         /** Maintains body temperature */
-        void update_bodytemp( const map &m, weather_manager &weather );
+        void update_bodytemp( const map &m, const weather_manager &weather );
 
         /** Equalizes heat between body parts */
         void temp_equalizer( const bodypart_id &bp1, const bodypart_id &bp2 );
@@ -540,10 +544,6 @@ class Character : public Creature, public visitable<Character>
 
         /** Returns true if the player is in a climate controlled area or armor */
         bool in_climate_control();
-
-        /** Returns wind resistance provided by armor, etc **/
-        std::map<bodypart_id, int> get_wind_resistance( const
-                std::map<bodypart_id, std::vector<const item *>> &clothing_map ) const;
 
         /** Returns true if the player isn't able to see */
         bool is_blind() const;
@@ -760,6 +760,9 @@ class Character : public Creature, public visitable<Character>
         void activate_mutation( const trait_id &mutation );
         void deactivate_mutation( const trait_id &mut );
 
+        /** Removes the appropriate costs (NOTE: will reapply mods & recalc sightlines in case of newly activated mutation). */
+        void mutation_spend_resources( const trait_id &mut );
+
         /** Converts a body_part to an hp_part */
         static hp_part bp_to_hp( body_part bp );
         /** Converts an hp_part to a body_part */
@@ -866,7 +869,7 @@ class Character : public Creature, public visitable<Character>
         /**
         * Returns the location of the player in global overmap terrain coordinates.
         */
-        tripoint global_omt_location() const;
+        tripoint_abs_omt global_omt_location() const;
 
     private:
         /** Retrieves a stat mod of a mutation. */
@@ -932,8 +935,8 @@ class Character : public Creature, public visitable<Character>
         /** Returns the multiplier on move cost of attacks. */
         float mabuff_attack_cost_mult() const;
 
-        /** Handles things like destruction of armor, etc. */
-        void mutation_effect( const trait_id &mut, bool worn_destroyed_override );
+        /** Handles things like removal of armor, etc. */
+        void mutation_effect( const trait_id &mut );
         /** Handles what happens when you lose a mutation. */
         void mutation_loss_effect( const trait_id &mut );
 
@@ -1024,7 +1027,7 @@ class Character : public Creature, public visitable<Character>
         /**Get stat bonus from bionic*/
         int get_mod_stat_from_bionic( const character_stat &Stat ) const;
         // route for overmap-scale traveling
-        std::vector<tripoint> omt_path;
+        std::vector<tripoint_abs_omt> omt_path;
 
         /** Handles bionic effects over time of the entered bionic */
         void process_bionic( int b );
@@ -1120,6 +1123,7 @@ class Character : public Creature, public visitable<Character>
         bool has_power() const;
         bool has_max_power() const;
         bool enough_power_for( const bionic_id &bid ) const;
+        void conduct_blood_analysis() const;
         // --------------- Generic Item Stuff ---------------
 
         struct has_mission_item_filter {
@@ -1593,7 +1597,7 @@ class Character : public Creature, public visitable<Character>
         cata::optional<tripoint> last_target_pos;
         // Save favorite ammo location
         item_location ammo_location;
-        std::set<tripoint> camps;
+        std::set<tripoint_abs_omt> camps;
         /* crafting inventory cached time */
         time_point cached_time;
 
@@ -1816,7 +1820,7 @@ class Character : public Creature, public visitable<Character>
         // Put corpse+inventory on map at the place where this is.
         void place_corpse();
         // Put corpse+inventory on defined om tile
-        void place_corpse( const tripoint &om_target );
+        void place_corpse( const tripoint_abs_omt &om_target );
 
         /** Returns the player's modified base movement cost */
         int  run_cost( int base_cost, bool diag = false ) const;
@@ -1843,9 +1847,6 @@ class Character : public Creature, public visitable<Character>
         /** Returns warmth provided by armor, etc. */
         std::map<bodypart_id, int> warmth( const std::map<bodypart_id, std::vector<const item *>>
                                            &clothing_map ) const;
-        /** Returns warmth provided by an armor's bonus, like hoods, pockets, etc. */
-        std::map<bodypart_id, int> bonus_item_warmth( const std::map<bodypart_id, std::vector<const item *>>
-                &clothing_map ) const;
         /** Can the player lie down and cover self with blankets etc. **/
         bool can_use_floor_warmth() const;
         /**
@@ -2257,7 +2258,7 @@ class Character : public Creature, public visitable<Character>
         pimpl<enchantment> enchantment_cache;
 
         /** Amount of time the player has spent in each overmap tile. */
-        std::unordered_map<point, time_duration> overmap_time;
+        std::unordered_map<point_abs_omt, time_duration> overmap_time;
 
     public:
         // TODO: make these private
@@ -2290,5 +2291,17 @@ float threshold_for_nv_range( float range );
 float nv_range_from_per( int per );
 float nv_range_from_eye_encumbrance( int enc );
 } // namespace vision
+
+namespace warmth
+{
+
+std::map<bodypart_id, int> from_clothing( const
+        std::map<bodypart_id, std::vector<const item *>> &clothing_map );
+std::map<bodypart_id, int> from_effects( const Character &c );
+
+/** Returns wind resistance provided by armor, etc **/
+std::map<bodypart_id, int> wind_resistance_from_clothing(
+    const std::map<bodypart_id, std::vector<const item *>> &clothing_map );
+} // namespace warmth
 
 #endif // CATA_SRC_CHARACTER_H

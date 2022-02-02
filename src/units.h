@@ -9,6 +9,8 @@
 #include <vector>
 
 #include "units_def.h"
+
+#include "units_angle.h"
 #include "units_volume.h"
 #include "units_mass.h"
 #include "units_energy.h"
@@ -31,14 +33,19 @@ inline std::ostream &operator<<( std::ostream &o, volume_in_milliliter_tag )
     return o << "ml";
 }
 
-inline std::ostream &operator<<( std::ostream &o, energy_in_millijoule_tag )
+inline std::ostream &operator<<( std::ostream &o, energy_in_joule_tag )
 {
-    return o << "mJ";
+    return o << "J";
 }
 
 inline std::ostream &operator<<( std::ostream &o, money_in_cent_tag )
 {
     return o << "cent";
+}
+
+inline std::ostream &operator<<( std::ostream &o, angle_in_radians_tag )
+{
+    return o << "rad";
 }
 
 inline std::ostream &operator<<( std::ostream &o, temperature_in_millidegree_celsius_tag )
@@ -59,7 +66,7 @@ std::string display( units::energy v );
 namespace units
 {
 static const std::vector<std::pair<std::string, energy>> energy_units = { {
-        { "mJ", 1_mJ },
+        { "mJ", 1_J }, // Millijoules are depreciated, this is only defined to migrate old saves.
         { "J", 1_J },
         { "kJ", 1_kJ },
     }
@@ -79,6 +86,12 @@ static const std::vector<std::pair<std::string, money>> money_units = { {
 static const std::vector<std::pair<std::string, volume>> volume_units = { {
         { "ml", 1_ml },
         { "L", 1_liter }
+    }
+};
+static const std::vector<std::pair<std::string, angle>> angle_units = { {
+        { "arcmin", 1_arcmin },
+        { "°", 1_degrees },
+        { "rad", 1_radians },
     }
 };
 } // namespace units

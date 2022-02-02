@@ -19,6 +19,7 @@
 #include "action.h"
 #include "calendar.h"
 #include "character_id.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "enums.h"
@@ -29,7 +30,6 @@
 #include "pimpl.h"
 #include "point.h"
 #include "type_id.h"
-#include "weather.h"
 
 class Character;
 class Creature_tracker;
@@ -82,7 +82,6 @@ enum safe_mode_type {
 };
 
 enum body_part : int;
-enum weather_type : int;
 enum action_id : int;
 
 struct special_game;
@@ -100,6 +99,7 @@ class player;
 class save_t;
 class scenario;
 class stats_tracker;
+template<typename Tripoint>
 class tripoint_range;
 class vehicle;
 struct WORLD;
@@ -115,6 +115,8 @@ class ui_adaptor;
 struct visibility_variables;
 
 class distribution_grid_tracker;
+struct weather_printable;
+class weather_manager;
 
 using item_filter = std::function<bool ( const item & )>;
 
@@ -146,6 +148,11 @@ class game
         friend class advanced_inventory;
         friend class main_menu;
         friend distribution_grid_tracker &get_distribution_grid_tracker();
+        friend map &get_map();
+        friend Character &get_player_character();
+        friend avatar &get_avatar();
+        friend weather_manager &get_weather();
+
     public:
         game();
         ~game();
@@ -330,9 +337,9 @@ class game
         monster *place_critter_around( const mtype_id &id, const tripoint &center, int radius );
         monster *place_critter_around( const shared_ptr_fast<monster> &mon, const tripoint &center,
                                        int radius, bool forced = false );
-        monster *place_critter_within( const mtype_id &id, const tripoint_range &range );
+        monster *place_critter_within( const mtype_id &id, const tripoint_range<tripoint> &range );
         monster *place_critter_within( const shared_ptr_fast<monster> &mon,
-                                       const tripoint_range &range );
+                                       const tripoint_range<tripoint> &range );
         /** @} */
         /**
          * Returns the approximate number of creatures in the reality bubble.
@@ -536,7 +543,8 @@ class game
         std::vector<monster *> get_fishable_monsters( std::unordered_set<tripoint> &fishable_locations );
 
         /** Flings the input creature in the given direction. */
-        void fling_creature( Creature *c, const int &dir, float flvel, bool controlled = false );
+        void fling_creature( Creature *c, const units::angle &dir, float flvel,
+                             bool controlled = false );
 
         float natural_light_level( int zlev ) const;
         /** Returns coarse number-of-squares of visibility at the current light level.
@@ -618,6 +626,8 @@ class game
         void zoom_in();
         void zoom_out();
         void reset_zoom();
+        void set_zoom( int level );
+        int get_zoom() const;
         int get_moves_since_last_save() const;
         int get_user_action_counter() const;
 
@@ -640,6 +650,7 @@ class game
          * coordinates.
          */
         void load_map( const tripoint &pos_sm );
+        void load_map( const tripoint_abs_sm &pos_sm );
         /**
          * The overmap which contains the center submap of the reality bubble.
          */
@@ -679,9 +690,11 @@ class game
         void draw_weather( const weather_printable &wPrint );
         void draw_sct();
         void draw_zones( const tripoint &start, const tripoint &end, const tripoint &offset );
-        // Draw critter (if visible!) on its current position into w_terrain.
+        // In curses mode, draw critter (if visible!) on its current position into w_terrain.
         // @param center the center of view, same as when calling map::draw
         void draw_critter( const Creature &critter, const tripoint &center );
+        // As @ref draw_critter, but with inverted colors.
+        void draw_critter_highlighted( const Creature &critter, const tripoint &center );
         void draw_cursor( const tripoint &p );
         // Draw a highlight graphic at p, for example when examining something.
         // TILES only, in curses this does nothing
@@ -692,9 +705,10 @@ class game
         void draw_graffiti_override( const tripoint &p, bool has );
         void draw_trap_override( const tripoint &p, const trap_id &id );
         void draw_field_override( const tripoint &p, const field_type_id &id );
-        void draw_item_override( const tripoint &p, const itype_id &id, const mtype_id &mid, bool hilite );
-        void draw_vpart_override( const tripoint &p, const vpart_id &id, int part_mod, int veh_dir,
-                                  bool hilite, const point &mount );
+        void draw_item_override( const tripoint &p, const itype_id &id, const mtype_id &mid,
+                                 bool hilite );
+        void draw_vpart_override( const tripoint &p, const vpart_id &id, int part_mod,
+                                  units::angle veh_dir, bool hilite, const point &mount );
         void draw_below_override( const tripoint &p, bool draw );
         void draw_monster_override( const tripoint &p, const mtype_id &id, int count,
                                     bool more, Creature::Attitude att );
@@ -736,9 +750,9 @@ class game
         bool npc_menu( npc &who );
 
         // Handle phasing through walls, returns true if it handled the move
-        bool phasing_move( const tripoint &dest );
+        bool phasing_move( const tripoint &dest, bool via_ramp = false );
         // Regular movement. Returns false if it failed for any reason
-        bool walk_move( const tripoint &dest );
+        bool walk_move( const tripoint &dest, bool via_ramp = false );
         void on_move_effects();
     private:
         // Game-start procedures
@@ -765,8 +779,9 @@ class game
         void init_autosave();     // Initializes autosave parameters
         void create_starting_npcs(); // Creates NPCs that start near you
         // create vehicle nearby, for example; for a profession vehicle.
-        vehicle *place_vehicle_nearby( const vproto_id &id, const point &origin, int min_distance,
-                                       int max_distance, const std::vector<std::string> &omt_search_types = {} );
+        vehicle *place_vehicle_nearby(
+            const vproto_id &id, const point_abs_omt &origin, int min_distance,
+            int max_distance, const std::vector<std::string> &omt_search_types = {} );
         // V Menu Functions and helpers:
         void list_items_monsters(); // Called when you invoke the `V`-menu
 
@@ -809,7 +824,7 @@ class game
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
         point place_player( const tripoint &dest );
-        void place_player_overmap( const tripoint &om_dest );
+        void place_player_overmap( const tripoint_abs_omt &om_dest );
 
         bool unload( item_location loc ); // Unload a gun/tool  'U'
 
@@ -971,9 +986,9 @@ class game
         pimpl<memorial_logger> memorial_logger_ptr;
         pimpl<spell_events> spell_events_ptr;
         pimpl<distribution_grid_tracker> grid_tracker_ptr;
+        pimpl<weather_manager> weather_manager_ptr;
 
     public:
-        /** Make map a reference here, to avoid map.h in game.h */
         map &m;
         avatar &u;
         scent_map &scent;
@@ -1032,8 +1047,6 @@ class game
         bool auto_travel_mode = false;
         safe_mode_type safe_mode;
         int turnssincelastmon = 0; // needed for auto run mode
-
-        weather_manager weather;
 
         int mostseen = 0; // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
     private:

@@ -191,6 +191,12 @@
     "components": [ [ [ "solar_cell", 5 ] ], [ [ "cable", 8 ] ], [ [ "power_supply", 1 ] ], [ [ "amplifier", 1 ] ] ]
   },
   {
+    "id": "storage_battery",
+    "type": "requirement",
+    "//": "Materials used to repair storage batteries",
+    "components": [ [ [ "small_storage_battery", 1 ] ], [ [ "cable", 2 ] ] ]
+  },
+  {
     "id": "tire_repair",
     "type": "requirement",
     "//": "Materials used for repairing tires",

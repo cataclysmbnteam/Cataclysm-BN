@@ -120,6 +120,7 @@ Use the `Home` key to return to the top.
       - [`close" And "open`](#-close--and--open-)
       - [`bash`](#-bash-)
       - [`deconstruct`](#-deconstruct-)
+      - [`pry`](#-pry-)
       - [`map_bash_info`](#-map-bash-info-)
       - [`str_min`, `str_max`, `str_min_blocked`, `str_max_blocked`, `str_min_supported`, `str_max_supported`](#-str-min----str-max----str-min-blocked----str-max-blocked----str-min-supported----str-max-supported-)
       - [`sound`, `sound_fail`, `sound_vol`, `sound_fail_vol`](#-sound----sound-fail----sound-vol----sound-fail-vol-)
@@ -131,7 +132,14 @@ Use the `Home` key to return to the top.
       - [`items`](#-items--1)
       - [`map_deconstruct_info`](#-map-deconstruct-info-)
       - [`furn_set`, `ter_set`](#-furn-set----ter-set--1)
-    + [`items`](#-items-2)
+      - [`items`](#-items-2)
+      - [`prying_result`](#-prying-result-)
+      - [`new_ter_type`, `new_furn_type`](#-new-furn-type----new-ter-type-)
+      - [`success_message`, `fail_message`, `break_message`](#-success-message----fail-message----break-message-)
+      - [`pry_quality`, `pry_bonus_mult`, `difficulty`](#-pry-quality----pry-bonus-mult----difficulty-)
+      - [`noise`, `break_noise`, `sound`, `break_sound`](#-noise----break-noise----sound----break-sound-)
+      - [`breakable`, `break_ter_type`, `break_furn_type`](#-breakable----break-ter-type----break-furn-type-)
+      - [`break_items`](#-break-items-)
     + [`plant_data`](#plant_data-1)
       - [`transform`](#-transform-)
       - [`base`](#-base-)
@@ -159,6 +167,7 @@ Use the `Home` key to return to the top.
 - [Mutation overlay ordering](#mutation-overlay-ordering)
   * [`id`](#-id--2)
   * [`order`](#-order-)
+- [MOD_INFO](#mod_info)
 - [MOD tileset](#mod-tileset)
   * [`compatibility`](#-compatibility-)
   * [`tiles-new`](#-tiles-new-)
@@ -1016,7 +1025,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
   "BLIND_EASY",
   "ANOTHERFLAG"
 ],
-"construction_blueprint": "camp", // an optional string containing an update_mapgen_id.  Used by faction camps to upgrade their buildings
+"construction_blueprint": "camp", // an optional string containing an update_mapgen_id.  Used by faction camps to upgrade their buildings. If non-empty, the function must exist.
 "on_display": false,         // this is a hidden construction item, used by faction camps to calculate construction times but not available to the player
 "qualities": [               // Generic qualities of tools needed to craft
   {"id":"CUT","level":1,"amount":1}
@@ -1846,6 +1855,7 @@ CBMs can be defined like this:
 "bionic_id" : "bio_advreactor", // ID of the installed bionic if not equivalent to "id"
 "difficulty" : 11,              // Difficulty of installing CBM
 "is_upgrade" : true             // Whether the CBM is an upgrade of another bionic.
+"installation_data" : "AID_bio_advreactor" // ID of the item which allows for almost guaranteed installation of corresponding bionic.
 ```
 
 ### Comestibles
@@ -2803,6 +2813,10 @@ Color of the object as it appears in the game. "color" defines the foreground co
 
 (Optional) Defines whether the object can be deconstructed and if so, what the results shall be. See "map_deconstruct_info".
 
+#### `pry`
+
+(Optional) Defines whether the object can be pried open and if so, what happens. See "prying_result".
+
 #### `map_bash_info`
 
 Defines the various things that happen when the player or something else bashes terrain or furniture.
@@ -2871,9 +2885,75 @@ TODO
 
 The terrain / furniture that will be set after the original has been deconstructed. "furn_set" is optional (it defaults to no furniture), "ter_set" is only used upon "deconstruct" entries in terrain and is mandatory there.
 
-### `items`
+#### `items`
 
 (Optional) An item group (inline) or an id of an item group, see doc/ITEM_SPAWN.md. The default subtype is "collection". Upon deconstruction the object, items from that group will be spawned.
+
+#### `prying_result`
+
+```JSON
+{
+      "success_message": "You pry open the door.",
+      "fail_message": "You pry, but cannot pry open the door.",
+      "break_message": "You damage the door!",
+      "pry_quality": 2,
+      "pry_bonus_mult": 3,
+      "noise": 12,
+      "break_noise": 10,
+      "sound": "crunch!",
+      "break_sound": "crack!",
+      "breakable": true,
+      "difficulty": 8,
+      "new_ter_type": "t_door_o",
+      "new_furn_type": "f_crate_o",
+      "break_ter_type": "t_door_b",
+      "break_furn_type": "f_null",
+      "break_items": [
+        { "item": "2x4", "prob": 25 },
+        { "item": "wood_panel", "prob": 10 },
+        { "item": "splinter", "count": [ 1, 2 ] },
+        { "item": "nail", "charges": [ 0, 2 ] }
+      ]
+}
+```
+
+#### `new_ter_type`, `new_furn_type`
+
+The terrain / furniture that will be set after the original has been pried open. "furn_set" is optional (it defaults to no furniture), "ter_set" is only used upon "pry" entries in terrain and is mandatory there.
+
+#### `success_message`, `fail_message`, `break_message`
+
+Messages displayed on successfully prying open the terrain / furniture, on failure, or should the terrain / furniture break into something else from a failed pry attempt. `break_message` is only required if `breakable` is set to true and `break_ter_type` is defined.
+
+#### `pry_quality`, `pry_bonus_mult`, `difficulty`
+
+This determines the minimum prying quality needed to attempt to pry open the terrain / furniture, and the chance of successfully prying it open. From iuse.cpp:
+
+```C++
+    int diff = pry->difficulty;
+    diff -= ( ( pry_level - pry->pry_quality ) * pry->pry_bonus_mult );
+```
+
+```C++
+    if( dice( 4, diff ) < dice( 4, p->str_cur ) ) {
+        p->add_msg_if_player( m_good, pry->success_message );
+```
+
+`difficulty` is compared to the character's current strength during the prying attempt. If the available prying quality of your tool is above the required `pry_quality`, effective difficulty is reduced at a rate determined by `pry_bonus_mult`. `pry_bonus_mult` is optional, and defaults to 1 (meaning for every level of prying quality your tool has beyond the minimum, `diff` will be reduced by 1).
+
+#### `noise`, `break_noise`, 'sound', 'break_sound'
+
+If `noise` is specified, successfully prying the terrain / furniture open will play `sound` at the specified volume. If `breakable` is true and `break_noise` is specified, breaking the terrain / furniture on a failed prying attempt will play `break_noise` at the specified volume.
+
+If `noise` or `break_noise` are not specified then prying or breaking the terrain / furniture in question will simply be silent and make no sound, making them optional. `sound` and `break_sound` are also optional, with default messages of "crunch!" and "crack!" respectively.
+
+#### `breakable`, `break_ter_type`, `break_furn_type`
+
+If `breakable` is set to true, then failed pry attempts have a chance of breaking the terrain / furniture instead. For terrain, `break_ter_type` is mandatory if `breakable` is set to true, `break_furn_type` is optional and defaults to null.
+
+#### `break_items`
+
+(Optional) An item group (inline) or an id of an item group, see doc/ITEM_SPAWN.md. The default subtype is "collection". If `breakable` is set to true, breaking the object from a failed pry attempt will spawn items from that group.
 
 ### `plant_data`
 
@@ -3229,6 +3309,55 @@ The internal ID of the mutation. Can be provided as a single string, or an array
 (integer)
 
 The ordering value of the mutation overlay. Values range from 0 - 9999, 9999 being the topmost drawn layer. Mutations that are not in any list will default to 9999.
+
+# MOD_INFO
+
+Also see [MODDING.md](MODDING.md).
+
+Object with `MOD_INFO` type describes the mod itself.
+Each mod must have exactly one `MOD_INFO`, and unlike other types of objects from mods it is loaded on game launch,
+before the title screen shows up. As such, any and all errors related to it will show up before the title screen shows up.
+
+Current convention is to put your `MOD_INFO` in `mod_info.json` file within the root directory of the mod.
+
+Example:
+```C++
+[
+  {
+    "type": "MOD_INFO",
+
+    // Mod's unique identifier, prefer to use only ASCII letters, numbers and underscore for clarity.
+    "id": "better_zeds",
+    // Mod's category, see MODDING.md for list of supported values.
+    "category": "content",
+    // Mod's display name, in English.
+    "name": "Better Zombies",
+    // Mod's description, in English.
+    "description": "Reworks all base game zombies and adds 100+ new variants.",
+    // Original author(s) of the mod.
+    "authors": [ "That Guy", "His Friend" ],
+    // If the author(s) abandoned the mod for some reason, this entry lists current maintainers.
+    "maintainers": [ "Mr. BugFixer", "BugFixer Jr." ],
+    // Mod version string. This is for users' and maintainers' convenience, so you can use whatever is most convenient here (e.g. date).
+    "version": "02 Dec 2021",
+    // List of mod's dependencies. Dependencies are guaranteed to be loaded before the mod is loaded.
+    "dependencies": [ "dda", "zed_templates" ],
+    // List of mods that are incompatible with this mod.
+    "conflics": [ "worse_zeds" ],
+    // Special flag for core game data, can only be used by total overhaul mods. Only 1 core mod can be loaded at a time.
+    "core": false,
+    // Marks mod as obsolete. Obsolete mods don't show up in mod selection list by default, and have a warning on them.
+    "obsolete": false,
+    // Path of mod's files relative to the modinfo.json file. The game automatically loads all files from the folder with modinfo.json,
+    // and all the subfolders, so this field is only useful when you for whatever reason want to stick your modinfo.json in a subfolder of your mod.
+    "path": "../common-data/",
+    // Same principle as with 'path' field, this points to (almost completely unused and most likely bugged to Hell) "legacy migration" files.
+    "legacy": "../legacy-data/"
+  }
+]
+```
+
+## 
 
 # MOD tileset
 
