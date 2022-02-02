@@ -346,5 +346,51 @@
     "book_learn": [ [ "welding_book", 2 ] ],
     "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
     "components": [ [ [ "weldtank", 1 ] ], [ [ "oxyacetylene", 240 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "fridge",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "40 m",
+    "reversible": true,
+    "decomp_learn": 5,
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "sheet_metal", 6 ] ],
+      [ [ "sheet_metal_small", 4 ] ],
+      [ [ "steel_chunk", 4 ] ],
+      [ [ "cable", 3 ] ],
+      [ [ "hose", 1 ] ],
+      [ [ "condensor_coil", 1 ] ],
+      [ [ "evaporator_coil", 1 ] ],
+      [ [ "refrigerant_tank", 1 ] ],
+      [ [ "thermostat", 1 ] ],
+      [ [ "light_bulb", 1 ] ],
+      [ [ "motor_tiny", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "oven",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "decomp_learn": 5,
+    "time": "50 m",
+    "reversible": true,
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 3 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "sheet_metal", 6 ] ],
+      [ [ "steel_chunk", 5 ] ],
+      [ [ "element", 4 ] ],
+      [ [ "cable", 5 ] ],
+      [ [ "pilot_light", 1 ] ]
+    ]
   }
 ]
