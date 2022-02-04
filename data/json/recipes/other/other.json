@@ -356,6 +356,7 @@
     "difficulty": 5,
     "time": "40 m",
     "reversible": true,
+    "decomp_learn": 5,
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -379,6 +380,7 @@
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
     "difficulty": 5,
+    "decomp_learn": 5,
     "time": "50 m",
     "reversible": true,
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 3 ] ],
