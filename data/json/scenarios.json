@@ -65,7 +65,8 @@
       "sloc_church",
       "sloc_cemetery",
       "sloc_fire_station",
-      "sloc_police"
+      "sloc_police",
+      "sloc_town_hall"
     ],
     "start_name": "In Town",
     "flags": [ "SUR_START", "CITY_START", "LONE_START" ]
