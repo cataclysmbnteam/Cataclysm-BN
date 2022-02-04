@@ -2140,7 +2140,7 @@
       { "part": "hand_r", "ignored": 4 },
       { "part": "torso", "ignored": 30 }
     ],
-    "armor": [ { "parts": "ALL", "bash": 5, "cut": 10, "stab": 10, "heat": 3, "acid": 3 } ]
+    "armor": [ { "parts": "ALL", "bash": 3, "cut": 8, "stab": 8, "heat": 3, "acid": 3 } ]
   },
   {
     "type": "mutation",

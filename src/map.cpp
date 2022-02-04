@@ -5628,13 +5628,15 @@ void map::spread_circular_fields( const tripoint &point,
     current.insert( point );
 
     //For each thing in the current list:
-    while( current.size() != 0 ) {
+    while( !current.empty() ) {
 
         for( auto &currentPoint : current ) {
 
             //first add it to the closed list.
             closed.insert( currentPoint );
-            if( furn( currentPoint ) != f_null || !has_flag( TFLAG_FLAT, currentPoint ) ) {
+            if( furn( currentPoint ) != f_null ||
+                !has_flag( TFLAG_FLAT, currentPoint )  ||
+                has_flag( TFLAG_SWIMMABLE, currentPoint ) ) {
                 continue;
             }
             bool plowable = has_flag( flag_PLOWABLE, currentPoint );
@@ -5652,7 +5654,7 @@ void map::spread_circular_fields( const tripoint &point,
             //check to see if we can do anything here. (roll the % upgrade math).
             for( int index = 2; index >= -1; index-- ) {
                 int cappedIndex = std::min( index + 1, 2 );
-                if( index == -1 || curfield.find_field_c( full_field_list[index] ) != 0 ) {
+                if( index == -1 || curfield.find_field_c( full_field_list[index] ) != nullptr ) {
                     currentIntensity = cappedIndex;
                     if( dist < 2 ||
                         x_in_y( field_chance[cappedIndex] * distRatio / static_cast<float>( cappedIndex ) *

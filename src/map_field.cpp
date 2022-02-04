@@ -72,7 +72,6 @@ static const bionic_id bio_heatsink( "bio_heatsink" );
 
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_blind( "blind" );
-static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_corroding( "corroding" );
 static const efftype_id effect_tangled( "tangled" );
 static const efftype_id effect_fungus( "fungus" );
