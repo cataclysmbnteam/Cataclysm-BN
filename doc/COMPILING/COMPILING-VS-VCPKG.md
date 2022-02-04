@@ -20,6 +20,10 @@ Steps from current guide were tested on Windows 10 (64 bit), Visual Studio 2019 
 
 - Select the "Desktop development with C++" and "Game development with C++" workloads.
 
+- If you're installing Visual Studio **2022**, go to "Individual components" tab and for every enabled `v143` component
+  enable corresponding `v142` component. This enables Visual Studio 2019 toolchain, which we will be using, as
+  2022 one is not fully supported by `vcpkg` yet.
+
 2. Install `Git for Windows` (installer can be downloaded from [Git homepage](https://git-scm.com/)).
 
 3. Install and configure `vcpkg`:
