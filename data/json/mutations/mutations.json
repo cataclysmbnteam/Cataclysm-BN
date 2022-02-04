@@ -5242,7 +5242,6 @@
     "changes_to": [ "COLDBLOOD3" ],
     "types": [ "METABOLISM" ],
     "category": [ "RAPTOR", "SPIDER" ],
-
     "temperature_speed_modifier": 0.333,
     "metabolism_modifier": -0.5
   },
