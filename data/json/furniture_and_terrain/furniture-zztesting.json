@@ -75,7 +75,7 @@
       "steady_consumer",
       {
         "power": 1,
-        "consume_every": "20 s",
+        "consume_every": "100 s",
         "transform": { "id": "f_floor_lamp", "msg": "The lamp flickers and dies." }
       }
     ]
