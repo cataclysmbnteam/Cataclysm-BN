@@ -1446,11 +1446,14 @@ class map
 
 
         /**
-        * Propogates a line of the specified field in all directions from the designated position by the listed amount, up to the specified range. 
+        * Propogates a line of the specified field in all directions from the designated position by the listed amount, up to the specified range.
         */
-        void spread_radial_field(const tripoint &p, const field_type_id &field_to_spread, const int &increment, const int &range, const float &propChanceFactor = 1);
+        void spread_radial_field( const tripoint &p, const field_type_id &field_to_spread,
+                                  const int &increment, const int &range, const float &propChanceFactor = 1 );
 
-        void spread_linear_field(const tripoint &p, const field_type_id &field_to_spread, const int &increment, const int &range, const tripoint &direction, const float &propChanceFactor = 1);
+        void spread_linear_field( const tripoint &p, const field_type_id &field_to_spread,
+                                  const int &increment, const int &range, const tripoint &direction,
+                                  const float &propChanceFactor = 1 );
         /**
         * A helper method to find which of a set of fields exist at a point
         */
@@ -1466,7 +1469,8 @@ class map
         * @param maxRange The maximum allowed radange (radius) of the spawned fields
         * @param fields A list of pairs in the form of <field ID, chance to spawn>.
         */
-        void spread_circular_fields(const tripoint& point, const int& maxRange);//, const std::set<std::pair<field_type_id, float>> fields);
+        void spread_circular_fields( const tripoint &point,
+                                     const int &maxRange ); //, const std::set<std::pair<field_type_id, float>> fields);
         // Splatters of various kind
         void add_splatter( const field_type_id &type, const tripoint &where, int intensity = 1 );
         void add_splatter_trail( const field_type_id &type, const tripoint &from, const tripoint &to );

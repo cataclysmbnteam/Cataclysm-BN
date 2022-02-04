@@ -242,7 +242,7 @@ static const bionic_id bio_ups( "bio_ups" );
 // Aftershock stuff!
 static const bionic_id afs_bio_linguistic_coprocessor( "afs_bio_linguistic_coprocessor" );
 
-static const trait_id trait_ANCIENT_PACE("ANCIENT_PACE");
+static const trait_id trait_ANCIENT_PACE( "ANCIENT_PACE" );
 static const trait_id trait_BARK( "BARK" );
 static const trait_id trait_BIRD_EYE( "BIRD_EYE" );
 static const trait_id trait_CEPH_EYES( "CEPH_EYES" );
@@ -302,7 +302,7 @@ static const trait_id trait_SHOUT3( "SHOUT3" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_SLIMY( "SLIMY" );
 static const trait_id trait_SLOWLEARNER( "SLOWLEARNER" );
-static const trait_id trait_SPREAD_ROOTS("SPREAD_ROOTS");
+static const trait_id trait_SPREAD_ROOTS( "SPREAD_ROOTS" );
 static const trait_id trait_STRONGSTOMACH( "STRONGSTOMACH" );
 static const trait_id trait_THRESH_CEPHALOPOD( "THRESH_CEPHALOPOD" );
 static const trait_id trait_THRESH_INSECT( "THRESH_INSECT" );
@@ -826,8 +826,10 @@ bool Character::sight_impaired() const
              has_trait( trait_PER_SLIME ) );
 }
 
-bool Character::root_sight() {
-    return (has_trait(trait_SPREAD_ROOTS) && (get_map().get_field(pos(), fd_roots1) != nullptr));
+bool Character::root_sight()
+{
+    return ( has_trait( trait_SPREAD_ROOTS ) &&
+             ( get_map().get_field( pos(), fd_roots1 ) != nullptr ) );
 }
 bool Character::has_alarm_clock() const
 {
@@ -1539,7 +1541,7 @@ bool Character::move_effects( bool attacking )
         return false;
 
     }
-    if (has_effect(effect_rooted) && !attacking) {
+    if( has_effect( effect_rooted ) && !attacking ) {
         return false;
     }
     if( has_effect( effect_heavysnare ) ) {
@@ -9848,7 +9850,7 @@ int Character::run_cost( int base_cost, bool diag ) const
             movecost += 8;
         }
 
-        if( has_trait(trait_ANCIENT_PACE) && !g->m.has_flag( "DIGGABLE", pos() ) ) {
+        if( has_trait( trait_ANCIENT_PACE ) && !g->m.has_flag( "DIGGABLE", pos() ) ) {
             movecost += 15;
         }
 
