@@ -13,7 +13,7 @@
     "type": "scenario",
     "id": "missed",
     "name": "Missed",
-    "points": 0,
+    "points": -1,
     "description": "Whether due to stubbornness, ignorance, or just plain bad luck, you missed the evacuation, and are stuck in a city full of the risen dead.",
     "allowed_locs": [
       "sloc_house",
