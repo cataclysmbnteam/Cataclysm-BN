@@ -3650,7 +3650,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
 {
     float initial_damage = 0.0;
     for( const damage_unit &dam : proj.impact ) {
-        initial_damage += dam.amount;
+        initial_damage += dam.amount * dam.damage_multiplier;
         initial_damage += dam.res_pen;
     }
     if( initial_damage < 0 ) {

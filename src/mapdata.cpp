@@ -266,8 +266,8 @@ void map_bash_info::deserialize( JsonIn &jsin )
 
     assign( jo, "bash_below", bash_below );
 
-    optional( jo, was_loaded, "sound", sound );
-    optional( jo, was_loaded, "sound_fail", sound_fail );
+    assign( jo, "sound", sound );
+    assign( jo, "sound_fail", sound_fail );
 
     assign( jo, "furn_set", furn_set );
 
