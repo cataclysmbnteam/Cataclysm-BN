@@ -3677,7 +3677,8 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
 
     if( ter.bash.ranged ) {
         const ranged_bash_info &ri = *ter.bash.ranged;
-        if( hit_items || check( ri.block_unaimed_chance ) ) {
+        if( !hit_items && !check( ri.block_unaimed_chance ) ) {
+            // Nothing, it's a miss
         } else if( ri.reduction_laser && ammo_effects.count( "LASER" ) != 0 ) {
             dam -= rng( ri.reduction_laser->min, ri.reduction_laser->max );
         } else {
