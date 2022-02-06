@@ -23,22 +23,16 @@ Steps from current guide were tested on Windows 10 (64 bit), Visual Studio 2019 
 
 2. Install `Git for Windows` (installer can be downloaded from [Git homepage](https://git-scm.com/)).
 
-3. Install and configure `vcpkg`:
+3. Install and configure latest `vcpkg`:
 
 ***WARNING: It is important that, wherever you decide to clone this repo, the path does not include whitespace. That is, `C:/dev/vcpkg` is acceptable, but `C:/dev test/vcpkg` is not.***
 
 ```cmd
 git clone https://github.com/Microsoft/vcpkg.git
 cd vcpkg
-git checkout 6bc4362fb49e53f1fff7f51e4e27e1946755ecc6
 .\bootstrap-vcpkg.bat
 .\vcpkg integrate install
 ```
-Note: 
-```
-git checkout 6bc4362fb49e53f1fff7f51e4e27e1946755ecc6 
-``` 
-used to grab vcpkg version without font problems.
 
 4. (Optionally) Install (or upgrade) necessary packages with following command line:
 
