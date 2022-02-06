@@ -1098,7 +1098,7 @@
     "copy-from": "f_fridge_base",
     "symbol": "{",
     "description": "Refrigerate your food with the amazing science of electricity!  It has no power.",
-    "active": [ "charge_watcher", { "min_power": 3000, "transform": { "id": "f_fridge_on", "msg": "The fridge starts up." } } ],
+    "active": [ "charge_watcher", { "min_power": 30, "transform": { "id": "f_fridge_on", "msg": "The fridge starts up." } } ],
     "color": "light_cyan"
   },
   {
