@@ -151,7 +151,18 @@
     "using": [ [ "blacksmithing_standard", 3 ], [ "steel_standard", 3 ] ],
     "book_learn": [ [ "manual_shotgun", 2 ], [ "manual_rifle", 2 ], [ "manual_smg", 2 ], [ "manual_pistol", 3 ], [ "recipe_bullets", 2 ] ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "scrap_bronze", 1 ], [ "material_aluminium_ingot", 1 ] ] ]
+    "components": [ [ [ "scrap_bronze", 1 ], [ "material_aluminium_ingot", 1 ] ] ],
+    "components": [
+      [
+        [ "tin", 12 ],
+        [ "zinc_metal", 12 ],
+        [ "material_aluminium_ingot", 1 ],
+        [ "aluminum_foil", 40 ],
+        [ "chem_aluminium_powder", 15 ],
+        [ "can_drink_unsealed", 2 ]
+      ],
+      [ [ "copper_scrap_equivalent", 2, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",
