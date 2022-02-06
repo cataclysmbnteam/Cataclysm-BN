@@ -1052,7 +1052,7 @@
   },
   {
     "type": "furniture",
-    "id": "f_fridge_base",
+    "abstract": "f_fridge_base",
     "name": "-",
     "looks_like": "f_fridge",
     "symbol": "{",
