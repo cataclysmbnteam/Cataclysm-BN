@@ -151,7 +151,6 @@
     "using": [ [ "blacksmithing_standard", 3 ], [ "steel_standard", 3 ] ],
     "book_learn": [ [ "manual_shotgun", 2 ], [ "manual_rifle", 2 ], [ "manual_smg", 2 ], [ "manual_pistol", 3 ], [ "recipe_bullets", 2 ] ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "scrap_bronze", 1 ], [ "material_aluminium_ingot", 1 ] ] ],
     "components": [
       [
         [ "tin", 12 ],
