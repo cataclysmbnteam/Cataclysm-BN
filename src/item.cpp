@@ -4441,7 +4441,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             tagtext += _( " (unread)" );
         }
     }
-    if( has_flag( flag_CBM_SCANNED ) ) {
+    if( has_var( "bionics_scanned_by" ) && has_flag( flag_CBM_SCANNED ) ) {
         tagtext += _( " (bionic detected)" );
     }
     if( has_flag( flag_ETHEREAL_ITEM ) ) {
