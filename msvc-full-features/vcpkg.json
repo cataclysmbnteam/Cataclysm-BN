@@ -1,6 +1,6 @@
 {
-    "name": "cdda-vcpkg-dependencies",
-    "version-string": "0.E",
+    "name": "bn-vcpkg-dependencies",
+    "version-string": "experimental",
     "dependencies": [
         "sdl2",
         "sdl2-image",
