@@ -103,15 +103,11 @@ static const itype_id itype_dehydrator( "dehydrator" );
 static const itype_id itype_electrolysis_kit( "electrolysis_kit" );
 static const itype_id itype_food_processor( "food_processor" );
 static const itype_id itype_forge( "forge" );
-static const itype_id itype_glass_shard( "glass_shard" );
 static const itype_id itype_hotplate( "hotplate" );
 static const itype_id itype_kiln( "kiln" );
 static const itype_id itype_nail( "nail" );
 static const itype_id itype_press( "press" );
-static const itype_id itype_sheet( "sheet" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
-static const itype_id itype_stick( "stick" );
-static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_vac_sealer( "vac_sealer" );
 static const itype_id itype_welder( "welder" );
 
@@ -3199,9 +3195,7 @@ bash_results map::bash_ter_success( const tripoint &p, const bash_params &params
         ter_set( p, t_open_air );
     }
 
-    if( true ) {
-        spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
-    }
+    spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
 
     if( ter( p ) == t_open_air ) {
         if( !zlevels ) {
@@ -3339,13 +3333,11 @@ bash_results map::bash_ter_furn( const tripoint &p, const bash_params &params )
     std::string soundfxvariant;
     const auto &ter_obj = ter( p ).obj();
     const auto &furn_obj = furn( p ).obj();
-    bool smash_furn = false;
     bool smash_ter = false;
     const map_bash_info *bash = nullptr;
 
     if( furn_obj.id && furn_obj.bash.str_max != -1 ) {
         bash = &furn_obj.bash;
-        smash_furn = true;
     } else if( ter_obj.bash.str_max != -1 ) {
         bash = &ter_obj.bash;
         smash_ter = true;

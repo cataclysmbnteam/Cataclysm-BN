@@ -555,9 +555,6 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::energy
     return true;
 }
 
-namespace
-{
-
 template<typename T, typename F>
 inline bool assign_unit_common( const JsonObject &jo, const std::string &name, T &val, F parse,
                                 bool strict, const T lo, const T hi )
@@ -609,8 +606,6 @@ inline bool assign_unit_common( const JsonObject &jo, const std::string &name, T
 
     return true;
 }
-
-} // namespace
 
 inline bool assign( const JsonObject &jo, const std::string &name, units::probability &val,
                     bool strict = false,
