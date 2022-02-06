@@ -661,7 +661,6 @@
     "description": "Your scent is quite weak.  Animals that track your scent will do so with more difficulty.",
     "starting_trait": true,
     "category": [ "ALPHA" ],
-    "cancels": [ "SMELLY2" ],
     "scent_intensity": 300,
     "types": [ "SCENT" ]
   },
@@ -1945,7 +1944,7 @@
     "type": "mutation",
     "id": "PATCHSKIN2",
     "name": { "str": "Thickened Patchwork Skin" },
-    "points": 4,
+    "points": 2,
     "visibility": 10,
     "ugliness": 8,
     "bodytemp_modifiers": [ 250, 500 ],
@@ -2527,6 +2526,7 @@
     "ugliness": 3,
     "description": "You develop a reservoir of fluids that bulges out of your abdomen.  Your body has adapted to containing extra liquids in event of shortfalls.",
     "thirst_modifier": 0.75,
+    "cancels": [ "THIRST", "THIRST2", "THIRST3" ],
     "category": [ "INSECT" ]
   },
   {
