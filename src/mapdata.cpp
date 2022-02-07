@@ -328,7 +328,7 @@ void map_bash_info::check( const std::string &id, map_object_type type ) const
 
     if( !errors.empty() ) {
         const std::string &type_str = map_object_type_to_str( type );
-        debugmsg( _( "Errors for \"bash\" field in \"%s\": \"%s\": \n%s" ),
+        debugmsg( _( "Errors for \"bash\" field in \"%s\": \"%s\":\n%s" ),
                   type_str, id,
                   enumerate_as_string( errors, enumeration_conjunction::newline ) );
     }
