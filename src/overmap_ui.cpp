@@ -182,6 +182,19 @@ struct grids_draw_data {
         std::unordered_map<std::size_t, std::pair<std::vector<tripoint_abs_omt>, char>> list_inactive;
 };
 
+static std::string fmt_omt_coords( const tripoint_abs_omt &coord )
+{
+    if( get_option<std::string>( "OVERMAP_COORDINATE_FORMAT" ) == "relative" ) {
+        point_abs_om abs_coord;
+        tripoint_om_omt rel_coord;
+        std::tie( abs_coord, rel_coord ) = project_remain<coords::om>( coord );
+
+        return string_format( "%d'%d, %d'%d", abs_coord.x(), rel_coord.x(), abs_coord.y(), rel_coord.y() );
+    } else {
+        return string_format( "%d, %d", coord.x(), coord.y() );
+    }
+}
+
 static void create_note( const tripoint_abs_omt &curs );
 
 // {note symbol, note color, offset to text}
@@ -701,29 +714,13 @@ static tripoint_abs_omt show_notes_manager( const tripoint_abs_omt &origin )
                 }
             }
 
-            std::string coord_string;
-
-            if( get_option<std::string>( "OVERMAP_COORDINATE_FORMAT" ) == "relative" ) {
-                point_abs_om abs_om;
-                tripoint_om_omt rel_omt;
-                std::tie( abs_om, rel_omt ) = project_remain<coords::om>( note.p );
-
-                coord_string = string_format(
-                                   _( "<color_red>LEVEL %i, %d'%d, %d'%d</color>: %s (Distance: <color_white>%d %s</color>) <color_red>%s</color>" ),
-                                   rel_omt.z(), abs_om.x(), rel_omt.x(), abs_om.y(), rel_omt.y(), location_desc, note.dist_from_pl,
-                                   trim_whitespaces( direction_str ), is_dangerous ? _( "DANGEROUS AREA!" ) : "" );
-            } else {
-                point_abs_omt abs_omt = note.p.xy();
-
-                coord_string = string_format(
-                                   _( "<color_red>LEVEL %i, %d, %d</color>: %s (Distance: <color_white>%d %s</color>) <color_red>%s</color>" ),
-                                   note.p.z(), abs_omt.x(), abs_omt.y(), location_desc, note.dist_from_pl,
-                                   trim_whitespaces( direction_str ), is_dangerous ? _( "DANGEROUS AREA!" ) : "" );
-            }
-
             nmenu.addentry_desc( string_format(
                                      "[%s] %s", colorize( note.symbol, note.col ), note.text ),
-                                 coord_string );
+                                 string_format(
+                                     _( "<color_red>LEVEL %i, %s</color>: %s (Distance: <color_white>%d %s</color>) <color_red>%s</color>" ),
+                                     note.p.z(),
+                                     fmt_omt_coords( note.p ), location_desc, note.dist_from_pl,
+                                     trim_whitespaces( direction_str ), is_dangerous ? _( "DANGEROUS AREA!" ) : "" ) );
             nmenu.entries[i].ctxt = string_format(
                                         "%s<color_white>% 4d %s</color>", dr_short, note.dist_from_pl, direction_str
                                     );
@@ -1436,18 +1433,9 @@ static void draw_om_sidebar(
         print_hint( "QUIT" );
     }
 
-    point_abs_omt abs_omt = center.xy();
+    mvwprintz( wbar, point( 1, getmaxy( wbar ) - 1 ), c_red, _( "LEVEL %i, %s" ), center.z(),
+               fmt_omt_coords( center ) );
 
-    if( get_option<std::string>( "OVERMAP_COORDINATE_FORMAT" ) == "relative" ) {
-        point_abs_om om;
-        point_om_omt omt;
-        std::tie( om, omt ) = project_remain<coords::om>( abs_omt );
-        mvwprintz( wbar, point( 1, getmaxy( wbar ) - 1 ), c_red,
-                   _( "LEVEL %i, %d'%d, %d'%d" ), center.z(), om.x(), omt.x(), om.y(), omt.y() );
-    } else {
-        mvwprintz( wbar, point( 1, getmaxy( wbar ) - 1 ), c_red,
-                   _( "LEVEL %i, %d, %d" ), center.z(), abs_omt.x(), abs_omt.y() );
-    }
     wnoutrefresh( wbar );
 }
 
