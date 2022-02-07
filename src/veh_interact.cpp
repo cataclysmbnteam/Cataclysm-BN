@@ -223,6 +223,7 @@ veh_interact::veh_interact( vehicle &veh, const point &p )
     main_context.register_action( "SIPHON" );
     main_context.register_action( "UNLOAD" );
     main_context.register_action( "ASSIGN_CREW" );
+    main_context.register_action( "CHANGE_SHAPE" );
     main_context.register_action( "RELABEL" );
     main_context.register_action( "PREV_TAB" );
     main_context.register_action( "NEXT_TAB" );
@@ -459,6 +460,9 @@ void veh_interact::do_main_loop()
             if( veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
                 finish = do_unload();
             }
+        } else if ( action == "CHANGE_SHAPE" ) {
+            // purely cosmetic
+            do_change_shape();
         } else if( action == "ASSIGN_CREW" ) {
             if( owned_by_player ) {
                 do_assign_crew();
@@ -625,6 +629,10 @@ task_reason veh_interact::cant_do( char mode )
                 return e.part().is_seat();
             } ) ? CAN_DO : INVALID_TARGET;
 
+        case 'p':
+            // Change part shape
+            // TODO: Make it check if parts are available for shape changes.
+            return CAN_DO;
         case 'a':
             // relabel
             valid_target = cpart >= 0;
@@ -1960,6 +1968,84 @@ bool veh_interact::do_unload()
     return true;
 }
 
+void veh_interact::do_change_shape() {
+    if( cant_do( 'p' ) == task_reason::INVALID_TARGET ) {
+        msg = _( "No valid vehicle parts here." );
+        return;
+    }
+
+    restore_on_out_of_scope<cata::optional<std::string>> prev_title( title );
+    title = _( "Choose part to change shape:" );
+
+    shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
+    restore_on_out_of_scope<int> prev_hilight_part( highlight_part );
+
+    int part_selected = 0;
+
+    while( true ) {
+        vehicle_part &part = veh->part( parts_here[part_selected] );
+        sel_vpart_info = &part.info();
+
+        highlight_part = part_selected;
+        overview_enable = [this, part_selected]( const vehicle_part & pt ) {
+            return &pt == &veh->part( part_selected );
+        };
+
+        ui_manager::redraw();
+        const std::string action = main_context.handle_input();
+
+        if( action == "QUIT" ) {
+            break;
+        } else if( action == "CONFIRM" || action == "CHANGE_SHAPE" ) {
+            using v_shapes = std::vector<const vpart_info *, std::allocator<const vpart_info *>>;
+            const v_shapes &shapes = vpart_shapes[ sel_vpart_info->name() + sel_vpart_info->item.str() ];
+            if( shapes.empty() ) {
+                break;
+            }
+
+            uilist smenu;
+            smenu.text = _( "Choose shape:" );
+            smenu.w_width_setup = [this]() {
+                return getmaxx( w_list );
+            };
+            smenu.w_x_setup = [this]( const int ) {
+                return getbegx( w_list );
+            };
+            smenu.w_y_setup = [this]( const int ) {
+                return getbegy( w_list );
+            };
+
+            int ret_code = 0;
+            int default_selection = 0;
+            for( const vpart_info *const shape : shapes ) {
+                uilist_entry entry( shape->name() );
+                entry.retval = ret_code++;
+                entry.extratxt.left = 1;
+                entry.extratxt.sym = special_symbol( shape->sym );
+                entry.extratxt.color = shape->color;
+                smenu.entries.emplace_back( entry );
+            }
+
+            sort_uilist_entries_by_line_drawing( smenu.entries );
+
+            // get default selection after sorting
+            for( std::size_t i = 0; i < smenu.entries.size(); ++i ) {
+                if( smenu.entries[i].extratxt.sym == sel_vpart_info->sym) {
+                    default_selection = i;
+                    break;
+                }
+            }
+
+            smenu.selected = default_selection;
+            smenu.query();
+            const vpart_info* selected_shape = shapes[smenu.ret];
+            // Now what? I've the part selected, the shape selected?
+        } else {
+            move_in_list( part_selected, action, parts_here.size() );
+        }
+    }
+}
+
 void veh_interact::do_assign_crew()
 {
     if( cant_do( 'w' ) != CAN_DO ) {
@@ -2543,7 +2629,7 @@ void veh_interact::display_mode()
         size_t esc_pos = display_esc( w_mode );
 
         // broken indentation preserved to avoid breaking git history for large number of lines
-        const std::array<std::string, 10> actions = { {
+        const std::array<std::string, 11> actions = { {
                 { _( "<i>nstall" ) },
                 { _( "<r>epair" ) },
                 { _( "<m>end" ) },
@@ -2552,6 +2638,7 @@ void veh_interact::display_mode()
                 { _( "<s>iphon" ) },
                 { _( "unloa<d>" ) },
                 { _( "cre<w>" ) },
+                { _( "sha<p>e" ) },
                 { _( "r<e>name" ) },
                 { _( "l<a>bel" ) },
             }
@@ -2566,6 +2653,7 @@ void veh_interact::display_mode()
                 !cant_do( 's' ),
                 !cant_do( 'd' ),
                 !cant_do( 'w' ),
+                true, // Can always change shape of a part
                 true,          // 'rename' is always available
                 !cant_do( 'a' ),
             }
