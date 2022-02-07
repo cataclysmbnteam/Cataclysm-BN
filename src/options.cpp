@@ -1478,6 +1478,15 @@ void options_manager::add_options_interface()
     { { "metric", translate_marker( "Metric" ) }, { "imperial", translate_marker( "Imperial" ) } },
     "imperial" );
 
+    add(
+        "OVERMAP_COORDINATE_FORMAT",
+        "interface",
+        translate_marker( "Overmap coordinates format" ),
+        translate_marker( "Are overmap coordinates displayed using relative format like 1'158, 2'56 or absolute format like 338, 416?" ),
+    { { "relative", translate_marker( "Relative" ) }, { "absolute", translate_marker( "Absolute" ) } },
+    "absolute"
+    );
+
     add( "24_HOUR", "interface", translate_marker( "Time format" ),
          translate_marker( "12h: AM/PM, e.g. 7:31 AM - Military: 24h Military, e.g. 0731 - 24h: Normal 24h, e.g. 7:31" ),
          //~ 12h time, e.g.  11:59pm
