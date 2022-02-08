@@ -80,7 +80,7 @@
   },
   {
     "id": "radio_mod",
-    "type": "GENERIC",
+    "type": "TOOL",
     "category": "spare_parts",
     "name": { "str": "radio activation mod" },
     "description": "This small piece of electronics can be attached to certain items and activate them after receiving a radio signal.",
