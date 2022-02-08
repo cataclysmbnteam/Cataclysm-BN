@@ -4401,6 +4401,10 @@ void game::monmove()
         }
 
         if( !critter.is_dead() ) {
+            critter.process_items();
+        }
+
+        if( !critter.is_dead() ) {
             critter.process_turn();
         }
 

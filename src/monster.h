@@ -425,6 +425,8 @@ class monster : public Creature, public visitable<monster>
         bool check_mech_powered() const;
         int mech_str_addition() const;
 
+        void process_items();
+
         /**
          * Makes monster react to heard sound
          *
