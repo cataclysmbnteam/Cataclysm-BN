@@ -749,18 +749,24 @@ void explosion_funcs::resonance_cascade( const queued_explosion &qe )
     const tripoint &p = qe.pos;
 
     const time_duration maxglow = time_duration::from_turns( 100 - 5 * trig_dist( p, g->u.pos() ) );
-    MonsterGroupResult spawn_details;
     if( maxglow > 0_turns ) {
         const time_duration minglow = std::max( 0_turns, time_duration::from_turns( 60 - 5 * trig_dist( p,
                                                 g->u.pos() ) ) );
         g->u.add_effect( effect_teleglow, rng( minglow, maxglow ) * 100 );
     }
-    int startx = ( p.x < 8 ? 0 : p.x - 8 ), endx = ( p.x + 8 >= SEEX * 3 ? SEEX * 3 - 1 : p.x + 8 );
-    int starty = ( p.y < 8 ? 0 : p.y - 8 ), endy = ( p.y + 8 >= SEEY * 3 ? SEEY * 3 - 1 : p.y + 8 );
-    tripoint dest( startx, starty, p.z );
-    for( int &i = dest.x; i <= endx; i++ ) {
-        for( int &j = dest.y; j <= endy; j++ ) {
-            switch( rng( 1, 80 ) ) {
+
+    constexpr half_open_rectangle<point> map_bounds( point( 0, 0 ), point( MAPSIZE_X, MAPSIZE_Y ) );
+    constexpr point cascade_reach( 8, 8 );
+
+    point start = clamp( p.xy() - cascade_reach, map_bounds );
+    point end = clamp( p.xy() + cascade_reach, map_bounds );
+
+    std::vector<int> rolls;
+
+    tripoint dest = p;
+    for( dest.y = start.y ; dest.y < end.y; dest.y++ ) {
+        for( dest.x = start.x ; dest.x < end.x; dest.x++ ) {
+            switch( rng( 0, 80 ) ) {
                 case 1:
                 case 2:
                     emp_blast( dest );
@@ -768,8 +774,8 @@ void explosion_funcs::resonance_cascade( const queued_explosion &qe )
                 case 3:
                 case 4:
                 case 5:
-                    for( int k = i - 1; k <= i + 1; k++ ) {
-                        for( int l = j - 1; l <= j + 1; l++ ) {
+                    for( int k = -1; k <= 1; k++ ) {
+                        for( int l = -1; l <= 1; l++ ) {
                             field_type_id type = fd_null;
                             switch( rng( 1, 7 ) ) {
                                 case 1:
@@ -791,7 +797,7 @@ void explosion_funcs::resonance_cascade( const queued_explosion &qe )
                                     break;
                             }
                             if( !one_in( 3 ) ) {
-                                g->m.add_field( { k, l, p.z }, type, 3 );
+                                g->m.add_field( dest + point( k, l ), type, 3 );
                             }
                         }
                     }
@@ -809,18 +815,24 @@ void explosion_funcs::resonance_cascade( const queued_explosion &qe )
                     break;
                 case 13:
                 case 14:
-                case 15:
-                    spawn_details = MonsterGroupManager::GetResultFromGroup( GROUP_NETHER );
+                case 15: {
+                    MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( GROUP_NETHER );
                     g->place_critter_at( spawn_details.name, dest );
                     break;
+                }
                 case 16:
                 case 17:
                 case 18:
                     g->m.destroy( dest );
                     break;
-                case 19:
-                    explosion( dest, rng( 1, 10 ), rng( 0, 1 ) * rng( 0, 6 ), one_in( 4 ) );
+                case 19: {
+                    explosion_data ex;
+                    ex.radius = 1;
+                    ex.damage = rng( 1, 10 );
+                    ex.fire = one_in( 4 );
+                    explosion( dest, ex );
                     break;
+                }
                 default:
                     break;
             }
