@@ -512,6 +512,35 @@ VisitResponse visitable<vehicle_selector>::visit_items(
     return VisitResponse::NEXT;
 }
 
+/** @relates visitable */
+template <>
+VisitResponse visitable<monster>::visit_items(
+    const std::function<VisitResponse( item *, item * )> &func )
+{
+    monster *mon = static_cast<monster *>( this );
+
+    for( item &it : mon->inv ) {
+        if( visit_internal( func, &it ) == VisitResponse::ABORT ) {
+            return VisitResponse::ABORT;
+        }
+    }
+
+    if( mon->storage_item && visit_internal( func, &*mon->storage_item ) == VisitResponse::ABORT ) {
+        return VisitResponse::ABORT;
+    }
+    if( mon->armor_item && visit_internal( func, &*mon->armor_item ) == VisitResponse::ABORT ) {
+        return VisitResponse::ABORT;
+    }
+    if( mon->tack_item && visit_internal( func, &*mon->tack_item ) == VisitResponse::ABORT ) {
+        return VisitResponse::ABORT;
+    }
+    if( mon->tied_item && visit_internal( func, &*mon->tied_item ) == VisitResponse::ABORT ) {
+        return VisitResponse::ABORT;
+    }
+
+    return VisitResponse::NEXT;
+}
+
 // Specialize visitable<T>::remove_items_with() for each class that will implement the visitable interface
 
 /** @relates visitable */
@@ -789,6 +818,67 @@ std::list<item> visitable<vehicle_selector>::remove_items_with( const
     return res;
 }
 
+static void remove_from_item_valptr(
+    cata::value_ptr<item> &ptr,
+    const std::function<bool( const item &e )> &filter,
+    int &count, std::list<item> &res )
+{
+    if( ptr ) {
+        if( filter( *ptr ) ) {
+            res.push_back( *ptr );
+            ptr.reset();
+            count -= 1;
+        } else {
+            ptr->contents.remove_internal( filter, count, res );
+        }
+    }
+}
+
+/** @relates visitable */
+template <>
+std::list<item> visitable<monster>::remove_items_with( const
+        std::function<bool( const item &e )> &filter, int count )
+{
+    std::list<item> res;
+
+    monster *mon = static_cast<monster *>( this );
+
+    for( auto iter = mon->inv.begin(); iter != mon->inv.end(); ) {
+        if( filter( *iter ) ) {
+            res.push_back( *iter );
+            iter = mon->inv.erase( iter );
+
+            count -= 1;
+            if( count == 0 ) {
+                return res;
+            }
+        } else {
+            iter->contents.remove_internal( filter, count, res );
+
+            if( count == 0 ) {
+                return res;
+            }
+            iter++;
+        }
+    }
+
+    remove_from_item_valptr( mon->storage_item, filter, count, res );
+    if( count == 0 ) {
+        return res;
+    }
+    remove_from_item_valptr( mon->armor_item, filter, count, res );
+    if( count == 0 ) {
+        return res;
+    }
+    remove_from_item_valptr( mon->tack_item, filter, count, res );
+    if( count == 0 ) {
+        return res;
+    }
+    remove_from_item_valptr( mon->tied_item, filter, count, res );
+
+    return res;
+}
+
 template <typename T, typename M>
 static int charges_of_internal( const T &self, const M &main, const itype_id &id, int limit,
                                 const std::function<bool( const item & )> &filter,
@@ -995,3 +1085,4 @@ template class visitable<map_selector>;
 template class visitable<map_cursor>;
 template class visitable<vehicle_selector>;
 template class visitable<vehicle_cursor>;
+template class visitable<monster>;

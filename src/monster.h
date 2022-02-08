@@ -26,6 +26,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "visitable.h"
 
 class Character;
 class JsonIn;
@@ -79,7 +80,7 @@ enum monster_horde_attraction {
     NUM_MONSTER_HORDE_ATTRACTION
 };
 
-class monster : public Creature
+class monster : public Creature, public visitable<monster>
 {
         friend class editmap;
     public:
