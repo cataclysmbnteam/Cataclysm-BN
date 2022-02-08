@@ -8121,33 +8121,15 @@ int iuse::radiocontrol( player *p, item *it, bool t, const tripoint & )
     } else if( choice > 0 ) {
         const std::string signal = "RADIOSIGNAL_" + std::to_string( choice );
 
-        auto item_list = p->get_radio_items();
-        for( auto &elem : item_list ) {
-            if( elem->has_flag( "BOMB" ) && elem->has_flag( signal ) ) {
-                p->add_msg_if_player( m_warning,
-                                      _( "The %s in your inventory would explode on this signal.  Place it down before sending the signal." ),
-                                      elem->display_name() );
-                return 0;
-            }
-        }
-
-        std::vector<item *> radio_containers = p->items_with( []( const item & itm ) {
-            return itm.has_flag( "RADIO_CONTAINER" );
+        std::vector<item *> bombs = p->items_with( [&]( const item & it ) -> bool {
+            return it.has_flag( "RADIO_ACTIVATION" ) && it.has_flag( "BOMB" ) && it.has_flag( signal );
         } );
 
-        if( !radio_containers.empty() ) {
-            for( auto items : radio_containers ) {
-                item *itm = items->contents.get_item_with( [&]( const item & c ) {
-                    return c.has_flag( "BOMB" ) && c.has_flag( signal );
-                } );
-
-                if( itm != nullptr ) {
-                    p->add_msg_if_player( m_warning,
-                                          _( "The %1$s in your %2$s would explode on this signal.  Place it down before sending the signal." ),
-                                          itm->display_name(), items->display_name() );
-                    return 0;
-                }
-            }
+        if( !bombs.empty() ) {
+            p->add_msg_if_player( m_warning,
+                                  _( "The %s in your inventory would explode on this signal.  Place it down before sending the signal." ),
+                                  bombs.front()->display_name() );
+            return 0;
         }
 
         p->add_msg_if_player( _( "Click." ) );
