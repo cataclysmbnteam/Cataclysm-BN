@@ -224,7 +224,7 @@ static void load_map_bash_tent_centers( const JsonArray &ja, std::vector<furn_st
     }
 }
 
-void correct_if_magic( cata::optional<int> &val )
+static void correct_if_magic( cata::optional<int> &val )
 {
     if( val.value_or( 0 ) == -1 ) {
         val.reset();
