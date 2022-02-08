@@ -44,7 +44,7 @@ char vehicle::part_sym( const int p, const bool exact ) const
         return '\'';
     } else {
         return parts[displayed_part].is_broken() ?
-               part_info( displayed_part ).sym_broken : ( parts[displayed_part].proxy_sym == NULL ?  part_info(
+               part_info( displayed_part ).sym_broken : ( parts[displayed_part].proxy_sym == '\0' ?  part_info(
                            displayed_part ).sym : parts[displayed_part].proxy_sym );
     }
 }

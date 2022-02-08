@@ -2015,7 +2015,7 @@ void veh_interact::do_change_shape()
 
     smenu.query();
     if( smenu.ret >= 0 ) {
-        const vpart_info* selected_shape = shapes[smenu.ret];
+        const vpart_info *selected_shape = shapes[smenu.ret];
         part.proxy_part_id = selected_shape->get_id();
         part.proxy_sym = selected_shape->sym;
     }

@@ -423,7 +423,7 @@ struct vehicle_part {
 
 
         vpart_id proxy_part_id = vpart_id::NULL_ID();
-        char proxy_sym = NULL;
+        char proxy_sym = '\0';
         /**
          * Coordinates for some kind of target; jumper cables and turrets use this
          * Two coordinate pairs are stored: actual target point, and target vehicle center.

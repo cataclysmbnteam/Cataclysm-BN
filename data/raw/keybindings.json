@@ -1240,7 +1240,7 @@
     "category": "VEH_INTERACT",
     "name": "Change part shape",
     "bindings": [ { "input_method": "keyboard", "key": "p" } ]
-  },  
+  },
   {
     "type": "keybinding",
     "id": "ASSIGN_CREW",
