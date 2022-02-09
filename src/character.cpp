@@ -1245,7 +1245,8 @@ void Character::dismount()
         remove_effect( effect_riding );
         monster *critter = mounted_creature.get();
         critter->mounted_player_id = character_id();
-        if( critter->has_flag( MF_RIDEABLE_MECH ) && !critter->type->mech_weapon.is_empty() ) {
+        if (critter->has_flag(MF_RIDEABLE_MECH) && !critter->type->mech_weapon.is_empty() &&
+            weapon.typeId() == critter->type->mech_weapon) {
             remove_item( weapon );
         }
         if( is_avatar() && g->u.get_grab_type() != OBJECT_NONE ) {
