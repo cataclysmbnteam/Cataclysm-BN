@@ -24,6 +24,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "enums.h"
+#include "explosion_queue.h"
 #include "field_type.h"
 #include "flat_set.h"
 #include "game.h"
@@ -407,6 +408,16 @@ void explosion( const tripoint &p, float power, float factor, bool fire, int leg
 
 void explosion( const tripoint &p, const explosion_data &ex )
 {
+    queued_explosion qe( p, ExplosionType::Regular );
+    qe.exp_data = ex;
+    get_explosion_queue().add( std::move( qe ) );
+}
+
+void explosion_funcs::regular( const queued_explosion &qe )
+{
+    const tripoint &p = qe.pos;
+    const explosion_data &ex = qe.exp_data;
+
     const int noise = ex.damage / explosion_handler::power_to_dmg_mult * ( ex.fire ? 2 : 10 );
     if( noise >= 30 ) {
         sounds::sound( p, noise, sounds::sound_t::combat, _( "a huge explosion!" ), false, "explosion",
@@ -487,9 +498,19 @@ void explosion( const tripoint &p, const explosion_data &ex )
 
 void flashbang( const tripoint &p, bool player_immune, const std::string &exp_name )
 {
-    draw_explosion( p, 8, c_white, exp_name );
+    queued_explosion qe( p, ExplosionType::Flashbang );
+    qe.affects_player = !player_immune;
+    qe.graphics_name = exp_name;
+    get_explosion_queue().add( std::move( qe ) );
+}
+
+void explosion_funcs::flashbang( const queued_explosion &qe )
+{
+    const tripoint &p = qe.pos;
+
+    draw_explosion( p, 8, c_white, qe.graphics_name );
     int dist = rl_dist( g->u.pos(), p );
-    if( dist <= 8 && !player_immune ) {
+    if( dist <= 8 && qe.affects_player ) {
         if( !g->u.has_bionic( bio_ears ) && !g->u.is_wearing( itype_rm13_armor_on ) ) {
             g->u.add_effect( effect_deaf, time_duration::from_turns( 40 - dist * 4 ) );
         }
@@ -535,7 +556,18 @@ void flashbang( const tripoint &p, bool player_immune, const std::string &exp_na
 
 void shockwave( const tripoint &p, const shockwave_data &sw, const std::string &exp_name )
 {
-    draw_explosion( p, sw.radius, c_blue, exp_name );
+    queued_explosion qe( p, ExplosionType::Shockwave );
+    qe.swave_data = sw;
+    qe.graphics_name = exp_name;
+    get_explosion_queue().add( std::move( qe ) );
+}
+
+void explosion_funcs::shockwave( const queued_explosion &qe )
+{
+    const tripoint &p = qe.pos;
+    const shockwave_data &sw = qe.swave_data;
+
+    draw_explosion( p, sw.radius, c_blue, qe.graphics_name );
 
     sounds::sound( p, sw.force * sw.force * sw.dam_mult / 2, sounds::sound_t::combat, _( "Crack!" ),
                    false,
@@ -709,6 +741,13 @@ void emp_blast( const tripoint &p )
 
 void resonance_cascade( const tripoint &p )
 {
+    get_explosion_queue().add( queued_explosion( p, ExplosionType::ResonanceCascade ) );
+}
+
+void explosion_funcs::resonance_cascade( const queued_explosion &qe )
+{
+    const tripoint &p = qe.pos;
+
     const time_duration maxglow = time_duration::from_turns( 100 - 5 * trig_dist( p, g->u.pos() ) );
     MonsterGroupResult spawn_details;
     if( maxglow > 0_turns ) {
@@ -806,6 +845,38 @@ float blast_radius_from_legacy( int power, float distance_factor )
 {
     return std::pow( power * power_to_dmg_mult, ( 1.0 / 4.0 ) ) *
            ( std::log( 0.75f ) / std::log( distance_factor ) );
+}
+
+explosion_queue &get_explosion_queue()
+{
+    static explosion_queue singleton;
+    return singleton;
+}
+
+void explosion_queue::execute()
+{
+    // Using indices here in case explosions trigger more explosions and modify the queue
+    for( size_t i = 0; i < elems.size(); i++ ) {
+        queued_explosion exp = std::move( elems[i] );
+        switch( exp.type ) {
+            case ExplosionType::Regular:
+                explosion_funcs::regular( exp );
+                break;
+            case ExplosionType::Flashbang:
+                explosion_funcs::flashbang( exp );
+                break;
+            case ExplosionType::ResonanceCascade:
+                explosion_funcs::resonance_cascade( exp );
+                break;
+            case ExplosionType::Shockwave:
+                explosion_funcs::shockwave( exp );
+                break;
+            default:
+                debugmsg( "Explosion type not implemented." );
+                break;
+        }
+    }
+    elems.clear();
 }
 
 } // namespace explosion_handler
