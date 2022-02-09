@@ -1,9 +1,6 @@
 [
-  {
-    "type": "MOD_INFO",
-    "id": "dev:default",
-    "name": "default",
-    "description": "contains all the mods recommended by the developers",
-    "dependencies": [ "dda", "no_npc_food", "novitamins", "elevated_bridges" ]
-  }
+  "dda",
+  "no_npc_food",
+  "novitamins",
+  "elevated_bridges"
 ]
