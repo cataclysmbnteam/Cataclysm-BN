@@ -1281,11 +1281,12 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```NO_UNLOAD``` Cannot be unloaded.
 - ```POWERED``` If turned ON, item uses its own source of power, instead of relying on power of the user
 - ```RADIOCARITEM``` Item can be put into a remote controlled car.
-- ```RADIOSIGNAL_1``` Activated per radios signal 1.
-- ```RADIOSIGNAL_2``` Activated per radios signal 2.
-- ```RADIOSIGNAL_3``` Activated per radios signal 3.
-- ```RADIO_ACTIVATION``` It is activated by a remote control (also requires RADIOSIGNAL*).
-- ```RADIO_CONTAINER``` It's a container of something that is radio controlled.
+- ```RADIOSIGNAL_1``` Activated per radios signal 1 (Red).
+- ```RADIOSIGNAL_2``` Activated per radios signal 2 (Blue).
+- ```RADIOSIGNAL_3``` Activated per radios signal 3 (Green).
+- ```RADIO_ACTIVATION``` Item can be activated by a remote control (also requires RADIOSIGNAL_*).
+- ```RADIO_INVOKE_PROC``` After being activated via radio signal the item will have its charges removed. Can be used for bypassing bomb countdown.
+- ```RADIO_CONTROLLABLE``` It can be moved around via a remote control.
 - ```RADIO_MODABLE``` Indicates the item can be made into a radio-activated item.
 - ```RADIO_MOD``` The item has been made into a radio-activated item.
 - ```RECHARGE``` Gain charges when placed in a cargo area with a recharge station.
