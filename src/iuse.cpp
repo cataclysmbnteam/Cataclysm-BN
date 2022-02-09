@@ -7995,36 +7995,68 @@ int iuse::radiocaron( player *p, item *it, bool t, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
-static void sendRadioSignal( player &p, const std::string &signal )
+/**
+ * Send radio signal from player.
+ */
+static void emit_radio_signal( player &p, const std::string &signal )
 {
-    for( const tripoint &loc : g->m.points_in_radius( p.pos(), 30 ) ) {
-        for( item &it : g->m.i_at( loc ) ) {
-            if( it.has_flag( "RADIO_ACTIVATION" ) && it.has_flag( signal ) ) {
-                sounds::sound( p.pos(), 6, sounds::sound_t::alarm, _( "beep" ), true, "misc", "beep" );
-                if( it.has_flag( "RADIO_INVOKE_PROC" ) ) {
-                    // Invoke to transform a radio-modded explosive into its active form
-                    it.type->invoke( p, it, loc );
-                    it.ammo_unset();
-                }
-            } else if( it.has_flag( "RADIO_CONTAINER" ) && !it.contents.empty() ) {
-                item *itm = it.contents.get_item_with( [&signal]( const item & c ) {
-                    return c.has_flag( signal );
-                } );
+    constexpr int SIGNAL_RADIUS = 30;
+    const tripoint origin = p.pos();
 
-                if( itm != nullptr ) {
-                    sounds::sound( p.pos(), 6, sounds::sound_t::alarm, _( "beep" ), true, "misc", "beep" );
-                    // Invoke twice: first to transform, then later to proc
-                    if( itm->has_flag( "RADIO_INVOKE_PROC" ) ) {
-                        itm->type->invoke( p, *itm, loc );
-                        itm->ammo_unset();
-                        // The type changed
-                    }
-                    if( itm->has_flag( "BOMB" ) ) {
-                        itm->type->invoke( p, *itm, loc );
-                        it.contents.clear_items();
-                    }
-                }
+    const auto visitor = [&]( item & it, const tripoint & loc ) -> VisitResponse {
+        if( it.has_flag( "RADIO_ACTIVATION" ) && it.has_flag( signal ) )
+        {
+            sounds::sound( p.pos(), 6, sounds::sound_t::alarm, _( "beep" ), true, "misc", "beep" );
+            bool invoke_proc = it.has_flag( "RADIO_INVOKE_PROC" );
+            // Invoke to transform item
+            it.type->invoke( p, it, loc );
+            if( invoke_proc ) {
+                // Cause invocation of transformed item on next turn processing
+                it.ammo_unset();
             }
+        }
+        return VisitResponse::NEXT;
+    };
+
+    for( const tripoint &loc : g->m.points_in_radius( origin, SIGNAL_RADIUS ) ) {
+        // Items on ground
+        map_cursor mc( loc );
+        mc.visit_items( [&]( item * it ) {
+            return visitor( *it, loc );
+        } );
+
+        // Items in vehicles
+        optional_vpart_position vp = g->m.veh_at( loc );
+        if( !vp ) {
+            continue;
+        }
+        cata::optional<vpart_reference> vpr = vp.part_with_feature( "CARGO", false );
+        if( !vpr ) {
+            continue;
+        }
+        vehicle_cursor vc( vp->vehicle(), vpr->part_index() );
+        vc.visit_items( [&]( item * it ) {
+            return visitor( *it, loc );
+        } );
+    }
+
+    // Items on creatures
+    for( Creature &cr : g->all_creatures() ) {
+        const tripoint &cr_pos = cr.pos();
+        if( square_dist( origin, cr_pos ) > SIGNAL_RADIUS ) {
+            continue;
+        }
+
+        if( cr.is_monster() ) {
+            monster &mon = *cr.as_monster();
+            mon.visit_items( [&]( item * it ) {
+                return visitor( *it, cr_pos );
+            } );
+        } else {
+            Character &ch = *cr.as_character();
+            ch.visit_items( [&]( item * it ) {
+                return visitor( *it, cr_pos );
+            } );
         }
     }
 }
@@ -8118,7 +8150,7 @@ int iuse::radiocontrol( player *p, item *it, bool t, const tripoint & )
         }
 
         p->add_msg_if_player( _( "Click." ) );
-        sendRadioSignal( *p, signal );
+        emit_radio_signal( *p, signal );
         p->moves -= to_moves<int>( 2_seconds );
     }
 
