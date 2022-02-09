@@ -8095,28 +8095,44 @@ int iuse::radiocontrol( player *p, item *it, bool t, const tripoint & )
             it->active = false;
             p->remove_value( "remote_controlling" );
         } else {
-            std::list<std::pair<tripoint, item *>> rc_pairs = g->m.get_rc_items();
-            tripoint rc_item_location = {999, 999, 999};
-            // TODO: grab the closest car or similar?
-            for( auto &rc_pairs_rc_pair : rc_pairs ) {
-                if( rc_pairs_rc_pair.second->typeId() == itype_radio_car_on &&
-                    rc_pairs_rc_pair.second->active ) {
-                    rc_item_location = rc_pairs_rc_pair.first;
+            std::vector<std::pair<tripoint, item *>> rc_pairs;
+            for( tripoint pt : g->m.points_on_zlevel( p->posz() ) ) {
+                map_cursor mc( pt );
+                std::vector<item *> rc_items_here = mc.items_with( [&]( const item & it ) {
+                    return it.has_flag( "RADIO_CONTROLLED" );
+                } );
+                for( item *it : rc_items_here ) {
+                    rc_pairs.emplace_back( pt, it );
                 }
             }
-            if( rc_item_location.x == 999 ) {
+
+            if( rc_pairs.empty() ) {
                 p->add_msg_if_player( _( "No active RC cars on ground and in range." ) );
                 return it->type->charges_to_use();
-            } else {
-                std::stringstream car_location_string;
-                // Populate with the point and stash it.
-                car_location_string << rc_item_location.x << ' ' <<
-                                    rc_item_location.y << ' ' << rc_item_location.z;
-                p->add_msg_if_player( m_good, _( "You take control of the RC car." ) );
-
-                p->set_value( "remote_controlling", car_location_string.str() );
-                it->active = true;
             }
+
+            std::vector<tripoint> locations;
+            uilist pick_rc;
+            pick_rc.text = _( "Choose car to control." );
+            for( size_t i = 0; i < rc_pairs.size(); i++ ) {
+                pick_rc.addentry( i, true, MENU_AUTOASSIGN, rc_pairs[i].second->display_name() );
+                locations.push_back( rc_pairs[i].first );
+            }
+            pointmenu_cb callback( locations );
+            pick_rc.callback = &callback;
+            pick_rc.query();
+            if( pick_rc.ret < 0 || static_cast<size_t>( pick_rc.ret ) >= rc_pairs.size() ) {
+                p->add_msg_if_player( m_info, _( "Never mind." ) );
+                return it->type->charges_to_use();
+            }
+
+            tripoint rc_loc = locations[pick_rc.ret];
+
+            p->add_msg_if_player( m_good, _( "You take control of the RC car." ) );
+            p->set_value( "remote_controlling", serialize_wrapper( [&]( JsonOut & jo ) {
+                rc_loc.serialize( jo );
+            } ) );
+            it->active = true;
         }
     } else if( choice > 0 ) {
         const std::string signal = "RADIOSIGNAL_" + std::to_string( choice );

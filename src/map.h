@@ -1285,7 +1285,6 @@ class map
                                      int &quantity, const std::function<bool( const item & )> &filter = return_true<item>,
                                      basecamp *bcp = nullptr );
         /*@}*/
-        std::list<std::pair<tripoint, item *> > get_rc_items( const tripoint &p = { -1, -1, -1 } );
 
         /**
         * Place items from item group in the rectangle f - t. Several items may be spawned
