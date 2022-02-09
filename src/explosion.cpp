@@ -178,17 +178,16 @@ static std::map<const Creature *, int> do_blast( const tripoint &p, const float 
                 continue;
             }
 
-            const float bashing_force = force / 4;
             if( z_offset[i] == 0 ) {
                 // Horizontal - no floor bashing
-                g->m.bash( dest, bashing_force, true, false, false );
+                g->m.bash( dest, force, true, false, false );
             } else if( z_offset[i] > 0 ) {
                 // Should actually bash through the floor first, but that's not really possible yet
-                g->m.bash( dest, bashing_force, true, false, true );
+                g->m.bash( dest, force, true, false, true );
             } else if( !g->m.valid_move( pt, dest, false, true ) ) {
                 // Only bash through floor if it doesn't exist
                 // Bash the current tile's floor, not the one's below
-                g->m.bash( pt, bashing_force, true, false, true );
+                g->m.bash( pt, force, true, false, true );
             }
 
             float next_dist = distance;
@@ -252,7 +251,7 @@ static std::map<const Creature *, int> do_blast( const tripoint &p, const float 
 
         if( const optional_vpart_position vp = g->m.veh_at( pt ) ) {
             // TODO: Make this weird unit used by vehicle::damage more sensible
-            vp->vehicle().damage( vp->part_index(), force / 4, fire ? DT_HEAT : DT_BASH, false );
+            vp->vehicle().damage( vp->part_index(), force, fire ? DT_HEAT : DT_BASH, false );
         }
 
         Creature *critter = g->critter_at( pt, true );
