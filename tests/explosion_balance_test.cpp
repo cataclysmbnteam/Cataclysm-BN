@@ -63,7 +63,8 @@ static void check_lethality( const std::string &explosive_id, const int range, f
             monster &new_monster = spawn_test_monster( "mon_zombie", monster_position );
             new_monster.no_extra_death_drops = true;
         }
-        set_off_explosion( item( explosive_id ), origin );
+        item explosive( explosive_id );
+        set_off_explosion( explosive, origin );
         // see how many monsters survive
         std::vector<Creature *> survivors = g->get_creatures_if( []( const Creature & critter ) {
             return critter.is_monster();
@@ -124,7 +125,8 @@ static void check_vehicle_damage( const std::string &explosive_id, const std::st
     }
     origin.x += range;
 
-    set_off_explosion( item( explosive_id ), origin );
+    item explosive( explosive_id );
+    set_off_explosion( explosive, origin );
 
     std::vector<int> after_hp = get_part_hp( target_vehicle );
 

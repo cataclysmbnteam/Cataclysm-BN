@@ -6,7 +6,7 @@
 #include "point.h"
 
 #include <string>
-#include <vector>
+#include <deque>
 
 namespace explosion_handler
 {
@@ -49,7 +49,7 @@ void shockwave( const queued_explosion &qe );
 class explosion_queue
 {
     private:
-        std::vector<queued_explosion> elems;
+        std::deque<queued_explosion> elems;
 
     public:
         inline void add( queued_explosion &&exp ) {

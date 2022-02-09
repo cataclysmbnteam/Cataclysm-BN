@@ -755,7 +755,7 @@ void explosion_funcs::resonance_cascade( const queued_explosion &qe )
         g->u.add_effect( effect_teleglow, rng( minglow, maxglow ) * 100 );
     }
 
-    constexpr half_open_rectangle<point> map_bounds( point( 0, 0 ), point( MAPSIZE_X, MAPSIZE_Y ) );
+    constexpr half_open_rectangle<point> map_bounds( point_zero, point( MAPSIZE_X, MAPSIZE_Y ) );
     constexpr point cascade_reach( 8, 8 );
 
     point start = clamp( p.xy() - cascade_reach, map_bounds );
@@ -867,9 +867,9 @@ explosion_queue &get_explosion_queue()
 
 void explosion_queue::execute()
 {
-    // Using indices here in case explosions trigger more explosions and modify the queue
-    for( size_t i = 0; i < elems.size(); i++ ) {
-        queued_explosion exp = std::move( elems[i] );
+    while( !elems.empty() ) {
+        queued_explosion exp = std::move( elems.front() );
+        elems.pop_front();
         switch( exp.type ) {
             case ExplosionType::Regular:
                 explosion_funcs::regular( exp );
@@ -888,7 +888,6 @@ void explosion_queue::execute()
                 break;
         }
     }
-    elems.clear();
 }
 
 } // namespace explosion_handler

@@ -8001,9 +8001,6 @@ int iuse::radiocaron( player *p, item *it, bool t, const tripoint &pos )
  */
 static void emit_radio_signal( player &p, const std::string &signal )
 {
-    constexpr int SIGNAL_RADIUS = 30;
-    const tripoint origin = p.pos();
-
     const auto visitor = [&]( item & it, const tripoint & loc ) -> VisitResponse {
         if( it.has_flag( "RADIO_ACTIVATION" ) && it.has_flag( signal ) )
         {
@@ -8019,35 +8016,35 @@ static void emit_radio_signal( player &p, const std::string &signal )
         return VisitResponse::NEXT;
     };
 
-    for( const tripoint &loc : g->m.points_in_radius( origin, SIGNAL_RADIUS ) ) {
-        // Items on ground
-        map_cursor mc( loc );
-        mc.visit_items( [&]( item * it ) {
-            return visitor( *it, loc );
-        } );
+    int z_min = g->m.has_zlevels() ? -OVERMAP_DEPTH : 0;
+    int z_max = g->m.has_zlevels() ? OVERMAP_HEIGHT : 0;
+    for( int zlev = z_min; zlev <= z_max; zlev++ ) {
+        for( tripoint loc : g->m.points_on_zlevel( zlev ) ) {
+            // Items on ground
+            map_cursor mc( loc );
+            mc.visit_items( [&]( item * it ) {
+                return visitor( *it, loc );
+            } );
 
-        // Items in vehicles
-        optional_vpart_position vp = g->m.veh_at( loc );
-        if( !vp ) {
-            continue;
+            // Items in vehicles
+            optional_vpart_position vp = g->m.veh_at( loc );
+            if( !vp ) {
+                continue;
+            }
+            cata::optional<vpart_reference> vpr = vp.part_with_feature( "CARGO", false );
+            if( !vpr ) {
+                continue;
+            }
+            vehicle_cursor vc( vp->vehicle(), vpr->part_index() );
+            vc.visit_items( [&]( item * it ) {
+                return visitor( *it, loc );
+            } );
         }
-        cata::optional<vpart_reference> vpr = vp.part_with_feature( "CARGO", false );
-        if( !vpr ) {
-            continue;
-        }
-        vehicle_cursor vc( vp->vehicle(), vpr->part_index() );
-        vc.visit_items( [&]( item * it ) {
-            return visitor( *it, loc );
-        } );
     }
 
     // Items on creatures
     for( Creature &cr : g->all_creatures() ) {
         const tripoint &cr_pos = cr.pos();
-        if( square_dist( origin, cr_pos ) > SIGNAL_RADIUS ) {
-            continue;
-        }
-
         if( cr.is_monster() ) {
             monster &mon = *cr.as_monster();
             mon.visit_items( [&]( item * it ) {
