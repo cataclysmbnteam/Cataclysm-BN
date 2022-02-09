@@ -21,6 +21,7 @@
 #include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "active_tile_data_def.h"
+#include "animation.h"
 #include "artifact.h"
 #include "avatar.h"
 #include "bodypart.h"

@@ -2,11 +2,10 @@
 #ifndef CATA_SRC_EXPLOSION_H
 #define CATA_SRC_EXPLOSION_H
 
-#include <map>
 #include <string>
+
 #include "optional.h"
 #include "projectile.h"
-#include "type_id.h"
 
 struct tripoint;
 class JsonObject;
@@ -59,11 +58,6 @@ void scrambler_blast( const tripoint &p );
 void emp_blast( const tripoint &p );
 /** Shockwave applies knockback with given parameters to all targets within radius of p. */
 void shockwave( const tripoint &p, const shockwave_data &sw, const std::string &exp_name );
-
-void draw_explosion( const tripoint &p, int radius, const nc_color &col,
-                     const std::string &exp_name );
-void draw_custom_explosion( const tripoint &p, const std::map<tripoint, nc_color> &area,
-                            const std::string &exp_name );
 
 projectile shrapnel_from_legacy( int power, float blast_radius );
 float blast_radius_from_legacy( int power, float distance_factor );
