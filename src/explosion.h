@@ -23,6 +23,14 @@ struct explosion_data {
     explicit operator bool() const;
 };
 
+struct shockwave_data {
+    int radius              = 0;
+    int force               = 0;
+    int stun                = 0;
+    int dam_mult            = 0;
+    bool affects_player     = false;
+};
+
 // handles explosion related functions
 namespace explosion_handler
 {
@@ -49,11 +57,8 @@ void resonance_cascade( const tripoint &p );
 void scrambler_blast( const tripoint &p );
 /** Triggers an EMP blast at p. */
 void emp_blast( const tripoint &p );
-// shockwave applies knockback to all targets within radius of p
-// parameters force, stun, and dam_mult are passed to knockback()
-// ignore_player determines if player is affected, useful for bionic, etc.
-void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult,
-                bool ignore_player, const std::string &exp_name );
+/** Shockwave applies knockback with given parameters to all targets within radius of p. */
+void shockwave( const tripoint &p, const shockwave_data &sw, const std::string &exp_name );
 
 void draw_explosion( const tripoint &p, int radius, const nc_color &col,
                      const std::string &exp_name );

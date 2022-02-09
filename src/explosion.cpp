@@ -532,21 +532,21 @@ void flashbang( const tripoint &p, bool player_immune, const std::string &exp_na
     // TODO: Blind/deafen NPC
 }
 
-void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult,
-                bool ignore_player, const std::string &exp_name )
+void shockwave( const tripoint &p, const shockwave_data &sw, const std::string &exp_name )
 {
-    draw_explosion( p, radius, c_blue, exp_name );
+    draw_explosion( p, sw.radius, c_blue, exp_name );
 
-    sounds::sound( p, force * force * dam_mult / 2, sounds::sound_t::combat, _( "Crack!" ), false,
+    sounds::sound( p, sw.force * sw.force * sw.dam_mult / 2, sounds::sound_t::combat, _( "Crack!" ),
+                   false,
                    "misc", "shockwave" );
 
     for( monster &critter : g->all_monsters() ) {
         if( critter.posz() != p.z ) {
             continue;
         }
-        if( rl_dist( critter.pos(), p ) <= radius ) {
+        if( rl_dist( critter.pos(), p ) <= sw.radius ) {
             add_msg( _( "%s is caught in the shockwave!" ), critter.name() );
-            g->knockback( p, critter.pos(), force, stun, dam_mult );
+            g->knockback( p, critter.pos(), sw.force, sw.stun, sw.dam_mult );
         }
     }
     // TODO: combine the two loops and the case for g->u using all_creatures()
@@ -554,16 +554,16 @@ void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult
         if( guy.posz() != p.z ) {
             continue;
         }
-        if( rl_dist( guy.pos(), p ) <= radius ) {
+        if( rl_dist( guy.pos(), p ) <= sw.radius ) {
             add_msg( _( "%s is caught in the shockwave!" ), guy.name );
-            g->knockback( p, guy.pos(), force, stun, dam_mult );
+            g->knockback( p, guy.pos(), sw.force, sw.stun, sw.dam_mult );
         }
     }
-    if( rl_dist( g->u.pos(), p ) <= radius && !ignore_player &&
+    if( rl_dist( g->u.pos(), p ) <= sw.radius && sw.affects_player &&
         ( !g->u.has_trait( trait_LEG_TENT_BRACE ) || g->u.footwear_factor() == 1 ||
           ( g->u.footwear_factor() == .5 && one_in( 2 ) ) ) ) {
         add_msg( m_bad, _( "You're caught in the shockwave!" ) );
-        g->knockback( p, g->u.pos(), force, stun, dam_mult );
+        g->knockback( p, g->u.pos(), sw.force, sw.stun, sw.dam_mult );
     }
 }
 
