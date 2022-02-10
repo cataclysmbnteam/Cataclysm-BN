@@ -19,51 +19,34 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 1, 5 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 1, 5 ] } ],
+      "ranged": { "reduction": [ 1, 3 ], "reduction_laser": [ 0, 5 ] }
     }
   },
   {
     "type": "terrain",
     "id": "t_window_taped",
+    "copy-from": "t_window",
     "name": "taped window",
     "description": "Duct tape covers this window, blocking sunlight and visibility.  You could remove the duct tape by cutting it off.",
     "symbol": "\"",
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 95,
-    "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "CONNECT_TO_WALL", "BLOCK_WIND" ],
-    "bash": {
-      "str_min": 6,
-      "str_max": 12,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 1, 5 ] } ]
-    }
+    "delete": { "flags": [ "TRANSPARENT", "BARRICADABLE_WINDOW" ] },
+    "bash": { "str_min": 6, "str_max": 12, "ranged": { "reduction": [ 1, 3 ], "reduction_laser": [ 1, 10 ] } }
   },
   {
     "type": "terrain",
     "id": "t_window_domestic",
+    "copy-from": "t_window",
     "name": "window with curtains",
     "description": "A window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
     "symbol": "\"",
     "color": "light_gray",
     "move_cost": 0,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND"
-    ],
+    "delete": { "flags": [ "BARRICADABLE_WINDOW" ] },
+    "extend": { "flags": [ "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW_CURTAINS" ] },
     "examine_action": "curtains",
     "close": "t_curtains",
     "open": "t_window_open",
@@ -78,13 +61,6 @@
       ]
     },
     "bash": {
-      "str_min": 3,
-      "str_max": 6,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
       "items": [
         { "item": "glass_shard", "count": [ 1, 3 ] },
         { "item": "sheet", "count": 2 },
@@ -116,36 +92,16 @@
   {
     "type": "terrain",
     "id": "t_window_no_curtains",
+    "copy-from": "t_window",
     "name": "window without curtains",
     "description": "A smaller window typically found in residential homes.  You could install a curtain rod and drapes if you had the supplies and skill.",
     "symbol": "\"",
     "color": "white",
     "move_cost": 0,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND"
-    ],
+    "extend": { "flags": [ "OPENCLOSE_INSIDE" ] },
     "examine_action": "locked_object",
     "open": "t_window_no_curtains_open",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
-    "bash": {
-      "str_min": 3,
-      "str_max": 6,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 1, 3 ] } ]
-    },
+    "bash": { "items": [ { "item": "glass_shard", "count": [ 1, 3 ] } ] },
     "pry": {
       "success_message": "You pry open the window.",
       "fail_message": "You pry, but cannot pry open the window.",
@@ -165,119 +121,68 @@
   {
     "type": "terrain",
     "id": "t_window_no_curtains_open",
+    "copy-from": "t_window",
     "name": "open window without curtains",
     "description": "A smaller window typically found in residential homes.  It's open and can be crawled through.",
     "symbol": "'",
     "color": "white",
     "move_cost": 4,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "MOUNTABLE",
-      "CONNECT_TO_WALL",
-      "THIN_OBSTACLE",
-      "SMALL_PASSAGE",
-      "PERMEABLE"
-    ],
+    "extend": { "flags": [ "OPENCLOSE_INSIDE", "MOUNTABLE", "BLOCK_WIND", "THIN_OBSTACLE", "SMALL_PASSAGE", "PERMEABLE" ] },
     "close": "t_window_no_curtains",
-    "bash": {
-      "str_min": 3,
-      "str_max": 6,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 1, 3 ] } ]
-    }
+    "bash": { "items": [ { "item": "glass_shard", "count": [ 1, 3 ] } ] }
   },
   {
     "type": "terrain",
     "id": "t_window_no_curtains_taped",
+    "copy-from": "t_window_taped",
     "name": "taped window",
     "description": "A smaller window typically found in residential homes.  This one has been blocked out with duct tape.  You could remove the duct tape by cutting it off.",
     "//": "Taped window without curtains",
     "symbol": "\"",
     "color": "dark_gray",
     "move_cost": 0,
-    "coverage": 95,
-    "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND" ],
+    "delete": { "flags": [ "TRANSPARENT", "REDUCE_SCENT", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL" ] },
+    "extend": { "flags": [ "WALL" ] },
     "bash": {
-      "str_min": 6,
-      "str_max": 12,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 1, 3 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 1, 3 ] } ],
+      "ranged": { "reduction": [ 1, 3 ], "reduction_laser": [ 1, 10 ] }
     }
   },
   {
     "type": "terrain",
     "id": "t_window_domestic_taped",
+    "copy-from": "t_window_no_curtains_taped",
     "name": "taped window",
     "description": "A window with fancy curtains on the inside.  This one has been blocked out with duct tape.  You could remove the duct tape by cutting it off.",
     "//": "Taped window with curtains",
     "symbol": "\"",
     "color": "dark_gray",
     "move_cost": 0,
-    "coverage": 95,
-    "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND" ],
     "examine_action": "curtains",
     "bash": {
-      "str_min": 6,
-      "str_max": 12,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
       "items": [
         { "item": "glass_shard", "count": [ 1, 3 ] },
         { "item": "sheet", "count": 2 },
         { "item": "stick", "count": 1 },
         { "item": "string_36", "count": 1 }
-      ]
+      ],
+      "ranged": { "reduction": [ 1, 3 ], "reduction_laser": [ 1, 10 ] }
     }
   },
   {
     "type": "terrain",
     "id": "t_window_open",
+    "copy-from": "t_window",
     "name": "open window with curtains",
     "description": "A window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.  It's open and you can crawl through.",
     "symbol": "'",
     "color": "light_gray",
     "move_cost": 4,
-    "coverage": 60,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "MOUNTABLE",
-      "CONNECT_TO_WALL",
-      "THIN_OBSTACLE",
-      "SMALL_PASSAGE",
-      "PERMEABLE"
-    ],
+    "delete": { "flags": [ "REDUCE_SCENT", "BARRICADABLE_WINDOW", "BLOCK_WIND" ] },
+    "extend": { "flags": [ "OPENCLOSE_INSIDE", "MOUNTABLE", "THIN_OBSTACLE", "SMALL_PASSAGE", "PERMEABLE" ] },
     "examine_action": "curtains",
     "close": "t_window_domestic",
     "bash": {
-      "str_min": 3,
-      "str_max": 6,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
       "items": [
         { "item": "glass_shard", "count": [ 1, 3 ] },
         { "item": "sheet", "count": 2 },
@@ -289,22 +194,15 @@
   {
     "type": "terrain",
     "id": "t_curtains",
+    "copy-from": "t_window",
     "name": "window with closed curtains",
     "description": "A window with fancy curtains that have been drawn shut, blocking sunlight and visibility.  The curtains can only be opened on the inside.  If you examined the curtains more closely, you could peek through the drapes or tear down everything.  Or you could just smash the window open.",
     "symbol": "\"",
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 95,
-    "roof": "t_flat_roof",
-    "flags": [
-      "FLAMMABLE",
-      "NOITEM",
-      "OPENCLOSE_INSIDE",
-      "REDUCE_SCENT",
-      "BARRICADABLE_WINDOW_CURTAINS",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND"
-    ],
+    "delete": { "flags": [ "TRANSPARENT", "BARRICADABLE_WINDOW" ] },
+    "extend": { "flags": [ "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW_CURTAINS" ] },
     "open": "t_window_domestic",
     "examine_action": "curtains",
     "deconstruct": {
@@ -318,19 +216,13 @@
       ]
     },
     "bash": {
-      "str_min": 3,
-      "str_max": 6,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
       "items": [
         { "item": "glass_shard", "count": [ 1, 3 ] },
         { "item": "sheet", "count": 2 },
         { "item": "stick", "count": 1 },
         { "item": "string_36", "count": 1 }
-      ]
+      ],
+      "ranged": { "reduction": [ 1, 3 ], "reduction_laser": [ 1, 10 ] }
     },
     "pry": {
       "success_message": "You pry open the window.",
@@ -356,53 +248,23 @@
   {
     "type": "terrain",
     "id": "t_window_alarm",
+    "copy-from": "t_window",
     "name": "window",
     "description": "A giant sheet of glass inserted into a window, typically found on the side of shops to showcase goods.",
     "symbol": "\"",
     "color": "light_cyan",
     "move_cost": 0,
-    "roof": "t_flat_roof",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE",
-      "ALARMED",
-      "NOITEM",
-      "REDUCE_SCENT",
-      "BARRICADABLE_WINDOW",
-      "CONNECT_TO_WALL",
-      "BLOCK_WIND"
-    ],
-    "bash": {
-      "str_min": 3,
-      "str_max": 6,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame"
-    }
+    "extend": { "flags": [ "ALARMED" ] }
   },
   {
     "type": "terrain",
     "id": "t_window_alarm_taped",
+    "copy-from": "t_window_taped",
     "name": "taped window",
     "description": "Duct tape covers this window, blocking out any sunlight and visibility.  You could remove the duct tape by cutting it off.",
     "symbol": "\"",
     "color": "dark_gray",
-    "move_cost": 0,
-    "coverage": 95,
-    "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "ALARMED", "WALL", "BARRICADABLE_WINDOW", "BLOCK_WIND" ],
-    "bash": {
-      "str_min": 6,
-      "str_max": 12,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 1, 5 ] } ]
-    }
+    "extend": { "flags": [ "ALARMED" ] }
   },
   {
     "type": "terrain",
@@ -463,13 +325,13 @@
   {
     "type": "terrain",
     "id": "t_window_boarded",
+    "copy-from": "t_window",
     "name": "boarded up window",
     "description": "A glass window that has been covered with nailed down planks, blocking sunlight and visibility.  It's not much stronger, but it could be further reinforced with strategically placed two by fours.",
     "symbol": "#",
     "color": "brown",
     "move_cost": 0,
     "coverage": 95,
-    "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 3,
@@ -479,7 +341,8 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "splinter", "count": [ 0, 2 ] }, { "item": "glass_shard", "count": [ 1, 4 ] } ]
+      "items": [ { "item": "splinter", "count": [ 0, 2 ] }, { "item": "glass_shard", "count": [ 1, 4 ] } ],
+      "ranged": { "reduction": [ 10, 30 ] }
     }
   },
   {
@@ -616,24 +479,16 @@
   {
     "type": "terrain",
     "id": "t_window_bars_alarm",
+    "copy-from": "t_window",
     "name": "window with metal bars",
     "looks_like": "t_window_bars",
     "description": "A giant sheet of glass inserted into a window with thick security grilles, making it impossible to crawl through.  Typically installed for high-value stores, or at least stores in bad neighborhoods.  This one has a small sticker in a corner stating, 'Protected by AtmoWeb, leading AI in terminating crime'.",
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,
-    "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "ALARMED", "CONNECT_TO_WALL", "BLOCK_WIND" ],
-    "bash": {
-      "str_min": 3,
-      "str_max": 6,
-      "sound": "glass breaking!",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 10,
-      "ter_set": "t_window_bars",
-      "items": [ { "item": "glass_shard", "count": [ 1, 5 ] } ]
-    }
+    "delete": { "flags": [ "FLAMMABLE", "BARRICADABLE_WINDOW" ] },
+    "extend": { "flags": [ "ALARMED" ] },
+    "bash": { "ter_set": "t_window_bars" }
   },
   {
     "type": "terrain",

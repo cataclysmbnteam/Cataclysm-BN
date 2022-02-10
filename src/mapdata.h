@@ -12,6 +12,8 @@
 #include "active_tile_data.h"
 #include "calendar.h"
 #include "color.h"
+#include "numeric_interval.h"
+#include "optional.h"
 #include "poly_serialized.h"
 #include "translations.h"
 #include "type_id.h"
@@ -27,36 +29,85 @@ struct tripoint;
 
 using iexamine_function = void ( * )( player &, const tripoint & );
 
+struct ranged_bash_info {
+        numeric_interval<int> reduction; // Damage reduction when shot. Rolled like rng(min, max).
+        // As above, but for lasers. If set, lasers won't destroy us.
+        cata::optional<numeric_interval<int>> reduction_laser;
+        int destroy_threshold = 0; // If reduced dmg is still above this value, destroy us.
+        bool flammable = false; // If true, getting hit with any heat damage creates a fire.
+        units::probability block_unaimed_chance =
+            100_pct; // Chance to intercept projectiles not aimed at this tile
+        void deserialize( JsonIn &jsin );
+
+    private:
+        auto tie() const {
+            return std::tie( reduction, reduction_laser, destroy_threshold, flammable, block_unaimed_chance );
+        }
+    public:
+
+        // In C++20, this would be = default
+        bool operator==( const ranged_bash_info &rhs ) const {
+            return tie() == rhs.tie();
+        }
+
+
+};
+
 struct map_bash_info {
-    int str_min;            // min str(*) required to bash
-    int str_max;            // max str required: bash succeeds if str >= random # between str_min & str_max
-    int str_min_blocked;    // same as above; alternate values for has_adjacent_furniture(...) == true
-    int str_max_blocked;
-    int str_min_supported;  // Alternative values for floor supported by something from below
-    int str_max_supported;
-    int explosive;          // Explosion on destruction
-    int sound_vol;          // sound volume of breaking terrain/furniture
-    int sound_fail_vol;     // sound volume on fail
-    int collapse_radius;    // Radius of the tent supported by this tile
-    int fd_bash_move_cost = 100; // cost to bash a field
-    bool destroy_only;      // Only used for destroying, not normally bashable
-    bool bash_below;        // This terrain is the roof of the tile below it, try to destroy that too
-    item_group_id drop_group;// item group of items that are dropped when the object is bashed
-    translation sound;      // sound made on success ('You hear a "smash!"')
-    translation sound_fail; // sound  made on fail
-    translation field_bash_msg_success; // message upon successfully bashing a field
-    ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
-    ter_str_id ter_set_bashed_from_above; // terrain to set if bashed from above (defaults to ter_set)
-    furn_str_id furn_set;   // furniture to set (only used by furniture, not terrain)
+    bool was_loaded = false;
+    // min str(*) required to bash
+    int str_min = 0;
+    // max str required: bash succeeds if str >= random # between str_min & str_max
+    int str_max = 0;
+    // same as above; alternate values for has_adjacent_furniture(...) == true
+    int str_min_blocked = -1;
+    int str_max_blocked = -1;
+    // Alternative values for floor supported by something from below
+    int str_min_supported = -1;
+    int str_max_supported = -1;
+    // (DEPRECATED! TODO: explosion struct) Explosion on destruction
+    int explosive = -1;
+    // sound volume of breaking terrain/furniture
+    cata::optional<int> sound_vol;
+    // sound volume on fail
+    cata::optional<int> sound_fail_vol;
+    // Radius of the tent supported by this tile
+    int collapse_radius = 1;
+    // cost to bash a field
+    int fd_bash_move_cost = 100;
+    // Only used for destroying, not normally bashable
+    bool destroy_only = false;
+    // This terrain is the roof of the tile below it, try to destroy that too
+    bool bash_below = false;
+    // item group of items that are dropped when the object is bashed
+    item_group_id drop_group = item_group_id( "EMPTY_GROUP" );
+    // sound made on success ('You hear a "smash!"')
+    translation sound = to_translation( "smash!" );
+    // sound  made on fail
+    translation sound_fail = to_translation( "thump!" );
+    // message upon successfully bashing a field
+    translation field_bash_msg_success;
+    // terrain to set (REQUIRED for terrain))
+    ter_str_id ter_set = ter_str_id::NULL_ID();
+    // terrain to set if bashed from above (defaults to ter_set)
+    ter_str_id ter_set_bashed_from_above = ter_str_id::NULL_ID();
+    // furniture to set (only valid for furniture)
+    furn_str_id furn_set = furn_str_id::NULL_ID();
     // ids used for the special handling of tents
     std::vector<furn_str_id> tent_centers;
-    map_bash_info();
-    enum map_object_type {
+    // Ranged-specific data, for map::shoot
+    cata::optional<ranged_bash_info> ranged;
+    enum class map_object_type {
         furniture = 0,
         terrain,
         field
     };
-    bool load( const JsonObject &jsobj, const std::string &member, map_object_type obj_type );
+    map_bash_info();
+
+    void deserialize( JsonIn &jsin );
+    void finalize();
+    // ID as string, because 3 type weirdness...
+    void check( const std::string &id, map_object_type type ) const;
 };
 struct map_deconstruct_info {
     // Only if true, the terrain/furniture can be deconstructed
@@ -77,7 +128,13 @@ struct furn_workbench_info {
     units::mass allowed_mass;
     units::volume allowed_volume;
     furn_workbench_info();
-    bool load( const JsonObject &jsobj, const std::string &member );
+    void deserialize( JsonIn &jsin );
+
+    // In C++20, this would be = default
+    bool operator==( const furn_workbench_info &rhs ) const {
+        return std::tie( multiplier, allowed_mass, allowed_volume )
+               == std::tie( rhs.multiplier, rhs.allowed_mass, rhs.allowed_volume );
+    }
 };
 struct plant_data {
     // What the furniture turns into when it grows or you plant seeds in it
@@ -89,7 +146,14 @@ struct plant_data {
     // What percent of the normal harvest this crop gives
     float harvest_multiplier;
     plant_data();
-    bool load( const JsonObject &jsobj, const std::string &member );
+
+    void deserialize( JsonIn &jsin );
+
+    // In C++20, this would be = default
+    bool operator==( const plant_data &rhs ) const {
+        return std::tie( transform, base, growth_multiplier, harvest_multiplier )
+               == std::tie( rhs.transform, rhs.base, rhs.growth_multiplier, rhs.harvest_multiplier );
+    }
 };
 
 struct lockpicking_open_result {
@@ -274,7 +338,7 @@ enum ter_connects : int {
 };
 
 struct map_data_common_t {
-        map_bash_info        bash;
+        map_bash_info bash;
         map_deconstruct_info deconstruct;
         pry_result           pry;
 
@@ -433,7 +497,7 @@ struct furn_t : map_data_common_t {
 
     cata::value_ptr<plant_data> plant;
 
-    cata::value_ptr<float> surgery_skill_multiplier;
+    cata::optional<float> surgery_skill_multiplier;
 
     cata::poly_serialized<active_tile_data> active;
 

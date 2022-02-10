@@ -14,7 +14,7 @@
 #include "cata_utility.h"
 #include "character_id.h"
 #include "color.h"
-#include "common_types.h"
+#include "numeric_interval.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "debug.h"

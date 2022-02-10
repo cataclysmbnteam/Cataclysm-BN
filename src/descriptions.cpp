@@ -24,12 +24,18 @@
 static const skill_id skill_survival( "survival" );
 
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
+static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 
 enum class description_target : int {
     creature,
     furniture,
     terrain
 };
+
+static bool debug_vision()
+{
+    return debug_mode || get_player_character().has_trait( trait_DEBUG_NIGHTVISION );
+}
 
 static const Creature *seen_critter( const game &g, const tripoint &p )
 {
@@ -210,6 +216,20 @@ std::string map_data_common_t::extended_description() const
             }
         } else {
             ss << _( "It can be deconstructed, but won't yield any resources." ) << std::endl;
+        }
+    }
+
+    if( debug_vision() ) {
+        ss << "Bash: " << bash.str_min << "-" << bash.str_max << "\n";
+        if( bash.ranged ) {
+            static std::string indent = "    ";
+            ss << "Ranged: " << "\n";
+            ss << indent << "Reduction:" << bash.ranged->reduction.min << "-" << bash.ranged->reduction.max;
+            if( bash.ranged->reduction_laser ) {
+                ss << indent << "Laser res:" << bash.ranged->reduction_laser->min << "-" <<
+                   bash.ranged->reduction_laser->max;
+            }
+            ss << indent << "Block unaimed chance: " << bash.ranged->block_unaimed_chance;
         }
     }
 

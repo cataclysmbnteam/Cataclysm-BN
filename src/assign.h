@@ -555,6 +555,89 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::energy
     return true;
 }
 
+template<typename T, typename F>
+inline bool assign_unit_common( const JsonObject &jo, const std::string &name, T &val, F parse,
+                                bool strict, const T lo, const T hi )
+{
+    T out;
+
+    // Object via which to report errors which differs for proportional/relative values
+    JsonObject err = jo;
+    err.allow_omitted_members();
+    JsonObject relative = jo.get_object( "relative" );
+    relative.allow_omitted_members();
+    JsonObject proportional = jo.get_object( "proportional" );
+    proportional.allow_omitted_members();
+
+    // Do not require strict parsing for relative and proportional values as rules
+    // such as +10% are well-formed independent of whether they affect base value
+    if( relative.has_member( name ) ) {
+        T tmp;
+        err = relative;
+        if( !parse( err, tmp ) ) {
+            err.throw_error( "invalid relative value specified", name );
+        }
+        strict = false;
+        out = val + tmp;
+
+    } else if( proportional.has_member( name ) ) {
+        double scalar;
+        err = proportional;
+        if( !err.read( name, scalar ) || scalar <= 0 || scalar == 1 ) {
+            err.throw_error( "multiplier must be a positive number other than 1", name );
+        }
+        strict = false;
+        out = val * scalar;
+
+    } else if( !parse( jo, out ) ) {
+        return false;
+    }
+
+    if( out < lo || out > hi ) {
+        err.throw_error( "value outside supported range", name );
+    }
+
+    if( strict && out == val ) {
+        report_strict_violation( err, "cannot assign explicit value the same as default or inherited value",
+                                 name );
+    }
+
+    val = out;
+
+    return true;
+}
+
+inline bool assign( const JsonObject &jo, const std::string &name, units::probability &val,
+                    bool strict = false,
+                    const units::probability lo = units::probability_min,
+                    const units::probability hi = units::probability_max )
+{
+    const auto parse = [&name]( const JsonObject & obj, units::probability & out ) {
+        if( obj.has_string( name ) ) {
+            long double tmp;
+            std::string suffix;
+            std::istringstream str( obj.get_string( name ) );
+            str.imbue( std::locale::classic() );
+            str >> tmp >> suffix;
+            if( str.peek() != std::istringstream::traits_type::eof() ) {
+                obj.throw_error( "syntax error when specifying volume", name );
+            }
+            if( suffix == "pm" ) {
+                out = units::from_one_in_million( static_cast<units::probability::value_type>( tmp ) );
+            } else if( suffix == "%" ) {
+                out = units::from_percent( tmp );
+            } else {
+                obj.throw_error( "unrecognized volumetric unit", name );
+            }
+            return true;
+        }
+
+        return false;
+    };
+
+    return assign_unit_common( jo, name, val, parse, strict, lo, hi );
+}
+
 inline bool assign( const JsonObject &jo, const std::string &name, nc_color &val,
                     const bool strict = false )
 {

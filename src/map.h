@@ -125,6 +125,7 @@ struct visibility_variables {
 };
 
 struct bash_params {
+    bash_params() = default;
     // Initial strength
     int strength;
     // Make a sound?
@@ -140,12 +141,6 @@ struct bash_params {
      * can destroy a wall and a floor under it rather than only one at a time.
      */
     float roll;
-    // Was anything hit?
-    bool did_bash;
-    // Was anything destroyed?
-    bool success;
-    // Did we bash furniture, terrain or vehicle
-    bool bashed_solid;
     /*
      * Are we bashing this location from above?
      * Used in determining what sort of terrain the location will turn into,
@@ -153,6 +148,21 @@ struct bash_params {
      * have a roof either.
     */
     bool bashing_from_above;
+};
+
+struct bash_results {
+    bash_results( bool did_bash, bool success, bool bashed_solid )
+        : did_bash( did_bash ), success( success ), bashed_solid( bashed_solid )
+    {}
+    bash_results() = default;
+    // Was anything hit?
+    bool did_bash = false;
+    // Was anything destroyed?
+    bool success = false;
+    // Did we bash furniture, terrain or vehicle
+    bool bashed_solid = false;
+
+    bash_results &operator|=( const bash_results &other );
 };
 
 /** Draw parameters used by map::drawsq() and similar methods. */
@@ -1117,9 +1127,9 @@ class map
          * @param bash_floor Allow bashing the floor and the tile that supports it
          * @param bashing_vehicle Vehicle that should NOT be bashed (because it is doing the bashing)
          */
-        bash_params bash( const tripoint &p, int str, bool silent = false,
-                          bool destroy = false, bool bash_floor = false,
-                          const vehicle *bashing_vehicle = nullptr );
+        bash_results bash( const tripoint &p, int str, bool silent = false,
+                           bool destroy = false, bool bash_floor = false,
+                           const vehicle *bashing_vehicle = nullptr );
 
         // Effects of attacks/items
         bool hit_with_acid( const tripoint &p );
@@ -1882,16 +1892,20 @@ class map
         std::unique_ptr<vehicle> add_vehicle_to_map( std::unique_ptr<vehicle> veh, bool merge_wrecks );
 
         // Internal methods used to bash just the selected features
-        // Information on what to bash/what was bashed is read from/written to the bash_params struct
-        void bash_ter_furn( const tripoint &p, bash_params &params );
-        void bash_items( const tripoint &p, bash_params &params );
-        void bash_vehicle( const tripoint &p, bash_params &params );
-        void bash_field( const tripoint &p, bash_params &params );
+        // Information on what to bash/what was bashed is read from/written to the bash_params/bash_results struct
+        bash_results bash_ter_furn( const tripoint &p, const bash_params &params );
+        bash_results bash_items( const tripoint &p, const bash_params &params );
+        bash_results bash_vehicle( const tripoint &p, const bash_params &params );
+        bash_results bash_field( const tripoint &p, const bash_params &params );
+
+        // Successfully bashing things down
+        bash_results bash_ter_success( const tripoint &p, const bash_params &params );
+        bash_results bash_furn_success( const tripoint &p, const bash_params &params );
 
         // Gets the roof type of the tile at p
         // Second argument refers to whether we have to get a roof (we're over an unpassable tile)
         // or can just return air because we bashed down an entire floor tile
-        ter_id get_roof( const tripoint &p, bool allow_air );
+        ter_id get_roof( const tripoint &p, bool allow_air ) const;
 
     public:
         void process_items();

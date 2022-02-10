@@ -250,7 +250,7 @@ void field_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "display_field", display_field, false );
     optional( jo, was_loaded, "wandering_field", wandering_field_id, "fd_null" );
 
-    bash_info.load( jo, "bash", map_bash_info::field );
+    optional( jo, was_loaded, "bash", bash_info );
     if( was_loaded && jo.has_member( "copy-from" ) && looks_like.empty() ) {
         looks_like = jo.get_string( "copy-from" );
     }
@@ -277,6 +277,8 @@ void field_type::check() const
             debugmsg( "Intensity level %d defined for field type \"%s\" has empty name.", i, id.c_str() );
         }
     }
+
+    bash_info.check( id.str(), map_bash_info::map_object_type::field );
 }
 
 size_t field_type::count()

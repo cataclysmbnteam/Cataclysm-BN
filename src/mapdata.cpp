@@ -10,6 +10,7 @@
 
 #include "assign.h"
 #include "calendar.h"
+#include "cached_options.h"
 #include "color.h"
 #include "debug.h"
 #include "enum_conversions.h"
@@ -20,6 +21,7 @@
 #include "item.h"
 #include "item_group.h"
 #include "json.h"
+#include "make_static.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -38,6 +40,11 @@ const units::volume DEFAULT_MAX_VOLUME_IN_SQUARE = units::from_liter( 1000 );
 
 generic_factory<ter_t> terrain_data( "terrain" );
 generic_factory<furn_t> furniture_data( "furniture" );
+
+bool is_json_check_strict( const std::string &src )
+{
+    return json_report_unused_fields || src == "dda";
+}
 
 } // namespace
 
@@ -199,10 +206,28 @@ static const std::unordered_map<std::string, ter_connects> ter_connects_map = { 
     }
 };
 
+void ranged_bash_info::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+
+    assign( jo, "reduction", reduction );
+    assign( jo, "reduction_laser", reduction_laser );
+    assign( jo, "destroy_threshold", destroy_threshold );
+    assign( jo, "flammable", flammable );
+    assign( jo, "block_unaimed_chance", block_unaimed_chance );
+}
+
 static void load_map_bash_tent_centers( const JsonArray &ja, std::vector<furn_str_id> &centers )
 {
     for( const std::string &line : ja ) {
         centers.emplace_back( line );
+    }
+}
+
+static void correct_if_magic( cata::optional<int> &val )
+{
+    if( val.value_or( 0 ) == -1 ) {
+        val.reset();
     }
 }
 
@@ -214,65 +239,99 @@ map_bash_info::map_bash_info() : str_min( -1 ), str_max( -1 ),
     drop_group( "EMPTY_GROUP" ),
     ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {}
 
-bool map_bash_info::load( const JsonObject &jsobj, const std::string &member,
-                          map_object_type obj_type )
+void map_bash_info::deserialize( JsonIn &jsin )
 {
-    if( !jsobj.has_object( member ) ) {
-        return false;
+    JsonObject jo = jsin.get_object();
+
+    assign( jo, "str_min", str_min );
+    assign( jo, "str_max", str_max );
+
+    assign( jo, "str_min_blocked", str_min_blocked );
+    assign( jo, "str_max_blocked", str_max_blocked );
+
+    assign( jo, "str_min_supported", str_min_supported );
+    assign( jo, "str_max_supported", str_max_supported );
+
+    assign( jo, "explosive", explosive );
+
+    assign( jo, "sound_vol", sound_vol );
+    correct_if_magic( sound_vol );
+
+    assign( jo, "sound_fail_vol", sound_fail_vol );
+    correct_if_magic( sound_fail_vol );
+
+    assign( jo, "collapse_radius", collapse_radius );
+
+    assign( jo, "destroy_only", destroy_only );
+
+    assign( jo, "bash_below", bash_below );
+
+    assign( jo, "sound", sound );
+    assign( jo, "sound_fail", sound_fail );
+
+    assign( jo, "furn_set", furn_set );
+
+    assign( jo, "ter_set", ter_set );
+    assign( jo, "ter_set_bashed_from_above", ter_set_bashed_from_above );
+
+    assign( jo, "move_cost", fd_bash_move_cost );
+    assign( jo, "msg_success", field_bash_msg_success );
+
+    if( jo.has_member( "items" ) ) {
+        drop_group = item_group::load_item_group( jo.get_member( "items" ), "collection" );
     }
 
-    JsonObject j = jsobj.get_object( member );
-    str_min = j.get_int( "str_min", 0 );
-    str_max = j.get_int( "str_max", 0 );
+    if( jo.has_array( "tent_centers" ) ) {
+        load_map_bash_tent_centers( jo.get_array( "tent_centers" ), tent_centers );
+    }
 
-    str_min_blocked = j.get_int( "str_min_blocked", -1 );
-    str_max_blocked = j.get_int( "str_max_blocked", -1 );
+    assign( jo, "ranged", ranged );
+}
 
-    str_min_supported = j.get_int( "str_min_supported", -1 );
-    str_max_supported = j.get_int( "str_max_supported", -1 );
+void map_bash_info::finalize()
+{
+    if( !ter_set_bashed_from_above ) {
+        ter_set_bashed_from_above = ter_set;
+    }
+}
 
-    explosive = j.get_int( "explosive", -1 );
-
-    sound_vol = j.get_int( "sound_vol", -1 );
-    sound_fail_vol = j.get_int( "sound_fail_vol", -1 );
-
-    collapse_radius = j.get_int( "collapse_radius", 1 );
-
-    destroy_only = j.get_bool( "destroy_only", false );
-
-    bash_below = j.get_bool( "bash_below", false );
-
-    sound = to_translation( "smash!" );
-    sound_fail = to_translation( "thump!" );
-    j.read( "sound", sound );
-    j.read( "sound_fail", sound_fail );
-
-    switch( obj_type ) {
-        case map_bash_info::furniture:
-            furn_set = furn_str_id( j.get_string( "furn_set", "f_null" ) );
+static const std::string &map_object_type_to_str( map_bash_info::map_object_type type )
+{
+    switch( type ) {
+        case map_bash_info::map_object_type::terrain:
+            return STATIC( "terrain" );
+        case map_bash_info::map_object_type::furniture:
+            return STATIC( "furniture" );
+        case map_bash_info::map_object_type::field:
+            return STATIC( "field" );
+        default:
             break;
-        case map_bash_info::terrain:
-            ter_set = ter_str_id( j.get_string( "ter_set" ) );
-            ter_set_bashed_from_above = ter_str_id( j.get_string( "ter_set_bashed_from_above",
-                                                    ter_set.c_str() ) );
-            break;
-        case map_bash_info::field:
-            fd_bash_move_cost = j.get_int( "move_cost", 100 );
-            j.read( "msg_success", field_bash_msg_success );
-            break;
     }
 
-    if( j.has_member( "items" ) ) {
-        drop_group = item_group::load_item_group( j.get_member( "items" ), "collection" );
-    } else {
-        drop_group = item_group_id( "EMPTY_GROUP" );
+    return STATIC( "ERROR!" );
+}
+
+void map_bash_info::check( const std::string &id, map_object_type type ) const
+{
+    std::vector<std::string> errors;
+    if( type != map_bash_info::map_object_type::furniture && furn_set ) {
+        errors.emplace_back( _( "\"furn_set\" is set" ) );
     }
 
-    if( j.has_array( "tent_centers" ) ) {
-        load_map_bash_tent_centers( j.get_array( "tent_centers" ), tent_centers );
+    if( type != map_bash_info::map_object_type::terrain && ter_set ) {
+        errors.emplace_back( _( "\"ter_set\" is set" ) );
     }
 
-    return true;
+    if( type != map_bash_info::map_object_type::terrain && ter_set_bashed_from_above ) {
+        errors.emplace_back( _( "\"ter_set_bashed_from_above\" is set" ) );
+    }
+
+    if( !errors.empty() ) {
+        const std::string &type_str = map_object_type_to_str( type );
+        debugmsg( _( "Errors for \"bash\" field in \"%s\": \"%s\":\n%s" ),
+                  type_str, id,
+                  enumerate_as_string( errors, enumeration_conjunction::newline ) );
+    }
 }
 
 map_deconstruct_info::map_deconstruct_info() : can_do( false ), deconstruct_above( false ),
@@ -300,30 +359,26 @@ bool map_deconstruct_info::load( const JsonObject &jsobj, const std::string &mem
 furn_workbench_info::furn_workbench_info() : multiplier( 1.0f ), allowed_mass( units::mass_max ),
     allowed_volume( units::volume_max ) {}
 
-bool furn_workbench_info::load( const JsonObject &jsobj, const std::string &member )
+void furn_workbench_info::deserialize( JsonIn &jsin )
 {
-    JsonObject j = jsobj.get_object( member );
+    JsonObject j = jsin.get_object();
 
     assign( j, "multiplier", multiplier );
     assign( j, "mass", allowed_mass );
     assign( j, "volume", allowed_volume );
-
-    return true;
 }
 
 plant_data::plant_data() : transform( furn_str_id::NULL_ID() ), base( furn_str_id::NULL_ID() ),
     growth_multiplier( 1.0f ), harvest_multiplier( 1.0f ) {}
 
-bool plant_data::load( const JsonObject &jsobj, const std::string &member )
+void plant_data::deserialize( JsonIn &jsin )
 {
-    JsonObject j = jsobj.get_object( member );
+    JsonObject j = jsin.get_object();
 
     assign( j, "transform", transform );
     assign( j, "base", base );
     assign( j, "growth_multiplier", growth_multiplier );
     assign( j, "harvest_multiplier", harvest_multiplier );
-
-    return true;
 }
 
 pry_result::pry_result() : pry_quality( -1 ), pry_bonus_mult( 1 ),
@@ -1230,7 +1285,7 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
 {
     if( jo.has_member( "examine_action" ) ) {
         examine = iexamine_function_from_string( jo.get_string( "examine_action" ) );
-    } else {
+    } else if( !was_loaded ) {
         examine = iexamine_function_from_string( "none" );
     }
 
@@ -1262,29 +1317,33 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
 
     mandatory( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "message", message );
+
+    assign( jo, "flags", flags );
+    bitflags.reset();
+    transparent = false;
+
+    for( const std::string &flag : flags ) {
+        set_flag( flag );
+    }
 }
 
 void ter_t::load( const JsonObject &jo, const std::string &src )
 {
+    connect_group = TERCONN_NONE;
     map_data_common_t::load( jo, src );
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "move_cost", movecost );
-    optional( jo, was_loaded, "coverage", coverage );
-    assign( jo, "max_volume", max_volume, src == "dda" );
-    optional( jo, was_loaded, "trap", trap_id_str );
+    assign( jo, "coverage", coverage, is_json_check_strict( src ) );
+    assign( jo, "max_volume", max_volume, is_json_check_strict( src ) );
+    assign( jo, "trap", trap_id_str, is_json_check_strict( src ) );
 
-    optional( jo, was_loaded, "light_emitted", light_emitted );
-    optional( jo, was_loaded, "heat_radiation", heat_radiation );
+    assign( jo, "light_emitted", light_emitted, is_json_check_strict( src ) );
+    assign( jo, "heat_radiation", heat_radiation, is_json_check_strict( src ) );
 
     load_symbol( jo );
 
     trap = tr_null;
-    transparent = false;
-    connect_group = TERCONN_NONE;
 
-    for( auto &flag : jo.get_string_array( "flags" ) ) {
-        set_flag( flag );
-    }
     // connect_group is initialized to none, then terrain flags are set, then finally
     // connections from JSON are set. This is so that wall flags can set wall connections
     // but can be overridden by explicit connections in JSON.
@@ -1292,12 +1351,13 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
         set_connects( jo.get_string( "connects_to" ) );
     }
 
-    optional( jo, was_loaded, "open", open, ter_str_id::NULL_ID() );
-    optional( jo, was_loaded, "close", close, ter_str_id::NULL_ID() );
-    optional( jo, was_loaded, "transforms_into", transforms_into, ter_str_id::NULL_ID() );
-    optional( jo, was_loaded, "roof", roof, ter_str_id::NULL_ID() );
+    assign( jo, "open", open, is_json_check_strict( src ) );
+    assign( jo, "close", close, is_json_check_strict( src ) );
+    assign( jo, "transforms_into", transforms_into, is_json_check_strict( src ) );
+    assign( jo, "roof", roof, is_json_check_strict( src ) );
 
-    bash.load( jo, "bash", map_bash_info::terrain );
+    // Not assign, because we want to overwrite individual fields
+    optional( jo, was_loaded, "bash", bash );
     deconstruct.load( jo, "deconstruct", false );
     pry.load( jo, "pry", pry_result::terrain );
 }
@@ -1318,6 +1378,9 @@ static void check_bash_items( const map_bash_info &mbi, const std::string &id, b
             debugmsg( "bash result furniture %s of %s does not exist", mbi.furn_set.c_str(), id.c_str() );
         }
     }
+
+    mbi.check( id, is_terrain ? map_bash_info::map_object_type::terrain :
+               map_bash_info::map_object_type::furniture );
 }
 
 static void check_decon_items( const map_deconstruct_info &mbi, const std::string &id,
@@ -1436,30 +1499,18 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "light_emitted", light_emitted );
 
-    for( auto &flag : jo.get_string_array( "flags" ) ) {
-        set_flag( flag );
-    }
-
     optional( jo, was_loaded, "open", open, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
     optional( jo, was_loaded, "close", close, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
     optional( jo, was_loaded, "transforms_into", transforms_into, string_id_reader<furn_t> {},
               furn_str_id::NULL_ID() );
 
-    bash.load( jo, "bash", map_bash_info::furniture );
+    optional( jo, was_loaded, "bash", bash );
     deconstruct.load( jo, "deconstruct", true );
     pry.load( jo, "pry", pry_result::furniture );
 
-    if( jo.has_object( "workbench" ) ) {
-        workbench = cata::make_value<furn_workbench_info>();
-        workbench->load( jo, "workbench" );
-    }
-    if( jo.has_object( "plant_data" ) ) {
-        plant = cata::make_value<plant_data>();
-        plant->load( jo, "plant_data" );
-    }
-    if( jo.has_float( "surgery_skill_multiplier" ) ) {
-        surgery_skill_multiplier = cata::make_value<float>( jo.get_float( "surgery_skill_multiplier" ) );
-    }
+    optional( jo, was_loaded, "workbench", workbench );
+    optional( jo, was_loaded, "plant_data", plant );
+    assign( jo, "surgery_skill_multiplier", surgery_skill_multiplier );
 
     if( jo.has_member( "active" ) ) {
         JsonIn &jsin = *jo.get_raw( "active" );

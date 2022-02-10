@@ -77,6 +77,11 @@ bool x_in_y( double x, double y )
     return rng_float( 0.0, 1.0 ) <= x / y;
 }
 
+bool check( units::probability p )
+{
+    return rng( 0, 1000000 - 1 ) < units::to_one_in_million( p );
+}
+
 int dice( int number, int sides )
 {
     int ret = 0;
