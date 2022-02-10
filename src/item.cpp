@@ -165,6 +165,7 @@ static const std::string flag_BIPOD( "BIPOD" );
 static const std::string flag_BYPRODUCT( "BYPRODUCT" );
 static const std::string flag_CABLE_SPOOL( "CABLE_SPOOL" );
 static const std::string flag_CANNIBALISM( "CANNIBALISM" );
+static const std::string flag_CBM_SCANNED( "CBM_SCANNED" );
 static const std::string flag_CHARGEDIM( "CHARGEDIM" );
 static const std::string flag_COLLAPSIBLE_STOCK( "COLLAPSIBLE_STOCK" );
 static const std::string flag_CONDUCTIVE( "CONDUCTIVE" );
@@ -4439,6 +4440,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         if( !g->u.has_identified( typeId() ) ) {
             tagtext += _( " (unread)" );
         }
+    }
+    if( has_var( "bionics_scanned_by" ) && has_flag( flag_CBM_SCANNED ) ) {
+        tagtext += _( " (bionic detected)" );
     }
     if( has_flag( flag_ETHEREAL_ITEM ) ) {
         tagtext += string_format( _( " (%s turns)" ), get_var( "ethereal" ) );
