@@ -31,8 +31,9 @@
     "color": [ "green", "green", "green", "brown" ],
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
     "transforms_into": "t_tree_walnut",
+    "examine_action": "harvested_plant",
     "looks_like": "t_tree_hickory_harvested",
     "bash": {
       "str_min": 80,
@@ -121,8 +122,9 @@
     "color": [ "green", "green", "green", "brown" ],
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
     "transforms_into": "t_tree_chestnut",
+    "examine_action": "harvested_plant",
     "looks_like": "t_tree_hickory_harvested",
     "bash": {
       "str_min": 80,
@@ -165,8 +167,9 @@
     "color": [ "green", "green", "green", "brown" ],
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
     "transforms_into": "t_tree_beech",
+    "examine_action": "harvested_plant",
     "looks_like": "t_tree_hickory_harvested",
     "bash": {
       "str_min": 80,
@@ -209,8 +212,9 @@
     "color": [ "green", "green", "green", "brown" ],
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
     "transforms_into": "t_tree_hazelnut",
+    "examine_action": "harvested_plant",
     "looks_like": "t_tree_hickory_harvested",
     "bash": {
       "str_min": 80,
@@ -254,8 +258,9 @@
     "color": [ "green", "green", "green", "brown" ],
     "move_cost": 0,
     "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
     "transforms_into": "t_tree",
+    "examine_action": "harvested_plant",
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -878,7 +883,8 @@
     "copy-from": "t_tree_pine",
     "looks_like": "t_tree_deadpine",
     "transforms_into": "t_tree_pine",
-    "examine_action": "harvested_plant"
+    "examine_action": "harvested_plant",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ]
   },
   {
     "type": "terrain",
@@ -934,7 +940,6 @@
     "description": "A tall deciduous tree of the 'Betula' genus, with the characteristic peeling bark.  Species like 'B. alleghaniensis', 'B. papyrifera', and 'B. populifolia' are the most common in the New England region.  Looks like there isn't enough rhytidome to peel off yet.  You could cut it down with the right tools.",
     "symbol": "7",
     "color": "green",
-    "//": "dead, not harvestable",
     "move_cost": 0,
     "coverage": 80,
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
@@ -981,7 +986,6 @@
     "description": "A tall, wide deciduous tree of the 'Salix' genus, with long thin leafy branches that hang down like curtains.  Looks like all usable bark has been torn off, and new rhytidomes have not formed yet.  You could cut it down with the right tools.",
     "symbol": "4",
     "color": [ "brown", "brown", "brown", "brown" ],
-    "//": "barren in winter, not harvestable",
     "move_cost": 0,
     "coverage": 80,
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
@@ -2088,7 +2092,7 @@
     "color": "green",
     "move_cost": 3,
     "coverage": 20,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "SHRUB" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "SHRUB", "HARVESTED" ],
     "examine_action": "harvested_plant",
     "transforms_into": "t_fern",
     "bash": {
