@@ -223,6 +223,7 @@ veh_interact::veh_interact( vehicle &veh, const point &p )
     main_context.register_action( "SIPHON" );
     main_context.register_action( "UNLOAD" );
     main_context.register_action( "ASSIGN_CREW" );
+    main_context.register_action( "CHANGE_SHAPE" );
     main_context.register_action( "RELABEL" );
     main_context.register_action( "PREV_TAB" );
     main_context.register_action( "NEXT_TAB" );
@@ -459,6 +460,9 @@ void veh_interact::do_main_loop()
             if( veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
                 finish = do_unload();
             }
+        } else if( action == "CHANGE_SHAPE" ) {
+            // purely cosmetic
+            do_change_shape();
         } else if( action == "ASSIGN_CREW" ) {
             if( owned_by_player ) {
                 do_assign_crew();
@@ -625,6 +629,18 @@ task_reason veh_interact::cant_do( char mode )
                 return e.part().is_seat();
             } ) ? CAN_DO : INVALID_TARGET;
 
+        case 'p': {
+            // Change part shape
+            has_tools = true;
+
+            if( cpart >= 0 ) {
+                const int displayed_part = veh->part_displayed_at( veh->part( cpart ).mount );
+                const vpart_info &displayed_vpart = veh->part( displayed_part ).info();
+                // Does the displayed part have different shapes?
+                valid_target = vpart_shapes[displayed_vpart.name() + displayed_vpart.item.str()].size() > 1;
+            }
+            break;
+        }
         case 'a':
             // relabel
             valid_target = cpart >= 0;
@@ -1960,6 +1976,51 @@ bool veh_interact::do_unload()
     return true;
 }
 
+void veh_interact::do_change_shape()
+{
+    if( cant_do( 'p' ) == task_reason::INVALID_TARGET ) {
+        msg = _( "No parts here or the part visible from your position does not have different shapes" );
+        return;
+    }
+
+    vehicle_part &part = veh->part( veh->part_displayed_at( veh->part( cpart ).mount ) );
+    const vpart_info &part_info = part.info();
+
+    using v_shapes = std::vector<const vpart_info *, std::allocator<const vpart_info *>>;
+    const v_shapes &shapes = vpart_shapes[part_info.name() + part_info.item.str()];
+
+    uilist smenu;
+    smenu.text = _( "Choose shape:" );
+    smenu.w_width_setup = [this]() {
+        return getmaxx( w_list );
+    };
+    smenu.w_x_setup = [this]( const int ) {
+        return getbegx( w_list );
+    };
+    smenu.w_y_setup = [this]( const int ) {
+        return getbegy( w_list );
+    };
+
+    int ret_code = 0;
+    for( const vpart_info *const shape : shapes ) {
+        uilist_entry entry( shape->name() );
+        entry.retval = ret_code++;
+        entry.extratxt.left = 1;
+        entry.extratxt.sym = special_symbol( shape->sym );
+        entry.extratxt.color = shape->color;
+        smenu.entries.emplace_back( entry );
+    }
+
+    sort_uilist_entries_by_line_drawing( smenu.entries );
+
+    smenu.query();
+    if( smenu.ret >= 0 ) {
+        const vpart_info *selected_shape = shapes[smenu.ret];
+        part.proxy_part_id = selected_shape->get_id();
+        part.proxy_sym = selected_shape->sym;
+    }
+}
+
 void veh_interact::do_assign_crew()
 {
     if( cant_do( 'w' ) != CAN_DO ) {
@@ -2487,7 +2548,7 @@ void veh_interact::display_stats() const
         const double water_clearance = veh->water_hull_height() - veh->water_draft();
         std::string draft_string = water_clearance > 0 ?
                                    _( "Draft/Clearance:<color_light_blue>%4.2f</color>m/<color_light_blue>%4.2f</color>m" ) :
-                                   _( "Draft/Clearance:<color_light_blue>%4.2f</color>m/<color_light_red>%4.2f</color>m" ) ;
+                                   _( "Draft/Clearance:<color_light_blue>%4.2f</color>m/<color_light_red>%4.2f</color>m" );
 
         fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
                         draft_string.c_str(),
@@ -2543,7 +2604,7 @@ void veh_interact::display_mode()
         size_t esc_pos = display_esc( w_mode );
 
         // broken indentation preserved to avoid breaking git history for large number of lines
-        const std::array<std::string, 10> actions = { {
+        const std::array<std::string, 11> actions = { {
                 { _( "<i>nstall" ) },
                 { _( "<r>epair" ) },
                 { _( "<m>end" ) },
@@ -2552,6 +2613,7 @@ void veh_interact::display_mode()
                 { _( "<s>iphon" ) },
                 { _( "unloa<d>" ) },
                 { _( "cre<w>" ) },
+                { _( "sha<p>e" ) },
                 { _( "r<e>name" ) },
                 { _( "l<a>bel" ) },
             }
@@ -2566,6 +2628,7 @@ void veh_interact::display_mode()
                 !cant_do( 's' ),
                 !cant_do( 'd' ),
                 !cant_do( 'w' ),
+                !cant_do( 'p' ),
                 true,          // 'rename' is always available
                 !cant_do( 'a' ),
             }

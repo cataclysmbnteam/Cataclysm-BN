@@ -43,8 +43,9 @@ char vehicle::part_sym( const int p, const bool exact ) const
         // open door
         return '\'';
     } else {
-        return parts[ displayed_part ].is_broken() ?
-               part_info( displayed_part ).sym_broken : part_info( displayed_part ).sym;
+        return parts[displayed_part].is_broken() ?
+               part_info( displayed_part ).sym_broken : ( parts[displayed_part].proxy_sym == '\0' ?  part_info(
+                           displayed_part ).sym : parts[displayed_part].proxy_sym );
     }
 }
 
@@ -64,7 +65,8 @@ vpart_id vehicle::part_id_string( const int p, char &part_mod ) const
         return vpart_id::NULL_ID();
     }
 
-    const vpart_id idinfo = parts[displayed_part].id;
+    const vpart_id idinfo = parts[displayed_part].proxy_part_id == vpart_id::NULL_ID() ?
+                            parts[displayed_part].id : parts[displayed_part].proxy_part_id;
 
     if( part_flag( displayed_part, VPFLAG_OPENABLE ) && parts[displayed_part].open ) {
         // open
