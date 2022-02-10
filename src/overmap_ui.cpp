@@ -1920,8 +1920,10 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
     ictxt.register_action( "CONFIRM" );
     ictxt.register_action( "LEVEL_UP" );
     ictxt.register_action( "LEVEL_DOWN" );
-    ictxt.register_action( "ZOOM_OUT" );
-    ictxt.register_action( "ZOOM_IN" );
+    if( use_tiles && use_tiles_overmap ) {
+        ictxt.register_action( "ZOOM_OUT" );
+        ictxt.register_action( "ZOOM_IN" );
+    }
     ictxt.register_action( "HELP_KEYBINDINGS" );
     ictxt.register_action( "MOUSE_MOVE" );
     ictxt.register_action( "SELECT" );

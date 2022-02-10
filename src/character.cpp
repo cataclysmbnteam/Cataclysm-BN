@@ -205,7 +205,6 @@ static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_ANTLERS( "ANTLERS" );
 static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
-static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
@@ -4187,10 +4186,6 @@ void Character::set_stored_kcal( int kcal )
 {
     if( stored_calories != kcal ) {
         stored_calories = std::min( kcal, max_stored_kcal() );
-
-        if( kcal > max_stored_kcal() && has_trait( trait_EATHEALTH ) ) {
-            healall( roll_remainder( ( kcal - max_stored_kcal() ) / 50.0f ) );
-        }
     }
 }
 

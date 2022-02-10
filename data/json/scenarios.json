@@ -13,7 +13,7 @@
     "type": "scenario",
     "id": "missed",
     "name": "Missed",
-    "points": 0,
+    "points": -1,
     "description": "Whether due to stubbornness, ignorance, or just plain bad luck, you missed the evacuation, and are stuck in a city full of the risen dead.",
     "allowed_locs": [
       "sloc_house",
@@ -65,7 +65,8 @@
       "sloc_church",
       "sloc_cemetery",
       "sloc_fire_station",
-      "sloc_police"
+      "sloc_police",
+      "sloc_town_hall"
     ],
     "start_name": "In Town",
     "flags": [ "SUR_START", "CITY_START", "LONE_START" ]

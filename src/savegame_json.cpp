@@ -2449,6 +2449,8 @@ void vehicle_part::deserialize( JsonIn &jsin )
     data.read( "direction", direction_int );
     direction = units::from_degrees( direction_int );
     data.read( "blood", blood );
+    data.read( "proxy_part_id", proxy_part_id );
+    data.read( "proxy_sym", proxy_sym );
     data.read( "enabled", enabled );
     data.read( "flags", flags );
     data.read( "passenger_id", passenger_id );
@@ -2519,6 +2521,8 @@ void vehicle_part::serialize( JsonOut &json ) const
     json.member( "open", open );
     json.member( "direction", std::lround( to_degrees( direction ) ) );
     json.member( "blood", blood );
+    json.member( "proxy_part_id", proxy_part_id );
+    json.member( "proxy_sym", proxy_sym );
     json.member( "enabled", enabled );
     json.member( "flags", flags );
     if( !carry_names.empty() ) {

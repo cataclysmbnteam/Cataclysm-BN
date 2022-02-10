@@ -2503,12 +2503,16 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "debug_submap_grid" );
     ctxt.register_action( "debug_hour_timer" );
     ctxt.register_action( "debug_mode" );
-    ctxt.register_action( "zoom_out" );
-    ctxt.register_action( "zoom_in" );
+    if( use_tiles ) {
+        ctxt.register_action( "zoom_out" );
+        ctxt.register_action( "zoom_in" );
+    }
 #if !defined(__ANDROID__)
     ctxt.register_action( "toggle_fullscreen" );
 #endif
+#if defined(TILES)
     ctxt.register_action( "toggle_pixel_minimap" );
+#endif // TILES
     ctxt.register_action( "toggle_panel_adm" );
     ctxt.register_action( "reload_tileset" );
     ctxt.register_action( "toggle_auto_features" );
@@ -6852,9 +6856,13 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "zoom_out" );
-    ctxt.register_action( "zoom_in" );
+    if( use_tiles ) {
+        ctxt.register_action( "zoom_out" );
+        ctxt.register_action( "zoom_in" );
+    }
+#if defined(TILES)
     ctxt.register_action( "toggle_pixel_minimap" );
+#endif // TILES
 
     const int old_levz = get_levz();
     const int min_levz = std::max( old_levz - fov_3d_z_range, -OVERMAP_DEPTH );
@@ -6881,15 +6889,19 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
             std::string fast_scroll_text = string_format( _( "%s - %s" ),
                                            ctxt.get_desc( "TOGGLE_FAST_SCROLL" ),
                                            ctxt.get_action_name( "TOGGLE_FAST_SCROLL" ) );
+#if defined(TILES)
             std::string pixel_minimap_text = string_format( _( "%s - %s" ),
                                              ctxt.get_desc( "toggle_pixel_minimap" ),
                                              ctxt.get_action_name( "toggle_pixel_minimap" ) );
+#endif // TILES
 
             center_print( w_info, getmaxy( w_info ) - 2, c_light_gray, extended_descr_text );
             mvwprintz( w_info, point( 1, getmaxy( w_info ) - 1 ), fast_scroll ? c_light_green : c_green,
                        fast_scroll_text );
+#if defined(TILES)
             right_print( w_info, getmaxy( w_info ) - 1, 1, pixel_minimap_option ? c_light_green : c_green,
                          pixel_minimap_text );
+#endif // TILES
 
             int first_line = 1;
             const int last_line = getmaxy( w_info ) - 3;
