@@ -10,6 +10,7 @@ Steps from current guide were tested on Windows 10 (64 bit), Visual Studio 2019 
 * NTFS partition with ~15 Gb free space (~10 Gb for Visual Studio, ~1 Gb for vcpkg installation, ~3 Gb for repository and ~1 Gb for build cache);
 * Git for Windows (installer can be downloaded from [Git homepage](https://git-scm.com/));
 * Visual Studio 2019 (or 2015 Visual Studio Update 3 and above);
+  * **Note**: If you are using Visual Studio 2022, you must install the Visual Studio 2019 compilers to work around a vcpkg bug. In the Visual Studio Installer, select the 'Individual components' tab and search for / select the component that looks like 'MSVC v142 - VS 2019 C++ x64/x86 Build Tools'. See https://github.com/microsoft/vcpkg/issues/22287.
 * Latest version of vcpkg (see instructions on [vcpkg homepage](https://github.com/Microsoft/vcpkg)).
 
 **Note:** Windows XP is unsupported!
@@ -20,56 +21,17 @@ Steps from current guide were tested on Windows 10 (64 bit), Visual Studio 2019 
 
 - Select the "Desktop development with C++" and "Game development with C++" workloads.
 
-- If you're installing Visual Studio **2022**, go to "Individual components" tab and for every enabled `v143` component
-  enable corresponding `v142` component. This enables Visual Studio 2019 toolchain, which we will be using, as
-  2022 one is not fully supported by `vcpkg` yet.
-
 2. Install `Git for Windows` (installer can be downloaded from [Git homepage](https://git-scm.com/)).
 
-3. Install and configure `vcpkg`:
+3. Install and configure latest `vcpkg`:
 
 ***WARNING: It is important that, wherever you decide to clone this repo, the path does not include whitespace. That is, `C:/dev/vcpkg` is acceptable, but `C:/dev test/vcpkg` is not.***
 
 ```cmd
 git clone https://github.com/Microsoft/vcpkg.git
 cd vcpkg
-git checkout 6bc4362fb49e53f1fff7f51e4e27e1946755ecc6
 .\bootstrap-vcpkg.bat
 .\vcpkg integrate install
-```
-Note: 
-```
-git checkout 6bc4362fb49e53f1fff7f51e4e27e1946755ecc6 
-``` 
-used to grab vcpkg version without font problems.
-
-4. Install a necessary pre-requisite package:
-
-#### Install YASM-tool:
-
-```cmd
-.\vcpkg --triplet x86-windows install yasm-tool yasm-tool-helper
-```
-
-5. Install the dependencies for your desired architecture.
-
-
-#### 64-bit dependencies:
-
-```cmd
-.\vcpkg --triplet x64-windows-static install sdl2 sdl2-image sdl2-mixer[libflac,mpg123,libmodplug,libvorbis] sdl2-ttf gettext
-```
-
-#### 32-bit dependencies:
-
-```cmd
-.\vcpkg --triplet x86-windows-static install sdl2 sdl2-image sdl2-mixer[libflac,mpg123,libmodplug,libvorbis] sdl2-ttf gettext
-```
-
-#### upgrade all dependencies:
-
-```cmd
-.\vcpkg upgrade
 ```
 
 ## Cloning and compilation:
@@ -83,19 +45,19 @@ git clone https://github.com/cataclysmbnteam/Cataclysm-BN.git
 cd Cataclysm-BN
 ```
 
-2. Open the provided solution (`msvc-full-features\Cataclysm-vcpkg-static.sln`) in `Visual Studio`.
+2. Open the provided solution (`msvc-full-features\Cataclysm-vcpkg-static.sln`) in `Visual Studio`, select configuration (`Release` or `Debug`) and platform (`x64` or `x86`) and build it. All necessary dependencies will be built and cached for future use by vcpkg automatically.
 
 3. Open the `Build > Configuration Manager` menu and adjust `Active solution configuration` and `Active solution platform` to match your intended target.
 
 This will configure Visual Studio to compile the release version, with support for Sound, Tiles, and Localization (note, however, that language files themselves are not automatically compiled; this will be done later).
 
-4. Start the build process by selecting either `Build > Build Solution` or `Build > Build > 1 Cataclysm-vcpkg-static`. The process may take a long period of time, so you'd better prepare a cup of coffee and some books in front of your computer :)
+4. Start the build process by selecting either `Build > Build Solution` or `Build > Build > 1 Cataclysm-vcpkg-static`. The process may take a long period of time, so you'd better prepare a cup of coffee and some books in front of your computer :) The first build of each architecture will also download and install dependencies through vcpkg, which can take an especially long time.
 
 5. If you need localization support, execute the bash script `lang/compile_mo.sh` inside Git Bash GUI just like on a UNIX-like system. This will compile the language files that were not automatically compiled in step 2 above.
 
 Even if you do not need languages other than English, you may still want to execute `lang/compile_mo.sh en` or `lang/compile_mo.sh all` to compile the language file for English, in order to work-around a [libintl bug](https://savannah.gnu.org/bugs/index.php?58006) that is causing significant slow-down on Windows targets if a language file is not found.
 
-### Debugging
+### Running from Visual Studio and debugging
 
 Ensure that the Cataclysm project (`Cataclysm-vcpkg-static`) is the selected startup project, configure the working directory in the project settings to `$(ProjectDir)..`, and then press the debug button (or use the appropriate shortcut, e.g. F5).
 
