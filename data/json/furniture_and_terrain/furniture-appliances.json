@@ -1113,5 +1113,72 @@
       "steady_consumer",
       { "power": 20, "consume_every": "600 s", "transform": { "id": "f_fridge", "msg": "The fridge shuts down." } }
     ]
+  },
+  {
+    "type": "furniture",
+    "abstract": "f_minifreezer_base",
+    "name": "-",
+    "looks_like": "minifreezer",
+    "symbol": "H",
+    "description": "-",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": 5,
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "fridge", "count": 1 } ] },
+    "max_volume": "75 L",
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "steel_lump", "count": [ 8, 13 ] },
+        { "item": "steel_chunk", "count": [ 8, 13 ] },
+        { "item": "scrap", "count": [ 8, 13 ] },
+        { "item": "hose", "prob": 50 },
+        { "item": "motor_tiny", "prob": 25 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_minifreezer_off",
+    "copy-from": "f_minifreezer_base",
+    "name": "minifreezer (off)",
+    "symbol": "H",
+    "description": "Freeze your food with the amazing science of electricity!  It is switched off.",
+    "color": "blue"
+  },
+  {
+    "type": "furniture",
+    "id": "f_minifreezer",
+    "name": "minifreezer",
+    "copy-from": "f_minifreezer_base",
+    "symbol": "H",
+    "description": "Freeze your food with the amazing science of electricity!  It has no power.",
+    "active": [
+      "charge_watcher",
+      { "min_power": 60, "transform": { "id": "f_minifreezer_on", "msg": "The minifreezer starts up." } }
+    ],
+    "color": "blue"
+  },
+  {
+    "type": "furniture",
+    "id": "f_minifreezer_on",
+    "name": "minifreezer (on)",
+    "copy-from": "f_minifreezer_base",
+    "symbol": "H",
+    "description": "Freeze your food with the amazing science of electricity!  It is switched on.",
+    "color": "blue",
+    "active": [
+      "steady_consumer",
+      {
+        "power": 45,
+        "consume_every": "600 s",
+        "transform": { "id": "f_minifreezer", "msg": "The minifreezer shuts down." }
+      }
+    ]
   }
 ]

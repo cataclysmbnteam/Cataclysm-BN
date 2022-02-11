@@ -4196,7 +4196,7 @@
   {
     "type": "construction",
     "id": "constr_gridfridge_switch_off",
-    "description": "Toggle Refrigerator",
+    "description": "Toggle Refrigerator/Freezer",
     "required_skills": [  ],
     "category": "FURN",
     "time": "1 m",
@@ -4207,13 +4207,48 @@
   {
     "type": "construction",
     "id": "constr_gridfridge_switch_on",
-    "description": "Toggle Refrigerator",
+    "description": "Toggle Refrigerator/Freezer",
     "required_skills": [  ],
     "category": "FURN",
     "time": "1 m",
     "dark_craftable": true,
     "pre_terrain": "f_fridge_off",
     "post_terrain": "f_fridge_on"
+  },
+  {
+    "type": "construction",
+    "id": "constr_gridminifreezer",
+    "description": "Install Minifreezer",
+    "category": "FURN",
+    "required_skills": [  ],
+    "time": "10 m",
+    "qualities": [  ],
+    "components": [ [ [ "minifreezer", 1 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_minifreezer"
+  },
+  {
+    "type": "construction",
+    "id": "constr_gridminifreezer_switch_off",
+    "description": "Toggle Refrigerator/Freezer",
+    "required_skills": [  ],
+    "category": "FURN",
+    "time": "1 m",
+    "dark_craftable": true,
+    "pre_terrain": "f_minifreezer_on",
+    "post_terrain": "f_minifreezer_off"
+  },
+  {
+    "type": "construction",
+    "id": "constr_gridminifreezer_switch_on",
+    "description": "Toggle Refrigerator/Freezer",
+    "required_skills": [  ],
+    "category": "FURN",
+    "time": "1 m",
+    "dark_craftable": true,
+    "pre_terrain": "f_minifreezer_off",
+    "post_terrain": "f_minifreezer_on"
   },
   {
     "type": "construction",

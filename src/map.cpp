@@ -4569,6 +4569,9 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
         if( furn( map_location ) == f_fridge_on ) {
             flag = temperature_flag::TEMP_FRIDGE;
         }
+        if( furn( map_location ) == f_minifreezer_on ) {
+            flag = temperature_flag::TEMP_FREEZER;
+        }
         map_stack items = i_at( map_location );
         process_map_items( items, active_item_ref.item_ref, map_location, 1, flag );
     }
