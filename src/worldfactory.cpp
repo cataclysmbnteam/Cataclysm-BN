@@ -1277,9 +1277,12 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
         } else if( action == "PREV_TAB" && ( !on_backtab || on_backtab() ) ) {
             tab_output = -1;
         } else if( action == "SAVE_DEFAULT_MODS" ) {
-            if( mman->set_default_mods( active_mod_order ) ) {
-                popup( _( "Saved list of active mods as default" ) );
-                draw_modselection_borders( win, ctxt, standalone );
+            if( query_yn( _( "Save list of active mods as default mod list?" ) ) ) {
+                if( mman->set_default_mods( active_mod_order ) ) {
+                    popup( _( "Saved successfully!" ) );
+                } else {
+                    popup( _( "Failed to save!  Debug log might contain more details." ) );
+                }
             }
         } else if( action == "VIEW_MOD_DESCRIPTION" ) {
             if( const MOD_INFORMATION *selmod = get_selected_mod() ) {

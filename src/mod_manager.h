@@ -42,17 +42,23 @@ struct translatable_mod_info {
 
 struct MOD_INFORMATION {
     private:
-        friend mod_manager;
         mutable translatable_mod_info translatable_info;
 
     public:
         std::string name() const;
         std::string description() const;
 
+        inline void set_translatable_info( translatable_mod_info &&tmi ) {
+            translatable_info = std::move( tmi );
+        }
+
         mod_id ident;
 
         /** Directory to load JSON from relative to directory containing modinfo.json */
         std::string path;
+
+        /** Full path to modinfo.json, for debug purposes */
+        std::string path_full;
 
         /** If set load legacy migrations from this location dependent upon save version */
         std::string legacy;
@@ -83,10 +89,45 @@ struct MOD_INFORMATION {
         std::pair<int, std::string> category = { -1, "" };
 };
 
+namespace mod_management
+{
+using t_mod_list = std::vector<mod_id>;
+
+/**
+ * Load all modinfo.json files (recursively) from the given root.
+ * @param path The root folder from which the modinfo files are searched.
+ */
+std::vector<MOD_INFORMATION> load_mods_from( const std::string &path );
+
+/**
+ * Load all mod information from a json file.
+ * (@see load_modfile)
+ */
+void load_mod_info( const std::string &info_file_path, std::vector<MOD_INFORMATION> &out );
+
+/**
+ * Load mod info from a json object.
+ * @throws JsonError on all kind of errors.
+ */
+cata::optional<MOD_INFORMATION> load_modfile( const JsonObject &jo, const std::string &path );
+
+/**
+ * Save mod list to file.
+ * @returns true on success.
+ */
+bool save_mod_list( const t_mod_list &list, const std::string &path );
+
+/**
+ * Load mod list from file.
+ * @returns cata::nullopt on error.
+ */
+cata::optional<t_mod_list> load_mod_list( const std::string &path );
+} // namespace mod_management
+
 class mod_manager
 {
     public:
-        using t_mod_list = std::vector<mod_id>;
+        using t_mod_list = mod_management::t_mod_list;
 
         mod_manager();
         ~mod_manager();
@@ -132,28 +173,15 @@ class mod_manager
          * the list of mods that should be loaded for this world.
          */
         static std::string get_mods_list_file( WORLDPTR world );
-        /**
-         * Load all modinfo.json files (recursively) from the
-         * given root.
-         * @param path The root folder from which the modinfo
-         * files are searched.
-         */
-        void load_mods_from( const std::string &path );
-        /**
-         * Load all mod information from a json file.
-         * (@see load_modfile)
-         */
-        void load_mod_info( const std::string &info_file_path );
-        /**
-         * Load mod info from a json object. Put the loaded modinfo
-         * directly into @ref mod_map.
-         * @throws JsonError on all kind of errors.
-         */
-        void load_modfile( const JsonObject &jo, const std::string &path );
 
-        bool set_default_mods( const mod_id &ident );
+        /**
+         * Add mods from given list to the pool.
+         * Mods with same id are overwritten.
+         */
+        void add_mods( std::vector<MOD_INFORMATION> &&list );
+
         void remove_mod( const mod_id &ident );
-        void remove_invalid_mods( std::vector<mod_id> &mods ) const;
+        void remove_invalid_mods( t_mod_list &mods ) const;
         void load_replacement_mods( const std::string &path );
 
         pimpl<dependency_tree> tree;

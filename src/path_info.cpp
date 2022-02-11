@@ -301,7 +301,7 @@ std::string PATH_INFO::mods_dev_default()
 }
 std::string PATH_INFO::mods_user_default()
 {
-    return config_dir_value + "user-default-mods.json";
+    return config_dir_value + "default_mods.json";
 }
 std::string PATH_INFO::soundpack_conf()
 {
