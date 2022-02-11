@@ -251,9 +251,9 @@
   {
     "type": "mutation",
     "id": "BOVINE_BULK",
-    "name": { "str": "Bovine Bulk" },
+    "name": { "str": "Sheer Bulk" },
     "points": 2,
-    "description": "You've added a lot of weight, much of it muscle!  You get a +15 bonus to all hit points.  Swimming will be more difficult from now on.",
+    "description": "You've developed a very robust build.  You get a +15 bonus to all hit points.  Swimming will be more difficult from now on.",
     "cancels": [ "FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW" ],
     "changes_to": [ "BOVINE_BULK2" ],
     "category": [ "CATTLE" ],
@@ -263,7 +263,7 @@
   {
     "type": "mutation",
     "id": "BOVINE_BULK2",
-    "name": { "str": "Bull Roids" },
+    "name": { "str": "Immense Bulk" },
     "points": 4,
     "description": "There is no way you'd be allowed to compete in pre-Cataclysm sports.  You get a +30 bonus to all hit points.  Swimming is no longer recommended for someone built like you.",
     "cancels": [ "FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW" ],
