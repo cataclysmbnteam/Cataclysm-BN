@@ -2381,6 +2381,31 @@ bool monster::check_mech_powered() const
     return true;
 }
 
+static void process_item_valptr( cata::value_ptr<item> &ptr, monster &mon )
+{
+    if( ptr && ptr->needs_processing() && ptr->process( nullptr, mon.pos(), false ) ) {
+        ptr.reset();
+    }
+}
+
+void monster::process_items()
+{
+    for( auto iter = inv.begin(); iter != inv.end(); ) {
+        if( iter->needs_processing() &&
+            iter->process( nullptr, pos(), false )
+          ) {
+            iter = inv.erase( iter );
+            continue;
+        }
+        iter++;
+    }
+
+    process_item_valptr( storage_item, *this );
+    process_item_valptr( armor_item, *this );
+    process_item_valptr( tack_item, *this );
+    process_item_valptr( tied_item, *this );
+}
+
 void monster::drop_items_on_death()
 {
     if( is_hallucination() ) {

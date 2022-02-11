@@ -21,6 +21,7 @@
 #include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "active_tile_data_def.h"
+#include "animation.h"
 #include "artifact.h"
 #include "avatar.h"
 #include "bodypart.h"
@@ -7996,36 +7997,65 @@ int iuse::radiocaron( player *p, item *it, bool t, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
-static void sendRadioSignal( player &p, const std::string &signal )
+/**
+ * Send radio signal from player.
+ */
+static void emit_radio_signal( player &p, const std::string &signal )
 {
-    for( const tripoint &loc : g->m.points_in_radius( p.pos(), 30 ) ) {
-        for( item &it : g->m.i_at( loc ) ) {
-            if( it.has_flag( "RADIO_ACTIVATION" ) && it.has_flag( signal ) ) {
-                sounds::sound( p.pos(), 6, sounds::sound_t::alarm, _( "beep" ), true, "misc", "beep" );
-                if( it.has_flag( "RADIO_INVOKE_PROC" ) ) {
-                    // Invoke to transform a radio-modded explosive into its active form
-                    it.type->invoke( p, it, loc );
-                    it.ammo_unset();
-                }
-            } else if( it.has_flag( "RADIO_CONTAINER" ) && !it.contents.empty() ) {
-                item *itm = it.contents.get_item_with( [&signal]( const item & c ) {
-                    return c.has_flag( signal );
-                } );
-
-                if( itm != nullptr ) {
-                    sounds::sound( p.pos(), 6, sounds::sound_t::alarm, _( "beep" ), true, "misc", "beep" );
-                    // Invoke twice: first to transform, then later to proc
-                    if( itm->has_flag( "RADIO_INVOKE_PROC" ) ) {
-                        itm->type->invoke( p, *itm, loc );
-                        itm->ammo_unset();
-                        // The type changed
-                    }
-                    if( itm->has_flag( "BOMB" ) ) {
-                        itm->type->invoke( p, *itm, loc );
-                        it.contents.clear_items();
-                    }
-                }
+    const auto visitor = [&]( item & it, const tripoint & loc ) -> VisitResponse {
+        if( it.has_flag( "RADIO_ACTIVATION" ) && it.has_flag( signal ) )
+        {
+            sounds::sound( p.pos(), 6, sounds::sound_t::alarm, _( "beep" ), true, "misc", "beep" );
+            bool invoke_proc = it.has_flag( "RADIO_INVOKE_PROC" );
+            // Invoke to transform item
+            it.type->invoke( p, it, loc );
+            if( invoke_proc ) {
+                // Cause invocation of transformed item on next turn processing
+                it.ammo_unset();
             }
+        }
+        return VisitResponse::NEXT;
+    };
+
+    int z_min = g->m.has_zlevels() ? -OVERMAP_DEPTH : 0;
+    int z_max = g->m.has_zlevels() ? OVERMAP_HEIGHT : 0;
+    for( int zlev = z_min; zlev <= z_max; zlev++ ) {
+        for( tripoint loc : g->m.points_on_zlevel( zlev ) ) {
+            // Items on ground
+            map_cursor mc( loc );
+            mc.visit_items( [&]( item * it ) {
+                return visitor( *it, loc );
+            } );
+
+            // Items in vehicles
+            optional_vpart_position vp = g->m.veh_at( loc );
+            if( !vp ) {
+                continue;
+            }
+            cata::optional<vpart_reference> vpr = vp.part_with_feature( "CARGO", false );
+            if( !vpr ) {
+                continue;
+            }
+            vehicle_cursor vc( vp->vehicle(), vpr->part_index() );
+            vc.visit_items( [&]( item * it ) {
+                return visitor( *it, loc );
+            } );
+        }
+    }
+
+    // Items on creatures
+    for( Creature &cr : g->all_creatures() ) {
+        const tripoint &cr_pos = cr.pos();
+        if( cr.is_monster() ) {
+            monster &mon = *cr.as_monster();
+            mon.visit_items( [&]( item * it ) {
+                return visitor( *it, cr_pos );
+            } );
+        } else {
+            Character &ch = *cr.as_character();
+            ch.visit_items( [&]( item * it ) {
+                return visitor( *it, cr_pos );
+            } );
         }
     }
 }
@@ -8063,63 +8093,61 @@ int iuse::radiocontrol( player *p, item *it, bool t, const tripoint & )
             it->active = false;
             p->remove_value( "remote_controlling" );
         } else {
-            std::list<std::pair<tripoint, item *>> rc_pairs = g->m.get_rc_items();
-            tripoint rc_item_location = {999, 999, 999};
-            // TODO: grab the closest car or similar?
-            for( auto &rc_pairs_rc_pair : rc_pairs ) {
-                if( rc_pairs_rc_pair.second->typeId() == itype_radio_car_on &&
-                    rc_pairs_rc_pair.second->active ) {
-                    rc_item_location = rc_pairs_rc_pair.first;
+            std::vector<std::pair<tripoint, item *>> rc_pairs;
+            for( tripoint pt : g->m.points_on_zlevel( p->posz() ) ) {
+                map_cursor mc( pt );
+                std::vector<item *> rc_items_here = mc.items_with( [&]( const item & it ) {
+                    return it.has_flag( "RADIO_CONTROLLED" );
+                } );
+                for( item *it : rc_items_here ) {
+                    rc_pairs.emplace_back( pt, it );
                 }
             }
-            if( rc_item_location.x == 999 ) {
+
+            if( rc_pairs.empty() ) {
                 p->add_msg_if_player( _( "No active RC cars on ground and in range." ) );
                 return it->type->charges_to_use();
-            } else {
-                std::stringstream car_location_string;
-                // Populate with the point and stash it.
-                car_location_string << rc_item_location.x << ' ' <<
-                                    rc_item_location.y << ' ' << rc_item_location.z;
-                p->add_msg_if_player( m_good, _( "You take control of the RC car." ) );
-
-                p->set_value( "remote_controlling", car_location_string.str() );
-                it->active = true;
             }
+
+            std::vector<tripoint> locations;
+            uilist pick_rc;
+            pick_rc.text = _( "Choose car to control." );
+            for( size_t i = 0; i < rc_pairs.size(); i++ ) {
+                pick_rc.addentry( i, true, MENU_AUTOASSIGN, rc_pairs[i].second->display_name() );
+                locations.push_back( rc_pairs[i].first );
+            }
+            pointmenu_cb callback( locations );
+            pick_rc.callback = &callback;
+            pick_rc.query();
+            if( pick_rc.ret < 0 || static_cast<size_t>( pick_rc.ret ) >= rc_pairs.size() ) {
+                p->add_msg_if_player( m_info, _( "Never mind." ) );
+                return it->type->charges_to_use();
+            }
+
+            tripoint rc_loc = locations[pick_rc.ret];
+
+            p->add_msg_if_player( m_good, _( "You take control of the RC car." ) );
+            p->set_value( "remote_controlling", serialize_wrapper( [&]( JsonOut & jo ) {
+                rc_loc.serialize( jo );
+            } ) );
+            it->active = true;
         }
     } else if( choice > 0 ) {
         const std::string signal = "RADIOSIGNAL_" + std::to_string( choice );
 
-        auto item_list = p->get_radio_items();
-        for( auto &elem : item_list ) {
-            if( elem->has_flag( "BOMB" ) && elem->has_flag( signal ) ) {
-                p->add_msg_if_player( m_warning,
-                                      _( "The %s in your inventory would explode on this signal.  Place it down before sending the signal." ),
-                                      elem->display_name() );
-                return 0;
-            }
-        }
-
-        std::vector<item *> radio_containers = p->items_with( []( const item & itm ) {
-            return itm.has_flag( "RADIO_CONTAINER" );
+        std::vector<item *> bombs = p->items_with( [&]( const item & it ) -> bool {
+            return it.has_flag( "RADIO_ACTIVATION" ) && it.has_flag( "BOMB" ) && it.has_flag( signal );
         } );
 
-        if( !radio_containers.empty() ) {
-            for( auto items : radio_containers ) {
-                item *itm = items->contents.get_item_with( [&]( const item & c ) {
-                    return c.has_flag( "BOMB" ) && c.has_flag( signal );
-                } );
-
-                if( itm != nullptr ) {
-                    p->add_msg_if_player( m_warning,
-                                          _( "The %1$s in your %2$s would explode on this signal.  Place it down before sending the signal." ),
-                                          itm->display_name(), items->display_name() );
-                    return 0;
-                }
-            }
+        if( !bombs.empty() ) {
+            p->add_msg_if_player( m_warning,
+                                  _( "The %s in your inventory would explode on this signal.  Place it down before sending the signal." ),
+                                  bombs.front()->display_name() );
+            return 0;
         }
 
         p->add_msg_if_player( _( "Click." ) );
-        sendRadioSignal( *p, signal );
+        emit_radio_signal( *p, signal );
         p->moves -= to_moves<int>( 2_seconds );
     }
 

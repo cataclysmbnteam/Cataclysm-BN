@@ -308,8 +308,6 @@ class player : public Character
         /** Returns overall % of HP remaining */
         int hp_percentage() const override;
 
-        /** Returns list of rc items in player inventory. **/
-        std::list<item *> get_radio_items();
         /** Returns list of artifacts in player inventory. **/
         std::list<item *> get_artifact_items();
 

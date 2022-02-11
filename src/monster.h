@@ -26,6 +26,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "visitable.h"
 
 class Character;
 class JsonIn;
@@ -79,7 +80,7 @@ enum monster_horde_attraction {
     NUM_MONSTER_HORDE_ATTRACTION
 };
 
-class monster : public Creature
+class monster : public Creature, public visitable<monster>
 {
         friend class editmap;
     public:
@@ -94,6 +95,12 @@ class monster : public Creature
 
         bool is_monster() const override {
             return true;
+        }
+        monster *as_monster() override {
+            return this;
+        }
+        const monster *as_monster() const override {
+            return this;
         }
 
         void poly( const mtype_id &id );
@@ -417,6 +424,8 @@ class monster : public Creature
         bool use_mech_power( int amt );
         bool check_mech_powered() const;
         int mech_str_addition() const;
+
+        void process_items();
 
         /**
          * Makes monster react to heard sound

@@ -29,6 +29,7 @@
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
+#include "fstream_utils.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "gamemode.h"
@@ -47,6 +48,7 @@
 #include "magic.h"
 #include "make_static.h"
 #include "map.h"
+#include "map_selector.h"
 #include "mapdata.h"
 #include "mapsharing.h"
 #include "messages.h"
@@ -99,7 +101,6 @@ static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_relax_gas( "relax_gas" );
 
-static const itype_id itype_radio_car_on( "radio_car_on" );
 static const itype_id itype_radiocontrol( "radiocontrol" );
 static const itype_id itype_shoulder_strap( "shoulder_strap" );
 
@@ -371,29 +372,30 @@ inline static void rcdrive( const point &d )
 {
     player &u = g->u;
     map &m = g->m;
-    std::stringstream car_location_string( u.get_value( "remote_controlling" ) );
+    std::string car_location_string = u.get_value( "remote_controlling" );
 
-    if( car_location_string.str().empty() ) {
-        //no turned radio car found
+    if( car_location_string.empty() ) {
         u.add_msg_if_player( m_warning, _( "No radio car connected." ) );
         return;
     }
-    tripoint c;
-    car_location_string >> c.x >> c.y >> c.z;
 
-    auto rc_pairs = m.get_rc_items( c );
-    auto rc_pair = rc_pairs.begin();
-    for( ; rc_pair != rc_pairs.end(); ++rc_pair ) {
-        if( rc_pair->second->typeId() == itype_radio_car_on && rc_pair->second->active ) {
-            break;
-        }
-    }
-    if( rc_pair == rc_pairs.end() ) {
+    tripoint c;
+    deserialize_wrapper( [&]( JsonIn & jsin ) {
+        c.deserialize( jsin );
+    }, car_location_string );
+
+    map_cursor mc( c );
+    std::vector<item *> rc_items = mc.items_with( [&]( const item & it ) {
+        return it.has_flag( "RADIO_CONTROLLED" );
+    } );
+
+    if( rc_items.empty() ) {
         u.add_msg_if_player( m_warning, _( "No radio car connected." ) );
         u.remove_value( "remote_controlling" );
         return;
     }
-    item *rc_car = rc_pair->second;
+    // TODO: keep track of which car is being controlled
+    item *rc_car = rc_items[0];
 
     tripoint dest( c + d );
     if( m.impassable( dest ) || !m.can_put_items_ter_furn( dest ) ||
@@ -407,9 +409,10 @@ inline static void rcdrive( const point &d )
         sounds::sound( src, 6, sounds::sound_t::movement, _( "zzz…" ), true, "misc", "rc_car_drives" );
         u.moves -= 50;
         m.i_rem( src, rc_car );
-        car_location_string.clear();
-        car_location_string << dest.x << ' ' << dest.y << ' ' << dest.z;
-        u.set_value( "remote_controlling", car_location_string.str() );
+
+        u.set_value( "remote_controlling", serialize_wrapper( [&]( JsonOut & jo ) {
+            dest.serialize( jo );
+        } ) );
         return;
     }
 }

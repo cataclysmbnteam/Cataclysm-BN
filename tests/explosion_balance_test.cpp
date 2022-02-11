@@ -8,6 +8,7 @@
 #include "avatar.h"
 #include "catch/catch.hpp"
 #include "creature.h"
+#include "explosion_queue.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
@@ -28,6 +29,14 @@
 enum class outcome_type {
     Kill, Casualty
 };
+
+static void set_off_explosion( item &explosive, const tripoint &origin )
+{
+    explosion_handler::get_explosion_queue().clear();
+    explosive.charges = 0;
+    explosive.type->invoke( g->u, explosive, origin );
+    explosion_handler::get_explosion_queue().execute();
+}
 
 static void check_lethality( const std::string &explosive_id, const int range, float lethality,
                              float margin, outcome_type expected_outcome )
@@ -54,10 +63,8 @@ static void check_lethality( const std::string &explosive_id, const int range, f
             monster &new_monster = spawn_test_monster( "mon_zombie", monster_position );
             new_monster.no_extra_death_drops = true;
         }
-        // Set off an explosion
-        item grenade( explosive_id );
-        grenade.charges = 0;
-        grenade.type->invoke( g->u, grenade, origin );
+        item explosive( explosive_id );
+        set_off_explosion( explosive, origin );
         // see how many monsters survive
         std::vector<Creature *> survivors = g->get_creatures_if( []( const Creature & critter ) {
             return critter.is_monster();
@@ -118,10 +125,8 @@ static void check_vehicle_damage( const std::string &explosive_id, const std::st
     }
     origin.x += range;
 
-    // Set off an explosion
-    item grenade( explosive_id );
-    grenade.charges = 0;
-    grenade.type->invoke( g->u, grenade, origin );
+    item explosive( explosive_id );
+    set_off_explosion( explosive, origin );
 
     std::vector<int> after_hp = get_part_hp( target_vehicle );
 
@@ -157,7 +162,6 @@ TEST_CASE( "shrapnel behind wall", "[grenade],[explosion],[balance]" )
     tripoint origin( 30, 30, 0 );
 
     item grenade( "can_bomb_act" );
-    grenade.charges = 0;
     REQUIRE( grenade.get_use( "explosion" ) != nullptr );
     const auto *actor = dynamic_cast<const explosion_iuse *>
                         ( grenade.get_use( "explosion" )->get_actor_ptr() );
@@ -176,7 +180,7 @@ TEST_CASE( "shrapnel behind wall", "[grenade],[explosion],[balance]" )
     const monster &m_in_range = spawn_test_monster( "mon_zombie", origin + point_east );
     const monster &m_behind_wall = spawn_test_monster( "mon_zombie", origin + point( 3, 0 ) );
 
-    grenade.type->invoke( g->u, grenade, origin );
+    set_off_explosion( grenade, origin );
 
     CHECK( m_in_range.hp_percentage() < 100 );
     CHECK( m_behind_wall.hp_percentage() == 100 );
@@ -198,7 +202,7 @@ TEST_CASE( "shrapnel at huge range", "[grenade],[explosion]" )
 
     const monster &m = spawn_test_monster( "mon_zombie", tripoint( MAPSIZE_X - 1, MAPSIZE_Y - 1, 0 ) );
 
-    grenade.type->invoke( g->u, grenade, origin );
+    set_off_explosion( grenade, origin );
 
     CHECK( m.is_dead_state() );
 }
@@ -222,8 +226,7 @@ TEST_CASE( "shrapnel at max grenade range", "[grenade],[explosion]" )
         spawn_test_monster( "mon_zombie", pt );
     }
 
-    grenade.charges = 0;
-    grenade.type->invoke( g->u, grenade, origin );
+    set_off_explosion( grenade, origin );
 
     for( const tripoint &pt : closest_points_first( origin, range + 1 ) ) {
         const monster *m = g->critter_at<monster>( pt );

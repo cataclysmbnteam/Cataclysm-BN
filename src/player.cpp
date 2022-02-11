@@ -713,31 +713,6 @@ std::string player::get_category_dream( const std::string &cat,
     return random_entry( selected_dream.messages() );
 }
 
-std::list<item *> player::get_radio_items()
-{
-    std::list<item *> rc_items;
-    const invslice &stacks = inv.slice();
-    for( auto &stack : stacks ) {
-        item &stack_iter = stack->front();
-        if( stack_iter.has_flag( "RADIO_ACTIVATION" ) ) {
-            rc_items.push_back( &stack_iter );
-        }
-    }
-
-    for( auto &elem : worn ) {
-        if( elem.has_flag( "RADIO_ACTIVATION" ) ) {
-            rc_items.push_back( &elem );
-        }
-    }
-
-    if( is_armed() ) {
-        if( weapon.has_flag( "RADIO_ACTIVATION" ) ) {
-            rc_items.push_back( &weapon );
-        }
-    }
-    return rc_items;
-}
-
 std::list<item *> player::get_artifact_items()
 {
     std::list<item *> art_items;

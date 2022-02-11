@@ -65,6 +65,7 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "explosion_queue.h"
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
@@ -598,6 +599,7 @@ void game::setup()
     mission::clear_all();
     Messages::clear_messages();
     timed_events = timed_event_manager();
+    explosion_handler::get_explosion_queue().clear();
 
     SCT.vSCT.clear(); //Delete pending messages
 
@@ -1582,6 +1584,10 @@ bool game::do_turn()
     update_stair_monsters();
     mon_info_update();
     u.process_turn();
+
+    explosion_handler::get_explosion_queue().execute();
+    cleanup_dead();
+
     if( u.moves < 0 && get_option<bool>( "FORCE_REDRAW" ) ) {
         ui_manager::redraw();
         refresh_display();
@@ -4402,6 +4408,10 @@ void game::monmove()
                 // die of "natural" cause (overpopulation is natural)
                 critter.die( nullptr );
             }
+        }
+
+        if( !critter.is_dead() ) {
+            critter.process_items();
         }
 
         if( !critter.is_dead() ) {

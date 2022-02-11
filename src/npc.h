@@ -794,6 +794,13 @@ class npc : public player
         bool is_npc() const override {
             return true;
         }
+        npc *as_npc() override {
+            return this;
+        }
+        const npc *as_npc() const override {
+            return this;
+        }
+
         void load_npc_template( const string_id<npc_template> &ident );
         void npc_dismount();
         weak_ptr_fast<monster> chosen_mount;

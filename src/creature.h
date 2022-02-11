@@ -31,6 +31,8 @@ class window;
 } // namespace catacurses
 class avatar;
 class Character;
+class npc;
+class monster;
 class field;
 class field_entry;
 class JsonObject;
@@ -90,6 +92,18 @@ class Creature
         }
         virtual bool is_monster() const {
             return false;
+        }
+        virtual monster *as_monster() {
+            return nullptr;
+        }
+        virtual const monster *as_monster() const {
+            return nullptr;
+        }
+        virtual npc *as_npc() {
+            return nullptr;
+        }
+        virtual const npc *as_npc() const {
+            return nullptr;
         }
         virtual Character *as_character() {
             return nullptr;

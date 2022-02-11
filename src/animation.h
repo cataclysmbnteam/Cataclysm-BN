@@ -49,6 +49,14 @@ struct point_with_value {
 using one_bucket = std::vector<point_with_value>;
 using bucketed_points = std::list<one_bucket>;
 
+namespace explosion_handler
+{
+void draw_explosion( const tripoint &p, int radius, const nc_color &col,
+                     const std::string &exp_name );
+void draw_custom_explosion( const tripoint &p, const std::map<tripoint, nc_color> &area,
+                            const std::string &exp_name );
+} // namespace explosion_handler
+
 // TODO: Better file
 bucketed_points bucket_by_distance( const tripoint &origin,
                                     const std::map<tripoint, double> &to_bucket );

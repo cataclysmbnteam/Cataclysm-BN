@@ -1653,12 +1653,7 @@
     "context": [  ]
   },
   {
-    "id": "RADIOCAR",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
-    "id": "RADIO_CONTAINER",
+    "id": "RADIO_CONTROLLED",
     "type": "json_flag",
     "context": [  ]
   },

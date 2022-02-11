@@ -5048,31 +5048,6 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
     return ret;
 }
 
-std::list<std::pair<tripoint, item *> > map::get_rc_items( const tripoint &p )
-{
-    std::list<std::pair<tripoint, item *> > rc_pairs;
-    tripoint pos;
-    pos.z = abs_sub.z;
-    for( pos.x = 0; pos.x < MAPSIZE_X; pos.x++ ) {
-        if( p.x != -1 && p.x != pos.x ) {
-            continue;
-        }
-        for( pos.y = 0; pos.y < MAPSIZE_Y; pos.y++ ) {
-            if( p.y != -1 && p.y != pos.y ) {
-                continue;
-            }
-            auto items = i_at( pos );
-            for( auto &elem : items ) {
-                if( elem.has_flag( "RADIO_ACTIVATION" ) || elem.has_flag( "RADIO_CONTAINER" ) ) {
-                    rc_pairs.push_back( std::make_pair( pos, &elem ) );
-                }
-            }
-        }
-    }
-
-    return rc_pairs;
-}
-
 bool map::can_see_trap_at( const tripoint &p, const Character &c ) const
 {
     return tr_at( p ).can_see( p, c );

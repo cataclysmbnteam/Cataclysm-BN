@@ -14,6 +14,7 @@
 #include <utility>
 #include <vector>
 
+#include "animation.h"
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -23,6 +24,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "enums.h"
+#include "explosion_queue.h"
 #include "field_type.h"
 #include "flat_set.h"
 #include "game.h"
@@ -406,6 +408,16 @@ void explosion( const tripoint &p, float power, float factor, bool fire, int leg
 
 void explosion( const tripoint &p, const explosion_data &ex )
 {
+    queued_explosion qe( p, ExplosionType::Regular );
+    qe.exp_data = ex;
+    get_explosion_queue().add( std::move( qe ) );
+}
+
+void explosion_funcs::regular( const queued_explosion &qe )
+{
+    const tripoint &p = qe.pos;
+    const explosion_data &ex = qe.exp_data;
+
     const int noise = ex.damage / explosion_handler::power_to_dmg_mult * ( ex.fire ? 2 : 10 );
     if( noise >= 30 ) {
         sounds::sound( p, noise, sounds::sound_t::combat, _( "a huge explosion!" ), false, "explosion",
@@ -486,9 +498,19 @@ void explosion( const tripoint &p, const explosion_data &ex )
 
 void flashbang( const tripoint &p, bool player_immune, const std::string &exp_name )
 {
-    draw_explosion( p, 8, c_white, exp_name );
+    queued_explosion qe( p, ExplosionType::Flashbang );
+    qe.affects_player = !player_immune;
+    qe.graphics_name = exp_name;
+    get_explosion_queue().add( std::move( qe ) );
+}
+
+void explosion_funcs::flashbang( const queued_explosion &qe )
+{
+    const tripoint &p = qe.pos;
+
+    draw_explosion( p, 8, c_white, qe.graphics_name );
     int dist = rl_dist( g->u.pos(), p );
-    if( dist <= 8 && !player_immune ) {
+    if( dist <= 8 && qe.affects_player ) {
         if( !g->u.has_bionic( bio_ears ) && !g->u.is_wearing( itype_rm13_armor_on ) ) {
             g->u.add_effect( effect_deaf, time_duration::from_turns( 40 - dist * 4 ) );
         }
@@ -532,21 +554,32 @@ void flashbang( const tripoint &p, bool player_immune, const std::string &exp_na
     // TODO: Blind/deafen NPC
 }
 
-void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult,
-                bool ignore_player, const std::string &exp_name )
+void shockwave( const tripoint &p, const shockwave_data &sw, const std::string &exp_name )
 {
-    draw_explosion( p, radius, c_blue, exp_name );
+    queued_explosion qe( p, ExplosionType::Shockwave );
+    qe.swave_data = sw;
+    qe.graphics_name = exp_name;
+    get_explosion_queue().add( std::move( qe ) );
+}
 
-    sounds::sound( p, force * force * dam_mult / 2, sounds::sound_t::combat, _( "Crack!" ), false,
+void explosion_funcs::shockwave( const queued_explosion &qe )
+{
+    const tripoint &p = qe.pos;
+    const shockwave_data &sw = qe.swave_data;
+
+    draw_explosion( p, sw.radius, c_blue, qe.graphics_name );
+
+    sounds::sound( p, sw.force * sw.force * sw.dam_mult / 2, sounds::sound_t::combat, _( "Crack!" ),
+                   false,
                    "misc", "shockwave" );
 
     for( monster &critter : g->all_monsters() ) {
         if( critter.posz() != p.z ) {
             continue;
         }
-        if( rl_dist( critter.pos(), p ) <= radius ) {
+        if( rl_dist( critter.pos(), p ) <= sw.radius ) {
             add_msg( _( "%s is caught in the shockwave!" ), critter.name() );
-            g->knockback( p, critter.pos(), force, stun, dam_mult );
+            g->knockback( p, critter.pos(), sw.force, sw.stun, sw.dam_mult );
         }
     }
     // TODO: combine the two loops and the case for g->u using all_creatures()
@@ -554,16 +587,16 @@ void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult
         if( guy.posz() != p.z ) {
             continue;
         }
-        if( rl_dist( guy.pos(), p ) <= radius ) {
+        if( rl_dist( guy.pos(), p ) <= sw.radius ) {
             add_msg( _( "%s is caught in the shockwave!" ), guy.name );
-            g->knockback( p, guy.pos(), force, stun, dam_mult );
+            g->knockback( p, guy.pos(), sw.force, sw.stun, sw.dam_mult );
         }
     }
-    if( rl_dist( g->u.pos(), p ) <= radius && !ignore_player &&
+    if( rl_dist( g->u.pos(), p ) <= sw.radius && sw.affects_player &&
         ( !g->u.has_trait( trait_LEG_TENT_BRACE ) || g->u.footwear_factor() == 1 ||
           ( g->u.footwear_factor() == .5 && one_in( 2 ) ) ) ) {
         add_msg( m_bad, _( "You're caught in the shockwave!" ) );
-        g->knockback( p, g->u.pos(), force, stun, dam_mult );
+        g->knockback( p, g->u.pos(), sw.force, sw.stun, sw.dam_mult );
     }
 }
 
@@ -708,19 +741,32 @@ void emp_blast( const tripoint &p )
 
 void resonance_cascade( const tripoint &p )
 {
+    get_explosion_queue().add( queued_explosion( p, ExplosionType::ResonanceCascade ) );
+}
+
+void explosion_funcs::resonance_cascade( const queued_explosion &qe )
+{
+    const tripoint &p = qe.pos;
+
     const time_duration maxglow = time_duration::from_turns( 100 - 5 * trig_dist( p, g->u.pos() ) );
-    MonsterGroupResult spawn_details;
     if( maxglow > 0_turns ) {
         const time_duration minglow = std::max( 0_turns, time_duration::from_turns( 60 - 5 * trig_dist( p,
                                                 g->u.pos() ) ) );
         g->u.add_effect( effect_teleglow, rng( minglow, maxglow ) * 100 );
     }
-    int startx = ( p.x < 8 ? 0 : p.x - 8 ), endx = ( p.x + 8 >= SEEX * 3 ? SEEX * 3 - 1 : p.x + 8 );
-    int starty = ( p.y < 8 ? 0 : p.y - 8 ), endy = ( p.y + 8 >= SEEY * 3 ? SEEY * 3 - 1 : p.y + 8 );
-    tripoint dest( startx, starty, p.z );
-    for( int &i = dest.x; i <= endx; i++ ) {
-        for( int &j = dest.y; j <= endy; j++ ) {
-            switch( rng( 1, 80 ) ) {
+
+    constexpr half_open_rectangle<point> map_bounds( point_zero, point( MAPSIZE_X, MAPSIZE_Y ) );
+    constexpr point cascade_reach( 8, 8 );
+
+    point start = clamp( p.xy() - cascade_reach, map_bounds );
+    point end = clamp( p.xy() + cascade_reach, map_bounds );
+
+    std::vector<int> rolls;
+
+    tripoint dest = p;
+    for( dest.y = start.y ; dest.y < end.y; dest.y++ ) {
+        for( dest.x = start.x ; dest.x < end.x; dest.x++ ) {
+            switch( rng( 0, 80 ) ) {
                 case 1:
                 case 2:
                     emp_blast( dest );
@@ -728,8 +774,8 @@ void resonance_cascade( const tripoint &p )
                 case 3:
                 case 4:
                 case 5:
-                    for( int k = i - 1; k <= i + 1; k++ ) {
-                        for( int l = j - 1; l <= j + 1; l++ ) {
+                    for( int k = -1; k <= 1; k++ ) {
+                        for( int l = -1; l <= 1; l++ ) {
                             field_type_id type = fd_null;
                             switch( rng( 1, 7 ) ) {
                                 case 1:
@@ -751,7 +797,7 @@ void resonance_cascade( const tripoint &p )
                                     break;
                             }
                             if( !one_in( 3 ) ) {
-                                g->m.add_field( { k, l, p.z }, type, 3 );
+                                g->m.add_field( dest + point( k, l ), type, 3 );
                             }
                         }
                     }
@@ -769,18 +815,24 @@ void resonance_cascade( const tripoint &p )
                     break;
                 case 13:
                 case 14:
-                case 15:
-                    spawn_details = MonsterGroupManager::GetResultFromGroup( GROUP_NETHER );
+                case 15: {
+                    MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( GROUP_NETHER );
                     g->place_critter_at( spawn_details.name, dest );
                     break;
+                }
                 case 16:
                 case 17:
                 case 18:
                     g->m.destroy( dest );
                     break;
-                case 19:
-                    explosion( dest, rng( 1, 10 ), rng( 0, 1 ) * rng( 0, 6 ), one_in( 4 ) );
+                case 19: {
+                    explosion_data ex;
+                    ex.radius = 1;
+                    ex.damage = rng( 1, 10 );
+                    ex.fire = one_in( 4 );
+                    explosion( dest, ex );
                     break;
+                }
                 default:
                     break;
             }
@@ -805,6 +857,37 @@ float blast_radius_from_legacy( int power, float distance_factor )
 {
     return std::pow( power * power_to_dmg_mult, ( 1.0 / 4.0 ) ) *
            ( std::log( 0.75f ) / std::log( distance_factor ) );
+}
+
+explosion_queue &get_explosion_queue()
+{
+    static explosion_queue singleton;
+    return singleton;
+}
+
+void explosion_queue::execute()
+{
+    while( !elems.empty() ) {
+        queued_explosion exp = std::move( elems.front() );
+        elems.pop_front();
+        switch( exp.type ) {
+            case ExplosionType::Regular:
+                explosion_funcs::regular( exp );
+                break;
+            case ExplosionType::Flashbang:
+                explosion_funcs::flashbang( exp );
+                break;
+            case ExplosionType::ResonanceCascade:
+                explosion_funcs::resonance_cascade( exp );
+                break;
+            case ExplosionType::Shockwave:
+                explosion_funcs::shockwave( exp );
+                break;
+            default:
+                debugmsg( "Explosion type not implemented." );
+                break;
+        }
+    }
 }
 
 } // namespace explosion_handler

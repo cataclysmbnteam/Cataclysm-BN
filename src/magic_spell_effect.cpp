@@ -13,6 +13,7 @@
 #include <utility>
 #include <vector>
 
+#include "animation.h"
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
