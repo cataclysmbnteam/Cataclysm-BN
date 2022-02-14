@@ -1496,7 +1496,6 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "crafting_pseudo_item", crafting_pseudo_item, itype_id() );
     optional( jo, was_loaded, "deployed_item", deployed_item );
     load_symbol( jo );
-    transparent = false;
 
     optional( jo, was_loaded, "light_emitted", light_emitted );
 
