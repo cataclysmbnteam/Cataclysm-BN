@@ -693,6 +693,7 @@ int item::damage_level( int max ) const
 
 item &item::set_damage( int qty )
 {
+    on_damage( qty - damage_, DT_TRUE );
     damage_ = std::max( std::min( qty, max_damage() ), min_damage() );
     return *this;
 }
@@ -4304,9 +4305,11 @@ void item::on_contents_changed()
     encumbrance_update_ = true;
 }
 
-void item::on_damage( int, damage_type )
+void item::on_damage( int qty, damage_type )
 {
-
+    if( qty + damage_ >= max_damage() && is_corpse() ) {
+        set_flag( flag_PULPED );
+    }
 }
 
 std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int truncate ) const
