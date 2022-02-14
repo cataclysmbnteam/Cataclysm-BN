@@ -68,9 +68,9 @@ struct map_bash_info {
     // (DEPRECATED! TODO: explosion struct) Explosion on destruction
     int explosive = -1;
     // sound volume of breaking terrain/furniture
-    cata::optional<int> sound_vol;
+    cata::optional<int> sound_vol = cata::nullopt;
     // sound volume on fail
-    cata::optional<int> sound_fail_vol;
+    cata::optional<int> sound_fail_vol = cata::nullopt;
     // Radius of the tent supported by this tile
     int collapse_radius = 1;
     // cost to bash a field
@@ -86,7 +86,7 @@ struct map_bash_info {
     // sound  made on fail
     translation sound_fail = to_translation( "thump!" );
     // message upon successfully bashing a field
-    translation field_bash_msg_success;
+    translation field_bash_msg_success = translation();
     // terrain to set (REQUIRED for terrain))
     ter_str_id ter_set = ter_str_id::NULL_ID();
     // terrain to set if bashed from above (defaults to ter_set)
