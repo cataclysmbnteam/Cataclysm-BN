@@ -3329,7 +3329,6 @@ bash_results map::bash_furn_success( const tripoint &p, const bash_params &param
 bash_results map::bash_ter_furn( const tripoint &p, const bash_params &params )
 {
     bash_results result;
-    int sound_volume = 0;
     std::string soundfxvariant;
     const auto &ter_obj = ter( p ).obj();
     const auto &furn_obj = furn( p ).obj();
@@ -3398,7 +3397,6 @@ bash_results map::bash_ter_furn( const tripoint &p, const bash_params &params )
 
     int smin = bash->str_min;
     int smax = bash->str_max;
-    cata::optional<int> sound_fail_vol = bash->sound_fail_vol;
     if( !params.destroy ) {
         if( bash->str_min_blocked != -1 || bash->str_max_blocked != -1 ) {
             if( furn_is_supported( *this, p ) ) {
@@ -3430,7 +3428,7 @@ bash_results map::bash_ter_furn( const tripoint &p, const bash_params &params )
     }
 
     if( !success ) {
-        sound_volume = sound_fail_vol.value_or( 12 );
+        int sound_volume = bash->sound_fail_vol.value_or( 12 );
 
         result.did_bash = true;
         if( !params.silent ) {
