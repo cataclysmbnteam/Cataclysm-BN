@@ -702,7 +702,8 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
                                          vehicle_mass_kg ) * weight_to_damage_factor );
 
                 //~ %1$s: vehicle name
-                smash_items( wheel_p, wheel_damage, string_format( _( "weight of %1$s" ), veh.disp_name() ) );
+                smash_items( wheel_p, wheel_damage, string_format( _( "weight of %1$s" ), veh.disp_name() ),
+                             false );
             }
         }
     }
@@ -2967,7 +2968,8 @@ bool map::is_suspension_valid( const tripoint &point )
     return false;
 }
 
-void map::smash_items( const tripoint &p, const int power, const std::string &cause_message )
+void map::smash_items( const tripoint &p, const int power, const std::string &cause_message,
+                       bool do_destroy )
 {
     if( !has_items( p ) ) {
         return;
@@ -2984,13 +2986,8 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
     std::vector<item> contents;
     map_stack items = i_at( p );
     for( auto i = items.begin(); i != items.end(); ) {
-        if( i->made_of( LIQUID ) ) {
-            // TODO: Let explosions, but not wheels or bullets, destroy liquids
-            i++;
-            continue;
-        }
-        // Unless the power is huge, skip non-rezing
-        if( power < min_destroy_threshold && !i->can_revive() ) {
+        // If the power is low or it's not an explosion, only pulp rezing corpses
+        if( ( power < min_destroy_threshold || !do_destroy ) && !i->can_revive() ) {
             i++;
             continue;
         }
@@ -3725,9 +3722,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         damage_message = _( "flying projectile" );
     }
 
-    // Now, smash items on that tile.
-    // dam / 3, because bullets aren't all that good at destroying items...
-    smash_items( p, dam / 3, damage_message );
+    smash_items( p, dam, damage_message, false );
 }
 
 bool map::hit_with_acid( const tripoint &p )

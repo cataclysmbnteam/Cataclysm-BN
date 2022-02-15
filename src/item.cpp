@@ -4307,7 +4307,7 @@ void item::on_contents_changed()
 
 void item::on_damage( int qty, damage_type )
 {
-    if( qty + damage_ >= max_damage() && is_corpse() ) {
+    if( is_corpse() && qty + damage_ >= max_damage() ) {
         set_flag( flag_PULPED );
     }
 }

@@ -237,7 +237,7 @@ static std::map<const Creature *, int> do_blast( const tripoint &p, const float 
             continue;
         }
 
-        g->m.smash_items( pt, force, _( "force of the explosion" ) );
+        g->m.smash_items( pt, force, _( "force of the explosion" ), true );
 
         if( fire ) {
             int intensity = 1 + ( force > 10.0f ) + ( force > 30.0f );
