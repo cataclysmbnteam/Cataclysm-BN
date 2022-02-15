@@ -544,7 +544,6 @@
       { "item": "410shot_hull", "prob": 60 },
       { "item": "44_casing", "prob": 80 },
       { "item": "45_casing", "prob": 80 },
-      { "item": "45colt_casing", "prob": 60 },
       { "item": "454_casing", "prob": 60 },
       { "item": "4570_casing", "prob": 60 },
       { "item": "46mm_casing", "prob": 60 },
