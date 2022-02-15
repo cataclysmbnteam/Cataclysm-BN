@@ -821,9 +821,9 @@
     "points": -1,
     "description": "Your hearing is poor, and you may not hear quiet or far-off noises.",
     "starting_trait": true,
+    "valid": false,
     "category": [ "PLANT" ],
     "cancels": [ "GOODHEARING" ],
-    "changes_to": [ "DEAF" ],
     "hearing_modifier": 0.5
   },
   {
