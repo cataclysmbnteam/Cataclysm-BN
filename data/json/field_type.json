@@ -236,6 +236,7 @@
     "priority": 4,
     "half_life": "30 minutes",
     "phase": "plasma",
+    "stacking_type": "duration",
     "display_items": false,
     "display_field": true
   },

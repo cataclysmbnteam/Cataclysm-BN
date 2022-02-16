@@ -70,6 +70,35 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+struct ammo_effect;
+
+using ammo_effect_str_id = string_id<ammo_effect>;
+
+static const ammo_effect_str_id ammo_effect_ACT_ON_RANGED_HIT( "ACT_ON_RANGED_HIT" );
+static const ammo_effect_str_id ammo_effect_BLACKPOWDER( "BLACKPOWDER" );
+static const ammo_effect_str_id ammo_effect_BOUNCE( "BOUNCE" );
+static const ammo_effect_str_id ammo_effect_BURST( "BURST" );
+static const ammo_effect_str_id ammo_effect_CUSTOM_EXPLOSION( "CUSTOM_EXPLOSION" );
+static const ammo_effect_str_id ammo_effect_EMP( "EMP" );
+static const ammo_effect_str_id ammo_effect_EXPLOSIVE( "EXPLOSIVE" );
+static const ammo_effect_str_id ammo_effect_HEAVY_HIT( "HEAVY_HIT" );
+static const ammo_effect_str_id ammo_effect_IGNITE( "IGNITE" );
+static const ammo_effect_str_id ammo_effect_LASER( "LASER" );
+static const ammo_effect_str_id ammo_effect_LIGHTNING( "LIGHTNING" );
+static const ammo_effect_str_id ammo_effect_NON_FOULING( "NON_FOULING" );
+static const ammo_effect_str_id ammo_effect_NO_CRIT( "NO_CRIT" );
+static const ammo_effect_str_id ammo_effect_NO_EMBED( "NO_EMBED" );
+static const ammo_effect_str_id ammo_effect_NO_ITEM_DAMAGE( "NO_ITEM_DAMAGE" );
+static const ammo_effect_str_id ammo_effect_PLASMA( "PLASMA" );
+static const ammo_effect_str_id ammo_effect_RECYCLED( "RECYCLED" );
+static const ammo_effect_str_id ammo_effect_SHATTER_SELF( "SHATTER_SELF" );
+static const ammo_effect_str_id ammo_effect_SHOT( "SHOT" );
+static const ammo_effect_str_id ammo_effect_TANGLE( "TANGLE" );
+static const ammo_effect_str_id ammo_effect_WHIP( "WHIP" );
+static const ammo_effect_str_id ammo_effect_WIDE( "WIDE" );
+static const ammo_effect_str_id ammo_effect_fault_gun_blackpowder( "fault_gun_blackpowder" );
+static const ammo_effect_str_id ammo_effect_fault_gun_chamber_spent( "fault_gun_chamber_spent" );
+
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_on_roof( "on_roof" );
@@ -831,7 +860,7 @@ int player::fire_gun( const tripoint &target, const int max_shots, item &gun )
                                     pos() ) ) : nullptr;
         projectile projectile = make_gun_projectile( gun );
         if( has_trait( trait_NORANGEDCRIT ) ) {
-            projectile.proj_effects.insert( "NO_CRIT" );
+            projectile.add_effect( ammo_effect_NO_CRIT );
         }
         if( !shape ) {
             auto shot = projectile_attack( projectile, pos(), aim, dispersion, this, in_veh );
@@ -1051,7 +1080,6 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     proj.impact = thrown.base_damage_thrown();
     proj.speed = 10 + skill_level;
     auto &impact = proj.impact;
-    auto &proj_effects = proj.proj_effects;
 
     static const std::set<material_id> ferric = { material_id( "iron" ), material_id( "steel" ) };
 
@@ -1072,7 +1100,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     impact.add_damage( DT_BASH, std::min( weight / 100.0_gram, stats_mod ) );
 
     if( thrown.has_flag( "ACT_ON_RANGED_HIT" ) ) {
-        proj_effects.insert( "ACT_ON_RANGED_HIT" );
+        proj.add_effect( ammo_effect_ACT_ON_RANGED_HIT );
         thrown.active = true;
     }
 
@@ -1088,34 +1116,34 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     // Add some flags to the projectile
     if( weight > 500_gram ) {
-        proj_effects.insert( "HEAVY_HIT" );
+        proj.add_effect( ammo_effect_HEAVY_HIT );
     }
 
-    proj_effects.insert( "NO_ITEM_DAMAGE" );
+    proj.add_effect( ammo_effect_NO_ITEM_DAMAGE );
 
     if( thrown.active ) {
         // Can't have Molotovs embed into monsters
         // Monsters don't have inventory processing
-        proj_effects.insert( "NO_EMBED" );
+        proj.add_effect( ammo_effect_NO_EMBED );
     }
 
     if( do_railgun ) {
-        proj_effects.insert( "LIGHTNING" );
+        proj.add_effect( ammo_effect_LIGHTNING );
     }
 
     if( volume > 500_ml ) {
-        proj_effects.insert( "WIDE" );
+        proj.add_effect( ammo_effect_WIDE );
     }
 
     // Deal extra cut damage if the item breaks
     if( shatter ) {
         impact.add_damage( DT_CUT, units::to_milliliter( volume ) / 500.0f );
-        proj_effects.insert( "SHATTER_SELF" );
+        proj.add_effect( ammo_effect_SHATTER_SELF );
     }
 
     // TODO: Add wet effect if other things care about that
     if( burst ) {
-        proj_effects.insert( "BURST" );
+        proj.add_effect( ammo_effect_BURST );
     }
 
     // Some minor (skill/2) armor piercing for skillful throws
@@ -1125,7 +1153,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     }
     // handling for tangling thrown items
     if( thrown.has_flag( "TANGLE" ) ) {
-        proj_effects.insert( "TANGLE" );
+        proj.add_effect( ammo_effect_TANGLE );
     }
 
     Creature *critter = g->critter_at( target, true );
@@ -1571,25 +1599,32 @@ static projectile make_gun_projectile( const item &gun )
     proj.speed  = 1000;
     proj.impact = gun.gun_damage();
     proj.range = gun.gun_range();
-    proj.proj_effects = gun.ammo_effects();
+    for( const std::string &eff_str : gun.ammo_effects() ) {
+        ammo_effect_str_id ae_id( eff_str );
+        int n = 0;
+        if( ae_id.is_valid() ) {
+            proj.add_effect( ae_id );
+        } else if( sscanf( eff_str.c_str(), "RECOVER_%i", &n ) == 1 ) {
 
-    auto &fx = proj.proj_effects;
+        } else {
+            debugmsg( "Invalid ammo effect id: %s", eff_str );
+        }
+    }
+
+    auto &fx = proj;
 
     if( ( gun.ammo_data() && gun.ammo_data()->phase == LIQUID ) ||
-        fx.count( "SHOT" ) || fx.count( "BOUNCE" ) ) {
-        fx.insert( "WIDE" );
+        fx.has_effect( ammo_effect_SHOT ) || fx.has_effect( ammo_effect_BOUNCE ) ) {
+        fx.add_effect( ammo_effect_WIDE );
     }
 
     if( gun.ammo_data() ) {
         // Some projectiles have a chance of being recoverable
-        bool recover = std::any_of( fx.begin(), fx.end(), []( const std::string & e ) {
-            int n;
-            return sscanf( e.c_str(), "RECOVER_%i", &n ) == 1 && !one_in( n );
-        } );
+        bool recover = proj.recover_chance > 0 && !one_in( proj.recover_chance );
 
-        if( recover && !fx.count( "IGNITE" ) && !fx.count( "EXPLOSIVE" ) ) {
+        if( recover && !fx.has_effect( ammo_effect_IGNITE ) && !fx.has_effect( ammo_effect_EXPLOSIVE ) ) {
             item drop( gun.ammo_current(), calendar::turn, 1 );
-            drop.active = fx.count( "ACT_ON_RANGED_HIT" );
+            drop.active = fx.has_effect( ammo_effect_ACT_ON_RANGED_HIT );
             proj.set_drop( drop );
         }
 
@@ -1602,7 +1637,7 @@ static projectile make_gun_projectile( const item &gun )
             proj.set_drop( drop );
         }
 
-        if( fx.count( "CUSTOM_EXPLOSION" ) > 0 ) {
+        if( fx.has_effect( ammo_effect_CUSTOM_EXPLOSION ) > 0 ) {
             proj.set_custom_explosion( gun.ammo_data()->explosion );
         }
     }

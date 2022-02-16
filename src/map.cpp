@@ -97,6 +97,14 @@
 #include "weather.h"
 #include "weighted_list.h"
 
+struct ammo_effect;
+using ammo_effect_str_id = string_id<ammo_effect>;
+
+static const ammo_effect_str_id ammo_effect_INCENDIARY( "INCENDIARY" );
+static const ammo_effect_str_id ammo_effect_LASER( "LASER" );
+static const ammo_effect_str_id ammo_effect_LIGHTNING( "LIGHTNING" );
+static const ammo_effect_str_id ammo_effect_PLASMA( "PLASMA" );
+
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_chemistry_set( "chemistry_set" );
 static const itype_id itype_dehydrator( "dehydrator" );
@@ -3633,7 +3641,6 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     }
 
     float dam = initial_damage;
-    const auto &ammo_effects = proj.proj_effects;
 
     if( has_flag( "ALARMED", p ) && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
         sounds::sound( p, 30, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
@@ -3642,7 +3649,8 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0, abs );
     }
 
-    const bool inc = ammo_effects.count( "INCENDIARY" ) || proj.impact.type_damage( DT_HEAT ) > 0;
+    const bool inc = proj.has_effect( ammo_effect_INCENDIARY ) ||
+                     proj.impact.type_damage( DT_HEAT ) > 0;
     if( const optional_vpart_position vp = veh_at( p ) ) {
         dam = vp->vehicle().damage( vp->part_index(), dam, inc ? DT_HEAT : DT_STAB, hit_items );
     }
@@ -3654,7 +3662,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         const ranged_bash_info &ri = *ter.bash.ranged;
         if( !hit_items && !check( ri.block_unaimed_chance ) ) {
             // Nothing, it's a miss
-        } else if( ri.reduction_laser && ammo_effects.count( "LASER" ) != 0 ) {
+        } else if( ri.reduction_laser && proj.has_effect( ammo_effect_LASER ) != 0 ) {
             dam -= rng( ri.reduction_laser->min, ri.reduction_laser->max );
         } else {
             dam -= rng( ri.reduction.min, ri.reduction.max );
@@ -3675,8 +3683,9 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         dam = 0;
     }
 
-    for( const ammo_effect &ae : ammo_effects::get_all() ) {
-        if( ammo_effects.count( ae.id.str() ) > 0 ) {
+    for( const ammo_effect_str_id &ae_id : proj.get_ammo_effects() ) {
+        const ammo_effect &ae = *ae_id;
+        if( ae.trail_field_type ) {
             if( x_in_y( ae.trail_chance, 100 ) ) {
                 g->m.add_field( p, ae.trail_field_type, rng( ae.trail_intensity_min, ae.trail_intensity_max ) );
             }
@@ -3712,11 +3721,11 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
 
     // Make sure the message is sensible for the ammo effects. Lasers aren't projectiles.
     std::string damage_message;
-    if( ammo_effects.count( "LASER" ) ) {
+    if( proj.has_effect( ammo_effect_LASER ) ) {
         damage_message = _( "laser beam" );
-    } else if( ammo_effects.count( "LIGHTNING" ) ) {
+    } else if( proj.has_effect( ammo_effect_LIGHTNING ) ) {
         damage_message = _( "bolt of electricity" );
-    } else if( ammo_effects.count( "PLASMA" ) ) {
+    } else if( proj.has_effect( ammo_effect_PLASMA ) ) {
         damage_message = _( "bolt of plasma" );
     } else {
         damage_message = _( "flying projectile" );
@@ -5316,6 +5325,7 @@ bool map::add_field( const tripoint &p, const field_type_id &type_id, int intens
     }
 
     if( !type_id ) {
+        debugmsg( "Tried to add null field" );
         return false;
     }
 

@@ -60,6 +60,8 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+static const ammo_effect_str_id ammo_effect_NULL_SOURCE( "NULL_SOURCE" );
+
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_emp( "emp" );
@@ -315,7 +317,7 @@ static std::map<const Creature *, int> shrapnel( const tripoint &src, const proj
     std::map<const Creature *, int> damaged;
 
     projectile proj = fragment;
-    proj.proj_effects.insert( "NULL_SOURCE" );
+    proj.add_effect( ammo_effect_NULL_SOURCE );
 
     float obstacle_cache[MAPSIZE_X][MAPSIZE_Y] = {};
     float visited_cache[MAPSIZE_X][MAPSIZE_Y] = {};

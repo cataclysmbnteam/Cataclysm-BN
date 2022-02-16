@@ -22,7 +22,13 @@ static tripoint projectile_end_point( const std::vector<tripoint> &range, const 
     test_proj.speed = speed;
     test_proj.range = proj_range;
     test_proj.impact = gun.gun_damage();
-    test_proj.proj_effects = gun.ammo_effects();
+    const auto &es = gun.ammo_effects();
+    for( const std::string &s : es ) {
+        ammo_effect_str_id ae_id( s );
+        if( ae_id.is_valid() ) {
+            test_proj.add_effect( ae_id );
+        }
+    }
 
     dealt_projectile_attack attack;
 

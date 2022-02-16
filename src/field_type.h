@@ -60,6 +60,22 @@ struct enum_traits<description_affix> {
     static constexpr description_affix last = description_affix::DESCRIPTION_AFFIX_NUM;
 };
 
+namespace fields
+{
+
+enum class stacking_type {
+    intensity = 0,
+    duration,
+    stacking_type_num
+};
+
+} // namespace fields
+
+template<>
+struct enum_traits<fields::stacking_type> {
+    static constexpr fields::stacking_type last = fields::stacking_type::stacking_type_num;
+};
+
 struct field_effect {
     efftype_id id;
     time_duration min_duration = 0_seconds;
@@ -165,6 +181,8 @@ struct field_type {
         bool display_field = false;
         field_type_id wandering_field;
         std::string looks_like;
+
+        fields::stacking_type stacking_type = fields::stacking_type::intensity;
 
     public:
         const field_intensity_level &get_intensity_level( int level = 0 ) const;

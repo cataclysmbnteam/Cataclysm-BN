@@ -206,5 +206,35 @@
     "id": "NO_PENETRATE_OBSTACLES",
     "type": "ammo_effect",
     "//": "Don't act penetrate obstacles such as fences or reinforced glass"
+  },
+  {
+    "id": "HEAVY_HIT",
+    "type": "ammo_effect",
+    "//": "Makes a slightly different, slightly louder sound on drop..."
+  },
+  {
+    "id": "NO_ITEM_DAMAGE",
+    "type": "ammo_effect",
+    "//": "Doesn't pulp corpses hit by the projectile (overkill corpse damage still applies)"
+  },
+  {
+    "id": "WIDE",
+    "type": "ammo_effect",
+    "//": "Does NOTHING at all.  TODO: Make it ignore skeleton smaller ranged size."
+  },
+  {
+    "id": "NOGIB",
+    "type": "ammo_effect",
+    "//": "Doesn't overkill."
+  },
+  {
+    "id": "SHOT",
+    "type": "ammo_effect",
+    "//": "Implied WIDE.  Doesn't do anything on its own."
+  },
+  {
+    "id": "COOKOFF",
+    "type": "ammo_effect",
+    "//": "Item flag that is an ammo effect for a misguided reason.  Makes ammo explode in fire."
   }
 ]
