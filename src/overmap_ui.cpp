@@ -184,7 +184,7 @@ struct grids_draw_data {
 
 static std::string fmt_omt_coords( const tripoint_abs_omt &coord )
 {
-    if( get_option<std::string>( "OVERMAP_COORDINATE_FORMAT" ) == "relative" ) {
+    if( get_option<std::string>( "OVERMAP_COORDINATE_FORMAT" ) == "subdivided" ) {
         point_abs_om abs_coord;
         tripoint_om_omt rel_coord;
         std::tie( abs_coord, rel_coord ) = project_remain<coords::om>( coord );

@@ -1482,8 +1482,8 @@ void options_manager::add_options_interface()
         "OVERMAP_COORDINATE_FORMAT",
         "interface",
         translate_marker( "Overmap coordinates format" ),
-        translate_marker( "Are overmap coordinates displayed using relative format like 1'158, 2'56 or absolute format like 338, 416?" ),
-    { { "relative", translate_marker( "Relative" ) }, { "absolute", translate_marker( "Absolute" ) } },
+        translate_marker( "Are overmap coordinates displayed using absolute format like 338, 416 or subdivided into two components like 1'158, 2'56?" ),
+    { { "subdivided", translate_marker( "Subdivided" ) }, { "absolute", translate_marker( "Absolute" ) } },
     "absolute"
     );
 
