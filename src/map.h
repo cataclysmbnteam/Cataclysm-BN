@@ -1131,6 +1131,9 @@ class map
                            bool destroy = false, bool bash_floor = false,
                            const vehicle *bashing_vehicle = nullptr );
 
+        bash_results bash_vehicle(const tripoint& p, const bash_params& params);
+        bash_results bash_ter_furn(const tripoint& p, const bash_params& params);
+
         // Effects of attacks/items
         bool hit_with_acid( const tripoint &p );
         bool hit_with_fire( const tripoint &p );
@@ -1892,9 +1895,9 @@ class map
 
         // Internal methods used to bash just the selected features
         // Information on what to bash/what was bashed is read from/written to the bash_params/bash_results struct
-        bash_results bash_ter_furn( const tripoint &p, const bash_params &params );
+        // bash_results bash_ter_furn( const tripoint &p, const bash_params &params );
         bash_results bash_items( const tripoint &p, const bash_params &params );
-        bash_results bash_vehicle( const tripoint &p, const bash_params &params );
+        // bash_results bash_vehicle( const tripoint &p, const bash_params &params );
         bash_results bash_field( const tripoint &p, const bash_params &params );
 
         // Successfully bashing things down
