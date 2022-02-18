@@ -86,6 +86,35 @@ static const itype_id itype_battery( "battery" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
+static float obstacle_blast_percentage( float range, float distance )
+{
+    return distance > range ? 0.0f : distance > ( range / 2 ) ? 0.5f : 1.0f;
+}
+static float critter_blast_percentage( Creature *c, float range, float distance )
+{
+    const float radius_reduction = distance >= range / 2 ? 1.0f : distance > 0 ? 0.5f : 0.0f;
+
+    switch( c->get_size() ) {
+        case( m_size::MS_TINY ):
+            return 0.5 * radius_reduction;
+        case( m_size::MS_SMALL ):
+            return 0.8 * radius_reduction;
+        case( m_size::MS_MEDIUM ):
+            return 1.0 * radius_reduction;
+        case( m_size::MS_LARGE ):
+            return 1.5 * radius_reduction;
+        case( m_size::MS_HUGE ):
+            return 2.0 * radius_reduction;
+        default:
+            return 1.0 * radius_reduction;
+    }
+}
+
+static float item_blast_percentage( float range, float distance )
+{
+    const float radius_reduction = 1.0f - distance / range;
+    return radius_reduction;
+}
 
 explosion_data load_explosion_data( const JsonObject &jo )
 {
@@ -125,13 +154,6 @@ explosion_data load_explosion_data( const JsonObject &jo )
 
 namespace explosion_handler
 {
-
-float obstacle_blast_percentage( float range, float distance )
-{
-    return distance > range ? 0.0f : distance > ( range / 2 ) ? 0.5f : 1.0f;
-}
-
-
 // (C1001) Compiler Internal Error on Visual Studio 2015 with Update 2
 static std::map<const Creature *, int> do_blast( const tripoint &p, const float power,
         const float radius, const bool fire )
@@ -316,33 +338,6 @@ static std::map<const Creature *, int> do_blast( const tripoint &p, const float 
 
     return blasted;
 }
-
-float critter_blast_percentage( Creature *c, float range, float distance )
-{
-    const float radius_reduction = distance >= range / 2 ? 1.0f : distance > 0 ? 0.5f : 0.0f;
-
-    switch( c->get_size() ) {
-        case( m_size::MS_TINY ):
-            return 0.5 * radius_reduction;
-        case( m_size::MS_SMALL ):
-            return 0.8 * radius_reduction;
-        case( m_size::MS_MEDIUM ):
-            return 1.0 * radius_reduction;
-        case( m_size::MS_LARGE ):
-            return 1.5 * radius_reduction;
-        case( m_size::MS_HUGE ):
-            return 2.0 * radius_reduction;
-        default:
-            return 1.0 * radius_reduction;
-    }
-}
-
-float item_blast_percentage( float range, float distance )
-{
-    const float radius_reduction = 1.0f - distance / range;
-    return radius_reduction;
-}
-
 
 static std::map<const Creature *, int> do_blast_new( const tripoint &p, const float raw_blast_force,
         const float raw_blast_radius )
