@@ -1131,8 +1131,8 @@ class map
                            bool destroy = false, bool bash_floor = false,
                            const vehicle *bashing_vehicle = nullptr );
 
-        bash_results bash_vehicle(const tripoint& p, const bash_params& params);
-        bash_results bash_ter_furn(const tripoint& p, const bash_params& params);
+        bash_results bash_vehicle( const tripoint &p, const bash_params &params );
+        bash_results bash_ter_furn( const tripoint &p, const bash_params &params );
 
         // Effects of attacks/items
         bool hit_with_acid( const tripoint &p );
