@@ -102,6 +102,11 @@
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
 
+static const ammo_effect_str_id ammo_effect_BLACKPOWDER( "BLACKPOWDER" );
+static const ammo_effect_str_id ammo_effect_INCENDIARY( "INCENDIARY" );
+static const ammo_effect_str_id ammo_effect_NEVER_MISFIRES( "NEVER_MISFIRES" );
+static const ammo_effect_str_id ammo_effect_RECYCLED( "RECYCLED" );
+
 static const ammotype ammo_battery( "battery" );
 static const ammotype ammo_plutonium( "plutonium" );
 
@@ -1892,6 +1897,7 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         }
     }
 
+    // TODO: De-hardcode. Have it imply a flag? Just include description_on_item in ammo_effect struct?
     std::vector<std::string> fx;
     if( ammo.shape &&
         parts->test( iteminfo_parts::AMMO_SHAPE ) ) {
@@ -1899,21 +1905,21 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                              _( "This ammo will produce effects with the following shape:\n<bold>%s</bold>" ),
                              ammo.shape->get_description() ) );
     }
-    if( ammo.ammo_effects.count( "RECYCLED" ) &&
+    if( ammo.ammo_effects.count( ammo_effect_RECYCLED ) &&
         parts->test( iteminfo_parts::AMMO_FX_RECYCLED ) ) {
         fx.emplace_back( _( "This ammo has been <bad>hand-loaded</bad>." ) );
     }
-    if( ammo.ammo_effects.count( "BLACKPOWDER" ) &&
+    if( ammo.ammo_effects.count( ammo_effect_BLACKPOWDER ) &&
         parts->test( iteminfo_parts::AMMO_FX_BLACKPOWDER ) ) {
         fx.emplace_back(
             _( "This ammo has been loaded with <bad>blackpowder</bad>, and will quickly "
                "clog up most guns, and cause rust if the gun is not cleaned." ) );
     }
-    if( ammo.ammo_effects.count( "NEVER_MISFIRES" ) &&
+    if( ammo.ammo_effects.count( ammo_effect_NEVER_MISFIRES ) &&
         parts->test( iteminfo_parts::AMMO_FX_CANTMISSFIRE ) ) {
         fx.emplace_back( _( "This ammo <good>never misfires</good>." ) );
     }
-    if( ammo.ammo_effects.count( "INCENDIARY" ) &&
+    if( ammo.ammo_effects.count( ammo_effect_INCENDIARY ) &&
         parts->test( iteminfo_parts::AMMO_FX_INCENDIARY ) ) {
         fx.emplace_back( _( "This ammo <neutral>starts fires</neutral>." ) );
     }
@@ -7309,13 +7315,13 @@ itype_id item::common_ammo_default( bool conversion ) const
     return itype_id::NULL_ID();
 }
 
-std::set<std::string> item::ammo_effects( bool with_ammo ) const
+std::set<ammo_effect_str_id> item::ammo_effects( bool with_ammo ) const
 {
     if( !is_gun() ) {
-        return std::set<std::string>();
+        return std::set<ammo_effect_str_id>();
     }
 
-    std::set<std::string> res = type->gun->ammo_effects;
+    std::set<ammo_effect_str_id> res = type->gun->ammo_effects;
     if( with_ammo && ammo_data() ) {
         res.insert( ammo_data()->ammo->ammo_effects.begin(), ammo_data()->ammo->ammo_effects.end() );
     }
