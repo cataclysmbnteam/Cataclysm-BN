@@ -1304,6 +1304,23 @@
     "looks_like": "bag_canvas"
   },
   {
+    "id": "rennet",
+    "type": "AMMO",
+    "category": "chems",
+    "name": { "str_sp": "rennet" },
+    "description": "Enzymes used to curdle milk, for making cheese.  Traditionally made from the stomachs of ruminant animals.",
+    "weight": "63 g",
+    "volume": "250 ml",
+    "count": 4,
+    "price": 1000,
+    "price_postapoc": 10,
+    "container": "bottle_plastic_small",
+    "material": "flesh",
+    "symbol": "=",
+    "color": "yellow",
+    "ammo_type": "components"
+  },
+  {
     "id": "rosin",
     "type": "AMMO",
     "category": "chems",

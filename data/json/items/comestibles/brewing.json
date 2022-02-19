@@ -389,8 +389,8 @@
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 8,
-    "calories": 35,
-    "description": "Milk with vinegar and natural rennet added.  Used for making cheese if left in a fermenting vat for some time.",
+    "calories": 132,
+    "description": "Milk with natural rennet added.  Used for making cheese if left in a fermenting vat for some time.",
     "price": 10,
     "material": "milk",
     "volume": "250 ml",
@@ -398,7 +398,7 @@
     "phase": "liquid",
     "fun": -12,
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "time": "4 hours", "results": [ "milk_curdled" ] }
+    "brewable": { "time": "1 hour", "results": [ "milk_curdled" ] }
   },
   {
     "type": "COMESTIBLE",

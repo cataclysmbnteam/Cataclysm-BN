@@ -106,6 +106,7 @@
         "t": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] }
       },
       "place_item": [
+        { "item": "rennet", "x": 6, "y": [ 9, 10 ], "repeat": [ 2, 4 ] },
         { "item": "cattlefodder", "x": 37, "y": 15, "amount": [ 0, 4 ] },
         { "item": "cattlefodder", "x": 38, "y": 6, "amount": [ 0, 4 ] },
         { "item": "cattlefodder", "x": 38, "y": 10, "amount": [ 0, 4 ] },
