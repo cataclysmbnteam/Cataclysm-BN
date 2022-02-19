@@ -339,7 +339,8 @@ static std::map<const Creature *, int> do_blast( const tripoint &p, const float 
     return blasted;
 }
 
-static std::map<const Creature *, int> do_blast_new( const tripoint &p, const float raw_blast_force,
+static std::map<const Creature *, int> do_blast_new( const tripoint &blast_center,
+        const float raw_blast_force,
         const float raw_blast_radius )
 {
     /*
@@ -377,14 +378,16 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &p, const fl
     const float TERRAIN_RANDOM_FACTOR = 0.1f;
 
     // Flinging creatures uses a different scale to determine its damage and range.
-    // More specifically, FLING_POWER_FACTOR * FORCE * RADIUS^2 determines the weight
+    // More specifically, FLING_POWER_FACTOR * FORCE * RADIUS determines the weight
     // in grams that a fling will move by one tile. Half of the weight will move 2 tiles and so on...
-    const float FLING_POWER_FACTOR = 50.0f;
+
+    // Calibrated to this value as regular zombies weigh 40750 grams and we want to throw them a bit more than one radius away per 100 blast damage.
+    const float FLING_POWER_FACTOR = 420.0f;
 
     const int z_levels_affected = raw_blast_radius / Z_LEVEL_DIST;
     const tripoint_range<tripoint> affected_block(
-        p + tripoint( -raw_blast_radius, -raw_blast_radius, -z_levels_affected ),
-        p + tripoint( raw_blast_radius, raw_blast_radius, z_levels_affected )
+        blast_center + tripoint( -raw_blast_radius, -raw_blast_radius, -z_levels_affected ),
+        blast_center + tripoint( raw_blast_radius, raw_blast_radius, z_levels_affected )
     );
 
     static std::vector<dist_point_pair> blast_map( MAPSIZE_X * MAPSIZE_Y );
@@ -394,20 +397,27 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &p, const fl
     explosion_colors.clear();
     blast_shield_map.clear();
 
-    for( const tripoint target : affected_block ) {
-        if( !g->m.inbounds( target ) ) {
+    for( const tripoint &target : affected_block ) {
+        if( !get_map().inbounds( target ) ) {
             continue;
         }
 
-        const float distance = rl_dist( p, target );
-        const float z_distance = abs( target.z - p.z );
+        const point target_flat = target.xy();
+
+        // Uses this ternany check instead of rl_dist because it converts trig_dist's distance to int implicitly
+        const float distance = (
+                                   trigdist ?
+                                   trig_dist( blast_center, target ) :
+                                   square_dist( blast_center, target )
+                               );
+        const float z_distance = abs( target.z - blast_center.z );
         const float z_aware_distance = distance + ( Z_LEVEL_DIST - 1 ) * z_distance;
         if( z_aware_distance <= raw_blast_radius ) {
             blast_map.emplace_back( std::make_pair( z_aware_distance, target ) );
         }
     }
 
-    std::stable_sort( blast_map.begin(), blast_map.end(), []( dist_point_pair pair1,
+    std::sort( blast_map.begin(), blast_map.end(), []( dist_point_pair pair1,
     dist_point_pair pair2 ) {
         return pair1.second.z >= pair2.second.z;
     } );
@@ -418,40 +428,45 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &p, const fl
     } );
 
 
-    int explosion_range = 0;
+    int animated_explosion_range = 0.0f;
     std::map<const Creature *, int> blasted;
     bool player_flung = false;
     player *real_player = nullptr;
     units::angle player_fling_angle;
     float player_fling_vel;
 
-    for( const dist_point_pair pair : blast_map ) {
+    for( const dist_point_pair &pair : blast_map ) {
         float distance;
         tripoint position;
         std::tie( distance, position ) = pair;
 
-        const std::vector<tripoint> line_of_movement = line_to( p, position );
+        const std::vector<tripoint> line_of_movement = line_to( blast_center, position );
         const bool has_obstacles = std::any_of( line_of_movement.begin(),
         line_of_movement.end(), [position]( tripoint ray_position ) {
-            return ray_position != position && g->m.impassable( ray_position );
+            return ray_position != position && get_map().impassable( ray_position );
         } );
 
+        // Don't bother animating explosions that are on other levels
+        const bool to_animate = get_player_character().posz() == position.z;
+
         // Animate the explosion by drawing the shock wave rather than the whole explosion
-        if( distance > explosion_range ) {
-            draw_custom_explosion( p, explosion_colors, "explosion" );
+        if( to_animate && distance > animated_explosion_range ) {
+            draw_custom_explosion( blast_center, explosion_colors, "explosion" );
             explosion_colors.clear();
-            explosion_range++;
+            animated_explosion_range++;
         }
 
         if( has_obstacles ) {
             continue;
         }
 
-        explosion_colors[position] = c_white;
+        if( to_animate ) {
+            explosion_colors[position] = c_white;
+        }
 
         // Item damage comes first in order to prevent dropped loot from being destroyed immediately.
         const int smash_force = raw_blast_force * item_blast_percentage( raw_blast_radius, distance );
-        g->m.smash_items( position, smash_force, _( "force of the explosion" ) );
+        get_map().smash_items( position, smash_force, _( "force of the explosion" ) );
 
         // Critter damage occurs next to reduce the amount of flung enemies, leading to much less predictable damage output
         if( Creature *critter = g->critter_at( position, true ) ) {
@@ -462,7 +477,7 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &p, const fl
 
             const int blast_force = raw_blast_force * critter_blast_percentage( critter, raw_blast_radius,
                                     distance );
-            const auto shockwave_dmg = damage_instance::physical( blast_force, 0, 0, 0.0f );
+            const auto shockwave_dmg = damage_instance::physical( blast_force, 0, 0, 0.4f );
 
             if( player *pl = dynamic_cast<player *>( critter ) ) {
                 pl->add_msg_if_player( m_bad, _( "You're caught in the explosion!" ) );
@@ -504,13 +519,13 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &p, const fl
         }
 
         // rng_float is needed to make sure critters at the center get thrown in a random direction.
-        units::angle angle = units::atan2( position.y - p.y + rng_float( -0.5f, 0.5f ),
-                                           position.x - p.x + rng_float( -0.5f, 0.5f ) );
+        units::angle angle = units::atan2( position.y - blast_center.y + rng_float( -0.5f, 0.5f ),
+                                           position.x - blast_center.x + rng_float( -0.5f, 0.5f ) );
 
         // How many grams can the blast fling 1 tile away?
         // Multiplied by ten because this is coupled with fling_creature
         const float move_power = 10 * FLING_POWER_FACTOR * ( raw_blast_radius - distance ) *
-                                 ( raw_blast_radius - distance ) * raw_blast_force;
+                                 raw_blast_force;
 
         if( Creature *critter = g->critter_at( position, true ) ) {
             player *pl = dynamic_cast<player *>( critter );
@@ -518,7 +533,7 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &p, const fl
             const int weight = to_gram( critter->get_weight() );
             const int fling_vel = move_power / std::max( weight, 1 );
 
-            if( pl == nullptr || pl->is_npc() ) {
+            if( pl == nullptr || pl->is_avatar() ) {
                 g->fling_creature( critter, angle, fling_vel );
             } else {
                 // Flinging the real player has to be done later because it changes the coordinate system
@@ -538,28 +553,34 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &p, const fl
                                      TERRAIN_RANDOM_FACTOR );
         const int terrain_blast_force = raw_blast_force;
 
-        bash_params shockwave_bash{ terrain_blast_force, true, false, true, terrain_factor, position.z > p.z };
+        bash_params shockwave_bash{ terrain_blast_force, false, false, true, terrain_factor, true };
 
-        if( g->m.veh_at( position ) ) {
+        if( get_map().veh_at( position ) ) {
             // HP values of vehicle parts aren't really on the same scale
             // as terrain, with them being ~3x more durable, hence triple bash.
 
             // Would be better if explosives had a separate damage value for vehicle parts
             // But for now, this will suffice.
-            g->m.bash_vehicle( position, shockwave_bash );
-            g->m.bash_vehicle( position, shockwave_bash );
-            g->m.bash_vehicle( position, shockwave_bash );
+            get_map().bash_vehicle( position, shockwave_bash );
+            get_map().bash_vehicle( position, shockwave_bash );
+            get_map().bash_vehicle( position, shockwave_bash );
         } else {
             // Multibash is done by bashing the tile with decaying force.
             // The reason for this existing is because a number of tiles undergo multiple bashed states
             // Things like doors and wall -> floor -> ground.
             while( shockwave_bash.strength > 0 ) {
-                g->m.bash_ter_furn( position, shockwave_bash );
-                shockwave_bash.strength = std::max( static_cast<int>( shockwave_bash.strength -
-                                                    TERRAIN_DISSIPATION_FACTOR * raw_blast_force ), 0 );
+                if( get_map().bash_ter_furn( position, shockwave_bash ).success ) {
+                    shockwave_bash.strength = std::max( static_cast<int>( shockwave_bash.strength -
+                                                        TERRAIN_DISSIPATION_FACTOR * raw_blast_force ), 0 );
+                } else {
+                    break;
+                }
             }
         }
     }
+
+    // Final blast wave points
+    draw_custom_explosion( blast_center, explosion_colors, "explosion" );
 
     if( player_flung ) {
         g->fling_creature( real_player, player_fling_angle, player_fling_vel );
@@ -576,8 +597,8 @@ static std::map<const Creature *, int> shrapnel( const tripoint &src, const proj
     projectile proj = fragment;
     proj.proj_effects.insert( "NULL_SOURCE" );
 
-    static float obstacle_cache[MAPSIZE_X][MAPSIZE_Y] = {};
-    static float visited_cache[MAPSIZE_X][MAPSIZE_Y] = {};
+    float obstacle_cache[MAPSIZE_X][MAPSIZE_Y] = {};
+    float visited_cache[MAPSIZE_X][MAPSIZE_Y] = {};
 
     // TODO: Calculate range based on max effective range for projectiles.
     // Basically bisect between 0 and map diameter using shrapnel_calc().
