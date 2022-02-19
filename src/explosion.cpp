@@ -402,8 +402,6 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &blast_cente
             continue;
         }
 
-        const point target_flat = target.xy();
-
         // Uses this ternany check instead of rl_dist because it converts trig_dist's distance to int implicitly
         const float distance = (
                                    trigdist ?
@@ -416,11 +414,6 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &blast_cente
             blast_map.emplace_back( std::make_pair( z_aware_distance, target ) );
         }
     }
-
-    std::sort( blast_map.begin(), blast_map.end(), []( dist_point_pair pair1,
-    dist_point_pair pair2 ) {
-        return pair1.second.z >= pair2.second.z;
-    } );
 
     std::stable_sort( blast_map.begin(), blast_map.end(), []( dist_point_pair pair1,
     dist_point_pair pair2 ) {
