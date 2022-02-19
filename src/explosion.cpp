@@ -359,7 +359,9 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &blast_cente
         This causes some extra damage depending on how the explosion is set up and may fling the same mob several times.
         This is very effective inside buildings since this causes the mobs to be thrown against the wall multiple times.
         4. Bashes terrain (and vehicles).
-        Vehicles are bashed 3 times to compensate for tankiness of parts, terrain is destroyed in a consistent manner.
+        All vehicle parts in the tile are bashed 2 times at full force,
+        both to compensate for their tankiness and to make sure they get actually destroyed.
+        Terrain is destroyed in a consistent manner.
 
     3. Fling the player if they had been caught in the blast. It has to be done last.
     */
