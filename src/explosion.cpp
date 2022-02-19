@@ -384,6 +384,10 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &blast_cente
     // Calibrated to this value as regular zombies weigh 40750 grams and we want to throw them a bit more than one radius away per 100 blast damage.
     const float FLING_POWER_FACTOR = 420.0f;
 
+    // Flinging light creatures causes them to fly the entire reality and inflicts insane damage
+    // This constant limits the maximum fling distance (and indirectly damage) to FLING_HARD_CAP * BLAST RADIUS.
+    const float FLING_HARD_CAP = 2.0f;
+
     const int z_levels_affected = raw_blast_radius / Z_LEVEL_DIST;
     const tripoint_range<tripoint> affected_block(
         blast_center + tripoint( -raw_blast_radius, -raw_blast_radius, -z_levels_affected ),
@@ -524,7 +528,8 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &blast_cente
             player *pl = dynamic_cast<player *>( critter );
 
             const int weight = to_gram( critter->get_weight() );
-            const int fling_vel = move_power / std::max( weight, 1 );
+            const int fling_vel = std::min( move_power / std::max( weight, 1 ),
+                                            10 * FLING_HARD_CAP * raw_blast_radius );
 
             if( pl == nullptr || pl->is_avatar() ) {
                 g->fling_creature( critter, angle, fling_vel );
@@ -546,28 +551,33 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &blast_cente
                                      TERRAIN_RANDOM_FACTOR );
         const int terrain_blast_force = raw_blast_force;
 
-        bash_params shockwave_bash{ terrain_blast_force, false, false, true, terrain_factor, true };
+        bash_params shockwave_bash{
+            terrain_blast_force,
+            false, // Bashing down terrain should not be silent
+            false,
+            !get_map().impassable( position + tripoint_below ), // We will only try to break the floor down if there is nothing underneath anymore
+            terrain_factor,
+            blast_center.z > position.z
+        };
 
-        if( get_map().veh_at( position ) ) {
+        if( const optional_vpart_position &vp = get_map().veh_at( position ) ) {
             // HP values of vehicle parts aren't really on the same scale
-            // as terrain, with them being ~3x more durable, hence triple bash.
 
             // Would be better if explosives had a separate damage value for vehicle parts
             // But for now, this will suffice.
-            get_map().bash_vehicle( position, shockwave_bash );
-            get_map().bash_vehicle( position, shockwave_bash );
-            get_map().bash_vehicle( position, shockwave_bash );
+            for( const int part_indx : vp->vehicle().parts_at_relative( vp->mount(), false ) ) {
+                // Double bash to bypass XX state.
+                vp->vehicle().damage( part_indx, shockwave_bash.strength, DT_BASH, false );
+                vp->vehicle().damage( part_indx, shockwave_bash.strength, DT_BASH, false );
+            }
         } else {
             // Multibash is done by bashing the tile with decaying force.
             // The reason for this existing is because a number of tiles undergo multiple bashed states
             // Things like doors and wall -> floor -> ground.
             while( shockwave_bash.strength > 0 ) {
-                if( get_map().bash_ter_furn( position, shockwave_bash ).success ) {
-                    shockwave_bash.strength = std::max( static_cast<int>( shockwave_bash.strength -
-                                                        TERRAIN_DISSIPATION_FACTOR * raw_blast_force ), 0 );
-                } else {
-                    break;
-                }
+                get_map().bash_ter_furn( position, shockwave_bash );
+                shockwave_bash.strength = std::max( static_cast<int>( shockwave_bash.strength -
+                                                    TERRAIN_DISSIPATION_FACTOR * raw_blast_force ), 0 );
             }
         }
     }
