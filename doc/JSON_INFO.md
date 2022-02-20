@@ -3350,9 +3350,7 @@ Example:
     "obsolete": false,
     // Path of mod's files relative to the modinfo.json file. The game automatically loads all files from the folder with modinfo.json,
     // and all the subfolders, so this field is only useful when you for whatever reason want to stick your modinfo.json in a subfolder of your mod.
-    "path": "../common-data/",
-    // Same principle as with 'path' field, this points to (almost completely unused and most likely bugged to Hell) "legacy migration" files.
-    "legacy": "../legacy-data/"
+    "path": "../common-data/"
   }
 ]
 ```
