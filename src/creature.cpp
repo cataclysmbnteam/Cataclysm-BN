@@ -47,6 +47,21 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+static const ammo_effect_str_id ammo_effect_APPLY_SAP( "APPLY_SAP" );
+static const ammo_effect_str_id ammo_effect_BEANBAG( "BEANBAG" );
+static const ammo_effect_str_id ammo_effect_BLINDS_EYES( "BLINDS_EYES" );
+static const ammo_effect_str_id ammo_effect_BOUNCE( "BOUNCE" );
+static const ammo_effect_str_id ammo_effect_IGNITE( "IGNITE" );
+static const ammo_effect_str_id ammo_effect_INCENDIARY( "INCENDIARY" );
+static const ammo_effect_str_id ammo_effect_LARGE_BEANBAG( "LARGE_BEANBAG" );
+static const ammo_effect_str_id ammo_effect_magic( "magic" );
+static const ammo_effect_str_id ammo_effect_NO_CRIT( "NO_CRIT" );
+static const ammo_effect_str_id ammo_effect_NO_DAMAGE_SCALING( "NO_DAMAGE_SCALING" );
+static const ammo_effect_str_id ammo_effect_NOGIB( "NOGIB" );
+static const ammo_effect_str_id ammo_effect_PARALYZEPOISON( "PARALYZEPOISON" );
+static const ammo_effect_str_id ammo_effect_TANGLE( "TANGLE" );
+
+
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bounced( "bounced" );
 static const efftype_id effect_downed( "downed" );
@@ -627,8 +642,8 @@ dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, const da
  */
 void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack )
 {
-    const bool magic = attack.proj.proj_effects.count( "magic" ) > 0;
-    const bool targetted_crit_allowed = attack.proj.proj_effects.count( "NO_CRIT" ) == 0;
+    const bool magic = attack.proj.has_effect( ammo_effect_magic ) > 0;
+    const bool targetted_crit_allowed = attack.proj.has_effect( ammo_effect_NO_CRIT ) == 0;
     const double missed_by = attack.missed_by;
     if( missed_by >= 1.0 && !magic ) {
         // Total miss
@@ -647,7 +662,6 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     }
     const projectile &proj = attack.proj;
     dealt_damage_instance &dealt_dam = attack.dealt_dam;
-    const auto &proj_effects = proj.proj_effects;
 
     const bool u_see_this = g->u.sees( *this );
 
@@ -678,7 +692,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     }
 
     // Bounce applies whether it does damage or not.
-    if( proj.proj_effects.count( "BOUNCE" ) ) {
+    if( proj.has_effect( ammo_effect_BOUNCE ) ) {
         add_effect( effect_bounced, 1_turns );
     }
 
@@ -740,13 +754,13 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     // copy it, since we're mutating
     damage_instance impact = proj.impact;
-    if( damage_mult > 0.0f && proj_effects.count( "NO_DAMAGE_SCALING" ) ) {
+    if( damage_mult > 0.0f && proj.has_effect( ammo_effect_NO_DAMAGE_SCALING ) ) {
         damage_mult = 1.0f;
     }
 
     impact.mult_damage( damage_mult );
 
-    if( proj_effects.count( "NOGIB" ) > 0 ) {
+    if( proj.has_effect( ammo_effect_NOGIB ) > 0 ) {
         float dmg_ratio = static_cast<float>( impact.total_damage() ) / get_hp_max( bp_hit );
         if( dmg_ratio > 1.25f ) {
             impact.mult_damage( 1.0f / dmg_ratio );
@@ -757,7 +771,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     dealt_dam.bp_hit = bp_hit->token;
 
     // Apply ammo effects to target.
-    if( proj.proj_effects.count( "TANGLE" ) ) {
+    if( proj.has_effect( ammo_effect_TANGLE ) ) {
         monster *z = dynamic_cast<monster *>( this );
         player *n = dynamic_cast<player *>( this );
         // if its a tameable animal, its a good way to catch them if they are running away, like them ranchers do!
@@ -778,13 +792,13 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
             add_effect( effect_stunned, rng( 3_turns, 8_turns ) );
         }
     }
-    if( proj.proj_effects.count( "INCENDIARY" ) ) {
+    if( proj.has_effect( ammo_effect_INCENDIARY ) ) {
         if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
             add_effect( effect_onfire, rng( 2_turns, 6_turns ), bp_hit->token );
         } else if( made_of_any( cmat_flesh ) && one_in( 4 ) ) {
             add_effect( effect_onfire, rng( 1_turns, 4_turns ), bp_hit->token );
         }
-    } else if( proj.proj_effects.count( "IGNITE" ) ) {
+    } else if( proj.has_effect( ammo_effect_IGNITE ) ) {
         if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
             add_effect( effect_onfire, 6_turns, bp_hit->token );
         } else if( made_of_any( cmat_flesh ) ) {
@@ -792,24 +806,24 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         }
     }
 
-    if( bp_hit == bodypart_str_id( "head" ) && proj_effects.count( "BLINDS_EYES" ) ) {
+    if( bp_hit == bodypart_str_id( "head" ) && proj.has_effect( ammo_effect_BLINDS_EYES ) ) {
         // TODO: Change this to require bp_eyes
         add_env_effect( effect_blind, bp_eyes, 5, rng( 3_turns, 10_turns ) );
     }
 
-    if( proj_effects.count( "APPLY_SAP" ) ) {
+    if( proj.has_effect( ammo_effect_APPLY_SAP ) ) {
         add_effect( effect_sap, 1_turns * dealt_dam.total_damage() );
     }
-    if( proj_effects.count( "PARALYZEPOISON" ) && dealt_dam.total_damage() > 0 ) {
+    if( proj.has_effect( ammo_effect_PARALYZEPOISON ) && dealt_dam.total_damage() > 0 ) {
         add_msg_if_player( m_bad, _( "You feel poison coursing through your body!" ) );
         add_effect( effect_paralyzepoison, 5_minutes );
     }
 
     int stun_strength = 0;
-    if( proj.proj_effects.count( "BEANBAG" ) ) {
+    if( proj.has_effect( ammo_effect_BEANBAG ) ) {
         stun_strength = 4;
     }
-    if( proj.proj_effects.count( "LARGE_BEANBAG" ) ) {
+    if( proj.has_effect( ammo_effect_LARGE_BEANBAG ) ) {
         stun_strength = 16;
     }
     if( stun_strength > 0 ) {

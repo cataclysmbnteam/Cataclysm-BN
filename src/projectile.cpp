@@ -16,7 +16,7 @@
 #include "string_id.h"
 
 projectile::projectile() :
-    speed( 0 ), range( 0 ), drop( nullptr ), custom_explosion( nullptr )
+    drop( nullptr ), custom_explosion( nullptr )
 { }
 
 projectile::~projectile() = default;
@@ -107,10 +107,11 @@ void projectile::load( JsonObject &jo )
     jo.read( "proj_effects", proj_effects );
 }
 
-void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects )
+void apply_ammo_effects( const tripoint &p, const std::set<ammo_effect_str_id> &effects )
 {
-    for( const ammo_effect &ae : ammo_effects::get_all() ) {
-        if( effects.count( ae.id.str() ) > 0 ) {
+    for( const ammo_effect_str_id &ae_id : effects ) {
+        const ammo_effect &ae = *ae_id;
+        if( ae.aoe_field_type )
             for( auto &pt : g->m.points_in_radius( p, ae.aoe_radius, ae.aoe_radius_z ) ) {
                 if( x_in_y( ae.aoe_chance, 100 ) ) {
                     const bool check_sees = !ae.aoe_check_sees || g->m.sees( p, pt, ae.aoe_check_sees_radius );
@@ -120,26 +121,59 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
                     }
                 }
             }
-            if( ae.aoe_explosion_data ) {
-                explosion_handler::explosion( p, ae.aoe_explosion_data );
-            }
-            if( ae.do_flashbang ) {
-                explosion_handler::flashbang( p, false, "explosion" );
-            }
-            if( ae.do_emp_blast ) {
-                explosion_handler::emp_blast( p );
-            }
+        if( ae.aoe_explosion_data ) {
+            explosion_handler::explosion( p, ae.aoe_explosion_data );
+        }
+        if( ae.do_flashbang ) {
+            explosion_handler::flashbang( p, false, "explosion" );
+        }
+        if( ae.do_emp_blast ) {
+            explosion_handler::emp_blast( p );
         }
     }
+}
+
+void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects )
+{
+    std::set<ammo_effect_str_id> effect_ids;
+    for( const std::string &s : effects ) {
+        ammo_effect_str_id id( s );
+        if( id.is_valid() ) {
+            effect_ids.emplace( id );
+        }
+    }
+    apply_ammo_effects( p, effect_ids );
+}
+
+static int aoe_of( const ammo_effect_str_id &ae_id )
+{
+    return std::max( ae_id->aoe_size, ae_id->aoe_explosion_data.safe_range() - 1 );
+}
+
+static int aoe_of( const std::string &s )
+{
+    ammo_effect_str_id ae_id( s );
+    if( ae_id.is_valid() ) {
+        return std::max( ae_id->aoe_size, ae_id->aoe_explosion_data.safe_range() - 1 );
+    } else {
+        return 0;
+    }
+}
+
+int max_aoe_size( const std::set<ammo_effect_str_id> &tags )
+{
+    int ret = 0;
+    for( const ammo_effect_str_id &ae_id : tags ) {
+        ret = std::max( ret, aoe_of( ae_id ) );
+    }
+    return ret;
 }
 
 int max_aoe_size( const std::set<std::string> &tags )
 {
     int aoe_size = 0;
-    for( const ammo_effect &aed : ammo_effects::get_all() ) {
-        if( tags.count( aed.id.str() ) > 0 ) {
-            aoe_size = std::max( aoe_size,  aed.aoe_size ) ;
-        }
+    for( const std::string &s : tags ) {
+        aoe_size = std::max( aoe_size, aoe_of( s ) );
     }
     return aoe_size;
 }
