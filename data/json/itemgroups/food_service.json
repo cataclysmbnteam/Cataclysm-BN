@@ -635,7 +635,7 @@
       { "item": "milk_evap", "prob": 25 },
       { "item": "con_milk", "prob": 25 },
       { "item": "milk_powder", "prob": 45 },
-      { "item": "rennet", "prob": 10 },
+      { "item": "rennet", "prob": 5 },
       { "item": "salt", "prob": 50 },
       { "item": "soysauce", "prob": 25 },
       { "item": "sugar", "prob": 60 },

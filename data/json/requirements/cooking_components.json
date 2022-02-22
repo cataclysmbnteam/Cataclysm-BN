@@ -19,6 +19,12 @@
     ]
   },
   {
+    "id": "cheese_any",
+    "type": "requirement",
+    "//": "All available types of cheese and cheese-like objects.",
+    "components": [ [ [ "cheese", 1 ], [ "cheese_fresh", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ] ] ]
+  },
+  {
     "id": "eggs_bird",
     "type": "requirement",
     "//": "All of the different bird eggs",

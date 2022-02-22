@@ -398,7 +398,7 @@
     "phase": "liquid",
     "fun": -12,
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "time": "1 hour", "results": [ "milk_curdled" ] }
+    "brewable": { "time": "4 hours", "results": [ "milk_curdled" ] }
   },
   {
     "type": "COMESTIBLE",

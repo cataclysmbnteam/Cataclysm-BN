@@ -835,7 +835,7 @@
         [ "mushroom_cooked", 2 ],
         [ "dry_veggy", 2 ]
       ],
-      [ [ "cheese", 2 ], [ "can_cheese", 2 ], [ "cheese_fresh", 2 ], [ "cheese_hard", 2 ] ],
+      [ [ "cheese_any", 2, "LIST" ] ],
       [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "seasoning_italian", 5 ], [ "wild_herbs", 10 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
@@ -935,7 +935,7 @@
     "components": [
       [ [ "meat_red", 1, "LIST" ] ],
       [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ], [ "sourdough_bread", 2 ] ],
-      [ [ "cheese", 1 ], [ "cheese_fresh", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ] ],
+      [ [ "cheese_any", 1, "LIST" ] ],
       [
         [ "pickle", 1 ],
         [ "veggy_pickled", 1 ],
@@ -1062,7 +1062,7 @@
         [ "sourdough_bread", 2 ],
         [ "brioche", 2 ]
       ],
-      [ [ "cheese", 2 ], [ "cheese_fresh", 2 ], [ "cheese_hard", 2 ], [ "can_cheese", 2 ] ],
+      [ [ "cheese_any", 2, "LIST" ] ],
       [
         [ "veggy_cooked", 1 ],
         [ "veggy_wild_cooked", 1 ],

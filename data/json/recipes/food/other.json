@@ -349,12 +349,7 @@
     "time": "10 m",
     "batch_time_factors": [ 80, 5 ],
     "book_learn": [ [ "survival_book", 3 ], [ "textbook_survival", 3 ], [ "manual_survival", 3 ], [ "dairy_book", 3 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "COOK", "level": 3 },
-      { "id": "BOIL", "level": 2 },
-      { "id": "CONTAIN", "level": 1 }
-    ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "rag", -1 ] ] ],
     "components": [ [ [ "milk_curdled", 5 ] ], [ [ "salt_water", 1 ], [ "saline", 1 ], [ "salt", 1 ], [ "seasoning_salt", 1 ] ] ]
   },
@@ -856,7 +851,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
       [ [ "flour", 30 ] ],
-      [ [ "cheese", 2 ], [ "cheese_fresh", 2 ], [ "can_cheese", 2 ], [ "cheese_hard", 2 ] ],
+      [ [ "cheese_any", 2, "LIST" ] ],
       [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "seasoning_italian", 5 ], [ "wild_herbs", 10 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
