@@ -410,6 +410,7 @@
         "&": "t_machinery_electronic"
       },
       "furniture": {
+        ":": "f_server",
         "K": "f_counter",
         "S": "f_table",
         "A": "f_canvas_wall",
