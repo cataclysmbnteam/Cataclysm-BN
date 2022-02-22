@@ -6,7 +6,6 @@
     "description": "Core content for Cataclysm-BN",
     "category": "core",
     "core": true,
-    "path": "../../json",
-    "legacy": "../../legacy"
+    "path": "../../json"
   }
 ]

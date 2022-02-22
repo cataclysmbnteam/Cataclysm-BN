@@ -272,9 +272,6 @@ cata::optional<MOD_INFORMATION> load_modfile( const JsonObject &jo, const std::s
     } else {
         modfile.path = path;
     }
-    if( assign( jo, "legacy", modfile.legacy ) ) {
-        modfile.legacy = path + "/" + modfile.legacy;
-    }
 
     const std::string m_name = jo.get_string( "name", "" );
     const std::string m_descr = jo.get_string( "description", "" );
