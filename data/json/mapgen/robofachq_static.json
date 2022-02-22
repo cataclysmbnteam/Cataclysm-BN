@@ -616,6 +616,7 @@
         "#": "t_rock",
         "6": "t_console"
       },
+      "furniture": { ":": "f_server" },
       "items": {
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
