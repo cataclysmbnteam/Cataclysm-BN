@@ -1466,6 +1466,26 @@ void ter_t::check() const
     if( transforms_into && transforms_into == id ) {
         debugmsg( "%s transforms_into itself", id.c_str() );
     }
+    if( bash.ter_set && bash.ter_set == id ) {
+        debugmsg( "%s turns into itself when bashed", id.c_str() );
+    }
+    if( bash.ter_set_bashed_from_above && bash.ter_set_bashed_from_above == id ) {
+        debugmsg( "%s turns into itself when bashed from above", id.c_str() );
+    }
+    if( ( test_mode || json_report_unused_fields )
+        && ( bash.ter_set == t_open_air.id() || bash.ter_set_bashed_from_above == t_open_air.id() ) ) {
+        debugmsg( "%s explicitly turns into \"t_open_air\", but should use \"t_null\" instead",
+                  id.c_str() );
+    }
+    if( roof && !roof->bash.destroy_only ) {
+        const map_bash_info &roof_bash = roof->bash;
+        int roof_bash_min = std::max( roof_bash.str_min, roof_bash.str_min_supported );
+        int roof_bash_max = std::max( roof_bash.str_max, roof_bash.str_max_supported );
+        if( bash.destroy_only || roof_bash_min < bash.str_min || roof_bash_max < bash.str_max ) {
+            debugmsg( "%s has roof %s, which is less resistant to bashing - this can lead to ledges leading to solid tiles!",
+                      id.str(), roof.str() );
+        }
+    }
 }
 
 furn_t::furn_t() : open( furn_str_id::NULL_ID() ), close( furn_str_id::NULL_ID() ) {}
