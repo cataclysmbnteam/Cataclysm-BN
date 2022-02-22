@@ -519,7 +519,7 @@ struct islot_gun : common_ranged_data {
     /**
      * Effects that are applied to the ammo when fired.
      */
-    std::set<std::string> ammo_effects;
+    std::set<ammo_effect_str_id> ammo_effects;
     /**
      * Location for gun mods.
      * Key is the location (untranslated!), value is the number of mods
@@ -619,7 +619,7 @@ struct islot_gunmod : common_ranged_data {
     /** Firing modes added to or replacing those of the base gun */
     std::map<gun_mode_id, gun_modifier_data> mode_modifier;
 
-    std::set<std::string> ammo_effects;
+    std::set<ammo_effect_str_id> ammo_effects;
 
     /** Relative adjustment to base gun handling */
     int handling = 0;
@@ -692,10 +692,15 @@ struct islot_ammo : common_ranged_data {
      *@{*/
     itype_id drop = itype_id::NULL_ID();
 
-    float drop_chance = 1.0;
-
     bool drop_active = true;
     /*@}*/
+
+    /**
+     * Chance to fail to recover the ammo used.
+     * As in, one_in(this_var) chance of destroying it.
+     * For 100% chances, see @ref drop.
+     */
+    int dont_recover_one_in = 1;
 
     /**
      * Default charges.
@@ -703,9 +708,9 @@ struct islot_ammo : common_ranged_data {
     int def_charges = 1;
 
     /**
-     * TODO: document me.
+     * See @ref ammo_effect struct.
      */
-    std::set<std::string> ammo_effects;
+    std::set<ammo_effect_str_id> ammo_effects;
     /**
      * Base loudness of ammo (possibly modified by gun/gunmods). If unspecified an
      * appropriate value is calculated based upon the other properties of the ammo

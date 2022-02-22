@@ -60,9 +60,6 @@ struct MOD_INFORMATION {
         /** Full path to modinfo.json, for debug purposes */
         std::string path_full;
 
-        /** If set load legacy migrations from this location dependent upon save version */
-        std::string legacy;
-
         /** All authors who have added content to the mod (excluding maintenance changes) */
         std::set<std::string> authors;
 

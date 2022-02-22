@@ -2190,11 +2190,6 @@ void options_manager::add_options_world_default()
         this->add_empty_line( "world_default" );
     };
 
-    add( "CORE_VERSION", "world_default", translate_marker( "Core version data" ),
-         translate_marker( "Controls what migrations are applied for legacy worlds" ),
-         1, core_version, core_version, COPT_ALWAYS_HIDE
-       );
-
     add_empty_line();
 
     add( "WORLD_END", "world_default", translate_marker( "World end handling" ),

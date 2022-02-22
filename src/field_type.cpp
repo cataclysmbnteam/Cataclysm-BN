@@ -55,6 +55,21 @@ std::string enum_to_string<description_affix>( description_affix data )
     return "invalid";
 }
 
+template<>
+std::string enum_to_string<fields::stacking_type>( fields::stacking_type data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        case fields::stacking_type::intensity: return "intensity";
+        case fields::stacking_type::duration: return "duration";
+        // *INDENT-ON*
+        case fields::stacking_type::stacking_type_num:
+            break;
+    }
+    debugmsg( "Invalid field stacking type value '%d'.", data );
+    return "invalid";
+}
+
 } // namespace io
 
 namespace
@@ -245,6 +260,8 @@ void field_type::load( const JsonObject &jo, const std::string & )
     if( jo.has_member( "phase" ) ) {
         phase = jo.get_enum_value<phase_id>( "phase", PNULL );
     }
+    const auto stacking_type_reader = enum_flags_reader<fields::stacking_type> { "field stacking types" };
+    optional( jo, was_loaded, "stacking_type", stacking_type, stacking_type_reader );
     optional( jo, was_loaded, "accelerated_decay", accelerated_decay, false );
     optional( jo, was_loaded, "display_items", display_items, true );
     optional( jo, was_loaded, "display_field", display_field, false );

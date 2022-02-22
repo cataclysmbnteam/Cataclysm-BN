@@ -53,6 +53,8 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+static const ammo_effect_str_id ammo_effect_magic( "magic" );
+
 namespace spell_detail
 {
 struct line_iterable {
@@ -444,7 +446,7 @@ static void damage_targets( const spell &sp, Creature &caster,
         projectile bolt;
         bolt.speed = 10000;
         bolt.impact = sp.get_damage_instance();
-        bolt.proj_effects.emplace( "magic" );
+        bolt.add_effect( ammo_effect_magic );
 
         dealt_projectile_attack atk;
         atk.end_point = target;

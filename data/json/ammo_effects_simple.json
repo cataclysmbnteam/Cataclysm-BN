@@ -1,0 +1,172 @@
+[
+  {
+    "id": "magic",
+    "type": "ammo_effect",
+    "//": "Always hits torso, no damage scaling."
+  },
+  {
+    "id": "ACT_ON_RANGED_HIT",
+    "type": "ammo_effect",
+    "//": "The item will be processed on the hit tile before (or instead) being dropped."
+  },
+  {
+    "id": "APPLY_SAP",
+    "type": "ammo_effect",
+    "//": "Adds sap effect."
+  },
+  {
+    "id": "BEANBAG",
+    "type": "ammo_effect",
+    "//": "Stuns weaker creatures."
+  },
+  {
+    "id": "BLACKPOWDER",
+    "type": "ammo_effect",
+    "//": "Causes gunk to build up and increase chance to damage gun."
+  },
+  {
+    "id": "BLINDS_EYES",
+    "type": "ammo_effect",
+    "//": "Blinds if hits eyes."
+  },
+  {
+    "id": "BOUNCE",
+    "type": "ammo_effect",
+    "//": "Bounces to one of visible critters within 4 tiles of hit tile, except for the shooter or critters who were targeted by a bounce this turn.  Order of bounces is unspecified, but not random.  Reuses projectile and so damage modifiers from being blocked by terrain."
+  },
+  {
+    "id": "BURST",
+    "type": "ammo_effect",
+    "//": "Thrown item destroyed on impact, but drops contents."
+  },
+  {
+    "id": "COOKOFF",
+    "type": "ammo_effect",
+    "//": "Item flag that is an ammo effect for a misguided reason.  Makes ammo explode in fire."
+  },
+  {
+    "id": "CUSTOM_EXPLOSION",
+    "type": "ammo_effect",
+    "//": "Copy explosion data from ammo."
+  },
+  {
+    "id": "DRAW_AS_LINE",
+    "type": "ammo_effect",
+    "//": "Drawn instantly, without animation."
+  },
+  {
+    "id": "HEAVY_HIT",
+    "type": "ammo_effect",
+    "//": "Makes a slightly different, slightly louder sound on drop..."
+  },
+  {
+    "id": "IGNITE",
+    "type": "ammo_effect",
+    "//": "Ignites hit creatures."
+  },
+  {
+    "id": "INCENDIARY",
+    "type": "ammo_effect",
+    "//": "Causes fires to terrain and critters."
+  },
+  {
+    "id": "JET",
+    "type": "ammo_effect",
+    "//": "Will continue going through passable tiles even if its damage is reduced to 0."
+  },
+  {
+    "id": "LARGE_BEANBAG",
+    "type": "ammo_effect",
+    "//": "Stuns a bit more than regular beanbag."
+  },
+  {
+    "id": "MUZZLE_SMOKE",
+    "type": "ammo_effect",
+    "//": "Produces smoke from shooter's tile."
+  },
+  {
+    "id": "NEVER_MISFIRES",
+    "type": "ammo_effect",
+    "//": "Disables misfires."
+  },
+  {
+    "id": "NOGIB",
+    "type": "ammo_effect",
+    "//": "Doesn't overkill."
+  },
+  {
+    "id": "NON-FOULING",
+    "type": "ammo_effect",
+    "//": "Doesn't cause gunk to build up."
+  },
+  {
+    "id": "NO_CRIT",
+    "type": "ammo_effect",
+    "//": "Can't crit. Can still graze."
+  },
+  {
+    "id": "NO_DAMAGE_SCALING",
+    "type": "ammo_effect",
+    "//": "Can't crit or graze, all hits have 100% damage modifier from accuracy."
+  },
+  {
+    "id": "NO_EMBED",
+    "type": "ammo_effect",
+    "//": "Can't be embedded in critters it hits."
+  },
+  {
+    "id": "NO_ITEM_DAMAGE",
+    "type": "ammo_effect",
+    "//": "Doesn't pulp corpses hit by the projectile (overkill corpse damage still applies)"
+  },
+  {
+    "id": "NO_OVERSHOOT",
+    "type": "ammo_effect",
+    "//": "Trajectory doesn't extend past the target, even on miss."
+  },
+  {
+    "id": "NO_PENETRATE_OBSTACLES",
+    "type": "ammo_effect",
+    "//": "Don't act penetrate obstacles such as fences or reinforced glass"
+  },
+  {
+    "id": "NULL_SOURCE",
+    "type": "ammo_effect",
+    "//": "Origin is a fake critter, replace it with null instead of passing a pointer to it."
+  },
+  {
+    "id": "PARALYZEPOISON",
+    "type": "ammo_effect",
+    "//": "Applies paralyzing poison to hit critter."
+  },
+  {
+    "id": "RECYCLED",
+    "type": "ammo_effect",
+    "//": "Nearly-immeasurable chance to fail to fire."
+  },
+  {
+    "id": "SHATTER_SELF",
+    "type": "ammo_effect",
+    "//": "Thrown item destroyed on impact, but drops contents.  Makes noise."
+  },
+  {
+    "id": "SHOT",
+    "type": "ammo_effect",
+    "//": "Implied WIDE.  Doesn't do anything on its own."
+  },
+  {
+    "id": "TANGLE",
+    "type": "ammo_effect",
+    "//": "Applies tied effect and may be recovered after the critter breaks free."
+  },
+  {
+    "id": "WHIP",
+    "type": "ammo_effect",
+    "//": "Scares wildlife hit by it.  If user has 5+ melee, applies disarm on some reach attacks."
+  },
+  {
+    "id": "WIDE",
+    "type": "ammo_effect",
+    "//": "Does NOTHING at all.  TODO: Make it ignore skeleton smaller ranged size."
+  }
+]

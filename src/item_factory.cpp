@@ -62,6 +62,21 @@ static std::set<itype_id> item_blacklist;
 
 static DynamicDataLoader::deferred_json deferred;
 
+static const ammo_effect_str_id ammo_effect_COOKOFF( "COOKOFF" );
+static const ammo_effect_str_id ammo_effect_EXPLOSIVE( "EXPLOSIVE" );
+static const ammo_effect_str_id ammo_effect_EXPLOSIVE_BIG( "EXPLOSIVE_BIG" );
+static const ammo_effect_str_id ammo_effect_EXPLOSIVE_HUGE( "EXPLOSIVE_HUGE" );
+static const ammo_effect_str_id ammo_effect_EXPLOSIVE_SMALL( "EXPLOSIVE_SMALL" );
+static const ammo_effect_str_id ammo_effect_FLASHBANG( "FLASHBANG" );
+static const ammo_effect_str_id ammo_effect_FRAG( "FRAG" );
+static const ammo_effect_str_id ammo_effect_INCENDIARY( "INCENDIARY" );
+static const ammo_effect_str_id ammo_effect_NAPALM( "NAPALM" );
+static const ammo_effect_str_id ammo_effect_NAPALM_BIG( "NAPALM_BIG" );
+static const ammo_effect_str_id ammo_effect_NEVER_MISFIRES( "NEVER_MISFIRES" );
+static const ammo_effect_str_id ammo_effect_SMOKE( "SMOKE" );
+static const ammo_effect_str_id ammo_effect_SMOKE_BIG( "SMOKE_BIG" );
+static const ammo_effect_str_id ammo_effect_TOXICGAS( "TOXICGAS" );
+
 std::unique_ptr<Item_factory> item_controller = std::make_unique<Item_factory>();
 
 /** @relates string_id */
@@ -228,8 +243,8 @@ void Item_factory::finalize_pre( itype &obj )
         obj.container->contains = 10000_liter;
     }
 
-    // for ammo not specifying loudness (or an explicit zero) derive value from other properties
     if( obj.ammo ) {
+        // for ammo not specifying loudness (or an explicit zero) derive value from other properties
         if( obj.ammo->loudness < 0 ) {
             obj.ammo->loudness = obj.ammo->range * 2;
             for( const damage_unit &du : obj.ammo->damage ) {
@@ -241,22 +256,35 @@ void Item_factory::finalize_pre( itype &obj )
         if( std::find( mats.begin(), mats.end(), material_id( "hydrocarbons" ) ) == mats.end() &&
             std::find( mats.begin(), mats.end(), material_id( "oil" ) ) == mats.end() ) {
             const auto &ammo_effects = obj.ammo->ammo_effects;
-            obj.ammo->cookoff = ammo_effects.count( "INCENDIARY" ) > 0 ||
-                                ammo_effects.count( "COOKOFF" ) > 0;
-            static const std::set<std::string> special_cookoff_tags = {{
-                    "NAPALM", "NAPALM_BIG",
-                    "EXPLOSIVE_SMALL", "EXPLOSIVE", "EXPLOSIVE_BIG", "EXPLOSIVE_HUGE",
-                    "TOXICGAS", "SMOKE", "SMOKE_BIG",
-                    "FRAG", "FLASHBANG"
+            obj.ammo->cookoff = ammo_effects.count( ammo_effect_INCENDIARY ) > 0 ||
+                                ammo_effects.count( ammo_effect_COOKOFF ) > 0;
+            static const std::set<ammo_effect_str_id> special_cookoff_tags = {{
+                    ammo_effect_EXPLOSIVE, ammo_effect_EXPLOSIVE_BIG, ammo_effect_EXPLOSIVE_HUGE, ammo_effect_EXPLOSIVE_SMALL, ammo_effect_FLASHBANG, ammo_effect_FRAG, ammo_effect_NAPALM, ammo_effect_NAPALM_BIG, ammo_effect_SMOKE, ammo_effect_SMOKE_BIG, ammo_effect_TOXICGAS,
                 }
             };
             obj.ammo->special_cookoff = std::any_of( ammo_effects.begin(), ammo_effects.end(),
-            []( const std::string & s ) {
-                return special_cookoff_tags.count( s ) > 0;
+            []( const ammo_effect_str_id & ae_id ) {
+                return special_cookoff_tags.count( ae_id ) > 0;
             } );
         } else {
             obj.ammo->cookoff = false;
             obj.ammo->special_cookoff = false;
+        }
+
+        for( auto iter = obj.ammo->ammo_effects.begin(); iter != obj.ammo->ammo_effects.end(); ) {
+            const ammo_effect_str_id &ae_id = *iter;
+            if( ae_id.is_valid() ) {
+                iter++;
+            } else {
+                int dummy = 0;
+                if( sscanf( ae_id.c_str(), "RECOVER_%i", &dummy ) == 1 ) {
+                    obj.ammo->dont_recover_one_in *= dummy;
+                } else {
+                    debugmsg( "%s has unknown ammo_effect %s, removing", obj.id, ae_id );
+                }
+
+                iter = obj.ammo->ammo_effects.erase( iter );
+            }
         }
     }
 
@@ -411,7 +439,7 @@ void Item_factory::finalize_pre( itype &obj )
             obj.gun->skill_used == skill_id( "throw" ) ) {
             obj.item_tags.insert( "WATERPROOF_GUN" );
             obj.item_tags.insert( "NEVER_JAMS" );
-            obj.gun->ammo_effects.insert( "NEVER_MISFIRES" );
+            obj.gun->ammo_effects.insert( ammo_effect_NEVER_MISFIRES );
         }
     }
 
@@ -1604,8 +1632,8 @@ void islot_ammo::load( const JsonObject &jo )
     mandatory( jo, was_loaded, "ammo_type", type );
     optional( jo, was_loaded, "casing", casing, cata::nullopt );
     optional( jo, was_loaded, "drop", drop, itype_id::NULL_ID() );
-    optional( jo, was_loaded, "drop_chance", drop_chance, 1.0f );
     optional( jo, was_loaded, "drop_active", drop_active, true );
+    optional( jo, was_loaded, "dont_recover_one_in", dont_recover_one_in, 1 );
     // Damage instance assign reader handles pierce and prop_damage
     assign( jo, "damage", damage );
     assign( jo, "range", range );

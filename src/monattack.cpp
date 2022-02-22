@@ -80,6 +80,11 @@
 
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 
+static const ammo_effect_str_id ammo_effect_NO_OVERSHOOT( "NO_OVERSHOOT" );
+static const ammo_effect_str_id ammo_effect_BLINDS_EYES( "BLINDS_EYES" );
+static const ammo_effect_str_id ammo_effect_NO_DAMAGE_SCALING( "NO_DAMAGE_SCALING" );
+static const ammo_effect_str_id ammo_effect_APPLY_SAP( "APPLY_SAP" );
+
 static const efftype_id effect_ai_controlled( "ai_controlled" );
 static const efftype_id effect_assisted( "assisted" );
 static const efftype_id effect_bite( "bite" );
@@ -242,7 +247,7 @@ static bool sting_shoot( monster *z, Creature *target, damage_instance &dam, flo
     proj.speed = 10;
     proj.range = range;
     proj.impact.add( dam );
-    proj.proj_effects.insert( "NO_OVERSHOOT" );
+    proj.add_effect( ammo_effect_NO_OVERSHOOT );
 
     dealt_projectile_attack atk = projectile_attack( proj, z->pos(), target->pos(),
                                   dispersion_sources{ 500 }, z );
@@ -599,7 +604,7 @@ bool mattack::acid( monster *z )
     // Mostly just for momentum
     proj.impact.add_damage( DT_ACID, 5 );
     proj.range = 10;
-    proj.proj_effects.insert( "NO_OVERSHOOT" );
+    proj.add_effect( ammo_effect_NO_OVERSHOOT );
     auto dealt = projectile_attack( proj, z->pos(), target->pos(), dispersion_sources{ 5400 }, z );
     const tripoint &hitp = dealt.end_point;
     const Creature *hit_critter = dealt.hit_critter;
@@ -710,8 +715,8 @@ bool mattack::acid_accurate( monster *z )
     projectile proj;
     proj.speed = 10;
     proj.range = 10;
-    proj.proj_effects.insert( "BLINDS_EYES" );
-    proj.proj_effects.insert( "NO_DAMAGE_SCALING" );
+    proj.add_effect( ammo_effect_BLINDS_EYES );
+    proj.add_effect( ammo_effect_NO_DAMAGE_SCALING );
     proj.impact.add_damage( DT_ACID, rng( 3, 5 ) );
     // Make it arbitrarily less accurate at close ranges
     projectile_attack( proj, z->pos(), target->pos(), dispersion_sources{ 8000.0 * range }, z );
@@ -1586,7 +1591,7 @@ bool mattack::spit_sap( monster *z )
     projectile proj;
     proj.speed = 10;
     proj.range = 12;
-    proj.proj_effects.insert( "APPLY_SAP" );
+    proj.add_effect( ammo_effect_APPLY_SAP );
     proj.impact.add_damage( DT_ACID, rng( 5, 10 ) );
     projectile_attack( proj, z->pos(), target->pos(), dispersion_sources{ 150 }, z );
 

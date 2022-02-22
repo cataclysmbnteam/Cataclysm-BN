@@ -173,10 +173,10 @@ bool turret_data::ammo_select( const itype_id &ammo )
     return true;
 }
 
-std::set<std::string> turret_data::ammo_effects() const
+std::set<ammo_effect_str_id> turret_data::ammo_effects() const
 {
     if( !veh || !part ) {
-        return std::set<std::string>();
+        return std::set<ammo_effect_str_id>();
     }
     auto res = part->base.ammo_effects();
     if( part->info().has_flag( "USE_TANKS" ) && ammo_data() ) {
