@@ -9665,31 +9665,6 @@ const pathfinding_settings &Character::get_pathfinding_settings() const
     return *path_settings;
 }
 
-bool Character::crush_frozen_liquid( item_location loc )
-{
-    if( has_quality( quality_id( "HAMMER" ) ) ) {
-        item hammering_item = item_with_best_of_quality( quality_id( "HAMMER" ) );
-        //~ %1$s: item to be crushed, %2$s: hammer name
-        if( query_yn( _( "Do you want to crush up %1$s with your %2$s?\n"
-                         "<color_red>Be wary of fragile items nearby!</color>" ),
-                      loc.get_item()->display_name(), hammering_item.tname() ) ) {
-
-            //Risk smashing tile with hammering tool, risk is lower with higher dex, damage lower with lower strength
-            if( one_in( 1 + dex_cur / 4 ) ) {
-                add_msg_if_player( colorize( _( "You swing your %s wildly!" ), c_red ),
-                                   hammering_item.tname() );
-                int smashskill = str_cur + hammering_item.damage_melee( DT_BASH );
-                g->m.bash( loc.position(), smashskill );
-            }
-            add_msg_if_player( _( "You crush up and gather %s" ), loc.get_item()->display_name() );
-            return true;
-        }
-    } else {
-        popup( _( "You need a hammering tool to crush up frozen liquids!" ) );
-    }
-    return false;
-}
-
 float Character::power_rating() const
 {
     int dmg = std::max( { weapon.damage_melee( DT_BASH ),
