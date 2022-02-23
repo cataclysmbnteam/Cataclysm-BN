@@ -2677,5 +2677,10 @@
     "type": "recipe",
     "result": "tanning_pelt",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "brew_milk_curdled",
+    "obsolete": true
   }
 ]
