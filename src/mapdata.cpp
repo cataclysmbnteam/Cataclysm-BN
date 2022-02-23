@@ -1488,7 +1488,8 @@ void ter_t::check() const
         debugmsg( "%s has bash.ter_set_bashed_from_above %s, which is unpassable but has no roof",
                   id.str(), bash.ter_set_bashed_from_above.str() );
     }
-    if( deconstruct.ter_set == t_open_air.id() ) {
+    if( ( test_mode || json_report_unused_fields )
+        && deconstruct.ter_set == t_open_air.id() ) {
         debugmsg( "%s deconstructs into \"t_open_air\", but \"t_null\" is preferred",
                   id.str() );
     }
