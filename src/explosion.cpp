@@ -468,7 +468,7 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &blast_cente
 
         // Item damage comes first in order to prevent dropped loot from being destroyed immediately.
         const int smash_force = raw_blast_force * item_blast_percentage( raw_blast_radius, distance );
-        get_map().smash_items( position, smash_force, _( "force of the explosion" ) );
+        get_map().smash_items( position, smash_force, _( "force of the explosion" ), true );
 
         // Critter damage occurs next to reduce the amount of flung enemies, leading to much less predictable damage output
         if( Creature *critter = g->critter_at( position, true ) ) {
