@@ -367,6 +367,8 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &blast_cente
     */
     using dist_point_pair = std::pair<float, tripoint>;
 
+    // TODO: Move the consts outside the function and make static when this information becomes needed for UI
+
     // Distance between z-levels
     const int Z_LEVEL_DIST = 4;
 
@@ -430,6 +432,7 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &blast_cente
 
     int animated_explosion_range = 0.0f;
     std::map<const Creature *, int> blasted;
+    std::set<const Creature *> already_flung;
     player *player_flung = nullptr;
 
     for( const dist_point_pair &pair : blast_map ) {
@@ -525,17 +528,21 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &blast_cente
                                  raw_blast_force;
 
         if( Creature *critter = g->critter_at( position, true ) ) {
-            player *pl = dynamic_cast<player *>( critter );
+            if( !already_flung.count( critter ) ) {
+                player *pl = dynamic_cast<player *>( critter );
 
-            const int weight = to_gram( critter->get_weight() );
-            const int fling_vel = std::min( move_power / std::max( weight, 1 ),
-                                            10 * FLING_HARD_CAP * raw_blast_radius );
+                const int weight = to_gram( critter->get_weight() );
+                const int fling_vel = std::min( move_power / std::max( weight, 1 ),
+                                                10 * FLING_HARD_CAP * raw_blast_radius );
 
-            if( pl == nullptr ) {
-                g->fling_creature( critter, angle, fling_vel );
-            } else {
-                player_flung = pl;
-                g->fling_creature( pl, angle, fling_vel, false, true );
+                if( pl == nullptr ) {
+                    g->fling_creature( critter, angle, fling_vel );
+                } else {
+                    player_flung = pl;
+                    g->fling_creature( pl, angle, fling_vel, false, true );
+                }
+                // Prevent multiflings
+                already_flung.insert( critter );
             }
         }
 
@@ -567,6 +574,7 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &blast_cente
             const std::vector<int> &affected_part_nums = vp->vehicle().parts_at_relative( vp->mount(), false );
 
             for( const auto part_indx : affected_part_nums ) {
+                // Double bash to bypass XX state if possible.
                 veh_ptr.damage( part_indx, shockwave_bash.strength, DT_BASH, true );
                 veh_ptr.damage( part_indx, shockwave_bash.strength, DT_BASH, true );
 
