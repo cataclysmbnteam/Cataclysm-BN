@@ -368,7 +368,15 @@
     "symbol": ".",
     "color": "yellow",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "INDOORS", "FLAT" ]
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "FLAT" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "items": [ { "item": "wax", "count": [ 3, 5 ] } ],
+      "bash_below": true
+    }
   },
   {
     "type": "terrain",

@@ -1325,7 +1325,7 @@ void construct::done_digormine_stair( const tripoint &p, bool dig )
         } else {
             add_msg( m_warning, _( "You just tunneled into lava!" ) );
             g->events().send<event_type::digs_into_lava>();
-            g->m.ter_set( p, t_hole );
+            g->m.ter_set( p, t_open_air );
         }
 
         return;
