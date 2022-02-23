@@ -521,19 +521,21 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &blast_cente
 
         // How many grams can the blast fling 1 tile away?
         // Multiplied by ten because this is coupled with fling_creature
-        const float move_power = 10 * FLING_POWER_FACTOR * ( raw_blast_radius - distance ) * raw_blast_force;
+        const float move_power = 10 * FLING_POWER_FACTOR * ( raw_blast_radius - distance ) *
+                                 raw_blast_force;
 
         if( Creature *critter = g->critter_at( position, true ) ) {
             player *pl = dynamic_cast<player *>( critter );
 
             const int weight = to_gram( critter->get_weight() );
-            const int fling_vel = std::min( move_power / std::max( weight, 1 ), 10 * FLING_HARD_CAP * raw_blast_radius );
+            const int fling_vel = std::min( move_power / std::max( weight, 1 ),
+                                            10 * FLING_HARD_CAP * raw_blast_radius );
 
             if( pl == nullptr ) {
-                g->fling_creature( critter, angle, fling_vel);
+                g->fling_creature( critter, angle, fling_vel );
             } else {
                 player_flung = pl;
-                g->fling_creature( pl, angle, fling_vel, false, true);
+                g->fling_creature( pl, angle, fling_vel, false, true );
             }
         }
 
@@ -541,7 +543,8 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &blast_cente
 
         // This reduces the randomness factor in terrain bash significantly
         // Which makes explosions have a more well-defined shape.
-        const float terrain_factor = std::max( distance - 1.0, 0.0 ) / raw_blast_radius + rng_float( 0.0, TERRAIN_RANDOM_FACTOR );
+        const float terrain_factor = std::max( distance - 1.0, 0.0 ) / raw_blast_radius + rng_float( 0.0,
+                                     TERRAIN_RANDOM_FACTOR );
         const int terrain_blast_force = raw_blast_force;
 
         bash_params shockwave_bash{
@@ -561,14 +564,14 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &blast_cente
 
             vehicle &veh_ptr = vp->vehicle();
 
-            const std::vector<int> &affected_part_nums = vp->vehicle().parts_at_relative(vp->mount(), false);
+            const std::vector<int> &affected_part_nums = vp->vehicle().parts_at_relative( vp->mount(), false );
 
-            for (const auto part_indx : affected_part_nums) {
-                veh_ptr.damage(part_indx, shockwave_bash.strength, DT_BASH, true);
-                veh_ptr.damage(part_indx, shockwave_bash.strength, DT_BASH, true);
+            for( const auto part_indx : affected_part_nums ) {
+                veh_ptr.damage( part_indx, shockwave_bash.strength, DT_BASH, true );
+                veh_ptr.damage( part_indx, shockwave_bash.strength, DT_BASH, true );
 
-                if (veh_ptr.part(part_indx).is_broken()) {
-                    veh_ptr.remove_part(part_indx);
+                if( veh_ptr.part( part_indx ).is_broken() ) {
+                    veh_ptr.remove_part( part_indx );
                 }
             }
         } else {
