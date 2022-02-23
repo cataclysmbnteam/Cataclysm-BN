@@ -554,6 +554,12 @@ int explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) cons
         return 0;
     }
 
+    trigger_explosion( pos );
+    return 1;
+}
+
+void explosion_iuse::trigger_explosion( const tripoint &pos ) const
+{
     if( explosion ) {
         explosion_handler::explosion( pos, explosion );
     }
@@ -582,7 +588,6 @@ int explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) cons
             explosion_handler::emp_blast( dest );
         }
     }
-    return 1;
 }
 
 void explosion_iuse::info( const item &, std::vector<iteminfo> &dump ) const

@@ -56,6 +56,8 @@
 #include "trap.h"
 #include "weather.h"
 
+static const ammo_effect_str_id ammo_effect_WHIP( "WHIP" );
+
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_bleed( "bleed" );
@@ -1541,10 +1543,9 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
 {
     const auto &proj = attack.proj;
     double &missed_by = attack.missed_by; // We can change this here
-    const auto &effects = proj.proj_effects;
 
     // Whip has a chance to scare wildlife even if it misses
-    if( effects.count( "WHIP" ) && type->in_category( "WILDLIFE" ) && one_in( 3 ) ) {
+    if( proj.has_effect( ammo_effect_WHIP ) && type->in_category( "WILDLIFE" ) && one_in( 3 ) ) {
         add_effect( effect_run, rng( 3_turns, 5_turns ) );
     }
 

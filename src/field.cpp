@@ -192,12 +192,20 @@ bool field::add_field( const field_type_id &field_type_to_add, const int new_int
 {
     // sanity check, we don't want to store fd_null
     if( !field_type_to_add ) {
+        debugmsg( "Tried to add null field" );
         return false;
     }
     auto it = _field_type_list.find( field_type_to_add );
     if( it != _field_type_list.end() ) {
-        //Already exists, but lets update it. This is tentative.
-        it->second.set_field_intensity( it->second.get_field_intensity() + new_intensity );
+        // Most fields stack intensities, but some add duration instead
+        if( it->first->stacking_type == fields::stacking_type::intensity ) {
+            it->second.set_field_intensity( it->second.get_field_intensity() + new_intensity );
+        } else {
+            time_duration half_life = field_type_to_add->half_life;
+            if( new_age < half_life ) {
+                it->second.mod_field_age( new_age - half_life );
+            }
+        }
         return false;
     }
     if( !_displayed_field_type ||

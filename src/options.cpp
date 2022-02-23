@@ -1478,6 +1478,15 @@ void options_manager::add_options_interface()
     { { "metric", translate_marker( "Metric" ) }, { "imperial", translate_marker( "Imperial" ) } },
     "imperial" );
 
+    add(
+        "OVERMAP_COORDINATE_FORMAT",
+        "interface",
+        translate_marker( "Overmap coordinates format" ),
+        translate_marker( "Are overmap coordinates displayed using absolute format like 338, 416 or subdivided into two components like 1'158, 2'56?" ),
+    { { "subdivided", translate_marker( "Subdivided" ) }, { "absolute", translate_marker( "Absolute" ) } },
+    "absolute"
+    );
+
     add( "24_HOUR", "interface", translate_marker( "Time format" ),
          translate_marker( "12h: AM/PM, e.g. 7:31 AM - Military: 24h Military, e.g. 0731 - 24h: Normal 24h, e.g. 7:31" ),
          //~ 12h time, e.g.  11:59pm
@@ -2183,11 +2192,6 @@ void options_manager::add_options_world_default()
     const auto add_empty_line = [&]() {
         this->add_empty_line( "world_default" );
     };
-
-    add( "CORE_VERSION", "world_default", translate_marker( "Core version data" ),
-         translate_marker( "Controls what migrations are applied for legacy worlds" ),
-         1, core_version, core_version, COPT_ALWAYS_HIDE
-       );
 
     add_empty_line();
 

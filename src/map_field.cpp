@@ -877,7 +877,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                 }
 
                 // Apply wandering fields from vents
-                if( cur_fd_type.wandering_field.is_valid() ) {
+                if( cur_fd_type.wandering_field ) {
                     for( const tripoint &pnt : points_in_radius( p, cur.get_field_intensity() - 1 ) ) {
                         field &wandering_field = get_field( pnt );
                         tmpfld = wandering_field.find_field( cur_fd_type.wandering_field );

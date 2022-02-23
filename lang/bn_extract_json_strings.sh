@@ -11,7 +11,6 @@ lang/extract_json_strings.py \
     -i "data/json" \
     -i "data/mods" \
     -i "data/core" \
-    -i "data/legacy" \
     -i "data/help" \
     \
     -e "data/json/anatomy.json" \

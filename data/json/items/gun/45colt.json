@@ -76,6 +76,7 @@
     "dispersion": 360,
     "durability": 8,
     "clip_size": 6,
+    "blackpowder_tolerance": 56,
     "proportional": { "reload": 1.5 }
   }
 ]

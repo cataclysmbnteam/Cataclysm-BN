@@ -36,6 +36,23 @@
 #include "visitable.h"
 #include "vpart_position.h"
 
+static const ammo_effect_str_id ammo_effect_ACT_ON_RANGED_HIT( "ACT_ON_RANGED_HIT" );
+static const ammo_effect_str_id ammo_effect_BOUNCE( "BOUNCE" );
+static const ammo_effect_str_id ammo_effect_BURST( "BURST" );
+static const ammo_effect_str_id ammo_effect_DRAW_AS_LINE( "DRAW_AS_LINE" );
+static const ammo_effect_str_id ammo_effect_HEAVY_HIT( "HEAVY_HIT" );
+static const ammo_effect_str_id ammo_effect_JET( "JET" );
+static const ammo_effect_str_id ammo_effect_MUZZLE_SMOKE( "MUZZLE_SMOKE" );
+static const ammo_effect_str_id ammo_effect_NO_EMBED( "NO_EMBED" );
+static const ammo_effect_str_id ammo_effect_NO_ITEM_DAMAGE( "NO_ITEM_DAMAGE" );
+static const ammo_effect_str_id ammo_effect_NO_OVERSHOOT( "NO_OVERSHOOT" );
+static const ammo_effect_str_id ammo_effect_NO_PENETRATE_OBSTACLES( "NO_PENETRATE_OBSTACLES" );
+static const ammo_effect_str_id ammo_effect_NULL_SOURCE( "NULL_SOURCE" );
+static const ammo_effect_str_id ammo_effect_SHATTER_SELF( "SHATTER_SELF" );
+static const ammo_effect_str_id ammo_effect_STREAM( "STREAM" );
+static const ammo_effect_str_id ammo_effect_STREAM_BIG( "STREAM_BIG" );
+static const ammo_effect_str_id ammo_effect_TANGLE( "TANGLE" );
+
 static const efftype_id effect_bounced( "bounced" );
 
 static const std::string flag_LIQUID( "LIQUID" );
@@ -44,14 +61,13 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 {
     const auto &proj = attack.proj;
     const item &drop_item = proj.get_drop();
-    const auto &effects = proj.proj_effects;
     if( drop_item.is_null() ) {
         return;
     }
 
     const tripoint &pt = attack.end_point;
 
-    if( effects.count( "SHATTER_SELF" ) ) {
+    if( proj.has_effect( ammo_effect_SHATTER_SELF ) ) {
         // Drop the contents, not the thrown item
         if( g->u.sees( pt ) ) {
             add_msg( _( "The %s shatters!" ), drop_item.tname() );
@@ -67,7 +83,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         return;
     }
 
-    if( effects.count( "BURST" ) ) {
+    if( proj.has_effect( ammo_effect_BURST ) ) {
         // Drop the contents, not the thrown item
         if( g->u.sees( pt ) ) {
             add_msg( _( "The %s bursts!" ), drop_item.tname() );
@@ -88,7 +104,8 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
     // We can only embed in monsters
     bool mon_there = mon != nullptr && !mon->is_dead_state();
     // And if we actually want to embed
-    bool embed = mon_there && effects.count( "NO_EMBED" ) == 0 && effects.count( "TANGLE" ) == 0;
+    bool embed = mon_there && !proj.has_effect( ammo_effect_NO_EMBED ) &&
+                 !proj.has_effect( ammo_effect_TANGLE );
     // Don't embed in small creatures
     if( embed ) {
         const m_size critter_size = mon->get_size();
@@ -116,10 +133,10 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         // if they aren't friendly they will try and break out of the net/bolas/lasso
         // players and NPCs just get the downed effect, and item is dropped.
         // TODO: storing the item on player until they recover from downed
-        if( effects.count( "TANGLE" ) && mon_there ) {
+        if( proj.has_effect( ammo_effect_TANGLE ) && mon_there ) {
             do_drop = false;
         }
-        if( effects.count( "ACT_ON_RANGED_HIT" ) ) {
+        if( proj.has_effect( ammo_effect_ACT_ON_RANGED_HIT ) ) {
             // Don't drop if it exploded
             do_drop = !dropped_item.process( nullptr, attack.end_point, true );
         }
@@ -128,7 +145,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
             g->m.add_item_or_charges( attack.end_point, dropped_item );
         }
 
-        if( effects.count( "HEAVY_HIT" ) ) {
+        if( proj.has_effect( ammo_effect_HEAVY_HIT ) ) {
             if( g->m.has_flag( flag_LIQUID, pt ) ) {
                 sounds::sound( pt, 10, sounds::sound_t::combat, _( "splash!" ), false, "bullet_hit", "hit_water" );
             } else {
@@ -208,21 +225,21 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     }
 
     projectile &proj = attack.proj;
-    const auto &proj_effects = proj.proj_effects;
 
-    const bool stream = proj_effects.count( "STREAM" ) > 0 ||
-                        proj_effects.count( "STREAM_BIG" ) > 0 ||
-                        proj_effects.count( "JET" ) > 0;
+    const bool stream = proj.has_effect( ammo_effect_STREAM ) ||
+                        proj.has_effect( ammo_effect_STREAM_BIG ) ||
+                        proj.has_effect( ammo_effect_JET );
     const char bullet = stream ? '#' : '*';
-    const bool no_item_damage = proj_effects.count( "NO_ITEM_DAMAGE" ) > 0;
-    const bool do_draw_line = proj_effects.count( "DRAW_AS_LINE" ) > 0;
-    const bool null_source = proj_effects.count( "NULL_SOURCE" ) > 0;
+    const bool no_item_damage = proj.has_effect( ammo_effect_NO_ITEM_DAMAGE );
+    const bool do_draw_line = proj.has_effect( ammo_effect_DRAW_AS_LINE );
+    const bool null_source = proj.has_effect( ammo_effect_NULL_SOURCE );
     // Determines whether it can penetrate obstacles
-    const bool is_bullet = proj_arg.speed >= 200 && !proj_effects.count( "NO_PENETRATE_OBSTACLES" );
+    const bool is_bullet = proj_arg.speed >= 200 &&
+                           !proj.has_effect( ammo_effect_NO_PENETRATE_OBSTACLES );
 
     // If we were targetting a tile rather than a monster, don't overshoot
     // Unless the target was a wall, then we are aiming high enough to overshoot
-    const bool no_overshoot = proj_effects.count( "NO_OVERSHOOT" ) ||
+    const bool no_overshoot = proj.has_effect( ammo_effect_NO_OVERSHOOT ) ||
                               ( g->critter_at( target_arg ) == nullptr && g->m.passable( target_arg ) );
 
     double extend_to_range = no_overshoot ? range : proj_arg.range;
@@ -282,7 +299,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     trajectory.insert( trajectory.begin(), source );
 
     static emit_id muzzle_smoke( "emit_smaller_smoke_plume" );
-    if( proj_effects.count( "MUZZLE_SMOKE" ) ) {
+    if( proj.has_effect( ammo_effect_MUZZLE_SMOKE ) ) {
         g->m.emit_field( trajectory.front(), muzzle_smoke );
     }
 
@@ -435,14 +452,14 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
     drop_or_embed_projectile( attack );
 
-    apply_ammo_effects( tp, proj.proj_effects );
+    apply_ammo_effects( tp, proj.get_ammo_effects() );
     const auto &expl = proj.get_custom_explosion();
     if( expl ) {
         explosion_handler::explosion( tp, expl );
     }
 
     // TODO: Move this outside now that we have hit point in return values?
-    if( proj.proj_effects.count( "BOUNCE" ) ) {
+    if( proj.has_effect( ammo_effect_BOUNCE ) ) {
         // Add effect so the shooter is not targeted itself.
         if( origin && !origin->has_effect( effect_bounced ) ) {
             origin->add_effect( effect_bounced, 1_turns );

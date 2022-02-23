@@ -202,6 +202,9 @@ class explosion_iuse : public iuse_actor
         int use( player &, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
+
+        /** Produces all the explosions from this actor */
+        void trigger_explosion( const tripoint &p ) const;
 };
 
 /**
