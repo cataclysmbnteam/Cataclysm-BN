@@ -10181,7 +10181,8 @@ void game::on_options_changed()
     grid_tracker_ptr->on_options_changed();
 }
 
-void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bool controlled, bool suppress_map_update )
+void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bool controlled,
+                           bool suppress_map_update )
 {
     if( c == nullptr ) {
         debugmsg( "game::fling_creature invoked on null target" );
