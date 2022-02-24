@@ -6668,11 +6668,15 @@ void game::zones_manager()
                         break;
                     }
                     case 5: {
-                        restore_on_out_of_scope<bool> show_prev( show );
                         on_out_of_scope invalidate_current_ui( [&]() {
                             ui.mark_resize();
                         } );
+                        restore_on_out_of_scope<bool> show_prev( show );
+                        restore_on_out_of_scope<cata::optional<tripoint>> zone_start_prev( zone_start );
+                        restore_on_out_of_scope<cata::optional<tripoint>> zone_end_prev( zone_end );
                         show = false;
+                        zone_start = cata::nullopt;
+                        zone_end = cata::nullopt;
                         ui.mark_resize();
                         static_popup message_pop;
                         message_pop.on_top( true );
