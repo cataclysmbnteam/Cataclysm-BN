@@ -331,8 +331,7 @@
     "end": {
       "effect": [
         { "u_add_var": "Alonso_pants", "type": "mission", "context": "flag", "value": "yes" },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 2 },
-        { "npc_add_effect": "Alonso_pants_restored", "duration": "PERMANENT" }
+        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 2 }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
