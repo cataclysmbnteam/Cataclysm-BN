@@ -359,13 +359,11 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &blast_cente
         The main bulk of damage is inflicted here.
         3. Flings still alive critters.
         This causes some extra damage depending on how the explosion is set up and may fling the same mob several times.
-        This is very effective inside buildings since this causes the mobs to be thrown against the wall multiple times.
+        This is effective inside buildings since this causes the mobs to be thrown against walls.
         4. Bashes terrain (and vehicles).
         All vehicle parts in the tile are bashed 2 times at full force,
         both to compensate for their tankiness and to make sure they get actually destroyed.
         Terrain is destroyed in a consistent manner.
-
-    3. Fling the player if they had been caught in the blast. It has to be done last.
     */
     using dist_point_pair = std::pair<float, tripoint>;
 
@@ -554,7 +552,8 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &blast_cente
         // Which makes explosions have a more well-defined shape.
         const float terrain_factor = std::max( distance - 1.0, 0.0 ) / raw_blast_radius + rng_float( 0.0,
                                      TERRAIN_RANDOM_FACTOR );
-        const int terrain_blast_force = raw_blast_force;
+        const int terrain_blast_force = raw_blast_force * obstacle_blast_percentage( raw_blast_radius,
+                                        distance );
 
         bash_params shockwave_bash{
             terrain_blast_force,
@@ -573,16 +572,12 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &blast_cente
 
             vehicle &veh_ptr = vp->vehicle();
 
-            const std::vector<int> &affected_part_nums = vp->vehicle().parts_at_relative( vp->mount(), false );
+            const std::vector<int> &affected_part_nums = veh_ptr.parts_at_relative( vp->mount(), false );
 
             for( const auto part_indx : affected_part_nums ) {
                 // Double bash to bypass XX state if possible.
                 veh_ptr.damage( part_indx, shockwave_bash.strength, DT_BASH, true );
                 veh_ptr.damage( part_indx, shockwave_bash.strength, DT_BASH, true );
-
-                if( veh_ptr.part( part_indx ).is_broken() ) {
-                    veh_ptr.remove_part( part_indx );
-                }
             }
         } else {
             // Multibash is done by bashing the tile with decaying force.
