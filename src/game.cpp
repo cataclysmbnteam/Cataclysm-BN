@@ -6969,8 +6969,8 @@ look_around_result game::look_around( bool show_window, tripoint &center,
             zone_start = lp;
             zone_end = end_point - start_point + lp;
             zone_blink = blink;
-            add_msg( m_info, _( "end_point: %s, start_point: %s, lp: %s, player: %s" ),
-                     end_point.to_string(), start_point.to_string(), lp.to_string(), u.pos().to_string() );
+            // add_msg( m_info, _( "end_point: %s, start_point: %s, lp: %s, player: %s" ),
+            //          end_point.to_string(), start_point.to_string(), lp.to_string(), u.pos().to_string() );
         }
         invalidate_main_ui_adaptor();
         ui_manager::redraw();
