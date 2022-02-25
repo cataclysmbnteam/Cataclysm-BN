@@ -6639,6 +6639,7 @@ void game::zones_manager()
                 as_m.entries.emplace_back( 3, zone.get_options().has_options(), '3',
                                            zone.get_type() == zone_type_id( "LOOT_CUSTOM" ) ? _( "Edit filter" ) : _( "Edit options" ) );
                 as_m.entries.emplace_back( 4, !zone.get_is_vehicle(), '4', _( "Edit position" ) );
+                // TODO: Enable moving vzone after vehicle zone can be bigger than 1*1
                 as_m.entries.emplace_back( 5, !zone.get_is_vehicle(), '5', _( "Move position" ) );
                 as_m.query();
 
@@ -6683,7 +6684,10 @@ void game::zones_manager()
                         message_pop.message( "%s", _( "Moving zone..." ) );
                         const auto zone_local_start_point = m.getlocal( zone.get_start_point() );
                         const auto zone_local_end_point = m.getlocal( zone.get_end_point() );
-                        const look_around_result result_local = look_around( false, zone_local_start_point + tripoint_zero,
+                        // local position of the zone center, used to calculate the u.view_offset,
+                        // could center the screen to the position it represents
+                        auto view_center = m.getlocal( zone.get_center_point() );
+                        const look_around_result result_local = look_around( false, view_center,
                                                                 zone_local_start_point, false, false,
                                                                 false, true, zone_local_end_point );
                         if( result_local.position ) {
