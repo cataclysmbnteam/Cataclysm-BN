@@ -209,7 +209,7 @@
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 258 ] ],
+          [ [ "2x4", 162 ] ],
           [ [ "nail", 108 ] ],
           [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
           [ [ "material_soil", 1920 ] ],
@@ -242,7 +242,7 @@
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 258 ] ],
+          [ [ "2x4", 162 ] ],
           [ [ "nail", 108 ] ],
           [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
           [ [ "material_soil", 1920 ] ],

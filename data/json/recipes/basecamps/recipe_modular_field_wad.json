@@ -19,7 +19,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 72 ], [ "stick", 96 ] ],
+          [ [ "2x4", 56 ], [ "stick", 96 ] ],
           [ [ "material_quicklime", 32 ], [ "material_limestone", 32 ], [ "clay_lump", 32 ] ],
           [ [ "pebble", 80 ], [ "material_sand", 80 ] ],
           [ [ "straw_pile", 32 ], [ "cattail_stalk", 32 ], [ "dogbane", 32 ], [ "pine_bough", 32 ] ],
@@ -51,7 +51,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 75 ], [ "stick", 90 ] ],
+          [ [ "2x4", 55 ], [ "stick", 90 ] ],
           [ [ "material_quicklime", 28 ], [ "material_limestone", 28 ], [ "clay_lump", 28 ] ],
           [ [ "pebble", 70 ], [ "material_sand", 70 ] ],
           [ [ "straw_pile", 28 ], [ "cattail_stalk", 28 ], [ "dogbane", 28 ], [ "pine_bough", 28 ] ],
@@ -115,7 +115,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 339 ] ],
+          [ [ "2x4", 275 ] ],
           [ [ "nail", 48 ] ],
           [ [ "material_quicklime", 140 ], [ "material_limestone", 140 ], [ "clay_lump", 140 ] ],
           [ [ "pebble", 350 ], [ "material_sand", 350 ] ],
@@ -150,7 +150,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 341 ] ],
+          [ [ "2x4", 261 ] ],
           [ [ "nail", 48 ] ],
           [ [ "material_quicklime", 116 ], [ "material_limestone", 116 ], [ "clay_lump", 116 ] ],
           [ [ "pebble", 290 ], [ "material_sand", 290 ] ],
@@ -184,7 +184,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 339 ] ],
+          [ [ "2x4", 275 ] ],
           [ [ "nail", 48 ] ],
           [ [ "material_quicklime", 140 ], [ "material_limestone", 140 ], [ "clay_lump", 140 ] ],
           [ [ "pebble", 350 ], [ "material_sand", 350 ] ],
@@ -219,7 +219,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 331 ] ],
+          [ [ "2x4", 251 ] ],
           [ [ "nail", 48 ] ],
           [ [ "material_quicklime", 108 ], [ "material_limestone", 108 ], [ "clay_lump", 108 ] ],
           [ [ "pebble", 270 ], [ "material_sand", 270 ] ],
@@ -253,7 +253,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 235 ] ],
+          [ [ "2x4", 199 ] ],
           [ [ "nail", 24 ] ],
           [ [ "material_quicklime", 116 ], [ "material_limestone", 116 ], [ "clay_lump", 116 ] ],
           [ [ "pebble", 290 ], [ "material_sand", 290 ] ],
@@ -287,7 +287,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 339 ] ],
+          [ [ "2x4", 275 ] ],
           [ [ "nail", 48 ] ],
           [ [ "material_quicklime", 140 ], [ "material_limestone", 140 ], [ "clay_lump", 140 ] ],
           [ [ "pebble", 350 ], [ "material_sand", 350 ] ],
@@ -321,7 +321,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 341 ] ],
+          [ [ "2x4", 261 ] ],
           [ [ "nail", 48 ] ],
           [ [ "material_quicklime", 116 ], [ "material_limestone", 116 ], [ "clay_lump", 116 ] ],
           [ [ "pebble", 290 ], [ "material_sand", 290 ] ],
@@ -355,7 +355,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 339 ] ],
+          [ [ "2x4", 275 ] ],
           [ [ "nail", 48 ] ],
           [ [ "material_quicklime", 140 ], [ "material_limestone", 140 ], [ "clay_lump", 140 ] ],
           [ [ "pebble", 350 ], [ "material_sand", 350 ] ],
@@ -389,7 +389,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 331 ] ],
+          [ [ "2x4", 251 ] ],
           [ [ "nail", 48 ] ],
           [ [ "material_quicklime", 108 ], [ "material_limestone", 108 ], [ "clay_lump", 108 ] ],
           [ [ "pebble", 270 ], [ "material_sand", 270 ] ],
@@ -423,7 +423,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 168 ] ],
+          [ [ "2x4", 128 ] ],
           [ [ "nail", 24 ] ],
           [ [ "material_quicklime", 56 ], [ "material_limestone", 56 ], [ "clay_lump", 56 ] ],
           [ [ "pebble", 140 ], [ "material_sand", 140 ] ],
@@ -457,7 +457,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 150 ], [ "stick", 120 ] ],
+          [ [ "2x4", 90 ], [ "stick", 120 ] ],
           [ [ "material_quicklime", 24 ], [ "material_limestone", 24 ], [ "clay_lump", 24 ] ],
           [ [ "pebble", 60 ], [ "material_sand", 60 ] ],
           [ [ "straw_pile", 24 ], [ "cattail_stalk", 24 ], [ "dogbane", 24 ], [ "pine_bough", 24 ] ],
@@ -489,7 +489,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 176 ] ],
+          [ [ "2x4", 136 ] ],
           [ [ "nail", 48 ] ],
           [ [ "material_quicklime", 48 ], [ "material_limestone", 48 ], [ "clay_lump", 48 ] ],
           [ [ "pebble", 120 ], [ "material_sand", 120 ] ],
@@ -523,7 +523,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 158 ] ],
+          [ [ "2x4", 98 ] ],
           [ [ "nail", 24 ] ],
           [ [ "material_quicklime", 16 ], [ "material_limestone", 16 ], [ "clay_lump", 16 ] ],
           [ [ "pebble", 40 ], [ "material_sand", 40 ] ],
@@ -557,7 +557,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 308 ] ],
+          [ [ "2x4", 188 ] ],
           [ [ "nail", 24 ] ],
           [ [ "material_quicklime", 40 ], [ "material_limestone", 40 ], [ "clay_lump", 40 ] ],
           [ [ "pebble", 100 ], [ "material_sand", 100 ] ],
@@ -591,7 +591,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 176 ] ],
+          [ [ "2x4", 136 ] ],
           [ [ "nail", 48 ] ],
           [ [ "material_quicklime", 48 ], [ "material_limestone", 48 ], [ "clay_lump", 48 ] ],
           [ [ "pebble", 120 ], [ "material_sand", 120 ] ],
@@ -626,7 +626,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 158 ] ],
+          [ [ "2x4", 98 ] ],
           [ [ "nail", 24 ] ],
           [ [ "material_quicklime", 16 ], [ "material_limestone", 16 ], [ "clay_lump", 16 ] ],
           [ [ "pebble", 40 ], [ "material_sand", 40 ] ],
@@ -660,7 +660,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 168 ] ],
+          [ [ "2x4", 128 ] ],
           [ [ "nail", 24 ] ],
           [ [ "material_quicklime", 56 ], [ "material_limestone", 56 ], [ "clay_lump", 56 ] ],
           [ [ "pebble", 140 ], [ "material_sand", 140 ] ],
@@ -694,7 +694,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 150 ], [ "stick", 120 ] ],
+          [ [ "2x4", 90 ], [ "stick", 120 ] ],
           [ [ "material_quicklime", 24 ], [ "material_limestone", 24 ], [ "clay_lump", 24 ] ],
           [ [ "pebble", 60 ], [ "material_sand", 60 ] ],
           [ [ "straw_pile", 24 ], [ "cattail_stalk", 24 ], [ "dogbane", 24 ], [ "pine_bough", 24 ] ],
@@ -731,7 +731,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 308 ] ],
+          [ [ "2x4", 188 ] ],
           [ [ "nail", 24 ] ],
           [ [ "material_quicklime", 40 ], [ "material_limestone", 40 ], [ "clay_lump", 40 ] ],
           [ [ "pebble", 100 ], [ "material_sand", 100 ] ],
