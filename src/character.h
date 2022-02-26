@@ -1802,10 +1802,6 @@ class Character : public Creature, public visitable<Character>
         /** Checks to see if the player is using floor items to keep warm, and return the name of one such item if so */
         std::string is_snuggling() const;
 
-        /** Prompts user about crushing item at item_location loc, for harvesting of frozen liquids
-        * @param loc Location for item to crush */
-        bool crush_frozen_liquid( item_location loc );
-
         float power_rating() const override;
         float speed_rating() const override;
 

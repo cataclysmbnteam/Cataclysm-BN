@@ -29,6 +29,7 @@
     "type": "terrain",
     "id": "t_open_air",
     "name": "open air",
+    "alias": "t_hole",
     "description": "This is open air.",
     "symbol": " ",
     "color": "i_cyan",
@@ -191,14 +192,7 @@
     "color": "dark_gray",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT" ],
-    "bash": {
-      "str_min": 30,
-      "str_max": 210,
-      "sound": "crash!",
-      "sound_fail": "whump!",
-      "ter_set": "t_open_air",
-      "bash_below": true
-    }
+    "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "bash_below": true }
   },
   {
     "type": "terrain",
@@ -210,14 +204,7 @@
     "color": "dark_gray",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "FLAT" ],
-    "bash": {
-      "str_min": 30,
-      "str_max": 210,
-      "sound": "crash!",
-      "sound_fail": "whump!",
-      "ter_set": "t_open_air",
-      "bash_below": true
-    }
+    "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "bash_below": true }
   },
   {
     "type": "terrain",
@@ -229,14 +216,7 @@
     "color": "green",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "FLAT" ],
-    "bash": {
-      "str_min": 30,
-      "str_max": 210,
-      "sound": "crash!",
-      "sound_fail": "whump!",
-      "ter_set": "t_open_air",
-      "bash_below": true
-    }
+    "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "bash_below": true }
   },
   {
     "type": "terrain",
@@ -248,14 +228,7 @@
     "color": "yellow",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAMMABLE" ],
-    "bash": {
-      "str_min": 30,
-      "str_max": 210,
-      "sound": "crash!",
-      "sound_fail": "whump!",
-      "ter_set": "t_open_air",
-      "bash_below": true
-    }
+    "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "bash_below": true }
   },
   {
     "type": "terrain",
@@ -267,14 +240,7 @@
     "color": "light_gray",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT" ],
-    "bash": {
-      "str_min": 30,
-      "str_max": 210,
-      "sound": "crash!",
-      "sound_fail": "whump!",
-      "ter_set": "t_open_air",
-      "bash_below": true
-    }
+    "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "bash_below": true }
   },
   {
     "type": "terrain",
@@ -286,14 +252,7 @@
     "color": "white",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "FLAMMABLE" ],
-    "bash": {
-      "str_min": 30,
-      "str_max": 210,
-      "sound": "crash!",
-      "sound_fail": "whump!",
-      "ter_set": "t_open_air",
-      "bash_below": true
-    }
+    "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "bash_below": true }
   },
   {
     "type": "terrain",
@@ -306,14 +265,7 @@
     "move_cost": 2,
     "trap": "tr_ledge",
     "flags": [ "TRANSPARENT", "NO_FLOOR", "INDOORS" ],
-    "bash": {
-      "str_min": 3,
-      "str_max": 6,
-      "sound": "glass braking!",
-      "sound_fail": "whack!",
-      "ter_set": "t_open_air",
-      "bash_below": true
-    }
+    "bash": { "str_min": 3, "str_max": 6, "sound": "glass braking!", "sound_fail": "whack!", "bash_below": true }
   },
   {
     "type": "terrain",
@@ -325,14 +277,7 @@
     "color": "brown",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT" ],
-    "bash": {
-      "str_min": 100,
-      "str_max": 210,
-      "sound": "crash!",
-      "sound_fail": "whump!",
-      "ter_set": "t_open_air",
-      "bash_below": true
-    }
+    "bash": { "str_min": 100, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "bash_below": true }
   },
   {
     "type": "terrain",
@@ -351,7 +296,6 @@
       "sound_fail": "slap!",
       "sound_vol": 8,
       "sound_fail_vol": 4,
-      "ter_set": "t_open_air",
       "bash_below": true
     }
   },
@@ -372,7 +316,6 @@
       "sound_fail": "slap!",
       "sound_vol": 8,
       "sound_fail_vol": 4,
-      "ter_set": "t_open_air",
       "bash_below": true
     }
   }

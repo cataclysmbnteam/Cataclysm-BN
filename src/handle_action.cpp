@@ -677,7 +677,7 @@ static void smash()
         smashskill = u.str_cur + u.weapon.damage_melee( DT_BASH );
     }
 
-    const bool allow_floor_bash = debug_mode; // Should later become "true"
+    const bool allow_floor_bash = m.has_zlevels();
     const cata::optional<tripoint> smashp_ = choose_adjacent( _( "Smash where?" ), allow_floor_bash );
     if( !smashp_ ) {
         return;
@@ -705,7 +705,7 @@ static void smash()
         if( bash_info.str_min == -1 ) {
             continue;
         }
-        if( smashskill < bash_info.str_min && one_in( 10 ) ) {
+        if( smashskill < bash_info.str_min ) {
             add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), fd_to_smsh.first->get_name() );
             return;
         } else if( smashskill >= rng( bash_info.str_min, bash_info.str_max ) ) {

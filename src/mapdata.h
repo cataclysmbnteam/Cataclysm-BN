@@ -463,6 +463,7 @@ struct ter_t : map_data_common_t {
 
     void load( const JsonObject &jo, const std::string &src ) override;
     void check() const override;
+    static const std::vector<ter_t> &get_all();
 };
 
 void set_ter_ids();
@@ -514,6 +515,7 @@ struct furn_t : map_data_common_t {
 
     void load( const JsonObject &jo, const std::string &src ) override;
     void check() const override;
+    static const std::vector<furn_t> &get_all();
 };
 
 void load_furniture( const JsonObject &jo, const std::string &src );
@@ -532,7 +534,6 @@ t_basalt
 "t_basalt"
 */
 extern ter_id t_null,
-       t_hole, // Real nothingness; makes you fall a z-level
        // Ground
        t_dirt, t_sand, t_clay, t_dirtmound, t_pit_shallow, t_pit, t_grave, t_grave_new,
        t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered, t_pit_glass, t_pit_glass_covered,

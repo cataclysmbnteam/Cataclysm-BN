@@ -87,14 +87,7 @@
     "looks_like": "t_floor_resin",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "NONFLAMMABLE" ],
-    "bash": {
-      "str_min": 250,
-      "str_max": 700,
-      "sound": "boom!",
-      "sound_fail": "whack!",
-      "ter_set": "t_open_air",
-      "bash_below": true
-    }
+    "bash": { "str_min": 250, "str_max": 700, "sound": "boom!", "sound_fail": "whack!", "bash_below": true }
   },
   {
     "type": "terrain",

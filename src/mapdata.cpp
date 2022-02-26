@@ -155,19 +155,19 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "FLAMMABLE_HARD",           TFLAG_FLAMMABLE_HARD }, // fire
         { "SEALED",                   TFLAG_SEALED },         // Fire, acid
         { "ALLOW_FIELD_EFFECT",       TFLAG_ALLOW_FIELD_EFFECT }, // Fire, acid
-        { "COLLAPSES",                TFLAG_COLLAPSES },      // building "remodeling"
+        { "COLLAPSES",                TFLAG_COLLAPSES },      // This tile includes a ceiling. If the ceiling drops, this tile is destroyed.
         { "FLAMMABLE",                TFLAG_FLAMMABLE },      // fire bad! fire SLOW!
         { "REDUCE_SCENT",             TFLAG_REDUCE_SCENT },   // ...and the other half is update_scent
         { "INDOORS",                  TFLAG_INDOORS },        // vehicle gain_moves, weather
         { "SHARP",                    TFLAG_SHARP },          // monmove
-        { "SUPPORTS_ROOF",            TFLAG_SUPPORTS_ROOF },  // and by building "remodeling" I mean hulkSMASH
+        { "SUPPORTS_ROOF",            TFLAG_SUPPORTS_ROOF },  // Supports its ceiling and roof above it.
         { "MINEABLE",                 TFLAG_MINEABLE },       // allows mining
         { "SWIMMABLE",                TFLAG_SWIMMABLE },      // monmove, many fields
         { "TRANSPARENT",              TFLAG_TRANSPARENT },    // map::is_transparent / lightmap
         { "NOITEM",                   TFLAG_NOITEM },         // add/spawn_item*()
         { "NO_SIGHT",                 TFLAG_NO_SIGHT },       // Sight reduced to 1 on this tile
         { "FLAMMABLE_ASH",            TFLAG_FLAMMABLE_ASH },  // oh hey fire. again.
-        { "WALL",                     TFLAG_WALL },           // connects to other walls
+        { "WALL",                     TFLAG_WALL },           // Badly defined. Used for roof support, mapgen, and fungalization result.
         { "NO_SCENT",                 TFLAG_NO_SCENT },       // cannot have scent values, which prevents scent diffusion through this tile
         { "DEEP_WATER",               TFLAG_DEEP_WATER },     // Deep enough to submerge things
         { "CURRENT",                  TFLAG_CURRENT },        // Water is flowing.
@@ -621,7 +621,6 @@ bool map_data_common_t::connects( int &ret ) const
 }
 
 ter_id t_null,
-       t_hole, // Real nothingness; makes you fall a z-level
        // Ground
        t_dirt, t_sand, t_clay, t_dirtmound, t_pit_shallow, t_pit, t_grave, t_grave_new,
        t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered, t_pit_glass, t_pit_glass_covered,
@@ -742,7 +741,6 @@ ter_id t_null,
 void set_ter_ids()
 {
     t_null = ter_id( "t_null" );
-    t_hole = ter_id( "t_hole" );
     t_dirt = ter_id( "t_dirt" );
     t_sand = ter_id( "t_sand" );
     t_clay = ter_id( "t_clay" );
@@ -1466,6 +1464,40 @@ void ter_t::check() const
     if( transforms_into && transforms_into == id ) {
         debugmsg( "%s transforms_into itself", id.c_str() );
     }
+    if( bash.ter_set && bash.ter_set == id ) {
+        debugmsg( "%s turns into itself when bashed", id.c_str() );
+    }
+    if( bash.ter_set_bashed_from_above && bash.ter_set_bashed_from_above == id ) {
+        debugmsg( "%s turns into itself when bashed from above", id.c_str() );
+    }
+    if( ( test_mode || json_report_unused_fields )
+        && ( bash.ter_set == t_open_air.id() || bash.ter_set_bashed_from_above == t_open_air.id() ) ) {
+        debugmsg( "%s explicitly turns into \"t_open_air\", but \"t_null\" is preferred",
+                  id.c_str() );
+    }
+    if( roof && roof->roof ) {
+        debugmsg( "%s has roof %s, which has its own roof %s",
+                  id.str(), roof.str(), roof->roof.str() );
+    }
+    if( roof && !roof->bash.bash_below ) {
+        debugmsg( "%s has roof %s, with \"bash_below\": false",
+                  id.str(), roof.str() );
+    }
+    if( bash.ter_set_bashed_from_above && bash.ter_set_bashed_from_above->movecost == 0 &&
+        !bash.ter_set_bashed_from_above->roof ) {
+        debugmsg( "%s has bash.ter_set_bashed_from_above %s, which is unpassable but has no roof",
+                  id.str(), bash.ter_set_bashed_from_above.str() );
+    }
+    if( ( test_mode || json_report_unused_fields )
+        && deconstruct.ter_set == t_open_air.id() ) {
+        debugmsg( "%s deconstructs into \"t_open_air\", but \"t_null\" is preferred",
+                  id.str() );
+    }
+}
+
+const std::vector<ter_t> &ter_t::get_all()
+{
+    return terrain_data.get_all();
 }
 
 furn_t::furn_t() : open( furn_str_id::NULL_ID() ), close( furn_str_id::NULL_ID() ) {}
@@ -1552,6 +1584,11 @@ void furn_t::check() const
             }
         }
     }
+}
+
+const std::vector<furn_t> &furn_t::get_all()
+{
+    return furniture_data.get_all();
 }
 
 void finalize_furn()
