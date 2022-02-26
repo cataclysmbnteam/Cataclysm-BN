@@ -19,7 +19,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 216 ], [ "stick", 288 ] ],
+          [ [ "2x4", 168 ], [ "stick", 288 ] ],
           [ [ "material_quicklime", 96 ], [ "material_limestone", 96 ], [ "clay_lump", 96 ] ],
           [ [ "pebble", 240 ], [ "material_sand", 240 ] ],
           [ [ "straw_pile", 96 ], [ "cattail_stalk", 96 ], [ "dogbane", 96 ], [ "pine_bough", 96 ] ],
@@ -51,7 +51,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 216 ], [ "stick", 288 ] ],
+          [ [ "2x4", 168 ], [ "stick", 288 ] ],
           [ [ "material_quicklime", 96 ], [ "material_limestone", 96 ], [ "clay_lump", 96 ] ],
           [ [ "pebble", 240 ], [ "material_sand", 240 ] ],
           [ [ "straw_pile", 96 ], [ "cattail_stalk", 96 ], [ "dogbane", 96 ], [ "pine_bough", 96 ] ],
@@ -83,7 +83,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 77 ], [ "stick", 106 ] ],
+          [ [ "2x4", 61 ], [ "stick", 106 ] ],
           [ [ "material_quicklime", 36 ], [ "material_limestone", 36 ], [ "clay_lump", 36 ] ],
           [ [ "pebble", 90 ], [ "material_sand", 90 ] ],
           [ [ "straw_pile", 36 ], [ "cattail_stalk", 36 ], [ "dogbane", 36 ], [ "pine_bough", 36 ] ],
@@ -115,7 +115,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 77 ], [ "stick", 106 ] ],
+          [ [ "2x4", 61 ], [ "stick", 106 ] ],
           [ [ "material_quicklime", 36 ], [ "material_limestone", 36 ], [ "clay_lump", 36 ] ],
           [ [ "pebble", 90 ], [ "material_sand", 90 ] ],
           [ [ "straw_pile", 36 ], [ "cattail_stalk", 36 ], [ "dogbane", 36 ], [ "pine_bough", 36 ] ],
@@ -147,7 +147,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 77 ], [ "stick", 106 ] ],
+          [ [ "2x4", 61 ], [ "stick", 106 ] ],
           [ [ "material_quicklime", 36 ], [ "material_limestone", 36 ], [ "clay_lump", 36 ] ],
           [ [ "pebble", 90 ], [ "material_sand", 90 ] ],
           [ [ "straw_pile", 36 ], [ "cattail_stalk", 36 ], [ "dogbane", 36 ], [ "pine_bough", 36 ] ],
@@ -179,7 +179,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 77 ], [ "stick", 106 ] ],
+          [ [ "2x4", 61 ], [ "stick", 106 ] ],
           [ [ "material_quicklime", 36 ], [ "material_limestone", 36 ], [ "clay_lump", 36 ] ],
           [ [ "pebble", 90 ], [ "material_sand", 90 ] ],
           [ [ "straw_pile", 36 ], [ "cattail_stalk", 36 ], [ "dogbane", 36 ], [ "pine_bough", 36 ] ],
@@ -211,7 +211,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 278 ] ],
+          [ [ "2x4", 182 ] ],
           [ [ "nail", 48 ] ],
           [ [ "material_quicklime", 40 ], [ "material_limestone", 40 ], [ "clay_lump", 40 ] ],
           [ [ "pebble", 100 ], [ "material_sand", 100 ] ],
@@ -245,7 +245,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 278 ] ],
+          [ [ "2x4", 182 ] ],
           [ [ "nail", 48 ] ],
           [ [ "material_quicklime", 40 ], [ "material_limestone", 40 ], [ "clay_lump", 40 ] ],
           [ [ "pebble", 100 ], [ "material_sand", 100 ] ],
@@ -280,7 +280,7 @@
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "log", 120 ] ],
-          [ [ "stick", 240 ], [ "2x4", 480 ] ],
+          [ [ "stick", 240 ], [ "2x4", 240 ] ],
           [ [ "material_soil", 2400 ] ],
           [ [ "birchbark", 720 ], [ "pine_bough", 720 ] ]
         ]
