@@ -24,10 +24,6 @@ struct projectile {
         // TODO: Get rid of this, replace with something sane (or just get rid)
         int speed = 0;
         int range = 0;
-        /**
-         * If !one_in(this_var), the projectile is dropped on hit.
-         */
-        int dont_recover_one_in = 1;
 
         /**
          * Returns an item that should be dropped or an item for which is_null() is true

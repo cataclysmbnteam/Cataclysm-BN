@@ -1610,8 +1610,10 @@ static projectile make_gun_projectile( const item &gun )
     }
 
     if( gun.ammo_data() ) {
+        assert( gun.ammo_data()->ammo );
+        const islot_ammo &ammo = *gun.ammo_data()->ammo;
         // Some projectiles have a chance of being recoverable
-        bool recover = !one_in( proj.dont_recover_one_in );
+        bool recover = !one_in( ammo.dont_recover_one_in );
 
         if( recover && !fx.has_effect( ammo_effect_IGNITE ) && !fx.has_effect( ammo_effect_EXPLOSIVE ) ) {
             item drop( gun.ammo_current(), calendar::turn, 1 );
@@ -1619,10 +1621,9 @@ static projectile make_gun_projectile( const item &gun )
             proj.set_drop( drop );
         }
 
-        const auto &ammo = gun.ammo_data()->ammo;
-        if( ammo->drop ) {
-            item drop( ammo->drop );
-            if( ammo->drop_active ) {
+        if( ammo.drop ) {
+            item drop( ammo.drop );
+            if( ammo.drop_active ) {
                 drop.activate();
             }
             proj.set_drop( drop );
