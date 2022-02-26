@@ -6681,7 +6681,7 @@ void game::zones_manager()
                         ui.mark_resize();
                         static_popup message_pop;
                         message_pop.on_top( true );
-                        message_pop.message( "%s", _( "Moving zone..." ) );
+                        message_pop.message( "%s", _( "Moving zone." ) );
                         const auto zone_local_start_point = m.getlocal( zone.get_start_point() );
                         const auto zone_local_end_point = m.getlocal( zone.get_end_point() );
                         // local position of the zone center, used to calculate the u.view_offset,
@@ -6949,7 +6949,7 @@ look_around_result game::look_around( bool show_window, tripoint &center,
 
     cata::optional<tripoint> zone_start;
     cata::optional<tripoint> zone_end;
-    bool zone_blink = false;
+    bool zone_blink = true;
     bool zone_cursor = !is_moving_zone; // Do not draw cursor if moving zone
     shared_ptr_fast<draw_callback_t> zone_cb = create_zone_callback( zone_start, zone_end, zone_blink,
             zone_cursor );
@@ -6976,7 +6976,7 @@ look_around_result game::look_around( bool show_window, tripoint &center,
         if( is_moving_zone ) {
             zone_start = lp;
             zone_end = end_point - start_point + lp;
-            zone_blink = blink;
+            // zone_blink = blink; // Clang-tidy says zone_blink here is never read, emmmmmmm
             // add_msg( m_info, _( "end_point: %s, start_point: %s, lp: %s, player: %s" ),
             //          end_point.to_string(), start_point.to_string(), lp.to_string(), u.pos().to_string() );
         }
