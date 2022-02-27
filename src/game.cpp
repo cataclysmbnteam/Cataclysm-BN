@@ -7021,7 +7021,7 @@ look_around_result game::look_around( bool show_window, tripoint &center,
             add_msg( m_debug, "levx: %d, levy: %d, levz: %d", get_levx(), get_levy(), center.z );
             u.view_offset.z = center.z - u.posz();
             m.invalidate_map_cache( center.z );
-            if( select_zone && has_first_point /* || is_moving_zone */) { // is blinking
+            if( select_zone && has_first_point /* || is_moving_zone */ ) { // is blinking
                 blink = true; // Always draw blink symbols when moving cursor
             }
         } else if( action == "TRAVEL_TO" ) {
@@ -7080,7 +7080,7 @@ look_around_result game::look_around( bool show_window, tripoint &center,
                 } else {
                     center += edge_scroll;
                 }
-                if( select_zone && has_first_point /* || is_moving_zone */) { // is blinking
+                if( select_zone && has_first_point /* || is_moving_zone */ ) { // is blinking
                     blink = true; // Always draw blink symbols when moving cursor
                 }
             } else if( action == "MOUSE_MOVE" ) {
@@ -7089,7 +7089,7 @@ look_around_result game::look_around( bool show_window, tripoint &center,
                     lx = mouse_pos->x;
                     ly = mouse_pos->y;
                 }
-                if( select_zone && has_first_point /* || is_moving_zone */) { // is blinking
+                if( select_zone && has_first_point /* || is_moving_zone */ ) { // is blinking
                     blink = true; // Always draw blink symbols when moving cursor
                 }
             } else if( action == "TIMEOUT" ) {
@@ -7105,7 +7105,7 @@ look_around_result game::look_around( bool show_window, tripoint &center,
             ly = ly + vec->y;
             center.x = center.x + vec->x;
             center.y = center.y + vec->y;
-            if( select_zone && has_first_point /* || is_moving_zone */) { // is blinking
+            if( select_zone && has_first_point /* || is_moving_zone */ ) { // is blinking
                 blink = true; // Always draw blink symbols when moving cursor
             }
         } else if( action == "throw_blind" ) {
