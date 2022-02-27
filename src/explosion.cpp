@@ -90,11 +90,11 @@ static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
 static float obstacle_blast_percentage( float range, float distance )
 {
-    return distance > range ? 0.0f : distance > ( range / 2 ) ? 0.5f : 1.0f;
+    return distance > range ? 0.0f : distance > range / 2 ? 0.5f : 1.0f;
 }
 static float critter_blast_percentage( Creature *c, float range, float distance )
 {
-    const float radius_reduction = distance >= range / 2 ? 1.0f : distance > 0 ? 0.5f : 0.0f;
+    const float radius_reduction = distance > range ? 0.0f : distance > range / 2 ? 0.5f : 1.0f;
 
     switch( c->get_size() ) {
         case( m_size::MS_TINY ):
