@@ -667,10 +667,20 @@ bool game::start_game()
 
     const start_location &start_loc = u.random_start_location ? scen->random_start_location().obj() :
                                       u.start_location.obj();
-    const tripoint_abs_omt omtstart = start_loc.find_player_initial_location();
-    if( omtstart == overmap::invalid_tripoint ) {
-        return false;
-    }
+    tripoint_abs_omt omtstart = overmap::invalid_tripoint;
+    do {
+        omtstart = start_loc.find_player_initial_location();
+        if( omtstart == overmap::invalid_tripoint ) {
+            if( query_yn(
+                    _( "Try again?\n\nIt may require several attempts until the game finds a valid starting location." ) ) ) {
+                MAPBUFFER.reset();
+                overmap_buffer.clear();
+            } else {
+                return false;
+            }
+        }
+    } while( omtstart == overmap::invalid_tripoint );
+
     start_loc.prepare_map( omtstart );
 
     // Place vehicles spawned by scenario or profession, has to be placed very early to avoid bugs.
