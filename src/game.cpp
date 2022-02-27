@@ -6949,7 +6949,7 @@ look_around_result game::look_around( bool show_window, tripoint &center,
 
     cata::optional<tripoint> zone_start;
     cata::optional<tripoint> zone_end;
-    bool zone_blink = true;
+    bool zone_blink = false;
     bool zone_cursor = !is_moving_zone; // Do not draw cursor if moving zone
     shared_ptr_fast<draw_callback_t> zone_cb = create_zone_callback( zone_start, zone_end, zone_blink,
             zone_cursor );
@@ -6976,14 +6976,15 @@ look_around_result game::look_around( bool show_window, tripoint &center,
         if( is_moving_zone ) {
             zone_start = lp;
             zone_end = end_point - start_point + lp;
-            // zone_blink = blink; // Clang-tidy says zone_blink here is never read, emmmmmmm
-            // add_msg( m_info, _( "end_point: %s, start_point: %s, lp: %s, player: %s" ),
-            //          end_point.to_string(), start_point.to_string(), lp.to_string(), u.pos().to_string() );
+            // Actually accessed from the terrain overlay callback `zone_cb` in the
+            // call to `ui_manager::redraw`.
+            //NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
+            zone_blink = blink;
         }
         invalidate_main_ui_adaptor();
         ui_manager::redraw();
-
-        if( select_zone && has_first_point ) {
+        // TODO: Enable blinking when moving zone, it's not working right now (simply enable it here will cause weird bugs)
+        if( select_zone && has_first_point /* || is_moving_zone */ ) {
             ctxt.set_timeout( BLINK_SPEED );
         }
 
@@ -7020,7 +7021,7 @@ look_around_result game::look_around( bool show_window, tripoint &center,
             add_msg( m_debug, "levx: %d, levy: %d, levz: %d", get_levx(), get_levy(), center.z );
             u.view_offset.z = center.z - u.posz();
             m.invalidate_map_cache( center.z );
-            if( select_zone && has_first_point ) { // is blinking
+            if( select_zone && has_first_point /* || is_moving_zone */) { // is blinking
                 blink = true; // Always draw blink symbols when moving cursor
             }
         } else if( action == "TRAVEL_TO" ) {
@@ -7079,7 +7080,7 @@ look_around_result game::look_around( bool show_window, tripoint &center,
                 } else {
                     center += edge_scroll;
                 }
-                if( select_zone && has_first_point ) { // is blinking
+                if( select_zone && has_first_point /* || is_moving_zone */) { // is blinking
                     blink = true; // Always draw blink symbols when moving cursor
                 }
             } else if( action == "MOUSE_MOVE" ) {
@@ -7088,7 +7089,7 @@ look_around_result game::look_around( bool show_window, tripoint &center,
                     lx = mouse_pos->x;
                     ly = mouse_pos->y;
                 }
-                if( select_zone && has_first_point ) { // is blinking
+                if( select_zone && has_first_point /* || is_moving_zone */) { // is blinking
                     blink = true; // Always draw blink symbols when moving cursor
                 }
             } else if( action == "TIMEOUT" ) {
@@ -7104,7 +7105,7 @@ look_around_result game::look_around( bool show_window, tripoint &center,
             ly = ly + vec->y;
             center.x = center.x + vec->x;
             center.y = center.y + vec->y;
-            if( select_zone && has_first_point ) { // is blinking
+            if( select_zone && has_first_point /* || is_moving_zone */) { // is blinking
                 blink = true; // Always draw blink symbols when moving cursor
             }
         } else if( action == "throw_blind" ) {
