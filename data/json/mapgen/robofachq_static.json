@@ -286,7 +286,8 @@
         "#": "t_rock",
         "6": "t_console",
         "R": "t_railing",
-        "W": "t_water_dispenser"
+        "W": "t_water_dispenser",
+        "&": "t_machinery_electronic"
       },
       "furniture": {
         "K": "f_counter",
@@ -409,6 +410,7 @@
         "&": "t_machinery_electronic"
       },
       "furniture": {
+        ":": "f_server",
         "K": "f_counter",
         "S": "f_table",
         "A": "f_canvas_wall",
@@ -616,6 +618,7 @@
         "#": "t_rock",
         "6": "t_console"
       },
+      "furniture": { ":": "f_server" },
       "items": {
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },

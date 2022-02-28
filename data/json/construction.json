@@ -1308,9 +1308,9 @@
     "description": "Build Thatched Roof",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ], [ "survival", 3 ] ],
-    "time": "360 m",
+    "time": "120 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "2x4", 5 ], [ "stick", 10 ] ], [ [ "straw_pile", 60 ], [ "withered", 60 ] ], [ [ "cordage", 8, "LIST" ] ] ],
+    "components": [ [ [ "2x4", 8 ], [ "stick", 8 ] ], [ [ "straw_pile", 24 ], [ "withered", 24 ] ], [ [ "cordage", 2, "LIST" ] ] ],
     "pre_special": "check_support",
     "post_terrain": "t_dirtfloor_thatchroof"
   },
@@ -1324,7 +1324,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
       [ [ "log", 2 ] ],
-      [ [ "stick", 4 ], [ "2x4", 8 ] ],
+      [ [ "stick", 4 ], [ "2x4", 4 ] ],
       [ [ "material_soil", 40 ] ],
       [ [ "birchbark", 12 ], [ "pine_bough", 12 ] ]
     ],

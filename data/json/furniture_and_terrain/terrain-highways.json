@@ -14,7 +14,6 @@
       "str_max": 300,
       "sound": "concrete cracking and metal screeching!",
       "sound_fail": "whump!",
-      "ter_set": "t_open_air",
       "items": [ { "item": "rock", "count": [ 4, 20 ] }, { "item": "rebar", "count": [ 10, 20 ] } ]
     }
   },
@@ -33,7 +32,6 @@
       "str_max": 300,
       "sound": "concrete cracking and metal screeching!",
       "sound_fail": "whump!",
-      "ter_set": "t_open_air",
       "items": [ { "item": "rock", "count": [ 4, 20 ] }, { "item": "rebar", "count": [ 10, 20 ] } ]
     }
   },
@@ -52,7 +50,6 @@
       "str_max": 300,
       "sound": "concrete cracking and metal screeching!",
       "sound_fail": "whump!",
-      "ter_set": "t_open_air",
       "items": [ { "item": "rock", "count": [ 4, 20 ] }, { "item": "rebar", "count": [ 10, 20 ] } ]
     }
   }

@@ -24,7 +24,7 @@
           [ [ "water", 1200 ], [ "water_clean", 1200 ] ],
           [ [ "material_sand", 240 ], [ "material_quicklime", 240 ], [ "concrete", 12 ] ],
           [ [ "log", 24 ] ],
-          [ [ "stick", 48 ], [ "2x4", 96 ] ],
+          [ [ "stick", 48 ], [ "2x4", 48 ] ],
           [ [ "birchbark", 144 ], [ "pine_bough", 144 ] ]
         ]
       }
@@ -55,7 +55,7 @@
           [ [ "water", 1200 ], [ "water_clean", 1200 ] ],
           [ [ "material_sand", 240 ], [ "material_quicklime", 240 ], [ "concrete", 12 ] ],
           [ [ "log", 24 ] ],
-          [ [ "stick", 48 ], [ "2x4", 96 ] ],
+          [ [ "stick", 48 ], [ "2x4", 48 ] ],
           [ [ "birchbark", 144 ], [ "pine_bough", 144 ] ]
         ]
       }
@@ -82,7 +82,7 @@
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "log", 10 ] ],
-          [ [ "2x4", 32 ], [ "stick", 16 ] ],
+          [ [ "2x4", 16 ], [ "stick", 16 ] ],
           [ [ "birchbark", 48 ], [ "pine_bough", 48 ] ],
           [ [ "concrete", 4 ], [ "material_quicklime", 80 ], [ "material_sand", 80 ] ],
           [ [ "material_soil", 1120 ] ],
@@ -114,7 +114,7 @@
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "log", 10 ] ],
-          [ [ "2x4", 32 ], [ "stick", 16 ] ],
+          [ [ "2x4", 16 ], [ "stick", 16 ] ],
           [ [ "birchbark", 48 ], [ "pine_bough", 48 ] ],
           [ [ "concrete", 4 ], [ "material_quicklime", 80 ], [ "material_sand", 80 ] ],
           [ [ "material_soil", 1120 ] ],
@@ -146,7 +146,7 @@
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "log", 10 ] ],
-          [ [ "2x4", 32 ], [ "stick", 16 ] ],
+          [ [ "2x4", 16 ], [ "stick", 16 ] ],
           [ [ "birchbark", 48 ], [ "pine_bough", 48 ] ],
           [ [ "concrete", 4 ], [ "material_quicklime", 80 ], [ "material_sand", 80 ] ],
           [ [ "material_soil", 1120 ] ],
@@ -178,7 +178,7 @@
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "log", 10 ] ],
-          [ [ "2x4", 32 ], [ "stick", 16 ] ],
+          [ [ "2x4", 16 ], [ "stick", 16 ] ],
           [ [ "birchbark", 48 ], [ "pine_bough", 48 ] ],
           [ [ "concrete", 4 ], [ "material_quicklime", 80 ], [ "material_sand", 80 ] ],
           [ [ "material_soil", 1120 ] ],
@@ -209,7 +209,7 @@
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 258 ] ],
+          [ [ "2x4", 162 ] ],
           [ [ "nail", 108 ] ],
           [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
           [ [ "material_soil", 1920 ] ],
@@ -242,7 +242,7 @@
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 258 ] ],
+          [ [ "2x4", 162 ] ],
           [ [ "nail", 108 ] ],
           [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
           [ [ "material_soil", 1920 ] ],
@@ -276,7 +276,7 @@
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "log", 120 ] ],
-          [ [ "stick", 240 ], [ "2x4", 480 ] ],
+          [ [ "stick", 240 ], [ "2x4", 240 ] ],
           [ [ "material_soil", 2400 ] ],
           [ [ "birchbark", 720 ], [ "pine_bough", 720 ] ]
         ]

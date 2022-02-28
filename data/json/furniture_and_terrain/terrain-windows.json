@@ -2847,7 +2847,6 @@
       "sound_fail": "whack!",
       "sound_vol": 12,
       "sound_fail_vol": 8,
-      "ter_set": "t_open_air",
       "items": [ { "item": "2x4", "count": [ 2, 4 ] } ]
     },
     "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "PERMEABLE" ]

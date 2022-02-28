@@ -130,6 +130,8 @@ static const std::string flag_RECHARGE( "RECHARGE" );
 static const std::string flag_USE_UPS( "USE_UPS" );
 static const std::string flag_USES_GRID_POWER( "USES_GRID_POWER" );
 
+static const ter_str_id t_rock_floor_no_roof( "t_rock_floor_no_roof" );
+
 #define dbg(x) DebugLog((x),DC::Map)
 
 static cata::colony<item> nulitems;          // Returned when &i_at() is asked for an OOB value
@@ -2844,18 +2846,18 @@ bool map::mop_spills( const tripoint &p )
 
 int map::collapse_check( const tripoint &p )
 {
-    const bool collapses = has_flag( "COLLAPSES", p );
-    const bool supports_roof = has_flag( "SUPPORTS_ROOF", p );
+    const bool collapses = has_flag( TFLAG_COLLAPSES, p );
+    const bool supports_roof = has_flag( TFLAG_SUPPORTS_ROOF, p );
 
-    int num_supports = p.z == OVERMAP_DEPTH ? 0 : -5;
+    int num_supports = p.z == -OVERMAP_DEPTH ? 0 : -5;
     // if there's support below, things are less likely to collapse
     if( p.z > -OVERMAP_DEPTH ) {
         const tripoint &pbelow = tripoint( p.xy(), p.z - 1 );
         for( const tripoint &tbelow : points_in_radius( pbelow, 1 ) ) {
-            if( has_flag( "SUPPORTS_ROOF", pbelow ) ) {
+            if( has_flag( TFLAG_SUPPORTS_ROOF, pbelow ) ) {
                 num_supports += 1;
-                if( has_flag( "WALL", pbelow ) ) {
-                    num_supports = 2;
+                if( has_flag( TFLAG_WALL, pbelow ) ) {
+                    num_supports += 2;
                 }
                 if( tbelow == pbelow ) {
                     num_supports += 2;
@@ -2870,16 +2872,16 @@ int map::collapse_check( const tripoint &p )
         }
 
         if( collapses ) {
-            if( has_flag( "COLLAPSES", t ) ) {
+            if( has_flag( TFLAG_COLLAPSES, t ) ) {
                 num_supports++;
-            } else if( has_flag( "SUPPORTS_ROOF", t ) ) {
+            } else if( has_flag( TFLAG_SUPPORTS_ROOF, t ) ) {
                 num_supports += 2;
             }
         } else if( supports_roof ) {
-            if( has_flag( "SUPPORTS_ROOF", t ) ) {
-                if( has_flag( "WALL", t ) ) {
+            if( has_flag( TFLAG_SUPPORTS_ROOF, t ) ) {
+                if( has_flag( TFLAG_WALL, t ) ) {
                     num_supports += 4;
-                } else if( !has_flag( "COLLAPSES", t ) ) {
+                } else if( !has_flag( TFLAG_COLLAPSES, t ) ) {
                     num_supports += 3;
                 }
             }
@@ -2894,15 +2896,15 @@ int map::collapse_check( const tripoint &p )
 void map::collapse_at( const tripoint &p, const bool silent, const bool was_supporting,
                        const bool destroy_pos )
 {
-    const bool supports = was_supporting || has_flag( "SUPPORTS_ROOF", p );
-    const bool wall = was_supporting || has_flag( "WALL", p );
+    const bool supports = was_supporting || has_flag( TFLAG_SUPPORTS_ROOF, p );
+    const bool wall = was_supporting || has_flag( TFLAG_WALL, p );
     // don't bash again if the caller already bashed here
     if( destroy_pos ) {
         destroy( p, silent );
         crush( p );
         make_rubble( p );
     }
-    const bool still_supports = has_flag( "SUPPORTS_ROOF", p );
+    const bool still_supports = has_flag( TFLAG_SUPPORTS_ROOF, p );
 
     // If something supporting the roof collapsed, see what else collapses
     if( supports && !still_supports ) {
@@ -2915,12 +2917,12 @@ void map::collapse_at( const tripoint &p, const bool silent, const bool was_supp
             }
             // if a wall collapses, walls without support from below risk collapsing and
             //propagate the collapse upwards
-            if( zlevels && wall && p == t && has_flag( "WALL", tz ) ) {
+            if( zlevels && wall && p == t && has_flag( TFLAG_WALL, tz ) ) {
                 collapse_at( tz, silent );
             }
             // floors without support from below risk collapsing into open air and can propagate
             // the collapse horizontally but not vertically
-            if( p != t && ( has_flag( "SUPPORTS_ROOF", t ) && has_flag( "COLLAPSES", t ) ) ) {
+            if( p != t && ( has_flag( TFLAG_SUPPORTS_ROOF, t ) && has_flag( TFLAG_COLLAPSES, t ) ) ) {
                 collapse_at( t, silent );
             }
             // this tile used to support a roof, now it doesn't, which means there is only
@@ -2939,7 +2941,7 @@ void map::collapse_at( const tripoint &p, const bool silent, const bool was_supp
 void map::propagate_suspension_check( const tripoint &point )
 {
     for( const tripoint &neighbor : points_in_radius( point, 1 ) ) {
-        if( neighbor != point && has_flag( "SUSPENDED", neighbor ) ) {
+        if( neighbor != point && has_flag( TFLAG_SUSPENDED, neighbor ) ) {
             collapse_invalid_suspension( neighbor );
         }
     }
@@ -3102,8 +3104,12 @@ ter_id map::get_roof( const tripoint &p, const bool allow_air ) const
     const auto &roof = ter_there.roof;
     if( !roof ) {
         // No roof
-        // Not acceptable if the tile is not passable
         if( !allow_air ) {
+            // TODO: Biomes? By setting? Forbid and treat as bug?
+            if( p.z < 0 ) {
+                return t_rock_floor_no_roof;
+            }
+
             return t_dirt;
         }
 
@@ -3153,14 +3159,16 @@ static int get_sound_volume( const map_bash_info &bash )
 bash_results map::bash_ter_success( const tripoint &p, const bash_params &params )
 {
     bash_results result;
-    const auto &terobj = ter( p ).obj();
-    const map_bash_info &bash = terobj.bash;
+    const ter_t &ter_before = ter( p ).obj();
+    const map_bash_info &bash = ter_before.bash;
     if( has_flag_ter( "FUNGUS", p ) ) {
         fungal_effects( *g, *this ).create_spores( p );
     }
-    const std::string soundfxvariant = terobj.id.str();
-    const bool will_collapse = terobj.has_flag( "SUPPORTS_ROOF" ) && !terobj.has_flag( TFLAG_INDOORS );
-    const bool suspended = terobj.has_flag( TFLAG_SUSPENDED );
+    const std::string soundfxvariant = ter_before.id.str();
+    const bool will_collapse = ter_before.has_flag( TFLAG_SUPPORTS_ROOF ) &&
+                               !ter_before.has_flag( TFLAG_INDOORS );
+    const bool suspended = ter_before.has_flag( TFLAG_SUSPENDED );
+    bool follow_below = false;
     if( params.bashing_from_above && bash.ter_set_bashed_from_above ) {
         // If this terrain is being bashed from above and this terrain
         // has a valid post-destroy bashed-from-above terrain, set it
@@ -3176,34 +3184,14 @@ bash_results map::bash_ter_success( const tripoint &p, const bash_params &params
         propagate_suspension_check( p );
     } else {
         tripoint below( p.xy(), p.z - 1 );
-        const auto &ter_below = ter( below ).obj();
-        if( bash.bash_below && ter_below.has_flag( "SUPPORTS_ROOF" ) ) {
-            // When bashing the tile below, don't allow bashing the floor
-            bash_params params_below = params; // Make a copy
-            params_below.bashing_from_above = true;
-            // TODO: Don't bash furn
-            bash_ter_furn( below, params_below );
-        }
+        const ter_t &ter_below = ter( below ).obj();
+        // Only setting the flag here because we want drops and sounds in correct order
+        follow_below |= zlevels && bash.bash_below && ter_below.roof;
 
         ter_set( p, t_open_air );
     }
 
     spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
-
-    if( ter( p ) == t_open_air ) {
-        if( !zlevels ) {
-            // We destroyed something, so we aren't just "plugging" air with dirt here
-            ter_set( p, t_dirt );
-        } else {
-            tripoint below( p.xy(), p.z - 1 );
-            const auto roof = get_roof( below, params.bash_floor && ter( below ).obj().movecost != 0 );
-            ter_set( p, roof );
-        }
-    }
-
-    if( will_collapse && !has_flag( "SUPPORTS_ROOF", p ) ) {
-        collapse_at( p, params.silent, true, bash.explosive > 0 );
-    }
 
     if( !bash.sound.empty() && !params.silent ) {
         static const std::string soundfxid = "smash_success";
@@ -3212,12 +3200,55 @@ bash_results map::bash_ter_success( const tripoint &p, const bash_params &params
                        soundfxid, soundfxvariant );
     }
 
+    if( ter( p ) == t_open_air ) {
+        tripoint below( p.xy(), p.z - 1 );
+        const ter_t &ter_below = ter( below ).obj();
+        if( !zlevels ) {
+            // We destroyed something, so we aren't just "plugging" air with dirt here
+            ter_set( p, t_dirt );
+        } else if( follow_below ) {
+            if( ter_below.roof == ter_before.id ) {
+                bash_params params_below = params;
+                params_below.bashing_from_above = true;
+                params_below.bash_floor = false;
+                params_below.destroy = true;
+                int tries = 10;
+                // Unconditionally destroy, but don't go deeper
+                do {
+                    result |= bash_ter_success( below, params_below );
+                } while( impassable( below ) && tries-- > 0 );
+                if( tries <= 0 ) {
+                    debugmsg( "Loop in terrain bashing for type %s", ter_before.id.str() );
+                }
+            } else {
+                // Replace with the roof, then bash that with same exact params as for this floor
+                // Note: we're bashing the new roof, not the tile supported by it!
+                ter_set( p, ter_below.roof );
+                int tries = 10;
+                bash_results results_sub;
+                do {
+                    // TODO: Don't bash furn
+                    results_sub = bash_ter_furn( p, params );
+                    result |= results_sub;
+                } while( results_sub.success && tries-- > 0 );
+                if( tries <= 0 ) {
+                    debugmsg( "Loop in terrain bashing for type %s", ter_before.id.str() );
+                }
+            }
+        } else {
+            const ter_id &roof = get_roof( below, params.bash_floor && ter( below )->movecost != 0 );
+            ter_set( p, roof );
+        }
+    }
+
+    if( will_collapse && !has_flag( TFLAG_SUPPORTS_ROOF, p ) ) {
+        collapse_at( p, params.silent, true, bash.explosive > 0 );
+    }
+
     if( bash.explosive > 0 ) {
         explosion_handler::explosion( p, bash.explosive, 0.8, false );
     }
 
-    result.did_bash = true;
-    result.bashed_solid = true;
     return result;
 }
 
@@ -3314,8 +3345,6 @@ bash_results map::bash_furn_success( const tripoint &p, const bash_params &param
         explosion_handler::explosion( p, bash.explosive, 0.8, false );
     }
 
-    result.did_bash = true;
-    result.bashed_solid = true;
     return result;
 }
 
@@ -3386,7 +3415,9 @@ bash_results map::bash_ter_furn( const tripoint &p, const bash_params &params )
         return result;
     }
 
-    bool success = params.destroy;
+    result.did_bash = true;
+    result.bashed_solid = true;
+    result.success = params.destroy;
 
     int smin = bash->str_min;
     int smax = bash->str_max;
@@ -3404,7 +3435,7 @@ bash_results map::bash_ter_furn( const tripoint &p, const bash_params &params )
 
         if( bash->str_min_supported != -1 || bash->str_max_supported != -1 ) {
             tripoint below( p.xy(), p.z - 1 );
-            if( !zlevels || has_flag( "SUPPORTS_ROOF", below ) ) {
+            if( !zlevels || has_flag( TFLAG_SUPPORTS_ROOF, below ) ) {
                 if( bash->str_min_supported != -1 ) {
                     smin = bash->str_min_supported;
                 }
@@ -3416,11 +3447,11 @@ bash_results map::bash_ter_furn( const tripoint &p, const bash_params &params )
         // Linear interpolation from str_min to str_max
         const int resistance = smin + ( params.roll * ( smax - smin ) );
         if( params.strength >= resistance ) {
-            success = true;
+            result.success = true;
         }
     }
 
-    if( !success ) {
+    if( !result.success ) {
         int sound_volume = bash->sound_fail_vol.value_or( 12 );
 
         result.did_bash = true;
@@ -3435,6 +3466,7 @@ bash_results map::bash_ter_furn( const tripoint &p, const bash_params &params )
             result |= bash_furn_success( p, params );
         }
     }
+
     return result;
 }
 
@@ -3545,6 +3577,7 @@ bash_results &bash_results::operator|=( const bash_results &other )
     did_bash |= other.did_bash;
     success |= other.success;
     bashed_solid |= other.bashed_solid;
+    subresults.push_back( other );
     return *this;
 }
 

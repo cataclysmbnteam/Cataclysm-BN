@@ -124,7 +124,7 @@
     "color": "magenta",
     "looks_like": "t_pit",
     "move_cost": 0,
-    "roof": "t_rock_floor",
+    "roof": "t_rock_floor_no_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL" ],
     "examine_action": "fault"
   },
@@ -161,7 +161,6 @@
     "color": "light_gray",
     "looks_like": "t_rock_floor",
     "move_cost": 2,
-    "roof": "t_open_air",
     "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
     "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100, "bash_below": true }
   },
@@ -294,7 +293,8 @@
         { "item": "steel_lump", "count": [ 1, 4 ] },
         { "item": "steel_chunk", "count": [ 3, 12 ] },
         { "item": "scrap", "count": [ 9, 36 ] }
-      ]
+      ],
+      "bash_below": true
     }
   },
   {
@@ -356,7 +356,7 @@
     "color": "green",
     "looks_like": "t_pit",
     "move_cost": 0,
-    "roof": "t_rock_floor",
+    "roof": "t_rock_floor_no_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL" ]
   }
 ]

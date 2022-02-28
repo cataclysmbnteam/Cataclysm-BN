@@ -161,6 +161,8 @@ struct bash_results {
     bool success = false;
     // Did we bash furniture, terrain or vehicle
     bool bashed_solid = false;
+    // If there was recurrent bashing, it will be here
+    std::vector<bash_results> subresults;
 
     bash_results &operator|=( const bash_results &other );
 };
@@ -1891,6 +1893,8 @@ class map
         std::unique_ptr<vehicle> add_vehicle_to_map( std::unique_ptr<vehicle> veh, bool merge_wrecks );
 
         // Internal methods used to bash just the selected features
+        // "Externaled" for testing, because the interface to bashing is rng dependent
+    public:
         // Information on what to bash/what was bashed is read from/written to the bash_params/bash_results struct
         bash_results bash_ter_furn( const tripoint &p, const bash_params &params );
         bash_results bash_items( const tripoint &p, const bash_params &params );
@@ -1901,6 +1905,7 @@ class map
         bash_results bash_ter_success( const tripoint &p, const bash_params &params );
         bash_results bash_furn_success( const tripoint &p, const bash_params &params );
 
+    private:
         // Gets the roof type of the tile at p
         // Second argument refers to whether we have to get a roof (we're over an unpassable tile)
         // or can just return air because we bashed down an entire floor tile

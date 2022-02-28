@@ -1835,14 +1835,16 @@ void monster::stumble()
         return;
     }
 
+    map &here = get_map();
+
     std::vector<tripoint> valid_stumbles;
     valid_stumbles.reserve( 11 );
     const bool avoid_water = has_flag( MF_NO_BREATHE ) && !swims() && !has_flag( MF_AQUATIC );
-    for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
+    for( const tripoint &dest : here.points_in_radius( pos(), 1 ) ) {
         if( dest != pos() ) {
-            if( g->m.has_flag( TFLAG_RAMP_DOWN, dest ) ) {
+            if( here.has_flag( TFLAG_RAMP_DOWN, dest ) ) {
                 valid_stumbles.push_back( tripoint( dest.xy(), dest.z - 1 ) );
-            } else  if( g->m.has_flag( TFLAG_RAMP_UP, dest ) ) {
+            } else if( here.has_flag( TFLAG_RAMP_UP, dest ) ) {
                 valid_stumbles.push_back( tripoint( dest.xy(), dest.z + 1 ) );
             } else {
                 valid_stumbles.push_back( dest );
@@ -1850,9 +1852,9 @@ void monster::stumble()
         }
     }
 
-    if( g->m.has_zlevels() ) {
+    if( here.has_zlevels() ) {
         tripoint below( posx(), posy(), posz() - 1 );
-        if( g->m.valid_move( pos(), below, false, true ) ) {
+        if( here.valid_move( pos(), below, false, true ) ) {
             valid_stumbles.push_back( below );
         }
     }
@@ -1863,8 +1865,8 @@ void monster::stumble()
             //(Unless they can swim/are aquatic)
             //But let them wander OUT of water if they are there.
             !( avoid_water &&
-               g->m.has_flag( TFLAG_SWIMMABLE, dest ) &&
-               !g->m.has_flag( TFLAG_SWIMMABLE, pos() ) ) &&
+               here.has_flag( TFLAG_SWIMMABLE, dest ) &&
+               !here.has_flag( TFLAG_SWIMMABLE, pos() ) ) &&
             ( g->critter_at( dest, is_hallucination() ) == nullptr ) ) {
             if( move_to( dest, true, false ) ) {
                 break;

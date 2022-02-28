@@ -961,12 +961,13 @@ void complete_construction( player *p )
         debugmsg( "complete_construction called before finalization" );
         return;
     }
-    const tripoint terp = g->m.getlocal( p->activity.placement );
-    partial_con *pc = g->m.partial_con_at( terp );
+    map &here = get_map();
+    const tripoint terp = here.getlocal( p->activity.placement );
+    partial_con *pc = here.partial_con_at( terp );
     if( !pc ) {
         debugmsg( "No partial construction found at activity placement in complete_construction()" );
-        if( g->m.tr_at( terp ).loadid == tr_unfinished_construction ) {
-            g->m.remove_trap( terp );
+        if( here.tr_at( terp ).loadid == tr_unfinished_construction ) {
+            here.remove_trap( terp );
         }
         if( p->is_npc() ) {
             npc *guy = dynamic_cast<npc *>( p );
@@ -999,24 +1000,24 @@ void complete_construction( player *p )
             award_xp( *elem );
         }
     }
-    if( g->m.tr_at( terp ).loadid == tr_unfinished_construction ) {
-        g->m.remove_trap( terp );
+    if( here.tr_at( terp ).loadid == tr_unfinished_construction ) {
+        here.remove_trap( terp );
     }
-    g->m.partial_con_remove( terp );
+    here.partial_con_remove( terp );
     // Some constructions are allowed to have items left on the tile.
     if( built.post_flags.count( "keep_items" ) == 0 ) {
         // Move any items that have found their way onto the construction site.
         std::vector<tripoint> dump_spots;
-        for( const tripoint &pt : g->m.points_in_radius( terp, 1 ) ) {
-            if( g->m.can_put_items( pt ) && pt != terp ) {
+        for( const tripoint &pt : here.points_in_radius( terp, 1 ) ) {
+            if( here.can_put_items( pt ) && pt != terp ) {
                 dump_spots.push_back( pt );
             }
         }
         if( !dump_spots.empty() ) {
             tripoint dump_spot = random_entry( dump_spots );
-            map_stack items = g->m.i_at( terp );
+            map_stack items = here.i_at( terp );
             for( map_stack::iterator it = items.begin(); it != items.end(); ) {
-                g->m.add_item_or_charges( dump_spot, *it );
+                here.add_item_or_charges( dump_spot, *it );
                 it = items.erase( it );
             }
         } else {
@@ -1026,20 +1027,26 @@ void complete_construction( player *p )
     // Make the terrain change
     if( !built.post_terrain.empty() ) {
         if( built.post_is_furniture ) {
-            g->m.furn_set( terp, furn_str_id( built.post_terrain ) );
+            here.furn_set( terp, furn_str_id( built.post_terrain ) );
             active_tile_data *active = active_tiles::furn_at<active_tile_data>(
-                                           tripoint_abs_ms( g->m.getabs( terp ) ) );
+                                           tripoint_abs_ms( here.getabs( terp ) ) );
             if( active != nullptr ) {
                 active->set_last_updated( calendar::turn );
             }
         } else {
-            g->m.ter_set( terp, ter_str_id( built.post_terrain ) );
+            const ter_id new_ter = ter_str_id( built.post_terrain );
+            here.ter_set( terp, new_ter );
+            const tripoint above = terp + tripoint_above;
+            // TODO: What to do if tile above has no floor, but isn't open air?
+            if( new_ter->roof && here.ter( above ) == t_open_air ) {
+                here.ter_set( above, new_ter->roof );
+            }
         }
     }
 
     // Spawn byproducts
     if( built.byproduct_item_group ) {
-        g->m.spawn_items( p->pos(), item_group::items_from( built.byproduct_item_group, calendar::turn ) );
+        here.spawn_items( p->pos(), item_group::items_from( built.byproduct_item_group, calendar::turn ) );
     }
 
     add_msg( m_info, _( "%s finished construction: %s." ), p->disp_name(), _( built.description ) );
@@ -1325,7 +1332,7 @@ void construct::done_digormine_stair( const tripoint &p, bool dig )
         } else {
             add_msg( m_warning, _( "You just tunneled into lava!" ) );
             g->events().send<event_type::digs_into_lava>();
-            g->m.ter_set( p, t_hole );
+            g->m.ter_set( p, t_open_air );
         }
 
         return;
@@ -1393,6 +1400,7 @@ void construct::done_mine_upstair( const tripoint &p )
     add_msg( _( "You drill out a passage, heading for the surface." ) );
     g->m.ter_set( p.xy(), t_stairs_up ); // There's the bottom half
     // We need to write to submap-local coordinates.
+    // TODO: Add roof above
     tmpmap.ter_set( local_tmp, t_stairs_down ); // and there's the top half.
     tmpmap.save();
 }
@@ -1400,6 +1408,7 @@ void construct::done_mine_upstair( const tripoint &p )
 void construct::done_wood_stairs( const tripoint &p )
 {
     const tripoint top = p + tripoint_above;
+    // TODO: Add roof above
     g->m.ter_set( top, ter_id( "t_wood_stairs_down" ) );
 }
 
