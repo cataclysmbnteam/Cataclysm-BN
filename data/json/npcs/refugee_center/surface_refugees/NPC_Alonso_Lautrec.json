@@ -58,20 +58,6 @@
     "entries": [ { "item": "cudgel" } ]
   },
   {
-    "type": "effect_type",
-    "id": "Alonso_pants_restored",
-    "//": "Gates Alonso's fine services behind a mission."
-  },
-  {
-    "type": "effect_type",
-    "id": "al_relaxed",
-    "name": [ "Relaxed with Alonso" ],
-    "apply_message": "You spent some pleasant time relaxing with someone.",
-    "miss_messages": [ [ "You feel relaxed.", 1 ] ],
-    "rating": "good",
-    "//": "No morale_mod is currently possible in effects. As soon as it's implemented, it should go here."
-  },
-  {
     "type": "talk_topic",
     "//": "common talk responses",
     "id": [ "TALK_REFUGEE_Alonso_2", "TALK_REFUGEE_Alonso_Background", "TALK_REFUGEE_Alonso_Situation" ],
@@ -111,29 +97,7 @@
         "condition": { "u_has_var": "Alonso_pants", "type": "mission", "context": "flag", "value": "in_progress" }
       },
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Alonso_Background" },
-      { "text": "How are things here?", "topic": "TALK_REFUGEE_Alonso_Situation" },
-      {
-        "text": "[PRETTY] Remember that nice thing I did for you?  Can you do something nice for me?",
-        "topic": "TALK_REFUGEE_Alonso_Pretty_Action",
-        "condition": { "and": [ { "u_has_trait": "PRETTY" }, { "npc_has_effect": "Alonso_pants_restored" }, { "u_has_item": "condom" } ] }
-      },
-      {
-        "text": "So about those condoms.  I thought of a good use for them…",
-        "topic": "TALK_REFUGEE_Alonso_Normal_Action",
-        "condition": {
-          "and": [
-            { "not": { "u_has_trait": "PRETTY" } },
-            { "not": { "u_has_trait": "UGLY" } },
-            { "npc_has_effect": "Alonso_pants_restored" },
-            { "u_has_item": "condom" }
-          ]
-        }
-      },
-      {
-        "text": "[UGLY] I'm desperate.  You're my only chance.",
-        "topic": "TALK_REFUGEE_Alonso_Ugly_Action",
-        "condition": { "and": [ { "u_has_trait": "UGLY" }, { "npc_has_effect": "Alonso_pants_restored" }, { "u_has_item": "condom" } ] }
-      }
+      { "text": "How are things here?", "topic": "TALK_REFUGEE_Alonso_Situation" }
     ]
   },
   {
@@ -346,66 +310,6 @@
       "success_lie": "You give me confidence.  I trust you.  I do not know why this is.",
       "failure": "Disaster, but I thank you for to try.  You want a backrub some time, it will happen for sure.  And maybe you give me a rub too?"
     }
-  },
-  {
-    "type": "talk_topic",
-    "id": "TALK_REFUGEE_Alonso_Pretty_Action",
-    "dynamic_line": {
-      "npc_has_var": "Alonso_accent",
-      "type": "general",
-      "context": "none",
-      "value": "asked",
-      "no": "My jewel of the New England, I give to you my biggest prize.",
-      "yes": "Yo, you're crazy hot!  I'm not stupid!"
-    },
-    "speaker_effect": {
-      "sentinel": "service_provided",
-      "effect": [ { "u_add_effect": "al_relaxed", "duration": 400 }, { "u_consume_item": "condom" } ]
-    },
-    "responses": [
-      { "text": "Sigh.  What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "All done, I'd better get going.", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "TALK_REFUGEE_Alonso_Normal_Action",
-    "dynamic_line": {
-      "npc_has_var": "Alonso_accent",
-      "type": "general",
-      "context": "none",
-      "value": "asked",
-      "no": "I give to you what of I got.  And this is Alonso so I mean it's a lot.",
-      "yes": "Yeeeeah it's on!"
-    },
-    "speaker_effect": {
-      "sentinel": "service_provided",
-      "effect": [ { "u_add_effect": "al_relaxed", "duration": 360 }, { "u_consume_item": "condom" } ]
-    },
-    "responses": [
-      { "text": "Sigh.  What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Yeah, I'd better get going.", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "TALK_REFUGEE_Alonso_Ugly_Action",
-    "dynamic_line": {
-      "npc_has_var": "Alonso_accent",
-      "type": "general",
-      "context": "none",
-      "value": "asked",
-      "no": "My jewel of the New England, I give to you my biggest prize.",
-      "yes": "Yo, you're crazy hot!  I'm not stupid!"
-    },
-    "speaker_effect": {
-      "sentinel": "service_provided",
-      "effect": [ { "u_add_effect": "al_relaxed", "duration": 300 }, { "u_consume_item": "condom" } ]
-    },
-    "responses": [
-      { "text": "Sigh.  What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Yeah, I'd better get going.", "topic": "TALK_DONE" }
-    ]
   },
   {
     "type": "talk_topic",
