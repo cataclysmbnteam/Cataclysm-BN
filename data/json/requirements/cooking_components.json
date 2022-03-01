@@ -171,12 +171,6 @@
     "components": [ [ [ "hard_liquor_chem", 1, "LIST" ], [ "denat_alcohol", 125 ] ] ]
   },
   {
-    "id": "meat_offal",
-    "type": "requirement",
-    "//": "Anything you might consider offal or intestines.",
-    "components": [ [ [ "lung", 4 ], [ "liver", 4 ], [ "kidney", 4 ], [ "sweetbread", 4 ], [ "offal", 1 ] ] ]
-  },
-  {
     "id": "meat_raw_steak",
     "type": "requirement",
     "//": "An unbroken slab of raw meat.  For when scraps just aren't good enough.",
@@ -750,5 +744,16 @@
     "id": "beverage_sweetener",
     "type": "requirement",
     "components": [ [ [ "sugar", 3 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ], [ "beet_syrup", 2 ] ] ]
+  },
+  {
+    "id": "offal_raw",
+    "type": "requirement",
+    "components": [ [ [ "offal", 1 ], [ "mutant_offal", 1 ], [ "liver", 2 ], [ "lung", 2 ], [ "kidney", 2 ] ] ]
+  },
+  {
+    "id": "meat_offal",
+    "type": "requirement",
+    "//": "Renamed to offal_raw, because that's more specific.  Requirements don't support aliases yet, so done using nesting.",
+    "components": [ [ [ "offal_raw", 1, "LIST" ] ] ]
   }
 ]
