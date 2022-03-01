@@ -273,6 +273,22 @@
     ]
   },
   {
+    "id": "mammal_large_chitin",
+    "//": "Mutant mammals with chitin armor.  It's not an exoskeleton, so much less than from insects of same mass.  Brain is not mutated.",
+    "type": "harvest",
+    "entries": [
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.32 },
+      { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "mutant_offal", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.2 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.07 },
+      { "drop": "chitin_piece", "type": "skin", "mass_ratio": 0.01 }
+    ]
+  },
+  {
     "id": "animal_noskin",
     "//": "for those vertebrates that don't have something you can skin off of them",
     "type": "harvest",

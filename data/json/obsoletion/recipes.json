@@ -67,11 +67,6 @@
     "obsolete": true
   },
   {
-    "type": "recipe",
-    "result": "offal_cooked",
-    "obsolete": true
-  },
-  {
     "result": "tool_rdx_charge",
     "type": "recipe",
     "obsolete": true
