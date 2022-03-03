@@ -436,12 +436,11 @@
     "type": "terrain",
     "id": "t_centrifuge",
     "name": "centrifuge",
-    "description": "This is a centrifuge, a liquid separating device with an automated analyzer unit.  It could be used to analyze a medical fluid sample, such as blood, if a test tube was placed in it.  It could also be used for separating and analyzing other samples, if you have a use for that.",
+    "description": "This is a centrifuge, a liquid separating device with an automated analyzer unit.  It could be used to analyze a medical fluid sample, such as blood, if a test tube was placed in it.",
     "symbol": "{",
     "color": "magenta",
     "move_cost": 0,
     "coverage": 30,
-    "crafting_pseudo_item": "fake_centrifuge",
     "flags": [ "TRANSPARENT", "PERMEABLE" ],
     "bash": {
       "str_min": 3,
