@@ -1153,7 +1153,7 @@
     "symbol": "n",
     "color": "white",
     "ammo": "battery",
-    "qualities": [ [ "CONCENTRATE", 1 ] ],
+    "qualities": [ [ "CONCENTRATE", 1 ], [ "SEPARATE", 1 ] ],
     "magazines": [
       [
         "battery",
