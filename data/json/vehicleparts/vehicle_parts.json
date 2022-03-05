@@ -175,9 +175,9 @@
     "power": 0,
     "location": "structure",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "100 s", "using": [ [ "vehicle_screw", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "100 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "100 s", "using": [ [ "vehicle_screw", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
     "breaks_into": "ig_vp_wood_plate",
     "flags": [ "ENGINE", "BOARDABLE", "E_STARTS_INSTANTLY", "ANIMAL_CTRL", "HARNESS_any", "STEERABLE", "UNMOUNT_ON_DAMAGE", "WHEEL" ],
@@ -202,9 +202,9 @@
     "power": 0,
     "location": "structure",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "100 s", "using": [ [ "welding_standard", 5 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "100 s", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "100 s", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 s", "using": [ [ "welding_standard", 5 ] ] }
     },
     "breaks_into": [ { "item": "scrap", "count": [ 4, 6 ] } ],
     "flags": [ "ENGINE", "BOARDABLE", "E_STARTS_INSTANTLY", "ANIMAL_CTRL", "HARNESS_human", "STEERABLE", "UNMOUNT_ON_DAMAGE" ],
@@ -666,7 +666,7 @@
     "location": "fuel_source",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 6 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "REACTOR" ],

@@ -667,10 +667,20 @@ bool game::start_game()
 
     const start_location &start_loc = u.random_start_location ? scen->random_start_location().obj() :
                                       u.start_location.obj();
-    const tripoint_abs_omt omtstart = start_loc.find_player_initial_location();
-    if( omtstart == overmap::invalid_tripoint ) {
-        return false;
-    }
+    tripoint_abs_omt omtstart = overmap::invalid_tripoint;
+    do {
+        omtstart = start_loc.find_player_initial_location();
+        if( omtstart == overmap::invalid_tripoint ) {
+            if( query_yn(
+                    _( "Try again?\n\nIt may require several attempts until the game finds a valid starting location." ) ) ) {
+                MAPBUFFER.reset();
+                overmap_buffer.clear();
+            } else {
+                return false;
+            }
+        }
+    } while( omtstart == overmap::invalid_tripoint );
+
     start_loc.prepare_map( omtstart );
 
     // Place vehicles spawned by scenario or profession, has to be placed very early to avoid bugs.
@@ -6639,6 +6649,8 @@ void game::zones_manager()
                 as_m.entries.emplace_back( 3, zone.get_options().has_options(), '3',
                                            zone.get_type() == zone_type_id( "LOOT_CUSTOM" ) ? _( "Edit filter" ) : _( "Edit options" ) );
                 as_m.entries.emplace_back( 4, !zone.get_is_vehicle(), '4', _( "Edit position" ) );
+                // TODO: Enable moving vzone after vehicle zone can be bigger than 1*1
+                as_m.entries.emplace_back( 5, !zone.get_is_vehicle(), '5', _( "Move position" ) );
                 as_m.query();
 
                 switch( as_m.ret ) {
@@ -6662,6 +6674,40 @@ void game::zones_manager()
                         if( pos && ( pos->first != zone.get_start_point() ||
                                      pos->second != zone.get_end_point() ) ) {
                             zone.set_position( *pos );
+                            stuff_changed = true;
+                        }
+                        break;
+                    }
+                    case 5: {
+                        on_out_of_scope invalidate_current_ui( [&]() {
+                            ui.mark_resize();
+                        } );
+                        restore_on_out_of_scope<bool> show_prev( show );
+                        restore_on_out_of_scope<cata::optional<tripoint>> zone_start_prev( zone_start );
+                        restore_on_out_of_scope<cata::optional<tripoint>> zone_end_prev( zone_end );
+                        show = false;
+                        zone_start = cata::nullopt;
+                        zone_end = cata::nullopt;
+                        ui.mark_resize();
+                        static_popup message_pop;
+                        message_pop.on_top( true );
+                        message_pop.message( "%s", _( "Moving zone." ) );
+                        const auto zone_local_start_point = m.getlocal( zone.get_start_point() );
+                        const auto zone_local_end_point = m.getlocal( zone.get_end_point() );
+                        // local position of the zone center, used to calculate the u.view_offset,
+                        // could center the screen to the position it represents
+                        auto view_center = m.getlocal( zone.get_center_point() );
+                        const look_around_result result_local = look_around( false, view_center,
+                                                                zone_local_start_point, false, false,
+                                                                false, true, zone_local_end_point );
+                        if( result_local.position ) {
+                            const auto new_start_point = m.getabs( *result_local.position );
+                            if( new_start_point == zone.get_start_point() ) {
+                                break; // Nothing changed, don't save
+                            }
+
+                            const auto new_end_point = zone.get_end_point() - zone.get_start_point() + new_start_point;
+                            zone.set_position( std::pair<tripoint, tripoint>( new_start_point, new_end_point ) );
                             stuff_changed = true;
                         }
                     }
@@ -6770,8 +6816,9 @@ cata::optional<tripoint> game::look_around()
     return result.position;
 }
 
-look_around_result game::look_around( const bool show_window, tripoint &center,
-                                      const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking )
+look_around_result game::look_around( bool show_window, tripoint &center,
+                                      const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking,
+                                      bool is_moving_zone, const tripoint &end_point )
 {
     bVMonsterLookFire = false;
     // TODO: Make this `true`
@@ -6913,7 +6960,7 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
     cata::optional<tripoint> zone_start;
     cata::optional<tripoint> zone_end;
     bool zone_blink = false;
-    bool zone_cursor = true;
+    bool zone_cursor = !is_moving_zone; // Do not draw cursor if moving zone
     shared_ptr_fast<draw_callback_t> zone_cb = create_zone_callback( zone_start, zone_end, zone_blink,
             zone_cursor );
     add_draw_callback( zone_cb );
@@ -6935,10 +6982,19 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
             //NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
             zone_blink = blink;
         }
+
+        if( is_moving_zone ) {
+            zone_start = lp;
+            zone_end = end_point - start_point + lp;
+            // Actually accessed from the terrain overlay callback `zone_cb` in the
+            // call to `ui_manager::redraw`.
+            //NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
+            zone_blink = blink;
+        }
         invalidate_main_ui_adaptor();
         ui_manager::redraw();
-
-        if( select_zone && has_first_point ) {
+        // TODO: Enable blinking when moving zone, it's not working right now (simply enable it here will cause weird bugs)
+        if( select_zone && has_first_point /* || is_moving_zone */ ) {
             ctxt.set_timeout( BLINK_SPEED );
         }
 
@@ -6975,7 +7031,7 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
             add_msg( m_debug, "levx: %d, levy: %d, levz: %d", get_levx(), get_levy(), center.z );
             u.view_offset.z = center.z - u.posz();
             m.invalidate_map_cache( center.z );
-            if( select_zone && has_first_point ) { // is blinking
+            if( select_zone && has_first_point /* || is_moving_zone */ ) { // is blinking
                 blink = true; // Always draw blink symbols when moving cursor
             }
         } else if( action == "TRAVEL_TO" ) {
@@ -7034,7 +7090,7 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
                 } else {
                     center += edge_scroll;
                 }
-                if( select_zone && has_first_point ) { // is blinking
+                if( select_zone && has_first_point /* || is_moving_zone */ ) { // is blinking
                     blink = true; // Always draw blink symbols when moving cursor
                 }
             } else if( action == "MOUSE_MOVE" ) {
@@ -7043,7 +7099,7 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
                     lx = mouse_pos->x;
                     ly = mouse_pos->y;
                 }
-                if( select_zone && has_first_point ) { // is blinking
+                if( select_zone && has_first_point /* || is_moving_zone */ ) { // is blinking
                     blink = true; // Always draw blink symbols when moving cursor
                 }
             } else if( action == "TIMEOUT" ) {
@@ -7059,7 +7115,7 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
             ly = ly + vec->y;
             center.x = center.x + vec->x;
             center.y = center.y + vec->y;
-            if( select_zone && has_first_point ) { // is blinking
+            if( select_zone && has_first_point /* || is_moving_zone */ ) { // is blinking
                 blink = true; // Always draw blink symbols when moving cursor
             }
         } else if( action == "throw_blind" ) {
@@ -10166,7 +10222,8 @@ void game::on_options_changed()
     grid_tracker_ptr->on_options_changed();
 }
 
-void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bool controlled )
+void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bool controlled,
+                           bool suppress_map_update )
 {
     if( c == nullptr ) {
         debugmsg( "game::fling_creature invoked on null target" );
@@ -10251,7 +10308,7 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
                     m.unboard_vehicle( p->pos() );
                 }
                 // If we're flinging the player around, make sure the map stays centered on them.
-                if( is_u ) {
+                if( is_u && !suppress_map_update ) {
                     update_map( pt.x, pt.y );
                 } else {
                     p->setpos( pt );

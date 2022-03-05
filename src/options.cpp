@@ -2182,6 +2182,9 @@ void options_manager::add_options_debug()
          translate_marker( "If true, enables experimental translation system that allows mods to ship their own translation files." ),
          true
        );
+
+    add( "NEW_EXPLOSIONS", "debug", translate_marker( "New explosions" ),
+         translate_marker( "If true, Rule of Cool explosions will be used." ), false );
 }
 
 void options_manager::add_options_world_default()

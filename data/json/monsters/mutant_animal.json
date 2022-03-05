@@ -1,0 +1,19 @@
+[
+  {
+    "id": "mon_bear_armored",
+    "type": "MONSTER",
+    "name": { "str": "scaled bear" },
+    "copy-from": "mon_bear",
+    "description": "This bear is covered by large, black, scales.  It seems to have slight problems turning around, but its twitchy, \"spidery\", movement is no slower than that of normal bears.",
+    "proportional": { "hp": 2.0 },
+    "relative": { "morale": 40, "melee_skill": 1, "melee_dice_sides": 2, "melee_cut": 4, "dodge": -2 },
+    "armor_bash": 8,
+    "armor_cut": 14,
+    "armor_stab": 30,
+    "armor_acid": 8,
+    "harvest": "mammal_large_chitin",
+    "delete": { "fear_triggers": [ "SOUND" ] },
+    "//": "Doesn't zombify because it shouldn't regain the fur.",
+    "zombify_into": "mon_null"
+  }
+]

@@ -2049,6 +2049,7 @@
     "color": "cyan",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD", "MINEABLE" ],
+    "open": "t_null",
     "close": "t_secretdoor_metal_c"
   },
   {

@@ -2,14 +2,14 @@
   {
     "type": "MONSTER_FACTION",
     "name": "very_small_predator",
-    "base_faction": "cat",
+    "base_faction": "small_animal",
     "by_mood": [ "small_animal", "cat", "very_small_predator" ],
     "hate": "vermin"
   },
   {
     "type": "MONSTER_FACTION",
     "name": "small_predator",
-    "base_faction": "cat",
+    "base_faction": "small_animal",
     "by_mood": [ "small_predator", "cat", "eoraptor" ],
     "hate": [ "small_animal", "very_small_predator" ]
   },

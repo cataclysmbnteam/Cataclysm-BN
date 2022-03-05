@@ -88,7 +88,8 @@
     "//": "220 days gestation period, the mother and cubs remain together for 16-17 months.",
     "baby_flags": [ "SPRING" ],
     "special_attacks": [ [ "EAT_FOOD", 20 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BLEED", "BASHES", "ATTACKMON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BLEED", "BASHES", "ATTACKMON" ],
+    "upgrades": { "half_life": 42, "into": "mon_bear_armored" }
   },
   {
     "id": "mon_beaver",

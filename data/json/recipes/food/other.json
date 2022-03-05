@@ -310,22 +310,58 @@
   },
   {
     "type": "recipe",
-    "result": "cheese_hard",
+    "result": "cheese_fresh",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
-    "difficulty": 5,
-    "time": "1 h",
-    "batch_time_factors": [ 80, 5 ],
-    "book_learn": [ [ "survival_book", 7 ], [ "dairy_book", 3 ] ],
+    "difficulty": 4,
+    "skills_required": [ "survival", 3 ],
+    "time": "30 m",
+    "batch_time_factors": [ 50, 4 ],
+    "autolearn": true,
+    "book_learn": [
+      [ "survival_book", 3 ],
+      [ "textbook_survival", 3 ],
+      [ "manual_survival", 3 ],
+      [ "dairy_book", 2 ],
+      [ "cookbook_indian", 2 ]
+    ],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "COOK", "level": 3 },
       { "id": "BOIL", "level": 2 },
       { "id": "CONTAIN", "level": 1 }
     ],
-    "tools": [ [ [ "surface_heat", 4, "LIST" ] ], [ [ "rag", -1 ] ] ],
-    "components": [ [ [ "milk_curdled", 2 ] ], [ [ "salt_water", 1 ], [ "saline", 1 ], [ "salt", 1 ], [ "seasoning_salt", 1 ] ] ]
+    "tools": [ [ [ "water_boiling_heat", 4, "LIST" ] ], [ [ "rag", -1 ] ] ],
+    "components": [
+      [
+        [ "vinegar", 1 ],
+        [ "lemon", 1 ],
+        [ "irradiated_lemon", 1 ],
+        [ "rennet", 1 ],
+        [ "stomach_large", 1 ],
+        [ "stomach", 2 ],
+        [ "wild_herbs", 40 ]
+      ],
+      [ [ "salt_water", 1 ], [ "saline", 1 ], [ "salt", 1 ], [ "seasoning_salt", 1 ] ],
+      [ [ "milk_standard_raw_fresh", 5, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "cheese_hard",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "40 m",
+    "charges": 1,
+    "autolearn": true,
+    "book_learn": [ [ "survival_book", 3 ], [ "dairy_book", 3 ] ],
+    "batch_time_factors": [ 80, 1 ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "dehydrator", 5 ], [ "char_smoker", 5 ] ] ],
+    "components": [ [ [ "cheese_fresh", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -808,7 +844,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
       [ [ "flour", 30 ] ],
-      [ [ "cheese", 2 ], [ "can_cheese", 2 ], [ "cheese_hard", 2 ] ],
+      [ [ "cheese_any", 2, "LIST" ] ],
       [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "seasoning_italian", 5 ], [ "wild_herbs", 10 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
@@ -1148,7 +1184,7 @@
     "autolearn": true,
     "batch_time_factors": [ 50, 3 ],
     "tools": [ [ [ "food_processor", 20 ] ] ],
-    "components": [ [ [ "bone", 1 ] ] ]
+    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ] ] ]
   },
   {
     "result": "meal_bone_tainted",
@@ -2014,5 +2050,28 @@
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
     "components": [ [ [ "can_medium_unsealed", 1 ] ], [ [ "scrap", 1 ] ], [ [ "bone", 20 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
+  },
+  {
+    "result": "rennet",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "40 m",
+    "book_learn": [
+      [ "survival_book", 4 ],
+      [ "textbook_survival", 4 ],
+      [ "manual_survival", 4 ],
+      [ "dairy_book", 3 ],
+      [ "scots_cookbook", 5 ]
+    ],
+    "batch_time_factors": [ 50, 3 ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "BOIL", "level": 2 } ],
+    "tools": [
+      [ [ "dehydrator", 20 ], [ "char_smoker", 20 ] ],
+      [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ]
+    ],
+    "components": [ [ [ "stomach_large", 1 ], [ "stomach", 2 ] ] ]
   }
 ]

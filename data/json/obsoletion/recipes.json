@@ -67,11 +67,6 @@
     "obsolete": true
   },
   {
-    "type": "recipe",
-    "result": "offal_cooked",
-    "obsolete": true
-  },
-  {
     "result": "tool_rdx_charge",
     "type": "recipe",
     "obsolete": true
@@ -2676,6 +2671,11 @@
   {
     "type": "recipe",
     "result": "tanning_pelt",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "brew_milk_curdled",
     "obsolete": true
   }
 ]

@@ -541,8 +541,8 @@ class game
         std::vector<monster *> get_fishable_monsters( std::unordered_set<tripoint> &fishable_locations );
 
         /** Flings the input creature in the given direction. */
-        void fling_creature( Creature *c, const units::angle &dir, float flvel,
-                             bool controlled = false );
+        void fling_creature( Creature *c, const units::angle &dir, float flvel, bool controlled = false,
+                             bool suppress_map_update = false );
 
         float natural_light_level( int zlev ) const;
         /** Returns coarse number-of-squares of visibility at the current light level.
@@ -575,8 +575,22 @@ class game
 
         // Look at nearby terrain ';', or select zone points
         cata::optional<tripoint> look_around();
+        /**
+         * @brief
+         *
+         * @param show_window display the info window that holds the tile information in the position.
+         * @param center used to calculate the u.view_offset, could center the screen to the position it represents
+         * @param start_point  the start point of the targeting zone, also the initial local position of the cursor
+         * @param has_first_point should be true if the first point has been selected when editing the zone
+         * @param select_zone true if the zone is being edited
+         * @param peeking determines if the player is peeking
+         * @param is_moving_zone true if the zone is being moved, false by default
+         * @param end_point the end point of the targeting zone, only used if is_moving_zone is true, default is tripoint_zero
+         * @return look_around_result
+         */
         look_around_result look_around( bool show_window, tripoint &center,
-                                        const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking );
+                                        const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking,
+                                        bool is_moving_zone = false, const tripoint &end_point = tripoint_zero );
 
         // Shared method to print "look around" info
         void pre_print_all_tile_info( const tripoint &lp, const catacurses::window &w_info,
