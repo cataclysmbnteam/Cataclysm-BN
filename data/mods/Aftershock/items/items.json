@@ -133,7 +133,6 @@
     "id": "atomic_butterchurn",
     "type": "GENERIC",
     "category": "tools",
-    "sub": "atomic_coffeepot",
     "name": { "str": "folded atomic butter churn" },
     "description": "The Rivtech Churninator 4000, the only churn to be banned by 13 religious sects.  The legs are currently folded up for travel.  This churn requires nothing but raw milk, salt and a healthy respect for glowing objects, even able to clarify butter with its awe-inspiring nuclear might.",
     "weight": "6464 g",
@@ -153,7 +152,7 @@
   {
     "id": "atomic_pseudo_churn",
     "type": "TOOL",
-    "sub": "atomic_butterchurn",
+    "sub": "atomic_coffeepot",
     "name": { "str": "deployed atomic butter churn" },
     "description": "This is a crafting_pseudo_item if you have it something is wrong.",
     "weight": "6464 g",
