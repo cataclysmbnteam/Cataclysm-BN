@@ -545,6 +545,82 @@
     ]
   },
   {
+    "id": "hippie_van_electric",
+    "type": "vehicle",
+    "name": "Electric Hippie Van",
+    "blueprint": [
+      [ "o---+-o" ],
+      [ "+=###'|" ],
+      [ "+===#'|" ],
+      [ "o-+++-o" ]
+    ],
+    "parts": [
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [
+          "xlframe_vertical_2",
+          "reclining_seat",
+          "seatbelt",
+          "controls",
+          "dashboard",
+          "vehicle_clock",
+          "vehicle_alarm",
+          "horn_car",
+          "roof",
+          "storage_battery"
+        ]
+      },
+      { "x": 0, "y": 1, "parts": [ "xlframe_vertical_2", "reclining_seat", "seatbelt", "roof", "storage_battery" ] },
+      { "x": 0, "y": -1, "parts": [ "xlframe_vertical", "door", "roof" ] },
+      { "x": 0, "y": 2, "parts": [ "xlframe_vertical", "door", "roof" ] },
+      { "x": -1, "y": 0, "parts": [ "xlframe_vertical_2", "seat", "seatbelt", "roof" ] },
+      { "x": -1, "y": 1, "parts": [ "xlframe_vertical_2", "aisle_vertical", "roof" ] },
+      { "x": -1, "y": -1, "parts": [ "xlframe_vertical", "board_vertical", "roof" ] },
+      { "x": -1, "y": 2, "parts": [ "xlframe_vertical", "door_sliding", "roof" ] },
+      { "x": -2, "y": 0, "parts": [ "xlframe_vertical_2", "seat", "seatbelt", "roof" ] },
+      { "x": -2, "y": 1, "parts": [ "xlframe_vertical_2", "aisle_vertical", "roof" ] },
+      { "x": -2, "y": -1, "parts": [ "xlframe_vertical", "board_vertical", "roof" ] },
+      { "x": -2, "y": 2, "parts": [ "xlframe_vertical", "door_sliding", "roof" ] },
+      { "x": 1, "y": 0, "parts": [ "xlframe_horizontal", "windshield" ] },
+      { "x": 1, "y": 1, "parts": [ "xlframe_horizontal", "windshield" ] },
+      { "x": 1, "y": -1, "parts": [ "xlframe_vertical", "windshield" ] },
+      { "x": 1, "y": 2, "parts": [ "xlframe_vertical", "windshield" ] },
+      { "x": 2, "y": 0, "parts": [ "xlframe_horizontal", "halfboard_horizontal", "engine_electric_large" ] },
+      { "x": 2, "y": 1, "parts": [ "xlframe_horizontal", "halfboard_horizontal" ] },
+      {
+        "x": 2,
+        "y": -1,
+        "parts": [ "xlframe_nw", "halfboard_nw", "headlight", "wheel_mount_medium_steerable", "wheel" ]
+      },
+      {
+        "x": 2,
+        "y": 2,
+        "parts": [ "xlframe_ne", "halfboard_ne", "headlight", "wheel_mount_medium_steerable", "wheel" ]
+      },
+      { "x": -3, "y": 0, "parts": [ "xlframe_vertical", "trunk", "roof" ] },
+      { "x": -3, "y": 1, "parts": [ "xlframe_vertical", "trunk", "roof" ] },
+      { "x": -3, "y": -1, "parts": [ "xlframe_vertical", "board_vertical", "roof", "solar_panel" ] },
+      { "x": -3, "y": 2, "parts": [ "xlframe_vertical", "board_vertical", "roof", "solar_panel" ] },
+      { "x": -4, "y": 0, "parts": [ "xlframe_horizontal", "door_trunk", "roof" ] },
+      { "x": -4, "y": 1, "parts": [ "xlframe_horizontal", "door_trunk", "roof" ] },
+      {
+        "x": -4,
+        "y": -1,
+        "parts": [ "xlframe_sw", "board_sw", "wheel_mount_medium", "wheel", "roof", "solar_panel" ]
+      },
+      { "x": -4, "y": 2, "parts": [ "xlframe_se", "board_se", "wheel_mount_medium", "wheel", "roof", "solar_panel" ] }
+    ],
+    "items": [
+      { "x": 0, "y": 0, "chance": 3, "items": [ "sunglasses" ] },
+      { "x": 0, "y": 1, "chance": 10, "items": [ "fancy_sunglasses" ] },
+      { "x": -1, "y": 0, "chance": 5, "items": [ "weed", "rolling_paper" ] },
+      { "x": -2, "y": 0, "chance": 2, "items": [ "weed", "rolling_paper" ] },
+      { "x": -3, "y": 0, "chance": 5, "items": [ "acoustic_guitar" ] },
+      { "x": -3, "y": 1, "chance": 8, "items": [ "joint_roach" ] }
+    ]
+  },
+  {
     "id": "icecream_truck",
     "type": "vehicle",
     "name": "Ice Cream Truck",
