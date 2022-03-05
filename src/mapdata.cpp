@@ -1458,8 +1458,14 @@ void ter_t::check() const
     if( !open.is_valid() ) {
         debugmsg( "invalid terrain %s for opening %s", open.c_str(), id.c_str() );
     }
+    if( id && open == id ) {
+        debugmsg( "%s has \"open\" set to itself", id.c_str() );
+    }
     if( !close.is_valid() ) {
         debugmsg( "invalid terrain %s for closing %s", close.c_str(), id.c_str() );
+    }
+    if( id && close == id ) {
+        debugmsg( "%s has \"close\" set to itself", id.c_str() );
     }
     if( transforms_into && transforms_into == id ) {
         debugmsg( "%s transforms_into itself", id.c_str() );
