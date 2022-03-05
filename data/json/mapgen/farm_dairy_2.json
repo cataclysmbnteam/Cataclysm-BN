@@ -228,6 +228,7 @@
         ],
         "?": { "item": "bottle_glass", "chance": 70, "repeat": 6 },
         "^": [ { "item": "bucket", "chance": 100 }, { "item": "mop", "chance": 100 } ],
+        "8": { "item": "rennet", "chance": 50, "repeat": 5 },
         "A": { "item": "wheel_wood", "chance": 100 },
         "C": { "item": "bucket", "chance": 100 },
         "j": { "item": "jerrycan", "chance": 100 },

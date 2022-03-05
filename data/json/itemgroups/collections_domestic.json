@@ -660,6 +660,7 @@
       { "item": "corndogs_frozen", "prob": 8 },
       { "item": "blt", "prob": 8 },
       { "item": "cheese", "prob": 10 },
+      { "item": "cheese_fresh", "prob": 5 },
       { "item": "cheese_hard", "prob": 5 },
       { "item": "orange", "prob": 65 },
       { "item": "irradiated_orange", "prob": 32 },
