@@ -2677,5 +2677,20 @@
     "type": "recipe",
     "result": "brew_milk_curdled",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "raw_butter",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "milk_cream_rising",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "milk_cream",
+    "obsolete": true
   }
 ]
