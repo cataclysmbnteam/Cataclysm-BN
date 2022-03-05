@@ -137,7 +137,7 @@
     "type": "COMESTIBLE",
     "copy-from": "meat",
     "name": { "str": "chunk of mutant meat", "str_pl": "chunks of mutant meat" },
-    "description": "Meat from a heavily mutated animal.  It has an unsettling loose and spongy texture, but smells… mostly normal.  There are strange tangles and formations in it that don't appear natural at all: bits of bone and hair crusted up inside the muscle, as if trying to form another organism.  Still, seems digestible at least, if you cook it and remove the worst parts.",
+    "description": "Meat from a heavily mutated animal.  Tough, discolored, with a somewhat chemical smell.  Still, seems digestible at least, if you cook it and remove the worst parts.",
     "looks_like": "meat",
     "cooks_like": "mutant_meat_cooked",
     "proportional": { "price": 0.2, "calories": 0.5 },
@@ -149,7 +149,7 @@
     "type": "COMESTIBLE",
     "copy-from": "meat_scrap",
     "name": { "str": "scrap of mutant meat", "str_pl": "scraps of mutant meat" },
-    "description": "A tiny scrap of meat from a heavily mutated animal.  It smells a bit odd, and has bits of hair and bone mixed in that seem like they grew inside the muscle itself.  Still, seems digestible at least, if you cook it and remove the worst parts.",
+    "description": "A tiny scrap of meat from a heavily mutated animal.  It smells a bit odd, and is hard to chew.  Still, seems digestible at least, if you cook it and remove the worst parts.",
     "looks_like": "meat_scrap",
     "cooks_like": "mutant_meat_scrap_cooked",
     "proportional": { "price": 0.2, "calories": 0.5 },
@@ -162,7 +162,7 @@
     "type": "COMESTIBLE",
     "cooks_like": "mutant_human_cooked",
     "name": "mutant humanoid meat",
-    "description": "Freshly butchered from the body of a heavily mutated creature that was unsettlingly humanoid in appearance.  It has odd bits of fur and other tissue lodged in it that clearly don't belong.  You'd have to be crazy or starving to eat this.",
+    "description": "Freshly butchered from the body of a heavily mutated creature that was unsettlingly humanoid in appearance.  It smells like a failed chemical experiment.  You'd have to be crazy or starving to eat this.",
     "material": "hflesh"
   },
   {
@@ -171,7 +171,7 @@
     "calories": 402,
     "type": "COMESTIBLE",
     "name": "cooked cretin",
-    "description": "Cooked meat from a heavily mutated humanoid.  Now that the worst bits have been picked out, it's probably digestible, if not very appetizing.",
+    "description": "Cooked meat from a heavily mutated humanoid.  Now that it no longer smells like industrial waste, it's probably digestible, if not very appetizing.",
     "proportional": { "price": 1.5 },
     "parasites": 0,
     "healthy": 0,
@@ -210,7 +210,7 @@
     "type": "COMESTIBLE",
     "copy-from": "mutant_meat",
     "name": "cooked mutant meat",
-    "description": "This is a cooked chunk of meat from a mutated animal.  It has an unsettling, spongy texture, but otherwise tastes… mostly normal.  Hopefully you got all the bits of hair and bone out…",
+    "description": "This is a cooked chunk of meat from a mutated animal.  Still tough and the color is wrong, but at least it smells edible now.",
     "looks_like": "meat_cooked",
     "proportional": { "price": 1.5 },
     "parasites": 0,
@@ -284,6 +284,36 @@
     "container": "can_food",
     "fun": -2,
     "delete": { "flags": [ "RAW" ] }
+  },
+  {
+    "id": "mutant_offal",
+    "copy-from": "mutant_meat",
+    "type": "COMESTIBLE",
+    "name": "raw mutant offal",
+    "looks_like": "offal",
+    "description": "Unidentified organs of a mutated animal.  Wildly different between individual specimens, even those otherwise identical.  Many resemble unmutated organs on the outside, but their placement often clearly implies different function.  Weirdly colored fluids and the chemical smell make them unappetizing.",
+    "price_postapoc": 5,
+    "delete": { "flags": [ "SMOKABLE" ] },
+    "vitamins": [
+      [ "vitC", 6 ],
+      [ "calcium", 1 ],
+      [ "iron", 26 ],
+      [ "vitB", 389 ],
+      [ "vitA", 5 ],
+      [ "iron", 4 ],
+      [ "mutant_toxin", 50 ]
+    ]
+  },
+  {
+    "id": "mutant_offal_cooked",
+    "copy-from": "mutant_offal",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "cooked mutant offal" },
+    "looks_like": "offal",
+    "description": "Cooked mutant organs.  Color and smell are almost normal, but it still looks weird.",
+    "parasites": 0,
+    "fun": -5,
+    "flags": [ "EATEN_HOT" ]
   },
   {
     "id": "stomach",
