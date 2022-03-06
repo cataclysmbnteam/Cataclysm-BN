@@ -1080,7 +1080,7 @@ void inventory::update_quality_cache()
     }
 }
 
-std::map<quality_id, std::map<int, int>> inventory::get_quality_cache() const
+const std::map<quality_id, std::map<int, int>> &inventory::get_quality_cache() const
 {
     return quality_cache;
 }

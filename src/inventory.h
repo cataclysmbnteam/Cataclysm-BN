@@ -256,7 +256,7 @@ class inventory : public visitable<inventory>
         enchantment get_active_enchantment_cache( const Character &owner ) const;
 
         void update_quality_cache();
-        std::map<quality_id, std::map<int, int>> get_quality_cache() const;
+        const std::map<quality_id, std::map<int, int>> &get_quality_cache() const;
 
     private:
         invlet_favorites invlet_cache;

@@ -173,7 +173,7 @@ bool visitable<T>::has_quality( const quality_id &qual, int level, int qty ) con
 template <>
 bool visitable<inventory>::has_quality( const quality_id &qual, int level, int qty ) const
 {
-    auto *inv = static_cast<const inventory *>( this );
+    const inventory *inv = static_cast<const inventory *>( this );
     auto inv_qual_cache = inv->get_quality_cache();
     if( !inv_qual_cache.empty() ) {
         return inv_qual_cache[qual][level] >= qty;
