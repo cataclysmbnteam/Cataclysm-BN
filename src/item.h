@@ -520,7 +520,8 @@ class item : public visitable<item>
          * stacks like "3 items-count-by-charge (5)".
          */
         bool display_stacked_with( const item &rhs, bool check_components = false ) const;
-        bool stacks_with( const item &rhs, bool check_components = false ) const;
+        bool stacks_with( const item &rhs, bool check_components = false,
+                          bool skip_type_check = false ) const;
         /**
          * Merge charges of the other item into this item.
          * @return true if the items have been merged, otherwise false.
@@ -744,6 +745,7 @@ class item : public visitable<item>
         /*@}*/
 
         int get_quality( const quality_id &id ) const;
+        std::map<quality_id, int> get_qualities() const;
         bool count_by_charges() const;
 
         /**

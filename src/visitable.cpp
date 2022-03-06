@@ -173,8 +173,13 @@ bool visitable<T>::has_quality( const quality_id &qual, int level, int qty ) con
 template <>
 bool visitable<inventory>::has_quality( const quality_id &qual, int level, int qty ) const
 {
+    auto *inv = static_cast<const inventory *>( this );
+    auto inv_qual_cache = inv->get_quality_cache();
+    if( !inv_qual_cache.empty() ) {
+        return inv_qual_cache[qual][level] >= qty;
+    }
     int res = 0;
-    for( const auto &stack : static_cast<const inventory *>( this )->items ) {
+    for( const auto &stack : inv->items ) {
         res += stack.size() * has_quality_internal( stack.front(), qual, level, qty );
         if( res >= qty ) {
             return true;
@@ -600,6 +605,7 @@ std::list<item> visitable<inventory>::remove_items_with( const
 {
     auto inv = static_cast<inventory *>( this );
     std::list<item> res;
+    itype_id type;
 
     if( count <= 0 ) {
         // nothing to do
@@ -612,6 +618,7 @@ std::list<item> visitable<inventory>::remove_items_with( const
 
         for( auto istack_iter = istack.begin(); istack_iter != istack.end() && count > 0; ) {
             if( filter( *istack_iter ) ) {
+                type = istack_iter->typeId();
                 count--;
                 res.splice( res.end(), istack, istack_iter++ );
                 // The non-first items of a stack may have different invlets, the code
@@ -629,7 +636,7 @@ std::list<item> visitable<inventory>::remove_items_with( const
         }
 
         if( istack.empty() ) {
-            stack = inv->items.erase( stack );
+            stack = inv->items.erase( stack, type );
         } else {
             ++stack;
         }

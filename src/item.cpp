@@ -870,9 +870,9 @@ bool item::display_stacked_with( const item &rhs, bool check_components ) const
     return !count_by_charges() && stacks_with( rhs, check_components );
 }
 
-bool item::stacks_with( const item &rhs, bool check_components ) const
+bool item::stacks_with( const item &rhs, bool check_components, bool skip_type_check ) const
 {
-    if( type != rhs.type ) {
+    if( !skip_type_check && type != rhs.type ) {
         return false;
     }
     if( is_relic() && rhs.is_relic() && !( *relic_data == *rhs.relic_data ) ) {
@@ -5194,6 +5194,15 @@ int item::get_quality( const quality_id &id ) const
     return_quality = std::max( return_quality, contents.best_quality( id ) );
 
     return return_quality;
+}
+
+std::map<quality_id, int> item::get_qualities() const
+{
+    std::map<quality_id, int> qualities;
+    for( const auto &quality : type->qualities ) {
+        qualities[quality.first] = get_quality( quality.first );
+    }
+    return qualities;
 }
 
 bool item::has_technique( const matec_id &tech ) const

@@ -28,7 +28,6 @@ class npc;
 class player;
 struct tripoint;
 
-using invstack = std::list<std::list<item> >;
 using invslice = std::vector<std::list<item> *>;
 using const_invslice = std::vector<const std::list<item> *>;
 using indexed_invslice = std::vector< std::pair<std::list<item>*, int> >;
@@ -85,6 +84,29 @@ class invlet_favorites
         std::unordered_map<itype_id, std::string> invlets_by_id;
         std::array<itype_id, 256> ids_by_invlet;
 };
+
+class invstack : private std::list<std::list<item> >
+{
+    private:
+        std::map<itype_id, std::list<iterator>> stacks_by_type;
+
+    public:
+        using std::list<std::list<item> >::empty;
+        using std::list<std::list<item> >::size;
+        using std::list<std::list<item> >::front;
+        using std::list<std::list<item> >::back;
+        using std::list<std::list<item> >::begin;
+        using std::list<std::list<item> >::end;
+        using std::list<std::list<item> >::sort;
+        using std::list<std::list<item> >::iterator;
+        using std::list<std::list<item> >::const_iterator;
+        invstack() = default;
+        iterator erase( const const_iterator stack_iter, const itype_id &type ) ;
+        void push_back( const std::list<item> &new_item_stack ) ;
+        void clear() ;
+        std::list<iterator> &get_stacks_by_type( const itype_id &type ) ;
+};
+
 
 class inventory : public visitable<inventory>
 {
@@ -233,11 +255,15 @@ class inventory : public visitable<inventory>
         // gets a singular enchantment that is an amalgamation of all items that have active enchantments
         enchantment get_active_enchantment_cache( const Character &owner ) const;
 
+        void update_quality_cache();
+        std::map<quality_id, std::map<int, int>> get_quality_cache() const;
+
     private:
         invlet_favorites invlet_cache;
         char find_usable_cached_invlet( const itype_id &item_type );
 
         invstack items;
+        std::map<quality_id, std::map<int, int>> quality_cache;
 
         mutable bool binned = false;
         /**
