@@ -7006,7 +7006,7 @@ look_around_result game::look_around( bool show_window, tripoint &center,
         }
         invalidate_main_ui_adaptor();
         ui_manager::redraw();
-        if( select_zone && has_first_point || is_moving_zone ) {
+        if( ( select_zone && has_first_point ) || is_moving_zone ) {
             ctxt.set_timeout( BLINK_SPEED );
         }
 
@@ -7022,7 +7022,7 @@ look_around_result game::look_around( bool show_window, tripoint &center,
             action = ctxt.handle_input();
         }
         if( ( action == "LEVEL_UP" || action == "LEVEL_DOWN" || action == "MOUSE_MOVE" ||
-              ctxt.get_direction( action ) ) && ( select_zone && has_first_point || is_moving_zone ) ) {
+              ctxt.get_direction( action ) ) && ( ( select_zone && has_first_point ) || is_moving_zone ) ) {
             blink = true; // Always draw blink symbols when moving cursor
         } else if( action == "TIMEOUT" ) {
             blink = !blink;
