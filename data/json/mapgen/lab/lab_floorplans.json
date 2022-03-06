@@ -254,11 +254,11 @@
         "rrr.....!.....l|-------|"
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
-      "furniture": { "f": "f_null" },
+      "furniture": { "f": "f_null", "C": "f_centrifuge" },
       "terrain": {
         "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ],
         "!": [ "t_thconc_floor", "t_thconc_floor", "t_console_broken", "t_generator_broken" ],
-        "C": "t_centrifuge"
+        "C": "t_thconc_floor"
       },
       "mapping": {
         "c": { "items": [ { "item": "chem_lab", "chance": 10 }, { "item": "tools_science", "chance": 10 } ] },
@@ -533,10 +533,10 @@
         "........................"
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
-      "furniture": { "?": "f_autodoc", "/": "f_autodoc_couch" },
+      "furniture": { "?": "f_autodoc", "/": "f_autodoc_couch", "C": "f_centrifuge" },
       "terrain": {
         ",": "t_floor_blue",
-        "C": "t_centrifuge",
+        "C": "t_floor_blue",
         "?": "t_floor_blue",
         "/": "t_floor_blue",
         "7": "t_console",
@@ -614,12 +614,12 @@
       ],
       "palettes": [ "lab_palette" ],
       "terrain": {
-        "C": "t_centrifuge",
+        "C": "t_floor",
         "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ],
         "7": "t_floor",
         "8": "t_floor"
       },
-      "furniture": { "7": "f_autodoc", "8": "f_autodoc_couch" },
+      "furniture": { "7": "f_autodoc", "8": "f_autodoc_couch", "C": "f_centrifuge" },
       "items": {
         "b": { "item": "hospital_bed", "chance": 33 },
         "l": { "item": "surgery", "chance": 50 },
@@ -685,7 +685,8 @@
         "........................"
       ],
       "palettes": [ "lab_palette" ],
-      "terrain": { "C": "t_centrifuge", "7": "t_console", ",": "t_floor_blue" },
+      "furniture": { "C": "f_centrifuge" },
+      "terrain": { "C": "t_floor_blue", "7": "t_console", ",": "t_floor_blue" },
       "mapping": {
         "c": { "items": [ { "item": "office", "chance": 30 }, { "item": "tools_science", "chance": 15 } ] },
         "l": { "items": [ { "item": "science", "chance": 60 } ] }
@@ -831,14 +832,14 @@
         ".........|....|---------"
       ],
       "palettes": [ "lab_palette", "lab_loot_home_office" ],
-      "furniture": { "^": "f_indoor_plant" },
+      "furniture": { "^": "f_indoor_plant", "C": "f_centrifuge" },
       "terrain": {
         "E": "t_elevator",
         "e": "t_elevator_control_off",
         "w": "t_water_sh",
         "W": "t_water_dp",
         "=": "t_door_lab_c",
-        "C": "t_centrifuge"
+        "C": "t_thconc_floor"
       },
       "mapping": { "t": { "items": [ { "item": "vending_food_items", "chance": 20 } ] } },
       "place_loot": [

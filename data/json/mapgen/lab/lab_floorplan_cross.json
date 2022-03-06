@@ -166,17 +166,10 @@
         "-----------MM----------|"
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
+      "//": "Todo: add f_centrifuge once t_console_broken and t_generator_broken are converted to furniture.",
       "terrain": {
         "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ],
-        "!": [
-          "t_thconc_floor",
-          "t_thconc_floor",
-          "t_thconc_floor",
-          "t_thconc_floor",
-          "t_console_broken",
-          "t_generator_broken",
-          "t_centrifuge"
-        ]
+        "!": [ "t_thconc_floor", "t_thconc_floor", "t_thconc_floor", "t_thconc_floor", "t_console_broken", "t_generator_broken" ]
       },
       "place_nested": [
         {

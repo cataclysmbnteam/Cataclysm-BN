@@ -745,7 +745,7 @@ void computer_session::action_blood_anal()
 {
     g->u.moves -= 70;
     for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 2 ) ) {
-        if( g->m.ter( dest ) == t_centrifuge ) {
+        if( g->m.furn( dest ) == furn_str_id( "f_centrifuge" ) ) {
             map_stack items = g->m.i_at( dest );
             if( items.empty() ) {
                 print_error( _( "ERROR: Please place sample in centrifuge." ) );
@@ -1401,7 +1401,7 @@ void computer_session::failure_destroy_blood()
 {
     print_error( _( "ERROR: Disruptive Spin" ) );
     for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 2 ) ) {
-        if( g->m.ter( dest ) == t_centrifuge ) {
+        if( g->m.furn( dest ) == furn_str_id( "f_centrifuge" ) ) {
             map_stack items = g->m.i_at( dest );
             if( items.empty() ) {
                 print_error( _( "ERROR: Please place sample in centrifuge." ) );
