@@ -3379,16 +3379,21 @@ static shared_ptr_fast<game::draw_callback_t> create_zone_callback(
     const cata::optional<tripoint> &zone_start,
     const cata::optional<tripoint> &zone_end,
     const bool &zone_blink,
-    const bool &zone_cursor
+    const bool &zone_cursor,
+    const bool &is_moving_zone = false
 )
 {
     return make_shared_fast<game::draw_callback_t>(
     [&]() {
         if( zone_cursor ) {
-            if( zone_end ) {
-                g->draw_cursor( zone_end.value() );
-            } else if( zone_start ) {
-                g->draw_cursor( zone_start.value() );
+            if( is_moving_zone ) {
+                g->draw_cursor( ( zone_start.value() + zone_end.value() ) / 2 );
+            } else {
+                if( zone_end ) {
+                    g->draw_cursor( zone_end.value() );
+                } else if( zone_start ) {
+                    g->draw_cursor( zone_start.value() );
+                }
             }
         }
         if( zone_blink && zone_start && zone_end ) {
@@ -6826,7 +6831,7 @@ look_around_result game::look_around( bool show_window, tripoint &center,
 
     temp_exit_fullscreen();
 
-    tripoint lp = start_point; // cursor
+    tripoint lp = is_moving_zone ? ( start_point + end_point ) / 2 : start_point; // cursor
     int &lx = lp.x;
     int &ly = lp.y;
     int &lz = lp.z;
@@ -6960,13 +6965,21 @@ look_around_result game::look_around( bool show_window, tripoint &center,
     cata::optional<tripoint> zone_start;
     cata::optional<tripoint> zone_end;
     bool zone_blink = false;
-    bool zone_cursor = !is_moving_zone; // Do not draw cursor if moving zone
+    bool zone_cursor = true;
     shared_ptr_fast<draw_callback_t> zone_cb = create_zone_callback( zone_start, zone_end, zone_blink,
-            zone_cursor );
+            zone_cursor, is_moving_zone );
     add_draw_callback( zone_cb );
 
     is_looking = true;
     const tripoint prev_offset = u.view_offset;
+#if defined(TILES)
+    const int prev_tileset_zoom = tileset_zoom;
+    while( is_moving_zone && square_dist( start_point, end_point ) > 256 / get_zoom() &&
+           get_zoom() != 4 ) {
+        zoom_out();
+    }
+    mark_main_ui_adaptor_resize();
+#endif
     do {
         u.view_offset = center - u.pos();
         if( select_zone ) {
@@ -6984,8 +6997,8 @@ look_around_result game::look_around( bool show_window, tripoint &center,
         }
 
         if( is_moving_zone ) {
-            zone_start = lp;
-            zone_end = end_point - start_point + lp;
+            zone_start = lp - ( start_point + end_point ) / 2 + start_point;
+            zone_end = lp - ( start_point + end_point ) / 2 + end_point;
             // Actually accessed from the terrain overlay callback `zone_cb` in the
             // call to `ui_manager::redraw`.
             //NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
@@ -6993,8 +7006,7 @@ look_around_result game::look_around( bool show_window, tripoint &center,
         }
         invalidate_main_ui_adaptor();
         ui_manager::redraw();
-        // TODO: Enable blinking when moving zone, it's not working right now (simply enable it here will cause weird bugs)
-        if( select_zone && has_first_point /* || is_moving_zone */ ) {
+        if( select_zone && has_first_point || is_moving_zone ) {
             ctxt.set_timeout( BLINK_SPEED );
         }
 
@@ -7008,6 +7020,12 @@ look_around_result game::look_around( bool show_window, tripoint &center,
             action = ctxt.handle_input( scroll_timeout );
         } else {
             action = ctxt.handle_input();
+        }
+        if( ( action == "LEVEL_UP" || action == "LEVEL_DOWN" || action == "MOUSE_MOVE" ||
+              ctxt.get_direction( action ) ) && ( select_zone && has_first_point || is_moving_zone ) ) {
+            blink = true; // Always draw blink symbols when moving cursor
+        } else if( action == "TIMEOUT" ) {
+            blink = !blink;
         }
         if( action == "LIST_ITEMS" ) {
             list_items_monsters();
@@ -7031,9 +7049,6 @@ look_around_result game::look_around( bool show_window, tripoint &center,
             add_msg( m_debug, "levx: %d, levy: %d, levz: %d", get_levx(), get_levy(), center.z );
             u.view_offset.z = center.z - u.posz();
             m.invalidate_map_cache( center.z );
-            if( select_zone && has_first_point /* || is_moving_zone */ ) { // is blinking
-                blink = true; // Always draw blink symbols when moving cursor
-            }
         } else if( action == "TRAVEL_TO" ) {
             if( !u.sees( lp ) ) {
                 add_msg( _( "You can't see that destination." ) );
@@ -7085,25 +7100,13 @@ look_around_result game::look_around( bool show_window, tripoint &center,
             // other things for us to do here.
 
             if( edge_scrolling ) {
-                if( action == "MOUSE_MOVE" ) {
-                    center += edge_scroll * 2;
-                } else {
-                    center += edge_scroll;
-                }
-                if( select_zone && has_first_point /* || is_moving_zone */ ) { // is blinking
-                    blink = true; // Always draw blink symbols when moving cursor
-                }
+                center += action == "MOUSE_MOVE" ? edge_scroll * 2 : edge_scroll;
             } else if( action == "MOUSE_MOVE" ) {
                 const cata::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain );
                 if( mouse_pos ) {
                     lx = mouse_pos->x;
                     ly = mouse_pos->y;
                 }
-                if( select_zone && has_first_point /* || is_moving_zone */ ) { // is blinking
-                    blink = true; // Always draw blink symbols when moving cursor
-                }
-            } else if( action == "TIMEOUT" ) {
-                blink = !blink;
             }
         } else if( cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             if( fast_scroll ) {
@@ -7115,9 +7118,6 @@ look_around_result game::look_around( bool show_window, tripoint &center,
             ly = ly + vec->y;
             center.x = center.x + vec->x;
             center.y = center.y + vec->y;
-            if( select_zone && has_first_point /* || is_moving_zone */ ) { // is blinking
-                blink = true; // Always draw blink symbols when moving cursor
-            }
         } else if( action == "throw_blind" ) {
             result.peek_action = PA_BLIND_THROW;
         } else if( action == "zoom_in" ) {
@@ -7149,8 +7149,16 @@ look_around_result game::look_around( bool show_window, tripoint &center,
     bVMonsterLookFire = true;
 
     if( action == "CONFIRM" || action == "SELECT" ) {
-        result.position = lp;
+        result.position = is_moving_zone ? zone_start : lp;
     }
+
+#if defined(TILES)
+    if( is_moving_zone && get_zoom() != prev_tileset_zoom ) {
+        // Reset the tileset zoom to the previous value
+        set_zoom( prev_tileset_zoom );
+        mark_main_ui_adaptor_resize();
+    }
+#endif
 
     return result;
 }
