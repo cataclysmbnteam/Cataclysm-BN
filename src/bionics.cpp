@@ -2019,10 +2019,8 @@ void Character::perform_uninstall( bionic_id bid, int difficulty, int success,
         if( bid->itype().is_valid() ) {
             cbm = item( bid.c_str() );
         }
-        cbm.set_flag( flag_FILTHY );
         cbm.set_flag( flag_NO_STERILE );
         cbm.set_flag( flag_NO_PACKED );
-        cbm.faults.emplace( fault_bionic_salvaged );
         g->m.add_item( pos(), cbm );
     } else {
         g->events().send<event_type::fails_to_remove_cbm>( getID(), bid );
@@ -2094,10 +2092,8 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
         patient.remove_bionic( target_cbm.id );
         const itype_id iid = itemtype.is_valid() ? itemtype : itype_burnt_out_bionic;
         item cbm( iid, calendar::start_of_cataclysm );
-        cbm.set_flag( flag_FILTHY );
         cbm.set_flag( flag_NO_STERILE );
         cbm.set_flag( flag_NO_PACKED );
-        cbm.faults.emplace( fault_bionic_salvaged );
         g->m.add_item( patient.pos(), cbm );
     } else {
         bionics_uninstall_failure( installer, patient, difficulty, success, adjusted_skill );
