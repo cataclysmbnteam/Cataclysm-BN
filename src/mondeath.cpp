@@ -166,6 +166,7 @@ static void scatter_chunks( const itype_id &chunk_name, int chunk_amt, monster &
 
 void mdeath::splatter( monster &z )
 {
+    map &here = get_map();
     const bool gibbable = !z.type->has_flag( MF_NOGIB );
 
     const int max_hp = std::max( z.get_hp_max(), 1 );
@@ -183,7 +184,7 @@ void mdeath::splatter( monster &z )
     const field_type_id type_gib = z.gibType();
 
     if( gibbable ) {
-        const auto area = g->m.points_in_radius( z.pos(), 1 );
+        const auto area = here.points_in_radius( z.pos(), 1 );
         int number_of_gibs = std::min( std::floor( corpse_damage ) - 1, 1 + max_hp / 5.0f );
 
         if( pulverized && z.type->size >= MS_MEDIUM ) {
@@ -192,8 +193,12 @@ void mdeath::splatter( monster &z )
         }
 
         for( int i = 0; i < number_of_gibs; ++i ) {
-            g->m.add_splatter( type_gib, random_entry( area ), rng( 1, i + 1 ) );
-            g->m.add_splatter( type_blood, random_entry( area ) );
+            if( type_blood ) {
+                here.add_splatter( type_gib, random_entry( area ), rng( 1, i + 1 ) );
+            }
+            if( type_gib ) {
+                here.add_splatter( type_blood, random_entry( area ) );
+            }
         }
     }
     // 1% of the weight of the monster is the base, with overflow damage as a multiplier
@@ -226,7 +231,7 @@ void mdeath::splatter( monster &z )
         if( z.has_effect( effect_no_ammo ) ) {
             corpse.set_var( "no_ammo", "no_ammo" );
         }
-        g->m.add_item_or_charges( z.pos(), corpse );
+        here.add_item_or_charges( z.pos(), corpse );
     }
 }
 
