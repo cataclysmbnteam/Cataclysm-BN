@@ -180,7 +180,7 @@ bool visitable<inventory>::has_quality( const quality_id &qual, int level, int q
         for( const auto &q : inv_qual_cache[qual] ) {
             if( q.first >= level ) {
                 res = sum_no_wrap( res, q.second );
-    }
+            }
         }
         return res >= qty;
     }
