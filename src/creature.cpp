@@ -130,7 +130,10 @@ void Creature::reset()
 
 void Creature::bleed() const
 {
-    g->m.add_splatter( bloodType(), pos() );
+    const field_type_id &blood_type = bloodType();
+    if( blood_type ) {
+        get_map().add_splatter( blood_type, pos() );
+    }
 }
 
 void Creature::reset_bonuses()
