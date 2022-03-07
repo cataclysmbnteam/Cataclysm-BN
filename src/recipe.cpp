@@ -629,10 +629,20 @@ std::function<bool( const item & )> recipe::get_component_filter(
         };
     }
 
-    return [ rotten_filter, magazine_filter ]( const item & component ) {
-        return is_crafting_component( component ) &&
+    // Filter out filthy components here instead of with is_crafting_component
+    // Make an exception for recipes with the ALLOW_FILTHY flag
+    std::function<bool( const item & )> filthy_filter = return_true<item>;
+    if( !has_flag( "ALLOW_FILTHY" ) ) {
+        filthy_filter = []( const item & component ) {
+            return !component.has_flag( "FILTHY" );
+        };
+    }
+
+    return [ rotten_filter, magazine_filter, filthy_filter ]( const item & component ) {
+        return is_crafting_component_allow_filthy( component ) &&
                rotten_filter( component ) &&
-               magazine_filter( component );
+               magazine_filter( component ) &&
+               filthy_filter( component );
     };
 }
 

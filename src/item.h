@@ -2262,6 +2262,15 @@ inline bool is_crafting_component( const item &component )
            !component.is_filthy();
 }
 
+/**
+ * This is used in recipes, all other cases use is_crafting_component instead. This allows
+ * filthy components to be filtered out in a different manner that allows exceptions.
+ */
+inline bool is_crafting_component_allow_filthy( const item &component )
+{
+    return ( component.allow_crafting_component() || component.count_by_charges() );
+}
+
 namespace charge_removal_blacklist
 {
 const std::set<itype_id> &get();
