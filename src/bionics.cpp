@@ -134,8 +134,6 @@ static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_water_clean( "water_clean" );
 
-static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
-
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_firstaid( "firstaid" );
@@ -192,7 +190,6 @@ static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
 static const std::string flag_ALLOWS_NATURAL_ATTACKS( "ALLOWS_NATURAL_ATTACKS" );
 static const std::string flag_AURA( "AURA" );
 static const std::string flag_CABLE_SPOOL( "CABLE_SPOOL" );
-static const std::string flag_FILTHY( "FILTHY" );
 static const std::string flag_NO_PACKED( "NO_PACKED" );
 static const std::string flag_NO_STERILE( "NO_STERILE" );
 static const std::string flag_NO_UNWIELD( "NO_UNWIELD" );
