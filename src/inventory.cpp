@@ -127,9 +127,7 @@ const std::unordered_map<itype_id, std::string> &invlet_favorites::get_invlets_b
     return invlets_by_id;
 }
 
-invstack::invstack()
-{
-}
+invstack::invstack() = default;
 
 invstack::iterator invstack::erase( const const_iterator stack_iter, const itype_id &type )
 {
