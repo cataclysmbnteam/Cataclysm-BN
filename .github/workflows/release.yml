@@ -163,7 +163,7 @@ jobs:
         uses: lukka/run-vcpkg@main
         id: runvcpkg
         with:
-          additionalCachedPaths: '${{ runner.workspace }}/Cataclysm-DDA/msvc-full-features/vcpkg_installed'
+          additionalCachedPaths: '${{ runner.workspace }}/Cataclysm-BN/msvc-full-features/vcpkg_installed'
           appendedCacheKey: ${{ hashFiles( 'msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/**' ) }}-${{ matrix.arch }}-1
           setupOnly: true
           vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'

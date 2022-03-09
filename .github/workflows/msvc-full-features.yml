@@ -3,7 +3,7 @@ name: Cataclysm Windows build
 on:
   push:
     branches:
-    - master
+    - upload
     paths-ignore:
     - 'android/**'
     - 'build-data/osx/**'
@@ -19,7 +19,7 @@ on:
     - 'utilities/**'
   pull_request:
     branches:
-    - master
+    - upload
     paths-ignore:
     - 'android/**'
     - 'build-data/osx/**'
@@ -88,7 +88,7 @@ jobs:
       if: failure()
       run: |
         echo =================================================
-        Get-ChildItem "${{ runner.workspace }}/Cataclysm-DDA/msvc-full-features/vcpkg_installed" -Recurse
+        Get-ChildItem "${{ runner.workspace }}/Cataclysm-BN/msvc-full-features/vcpkg_installed" -Recurse
         echo =================================================
         Get-ChildItem "${{ runner.workspace }}/b/vcpkg/buildtrees" |
         Foreach-Object {
