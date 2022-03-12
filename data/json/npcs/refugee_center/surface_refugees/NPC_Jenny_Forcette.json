@@ -64,7 +64,8 @@
   {
     "type": "effect_type",
     "id": "u_met_Jenny_Forcette",
-    "//": "Use this flag to indicate if the player has met this NPC before."
+    "//": "Use this flag to indicate if the player has met this NPC before.",
+    "permanent": true
   },
   {
     "type": "talk_topic",
