@@ -216,6 +216,11 @@
     "info": "This gear <good>completely protects</good> you from <info>acid damage</info>."
   },
   {
+    "id": "EFFECT_BULLET_IMMUNE",
+    "context": [  ],
+    "type": "json_flag"
+  },
+  {
     "id": "STAB_IMMUNE",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "type": "json_flag",

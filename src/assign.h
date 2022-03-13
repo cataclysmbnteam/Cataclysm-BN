@@ -989,7 +989,7 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
     }
 
     if( out.damage_units.empty() ) {
-        out = damage_instance( DT_STAB, 0.0f );
+        out = damage_instance( DT_BULLET, 0.0f );
     }
 
     // Now that we've verified everything in out is all good, set val to it

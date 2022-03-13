@@ -307,6 +307,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string src )
     assign_map_from_array( jsobj, "env_protec", env_protec, strict );
     assign_map_from_array( jsobj, "bash_protec", bash_protec, strict );
     assign_map_from_array( jsobj, "cut_protec", cut_protec, strict );
+    assign_map_from_array( jsobj, "bullet_protec", bullet_protec, strict );
     assign_map_from_array( jsobj, "occupied_bodyparts", occupied_bodyparts, strict );
     assign_map_from_array( jsobj, "encumbrance", encumbrance, strict );
     assign( jsobj, "fake_item", fake_item, strict );
