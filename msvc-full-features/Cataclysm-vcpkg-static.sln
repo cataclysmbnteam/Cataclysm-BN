@@ -6,7 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{04F55049-F0DE-4AE6-9D10-3DB97DFF2E2F}"
 	ProjectSection(SolutionItems) = preProject
 		..\.editorconfig = ..\.editorconfig
-		AStyleExtension-Cataclysm-DDA.cfg = AStyleExtension-Cataclysm-DDA.cfg
+		AStyleExtension-Cataclysm-BN.cfg = AStyleExtension-Cataclysm-BN.cfg
 		vcpkg.json = vcpkg.json
 	EndProjectSection
 EndProject
@@ -16,7 +16,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cataclysm-test-vcpkg-static
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cataclysm-lib-vcpkg-static", "Cataclysm-lib-vcpkg-static.vcxproj", "{0009BB11-11AD-4C14-A5FC-D882A942C00B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JsonFormatter", "JsonFormatter.vcxproj", "{35D74C75-FC4A-442F-AF44-43BC9D845BAF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JsonFormatter-vcpkg-static", "JsonFormatter-vcpkg-static.vcxproj", "{35D74C75-FC4A-442F-AF44-43BC9D845BAF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

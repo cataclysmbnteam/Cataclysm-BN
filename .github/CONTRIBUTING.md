@@ -2,9 +2,9 @@
 
 **Opening new issue?** Please read [ISSUES.md](../ISSUES.md) first.
 
-Contributing to Cataclysm: Dark Days Ahead is easy — simply fork the repository here on GitHub, make your changes, and then send us a pull request.
+Contributing to Cataclysm: Bright Nights is easy — simply fork the repository here on GitHub, make your changes, and then send us a pull request.
 
-Cataclysm:Dark Days Ahead is released under the Creative Commons Attribution ShareAlike 3.0 license. The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever. See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+Cataclysm: Bright Nights is released under the Creative Commons Attribution ShareAlike 3.0 license. The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever. See http://creativecommons.org/licenses/by-sa/3.0/ for details.
 This means any contribution you make to the project will also be covered by the same license, and this license is irrevocable.
 
 ## Guidelines
@@ -12,9 +12,9 @@ This means any contribution you make to the project will also be covered by the 
 There are a couple of guidelines we suggest sticking to:
 
 * Add this repository as an `upstream` remote.
-* Keep your `master` branch clean. This means you can easily pull changes made to this repository into yours.
+* Keep your `upload` branch clean. This means you can easily pull changes made to this repository into yours.
 * Create a new branch for each new feature or set of related bug fixes.
-* Never merge from your local branches into your `master` branch. Only update that by pulling from `upstream/master`.
+* Never merge from your local branches into your `upload` branch. Only update that by pulling from `upstream/upload`.
 
 ## Code Style
 
@@ -23,8 +23,8 @@ See [CODE_STYLE](../doc/CODE_STYLE.md) for details.
 
 ## Translations
 
-The translation of Cataclysm: DDA is done using Transifex.
-Look at the [translation project](https://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/) for an up-to-date list of supported languages.
+The translation of Cataclysm: BN is done using Transifex.
+Look at the [translation project](https://www.transifex.com/bn-team/cataclysm-bright-nights/) for an up-to-date list of supported languages.
 
 See [TRANSLATING](../doc/TRANSLATING.md) for more information:
 
@@ -90,7 +90,7 @@ http://www.stack.nl/~dimitri/doxygen/manual/faq.html
 
 2. Clone your fork locally.
 
-        $ git clone https://github.com/YOUR_USERNAME/Cataclysm-DDA.git
+        $ git clone https://github.com/YOUR_USERNAME/Cataclysm-BN.git
         # Clones your fork of the repository into the current directory in terminal
 
 3. Set commit message template.
@@ -99,9 +99,9 @@ http://www.stack.nl/~dimitri/doxygen/manual/faq.html
 
 4. Add this repository as a remote.
 
-        $ cd Cataclysm-DDA
-        # Changes the active directory in the prompt to the newly cloned "Cataclysm-DDA" directory
-        $ git remote add -f upstream https://github.com/CleverRaven/Cataclysm-DDA.git
+        $ cd Cataclysm-BN
+        # Changes the active directory in the prompt to the newly cloned "Cataclysm-BN" directory
+        $ git remote add -f upstream https://github.com/CleverRaven/Cataclysm-BN.git
         # Assigns the original repository to a remote called "upstream"
 
 For further details about commit message guidelines please visit:
@@ -109,22 +109,22 @@ For further details about commit message guidelines please visit:
 - [chris.beams.io](https://chris.beams.io/posts/git-commit/)
 - [help.github.com](https://help.github.com/articles/closing-issues-using-keywords/)
 
-#### Update your `master` branch
+#### Update your `upload` branch
 
-1. Make sure you have your `master` branch checked out.
+1. Make sure you have your `upload` branch checked out.
 
-        $ git checkout master
+        $ git checkout upload
 
-2. Pull the changes from the `upstream/master` branch.
+2. Pull the changes from the `upstream/upload` branch.
 
-        $ git pull --ff-only upstream master
-        # gets changes from "master" branch on the "upstream" remote
+        $ git pull --ff-only upstream upload
+        # gets changes from "upload" branch on the "upstream" remote
 
- * Note: If this gives you an error, it means you have committed directly to your local `master` branch. [Click here for instructions on how to fix this issue](#why-does-git-pull---ff-only-result-in-an-error).
+ * Note: If this gives you an error, it means you have committed directly to your local `upload` branch. [Click here for instructions on how to fix this issue](#why-does-git-pull---ff-only-result-in-an-error).
 
 #### Make your changes
 
-0. Update your `master` branch, if you haven't already.
+0. Update your `upload` branch, if you haven't already.
 
 1. For each new feature or bug fix, create a new branch.
 
@@ -139,7 +139,7 @@ For further details about commit message guidelines please visit:
         # origin was automatically set to point to your fork when you cloned it
 
 
-3. Once you're finished working on your branch, and have committed and pushed all your changes, submit a pull request from your `new_feature` branch to this repository's `master` branch.
+3. Once you're finished working on your branch, and have committed and pushed all your changes, submit a pull request from your `new_feature` branch to this repository's `upload` branch.
 
  * Note: any new commits to the `new_feature` branch on GitHub will automatically be included in the pull request, so make sure to only commit related changes to the same branch.
 
@@ -153,7 +153,7 @@ This can help speed up our review process by allowing us to only review the thin
 It is not required to solve or reference an open issue to file a PR, however, if you do so, you need to explain the problem your PR is solving in full detail.
 
 ### All PRs should have a "Summary" line
-Summary is a one-line description of your change that will be extracted and added to the project changelog at https://github.com/CleverRaven/Cataclysm-DDA/blob/master/data/changelog.txt
+Summary is a one-line description of your change that will be extracted and added to the project changelog at https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/data/changelog.txt
 
 The format is: ```SUMMARY: Category "description"```
 
@@ -163,7 +163,7 @@ Example: ```SUMMARY: Content "Adds new mutation category 'Mouse'"```
 Or, if you want it treated as a minor tweak that doesn't appear in the changelog:
 ```SUMMARY: None```
 
-See the Changelog Guidelines at https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/CHANGELOG_GUIDELINES.md for explanations of the categories.
+See the Changelog Guidelines at https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/doc/CHANGELOG_GUIDELINES.md for explanations of the categories.
 
 ### Closing issues using keywords
 
@@ -192,13 +192,13 @@ These guidelines aren't essential, but they can make keeping things in order muc
 
 #### Using remote tracking branches
 
-Remote tracking branches allow you to easily stay in touch with this repository's `master` branch, as they automatically know which remote branch to get changes from.
+Remote tracking branches allow you to easily stay in touch with this repository's `upload` branch, as they automatically know which remote branch to get changes from.
 
     $ git branch -vv
-    * master      xxxx [origin/master] ....
+    * upload      xxxx [origin/upload] ....
       new_feature xxxx ....
 
-Here you can see we have two branches; `master` which is tracking `origin/master`, and `new_feature` which isn't tracking any branch. In practice, what this means is that git won't know where to get changes from.
+Here you can see we have two branches; `upload` which is tracking `origin/upload`, and `new_feature` which isn't tracking any branch. In practice, what this means is that git won't know where to get changes from.
 
     $ git checkout new_feature
     Switched to branch 'new_feature'
@@ -206,27 +206,27 @@ Here you can see we have two branches; `master` which is tracking `origin/master
     There is no tracking information for the current branch.
     Please specify which branch you want to merge with.
 
-In order to easily pull changes from `upstream/master` into the `new_feature` branch, we can tell git which branch it should track. (You can even do this for your local master branch.)
+In order to easily pull changes from `upstream/upload` into the `new_feature` branch, we can tell git which branch it should track. (You can even do this for your local upload branch.)
 
-    $ git branch -u upstream/master new_feature
-    Branch new_feature set up to track remote branch master from upstream.
+    $ git branch -u upstream/upload new_feature
+    Branch new_feature set up to track remote branch upload from upstream.
     $ git pull
     Updating xxxx..xxxx
     ....
 
 You can also set the tracking information at the same time as creating the branch.
 
-    $ git branch new_feature_2 --track upstream/master
-    Branch new_feature_2 set up to track remote branch master from upstream.
+    $ git branch new_feature_2 --track upstream/upload
+    Branch new_feature_2 set up to track remote branch upload from upstream.
 
- * Note: Although this makes it easier to pull from `upstream/master`, it doesn't change anything with regards to pushing. `git push` fails because you don't have permission to push to `upstream/master`.
+ * Note: Although this makes it easier to pull from `upstream/upload`, it doesn't change anything with regards to pushing. `git push` fails because you don't have permission to push to `upstream/upload`.
 
         $ git push
-        error: The requested URL returned error: 403 while accessing https://github.com/CleverRaven/Cataclysm-DDA.git
+        error: The requested URL returned error: 403 while accessing https://github.com/cataclysmbnteam/Cataclysm-BN.git
         fatal: HTTP request failed
         $ git push origin
         ....
-        To https://github.com/YOUR_USERNAME/Cataclysm-DDA.git
+        To https://github.com/YOUR_USERNAME/Cataclysm-BN.git
         xxxx..xxxx  new_feature -> new_feature
 
 ## Unit tests
@@ -267,28 +267,28 @@ Bring up the keybindings menu (press `Escape` then `1`), scroll down almost to t
 └───────────────────────────────────────────────────────────────────────────┘
 ```
 
-With these commands, you should be able to recreate the proper conditions to test your changes. You can find some more information about the debug menu on [the official wiki](http://cddawiki.chezzo.com/cdda_wiki/index.php).
+With these commands, you should be able to recreate the proper conditions to test your changes. The [DDA wiki](http://cddawiki.chezzo.com/cdda_wiki/index.php) may have useful informations regarding debug menu.
 
 ## Frequently Asked Questions
 
 #### Why does `git pull --ff-only` result in an error?
 
-If `git pull --ff-only` shows an error, it means that you've committed directly to your local `master` branch. To fix this, we create a new branch with these commits, find the point at which we diverged from `upstream/master`, and then reset `master` to that point.
+If `git pull --ff-only` shows an error, it means that you've committed directly to your local `upload` branch. To fix this, we create a new branch with these commits, find the point at which we diverged from `upstream/upload`, and then reset `upload` to that point.
 
-    $ git pull --ff-only upstream master
-    From https://github.com/CleverRaven/Cataclysm-DDA
-     * branch            master     -> FETCH_HEAD
+    $ git pull --ff-only upstream upload
+    From https://github.com/cataclysmbnteam/Cataclysm-BN
+     * branch            upload     -> FETCH_HEAD
     fatal: Not possible to fast-forward, aborting.
-    $ git branch new_branch master          # mark the current commit with a tmp branch
-    $ git merge-base master upstream/master
-    cc31d0... # the last commit before we committed directly to master
+    $ git branch new_branch upload          # mark the current commit with a tmp branch
+    $ git merge-base upload upstream/upload
+    cc31d0... # the last commit before we committed directly to upload
     $ git reset --hard cc31d0....
     HEAD is now at cc31d0... ...
 
-Now that `master` has been cleaned up, we can easily pull from `upstream/master`, and then continue working on `new_branch`.
+Now that `upload` has been cleaned up, we can easily pull from `upstream/upload`, and then continue working on `new_branch`.
 
-    $ git pull --ff-only upstream master
-    # gets changes from the "upstream" remote for the matching branch, in this case "master"
+    $ git pull --ff-only upstream upload
+    # gets changes from the "upstream" remote for the matching branch, in this case "upload"
     $ git checkout new_branch
 
 For more frequently asked questions, see the [developer FAQ](../doc/DEVELOPER_FAQ.md).

@@ -24,10 +24,10 @@ Do not enter the square brackets [].  Category must be one of these:
 - I18N
 
 For more on the meaning of each category, see:
-https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/CHANGELOG_GUIDELINES.md
+https://github.com/cataclysmbnteam/Cataclysm-BN/blob/master/doc/CHANGELOG_GUIDELINES.md
 
 If approved and merged, your summary will be added to the project changelog:
-https://github.com/CleverRaven/Cataclysm-DDA/blob/master/data/changelog.txt
+https://github.com/cataclysmbnteam/Cataclysm-BN/blob/master/data/changelog.txt
 -->
 
 #### Purpose of change
