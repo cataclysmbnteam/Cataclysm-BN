@@ -101,12 +101,6 @@ jobs:
             }
         }
 
-    - name: Compile .mo files for localization
-      run: |
-          & "C:\msys64\mingw64\bin\mingw32-make" -C lang -j2
-          mkdir -p ./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES -ErrorAction SilentlyContinue
-          msgfmt -f -o ./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES/TEST_DATA.mo ./data/mods/TEST_DATA/lang/po/ru.po
-
     - name: Enable GitHub Actions problem matchers
       run: |
           Write-Output "::add-matcher::build-scripts/problem-matchers/catch2.json"
@@ -114,7 +108,7 @@ jobs:
 
     - name: Run tests
       run: |
-          .\Cataclysm-test-vcpkg-static-Release-x64.exe --min-duration 0.2 --rng-seed time
+          .\Cataclysm-test-vcpkg-static-Release-x64.exe --rng-seed time
 
     - name: Clean
       run: |
