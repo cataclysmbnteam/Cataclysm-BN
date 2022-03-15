@@ -101,11 +101,6 @@ jobs:
             }
         }
 
-    - name: Enable GitHub Actions problem matchers
-      run: |
-          Write-Output "::add-matcher::build-scripts/problem-matchers/catch2.json"
-          Write-Output "::add-matcher::build-scripts/problem-matchers/debugmsg.json"
-
     - name: Run tests
       run: |
           .\Cataclysm-test-vcpkg-static-Release-x64.exe --rng-seed time
