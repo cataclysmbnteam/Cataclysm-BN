@@ -127,16 +127,18 @@ const std::unordered_map<itype_id, std::string> &invlet_favorites::get_invlets_b
     return invlets_by_id;
 }
 
-invstack::invstack( const invstack &other )
+invstack::invstack( const invstack &other ): std::list<std::list<item>>( other )
 {
-    clear();
-    for( const auto &elem : other ) {
-        push_back( elem );
+    for( auto &elem : *this ) {
+        stacks_by_type[elem.front().typeId()].push_back( &elem );
     }
 }
 
 invstack &invstack::operator=( const invstack &other )
 {
+    if( this == &other ) {
+        return *this;
+    }
     clear();
     for( const auto &elem : other ) {
         push_back( elem );
