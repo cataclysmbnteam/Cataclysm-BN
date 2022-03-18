@@ -87,33 +87,30 @@ class invlet_favorites
 
 class invstack : private std::list<std::list<item> >
 {
-    private:
-        std::map<itype_id, std::list<iterator>> stacks_by_type;
-        // Use a menber variable here will cause an "Access violation reading location" error
-        // Don't know why
-        // bool is_valid = false;
-
     public:
-        using std::list<std::list<item> >::empty;
-        using std::list<std::list<item> >::size;
-        using std::list<std::list<item> >::front;
-        using std::list<std::list<item> >::back;
-        using std::list<std::list<item> >::begin;
-        using std::list<std::list<item> >::end;
-        using std::list<std::list<item> >::sort;
-        using std::list<std::list<item> >::iterator;
-        using std::list<std::list<item> >::const_iterator;
-        invstack();
+        using item_stack = std::list<item>;
+        using item_stack_ptr = std::list<item> *;
+
+        using std::list<item_stack>::empty;
+        using std::list<item_stack>::size;
+        using std::list<item_stack>::front;
+        using std::list<item_stack>::back;
+        using std::list<item_stack>::begin;
+        using std::list<item_stack>::end;
+        using std::list<item_stack>::sort;
+        using std::list<item_stack>::iterator;
+        using std::list<item_stack>::const_iterator;
+
+        invstack() = default;
+        invstack( const invstack & );
+        invstack &operator=( const invstack & );
         iterator erase( const_iterator stack_iter, const itype_id &type ) ;
-        void push_back( const std::list<item> &new_item_stack ) ;
+        void push_back( const item_stack &new_item_stack ) ;
         void clear() ;
-        std::list<iterator> &get_stacks_by_type( const itype_id &type ) ;
-        /**
-         * Init member variable stacks_by_type, make sure the iterator stored is valid.
-         * Guess it could be put into the constructor, but not sure how to do that.
-         *
-         */
-        void init_stacks_by_type() ;
+        std::list<item_stack_ptr> &get_stacks_by_type( const itype_id &type ) ;
+
+    private:
+        std::map<itype_id, std::list<item_stack_ptr>> stacks_by_type;
 };
 
 

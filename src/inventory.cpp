@@ -127,13 +127,28 @@ const std::unordered_map<itype_id, std::string> &invlet_favorites::get_invlets_b
     return invlets_by_id;
 }
 
-invstack::invstack() = default;
+invstack::invstack( const invstack &other )
+{
+    clear();
+    for( const auto &elem : other ) {
+        push_back( elem );
+    }
+}
+
+invstack &invstack::operator=( const invstack &other )
+{
+    clear();
+    for( const auto &elem : other ) {
+        push_back( elem );
+    }
+    return *this;
+}
 
 invstack::iterator invstack::erase( const const_iterator stack_iter, const itype_id &type )
 {
     auto &type_stacks = stacks_by_type[type];
     for( auto iter = type_stacks.begin(); iter != type_stacks.end();  ++iter ) {
-        if( *iter == stack_iter ) {
+        if( *iter == &*stack_iter ) {
             type_stacks.erase( iter );
             break;
         }
@@ -144,7 +159,8 @@ invstack::iterator invstack::erase( const const_iterator stack_iter, const itype
 void invstack::push_back( const std::list<item> &new_item_stack )
 {
     std::list<std::list<item> >::push_back( new_item_stack );
-    stacks_by_type[new_item_stack.front().typeId()].push_back( --end() );
+    itype_id type = new_item_stack.front().typeId();
+    stacks_by_type[type].push_back( &back() );
 }
 
 void invstack::clear()
@@ -154,31 +170,12 @@ void invstack::clear()
 }
 
 
-std::list<invstack::iterator> &invstack::get_stacks_by_type( const itype_id &type )
+std::list<invstack::item_stack_ptr> &invstack::get_stacks_by_type( const itype_id &type )
 {
     return stacks_by_type[type];
 }
 
 inventory::inventory() = default;
-
-void invstack::init_stacks_by_type()
-{
-    if( empty() ) {
-        stacks_by_type.clear();
-        return;
-    } else {
-        itype_id type = front().front().typeId();
-        for( auto type_stacks : stacks_by_type[type] ) {
-            if( &*type_stacks == &front() ) {
-                return;
-            }
-        }
-    }
-    stacks_by_type.clear();
-    for( auto iter = begin(); iter != end(); ++iter ) {
-        stacks_by_type[iter->front().typeId()].push_back( iter );
-    }
-}
 
 invslice inventory::slice()
 {
@@ -335,10 +332,11 @@ item &inventory::add_item( item newit, bool keep_invlet, bool assign_invlet, boo
     binned = false;
     auto type = newit.typeId();
     if( should_stack ) {
-        // Make sure the iterator stored is valid.
-        items.init_stacks_by_type();
         // See if we can't stack this item.
-        for( auto elem : items.get_stacks_by_type( type ) ) {
+        for( auto &elem : items.get_stacks_by_type( type ) ) {
+            if( !elem || elem->empty() ) {
+                continue;
+            }
             auto it_ref = elem->begin();
             if( it_ref->stacks_with( newit, false, true ) ) {
                 if( it_ref->merge_charges( newit ) ) {
