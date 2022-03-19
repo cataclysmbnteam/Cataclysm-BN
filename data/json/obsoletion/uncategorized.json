@@ -367,8 +367,8 @@
   {
     "type": "terrain",
     "id": "t_centrifuge",
-    "name": "centrifuge",
-    "description": "This is a centrifuge, a liquid separating device with an automated analyzer unit.  It could be used to analyze a medical fluid sample, such as blood, if a test tube was placed in it.",
+    "name": "broken centrifuge",
+    "description": "This used to be a centrifuge, a liquid separating device with an automated analyzer unit.  If it was still functional, it could have been used to analyze a medical fluid sample.",
     "symbol": "{",
     "color": "magenta",
     "move_cost": 0,
