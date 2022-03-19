@@ -32,6 +32,7 @@
 #include "units.h"
 #include "value_ptr.h"
 
+static const std::string flag_ALLOW_FILTHY( "ALLOW_FILTHY" );
 static const std::string flag_FIT( "FIT" );
 static const std::string flag_VARSIZE( "VARSIZE" );
 
@@ -632,9 +633,9 @@ std::function<bool( const item & )> recipe::get_component_filter(
     // Filter out filthy components here instead of with is_crafting_component
     // Make an exception for recipes with the ALLOW_FILTHY flag
     std::function<bool( const item & )> filthy_filter = return_true<item>;
-    if( !has_flag( "ALLOW_FILTHY" ) ) {
+    if( !has_flag( flag_ALLOW_FILTHY ) ) {
         filthy_filter = []( const item & component ) {
-            return !component.has_flag( "FILTHY" );
+            return !component.is_filthy();
         };
     }
 
