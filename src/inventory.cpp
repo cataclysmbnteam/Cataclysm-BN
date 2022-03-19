@@ -122,10 +122,59 @@ std::string invlet_favorites::invlets_for( const itype_id &id ) const
     return map_iterator->second;
 }
 
-const std::unordered_map<itype_id, std::string> &
-invlet_favorites::get_invlets_by_id() const
+const std::unordered_map<itype_id, std::string> &invlet_favorites::get_invlets_by_id() const
 {
     return invlets_by_id;
+}
+
+invstack::invstack( const invstack &other ): std::list<std::list<item>>( other )
+{
+    for( auto &elem : *this ) {
+        stacks_by_type[elem.front().typeId()].push_back( &elem );
+    }
+}
+
+invstack &invstack::operator=( const invstack &other )
+{
+    if( this == &other ) {
+        return *this;
+    }
+    clear();
+    for( const auto &elem : other ) {
+        push_back( elem );
+    }
+    return *this;
+}
+
+invstack::iterator invstack::erase( const const_iterator stack_iter, const itype_id &type )
+{
+    auto &type_stacks = stacks_by_type[type];
+    for( auto iter = type_stacks.begin(); iter != type_stacks.end();  ++iter ) {
+        if( *iter == &*stack_iter ) {
+            type_stacks.erase( iter );
+            break;
+        }
+    }
+    return std::list<std::list<item> >::erase( stack_iter );
+}
+
+void invstack::push_back( const std::list<item> &new_item_stack )
+{
+    std::list<std::list<item> >::push_back( new_item_stack );
+    itype_id type = new_item_stack.front().typeId();
+    stacks_by_type[type].push_back( &back() );
+}
+
+void invstack::clear()
+{
+    stacks_by_type.clear();
+    std::list<std::list<item> >::clear();
+}
+
+
+std::list<invstack::item_stack_ptr> &invstack::get_stacks_by_type( const itype_id &type )
+{
+    return stacks_by_type[type];
 }
 
 inventory::inventory() = default;
@@ -283,12 +332,15 @@ char inventory::find_usable_cached_invlet( const itype_id &item_type )
 item &inventory::add_item( item newit, bool keep_invlet, bool assign_invlet, bool should_stack )
 {
     binned = false;
-
+    auto type = newit.typeId();
     if( should_stack ) {
         // See if we can't stack this item.
-        for( auto &elem : items ) {
-            std::list<item>::iterator it_ref = elem.begin();
-            if( it_ref->stacks_with( newit ) ) {
+        for( auto &elem : items.get_stacks_by_type( type ) ) {
+            if( !elem || elem->empty() ) {
+                continue;
+            }
+            auto it_ref = elem->begin();
+            if( it_ref->stacks_with( newit, false, true ) ) {
                 if( it_ref->merge_charges( newit ) ) {
                     return *it_ref;
                 }
@@ -301,8 +353,8 @@ item &inventory::add_item( item newit, bool keep_invlet, bool assign_invlet, boo
                 } else {
                     newit.invlet = it_ref->invlet;
                 }
-                elem.push_back( newit );
-                return elem.back();
+                elem->push_back( newit );
+                return elem->back();
             } else if( keep_invlet && assign_invlet && it_ref->invlet == newit.invlet &&
                        it_ref->invlet != '\0' ) {
                 // If keep_invlet is true, we'll be forcing other items out of their current invlet.
@@ -317,9 +369,7 @@ item &inventory::add_item( item newit, bool keep_invlet, bool assign_invlet, boo
     }
     update_cache_with_item( newit );
 
-    std::list<item> newstack;
-    newstack.push_back( newit );
-    items.push_back( newstack );
+    items.push_back( { newit } );
     return items.back().back();
 }
 
@@ -376,7 +426,7 @@ void inventory::restack( player &p )
                 } else {
                     iter->splice( iter->begin(), *other );
                 }
-                other = items.erase( other );
+                other = items.erase( other, iter->front().typeId() );
                 --other;
             }
         }
@@ -629,7 +679,7 @@ std::list<item> inventory::reduce_stack( const int position, const int quantity 
             binned = false;
             if( quantity >= static_cast<int>( iter->size() ) || quantity < 0 ) {
                 ret = *iter;
-                items.erase( iter );
+                items.erase( iter, ret.front().typeId() );
             } else {
                 for( int i = 0 ; i < quantity ; i++ ) {
                     ret.push_back( remove_item( &iter->front() ) );
@@ -670,7 +720,7 @@ item inventory::remove_item( const int position )
             item ret = iter->front();
             iter->erase( iter->begin() );
             if( iter->empty() ) {
-                items.erase( iter );
+                items.erase( iter, ret.typeId() );
             }
             return ret;
         }
@@ -706,7 +756,7 @@ std::list<item> inventory::remove_randomly_by_volume( const units::volume &volum
         }
         if( chosen_stack->empty() ) {
             binned = false;
-            items.erase( chosen_stack );
+            items.erase( chosen_stack, chosen_item->typeId() );
         }
     }
     return result;
@@ -782,6 +832,7 @@ std::list<item> inventory::use_amount( itype_id it, int quantity,
     items.sort( stack_compare );
     std::list<item> ret;
     for( invstack::iterator iter = items.begin(); iter != items.end() && quantity > 0; /* noop */ ) {
+        auto type = iter->front().typeId();
         for( std::list<item>::iterator stack_iter = iter->begin();
              stack_iter != iter->end() && quantity > 0;
              /* noop */ ) {
@@ -793,7 +844,7 @@ std::list<item> inventory::use_amount( itype_id it, int quantity,
         }
         if( iter->empty() ) {
             binned = false;
-            iter = items.erase( iter );
+            iter = items.erase( iter, type );
         } else if( iter != items.end() ) {
             ++iter;
         }
@@ -1035,6 +1086,26 @@ enchantment inventory::get_active_enchantment_cache( const Character &owner ) co
         }
     }
     return temp_cache;
+}
+
+void inventory::update_quality_cache()
+{
+    quality_cache.clear();
+    inventory *this_nonconst = const_cast<inventory *>( this );
+    this_nonconst->visit_items( [ this ]( item * e ) {
+        auto item_qualities = e->get_qualities();
+        for( const auto &quality : item_qualities ) {
+            // quality.first is the id of the quality, quality.second is the quality level
+            // the value is the number of items with that quality level
+            ++quality_cache[quality.first][quality.second];
+        }
+        return VisitResponse::NEXT;
+    } );
+}
+
+const std::map<quality_id, std::map<int, int>> &inventory::get_quality_cache() const
+{
+    return quality_cache;
 }
 
 void inventory::assign_empty_invlet( item &it, const Character &p, const bool force )

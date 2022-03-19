@@ -28,7 +28,6 @@ class npc;
 class player;
 struct tripoint;
 
-using invstack = std::list<std::list<item> >;
 using invslice = std::vector<std::list<item> *>;
 using const_invslice = std::vector<const std::list<item> *>;
 using indexed_invslice = std::vector< std::pair<std::list<item>*, int> >;
@@ -85,6 +84,35 @@ class invlet_favorites
         std::unordered_map<itype_id, std::string> invlets_by_id;
         std::array<itype_id, 256> ids_by_invlet;
 };
+
+class invstack : private std::list<std::list<item> >
+{
+    public:
+        using item_stack = std::list<item>;
+        using item_stack_ptr = std::list<item> *;
+
+        using std::list<item_stack>::empty;
+        using std::list<item_stack>::size;
+        using std::list<item_stack>::front;
+        using std::list<item_stack>::back;
+        using std::list<item_stack>::begin;
+        using std::list<item_stack>::end;
+        using std::list<item_stack>::sort;
+        using std::list<item_stack>::iterator;
+        using std::list<item_stack>::const_iterator;
+
+        invstack() = default;
+        invstack( const invstack & );
+        invstack &operator=( const invstack & );
+        iterator erase( const_iterator stack_iter, const itype_id &type ) ;
+        void push_back( const item_stack &new_item_stack ) ;
+        void clear() ;
+        std::list<item_stack_ptr> &get_stacks_by_type( const itype_id &type ) ;
+
+    private:
+        std::map<itype_id, std::list<item_stack_ptr>> stacks_by_type;
+};
+
 
 class inventory : public visitable<inventory>
 {
@@ -233,11 +261,15 @@ class inventory : public visitable<inventory>
         // gets a singular enchantment that is an amalgamation of all items that have active enchantments
         enchantment get_active_enchantment_cache( const Character &owner ) const;
 
+        void update_quality_cache();
+        const std::map<quality_id, std::map<int, int>> &get_quality_cache() const;
+
     private:
         invlet_favorites invlet_cache;
         char find_usable_cached_invlet( const itype_id &item_type );
 
         invstack items;
+        std::map<quality_id, std::map<int, int>> quality_cache;
 
         mutable bool binned = false;
         /**
