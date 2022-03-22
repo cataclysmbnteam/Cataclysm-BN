@@ -1867,6 +1867,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
             g->m.set_outside_cache_dirty( target.z );
             g->m.set_floor_cache_dirty( target.z );
             g->m.set_pathfinding_cache_dirty( target.z );
+            g->m.set_suspension_cache_dirty( target.z );
 
             g->m.clear_vehicle_cache( target.z );
             g->m.clear_vehicle_list( target.z );
