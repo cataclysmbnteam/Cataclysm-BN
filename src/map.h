@@ -457,6 +457,7 @@ class map
                 ch.transparency_cache_dirty.set();
                 ch.seen_cache_dirty = true;
                 ch.outside_cache_dirty = true;
+                ch.suspension_cache_dirty = true;
             }
         }
 
