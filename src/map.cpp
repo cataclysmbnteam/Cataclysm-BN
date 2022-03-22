@@ -7875,17 +7875,19 @@ void map::update_suspension_cache( const int &z )
         ch.suspension_cache_initialized = true;
     }
 
-    for( auto iter = suspension_cache.begin(); iter != suspension_cache.end(); ++iter ) {
+    for( auto iter = suspension_cache.begin(); iter != suspension_cache.end(); ) {
         const point absp = *iter;
         const point locp = getlocal( absp );
         const tripoint loctp( locp.x, locp.y, z );
         if( !inbounds( locp ) ) {
+            ++iter;
             continue;
         }
         const submap *cur_submap = get_submap_at( { locp.x, locp.y, z } );
         if( cur_submap == nullptr ) {
             debugmsg( "Tried to run suspension check at (%d,%d,%d) but the submap is not loaded", locp.x,
                       locp.y, z );
+            ++iter;
             continue;
         }
         const ter_t &terrain = ter( locp ).obj();
@@ -7893,11 +7895,11 @@ void map::update_suspension_cache( const int &z )
             if( !is_suspension_valid( loctp ) ) {
                 support_dirty( loctp );
                 iter = suspension_cache.erase( iter );
-                --iter;
+            } else {
+                ++iter;
             }
         } else {
             iter = suspension_cache.erase( iter );
-            --iter;
         }
     }
     ch.suspension_cache_dirty = false;
