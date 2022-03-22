@@ -1315,5 +1315,10 @@
     "id": [ "tanning_pelt", "tanned_pelt" ],
     "type": "MIGRATION",
     "replace": "fur"
+  },
+  {
+    "id": "raw_butter",
+    "type": "MIGRATION",
+    "replace": "butter"
   }
 ]
