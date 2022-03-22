@@ -35,8 +35,8 @@
       ],
       "rotation": 2,
       "palettes": [ "tri_tower", "upper_level", "bandit_tower_stuff" ],
-      "terrain": { "3": "t_centrifuge", "5": "t_pavement", "8": "t_bridge" },
-      "furniture": { "j": "f_displaycase", "p": "f_indoor_plant_y", "z": "f_statue" },
+      "terrain": { "3": "t_floor", "5": "t_pavement", "8": "t_bridge" },
+      "furniture": { "3": "f_centrifuge", "j": "f_displaycase", "p": "f_indoor_plant_y", "z": "f_statue" },
       "items": {
         "d": [ { "item": "fancyfurs", "chance": 30 }, { "item": "art", "chance": 30 } ],
         "j": { "item": "museum_melee", "chance": 30 },

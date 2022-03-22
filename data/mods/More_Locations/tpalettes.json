@@ -606,14 +606,7 @@
   {
     "type": "palette",
     "id": "med_lab",
-    "terrain": {
-      "1": "t_support_l",
-      "4": "t_machinery_electronic",
-      "5": "t_centrifuge",
-      "6": "t_console_broken",
-      "8": "t_vat",
-      "9": "t_rock"
-    },
+    "terrain": { "1": "t_support_l", "4": "t_machinery_electronic", "6": "t_console_broken", "8": "t_vat", "9": "t_rock" },
     "furniture": { "0": "f_standing_tank", "3": "f_robotic_arm" },
     "traps": { "2": "tr_goo", "7": "tr_dissector" }
   },
