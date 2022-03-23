@@ -45,8 +45,6 @@
     "symbol": "\"",
     "color": "light_gray",
     "move_cost": 0,
-    "coverage": 60,
-    "roof": "t_flat_roof",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -170,8 +168,6 @@
     "symbol": "\"",
     "color": "dark_gray",
     "move_cost": 0,
-    "coverage": 95,
-    "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "WINDOW" ],
     "curtain_transform": "t_window_no_curtains_taped",
     "examine_action": "curtains",
@@ -194,8 +190,6 @@
     "symbol": "'",
     "color": "light_gray",
     "move_cost": 4,
-    "coverage": 60,
-    "roof": "t_flat_roof",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -229,7 +223,6 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 95,
-    "roof": "t_flat_roof",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -742,7 +735,16 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "CONNECT_TO_WALL",
+      "THIN_OBSTACLE",
+      "BARRICADABLE_WINDOW_CURTAINS",
+      "BLOCK_WIND",
+      "REDUCE_SCENT",
+      "WINDOW"
+    ],
     "curtain_transform": "t_window_bars",
     "examine_action": "curtains",
     "close": "t_metal_grate_window_with_curtain",
