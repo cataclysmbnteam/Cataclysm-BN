@@ -77,6 +77,11 @@ static const ammo_effect_str_id ammo_effect_SMOKE( "SMOKE" );
 static const ammo_effect_str_id ammo_effect_SMOKE_BIG( "SMOKE_BIG" );
 static const ammo_effect_str_id ammo_effect_TOXICGAS( "TOXICGAS" );
 
+static const flag_str_id flag_MELEE_GUNMOD( "MELEE_GUNMOD" );
+
+static const gun_mode_id gun_mode_REACH( "REACH" );
+
+
 std::unique_ptr<Item_factory> item_controller = std::make_unique<Item_factory>();
 
 /** @relates string_id */
@@ -353,6 +358,15 @@ void Item_factory::finalize_pre( itype &obj )
                 kv = obj.mod->magazine_adaptor.erase( kv );
             } else {
                 ++kv;
+            }
+        }
+    }
+
+    if( obj.gunmod && !obj.has_flag( flag_MELEE_GUNMOD ) ) {
+        for( const std::pair<const gun_mode_id, gun_modifier_data> &pr : obj.gunmod->mode_modifier ) {
+            if( pr.first == gun_mode_REACH ) {
+                obj.item_tags.insert( flag_MELEE_GUNMOD.str() );
+                break;
             }
         }
     }
