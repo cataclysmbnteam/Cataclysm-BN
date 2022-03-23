@@ -7879,12 +7879,12 @@ void map::update_suspension_cache( const int &z )
     for( auto iter = suspension_cache.begin(); iter != suspension_cache.end(); ) {
         const point absp = *iter;
         const point locp = getlocal( absp );
-        const tripoint loctp( locp.x, locp.y, z );
+        const tripoint loctp( locp, z );
         if( !inbounds( locp ) ) {
             ++iter;
             continue;
         }
-        const submap *cur_submap = get_submap_at( { locp.x, locp.y, z } );
+        const submap *cur_submap = get_submap_at( loctp );
         if( cur_submap == nullptr ) {
             debugmsg( "Tried to run suspension check at (%d,%d,%d) but the submap is not loaded", locp.x,
                       locp.y, z );
