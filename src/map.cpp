@@ -1692,6 +1692,15 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
         support_cache_dirty.insert( p );
         set_seen_cache_dirty( p );
     }
+
+    if( new_t.has_flag( TFLAG_SUSPENDED ) != old_t.has_flag( TFLAG_SUSPENDED ) ) {
+        set_suspension_cache_dirty( p.z );
+        if( new_t.has_flag( TFLAG_SUSPENDED ) ) {
+            level_cache &ch = get_cache( p.z );
+            ch.suspension_cache.emplace_back( getabs( p ).xy() );
+        }
+    }
+
     invalidate_max_populated_zlev( p.z );
 
     set_memory_seen_cache_dirty( p );
@@ -6818,6 +6827,7 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
     set_outside_cache_dirty( grid.z );
     set_floor_cache_dirty( grid.z );
     set_pathfinding_cache_dirty( grid.z );
+    set_suspension_cache_dirty( grid.z );
     setsubmap( gridn, tmpsub );
     if( !tmpsub->active_items.empty() ) {
         submaps_with_active_items.emplace( grid_abs_sub );
@@ -7832,33 +7842,68 @@ void map::build_floor_caches()
     }
 }
 
-void map::add_susensions_to_cache( const int &z )
+void map::update_suspension_cache( const int &z )
 {
-    for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
-        for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            const submap *cur_submap = get_submap_at_grid( { smx, smy, z } );
+    level_cache &ch = get_cache( z );
+    if( !ch.suspension_cache_dirty ) {
+        return;
+    }
+    std::list<point> &suspension_cache = ch.suspension_cache;
+    if( !ch.suspension_cache_initialized ) {
+        for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
+            for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
+                const submap *cur_submap = get_submap_at_grid( { smx, smy, z } );
 
-            if( cur_submap == nullptr ) {
-                debugmsg( "Tried to run suspension check at (%d,%d,%d) but the submap is not loaded", smx, smy,
-                          z );
-                continue;
-            }
+                if( cur_submap == nullptr ) {
+                    debugmsg( "Tried to run suspension check at (%d,%d,%d) but the submap is not loaded", smx, smy,
+                              z );
+                    continue;
+                }
 
-            for( int sx = 0; sx < SEEX; ++sx ) {
-                for( int sy = 0; sy < SEEY; ++sy ) {
-                    point sp( sx, sy );
-                    const ter_t &terrain = cur_submap->get_ter( sp ).obj();
-                    if( terrain.has_flag( TFLAG_SUSPENDED ) ) {
-                        tripoint loc( coords::project_combine( point_om_sm( point( smx, smy ) ), point_sm_ms( sp ) ).raw(),
-                                      z );
-                        if( !is_suspension_valid( loc ) ) {
-                            support_dirty( loc );
+                for( int sx = 0; sx < SEEX; ++sx ) {
+                    for( int sy = 0; sy < SEEY; ++sy ) {
+                        point sp( sx, sy );
+                        const ter_t &terrain = cur_submap->get_ter( sp ).obj();
+                        if( terrain.has_flag( TFLAG_SUSPENDED ) ) {
+                            tripoint loc( coords::project_combine( point_om_sm( point( smx, smy ) ), point_sm_ms( sp ) ).raw(),
+                                          z );
+                            suspension_cache.emplace_back( getabs( loc ).xy() );
                         }
                     }
                 }
             }
         }
+        ch.suspension_cache_initialized = true;
     }
+
+    for( auto iter = suspension_cache.begin(); iter != suspension_cache.end(); ) {
+        const point absp = *iter;
+        const point locp = getlocal( absp );
+        const tripoint loctp( locp, z );
+        if( !inbounds( locp ) ) {
+            ++iter;
+            continue;
+        }
+        const submap *cur_submap = get_submap_at( loctp );
+        if( cur_submap == nullptr ) {
+            debugmsg( "Tried to run suspension check at (%d,%d,%d) but the submap is not loaded", locp.x,
+                      locp.y, z );
+            ++iter;
+            continue;
+        }
+        const ter_t &terrain = ter( locp ).obj();
+        if( terrain.has_flag( TFLAG_SUSPENDED ) ) {
+            if( !is_suspension_valid( loctp ) ) {
+                support_dirty( loctp );
+                iter = suspension_cache.erase( iter );
+            } else {
+                ++iter;
+            }
+        } else {
+            iter = suspension_cache.erase( iter );
+        }
+    }
+    ch.suspension_cache_dirty = false;
 }
 
 static void vehicle_caching_internal( level_cache &zch, const vpart_reference &vp, vehicle *v )
@@ -7926,7 +7971,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         const bool affects_seen_cache =  z == zlev || fov_3d;
         build_outside_cache( z );
         build_transparency_cache( z );
-        add_susensions_to_cache( z );
+        update_suspension_cache( z );
         seen_cache_dirty |= ( build_floor_cache( z ) && affects_seen_cache );
         seen_cache_dirty |= get_cache( z ).seen_cache_dirty && affects_seen_cache;
     }

@@ -292,6 +292,9 @@ struct level_cache {
     bool outside_cache_dirty = false;
     bool floor_cache_dirty = false;
     bool seen_cache_dirty = false;
+    bool suspension_cache_initialized = false;
+    bool suspension_cache_dirty = false;
+    std::list<point> suspension_cache;
 
     four_quadrants lm[MAPSIZE_X][MAPSIZE_Y];
     float sm[MAPSIZE_X][MAPSIZE_Y];
@@ -431,6 +434,12 @@ class map
             }
         }
 
+        void set_suspension_cache_dirty( const int zlev ) {
+            if( inbounds_z( zlev ) ) {
+                get_cache( zlev ).suspension_cache_dirty = true;
+            }
+        }
+
         void set_pathfinding_cache_dirty( int zlev );
         /*@}*/
 
@@ -448,6 +457,7 @@ class map
                 ch.transparency_cache_dirty.set();
                 ch.seen_cache_dirty = true;
                 ch.outside_cache_dirty = true;
+                ch.suspension_cache_dirty = true;
             }
         }
 
@@ -1771,8 +1781,8 @@ class map
         bool build_floor_cache( int zlev );
         // We want this visible in `game`, because we want it built earlier in the turn than the rest
         void build_floor_caches();
-        // Checks all tiles on a z level and adds those that are invalid to the support_dirty_cache */
-        void add_susensions_to_cache( const int &z );
+        // Checks all suspended tiles on a z level and adds those that are invalid to the support_dirty_cache */
+        void update_suspension_cache( const int &z );
     protected:
         void generate_lightmap( int zlev );
         void build_seen_cache( const tripoint &origin, int target_z );
