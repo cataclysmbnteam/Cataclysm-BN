@@ -2902,22 +2902,22 @@ void target_ui::action_switch_mode()
         menu.entries.back().force_color = true;
         menu.entries.back().text_color = c_cyan;
 
-        for( auto it = all_gun_modes.begin(); it != all_gun_modes.end(); ++it ) {
-            if( it->second.melee() ) {
+        for( const auto &mode : all_gun_modes ) {
+            if( mode.second.melee() ) {
                 continue;
             }
-            const bool active_gun_mode = relevant->gun_get_mode_id() == it->first;
+            const bool active_gun_mode = relevant->gun_get_mode_id() == mode.first;
 
             // If gun mode is from a gunmod use gunmod's name, pay attention to the "->" on tname
-            std::string text = ( it->second.target == relevant )
-                               ? it->second.tname()
-                               : it->second->tname() + " (" + std::to_string( it->second.qty ) + ")";
+            std::string text = ( mode.second.target == relevant )
+                               ? mode.second.tname()
+                               : mode.second->tname() + " (" + std::to_string( mode.second.qty ) + ")";
 
             text += ( active_gun_mode ? _( " (active)" ) : "" );
 
             menu.entries.emplace_back( on_select.size(), true, MENU_AUTOASSIGN, text );
-            on_select.emplace_back( [it, this]() {
-                relevant->gun_set_mode( it->first );
+            on_select.emplace_back( [mode, this]() {
+                relevant->gun_set_mode( mode.first );
             } );
             if( active_gun_mode ) {
                 menu.entries.back().text_color = c_light_green;
@@ -2929,7 +2929,7 @@ void target_ui::action_switch_mode()
     }
 
     menu.query();
-    if( menu.ret > 0 && menu.ret < static_cast<int>( on_select.size() ) ) {
+    if( menu.ret >= 0 && menu.ret < static_cast<int>( on_select.size() ) ) {
         size_t i = static_cast<size_t>( menu.ret );
         on_select[i]();
     } // else - just refresh
