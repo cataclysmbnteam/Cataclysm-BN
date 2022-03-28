@@ -1776,8 +1776,8 @@ void debug()
                 const int iSel = smenu.ret;
                 smenu.reset();
                 smenu.addentry( 0, true, 'y', "%s: %d", _( "year" ), years( calendar::turn ) );
-                smenu.addentry( 1, !calendar::eternal_season(), 's', "%s: %d",
-                                _( "season" ), static_cast<int>( season_of_year( calendar::turn ) ) );
+                smenu.addentry( 1, true, 's', "%s: %d", _( "season" ),
+                                static_cast<int>( season_of_year( calendar::turn ) ) );
                 smenu.addentry( 2, true, 'd', "%s: %d", _( "day" ), day_of_season<int>( calendar::turn ) );
                 smenu.addentry( 3, true, 'h', "%s: %d", _( "hour" ), hour_of_day<int>( calendar::turn ) );
                 smenu.addentry( 4, true, 'm', "%s: %d", _( "minute" ), minute_of_hour<int>( calendar::turn ) );
@@ -1792,7 +1792,15 @@ void debug()
                         break;
                     case 1:
                         set_turn( static_cast<int>( season_of_year( calendar::turn ) ), calendar::season_length(),
+                                  calendar::eternal_season() ?
+                                  _( "Set eternal season to?  Warning: modifies initial season!" ) :
                                   _( "Set season to?  (0 = spring)" ) );
+                        if( calendar::eternal_season() ) {
+                            // For some weird reason, season_of_year is cached and we don't want cached season here
+                            season_of_year( calendar::before_time_starts );
+                            calendar::initial_season = static_cast<season_type>( season_of_year( calendar::turn ) %
+                                                       NUM_SEASONS );
+                        }
                         break;
                     case 2:
                         set_turn( day_of_season<int>( calendar::turn ), 1_days, _( "Set days to?" ) );

@@ -44,6 +44,7 @@ class weather_generator
         int winter_humidity_manual_mod = 0;
         //How much the wind folows seasonal variation ( lower means more change )
         int base_wind_season_variation = 0;
+        // TODO: Remove this horrible static variable!
         static int current_winddir;
         std::vector<weather_type_id> weather_types;
         weather_generator();

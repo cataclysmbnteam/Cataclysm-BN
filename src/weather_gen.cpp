@@ -29,17 +29,24 @@ constexpr double noise_magnitude_K = 8;
 } //namespace
 
 weather_generator::weather_generator() = default;
+// TODO: Remove this disgusting static variable!
 int weather_generator::current_winddir = 1000;
 
 struct weather_gen_common {
     double x;
     double y;
     double z;
-    double cyf;
+    // Awkward name, but better than `cyf`
+    double cosine_of_gregorian_year_fraction;
     double year_fraction;
     unsigned modSEED;
     season_type season;
 };
+
+static double calc_year_fraction( const time_point &t )
+{
+    return time_past_new_year( t ) / calendar::year_length();
+}
 
 static weather_gen_common get_common_data( const tripoint &location, const time_point &t,
         unsigned seed )
@@ -54,18 +61,37 @@ static weather_gen_common get_common_data( const tripoint &location, const time_
     // Limit the random seed during noise calculation, a large value flattens the noise generator to zero
     // Windows has a rand limit of 32768, other operating systems can have higher limits
     result.modSEED = seed % SIMPLEX_NOISE_RANDOM_SEED_LIMIT;
-    const double year_fraction( time_past_new_year( t ) /
-                                calendar::year_length() ); // [0,1)
+    const double year_fraction = calendar::eternal_season() ?
+                                 ( static_cast<double>( calendar::initial_season ) + 1.0 / 8.0 ) :
+                                 calc_year_fraction( t );
 
     result.year_fraction = year_fraction;
-    result.cyf = std::cos( tau * ( year_fraction + .125 ) ); // [-1, 1]
-    // We add one-eighth to line up `cyf` so that 1 is at
+    // We add one-eighth to line it up so that +1 is at
     // midwinter and -1 at midsummer. (Cataclysm years
     // start when spring starts. Gregorian years start when
     // winter starts.)
+    result.cosine_of_gregorian_year_fraction = std::cos( tau * ( year_fraction + .125 ) ); // [-1, 1]
     result.season = season_of_year( t );
 
     return result;
+}
+
+static double season_temp( const weather_generator &wg, double year_fraction )
+{
+    // Interpolate seasons temperature
+    // Scale year_fraction [0, 1) to [0.0, 4.0). So [0.0, 1.0) - spring, [1.0, 2.0) - summer, [2.0, 3.0) - autumn, [3.0, 4.0) - winter.
+    const double quadrum = year_fraction * 4;
+    const std::vector<std::pair<float, float>> mid_season_temps = { {
+            { -0.5f, wg.winter_temp }, // midwinter
+            { 0.5f, wg.spring_temp }, // midspring
+            { 1.5f, wg.summer_temp }, // midsummer
+            { 2.5f, wg.autumn_temp }, // midautumn
+            { 3.5f, wg.winter_temp }, // midwinter
+            { 4.5f, wg.spring_temp }  // midspring
+        }
+    };
+
+    return multi_lerp( mid_season_temps, quadrum );
 }
 
 static double weather_temperature_from_common_data( const weather_generator &wg,
@@ -77,28 +103,14 @@ static double weather_temperature_from_common_data( const weather_generator &wg,
 
     const unsigned modSEED = common.modSEED;
     const double dayFraction = time_past_midnight( t ) / 1_days;
-    const double dayv = std::cos( tau * ( dayFraction + .5 - coldest_hour / 24 ) );
     // -1 at coldest_hour, +1 twelve hours later
+    const double dayv = std::cos( tau * ( dayFraction + .5 - coldest_hour / 24 ) );
 
-    // Interpolate seasons temperature
-    // Scale year_fraction [0, 1) to [0.0, 4.0). So [0.0, 1.0] - spring, [1.0, 2.0] - summer, [2.0, 3.0] - autumn, [3.0, 4.0) - winter.
-    const double quadrum = common.year_fraction * 4;
-    const std::vector<std::pair<float, float>> mid_season_temps = { {
-            { -0.5f, wg.winter_temp }, // midwinter
-            { 0.5f, wg.spring_temp }, // midspring
-            { 1.5f, wg.summer_temp }, // midsummer
-            { 2.5f, wg.autumn_temp }, // midautumn
-            { 3.5f, wg.winter_temp }, // midwinter
-            { 4.5f, wg.spring_temp }  // midspring
-        }
-    };
-
-    double baseTemp = multi_lerp( mid_season_temps, quadrum );
-    const double T = baseTemp +
+    double season_factor = season_temp( wg, common.year_fraction );
+    const double T = season_factor +
                      dayv * daily_magnitude_K +
                      raw_noise_4d( x, y, z, modSEED ) * noise_magnitude_K;
 
-    // Convert from Celsius to Fahrenheit
     return units::celsius_to_fahrenheit( T );
 }
 
@@ -107,6 +119,7 @@ double weather_generator::get_weather_temperature( const tripoint &location, con
 {
     return weather_temperature_from_common_data( *this, get_common_data( location, t, seed ), t );
 }
+
 w_point weather_generator::get_weather( const tripoint &location, const time_point &t,
                                         unsigned seed ) const
 {
@@ -117,9 +130,8 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     const double z( common.z );
 
     const unsigned modSEED = common.modSEED;
-    const double cyf( common.cyf );
-    const double seasonality = -common.cyf;
-    // -1 in midwinter, +1 in midsummer
+    // +1 in midwinter, -1 in midsummer
+    const double cgyf = common.cosine_of_gregorian_year_fraction;
     const season_type season = common.season;
 
     // Noise factors
@@ -141,20 +153,20 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     // Relative humidity, a percentage.
     double H = std::min( 100., std::max( 0.,
                                          base_humidity + mod_h + 100 * (
-                                                 .15 * seasonality +
+                                                 .15 * -cgyf +
                                                  raw_noise_4d( x, y, z, modSEED + 101 ) *
-                                                 .2 * ( -seasonality + 2 ) ) ) );
+                                                 .2 * ( cgyf + 2 ) ) ) );
 
     // Pressure
     double P =
         base_pressure +
         raw_noise_4d( x, y, z, modSEED + 211 ) *
-        10 * ( -seasonality + 2 );
+        10 * ( cgyf + 2 );
 
     // Wind power
     W = std::max( 0, static_cast<int>( base_wind * rng( 1, 2 ) / std::pow( ( P + W ) / 1014.78, rng( 9,
                                        base_wind_distrib_peaks ) ) +
-                                       -cyf / base_wind_season_variation * rng( 1, 2 ) ) );
+                                       -cgyf / base_wind_season_variation * rng( 1, 2 ) ) );
     // Initial static variable
     if( current_winddir == 1000 ) {
         current_winddir = get_wind_direction( season );
@@ -343,8 +355,7 @@ void weather_generator::test_weather( unsigned seed = 1000 ) const
             }
             testfile << "|;" << year << ";" << season_of_year( i ) << ";" << day << ";" << hour << ";" << minute
                      << ";" << w.temperature << ";" << w.humidity << ";" << w.pressure << ";" << conditions->name << ";"
-                     <<
-                     w.windpower << ";" << w.winddirection << std::endl;
+                     << w.windpower << ";" << w.winddirection << std::endl;
         }
 
     }, "weather test file" );
