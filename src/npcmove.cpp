@@ -4167,7 +4167,7 @@ void npc::set_omt_destination()
         find_params.types = temp_types;
         find_params.existing_only = false;
         goal = overmap_buffer.find_closest( surface_omt_loc, find_params );
-        omt_path = overmap_buffer.get_travel_path( surface_omt_loc, goal, overmap_path_params::for_npc() );
+        omt_path.clear();
         if( goal != overmap::invalid_tripoint ) {
             omt_path = overmap_buffer.get_travel_path( surface_omt_loc, goal, overmap_path_params::for_npc() );
         }
