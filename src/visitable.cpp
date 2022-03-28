@@ -647,6 +647,7 @@ std::list<item> visitable<inventory>::remove_items_with( const
 
     // Invalidate binning cache
     inv->binned = false;
+    inv->items_type_cached = false;
 
     return res;
 }

@@ -249,6 +249,7 @@ class inventory : public visitable<inventory>
         std::map<itype_id, std::list<std::list<item>*>> items_type_cache;
         std::map<quality_id, std::map<int, int>> quality_cache;
 
+        bool items_type_cached = false;
         mutable bool binned = false;
         /**
          * Items binned by their type.

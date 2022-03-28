@@ -226,6 +226,7 @@ inventory inventory::operator+ ( const item &rhs )
 void inventory::unsort()
 {
     binned = false;
+    items_type_cached = false;
 }
 
 static bool stack_compare( const std::list<item> &lhs, const std::list<item> &rhs )
@@ -237,6 +238,7 @@ void inventory::clear()
 {
     items.clear();
     binned = false;
+    items_type_cached = false;
 }
 
 void inventory::push_back( const std::list<item> &newits )
@@ -283,6 +285,7 @@ char inventory::find_usable_cached_invlet( const itype_id &item_type )
 item &inventory::add_item( item newit, bool keep_invlet, bool assign_invlet, bool should_stack )
 {
     binned = false;
+    items_type_cached = false;
 
     if( should_stack ) {
         // See if we can't stack this item.
@@ -328,12 +331,17 @@ void inventory::build_items_type_cache()
         itype_id type = elem.front().typeId();
         items_type_cache[type].push_back( &elem );
     }
+    items_type_cached = true;
 }
 
 item &inventory::add_item_by_items_type_cache( item newit, bool keep_invlet, bool assign_invlet,
         bool should_stack )
 {
     binned = false;
+    if( !items_type_cached ) {
+        debugmsg( "Tried to add item to inventory using cache without building the items_type_cache." );
+        build_items_type_cache();
+    }
     itype_id type = newit.typeId();
     if( should_stack ) {
         // See if we can't stack this item.
@@ -395,6 +403,7 @@ void inventory::restack( player &p )
     // 3. combine matching stacks
 
     binned = false;
+    items_type_cached = false;
     std::list<item> to_restack;
     int idx = 0;
     for( invstack::iterator iter = items.begin(); iter != items.end(); ++iter, ++idx ) {
@@ -678,6 +687,7 @@ std::list<item> inventory::reduce_stack( const int position, const int quantity 
     for( invstack::iterator iter = items.begin(); iter != items.end(); ++iter ) {
         if( position == pos ) {
             binned = false;
+            items_type_cached = false;
             if( quantity >= static_cast<int>( iter->size() ) || quantity < 0 ) {
                 ret = *iter;
                 items.erase( iter );
@@ -700,6 +710,7 @@ item inventory::remove_item( const item *it )
     }, 1 );
     if( !tmp.empty() ) {
         binned = false;
+        items_type_cached = false;
         return tmp.front();
     }
     debugmsg( "Tried to remove a item not in inventory." );
@@ -712,6 +723,7 @@ item inventory::remove_item( const int position )
     for( invstack::iterator iter = items.begin(); iter != items.end(); ++iter ) {
         if( position == pos ) {
             binned = false;
+            items_type_cached = false;
             if( iter->size() > 1 ) {
                 std::list<item>::iterator stack_member = iter->begin();
                 char invlet = stack_member->invlet;
@@ -757,6 +769,7 @@ std::list<item> inventory::remove_randomly_by_volume( const units::volume &volum
         }
         if( chosen_stack->empty() ) {
             binned = false;
+            items_type_cached = false;
             items.erase( chosen_stack );
         }
     }
@@ -844,6 +857,7 @@ std::list<item> inventory::use_amount( itype_id it, int quantity,
         }
         if( iter->empty() ) {
             binned = false;
+            items_type_cached = false;
             iter = items.erase( iter );
         } else if( iter != items.end() ) {
             ++iter;
