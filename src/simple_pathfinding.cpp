@@ -251,7 +251,7 @@ simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
     auto do_astar = [&]( const tripoint_abs_omt & start,
                          std::unordered_map<tripoint_abs_omt, navigation_node> &known_nodes,
                          std::priority_queue<scored_address, std::vector<scored_address>, std::greater<>> &open_set,
-                         std::unordered_map<tripoint_abs_omt, navigation_node> &other_known_nodes ) {
+    std::unordered_map<tripoint_abs_omt, navigation_node> &other_known_nodes ) {
         const tripoint_abs_omt cur_addr = open_set.top().addr;
         open_set.pop();
         if( other_known_nodes.find( cur_addr ) != other_known_nodes.end() ) {
@@ -259,18 +259,15 @@ simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
             tripoint_abs_omt addr = cur_addr;
             tripoint_abs_omt other_start = start == source ? dest : source;
             while( addr != other_start ) {
-                const navigation_node &node = other_known_nodes.at( addr );
                 ret.points.emplace_back( addr );
-                addr = addr + direction_to_tripoint( node.get_prev_dir() );
+                addr = addr + direction_to_tripoint( other_known_nodes.at( addr ).get_prev_dir() );
             }
             ret.points.emplace_back( addr );
             addr = cur_addr;
             while( addr != start ) {
-                const navigation_node &node = known_nodes.at( addr );
+                addr = addr + direction_to_tripoint( known_nodes.at( addr ).get_prev_dir() );
                 ret.points.emplace_back( addr );
-                addr = addr + direction_to_tripoint( node.get_prev_dir() );
             }
-            ret.points.emplace_back( addr );
             return;
         }
         const navigation_node &cur_node = known_nodes.at( cur_addr );
@@ -329,12 +326,16 @@ simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
     known_nodes_dest.emplace( dest, navigation_node{0, 0, -1, end_score.allow_z_change} );
     open_set_dest.push( scored_address{ dest, 0 } );
 
+    int search_count = 0;
     while( !open_set_src.empty() && !open_set_dest.empty() && !meet ) {
+        search_count++;
         do_astar( source, known_nodes_src, open_set_src, known_nodes_dest );
         if( meet ) {
             return ret;
         }
-        do_astar( dest, known_nodes_dest, open_set_dest, known_nodes_src );
+        if( search_count > 10000 ) {
+            do_astar( dest, known_nodes_dest, open_set_dest, known_nodes_src );
+        }
     }
     return ret;
 }
