@@ -296,12 +296,12 @@ TEST_CASE( "Player body temperatures within expected bounds.", "[bodytemp][slow]
 
     SECTION( "Heavily clothed target temperatures" ) {
         equip_clothing( dummy, heavy_clothing );
-        test_temperature_spread( dummy, {{-31_c, -17_c, 1_c, 19_c, 36_c, 52_c, 67_c,}} );
+        test_temperature_spread( dummy, {{-39_c, -23_c, -4_c, 15_c, 33_c, 48_c, 63_c,}} );
     }
 
     SECTION( "Arctic gear target temperatures" ) {
         equip_clothing( dummy, arctic_clothing );
-        test_temperature_spread( dummy, {{-61_c, -46_c, -29_c, -6_c, 18_c, 35_c, 50_c,}} );
+        test_temperature_spread( dummy, {{-76_c, -61_c, -43_c, -17_c, 9_c, 27_c, 43_c,}} );
     }
 }
 

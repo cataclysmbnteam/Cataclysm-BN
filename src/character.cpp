@@ -5181,7 +5181,7 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
     }
 
     std::map<bodypart_id, int> warmth_per_bp = warmth::from_clothing( clothing_map );
-    std::map<bodypart_id, int> bonus_warmth_per_bp = warmth::from_clothing( bonus_clothing_map );
+    std::map<bodypart_id, int> bonus_warmth_per_bp = warmth::bonus_from_clothing( bonus_clothing_map );
     for( const auto &pr : warmth::from_effects( *this ) ) {
         warmth_per_bp[pr.first] += pr.second;
     }
@@ -9147,18 +9147,32 @@ std::map<bodypart_id, int> Character::warmth( const std::map<bodypart_id, std::v
 namespace warmth
 {
 
-std::map<bodypart_id, int> from_clothing( const
-        std::map<bodypart_id, std::vector<const item *>> &bonus_clothing_map )
+template <typename Acc = int const&( int const &, int const & )>
+static std::map<bodypart_id, int> acc_clothing_warmth( const
+        std::map<bodypart_id, std::vector<const item *>> &clothing_map,
+        Acc accumulation_function )
 {
     std::map<bodypart_id, int> ret;
-    for( const std::pair<bodypart_id, std::vector<const item *>> &pr : bonus_clothing_map ) {
+    for( const std::pair<bodypart_id, std::vector<const item *>> &pr : clothing_map ) {
         ret[pr.first] = std::accumulate( pr.second.begin(), pr.second.end(), 0,
-        []( int acc, const item * it ) {
-            return std::max( acc, it->get_warmth() );
+        [accumulation_function]( int acc, const item * it ) {
+            return accumulation_function( acc, it->get_warmth() );
         } );
     }
 
     return ret;
+}
+
+std::map<bodypart_id, int> from_clothing(
+    const std::map<bodypart_id, std::vector<const item *>> &clothing_map )
+{
+    return acc_clothing_warmth( clothing_map, std::plus<int>() );
+}
+
+std::map<bodypart_id, int> bonus_from_clothing(
+    const std::map<bodypart_id, std::vector<const item *>> &clothing_map )
+{
+    return acc_clothing_warmth( clothing_map, std::max<int> );
 }
 
 std::map<bodypart_id, int> from_effects( const Character &c )
