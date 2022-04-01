@@ -44,6 +44,16 @@ constexpr double celsius_to_fahrenheit( double celsius )
     return celsius * 9 / 5 + 32;
 }
 
+/**
+ * Convert a temperature from Celsius to kelvins.
+ *
+ * @return Temperature in degrees F.
+ */
+constexpr double celsius_to_kelvin( double celsius )
+{
+    return celsius + 273.15;
+}
+
 class temperature_in_millidegree_celsius_tag
 {
 };
@@ -108,6 +118,13 @@ inline constexpr value_type to_fahrenheit( const
         quantity<value_type, temperature_in_millidegree_celsius_tag> &v )
 {
     return celsius_to_fahrenheit( to_millidegree_celsius( v ) / 1000.0 );
+}
+
+template<typename value_type>
+inline constexpr value_type to_kelvins( const
+                                        quantity<value_type, temperature_in_millidegree_celsius_tag> &v )
+{
+    return celsius_to_kelvin( to_millidegree_celsius( v ) / 1000.0 );
 }
 
 } // namespace units

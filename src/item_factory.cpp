@@ -125,7 +125,7 @@ static bool assign_coverage_from_json( const JsonObject &jo, const std::string &
                                        body_part_set &parts, bool &sided )
 {
     auto parse = [&parts, &sided]( const std::string & val_in ) {
-        const std::string &val = ( test_mode || json_report_unused_fields )
+        const std::string &val = json_report_strict
                                  ? val_in
                                  : to_lower_case( val_in );
         if( val == "arms" || val == "arm_either" ) {

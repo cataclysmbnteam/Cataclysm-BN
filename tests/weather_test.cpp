@@ -37,6 +37,34 @@ static double proportion_gteq_x( std::vector<double> const &v, double x )
     return static_cast<double>( count ) / v.size();
 }
 
+TEST_CASE( "eternal seasons", "[weather]" )
+{
+    for( size_t i = 0; i < NUM_SEASONS; i++ ) {
+        season_type initial_season = static_cast<season_type>( i );
+        calendar_config no_eternal( calendar::turn_zero, calendar::turn_zero, initial_season, false );
+        calendar_config yes_eternal( calendar::turn_zero, calendar::turn_zero, initial_season, true );
+        unsigned seed = 0;
+
+        weather_generator generator;
+        generator.season_stats[i].average_temperature = 100_c;
+        // No variation in time, other than average season temperature
+        generator.temperature_daily_amplitude = 0_c;
+        generator.temperature_noise_amplitude = 0_c;
+        for( size_t j = 0; j < NUM_SEASONS; j++ ) {
+            time_point mid_season = calendar::turn_zero + calendar::season_length() * ( j + 0.5 );
+            bool is_initial_season = j == i;
+            CAPTURE( initial_season );
+            CAPTURE( i );
+            CHECK( generator.get_weather_temperature( tripoint_abs_ms(), mid_season, no_eternal,
+                    seed ) == ( is_initial_season ? 100_c : 0_c ) );
+            CHECK( generator.get_weather_temperature( tripoint_abs_ms(), mid_season, yes_eternal,
+                    seed ) == 100_c );
+        }
+    }
+
+
+}
+
 TEST_CASE( "weather realism", "[.]" )
 // Check our simulated weather against numbers from real data
 // from a few years in a few locations in New England. The numbers
@@ -65,7 +93,7 @@ TEST_CASE( "weather realism", "[.]" )
             w_point w = wgen.get_weather( tripoint_zero, i, seed );
             int day = to_days<int>( time_past_new_year( i ) );
             int minute = to_minutes<int>( time_past_midnight( i ) );
-            temperature[day][minute] = w.temperature;
+            temperature[day][minute] = units::to_fahrenheit( w.temperature );
             int hour = to_hours<int>( time_past_new_year( i ) );
             hourly_precip[hour] +=
                 precip_mm_per_hour(

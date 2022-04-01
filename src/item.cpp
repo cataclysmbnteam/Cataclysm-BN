@@ -8695,8 +8695,10 @@ bool item::process_rot( float /*insulation*/, const bool seals,
             //Use weather if above ground, use map temp if below
             double env_temperature = 0;
             if( pos.z >= 0 ) {
-                double weather_temperature = wgen.get_weather_temperature( pos, time, seed );
-                env_temperature = weather_temperature + local_mod;
+                tripoint_abs_ms location = tripoint_abs_ms( get_map().getabs( pos ) );
+                units::temperature weather_temperature = wgen.get_weather_temperature( location, time,
+                        calendar::config, seed );
+                env_temperature = units::to_fahrenheit( weather_temperature ) + local_mod;
             } else {
                 env_temperature = AVERAGE_ANNUAL_TEMPERATURE + local_mod;
             }

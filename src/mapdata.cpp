@@ -43,7 +43,7 @@ generic_factory<furn_t> furniture_data( "furniture" );
 
 bool is_json_check_strict( const std::string &src )
 {
-    return json_report_unused_fields || src == "dda";
+    return json_report_strict || src == "dda";
 }
 
 } // namespace
@@ -1477,7 +1477,7 @@ void ter_t::check() const
     if( bash.ter_set_bashed_from_above && bash.ter_set_bashed_from_above == id ) {
         debugmsg( "%s turns into itself when bashed from above", id.c_str() );
     }
-    if( ( test_mode || json_report_unused_fields )
+    if( json_report_strict
         && ( bash.ter_set == t_open_air.id() || bash.ter_set_bashed_from_above == t_open_air.id() ) ) {
         debugmsg( "%s explicitly turns into \"t_open_air\", but \"t_null\" is preferred",
                   id.c_str() );
@@ -1495,8 +1495,7 @@ void ter_t::check() const
         debugmsg( "%s has bash.ter_set_bashed_from_above %s, which is unpassable but has no roof",
                   id.str(), bash.ter_set_bashed_from_above.str() );
     }
-    if( ( test_mode || json_report_unused_fields )
-        && deconstruct.ter_set == t_open_air.id() ) {
+    if( json_report_strict && deconstruct.ter_set == t_open_air.id() ) {
         debugmsg( "%s deconstructs into \"t_open_air\", but \"t_null\" is preferred",
                   id.str() );
     }

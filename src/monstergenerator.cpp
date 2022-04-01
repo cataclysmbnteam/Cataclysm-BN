@@ -646,7 +646,7 @@ void MonsterGenerator::load_monster( const JsonObject &jo, const std::string &sr
 mon_effect_data load_mon_effect_data( const JsonObject &e )
 {
     bool permanent = e.get_bool( "permanent", false );
-    if( permanent && ( test_mode || json_report_unused_fields ) ) {
+    if( permanent && json_report_strict ) {
         try {
             e.throw_error( "Effect permanence has been moved to effect_type.  Set permanence there.",
                            "permanent" );

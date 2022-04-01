@@ -323,7 +323,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
 void recipe::finalize()
 {
     // TODO: Rethink bools used for slow checks
-    if( ( test_mode || json_report_unused_fields ) && check_blueprint_needs ) {
+    if( json_report_strict && check_blueprint_needs ) {
         check_blueprint_requirements();
     }
 

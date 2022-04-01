@@ -82,9 +82,10 @@ void game::serialize( std::ostream &fout )
     json.start_object();
     // basic game state information.
     json.member( "turn", calendar::turn );
-    json.member( "calendar_start", calendar::start_of_cataclysm );
-    json.member( "game_start", calendar::start_of_game );
-    json.member( "initial_season", static_cast<int>( calendar::initial_season ) );
+    const calendar_config &calendar_config = calendar::config;
+    json.member( "calendar_start", calendar_config._start_of_cataclysm );
+    json.member( "game_start", calendar_config._start_of_game );
+    json.member( "initial_season", static_cast<int>( calendar_config._initial_season ) );
     json.member( "auto_travel_mode", auto_travel_mode );
     json.member( "run_mode", static_cast<int>( safe_mode ) );
     json.member( "mostseen", mostseen );
@@ -179,18 +180,20 @@ void game::unserialize( std::istream &fin )
 
         data.read( "turn", tmpturn );
         data.read( "calendar_start", tmpcalstart );
-        calendar::initial_season = static_cast<season_type>( data.get_int( "initial_season",
-                                   static_cast<int>( SPRING ) ) );
+        calendar_config &calendar_config = calendar::config;
+        calendar_config._initial_season = static_cast<season_type>( data.get_int( "initial_season",
+                                          static_cast<int>( SPRING ) ) );
         // 0.E stable
         if( savegame_loading_version < 26 ) {
             tmpturn *= 6;
             tmpcalstart *= 6;
         }
         calendar::turn = calendar::turn_zero + time_duration::from_turns( tmpturn );
-        calendar::start_of_cataclysm = calendar::turn_zero + time_duration::from_turns( tmpcalstart );
+        calendar_config._start_of_cataclysm = calendar::turn_zero + time_duration::from_turns(
+                tmpcalstart );
 
-        if( !data.read( "game_start", calendar::start_of_game ) ) {
-            calendar::start_of_game = calendar::start_of_cataclysm;
+        if( !data.read( "game_start", calendar_config._start_of_game ) ) {
+            calendar_config._start_of_game = calendar_config._start_of_cataclysm;
         }
 
         data.read( "auto_travel_mode", auto_travel_mode );

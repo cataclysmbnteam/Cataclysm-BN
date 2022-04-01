@@ -9,6 +9,7 @@
 #include "pimpl.h"
 #include "point.h"
 #include "type_id.h"
+#include "units_temperature.h"
 #include "weather_gen.h"
 
 #include <string>
@@ -108,6 +109,7 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos );
 //
 // Use the decimals parameter to set number of decimal places returned in string.
 std::string print_temperature( double fahrenheit, int decimals = 0 );
+std::string print_temperature( units::temperature temperature, int decimals = 0 );
 std::string print_humidity( double humidity, int decimals = 0 );
 std::string print_pressure( double pressure, int decimals = 0 );
 
@@ -195,6 +197,7 @@ class weather_manager
         cata::optional<int> wind_direction_override;
         cata::optional<int> windspeed_override;
         weather_type_id weather_override;
+        bool eternal_seasons = false;
 
         // not only sets nextweather, but updates weather as well
         void set_nextweather( time_point t );

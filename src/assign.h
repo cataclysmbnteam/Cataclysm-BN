@@ -638,6 +638,41 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::probab
     return assign_unit_common( jo, name, val, parse, strict, lo, hi );
 }
 
+inline bool assign( const JsonObject &jo, const std::string &name, units::temperature &val,
+                    bool strict = false,
+                    const units::temperature lo = units::temperature_min,
+                    const units::temperature hi = units::temperature_max )
+{
+    const auto parse = [&name]( const JsonObject & obj, units::temperature & out ) {
+        if( obj.has_string( name ) ) {
+            long double value;
+            std::string suffix;
+            std::istringstream str( obj.get_string( name ) );
+            str.imbue( std::locale::classic() );
+            str >> value >> suffix;
+            if( str.peek() != std::istringstream::traits_type::eof() ) {
+                obj.throw_error( "syntax error when specifying temperature", name );
+            }
+            const auto &unit_suffixes = units::temperature_units;
+            auto iter = std::find_if( unit_suffixes.begin(), unit_suffixes.end(),
+            [&suffix]( const std::pair<std::string, units::temperature> &suffix_value ) {
+                return suffix_value.first == suffix;
+            } );
+            if( iter != unit_suffixes.end() ) {
+                out = value * iter->second;
+            } else {
+                obj.throw_error( "unrecognized temperature unit", name );
+            }
+
+            return true;
+        }
+
+        return false;
+    };
+
+    return assign_unit_common( jo, name, val, parse, strict, lo, hi );
+}
+
 inline bool assign( const JsonObject &jo, const std::string &name, nc_color &val,
                     const bool strict = false )
 {

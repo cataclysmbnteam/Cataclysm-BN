@@ -1797,9 +1797,14 @@ void debug()
                                   _( "Set season to?  (0 = spring)" ) );
                         if( calendar::eternal_season() ) {
                             // For some weird reason, season_of_year is cached and we don't want cached season here
+                            // Assuming it is for a good reason, let's just dirty the cache beforehand
                             season_of_year( calendar::before_time_starts );
-                            calendar::initial_season = static_cast<season_type>( season_of_year( calendar::turn ) %
-                                                       NUM_SEASONS );
+                            calendar::set_calendar_config( {
+                                calendar::config.start_of_cataclysm(),
+                                calendar::config.start_of_game(),
+                                static_cast<season_type>( season_of_year( calendar::turn ) % NUM_SEASONS ),
+                                calendar::config.eternal_season()
+                            } );
                         }
                         break;
                     case 2:
