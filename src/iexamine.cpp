@@ -3889,21 +3889,15 @@ void iexamine::curtains( player &p, const tripoint &examp )
     window_menu.addentry( 1, true, 't', _( "Tear down the curtains." ) );
     window_menu.query();
     const int choice = window_menu.ret;
-
+    map &here = g->m;
     if( choice == 0 ) {
         // Peek
         g->peek( examp );
         p.add_msg_if_player( _( "You carefully peek through the curtains." ) );
     } else if( choice == 1 ) {
         // Mr. Gorbachev, tear down those curtains!
-        if( ter == t_window_domestic || ter == t_curtains ) {
-            g->m.ter_set( examp, t_window_no_curtains );
-        } else if( ter == t_window_open ) {
-            g->m.ter_set( examp, t_window_no_curtains_open );
-        } else if( ter == t_window_domestic_taped ) {
-            g->m.ter_set( examp, t_window_no_curtains_taped );
-        } else if( ter == t_window_bars_domestic || ter == t_window_bars_curtains ) {
-            g->m.ter_set( examp, t_window_bars );
+        if( here.ter( examp )->has_curtains() ) {
+            here.ter_set( examp, here.ter( examp )->curtain_transform );
         }
 
         g->m.spawn_item( p.pos(), itype_nail, 1, 4, calendar::turn );
