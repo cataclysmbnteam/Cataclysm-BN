@@ -587,15 +587,20 @@ butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_ty
     for( const tripoint &pt : g->m.points_in_radius( u.pos(), PICKUP_RANGE ) ) {
         if( g->m.has_flag( flag_TREE, pt ) ) {
             has_tree_nearby = true;
+            break;
         }
     }
     bool b_rack_present = false;
     for( const tripoint &pt : g->m.points_in_radius( u.pos(), PICKUP_RANGE ) ) {
-        if( g->m.has_flag_furn( flag_BUTCHER_EQ, pt ) || inv.has_item_with( []( const item & it ) {
-        return it.has_flag( "BUTCHER_RACK" );
-        } ) ) {
+        if( g->m.has_flag_furn( flag_BUTCHER_EQ, pt ) ) {
             b_rack_present = true;
+            break;
         }
+    }
+    if( !b_rack_present ) {
+        b_rack_present = inv.has_item_with( []( const item & it ) {
+            return it.has_flag( "BUTCHER_RACK" );
+        } );
     }
     // workshop butchery (full) prequisites
     if( action == BUTCHER_FULL ) {
