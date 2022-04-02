@@ -129,7 +129,7 @@ class quantity
 
 template<typename ...T>
 struct quantity_details {
-    typedef std::true_type common_zero_point;
+    using common_zero_point = std::true_type;
 };
 
 template<typename V, typename U>

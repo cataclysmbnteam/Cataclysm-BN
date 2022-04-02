@@ -64,7 +64,7 @@ using temperature = quantity<int, temperature_in_millidegree_celsius_tag>;
 // Say, 10 * 1_f != 10_f
 template<>
 struct quantity_details<temperature_in_millidegree_celsius_tag> {
-    typedef std::true_type common_zero_point;
+    using common_zero_point = std::false_type;
 };
 
 const temperature temperature_min = units::temperature(
