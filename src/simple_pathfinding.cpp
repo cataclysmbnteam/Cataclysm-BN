@@ -5,6 +5,7 @@
 #include <queue>
 #include <unordered_map>
 #include <vector>
+#include <unordered_set>
 
 #include "coordinates.h"
 #include "enums.h"
@@ -165,47 +166,12 @@ bool is_horizontal( direction dir )
     }
 }
 
-// The address of a navigation node, a compressed tripoint relative to the starting
-// point, i.e. the start is always (0, 0, 0).
-// NOLINTNEXTLINE(cata-xy)
-struct node_address {
-    int16_t x;
-    int16_t y;
-    int8_t z;
-    explicit node_address( const tripoint &p ) : x( p.x ), y( p.y ), z( p.z ) {}
-    bool operator== ( const node_address &other ) const {
-        return x == other.x && y == other.y && z == other.z;
-    }
-    tripoint_abs_omt to_tripoint( const tripoint_abs_omt &origin ) const {
-        return origin + tripoint( x, y, z );
-    }
-    node_address operator+ ( const tripoint &p ) const {
-        node_address ret = *this;
-        ret.x += p.x;
-        ret.y += p.y;
-        ret.z += p.z;
-        return ret;
-    }
-    node_address displace( direction dir ) const {
-        return *this + direction_to_tripoint( dir );
-    }
-};
-
-struct node_address_hasher {
-    std::size_t operator()( const node_address &addr ) const {
-        std::uint64_t val = addr.x;
-        val = ( val << 16 ) + addr.y;
-        val = ( val << 16 ) + addr.z;
-        return cata::hash64( val );
-    }
-};
-
 /*
  * A node address annotated with its heuristic score, an approximation of how
  * much it would cost to reach the goal through this node.
  */
 struct scored_address {
-    struct node_address addr;
+    tripoint_abs_omt addr;
     int32_t score;
     bool operator> ( const scored_address &other ) const {
         return score >= other.score;
@@ -278,34 +244,31 @@ simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
         const tripoint_abs_omt &dest, const int radius, omt_scoring_fn scorer,
         cata::optional<int> max_cost )
 {
-    simple_path<tripoint_abs_omt> ret;
-    const omt_score start_score = scorer( source );
-    const omt_score end_score = scorer( dest );
-    if( start_score.node_cost < 0 || end_score.node_cost < 0 ) {
-        return ret;
-    }
-    std::unordered_map<node_address, navigation_node, node_address_hasher> known_nodes;
-    std::priority_queue<scored_address, std::vector<scored_address>, std::greater<>> open_set;
-    const node_address start( tripoint_zero );
-    known_nodes.emplace( start, navigation_node{0, 0, -1, start_score.allow_z_change} );
-    open_set.push( scored_address{ start, 0 } );
-    const point_abs_omt source_point = source.xy();
-    int search_count = 0;
     constexpr int max_search_count = 100000;
-    while( !open_set.empty() ) {
-        const node_address cur_addr = open_set.top().addr;
+    simple_path<tripoint_abs_omt> ret;
+    bool meet = false;
+
+    auto do_astar = [&]( const tripoint_abs_omt & start,
+                         std::unordered_map<tripoint_abs_omt, navigation_node> &known_nodes,
+                         std::priority_queue<scored_address, std::vector<scored_address>, std::greater<>> &open_set,
+    std::unordered_map<tripoint_abs_omt, navigation_node> &other_known_nodes ) {
+        const tripoint_abs_omt cur_addr = open_set.top().addr;
         open_set.pop();
-        search_count++;
-        const tripoint_abs_omt cur_point = cur_addr.to_tripoint( source );
-        if( cur_point == dest ) {
-            node_address addr = cur_addr;
-            while( !( addr == start ) ) {
-                const navigation_node &node = known_nodes.at( addr );
-                ret.points.emplace_back( addr.to_tripoint( source ) );
-                addr = addr.displace( node.get_prev_dir() );
+        if( other_known_nodes.find( cur_addr ) != other_known_nodes.end() ) {
+            meet = true;
+            tripoint_abs_omt addr = cur_addr;
+            tripoint_abs_omt other_start = start == source ? dest : source;
+            while( addr != other_start ) {
+                ret.points.emplace_back( addr );
+                addr = addr + direction_to_tripoint( other_known_nodes.at( addr ).get_prev_dir() );
             }
-            ret.points.emplace_back( addr.to_tripoint( source ) );
-            return ret;
+            ret.points.emplace_back( addr );
+            addr = cur_addr;
+            while( addr != start ) {
+                addr = addr + direction_to_tripoint( known_nodes.at( addr ).get_prev_dir() );
+                ret.points.emplace_back( addr );
+            }
+            return;
         }
         const navigation_node &cur_node = known_nodes.at( cur_addr );
         for( direction dir : enumerate_directions( cur_node.allow_z_change ) ) {
@@ -313,7 +276,7 @@ simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
                 continue; // don't go back the way we just came
             }
             const direction rev_dir = reverse_direction( dir );
-            const node_address next_addr = cur_addr.displace( dir );
+            const tripoint_abs_omt next_addr = cur_addr + direction_to_tripoint( dir );
             const int cumulative_cost = cur_node.cumulative_cost + adjust_omt_cost( cur_node.node_cost, rev_dir,
                                         cur_node.get_prev_dir() );
             auto iter = known_nodes.find( next_addr );
@@ -324,18 +287,17 @@ simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
                     next_node.prev_dir = static_cast<int8_t>( rev_dir );
                 }
             } else if( known_nodes.size() < max_search_count ) {
-                const tripoint_abs_omt next_point = next_addr.to_tripoint( source );
-                if( octile_dist( source_point, next_point.xy() ) > radius ) {
+                if( octile_dist( source.xy(), next_addr.xy() ) > radius ) {
                     continue;
                 }
-                const omt_score next_score = scorer( next_point );
+                const omt_score next_score = scorer( next_addr );
                 if( next_score.node_cost < 0 ) {
                     // TODO: add to closed set to avoid re-visiting
                     continue;
                 }
                 // TODO: pass in the 10 (default terrain cost)
-                const int xy_score = octile_dist( next_point.xy(), dest.xy(), 10 );
-                const int z_score = std::abs( next_point.z() - dest.z() ) * 10;
+                const int xy_score = octile_dist( next_addr.xy(), dest.xy(), 10 );
+                const int z_score = std::abs( next_addr.z() - dest.z() ) * 10;
                 const int estimated_total_cost = cumulative_cost + next_score.node_cost + xy_score + z_score;
                 if( max_cost && estimated_total_cost > *max_cost ) {
                     continue;
@@ -347,6 +309,32 @@ simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
                 next_node.allow_z_change = next_score.allow_z_change;
                 open_set.push( scored_address{ next_addr, estimated_total_cost } );
             }
+        }
+    };
+    const omt_score start_score = scorer( source );
+    const omt_score end_score = scorer( dest );
+    if( start_score.node_cost < 0 || end_score.node_cost < 0 ) {
+        return ret;
+    }
+    std::unordered_map<tripoint_abs_omt, navigation_node> known_nodes_src;
+    std::priority_queue<scored_address, std::vector<scored_address>, std::greater<>> open_set_src;
+    known_nodes_src.emplace( source, navigation_node{0, 0, -1, start_score.allow_z_change} );
+    open_set_src.push( scored_address{ source, 0 } );
+
+    std::unordered_map<tripoint_abs_omt, navigation_node> known_nodes_dest;
+    std::priority_queue<scored_address, std::vector<scored_address>, std::greater<>> open_set_dest;
+    known_nodes_dest.emplace( dest, navigation_node{0, 0, -1, end_score.allow_z_change} );
+    open_set_dest.push( scored_address{ dest, 0 } );
+
+    int search_count = 0;
+    while( !open_set_src.empty() && !open_set_dest.empty() && !meet ) {
+        search_count++;
+        do_astar( source, known_nodes_src, open_set_src, known_nodes_dest );
+        if( meet ) {
+            return ret;
+        }
+        if( search_count > 10000 ) {
+            do_astar( dest, known_nodes_dest, open_set_dest, known_nodes_src );
         }
     }
     return ret;
