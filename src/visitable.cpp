@@ -610,7 +610,6 @@ std::list<item> visitable<inventory>::remove_items_with( const
 {
     auto inv = static_cast<inventory *>( this );
     std::list<item> res;
-    itype_id type;
 
     if( count <= 0 ) {
         // nothing to do
@@ -623,7 +622,6 @@ std::list<item> visitable<inventory>::remove_items_with( const
 
         for( auto istack_iter = istack.begin(); istack_iter != istack.end() && count > 0; ) {
             if( filter( *istack_iter ) ) {
-                type = istack_iter->typeId();
                 count--;
                 res.splice( res.end(), istack, istack_iter++ );
                 // The non-first items of a stack may have different invlets, the code
@@ -641,7 +639,7 @@ std::list<item> visitable<inventory>::remove_items_with( const
         }
 
         if( istack.empty() ) {
-            stack = inv->items.erase( stack, type );
+            stack = inv->items.erase( stack );
         } else {
             ++stack;
         }
@@ -649,6 +647,7 @@ std::list<item> visitable<inventory>::remove_items_with( const
 
     // Invalidate binning cache
     inv->binned = false;
+    inv->items_type_cached = false;
 
     return res;
 }

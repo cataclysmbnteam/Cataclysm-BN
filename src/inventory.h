@@ -28,6 +28,7 @@ class npc;
 class player;
 struct tripoint;
 
+using invstack = std::list<std::list<item> >;
 using invslice = std::vector<std::list<item> *>;
 using const_invslice = std::vector<const std::list<item> *>;
 using indexed_invslice = std::vector< std::pair<std::list<item>*, int> >;
@@ -85,35 +86,6 @@ class invlet_favorites
         std::array<itype_id, 256> ids_by_invlet;
 };
 
-class invstack : private std::list<std::list<item> >
-{
-    public:
-        using item_stack = std::list<item>;
-        using item_stack_ptr = std::list<item> *;
-
-        using std::list<item_stack>::empty;
-        using std::list<item_stack>::size;
-        using std::list<item_stack>::front;
-        using std::list<item_stack>::back;
-        using std::list<item_stack>::begin;
-        using std::list<item_stack>::end;
-        using std::list<item_stack>::sort;
-        using std::list<item_stack>::iterator;
-        using std::list<item_stack>::const_iterator;
-
-        invstack() = default;
-        invstack( const invstack & );
-        invstack &operator=( const invstack & );
-        iterator erase( const_iterator stack_iter, const itype_id &type ) ;
-        void push_back( const item_stack &new_item_stack ) ;
-        void clear() ;
-        std::list<item_stack_ptr> &get_stacks_by_type( const itype_id &type ) ;
-
-    private:
-        std::map<itype_id, std::list<item_stack_ptr>> stacks_by_type;
-};
-
-
 class inventory : public visitable<inventory>
 {
     public:
@@ -147,6 +119,9 @@ class inventory : public visitable<inventory>
         // returns a reference to the added item
         item &add_item( item newit, bool keep_invlet = false, bool assign_invlet = true,
                         bool should_stack = true );
+        // use item type cache to speed up, remember to run build_items_type_cache() before using it
+        item &add_item_by_items_type_cache( item newit, bool keep_invlet = false, bool assign_invlet = true,
+                                            bool should_stack = true );
         void add_item_keep_invlet( item newit );
         void push_back( item newit );
 
@@ -264,13 +239,17 @@ class inventory : public visitable<inventory>
         void update_quality_cache();
         const std::map<quality_id, std::map<int, int>> &get_quality_cache() const;
 
+        void build_items_type_cache();
+
     private:
         invlet_favorites invlet_cache;
         char find_usable_cached_invlet( const itype_id &item_type );
 
         invstack items;
+        std::map<itype_id, std::list<std::list<item>*>> items_type_cache;
         std::map<quality_id, std::map<int, int>> quality_cache;
 
+        bool items_type_cached = false;
         mutable bool binned = false;
         /**
          * Items binned by their type.
