@@ -481,6 +481,10 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
             }
         }
     }
+    // this extra section is so that in-progress crafts will correctly display expected flags.
+    for( const std::string &flag : rec->flags_to_delete ) {
+        unset_flag( flag );
+    }
 }
 
 item::item( const item & ) = default;

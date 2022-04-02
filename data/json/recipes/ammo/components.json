@@ -67,7 +67,9 @@
         [ "shotgun_primer", 1 ]
       ],
       [ [ "gunpowder", 20 ], [ "chem_black_powder", 20 ] ]
-    ]
+    ],
+    "delete_flags": [ "FILTHY" ],
+    "flags": [ "ALLOW_FILTHY" ]
   },
   {
     "result": "incendiary",
