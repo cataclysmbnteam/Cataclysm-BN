@@ -143,7 +143,6 @@ static const itype_id itype_water_acid( "water_acid" );
 static const itype_id itype_water_acid_weak( "water_acid_weak" );
 
 static const skill_id skill_cooking( "cooking" );
-static const skill_id skill_melee( "melee" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_unarmed( "unarmed" );
 static const skill_id skill_weapon( "weapon" );
@@ -210,6 +209,7 @@ static const std::string flag_LITCIG( "LITCIG" );
 static const std::string flag_MAG_BELT( "MAG_BELT" );
 static const std::string flag_MAG_DESTROY( "MAG_DESTROY" );
 static const std::string flag_MAG_EJECT( "MAG_EJECT" );
+static const flag_str_id flag_MELEE_GUNMOD( "MELEE_GUNMOD" );
 static const std::string flag_NANOFAB_TEMPLATE( "NANOFAB_TEMPLATE" );
 static const std::string flag_NEEDS_UNFOLD( "NEEDS_UNFOLD" );
 static const std::string flag_NEVER_JAMS( "NEVER_JAMS" );
@@ -3388,9 +3388,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
     }
 
-    ///\EFFECT_MELEE >2 allows seeing melee damage stats on weapons
-    if( ( g->u.get_skill_level( skill_melee ) > 2 &&
-          ( dmg_bash || dmg_cut || dmg_stab || type->m_to_hit > 0 ) ) || debug_mode ) {
+    if( ( dmg_bash || dmg_cut || dmg_stab || type->m_to_hit > 0 ) || debug_mode ) {
         damage_instance non_crit;
         g->u.roll_all_damage( false, non_crit, true, *this );
         damage_instance crit;
@@ -4997,13 +4995,10 @@ int item::damage_melee( damage_type dt ) const
 
     // consider any melee gunmods
     if( is_gun() ) {
-        std::vector<int> opts = { res };
-        for( const std::pair<const gun_mode_id, gun_mode> &e : gun_all_modes() ) {
-            if( e.second.target != this && e.second.melee() ) {
-                opts.push_back( e.second.target->damage_melee( dt ) );
-            }
-        }
-        return *std::max_element( opts.begin(), opts.end() );
+        const std::vector<const item *> &mods = gunmods();
+        return std::accumulate( mods.begin(), mods.end(), res, [dt]( int last_max, const item * it ) {
+            return it->has_flag( flag_MELEE_GUNMOD ) ? std::max( last_max, it->damage_melee( dt ) ) : last_max;
+        } );
 
     }
 

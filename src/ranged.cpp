@@ -2872,8 +2872,8 @@ void target_ui::action_switch_mode()
 {
     uilist menu;
     menu.settext( _( "Select preferences" ) );
-    const std::pair<int, int> aim_modes_range = std::make_pair( 0, 100 );
-    const std::pair<int, int> firing_modes_range = std::make_pair( 100, 200 );
+
+    std::vector<std::function<void()>> on_select;
 
     if( !aim_types.empty() ) {
         menu.addentry( -1, false, 0, "  " + std::string( _( "Default aiming mode" ) ) );
@@ -2884,35 +2884,41 @@ void target_ui::action_switch_mode()
             const bool is_active_aim_mode = aim_mode == it;
             const std::string text = ( it->name.empty() ? _( "Immediate" ) : it->name ) +
                                      ( is_active_aim_mode ? _( " (active)" ) : "" );
-            menu.addentry( aim_modes_range.first + std::distance( aim_types.begin(), it ),
-                           true, MENU_AUTOASSIGN, text );
+
+            menu.addentry( on_select.size(), true, MENU_AUTOASSIGN, text );
+            on_select.emplace_back( [it, this]() {
+                aim_mode = it;
+                you->preferred_aiming_mode = it->action;
+            } );
             if( is_active_aim_mode ) {
                 menu.entries.back().text_color = c_light_green;
             }
         }
     }
 
-    const std::map<gun_mode_id, gun_mode> gun_modes = relevant->gun_all_modes();
-    if( !gun_modes.empty() ) {
+    const std::map<gun_mode_id, gun_mode> &all_gun_modes = relevant->gun_all_modes();
+    if( !all_gun_modes.empty() ) {
         menu.addentry( -1, false, 0, "  " + std::string( _( "Firing mode" ) ) );
         menu.entries.back().force_color = true;
         menu.entries.back().text_color = c_cyan;
 
-        for( auto it = gun_modes.begin(); it != gun_modes.end(); ++it ) {
-            if( it->second.melee() ) {
+        for( const auto &mode : all_gun_modes ) {
+            if( mode.second.melee() ) {
                 continue;
             }
-            const bool active_gun_mode = relevant->gun_get_mode_id() == it->first;
+            const bool active_gun_mode = relevant->gun_get_mode_id() == mode.first;
 
             // If gun mode is from a gunmod use gunmod's name, pay attention to the "->" on tname
-            std::string text = ( it->second.target == relevant )
-                               ? it->second.tname()
-                               : it->second->tname() + " (" + std::to_string( it->second.qty ) + ")";
+            std::string text = ( mode.second.target == relevant )
+                               ? mode.second.tname()
+                               : mode.second->tname() + " (" + std::to_string( mode.second.qty ) + ")";
 
             text += ( active_gun_mode ? _( " (active)" ) : "" );
 
-            int retv = firing_modes_range.first + std::distance( gun_modes.begin(), it );
-            menu.entries.emplace_back( retv, true, MENU_AUTOASSIGN, text );
+            menu.entries.emplace_back( on_select.size(), true, MENU_AUTOASSIGN, text );
+            on_select.emplace_back( [mode, this]() {
+                relevant->gun_set_mode( mode.first );
+            } );
             if( active_gun_mode ) {
                 menu.entries.back().text_color = c_light_green;
                 if( menu.selected == 0 ) {
@@ -2923,24 +2929,9 @@ void target_ui::action_switch_mode()
     }
 
     menu.query();
-    if( menu.ret >= firing_modes_range.first && menu.ret < firing_modes_range.second ) {
-        // gun mode select
-        const std::map<gun_mode_id, gun_mode> all_gun_modes = relevant->gun_all_modes();
-        int skip = menu.ret - firing_modes_range.first;
-        for( std::pair<gun_mode_id, gun_mode> it : all_gun_modes ) {
-            if( it.second.melee() ) {
-                continue;
-            }
-            if( skip-- == 0 ) {
-                relevant->gun_set_mode( it.first );
-                break;
-            }
-        }
-    } else if( menu.ret >= aim_modes_range.first && menu.ret < aim_modes_range.second ) {
-        // aiming mode select
-        aim_mode = aim_types.begin();
-        std::advance( aim_mode, menu.ret - aim_modes_range.first );
-        you->preferred_aiming_mode = aim_mode->action;
+    if( menu.ret >= 0 && menu.ret < static_cast<int>( on_select.size() ) ) {
+        size_t i = static_cast<size_t>( menu.ret );
+        on_select[i]();
     } // else - just refresh
 
     ensure_ranged_gun_mode();

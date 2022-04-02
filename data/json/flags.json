@@ -2030,5 +2030,12 @@
     "type": "json_flag",
     "context": [ "TOOL" ],
     "info": "This item <good>can be used as a flat surface</good> for <info>butchering</info>."
+  },
+  {
+    "id": "MELEE_GUNMOD",
+    "type": "json_flag",
+    "context": [ "GUNMOD" ],
+    "//": "Implied by having a reach attack mode on the gunmod, but can be explicit for non-reach bayonets.",
+    "info": "When attached to a gun, this item <good>contributes to its melee damage</good>."
   }
 ]

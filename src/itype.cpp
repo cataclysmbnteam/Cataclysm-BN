@@ -73,6 +73,11 @@ bool itype::has_flag( const std::string &flag ) const
     return item_tags.count( flag );
 }
 
+bool itype::has_flag( const flag_str_id &flag ) const
+{
+    return item_tags.count( flag.str() );
+}
+
 const itype::FlagsSetType &itype::get_flags() const
 {
     return item_tags;
