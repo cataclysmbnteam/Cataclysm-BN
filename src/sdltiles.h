@@ -42,6 +42,8 @@ window_dimensions get_window_dimensions( const catacurses::window &win );
 // position and size. Unlike real catacurses::window, size can be zero.
 window_dimensions get_window_dimensions( const point &pos, const point &size );
 
+const SDL_Renderer_Ptr &get_sdl_renderer();
+
 #endif // TILES
 
 #endif // CATA_SRC_SDLTILES_H
