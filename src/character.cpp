@@ -173,7 +173,7 @@ static const efftype_id effect_webbed( "webbed" );
 
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_apparatus( "apparatus" );
-static const itype_id itype_beartrap( "breatrap" );
+static const itype_id itype_beartrap( "beartrap" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
