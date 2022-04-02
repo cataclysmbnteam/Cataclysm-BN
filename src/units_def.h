@@ -191,7 +191,7 @@ inline constexpr quantity<decltype( std::declval<lvt>() * std::declval<st>() ), 
 operator*( const st &factor, const quantity<lvt, ut> &rhs )
 {
     static_assert( quantity_details<ut>::common_zero_point::value,
-                   "Units with multiple scales with different zero should not be multiplied/divided/etc. directly." );
+                   "Units with multiple scales with different zero should not be multiplied/divided/etc.  directly." );
     return { factor * rhs.value(), ut{} };
 }
 
@@ -201,7 +201,7 @@ inline constexpr quantity<decltype( std::declval<st>() * std::declval<lvt>() ), 
 operator*( const quantity<lvt, ut> &lhs, const st &factor )
 {
     static_assert( quantity_details<ut>::common_zero_point::value,
-                   "Units with multiple scales with different zero should not be multiplied/divided/etc. directly." );
+                   "Units with multiple scales with different zero should not be multiplied/divided/etc.  directly." );
     return { lhs.value() *factor, ut{} };
 }
 
