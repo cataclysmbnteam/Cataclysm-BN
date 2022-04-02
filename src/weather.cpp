@@ -716,7 +716,7 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
  */
 std::string print_temperature( double fahrenheit, int decimals )
 {
-    return print_temperature( fahrenheit * 1_f, decimals );
+    return print_temperature( units::from_fahrenheit( fahrenheit ), decimals );
 }
 
 std::string print_temperature( units::temperature temperature, int decimals )
@@ -727,13 +727,13 @@ std::string print_temperature( units::temperature temperature, int decimals )
 
     if( get_option<std::string>( "USE_CELSIUS" ) == "celsius" ) {
         return string_format( pgettext( "temperature in Celsius", "%sC" ),
-                              text( units::to_celsius( temperature ) ) );
+                              text( units::to_celsius<double>( temperature ) ) );
     } else if( get_option<std::string>( "USE_CELSIUS" ) == "kelvin" ) {
         return string_format( pgettext( "temperature in Kelvin", "%sK" ),
-                              text( units::to_kelvins( temperature ) ) );
+                              text( units::to_kelvins<double>( temperature ) ) );
     } else {
         return string_format( pgettext( "temperature in Fahrenheit", "%sF" ),
-                              text( units::to_fahrenheit( temperature ) ) );
+                              text( units::to_fahrenheit<double>( temperature ) ) );
     }
 }
 

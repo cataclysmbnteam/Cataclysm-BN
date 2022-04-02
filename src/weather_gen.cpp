@@ -81,7 +81,7 @@ static units::temperature season_temp( const weather_generator &wg, double year_
                                     NUM_SEASONS ) ) % NUM_SEASONS;
     const size_t next_season = ( current_season + 1 ) % NUM_SEASONS;
     // 0 - current season just started, 1 - season just ended (shouldn't actually happen)
-    const double t = season_midpoint_quadrum - current_season;
+    const double t = season_midpoint_quadrum - std::floor( season_midpoint_quadrum );
     return lerp( wg.season_stats[current_season].average_temperature,
                  wg.season_stats[next_season].average_temperature,
                  t );
@@ -369,7 +369,7 @@ inline bool maybe_temperature_reader( const JsonObject &jo, const std::string &m
         if( !jo.read( member_name, legacy_value ) ) {
             return false;
         }
-        member = legacy_value * 1_c;
+        member = units::from_celsius( legacy_value );
     }
     return true;
 }

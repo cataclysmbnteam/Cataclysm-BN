@@ -127,6 +127,11 @@ class quantity
         value_type value_;
 };
 
+template<typename ...T>
+struct quantity_details {
+    typedef std::true_type common_zero_point;
+};
+
 template<typename V, typename U>
 inline quantity<V, U> fabs( quantity<V, U> q )
 {
@@ -185,6 +190,8 @@ template<typename lvt, typename ut, typename st, typename = typename std::enable
 inline constexpr quantity<decltype( std::declval<lvt>() * std::declval<st>() ), ut>
 operator*( const st &factor, const quantity<lvt, ut> &rhs )
 {
+    static_assert( quantity_details<ut>::common_zero_point::value,
+                   "Units with multiple scales with different zero should not be multiplied/divided/etc. directly." );
     return { factor * rhs.value(), ut{} };
 }
 
@@ -193,6 +200,8 @@ template<typename lvt, typename ut, typename st, typename = typename std::enable
 inline constexpr quantity<decltype( std::declval<st>() * std::declval<lvt>() ), ut>
 operator*( const quantity<lvt, ut> &lhs, const st &factor )
 {
+    static_assert( quantity_details<ut>::common_zero_point::value,
+                   "Units with multiple scales with different zero should not be multiplied/divided/etc. directly." );
     return { lhs.value() *factor, ut{} };
 }
 

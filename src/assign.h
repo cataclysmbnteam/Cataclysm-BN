@@ -555,6 +555,25 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::energy
     return true;
 }
 
+// Kinda hacky way to avoid allowing multiplying temperature
+// For example, in 10 * 0 Fahrenheit, 10 * 0 Celsius - what's the expected result of those?
+template < typename lvt, typename ut, typename s,
+           typename std::enable_if_t<units::quantity_details<ut>::common_zero_point::value>* = nullptr>
+inline units::quantity<lvt, ut> mult_unit( const JsonObject &, const std::string &,
+        const units::quantity<lvt, ut> &val, const s scalar )
+{
+    return val * scalar;
+}
+
+template < typename lvt, typename ut, typename s,
+           typename std::enable_if_t < !units::quantity_details<ut>::common_zero_point::value > * = nullptr >
+inline units::quantity<lvt, ut> mult_unit( const JsonObject &err, const std::string &name,
+        const units::quantity<lvt, ut> &, const s )
+{
+    err.throw_error( "Multiplying units with multiple scales with different zero points is not well defined",
+                     name );
+}
+
 template<typename T, typename F>
 inline bool assign_unit_common( const JsonObject &jo, const std::string &name, T &val, F parse,
                                 bool strict, const T lo, const T hi )
@@ -587,7 +606,7 @@ inline bool assign_unit_common( const JsonObject &jo, const std::string &name, T
             err.throw_error( "multiplier must be a positive number other than 1", name );
         }
         strict = false;
-        out = val * scalar;
+        out = mult_unit( err, name, val, scalar );
 
     } else if( !parse( jo, out ) ) {
         return false;
@@ -659,7 +678,7 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::temper
                 return suffix_value.first == suffix;
             } );
             if( iter != unit_suffixes.end() ) {
-                out = value * iter->second;
+                out = mult_unit( obj, name, iter->second, value );
             } else {
                 obj.throw_error( "unrecognized temperature unit", name );
             }

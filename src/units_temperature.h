@@ -60,6 +60,13 @@ class temperature_in_millidegree_celsius_tag
 
 using temperature = quantity<int, temperature_in_millidegree_celsius_tag>;
 
+// Temperature contains different units and multiplication can get weird
+// Say, 10 * 1_f != 10_f
+template<>
+struct quantity_details<temperature_in_millidegree_celsius_tag> {
+    typedef std::true_type common_zero_point;
+};
+
 const temperature temperature_min = units::temperature(
                                         std::numeric_limits<units::temperature::value_type>::min(),
                                         units::temperature::unit_type{} );
