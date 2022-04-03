@@ -71,14 +71,14 @@ jobs:
       matrix:
         include:
           - name: Windows Tiles x64 MSVC
-            artifact: windows-tiles-x64-msvc-untranslated
+            artifact: windows-tiles-x64-msvc
             arch: x64
             os: windows-2019
             mxe: none
             ext: zip
             content: application/zip
           - name: Windows Tiles x32 MSVC
-            artifact: windows-tiles-x32-msvc-untranslated
+            artifact: windows-tiles-x32-msvc
             arch: x86
             os: windows-2019
             mxe: none
@@ -217,6 +217,11 @@ jobs:
         run: |
           HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ccache parallel
           pip3 install dmgbuild==1.4.2 biplist
+      - name: Compile translations (windows)
+        if: runner.os == 'Windows'
+        shell: bash
+        run: |
+          lang/compile_mo.sh all
       - name: Build CBN (linux)
         if: runner.os == 'Linux' && matrix.mxe == 'none' && matrix.android == 'none'
         run: |
