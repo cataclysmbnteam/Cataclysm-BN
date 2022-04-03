@@ -593,7 +593,9 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
 
         if( cargo ) {
             const auto items = veh->get_items( cargo->part_index() );
-            *this += std::list<item>( items.begin(), items.end() );
+            for( const auto &it : items ) {
+                add_item_by_items_type_cache( it );
+            }
         }
 
         if( faupart ) {
