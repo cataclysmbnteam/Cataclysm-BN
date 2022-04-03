@@ -365,7 +365,7 @@ inline bool maybe_temperature_reader( const JsonObject &jo, const std::string &m
 {
     try {
         return temperature_reader()( jo, member_name, member, was_loaded );
-    } catch( JsonError ) {
+    } catch( const JsonError & ) {
         int legacy_value;
         if( !jo.read( member_name, legacy_value ) ) {
             return false;
