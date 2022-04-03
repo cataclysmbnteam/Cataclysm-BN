@@ -114,7 +114,7 @@ class messages_impl
     public:
         std::deque<game_message> messages;   // Messages to be printed
         std::vector<game_message> cooldown_templates; // Message cooldown
-        time_point curmes = calendar::start_of_cataclysm; // The last-seen message.
+        time_point curmes = calendar::turn_zero; // The last-seen message.
         bool active = true;
 
         bool has_undisplayed_messages() const {
