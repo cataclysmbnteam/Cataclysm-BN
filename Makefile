@@ -36,8 +36,6 @@
 #  make TILES=1
 # Sound (requires SDL, so TILES must be enabled)
 #  make TILES=1 SOUND=1
-# Disable gettext, on some platforms the dependencies are hard to wrangle.
-#  make LOCALIZE=0
 # Disable backtrace support, not available on all platforms
 #  make BACKTRACE=0
 # Use libbacktrace. Only has effect if BACKTRACE=1. (currently only for MinGW builds)
@@ -47,10 +45,6 @@
 #  (for example: make LANGUAGES="zh_CN zh_TW" for Chinese)
 #  make localization LANGUAGES=all
 #  (for every .po file in lang/po)
-#  Special note for MinGW: due to a libintl bug (https://savannah.gnu.org/bugs/index.php?58006),
-#  using English without a `.mo` file would cause significant slow down on MinGW
-#  targets. In such case you can compile a `.mo` file for English using `make LANGUAGES="en"`.
-#  `make LANGUAGE="all"` also compiles a `.mo` file for English in addition to other languages.
 # Enable sanitizer (address, undefined, etc.)
 #  make SANITIZE=address
 # Change mapsize (reality bubble size)
@@ -139,7 +133,6 @@ CHKJSON_BIN = $(BUILD_PREFIX)chkjson
 BINDIST_DIR = $(BUILD_PREFIX)bindist
 BUILD_DIR = $(CURDIR)
 SRC_DIR = src
-LOCALIZE = 1
 ASTYLE_BINARY = astyle
 
 # Enable astyle by default
@@ -218,7 +211,7 @@ W32ODIR = $(BUILD_PREFIX)objwin
 W32ODIRTILES = $(W32ODIR)/tiles
 
 ifdef AUTO_BUILD_PREFIX
-  BUILD_PREFIX = $(if $(RELEASE),release-)$(if $(DEBUG_SYMBOLS),symbol-)$(if $(TILES),tiles-)$(if $(SOUND),sound-)$(if $(LOCALIZE),local-)$(if $(BACKTRACE),back-$(if $(LIBBACKTRACE),libbacktrace-))$(if $(SANITIZE),sanitize-)$(if $(MAPSIZE),map-$(MAPSIZE)-)$(if $(USE_XDG_DIR),xdg-)$(if $(USE_HOME_DIR),home-)$(if $(DYNAMIC_LINKING),dynamic-)$(if $(MSYS2),msys2-)
+  BUILD_PREFIX = $(if $(RELEASE),release-)$(if $(DEBUG_SYMBOLS),symbol-)$(if $(TILES),tiles-)$(if $(SOUND),sound-)$(if $(BACKTRACE),back-$(if $(LIBBACKTRACE),libbacktrace-))$(if $(SANITIZE),sanitize-)$(if $(MAPSIZE),map-$(MAPSIZE)-)$(if $(USE_XDG_DIR),xdg-)$(if $(USE_HOME_DIR),home-)$(if $(DYNAMIC_LINKING),dynamic-)$(if $(MSYS2),msys2-)
   export BUILD_PREFIX
 endif
 
@@ -449,29 +442,6 @@ ifeq ($(NATIVE), osx)
       $(error "SDL2 framework not found")
     endif
   endif
-  ifeq ($(LOCALIZE), 1)
-    LDFLAGS += -lintl
-    ifdef OSXCROSS
-      LDFLAGS += -L$(LIBSDIR)/gettext/lib
-      CXXFLAGS += -I$(LIBSDIR)/gettext/include
-    endif
-    ifeq ($(BREWGETTEXT), 1)
-      # recent versions of brew will not allow you to link
-      LDFLAGS += -L/usr/local/opt/gettext/lib
-      CXXFLAGS += -I/usr/local/opt/gettext/include
-      ifneq ($(TILES), 1)
-        # Same for curses
-        LDFLAGS += -L/usr/local/opt/ncurses/lib
-        CPPFLAGS += -I/usr/local/opt/ncurses/include
-      endif
-    endif
-    ifeq ($(MACPORTS), 1)
-      ifneq ($(TILES), 1)
-        CXXFLAGS += -I$(shell ncursesw6-config --includedir)
-        LDFLAGS += -L$(shell ncursesw6-config --libdir)
-      endif
-    endif
-  endif
   TARGETSYSTEM=LINUX
   ifneq ($(OS), Linux)
     BINDIST_CMD = tar -s"@^$(BINDIST_DIR)@cataclysmbn-$(VERSION)@" -czvf $(BINDIST) $(BINDIST_DIR)
@@ -523,9 +493,6 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
     LDFLAGS += -static-libgcc -static-libstdc++
   else
     LDFLAGS += -static
-  endif
-  ifeq ($(LOCALIZE), 1)
-    LDFLAGS += -lintl -liconv
   endif
   W32FLAGS += -Wl,-stack,12000000,-subsystem,windows
   RFLAGS = -J rc -O coff
@@ -638,7 +605,7 @@ ifeq ($(TILES), 1)
         LDFLAGS += $(shell $(PKG_CONFIG) SDL2_ttf --libs)
       else
         ifeq ($(MSYS2),1)
-          LDFLAGS += -Wl,--start-group -lharfbuzz -lfreetype -Wl,--end-group -lgraphite2 -lpng -lz -ltiff -lbz2 -lglib-2.0 -llzma -lws2_32 -lintl -liconv -lwebp -ljpeg -luuid
+          LDFLAGS += -Wl,--start-group -lharfbuzz -lfreetype -Wl,--end-group -lgraphite2 -lpng -lz -ltiff -lbz2 -lglib-2.0 -llzma -lws2_32 -lwebp -ljpeg -luuid
         else
           LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2
         endif
@@ -655,14 +622,7 @@ ifeq ($(TILES), 1)
     ODIR = $(ODIRTILES)
   endif
 else
-  ifeq ($(LOCALIZE),1)
-    NCURSES_PREFIX = ncursesw
-  else
-    NCURSES_PREFIX = ncurses
-  endif
-  ifdef OSXCROSS
-    NCURSES_PREFIX = ncurses
-  endif
+  NCURSES_PREFIX = ncursesw
   # ONLY when not cross-compiling, check for pkg-config or ncurses5-config
   # When doing a cross-compile, we can't rely on the host machine's -configs
   ifeq ($(CROSS),)
@@ -697,24 +657,12 @@ else
   endif # HAVE_PKGCONFIG
 endif # TILES
 
-ifeq ($(TARGETSYSTEM),CYGWIN)
-  ifeq ($(LOCALIZE),1)
-    # Work around Cygwin not including gettext support in glibc
-    LDFLAGS += -lintl -liconv
-  endif
-endif
-
 ifeq ($(BSD), 1)
   # BSDs have backtrace() and friends in a separate library
   ifeq ($(BACKTRACE), 1)
     LDFLAGS += -lexecinfo
     # ...which requires the frame pointer
     CXXFLAGS += -fno-omit-frame-pointer
-  endif
-
-  # And similarly, their libcs don't have gettext built in
-  ifeq ($(LOCALIZE),1)
-    LDFLAGS += -lintl -liconv
   endif
 endif
 
@@ -734,10 +682,6 @@ ifeq ($(BACKTRACE),1)
   ifeq ($(LIBBACKTRACE),1)
       DEFINES += -DLIBBACKTRACE
   endif
-endif
-
-ifeq ($(LOCALIZE),1)
-  DEFINES += -DLOCALIZE
 endif
 
 ifeq ($(TARGETSYSTEM),LINUX)
