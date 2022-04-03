@@ -30,8 +30,6 @@ order to build CataclysmBN:
    * `glibc`
    * `zlib`
    * `bzip2`
- * Optional
-   * `gettext`
  * Curses
    * `ncurses`
  * Tiles
@@ -44,9 +42,8 @@ order to build CataclysmBN:
    * `vorbis`
    * `libbz2`
    * `libz`
-   * `libintl`
-   * `iconv`
 
+In order to compile localization files, you'll also need `gettext` package.
 
 # Build Environment
 
@@ -68,7 +65,7 @@ Obtain packages specified above with your system package manager.
 		  mingw-w64-i686-cmake \
 		  mingw-w64-i686-SDL2_{image,mixer,ttf} \
 		  ncurses-devel \
-		  gettext-devel
+      gettext
  ```
 
  This should get your environment set up to build console and tiles version of windows.
@@ -81,7 +78,7 @@ Obtain packages specified above with your system package manager.
 		  mingw-w64-x86_64-cmake \
 		  mingw-w64-x86_64-SDL2_{image,mixer,ttf} \
 		  ncurses-devel \
-		  gettext-devel
+      gettext
  ```
 
  **NOTE**: If you're trying to test with Jetbrains CLion, point to the cmake version in the
@@ -171,10 +168,6 @@ The above example creates a build directory inside the source directory, but tha
    * `libgcc_s_dw2-1.dll`
    * `libstdc++-6.dll`
 
- * LOCALIZE deps:
-   * `libintl-8.dll`
-   * `libiconv-2.dll`
-
  * TILES deps:
    * `SDL2.dll`
    * `SDL2_ttf.dll`
@@ -223,7 +216,6 @@ Get the required libraries:
   * `SDL2_image` - https://www.libsdl.org/projects/SDL_image/
   * `SDL2_mixer` (optional, for sound support) - https://www.libsdl.org/projects/SDL_mixer/
   * Unsupported (and unused in the following instructions) optional libs:
-    *  `gettext`/`libintl` - http://gnuwin32.sourceforge.net/packages/gettext.htm
     * `ncurses` - ???
 
 Unpack the archives with the libraries.
@@ -242,7 +234,7 @@ Make a build directory and run cmake configuration step
   > cd <path to cbn sources>
   > mkdir build
   > cd build
-  > cmake .. -DTILES=ON -DLOCALIZE=OFF -DBACKTRACE=OFF -DSOUND=ON
+  > cmake .. -DTILES=ON -DLANGUAGES=none -DBACKTRACE=OFF -DSOUND=ON
 ```
 
 
@@ -313,11 +305,6 @@ Run the game. Should work.
  Use user's home directory for save files.
 
 
- * LOCALIZE=`<boolean>`
-
- Support for language localizations. Also enable UTF support.
-
-
  * LANGUAGES=`<str>`
 
  Compile localization files for specified languages. Example:
@@ -328,12 +315,6 @@ Run the game. Should work.
  Note that language files are only compiled automatically when building the
  `RELEASE` build type. For other build types, you need to add the `translations_compile`
  target to the `make` command, for example `make all translations_compile`.
-
- Special note for MinGW: due to a [libintl bug](https://savannah.gnu.org/bugs/index.php?58006),
- using English without a `.mo` file would cause significant slow down on MinGW targets.
- In such case you can compile a `.mo` file for English by adding `en` to `-DLANGUAGES`.
- If `-DLANGUAGES` is not specified, it also compiles a `.mo` file for English in addition
- to other languages.
 
 
  * DYNAMIC_LINKING=`<boolean>`
