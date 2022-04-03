@@ -82,9 +82,8 @@ static units::temperature season_temp( const weather_generator &wg, double year_
     const size_t next_season = ( current_season + 1 ) % NUM_SEASONS;
     // 0 - current season just started, 1 - season just ended (shouldn't actually happen)
     const double t = season_midpoint_quadrum - std::floor( season_midpoint_quadrum );
-    return lerp( wg.season_stats[current_season].average_temperature,
-                 wg.season_stats[next_season].average_temperature,
-                 t );
+    return units::multiply_any_unit( wg.season_stats[current_season].average_temperature, 1.0 - t )
+           + units::multiply_any_unit( wg.season_stats[next_season].average_temperature, t );
 }
 
 static units::temperature weather_temperature_from_common_data( const weather_generator &wg,
@@ -309,8 +308,9 @@ units::temperature weather_generator::get_water_temperature(
                                             0_c,
                                             [this, location, time, seed, calendar_config]( units::temperature acc,
     const std::pair<time_duration, double> &pr ) {
-        return acc + pr.second * get_weather_temperature( location, time - pr.first, calendar_config,
-                seed );
+        units::temperature weather_temperature =
+            get_weather_temperature( location, time - pr.first, calendar_config, seed );
+        return acc + multiply_any_unit( weather_temperature, pr.second );
     } );
     // Rescale the range:
     // For avg air temp<-10C, water is 0C
@@ -322,7 +322,7 @@ units::temperature weather_generator::get_water_temperature(
     const double t = logarithmic_range( lower_limit,
                                         upper_limit,
                                         weighted_average_celsius );
-    return lerp( 0_c, 30_c, 1.0 - t );
+    return multiply_any_unit( 0_c, 1 - t ) + multiply_any_unit( 30_c, t );
 }
 
 void weather_generator::test_weather( unsigned seed = 1000 ) const
