@@ -28,77 +28,26 @@ void invalidate_translations()
     } while( current_language_version == INVALID_LANGUAGE_VERSION );
 }
 
-#if defined(LOCALIZE)
-
-#include <libintl.h>
-
 const char *detail::_translate_internal( const char *msg )
 {
-    if( gettext_use_modular ) {
-        return l10n_data::get_library().get( msg );
-    }
-
-    // translated empty string in MO files contains metadata we don't want to return here
-    return msg[0] == '\0' ? msg : gettext( msg );
+    return l10n_data::get_library().get( msg );
 }
 
 const char *vgettext( const char *msgid, const char *msgid_plural, size_t n )
 {
-    if( gettext_use_modular ) {
-        return l10n_data::get_library().get_pl( msgid, msgid_plural, n );
-    }
-
-    return ngettext( msgid, msgid_plural, n );
+    return l10n_data::get_library().get_pl( msgid, msgid_plural, n );
 }
 
 const char *pgettext( const char *context, const char *msgid )
 {
-    if( gettext_use_modular ) {
-        return l10n_data::get_library().get_ctx( context, msgid );
-    }
-
-    // need to construct the string manually,
-    // to correctly handle strings loaded from json.
-    // could probably do this more efficiently without using std::string.
-    std::string context_id( context );
-    context_id += '\004';
-    context_id += msgid;
-    // null domain, uses global translation domain
-    const char *msg_ctxt_id = context_id.c_str();
-#if defined(__ANDROID__)
-    const char *translation = gettext( msg_ctxt_id );
-#else
-    const char *translation = dcgettext( nullptr, msg_ctxt_id, LC_MESSAGES );
-#endif
-    if( translation == msg_ctxt_id ) {
-        return msgid;
-    } else {
-        return translation;
-    }
+    return l10n_data::get_library().get_ctx( context, msgid );
 }
 
 const char *vpgettext( const char *const context, const char *const msgid,
                        const char *const msgid_plural, const size_t n )
 {
-    if( gettext_use_modular ) {
-        return l10n_data::get_library().get_ctx_pl( context, msgid, msgid_plural, n );
-    }
-
-    const std::string context_id = std::string( context ) + '\004' + msgid;
-    const char *const msg_ctxt_id = context_id.c_str();
-#if defined(__ANDROID__)
-    const char *const translation = ngettext( msg_ctxt_id, msgid_plural, n );
-#else
-    const char *const translation = dcngettext( nullptr, msg_ctxt_id, msgid_plural, n, LC_MESSAGES );
-#endif
-    if( translation == msg_ctxt_id ) {
-        return n == 1 ? msgid : msgid_plural;
-    } else {
-        return translation;
-    }
+    return l10n_data::get_library().get_ctx_pl( context, msgid, msgid_plural, n );
 }
-
-#endif // LOCALIZE
 
 std::string gettext_gendered( const GenderMap &genders, const std::string &msg )
 {
