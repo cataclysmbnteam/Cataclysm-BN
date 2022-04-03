@@ -1,11 +1,16 @@
 MESSAGE(STATUS "Process LANGUAGES variable --\n")
 
+IF (LANGUAGES STREQUAL none)
+    MESSAGE(STATUS "Not compiling any languages.\n")
+    return()
+ENDIF()
+
 FIND_PACKAGE(Gettext)
 
 IF (NOT GETTEXT_FOUND)
     MESSAGE(FATAL_ERROR
             "Gettext not found. Install gettext package or disable
-             localization with: -DLOCALIZE=OFF \nSee INSTALL file for details and more info\n"
+             compilation of language files with: -DLANGUAGES=none \nSee INSTALL file for details and more info\n"
     )
 ENDIF (NOT GETTEXT_FOUND)
 
@@ -18,8 +23,6 @@ IF (LANGUAGES STREQUAL all)
       get_filename_component(LANG ${PO_FILE} NAME_WE)
       list(APPEND LANGUAGES ${LANG})
     endforeach ()
-    # Special case for English. See explanation below.
-    list(APPEND LANGUAGES en)
     list(REMOVE_DUPLICATES LANGUAGES)
     # End of special case
 ENDIF()
@@ -58,19 +61,6 @@ foreach (LANG ${LANGUAGES})
               -E make_directory ${CMAKE_SOURCE_DIR}/lang/mo/${LANG}/LC_MESSAGES
       WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     )
-    IF (${LANG} STREQUAL en)
-      # English is special: we do not actually need translation for English, but
-      # due to a libintl bug (https://savannah.gnu.org/bugs/index.php?58006),
-      # gettext would be extremely slow on MinGW targets if we do not compile a
-      # .mo file.
-      add_custom_command (
-        TARGET translations_prepare
-        PRE_BUILD
-        COMMAND lang/update_pot.sh
-        COMMAND msgen ${CMAKE_SOURCE_DIR}/lang/po/cataclysm-bn.pot --output-file=${CMAKE_SOURCE_DIR}/lang/po/en.po
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-      )
-    ENDIF (${LANG} STREQUAL en)
     add_custom_command (
       TARGET translations_compile
       PRE_BUILD
