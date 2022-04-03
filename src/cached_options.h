@@ -26,6 +26,12 @@ extern bool debug_mode;
 extern bool json_report_unused_fields;
 
 /**
+ * Report extra problems in JSONs.
+ * Because either @ref test_mode or @ref json_report_unused_fields is set.
+ */
+extern bool json_report_strict;
+
+/**
  * Use tiles for display. Always false for ncurses build,
  * but can be toggled in sdl build.
  */

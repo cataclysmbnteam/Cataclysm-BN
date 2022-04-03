@@ -928,7 +928,8 @@ bool Character::activate_bionic( int b, bool eff_only )
                            velocity_units( VU_WIND ) );
         add_msg_if_player( m_info, _( "Feels Like: %s." ),
                            print_temperature(
-                               get_local_windchill( weatherPoint.temperature, weatherPoint.humidity,
+                               get_local_windchill( units::to_fahrenheit( weatherPoint.temperature ),
+                                       weatherPoint.humidity,
                                        windpower / 100 ) + player_local_temp ) );
         std::string dirstring = get_dirstring( weather.winddirection );
         add_msg_if_player( m_info, _( "Wind Direction: From the %s." ), dirstring );

@@ -2293,6 +2293,8 @@ namespace warmth
 
 std::map<bodypart_id, int> from_clothing( const
         std::map<bodypart_id, std::vector<const item *>> &clothing_map );
+std::map<bodypart_id, int> bonus_from_clothing( const
+        std::map<bodypart_id, std::vector<const item *>> &clothing_map );
 std::map<bodypart_id, int> from_effects( const Character &c );
 
 /** Returns wind resistance provided by armor, etc **/

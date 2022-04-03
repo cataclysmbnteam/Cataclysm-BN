@@ -9192,6 +9192,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
     /* Possibly used twice. Worth spending the time to precalculate. */
     const auto player_local_temp = weather.get_temperature( p->pos() );
 
+    map &here = get_map();
     if( it->typeId() == itype_weather_reader ) {
         p->add_msg_if_player( m_neutral, _( "The %s's monitor slowly outputs the data…" ),
                               it->tname() );
@@ -9206,8 +9207,9 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         }
         // TODO: Don't output air temp if we aren't near air
         if( g->m.has_flag( TFLAG_SWIMMABLE, p->pos() ) ) {
-            const double water_temp = weather.get_cur_weather_gen().get_water_temperature( p->pos(),
-                                      calendar::turn, g->get_seed() );
+            const units::temperature water_temp = weather.get_cur_weather_gen().get_water_temperature(
+                    tripoint_abs_ms( here.getabs( p->pos() ) ),
+                    calendar::turn, calendar::config, g->get_seed() );
             p->add_msg_if_player( m_neutral, _( "Water temperature: %s." ),
                                   print_temperature( water_temp ) );
         }
@@ -9252,7 +9254,9 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player(
             m_neutral, _( "Feels Like: %s." ),
             print_temperature(
-                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity, windpower / 100 ) +
+                get_local_windchill( units::to_fahrenheit( weatherPoint.temperature ),
+                                     weatherPoint.humidity,
+                                     windpower / 100 ) +
                 player_local_temp ) );
         std::string dirstring = get_dirstring( weather.winddirection );
         p->add_msg_if_player( m_neutral, _( "Wind Direction: From the %s." ), dirstring );

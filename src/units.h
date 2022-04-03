@@ -100,6 +100,13 @@ static const std::vector<std::pair<std::string, angle>> angle_units = { {
         { "rad", 1_radians },
     }
 };
+static const std::vector<std::pair<std::string, temperature>> temperature_units = { {
+        { "mC", 1_mc },
+        { "C", 1_c },
+        // Fahrenheit not supported
+        // { "f", 1_f },
+    }
+};
 static const std::vector<std::pair<std::string, probability>> probability_units = { {
         { "pm", 1_pm },
         { "pct", 1_pct },

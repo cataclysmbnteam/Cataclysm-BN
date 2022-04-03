@@ -39,6 +39,8 @@ TEST_CASE( "units_have_correct_ratios", "[units]" )
     CHECK( M_PI * 1_radians == 1_pi_radians );
     CHECK( 2_pi_radians == 360_degrees );
     CHECK( 60_arcmin == 1_degrees );
+
+    CHECK( 1_c == units::from_celsius( 1 ) );
 }
 
 static units::energy parse_energy_quantity( const std::string &json )

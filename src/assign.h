@@ -555,6 +555,25 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::energy
     return true;
 }
 
+// Kinda hacky way to avoid allowing multiplying temperature
+// For example, in 10 * 0 Fahrenheit, 10 * 0 Celsius - what's the expected result of those?
+template < typename lvt, typename ut, typename s,
+           typename std::enable_if_t<units::quantity_details<ut>::common_zero_point::value>* = nullptr>
+inline units::quantity<lvt, ut> mult_unit( const JsonObject &, const std::string &,
+        const units::quantity<lvt, ut> &val, const s scalar )
+{
+    return val * scalar;
+}
+
+template < typename lvt, typename ut, typename s,
+           typename std::enable_if_t < !units::quantity_details<ut>::common_zero_point::value > * = nullptr >
+inline units::quantity<lvt, ut> mult_unit( const JsonObject &err, const std::string &name,
+        const units::quantity<lvt, ut> &, const s )
+{
+    err.throw_error( "Multiplying units with multiple scales with different zero points is not well defined",
+                     name );
+}
+
 template<typename T, typename F>
 inline bool assign_unit_common( const JsonObject &jo, const std::string &name, T &val, F parse,
                                 bool strict, const T lo, const T hi )
@@ -587,7 +606,7 @@ inline bool assign_unit_common( const JsonObject &jo, const std::string &name, T
             err.throw_error( "multiplier must be a positive number other than 1", name );
         }
         strict = false;
-        out = val * scalar;
+        out = mult_unit( err, name, val, scalar );
 
     } else if( !parse( jo, out ) ) {
         return false;
@@ -629,6 +648,41 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::probab
             } else {
                 obj.throw_error( "unrecognized volumetric unit", name );
             }
+            return true;
+        }
+
+        return false;
+    };
+
+    return assign_unit_common( jo, name, val, parse, strict, lo, hi );
+}
+
+inline bool assign( const JsonObject &jo, const std::string &name, units::temperature &val,
+                    bool strict = false,
+                    const units::temperature lo = units::temperature_min,
+                    const units::temperature hi = units::temperature_max )
+{
+    const auto parse = [&name]( const JsonObject & obj, units::temperature & out ) {
+        if( obj.has_string( name ) ) {
+            long double value;
+            std::string suffix;
+            std::istringstream str( obj.get_string( name ) );
+            str.imbue( std::locale::classic() );
+            str >> value >> suffix;
+            if( str.peek() != std::istringstream::traits_type::eof() ) {
+                obj.throw_error( "syntax error when specifying temperature", name );
+            }
+            const auto &unit_suffixes = units::temperature_units;
+            auto iter = std::find_if( unit_suffixes.begin(), unit_suffixes.end(),
+            [&suffix]( const std::pair<std::string, units::temperature> &suffix_value ) {
+                return suffix_value.first == suffix;
+            } );
+            if( iter != unit_suffixes.end() ) {
+                out = mult_unit( obj, name, iter->second, value );
+            } else {
+                obj.throw_error( "unrecognized temperature unit", name );
+            }
+
             return true;
         }
 

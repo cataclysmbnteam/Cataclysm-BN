@@ -37,6 +37,79 @@ static double proportion_gteq_x( std::vector<double> const &v, double x )
     return static_cast<double>( count ) / v.size();
 }
 
+TEST_CASE( "default season temperatures", "[weather]" )
+{
+    unsigned seed = 0;
+
+    weather_generator generator;
+    auto &season_stats = generator.season_stats;
+    season_stats[SPRING].average_temperature = 8_c;
+    season_stats[SUMMER].average_temperature = 16_c;
+    season_stats[AUTUMN].average_temperature = 7_c;
+    season_stats[WINTER].average_temperature = -14_c;
+
+    // Shouldn't require this 3_c extra
+    // TODO: Find a reason for why it fails without it
+    const units::temperature max_offset = 3_c
+                                          + generator.temperature_daily_amplitude
+                                          + generator.temperature_noise_amplitude;
+    for( size_t current_season = 0;
+         current_season < static_cast<size_t>( NUM_SEASONS );
+         current_season++ ) {
+        size_t next_season = ( current_season + 1 ) % NUM_SEASONS;
+        const time_point start_season_time = calendar::turn_zero
+                                             + current_season * calendar::season_length();
+        const time_point end_season_time = calendar::turn_zero
+                                           + next_season * calendar::season_length();
+        const units::temperature min_temperature = std::min(
+                    season_stats[current_season].average_temperature,
+                    season_stats[next_season].average_temperature ) - max_offset;
+        const units::temperature max_temperature = std::max(
+                    season_stats[current_season].average_temperature,
+                    season_stats[next_season].average_temperature ) + max_offset;
+        constexpr const tripoint_abs_ms pos;
+        for( time_point current_time = start_season_time;
+             current_time < end_season_time;
+             current_time += time_duration::from_hours( 1 ) ) {
+            CAPTURE( current_season );
+            const double season_progress = ( current_time - start_season_time ) / calendar::season_length();
+            CAPTURE( season_progress );
+            int hours_since_season_start = to_hours<int>( current_time - start_season_time );
+            CAPTURE( hours_since_season_start );
+            CHECK( generator.get_weather_temperature( pos, current_time, calendar::config,
+                    seed ) >= min_temperature );
+            CHECK( generator.get_weather_temperature( pos, current_time, calendar::config,
+                    seed ) <= max_temperature );
+        }
+    }
+}
+
+TEST_CASE( "eternal seasons", "[weather]" )
+{
+    for( size_t i = 0; i < NUM_SEASONS; i++ ) {
+        season_type initial_season = static_cast<season_type>( i );
+        calendar_config no_eternal( calendar::turn_zero, calendar::turn_zero, initial_season, false );
+        calendar_config yes_eternal( calendar::turn_zero, calendar::turn_zero, initial_season, true );
+        unsigned seed = 0;
+
+        weather_generator generator;
+        generator.season_stats[i].average_temperature = 100_c;
+        // No variation in time, other than average season temperature
+        generator.temperature_daily_amplitude = 0_c;
+        generator.temperature_noise_amplitude = 0_c;
+        for( size_t j = 0; j < NUM_SEASONS; j++ ) {
+            time_point mid_season = calendar::turn_zero + calendar::season_length() * ( j + 0.5 );
+            bool is_initial_season = j == i;
+            CAPTURE( initial_season );
+            CAPTURE( i );
+            CHECK( generator.get_weather_temperature( tripoint_abs_ms(), mid_season, no_eternal,
+                    seed ) == ( is_initial_season ? 100_c : 0_c ) );
+            CHECK( generator.get_weather_temperature( tripoint_abs_ms(), mid_season, yes_eternal,
+                    seed ) == 100_c );
+        }
+    }
+}
+
 TEST_CASE( "weather realism", "[.]" )
 // Check our simulated weather against numbers from real data
 // from a few years in a few locations in New England. The numbers
@@ -65,7 +138,7 @@ TEST_CASE( "weather realism", "[.]" )
             w_point w = wgen.get_weather( tripoint_zero, i, seed );
             int day = to_days<int>( time_past_new_year( i ) );
             int minute = to_minutes<int>( time_past_midnight( i ) );
-            temperature[day][minute] = w.temperature;
+            temperature[day][minute] = units::to_fahrenheit( w.temperature );
             int hour = to_hours<int>( time_past_new_year( i ) );
             hourly_precip[hour] +=
                 precip_mm_per_hour(

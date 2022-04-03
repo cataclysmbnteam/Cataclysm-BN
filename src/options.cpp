@@ -3294,6 +3294,7 @@ void options_manager::cache_to_globals()
     setDebugLogClasses( classes );
 
     json_report_unused_fields = ::get_option<bool>( "REPORT_UNUSED_JSON_FIELDS" );
+    json_report_strict = test_mode || json_report_unused_fields;
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
     use_tiles_overmap = ::get_option<bool>( "USE_TILES_OVERMAP" );

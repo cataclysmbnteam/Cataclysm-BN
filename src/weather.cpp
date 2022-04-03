@@ -35,6 +35,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "units.h"
+#include "units_temperature.h"
 #include "vpart_position.h"
 #include "weather_gen.h"
 
@@ -572,8 +573,8 @@ static std::string print_time_just_hour( const time_point &p )
 constexpr int NUM_FORECAST_PERIODS = 6;
 
 struct forecast_period {
-    double temp_high = -100.0;
-    double temp_low = 100.0;
+    units::temperature temp_high = -100_f;
+    units::temperature temp_low = 100_f;
     const weather_type *type = nullptr;
     int type_priority = 1;
     weekdays week_day = weekdays::MONDAY;
@@ -715,18 +716,24 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
  */
 std::string print_temperature( double fahrenheit, int decimals )
 {
+    return print_temperature( units::from_fahrenheit( fahrenheit ), decimals );
+}
+
+std::string print_temperature( units::temperature temperature, int decimals )
+{
     const auto text = [&]( const double value ) {
         return string_format( "%.*f", decimals, value );
     };
 
     if( get_option<std::string>( "USE_CELSIUS" ) == "celsius" ) {
         return string_format( pgettext( "temperature in Celsius", "%sC" ),
-                              text( units::fahrenheit_to_celsius( fahrenheit ) ) );
+                              text( units::to_celsius<double>( temperature ) ) );
     } else if( get_option<std::string>( "USE_CELSIUS" ) == "kelvin" ) {
         return string_format( pgettext( "temperature in Kelvin", "%sK" ),
-                              text( units::fahrenheit_to_kelvin( fahrenheit ) ) );
+                              text( units::to_kelvins<double>( temperature ) ) );
     } else {
-        return string_format( pgettext( "temperature in Fahrenheit", "%sF" ), text( fahrenheit ) );
+        return string_format( pgettext( "temperature in Fahrenheit", "%sF" ),
+                              text( units::to_fahrenheit<double>( temperature ) ) );
     }
 }
 
@@ -1060,7 +1067,7 @@ void weather_manager::update_weather()
             weather_override = weather_type_id::NULL_ID();
         }
         sfx::do_ambient();
-        temperature = w.temperature;
+        temperature = units::to_fahrenheit( w.temperature );
         lightning_active = false;
         // Check weather every few turns, instead of every turn.
         // TODO: predict when the weather changes and use that time.
@@ -1084,8 +1091,10 @@ void weather_manager::update_weather()
             get_map().set_seen_cache_dirty( tripoint_zero );
         }
 
-        water_temperature = weather_gen.get_water_temperature( g->u.global_square_location(),
-                            calendar::turn, g->get_seed() );
+        water_temperature = units::to_fahrenheit(
+                                weather_gen.get_water_temperature(
+                                    tripoint_abs_ms( g->u.global_square_location() ),
+                                    calendar::turn, calendar::config, g->get_seed() ) );
     }
 }
 
@@ -1125,7 +1134,7 @@ int weather_manager::get_temperature( const tripoint_abs_omt &location )
 
     tripoint abs_ms = project_to<coords::ms>( location ).raw();
     w_point w = get_cur_weather_gen().get_weather( abs_ms, calendar::turn, g->get_seed() );
-    return w.temperature;
+    return units::to_fahrenheit( w.temperature );
 }
 
 int weather_manager::get_water_temperature( const tripoint & ) const
