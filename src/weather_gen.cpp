@@ -100,11 +100,12 @@ static units::temperature weather_temperature_from_common_data( const weather_ge
     const double dayv = std::cos( tau * ( dayFraction + .5 - coldest_hour / 24 ) );
 
     units::temperature season_factor = season_temp( wg, common.year_fraction );
-    const units::temperature T = season_factor +
-                                 dayv * wg.temperature_daily_amplitude +
-                                 raw_noise_4d( x, y, z, modSEED ) * wg.temperature_noise_amplitude;
+    const double temperature_celsius =
+        units::to_celsius<double>( season_factor ) +
+        dayv * units::to_celsius<double>( wg.temperature_daily_amplitude ) +
+        raw_noise_4d( x, y, z, modSEED ) * units::to_celsius<double>( wg.temperature_noise_amplitude );
 
-    return T;
+    return units::from_celsius( temperature_celsius );
 }
 
 units::temperature weather_generator::get_weather_temperature( const tripoint_abs_ms &location,

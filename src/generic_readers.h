@@ -246,9 +246,15 @@ class auto_flags_reader : public generic_typed_reader<auto_flags_reader<FlagType
 
 using string_reader = auto_flags_reader<>;
 
-template <typename T, const std::vector<std::pair<std::string, T>> &type_units>
+template <typename T>
 class unit_reader : generic_typed_reader<T>
 {
+    private:
+        const std::vector<std::pair<std::string, T>> &type_units;
+    protected:
+        unit_reader( const std::vector<std::pair<std::string, T>> &type_units )
+            : type_units( type_units )
+        {}
     public:
         bool operator()( const JsonObject &jo, const std::string &member_name,
                          T &member, bool /* was_loaded */ ) const {
@@ -263,14 +269,29 @@ class unit_reader : generic_typed_reader<T>
         }
 };
 
-class volume_reader : public unit_reader<units::volume, units::volume_units>
-{};
+class volume_reader : public unit_reader<units::volume>
+{
+    public:
+        volume_reader()
+            : unit_reader( units::volume_units )
+        {}
+};
 
-class mass_reader : public unit_reader<units::mass, units::mass_units>
-{};
+class mass_reader : public unit_reader<units::mass>
+{
+    public:
+        mass_reader()
+            : unit_reader( units::mass_units )
+        {}
+};
 
-class temperature_reader : public unit_reader<units::temperature, units::temperature_units>
-{};
+class temperature_reader : public unit_reader<units::temperature>
+{
+    public:
+        temperature_reader()
+            : unit_reader( units::temperature_units )
+        {}
+};
 
 /**
  * Uses a map (unordered or standard) to convert strings from JSON to some other type

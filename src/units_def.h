@@ -205,6 +205,21 @@ operator*( const quantity<lvt, ut> &lhs, const st &factor )
     return { lhs.value() *factor, ut{} };
 }
 
+// Explicit "yes, I know what I'm doing" multiplication
+template<typename lvt, typename ut, typename st>
+inline constexpr quantity<decltype( std::declval<st>() * std::declval<lvt>() ), ut>
+multiply_any_unit( const quantity<lvt, ut> &lhs, const st &factor )
+{
+    return { lhs.value() *factor, ut{} };
+}
+
+template<typename t, typename st>
+inline constexpr decltype( std::declval<st>() * std::declval<t>() )
+multiply_any_unit( const t &lhs, const st &factor )
+{
+    return lhs * factor;
+}
+
 // quantity<foo, unit> * quantity<bar, unit> is not supported
 template<typename lvt, typename ut, typename rvt, typename = typename std::enable_if<std::is_arithmetic<lvt>::value>::type>
 inline void operator*( quantity<lvt, ut>, quantity<rvt, ut> ) = delete;
