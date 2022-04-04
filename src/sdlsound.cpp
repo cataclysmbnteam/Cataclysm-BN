@@ -165,6 +165,8 @@ static void play_music_file( const std::string &filename, int volume )
         return;
     }
 
+    current_music_track_volume = 0;
+
     if( !check_sound( volume ) ) {
         return;
     }
@@ -180,6 +182,7 @@ static void play_music_file( const std::string &filename, int volume )
         dbg( DL::Error ) << "Starting playlist " << path << " failed: " << Mix_GetError();
         return;
     }
+    current_music_track_volume = volume;
     Mix_HookMusicFinished( musicFinished );
 }
 
@@ -249,7 +252,6 @@ void play_music( const std::string &playlist )
     current_playlist_at = playlist_indexes.at( absolute_playlist_at );
 
     const music_playlist::entry &next = list.entries[current_playlist_at];
-    current_music_track_volume = next.volume;
     play_music_file( next.file, next.volume );
 }
 
