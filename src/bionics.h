@@ -81,7 +81,7 @@ struct bionic_data {
     /**Amount of cut protection offered by this bionic*/
     std::map<bodypart_str_id, int> cut_protec;
     /**Amount of bullet protection offered by this bionic*/
-    std::map<bodypart_str_id, size_t> bullet_protec;
+    std::map<bodypart_str_id, int> bullet_protec;
     /**
      * Body part slots used to install this bionic, mapped to the amount of space required.
      */
