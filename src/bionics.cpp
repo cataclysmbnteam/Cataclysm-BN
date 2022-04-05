@@ -358,6 +358,11 @@ void bionic_data::check() const
             rep.warn( "cut_protec specifies unknown body part \"%s\"", it.first.str() );
         }
     }
+    for( const auto &it : bullet_protec ) {
+        if( !it.first.is_valid() ) {
+            rep.warn( "bullet_protec specifies unknown body part \"%s\"", it.first.str() );
+        }
+    }
     for( const auto &it : bash_protec ) {
         if( !it.first.is_valid() ) {
             rep.warn( "bash_protec specifies unknown body part \"%s\"", it.first.str() );
