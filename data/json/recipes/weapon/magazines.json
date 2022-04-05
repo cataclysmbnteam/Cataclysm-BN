@@ -398,5 +398,89 @@
     "using": [ [ "welding_standard", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "metal_tank_little", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "ammolink223",
+    "result_mult": 100,
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MAGAZINES",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "gun", 2 ],
+    "time": "5 m",
+    "book_learn": [ [ "manual_rifle", 5 ], [ "recipe_bullets", 3 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "anvil", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "swage", -1 ] ],
+      [ [ "forge", 450 ], [ "oxy_torch", 90 ] ]
+    ],
+    "components": [ [ [ "steel_lump", 8 ], [ "steel_chunk", 24 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "ammolink308",
+    "result_mult": 100,
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MAGAZINES",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "gun", 2 ],
+    "time": "5 m",
+    "book_learn": [ [ "manual_rifle", 5 ], [ "recipe_bullets", 3 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "anvil", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "swage", -1 ] ],
+      [ [ "forge", 450 ], [ "oxy_torch", 90 ] ]
+    ],
+    "components": [ [ [ "steel_lump", 8 ], [ "steel_chunk", 24 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "ammolink40mm",
+    "result_mult": 25,
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MAGAZINES",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "gun", 2 ],
+    "time": "5 m",
+    "book_learn": [ [ "manual_rifle", 5 ], [ "recipe_bullets", 3 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "anvil", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "swage", -1 ] ],
+      [ [ "forge", 450 ], [ "oxy_torch", 90 ] ]
+    ],
+    "components": [ [ [ "steel_lump", 8 ], [ "steel_chunk", 24 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "ammolink50",
+    "result_mult": 50,
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MAGAZINES",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "gun", 2 ],
+    "time": "5 m",
+    "book_learn": [ [ "manual_rifle", 5 ], [ "recipe_bullets", 3 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "anvil", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "swage", -1 ] ],
+      [ [ "forge", 450 ], [ "oxy_torch", 90 ] ]
+    ],
+    "components": [ [ [ "steel_lump", 8 ], [ "steel_chunk", 24 ] ] ]
   }
 ]
