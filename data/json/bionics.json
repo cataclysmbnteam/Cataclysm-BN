@@ -823,7 +823,8 @@
     "included": true,
     "flags": [ "BIONIC_TOGGLED" , "BIONIC_NPC_USABLE" ],
     "act_cost": "100 J",
-    "react_cost": "10 J"
+    "react_cost": "10 J",
+    "time": 1
   },
   {
     "id": "bio_radscrubber",
