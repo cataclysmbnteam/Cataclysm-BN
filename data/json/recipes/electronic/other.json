@@ -623,7 +623,7 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
     "skill_used": "electronics",
-    "skills_required": [ [ "mechanics", 6 ], [ "computer", 6 ] ],
+    "skills_required": [ [ "mechanics", 6 ], [ "computer", 5 ] ],
     "difficulty": 7,
     "time": "30 m",
     "reversible": true,
