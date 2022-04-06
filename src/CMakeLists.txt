@@ -59,17 +59,6 @@ IF(TILES)
     target_link_libraries(cataclysm-tiles cataclysm-tiles-common)
     target_compile_definitions(cataclysm-tiles-common PUBLIC TILES )
 
-    IF (LOCALIZE)
-      target_include_directories(cataclysm-tiles-common PUBLIC
-        ${LIBINTL_INCLUDE_DIR}
-        ${ICONV_INCLUDE_DIR}
-      )
-      target_link_libraries(cataclysm-tiles-common
-        ${LIBINTL_LIBRARIES}
-        ${ICONV_LIBRARIES}
-      )
-    ENDIF (LOCALIZE)
-
     IF(CMAKE_USE_PTHREADS_INIT)
       target_compile_options(cataclysm-tiles-common PUBLIC "-pthread")
     ENDIF(CMAKE_USE_PTHREADS_INIT)
@@ -161,17 +150,6 @@ IF(CURSES)
     ADD_DEPENDENCIES(cataclysm-common get_version)
     target_link_libraries(cataclysm cataclysm-common)
 
-    IF (LOCALIZE)
-      target_include_directories(cataclysm-common PUBLIC
-        ${LIBINTL_INCLUDE_DIR}
-        ${ICONV_INCLUDE_DIR}
-      )
-      target_link_libraries(cataclysm-common
-        ${LIBINTL_LIBRARIES}
-        ${ICONV_LIBRARIES}
-      )
-    ENDIF (LOCALIZE)
-
     target_include_directories(cataclysm-common PUBLIC ${CURSES_INCLUDE_DIR})
     target_link_libraries(cataclysm-common ${CURSES_LIBRARIES})
 
@@ -219,14 +197,6 @@ IF(MINGW AND NOT RELEASE)
       ${RuntimeLib_STDC_PP_6}
       ${RuntimeLib_WINPTHREAD_1}
     )
-    IF (LOCALIZE)
-      find_library(RuntimeLib_iconv  "libiconv-2")
-      find_library(RuntimeLib_intl  "libintl-8")
-      SET(RuntimeLib_LOCALIZE
-        ${RuntimeLib_iconv}
-        ${RuntimeLib_intl}
-      )
-    ENDIF (LOCALIZE)
     IF (TILES)
       # SDL2 can have a varius deps. Here you are the MSYS2 ones...
       find_library(RuntimeLib_SDL2  "SDL2")
@@ -287,7 +257,6 @@ IF(MINGW AND NOT RELEASE)
       ENDIF(SOUND)
     ENDIF (TILES)
     install(FILES ${RuntimeLib_GCC_ALL}
-      ${RuntimeLib_LOCALIZE}
       ${RuntimeLib_SDL}
       ${RuntimeLib_SDL_SOUND}
       DESTINATION ${BIN_PREFIX}

@@ -1629,7 +1629,7 @@ static projectile make_gun_projectile( const item &gun )
             proj.set_drop( drop );
         }
 
-        if( fx.has_effect( ammo_effect_CUSTOM_EXPLOSION ) > 0 ) {
+        if( fx.has_effect( ammo_effect_CUSTOM_EXPLOSION ) ) {
             proj.set_custom_explosion( gun.ammo_data()->explosion );
         }
     }
@@ -2915,7 +2915,7 @@ void target_ui::action_switch_mode()
 
             text += ( active_gun_mode ? _( " (active)" ) : "" );
 
-            menu.entries.emplace_back( on_select.size(), true, MENU_AUTOASSIGN, text );
+            menu.entries.emplace_back( static_cast<int>( on_select.size() ), true, MENU_AUTOASSIGN, text );
             on_select.emplace_back( [mode, this]() {
                 relevant->gun_set_mode( mode.first );
             } );

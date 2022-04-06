@@ -2178,11 +2178,6 @@ void options_manager::add_options_debug()
          true
        );
 
-    add( "MODULAR_TRANSLATIONS", "debug", translate_marker( "Modular translation testing" ),
-         translate_marker( "If true, enables experimental translation system that allows mods to ship their own translation files." ),
-         true
-       );
-
     add( "NEW_EXPLOSIONS", "debug", translate_marker( "New explosions" ),
          translate_marker( "If true, Rule of Cool explosions will be used." ), false );
 }
@@ -3148,7 +3143,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             } else if( iter.first == "TILES" || iter.first == "USE_TILES" ) {
                 used_tiles_changed = true;
 
-            } else if( iter.first == "USE_LANG" || iter.first == "MODULAR_TRANSLATIONS" ) {
+            } else if( iter.first == "USE_LANG" ) {
                 lang_changed = true;
 
             } else if( iter.first == "TERMINAL_X" || iter.first == "TERMINAL_Y" ) {

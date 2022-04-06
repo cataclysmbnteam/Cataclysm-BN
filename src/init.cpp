@@ -608,9 +608,7 @@ void DynamicDataLoader::unload_data()
     vpart_info::reset();
     weather_types::reset();
     zone_type::reset_zones();
-#if defined(LOCALIZE)
     l10n_data::unload_mod_catalogues();
-#endif
 #if defined(TILES)
     reset_mod_tileset();
 #endif
@@ -690,9 +688,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Anatomies" ), &anatomy::finalize_all },
             { _( "Mutations" ), &mutation_branch::finalize },
             { _( "Achievements" ), &achievement::finalize },
-#if defined(LOCALIZE)
-            {_( "Localization" ), &l10n_data::load_mod_catalogues },
-#endif
+            { _( "Localization" ), &l10n_data::load_mod_catalogues },
 #if defined(TILES)
             { _( "Tileset" ), &load_tileset },
 #endif

@@ -645,8 +645,8 @@ dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, const da
  */
 void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack )
 {
-    const bool magic = attack.proj.has_effect( ammo_effect_magic ) > 0;
-    const bool targetted_crit_allowed = attack.proj.has_effect( ammo_effect_NO_CRIT ) == 0;
+    const bool magic = attack.proj.has_effect( ammo_effect_magic );
+    const bool targetted_crit_allowed = !attack.proj.has_effect( ammo_effect_NO_CRIT );
     const double missed_by = attack.missed_by;
     if( missed_by >= 1.0 && !magic ) {
         // Total miss
@@ -763,7 +763,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     impact.mult_damage( damage_mult );
 
-    if( proj.has_effect( ammo_effect_NOGIB ) > 0 ) {
+    if( proj.has_effect( ammo_effect_NOGIB ) ) {
         float dmg_ratio = static_cast<float>( impact.total_damage() ) / get_hp_max( bp_hit );
         if( dmg_ratio > 1.25f ) {
             impact.mult_damage( 1.0f / dmg_ratio );

@@ -66,7 +66,7 @@ There are some general dependencies, optional dependencies and then specific dep
 Rough list based on building on Arch:
 
   * General: `gcc-libs`, `glibc`, `zlib`, `bzip2`
-  * Optional: `gettext`
+  * Optional: `intltool`
   * Curses: `ncurses`
   * Tiles: `sdl2`, `sdl2_image`, `sdl2_ttf`, `sdl2_mixer`, `freetype2`
 
@@ -74,7 +74,7 @@ E.g. for curses build on Debian and derivatives you'll also need `libncurses5-de
 
 Note on optional dependencies:
 
-  * `gettext` - for localization support; if you plan to only use English you can skip it
+  * `intltool` - for building localization files; if you plan to only use English you can skip it
 
 You should be able to figure out what you are missing by reading the compilation errors and/or the output of `ldd` for compiled binaries.
 
@@ -87,7 +87,6 @@ Given you're building from source you have a number of choices to make:
   * `LTO=1` - enables link-time optimization with GCC/Clang
   * `TILES=1` - with this you'll get the tiles version, without it the curses version
   * `SOUND=1` - if you want sound; this requires `TILES=1`
-  * `LOCALIZE=0` - this disables localizations so `gettext` is not needed
   * `LANGUAGES=` - specifies localizations. See details [here](#compiling-localization-files)
   * `CLANG=1` - use Clang instead of GCC
   * `CCACHE=1` - use ccache
@@ -101,7 +100,7 @@ Example: `make -j4 CLANG=1 CCACHE=1 NATIVE=linux64 RELEASE=1 TILES=1`
 
 The above will build a tiles release explicitly for 64 bit Linux, using Clang and ccache and 4 parallel processes.
 
-Example: `make -j2 LOCALIZE=0`
+Example: `make -j2`
 
 The above will build a debug-enabled curses version for the architecture you are using, using GCC and 2 parallel processes.
 
@@ -110,13 +109,13 @@ You should probably always build with `RELEASE=1` unless you experience segfault
 
 ## Compiling localization files
 
-`LOCALIZE` (enabled by default) only enables localization itself, but doesn't include any languages. If you want to compile files for specific languages, you should add `LANGUAGES="<lang_id_1> [lang_id_2] [...]"` option to make command:
+By default, only English language is available, and it does not require localization file.
+
+If you want to compile files for specific languages, you should add `LANGUAGES="<lang_id_1> [lang_id_2] [...]"` option to make command:
 
     make LANGUAGES="zh_CN zh_TW"
 
-You can get the language ID from the filenames of `*.po` in `lang/po` directory or use `LANGUAGES="all"` to complile all available localizations. 
-
-Special note for MinGW: due to a [libintl bug](https://savannah.gnu.org/bugs/index.php?58006), using English without a `.mo` file would cause significant slow down on MinGW targets. In such case you can compile a `.mo` file for English using `make LANGUAGES="en"`. `make LANGUAGE="all"` also compiles a `.mo` file for English in addition to other languages.
+You can get the language ID from the filenames of `*.po` in `lang/po` directory or use `LANGUAGES="all"` to compile all available localizations. 
 
 # Debian
 
@@ -198,7 +197,7 @@ MXE can be either installed from MXE apt repository (much faster) or compiled fr
     sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 86B72ED9
     sudo add-apt-repository "deb [arch=amd64] https://pkg.mxe.cc/repos/apt `lsb_release -sc` main"
     sudo apt-get update
-    sudo apt-get install astyle bzip2 git make mxe-{i686,x86-64}-w64-mingw32.static-{sdl2,sdl2-ttf,sdl2-image,sdl2-mixer,gettext}
+    sudo apt-get install astyle bzip2 git make mxe-{i686,x86-64}-w64-mingw32.static-{sdl2,sdl2-ttf,sdl2-image,sdl2-mixer}
 
 If you are not planning on building for both 32-bit and 64-bit, you might want to adjust the last apt-get invocation to install only `i686` or `x86-64` packages.
 
@@ -220,7 +219,7 @@ Clone MXE repo and build packages required for CBN:
     cd ~/src
     git clone https://github.com/mxe/mxe.git
     cd mxe
-    make -j$((`nproc`+0)) MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' sdl2 sdl2_ttf sdl2_image sdl2_mixer gettext
+    make -j$((`nproc`+0)) MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' sdl2 sdl2_ttf sdl2_image sdl2_mixer
 
 Building all these packages from MXE might take a while, even on a fast computer. Be patient; the `-j` flag will take advantage of all your processor cores.
 
@@ -236,8 +235,8 @@ This is to ensure that the variables for the `make` command will not get reset a
 
 Run one of the following commands based on your targeted environment:
 
-    make -j$((`nproc`+0)) CROSS="${PLATFORM_32}" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 BACKTRACE=0 PCH=0 bindist
-    make -j$((`nproc`+0)) CROSS="${PLATFORM_64}" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 BACKTRACE=0 PCH=0 bindist
+    make -j$((`nproc`+0)) CROSS="${PLATFORM_32}" TILES=1 SOUND=1 RELEASE=1 BACKTRACE=0 PCH=0 bindist
+    make -j$((`nproc`+0)) CROSS="${PLATFORM_64}" TILES=1 SOUND=1 RELEASE=1 BACKTRACE=0 PCH=0 bindist
 
 ## Cross-compile to Mac OS X from Linux
 
@@ -272,15 +271,12 @@ Your directory tree should look like:
     │   ├── SDL2_mixer.framework
     │   └── SDL2_ttf.framework
     └── libs
-        ├── gettext
-        │   ├── include
-        │   └── lib
         └── ncurses
             ├── include
             └── lib
 
 Populated with respective frameworks, dylibs and headers.
-Tested lib versions are libintl.8.dylib for gettext, libncurses.5.4.dylib for ncurses.
+Tested with lib version libncurses.5.4.dylib for ncurses.
 These libs were obtained from `homebrew` binary distribution at OS X 10.11
 Frameworks were obtained from SDL official website as described in the next [section](#sdl)
 
@@ -289,7 +285,7 @@ Frameworks were obtained from SDL official website as described in the next [sec
 To build full feature tiles and sound enabled version with localizations enabled:
 
     make dmgdist CROSS=x86_64-apple-darwin15- NATIVE=osx OSX_MIN=10.7 USE_HOME_DIR=1 CLANG=1
-      RELEASE=1 LOCALIZE=1 LANGUAGES=all TILES=1 SOUND=1 FRAMEWORK=1
+      RELEASE=1 LANGUAGES=all TILES=1 SOUND=1 FRAMEWORK=1
       OSXCROSS=1 LIBSDIR=../libs FRAMEWORKSDIR=../Frameworks
 
 Make sure that `x86_64-apple-darwin15-clang++` is in `PATH` environment variable.
@@ -299,7 +295,7 @@ Make sure that `x86_64-apple-darwin15-clang++` is in `PATH` environment variable
 To build full curses version with localizations enabled:
 
     make dmgdist CROSS=x86_64-apple-darwin15- NATIVE=osx OSX_MIN=10.7 USE_HOME_DIR=1 CLANG=1
-      RELEASE=1 LOCALIZE=1 LANGUAGES=all OSXCROSS=1 LIBSDIR=../libs FRAMEWORKSDIR=../Frameworks
+      RELEASE=1 LANGUAGES=all OSXCROSS=1 LIBSDIR=../libs FRAMEWORKSDIR=../Frameworks
 
 Make sure that `x86_64-apple-darwin15-clang++` is in `PATH` environment variable.
 
@@ -316,7 +312,6 @@ The Gradle project lives in the repository under `android/`. You can build it vi
   * SDL2_ttf (tested with 2.0.14)
   * SDL2_mixer (tested with 2.0.2)
   * SDL2_image (tested with 2.0.3)
-  * libintl-lite (tested with a custom fork of libintl-lite 0.5)
 
 The Gradle build process automatically installs dependencies from [deps.zip](android/app/deps.zip).
 
@@ -454,17 +449,17 @@ with sound:
 
     sudo port install libsdl2_mixer libvorbis libogg
 
-### ncurses and gettext
+### ncurses
 
-ncurses (with wide character support enabled) and gettext are needed if you want to build Cataclysm with localization.
+ncurses with wide character support enabled is needed since Cataclysm makes extensive use of Unicode characters
 
 For Homebrew:
 
-    brew install gettext ncurses
+    brew install ncurses
 
 For MacPorts:
 
-    sudo port install gettext ncurses
+    sudo port install ncurses
     hash -r
 
 ### gcc
@@ -499,12 +494,10 @@ The Cataclysm source is compiled using `make`.
 * `TILES=1` build the SDL version with graphical tiles (and graphical ASCII); omit to build with `ncurses`.
 * `SOUND=1` - if you want sound; this requires `TILES=1` and the additional dependencies mentioned above.
 * `FRAMEWORK=1` (tiles only) link to SDL libraries under the OS X Frameworks folders; omit to use SDL shared libraries from Homebrew or Macports.
-* `LOCALIZE=0` disable localization (to get around possible `gettext` errors if it is not setup correctly); omit to use `gettext`.
-* `BREWGETTEXT=1` set this if you don't set LOCALIZE=0 and have installed `gettext` from homebrew--homebrew will refuse to link gettext in recent versions.
 * `LANGUAGES="<lang_id_1>[lang_id_2][...]"` compile localization files for specified languages. e.g. `LANGUAGES="zh_CN zh_TW"`. You can also use `LANGUAGES=all` to compile all localization files.
 * `RELEASE=1` build an optimized release version; omit for debug build.
 * `CLANG=1` build with [Clang](http://clang.llvm.org/), the compiler that's included with the latest Command Line Tools for Xcode; omit to build using gcc/g++.
-* `MACPORTS=1` build against dependencies installed via Macports, currently only `gettext` and `ncurses`.
+* `MACPORTS=1` build against dependencies installed via Macports, currently only `ncurses`.
 * `USE_HOME_DIR=1` places user files (config, saves, graveyard, etc) in the user's home directory. For curses builds, this is `/Users/<user>/.cataclysm-bn`, for SDL builds it is `/Users/<user>/Library/Application Support/Cataclysm`.
 * `DEBUG_SYMBOLS=1` retains debug symbols when building an optimized release binary, making it easy for developers to spot the crash site.
 
@@ -514,17 +507,17 @@ For more info, see the comments in the `Makefile`.
 
 ### Make examples
 
-Build a release SDL version using Clang without gettext:
+Build a release SDL version using Clang:
 
-    make NATIVE=osx OSX_MIN=10.12 RELEASE=1 TILES=1 LOCALIZE=0 CLANG=1
+    make NATIVE=osx OSX_MIN=10.12 RELEASE=1 TILES=1 CLANG=1
 
-Build a release SDL version using Clang, link to libraries in the OS X Frameworks folders, don't use `gettext`, and package it into `Cataclysm.app`:
+Build a release SDL version using Clang, link to libraries in the OS X Frameworks folders, build all language files, and package it into `Cataclysm.app`:
 
-    make app NATIVE=osx OSX_MIN=10.12 RELEASE=1 TILES=1 FRAMEWORK=1 LOCALIZE=0 CLANG=1
+    make app NATIVE=osx OSX_MIN=10.12 RELEASE=1 TILES=1 FRAMEWORK=1 LANGUAGES=all CLANG=1
 
-Build a release curses version with gettext supplied by Macports:
+Build a release curses version with curses supplied by Macports:
 
-    make NATIVE=osx OSX_MIN=10.12 RELEASE=1 LOCALIZE=1 MACPORTS=1 CLANG=1
+    make NATIVE=osx OSX_MIN=10.12 RELEASE=1 MACPORTS=1 CLANG=1
 
 ### Running
 
@@ -555,7 +548,7 @@ You can build a nice dmg distribution file with the `dmgdist` target. You will n
 
 Once `dmgbuild` is installed, you will be able to use the `dmgdist` target like this. The use of `USE_HOME_DIR=1` is important here because it will allow for an easy upgrade of the game while keeping the user config and his saves in his home directory.
 
-    make dmgdist NATIVE=osx OSX_MIN=10.12 RELEASE=1 TILES=1 FRAMEWORK=1 LOCALIZE=0 CLANG=1 USE_HOME_DIR=1
+    make dmgdist NATIVE=osx OSX_MIN=10.12 RELEASE=1 TILES=1 FRAMEWORK=1 CLANG=1 USE_HOME_DIR=1
 
 You should see a `Cataclysm.dmg` file.
 
@@ -566,16 +559,6 @@ You should see a `Cataclysm.dmg` file.
 For versions of OS X 10.11 and earlier, run-time optimizations are disabled for native builds (`-O0` is specified as a compilation flag) due to errors that can occur in compilation. See [Pull Request #26564](https://github.com/CleverRaven/Cataclysm-DDA/pull/26564) for details.
 
 If you're on a newer version of OS X, please use an appropriate value for the `OSX_MIN=` option, i.e. `OSX_MIN=10.14` if you are on Mojave.
-
-### ISSUE: crash on startup due to libint.8.dylib aborting
-
-If you're compiling on Mountain Lion or above, it won't be possible to run successfully on older OS X versions due to libint.8 / pthreads version issue.
-
-From https://wiki.gnome.org/GTK+/OSX/Building:
-
-> "There's another issue with building on Lion or Mountain Lion using either "native" or the 10.7 SDK: Apple has updated the pthreads implementation to provide recursive locking. This would be good except that Gettext's libintl uses this and if the pthreads implementation doesn't provide it it fabricates its own. Since the Lion pthreads does provide it, libintl links the provided function and then crashes when you try to run it against an older version of the library. The simplest solution is to specify the 10.6 SDK when building on Lion, but that won't work on Mountain Lion, which doesn't include it. See below for how to install and use XCode 3 on Lion and later for building applications compatible with earlier versions of OSX."
-
-Workaround: install XCode 3 like that article describes, or disable localization support in Cataclysm so gettext/libint are not dependencies. Or else simply don't support OS X versions below 10.7.
 
 ### ISSUE: Colors don't show up correctly
 
@@ -640,7 +623,7 @@ LDFLAGS += -rpath=/usr/local/lib/gcc48
 ```
 Note: or you can `setenv` the above (merging `OTHERS` into `CXXFLAGS`), but you knew that.
 
-And then build with `gmake LOCALIZE=0 RELEASE=1`.
+And then build with `gmake RELEASE=1`.
 
 ### Building on OpenBSD/amd64 5.8 with GCC 4.9.2 from ports/packages
 

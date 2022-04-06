@@ -38,8 +38,6 @@ void invalidate_translations();
 #define translate_marker_context(c, x) x
 #endif
 
-#if defined(LOCALIZE)
-
 #if defined(__GNUC__)
 #  define ATTRIBUTE_FORMAT_ARG(a) __attribute__((format_arg(a)))
 #else
@@ -130,29 +128,6 @@ const char *pgettext( const char *context, const char *msgid ) ATTRIBUTE_FORMAT_
 const char *vpgettext( const char *context, const char *msgid, const char *msgid_plural,
                        size_t n ) ATTRIBUTE_FORMAT_ARG( 2 );
 
-
-#else // !LOCALIZE
-
-#define _(STRING) (STRING)
-
-namespace detail
-{
-// _translate_internal avoids static cache
-inline const char *_translate_internal( const char *msg )
-{
-    return msg;
-}
-inline std::string _translate_internal( const std::string &msg )
-{
-    return msg;
-}
-} // namespace detail
-
-#define vgettext(STRING1, STRING2, COUNT) (COUNT == 1 ? _(STRING1) : _(STRING2))
-#define pgettext(STRING1, STRING2) _(STRING2)
-#define vpgettext(STRING0, STRING1, STRING2, COUNT) vgettext(STRING1, STRING2, COUNT)
-
-#endif // LOCALIZE
 
 using GenderMap = std::map<std::string, std::vector<std::string>>;
 /**

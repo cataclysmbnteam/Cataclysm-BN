@@ -504,7 +504,6 @@ translatable_mod_info::translatable_mod_info( std::string name,
     language_version = INVALID_LANGUAGE_VERSION;
 }
 
-#ifdef LOCALIZE
 std::string translatable_mod_info::name()
 {
     if( name_raw.empty() ) {
@@ -526,14 +525,3 @@ std::string translatable_mod_info::description()
     }
     return description_tr;
 }
-#else // LOCALIZE
-std::string translatable_mod_info::name()
-{
-    return name_raw;
-}
-
-std::string translatable_mod_info::description()
-{
-    return description_raw;
-}
-#endif // LOCALIZE

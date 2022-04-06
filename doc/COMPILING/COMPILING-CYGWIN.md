@@ -46,7 +46,7 @@ chmod 755 /bin/apt-cyg
 3. Install packages required for compilation:
 
 ```bash
-apt-cyg install astyle ccache gcc-g++ gettext-devel git libiconv-devel libintl-devel libSDL2_image-devel libSDL2_mixer-devel libSDL2_ttf-devel make xinit
+apt-cyg install astyle ccache gcc-g++ intltool git libSDL2_image-devel libSDL2_mixer-devel libSDL2_ttf-devel make xinit
 ```
 
 You will see messages saying packages are already installed, as well as Cygwin installing packages you didn't ask for; this is the result of Cygwin's package manager automatically resolving dependencies.
@@ -66,7 +66,7 @@ cd Cataclysm-BN
 2. Compile:
 
 ```bash
-make -j$((`nproc`+0)) CCACHE=1 RELEASE=1 CYGWIN=1 DYNAMIC_LINKING=1 SDL=1 TILES=1 SOUND=1 LOCALIZE=1 LANGUAGES=all LINTJSON=0 ASTYLE=0 BACKTRACE=0 RUNTESTS=0
+make -j$((`nproc`+0)) CCACHE=1 RELEASE=1 CYGWIN=1 DYNAMIC_LINKING=1 SDL=1 TILES=1 SOUND=1 LANGUAGES=all LINTJSON=0 ASTYLE=0 BACKTRACE=0 RUNTESTS=0
 ```
 
 You will receive warnings about unterminated character constants; they do not impact the compilation as far as this writer is aware.
