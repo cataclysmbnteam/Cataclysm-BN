@@ -1579,7 +1579,6 @@ void Character::process_bionic( int b )
         sounds::sound( pos(), 19, sounds::sound_t::activity, _( "HISISSS!" ), false, "bionic",
                        static_cast<std::string>( bio_hydraulics ) );
     } else if( bio.id == bio_nanobots ) {
-        //Refunds the energy used first, so I don't have to create several dozen exceptions, just remove power on success.
         mod_power_level( bio.info().power_over_time );
         std::vector<bodypart_id> bleeding_bp_parts;
         for( const bodypart_id &bp : get_all_body_parts() ) {
@@ -1594,7 +1593,7 @@ void Character::process_bionic( int b )
                 damaged_hp_parts.push_back( part.first.id() );
             }
         }
-       if( calendar::once_every( 15_turns ) ) {
+        if( calendar::once_every( 15_turns ) ) {
             if( !bleeding_bp_parts.empty() ) {
                 const bodypart_id part_to_staunch = bleeding_bp_parts[ rng( 0, bleeding_bp_parts.size() - 1 ) ];
                 effect &e = get_effect( effect_bleed, part_to_staunch->token );
