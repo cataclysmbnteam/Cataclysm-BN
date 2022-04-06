@@ -107,6 +107,7 @@ static const efftype_id effect_pkill1( "pkill1" );
 static const efftype_id effect_pkill2( "pkill2" );
 static const efftype_id effect_pkill3( "pkill3" );
 static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stung( "stung" );
 static const efftype_id effect_teleglow( "teleglow" );
@@ -705,7 +706,7 @@ bool Character::activate_bionic( int b, bool eff_only )
         add_msg_activate();
         static const std::vector<efftype_id> removable = {{
                 effect_fungus, effect_dermatik, effect_bloodworms,
-                effect_poison, effect_stung,
+                effect_poison, effect_stung, effect_badpoison,
                 effect_pkill1, effect_pkill2, effect_pkill3, effect_pkill_l,
                 effect_drunk, effect_cig, effect_cocaine_high, effect_weed_high,
                 effect_hallu, effect_visuals, effect_pblue, effect_iodine, effect_datura,
