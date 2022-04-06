@@ -1602,7 +1602,7 @@ void Character::process_bionic( int b )
                     e.mod_intensity( -1, false );
                     add_msg_if_player( m_good, _( "Your bleeding slows as the Nanobots work." ) );
                 }
-                if( e.get_intensity() == 1 ) {
+                else {
                     remove_effect( effect_bleed, part_to_staunch->token );
                     add_msg_if_player( m_good, _( "Your bleeding stops as the Nanobots seal you up." ) );
                 }
