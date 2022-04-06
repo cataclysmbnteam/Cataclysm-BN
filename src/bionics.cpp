@@ -1594,15 +1594,14 @@ void Character::process_bionic( int b )
                 damaged_hp_parts.push_back( part.first.id() );
             }
         }
-        if( calendar::once_every( 15_turns ) ) {
+       if( calendar::once_every( 15_turns ) ) {
             if( !bleeding_bp_parts.empty() ) {
                 const bodypart_id part_to_staunch = bleeding_bp_parts[ rng( 0, bleeding_bp_parts.size() - 1 ) ];
                 effect &e = get_effect( effect_bleed, part_to_staunch->token );
                 if( e.get_intensity() > 1 ) {
                     e.mod_intensity( -1, false );
                     add_msg_if_player( m_good, _( "Your bleeding slows as the Nanobots work." ) );
-                }
-                else {
+                } else {
                     remove_effect( effect_bleed, part_to_staunch->token );
                     add_msg_if_player( m_good, _( "Your bleeding stops as the Nanobots seal you up." ) );
                 }
