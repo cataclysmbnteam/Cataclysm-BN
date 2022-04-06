@@ -1581,10 +1581,10 @@ void Character::process_bionic( int b )
     } else if( bio.id == bio_nanobots ) {
         //Refunds the energy used first, so I don't have to create several dozen exceptions, just remove power on success.
         mod_power_level( bio.info().power_over_time );
-        std::forward_list<bodypart_id> bleeding_bp_parts;
+        std::vector<bodypart_id> bleeding_bp_parts;
         for( const bodypart_id &bp : get_all_body_parts() ) {
             if( has_effect( effect_bleed, bp.id() ) ) {
-                bleeding_bp_parts.push_front( bp );
+                bleeding_bp_parts.push_back( bp );
             }
         }
         std::vector<bodypart_id> damaged_hp_parts;
@@ -1592,11 +1592,21 @@ void Character::process_bionic( int b )
             const int hp_cur = part.second.get_hp_cur();
             if( hp_cur > 0 && hp_cur < part.second.get_hp_max() ) {
                 damaged_hp_parts.push_back( part.first.id() );
-                bleeding_bp_parts.remove( part.first.id() );
             }
         }
         if( calendar::once_every( 15_turns ) ) {
-            bool try_to_heal_bleeding = true;
+            if( !bleeding_bp_parts.empty() && rng( 0, 1 ) == 1 ) {
+                const bodypart_id part_to_staunch = bleeding_bp_parts[ rng( 0, bleeding_bp_parts.size() - 1 ) ];
+                effect &e = get_effect( effect_bleed, part_to_staunch->token );
+                if( e.get_intensity() > 1 ) {
+                    e.mod_intensity( -1, false );
+                    add_msg_if_player( m_good, _( "Your bleeding slows as the Nanobots work." ) );
+                }
+                if( e.get_intensity() == 1 ) {
+                    remove_effect( effect_bleed, part_to_staunch->token );
+                    add_msg_if_player( m_good, _( "Your bleeding stops as the Nanobots seal you up." ) );
+                }
+            }
             if( rng( 0, 2 ) < 2 ) {
                 //Failed the 1/3 roll, no power is consumed.
                 return;
@@ -1606,17 +1616,6 @@ void Character::process_bionic( int b )
                 heal( part_to_heal, 1 );
                 mod_power_level( - bio.info().power_over_time );
                 mod_stored_kcal( -5 );
-                int hp_percent = static_cast<float>( get_part_hp_cur( part_to_heal ) ) / get_part_hp_max(
-                                     part_to_heal ) * 100;
-                if( has_effect( effect_bleed, part_to_heal->token ) && rng( 0, 100 ) < hp_percent ) {
-                    remove_effect( effect_bleed, part_to_heal->token );
-                    try_to_heal_bleeding = false;
-                }
-            }
-
-            // if no bleed was removed, try to remove it on some other part
-            if( try_to_heal_bleeding && !bleeding_bp_parts.empty() && rng( 0, 1 ) == 1 ) {
-                remove_effect( effect_bleed,  bleeding_bp_parts.front()->token );
             }
         }
     } else if( bio.id == bio_painkiller ) {
