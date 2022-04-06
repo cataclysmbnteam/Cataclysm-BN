@@ -807,11 +807,24 @@
   {
     "id": "bio_purifier",
     "type": "bionic",
-    "name": { "str": "Air Filtration System" },
-    "description": "Surgically implanted in your trachea is an advanced filtration system.  If toxins, or airborne diseases find their way into your windpipe, the filter will attempt to remove them.",
+    "name": { "str": "Air Filtration System (passive)" },
+    "description": "Surgically implanted in your trachea is an advanced filtration system.  In it's passive form it will protect you against smoke inhalation.  Once activated, it will prevent spores, toxins and diseases from being inhaled.",
     "occupied_bodyparts": [ [ "torso", 4 ], [ "mouth", 2 ] ],
     "env_protec": [ [ "mouth", 7 ] ],
-    "flags": [ "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_NPC_USABLE" ],
+    "included_bionics": [ "bio_purifier_active" ]
+  },
+  {
+    "id": "bio_purifier_active",
+    "type": "bionic",
+    "name": { "str": "Air Filtration System (active)" },
+    "description": "Surgically implanted in your trachea is an advanced filtration system.  In it's passive form it will protect you against smoke inhalation.  Once activated, it will prevent spores, toxins and diseases from being inhaled.",
+    "env_protec": [ [ "mouth", 8 ] ],
+    "included": true,
+    "flags": [ "BIONIC_TOGGLED" , "BIONIC_NPC_USABLE" ],
+    "act_cost": "100 J",
+    "react_cost": "10 J",
+    "time": 1
   },
   {
     "id": "bio_radscrubber",

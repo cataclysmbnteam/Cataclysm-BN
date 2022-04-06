@@ -6981,7 +6981,7 @@ int Character::get_env_resist( bodypart_id bp ) const
 
     for( const bionic_id &bid : get_bionics() ) {
         const auto EP = bid->env_protec.find( bp.id() );
-        if( EP != bid->env_protec.end() ) {
+        if( ( !bid->activated || has_active_bionic( bid ) ) && EP != bid->env_protec.end() ) {
             ret += EP->second;
         }
     }
