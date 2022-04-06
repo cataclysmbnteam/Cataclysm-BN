@@ -821,7 +821,7 @@
     "description": "Surgically implanted in your trachea is an advanced filtration system.  In it's passive form it will protect you against smoke inhalation.  Once activated, it will prevent spores, toxins and diseases from being inhaled.",
     "env_protec": [ [ "mouth", 8 ] ],
     "included": true,
-    "flags": [ "BIONIC_TOGGLED" , "BIONIC_NPC_USABLE" ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
     "act_cost": "100 J",
     "react_cost": "10 J",
     "time": 1

@@ -3239,7 +3239,8 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
     if( !bid->env_protec.empty() ) {
         info.push_back( iteminfo( "DESCRIPTION",
-                                  bid->activated ? _( "<bold>Environmental Protection (activated)</bold>: " ) : _( "<bold>Environmental Protection</bold>: " ),
+                                  bid->activated ? _( "<bold>Environmental Protection (activated)</bold>: " ) :
+                                  _( "<bold>Environmental Protection</bold>: " ),
                                   iteminfo::no_newline ) );
         for( const std::pair< const bodypart_str_id, int > element : sorted_lex( bid->env_protec ) ) {
             info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first->token, 1 ),
