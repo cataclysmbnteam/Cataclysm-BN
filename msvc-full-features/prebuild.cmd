@@ -3,7 +3,7 @@ SETLOCAL
 
 cd ..\msvc-full-features
 echo Done
-
+set PATH=%PATH%;%VSAPPIDDIR%\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Git\cmd
 echo Generating "version.h"...
 if "%VERSION%"=="" (
 for /F "tokens=*" %%i in ('git describe --tags --always --dirty --match "[0-9]*.*"') do set VERSION=%%i
