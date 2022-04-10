@@ -369,6 +369,7 @@ class inventory_column
 
         entry_cell_cache_t make_entry_cell_cache( const inventory_entry &entry ) const;
         const entry_cell_cache_t &get_entry_cell_cache( size_t index ) const;
+        void clear_cell_cache() const;
 
         const inventory_selector_preset &preset;
 
@@ -471,7 +472,7 @@ class inventory_selector
 
         // An array of cells for the stat lines. Example: ["Weight (kg)", "10", "/", "20"].
         using stat = std::array<std::string, 4>;
-        using stats = std::array<stat, 2>;
+        using stats = std::vector<stat>;
 
         bool keep_open = false;
 
@@ -505,7 +506,7 @@ class inventory_selector
         /** Given an action from the input_context, try to act according to it. */
         void on_input( const inventory_input &input );
         /** Entry has been changed */
-        void on_change( const inventory_entry &entry );
+        virtual void on_change( const inventory_entry &entry );
 
         shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
 
@@ -707,21 +708,61 @@ class inventory_iuse_selector : public inventory_multiselector
         std::map<const item *, std::vector<iuse_location>> to_use;
 };
 
+struct count_out_of {
+    public:
+        count_out_of() = default;
+        count_out_of( size_t selected, size_t max_count )
+            : selected( selected ), max_count( max_count )
+        {}
+        count_out_of( const count_out_of &rhs ) = default;
+        size_t selected = 0u;
+        size_t max_count = 0u;
+
+        count_out_of &operator=( const count_out_of &rhs ) = default;
+};
+
+class caching_drop_preset : public inventory_selector_preset
+{
+    public:
+        nc_color get_color( const inventory_entry &entry ) const override;
+
+        void set_implied_cache_dirty() const;
+        int get_move_cost_sum() const;
+        const std::unordered_map<const item *, count_out_of> &get_implied_drops() const;
+
+        // Builds the cache - not really const, but it's all mutable
+        void rebuild( const player &u, const excluded_stacks &dropping,
+                      const std::vector<inventory_column *> &all_columns ) const;
+
+    private:
+        // Horrible hack, but has to do for now
+        void rebuild() const;
+        mutable std::unordered_map<const item *, count_out_of> implied_drops;
+        mutable int move_cost_sum = -1;
+        mutable bool implied_cache_dirty = true;
+};
+
+const caching_drop_preset default_drop_preset;
+
 class inventory_drop_selector : public inventory_multiselector
 {
     public:
+        // Probably shouldn't require specific subtype
         inventory_drop_selector( player &p,
-                                 const inventory_selector_preset &preset = default_preset );
+                                 const caching_drop_preset &preset = default_drop_preset );
         drop_locations execute();
 
     protected:
         stats get_raw_stats() const override;
-        /** Toggle item dropping */
-        void set_chosen_count( inventory_entry &entry, size_t count );
-        void process_selected( int &count, const std::vector<inventory_entry *> &selected );
+        void on_change( const inventory_entry &entry ) override;
 
+        /** Toggle item dropping */
+        void set_chosen_drop_count( inventory_entry &entry, size_t count );
+        void process_selected( int count, const std::vector<inventory_entry *> &selected );
+        excluded_stacks get_implied_drops() const;
     private:
         excluded_stacks dropping;
+
 };
 
 #endif // CATA_SRC_INVENTORY_UI_H

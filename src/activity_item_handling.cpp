@@ -407,14 +407,14 @@ void put_into_vehicle_or_drop( Character &c, item_drop_reason reason, const std:
     drop_on_map( c, reason, items, where );
 }
 
-static std::list<pickup::act_item> convert_to_items( Character &p,
+static std::list<pickup::const_act_item> convert_to_items( const Character &p,
         const drop_locations &drop,
-        std::function<bool( item_location loc )> filter )
+        std::function<bool( const const_item_location &loc )> filter )
 {
-    std::list<pickup::act_item> res;
+    std::list<pickup::const_act_item> res;
 
     for( const drop_location &rec : drop ) {
-        const item_location loc = rec.loc;
+        const const_item_location loc = const_item_location( rec.loc );
         const int count = rec.count;
 
         if( !filter( loc ) ) {
@@ -437,7 +437,7 @@ static std::list<pickup::act_item> convert_to_items( Character &p,
                 }
                 const int qty = it.count_by_charges() ? std::min<int>( it.charges, count - obtained ) : 1;
                 obtained += qty;
-                item_location loc( p, const_cast<item *>( &it ) );
+                const_item_location loc = item_location::make_const( p, &it );
                 res.emplace_back( loc, qty, loc.obtain_cost( p, qty ) );
             }
         } else {
@@ -451,46 +451,67 @@ static std::list<pickup::act_item> convert_to_items( Character &p,
 namespace pickup
 {
 
+static std::list<pickup::act_item> recreate_as_nonconst(
+    const std::list<pickup::const_act_item> &l )
+{
+    std::list<pickup::act_item> ret;
+    std::transform( l.begin(), l.end(), std::back_inserter( ret ),
+    []( const pickup::const_act_item & ai ) {
+        // TODO: Make it safely recreate the location instead of hacking it with effectively-a-cast
+        return pickup::act_item( item_location( ai.loc ), ai.count, ai.consumed_moves );
+    } );
+    return ret;
+}
+
+std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &drop, nonconst )
+{
+    return recreate_as_nonconst( reorder_for_dropping( p, drop ) );
+}
+
 // Prepares items for dropping by reordering them so that the drop
 // cost is minimal and "dependent" items get taken off first.
 // Implements the "backpack" logic.
-std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &drop )
+std::list<const_act_item> reorder_for_dropping( const Character &p, const drop_locations &drop )
 {
-    std::list<act_item> res = convert_to_items( p, drop,
-    [&p]( item_location loc ) {
+    // Potentially slow: O(n*m), where n is inentory size and m is selection size
+    // Could be optimized by building a set of worn/wielded items beforehand
+    std::list<const_act_item> res = convert_to_items( p, drop,
+    [&p]( const const_item_location & loc ) {
         return p.is_wielding( *loc );
     } );
-    std::list<act_item> inv = convert_to_items( p, drop,
-    [&p]( item_location loc ) {
+    std::list<const_act_item> inv = convert_to_items( p, drop,
+    [&p]( const const_item_location & loc ) {
         return !p.is_wielding( *loc ) && !p.is_worn( *loc );
     } );
-    std::list<act_item> worn = convert_to_items( p, drop,
-    [&p]( item_location loc ) {
+    std::list<const_act_item> worn = convert_to_items( p, drop,
+    [&p]( const const_item_location & loc ) {
         return p.is_worn( *loc );
     } );
 
     // Sort inventory items by volume in ascending order
-    inv.sort( []( const act_item & first, const act_item & second ) {
+    inv.sort( []( const const_act_item & first, const const_act_item & second ) {
         return first.loc->volume() < second.loc->volume();
     } );
     // Add missing dependent worn items (if any).
     for( const auto &wait : worn ) {
-        for( item *dit : p.get_dependent_worn_items( *wait.loc ) ) {
+        for( const item *dit : p.get_dependent_worn_items( *wait.loc ) ) {
             const auto iter = std::find_if( worn.begin(), worn.end(),
-            [dit]( const act_item & ait ) {
+            [dit]( const const_act_item & ait ) {
                 return &*ait.loc == dit;
             } );
 
             if( iter == worn.end() ) {
                 // TODO: Use a calculated cost
-                const item_location loc( p, dit );
-                act_item act( loc, loc->count(), loc.obtain_cost( p, loc->count() ) );
-                worn.emplace_front( loc, loc->count(), loc.obtain_cost( p ) );
+                const const_item_location loc = item_location::make_const( p, dit );
+                int cost = item_handling::takeoff_cost( p, *loc ) * loc->count() +
+                           loc.obtain_cost( p, loc->count() );
+                const_act_item act( loc, loc->count(), cost );
+                worn.emplace_front( loc, loc->count(), cost );
             }
         }
     }
     // Sort worn items by storage in descending order, but dependent items always go first.
-    worn.sort( []( const act_item & first, const act_item & second ) {
+    worn.sort( []( const const_act_item & first, const const_act_item & second ) {
         return first.loc->is_worn_only_with( *second.loc )
                || ( first.loc->get_storage() > second.loc->get_storage()
                     && !second.loc->is_worn_only_with( *first.loc ) );
@@ -498,32 +519,32 @@ std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &dr
 
     // Avoid tumbling to the ground. Unload cleanly.
     units::volume dropped_inv_contents = std::accumulate( inv.begin(), inv.end(), 0_ml,
-    []( units::volume acc, const act_item & ait ) {
+    []( units::volume acc, const const_act_item & ait ) {
         return acc + ait.loc->volume();
     } );
     const units::volume dropped_worn_storage = std::accumulate( worn.begin(), worn.end(), 0_ml,
-    []( units::volume acc, const act_item & ait ) {
+    []( units::volume acc, const const_act_item & ait ) {
         return acc + ait.loc->get_storage();
     } );
     std::set<int> inv_indices;
     std::transform( inv.begin(), inv.end(), std::inserter( inv_indices, inv_indices.begin() ),
-    [&p]( const act_item & ait ) {
+    [&p]( const const_act_item & ait ) {
         return p.get_item_position( &*ait.loc );
     } );
 
     units::volume excessive_volume = p.volume_carried() - dropped_inv_contents
                                      - p.volume_capacity_reduced_by( dropped_worn_storage );
     if( excessive_volume > 0_ml ) {
-        invslice old_inv = p.inv.slice();
+        const_invslice old_inv = p.inv.const_slice();
         for( size_t i = 0; i < old_inv.size() && excessive_volume > 0_ml; i++ ) {
             // TODO: Reimplement random dropping?
             if( inv_indices.count( i ) != 0 ) {
                 continue;
             }
-            std::list<item> &inv_stack = *old_inv[i];
-            for( item &item : inv_stack ) {
+            const std::list<item> &inv_stack = *old_inv[i];
+            for( const item &item : inv_stack ) {
                 // Note: zero cost, but won't be contained on drop
-                act_item to_drop = act_item( item_location( p, &item ), item.count(), 0 );
+                const_act_item to_drop = const_act_item( item_location::make_const( p, &item ), item.count(), 0 );
                 inv.push_back( to_drop );
                 excessive_volume -= to_drop.loc->volume();
                 if( excessive_volume <= 0_ml ) {
@@ -532,7 +553,7 @@ std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &dr
             }
         }
         // Need to re-sort
-        inv.sort( []( const act_item & first, const act_item & second ) {
+        inv.sort( []( const const_act_item & first, const const_act_item & second ) {
             return first.loc->volume() < second.loc->volume();
         } );
     }
@@ -607,12 +628,10 @@ std::list<item> obtain_and_tokenize_items( player &p, std::list<act_item> &items
         p.mod_moves( -ait.consumed_moves );
 
         if( p.is_worn( *ait.loc ) ) {
-            if( !p.takeoff( *ait.loc, &res ) ) {
-                // Skip item if failed to take it off
-                debugmsg( "Failed to obtain worn target item of ACT_DROP" );
-                items.pop_front();
-                continue;
-            }
+            res.emplace_back( *ait.loc );
+            // Can't use takeoff, it costs moves and we already paid them
+            p.i_rem( &*ait.loc );
+            // Hack alert! TODO: Handle failure!
         } else if( ait.loc->count_by_charges() ) {
             res.push_back( p.reduce_charges( const_cast<item *>( &*ait.loc ), ait.count ) );
         } else {

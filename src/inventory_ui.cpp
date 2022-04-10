@@ -19,6 +19,8 @@
 #include "optional.h"
 #include "options.h"
 #include "output.h"
+#include "pickup.h"
+#include "pickup_token.h"
 #include "player.h"
 #include "point.h"
 #include "string_formatter.h"
@@ -457,6 +459,9 @@ inventory_column::entry_cell_cache_t inventory_column::make_entry_cell_cache(
     for( size_t i = 0, n = preset.get_cells_count(); i < n; ++i ) {
         result.text[i] = preset.get_cell_text( entry, i );
     }
+
+    printf( "getting color for %s\n",
+            result.text.empty() ? "empty cell" : result.text.front().c_str() );
 
     return result;
 }
@@ -980,6 +985,11 @@ size_t inventory_column::visible_cells() const
     } );
 }
 
+void inventory_column::clear_cell_cache() const
+{
+    entries_cell_cache.clear();
+}
+
 selection_column::selection_column( const std::string &id, const std::string &name ) :
     inventory_column( selection_preset ),
     selected_cat( id, no_translation( name ), 0 ) {}
@@ -1048,6 +1058,8 @@ void selection_column::on_change( const inventory_entry &entry )
             last_changed = *iter;
         }
     }
+
+    clear_cell_cache();
 }
 
 // TODO: Move it into some 'item_stack' class.
@@ -1483,11 +1495,12 @@ inventory_selector::stats inventory_selector::get_raw_stats() const
 std::vector<std::string> inventory_selector::get_stats() const
 {
     // Stats consist of arrays of cells.
-    const size_t num_stats = 2;
-    const std::array<stat, num_stats> stats = get_raw_stats();
+    const std::vector<stat> stats = get_raw_stats();
     // Streams for every stat.
-    std::array<std::string, num_stats> lines;
-    std::array<size_t, num_stats> widths;
+    std::vector<std::string> lines;
+    lines.resize( stats.size() );
+    std::vector<size_t> widths;
+    widths.resize( stats.size() );
     // Add first cells and spaces after them.
     for( size_t i = 0; i < stats.size(); ++i ) {
         lines[i] += string_format( "%s", stats[i][0] ) + " ";
@@ -2141,16 +2154,18 @@ inventory_selector::stats inventory_iuse_selector::get_raw_stats() const
 }
 
 inventory_drop_selector::inventory_drop_selector( player &p,
-        const inventory_selector_preset &preset ) :
+        const caching_drop_preset &preset ) :
     inventory_multiselector( p, preset, _( "ITEMS TO DROP" ) )
 {
 #if defined(__ANDROID__)
     // allow user to type a drop number without dismissing virtual keyboard after each keypress
     ctxt.allow_text_entry = true;
 #endif
+
+    static_cast<const caching_drop_preset &>( preset ).rebuild( u, dropping, get_all_columns() );
 }
 
-void inventory_drop_selector::process_selected( int &count,
+void inventory_drop_selector::process_selected( int count,
         const std::vector<inventory_entry *> &selected )
 {
     if( count == 0 ) {
@@ -2165,9 +2180,8 @@ void inventory_drop_selector::process_selected( int &count,
     }
 
     for( const auto &elem : selected ) {
-        set_chosen_count( *elem, count );
+        set_chosen_drop_count( *elem, count );
     }
-    count = 0;
 }
 
 drop_locations inventory_drop_selector::execute()
@@ -2175,6 +2189,7 @@ drop_locations inventory_drop_selector::execute()
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
 
     int count = 0;
+    avatar &u = get_avatar();
     while( true ) {
         ui_manager::redraw();
 
@@ -2189,17 +2204,18 @@ drop_locations inventory_drop_selector::execute()
             if( count == 0 && input.entry->chosen_count == 0 ) {
                 count = max_chosen_count;
             }
-            set_chosen_count( *input.entry, count );
+            set_chosen_drop_count( *input.entry, count );
             count = 0;
         } else if( input.action == "DROP_NON_FAVORITE" ) {
-            const auto filter_to_nonfavorite_and_nonworn = []( const inventory_entry & entry ) {
+            const auto filter_to_nonfavorite_and_nonworn = [&u]( const inventory_entry & entry ) {
                 return entry.is_item() &&
                        !entry.any_item()->is_favorite &&
-                       !g->u.is_worn( *entry.any_item() );
+                       !u.is_worn( *entry.any_item() );
             };
 
             const auto selected( get_active_column().get_entries( filter_to_nonfavorite_and_nonworn ) );
             process_selected( count, selected );
+            count = 0;
         } else if( input.action == "RIGHT" ) {
             const auto selected( get_active_column().get_all_selected() );
 
@@ -2222,16 +2238,16 @@ drop_locations inventory_drop_selector::execute()
                 for( const auto &elem : selected ) {
                     const bool is_favorite = elem->any_item()->is_favorite;
                     if( ( select_nonfav && !is_favorite ) || ( select_fav && is_favorite ) ) {
-                        set_chosen_count( *elem, count );
+                        set_chosen_drop_count( *elem, count );
                     } else if( !select_nonfav && !select_fav ) {
                         // Every element is selected, unselect all
-                        set_chosen_count( *elem, 0 );
+                        set_chosen_drop_count( *elem, 0 );
                     }
                 }
                 // Select the entered amount
             } else {
                 for( const auto &elem : selected ) {
-                    set_chosen_count( *elem, count );
+                    set_chosen_drop_count( *elem, count );
                 }
             }
 
@@ -2267,7 +2283,7 @@ drop_locations inventory_drop_selector::execute()
     return dropped_pos_and_qty;
 }
 
-void inventory_drop_selector::set_chosen_count( inventory_entry &entry, size_t count )
+void inventory_drop_selector::set_chosen_drop_count( inventory_entry &entry, size_t count )
 {
     const item *it = entry.item_stack_on_character();
 
@@ -2286,11 +2302,192 @@ void inventory_drop_selector::set_chosen_count( inventory_entry &entry, size_t c
     on_change( entry );
 }
 
+static drop_locations convert_to_locations( const Character &u, const excluded_stacks &dropping )
+{
+    drop_locations locations;
+    std::transform( dropping.begin(), dropping.end(), std::back_inserter( locations ),
+    [&u]( const excluded_stack & dropped_stack ) {
+        const item_location loc = item_location::make_const( u, dropped_stack.first );
+        return iuse_location( loc, dropped_stack.second );
+    } );
+    return locations;
+}
+
+static inventory_selector::stat display_time( const std::string &caption, int cur_value,
+        const std::function<std::string( int )> &disp_func )
+{
+    const nc_color color = c_light_gray;
+    return {{
+            caption,
+            colorize( disp_func( cur_value ), color ),
+            "",
+            ""
+        }};
+}
+
 inventory_selector::stats inventory_drop_selector::get_raw_stats() const
 {
-    return get_weight_and_volume_stats(
-               u.weight_carried_reduced_by( dropping ),
-               u.weight_capacity(),
-               u.volume_carried_reduced_by( dropping ),
-               u.volume_capacity_reduced_by( 0_ml, dropping ) );
+    inventory_selector::stats st =
+        get_weight_and_volume_stats(
+            u.weight_carried_reduced_by( dropping ),
+            u.weight_capacity(),
+            u.volume_carried_reduced_by( dropping ),
+            u.volume_capacity_reduced_by( 0_ml, dropping ) );
+
+    const Creature &u = this->u;
+    const stat time_stat = display_time( _( "Time" ),
+                                         static_cast<const caching_drop_preset &>( preset )
+                                         .get_move_cost_sum(),
+    [&u]( int i ) {
+        int speed = u.get_speed();
+        return string_format( "%d.%02ds", i / speed, i % speed );
+    } );
+    st.emplace_back( time_stat );
+    return st;
+}
+
+void caching_drop_preset::set_implied_cache_dirty() const
+{
+    implied_cache_dirty = true;
+}
+
+void inventory_drop_selector::on_change( const inventory_entry &entry )
+{
+    printf( "on_change called\n" );
+    static_cast<const caching_drop_preset &>( preset ).set_implied_cache_dirty();
+    static_cast<const caching_drop_preset &>( preset ).rebuild( u, dropping, get_all_columns() );
+    inventory_multiselector::on_change( entry );
+}
+
+struct item_location_hasher {
+    std::size_t operator()( const item_location &l ) const {
+        using std::hash;
+
+        return std::hash<const item *>()( l.get_item() );
+    }
+};
+
+int caching_drop_preset::get_move_cost_sum() const
+{
+    if( implied_cache_dirty ) {
+        debugmsg( "Data not built" );
+    }
+
+    return move_cost_sum;
+}
+
+const std::unordered_map<const item *, count_out_of> &
+caching_drop_preset::get_implied_drops() const
+{
+    if( implied_cache_dirty ) {
+        debugmsg( "Data not built" );
+    }
+
+    return implied_drops;
+}
+
+void caching_drop_preset::rebuild(
+    const player &u,
+    const excluded_stacks &dropping,
+    const std::vector<inventory_column *> &all_columns ) const
+{
+    if( !implied_cache_dirty ) {
+        return;
+    }
+
+    implied_cache_dirty = false;
+
+    const drop_locations &locations = convert_to_locations( u, dropping );
+
+    const std::list<pickup::const_act_item> &reordered = pickup::reorder_for_dropping( u, locations );
+
+    std::unordered_map<const item_location, int, item_location_hasher> drop_counts;
+    move_cost_sum = 0;
+    for( const pickup::const_act_item &ai : reordered ) {
+        drop_counts[ai.loc] += ai.count;
+        move_cost_sum += ai.consumed_moves;
+    }
+
+    implied_drops.clear();
+    printf( "\n%lu columns\n", all_columns.size() );
+    for( const inventory_column *ic : all_columns ) {
+        const std::vector<inventory_entry *> entries_in_column =
+        ic->get_entries( []( const inventory_entry & ie ) {
+            return ie.is_item();
+        } );
+        printf( "%lu entries\n", entries_in_column.size() );
+        for( inventory_entry *entry : entries_in_column ) {
+            int matching_count = 0;
+            int total_count = 0;
+            for( const item_location &loc : entry->locations ) {
+                total_count += loc->count();
+                auto iter = drop_counts.find( loc );
+                if( iter != drop_counts.end() ) {
+                    matching_count += iter->second;
+                }
+            }
+
+            printf( "%s - total: %d, matching: %d\n",
+                    entry->any_item().get_item()->display_name().c_str(),
+                    total_count,
+                    matching_count );
+
+            if( matching_count > total_count ) {
+                debugmsg( "Dropped item count > total item count (somehow)" );
+                implied_drops.clear();
+                return;
+            } else {
+                implied_drops[&*entry->any_item()] = count_out_of( matching_count, total_count );
+            }
+        }
+    }
+
+
+}
+
+nc_color caching_drop_preset::get_color( const inventory_entry &entry ) const
+{
+    if( !entry.is_item() ) {
+        return inventory_selector_preset::get_color( entry );
+    }
+    auto iter = implied_drops.find( &*entry.any_item() );
+    printf( "getting color for %s\n", entry.any_item()->display_name().c_str() );
+    if( iter == implied_drops.end() ) {
+        // TODO: Shouldn't happen?
+        return c_red;
+        // return inventory_selector_preset::get_color( entry );
+    }
+
+    const count_out_of &selection = iter->second;
+    if( selection.selected == selection.max_count ) {
+        return c_blue;
+    } else if( selection.selected > 0 ) {
+        return c_magenta;
+    } else {
+        return c_green;
+    }
+}
+
+excluded_stacks inventory_drop_selector::get_implied_drops() const
+{
+    auto *hacky_ptr = static_cast<const caching_drop_preset *>( &preset );
+    if( hacky_ptr == nullptr ) {
+        debugmsg( "This hack requires ui preset to be of caching_drop_preset class!" );
+        return {};
+    }
+    auto &hacky = const_cast<caching_drop_preset &>( *hacky_ptr );
+    hacky.rebuild( u, dropping, get_all_columns() );
+    auto drop_proposals = hacky.get_implied_drops();
+
+    excluded_stacks result;
+    for( const auto &pr : drop_proposals ) {
+        result[pr.first] = pr.second.selected;
+        /*
+        for( const item_location &loc : pr.first->locations ) {
+            result[&*loc] = pr.second.selected;
+        }
+        */
+    }
+
+    return result;
 }

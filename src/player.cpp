@@ -2837,8 +2837,7 @@ bool player::takeoff( item &it, std::list<item> *res )
                            _( "<npcname> takes off their %s." ),
                            it.tname() );
 
-    // TODO: Make this variable
-    mod_moves( -250 );
+    mod_moves( -item_handling::takeoff_cost( *this, *iter ) );
     worn.erase( iter );
 
     recalc_sight_limits();

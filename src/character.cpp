@@ -2432,6 +2432,7 @@ item Character::i_rem( int pos )
         auto iter = worn.begin();
         std::advance( iter, worn_position_to_index( pos ) );
         tmp = *iter;
+        on_item_takeoff( *iter );
         tmp.on_takeoff( *this );
         worn.erase( iter );
         return tmp;
@@ -2445,7 +2446,7 @@ item Character::i_rem( const item *it )
         return &i == it;
     }, 1 );
     if( tmp.empty() ) {
-        debugmsg( "did not found item %s to remove it!", it->tname() );
+        debugmsg( "Did not find item %s to remove it!", it->tname() );
         return item();
     }
     return tmp.front();
@@ -2500,6 +2501,14 @@ std::list<item *> Character::get_dependent_worn_items( const item &it ) const
     }
 
     return dependent;
+}
+
+std::list<const item *> Character::get_dependent_worn_items( const item &it ) const
+{
+    const std::list<item *> nonconst = const_cast<Character &>( *this ).get_dependent_worn_items( it );
+    std::list<const item *> ret;
+    std::copy( nonconst.begin(), nonconst.end(), ret.end() );
+    return ret;
 }
 
 void Character::drop( item_location loc, const tripoint &where )
@@ -9850,14 +9859,14 @@ void Character::on_item_wear( const item &it )
 {
     for( const trait_id &mut : it.mutations_from_wearing( *this ) ) {
         mutation_effect( mut );
-        recalc_sight_limits();
-        calc_encumbrance();
 
         // If the stamina is higher than the max (Languorous), set it back to max
         if( get_stamina() > get_stamina_max() ) {
             set_stamina( get_stamina_max() );
         }
     }
+    recalc_sight_limits();
+    calc_encumbrance();
     morale->on_item_wear( it );
 }
 
@@ -9865,12 +9874,12 @@ void Character::on_item_takeoff( const item &it )
 {
     for( const trait_id &mut : it.mutations_from_wearing( *this ) ) {
         mutation_loss_effect( mut );
-        recalc_sight_limits();
-        calc_encumbrance();
         if( get_stamina() > get_stamina_max() ) {
             set_stamina( get_stamina_max() );
         }
     }
+    recalc_sight_limits();
+    calc_encumbrance();
     morale->on_item_takeoff( it );
 }
 
