@@ -297,7 +297,7 @@
     "skills_required": [ "mechanics", 4 ],
     "time": "2 h",
     "reversible": true,
-    "decomp_learn": 7,
+    "decomp_learn": 5,
     "book_learn": [ [ "recipe_lab_elec", 5 ], [ "textbook_robots", 7 ] ],
     "using": [ [ "steel_standard", 1 ], [ "welding_standard", 20 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
