@@ -8755,6 +8755,24 @@ void game::butcher()
     }
 }
 
+static item::reload_option favorite_ammo_or_select(
+    const player &u, const item &it, bool empty, bool prompt )
+{
+    if( u.ammo_location ) {
+        std::vector<item::reload_option> ammo_list;
+        if( u.list_ammo( *u.ammo_location, ammo_list, empty ) ) {
+            const auto is_favorite_and_compatible = [&it, &u]( const item::reload_option & opt ) {
+                return opt.ammo == u.ammo_location && it.can_reload_with( opt.ammo->typeId() );
+            };
+            auto iter = std::find_if( ammo_list.begin(), ammo_list.end(), is_favorite_and_compatible );
+            if( iter != ammo_list.end() ) {
+                return *iter;
+            }
+        }
+    }
+    return u.select_ammo( it, prompt, empty );
+}
+
 void game::reload( item_location &loc, bool prompt, bool empty )
 {
     item *it = loc.get_item();
@@ -8821,9 +8839,7 @@ void game::reload( item_location &loc, bool prompt, bool empty )
         return;
     }
 
-    item::reload_option opt = u.ammo_location && it->can_reload_with( u.ammo_location->typeId() ) ?
-                              item::reload_option( &u, it, it, u.ammo_location ) :
-                              u.select_ammo( *it, prompt, empty );
+    item::reload_option opt = favorite_ammo_or_select( u, *loc, empty, prompt );
 
     if( opt.ammo.get_item() == nullptr ) {
         return;
