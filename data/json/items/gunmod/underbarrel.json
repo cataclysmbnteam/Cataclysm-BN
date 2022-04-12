@@ -126,7 +126,7 @@
     "gun_data": {
       "ammo": "shot",
       "skill": "shotgun",
-      "ranged_damage": { "damage_type": "stab", "amount": 1 },
+      "ranged_damage": { "damage_type": "bullet", "amount": 1 },
       "dispersion": 425,
       "durability": 7,
       "clip_size": 7,
@@ -177,7 +177,7 @@
     "gun_data": {
       "ammo": "shot",
       "skill": "shotgun",
-      "ranged_damage": { "damage_type": "stab", "amount": 1 },
+      "ranged_damage": { "damage_type": "bullet", "amount": 1 },
       "dispersion": 320,
       "durability": 6,
       "clip_size": 5,
@@ -203,7 +203,7 @@
     "gun_data": {
       "ammo": "shot",
       "skill": "shotgun",
-      "ranged_damage": { "damage_type": "stab", "amount": 1 },
+      "ranged_damage": { "damage_type": "bullet", "amount": 1 },
       "dispersion": 320,
       "durability": 6,
       "clip_size": 5,
@@ -246,7 +246,7 @@
       "ammo": "shotpaper",
       "skill": "shotgun",
       "range": -2,
-      "ranged_damage": { "damage_type": "stab", "amount": -12 },
+      "ranged_damage": { "damage_type": "bullet", "amount": -12 },
       "dispersion": 600,
       "durability": 10,
       "reload": 150,

@@ -490,6 +490,7 @@
     "dodge": 4,
     "armor_bash": 15,
     "armor_cut": 27,
+    "armor_bullet": 22,
     "harvest": "CBM_OP2",
     "special_attacks": [ [ "BIO_OP_BIOJUTSU", 15 ] ]
   }

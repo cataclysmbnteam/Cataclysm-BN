@@ -211,6 +211,7 @@
     "dodge": 2,
     "armor_bash": 2,
     "armor_cut": 1,
+    "armor_bullet": 1,
     "harvest": "mammal_fur",
     "reproduction": { "baby_monster": "mon_boar_wild_piglet", "baby_count": 8, "baby_timer": 154 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],

@@ -308,7 +308,7 @@
     "melee_cut": 4,
     "dodge": 3,
     "armor_cut": 20,
-    "armor_bullet": 27,
+    "armor_bullet": 16,
     "armor_stab": 27,
     "vision_day": 30,
     "vision_night": 3,

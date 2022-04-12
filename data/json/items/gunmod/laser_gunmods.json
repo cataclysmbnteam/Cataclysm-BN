@@ -50,7 +50,7 @@
     "location": "lens",
     "mod_targets": [ "pistol" ],
     "range_modifier": -25,
-    "damage_modifier": { "damage_type": "bullet", "amount": -8 },
+    "damage_modifier": { "damage_type": "heat", "amount": -8 },
     "ups_charges_multiplier": 1.2,
     "ammo_effects": [ "BEANBAG" ]
   },

@@ -57,6 +57,7 @@
     "melee_cut": 0,
     "armor_bash": 12,
     "armor_stab": 14,
+    "armor_bullet": 14,
     "armor_acid": 15,
     "harvest": "exempt",
     "death_function": [ "MELT" ],

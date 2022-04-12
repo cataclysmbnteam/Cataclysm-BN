@@ -35,7 +35,7 @@
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "weight": "2131 g",
     "ammo_type": "66mm",
-    "damage": { "damage_type": "stab", "amount": 30, "armor_multiplier": 0.1 },
+    "damage": { "damage_type": "bullet", "amount": 30, "armor_multiplier": 0.1 },
     "range": 80,
     "dispersion": 30,
     "recoil": 225,
