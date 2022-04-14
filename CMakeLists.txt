@@ -76,7 +76,7 @@ endif ()
 
 add_definitions(-DCMAKE)
 
-if (NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
+if (NOT "${GIT_VERSION}" MATCHES "GIT-NOTFOUND")
     string(REPLACE "-NOTFOUND" "" GIT_VERSION ${GIT_VERSION})
     file(WRITE ${CMAKE_SOURCE_DIR}/src/version.h
          "// NOLINT(cata-header-guard)\n\#define VERSION \"${GIT_VERSION}\"\n")
@@ -87,18 +87,18 @@ else ()
 endif ()
 
 #OS Check Placeholders. Will be used for BINDIST
-if (${CMAKE_SYSTEM_NAME} MATCHES Linux)
+if ("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
     set(_OS_LINUX_ 1)
 endif ()
 
-if (${CMAKE_SYSTEM_NAME} MATCHES FreeBSD)
+if ("${CMAKE_SYSTEM_NAME}" MATCHES "FreeBSD")
     set(_OS_FREEBSD_ 1)
 endif ()
 
-if (${CMAKE_SYSTEM_NAME} MATCHES Darwin)
+if ("${CMAKE_SYSTEM_NAME}" MATCHES "Darwin")
     set(_OS_DARWIN_ 1)
     add_definitions(-DMACOSX)
-    if (${TILES})
+    if (TILES)
         add_definitions(-DOSX_SDL2_LIBS)
     endif ()
 endif ()
@@ -127,16 +127,14 @@ if (NOT DYNAMIC_LINKING)
     set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS) # remove -rdynamic
     set(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS)
 else ()
-    if (MINGW AND NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    if (MINGW AND NOT "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
         # Avoid depending on MinGW runtime DLLs
         set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc -static-libstdc++")
     endif ()
 endif ()
 
 # System specific actions
-if (${CMAKE_SYSTEM_NAME} MATCHES Linux
-    OR ${CMAKE_SYSTEM_NAME} MATCHES FreeBSD
-    OR ${CMAKE_SYSTEM_NAME} MATCHES Darwin)
+if ("${CMAKE_SYSTEM_NAME}" MATCHES "(Linux|FreeBSD|Darwin)")
     if (NOT DATA_PREFIX)
         set(DATA_PREFIX ${CMAKE_INSTALL_PREFIX}/share/cataclysm-bn)
     endif ()
@@ -157,7 +155,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES Linux
     endif ()
 endif ()
 
-if (${CMAKE_SYSTEM_NAME} MATCHES Windows)
+if ("${CMAKE_SYSTEM_NAME}" MATCHES "Windows")
     if (NOT DATA_PREFIX)
         set(DATA_PREFIX ${CMAKE_INSTALL_PREFIX})
     endif ()
@@ -189,7 +187,7 @@ if (TILES)
 endif ()
 
 # Set build types and display info
-if (CMAKE_BUILD_TYPE STREQUAL Debug)
+if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
     set(RELEASE 0)
     message("\n")
     message(STATUS "Build ${PROJECT} in development mode --\n")
@@ -243,7 +241,7 @@ endif ()
 message(STATUS "See CMake compiling guide for details and more info --\n")
 
 if (MSVC)
-    if (CMAKE_SIZEOF_VOID_P EQUAL 8)
+    if ("${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
         add_definitions(-D_AMD64_)
     else ()
         add_definitions(-D_X86_)
@@ -264,7 +262,7 @@ else ()
        -Wzero-as-null-pointer-constant \
        -Wno-unknown-warning-option \
        -Wno-range-loop-analysis")
-    if (NOT ${CMAKE_SYSTEM_NAME} MATCHES Windows)
+    if (NOT "${CMAKE_SYSTEM_NAME}" MATCHES "Windows")
         set(CATA_WARNINGS "${CATA_WARNINGS} -Wredundant-decls")
     endif ()
     set(CATA_OTHER_FLAGS "${CATA_OTHER_FLAGS} -fsigned-char")
@@ -277,7 +275,7 @@ endif ()
 set(CMAKE_CXX_STANDARD 17)
 
 # Force out-of-source build
-if (${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
+if ("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
     message(
         FATAL_ERROR
             "This project requires an out of source build. \
