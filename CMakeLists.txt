@@ -155,7 +155,7 @@ if ("${CMAKE_SYSTEM_NAME}" MATCHES "(Linux|FreeBSD|Darwin)")
     endif ()
 endif ()
 
-if ("${CMAKE_SYSTEM_NAME}" MATCHES "Windows")
+if ("${CMAKE_SYSTEM_NAME}" MATCHES "(Windows|MSYS)")
     if (NOT DATA_PREFIX)
         set(DATA_PREFIX ${CMAKE_INSTALL_PREFIX})
     endif ()
@@ -349,6 +349,9 @@ if (CURSES)
                 Please install the ncurses development libraries, or try compiling \
                 with the -DTILES=1 for a graphical compilation. \
                 See CMake compiling guide for details and more info.")
+    endif ()
+    if (NOT DYNAMIC_LINKING)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DNCURSES_STATIC")
     endif ()
 endif ()
 
