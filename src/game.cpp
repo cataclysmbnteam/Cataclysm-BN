@@ -11143,7 +11143,6 @@ point game::update_map( int &x, int &y )
         remaining_shift -= this_shift;
     }
 
-    // TODO: Shift, don't reload
     grid_tracker_ptr->load( m );
 
     // Shift monsters

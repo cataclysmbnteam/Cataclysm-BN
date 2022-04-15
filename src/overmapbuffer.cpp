@@ -1686,7 +1686,8 @@ std::set<tripoint_abs_omt> overmapbuffer::electric_grid_at( const tripoint_abs_o
     open.emplace( p );
 
     while( !open.empty() ) {
-        const tripoint_abs_omt elem = open.front();
+        // It's weired that the game takes a lot of time to copy a tripoint_abs_omt, so use reference here.
+        const tripoint_abs_omt &elem = open.front();
         open.pop();
         result.emplace( elem );
         overmap_with_local_coords omc = get_om_global( elem );
