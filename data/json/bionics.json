@@ -679,7 +679,7 @@
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE", "BIONIC_SLEEP_FRIENDLY" ],
     "act_cost": "300 J",
     "react_cost": "3 kJ",
-    "time": 1
+    "time": 15
   },
   {
     "id": "bio_night",
