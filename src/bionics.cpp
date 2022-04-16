@@ -1579,8 +1579,9 @@ void Character::process_bionic( int b )
         sounds::sound( pos(), 19, sounds::sound_t::activity, _( "HISISSS!" ), false, "bionic",
                        static_cast<std::string>( bio_hydraulics ) );
     } else if( bio.id == bio_nanobots ) {
-        //Refunds the energy used first, so I don't have to create several dozen exceptions, just remove power on success.
-        mod_power_level( bio.info().power_over_time );
+        // Total hack, prevents charge_timer reaching 0 thus preventing power draw.
+        // Ideally there would be a value that directly impacts whether a bionic draws power when idle.
+        bio.charge_timer = 2;
         std::vector<bodypart_id> bleeding_bp_parts;
         for( const bodypart_id &bp : get_all_body_parts() ) {
             if( has_effect( effect_bleed, bp.id() ) ) {
