@@ -47,6 +47,7 @@ if (TILES)
     target_link_libraries(cataclysm-tiles cataclysm-tiles-common)
     target_compile_definitions(cataclysm-tiles-common PUBLIC TILES)
 
+    target_precompile_headers(cataclysm-tiles-common PUBLIC ../pch/main-pch.hpp)
     if (NOT DYNAMIC_LINKING)
         # SDL, SDL_Image, SDL_ttf deps are required for static build
         target_include_directories(
