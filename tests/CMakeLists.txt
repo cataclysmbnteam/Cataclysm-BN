@@ -4,6 +4,11 @@ if (BUILD_TESTING)
     # Enabling benchmarks
     add_definitions(-DCATCH_CONFIG_ENABLE_BENCHMARKING)
 
+    # TODO: build MO files required for tests
+    if(MSVC)
+        find_package(Gettext REQUIRED)
+    endif()
+
     if (TILES)
         add_executable(cata_test-tiles ${CATACLYSM_BN_TEST_SOURCES})
         if (LUA)
