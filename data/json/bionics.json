@@ -889,7 +889,7 @@
     "occupied_bodyparts": [ [ "torso", 3 ], [ "head", 1 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 1 ], [ "leg_r", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": "1 kJ",
-    "react_cost": "1 kJ,
+    "react_cost": "1 kJ",
     "time": 60
   },
   {
