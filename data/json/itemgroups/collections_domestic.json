@@ -155,7 +155,6 @@
       { "item": "bleach", "prob": 20, "charges-min": 1 },
       { "item": "ammonia", "prob": 24, "charges-min": 1 },
       { "item": "yeast", "prob": 2 },
-      { "item": "royal_jelly", "prob": 8 },
       { "item": "superglue", "prob": 20 },
       { "item": "bottle_glass", "prob": 10 },
       { "item": "syringe", "prob": 4 },
