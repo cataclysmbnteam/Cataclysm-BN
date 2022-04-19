@@ -1582,6 +1582,13 @@ void Character::process_bionic( int b )
         // Total hack, prevents charge_timer reaching 0 thus preventing power draw.
         // Ideally there would be a value that directly impacts whether a bionic draws power when idle.
         bio.charge_timer = 2;
+        // The above hack means there's no check for whether the bionic actually has power to run.
+        if ( get_power_level() < bio.info().power_over_time ) {
+            bio.powered = false;
+            add_msg_if_player( m_neutral, _( "Your %s powers down." ), bio.info().name );
+            deactivate_bionic ( b );
+            return;
+        }
         std::vector<bodypart_id> bleeding_bp_parts;
         for( const bodypart_id &bp : get_all_body_parts() ) {
             if( has_effect( effect_bleed, bp.id() ) ) {
