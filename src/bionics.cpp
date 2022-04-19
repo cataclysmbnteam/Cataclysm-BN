@@ -1480,7 +1480,7 @@ static bool attempt_recharge( Character &p, bionic &bio, units::energy &amount, 
     bool recharged = false;
 
     if( power_cost > 0_kJ ) {
-        if( info.has_flag( STATIC( flag_str_id( "BIO_ARMOR_INTERFACE" ) ) ) ) {
+        if( info.has_flag( STATIC( flag_str_id( "BIONIC_ARMOR_INTERFACE" ) ) ) ) {
             // Don't spend any power on armor interfacing unless we're wearing active powered armor.
             bool powered_armor = std::any_of( p.worn.begin(), p.worn.end(),
             []( const item & w ) {
