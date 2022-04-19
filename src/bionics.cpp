@@ -1607,11 +1607,7 @@ void Character::process_bionic( int b )
                     add_msg_if_player( m_good, _( "Your bleeding stops as the Nanobots seal you up." ) );
                 }
             }
-            if( rng( 0, 2 ) < 2 ) {
-                //Failed the 1/3 roll, no power is consumed.
-                return;
-            }
-            if( get_stored_kcal() >= 5 && !damaged_hp_parts.empty() ) {
+            if( ( rng( 0, 2 ) == 2 ) && get_stored_kcal() >= 5 && !damaged_hp_parts.empty() ) {
                 const bodypart_id part_to_heal = damaged_hp_parts[ rng( 0, damaged_hp_parts.size() - 1 ) ];
                 heal( part_to_heal, 1 );
                 mod_power_level( - bio.info().power_over_time );
