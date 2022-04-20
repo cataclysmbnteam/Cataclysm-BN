@@ -142,6 +142,7 @@ static const skill_id skill_mechanics( "mechanics" );
 
 static const bionic_id bio_adrenaline( "bio_adrenaline" );
 static const bionic_id bio_advreactor( "bio_advreactor" );
+static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_blaster( "bio_blaster" );
 static const bionic_id bio_blood_anal( "bio_blood_anal" );
 static const bionic_id bio_blood_filter( "bio_blood_filter" );
@@ -1673,6 +1674,33 @@ void Character::process_bionic( int b )
                                bio.info().name );
             deactivate_bionic( b );
         }
+    } else if( bio.id == bio_ads ) {
+        if( bio.energy_stored != 100_kJ ) {
+            if( 100_kJ - bio.energy_stored >= 10_kJ && get_power_level() >= 10_kJ ) {
+                // Converts Bionic Power into Energy Stored to fuel damage mitigation.
+                mod_power_level( - 10_kJ );
+                bio.energy_stored += 10_kJ;
+            } else if( ( 100_kJ - bio.energy_stored < 10_kJ || get_power_level() < 10_kJ ) &&
+                       get_power_level() != 0_kJ ) {
+                units::energy ads_recharge = 100_kJ - bio.energy_stored;
+                if( ads_recharge < get_power_level() ) {
+                    mod_power_level( - ads_recharge );
+                    bio.energy_stored += ads_recharge;
+                } else {
+                    bio.energy_stored += get_power_level();
+                    mod_power_level( - get_power_level() );
+                }
+            } else {
+                // No power, but there's probably energy stored, so we don't want to deactivate it.
+                // The player should either turn it off, generate power, or they get hit and the bionic fails.
+            }
+            if( bio.energy_stored == 100_kJ ) {
+                add_msg_if_player( m_good,
+                                   _( "Your %s informs you that it's ready for action." ),
+                                   bio.info().name );
+            }
+        }
+        bio.charge_timer = 2;
     } else if( bio.id == afs_bio_dopamine_stimulators ) {
         // Aftershock
         add_morale( MORALE_FEELING_GOOD, 20, 20, 30_minutes, 20_minutes, true );
@@ -2722,6 +2750,9 @@ void bionic::serialize( JsonOut &json ) const
     if( is_auto_start_on() ) {
         json.member( "auto_start_threshold", auto_start_threshold );
     }
+    if( energy_stored > 0_kJ ) {
+        json.member( "energy_stored", energy_stored );
+    }
 
     json.end_object();
 }
@@ -2733,6 +2764,7 @@ void bionic::deserialize( JsonIn &jsin )
     invlet = jo.get_int( "invlet" );
     powered = jo.get_bool( "powered" );
     charge_timer = jo.get_int( "charge" );
+    jo.read( "energy_stored", energy_stored, true );
     if( jo.has_string( "ammo_loaded" ) ) {
         jo.read( "ammo_loaded", ammo_loaded, true );
     }
