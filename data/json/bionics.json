@@ -11,10 +11,10 @@
     "id": "bio_ads",
     "type": "bionic",
     "name": { "str": "Active Defense System" },
-    "description": "A thin forcefield surrounds your body, continually draining power.  Anything attempting to penetrate this field has a chance of being deflected at the cost of energy, reducing their ability to deal damage.  Bullets will be deflected more than melee weapons and those in turn more than massive objects.",
+    "description": "This bionic slowly charges a shield around your body, incoming attacks deplete this shield.  Bullets can be fully deflected, whereas melee attacks are slowed and shifted away from vital organs.  Piercing weapons are more easily deflected than cutting weapons, in turn easier than bashing weapons.  At full capacity this bionic does not consume power.",
     "occupied_bodyparts": [ [ "torso", 10 ], [ "head", 1 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 2 ], [ "leg_r", 2 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
-    "act_cost": "10 kJ",
+    "act_cost": "5 kJ",
     "react_cost": "10 kJ",
     "time": 1
   },
