@@ -7958,19 +7958,48 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
         }
 
         // The bio_ads CBM absorbs damage before hitting armor
-        if( has_active_bionic( bio_ads ) ) {
-            if( elem.amount > 0 && get_power_level() > 24_kJ ) {
-                if( elem.type == DT_BASH ) {
-                    elem.amount -= rng( 1, 8 );
-                } else if( elem.type == DT_CUT ) {
-                    elem.amount -= rng( 1, 4 );
-                } else if( elem.type == DT_STAB ) {
-                    elem.amount -= rng( 1, 2 );
+        if( has_active_bionic( bio_ads ) && ( elem.amount > 0 ) && ( elem.type == DT_BASH ||
+                elem.type == DT_CUT || elem.type == DT_STAB ) ) {
+            float elem_multi = 1;
+            const auto &all_bionics = get_bionics();
+            size_t index;
+            for( index = 0; index < all_bionics.size(); index++ ) {
+                if( all_bionics[index] == bio_ads ) {
+                    break;
                 }
-                mod_power_level( -25_kJ );
             }
-            if( elem.amount < 0 ) {
-                elem.amount = 0;
+            bionic &bio = bionic_at_index( index );
+            if( elem.type == DT_BASH ) {
+                elem_multi = 0.8;
+            } else if( elem.type == DT_CUT ) {
+                elem_multi = 0.7;
+            } else if( elem.type == DT_STAB ) {
+                elem_multi = 0.55;
+            }
+            units::energy ADS_cost = elem.amount * 400_J;
+            if( bio.energy_stored >= ADS_cost ) {
+                dam.mult_damage( elem_multi );
+                add_msg_if_player( m_good,
+                                   _( "Your %s deflects some of the damage!" ),
+                                   bio.info().name );
+                bio.energy_stored -= ADS_cost;
+            } else if( bio.energy_stored < ADS_cost && bio.energy_stored != 0_kJ ) {
+                dam.mult_damage( elem_multi );
+                deactivate_bionic( index );
+                if( ADS_cost >= 10_kJ ) {
+                    if( bio.incapacitated_time == 0_turns ) {
+                        add_msg_if_player( m_bad, _( "Your forceshields shatter and the feedback shorts out the %s!" ),
+                                           bio.info().name );
+                    }
+                    int over = units::to_kilojoule( ADS_cost );
+                    bio.incapacitated_time += floor( over / 5 ) * 1_turns;
+                } else {
+                    add_msg_if_player( m_bad, _( "Your forceshields crackle and the %s powers down." ),
+                                       bio.info().name );
+                }
+            } else {
+                deactivate_bionic( index );
+                add_msg_if_player( m_bad, _( "The %s is interuppted and powers down." ), bio.info().name );
             }
         }
 
