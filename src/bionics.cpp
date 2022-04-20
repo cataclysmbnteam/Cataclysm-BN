@@ -1589,29 +1589,27 @@ void Character::process_bionic( int b )
             deactivate_bionic( b );
             return;
         }
-        std::vector<bodypart_id> bleeding_bp_parts;
-        for( const bodypart_id &bp : get_all_body_parts() ) {
-            if( has_effect( effect_bleed, bp.id() ) ) {
-                bleeding_bp_parts.push_back( bp );
-            }
-        }
-        std::vector<bodypart_id> damaged_hp_parts;
-        for( const std::pair<const bodypart_str_id, bodypart> &part : get_body() ) {
-            const int hp_cur = part.second.get_hp_cur();
-            if( hp_cur > 0 && hp_cur < part.second.get_hp_max() ) {
-                damaged_hp_parts.push_back( part.first.id() );
-            }
-        }
         if( calendar::once_every( 15_turns ) ) {
+            std::vector<bodypart_id> bleeding_bp_parts;
+            for( const bodypart_id &bp : get_all_body_parts() ) {
+                if( has_effect( effect_bleed, bp.id() ) ) {
+                    bleeding_bp_parts.push_back( bp );
+                }
+            }
+            std::vector<bodypart_id> damaged_hp_parts;
+            for( const std::pair<const bodypart_str_id, bodypart> &part : get_body() ) {
+                const int hp_cur = part.second.get_hp_cur();
+                if( hp_cur > 0 && hp_cur < part.second.get_hp_max() ) {
+                    damaged_hp_parts.push_back( part.first.id() );
+                }
+            }
             if( !bleeding_bp_parts.empty() ) {
                 const bodypart_id part_to_staunch = bleeding_bp_parts[ rng( 0, bleeding_bp_parts.size() - 1 ) ];
                 effect &e = get_effect( effect_bleed, part_to_staunch->token );
                 if( e.get_intensity() > 1 ) {
                     e.mod_intensity( -1, false );
-                    add_msg_if_player( m_good, _( "Your bleeding slows as the Nanobots work." ) );
                 } else {
                     remove_effect( effect_bleed, part_to_staunch->token );
-                    add_msg_if_player( m_good, _( "Your bleeding stops as the Nanobots seal you up." ) );
                 }
             }
             if( ( rng( 0, 2 ) == 2 ) && get_stored_kcal() >= 5 && !damaged_hp_parts.empty() ) {
