@@ -45,7 +45,8 @@ struct requirement_data;
 enum class recipe_filter_flags : int;
 struct itype;
 
-static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz" );
+static const std::string
+DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" );
 
 class recipe_subset;
 

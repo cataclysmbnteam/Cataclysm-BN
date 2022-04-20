@@ -143,6 +143,7 @@
         "effects": [
           {
             "effect_id": "sap",
+            "body_part": "torso",
             "intensity": 1,
             "min_duration": "2 seconds",
             "max_duration": "2 seconds",
@@ -159,6 +160,7 @@
         "effects": [
           {
             "effect_id": "sap",
+            "body_part": "torso",
             "intensity": 1,
             "min_duration": "4 seconds",
             "max_duration": "4 seconds",
@@ -176,6 +178,7 @@
         "effects": [
           {
             "effect_id": "sap",
+            "body_part": "torso",
             "intensity": 1,
             "min_duration": "6 seconds",
             "max_duration": "6 seconds",
