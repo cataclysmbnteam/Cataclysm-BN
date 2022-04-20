@@ -1613,7 +1613,7 @@ void Character::process_bionic( int b )
                         damaged_hp_parts.push_back( part.first.id() );
                     }
                 }
-                if ( get_stored_kcal() >= 5 && !damaged_hp_parts.empty() ) {
+                if( get_stored_kcal() >= 5 && !damaged_hp_parts.empty() ) {
                     const bodypart_id part_to_heal = damaged_hp_parts[ rng( 0, damaged_hp_parts.size() - 1 ) ];
                     heal( part_to_heal, 1 );
                     mod_power_level( - bio.info().power_over_time );
