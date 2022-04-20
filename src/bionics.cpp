@@ -1103,6 +1103,9 @@ bool Character::deactivate_bionic( int b, bool eff_only )
         }
     } else if( bio.id == bio_tools ) {
         invalidate_crafting_inventory();
+    } else if( bio.id == bio_ads ) {
+        mod_power_level( bio.energy_stored );
+        bio.energy_stored = 0_kJ;
     }
 
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
