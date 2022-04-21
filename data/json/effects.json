@@ -421,12 +421,22 @@
   },
   {
     "type": "effect_type",
+    "id": "antitoxin",
+    "name": [ "Antitoxin" ],
+    "desc": [ "You are temporarily resistant to most poison effects." ],
+    "rating": "good",
+    "max_duration": "60 m",
+    "blood_analysis_description": "Antitoxin"
+  },
+  {
+    "type": "effect_type",
     "id": "poison",
     "name": [ "Poisoned" ],
     "desc": [ "You have been poisoned!" ],
     "miss_messages": [ [ "You feel bad inside.", 1 ] ],
     "rating": "bad",
     "resist_traits": [ "POISRESIST" ],
+    "resist_effects": [ "antitoxin" ],
     "pain_sizing": true,
     "hurt_sizing": true,
     "main_parts_only": true,
@@ -451,6 +461,7 @@
     "miss_messages": [ [ "You feel bad inside.", 2 ] ],
     "rating": "bad",
     "resist_traits": [ "POISRESIST" ],
+    "resist_effects": [ "antitoxin" ],
     "pain_sizing": true,
     "hurt_sizing": true,
     "main_parts_only": true,
@@ -477,6 +488,7 @@
     "miss_messages": [ [ "Your stomach bothers you.", 1 ] ],
     "rating": "bad",
     "resist_traits": [ "POISRESIST" ],
+    "resist_effects": [ "antitoxin" ],
     "max_duration": "24 h",
     "base_mods": {
       "per_mod": [ -1 ],
@@ -519,6 +531,7 @@
     "max_intensity": 20,
     "max_duration": "30 m",
     "resist_traits": [ "POISRESIST" ],
+    "resist_effects": [ "antitoxin" ],
     "int_add_val": 1,
     "int_decay_tick": 600,
     "base_mods": { "dex_mod": [ -0.34, -0.17 ], "speed_mod": [ -5, -3 ] },
@@ -897,7 +910,8 @@
     "max_intensity": 3,
     "permanent": true,
     "resist_traits": [ "POISRESIST" ],
-    "base_mods": { "speed_mod": [ -10 ], "str_mod": [ -1 ], "dex_mod": [ -1 ] },
+    "resist_effects": [ "antitoxin" ],
+    "base_mods": { "speed_mod": [ -10, -5 ], "str_mod": [ -1, 0 ], "dex_mod": [ -1 ] },
     "blood_analysis_description": "Fungal Infection"
   },
   {
@@ -1134,6 +1148,25 @@
       "flu"
     ],
     "base_mods": { "pkill_min": [ 5 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "cureall_lesser",
+    "removes_effects": [
+      "fungus",
+      "dermatik",
+      "bloodworms",
+      "paincysts",
+      "brainworms",
+      "tapeworm",
+      "blind",
+      "stung",
+      "foodpoison",
+      "infected",
+      "asthma",
+      "common_cold",
+      "flu"
+    ]
   },
   {
     "type": "effect_type",
