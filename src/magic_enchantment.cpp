@@ -110,9 +110,11 @@ namespace io
             case enchant_vals::mod::ARMOR_ELEC: return "ARMOR_ELEC";
             case enchant_vals::mod::ARMOR_HEAT: return "ARMOR_HEAT";
             case enchant_vals::mod::ARMOR_STAB: return "ARMOR_STAB";
+            case enchant_vals::mod::ARMOR_BULLET: return "ARMOR_BULLET";
             case enchant_vals::mod::ITEM_DAMAGE_BASH: return "ITEM_DAMAGE_BASH";
             case enchant_vals::mod::ITEM_DAMAGE_CUT: return "ITEM_DAMAGE_CUT";
             case enchant_vals::mod::ITEM_DAMAGE_STAB: return "ITEM_DAMAGE_STAB";
+	    case enchant_vals::mod::ITEM_DAMAGE_BULLET: return "ITEM_DAMAGE_BULLET";
             case enchant_vals::mod::ITEM_DAMAGE_HEAT: return "ITEM_DAMAGE_HEAT";
             case enchant_vals::mod::ITEM_DAMAGE_COLD: return "ITEM_DAMAGE_COLD";
             case enchant_vals::mod::ITEM_DAMAGE_ELEC: return "ITEM_DAMAGE_ELEC";
@@ -122,6 +124,7 @@ namespace io
             case enchant_vals::mod::ITEM_ARMOR_BASH: return "ITEM_ARMOR_BASH";
             case enchant_vals::mod::ITEM_ARMOR_CUT: return "ITEM_ARMOR_CUT";
             case enchant_vals::mod::ITEM_ARMOR_STAB: return "ITEM_ARMOR_STAB";
+            case enchant_vals::mod::ITEM_ARMOR_BULLET: return "ITEM_ARMOR_BULLET";
             case enchant_vals::mod::ITEM_ARMOR_HEAT: return "ITEM_ARMOR_HEAT";
             case enchant_vals::mod::ITEM_ARMOR_COLD: return "ITEM_ARMOR_COLD";
             case enchant_vals::mod::ITEM_ARMOR_ELEC: return "ITEM_ARMOR_ELEC";

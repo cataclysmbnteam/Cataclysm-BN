@@ -9,6 +9,7 @@
     "relative": { "morale": 40, "melee_skill": 1, "melee_dice_sides": 2, "melee_cut": 4, "dodge": -2 },
     "armor_bash": 8,
     "armor_cut": 14,
+    "armor_bullet": 11,
     "armor_stab": 30,
     "armor_acid": 8,
     "harvest": "mammal_large_chitin",

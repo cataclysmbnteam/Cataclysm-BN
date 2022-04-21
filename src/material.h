@@ -38,6 +38,7 @@ class material_type
         int _acid_resist = 0;
         int _elec_resist = 0;
         int _fire_resist = 0;
+        int _bullet_resist = 0;
         int _chip_resist = 0;                         // Resistance to physical damage of the item itself
         int _density = 1;                             // relative to "powder", which is 1
         float _warmth_when_wet = 0.2f;                // Percentage of warmth kept when fully drenched
@@ -85,6 +86,7 @@ class material_type
         itype_id repaired_with() const;
         int bash_resist() const;
         int cut_resist() const;
+        int bullet_resist() const;
         std::string bash_dmg_verb() const;
         std::string cut_dmg_verb() const;
         std::string dmg_adj( int damage ) const;
