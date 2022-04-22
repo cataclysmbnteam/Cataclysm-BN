@@ -71,7 +71,8 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": "WBLOCK_1",
-    "use_action": "MOP"
+    "use_action": "MOP",
+    "weapon_category": [ "QUARTERSTAVES" ]
   },
   {
     "id": "rag",
