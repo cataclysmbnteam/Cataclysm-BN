@@ -1466,7 +1466,7 @@
     "batch_time_factors": [ 80, 5 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
-    "components": [ [ [ "meat_red", 1, "LIST" ] ], [ [ "royal_jelly", 1 ] ] ]
+    "components": [ [ [ "meat_red", 1, "LIST" ] ], [ [ "honey_bottled", 4 ], [ "honey_glassed", 2 ], [ "royal_jelly", 1 ] ] ]
   },
   {
     "type": "recipe",

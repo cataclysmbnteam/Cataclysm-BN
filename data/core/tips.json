@@ -7,7 +7,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Even without electricity, ovens can be useful fire containers." ]
+    "text": [ "Even if you don't get the power running again, ovens can be useful fire containers." ]
   },
   {
     "type": "snippet",
@@ -42,7 +42,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Frozen food?  Put it by a fire or heat it up in a pan." ]
+    "text": [ "Power may be out, but by constructing solar panels, you can generate your own elecricity." ]
   },
   {
     "type": "snippet",
@@ -162,7 +162,17 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Why walk when you can use a car?  Or a tank?" ]
+    "text": [ "Mutated wildlife is still edible, but not without risk.  After all, you are what you eat." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Why walk when you can use a car?  Or an APC?" ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Not all helicopters are useless wrecks.  Some can still be flown, or fixed up to fly again." ]
   },
   {
     "type": "snippet",
@@ -252,21 +262,6 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Frozen food doesn't rot, but may be inedible if not defrosted." ]
-  },
-  {
-    "type": "snippet",
-    "category": "tip",
-    "text": [ "Some dry foods can be eaten frozen.  Some foods become mushy after defrosting." ]
-  },
-  {
-    "type": "snippet",
-    "category": "tip",
-    "text": [ "Thirsty on a long winter journey?  Take a thermos with you." ]
-  },
-  {
-    "type": "snippet",
-    "category": "tip",
     "text": [ "'Tis but a scratch?'  Bandage and disinfect it anyway to speed up healing." ]
   },
   {
@@ -327,6 +322,11 @@
   {
     "type": "snippet",
     "category": "tip",
+    "text": [ "Deep within a gigantic lab lies a secret.  Bring the best firepower you can muster." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
     "text": [ "Put a funnel over a jug or barrel to collect rainwater over time." ]
   },
   {
@@ -373,5 +373,15 @@
     "type": "snippet",
     "category": "tip",
     "text": [ "The floor is too hard to sleep on?  Try gathering a pile of leaves." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Designating a firewood source will make maintaining a fire much simpler." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "With enough parts, your mobile home could be a rolling mobile command center." ]
   }
 ]

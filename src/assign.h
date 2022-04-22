@@ -952,19 +952,25 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
         float amount = 0.0f;
         float arpen = 0.0f;
         float dmg_mult = 1.0f;
+        bool with_legacy = false;
 
         // There will always be either a prop_damage or damage (name)
         if( jo.has_member( name ) ) {
+            with_legacy = true;
             amount = jo.get_float( name );
         } else if( jo.has_member( "prop_damage" ) ) {
             dmg_mult = jo.get_float( "prop_damage" );
+            with_legacy = true;
         }
         // And there may or may not be armor penetration
         if( jo.has_member( "pierce" ) ) {
+            with_legacy = true;
             arpen = jo.get_float( "pierce" );
         }
 
-        out.add_damage( DT_STAB, amount, arpen, 1.0f, dmg_mult );
+        if( with_legacy ) {
+            out.add_damage( DT_STAB, amount, arpen, 1.0f, dmg_mult );
+        }
     }
 
     // Object via which to report errors which differs for proportional/relative values
@@ -1043,7 +1049,7 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
     }
 
     if( out.damage_units.empty() ) {
-        out = damage_instance( DT_STAB, 0.0f );
+        out = damage_instance( DT_BULLET, 0.0f );
     }
 
     // Now that we've verified everything in out is all good, set val to it

@@ -221,15 +221,23 @@ distribution_grid &distribution_grid_tracker::make_distribution_grid_at(
 
 void distribution_grid_tracker::on_saved()
 {
-    grids_requiring_updates.clear();
-    parent_distribution_grids.clear();
     if( !get_option<bool>( "ELECTRIC_GRID" ) ||
         world_generator->active_world == nullptr ) {
         return;
     }
     tripoint_abs_sm min_bounds( bounds.p_min, -OVERMAP_DEPTH );
     tripoint_abs_sm max_bounds( bounds.p_max, OVERMAP_HEIGHT );
-    for( const tripoint_abs_sm &sm_pos : tripoint_range<tripoint_abs_sm>( min_bounds, max_bounds ) ) {
+    tripoint_range<tripoint_abs_sm> bounds_range( min_bounds, max_bounds );
+    // Remove all grids that are no longer in the bounds
+    for( auto iter = parent_distribution_grids.begin(); iter != parent_distribution_grids.end(); ) {
+        if( !bounds_range.is_point_inside( iter->first ) ) {
+            grids_requiring_updates.erase( iter->second );
+            iter = parent_distribution_grids.erase( iter );
+        } else {
+            ++iter;
+        }
+    }
+    for( const tripoint_abs_sm &sm_pos : bounds_range ) {
         if( parent_distribution_grids.find( sm_pos ) == parent_distribution_grids.end() ) {
             make_distribution_grid_at( sm_pos );
         }
@@ -345,7 +353,6 @@ void distribution_grid_tracker::update( time_point to )
 void distribution_grid_tracker::load( half_open_rectangle<point_abs_sm> area )
 {
     bounds = area;
-    // TODO: Don't reload everything when not needed
     on_saved();
 }
 

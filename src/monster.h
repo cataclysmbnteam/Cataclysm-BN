@@ -357,6 +357,7 @@ class monster : public Creature, public visitable<monster>
         int get_worn_armor_val( damage_type dt ) const;
         int  get_armor_cut( bodypart_id bp ) const override; // Natural armor, plus any worn armor
         int  get_armor_bash( bodypart_id bp ) const override; // Natural armor, plus any worn armor
+        int  get_armor_bullet( bodypart_id bp ) const override; // Natural armor, plus any worn armor
         int  get_armor_type( damage_type dt, bodypart_id bp ) const override;
 
         float get_hit_base() const override;
