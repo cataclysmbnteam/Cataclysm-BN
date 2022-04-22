@@ -7959,7 +7959,7 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
 
         // The bio_ads CBM absorbs percentage melee damage and all ranged damage (where possible) after armour.
         if( has_active_bionic( bio_ads ) && ( elem.amount > 0 ) && ( elem.type == DT_BASH ||
-                elem.type == DT_CUT || elem.type == DT_STAB ) ) {
+                elem.type == DT_CUT || elem.type == DT_STAB || elem.type == DT_BULLET ) ) {
             float elem_multi = 1;
             //This is a hack, in the future this hopefully gets streamlined.
             const auto &all_bionics = get_bionics();
@@ -7977,8 +7977,13 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
                 elem_multi = 0.7;
             } else if( elem.type == DT_STAB ) {
                 elem_multi = 0.55;
+            } else if( elem.type == DT_BULLET ) {
+                elem_multi = 0.25;
             }
             units::energy ADS_cost = elem.amount * 400_J;
+            if( elem.type == DT_BULLET ) {
+                ADS_cost = ADS_cost * 1.5;
+            }
             if( bio.energy_stored >= ADS_cost ) {
                 dam.mult_damage( elem_multi );
                 bio.energy_stored -= ADS_cost;
@@ -7987,13 +7992,20 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
                 //Either way you still get protection.
                 dam.mult_damage( elem_multi );
                 deactivate_bionic( index );
-                if( ADS_cost >= 10_kJ ) {
+                if( ADS_cost >= 15_kJ  && elem.type != DT_BULLET ) {
                     if( bio.incapacitated_time == 0_turns ) {
                         add_msg_if_player( m_bad, _( "Your forceshields shatter and the feedback shorts out the %s!" ),
                                            bio.info().name );
                     }
                     int over = units::to_kilojoule( ADS_cost );
-                    bio.incapacitated_time += ( ( over / 5 ) - 1 ) * 1_turns;
+                    bio.incapacitated_time += ( ( over / 5 ) - 2 ) * 1_turns;
+                } else if( ADS_cost >= 25_kJ ) {
+                    if( bio.incapacitated_time == 0_turns ) {
+                        add_msg_if_player( m_bad, _( "Your forceshields shatter and the feedback shorts out the %s!" ),
+                                           bio.info().name );
+                    }
+                    int over = units::to_kilojoule( ADS_cost );
+                    bio.incapacitated_time += ( ( over / 5 ) - 4 ) * 1_turns;
                 } else {
                     add_msg_if_player( m_bad, _( "Your forceshields crackle and the %s powers down." ),
                                        bio.info().name );
