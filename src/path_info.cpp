@@ -55,20 +55,20 @@ void PATH_INFO::init_user_dir( std::string dir )
 #if defined(_WIN32)
         user_dir = getenv( "LOCALAPPDATA" );
         // On Windows userdir without dot
-        dir = std::string( user_dir ) + "/cataclysm-dda/";
+        dir = std::string( user_dir ) + "/cataclysm-bn/";
 #elif defined(MACOSX)
         user_dir = getenv( "HOME" );
-        dir = std::string( user_dir ) + "/Library/Application Support/Cataclysm/";
+        dir = std::string( user_dir ) + "/Library/Application Support/Cataclysm-BN/";
 #elif defined(USE_XDG_DIR)
         if( ( user_dir = getenv( "XDG_DATA_HOME" ) ) ) {
-            dir = std::string( user_dir ) + "/cataclysm-dda/";
+            dir = std::string( user_dir ) + "/cataclysm-bn/";
         } else {
             user_dir = getenv( "HOME" );
-            dir = std::string( user_dir ) + "/.local/share/cataclysm-dda/";
+            dir = std::string( user_dir ) + "/.local/share/cataclysm-bn/";
         }
 #else
         user_dir = getenv( "HOME" );
-        dir = std::string( user_dir ) + "/.cataclysm-dda/";
+        dir = std::string( user_dir ) + "/.cataclysm-bn/";
 #endif
     }
 
@@ -103,10 +103,10 @@ void PATH_INFO::set_standard_filenames()
     const char *user_dir;
     std::string dir;
     if( ( user_dir = getenv( "XDG_CONFIG_HOME" ) ) ) {
-        dir = std::string( user_dir ) + "/cataclysm-dda/";
+        dir = std::string( user_dir ) + "/cataclysm-bn/";
     } else {
         user_dir = getenv( "HOME" );
-        dir = std::string( user_dir ) + "/.config/cataclysm-dda/";
+        dir = std::string( user_dir ) + "/.config/cataclysm-bn/";
     }
     config_dir_value = dir;
 #else
