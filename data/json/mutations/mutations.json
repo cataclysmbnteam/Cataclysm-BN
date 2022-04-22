@@ -1594,7 +1594,7 @@
       { "part": "hand_r", "ignored": 6 },
       { "part": "torso", "ignored": 60 }
     ],
-    "armor": [ { "parts": "ALL", "cut": 2, "bash": 3 } ],
+    "armor": [ { "parts": "ALL", "cut": 2, "bash": 3, "bullet": 1 } ],
     "speed_modifier": 0.8
   },
   {
@@ -1622,7 +1622,7 @@
       { "part": "hand_r", "ignored": 6 },
       { "part": "torso", "ignored": 60 }
     ],
-    "armor": [ { "parts": "ALL", "cut": 3, "bash": 5 } ],
+    "armor": [ { "parts": "ALL", "cut": 3, "bash": 5, "bullet": 2 } ],
     "speed_modifier": 0.8
   },
   {
@@ -2122,7 +2122,7 @@
       { "part": "hand_r", "neutral": 1 },
       { "part": "torso", "neutral": 10 }
     ],
-    "armor": [ { "parts": "ALL", "cut": 2, "stab": 2 } ],
+    "armor": [ { "parts": "ALL", "cut": 2, "stab": 2, "bullet": 1 } ],
     "thirst_modifier": -0.2
   },
   {
@@ -2148,7 +2148,7 @@
       { "part": "hand_r", "ignored": 4 },
       { "part": "torso", "ignored": 30 }
     ],
-    "armor": [ { "parts": "ALL", "cut": 5, "stab": 5, "heat": 1 } ]
+    "armor": [ { "parts": "ALL", "cut": 5, "stab": 5, "bullet": 4, "heat": 1 } ]
   },
   {
     "type": "mutation",
@@ -5564,7 +5564,7 @@
     "category": [ "CEPHALOPOD" ],
     "wet_protection": [ { "part": "torso", "ignored": 26 } ],
     "restricts_gear": [ "torso" ],
-    "armor": [ { "parts": "torso", "bash": 6, "cut": 14 } ]
+    "armor": [ { "parts": "torso", "bash": 6, "cut": 14, "bullet": 5 } ]
   },
   {
     "type": "mutation",
@@ -5584,7 +5584,7 @@
     "wet_protection": [ { "part": "torso", "ignored": 26 } ],
     "active": true,
     "restricts_gear": [ "torso" ],
-    "armor": [ { "parts": "torso", "bash": 9, "cut": 17 } ]
+    "armor": [ { "parts": "torso", "bash": 9, "cut": 17, "bullet": 5 } ]
   },
   {
     "type": "mutation",
