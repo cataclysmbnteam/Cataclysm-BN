@@ -98,7 +98,7 @@
         "-": "t_wall_metal",
         "G": "t_card_robofac",
         "e": "t_elevator",
-        "E": "t_elevator_control",
+        "E": "t_elevator_control_off",
         "Y": "t_utility_light",
         "I": "t_intercom"
       },
