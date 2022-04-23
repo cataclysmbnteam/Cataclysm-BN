@@ -125,7 +125,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 3 ] ],
-    "components": [ [ [ "45_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "chem_black_powder", 6 ] ], [ [ "copper", 2] ] ]
+    "components": [ [ [ "45_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "chem_black_powder", 6 ] ], [ [ "copper", 2 ] ] ]
   },
   {
     "result": "bp_45_jhp",
