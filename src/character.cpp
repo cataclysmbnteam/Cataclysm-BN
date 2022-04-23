@@ -7995,10 +7995,11 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
             continue;
         }
 
-        // The bio_ads CBM absorbs percentage melee damage and all ranged damage (where possible) after armour.
+        // The bio_ads CBM absorbs percentage melee damage and ranged damage (where possible) after armour.
         if( has_active_bionic( bio_ads ) && ( elem.amount > 0 ) && ( elem.type == DT_BASH ||
                 elem.type == DT_CUT || elem.type == DT_STAB || elem.type == DT_BULLET ) ) {
             float elem_multi = 1;
+            float elem_costx = 1;
             //This is a hack, in the future this hopefully gets streamlined.
             const auto &all_bionics = get_bionics();
             size_t index;
@@ -8017,11 +8018,9 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
                 elem_multi = 0.55;
             } else if( elem.type == DT_BULLET ) {
                 elem_multi = 0.25;
+                elem_costx = 1.25;
             }
-            units::energy ADS_cost = elem.amount * 400_J;
-            if( elem.type == DT_BULLET ) {
-                ADS_cost = ADS_cost * 1.5;
-            }
+            units::energy ADS_cost = elem.amount * 500_J * elem_costx;
             if( bio.energy_stored >= ADS_cost ) {
                 dam.mult_damage( elem_multi );
                 bio.energy_stored -= ADS_cost;
