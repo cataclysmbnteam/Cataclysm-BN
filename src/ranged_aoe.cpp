@@ -17,6 +17,7 @@ struct tripoint_distance {
         , distance_squared( distance_squared )
     {}
     tripoint_distance( const tripoint_distance & ) = default;
+    tripoint_distance &operator = ( const tripoint_distance & ) = default;
     tripoint p;
     int distance_squared;
 
@@ -32,6 +33,7 @@ struct aoe_flood_node {
         : parent( parent ), parent_coverage( parent_coverage )
     {}
     aoe_flood_node( const aoe_flood_node & ) = default;
+    aoe_flood_node &operator = ( const aoe_flood_node & ) = default;
     tripoint parent = tripoint_min;
     double parent_coverage = 0.0;
 };

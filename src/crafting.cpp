@@ -1559,6 +1559,7 @@ struct avail_tool_comp {
         : comp( comp ), charges( charges ), ideal( ideal )
     {}
     avail_tool_comp( const avail_tool_comp & ) = default;
+    avail_tool_comp &operator =( const avail_tool_comp & ) = default;
 
     comp_selection<tool_comp> comp;
     int charges;
