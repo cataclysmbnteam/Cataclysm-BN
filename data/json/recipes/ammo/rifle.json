@@ -347,13 +347,7 @@
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 4 ] ],
     "charges": 1,
     "using": [ [ "bullet_forming", 15 ], [ "ammo_bullet", 8 ] ],
-    "components": [
-      [ [ "4570_casing", 1 ] ],
-      [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 15 ] ],
-      [ [ "lead", 5 ] ],
-      [ [ "copper", 2 ] ]
-    ]
+    "components": [ [ [ "4570_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "gunpowder", 15 ] ], [ [ "copper", 2 ] ] ]
   },
   {
     "result": "4570_pen",
@@ -383,7 +377,7 @@
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 4 ] ],
     "charges": 1,
     "using": [ [ "bullet_forming", 15 ], [ "ammo_bullet", 8 ] ],
-    "components": [ [ [ "4570_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "gunpowder", 12 ] ], [ [ "lead", 9 ] ] ]
+    "components": [ [ [ "4570_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "gunpowder", 12 ] ] ]
   },
   {
     "result": "reloaded_4570_bp",
@@ -420,6 +414,28 @@
       [ [ "smrifle_primer", 1 ] ],
       [ [ "gunpowder", 3 ] ],
       [ [ "combatnail", 1 ] ]
+    ]
+  },
+  {
+    "result": "5x50heavy",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "skills_required": [ "gun", 5 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "recipe_caseless", 4 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 3 ] ],
+    "tools": [ [ [ "mold_plastic", -1 ] ] ],
+    "components": [
+      [ [ "5x50_hull", 1 ] ],
+      [ [ "plastic_chunk", 1 ] ],
+      [ [ "smrifle_primer", 1 ] ],
+      [ [ "gunpowder", 4 ] ],
+      [ [ "scrap", 1 ] ]
     ]
   },
   {

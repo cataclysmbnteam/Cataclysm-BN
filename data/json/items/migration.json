@@ -1655,5 +1655,10 @@
     "id": "reloaded_shot_slug",
     "type": "MIGRATION",
     "replace": "shot_slug"
+  },
+  {
+    "id": "reloaded_5x50dart",
+    "type": "MIGRATION",
+    "replace": "5x50dart"
   }
 ]
