@@ -9,7 +9,7 @@
     "components": [
       [ [ "lead", 5 ] ],
       [ [ "500_casing", 1 ] ],
-      [ [ "lgpistol_primer", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder", 8 ] ],
       [ [ "copper", 2 ] ]
     ],
