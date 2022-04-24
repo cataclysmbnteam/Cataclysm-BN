@@ -16,19 +16,9 @@
 #include "translations.h"
 #include "ui_manager.h"
 #include "value_ptr.h"
-enum class mutation_menu_mode {
-    activating,
-    examining,
-    reassigning,
-    hiding
-};
-enum class mutation_tab_mode {
-    active,
-    passive,
-    none
-};
+
 // '!' and '=' are uses as default bindings in the menu
-static const invlet_wrapper
+const invlet_wrapper
 mutation_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"#&()*+./:;@[\\]^_{|}" );
 
 static void draw_exam_window( const catacurses::window &win, const int border_y )
@@ -39,11 +29,21 @@ static void draw_exam_window( const catacurses::window &win, const int border_y 
     mvwputch( win, point( width - 1, border_y ), BORDER_COLOR, LINE_XOXX );
 }
 
-static const auto shortcut_desc = []( const std::string &comment, const std::string &keys )
+const auto shortcut_desc = []( const std::string &comment, const std::string &keys )
 {
     return string_format( comment, string_format( "[<color_yellow>%s</color>]", keys ) );
 };
 
+enum class mutation_menu_mode {
+    activating,
+    examining,
+    reassigning,
+};
+enum class mutation_tab_mode {
+    active,
+    passive,
+    none
+};
 // needs extensive improvement
 
 static trait_id GetTrait( std::vector<trait_id> active, std::vector<trait_id> passive, int cursor,
@@ -133,8 +133,8 @@ player::power_mut_ui_result player::power_mutations_ui()
 
     // maximal number of rows in both columns
     const int mutations_count = std::max( passive.size(), active.size() );
-    const int TITLE_HEIGHT = 2;
 
+    const int TITLE_HEIGHT = 2;
     const int DESCRIPTION_HEIGHT = 5;
     // + lines with text in titlebar, local
     const int HEADER_LINE_Y = TITLE_HEIGHT + 1;
@@ -394,23 +394,29 @@ player::power_mut_ui_result player::power_mutations_ui()
                         break;
                     }
                     case mutation_menu_mode::activating: {
-                        if( mut_data.activated ) {
+                        const cata::value_ptr<mut_transform> &trans = mut_data.transform;
+                        if( mut_data.activated || trans ) {
                             if( my_mutations[mut_id].powered ) {
-                                add_msg_if_player( m_neutral, _( "You stop using your %s." ), mut_data.name() );
-
-                                deactivate_mutation( mut_id );
-                                // Action done, leave screen
+                                if( trans && !trans->msg_transform.empty() ) {
+                                    add_msg_if_player( m_neutral, trans->msg_transform );
+                                } else {
+                                    add_msg_if_player( m_neutral, _( "You stop using your %s." ), mut_data.name() );
+                                }
+                                ret.cmd = power_mut_ui_cmd::Deactivate;
+                                ret.mut = mut_id;
                                 exit = true;
-                            } else if( ( !mut_data.hunger || get_kcal_percent() >= 0.8f ) &&
-                                       ( !mut_data.thirst || get_thirst() <= 400 ) &&
-                                       ( !mut_data.fatigue || get_fatigue() <= 400 ) ) {
-                                add_msg_if_player( m_neutral, _( "You activate your %s." ), mut_data.name() );
-
-                                activate_mutation( mut_id );
-                                // Action done, leave screen
+                            } else if( can_use_mutation_warn( mut_id, *this ) ) {
+                                if( trans && !trans->msg_transform.empty() ) {
+                                    add_msg_if_player( m_neutral, trans->msg_transform );
+                                } else {
+                                    add_msg_if_player( m_neutral, _( "You activate your %s." ), mut_data.name() );
+                                }
+                                ret.cmd = power_mut_ui_cmd::Activate;
+                                ret.mut = mut_id;
                                 exit = true;
                             } else {
-                                popup( _( "You don't have enough in you to activate your %s!" ), mut_data.name() );
+                                popup( _( "You feel like using your %s would kill you!" ),
+                                       mut_data.name() );
                             }
                         } else {
                             popup( _( "You cannot activate %s!  To read a description of "
@@ -487,7 +493,7 @@ player::power_mut_ui_result player::power_mutations_ui()
                 }
 
                 examine_id = GetTrait( active, passive, cursor, tab_mode );
-            } else if( action == "NEXT_TAB" || "PREV_TAB" ) {
+            } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
                 if( tab_mode == mutation_tab_mode::active && !passive.empty() ) {
                     tab_mode = mutation_tab_mode::passive;
                 } else if( tab_mode == mutation_tab_mode::passive && !active.empty() ) {
@@ -596,6 +602,7 @@ player::power_mut_ui_result player::power_mutations_ui()
                             mutation_menu_mode::examining : mutation_menu_mode::activating;
                 examine_id = cata::nullopt;
             } else if( action == "QUIT" ) {
+                ret.cmd = power_mut_ui_cmd::Exit;
                 exit = true;
             }
         }
