@@ -829,6 +829,8 @@ class game
 
         void butcher(); // Butcher a corpse  'B'
 
+        // TODO: Remove this public, it's only for debug...
+    public:
         void reload( item_location &loc, bool prompt = false, bool empty = true );
     public:
         void reload_item(); // Reload an item

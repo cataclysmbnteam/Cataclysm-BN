@@ -253,6 +253,7 @@ bool aim_activity_actor::load_RAS_weapon()
     item *weapon = get_weapon();
     gun_mode gun = weapon->gun_current_mode();
     const auto ammo_location_is_valid = [&]() -> bool {
+        you.ammo_location.make_dirty();
         if( !you.ammo_location )
         {
             return false;
