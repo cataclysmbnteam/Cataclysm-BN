@@ -146,7 +146,6 @@ static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
-static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_EASYSLEEPER2( "EASYSLEEPER2" );
 static const trait_id trait_EASYSLEEPER( "EASYSLEEPER" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
@@ -173,7 +172,6 @@ static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PAINRESIST( "PAINRESIST" );
 static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
-static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
@@ -1043,7 +1041,7 @@ void player::on_hit( Creature *source, bodypart_id bp_hit,
         if( has_trait( trait_PROF_SKATER ) ) {
             rolls--;
         }
-        if( has_trait( trait_DEFT ) ) {
+        if( has_trait_flag( "DEFT" ) ) {
             rolls--;
         }
 
@@ -1649,7 +1647,7 @@ void player::process_effects_internal()
         remove_effect( effect_fungus );
         add_msg_if_player( m_bad,  _( "We have mistakenly colonized a local guide!  Purging now." ) );
     }
-    if( has_trait( trait_PARAIMMUNE ) && ( has_effect( effect_dermatik ) ||
+    if( has_trait_flag( "NO_PARASITES" ) && ( has_effect( effect_dermatik ) ||
                                            has_effect( effect_tapeworm ) ||
                                            has_effect( effect_bloodworms ) || has_effect( effect_brainworms ) ||
                                            has_effect( effect_paincysts ) ) ) {

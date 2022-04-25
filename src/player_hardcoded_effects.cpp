@@ -98,7 +98,6 @@ static const bionic_id bio_watch( "bio_watch" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
-static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
@@ -894,7 +893,7 @@ void player::hardcoded_effects( effect &it )
             if( has_effect( effect_recover ) ) {
                 recover_factor -= get_effect_dur( effect_recover ) / 1_hours;
             }
-            if( has_trait( trait_INFRESIST ) ) {
+            if( has_trait_flag( "INFECTION_RESIST" ) ) {
                 recover_factor += 200;
             }
             if( has_effect( effect_panacea ) ) {
@@ -920,7 +919,7 @@ void player::hardcoded_effects( effect &it )
         if( !recovered ) {
             // Move up to infection
             // Infection resistance can keep us in bite phase arbitrarily long
-            if( dur > 6_hours && !has_trait( trait_INFRESIST ) ) {
+            if( dur > 6_hours && !has_trait_flag( "INFECTION_RESIST" ) ) {
                 add_effect( effect_infected, 1_turns, bp );
                 // Set ourselves up for removal
                 it.set_duration( 0_turns );
@@ -947,7 +946,7 @@ void player::hardcoded_effects( effect &it )
             if( has_effect( effect_recover ) ) {
                 recover_factor -= get_effect_dur( effect_recover ) / 1_hours;
             }
-            if( has_trait( trait_INFRESIST ) ) {
+            if( has_trait_flag( "INFECTION_RESIST" ) ) {
                 recover_factor += 200;
             }
             if( has_effect( effect_panacea ) ) {

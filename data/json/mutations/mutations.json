@@ -225,7 +225,8 @@
     "points": 1,
     "description": "Your system is rather tolerant of poisons and toxins, and most will affect you less.",
     "starting_trait": true,
-    "category": [ "INSECT", "SLIME", "SPIDER", "MEDICAL" ]
+    "category": [ "INSECT", "SLIME", "SPIDER", "MEDICAL" ],
+    "flags": [ "POISON_RESIST" ]
   },
   {
     "type": "mutation",
@@ -246,7 +247,8 @@
     "description": "The bottoms of your feet are tough, and you are accustomed to going barefoot.  You receive no movement penalty for not wearing shoes, and your feet are more resistant to damage.",
     "armor": [ { "parts": [ "foot_l", "foot_r" ], "physical": 2, "acid": 2 } ],
     "starting_trait": true,
-    "valid": false
+    "valid": false,
+    "flags": [ "BAREFOOT_OK" ]
   },
   {
     "type": "mutation",
@@ -369,7 +371,8 @@
     "points": 1,
     "description": "While you're not any better at melee combat, you are better at recovering from a miss, and will be able to attempt another strike faster.",
     "starting_trait": true,
-    "category": [ "BIRD", "BEAST", "RAPTOR", "MOUSE", "FELINE" ]
+    "category": [ "BIRD", "BEAST", "RAPTOR", "MOUSE", "FELINE" ],
+    "flags": [ "DEFT" ]
   },
   {
     "type": "mutation",
@@ -1524,7 +1527,8 @@
     "description": "You've grown a set of gills in your neck, allowing you to breathe underwater.  Slightly increases wet benefits.",
     "category": [ "FISH" ],
     "cancels": [ "GILLS_CEPH" ],
-    "wet_protection": [ { "part": "head", "good": 1 } ]
+    "wet_protection": [ { "part": "head", "good": 1 } ],
+    "flags": [ "BREATHE_UNDERWATER" ]
   },
   {
     "type": "mutation",
@@ -1536,7 +1540,8 @@
     "description": "You've grown a set of gills, running from your neck up behind your ears.  They allow you to breathe underwater and slightly increase wet benefits.",
     "category": [ "CEPHALOPOD" ],
     "cancels": [ "GILLS" ],
-    "wet_protection": [ { "part": "head", "good": 1 } ]
+    "wet_protection": [ { "part": "head", "good": 1 } ],
+    "flags": [ "BREATHE_UNDERWATER" ]
   },
   {
     "type": "mutation",
@@ -2559,7 +2564,8 @@
     "points": 1,
     "description": "Your immune system is particularly good at resisting infections.  Your wounds will no longer become infected, altough existing infections are still dangerous.",
     "starting_trait": true,
-    "category": [ "TROGLOBITE", "RAT", "MEDICAL" ]
+    "category": [ "TROGLOBITE", "RAT", "MEDICAL" ],
+    "flags": [ "INFECTION_RESIST" ]
   },
   {
     "type": "mutation",
@@ -2579,7 +2585,8 @@
     "points": 1,
     "description": "Your body is unusually inhospitable to parasitic lifeforms.  You will never become infested with internal parasites.",
     "starting_trait": true,
-    "category": [ "ELFA", "CHIMERA", "MEDICAL", "SLIME" ]
+    "category": [ "ELFA", "CHIMERA", "MEDICAL", "SLIME" ],
+    "flags": [ "NO_PARASITES" ]
   },
   {
     "type": "mutation",
@@ -2682,7 +2689,8 @@
     "visibility": 1,
     "description": "The bottoms of your feet are strongly padded.  You receive no movement penalty for not wearing shoes, and even receive a 10% bonus when moving barefoot.",
     "types": [ "LEGS" ],
-    "category": [ "BEAST", "URSINE", "FELINE", "LUPINE" ]
+    "category": [ "BEAST", "URSINE", "FELINE", "LUPINE" ],
+    "flags": [ "BAREFOOT_OK" ]
   },
   {
     "type": "mutation",
@@ -2736,7 +2744,8 @@
       "chance": 15,
       "base_damage": { "damage_type": "bash", "amount": 10 },
       "strength_damage": { "damage_type": "bash", "amount": 2 }
-    }
+    },
+    "flags": [ "BAREFOOT_OK" ]
   },
   {
     "type": "mutation",
@@ -2856,7 +2865,8 @@
     "description": "Eating rotting, long-dead flesh is good for the struggle, and safe--if still completely unappealing--for you.",
     "prereqs": [ "POISRESIST" ],
     "threshreq": [ "THRESH_CHIMERA", "THRESH_RAT", "THRESH_MOUSE" ],
-    "category": [ "RAT", "CHIMERA", "MOUSE" ]
+    "category": [ "RAT", "CHIMERA", "MOUSE" ],
+    "flags": [ "EATDEAD" ]
   },
   {
     "type": "mutation",
@@ -3730,12 +3740,13 @@
     "mixed_effect": true,
     "encumbrance_always": [ [ "torso", 10 ], [ "arm_l", 10 ], [ "arm_r", 10 ] ],
     "description": "You have grown noticeably taller and broader.  Much of it is useful muscle mass (Strength +2), but you find it throws off your balance and you get in your own way (+10 torso and arm encumbrance).",
+    "types": [ "SIZE" ],
     "prereqs": [ "STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4" ],
-    "cancels": [ "SMALL", "SMALL2" ],
     "changes_to": [ "LARGE_OK", "HUGE" ],
     "category": [ "URSINE", "CATTLE", "LIZARD", "CHIMERA" ],
     "passive_mods": { "str_mod": 2 },
-    "weight_capacity_modifier": 1.05
+    "weight_capacity_modifier": 1.05,
+    "flags": [ "SIZE_LARGE" ]
   },
   {
     "type": "mutation",
@@ -3744,15 +3755,16 @@
     "points": 2,
     "visibility": 1,
     "description": "You carry your rugged body with the dignity you deserve.  Strength +2.",
+    "types": [ "SIZE" ],
     "prereqs": [ "LARGE" ],
     "prereqs2": [ "STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4" ],
-    "cancels": [ "SMALL", "SMALL2" ],
     "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE", "THRESH_LIZARD", "THRESH_CHIMERA" ],
     "changes_to": [ "HUGE" ],
     "leads_to": [ "MUT_TOUGH" ],
     "category": [ "URSINE", "CATTLE", "LIZARD", "CHIMERA" ],
     "passive_mods": { "str_mod": 2 },
-    "weight_capacity_modifier": 1.05
+    "weight_capacity_modifier": 1.05,
+    "flags": [ "SIZE_LARGE" ]
   },
   {
     "type": "mutation",
@@ -3763,16 +3775,17 @@
     "ugliness": 4,
     "mixed_effect": true,
     "description": "You have grown even more massive, to the point where you cannot usefully fit into human-sized clothing or vehicles.  Much of it is powerful muscle mass (Strength +4), but it's a real pain to haul around.",
+    "types": [ "SIZE" ],
     "prereqs": [ "LARGE", "LARGE_OK" ],
     "prereqs2": [ "STR_UP_3", "STR_UP_4" ],
-    "cancels": [ "SMALL", "SMALL2" ],
     "changes_to": [ "HUGE_OK" ],
     "category": [ "URSINE", "CATTLE" ],
     "passive_mods": { "str_mod": 4 },
     "hp_adjustment": -6,
     "fatigue_modifier": 0.15,
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
-    "weight_capacity_modifier": 1.1
+    "weight_capacity_modifier": 1.1,
+    "flags": [ "SIZE_HUGE" ]
   },
   {
     "type": "mutation",
@@ -3783,15 +3796,16 @@
     "ugliness": 3,
     "mixed_effect": true,
     "description": "Your cardiovascular system has caught up with your muscular physique, so who needs pathetic human cars?  Strength +4.",
+    "types": [ "SIZE" ],
     "prereqs": [ "HUGE" ],
     "prereqs2": [ "STR_UP_3", "STR_UP_4" ],
-    "cancels": [ "SMALL", "SMALL2" ],
     "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE" ],
     "leads_to": [ "MUT_TOUGH" ],
     "category": [ "URSINE", "CATTLE" ],
     "passive_mods": { "str_mod": 4 },
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
-    "weight_capacity_modifier": 1.1
+    "weight_capacity_modifier": 1.1,
+    "flags": [ "SIZE_HUGE" ]
   },
   {
     "type": "mutation",
@@ -4080,12 +4094,13 @@
     "visibility": 5,
     "mixed_effect": true,
     "description": "You've noticeably shrunk in size.  You're able to move with increased litheness, but your smaller stature prevents you from carrying as much.",
-    "cancels": [ "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
+    "types": [ "SIZE" ],
     "changes_to": [ "SMALL2" ],
     "category": [ "MOUSE" ],
     "hp_modifier": -0.05,
     "dodge_modifier": 1,
-    "weight_capacity_modifier": 0.8
+    "weight_capacity_modifier": 0.8,
+    "flags": [ "SIZE_SMALL" ]
   },
   {
     "type": "mutation",
@@ -4095,14 +4110,16 @@
     "visibility": 8,
     "mixed_effect": true,
     "description": "You're only half as tall as you used to be!  The weight of things you once found easy to carry is now unbearable, clothes are now twice as encumbering for you unless you refit them (since you're half their size), and your hit points are heavily reduced.  However, your movement is silent, and your dodge skill is a little higher.",
+    "types": [ "SIZE" ],
     "prereqs": [ "SMALL" ],
-    "cancels": [ "LARGE", "LARGE_OK", "HUGE", "HUGE_OK", "LIGHTSTEP", "CLUMSY" ],
+    "cancels": [ "LIGHTSTEP", "CLUMSY" ],
     "changes_to": [ "SMALL_OK" ],
     "category": [ "MOUSE" ],
     "hp_modifier": -0.3,
     "dodge_modifier": 2,
     "weight_capacity_modifier": 0.5,
-    "noise_modifier": 0.0
+    "noise_modifier": 0.0,
+    "flags": [ "SIZE_TINY" ]
   },
   {
     "type": "mutation",
@@ -4111,8 +4128,9 @@
     "points": 3,
     "mixed_effect": true,
     "description": "You've mastered your tiny form!  Item encumbrance and carry weight penalties are reduced, and you've learned to use your increased nimbleness to offset your reduced capacity to absorb damage.",
+    "types": [ "SIZE" ],
     "prereqs": [ "SMALL2" ],
-    "cancels": [ "LARGE", "LARGE_OK", "HUGE", "HUGE_OK", "LIGHTSTEP", "CLUMSY" ],
+    "cancels": [ "LIGHTSTEP", "CLUMSY" ],
     "valid": false,
     "purifiable": false,
     "threshreq": [ "THRESH_MOUSE" ],
@@ -4120,7 +4138,8 @@
     "hp_modifier": -0.25,
     "dodge_modifier": 2,
     "weight_capacity_modifier": 0.7,
-    "noise_modifier": 0.0
+    "noise_modifier": 0.0,
+    "flags": [ "SIZE_TINY" ]
   },
   {
     "type": "mutation",
@@ -5183,7 +5202,8 @@
     "threshreq": [ "THRESH_PLANT" ],
     "changes_to": [ "ROOTS3" ],
     "category": [ "PLANT" ],
-    "encumbrance_covered": [ [ "foot_l", 10 ], [ "foot_r", 10 ] ]
+    "encumbrance_covered": [ [ "foot_l", 10 ], [ "foot_r", 10 ] ],
+    "flags": [ "BAREFOOT_OK" ]
   },
   {
     "type": "mutation",
@@ -5608,7 +5628,8 @@
     ],
     "restricts_gear": [ "foot_l", "foot_r" ],
     "movecost_modifier": 1.2,
-    "noise_modifier": 0.0
+    "noise_modifier": 0.0,
+    "flags": [ "BAREFOOT_OK" ]
   },
   {
     "type": "mutation",
