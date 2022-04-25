@@ -1648,9 +1648,9 @@ void player::process_effects_internal()
         add_msg_if_player( m_bad,  _( "We have mistakenly colonized a local guide!  Purging now." ) );
     }
     if( has_trait_flag( "NO_PARASITES" ) && ( has_effect( effect_dermatik ) ||
-                                           has_effect( effect_tapeworm ) ||
-                                           has_effect( effect_bloodworms ) || has_effect( effect_brainworms ) ||
-                                           has_effect( effect_paincysts ) ) ) {
+            has_effect( effect_tapeworm ) ||
+            has_effect( effect_bloodworms ) || has_effect( effect_brainworms ) ||
+            has_effect( effect_paincysts ) ) ) {
         remove_effect( effect_dermatik );
         remove_effect( effect_tapeworm );
         remove_effect( effect_bloodworms );
