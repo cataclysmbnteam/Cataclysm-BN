@@ -3034,7 +3034,9 @@ static int toolweapon_off( player &p, item &it, const bool fast_startup,
                                              sfx::channel::chainsaw_theme,
                                              3000 );
         }
+
         sounds::sound( p.pos(), volume, sounds::sound_t::combat, msg_success );
+        p.add_msg_if_player( msg_success );
         // 4 is the length of "_off".
         it.convert( itype_id( it.typeId().str().substr( 0, it.typeId().str().size() - 4 ) + "_on" ) );
         it.active = true;
@@ -3079,7 +3081,7 @@ int iuse::elec_chainsaw_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
                            false,
-                           rng( 0, 10 ) - it->damage_level( 4 ) > 5 && !p->is_underwater(),
+                           !p->is_underwater(),
                            20, _( "With a roar, the electric chainsaw leaps to life!" ),
                            _( "You flip the switch, but nothing happens." ) );
 }
@@ -3097,7 +3099,7 @@ int iuse::ecs_lajatang_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
                            false,
-                           rng( 0, 10 ) - it->damage_level( 4 ) > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
+                           it->ammo_remaining() > 1 && !p->is_underwater(),
                            40, _( "With a buzz, the chainsaws leap to life!" ),
                            _( "You flip the on switch, but nothing happens." ) );
 }
@@ -4763,7 +4765,14 @@ int iuse::chop_moves( Character &ch, item &tool )
     // attribute; regular tools - based on STR, powered tools - based on DEX
     const int attr = tool.has_flag( "POWERED" ) ? ch.dex_cur : ch.str_cur;
 
-    return to_moves<int>( time_duration::from_minutes( 60 - attr ) / std::pow( 2, quality - 1 ) );
+    int moves = to_moves<int>( time_duration::from_minutes( 60 - attr ) / quality );
+
+    // cap minimum saw time, ensure moves can't go negative if player has absurd stats
+    if( moves < to_moves<int>( 10_minutes ) ) {
+        moves = to_moves<int>(10_minutes);
+    }
+
+    return moves;
 }
 
 int iuse::chop_tree( player *p, item *it, bool t, const tripoint & )
