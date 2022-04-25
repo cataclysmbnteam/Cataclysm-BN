@@ -1104,6 +1104,7 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 
 #### Flags
 
+- ```BAREFOOT_OK``` This mutation negates the movecost penalty for going without footwear.
 - ```BREATHE_UNDERWATER``` Immunity to drowning.
 - ```DEFT``` Missing attacks won't penalize you as much.
 - ```EAT_DEAD``` More comprehensive protection from poison or food poisoning from most harmful foods, notably includes rotten foods.
