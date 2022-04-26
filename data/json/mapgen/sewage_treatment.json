@@ -553,7 +553,7 @@
         "[": "f_bed",
         "L": "f_sofa",
         "1": "f_armchair",
-        ";": "f_floor_lamp_off",
+        ";": "f_floor_lamp",
         "0": "f_oven",
         "D": "f_bookcase"
       },

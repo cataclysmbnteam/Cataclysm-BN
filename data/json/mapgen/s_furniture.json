@@ -66,7 +66,7 @@
         "r": "f_ladder",
         "t": "f_wardrobe",
         "u": "f_glass_cabinet",
-        "v": "f_floor_lamp_off"
+        "v": "f_floor_lamp"
       },
       "toilets": { "T": {  } },
       "place_items": [
@@ -112,7 +112,7 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { "#": "t_wall_w", "p": "t_floor", "v": "t_floor", ">": "t_ladder_down", "D": "t_door_locked" },
-      "furniture": { "v": "f_floor_lamp_off", "p": "f_rack_coat" },
+      "furniture": { "v": "f_floor_lamp", "p": "f_rack_coat" },
       "place_nested": [
         {
           "chunks": [

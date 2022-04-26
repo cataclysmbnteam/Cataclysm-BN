@@ -55,7 +55,7 @@
       "e": "f_fridge",
       "F": "f_sofa",
       "h": [ [ "f_chair", 2 ], "f_null" ],
-      "I": "f_floor_lamp_off",
+      "I": "f_floor_lamp",
       "j": "f_trashcan",
       "l": [ [ "f_stool", 2 ], "f_null" ],
       "n": "f_table",
