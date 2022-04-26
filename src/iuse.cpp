@@ -308,6 +308,7 @@ static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
 static const trait_id trait_MARLOSS_YELLOW( "MARLOSS_YELLOW" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_POISRESIST( "POISRESIST" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
@@ -874,7 +875,7 @@ int iuse::antiasthmatic( player *p, item *it, bool, const tripoint & )
 
 int iuse::poison( player *p, item *it, bool, const tripoint & )
 {
-    if( ( p->has_has_trait( trait_EATDEAD ) ) ) {
+    if( ( p->has_trait( trait_EATDEAD ) ) ) {
         return it->type->charges_to_use();
     }
 
