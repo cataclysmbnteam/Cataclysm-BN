@@ -4765,14 +4765,7 @@ int iuse::chop_moves( Character &ch, item &tool )
     // attribute; regular tools - based on STR, powered tools - based on DEX
     const int attr = tool.has_flag( "POWERED" ) ? ch.dex_cur : ch.str_cur;
 
-    int moves = to_moves<int>( time_duration::from_minutes( 60 - attr ) / quality );
-
-    // cap minimum saw time, ensure moves can't go negative if player has absurd stats
-    if( moves < to_moves<int>( 10_minutes ) ) {
-        moves = to_moves<int>( 10_minutes );
-    }
-
-    return moves;
+    return to_moves<int>( std::max( 10_minutes, time_duration::from_minutes( 60 - attr ) / quality ) );
 }
 
 int iuse::chop_tree( player *p, item *it, bool t, const tripoint & )
