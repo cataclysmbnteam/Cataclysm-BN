@@ -34,7 +34,13 @@
         "                        ",
         "                        "
       ],
-      "furniture": { "F": "f_home_furnace", "W": "f_water_heater", "S": "f_utility_shelf", "L": "f_floor_lamp_off", "G": "f_glass_cabinet" },
+      "furniture": {
+        "F": "f_home_furnace",
+        "W": "f_water_heater",
+        "S": "f_utility_shelf",
+        "L": "f_floor_lamp_off",
+        "G": "f_glass_cabinet"
+      },
       "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "palettes": [ "basement_game" ],
       "place_loot": [
