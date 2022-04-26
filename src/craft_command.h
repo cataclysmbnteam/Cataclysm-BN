@@ -44,6 +44,7 @@ struct comp_selection {
         : use_from( use_from ), comp( comp )
     {}
     comp_selection( const comp_selection & ) = default;
+    comp_selection &operator = ( const comp_selection & ) = default;
     /** Tells us where the selected component should be used from. */
     usage use_from = use_from_none;
     CompType comp;

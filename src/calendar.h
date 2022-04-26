@@ -551,6 +551,7 @@ class calendar_config
             , _initial_season( initial_season )
             , _eternal_season( eternal_season )
         {}
+        calendar_config( const calendar_config & ) = default;
 
         // TODO: Remove reference bit after testing!
         const time_point &start_of_cataclysm() const {
