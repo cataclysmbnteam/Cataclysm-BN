@@ -2889,7 +2889,7 @@
         "B": "f_workbench",
         "E": "f_sofa",
         "C": "f_rack_wood",
-        "T": "f_floor_lamp",
+        "T": "f_floor_lamp_off",
         "f": "f_table",
         "h": "f_chair",
         "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
@@ -2951,7 +2951,7 @@
         "B": "f_workbench",
         "E": "f_armchair",
         "C": "f_rack_wood",
-        "T": "f_floor_lamp",
+        "T": "f_floor_lamp_off",
         "d": "f_mannequin",
         "b": "f_bench",
         "f": "f_table",

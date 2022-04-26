@@ -59,7 +59,7 @@
           [ "f_chair", 60 ],
           [ "f_counter", 30 ],
           [ "f_cupboard", 30 ],
-          [ "f_floor_lamp", 15 ],
+          [ "f_floor_lamp_off", 15 ],
           [ "f_desk", 30 ],
           [ "f_null", 50 ]
         ],

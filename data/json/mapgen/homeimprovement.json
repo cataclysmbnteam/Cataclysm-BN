@@ -57,7 +57,7 @@
         ":": "f_dresser",
         "1": "f_wardrobe",
         "S": "f_filing_cabinet",
-        "L": "f_floor_lamp",
+        "L": "f_floor_lamp_off",
         "?": "f_statue",
         "@": "f_bed",
         "y": [ "f_indoor_plant_y", "f_indoor_plant" ]

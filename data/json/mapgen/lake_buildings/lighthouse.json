@@ -60,7 +60,7 @@
         "7": "f_bench",
         "C": "f_armchair",
         "a": "f_rack_coat",
-        "g": "f_floor_lamp",
+        "g": "f_floor_lamp_off",
         "l": "f_water_heater",
         "k": "f_water_purifier",
         "I": "f_desk",
@@ -150,7 +150,7 @@
         "C": "f_armchair",
         "b": "f_bookcase",
         "a": "f_rack_coat",
-        "g": "f_floor_lamp",
+        "g": "f_floor_lamp_off",
         "W": "f_fireplace"
       },
       "items": {
@@ -231,7 +231,7 @@
         "D": "f_wardrobe",
         "C": "f_armchair",
         "b": "f_bookcase",
-        "g": "f_floor_lamp",
+        "g": "f_floor_lamp_off",
         "W": "f_fireplace",
         "S": "f_bathtub"
       },
