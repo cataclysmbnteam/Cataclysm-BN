@@ -89,7 +89,7 @@ class item_location
         /** returns the parent item, or an invalid location if it has no parent */
         item_location parent_item() const;
 
-        // This is a dirty hack, don't use. TODO: Delete
+        // This is a dirty hack, don't use. TODO: Make not necessary, then delete
         void make_dirty();
 
     private:

@@ -117,9 +117,7 @@ class item_location::impl
         //with similar existing items in the inventory or create a new stack for the item
         bool should_stack = true;
 
-        void make_dirty() {
-            needs_unpacking = true;
-        }
+        virtual void make_dirty() = 0;
 };
 
 class item_location::impl::nowhere : public item_location::impl
@@ -162,6 +160,8 @@ class item_location::impl::nowhere : public item_location::impl
             js.member( "type", "null" );
             js.end_object();
         }
+
+        void make_dirty() override {}
 };
 
 class item_location::impl::item_on_map : public item_location::impl
@@ -235,6 +235,11 @@ class item_location::impl::item_on_map : public item_location::impl
 
         void remove_item() override {
             cur.remove_item( *what );
+        }
+
+        void make_dirty() override {
+            idx = find_index( cur, target() );
+            needs_unpacking = true;
         }
 };
 
@@ -400,6 +405,13 @@ class item_location::impl::item_on_person : public item_location::impl
             ensure_unpacked();
             return !!what && !!who;
         }
+
+        void make_dirty() override {
+            if( ensure_who_unpacked() ) {
+                idx = find_index( *who, what.get() );
+            }
+            needs_unpacking = true;
+        }
 };
 
 class item_location::impl::item_on_vehicle : public item_location::impl
@@ -493,6 +505,13 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             }
             cur.veh.invalidate_mass();
         }
+
+        void make_dirty() override {
+            if( what.get() != &cur.veh.part( cur.part ).base ) {
+                idx = find_index( cur, what.get() );
+            }
+            needs_unpacking = true;
+        }
 };
 
 class item_location::impl::item_in_container : public item_location::impl
@@ -583,6 +602,20 @@ class item_location::impl::item_in_container : public item_location::impl
             }
 
             return INVENTORY_HANDLING_PENALTY + container.obtain_cost( ch, qty );
+        }
+
+        void make_dirty() override {
+            needs_unpacking = true;
+            idx = 0;
+            for( const item *it : container->contents.all_items_top() ) {
+                if( what.get() == it ) {
+                    return;
+                }
+                idx++;
+            }
+            if( container->contents.empty() ) {
+                idx = -1;
+            }
         }
 };
 
