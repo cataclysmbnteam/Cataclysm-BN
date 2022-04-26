@@ -4769,7 +4769,7 @@ int iuse::chop_moves( Character &ch, item &tool )
 
     // cap minimum saw time, ensure moves can't go negative if player has absurd stats
     if( moves < to_moves<int>( 10_minutes ) ) {
-        moves = to_moves<int>(10_minutes);
+        moves = to_moves<int>( 10_minutes );
     }
 
     return moves;
