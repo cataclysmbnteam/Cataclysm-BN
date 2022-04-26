@@ -297,6 +297,7 @@ static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
 static const trait_id trait_ALCMET( "ALCMET" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
+static const trait_id trait_EATDEAD( "EATDEAD" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
@@ -873,7 +874,7 @@ int iuse::antiasthmatic( player *p, item *it, bool, const tripoint & )
 
 int iuse::poison( player *p, item *it, bool, const tripoint & )
 {
-    if( ( p->has_trait_flag( "EATDEAD" ) ) ) {
+    if( ( p->has_has_trait( trait_EATDEAD ) ) ) {
         return it->type->charges_to_use();
     }
 
@@ -884,7 +885,7 @@ int iuse::poison( player *p, item *it, bool, const tripoint & )
           !p->query_yn( _( "Are you sure you want to eat this?  It looks poisonous…" ) ) ) ) {
         return 0;
     }
-    if( !p->has_trait_flag( "POISON_RESIST" ) ) {
+    if( !p->has_trait( trait_POISRESIST ) ) {
         p->add_effect( effect_poison, 1_hours );
     }
 
@@ -2758,7 +2759,7 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
             p->add_msg_if_player( m_good,
                                   _( "Exhuming a grave is fun now, where there is no one to object." ) );
             g->u.add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
-        } else if( !g->u.has_trait_flag( "EATDEAD" ) &&
+        } else if( !g->u.has_trait( trait_EATDEAD ) &&
                    !g->u.has_trait( trait_SAPROVORE ) ) {
             p->add_msg_if_player( m_bad, _( "Exhuming this grave is utterly disgusting!" ) );
             g->u.add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );

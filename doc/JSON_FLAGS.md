@@ -1106,13 +1106,8 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 
 - ```BAREFOOT_OK``` This mutation negates the movecost penalty for going without footwear.
 - ```BREATHE_UNDERWATER``` Immunity to drowning.
-- ```DEFT``` Missing attacks won't penalize you as much.
-- ```EAT_DEAD``` More comprehensive protection from poison or food poisoning from most harmful foods, notably includes rotten foods.
-- ```INFECTION_RESIST``` Bites will never progress into infections, but scenarios that start you with an infection are still dangerous!
-- ```NO_PARASITES``` Immunity to foodborne parasites and dermatik special attack.
 - ```NO_RADIATION``` This mutation grants immunity to radiations.
 - ```NO_THIRST``` Your thirst is not modified by food or drinks.
-- ```POISON_RESIST``` This mutation prevents being poisoned by certain foods, but not to the same extent as Eater of The Dead.
 - ```SIZE_HUGE``` You will count as huge in size instead of medium. Lowest priority.
 - ```SIZE_LARGE``` You will count as large in size instead of medium. Has priority over `SIZE_HUGE`
 - ```SIZE_SMALL``` You will count as small in size instead of medium. Has priority over `SIZE_LARGE` and `SIZE_HUGE`.

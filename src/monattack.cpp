@@ -158,6 +158,7 @@ static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_MARLOSS( "MARLOSS" );
 static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
+static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_PROF_CYBERCO( "PROF_CYBERCO" );
 static const trait_id trait_PROF_FED( "PROF_FED" );
@@ -2173,7 +2174,7 @@ bool mattack::dermatik( monster *z )
     target->add_msg_if_player( m_bad, _( "The %1$s sinks its ovipositor into your %2$s!" ),
                                z->name(),
                                body_part_name_accusative( targeted->token ) );
-    if( !foe->has_trait_flag( "NO_PARASITES" ) || !foe->has_trait( trait_ACIDBLOOD ) ) {
+    if( !foe->has_trait( trait_PARAIMMUNE ) || !foe->has_trait( trait_ACIDBLOOD ) ) {
         foe->add_effect( effect_dermatik, 1_turns, targeted->token );
         g->events().send<event_type::dermatik_eggs_injected>( foe->getID() );
     }

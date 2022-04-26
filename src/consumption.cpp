@@ -76,6 +76,7 @@ static const trait_id trait_ANTIWHEAT( "ANTIWHEAT" );
 static const trait_id trait_BEAK_HUM( "BEAK_HUM" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
+static const trait_id trait_EATDEAD( "EATDEAD" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_FANGS_SPIDER( "FANGS_SPIDER" );
 static const trait_id trait_GIZZARD( "GIZZARD" );
@@ -87,6 +88,8 @@ static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_MANDIBLES( "MANDIBLES" );
 static const trait_id trait_MEATARIAN( "MEATARIAN" );
 static const trait_id trait_MOUTH_TENTACLES( "MOUTH_TENTACLES" );
+static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
+static const trait_id trait_POISRESIST( "POISRESIST" );
 static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
 static const trait_id trait_PROJUNK( "PROJUNK" );
 static const trait_id trait_PROJUNK2( "PROJUNK2" );
@@ -860,7 +863,7 @@ bool player::eat( item &food, bool force )
     const bool saprophage = has_trait( trait_SAPROPHAGE );
     if( spoiled && !saprophage ) {
         add_msg_if_player( m_bad, _( "Ick, this %s doesn't taste so good…" ), food.tname() );
-        if( !has_trait( trait_SAPROVORE ) && !has_trait_flag( "EATDEAD" ) &&
+        if( !has_trait( trait_SAPROVORE ) && !has_trait( trait_EATDEAD ) &&
             !has_bionic( bio_digestion ) ) {
             add_effect( effect_foodpoison, rng( 6_minutes, ( nutr + 1 ) * 6_minutes ) );
         }
@@ -911,8 +914,8 @@ bool player::eat( item &food, bool force )
 
     // If it's poisonous... poison us.
     // TODO: Move this to a flag
-    if( food.poison > 0 && !has_trait_flag( "POISON_RESIST" ) &&
-        !has_trait_flag( "EATDEAD" ) ) {
+    if( food.poison > 0 && !has_trait( trait_POISRESIST ) &&
+        !has_trait( trait_EATDEAD ) ) {
         if( food.poison >= rng( 2, 4 ) ) {
             add_effect( effect_poison, food.poison * 10_minutes );
         }
@@ -951,7 +954,7 @@ bool player::eat( item &food, bool force )
     }
 
     // Chance to become parasitised
-    if( !( has_bionic( bio_digestion ) || has_trait_flag( "NO_PARASITES" ) ) ) {
+    if( !( has_bionic( bio_digestion ) || has_trait( trait_PARAIMMUNE ) ) ) {
         if( food.get_comestible()->parasites > 0 && !food.has_flag( flag_NO_PARASITES ) &&
             one_in( food.get_comestible()->parasites ) ) {
             switch( rng( 0, 3 ) ) {

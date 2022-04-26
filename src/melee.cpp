@@ -99,6 +99,7 @@ static const trait_id trait_ARM_TENTACLES_8( "ARM_TENTACLES_8" );
 static const trait_id trait_BEAK_PECK( "BEAK_PECK" );
 static const trait_id trait_CLAWS_TENTACLE( "CLAWS_TENTACLE" );
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
+static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_DRUNKEN( "DRUNKEN" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_POISONOUS2( "POISONOUS2" );
@@ -601,7 +602,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
     const int weight_cost = cur_weapon.weight() / ( 16_gram );
     const int encumbrance_cost = roll_remainder( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) *
                                  2.0f );
-    const int deft_bonus = hit_spread < 0 && has_trait_flag( "DEFT" ) ? 50 : 0;
+    const int deft_bonus = hit_spread < 0 && has_trait( trait_DEFT ) ? 50 : 0;
     /** @EFFECT_MELEE reduces stamina cost of melee attacks */
     const int mod_sta = ( weight_cost + encumbrance_cost - melee - deft_bonus + 50 ) * -1;
     mod_stamina( std::min( -50, mod_sta ) );
@@ -680,7 +681,7 @@ void player::reach_attack( const tripoint &p )
 
 int stumble( Character &u, const item &weap )
 {
-    if( u.has_trait_flag( "DEFT" ) ) {
+    if( u.has_trait( trait_DEFT ) ) {
         return 0;
     }
 
@@ -2354,7 +2355,7 @@ void avatar::steal( npc &target )
     if( !is_armed() ) {
         my_roll += dice( 4, 3 );
     }
-    if( has_trait_flag( "DEFT" ) ) {
+    if( has_trait( trait_DEFT ) ) {
         my_roll += dice( 2, 6 );
     }
 
