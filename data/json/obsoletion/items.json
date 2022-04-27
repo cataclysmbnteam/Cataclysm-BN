@@ -4290,16 +4290,6 @@
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
-    "id": "reloaded_4570_bp",
-    "copy-from": "4570_low",
-    "type": "AMMO",
-    "name": { "str": ".45-70, black powder" },
-    "description": ".45-70 Government ammunition loaded with a 405 grain lead flat nose bullet using black powder to original specifications.  Quite a bit less powerful and a lot dirtier than modern ammo, but still packs a punch.  This one has been hand-loaded.",
-    "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
-    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
     "id": "reloaded_shot_bird",
     "copy-from": "shot_bird",
     "type": "AMMO",
