@@ -608,7 +608,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Repair Nanobots CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A fleet of tiny dormant robots.  While activated they will flit about the user's body, repairing damage and stopping bleeding at the cost of power.",
+    "description": "A fleet of tiny dormant robots.  While activated they will flit about your body, randomly recovering 1 HP every 15s, consuming power and calories only on a success.  It will also slow and eventually stop any bleeding on your body.",
     "price": 950000,
     "weight": "200 g",
     "difficulty": 6
