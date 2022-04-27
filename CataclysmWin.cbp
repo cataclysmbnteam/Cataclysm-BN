@@ -23,13 +23,10 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-Os -O2" />
-					<Add option="-DLOCALIZE" />
 					<Add option="-DRELEASE=1" />
 					<Add directory="WinDepend/include" />
 				</Compiler>
 				<Linker>
-					<Add library="libintl.dll.a" />
-					<Add library="libiconv.dll.a" />
 					<Add directory="WinDepend/lib" />
 				</Linker>
 			</Target>
@@ -84,7 +81,6 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-Os -O2" />
-					<Add option="-DLOCALIZE" />
 					<Add option="-DTILES" />
 					<Add option="-DSDLTILES" />
 					<Add option="-DRELEASE=1" />
@@ -92,8 +88,6 @@
 					<Add directory="WinDepend/include/SDL2" />
 				</Compiler>
 				<Linker>
-					<Add library="libintl.dll.a" />
-					<Add library="libiconv.dll.a" />
 					<Add library="libSDL2.dll.a" />
 					<Add library="libSDL2main.a" />
 					<Add library="libSDL2_ttf.dll.a" />
@@ -108,7 +102,6 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-Os -O2" />
-					<Add option="-DLOCALIZE" />
 					<Add option="-DTILES" />
 					<Add option="-DSDLTILES" />
 					<Add option="-DSDL_SOUND" />
@@ -117,8 +110,6 @@
 					<Add directory="WinDepend/include/SDL2" />
 				</Compiler>
 				<Linker>
-					<Add library="libintl.dll.a" />
-					<Add library="libiconv.dll.a" />
 					<Add library="libSDL2.dll.a" />
 					<Add library="libSDL2main.a" />
 					<Add library="libSDL2_ttf.dll.a" />
@@ -146,13 +137,10 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-pg -g" />
-					<Add option="-DLOCALIZE" />
 					<Add directory="WinDepend/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
-					<Add library="libintl.dll.a" />
-					<Add library="libiconv.dll.a" />
 					<Add directory="WinDepend/lib" />
 				</Linker>
 			</Target>
@@ -210,7 +198,6 @@
 				<Compiler>
 					<Add option="-pg" />
 					<Add option="-pg -g" />
-					<Add option="-DLOCALIZE" />
 					<Add option="-DSDLTILES" />
 					<Add option="-DTILES" />
 					<Add directory="WinDepend/include" />
@@ -218,8 +205,6 @@
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
-					<Add library="libintl.dll.a" />
-					<Add library="libiconv.dll.a" />
 					<Add library="libSDL2.dll.a" />
 					<Add library="libSDL2main.a" />
 					<Add library="libSDL2_ttf.dll.a" />
@@ -235,7 +220,6 @@
 				<Compiler>
 					<Add option="-pg" />
 					<Add option="-pg -g" />
-					<Add option="-DLOCALIZE" />
 					<Add option="-DTILES" />
 					<Add option="-DSDLTILES" />
 					<Add option="-DSDL_SOUND" />
@@ -244,8 +228,6 @@
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
-					<Add library="libintl.dll.a" />
-					<Add library="libiconv.dll.a" />
 					<Add library="libSDL2.dll.a" />
 					<Add library="libSDL2main.a" />
 					<Add library="libSDL2_ttf.dll.a" />

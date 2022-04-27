@@ -183,6 +183,8 @@ static damage_type damage_type_from_string( const std::string &str )
         return DT_COLD;
     } else if( str == "cut" ) {
         return DT_CUT;
+    } else if( str == "bullet" ) {
+        return DT_BULLET;
     } else if( str == "electric" ) {
         return DT_ELECTRIC;
     } else if( str == "stab" ) {
@@ -1006,6 +1008,8 @@ nc_color spell::damage_type_color() const
             return c_light_gray;
         case DT_ELECTRIC:
             return c_light_blue;
+        case DT_BULLET:
+        /* fallthrough */
         case DT_STAB:
             return c_light_red;
         case DT_TRUE:

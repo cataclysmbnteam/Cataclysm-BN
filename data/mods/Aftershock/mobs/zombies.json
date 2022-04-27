@@ -202,6 +202,7 @@
     "melee_cut": 0,
     "armor_bash": 12,
     "armor_cut": 16,
+    "armor_bullet": 13,
     "vision_day": 50,
     "vision_night": 4,
     "harvest": "zombie",

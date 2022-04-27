@@ -77,12 +77,18 @@
     "symbol": "%",
     "healthy": 1,
     "calories": 240,
-    "description": "A translucent hexagonal chunk of wax, filled with dense, milky jelly.  Though some hold it as a panacea, it doesn't have any medical benefit.  Still, it is delicious, and rich with the most beneficial substances the hive can produce.",
+    "description": "A translucent hexagonal chunk of wax, filled with dense, milky jelly.  Rich with the most beneficial substances post-cataclysm hives can produce, it can cure various afflictions and serve as an antitoxin.  However, it's also rich in mutagenic toxins of its own, given the creatures producing it.",
     "price": 20000,
     "price_postapoc": 4000,
     "volume": "250 ml",
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You feel warm inside after eating the royal jelly.",
+      "effects": [ { "id": "antitoxin", "duration": "20 m" }, { "id": "cureall_lesser" } ]
+    },
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
-    "fun": 7
+    "fun": 7,
+    "vitamins": [ [ "mutant_toxin", 100 ] ]
   },
   {
     "type": "COMESTIBLE",

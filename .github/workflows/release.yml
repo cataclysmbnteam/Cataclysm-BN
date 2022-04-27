@@ -71,14 +71,14 @@ jobs:
       matrix:
         include:
           - name: Windows Tiles x64 MSVC
-            artifact: windows-tiles-x64-msvc-untranslated
+            artifact: windows-tiles-x64-msvc
             arch: x64
             os: windows-2019
             mxe: none
             ext: zip
             content: application/zip
           - name: Windows Tiles x32 MSVC
-            artifact: windows-tiles-x32-msvc-untranslated
+            artifact: windows-tiles-x32-msvc
             arch: x86
             os: windows-2019
             mxe: none
@@ -217,17 +217,22 @@ jobs:
         run: |
           HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ccache parallel
           pip3 install dmgbuild==1.4.2 biplist
+      - name: Compile translations (windows)
+        if: runner.os == 'Windows'
+        shell: bash
+        run: |
+          lang/compile_mo.sh all
       - name: Build CBN (linux)
         if: runner.os == 'Linux' && matrix.mxe == 'none' && matrix.android == 'none'
         run: |
-          make -j$((`nproc`+0)) TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all PCH=0 bindist
+          make -j$((`nproc`+0)) TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LANGUAGES=all PCH=0 bindist
           mv cataclysmbn-unstable.tar.gz cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.tar.gz
       - name: Build CBN (windows)
         if: matrix.mxe != 'none'
         env:
           PLATFORM: /usr/lib/mxe/usr/bin/${{ matrix.mxe }}-w64-mingw32.static-
         run: |
-          make -j$((`nproc`+0)) CROSS="${PLATFORM}" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 LANGUAGES=all PCH=0 bindist
+          make -j$((`nproc`+0)) CROSS="${PLATFORM}" TILES=1 SOUND=1 RELEASE=1 LANGUAGES=all PCH=0 bindist
           mv cataclysmbn-unstable.zip cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.zip
       - name: Build CBN (windows msvc)
         if: runner.os == 'Windows'
@@ -240,7 +245,7 @@ jobs:
       - name: Build CBN (osx)
         if: runner.os == 'macOS'
         run: |
-          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all USE_HOME_DIR=1 OSX_MIN=10.12 PCH=0 dmgdist
+          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LANGUAGES=all USE_HOME_DIR=1 OSX_MIN=10.12 PCH=0 dmgdist
           mv CataclysmBN-unstable.dmg cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.dmg
       - name: Set up JDK 8 (android)
         if: runner.os == 'Linux' && matrix.android != 'none' && matrix.mxe == 'none'

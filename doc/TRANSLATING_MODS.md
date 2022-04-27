@@ -17,9 +17,6 @@ mod translation workflow for Cataclysm: Bright Nights.
 
 For mod localization the game uses custom localization system that is similar to
 [GNU gettext](https://www.gnu.org/software/gettext/) and is compatible with GNU gettext MO files.
-The system is currently in experimental state and must be enabled in Debug settings tab
-(`Modular translations testing` option). Please report any bugs or suggestions
-on our discord or by submitting an issue on our GitHub page.
 
 While it's possible to use Transifex or any other platform or software that supports gettext,
 this document only gives examples on how to work with [Poedit](https://poedit.net/) and 

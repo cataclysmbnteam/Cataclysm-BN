@@ -1883,9 +1883,7 @@ void debug()
             raise( SIGSEGV );
             break;
         case DEBUG_RELOAD_TRANSLATIONS:
-#if defined(LOCALIZE)
             l10n_data::reload_catalogues();
-#endif
             break;
         case DEBUG_MAP_EXTRA: {
             const std::vector<std::string> &mx_str = MapExtras::get_all_function_names();

@@ -29,6 +29,7 @@
     "morale": 50,
     "dodge": 8,
     "armor_cut": 4,
+    "armor_bullet": 3,
     "revert_to_itype": "bot_light_hack",
     "extend": { "flags": [ "STUMBLES", "HARDTOSHOOT" ] }
   },

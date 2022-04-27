@@ -1126,7 +1126,7 @@
     "coverage": 50,
     "required_str": 5,
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "fridge", "count": 1 } ] },
+    "deconstruct": { "items": [ { "item": "minifreezer", "count": 1 } ] },
     "max_volume": "75 L",
     "bash": {
       "str_min": 18,

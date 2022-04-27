@@ -107,6 +107,7 @@ static const efftype_id effect_pkill1( "pkill1" );
 static const efftype_id effect_pkill2( "pkill2" );
 static const efftype_id effect_pkill3( "pkill3" );
 static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stung( "stung" );
 static const efftype_id effect_teleglow( "teleglow" );
@@ -304,6 +305,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string src )
     assign_map_from_array( jsobj, "env_protec", env_protec, strict );
     assign_map_from_array( jsobj, "bash_protec", bash_protec, strict );
     assign_map_from_array( jsobj, "cut_protec", cut_protec, strict );
+    assign_map_from_array( jsobj, "bullet_protec", bullet_protec, strict );
     assign_map_from_array( jsobj, "occupied_bodyparts", occupied_bodyparts, strict );
     assign_map_from_array( jsobj, "encumbrance", encumbrance, strict );
     assign( jsobj, "fake_item", fake_item, strict );
@@ -352,6 +354,11 @@ void bionic_data::check() const
     for( const auto &it : cut_protec ) {
         if( !it.first.is_valid() ) {
             rep.warn( "cut_protec specifies unknown body part \"%s\"", it.first.str() );
+        }
+    }
+    for( const auto &it : bullet_protec ) {
+        if( !it.first.is_valid() ) {
+            rep.warn( "bullet_protec specifies unknown body part \"%s\"", it.first.str() );
         }
     }
     for( const auto &it : bash_protec ) {
@@ -705,7 +712,7 @@ bool Character::activate_bionic( int b, bool eff_only )
         add_msg_activate();
         static const std::vector<efftype_id> removable = {{
                 effect_fungus, effect_dermatik, effect_bloodworms,
-                effect_poison, effect_stung,
+                effect_poison, effect_stung, effect_badpoison,
                 effect_pkill1, effect_pkill2, effect_pkill3, effect_pkill_l,
                 effect_drunk, effect_cig, effect_cocaine_high, effect_weed_high,
                 effect_hallu, effect_visuals, effect_pblue, effect_iodine, effect_datura,
@@ -1479,7 +1486,7 @@ static bool attempt_recharge( Character &p, bionic &bio, units::energy &amount, 
     bool recharged = false;
 
     if( power_cost > 0_kJ ) {
-        if( info.has_flag( STATIC( flag_str_id( "BIO_ARMOR_INTERFACE" ) ) ) ) {
+        if( info.has_flag( STATIC( flag_str_id( "BIONIC_ARMOR_INTERFACE" ) ) ) ) {
             // Don't spend any power on armor interfacing unless we're wearing active powered armor.
             bool powered_armor = std::any_of( p.worn.begin(), p.worn.end(),
             []( const item & w ) {
