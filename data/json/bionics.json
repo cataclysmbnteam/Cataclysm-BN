@@ -11,7 +11,7 @@
     "id": "bio_ads",
     "type": "bionic",
     "name": { "str": "Active Defense System" },
-    "description": "This bionic slowly charges a shield around your body, incoming attacks deplete this shield.  Bullets are heavily deflected, whereas melee attacks are slowed and shifted away from vital organs.  Piercing weapons are more easily deflected than cutting weapons, in turn easier than bashing weapons.  At full capacity this bionic does not consume power.",
+    "description": "This bionic charges forceshields around your body that deflect incoming attacks.  Bullets are heavily deflected, piercing well deflected, slashing moderately deflected and bashing barely deflected.  This bionic charges at half speed for 3 turns after being hit, and doesn't consume power when fully charged.",
     "occupied_bodyparts": [ [ "torso", 10 ], [ "head", 1 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 2 ], [ "leg_r", 2 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
     "act_cost": "5 kJ",

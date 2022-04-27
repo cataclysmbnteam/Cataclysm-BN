@@ -1684,32 +1684,32 @@ void Character::process_bionic( int b )
             deactivate_bionic( b );
         }
     } else if( bio.id == bio_ads ) {
-        if( bio.energy_stored != 100_kJ ) {
-            if( 100_kJ - bio.energy_stored >= 10_kJ && get_power_level() >= 10_kJ ) {
-                // Converts Bionic Power into Energy Stored to fuel damage mitigation.
-                mod_power_level( - 10_kJ );
-                bio.energy_stored += 10_kJ;
-            } else if( ( 100_kJ - bio.energy_stored < 10_kJ || get_power_level() < 10_kJ ) &&
-                       get_power_level() != 0_kJ ) {
-                units::energy ads_recharge = 100_kJ - bio.energy_stored;
-                if( ads_recharge < get_power_level() ) {
-                    mod_power_level( - ads_recharge );
-                    bio.energy_stored += ads_recharge;
-                } else {
-                    bio.energy_stored += get_power_level();
-                    mod_power_level( - get_power_level() );
-                }
-            } else {
-                // No power, but there's probably energy stored, so we don't want to deactivate it.
-                // The player should either turn it off, generate power, or they get hit and the bionic fails.
+        if( bio.charge_timer < 2 ) {
+            bio.charge_timer = 2;
+        }
+        if( bio.energy_stored < 150_kJ ) {
+            // Max recharge rate is influenced by whether you've been hit or not.
+            // See character.cpp for how charge_timer keeps track of that for this bionic.
+            units::energy max_rate = 10_kJ;
+            if( bio.charge_timer > 2 ) {
+                max_rate /= 2;
             }
-            if( bio.energy_stored == 100_kJ ) {
+            units::energy ads_recharge = std::min( max_rate, 150_kJ - bio.energy_stored );
+            if( ads_recharge < get_power_level() ) {
+                mod_power_level( - ads_recharge );
+                bio.energy_stored += ads_recharge;
+            } else if( get_power_level() != 0_kJ ) {
+                mod_power_level( - get_power_level() );
+                bio.energy_stored += get_power_level();
+            }
+            if( bio.energy_stored == 150_kJ ) {
                 add_msg_if_player( m_good,
                                    _( "Your %s informs you that it's ready for action." ),
                                    bio.info().name );
             }
+        } else if( bio.energy_stored > 150_kJ ) {
+            bio.energy_stored = 150_kJ;
         }
-        bio.charge_timer = 2;
     } else if( bio.id == afs_bio_dopamine_stimulators ) {
         // Aftershock
         add_morale( MORALE_FEELING_GOOD, 20, 20, 30_minutes, 20_minutes, true );

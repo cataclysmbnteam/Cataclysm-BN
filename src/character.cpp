@@ -7999,7 +7999,6 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
         if( has_active_bionic( bio_ads ) && ( elem.amount > 0 ) && ( elem.type == DT_BASH ||
                 elem.type == DT_CUT || elem.type == DT_STAB || elem.type == DT_BULLET ) ) {
             float elem_multi = 1;
-            float elem_costx = 1;
             //This is a hack, in the future this hopefully gets streamlined.
             const auto &all_bionics = get_bionics();
             size_t index;
@@ -8009,7 +8008,9 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
                 }
             }
             bionic &bio = bionic_at_index( index );
-            // Stab affected significantly more than cut, cut more than bash.
+            // Part of a hacky implementation that halves charge rate when hit for 3 turns. See bionics.cpp
+            bio.charge_timer = 6;
+            // Bullet affected significantly more than stab, stab more than cut, cut more than bash.
             if( elem.type == DT_BASH ) {
                 elem_multi = 0.8;
             } else if( elem.type == DT_CUT ) {
@@ -8018,9 +8019,8 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
                 elem_multi = 0.55;
             } else if( elem.type == DT_BULLET ) {
                 elem_multi = 0.25;
-                elem_costx = 1.25;
             }
-            units::energy ADS_cost = elem.amount * 500_J * elem_costx;
+            units::energy ADS_cost = elem.amount * 500_J;
             if( bio.energy_stored >= ADS_cost ) {
                 dam.mult_damage( elem_multi );
                 bio.energy_stored -= ADS_cost;
@@ -8034,15 +8034,15 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
                         add_msg_if_player( m_bad, _( "Your forceshields shatter and the feedback shorts out the %s!" ),
                                            bio.info().name );
                     }
-                    int over = units::to_kilojoule( ADS_cost );
-                    bio.incapacitated_time += ( ( over / 5 ) - 2 ) * 1_turns;
-                } else if( ADS_cost >= 25_kJ ) {
+                    int over = units::to_kilojoule( ADS_cost - 10_kJ );
+                    bio.incapacitated_time += ( ( over / 5 ) ) * 1_turns;
+                } else if( ADS_cost >= 20_kJ ) {
                     if( bio.incapacitated_time == 0_turns ) {
                         add_msg_if_player( m_bad, _( "Your forceshields shatter and the feedback shorts out the %s!" ),
                                            bio.info().name );
                     }
-                    int over = units::to_kilojoule( ADS_cost );
-                    bio.incapacitated_time += ( ( over / 5 ) - 4 ) * 1_turns;
+                    int over = units::to_kilojoule( ADS_cost - 15_kJ );
+                    bio.incapacitated_time += ( ( over / 5 ) ) * 1_turns;
                 } else {
                     add_msg_if_player( m_bad, _( "Your forceshields crackle and the %s powers down." ),
                                        bio.info().name );
