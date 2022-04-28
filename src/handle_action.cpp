@@ -283,7 +283,14 @@ input_context game::get_player_input( std::string &action )
             animate_weather = weather_has_anim && get_option<bool>( "ANIMATION_RAIN" );
             animate_sct = !SCT.vSCT.empty() && uquit != QUIT_WATCH && get_option<bool>( "ANIMATION_SCT" );
 
-            return animate_weather || animate_sct;
+#if defined(TILES)
+            // Always animate, minimap and terrain may have animations to run
+            return true;
+#else
+            // Otherwise we need to see if we actually should animate.
+            // Minimap and Terrain never animate in !TILES
+            return animate_weather || animate_sct || uquit == QUIT_WATCH;
+#endif
         }
         return false;
     }
