@@ -172,7 +172,7 @@
     "melee_dice_sides": 10,
     "melee_cut": 10,
     "armor_cut": 12,
-    "armor_bullet": 10,
+    "armor_bullet": 30,
     "revert_to_itype": "bot_molebot",
     "death_drops": { "groups": [ [ "robots", 4 ], [ "molebot", 1 ] ] },
     "death_function": [ "BROKEN" ],

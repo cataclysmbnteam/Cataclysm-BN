@@ -809,7 +809,7 @@
     "flags": [ "VARSIZE", "STURDY", "WATERPROOF", "RAINPROOF", "WATCH", "ALARMCLOCK", "SWIM_GOGGLES", "SUN_GLASSES", "RAD_RESIST" ],
     "price": 50000000,
     "price_postapoc": 10000,
-    "material": [ "ceramic", "kevlar" ],
+    "material": [ "carbide", "kevlar" ],
     "weight": "6820 g",
     "volume": "9 L",
     "to_hit": -3,
