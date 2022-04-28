@@ -269,14 +269,28 @@ input_context game::get_player_input( std::string &action )
 
     user_turn current_turn;
 
-    if( get_option<bool>( "ANIMATIONS" ) ) {
-        weather_printable wPrint;
-        const bool weather_has_anim = init_weather_anim( get_weather().weather_id, wPrint );
 
+    // Checking early if we will need to handle animations
+    // If we do not need to handle animations that will not change as long as the user has not selected an action
+    // and we can handle it like we are not animating.
+    weather_printable wPrint;
+    bool animate_weather = false;
+    bool animate_sct = false;
+    bool do_animations = [&]() {
+        if( get_option<bool>( "ANIMATIONS" ) ) {
+            const bool weather_has_anim = init_weather_anim( get_weather().weather_id, wPrint );
+
+            animate_weather = weather_has_anim && get_option<bool>( "ANIMATION_RAIN" );
+            animate_sct = !SCT.vSCT.empty() && uquit != QUIT_WATCH && get_option<bool>( "ANIMATION_SCT" );
+
+            return animate_weather || animate_sct;
+        }
+        return false;
+    }
+    ();
+
+    if( do_animations ) {
         ctxt.set_timeout( 125 );
-
-        bool animate_weather = weather_has_anim && get_option<bool>( "ANIMATION_RAIN" );
-        bool animate_sct = !SCT.vSCT.empty() && uquit != QUIT_WATCH && get_option<bool>( "ANIMATION_SCT" );
 
         shared_ptr_fast<game::draw_callback_t> animation_cb =
         make_shared_fast<game::draw_callback_t>( [&]() {
