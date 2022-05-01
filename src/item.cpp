@@ -1530,7 +1530,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         if( get_min_str() > 0 ) {
             avatar &viewer = get_avatar();
             if( has_flag( flag_STR_DRAW ) && ranged::get_str_draw_penalty( *this, viewer ) < 1.0f ) {
-                req.push_back( string_format( "%s %d (damage/range penalty %.2f)", _( "strength" ), get_min_str(),
+                req.push_back( string_format( _( "%s %d (damage/range penalty %.2f)" ), _( "strength" ), get_min_str(),
                                               ranged::get_str_draw_penalty( *this, viewer ) ) );
             } else {
                 req.push_back( string_format( "%s %d", _( "strength" ), get_min_str() ) );

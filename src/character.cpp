@@ -3327,16 +3327,10 @@ bool Character::meets_skill_requirements( const construction &con ) const
 
 bool Character::meets_stat_requirements( const item &it ) const
 {
-    if( it.has_flag( flag_STR_DRAW ) ) {
-        return get_dex() >= it.type->min_dex &&
-               get_int() >= it.type->min_int &&
-               get_per() >= it.type->min_per;
-    } else {
-        return get_str() >= it.get_min_str() &&
-               get_dex() >= it.type->min_dex &&
-               get_int() >= it.type->min_int &&
-               get_per() >= it.type->min_per;
-    }
+    return ( it.has_flag( flag_STR_DRAW ) || get_str() >= it.get_min_str() ) &&
+           get_dex() >= it.type->min_dex &&
+           get_int() >= it.type->min_int &&
+           get_per() >= it.type->min_per;
 }
 
 bool Character::meets_requirements( const item &it, const item &context ) const
