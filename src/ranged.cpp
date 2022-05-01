@@ -978,7 +978,7 @@ int throw_cost( const player &c, const item &to_throw )
     return std::max( 25, move_cost );
 }
 
-float ranged::get_str_draw_penalty( const item &it, const Character &p )
+float get_str_draw_penalty( const item &it, const Character &p )
 {
     // We only care if weapon has STR_DRAW, and that the user is weaker than required strength.
     // Also avoid dividing by zero, and skip if we'd just get a result of 1 anyway.
