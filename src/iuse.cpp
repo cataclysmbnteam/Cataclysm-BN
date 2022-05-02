@@ -3065,7 +3065,7 @@ int iuse::e_combatsaw_off( player *p, item *it, bool, const tripoint & )
                            true,
                            !p->is_underwater(),
                            30, _( "With a snarl, the electric combat chainsaw screams to life!" ),
-                           _( "You flip the switch, but nothing happens." ) );
+                           _( "You pull the trigger, but nothing happens." ) );
 }
 
 int iuse::chainsaw_off( player *p, item *it, bool, const tripoint & )
@@ -3083,7 +3083,7 @@ int iuse::elec_chainsaw_off( player *p, item *it, bool, const tripoint & )
                            false,
                            !p->is_underwater(),
                            20, _( "With a roar, the electric chainsaw leaps to life!" ),
-                           _( "You flip the switch, but nothing happens." ) );
+                           _( "You pull the trigger, but nothing happens." ) );
 }
 
 int iuse::cs_lajatang_off( player *p, item *it, bool, const tripoint & )
@@ -3101,7 +3101,7 @@ int iuse::ecs_lajatang_off( player *p, item *it, bool, const tripoint & )
                            false,
                            it->ammo_remaining() > 1 && !p->is_underwater(),
                            40, _( "With a buzz, the chainsaws leap to life!" ),
-                           _( "You flip the on switch, but nothing happens." ) );
+                           _( "You pull the trigger, but nothing happens." ) );
 }
 
 int iuse::carver_off( player *p, item *it, bool, const tripoint & )
