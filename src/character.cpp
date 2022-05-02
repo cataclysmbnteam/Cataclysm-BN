@@ -3617,7 +3617,7 @@ bool Character::change_side( item_location &loc, bool interactive )
 static void layer_item( std::array<encumbrance_data, num_bp> &vals,
                         const item &it,
                         std::array<layer_level, num_bp> &highest_layer_so_far,
-                        bool power_armor, const Character &c )
+                        const Character &c )
 {
     const auto item_layer = it.get_layer();
     int encumber_val = it.get_encumber( c );
@@ -3634,9 +3634,6 @@ static void layer_item( std::array<encumbrance_data, num_bp> &vals,
         layering_encumbrance = 0;
     }
 
-    const int armorenc = !power_armor || !it.is_power_armor() ?
-                         encumber_val : std::max( 0, encumber_val - 40 );
-
     body_part_set covered_parts = it.get_covered_body_parts();
     for( const body_part bp : all_body_parts ) {
         if( !covered_parts.test( bp ) ) {
@@ -3652,7 +3649,7 @@ static void layer_item( std::array<encumbrance_data, num_bp> &vals,
             vals[bp].layer( penalty_layer, layering_encumbrance );
         }
 
-        vals[bp].armor_encumbrance += armorenc;
+        vals[bp].armor_encumbrance += encumber_val;
     }
 }
 
@@ -3709,9 +3706,6 @@ bool Character::in_climate_control()
         return true;
     }
     for( auto &w : worn ) {
-        if( w.active && w.is_power_armor() ) {
-            return true;
-        }
         if( w.has_flag( flag_CLIMATE_CONTROL.str() ) ) {
             return true;
         }
@@ -3851,16 +3845,15 @@ void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals,
     std::fill( highest_layer_so_far.begin(), highest_layer_so_far.end(),
                PERSONAL_LAYER );
 
-    const bool power_armored = is_wearing_active_power_armor();
     for( auto w_it = worn.begin(); w_it != worn.end(); ++w_it ) {
         if( w_it == new_item_position ) {
-            layer_item( vals, new_item, highest_layer_so_far, power_armored, *this );
+            layer_item( vals, new_item, highest_layer_so_far, *this );
         }
-        layer_item( vals, *w_it, highest_layer_so_far, power_armored, *this );
+        layer_item( vals, *w_it, highest_layer_so_far, *this );
     }
 
     if( worn.end() == new_item_position && !new_item.is_null() ) {
-        layer_item( vals, new_item, highest_layer_so_far, power_armored, *this );
+        layer_item( vals, new_item, highest_layer_so_far, *this );
     }
 
     // make sure values are sane

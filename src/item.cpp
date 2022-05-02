@@ -9185,6 +9185,9 @@ bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
 
 bool item::process_tool( player *carrier, const tripoint &pos )
 {
+    if( is_power_armor() && carrier->can_interface_armor() && carrier->has_power() ) {
+        return false;
+    }
     int energy = 0;
     if( type->tool->turns_per_charge > 0 &&
         to_turn<int>( calendar::turn ) % type->tool->turns_per_charge == 0 ) {
@@ -9208,7 +9211,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
     // if insufficient available charges shutdown the tool
     if( energy > 0 ) {
         if( carrier && has_flag( flag_USE_UPS ) ) {
-            carrier->add_msg_if_player( m_info, _( "You need an UPS to run the %s!" ), tname() );
+            carrier->add_msg_if_player( m_info, _( "You need a UPS to run the %s!" ), tname() );
         }
 
         // invoking the object can convert the item to another type
