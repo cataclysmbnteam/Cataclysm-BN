@@ -138,9 +138,9 @@ static void scatter_chunks( const itype_id &chunk_name, int chunk_amt, monster &
 
         for( size_t j = 0; j < traj.size(); j++ ) {
             tarp = traj[j];
-            if( one_in( 2 ) && z.bloodType().id() ) {
+            if( one_in( 2 ) && z.bloodType() ) {
                 g->m.add_splatter( z.bloodType(), tarp );
-            } else if( z.gibType().id() ) {
+            } else if( z.gibType() ) {
                 g->m.add_splatter( z.gibType(), tarp, rng( 1, j + 1 ) );
             }
             if( g->m.impassable( tarp ) ) {
@@ -193,10 +193,10 @@ void mdeath::splatter( monster &z )
         }
 
         for( int i = 0; i < number_of_gibs; ++i ) {
-            if( type_blood.id() ) {
+            if( type_blood ) {
                 here.add_splatter( type_gib, random_entry( area ), rng( 1, i + 1 ) );
             }
-            if( type_gib.id() ) {
+            if( type_gib ) {
                 here.add_splatter( type_gib, random_entry( area ) );
             }
         }
