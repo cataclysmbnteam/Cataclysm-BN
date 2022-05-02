@@ -813,11 +813,11 @@
     "id": "bio_probability_travel",
     "type": "bionic",
     "name": { "str": "Probability Travel" },
-    "description": "Increases your body's wavelength, allowing you to quantum tunnel through walls, reappearing on the other side.  Power drain in standby is minimal, but each tile tunneled through costs 250 bionic power.",
+    "description": "Increases your body's wavelength, allowing you to quantum tunnel through walls, reappearing on the other side.  Power drain in standby is relatively low, but each tile tunneled through costs 90 bionic power.",
     "occupied_bodyparts": [ [ "torso", 20 ], [ "arm_l", 2 ], [ "arm_r", 2 ], [ "leg_l", 3 ], [ "leg_r", 3 ], [ "foot_l", 1 ], [ "foot_r", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
-    "act_cost": "3 J",
-    "react_cost": "3 J",
+    "act_cost": "500 J",
+    "react_cost": "500 J",
     "time": 1
   },
   {
