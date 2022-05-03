@@ -33,24 +33,6 @@
     "effects": [ "COOKOFF" ]
   },
   {
-    "id": "reloaded_38_fmj",
-    "copy-from": "38_fmj",
-    "type": "AMMO",
-    "name": { "str": ".38 FMJ, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_38_special",
-    "copy-from": "38_special",
-    "type": "AMMO",
-    "name": { "str": ".38 Special, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
     "id": "bp_38_fmj",
     "copy-from": "38_fmj",
     "type": "AMMO",
