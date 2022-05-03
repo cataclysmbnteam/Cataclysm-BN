@@ -1575,7 +1575,7 @@
     "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
     "qualities": [ [ "AXE", 3 ] ],
     "use_action": "CS_LAJATANG_OFF",
-    "flags": [ "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
+    "flags": [ "NONCONDUCTIVE", "POWERED", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "cs_lajatang_on",
@@ -1591,7 +1591,7 @@
     "qualities": [ [ "BUTCHER", -250 ] ],
     "turns_per_charge": 1,
     "charges_per_use": 0,
-    "flags": [ "MESSY", "FRAGILE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "ALWAYS_TWOHAND" ]
+    "flags": [ "MESSY", "FRAGILE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "ecs_lajatang_off",
@@ -1613,7 +1613,7 @@
     "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
     "qualities": [ [ "AXE", 3 ] ],
     "use_action": "ECS_LAJATANG_OFF",
-    "flags": [ "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
+    "flags": [ "NONCONDUCTIVE", "POWERED", "ALWAYS_TWOHAND" ],
     "magazines": [
       [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
     ],
@@ -1633,7 +1633,7 @@
     "revert_to": "ecs_lajatang_off",
     "use_action": "ECS_LAJATANG_ON",
     "qualities": [ [ "BUTCHER", -250 ] ],
-    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "ALWAYS_TWOHAND" ],
+    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
     "magazine_well": "1000 ml"
   },
   {
@@ -1697,7 +1697,7 @@
     "qualities": [ [ "AXE", 3 ] ],
     "use_action": "COMBATSAW_OFF",
     "techniques": [ "WBLOCK_1", "SWEEP" ],
-    "flags": [ "ALWAYS_TWOHAND" ]
+    "flags": [ "ALWAYS_TWOHAND", "POWERED" ]
   },
   {
     "id": "combatsaw_on",
@@ -1712,7 +1712,7 @@
     "revert_to": "combatsaw_off",
     "qualities": [ [ "BUTCHER", -120 ] ],
     "use_action": "COMBATSAW_ON",
-    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "POWERED", "ALWAYS_TWOHAND" ]
+    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "e_combatsaw_off",
@@ -1734,7 +1734,7 @@
     "qualities": [ [ "AXE", 3 ] ],
     "use_action": "E_COMBATSAW_OFF",
     "techniques": [ "WBLOCK_1", "SWEEP" ],
-    "flags": [ "ALWAYS_TWOHAND" ],
+    "flags": [ "ALWAYS_TWOHAND", "POWERED" ],
     "magazines": [
       [
         "battery",
@@ -1756,7 +1756,7 @@
     "revert_to": "e_combatsaw_off",
     "qualities": [ [ "BUTCHER", -120 ] ],
     "use_action": "E_COMBATSAW_ON",
-    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "POWERED", "ALWAYS_TWOHAND" ],
+    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "ALWAYS_TWOHAND" ],
     "magazine_well": "500 ml"
   }
 ]
