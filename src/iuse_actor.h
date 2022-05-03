@@ -387,29 +387,6 @@ class place_npc_iuse : public iuse_actor
 };
 
 /**
- * Items that can be worn and can be activated to consume energy from UPS.
- * Note that the energy consumption is done in @ref player::process_active_items, it is
- * *not* done by this class!
- */
-class ups_based_armor_actor : public iuse_actor
-{
-    public:
-        /** Shown when activated. */
-        std::string activate_msg;
-        /** Shown when deactivated. */
-        std::string deactive_msg;
-        /** Shown when it runs out of power. */
-        std::string out_of_power_msg;
-
-        ups_based_armor_actor( const std::string &type = "ups_based_armor" ) : iuse_actor( type ) {}
-
-        ~ups_based_armor_actor() override = default;
-        void load( const JsonObject &obj ) override;
-        int use( player &, item &, bool, const tripoint & ) const override;
-        std::unique_ptr<iuse_actor> clone() const override;
-};
-
-/**
  * This implements lock picking.
  */
 class pick_lock_actor : public iuse_actor
