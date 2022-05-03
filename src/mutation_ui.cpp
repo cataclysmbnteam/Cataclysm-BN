@@ -39,6 +39,24 @@ enum class mutation_menu_mode {
     examining,
     reassigning,
 };
+enum class mutation_tab_mode {
+    active,
+    passive,
+    none
+};
+// needs extensive improvement
+
+static trait_id GetTrait( std::vector<trait_id> active, std::vector<trait_id> passive, int cursor,
+                          mutation_tab_mode tab_mode )
+{
+    trait_id mut_id;
+    if( tab_mode == mutation_tab_mode::active ) {
+        mut_id = active[cursor];
+    } else {
+        mut_id = passive[cursor];
+    }
+    return mut_id;
+}
 
 static void show_mutations_titlebar( const catacurses::window &window,
                                      const mutation_menu_mode menu_mode, const input_context &ctxt )
@@ -147,13 +165,25 @@ player::power_mut_ui_result player::power_mutations_ui()
     int second_column = 0;
 
     int scroll_position = 0;
+    int cursor = 0;
     int max_scroll_position = 0;
     int list_height = 0;
+    int half_list_view_location = 0;
     mutation_menu_mode menu_mode = mutation_menu_mode::activating;
+    mutation_tab_mode tab_mode;
+    if( !passive.empty() ) {
+        tab_mode = mutation_tab_mode::passive;
+    } else if( !active.empty() ) {
+        tab_mode = mutation_tab_mode::active;
+    } else {
+        tab_mode = mutation_tab_mode::none;
+    }
+
     const auto recalc_max_scroll_position = [&]() {
         list_height = ( menu_mode == mutation_menu_mode::examining ?
                         DESCRIPTION_LINE_Y : HEIGHT - 1 ) - list_start_y;
         max_scroll_position = mutations_count - list_height;
+        half_list_view_location = list_height / 2;
         if( max_scroll_position < 0 ) {
             scroll_position = 0;
         } else if( scroll_position > max_scroll_position ) {
@@ -194,6 +224,9 @@ player::power_mut_ui_result player::power_mutations_ui()
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "TOGGLE_EXAMINE" );
     ctxt.register_action( "REASSIGN" );
+    ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "PREV_TAB" );
+    ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
 #if defined(__ANDROID__)
@@ -230,10 +263,15 @@ player::power_mut_ui_result player::power_mutations_ui()
             for( int i = scroll_position; static_cast<size_t>( i ) < passive.size(); i++ ) {
                 const mutation_branch &md = passive[i].obj();
                 const trait_data &td = my_mutations[passive[i]];
+                const bool is_highlighted = cursor == static_cast<int>( i );
                 if( i - scroll_position == list_height ) {
                     break;
                 }
-                type = has_base_trait( passive[i] ) ? c_cyan : c_light_cyan;
+                if( is_highlighted && tab_mode == mutation_tab_mode::passive ) {
+                    type = has_base_trait( passive[i] ) ? c_cyan_yellow : c_light_cyan_yellow;
+                } else {
+                    type = has_base_trait( passive[i] ) ? c_cyan : c_light_cyan;
+                }
                 mvwprintz( wBio, point( 2, list_start_y + i - scroll_position ),
                            type, "%c %s", td.key, md.name() );
             }
@@ -245,13 +283,22 @@ player::power_mut_ui_result player::power_mutations_ui()
             for( int i = scroll_position; static_cast<size_t>( i ) < active.size(); i++ ) {
                 const mutation_branch &md = active[i].obj();
                 const trait_data &td = my_mutations[active[i]];
+                const bool is_highlighted = cursor == static_cast<int>( i );
                 if( i - scroll_position == list_height ) {
                     break;
                 }
                 if( td.powered ) {
-                    type = has_base_trait( active[i] ) ? c_green : c_light_green;
+                    if( is_highlighted && tab_mode == mutation_tab_mode::active ) {
+                        type = has_base_trait( active[i] ) ? c_green_yellow : c_light_green_yellow;
+                    } else {
+                        type = has_base_trait( active[i] ) ? c_green : c_light_green;
+                    }
                 } else {
-                    type = has_base_trait( active[i] ) ? c_red : c_light_red;
+                    if( is_highlighted && tab_mode == mutation_tab_mode::active ) {
+                        type = has_base_trait( active[i] ) ? c_red_yellow : c_light_red_yellow;
+                    } else {
+                        type = has_base_trait( active[i] ) ? c_red : c_light_red;
+                    }
                 }
                 // TODO: track resource(s) used and specify
                 mvwputch( wBio, point( second_column, list_start_y + i - scroll_position ),
@@ -298,6 +345,9 @@ player::power_mut_ui_result player::power_mutations_ui()
         const input_event evt = ctxt.get_raw_input();
         if( evt.type == CATA_INPUT_KEYBOARD && !evt.sequence.empty() ) {
             const int ch = evt.get_first_input();
+            if( ch == ' ' ) { //skip if space is pressed (space is used as an empty hotkey)
+                continue;
+            }
             const trait_id mut_id = trait_by_invlet( ch );
             if( !mut_id.is_null() ) {
                 const mutation_branch &mut_data = mut_id.obj();
@@ -386,13 +436,162 @@ player::power_mut_ui_result player::power_mutations_ui()
             }
         }
         if( !handled ) {
+
+            // Essentially, up-down navigation adapted from the bionics_ui.cpp, with a bunch of extra workarounds to keep functionality
+
             if( action == "DOWN" ) {
-                if( scroll_position < max_scroll_position ) {
+
+                int lowerlim;
+
+                if( tab_mode == mutation_tab_mode::passive ) {
+                    lowerlim = static_cast<int>( passive.size() ) - 1;
+                } else if( tab_mode == mutation_tab_mode::active ) {
+                    lowerlim = static_cast<int>( active.size() ) - 1;
+                } else {
+                    continue;
+                }
+
+                if( cursor < lowerlim ) {
+                    cursor++;
+                } else {
+                    cursor = 0;
+                }
+                if( scroll_position < max_scroll_position &&
+                    cursor - scroll_position > list_height - half_list_view_location ) {
                     scroll_position++;
                 }
+                if( scroll_position > 0 && cursor - scroll_position < half_list_view_location ) {
+                    scroll_position = std::max( cursor - half_list_view_location, 0 );
+                }
+
+                // Draw the description, shabby workaround
+                examine_id = GetTrait( active, passive, cursor, tab_mode );
+
             } else if( action == "UP" ) {
-                if( scroll_position > 0 ) {
+
+                int lim;
+                if( tab_mode == mutation_tab_mode::passive ) {
+                    lim = passive.size() - 1;
+                } else if( tab_mode == mutation_tab_mode::active ) {
+                    lim = active.size() - 1;
+                } else {
+                    continue;
+                }
+                if( cursor > 0 ) {
+                    cursor--;
+                } else {
+                    cursor = lim;
+                }
+                if( scroll_position > 0 && cursor - scroll_position < half_list_view_location ) {
                     scroll_position--;
+                }
+                if( scroll_position < max_scroll_position &&
+                    cursor - scroll_position > list_height - half_list_view_location ) {
+                    scroll_position =
+                        std::max( std::min<int>( lim + 1 - list_height,
+                                                 cursor - half_list_view_location ), 0 );
+                }
+
+                examine_id = GetTrait( active, passive, cursor, tab_mode );
+            } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
+                if( tab_mode == mutation_tab_mode::active && !passive.empty() ) {
+                    tab_mode = mutation_tab_mode::passive;
+                } else if( tab_mode == mutation_tab_mode::passive && !active.empty() ) {
+                    tab_mode = mutation_tab_mode::active;
+                } else {
+                    continue;
+                }
+                examine_id = GetTrait( active, passive, cursor, tab_mode );
+                scroll_position = 0;
+                cursor = 0;
+            } else if( action == "CONFIRM" ) {
+                trait_id mut_id;
+                if( tab_mode == mutation_tab_mode::active ) {
+                    mut_id = active[cursor];
+                } else if( tab_mode == mutation_tab_mode::passive ) {
+                    mut_id = passive[cursor];
+                } else {
+                    continue;
+                }
+                if( !mut_id.is_null() ) {
+                    const mutation_branch &mut_data = mut_id.obj();
+                    switch( menu_mode ) {
+                        case mutation_menu_mode::reassigning: {
+                            query_popup pop;
+                            pop.message( _( "%s; enter new letter." ),
+                                         mutation_branch::get_name( mut_id ) )
+                            .context( "POPUP_WAIT" )
+                            .allow_cancel( true )
+                            .allow_anykey( true );
+
+                            bool pop_exit = false;
+                            while( !pop_exit ) {
+                                const query_popup::result ret = pop.query();
+                                bool pop_handled = false;
+                                if( ret.evt.type == CATA_INPUT_KEYBOARD && !ret.evt.sequence.empty() ) {
+                                    const int newch = ret.evt.get_first_input();
+                                    if( mutation_chars.valid( newch ) ) {
+                                        const trait_id other_mut_id = trait_by_invlet( newch );
+                                        if( !other_mut_id.is_null() ) {
+                                            std::swap( my_mutations[mut_id].key, my_mutations[other_mut_id].key );
+                                        } else {
+                                            my_mutations[mut_id].key = newch;
+                                        }
+                                        pop_exit = true;
+                                        pop_handled = true;
+                                    } else if( newch == ' ' ) {
+                                        my_mutations[mut_id].key = newch;
+                                        pop_exit = true;
+                                        pop_handled = true;
+                                    }
+                                }
+                                if( !pop_handled ) {
+                                    if( ret.action == "QUIT" ) {
+                                        pop_exit = true;
+                                    } else if( ret.action != "HELP_KEYBINDINGS" &&
+                                               ret.evt.type == CATA_INPUT_KEYBOARD ) {
+                                        popup( _( "Invalid mutation letter.  Only those characters are valid:\n\n%s" ),
+                                               mutation_chars.get_allowed_chars() );
+                                    }
+                                }
+                            }
+
+                            menu_mode = mutation_menu_mode::activating;
+                            examine_id = cata::nullopt;
+                            // TODO: show a message like when reassigning a key to an item?
+                            break;
+                        }
+                        case mutation_menu_mode::activating: {
+                            if( mut_data.activated ) {
+                                if( my_mutations[mut_id].powered ) {
+                                    add_msg_if_player( m_neutral, _( "You stop using your %s." ), mut_data.name() );
+
+                                    deactivate_mutation( mut_id );
+                                    // Action done, leave screen
+                                    exit = true;
+                                } else if( ( !mut_data.hunger || get_kcal_percent() >= 0.8f ) &&
+                                           ( !mut_data.thirst || get_thirst() <= 400 ) &&
+                                           ( !mut_data.fatigue || get_fatigue() <= 400 ) ) {
+                                    add_msg_if_player( m_neutral, _( "You activate your %s." ), mut_data.name() );
+
+                                    activate_mutation( mut_id );
+                                    // Action done, leave screen
+                                    exit = true;
+                                } else {
+                                    popup( _( "You don't have enough in you to activate your %s!" ), mut_data.name() );
+                                }
+                            } else {
+                                popup( _( "You cannot activate %s!  To read a description of "
+                                          "%s, press '!', then '%c'." ),
+                                       mut_data.name(), mut_data.name(), my_mutations[mut_id].key );
+                            }
+                            break;
+                        }
+                        case mutation_menu_mode::examining:
+                            // Describing mutations, not activating them!
+                            examine_id = mut_id;
+                            break;
+                    }
                 }
             } else if( action == "REASSIGN" ) {
                 menu_mode = mutation_menu_mode::reassigning;
