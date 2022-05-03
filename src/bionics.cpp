@@ -1592,7 +1592,12 @@ void Character::process_bionic( int b )
         // The above hack means there's no check for whether the bionic actually has power to run.
         if( get_power_level() < bio.info().power_over_time ) {
             bio.powered = false;
-            add_msg_if_player( m_neutral, _( "Your %s powers down." ), bio.info().name );
+            add_msg_if_player( m_warning, _( "Your %s shut down due to lack of power." ), bio.info().name );
+            deactivate_bionic( b );
+            return;
+        } else if( get_stored_kcal() < 0.85f * max_stored_kcal() ) {
+            bio.powered = false;
+            add_msg_if_player( m_warning, _( "Your %s shut down to conserve calories." ), bio.info().name );
             deactivate_bionic( b );
             return;
         }
