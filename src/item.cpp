@@ -9189,8 +9189,8 @@ bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
 
 bool item::process_tool( player *carrier, const tripoint &pos )
 {
-    if(carrier && is_power_armor() && carrier->can_interface_armor() && carrier->has_power() ) {
-            return false;
+    if( carrier && is_power_armor() && carrier->can_interface_armor() && carrier->has_power() ) {
+        return false;
     }
     int energy = 0;
     if( type->tool->turns_per_charge > 0 &&
