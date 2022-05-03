@@ -690,12 +690,12 @@
     "id": "bio_nanobots",
     "type": "bionic",
     "name": { "str": "Repair Nanobots" },
-    "description": "Inside your body is a fleet of tiny dormant robots.  While activated they will flit about your body, repairing damage at 1 HP per minute and stopping bleeding at the cost of extra power and stored calories.",
+    "description": "Inside your body is a fleet of tiny dormant robots.  While activated they will flit about your body, you randomly recover 1 HP every 15s, consuming power and calories only on a success.  It will also slow and eventually stop any bleeding on your body.",
     "occupied_bodyparts": [ [ "torso", 10 ] ],
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
-    "act_cost": "80 J",
-    "react_cost": "4 J",
-    "time": 1
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE", "BIONIC_SLEEP_FRIENDLY" ],
+    "act_cost": "300 J",
+    "react_cost": "3 kJ",
+    "time": 15
   },
   {
     "id": "bio_night",

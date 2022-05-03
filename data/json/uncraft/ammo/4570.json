@@ -6,7 +6,7 @@
     "qualities": [ { "id": "PULL", "level": 2 } ],
     "components": [
       [ [ "copper", 2 ] ],
-      [ [ "lead", 5 ] ],
+      [ [ "lead", 8 ] ],
       [ [ "4570_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder", 15 ] ]
@@ -18,7 +18,13 @@
     "type": "uncraft",
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 2 } ],
-    "components": [ [ [ "copper", 7 ] ], [ [ "4570_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "gunpowder", 17 ] ] ],
+    "components": [
+      [ [ "copper", 7 ] ],
+      [ [ "lead", 8 ] ],
+      [ [ "4570_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 17 ] ]
+    ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
   {
@@ -26,7 +32,17 @@
     "type": "uncraft",
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 2 } ],
-    "components": [ [ [ "lead", 9 ] ], [ [ "4570_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "gunpowder", 12 ] ] ],
+    "components": [ [ [ "lead", 8 ] ], [ [ "4570_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "gunpowder", 12 ] ] ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+  },
+  {
+    "id": "reloaded_4570_bp",
+    "copy-from": "4570_low",
+    "type": "AMMO",
+    "name": { "str": ".45-70, black powder" },
+    "description": ".45-70 Government ammunition loaded with a 405 grain lead flat nose bullet using black powder to original specifications.  Quite a bit less powerful and a lot dirtier than modern ammo, but still packs a punch.  This one has been hand-loaded.",
+    "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }
 ]

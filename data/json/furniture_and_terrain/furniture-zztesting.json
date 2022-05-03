@@ -11,9 +11,9 @@
     "flags": [ "TRANSPARENT", "PLACE_ITEM", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
-        { "item": "cable", "charges": [ 1, 2 ] },
-        { "item": "amplifier", "count": [ 1, 4 ] },
-        { "item": "light_bulb", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": 2 },
+        { "item": "power_supply", "count": 1 },
+        { "item": "light_bulb", "count": 1 },
         { "item": "steel_lump", "count": 1 },
         { "item": "pipe", "count": 1 }
       ]
