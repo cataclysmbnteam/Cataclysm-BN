@@ -1061,11 +1061,6 @@
   },
   {
     "type": "item_action",
-    "id": "ups_based_armor",
-    "name": { "str": "Activate/deactivate" }
-  },
-  {
-    "type": "item_action",
     "id": "CATTLEFODDER",
     "name": { "str": "Place" }
   },

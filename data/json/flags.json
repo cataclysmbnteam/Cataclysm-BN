@@ -803,6 +803,25 @@
     "context": [ "GENERIC", "ARMOR", "TOOL_ARMOR" ]
   },
   {
+    "id": "POWERARMOR_EXO",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "//": "Defines the main exo that all other parts attach to."
+  },
+  {
+    "id": "POWERARMOR_EXTERNAL",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "//": "Defines the other parts that activate simultaneously with the exo."
+  },
+  {
+    "id": "POWERARMOR_MOD",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "//": "Defines mods that are attached to power armour.",
+    "info": "This is a power armor modification."
+  },
+  {
     "id": "POWERARMOR_COMPATIBLE",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],

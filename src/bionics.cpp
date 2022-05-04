@@ -196,6 +196,7 @@ static const std::string flag_NO_STERILE( "NO_STERILE" );
 static const std::string flag_NO_UNWIELD( "NO_UNWIELD" );
 static const std::string flag_PERPETUAL( "PERPETUAL" );
 static const std::string flag_PERSONAL( "PERSONAL" );
+static const std::string flag_POWERARMOR_EXO( "POWERARMOR_EXO" );
 static const std::string flag_SAFE_FUEL_OFF( "SAFE_FUEL_OFF" );
 static const std::string flag_SEALED( "SEALED" );
 static const std::string flag_SEMITANGIBLE( "SEMITANGIBLE" );
@@ -1490,7 +1491,7 @@ static bool attempt_recharge( Character &p, bionic &bio, units::energy &amount, 
             // Don't spend any power on armor interfacing unless we're wearing active powered armor.
             bool powered_armor = std::any_of( p.worn.begin(), p.worn.end(),
             []( const item & w ) {
-                return w.active && w.is_power_armor();
+                return w.active && w.has_flag( flag_POWERARMOR_EXO );
             } );
             if( !powered_armor ) {
                 power_cost -= armor_power_cost * factor;

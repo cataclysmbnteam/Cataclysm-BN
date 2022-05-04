@@ -338,6 +338,9 @@ static const std::string flag_PERPETUAL( "PERPETUAL" );
 static const std::string flag_PERSONAL( "PERSONAL" );
 static const flag_str_id flag_POCKETS( "POCKETS" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
+static const std::string flag_POWERARMOR_EXO( "POWERARMOR_EXO" );
+static const std::string flag_POWERARMOR_EXTERNAL( "POWERARMOR_EXTERNAL" );
+static const std::string flag_POWERARMOR_MOD( "POWERARMOR_MOD" );
 static const std::string flag_POWERARMOR_COMPATIBLE( "POWERARMOR_COMPATIBLE" );
 static const std::string flag_RESTRICT_HANDS( "RESTRICT_HANDS" );
 static const std::string flag_SEMITANGIBLE( "SEMITANGIBLE" );
@@ -2981,18 +2984,20 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         return ret_val<bool>::make_success();
     }
 
-    if( it.is_power_armor() ) {
+    if( it.is_power_armor() || it.has_flag( flag_POWERARMOR_MOD ) ) {
         for( auto &elem : worn ) {
             if( ( elem.get_covered_body_parts() & it.get_covered_body_parts() ).any() &&
-                !elem.has_flag( flag_POWERARMOR_COMPATIBLE ) ) {
+                !elem.has_flag( flag_POWERARMOR_COMPATIBLE ) && !it.is_power_armor() ) {
                 return ret_val<bool>::make_failure( _( "Can't wear power armor over other gear!" ) );
+            } else if( elem.has_flag( flag_POWERARMOR_EXO ) && it.has_flag( flag_POWERARMOR_EXO ) ) {
+                return ret_val<bool>::make_failure( _( "Can't wear multiple exoskeletons!" ) );
             }
         }
-        if( !it.covers( bp_torso ) ) {
+        if( !it.has_flag( flag_POWERARMOR_EXO ) ) {
             bool power_armor = false;
             if( !worn.empty() ) {
                 for( auto &elem : worn ) {
-                    if( elem.is_power_armor() ) {
+                    if( elem.has_flag( flag_POWERARMOR_EXO ) ) {
                         power_armor = true;
                         break;
                     }
@@ -3001,12 +3006,6 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
             if( !power_armor ) {
                 return ret_val<bool>::make_failure(
                            _( "You can only wear power armor components with power armor!" ) );
-            }
-        }
-
-        for( auto &i : worn ) {
-            if( i.is_power_armor() && i.typeId() == it.typeId() ) {
-                return ret_val<bool>::make_failure( _( "Can't wear more than one %s!" ), it.tname() );
             }
         }
     } else {
@@ -3660,12 +3659,14 @@ bool Character::is_wearing_power_armor( bool *hasHelmet ) const
         if( !elem.is_power_armor() ) {
             continue;
         }
-        if( hasHelmet == nullptr ) {
-            // found power armor, helmet not requested, cancel loop
-            return true;
+        if( elem.has_flag( flag_POWERARMOR_EXO ) ) {
+            result = true;
+            if( hasHelmet == nullptr ) {
+                // found power armor, helmet not requested, cancel loop
+                return true;
+            }
         }
         // found power armor, continue search for helmet
-        result = true;
         if( elem.covers( bp_head ) ) {
             *hasHelmet = true;
             return true;
@@ -3677,7 +3678,7 @@ bool Character::is_wearing_power_armor( bool *hasHelmet ) const
 bool Character::is_wearing_active_power_armor() const
 {
     for( const auto &w : worn ) {
-        if( w.is_power_armor() && w.active ) {
+        if( w.has_flag( flag_POWERARMOR_EXO ) && w.active ) {
             return true;
         }
     }

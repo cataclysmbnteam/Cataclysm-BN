@@ -1268,7 +1268,6 @@ void it_artifact_armor::deserialize( const JsonObject &jo )
     armor->env_resist = jo.get_int( "env_resist" );
     armor->warmth = jo.get_int( "warmth" );
     armor->storage = jo.get_int( "storage" ) * units::legacy_volume_factor;
-    armor->power_armor = jo.get_bool( "power_armor" );
 
     for( const int entry : jo.get_array( "effects_worn" ) ) {
         artifact->effects_worn.push_back( static_cast<art_effect_passive>( entry ) );
@@ -1407,7 +1406,6 @@ void it_artifact_armor::serialize( JsonOut &json ) const
     json.member( "env_resist", armor->env_resist );
     json.member( "warmth", armor->warmth );
     json.member( "storage", armor->storage / units::legacy_volume_factor );
-    json.member( "power_armor", armor->power_armor );
 
     // artifact data
     serialize_enum_vector_as_int( json, "effects_worn", artifact->effects_worn );

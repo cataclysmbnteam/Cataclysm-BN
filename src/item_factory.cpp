@@ -1833,7 +1833,6 @@ void Item_factory::load( islot_armor &slot, const JsonObject &jo, const std::str
     assign( jo, "storage", slot.storage, strict, 0_ml );
     assign( jo, "weight_capacity_modifier", slot.weight_capacity_modifier );
     assign( jo, "weight_capacity_bonus", slot.weight_capacity_bonus, strict, 0_gram );
-    assign( jo, "power_armor", slot.power_armor, strict );
     assign( jo, "valid_mods", slot.valid_mods, strict );
 
     assign_coverage_from_json( jo, "covers", slot.covers, slot.sided );
@@ -1850,7 +1849,6 @@ void Item_factory::load( islot_pet_armor &slot, const JsonObject &jo, const std:
     assign( jo, "environmental_protection", slot.env_resist, strict, 0 );
     assign( jo, "environmental_protection_with_filter", slot.env_resist_w_filter, strict, 0 );
     assign( jo, "storage", slot.storage, strict, 0_ml );
-    assign( jo, "power_armor", slot.power_armor, strict );
 }
 
 void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::string &src )

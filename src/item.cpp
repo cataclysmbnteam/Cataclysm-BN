@@ -226,6 +226,9 @@ static const std::string flag_NO_UNLOAD( "NO_UNLOAD" );
 static const std::string flag_OUTER( "OUTER" );
 static const std::string flag_OVERSIZE( "OVERSIZE" );
 static const std::string flag_PERSONAL( "PERSONAL" );
+static const std::string flag_POWERARMOR_EXO( "POWERARMOR_EXO" );
+static const std::string flag_POWERARMOR_EXTERNAL( "POWERARMOR_EXTERNAL" );
+static const std::string flag_POWERARMOR_MOD( "POWERARMOR_MOD" );
 static const std::string flag_PROCESSING( "PROCESSING" );
 static const std::string flag_PROCESSING_RESULT( "PROCESSING_RESULT" );
 static const std::string flag_PULPED( "PULPED" );
@@ -823,7 +826,7 @@ bool item::swap_side()
 
 bool item::is_worn_only_with( const item &it ) const
 {
-    return is_power_armor() && it.is_power_armor() && it.covers( bp_torso );
+    return has_flag( flag_POWERARMOR_EXTERNAL ) && it.has_flag( flag_POWERARMOR_EXO );
 }
 
 item item::in_its_container() const
@@ -2787,16 +2790,18 @@ void item::armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *pa
                                   _( "* This item can be worn on <info>either side</info> of "
                                      "the body." ) ) );
     }
-    if( is_power_armor() && parts->test( iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR ) ) {
+    if( ( is_power_armor() || has_flag( flag_POWERARMOR_MOD ) ) &&
+        parts->test( iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR ) ) {
         info.push_back( iteminfo( "DESCRIPTION",
-                                  _( "* This gear is a part of power armor." ) ) );
+                                  _( "* This gear is a part of power armor, and can run off a "
+                                     "<info>universal power supply</info> or a <info>bionic armor interface</info>." ) ) );
         if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR_RADIATIONHINT ) ) {
             if( covers( bp_head ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* When worn with a power armor suit, it will "
                                              "<good>fully protect</good> you from "
                                              "<info>radiation</info>." ) ) );
-            } else {
+            } else if( has_flag( flag_POWERARMOR_EXO ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* When worn with a power armor helmet, it will "
                                              "<good>fully protect</good> you from " "<info>radiation</info>." ) ) );
@@ -5529,11 +5534,11 @@ int item::get_base_env_resist_w_filter() const
 
 bool item::is_power_armor() const
 {
-    const islot_armor *t = find_armor_data();
-    if( t == nullptr ) {
-        return is_pet_armor() ? type->pet_armor->power_armor : false;
+    if( has_flag( flag_POWERARMOR_EXO ) || has_flag( flag_POWERARMOR_EXTERNAL ) ) {
+        return true;
+    } else {
+        return false;
     }
-    return t->power_armor;
 }
 
 int item::get_encumber( const Character &p ) const
@@ -9206,7 +9211,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
     energy -= ammo_consume( energy, pos );
 
     // for items in player possession if insufficient charges within tool try UPS
-    if( carrier && has_flag( flag_USE_UPS ) ) {
+    if( carrier && ( has_flag( flag_USE_UPS ) || ( is_power_armor() ) ) ) {
         if( carrier->use_charges_if_avail( itype_UPS, energy ) ) {
             energy = 0;
         }
@@ -9214,7 +9219,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
 
     // if insufficient available charges shutdown the tool
     if( energy > 0 ) {
-        if( carrier && has_flag( flag_USE_UPS ) ) {
+        if( carrier && ( has_flag( flag_USE_UPS ) || ( is_power_armor() ) ) ) {
             carrier->add_msg_if_player( m_info, _( "You need a UPS to run the %s!" ), tname() );
         }
 
