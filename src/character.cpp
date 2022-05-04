@@ -339,7 +339,6 @@ static const std::string flag_PERSONAL( "PERSONAL" );
 static const flag_str_id flag_POCKETS( "POCKETS" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
 static const std::string flag_POWERARMOR_EXO( "POWERARMOR_EXO" );
-static const std::string flag_POWERARMOR_EXTERNAL( "POWERARMOR_EXTERNAL" );
 static const std::string flag_POWERARMOR_MOD( "POWERARMOR_MOD" );
 static const std::string flag_POWERARMOR_COMPATIBLE( "POWERARMOR_COMPATIBLE" );
 static const std::string flag_RESTRICT_HANDS( "RESTRICT_HANDS" );
@@ -3668,7 +3667,9 @@ bool Character::is_wearing_power_armor( bool *hasHelmet ) const
         }
         // found power armor, continue search for helmet
         if( elem.covers( bp_head ) ) {
-            *hasHelmet = true;
+            if( hasHelmet != nullptr ) {
+                *hasHelmet = true;
+            }
             return true;
         }
     }

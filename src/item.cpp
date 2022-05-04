@@ -5534,11 +5534,7 @@ int item::get_base_env_resist_w_filter() const
 
 bool item::is_power_armor() const
 {
-    if( has_flag( flag_POWERARMOR_EXO ) || has_flag( flag_POWERARMOR_EXTERNAL ) ) {
-        return true;
-    } else {
-        return false;
-    }
+    return ( has_flag( flag_POWERARMOR_EXO ) || has_flag( flag_POWERARMOR_EXTERNAL ) )
 }
 
 int item::get_encumber( const Character &p ) const
