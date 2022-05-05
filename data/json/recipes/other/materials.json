@@ -7,9 +7,9 @@
     "skill_used": "fabrication",
     "skills_required": [ "tailor", 1 ],
     "difficulty": 1,
-    "time": "15 m",
+    "time": "5 m",
     "autolearn": true,
-    "components": [ [ [ "soap", 5 ] ], [ [ "water_clean", 3 ] ], [ [ "wool_staple", 1 ] ] ]
+    "components": [ [ [ "wool_staple", 1 ] ] ]
   },
   {
     "type": "recipe",
