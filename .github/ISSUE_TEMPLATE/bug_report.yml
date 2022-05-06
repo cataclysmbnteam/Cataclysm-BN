@@ -59,6 +59,8 @@ body:
         - Graphics version: [Tiles or Terminal]
         - Ingame language: [Arabic or Bulgarian or Chinese (Simplified) or Chinese (Traditional) or Dutch or Esperanto or French or German or Italian (Italy) or Japanese or Korean or Polish or Portuguese (Brazil) or Russian or Serbian or Spanish (Argentina) or Spanish (Spain) or Turkish]
         - Mods loaded: [e.g.dda, boats, hacktheplanet, StatsThroughSkills]
+    validations:
+      required: true
 
   - type: textarea
     id: additional-context
