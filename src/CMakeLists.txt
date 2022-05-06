@@ -60,7 +60,7 @@ if (TILES)
     target_compile_definitions(cataclysm-tiles-common PUBLIC TILES)
 
     if(NOT "${CMAKE_EXPORT_COMPILE_COMMANDS}")
-	    target_precompile_headers(cataclysm-tiles-common PUBLIC ${CMAKE_SOURCE_DIR}/pch/main-pch.hpp)
+        target_precompile_headers(cataclysm-tiles-common PUBLIC ${CMAKE_SOURCE_DIR}/pch/main-pch.hpp)
     endif ()
 
     if (CMAKE_USE_PTHREADS_INIT)
