@@ -3347,5 +3347,50 @@
       { "item": "ring_signet", "prob": 30 },
       { "item": "tie_skinny", "prob": 20 }
     ]
+  },
+  {
+    "id": "wardrode_sporting_misc",
+    "type": "item_group",
+    "//": "Assorted clothing or other wearable items for domestic wardrobes, outdoors and sporting good items.",
+    "subtype": "distribution",
+    "items": [
+      {
+        "distribution": [
+          { "item": "bandolier_pistol", "prob": 10 },
+          { "item": "bandolier_rifle", "prob": 20 },
+          { "item": "bandolier_shotgun", "prob": 10 },
+          { "item": "bandolier_wrist", "prob": 5 },
+          { "item": "quiver", "prob": 30 },
+          { "item": "quiver_large", "prob": 20 },
+          { "item": "torso_bandolier_shotgun", "prob": 5 }
+        ],
+        "prob": 25
+      },
+      {
+        "distribution": [
+          { "item": "fishing_waders", "prob": 25 },
+          { "item": "flotation_vest", "prob": 20 },
+          { "item": "sleeping_bag", "prob": 25 },
+          { "item": "sleeping_bag_roll", "prob": 25 },
+          { "item": "wetsuit", "prob": 5 }
+        ],
+        "prob": 25
+      },
+      {
+        "distribution": [
+          { "item": "armguard_hard", "prob": 5 },
+          { "item": "boxing_gloves", "prob": 20 },
+          { "item": "chestguard_hard", "prob": 5 },
+          { "item": "fencing_jacket", "prob": 5 },
+          { "item": "fencing_mask", "prob": 10 },
+          { "item": "fencing_pants", "prob": 5 },
+          { "item": "football_armor", "prob": 10 },
+          { "item": "golf_bag", "prob": 10 },
+          { "item": "helmet_football", "prob": 20 },
+          { "item": "legguard_hard", "prob": 10 }
+        ],
+        "prob": 50
+      }
+    ]
   }
 ]
