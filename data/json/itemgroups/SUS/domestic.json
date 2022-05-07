@@ -447,8 +447,8 @@
     "subtype": "collection",
     "entries": [
       {
-        "distribution": [ { "group": "accesories_personal_mens", "prob": 50 }, { "group": "accesories_personal_unisex", "prob": 50 } ],
-        "prob": 10
+        "distribution": [ { "group": "accesories_personal_mens", "prob": 10 }, { "group": "accesories_personal_unisex", "prob": 90 } ],
+        "prob": 50, "count": [ 1, 3 ]
       },
       { "group": "gloves_unisex", "prob": 20 },
       { "group": "masks_unisex", "prob": 5 },
@@ -472,8 +472,8 @@
     "subtype": "collection",
     "entries": [
       {
-        "distribution": [ { "group": "accesories_personal_womens", "prob": 50 }, { "group": "accesories_personal_unisex", "prob": 50 } ],
-        "prob": 10
+        "distribution": [ { "group": "accesories_personal_womens", "prob": 10 }, { "group": "accesories_personal_unisex", "prob": 90 } ],
+        "prob": 50, "count": [ 1, 3 ]
       },
       {
         "distribution": [ { "group": "gloves_womens", "prob": 5 }, { "group": "gloves_unisex", "prob": 95 } ],
