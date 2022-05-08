@@ -62,6 +62,9 @@ Release*/
 # Distribution script results
 /msvc-full-features/distribution
 
+# Temporary CMakeFiles
+CMakeUserPresets.json
+
 # Visual Studio 2015
 /msvc-full-features/*db
 /msvc-full-features/ipch
