@@ -6,7 +6,10 @@ if (BUILD_TESTING)
 
     # TODO: build MO files required for tests
     if(MSVC)
-        find_package(Gettext REQUIRED)
+        find_program(GETTEXT_MSGFMT_EXECUTABLE
+            msgfmt.exe
+            HINTS C:\\Prorogram\ Files\\Git\\mingw64\\bin
+        )
     endif()
 
     if (TILES)
