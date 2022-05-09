@@ -157,6 +157,7 @@ static const bionic_id bio_digestion( "bio_digestion" );
 
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
+static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
@@ -1529,12 +1530,26 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         std::vector<std::string> req;
         if( get_min_str() > 0 ) {
             avatar &viewer = get_avatar();
+            int weapon_str = get_min_str();
+            if( has_flag( flag_STR_DRAW ) &&  viewer.has_trait( trait_PROF_CHURL ) ) {
+                weapon_str *= 0.8;
+            }
             if( has_flag( flag_STR_DRAW ) && ranged::get_str_draw_penalty( *this, viewer ) < 1.0f ) {
-                req.push_back( string_format( _( "%s %d (damage/range penalty %.2f)" ), _( "strength" ),
-                                              get_min_str(),
-                                              ranged::get_str_draw_penalty( *this, viewer ) ) );
+                if( ranged::get_str_draw_penalty( *this, viewer ) < 0.5f ) {
+                    req.push_back( string_format( _( "%s %d <color_magenta>(Can't use!)</color>" ), _( "strength" ),
+                                                  weapon_str ) );
+                } else if( ranged::get_str_draw_penalty( *this, viewer ) < 0.75f ) {
+                    req.push_back( string_format( "%s %d <color_red>(Damage/Range 0.5x, Dispersion 2.0x)</color>",
+                                                  _( "strength" ), weapon_str ) );
+                } else if( ranged::get_str_draw_penalty( *this, viewer ) < 0.9f ) {
+                    req.push_back( string_format( "%s %d <color_light_red>(Damage/Range 0.75x)</color>",
+                                                  _( "strength" ), weapon_str ) );
+                } else {
+                    req.push_back( string_format( "%s %d <color_yellow>(Damage 0.9x)</color>", _( "strength" ),
+                                                  weapon_str ) );
+                }
             } else {
-                req.push_back( string_format( "%s %d", _( "strength" ), get_min_str() ) );
+                req.push_back( string_format( "%s %d", _( "strength" ), weapon_str ) );
             }
         }
         if( type->min_dex > 0 ) {
@@ -1980,7 +1995,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     }
     damage_unit gun_du = gun.damage.damage_units.front();
 
-    gun_du.damage_multiplier *= ranged::get_str_draw_penalty( *mod, viewer );
+    gun_du.damage_multiplier *= ranged::get_str_draw_damage_penalty( *mod, viewer );
 
     const damage_unit &ammo_du = curammo != nullptr
                                  ? curammo->ammo->damage.damage_units.front()
@@ -7115,7 +7130,7 @@ int item::gun_range( const player *p ) const
     }
 
     // Reduce bow range if player has less than minimum strength.
-    ret *= ranged::get_str_draw_penalty( *this, *p );
+    ret *= ranged::get_str_draw_range_penalty( *this, *p );
 
     return std::max( 0, ret );
 }
