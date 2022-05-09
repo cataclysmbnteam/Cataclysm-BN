@@ -5,6 +5,7 @@ if (BUILD_TESTING)
     add_definitions(-DCATCH_CONFIG_ENABLE_BENCHMARKING)
 
     # TODO: build MO files required for tests
+    set(GETTEXT_MSGFMT_EXECUTABLE msgfmt)
     if(MSVC)
         find_program(GETTEXT_MSGFMT_EXECUTABLE
             msgfmt.exe
