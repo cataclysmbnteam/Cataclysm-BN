@@ -2573,7 +2573,7 @@
     "time": "20 m",
     "autolearn": true,
     "batch_time_factors": [ 80, 5 ],
-    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [ [ [ "mutant_offal", 1 ] ] ]
   }
