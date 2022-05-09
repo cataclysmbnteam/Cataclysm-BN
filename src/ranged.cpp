@@ -1002,7 +1002,6 @@ float get_str_draw_damage_penalty( const item &it, const Character &p )
     if( !it.has_flag( flag_STR_DRAW ) || p.get_str() >= it.get_min_str() || it.get_min_str() <= 1 ) {
         return 1.0f;
     }
-    float archer_str = std::max( 1, p.get_str() );
     if( ranged::get_str_draw_penalty( it, p ) < 0.75f ) {
         return 0.5f;
     } else if( ranged::get_str_draw_penalty( it, p ) < 0.9f ) {
@@ -1019,7 +1018,6 @@ float get_str_draw_dispersion_penalty( const item &it, const Character &p )
     if( !it.has_flag( flag_STR_DRAW ) || p.get_str() >= it.get_min_str() || it.get_min_str() <= 1 ) {
         return 1.0f;
     }
-    float archer_str = std::max( 1, p.get_str() );
     if( ranged::get_str_draw_penalty( it, p ) < 0.75f ) {
         return 0.5f;
     } else {
@@ -1032,7 +1030,6 @@ float get_str_draw_range_penalty( const item &it, const Character &p )
     if( !it.has_flag( flag_STR_DRAW ) || p.get_str() >= it.get_min_str() || it.get_min_str() <= 1 ) {
         return 1.0f;
     }
-    float archer_str = std::max( 1, p.get_str() );
     if( ranged::get_str_draw_penalty( it, p ) < 0.75f ) {
         return 0.5f;
     } else if( ranged::get_str_draw_penalty( it, p ) < 0.9f ) {
