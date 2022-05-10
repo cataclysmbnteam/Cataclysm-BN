@@ -8,6 +8,7 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_ROBOFAC_MERC_1",
+    "mission_offered": "MISSION_ROBOFAC_MERC_1_RADIO",    
     "faction": "robofac_auxiliaries"
   },
   {
