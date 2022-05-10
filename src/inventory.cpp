@@ -1107,13 +1107,13 @@ enchantment inventory::get_active_enchantment_cache( const Character &owner ) co
 void inventory::update_quality_cache()
 {
     quality_cache.clear();
-    inventory *this_nonconst = const_cast<inventory *>( this );
-    this_nonconst->visit_items( [ this ]( item * e ) {
-        auto item_qualities = e->get_qualities();
-        for( const auto &quality : item_qualities ) {
+    visit_items( [ this ]( const item * e ) {
+        const std::map<quality_id, int> &item_qualities = e->get_qualities();
+        for( const std::pair<const quality_id, int> &quality : item_qualities ) {
+            const int item_count = e->count_by_charges() ? e->charges : 1;
             // quality.first is the id of the quality, quality.second is the quality level
             // the value is the number of items with that quality level
-            ++quality_cache[quality.first][quality.second];
+            quality_cache[quality.first][quality.second] += item_count;
         }
         return VisitResponse::NEXT;
     } );

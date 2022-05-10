@@ -460,6 +460,27 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
     }
 }
 
+TEST_CASE( "Component same as tool", "[crafting][tool]" )
+{
+    SECTION( "primitive_hammer with one rock" ) {
+        std::vector<item> tools;
+        tools.emplace_back( "rock" );
+        tools.emplace_back( "2x4" );
+        tools.emplace_back( "thread", calendar::turn, 100 );
+
+        prep_craft( recipe_id( "primitive_hammer" ), tools, false );
+    }
+    SECTION( "primitive_hammer with two rocks" ) {
+        std::vector<item> tools;
+        tools.emplace_back( "rock" );
+        tools.emplace_back( "rock" );
+        tools.emplace_back( "2x4" );
+        tools.emplace_back( "thread", calendar::turn, 100 );
+
+        prep_craft( recipe_id( "primitive_hammer" ), tools, true );
+    }
+}
+
 // Resume the first in progress craft found in the player's inventory
 static int resume_craft()
 {
