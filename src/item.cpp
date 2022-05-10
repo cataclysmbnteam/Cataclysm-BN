@@ -126,7 +126,6 @@ static const gun_mode_id gun_mode_REACH( "REACH" );
 static const itype_id itype_barrel_small( "barrel_small" );
 static const itype_id itype_blood( "blood" );
 static const itype_id itype_brass_catcher( "brass_catcher" );
-static const itype_id itype_bullet_crossbow( "bullet_crossbow" );
 static const itype_id itype_cig_butt( "cig_butt" );
 static const itype_id itype_cig_lit( "cig_lit" );
 static const itype_id itype_cigar_butt( "cigar_butt" );
