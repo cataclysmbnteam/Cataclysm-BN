@@ -872,6 +872,20 @@ void iexamine::elevator( player &p, const tripoint &examp )
     tripoint original_floor_omt = ms_to_omt_copy( g->m.getabs( examp ) );
     tripoint new_floor_omt = original_floor_omt + tripoint( point_zero, movez );
 
+    // move along every item in the elevator
+    // FIXME: make it sqaure instaed of circular
+    for ( const tripoint &pos : closest_points_first( p.pos(), 10 ) ) {
+        if( g->m.ter( pos ) == ter_id( "t_elevator" ) ) {
+            map_stack items = get_map().i_at( pos );
+            tripoint dest = tripoint( pos.x + 1, pos.y, pos.z + movez );
+            for( auto it : items ) {
+                Messages::add_msg( string_format("moving %s in %d,%d,%d to %d,%d,%d", it.tname(), pos.x, pos.y, pos.z, dest.x, dest.y, dest.z) );
+                get_map().add_item_or_charges( dest, it, false );
+                get_map().i_rem( pos, &it );
+            }
+        }
+    }
+
     // first find critters in the destination elevator and move them out of the way
     for( Creature &critter : g->all_creatures() ) {
         if( critter.is_player() ) {
