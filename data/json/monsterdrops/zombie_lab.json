@@ -35,7 +35,6 @@
     "items": [
       [ "burnt_out_bionic", 60 ],
       [ "bio_batteries", 30 ],
-      [ "bio_power_storage", 30 ],
       [ "bio_metabolics", 5 ],
       [ "bio_ethanol", 5 ],
       [ "bio_ups", 10 ],

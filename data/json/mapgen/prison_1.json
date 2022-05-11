@@ -461,6 +461,7 @@
         "R": [
           { "item": "dissection", "chance": 60 },
           { "item": "bionics_common", "chance": 10 },
+          { "item": "bionic_power_storage_civ", "chance": 5 },
           { "item": "mut_lab", "chance": 5 }
         ],
         "?": { "item": "autodoc_supplies", "chance": 100 }

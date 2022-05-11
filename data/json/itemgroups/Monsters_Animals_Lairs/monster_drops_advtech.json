@@ -136,7 +136,6 @@
       { "item": "bio_armor_legs", "prob": 2 },
       { "item": "bio_armor_eyes", "prob": 2 },
       { "item": "bio_razors", "prob": 2 },
-      { "item": "bio_power_storage", "prob": 1 },
       { "item": "bio_torsionratchet", "prob": 1 }
     ]
   }
