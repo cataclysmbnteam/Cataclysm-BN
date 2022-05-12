@@ -3372,7 +3372,7 @@
     ]
   },
   {
-    "id": "wardrode_sporting_misc",
+    "id": "wardrobe_sporting_misc",
     "type": "item_group",
     "//": "Assorted clothing or other wearable items for domestic wardrobes, outdoors and sporting good items.",
     "subtype": "distribution",

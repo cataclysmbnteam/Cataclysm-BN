@@ -418,7 +418,7 @@
         "distribution": [ { "group": "suits_mens", "prob": 75 }, { "group": "suits_unisex", "prob": 25 } ],
         "prob": 25
       },
-      { "group": "wardrode_sporting_misc", "prob": 50 }
+      { "group": "wardrobe_sporting_misc", "prob": 50 }
     ]
   },
   {
@@ -437,7 +437,7 @@
         "distribution": [ { "group": "suits_womens", "prob": 75 }, { "group": "suits_unisex", "prob": 25 } ],
         "prob": 25
       },
-      { "group": "wardrode_sporting_misc", "prob": 50 }
+      { "group": "wardrobe_sporting_misc", "prob": 50 }
     ]
   },
   {
