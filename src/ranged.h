@@ -92,9 +92,9 @@ int throw_cost( const player &c, const item &to_throw );
 
 /** Penalties potentially incurred by STR_DRAW weapons */
 float get_str_draw_penalty( const item &it, const Character &p );
-float get_str_draw_damage_penalty( const item &it, const Character &p );
-float get_str_draw_dispersion_penalty( const item &it, const Character &p );
-float get_str_draw_range_penalty( const item &it, const Character &p );
+float str_draw_damage_modifier( const item &it, const Character &p );
+float str_draw_dispersion_modifier( const item &it, const Character &p );
+float str_draw_range_modifier( const item &it, const Character &p );
 
 /** AoE attack, with area given by shape */
 void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &attacker );
