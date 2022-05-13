@@ -128,13 +128,13 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "flintlock_pouch_reenactor",
-    "entries": [ { "item": "flintlock_ammo", "charges": 14 } ]
+    "entries": [ { "item": "flintlock_ammo", "charges": 20 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "bandolier_ww_gunslinger",
-    "entries": [ { "item": "45colt_jhp", "charges": 18 } ]
+    "entries": [ { "item": "45colt_jhp", "charges": 34 } ]
   },
   {
     "type": "profession_item_substitutions",
@@ -3330,7 +3330,7 @@
         "entries": [
           { "item": "rifle_flintlock", "ammo-item": "flintlock_ammo", "charges": 1, "contents-item": "shoulder_strap" },
           { "item": "flintlock_pouch", "contents-group": "flintlock_pouch_reenactor" },
-          { "item": "flintlock_ammo", "charges": 15 },
+          { "item": "flintlock_ammo", "charges": 9 },
           { "item": "vinegar", "container-item": "bottle_plastic_small" },
           { "item": "lamp_oil", "container-item": "bottle_plastic_small" }
         ]
@@ -3395,7 +3395,7 @@
         "entries": [
           { "item": "rifle_flintlock", "ammo-item": "flintlock_ammo", "charges": 1, "contents-item": "shoulder_strap" },
           { "item": "flintlock_pouch", "contents-group": "flintlock_pouch_reenactor" },
-          { "item": "flintlock_ammo", "charges": 15 },
+          { "item": "flintlock_ammo", "charges": 9 },
           { "item": "vinegar", "container-item": "bottle_plastic_small" },
           { "item": "lamp_oil", "container-item": "bottle_plastic_small" }
         ]
