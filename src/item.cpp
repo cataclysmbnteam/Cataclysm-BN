@@ -1544,7 +1544,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                                   get_min_str() ) );
                 }
             } else {
-                req.push_back( string_format( "%s %d", _( "strength" ), get_min_str()) );
+                req.push_back( string_format( "%s %d", _( "strength" ), get_min_str() ) );
             }
         }
         if( type->min_dex > 0 ) {
