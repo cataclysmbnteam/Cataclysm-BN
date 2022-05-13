@@ -11068,10 +11068,14 @@ struct SignalDefs {
     const char* name;
 };
 
-
+#if defined(__linux__)
+// https://sourceware.org/git/?p=glibc.git;a=blob;f=NEWS;h=85e84fe53699fe9e392edffa993612ce08b2954a;hb=HEAD
+static constexpr std::size_t sigStackSize = _SC_SIGSTKSZ;
+#else
 // 32kb for the alternate stack seems to be sufficient. However, this value
 // is experimentally determined, so that's not guaranteed.
     static constexpr std::size_t sigStackSize = 32768 >= MINSIGSTKSZ ? 32768 : MINSIGSTKSZ;
+#endif
 
 static SignalDefs signalDefs[] = {
     { SIGINT,  "SIGINT - Terminal interrupt signal" },
