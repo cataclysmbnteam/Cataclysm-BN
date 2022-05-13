@@ -3262,13 +3262,16 @@
     "//": "clothing designed to hold a small weapon worn by people.",
     "subtype": "distribution",
     "items": [
-      { "item": "bootstrap", "prob": 20 },
-      { "item": "bootsheath", "prob": 50 },
-      { "item": "sheath", "prob": 80 },
-      { "item": "back_holster", "prob": 10 },
-      { "item": "holster", "prob": 30 },
-      { "item": "sholster", "prob": 10 },
-      { "item": "bholster", "prob": 10 }
+      { "item": "back_holster", "prob": 5 },
+      { "item": "bholster", "prob": 10 },
+      { "item": "bootsheath", "prob": 10 },
+      { "item": "bootstrap", "prob": 5 },
+      { "item": "bow_sling", "prob": 5 },
+      { "item": "bscabbard", "prob": 5 },
+      { "item": "holster", "prob": 20 },
+      { "item": "scabbard", "prob": 10 },
+      { "item": "sheath", "prob": 25 },
+      { "item": "sholster", "prob": 5 }
     ]
   },
   {
@@ -3290,27 +3293,47 @@
     "id": "accesories_personal_unisex",
     "type": "item_group",
     "//": "unisex personal accessories",
-    "subtype": "collection",
+    "subtype": "distribution",
     "items": [
       { "group": "clothing_glasses", "prob": 10 },
       { "group": "clothing_watch", "prob": 10 },
-      { "group": "accessory_ring", "prob": 15 },
-      { "group": "accessory_earring" },
-      { "group": "accessory_bracelet", "prob": 15 },
-      { "group": "accessory_teeth", "prob": 15 },
-      { "group": "accessory_necklace", "prob": 15 },
-      { "group": "accessory_cat", "prob": 15 },
-      { "group": "accessory_weaponcarry", "prob": 15 },
-      { "group": "accessory_sportsgear", "prob": 15 },
-      { "item": "folding_poncho", "prob": 10 },
-      { "item": "american_flag", "prob": 2 },
-      { "item": "tool_belt", "prob": 10 },
-      { "item": "leather_belt", "prob": 60 },
-      { "item": "wearable_light", "prob": 30 },
-      { "item": "binoculars", "prob": 10 },
-      { "item": "whistle", "prob": 30 },
-      { "item": "harmonica_holder", "prob": 10 },
-      { "group": "flask_liquor", "prob": 10 }
+      {
+        "distribution": [
+          { "group": "accessory_bracelet", "prob": 20 },
+          { "group": "accessory_earring", "prob": 20 },
+          { "group": "accessory_necklace", "prob": 20 },
+          { "group": "accessory_ring", "prob": 30 },
+          { "group": "accessory_teeth", "prob": 10 }
+        ],
+        "prob": 25
+      },
+      {
+        "distribution": [ { "group": "accessory_sportsgear", "prob": 50 }, { "group": "accessory_weaponcarry", "prob": 50 } ],
+        "prob": 25
+      },
+      {
+        "distribution": [
+          { "group": "accessory_cat", "prob": 10 },
+          { "item": "folding_poncho", "prob": 10 },
+          { "item": "american_flag", "prob": 10 },
+          { "item": "tool_belt", "prob": 10 },
+          { "item": "leather_belt", "prob": 20 },
+          { "item": "wearable_light", "prob": 15 },
+          { "item": "binoculars", "prob": 5 },
+          { "item": "whistle", "prob": 5 },
+          { "item": "harmonica_holder", "prob": 5 },
+          { "group": "flask_liquor", "prob": 10 }
+        ],
+        "prob": 10
+      },
+      {
+        "distribution": [
+          { "group": "everyday_gear", "prob": 75 },
+          { "group": "ammo_common", "prob": 15 },
+          { "item": "condom", "prob": 10, "count": [ 1, 5 ] }
+        ],
+        "prob": 20
+      }
     ]
   },
   {
@@ -3346,6 +3369,51 @@
       { "item": "cufflinks_intricate", "prob": 5 },
       { "item": "ring_signet", "prob": 30 },
       { "item": "tie_skinny", "prob": 20 }
+    ]
+  },
+  {
+    "id": "wardrobe_sporting_misc",
+    "type": "item_group",
+    "//": "Assorted clothing or other wearable items for domestic wardrobes, outdoors and sporting good items.",
+    "subtype": "distribution",
+    "items": [
+      {
+        "distribution": [
+          { "item": "bandolier_pistol", "prob": 10 },
+          { "item": "bandolier_rifle", "prob": 20 },
+          { "item": "bandolier_shotgun", "prob": 10 },
+          { "item": "bandolier_wrist", "prob": 5 },
+          { "item": "quiver", "prob": 30 },
+          { "item": "quiver_large", "prob": 20 },
+          { "item": "torso_bandolier_shotgun", "prob": 5 }
+        ],
+        "prob": 25
+      },
+      {
+        "distribution": [
+          { "item": "fishing_waders", "prob": 25 },
+          { "item": "flotation_vest", "prob": 20 },
+          { "item": "sleeping_bag", "prob": 25 },
+          { "item": "sleeping_bag_roll", "prob": 25 },
+          { "item": "wetsuit", "prob": 5 }
+        ],
+        "prob": 25
+      },
+      {
+        "distribution": [
+          { "item": "armguard_hard", "prob": 5 },
+          { "item": "boxing_gloves", "prob": 20 },
+          { "item": "chestguard_hard", "prob": 5 },
+          { "item": "fencing_jacket", "prob": 5 },
+          { "item": "fencing_mask", "prob": 10 },
+          { "item": "fencing_pants", "prob": 5 },
+          { "item": "football_armor", "prob": 10 },
+          { "item": "golf_bag", "prob": 10 },
+          { "item": "helmet_football", "prob": 20 },
+          { "item": "legguard_hard", "prob": 10 }
+        ],
+        "prob": 50
+      }
     ]
   }
 ]
