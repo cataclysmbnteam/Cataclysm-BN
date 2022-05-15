@@ -2792,9 +2792,6 @@ void item::armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *pa
     }
     if( ( is_power_armor() || has_flag( flag_POWERARMOR_MOD ) ) &&
         parts->test( iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR ) ) {
-        info.push_back( iteminfo( "DESCRIPTION",
-                                  _( "* This gear is a part of power armor, and can run off a "
-                                     "<info>universal power supply</info> or a <info>bionic armor interface</info>." ) ) );
         if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR_RADIATIONHINT ) ) {
             if( covers( bp_head ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
@@ -5534,7 +5531,7 @@ int item::get_base_env_resist_w_filter() const
 
 bool item::is_power_armor() const
 {
-    return ( has_flag( flag_POWERARMOR_EXO ) || has_flag( flag_POWERARMOR_EXTERNAL ) )
+    return ( has_flag( flag_POWERARMOR_EXO ) || has_flag( flag_POWERARMOR_EXTERNAL ) );
 }
 
 int item::get_encumber( const Character &p ) const

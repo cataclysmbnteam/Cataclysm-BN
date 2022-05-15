@@ -806,13 +806,15 @@
     "id": "POWERARMOR_EXO",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "//": "Defines the main exo that all other parts attach to."
+    "//": "Defines the main exo that all other parts attach to.",
+    "info": "This is a suit of power armor, and can run off a <info>universal power supply</info> or a <info>bionic armor interface</info>." 
   },
   {
     "id": "POWERARMOR_EXTERNAL",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "//": "Defines the other parts that activate simultaneously with the exo."
+    "//": "Defines the other parts that activate simultaneously with the exo.",
+    "info": "This is a piece of power armor."
   },
   {
     "id": "POWERARMOR_MOD",
