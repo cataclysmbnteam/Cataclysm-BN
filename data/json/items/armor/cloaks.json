@@ -202,7 +202,7 @@
       "msg": "The %s flickers for a moment as it becomes opaque.",
       "target": "optical_cloak"
     },
-    "covers": [ "TORSO", "ARMS", "LEGS" ]
+    "covers": [ "torso", "arms", "legs" ]
   },
   {
     "id": "poncho",
