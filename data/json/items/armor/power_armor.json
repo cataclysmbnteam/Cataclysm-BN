@@ -70,7 +70,6 @@
     "warmth": 90,
     "material_thickness": 11,
     "environmental_protection": 16,
-    "ammo": "battery",
     "use_action": { "type": "transform", "msg": "The %s engages.", "target": "power_armor_basic_on", "active": true },
     "flags": [ "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
   },
@@ -113,7 +112,6 @@
     "warmth": 60,
     "material_thickness": 12,
     "environmental_protection": 16,
-    "ammo": "battery",
     "use_action": { "type": "transform", "msg": "The %s engages.", "target": "power_armor_heavy_on", "active": true },
     "flags": [ "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
   },
@@ -155,7 +153,6 @@
     "warmth": 60,
     "material_thickness": 9,
     "environmental_protection": 16,
-    "ammo": "battery",
     "use_action": { "type": "transform", "msg": "The %s engages.", "target": "power_armor_light_on", "active": true },
     "flags": [ "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
   },
