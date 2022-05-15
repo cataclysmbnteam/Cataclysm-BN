@@ -1262,6 +1262,11 @@
     "context": [  ]
   },
   {
+    "id": "CROSSBOW",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "CUSTOM_EXPLOSION",
     "type": "json_flag",
     "context": [  ]
