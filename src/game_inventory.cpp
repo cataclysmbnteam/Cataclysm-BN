@@ -57,7 +57,7 @@ static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 
-static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
+static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
 
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_electronics( "electronics" );
@@ -77,7 +77,6 @@ static const std::string flag_FILTHY( "FILTHY" );
 static const std::string flag_IN_CBM( "IN_CBM" );
 static const std::string flag_MUSHY( "MUSHY" );
 static const std::string flag_LIQUIDCONT( "LIQUIDCONT" );
-static const std::string flag_NO_PACKED( "NO_PACKED" );
 static const std::string flag_NO_STERILE( "NO_STERILE" );
 static const std::string flag_USE_EAT_VERB( "USE_EAT_VERB" );
 
@@ -1703,14 +1702,9 @@ class bionic_install_preset: public inventory_selector_preset
             const itype *itemtype = it->type;
             const bionic_id &bid = itemtype->bionic->id;
 
-            if( it->has_flag( flag_FILTHY ) ) {
+            if( it->has_fault( fault_bionic_nonsterile ) ) {
                 // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
-                return _( "/!\\ CBM is highly contaminated. /!\\" );
-            } else if( it->has_flag( flag_NO_STERILE ) ) {
-                // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
-                return _( "/!\\ CBM is not sterile. /!\\ Please use autoclave to sterilize." );
-            } else if( it->has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
-                return _( "CBM already deployed.  Please reset to factory state." );
+                return _( "/!\\ CBM is not sterile. /!\\ Please use autoclave or other methods to sterilize." );
             } else if( pa.has_bionic( bid ) ) {
                 return _( "CBM already installed" );
             } else if( !pa.can_install_cbm_on_bp( get_occupied_bodyparts( bid ) ) ) {
@@ -1812,12 +1806,8 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
             const itype *itemtype = it->type;
             const bionic_id &bid = itemtype->bionic->id;
 
-            if( it->has_flag( flag_FILTHY ) ) {
-                return _( "CBM is filthy." );
-            } else if( it->has_flag( flag_NO_STERILE ) ) {
+            if( it->has_fault( fault_bionic_nonsterile ) ) {
                 return _( "CBM is not sterile." );
-            } else if( it->has_fault( fault_bionic_salvaged ) ) {
-                return _( "CBM is already deployed." );
             } else if( pa.has_bionic( bid ) ) {
                 return _( "CBM is already installed." );
             } else if( bid->upgraded_bionic &&
@@ -1988,12 +1978,6 @@ class bionic_sterilize_preset : public inventory_selector_preset
 
         std::string get_denial( const item_location &loc ) const override {
             auto reqs = *requirement_id( "autoclave_item" );
-            if( loc.get_item()->has_flag( flag_FILTHY ) ) {
-                return  _( "CBM is filthy.  Wash it first." );
-            }
-            if( loc.get_item()->has_flag( flag_NO_PACKED ) ) {
-                return  _( "You should put this CBM in an autoclave pouch to keep it sterile." );
-            }
             if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
                 return _( "You need at least 2L of water." );
             }

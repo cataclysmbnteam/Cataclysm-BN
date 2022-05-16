@@ -135,6 +135,8 @@ static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_water_clean( "water_clean" );
 
+static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
+
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_firstaid( "firstaid" );
@@ -191,8 +193,6 @@ static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
 static const std::string flag_ALLOWS_NATURAL_ATTACKS( "ALLOWS_NATURAL_ATTACKS" );
 static const std::string flag_AURA( "AURA" );
 static const std::string flag_CABLE_SPOOL( "CABLE_SPOOL" );
-static const std::string flag_NO_PACKED( "NO_PACKED" );
-static const std::string flag_NO_STERILE( "NO_STERILE" );
 static const std::string flag_NO_UNWIELD( "NO_UNWIELD" );
 static const std::string flag_PERPETUAL( "PERPETUAL" );
 static const std::string flag_PERSONAL( "PERSONAL" );
@@ -2031,8 +2031,7 @@ void Character::perform_uninstall( bionic_id bid, int difficulty, int success,
         if( bid->itype().is_valid() ) {
             cbm = item( bid.c_str() );
         }
-        cbm.set_flag( flag_NO_STERILE );
-        cbm.set_flag( flag_NO_PACKED );
+        cbm.faults.emplace( fault_bionic_nonsterile );
         g->m.add_item( pos(), cbm );
     } else {
         g->events().send<event_type::fails_to_remove_cbm>( getID(), bid );
@@ -2104,8 +2103,7 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
         patient.remove_bionic( target_cbm.id );
         const itype_id iid = itemtype.is_valid() ? itemtype : itype_burnt_out_bionic;
         item cbm( iid, calendar::start_of_cataclysm );
-        cbm.set_flag( flag_NO_STERILE );
-        cbm.set_flag( flag_NO_PACKED );
+        cbm.faults.emplace( fault_bionic_nonsterile );
         g->m.add_item( patient.pos(), cbm );
     } else {
         bionics_uninstall_failure( installer, patient, difficulty, success, adjusted_skill );
