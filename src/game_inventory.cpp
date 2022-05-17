@@ -77,6 +77,7 @@ static const std::string flag_FILTHY( "FILTHY" );
 static const std::string flag_IN_CBM( "IN_CBM" );
 static const std::string flag_MUSHY( "MUSHY" );
 static const std::string flag_LIQUIDCONT( "LIQUIDCONT" );
+static const std::string flag_NO_PACKED( "NO_PACKED" );
 static const std::string flag_NO_STERILE( "NO_STERILE" );
 static const std::string flag_USE_EAT_VERB( "USE_EAT_VERB" );
 
