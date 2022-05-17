@@ -416,6 +416,7 @@
         [ "splinter", 40 ],
         [ "2x4", 6 ],
         [ "stick", 8 ],
+        [ "stick_long", 4 ],
         [ "bone", 40 ],
         [ "bone_human", 40 ],
         [ "bone_tainted", 40 ],
