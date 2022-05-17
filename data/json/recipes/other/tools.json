@@ -1963,7 +1963,7 @@
     "time": "1 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
+    "components": [ [ [ "2x4", 1 ] ] ]
   },
   {
     "type": "recipe",
