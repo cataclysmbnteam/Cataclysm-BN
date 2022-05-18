@@ -329,8 +329,8 @@
   },
   {
     "type": "mutation",
-    "id": "TOUGH_FEET",
-    "copy-from": "TOUGH_FEET",
+    "id": "PADDED_FEET",
+    "copy-from": "PADDED_FEET",
     "extend": { "category": [ "MASTODON" ] }
   },
   {

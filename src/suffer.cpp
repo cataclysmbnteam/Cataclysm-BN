@@ -120,6 +120,8 @@ static const trait_id trait_CHEMIMBALANCE( "CHEMIMBALANCE" );
 static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
 static const trait_id trait_DEBUG_STORAGE( "DEBUG_STORAGE" );
 static const trait_id trait_FRESHWATEROSMOSIS( "FRESHWATEROSMOSIS" );
+static const trait_id trait_GILLS( "GILLS" );
+static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
 static const trait_id trait_JITTERY( "JITTERY" );
 static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_LEAVES( "LEAVES" );
@@ -247,7 +249,7 @@ void Character::suffer_mutation_power( const mutation_branch &mdata,
 
 void Character::suffer_while_underwater()
 {
-    if( !has_trait_flag( "BREATHE_UNDERWATER" ) ) {
+    if( !has_trait( trait_GILLS ) && !has_trait( trait_GILLS_CEPH ) ) {
         oxygen--;
     }
     if( oxygen < 12 && worn_with_flag( "REBREATHER" ) ) {

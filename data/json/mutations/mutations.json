@@ -240,17 +240,6 @@
   },
   {
     "type": "mutation",
-    "id": "TOUGH_FEET",
-    "name": { "str": "Tough Feet" },
-    "points": 1,
-    "description": "The bottoms of your feet are tough, and you are accustomed to going barefoot.  You receive no movement penalty for not wearing shoes, and your feet are more resistant to damage.",
-    "armor": [ { "parts": [ "foot_l", "foot_r" ], "physical": 2, "acid": 2 } ],
-    "starting_trait": true,
-    "valid": false,
-    "flags": [ "BAREFOOT_OK" ]
-  },
-  {
-    "type": "mutation",
     "id": "BOVINE_BULK",
     "name": { "str": "Sheer Bulk" },
     "points": 2,
@@ -1525,8 +1514,7 @@
     "description": "You've grown a set of gills in your neck, allowing you to breathe underwater.  Slightly increases wet benefits.",
     "category": [ "FISH" ],
     "cancels": [ "GILLS_CEPH" ],
-    "wet_protection": [ { "part": "head", "good": 1 } ],
-    "flags": [ "BREATHE_UNDERWATER" ]
+    "wet_protection": [ { "part": "head", "good": 1 } ]
   },
   {
     "type": "mutation",
@@ -1538,8 +1526,7 @@
     "description": "You've grown a set of gills, running from your neck up behind your ears.  They allow you to breathe underwater and slightly increase wet benefits.",
     "category": [ "CEPHALOPOD" ],
     "cancels": [ "GILLS" ],
-    "wet_protection": [ { "part": "head", "good": 1 } ],
-    "flags": [ "BREATHE_UNDERWATER" ]
+    "wet_protection": [ { "part": "head", "good": 1 } ]
   },
   {
     "type": "mutation",
@@ -2683,10 +2670,11 @@
     "name": { "str": "Padded Feet" },
     "points": 1,
     "visibility": 1,
-    "description": "The bottoms of your feet are strongly padded.  You receive no movement penalty for not wearing shoes, and even receive a 10% bonus when moving barefoot.",
+    "description": "The bottoms of your feet are strongly padded and more resistant to damage.  If you're not wearing footwear, you'll receive a 10% bonus to movement speed.",
+    "starting_trait": true,
+    "armor": [ { "parts": [ "foot_l", "foot_r" ], "physical": 2, "acid": 2 } ],
     "types": [ "LEGS" ],
-    "category": [ "BEAST", "URSINE", "FELINE", "LUPINE" ],
-    "flags": [ "BAREFOOT_OK" ]
+    "category": [ "BEAST", "URSINE", "FELINE", "LUPINE" ]
   },
   {
     "type": "mutation",
@@ -2728,7 +2716,7 @@
     "visibility": 2,
     "ugliness": 2,
     "mixed_effect": true,
-    "description": "Your feet have fused into hooves.  This allows kicking attacks to do much more damage, provides natural armor, and removes the need to wear shoes; however, you cannot wear shoes of any kind.  Reduces wet effects.",
+    "description": "Your feet have fused into hooves.  This allows kicking attacks to do much more damage and provides natural armor; however, you cannot wear shoes of any kind.  Reduces wet effects.",
     "types": [ "LEGS" ],
     "category": [ "CATTLE", "CHIMERA" ],
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ],
@@ -2740,8 +2728,7 @@
       "chance": 15,
       "base_damage": { "damage_type": "bash", "amount": 10 },
       "strength_damage": { "damage_type": "bash", "amount": 2 }
-    },
-    "flags": [ "BAREFOOT_OK" ]
+    }
   },
   {
     "type": "mutation",
@@ -5197,8 +5184,7 @@
     "threshreq": [ "THRESH_PLANT" ],
     "changes_to": [ "ROOTS3" ],
     "category": [ "PLANT" ],
-    "encumbrance_covered": [ [ "foot_l", 10 ], [ "foot_r", 10 ] ],
-    "flags": [ "BAREFOOT_OK" ]
+    "encumbrance_covered": [ [ "foot_l", 10 ], [ "foot_r", 10 ] ]
   },
   {
     "type": "mutation",
@@ -5623,8 +5609,7 @@
     ],
     "restricts_gear": [ "foot_l", "foot_r" ],
     "movecost_modifier": 1.2,
-    "noise_modifier": 0.0,
-    "flags": [ "BAREFOOT_OK" ]
+    "noise_modifier": 0.0
   },
   {
     "type": "mutation",
