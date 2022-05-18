@@ -1104,8 +1104,6 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 
 #### Flags
 
-- ```BAREFOOT_OK``` This mutation negates the movecost penalty for going without footwear.
-- ```BREATHE_UNDERWATER``` Immunity to drowning.
 - ```NO_RADIATION``` This mutation grants immunity to radiations.
 - ```NO_THIRST``` Your thirst is not modified by food or drinks.
 - ```SIZE_HUGE``` You will count as huge in size instead of medium. Lowest priority.
