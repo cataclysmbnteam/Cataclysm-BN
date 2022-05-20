@@ -1166,7 +1166,7 @@ void mtype::add_regeneration_modifier( JsonArray inner, const std::string & )
                       id.c_str(), effect_name );
         }
     }
-    int amount = inner.get_int( 1 );
+    float amount = inner.get_float( 1 );
     regeneration_modifiers.emplace( effect, amount );
 }
 
