@@ -513,6 +513,19 @@ struct enum_traits<mutagen_technique> {
     static constexpr mutagen_technique last = mutagen_technique::num_mutagen_techniques;
 };
 
+enum class mutation_resize : int {
+    TINY,
+    SMALL,
+    LARGE,
+    HUGE,
+    num_mutation_resize // last
+};
+
+template<>
+struct enum_traits<mutation_resize> {
+    static constexpr mutation_resize last = mutation_resize::num_mutation_resize;
+};
+
 enum class mutagen_rejection {
     accepted,
     rejected,
