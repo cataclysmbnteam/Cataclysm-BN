@@ -513,7 +513,7 @@ struct enum_traits<mutagen_technique> {
     static constexpr mutagen_technique last = mutagen_technique::num_mutagen_techniques;
 };
 
-enum mutation_resize : int {
+enum mutation_resize {
     TINY,
     SMALL,
     LARGE,
