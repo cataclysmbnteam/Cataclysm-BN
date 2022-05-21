@@ -28,6 +28,30 @@ using trait_reader = auto_flags_reader<trait_id>;
 TraitSet trait_blacklist;
 TraitGroupMap trait_groups;
 
+namespace io
+{
+template<>
+std::string enum_to_string<m_size>( m_size data )
+{
+    switch( data ) {
+        case m_size::MS_TINY:
+            return "TINY";
+        case m_size::MS_SMALL:
+            return "SMALL";
+        case m_size::MS_MEDIUM:
+            return "MEDIUM";
+        case m_size::MS_LARGE:
+            return "LARGE";
+        case m_size::MS_HUGE:
+            return "HUGE";
+        case m_size::num_m_size:
+            break;
+    }
+    debugmsg( "Invalid m_size" );
+    abort();
+}
+} // namespace io
+
 namespace
 {
 generic_factory<mutation_branch> trait_factory( "trait" );

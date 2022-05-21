@@ -52,6 +52,8 @@ struct dealt_projectile_attack;
 struct pathfinding_settings;
 struct trap;
 
+template<typename T> struct enum_traits;
+
 enum m_size : int {
     MS_TINY = 1,    // Squirrel
     MS_SMALL,      // Dog
@@ -59,6 +61,11 @@ enum m_size : int {
     MS_LARGE,    // Cow
     MS_HUGE,    // TAAAANK
     num_m_size // last
+};
+
+template<>
+struct enum_traits<m_size> {
+    static constexpr m_size last = m_size::num_m_size;
 };
 
 enum FacingDirection {

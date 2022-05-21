@@ -98,27 +98,6 @@ std::string enum_to_string<mutagen_technique>( mutagen_technique data )
     abort();
 }
 
-template<>
-std::string enum_to_string<m_size>( m_size data )
-{
-    switch( data ) {
-        case m_size::MS_TINY:
-            return "TINY";
-        case m_size::MS_SMALL:
-            return "SMALL";
-        case m_size::MS_MEDIUM:
-            return "MEDIUM";
-        case m_size::MS_LARGE:
-            return "LARGE";
-        case m_size::MS_HUGE:
-            return "HUGE";
-        case m_size::num_m_size:
-            break;
-    }
-    debugmsg( "Invalid m_size" );
-    abort();
-}
-
 } // namespace io
 
 bool Character::has_trait( const trait_id &b ) const
