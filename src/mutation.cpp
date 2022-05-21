@@ -99,21 +99,23 @@ std::string enum_to_string<mutagen_technique>( mutagen_technique data )
 }
 
 template<>
-std::string enum_to_string<mutation_resize>( mutation_resize data )
+std::string enum_to_string<m_size>( m_size data )
 {
     switch( data ) {
-        case mutation_resize::MUT_TINY:
+        case m_size::MS_TINY:
             return "TINY";
-        case mutation_resize::MUT_SMALL:
+        case m_size::MS_SMALL:
             return "SMALL";
-        case mutation_resize::MUT_LARGE:
+        case m_size::MS_MEDIUM:
+            return "MEDIUM";
+        case m_size::MS_LARGE:
             return "LARGE";
-        case mutation_resize::MUT_HUGE:
+        case m_size::MS_HUGE:
             return "HUGE";
-        case mutation_resize::num_mutation_resize:
+        case m_size::num_m_size:
             break;
     }
-    debugmsg( "Invalid mutation_resize" );
+    debugmsg( "Invalid m_size" );
     abort();
 }
 

@@ -435,6 +435,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         no_cbm_on_bp.emplace( bodypart_str_id( s ) );
     }
 
+    optional( jo, was_loaded, "body_size", body_size );
+
     optional( jo, was_loaded, "category", category, string_reader{} );
 
     for( JsonArray ja : jo.get_array( "spells_learned" ) ) {

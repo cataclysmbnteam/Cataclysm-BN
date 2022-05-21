@@ -12,6 +12,7 @@
 
 #include "bodypart.h"
 #include "calendar.h"
+#include "creature.h"
 #include "damage.h"
 #include "hash_utils.h"
 #include "memory_fast.h"
@@ -238,6 +239,8 @@ struct mutation_branch {
 
         /**List of body parts locked out of bionics*/
         std::set<bodypart_str_id> no_cbm_on_bp;
+
+        m_size body_size = num_m_size;
 
         // amount of mana added or subtracted from max
         float mana_modifier = 0.0f;
@@ -511,19 +514,6 @@ enum class mutagen_technique : int {
 template<>
 struct enum_traits<mutagen_technique> {
     static constexpr mutagen_technique last = mutagen_technique::num_mutagen_techniques;
-};
-
-enum mutation_resize {
-    MUT_TINY,
-    MUT_SMALL,
-    MUT_LARGE,
-    MUT_HUGE,
-    num_mutation_resize // last
-};
-
-template<>
-struct enum_traits<mutation_resize> {
-    static constexpr mutation_resize last = mutation_resize::num_mutation_resize;
 };
 
 enum class mutagen_rejection {

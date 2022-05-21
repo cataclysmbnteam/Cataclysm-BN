@@ -57,7 +57,8 @@ enum m_size : int {
     MS_SMALL,      // Dog
     MS_MEDIUM,    // Human
     MS_LARGE,    // Cow
-    MS_HUGE     // TAAAANK
+    MS_HUGE,    // TAAAANK
+    num_m_size // last
 };
 
 enum FacingDirection {
