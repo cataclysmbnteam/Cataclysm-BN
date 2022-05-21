@@ -102,13 +102,13 @@ template<>
 std::string enum_to_string<mutation_resize>( mutation_resize data )
 {
     switch( data ) {
-        case mutation_resize::TINY:
+        case mutation_resize::MUT_TINY:
             return "TINY";
-        case mutation_resize::SMALL:
+        case mutation_resize::MUT_SMALL:
             return "SMALL";
-        case mutation_resize::LARGE:
+        case mutation_resize::MUT_LARGE:
             return "LARGE";
-        case mutation_resize::HUGE:
+        case mutation_resize::MUT_HUGE:
             return "HUGE";
         case mutation_resize::num_mutation_resize:
             break;

@@ -514,10 +514,10 @@ struct enum_traits<mutagen_technique> {
 };
 
 enum mutation_resize {
-    TINY,
-    SMALL,
-    LARGE,
-    HUGE,
+    MUT_TINY,
+    MUT_SMALL,
+    MUT_LARGE,
+    MUT_HUGE,
     num_mutation_resize // last
 };
 
