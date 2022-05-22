@@ -69,6 +69,7 @@
   {
     "type": "overmap_terrain",
     "id": "s_lot",
+	"copy-from": "generic_parking",
     "name": "parking lot",
     "sym": "O",
     "color": "dark_gray",
