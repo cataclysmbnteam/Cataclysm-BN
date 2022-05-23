@@ -3728,7 +3728,7 @@
     "category": [ "URSINE", "CATTLE", "LIZARD", "CHIMERA" ],
     "passive_mods": { "str_mod": 2 },
     "weight_capacity_modifier": 1.05,
-    "flags": [ "SIZE_LARGE" ]
+    "body_size": "LARGE"
   },
   {
     "type": "mutation",
