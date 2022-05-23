@@ -178,6 +178,8 @@ void Character::unset_mutation( const trait_id &trait_ )
     my_mutations.erase( iter );
     mutation_loss_effect( trait );
     recalc_sight_limits();
+    // For some reason it doesn't do this from mutation_loss_effect correctly.
+    recalculate_size();
     reset_encumbrance();
 }
 
@@ -245,16 +247,13 @@ const resistances &mutation_branch::damage_resistance( body_part bp ) const
 
 void Character::recalculate_size()
 {
-    if( has_trait_flag( "SIZE_TINY" ) ) {
-        size_class = MS_TINY;
-    } else if( has_trait_flag( "SIZE_SMALL" ) ) {
-        size_class = MS_SMALL;
-    } else if( has_trait_flag( "SIZE_LARGE" ) ) {
-        size_class = MS_LARGE;
-    } else if( has_trait_flag( "SIZE_HUGE" ) ) {
-        size_class = MS_HUGE;
-    } else {
-        size_class = MS_MEDIUM;
+    size_class = MS_MEDIUM;
+    // Only one size-changing mutation is expected, so it will only use the first one it finds.
+    for( const mutation_branch *mut : cached_mutations ) {
+        if( mut->body_size ) {
+            size_class = *mut->body_size;
+            break;
+        }
     }
 }
 

@@ -45,9 +45,10 @@ std::string enum_to_string<m_size>( m_size data )
         case m_size::MS_HUGE:
             return "HUGE";
         case m_size::num_m_size:
+            return "num_m_size";
             break;
     }
-    debugmsg( "Invalid m_size" );
+    debugmsg( "Invalid  m_size value: %d", static_cast<int>(data));
     abort();
 }
 } // namespace io

@@ -3746,7 +3746,7 @@
     "category": [ "URSINE", "CATTLE", "LIZARD", "CHIMERA" ],
     "passive_mods": { "str_mod": 2 },
     "weight_capacity_modifier": 1.05,
-    "flags": [ "SIZE_LARGE" ]
+    "body_size": "LARGE"
   },
   {
     "type": "mutation",
@@ -3767,7 +3767,7 @@
     "fatigue_modifier": 0.15,
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
     "weight_capacity_modifier": 1.1,
-    "flags": [ "SIZE_HUGE" ]
+    "body_size": "HUGE"
   },
   {
     "type": "mutation",
@@ -3787,7 +3787,7 @@
     "passive_mods": { "str_mod": 4 },
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
     "weight_capacity_modifier": 1.1,
-    "flags": [ "SIZE_HUGE" ]
+    "body_size": "HUGE"
   },
   {
     "type": "mutation",
@@ -4082,7 +4082,7 @@
     "hp_modifier": -0.05,
     "dodge_modifier": 1,
     "weight_capacity_modifier": 0.8,
-    "flags": [ "SIZE_SMALL" ]
+    "body_size": "SMALL"
   },
   {
     "type": "mutation",
@@ -4101,7 +4101,7 @@
     "dodge_modifier": 2,
     "weight_capacity_modifier": 0.5,
     "noise_modifier": 0.0,
-    "flags": [ "SIZE_TINY" ]
+    "body_size": "TINY"
   },
   {
     "type": "mutation",
@@ -4121,7 +4121,7 @@
     "dodge_modifier": 2,
     "weight_capacity_modifier": 0.7,
     "noise_modifier": 0.0,
-    "flags": [ "SIZE_TINY" ]
+    "body_size": "TINY"
   },
   {
     "type": "mutation",

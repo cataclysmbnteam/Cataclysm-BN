@@ -55,7 +55,7 @@ struct trap;
 template<typename T> struct enum_traits;
 
 enum m_size : int {
-    MS_TINY = 1,    // Squirrel
+    MS_TINY = 0,    // Squirrel
     MS_SMALL,      // Dog
     MS_MEDIUM,    // Human
     MS_LARGE,    // Cow
