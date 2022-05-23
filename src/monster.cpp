@@ -1939,7 +1939,7 @@ float monster::stability_roll() const
         case MS_HUGE:
             size_bonus += 10;
             break;
-        case MS_MEDIUM:
+        default:
             break; // keep default
     }
 
@@ -2001,6 +2001,8 @@ float monster::fall_damage_mod() const
             return 1.4f;
         case MS_HUGE:
             return 2.0f;
+        default:
+            return 1.0f;
     }
 
     return 0.0f;
