@@ -1442,6 +1442,7 @@ completed when you wake up for the first time after 24 hours into the game.
 "can_heal_with": [ "caramel_ointement" ], // List of med that will work for you but not for anyone. See `CANT_HEAL_EVERYONE` flag for items. (default: empty)
 "allowed_category": [ "ALPHA" ], // List of category you can mutate into. (default: empty)
 "no_cbm_on_bp": [ "TORSO", "HEAD", "EYES", "MOUTH", "ARM_L" ], // List of body parts that can't receive cbms. (default: empty)
+"body_size": "LARGE", // Increase or decrease size, only one size mutation at a time will be valid. Allowed values are: `TINY`, `SMALL`, `LARGE`, `HUGE`. `MEDIUM` can be specified but has no effect, as this is the default size for players and NPCs.
 "lumination": [ [ "HEAD", 20 ], [ "ARM_L", 10 ] ], // List of glowing bodypart and the intensity of the glow as a float. (default: empty)
 "metabolism_modifier": 0.333, // Extra metabolism rate multiplier. 1.0 doubles usage, -0.5 halves.
 "fatigue_modifier": 0.5, // Extra fatigue rate multiplier. 1.0 doubles usage, -0.5 halves.

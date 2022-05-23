@@ -1106,10 +1106,6 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 
 - ```NO_RADIATION``` This mutation grants immunity to radiations.
 - ```NO_THIRST``` Your thirst is not modified by food or drinks.
-- ```SIZE_HUGE``` You will count as huge in size instead of medium. Lowest priority.
-- ```SIZE_LARGE``` You will count as large in size instead of medium. Has priority over `SIZE_HUGE`
-- ```SIZE_SMALL``` You will count as small in size instead of medium. Has priority over `SIZE_LARGE` and `SIZE_HUGE`.
-- ```SIZE_TINY``` You will count as tiny in size instead of medium. Has priority over all of the other size flags, though having multiple size mutations is not intended behavior.
 - ```UNARMED_BONUS``` You get a bonus to unarmed bash and cut damage equal to unarmed_skill/2 up to 4.
 
 

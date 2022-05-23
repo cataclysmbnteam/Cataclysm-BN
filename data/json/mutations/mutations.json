@@ -2670,9 +2670,8 @@
     "name": { "str": "Padded Feet" },
     "points": 1,
     "visibility": 1,
-    "description": "The bottoms of your feet are strongly padded and more resistant to damage.  If you're not wearing footwear, you'll receive a 10% bonus to movement speed.",
+    "description": "The bottoms of your feet are strongly padded.  If you're not wearing footwear, you'll receive a 10% bonus to movement speed.",
     "starting_trait": true,
-    "armor": [ { "parts": [ "foot_l", "foot_r" ], "physical": 2, "acid": 2 } ],
     "types": [ "LEGS" ],
     "category": [ "BEAST", "URSINE", "FELINE", "LUPINE" ]
   },
