@@ -1157,7 +1157,7 @@ int vehicle::part_vpower_w( const int index, const bool at_full_hp ) const
             monster *mon = get_pet( index );
             if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
                 // An animal that can carry twice as much weight, can pull a cart twice as hard.
-                pwr = mon->get_speed() * ( mon->get_size() - 1 ) * 3
+                pwr = mon->get_speed() * mon->get_size() * 3
                       * ( mon->get_mountable_weight_ratio() * 5 );
             } else {
                 pwr = 0;

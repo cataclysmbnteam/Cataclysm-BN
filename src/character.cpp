@@ -874,7 +874,7 @@ int Character::swim_speed() const
         // No monsters are currently mountable and can swim, though mods may allow this.
         if( mon->swims() ) {
             ret = 25;
-            ret += get_weight() / 120_gram - 50 * ( mon->get_size() - 1 );
+            ret += get_weight() / 120_gram - 50 * mon->get_size();
             return ret;
         }
     }

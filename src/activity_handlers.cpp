@@ -749,6 +749,9 @@ static int size_factor_in_time_to_cut( m_size size )
             return 600;
         case MS_HUGE:
             return 1800;
+        default:
+            debugmsg( "Invalid m_size value for butchering corpse: %d", static_cast<int>( size ) );
+            break;
     }
     return 0;
 }

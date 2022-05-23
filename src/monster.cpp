@@ -2654,7 +2654,7 @@ m_size monster::get_size() const
 
 units::mass monster::get_weight() const
 {
-    return units::operator*( type->weight, get_size() / type->size );
+    return units::operator*( type->weight, get_size() / ( type->size + 1 ) );
 }
 
 units::mass monster::weight_capacity() const
@@ -2664,7 +2664,7 @@ units::mass monster::weight_capacity() const
 
 units::volume monster::get_volume() const
 {
-    return units::operator*( type->volume, get_size() / type->size );
+    return units::operator*( type->volume, get_size() / (type->size + 1));
 }
 
 void monster::add_msg_if_npc( const std::string &msg ) const
@@ -2781,7 +2781,7 @@ item monster::to_item() const
 
 float monster::power_rating() const
 {
-    float ret = get_size() - 2; // Zed gets 1, cat -1, hulk 3
+    float ret = get_size() - 1; // Zed gets 1, cat -1, hulk 3
     ret += has_flag( MF_ELECTRONIC ) ? 2 : 0; // Robots tend to have guns
     // Hostile stuff gets a big boost
     // Neutral moose will still get burned if it comes close
