@@ -6825,6 +6825,8 @@ int Character::height() const
             return init_height + 50;
         case MS_HUGE:
             return init_height + 100;
+        default:
+            break;
     }
 
     debugmsg( "Invalid size class" );
