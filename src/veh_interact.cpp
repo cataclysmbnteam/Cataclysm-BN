@@ -69,11 +69,11 @@
 static const itype_id fuel_type_battery( "battery" );
 
 static const itype_id itype_battery( "battery" );
-static const itype_id itype_hose( "hose" );
 static const itype_id itype_plut_cell( "plut_cell" );
 
 static const skill_id skill_mechanics( "mechanics" );
 
+static const quality_id qual_HOSE( "HOSE" );
 static const quality_id qual_JACK( "JACK" );
 static const quality_id qual_LIFT( "LIFT" );
 static const quality_id qual_SELF_JACK( "SELF_JACK" );
@@ -605,7 +605,7 @@ task_reason veh_interact::cant_do( char mode )
                     break;
                 }
             }
-            has_tools = crafting_inv.has_tools( itype_hose, 1 );
+            has_tools = g->u.has_quality( qual_HOSE );
             break;
 
         case 'd':
