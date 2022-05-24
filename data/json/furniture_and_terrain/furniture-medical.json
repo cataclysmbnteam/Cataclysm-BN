@@ -65,7 +65,7 @@
     "type": "furniture",
     "id": "f_autoclave",
     "name": "laboratory autoclave",
-    "description": "This thing is basically an extremely high tech laundry machine or dishwasher.  It steams things at temperatures that will kill almost anything.  It could be used help to 'm'end bionics that need sterilization.",
+    "description": "This thing is basically an extremely high tech laundry machine or dishwasher.  It steams things at temperatures that will kill almost anything.  It could be used to mend faulty bionics that need sterilization.",
     "symbol": "0",
     "color": "light_blue_white",
     "move_cost_mod": 3,
