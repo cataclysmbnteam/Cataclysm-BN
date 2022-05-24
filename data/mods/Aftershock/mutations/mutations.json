@@ -329,12 +329,6 @@
   },
   {
     "type": "mutation",
-    "id": "PADDED_FEET",
-    "copy-from": "PADDED_FEET",
-    "extend": { "category": [ "MASTODON" ] }
-  },
-  {
-    "type": "mutation",
     "id": "THICKSKIN",
     "copy-from": "THICKSKIN",
     "extend": { "category": [ "MASTODON" ] }

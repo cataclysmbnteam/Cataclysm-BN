@@ -2656,7 +2656,7 @@ m_size monster::get_size() const
 
 units::mass monster::get_weight() const
 {
-    return units::operator*( type->weight, get_size() / ( type->size + 1 ) );
+    return units::operator*( type->weight, ( get_size() + 1 ) / ( type->size + 1 ) );
 }
 
 units::mass monster::weight_capacity() const
@@ -2666,7 +2666,7 @@ units::mass monster::weight_capacity() const
 
 units::volume monster::get_volume() const
 {
-    return units::operator*( type->volume, get_size() / ( type->size + 1 ) );
+    return units::operator*( type->volume, ( get_size() + 1 ) / ( type->size + 1 ) );
 }
 
 void monster::add_msg_if_npc( const std::string &msg ) const
