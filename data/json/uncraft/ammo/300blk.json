@@ -26,7 +26,7 @@
       [ [ "lead", 5 ] ],
       [ [ "300blk_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
-      [ [ "gunpowder", 3 ] ],
+      [ [ "gunpowder", 6 ] ],
       [ [ "copper", 2 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]

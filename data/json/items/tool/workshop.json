@@ -267,7 +267,7 @@
     "ammo": "battery",
     "initial_charges": 3500,
     "max_charges": 7000,
-    "charges_per_use": 3500,
+    "charges_per_use": 175,
     "use_action": "JACKHAMMER",
     "flags": [ "STAB", "DIG_TOOL", "POWERED", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
@@ -342,7 +342,7 @@
     "material": [ "rubber" ],
     "symbol": ",",
     "color": "green",
-    "use_action": "SIPHON"
+    "qualities": [ [ "HOSE", 1 ] ]
   },
   {
     "id": "jack",
@@ -1160,7 +1160,7 @@
     "material": "leather",
     "symbol": ",",
     "color": "green",
-    "use_action": "SIPHON"
+    "qualities": [ [ "HOSE", 1 ] ]
   },
   {
     "id": "makeshift_hand_drill",

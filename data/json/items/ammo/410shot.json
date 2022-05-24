@@ -21,14 +21,5 @@
     "recoil": 1350,
     "loudness": 90,
     "effects": [ "COOKOFF", "SHOT" ]
-  },
-  {
-    "id": "reloaded_410shot_000",
-    "copy-from": "410shot_000",
-    "type": "AMMO",
-    "name": { "str": ".410 000 shot, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }
 ]

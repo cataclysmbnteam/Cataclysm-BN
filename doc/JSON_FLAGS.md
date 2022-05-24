@@ -704,13 +704,14 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```CHARGE``` Has to be charged to fire. Higher charges do more damage.
 - ```COLLAPSIBLE_STOCK``` Reduces weapon volume proportional to the base size of the gun (excluding any mods). Does not include wield time penalty (see NEEDS_UNFOLD).
 - ```CONSUMABLE``` Makes a gunpart have a chance to get damaged depending on ammo fired, and definable fields 'consume_chance' and 'consume_divisor'.
+- ```CROSSBOW``` Counts as a crossbow for the purpose of gunmod compatibility.  Default behavior is to match the skill used by that weapon.
 - ```DISABLE_SIGHTS``` Prevents use of the base weapon sights
 - ```FIRE_100``` Uses 100 shots per firing.
 - ```FIRE_50``` Uses 50 shots per firing.
 - ```FIRE_TWOHAND``` Gun can only be fired if player has two free hands.
 - ```IRREMOVABLE``` Makes so that the gunmod cannot be removed.
 - ```MECH_BAT```    This is an exotic battery designed to power military mechs.
-- ```MOUNTED_GUN``` Gun can only be used on terrain / furniture with the "MOUNTABLE" flag.
+- ```MOUNTED_GUN``` Gun can only be used on terrain / furniture with the "MOUNTABLE" flag, if you're a normal human.  If you're an oversized mutant (Inconveniently Large, Large, Freakishly Huge, Huge), you can fire it regularly in exchange for dispersion and recoil penalties.
 - ```NEVER_JAMS``` Never malfunctions.
 - ```NO_UNLOAD``` Cannot be unloaded.
 - ```PRIMITIVE_RANGED_WEAPON``` Allows using non-gunsmith tools to repair it (but not reinforce).

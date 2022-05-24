@@ -4,7 +4,13 @@
     "type": "uncraft",
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 2 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "357sig_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 2 ] ] ],
+    "components": [
+      [ [ "lead", 2 ] ],
+      [ [ "357sig_casing", 1 ] ],
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "gunpowder", 5 ] ],
+      [ [ "copper", 1 ] ]
+    ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
   {
@@ -12,7 +18,7 @@
     "type": "uncraft",
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 2 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "357sig_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 2 ] ] ],
+    "components": [ [ [ "lead", 2 ] ], [ [ "357sig_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 5 ] ] ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   }
 ]

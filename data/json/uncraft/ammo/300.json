@@ -11,7 +11,7 @@
       [ [ "300_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder", 16 ] ],
-      [ [ "copper", 21 ] ]
+      [ [ "copper", 4 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   }

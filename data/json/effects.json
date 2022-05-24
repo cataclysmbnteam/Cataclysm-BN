@@ -1466,7 +1466,14 @@
     "id": "brainworms",
     "rating": "bad",
     "permanent": true,
-    "base_mods": { "pain_chance": [ 512 ], "pain_min": [ 2 ], "pain_max": [ 8 ], "h_mod_chance": [ 512 ], "h_mod_min": [ -10 ] },
+    "base_mods": {
+      "pain_chance": [ 512 ],
+      "pain_min": [ 2 ],
+      "pain_max": [ 8 ],
+      "pain_max_val": [ 30 ],
+      "h_mod_chance": [ 512 ],
+      "h_mod_min": [ -10 ]
+    },
     "blood_analysis_description": "Intracranial Parasites"
   },
   {
@@ -1474,7 +1481,14 @@
     "id": "paincysts",
     "rating": "bad",
     "permanent": true,
-    "base_mods": { "pain_chance": [ 256 ], "pain_min": [ 1 ], "pain_max": [ 4 ], "fatigue_chance": [ 256 ], "fatigue_min": [ 1 ] },
+    "base_mods": {
+      "pain_chance": [ 256 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 4 ],
+      "pain_max_val": [ 45 ],
+      "fatigue_chance": [ 256 ],
+      "fatigue_min": [ 1 ]
+    },
     "blood_analysis_description": "Intramuscular Parasites"
   },
   {

@@ -1586,44 +1586,51 @@ void Character::process_bionic( int b )
         sounds::sound( pos(), 19, sounds::sound_t::activity, _( "HISISSS!" ), false, "bionic",
                        static_cast<std::string>( bio_hydraulics ) );
     } else if( bio.id == bio_nanobots ) {
-        if( get_power_level() >= 40_J ) {
-            std::forward_list<bodypart_id> bleeding_bp_parts;
-            for( const bodypart_id bp : get_all_body_parts() ) {
-                if( has_effect( effect_bleed, bp->token ) ) {
-                    bleeding_bp_parts.push_front( bp );
+        // Total hack, prevents charge_timer reaching 0 thus preventing power draw.
+        // Ideally there would be a value that directly impacts whether a bionic draws power when idle.
+        bio.charge_timer = 2;
+        // The above hack means there's no check for whether the bionic actually has power to run.
+        if( get_power_level() < bio.info().power_over_time ) {
+            bio.powered = false;
+            add_msg_if_player( m_warning, _( "Your %s shut down due to lack of power." ), bio.info().name );
+            deactivate_bionic( b );
+            return;
+        } else if( get_stored_kcal() < 0.85f * max_stored_kcal() ) {
+            bio.powered = false;
+            add_msg_if_player( m_warning, _( "Your %s shut down to conserve calories." ), bio.info().name );
+            deactivate_bionic( b );
+            return;
+        }
+        if( calendar::once_every( 15_turns ) ) {
+            std::vector<bodypart_id> bleeding_bp_parts;
+            for( const bodypart_id &bp : get_all_body_parts() ) {
+                if( has_effect( effect_bleed, bp.id() ) ) {
+                    bleeding_bp_parts.push_back( bp );
                 }
             }
-            std::vector<bodypart_id> damaged_hp_parts;
-            for( const std::pair<const bodypart_str_id, bodypart> &part : get_body() ) {
-                const int hp_cur = part.second.get_hp_cur();
-                if( hp_cur > 0 && hp_cur < part.second.get_hp_max() ) {
-                    damaged_hp_parts.push_back( part.first.id() );
-                    // only healed and non-hp parts will have a chance of bleeding removal
-                    bleeding_bp_parts.remove( part.first.id() );
+            if( !bleeding_bp_parts.empty() ) {
+                const bodypart_id part_to_staunch = bleeding_bp_parts[ rng( 0, bleeding_bp_parts.size() - 1 ) ];
+                effect &e = get_effect( effect_bleed, part_to_staunch->token );
+                if( e.get_intensity() > 1 ) {
+                    e.mod_intensity( -1, false );
+                } else {
+                    remove_effect( effect_bleed, part_to_staunch->token );
                 }
             }
-            if( calendar::once_every( 60_turns ) ) {
-                bool try_to_heal_bleeding = true;
+            if( rng( 0, 2 ) == 2 ) {
+                std::vector<bodypart_id> damaged_hp_parts;
+                for( const std::pair<const bodypart_str_id, bodypart> &part : get_body() ) {
+                    const int hp_cur = part.second.get_hp_cur();
+                    if( hp_cur > 0 && hp_cur < part.second.get_hp_max() ) {
+                        damaged_hp_parts.push_back( part.first.id() );
+                    }
+                }
                 if( get_stored_kcal() >= 5 && !damaged_hp_parts.empty() ) {
                     const bodypart_id part_to_heal = damaged_hp_parts[ rng( 0, damaged_hp_parts.size() - 1 ) ];
                     heal( part_to_heal, 1 );
+                    mod_power_level( - bio.info().power_over_time );
                     mod_stored_kcal( -5 );
-                    int hp_percent = static_cast<float>( get_part_hp_cur( part_to_heal ) ) / get_part_hp_max(
-                                         part_to_heal ) * 100;
-                    if( has_effect( effect_bleed, part_to_heal->token ) && rng( 0, 100 ) < hp_percent ) {
-                        remove_effect( effect_bleed, part_to_heal->token );
-                        try_to_heal_bleeding = false;
-                    }
                 }
-
-                // if no bleed was removed, try to remove it on some other part
-                if( try_to_heal_bleeding && !bleeding_bp_parts.empty() && rng( 0, 1 ) == 1 ) {
-                    remove_effect( effect_bleed,  bleeding_bp_parts.front()->token );
-                }
-
-            }
-            if( !damaged_hp_parts.empty() || !bleeding_bp_parts.empty() ) {
-                mod_power_level( -40_J );
             }
         }
     } else if( bio.id == bio_painkiller ) {

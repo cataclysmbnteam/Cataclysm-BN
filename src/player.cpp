@@ -2233,6 +2233,7 @@ item::reload_option player::select_ammo( const item &base,
             return e.ammo->contents.front().display_name();
 
         } else {
+            const_cast<item_location &>( ammo_location ).make_dirty();
             return ( ammo_location && ammo_location == e.ammo ? "* " : "" ) + e.ammo->display_name();
         }
     } );
