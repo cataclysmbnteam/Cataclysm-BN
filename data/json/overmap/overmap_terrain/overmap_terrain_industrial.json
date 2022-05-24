@@ -1147,7 +1147,7 @@
   {
     "type": "overmap_terrain",
     "id": "industrial_center_west_road",
-    "copy-from": "generic_transportation",
+    "copy-from": "generic_road",
     "name": "road",
     "sym": "├",
     "color": "dark_gray",

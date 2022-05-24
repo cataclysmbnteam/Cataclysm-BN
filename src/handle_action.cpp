@@ -1809,6 +1809,9 @@ bool game::handle_action()
                     vertical_move( 1, false );
                 } else if( veh_ctrl && vp->vehicle().is_rotorcraft() ) {
                     pldrive( tripoint_above );
+                } else if( veh_ctrl && vp->vehicle().has_part( "ROTOR" ) &&
+                           !vp->vehicle().has_sufficient_rotorlift() ) {
+                    add_msg( m_bad, _( "The rotors struggle to generate enough lift!" ) );
                 }
                 break;
 
