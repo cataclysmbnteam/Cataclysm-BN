@@ -225,7 +225,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "underbarrel",
-    "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "bow", "launcher" ],
+    "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "archery", "launcher" ],
     "sight_dispersion": 30,
     "aim_speed": 9,
     "flags": [ "PUMP_RAIL_COMPATIBLE" ]

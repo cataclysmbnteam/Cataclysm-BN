@@ -6926,8 +6926,6 @@ skill_id item::gun_skill() const
 
 gun_type_type item::gun_type() const
 {
-    static skill_id skill_archery( "archery" );
-
     if( !is_gun() ) {
         return gun_type_type( std::string() );
     }
@@ -7503,6 +7501,8 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
         return ret_val<bool>::make_failure();
     }
     static const gun_type_type pistol_gun_type( translate_marker_context( "gun_type_type", "pistol" ) );
+    static const skill_id skill_archery( "archery" );
+    static const std::string bow_hack_str( "bow" );
 
     if( !is_gun() ) {
         return ret_val<bool>::make_failure( _( "isn't a weapon" ) );
@@ -7520,8 +7520,10 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
         return ret_val<bool>::make_failure( _( "doesn't have enough room for another %s mod" ),
                                             mod.type->gunmod->location.name() );
 
+        // TODO: Get rid of the "archery"->"bow" hack
     } else if( !mod.type->gunmod->usable.count( gun_type() ) &&
-               !mod.type->gunmod->usable.count( typeId().str() ) ) {
+               !mod.type->gunmod->usable.count( typeId().str() ) &&
+               !( gun_skill() == skill_archery && mod.type->gunmod->usable.count( bow_hack_str ) > 0 ) ) {
         return ret_val<bool>::make_failure( _( "cannot have a %s" ), mod.tname() );
 
     } else if( typeId() == itype_hand_crossbow &&
