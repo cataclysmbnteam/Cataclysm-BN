@@ -304,7 +304,7 @@ if (TILES)
     # Find SDL, SDL_ttf & SDL_image for graphical install
     message(STATUS "Searching for SDL2 library --")
     find_package(SDL2)
-    if (NOT SDL2_FOUND)
+    if (NOT (SDL2_FOUND OR TARGET SDL2::SDL2))
         message(
             FATAL_ERROR
                 "This project requires SDL2 to be installed to be compiled in graphical mode. \
@@ -325,7 +325,7 @@ if (TILES)
 
     message(STATUS "Searching for SDL2_TTF library --")
     find_package(SDL2_ttf)
-    if (NOT SDL2_TTF_FOUND)
+    if (NOT (SDL2_TTF_FOUND OR TARGET SDL2_ttf::SDL2_ttf OR TARGET SDL2_ttf::SDL2_ttf-static))
         message(
             FATAL_ERROR
                 "This project requires SDL2_ttf to be installed to be compiled in graphical mode. \
@@ -335,8 +335,12 @@ if (TILES)
     endif ()
 
     message(STATUS "Searching for SDL2_image library --\n")
-    find_package(SDL2_image)
-    if (NOT SDL2_IMAGE_FOUND)
+    if(VCPKG_MANIFEST_MODE)
+        find_package(sdl2-image)
+    else()
+        find_package(SDL2_image)
+    endif()
+    if (NOT (SDL2_IMAGE_FOUND OR TARGET SDL2::SDL2_image))
         message(
             FATAL_ERROR
                 "This project requires SDL2_image to be installed to be compiled in graphical mode. \
@@ -378,12 +382,21 @@ if (SOUND)
     # Sound requires SDL_mixer library
     message(STATUS "Searching for SDL2_mixer library --\n")
     find_package(SDL2_mixer)
-    if (NOT SDL2_MIXER_FOUND)
-        message(
-            FATAL_ERROR
-                "You need the SDL2_mixer development library to be able to compile with sound enabled. \
-                See CMake compiling guide for details and more info.")
-    endif ()
+    if(VCPKG_MANIFEST_MODE)
+        if (NOT TARGET SDL2_mixer::SDL2_mixer-static) # TODO x64-mingw-static
+            message(FATAL_ERROR
+                    "You need the SDL2_mixer development library \
+                     to be able to compile with sound enabled. \
+                     See CMake compiling guide for details and more info.")
+        endif()
+    else()
+        if (NOT SDL2_MIXER_FOUND)
+            message(FATAL_ERROR
+                    "You need the SDL2_mixer development library \
+                     to be able to compile with sound enabled. \
+                     See CMake compiling guide for details and more info.")
+        endif ()
+    endif()
 endif ()
 
 if (BACKTRACE)
