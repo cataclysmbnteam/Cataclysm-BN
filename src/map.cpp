@@ -5046,7 +5046,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
             }
         }
 
-        if( autoclavepart ) { // we have a veh_forge, now to see what to drain
+        if( autoclavepart ) { // we have an autoclave, now to see what to drain
             itype_id ftype = itype_id::NULL_ID();
 
             if( type == itype_autoclave ) {
