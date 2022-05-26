@@ -279,7 +279,7 @@
     "type": "COMESTIBLE",
     "name": "raw mutant offal",
     "looks_like": "offal",
-    "description": "Unidentified organs of a mutated animal.  Wildly different between individual specimens, even those otherwise identical.  Many resemble unmutated organs on the outside, but their placement often clearly implies different function.  Weirdly colored fluids and the chemical smell make them unappetizing.  Probably much better fried.",
+    "description": "Unidentified organs of a mutated animal.  Wildly different between individual specimens, even those otherwise identical.  Many resemble unmutated organs on the outside, but their placement often clearly implies different function.  Weirdly colored fluids and the chemical smell make them unappetizing.",
     "price_postapoc": 5,
     "delete": { "flags": [ "SMOKABLE" ] },
     "vitamins": [
