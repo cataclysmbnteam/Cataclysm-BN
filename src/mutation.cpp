@@ -178,7 +178,7 @@ void Character::unset_mutation( const trait_id &trait_ )
     my_mutations.erase( iter );
     mutation_loss_effect( trait );
     recalc_sight_limits();
-    // For some reason it doesn't do this from mutation_loss_effect correctly.
+    // TODO: mutation_loss_effect has recalculate_size in it as well, but it doesn't work for unknown reasons.
     recalculate_size();
     reset_encumbrance();
 }
