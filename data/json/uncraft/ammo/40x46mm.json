@@ -6,7 +6,7 @@
     "difficulty": 4,
     "time": "3 m",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 35 ] ], [ [ "38_casing", 1 ] ] ],
+    "components": [ [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 35 ] ], [ [ "40x46mm_m212_casing", 1 ] ] ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
   {

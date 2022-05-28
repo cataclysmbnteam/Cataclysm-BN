@@ -91,7 +91,7 @@
     "ammo_type": "battery",
     "capacity": 100,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_COMPACT" ]
   },
   {
     "id": "light_plus_battery_cell",
@@ -109,7 +109,7 @@
     "ammo_type": "battery",
     "capacity": 150,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_COMPACT" ]
   },
   {
     "id": "light_atomic_battery_cell",
@@ -129,7 +129,7 @@
     "count": 1000,
     "capacity": 1000,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE", "MAG_COMPACT" ]
   },
   {
     "id": "light_disposable_cell",
@@ -148,7 +148,7 @@
     "count": 300,
     "capacity": 300,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "MAG_COMPACT" ]
   },
   {
     "id": "medium_battery_cell",
@@ -167,7 +167,7 @@
     "ammo_type": "battery",
     "capacity": 500,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_COMPACT" ]
   },
   {
     "id": "medium_plus_battery_cell",
@@ -185,7 +185,7 @@
     "ammo_type": "battery",
     "capacity": 600,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_COMPACT" ]
   },
   {
     "id": "medium_atomic_battery_cell",
@@ -205,7 +205,7 @@
     "count": 5000,
     "capacity": 5000,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE", "MAG_COMPACT" ]
   },
   {
     "id": "medium_disposable_cell",
@@ -224,7 +224,7 @@
     "count": 1200,
     "capacity": 1200,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "MAG_COMPACT" ]
   },
   {
     "id": "heavy_battery_cell",
@@ -243,7 +243,7 @@
     "ammo_type": "battery",
     "capacity": 1000,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_BULKY" ]
   },
   {
     "id": "heavy_plus_battery_cell",
@@ -261,7 +261,7 @@
     "ammo_type": "battery",
     "capacity": 1250,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_BULKY" ]
   },
   {
     "id": "heavy_atomic_battery_cell",
@@ -281,7 +281,7 @@
     "count": 10000,
     "capacity": 10000,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE", "MAG_BULKY" ]
   },
   {
     "id": "huge_atomic_battery_cell",
@@ -319,6 +319,6 @@
     "count": 2500,
     "capacity": 2500,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "MAG_BULKY" ]
   }
 ]

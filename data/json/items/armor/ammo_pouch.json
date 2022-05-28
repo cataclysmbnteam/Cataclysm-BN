@@ -104,7 +104,7 @@
     "id": "chestpouch",
     "type": "ARMOR",
     "name": { "str": "chest ammo pouch", "str_pl": "chest ammo pouches" },
-    "description": "A fabric ammo pouch that can be strapped to your chest which is capable of holding a single magazine close at hand.",
+    "description": "A fabric ammo pouch that can be strapped to your chest which is capable of holding a single magazine or speedloader close at hand.",
     "weight": "140 g",
     "volume": "250 ml",
     "price": 1250,
@@ -123,7 +123,7 @@
       "holster_msg": "You stash your %s.",
       "max_volume": "750 ml",
       "draw_cost": 40,
-      "flags": [ "MAG_COMPACT" ]
+      "flags": [ "MAG_COMPACT", "SPEEDLOADER" ]
     },
     "flags": [ "WATER_FRIENDLY", "BELTED" ]
   },
@@ -131,7 +131,7 @@
     "id": "chestrig",
     "type": "ARMOR",
     "name": { "str_sp": "chest rig" },
-    "description": "Popularized during the Vietnam War, chest rigs like these are typically plain, barebones affairs consisting of three or more pouches in a row, with straps to secure them on your chest.  This one can hold four magazines in its pouches.",
+    "description": "Popularized during the Vietnam War, chest rigs like these are typically plain, barebones affairs consisting of three or more pouches in a row, with straps to secure them on your chest.  This one can hold four magazines or speedloaders in its pouches.",
     "weight": "425 g",
     "volume": "500 ml",
     "price": 3900,
@@ -151,7 +151,7 @@
       "multi": 4,
       "max_volume": "750 ml",
       "draw_cost": 40,
-      "flags": [ "MAG_COMPACT" ]
+      "flags": [ "MAG_COMPACT", "SPEEDLOADER" ]
     },
     "flags": [ "WATER_FRIENDLY", "BELTED" ]
   },
@@ -189,7 +189,7 @@
     "id": "legpouch",
     "type": "ARMOR",
     "name": { "str": "ankle ammo pouch", "str_pl": "ankle ammo pouches" },
-    "description": "A small fabric ammo pouch that can be strapped to your ankle which is capable of holding a single small magazine close at hand.",
+    "description": "A small fabric ammo pouch that can be strapped to your ankle which is capable of holding a single small magazine or speedloader close at hand.",
     "volume": "250 ml",
     "weight": "60 g",
     "price": 2000,
@@ -206,9 +206,10 @@
       "type": "holster",
       "holster_prompt": "Stash ammo",
       "holster_msg": "You stash your %s.",
+      "min_volume": "25 ml",
       "max_volume": "250 ml",
       "draw_cost": 40,
-      "flags": [ "MAG_COMPACT" ]
+      "flags": [ "MAG_COMPACT", "SPEEDLOADER" ]
     },
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
   },
@@ -234,9 +235,10 @@
       "holster_prompt": "Stash ammo",
       "holster_msg": "You stash your %s.",
       "multi": 2,
+      "min_volume": "50 ml",
       "max_volume": "500 ml",
       "draw_cost": 40,
-      "flags": [ "MAG_COMPACT" ]
+      "flags": [ "MAG_COMPACT", "SPEEDLOADER" ]
     },
     "flags": [ "WATER_FRIENDLY", "BELTED" ]
   },

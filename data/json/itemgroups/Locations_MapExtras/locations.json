@@ -2059,7 +2059,8 @@
     "id": "vault_good",
     "//": "Useful or good stuff for bank vaults.",
     "items": [
-      { "group": "bionics_bank_vault", "prob": 50 },
+      { "group": "bionics_bank_vault", "prob": 40 },
+      { "group": "bionic_power_storage_mil", "prob": 10 },
       { "group": "guns_obscure", "prob": 20 },
       { "group": "guns_bank_vault", "prob": 20 },
       { "group": "antique_bank_vault", "prob": 20 },
