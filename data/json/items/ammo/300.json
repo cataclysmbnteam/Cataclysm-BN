@@ -35,15 +35,5 @@
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_300_winmag",
-    "copy-from": "300_winmag",
-    "type": "AMMO",
-    "name": { "str": ".300 Winchester Magnum, reloaded" },
-    "description": "The .300 Winchester Magnum is extremely versatile and has been adopted by many shooting disciplines.  The cartridge has found use by hunters, military units, and law enforcement departments.  This one has been hand-reloaded.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }
 ]

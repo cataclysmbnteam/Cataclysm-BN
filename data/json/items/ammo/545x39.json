@@ -35,25 +35,5 @@
     "symbol": "=",
     "color": "yellow",
     "relative": { "damage": { "damage_type": "bullet", "amount": -2, "armor_penetration": 8 } }
-  },
-  {
-    "id": "reloaded_545",
-    "copy-from": "545",
-    "type": "AMMO",
-    "name": { "str": "5.45x39mm, reloaded" },
-    "description": "The 5.45x39mm was the standard ammunition for the AK series from 1974.  Its designers were inspired by the 5.56x45mm NATO cartridge.  This one has been hand-reloaded.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_545_ap",
-    "copy-from": "545_ap",
-    "type": "AMMO",
-    "name": { "str": "5.45x39mm AP, reloaded" },
-    "description": "Armor piercing 5.45x39mm ammunition with hand-reloaded bullets containing a steel penetrator.  Developed in 1998 by the Russian military.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }
 ]

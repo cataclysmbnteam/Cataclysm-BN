@@ -126,7 +126,6 @@ static const gun_mode_id gun_mode_REACH( "REACH" );
 static const itype_id itype_barrel_small( "barrel_small" );
 static const itype_id itype_blood( "blood" );
 static const itype_id itype_brass_catcher( "brass_catcher" );
-static const itype_id itype_bullet_crossbow( "bullet_crossbow" );
 static const itype_id itype_cig_butt( "cig_butt" );
 static const itype_id itype_cig_lit( "cig_lit" );
 static const itype_id itype_cigar_butt( "cigar_butt" );
@@ -175,6 +174,7 @@ static const std::string flag_COLLAPSIBLE_STOCK( "COLLAPSIBLE_STOCK" );
 static const std::string flag_CONDUCTIVE( "CONDUCTIVE" );
 static const std::string flag_CONSUMABLE( "CONSUMABLE" );
 static const std::string flag_CORPSE( "CORPSE" );
+static const std::string flag_CROSSBOW( "CROSSBOW" );
 static const std::string flag_DANGEROUS( "DANGEROUS" );
 static const std::string flag_DEEP_WATER( "DEEP_WATER" );
 static const std::string flag_DIAMOND( "DIAMOND" );
@@ -4119,8 +4119,8 @@ nc_color item::color_in_inventory() const
             ret = c_light_red;
         }
     } else if( is_book() ) {
+        const islot_book &tmp = *type->book;
         if( u.has_identified( typeId() ) ) {
-            const islot_book &tmp = *type->book;
             if( tmp.skill && // Book can improve skill: blue
                 u.get_skill_level_object( tmp.skill ).can_train() &&
                 u.get_skill_level( tmp.skill ) >= tmp.req &&
@@ -4137,8 +4137,12 @@ nc_color item::color_in_inventory() const
                            *type ) ) { // Book can't improve skill anymore, but has more recipes: yellow
                 ret = c_yellow;
             }
+        } else if( tmp.skill || type->can_use( "MA_MANUAL" ) ) {
+            // Book can teach you something and hasn't been identified yet
+            ret = c_red;
         } else {
-            ret = c_red;  // Book hasn't been identified yet: red
+            // "just for fun" book that they haven't read yet
+            ret = c_magenta;
         }
     }
     return ret;
@@ -6927,15 +6931,11 @@ gun_type_type item::gun_type() const
     if( !is_gun() ) {
         return gun_type_type( std::string() );
     }
+    if( has_flag( flag_CROSSBOW ) ) {
+        return gun_type_type( translate_marker_context( "gun_type_type", "crossbow" ) );
+    }
     // TODO: move to JSON and remove extraction of this from "GUN" (via skill id)
     //and from "GUNMOD" (via "mod_targets") in lang/extract_json_strings.py
-    if( gun_skill() == skill_archery ) {
-        if( ammo_types().count( ammotype( "bolt" ) ) || typeId() == itype_bullet_crossbow ) {
-            return gun_type_type( translate_marker_context( "gun_type_type", "crossbow" ) );
-        } else {
-            return gun_type_type( translate_marker_context( "gun_type_type", "bow" ) );
-        }
-    }
     return gun_type_type( gun_skill().str() );
 }
 

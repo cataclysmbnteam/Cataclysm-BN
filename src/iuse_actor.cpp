@@ -4773,7 +4773,12 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
                 return t;
             };
             // Mod not already present, check if modification is possible
-            if( it.charges < thread_needed ) {
+            if( obj.restricted &&
+                std::find( valid_mods.begin(), valid_mods.end(), obj.flag ) == valid_mods.end() ) {
+                //~ %1$s: modification desc, %2$s: mod name
+                prompt = string_format( _( "Can't %1$s (incompatible with %2$s)" ), tolower( obj.implement_prompt ),
+                                        mod.tname( 1, false ) );
+            } else if( it.charges < thread_needed ) {
                 //~ %1$s: modification desc, %2$d: number of thread needed
                 prompt = string_format( _( "Can't %1$s (need %2$d thread loaded)" ),
                                         tolower( obj.implement_prompt ), thread_needed );
@@ -4781,11 +4786,6 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
                 //~ %1$s: modification desc, %2$d: number of items needed, %3$s: items needed
                 prompt = string_format( _( "Can't %1$s (need %2$d %3$s)" ), tolower( obj.implement_prompt ),
                                         items_needed, item::nname( obj.item_string, items_needed ) );
-            } else if( obj.restricted &&
-                       std::find( valid_mods.begin(), valid_mods.end(), obj.flag ) == valid_mods.end() ) {
-                //~ %1$s: modification desc, %2$s: mod name
-                prompt = string_format( _( "Can't %1$s (incompatible with %2$s)" ), tolower( obj.implement_prompt ),
-                                        mod.tname( 1, false ) );
             } else {
                 // Modification is possible
                 enab = true;

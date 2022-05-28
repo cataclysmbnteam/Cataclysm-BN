@@ -925,6 +925,16 @@ int player::fire_gun( const tripoint &target, const int max_shots, item &gun )
         // Now actually apply recoil for the future shots
         // But only for one shot, because bursts kinda suck
         int gun_recoil = gun.gun_recoil( can_use_bipod( g->m, pos() ) );
+
+        // If user is currently able to fire a mounted gun freely, penalize recoil based on size class.
+        if( gun.has_flag( flag_MOUNTED_GUN ) && !can_use_bipod( g->m, pos() ) ) {
+            if( get_size() == MS_HUGE ) {
+                gun_recoil = gun_recoil * 2;
+            } else {
+                gun_recoil = gun_recoil * 3;
+            }
+        }
+
         recoil += gun_recoil;
         if( is_mech_weapon ) {
             // mechs can handle recoil far better. they are built around their main gun.
@@ -1844,6 +1854,15 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
         // Adding dispersion for additional debuff
         dispersion.add_range( 150 );
         dispersion.add_multiplier( 4 );
+    }
+
+    // If user is currently able to fire a mounted gun freely, penalize dispersion based on size class.
+    if( obj.has_flag( flag_MOUNTED_GUN ) && !can_use_bipod( g->m, pos() ) ) {
+        if( get_size() == MS_HUGE ) {
+            dispersion.add_multiplier( 2 );
+        } else {
+            dispersion.add_multiplier( 3 );
+        }
     }
 
     return dispersion;
@@ -3639,7 +3658,7 @@ bool ranged::gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::
         const bool v_mountable = static_cast<bool>( m.veh_at( you.pos() ).part_with_feature( "MOUNTABLE",
                                  true ) );
         bool t_mountable = m.has_flag_ter_or_furn( flag_MOUNTABLE, you.pos() );
-        if( !t_mountable && !v_mountable ) {
+        if( !t_mountable && !v_mountable && !( you.get_size() > MS_MEDIUM ) ) {
             messages.push_back( string_format(
                                     _( "You must stand near acceptable terrain or furniture to fire the %s.  A table, a mound of dirt, a broken window, etc." ),
                                     gmode->tname() ) );

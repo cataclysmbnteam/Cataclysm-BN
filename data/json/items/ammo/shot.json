@@ -1,50 +1,5 @@
 [
   {
-    "id": "reloaded_shot_bird",
-    "copy-from": "shot_bird",
-    "type": "AMMO",
-    "name": { "str": "birdshot, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_shot_dragon",
-    "copy-from": "shot_dragon",
-    "type": "AMMO",
-    "name": { "str": "dragon's breath shell, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_shot_00",
-    "copy-from": "shot_00",
-    "type": "AMMO",
-    "name": { "str": "00 shot, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_shot_flechette",
-    "copy-from": "shot_flechette",
-    "type": "AMMO",
-    "name": { "str": "flechette shell, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_shot_slug",
-    "copy-from": "shot_slug",
-    "type": "AMMO",
-    "name": { "str": "shotgun slug, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
     "id": "bp_shot_bird",
     "copy-from": "shot_bird",
     "type": "AMMO",

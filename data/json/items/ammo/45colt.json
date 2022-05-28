@@ -24,15 +24,6 @@
     "effects": [ "COOKOFF" ]
   },
   {
-    "id": "reloaded_45colt_jhp",
-    "copy-from": "45colt_jhp",
-    "type": "AMMO",
-    "name": { "str": ".45 Colt JHP, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
     "id": "bp_45colt_jhp",
     "copy-from": "45colt_jhp",
     "type": "AMMO",

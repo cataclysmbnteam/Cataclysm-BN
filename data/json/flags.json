@@ -1262,6 +1262,11 @@
     "context": [  ]
   },
   {
+    "id": "CROSSBOW",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "CUSTOM_EXPLOSION",
     "type": "json_flag",
     "context": [  ]
@@ -1495,7 +1500,7 @@
     "id": "MOUNTED_GUN",
     "type": "json_flag",
     "context": [  ],
-    "info": "This weapon is <bad>too unwieldy</bad> to fire on its own and <info>must be mounted</info> on a vehicle or furniture (window, table, mound of dirt, etc.) before use."
+    "info": "This weapon is <bad>too unwieldy</bad> to fire on its own and <info>must be mounted</info> on a vehicle or furniture (window, table, mound of dirt, etc.) before use, <info>Large or Huge</info> mutants can fire from the hip with <bad>reduced accuracy.</bad>"
   },
   {
     "id": "MYCUS_OK",
