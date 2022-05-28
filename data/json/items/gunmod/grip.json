@@ -33,7 +33,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "grip",
-    "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher", "bow" ],
+    "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher", "archery" ],
     "handling_modifier": 4
   },
   {
