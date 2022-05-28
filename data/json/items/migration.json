@@ -1660,5 +1660,10 @@
     "id": "reloaded_5x50dart",
     "type": "MIGRATION",
     "replace": "5x50dart"
+  },
+  {
+    "id": "mutant_offal_cooked",
+    "type": "MIGRATION",
+    "replace": "offal_cooked"
   }
 ]
