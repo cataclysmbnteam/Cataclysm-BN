@@ -867,7 +867,7 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
 
     // If there are items left we ran out of moves, so continue the activity
     // Otherwise, we are done.
-    if( !keep_going || target_items.empty() ) {
+    if( !keep_going || target_items.empty() || npc::has_thievery_witness ) {
         who.cancel_activity();
 
         if( who.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
@@ -879,6 +879,15 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
             // AIM might have more pickup activities pending, also cancel them.
             // TODO: Move this to advanced inventory instead of hacking it in here
             cancel_aim_processing();
+        }
+
+        if( npc::has_thievery_witness ) {
+            for( npc &guy : g->all_npcs() ) {
+                if( guy.get_attitude() == NPCATT_RECOVER_GOODS ) {
+                    guy.talk_to_u();
+                    break;
+                }
+            }
         }
     }
 }

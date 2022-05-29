@@ -837,21 +837,17 @@ void talk_function::drop_stolen_item( npc &p )
             g->m.add_item_or_charges( g->u.pos(), to_drop );
         }
     }
-    if( p.known_stolen_item ) {
-        p.known_stolen_item = nullptr;
-    }
     if( g->u.is_hauling() ) {
         g->u.stop_hauling();
     }
     p.set_attitude( NPCATT_NULL );
+    npc::has_thievery_witness = false;
 }
 
 void talk_function::remove_stolen_status( npc &p )
 {
-    if( p.known_stolen_item ) {
-        p.known_stolen_item = nullptr;
-    }
     p.set_attitude( NPCATT_NULL );
+    npc::has_thievery_witness = false;
 }
 
 void talk_function::start_mugging( npc &p )

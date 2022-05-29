@@ -130,6 +130,8 @@ static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
 static constexpr float MAX_FLOAT = 5000000000.0f;
 
+bool npc::has_thievery_witness = false;
+
 enum npc_action : int {
     npc_undecided = 0,
     npc_pause,
@@ -656,14 +658,6 @@ void npc::regen_ai_cache()
     auto i = std::begin( ai_cache.sound_alerts );
     while( i != std::end( ai_cache.sound_alerts ) ) {
         if( sees( here.getlocal( i->abs_pos ) ) ) {
-            // if they were responding to a call for guards because of thievery
-            npc *const sound_source = g->critter_at<npc>( here.getlocal( i->abs_pos ) );
-            if( sound_source ) {
-                if( my_fac == sound_source->my_fac && sound_source->known_stolen_item ) {
-                    sound_source->known_stolen_item = nullptr;
-                    set_attitude( NPCATT_RECOVER_GOODS );
-                }
-            }
             i = ai_cache.sound_alerts.erase( i );
             if( ai_cache.sound_alerts.size() == 1 ) {
                 path.clear();
@@ -1310,12 +1304,8 @@ void npc::execute_action( npc_action action )
 
 void npc::witness_thievery( item *it )
 {
-    known_stolen_item = it;
-    // Shopkeep is behind glass
-    if( myclass == npc_class_id( "NC_EVAC_SHOPKEEP" ) ) {
-        return;
-    }
     set_attitude( NPCATT_RECOVER_GOODS );
+    has_thievery_witness = true;
 }
 
 npc_action npc::method_of_fleeing()
@@ -1941,7 +1931,7 @@ npc_action npc::address_needs( float danger )
 npc_action npc::address_player()
 {
     Character &player_character = get_player_character();
-    if( ( attitude == NPCATT_TALK || attitude == NPCATT_RECOVER_GOODS ) && sees( player_character ) ) {
+    if( ( attitude == NPCATT_TALK ) && sees( player_character ) ) {
         if( player_character.in_sleep_state() ) {
             // Leave sleeping characters alone.
             return npc_undecided;

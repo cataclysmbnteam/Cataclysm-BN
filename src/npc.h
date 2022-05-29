@@ -1305,7 +1305,6 @@ class npc : public player
         tripoint_abs_omt goal;
         tripoint wander_pos = tripoint_min;
         int wander_time = 0;
-        item *known_stolen_item = nullptr; // the item that the NPC wants the player to drop or barter for.
         /**
          * Location and index of the corpse we'd like to pulp (if any).
          */
@@ -1341,6 +1340,7 @@ class npc : public player
         static constexpr tripoint_abs_omt no_goal_point{ tripoint_min };
         job_data job;
         time_point last_updated;
+        static bool has_thievery_witness;
         /**
          * Do some cleanup and caching as npc is being unloaded from map.
          */

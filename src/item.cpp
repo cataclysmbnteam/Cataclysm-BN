@@ -4281,17 +4281,7 @@ void item::handle_pickup_ownership( Character &c )
             }
             if( !witnesses.empty() ) {
                 set_old_owner( get_owner() );
-                bool guard_chosen = false;
-                for( npc *elem : witnesses ) {
-                    if( elem->myclass == npc_class_id( "NC_BOUNTY_HUNTER" ) ) {
-                        guard_chosen = true;
-                        elem->witness_thievery( &*this );
-                        break;
-                    }
-                }
-                if( !guard_chosen ) {
-                    random_entry( witnesses )->witness_thievery( &*this );
-                }
+                random_entry( witnesses )->witness_thievery( &*this );
             }
             set_owner( c );
         }
