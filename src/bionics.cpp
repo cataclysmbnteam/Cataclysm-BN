@@ -2683,7 +2683,7 @@ void bionic::toggle_auto_start_mod()
         tmenu.addentry( 2, true, 't', _( "Below 25 %%" ) );
         tmenu.addentry( 3, true, 'f', _( "Below 50 %%" ) );
         tmenu.addentry( 4, true, 's', _( "Below 75 %%" ) );
-        tmenu.addentry( 5, true, 'a', _( "Keep Fully Charged" ) );
+        tmenu.addentry( 5, true, 'a', _( "Below 99 %%" ) );
         tmenu.query();
 
         switch( tmenu.ret ) {
