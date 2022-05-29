@@ -864,26 +864,27 @@ void iexamine::toilet( player &p, const tripoint &examp )
  */
 void iexamine::elevator( player &p, const tripoint &examp )
 {
-    if( !query_yn( _( "Use the %s?" ), g->m.tername( examp ) ) ) {
+    map &here = get_map();
+
+    if( !query_yn( _( "Use the %s?" ), here.tername( examp ) ) ) {
         return;
     }
     int movez = ( examp.z < 0 ? 2 : -2 );
 
-    tripoint original_floor_omt = ms_to_omt_copy( g->m.getabs( examp ) );
+    tripoint original_floor_omt = ms_to_omt_copy( here.getabs( examp ) );
     tripoint new_floor_omt = original_floor_omt + tripoint( point_zero, movez );
 
-    map &here = get_map();
 
     // first find critters in the destination elevator and move them out of the way
     for( Creature &critter : g->all_creatures() ) {
         if( critter.is_player() ) {
             continue;
-        } else if( g->m.ter( critter.pos() ) == t_elevator ) {
-            tripoint critter_omt = ms_to_omt_copy( g->m.getabs( critter.pos() ) );
+        } else if( here.ter( critter.pos() ) == t_elevator ) {
+            tripoint critter_omt = ms_to_omt_copy( here.getabs( critter.pos() ) );
             if( critter_omt == new_floor_omt ) {
                 for( const tripoint &candidate : closest_points_first( critter.pos(), 10 ) ) {
-                    if( g->m.ter( candidate ) != t_elevator &&
-                        g->m.passable( candidate ) &&
+                    if( here.ter( candidate ) != t_elevator &&
+                        here.passable( candidate ) &&
                         !g->critter_at( candidate ) ) {
                         critter.setpos( candidate );
                         break;
@@ -904,7 +905,7 @@ void iexamine::elevator( player &p, const tripoint &examp )
     const auto first_elevator_tile = [&]( const tripoint & pos ) -> tripoint {
         for( const tripoint &candidate : closest_points_first( pos, 10 ) )
         {
-            if( g->m.ter( candidate ) == t_elevator ) {
+            if( here.ter( candidate ) == t_elevator ) {
                 return candidate;
             }
         }
@@ -927,12 +928,12 @@ void iexamine::elevator( player &p, const tripoint &examp )
     for( Creature &critter : g->all_creatures() ) {
         if( critter.is_player() ) {
             continue;
-        } else if( g->m.ter( critter.pos() ) == t_elevator ) {
-            tripoint critter_omt = ms_to_omt_copy( g->m.getabs( critter.pos() ) );
+        } else if( here.ter( critter.pos() ) == t_elevator ) {
+            tripoint critter_omt = ms_to_omt_copy( here.getabs( critter.pos() ) );
 
             if( critter_omt == original_floor_omt ) {
                 for( const tripoint &candidate : closest_points_first( p.pos(), 10 ) ) {
-                    if( g->m.ter( candidate ) == t_elevator &&
+                    if( here.ter( candidate ) == t_elevator &&
                         candidate != p.pos() &&
                         !g->critter_at( candidate ) ) {
                         critter.setpos( candidate );
