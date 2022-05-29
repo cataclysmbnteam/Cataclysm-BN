@@ -1190,25 +1190,23 @@ bool Character::burn_fuel( int b, bool start )
                 current_fuel_stock = std::stoi( get_value( fuel.str() ) );
             }
 
-            const units::energy possible_gain = units::from_kilojoule( fuel_energy ) * effective_efficiency;
-            const auto gain_exceeds_max_power = [&]() {
-                return get_power_level() + possible_gain > get_max_power_level();
-            };
-            const auto get_reason = [&]() {
-                if( is_metabolism_powered ) {
-                    return "to not waste calories.";
-                } else if( is_perpetual_fuel ) {
-                    return "after filling your power banks.";
-                } else {
-                    return "to not waste fuel.";
-                }
-            };
-            if( !bio.has_flag( flag_SAFE_FUEL_OFF ) && gain_exceeds_max_power() ) {
+            if( !bio.has_flag( flag_SAFE_FUEL_OFF ) &&
+                get_power_level() + units::from_kilojoule( fuel_energy ) * effective_efficiency
+                > get_max_power_level() ) {
                 if( !bio.is_auto_start_keep_full() ) {
-                    const std::string reason = get_reason();
-                    add_msg_player_or_npc( m_info, _( "Your %s turns off " + reason ),
-                                           _( "<npcname>'s %s turns off " + reason ),
-                                           bio.info().name );
+                    if( is_metabolism_powered ) {
+                        add_msg_player_or_npc( m_info, _( "Your %s turns off to not waste calories." ),
+                                               _( "<npcname>'s %s turns off to not waste calories." ),
+                                               bio.info().name );
+                    } else if( is_perpetual_fuel ) {
+                        add_msg_player_or_npc( m_info, _( "Your %s turns off after filling your power banks." ),
+                                               _( "<npcname>'s %s turns off after filling their power banks." ),
+                                               bio.info().name );
+                    } else {
+                        add_msg_player_or_npc( m_info, _( "Your %s turns off to not waste fuel." ),
+                                               _( "<npcname>'s %s turns off to not waste fuel." ),
+                                               bio.info().name );
+                    }
                 }
                 bio.powered = false;
                 deactivate_bionic( b, true );
