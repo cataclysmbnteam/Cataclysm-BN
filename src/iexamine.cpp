@@ -893,15 +893,30 @@ void iexamine::elevator( player &p, const tripoint &examp )
         }
     }
 
+    // TODO: do we have struct or pair to indicate from -> to?
+    const auto move_item = [&]( map_stack & items, const tripoint & src, const tripoint & dest ) {
+        for( auto it = items.begin(); it != items.end(); ) {
+            here.add_item_or_charges( dest, *it );
+            it = here.i_rem( src, it );
+        }
+    };
+
+    const auto first_elevator_tile = [&]( const tripoint & pos ) -> tripoint {
+        for( const tripoint &candidate : closest_points_first( pos, 10 ) )
+        {
+            if( g->m.ter( candidate ) == t_elevator ) {
+                return candidate;
+            }
+        }
+        return pos;
+    };
+
     // move along every item in the elevator
     for( const tripoint &pos : closest_points_first( p.pos(), 10 ) ) {
         if( here.ter( pos ) == t_elevator ) {
             map_stack items = here.i_at( pos );
-            tripoint dest = tripoint( pos.x, pos.y, pos.z + movez );
-            for( auto it = items.begin(); it != items.end(); ) {
-                here.add_item_or_charges( dest, *it );
-                it = here.i_rem( pos, it );
-            }
+            tripoint dest = first_elevator_tile( pos + tripoint( 0, 0, movez ) );
+            move_item( items, pos, dest );
         }
     }
 
