@@ -13,7 +13,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
-    "mod_targets": [ "bow" ],
+    "mod_targets": [ "archery" ],
     "sight_dispersion": 10,
     "aim_speed": 5
   },
@@ -31,7 +31,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
-    "mod_targets": [ "bow" ],
+    "mod_targets": [ "archery" ],
     "sight_dispersion": 25,
     "aim_speed": 8
   },
@@ -49,7 +49,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
-    "mod_targets": [ "bow" ],
+    "mod_targets": [ "archery" ],
     "sight_dispersion": 5,
     "aim_speed": 2,
     "flags": [ "ZOOM" ]

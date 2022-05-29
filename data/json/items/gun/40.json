@@ -228,6 +228,7 @@
     "blackpowder_tolerance": 60,
     "loudness": 25,
     "clip_size": 6,
+    "magazines": [ [ "40", [ "40_speedloader6" ] ] ],
     "reload": 200,
     "valid_mod_locations": [
       [ "accessories", 2 ],

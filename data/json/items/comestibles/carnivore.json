@@ -242,18 +242,6 @@
     "relative": { "vitamins": [ [ "vitA", 5 ], [ "iron", 4 ] ], "fun": -5 }
   },
   {
-    "id": "offal_cooked",
-    "copy-from": "offal",
-    "type": "COMESTIBLE",
-    "name": { "str_sp": "cooked offal" },
-    "description": "This is freshly cooked organ meat and entrails.  It's filled with essential vitamins, but most people consider it a bit gross unless very carefully prepared.",
-    "parasites": 0,
-    "healthy": 1,
-    "price_postapoc": 50,
-    "fun": -5,
-    "flags": [ "EATEN_HOT" ]
-  },
-  {
     "id": "offal_pickled",
     "copy-from": "offal",
     "type": "COMESTIBLE",
@@ -303,17 +291,6 @@
       [ "iron", 4 ],
       [ "mutant_toxin", 50 ]
     ]
-  },
-  {
-    "id": "mutant_offal_cooked",
-    "copy-from": "mutant_offal",
-    "type": "COMESTIBLE",
-    "name": { "str_sp": "cooked mutant offal" },
-    "looks_like": "offal",
-    "description": "Cooked mutant organs.  Color and smell are almost normal, but it still looks weird.",
-    "parasites": 0,
-    "fun": -5,
-    "flags": [ "EATEN_HOT" ]
   },
   {
     "id": "stomach",
