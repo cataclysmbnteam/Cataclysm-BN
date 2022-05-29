@@ -865,6 +865,7 @@ void iexamine::toilet( player &p, const tripoint &examp )
 void iexamine::elevator( player &p, const tripoint &examp )
 {
     map &here = get_map();
+    static const std::string flag_elevator = "ELEVATOR";
 
     if( !query_yn( _( "Use the %s?" ), here.tername( examp ) ) ) {
         return;
@@ -879,11 +880,11 @@ void iexamine::elevator( player &p, const tripoint &examp )
     for( Creature &critter : g->all_creatures() ) {
         if( critter.is_player() ) {
             continue;
-        } else if( here.has_flag( "ELEVATOR", critter.pos() ) ) {
+        } else if( here.has_flag( flag_elevator, critter.pos() ) ) {
             tripoint critter_omt = ms_to_omt_copy( here.getabs( critter.pos() ) );
             if( critter_omt == new_floor_omt ) {
                 for( const tripoint &candidate : closest_points_first( critter.pos(), 10 ) ) {
-                    if( !here.has_flag( "ELEVATOR", candidate ) &&
+                    if( !here.has_flag( flag_elevator, candidate ) &&
                         here.passable( candidate ) &&
                         !g->critter_at( candidate ) ) {
                         critter.setpos( candidate );
@@ -914,7 +915,7 @@ void iexamine::elevator( player &p, const tripoint &examp )
 
     // move along every item in the elevator
     for( const tripoint &pos : closest_points_first( p.pos(), 10 ) ) {
-        if( here.has_flag( "ELEVATOR", pos ) ) {
+        if( here.has_flag( flag_elevator, pos ) ) {
             map_stack items = here.i_at( pos );
             tripoint dest = first_elevator_tile( pos + tripoint( 0, 0, movez ) );
             move_item( items, pos, dest );
@@ -928,12 +929,12 @@ void iexamine::elevator( player &p, const tripoint &examp )
     for( Creature &critter : g->all_creatures() ) {
         if( critter.is_player() ) {
             continue;
-        } else if( here.has_flag( "ELEVATOR", critter.pos() ) ) {
+        } else if( here.has_flag( flag_elevator, critter.pos() ) ) {
             tripoint critter_omt = ms_to_omt_copy( here.getabs( critter.pos() ) );
 
             if( critter_omt == original_floor_omt ) {
                 for( const tripoint &candidate : closest_points_first( p.pos(), 10 ) ) {
-                    if( here.has_flag( "ELEVATOR", candidate ) &&
+                    if( here.has_flag( flag_elevator, candidate ) &&
                         candidate != p.pos() &&
                         !g->critter_at( candidate ) ) {
                         critter.setpos( candidate );
