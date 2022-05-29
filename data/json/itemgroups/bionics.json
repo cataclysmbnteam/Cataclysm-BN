@@ -98,7 +98,6 @@
     "id": "bionics_common",
     "subtype": "distribution",
     "items": [
-      [ "bio_power_storage", 10 ],
       [ "bio_tools", 10 ],
       [ "bio_flashlight", 10 ],
       [ "bio_fuel_cell_gasoline", 10 ],
@@ -118,7 +117,6 @@
     "type": "item_group",
     "id": "bionics_mil",
     "items": [
-      [ "bio_power_storage", 10 ],
       [ "bio_batteries", 10 ],
       [ "bio_metabolics", 10 ],
       [ "bio_ethanol", 10 ],
@@ -187,7 +185,6 @@
     "subtype": "distribution",
     "//": "What the commandos get.",
     "items": [
-      [ "bio_power_storage_mkII", 10 ],
       [ "bio_batteries", 10 ],
       [ "bio_metabolics", 20 ],
       [ "bio_torsionratchet", 20 ],
@@ -332,7 +329,6 @@
     "subtype": "distribution",
     "//": "Bionics dropped by substation mini-boss.",
     "items": [
-      [ "bio_power_storage", 20 ],
       [ "bio_batteries", 20 ],
       [ "bio_ups", 15 ],
       [ "bio_torsionratchet", 20 ],
@@ -405,5 +401,17 @@
       [ "bio_teleport", 4 ],
       [ "bio_probability_travel", 4 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "bionic_power_storage_civ",
+    "//": "Civilian-level power storage bionics.  Only tier one power storage in vanilla, but mods might add to this.",
+    "items": [ [ "bio_power_storage", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "bionic_power_storage_mil",
+    "//": "Military and super-science power storage bionics, includes all current variants.",
+    "items": [ [ "bio_power_storage", 50 ], [ "bio_power_storage_mkII", 50 ] ]
   }
 ]

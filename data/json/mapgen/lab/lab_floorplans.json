@@ -549,6 +549,7 @@
             { "item": "dissection", "chance": 60 },
             { "item": "tools_science", "chance": 20 },
             { "item": "bionics_common", "chance": 10 },
+            { "item": "bionic_power_storage_mil", "chance": 10 },
             { "item": "mut_lab", "chance": 5 }
           ]
         }

@@ -414,8 +414,7 @@
     "components": [
       [
         [ "splinter", 40 ],
-        [ "2x4", 6 ],
-        [ "stick", 8 ],
+        [ "wood_structural", 4, "LIST" ],
         [ "bone", 40 ],
         [ "bone_human", 40 ],
         [ "bone_tainted", 40 ],

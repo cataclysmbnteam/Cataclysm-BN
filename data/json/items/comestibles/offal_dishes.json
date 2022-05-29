@@ -286,5 +286,22 @@
     "id": "homemade_hotdogs",
     "name": { "str": "homemade hot dog" },
     "copy-from": "hotdogs_frozen"
+  },
+  {
+    "id": "offal_cooked",
+    "copy-from": "offal",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "fried offal" },
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": "fried Frank offal" },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "fried freak offal" } }
+    ],
+    "description": "This is freshly cooked organ meat and entrails.  Deep-frying it makes it more palatable, and while it's probably less healthy it's still filled with essential vitamins.",
+    "parasites": 0,
+    "quench": -2,
+    "fun": 1,
+    "healthy": -2,
+    "price_postapoc": 50,
+    "flags": [ "EATEN_HOT" ]
   }
 ]

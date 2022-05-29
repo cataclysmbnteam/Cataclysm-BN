@@ -3032,5 +3032,10 @@
     "type": "recipe",
     "result": "reloaded_shot_slug",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mutant_offal_cooked",
+    "obsolete": true
   }
 ]
