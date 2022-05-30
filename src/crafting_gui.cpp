@@ -490,7 +490,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 const int makes = current[line]->makes_amount();
                 if( makes > 1 ) {
                     ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
-                                            _( "Recipe makes: <color_cyan>%d</color>" ),
+                                            _( "One batch makes: <color_cyan>%d</color>" ),
                                             makes );
                 }
 
