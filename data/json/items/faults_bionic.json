@@ -30,8 +30,7 @@
               [ "chem_hydrogen_peroxide_conc", 1 ],
               [ "chem_hydrogen_peroxide", 50 ],
               [ "chem_ethanol", 1000 ],
-              [ "denat_alcohol", 1000 ],
-              [ "bleach", 20 ]
+              [ "denat_alcohol", 1000 ]
             ],
             [ [ "pouch_autoclave", 1 ], [ "bag_plastic", 1 ] ]
           ]
