@@ -884,8 +884,14 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
             for( npc &guy : g->all_npcs() ) {
                 if( guy.get_attitude() == NPCATT_RECOVER_GOODS ) {
                     guy.talk_to_u();
+                    // Set the witness to false to avoid more talk
+                    npc::has_thievery_witness = false;
                     break;
                 }
+            }
+            if( npc::has_thievery_witness ) {
+                debugmsg( "Could not find any thievery witness, but there should be one." );
+                npc::has_thievery_witness = false;
             }
         }
     }

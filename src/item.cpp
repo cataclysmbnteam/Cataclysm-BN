@@ -4281,7 +4281,7 @@ void item::handle_pickup_ownership( Character &c )
             }
             if( !witnesses.empty() ) {
                 set_old_owner( get_owner() );
-                random_entry( witnesses )->witness_thievery( &*this );
+                random_entry( witnesses )->witness_thievery();
             }
             set_owner( c );
         }

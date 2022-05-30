@@ -841,13 +841,11 @@ void talk_function::drop_stolen_item( npc &p )
         g->u.stop_hauling();
     }
     p.set_attitude( NPCATT_NULL );
-    npc::has_thievery_witness = false;
 }
 
 void talk_function::remove_stolen_status( npc &p )
 {
     p.set_attitude( NPCATT_NULL );
-    npc::has_thievery_witness = false;
 }
 
 void talk_function::start_mugging( npc &p )

@@ -1302,8 +1302,14 @@ void npc::execute_action( npc_action action )
     }
 }
 
-void npc::witness_thievery( item *it )
+void npc::witness_thievery()
 {
+    // Make sure there is only one witness
+    for( npc &guy : g->all_npcs() ) {
+        if( guy.get_attitude() == NPCATT_RECOVER_GOODS ) {
+            guy.set_attitude( NPCATT_NULL );
+        }
+    }
     set_attitude( NPCATT_RECOVER_GOODS );
     has_thievery_witness = true;
 }
