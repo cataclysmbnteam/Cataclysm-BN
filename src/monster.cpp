@@ -2524,7 +2524,7 @@ void monster::process_effects_internal()
 
     //If this monster has the ability to heal in combat, do it now.
     int regeneration_amount = type->regenerates;
-    //Apply effect-triggered regeneartion modifers
+    //Apply effect-triggered regeneration modifiers
     for( const auto &regeneration_modifier : type->regeneration_modifiers ) {
         if( has_effect( regeneration_modifier.first ) ) {
             regeneration_amount *= 1 + regeneration_modifier.second;
