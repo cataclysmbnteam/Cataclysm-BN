@@ -1659,7 +1659,7 @@ void map::monster_in_field( monster &z )
                 z.deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( DT_ACID, d ) );
                 z.check_dead_state();
                 if( d > 0 ) {
-                    z.add_effect( effect_corroding, 1_turns * rng( dam / 2, dam * 2 ) );
+                    z.add_effect( effect_corroding, 1_turns * rng( d / 2, d * 2 ) );
                 }
             }
 
