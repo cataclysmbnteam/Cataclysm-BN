@@ -2529,7 +2529,7 @@ void monster::process_effects_internal()
         if( has_effect( regeneration_modifier.first ) ) {
             effect &e = get_effect( regeneration_modifier.first );
             //Effect intensity dictates how many times the regeneration is reduced
-            regeneration_amount *= std::pow( 1 - regeneration_modifier.second, e.get_intensity() );
+            regeneration_amount *= std::pow( 1 + regeneration_modifier.second, e.get_intensity() );
         }
     }
     //Prevent negative regeneration

@@ -26,7 +26,8 @@
     "vision_night": 30,
     "harvest": "exempt",
     "death_function": [ "MELT" ],
-    "regenerates": 50,
+    "regenerates": 50,    
+    "regeneration_modifers": [ [ "onfire", -0.3 ], [ "corroding", -0.3 ] ],
     "flags": [ "NOHEAD", "SEES", "POISON", "HEARS", "SMELLS", "SLUDGEPROOF", "SLUDGETRAIL", "SWIMS", "FLAMMABLE", "NOGIB" ]
   },
   {
