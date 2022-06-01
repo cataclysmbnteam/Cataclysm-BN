@@ -87,7 +87,16 @@
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s armor disengages.", "target": "power_armor_basic" },
     "covers": [ "torso", "arms", "hands", "legs", "feet" ],
     "encumbrance": 10,
-    "weight_capacity_bonus": "70 kg"
+    "weight_capacity_bonus": "55 kg",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ACTIVE",
+          "values": [ { "value": "STRENGTH", "add": 4 } ]
+        }
+      ]
+    },
   },
   {
     "id": "power_armor_heavy",
@@ -129,7 +138,16 @@
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s armor disengages.", "target": "power_armor_heavy" },
     "covers": [ "torso", "arms", "hands", "legs", "feet" ],
     "encumbrance": 20,
-    "weight_capacity_bonus": "80 kg"
+    "weight_capacity_bonus": "75 kg",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ACTIVE",
+          "values": [ { "value": "STRENGTH", "add": 6 } ]
+        }
+      ]
+    },
   },
   {
     "id": "power_armor_light",
@@ -170,7 +188,16 @@
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s armor disengages.", "target": "power_armor_light" },
     "covers": [ "torso", "arms", "hands", "legs", "feet" ],
     "encumbrance": 1,
-    "weight_capacity_bonus": "15 kg"
+    "weight_capacity_bonus": "12670 g",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ACTIVE",
+          "values": [ { "value": "STRENGTH", "add": 4 } ]
+        }
+      ]
+    },
   },
   {
     "id": "power_armor_helmet_basic",
@@ -215,7 +242,8 @@
     "revert_to": "power_armor_helmet_basic",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s powers down.", "target": "power_armor_helmet_basic" },
     "covers": [ "head", "eyes", "mouth" ],
-    "encumbrance": 10
+    "encumbrance": 10,
+    "weight_capacity_bonus": "3628 g"
   },
   {
     "id": "power_armor_helmet_heavy",
@@ -260,7 +288,8 @@
     "revert_to": "power_armor_helmet_heavy",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s powers down.", "target": "power_armor_helmet_heavy" },
     "covers": [ "head", "eyes", "mouth" ],
-    "encumbrance": 20
+    "encumbrance": 20,
+    "weight_capacity_bonus": "5442 g"
   },
   {
     "id": "power_armor_helmet_light",
@@ -305,7 +334,8 @@
     "revert_to": "power_armor_helmet_light",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s powers down.", "target": "power_armor_helmet_light" },
     "covers": [ "head", "eyes", "mouth" ],
-    "encumbrance": 1
+    "encumbrance": 1,
+    "weight_capacity_bonus": "1814 g"
   },
   {
     "id": "power_armor_frame",
