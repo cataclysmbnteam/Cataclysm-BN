@@ -1536,11 +1536,8 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 } else if( ranged::get_str_draw_penalty( *this, viewer ) < 0.75f ) {
                     req.push_back( string_format( "%s %d <color_red>(Damage/Range 0.5x, Dispersion 2.0x)</color>",
                                                   _( "strength" ), get_min_str() ) );
-                } else if( ranged::get_str_draw_penalty( *this, viewer ) < 0.9f ) {
-                    req.push_back( string_format( "%s %d <color_light_red>(Damage/Range 0.75x)</color>",
-                                                  _( "strength" ), get_min_str() ) );
                 } else {
-                    req.push_back( string_format( "%s %d <color_yellow>(Damage 0.9x)</color>", _( "strength" ),
+                    req.push_back( string_format( "%s %d <color_yellow>(Damage/Range 0.75x)</color>", _( "strength" ),
                                                   get_min_str() ) );
                 }
             } else {

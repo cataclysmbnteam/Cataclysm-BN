@@ -997,10 +997,8 @@ float str_draw_damage_modifier( const item &it, const Character &p )
     }
     if( ranged::get_str_draw_penalty( it, p ) < 0.75f ) {
         return 0.5f;
-    } else if( ranged::get_str_draw_penalty( it, p ) < 0.9f ) {
-        return 0.75f;
     } else if( ranged::get_str_draw_penalty( it, p ) < 1.0f ) {
-        return 0.9f;
+        return 0.75f;
     } else {
         return 1.0f;
     }
@@ -1025,7 +1023,7 @@ float str_draw_range_modifier( const item &it, const Character &p )
     }
     if( ranged::get_str_draw_penalty( it, p ) < 0.75f ) {
         return 0.5f;
-    } else if( ranged::get_str_draw_penalty( it, p ) < 0.9f ) {
+    } else if( ranged::get_str_draw_penalty( it, p ) < 1.0f ) {
         return 0.75f;
     } else {
         return 1.0f;
