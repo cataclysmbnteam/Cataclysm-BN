@@ -60,7 +60,7 @@
     "cold_morale_mod": 2,
     "squeamish_penalty": 7,
     "base_hp": 60,
-    "bionic_slots": 18
+    "bionic_slots": 20
   },
   {
     "id": "eyes",
@@ -80,7 +80,7 @@
     "stylish_bonus": 2,
     "squeamish_penalty": 8,
     "base_hp": 60,
-    "bionic_slots": 4
+    "bionic_slots": 5
   },
   {
     "id": "mouth",
@@ -102,7 +102,7 @@
     "cold_morale_mod": 2,
     "squeamish_penalty": 9,
     "base_hp": 60,
-    "bionic_slots": 4
+    "bionic_slots": 5
   },
   {
     "id": "arm_l",
@@ -127,7 +127,7 @@
     "cold_morale_mod": 0.5,
     "squeamish_penalty": 5,
     "base_hp": 60,
-    "bionic_slots": 20
+    "bionic_slots": 30
   },
   {
     "id": "arm_r",
@@ -151,7 +151,7 @@
     "cold_morale_mod": 0.5,
     "squeamish_penalty": 5,
     "base_hp": 60,
-    "bionic_slots": 20
+    "bionic_slots": 30
   },
   {
     "id": "hand_l",
@@ -175,7 +175,7 @@
     "cold_morale_mod": 0.5,
     "squeamish_penalty": 3,
     "base_hp": 60,
-    "bionic_slots": 5
+    "bionic_slots": 10
   },
   {
     "id": "hand_r",
@@ -199,7 +199,7 @@
     "cold_morale_mod": 0.5,
     "squeamish_penalty": 3,
     "base_hp": 60,
-    "bionic_slots": 5
+    "bionic_slots": 10
   },
   {
     "id": "leg_l",
@@ -273,7 +273,7 @@
     "cold_morale_mod": 0.5,
     "squeamish_penalty": 3,
     "base_hp": 60,
-    "bionic_slots": 7
+    "bionic_slots": 10
   },
   {
     "id": "foot_r",
@@ -297,6 +297,6 @@
     "cold_morale_mod": 0.5,
     "squeamish_penalty": 3,
     "base_hp": 60,
-    "bionic_slots": 7
+    "bionic_slots": 10
   }
 ]
