@@ -369,7 +369,10 @@ class inventory_column
 
         entry_cell_cache_t make_entry_cell_cache( const inventory_entry &entry ) const;
         const entry_cell_cache_t &get_entry_cell_cache( size_t index ) const;
+        // TODO: Maybe doesn't need to be public
+    public:
         void clear_cell_cache() const;
+    protected:
 
         const inventory_selector_preset &preset;
 
@@ -760,6 +763,8 @@ class inventory_drop_selector : public inventory_multiselector
         void set_chosen_drop_count( inventory_entry &entry, size_t count );
         void process_selected( int count, const std::vector<inventory_entry *> &selected );
         excluded_stacks get_implied_drops() const;
+
+        const caching_drop_preset &caching_preset;
     private:
         excluded_stacks dropping;
 

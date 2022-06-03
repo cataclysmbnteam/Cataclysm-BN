@@ -460,9 +460,6 @@ inventory_column::entry_cell_cache_t inventory_column::make_entry_cell_cache(
         result.text[i] = preset.get_cell_text( entry, i );
     }
 
-    printf( "getting color for %s\n",
-            result.text.empty() ? "empty cell" : result.text.front().c_str() );
-
     return result;
 }
 
@@ -1057,9 +1054,9 @@ void selection_column::on_change( const inventory_entry &entry )
         if( iter != entries.end() ) {
             last_changed = *iter;
         }
-    }
 
-    clear_cell_cache();
+        clear_cell_cache();
+    }
 }
 
 // TODO: Move it into some 'item_stack' class.
@@ -2155,14 +2152,15 @@ inventory_selector::stats inventory_iuse_selector::get_raw_stats() const
 
 inventory_drop_selector::inventory_drop_selector( player &p,
         const caching_drop_preset &preset ) :
-    inventory_multiselector( p, preset, _( "ITEMS TO DROP" ) )
+    inventory_multiselector( p, preset, _( "ITEMS TO DROP" ) ),
+    caching_preset( preset )
 {
 #if defined(__ANDROID__)
     // allow user to type a drop number without dismissing virtual keyboard after each keypress
     ctxt.allow_text_entry = true;
 #endif
 
-    static_cast<const caching_drop_preset &>( preset ).rebuild( u, dropping, get_all_columns() );
+    caching_preset.rebuild( u, dropping, get_all_columns() );
 }
 
 void inventory_drop_selector::process_selected( int count,
@@ -2186,12 +2184,15 @@ void inventory_drop_selector::process_selected( int count,
 
 drop_locations inventory_drop_selector::execute()
 {
+    caching_preset.rebuild( u, dropping, get_all_columns() );
+
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
 
     int count = 0;
     avatar &u = get_avatar();
     while( true ) {
         ui_manager::redraw();
+        // select_position( get_selection_position() );
 
         const inventory_input input = get_input();
 
@@ -2336,8 +2337,7 @@ inventory_selector::stats inventory_drop_selector::get_raw_stats() const
 
     const Creature &u = this->u;
     const stat time_stat = display_time( _( "Time" ),
-                                         static_cast<const caching_drop_preset &>( preset )
-                                         .get_move_cost_sum(),
+                                         caching_preset.get_move_cost_sum(),
     [&u]( int i ) {
         int speed = u.get_speed();
         return string_format( "%d.%02ds", i / speed, i % speed );
@@ -2353,9 +2353,12 @@ void caching_drop_preset::set_implied_cache_dirty() const
 
 void inventory_drop_selector::on_change( const inventory_entry &entry )
 {
-    printf( "on_change called\n" );
-    static_cast<const caching_drop_preset &>( preset ).set_implied_cache_dirty();
-    static_cast<const caching_drop_preset &>( preset ).rebuild( u, dropping, get_all_columns() );
+    caching_preset.set_implied_cache_dirty();
+    caching_preset.rebuild( u, dropping, get_all_columns() );
+    // TODO: Refresh only those which changed status
+    for( inventory_column *col : get_all_columns() ) {
+        col->clear_cell_cache();
+    }
     inventory_multiselector::on_change( entry );
 }
 
@@ -2427,11 +2430,6 @@ void caching_drop_preset::rebuild(
                 }
             }
 
-            printf( "%s - total: %d, matching: %d\n",
-                    entry->any_item().get_item()->display_name().c_str(),
-                    total_count,
-                    matching_count );
-
             if( matching_count > total_count ) {
                 debugmsg( "Dropped item count > total item count (somehow)" );
                 implied_drops.clear();
@@ -2442,20 +2440,24 @@ void caching_drop_preset::rebuild(
         }
     }
 
-
+    // If our cache is empty but inventory isn't, something went wrong
+    if( implied_drops.empty() && !u.weapon.is_null() && !u.worn.empty() && u.inv.size() != 0 ) {
+        implied_cache_dirty = true;
+    }
 }
 
 nc_color caching_drop_preset::get_color( const inventory_entry &entry ) const
 {
+    if( implied_cache_dirty ) {
+        debugmsg( "Data not built" );
+    }
     if( !entry.is_item() ) {
         return inventory_selector_preset::get_color( entry );
     }
     auto iter = implied_drops.find( &*entry.any_item() );
-    printf( "getting color for %s\n", entry.any_item()->display_name().c_str() );
     if( iter == implied_drops.end() ) {
         // TODO: Shouldn't happen?
         return c_red;
-        // return inventory_selector_preset::get_color( entry );
     }
 
     const count_out_of &selection = iter->second;
@@ -2470,14 +2472,8 @@ nc_color caching_drop_preset::get_color( const inventory_entry &entry ) const
 
 excluded_stacks inventory_drop_selector::get_implied_drops() const
 {
-    auto *hacky_ptr = static_cast<const caching_drop_preset *>( &preset );
-    if( hacky_ptr == nullptr ) {
-        debugmsg( "This hack requires ui preset to be of caching_drop_preset class!" );
-        return {};
-    }
-    auto &hacky = const_cast<caching_drop_preset &>( *hacky_ptr );
-    hacky.rebuild( u, dropping, get_all_columns() );
-    auto drop_proposals = hacky.get_implied_drops();
+    caching_preset.rebuild( u, dropping, get_all_columns() );
+    auto drop_proposals = caching_preset.get_implied_drops();
 
     excluded_stacks result;
     for( const auto &pr : drop_proposals ) {

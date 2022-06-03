@@ -166,9 +166,9 @@ TEST_CASE( "when dropping bags, the ui adds implied drops to 'selection' column"
 }
 
 static void test_drop_colors( player &u,
-                                    debug_inventory_selector &ui,
-                                    const item &pack,
-                                    const item &filler )
+                              debug_inventory_selector &ui,
+                              const item &pack,
+                              const item &filler )
 {
     set_up_drop( u, ui, pack.typeId() );
     size_t expected_bottle_count_min = pack.get_total_capacity() / filler.volume();
@@ -220,11 +220,11 @@ TEST_CASE( "when dropping bags, the ui colors implied drops in 'TODO: find good 
         ui.add_character_items( u );
 
         WHEN( "The character wants to drop a backpack" ) {
-            test_drop_implications( u, ui, backpack, filler );
+            test_drop_colors( u, ui, backpack, filler );
         }
 
         WHEN( "The character wants to drop a duffel bag" ) {
-            test_drop_implications( u, ui, duffelbag, filler );
+            test_drop_colors( u, ui, duffelbag, filler );
         }
     }
 }
