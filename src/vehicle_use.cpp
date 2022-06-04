@@ -384,6 +384,7 @@ void vehicle::control_engines()
                     }
                     return;
                 }
+                i++;
             }
         }
     };
