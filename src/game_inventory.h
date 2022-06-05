@@ -6,7 +6,6 @@
 #include <utility>
 
 #include "item_handling_util.h"
-#include "item_location.h"
 
 struct tripoint;
 

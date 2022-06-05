@@ -3,7 +3,6 @@
 #define CATA_SRC_FLAG_H
 
 #include <set>
-#include <string>
 
 #include "translations.h"
 #include "type_id.h"

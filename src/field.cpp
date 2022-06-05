@@ -1,11 +1,5 @@
 #include "field.h"
 
-#include <algorithm>
-#include <utility>
-
-#include "calendar.h"
-#include "int_id.h"
-
 int field_entry::move_cost() const
 {
     return type.obj().get_move_cost( intensity - 1 );

@@ -3,16 +3,11 @@
 #define CATA_SRC_FONT_LOADER_H
 
 #include <algorithm>
-#include <stdexcept>
-#include <string>
-#include <vector>
 
-#include "debug.h"
 #include "filesystem.h"
 #include "fstream_utils.h"
 #include "json.h"
 #include "path_info.h"
-#include "cata_utility.h"
 
 // Ensure that unifont is always loaded as a fallback font to prevent users from shooting themselves in the foot
 static void ensure_unifont_loaded( std::vector<std::string> &font_list )

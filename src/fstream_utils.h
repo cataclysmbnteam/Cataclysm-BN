@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_FSTREAM_UTILS_H
 #define CATA_SRC_FSTREAM_UTILS_H
 
-#include <iosfwd>
 #include <string>
 #include <memory>
 #include <functional>

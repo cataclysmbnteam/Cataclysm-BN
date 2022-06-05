@@ -3,10 +3,8 @@
 #define CATA_SRC_GAMEMODE_TUTORIAL_H
 
 #include <functional>
-#include <iosfwd>
 #include <map>
 
-#include "enums.h"
 #include "gamemode.h"
 
 template <typename E> struct enum_traits;

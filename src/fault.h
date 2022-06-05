@@ -2,9 +2,7 @@
 #ifndef CATA_SRC_FAULT_H
 #define CATA_SRC_FAULT_H
 
-#include <map>
 #include <set>
-#include <string>
 
 #include "calendar.h"
 #include "optional.h"

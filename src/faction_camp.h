@@ -2,10 +2,6 @@
 #ifndef CATA_SRC_FACTION_CAMP_H
 #define CATA_SRC_FACTION_CAMP_H
 
-#include <string>
-#include <vector>
-#include <utility>
-
 #include "coordinates.h"
 
 namespace catacurses

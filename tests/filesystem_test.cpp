@@ -3,10 +3,7 @@
 #include "catch/catch.hpp"
 #include "filesystem.h"
 #include "fstream_utils.h"
-#include "string_formatter.h"
-#include "path_info.h"
 #include "game.h"
-#include "cata_utility.h"
 
 static std::string str_to_hex( const std::string &s )
 {

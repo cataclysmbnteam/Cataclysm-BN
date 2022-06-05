@@ -3,10 +3,8 @@
 #define CATA_SRC_FLOOD_FILL_H
 
 #include <queue>
-#include <vector>
 #include <unordered_set>
 
-#include "enums.h"
 #include "point.h"
 
 namespace ff

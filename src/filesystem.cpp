@@ -2,20 +2,12 @@
 
 // FILE I/O
 #include <sys/stat.h>
-#include <cstdlib>
 #include <algorithm>
-#include <cerrno>
-#include <cstdio>
 #include <cstring>
 #include <deque>
 #include <fstream>
-#include <string>
-#include <vector>
-#include <iterator>
-#include <utility>
 
 #include "debug.h"
-#include "catacharset.h"
 #include "fstream_utils.h"
 #include "string_utils.h"
 

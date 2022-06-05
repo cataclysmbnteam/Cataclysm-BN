@@ -2,34 +2,17 @@
 #ifndef CATA_SRC_GAME_H
 #define CATA_SRC_GAME_H
 
-#include <array>
 #include <chrono>
-#include <ctime>
-#include <functional>
-#include <iosfwd>
 #include <list>
-#include <map>
-#include <memory>
-#include <set>
-#include <string>
 #include <unordered_set>
-#include <utility>
-#include <vector>
-
 #include "action.h"
 #include "calendar.h"
 #include "character_id.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
-#include "enums.h"
-#include "game_constants.h"
 #include "item_location.h"
 #include "memory_fast.h"
-#include "optional.h"
-#include "pimpl.h"
-#include "point.h"
-#include "type_id.h"
 
 class Character;
 class Creature_tracker;

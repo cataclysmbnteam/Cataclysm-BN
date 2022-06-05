@@ -1,42 +1,14 @@
 #include "handle_liquid.h"
 
-#include <algorithm>
-#include <climits>
-#include <cstddef>
-#include <functional>
-#include <iterator>
-#include <list>
-#include <memory>
-#include <ostream>
-#include <set>
-#include <string>
-#include <vector>
-
-#include "action.h"
 #include "avatar.h"
-#include "cata_utility.h"
-#include "colony.h"
-#include "debug.h"
-#include "enums.h"
 #include "fstream_utils.h"
 #include "game.h"
 #include "game_inventory.h"
 #include "iexamine.h"
-#include "item.h"
-#include "item_contents.h"
-#include "line.h"
-#include "map.h"
 #include "map_iterator.h"
 #include "messages.h"
 #include "monster.h"
-#include "optional.h"
-#include "player_activity.h"
-#include "string_formatter.h"
-#include "translations.h"
-#include "type_id.h"
 #include "ui.h"
-#include "vehicle.h"
-#include "vpart_position.h"
 #include "vpart_range.h"
 
 // All serialize_liquid_source functions should add the same number of elements to the vectors of

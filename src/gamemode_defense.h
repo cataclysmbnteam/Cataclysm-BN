@@ -2,16 +2,10 @@
 #ifndef CATA_SRC_GAMEMODE_DEFENSE_H
 #define CATA_SRC_GAMEMODE_DEFENSE_H
 
-#include <string>
-#include <vector>
-
 #include "calendar.h"
 #include "cursesdef.h"
-#include "enums.h"
 #include "gamemode.h"
 #include "omdata.h"
-#include "point.h"
-#include "type_id.h"
 
 enum action_id : int;
 

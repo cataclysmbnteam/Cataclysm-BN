@@ -1,9 +1,6 @@
-#include "gamemode.h"
 #include "gamemode_defense.h"
 #include "gamemode_tutorial.h"
 
-#include "debug.h"
-#include "translations.h"
 
 std::string special_game_name( special_game_id id )
 {

@@ -14,8 +14,6 @@
 #include <functional>
 #include <iterator>
 #include <memory>
-#include <string>
-#include <type_traits>
 #include <vector>
 
 // The fmt library version in the form major * 10000 + minor * 100 + patch.

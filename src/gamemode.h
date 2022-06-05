@@ -3,7 +3,6 @@
 #define CATA_SRC_GAMEMODE_H
 
 #include <memory>
-#include <string>
 
 #include "enums.h"
 

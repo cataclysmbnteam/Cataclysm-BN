@@ -1,8 +1,6 @@
 #include <unordered_set>
 #include "catch/catch.hpp"
 
-#include "colony_list_test_helpers.h"
-#include "flag.h"
 #include "generic_factory.h"
 
 #ifdef _MSC_VER

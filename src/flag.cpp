@@ -1,10 +1,5 @@
 #include "flag.h"
 
-#include <unordered_map>
-
-#include "debug.h"
-#include "json.h"
-#include "type_id.h"
 #include "generic_factory.h"
 
 const flag_str_id flag_NULL = flag_str_id( "null" ); // intentionally invalid flag

@@ -2,25 +2,10 @@
 #ifndef CATA_SRC_FIELD_TYPE_H
 #define CATA_SRC_FIELD_TYPE_H
 
-#include <algorithm>
-#include <cstddef>
-#include <cstdint>
-#include <set>
-#include <string>
-#include <tuple>
-#include <unordered_map>
-#include <utility>
-#include <vector>
-
-#include "bodypart.h"
-#include "calendar.h"
 #include "catacharset.h"
-#include "color.h"
 #include "effect.h"
-#include "enums.h"
 #include "mapdata.h"
-#include "translations.h"
-#include "type_id.h"
+#include "enums.h"
 
 class JsonObject;
 template <typename E> struct enum_traits;

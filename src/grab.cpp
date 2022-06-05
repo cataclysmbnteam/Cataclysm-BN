@@ -1,7 +1,5 @@
 #include "game.h" // IWYU pragma: associated
 
-#include <cstdlib>
-#include <algorithm>
 
 #include "avatar.h"
 #include "map.h"
@@ -10,11 +8,7 @@
 #include "sounds.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "debug.h"
 #include "rng.h"
-#include "tileray.h"
-#include "translations.h"
-#include "units.h"
 
 static const efftype_id effect_harnessed( "harnessed" );
 

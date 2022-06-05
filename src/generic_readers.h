@@ -2,8 +2,6 @@
 #ifndef CATA_SRC_GENERIC_READERS_H
 #define CATA_SRC_GENERIC_READERS_H
 
-#include <map>
-#include <vector>
 #include "json.h"
 #include "units.h"
 
