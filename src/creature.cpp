@@ -610,7 +610,7 @@ dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, const da
         return acc + pr.first->hit_size;
     } );
     dealt_damage_instance dealt_damage;
-    for( const std::pair<bodypart_str_id, bodypart> &pr : all_body_parts ) {
+    for( const std::pair<const bodypart_str_id, bodypart> &pr : all_body_parts ) {
         damage_instance impact = di;
         impact.mult_damage( pr.first->hit_size / hit_size_sum );
         dealt_damage_instance bp_damage = target.deal_damage( source, pr.first.id(), impact );

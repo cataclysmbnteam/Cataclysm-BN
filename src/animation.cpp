@@ -976,12 +976,12 @@ bucketed_points bucket_by_distance( const tripoint &origin,
                                     const std::map<tripoint, double> &to_bucket )
 {
     std::map<int, one_bucket> by_distance;
-    for( const std::pair<tripoint, double> &pv : to_bucket ) {
+    for( const std::pair<const tripoint, double> &pv : to_bucket ) {
         int dist = trig_dist_squared( origin, pv.first );
         by_distance[dist].emplace_back( pv.first, pv.second );
     }
     bucketed_points buckets;
-    for( const std::pair<int, one_bucket> &bc : by_distance ) {
+    for( const std::pair<const int, one_bucket> &bc : by_distance ) {
         buckets.emplace_back( bc.second );
     }
     return buckets;
