@@ -1,13 +1,6 @@
-#include <cstdlib>
-#include <map>
-#include <utility>
-
-#include "catch/catch.hpp"
-#include "creature.h"
 #include "monster.h"
 #include "mtype.h"
 #include "test_statistics.h"
-#include "bodypart.h"
 #include "rng.h"
 
 float expected_weights_base[][12] = { { 20, 0,   0,   0, 15, 15, 0, 0, 25, 25, 0, 0 },

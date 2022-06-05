@@ -2,11 +2,8 @@
 #ifndef CATA_SRC_CREATURE_TRACKER_H
 #define CATA_SRC_CREATURE_TRACKER_H
 
-#include <cstddef>
-#include <memory>
 #include <set>
 #include <unordered_map>
-#include <vector>
 
 #include "memory_fast.h"
 #include "point.h"

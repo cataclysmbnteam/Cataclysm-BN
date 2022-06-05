@@ -2,15 +2,9 @@
 #ifndef CATA_SRC_COORDINATES_H
 #define CATA_SRC_COORDINATES_H
 
-#include <algorithm>
-#include <cstdlib>
-#include <iterator>
-
 #include "coordinate_conversions.h"
 #include "cuboid_rectangle.h"
-#include "enums.h"
 #include "game_constants.h"
-#include "point.h"
 #include "debug.h"
 
 enum class direction : unsigned;

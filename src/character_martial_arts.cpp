@@ -1,17 +1,9 @@
 #include "character_martial_arts.h"
 
-#include <algorithm>
-
-#include "action.h"
 #include "character.h"
-#include "color.h"
-#include "enums.h"
 #include "json.h"
-#include "martialarts.h"
 #include "messages.h"
 #include "output.h"
-#include "string_id.h"
-#include "translations.h"
 
 static const matype_id style_kicks( "style_kicks" );
 static const matype_id style_none( "style_none" );

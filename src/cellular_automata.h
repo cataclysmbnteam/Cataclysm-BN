@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_CELLULAR_AUTOMATA_H
 #define CATA_SRC_CELLULAR_AUTOMATA_H
 
-#include <vector>
 
 #include "point.h"
 #include "rng.h"

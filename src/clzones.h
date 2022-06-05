@@ -2,21 +2,14 @@
 #ifndef CATA_SRC_CLZONES_H
 #define CATA_SRC_CLZONES_H
 
-#include <cstddef>
-#include <functional>
 #include <map>
-#include <memory>
 #include <set>
-#include <string>
 #include <unordered_map>
 #include <unordered_set>
-#include <utility>
-#include <vector>
 
 #include "memory_fast.h"
 #include "optional.h"
 #include "point.h"
-#include "string_id.h"
 #include "type_id.h"
 
 class JsonIn;

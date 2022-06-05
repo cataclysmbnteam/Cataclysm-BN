@@ -4,7 +4,6 @@
 
 #include <list>
 #include <set>
-#include <vector>
 #include "point.h"
 #include "type_id.h"
 

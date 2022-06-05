@@ -2,15 +2,7 @@
 #ifndef CATA_SRC_CATA_VARIANT_H
 #define CATA_SRC_CATA_VARIANT_H
 
-#include <array>
-#include <cstddef>
-#include <functional>
-#include <string>
-#include <type_traits>
-#include <utility>
-
 #include "character_id.h"
-#include "debug.h"
 #include "enum_conversions.h"
 #include "hash_utils.h"
 #include "pldata.h"

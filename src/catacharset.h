@@ -2,8 +2,6 @@
 #ifndef CATA_SRC_CATACHARSET_H
 #define CATA_SRC_CATACHARSET_H
 
-#include <cstddef>
-#include <cstdint>
 #include <string>
 #include <vector>
 

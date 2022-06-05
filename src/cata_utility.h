@@ -3,12 +3,9 @@
 #define CATA_SRC_CATA_UTILITY_H
 
 #include <functional>
-#include <string>
-#include <utility>
 #include <vector>
 #include <algorithm>
 #include <memory>
-#include <type_traits>
 
 /**
  * Greater-than comparison operator; required by the sort interface

@@ -1,25 +1,13 @@
 #include "cata_utility.h"
 #include "fstream_utils.h"
 
-#include <cctype>
-#include <cmath>
-#include <cstdio>
-#include <exception>
 #include <fstream>
-#include <iterator>
-#include <memory>
 #include <sstream>
-#include <stdexcept>
-#include <string>
 
-#include "debug.h"
 #include "filesystem.h"
 #include "json.h"
-#include "options.h"
 #include "output.h"
 #include "rng.h"
-#include "translations.h"
-#include "units.h"
 
 #if defined (_WIN32) && !defined (_MSC_VER)
 #include <ext/stdio_filebuf.h>

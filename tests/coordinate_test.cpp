@@ -1,7 +1,4 @@
-#include "catch/catch.hpp"
 
-#include "coordinates.h"
-#include "coordinate_conversions.h"
 #include "cata_generators.h"
 #include "stringmaker.h"
 

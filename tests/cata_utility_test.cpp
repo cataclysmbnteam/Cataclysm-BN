@@ -1,9 +1,7 @@
 #include "catch/catch.hpp"
-#include "assertion_helpers.h"
 #include "cata_utility.h"
 #include "string_utils.h"
 #include "units_utility.h"
-#include "units.h"
 
 // tests both variants of string_starts_with
 template <std::size_t N>

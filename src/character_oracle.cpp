@@ -1,18 +1,6 @@
-#include <array>
-#include <list>
-#include <memory>
-#include <string>
-
-#include "behavior.h"
-#include "bodypart.h"
-#include "character.h"
 #include "character_oracle.h"
-#include "inventory.h"
-#include "item.h"
 #include "itype.h"
 #include "player.h"
-#include "ret_val.h"
-#include "value_ptr.h"
 #include "weather.h"
 
 static const std::string flag_FIRESTARTER( "FIRESTARTER" );

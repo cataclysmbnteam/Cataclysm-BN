@@ -2,17 +2,7 @@
 #ifndef CATA_SRC_CONSTRUCTION_H
 #define CATA_SRC_CONSTRUCTION_H
 
-#include <functional>
-#include <list>
-#include <map>
-#include <set>
-#include <string>
-#include <utility>
-#include <vector>
-
 #include "item.h"
-#include "optional.h"
-#include "type_id.h"
 
 class inventory;
 class player;

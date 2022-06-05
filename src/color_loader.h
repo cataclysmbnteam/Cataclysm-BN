@@ -2,12 +2,8 @@
 #ifndef CATA_SRC_COLOR_LOADER_H
 #define CATA_SRC_COLOR_LOADER_H
 
-#include <array>
 #include <fstream>
-#include <map>
-#include <string>
 
-#include "debug.h"
 #include "filesystem.h"
 #include "json.h"
 #include "path_info.h"

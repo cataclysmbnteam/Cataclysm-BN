@@ -1,38 +1,20 @@
-#include <algorithm>
-#include <climits>
-#include <map>
-#include <memory>
-#include <set>
 #include <sstream>
-#include <string>
-#include <utility>
-#include <vector>
 
 #include "avatar.h"
-#include "calendar.h"
-#include "cata_utility.h"
 #include "catch/catch.hpp"
-#include "coordinate_conversions.h"
 #include "craft_command.h"
 #include "crafting.h"
 #include "distribution_grid.h"
 #include "game.h"
-#include "item.h"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "npc.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "player_activity.h"
 #include "player_helpers.h"
-#include "point.h"
-#include "recipe.h"
 #include "recipe_dictionary.h"
-#include "requirements.h"
-#include "string_id.h"
-#include "type_id.h"
-#include "value_ptr.h"
+
 
 class inventory;
 

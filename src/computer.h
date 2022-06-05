@@ -2,8 +2,6 @@
 #ifndef CATA_SRC_COMPUTER_H
 #define CATA_SRC_COMPUTER_H
 
-#include <string>
-#include <vector>
 
 #include "calendar.h"
 

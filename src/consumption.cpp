@@ -1,23 +1,13 @@
-#include "player.h" // IWYU pragma: associated
 
-#include <algorithm>
-#include <array>
-#include <cstdlib>
-#include <memory>
-#include <string>
-#include <tuple>
 
 #include "addiction.h"
 #include "avatar.h"
 #include "bionics.h"
-#include "calendar.h"
-#include "cata_utility.h"
+
 #include "craft_command.h"
-#include "debug.h"
-#include "enums.h"
-#include "flat_set.h"
+
 #include "game.h"
-#include "item_contents.h"
+
 #include "itype.h"
 #include "magic_enchantment.h"
 #include "map.h"
@@ -27,19 +17,9 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
-#include "optional.h"
 #include "options.h"
-#include "pldata.h"
-#include "recipe.h"
 #include "recipe_dictionary.h"
-#include "requirements.h"
 #include "rng.h"
-#include "stomach.h"
-#include "string_formatter.h"
-#include "string_id.h"
-#include "translations.h"
-#include "units.h"
-#include "value_ptr.h"
 #include "vitamin.h"
 
 static const std::string comesttype_DRINK( "DRINK" );

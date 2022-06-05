@@ -6,12 +6,6 @@
 #include "rng.h"
 #include "string_formatter.h"
 
-#include <algorithm>
-#include <array>
-#include <functional>
-#include <iostream>
-#include <iterator>
-#include <vector>
 #include <sstream>
 
 using namespace cata_libintl;

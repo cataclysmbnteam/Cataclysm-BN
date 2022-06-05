@@ -1,10 +1,6 @@
-#include "catacharset.h"
 
-#include <cstdlib>
 #include <cstring>
-#include <array>
 
-#include "options.h"
 #include "output.h"
 #include "wcwidth.h"
 

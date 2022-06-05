@@ -56,14 +56,9 @@
 
 #include <algorithm> // std::sort and std::fill_n
 #include <cassert> // assert
-#include <cstddef> // offsetof, used in blank()
 #include <cstring> // memset, memcpy
-#include <initializer_list>
-#include <iterator> // std::bidirectional_iterator_tag
 #include <limits> // std::numeric_limits
 #include <memory> // std::allocator
-#include <type_traits> // std::is_trivially_destructible, etc
-#include <utility> // std::move
 
 namespace cata
 {

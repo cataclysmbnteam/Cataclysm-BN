@@ -1,40 +1,23 @@
 #include "crafting_gui.h"
 
-#include <algorithm>
-#include <cstddef>
 #include <cstring>
-#include <iterator>
-#include <map>
-#include <memory>
-#include <set>
-#include <string>
-#include <utility>
-#include <vector>
 
 #include "avatar.h"
-#include "calendar.h"
-#include "cata_utility.h"
-#include "catacharset.h"
-#include "color.h"
+
 #include "crafting.h"
-#include "cursesdef.h"
-#include "game.h"
+
 #include "input.h"
-#include "item.h"
-#include "item_contents.h"
+
 #include "itype.h"
 #include "json.h"
-#include "optional.h"
+
 #include "output.h"
-#include "point.h"
-#include "recipe.h"
+
 #include "recipe_dictionary.h"
-#include "requirements.h"
-#include "string_formatter.h"
+
 #include "string_input_popup.h"
 #include "string_utils.h"
-#include "translations.h"
-#include "type_id.h"
+
 #include "ui.h"
 #include "ui_manager.h"
 #include "uistate.h"

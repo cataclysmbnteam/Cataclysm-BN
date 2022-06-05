@@ -1,17 +1,10 @@
 #include "crash.h"
-#include "sdl_wrappers.h"
+#include "SDL_messagebox.h"
 
 #if defined(BACKTRACE)
 
 #include <csignal>
-#include <cstdio>
-#include <cstdlib>
-#include <exception>
-#include <initializer_list>
-#include <iostream>
 #include <sstream>
-#include <string>
-#include <typeinfo>
 
 #if defined(_WIN32)
 #if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU

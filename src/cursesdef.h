@@ -3,8 +3,6 @@
 #define CATA_SRC_CURSESDEF_H
 
 #include <memory>
-#include <string>
-#include <utility>
 
 #include "string_formatter.h"
 

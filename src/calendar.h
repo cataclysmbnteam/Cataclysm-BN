@@ -3,7 +3,6 @@
 #define CATA_SRC_CALENDAR_H
 
 #include <string>
-#include <utility>
 #include <vector>
 
 class calendar_config;

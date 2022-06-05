@@ -3,18 +3,12 @@
 #define CATA_SRC_CREATURE_H
 
 #include <climits>
-#include <map>
 #include <set>
 #include <unordered_map>
-#include <vector>
-#include <string>
-#include <utility>
 
 #include "anatomy.h"
-#include "bodypart.h"
 #include "pimpl.h"
 #include "string_formatter.h"
-#include "translations.h"
 #include "type_id.h"
 #include "units.h"
 #include "cached_options.h"

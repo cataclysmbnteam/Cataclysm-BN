@@ -2,10 +2,6 @@
 #ifndef CATA_SRC_CATA_IO_H
 #define CATA_SRC_CATA_IO_H
 
-#include <functional>
-#include <string>
-#include <type_traits>
-
 #include "json.h"
 
 /**

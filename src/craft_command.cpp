@@ -1,24 +1,11 @@
 #include "craft_command.h"
 
-#include <algorithm>
-#include <climits>
-#include <cstdlib>
-#include <limits>
-#include <list>
-
 #include "crafting.h"
-#include "debug.h"
-#include "enum_conversions.h"
-#include "game_constants.h"
-#include "inventory.h"
-#include "item.h"
+
 #include "json.h"
 #include "output.h"
 #include "player.h"
-#include "recipe.h"
-#include "requirements.h"
-#include "translations.h"
-#include "type_id.h"
+
 #include "uistate.h"
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );

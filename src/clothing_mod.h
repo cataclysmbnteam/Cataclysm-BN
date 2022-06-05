@@ -2,9 +2,6 @@
 #ifndef CATA_SRC_CLOTHING_MOD_H
 #define CATA_SRC_CLOTHING_MOD_H
 
-#include <array>
-#include <cstddef>
-#include <string>
 #include <vector>
 
 #include "type_id.h"

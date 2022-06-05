@@ -1,7 +1,3 @@
-#include <clocale>
-#include <stdexcept>
-#include <string>
-#include <vector>
 
 #include "catacharset.h"
 #include "catch/catch.hpp"

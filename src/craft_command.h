@@ -2,13 +2,9 @@
 #ifndef CATA_SRC_CRAFT_COMMAND_H
 #define CATA_SRC_CRAFT_COMMAND_H
 
-#include <string>
-#include <vector>
-
 #include "point.h"
 #include "recipe.h"
-#include "requirements.h"
-#include "type_id.h"
+
 
 class JsonIn;
 class JsonOut;

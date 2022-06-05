@@ -1,23 +1,7 @@
-#include <algorithm>
-#include <cstdio>
-#include <memory>
-#include <utility>
-#include <vector>
-
 #include "character.h"
-#include "catch/catch.hpp"
-#include "item.h"
-#include "item_contents.h"
 #include "itype.h"
-#include "recipe.h"
 #include "recipe_dictionary.h"
-#include "requirements.h"
-#include "stomach.h"
-#include "string_id.h"
-#include "string_formatter.h"
 #include "test_statistics.h"
-#include "type_id.h"
-#include "value_ptr.h"
 
 struct all_stats {
     statistics<int> calories;

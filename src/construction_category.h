@@ -2,9 +2,6 @@
 #ifndef CATA_SRC_CONSTRUCTION_CATEGORY_H
 #define CATA_SRC_CONSTRUCTION_CATEGORY_H
 
-#include <cstddef>
-#include <string>
-#include <vector>
 
 #include "type_id.h"
 #include "translations.h"

@@ -3,7 +3,6 @@
 #define CATA_SRC_CONSISTENCY_REPORT_H
 
 #include <vector>
-#include <string>
 
 #include "string_formatter.h"
 

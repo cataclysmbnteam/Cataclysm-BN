@@ -2,11 +2,7 @@
 #ifndef CATA_SRC_CHARACTER_MARTIAL_ARTS_H
 #define CATA_SRC_CHARACTER_MARTIAL_ARTS_H
 
-#include <string>
-#include <vector>
-
 #include "martialarts.h"
-#include "type_id.h"
 
 class Character;
 class JsonIn;
