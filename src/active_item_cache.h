@@ -2,10 +2,8 @@
 #ifndef CATA_SRC_ACTIVE_ITEM_CACHE_H
 #define CATA_SRC_ACTIVE_ITEM_CACHE_H
 
-#include <iosfwd>
 #include <list>
 #include <unordered_map>
-#include <vector>
 
 #include "point.h"
 #include "safe_reference.h"

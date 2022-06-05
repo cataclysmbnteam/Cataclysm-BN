@@ -2,9 +2,7 @@
 #ifndef CATA_SRC_ACTIVITY_ACTOR_H
 #define CATA_SRC_ACTIVITY_ACTOR_H
 
-#include <memory>
 #include <unordered_map>
-#include <vector>
 
 #include "activity_type.h"
 #include "clone_ptr.h"

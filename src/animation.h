@@ -2,9 +2,7 @@
 #ifndef CATA_SRC_ANIMATION_H
 #define CATA_SRC_ANIMATION_H
 
-#include <list>
 #include <map>
-#include <vector>
 
 #include "color.h"
 #include "point.h"

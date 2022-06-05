@@ -1,28 +1,8 @@
-#include "player.h" // IWYU pragma: associated
-
-#include <algorithm>
-#include <array>
-#include <cstddef>
-#include <iterator>
-#include <memory>
-#include <string>
-#include <vector>
-
 #include "avatar.h"
-#include "cata_utility.h"
-#include "catacharset.h" // used for utf8_width()
-#include "debug.h"
-#include "enums.h"
 #include "game.h"
 #include "game_inventory.h"
 #include "input.h"
-#include "inventory.h"
-#include "item.h"
-#include "line.h"
 #include "output.h"
-#include "player_activity.h"
-#include "string_formatter.h"
-#include "translations.h"
 #include "ui_manager.h"
 #include "units_utility.h"
 

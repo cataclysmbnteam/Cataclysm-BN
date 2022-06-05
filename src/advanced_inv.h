@@ -2,15 +2,8 @@
 #ifndef CATA_SRC_ADVANCED_INV_H
 #define CATA_SRC_ADVANCED_INV_H
 
-#include <array>
-#include <cctype>
-#include <functional>
-#include <string>
 
-#include "advanced_inv_area.h"
-#include "advanced_inv_listitem.h"
 #include "advanced_inv_pane.h"
-#include "cursesdef.h"
 
 class input_context;
 class item;

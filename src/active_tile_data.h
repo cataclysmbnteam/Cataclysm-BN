@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_ACTIVE_TILE_DATA_H
 #define CATA_SRC_ACTIVE_TILE_DATA_H
 
-#include <string>
 #include "calendar.h"
 #include "coordinates.h"
 

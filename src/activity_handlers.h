@@ -2,10 +2,8 @@
 #ifndef CATA_SRC_ACTIVITY_HANDLERS_H
 #define CATA_SRC_ACTIVITY_HANDLERS_H
 
-#include <functional>
 #include <list>
 #include <map>
-#include <string>
 #include <unordered_set>
 #include <vector>
 

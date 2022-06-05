@@ -3,7 +3,6 @@
 #define CATA_SRC_ADVANCED_INV_LISTITEM_H
 
 #include <list>
-#include <string>
 
 #include "type_id.h"
 #include "units.h"

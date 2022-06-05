@@ -2,11 +2,7 @@
 #ifndef CATA_SRC_ANATOMY_H
 #define CATA_SRC_ANATOMY_H
 
-#include <string>
-#include <vector>
-
 #include "bodypart.h"
-#include "string_id.h"
 
 class JsonObject;
 class anatomy;

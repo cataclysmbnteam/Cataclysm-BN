@@ -1,33 +1,18 @@
 #include "auto_pickup.h"
 
-#include <algorithm>
-#include <cstddef>
-#include <functional>
-#include <memory>
-#include <utility>
-
 #include "avatar.h"
-#include "color.h"
-#include "cursesdef.h"
-#include "debug.h"
 #include "filesystem.h"
 #include "fstream_utils.h"
 #include "game.h"
 #include "input.h"
-#include "item.h"
 #include "item_factory.h"
-#include "itype.h"
 #include "json.h"
 #include "material.h"
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
-#include "point.h"
-#include "string_formatter.h"
 #include "string_input_popup.h"
 #include "string_utils.h"
-#include "translations.h"
-#include "type_id.h"
 #include "ui_manager.h"
 
 using namespace auto_pickup;

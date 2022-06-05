@@ -2,12 +2,7 @@
 #ifndef CATA_SRC_ADVANCED_INV_PANE_H
 #define CATA_SRC_ADVANCED_INV_PANE_H
 
-#include <array>
-#include <cstddef>
-#include <functional>
 #include <map>
-#include <string>
-#include <vector>
 
 #include "advanced_inv_area.h"
 #include "advanced_inv_listitem.h"

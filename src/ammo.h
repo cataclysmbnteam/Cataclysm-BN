@@ -2,8 +2,6 @@
 #ifndef CATA_SRC_AMMO_H
 #define CATA_SRC_AMMO_H
 
-#include <string>
-#include <utility>
 
 #include "type_id.h"
 

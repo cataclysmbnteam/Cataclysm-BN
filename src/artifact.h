@@ -2,9 +2,6 @@
 #ifndef CATA_SRC_ARTIFACT_H
 #define CATA_SRC_ARTIFACT_H
 
-#include <string>
-
-#include "enums.h"
 #include "itype.h"
 #include "relic.h"
 

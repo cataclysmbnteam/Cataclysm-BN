@@ -1,22 +1,10 @@
-#include <algorithm>
-#include <cassert>
-#include <list>
-#include <memory>
-#include <string>
-#include <vector>
 
-#include "advanced_inv_area.h"
 #include "advanced_inv_pane.h"
 #include "avatar.h"
-#include "inventory.h"
-#include "item.h"
-#include "item_contents.h"
 #include "item_search.h"
 #include "map.h"
 #include "options.h"
-#include "player.h"
 #include "uistate.h"
-#include "units.h"
 #include "vehicle.h"
 
 #if defined(__ANDROID__)

@@ -1,10 +1,6 @@
 #include "active_item_cache.h"
 
-#include <algorithm>
-#include <utility>
-
 #include "item.h"
-#include "safe_reference.h"
 
 void active_item_cache::remove( const item *it )
 {

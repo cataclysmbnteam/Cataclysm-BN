@@ -4,8 +4,6 @@
 
 #include "catch/catch.hpp"
 
-#include <algorithm>
-
 template<typename Container1, typename Container2>
 void check_containers_equal( const Container1 &c1, const Container2 &c2 )
 {

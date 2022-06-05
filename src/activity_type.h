@@ -2,8 +2,6 @@
 #ifndef CATA_SRC_ACTIVITY_TYPE_H
 #define CATA_SRC_ACTIVITY_TYPE_H
 
-#include <string>
-
 #include "string_id.h"
 #include "translations.h"
 

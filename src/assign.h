@@ -2,18 +2,11 @@
 #ifndef CATA_SRC_ASSIGN_H
 #define CATA_SRC_ASSIGN_H
 
-#include <algorithm>
-#include <map>
-#include <set>
 #include <sstream>
-#include <string>
-#include <vector>
 
 #include "calendar.h"
 #include "color.h"
 #include "damage.h"
-#include "debug.h"
-#include "json.h"
 #include "units.h"
 #include "units_serde.h"
 

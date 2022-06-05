@@ -2,19 +2,7 @@
 #ifndef CATA_SRC_AVATAR_H
 #define CATA_SRC_AVATAR_H
 
-#include <cstddef>
-#include <memory>
-#include <string>
-#include <unordered_set>
-#include <vector>
-
-#include "calendar.h"
-#include "character.h"
-#include "enums.h"
-#include "item.h"
 #include "player.h"
-#include "pldata.h"
-#include "point.h"
 
 class JsonIn;
 class JsonObject;

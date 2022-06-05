@@ -3,7 +3,6 @@
 #define CATA_SRC_ACTIVE_TILE_DATA_DEF_H
 
 #include "active_tile_data.h"
-#include "point.h"
 #include "type_id.h"
 
 namespace active_tiles

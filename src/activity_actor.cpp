@@ -1,48 +1,24 @@
-#include "activity_actor.h"
 #include "activity_actor_definitions.h"
-
-#include <algorithm>
-#include <cmath>
-#include <list>
-#include <string>
-#include <utility>
 
 #include "avatar_action.h"
 #include "activity_handlers.h" // put_into_vehicle_or_drop and drop_on_map
 #include "advanced_inv.h"
 #include "avatar.h"
-#include "calendar.h"
-#include "character.h"
-#include "debug.h"
-#include "enums.h"
-#include "event.h"
 #include "event_bus.h"
 #include "game.h"
 #include "gates.h"
 #include "iexamine.h"
-#include "int_id.h"
-#include "item.h"
-#include "item_group.h"
-#include "item_location.h"
 #include "json.h"
-#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "mapdata.h"
 #include "npc.h"
 #include "output.h"
 #include "options.h"
 #include "pickup.h"
-#include "player.h"
-#include "player_activity.h"
-#include "point.h"
 #include "ranged.h"
 #include "rng.h"
-#include "sounds.h"
 #include "timed_event.h"
-#include "translations.h"
 #include "uistate.h"
-#include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 

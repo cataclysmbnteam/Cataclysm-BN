@@ -1,11 +1,7 @@
 #include "ammo_effect.h"
 
-#include <set>
 
-#include "debug.h"
 #include "generic_factory.h"
-#include "int_id.h"
-#include "json.h"
 
 namespace
 {

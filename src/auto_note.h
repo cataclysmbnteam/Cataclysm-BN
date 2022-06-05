@@ -2,13 +2,7 @@
 #ifndef CATA_SRC_AUTO_NOTE_H
 #define CATA_SRC_AUTO_NOTE_H
 
-#include <string>
-#include <unordered_map>
 #include <unordered_set>
-#include <utility>
-#include <vector>
-
-#include "string_id.h"
 #include "map_extras.h"
 
 namespace auto_notes

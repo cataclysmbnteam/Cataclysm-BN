@@ -5,10 +5,7 @@
 #include "point.h"
 #include "units.h"
 
-#include <array>
 #include <list>
-#include <string>
-#include <vector>
 
 enum aim_location : char {
     AIM_INVENTORY = 0,
