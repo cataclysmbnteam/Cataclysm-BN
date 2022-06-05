@@ -7,6 +7,7 @@
 #include "hash_utils.h"
 #include "pldata.h"
 #include "type_id.h"
+#include <array>
 
 class JsonIn;
 class JsonOut;

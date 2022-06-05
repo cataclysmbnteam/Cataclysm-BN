@@ -3,7 +3,7 @@
 #define CATA_SRC_BODYPART_H
 
 #include <bitset>
-
+#include <array>
 #include "int_id.h"
 #include "string_id.h"
 #include "translations.h"
