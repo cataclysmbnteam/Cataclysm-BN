@@ -3,9 +3,6 @@
 #define CATA_SRC_EXPLOSION_QUEUE_H
 
 #include "explosion.h"
-#include "point.h"
-
-#include <string>
 #include <deque>
 
 namespace explosion_handler

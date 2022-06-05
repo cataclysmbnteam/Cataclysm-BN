@@ -2,19 +2,9 @@
 #ifndef CATA_SRC_EVENT_H
 #define CATA_SRC_EVENT_H
 
-#include <array>
-#include <cstddef>
-#include <cstdlib>
 #include <map>
-#include <string>
-#include <type_traits>
-#include <unordered_map>
-#include <utility>
 
-#include "calendar.h"
 #include "cata_variant.h"
-#include "debug.h"
-#include "type_id.h"
 
 template <typename E> struct enum_traits;
 

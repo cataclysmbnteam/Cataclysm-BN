@@ -1,9 +1,6 @@
 #include "disease.h"
 
-#include "assign.h"
-#include "debug.h"
 #include "generic_factory.h"
-#include "string_id.h"
 
 namespace
 {

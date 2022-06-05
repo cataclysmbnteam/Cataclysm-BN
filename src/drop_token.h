@@ -2,8 +2,6 @@
 #ifndef CATA_SRC_DROP_TOKEN_H
 #define CATA_SRC_DROP_TOKEN_H
 
-#include <iostream>
-
 #include "calendar.h"
 
 class JsonOut;

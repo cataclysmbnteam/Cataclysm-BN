@@ -2,9 +2,6 @@
 #ifndef CATA_SRC_EVENT_BUS_H
 #define CATA_SRC_EVENT_BUS_H
 
-#include <utility>
-#include <vector>
-
 #include "event.h"
 
 class event_bus;

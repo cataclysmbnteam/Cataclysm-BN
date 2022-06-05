@@ -1,64 +1,22 @@
-#include "explosion.h" // IWYU pragma: associated
 #include "fragment_cloud.h" // IWYU pragma: associated
-
-#include <algorithm>
-#include <array>
-#include <cmath>
-#include <cstddef>
-#include <limits>
-#include <map>
-#include <memory>
-#include <queue>
-#include <random>
-#include <set>
-#include <utility>
-#include <vector>
 
 #include "animation.h"
 #include "avatar.h"
-#include "ballistics.h"
-#include "bodypart.h"
-#include "calendar.h"
-#include "cata_utility.h"
-#include "color.h"
-#include "creature.h"
-#include "damage.h"
-#include "debug.h"
-#include "enums.h"
 #include "explosion_queue.h"
 #include "field_type.h"
-#include "flat_set.h"
 #include "game.h"
-#include "game_constants.h"
-#include "int_id.h"
-#include "item.h"
 #include "item_factory.h"
-#include "itype.h"
 #include "json.h"
-#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "mapdata.h"
 #include "material.h"
-#include "math_defines.h"
 #include "messages.h"
 #include "mongroup.h"
-#include "monster.h"
 #include "mtype.h"
 #include "npc.h"
 #include "options.h"
-#include "optional.h"
-#include "player.h"
-#include "point.h"
-#include "projectile.h"
 #include "rng.h"
-#include "shadowcasting.h"
-#include "sounds.h"
-#include "string_formatter.h"
-#include "translations.h"
 #include "trap.h"
-#include "type_id.h"
-#include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 

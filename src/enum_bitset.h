@@ -3,7 +3,6 @@
 #define CATA_SRC_ENUM_BITSET_H
 
 #include <bitset>
-#include <type_traits>
 
 #include "enum_traits.h"
 

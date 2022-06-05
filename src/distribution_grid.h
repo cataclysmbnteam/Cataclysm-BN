@@ -2,16 +2,12 @@
 #ifndef CATA_SRC_DISTRIBUTION_GRID_H
 #define CATA_SRC_DISTRIBUTION_GRID_H
 
-#include <cstdint>
-#include <vector>
 #include <map>
 #include <unordered_set>
 
 #include "calendar.h"
 #include "coordinates.h"
-#include "cuboid_rectangle.h"
 #include "memory_fast.h"
-#include "point.h"
 #include "type_id.h"
 
 class Character;

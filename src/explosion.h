@@ -2,8 +2,6 @@
 #ifndef CATA_SRC_EXPLOSION_H
 #define CATA_SRC_EXPLOSION_H
 
-#include <string>
-
 #include "optional.h"
 #include "projectile.h"
 

@@ -2,10 +2,7 @@
 #ifndef CATA_SRC_EVENT_STATISTICS_H
 #define CATA_SRC_EVENT_STATISTICS_H
 
-#include <memory>
-#include <string>
 #include <unordered_map>
-#include <vector>
 
 #include "clone_ptr.h"
 #include "string_id.h"

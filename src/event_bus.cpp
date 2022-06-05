@@ -2,7 +2,6 @@
 
 #include <algorithm>
 
-#include "debug.h"
 #include "options.h"
 
 event_subscriber::~event_subscriber()

@@ -1,12 +1,7 @@
 #include "drawing_primitives.h"
 
-#include <functional>
-#include <vector>
-#include <utility>
-
 #include "line.h"
 #include "rng.h"
-#include "point.h"
 #include "point_float.h"
 
 void draw_line( std::function<void( const point & )>set, const point &p1, const point &p2 )

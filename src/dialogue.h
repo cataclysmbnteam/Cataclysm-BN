@@ -2,18 +2,9 @@
 #ifndef CATA_SRC_DIALOGUE_H
 #define CATA_SRC_DIALOGUE_H
 
-#include <functional>
-#include <set>
-#include <string>
-#include <type_traits>
-#include <utility>
-#include <vector>
 
 #include "dialogue_win.h"
 #include "npc.h"
-#include "player.h"
-#include "translations.h"
-#include "type_id.h"
 
 class JsonObject;
 class martialart;

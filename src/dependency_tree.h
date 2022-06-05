@@ -5,7 +5,6 @@
 #include <map>
 #include <stack>
 #include <vector>
-#include <string>
 
 #include "type_id.h"
 

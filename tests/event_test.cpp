@@ -1,15 +1,8 @@
-#include <algorithm>
-#include <string>
-#include <vector>
 
-#include "calendar.h"
-#include "cata_variant.h"
 #include "catch/catch.hpp"
-#include "character_id.h"
-#include "event.h"
+
 #include "event_bus.h"
-#include "string_id.h"
-#include "type_id.h"
+
 
 TEST_CASE( "construct_event", "[event]" )
 {

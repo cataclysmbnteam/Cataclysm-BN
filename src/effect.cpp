@@ -1,24 +1,10 @@
 #include "effect.h"
 
-#include <algorithm>
-#include <cstddef>
-#include <map>
-#include <memory>
-#include <unordered_set>
-
 #include "assign.h"
-#include "color.h"
-#include "debug.h"
-#include "enums.h"
-#include "json.h"
 #include "messages.h"
 #include "output.h"
 #include "player.h"
 #include "rng.h"
-#include "string_formatter.h"
-#include "string_id.h"
-#include "units.h"
-#include "units_serde.h"
 
 static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_beartrap( "beartrap" );

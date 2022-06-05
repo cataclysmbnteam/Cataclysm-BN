@@ -5,16 +5,11 @@
 #include <bitset>
 #include <map>
 #include <set>
-#include <string>
-#include <tuple>
-#include <unordered_map>
-#include <utility>
 #include <vector>
 
 #include "character_id.h"
 #include "color.h"
 #include "cursesdef.h"
-#include "string_id.h"
 #include "type_id.h"
 
 // TODO: Redefine?

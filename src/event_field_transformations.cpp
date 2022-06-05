@@ -1,12 +1,8 @@
 #include "event_field_transformations.h"
 
-#include <set>
 
-#include "int_id.h"
 #include "mapdata.h"
 #include "mtype.h"
-#include "string_id.h"
-#include "type_id.h"
 
 static std::vector<cata_variant> flags_of_terrain( const cata_variant &v )
 {

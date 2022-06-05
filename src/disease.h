@@ -3,8 +3,6 @@
 #define CATA_SRC_DISEASE_H
 
 #include <set>
-#include <string>
-#include <vector>
 
 #include "bodypart.h"
 #include "calendar.h"

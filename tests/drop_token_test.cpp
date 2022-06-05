@@ -1,28 +1,13 @@
-#include <algorithm>
-#include <climits>
-#include <map>
-#include <memory>
-#include <limits>
-#include <set>
 #include <sstream>
-#include <string>
-#include <utility>
-#include <vector>
-
-#include "activity_handlers.h"
 #include "avatar.h"
-#include "calendar.h"
 #include "catch/catch.hpp"
 #include "drop_token.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_selector.h"
-#include "item.h"
 #include "pickup.h"
 #include "pickup_token.h"
 #include "player_helpers.h"
-#include "units_mass.h"
-#include "units_volume.h"
 
 class testing_stack : public item_stack
 {

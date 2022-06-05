@@ -1,14 +1,8 @@
 #include "dialogue_win.h"
 
-#include <algorithm>
-#include <memory>
-#include <string>
-#include <vector>
-
 #include "input.h"
 #include "output.h"
-#include "point.h"
-#include "translations.h"
+
 #include "ui_manager.h"
 
 void dialogue_window::resize_dialogue( ui_adaptor &ui )

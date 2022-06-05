@@ -2,10 +2,8 @@
 #ifndef CATA_SRC_DIALOGUE_WIN_H
 #define CATA_SRC_DIALOGUE_WIN_H
 
-#include <cstddef>
 #include <vector>
-#include <string>
-#include <utility>
+
 
 #include "color.h"
 #include "cursesdef.h"

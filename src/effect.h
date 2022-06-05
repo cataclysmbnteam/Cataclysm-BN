@@ -3,16 +3,11 @@
 #define CATA_SRC_EFFECT_H
 
 #include <set>
-#include <string>
-#include <tuple>
 #include <unordered_map>
-#include <utility>
-#include <vector>
 
 #include "bodypart.h"
 #include "calendar.h"
 #include "hash_utils.h"
-#include "translations.h"
 #include "type_id.h"
 
 class player;

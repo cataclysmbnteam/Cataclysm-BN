@@ -1,17 +1,10 @@
-#include <algorithm>
-#include <cstdlib>
-#include <memory>
-
 #include "avatar.h"
 #include "catch/catch.hpp"
 #include "game.h"
-#include "item.h"
 #include "melee.h"
 #include "monster.h"
 #include "player_helpers.h"
 #include "sounds.h"
-#include "ret_val.h"
-#include "type_id.h"
 
 struct itype;
 

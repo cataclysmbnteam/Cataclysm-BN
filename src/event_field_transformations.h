@@ -2,9 +2,6 @@
 #ifndef CATA_SRC_EVENT_FIELD_TRANSFORMATIONS_H
 #define CATA_SRC_EVENT_FIELD_TRANSFORMATIONS_H
 
-#include <string>
-#include <unordered_map>
-#include <vector>
 
 #include "cata_variant.h"
 
