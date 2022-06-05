@@ -3122,7 +3122,7 @@ void target_ui::draw_terrain_overlay()
         }
     } else if( mode == TargetMode::Shape ) {
         drawsq_params params = drawsq_params().highlight( true ).center( center );
-        for( const std::pair<tripoint, double> &pr : shape_coverage ) {
+        for( const std::pair<const tripoint, double> &pr : shape_coverage ) {
             const tripoint &tile = pr.first;
 #ifdef TILES
             if( use_tiles ) {
