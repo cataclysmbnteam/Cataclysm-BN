@@ -3,7 +3,6 @@
 #define CATA_SRC_BEHAVIOR_H
 
 #include <functional>
-#include <string>
 #include <vector>
 
 #include "string_id.h"

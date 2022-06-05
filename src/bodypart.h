@@ -2,11 +2,7 @@
 #ifndef CATA_SRC_BODYPART_H
 #define CATA_SRC_BODYPART_H
 
-#include <array>
 #include <bitset>
-#include <cstddef>
-#include <initializer_list>
-#include <string>
 
 #include "int_id.h"
 #include "string_id.h"

@@ -3,8 +3,6 @@
 #define CATA_SRC_GAME_INVENTORY_H
 
 #include <functional>
-#include <list>
-#include <string>
 #include <utility>
 
 #include "item_handling_util.h"

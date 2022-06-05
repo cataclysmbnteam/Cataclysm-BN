@@ -1,18 +1,6 @@
-#include "bodypart.h"
-
-#include <cstdlib>
-#include <set>
-#include <unordered_map>
-#include <utility>
-#include <vector>
-
 #include "anatomy.h"
-#include "debug.h"
-#include "enum_conversions.h"
 #include "generic_factory.h"
-#include "json.h"
 #include "pldata.h"
-#include "type_id.h"
 
 const bodypart_str_id body_part_head( "head" );
 const bodypart_str_id body_part_eyes( "eyes" );

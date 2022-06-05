@@ -3,7 +3,6 @@
 #include "game.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "projectile.h"
 #include "ranged.h"
 #include "shape.h"
 #include "vehicle.h"

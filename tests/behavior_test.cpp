@@ -1,23 +1,14 @@
-#include <memory>
-#include <string>
-#include <vector>
-
-#include "behavior.h"
 #include "behavior_strategy.h"
 #include "catch/catch.hpp"
 #include "character_oracle.h"
 #include "game.h"
-#include "item.h"
-#include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "monster.h"
 #include "monster_oracle.h"
 #include "mtype.h"
 #include "npc.h"
-#include "player.h"
 #include "player_helpers.h"
-#include "string_id.h"
 #include "weather.h"
 
 namespace behavior

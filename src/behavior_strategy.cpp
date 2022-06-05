@@ -1,7 +1,5 @@
 #include "behavior_strategy.h"
 
-#include <unordered_map>
-
 #include "behavior.h"
 
 namespace behavior

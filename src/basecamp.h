@@ -2,23 +2,10 @@
 #ifndef CATA_SRC_BASECAMP_H
 #define CATA_SRC_BASECAMP_H
 
-#include <cstddef>
-#include <list>
-#include <map>
-#include <memory>
-#include <set>
-#include <string>
-#include <vector>
-
 #include "craft_command.h"
 #include "coordinates.h"
 #include "inventory.h"
 #include "memory_fast.h"
-#include "optional.h"
-#include "point.h"
-#include "requirements.h"
-#include "translations.h"
-#include "type_id.h"
 
 class JsonIn;
 class JsonOut;

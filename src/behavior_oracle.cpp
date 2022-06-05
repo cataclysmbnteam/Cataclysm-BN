@@ -1,10 +1,3 @@
-#include "behavior_oracle.h"
-
-#include <functional>
-#include <string>
-#include <unordered_map>
-
-#include "behavior.h"
 #include "character_oracle.h"
 #include "monster_oracle.h"
 

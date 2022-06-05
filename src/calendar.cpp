@@ -1,17 +1,8 @@
 #include "calendar.h"
 
-#include <algorithm>
-#include <array>
-#include <cassert>
-#include <cmath>
-#include <cstddef>
-#include <limits>
-
 #include "debug.h"
 #include "options.h"
 #include "rng.h"
-#include "string_formatter.h"
-#include "translations.h"
 
 /** How much light moon provides per lit-up quarter (Full-moon light is four times this value) */
 static constexpr double moonlight_per_quarter = 2.25;

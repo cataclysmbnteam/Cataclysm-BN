@@ -1,14 +1,7 @@
 #include "bonuses.h"
 
-#include <algorithm>
-#include <string>
-#include <utility>
-
 #include "character.h"
-#include "damage.h"
 #include "json.h"
-#include "string_formatter.h"
-#include "translations.h"
 
 static bool needs_damage_type( affected_stat as )
 {
