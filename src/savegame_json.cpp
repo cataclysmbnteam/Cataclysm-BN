@@ -3560,7 +3560,7 @@ void const_act_item::deserialize( JsonIn &jsin )
     deserialize_act_item_t( jsin, *this );
 }
 
-}
+} // namespace pickup
 
 // basecamp
 void basecamp::serialize( JsonOut &json ) const
