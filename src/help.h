@@ -2,11 +2,6 @@
 #ifndef CATA_SRC_HELP_H
 #define CATA_SRC_HELP_H
 
-#include <map>
-#include <string>
-#include <vector>
-#include <utility>
-
 #include "cursesdef.h"
 #include "input.h"
 

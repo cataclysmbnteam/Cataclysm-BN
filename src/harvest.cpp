@@ -1,18 +1,8 @@
 #include "harvest.h"
 
-#include <algorithm>
-#include <cmath>
-#include <iterator>
-#include <string>
-
 #include "assign.h"
-#include "debug.h"
-#include "item.h"
 #include "item_group.h"
-#include "json.h"
 #include "output.h"
-#include "string_formatter.h"
-#include "string_id.h"
 #include "text_snippets.h"
 
 // TODO: Make a generic factory

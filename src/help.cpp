@@ -1,30 +1,15 @@
 #include "help.h"
 
-#include <algorithm>
-#include <array>
-#include <cstddef>
-#include <iterator>
-#include <list>
 #include <numeric>
-#include <vector>
 
 #include "action.h"
-#include "cata_utility.h"
-#include "catacharset.h"
-#include "color.h"
-#include "cursesdef.h"
-#include "debug.h"
+
 #include "fstream_utils.h"
-#include "input.h"
 #include "json.h"
-#include "optional.h"
 #include "output.h"
 #include "path_info.h"
-#include "point.h"
-#include "string_formatter.h"
 #include "string_utils.h"
 #include "text_snippets.h"
-#include "translations.h"
 #include "ui_manager.h"
 
 help &get_help()

@@ -3,11 +3,7 @@
 #define CATA_SRC_HARVEST_H
 
 #include <list>
-#include <map>
 #include <set>
-#include <string>
-#include <utility>
-#include <vector>
 
 #include "translations.h"
 #include "type_id.h"

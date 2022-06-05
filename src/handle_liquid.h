@@ -2,10 +2,7 @@
 #ifndef CATA_SRC_HANDLE_LIQUID_H
 #define CATA_SRC_HANDLE_LIQUID_H
 
-#include "item_location.h"
-#include "item_stack.h"
 #include "map.h"
-#include "point.h"
 
 class item;
 class monster;
