@@ -216,6 +216,10 @@ else ()
         AND NOT WIN32
         AND USE_PREFIX_DATA_DIR)
         add_definitions(-DPREFIX=${CMAKE_INSTALL_PREFIX})
+        configure_file(
+            "${CMAKE_SOURCE_DIR}/src/prefix.h.in"
+            "${CMAKE_SOURCE_DIR}/src/prefix.h"
+            @ONLY)
         add_definitions(-DDATA_DIR_PREFIX)
     endif ()
 endif ()
@@ -261,8 +265,12 @@ else ()
        -Wsuggest-override \
        -Wunused-macros \
        -Wzero-as-null-pointer-constant \
-       -Wno-unknown-warning-option \
        -Wno-range-loop-analysis")
+    if(Clang STREQUAL ${CMAKE_CXX_COMPILER_ID})
+       set(CATA_WARNINGS "${CATA_WARNINGS} -Wno-unknown-warning-option")
+    else()
+       set(CATA_WARNINGS "${CATA_WARNINGS} -Wno-unknown-warning")
+    endif()
     if (NOT "${CMAKE_SYSTEM_NAME}" MATCHES "Windows")
         set(CATA_WARNINGS "${CATA_WARNINGS} -Wredundant-decls")
     endif ()
@@ -274,6 +282,8 @@ else ()
 endif ()
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Force out-of-source build
 if ("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
