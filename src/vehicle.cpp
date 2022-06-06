@@ -4382,13 +4382,25 @@ std::map<itype_id, int> vehicle::fuel_usage() const
 
 double vehicle::drain_energy( const itype_id &ftype, double energy_j )
 {
+    // Consumption of battery power is done differently.
+    // From all batteries at once and doesn't change mass.
+    if( ftype == fuel_type_battery ) {
+        // Batteries stored in kilojoules
+        const int total_kj_to_drain = static_cast<int>( energy_j / 1000.0 );
+        if( total_kj_to_drain <= 0 ) {
+            return 0.0;
+        }
+        const int not_fulfilled = discharge_battery( total_kj_to_drain );
+        return static_cast<double>( total_kj_to_drain - not_fulfilled ) * 1000.0;
+    }
+
     double drained = 0.0f;
     for( auto &p : parts ) {
         if( energy_j <= 0.0f ) {
             break;
         }
 
-        double consumed = p.consume_energy( ftype, energy_j );
+        const double consumed = p.consume_energy( ftype, energy_j );
         drained += consumed;
         energy_j -= consumed;
     }
