@@ -90,6 +90,12 @@ int throwing_dispersion( const Character &c, const item &to_throw, Creature *cri
                          bool is_blind_throw );
 int throw_cost( const player &c, const item &to_throw );
 
+/** Penalties potentially incurred by STR_DRAW weapons */
+float get_str_draw_penalty( const item &it, const Character &p );
+float str_draw_damage_modifier( const item &it, const Character &p );
+float str_draw_dispersion_modifier( const item &it, const Character &p );
+float str_draw_range_modifier( const item &it, const Character &p );
+
 /** AoE attack, with area given by shape */
 void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &attacker );
 

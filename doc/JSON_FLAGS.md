@@ -721,7 +721,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```RELOAD_AND_SHOOT``` Firing automatically reloads and then shoots.
 - ```RELOAD_EJECT``` Ejects shell from gun on reload instead of when fired.
 - ```RELOAD_ONE``` Only reloads one round at a time.
-- ```STR_DRAW``` Range with this weapon is reduced unless character has at least twice the required minimum strength
+- ```STR_DRAW``` If the weapon also has a strength requirement, lacking the requirement will penalize damage, range, and dispersion until you're unable to fire if below 50% the listed strength, instead of being a strict limit like it normally would be.
 - ```STR_RELOAD``` Reload speed is affected by strength.
 - ```UNDERWATER_GUN``` Gun is optimized for usage underwater, does perform badly outside of water.
 - ```WATERPROOF_GUN``` Gun does not rust and can be used underwater.

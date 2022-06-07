@@ -1768,6 +1768,12 @@
     "context": [  ]
   },
   {
+    "id": "STR_DRAW",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "Using this weapon with <info>less strength than its requirement</info> will still allow you to fire, but at reduced <bad>damage and range</bad>."
+  },
+  {
     "id": "STR_RELOAD",
     "type": "json_flag",
     "context": [  ]

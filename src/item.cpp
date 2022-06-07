@@ -1528,7 +1528,21 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         // Display any minimal stat or skill requirements for the item
         std::vector<std::string> req;
         if( get_min_str() > 0 ) {
-            req.push_back( string_format( "%s %d", _( "strength" ), get_min_str() ) );
+            avatar &viewer = get_avatar();
+            if( has_flag( flag_STR_DRAW ) && ranged::get_str_draw_penalty( *this, viewer ) < 1.0f ) {
+                if( ranged::get_str_draw_penalty( *this, viewer ) < 0.5f ) {
+                    req.push_back( string_format( _( "%s %d <color_magenta>(Can't use!)</color>" ), _( "strength" ),
+                                                  get_min_str() ) );
+                } else if( ranged::get_str_draw_penalty( *this, viewer ) < 0.75f ) {
+                    req.push_back( string_format( "%s %d <color_red>(Damage/Range 0.5x, Dispersion 2.0x)</color>",
+                                                  _( "strength" ), get_min_str() ) );
+                } else {
+                    req.push_back( string_format( "%s %d <color_yellow>(Damage/Range 0.75x)</color>", _( "strength" ),
+                                                  get_min_str() ) );
+                }
+            } else {
+                req.push_back( string_format( "%s %d", _( "strength" ), get_min_str() ) );
+            }
         }
         if( type->min_dex > 0 ) {
             req.push_back( string_format( "%s %d", _( "dexterity" ), type->min_dex ) );
@@ -1941,6 +1955,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     const std::string space = "  ";
     const islot_gun &gun = *mod->type->gun;
     const Skill &skill = *mod->gun_skill();
+    avatar &viewer = get_avatar();
 
     // many statistics are dependent upon loaded ammo
     // if item is unloaded (or is RELOAD_AND_SHOOT) shows approximate stats using default ammo
@@ -1970,7 +1985,10 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         debugmsg( "curammo is nullptr in item::gun_info()" );
         return;
     }
-    const damage_unit &gun_du = gun.damage.damage_units.front();
+    damage_unit gun_du = gun.damage.damage_units.front();
+
+    gun_du.damage_multiplier *= ranged::str_draw_damage_modifier( *mod, viewer );
+
     const damage_unit &ammo_du = curammo != nullptr
                                  ? curammo->ammo->damage.damage_units.front()
                                  : damage_unit( DT_STAB, 0 );
@@ -7101,10 +7119,8 @@ int item::gun_range( const player *p ) const
         return 0;
     }
 
-    // Reduce bow range until player has twice minimm required strength
-    if( has_flag( flag_STR_DRAW ) ) {
-        ret += std::max( 0.0, ( p->get_str() - get_min_str() ) * 0.5 );
-    }
+    // Reduce bow range if player has less than minimum strength.
+    ret *= ranged::str_draw_range_modifier( *this, *p );
 
     return std::max( 0, ret );
 }

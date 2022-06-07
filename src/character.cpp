@@ -344,6 +344,7 @@ static const std::string flag_SEMITANGIBLE( "SEMITANGIBLE" );
 static const std::string flag_SKINTIGHT( "SKINTIGHT" );
 static const std::string flag_SPEEDLOADER( "SPEEDLOADER" );
 static const std::string flag_SPLINT( "SPLINT" );
+static const std::string flag_STR_DRAW( "STR_DRAW" );
 static const std::string flag_STURDY( "STURDY" );
 static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 static const std::string flag_SWIM_GOGGLES( "SWIM_GOGGLES" );
@@ -3326,7 +3327,7 @@ bool Character::meets_skill_requirements( const construction &con ) const
 
 bool Character::meets_stat_requirements( const item &it ) const
 {
-    return get_str() >= it.get_min_str() &&
+    return ( it.has_flag( flag_STR_DRAW ) || get_str() >= it.get_min_str() ) &&
            get_dex() >= it.type->min_dex &&
            get_int() >= it.type->min_int &&
            get_per() >= it.type->min_per;
