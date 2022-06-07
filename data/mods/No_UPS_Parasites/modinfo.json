@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "no_ups_parasites",
+    "name": "No UPS Parasites",
+    "authors": [ "SecretCisco" ],
+    "maintainers": [ "SecretCisco" ],
+    "description": "Prevents small, common electronics like smartphones & mp3 players from draining your UPS. Devices can still be charged in charging stations.",
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
+  }
+]

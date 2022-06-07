@@ -1,0 +1,93 @@
+[
+  {
+    "id": "camera_pro",
+    "type": "TOOL",
+    "name": { "str": "professional camera" },
+    "copy-from": "camera_pro",
+    "delete": { "flags": [ "USE_UPS" ] },
+    "extend": { "flags": [ "RECHARGE" ] }
+  },
+  {
+    "id": "eink_tablet_pc",
+    "type": "TOOL",
+    "name": { "str": "e-ink tablet PC" },
+    "copy-from": "eink_tablet_pc",
+    "delete": { "flags": [ "USE_UPS" ] },
+    "extend": { "flags": [ "RECHARGE" ] }
+  },
+  {
+    "id": "laptop",
+    "type": "TOOL",
+    "name": "laptop computer",
+    "description": "A laptop computer.",
+    "copy-from": "laptop",
+    "delete": { "flags": [ "USE_UPS" ] },
+    "extend": { "flags": [ "RECHARGE" ] }
+  },
+  {
+    "id": "laptop_screen_lit",
+    "type": "TOOL",
+    "name": { "str": "laptop computer - lit screen", "str_pl": "laptop computers - lit screen" },
+    "copy-from": "laptop_screen_lit",
+    "delete": { "flags": [ "USE_UPS" ] },
+    "extend": { "flags": [ "RECHARGE" ] }
+  },
+  {
+    "id": "mp3",
+    "type": "TOOL",
+    "name": { "str": "mp3 player (off)", "str_pl": "mp3 players (off)" },
+    "copy-from": "mp3",
+    "delete": { "flags": [ "USE_UPS" ] },
+    "extend": { "flags": [ "RECHARGE" ] }
+  },
+  {
+    "id": "mp3_on",
+    "type": "TOOL",
+    "name": { "str": "mp3 player (on)", "str_pl": "mp3 players (on)" },
+    "copy-from": "mp3_on",
+    "delete": { "flags": [ "USE_UPS" ] },
+    "extend": { "flags": [ "RECHARGE" ] }
+  },
+  {
+    "id": "portable_game",
+    "type": "TOOL",
+    "name": { "str": "handheld game system" },
+    "description": "This is a portable games console in working condition, with an LED-screen allowing you to play in the dark.  You can use it to play it for a little while.",
+    "copy-from": "portable_game",
+    "delete": { "flags": [ "USE_UPS" ] },
+    "extend": { "flags": [ "RECHARGE" ] }
+  },
+  {
+    "id": "smart_phone",
+    "type": "TOOL",
+    "name": { "str": "smartphone" },
+    "description": "A popular, fancy smartphone.  Capable of making photos due to integrated camera and illuminating an area as per flashlight app, assuming it has enough charge.  The smartphone also has a clock app that includes an alarm.  Runs on a small, rechargeable power cell.",
+    "copy-from": "smart_phone",
+    "delete": { "flags": [ "USE_UPS" ] },
+    "extend": { "flags": [ "RECHARGE" ] }
+  },
+  {
+    "id": "smartphone_music",
+    "type": "TOOL",
+    "name": { "str": "smartphone - music", "str_pl": "smartphones - music" },
+    "copy-from": "smartphone_music",
+    "delete": { "flags": [ "USE_UPS" ] },
+    "extend": { "flags": [ "RECHARGE" ] }
+  },
+  {
+    "id": "smart_phone_flashlight",
+    "type": "TOOL",
+    "name": { "str": "smartphone - Flashlight", "str_pl": "smartphones - Flashlight" },
+    "copy-from": "smart_phone_flashlight",
+    "delete": { "flags": [ "USE_UPS" ] },
+    "extend": { "flags": [ "RECHARGE" ] }
+  },
+  {
+    "id": "game_watch",
+    "type": "TOOL",
+    "name": { "str": "smart watch", "str_pl": "smart watches" },
+    "copy-from": "game_watch",
+    "delete": { "flags": [ "USE_UPS" ] },
+    "extend": { "flags": [ "RECHARGE" ] }
+  }
+]
