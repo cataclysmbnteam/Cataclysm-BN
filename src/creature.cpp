@@ -258,6 +258,8 @@ bool Creature::sees( const Creature &critter ) const
                 case MS_HUGE:
                     size_modifier = 0.15;
                     break;
+                default:
+                    break;
             }
             const int vision_modifier = 30 - 0.5 * coverage * size_modifier;
             if( vision_modifier > 1 ) {
@@ -483,6 +485,8 @@ int Creature::size_melee_penalty() const
             return -10;
         case MS_HUGE:
             return -20;
+        default:
+            break;
     }
 
     debugmsg( "Invalid target size %d", get_size() );

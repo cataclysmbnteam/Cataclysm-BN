@@ -531,6 +531,8 @@ static double occupied_tile_fraction( m_size target_size )
             return 0.75;
         case MS_HUGE:
             return 1.0;
+        default:
+            break;
     }
 
     return 0.5;
@@ -549,6 +551,8 @@ double Creature::ranged_target_size() const
                 return occupied_tile_fraction( MS_MEDIUM );
             case MS_HUGE:
                 return occupied_tile_fraction( MS_LARGE );
+            default:
+                break;
         }
     }
     return occupied_tile_fraction( get_size() );

@@ -261,11 +261,9 @@ static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_HOARDER( "HOARDER" );
 static const trait_id trait_HOLLOW_BONES( "HOLLOW_BONES" );
-static const trait_id trait_HOOVES( "HOOVES" );
 static const trait_id trait_HORNS_POINTED( "HORNS_POINTED" );
 static const trait_id trait_INFRARED( "INFRARED" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
-static const trait_id trait_LEG_TENTACLES( "LEG_TENTACLES" );
 static const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
 static const trait_id trait_LIZ_IR( "LIZ_IR" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
@@ -304,7 +302,6 @@ static const trait_id trait_THRESH_CEPHALOPOD( "THRESH_CEPHALOPOD" );
 static const trait_id trait_THRESH_INSECT( "THRESH_INSECT" );
 static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
-static const trait_id trait_TOUGH_FEET( "TOUGH_FEET" );
 static const trait_id trait_TRANSPIRATION( "TRANSPIRATION" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_VISCOUS( "VISCOUS" );
@@ -878,7 +875,7 @@ int Character::swim_speed() const
         // No monsters are currently mountable and can swim, though mods may allow this.
         if( mon->swims() ) {
             ret = 25;
-            ret += get_weight() / 120_gram - 50 * ( mon->get_size() - 1 );
+            ret += get_weight() / 120_gram - 50 * mon->get_size();
             return ret;
         }
     }
@@ -6829,6 +6826,8 @@ int Character::height() const
             return init_height + 50;
         case MS_HUGE:
             return init_height + 100;
+        default:
+            break;
     }
 
     debugmsg( "Invalid size class" );
@@ -9861,15 +9860,6 @@ int Character::run_cost( int base_cost, bool diag ) const
         // ROOTS3 does slow you down as your roots are probing around for nutrients,
         // whether you want them to or not.  ROOTS1 is just too squiggly without shoes
         // to give you some stability.  Plants are a bit of a slow-mover.  Deal.
-        const bool mutfeet = has_trait( trait_LEG_TENTACLES ) || has_trait( trait_PADDED_FEET ) ||
-                             has_trait( trait_HOOVES ) || has_trait( trait_TOUGH_FEET ) || has_trait( trait_ROOTS2 );
-        if( !is_wearing_shoes( side::LEFT ) && !mutfeet ) {
-            movecost += 8;
-        }
-        if( !is_wearing_shoes( side::RIGHT ) && !mutfeet ) {
-            movecost += 8;
-        }
-
         if( has_trait( trait_ROOTS3 ) && g->m.has_flag( "DIGGABLE", pos() ) ) {
             movecost += 10 * footwear_factor();
         }

@@ -393,10 +393,10 @@ TEST_CASE( "Enchantments modify move cost", "[magic][enchantment][move]" )
 
     SECTION( "Naked character" ) {
         SECTION( "tile move cost = 100" ) {
-            tests_move_cost( guy, 100, 116, 104 );
+            tests_move_cost( guy, 100, 100, 90 );
         }
         SECTION( "tile move cost = 120" ) {
-            tests_move_cost( guy, 120, 136, 122 );
+            tests_move_cost( guy, 120, 120, 108 );
         }
     }
     SECTION( "Naked character with PADDED_FEET" ) {
