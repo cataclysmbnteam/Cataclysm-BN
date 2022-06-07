@@ -230,6 +230,7 @@ static const std::string flag_SPLINT( "SPLINT" );
 static const std::string flag_VARSIZE( "VARSIZE" );
 static const std::string flag_WALL( "WALL" );
 static const std::string flag_WRITE_MESSAGE( "WRITE_MESSAGE" );
+static const std::string flag_ELEVATOR( "ELEVATOR" );
 
 /**
  * Nothing player can interact with here.
@@ -864,30 +865,60 @@ void iexamine::toilet( player &p, const tripoint &examp )
  */
 void iexamine::elevator( player &p, const tripoint &examp )
 {
-    if( !query_yn( _( "Use the %s?" ), g->m.tername( examp ) ) ) {
+    map &here = get_map();
+
+    if( !query_yn( _( "Use the %s?" ), here.tername( examp ) ) ) {
         return;
     }
     int movez = ( examp.z < 0 ? 2 : -2 );
 
-    tripoint original_floor_omt = ms_to_omt_copy( g->m.getabs( examp ) );
+    tripoint original_floor_omt = ms_to_omt_copy( here.getabs( examp ) );
     tripoint new_floor_omt = original_floor_omt + tripoint( point_zero, movez );
+
 
     // first find critters in the destination elevator and move them out of the way
     for( Creature &critter : g->all_creatures() ) {
         if( critter.is_player() ) {
             continue;
-        } else if( g->m.ter( critter.pos() ) == ter_id( "t_elevator" ) ) {
-            tripoint critter_omt = ms_to_omt_copy( g->m.getabs( critter.pos() ) );
+        } else if( here.has_flag( flag_ELEVATOR, critter.pos() ) ) {
+            tripoint critter_omt = ms_to_omt_copy( here.getabs( critter.pos() ) );
             if( critter_omt == new_floor_omt ) {
                 for( const tripoint &candidate : closest_points_first( critter.pos(), 10 ) ) {
-                    if( g->m.ter( candidate ) != ter_id( "t_elevator" ) &&
-                        g->m.passable( candidate ) &&
+                    if( !here.has_flag( flag_ELEVATOR, candidate ) &&
+                        here.passable( candidate ) &&
                         !g->critter_at( candidate ) ) {
                         critter.setpos( candidate );
                         break;
                     }
                 }
             }
+        }
+    }
+
+    // TODO: do we have struct or pair to indicate from -> to?
+    const auto move_item = [&]( map_stack & items, const tripoint & src, const tripoint & dest ) {
+        for( auto it = items.begin(); it != items.end(); ) {
+            here.add_item_or_charges( dest, *it );
+            it = here.i_rem( src, it );
+        }
+    };
+
+    const auto first_elevator_tile = [&]( const tripoint & pos ) -> tripoint {
+        for( const tripoint &candidate : closest_points_first( pos, 10 ) )
+        {
+            if( here.has_flag( flag_ELEVATOR, candidate ) ) {
+                return candidate;
+            }
+        }
+        return pos;
+    };
+
+    // move along every item in the elevator
+    for( const tripoint &pos : closest_points_first( p.pos(), 10 ) ) {
+        if( here.has_flag( flag_ELEVATOR, pos ) ) {
+            map_stack items = here.i_at( pos );
+            tripoint dest = first_elevator_tile( pos + tripoint( 0, 0, movez ) );
+            move_item( items, pos, dest );
         }
     }
 
@@ -898,12 +929,12 @@ void iexamine::elevator( player &p, const tripoint &examp )
     for( Creature &critter : g->all_creatures() ) {
         if( critter.is_player() ) {
             continue;
-        } else if( g->m.ter( critter.pos() ) == ter_id( "t_elevator" ) ) {
-            tripoint critter_omt = ms_to_omt_copy( g->m.getabs( critter.pos() ) );
+        } else if( here.has_flag( flag_ELEVATOR, critter.pos() ) ) {
+            tripoint critter_omt = ms_to_omt_copy( here.getabs( critter.pos() ) );
 
             if( critter_omt == original_floor_omt ) {
                 for( const tripoint &candidate : closest_points_first( p.pos(), 10 ) ) {
-                    if( g->m.ter( candidate ) == ter_id( "t_elevator" ) &&
+                    if( here.has_flag( flag_ELEVATOR, candidate ) &&
                         candidate != p.pos() &&
                         !g->critter_at( candidate ) ) {
                         critter.setpos( candidate );
