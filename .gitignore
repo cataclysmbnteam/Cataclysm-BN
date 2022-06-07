@@ -19,6 +19,7 @@
 /dep/
 /doxygen_doc/html/*
 /doxygen_doc/latex/*
+/doxygen_doc/doxygen-awesome-css
 /font/
 /graveyard/
 /memorial/
