@@ -180,6 +180,7 @@ struct bionic {
         void set_auto_start_thresh( float val );
         float get_auto_start_thresh() const;
         bool is_auto_start_on() const;
+        bool is_auto_start_keep_full() const;
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
