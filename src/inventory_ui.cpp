@@ -2257,7 +2257,7 @@ drop_locations inventory_drop_selector::execute()
 
     drop_locations dropped_pos_and_qty;
 
-    for( const excluded_stack &drop_pair : dropping ) {
+    for( const std::pair<const item *const, int>  &drop_pair : dropping ) {
         item_location loc( u, const_cast<item *>( drop_pair.first ) );
         // Note: drop_location here contains location of first item in stack,
         // and amount of items to be dropped from the stack.

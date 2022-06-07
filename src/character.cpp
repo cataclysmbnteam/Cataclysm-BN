@@ -9198,7 +9198,7 @@ static std::map<bodypart_id, int> acc_clothing_warmth( const
         Acc accumulation_function )
 {
     std::map<bodypart_id, int> ret;
-    for( const std::pair<bodypart_id, std::vector<const item *>> &pr : clothing_map ) {
+    for( const std::pair<const bodypart_id, std::vector<const item *>> &pr : clothing_map ) {
         ret[pr.first] = std::accumulate( pr.second.begin(), pr.second.end(), 0,
         [accumulation_function]( int acc, const item * it ) {
             return accumulation_function( acc, it->get_warmth() );
