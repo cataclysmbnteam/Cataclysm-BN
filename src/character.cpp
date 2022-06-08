@@ -2983,7 +2983,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         return ret_val<bool>::make_success();
     }
 
-    if( it.is_power_armor() || it.has_flag( flag_POWERARMOR_MOD ) ) {
+    if( it.is_power_armor() ) {
         for( auto &elem : worn ) {
             if( ( elem.get_covered_body_parts() & it.get_covered_body_parts() ).any() &&
                 !elem.has_flag( flag_POWERARMOR_COMPATIBLE ) && !it.is_power_armor() ) {

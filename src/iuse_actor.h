@@ -310,6 +310,66 @@ class delayed_transform_iuse : public iuse_transform
 };
 
 /**
+ * This is a @ref iuse_transform that changes a set of items with a specific flag.
+ * The player has to activate the item manually, it will then transform it and
+ * everything with the designated flag
+ */
+class set_transform_iuse : public iuse_transform
+{
+    public:
+        /**
+         * Whether the object turns things off or on.
+         */
+        bool turn_off;
+
+        /**
+         * Flag string so we know what the heck we're transforming.
+         */
+        std::string flag;
+
+        /** minimum charges (if any) required for transformation */
+        int set_charges = 0;
+
+        /** displayed if item is in player possession with %s replaced by item name */
+        translation set_charges_msg;
+
+        set_transform_iuse( const std::string &type = "set_transform" ) : iuse_transform( type ) {}
+
+        ~set_transform_iuse() override = default;
+        void load( const JsonObject &obj ) override;
+        int use( player &, item &, bool, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+};
+
+/**
+ * This is a @ref iuse_transform used by items with transform dependencies.
+ * The player activates the corresponding set_transform item, which will transform
+ * these items. They can't be used by the player normally unless restricted set false.
+ */
+class set_transformed_iuse : public iuse_transform
+{
+    public:
+        /**
+         * Whether the object can only be transformed externally.
+         */
+        bool restricted = true;
+        
+        /**
+         * String holds flag for activating item, bool determines
+         * if active item needs to transform or it's just a "signal"
+         */
+        std::string dependencies;
+
+        set_transformed_iuse( const std::string &type = "set_transformed" ) : iuse_transform( type ) {}
+
+        ~set_transformed_iuse() override = default;
+        void load( const JsonObject &obj ) override;
+        int use( player &, item &, bool, const tripoint & ) const override;
+        ret_val<bool> can_use( const Character &, const item &, bool, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+};
+
+/**
  * This iuse contains the logic to transform a robot item into an actual monster on the map.
  */
 class place_monster_iuse : public iuse_actor

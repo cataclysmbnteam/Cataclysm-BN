@@ -2790,10 +2790,10 @@ void item::armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *pa
                                   _( "* This item can be worn on <info>either side</info> of "
                                      "the body." ) ) );
     }
-    if( ( is_power_armor() || has_flag( flag_POWERARMOR_MOD ) ) &&
+    if( ( is_power_armor() ) &&
         parts->test( iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR ) ) {
         if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR_RADIATIONHINT ) ) {
-            if( covers( bp_head ) ) {
+            if( covers( bp_head ) && has_flag( flag_POWERARMOR_EXTERNAL ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* When worn with a power armor suit, it will "
                                              "<good>fully protect</good> you from "
@@ -5531,7 +5531,7 @@ int item::get_base_env_resist_w_filter() const
 
 bool item::is_power_armor() const
 {
-    return ( has_flag( flag_POWERARMOR_EXO ) || has_flag( flag_POWERARMOR_EXTERNAL ) );
+    return ( has_flag( flag_POWERARMOR_EXO ) || has_flag( flag_POWERARMOR_EXTERNAL ) || has_flag( flag_POWERARMOR_MOD ) );
 }
 
 int item::get_encumber( const Character &p ) const
@@ -7729,7 +7729,7 @@ int item::units_remaining( const Character &ch, int limit ) const
     }
 
     int res = ammo_remaining();
-    if( res < limit && has_flag( flag_USE_UPS ) ) {
+    if( res < limit && ( has_flag( flag_USE_UPS ) || is_power_armor() ) ) {
         res += ch.charges_of( itype_UPS, limit - res );
     }
 
@@ -9214,6 +9214,13 @@ bool item::process_tool( player *carrier, const tripoint &pos )
     if( energy > 0 ) {
         if( carrier && ( has_flag( flag_USE_UPS ) || ( is_power_armor() ) ) ) {
             carrier->add_msg_if_player( m_info, _( "You need a UPS to run the %s!" ), tname() );
+        }
+        if( carrier && ( has_flag( flag_POWERARMOR_EXO ) ) ) {
+            for( auto &elem : carrier->worn ) {
+                if( elem.has_flag( flag_POWERARMOR_EXTERNAL ) && elem.active ) {
+                elem.type->invoke( *carrier, elem, pos );
+                }
+            }
         }
 
         // invoking the object can convert the item to another type

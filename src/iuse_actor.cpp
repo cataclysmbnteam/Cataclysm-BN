@@ -145,6 +145,8 @@ static const std::string flag_FIT( "FIT" );
 static const std::string flag_OVERSIZE( "OVERSIZE" );
 static const std::string flag_UNDERSIZE( "UNDERSIZE" );
 static const std::string flag_VARSIZE( "VARSIZE" );
+static const std::string flag_POWERARMOR_EXO( "POWERARMOR_EXO" );
+static const std::string flag_POWERARMOR_MOD( "POWERARMOR_MOD" );
 
 class npc;
 
@@ -224,12 +226,22 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
         p.add_msg_if_player( m_info, _( "You need to wield the %1$s before activating it." ), it.tname() );
         return 0;
     }
-    if( need_charges && it.units_remaining( p ) < need_charges ) {
-        if( possess ) {
-            p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
+    if( need_charges ) {
+        if( it.has_flag( flag_POWERARMOR_MOD ) && p.can_interface_armor() ) {
+            if( !p.has_power() ) {
+                if( possess ) {
+                p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
+                }
+            return 0;
+            }
+        }else if( it.units_remaining( p ) < need_charges ) {
+            if( possess ) {
+                p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
+            }
+            return 0;
         }
-        return 0;
     }
+
 
     if( need_fire && possess ) {
         if( !p.use_charges_if_avail( itype_fire, need_fire ) ) {
@@ -878,6 +890,91 @@ int delayed_transform_iuse::use( player &p, item &it, bool t, const tripoint &po
         return 0;
     }
     return iuse_transform::use( p, it, t, pos );
+}
+
+std::unique_ptr<iuse_actor> set_transform_iuse::clone() const
+{
+    return std::make_unique<set_transform_iuse>( *this );
+}
+
+void set_transform_iuse::load( const JsonObject &obj )
+{
+    iuse_transform::load( obj );
+    obj.read( "turnoff", turn_off );
+    obj.read( "flag", flag );
+    if( !obj.read( "set_charges_msg", set_charges_msg ) ) {
+        set_charges_msg = to_translation( "The %s is empty!" );
+    }
+
+    obj.read( "set_charges", set_charges );
+    set_charges = std::max( set_charges, 0 );
+}
+
+int set_transform_iuse::use( player &p, item &it, bool t, const tripoint &pos ) const
+{
+    if( t ) {
+        return 0; // invoked from active item processing, do nothing.
+    }
+
+    const bool possess = p.has_item( it ) ||
+                         ( it.has_flag( "ALLOWS_REMOTE_USE" ) && square_dist( p.pos(), pos ) == 1 );
+
+    if( set_charges ) {
+        if( it.is_power_armor() && p.can_interface_armor() ) {
+            if( !p.has_power() ) {
+                if( possess ) {
+                p.add_msg_if_player( m_info, set_charges_msg, it.tname() );
+                }
+            return 0;
+            }
+        }else if( it.units_remaining( p ) < set_charges ) {
+            if( possess ) {
+                p.add_msg_if_player( m_info, set_charges_msg, it.tname() );
+            }
+            return 0;
+        }
+    }
+    
+    iuse_transform::use( p, it, t, pos );
+
+    for( auto &elem : p.worn ) {
+        if( elem.has_flag( flag ) && elem.active == turn_off ) {
+        elem.type->invoke( p, elem, pos );
+        }
+    }
+    return 0;
+}
+
+std::unique_ptr<iuse_actor> set_transformed_iuse::clone() const
+{
+    return std::make_unique<set_transformed_iuse>( *this );
+}
+
+void set_transformed_iuse::load( const JsonObject &obj )
+{
+    iuse_transform::load( obj );
+    obj.read( "restricted", restricted );
+    obj.read( "dependencies", dependencies );
+}
+
+int set_transformed_iuse::use( player &p, item &it, bool t, const tripoint &pos ) const
+{
+    return iuse_transform::use( p, it, t, pos );
+}
+
+ret_val<bool> set_transformed_iuse::can_use( const Character &p, const item &it, bool,
+                                   const tripoint & ) const
+{
+    if( restricted ) {
+        for( const auto &elem : p.worn ) {
+            if( elem.has_flag( dependencies ) && elem.active != it.active ) {
+                return ret_val<bool>::make_success();
+            }
+        }
+        return ret_val<bool>::make_failure( _( "Activate via main piece." ) );
+    }
+    return ret_val<bool>::make_success();
+        
 }
 
 std::unique_ptr<iuse_actor> place_monster_iuse::clone() const
