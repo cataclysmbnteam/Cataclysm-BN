@@ -360,6 +360,9 @@ class set_transformed_iuse : public iuse_transform
          */
         std::string dependencies;
 
+        /** Hack: Bypasses normal checks to transform an item.*/
+        int bypass( player &p, item &it, bool t, const tripoint &pos ) const;
+
         set_transformed_iuse( const std::string &type = "set_transformed" ) : iuse_transform( type ) {}
 
         ~set_transformed_iuse() override = default;

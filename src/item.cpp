@@ -4183,13 +4183,25 @@ void item::on_wear( Character &p )
 
     if( has_flag( flag_POWERARMOR_EXTERNAL ) ) {
         bool transform = false;
+        const use_function *use_func = this->get_use( "set_transformed" );
+        if( use_func == nullptr ) {
+            debugmsg( "Expected set_transformed function" );
+            return;
+        }
+        const set_transformed_iuse *actor = dynamic_cast<const set_transformed_iuse *>
+                                            ( use_func->get_actor_ptr() );
+        if( actor == nullptr ) {
+            debugmsg( "iuse_actor type descriptor and actual type mismatch" );
+            return;
+        }
+        std::string transform_flag = actor->dependencies;
         for( const auto &elem : p.worn ) {
-            if( elem.has_flag( flag_POWERARMOR_EXO ) && elem.active != active ) {
+            if( elem.has_flag( transform_flag ) && elem.active != active ) {
                 transform = true;
             }
         }
         if( transform ) {
-            type->invoke( *p.as_player(), *this, p.pos() );
+            actor->bypass( *p.as_player(), *this, false, p.pos() );
         }
     }
 
@@ -4210,6 +4222,22 @@ void item::on_takeoff( Character &p )
 
     if( is_sided() ) {
         set_side( side::BOTH );
+    }
+
+    // if power armor, no power_draw and active, shut down.
+    if( has_flag( flag_POWERARMOR_EXTERNAL ) && type->tool->power_draw == 0 && active ) {
+        const use_function *use_func = this->get_use( "set_transformed" );
+        if( use_func == nullptr ) {
+            debugmsg( "Expected set_transformed function" );
+            return;
+        }
+        const set_transformed_iuse *actor = dynamic_cast<const set_transformed_iuse *>
+                                            ( use_func->get_actor_ptr() );
+        if( actor == nullptr ) {
+            debugmsg( "iuse_actor type descriptor and actual type mismatch" );
+            return;
+        }
+        actor->bypass( *p.as_player(), *this, false, p.pos() );
     }
 }
 
@@ -9224,30 +9252,38 @@ bool item::process_tool( player *carrier, const tripoint &pos )
         }
     }
 
-    // if power armor external and unworn, shutdown.
-    if( has_flag( flag_POWERARMOR_EXTERNAL ) && type->tool->power_draw == 0 ) {
-        if( carrier && !carrier->is_worn( *this ) || carrier == nullptr ) {
-            // invoking the object can convert the item to another type
-            const bool had_revert_to = type->tool->revert_to.has_value();
-            type->invoke( carrier != nullptr ? *carrier : g->u, *this, pos );
-            if( had_revert_to ) {
-                deactivate( carrier );
-                return false;
-            } else {
-                return true;
-            }
-        }
-    }
-
     // if insufficient available charges shutdown the tool
     if( energy > 0 ) {
         if( carrier && ( has_flag( flag_USE_UPS ) || ( is_power_armor() ) ) ) {
             carrier->add_msg_if_player( m_info, _( "You need a UPS to run the %s!" ), tname() );
         }
-        if( carrier && ( has_flag( flag_POWERARMOR_EXO ) ) ) {
+        if( carrier && has_flag( flag_POWERARMOR_EXO ) ) {
+            const use_function *use_func = this->get_use( "set_transform" );
+            if( use_func == nullptr ) {
+                debugmsg( "Expected set_transform function." );
+                return false;
+            }
+            const set_transform_iuse *actor = dynamic_cast<const set_transform_iuse *>
+                                              ( use_func->get_actor_ptr() );
+            if( actor == nullptr ) {
+                debugmsg( "iuse_actor type descriptor and actual type mismatch." );
+                return false;
+            }
+            std::string transformed_flag = actor->flag;
             for( auto &elem : carrier->worn ) {
-                if( elem.has_flag( flag_POWERARMOR_EXTERNAL ) && elem.active ) {
-                    elem.type->invoke( *carrier, elem, pos );
+                if( elem.has_flag( transformed_flag ) && elem.active ) {
+                    const use_function *use_func = elem.get_use( "set_transformed" );
+                    if( use_func == nullptr ) {
+                        debugmsg( "Expected set_transformed function" );
+                        return false;
+                    }
+                    const set_transformed_iuse *actor = dynamic_cast<const set_transformed_iuse *>
+                                                        ( use_func->get_actor_ptr() );
+                    if( actor == nullptr ) {
+                        debugmsg( "iuse_actor type descriptor and actual type mismatch" );
+                        return false;
+                    }
+                    actor->bypass( *carrier, elem, false, pos );
                 }
             }
         }

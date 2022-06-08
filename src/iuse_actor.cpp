@@ -939,7 +939,13 @@ int set_transform_iuse::use( player &p, item &it, bool t, const tripoint &pos ) 
 
     for( auto &elem : p.worn ) {
         if( elem.has_flag( flag ) && elem.active == turn_off ) {
-            elem.type->invoke( p, elem, pos );
+            const set_transformed_iuse *actor = dynamic_cast<const set_transformed_iuse *>
+                                                ( elem.get_use( "set_transformed" )->get_actor_ptr() );
+            if( actor != nullptr ) {
+                actor->bypass( p, elem, t, pos );
+            } else {
+                debugmsg( "No set_transformed action on set_transform target." );
+            }
         }
     }
     return 0;
@@ -957,20 +963,20 @@ void set_transformed_iuse::load( const JsonObject &obj )
     obj.read( "dependencies", dependencies );
 }
 
-int set_transformed_iuse::use( player &p, item &it, bool t, const tripoint &pos ) const
+int set_transformed_iuse::use( player &, item &, bool, const tripoint & ) const
+{
+    return 0;
+}
+
+int set_transformed_iuse::bypass( player &p, item &it, bool t, const tripoint &pos ) const
 {
     return iuse_transform::use( p, it, t, pos );
 }
 
-ret_val<bool> set_transformed_iuse::can_use( const Character &p, const item &it, bool,
+ret_val<bool> set_transformed_iuse::can_use( const Character &, const item &, bool,
         const tripoint & ) const
 {
-    if( restricted && p.is_worn( it ) ) {
-        for( const auto &elem : p.worn ) {
-            if( elem.has_flag( dependencies ) && elem.active != it.active ) {
-                return ret_val<bool>::make_success();
-            }
-        }
+    if( restricted ) {
         return ret_val<bool>::make_failure( _( "Activate via main piece." ) );
     }
     return ret_val<bool>::make_success();

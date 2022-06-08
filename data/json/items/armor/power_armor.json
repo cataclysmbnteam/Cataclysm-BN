@@ -252,6 +252,7 @@
       "dependencies": "POWERARMOR_EXO",
       "msg": "The %s seals shut and beeps once.",
       "target": "power_armor_helmet_basic_on",
+      "need_worn": true,
       "active": true
     },
     "flags": [ "POWERARMOR_EXTERNAL", "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER", "SUN_GLASSES" ]
@@ -315,6 +316,7 @@
       "dependencies": "POWERARMOR_EXO",
       "msg": "The %s seals shut and beeps once.",
       "target": "power_armor_helmet_heavy_on",
+      "need_worn": true,
       "active": true
     },
     "flags": [ "POWERARMOR_EXTERNAL", "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER", "SUN_GLASSES" ]
@@ -377,6 +379,7 @@
       "dependencies": "POWERARMOR_EXO",
       "msg": "The %s seals shut and beeps once.",
       "target": "power_armor_helmet_light_on",
+      "need_worn": true,
       "active": true
     },
     "qualities": [ [ "GLARE", 1 ] ],
