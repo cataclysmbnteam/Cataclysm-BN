@@ -8008,7 +8008,7 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
                 }
             }
             bionic &bio = bionic_at_index( index );
-            // Part of a hacky implementation that halves charge rate when hit for 3 turns. See bionics.cpp
+            // HACK: Halves charge rate when hit for the next 3 turns, doesn't stack. See bionics.cpp for more information.
             bio.charge_timer = 6;
             // Bullet affected significantly more than stab, stab more than cut, cut more than bash.
             if( elem.type == DT_BASH ) {
