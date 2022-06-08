@@ -70,7 +70,7 @@
     "warmth": 90,
     "material_thickness": 11,
     "environmental_protection": 16,
-    "use_action": { 
+    "use_action": {
       "type": "set_transform",
       "turnoff": false,
       "flag": "POWERARMOR_EXTERNAL",
@@ -100,19 +100,12 @@
       "flag": "POWERARMOR_EXTERNAL",
       "menu_text": "Turn off",
       "msg": "The %s disengages.",
-      "target": "power_armor_basic" },
+      "target": "power_armor_basic"
+    },
     "covers": [ "torso", "arms", "hands", "legs", "feet" ],
     "encumbrance": 10,
     "weight_capacity_bonus": "55 kg",
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "values": [ { "value": "STRENGTH", "add": 4 } ]
-        }
-      ]
-    }
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 4 } ] } ] }
   },
   {
     "id": "power_armor_heavy",
@@ -172,15 +165,7 @@
     "covers": [ "torso", "arms", "hands", "legs", "feet" ],
     "encumbrance": 20,
     "weight_capacity_bonus": "75 kg",
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "values": [ { "value": "STRENGTH", "add": 6 } ]
-        }
-      ]
-    }
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 6 } ] } ] }
   },
   {
     "id": "power_armor_light",
@@ -227,19 +212,18 @@
     "flags": [ "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "TRADER_AVOID", "CLIMATE_CONTROL" ],
     "power_draw": 4000000,
     "revert_to": "power_armor_light",
-    "use_action": { "type": "set_transform", "turnoff": true, "flag": "POWERARMOR_EXTERNAL", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "power_armor_light" },
+    "use_action": {
+      "type": "set_transform",
+      "turnoff": true,
+      "flag": "POWERARMOR_EXTERNAL",
+      "menu_text": "Turn off",
+      "msg": "The %s disengages.",
+      "target": "power_armor_light"
+    },
     "covers": [ "torso", "arms", "hands", "legs", "feet" ],
     "encumbrance": 1,
     "weight_capacity_bonus": "12670 g",
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "values": [ { "value": "STRENGTH", "add": 4 } ]
-        }
-      ]
-    }
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 4 } ] } ] }
   },
   {
     "id": "power_armor_helmet_basic",
@@ -280,7 +264,17 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "environmental combat helmet (active)", "str_pl": "environmental combat helmets (active)" },
     "description": "A fully enclosed combat helmet for hazardous environments, this was designed to fit with a powered exoskeleton, using cameras to expand visual range.  In practice, the cameras were unreliable and easily fouled.  The environmental controls function best with direct-skin contact.",
-    "flags": [ "POWERARMOR_EXTERNAL", "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER", "SUN_GLASSES", "CLIMATE_CONTROL", "TRADER_AVOID" ],
+    "flags": [
+      "POWERARMOR_EXTERNAL",
+      "WATCH",
+      "WATERPROOF",
+      "STURDY",
+      "PARTIAL_DEAF",
+      "THERMOMETER",
+      "SUN_GLASSES",
+      "CLIMATE_CONTROL",
+      "TRADER_AVOID"
+    ],
     "qualities": [ [ "GLARE", 2 ] ],
     "revert_to": "power_armor_helmet_basic",
     "use_action": {
@@ -288,7 +282,8 @@
       "dependencies": "POWERARMOR_EXO",
       "menu_text": "Turn off",
       "msg": "The %s powers down.",
-      "target": "power_armor_helmet_basic"},
+      "target": "power_armor_helmet_basic"
+    },
     "covers": [ "head", "eyes", "mouth" ],
     "encumbrance": 10,
     "weight_capacity_bonus": "3628 g"
@@ -332,7 +327,17 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "heavy environmental combat helmet (active)", "str_pl": "heavy environmental combat helmets (active)" },
     "description": "An extremely heavy-duty fully enclosed combat helmet for hazardous environments, this was designed to fit with a powered exoskeleton.  In the field, soldiers reported that the protection was not worth the awkward size and limited visuals.  The environmental controls function best with direct-skin contact.",
-    "flags": [ "POWERARMOR_EXTERNAL", "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER", "SUN_GLASSES", "CLIMATE_CONTROL", "TRADER_AVOID" ],
+    "flags": [
+      "POWERARMOR_EXTERNAL",
+      "WATCH",
+      "WATERPROOF",
+      "STURDY",
+      "PARTIAL_DEAF",
+      "THERMOMETER",
+      "SUN_GLASSES",
+      "CLIMATE_CONTROL",
+      "TRADER_AVOID"
+    ],
     "qualities": [ [ "GLARE", 2 ] ],
     "revert_to": "power_armor_helmet_heavy",
     "use_action": {
@@ -340,7 +345,8 @@
       "dependencies": "POWERARMOR_EXO",
       "menu_text": "Turn off",
       "msg": "The %s powers down.",
-      "target": "power_armor_helmet_heavy" },
+      "target": "power_armor_helmet_heavy"
+    },
     "covers": [ "head", "eyes", "mouth" ],
     "encumbrance": 20,
     "weight_capacity_bonus": "5442 g"
@@ -384,7 +390,16 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "light environmental combat helmet (active)", "str_pl": "light environmental combat helmets (active)" },
     "description": "This full-enclosure helmet was designed based on commercial diving equipment, in response to complaints that earlier designs were impossible to use in combat.  While still a little more restrictive than regular combat headgear - and frustrating should your nose itch - this one received far better reviews from soldiers.  Sadly, civilization ended before they could roll out in significant numbers.  The environmental controls function best with direct-skin contact.",
-    "flags": [ "POWERARMOR_EXTERNAL", "WATCH", "WATERPROOF", "STURDY", "THERMOMETER", "SUN_GLASSES", "CLIMATE_CONTROL", "TRADER_AVOID" ],
+    "flags": [
+      "POWERARMOR_EXTERNAL",
+      "WATCH",
+      "WATERPROOF",
+      "STURDY",
+      "THERMOMETER",
+      "SUN_GLASSES",
+      "CLIMATE_CONTROL",
+      "TRADER_AVOID"
+    ],
     "qualities": [ [ "GLARE", 1 ] ],
     "revert_to": "power_armor_helmet_light",
     "use_action": {
@@ -392,7 +407,8 @@
       "dependencies": "POWERARMOR_EXO",
       "menu_text": "Turn off",
       "msg": "The %s powers down.",
-      "target": "power_armor_helmet_light" },
+      "target": "power_armor_helmet_light"
+    },
     "covers": [ "head", "eyes", "mouth" ],
     "encumbrance": 1,
     "weight_capacity_bonus": "1814 g"
@@ -442,7 +458,8 @@
       "dependencies": "POWERARMOR_EXO",
       "menu_text": "Turn off",
       "msg": "The %s disengages.",
-      "target": "power_armor_frame" },
+      "target": "power_armor_frame"
+    },
     "covers": [ "torso" ],
     "encumbrance": 5
   }

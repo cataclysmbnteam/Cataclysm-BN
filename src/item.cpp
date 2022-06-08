@@ -4181,6 +4181,18 @@ void item::on_wear( Character &p )
         }
     }
 
+    if( has_flag( flag_POWERARMOR_EXTERNAL ) ) {
+        bool transform = false;
+        for( const auto &elem : p.worn ) {
+            if( elem.has_flag( flag_POWERARMOR_EXO ) && elem.active != active ) {
+                transform = true;
+            }
+        }
+        if( transform ) {
+            type->invoke( *p.as_player(), *this, p.pos() );
+        }
+    }
+
     // TODO: artifacts currently only work with the player character
     if( &p == &g->u && type->artifact ) {
         g->add_artifact_messages( type->artifact->effects_worn );
@@ -5531,7 +5543,8 @@ int item::get_base_env_resist_w_filter() const
 
 bool item::is_power_armor() const
 {
-    return ( has_flag( flag_POWERARMOR_EXO ) || has_flag( flag_POWERARMOR_EXTERNAL ) || has_flag( flag_POWERARMOR_MOD ) );
+    return ( has_flag( flag_POWERARMOR_EXO ) || has_flag( flag_POWERARMOR_EXTERNAL ) ||
+             has_flag( flag_POWERARMOR_MOD ) );
 }
 
 int item::get_encumber( const Character &p ) const
@@ -9187,7 +9200,8 @@ bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
 
 bool item::process_tool( player *carrier, const tripoint &pos )
 {
-    if( carrier && is_power_armor() && carrier->can_interface_armor() && carrier->has_power() ) {
+    if( carrier && carrier->is_worn( *this ) && is_power_armor() && carrier->can_interface_armor() &&
+        carrier->has_power() ) {
         return false;
     }
     int energy = 0;
@@ -9210,6 +9224,21 @@ bool item::process_tool( player *carrier, const tripoint &pos )
         }
     }
 
+    // if power armor external and unworn, shutdown.
+    if( has_flag( flag_POWERARMOR_EXTERNAL ) && type->tool->power_draw == 0 ) {
+        if( carrier && !carrier->is_worn( *this ) || carrier == nullptr ) {
+            // invoking the object can convert the item to another type
+            const bool had_revert_to = type->tool->revert_to.has_value();
+            type->invoke( carrier != nullptr ? *carrier : g->u, *this, pos );
+            if( had_revert_to ) {
+                deactivate( carrier );
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+
     // if insufficient available charges shutdown the tool
     if( energy > 0 ) {
         if( carrier && ( has_flag( flag_USE_UPS ) || ( is_power_armor() ) ) ) {
@@ -9218,7 +9247,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
         if( carrier && ( has_flag( flag_POWERARMOR_EXO ) ) ) {
             for( auto &elem : carrier->worn ) {
                 if( elem.has_flag( flag_POWERARMOR_EXTERNAL ) && elem.active ) {
-                elem.type->invoke( *carrier, elem, pos );
+                    elem.type->invoke( *carrier, elem, pos );
                 }
             }
         }

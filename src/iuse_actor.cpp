@@ -230,11 +230,11 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
         if( it.has_flag( flag_POWERARMOR_MOD ) && p.can_interface_armor() ) {
             if( !p.has_power() ) {
                 if( possess ) {
-                p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
+                    p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
                 }
-            return 0;
+                return 0;
             }
-        }else if( it.units_remaining( p ) < need_charges ) {
+        } else if( it.units_remaining( p ) < need_charges ) {
             if( possess ) {
                 p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
             }
@@ -923,23 +923,23 @@ int set_transform_iuse::use( player &p, item &it, bool t, const tripoint &pos ) 
         if( it.is_power_armor() && p.can_interface_armor() ) {
             if( !p.has_power() ) {
                 if( possess ) {
-                p.add_msg_if_player( m_info, set_charges_msg, it.tname() );
+                    p.add_msg_if_player( m_info, set_charges_msg, it.tname() );
                 }
-            return 0;
+                return 0;
             }
-        }else if( it.units_remaining( p ) < set_charges ) {
+        } else if( it.units_remaining( p ) < set_charges ) {
             if( possess ) {
                 p.add_msg_if_player( m_info, set_charges_msg, it.tname() );
             }
             return 0;
         }
     }
-    
+
     iuse_transform::use( p, it, t, pos );
 
     for( auto &elem : p.worn ) {
         if( elem.has_flag( flag ) && elem.active == turn_off ) {
-        elem.type->invoke( p, elem, pos );
+            elem.type->invoke( p, elem, pos );
         }
     }
     return 0;
@@ -963,9 +963,9 @@ int set_transformed_iuse::use( player &p, item &it, bool t, const tripoint &pos 
 }
 
 ret_val<bool> set_transformed_iuse::can_use( const Character &p, const item &it, bool,
-                                   const tripoint & ) const
+        const tripoint & ) const
 {
-    if( restricted ) {
+    if( restricted && p.is_worn( it ) ) {
         for( const auto &elem : p.worn ) {
             if( elem.has_flag( dependencies ) && elem.active != it.active ) {
                 return ret_val<bool>::make_success();
@@ -974,7 +974,7 @@ ret_val<bool> set_transformed_iuse::can_use( const Character &p, const item &it,
         return ret_val<bool>::make_failure( _( "Activate via main piece." ) );
     }
     return ret_val<bool>::make_success();
-        
+
 }
 
 std::unique_ptr<iuse_actor> place_monster_iuse::clone() const

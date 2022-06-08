@@ -353,7 +353,7 @@ class set_transformed_iuse : public iuse_transform
          * Whether the object can only be transformed externally.
          */
         bool restricted = true;
-        
+
         /**
          * String holds flag for activating item, bool determines
          * if active item needs to transform or it's just a "signal"
