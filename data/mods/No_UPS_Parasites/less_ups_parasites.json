@@ -3,6 +3,7 @@
     "id": "camera_pro",
     "type": "TOOL",
     "name": { "str": "professional camera" },
+    "description": "A 35 mm digital SLR (single-lens reflex) camera, with optical and digital viewfinders, zoom lens with auto-focus and stabilizer, and flash.  You can view your photos on it or transfer them with a memory card; it runs on a rechargable batteries.  Before the Cataclysm, you could have taken professional-grade photos using this.",
     "copy-from": "camera_pro",
     "delete": { "flags": [ "USE_UPS" ] },
     "extend": { "flags": [ "RECHARGE" ] }
@@ -28,6 +29,7 @@
     "id": "laptop_screen_lit",
     "type": "TOOL",
     "name": { "str": "laptop computer - lit screen", "str_pl": "laptop computers - lit screen" },
+    "description": "A laptop computer.",
     "copy-from": "laptop_screen_lit",
     "delete": { "flags": [ "USE_UPS" ] },
     "extend": { "flags": [ "RECHARGE" ] }
@@ -78,6 +80,7 @@
     "id": "smart_phone_flashlight",
     "type": "TOOL",
     "name": { "str": "smartphone - Flashlight", "str_pl": "smartphones - Flashlight" },
+    "description": "A popular, fancy smartphone.  Capable of making photos due to integrated camera and illuminating an area as per flashlight app, assuming it has enough charge.  The smartphone also has a clock app that includes an alarm.  Runs on a small, rechargeable power cell.",
     "copy-from": "smart_phone_flashlight",
     "delete": { "flags": [ "USE_UPS" ] },
     "extend": { "flags": [ "RECHARGE" ] }
@@ -86,6 +89,7 @@
     "id": "game_watch",
     "type": "TOOL",
     "name": { "str": "smart watch", "str_pl": "smart watches" },
+    "description": "A waterproof smart watch.  It has reliable weather data from its build-in sensors and some pre-installed apps.  Activate to use.",
     "copy-from": "game_watch",
     "delete": { "flags": [ "USE_UPS" ] },
     "extend": { "flags": [ "RECHARGE" ] }
