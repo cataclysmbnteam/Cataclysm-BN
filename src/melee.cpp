@@ -643,7 +643,7 @@ void player::reach_attack( const tripoint &p )
     for( const tripoint &path_point : path ) {
         // Possibly hit some unintended target instead
         Creature *inter = g->critter_at( path_point );
-        int inter_block_size = inter->get_size() + 1;
+        int inter_block_size = inter != nullptr ? ( inter->get_size() + 1 ) : 2;
         /** @EFFECT_STABBING decreases chance of hitting intervening target on reach attack */
         if( inter != nullptr &&
             !x_in_y( ( target_size * target_size + 1 ) * skill,
