@@ -1124,6 +1124,20 @@ const std::map<quality_id, std::map<int, int>> &inventory::get_quality_cache() c
     return quality_cache;
 }
 
+int inventory::count_item( const itype_id &item_type ) const
+{
+    int num = 0;
+    const itype_bin bin = get_binned_items();
+    if( bin.find( item_type ) == bin.end() ) {
+        return num;
+    }
+    const std::list<const item *> items = get_binned_items().find( item_type )->second;
+    for( const item *it : items ) {
+        num += it->count();
+    }
+    return num;
+}
+
 void inventory::assign_empty_invlet( item &it, const Character &p, const bool force )
 {
     const std::string auto_setting = get_option<std::string>( "AUTO_INV_ASSIGN" );
