@@ -23,7 +23,7 @@ struct tripoint_distance {
 
     // Inverted because it's descending by default
     bool operator<( const tripoint_distance &rhs ) const {
-        return !( distance_squared < rhs.distance_squared );
+        return rhs.distance_squared < this->distance_squared;
     }
 };
 
