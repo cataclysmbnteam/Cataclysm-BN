@@ -2986,7 +2986,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
     if( it.is_power_armor() ) {
         for( auto &elem : worn ) {
             if( ( elem.get_covered_body_parts() & it.get_covered_body_parts() ).any() &&
-                !elem.has_flag( flag_POWERARMOR_COMPATIBLE ) && !it.is_power_armor() ) {
+                !elem.has_flag( flag_POWERARMOR_COMPATIBLE ) && !elem.is_power_armor() ) {
                 return ret_val<bool>::make_failure( _( "Can't wear power armor over other gear!" ) );
             } else if( elem.has_flag( flag_POWERARMOR_EXO ) && it.has_flag( flag_POWERARMOR_EXO ) ) {
                 return ret_val<bool>::make_failure( _( "Can't wear multiple exoskeletons!" ) );
@@ -3007,13 +3007,58 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
                            _( "You can only wear power armor components with power armor!" ) );
             }
         }
+        if( it.has_flag( flag_POWERARMOR_MOD ) ) {
+            int max_layer = 2;
+            std::vector< std::pair< body_part, int > > mod_parts;
+            body_part bp = num_bp;
+            bodypart_str_id bpid;
+            bool lhs = false;
+            bool rhs = false;
+            for( std::size_t i = 0; i < static_cast< body_part >( num_bp ); ++i ) {
+                bp = static_cast< body_part >( i );
+                if( it.get_covered_body_parts().test( bp ) ) {
+                    mod_parts.emplace_back( bp, 0 );
+                }
+            }
+            for( auto &elem : worn ) {
+                for( std::pair< body_part, int > &mod_parts : mod_parts ) {
+                    bpid = convert_bp( mod_parts.first );
+                    if( elem.get_covered_body_parts().test( mod_parts.first ) &&
+                        elem.has_flag( flag_POWERARMOR_MOD ) ) {
+                        if( elem.is_sided() && elem.get_side() == bpid->part_side ) {
+                            mod_parts.second++;
+                            continue;
+                        }
+                        mod_parts.second++;
+                    }
+                }
+            }
+            for( std::pair< body_part, int > &mod_parts : mod_parts ) {
+                bpid = convert_bp( mod_parts.first );
+                if( mod_parts.second >= max_layer ) {
+                    if( !it.is_sided() || bpid->part_side == side::BOTH ) {
+                        return ret_val<bool>::make_failure( _( "Can't wear any more mods on that body part!" ) );
+                    } else {
+                        if( bpid->part_side == side::LEFT ) {
+                            lhs = true;
+                        } else {
+                            rhs = true;
+                        }
+                        if( lhs && rhs ) {
+                            return ret_val<bool>::make_failure( _( "No more space for that mod!" ) );
+                        }
+                    }
+                }
+            }
+        }
     } else {
         // Only headgear can be worn with power armor, except other power armor components.
         // You can't wear headgear if power armor helmet is already sitting on your head.
-        bool has_helmet = false;
-        if( !it.has_flag( flag_POWERARMOR_COMPATIBLE ) && ( ( is_wearing_power_armor( &has_helmet ) &&
-                ( has_helmet || !( it.covers( bp_head ) || it.covers( bp_mouth ) || it.covers( bp_eyes ) ) ) ) ) ) {
-            return ret_val<bool>::make_failure( _( "Can't wear %s with power armor!" ), it.tname() );
+        for( auto &elem : worn ) {
+            if( ( elem.get_covered_body_parts() & it.get_covered_body_parts() ).any() &&
+                !it.has_flag( flag_POWERARMOR_COMPATIBLE ) ) {
+                return ret_val<bool>::make_failure( _( "Can't wear %s with power armor!" ), it.tname() );
+            }
         }
     }
 
@@ -3069,6 +3114,40 @@ ret_val<bool> Character::can_unwield( const item &it ) const
 {
     if( it.has_flag( "NO_UNWIELD" ) ) {
         return ret_val<bool>::make_failure( _( "You cannot unwield your %s." ), it.tname() );
+    }
+
+    return ret_val<bool>::make_success();
+}
+
+ret_val<bool> Character::can_swap( const item &it ) const
+{
+    if( it.has_flag( flag_POWERARMOR_MOD ) ) {
+        int max_layer = 2;
+        std::vector< std::pair< body_part, int > > mod_parts;
+        body_part bp = num_bp;
+        bodypart_str_id bpid;
+        for( std::size_t i = 0; i < static_cast< body_part >( num_bp ); ++i ) {
+            bp = static_cast< body_part >( i );
+            bpid = convert_bp( bp );
+            if( it.get_covered_body_parts().test( bp ) && bpid->part_side != side::BOTH ) {
+                mod_parts.emplace_back( bp, 0 );
+            }
+        }
+        for( auto &elem : worn ) {
+            for( std::pair< body_part, int > &mod_parts : mod_parts ) {
+                bpid = convert_bp( mod_parts.first );
+                if( elem.get_covered_body_parts().test( bpid->opposite_part->token ) &&
+                    elem.has_flag( flag_POWERARMOR_MOD ) ) {
+                    mod_parts.second++;
+                }
+            }
+        }
+        for( std::pair< body_part, int > &mod_parts : mod_parts ) {
+            bpid = convert_bp( mod_parts.first );
+            if( mod_parts.second >= max_layer ) {
+                return ret_val<bool>::make_failure( _( "There is no space on the opposite side!" ) );
+            }
+        }
     }
 
     return ret_val<bool>::make_success();
@@ -3576,6 +3655,14 @@ hint_rating Character::rate_action_change_side( const item &it ) const
 
 bool Character::change_side( item &it, bool interactive )
 {
+    const auto ret = can_swap( it );
+    if( !ret.success() ) {
+        if( interactive ) {
+            add_msg_if_player( m_info, "%s", ret.c_str() );
+        }
+        return false;
+    }
+
     if( !it.swap_side() ) {
         if( interactive ) {
             add_msg_player_or_npc( m_info,

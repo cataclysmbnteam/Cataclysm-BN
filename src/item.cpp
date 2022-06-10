@@ -826,7 +826,8 @@ bool item::swap_side()
 
 bool item::is_worn_only_with( const item &it ) const
 {
-    return has_flag( flag_POWERARMOR_EXTERNAL ) && it.has_flag( flag_POWERARMOR_EXO );
+    return( ( has_flag( flag_POWERARMOR_EXTERNAL ) || has_flag( flag_POWERARMOR_MOD ) ) &&
+            it.has_flag( flag_POWERARMOR_EXO ) );
 }
 
 item item::in_its_container() const
@@ -4161,6 +4162,43 @@ void item::on_wear( Character &p )
                   !p.worn_with_flag( flag_SPLINT, bodypart_id( "arm_r" ) ) ) ) {
                 set_side( side::RIGHT );
             }
+        } else if( has_flag( flag_POWERARMOR_MOD ) ) {
+            // for power armor mods, wear on side with least mods
+            std::vector< std::pair< body_part, int > > mod_parts;
+            body_part bp = num_bp;
+            bodypart_str_id bpid;
+            int lhs = 0;
+            int rhs = 0;
+            for( std::size_t i = 0; i < static_cast< body_part >( num_bp ) ; ++i ) {
+                bp = static_cast< body_part >( i );
+                if( get_covered_body_parts().test( bp ) ) {
+                    mod_parts.emplace_back( bp, 0 );
+                }
+            }
+            for( auto &elem : p.worn ) {
+                for( std::pair< body_part, int > &mod_parts : mod_parts ) {
+                    bpid = convert_bp( mod_parts.first );
+                    if( elem.get_covered_body_parts().test( mod_parts.first ) &&
+                        elem.has_flag( flag_POWERARMOR_MOD ) ) {
+                        if( elem.is_sided() && elem.get_side() == bpid->part_side ) {
+                            mod_parts.second++;
+                            continue;
+                        }
+                        mod_parts.second++;
+                    }
+                }
+            }
+            for( std::pair< body_part, int > &mod_parts : mod_parts ) {
+                bpid = convert_bp( mod_parts.first );
+                if( bpid->part_side == side::LEFT && mod_parts.second > lhs ) {
+                    add_msg( _( "left" ) );
+                    lhs = mod_parts.second;
+                } else if( bpid->part_side == side::RIGHT && mod_parts.second > rhs ) {
+                    add_msg( _( "right" ) );
+                    rhs = mod_parts.second;
+                }
+            }
+            set_side( ( lhs > rhs ) ? side::RIGHT : side::LEFT );
         } else {
             // for sided items wear the item on the side which results in least encumbrance
             int lhs = 0;

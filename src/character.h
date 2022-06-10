@@ -1388,6 +1388,12 @@ class Character : public Creature, public visitable<Character>
          */
         ret_val<bool> can_unwield( const item &it ) const;
 
+        /**
+         * Check player capable of swapping the side of a worn item.
+         * @param it Thing to be swapped
+         */
+        ret_val<bool> can_swap( const item &it ) const;
+
         void drop_invalid_inventory();
         /** Returns all items that must be taken off before taking off this item */
         std::list<item *> get_dependent_worn_items( const item &it );
