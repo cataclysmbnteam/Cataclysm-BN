@@ -60,6 +60,7 @@
     },
     "death_function": [ "NORMAL" ],
     "regenerates": 1,
+    "regeneration_modifiers": [ [ "onfire", -1 ], [ "corroding", -1 ] ],
     "flags": [
       "SEES",
       "HEARS",
