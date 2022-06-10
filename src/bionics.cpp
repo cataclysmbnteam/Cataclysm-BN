@@ -1703,9 +1703,7 @@ void Character::process_bionic( int b )
                 bio.energy_stored += get_power_level();
             }
             if( bio.energy_stored == 150_kJ ) {
-                add_msg_if_player( m_good,
-                                   _( "Your %s informs you that it's ready for action." ),
-                                   bio.info().name );
+                add_msg_if_player( m_good, _( "Your forceshields hum with power." ) );
             }
         } else if( bio.energy_stored > 150_kJ ) {
             bio.energy_stored = 150_kJ;
