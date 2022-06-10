@@ -4974,6 +4974,7 @@ int vehicle::discharge_battery( int amount, bool recurse )
         dischargeable_parts.erase( iter );
         // Calculate number of charges to reach the previous %.
         int prev_charge_level = ( ( charge_level - 1 ) * p->ammo_capacity() ) / 100;
+        prev_charge_level = std::max( 0, prev_charge_level );
         int amount_to_discharge = std::min( p->ammo_remaining() - prev_charge_level, amount );
         p->ammo_consume( amount_to_discharge, global_part_pos3( *p ) );
         amount -= amount_to_discharge;
