@@ -864,9 +864,20 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
     // False indicates that the player canceled pickup when met with some prompt
     const bool keep_going = pickup::do_pickup( target_items, autopickup );
 
+    npc *witness = nullptr;
+    if( !thievery_checked ) {
+        for( npc &guy : g->all_npcs() ) {
+            if( guy.get_attitude() == NPCATT_RECOVER_GOODS ) {
+                witness = &guy;
+                break;
+            }
+        }
+        thievery_checked = true;
+    }
+
     // If there are items left we ran out of moves, so continue the activity
     // Otherwise, we are done.
-    if( !keep_going || target_items.empty() || npc::has_thievery_witness ) {
+    if( !keep_going || target_items.empty() || witness ) {
         who.cancel_activity();
 
         if( who.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
@@ -880,19 +891,8 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
             cancel_aim_processing();
         }
 
-        if( npc::has_thievery_witness ) {
-            for( npc &guy : g->all_npcs() ) {
-                if( guy.get_attitude() == NPCATT_RECOVER_GOODS ) {
-                    guy.talk_to_u();
-                    // Set the witness to false to avoid more talk
-                    npc::has_thievery_witness = false;
-                    break;
-                }
-            }
-            if( npc::has_thievery_witness ) {
-                debugmsg( "Could not find any thievery witness, but there should be one." );
-                npc::has_thievery_witness = false;
-            }
+        if( witness ) {
+            witness->talk_to_u();
         }
     }
 }

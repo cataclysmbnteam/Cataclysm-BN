@@ -377,6 +377,7 @@ class pickup_activity_actor : public activity_actor
          * if not grabbing from the ground.
          */
         cata::optional<tripoint> starting_pos;
+        bool thievery_checked = false;
 
     public:
         pickup_activity_actor( const std::vector<pickup::pick_drop_selection> &target_items,

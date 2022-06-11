@@ -4281,7 +4281,13 @@ void item::handle_pickup_ownership( Character &c )
             }
             if( !witnesses.empty() ) {
                 set_old_owner( get_owner() );
-                random_entry( witnesses )->witness_thievery();
+                // Make sure there is only one witness
+                for( npc &guy : g->all_npcs() ) {
+                    if( guy.get_attitude() == NPCATT_RECOVER_GOODS ) {
+                        guy.set_attitude( NPCATT_NULL );
+                    }
+                }
+                random_entry( witnesses )->set_attitude( NPCATT_RECOVER_GOODS );
             }
             set_owner( c );
         }

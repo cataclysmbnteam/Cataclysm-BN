@@ -130,8 +130,6 @@ static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
 static constexpr float MAX_FLOAT = 5000000000.0f;
 
-bool npc::has_thievery_witness = false;
-
 enum npc_action : int {
     npc_undecided = 0,
     npc_pause,
@@ -1300,18 +1298,6 @@ void npc::execute_action( npc_action action )
         add_msg( m_debug, "NPC didn't use its moves.  Action %s (%d).",
                  npc_action_name( action ), action );
     }
-}
-
-void npc::witness_thievery()
-{
-    // Make sure there is only one witness
-    for( npc &guy : g->all_npcs() ) {
-        if( guy.get_attitude() == NPCATT_RECOVER_GOODS ) {
-            guy.set_attitude( NPCATT_NULL );
-        }
-    }
-    set_attitude( NPCATT_RECOVER_GOODS );
-    has_thievery_witness = true;
 }
 
 npc_action npc::method_of_fleeing()
