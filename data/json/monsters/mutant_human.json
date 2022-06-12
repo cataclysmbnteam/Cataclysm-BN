@@ -74,7 +74,7 @@
     "death_drops": "mon_mutant_experimental_death_drops",
     "upgrades": { "half_life": 50, "into": "mon_mutant_evolved" },
     "regenerates": 1,
-    "regeneration_modifiers": [ [ "onfire", -1.0 ], [ "corroding", -1.0 ] ],
+    "regeneration_modifiers": [ { "effect": "onfire", "base_mod": -1.0 }, { "effect": "corroding", "base_mod": -1.0 } ],
     "regen_morale": true,
     "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "WARM", "BLEED", "BASHES", "PATH_AVOID_DANGER_2" ]
   },
@@ -113,7 +113,7 @@
     ],
     "death_drops": "mon_mutant_evolved_death_drops",
     "regenerates": 1,
-    "regeneration_modifiers": [ [ "onfire", -1.0 ], [ "corroding", -1.0 ] ],
+    "regeneration_modifiers": [ { "effect": "onfire", "base_mod": -1.0 }, { "effect": "corroding", "base_mod": -1.0 } ],
     "regen_morale": true,
     "flags": [
       "SEES",

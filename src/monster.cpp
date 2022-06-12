@@ -2528,8 +2528,9 @@ void monster::process_effects_internal()
     int regeneration_amount = type->regenerates;
     //Apply effect-triggered regeneration modifiers
     for( const auto &regeneration_modifier : type->regeneration_modifiers ) {
+        effect &e = get_effect( regeneration_modifier.first );
         if( has_effect( regeneration_modifier.first ) ) {
-            regeneration_amount *= 1 + regeneration_modifier.second;
+            regeneration_amount *= 1.00 + regeneration_modifier.second.base_modifier + ( e.get_intensity() - 1 ) * regeneration_modifier.second.scale_modifier;
         }
     }
     //Prevent negative regeneration
@@ -2538,6 +2539,7 @@ void monster::process_effects_internal()
     }
     const int healed_amount = heal( regeneration_amount );
     if( healed_amount > 0 && one_in( 2 ) ) {
+        add_msg( _( "Healed: %s" ), healed_amount );
         std::string healing_format_string;
         if( healed_amount >= 50 ) {
             healing_format_string = _( "The %s is visibly regenerating!" );

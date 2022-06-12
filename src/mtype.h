@@ -200,6 +200,14 @@ struct mon_effect_data {
         chance( nchance ), permanent( perm ) {}
 };
 
+struct regen_modifier {
+    const float base_modifier = 1.00;
+    const float scale_modifier = 0.00;
+
+    regen_modifier( float &bm, float &sf ) :
+        base_modifier( bm ), scale_modifier( sf ) {}
+};
+
 struct mtype {
     private:
         friend class MonsterGenerator;
@@ -229,7 +237,7 @@ struct mtype {
         void remove_regeneration_modifiers( const JsonObject &jo, const std::string &member_name,
                                             const std::string &src );
 
-        void add_regeneration_modifier( JsonArray inner, const std::string &src );
+        void add_regeneration_modifier( JsonObject inner, const std::string &src );
 
     public:
         mtype_id id;
@@ -267,7 +275,7 @@ struct mtype {
         // Number of hitpoints regenerated per turn.
         int regenerates = 0;
         // Effects that can modify regeneration
-        std::map<efftype_id, float> regeneration_modifiers;
+        std::map<efftype_id, regen_modifier> regeneration_modifiers;
         // Monster regenerates very quickly in poorly lit tiles.
         bool regenerates_in_dark = false;
         // Will stop fleeing if at max hp, and regen anger and morale.
