@@ -3055,8 +3055,8 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         // Only headgear can be worn with power armor, except other power armor components.
         // You can't wear headgear if power armor helmet is already sitting on your head.
         for( auto &elem : worn ) {
-            if( ( elem.get_covered_body_parts() & it.get_covered_body_parts() ).any() &&
-                !it.has_flag( flag_POWERARMOR_COMPATIBLE ) ) {
+            if( !it.has_flag( flag_POWERARMOR_COMPATIBLE ) && ( is_wearing_power_armor() &&
+                    ( elem.get_covered_body_parts() & it.get_covered_body_parts() ).any() ) ) {
                 return ret_val<bool>::make_failure( _( "Can't wear %s with power armor!" ), it.tname() );
             }
         }

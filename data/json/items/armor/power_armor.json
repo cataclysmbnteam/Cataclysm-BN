@@ -221,7 +221,7 @@
       "target": "power_armor_light"
     },
     "covers": [ "torso", "arms", "hands", "legs", "feet" ],
-    "encumbrance": 1,
+    "encumbrance": 0,
     "weight_capacity_bonus": "12670 g",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 4 } ] } ] }
   },
@@ -413,7 +413,7 @@
       "target": "power_armor_helmet_light"
     },
     "covers": [ "head", "eyes", "mouth" ],
-    "encumbrance": 1,
+    "encumbrance": 0,
     "weight_capacity_bonus": "1814 g"
   },
   {

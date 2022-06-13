@@ -352,7 +352,7 @@
       "target": "power_armor_helmet_light"
     },
     "covers": [ "head", "eyes", "mouth" ],
-    "encumbrance": 1
+    "encumbrance": 0
   },
   {
     "id": "power_armor_light",
@@ -408,7 +408,7 @@
       "target": "power_armor_light"
     },
     "covers": [ "torso", "arms", "hands", "legs", "feet" ],
-    "encumbrance": 1
+    "encumbrance": 0
   },
   {
     "id": "armguard_bone",
