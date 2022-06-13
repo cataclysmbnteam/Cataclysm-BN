@@ -255,7 +255,7 @@
       "need_worn": true,
       "active": true
     },
-    "flags": [ "POWERARMOR_EXTERNAL", "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER", "SUN_GLASSES" ]
+    "flags": [ "POWERARMOR_EXTERNAL", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "SUN_GLASSES" ]
   },
   {
     "id": "power_armor_helmet_basic_on",
@@ -291,7 +291,7 @@
   },
   {
     "id": "power_armor_helmet_heavy",
-    "type": "ARMOR",
+    "type": "TOOL_ARMOR",
     "name": { "str": "heavy environmental combat helmet" },
     "description": "An extremely heavy-duty fully enclosed combat helmet for hazardous environments, this was designed to fit with a powered exoskeleton.  In the field, soldiers reported that the protection was not worth the awkward size and limited visuals.  The environmental controls function best with direct-skin contact.",
     "weight": "5442 g",
@@ -319,7 +319,7 @@
       "need_worn": true,
       "active": true
     },
-    "flags": [ "POWERARMOR_EXTERNAL", "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER", "SUN_GLASSES" ]
+    "flags": [ "POWERARMOR_EXTERNAL", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "SUN_GLASSES" ]
   },
   {
     "id": "power_armor_helmet_heavy_on",
@@ -383,7 +383,7 @@
       "active": true
     },
     "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "POWERARMOR_EXTERNAL", "WATCH", "WATERPROOF", "STURDY", "THERMOMETER", "SUN_GLASSES" ]
+    "flags": [ "POWERARMOR_EXTERNAL", "WATERPROOF", "STURDY", "SUN_GLASSES" ]
   },
   {
     "id": "power_armor_helmet_light_on",
