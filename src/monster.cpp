@@ -2528,8 +2528,8 @@ void monster::process_effects_internal()
     float regeneration_amount = type->regenerates;
     //Apply effect-triggered regeneration modifiers
     for( const auto &regeneration_modifier : type->regeneration_modifiers ) {
-        effect &e = get_effect( regeneration_modifier.first );
         if( has_effect( regeneration_modifier.first ) ) {
+            effect &e = get_effect( regeneration_modifier.first );
             regeneration_amount *= 1.00 + regeneration_modifier.second.base_modifier +
                                    ( e.get_intensity() - 1 ) * regeneration_modifier.second.scale_modifier;
         }
