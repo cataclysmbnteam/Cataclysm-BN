@@ -2540,7 +2540,7 @@ void monster::process_effects_internal()
     }
     const int healed_amount = heal( round( regeneration_amount ) );
     if( healed_amount > 0 && one_in( 2 ) ) {
-        add_msg( _( "Healed: %s" ), healed_amount );
+        add_msg( m_debug, _( "Regen: %s" ), healed_amount );
         std::string healing_format_string;
         if( healed_amount >= 50 ) {
             healing_format_string = _( "The %s is visibly regenerating!" );
