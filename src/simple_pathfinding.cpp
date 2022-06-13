@@ -174,7 +174,7 @@ struct scored_address {
     tripoint_abs_omt addr;
     int32_t score;
     bool operator> ( const scored_address &other ) const {
-        return score >= other.score;
+        return score > other.score;
     }
 };
 
