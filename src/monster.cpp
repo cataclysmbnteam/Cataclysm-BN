@@ -2530,7 +2530,8 @@ void monster::process_effects_internal()
     for( const auto &regeneration_modifier : type->regeneration_modifiers ) {
         effect &e = get_effect( regeneration_modifier.first );
         if( has_effect( regeneration_modifier.first ) ) {
-            regeneration_amount *= 1.00 + regeneration_modifier.second.base_modifier + ( e.get_intensity() - 1 ) * regeneration_modifier.second.scale_modifier;
+            regeneration_amount *= 1.00 + regeneration_modifier.second.base_modifier +
+                                   ( e.get_intensity() - 1 ) * regeneration_modifier.second.scale_modifier;
         }
     }
     //Prevent negative regeneration
