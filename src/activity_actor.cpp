@@ -59,6 +59,8 @@ static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
 
 static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
 
+static const std::string has_thievery_witness( "has_thievery_witness" );
+
 aim_activity_actor::aim_activity_actor()
 {
     initial_view_offset = get_avatar().view_offset;
@@ -842,7 +844,7 @@ std::unique_ptr<activity_actor> move_items_activity_actor::deserialize( JsonIn &
     return actor.clone();
 }
 
-void pickup_activity_actor::do_turn( player_activity &, Character &who )
+void pickup_activity_actor::do_turn( player_activity &act, Character &who )
 {
     // If we don't have target items bail out
     if( target_items.empty() ) {
@@ -864,15 +866,15 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
     // False indicates that the player canceled pickup when met with some prompt
     const bool keep_going = pickup::do_pickup( target_items, autopickup );
 
+    // Check thievey witness
     npc *witness = nullptr;
-    if( !thievery_checked ) {
+    if( !act.str_values.empty() && act.str_values[0] == has_thievery_witness ) {
         for( npc &guy : g->all_npcs() ) {
             if( guy.get_attitude() == NPCATT_RECOVER_GOODS ) {
                 witness = &guy;
                 break;
             }
         }
-        thievery_checked = true;
     }
 
     // If there are items left we ran out of moves, so continue the activity
@@ -893,6 +895,8 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
 
         if( witness ) {
             witness->talk_to_u();
+            // Then remove "has_thievery_witness" from the activity
+            act.str_values.clear();
         }
     }
 }

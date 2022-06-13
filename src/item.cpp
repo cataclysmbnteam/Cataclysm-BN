@@ -269,6 +269,9 @@ static const std::string flag_WATER_EXTINGUISH( "WATER_EXTINGUISH" );
 static const std::string flag_WET( "WET" );
 static const std::string flag_WIND_EXTINGUISH( "WIND_EXTINGUISH" );
 
+static const std::string has_thievery_witness( "has_thievery_witness" );
+static const activity_id ACT_PICKUP( "ACT_PICKUP" );
+
 static const matec_id rapid_strike( "RAPID" );
 
 class npc_class;
@@ -4288,6 +4291,11 @@ void item::handle_pickup_ownership( Character &c )
                     }
                 }
                 random_entry( witnesses )->set_attitude( NPCATT_RECOVER_GOODS );
+                // Notify the activity that we got a witness
+                if( c.activity && !c.activity.is_null() && c.activity.id() == ACT_PICKUP ) {
+                    c.activity.str_values.clear();
+                    c.activity.str_values.emplace_back( has_thievery_witness );
+                }
             }
             set_owner( c );
         }
