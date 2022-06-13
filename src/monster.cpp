@@ -2525,7 +2525,7 @@ void monster::process_effects_internal()
     }
 
     //If this monster has the ability to heal in combat, do it now.
-    int regeneration_amount = type->regenerates;
+    float regeneration_amount = type->regenerates;
     //Apply effect-triggered regeneration modifiers
     for( const auto &regeneration_modifier : type->regeneration_modifiers ) {
         effect &e = get_effect( regeneration_modifier.first );
@@ -2537,7 +2537,7 @@ void monster::process_effects_internal()
     if( regeneration_amount < 0 ) {
         regeneration_amount = 0;
     }
-    const int healed_amount = heal( regeneration_amount );
+    const int healed_amount = heal( round( regeneration_amount ) );
     if( healed_amount > 0 && one_in( 2 ) ) {
         add_msg( _( "Healed: %s" ), healed_amount );
         std::string healing_format_string;
