@@ -103,7 +103,8 @@
       "msg": "The %s disengages.",
       "target": "power_armor_light"
     },
-    "covers": [ "torso", "arms", "hands", "legs", "feet" ]
+    "covers": [ "torso", "arms", "hands", "legs", "feet" ],
+    "encumbrance": 10
   },
   {
     "id": "power_armor_heavy",
@@ -159,7 +160,8 @@
       "msg": "The %s disengages.",
       "target": "power_armor_heavy"
     },
-    "covers": [ "torso", "arms", "hands", "legs", "feet" ]
+    "covers": [ "torso", "arms", "hands", "legs", "feet" ],
+    "encumbrance": 20
   },
   {
     "id": "power_armor_helmet_basic",
@@ -405,7 +407,8 @@
       "msg": "The %s disengages.",
       "target": "power_armor_light"
     },
-    "covers": [ "torso", "arms", "hands", "legs", "feet" ]
+    "covers": [ "torso", "arms", "hands", "legs", "feet" ],
+    "encumbrance": 1
   },
   {
     "id": "armguard_bone",

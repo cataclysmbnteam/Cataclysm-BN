@@ -145,7 +145,6 @@ static const std::string flag_FIT( "FIT" );
 static const std::string flag_OVERSIZE( "OVERSIZE" );
 static const std::string flag_UNDERSIZE( "UNDERSIZE" );
 static const std::string flag_VARSIZE( "VARSIZE" );
-static const std::string flag_POWERARMOR_EXO( "POWERARMOR_EXO" );
 static const std::string flag_POWERARMOR_MOD( "POWERARMOR_MOD" );
 
 class npc;
