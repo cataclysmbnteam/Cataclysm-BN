@@ -330,7 +330,7 @@
     "repairs_like": "power_armor_helmet_light",
     "looks_like": "power_armor_helmet_light",
     "type": "TOOL_ARMOR",
-    "name": { "str": "light power armor helmet (on)", "str_pl": "light power armor helmet (on)" },
+    "name": { "str": "light power armor helmet (on)", "str_pl": "light power armor helmets (on)" },
     "description": "A power armor helmet designed for use with the DoubleTech Power Armor, Mk. II-L.  This improved design is lighter and cooler than the Mk. I helmet.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.  It is turned on and continually drawing power.",
     "flags": [
       "POWERARMOR_EXTERNAL",
