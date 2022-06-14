@@ -339,6 +339,7 @@ static const std::string flag_PERSONAL( "PERSONAL" );
 static const flag_str_id flag_POCKETS( "POCKETS" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
 static const std::string flag_POWERARMOR_EXO( "POWERARMOR_EXO" );
+static const std::string flag_POWERARMOR_EXTERNAL( "POWERARMOR_EXTERNAL" );
 static const std::string flag_POWERARMOR_MOD( "POWERARMOR_MOD" );
 static const std::string flag_POWERARMOR_COMPATIBLE( "POWERARMOR_COMPATIBLE" );
 static const std::string flag_RESTRICT_HANDS( "RESTRICT_HANDS" );
@@ -2993,23 +2994,22 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
             }
         }
         if( !it.has_flag( flag_POWERARMOR_EXO ) ) {
-            bool power_armor = false;
-            if( !worn.empty() ) {
-                for( auto &elem : worn ) {
-                    if( elem.has_flag( flag_POWERARMOR_EXO ) ) {
-                        power_armor = true;
-                        break;
-                    }
-                }
-            }
-            if( !power_armor ) {
+            if( !is_wearing_power_armor() ) {
                 return ret_val<bool>::make_failure(
                            _( "You can only wear power armor components with power armor!" ) );
+            }
+        }
+        if( it.has_flag( flag_POWERARMOR_EXTERNAL ) ) {
+            for( auto &elem : worn ) {
+                if( elem.has_flag( flag_POWERARMOR_EXO ) && ( elem.get_covered_body_parts() & it.get_covered_body_parts() ).any() ) {
+                    return ret_val<bool>::make_failure( _( "Can't wear external pieces over an exoskeleton!" ) );
+                }
             }
         }
         if( it.has_flag( flag_POWERARMOR_MOD ) ) {
             int max_layer = 2;
             std::vector< std::pair< body_part, int > > mod_parts;
+            std::vector< std::pair< body_part, bool > > attachments;
             body_part bp = num_bp;
             bodypart_str_id bpid;
             bool lhs = false;
@@ -3018,23 +3018,43 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
                 bp = static_cast< body_part >( i );
                 if( it.get_covered_body_parts().test( bp ) ) {
                     mod_parts.emplace_back( bp, 0 );
+                    attachments.emplace_back( bp, false );
                 }
             }
             for( auto &elem : worn ) {
+                // To check if there's an external/exoskeleton for the mod to attach to.
+                for( std::pair< body_part, bool > &attachments : attachments ) {
+                    if( elem.get_covered_body_parts().test( attachments.first ) && ( elem.has_flag( flag_POWERARMOR_EXO ) || elem.has_flag( flag_POWERARMOR_EXTERNAL ) ) ) {
+                        if( elem.is_sided() && elem.get_side() == bpid->part_side ) {
+                            attachments.second = true;
+                        } else {
+                            attachments.second = true;
+                        }
+                    }                        
+                }
+                // To check how many mods are on a given part.
                 for( std::pair< body_part, int > &mod_parts : mod_parts ) {
                     bpid = convert_bp( mod_parts.first );
                     if( elem.get_covered_body_parts().test( mod_parts.first ) &&
                         elem.has_flag( flag_POWERARMOR_MOD ) ) {
                         if( elem.is_sided() && elem.get_side() == bpid->part_side ) {
                             mod_parts.second++;
-                            continue;
-                        }
+                        } else {
                         mod_parts.second++;
+                        }
                     }
+                }
+            }
+            for( std::pair< body_part, bool > &attachments : attachments ) {
+                if( attachments.second == false ) {
+                    return ret_val<bool>::make_failure( _( "Nothing to attach the mod to!" ) );
                 }
             }
             for( std::pair< body_part, int > &mod_parts : mod_parts ) {
                 bpid = convert_bp( mod_parts.first );
+                if( static_cast< body_part >( mod_parts.first ) == bp_torso ) {
+                    max_layer = 3;
+                }
                 if( mod_parts.second >= max_layer ) {
                     if( !it.is_sided() || bpid->part_side == side::BOTH ) {
                         return ret_val<bool>::make_failure( _( "Can't wear any more mods on that body part!" ) );
@@ -3092,7 +3112,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
 
     if( it.covers( bp_head ) &&
         !it.has_flag( flag_HELMET_COMPAT ) && !it.has_flag( flag_SKINTIGHT ) &&
-        !it.has_flag( flag_PERSONAL ) &&
+        !it.has_flag( flag_PERSONAL ) && !it.is_power_armor() &&
         !it.has_flag( flag_AURA ) && !it.has_flag( flag_SEMITANGIBLE ) && !it.has_flag( flag_OVERSIZE ) &&
         is_wearing_helmet() ) {
         return ret_val<bool>::make_failure( wearing_something_on( bodypart_id( "head" ) ),
@@ -3716,6 +3736,9 @@ static void layer_item( std::array<encumbrance_data, num_bp> &vals,
      */
     if( it.has_flag( "SEMITANGIBLE" ) ) {
         encumber_val = 0;
+        layering_encumbrance = 0;
+    }
+    if( it.has_flag( "COMPACT" ) ) {
         layering_encumbrance = 0;
     }
 

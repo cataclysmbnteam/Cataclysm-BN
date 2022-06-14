@@ -433,38 +433,10 @@
     "color": "light_gray",
     "covers": [ "torso" ],
     "coverage": 30,
-    "encumbrance": 40,
+    "encumbrance": 5,
     "storage": "40 L",
     "material_thickness": 10,
-    "use_action": {
-      "type": "set_transformed",
-      "dependencies": "POWERARMOR_EXO",
-      "msg": "The %s engages.",
-      "target": "power_armor_frame_on",
-      "active": true
-    },
-    "flags": [ "POWERARMOR_EXTERNAL", "WATERPROOF", "STURDY", "BELTED", "ONLY_ONE" ]
-  },
-  {
-    "id": "power_armor_frame_on",
-    "copy-from": "power_armor_frame",
-    "repairs_like": "power_armor_frame",
-    "looks_like": "power_armor_frame",
-    "type": "TOOL_ARMOR",
-    "name": { "str": "power armor hauling frame (active)", "str_pl": "power armor hauling frames (active)" },
-    "description": "A heavy duty hauling frame designed to interface with military exoskeletons.",
-    "flags": [ "POWERARMOR_EXTERNAL", "WATERPROOF", "STURDY", "BELTED", "ONLY_ONE", "TRADER_AVOID" ],
-    "qualities": [ [ "GLARE", 1 ] ],
-    "revert_to": "power_armor_frame",
-    "use_action": {
-      "type": "set_transformed",
-      "dependencies": "POWERARMOR_EXO",
-      "menu_text": "Turn off",
-      "msg": "The %s disengages.",
-      "target": "power_armor_frame"
-    },
-    "covers": [ "torso" ],
-    "encumbrance": 5
+    "flags": [ "POWERARMOR_MOD", "COMPACT", "WATERPROOF", "STURDY", "BELTED", "ONLY_ONE" ]
   },
   {
     "id": "power_armor_back_holster",
@@ -488,7 +460,7 @@
       "draw_cost": 150,
       "skills": [ "smg", "shotgun", "rifle", "launcher" ]
     },
-    "flags": [ "POWERARMOR_MOD", "WATERPROOF", "BELTED", "NO_QUICKDRAW", "ONLY_ONE" ]
+    "flags": [ "POWERARMOR_MOD", "COMPACT", "WATERPROOF", "BELTED", "NO_QUICKDRAW", "ONLY_ONE" ]
   },
   {
     "id": "power_armor_holster",
@@ -506,7 +478,7 @@
     "coverage": 5,
     "material_thickness": 1,
     "use_action": { "type": "holster", "max_volume": "800 ml", "min_volume": "100 ml", "skills": [ "pistol", "smg", "shotgun" ] },
-    "flags": [ "POWERARMOR_MOD", "WATERPROOF", "WAIST" ]
+    "flags": [ "POWERARMOR_MOD", "COMPACT", "WATERPROOF", "WAIST" ]
   },
   {
     "id": "power_armor_chest_rig",
@@ -533,7 +505,7 @@
       "draw_cost": 40,
       "flags": [ "MAG_COMPACT" ]
     },
-    "flags": [ "POWERARMOR_MOD", "WATERPROOF", "BELTED", "WAIST" ]
+    "flags": [ "POWERARMOR_MOD", "COMPACT", "WATERPROOF", "BELTED", "WAIST" ]
   },
   {
     "id": "power_armor_bscabbard",
@@ -559,7 +531,7 @@
       "draw_cost": 5,
       "flags": [ "SHEATH_SWORD", "SHEATH_AXE" ]
     },
-    "flags": [ "POWERARMOR_MOD", "WATERPROOF", "BELTED" ]
+    "flags": [ "POWERARMOR_MOD", "COMPACT", "WATERPROOF", "BELTED" ]
   },
   {
     "id": "power_armor_scabbard",
@@ -584,7 +556,7 @@
       "max_volume": "2 L",
       "flags": [ "SHEATH_SWORD" ]
     },
-    "flags": [ "POWERARMOR_MOD", "WATERPROOF", "WAIST" ]
+    "flags": [ "POWERARMOR_MOD", "COMPACT", "WATERPROOF", "WAIST" ]
   },
   {
     "id": "power_armor_sheath",
@@ -609,7 +581,7 @@
       "draw_cost": 3,
       "flags": [ "SHEATH_KNIFE" ]
     },
-    "flags": [ "POWERARMOR_MOD", "WATERPROOF", "WAIST" ]
+    "flags": [ "POWERARMOR_MOD", "COMPACT", "WATERPROOF", "WAIST" ]
   },
   {
     "id": "power_armor_test_mod",
@@ -623,9 +595,9 @@
     "material": [ "rubber", "steel" ],
     "symbol": "|",
     "color": "brown",
-    "covers": [ "torso", "leg_either" ],
+    "covers": [ "head" ],
     "coverage": 5,
     "material_thickness": 1,
-    "flags": [ "POWERARMOR_MOD", "WATERPROOF", "WAIST" ]
+    "flags": [ "POWERARMOR_MOD", "COMPACT", "WATERPROOF", "WAIST" ]
   }
 ]
