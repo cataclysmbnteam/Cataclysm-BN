@@ -899,7 +899,7 @@ std::unique_ptr<iuse_actor> set_transform_iuse::clone() const
 void set_transform_iuse::load( const JsonObject &obj )
 {
     iuse_transform::load( obj );
-    obj.read( "turnoff", turn_off );
+    obj.read( "turn_off", turn_off );
     obj.read( "flag", flag );
     if( !obj.read( "set_charges_msg", set_charges_msg ) ) {
         set_charges_msg = to_translation( "The %s is empty!" );

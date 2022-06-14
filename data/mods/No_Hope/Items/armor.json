@@ -73,7 +73,7 @@
     "environmental_protection": 16,
     "use_action": {
       "type": "set_transform",
-      "turnoff": false,
+      "turn_off": false,
       "flag": "POWERARMOR_EXTERNAL",
       "msg": "The %s engages.",
       "target": "power_armor_basic_on",
@@ -97,7 +97,7 @@
     "revert_to": "power_armor_basic",
     "use_action": {
       "type": "set_transform",
-      "turnoff": true,
+      "turn_off": true,
       "flag": "POWERARMOR_EXTERNAL",
       "menu_text": "Turn off",
       "msg": "The %s disengages.",
@@ -130,7 +130,7 @@
     "environmental_protection": 16,
     "use_action": {
       "type": "set_transform",
-      "turnoff": false,
+      "turn_off": false,
       "flag": "POWERARMOR_EXTERNAL",
       "msg": "The %s engages.",
       "target": "power_armor_heavy_on",
@@ -154,7 +154,7 @@
     "revert_to": "power_armor_heavy",
     "use_action": {
       "type": "set_transform",
-      "turnoff": true,
+      "turn_off": true,
       "flag": "POWERARMOR_EXTERNAL",
       "menu_text": "Turn off",
       "msg": "The %s disengages.",
@@ -378,7 +378,7 @@
     "environmental_protection": 16,
     "use_action": {
       "type": "set_transform",
-      "turnoff": false,
+      "turn_off": false,
       "flag": "POWERARMOR_EXTERNAL",
       "msg": "The %s engages.",
       "target": "power_armor_light_on",
@@ -401,7 +401,7 @@
     "revert_to": "power_armor_light",
     "use_action": {
       "type": "set_transform",
-      "turnoff": true,
+      "turn_off": true,
       "flag": "POWERARMOR_EXTERNAL",
       "menu_text": "Turn off",
       "msg": "The %s disengages.",
