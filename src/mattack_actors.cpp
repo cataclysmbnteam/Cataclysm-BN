@@ -47,6 +47,10 @@ static bool is_adjacent( const monster &z, const Creature &target )
         return false;
     }
 
+    if( !z.can_squeeze_to( target.pos() ) ) {
+        return false;
+    }
+
     return z.posz() == target.posz();
 }
 

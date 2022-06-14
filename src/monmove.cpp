@@ -246,6 +246,13 @@ bool monster::can_reach_to( const tripoint &p ) const
     return true;
 }
 
+bool monster::can_squeeze_to( const tripoint &p ) const
+{
+    map &m = get_map();
+
+    return !m.obstructed_by_vehicle_rotation( pos(), p );
+}
+
 bool monster::can_move_to( const tripoint &p ) const
 {
     return can_reach_to( p ) && will_move_to( p );
@@ -801,7 +808,7 @@ void monster::move()
     bool try_to_move = false;
     for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
         if( dest != pos() ) {
-            if( can_move_to( dest ) &&
+            if( can_move_to( dest ) && can_squeeze_to( dest ) &&
                 g->critter_at( dest, true ) == nullptr ) {
                 try_to_move = true;
                 break;
@@ -964,7 +971,7 @@ void monster::move()
             // Try to shove vehicle out of the way
             shove_vehicle( destination, candidate );
             // Bail out if we can't move there and we can't bash.
-            if( !pathed && !can_move_to( candidate ) ) {
+            if( !pathed && ( !can_move_to( candidate ) || !can_squeeze_to( candidate ) ) ) {
                 if( !can_bash ) {
                     continue;
                 }
@@ -1537,6 +1544,10 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     }
 
     if( critter != nullptr && !step_on_critter ) {
+        return false;
+    }
+
+    if( !can_squeeze_to( destination ) ) {
         return false;
     }
 

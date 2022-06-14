@@ -6437,6 +6437,51 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
     return is_clear;
 }
 
+bool map::obstructed_by_vehicle_rotation( const tripoint &from, const tripoint &to )
+{
+    const optional_vpart_position vp0 = veh_at( from );
+    vehicle *const veh0 = veh_pointer_or_null( vp0 );
+    const optional_vpart_position vp1 = veh_at( to );
+    vehicle *const veh1 = veh_pointer_or_null( vp1 );
+
+    if( veh1 != nullptr ) {
+        point veh1p = veh1->tripoint_to_mount( from );
+        if( !veh1->allowed_move( veh1p, vp1->mount() ) ) {
+            return true;
+        }
+    }
+    if( veh0 != nullptr && veh1 != veh0 ) {
+        point veh0p = veh0->tripoint_to_mount( to );
+        if( !veh0->allowed_move( vp0->mount(), veh0p ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+bool map::obscured_by_vehicle_rotation( const tripoint &from, const tripoint &to )
+{
+    const optional_vpart_position vp0 = veh_at( from );
+    vehicle *const veh0 = veh_pointer_or_null( vp0 );
+    const optional_vpart_position vp1 = veh_at( to );
+    vehicle *const veh1 = veh_pointer_or_null( vp1 );
+
+    if( veh1 != nullptr ) {
+        point veh1p = veh1->tripoint_to_mount( from );
+        if( !veh1->allowed_light( veh1p, vp1->mount() ) ) {
+            return true;
+        }
+    }
+    if( veh0 != nullptr && veh1 != veh0 ) {
+        point veh0p = veh0->tripoint_to_mount( to );
+        if( !veh0->allowed_light( vp0->mount(), veh0p ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool map::accessible_items( const tripoint &t ) const
 {
     return !has_flag( "SEALED", t ) || has_flag( "LIQUIDCONT", t );
@@ -7803,8 +7848,68 @@ void map::build_outside_cache( const int zlev )
     ch.outside_cache_dirty = false;
 }
 
+void map::build_vehicle_rotation_obstacles_cache( const tripoint &start, const tripoint &end,
+        diagonal_blocks( & blocked_obstacle_cache )[MAPSIZE_X][MAPSIZE_Y] )
+{
+
+    diagonal_blocks fill = {false, false};
+    std::fill_n( &blocked_obstacle_cache[0][0], MAPSIZE_X * MAPSIZE_Y, fill );
+
+    auto set_blocked = [&blocked_obstacle_cache]( vehicle & veh, const tripoint from ) {
+        auto from_mount = veh.tripoint_to_mount( from );
+        for( int dx = -1; dx <= 1; dx += 2 ) {
+            for( int dy = -1; dy <= 1; dy += 2 ) {
+
+                auto t = veh.tripoint_to_mount( from + point( dx, dy ) );
+
+                if( !veh.allowed_move( from_mount, t ) ) {
+                    if( dy == -1 && dx == -1 ) {
+                        blocked_obstacle_cache[from.x][from.y].nw = true;
+                    } else if( dy == -1 && dx == 1 ) {
+                        blocked_obstacle_cache[from.x][from.y].ne = true;
+                    } else if( dy == 1 && dx == -1 ) {
+                        if( from.x == 0 || from.y == MAPSIZE_Y - 1 ) {
+                            continue;
+                        }
+                        blocked_obstacle_cache[from.x - 1][from.y + 1].ne = true;
+                    } else {
+                        if( from.x == MAPSIZE_X - 1 || from.y == MAPSIZE_Y - 1 ) {
+                            continue;
+                        }
+                        blocked_obstacle_cache[from.x + 1][from.y + 1].nw = true;
+                    }
+                }
+            }
+        }
+    };
+
+
+    VehicleList vehs = get_vehicles( start, end );
+    const inclusive_cuboid<tripoint> bounds( start, end );
+    for( auto &v : vehs ) {
+        for( const vpart_reference &vp : v.v->get_all_parts() ) {
+            tripoint p = v.pos + vp.part().precalc[0];
+            if( p.z != start.z ) {
+                break;
+            }
+            if( !bounds.contains( p ) ) {
+                continue;
+            }
+
+            for( int dx = -1; dx <= 1; dx += 2 ) {
+                set_blocked( *v.v, p + tripoint( dx, 0, 0 ) );
+            }
+
+            for( int dy = -1; dy <= 1; dy += 2 ) {
+                set_blocked( *v.v, p + tripoint( 0, dy, 0 ) );
+            }
+        }
+    }
+}
+
 void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
-                                float( &obstacle_cache )[MAPSIZE_X][MAPSIZE_Y] )
+                                float( &obstacle_cache )[MAPSIZE_X][MAPSIZE_Y],
+                                diagonal_blocks( & blocked_obstacle_cache )[MAPSIZE_X][MAPSIZE_Y] )
 {
     const point min_submap{ std::max( 0, start.x / SEEX ), std::max( 0, start.y / SEEY ) };
     const point max_submap{
@@ -7853,6 +7958,8 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
             }
         }
     }
+
+    build_vehicle_rotation_obstacles_cache( start, end, blocked_obstacle_cache );
 }
 
 bool map::build_floor_cache( const int zlev )
@@ -7981,6 +8088,7 @@ static void vehicle_caching_internal( level_cache &zch, const vpart_reference &v
     auto &outside_cache = zch.outside_cache;
     auto &transparency_cache = zch.transparency_cache;
     auto &floor_cache = zch.floor_cache;
+    auto &blocked_cache = zch.blocked_cache;
 
     const size_t part = vp.part_index();
     const tripoint &part_pos =  v->global_part_pos3( vp.part() );
@@ -8002,6 +8110,31 @@ static void vehicle_caching_internal( level_cache &zch, const vpart_reference &v
 
     if( vp.has_feature( VPFLAG_BOARDABLE ) && !vp.part().is_broken() ) {
         floor_cache[part_pos.x][part_pos.y] = true;
+    }
+
+    for( int my = -1; my <= 1; my += 2 ) {
+        for( int mx = -1; mx <= 1; mx += 2 ) {
+
+            point t = v->tripoint_to_mount( part_pos + point( mx, my ) );
+
+            if( !v->allowed_light( t, vp.mount() ) ) {
+                if( my == -1 && mx == -1 ) {
+                    blocked_cache[part_pos.x][part_pos.y].nw = true;
+                } else if( my == -1 && mx == 1 ) {
+                    blocked_cache[part_pos.x][part_pos.y].ne = true;
+                } else if( my == 1 && mx == -1 ) {
+                    if( part_pos.x == 0 || part_pos.y == MAPSIZE_Y - 1 ) {
+                        continue;
+                    }
+                    blocked_cache[part_pos.x - 1][part_pos.y + 1].ne = true;
+                } else {
+                    if( part_pos.x == MAPSIZE_X - 1 || part_pos.y == MAPSIZE_Y - 1 ) {
+                        continue;
+                    }
+                    blocked_cache[part_pos.x + 1][part_pos.y + 1].nw = true;
+                }
+            }
+        }
     }
 }
 
@@ -8044,6 +8177,8 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         update_suspension_cache( z );
         seen_cache_dirty |= ( build_floor_cache( z ) && affects_seen_cache );
         seen_cache_dirty |= get_cache( z ).seen_cache_dirty && affects_seen_cache;
+        diagonal_blocks fill = {false, false};
+        std::uninitialized_fill_n( &( get_cache( z ).blocked_cache[0][0] ), MAPSIZE_X * MAPSIZE_Y, fill );
     }
     // needs a separate pass as it changes the caches on neighbour z-levels (e.g. floor_cache);
     // otherwise such changes might be overwritten by main cache-building logic
@@ -8355,9 +8490,9 @@ void map::function_over( const tripoint &start, const tripoint &end, Functor fun
     }
 }
 
-void map::scent_blockers( std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &blocks_scent,
-                          std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &reduces_scent,
-                          const point &min, const point &max )
+void map::scent_blockers( std::array<std::array<char, MAPSIZE_X>, MAPSIZE_Y> &scent_transfer,
+                          const point &min, const point &max,
+                          diagonal_blocks( & blocked_obstacle_cache )[MAPSIZE_X][MAPSIZE_Y] )
 {
     auto reduce = TFLAG_REDUCE_SCENT;
     auto block = TFLAG_NO_SCENT;
@@ -8365,15 +8500,12 @@ void map::scent_blockers( std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &bl
         // We need to generate the x/y coordinates, because we can't get them "for free"
         const point p = lp + sm_to_ms_copy( gp.xy() );
         if( sm->get_ter( lp ).obj().has_flag( block ) ) {
-            blocks_scent[p.x][p.y] = true;
-            reduces_scent[p.x][p.y] = false;
+            scent_transfer[p.x][p.y] = 0;
         } else if( sm->get_ter( lp ).obj().has_flag( reduce ) ||
                    sm->get_furn( lp ).obj().has_flag( reduce ) ) {
-            blocks_scent[p.x][p.y] = false;
-            reduces_scent[p.x][p.y] = true;
+            scent_transfer[p.x][p.y] = 1;
         } else {
-            blocks_scent[p.x][p.y] = false;
-            reduces_scent[p.x][p.y] = false;
+            scent_transfer[p.x][p.y] = 5;
         }
 
         return ITER_CONTINUE;
@@ -8390,8 +8522,8 @@ void map::scent_blockers( std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &bl
         vehicle &veh = *( wrapped_veh.v );
         for( const vpart_reference &vp : veh.get_any_parts( VPFLAG_OBSTACLE ) ) {
             const tripoint part_pos = vp.pos();
-            if( local_bounds.contains( part_pos.xy() ) ) {
-                reduces_scent[part_pos.x][part_pos.y] = true;
+            if( local_bounds.contains( part_pos.xy() ) && scent_transfer[part_pos.x][part_pos.y] == 5 ) {
+                scent_transfer[part_pos.x][part_pos.y] = 1;
             }
         }
 
@@ -8402,11 +8534,14 @@ void map::scent_blockers( std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &bl
             }
 
             const tripoint part_pos = vp.pos();
-            if( local_bounds.contains( part_pos.xy() ) ) {
-                reduces_scent[part_pos.x][part_pos.y] = true;
+            if( local_bounds.contains( part_pos.xy() ) && scent_transfer[part_pos.x][part_pos.y] == 5 ) {
+                scent_transfer[part_pos.x][part_pos.y] = 1;
             }
         }
     }
+
+    build_vehicle_rotation_obstacles_cache( tripoint( min, abs_sub.z ), tripoint( max, abs_sub.z ),
+                                            blocked_obstacle_cache );
 }
 
 tripoint_range<tripoint> map::points_in_rectangle( const tripoint &from, const tripoint &to ) const
@@ -8552,6 +8687,8 @@ level_cache::level_cache()
     std::fill_n( &outside_cache[0][0], map_dimensions, false );
     std::fill_n( &floor_cache[0][0], map_dimensions, false );
     std::fill_n( &transparency_cache[0][0], map_dimensions, 0.0f );
+    diagonal_blocks fill = {false, false};
+    std::fill_n( &blocked_cache[0][0], map_dimensions, fill );
     std::fill_n( &vision_transparency_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &seen_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &camera_cache[0][0], map_dimensions, 0.0f );

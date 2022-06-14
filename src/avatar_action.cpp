@@ -250,6 +250,11 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         return false;
     }
 
+    if( m.obstructed_by_vehicle_rotation( you.pos(), dest_loc ) ) {
+        add_msg( _( "You can't walk through that vehicle's wall." ) );
+        return false;
+    }
+
     if( monster *const mon_ptr = g->critter_at<monster>( dest_loc, true ) ) {
         monster &critter = *mon_ptr;
         if( critter.friendly == 0 &&

@@ -208,14 +208,16 @@ std::array<std::pair<tripoint, maptile>, 8> map::get_neighbors( const tripoint &
     };
 }
 
-bool map::gas_can_spread_to( field_entry &cur, const maptile &dst )
+bool map::gas_can_spread_to( field_entry &cur, const tripoint &src, const tripoint &dst )
 {
-    const field_entry *tmpfld = dst.get_field().find_field( cur.get_field_type() );
+    maptile dst_tile = maptile_at( dst );
+    const field_entry *tmpfld = dst_tile.get_field().find_field( cur.get_field_type() );
     // Candidates are existing weaker fields or navigable/flagged tiles with no field.
     if( tmpfld == nullptr || tmpfld->get_field_intensity() < cur.get_field_intensity() ) {
-        const ter_t &ter = dst.get_ter_t();
-        const furn_t &frn = dst.get_furn_t();
-        return ter_furn_movecost( ter, frn ) > 0 || ter_furn_has_flag( ter, frn, TFLAG_PERMEABLE );
+        const ter_t &ter = dst_tile.get_ter_t();
+        const furn_t &frn = dst_tile.get_furn_t();
+        return !obstructed_by_vehicle_rotation( src, dst ) &&
+               ( ter_furn_movecost( ter, frn ) > 0 || ter_furn_has_flag( ter, frn, TFLAG_PERMEABLE ) );
     }
     return false;
 }
@@ -287,8 +289,8 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
     // TODO: Make fall and rise chances parameters to enable heavy/light gas
     if( zlevels && p.z > -OVERMAP_DEPTH ) {
         const tripoint down{ p.xy(), p.z - 1 };
-        maptile down_tile = maptile_at_internal( down );
-        if( gas_can_spread_to( cur, down_tile ) && valid_move( p, down, true, true ) ) {
+        if( gas_can_spread_to( cur, p, down ) && valid_move( p, down, true, true ) ) {
+            maptile down_tile = maptile_at_internal( down );
             gas_spread_to( cur, down_tile, down );
             return;
         }
@@ -306,7 +308,7 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
          count != neighs.size();
          i = ( i + 1 ) % neighs.size(), count++ ) {
         const auto &neigh = neighs[i];
-        if( gas_can_spread_to( cur, neigh.second ) ) {
+        if( gas_can_spread_to( cur, p, neigh.first ) ) {
             spread.push_back( i );
         }
     }
@@ -342,8 +344,8 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
         }
     } else if( zlevels && p.z < OVERMAP_HEIGHT ) {
         const tripoint up{ p.xy(), p.z + 1 };
-        maptile up_tile = maptile_at_internal( up );
-        if( gas_can_spread_to( cur, up_tile ) && valid_move( p, up, true, true ) ) {
+        if( gas_can_spread_to( cur, p, up ) && valid_move( p, up, true, true ) ) {
+            maptile up_tile = maptile_at_internal( up );
             gas_spread_to( cur, up_tile, up );
         }
     }

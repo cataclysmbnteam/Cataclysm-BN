@@ -288,6 +288,12 @@ struct drawsq_params {
         //@}
 };
 
+//This is included in the global namespace rather than within level_cache as c++ doesn't allow forward declarations within a namespace
+struct diagonal_blocks {
+    bool nw;
+    bool ne;
+};
+
 struct level_cache {
     // Zeros all relevant values
     level_cache();
@@ -320,6 +326,10 @@ struct level_cache {
     // stores cached transparency of the tiles
     // units: "transparency" (see LIGHT_TRANSPARENCY_OPEN_AIR)
     float transparency_cache[MAPSIZE_X][MAPSIZE_Y];
+
+    // true when light entering a tile diagonally is blocked by the walls of a turned vehicle. The direction is the direction that the light must be travelling.
+    // check the nw value of x+1, y+1 to find the se value of a tile and the ne of x-1, y+1 for sw
+    diagonal_blocks blocked_cache[MAPSIZE_X][MAPSIZE_Y];
 
     // stores "adjusted transparency" of the tiles
     // initial values derived from transparency_cache, uses same units
@@ -583,7 +593,7 @@ class map
         void spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
                          const time_duration &outdoor_age_speedup, scent_block &sblk );
         void create_hot_air( const tripoint &p, int intensity );
-        bool gas_can_spread_to( field_entry &cur, const maptile &dst );
+        bool gas_can_spread_to( field_entry &cur, const tripoint &src, const tripoint &dst );
         void gas_spread_to( field_entry &cur, maptile &dst, const tripoint &p );
         int burn_body_part( player &u, field_entry &cur, body_part bp, int scale );
     public:
@@ -690,6 +700,16 @@ class map
          */
         bool clear_path( const tripoint &f, const tripoint &t, int range,
                          int cost_min, int cost_max ) const;
+
+        /**
+         * Checks if a rotated vehicle is blocking diagonal movement, tripoints must be adjacent
+         */
+        bool obstructed_by_vehicle_rotation( const tripoint &from, const tripoint &to );
+
+        /**
+         * Checks if a rotated vehicle is blocking diagonal vision, tripoints must be adjacent
+         */
+        bool obscured_by_vehicle_rotation( const tripoint &from, const tripoint &to );
 
         /**
          * Populates a vector of points that are reachable within a number of steps from a
@@ -1491,9 +1511,9 @@ class map
          * Build the map of scent-resistant tiles.
          * Should be way faster than if done in `game.cpp` using public map functions.
          */
-        void scent_blockers( std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &blocks_scent,
-                             std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &reduces_scent,
-                             const point &min, const point &max );
+        void scent_blockers( std::array<std::array<char, MAPSIZE_X>, MAPSIZE_Y> &scent_transfer,
+                             const point &min, const point &max,
+                             diagonal_blocks( & blocked_obstacle_cache )[MAPSIZE_X][MAPSIZE_Y] );
 
         // Computers
         computer *computer_at( const tripoint &p );
@@ -1574,7 +1594,12 @@ class map
         void build_map_cache( int zlev, bool skip_lightmap = false );
         // Unlike the other caches, this populates a supplied cache instead of an internal cache.
         void build_obstacle_cache( const tripoint &start, const tripoint &end,
-                                   float( &obstacle_cache )[MAPSIZE_X][MAPSIZE_Y] );
+                                   float( &obstacle_cache )[MAPSIZE_X][MAPSIZE_Y],
+                                   diagonal_blocks( &blocked_obstacle_cache )[MAPSIZE_X][MAPSIZE_Y] );
+
+        //populates a supplied cache with diagonal obstructions due to vehicle rotation
+        void build_vehicle_rotation_obstacles_cache( const tripoint &start, const tripoint &end,
+                diagonal_blocks( & blocked_obstacle_cache )[MAPSIZE_X][MAPSIZE_Y] );
 
         vehicle *add_vehicle( const vgroup_id &type, const tripoint &p, units::angle dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,

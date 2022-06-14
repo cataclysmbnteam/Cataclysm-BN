@@ -282,6 +282,10 @@ static bool is_adjacent( const monster *z, const Creature *target, const bool al
         return false;
     }
 
+    if( !z->can_squeeze_to( target->pos() ) ) {
+        return false;
+    }
+
     if( z->posz() == target->posz() ) {
         return true;
     }

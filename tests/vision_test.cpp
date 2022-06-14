@@ -24,6 +24,9 @@
 #include "shadowcasting.h"
 #include "type_id.h"
 #include "weather.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+#include "vpart_range.h"
 
 enum class vision_test_flags {
     none = 0,
@@ -45,7 +48,9 @@ static bool operator!( vision_test_flags f )
 static void full_map_test( const std::vector<std::string> &setup,
                            const std::vector<std::string> &expected_results,
                            const time_point &time,
-                           const vision_test_flags flags )
+                           const vision_test_flags flags,
+                           const std::string vehicle_id,
+                           const units::angle vehicle_rotation )
 {
     const ter_id t_brick_wall( "t_brick_wall" );
     const ter_id t_window_frame( "t_window_frame" );
@@ -120,6 +125,7 @@ static void full_map_test( const std::vector<std::string> &setup,
     }
 
     map &here = get_map();
+    vehicle *veh = nullptr;
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
             const tripoint p = origin + point( x, y );
@@ -148,6 +154,12 @@ static void full_map_test( const std::vector<std::string> &setup,
                 case 'U':
                 case 'V':
                     // Already handled above
+                    break;
+                case 'C':
+                    veh = here.add_vehicle( vproto_id( vehicle_id ), p, vehicle_rotation, 0, 0 );
+                    for( const vpart_reference &vp : veh->get_avail_parts( "OPENABLE" ) ) {
+                        veh->close( vp.part_index() );
+                    }
                     break;
                 default:
                     FAIL( "unexpected setup char '" << setup[y][x] << "'" );
@@ -257,6 +269,8 @@ struct vision_test_case {
     std::vector<std::string> expected_results;
     time_point time;
     vision_test_flags flags;
+    std::string vehicle_id = "";
+    units::angle vehicle_rotation = 0_degrees;
 
     static void transpose( std::vector<std::string> &v ) {
         if( v.empty() ) {
@@ -293,7 +307,7 @@ struct vision_test_case {
     }
 
     void test() const {
-        full_map_test( setup, expected_results, time, flags );
+        full_map_test( setup, expected_results, time, flags, vehicle_id, vehicle_rotation );
     }
 
     void test_all_transformations() const {
@@ -345,6 +359,7 @@ static const time_point midday = calendar::turn_zero + 12_hours;
 // 'L' - light, indoors
 // '#' - wall
 // '=' - window frame
+// 'C' - The origin of the vehicle
 
 TEST_CASE( "vision_daylight", "[shadowcasting][vision]" )
 {
@@ -621,4 +636,70 @@ TEST_CASE( "vision_player_opaque_neighbors_still_visible_night", "[shadowcasting
     };
 
     t.test_all();
+}
+
+TEST_CASE( "vision_see_out_of_vehicle", "[shadowcasting][vision]" )
+{
+
+    vision_test_case t {
+        {
+            "                 ",
+            "            C    ",
+            "                 ",
+            "                 ",
+            "         U       ",
+            "                 ",
+            "                 ",
+            "                 ",
+        },
+        {
+            "66666666666666666",
+            "66666666666666666",
+            "66666666664111666",
+            "66666666641114666",
+            "66666666411146666",
+            "66666664111466666",
+            "66666661114666666",
+            "66666666666666666",
+        },
+        midday,
+        vision_test_flags::none,
+        "cube_van",
+        -45_degrees
+    };
+
+    t.test();
+}
+
+TEST_CASE( "vision_see_into_vehicle", "[shadowcasting][vision]" )
+{
+
+    vision_test_case t {
+        {
+            "                 ",
+            "            C    ",
+            "                 ",
+            "                 ",
+            "                 ",
+            "            U    ",
+            "                 ",
+            "                 ",
+        },
+        {
+            "66666666666666664",
+            "66666666666666644",
+            "66666666666666444",
+            "66666666666664444",
+            "66666666666644444",
+            "66666666666444444",
+            "66666666664444444",
+            "66666666644444444",
+        },
+        midday,
+        vision_test_flags::none,
+        "cube_van",
+        -45_degrees
+    };
+
+    t.test();
 }

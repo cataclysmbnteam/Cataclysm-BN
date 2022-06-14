@@ -2252,6 +2252,12 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         path.clear();
         move_pause();
     }
+
+    if( here.obstructed_by_vehicle_rotation( pos(), p ) ) {
+        move_pause();
+        return;
+    }
+
     bool attacking = false;
     if( g->critter_at<monster>( p ) ) {
         attacking = true;

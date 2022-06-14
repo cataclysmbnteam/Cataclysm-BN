@@ -6,6 +6,8 @@
 #include <memory>
 
 #include "avatar.h"
+#include "avatar_action.h"
+#include "catch/catch.hpp"
 #include "player.h"
 #include "weather.h"
 #include "bodypart.h"
@@ -524,4 +526,23 @@ TEST_CASE( "Water hypothermia check.", "[.][bodytemp]" )
     SECTION( "Freezing" ) {
         hypothermia_check( dummy, units::celsius_to_fahrenheit( 0 ), 5_minutes, BODYTEMP_FREEZING );
     }
+}
+
+TEST_CASE( "player_move_through_vehicle_holes" )
+{
+    clear_map();
+    clear_avatar();
+
+    player &dummy = get_avatar();
+
+    const tripoint &pos = dummy.pos();
+
+    get_map().add_vehicle( vproto_id( "apc" ), pos + tripoint( 2, -1, 0 ), -45_degrees, 0, 0 );
+
+    REQUIRE( get_avatar().pos() == pos );
+
+    avatar_action::move( get_avatar(), get_map(), point_north_west );
+
+    CHECK( get_avatar().pos() == pos );
+
 }
