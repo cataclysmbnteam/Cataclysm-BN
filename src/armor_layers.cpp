@@ -98,7 +98,8 @@ item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
         }
         const int num_items = std::count_if( c.worn.begin(), c.worn.end(),
         [layer, bp]( const item & i ) {
-            return i.get_layer() == layer && i.covers( bp ) && !( i.has_flag( flag_SEMITANGIBLE ) || i.has_flag( flag_COMPACT ) );
+            return i.get_layer() == layer && i.covers( bp ) && !( i.has_flag( flag_SEMITANGIBLE ) ||
+                    i.has_flag( flag_COMPACT ) );
         } );
         if( num_items > 1 ) {
             body_parts_with_stacking_penalty.push_back( bp );

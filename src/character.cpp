@@ -3001,7 +3001,8 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         }
         if( it.has_flag( flag_POWERARMOR_EXTERNAL ) ) {
             for( auto &elem : worn ) {
-                if( elem.has_flag( flag_POWERARMOR_EXO ) && ( elem.get_covered_body_parts() & it.get_covered_body_parts() ).any() ) {
+                if( elem.has_flag( flag_POWERARMOR_EXO ) &&
+                    ( elem.get_covered_body_parts() & it.get_covered_body_parts() ).any() ) {
                     return ret_val<bool>::make_failure( _( "Can't wear external pieces over an exoskeleton!" ) );
                 }
             }
@@ -3024,13 +3025,14 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
             for( auto &elem : worn ) {
                 // To check if there's an external/exoskeleton for the mod to attach to.
                 for( std::pair< body_part, bool > &attachments : attachments ) {
-                    if( elem.get_covered_body_parts().test( attachments.first ) && ( elem.has_flag( flag_POWERARMOR_EXO ) || elem.has_flag( flag_POWERARMOR_EXTERNAL ) ) ) {
+                    if( elem.get_covered_body_parts().test( attachments.first ) &&
+                        ( elem.has_flag( flag_POWERARMOR_EXO ) || elem.has_flag( flag_POWERARMOR_EXTERNAL ) ) ) {
                         if( elem.is_sided() && elem.get_side() == bpid->part_side ) {
                             attachments.second = true;
                         } else {
                             attachments.second = true;
                         }
-                    }                        
+                    }
                 }
                 // To check how many mods are on a given part.
                 for( std::pair< body_part, int > &mod_parts : mod_parts ) {
@@ -3040,7 +3042,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
                         if( elem.is_sided() && elem.get_side() == bpid->part_side ) {
                             mod_parts.second++;
                         } else {
-                        mod_parts.second++;
+                            mod_parts.second++;
                         }
                     }
                 }
