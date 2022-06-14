@@ -905,7 +905,9 @@ void set_transform_iuse::load( const JsonObject &obj )
         set_charges_msg = to_translation( "The %s is empty!" );
     }
 
-    obj.read( "set_charges", set_charges );
+    if( !obj.read( "set_charges", set_charges ) ) {
+        set_charges = 0;
+    }
     set_charges = std::max( set_charges, 0 );
 }
 

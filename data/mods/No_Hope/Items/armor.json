@@ -92,7 +92,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "basic power armor (on)", "str_pl": "basic power armors (on)" },
     "description": "The DoubleTech Power Armor, Mk. I: A heavy suit of basic power armor, offering very good protection against attacks, but hard to move in.  The UPS compartment can store other things if you don't mind powering the suit yourself.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.  It is turned on and continually drawing power.  Use it to turn it off.",
-    "flags": [ "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "TRADER_AVOID", "CLIMATE_CONTROL" ],
+    "flags": [ "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "CLIMATE_CONTROL", "TRADER_AVOID" ],
     "power_draw": 4000000,
     "revert_to": "power_armor_basic",
     "use_action": {
@@ -149,7 +149,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "heavy power armor (on)", "str_pl": "heavy power armors (on)" },
     "description": "A suit of DoubleTech Power Armor, Mk. II-H.  This model offers several improvements over the Mk. I, most notably the improved environmental protection.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.  It is turned on and continually drawing power.  Use it to turn it off.",
-    "flags": [ "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "TRADER_AVOID", "CLIMATE_CONTROL" ],
+    "flags": [ "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "CLIMATE_CONTROL", "TRADER_AVOID" ],
     "power_draw": 4000000,
     "revert_to": "power_armor_heavy",
     "use_action": {
@@ -396,7 +396,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "field combat exoskeleton (on)", "str_pl": "field combat exoskeletons (on)" },
     "description": "A suit of DoubleTech Power Armor, Mk. II-L.  This model offers several improvements over the Mk. I, most notably the reduced weight.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.  It is turned on and continually drawing power.  Use it to turn it off.",
-    "flags": [ "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "TRADER_AVOID", "CLIMATE_CONTROL" ],
+    "flags": [ "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "CLIMATE_CONTROL", "TRADER_AVOID" ],
     "power_draw": 4000000,
     "revert_to": "power_armor_light",
     "use_action": {
