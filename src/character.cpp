@@ -3048,7 +3048,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
                 }
             }
             for( std::pair< body_part, bool > &attachments : attachments ) {
-                if( attachments.second == false ) {
+                if( !attachments.second ) {
                     return ret_val<bool>::make_failure( _( "Nothing to attach the mod to!" ) );
                 }
             }
