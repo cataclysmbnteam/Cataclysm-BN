@@ -9538,7 +9538,7 @@ bool Character::has_charges( const itype_id &it, int quantity,
         int mod_qty = 0;
         float multiplier = 1;
         for( const bionic &bio : *my_bionics ) {
-            if( bio.info().has_flag( flag_BIONIC_ARMOR_INTERFACE ) ) {
+            if( bio.powered && bio.info().has_flag( flag_BIONIC_ARMOR_INTERFACE ) ) {
                 multiplier = std::min( multiplier, bio.info().fuel_efficiency );
             }
         }
@@ -9603,7 +9603,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty,
         int mod_qty = 0;
         float multiplier = 1;
         for( const bionic &bio : *my_bionics ) {
-            if( bio.info().has_flag( flag_BIONIC_ARMOR_INTERFACE ) ) {
+            if( bio.powered && bio.info().has_flag( flag_BIONIC_ARMOR_INTERFACE ) ) {
                 multiplier = std::min( multiplier, bio.info().fuel_efficiency );
             }
         }

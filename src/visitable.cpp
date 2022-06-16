@@ -997,7 +997,7 @@ int visitable<Character>::charges_of( const itype_id &what, int limit,
         int power_charges = 0;
 
         for( const bionic &bio : *self->my_bionics ) {
-            if( bio.info().has_flag( flag_BIONIC_ARMOR_INTERFACE ) ) {
+            if( bio.powered && bio.info().has_flag( flag_BIONIC_ARMOR_INTERFACE ) ) {
                 multiplier = std::min( multiplier, bio.info().fuel_efficiency );
             }
         }
