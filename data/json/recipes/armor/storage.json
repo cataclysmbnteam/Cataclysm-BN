@@ -113,7 +113,7 @@
     "autolearn": true,
     "using": [ [ "adhesive", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "leather", 12 ] ], [ [ "2x4", 2 ] ], [ [ "nail", 8 ] ] ]
+    "components": [ [ [ "leather", 12 ], [ "fur", 12 ] ], [ [ "wood_structural", 1, "LIST" ] ], [ [ "nail", 8 ] ] ]
   },
   {
     "result": "bandolier_pistol",
@@ -264,7 +264,7 @@
     "autolearn": true,
     "using": [ [ "adhesive", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "leather", 15 ] ], [ [ "2x4", 2 ] ], [ [ "nail", 10 ] ] ]
+    "components": [ [ [ "leather", 15 ], [ "fur", 15 ] ], [ [ "wood_structural", 1, "LIST" ] ], [ [ "nail", 10 ] ] ]
   },
   {
     "result": "chestpouch",
@@ -612,7 +612,7 @@
     "autolearn": true,
     "using": [ [ "adhesive", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "leather", 10 ] ], [ [ "2x4", 2 ] ], [ [ "nail", 5 ] ] ]
+    "components": [ [ [ "leather", 10 ], [ "fur", 10 ] ], [ [ "wood_structural", 1, "LIST" ] ], [ [ "nail", 5 ] ] ]
   },
   {
     "result": "sheath",

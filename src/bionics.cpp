@@ -571,7 +571,7 @@ bool Character::activate_bionic( int b, bool eff_only )
     }
 
     auto add_msg_activate = [&]() {
-        if( !eff_only ) {
+        if( !eff_only && !bio.is_auto_start_keep_full() ) {
             add_msg_if_player( m_info, _( "You activate your %s." ), bio.info().name );
         }
     };
@@ -1194,18 +1194,20 @@ bool Character::burn_fuel( int b, bool start )
             if( !bio.has_flag( flag_SAFE_FUEL_OFF ) &&
                 get_power_level() + units::from_kilojoule( fuel_energy ) * effective_efficiency
                 > get_max_power_level() ) {
-                if( is_metabolism_powered ) {
-                    add_msg_player_or_npc( m_info, _( "Your %s turns off to not waste calories." ),
-                                           _( "<npcname>'s %s turns off to not waste calories." ),
-                                           bio.info().name );
-                } else if( is_perpetual_fuel ) {
-                    add_msg_player_or_npc( m_info, _( "Your %s turns off after filling your power banks." ),
-                                           _( "<npcname>'s %s turns off after filling their power banks." ),
-                                           bio.info().name );
-                } else {
-                    add_msg_player_or_npc( m_info, _( "Your %s turns off to not waste fuel." ),
-                                           _( "<npcname>'s %s turns off to not waste fuel." ),
-                                           bio.info().name );
+                if( !bio.is_auto_start_keep_full() ) {
+                    if( is_metabolism_powered ) {
+                        add_msg_player_or_npc( m_info, _( "Your %s turns off to not waste calories." ),
+                                               _( "<npcname>'s %s turns off to not waste calories." ),
+                                               bio.info().name );
+                    } else if( is_perpetual_fuel ) {
+                        add_msg_player_or_npc( m_info, _( "Your %s turns off after filling your power banks." ),
+                                               _( "<npcname>'s %s turns off after filling their power banks." ),
+                                               bio.info().name );
+                    } else {
+                        add_msg_player_or_npc( m_info, _( "Your %s turns off to not waste fuel." ),
+                                               _( "<npcname>'s %s turns off to not waste fuel." ),
+                                               bio.info().name );
+                    }
                 }
                 bio.powered = false;
                 deactivate_bionic( b, true );
@@ -1593,7 +1595,12 @@ void Character::process_bionic( int b )
         // The above hack means there's no check for whether the bionic actually has power to run.
         if( get_power_level() < bio.info().power_over_time ) {
             bio.powered = false;
-            add_msg_if_player( m_neutral, _( "Your %s powers down." ), bio.info().name );
+            add_msg_if_player( m_warning, _( "Your %s shut down due to lack of power." ), bio.info().name );
+            deactivate_bionic( b );
+            return;
+        } else if( get_stored_kcal() < 0.85f * max_stored_kcal() ) {
+            bio.powered = false;
+            add_msg_if_player( m_warning, _( "Your %s shut down to conserve calories." ), bio.info().name );
             deactivate_bionic( b );
             return;
         }
@@ -2677,6 +2684,7 @@ void bionic::toggle_auto_start_mod()
         tmenu.addentry( 2, true, 't', _( "Below 25 %%" ) );
         tmenu.addentry( 3, true, 'f', _( "Below 50 %%" ) );
         tmenu.addentry( 4, true, 's', _( "Below 75 %%" ) );
+        tmenu.addentry( 5, true, 'a', _( "Below 99 %%" ) );
         tmenu.query();
 
         switch( tmenu.ret ) {
@@ -2691,6 +2699,9 @@ void bionic::toggle_auto_start_mod()
                 break;
             case 4:
                 set_auto_start_thresh( 0.75 );
+                break;
+            case 5:
+                set_auto_start_thresh( 0.99 );
                 break;
             default:
                 break;
@@ -2713,6 +2724,11 @@ float bionic::get_auto_start_thresh() const
 bool bionic::is_auto_start_on() const
 {
     return get_auto_start_thresh() > -1.0;
+}
+
+bool bionic::is_auto_start_keep_full() const
+{
+    return get_auto_start_thresh() > 0.99;
 }
 
 void bionic::serialize( JsonOut &json ) const

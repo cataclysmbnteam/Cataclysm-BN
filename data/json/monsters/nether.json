@@ -733,6 +733,7 @@
     "special_attacks": [ [ "PARROT", 40 ] ],
     "death_function": [ "MELT" ],
     "regenerates": 50,
+    "regeneration_modifiers": [ [ "onfire", -0.5 ] ],
     "regen_morale": true,
     "flags": [ "SEES", "SMELLS", "SWIMS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACIDPROOF", "NOHEAD", "ABSORBS_SPLITS", "NOGIB" ]
   },

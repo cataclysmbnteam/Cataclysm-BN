@@ -282,7 +282,7 @@ bool aim_activity_actor::load_RAS_weapon()
     }
 
     // Burn 0.2% max base stamina x the strength required to fire.
-    you.mod_stamina( gun->get_min_str() * static_cast<int>( 0.002f *
+    you.mod_stamina( gun->get_min_str() * static_cast<int>( -0.002f *
                      get_option<int>( "PLAYER_MAX_STAMINA" ) ) );
     // At low stamina levels, firing starts getting slow.
     int sta_percent = ( 100 * you.get_stamina() ) / you.get_stamina_max();

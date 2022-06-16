@@ -1290,6 +1290,11 @@
     "context": [  ]
   },
   {
+    "id": "CROSSBOW",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "CUSTOM_EXPLOSION",
     "type": "json_flag",
     "context": [  ]
@@ -1789,6 +1794,12 @@
     "id": "SPLINT",
     "type": "json_flag",
     "context": [  ]
+  },
+  {
+    "id": "STR_DRAW",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "Using this weapon with <info>less strength than its requirement</info> will still allow you to fire, but at reduced <bad>damage and range</bad>."
   },
   {
     "id": "STR_RELOAD",

@@ -749,6 +749,9 @@ static int size_factor_in_time_to_cut( m_size size )
             return 600;
         case MS_HUGE:
             return 1800;
+        default:
+            debugmsg( "Invalid m_size value for butchering corpse: %d", static_cast<int>( size ) );
+            break;
     }
     return 0;
 }
@@ -3945,12 +3948,19 @@ void activity_handlers::pry_nails_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-void activity_handlers::chop_tree_do_turn( player_activity *act, player * )
+void activity_handlers::chop_tree_do_turn( player_activity *act, player *p )
 {
     sfx::play_activity_sound( "tool", "axe", sfx::get_heard_volume( g->m.getlocal( act->placement ) ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a wood chopping tool at work!
         sounds::sound( g->m.getlocal( act->placement ), 15, sounds::sound_t::activity, _( "CHK!" ) );
+    }
+    if( calendar::once_every( 6_minutes ) ) {
+        p->mod_fatigue( 1 );
+    }
+    if( calendar::once_every( 12_minutes ) ) {
+        p->mod_stored_nutr( 1 );
+        p->mod_thirst( 1 );
     }
 }
 
@@ -3996,10 +4006,6 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     }
 
     g->m.ter_set( pos, t_stump );
-    const int helpersize = p->get_crafting_helpers( 3 ).size();
-    p->mod_stored_nutr( 5 - helpersize );
-    p->mod_thirst( 5 - helpersize );
-    p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
     // sound of falling tree
     sfx::play_variant_sound( "misc", "timber",

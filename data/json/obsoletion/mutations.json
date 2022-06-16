@@ -81,7 +81,6 @@
     "social_modifiers": { "lie": -5 },
     "skill_rust_multiplier": 0.66,
     "valid": false,
-    "category": [ "BEAST", "MEDICAL", "CHIMERA", "MOUSE", "INSECT" ],
     "cancels": [ "GOODMEMORY" ]
   },
   {
@@ -122,7 +121,6 @@
     "description": "Your bloodstream has developed antibiotic properties.  Your wounds will never become infected.",
     "prereqs": [ "DISRESISTANT" ],
     "prereqs2": [ "INFRESIST" ],
-    "category": [ "MEDICAL" ],
     "valid": false
   },
   {
@@ -132,7 +130,6 @@
     "points": 1,
     "description": "It's very unlikely that you will catch ambient diseases like a cold or the flu.",
     "changes_to": [ "DISIMMUNE" ],
-    "category": [ "CATTLE", "RAT", "MEDICAL" ],
     "valid": false
   },
   {
@@ -142,7 +139,6 @@
     "points": 2,
     "description": "Your body is simply immune to diseases.  You will never catch an ambient disease.",
     "prereqs": [ "DISRESISTANT" ],
-    "category": [ "PLANT", "SLIME", "TROGLOBITE" ],
     "flags": [ "NO_DISEASE" ],
     "valid": false
   },
@@ -249,5 +245,13 @@
     "active": true,
     "starts_active": true,
     "night_vision_range": 4.5
+  },
+  {
+    "type": "mutation",
+    "id": "TOUGH_FEET",
+    "name": { "str": "Tough Feet" },
+    "points": 1,
+    "description": "This mutation has been obsoleted due to the hidden movement speed penalty being removed.  If you see this on a profession or mutate this trait, this is a bug.",
+    "valid": false
   }
 ]

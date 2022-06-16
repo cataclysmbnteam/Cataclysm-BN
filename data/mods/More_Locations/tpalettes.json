@@ -219,7 +219,7 @@
     "items": {
       " ": { "item": "wreckage", "chance": 5 },
       ".": { "item": "wreckage", "chance": 5 },
-      "$": { "item": "bionics_sci", "chance": 100 },
+      "$": [ { "item": "bionics_sci", "chance": 100 }, { "item": "bionic_power_storage_mil", "chance": 50 } ],
       "b": { "item": "textbooks", "chance": 60 },
       "B": { "item": "bed", "chance": 100 },
       "C": { "item": "kitchen", "chance": 30 },
@@ -389,7 +389,7 @@
     },
     "toilets": { "&": { "amount": [ 0, 50 ] } },
     "items": {
-      "$": { "item": "bionics_mil", "chance": 100 },
+      "$": [ { "item": "bionics_mil", "chance": 100 }, { "item": "bionic_power_storage_mil", "chance": 50 } ],
       "b": { "item": "textbooks", "chance": 40 },
       "B": { "item": "bed", "chance": 100 },
       "C": { "item": "hospital_lab", "chance": 30 },

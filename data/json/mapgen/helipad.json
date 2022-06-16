@@ -125,7 +125,7 @@
         { "vehicle": "flatbed_truck", "x": 11, "y": 4, "chance": 25, "rotation": 270, "status": -1 },
         { "vehicle": "SmallFlier3_Wreck", "x": 9, "y": 42, "chance": 10, "rotation": 90, "status": -1 },
         { "vehicle": "Smallflier1_Wreck", "x": 18, "y": 34, "chance": 10, "rotation": 270, "status": -1 },
-        { "vehicle": "SmallFlier2_Wreck", "x": 39, "y": 42, "chance": 10, "rotation": 90, "status": -1 }
+        { "vehicle": "mil_helicopters", "x": 39, "y": 42, "chance": 10, "rotation": 90, "status": -1 }
       ]
     }
   },

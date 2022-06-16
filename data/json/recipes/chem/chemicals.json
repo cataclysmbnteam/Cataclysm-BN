@@ -253,6 +253,7 @@
     "id_suffix": "simple",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
+    "charges": 1,
     "time": "5 s",
     "autolearn": true,
     "components": [ [ [ "chem_ammonium_nitrate_pellets", 350 ] ] ]
@@ -615,7 +616,7 @@
     "autolearn": true,
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
-    "components": [ [ [ "splinter", 40 ], [ "2x4", 12 ] ], [ [ "water", 3 ], [ "water_clean", 3 ] ] ]
+    "components": [ [ [ "splinter", 40 ], [ "wood_structural", 6, "LIST" ] ], [ [ "water", 3 ], [ "water_clean", 3 ] ] ]
   },
   {
     "type": "recipe",

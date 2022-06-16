@@ -13,7 +13,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "accessories",
-    "mod_targets": [ "bow" ],
+    "mod_targets": [ "archery" ],
     "dispersion_modifier": -100
   },
   {
@@ -29,7 +29,7 @@
     "symbol": ":",
     "color": "brown",
     "location": "stabilizer",
-    "mod_targets": [ "bow" ],
+    "mod_targets": [ "archery" ],
     "dispersion_modifier": -100
   },
   {
@@ -45,7 +45,7 @@
     "symbol": ":",
     "color": "brown",
     "location": "stabilizer",
-    "mod_targets": [ "bow" ],
+    "mod_targets": [ "archery" ],
     "dispersion_modifier": -150,
     "flags": [ "NEEDS_UNFOLD" ]
   },
@@ -62,7 +62,7 @@
     "symbol": ":",
     "color": "brown",
     "location": "dampening",
-    "mod_targets": [ "bow" ],
+    "mod_targets": [ "archery", "crossbow" ],
     "dispersion_modifier": -50,
     "loudness_modifier": -8
   },

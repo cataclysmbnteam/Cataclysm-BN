@@ -236,6 +236,8 @@ class inventory : public visitable<inventory>
         // gets a singular enchantment that is an amalgamation of all items that have active enchantments
         enchantment get_active_enchantment_cache( const Character &owner ) const;
 
+        int count_item( const itype_id &item_type ) const;
+
         void update_quality_cache();
         const std::map<quality_id, std::map<int, int>> &get_quality_cache() const;
 

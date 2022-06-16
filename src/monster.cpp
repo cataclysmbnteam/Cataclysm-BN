@@ -1625,7 +1625,7 @@ int monster::heal( const int delta_hp, bool overheal )
     if( hp > maxhp && !overheal ) {
         hp = maxhp;
     }
-    return maxhp - old_hp;
+    return hp - old_hp;
 }
 
 void monster::set_hp( const int hp )
@@ -1939,7 +1939,7 @@ float monster::stability_roll() const
         case MS_HUGE:
             size_bonus += 10;
             break;
-        case MS_MEDIUM:
+        default:
             break; // keep default
     }
 
@@ -2001,6 +2001,8 @@ float monster::fall_damage_mod() const
             return 1.4f;
         case MS_HUGE:
             return 2.0f;
+        default:
+            return 1.0f;
     }
 
     return 0.0f;
@@ -2523,8 +2525,19 @@ void monster::process_effects_internal()
     }
 
     //If this monster has the ability to heal in combat, do it now.
-    const int healed_amount = heal( type->regenerates );
-    if( healed_amount > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
+    int regeneration_amount = type->regenerates;
+    //Apply effect-triggered regeneration modifiers
+    for( const auto &regeneration_modifier : type->regeneration_modifiers ) {
+        if( has_effect( regeneration_modifier.first ) ) {
+            regeneration_amount *= 1 + regeneration_modifier.second;
+        }
+    }
+    //Prevent negative regeneration
+    if( regeneration_amount < 0 ) {
+        regeneration_amount = 0;
+    }
+    const int healed_amount = heal( regeneration_amount );
+    if( healed_amount > 0 && one_in( 2 ) ) {
         std::string healing_format_string;
         if( healed_amount >= 50 ) {
             healing_format_string = _( "The %s is visibly regenerating!" );
@@ -2654,7 +2667,7 @@ m_size monster::get_size() const
 
 units::mass monster::get_weight() const
 {
-    return units::operator*( type->weight, get_size() / type->size );
+    return units::operator*( type->weight, ( get_size() + 1 ) / ( type->size + 1 ) );
 }
 
 units::mass monster::weight_capacity() const
@@ -2664,7 +2677,7 @@ units::mass monster::weight_capacity() const
 
 units::volume monster::get_volume() const
 {
-    return units::operator*( type->volume, get_size() / type->size );
+    return units::operator*( type->volume, ( get_size() + 1 ) / ( type->size + 1 ) );
 }
 
 void monster::add_msg_if_npc( const std::string &msg ) const
@@ -2781,7 +2794,7 @@ item monster::to_item() const
 
 float monster::power_rating() const
 {
-    float ret = get_size() - 2; // Zed gets 1, cat -1, hulk 3
+    float ret = get_size() - 1; // Zed gets 1, cat -1, hulk 3
     ret += has_flag( MF_ELECTRONIC ) ? 2 : 0; // Robots tend to have guns
     // Hostile stuff gets a big boost
     // Neutral moose will still get burned if it comes close

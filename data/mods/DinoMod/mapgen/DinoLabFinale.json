@@ -53,6 +53,7 @@
         "r": {
           "items": [
             { "item": "bionics_common", "chance": 40 },
+            { "item": "bionic_power_storage_mil", "chance": 20 },
             { "item": "bionics", "chance": 20 },
             { "item": "hospital_medical_items", "chance": 80 },
             { "item": "dissection", "chance": 60 }

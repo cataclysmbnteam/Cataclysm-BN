@@ -1644,6 +1644,9 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
             case MS_HUGE:
                 factor = 1;
                 break;
+            default:
+                factor = 6;
+                break;
         }
         // TODO: make this take terrain type into account so diggers traveling under sand will create mounds of sand etc.
         if( one_in( factor ) ) {

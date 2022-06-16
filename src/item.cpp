@@ -126,7 +126,6 @@ static const gun_mode_id gun_mode_REACH( "REACH" );
 static const itype_id itype_barrel_small( "barrel_small" );
 static const itype_id itype_blood( "blood" );
 static const itype_id itype_brass_catcher( "brass_catcher" );
-static const itype_id itype_bullet_crossbow( "bullet_crossbow" );
 static const itype_id itype_cig_butt( "cig_butt" );
 static const itype_id itype_cig_lit( "cig_lit" );
 static const itype_id itype_cigar_butt( "cigar_butt" );
@@ -176,6 +175,7 @@ static const std::string flag_COLLAPSIBLE_STOCK( "COLLAPSIBLE_STOCK" );
 static const std::string flag_CONDUCTIVE( "CONDUCTIVE" );
 static const std::string flag_CONSUMABLE( "CONSUMABLE" );
 static const std::string flag_CORPSE( "CORPSE" );
+static const std::string flag_CROSSBOW( "CROSSBOW" );
 static const std::string flag_DANGEROUS( "DANGEROUS" );
 static const std::string flag_DEEP_WATER( "DEEP_WATER" );
 static const std::string flag_DIAMOND( "DIAMOND" );
@@ -1534,7 +1534,21 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         // Display any minimal stat or skill requirements for the item
         std::vector<std::string> req;
         if( get_min_str() > 0 ) {
-            req.push_back( string_format( "%s %d", _( "strength" ), get_min_str() ) );
+            avatar &viewer = get_avatar();
+            if( has_flag( flag_STR_DRAW ) && ranged::get_str_draw_penalty( *this, viewer ) < 1.0f ) {
+                if( ranged::get_str_draw_penalty( *this, viewer ) < 0.5f ) {
+                    req.push_back( string_format( _( "%s %d <color_magenta>(Can't use!)</color>" ), _( "strength" ),
+                                                  get_min_str() ) );
+                } else if( ranged::get_str_draw_penalty( *this, viewer ) < 0.75f ) {
+                    req.push_back( string_format( "%s %d <color_red>(Damage/Range 0.5x, Dispersion 2.0x)</color>",
+                                                  _( "strength" ), get_min_str() ) );
+                } else {
+                    req.push_back( string_format( "%s %d <color_yellow>(Damage/Range 0.75x)</color>", _( "strength" ),
+                                                  get_min_str() ) );
+                }
+            } else {
+                req.push_back( string_format( "%s %d", _( "strength" ), get_min_str() ) );
+            }
         }
         if( type->min_dex > 0 ) {
             req.push_back( string_format( "%s %d", _( "dexterity" ), type->min_dex ) );
@@ -1947,6 +1961,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     const std::string space = "  ";
     const islot_gun &gun = *mod->type->gun;
     const Skill &skill = *mod->gun_skill();
+    avatar &viewer = get_avatar();
 
     // many statistics are dependent upon loaded ammo
     // if item is unloaded (or is RELOAD_AND_SHOOT) shows approximate stats using default ammo
@@ -1976,7 +1991,10 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         debugmsg( "curammo is nullptr in item::gun_info()" );
         return;
     }
-    const damage_unit &gun_du = gun.damage.damage_units.front();
+    damage_unit gun_du = gun.damage.damage_units.front();
+
+    gun_du.damage_multiplier *= ranged::str_draw_damage_modifier( *mod, viewer );
+
     const damage_unit &ammo_du = curammo != nullptr
                                  ? curammo->ammo->damage.damage_units.front()
                                  : damage_unit( DT_STAB, 0 );
@@ -3277,7 +3295,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     if( !bid->bullet_protec.empty() ) {
         info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Ballistic Protection</bold>: " ),
                                   iteminfo::no_newline ) );
-        for( const std::pair<const bodypart_str_id, size_t > &element : bid->bullet_protec ) {
+        for( const auto &element : bid->bullet_protec ) {
             info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first->token, 1 ),
                                       " <num> ", iteminfo::no_newline, element.second ) );
         }
@@ -7005,20 +7023,14 @@ skill_id item::gun_skill() const
 
 gun_type_type item::gun_type() const
 {
-    static skill_id skill_archery( "archery" );
-
     if( !is_gun() ) {
         return gun_type_type( std::string() );
     }
+    if( has_flag( flag_CROSSBOW ) ) {
+        return gun_type_type( translate_marker_context( "gun_type_type", "crossbow" ) );
+    }
     // TODO: move to JSON and remove extraction of this from "GUN" (via skill id)
     //and from "GUNMOD" (via "mod_targets") in lang/extract_json_strings.py
-    if( gun_skill() == skill_archery ) {
-        if( ammo_types().count( ammotype( "bolt" ) ) || typeId() == itype_bullet_crossbow ) {
-            return gun_type_type( translate_marker_context( "gun_type_type", "crossbow" ) );
-        } else {
-            return gun_type_type( translate_marker_context( "gun_type_type", "bow" ) );
-        }
-    }
     return gun_type_type( gun_skill().str() );
 }
 
@@ -7186,10 +7198,8 @@ int item::gun_range( const player *p ) const
         return 0;
     }
 
-    // Reduce bow range until player has twice minimm required strength
-    if( has_flag( flag_STR_DRAW ) ) {
-        ret += std::max( 0.0, ( p->get_str() - get_min_str() ) * 0.5 );
-    }
+    // Reduce bow range if player has less than minimum strength.
+    ret *= ranged::str_draw_range_modifier( *this, *p );
 
     return std::max( 0, ret );
 }
@@ -7586,6 +7596,8 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
         return ret_val<bool>::make_failure();
     }
     static const gun_type_type pistol_gun_type( translate_marker_context( "gun_type_type", "pistol" ) );
+    static const skill_id skill_archery( "archery" );
+    static const std::string bow_hack_str( "bow" );
 
     if( !is_gun() ) {
         return ret_val<bool>::make_failure( _( "isn't a weapon" ) );
@@ -7603,8 +7615,10 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
         return ret_val<bool>::make_failure( _( "doesn't have enough room for another %s mod" ),
                                             mod.type->gunmod->location.name() );
 
+        // TODO: Get rid of the "archery"->"bow" hack
     } else if( !mod.type->gunmod->usable.count( gun_type() ) &&
-               !mod.type->gunmod->usable.count( typeId().str() ) ) {
+               !mod.type->gunmod->usable.count( typeId().str() ) &&
+               !( gun_skill() == skill_archery && mod.type->gunmod->usable.count( bow_hack_str ) > 0 ) ) {
         return ret_val<bool>::make_failure( _( "cannot have a %s" ), mod.tname() );
 
     } else if( typeId() == itype_hand_crossbow &&

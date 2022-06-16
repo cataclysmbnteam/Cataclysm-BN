@@ -299,6 +299,7 @@ static const trait_id trait_ALCMET( "ALCMET" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_EATDEAD( "EATDEAD" );
 static const trait_id trait_GILLS( "GILLS" );
+static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
@@ -3034,7 +3035,9 @@ static int toolweapon_off( player &p, item &it, const bool fast_startup,
                                              sfx::channel::chainsaw_theme,
                                              3000 );
         }
+
         sounds::sound( p.pos(), volume, sounds::sound_t::combat, msg_success );
+        p.add_msg_if_player( msg_success );
         // 4 is the length of "_off".
         it.convert( itype_id( it.typeId().str().substr( 0, it.typeId().str().size() - 4 ) + "_on" ) );
         it.active = true;
@@ -3063,7 +3066,7 @@ int iuse::e_combatsaw_off( player *p, item *it, bool, const tripoint & )
                            true,
                            !p->is_underwater(),
                            30, _( "With a snarl, the electric combat chainsaw screams to life!" ),
-                           _( "You flip the switch, but nothing happens." ) );
+                           _( "You pull the trigger, but nothing happens." ) );
 }
 
 int iuse::chainsaw_off( player *p, item *it, bool, const tripoint & )
@@ -3079,9 +3082,9 @@ int iuse::elec_chainsaw_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
                            false,
-                           rng( 0, 10 ) - it->damage_level( 4 ) > 5 && !p->is_underwater(),
+                           !p->is_underwater(),
                            20, _( "With a roar, the electric chainsaw leaps to life!" ),
-                           _( "You flip the switch, but nothing happens." ) );
+                           _( "You pull the trigger, but nothing happens." ) );
 }
 
 int iuse::cs_lajatang_off( player *p, item *it, bool, const tripoint & )
@@ -3097,9 +3100,9 @@ int iuse::ecs_lajatang_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
                            false,
-                           rng( 0, 10 ) - it->damage_level( 4 ) > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
+                           it->ammo_remaining() > 1 && !p->is_underwater(),
                            40, _( "With a buzz, the chainsaws leap to life!" ),
-                           _( "You flip the on switch, but nothing happens." ) );
+                           _( "You pull the trigger, but nothing happens." ) );
 }
 
 int iuse::carver_off( player *p, item *it, bool, const tripoint & )
@@ -4506,6 +4509,7 @@ int iuse::vibe( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     if( ( p->is_underwater() ) && ( !( ( p->has_trait( trait_GILLS ) ) ||
+                                       ( p->has_trait( trait_GILLS_CEPH ) ) ||
                                        ( p->is_wearing( itype_rebreather_on ) ) ||
                                        ( p->is_wearing( itype_rebreather_xl_on ) ) ||
                                        ( p->is_wearing( itype_mask_h20survivor_on ) ) ) ) ) {
@@ -4763,7 +4767,7 @@ int iuse::chop_moves( Character &ch, item &tool )
     // attribute; regular tools - based on STR, powered tools - based on DEX
     const int attr = tool.has_flag( "POWERED" ) ? ch.dex_cur : ch.str_cur;
 
-    return to_moves<int>( time_duration::from_minutes( 60 - attr ) / std::pow( 2, quality - 1 ) );
+    return to_moves<int>( std::max( 10_minutes, time_duration::from_minutes( 60 - attr ) / quality ) );
 }
 
 int iuse::chop_tree( player *p, item *it, bool t, const tripoint & )

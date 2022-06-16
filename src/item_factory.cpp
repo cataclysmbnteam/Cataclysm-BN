@@ -1322,6 +1322,10 @@ void Item_factory::check_definitions() const
                     continue;
                 }
 
+                if( json_report_strict && t.name_ == "bow" ) {
+                    msg += string_format( "'bow' location is deprecated, use 'archery' instead" );
+                }
+
                 // We need to check is_skill because something can be both an item and a skill
                 if( !is_skill && is_item ) {
                     const itype *target = &*item_type;

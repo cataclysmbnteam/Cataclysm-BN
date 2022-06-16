@@ -200,7 +200,8 @@
         "p": { "item": "bionics", "chance": 20 },
         "T": [
           { "item": "bionics_sci", "chance": 100, "repeat": [ 1, 2 ] },
-          { "item": "bionics", "chance": 100, "repeat": [ 1, 3 ] }
+          { "item": "bionics", "chance": 100, "repeat": [ 1, 2 ] },
+          { "item": "bionic_power_storage_mil", "chance": 100 }
         ],
         "7": { "item": "autodoc_supplies", "chance": 100 }
       },

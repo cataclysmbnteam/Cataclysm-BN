@@ -2560,21 +2560,7 @@
     "autolearn": true,
     "batch_time_factors": [ 80, 5 ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "frying_oil", 1, "LIST" ] ] ],
-    "components": [ [ [ "offal", 1 ], [ "mutant_offal", 1 ], [ "liver", 2 ], [ "lung", 2 ], [ "kidney", 2 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "mutant_offal_cooked",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_MEAT",
-    "skill_used": "cooking",
-    "difficulty": 1,
-    "time": "20 m",
-    "autolearn": true,
-    "batch_time_factors": [ 80, 5 ],
-    "qualities": [ { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "frying_oil", 1, "LIST" ] ] ],
-    "components": [ [ [ "mutant_offal", 1 ] ] ]
+    "tools": [ [ [ "frying_oil", 1, "LIST" ] ], [ [ "surface_heat", 8, "LIST" ] ] ],
+    "components": [ [ [ "offal_raw", 1, "LIST" ] ] ]
   }
 ]

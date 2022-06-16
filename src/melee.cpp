@@ -629,7 +629,7 @@ void player::reach_attack( const tripoint &p )
 
     Creature *critter = g->critter_at( p );
     // Original target size, used when there are monsters in front of our target
-    int target_size = critter != nullptr ? critter->get_size() : 2;
+    int target_size = critter != nullptr ? ( critter->get_size() + 1 ) : 2;
     // Reset last target pos
     last_target_pos = cata::nullopt;
     // Max out recoil
@@ -643,10 +643,11 @@ void player::reach_attack( const tripoint &p )
     for( const tripoint &path_point : path ) {
         // Possibly hit some unintended target instead
         Creature *inter = g->critter_at( path_point );
+        int inter_block_size = inter != nullptr ? ( inter->get_size() + 1 ) : 2;
         /** @EFFECT_STABBING decreases chance of hitting intervening target on reach attack */
         if( inter != nullptr &&
             !x_in_y( ( target_size * target_size + 1 ) * skill,
-                     ( inter->get_size() * inter->get_size() + 1 ) * 10 ) ) {
+                     ( inter_block_size * inter_block_size + 1 ) * 10 ) ) {
             // Even if we miss here, low roll means weapon is pushed away or something like that
             critter = inter;
             break;

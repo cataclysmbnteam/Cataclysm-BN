@@ -177,12 +177,15 @@ template <>
 bool visitable<inventory>::has_quality( const quality_id &qual, int level, int qty ) const
 {
     const inventory *inv = static_cast<const inventory *>( this );
-    auto inv_qual_cache = inv->get_quality_cache();
+    const std::map<quality_id, std::map<int, int>> &inv_qual_cache = inv->get_quality_cache();
     int res = 0;
     if( !inv_qual_cache.empty() ) {
-        for( const auto &q : inv_qual_cache[qual] ) {
-            if( q.first >= level ) {
-                res = sum_no_wrap( res, q.second );
+        auto iter = inv_qual_cache.find( qual );
+        if( iter != inv_qual_cache.end() ) {
+            for( const auto &q : iter->second ) {
+                if( q.first >= level ) {
+                    res = sum_no_wrap( res, q.second );
+                }
             }
         }
         return res >= qty;

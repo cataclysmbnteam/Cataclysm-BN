@@ -106,7 +106,7 @@
     "autolearn": true,
     "time": "2 h",
     "using": [ [ "sewing_standard", 100 ] ],
-    "components": [ [ [ "leather", 12 ], [ "fur", 12 ] ], [ [ "cordage_superior", 2, "LIST" ] ] ]
+    "components": [ [ [ "leather", 12 ], [ "fur", 12 ] ], [ [ "cordage", 2, "LIST" ] ] ]
   },
   {
     "result": "yoke_harness",
@@ -119,7 +119,7 @@
     "book_learn": [ [ "textbook_fabrication", 5 ], [ "textbook_carpentry", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "using": [ [ "sewing_standard", 100 ] ],
-    "components": [ [ [ "leather", 6 ], [ "fur", 6 ] ], [ [ "2x4", 4 ] ], [ [ "rope_superior_short", 2, "LIST" ] ] ]
+    "components": [ [ [ "leather", 6 ], [ "fur", 6 ] ], [ [ "wood_structural", 4, "LIST" ] ], [ [ "rope_natural_short", 4, "LIST" ] ] ]
   },
   {
     "result": "hd_tow_cable",

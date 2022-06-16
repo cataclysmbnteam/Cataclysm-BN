@@ -202,5 +202,17 @@
     "type": "requirement",
     "//": "Materials used for repairing tires",
     "components": [ [ [ "chunk_rubber", 1 ] ] ]
+  },
+  {
+    "id": "wood_structural",
+    "type": "requirement",
+    "//": "Planks, sticks, and long sticks used in recipes, roughly 1:1 by weight.",
+    "components": [ [ [ "stick_long", 1 ], [ "wood_structural_small", 2, "LIST" ] ] ]
+  },
+  {
+    "id": "wood_structural_small",
+    "type": "requirement",
+    "//": "Planks or sticks used in recipes, roughly 1:1 basis by weight.",
+    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   }
 ]

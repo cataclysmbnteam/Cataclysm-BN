@@ -81,6 +81,7 @@
         { "item": "church", "x": [ 16, 18 ], "y": [ 14, 20 ], "chance": 50 },
         { "item": "lab_torso", "x": 8, "y": 19, "chance": 50 },
         { "item": "bionics_common", "x": 8, "y": 19, "chance": 30 },
+        { "item": "bionic_power_storage_civ", "x": 8, "y": 19, "chance": 15 },
         { "item": "homebooks", "x": [ 5, 6 ], "y": 17, "chance": 50 },
         { "item": "magazines", "x": 3, "y": 17, "chance": 50 }
       ],

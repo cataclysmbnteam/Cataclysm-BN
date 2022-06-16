@@ -143,6 +143,7 @@ static const std::string flag_PRIMITIVE_RANGED_WEAPON( "PRIMITIVE_RANGED_WEAPON"
 static const std::string flag_PYROMANIAC_WEAPON( "PYROMANIAC_WEAPON" );
 static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
 static const std::string flag_RESTRICT_HANDS( "RESTRICT_HANDS" );
+static const std::string flag_STR_DRAW( "STR_DRAW" );
 static const std::string flag_UNDERWATER_GUN( "UNDERWATER_GUN" );
 static const std::string flag_VEHICLE( "VEHICLE" );
 
@@ -530,6 +531,8 @@ static double occupied_tile_fraction( m_size target_size )
             return 0.75;
         case MS_HUGE:
             return 1.0;
+        default:
+            break;
     }
 
     return 0.5;
@@ -548,6 +551,8 @@ double Creature::ranged_target_size() const
                 return occupied_tile_fraction( MS_MEDIUM );
             case MS_HUGE:
                 return occupied_tile_fraction( MS_LARGE );
+            default:
+                break;
         }
     }
     return occupied_tile_fraction( get_size() );
@@ -858,6 +863,10 @@ int player::fire_gun( const tripoint &target, const int max_shots, item &gun )
         const vehicle *in_veh = has_effect( effect_on_roof ) ? veh_pointer_or_null( g->m.veh_at(
                                     pos() ) ) : nullptr;
         projectile projectile = make_gun_projectile( gun );
+
+        // Damage reduction from insufficient strength, if using a STR_DRAW weapon.
+        projectile.impact.mult_damage( ranged::str_draw_damage_modifier( gun, *this ) );
+
         if( has_trait( trait_NORANGEDCRIT ) ) {
             projectile.add_effect( ammo_effect_NO_CRIT );
         }
@@ -981,6 +990,58 @@ int throw_cost( const player &c, const item &to_throw )
     move_cost *= c.mutation_value( "attackcost_modifier" );
 
     return std::max( 25, move_cost );
+}
+
+float get_str_draw_penalty( const item &it, const Character &p )
+{
+    // We only care if weapon has STR_DRAW, and that the user is weaker than required strength.
+    // Also avoid dividing by zero, and skip if we'd just get a result of 1 anyway.
+    if( !it.has_flag( flag_STR_DRAW ) || p.get_str() >= it.get_min_str() || it.get_min_str() <= 1 ) {
+        return 1.0f;
+    }
+    // We also don't want to actually reduce values to zero, even if user is debuffed to zero strength.
+    float archer_str = std::max( 1, p.get_str() );
+    return ( archer_str / it.get_min_str() );
+}
+
+float str_draw_damage_modifier( const item &it, const Character &p )
+{
+    if( !it.has_flag( flag_STR_DRAW ) || p.get_str() >= it.get_min_str() || it.get_min_str() <= 1 ) {
+        return 1.0f;
+    }
+    if( ranged::get_str_draw_penalty( it, p ) < 0.75f ) {
+        return 0.5f;
+    } else if( ranged::get_str_draw_penalty( it, p ) < 1.0f ) {
+        return 0.75f;
+    } else {
+        return 1.0f;
+    }
+}
+
+float str_draw_dispersion_modifier( const item &it, const Character &p )
+{
+    if( !it.has_flag( flag_STR_DRAW ) || p.get_str() >= it.get_min_str() || it.get_min_str() <= 1 ) {
+        return 1.0f;
+    }
+    if( ranged::get_str_draw_penalty( it, p ) < 0.75f ) {
+        return 0.5f;
+    } else {
+        return 1.0f;
+    }
+}
+
+float str_draw_range_modifier( const item &it, const Character &p )
+{
+    if( !it.has_flag( flag_STR_DRAW ) || p.get_str() >= it.get_min_str() || it.get_min_str() <= 1 ) {
+        return 1.0f;
+    }
+    if( ranged::get_str_draw_penalty( it, p ) < 0.75f ) {
+        return 0.5f;
+    } else if( ranged::get_str_draw_penalty( it, p ) < 1.0f ) {
+        return 0.75f;
+    } else {
+        return 1.0f;
+    }
 }
 
 int throw_dispersion_per_dodge( const Character &c, bool add_encumbrance )
@@ -1844,6 +1905,9 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
     if( has_bionic( bio_targeting ) ) {
         dispersion.add_multiplier( 0.75 );
     }
+
+    // If using a bow you lack the strength for, increase based on how much weaker shooter is.
+    dispersion.add_multiplier( 1 / ranged::str_draw_dispersion_modifier( obj, *this ) );
 
     // Range is effectively four times longer when shooting unflagged/flagged guns underwater/out of water.
     if( is_underwater() != obj.has_flag( flag_UNDERWATER_GUN ) ) {
@@ -3122,7 +3186,7 @@ void target_ui::draw_terrain_overlay()
         }
     } else if( mode == TargetMode::Shape ) {
         drawsq_params params = drawsq_params().highlight( true ).center( center );
-        for( const std::pair<tripoint, double> &pr : shape_coverage ) {
+        for( const std::pair<const tripoint, double> &pr : shape_coverage ) {
             const tripoint &tile = pr.first;
 #ifdef TILES
             if( use_tiles ) {
@@ -3599,6 +3663,12 @@ bool ranged::gunmode_checks_common( avatar &you, const map &m, std::vector<std::
     if( gmode->has_flag( flag_FIRE_TWOHAND ) && ( !you.has_two_arms() ||
             you.worn_with_flag( flag_RESTRICT_HANDS ) ) ) {
         messages.push_back( string_format( _( "You need two free hands to fire your %s." ),
+                                           gmode->tname() ) );
+        result = false;
+    }
+
+    if( ranged::get_str_draw_penalty( *gmode, you ) < 0.5f ) {
+        messages.push_back( string_format( _( "You don't have enough strength to fire your %s." ),
                                            gmode->tname() ) );
         result = false;
     }
