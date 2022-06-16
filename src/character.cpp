@@ -185,6 +185,7 @@ static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_power_storage( "bio_power_storage" );
 static const itype_id itype_power_storage_mkII( "bio_power_storage_mkII" );
+static const itype_id itype_bio_armor( "bio_armor" );
 
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_dodge( "dodge" );
@@ -353,6 +354,7 @@ static const std::string flag_SWIM_GOGGLES( "SWIM_GOGGLES" );
 static const std::string flag_UNDERSIZE( "UNDERSIZE" );
 static const std::string flag_USE_UPS( "USE_UPS" );
 static const flag_str_id flag_CLIMATE_CONTROL( "CLIMATE_CONTROL" );
+static const flag_str_id flag_BIONIC_ARMOR_INTERFACE( "BIONIC_ARMOR_INTERFACE" );
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
 static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
@@ -7441,6 +7443,23 @@ bool Character::has_enough_charges( const item &it, bool show_msg ) const
     if( !it.is_tool() || !it.ammo_required() ) {
         return true;
     }
+    if( it.is_power_armor() ) {
+        if( as_player()->can_interface_armor() ) {
+            if( has_charges( itype_bio_armor, it.ammo_required() ) ) {
+                return true;
+            }
+        } else if( it.ammo_sufficient() || has_charges( itype_UPS, it.ammo_required() ) ) {
+            return true;
+        }
+        if( show_msg ) {
+            add_msg_if_player( m_info,
+                               vgettext( "Your %s needs %d charge, from some UPS or a Bionic Power Interface.",
+                                         "Your %s needs %d charges, from some UPS or a Bionic Power Interface.",
+                                         it.ammo_required() ),
+                               it.tname(), it.ammo_required() );
+        }
+        return false;
+    }
     if( it.has_flag( flag_USE_UPS ) ) {
         if( has_charges( itype_UPS, it.ammo_required() ) || it.ammo_sufficient() ) {
             return true;
@@ -7496,6 +7515,16 @@ bool Character::consume_charges( item &used, int qty )
     if( used.is_tool() && !used.ammo_required() ) {
         i_rem( &used );
         return true;
+    }
+
+    if( used.is_power_armor() ) {
+        if( used.charges >= qty ) {
+            used.ammo_consume( qty, pos() );
+        } else if( as_player()->can_interface_armor() && has_charges( itype_bio_armor, qty ) ) {
+            use_charges( itype_bio_armor, qty );
+        } else {
+            use_charges( itype_UPS, qty );
+        }
     }
 
     // USE_UPS never occurs on base items but is instead added by the UPS tool mod
@@ -9505,6 +9534,20 @@ bool Character::has_charges( const itype_id &it, int quantity,
         auto mons = mounted_creature.get();
         return quantity <= mons->battery_item->ammo_remaining();
     }
+    if( it == itype_bio_armor ) {
+        int mod_qty = 0;
+        float multiplier = 1;
+        for( const bionic &bio : *my_bionics ) {
+            if( bio.info().has_flag( flag_BIONIC_ARMOR_INTERFACE ) ) {
+                multiplier = std::min( multiplier, bio.info().fuel_efficiency );
+            }
+        }
+        if( multiplier == 1 ) {
+            debugmsg( "Player lacks a bionic armor interface with fuel efficiency multiplier." );
+        }
+        mod_qty = quantity * multiplier;
+        return ( has_power() && get_power_level() >= units::from_kilojoule( mod_qty ) );
+    }
     return charges_of( it, quantity, filter ) == quantity;
 }
 
@@ -9556,6 +9599,21 @@ std::list<item> Character::use_charges( const itype_id &what, int qty,
         use_fire( qty );
         return res;
 
+    } else if( what == itype_bio_armor ) {
+        int mod_qty = 0;
+        float multiplier = 1;
+        for( const bionic &bio : *my_bionics ) {
+            if( bio.info().has_flag( flag_BIONIC_ARMOR_INTERFACE ) ) {
+                multiplier = std::min( multiplier, bio.info().fuel_efficiency );
+            }
+        }
+        if( multiplier == 1 ) {
+            debugmsg( "Player lacks a bionic armor interface with fuel efficiency multiplier." );
+        }
+        mod_qty = qty * multiplier;
+        mod_power_level( units::from_kilojoule( -mod_qty ) );
+        return res;
+
     } else if( what == itype_UPS ) {
         if( is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) &&
             mounted_creature.get()->battery_item ) {
@@ -9585,6 +9643,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty,
             qty -= std::min( qty, ups );
         }
         return res;
+
     }
 
     std::vector<item *> del;

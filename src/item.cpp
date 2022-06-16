@@ -137,6 +137,7 @@ static const itype_id itype_plut_cell( "plut_cell" );
 static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_tuned_mechanism( "tuned_mechanism" );
 static const itype_id itype_UPS( "UPS" );
+static const itype_id itype_bio_armor( "bio_armor" );
 static const itype_id itype_waterproof_gunmod( "waterproof_gunmod" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_acid( "water_acid" );
@@ -271,6 +272,7 @@ static const std::string flag_WATERPROOF_GUN( "WATERPROOF_GUN" );
 static const std::string flag_WATER_EXTINGUISH( "WATER_EXTINGUISH" );
 static const std::string flag_WET( "WET" );
 static const std::string flag_WIND_EXTINGUISH( "WIND_EXTINGUISH" );
+static const flag_str_id flag_BIONIC_ARMOR_INTERFACE( "BIONIC_ARMOR_INTERFACE" );
 
 static const matec_id rapid_strike( "RAPID" );
 
@@ -7808,8 +7810,15 @@ int item::units_remaining( const Character &ch, int limit ) const
     }
 
     int res = ammo_remaining();
-    if( res < limit && ( has_flag( flag_USE_UPS ) || is_power_armor() ) ) {
+    if( res < limit && has_flag( flag_USE_UPS ) ) {
         res += ch.charges_of( itype_UPS, limit - res );
+    } else if( res < limit && is_power_armor() ) {
+        if( ch.as_player()->can_interface_armor() ) {
+            res += std::max( ch.charges_of( itype_UPS, limit - res ), ch.charges_of( itype_bio_armor,
+                             limit - res ) );
+        } else {
+            res += ch.charges_of( itype_UPS, limit - res );
+        }
     }
 
     return std::min( static_cast<int>( res ), limit );
@@ -8192,7 +8201,7 @@ int item::getlight_emit() const
     if( lumint == 0 ) {
         return 0;
     }
-    if( has_flag( flag_CHARGEDIM ) && is_tool() && !has_flag( flag_USE_UPS ) ) {
+    if( has_flag( flag_CHARGEDIM ) && is_tool() && !has_flag( flag_USE_UPS ) && !is_power_armor() ) {
         // Falloff starts at 1/5 total charge and scales linearly from there to 0.
         if( ammo_capacity() && ammo_remaining() < ( ammo_capacity() / 5 ) ) {
             lumint *= ammo_remaining() * 5.0 / ammo_capacity();
@@ -9266,10 +9275,6 @@ bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
 
 bool item::process_tool( player *carrier, const tripoint &pos )
 {
-    if( carrier && carrier->is_worn( *this ) && is_power_armor() && carrier->can_interface_armor() &&
-        carrier->has_power() ) {
-        return false;
-    }
     int energy = 0;
     if( type->tool->turns_per_charge > 0 &&
         to_turn<int>( calendar::turn ) % type->tool->turns_per_charge == 0 ) {
@@ -9283,6 +9288,13 @@ bool item::process_tool( player *carrier, const tripoint &pos )
     }
     energy -= ammo_consume( energy, pos );
 
+    // for power armor pieces, try to use power armor interface first.
+    if( carrier && carrier->can_interface_armor() && is_power_armor() ) {
+        if( carrier->use_charges_if_avail( itype_bio_armor, energy ) ) {
+            energy = 0;
+        }
+    }
+
     // for items in player possession if insufficient charges within tool try UPS
     if( carrier && ( has_flag( flag_USE_UPS ) || ( is_power_armor() ) ) ) {
         if( carrier->use_charges_if_avail( itype_UPS, energy ) ) {
@@ -9292,8 +9304,11 @@ bool item::process_tool( player *carrier, const tripoint &pos )
 
     // if insufficient available charges shutdown the tool
     if( energy > 0 ) {
-        if( carrier && ( has_flag( flag_USE_UPS ) || ( is_power_armor() ) ) ) {
+        if( carrier && has_flag( flag_USE_UPS ) ) {
             carrier->add_msg_if_player( m_info, _( "You need a UPS to run the %s!" ), tname() );
+        } else if( carrier && is_power_armor() ) {
+            carrier->add_msg_if_player( m_info, _( "You need a UPS or Bionic Power Interface to run the %s!" ),
+                                        tname() );
         }
         if( carrier && has_flag( flag_POWERARMOR_EXO ) ) {
             const use_function *use_func = this->get_use( "set_transform" );
