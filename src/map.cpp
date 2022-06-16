@@ -3164,7 +3164,7 @@ static int get_sound_volume( const map_bash_info &bash )
 {
     int smin = bash.str_min;
     int smax = bash.str_max;
-    return bash.sound_vol.value_or( std::min( static_cast<int>( smin * 1.5 ), smax ) );;
+    return bash.sound_vol.value_or( std::max( std::min( static_cast<int>( smin * 1.5 ), smax ), 12 ) );
 }
 
 bash_results map::bash_ter_success( const tripoint &p, const bash_params &params )
@@ -3211,14 +3211,55 @@ bash_results map::bash_ter_success( const tripoint &p, const bash_params &params
                        soundfxid, soundfxvariant );
     }
 
-    if( ter( p ) == t_open_air ) {
-        tripoint below( p.xy(), p.z - 1 );
-        const ter_t &ter_below = ter( below ).obj();
-        if( !zlevels ) {
+    if( !zlevels ) {
+        if( ter( p ) == t_open_air ) {
             // We destroyed something, so we aren't just "plugging" air with dirt here
             ter_set( p, t_dirt );
-        } else if( follow_below ) {
-            if( ter_below.roof == ter_before.id ) {
+        }
+    } else if( ter( p ) == t_open_air ) {
+        tripoint below( p.xy(), p.z - 1 );
+        const ter_t &ter_below = ter( below ).obj();
+        // We may need multiple bashes in some weird cases
+        // Example:
+        //   W has roof A
+        //   A bashes to B
+        //   B bashes to nothing
+        //   Below our point P, there is a W
+        // If we bash down a B over a W, it might be from earlier A or just constructed over it!
+        //
+        // Current solution: bash roof until you reach same roof type twice, then bash down
+        if( follow_below && params.do_recurse ) {
+            bool blocked_by_roof = false;
+            std::set<ter_str_id> encountered_types;
+            encountered_types.insert( ter_before.id );
+            encountered_types.insert( ter_below.roof );
+            // Note: we're bashing the new roof, not the tile supported by it!
+            printf( "\nfollow_below && params.do_recurse == true\n" );
+            do {
+                const auto &ter_now = ter( p ).id();
+                for( const auto &enc : encountered_types ) {
+                    printf( "Got before %s\n", enc.c_str() );
+                }
+                printf( "Now: %s\n", ter_now.c_str() );
+                if( encountered_types.count( ter_now ) != 0 ) {
+                    break;
+                }
+
+                encountered_types.insert( ter_now );
+                bash_params params_copy = params;
+                params_copy.do_recurse = false;
+                // TODO: Unwrap the calls, don't recurse
+                bash_results results_sub = bash_ter_furn( p, params );
+                result |= results_sub;
+                if( !results_sub.success ) {
+                    // Blocked, as in "the roof was too strong to bash"
+                    printf( "\nblocked by roof\n" );
+                    blocked_by_roof = true;
+                    break;
+                }
+            } while( true );
+            if( !blocked_by_roof ) {
+                // Roof bashing done, time to bash the tile below
                 bash_params params_below = params;
                 params_below.bashing_from_above = true;
                 params_below.bash_floor = false;
@@ -3231,23 +3272,10 @@ bash_results map::bash_ter_success( const tripoint &p, const bash_params &params
                 if( tries <= 0 ) {
                     debugmsg( "Loop in terrain bashing for type %s", ter_before.id.str() );
                 }
-            } else {
-                // Replace with the roof, then bash that with same exact params as for this floor
-                // Note: we're bashing the new roof, not the tile supported by it!
-                ter_set( p, ter_below.roof );
-                int tries = 10;
-                bash_results results_sub;
-                do {
-                    // TODO: Don't bash furn
-                    results_sub = bash_ter_furn( p, params );
-                    result |= results_sub;
-                } while( results_sub.success && tries-- > 0 );
-                if( tries <= 0 ) {
-                    debugmsg( "Loop in terrain bashing for type %s", ter_before.id.str() );
-                }
             }
         } else {
             const ter_id &roof = get_roof( below, params.bash_floor && ter( below )->movecost != 0 );
+
             ter_set( p, roof );
         }
     }
