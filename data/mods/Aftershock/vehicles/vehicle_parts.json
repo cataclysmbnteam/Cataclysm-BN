@@ -302,7 +302,7 @@
   {
     "abstract": "afs_lightweight_foldable_frame",
     "type": "vehicle_part",
-    "name": { "str": "ultralight foldable frame" },
+    "name": { "str": "foldable ultralight frame" },
     "item": "afs_titanium_foldable_frame",
     "location": "structure",
     "color": "light_gray",
