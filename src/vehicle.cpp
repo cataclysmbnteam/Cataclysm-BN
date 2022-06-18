@@ -2370,6 +2370,8 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
         new_vehicle->precalc_mounts( 1, new_vehicle->skidding ?
                                      new_vehicle->turn_dir : new_vehicle->face.dir(),
                                      new_vehicle->pivot_point() );
+        new_vehicle->adjust_zlevel( 1, tripoint_zero );
+        new_vehicle->shift_zlevel();
         if( !passengers.empty() ) {
             new_vehicle->relocate_passengers( passengers );
         }
@@ -3027,7 +3029,7 @@ void vehicle::precalc_mounts( int idir, units::angle dir, const point &pivot )
         idir = 0;
     }
     tileray tdir( dir );
-    std::unordered_map<point, tripoint> mount_to_precalc;
+    std::unordered_map<point, point> mount_to_precalc;
     for( auto &p : parts ) {
         if( p.removed ) {
             continue;
@@ -3035,9 +3037,10 @@ void vehicle::precalc_mounts( int idir, units::angle dir, const point &pivot )
         auto q = mount_to_precalc.find( p.mount );
         if( q == mount_to_precalc.end() ) {
             coord_translate( tdir, pivot, p.mount, p.precalc[idir] );
-            mount_to_precalc.insert( { p.mount, p.precalc[idir] } );
+            p.precalc[idir].z = 0;
+            mount_to_precalc.insert( { p.mount, p.precalc[idir].xy() } );
         } else {
-            p.precalc[idir] = q->second;
+            p.precalc[idir] = {q->second, 0};
         }
     }
     pivot_anchor[idir] = pivot;
@@ -5380,7 +5383,6 @@ void vehicle::gain_moves()
         } else {
             velocity -= vslowdown;
         }
-        is_on_ramp = false;
     } else {
         of_turn = .001;
     }
@@ -5625,12 +5627,23 @@ void vehicle::refresh()
         mount_min = mount_max = point_zero;
     }
 
-    // NB: using the _old_ pivot point, don't recalc here, we only do that when moving!
-    precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
+    refresh_position();
+
     check_environmental_effects = true;
     insides_dirty = true;
     zones_dirty = true;
     invalidate_mass();
+}
+
+void vehicle::refresh_position()
+{
+    if( !parts.empty() ) {
+        precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
+        if( attached ) {
+            adjust_zlevel();
+            shift_zlevel();
+        }
+    }
 }
 
 const point &vehicle::pivot_point() const
@@ -6299,7 +6312,7 @@ void vehicle::shift_parts( const point &delta )
     pivot_anchor[0] -= delta;
     refresh();
     //Need to also update the map after this
-    g->m.reset_vehicle_cache( sm_pos.z );
+    g->m.reset_vehicle_cache( );
 }
 
 /**
@@ -6846,16 +6859,14 @@ void vehicle::calc_mass_center( bool use_precalc ) const
     }
 }
 
-bounding_box vehicle::get_bounding_box()
+bounding_box vehicle::get_bounding_box( )
 {
     int min_x = INT_MAX;
     int max_x = INT_MIN;
     int min_y = INT_MAX;
     int max_y = INT_MIN;
 
-    face.init( turn_dir );
-
-    precalc_mounts( 0, turn_dir, point() );
+    set_facing( turn_dir );
 
     int i_use = 0;
     for( const tripoint &p : get_points( true ) ) {
@@ -6904,65 +6915,22 @@ bool vehicle::valid_part( int part_num ) const
     return part_num >= 0 && part_num < static_cast<int>( parts.size() );
 }
 
-std::set<int> vehicle::advance_precalc_mounts( const point &new_pos, const tripoint &src,
-        const tripoint &dp, int ramp_offset, const bool adjust_pos,
-        std::set<int> parts_to_move )
+std::set<int> vehicle::advance_precalc_mounts( const point &new_pos, const tripoint &src )
 {
     map &here = get_map();
     std::set<int> smzs;
-    // when a vehicle part enters the low end of a down ramp, or the high end of an up ramp,
-    // it immediately translates down or up a z-level, respectively, ending up on the low
-    // end of an up ramp or high end of a down ramp, respectively.  The two ends are set
-    // past each other, like so:
-    // (side view)  z+1   Rdh RDl
-    //              z+0   RUh Rul
-    // A vehicle moving left to right on z+1 drives down to z+0 by entering the ramp down low end.
-    // A vehicle moving right to left on z+0 drives up to z+1 by entering the ramp up high end.
-    // A vehicle moving left to right on z+0 should ideally collide into a wall before entering
-    //   the ramp up high end, but even if it does, it briefly transitions to z+1 before returning
-    //   to z0 by entering the ramp down low end.
-    // A vehicle moving right to left on z+1 drives down to z+0 by entering the ramp down low end,
-    //   then immediately returns to z+1 by entering the ramp up high end.
-    // When a vehicle's pivot point transitions a z-level via a ramp, all other pre-calc points
-    // make the opposite transition, so that points that were above an ascending pivot point are
-    // now level with it, and parts that were level with an ascending pivot point are now below
-    // it.
-    // parts that enter the translation portion of a ramp on the same displacement as the
-    // pivot point stay at the same relative z to the pivot point, as the ramp_offset adjustments
-    // cancel out.
-    // if a vehicle manages move partially up or down a ramp and then veers off course, it
-    // can get split across the z-levels and continue moving, enough though large parts of the
-    // vehicle are unsupported.  In that case, move the unsupported parts down until they are
-    // supported.
-    int index = -1;
+
     for( vehicle_part &prt : parts ) {
-        index += 1;
         here.clear_vehicle_point_from_cache( this, src + prt.precalc[0] );
-        // no parts means this is a normal horizontal or vertical move
-        if( parts_to_move.empty() ) {
-            prt.precalc[0] = prt.precalc[1];
-            // partial part movement means we're zero-ing out after missing a ramp
-        } else if( adjust_pos && parts_to_move.find( index ) == parts_to_move.end() ) {
-            prt.precalc[0].z -= dp.z;
-        } else if( !adjust_pos &&  parts_to_move.find( index ) != parts_to_move.end() ) {
-            prt.precalc[0].z += dp.z;
-        }
-        if( here.has_flag( TFLAG_RAMP_UP, src + dp + prt.precalc[0] ) ) {
-            prt.precalc[0].z += 1;
-        } else if( here.has_flag( TFLAG_RAMP_DOWN, src + dp + prt.precalc[0] ) ) {
-            prt.precalc[0].z -= 1;
-        }
-        prt.precalc[0].z -= ramp_offset;
-        prt.precalc[1].z = prt.precalc[0].z;
+        prt.precalc[0] = prt.precalc[1];
+
         smzs.insert( prt.precalc[0].z );
     }
-    if( adjust_pos ) {
-        if( parts_to_move.empty() ) {
-            pivot_anchor[0] = pivot_anchor[1];
-            pivot_rotation[0] = pivot_rotation[1];
-        }
-        pos = new_pos;
-    }
+
+    pivot_anchor[0] = pivot_anchor[1];
+    pivot_rotation[0] = pivot_rotation[1];
+    pos = new_pos;
+
     // Invalidate vehicle's point cache
     occupied_cache_time = calendar::before_time_starts;
     return smzs;

@@ -73,3 +73,27 @@ TEST_CASE( "add_item_to_broken_vehicle_part" )
     const item itm2 = item( "jeans" );
     REQUIRE( !veh_ptr->add_item( *cargo_part, itm2 ) );
 }
+
+static void check_wreckage( int zlevel )
+{
+    clear_map();
+    const tripoint test_origin( 60, 60, zlevel );
+    const tripoint vehicle_origin = test_origin;
+
+    vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "bicycle" ), vehicle_origin, 0_degrees, 0, 0 );
+    REQUIRE( veh_ptr != nullptr );
+
+    vehicle *veh_ptr2 = g->m.add_vehicle( vproto_id( "car" ), vehicle_origin + tripoint_north_west,
+                                          0_degrees, 0, 0 );
+    REQUIRE( veh_ptr2 != nullptr );
+
+    INFO( veh_ptr2->name );
+    CHECK( veh_ptr2->name == "Wreckage" );
+}
+
+TEST_CASE( "overlapping_vehicles_make_wreck" )
+{
+    check_wreckage( 0 );
+    check_wreckage( OVERMAP_HEIGHT );
+    check_wreckage( -OVERMAP_DEPTH );
+}

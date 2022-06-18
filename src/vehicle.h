@@ -761,6 +761,14 @@ class vehicle
         void suspend_refresh();
         void enable_refresh();
 
+        inline void attach() {
+            attached = true;
+        }
+
+        inline void detach() {
+            attached = false;
+        }
+
         /**
          * Set stat for part constrained by range [0,durability]
          * @note does not invoke base @ref item::on_damage callback
@@ -1096,6 +1104,9 @@ class vehicle
             bool fullsize = false, bool verbose = false, bool desc = false,
             bool isHorizontal = false );
 
+        //Refresh part locations
+        void refresh_position();
+
         // Pre-calculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
         void precalc_mounts( int idir, units::angle dir, const point &pivot );
 
@@ -1395,6 +1406,12 @@ class vehicle
         // leak from broken tanks
         void slow_leak();
 
+        //checks if we are, or will be after movement, on a ramp
+        bool check_on_ramp( int idir = 0, const tripoint &offset = tripoint_zero ) const;
+
+        //calculates the precalc zlevels wrt ramps
+        void adjust_zlevel( int idir = 0, const tripoint &offset = tripoint_zero );
+
         // thrust (1) or brake (-1) vehicle
         // @param z = z thrust for helicopters etc
         void thrust( int thd, int z = 0 );
@@ -1413,6 +1430,28 @@ class vehicle
 
         // turn vehicle left (negative) or right (positive), degrees
         void turn( units::angle deg );
+
+        inline void set_facing( units::angle deg, bool refresh = true ) {
+            turn_dir = deg;
+            face.init( deg );
+            pivot_rotation[0] = deg;
+            if( refresh ) {
+                refresh_position();
+            }
+        }
+
+        inline void set_pivot( const point &pivot, bool refresh = true ) {
+            pivot_cache = pivot;
+            pivot_anchor[0] = pivot;
+            if( refresh ) {
+                refresh_position();
+            }
+        }
+
+        inline void set_facing_and_pivot( units::angle deg, const point &pivot, bool refresh = true ) {
+            set_facing( deg, false );
+            set_pivot( pivot, refresh );
+        }
 
         // Returns if any collision occurred
         bool collision( std::vector<veh_collision> &colls,
@@ -1708,6 +1747,7 @@ class vehicle
         // Called by map.cpp to make sure the real position of each zone_data is accurate
         bool refresh_zones();
 
+        //Gets the vehicle space xy bounding box for a vehicle in its current rotation.
         bounding_box get_bounding_box();
         // Retroactively pass time spent outside bubble
         // Funnels, solar panels
@@ -1742,11 +1782,9 @@ class vehicle
         bool valid_part( int part_num ) const;
         // Updates the internal precalculated mount offsets after the vehicle has been displaced
         // used in map::displace_vehicle()
-        std::set<int> advance_precalc_mounts( const point &new_pos, const tripoint &src,
-                                              const tripoint &dp, int ramp_offset,
-                                              bool adjust_pos, std::set<int> parts_to_move );
-        // make sure the vehicle is supported across z-levels or on the same z-level
-        bool level_vehicle();
+        std::set<int> advance_precalc_mounts( const point &new_pos, const tripoint &src );
+        // Adjust the vehicle's global z-level to match its center
+        void shift_zlevel();
 
         std::vector<int> alternators;      // List of alternator indices
         std::vector<int> engines;          // List of engine indices
@@ -1917,8 +1955,10 @@ class vehicle
         mutable bool is_flying = false;
         int requested_z_change = 0;
 
+        // is the vehicle currently placed on the map
+        bool attached = false;
+
     public:
-        bool is_on_ramp = false;
         // vehicle being driven by player/npc automatically
         bool is_autodriving = false;
         bool is_following = false;

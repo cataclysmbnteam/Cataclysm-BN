@@ -2261,7 +2261,7 @@ void activity_handlers::vehicle_finish( player_activity *act, player *p )
     //Grab this now, in case the vehicle gets shifted
     const optional_vpart_position vp = g->m.veh_at( g->m.getlocal( tripoint( act->values[0],
                                        act->values[1],
-                                       p->posz() ) ) );
+                                       act->values[7] ) ) );
     veh_interact::complete_vehicle( *p );
     // complete_vehicle set activity type to NULL if the vehicle
     // was completely dismantled, otherwise the vehicle still exist and
@@ -2275,7 +2275,7 @@ void activity_handlers::vehicle_finish( player_activity *act, player *p )
     }
     act->set_to_null();
     if( !p->is_npc() ) {
-        if( act->values.size() < 7 ) {
+        if( act->values.size() < 8 ) {
             debugmsg( "process_activity invalid ACT_VEHICLE values:%d",
                       act->values.size() );
         } else {

@@ -147,6 +147,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         grabbed_vehicle->turn( mdir.dir() - grabbed_vehicle->face.dir() );
         grabbed_vehicle->face = grabbed_vehicle->turn_dir;
         grabbed_vehicle->precalc_mounts( 1, mdir.dir(), grabbed_vehicle->pivot_point() );
+        grabbed_vehicle->adjust_zlevel( 1, dp );
 
         // Grabbed part has to stay at distance 1 to the player
         // and in roughly the same direction.
@@ -187,7 +188,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
     m.displace_vehicle( *grabbed_vehicle, final_dp_veh );
 
     if( grabbed_vehicle ) {
-        m.level_vehicle( *grabbed_vehicle );
+        grabbed_vehicle->shift_zlevel();
         grabbed_vehicle->check_falling_or_floating();
     } else {
         debugmsg( "Grabbed vehicle disappeared" );
