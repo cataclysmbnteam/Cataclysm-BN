@@ -2525,13 +2525,15 @@ void monster::process_effects_internal()
     }
 
     //If this monster has the ability to heal in combat, do it now.
-    float regeneration_amount = type->regenerates;
+    int regeneration_amount = type->regenerates;
+    float regen_multiplier = 0;
     //Apply effect-triggered regeneration modifiers
     for( const auto &regeneration_modifier : type->regeneration_modifiers ) {
         if( has_effect( regeneration_modifier.first ) ) {
             effect &e = get_effect( regeneration_modifier.first );
-            regeneration_amount *= 1.00 + regeneration_modifier.second.base_modifier +
-                                   ( e.get_intensity() - 1 ) * regeneration_modifier.second.scale_modifier;
+            regen_multiplier = 1.00 + regeneration_modifier.second.base_modifier +
+                               ( e.get_intensity() - 1 ) * regeneration_modifier.second.scale_modifier;
+            regeneration_amount = round( regeneration_amount * regen_multiplier );
         }
     }
     //Prevent negative regeneration
@@ -2540,7 +2542,7 @@ void monster::process_effects_internal()
     }
     const int healed_amount = heal( round( regeneration_amount ) );
     if( healed_amount > 0 && one_in( 2 ) ) {
-        add_msg( m_debug, _( "Regen: %s" ), healed_amount );
+        add_msg( m_debug, ( "Regen: %s" ), healed_amount );
         std::string healing_format_string;
         if( healed_amount >= 50 ) {
             healing_format_string = _( "The %s is visibly regenerating!" );
