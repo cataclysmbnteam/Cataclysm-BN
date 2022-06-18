@@ -165,6 +165,7 @@ static const bionic_id bio_painkiller( "bio_painkiller" );
 static const bionic_id bio_plutdump( "bio_plutdump" );
 static const bionic_id bio_power_storage( "bio_power_storage" );
 static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
+static const bionic_id bio_probability_travel( "bio_probability_travel" );
 static const bionic_id bio_radscrubber( "bio_radscrubber" );
 static const bionic_id bio_reactor( "bio_reactor" );
 static const bionic_id bio_remote( "bio_remote" );
@@ -1026,6 +1027,21 @@ bool Character::activate_bionic( int b, bool eff_only )
         if( !success ) {
             refund_power();
             bio.powered = false;
+            return false;
+        }
+
+    } else if( bio.id == bio_probability_travel ) {
+        if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Tunnel in which direction?" ) ) ) {
+            if( g->m.impassable( *pnt ) ) {
+                add_msg_activate();
+                g->phasing_move( *pnt );
+            } else {
+                refund_power();
+                add_msg_if_player( m_info, _( "There's nothing to phase through there." ) );
+                return false;
+            }
+        } else {
+            refund_power();
             return false;
         }
     } else {

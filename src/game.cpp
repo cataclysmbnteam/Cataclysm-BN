@@ -9942,14 +9942,6 @@ void game::place_player_overmap( const tripoint_abs_omt &om_dest )
 
 bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
 {
-    if( !u.has_active_bionic( bionic_id( "bio_probability_travel" ) ) ) {
-        return false;
-    }
-    if( u.get_power_level() < 90_kJ ) {
-        u.add_msg_if_player( m_info, _( "You need at least 90 bionic power to quantum tunnel." ) );
-        return false;
-    }
-
     if( dest_loc.z != u.posz() && !via_ramp ) {
         // No vertical phasing yet
         return false;
@@ -9968,13 +9960,11 @@ bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
         if( u.worn_with_flag( "DIMENSIONAL_ANCHOR" ) || u.has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) ) {
             u.add_msg_if_player( m_info,
                                  _( "You try to quantum tunnel through the barrier, but something holds you back!" ) );
-            u.mod_power_level( -90_kJ ); //cost of tunneling one tile.
             return false;
         }
 
         if( tunneldist > 24 ) {
             add_msg( m_info, _( "It's too dangerous to tunnel that far!" ) );
-            u.mod_power_level( -90_kJ );
             return false;
         }
 
@@ -9983,16 +9973,16 @@ bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
     }
 
     if( tunneldist != 0 ) {
-        if( tunneldist * 90_kJ >
-            u.get_power_level() ) { //oops, not enough energy! Tunneling costs 90 bionic power per impassable tile
-            if( tunneldist * 90_kJ >
+        if( ( tunneldist - 1 ) * 100_kJ
+            > //The first 100 was already taken up by the bionic's activation cost.
+            u.get_power_level() ) { //oops, not enough energy! Tunneling costs 100 bionic power per impassable tile
+            if( tunneldist * 100_kJ >
                 u.get_max_power_level() ) {
                 add_msg( _( "You try to quantum tunnel through the barrier but bounce off!  You don't have enough bionic power capacity to travel that far." ) );
             } else {
                 add_msg( _( "You try to quantum tunnel through the barrier but are reflected!  You need %i bionic power to travel that thickness of material." ),
-                         ( 90 * tunneldist ) );
+                         ( 100 * tunneldist ) );
             }
-            u.mod_power_level( -90_kJ );
             return false;
         }
 
@@ -10001,8 +9991,8 @@ bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
         }
 
         add_msg( _( "You quantum tunnel through the %d-tile wide barrier!" ), tunneldist );
-        //tunneling costs 90 bionic power per impassable tile
-        u.mod_power_level( -( tunneldist * 90_kJ ) );
+        //tunneling costs 100 bionic power per impassable tile, but the first 100 was already drained by activation.
+        u.mod_power_level( -( ( tunneldist - 1 ) * 100_kJ ) );
         //tunneling costs 100 moves baseline, 50 per extra tile up to a cap of 500 moves
         u.moves -= ( 50 + ( tunneldist * 50 ) );
         u.setpos( dest );

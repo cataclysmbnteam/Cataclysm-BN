@@ -385,9 +385,6 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     if( g->walk_move( dest_loc, via_ramp ) ) {
         return true;
     }
-    if( g->phasing_move( dest_loc ) ) {
-        return true;
-    }
     if( veh_closed_door ) {
         if( !veh1->handle_potential_theft( dynamic_cast<player &>( you ) ) ) {
             return true;
