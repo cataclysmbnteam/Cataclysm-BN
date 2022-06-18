@@ -1146,10 +1146,15 @@ static activity_reason_info find_base_construction(
     }
     //pre-req failed?
     if( reason ) {
+        // g++ doesn't understand that we checked our optional to be initialized
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
         if( *reason == do_activity_reason::NO_COMPONENTS ) {
             return activity_reason_info::build( do_activity_reason::NO_COMPONENTS_PREREQ, false, pre_req_idx );
         }
-        return activity_reason_info::build( *reason, false, pre_req_idx );
+        activity_reason_info result = activity_reason_info::build( reason.value(), false, pre_req_idx );
+#pragma GCC diagnostic pop
+        return result;
     }
     if( !pcb ) {
         return activity_reason_info::build( do_activity_reason::NO_COMPONENTS, false, idx );

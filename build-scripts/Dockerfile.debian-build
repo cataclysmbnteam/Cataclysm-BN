@@ -22,7 +22,7 @@ RUN apt-fast -qq update
 RUN apt-fast -qq install --no-install-recommends aptitude man software-properties-common gpg
 
 # CDDA: for building
-RUN apt-fast -qq install --no-install-recommends build-essential clang-6.0 cmake ccache
+RUN apt-fast -qq install --no-install-recommends build-essential clang-14.0 cmake ccache
 # we probably don't want gcc/g++ so we don't accidentally build with them; note, we may find that we might actually want them
 RUN apt-get -qq remove gcc g++ && apt-get -qq autoremove
 
@@ -72,13 +72,13 @@ WORKDIR /home/cdda/cmake-build-debug
 
 WORKDIR /home/cdda/cmake-build-debug
 
-RUN env CC=clang-6.0 CXX=clang++-6.0 cmake ..
+RUN env CC=clang-14.0 CXX=clang++-14.0 cmake ..
 
 RUN echo `pwd` configured for build; to actually build, run "make -j`nproc --all`" here
 
 WORKDIR /home/cdda/cmake-build-debug-tiles
 
-RUN env CC=clang-6.0 CXX=clang++-6.0 cmake -DTILES=ON ..
+RUN env CC=clang-14.0 CXX=clang++-14.0 cmake -DTILES=ON ..
 
 RUN echo `pwd` configured for build; to actually build, run "make -j`nproc --all`" here
 

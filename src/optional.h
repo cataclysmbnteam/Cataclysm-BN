@@ -125,13 +125,19 @@ class optional
             if( !full ) {
                 throw bad_optional_access();
             }
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
             return get();
+#pragma GCC diagnostic pop
         }
         const T &value() const {
             if( !full ) {
                 throw bad_optional_access();
             }
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
             return get();
+#pragma GCC diagnostic pop
         }
 
         template<typename O>

@@ -76,8 +76,9 @@ moon_phase get_moon_phase( const time_point &p )
     const int num_middays = to_days<int>( p_year - calendar::turn_zero + 1_days / 2 );
     const time_duration nearest_midnight = num_middays * 1_days;
     const double phase_change = nearest_midnight / moon_phase_duration;
-    const int current_phase = static_cast<int>( std::round( phase_change * MOON_PHASE_MAX ) ) %
-                              static_cast<int>( MOON_PHASE_MAX );
+    constexpr int moon_phase_max = static_cast<int>( moon_phase::MOON_PHASE_MAX );
+    const int current_phase = static_cast<int>( std::round( phase_change * moon_phase_max ) ) %
+                              moon_phase_max;
     return static_cast<moon_phase>( current_phase );
 }
 

@@ -11,6 +11,7 @@
 #include <limits>
 #include <locale>
 #include <memory>
+#include <numeric>
 #include <set>
 #include <sstream>
 #include <tuple>
@@ -4937,14 +4938,15 @@ units::volume item::volume( bool integral ) const
     }
 
     if( count_by_charges() || made_of( LIQUID ) ) {
-        units::quantity<int64_t, units::volume_in_milliliter_tag> num = ret * static_cast<int64_t>
-                ( charges );
+        using quantity_type = units::quantity<int64_t, units::volume_in_milliliter_tag>;
+        quantity_type num = ret * static_cast<int64_t>
+                            ( charges );
         if( type->stack_size <= 0 ) {
             debugmsg( "Item type %s has invalid stack_size %d", typeId().str(), type->stack_size );
             ret = num;
         } else {
             ret = num / type->stack_size;
-            if( num % type->stack_size != 0_ml ) {
+            if( num % type->stack_size != static_cast< quantity_type>( 0_ml ) ) {
                 ret += 1_ml;
             }
         }

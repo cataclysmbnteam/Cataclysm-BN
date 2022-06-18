@@ -45,7 +45,7 @@ template<class T, typename F = std::pair<std::string, void ( T::* )(
 void register_callback( uilist &menu, T &callback )
 {
     menu.callback = &callback;
-    for( const F &action : T::get_handled_actions() ) {
+    for( const F action : T::get_handled_actions() ) {
         menu.additional_actions.emplace_back( action.first, translation() );
     }
 }

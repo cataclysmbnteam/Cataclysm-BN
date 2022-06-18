@@ -125,29 +125,28 @@ struct visibility_variables {
 };
 
 struct bash_params {
-    bash_params() = default;
     // Initial strength
-    int strength;
+    int strength{};
     // Make a sound?
-    bool silent;
+    bool silent{};
     // Essentially infinite bash strength + some
-    bool destroy;
+    bool destroy{};
     // Do we want to bash floor if no furn/wall exists?
-    bool bash_floor;
+    bool bash_floor{};
     /**
      * Value from 0.0 to 1.0 that affects interpolation between str_min and str_max
      * At 0.0, the bash is against str_min of targeted objects
      * This is required for proper "piercing" bashing, so that one strong hit
      * can destroy a wall and a floor under it rather than only one at a time.
      */
-    float roll;
+    float roll{};
     /*
      * Are we bashing this location from above?
      * Used in determining what sort of terrain the location will turn into,
      * since if we bashed from above and destroyed it, it probably shouldn't
      * have a roof either.
     */
-    bool bashing_from_above;
+    bool bashing_from_above{};
 };
 
 struct bash_results {
