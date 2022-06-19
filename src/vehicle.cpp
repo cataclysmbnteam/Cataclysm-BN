@@ -4005,23 +4005,22 @@ double vehicle::total_rotor_area() const
 // returns as newton
 double vehicle::lift_thrust_of_rotorcraft( const bool fuelled, const bool safe ) const
 {
-    constexpr double coeffiicient = 0.8642;
-    constexpr double exponentiation = -0.3107;
+    constexpr double coeffiicient {0.8642};
+    constexpr double exponentiation {-0.3107};
 
-    const int rotor_area = total_rotor_area();
-    const int engine_power = total_power_w( fuelled, safe );
+    const double rotor_area {total_rotor_area()};
     // take off 15 % due to the imaginary tail rotor power?
+    const int engine_power {total_power_w( fuelled, safe )};
 
     const double power_load = engine_power / rotor_area;
     const double lift_thrust = coeffiicient * engine_power * std::pow( power_load, exponentiation );
-    add_msg( m_debug, "lift thrust(N) of %s: %f, rotor area (m^2): %d, engine power (w): %f",
+    add_msg( m_debug, "lift thrust(N) of %s: %f, rotor area (m^2): %f, engine power (w): %f",
              name, lift_thrust, rotor_area, engine_power );
     return lift_thrust;
 }
 
 bool vehicle::has_sufficient_rotorlift() const
 {
-    // comparison of newton to newton - convert kg to newton.
     return lift_thrust_of_rotorcraft( true ) > to_newton( total_mass() );
 }
 
