@@ -3996,7 +3996,7 @@ double vehicle::total_rotor_area() const
 {
     return std::accumulate( rotors.begin(), rotors.end(), double{0},
     [&]( double acc, int rotor ) {
-        const double radius = parts[ rotor ].info().rotor_diameter() / 2;
+        const double radius{ parts[ rotor ].info().rotor_diameter() / 2.0 };
         return acc + M_PI * std::pow( radius, 2 );
     } );
 }
@@ -4012,7 +4012,7 @@ double vehicle::lift_thrust_of_rotorcraft( const bool fuelled, const bool safe )
     // take off 15 % due to the imaginary tail rotor power?
     const int engine_power {total_power_w( fuelled, safe )};
 
-    const double power_load = engine_power / rotor_area;
+    const double power_load {engine_power / rotor_area};
     const double lift_thrust = coeffiicient * engine_power * std::pow( power_load, exponentiation );
     add_msg( m_debug, "lift thrust(N) of %s: %f, rotor area (m^2): %f, engine power (w): %f",
              name, lift_thrust, rotor_area, engine_power );
