@@ -3992,11 +3992,12 @@ bool vehicle::can_float() const
 }
 
 
-int vehicle::total_rotor_diameter() const
+double vehicle::total_rotor_area() const
 {
-    return std::accumulate( rotors.begin(), rotors.end(), 0,
-    [&]( int acc, int rotor ) {
-        return acc + parts[ rotor ].info().rotor_diameter();
+    return std::accumulate( rotors.begin(), rotors.end(), double{0},
+    [&]( double acc, int rotor ) {
+        const double radius = parts[ rotor ].info().rotor_diameter() / 2;
+        return acc + M_PI * std::pow( radius, 2 );
     } );
 }
 
@@ -4008,13 +4009,15 @@ int vehicle::total_rotor_diameter() const
 // thrust loading [lb/hp]= 8.6859 * Power loading^(-0.3107)
 // Lift = Thrust loading * power >>>[lb] = [lb/hp] * [hp]
 
+// Lift(newton) = 1/2 * p(air density) * v(m/s)^2 * A(area of rotor, m^2) * Cl
+
 double vehicle::lift_thrust_of_rotorcraft( const bool fuelled, const bool safe ) const
 {
-    const int total_diameter = total_rotor_diameter();
+    const int rotor_area = total_rotor_area();
     int total_engine_w = total_power_w( fuelled, safe );
     // take off 15 % due to the imaginary tail rotor power.
     double engine_power_in_hp = total_engine_w * 0.00134102;
-    int rotor_area_in_feet = ( M_PI / 4 ) * std::pow( total_diameter * 3.28084, 2 );
+    int rotor_area_in_feet = rotor_area * std::pow( 3.28084, 2 );
     // lift_thrust in lbthrust
     double lift_thrust = ( 8.8658 * std::pow( engine_power_in_hp / rotor_area_in_feet,
                            -0.3107 ) ) * engine_power_in_hp;

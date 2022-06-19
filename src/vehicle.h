@@ -1343,7 +1343,10 @@ class vehicle
          * is the vehicle flying? is it a rotorcraft?
          */
         bool is_rotorcraft() const;
-        int total_rotor_diameter() const;
+        /**
+         * total area of every rotors in m^2
+         */
+        double total_rotor_area() const;
         double lift_thrust_of_rotorcraft( bool fuelled, bool safe = false ) const;
         bool has_sufficient_rotorlift() const;
         int get_z_change() const;
