@@ -4022,9 +4022,10 @@ double vehicle::lift_thrust_of_rotorcraft( const bool fuelled, const bool safe )
 bool vehicle::has_sufficient_rotorlift() const
 {
     // comparison of newton to newton - convert kg to newton.
-    return lift_thrust_of_rotorcraft( true ) > to_kilogram( total_mass() ) * 9.8;
+    return lift_thrust_of_rotorcraft( true ) > to_newton( total_mass() );
 }
 
+// requires vehicle to have sufficient rotor lift, not suitable for checking if it has rotor.
 bool vehicle::is_rotorcraft() const
 {
     return has_part( "ROTOR" ) && has_sufficient_rotorlift() && player_in_control( g->u );
