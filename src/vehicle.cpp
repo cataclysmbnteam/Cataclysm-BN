@@ -4001,31 +4001,22 @@ double vehicle::total_rotor_area() const
     } );
 }
 
-// apologies for the imperial measurements, theyll get converted before used finally in the vehicle speed at the end of the function.
-// sources for the equations to calculate rotor lift thrust were only available in imperial, and the constants used are designed for that.
-// r= radius or d = diameter of rotor blades.
-// area A [ft^2] = Pi * r^2 -or- A [ft^2] = (Pi/4) * D^2
-// Power loading [hp/ft^2] = power( in hp ) / A
-// thrust loading [lb/hp]= 8.6859 * Power loading^(-0.3107)
-// Lift = Thrust loading * power >>>[lb] = [lb/hp] * [hp]
-
-// Lift(newton) = 1/2 * p(air density) * v(m/s)^2 * A(area of rotor, m^2) * Cl
-
+// constants were converted from imperial to SI goodness
+// returns as newton
 double vehicle::lift_thrust_of_rotorcraft( const bool fuelled, const bool safe ) const
 {
+    constexpr double coeffiicient = 0.8642;
+    constexpr double exponentiation = -0.3107;
+
     const int rotor_area = total_rotor_area();
-    int total_engine_w = total_power_w( fuelled, safe );
-    // take off 15 % due to the imaginary tail rotor power.
-    double engine_power_in_hp = total_engine_w * 0.00134102;
-    int rotor_area_in_feet = rotor_area * std::pow( 3.28084, 2 );
-    // lift_thrust in lbthrust
-    double lift_thrust = ( 8.8658 * std::pow( engine_power_in_hp / rotor_area_in_feet,
-                           -0.3107 ) ) * engine_power_in_hp;
-    add_msg( m_debug,
-             "lift thrust in lbs of %s = %f, rotor area in feet : %d, engine power in hp %f, thrust in newtons : %f",
-             name, lift_thrust, rotor_area_in_feet, engine_power_in_hp, engine_power_in_hp * 4.45 );
-    // convert to newtons.
-    return lift_thrust * 4.45;
+    const int engine_power = total_power_w( fuelled, safe );
+    // take off 15 % due to the imaginary tail rotor power?
+
+    const double power_load = engine_power / rotor_area;
+    const double lift_thrust = coeffiicient * engine_power * std::pow( power_load, exponentiation );
+    add_msg( m_debug, "lift thrust(N) of %s: %f, rotor area (m^2): %d, engine power (w): %f",
+             name, lift_thrust, rotor_area, engine_power );
+    return lift_thrust;
 }
 
 bool vehicle::has_sufficient_rotorlift() const
