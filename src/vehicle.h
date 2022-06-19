@@ -1684,22 +1684,6 @@ class vehicle
         // check if the vehicle should be falling or is in water
         void check_falling_or_floating();
 
-        /** Precalculate vehicle turn. Counts wheels that will land on ter_flag_to_check
-         * new_turn_dir             - turn direction to calculate
-         * falling_only             - is vehicle falling
-         * check_rail_direction     - check if vehicle should land on diagonal/not rail tile (use for trucks only)
-         * ter_flag_to_check        - terrain flag vehicle wheel should land on
-         ** Results:
-         * &wheels_on_rail          - resulting wheels that land on ter_flag_to_check
-         * &turning_wheels_that_are_one_axis_counter - number of wheels that are on one axis and will land on rail
-         */
-        void precalculate_vehicle_turning( units::angle new_turn_dir, bool check_rail_direction,
-                                           ter_bitflags ter_flag_to_check, int &wheels_on_rail,
-                                           int &turning_wheels_that_are_one_axis_counter ) const;
-        bool allow_auto_turn_on_rails( units::angle &corrected_turn_dir ) const;
-        bool allow_manual_turn_on_rails( units::angle &corrected_turn_dir ) const;
-        bool is_wheel_state_correct_to_turn_on_rails( int wheels_on_rail, int wheel_count,
-                int turning_wheels_that_are_one_axis ) const;
         /**
          * Update the submap coordinates and update the tracker info in the overmap
          * (if enabled).
@@ -1781,6 +1765,8 @@ class vehicle
         // List of parts that will not be on a vehicle very often, or which only one will be present
         std::vector<int> speciality;
         std::vector<int> floating;         // List of parts that provide buoyancy to boats
+
+        std::vector<int> rail_profile; // Rail profile of the vehicle
 
         // config values
         std::string name;   // vehicle name
@@ -1876,7 +1862,6 @@ class vehicle
         // rotation used for mount precalc values
         std::array<units::angle, 2> pivot_rotation = { { 0_degrees, 0_degrees } };
 
-        bounding_box rail_wheel_bounding_box;
         point front_left;
         point front_right;
         towing_data tow_data;
@@ -1918,7 +1903,6 @@ class vehicle
         bool is_autodriving = false;
         bool is_following = false;
         bool is_patrolling = false;
-        bool all_wheels_on_one_axis;
         // TODO: change these to a bitset + enum?
         // cruise control on/off
         bool cruise_on = true;
