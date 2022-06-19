@@ -60,12 +60,15 @@ then
         cmake_extra_opts+=("-DClang_DIR=/usr/lib/llvm-8/lib/cmake/clang")
     fi
 
-    if [ "$COMPILER" = "clang++-8" -a -n "$GITHUB_WORKFLOW" -a -n "$CATA_CLANG_TIDY" ]
+    if echo "$COMPILER" | grep -q "clang"
     then
-        # This is a hacky workaround for the fact that the custom clang-tidy we are
-        # using is built for Travis CI, so it's not using the correct include directories
-        # for GitHub workflows.
-        cmake_extra_opts+=("-DCMAKE_CXX_FLAGS=-isystem /usr/include/clang/8.0.0/include")
+        if [ -n "$GITHUB_WORKFLOW" -a -n "$CATA_CLANG_TIDY" ]
+        then
+            # This is a hacky workaround for the fact that the custom clang-tidy we are
+            # using is built for Travis CI, so it's not using the correct include directories
+            # for GitHub workflows.
+            cmake_extra_opts+=("-DCMAKE_CXX_FLAGS=-isystem /usr/include/clang/8.0.0/include")
+        fi
     fi
 
     mkdir build

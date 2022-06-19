@@ -93,10 +93,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install libncursesw5-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev \
             libsdl2-mixer-dev libpulse-dev ccache gettext parallel
-    - name: install old GCC (ubuntu)
-      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && (matrix.compiler == 'g++-7' || matrix.compiler == 'g++-8') }}
+    - name: install old compiler (ubuntu)
+      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && (matrix.compiler == 'g++-7' || matrix.compiler == 'g++-8' || matrix.compiler == 'clang++-9') }}
       run: |
-          sudo apt-get install g++-7 g++-8
+          sudo apt-get install ${{ matrix.compiler }}
     - name: install dependencies (mac)
       if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
       run: |
