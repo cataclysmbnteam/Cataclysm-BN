@@ -1342,12 +1342,13 @@ class vehicle
         /**
          * is the vehicle flying? is it a rotorcraft?
          */
+        bool is_rotorcraft() const;
+        int total_rotor_diameter() const;
         double lift_thrust_of_rotorcraft( bool fuelled, bool safe = false ) const;
         bool has_sufficient_rotorlift() const;
         int get_z_change() const;
         bool is_flying_in_air() const;
         void set_flying( bool new_flying_value );
-        bool is_rotorcraft() const;
         /**
          * Traction coefficient of the vehicle.
          * 1.0 on road. Outside roads, depends on mass divided by wheel area

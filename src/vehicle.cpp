@@ -3991,6 +3991,15 @@ bool vehicle::can_float() const
     return draft_m < hull_height;
 }
 
+
+int vehicle::total_rotor_diameter() const
+{
+    return std::accumulate( rotors.begin(), rotors.end(), 0,
+    [&]( int acc, int rotor ) {
+        return acc + parts[ rotor ].info().rotor_diameter();
+    } );
+}
+
 // apologies for the imperial measurements, theyll get converted before used finally in the vehicle speed at the end of the function.
 // sources for the equations to calculate rotor lift thrust were only available in imperial, and the constants used are designed for that.
 // r= radius or d = diameter of rotor blades.
@@ -4001,10 +4010,7 @@ bool vehicle::can_float() const
 
 double vehicle::lift_thrust_of_rotorcraft( const bool fuelled, const bool safe ) const
 {
-    int total_diameter = 0;
-    for( const int rotor : rotors ) {
-        total_diameter += parts[ rotor ].info().rotor_diameter();
-    }
+    const int total_diameter = total_rotor_diameter();
     int total_engine_w = total_power_w( fuelled, safe );
     // take off 15 % due to the imaginary tail rotor power.
     double engine_power_in_hp = total_engine_w * 0.00134102;
