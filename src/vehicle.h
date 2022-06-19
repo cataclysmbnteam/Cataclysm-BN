@@ -178,7 +178,6 @@ int mps_to_vmiph( double mps );
 double vmiph_to_mps( int vmiph );
 int cmps_to_vmiph( int cmps );
 int vmiph_to_cmps( int vmiph );
-static constexpr float accel_g = 9.81f;
 
 /**
  * Structure, describing vehicle part (i.e., wheel, seat)

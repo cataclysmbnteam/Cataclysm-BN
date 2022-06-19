@@ -3493,8 +3493,8 @@ int vehicle::current_acceleration( const bool fueled ) const
 // velocity is wheel radius * rotation rate (in rads for simplicity)
 // air resistance is -1/2 * air density * drag coeff * cross area * v^2
 //        and c_air_drag is -1/2 * air density * drag coeff * cross area
-// rolling resistance is mass * accel_g * rolling coeff * 0.000225 * ( 33.3 + v )
-//        and c_rolling_drag is mass * accel_g * rolling coeff * 0.000225
+// rolling resistance is mass * GRAVITY_OF_EARTH * rolling coeff * 0.000225 * ( 33.3 + v )
+//        and c_rolling_drag is mass * GRAVITY_OF_EARTH * rolling coeff * 0.000225
 //        and rolling_constant_to_variable is 33.3
 // or by formula:
 // max velocity occurs when F_drag = F_wheel
@@ -3947,7 +3947,7 @@ double vehicle::coeff_rolling_drag() const
     // Don't ask me why, but it's the numbers we have. We want N * C_rr * 0.000225 here,
     // and N is mass * accel from gravity (aka weight)
     constexpr double sae_ratio = 0.000225;
-    constexpr double newton_ratio = accel_g * sae_ratio;
+    constexpr double newton_ratio = GRAVITY_OF_EARTH * sae_ratio;
     double wheel_factor = 0;
     if( wheelcache.empty() ) {
         wheel_factor = 50;

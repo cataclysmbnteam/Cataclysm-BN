@@ -6,6 +6,12 @@
 
 #include "units_def.h"
 
+// yeah this is very cursed position for constant
+// but if it's on game_constants.h it causes circular dependency
+// TODO: move this to constants_mass or something
+// 9.81m/(s^2) or newtons per kilogram
+constexpr double GRAVITY_OF_EARTH = 9.81;
+
 namespace units
 {
 
@@ -15,11 +21,13 @@ class mass_in_milligram_tag
 
 using mass = quantity<std::int64_t, mass_in_milligram_tag>;
 
-const mass mass_min = units::mass( std::numeric_limits<units::mass::value_type>::min(),
-                                   units::mass::unit_type{} );
+constexpr mass mass_min = units::mass( std::numeric_limits<units::mass::value_type>::min(),
+                                       units::mass::unit_type{} );
 
-const mass mass_max = units::mass( std::numeric_limits<units::mass::value_type>::max(),
-                                   units::mass::unit_type{} );
+constexpr mass mass_max = units::mass( std::numeric_limits<units::mass::value_type>::max(),
+                                       units::mass::unit_type{} );
+
+
 
 template<typename value_type>
 inline constexpr quantity<value_type, mass_in_milligram_tag> from_milligram(
@@ -46,7 +54,7 @@ template<typename value_type>
 inline constexpr quantity<value_type, mass_in_milligram_tag> from_newton(
     const value_type v )
 {
-    return from_kilogram( v / 9.8 );
+    return from_kilogram( v / GRAVITY_OF_EARTH );
 }
 
 template<typename value_type>
@@ -70,7 +78,7 @@ inline constexpr value_type to_kilogram( const quantity<value_type, mass_in_mill
 template<typename value_type>
 inline constexpr value_type to_newton( const quantity<value_type, mass_in_milligram_tag> &v )
 {
-    return to_kilogram( v ) * 9.8;
+    return to_kilogram( v ) * GRAVITY_OF_EARTH;
 }
 
 } // namespace units
