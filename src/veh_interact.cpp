@@ -2469,6 +2469,16 @@ void veh_interact::display_stats() const
                     _( "Mass: <color_light_blue>%5.0f</color> %s" ),
                     convert_weight( veh->total_mass() ), weight_units() );
     i += 1;
+    if( veh->has_part( "ROTOR" ) ) {
+        // convert newton to kg.
+        units::mass lift_unit = units::from_kilogram( veh->lift_thrust_of_rotorcraft(
+                                    true ) / 9.8 ); // TODO: from_newton?
+        fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
+                        _( "Maximum Lift: <color_light_blue>%5.0f</color> %s" ),
+                        convert_weight( lift_unit ),
+                        weight_units() );
+        i += 1;
+    }
     fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
                     _( "Cargo Volume: <color_light_blue>%s</color> / <color_light_blue>%s</color> %s" ),
                     format_volume( total_cargo - free_cargo ),
