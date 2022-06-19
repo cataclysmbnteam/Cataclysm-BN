@@ -43,6 +43,13 @@ inline constexpr quantity<value_type, mass_in_milligram_tag> from_kilogram(
 }
 
 template<typename value_type>
+inline constexpr quantity<value_type, mass_in_milligram_tag> from_newton(
+    const value_type v )
+{
+    return from_kilogram( v / 9.8 );
+}
+
+template<typename value_type>
 inline constexpr value_type to_milligram( const quantity<value_type, mass_in_milligram_tag> &v )
 {
     return v.value();
@@ -59,6 +66,12 @@ inline constexpr double to_kilogram( const mass &v )
     return v.value() / 1000000.0;
 }
 
+template<typename value_type>
+inline constexpr value_type to_newton( const quantity<value_type, mass_in_milligram_tag> &v )
+{
+    return to_kilogram( v ) * 9.8;
+}
+
 } // namespace units
 
 // Implicitly converted to mass, which has int as value_type!
@@ -66,6 +79,7 @@ inline constexpr units::mass operator"" _milligram( const unsigned long long v )
 {
     return units::from_milligram( v );
 }
+
 inline constexpr units::mass operator"" _gram( const unsigned long long v )
 {
     return units::from_gram( v );
@@ -74,6 +88,11 @@ inline constexpr units::mass operator"" _gram( const unsigned long long v )
 inline constexpr units::mass operator"" _kilogram( const unsigned long long v )
 {
     return units::from_kilogram( v );
+}
+
+inline constexpr units::mass operator"" _newton( const unsigned long long v )
+{
+    return units::from_newton( v );
 }
 
 inline constexpr units::quantity<double, units::mass_in_milligram_tag> operator"" _milligram(
@@ -93,6 +112,13 @@ inline constexpr units::quantity<double, units::mass_in_milligram_tag> operator"
 {
     return units::from_kilogram( v );
 }
+
+inline constexpr units::quantity<double, units::mass_in_milligram_tag> operator"" _newton(
+    const long double v )
+{
+    return units::from_newton( v );
+}
+
 
 
 #endif // CATA_SRC_UNITS_MASS_H
