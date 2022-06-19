@@ -61,7 +61,8 @@ inline constexpr value_type to_gram( const quantity<value_type, mass_in_milligra
     return v.value() / 1000.0;
 }
 
-inline constexpr double to_kilogram( const mass &v )
+template<typename value_type>
+inline constexpr value_type to_kilogram( const quantity<value_type, mass_in_milligram_tag> &v )
 {
     return v.value() / 1000000.0;
 }
