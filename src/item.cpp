@@ -5355,9 +5355,9 @@ void item::set_rot( time_duration val )
     rot = val;
 }
 
-int item::spoilage_sort_order()
+int item::spoilage_sort_order() const
 {
-    item *subject;
+    const item *subject;
     constexpr int bottom = std::numeric_limits<int>::max();
 
     if( type->container && !contents.empty() ) {
