@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <array>
 #include <functional>
 #include <list>
@@ -7,7 +9,6 @@
 
 #include "avatar.h"
 #include "bodypart.h"
-#include "catch/catch.hpp"
 #include "character.h"
 #include "game.h"
 #include "item.h"

@@ -1,10 +1,11 @@
+#include "catch/catch.hpp"
+
 #include <functional>
 #include <list>
 #include <memory>
 #include <string>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "game_constants.h"
 #include "item.h"
 #include "item_location.h"

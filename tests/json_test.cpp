@@ -1,10 +1,10 @@
-#include "json.h"
+#include "catch/catch.hpp"
 
 #include <list>
 #include <sstream>
 
 #include "bodypart.h"
-#include "catch/catch.hpp"
+#include "json.h"
 #include "string_formatter.h"
 #include "type_id.h"
 #include "colony.h"
