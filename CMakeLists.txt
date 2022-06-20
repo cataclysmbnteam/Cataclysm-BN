@@ -266,7 +266,7 @@ else ()
        -Wunused-macros \
        -Wzero-as-null-pointer-constant \
        -Wno-range-loop-analysis")
-    if(Clang STREQUAL ${CMAKE_CXX_COMPILER_ID})
+    if("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
        set(CATA_WARNINGS "${CATA_WARNINGS} -Wno-unknown-warning-option")
     else()
        set(CATA_WARNINGS "${CATA_WARNINGS} -Wno-unknown-warning")
