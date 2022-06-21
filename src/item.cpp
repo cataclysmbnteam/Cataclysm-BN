@@ -269,6 +269,9 @@ static const std::string flag_WATER_EXTINGUISH( "WATER_EXTINGUISH" );
 static const std::string flag_WET( "WET" );
 static const std::string flag_WIND_EXTINGUISH( "WIND_EXTINGUISH" );
 
+static const std::string has_thievery_witness( "has_thievery_witness" );
+static const activity_id ACT_PICKUP( "ACT_PICKUP" );
+
 static const matec_id rapid_strike( "RAPID" );
 
 class npc_class;
@@ -4303,16 +4306,17 @@ void item::handle_pickup_ownership( Character &c )
             }
             if( !witnesses.empty() ) {
                 set_old_owner( get_owner() );
-                bool guard_chosen = false;
-                for( npc *elem : witnesses ) {
-                    if( elem->myclass == npc_class_id( "NC_BOUNTY_HUNTER" ) ) {
-                        guard_chosen = true;
-                        elem->witness_thievery( &*this );
-                        break;
+                // Make sure there is only one witness
+                for( npc &guy : g->all_npcs() ) {
+                    if( guy.get_attitude() == NPCATT_RECOVER_GOODS ) {
+                        guy.set_attitude( NPCATT_NULL );
                     }
                 }
-                if( !guard_chosen ) {
-                    random_entry( witnesses )->witness_thievery( &*this );
+                random_entry( witnesses )->set_attitude( NPCATT_RECOVER_GOODS );
+                // Notify the activity that we got a witness
+                if( c.activity && !c.activity.is_null() && c.activity.id() == ACT_PICKUP ) {
+                    c.activity.str_values.clear();
+                    c.activity.str_values.emplace_back( has_thievery_witness );
                 }
             }
             set_owner( c );

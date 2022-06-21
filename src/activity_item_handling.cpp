@@ -2261,6 +2261,10 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
             src_veh = &vp->vehicle();
             src_part = vp->part_index();
             for( auto &it : src_veh->get_items( src_part ) ) {
+                if( !it.is_owned_by( p, true ) ) {
+                    continue;
+                }
+                it.set_owner( p );
                 items.push_back( std::make_pair( &it, true ) );
             }
         } else {
@@ -2268,6 +2272,10 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
             src_part = -1;
         }
         for( auto &it : g->m.i_at( src_loc ) ) {
+            if( !it.is_owned_by( p, true ) ) {
+                continue;
+            }
+            it.set_owner( p );
             items.push_back( std::make_pair( &it, false ) );
         }
 
