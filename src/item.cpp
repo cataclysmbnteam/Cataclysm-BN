@@ -272,7 +272,6 @@ static const std::string flag_WATERPROOF_GUN( "WATERPROOF_GUN" );
 static const std::string flag_WATER_EXTINGUISH( "WATER_EXTINGUISH" );
 static const std::string flag_WET( "WET" );
 static const std::string flag_WIND_EXTINGUISH( "WIND_EXTINGUISH" );
-static const flag_str_id flag_BIONIC_ARMOR_INTERFACE( "BIONIC_ARMOR_INTERFACE" );
 
 static const matec_id rapid_strike( "RAPID" );
 
