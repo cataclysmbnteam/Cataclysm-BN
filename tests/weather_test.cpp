@@ -1,9 +1,10 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <memory>
 #include <vector>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "point.h"
 #include "weather.h"
 #include "weather_gen.h"

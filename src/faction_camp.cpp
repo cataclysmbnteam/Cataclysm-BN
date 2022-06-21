@@ -3887,61 +3887,76 @@ bool basecamp::distribute_food()
         return false;
     }
 
-    auto &mgr = zone_manager::get_manager();
+    zone_manager &mgr = zone_manager::get_manager();
     if( g->m.check_vehicle_zones( g->get_levz() ) ) {
         mgr.cache_vzones();
     }
-    const tripoint &abspos = get_dumping_spot();
-    const std::unordered_set<tripoint> &z_food = mgr.get_near( zone_type_camp_food, abspos, 60 );
+    const tripoint abspos = get_dumping_spot();
+    const std::unordered_set<tripoint> z_food = mgr.get_near( zone_type_camp_food, abspos, 60 );
 
-    bool has_food = false;
+    bool has_items = false;
     for( const tripoint &p_food_stock_abs : z_food ) {
         const tripoint p_food_stock = g->m.getlocal( p_food_stock_abs );
         if( !g->m.i_at( p_food_stock ).empty() ) {
-            has_food = true;
+            has_items = true;
             break;
         }
     }
-    if( !has_food ) {
+    if( !has_items ) {
         popup( _( "No items are located at the drop point…" ) );
         return false;
     }
-    double quick_rot = 0.6 + ( has_provides( "pantry" ) ? 0.1 : 0 );
-    double slow_rot = 0.8 + ( has_provides( "pantry" ) ? 0.05 : 0 );
+
+    const double quick_rot_coeff = 0.6 + ( has_provides( "pantry" ) ? 0.1 : 0 );
+    const double slow_rot_coeff = 0.8 + ( has_provides( "pantry" ) ? 0.05 : 0 );
+
     int total = 0;
     std::vector<item> keep_me;
     for( const tripoint &p_food_stock_abs : z_food ) {
         const tripoint p_food_stock = g->m.getlocal( p_food_stock_abs );
         map_stack initial_items = g->m.i_at( p_food_stock );
         for( item &i : initial_items ) {
-            if( i.is_container() && i.get_contained().is_food() ) {
-                // TODO: make NPCs leave empty food containers elsewhere?
-                auto comest = i.get_contained();
+            const bool is_contained_food = i.is_container() && i.get_contained().is_food();
+            const item &innermost_item = is_contained_food ? i.get_contained() : i;
+
+            const bool would_npcs_eat = innermost_item.is_food()
+                                        && !innermost_item.rotten()
+                                        && innermost_item.get_comestible_fun() >= -6;
+
+            if( !would_npcs_eat ) {
+                keep_me.push_back( std::move( i ) );
+                continue;
+            }
+
+            constexpr time_duration full_calories_threshold = 5_days;
+            constexpr time_duration slow_rot_threshold = 2_days;
+            // Containers handle spoilage logic internally.
+            // so we would get very large time duration for canned or unspoilable foods.
+            const time_duration rots_in = time_duration::from_turns( i.spoilage_sort_order() );
+            const double rot_multiplier = ( rots_in >= full_calories_threshold ) ?
+                                          1.0 :
+                                          ( ( rots_in >= slow_rot_threshold ) ? slow_rot_coeff : quick_rot_coeff );
+            // Comestible is not null for food.
+            assert( innermost_item.get_comestible() );
+
+            // TODO: Probably better use component based nutrition
+            // like in `Character::compute_effective_nutrients`.
+            const int kcal_per_item = innermost_item.get_comestible()->default_nutrition.kcal;
+            const double kcal_from_current = kcal_per_item * innermost_item.count() * rot_multiplier;
+
+            total += static_cast<int>( std::round( kcal_from_current ) );
+
+            // Leave empty container.
+            // TODO: make NPCs leave empty food containers elsewhere?
+            if( i.is_container() ) {
                 i.contents.clear_items();
                 i.on_contents_changed();
-                keep_me.push_back( i );
-                i = comest;
-            }
-            if( i.is_comestible() && ( i.rotten() || i.get_comestible_fun() < -6 ) ) {
-                keep_me.push_back( i );
-            } else if( i.is_food() ) {
-                double rot_multip;
-                int rots_in = to_days<int>( time_duration::from_turns( i.spoilage_sort_order() ) );
-                if( rots_in >= 5 ) {
-                    rot_multip = 1.00;
-                } else if( rots_in >= 2 ) {
-                    rot_multip = slow_rot;
-                } else {
-                    rot_multip = quick_rot;
-                }
-                total += i.get_comestible()->default_nutrition.kcal * rot_multip * i.count();
-            } else {
-                keep_me.push_back( i );
+                keep_me.push_back( std::move( i ) );
             }
         }
         g->m.i_clear( p_food_stock );
         for( item &i : keep_me ) {
-            g->m.add_item_or_charges( p_food_stock, i, false );
+            g->m.add_item_or_charges( p_food_stock, std::move( i ), false );
         }
         keep_me.clear();
     }

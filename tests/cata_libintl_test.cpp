@@ -1,6 +1,6 @@
-#include "cata_libintl.h"
-
 #include "catch/catch.hpp"
+
+#include "cata_libintl.h"
 #include "filesystem.h"
 #include "fstream_utils.h"
 #include "rng.h"

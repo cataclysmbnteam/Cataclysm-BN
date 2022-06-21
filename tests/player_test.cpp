@@ -1,10 +1,11 @@
+#include "catch/catch.hpp"
+
 #include <string>
 #include <array>
 #include <list>
 #include <memory>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "player.h"
 #include "weather.h"
 #include "bodypart.h"

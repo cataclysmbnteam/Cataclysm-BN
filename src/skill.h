@@ -94,9 +94,6 @@ class Skill
         bool operator==( const Skill &b ) const {
             return this->_ident == b._ident;
         }
-        bool operator< ( const Skill &b ) const {
-            return this->_ident < b._ident;    // Only here for the benefit of std::map<Skill,T>
-        }
 
         bool operator!=( const Skill &b ) const {
             return !( *this == b );

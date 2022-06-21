@@ -1,9 +1,10 @@
+#include "catch/catch.hpp"
+
 #include <map>
 #include <set>
 #include <string>
 #include <utility>
 
-#include "catch/catch.hpp"
 #include "item.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"

@@ -6482,7 +6482,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
             explode_fuel( p, type );
         }
 
-        return dmg;
+        return 0;
     }
 
     dmg -= std::min<int>( dmg, part_info( p ).damage_reduction[ type ] );

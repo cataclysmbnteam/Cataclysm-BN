@@ -1,7 +1,8 @@
+#include "catch/catch.hpp"
+
 #include <string>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "creature.h"
 #include "options.h"
 #include "player.h"

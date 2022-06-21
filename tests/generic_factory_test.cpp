@@ -1,5 +1,6 @@
-#include <unordered_set>
 #include "catch/catch.hpp"
+
+#include <unordered_set>
 
 #include "colony_list_test_helpers.h"
 #include "flag.h"

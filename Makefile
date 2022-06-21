@@ -1,4 +1,16 @@
 # vim: set expandtab tabstop=4 softtabstop=2 shiftwidth=2:
+#
+# Params:
+#   COMPILER    compiler to use, default to CXX or g++ on Linux and clang++ on OsX
+#   LINKER      linker to use, defaults to COMPILER
+#   USE_LIBCXX  If specified, use libc++ from LLVM. Always enabled if on OsX
+#   NATIVE      Target platform.
+#   CROSS       Cross compilation target.
+#   RELEASE     Set to 1 to get release build.
+#   LTO         Set to 1 to enable link-time optimization.
+#   TILES       Set to 1 to enable tiles. Requires SDL.
+#   SOUND       Set to 1 to enable sounds. Requires SDL.
+#
 # Platforms:
 # Linux/Cygwin native
 #   (don't need to do anything)
@@ -14,7 +26,8 @@
 # Linux cross-compile to OSX with osxcross
 #   make CROSS=x86_64-apple-darwin15-
 #        NATIVE=osx
-#        CLANG=1
+#        COMPILER=clang++
+#        LINKER=clang++
 #        OSXCROSS=1
 #        LIBSDIR=../libs
 #        FRAMEWORKSDIR=../Frameworks
@@ -150,6 +163,10 @@ ifndef RUNTESTS
   RUNTESTS = 1
 endif
 
+ifndef PCH
+  PCH = 1
+endif
+
 # Auto-detect MSYS2
 ifdef MSYSTEM
   MSYS2 = 1
@@ -161,13 +178,33 @@ ifneq ($(findstring Darwin,$(OS)),)
   ifndef NATIVE
     NATIVE = osx
   endif
-  ifndef CLANG
-    CLANG = 1
+  ifndef COMPILER
+    COMPILER = clang++
   endif
 endif
 
-# Default to disabling clang
-ifndef CLANG
+ifndef COMPILER
+  ifdef CXX
+    $(info Using default system compiler: $(CXX))
+    # Expand at reference time to avoid recursive reference
+    COMPILER := $(CXX)
+  else
+    $(info No compiler specified, fallback to g++)
+    COMPILER = g++
+  endif
+endif
+
+ifndef LINKER
+  # Comment is moved from older version of Makefile
+  # I don't know why it is.
+
+  # Appears that the default value of $LD is unsuitable on most systems
+  LINKER := $(COMPILER)
+endif
+
+ifeq (clang, $(findstring clang, $(COMPILER)))
+  CLANG = 1
+else
   CLANG = 0
 endif
 
@@ -220,27 +257,31 @@ ifneq ($(findstring BSD,$(OS)),)
   BSD = 1
 endif
 
+ifeq ($(PCH), 1)
+	CCACHEBIN = CCACHE_SLOPPINESS=pch_defines,time_macros ccache
+else
+	CCACHEBIN = ccache
+endif
+
 # This sets CXX and so must be up here
 ifneq ($(CLANG), 0)
-  # Allow setting specific CLANG version
-  ifeq ($(CLANG), 1)
-    CLANGCMD = clang++
-  else
-    CLANGCMD = $(CLANG)
-  endif
   ifeq ($(NATIVE), osx)
     USE_LIBCXX = 1
   endif
   ifdef USE_LIBCXX
     OTHERS += -stdlib=libc++
     LDFLAGS += -stdlib=libc++
+  else
+    # clang with glibc 2.31+ will cause linking error on math functions
+    # this is a workaround (see https://github.com/google/filament/issues/2146)
+    CXXFLAGS += -fno-builtin
   endif
   ifeq ($(CCACHE), 1)
-    CXX = CCACHE_CPP2=1 ccache $(CROSS)$(CLANGCMD)
-    LD  = CCACHE_CPP2=1 ccache $(CROSS)$(CLANGCMD)
+    CXX = CCACHE_CPP2=1 $(CCACHEBIN) $(CROSS)$(COMPILER)
+    LD  = CCACHE_CPP2=1 $(CCACHEBIN) $(CROSS)$(COMPILER)
   else
-    CXX = $(CROSS)$(CLANGCMD)
-    LD  = $(CROSS)$(CLANGCMD)
+    CXX = $(CROSS)$(COMPILER)
+    LD  = $(CROSS)$(COMPILER)
   endif
 else
   # Compiler version & target machine - used later for MXE ICE workaround
@@ -249,18 +290,17 @@ else
     CXXMACHINE := $(shell $(CROSS)$(CXX) -dumpmachine)
   endif
 
-  # Expand at reference time to avoid recursive reference
-  OS_COMPILER := $(CXX)
-  # Appears that the default value of $LD is unsuitable on most systems
-  OS_LINKER := $(CXX)
   ifeq ($(CCACHE), 1)
-    CXX = ccache $(CROSS)$(OS_COMPILER)
-    LD  = ccache $(CROSS)$(OS_LINKER)
+    CXX = $(CCACHEBIN) $(CROSS)$(COMPILER)
+    LD  = $(CCACHEBIN) $(CROSS)$(COMPILER)
   else
-    CXX = $(CROSS)$(OS_COMPILER)
-    LD  = $(CROSS)$(OS_LINKER)
+    CXX = $(CROSS)$(COMPILER)
+    LD  = $(CROSS)$(COMPILER)
   endif
 endif
+
+$(info  Chosen compiler: $(CXX))
+$(info  Chosen linker:   $(LD))
 
 STRIP = $(CROSS)strip
 RC  = $(CROSS)windres
@@ -328,7 +368,7 @@ ifeq ($(RELEASE), 1)
 
   # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native
   # OTHERS += -march=native # Uncomment this to build an optimized binary for your machine only
-  
+
   # Strip symbols, generates smaller executable.
   OTHERS += $(RELEASE_FLAGS)
   DEBUG =
@@ -370,6 +410,35 @@ endif
 
 ifeq ($(CYGWIN),1)
 WARNINGS += -Wimplicit-fallthrough=0
+endif
+
+ifeq ($(PCH), 1)
+  PCHFLAGS = -Ipch -Winvalid-pch
+  PCH_H = pch/main-pch.hpp
+
+  ifeq ($(CLANG), 0)
+    PCHFLAGS += -fpch-preprocess -include main-pch.hpp
+    PCH_P = $(PCH_H).gch
+  else
+    PCH_P = $(PCH_H).pch
+    PCHFLAGS += -include-pch $(PCH_P)
+
+    # FIXME: dirty hack ahead
+    # ccache won't wort with clang unless it supports -fno-pch-timestamp
+    ifeq ($(CCACHE), 1)
+      CLANGVER := $(shell echo 'int main(void){return 0;}'|$(CXX) -Xclang -fno-pch-timestamp -x c++ -o _clang_ver.o -c - 2>&1 || echo fail)
+      ifneq ($(CLANGVER),)
+        PCHFLAGS = ""
+        PCH_H = ""
+        PCH_P = ""
+        PCH = 0
+        $(warning your clang version does not support -fno-pch-timestamp: $(CLANGVER) ($(.SHELLSTATUS)))
+      else
+        CXXFLAGS += -Xclang -fno-pch-timestamp
+      endif
+    endif
+
+  endif
 endif
 
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS) -MMD -MP
@@ -797,6 +866,9 @@ ifeq ($(RELEASE), 1)
   endif
 endif
 
+$(PCH_P): $(PCH_H)
+	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -c $(PCH_H) -o $(PCH_P)
+
 $(BUILD_PREFIX)$(TARGET_NAME).a: $(OBJS)
 	$(AR) rcs $(BUILD_PREFIX)$(TARGET_NAME).a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
 
@@ -811,8 +883,8 @@ version:
 # Unconditionally create the object dir on every invocation.
 $(shell mkdir -p $(ODIR))
 
-$(ODIR)/%.o: $(SRC_DIR)/%.cpp
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -c $< -o $@
+$(ODIR)/%.o: $(SRC_DIR)/%.cpp $(PCH_P)
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(PCHFLAGS) -c $< -o $@
 
 $(ODIR)/%.o: $(SRC_DIR)/%.rc
 	$(RC) $(RFLAGS) $< -o $@
@@ -837,6 +909,9 @@ clean: clean-tests
 	rm -rf *$(BINDIST_DIR) *cataclysmbn-*.tar.gz *cataclysmbn-*.zip
 	rm -f $(SRC_DIR)/version.h
 	rm -f $(CHKJSON_BIN)
+	rm -f pch/*pch.hpp.gch
+	rm -f pch/*pch.hpp.pch
+	rm -f pch/*pch.hpp.d
 
 distclean:
 	rm -rf *$(BINDIST_DIR)
@@ -1013,7 +1088,7 @@ ifdef LANGUAGES
 endif
 	$(BINDIST_CMD)
 
-export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS TARGETSYSTEM
+export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS TARGETSYSTEM CLANG PCH PCHFLAGS
 
 ctags: $(ASTYLE_SOURCES)
 	ctags $^

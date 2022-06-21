@@ -1,3 +1,5 @@
+#include "cata_utility.h"
+
 #include <algorithm>
 #include <list>
 #include <memory>
@@ -6,7 +8,6 @@
 
 #include "avatar.h"
 #include "calendar.h"
-#include "cata_utility.h"
 #include "catch/catch.hpp"
 #include "game.h"
 #include "inventory.h"

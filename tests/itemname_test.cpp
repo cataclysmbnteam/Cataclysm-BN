@@ -1,8 +1,9 @@
+#include "catch/catch.hpp"
+
 #include <memory>
 #include <string>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "flat_set.h"
 #include "game.h"
 #include "item.h"
