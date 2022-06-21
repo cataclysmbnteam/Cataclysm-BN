@@ -1445,13 +1445,11 @@ vehicle *vehicle::act_on_map()
     // The ratio of vertical to horizontal movement should be vertical_velocity/velocity
     //  for as long as of_turn doesn't run out.
     if( should_fall ) {
-        // 9.8 m/s^2
-        const float g = 9.8f;
         // Convert from 100*mph to m/s
         const float old_vel = vmiph_to_mps( vertical_velocity );
         // Formula is v_2 = sqrt( 2*d*g + v_1^2 )
         // Note: That drops the sign
-        const float new_vel = -std::sqrt( 2 * tile_height * g + old_vel * old_vel );
+        const float new_vel = -std::sqrt( 2 * tile_height * GRAVITY_OF_EARTH + old_vel * old_vel );
         vertical_velocity = mps_to_vmiph( new_vel );
         is_falling = true;
     } else {

@@ -178,7 +178,6 @@ int mps_to_vmiph( double mps );
 double vmiph_to_mps( int vmiph );
 int cmps_to_vmiph( int cmps );
 int vmiph_to_cmps( int vmiph );
-static constexpr float accel_g = 9.81f;
 
 /**
  * Structure, describing vehicle part (i.e., wheel, seat)
@@ -1342,12 +1341,16 @@ class vehicle
         /**
          * is the vehicle flying? is it a rotorcraft?
          */
+        bool is_rotorcraft() const;
+        /**
+         * total area of every rotors in m^2
+         */
+        double total_rotor_area() const;
         double lift_thrust_of_rotorcraft( bool fuelled, bool safe = false ) const;
         bool has_sufficient_rotorlift() const;
         int get_z_change() const;
         bool is_flying_in_air() const;
         void set_flying( bool new_flying_value );
-        bool is_rotorcraft() const;
         /**
          * Traction coefficient of the vehicle.
          * 1.0 on road. Outside roads, depends on mass divided by wheel area

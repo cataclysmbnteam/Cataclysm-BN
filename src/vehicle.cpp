@@ -3493,8 +3493,8 @@ int vehicle::current_acceleration( const bool fueled ) const
 // velocity is wheel radius * rotation rate (in rads for simplicity)
 // air resistance is -1/2 * air density * drag coeff * cross area * v^2
 //        and c_air_drag is -1/2 * air density * drag coeff * cross area
-// rolling resistance is mass * accel_g * rolling coeff * 0.000225 * ( 33.3 + v )
-//        and c_rolling_drag is mass * accel_g * rolling coeff * 0.000225
+// rolling resistance is mass * GRAVITY_OF_EARTH * rolling coeff * 0.000225 * ( 33.3 + v )
+//        and c_rolling_drag is mass * GRAVITY_OF_EARTH * rolling coeff * 0.000225
 //        and rolling_constant_to_variable is 33.3
 // or by formula:
 // max velocity occurs when F_drag = F_wheel
@@ -3947,7 +3947,7 @@ double vehicle::coeff_rolling_drag() const
     // Don't ask me why, but it's the numbers we have. We want N * C_rr * 0.000225 here,
     // and N is mass * accel from gravity (aka weight)
     constexpr double sae_ratio = 0.000225;
-    constexpr double newton_ratio = accel_g * sae_ratio;
+    constexpr double newton_ratio = GRAVITY_OF_EARTH * sae_ratio;
     double wheel_factor = 0;
     if( wheelcache.empty() ) {
         wheel_factor = 50;
@@ -3991,40 +3991,40 @@ bool vehicle::can_float() const
     return draft_m < hull_height;
 }
 
-// apologies for the imperial measurements, theyll get converted before used finally in the vehicle speed at the end of the function.
-// sources for the equations to calculate rotor lift thrust were only available in imperial, and the constants used are designed for that.
-// r= radius or d = diameter of rotor blades.
-// area A [ft^2] = Pi * r^2 -or- A [ft^2] = (Pi/4) * D^2
-// Power loading [hp/ft^2] = power( in hp ) / A
-// thrust loading [lb/hp]= 8.6859 * Power loading^(-0.3107)
-// Lift = Thrust loading * power >>>[lb] = [lb/hp] * [hp]
 
+double vehicle::total_rotor_area() const
+{
+    return std::accumulate( rotors.begin(), rotors.end(), double{0},
+    [&]( double acc, int rotor ) {
+        const double radius{ parts[ rotor ].info().rotor_diameter() / 2.0 };
+        return acc + M_PI * std::pow( radius, 2 );
+    } );
+}
+
+// constants were converted from imperial to SI goodness
+// returns as newton
 double vehicle::lift_thrust_of_rotorcraft( const bool fuelled, const bool safe ) const
 {
-    int total_diameter = 0;
-    for( const int rotor : rotors ) {
-        total_diameter += parts[ rotor ].info().rotor_diameter();
-    }
-    int total_engine_w = total_power_w( fuelled, safe );
-    // take off 15 % due to the imaginary tail rotor power.
-    double engine_power_in_hp = total_engine_w * 0.00134102;
-    int rotor_area_in_feet = ( M_PI / 4 ) * std::pow( total_diameter * 3.28084, 2 );
-    // lift_thrust in lbthrust
-    double lift_thrust = ( 8.8658 * std::pow( engine_power_in_hp / rotor_area_in_feet,
-                           -0.3107 ) ) * engine_power_in_hp;
-    add_msg( m_debug,
-             "lift thrust in lbs of %s = %f, rotor area in feet : %d, engine power in hp %f, thrust in newtons : %f",
-             name, lift_thrust, rotor_area_in_feet, engine_power_in_hp, engine_power_in_hp * 4.45 );
-    // convert to newtons.
-    return lift_thrust * 4.45;
+    constexpr double coeffiicient {0.8642};
+    constexpr double exponentiation {-0.3107};
+
+    const double rotor_area {total_rotor_area()};
+    // take off 15 % due to the imaginary tail rotor power?
+    const int engine_power {total_power_w( fuelled, safe )};
+
+    const double power_load {engine_power / rotor_area};
+    const double lift_thrust = coeffiicient * engine_power * std::pow( power_load, exponentiation );
+    add_msg( m_debug, "lift thrust(N) of %s: %f, rotor area (m^2): %f, engine power (w): %f",
+             name, lift_thrust, rotor_area, engine_power );
+    return lift_thrust;
 }
 
 bool vehicle::has_sufficient_rotorlift() const
 {
-    // comparison of newton to newton - convert kg to newton.
-    return lift_thrust_of_rotorcraft( true ) > to_kilogram( total_mass() ) * 9.8;
+    return lift_thrust_of_rotorcraft( true ) > to_newton( total_mass() );
 }
 
+// requires vehicle to have sufficient rotor lift, not suitable for checking if it has rotor.
 bool vehicle::is_rotorcraft() const
 {
     return has_part( "ROTOR" ) && has_sufficient_rotorlift() && player_in_control( g->u );
