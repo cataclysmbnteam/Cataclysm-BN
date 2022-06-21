@@ -709,7 +709,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Probability Travel CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "Increases the body's wavelength, allowing the user to quantum tunnel through walls, reappearing on the other side.  Power drain in standby is minimal, but each tile tunneled through costs 250 bionic power.",
+    "description": "Increases the body's wavelength, allowing the user to quantum tunnel through walls, reappearing on the other side.  Power drain in standby is relatively low, but each tile tunneled through costs 90 bionic power.",
     "price": 1400000,
     "difficulty": 11
   },
