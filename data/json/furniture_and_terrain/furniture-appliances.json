@@ -803,6 +803,7 @@
     "coverage": 10,
     "required_str": -1,
     "crafting_pseudo_item": "fake_gridwelder",
+    "examine_action": "use_furn_fake_item",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [ { "item": "welder", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
@@ -832,6 +833,7 @@
     "coverage": 10,
     "required_str": -1,
     "crafting_pseudo_item": "fake_gridwelder",
+    "examine_action": "use_furn_fake_item",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [ { "item": "weldrig", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
@@ -1038,6 +1040,7 @@
     "coverage": 10,
     "required_str": -1,
     "crafting_pseudo_item": "fake_gridsolderingiron",
+    "examine_action": "use_furn_fake_item",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [ { "item": "soldering_iron", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
