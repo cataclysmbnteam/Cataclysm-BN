@@ -4004,9 +4004,11 @@ const std::string &item::symbol() const
 
 nc_color item::color_in_inventory() const
 {
-    // TODO: make a const reference
-    avatar &u = g->u;
+    return item::color_in_inventory( get_avatar() );
+}
 
+nc_color item::color_in_inventory( const player &p ) const
+{
     // Only item not otherwise colored gets colored as favorite
     nc_color ret = is_favorite ? c_white : c_light_gray;
     if( type->can_use( "learn_spell" ) ) {
@@ -4015,10 +4017,10 @@ nc_color item::color_in_inventory() const
             static_cast<const learn_spell_actor *>( iuse->get_actor_ptr() );
         for( const std::string &spell_id_str : actor_ptr->spells ) {
             const spell_id sp_id( spell_id_str );
-            if( u.magic->knows_spell( sp_id ) && !u.magic->get_spell( sp_id ).is_max_level() ) {
+            if( p.magic->knows_spell( sp_id ) && !p.magic->get_spell( sp_id ).is_max_level() ) {
                 ret = c_yellow;
             }
-            if( !u.magic->knows_spell( sp_id ) && u.magic->can_learn_spell( u, sp_id ) ) {
+            if( !p.magic->knows_spell( sp_id ) && p.magic->can_learn_spell( p, sp_id ) ) {
                 return c_light_blue;
             }
         }
@@ -4026,14 +4028,14 @@ nc_color item::color_in_inventory() const
         ret = c_cyan;
     } else if( has_flag( flag_LITCIG ) ) {
         ret = c_red;
-    } else if( is_armor() && u.has_trait( trait_WOOLALLERGY ) &&
+    } else if( is_armor() && p.has_trait( trait_WOOLALLERGY ) &&
                ( made_of( material_id( "wool" ) ) || has_own_flag( "wooled" ) ) ) {
         ret = c_red;
     } else if( is_filthy() || has_own_flag( "DIRTY" ) ) {
         ret = c_brown;
     } else if( is_bionic() ) {
-        if( !u.has_bionic( type->bionic->id ) ) {
-            ret = u.bionic_installation_issues( type->bionic->id ).empty() ? c_green : c_red;
+        if( !p.has_bionic( type->bionic->id ) ) {
+            ret = p.bionic_installation_issues( type->bionic->id ).empty() ? c_green : c_red;
         } else if( !has_flag( flag_NO_STERILE ) ) {
             ret = c_dark_gray;
         }
@@ -4050,7 +4052,7 @@ nc_color item::color_in_inventory() const
 
         // Give color priority to allergy (allergy > inedible by freeze or other conditions)
         // TODO: refactor u.will_eat to let this section handle coloring priority without duplicating code.
-        if( u.allergy_type( *food ) != morale_type( "morale_null" ) ) {
+        if( p.allergy_type( *food ) != morale_type( "morale_null" ) ) {
             return c_red;
         }
 
@@ -4060,7 +4062,7 @@ nc_color item::color_in_inventory() const
         // Red: morale penalty
         // Yellow: will rot soon
         // Cyan: will rot eventually
-        const ret_val<edible_rating> rating = u.will_eat( *food );
+        const ret_val<edible_rating> rating = p.will_eat( *food );
         // TODO: More colors
         switch( rating.value() ) {
             case edible_rating::edible:
@@ -4098,8 +4100,8 @@ nc_color item::color_in_inventory() const
         // Gun with integrated mag counts as both
         for( const ammotype &at : ammo_types() ) {
             // get_ammo finds uncontained ammo, find_ammo finds ammo in magazines
-            bool has_ammo = !u.get_ammo( at ).empty() || !u.find_ammo( *this, false, -1 ).empty();
-            bool has_mag = magazine_integral() || !u.find_ammo( *this, true, -1 ).empty();
+            bool has_ammo = !p.get_ammo( at ).empty() || !p.find_ammo( *this, false, -1 ).empty();
+            bool has_mag = magazine_integral() || !p.find_ammo( *this, true, -1 ).empty();
             if( has_ammo && has_mag ) {
                 ret = c_green;
                 break;
@@ -4112,10 +4114,10 @@ nc_color item::color_in_inventory() const
         // Likewise, ammo is green if you have guns that use it
         // ltred if you have the gun but no mags
         // Gun with integrated mag counts as both
-        bool has_gun = u.has_item_with( [this]( const item & i ) {
+        bool has_gun = p.has_item_with( [this]( const item & i ) {
             return i.is_gun() && i.ammo_types().count( ammo_type() );
         } );
-        bool has_mag = u.has_item_with( [this]( const item & i ) {
+        bool has_mag = p.has_item_with( [this]( const item & i ) {
             return ( i.is_gun() && i.magazine_integral() && i.ammo_types().count( ammo_type() ) ) ||
                    ( i.is_magazine() && i.ammo_types().count( ammo_type() ) );
         } );
@@ -4127,10 +4129,10 @@ nc_color item::color_in_inventory() const
     } else if( is_magazine() ) {
         // Magazines are green if you have guns and ammo for them
         // ltred if you have one but not the other
-        bool has_gun = u.has_item_with( [this]( const item & it ) {
+        bool has_gun = p.has_item_with( [this]( const item & it ) {
             return it.is_gun() && it.magazine_compatible().count( typeId() ) > 0;
         } );
-        bool has_ammo = !u.find_ammo( *this, false, -1 ).empty();
+        bool has_ammo = !p.find_ammo( *this, false, -1 ).empty();
         if( has_gun && has_ammo ) {
             ret = c_green;
         } else if( has_gun || has_ammo ) {
@@ -4138,20 +4140,22 @@ nc_color item::color_in_inventory() const
         }
     } else if( is_book() ) {
         const islot_book &tmp = *type->book;
-        if( u.has_identified( typeId() ) ) {
+        // Player doesn't actually interested if NPC has identified book yet.
+        // So we check identification for human avatar.
+        if( get_avatar().has_identified( typeId() ) ) {
             if( tmp.skill && // Book can improve skill: blue
-                u.get_skill_level_object( tmp.skill ).can_train() &&
-                u.get_skill_level( tmp.skill ) >= tmp.req &&
-                u.get_skill_level( tmp.skill ) < tmp.level ) {
+                p.get_skill_level_object( tmp.skill ).can_train() &&
+                p.get_skill_level( tmp.skill ) >= tmp.req &&
+                p.get_skill_level( tmp.skill ) < tmp.level ) {
                 ret = c_light_blue;
             } else if( type->can_use( "MA_MANUAL" ) &&
-                       !u.martial_arts_data->has_martialart( martial_art_learned_from( *type ) ) ) {
+                       !p.martial_arts_data->has_martialart( martial_art_learned_from( *type ) ) ) {
                 ret = c_light_blue;
             } else if( tmp.skill && // Book can't improve skill right now, but maybe later: pink
-                       u.get_skill_level_object( tmp.skill ).can_train() &&
-                       u.get_skill_level( tmp.skill ) < tmp.level ) {
+                       p.get_skill_level_object( tmp.skill ).can_train() &&
+                       p.get_skill_level( tmp.skill ) < tmp.level ) {
                 ret = c_pink;
-            } else if( !u.studied_all_recipes(
+            } else if( !p.studied_all_recipes(
                            *type ) ) { // Book can't improve skill anymore, but has more recipes: yellow
                 ret = c_yellow;
             }
