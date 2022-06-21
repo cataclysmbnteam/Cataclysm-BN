@@ -1164,9 +1164,9 @@ void mtype::add_regeneration_modifier( JsonObject inner, const std::string & )
         debugmsg( "%s specifies more than one regeneration modifer for effect %s, ignoring all but the last",
                   id.c_str(), effect_name );
     }
-    float base_mod = inner.get_float( "base_mod", 0.0f );
-    float scaling_mod = ( inner.has_float( "scaling_mod" ) ) ? inner.get_float( "scaling_mod",
-                        0.0f ) : 0.0f ;
+    const float base_mod = inner.get_float( "base_mod", 0.0f );
+    const float scaling_mod = ( inner.has_float( "scaling_mod" ) ) ? inner.get_float( "scaling_mod",
+                              0.0f ) : 0.0f ;
 
     regeneration_modifiers.emplace( effect, regen_modifier{ base_mod, scaling_mod } );
 }

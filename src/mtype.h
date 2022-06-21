@@ -201,8 +201,8 @@ struct mon_effect_data {
 };
 
 struct regen_modifier {
-    const float base_modifier = 0.0f;
-    const float scale_modifier = 0.0f;
+    const float base_modifier;
+    const float scale_modifier;
 };
 
 struct mtype {
