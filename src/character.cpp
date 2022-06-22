@@ -8033,17 +8033,17 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
                 const units::energy shatter_thresh = ( elem.type == DT_BULLET ) ? 20_kJ : 15_kJ;
                 if( ads_cost >= shatter_thresh ) {
                     if( bio.incapacitated_time == 0_turns ) {
-                        add_msg_if_player( m_bad, _( "Your forceshields shatter and the feedback shorts out the %s!" ),
+                        add_msg_if_player( m_bad, _( "Your forcefield shatters and the feedback shorts out the %s!" ),
                                            bio.info().name );
                     }
                     int over = units::to_kilojoule( ads_cost - ( shatter_thresh - 5_kJ ) );
                     bio.incapacitated_time += ( ( over / 5 ) ) * 1_turns;
                 } else {
-                    add_msg_if_player( m_bad, _( "Your forceshields crackle and the %s powers down." ),
+                    add_msg_if_player( m_bad, _( "Your forcefield crackles and the %s powers down." ),
                                        bio.info().name );
                 }
             } else {
-                //You tried to reactivate it and immediately enter combat, no mitigation for you.
+                //You tried to (re)activate it and immediately enter combat, no mitigation for you.
                 deactivate_bionic( index );
                 add_msg_if_player( m_bad, _( "The %s is interrupted and powers down." ), bio.info().name );
             }
