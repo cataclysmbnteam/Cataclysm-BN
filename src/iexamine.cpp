@@ -14,6 +14,9 @@
 
 #include "activity_actor.h"
 #include "activity_actor_definitions.h"
+// TODO (https://github.com/cataclysmbnteam/Cataclysm-BN/issues/1612):
+// Remove that include after repair_activity_actor.
+#include "activity_handlers.h"
 #include "active_tile_data_def.h"
 #include "ammo.h"
 #include "avatar.h"
@@ -230,6 +233,7 @@ static const std::string flag_SPLINT( "SPLINT" );
 static const std::string flag_VARSIZE( "VARSIZE" );
 static const std::string flag_WALL( "WALL" );
 static const std::string flag_WRITE_MESSAGE( "WRITE_MESSAGE" );
+static const std::string flag_ELEVATOR( "ELEVATOR" );
 
 /**
  * Nothing player can interact with here.
@@ -864,30 +868,60 @@ void iexamine::toilet( player &p, const tripoint &examp )
  */
 void iexamine::elevator( player &p, const tripoint &examp )
 {
-    if( !query_yn( _( "Use the %s?" ), g->m.tername( examp ) ) ) {
+    map &here = get_map();
+
+    if( !query_yn( _( "Use the %s?" ), here.tername( examp ) ) ) {
         return;
     }
     int movez = ( examp.z < 0 ? 2 : -2 );
 
-    tripoint original_floor_omt = ms_to_omt_copy( g->m.getabs( examp ) );
+    tripoint original_floor_omt = ms_to_omt_copy( here.getabs( examp ) );
     tripoint new_floor_omt = original_floor_omt + tripoint( point_zero, movez );
+
 
     // first find critters in the destination elevator and move them out of the way
     for( Creature &critter : g->all_creatures() ) {
         if( critter.is_player() ) {
             continue;
-        } else if( g->m.ter( critter.pos() ) == ter_id( "t_elevator" ) ) {
-            tripoint critter_omt = ms_to_omt_copy( g->m.getabs( critter.pos() ) );
+        } else if( here.has_flag( flag_ELEVATOR, critter.pos() ) ) {
+            tripoint critter_omt = ms_to_omt_copy( here.getabs( critter.pos() ) );
             if( critter_omt == new_floor_omt ) {
                 for( const tripoint &candidate : closest_points_first( critter.pos(), 10 ) ) {
-                    if( g->m.ter( candidate ) != ter_id( "t_elevator" ) &&
-                        g->m.passable( candidate ) &&
+                    if( !here.has_flag( flag_ELEVATOR, candidate ) &&
+                        here.passable( candidate ) &&
                         !g->critter_at( candidate ) ) {
                         critter.setpos( candidate );
                         break;
                     }
                 }
             }
+        }
+    }
+
+    // TODO: do we have struct or pair to indicate from -> to?
+    const auto move_item = [&]( map_stack & items, const tripoint & src, const tripoint & dest ) {
+        for( auto it = items.begin(); it != items.end(); ) {
+            here.add_item_or_charges( dest, *it );
+            it = here.i_rem( src, it );
+        }
+    };
+
+    const auto first_elevator_tile = [&]( const tripoint & pos ) -> tripoint {
+        for( const tripoint &candidate : closest_points_first( pos, 10 ) )
+        {
+            if( here.has_flag( flag_ELEVATOR, candidate ) ) {
+                return candidate;
+            }
+        }
+        return pos;
+    };
+
+    // move along every item in the elevator
+    for( const tripoint &pos : closest_points_first( p.pos(), 10 ) ) {
+        if( here.has_flag( flag_ELEVATOR, pos ) ) {
+            map_stack items = here.i_at( pos );
+            tripoint dest = first_elevator_tile( pos + tripoint( 0, 0, movez ) );
+            move_item( items, pos, dest );
         }
     }
 
@@ -898,12 +932,12 @@ void iexamine::elevator( player &p, const tripoint &examp )
     for( Creature &critter : g->all_creatures() ) {
         if( critter.is_player() ) {
             continue;
-        } else if( g->m.ter( critter.pos() ) == ter_id( "t_elevator" ) ) {
-            tripoint critter_omt = ms_to_omt_copy( g->m.getabs( critter.pos() ) );
+        } else if( here.has_flag( flag_ELEVATOR, critter.pos() ) ) {
+            tripoint critter_omt = ms_to_omt_copy( here.getabs( critter.pos() ) );
 
             if( critter_omt == original_floor_omt ) {
                 for( const tripoint &candidate : closest_points_first( p.pos(), 10 ) ) {
-                    if( g->m.ter( candidate ) == ter_id( "t_elevator" ) &&
+                    if( here.has_flag( flag_ELEVATOR, candidate ) &&
                         candidate != p.pos() &&
                         !g->critter_at( candidate ) ) {
                         critter.setpos( candidate );
@@ -3870,6 +3904,97 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
     p.moves -= to_moves<int>( 5_seconds );
 }
 
+
+void iexamine::use_furn_fake_item( player &p, const tripoint &examp )
+{
+    map &m = get_map();
+    const tripoint_abs_ms abspos( m.getabs( examp ) );
+
+    if( !m.has_furn( examp ) ) {
+        debugmsg( "lost furniture at %s", examp.to_string() );
+        return;
+    }
+    const furn_t &furniture = m.furn( examp ).obj();
+    const itype *item_type = furniture.crafting_pseudo_item_type();
+    if( item_type == nullptr ) {
+        debugmsg(
+            "Got furniture ( %s ) with use_furn_fake_item",
+            furniture.id.c_str()
+        );
+        return;
+    }
+    if( !item_type->has_use() ) {
+        debugmsg(
+            "Got furniture ( %s ) with use_furn_fake_item but fake item %s doesn't have uses",
+            furniture.id.c_str(), item_type->get_id().c_str()
+        );
+        return;
+    }
+
+    const itype *ammo = furniture.crafting_ammo_item_type();
+    item fake_item( item_type, calendar::turn, 0 );
+    fake_item.set_flag( "PSEUDO" );
+
+    enum class charges_type {
+        grid, ammo_from_map, none
+    };
+
+    charges_type charge_type = charges_type::none;
+    fake_item.charges = 0;
+
+    if( fake_item.has_flag( "USES_GRID_POWER" ) ) {
+        const distribution_grid &grid = get_distribution_grid_tracker().grid_at( abspos );
+        fake_item.charges = grid.get_resource();
+        charge_type = charges_type::grid;
+    } else if( ammo != nullptr ) {
+        fake_item.charges = count_charges_in_list( ammo, m.i_at( examp ) );
+        charge_type = charges_type::ammo_from_map;
+    }
+
+    const int original_charges = fake_item.charges;
+    p.invoke_item( &fake_item );
+
+    // HACK: Evil hack incoming
+    activity_handlers::repair_activity_hack::patch_activity_for_furniture( g->u.activity, examp );
+
+    const int discharged_ammo = original_charges - fake_item.charges;
+
+    if( discharged_ammo == 0 ) {
+        return;
+    }
+
+    switch( charge_type ) {
+        case charges_type::grid: {
+            distribution_grid &grid = get_distribution_grid_tracker().grid_at( abspos );
+            const int remainder = grid.mod_resource( -discharged_ammo );
+            if( remainder != 0 ) {
+                debugmsg( "Fake item %s discharged more charges than have in grid at %s.",
+                          item_type->get_id().c_str(), abspos.to_string() );
+            }
+            return;
+        }
+        case charges_type::ammo_from_map: {
+            int by_ref = discharged_ammo;
+            m.use_charges( examp, 0, ammo->get_id(), by_ref );
+            if( by_ref != 0 ) {
+                debugmsg( "Discharged fake item %s more ammo than %s has at %s.",
+                          item_type->get_id().c_str(),
+                          furniture.id.c_str(),
+                          examp.to_string()
+                        );
+            }
+            return;
+        }
+        case charges_type::none:
+            debugmsg( "Somehow changed charges of fake item %s without ammo type to %d.",
+                      item_type->get_id().c_str(),
+                      fake_item.charges
+                    );
+            return;
+    }
+}
+
+
 void iexamine::curtains( player &p, const tripoint &examp )
 {
     const bool closed_window_with_curtains = g->m.has_flag( flag_BARRICADABLE_WINDOW_CURTAINS, examp );
@@ -6006,6 +6131,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "water_source", &iexamine::water_source },
             { "clean_water_source", &iexamine::clean_water_source },
             { "reload_furniture", &iexamine::reload_furniture },
+            { "use_furn_fake_item", &iexamine::use_furn_fake_item },
             { "curtains", &iexamine::curtains },
             { "sign", &iexamine::sign },
             { "pay_gas", &iexamine::pay_gas },

@@ -20,6 +20,7 @@
 #include "cursesdef.h"
 #include "game.h"
 #include "input.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
 #include "itype.h"
@@ -84,16 +85,19 @@ void load_recipe_category( const JsonObject &jsobj )
     }
 
     if( !is_hidden ) {
-        craft_cat_list.push_back( category );
-
+        if( std::find( craft_cat_list.begin(), craft_cat_list.end(), category ) == craft_cat_list.end() ) {
+            craft_cat_list.push_back( category );
+        }
         const std::string cat_name = get_cat_unprefixed( category );
 
-        craft_subcat_list[category].clear();
         for( const std::string subcat_id : jsobj.get_array( "recipe_subcategories" ) ) {
             if( subcat_id.find( "CSC_" + cat_name + "_" ) != 0 && subcat_id != "CSC_ALL" ) {
                 jsobj.throw_error( "Crafting sub-category id has to be prefixed with CSC_<category_name>_" );
             }
-            craft_subcat_list[category].push_back( subcat_id );
+            if( std::find( craft_subcat_list[category].begin(), craft_subcat_list[category].end(),
+                           subcat_id ) == craft_subcat_list[category].end() ) {
+                craft_subcat_list[category].push_back( subcat_id );
+            }
         }
     }
 }
@@ -486,12 +490,34 @@ const recipe *select_crafting_recipe( int &batch_size )
                                         _( "Batch time savings: <color_cyan>%s</color>" ),
                                         current[line]->batch_savings_string() );
 
+                const int makes = current[line]->makes_amount();
+                if( makes > 1 ) {
+                    ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
+                                            _( "One batch makes: <color_cyan>%d</color>" ),
+                                            makes );
+                }
+
                 print_colored_text(
                     w_data, point( xpos, ypos++ ), col, col,
                     string_format( _( "Dark craftable?  <color_cyan>%s</color>" ),
                                    current[line]->has_flag( flag_BLIND_EASY ) ? _( "Easy" ) :
                                    current[line]->has_flag( flag_BLIND_HARD ) ? _( "Hard" ) :
                                    _( "Impossible" ) ) );
+
+                std::string nearby_string;
+                const int nearby_amount = crafting_inv.count_item( current[line]->result() );
+
+                if( nearby_amount == 0 ) {
+                    nearby_string = "<color_light_gray>0</color>";
+                } else if( nearby_amount > 9000 ) {
+                    // at some point you get too many to count at a glance and just know you have a lot
+                    nearby_string = _( "<color_red>It's Over 9000!!!</color>" );
+                } else {
+                    nearby_string = string_format( "<color_yellow>%d</color>", nearby_amount );
+                }
+                ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
+                                        _( "Nearby: %s" ), nearby_string );
+
                 if( available[line].can_craft && !available[line].can_craft_non_rotten ) {
                     ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
                                             _( "<color_red>Will use rotten ingredients</color>" ) );

@@ -1,9 +1,10 @@
+#include "catch/catch.hpp"
+
 #include <memory>
 #include <string>
 #include <vector>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"
 #include "iteminfo_query.h"
@@ -470,11 +471,11 @@ TEST_CASE( "repairable and with what tools", "[item][iteminfo][repair]" )
 
     test_info_contains(
         item( "test_halligan" ), q,
-        "<color_c_white>Repair</color> using extended toolset, arc welder, or makeshift arc welder.\n" );
+        "<color_c_white>Repair</color> using grid welder, extended toolset, arc welder, or makeshift arc welder.\n" );
 
     test_info_contains(
         item( "test_hazmat_suit" ), q,
-        "<color_c_white>Repair</color> using soldering iron, TEST soldering iron, or extended toolset.\n" );
+        "<color_c_white>Repair</color> using grid soldering iron, soldering iron, TEST soldering iron, or extended toolset.\n" );
 
     test_info_contains(
         item( "test_rock" ), q, "* This item is <color_c_red>not repairable</color>.\n" );

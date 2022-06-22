@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <climits>
 #include <map>
@@ -12,7 +14,6 @@
 #include "activity_handlers.h"
 #include "avatar.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "drop_token.h"
 #include "map.h"
 #include "map_helpers.h"

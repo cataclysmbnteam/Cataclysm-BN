@@ -1,9 +1,10 @@
+#include "catch/catch.hpp"
+
 #include <vector>
 
 #include "active_tile_data.h"
 #include "active_tile_data_def.h"
 #include "cata_utility.h"
-#include "catch/catch.hpp"
 #include "coordinate_conversions.h"
 #include "distribution_grid.h"
 #include "map.h"

@@ -174,7 +174,7 @@ struct scored_address {
     tripoint_abs_omt addr;
     int32_t score;
     bool operator> ( const scored_address &other ) const {
-        return score >= other.score;
+        return score > other.score;
     }
 };
 
@@ -244,7 +244,7 @@ simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
         const tripoint_abs_omt &dest, const int radius, omt_scoring_fn scorer,
         cata::optional<int> max_cost )
 {
-    constexpr int max_search_count = 100000;
+    constexpr size_t max_search_count = 100000;
     simple_path<tripoint_abs_omt> ret;
     bool meet = false;
 

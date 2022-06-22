@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <cmath>
 #include <cstdio>
@@ -12,7 +14,6 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "enums.h"
 #include "game.h"
 #include "item.h"
@@ -431,9 +432,9 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
     test_vehicle( "beetle", 815669, 431300, 338700, 95610, 68060 );
     test_vehicle( "car", 1120618, 617500, 386100, 52730, 25170 );
     test_vehicle( "car_sports", 1154214, 352600, 267600, 36790, 22350 );
-    test_vehicle( "electric_car", 1126087, 132700, 72290, 8160, 3390 );
-    test_vehicle( "suv", 1320286, 1163000, 630000, 85540, 30810 );
-    test_vehicle( "motorcycle", 163085, 120300, 99920, 63320, 50810 );
+    test_vehicle( "electric_car", 1126087, 132700, 72290, 8240, 3390 );
+    test_vehicle( "suv", 1320286, 1163000, 630000, 85540, 30920 );
+    test_vehicle( "motorcycle", 163085, 120300, 99930, 63320, 50810 );
     test_vehicle( "quad_bike", 265345, 116100, 116100, 46770, 46770 );
     test_vehicle( "scooter", 57587, 233500, 233500, 167900, 167900 );
     test_vehicle( "superbike", 242085, 109800, 65300, 41780, 24070 );
@@ -445,7 +446,7 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
     test_vehicle( "apc", 5801619, 1626000, 1119000, 130800, 85590 );
     test_vehicle( "humvee", 5503245, 767900, 306900, 25620, 9171 );
     test_vehicle( "road_roller", 8829220, 602500, 147100, 22760, 6925 );
-    test_vehicle( "golf_cart", 444630, 37080, 27460, 14080, 5671 );
+    test_vehicle( "golf_cart", 444630, 37180, 27560, 14100, 5681 );
 
     // in reverse
     test_vehicle( "beetle", 815669, 58970, 58870, 44560, 43060, 0, 0, true );
@@ -465,5 +466,5 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
     test_vehicle( "apc", 5801619, 381500, 382100, 123600, 82000, 0, 0, true );
     test_vehicle( "humvee", 5503245, 89940, 89940, 25780, 9086, 0, 0, true );
     test_vehicle( "road_roller", 8829220, 97490, 97690, 22880, 6606, 0, 0, true );
-    test_vehicle( "golf_cart", 444630, 37140, 11510, 14110, 4440, 0, 0, true );
+    test_vehicle( "golf_cart", 444630, 37140, 11510, 14110, 4450, 0, 0, true );
 }

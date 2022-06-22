@@ -167,6 +167,7 @@ static const bionic_id bio_painkiller( "bio_painkiller" );
 static const bionic_id bio_plutdump( "bio_plutdump" );
 static const bionic_id bio_power_storage( "bio_power_storage" );
 static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
+static const bionic_id bio_probability_travel( "bio_probability_travel" );
 static const bionic_id bio_radscrubber( "bio_radscrubber" );
 static const bionic_id bio_reactor( "bio_reactor" );
 static const bionic_id bio_remote( "bio_remote" );
@@ -570,7 +571,7 @@ bool Character::activate_bionic( int b, bool eff_only )
     }
 
     auto add_msg_activate = [&]() {
-        if( !eff_only ) {
+        if( !eff_only && !bio.is_auto_start_keep_full() ) {
             add_msg_if_player( m_info, _( "You activate your %s." ), bio.info().name );
         }
     };
@@ -1028,6 +1029,21 @@ bool Character::activate_bionic( int b, bool eff_only )
             bio.powered = false;
             return false;
         }
+
+    } else if( bio.id == bio_probability_travel ) {
+        if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Tunnel in which direction?" ) ) ) {
+            if( g->m.impassable( *pnt ) ) {
+                add_msg_activate();
+                g->phasing_move( *pnt );
+            } else {
+                refund_power();
+                add_msg_if_player( m_info, _( "There's nothing to phase through there." ) );
+                return false;
+            }
+        } else {
+            refund_power();
+            return false;
+        }
     } else {
         add_msg_activate();
     }
@@ -1193,18 +1209,20 @@ bool Character::burn_fuel( int b, bool start )
             if( !bio.has_flag( flag_SAFE_FUEL_OFF ) &&
                 get_power_level() + units::from_kilojoule( fuel_energy ) * effective_efficiency
                 > get_max_power_level() ) {
-                if( is_metabolism_powered ) {
-                    add_msg_player_or_npc( m_info, _( "Your %s turns off to not waste calories." ),
-                                           _( "<npcname>'s %s turns off to not waste calories." ),
-                                           bio.info().name );
-                } else if( is_perpetual_fuel ) {
-                    add_msg_player_or_npc( m_info, _( "Your %s turns off after filling your power banks." ),
-                                           _( "<npcname>'s %s turns off after filling their power banks." ),
-                                           bio.info().name );
-                } else {
-                    add_msg_player_or_npc( m_info, _( "Your %s turns off to not waste fuel." ),
-                                           _( "<npcname>'s %s turns off to not waste fuel." ),
-                                           bio.info().name );
+                if( !bio.is_auto_start_keep_full() ) {
+                    if( is_metabolism_powered ) {
+                        add_msg_player_or_npc( m_info, _( "Your %s turns off to not waste calories." ),
+                                               _( "<npcname>'s %s turns off to not waste calories." ),
+                                               bio.info().name );
+                    } else if( is_perpetual_fuel ) {
+                        add_msg_player_or_npc( m_info, _( "Your %s turns off after filling your power banks." ),
+                                               _( "<npcname>'s %s turns off after filling their power banks." ),
+                                               bio.info().name );
+                    } else {
+                        add_msg_player_or_npc( m_info, _( "Your %s turns off to not waste fuel." ),
+                                               _( "<npcname>'s %s turns off to not waste fuel." ),
+                                               bio.info().name );
+                    }
                 }
                 bio.powered = false;
                 deactivate_bionic( b, true );
@@ -2460,7 +2478,7 @@ int Character::get_used_bionics_slots( const bodypart_id &bp ) const
     return used_slots;
 }
 
-std::map<bodypart_id, int> Character::bionic_installation_issues( const bionic_id &bioid )
+std::map<bodypart_id, int> Character::bionic_installation_issues( const bionic_id &bioid ) const
 {
     std::map<bodypart_id, int> issues;
     if( !get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
@@ -2679,6 +2697,7 @@ void bionic::toggle_auto_start_mod()
         tmenu.addentry( 2, true, 't', _( "Below 25 %%" ) );
         tmenu.addentry( 3, true, 'f', _( "Below 50 %%" ) );
         tmenu.addentry( 4, true, 's', _( "Below 75 %%" ) );
+        tmenu.addentry( 5, true, 'a', _( "Below 99 %%" ) );
         tmenu.query();
 
         switch( tmenu.ret ) {
@@ -2693,6 +2712,9 @@ void bionic::toggle_auto_start_mod()
                 break;
             case 4:
                 set_auto_start_thresh( 0.75 );
+                break;
+            case 5:
+                set_auto_start_thresh( 0.99 );
                 break;
             default:
                 break;
@@ -2715,6 +2737,11 @@ float bionic::get_auto_start_thresh() const
 bool bionic::is_auto_start_on() const
 {
     return get_auto_start_thresh() > -1.0;
+}
+
+bool bionic::is_auto_start_keep_full() const
+{
+    return get_auto_start_thresh() > 0.99;
 }
 
 void bionic::serialize( JsonOut &json ) const

@@ -1,6 +1,7 @@
+#include "catch/catch.hpp"
+
 #include <vector>
 
-#include "catch/catch.hpp"
 #include "npc.h"
 #include "item.h"
 #include "ranged.h"

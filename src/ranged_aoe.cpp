@@ -23,7 +23,7 @@ struct tripoint_distance {
 
     // Inverted because it's descending by default
     bool operator<( const tripoint_distance &rhs ) const {
-        return !( distance_squared < rhs.distance_squared );
+        return rhs.distance_squared < this->distance_squared;
     }
 };
 
@@ -116,7 +116,7 @@ void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &a
 
     // Here and not above because we want the animation first
     // Terrain will be shown damaged, but having it in unknown state would complicate timing the animation
-    for( const std::pair<tripoint, double> &pr : final_coverage ) {
+    for( const std::pair<const tripoint, double> &pr : final_coverage ) {
         Creature *critter = g->critter_at( pr.first );
         if( critter != nullptr ) {
             ranged::hit_with_aoe( *critter, &attacker, proj.impact );

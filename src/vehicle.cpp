@@ -1157,7 +1157,7 @@ int vehicle::part_vpower_w( const int index, const bool at_full_hp ) const
             monster *mon = get_pet( index );
             if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
                 // An animal that can carry twice as much weight, can pull a cart twice as hard.
-                pwr = mon->get_speed() * ( mon->get_size() - 1 ) * 3
+                pwr = mon->get_speed() * mon->get_size() * 3
                       * ( mon->get_mountable_weight_ratio() * 5 );
             } else {
                 pwr = 0;
@@ -3183,18 +3183,17 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
     } );
 
     if( recurse && ftype == fuel_type_battery ) {
-        auto fuel_counting_visitor = [&]( vehicle const * veh, int amount ) {
-            return amount + veh->fuel_left( ftype, false );
+        using tvr = distribution_graph::traverse_visitor_result;
+        auto fuel_counting_visitor = [&fl, &ftype]( vehicle const & veh ) {
+            fl += veh.fuel_left( ftype, false );
+            return tvr::continue_further;
         };
-        auto power_counting_visitor = [&]( distribution_grid const * grid, int amount ) {
-            return amount + grid->get_resource( false );
+        auto power_counting_visitor = [&fl]( distribution_grid const & grid ) {
+            fl += grid.get_resource( false );
+            return tvr::continue_further;
         };
 
-        // HAX: add 1 to the initial amount so traversal doesn't immediately stop just
-        // 'cause we have 0 fuel left in the current vehicle. Subtract the 1 immediately
-        // after traversal.
-        fl = distribution_graph::traverse( this, fl + 1,
-                                           fuel_counting_visitor, power_counting_visitor ) - 1;
+        distribution_graph::traverse( *this, fuel_counting_visitor, power_counting_visitor );
     }
 
     //muscle engines have infinite fuel
@@ -3494,8 +3493,8 @@ int vehicle::current_acceleration( const bool fueled ) const
 // velocity is wheel radius * rotation rate (in rads for simplicity)
 // air resistance is -1/2 * air density * drag coeff * cross area * v^2
 //        and c_air_drag is -1/2 * air density * drag coeff * cross area
-// rolling resistance is mass * accel_g * rolling coeff * 0.000225 * ( 33.3 + v )
-//        and c_rolling_drag is mass * accel_g * rolling coeff * 0.000225
+// rolling resistance is mass * GRAVITY_OF_EARTH * rolling coeff * 0.000225 * ( 33.3 + v )
+//        and c_rolling_drag is mass * GRAVITY_OF_EARTH * rolling coeff * 0.000225
 //        and rolling_constant_to_variable is 33.3
 // or by formula:
 // max velocity occurs when F_drag = F_wheel
@@ -3948,7 +3947,7 @@ double vehicle::coeff_rolling_drag() const
     // Don't ask me why, but it's the numbers we have. We want N * C_rr * 0.000225 here,
     // and N is mass * accel from gravity (aka weight)
     constexpr double sae_ratio = 0.000225;
-    constexpr double newton_ratio = accel_g * sae_ratio;
+    constexpr double newton_ratio = GRAVITY_OF_EARTH * sae_ratio;
     double wheel_factor = 0;
     if( wheelcache.empty() ) {
         wheel_factor = 50;
@@ -3992,40 +3991,40 @@ bool vehicle::can_float() const
     return draft_m < hull_height;
 }
 
-// apologies for the imperial measurements, theyll get converted before used finally in the vehicle speed at the end of the function.
-// sources for the equations to calculate rotor lift thrust were only available in imperial, and the constants used are designed for that.
-// r= radius or d = diameter of rotor blades.
-// area A [ft^2] = Pi * r^2 -or- A [ft^2] = (Pi/4) * D^2
-// Power loading [hp/ft^2] = power( in hp ) / A
-// thrust loading [lb/hp]= 8.6859 * Power loading^(-0.3107)
-// Lift = Thrust loading * power >>>[lb] = [lb/hp] * [hp]
 
+double vehicle::total_rotor_area() const
+{
+    return std::accumulate( rotors.begin(), rotors.end(), double{0},
+    [&]( double acc, int rotor ) {
+        const double radius{ parts[ rotor ].info().rotor_diameter() / 2.0 };
+        return acc + M_PI * std::pow( radius, 2 );
+    } );
+}
+
+// constants were converted from imperial to SI goodness
+// returns as newton
 double vehicle::lift_thrust_of_rotorcraft( const bool fuelled, const bool safe ) const
 {
-    int total_diameter = 0;
-    for( const int rotor : rotors ) {
-        total_diameter += parts[ rotor ].info().rotor_diameter();
-    }
-    int total_engine_w = total_power_w( fuelled, safe );
-    // take off 15 % due to the imaginary tail rotor power.
-    double engine_power_in_hp = total_engine_w * 0.00134102;
-    int rotor_area_in_feet = ( M_PI / 4 ) * std::pow( total_diameter * 3.28084, 2 );
-    // lift_thrust in lbthrust
-    double lift_thrust = ( 8.8658 * std::pow( engine_power_in_hp / rotor_area_in_feet,
-                           -0.3107 ) ) * engine_power_in_hp;
-    add_msg( m_debug,
-             "lift thrust in lbs of %s = %f, rotor area in feet : %d, engine power in hp %f, thrust in newtons : %f",
-             name, lift_thrust, rotor_area_in_feet, engine_power_in_hp, engine_power_in_hp * 4.45 );
-    // convert to newtons.
-    return lift_thrust * 4.45;
+    constexpr double coeffiicient {0.8642};
+    constexpr double exponentiation {-0.3107};
+
+    const double rotor_area {total_rotor_area()};
+    // take off 15 % due to the imaginary tail rotor power?
+    const int engine_power {total_power_w( fuelled, safe )};
+
+    const double power_load {engine_power / rotor_area};
+    const double lift_thrust = coeffiicient * engine_power * std::pow( power_load, exponentiation );
+    add_msg( m_debug, "lift thrust(N) of %s: %f, rotor area (m^2): %f, engine power (w): %f",
+             name, lift_thrust, rotor_area, engine_power );
+    return lift_thrust;
 }
 
 bool vehicle::has_sufficient_rotorlift() const
 {
-    // comparison of newton to newton - convert kg to newton.
-    return lift_thrust_of_rotorcraft( true ) > to_kilogram( total_mass() ) * 9.8;
+    return lift_thrust_of_rotorcraft( true ) > to_newton( total_mass() );
 }
 
+// requires vehicle to have sufficient rotor lift, not suitable for checking if it has rotor.
 bool vehicle::is_rotorcraft() const
 {
     return has_part( "ROTOR" ) && has_sufficient_rotorlift() && player_in_control( g->u );
@@ -4382,13 +4381,25 @@ std::map<itype_id, int> vehicle::fuel_usage() const
 
 double vehicle::drain_energy( const itype_id &ftype, double energy_j )
 {
+    // Consumption of battery power is done differently.
+    // From all batteries at once and doesn't change mass.
+    if( ftype == fuel_type_battery ) {
+        // Batteries stored in kilojoules
+        const int total_kj_to_drain = static_cast<int>( energy_j / 1000.0 );
+        if( total_kj_to_drain <= 0 ) {
+            return 0.0;
+        }
+        const int not_fulfilled = discharge_battery( total_kj_to_drain );
+        return static_cast<double>( total_kj_to_drain - not_fulfilled ) * 1000.0;
+    }
+
     double drained = 0.0f;
     for( auto &p : parts ) {
         if( energy_j <= 0.0f ) {
             break;
         }
 
-        double consumed = p.consume_energy( ftype, energy_j );
+        const double consumed = p.consume_energy( ftype, energy_j );
         drained += consumed;
         energy_j -= consumed;
     }
@@ -4747,25 +4758,16 @@ vehicle *vehicle::find_vehicle( const tripoint &where )
 void vehicle::enumerate_vehicles( std::map<vehicle *, bool> &connected_vehicles,
                                   const std::set<vehicle *> &vehicle_list )
 {
-    auto enumerate_visitor = [&connected_vehicles]( vehicle * veh, int amount ) {
+    auto enumerate_visitor = [&connected_vehicles]( vehicle & veh ) {
         // Only emplaces if element is not present already.
-        connected_vehicles.emplace( veh, false );
-        return amount;
+        connected_vehicles.emplace( &veh, false );
+        return distribution_graph::traverse_visitor_result::continue_further;
     };
     for( vehicle *veh : vehicle_list ) {
         // This autovivifies, and also overwrites the value if already present.
         connected_vehicles[veh] = true;
-        traverse_vehicle_graph( veh, 1, enumerate_visitor );
+        distribution_graph::traverse( *veh, enumerate_visitor, distribution_graph::noop_visitor_grid );
     }
-}
-
-template <typename Func, typename Vehicle>
-int vehicle::traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action )
-{
-    const auto do_nothing = []( const distribution_grid *, int amt ) {
-        return amt;
-    };
-    return distribution_graph::traverse( start_veh, amount, action, do_nothing );
 }
 
 // TODO: It looks out of place in vehicle.cpp
@@ -4808,66 +4810,87 @@ struct vehicle_or_grid {
 };
 
 template <typename VehFunc, typename GridFunc, typename StartPoint>
-int traverse( StartPoint *start, int amount,
-              VehFunc veh_action, GridFunc grid_action )
+void traverse( StartPoint &start,
+               VehFunc veh_action, GridFunc grid_action )
 {
+    using tvr = traverse_visitor_result;
     constexpr bool IsConst = std::is_const<StartPoint>::value;
     struct hash {
         const std::hash<char> char_hash = std::hash<char>();
         const std::hash<size_t> ptr_hash = std::hash<size_t>();
         auto operator()( const vehicle_or_grid<IsConst> &elem ) const {
             return char_hash( static_cast<char>( elem.type ) ) ^
-                   ( ptr_hash( reinterpret_cast<size_t>( elem.veh ) | reinterpret_cast<size_t>( elem.grid ) ) );
+                   ptr_hash(
+                       // Because only one of pointers is not nullptr, binary OR would get value of set pointer.
+                       reinterpret_cast<size_t>( elem.veh ) | reinterpret_cast<size_t>( elem.grid )
+                   );
         }
     };
 
+    // Actually, they are visited elements with unvisited neighbours.
+    // Not all connected elements are here.
     std::queue<vehicle_or_grid<IsConst>> connected_elements;
+    // For fast checking if we should visit some neighbour.
     std::unordered_set<vehicle_or_grid<IsConst>, hash> visited_elements;
-    connected_elements.emplace( start );
-    visited_elements.insert( start );
+    connected_elements.emplace( &start );
+    visited_elements.insert( &start );
     auto &grid_tracker = get_distribution_grid_tracker();
+
+    auto enqueue = [&connected_elements, &visited_elements]( vehicle_or_grid<IsConst> newly_visited ) {
+        connected_elements.push( newly_visited );
+        visited_elements.insert( newly_visited );
+    };
+    auto was_already_visited = [&visited_elements]( vehicle_or_grid<IsConst> to_visit ) {
+        return visited_elements.count( to_visit ) != 0;
+    };
 
     auto process_vehicle = [&]( const tripoint_abs_ms & target_pos ) {
         auto *veh = vehicle::find_vehicle( target_pos );
         if( veh == nullptr ) {
             debugmsg( "lost vehicle at %s", target_pos.to_string() );
-        }
-        // Add this connected vehicle to the queue of vehicles to search next,
-        // but only if we haven't seen this one before.
-        if( veh != nullptr && visited_elements.count( veh ) == 0 ) {
-            connected_elements.emplace( veh );
-            visited_elements.insert( veh );
-
-            amount = veh_action( veh, amount );
-            g->u.add_msg_if_player( m_debug, "After remote veh %p, %d power",
-                                    static_cast<void *>( veh ), amount );
-
-            return amount < 1;
+            return tvr::continue_further;
         }
 
-        return false;
+        if( was_already_visited( veh ) ) {
+            return tvr::continue_further;
+        }
+
+        const tvr result = veh_action( *veh );
+        g->u.add_msg_if_player( m_debug, "After remote veh %p",
+                                static_cast<void *>( veh ) );
+
+        // We do not need to check neighbours if we stop.
+        if( result == tvr::continue_further ) {
+            enqueue( veh );
+        }
+
+        return result;
     };
 
     auto process_grid = [&]( const tripoint_abs_ms & target_pos ) {
-        auto *grid = &grid_tracker.grid_at( target_pos );
-        if( !*grid ) {
+        auto &grid = grid_tracker.grid_at( target_pos );
+        if( !grid ) {
             debugmsg( "lost grid at %s", target_pos.to_string() );
-        }
-        if( *grid && visited_elements.count( grid ) == 0 ) {
-            connected_elements.emplace( grid );
-            visited_elements.insert( grid );
-
-            amount = grid_action( grid, amount );
-            g->u.add_msg_if_player( m_debug, "After remote grid %p, %d power",
-                                    static_cast<void *>( grid ), amount );
-
-            return amount < 1;
+            return tvr::continue_further;
         }
 
-        return false;
+        if( was_already_visited( &grid ) ) {
+            return tvr::continue_further;
+        }
+
+        const tvr result = grid_action( grid );
+        g->u.add_msg_if_player( m_debug, "After remote grid %p",
+                                static_cast<void *>( &grid ) );
+
+        // We do not need to check neighbours if we stop.
+        if( result == tvr::continue_further ) {
+            enqueue( &grid );
+        }
+
+        return result;
     };
 
-    while( amount > 0 && !connected_elements.empty() ) {
+    while( !connected_elements.empty() ) {
         auto current = connected_elements.front();
         connected_elements.pop();
 
@@ -4881,12 +4904,12 @@ int traverse( StartPoint *start, int amount,
 
                 const tripoint_abs_ms target_pos( current_veh.cpart( p ).target.second );
                 if( current_veh.cpart( p ).has_flag( vehicle_part::targets_grid ) ) {
-                    if( process_grid( target_pos ) ) {
-                        break;
+                    if( process_grid( target_pos ) == tvr::stop ) {
+                        return;
                     }
                 } else {
-                    if( process_vehicle( target_pos ) ) {
-                        break;
+                    if( process_vehicle( target_pos ) == tvr::stop ) {
+                        return;
                     }
                 }
             }
@@ -4900,14 +4923,13 @@ int traverse( StartPoint *start, int amount,
                 }
 
                 for( const tripoint_abs_ms &target_pos : connector->connected_vehicles ) {
-                    if( process_vehicle( target_pos ) ) {
-                        break;
+                    if( process_vehicle( target_pos ) == tvr::stop ) {
+                        return;
                     }
                 }
             }
         }
     }
-    return amount;
 }
 
 } // namespace distribution_graph
@@ -4939,18 +4961,20 @@ int vehicle::charge_battery( int amount, bool include_other_vehicles )
         }
     }
 
-    auto charge_veh = []( vehicle * veh, int amount ) {
-        g->u.add_msg_if_player( m_debug, "CHv: %d", amount );
-        return veh->charge_battery( amount, false );
-    };
-    auto charge_grid = []( distribution_grid * grid, int amount ) {
-        g->u.add_msg_if_player( m_debug, "CHg: %d", amount );
-        return grid->mod_resource( amount, false );
-    };
-
     if( amount > 0 && include_other_vehicles ) {
         // still a bit of charge we could send out...
-        amount = distribution_graph::traverse( this, amount, charge_veh, charge_grid );
+        using tvr = distribution_graph::traverse_visitor_result;
+        auto charge_veh = [&amount]( vehicle & veh ) {
+            g->u.add_msg_if_player( m_debug, "CHv: %d", amount );
+            amount = veh.charge_battery( amount, false );
+            return amount > 0 ? tvr::continue_further : tvr::stop;
+        };
+        auto charge_grid = [&amount]( distribution_grid & grid ) {
+            g->u.add_msg_if_player( m_debug, "CHg: %d", amount );
+            amount = grid.mod_resource( amount, false );
+            return amount > 0 ? tvr::continue_further : tvr::stop;
+        };
+        distribution_graph::traverse( *this, charge_veh, charge_grid );
     }
 
 
@@ -4974,6 +4998,7 @@ int vehicle::discharge_battery( int amount, bool recurse )
         dischargeable_parts.erase( iter );
         // Calculate number of charges to reach the previous %.
         int prev_charge_level = ( ( charge_level - 1 ) * p->ammo_capacity() ) / 100;
+        prev_charge_level = std::max( 0, prev_charge_level );
         int amount_to_discharge = std::min( p->ammo_remaining() - prev_charge_level, amount );
         p->ammo_consume( amount_to_discharge, global_part_pos3( *p ) );
         amount -= amount_to_discharge;
@@ -4982,17 +5007,20 @@ int vehicle::discharge_battery( int amount, bool recurse )
         }
     }
 
-    auto discharge_vehicle = []( vehicle * veh, int amount ) {
-        g->u.add_msg_if_player( m_debug, "CHv: %d", amount );
-        return veh->discharge_battery( amount, false );
-    };
-    auto discharge_grid = []( distribution_grid * grid, int amount ) {
-        g->u.add_msg_if_player( m_debug, "CHg: %d", amount );
-        return -grid->mod_resource( -amount, false );
-    };
     if( amount > 0 && recurse ) {
         // need more power!
-        amount = distribution_graph::traverse( this, amount, discharge_vehicle, discharge_grid );
+        using tvr = distribution_graph::traverse_visitor_result;
+        auto discharge_vehicle = [&amount]( vehicle & veh ) {
+            g->u.add_msg_if_player( m_debug, "CHv: %d", amount );
+            amount = veh.discharge_battery( amount, false );
+            return amount > 0 ? tvr::continue_further : tvr::stop;
+        };
+        auto discharge_grid = [&amount]( distribution_grid & grid ) {
+            g->u.add_msg_if_player( m_debug, "CHg: %d", amount );
+            amount = -grid.mod_resource( -amount, false );
+            return amount > 0 ? tvr::continue_further : tvr::stop;
+        };
+        distribution_graph::traverse( *this, discharge_vehicle, discharge_grid );
     }
 
     return amount; // non-zero if we weren't able to fulfill demand.
@@ -5376,10 +5404,8 @@ void vehicle::gain_moves()
     // Force off-map vehicles to load by visiting them every time we gain moves.
     // Shouldn't be too expensive if there aren't fifty trillion vehicles in the graph...
     // ...and if there are, it's the player's fault for putting them there.
-    auto nil_visitor = []( vehicle *, int amount ) {
-        return amount;
-    };
-    traverse_vehicle_graph( this, 1, nil_visitor );
+    distribution_graph::traverse( *this, distribution_graph::noop_visitor_veh,
+                                  distribution_graph::noop_visitor_grid );
 
     if( check_environmental_effects ) {
         check_environmental_effects = do_environmental_effects();
@@ -6456,7 +6482,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
             explode_fuel( p, type );
         }
 
-        return dmg;
+        return 0;
     }
 
     dmg -= std::min<int>( dmg, part_info( p ).damage_reduction[ type ] );

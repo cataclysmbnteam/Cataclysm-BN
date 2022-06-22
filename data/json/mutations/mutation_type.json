@@ -65,6 +65,10 @@
   },
   {
     "type": "mutation_type",
+    "id": "SIZE"
+  },
+  {
+    "type": "mutation_type",
     "id": "skin_tone"
   },
   {

@@ -1,6 +1,7 @@
+#include "catch/catch.hpp"
+
 #include <sstream>
 
-#include "catch/catch.hpp"
 #include "filesystem.h"
 #include "fstream_utils.h"
 #include "string_formatter.h"

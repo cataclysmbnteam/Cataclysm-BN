@@ -1,7 +1,8 @@
+#include "catch/catch.hpp"
+
 #include <memory>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "enums.h"
 #include "item.h"
 #include "map.h"

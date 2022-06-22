@@ -4,7 +4,6 @@
     "id": "trait_group_dino",
     "subtype": "collection",
     "traits": [
-      { "trait": "TOUGH_FEET", "prob": 50 },
       { "trait": "THICKSKIN", "prob": 50 },
       { "trait": "PAINRESIST", "prob": 50 },
       { "trait": "ANTIJUNK", "prob": 50 },

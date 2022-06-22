@@ -1,10 +1,11 @@
-﻿#include <algorithm>
+﻿#include "catch/catch.hpp"
+
+#include <algorithm>
 #include <array>
 #include <string>
 #include <utility>
 #include <vector>
 
-#include "catch/catch.hpp"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "enums.h"

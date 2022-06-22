@@ -15,6 +15,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_martial_arts.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "damage.h"
@@ -30,6 +31,7 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "map.h"
+#include "npc.h"
 #include "optional.h"
 #include "options.h"
 #include "output.h"
@@ -961,7 +963,7 @@ item_location game_menus::inv::gun_to_modify( player &p, const item &gunmod )
                          _( "You don't have any guns to modify." ) );
 }
 
-class read_inventory_preset: public inventory_selector_preset
+class read_inventory_preset final: public inventory_selector_preset
 {
     public:
         read_inventory_preset( const player &p ) : p( p ) {
@@ -971,7 +973,7 @@ class read_inventory_preset: public inventory_selector_preset
                 if( loc->type->can_use( "MA_MANUAL" ) ) {
                     return _( "martial arts" );
                 }
-                const auto &book = get_book( loc );
+                const islot_book &book = get_book( loc );
                 if( !book.skill ) {
                     return std::string();
                 }
@@ -994,7 +996,7 @@ class read_inventory_preset: public inventory_selector_preset
             }, _( "TRAINS (CURRENT)" ), unknown );
 
             append_cell( [ this ]( const item_location & loc ) -> std::string {
-                const auto &book = get_book( loc );
+                const islot_book &book = get_book( loc );
                 const int unlearned = book.recipes.size() - get_known_recipes( book );
 
                 return unlearned > 0 ? std::to_string( unlearned ) : std::string();
@@ -1008,20 +1010,33 @@ class read_inventory_preset: public inventory_selector_preset
 
                 // This is terrible and needs to be removed asap when this entire file is refactored
                 // to use the new avatar class
-                const avatar *u = dynamic_cast<const avatar *>( &p );
-                if( !u ) {
-                    return std::string();
+                const player *reader = nullptr;
+                if( const avatar *av = p.as_avatar() ) {
+                    reader = av->get_book_reader( *loc, dummy );
+                } else if( const npc *n = p.as_npc() ) {
+                    reader = n;
                 }
-                const player *reader = u->get_book_reader( *loc, dummy );
                 if( reader == nullptr ) {
                     return unknown;
                 }
+
+                int time_to_read = 0;
+                // HACK: Need to refactor this
+                // after moving reading methods from `npc` and `avatar`.
+                if( const npc *npc_reader = reader->as_npc() ) {
+                    time_to_read = npc_reader->time_to_read( *loc, *reader );
+                } else if( const avatar *av = reader->as_avatar() ) {
+                    time_to_read = av->time_to_read( *loc, *reader );
+                } else {
+                    debugmsg( "Reader is not NPC or avatar" );
+                    time_to_read = 1;
+                }
                 // Actual reading time (in turns). Can be penalized.
-                const int actual_turns = u->time_to_read( *loc, *reader ) / to_moves<int>( 1_turns );
-                // Theoretical reading time (in turns) based on the reader speed. Free of penalties.
-                const int normal_turns = get_book( loc ).time * reader->read_speed() / to_moves<int>( 1_turns );
+                const int actual_turns = time_to_read / to_moves<int>( 1_turns );
                 const std::string duration = to_string_approx( time_duration::from_turns( actual_turns ), false );
 
+                // Theoretical reading time (in turns) based on the reader speed. Free of penalties.
+                const int normal_turns = get_book( loc ).time * reader->read_speed() / to_moves<int>( 1_turns );
                 if( actual_turns > normal_turns ) { // Longer - complicated stuff.
                     return string_format( "<color_light_red>%s</color>", duration );
                 }
@@ -1037,7 +1052,7 @@ class read_inventory_preset: public inventory_selector_preset
         std::string get_denial( const item_location &loc ) const override {
             // This is terrible and needs to be removed asap when this entire file is refactored
             // to use the new avatar class
-            const avatar *u = dynamic_cast<const avatar *>( &p );
+            const avatar *u = p.as_avatar();
             if( !u ) {
                 return std::string();
             }
@@ -1045,9 +1060,16 @@ class read_inventory_preset: public inventory_selector_preset
             std::vector<std::string> denials;
             if( u->get_book_reader( *loc, denials ) == nullptr && !denials.empty() &&
                 !loc->type->can_use( "learn_spell" ) && u->has_identified( loc->typeId() ) ) {
-                return denials.front();
+                return std::move( denials.front() );
             }
             return std::string();
+        }
+
+        nc_color get_color( const inventory_entry &entry ) const override {
+            if( !entry.is_item() ) {
+                return inventory_selector_preset::get_color( entry );
+            }
+            return entry.any_item()->color_in_inventory( p );
         }
 
         std::function<bool( const inventory_entry & )> get_filter( const std::string &filter ) const
@@ -1057,7 +1079,7 @@ class read_inventory_preset: public inventory_selector_preset
                     return false;
                 }
 
-                const auto &book = get_book( e.any_item() );
+                const islot_book &book = get_book( e.any_item() );
                 if( book.skill && p.get_skill_level_object( book.skill ).can_train() ) {
                     return lcmatch( book.skill->name(), filter );
                 }
@@ -1066,33 +1088,114 @@ class read_inventory_preset: public inventory_selector_preset
             };
         }
 
+        /** Splits books into groups: Unknown, CanTrainSkill, CanNotTrainSkillAnymore, ForFun.
+        * 1. Unknown sorted by default algorithm.
+        * 2. CanTrainSkill grouped by skill and sorted by time to read
+        *    because player probably wants to level up certain skill faster.
+        * 3. CanNotTrainSkillAnymore grouped by skill.
+        * 4. ForFun sorted to make most fun books first.
+        */
         bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override {
             const bool base_sort = inventory_selector_preset::sort_compare( lhs, rhs );
 
-            const bool known_a = is_known( lhs.any_item() );
-            const bool known_b = is_known( rhs.any_item() );
+            // Player doesn't really interested if NPC knows about book.
+            if( p.is_avatar() ) {
+                const bool known_a = is_known( lhs.any_item() );
+                const bool known_b = is_known( rhs.any_item() );
 
-            if( !known_a || !known_b ) {
-                return ( !known_a && !known_b ) ? base_sort : !known_a;
+                // If we don't know book, it should be first.
+                // Since we don't know it's contents,
+                // we don't apply our skill based sortings here.
+                if( !known_a || !known_b ) {
+                    return ( !known_a && !known_b ) ? base_sort : !known_a;
+                }
             }
 
-            const auto &book_a = get_book( lhs.any_item() );
-            const auto &book_b = get_book( rhs.any_item() );
+            struct localized_string {
+                std::string s;
+                bool operator==( const localized_string &other ) const {
+                    return s == other.s;
+                }
+                bool operator<( const localized_string &other ) const {
+                    return localized_compare( s, other.s );
+                }
+            };
 
-            if( !book_a.skill && !book_b.skill ) {
-                return ( book_a.fun == book_b.fun ) ? base_sort : book_a.fun > book_b.fun;
-            } else if( !book_a.skill || !book_b.skill ) {
-                return static_cast<bool>( book_a.skill );
+            // Used to unify martial arts and skills.
+            struct book_info {
+                    bool can_teach = false;
+                    bool can_still_learn = false;
+                    bool is_learnable_already = true;
+                    int time_to_levelup = 0;
+                    int fun = 0;
+
+                    book_info( const islot_book &book, const player &p ):
+                        time_to_levelup( book.time ),
+                        fun( book.fun ),
+                        book( book ) {
+                        if( book.martial_art ) {
+                            can_teach = true;
+                            can_still_learn = !p.martial_arts_data->has_martialart( book.martial_art );
+                        }
+                        if( book.skill ) {
+                            const int skill_level = p.get_skill_level( book.skill );
+
+                            can_teach = true;
+                            can_still_learn = skill_level < book.level;
+                            is_learnable_already = skill_level >= book.req;
+                        }
+                    }
+
+                    localized_string get_localized_skill()const {
+                        assert( can_teach );
+
+                        if( book.martial_art ) {
+                            return { _( "martial arts" ) };
+                        }
+                        return { book.skill->name() };
+                    }
+
+                private:
+                    const islot_book &book;
+            };
+
+            const islot_book &book_a = get_book( lhs.any_item() );
+            const islot_book &book_b = get_book( rhs.any_item() );
+
+            const book_info info_a( book_a, p );
+            const book_info info_b( book_b, p );
+
+            if( !info_a.can_teach && !info_b.can_teach ) {
+                return ( info_a.fun == info_b.fun ) ? base_sort : info_a.fun > info_b.fun;
+            } else if( info_a.can_teach != info_b.can_teach ) {
+                return info_a.can_teach;
             }
 
-            const bool train_a = p.get_skill_level( book_a.skill ) < book_a.level;
-            const bool train_b = p.get_skill_level( book_b.skill ) < book_b.level;
+            if( info_a.can_still_learn != info_b.can_still_learn ) {
+                return info_a.can_still_learn;
+            }
+            const bool can_still_learn = info_a.can_still_learn;
 
-            if( !train_a || !train_b ) {
-                return ( !train_a && !train_b ) ? base_sort : train_a;
+            const localized_string skill_a = info_a.get_localized_skill();
+            const localized_string skill_b = info_b.get_localized_skill();
+            if( can_still_learn ) {
+                const auto a = std::make_tuple(
+                                   skill_a,
+                                   info_a.is_learnable_already ? 0 : 1,
+                                   info_a.time_to_levelup
+                               );
+                const auto b = std::make_tuple(
+                                   skill_b,
+                                   info_b.is_learnable_already ? 0 : 1,
+                                   info_b.time_to_levelup
+                               );
+                return ( a == b ) ? base_sort : ( a < b );
             }
 
-            return base_sort;
+            if( skill_a == skill_b ) {
+                return base_sort;
+            }
+            return skill_a < skill_b;
         }
 
     private:
@@ -1124,9 +1227,9 @@ class read_inventory_preset: public inventory_selector_preset
 
 item_location game_menus::inv::read( player &pl )
 {
-    const std::string msg = pl.is_player() ? _( "You have nothing to read." ) :
-                            string_format( _( "%s has nothing to read." ), pl.disp_name() );
-    return inv_internal( pl, read_inventory_preset( pl ), _( "Read" ), 1, msg );
+    const std::string none_msg = pl.is_player() ? _( "You have nothing to read." ) :
+                                 string_format( _( "%s has nothing to read." ), pl.disp_name() );
+    return inv_internal( pl, read_inventory_preset( pl ), _( "Read" ), 1, none_msg );
 }
 
 class steal_inventory_preset : public pickup_inventory_preset

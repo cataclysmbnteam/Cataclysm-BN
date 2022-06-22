@@ -34,6 +34,9 @@
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
+// TODO (https://github.com/cataclysmbnteam/Cataclysm-BN/issues/1612):
+// Remove that include after implementing repair_activity_actor.
+#include "distribution_grid.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -749,6 +752,9 @@ static int size_factor_in_time_to_cut( m_size size )
             return 600;
         case MS_HUGE:
             return 1800;
+        default:
+            debugmsg( "Invalid m_size value for butchering corpse: %d", static_cast<int>( size ) );
+            break;
     }
     return 0;
 }
@@ -2561,6 +2567,10 @@ void activity_handlers::lockpicking_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
+
+// TODO (https://github.com/cataclysmbnteam/Cataclysm-BN/issues/1612):
+// Remove that repair code after repair_activity_actor.
+
 enum repeat_type : int {
     // REPEAT_INIT should be zero. In some scenarios (veh welder), activity value default to zero.
     REPEAT_INIT = 0,    // Haven't found repeat value yet.
@@ -2592,77 +2602,228 @@ static repeat_type repeat_menu( const std::string &title, repeat_type last_selec
     return REPEAT_CANCEL;
 }
 
-// HACK: This is a part of a hack to provide pseudo items for long repair activity
-// Note: similar hack could be used to implement all sorts of vehicle pseudo-items
-//  and possibly CBM pseudo-items too.
-struct weldrig_hack {
-    vehicle *veh;
-    int part;
-    item pseudo;
+namespace activity_handlers
+{
+namespace repair_activity_hack
+{
 
-    weldrig_hack()
-        : veh( nullptr )
-        , part( -1 )
-        , pseudo( itype_welder, calendar::turn )
-    { }
+// Total idea is that:
+// 1. Modify activity to make sure that repair action wouldn't search item in inventory.
+// 2. Put coords of interesting vehicle part or furniture.
+// 3. Before applying each stage of repair, search for possible fake item.
+//
+// This relies on fact that repairing with real tools
+// never use `player_activity::coords`
+// and use `player::activity::values` with only one item.
 
-    bool init( const player_activity &act ) {
-        if( act.coords.empty() || act.values.size() < 2 ) {
-            return false;
-        }
-
-        part = act.values[1];
-        veh = veh_pointer_or_null( get_map().veh_at( act.coords[0] ) );
-        if( veh == nullptr || veh->part_count() <= part ) {
-            part = -1;
-            return false;
-        }
-
-        part = veh->part_with_feature( part, "WELDRIG", true );
-        return part >= 0;
-    }
-
-    item &get_item() {
-        if( veh != nullptr && part >= 0 ) {
-            pseudo.charges = veh->drain( itype_battery, 1000 - pseudo.charges );
-            return pseudo;
-        }
-
-        // null item should be handled just fine
-        return null_item_reference();
-    }
-
-    void clean_up() {
-        // Return unused charges
-        if( veh == nullptr || part < 0 ) {
-            return;
-        }
-
-        veh->charge_battery( pseudo.charges );
-        pseudo.charges = 0;
-    }
-
-    ~weldrig_hack() {
-        clean_up();
-    }
+namespace
+{
+enum class hack_type_t : int {
+    vehicle_weldrig = 0,
+    furniture = 1
 };
+
+cata::optional<hack_type_t> get_hack_type( const player_activity &activity )
+{
+    // Uses real tool
+    if( activity.values.size() < 2 ) {
+        return cata::nullopt;
+    }
+    assert( !activity.coords.empty() );
+    // Old save data, probably
+    if( activity.values.size() == 2 ) {
+        return hack_type_t::vehicle_weldrig;
+    }
+    return static_cast<hack_type_t>( activity.values[2] );
+}
+
+tripoint get_position( const player_activity &activity )
+{
+    return activity.coords.at( 0 );
+}
+
+item get_fake_tool( hack_type_t hack_type, const player_activity &activity )
+{
+    const tripoint position = get_position( activity );
+    const map &m = get_map();
+
+    item fake_item;
+
+    switch( hack_type ) {
+        case hack_type_t::vehicle_weldrig: {
+            const optional_vpart_position pos = m.veh_at( position );
+            if( !pos ) {
+                debugmsg( "Failed to find vehicle while using it for repair at %s", position.to_string() );
+                return fake_item;
+            }
+            const vehicle &veh = pos->vehicle();
+
+            fake_item = item( itype_welder, calendar::turn, 0 );
+            fake_item.charges = veh.fuel_left( itype_battery );
+
+            break;
+        }
+        case hack_type_t::furniture: {
+            if( !m.has_furn( position ) ) {
+                debugmsg( "Failed to find furniture while using it for repair at %s", position.to_string() );
+                // Return nullitem in that case
+                return fake_item;
+            }
+            const furn_t &furniture = m.furn( position ).obj();
+            const itype *item_type = furniture.crafting_pseudo_item_type();
+            if( item_type == nullptr ) {
+                return fake_item;
+            }
+            if( !item_type->has_flag( "USES_GRID_POWER" ) ) {
+                debugmsg( "Non grid powered furniture for long repairs is not supported yet." );
+                return fake_item;
+            }
+
+            const tripoint_abs_ms abspos( m.getabs( position ) );
+            const distribution_grid &grid = get_distribution_grid_tracker().grid_at( abspos );
+
+            fake_item = item( item_type, calendar::turn, 0 );
+            fake_item.charges = grid.get_resource( true );
+            break;
+        }
+    }
+
+    fake_item.set_flag( "PSEUDO" );
+    return fake_item;
+}
+
+void discharge_real_power_source(
+    hack_type_t hack_type,
+    const tripoint &position,
+    item &tool,
+    const int original_charges
+)
+{
+    const int used_charges = original_charges - tool.charges;
+
+    if( used_charges <= 0 ) {
+        return;
+    }
+
+    const map &m = get_map();
+
+    int unfulfilled_demand = 0;
+    switch( hack_type ) {
+        case hack_type_t::vehicle_weldrig: {
+            optional_vpart_position pos = m.veh_at( position );
+            if( !pos ) {
+                return;
+            }
+            vehicle &veh = pos->vehicle();
+            unfulfilled_demand = veh.discharge_battery( used_charges );
+            break;
+        }
+        case hack_type_t::furniture: {
+            const tripoint_abs_ms abspos( m.getabs( position ) );
+            distribution_grid &grid = get_distribution_grid_tracker().grid_at( abspos );
+            unfulfilled_demand = grid.mod_resource( -used_charges );
+            break;
+        }
+    }
+    if( unfulfilled_demand != 0 ) {
+        debugmsg(
+            "Fake tool discharged grid/veh more than grid/veh had!  Unfulfilled demand %d kJ",
+            unfulfilled_demand
+        );
+    }
+}
+
+} // namespace
+
+void patch_activity_for_vehicle_welder(
+    player_activity &activity,
+    const tripoint &veh_part_position,
+    const vehicle &veh,
+    int interact_part_idx )
+{
+    // Player may start another activity on welder/soldering iron
+    // Check it here instead of vehicle interaction code
+    // because we want to encapsulate hack here.
+    if( activity.id() != ACT_REPAIR_ITEM ) {
+        return;
+    }
+
+    const int welding_rig_index = veh.part_with_feature( interact_part_idx, "WELDRIG", true );
+
+    // This tells activity, that real item doesn't exists in inventory.
+    activity.index = INT_MIN;
+    // Data for lookup vehicle part
+    activity.coords = { veh_part_position };
+    activity.values = {
+        // Because we called only on start of repair
+        static_cast<int>( repeat_type::REPEAT_INIT ),
+        welding_rig_index,
+        static_cast<int>( hack_type_t::vehicle_weldrig )
+    };
+}
+
+void patch_activity_for_furniture( player_activity &activity,
+                                   const tripoint &furniture_position )
+{
+    // Player may start another activity on welder/soldering iron
+    // Check it here instead of furniture interaction code
+    // because we want to encapsulate hack here.
+    if( activity.id() != ACT_REPAIR_ITEM ) {
+        return;
+    }
+
+    // This tells activity, that real item doesn't exists in inventory.
+    activity.index = INT_MIN;
+    // Data for lookup furniture
+    activity.coords = { furniture_position };
+    activity.values = {
+        // Because we called only on start of repair
+        static_cast<int>( repeat_type::REPEAT_INIT ),
+        0, // Useless for us, set only to be compatible with vehicle
+        static_cast<int>( hack_type_t::furniture )
+    };
+}
+
+} // namespace repair_activity_hack
+} // namespace activity_handlers
 
 void activity_handlers::repair_item_finish( player_activity *act, player *p )
 {
+    namespace hack = activity_handlers::repair_activity_hack;
+
     const std::string iuse_name_string = act->get_str_value( 0, "repair_item" );
     repeat_type repeat = static_cast<repeat_type>( act->get_value( 0, REPEAT_INIT ) );
-    weldrig_hack w_hack;
     item_location *ploc = nullptr;
-
     if( !act->targets.empty() ) {
         ploc = &act->targets[0];
     }
 
-    item &main_tool = !w_hack.init( *act ) ?
-                      ploc ?
-                      **ploc : p->i_at( act->index ) : w_hack.get_item();
+    // nullopt if used real tool
+    cata::optional<hack::hack_type_t> hack_type = hack::get_hack_type( *act );
+    cata::optional<item> fake_tool = cata::nullopt;
+    if( hack_type ) {
+        fake_tool = hack::get_fake_tool( hack_type.value(), *act );
+    }
+    const tripoint hack_position = hack_type ? hack::get_position( *act ) : tripoint{};
+    const int hack_original_charges = fake_tool ? fake_tool->charges : 0;
 
-    item *used_tool = main_tool.get_usable_item( iuse_name_string );
+    item *main_tool = nullptr;
+    if( hack_type.has_value() ) {
+        main_tool = &fake_tool.value();
+    }
+    if( main_tool == nullptr && ploc ) {
+        main_tool = & **ploc;
+    }
+    if( main_tool == nullptr ) {
+        main_tool = &p->i_at( act->index );
+    }
+    if( main_tool == nullptr ) {
+        debugmsg( "Failed to get main_tool for long repair" );
+        act->set_to_null();
+        return;
+    }
+
+    item *used_tool = main_tool->get_usable_item( iuse_name_string );
     if( used_tool == nullptr ) {
         debugmsg( "Lost tool used for long repair" );
         act->set_to_null();
@@ -2691,6 +2852,14 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
                 used_tool->ammo_consume( used_tool->ammo_required(), ploc->position() );
             } else {
                 p->consume_charges( *used_tool, used_tool->ammo_required() );
+            }
+            if( hack_type.has_value() ) {
+                hack::discharge_real_power_source(
+                    hack_type.value(),
+                    hack_position,
+                    *used_tool,
+                    hack_original_charges
+                );
             }
         }
 
@@ -2725,6 +2894,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             repeat = REPEAT_INIT;
         }
     }
+
     // Check tool is valid before we query target and Repeat choice.
     if( !actor->can_use_tool( *p, *used_tool, true ) ) {
         act->set_to_null();
@@ -2733,7 +2903,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
     // target selection and validation.
     while( act->targets.size() < 2 ) {
-        item_location item_loc = game_menus::inv::repair( *p, actor, &main_tool );
+        item_location item_loc = game_menus::inv::repair( *p, actor, main_tool );
 
         if( item_loc == item_location::nowhere ) {
             p->add_msg_if_player( m_info, _( "Never mind." ) );
@@ -3945,12 +4115,19 @@ void activity_handlers::pry_nails_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-void activity_handlers::chop_tree_do_turn( player_activity *act, player * )
+void activity_handlers::chop_tree_do_turn( player_activity *act, player *p )
 {
     sfx::play_activity_sound( "tool", "axe", sfx::get_heard_volume( g->m.getlocal( act->placement ) ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a wood chopping tool at work!
         sounds::sound( g->m.getlocal( act->placement ), 15, sounds::sound_t::activity, _( "CHK!" ) );
+    }
+    if( calendar::once_every( 6_minutes ) ) {
+        p->mod_fatigue( 1 );
+    }
+    if( calendar::once_every( 12_minutes ) ) {
+        p->mod_stored_nutr( 1 );
+        p->mod_thirst( 1 );
     }
 }
 
@@ -3996,10 +4173,6 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     }
 
     g->m.ter_set( pos, t_stump );
-    const int helpersize = p->get_crafting_helpers( 3 ).size();
-    p->mod_stored_nutr( 5 - helpersize );
-    p->mod_thirst( 5 - helpersize );
-    p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
     // sound of falling tree
     sfx::play_variant_sound( "misc", "timber",

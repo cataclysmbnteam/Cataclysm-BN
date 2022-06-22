@@ -576,6 +576,9 @@ void mdeath::explode( monster &z )
         case MS_HUGE:
             size = 26;
             break;
+        default:
+            size = 15;
+            break;
     }
     explosion_handler::explosion( z.pos(), size );
 }

@@ -28,6 +28,31 @@ using trait_reader = auto_flags_reader<trait_id>;
 TraitSet trait_blacklist;
 TraitGroupMap trait_groups;
 
+namespace io
+{
+template<>
+std::string enum_to_string<m_size>( m_size data )
+{
+    switch( data ) {
+        case m_size::MS_TINY:
+            return "TINY";
+        case m_size::MS_SMALL:
+            return "SMALL";
+        case m_size::MS_MEDIUM:
+            return "MEDIUM";
+        case m_size::MS_LARGE:
+            return "LARGE";
+        case m_size::MS_HUGE:
+            return "HUGE";
+        case m_size::num_m_size:
+            return "num_m_size";
+            break;
+    }
+    debugmsg( "Invalid body_size value for mutation: %d", static_cast<int>( data ) );
+    abort();
+}
+} // namespace io
+
 namespace
 {
 generic_factory<mutation_branch> trait_factory( "trait" );
@@ -434,6 +459,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     for( const std::string s : jo.get_array( "no_cbm_on_bp" ) ) {
         no_cbm_on_bp.emplace( bodypart_str_id( s ) );
     }
+
+    optional( jo, was_loaded, "body_size", body_size );
 
     optional( jo, was_loaded, "category", category, string_reader{} );
 

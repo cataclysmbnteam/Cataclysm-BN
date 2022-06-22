@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <string>
 
 #include "avatar.h"

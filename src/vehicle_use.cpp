@@ -54,7 +54,6 @@
 
 static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
-static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
 
 static const itype_id fuel_type_battery( "battery" );
@@ -384,6 +383,7 @@ void vehicle::control_engines()
                     }
                     return;
                 }
+                i++;
             }
         }
     };
@@ -2058,16 +2058,10 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         case USE_WELDER: {
             if( veh_tool( itype_welder ) ) {
                 // HACK: Evil hack incoming
-                auto &act = g->u.activity;
-                if( act.id() == ACT_REPAIR_ITEM ) {
-                    // Magic: first tell activity the item doesn't really exist
-                    act.index = INT_MIN;
-                    // Then tell it to search it on `pos`
-                    act.coords.push_back( pos );
-                    // Finally tell if it is the vehicle part with welding rig
-                    act.values.resize( 2 );
-                    act.values[1] = part_with_feature( interact_part, "WELDRIG", true );
-                }
+                activity_handlers::repair_activity_hack::patch_activity_for_vehicle_welder(
+                    g->u.activity,
+                    pos, *this, interact_part
+                );
             }
             return;
         }

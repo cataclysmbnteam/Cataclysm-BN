@@ -213,7 +213,7 @@ struct scored_address {
     struct node_address addr;
     int16_t score;
     bool operator> ( const scored_address &other ) const {
-        return score >= other.score;
+        return score > other.score;
     }
 };
 
@@ -948,7 +948,7 @@ cata::optional<std::vector<navigation_step>> vehicle::autodrive_controller::comp
         return cata::nullopt;
     }
     // TODO: tweak this
-    constexpr int max_search_count = 10000;
+    constexpr size_t max_search_count = 10000;
     std::vector<navigation_step> ret;
     // TODO: check simple reachability first and bail out or set upper bound on node score
     std::unordered_map<node_address, navigation_node, node_address_hasher> known_nodes;

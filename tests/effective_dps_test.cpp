@@ -1,9 +1,10 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <cstdlib>
 #include <memory>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"
 #include "melee.h"

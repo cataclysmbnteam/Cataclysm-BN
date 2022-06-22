@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <list>
 #include <memory>
 #include <set>
@@ -5,7 +7,6 @@
 #include <vector>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
