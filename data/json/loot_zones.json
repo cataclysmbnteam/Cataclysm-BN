@@ -96,6 +96,12 @@
     "description": "Destination for books and magazines."
   },
   {
+    "id": "LOOT_SPELLBOOKS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Spellbooks",
+    "description": "Destination for spellbooks and scrolls."
+  },
+  {
     "id": "LOOT_MODS",
     "type": "LOOT_ZONE",
     "name": "Loot: Mods",
