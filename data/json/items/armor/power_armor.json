@@ -600,22 +600,5 @@
       "flags": [ "SHEATH_KNIFE" ]
     },
     "flags": [ "POWERARMOR_MOD", "COMPACT", "WATERPROOF", "WAIST" ]
-  },
-  {
-    "id": "power_armor_test_mod",
-    "type": "ARMOR",
-    "name": { "str": "power armor test mod" },
-    "description": "To shift higher.",
-    "weight": "300 g",
-    "volume": "500 ml",
-    "price": 50000,
-    "price_postapoc": 500,
-    "material": [ "rubber", "steel" ],
-    "symbol": "|",
-    "color": "brown",
-    "covers": [ "head" ],
-    "coverage": 5,
-    "material_thickness": 1,
-    "flags": [ "POWERARMOR_MOD", "COMPACT", "WATERPROOF", "WAIST" ]
   }
 ]
