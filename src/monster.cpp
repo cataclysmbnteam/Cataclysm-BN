@@ -2541,7 +2541,7 @@ void monster::process_effects_internal()
         regeneration_amount = 0;
     }
     const int healed_amount = heal( round( regeneration_amount ) );
-    if( healed_amount > 0 && one_in( 2 ) ) {
+    if( healed_amount > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
         add_msg( m_debug, ( "Regen: %s" ), healed_amount );
         std::string healing_format_string;
         if( healed_amount >= 50 ) {
