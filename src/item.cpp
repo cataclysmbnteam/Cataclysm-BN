@@ -4030,7 +4030,7 @@ nc_color item::color_in_inventory( const player &p ) const
     } else if( is_filthy() || has_own_flag( "DIRTY" ) ) {
         ret = c_brown;
     } else if( is_bionic() ) {
-        if( !u.has_bionic( type->bionic->id ) ) {
+        if( !p.has_bionic( type->bionic->id ) ) {
             ret = p.bionic_installation_issues( type->bionic->id ).empty() ? c_green : c_red;
         } else if( !has_fault( fault_bionic_nonsterile ) ) {
             ret = c_dark_gray;
