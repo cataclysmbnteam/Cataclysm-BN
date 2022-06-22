@@ -78,7 +78,7 @@
       "target": "power_armor_basic_on",
       "active": true,
       "need_worn": true,
-      "set_charges": 4,
+      "set_charges": 2,
       "set_charges_msg": "You need a UPS or a bionic armor interface to power this."
     },
     "flags": [ "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
@@ -143,7 +143,7 @@
       "target": "power_armor_heavy_on",
       "active": true,
       "need_worn": true,
-      "set_charges": 4,
+      "set_charges": 2,
       "set_charges_msg": "You need a UPS or a bionic armor interface to power this."
     },
     "flags": [ "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
@@ -206,7 +206,7 @@
       "msg": "The %s engages.",
       "target": "power_armor_light_on",
       "active": true,
-      "set_charges": 4,
+      "set_charges": 2,
       "set_charges_msg": "You need a UPS or a bionic armor interface to power this."
     },
     "flags": [ "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
