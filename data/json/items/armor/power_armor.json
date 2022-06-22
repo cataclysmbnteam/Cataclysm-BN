@@ -104,13 +104,7 @@
     },
     "covers": [ "torso", "arms", "hands", "legs", "feet" ],
     "encumbrance": 10,
-    "weight_capacity_bonus": "55 kg",
-    "relic_data": {
-      "passive_effects": [
-        { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 2 } ] },
-        { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "DEXTERITY", "add": 2 } ] }
-      ]
-    }
+    "weight_capacity_bonus": "55 kg"
   },
   {
     "id": "power_armor_heavy",
@@ -169,13 +163,7 @@
     },
     "covers": [ "torso", "arms", "hands", "legs", "feet" ],
     "encumbrance": 20,
-    "weight_capacity_bonus": "75 kg",
-    "relic_data": {
-      "passive_effects": [
-        { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 4 } ] },
-        { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "DEXTERITY", "add": 2 } ] }
-      ]
-    }
+    "weight_capacity_bonus": "75 kg"
   },
   {
     "id": "power_armor_light",
@@ -232,13 +220,7 @@
     },
     "covers": [ "torso", "arms", "hands", "legs", "feet" ],
     "encumbrance": 0,
-    "weight_capacity_bonus": "12670 g",
-    "relic_data": {
-      "passive_effects": [
-        { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 2 } ] },
-        { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "DEXTERITY", "add": 4 } ] }
-      ]
-    }
+    "weight_capacity_bonus": "12670 g"
   },
   {
     "id": "power_armor_helmet_basic",
