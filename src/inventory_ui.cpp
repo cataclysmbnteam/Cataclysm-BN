@@ -2160,7 +2160,13 @@ inventory_drop_selector::inventory_drop_selector( player &p,
     ctxt.allow_text_entry = true;
 #endif
 
-    caching_preset.rebuild( u, dropping, get_all_columns() );
+    rebuild();
+}
+
+void caching_drop_preset::set_implied_drops( const std::unordered_map<const item *, count_out_of>
+        &implied ) const
+{
+    implied_drops = &implied;
 }
 
 void inventory_drop_selector::process_selected( int count,
@@ -2184,7 +2190,7 @@ void inventory_drop_selector::process_selected( int count,
 
 drop_locations inventory_drop_selector::execute()
 {
-    caching_preset.rebuild( u, dropping, get_all_columns() );
+    rebuild( );
 
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
 
@@ -2346,15 +2352,10 @@ inventory_selector::stats inventory_drop_selector::get_raw_stats() const
     return st;
 }
 
-void caching_drop_preset::set_implied_cache_dirty() const
-{
-    implied_cache_dirty = true;
-}
-
 void inventory_drop_selector::on_change( const inventory_entry &entry )
 {
-    caching_preset.set_implied_cache_dirty();
-    caching_preset.rebuild( u, dropping, get_all_columns() );
+    implied_cache_dirty = true;
+    rebuild();
     // TODO: Refresh only those which changed status
     for( inventory_column *col : get_all_columns() ) {
         col->clear_cell_cache();
@@ -2372,8 +2373,8 @@ struct item_location_hasher {
 
 int caching_drop_preset::get_move_cost_sum() const
 {
-    if( implied_cache_dirty ) {
-        debugmsg( "Data not built" );
+    if( move_cost_sum < 0 ) {
+        debugmsg( "Data not set" );
     }
 
     return move_cost_sum;
@@ -2382,17 +2383,14 @@ int caching_drop_preset::get_move_cost_sum() const
 const std::unordered_map<const item *, count_out_of> &
 caching_drop_preset::get_implied_drops() const
 {
-    if( implied_cache_dirty ) {
-        debugmsg( "Data not built" );
+    if( implied_drops == nullptr ) {
+        debugmsg( "Data not set" );
     }
 
-    return implied_drops;
+    return *implied_drops;
 }
 
-void caching_drop_preset::rebuild(
-    const player &u,
-    const excluded_stacks &dropping,
-    const std::vector<inventory_column *> &all_columns ) const
+void inventory_drop_selector::rebuild()
 {
     if( !implied_cache_dirty ) {
         return;
@@ -2412,6 +2410,7 @@ void caching_drop_preset::rebuild(
     }
 
     implied_drops.clear();
+    auto all_columns = get_all_columns();
     printf( "\n%lu columns\n", all_columns.size() );
     for( const inventory_column *ic : all_columns ) {
         const std::vector<inventory_entry *> entries_in_column =
@@ -2444,18 +2443,21 @@ void caching_drop_preset::rebuild(
     if( implied_drops.empty() && !u.weapon.is_null() && !u.worn.empty() && u.inv.size() != 0 ) {
         implied_cache_dirty = true;
     }
+
+    caching_preset.set_implied_drops( implied_drops );
+    caching_preset.move_cost_sum = move_cost_sum;
 }
 
 nc_color caching_drop_preset::get_color( const inventory_entry &entry ) const
 {
-    if( implied_cache_dirty ) {
-        debugmsg( "Data not built" );
+    if( implied_drops == nullptr ) {
+        debugmsg( "Data not set" );
     }
     if( !entry.is_item() ) {
         return inventory_selector_preset::get_color( entry );
     }
-    auto iter = implied_drops.find( &*entry.any_item() );
-    if( iter == implied_drops.end() ) {
+    auto iter = implied_drops->find( &*entry.any_item() );
+    if( iter == implied_drops->end() ) {
         // TODO: Shouldn't happen?
         return c_red;
     }
@@ -2472,11 +2474,12 @@ nc_color caching_drop_preset::get_color( const inventory_entry &entry ) const
 
 excluded_stacks inventory_drop_selector::get_implied_drops() const
 {
-    caching_preset.rebuild( u, dropping, get_all_columns() );
-    auto drop_proposals = caching_preset.get_implied_drops();
+    if( implied_cache_dirty ) {
+        debugmsg( "No cache" );
+    }
 
     excluded_stacks result;
-    for( const auto &pr : drop_proposals ) {
+    for( const auto &pr : implied_drops ) {
         result[pr.first] = pr.second.selected;
         /*
         for( const item_location &loc : pr.first->locations ) {

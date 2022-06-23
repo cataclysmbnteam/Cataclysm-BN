@@ -729,20 +729,17 @@ class caching_drop_preset : public inventory_selector_preset
     public:
         nc_color get_color( const inventory_entry &entry ) const override;
 
-        void set_implied_cache_dirty() const;
         int get_move_cost_sum() const;
         const std::unordered_map<const item *, count_out_of> &get_implied_drops() const;
 
-        // Builds the cache - not really const, but it's all mutable
-        void rebuild( const player &u, const excluded_stacks &dropping,
-                      const std::vector<inventory_column *> &all_columns ) const;
+        void set_implied_drops( const std::unordered_map<const item *, count_out_of> &implied ) const;
+
+        // TODO: Remove mutable hacks
+        mutable int move_cost_sum = -1;
 
     private:
-        // Horrible hack, but has to do for now
-        void rebuild() const;
-        mutable std::unordered_map<const item *, count_out_of> implied_drops;
-        mutable int move_cost_sum = -1;
-        mutable bool implied_cache_dirty = true;
+        // TODO: Remove mutable hacks
+        mutable const std::unordered_map<const item *, count_out_of> *implied_drops = nullptr;
 };
 
 const caching_drop_preset default_drop_preset;
@@ -767,6 +764,12 @@ class inventory_drop_selector : public inventory_multiselector
         const caching_drop_preset &caching_preset;
     private:
         excluded_stacks dropping;
+
+        void rebuild();
+
+        mutable std::unordered_map<const item *, count_out_of> implied_drops;
+        mutable int move_cost_sum = -1;
+        mutable bool implied_cache_dirty = true;
 
 };
 
