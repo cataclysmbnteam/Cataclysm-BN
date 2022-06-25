@@ -223,6 +223,16 @@ struct tripoint {
 
     std::string to_string() const;
 
+    /**
+     * Rotate x and y components clockwise @param turns times,
+     * 90 degrees per turn, around the center of a rectangle with
+     * the dimensions specified by @param dim.
+     * By default rotates around the origin (0, 0).
+     * NOLINTNEXTLINE(cata-use-named-point-constants) */
+    inline tripoint rotate_2d( int turns, const point &dim = { 1, 1 } ) const {
+        return tripoint( xy().rotate( turns, dim ), z );
+    }
+
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );
 
