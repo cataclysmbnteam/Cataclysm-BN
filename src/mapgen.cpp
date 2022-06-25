@@ -6555,11 +6555,11 @@ bool update_mapgen_function_json::update_map( mapgendata &md, const point &offse
     {
         public:
             rotation_guard( const mapgendata &md )
-                : md( md ), rotation( oter_get_rotation( md.terrain_type() ) ) {
+                : md( md ), rotation( oter_get_rotations( md.terrain_type() ) ) {
                 // If the existing map is rotated, we need to rotate it back to the north
                 // orientation before applying our updates.
                 if( rotation != 0 ) {
-                    md.m.rotate( rotation, true );
+                    md.m.rotate( 4 - rotation, true );
                 }
             }
 
@@ -6567,7 +6567,7 @@ bool update_mapgen_function_json::update_map( mapgendata &md, const point &offse
                 // If we rotated the map before applying updates, we now need to rotate
                 // it back to where we found it.
                 if( rotation != 0 ) {
-                    md.m.rotate( 4 - rotation, true );
+                    md.m.rotate( rotation, true );
                 }
             }
         private:
