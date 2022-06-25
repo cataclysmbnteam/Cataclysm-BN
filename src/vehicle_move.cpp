@@ -1536,12 +1536,8 @@ float map::vehicle_wheel_traction( const vehicle &veh,
         }
 
         for( const auto &terrain_mod : veh.part_info( p ).wheel_terrain_mod() ) {
-            if( terrain_mod.second.movecost > 0 &&
-                tr.has_flag( terrain_mod.first ) ) {
-                move_mod = terrain_mod.second.movecost;
-                break;
-            } else if( terrain_mod.second.penalty && !tr.has_flag( terrain_mod.first ) ) {
-                move_mod += terrain_mod.second.penalty;
+            if( !tr.has_flag( terrain_mod.first ) ) {
+                move_mod += terrain_mod.second;
                 break;
             }
         }
