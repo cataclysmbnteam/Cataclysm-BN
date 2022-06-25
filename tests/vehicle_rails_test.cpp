@@ -33,9 +33,7 @@ constexpr uint32_t check_back_move =    1 << 1;
 constexpr uint32_t check_on_rails =     1 << 2;
 
 constexpr uint32_t full = check_back_turns | check_back_move | check_on_rails;
-
 constexpr uint32_t no_back_turns = full & ~check_back_turns;
-constexpr uint32_t no_back_move = full & ~check_back_move;
 }
 
 struct test_case {
@@ -43,16 +41,16 @@ struct test_case {
 
     uint32_t scope;
 
-    point start_pos;
+    tripoint start_pos;
     units::angle start_dir;
 
-    point end_pos_straight;
+    tripoint end_pos_straight;
     units::angle end_dir_straight;
 
-    point end_pos_left;
+    tripoint end_pos_left;
     units::angle end_dir_left;
 
-    point end_pos_right;
+    tripoint end_pos_right;
     units::angle end_dir_right;
 
     map_helpers::canvas canvas;
@@ -94,10 +92,10 @@ static void clear_game( const ter_id &terrain )
 static void build_map_from_canvas( const map_helpers::canvas &canvas, const tripoint &canvas_pos )
 {
     auto adapter = map_helpers::canvas_adapter( legend )
-    .with_setter( [canvas_pos]( const point & p, const std::string & s ) {
+    .with_setter( [canvas_pos]( const tripoint & p, const std::string & s ) {
         get_map().ter_set( p + canvas_pos, ter_str_id( s ).id() );
     } )
-    .with_getter( [canvas_pos]( const point & p ) {
+    .with_getter( [canvas_pos]( const tripoint & p ) {
         return get_map().ter( p + canvas_pos ).id().str();
     } );
 
@@ -224,13 +222,13 @@ static void run_test_case_at_rotation( const test_case &t, int i_rot )
 {
     CAPTURE( i_rot );
     map_helpers::canvas canvas = t.canvas.rotated( i_rot );
-    tripoint canvas_pos = tripoint( ( point( MAPSIZE_X, MAPSIZE_Y ) - canvas.size() ) / 2, 0 );
+    tripoint canvas_pos = tripoint( ( point( MAPSIZE_X, MAPSIZE_Y ) - canvas.size().xy() ) / 2, 0 );
 
-    point sz = t.canvas.size();
-    tripoint start_pos = canvas_pos + t.start_pos.rotate( i_rot, sz );
-    tripoint end_pos_s = canvas_pos + t.end_pos_straight.rotate( i_rot, sz );
-    tripoint end_pos_l = canvas_pos + t.end_pos_left.rotate( i_rot, sz );
-    tripoint end_pos_r = canvas_pos + t.end_pos_right.rotate( i_rot, sz );
+    point sz = t.canvas.size().xy();
+    tripoint start_pos = canvas_pos + t.start_pos.rotate_2d( i_rot, sz );
+    tripoint end_pos_s = canvas_pos + t.end_pos_straight.rotate_2d( i_rot, sz );
+    tripoint end_pos_l = canvas_pos + t.end_pos_left.rotate_2d( i_rot, sz );
+    tripoint end_pos_r = canvas_pos + t.end_pos_right.rotate_2d( i_rot, sz );
 
     units::angle rot = i_rot * 90_degrees;
     units::angle start_dir = normalize( t.start_dir + rot );
