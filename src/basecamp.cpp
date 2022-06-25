@@ -193,7 +193,7 @@ void basecamp::define_camp( const tripoint_abs_omt &p, const std::string &camp_t
         e.cur_level = -1;
         e.pos = omt_pos;
         expansions[base_camps::base_dir] = e;
-        const std::string direction = oter_get_rotation_string( omt_ref );
+        const std::string &direction = oter_get_rotation_string( omt_ref );
         const oter_id bcid( direction.empty() ? "faction_base_camp_0" : "faction_base_camp_new_0" +
                             direction );
         overmap_buffer.ter_set( omt_pos, bcid );
