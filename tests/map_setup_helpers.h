@@ -128,4 +128,14 @@ struct canvas_adapter {
 };
 } // namespace map_helpers
 
+namespace Catch
+{
+template<>
+struct StringMaker<map_helpers::canvas> {
+    static std::string convert( const map_helpers::canvas &c ) {
+        return c.to_string();
+    }
+};
+} // namespace Catch
+
 #endif // CATA_TESTS_MAP_SETUP_HELPERS_H

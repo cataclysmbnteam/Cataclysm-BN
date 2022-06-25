@@ -18,16 +18,6 @@
 
 #include <sstream>
 
-namespace Catch
-{
-template<>
-struct StringMaker<map_helpers::canvas> {
-    static std::string convert( const map_helpers::canvas &c ) {
-        return c.to_string();
-    }
-};
-} // namespace Catch
-
 static map_helpers::canvas_legend legend = {{
         { U'.', "t_pavement" },
         { U'x', "t_railroad_track" },
