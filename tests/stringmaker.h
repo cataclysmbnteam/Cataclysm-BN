@@ -2,6 +2,8 @@
 #ifndef CATA_TESTS_STRINGMAKER_H
 #define CATA_TESTS_STRINGMAKER_H
 
+#include <utility>
+
 #include "cuboid_rectangle.h"
 #include "catch/catch.hpp"
 #include "cata_variant.h"
@@ -9,8 +11,6 @@
 #include "distribution_grid.h"
 #include "item.h"
 #include "units_angle.h"
-
-#include <utility>
 
 // StringMaker specializations for Cata types for reporting via Catch2 macros
 

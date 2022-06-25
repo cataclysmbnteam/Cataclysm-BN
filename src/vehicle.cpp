@@ -5584,9 +5584,9 @@ void vehicle::refresh()
         if( vpi.has_flag( VPFLAG_RAIL ) ) {
             rail_wheelcache.push_back( p );
 
-            int rail_pos = vp.mount().y;
-            auto it = std::find( rail_profile.begin(), rail_profile.end(), rail_pos );
-            if( it == rail_profile.end() ) {
+            const int rail_pos = vp.mount().y;
+            const auto it = std::find( rail_profile.cbegin(), rail_profile.cend(), rail_pos );
+            if( it == rail_profile.cend() ) {
                 rail_profile.push_back( rail_pos );
             }
         }

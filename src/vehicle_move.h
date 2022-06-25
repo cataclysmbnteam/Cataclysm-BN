@@ -5,6 +5,7 @@
 #include "units_angle.h"
 #include "point.h"
 
+class map;
 class vehicle;
 
 namespace vehicle_movement
@@ -17,9 +18,15 @@ struct rail_processing_result {
     tripoint shift_amount;
 };
 
-rail_processing_result process_movement_on_rails( const vehicle &veh );
+/**
+ * Decides how the vehicle should move in order to follow rails, or get on rails.
+ */
+rail_processing_result process_movement_on_rails( const map &m, const vehicle &veh );
 
-bool is_on_rails( const vehicle &veh );
+/**
+ * Returns whether the vehicle is currently on rails.
+ */
+bool is_on_rails( const map &m, const vehicle &veh );
 
 } // namespace vehicle_movement
 

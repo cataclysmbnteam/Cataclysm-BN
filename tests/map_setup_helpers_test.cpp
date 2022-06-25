@@ -89,13 +89,13 @@ cata::optional<point> canvas::replace_opt( char32_t what, char32_t with )
     if( candidates.empty() ) {
         return cata::nullopt;
     } else {
-        return candidates[0];
+        return candidates.front();
     }
 }
 
 canvas canvas::rotated( int turns ) const
 {
-    point new_size = size_cache.rotate( turns ).abs();
+    const point new_size = size_cache.rotate( turns ).abs();
     canvas ret( new_size );
     point p;
     for( p.y = 0; p.y < size().y; p.y++ ) {
@@ -151,7 +151,7 @@ void canvas_adapter::check_matches_expected( const canvas &expected, bool requir
             const std::string &exp = l->entry( expected.get( p ) );
             std::string got = getter( p );
             if( exp != got ) {
-                fails.push_back( { p, exp, got } );
+                fails.push_back( { p, exp, std::move( got ) } );
             }
         }
     }

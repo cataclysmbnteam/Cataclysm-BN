@@ -187,7 +187,7 @@ static void test_rail_movement( const test_case &t,
         }
         cycles_left -= 1;
 
-        bool is_on_rails = vehicle_movement::is_on_rails( veh );
+        bool is_on_rails = vehicle_movement::is_on_rails( here, veh );
         always_on_rails &= is_on_rails;
 
         here.vehmove();

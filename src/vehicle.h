@@ -1766,7 +1766,27 @@ class vehicle
         std::vector<int> speciality;
         std::vector<int> floating;         // List of parts that provide buoyancy to boats
 
-        std::vector<int> rail_profile; // Rail profile of the vehicle
+        /**
+         * Rail profile of the vehicle.
+         *
+         * Describes where the vehicle would expect rails to be on its y axis relative to
+         * its pivot point in its own coordinate space.
+         *
+         * For example, for 2-seated draisine (drawn as facing north):
+         *
+         *       +x
+         *    ..:...:..
+         *    ..:...:..      - and |  draisine frame
+         *    ..0---0..         0     railwheels
+         * -y ..|---|.. +y      p     pivot point
+         *    ..0-p-0..         .     ground
+         *    ..:...:..         :     expected rail
+         *    ..:...:..
+         *       -x
+         *
+         * The rail profile would take the value of { -2, 2 }.
+         */
+        std::vector<int> rail_profile;
 
         // config values
         std::string name;   // vehicle name

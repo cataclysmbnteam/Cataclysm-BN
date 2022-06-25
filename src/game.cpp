@@ -6112,7 +6112,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
         return ret;
     };
 
-    std::string tile = "(" + area_name + ") " + fmt_tile_info( lp );
+    std::string tile = string_format( "(%s) %s", area_name, fmt_tile_info( lp ) );
 
     if( m.impassable( lp ) ) {
         lines = fold_and_print( w_look, point( column, line ), max_width, c_light_gray,

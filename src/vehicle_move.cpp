@@ -1324,8 +1324,8 @@ vehicle *vehicle::act_on_map()
         of_turn -= turn_cost;
     }
 
-    bool can_use_rails = this->can_use_rails();
-    bool is_on_rails = vehicle_movement::is_on_rails( *this );
+    const bool can_use_rails = this->can_use_rails();
+    const bool is_on_rails = vehicle_movement::is_on_rails( here, *this );
     if( one_in( 10 ) ) {
         bool controlled = false;
         // It can even be a NPC, but must be at the controls
@@ -1359,7 +1359,7 @@ vehicle *vehicle::act_on_map()
 
     vehicle_movement::rail_processing_result rpres;
     if( can_use_rails && !falling_only ) {
-        rpres = vehicle_movement::process_movement_on_rails( *this );
+        rpres = vehicle_movement::process_movement_on_rails( here, *this );
     }
     if( rpres.do_turn ) {
         turn_dir = rpres.turn_dir;
@@ -1652,19 +1652,19 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
 
 namespace vehicle_movement
 {
-bool scan_rails_from_veh_internal(
+static bool scan_rails_from_veh_internal(
+    const map &m,
     const vehicle &veh,
     tripoint scan_initial_pos,
     point veh_plus_y_vec,
     point scan_vec )
 {
-    map &here = get_map();
     for( size_t rail_id = 0; rail_id < veh.rail_profile.size(); rail_id++ ) {
         int rail_y_rel_to_pivot = veh.rail_profile[rail_id] - veh.pivot_point().y;
         tripoint scan_pos = scan_initial_pos + rail_y_rel_to_pivot * veh_plus_y_vec;
         for( int step = 0; step < 3; step++ ) {
             tripoint p = scan_pos + scan_vec * step;
-            bool rail_here = here.has_flag_ter_or_furn( TFLAG_RAIL, p );
+            bool rail_here = m.has_flag_ter_or_furn( TFLAG_RAIL, p );
             if( !rail_here ) {
                 // Terrain is not a rail
                 return false;
@@ -1674,8 +1674,13 @@ bool scan_rails_from_veh_internal(
     return true;
 }
 
-bool scan_rails_at_shift( const vehicle &veh, int velocity_sign, units::angle dir, int shift_sign,
-                          tripoint *shift_amt = nullptr )
+static bool scan_rails_at_shift(
+    const map &m,
+    const vehicle &veh,
+    int velocity_sign,
+    units::angle dir,
+    int shift_sign,
+    tripoint *shift_amt = nullptr )
 {
     point ray_delta;
     {
@@ -1703,8 +1708,8 @@ bool scan_rails_at_shift( const vehicle &veh, int velocity_sign, units::angle di
             scan_start -= veh_plus_y_vec_y * velocity_sign;
         }
 
-        bool scan_res_x = scan_rails_from_veh_internal( veh, scan_start, veh_plus_y_vec_x, scan_vec );
-        bool scan_res_y = scan_rails_from_veh_internal( veh, scan_start, veh_plus_y_vec_y, scan_vec );
+        bool scan_res_x = scan_rails_from_veh_internal( m, veh, scan_start, veh_plus_y_vec_x, scan_vec );
+        bool scan_res_y = scan_rails_from_veh_internal( m, veh, scan_start, veh_plus_y_vec_y, scan_vec );
 
         if( scan_res_x || scan_res_y ) {
             if( shift_amt ) {
@@ -1719,7 +1724,7 @@ bool scan_rails_at_shift( const vehicle &veh, int velocity_sign, units::angle di
         if( shift_sign != 0 ) {
             scan_start += scan_vec + veh_plus_y_vec * shift_sign;
         }
-        if( scan_rails_from_veh_internal( veh, scan_start, veh_plus_y_vec, scan_vec ) ) {
+        if( scan_rails_from_veh_internal( m, veh, scan_start, veh_plus_y_vec, scan_vec ) ) {
             if( shift_amt ) {
                 *shift_amt = scan_start - veh.global_pos3();
             }
@@ -1729,12 +1734,12 @@ bool scan_rails_at_shift( const vehicle &veh, int velocity_sign, units::angle di
     return false;
 }
 
-inline rail_processing_result make_none()
+static inline rail_processing_result make_none()
 {
     return rail_processing_result();
 }
 
-inline rail_processing_result make_turn( units::angle a )
+static inline rail_processing_result make_turn( units::angle a )
 {
     rail_processing_result res;
     res.do_turn = true;
@@ -1742,7 +1747,7 @@ inline rail_processing_result make_turn( units::angle a )
     return res;
 }
 
-inline rail_processing_result make_shift( tripoint dp )
+static inline rail_processing_result make_shift( tripoint dp )
 {
     rail_processing_result res;
     res.do_shift = true;
@@ -1750,7 +1755,7 @@ inline rail_processing_result make_shift( tripoint dp )
     return res;
 }
 
-rail_processing_result process_movement_on_rails( const vehicle &veh )
+rail_processing_result process_movement_on_rails( const map &m, const vehicle &veh )
 {
     int face_dir_degrees = units::to_degrees( veh.face.dir() );
     int face_dir_snapped = ( face_dir_degrees / 45 ) * 45;
@@ -1761,16 +1766,16 @@ rail_processing_result process_movement_on_rails( const vehicle &veh )
 
     int vel_sign = veh.velocity > 0 ? 1 : -1;
 
-    bool can_go_straight = scan_rails_at_shift( veh, vel_sign, dir_straight, 0 );
-    bool can_turn_left = scan_rails_at_shift( veh, vel_sign, dir_left, 0 );
-    bool can_turn_right = scan_rails_at_shift( veh, vel_sign, dir_right, 0 );
+    bool can_go_straight = scan_rails_at_shift( m, veh, vel_sign, dir_straight, 0 );
+    bool can_turn_left = scan_rails_at_shift( m, veh, vel_sign, dir_left, 0 );
+    bool can_turn_right = scan_rails_at_shift( m, veh, vel_sign, dir_right, 0 );
 
     tripoint shift_amount_right;
     tripoint shift_amount_left;
 
-    bool can_shift_right = scan_rails_at_shift( veh, vel_sign, dir_straight, vel_sign,
+    bool can_shift_right = scan_rails_at_shift( m, veh, vel_sign, dir_straight, vel_sign,
                            &shift_amount_right );
-    bool can_shift_left = scan_rails_at_shift( veh, vel_sign, dir_straight, -vel_sign,
+    bool can_shift_left = scan_rails_at_shift( m, veh, vel_sign, dir_straight, -vel_sign,
                           &shift_amount_left );
 
     // Appraise possible vehicle orientations
@@ -1830,7 +1835,7 @@ rail_processing_result process_movement_on_rails( const vehicle &veh )
     return make_none();
 }
 
-bool is_on_rails( const vehicle &veh )
+bool is_on_rails( const map &m, const vehicle &veh )
 {
     if( !veh.can_use_rails() ) {
         // Must be rail-worthy
@@ -1847,8 +1852,8 @@ bool is_on_rails( const vehicle &veh )
 
     // Must have valid rail segment in front of or behind us
     units::angle dir_straight = normalize( units::from_degrees( face_dir_snapped ) );
-    return scan_rails_at_shift( veh, 1, dir_straight, 0 ) ||
-           scan_rails_at_shift( veh, -1, dir_straight, 0 );
+    return scan_rails_at_shift( m, veh, 1, dir_straight, 0 ) ||
+           scan_rails_at_shift( m, veh, -1, dir_straight, 0 );
 }
 
 } // namespace vehicle_movement
