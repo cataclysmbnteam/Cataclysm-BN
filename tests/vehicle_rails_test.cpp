@@ -1,22 +1,22 @@
 #include "catch/catch.hpp"
-#include "stringmaker.h"
-
-#include "avatar.h"
-#include "map.h"
-#include "map_helpers.h"
-#include "map_setup_helpers.h"
-#include "point.h"
-#include "player_helpers.h"
-#include "string_formatter.h"
-#include "type_id.h"
-#include "veh_type.h"
-#include "vehicle.h"
-#include "vehicle_move.h"
-#include "vpart_position.h"
-#include "vpart_range.h"
-#include "units_utility.h"
 
 #include <sstream>
+
+#include "avatar.h"
+#include "map_helpers.h"
+#include "map_setup_helpers.h"
+#include "map.h"
+#include "player_helpers.h"
+#include "point.h"
+#include "string_formatter.h"
+#include "stringmaker.h"
+#include "type_id.h"
+#include "units_utility.h"
+#include "veh_type.h"
+#include "vehicle_move.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+#include "vpart_range.h"
 
 static map_helpers::canvas_legend legend = {{
         { U' ', "t_open_air" },

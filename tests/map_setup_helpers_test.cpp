@@ -1,7 +1,7 @@
-#include "map_setup_helpers.h"
-
 #include "catch/catch.hpp"
+
 #include "catacharset.h"
+#include "map_setup_helpers.h"
 #include "string_formatter.h"
 
 namespace map_helpers
