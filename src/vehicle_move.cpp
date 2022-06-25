@@ -1517,6 +1517,15 @@ float map::vehicle_wheel_traction( const vehicle &veh,
     }
 
     float traction_wheel_area = 0.0f;
+
+    if( vehicle_movement::is_on_rails( *this, veh ) ) {
+        // Vehicles on rails are considered to have all of their wheels on rails
+        for( int p : veh.rail_wheelcache ) {
+            traction_wheel_area += veh.cpart( p ).wheel_area();
+        }
+        return traction_wheel_area;
+    }
+
     for( int p : wheel_indices ) {
         const tripoint &pp = veh.global_part_pos3( p );
         const int wheel_area = veh.cpart( p ).wheel_area();
