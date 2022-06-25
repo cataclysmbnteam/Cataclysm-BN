@@ -28,17 +28,27 @@ struct canvas_legend {
 
 struct canvas {
     private:
-        point size_cache;
-        std::vector<std::u32string> data;
+        tripoint size_cache;
+        std::vector<std::vector<std::u32string>> data;
 
-        point calc_size() const;
+        tripoint calc_size() const;
 
     public:
         canvas() = default;
-        canvas( const point &size );
-        canvas( std::vector<std::u32string> &&data ) : data( data ) {
+        canvas( const tripoint &size );
+        canvas( std::vector<std::u32string> &&level ) {
+            data.emplace_back( std::move( level ) );
             size_cache = calc_size();
             assert_size( size() );
+        }
+        // Moved out to a builder method to prevent compilers (and users) from
+        // getting confused by all these curly braces.
+        static inline canvas make_multilevel( std::vector<std::vector<std::u32string>> &&data ) {
+            canvas c;
+            c.data = std::move( data );
+            c.size_cache = c.calc_size();
+            c.assert_size( c.size() );
+            return c;
         }
         canvas( const canvas & ) = default;
         canvas( canvas && ) = default;
@@ -48,27 +58,34 @@ struct canvas {
             return data == rhs.data;
         }
 
-        inline const point &size() const {
+        inline const tripoint &size() const {
             return size_cache;
         }
 
-        void assert_size( const point &sz ) const;
+        void assert_size( const tripoint &sz ) const;
         std::string to_string() const;
 
-        inline void set( const point &p, char32_t val ) {
-            assert( p.x < size().x );
-            assert( p.y < size().y );
-            data[p.y][p.x] = val;
-        }
-        inline char32_t get( const point &p ) const {
-            assert( p.x < size().x );
-            assert( p.y < size().y );
-            return data[p.y][p.x];
+        inline bool in_bounds( const tripoint &p ) const {
+            return p.x >= 0 &&
+                   p.y >= 0 &&
+                   p.z >= 0 &&
+                   p.x < size().x &&
+                   p.y < size().y &&
+                   p.z < size().z;
         }
 
-        std::vector<point> replace( char32_t what, char32_t with );
-        point replace_unique( char32_t what, char32_t with );
-        cata::optional<point> replace_opt( char32_t what, char32_t with );
+        inline void set( const tripoint &p, char32_t val ) {
+            assert( in_bounds( p ) );
+            data[p.z][p.y][p.x] = val;
+        }
+        inline char32_t get( const tripoint &p ) const {
+            assert( in_bounds( p ) );
+            return data[p.z][p.y][p.x];
+        }
+
+        std::vector<tripoint> replace( char32_t what, char32_t with );
+        tripoint replace_unique( char32_t what, char32_t with );
+        cata::optional<tripoint> replace_opt( char32_t what, char32_t with );
 
         canvas rotated( int turns ) const;
 };
@@ -76,8 +93,8 @@ struct canvas {
 struct canvas_adapter {
     private:
         const canvas_legend *l = nullptr;
-        std::function<std::string( const point & )> getter;
-        std::function<void( const point &, const std::string & )> setter;
+        std::function<std::string( const tripoint & )> getter;
+        std::function<void( const tripoint &, const std::string & )> setter;
 
     public:
         canvas_adapter() = default;
@@ -90,18 +107,22 @@ struct canvas_adapter {
             this->l = &l;
             return *this;
         }
-        inline canvas_adapter &with_getter( std::function<std::string( const point & )> f ) {
+        inline canvas_adapter &with_getter(
+            std::function<std::string( const tripoint & )> f
+        ) {
             getter = f;
             return *this;
         }
-        inline canvas_adapter &with_setter( std::function<void( const point &, const std::string & )> f ) {
+        inline canvas_adapter &with_setter(
+            std::function<void( const tripoint &, const std::string & )> f
+        ) {
             setter = f;
             return *this;
         }
 
         void set_all( const canvas &c );
 
-        canvas extract_to_canvas( const point &sz );
+        canvas extract_to_canvas( const tripoint &sz );
 
         void check_matches_expected( const canvas &expected, bool require );
 };
