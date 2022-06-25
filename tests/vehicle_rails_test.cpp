@@ -191,9 +191,16 @@ static void test_rail_movement( const test_case &t,
         here.vehmove();
         veh.idle( true );
         // If the vehicle starts skidding, the effects become random and test is RUINED
-        REQUIRE( !veh.skidding );
+        if( veh.skidding ) {
+            // 'REQUIRE' here is behind an if check to reduce impact on Catch statistics
+            REQUIRE( !veh.skidding );
+        }
         for( const tripoint &pos : veh.get_points() ) {
-            REQUIRE( here.ter( pos ) );
+            ter_id ter_here = here.ter( pos );
+            if( !ter_here ) {
+                // 'REQUIRE' here is behind an if check to reduce impact on Catch statistics
+                REQUIRE( ter_here );
+            }
         }
 
         scan_log << string_format( "pos: %s dir: %d vel: %d/%d  on_rails:%d\n",
