@@ -11,6 +11,7 @@
 #include "type_id.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_move.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "units_utility.h"
@@ -33,16 +34,24 @@ static map_helpers::canvas_legend legend = {{
     }
 };
 
-enum class tcscope {
-    full,
-    no_back_turns,
-    no_back_move
-};
+namespace tcscope
+{
+constexpr uint32_t barebones = 0;
+
+constexpr uint32_t check_back_turns =   1 << 0;
+constexpr uint32_t check_back_move =    1 << 1;
+constexpr uint32_t check_on_rails =     1 << 2;
+
+constexpr uint32_t full = check_back_turns | check_back_move | check_on_rails;
+
+constexpr uint32_t no_back_turns = full & ~check_back_turns;
+constexpr uint32_t no_back_move = full & ~check_back_move;
+}
 
 struct test_case {
     std::string veh_id;
 
-    tcscope scope;
+    uint32_t scope;
 
     point start_pos;
     units::angle start_dir;
@@ -58,7 +67,7 @@ struct test_case {
 
     map_helpers::canvas canvas;
 
-    test_case( const std::string &veh_id, tcscope scope, units::angle start_dir,
+    test_case( const std::string &veh_id, uint32_t scope, units::angle start_dir,
                units::angle end_dir_straight, units::angle end_dir_left,
                units::angle end_dir_right, map_helpers::canvas &&canvas_arg ) :
         veh_id( veh_id ), scope( scope ), start_dir( start_dir ),
@@ -108,7 +117,7 @@ static void build_map_from_canvas( const map_helpers::canvas &canvas, const trip
     adapter.check_matches_expected( canvas, true );
 }
 
-static void test_rail_movement( const std::string &veh_id,
+static void test_rail_movement( const test_case &t,
                                 int move_dir,
                                 tripoint vehicle_pos,
                                 units::angle face_dir,
@@ -123,7 +132,7 @@ static void test_rail_movement( const std::string &veh_id,
     CAPTURE( expected_dir );
 
     map &here = get_map();
-    vehicle *veh_ptr = here.add_vehicle( vproto_id( veh_id ), vehicle_pos, face_dir, 100, 0 );
+    vehicle *veh_ptr = here.add_vehicle( vproto_id( t.veh_id ), vehicle_pos, face_dir, 100, 0 );
 
     REQUIRE( veh_ptr != nullptr );
 
@@ -170,12 +179,17 @@ static void test_rail_movement( const std::string &veh_id,
     scan_log << "\n";
 
     int cycles_left = 80;
+    bool always_on_rails = true;
     for( ;; ) {
         if( cycles_left == 0 ) {
             scan_log << "exceeded max scan cycles\n";
             break;
         }
         cycles_left -= 1;
+
+        bool is_on_rails = vehicle_movement::is_on_rails( veh );
+        always_on_rails &= is_on_rails;
+
         here.vehmove();
         veh.idle( true );
         // If the vehicle starts skidding, the effects become random and test is RUINED
@@ -184,11 +198,12 @@ static void test_rail_movement( const std::string &veh_id,
             REQUIRE( here.ter( pos ) );
         }
 
-        scan_log << string_format( "pos: %s dir: %d vel: %d/%d\n",
+        scan_log << string_format( "pos: %s dir: %d vel: %d/%d  on_rails:%d\n",
                                    veh.global_pos3().to_string(),
                                    static_cast<int>( units::to_degrees( veh.face.dir() ) ),
                                    veh.velocity,
-                                   veh.vertical_velocity
+                                   veh.vertical_velocity,
+                                   is_on_rails ? 1 : 0
                                  );
 
         if( veh.global_pos3() == expected_pos ) {
@@ -200,11 +215,14 @@ static void test_rail_movement( const std::string &veh_id,
     units::angle got_dir = normalize( veh.face.dir() );
     CAPTURE( got_pos );
     CAPTURE( got_dir );
+    CAPTURE( always_on_rails );
+    CAPTURE( scan_log.str() );
 
     if( units::to_degrees( got_dir ) != Approx( units::to_degrees( expected_dir ) ) ||
         got_pos != expected_pos ) {
-        CAPTURE( scan_log.str() );
         FAIL( "direction and/or position mismatch" );
+    } else if( ( t.scope & tcscope::check_on_rails ) && !always_on_rails ) {
+        FAIL( "'on_rails' check has failed" );
     } else {
         SUCCEED();
     }
@@ -241,31 +259,31 @@ static void run_test_case_at_rotation( const test_case &t, int i_rot )
     };
     WHEN( sn( "moving forward" ) ) {
         AND_WHEN( sn( "not trying to turn " ) ) {
-            test_rail_movement( t.veh_id, 1, start_pos, start_dir,
+            test_rail_movement( t, 1, start_pos, start_dir,
                                 0_degrees, end_pos_s, end_dir_s );
         }
         AND_WHEN( sn( "trying to turn right " ) ) {
-            test_rail_movement( t.veh_id, 1, start_pos, start_dir,
+            test_rail_movement( t, 1, start_pos, start_dir,
                                 turn_step, end_pos_r, end_dir_r );
         }
         AND_WHEN( sn( "trying to turn left " ) ) {
-            test_rail_movement( t.veh_id, 1, start_pos, start_dir,
+            test_rail_movement( t, 1, start_pos, start_dir,
                                 -turn_step, end_pos_l, end_dir_l );
         }
     }
-    if( t.scope != tcscope::no_back_move ) {
+    if( t.scope & tcscope::check_back_move ) {
         WHEN( sn( "moving backwards from straight path" ) ) {
             AND_WHEN( sn( "not trying to turn" ) ) {
-                test_rail_movement( t.veh_id, -1, end_pos_s, end_dir_s,
+                test_rail_movement( t, -1, end_pos_s, end_dir_s,
                                     0_degrees, start_pos, start_dir );
             }
-            if( t.scope != tcscope::no_back_turns ) {
+            if( t.scope & tcscope::check_back_turns ) {
                 AND_WHEN( sn( "trying to turn right" ) ) {
-                    test_rail_movement( t.veh_id, -1, end_pos_s, end_dir_s,
+                    test_rail_movement( t, -1, end_pos_s, end_dir_s,
                                         turn_step, start_pos, start_dir );
                 }
                 AND_WHEN( sn( "trying to turn left" ) ) {
-                    test_rail_movement( t.veh_id, -1, end_pos_s, end_dir_s,
+                    test_rail_movement( t, -1, end_pos_s, end_dir_s,
                                         -turn_step, start_pos, start_dir );
                 }
             }
@@ -273,16 +291,16 @@ static void run_test_case_at_rotation( const test_case &t, int i_rot )
         if( end_pos_r != end_pos_s ) {
             WHEN( sn( "moving backwards from right path" ) ) {
                 AND_WHEN( sn( "not trying to turn" ) ) {
-                    test_rail_movement( t.veh_id, -1, end_pos_r, end_dir_r,
+                    test_rail_movement( t, -1, end_pos_r, end_dir_r,
                                         0_degrees, start_pos, start_dir );
                 }
-                if( t.scope != tcscope::no_back_turns ) {
+                if( t.scope & tcscope::check_back_turns ) {
                     AND_WHEN( sn( "trying to turn right" ) ) {
-                        test_rail_movement( t.veh_id, -1, end_pos_r, end_dir_r,
+                        test_rail_movement( t, -1, end_pos_r, end_dir_r,
                                             turn_step, start_pos, start_dir );
                     }
                     AND_WHEN( sn( "trying to turn left" ) ) {
-                        test_rail_movement( t.veh_id, -1, end_pos_r, end_dir_r,
+                        test_rail_movement( t, -1, end_pos_r, end_dir_r,
                                             -turn_step, start_pos, start_dir );
                     }
                 }
@@ -291,16 +309,16 @@ static void run_test_case_at_rotation( const test_case &t, int i_rot )
         if( end_pos_l != end_pos_s ) {
             WHEN( sn( "moving backwards from left path" ) ) {
                 AND_WHEN( sn( "not trying to turn" ) ) {
-                    test_rail_movement( t.veh_id, -1, end_pos_l, end_dir_l,
+                    test_rail_movement( t, -1, end_pos_l, end_dir_l,
                                         0_degrees, start_pos, start_dir );
                 }
-                if( t.scope != tcscope::no_back_turns ) {
+                if( t.scope & tcscope::check_back_turns ) {
                     AND_WHEN( sn( "trying to turn right" ) ) {
-                        test_rail_movement( t.veh_id, -1, end_pos_l, end_dir_l,
+                        test_rail_movement( t, -1, end_pos_l, end_dir_l,
                                             turn_step, start_pos, start_dir );
                     }
                     AND_WHEN( sn( "trying to turn left" ) ) {
-                        test_rail_movement( t.veh_id, -1, end_pos_l, end_dir_l,
+                        test_rail_movement( t, -1, end_pos_l, end_dir_l,
                                             -turn_step, start_pos, start_dir );
                     }
                 }
@@ -644,7 +662,7 @@ TEST_CASE( "vehicle_rail_movement", "[vehicle][railroad]" )
         // On normal ground rail vehicle behaves like normal vehicle
         run_test_case( test_case{
             "motorcycle_rail",
-            tcscope::no_back_move,
+            tcscope::barebones,
             -90_degrees,
             -90_degrees,
             -90_degrees - turn_step,
@@ -654,7 +672,7 @@ TEST_CASE( "vehicle_rail_movement", "[vehicle][railroad]" )
 
         run_test_case( test_case{
             "motorized_draisine_trirail",
-            tcscope::no_back_move,
+            tcscope::barebones,
             -90_degrees,
             -90_degrees,
             -90_degrees - turn_step,
