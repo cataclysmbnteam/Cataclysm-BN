@@ -709,6 +709,45 @@ static map_helpers::canvas rails_straight_ramp()
         }} );
 }
 
+map_helpers::canvas rails_straight_start_outside()
+{
+    return { {
+            U".........x..x..x.........",
+            U".........x..x..x.........",
+            U".........x..x..x.........",
+            U".........x..x..x.........",
+            U".........x..l..x.........",
+            U".........x..x..x.........",
+            U".........x..x..x.........",
+            U".........x..x..x.........",
+            U".........x..x..x.........",
+            U".........x..x..x.........",
+            U".........x..x..x.........",
+            U".........x..x..x.........",
+            U".........x..x..x.........",
+            U".........x..o..x.........",
+            U".........x..x..x.....r...",
+            U".........x..x..x.........",
+            U".........x..x..x.........",
+            U".........x..x..x.........",
+            U".........x..x..x.........",
+            U".........x..x..x.........",
+            U".........x..x..x.........",
+            U".........x..x..x.........",
+            U".........x..x..x.........",
+            U".........x..x..x.........",
+            U".........x..x..x.........",
+            U".........x..x..x.........",
+            U".........x..x..x.........",
+            U".........x..x..x.........",
+            U".........x..x..x.........",
+            U"......*..x..x..x.........",
+            U".........x..x..x.........",
+            U".........x..x..x........."
+        }
+    };
+}
+
 TEST_CASE( "vehicle_rail_movement_derailed", "[vehicle][railroad]" )
 {
     SECTION( "no_rails" ) {
@@ -731,6 +770,19 @@ TEST_CASE( "vehicle_rail_movement_derailed", "[vehicle][railroad]" )
             -90_degrees - turn_step,
             -90_degrees + turn_step,
             empty_terrain()
+        } );
+    }
+    SECTION( "get_on_straight_rails" ) {
+        // Derailed rail vehicle must snap onto rails, but only at angle <= 30 degrees,
+        // and only when rail configuration matches expected
+        run_test_case( test_case{
+            "motorized_draisine_trirail",
+            tcscope::barebones,
+            -60_degrees,
+            -90_degrees,
+            -90_degrees,
+            -45_degrees,
+            rails_straight_start_outside()
         } );
     }
 }
