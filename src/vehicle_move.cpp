@@ -1757,7 +1757,7 @@ static inline rail_processing_result make_shift( tripoint dp )
 
 rail_processing_result process_movement_on_rails( const map &m, const vehicle &veh )
 {
-    int face_dir_degrees = units::to_degrees( veh.face.dir() );
+    int face_dir_degrees = std::round( units::to_degrees( veh.face.dir() ) );
     int face_dir_snapped = ( face_dir_degrees / 45 ) * 45;
 
     units::angle dir_straight = normalize( units::from_degrees( face_dir_snapped ) );
@@ -1770,6 +1770,8 @@ rail_processing_result process_movement_on_rails( const map &m, const vehicle &v
     bool can_turn_left = scan_rails_at_shift( m, veh, vel_sign, dir_left, 0 );
     bool can_turn_right = scan_rails_at_shift( m, veh, vel_sign, dir_right, 0 );
 
+    bool can_go_backwards = scan_rails_at_shift( m, veh, -vel_sign, dir_straight, 0 );
+
     tripoint shift_amount_right;
     tripoint shift_amount_left;
 
@@ -1778,11 +1780,11 @@ rail_processing_result process_movement_on_rails( const map &m, const vehicle &v
     bool can_shift_left = scan_rails_at_shift( m, veh, vel_sign, dir_straight, -vel_sign,
                           &shift_amount_left );
 
+    bool is_on_rails = face_dir_degrees == face_dir_snapped && ( can_go_straight || can_go_backwards );
+
     // Appraise possible vehicle orientations
-    bool is_derailed = face_dir_degrees != face_dir_snapped;
-    if( is_derailed ) {
+    if( !is_on_rails ) {
         // The vehicle is derailed, attempt to get back on rails
-        // TODO: allow only near exact facing
         if( can_go_straight ) {
             return make_turn( dir_straight );
         }
@@ -1842,7 +1844,7 @@ bool is_on_rails( const map &m, const vehicle &veh )
         return false;
     }
 
-    int face_dir_degrees = units::to_degrees( veh.face.dir() );
+    int face_dir_degrees = std::round( units::to_degrees( veh.face.dir() ) );
     int face_dir_snapped = ( face_dir_degrees / 45 ) * 45;
 
     if( face_dir_degrees != face_dir_snapped ) {
