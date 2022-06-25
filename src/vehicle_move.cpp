@@ -95,9 +95,14 @@ int vehicle::slowdown( int at_velocity ) const
         f_total_drag += coeff_water_drag() * mps * mps;
     } else if( !is_falling && !is_flying ) {
         double f_rolling_drag = coeff_rolling_drag() * ( vehicles::rolling_constant_to_variable + mps );
-        // increase rolling resistance by up to 25x if the vehicle is skidding at right angle to facing
-        const double skid_factor = 1 + 24 * std::abs( units::sin( face.dir() - move.dir() ) );
-        f_total_drag += f_rolling_drag * skid_factor;
+        if( vehicle_movement::is_on_rails( get_map(), *this ) ) {
+            // vehicles on rails don't skid
+            f_total_drag += f_rolling_drag;
+        } else {
+            // increase rolling resistance by up to 25x if the vehicle is skidding at right angle to facing
+            const double skid_factor = 1.0 + 24.0 * std::abs( units::sin( face.dir() - move.dir() ) );
+            f_total_drag += f_rolling_drag * skid_factor;
+        }
     }
     double accel_slowdown = f_total_drag / to_kilogram( total_mass() );
     // converting m/s^2 to vmiph/s
