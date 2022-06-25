@@ -709,7 +709,7 @@ static map_helpers::canvas rails_straight_ramp()
         }} );
 }
 
-TEST_CASE( "vehicle_rail_movement", "[vehicle][railroad]" )
+TEST_CASE( "vehicle_rail_movement_derailed", "[vehicle][railroad]" )
 {
     SECTION( "no_rails" ) {
         // On normal ground rail vehicle behaves like normal vehicle
@@ -733,6 +733,10 @@ TEST_CASE( "vehicle_rail_movement", "[vehicle][railroad]" )
             empty_terrain()
         } );
     }
+}
+
+TEST_CASE( "vehicle_rail_movement_basic", "[vehicle][railroad]" )
+{
     SECTION( "straight_rails" ) {
         // Rail vehicle must follow straight rails regardless of desired turn dir
         run_test_case( test_case{
@@ -821,6 +825,11 @@ TEST_CASE( "vehicle_rail_movement", "[vehicle][railroad]" )
             rails_cross()
         } );
     }
+
+}
+
+TEST_CASE( "vehicle_rail_movement_fork", "[vehicle][railroad]" )
+{
     SECTION( "rails_tee_straight" ) {
         // Rail vehicle must follow straight rails by default,
         // but can switch tracks depending on desired turn dir
@@ -868,6 +877,10 @@ TEST_CASE( "vehicle_rail_movement", "[vehicle][railroad]" )
         } );
     }
 
+}
+
+TEST_CASE( "vehicle_rail_movement_shifting", "[vehicle][railroad]" )
+{
     SECTION( "rails_straight_shifting" ) {
         // Rail vehicle must shift by 1 tile left or right
         // if the rails shift left or right
@@ -913,6 +926,10 @@ TEST_CASE( "vehicle_rail_movement", "[vehicle][railroad]" )
             rails_diag_shifting()
         } );
     }
+}
+
+TEST_CASE( "vehicle_rail_movement_ramp", "[vehicle][railroad][ramp]" )
+{
     SECTION( "straight_ramp" ) {
         // Rail vehicle must go up the ramp while following rails
         run_test_case( test_case{
