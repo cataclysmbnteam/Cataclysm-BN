@@ -19,8 +19,18 @@
 #include <sstream>
 
 static map_helpers::canvas_legend legend = {{
+        { U' ', "t_open_air" },
         { U'.', "t_pavement" },
+        { U'#', "t_wall" },
         { U'x', "t_railroad_track" },
+        { U'b', "t_railroad_track_ramp_up_low" },
+        { U'B', "t_railroad_track_ramp_up_high" },
+        { U'c', "t_railroad_track_ramp_down_high" },
+        { U'C', "t_railroad_track_ramp_down_low" },
+        { U'u', "t_ramp_up_low" },
+        { U'U', "t_ramp_up_high" },
+        { U'd', "t_ramp_down_high" },
+        { U'D', "t_ramp_down_low" },
     }
 };
 
@@ -644,6 +654,61 @@ map_helpers::canvas rails_diag_shifting()
     };
 }
 
+static map_helpers::canvas rails_straight_ramp()
+{
+    return map_helpers::canvas::make_multilevel( {{
+            { {
+                    U"#########",
+                    U"#########",
+                    U"#########",
+                    U"#########",
+                    U"#########",
+                    U"#########",
+                    U"#########",
+                    U"#########",
+                    U"#########",
+                    U"UBUUBUUBU",
+                    U"ubuubuubu",
+                    U".x..x..x.",
+                    U".x..x..x.",
+                    U".x..x..x.",
+                    U".x..x..x.",
+                    U".x..x..x.",
+                    U".x..x..x.",
+                    U".x..*..x.",
+                    U".x..x..x.",
+                    U".x..x..x.",
+                    U".x..x..x.",
+                    U".x..x..x.",
+                }
+            }, { {
+                    U".x..x..x.",
+                    U".x..x..x.",
+                    U".x..x..x.",
+                    U".x..x..x.",
+                    U".x..o..x.",
+                    U".x..x..x.",
+                    U".x..x..x.",
+                    U".x..x..x.",
+                    U".x..x..x.",
+                    U"dcddcddcd",
+                    U"DCDDCDDCD",
+                    U"         ",
+                    U"         ",
+                    U"         ",
+                    U"         ",
+                    U"         ",
+                    U"         ",
+                    U"         ",
+                    U"         ",
+                    U"         ",
+                    U"         ",
+                    U"         ",
+                }
+            }
+        }} );
+}
+
 TEST_CASE( "vehicle_rail_movement", "[vehicle][railroad]" )
 {
     SECTION( "no_rails" ) {
@@ -846,6 +911,28 @@ TEST_CASE( "vehicle_rail_movement", "[vehicle][railroad]" )
             -45_degrees,
             -45_degrees,
             rails_diag_shifting()
+        } );
+    }
+    SECTION( "straight_ramp" ) {
+        // Rail vehicle must go up the ramp while following rails
+        run_test_case( test_case{
+            "motorcycle_rail",
+            tcscope::full,
+            -90_degrees,
+            -90_degrees,
+            -90_degrees,
+            -90_degrees,
+            rails_straight_ramp()
+        } );
+
+        run_test_case( test_case{
+            "motorized_draisine_trirail",
+            tcscope::full,
+            -90_degrees,
+            -90_degrees,
+            -90_degrees,
+            -90_degrees,
+            rails_straight_ramp()
         } );
     }
 }
