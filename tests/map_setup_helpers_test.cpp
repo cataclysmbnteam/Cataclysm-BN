@@ -4,7 +4,7 @@
 #include "map_setup_helpers.h"
 #include "string_formatter.h"
 
-void cata_assert( bool expr )
+static void cata_assert( bool expr )
 {
     assert( expr );
     ( void ) expr;
