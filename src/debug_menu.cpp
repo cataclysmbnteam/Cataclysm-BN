@@ -1962,7 +1962,7 @@ void debug()
 
         case DEBUG_SAVE_SCREENSHOT:
             g->queue_screenshot = true;
-        break;
+            break;
 
         case DEBUG_GAME_REPORT: {
             // generate a game report, useful for bug reporting.
