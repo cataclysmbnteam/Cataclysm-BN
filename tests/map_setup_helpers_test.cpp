@@ -4,12 +4,18 @@
 #include "map_setup_helpers.h"
 #include "string_formatter.h"
 
+void cata_assert( bool expr )
+{
+    assert( expr );
+    ( void ) expr;
+}
+
 namespace map_helpers
 {
 const std::string &canvas_legend::entry( char32_t c ) const
 {
     auto it = data.find( c );
-    assert( it != data.end() );
+    cata_assert( it != data.end() );
     return it->second;
 }
 
@@ -46,11 +52,11 @@ tripoint canvas::calc_size() const
 
 void canvas::assert_size( const tripoint &sz ) const
 {
-    assert( static_cast<int>( data.size() ) == sz.z );
+    cata_assert( static_cast<int>( data.size() ) == sz.z );
     for( const auto &level : data ) {
-        assert( static_cast<int>( level.size() ) == sz.y );
+        cata_assert( static_cast<int>( level.size() ) == sz.y );
         for( const auto &line : level ) {
-            assert( static_cast<int>( line.size() ) == sz.x );
+            cata_assert( static_cast<int>( line.size() ) == sz.x );
         }
     }
 }
@@ -90,14 +96,14 @@ std::vector<tripoint> canvas::replace( char32_t what, char32_t with )
 tripoint canvas::replace_unique( char32_t what, char32_t with )
 {
     std::vector<tripoint> candidates = replace( what, with );
-    assert( candidates.size() == 1 );
+    cata_assert( candidates.size() == 1 );
     return candidates.front();
 }
 
 cata::optional<tripoint> canvas::replace_opt( char32_t what, char32_t with )
 {
     std::vector<tripoint> candidates = replace( what, with );
-    assert( candidates.size() <= 1 );
+    cata_assert( candidates.size() <= 1 );
     if( candidates.empty() ) {
         return cata::nullopt;
     } else {
@@ -123,8 +129,8 @@ canvas canvas::rotated( int turns ) const
 
 void canvas_adapter::set_all( const canvas &c )
 {
-    assert( l );
-    assert( setter );
+    cata_assert( l );
+    cata_assert( !!setter );
     tripoint p;
     for( p.z = 0; p.z < c.size().z; p.z++ ) {
         for( p.y = 0; p.y < c.size().y; p.y++ ) {
@@ -137,8 +143,8 @@ void canvas_adapter::set_all( const canvas &c )
 
 canvas canvas_adapter::extract_to_canvas( const tripoint &sz )
 {
-    assert( l );
-    assert( getter );
+    cata_assert( l );
+    cata_assert( !!getter );
     canvas ret( sz );
     tripoint p;
     for( p.z = 0; p.z < sz.z; p.z++ ) {
@@ -159,8 +165,8 @@ void canvas_adapter::check_matches_expected( const canvas &expected, bool requir
         std::string got;
     };
 
-    assert( l );
-    assert( getter );
+    cata_assert( l );
+    cata_assert( !!getter );
 
     std::vector<mismatch_entry> fails;
     tripoint p;
@@ -206,73 +212,64 @@ TEST_CASE( "map_test_setup_canvas_rotation", "[utility]" )
     SECTION( "even_sides_with_2_levels" ) {
         map_helpers::canvas canvas = map_helpers::canvas::make_multilevel( {
             {
-                { {
-                        U"..",
-                        U"ab",
-                        U"cd",
-                        U"..",
-                    }
+                {
+                    U"..",
+                    U"ab",
+                    U"cd",
+                    U"..",
                 },
-                { {
-                        U"..",
-                        U"ef",
-                        U"gh",
-                        U"..",
-                    }
+                {
+                    U"..",
+                    U"ef",
+                    U"gh",
+                    U"..",
                 },
             } } );
 
         REQUIRE( canvas.rotated( 0 ) == canvas );
         {
+            std::vector<std::u32string> lev1 = {
+                U".ca.",
+                U".db.",
+            };
+            std::vector<std::u32string> lev2 = {
+                U".ge.",
+                U".hf.",
+            };
             map_helpers::canvas exp = map_helpers::canvas::make_multilevel( {
                 {
-                    { {
-                            U".ca.",
-                            U".db.",
-                        }
-                    },
-                    { {
-                            U".ge.",
-                            U".hf.",
-                        }
-                    },
+                    lev1, lev2,
                 } } );
             REQUIRE( canvas.rotated( 1 ) == exp );
         }
         {
             map_helpers::canvas exp = map_helpers::canvas::make_multilevel( {
                 {
-                    { {
-                            U"..",
-                            U"dc",
-                            U"ba",
-                            U".."
-                        }
+                    {
+                        U"..",
+                        U"dc",
+                        U"ba",
+                        U"..",
                     },
-                    { {
-                            U"..",
-                            U"hg",
-                            U"fe",
-                            U".."
-                        }
+                    {
+                        U"..",
+                        U"hg",
+                        U"fe",
+                        U"..",
                     },
                 } } );
             REQUIRE( canvas.rotated( 2 ) == exp );
         }
         {
-            map_helpers::canvas exp = map_helpers::canvas::make_multilevel( {
-                {
-                    { {
-                            U".bd.",
-                            U".ac.",
-                        }
-                    },
-                    { {
-                            U".fh.",
-                            U".eg.",
-                        }
-                    },
-                } } );
+            std::vector<std::u32string> lev1 = {
+                U".bd.",
+                U".ac.",
+            };
+            std::vector<std::u32string> lev2 = {
+                U".fh.",
+                U".eg.",
+            };
+            map_helpers::canvas exp = map_helpers::canvas::make_multilevel( { { lev1, lev2 } } );
             REQUIRE( canvas.rotated( 3 ) == exp );
         }
         REQUIRE( canvas.rotated( 4 ) == canvas );
