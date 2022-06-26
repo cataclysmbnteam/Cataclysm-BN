@@ -103,7 +103,7 @@
     "price": 50000,
     "material": "steel",
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN", "NO_RELOAD", "NON-FOULING" ],
-    "ammo_effects": [ "JET", "BEANBAG", "NEVER_MISFIRES", "RECOVER_10" ],
+    "ammo_effects": [ "JET", "BEANBAG", "NEVER_MISFIRES" ],
     "skill": "launcher",
     "ammo": "water",
     "weight": "24500 g",
