@@ -1525,6 +1525,8 @@ bool game::do_turn()
                 }
 
                 if( queue_screenshot ) {
+                    invalidate_main_ui_adaptor();
+                    ui_manager::redraw();
                     take_screenshot();
                     queue_screenshot = false;
                 }
