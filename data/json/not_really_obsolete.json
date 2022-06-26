@@ -187,8 +187,8 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "ammo_effects": [ "PLASMA", "EXPLOSIVE", "FLAME", "NEVER_JAMS" ],
-    "flags": [ "NO_UNLOAD" ]
+    "ammo_effects": [ "PLASMA", "EXPLOSIVE", "FLAME" ],
+    "flags": [ "NO_UNLOAD", "NEVER_JAMS" ]
   },
   {
     "id": "ftk93",
