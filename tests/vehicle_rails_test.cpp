@@ -44,7 +44,7 @@ constexpr uint32_t check_on_rails =     1 << 2;
 
 constexpr uint32_t full = check_back_turns | check_back_move | check_on_rails;
 constexpr uint32_t no_back_turns = full & ~check_back_turns;
-}
+} // namespace tcscope
 
 struct test_case {
     std::string veh_id;
@@ -378,7 +378,7 @@ static void run_test_case( const test_case &t )
     }
 }
 
-map_helpers::canvas empty_terrain()
+static map_helpers::canvas empty_terrain()
 {
     return { {
             U".........",
@@ -404,7 +404,7 @@ map_helpers::canvas empty_terrain()
     };
 }
 
-map_helpers::canvas rails_straight()
+static map_helpers::canvas rails_straight()
 {
     return { {
             U".x..x..x.",
@@ -433,7 +433,7 @@ map_helpers::canvas rails_straight()
     };
 }
 
-map_helpers::canvas rails_diag_start()
+static map_helpers::canvas rails_diag_start()
 {
     return { {
             U"................x..x..x.",
@@ -466,7 +466,7 @@ map_helpers::canvas rails_diag_start()
     };
 }
 
-map_helpers::canvas rails_diag_end()
+static map_helpers::canvas rails_diag_end()
 {
     return { {
             U"..............................",
@@ -503,7 +503,7 @@ map_helpers::canvas rails_diag_end()
     };
 }
 
-map_helpers::canvas rails_cross()
+static map_helpers::canvas rails_cross()
 {
     return { {
             U"..............x..x..x.............",
@@ -537,7 +537,7 @@ map_helpers::canvas rails_cross()
     };
 }
 
-map_helpers::canvas rails_tee_straight()
+static map_helpers::canvas rails_tee_straight()
 {
     return { {
             U".x..x..x........x..x..x................",
@@ -578,7 +578,7 @@ map_helpers::canvas rails_tee_straight()
     };
 }
 
-map_helpers::canvas rails_tee_diag()
+static map_helpers::canvas rails_tee_diag()
 {
     return { {
             U"..................x..x..x.........x..x..x..",
@@ -627,7 +627,7 @@ map_helpers::canvas rails_tee_diag()
     };
 }
 
-map_helpers::canvas rails_straight_shifting()
+static map_helpers::canvas rails_straight_shifting()
 {
     return { {
             U"...x..x..x.",
@@ -662,7 +662,7 @@ map_helpers::canvas rails_straight_shifting()
     };
 }
 
-map_helpers::canvas rails_diag_shifting()
+static map_helpers::canvas rails_diag_shifting()
 {
     return { {
             U"....................x..x..x..",
@@ -753,7 +753,7 @@ static map_helpers::canvas rails_straight_ramp()
         }} );
 }
 
-map_helpers::canvas rails_straight_start_outside()
+static map_helpers::canvas rails_straight_start_outside()
 {
     return { {
             U".........x..x..x.........",
