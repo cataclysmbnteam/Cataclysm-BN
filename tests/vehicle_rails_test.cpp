@@ -115,6 +115,80 @@ static void build_map_from_canvas( const map_helpers::canvas &canvas, const trip
     adapter.check_matches_expected( canvas, true );
 }
 
+// This function spawns a moving vehicle and ensures its pivot point is
+// correct and is located at vehicle_pos.
+//
+// Apparently freshly spawned vehicles can have their pivot point
+// wherever they please for legacy reasons, and then they recalculate it
+// to proper value after they move a couple tiles in any direction.
+//
+// So, in order to get the vehicle nice and ready for testing we have to:
+//     1. Spawn the vehicle somewhere far away from test area
+//     2. Clean it of any items, close all doors (just in case)
+//     3. Give it some velocity and ensure it can maintain it
+//     4. Advance movement a couple times, forcing pivot recalculation
+//     5. Displace it into desired position
+static vehicle &add_moving_vehicle(
+    map &here,
+    const std::string &veh_id,
+    tripoint vehicle_pos,
+    units::angle face_dir
+)
+{
+    tripoint initial_veh_pos( MAPSIZE_X * 3 / 4, MAPSIZE_Y * 3 / 4, 0 );
+    vehicle *veh_ptr = here.add_vehicle( vproto_id( veh_id ), initial_veh_pos, face_dir, 100, 0 );
+    REQUIRE( veh_ptr != nullptr );
+    vehicle &veh = *veh_ptr;
+
+    // Remove all items from cargo to normalize weight.
+    // Keep fuel in tanks to allow cruise control.
+    for( const vpart_reference vp : veh.get_all_parts() ) {
+        veh_ptr->get_items( vp.part_index() ).clear();
+    }
+    for( const vpart_reference vp : veh.get_avail_parts( "OPENABLE" ) ) {
+        veh.close( vp.part_index() );
+    }
+
+    veh.refresh_insides();
+
+    veh.tags.insert( "IN_CONTROL_OVERRIDE" );
+    veh.engine_on = true;
+    constexpr int tgt_velocity = 200; // Arbitrary small speed
+    REQUIRE( veh.safe_velocity( true ) >= std::abs( tgt_velocity ) );
+    veh.cruise_on = true;
+    veh.cruise_velocity = tgt_velocity;
+    veh.velocity = tgt_velocity;
+    veh.vertical_velocity = 0;
+
+    const auto pivot_global_pos3 = []( const vehicle & veh ) -> tripoint {
+        return veh.global_pos3() + veh.coord_translate( veh.pivot_point() );
+    };
+
+    CAPTURE( veh.global_pos3() );
+    CAPTURE( veh.pivot_point() );
+    CAPTURE( veh.coord_translate( veh.pivot_point() ) );
+    CAPTURE( pivot_global_pos3( veh ) );
+
+    here.vehmove();
+    veh.idle( true );
+    here.vehmove();
+    veh.idle( true );
+    here.vehmove();
+    veh.idle( true );
+
+    here.displace_vehicle( veh, vehicle_pos - veh.global_pos3() );
+
+    CAPTURE( veh.global_pos3() );
+    CAPTURE( veh.pivot_point() );
+    CAPTURE( veh.coord_translate( veh.pivot_point() ) );
+    CAPTURE( pivot_global_pos3( veh ) );
+
+    REQUIRE( pivot_global_pos3( veh ) == veh.global_pos3() );
+    REQUIRE( pivot_global_pos3( veh ) == vehicle_pos );
+
+    return veh;
+}
+
 static void test_rail_movement( const test_case &t,
                                 int move_dir,
                                 tripoint vehicle_pos,
@@ -130,48 +204,11 @@ static void test_rail_movement( const test_case &t,
     CAPTURE( expected_dir );
 
     map &here = get_map();
-    vehicle *veh_ptr = here.add_vehicle( vproto_id( t.veh_id ), vehicle_pos, face_dir, 100, 0 );
-
-    REQUIRE( veh_ptr != nullptr );
-
-    vehicle &veh = *veh_ptr;
-
-    // Position passed to add_vehicle is the desired position of the vehicle's (0,0) part.
-    // However, for ease of testing we want to deal with positions of pivot.
-    // As such, shift the vehicle as necessary so vehicle_pos is the pivot pos.
-    tripoint pivot_fix_delta = vehicle_pos - veh.global_pos3();
-    bool displaced_ok = here.displace_vehicle( veh, pivot_fix_delta, true );
-    if( !displaced_ok ) {
-        CAPTURE( vehicle_pos );
-        CAPTURE( veh.global_pos3() );
-        CAPTURE( pivot_fix_delta );
-        REQUIRE( displaced_ok );
-    }
-
-    // Check that pivot pos is right where we want it
-    REQUIRE( veh.global_pos3() == vehicle_pos );
-
-    // Remove all items from cargo to normalize weight.
-    // Keep fuel in tanks to allow cruise control.
-    for( const vpart_reference vp : veh.get_all_parts() ) {
-        veh_ptr->get_items( vp.part_index() ).clear();
-    }
-    for( const vpart_reference vp : veh.get_avail_parts( "OPENABLE" ) ) {
-        veh.close( vp.part_index() );
-    }
-
-    veh.refresh_insides();
-
-    veh.tags.insert( "IN_CONTROL_OVERRIDE" );
-    veh.engine_on = true;
-
+    vehicle &veh = add_moving_vehicle( here, t.veh_id, vehicle_pos, face_dir );
+    veh.turn_dir = normalize( face_dir + turn_delta );
     int tgt_velocity = 200 * move_dir;
-    REQUIRE( veh.safe_velocity( true ) >= std::abs( tgt_velocity ) );
-    veh.cruise_on = true;
     veh.cruise_velocity = tgt_velocity;
     veh.velocity = tgt_velocity;
-    veh.vertical_velocity = 0;
-    veh.turn_dir = normalize( face_dir + turn_delta );
 
     std::stringstream scan_log;
     scan_log << "\n";
@@ -203,15 +240,16 @@ static void test_rail_movement( const test_case &t,
             }
         }
 
+        tripoint pos = veh.global_pos3();
         scan_log << string_format( "pos: %s dir: %d vel: %d/%d  on_rails:%d\n",
-                                   veh.global_pos3().to_string(),
+                                   pos.to_string(),
                                    static_cast<int>( units::to_degrees( veh.face.dir() ) ),
                                    veh.velocity,
                                    veh.vertical_velocity,
                                    is_on_rails ? 1 : 0
                                  );
 
-        if( veh.global_pos3() == expected_pos ) {
+        if( pos == expected_pos ) {
             break;
         }
     }
@@ -348,7 +386,6 @@ map_helpers::canvas empty_terrain()
             U".........",
             U".........",
             U"..l.o.r..",
-            U".........",
             U".........",
             U".........",
             U".........",
