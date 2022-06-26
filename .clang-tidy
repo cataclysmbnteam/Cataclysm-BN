@@ -54,7 +54,7 @@ readability-*,\
 -readability-redundant-control-flow,\
 "
 WarningsAsErrors: '*'
-HeaderFilterRegex: '(src|test|tools).*'
+HeaderFilterRegex: '(src|(test(?!.*catch.*catch.h))|tools).*'
 FormatStyle:     none
 CheckOptions:
   - key: readability-uppercase-literal-suffix.NewSuffixes
