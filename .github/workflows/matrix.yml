@@ -58,14 +58,14 @@ jobs:
             sanitize: address,undefined
             native: linux64
             title: Clang 12, Ubuntu, Tiles, NoSound, ASan, UBSan
-          - compiler: /usr/local/opt/llvm/bin/clang
-            os: macos-10.15
+          - compiler: clang++
+            os: macos-11
             cmake: 0
             tiles: 1
             sound: 1
             native: osx
             grep_clang_version_rxp: "13\\.[0-9]+\\.[0-9]+"
-            title: Clang 13, macOS 10.15, Tiles, Localize
+            title: Clang 13, macOS 11, Tiles, Localize
     name: ${{ matrix.title }}
     runs-on: ${{ matrix.os }}
     env:

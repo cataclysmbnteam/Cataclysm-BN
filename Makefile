@@ -405,16 +405,7 @@ endif
 ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
   CXX_STANDARD_VERSION_FLAG = -std=gnu++20
 else
-  ifeq (CLANG, 1)
-    ifeq (NATIVE, osx)
-      # Clang on Mac Os has really poor support of C++20
-      CXX_STANDARD_VERSION_FLAG = -std=c++2a
-    else
-      CXX_STANDARD_VERSION_FLAG = -std=c++20
-    endif
-  else
-    CXX_STANDARD_VERSION_FLAG = -std=c++20
-  endif
+  CXX_STANDARD_VERSION_FLAG = -std=c++20
 endif
 
 OTHERS += $(CXX_STANDARD_VERSION_FLAG)
@@ -499,11 +490,7 @@ endif
 # OSX
 ifeq ($(NATIVE), osx)
   ifeq ($(OSX_MIN),)
-    ifneq ($(CLANG), 0)
-      OSX_MIN = 10.7
-    else
-      OSX_MIN = 10.5
-    endif
+    OSX_MIN = 11
   endif
   DEFINES += -DMACOSX
   CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)

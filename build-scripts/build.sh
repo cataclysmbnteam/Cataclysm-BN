@@ -179,13 +179,12 @@ then
     # fills the log with nonsense.
     TERM=dumb ./gradlew assembleExperimentalRelease -Pj=$num_jobs -Plocalize=false -Pabi_arm_32=false -Pabi_arm_64=true -Pdeps=/home/travis/build/cataclysmbnteam/Cataclysm-BN/android/app/deps.zip
 else
-    if [ "$OS" == "macos-10.15" ]
+    if [ "$OS" == "macos-11" ]
     then
         export NATIVE=osx
-        # if OSX_MIN we specify here is lower than 10.15 then linker is going
-        # to throw warnings because SDL and gettext libraries installed from 
-        # Homebrew are built with minimum target osx version 10.15
-        export OSX_MIN=10.15
+        # if OSX_MIN we specify here is lower than 11 then build
+        # would fail because C++17 and C++20 has poor support on lower versions
+        export OSX_MIN=11
     else
         export BACKTRACE=1
     fi
