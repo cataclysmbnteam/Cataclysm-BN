@@ -102,7 +102,7 @@
     "durability": 7,
     "loudness": 4,
     "clip_size": 80,
-    "ammo_effects": "ACID",
+    "ammo_effects": "ACIDBOMB",
     "flags": [ "NO_UNLOAD", "NON-FOULING" ]
   }
 ]
