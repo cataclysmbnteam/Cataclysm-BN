@@ -776,8 +776,20 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
 
         // Don't need to make a copy here since movement can't be canceled
         item &leftovers = *target;
+
+        // Check that we can pick it up.
+        if( leftovers.made_of( LIQUID ) ) {
+            continue;
+        }
+
+        // Don't move items owned by others
+        if( !leftovers.is_owned_by( who, true ) ) {
+            continue;
+        }
+
         // Make a copy to be put in the destination location
         item newit = leftovers;
+        newit.set_owner( who );
 
         // Handle charges, quantity == 0 means move all
         if( quantity != 0 && newit.count_by_charges() ) {
@@ -787,27 +799,19 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
             leftovers.charges = 0;
         }
 
-        // Check that we can pick it up.
-        if( !newit.made_of( LIQUID ) ) {
-            // This is for hauling across zlevels, remove when going up and down stairs
-            // is no longer teleportation
-            if( newit.is_owned_by( who, true ) ) {
-                newit.set_owner( who );
-            } else {
-                continue;
-            }
-            const tripoint src = target.position();
-            const int distance = src.z == dest.z ? std::max( rl_dist( src, dest ), 1 ) : 1;
-            who.mod_moves( -pickup::cost_to_move_item( who, newit ) * distance );
-            if( to_vehicle ) {
-                put_into_vehicle_or_drop( who, item_drop_reason::deliberate, { newit }, dest );
-            } else {
-                drop_on_map( who, item_drop_reason::deliberate, { newit }, dest );
-            }
-            // If we picked up a whole stack, remove the leftover item
-            if( leftovers.charges <= 0 ) {
-                target.remove_item();
-            }
+        const tripoint src = target.position();
+        // This is for hauling across zlevels, remove when going up and down stairs
+        // is no longer teleportation
+        const int distance = src.z == dest.z ? std::max( rl_dist( src, dest ), 1 ) : 1;
+        who.mod_moves( -pickup::cost_to_move_item( who, newit ) * distance );
+        if( to_vehicle ) {
+            put_into_vehicle_or_drop( who, item_drop_reason::deliberate, { newit }, dest );
+        } else {
+            drop_on_map( who, item_drop_reason::deliberate, { newit }, dest );
+        }
+        // If we picked up a whole stack, remove the leftover item
+        if( leftovers.charges <= 0 ) {
+            target.remove_item();
         }
     }
 
