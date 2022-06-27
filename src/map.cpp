@@ -3368,9 +3368,11 @@ bash_results map::bash_ter_furn( const tripoint &p, const bash_params &params )
 
     if( furn_obj.id && furn_obj.bash.str_max != -1 ) {
         bash = &furn_obj.bash;
+        soundfxvariant = furn_obj.id.str();
     } else if( ter_obj.bash.str_max != -1 ) {
         bash = &ter_obj.bash;
         smash_ter = true;
+        soundfxvariant = ter_obj.id.str();
     }
 
     // Floor bashing check
