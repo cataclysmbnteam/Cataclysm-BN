@@ -114,6 +114,11 @@ enum class hit_tier : int {
 void print_dmg_msg( Creature &target, Creature *source, const dealt_damage_instance &dealt_dam,
                     hit_tier ht = hit_tier::normal );
 
+/**
+ * Prompts to select default ammo compatible with provided gun.
+ */
+void prompt_select_default_ammo_for( avatar &u, const item &w );
+
 } // namespace ranged
 
 #endif // CATA_SRC_RANGED_H

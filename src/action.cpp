@@ -197,6 +197,8 @@ std::string action_ident( action_id act )
             return "cast_spell";
         case ACTION_SELECT_FIRE_MODE:
             return "select_fire_mode";
+        case ACTION_SELECT_DEFAULT_AMMO:
+            return "select_default_ammo";
         case ACTION_DROP:
             return "drop";
         case ACTION_DIR_DROP:
@@ -846,6 +848,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_RELOAD_WIELDED );
             REGISTER_ACTION( ACTION_CAST_SPELL );
             REGISTER_ACTION( ACTION_SELECT_FIRE_MODE );
+            REGISTER_ACTION( ACTION_SELECT_DEFAULT_AMMO );
             REGISTER_ACTION( ACTION_THROW );
             REGISTER_ACTION( ACTION_FIRE_BURST );
             REGISTER_ACTION( ACTION_PICK_STYLE );

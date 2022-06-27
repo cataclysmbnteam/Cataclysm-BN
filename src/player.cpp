@@ -2433,7 +2433,7 @@ item::reload_option player::select_ammo( const item &base,
 }
 
 bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
-                        bool empty ) const
+                        bool empty_mags, bool include_potential ) const
 {
     auto opts = base.gunmods();
     opts.push_back( &base );
@@ -2451,7 +2451,7 @@ bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo
     bool ammo_match_found = false;
     int ammo_search_range = is_mounted() ? -1 : 1;
     for( const auto e : opts ) {
-        for( item_location &ammo : find_ammo( *e, empty, ammo_search_range ) ) {
+        for( item_location &ammo : find_ammo( *e, empty_mags, ammo_search_range ) ) {
             // don't try to unload frozen liquids
             if( ammo->is_watertight_container() && ammo->contents_made_of( SOLID ) ) {
                 continue;
@@ -2461,7 +2461,7 @@ bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo
                       : ammo->typeId();
             if( e->can_reload_with( id ) ) {
                 // Speedloaders require an empty target.
-                if( !ammo->has_flag( "SPEEDLOADER" ) || e->ammo_remaining() < 1 ) {
+                if( include_potential || !ammo->has_flag( "SPEEDLOADER" ) || e->ammo_remaining() < 1 ) {
                     ammo_match_found = true;
                 }
             }
@@ -2473,10 +2473,11 @@ bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo
     return ammo_match_found;
 }
 
-item::reload_option player::select_ammo( const item &base, bool prompt, bool empty ) const
+item::reload_option player::select_ammo( const item &base, bool prompt, bool empty_mags,
+        bool include_potential ) const
 {
     std::vector<item::reload_option> ammo_list;
-    bool ammo_match_found = list_ammo( base, ammo_list, empty );
+    bool ammo_match_found = list_ammo( base, ammo_list, empty_mags, include_potential );
 
     if( ammo_list.empty() ) {
         if( !is_npc() ) {

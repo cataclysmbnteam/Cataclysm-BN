@@ -130,6 +130,7 @@
 #include "player_activity.h"
 #include "point_float.h"
 #include "popup.h"
+#include "ranged.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "ret_val.h"
@@ -2467,6 +2468,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "cast_spell" );
     ctxt.register_action( "fire_burst" );
     ctxt.register_action( "select_fire_mode" );
+    ctxt.register_action( "select_default_ammo" );
     ctxt.register_action( "drop" );
     ctxt.register_action( "drop_adj" );
     ctxt.register_action( "bionics" );
@@ -8781,14 +8783,7 @@ void game::reload( item_location &loc, bool prompt, bool empty )
 
     // bows etc. do not need to reload. select favorite ammo for them instead
     if( it->has_flag( "RELOAD_AND_SHOOT" ) ) {
-        item::reload_option opt = u.select_ammo( *it, prompt );
-        if( !opt ) {
-            return;
-        } else if( u.ammo_location && opt.ammo == u.ammo_location ) {
-            u.ammo_location = item_location();
-        } else {
-            u.ammo_location = opt.ammo;
-        }
+        ranged::prompt_select_default_ammo_for( u, *it );
         return;
     }
 

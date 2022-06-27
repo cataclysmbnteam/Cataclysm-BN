@@ -3738,3 +3738,15 @@ bool ranged::gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::
 
     return result;
 }
+
+void ranged::prompt_select_default_ammo_for( avatar &u, const item &w )
+{
+    item::reload_option opt = u.select_ammo( w, false, true, true );
+    if( opt ) {
+        if( u.ammo_location && opt.ammo == u.ammo_location ) {
+            u.ammo_location = item_location();
+        } else {
+            u.ammo_location = opt.ammo;
+        }
+    }
+}
