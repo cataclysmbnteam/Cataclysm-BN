@@ -3187,6 +3187,7 @@ bash_results map::bash_ter_success( const tripoint &p, const bash_params &params
     } else if( bash.ter_set ) {
         // If the terrain has a valid post-destroy terrain, set it
         ter_set( p, bash.ter_set );
+        follow_below |= zlevels && bash.bash_below;
     } else if( suspended ) {
         // Its important that we change the ter value before recursing, otherwise we'll hit an infinite loop.
         // This could be prevented by assembling a visited list, but in order to avoid that cost, we're going
@@ -3216,7 +3217,7 @@ bash_results map::bash_ter_success( const tripoint &p, const bash_params &params
             // We destroyed something, so we aren't just "plugging" air with dirt here
             ter_set( p, t_dirt );
         }
-    } else if( ter( p ) == t_open_air ) {
+    } else if( follow_below || ter( p ) == t_open_air ) {
         tripoint below( p.xy(), p.z - 1 );
         const ter_t &ter_below = ter( below ).obj();
         // We may need multiple bashes in some weird cases
@@ -3230,18 +3231,20 @@ bash_results map::bash_ter_success( const tripoint &p, const bash_params &params
         // Current solution: bash roof until you reach same roof type twice, then bash down
         if( follow_below && params.do_recurse ) {
             bool blocked_by_roof = false;
-            std::set<ter_str_id> encountered_types;
+            std::set<ter_id> encountered_types;
             encountered_types.insert( ter_before.id );
             encountered_types.insert( ter_below.roof );
             // Note: we're bashing the new roof, not the tile supported by it!
-            printf( "\nfollow_below && params.do_recurse == true\n" );
             do {
-                const auto &ter_now = ter( p ).id();
-                for( const auto &enc : encountered_types ) {
-                    printf( "Got before %s\n", enc.c_str() );
-                }
-                printf( "Now: %s\n", ter_now.c_str() );
-                if( encountered_types.count( ter_now ) != 0 ) {
+                const ter_id &ter_now = ter( p );
+                if( ter_now == t_open_air ) {
+                    const ter_id &roof = get_roof( below, params.bash_floor && ter( below )->movecost != 0 );
+                    if( encountered_types.count( roof ) != 0 ) {
+                        break;
+                    }
+                    encountered_types.insert( roof );
+                    ter_set( p, roof );
+                } else if( encountered_types.count( ter_now ) != 0 ) {
                     break;
                 }
 
@@ -3249,11 +3252,10 @@ bash_results map::bash_ter_success( const tripoint &p, const bash_params &params
                 bash_params params_copy = params;
                 params_copy.do_recurse = false;
                 // TODO: Unwrap the calls, don't recurse
-                bash_results results_sub = bash_ter_furn( p, params );
+                bash_results results_sub = bash_ter_furn( p, params_copy );
                 result |= results_sub;
                 if( !results_sub.success ) {
                     // Blocked, as in "the roof was too strong to bash"
-                    printf( "\nblocked by roof\n" );
                     blocked_by_roof = true;
                     break;
                 }
@@ -3263,12 +3265,13 @@ bash_results map::bash_ter_success( const tripoint &p, const bash_params &params
                 bash_params params_below = params;
                 params_below.bashing_from_above = true;
                 params_below.bash_floor = false;
+                params_below.do_recurse = false;
                 params_below.destroy = true;
                 int tries = 10;
                 // Unconditionally destroy, but don't go deeper
                 do {
                     result |= bash_ter_success( below, params_below );
-                } while( impassable( below ) && tries-- > 0 );
+                } while( ter( below )->movecost == 0 && tries-- > 0 );
                 if( tries <= 0 ) {
                     debugmsg( "Loop in terrain bashing for type %s", ter_before.id.str() );
                 }
@@ -3516,7 +3519,7 @@ bash_results map::bash( const tripoint &p, const int str,
                         const vehicle *bashing_vehicle )
 {
     bash_params bsh{
-        str, silent, destroy, bash_floor, static_cast<float>( rng_float( 0, 1.0f ) ), false
+        str, silent, destroy, bash_floor, static_cast<float>( rng_float( 0, 1.0f ) ), false, true
     };
     bash_results result;
     if( !inbounds( p ) ) {
