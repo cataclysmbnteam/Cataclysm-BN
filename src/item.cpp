@@ -1988,7 +1988,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         debugmsg( "curammo is nullptr in item::gun_info()" );
         return;
     }
-    damage_unit gun_du = gun.damage.damage_units.front();
+    damage_unit gun_du = gun_damage( false ).damage_units.front();
 
     gun_du.damage_multiplier *= ranged::str_draw_damage_modifier( *mod, viewer );
 
