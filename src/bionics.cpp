@@ -1703,7 +1703,7 @@ void Character::process_bionic( int b )
                 bio.energy_stored += get_power_level();
             }
             if( bio.energy_stored == 150_kJ ) {
-                add_msg_if_player( m_good, _( "Your forcefield generator quietens to a satisfied thrum." ) );
+                add_msg_if_player( m_good, _( "Your %s quietens to a satisfied thrum." ), bio.info().name );
             }
         } else if( bio.energy_stored > 150_kJ ) {
             bio.energy_stored = 150_kJ;
