@@ -6647,12 +6647,16 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
     if( !is_reloadable() ) {
         return false;
     } else if( is_watertight_container() ) {
-        return ( ( now ? !is_container_full() : true ) && ( ammo.is_empty()
-                 || ( ammo->phase == LIQUID && ( is_container_empty()
-                         || contents.front().typeId() == ammo ) ) ) );
+        if( ammo.is_empty() ) {
+            return now ? !is_container_full() : true;
+        } else if( ammo->phase != LIQUID ) {
+            return false;
+        } else {
+            return now ? ( is_container_empty() || contents.front().typeId() == ammo ) : true;
+        }
     } else if( magazine_integral() ) {
         if( !ammo.is_empty() ) {
-            if( ammo_data() ) {
+            if( now && ammo_data() ) {
                 if( ammo_current() != ammo ) {
                     return false;
                 }

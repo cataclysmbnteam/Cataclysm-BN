@@ -2459,13 +2459,15 @@ bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo
             auto id = ( ammo->is_ammo_container() || ammo->is_container() )
                       ? ammo->contents.front().typeId()
                       : ammo->typeId();
-            if( e->can_reload_with( id ) ) {
+            bool can_reload_with = e->can_reload_with( id );
+            if( can_reload_with ) {
                 // Speedloaders require an empty target.
                 if( include_potential || !ammo->has_flag( "SPEEDLOADER" ) || e->ammo_remaining() < 1 ) {
                     ammo_match_found = true;
                 }
             }
-            if( can_reload( *e, id ) || e->has_flag( "RELOAD_AND_SHOOT" ) ) {
+            if( ( include_potential && can_reload_with )
+                || can_reload( *e, id ) || e->has_flag( "RELOAD_AND_SHOOT" ) ) {
                 ammo_list.emplace_back( this, e, &base, std::move( ammo ) );
             }
         }
