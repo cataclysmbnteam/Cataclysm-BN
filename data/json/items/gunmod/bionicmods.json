@@ -16,7 +16,7 @@
       "skill": "rifle",
       "range": 30,
       "ranged_damage": { "damage_type": "bullet", "amount": 1 },
-      "ammo_effects": [ "PLASMA", "EXPLOSIVE", "FLAME", "NPC_AVOID" ],
+      "ammo_effects": [ "PLASMA", "EXPLOSIVE", "FLAME" ],
       "durability": 10
     },
     "flags": [ "IRREMOVABLE" ]

@@ -292,6 +292,23 @@ void Item_factory::finalize_pre( itype &obj )
             }
         }
     }
+    const auto check_ammo_effects = []( const itype_id & id, std::set<ammo_effect_str_id> &effects ) {
+        for( auto iter = effects.begin(); iter != effects.end(); ) {
+            const ammo_effect_str_id &ae_id = *iter;
+            if( ae_id.is_valid() ) {
+                iter++;
+            } else {
+                debugmsg( "%s has unknown ammo_effect %s, removing", id, ae_id );
+                iter = effects.erase( iter );
+            }
+        }
+    };
+    if( obj.gun ) {
+        check_ammo_effects( obj.id, obj.gun->ammo_effects );
+    }
+    if( obj.gunmod ) {
+        check_ammo_effects( obj.id, obj.gunmod->ammo_effects );
+    }
 
     // Helper for ammo migration in following sections
     auto migrate_ammo_set = [&]( std::set<ammotype> &ammoset ) {
