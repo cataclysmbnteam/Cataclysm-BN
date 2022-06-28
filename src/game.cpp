@@ -6094,11 +6094,25 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
 {
     const int max_width = getmaxx( w_look ) - column - 1;
     int lines;
-    std::string tile = m.tername( lp );
-    tile = "(" + area_name + ") " + tile;
-    if( m.has_furn( lp ) ) {
-        tile += "; " + m.furnname( lp );
-    }
+
+    const auto fmt_tile_info = []( const tripoint & lp ) {
+        map &here = get_map();
+        std::string ret;
+        if( debug_mode ) {
+            ret = string_format( "%s %s", lp.to_string(), here.ter( lp )->id );
+            if( here.has_furn( lp ) ) {
+                ret += "; " + here.furn( lp )->id.str();
+            }
+        } else {
+            ret = here.tername( lp );
+            if( here.has_furn( lp ) ) {
+                ret += "; " + here.furnname( lp );
+            }
+        }
+        return ret;
+    };
+
+    std::string tile = string_format( "(%s) %s", area_name, fmt_tile_info( lp ) );
 
     if( m.impassable( lp ) ) {
         lines = fold_and_print( w_look, point( column, line ), max_width, c_light_gray,
@@ -6125,10 +6139,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
     if( m.has_zlevels() && lp.z > -OVERMAP_DEPTH && !m.has_floor( lp ) ) {
         // Print info about stuff below
         tripoint below( lp.xy(), lp.z - 1 );
-        std::string tile_below = m.tername( below );
-        if( m.has_furn( below ) ) {
-            tile_below += "; " + m.furnname( below );
-        }
+        std::string tile_below = fmt_tile_info( below );
 
         if( !m.has_floor_or_support( lp ) ) {
             fold_and_print( w_look, point( column, ++lines ), max_width, c_dark_gray,

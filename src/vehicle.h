@@ -1684,22 +1684,6 @@ class vehicle
         // check if the vehicle should be falling or is in water
         void check_falling_or_floating();
 
-        /** Precalculate vehicle turn. Counts wheels that will land on ter_flag_to_check
-         * new_turn_dir             - turn direction to calculate
-         * falling_only             - is vehicle falling
-         * check_rail_direction     - check if vehicle should land on diagonal/not rail tile (use for trucks only)
-         * ter_flag_to_check        - terrain flag vehicle wheel should land on
-         ** Results:
-         * &wheels_on_rail          - resulting wheels that land on ter_flag_to_check
-         * &turning_wheels_that_are_one_axis_counter - number of wheels that are on one axis and will land on rail
-         */
-        void precalculate_vehicle_turning( units::angle new_turn_dir, bool check_rail_direction,
-                                           ter_bitflags ter_flag_to_check, int &wheels_on_rail,
-                                           int &turning_wheels_that_are_one_axis_counter ) const;
-        bool allow_auto_turn_on_rails( units::angle &corrected_turn_dir ) const;
-        bool allow_manual_turn_on_rails( units::angle &corrected_turn_dir ) const;
-        bool is_wheel_state_correct_to_turn_on_rails( int wheels_on_rail, int wheel_count,
-                int turning_wheels_that_are_one_axis ) const;
         /**
          * Update the submap coordinates and update the tracker info in the overmap
          * (if enabled).
@@ -1782,6 +1766,28 @@ class vehicle
         std::vector<int> speciality;
         std::vector<int> floating;         // List of parts that provide buoyancy to boats
 
+        /**
+         * Rail profile of the vehicle.
+         *
+         * Describes where the vehicle would expect rails to be on its y axis relative to
+         * its pivot point in its own coordinate space.
+         *
+         * For example, for 2-seated draisine (drawn as facing north):
+         *
+         *       +x
+         *    ..:...:..
+         *    ..:...:..      - and |  draisine frame
+         *    ..0---0..         0     railwheels
+         * -y ..|---|.. +y      p     pivot point
+         *    ..0-p-0..         .     ground
+         *    ..:...:..         :     expected rail
+         *    ..:...:..
+         *       -x
+         *
+         * The rail profile would take the value of { -2, 2 }.
+         */
+        std::vector<int> rail_profile;
+
         // config values
         std::string name;   // vehicle name
         /**
@@ -1821,7 +1827,7 @@ class vehicle
 
     public:
         // Subtract from parts.size() to get the real part count.
-        int removed_part_count;
+        int removed_part_count = 0;
 
         /**
          * Submap coordinates of the currently loaded submap (see game::m)
@@ -1838,7 +1844,7 @@ class vehicle
         tripoint sm_pos;
 
         // alternator load as a percentage of engine power, in units of 0.1% so 1000 is 100.0%
-        int alternator_load;
+        int alternator_load = 0;
         /// Time occupied points were calculated.
         time_point occupied_cache_time = calendar::before_time_starts;
         // Turn the vehicle was last processed
@@ -1858,16 +1864,16 @@ class vehicle
         // Only used for collisions, vehicle falls instantly
         int vertical_velocity = 0;
         // id of the om_vehicle struct corresponding to this vehicle
-        int om_id;
+        int om_id = -1;
         // direction, to which vehicle is turning (player control). will rotate frame on next move
         // must be a multiple of 15 degrees
         units::angle turn_dir = 0_degrees;
         // amount of last turning (for calculate skidding due to handbrake)
         units::angle last_turn = 0_degrees;
         // goes from ~1 to ~0 while proceeding every turn
-        float of_turn;
+        float of_turn = 0.0f;
         // leftover from previous turn
-        float of_turn_carry;
+        float of_turn_carry = 0.0f;
         int extra_drag = 0;
         // last time point the fluid was inside tanks was checked for processing
         time_point last_fluid_check = calendar::turn_zero;
@@ -1876,7 +1882,6 @@ class vehicle
         // rotation used for mount precalc values
         std::array<units::angle, 2> pivot_rotation = { { 0_degrees, 0_degrees } };
 
-        bounding_box rail_wheel_bounding_box;
         point front_left;
         point front_right;
         towing_data tow_data;
@@ -1891,7 +1896,7 @@ class vehicle
         bool no_refresh = false;
 
         // if true, pivot_cache needs to be recalculated
-        mutable bool pivot_dirty;
+        mutable bool pivot_dirty = true;
         mutable bool mass_dirty = true;
         mutable bool mass_center_precalc_dirty = true;
         mutable bool mass_center_no_precalc_dirty = true;
@@ -1918,7 +1923,6 @@ class vehicle
         bool is_autodriving = false;
         bool is_following = false;
         bool is_patrolling = false;
-        bool all_wheels_on_one_axis;
         // TODO: change these to a bitset + enum?
         // cruise control on/off
         bool cruise_on = true;

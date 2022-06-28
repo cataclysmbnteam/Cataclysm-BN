@@ -101,18 +101,10 @@ struct vpslot_engine {
     std::vector<itype_id> fuel_opts;
 };
 
-struct veh_ter_mod {
-    /* movecost for moving through this terrain (overrides current terrain movecost)
-                     * if movecost <= 0 ignore this parameter */
-    int movecost;
-    // penalty while not on this terrain (adds to movecost)
-    int penalty;
-};
-
 struct vpslot_wheel {
     float rolling_resistance = 1.0f;
     int contact_area = 1;
-    std::vector<std::pair<std::string, veh_ter_mod>> terrain_mod;
+    std::vector<std::pair<std::string, int>> terrain_mod;
     float or_rating = 0.0f;
 };
 
@@ -308,7 +300,7 @@ class vpart_info
          */
         float wheel_rolling_resistance() const;
         int wheel_area() const;
-        std::vector<std::pair<std::string, veh_ter_mod>> wheel_terrain_mod() const;
+        std::vector<std::pair<std::string, int>> wheel_terrain_mod() const;
         float wheel_or_rating() const;
         /** @name rotor specific functions
         */

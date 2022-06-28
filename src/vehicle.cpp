@@ -67,6 +67,7 @@
 #include "translations.h"
 #include "units_utility.h"
 #include "veh_type.h"
+#include "vehicle_move.h"
 #include "vehicle_selector.h"
 #include "weather.h"
 #include "weather_gen.h"
@@ -3367,20 +3368,8 @@ bool vehicle::is_moving() const
 
 bool vehicle::can_use_rails() const
 {
-    // do not allow vehicles without rail wheels or with mixed wheels
-    bool can_use = !rail_wheelcache.empty() && wheelcache.size() == rail_wheelcache.size();
-    if( !can_use ) {
-        return false;
-    }
-    bool is_wheel_on_rail = false;
-    for( int part_index : rail_wheelcache ) {
-        // at least one wheel should be on track
-        if( g->m.has_flag_ter_or_furn( TFLAG_RAIL, global_part_pos3( part_index ) ) ) {
-            is_wheel_on_rail = true;
-            break;
-        }
-    }
-    return is_wheel_on_rail;
+    // Do not allow vehicles without rail wheels or with mixed wheels
+    return !rail_wheelcache.empty() && wheelcache.size() == rail_wheelcache.size();
 }
 
 int vehicle::ground_acceleration( const bool fueled, int at_vel_in_vmi ) const
@@ -5510,8 +5499,7 @@ void vehicle::refresh()
     floating.clear();
     alternator_load = 0;
     extra_drag = 0;
-    all_wheels_on_one_axis = true;
-    int first_wheel_y_mount = INT_MAX;
+    rail_profile.clear();
 
     // Used to sort part list so it displays properly when examining
     struct sort_veh_part_vector {
@@ -5525,11 +5513,6 @@ void vehicle::refresh()
     mount_min.y = 123;
     mount_max.x = -123;
     mount_max.y = -123;
-
-    int railwheel_xmin = INT_MAX;
-    int railwheel_ymin = INT_MAX;
-    int railwheel_xmax = INT_MIN;
-    int railwheel_ymax = INT_MIN;
 
     bool refresh_done = false;
 
@@ -5598,20 +5581,14 @@ void vehicle::refresh()
         if( vpi.has_flag( VPFLAG_WHEEL ) ) {
             wheelcache.push_back( p );
         }
-        if( vpi.has_flag( VPFLAG_WHEEL ) && vpi.has_flag( VPFLAG_RAIL ) ) {
+        if( vpi.has_flag( VPFLAG_RAIL ) ) {
             rail_wheelcache.push_back( p );
-            if( first_wheel_y_mount == INT_MAX ) {
-                first_wheel_y_mount = vp.part().mount.y;
-            }
-            if( first_wheel_y_mount != vp.part().mount.y ) {
-                // vehicle have wheels on different axis
-                all_wheels_on_one_axis = false;
-            }
 
-            railwheel_xmin = std::min( railwheel_xmin, pt.x );
-            railwheel_ymin = std::min( railwheel_ymin, pt.y );
-            railwheel_xmax = std::max( railwheel_xmax, pt.x );
-            railwheel_ymax = std::max( railwheel_ymax, pt.y );
+            const int rail_pos = vp.mount().y;
+            const auto it = std::find( rail_profile.cbegin(), rail_profile.cend(), rail_pos );
+            if( it == rail_profile.cend() ) {
+                rail_profile.push_back( rail_pos );
+            }
         }
         if( ( vpi.has_flag( "STEERABLE" ) && part_with_feature( pt, "STEERABLE", true ) != -1 ) ||
             vpi.has_flag( "TRACKED" ) ) {
@@ -5640,16 +5617,12 @@ void vehicle::refresh()
         }
     }
 
-    rail_wheel_bounding_box.p1 = point( railwheel_xmin, railwheel_ymin );
-    rail_wheel_bounding_box.p2 = point( railwheel_xmax, railwheel_ymax );
     front_left.x = mount_max.x;
     front_left.y = mount_min.y;
     front_right = mount_max;
 
     if( !refresh_done ) {
         mount_min = mount_max = point_zero;
-        rail_wheel_bounding_box.p1 = point_zero;
-        rail_wheel_bounding_box.p2 = point_zero;
     }
 
     // NB: using the _old_ pivot point, don't recalc here, we only do that when moving!
