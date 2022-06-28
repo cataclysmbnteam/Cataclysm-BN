@@ -219,11 +219,13 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
     std::set<vehicle *> opts;
     for( const auto &e : g->m.points_in_radius( g->u.pos(), 1 ) ) {
         auto veh = veh_pointer_or_null( g->m.veh_at( e ) );
-        vehicle_part_range vpr = veh->get_all_parts();
-        if( veh && std::any_of( vpr.begin(), vpr.end(), [&liquid]( const vpart_reference & pt ) {
-        return pt.part().can_reload( liquid );
-        } ) ) {
-            opts.insert( veh );
+        if( veh ) {
+            vehicle_part_range vpr = veh->get_all_parts();
+            if( veh && std::any_of( vpr.begin(), vpr.end(), [&liquid]( const vpart_reference & pt ) {
+            return pt.part().can_reload( liquid );
+            } ) ) {
+                opts.insert( veh );
+            }
         }
     }
     for( auto veh : opts ) {
