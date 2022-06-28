@@ -3,7 +3,7 @@
 Cataclysm: Bright Nights is a roguelike with sci-fi elements set in a post-apocalyptic world. It is a fork of Cataclysm: Dark Days Ahead; [see the differences from its ancestor on the wiki](https://github.com/cataclysmbnteam/Cataclysm-BN/wiki/Changes-so-far).
 
 
-While some have described it as a "zombie game", there is far more to Cataclysm than that. Struggle to survive in a harsh, persistent, procedurally generated world. Scavenge the remnants of a dead civilization for food, equipment, or, if you are lucky, a vehicle with a full tank of gas to get you the hell out of there. 
+While some have described it as a "zombie game", there is far more to Cataclysm than that. Struggle to survive in a harsh, persistent, procedurally generated world. Scavenge the remnants of a dead civilization for food, equipment, or, if you are lucky, a vehicle with a full tank of gas to get you the hell out of there.
 
 
 Fight to defeat or escape from a wide variety of powerful monstrosities, from zombies to giant insects to killer robots and things far stranger and deadlier, and against the others like yourself, who want what you have.
@@ -33,7 +33,7 @@ We also have the following build guides:
 Cataclysm: Bright Nights developed under Creative Commons Attribution ShareAlike 3.0 license. The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever. See http://creativecommons.org/licenses/by-sa/3.0/ for details.
 Some code distributed with the project is not part of the project and is released under different software licenses, the files covered by different software licenses have their own license notices.
 
-Please see [CONTRIBUTING.md](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/.github/CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING.md](.github/CONTRIBUTING.md) for details.
 
 ## Community
 
