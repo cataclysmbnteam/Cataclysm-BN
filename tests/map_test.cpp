@@ -109,16 +109,16 @@ TEST_CASE( "bash_through_roof_can_destroy_multiple_times" )
 
     static const ter_str_id t_fragile_roof( "t_fragile_roof" );
     static const ter_str_id t_strong_roof( "t_strong_roof" );
-    static const ter_str_id t_fragile_wall( "t_fragile_wall" );
     static const ter_str_id t_rock_floor_no_roof( "t_rock_floor_no_roof" );
     static const ter_str_id t_open_air( "t_open_air" );
     static const tripoint p( 65, 65, 1 );
 
     clear_map();
-    here.ter_set( p + tripoint_below, t_fragile_wall );
-    here.ter_set( p, t_fragile_roof );
 
     WHEN( "A wall has a matching roof above it, but the roof turns to a stronger roof on successful bash" ) {
+        static const ter_str_id t_fragile_wall( "t_fragile_wall" );
+        here.ter_set( p + tripoint_below, t_fragile_wall );
+        here.ter_set( p, t_fragile_roof );
         AND_WHEN( "The roof is bashed with only enough strength to destroy the weaker roof type" ) {
             here.bash( p, 10, false, false, true );
             THEN( "The roof turns to the stronger type and the wall doesn't change" ) {
@@ -130,6 +130,27 @@ TEST_CASE( "bash_through_roof_can_destroy_multiple_times" )
         AND_WHEN( "The roof is bashed with enough strength to destroy any roof" ) {
             here.bash( p, 1000, false, false, true );
             THEN( "Both the roof and the wall are destroyed" ) {
+                CHECK( here.ter( p ) == t_open_air );
+                CHECK( here.ter( p + tripoint_below ) == t_rock_floor_no_roof );
+            }
+        }
+    }
+
+    WHEN( "A passable floor has a matching roof above it, but both the roof and the floor turn into stronger variants on destroy" ) {
+        static const ter_str_id t_fragile_floor( "t_fragile_floor" );
+        here.ter_set( p + tripoint_below, t_fragile_floor );
+        here.ter_set( p, t_fragile_roof );
+        AND_WHEN( "The roof is bashed with only enough strength to destroy the weaker roof type" ) {
+            here.bash( p, 10, false, false, true );
+            THEN( "The roof turns to the stronger type and the floor doesn't change" ) {
+                CHECK( here.ter( p ) == t_strong_roof );
+                CHECK( here.ter( p + tripoint_below ) == t_fragile_floor );
+            }
+        }
+
+        AND_WHEN( "The roof is bashed with enough strength to destroy any roof" ) {
+            here.bash( p, 1000, false, false, true );
+            THEN( "Both the roof and the floor are completely destroyed to default terrain" ) {
                 CHECK( here.ter( p ) == t_open_air );
                 CHECK( here.ter( p + tripoint_below ) == t_rock_floor_no_roof );
             }

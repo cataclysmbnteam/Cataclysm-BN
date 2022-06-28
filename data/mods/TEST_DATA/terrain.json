@@ -40,5 +40,37 @@
       "sound_fail": "whump!",
       "ter_set": "t_null"
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_fragile_floor",
+    "copy-from": "t_floor",
+    "name": "fragile floor",
+    "description": "A fragile floor that has a fragile roof above it.  When bashed down, it turns into strong floor.",
+    "symbol": ".",
+    "color": "red",
+    "roof": "t_fragile_roof",
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_strong_floor",
+      "str_min": 1,
+      "str_max": 1
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_strong_floor",
+    "copy-from": "t_floor",
+    "name": "strong floor",
+    "description": "A strong floor that has a strong roof above it.",
+    "symbol": ".",
+    "color": "green",
+    "roof": "t_strong_roof",
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 1000,
+      "str_max": 1000
+    }
   }
 ]
