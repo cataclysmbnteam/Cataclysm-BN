@@ -20,6 +20,7 @@
 #include "active_tile_data_def.h"
 #include "ammo.h"
 #include "avatar.h"
+#include "avatar_action.h"
 #include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
@@ -2735,63 +2736,11 @@ void iexamine::arcfurnace_full( player &, const tripoint &examp )
 }
 //arc furnace end
 
-void iexamine::autoclave_empty( player &p, const tripoint &examp )
+void iexamine::autoclave_empty( player &, const tripoint & )
 {
-    furn_id cur_autoclave_type = g->m.furn( examp );
-    furn_id next_autoclave_type = f_null;
-    if( cur_autoclave_type == furn_id( "f_autoclave" ) ) {
-        next_autoclave_type = furn_id( "f_autoclave_full" );
-    } else {
-        debugmsg( "Examined furniture has action autoclave_empty, but is of type %s",
-                  g->m.furn( examp ).id().c_str() );
-        return;
-    }
-
-    map_stack items = g->m.i_at( examp );
-    bool cbms = std::all_of( items.begin(), items.end(), []( const item & i ) {
-        return i.is_bionic();
-    } );
-
-    bool filthy_cbms = std::all_of( items.begin(), items.end(), []( const item & i ) {
-        return i.is_bionic() && i.has_flag( flag_FILTHY );
-    } );
-
-    if( items.empty() ) {
-        add_msg( _( "This autoclave is empty…" ) );
-        return;
-    }
-    if( !cbms ) {
-        add_msg( m_bad,
-                 _( "You need to remove all non-CBM items from the autoclave to start the program." ) );
-        return;
-    }
-    if( filthy_cbms ) {
-        add_msg( m_bad,
-                 _( "Some of those CBMs are filthy, you should wash them first for the sterilization process to work properly." ) );
-        return;
-    }
-    auto reqs = *requirement_id( "autoclave" );
-
-    if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
-        popup( "%s", reqs.list_missing() );
-        return;
-    }
-
-    if( query_yn( _( "Start the autoclave?" ) ) ) {
-
-        for( const auto &e : reqs.get_components() ) {
-            p.consume_items( e, 1, is_crafting_component );
-        }
-        for( const auto &e : reqs.get_tools() ) {
-            p.consume_tools( e );
-        }
-        p.invalidate_crafting_inventory();
-        for( item &it : items ) {
-            it.set_birthday( calendar::turn );
-        }
-        g->m.furn_set( examp, next_autoclave_type );
-        add_msg( _( "You start the autoclave." ) );
-    }
+    avatar &u = get_avatar();
+    item_location bionic = game_menus::inv::sterilize_cbm( u );
+    return avatar_action::mend( u, bionic );
 }
 
 void iexamine::autoclave_full( player &, const tripoint &examp )

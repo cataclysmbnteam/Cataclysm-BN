@@ -2066,30 +2066,15 @@ class bionic_sterilize_preset : public inventory_selector_preset
     public:
         bionic_sterilize_preset( player &pl ) :
             p( pl ) {
-
-            append_cell( []( const item_location & ) {
-                return to_string( 90_minutes );
-            }, _( "CYCLE DURATION" ) );
-
-            append_cell( []( const item_location & ) {
-                return pgettext( "volume of water", "2 L" );
-            }, _( "WATER REQUIRED" ) );
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->has_flag( flag_NO_STERILE ) && loc->is_bionic();
+            return loc->has_fault( fault_bionic_nonsterile ) && loc->is_bionic();
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            auto reqs = *requirement_id( "autoclave_item" );
             if( loc.get_item()->has_flag( flag_FILTHY ) ) {
                 return  _( "CBM is filthy.  Wash it first." );
-            }
-            if( loc.get_item()->has_flag( flag_NO_PACKED ) ) {
-                return  _( "You should put this CBM in an autoclave pouch to keep it sterile." );
-            }
-            if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
-                return _( "You need at least 2L of water." );
             }
 
             return std::string();

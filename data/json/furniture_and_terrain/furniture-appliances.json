@@ -1197,6 +1197,7 @@
     "required_str": -1,
     "looks_like": "f_autoclave",
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "EASY_DECONSTRUCT" ],
+    "examine_action": "autoclave_empty",
     "deconstruct": {
       "items": [ { "item": "autoclave", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
     },
