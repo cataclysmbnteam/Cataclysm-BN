@@ -14,7 +14,7 @@
     "use_action": "install_bionic",
     "flags": [ "CBM" ],
     "is_upgrade": false,
-    "faults": [ "fault_bionic_salvaged" ]
+    "faults": [ "fault_bionic_nonsterile" ]
   },
   {
     "abstract": "bionic_general_npc_usable",

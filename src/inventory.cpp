@@ -589,6 +589,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         const cata::optional<vpart_reference> forgepart = vp.part_with_feature( "FORGE", true );
         const cata::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN", true );
         const cata::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB", true );
+        const cata::optional<vpart_reference> autoclavepart = vp.part_with_feature( "AUTOCLAVE", true );
         const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO", true );
 
         if( cargo ) {
@@ -677,6 +678,12 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             electrolysis_kit.charges = veh->fuel_left( itype_battery, true );
             electrolysis_kit.item_tags.insert( "PSEUDO" );
             add_item_by_items_type_cache( electrolysis_kit );
+        }
+        if( autoclavepart ) {
+            item autoclave( "autoclave", bday );
+            autoclave.charges = veh->fuel_left( itype_battery, true );
+            autoclave.item_tags.insert( "PSEUDO" );
+            add_item_by_items_type_cache( autoclave );
         }
     }
     pts.clear();

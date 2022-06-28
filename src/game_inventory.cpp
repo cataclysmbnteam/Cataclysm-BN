@@ -59,7 +59,7 @@ static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 
-static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
+static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
 
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_electronics( "electronics" );
@@ -1806,14 +1806,9 @@ class bionic_install_preset: public inventory_selector_preset
             const itype *itemtype = it->type;
             const bionic_id &bid = itemtype->bionic->id;
 
-            if( it->has_flag( flag_FILTHY ) ) {
+            if( it->has_fault( fault_bionic_nonsterile ) ) {
                 // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
-                return _( "/!\\ CBM is highly contaminated. /!\\" );
-            } else if( it->has_flag( flag_NO_STERILE ) ) {
-                // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
-                return _( "/!\\ CBM is not sterile. /!\\ Please use autoclave to sterilize." );
-            } else if( it->has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
-                return _( "CBM already deployed.  Please reset to factory state." );
+                return _( "/!\\ CBM is not sterile. /!\\ Please use autoclave or other methods to sterilize." );
             } else if( pa.has_bionic( bid ) ) {
                 return _( "CBM already installed" );
             } else if( !pa.can_install_cbm_on_bp( get_occupied_bodyparts( bid ) ) ) {
@@ -1915,12 +1910,8 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
             const itype *itemtype = it->type;
             const bionic_id &bid = itemtype->bionic->id;
 
-            if( it->has_flag( flag_FILTHY ) ) {
-                return _( "CBM is filthy." );
-            } else if( it->has_flag( flag_NO_STERILE ) ) {
+            if( it->has_fault( fault_bionic_nonsterile ) ) {
                 return _( "CBM is not sterile." );
-            } else if( it->has_fault( fault_bionic_salvaged ) ) {
-                return _( "CBM is already deployed." );
             } else if( pa.has_bionic( bid ) ) {
                 return _( "CBM is already installed." );
             } else if( bid->upgraded_bionic &&
