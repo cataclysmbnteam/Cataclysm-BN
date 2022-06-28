@@ -3274,7 +3274,7 @@ bash_results map::bash_ter_success( const tripoint &p, const bash_params &params
                     }
                 }
             } while( down_bash_tries-- > 0 && !blocked_by_roof &&
-                     ( ter( p ) != t_open_air || ter( below )->roof ) );
+                     ( ter( p ) != t_open_air || ter( p )->movecost == 0 || ter( below )->roof ) );
             if( down_bash_tries <= 0 ) {
                 debugmsg( "Loop in terrain bashing for type %s", ter_before.id.str() );
             }
