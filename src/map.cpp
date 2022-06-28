@@ -319,6 +319,8 @@ void map::clear_vehicle_list( const int zlev )
     auto &ch = get_cache( zlev );
     ch.vehicle_list.clear();
     ch.zone_vehicles.clear();
+
+    last_full_vehicle_list_dirty = true;
 }
 
 void map::update_vehicle_list( const submap *const to, const int zlev )
