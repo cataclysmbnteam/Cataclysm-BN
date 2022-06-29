@@ -9,7 +9,14 @@
     "color": "red",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "FLAT" ],
-    "bash": { "str_min": 1, "str_max": 1, "ter_set": "t_strong_roof", "sound": "crash!", "sound_fail": "whump!", "bash_below": true }
+    "bash": {
+      "str_min": 1,
+      "str_max": 1,
+      "ter_set": "t_strong_roof",
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "bash_below": true
+    }
   },
   {
     "type": "terrain",
@@ -33,13 +40,7 @@
     "color": "red",
     "move_cost": 0,
     "roof": "t_fragile_roof",
-    "bash": {
-      "str_min": 1,
-      "str_max": 1,
-      "sound": "crash!",
-      "sound_fail": "whump!",
-      "ter_set": "t_null"
-    }
+    "bash": { "str_min": 1, "str_max": 1, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_null" }
   },
   {
     "type": "terrain",
@@ -50,12 +51,7 @@
     "symbol": ".",
     "color": "red",
     "roof": "t_fragile_roof",
-    "bash": {
-      "sound": "SMASH!",
-      "ter_set": "t_strong_floor",
-      "str_min": 1,
-      "str_max": 1
-    }
+    "bash": { "sound": "SMASH!", "ter_set": "t_strong_floor", "str_min": 1, "str_max": 1 }
   },
   {
     "type": "terrain",
@@ -66,11 +62,6 @@
     "symbol": ".",
     "color": "green",
     "roof": "t_strong_roof",
-    "bash": {
-      "sound": "SMASH!",
-      "ter_set": "t_null",
-      "str_min": 1000,
-      "str_max": 1000
-    }
+    "bash": { "sound": "SMASH!", "ter_set": "t_null", "str_min": 1000, "str_max": 1000 }
   }
 ]
