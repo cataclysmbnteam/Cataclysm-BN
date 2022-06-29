@@ -3164,7 +3164,8 @@ static int get_sound_volume( const map_bash_info &bash )
 {
     int smin = bash.str_min;
     int smax = bash.str_max;
-    return bash.sound_vol.value_or( std::max( std::min( static_cast<int>( smin * 1.5 ), smax ), 12 ) );
+    // TODO: Consider setting this in finalize instead of calculating here
+    return bash.sound_vol.value_or( std::min( static_cast<int>( smin * 1.5 ), smax ) );
 }
 
 bash_results map::bash_ter_success( const tripoint &p, const bash_params &params )
@@ -3219,7 +3220,7 @@ bash_results map::bash_ter_success( const tripoint &p, const bash_params &params
             ter_set( p, t_dirt );
         }
     } else if( follow_below || ter( p ) == t_open_air ) {
-        tripoint below( p.xy(), p.z - 1 );
+        const tripoint below( p.xy(), p.z - 1 );
         // We may need multiple bashes in some weird cases
         // Example:
         //   W has roof A

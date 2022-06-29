@@ -812,14 +812,13 @@ static void smash()
 
         if( !m.has_floor_or_support( u.pos() ) ) {
             cata::optional<tripoint> to_safety;
-            bool loop = true;
-            while( loop ) {
-                to_safety = choose_direction( _( "Floor below destroyed! Move where?" ) );
+            while( true ) {
+                to_safety = choose_direction( _( "Floor below destroyed!  Move where?" ) );
                 if( to_safety && *to_safety == tripoint_zero ) {
                     to_safety.reset();
                 }
                 if( !to_safety && query_yn( _( "Fall down?" ) ) ) {
-                    loop = false;
+                    break;
                 }
 
                 if( to_safety ) {
@@ -827,7 +826,7 @@ static void smash()
                     tripoint newpos = u.pos() + *to_safety;
                     // game::walk_move will return true even if you don't move
                     if( g->walk_move( newpos ) && u.pos() != oldpos ) {
-                        loop = false;
+                        break;
                     }
                 }
             }
