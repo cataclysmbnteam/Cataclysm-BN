@@ -3003,7 +3003,10 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
             for( auto &elem : worn ) {
                 if( elem.has_flag( flag_POWERARMOR_EXO ) &&
                     ( elem.get_covered_body_parts() & it.get_covered_body_parts() ).any() ) {
-                    return ret_val<bool>::make_failure( _( "Can't wear external pieces over an exoskeleton!" ) );
+                    return ret_val<bool>::make_failure( _( "Can't wear externals over an exoskeleton!" ) );
+                } else if( elem.has_flag( flag_POWERARMOR_EXTERNAL ) &&
+                           ( elem.get_covered_body_parts() & it.get_covered_body_parts() ).any() ) {
+                    return ret_val<bool>::make_failure( _( "Can't wear externals over one another!" ) );
                 }
             }
         }
@@ -9600,7 +9603,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty,
         return res;
 
     } else if( what == itype_bio_armor ) {
-        int mod_qty = 0;
+        float mod_qty = 0;
         float multiplier = 1;
         for( const bionic &bio : *my_bionics ) {
             if( bio.powered && bio.info().has_flag( flag_BIONIC_ARMOR_INTERFACE ) ) {
