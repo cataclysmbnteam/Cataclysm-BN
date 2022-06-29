@@ -214,7 +214,6 @@ static const std::string flag_CLIMB_SIMPLE( "CLIMB_SIMPLE" );
 static const std::string flag_COOKED( "COOKED" );
 static const std::string flag_DIAMOND( "DIAMOND" );
 static const std::string flag_FERTILIZER( "FERTILIZER" );
-static const std::string flag_FILTHY( "FILTHY" );
 static const std::string flag_FIRE( "FIRE" );
 static const std::string flag_FIRESTARTER( "FIRESTARTER" );
 static const std::string flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
