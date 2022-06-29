@@ -531,7 +531,7 @@
       "draw_cost": 5,
       "flags": [ "SHEATH_SWORD", "SHEATH_AXE" ]
     },
-    "flags": [ "POWERARMOR_MOD", "COMPACT", "WATERPROOF", "BELTED" ]
+    "flags": [ "POWERARMOR_MOD", "COMPACT", "WATERPROOF", "BELTED", "ONLY_ONE" ]
   },
   {
     "id": "power_armor_scabbard",
