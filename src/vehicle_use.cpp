@@ -1886,6 +1886,8 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     const bool from_vehicle = cargo_part >= 0 && !get_items( cargo_part ).empty();
     const bool can_be_folded = is_foldable();
     const bool is_convertible = tags.count( "convertible" ) > 0;
+    const int autoclave_part = avail_part_with_feature( interact_part, "AUTOCLAVE", true );
+    const bool has_autoclave = autoclave_part >= 0;
     const bool remotely_controlled = g->remoteveh() == this;
     const int washing_machine_part = avail_part_with_feature( interact_part, "WASHING_MACHINE", true );
     const bool has_washmachine = washing_machine_part >= 0;
@@ -1906,7 +1908,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
 
     enum {
         EXAMINE, TRACK, HANDBRAKE, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET,
-        RELOAD_TURRET, USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_WASHMACHINE,
+        RELOAD_TURRET, USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_AUTOCLAVE, USE_WASHMACHINE,
         USE_DISHWASHER, USE_MONSTER_CAPTURE, USE_BIKE_RACK, USE_HARNESS, RELOAD_PLANTER, USE_TOWEL, PEEK_CURTAIN,
     };
     uilist selectmenu;
@@ -1920,6 +1922,9 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     if( has_electronics ) {
         selectmenu.addentry( CONTROL_ELECTRONICS, true, keybind( "CONTROL_MANY_ELECTRONICS" ),
                              _( "Control multiple electronics" ) );
+    }
+    if( has_autoclave ) {
+        selectmenu.addentry( USE_AUTOCLAVE, true, 'a', _( "Sterilize a CBM" ) );
     }
     if( has_washmachine ) {
         selectmenu.addentry( USE_WASHMACHINE, true, 'W',
@@ -2033,6 +2038,10 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         }
         case USE_TOWEL: {
             iuse::towel_common( &g->u, nullptr, false );
+            return;
+        }
+        case USE_AUTOCLAVE: {
+            iexamine::autoclave_empty( dynamic_cast<player &>( g->u ), pos );
             return;
         }
         case USE_WASHMACHINE: {

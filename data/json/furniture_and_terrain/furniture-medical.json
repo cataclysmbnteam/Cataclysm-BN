@@ -74,6 +74,7 @@
     "required_str": -1,
     "looks_like": "f_washer",
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF" ],
+    "examine_action": "autoclave_empty",
     "deconstruct": {
       "items": [
         { "item": "autoclave", "count": 1 },
