@@ -420,8 +420,10 @@ void npc::randomize( const npc_class_id &type )
     clear_mutations();
 
     // Add fixed traits
-    for( const auto &tid : trait_group::traits_from( myclass->traits ) ) {
-        set_mutation( tid );
+    for( const trait_id &tid : trait_group::traits_from( myclass->traits ) ) {
+        if( !has_trait( tid ) ) {
+            toggle_trait( tid );
+        }
     }
 
     // Run mutation rounds
