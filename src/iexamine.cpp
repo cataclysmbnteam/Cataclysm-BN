@@ -2736,11 +2736,14 @@ void iexamine::arcfurnace_full( player &, const tripoint &examp )
 }
 //arc furnace end
 
-void iexamine::autoclave_empty( player &, const tripoint & )
+void iexamine::autoclave_empty( player &p, const tripoint & )
 {
-    avatar &u = get_avatar();
-    item_location bionic = game_menus::inv::sterilize_cbm( u );
-    return avatar_action::mend( u, bionic );
+    item_location bionic = game_menus::inv::sterilize_cbm( p );
+    if( bionic ) {
+        p.mend_item( item_location( bionic ) );
+    } else {
+        add_msg(_("Never mind."));
+    }
 }
 
 void iexamine::autoclave_full( player &, const tripoint &examp )
