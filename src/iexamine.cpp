@@ -2742,7 +2742,7 @@ void iexamine::autoclave_empty( player &p, const tripoint & )
     if( bionic ) {
         p.mend_item( item_location( bionic ) );
     } else {
-        add_msg(_("Never mind."));
+        add_msg( _( "Never mind." ) );
     }
 }
 
