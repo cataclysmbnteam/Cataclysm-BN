@@ -73,6 +73,10 @@
 #include <sys/system_properties.h>
 #endif
 
+// Hack for loading weird saves
+bool dont_debugmsg = false;
+
+
 // Static defines                                                   {{{1
 // ---------------------------------------------------------------------
 
@@ -250,7 +254,7 @@ static void debug_error_prompt(
     ctxt.register_manual_key( 'I' );
     ctxt.register_manual_key( ' ' );
 #endif
-    for( bool stop = false; !stop; ) {
+    for( bool stop = false; !stop && !dont_debugmsg; ) {
         ui_manager::redraw();
         switch( inp_mngr.get_input_event().get_first_input() ) {
 #if defined(TILES)

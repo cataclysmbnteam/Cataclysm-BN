@@ -809,6 +809,32 @@ static void smash()
                 add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), m.tername( smashp ) );
             }
         }
+
+        if( !m.has_floor_or_support( u.pos() ) ) {
+            cata::optional<tripoint> to_safety;
+            while( true ) {
+                to_safety = choose_direction( _( "Floor below destroyed!  Move where?" ) );
+                if( to_safety && *to_safety == tripoint_zero ) {
+                    to_safety.reset();
+                }
+                if( !to_safety && query_yn( _( "Fall down?" ) ) ) {
+                    break;
+                }
+
+                if( to_safety ) {
+                    tripoint oldpos = u.pos();
+                    tripoint newpos = u.pos() + *to_safety;
+                    // game::walk_move will return true even if you don't move
+                    if( g->walk_move( newpos ) && u.pos() != oldpos ) {
+                        break;
+                    }
+                }
+            }
+            if( !to_safety ) {
+                // HACK! We should have a "fall down" function instead of invoking ledge trap
+                m.creature_on_trap( u, false );
+            }
+        }
     } else {
         add_msg( _( "There's nothing there to smash!" ) );
     }

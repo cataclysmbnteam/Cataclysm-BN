@@ -76,4 +76,9 @@ extern bool pixel_minimap_option;
 */
 extern int PICKUP_RANGE;
 
+/**
+ * If true, disables all debug messages. Only used for debugging "weird" saves.
+ */
+extern bool dont_debugmsg;
+
 #endif // CATA_SRC_CACHED_OPTIONS_H

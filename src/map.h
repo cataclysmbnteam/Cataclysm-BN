@@ -148,6 +148,11 @@ struct bash_params {
      * have a roof either.
     */
     bool bashing_from_above;
+    /**
+     * Hack to prevent infinite recursion.
+     * TODO: Remove, properly unwrap the calls instead
+     */
+    bool do_recurse = true;
 };
 
 struct bash_results {
