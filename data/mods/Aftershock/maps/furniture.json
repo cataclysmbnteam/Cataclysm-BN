@@ -110,7 +110,7 @@
   {
     "type": "furniture",
     "id": "f_autodoc",
-    "name": "Autodoc Mk. XVI",
+    "name": "Autodoc Mk. XI",
     "symbol": "&",
     "color": "light_red",
     "copy-from": "f_autodoc",
@@ -118,19 +118,7 @@
     "flags": [ "TRANSPARENT", "AUTODOC", "CONTAINER" ],
     "examine_action": "autodoc",
     "surgery_skill_multiplier": 1.6,
-    "deconstruct": {
-      "items": [
-        { "item": "afs_circuitry_3", "count": [ 1, 2 ] },
-        { "item": "afs_circuitry_2", "count": [ 4, 8 ] },
-        { "item": "cable", "charges": [ 4, 6 ] },
-        { "item": "small_lcd_screen", "count": [ 1, 2 ] },
-        { "item": "afs_material_2", "count": [ 6, 10 ] },
-        { "item": "afs_energy_storage_2", "count": [ 1, 2 ] },
-        { "item": "afs_energy_storage_3", "count": [ 0, 1 ] },
-        { "item": "plastic_chunk", "count": [ 10, 12 ] },
-        { "item": "afs_material_2", "count": [ 6, 8 ] }
-      ]
-    },
+    "deconstruct": { "items": [ { "item": "autodoc", "count": 1 } ] },
     "bash": {
       "str_min": 8,
       "str_max": 150,
