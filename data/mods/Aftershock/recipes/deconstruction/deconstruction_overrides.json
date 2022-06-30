@@ -6,7 +6,12 @@
     "difficulty": 4,
     "time": "1 h",
     "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 }
+    ],
     "components": [
       [ [ "afs_circuitry_3", 2 ] ],
       [ [ "afs_circuitry_2", 6 ] ],
