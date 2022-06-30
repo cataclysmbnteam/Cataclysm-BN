@@ -7995,20 +7995,57 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
             continue;
         }
 
-        // The bio_ads CBM absorbs damage before hitting armor
-        if( has_active_bionic( bio_ads ) ) {
-            if( elem.amount > 0 && get_power_level() > 24_kJ ) {
-                if( elem.type == DT_BASH ) {
-                    elem.amount -= rng( 1, 2 );
-                } else if( elem.type == DT_CUT ) {
-                    elem.amount -= rng( 1, 4 );
-                } else if( elem.type == DT_STAB || elem.type == DT_BULLET ) {
-                    elem.amount -= rng( 1, 8 );
+        // The bio_ads CBM absorbs percentage melee damage and ranged damage (where possible) after armour.
+        if( has_active_bionic( bio_ads ) && ( elem.amount > 0 ) && ( elem.type == DT_BASH ||
+                elem.type == DT_CUT || elem.type == DT_STAB || elem.type == DT_BULLET ) ) {
+            float elem_multi = 1;
+            // HACK: In the future this hopefully gets streamlined.
+            const auto &all_bionics = get_bionics();
+            size_t index;
+            for( index = 0; index < all_bionics.size(); index++ ) {
+                if( all_bionics[index] == bio_ads ) {
+                    break;
                 }
-                mod_power_level( -25_kJ );
             }
-            if( elem.amount < 0 ) {
-                elem.amount = 0;
+            bionic &bio = bionic_at_index( index );
+            // HACK: Halves charge rate when hit for the next 3 turns, doesn't stack. See bionics.cpp for more information.
+            bio.charge_timer = 6;
+            // Bullet affected significantly more than stab, stab more than cut, cut more than bash.
+            if( elem.type == DT_BASH ) {
+                elem_multi = 0.8;
+            } else if( elem.type == DT_CUT ) {
+                elem_multi = 0.7;
+            } else if( elem.type == DT_STAB ) {
+                elem_multi = 0.55;
+            } else if( elem.type == DT_BULLET ) {
+                elem_multi = 0.25;
+            }
+            units::energy ads_cost = elem.amount * 500_J;
+            if( bio.energy_stored >= ads_cost ) {
+                dam.mult_damage( elem_multi );
+                bio.energy_stored -= ads_cost;
+            } else if( bio.energy_stored < ads_cost && bio.energy_stored != 0_kJ ) {
+                // If you get hit and you lack energy it either deactivates, or deactivates and shorts out.
+                // Either way you still get protection.
+                dam.mult_damage( elem_multi );
+                bio.energy_stored = 0_kJ;
+                deactivate_bionic( index );
+                const units::energy shatter_thresh = ( elem.type == DT_BULLET ) ? 20_kJ : 15_kJ;
+                if( ads_cost >= shatter_thresh ) {
+                    if( bio.incapacitated_time == 0_turns ) {
+                        add_msg_if_player( m_bad, _( "Your forcefield shatters and the feedback shorts out the %s!" ),
+                                           bio.info().name );
+                    }
+                    int over = units::to_kilojoule( ads_cost - ( shatter_thresh - 5_kJ ) );
+                    bio.incapacitated_time += ( ( over / 5 ) ) * 1_turns;
+                } else {
+                    add_msg_if_player( m_bad, _( "Your forcefield crackles and the %s powers down." ),
+                                       bio.info().name );
+                }
+            } else {
+                //You tried to (re)activate it and immediately enter combat, no mitigation for you.
+                deactivate_bionic( index );
+                add_msg_if_player( m_bad, _( "The %s is interrupted and powers down." ), bio.info().name );
             }
         }
 

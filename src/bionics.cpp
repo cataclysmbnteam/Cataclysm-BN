@@ -142,6 +142,7 @@ static const skill_id skill_mechanics( "mechanics" );
 
 static const bionic_id bio_adrenaline( "bio_adrenaline" );
 static const bionic_id bio_advreactor( "bio_advreactor" );
+static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_blaster( "bio_blaster" );
 static const bionic_id bio_blood_anal( "bio_blood_anal" );
 static const bionic_id bio_blood_filter( "bio_blood_filter" );
@@ -1124,6 +1125,9 @@ bool Character::deactivate_bionic( int b, bool eff_only )
         }
     } else if( bio.id == bio_tools ) {
         invalidate_crafting_inventory();
+    } else if( bio.id == bio_ads ) {
+        mod_power_level( bio.energy_stored );
+        bio.energy_stored = 0_kJ;
     }
 
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
@@ -1703,6 +1707,31 @@ void Character::process_bionic( int b )
                                _( "You are properly hydrated.  Your %s chirps happily." ),
                                bio.info().name );
             deactivate_bionic( b );
+        }
+    } else if( bio.id == bio_ads ) {
+        if( bio.charge_timer < 2 ) {
+            bio.charge_timer = 2;
+        }
+        if( bio.energy_stored < 150_kJ ) {
+            // Max recharge rate is influenced by whether you've been hit or not.
+            // See character.cpp for how charge_timer keeps track of that for this bionic.
+            units::energy max_rate = 10_kJ;
+            if( bio.charge_timer > 2 ) {
+                max_rate /= 2;
+            }
+            units::energy ads_recharge = std::min( max_rate, 150_kJ - bio.energy_stored );
+            if( ads_recharge < get_power_level() ) {
+                mod_power_level( - ads_recharge );
+                bio.energy_stored += ads_recharge;
+            } else if( get_power_level() != 0_kJ ) {
+                mod_power_level( - get_power_level() );
+                bio.energy_stored += get_power_level();
+            }
+            if( bio.energy_stored == 150_kJ ) {
+                add_msg_if_player( m_good, _( "Your %s quietens to a satisfied thrum." ), bio.info().name );
+            }
+        } else if( bio.energy_stored > 150_kJ ) {
+            bio.energy_stored = 150_kJ;
         }
     } else if( bio.id == afs_bio_dopamine_stimulators ) {
         // Aftershock
@@ -2762,6 +2791,9 @@ void bionic::serialize( JsonOut &json ) const
     if( is_auto_start_on() ) {
         json.member( "auto_start_threshold", auto_start_threshold );
     }
+    if( energy_stored > 0_kJ ) {
+        json.member( "energy_stored", energy_stored );
+    }
 
     json.end_object();
 }
@@ -2773,6 +2805,7 @@ void bionic::deserialize( JsonIn &jsin )
     invlet = jo.get_int( "invlet" );
     powered = jo.get_bool( "powered" );
     charge_timer = jo.get_int( "charge" );
+    jo.read( "energy_stored", energy_stored, true );
     if( jo.has_string( "ammo_loaded" ) ) {
         jo.read( "ammo_loaded", ammo_loaded, true );
     }
