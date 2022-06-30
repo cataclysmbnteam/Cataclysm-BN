@@ -27,7 +27,7 @@
     "harvest": "exempt",
     "death_function": [ "MELT" ],
     "regenerates": 50,
-    "regeneration_modifiers": [ [ "onfire", -0.6 ], [ "corroding", -0.3 ] ],
+    "regeneration_modifiers": [ { "effect": "onfire", "base_mod": -0.3, "scaling_mod": -0.2 }, { "effect": "corroding", "base_mod": -0.3 } ],
     "flags": [ "NOHEAD", "SEES", "POISON", "HEARS", "SMELLS", "SLUDGEPROOF", "SLUDGETRAIL", "SWIMS", "FLAMMABLE", "NOGIB" ]
   },
   {

@@ -1152,22 +1152,22 @@ void mtype::remove_special_attacks( const JsonObject &jo, const std::string &mem
     }
 }
 
-void mtype::add_regeneration_modifier( JsonArray inner, const std::string & )
+void mtype::add_regeneration_modifier( JsonObject inner, const std::string & )
 {
-    const std::string effect_name = inner.get_string( 0 );
+    const std::string effect_name = inner.get_string( "effect" );
     const efftype_id effect( effect_name );
     //TODO: if invalid effect, throw error
     //  inner.throw_error( "Invalid regeneration_modifiers" );
 
     if( regeneration_modifiers.count( effect ) > 0 ) {
         regeneration_modifiers.erase( effect );
-        if( test_mode ) {
-            debugmsg( "%s specifies more than one regeneration modifer for effect %s, ignoring all but the last",
-                      id.c_str(), effect_name );
-        }
+        debugmsg( "%s specifies more than one regeneration modifer for effect %s, ignoring all but the last",
+                  id.c_str(), effect_name );
     }
-    float amount = inner.get_float( 1 );
-    regeneration_modifiers.emplace( effect, amount );
+    const float base_mod = inner.get_float( "base_mod", 0.0f );
+    const float scaling_mod = inner.get_float( "scaling_mod", 0.0f );
+
+    regeneration_modifiers.emplace( effect, regen_modifier{ base_mod, scaling_mod } );
 }
 
 void mtype::add_regeneration_modifiers( const JsonObject &jo, const std::string &member,
@@ -1178,13 +1178,13 @@ void mtype::add_regeneration_modifiers( const JsonObject &jo, const std::string 
     }
 
     for( const JsonValue entry : jo.get_array( member ) ) {
-        if( entry.test_array() ) {
-            add_regeneration_modifier( entry.get_array(), src );
+        if( entry.test_object() ) {
+            add_regeneration_modifier( entry.get_object(), src );
             // TODO: add support for regeneration_modifer objects
             //} else if ( entry.test_object() ) {
             //    add_regeneration_modifier( entry.get_object(), src );
         } else {
-            entry.throw_error( "array element is not an array " );
+            entry.throw_error( "array element is not an object " );
         }
     }
 }
