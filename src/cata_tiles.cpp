@@ -2259,7 +2259,8 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
     }
 
     // make sure we aren't going to rotate the tile if it shouldn't be rotated
-    if( !display_tile.rotates && !( category == C_NONE ) && !( category == C_MONSTER ) ) {
+    if( !display_tile.rotates
+        && !( category == C_NONE || category == C_MONSTER || category == C_BULLET ) ) {
         rota = 0;
     }
 
@@ -3268,11 +3269,12 @@ void cata_tiles::init_draw_cone_aoe( const tripoint &origin, const one_bucket &l
     cone_aoe_origin = origin;
     cone_aoe_layer = layer;
 }
-void cata_tiles::init_draw_bullet( const tripoint &p, std::string name )
+void cata_tiles::init_draw_bullet( const tripoint &p, std::string name, int rotation /* = 0 */ )
 {
     do_draw_bullet = true;
     bul_pos = p;
     bul_id = std::move( name );
+    bul_rotation = rotation;
 }
 void cata_tiles::init_draw_hit( const tripoint &p, std::string name )
 {
@@ -3597,7 +3599,8 @@ void cata_tiles::void_cone_aoe()
 
 void cata_tiles::draw_bullet_frame()
 {
-    draw_from_id_string( bul_id, C_BULLET, empty_string, bul_pos, 0, 0, lit_level::LIT, false, 0 );
+    draw_from_id_string( bul_id, C_BULLET, empty_string, bul_pos, 0, bul_rotation,
+                         lit_level::LIT, false, 0 );
 }
 void cata_tiles::draw_hit_frame()
 {

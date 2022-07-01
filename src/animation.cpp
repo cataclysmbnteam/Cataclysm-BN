@@ -500,14 +500,16 @@ void game::draw_bullet( const tripoint &t, const int /*i*/,
     static const std::string bullet_flame    {"animation_bullet_flame"};
     static const std::string bullet_shrapnel {"animation_bullet_shrapnel"};
 
+    // FIXME: change bullet_type to something sensible
     const std::string &bullet_type =
         bullet == '*' ? bullet_normal
         : bullet == '#' ? bullet_flame
         : bullet == '`' ? bullet_shrapnel
         : bullet_unknown;
 
+    int rotation = std::rand() % 4;
     shared_ptr_fast<draw_callback_t> bullet_cb = make_shared_fast<draw_callback_t>( [&]() {
-        tilecontext->init_draw_bullet( t, bullet_type );
+        tilecontext->init_draw_bullet( t, bullet_type, rotation );
     } );
     add_draw_callback( bullet_cb );
 
