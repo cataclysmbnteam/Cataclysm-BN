@@ -9288,6 +9288,22 @@ bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
 
 bool item::process_tool( player *carrier, const tripoint &pos )
 {
+    // Mod/Externals turn off if not attached to exoskeleton.
+    if( carrier && has_flag( flag_POWERARMOR_EXTERNAL ) && active && !carrier.is_wearing_active_power_armor() ) {
+        const use_function *use_func = this->get_use( "set_transformed" );
+        if( use_func == nullptr ) {
+            debugmsg( "Expected set_transformed function" );
+            return false;
+        }
+        const set_transformed_iuse *actor = dynamic_cast<const set_transformed_iuse *>
+                                            ( use_func->get_actor_ptr() );
+        if( actor == nullptr ) {
+            debugmsg( "iuse_actor type descriptor and actual type mismatch" );
+            return false;
+        }
+        actor->bypass( *carrier, *this, false, pos );
+    }
+
     int energy = 0;
     if( type->tool->turns_per_charge > 0 &&
         to_turn<int>( calendar::turn ) % type->tool->turns_per_charge == 0 ) {
