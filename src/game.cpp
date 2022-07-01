@@ -7360,24 +7360,22 @@ bool game::take_screenshot( const std::string &path ) const
 bool game::take_screenshot() const
 {
     // check that the current '<world>/screenshots' directory exists
-    std::stringstream map_directory;
-    map_directory << get_world_base_save_path() << "/screenshots/";
-    assure_dir_exist( map_directory.str() );
+    std::string map_directory = get_world_base_save_path() + "/screenshots/";
+    assure_dir_exist( map_directory );
 
     // build file name: <map_dir>/screenshots/[<character_name>]_<date>.png
     // Date format is a somewhat ISO-8601 compliant GMT time date (except for some characters that wouldn't pass on most file systems like ':').
     std::time_t time = std::time( nullptr );
     std::stringstream date_buffer;
     date_buffer << std::put_time( std::gmtime( &time ), "%F_%H-%M-%S_%z" );
-    const auto tmp_file_name = string_format( "[%s]_%s.png", get_player_character().get_name(),
-                               date_buffer.str() );
-
-    std::string file_name = ensure_valid_file_name( tmp_file_name );
-    auto current_file_path = map_directory.str() + file_name;
+    const std::string tmp_file_name = string_format( "[%s]_%s.png", get_player_character().get_name(),
+                                      date_buffer.str() );
+    const std::string file_name = ensure_valid_file_name( tmp_file_name );
+    const std::string current_file_path = map_directory + file_name;
 
     // Take a screenshot of the viewport.
     if( take_screenshot( current_file_path ) ) {
-        popup( _( "Successfully saved your screenshot to: %s" ), map_directory.str() );
+        popup( _( "Successfully saved your screenshot to: %s" ), map_directory );
         return true;
     } else {
         popup( _( "An error occurred while trying to save the screenshot." ) );
@@ -7387,6 +7385,7 @@ bool game::take_screenshot() const
 #else
 bool game::take_screenshot( const std::string &/*path*/ ) const
 {
+    popup( _( "This binary was not compiled with tiles support." ) );
     return false;
 }
 
