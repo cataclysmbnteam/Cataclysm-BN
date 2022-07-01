@@ -9289,7 +9289,7 @@ bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
 bool item::process_tool( player *carrier, const tripoint &pos )
 {
     // Mod/Externals turn off if not attached to exoskeleton.
-    if( has_flag( flag_POWERARMOR_EXTERNAL ) && active && ( !carrier ||
+    if( active && has_flag( flag_POWERARMOR_EXTERNAL ) && ( !carrier ||
             !carrier->is_wearing_active_power_armor() ) ) {
         const use_function *use_func = this->get_use( "set_transformed" );
         if( use_func == nullptr ) {
@@ -9319,7 +9319,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
     energy -= ammo_consume( energy, pos );
 
     // for power armor pieces, try to use power armor interface first.
-    if( carrier && carrier->can_interface_armor() && is_power_armor() ) {
+    if( carrier && is_power_armor() && carrier->can_interface_armor() ) {
         if( carrier->use_charges_if_avail( itype_bio_armor, energy ) ) {
             energy = 0;
         }
@@ -9354,7 +9354,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
             }
             std::string transformed_flag = actor->flag;
             for( auto &elem : carrier->worn ) {
-                if( elem.has_flag( transformed_flag ) && elem.active ) {
+                if( elem.active && elem.has_flag( transformed_flag ) ) {
                     const use_function *use_func = elem.get_use( "set_transformed" );
                     if( use_func == nullptr ) {
                         debugmsg( "Expected set_transformed function" );
