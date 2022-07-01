@@ -528,9 +528,9 @@
     "//": "barrel with gasoline, diesel or Jp8 fuel like you would find at fuel depot",
     "subtype": "distribution",
     "entries": [
-      { "item": "gasoline" , "container-item": "30gal_drum", "prob": 20 },
-      { "item": "diesel" , "container-item": "30gal_drum", "prob": 10 },
-      { "item": "jp8" , "container-item": "30gal_drum", "prob": 20 }
+      { "item": "gasoline", "container-item": "30gal_drum", "prob": 20 },
+      { "item": "diesel", "container-item": "30gal_drum", "prob": 10 },
+      { "item": "jp8", "container-item": "30gal_drum", "prob": 20 }
     ]
   },
   {
