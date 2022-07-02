@@ -2833,7 +2833,6 @@
     "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 36 ] ], [ [ "pebble", 200 ] ], [ [ "material_soil", 75 ] ] ],
     "post_terrain": "f_planter"
   },
-   
   {
     "type": "construction",
     "id": "constr_cut_grass_long",
@@ -2844,9 +2843,8 @@
     "byproducts": [ { "item": "straw_pile", "count": [ 1, 2 ] } ],
     "pre_terrain": "t_grass_long",
     "post_terrain": "t_grass",
-     "qualities": [ [ { "id": "CUT", "level": 1 } ] ]
+    "qualities": [ [ { "id": "CUT", "level": 1 } ] ]
   },
-  
   {
     "type": "construction",
     "id": "constr_cut_grass_tall",
@@ -2857,7 +2855,7 @@
     "byproducts": [ { "item": "straw_pile", "count": [ 1, 2 ] } ],
     "pre_terrain": "t_grass_tall",
     "post_terrain": "t_grass",
-     "qualities": [ [ { "id": "CUT", "level": 1 } ] ]
+    "qualities": [ [ { "id": "CUT", "level": 1 } ] ]
   },
   {
     "type": "construction",
