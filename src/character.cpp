@@ -9539,16 +9539,16 @@ bool Character::has_charges( const itype_id &it, int quantity,
     }
     if( it == itype_bio_armor ) {
         int mod_qty = 0;
-        float multiplier = 1;
+        float efficiency = 1;
         for( const bionic &bio : *my_bionics ) {
             if( bio.powered && bio.info().has_flag( flag_BIONIC_ARMOR_INTERFACE ) ) {
-                multiplier = std::min( multiplier, bio.info().fuel_efficiency );
+                efficiency = std::max( efficiency, bio.info().fuel_efficiency );
             }
         }
-        if( multiplier == 1 ) {
-            debugmsg( "Player lacks a bionic armor interface with fuel efficiency multiplier." );
+        if( efficiency == 1 ) {
+            debugmsg( "Player lacks a bionic armor interface with fuel efficiency field." );
         }
-        mod_qty = quantity * multiplier;
+        mod_qty = quantity / efficiency;
         return ( has_power() && get_power_level() >= units::from_kilojoule( mod_qty ) );
     }
     return charges_of( it, quantity, filter ) == quantity;
@@ -9604,16 +9604,16 @@ std::list<item> Character::use_charges( const itype_id &what, int qty,
 
     } else if( what == itype_bio_armor ) {
         float mod_qty = 0;
-        float multiplier = 1;
+        float efficiency = 1;
         for( const bionic &bio : *my_bionics ) {
             if( bio.powered && bio.info().has_flag( flag_BIONIC_ARMOR_INTERFACE ) ) {
-                multiplier = std::min( multiplier, bio.info().fuel_efficiency );
+                efficiency = std::max( efficiency, bio.info().fuel_efficiency );
             }
         }
-        if( multiplier == 1 ) {
-            debugmsg( "Player lacks a bionic armor interface with fuel efficiency multiplier." );
+        if( efficiency == 1 ) {
+            debugmsg( "Player lacks a bionic armor interface with fuel efficiency field." );
         }
-        mod_qty = qty * multiplier;
+        mod_qty = qty / efficiency;
         mod_power_level( units::from_kilojoule( -mod_qty ) );
         return res;
 

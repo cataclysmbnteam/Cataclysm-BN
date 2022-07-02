@@ -772,7 +772,7 @@
     "description": "Interfaces your power system with the internal charging port on suits of power armor, allowing them to draw from your bionic power banks.",
     "occupied_bodyparts": [ [ "torso", 4 ], [ "head", 1 ] ],
     "flags": [ "BIONIC_ARMOR_INTERFACE", "BIONIC_TOGGLED" ],
-    "fuel_efficiency": 0.5
+    "fuel_efficiency": 2
   },
   {
     "id": "bio_power_armor_interface_mkII",
@@ -781,7 +781,7 @@
     "description": "Interfaces your power system with the internal charging port on suits of power armor, allowing them to draw from your bionic power banks.  Twice as efficient as the Mk. I model.",
     "occupied_bodyparts": [ [ "torso", 3 ], [ "head", 2 ] ],
     "flags": [ "BIONIC_ARMOR_INTERFACE", "BIONIC_TOGGLED" ],
-    "fuel_efficiency": 0.25
+    "fuel_efficiency": 4
   },
   {
     "id": "bio_power_storage",
