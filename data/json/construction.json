@@ -2833,7 +2833,8 @@
     "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 36 ] ], [ [ "pebble", 200 ] ], [ [ "material_soil", 75 ] ] ],
     "post_terrain": "f_planter"
   },
-   {
+   
+  {
     "type": "construction",
     "id": "constr_cut_grass_long",
     "description": "Cut Grass",
@@ -2845,6 +2846,7 @@
     "post_terrain": "t_grass",
      "qualities": [ [ { "id": "CUT", "level": 1 } ] ]
   },
+  
   {
     "type": "construction",
     "id": "constr_cut_grass_tall",
