@@ -474,7 +474,7 @@
     "charges": 10,
     "autolearn": true,
     "batch_time_factors": [ 75, 4 ],
-    "book_learn": [ [ "concrete_book", 3 ], [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ] ],
+    "book_learn": [ [ "concrete_book", 2 ], [ "adv_chemistry", 2 ], [ "textbook_chemistry", 2 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
     "components": [ [ [ "material_limestone", 10 ] ] ]
   },
@@ -488,7 +488,7 @@
     "difficulty": 4,
     "time": "1 h 30 m",
     "autolearn": true,
-    "book_learn": [ [ "concrete_book", 4 ] ],
+    "book_learn": [ [ "concrete_book", 3 ] ],
     "batch_time_factors": [ 75, 3 ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
     "components": [ [ [ "material_quicklime", 50 ] ], [ [ "material_sand", 50 ] ] ]
