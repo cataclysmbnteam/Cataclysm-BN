@@ -2041,7 +2041,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             return;
         }
         case USE_AUTOCLAVE: {
-            iexamine::autoclave_empty( dynamic_cast<player &>( g->u ), pos );
+            iexamine::autoclave_empty( get_avatar(), pos );
             return;
         }
         case USE_WASHMACHINE: {
