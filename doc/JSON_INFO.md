@@ -1636,8 +1636,8 @@ See also VEHICLE_JSON.md
     [ "45", [ "m1911mag", "m1911bigmag" ] ],
 ],
 "milling": {                                 // Optional. If given, the item can be milled in a water/wind mill.
-  "into": "flour",                           // The item id of the result of the milling.
-  "conversion_rate": 1.0                     // Conversion of number of items that are milled (e.g. with a rate of 2, 10 input items will yield 20 milled items).
+  "into": "flour",                           // The item id of the product.
+  "conversion_rate": 4                       // Number of products per item consumed. At a conversion_rate of 4, 1 item is milled into 4 product. Only accepts integers.
 },
 "explode_in_fire": true,                     // Should the item explode if set on fire
 "explosion": {                               // Physical explosion data
