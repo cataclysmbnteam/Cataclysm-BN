@@ -220,6 +220,15 @@
   },
   {
     "type": "mapgen",
+    "update_mapgen_id": "fbmc_firestation1_grid_forge",
+    "method": "json",
+    "object": {
+      "set": [ { "point": "furniture", "id": "f_gridforge", "x": 6, "y": 17 } ],
+      "place_loot": [ { "item": "hammer", "x": 8, "y": 21, "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
     "update_mapgen_id": "fbmc_firestation1_forge2",
     "method": "json",
     "object": {
