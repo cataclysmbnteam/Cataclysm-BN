@@ -566,9 +566,13 @@
     "blueprint_excludes": [ { "id": "fbmc_firestation1_forge" } ],
     "blueprint_resources": [ "fake_gridforge", "hammer" ],
     "blueprint_needs": {
-      "time": "2 h",
-      "skills": [ [ "fabrication", 4 ] ],
-      "inline": { "tools": [  ], "qualities": [  ], "components": [ [ [ "forge", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ] }
+      "time": "30 m",
+      "skills": [ [ "electronics", 1 ] ],
+      "inline": {
+        "tools": [ [ [ "soldering_iron", 20 ] ] ],
+        "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+        "components": [ [ [ "forge", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ]
+      }
     }
   },
   {
