@@ -189,7 +189,7 @@
     "id": "ETHEREAL_ITEM",
     "type": "json_flag",
     "context": [  ],
-    "info": "This item disappears as soon as its timer runs out whether it is food or not."
+    "info": "This item disappears as soon as its timer runs out, whether it is food or not."
   },
   {
     "id": "BASH_IMMUNE",
@@ -268,7 +268,7 @@
     "id": "FIREWOOD",
     "type": "json_flag",
     "context": [ "GENERIC" ],
-    "info": "This item can serve as a firewood."
+    "info": "This item can serve as firewood."
   },
   {
     "id": "FIX_FARSIGHT",

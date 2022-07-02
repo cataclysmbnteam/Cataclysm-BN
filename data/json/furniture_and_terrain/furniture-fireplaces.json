@@ -4,7 +4,7 @@
     "id": "f_fireplace",
     "name": "fireplace",
     "symbol": "#",
-    "description": "Ah.  The relaxation of sitting in front of a fire as the world around you crumbles.  Towards the End, you could also get this service on your television.",
+    "description": "Ah.  The relaxation of sitting in front of a fire as the world around you crumbles.  Towards the end, you could also get this service on your television.",
     "bgcolor": "white",
     "move_cost_mod": 2,
     "coverage": 50,
