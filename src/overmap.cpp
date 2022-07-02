@@ -1933,6 +1933,7 @@ static void elevate_bridges(
         const om_direction::type dir = oter_get_rotation_dir( ot_here );
         if( dir == om_direction::type::invalid ) {
             // Shouldn't happen
+            debugmsg( "Potential bridgehead %s at %s has invalid rotation.", ot_here.id(), bp_om.to_string() );
             continue;
         }
         point vec = om_direction::displace( dir );
@@ -4954,7 +4955,7 @@ std::string oter_no_dir( const oter_id &oter )
 om_direction::type oter_get_rotation_dir( const oter_id &oter )
 {
     for( const om_direction::type &rot : om_direction::all ) {
-        const std::string &rot_s = om_direction::all_suffixes[static_cast<int>( rot )];
+        const std::string &rot_s = om_direction::get_suffix( rot );
         if( string_ends_with( oter.id().str(), rot_s ) ) {
             return rot;
         }
@@ -4964,20 +4965,10 @@ om_direction::type oter_get_rotation_dir( const oter_id &oter )
 
 int oter_get_rotations( const oter_id &oter )
 {
-    om_direction::type rot = oter_get_rotation_dir( oter );
-    if( rot == om_direction::type::invalid ) {
-        rot = om_direction::type::none;
-    }
-    return om_direction::get_num_cw_rotations( rot );
+    return om_direction::get_num_cw_rotations( oter_get_rotation_dir( oter ) );
 }
 
 const std::string &oter_get_rotation_string( const oter_id &oter )
 {
-    om_direction::type rot = oter_get_rotation_dir( oter );
-    if( rot == om_direction::type::invalid ) {
-        static const std::string ret_invalid;
-        return ret_invalid;
-    } else {
-        return om_direction::get_suffix( rot );
-    }
+    return om_direction::get_suffix( oter_get_rotation_dir( oter ) );
 }
