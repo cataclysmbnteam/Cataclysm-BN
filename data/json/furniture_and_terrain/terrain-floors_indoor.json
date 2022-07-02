@@ -73,7 +73,7 @@
     "type": "terrain",
     "id": "t_ov_smreb_cage",
     "name": "small rebar roof cage",
-    "description": "A series of structural supports, crafted from rebar in order to allow the pouring of concrete for a more stable floor and roof.",
+    "description": "A series of structural supports crafted from rebar in order to allow the pouring of concrete for a more stable floor and roof.",
     "symbol": ".",
     "color": "dark_gray",
     "move_cost": 4,
@@ -92,7 +92,8 @@
     "type": "terrain",
     "id": "t_strconc_floor",
     "name": "reinforced concrete floor",
-    "description": "Extremely resilient floor made from carefully placed rebar and poured concrete, capable of providing protection from the elements.  As for the matching roof, it still requires supporting walls, otherwise it may very well cave in.",
+    "description": "Extremely resilient floor made from carefully placed rebar and poured concrete, capable of providing protection from the elements. 
+    As for the matching roof, it still requires supporting walls, otherwise it may very well cave in.",
     "symbol": ".",
     "color": "cyan",
     "move_cost": 2,
@@ -160,7 +161,7 @@
     "color": "light_gray",
     "move_cost": 2,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "INDOORS", "COLLAPSES", "SUPPORTS_ROOF", "FLAT", "ROAD" "MINEABLE"],
+    "flags": [ "TRANSPARENT", "INDOORS", "COLLAPSES", "SUPPORTS_ROOF", "FLAT", "ROAD", "MINEABLE"],
     "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100, "bash_below": true }
   },
   {
