@@ -838,7 +838,7 @@ class islot_milling
 {
     public:
         itype_id into_;
-        double conversion_rate_;
+        int conversion_rate_;
 };
 
 struct itype {
