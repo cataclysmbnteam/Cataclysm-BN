@@ -18,7 +18,6 @@
 #include "numeric_interval.h"
 #include "coordinates.h"
 #include "int_id.h"
-#include "overmap_location.h"
 #include "point.h"
 #include "string_id.h"
 #include "translations.h"
@@ -30,10 +29,7 @@ class overmap_land_use_code;
 struct MonsterGroup;
 
 using overmap_land_use_code_id = string_id<overmap_land_use_code>;
-struct oter_t;
-struct overmap_location;
 class JsonObject;
-class overmap_connection;
 class overmap_special_batch;
 class overmap_special;
 
@@ -224,7 +220,7 @@ struct oter_type_t {
         static const oter_type_t null_type;
 
     public:
-        string_id<oter_type_t> id;
+        oter_type_str_id id;
         std::string name;               // Untranslated name
         uint32_t symbol = 0;
         nc_color color = c_black;
@@ -294,7 +290,7 @@ struct oter_t {
         oter_t( const oter_type_t &type, om_direction::type dir );
         oter_t( const oter_type_t &type, size_t line );
 
-        const string_id<oter_type_t> &get_type_id() const {
+        const oter_type_str_id &get_type_id() const {
             return type->id;
         }
 
@@ -349,7 +345,7 @@ struct oter_t {
             return type->land_use_code;
         }
 
-        bool type_is( const int_id<oter_type_t> &type_id ) const;
+        bool type_is( const oter_type_id &type_id ) const;
         bool type_is( const oter_type_t &type ) const;
 
         bool has_connection( om_direction::type dir ) const;
@@ -431,7 +427,7 @@ struct overmap_special_terrain {
     tripoint p;
     oter_str_id terrain;
     std::set<std::string> flags;
-    std::set<string_id<overmap_location>> locations;
+    std::set<overmap_location_id> locations;
 
     template<typename JsonStream>
     void deserialize( JsonStream &jsin ) {
@@ -454,8 +450,8 @@ struct overmap_special_connection {
     cata::optional<tripoint> from;
     om_direction::type initial_dir = om_direction::type::invalid;
     // TODO: Remove it.
-    string_id<oter_type_t> terrain;
-    string_id<overmap_connection> connection;
+    oter_type_str_id terrain;
+    overmap_connection_id connection;
     bool existing = false;
 
     template<typename JsonStream>
@@ -498,7 +494,7 @@ class overmap_special
         void check() const;
     private:
         // These locations are the default values if ones are not specified for the individual OMTs.
-        std::set<string_id<overmap_location>> default_locations;
+        std::set<overmap_location_id> default_locations;
 };
 
 namespace overmap_terrains
@@ -539,7 +535,7 @@ overmap_special_batch get_default_batch( const point_abs_om &origin );
 /**
  * Generates a simple special from a building id.
  */
-overmap_special_id create_building_from( const string_id<oter_type_t> &base );
+overmap_special_id create_building_from( const oter_type_str_id &base );
 
 } // namespace overmap_specials
 

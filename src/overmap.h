@@ -363,7 +363,7 @@ class overmap
         std::vector<basecamp> camps;
         std::vector<city> cities;
         std::vector<lab> labs;
-        std::map<string_id<overmap_connection>, std::vector<tripoint_om_omt>> connections_out;
+        std::map<overmap_connection_id, std::vector<tripoint_om_omt>> connections_out;
         cata::optional<basecamp *> find_camp( const point_abs_omt &p );
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
         void insert_npc( shared_ptr_fast<npc> who );

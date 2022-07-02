@@ -235,7 +235,7 @@ struct mission_type {
         mtype_id monster_type = mtype_id::NULL_ID();
         species_id monster_species;
         int monster_kill_goal = -1;
-        string_id<oter_type_t> target_id;
+        oter_type_str_id target_id;
         mission_type_id follow_up = mission_type_id( "MISSION_NULL" );
 
         std::function<bool( const tripoint_abs_omt & )> place = mission_place::always;
@@ -320,7 +320,7 @@ class mission
         // The number of above items needed
         int item_count = 0;
         // Destination type to be reached
-        string_id<oter_type_t> target_id;
+        oter_type_str_id target_id = oter_type_str_id::NULL_ID();
         // The type of NPC you are to recruit
         npc_class_id recruit_class;
         // The ID of a specific NPC to interact with

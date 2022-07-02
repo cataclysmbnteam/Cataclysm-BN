@@ -1062,7 +1062,7 @@ void building_bin::finalize()
         overmap_special_id current_id = pr.first;
         if( !current_id.is_valid() ) {
             // First, try to convert oter to special
-            string_id<oter_type_t> converted_id( pr.first.str() );
+            oter_type_str_id converted_id( pr.first.str() );
             if( !converted_id.is_valid() ) {
                 debugmsg( "Tried to add city building %s, but it is neither a special nor a terrain type",
                           pr.first.c_str() );

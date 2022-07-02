@@ -114,7 +114,6 @@
 #include "flag.h"
 
 struct mutation_branch;
-struct oter_type_t;
 
 static const efftype_id effect_riding( "riding" );
 
@@ -2876,11 +2875,7 @@ void mission::deserialize( JsonIn &jsin )
     }
 
     jo.read( "item_id", item_id );
-
-    const std::string omid = jo.get_string( "target_id", "" );
-    if( !omid.empty() ) {
-        target_id = string_id<oter_type_t>( omid );
-    }
+    jo.read( "target_id", target_id );
 
     if( jo.has_int( "recruit_class" ) ) {
         recruit_class = npc_class::from_legacy_int( jo.get_int( "recruit_class" ) );
@@ -2929,7 +2924,7 @@ void mission::serialize( JsonOut &json ) const
 
     json.member( "item_id", item_id );
     json.member( "item_count", item_count );
-    json.member( "target_id", target_id.str() );
+    json.member( "target_id", target_id );
     json.member( "recruit_class", recruit_class );
     json.member( "target_npc_id", target_npc_id );
     json.member( "monster_type", monster_type );

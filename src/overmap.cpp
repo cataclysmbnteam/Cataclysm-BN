@@ -76,9 +76,6 @@ class map_extra;
 #define MIN_GOO_SIZE 1
 #define MAX_GOO_SIZE 2
 
-using oter_type_id = int_id<oter_type_t>;
-using oter_type_str_id = string_id<oter_type_t>;
-
 ////////////////
 oter_id  ot_null,
          ot_crater,
@@ -765,7 +762,7 @@ void oter_t::get_rotation_and_subtile( int &rotation, int &subtile ) const
     }
 }
 
-bool oter_t::type_is( const int_id<oter_type_t> &type_id ) const
+bool oter_t::type_is( const oter_type_id &type_id ) const
 {
     return type->id.id() == type_id;
 }
@@ -897,7 +894,7 @@ const std::vector<oter_t> &overmap_terrains::get_all()
 bool overmap_special_terrain::can_be_placed_on( const oter_id &oter ) const
 {
     return std::any_of( locations.begin(), locations.end(),
-    [&oter]( const string_id<overmap_location> &loc ) {
+    [&oter]( const overmap_location_id & loc ) {
         return loc->test( oter );
     } );
 }
@@ -1760,7 +1757,7 @@ bool overmap::generate_sub( const int z )
     for( auto &i : goo_points ) {
         requires_sub |= build_slimepit( tripoint_om_omt( i.pos, z ), i.size );
     }
-    const string_id<overmap_connection> sewer_tunnel( "sewer_tunnel" );
+    const overmap_connection_id sewer_tunnel( "sewer_tunnel" );
     connect_closest_points( sewer_points, z, *sewer_tunnel );
 
     // A third of overmaps have labs with a 1-in-2 chance of being subway connected.
@@ -1830,7 +1827,7 @@ bool overmap::generate_sub( const int z )
     create_real_train_lab_points( lab_train_points, subway_lab_train_points );
     create_real_train_lab_points( central_lab_train_points, subway_lab_train_points );
 
-    const string_id<overmap_connection> subway_tunnel( "subway_tunnel" );
+    const overmap_connection_id subway_tunnel( "subway_tunnel" );
 
     subway_points.insert( subway_points.end(), subway_lab_train_points.begin(),
                           subway_lab_train_points.end() );
@@ -2322,7 +2319,7 @@ void overmap::populate_connections_out_from_neighbors( const overmap *north, con
             return;
         }
 
-        for( const std::pair<const string_id<overmap_connection>, std::vector<tripoint_om_omt>> &kv :
+        for( const std::pair<const overmap_connection_id, std::vector<tripoint_om_omt>> &kv :
              adjacent->connections_out ) {
             std::vector<tripoint_om_omt> &out = connections_out[kv.first];
             const auto adjacent_out = adjacent->connections_out.find( kv.first );
@@ -2476,7 +2473,7 @@ void overmap::place_forest_trails()
             }
 
             // Finally, connect all the points and make a forest trail out of them.
-            const string_id<overmap_connection> forest_trail( "forest_trail" );
+            const overmap_connection_id forest_trail( "forest_trail" );
             connect_closest_points( chosen_points, 0, *forest_trail );
         }
     }
@@ -2911,7 +2908,7 @@ void overmap::place_swamps()
 void overmap::place_roads( const overmap *north, const overmap *east, const overmap *south,
                            const overmap *west )
 {
-    const string_id<overmap_connection> local_road( "local_road" );
+    const overmap_connection_id local_road( "local_road" );
     std::vector<tripoint_om_omt> &roads_out = connections_out[local_road];
 
     // Ideally we should have at least two exit points for roads, on different sides
@@ -3103,7 +3100,7 @@ void overmap::place_cities()
     const int NUM_CITIES =
         roll_remainder( omts_per_overmap * city_map_coverage_ratio / omts_per_city );
 
-    const string_id<overmap_connection> local_road_id( "local_road" );
+    const overmap_connection_id local_road_id( "local_road" );
     const overmap_connection &local_road( *local_road_id );
 
     // if there is only a single free tile, the probability of NOT finding it after MAX_PLACEMENT_ATTEMTPS attempts
@@ -4888,11 +4885,11 @@ void overmap::set_electric_grid_connections( const tripoint_om_omt &p,
     }
 }
 
-overmap_special_id overmap_specials::create_building_from( const string_id<oter_type_t> &base )
+overmap_special_id overmap_specials::create_building_from( const oter_type_str_id &base )
 {
     // TODO: Get rid of the hard-coded ids.
-    static const string_id<overmap_location> land( "land" );
-    static const string_id<overmap_location> swamp( "swamp" );
+    static const overmap_location_id land( "land" );
+    static const overmap_location_id swamp( "swamp" );
 
     overmap_special new_special;
 
