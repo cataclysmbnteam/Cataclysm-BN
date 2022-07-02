@@ -1004,7 +1004,7 @@ int visitable<Character>::charges_of( const itype_id &what, int limit,
         if( efficiency == 1 ) {
             debugmsg( "Character lacks a bionic armor interface with fuel efficiency field." );
         }
-        power_charges = units::to_kilojoule( self->as_player()->get_power_level() ) * efficiency );
+        power_charges = units::to_kilojoule( self->as_player()->get_power_level() ) * efficiency;
 
         return std::min( power_charges, limit );
     }
