@@ -13,7 +13,6 @@
 #include "enums.h"
 #include "game_constants.h"
 #include "npc_favor.h"
-#include "omdata.h"
 #include "optional.h"
 #include "overmap.h"
 #include "point.h"

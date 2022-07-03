@@ -1,4 +1,6 @@
+#include "om_direction.h" // IWYU pragma: associated
 #include "omdata.h" // IWYU pragma: associated
+#include "overmap_special.h" // IWYU pragma: associated
 #include "overmap.h" // IWYU pragma: associated
 
 #include <algorithm>
@@ -422,6 +424,41 @@ void overmap_land_use_codes::reset()
 const std::vector<overmap_land_use_code> &overmap_land_use_codes::get_all()
 {
     return land_use_codes.get_all();
+}
+
+void overmap_special_terrain::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "point", p );
+    mandatory( jo, false, "overmap", terrain );
+    optional( jo, false, "flags", flags );
+    optional( jo, false, "locations", locations );
+}
+
+void overmap_special_connection::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "point", p );
+    optional( jo, false, "connection", connection );
+    optional( jo, false, "terrain", terrain );
+    optional( jo, false, "existing", existing );
+    optional( jo, false, "from", from );
+}
+
+void overmap_spawns::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "group", group );
+    mandatory( jo, false, "population", population );
+}
+
+void overmap_static_spawns::deserialize( const JsonObject &jo )
+{
+    overmap_spawns::deserialize( jo );
+    mandatory( jo, false, "chance", chance );
+}
+
+void overmap_special_spawns::deserialize( const JsonObject &jo )
+{
+    overmap_spawns::deserialize( jo );
+    jo.read( "radius", radius );
 }
 
 void overmap_specials::load( const JsonObject &jo, const std::string &src )

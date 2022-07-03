@@ -12,6 +12,7 @@
 #include "int_id.h"
 #include "json.h"
 #include "options.h"
+#include "overmap_special.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -1009,6 +1010,21 @@ void regional_settings::finalize()
         region_terrain_and_furniture.finalize();
         get_options().add_value( "DEFAULT_REGION", id, no_translation( id ) );
     }
+}
+
+overmap_special_id city_settings::pick_house() const
+{
+    return houses.pick()->id;
+}
+
+overmap_special_id city_settings::pick_shop() const
+{
+    return shops.pick()->id;
+}
+
+overmap_special_id city_settings::pick_park() const
+{
+    return parks.pick()->id;
 }
 
 void city_settings::finalize()

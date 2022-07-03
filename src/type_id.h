@@ -123,6 +123,9 @@ using overmap_connection_id = string_id<overmap_connection>;
 struct overmap_location;
 using overmap_location_id = string_id<overmap_location>;
 
+class overmap_special;
+using overmap_special_id = string_id<overmap_special>;
+
 class recipe;
 using recipe_id = string_id<recipe>;
 
