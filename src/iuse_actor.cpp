@@ -940,12 +940,16 @@ int set_transform_iuse::use( player &p, item &it, bool t, const tripoint &pos ) 
 
     for( auto &elem : p.worn ) {
         if( elem.has_flag( flag ) && elem.active == turn_off ) {
-            const set_transformed_iuse *actor = dynamic_cast<const set_transformed_iuse *>
-                                                ( elem.get_use( "set_transformed" )->get_actor_ptr() );
-            if( actor != nullptr ) {
-                actor->bypass( p, elem, t, pos );
+            if( elem.type->can_use( "set_transformed" ) ) {
+                const set_transformed_iuse *actor = dynamic_cast<const set_transformed_iuse *>
+                                                    ( elem.get_use( "set_transformed" )->get_actor_ptr() );
+                if( actor == nullptr ) {
+                    debugmsg( "iuse_actor type descriptor and actual type mismatch" );
+                } else {
+                    actor->bypass( p, elem, t, pos );
+                }
             } else {
-                debugmsg( "No set_transformed action on set_transform target." );
+                debugmsg( "Expected set_transformed function" );
             }
         }
     }
@@ -964,8 +968,14 @@ void set_transformed_iuse::load( const JsonObject &obj )
     obj.read( "dependencies", dependencies );
 }
 
-int set_transformed_iuse::use( player &, item &, bool, const tripoint & ) const
+int set_transformed_iuse::use( player &p, item &it, bool t, const tripoint &pos ) const
 {
+    if( t ) {
+        return 0; // invoked from active item processing, do nothing.
+    }
+
+    iuse_transform::use( p, it, t, pos );
+
     return 0;
 }
 

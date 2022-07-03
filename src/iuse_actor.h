@@ -355,8 +355,7 @@ class set_transformed_iuse : public iuse_transform
         bool restricted = true;
 
         /**
-         * String holds flag for activating item, bool determines
-         * if active item needs to transform or it's just a "signal"
+         * String defining flag needed on activating item.
          */
         std::string dependencies;
 

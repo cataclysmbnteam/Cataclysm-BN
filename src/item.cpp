@@ -4242,15 +4242,10 @@ void item::on_wear( Character &p )
         }
     }
 
-    if( has_flag( flag_POWERARMOR_EXTERNAL ) ) {
+    if( type->can_use( "set_transformed" ) ) {
         bool transform = false;
-        const use_function *use_func = this->get_use( "set_transformed" );
-        if( use_func == nullptr ) {
-            debugmsg( "Expected set_transformed function" );
-            return;
-        }
         const set_transformed_iuse *actor = dynamic_cast<const set_transformed_iuse *>
-                                            ( use_func->get_actor_ptr() );
+                                            ( this->get_use( "set_transformed" )->get_actor_ptr() );
         if( actor == nullptr ) {
             debugmsg( "iuse_actor type descriptor and actual type mismatch" );
             return;
@@ -4261,7 +4256,7 @@ void item::on_wear( Character &p )
                 transform = true;
             }
         }
-        if( transform ) {
+        if( transform && actor->restricted ) {
             actor->bypass( *p.as_player(), *this, false, p.pos() );
         }
     }
@@ -4286,14 +4281,9 @@ void item::on_takeoff( Character &p )
     }
 
     // if power armor, no power_draw and active, shut down.
-    if( has_flag( flag_POWERARMOR_EXTERNAL ) && type->tool->power_draw == 0 && active ) {
-        const use_function *use_func = this->get_use( "set_transformed" );
-        if( use_func == nullptr ) {
-            debugmsg( "Expected set_transformed function" );
-            return;
-        }
+    if( type->can_use( "set_transformed" ) && active ) {
         const set_transformed_iuse *actor = dynamic_cast<const set_transformed_iuse *>
-                                            ( use_func->get_actor_ptr() );
+                                            ( this->get_use( "set_transformed" )->get_actor_ptr() );
         if( actor == nullptr ) {
             debugmsg( "iuse_actor type descriptor and actual type mismatch" );
             return;
@@ -9294,21 +9284,33 @@ bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
 
 bool item::process_tool( player *carrier, const tripoint &pos )
 {
-    // Mod/Externals turn off if not attached to exoskeleton.
-    if( has_flag( flag_POWERARMOR_EXTERNAL ) && ( !carrier ||
-            !carrier->is_wearing_active_power_armor() ) ) {
-        const use_function *use_func = this->get_use( "set_transformed" );
-        if( use_func == nullptr ) {
-            debugmsg( "Expected set_transformed function" );
-            return false;
-        }
+    // items with iuse set_transformed which are restricted turn off if not attached to their dependency.
+    if( type->can_use( "set_transformed" ) ) {
         const set_transformed_iuse *actor = dynamic_cast<const set_transformed_iuse *>
-                                            ( use_func->get_actor_ptr() );
+                                            ( this->get_use( "set_transformed" )->get_actor_ptr() );
         if( actor == nullptr ) {
             debugmsg( "iuse_actor type descriptor and actual type mismatch" );
             return false;
         }
-        actor->bypass( carrier != nullptr ? *carrier : g->u, *this, false, pos );
+        if( actor->restricted ) {
+            if( !carrier ) {
+                actor->bypass( carrier != nullptr ? *carrier : g->u, *this, false, pos );
+                return false;
+            } else {
+                bool active = false;
+                std::string transform_flag = actor->dependencies;
+                for( const auto &elem : carrier->worn ) {
+                    if( elem.active && elem.has_flag( transform_flag ) ) {
+                        active = true;
+                        break;
+                    }
+                }
+                if( !active ) {
+                    actor->bypass( carrier != nullptr ? *carrier : g->u, *this, false, pos );
+                    return false;
+                }
+            }
+        }
     }
 
     int energy = 0;
@@ -9353,14 +9355,9 @@ bool item::process_tool( player *carrier, const tripoint &pos )
                 carrier->add_msg_if_player( m_info, _( "You need a UPS to run the %s!" ), tname() );
             }
         }
-        if( carrier && has_flag( flag_POWERARMOR_EXO ) ) {
-            const use_function *use_func = this->get_use( "set_transform" );
-            if( use_func == nullptr ) {
-                debugmsg( "Expected set_transform function." );
-                return false;
-            }
+        if( carrier && type->can_use( "set_transform" ) ) {
             const set_transform_iuse *actor = dynamic_cast<const set_transform_iuse *>
-                                              ( use_func->get_actor_ptr() );
+                                              ( this->get_use( "set_transform" )->get_actor_ptr() );
             if( actor == nullptr ) {
                 debugmsg( "iuse_actor type descriptor and actual type mismatch." );
                 return false;
@@ -9368,13 +9365,12 @@ bool item::process_tool( player *carrier, const tripoint &pos )
             std::string transformed_flag = actor->flag;
             for( auto &elem : carrier->worn ) {
                 if( elem.active && elem.has_flag( transformed_flag ) ) {
-                    const use_function *use_func = elem.get_use( "set_transformed" );
-                    if( use_func == nullptr ) {
+                    if( !elem.type->can_use( "set_transformed" ) ) {
                         debugmsg( "Expected set_transformed function" );
                         return false;
                     }
                     const set_transformed_iuse *actor = dynamic_cast<const set_transformed_iuse *>
-                                                        ( use_func->get_actor_ptr() );
+                                                        ( elem.get_use( "set_transformed" )->get_actor_ptr() );
                     if( actor == nullptr ) {
                         debugmsg( "iuse_actor type descriptor and actual type mismatch" );
                         return false;
