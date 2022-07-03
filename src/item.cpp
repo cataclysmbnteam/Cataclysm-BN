@@ -3597,11 +3597,15 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     armor_fit_info( info, parts, batch, debug );
 
     if( is_tool() ) {
+        if( is_power_armor() && parts->test( iteminfo_parts::DESCRIPTION_POWER_ARMOR ) ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      _( "* This tool can draw power from a <info>Bionic Armor Interface</info>" ) ) );
+        }
         if( has_flag( flag_USE_UPS ) && parts->test( iteminfo_parts::DESCRIPTION_RECHARGE_UPSMODDED ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "* This tool has been modified to use a <info>universal "
-                                         "power supply</info> and is <neutral>not compatible"
-                                         "</neutral> with <info>standard batteries</info>." ) ) );
+                                      _( "* This tool uses a <info>universal power supply</info>"
+                                         "and is <neutral>not compatible</neutral> with"
+                                         "<info>standard batteries</info>." ) ) );
         } else if( has_flag( flag_RECHARGE ) && has_flag( flag_NO_RELOAD ) &&
                    parts->test( iteminfo_parts::DESCRIPTION_RECHARGE_NORELOAD ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
@@ -7823,15 +7827,17 @@ int item::units_remaining( const Character &ch, int limit ) const
     }
 
     int res = ammo_remaining();
-    if( res < limit && has_flag( flag_USE_UPS ) ) {
-        res += ch.charges_of( itype_UPS, limit - res );
-    } else if( res < limit && is_power_armor() ) {
-        if( ch.as_player()->can_interface_armor() ) {
+    if( res < limit && is_power_armor() ) {
+        if( ch.as_player()->can_interface_armor() && has_flag( flag_USE_UPS ) ) {
             res += std::max( ch.charges_of( itype_UPS, limit - res ), ch.charges_of( itype_bio_armor,
                              limit - res ) );
+        } else if( ch.as_player()->can_interface_armor() ) {
+            res += ch.charges_of( itype_bio_armor, limit - res );
         } else {
             res += ch.charges_of( itype_UPS, limit - res );
         }
+    } else if( res < limit && has_flag( flag_USE_UPS ) ) {
+        res += ch.charges_of( itype_UPS, limit - res );
     }
 
     return std::min( static_cast<int>( res ), limit );
@@ -8214,7 +8220,7 @@ int item::getlight_emit() const
     if( lumint == 0 ) {
         return 0;
     }
-    if( has_flag( flag_CHARGEDIM ) && is_tool() && !has_flag( flag_USE_UPS ) && !is_power_armor() ) {
+    if( has_flag( flag_CHARGEDIM ) && is_tool() && !has_flag( flag_USE_UPS ) ) {
         // Falloff starts at 1/5 total charge and scales linearly from there to 0.
         if( ammo_capacity() && ammo_remaining() < ( ammo_capacity() / 5 ) ) {
             lumint *= ammo_remaining() * 5.0 / ammo_capacity();
@@ -9326,7 +9332,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
     }
 
     // for items in player possession if insufficient charges within tool try UPS
-    if( carrier && ( has_flag( flag_USE_UPS ) || ( is_power_armor() ) ) ) {
+    if( carrier && ( has_flag( flag_USE_UPS ) ) ) {
         if( carrier->use_charges_if_avail( itype_UPS, energy ) ) {
             energy = 0;
         }
@@ -9334,11 +9340,18 @@ bool item::process_tool( player *carrier, const tripoint &pos )
 
     // if insufficient available charges shutdown the tool
     if( energy > 0 ) {
-        if( carrier && has_flag( flag_USE_UPS ) ) {
-            carrier->add_msg_if_player( m_info, _( "You need a UPS to run the %s!" ), tname() );
-        } else if( carrier && is_power_armor() ) {
-            carrier->add_msg_if_player( m_info, _( "You need a UPS or Bionic Power Interface to run the %s!" ),
-                                        tname() );
+        if( carrier ) {
+            if( is_power_armor() ) {
+                if( has_flag( flag_USE_UPS ) ) {
+                    carrier->add_msg_if_player( m_info, _( "You need a UPS or Bionic Power Interface to run the %s!" ),
+                                                tname() );
+                } else {
+                    carrier->add_msg_if_player( m_info, _( "You need a Bionic Power Interface to run the %s!" ),
+                                                tname() );
+                }
+            } else if( has_flag( flag_USE_UPS ) ) {
+                carrier->add_msg_if_player( m_info, _( "You need a UPS to run the %s!" ), tname() );
+            }
         }
         if( carrier && has_flag( flag_POWERARMOR_EXO ) ) {
             const use_function *use_func = this->get_use( "set_transform" );

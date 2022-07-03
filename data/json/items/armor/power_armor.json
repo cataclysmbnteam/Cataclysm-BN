@@ -81,7 +81,7 @@
       "set_charges": 2,
       "set_charges_msg": "You need a UPS or a bionic armor interface to power this."
     },
-    "flags": [ "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
+    "flags": [ "USE_UPS", "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
   },
   {
     "id": "power_armor_basic_on",
@@ -91,7 +91,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "combat exoskeleton (active)", "str_pl": "combat exoskeletons (active)" },
     "description": "These were the second wave of military combat exoskeleton, and got a lot of media attention, with popular Navy commercials featuring them heavily.  It consists of a muscle-boosting exoskeleton frame with overlayed segmented alloy plating.  Despite advancements over the original bulky 'tank suits', the wearer still cannot easily fit through narrow spaces, or sit down comfortably (and it ruins upholstery).  There is an integrated chemical resistant bodyglove that precludes wearing other clothing.  It is currently turned on, activate it to turn it off.",
-    "flags": [ "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "CLIMATE_CONTROL", "TRADER_AVOID" ],
+    "flags": [ "USE_UPS", "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "CLIMATE_CONTROL", "TRADER_AVOID" ],
     "power_draw": 1500000,
     "revert_to": "power_armor_basic",
     "use_action": {
@@ -140,7 +140,7 @@
       "set_charges": 2,
       "set_charges_msg": "You need a UPS or a bionic armor interface to power this."
     },
-    "flags": [ "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
+    "flags": [ "USE_UPS", "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
   },
   {
     "id": "power_armor_heavy_on",
@@ -150,7 +150,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "heavy combat exoskeleton (active)", "str_pl": "heavy combat exoskeletons (active)" },
     "description": "Colloquially known as a 'tank suit' in the media, these bulky exoskeletons, covered in thick segmented armor plates, were tested in military service a few years back and determined to be too heavy and expensive for regular use.  Now that it's in your hands, though, you have a massive suit of power armor capable of resisting almost any small arms fire and most other forms of attack.  On the other hand, it doubles your effective weight, and it's almost impossible not to bump into things.  There is an integrated chemical resistant bodyglove that precludes wearing other clothing.  It is currently turned on, activate it to turn it off.",
-    "flags": [ "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "CLIMATE_CONTROL", "TRADER_AVOID" ],
+    "flags": [ "USE_UPS", "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "CLIMATE_CONTROL", "TRADER_AVOID" ],
     "power_draw": 1500000,
     "revert_to": "power_armor_heavy",
     "use_action": {
@@ -197,7 +197,7 @@
       "set_charges": 2,
       "set_charges_msg": "You need a UPS or a bionic armor interface to power this."
     },
-    "flags": [ "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
+    "flags": [ "USE_UPS", "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
   },
   {
     "id": "power_armor_light_on",
@@ -207,7 +207,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "field combat exoskeleton (active)", "str_pl": "field combat exoskeletons (active)" },
     "description": "The final iteration of military power armor before the fall of civilization, this type - a powered exoskeleton with high-tech segmented plating - was designed for actual widespread combat use and was seen on the front lines during the last days of the cataclysm.  Like the heavier suits, it is resistant to most modern weaponry, but it is light and maneuverable, and can fit into normal vehicles and doorways without fuss, a huge advantage over predecessors.  Unfortunately, the world ended before it could roll out in significant numbers.  There is an integrated chemical resistant bodyglove that precludes wearing other clothing.  It is currently turned on, activate it to turn it off.",
-    "flags": [ "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "CLIMATE_CONTROL", "TRADER_AVOID" ],
+    "flags": [ "USE_UPS", "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "CLIMATE_CONTROL", "TRADER_AVOID" ],
     "power_draw": 1500000,
     "revert_to": "power_armor_light",
     "use_action": {
@@ -252,7 +252,7 @@
       "need_worn": true,
       "active": true
     },
-    "flags": [ "POWERARMOR_EXTERNAL", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "SUN_GLASSES" ]
+    "flags": [ "USE_UPS", "POWERARMOR_EXTERNAL", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "SUN_GLASSES" ]
   },
   {
     "id": "power_armor_helmet_basic_on",
@@ -263,6 +263,7 @@
     "name": { "str": "environmental combat helmet (active)", "str_pl": "environmental combat helmets (active)" },
     "description": "A fully enclosed combat helmet for hazardous environments, this was designed to fit with a powered exoskeleton, using cameras to expand visual range.  In practice, the cameras were unreliable and easily fouled.  The environmental controls function best with direct-skin contact.",
     "flags": [
+      "USE_UPS",
       "POWERARMOR_EXTERNAL",
       "WATCH",
       "WATERPROOF",
@@ -317,7 +318,7 @@
       "need_worn": true,
       "active": true
     },
-    "flags": [ "POWERARMOR_EXTERNAL", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "SUN_GLASSES" ]
+    "flags": [ "USE_UPS", "POWERARMOR_EXTERNAL", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "SUN_GLASSES" ]
   },
   {
     "id": "power_armor_helmet_heavy_on",
@@ -328,6 +329,7 @@
     "name": { "str": "heavy environmental combat helmet (active)", "str_pl": "heavy environmental combat helmets (active)" },
     "description": "An extremely heavy-duty fully enclosed combat helmet for hazardous environments, this was designed to fit with a powered exoskeleton.  In the field, soldiers reported that the protection was not worth the awkward size and limited visuals.  The environmental controls function best with direct-skin contact.",
     "flags": [
+      "USE_UPS",
       "POWERARMOR_EXTERNAL",
       "WATCH",
       "WATERPROOF",
@@ -382,7 +384,7 @@
       "active": true
     },
     "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "POWERARMOR_EXTERNAL", "WATERPROOF", "STURDY", "SUN_GLASSES" ]
+    "flags": [ "USE_UPS", "POWERARMOR_EXTERNAL", "WATERPROOF", "STURDY", "SUN_GLASSES" ]
   },
   {
     "id": "power_armor_helmet_light_on",
@@ -393,6 +395,7 @@
     "name": { "str": "light environmental combat helmet (active)", "str_pl": "light environmental combat helmets (active)" },
     "description": "This full-enclosure helmet was designed based on commercial diving equipment, in response to complaints that earlier designs were impossible to use in combat.  While still a little more restrictive than regular combat headgear - and frustrating should your nose itch - this one received far better reviews from soldiers.  Sadly, civilization ended before they could roll out in significant numbers.  The environmental controls function best with direct-skin contact.",
     "flags": [
+      "USE_UPS",
       "POWERARMOR_EXTERNAL",
       "WATCH",
       "WATERPROOF",

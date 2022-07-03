@@ -814,7 +814,7 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "//": "Defines the main exo that all other parts attach to.",
-    "info": "This is a suit of power armor, and can run off a <info>universal power supply</info> or a <info>bionic armor interface</info>."
+    "info": "This is a suit of power armor."
   },
   {
     "id": "POWERARMOR_EXTERNAL",
