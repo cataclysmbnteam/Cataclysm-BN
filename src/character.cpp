@@ -7448,17 +7448,18 @@ bool Character::has_enough_charges( const item &it, bool show_msg ) const
     }
     if( it.is_power_armor() ) {
         if( ( as_player()->can_interface_armor() && has_charges( itype_bio_armor, it.ammo_required() ) ) ||
-            ( it.has_flag( flag_USE_UPS ) && has_charges( itype_UPS, it.ammo_required() ) ) || it.ammo_sufficient() ) {
+            ( it.has_flag( flag_USE_UPS ) && has_charges( itype_UPS, it.ammo_required() ) ) ||
+            it.ammo_sufficient() ) {
             return true;
         }
 
         if( show_msg ) {
             if( it.has_flag( flag_USE_UPS ) ) {
-            add_msg_if_player( m_info,
-                               vgettext( "Your %s needs %d charge, from some UPS or a Bionic Power Interface.",
-                                         "Your %s needs %d charges, from some UPS or a Bionic Power Interface.",
-                                         it.ammo_required() ),
-                               it.tname(), it.ammo_required() );
+                add_msg_if_player( m_info,
+                                   vgettext( "Your %s needs %d charge, from some UPS or a Bionic Power Interface.",
+                                             "Your %s needs %d charges, from some UPS or a Bionic Power Interface.",
+                                             it.ammo_required() ),
+                                   it.tname(), it.ammo_required() );
             } else {
                 add_msg_if_player( m_info,
                                    vgettext( "Your %s needs %d charge, from a Bionic Power Interface.",
