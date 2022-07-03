@@ -3597,14 +3597,14 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     armor_fit_info( info, parts, batch, debug );
 
     if( is_tool() ) {
-        if( is_power_armor() && parts->test( iteminfo_parts::DESCRIPTION_POWER_ARMOR ) ) {
+        if( is_power_armor() && parts->test( iteminfo_parts::DESCRIPTION_BIONIC_ARMOR_INTERFACE ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "* This tool can draw power from a <info>Bionic Armor Interface</info>" ) ) );
         }
         if( has_flag( flag_USE_UPS ) && parts->test( iteminfo_parts::DESCRIPTION_RECHARGE_UPSMODDED ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "* This tool uses a <info>universal power supply</info>"
-                                         "and is <neutral>not compatible</neutral> with"
+                                      _( "* This tool uses a <info>universal power supply</info> "
+                                         "and is <neutral>not compatible</neutral> with "
                                          "<info>standard batteries</info>." ) ) );
         } else if( has_flag( flag_RECHARGE ) && has_flag( flag_NO_RELOAD ) &&
                    parts->test( iteminfo_parts::DESCRIPTION_RECHARGE_NORELOAD ) ) {
@@ -4613,7 +4613,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         }
     }
 
-    if( is_tool() && has_flag( flag_USE_UPS ) ) {
+    if( is_tool() && has_flag( flag_USE_UPS ) && !is_power_armor() ) {
         tagtext += _( " (UPS)" );
     }
     if( is_tool() && has_flag( flag_HEATS_FOOD ) ) {
