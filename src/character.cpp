@@ -8270,7 +8270,7 @@ bool Character::armor_absorb( damage_unit &du, item &armor )
     } else {
         // Sturdy items and power armors never take chip damage.
         // Other armors have 0.5% of getting damaged from hits below their armor value.
-        if( armor.has_flag( flag_STURDY ) || armor.is_power_armor() || !one_in( 200 ) ) {
+        if( armor.has_flag( flag_STURDY ) || !one_in( 200 ) ) {
             return false;
         }
     }

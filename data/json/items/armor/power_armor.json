@@ -481,7 +481,7 @@
     "coverage": 5,
     "material_thickness": 1,
     "use_action": { "type": "holster", "max_volume": "800 ml", "min_volume": "100 ml", "skills": [ "pistol", "smg", "shotgun" ] },
-    "flags": [ "POWERARMOR_MOD", "COMPACT", "WATERPROOF", "WAIST" ]
+    "flags": [ "POWERARMOR_MOD", "COMPACT", "WATERPROOF", "STURDY", "WAIST" ]
   },
   {
     "id": "power_armor_chest_rig",
@@ -508,7 +508,7 @@
       "draw_cost": 40,
       "flags": [ "MAG_COMPACT" ]
     },
-    "flags": [ "POWERARMOR_MOD", "COMPACT", "WATERPROOF", "BELTED", "WAIST" ]
+    "flags": [ "POWERARMOR_MOD", "COMPACT", "WATERPROOF", "STURDY", "BELTED", "WAIST" ]
   },
   {
     "id": "power_armor_bscabbard",
@@ -534,7 +534,7 @@
       "draw_cost": 5,
       "flags": [ "SHEATH_SWORD", "SHEATH_AXE" ]
     },
-    "flags": [ "POWERARMOR_MOD", "COMPACT", "WATERPROOF", "BELTED", "ONLY_ONE" ]
+    "flags": [ "POWERARMOR_MOD", "COMPACT", "WATERPROOF", "STURDY", "BELTED", "ONLY_ONE" ]
   },
   {
     "id": "power_armor_scabbard",
@@ -559,7 +559,7 @@
       "max_volume": "2 L",
       "flags": [ "SHEATH_SWORD" ]
     },
-    "flags": [ "POWERARMOR_MOD", "COMPACT", "WATERPROOF", "WAIST" ]
+    "flags": [ "POWERARMOR_MOD", "COMPACT", "WATERPROOF", "STURDY", "WAIST" ]
   },
   {
     "id": "power_armor_sheath",
@@ -584,6 +584,6 @@
       "draw_cost": 3,
       "flags": [ "SHEATH_KNIFE" ]
     },
-    "flags": [ "POWERARMOR_MOD", "COMPACT", "WATERPROOF", "WAIST" ]
+    "flags": [ "POWERARMOR_MOD", "COMPACT", "WATERPROOF", "STURDY", "WAIST" ]
   }
 ]
