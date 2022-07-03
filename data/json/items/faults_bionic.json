@@ -9,7 +9,7 @@
         "id": "mend_fault_bonic_nonsterile_autoclave",
         "name": "Sterilize using autoclave",
         "success_msg": "You successfully package and sterilize the %s using an autoclave.",
-        "time": "80 m",
+        "time": "10 m",
         "skills": [ { "id": "electronics", "level": 1 }, { "id": "firstaid", "level": 3 } ],
         "requirements": {
           "tools": [ [ [ "autoclave", 5000 ], [ "fake_autoclave", -1 ] ] ],
