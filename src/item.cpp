@@ -265,6 +265,7 @@ static const std::string flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
 static const std::string flag_UNDERSIZE( "UNDERSIZE" );
 static const std::string flag_USES_BIONIC_POWER( "USES_BIONIC_POWER" );
 static const std::string flag_USE_UPS( "USE_UPS" );
+static const std::string flag_NAT_UPS( "NAT_UPS" );
 static const std::string flag_VARSIZE( "VARSIZE" );
 static const std::string flag_VEHICLE( "VEHICLE" );
 static const std::string flag_WAIST( "WAIST" );
@@ -4603,7 +4604,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         }
     }
 
-    if( is_tool() && has_flag( flag_USE_UPS ) && !is_power_armor() ) {
+    if( is_tool() && has_flag( flag_USE_UPS ) && !has_flag( flag_NAT_UPS ) ) {
         tagtext += _( " (UPS)" );
     }
     if( is_tool() && has_flag( flag_HEATS_FOOD ) ) {

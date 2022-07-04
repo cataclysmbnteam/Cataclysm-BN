@@ -1299,6 +1299,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```SAFECRACK``` This item can be used to unlock safes.
 - ```USES_BIONIC_POWER``` The item has no charges of its own, and runs off of the player's bionic power.
 - ```USE_UPS``` Item is charges from an UPS / it uses the charges of an UPS instead of its own.
+- ```NAT_UPS``` Silences the (UPS) suffix from USE_UPS.
 - ```WATER_EXTINGUISH``` Is extinguishable in water or under precipitation. Converts items (requires "reverts_to" or use_action "transform" to be set).
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
 - ```WIND_EXTINGUISH``` This item will be extinguished by the wind.
