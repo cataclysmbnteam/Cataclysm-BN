@@ -778,7 +778,7 @@
     "id": "bio_power_armor_interface_mkII",
     "type": "bionic",
     "name": { "str": "Power Armor Interface Mk. II" },
-    "description": "Interfaces your bionic power system with the internal charging port on suits of power armor, allowing them to draw from the user's bionic power banks.  Four times as efficient as using a UPS, the Mk. II was designed by DoubleTech Inc., to meet the popularity of the Mk. II power armor series.",
+    "description": "Interfaces your bionic power system with the internal charging port on suits of power armor, allowing them to draw from the user's bionic power banks.  Four times as efficient as using a UPS, the Mk. II was designed by DoubleTech Inc. to meet the popularity of the Mk. II power armor series.",
     "occupied_bodyparts": [ [ "torso", 3 ], [ "head", 2 ] ],
     "flags": [ "BIONIC_ARMOR_INTERFACE", "BIONIC_TOGGLED" ],
     "fuel_efficiency": 4
