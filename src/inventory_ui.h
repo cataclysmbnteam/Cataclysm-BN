@@ -670,9 +670,13 @@ class inventory_multiselector : public inventory_selector
     public:
         inventory_multiselector( player &p, const inventory_selector_preset &preset = default_preset,
                                  const std::string &selection_column_title = "" );
+        inventory_multiselector( player &p, const inventory_selector_preset &preset,
+                                 const std::unique_ptr<inventory_column> selection_col );
     protected:
         void rearrange_columns( size_t client_width ) override;
-
+        const inventory_column &get_selection_column() {
+            return *selection_col;
+        }
     private:
         std::unique_ptr<inventory_column> selection_col;
 };
@@ -750,6 +754,7 @@ class inventory_drop_selector : public inventory_multiselector
         // Probably shouldn't require specific subtype
         inventory_drop_selector( player &p,
                                  const caching_drop_preset &preset = default_drop_preset );
+        ~inventory_drop_selector();
         drop_locations execute();
 
     protected:
@@ -763,6 +768,7 @@ class inventory_drop_selector : public inventory_multiselector
 
         const caching_drop_preset &caching_preset;
     private:
+        const pimpl<item_category> implied_cat;
         excluded_stacks dropping;
 
         void rebuild();

@@ -11,6 +11,7 @@
 
 class JsonIn;
 class JsonOut;
+template<typename T> struct enum_traits;
 
 namespace pickup
 {
@@ -35,6 +36,13 @@ struct act_item_t {
     void deserialize( JsonIn &jsin );
 };
 
+enum class drop_intent {
+    none = 0,
+    specific,
+    implied,
+    last
+};
+
 using act_item = act_item_t<item_location>;
 using const_act_item = act_item_t<const_item_location>;
 
@@ -42,9 +50,15 @@ struct pick_drop_selection {
     item_location target;
     cata::optional<int> quantity;
     std::vector<item_location> children;
+    drop_intent intent = drop_intent::specific;
 
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jin );
+};
+
+struct drop_selection {
+    pick_drop_selection selection;
+    drop_intent intent;
 };
 
 struct stacked_items {
@@ -68,5 +82,10 @@ std::vector<stacked_items> stack_for_pickup_ui( const
 std::vector<std::list<item_stack::iterator>> flatten( const std::vector<stacked_items> &stacked );
 
 } // namespace pickup
+
+template<>
+struct enum_traits<pickup::drop_intent> {
+    static constexpr pickup::drop_intent last = pickup::drop_intent::last;
+};
 
 #endif // CATA_SRC_PICKUP_TOKEN_H
