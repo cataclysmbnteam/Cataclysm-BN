@@ -960,15 +960,7 @@
     "type": "bionic",
     "name": { "str": "Synaptic Accelerator" },
     "description": "Your nervous system has been enhanced with bionic stimulators, giving you a 10% boost to your speed.",
-    "occupied_bodyparts": [
-      [ "torso", 6 ],
-      [ "arm_l", 3 ],
-      [ "arm_r", 3 ],
-      [ "leg_l", 3 ],
-      [ "leg_r", 3 ],
-      [ "foot_l", 2 ],
-      [ "foot_r", 2 ]
-    ],
+    "occupied_bodyparts": [ [ "torso", 6 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "leg_l", 3 ], [ "leg_r", 3 ], [ "foot_l", 2 ], [ "foot_r", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
