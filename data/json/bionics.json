@@ -109,7 +109,7 @@
     "type": "bionic",
     "name": { "str": "Monomolecular Blade" },
     "description": "A deadly foot-long blade made of advanced material now resides inside your forearm, capable of being extended through the back of your wrist at the cost of a small amount of power.  Though exceptionally sharp, it will prevent you from holding anything else while extended.",
-    "occupied_bodyparts": [ [ "arm_r", 4 ], [ "hand_r", 2 ] ],
+    "occupied_bodyparts": [ [ "arm_r", 2 ], [ "hand_r", 2 ] ],
     "act_cost": "50 J",
     "fake_item": "bio_blade_weapon",
     "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "BIONIC_NPC_USABLE" ]
@@ -964,8 +964,6 @@
       [ "torso", 6 ],
       [ "arm_l", 3 ],
       [ "arm_r", 3 ],
-      [ "hand_l", 1 ],
-      [ "hand_r", 1 ],
       [ "leg_l", 3 ],
       [ "leg_r", 3 ],
       [ "foot_l", 2 ],
