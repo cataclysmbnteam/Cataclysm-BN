@@ -1072,22 +1072,6 @@ class read_inventory_preset final: public inventory_selector_preset
             return entry.any_item()->color_in_inventory( p );
         }
 
-        std::function<bool( const inventory_entry & )> get_filter( const std::string &filter ) const
-        override {
-            return [this, filter]( const inventory_entry & e ) {
-                if( !is_known( e.any_item() ) ) {
-                    return false;
-                }
-
-                const islot_book &book = get_book( e.any_item() );
-                if( book.skill && p.get_skill_level_object( book.skill ).can_train() ) {
-                    return lcmatch( book.skill->name(), filter );
-                }
-
-                return false;
-            };
-        }
-
         /** Splits books into groups: Unknown, CanTrainSkill, CanNotTrainSkillAnymore, ForFun.
         * 1. Unknown sorted by default algorithm.
         * 2. CanTrainSkill grouped by skill and sorted by time to read
