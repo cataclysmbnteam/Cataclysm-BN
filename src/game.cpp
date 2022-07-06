@@ -12,6 +12,7 @@
 #include <ctime>
 #include <cwctype>
 #include <exception>
+#include <iomanip>
 #include <iostream>
 #include <iterator>
 #include <limits>
@@ -1521,6 +1522,13 @@ bool game::do_turn()
                 if( !u.activity && !u.has_distant_destination() && uquit != QUIT_WATCH && wait_popup ) {
                     wait_popup.reset();
                     ui_manager::redraw();
+                }
+
+                if( queue_screenshot ) {
+                    invalidate_main_ui_adaptor();
+                    ui_manager::redraw();
+                    take_screenshot();
+                    queue_screenshot = false;
                 }
 
                 if( handle_action() ) {
@@ -7359,9 +7367,42 @@ bool game::take_screenshot( const std::string &path ) const
 {
     return save_screenshot( path );
 }
+
+bool game::take_screenshot() const
+{
+    // check that the current '<world>/screenshots' directory exists
+    std::string map_directory = get_world_base_save_path() + "/screenshots/";
+    assure_dir_exist( map_directory );
+
+    // build file name: <map_dir>/screenshots/[<character_name>]_<date>.png
+    // Date format is a somewhat ISO-8601 compliant GMT time date (except for some characters that wouldn't pass on most file systems like ':').
+    std::time_t time = std::time( nullptr );
+    std::stringstream date_buffer;
+    date_buffer << std::put_time( std::gmtime( &time ), "%F_%H-%M-%S_%z" );
+    const std::string tmp_file_name = string_format( "[%s]_%s.png", get_player_character().get_name(),
+                                      date_buffer.str() );
+    const std::string file_name = ensure_valid_file_name( tmp_file_name );
+    const std::string current_file_path = map_directory + file_name;
+
+    // Take a screenshot of the viewport.
+    if( take_screenshot( current_file_path ) ) {
+        popup( _( "Successfully saved your screenshot to: %s" ), map_directory );
+        return true;
+    } else {
+        popup( _( "An error occurred while trying to save the screenshot." ) );
+        return false;
+    }
+}
 #else
 bool game::take_screenshot( const std::string &/*path*/ ) const
 {
+    popup( _( "This binary was not compiled with tiles support." ) );
+    return false;
+}
+
+bool game::take_screenshot() const
+{
+    popup( _( "This binary was not compiled with tiles support." ) );
     return false;
 }
 #endif
