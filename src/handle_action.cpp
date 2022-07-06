@@ -118,8 +118,6 @@ static const std::string flag_LITCIG( "LITCIG" );
 static const std::string flag_LOCKED( "LOCKED" );
 static const std::string flag_MAGIC_FOCUS( "MAGIC_FOCUS" );
 static const std::string flag_NO_QUICKDRAW( "NO_QUICKDRAW" );
-static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
-static const std::string flag_RELOAD_ONE( "RELOAD_ONE" );
 
 static const std::string flag_SLEEP_IGNORE( "SLEEP_IGNORE" );
 
@@ -2069,19 +2067,18 @@ bool game::handle_action()
             }
 
             case ACTION_SELECT_FIRE_MODE:
-                if( u.is_armed() ) {
-                    if( u.weapon.is_gun() && !u.weapon.is_gunmod() && u.weapon.gun_all_modes().size() > 1 ) {
+                if( u.is_armed() && u.weapon.is_gun() && !u.weapon.is_gunmod() ) {
+                    if( u.weapon.gun_all_modes().size() > 1 ) {
                         u.weapon.gun_cycle_mode();
-                    } else if( u.weapon.has_flag( flag_RELOAD_ONE ) || u.weapon.has_flag( flag_RELOAD_AND_SHOOT ) ) {
-                        item::reload_option opt = u.select_ammo( u.weapon, false );
-                        if( !opt ) {
-                            break;
-                        } else if( u.ammo_location && opt.ammo == u.ammo_location ) {
-                            u.ammo_location = item_location();
-                        } else {
-                            u.ammo_location = opt.ammo;
-                        }
+                    } else {
+                        add_msg( m_info, _( "Your %s has only one firing mode." ), u.weapon.display_name() );
                     }
+                }
+                break;
+
+            case ACTION_SELECT_DEFAULT_AMMO:
+                if( u.is_armed() && u.weapon.is_gun() && !u.weapon.is_gunmod() ) {
+                    ranged::prompt_select_default_ammo_for( u, u.weapon );
                 }
                 break;
 

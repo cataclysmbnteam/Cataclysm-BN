@@ -2433,7 +2433,11 @@ void target_ui::init_window_and_input()
     }
     if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
         ctxt.register_action( "SWITCH_MODE" );
-        ctxt.register_action( "SWITCH_AMMO" );
+        if( mode == TargetMode::TurretManual || relevant->has_flag( flag_RELOAD_AND_SHOOT ) ) {
+            // Turrets may support multiple ammo types.
+            // RELOAD_AND_SHOOT weapons use whatever ammo is favorite.
+            ctxt.register_action( "SWITCH_AMMO" );
+        }
     }
     if( mode == TargetMode::Fire ) {
         ctxt.register_action( "AIM" );
@@ -3374,7 +3378,7 @@ void target_ui::draw_controls_list( int text_y )
     if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
         lines.push_back( { 5, colored( col_enabled, string_format( _( "[%c] to switch firing modes." ),
                                        bound_key( "SWITCH_MODE" ) ) ) } );
-        lines.push_back( { 6, colored( col_enabled, string_format( _( "[%c] to reload/switch ammo." ),
+        lines.push_back( { 6, colored( col_enabled, string_format( _( "[%c] to switch ammo." ),
                                        bound_key( "SWITCH_AMMO" ) ) ) } );
     }
     if( mode == TargetMode::Turrets ) {
@@ -3733,4 +3737,16 @@ bool ranged::gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::
     }
 
     return result;
+}
+
+void ranged::prompt_select_default_ammo_for( avatar &u, const item &w )
+{
+    item::reload_option opt = u.select_ammo( w, false, true, true );
+    if( opt ) {
+        if( u.ammo_location && opt.ammo == u.ammo_location ) {
+            u.ammo_location = item_location();
+        } else {
+            u.ammo_location = opt.ammo;
+        }
+    }
 }

@@ -2433,7 +2433,7 @@ item::reload_option player::select_ammo( const item &base,
 }
 
 bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
-                        bool empty ) const
+                        bool include_empty_mags, bool include_potential ) const
 {
     auto opts = base.gunmods();
     opts.push_back( &base );
@@ -2451,7 +2451,7 @@ bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo
     bool ammo_match_found = false;
     int ammo_search_range = is_mounted() ? -1 : 1;
     for( const auto e : opts ) {
-        for( item_location &ammo : find_ammo( *e, empty, ammo_search_range ) ) {
+        for( const item_location &ammo : find_ammo( *e, include_empty_mags, ammo_search_range ) ) {
             // don't try to unload frozen liquids
             if( ammo->is_watertight_container() && ammo->contents_made_of( SOLID ) ) {
                 continue;
@@ -2459,24 +2459,27 @@ bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo
             auto id = ( ammo->is_ammo_container() || ammo->is_container() )
                       ? ammo->contents.front().typeId()
                       : ammo->typeId();
-            if( e->can_reload_with( id ) ) {
+            const bool can_reload_with = e->can_reload_with( id );
+            if( can_reload_with ) {
                 // Speedloaders require an empty target.
-                if( !ammo->has_flag( "SPEEDLOADER" ) || e->ammo_remaining() < 1 ) {
+                if( include_potential || !ammo->has_flag( "SPEEDLOADER" ) || e->ammo_remaining() < 1 ) {
                     ammo_match_found = true;
                 }
             }
-            if( can_reload( *e, id ) || e->has_flag( "RELOAD_AND_SHOOT" ) ) {
-                ammo_list.emplace_back( this, e, &base, std::move( ammo ) );
+            if( ( include_potential && can_reload_with )
+                || can_reload( *e, id ) || e->has_flag( "RELOAD_AND_SHOOT" ) ) {
+                ammo_list.emplace_back( this, e, &base, ammo );
             }
         }
     }
     return ammo_match_found;
 }
 
-item::reload_option player::select_ammo( const item &base, bool prompt, bool empty ) const
+item::reload_option player::select_ammo( const item &base, bool prompt,
+        bool include_empty_mags, bool include_potential ) const
 {
     std::vector<item::reload_option> ammo_list;
-    bool ammo_match_found = list_ammo( base, ammo_list, empty );
+    const bool ammo_match_found = list_ammo( base, ammo_list, include_empty_mags, include_potential );
 
     if( ammo_list.empty() ) {
         if( !is_npc() ) {
