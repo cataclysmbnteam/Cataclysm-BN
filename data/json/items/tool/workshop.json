@@ -1182,13 +1182,13 @@
     "qualities": [ [ "DRILL", 1 ] ]
   },
   {
-    "id": "Atomic_Jackhammer",
+    "id": "atomic_jackhammer",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "atomic jackhammer" },
-    "description": "This is a construction tool for drilling through hard rock or other surfaces.  This one runs on the power of the atom!  Has a feint green glow",
+    "description": "This is a construction tool for drilling through hard rock or other surfaces.  This one runs on the power of the atom!  Has a faint green glow",
     "weight": "40000 g",
-    "looks_like": "jackhammer",
+    "copy-from": "jackhammer"
     "volume": "5 L",
     "price": 20000,
     "price_postapoc": 10000,
@@ -1202,14 +1202,14 @@
     "flags": [ "STAB", "DIG_TOOL", "POWERED", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
-    "id": "Atomic_Drill",
+    "id": "atomic_drill",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "atomic drill" },
-    "description": "This is an atomic drill with a selection of drill bits.  It has a feint green glow",
+    "description": "This is an atomic drill with a selection of drill bits.  It has a faint green glow",
     "weight": "2721 g",
     "volume": "750 ml",
-    "looks_like": "cordless_drill",
+    "copy-from": "cordless_drill",
     "price": 4000,
     "price_postapoc": 2000,
     "to_hit": -2,
@@ -1221,13 +1221,13 @@
     "qualities": [ [ "DRILL", 3 ], [ "SCREW", 1 ] ]
   },
   {
-    "id": "Atomic_auger",
+    "id": "atomic_auger",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "atomic auger" },
-    "description": "This is a construction tool for boring holes in ground.  This one runs on the power of the Atom! For health reasons alone, augers are a worthwhile investment.  It has a feint green glow",
+    "description": "This is a construction tool for boring holes in ground.  This one runs on the power of the Atom!  For health reasons alone, augers are a worthwhile investment.  It has a faint green glow",
     "weight": "9875 g",
-    "looks_like": "auger",
+    "copy-from": "auger",
     "volume": "5 L",
     "price": 400000,
     "price_postapoc": 10000,

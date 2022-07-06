@@ -799,5 +799,54 @@
       [ [ "motor_micro", 1 ] ],
       [ [ "e_scrap", 1 ] ]
     ]
-  }
+  },
+  {
+    "type": "recipe",
+    "result": "atomic_drill",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "electronics", 8 ],
+    "difficulty": 6,
+    "time": "30 m",
+    "reversible": true,
+    "decomp_learn": 4,
+    "book_learn": [ [ "recipe_atomic_battery",", 3 ], 
+    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "tools": [ [ [ "mold_plastic", -1 ] ] ],
+    "components": [
+      [ [ "antenna", 1 ], [ "screwdriver", 1 ], [ "xacto", 1 ] ],
+      [ [ "plastic_chunk", 6 ] ],
+      [ [ "motor_tiny", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 5 ] ],
+      [ [ "scrap", 1 ], [ "steel_chunk", 1 ] ],
+      [ [ "plutonium", 10 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "atomic_jackhammer",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "skills_required": [ "electronics", 8 ],
+    "difficulty": 6,
+    "time": "25 m",
+    "reversible": true,
+    "decomp_learn": 5,
+    "book_learn": [
+      [ "recipe_atomic_battery", 6 ]
+    ],
+    "using": [ [ "welding_standard", 10 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [
+      [ [ "motor_small", 1 ] ],
+      [ [ "plutonium", 10 ] ],
+      [ [ "cable", 12 ] ],
+      [ [ "rebar", 2 ], [ "steel_chunk", 4 ] ],
+      [ [ "scrap", 3 ] ]
+    ]
+  },
 ]
