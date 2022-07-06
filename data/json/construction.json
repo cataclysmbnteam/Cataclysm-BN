@@ -2599,6 +2599,24 @@
   },
   {
     "type": "construction",
+    "id": "constr_mine_downstair_no_roof",
+    "description": "Mine Downstair",
+    "category": "DIG",
+    "required_skills": [ [ "fabrication", 6 ] ],
+    "time": "480 m",
+    "qualities": [
+      [ { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "DIG", "level": 2 } ]
+    ],
+    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 160 ], [ "elec_jackhammer", 7000 ] ] ],
+    "components": [ [ [ "2x4", 12 ], [ "log", 12 ] ], [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ] ],
+    "pre_special": "check_down_OK",
+    "pre_terrain": "t_rock_floor_no_roof",
+    "post_special": "done_mine_downstair"
+  },
+  {
+    "type": "construction",
     "id": "constr_repair_wood_stairs_up",
     "description": "Repair Wooden Staircase",
     "//": "Fix the broken back to normal",
