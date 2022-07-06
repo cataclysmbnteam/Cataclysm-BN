@@ -572,13 +572,21 @@ om_special_sectors get_sectors( int sector_width );
 std::string oter_no_dir( const oter_id &oter );
 
 /**
-* Return 0, 1, 2, 3 respectively if the suffix is _north, _west, _south, _east
-* Return 0 if there's no suffix
-*/
-int oter_get_rotation( const oter_id &oter );
+ * Returns oter rotation direction value.
+ */
+om_direction::type oter_get_rotation_dir( const oter_id &oter );
 
 /**
-* Return the directional suffix or "" if there isn't one.
+* Returns number of clockwise rotations 0, 1, 2, 3 respectively
+* if the suffix is _north, _east, _south, _west.
+* Returns 0 if there's no suffix.
 */
-std::string oter_get_rotation_string( const oter_id &oter );
+int oter_get_rotations( const oter_id &oter );
+
+/**
+* Returns the directional suffix or "" if there isn't one.
+*
+* Returned reference is kept alive during the whole program execution.
+*/
+const std::string &oter_get_rotation_string( const oter_id &oter );
 #endif // CATA_SRC_OVERMAP_H

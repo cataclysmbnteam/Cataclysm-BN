@@ -1915,6 +1915,52 @@ bool overmap::generate_sub( const int z )
     return requires_sub;
 }
 
+static void elevate_bridges(
+    overmap &om,
+    const std::vector<point_om_omt> &bridge_points,
+    const std::string &bridge_overpass_id,
+    const std::string &bridge_under_id,
+    const std::string &bridgehead_ground_id,
+    const std::string &bridgehead_ramp_id )
+{
+    // Check bridgeheads
+    std::vector<std::pair<point_om_omt, om_direction::type>> bridgehead_points;
+    for( const point_om_omt &bp : bridge_points ) {
+        tripoint_om_omt bp_om( bp, 0 );
+
+        const oter_id &ot_here = om.ter( bp_om );
+        const std::string &type_here = ot_here->get_type_id().str();
+        const om_direction::type dir = oter_get_rotation_dir( ot_here );
+        if( dir == om_direction::type::invalid ) {
+            // Shouldn't happen
+            debugmsg( "Potential bridgehead %s at %s has invalid rotation.", ot_here.id(), bp_om.to_string() );
+            continue;
+        }
+        point vec = om_direction::displace( dir );
+        const bool is_bridge_fwd = is_ot_match( type_here, om.ter( bp_om + vec ), ot_match_type::type );
+        const bool is_bridge_bck = is_ot_match( type_here, om.ter( bp_om - vec ), ot_match_type::type );
+
+        if( is_bridge_fwd ^ is_bridge_bck ) {
+            om_direction::type ramp_facing = is_bridge_fwd ? om_direction::opposite( dir ) : dir;
+            bridgehead_points.emplace_back( bp, ramp_facing );
+        }
+    }
+    // Put bridge points
+    for( const point_om_omt &bp : bridge_points ) {
+        tripoint_om_omt p( bp, 0 );
+        const std::string &rot_sfx = oter_get_rotation_string( om.ter( p ) );
+        om.ter_set( p + tripoint_above, oter_id( bridge_overpass_id + rot_sfx ) );
+        om.ter_set( p, oter_id( bridge_under_id + rot_sfx ) );
+    }
+    // Put bridgeheads
+    for( const std::pair<point_om_omt, om_direction::type> &bhp : bridgehead_points ) {
+        tripoint_om_omt p( bhp.first, 0 );
+        const std::string &dir_suffix = om_direction::all_suffixes[static_cast<int>( bhp.second )];
+        om.ter_set( p, oter_id( bridgehead_ground_id + dir_suffix ) );
+        om.ter_set( p + tripoint_above, oter_id( bridgehead_ramp_id + dir_suffix ) );
+    }
+}
+
 bool overmap::generate_over( const int z )
 {
     bool requires_over = false;
@@ -1944,46 +1990,17 @@ bool overmap::generate_over( const int z )
                 }
 
                 if( is_ot_match( "bridge", oter_ground, ot_match_type::type ) ) {
-                    ter_set( p, oter_id( "bridge_road" + oter_get_rotation_string( oter_ground ) ) );
-                    ter_set( p_below, oter_id( "bridge_under" + oter_get_rotation_string( oter_ground ) ) );
                     bridge_points.emplace_back( i, j );
                 }
             }
         }
     }
 
-    // Check and put bridgeheads
-    std::vector<std::pair<point_om_omt, std::string>> bridgehead_points;
-    for( const point_om_omt &bp : bridge_points ) {
-        tripoint_om_omt bp_om( bp, 0 );
-        const oter_id oter_ground_north = ter( bp_om + tripoint_north );
-        const oter_id oter_ground_south = ter( bp_om + tripoint_south );
-        const oter_id oter_ground_east = ter( bp_om + tripoint_east );
-        const oter_id oter_ground_west = ter( bp_om + tripoint_west );
-        const bool is_bridge_north = is_ot_match( "bridge_under", oter_ground_north, ot_match_type::type );
-        const bool is_bridge_south = is_ot_match( "bridge_under", oter_ground_south, ot_match_type::type );
-        const bool is_bridge_east = is_ot_match( "bridge_under", oter_ground_east, ot_match_type::type );
-        const bool is_bridge_west = is_ot_match( "bridge_under", oter_ground_west, ot_match_type::type );
-
-        if( is_bridge_north ^ is_bridge_south || is_bridge_east ^ is_bridge_west ) {
-            std::string ramp_facing;
-            if( is_bridge_north ) {
-                ramp_facing = "_south";
-            } else if( is_bridge_south ) {
-                ramp_facing = "_north";
-            } else if( is_bridge_east ) {
-                ramp_facing = "_west";
-            } else {
-                ramp_facing = "_east";
-            }
-            bridgehead_points.emplace_back( bp, ramp_facing );
-        }
-    }
-    for( const std::pair<point_om_omt, std::string> &bhp : bridgehead_points ) {
-        tripoint_om_omt p( bhp.first, 0 );
-        ter_set( p, oter_id( "bridgehead_ground" + bhp.second ) );
-        ter_set( p + tripoint_above, oter_id( "bridgehead_ramp" + bhp.second ) );
-    }
+    elevate_bridges( *this, bridge_points,
+                     "bridge_road",
+                     "bridge_under",
+                     "bridgehead_ground",
+                     "bridgehead_ramp" );
 
     return requires_over;
 }
@@ -4935,44 +4952,23 @@ std::string oter_no_dir( const oter_id &oter )
     return base_oter_id;
 }
 
-int oter_get_rotation( const oter_id &oter )
+om_direction::type oter_get_rotation_dir( const oter_id &oter )
 {
-    std::string base_oter_id = oter.id().c_str();
-    size_t oter_len = base_oter_id.size();
-    if( oter_len > 7 ) {
-        if( base_oter_id.substr( oter_len - 6, 6 ) == "_south" ) {
-            return 2;
-        } else if( base_oter_id.substr( oter_len - 6, 6 ) == "_north" ) {
-            return 0;
+    for( const om_direction::type &rot : om_direction::all ) {
+        const std::string &rot_s = om_direction::get_suffix( rot );
+        if( string_ends_with( oter.id().str(), rot_s ) ) {
+            return rot;
         }
     }
-    if( oter_len > 6 ) {
-        if( base_oter_id.substr( oter_len - 5, 5 ) == "_west" ) {
-            return 1;
-        } else if( base_oter_id.substr( oter_len - 5, 5 ) == "_east" ) {
-            return 3;
-        }
-    }
-    return 0;
+    return om_direction::type::invalid;
 }
 
-std::string oter_get_rotation_string( const oter_id &oter )
+int oter_get_rotations( const oter_id &oter )
 {
-    std::string base_oter_id = oter.id().c_str();
-    size_t oter_len = base_oter_id.size();
-    if( oter_len > 7 ) {
-        if( base_oter_id.substr( oter_len - 6, 6 ) == "_south" ) {
-            return "_south";
-        } else if( base_oter_id.substr( oter_len - 6, 6 ) == "_north" ) {
-            return "_north";
-        }
-    }
-    if( oter_len > 6 ) {
-        if( base_oter_id.substr( oter_len - 5, 5 ) == "_west" ) {
-            return "_west";
-        } else if( base_oter_id.substr( oter_len - 5, 5 ) == "_east" ) {
-            return "_east";
-        }
-    }
-    return "";
+    return om_direction::get_num_cw_rotations( oter_get_rotation_dir( oter ) );
+}
+
+const std::string &oter_get_rotation_string( const oter_id &oter )
+{
+    return om_direction::get_suffix( oter_get_rotation_dir( oter ) );
 }
