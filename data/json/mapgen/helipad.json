@@ -63,7 +63,11 @@
         "B": {
           "item": {
             "subtype": "distribution",
-            "entries": [ { "group": "fuel_barrel", "prob": 30 }, { "item": "30gal_drum", "prob": 70 } ]
+            "entries": [
+              { "item": "30gal_drum", "prob": 50 },
+              { "group": "fuel_barrel", "prob": 20 },
+              { "group": "fuel_barrel_full", "prob": 30 }
+            ]
           },
           "chance": 75
         },

@@ -514,12 +514,23 @@
   {
     "id": "fuel_barrel",
     "type": "item_group",
-    "//": "barrel with gasoline, diesel or motor oil like you would find at fuel depot",
+    "//": "barrel with gasoline, diesel or Jp8 fuel like you would find at fuel depot",
     "subtype": "distribution",
     "entries": [
-      { "item": "gasoline", "charges": [ 0, 50000 ], "container-item": "30gal_drum", "prob": 30 },
-      { "item": "diesel", "charges": [ 0, 50000 ], "container-item": "30gal_drum", "prob": 10 },
-      { "item": "motor_oil", "charges": [ 0, 10000 ], "container-item": "jerrycan", "prob": 5 }
+      { "item": "gasoline", "charges": [ 0, 25000 ], "container-item": "30gal_drum", "prob": 20 },
+      { "item": "diesel", "charges": [ 0, 12000 ], "container-item": "30gal_drum", "prob": 10 },
+      { "item": "jp8", "charges": [ 0, 45000 ], "container-item": "30gal_drum", "prob": 20 }
+    ]
+  },
+  {
+    "id": "fuel_barrel_full",
+    "type": "item_group",
+    "//": "barrel with gasoline, diesel or Jp8 fuel like you would find at fuel depot",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "gasoline", "container-item": "30gal_drum", "prob": 20 },
+      { "item": "diesel", "container-item": "30gal_drum", "prob": 10 },
+      { "item": "jp8", "container-item": "30gal_drum", "prob": 20 }
     ]
   },
   {
