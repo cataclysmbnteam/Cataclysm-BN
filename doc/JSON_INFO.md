@@ -1488,7 +1488,6 @@ Vehicle components when installed on a vehicle.
 "durability": 200,            // How much damage the part can take before breaking
 "description": "A wheel."     // A description of this vehicle part when installing it
 "size": 2000                  // If vehicle part has flag "FLUIDTANK" then capacity in mLs, else divide by 4 for volume on space
-"cargo_weight_modifier": 100  // Special function to multiplicatively modify item weight on space. Divide by 100 for ratio.
 "wheel_width": 9,             /* (Optional, default = 0)
                                * SPECIAL: A part may have at most ONE of the following fields:
                                *    wheel_width = base wheel width in inches
