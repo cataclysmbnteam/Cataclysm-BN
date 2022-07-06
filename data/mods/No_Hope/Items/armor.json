@@ -82,7 +82,7 @@
       "set_charges": 4,
       "set_charges_msg": "You need a UPS or a bionic armor interface to power this."
     },
-    "flags": [ "USE_UPS", "NAT_UPS", "NAT_UPS", "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
+    "flags": [ "USE_UPS", "NAT_UPS", "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
   },
   {
     "id": "power_armor_basic_on",
@@ -94,7 +94,6 @@
     "description": "The DoubleTech Power Armor, Mk. I: A heavy suit of basic power armor, offering very good protection against attacks, but hard to move in.  The UPS compartment can store other things if you don't mind powering the suit yourself.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.  It is turned on and continually drawing power.  Use it to turn it off.",
     "flags": [
       "USE_UPS",
-      "NAT_UPS",
       "NAT_UPS",
       "POWERARMOR_EXO",
       "WATERPROOF",
@@ -149,7 +148,7 @@
       "set_charges": 4,
       "set_charges_msg": "You need a UPS or a bionic armor interface to power this."
     },
-    "flags": [ "USE_UPS", "NAT_UPS", "NAT_UPS", "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
+    "flags": [ "USE_UPS", "NAT_UPS", "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
   },
   {
     "id": "power_armor_heavy_on",
@@ -161,7 +160,6 @@
     "description": "A suit of DoubleTech Power Armor, Mk. II-H.  This model offers several improvements over the Mk. I, most notably the improved environmental protection.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.  It is turned on and continually drawing power.  Use it to turn it off.",
     "flags": [
       "USE_UPS",
-      "NAT_UPS",
       "NAT_UPS",
       "POWERARMOR_EXO",
       "WATERPROOF",
@@ -214,7 +212,7 @@
       "need_worn": true,
       "active": true
     },
-    "flags": [ "USE_UPS", "NAT_UPS", "NAT_UPS", "POWERARMOR_EXTERNAL", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "SUN_GLASSES" ]
+    "flags": [ "USE_UPS", "NAT_UPS", "POWERARMOR_EXTERNAL", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "SUN_GLASSES" ]
   },
   {
     "id": "power_armor_helmet_basic_on",
@@ -226,7 +224,6 @@
     "description": "A basic helmet, designed for use with the DoubleTech Power Armor, Mk. I.  Offers excellent protection from both attacks and environmental hazards.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.  It is turned on and continually drawing power.",
     "flags": [
       "USE_UPS",
-      "NAT_UPS",
       "NAT_UPS",
       "POWERARMOR_EXTERNAL",
       "WATCH",
@@ -281,7 +278,7 @@
       "need_worn": true,
       "active": true
     },
-    "flags": [ "USE_UPS", "NAT_UPS", "NAT_UPS", "POWERARMOR_EXTERNAL", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "SUN_GLASSES" ]
+    "flags": [ "USE_UPS", "NAT_UPS", "POWERARMOR_EXTERNAL", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "SUN_GLASSES" ]
   },
   {
     "id": "power_armor_helmet_heavy_on",
@@ -293,7 +290,6 @@
     "description": "A power armor helmet designed for use with the DoubleTech Power Armor, Mk. II-H.  This improved design is heavier than the Mk. I helmet, but cooler, and offers better environmental protection.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.  It is turned on and continually drawing power.",
     "flags": [
       "USE_UPS",
-      "NAT_UPS",
       "NAT_UPS",
       "POWERARMOR_EXTERNAL",
       "WATCH",
@@ -348,7 +344,7 @@
       "active": true
     },
     "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "USE_UPS", "NAT_UPS", "NAT_UPS", "POWERARMOR_EXTERNAL", "WATERPROOF", "STURDY", "SUN_GLASSES" ]
+    "flags": [ "USE_UPS", "NAT_UPS", "POWERARMOR_EXTERNAL", "WATERPROOF", "STURDY", "SUN_GLASSES" ]
   },
   {
     "id": "power_armor_helmet_light_on",
@@ -360,7 +356,6 @@
     "description": "A power armor helmet designed for use with the DoubleTech Power Armor, Mk. II-L.  This improved design is lighter and cooler than the Mk. I helmet.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.  It is turned on and continually drawing power.",
     "flags": [
       "USE_UPS",
-      "NAT_UPS",
       "NAT_UPS",
       "POWERARMOR_EXTERNAL",
       "WATCH",
@@ -415,7 +410,7 @@
       "set_charges": 4,
       "set_charges_msg": "You need a UPS or a bionic armor interface to power this."
     },
-    "flags": [ "USE_UPS", "NAT_UPS", "NAT_UPS", "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
+    "flags": [ "USE_UPS", "NAT_UPS", "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
   },
   {
     "id": "power_armor_light_on",
@@ -427,7 +422,6 @@
     "description": "A suit of DoubleTech Power Armor, Mk. II-L.  This model offers several improvements over the Mk. I, most notably the reduced weight.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.  It is turned on and continually drawing power.  Use it to turn it off.",
     "flags": [
       "USE_UPS",
-      "NAT_UPS",
       "NAT_UPS",
       "POWERARMOR_EXO",
       "WATERPROOF",
