@@ -667,6 +667,13 @@
     "info": "It seems <info>partially intangible</info>, and can occupy the same space as other things when worn."
   },
   {
+    "id": "COMPACT",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "//": "Prevents the item from participating in the layering encumbrance system when worn.",
+    "info": "It is designed not to interfere with other equipment in the same layer."
+  },
+  {
     "id": "SHEATH_AXE",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
@@ -801,6 +808,27 @@
     "id": "WET",
     "type": "json_flag",
     "context": [ "GENERIC", "ARMOR", "TOOL_ARMOR" ]
+  },
+  {
+    "id": "POWERARMOR_EXO",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "//": "Defines the main exo that all other parts attach to.",
+    "info": "This is a suit of power armor."
+  },
+  {
+    "id": "POWERARMOR_EXTERNAL",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "//": "Defines the other parts that activate simultaneously with the exo.",
+    "info": "This is a piece of power armor."
+  },
+  {
+    "id": "POWERARMOR_MOD",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "//": "Defines mods that are attached to power armour.",
+    "info": "This is a power armor modification."
   },
   {
     "id": "POWERARMOR_COMPATIBLE",
@@ -1865,6 +1893,11 @@
   },
   {
     "id": "USE_UPS",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "NAT_UPS",
     "type": "json_flag",
     "context": [  ]
   },

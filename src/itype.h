@@ -282,10 +282,6 @@ struct islot_armor {
     */
     units::mass weight_capacity_bonus = 0_gram;
     /**
-     * Whether this is a power armor item.
-     */
-    bool power_armor = false;
-    /**
      * Whitelisted clothing mods.
      * Restricted clothing mods must be listed here by id to be compatible.
      */
@@ -321,10 +317,6 @@ struct islot_pet_armor {
      * What animal bodytype can wear this armor
      */
     std::string bodytype = "none";
-    /**
-     * Whether this is a power armor item.
-     */
-    bool power_armor = false;
 };
 
 struct islot_book {

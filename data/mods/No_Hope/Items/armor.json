@@ -65,16 +65,24 @@
     "symbol": "[",
     "looks_like": "depowered_armor",
     "color": "light_gray",
-    "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+    "covers": [ "torso", "arms", "hands", "legs", "feet" ],
     "coverage": 100,
     "encumbrance": 50,
     "warmth": 90,
-    "power_armor": true,
     "material_thickness": 14,
     "environmental_protection": 16,
-    "ammo": "battery",
-    "use_action": { "type": "transform", "msg": "The %s engages.", "target": "power_armor_basic_on", "active": true },
-    "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
+    "use_action": {
+      "type": "set_transform",
+      "turn_off": false,
+      "flag": "POWERARMOR_EXTERNAL",
+      "msg": "The %s engages.",
+      "target": "power_armor_basic_on",
+      "active": true,
+      "need_worn": true,
+      "set_charges": 4,
+      "set_charges_msg": "You need a UPS or a bionic armor interface to power this."
+    },
+    "flags": [ "USE_UPS", "NAT_UPS", "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
   },
   {
     "id": "power_armor_basic_on",
@@ -82,13 +90,21 @@
     "repairs_like": "power_armor_basic",
     "looks_like": "power_armor_basic",
     "type": "TOOL_ARMOR",
-    "name": { "str": "combat exoskeleton (on)", "str_pl": "combat exoskeletons (on)" },
+    "name": { "str": "basic power armor (on)", "str_pl": "basic power armors (on)" },
     "description": "The DoubleTech Power Armor, Mk. I: A heavy suit of basic power armor, offering very good protection against attacks, but hard to move in.  The UPS compartment can store other things if you don't mind powering the suit yourself.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.  It is turned on and continually drawing power.  Use it to turn it off.",
-    "flags": [ "USE_UPS", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "TRADER_AVOID" ],
+    "flags": [ "USE_UPS", "NAT_UPS", "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "CLIMATE_CONTROL", "TRADER_AVOID" ],
     "power_draw": 4000000,
     "revert_to": "power_armor_basic",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s armor disengages.", "target": "power_armor_basic" },
-    "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+    "use_action": {
+      "type": "set_transform",
+      "turn_off": true,
+      "flag": "POWERARMOR_EXTERNAL",
+      "menu_text": "Turn off",
+      "msg": "The %s disengages.",
+      "target": "power_armor_light"
+    },
+    "covers": [ "torso", "arms", "hands", "legs", "feet" ],
+    "encumbrance": 10
   },
   {
     "id": "power_armor_heavy",
@@ -106,16 +122,24 @@
     "symbol": "[",
     "looks_like": "power_armor_basic",
     "color": "dark_gray",
-    "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+    "covers": [ "torso", "arms", "hands", "legs", "feet" ],
     "coverage": 100,
     "encumbrance": 60,
     "warmth": 60,
-    "power_armor": true,
     "material_thickness": 16,
     "environmental_protection": 16,
-    "ammo": "battery",
-    "use_action": { "type": "transform", "msg": "The %s engages.", "target": "power_armor_heavy_on", "active": true },
-    "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
+    "use_action": {
+      "type": "set_transform",
+      "turn_off": false,
+      "flag": "POWERARMOR_EXTERNAL",
+      "msg": "The %s engages.",
+      "target": "power_armor_heavy_on",
+      "active": true,
+      "need_worn": true,
+      "set_charges": 4,
+      "set_charges_msg": "You need a UPS or a bionic armor interface to power this."
+    },
+    "flags": [ "USE_UPS", "NAT_UPS", "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
   },
   {
     "id": "power_armor_heavy_on",
@@ -123,17 +147,25 @@
     "repairs_like": "power_armor_heavy",
     "looks_like": "power_armor_heavy",
     "type": "TOOL_ARMOR",
-    "name": { "str": "heavy combat exoskeleton (on)", "str_pl": "heavy combat exoskeletons (on)" },
+    "name": { "str": "heavy power armor (on)", "str_pl": "heavy power armors (on)" },
     "description": "A suit of DoubleTech Power Armor, Mk. II-H.  This model offers several improvements over the Mk. I, most notably the improved environmental protection.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.  It is turned on and continually drawing power.  Use it to turn it off.",
-    "flags": [ "USE_UPS", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "TRADER_AVOID" ],
+    "flags": [ "USE_UPS", "NAT_UPS", "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "CLIMATE_CONTROL", "TRADER_AVOID" ],
     "power_draw": 4000000,
     "revert_to": "power_armor_heavy",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s armor disengages.", "target": "power_armor_heavy" },
-    "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+    "use_action": {
+      "type": "set_transform",
+      "turn_off": true,
+      "flag": "POWERARMOR_EXTERNAL",
+      "menu_text": "Turn off",
+      "msg": "The %s disengages.",
+      "target": "power_armor_heavy"
+    },
+    "covers": [ "torso", "arms", "hands", "legs", "feet" ],
+    "encumbrance": 20
   },
   {
     "id": "power_armor_helmet_basic",
-    "type": "ARMOR",
+    "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "basic power armor helmet" },
     "description": "A basic helmet, designed for use with the DoubleTech Power Armor, Mk. I.  Offers excellent protection from both attacks and environmental hazards.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
@@ -151,15 +183,55 @@
     "coverage": 100,
     "encumbrance": 50,
     "warmth": 90,
-    "power_armor": true,
     "material_thickness": 14,
     "environmental_protection": 16,
     "qualities": [ [ "GLARE", 2 ] ],
-    "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER", "SUN_GLASSES" ]
+    "use_action": {
+      "type": "set_transformed",
+      "dependencies": "POWERARMOR_EXO",
+      "msg": "The %s seals shut and beeps once.",
+      "target": "power_armor_helmet_basic_on",
+      "need_worn": true,
+      "active": true
+    },
+    "flags": [ "USE_UPS", "NAT_UPS", "POWERARMOR_EXTERNAL", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "SUN_GLASSES" ]
+  },
+  {
+    "id": "power_armor_helmet_basic_on",
+    "copy-from": "power_armor_helmet_basic",
+    "repairs_like": "power_armor_helmet_basic",
+    "looks_like": "power_armor_helmet_basic",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "basic power armor helmet (on)", "str_pl": "basic power armor helmets (on)" },
+    "description": "A basic helmet, designed for use with the DoubleTech Power Armor, Mk. I.  Offers excellent protection from both attacks and environmental hazards.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.  It is turned on and continually drawing power.",
+    "flags": [
+      "USE_UPS",
+      "NAT_UPS",
+      "POWERARMOR_EXTERNAL",
+      "WATCH",
+      "WATERPROOF",
+      "STURDY",
+      "PARTIAL_DEAF",
+      "THERMOMETER",
+      "SUN_GLASSES",
+      "CLIMATE_CONTROL",
+      "TRADER_AVOID"
+    ],
+    "qualities": [ [ "GLARE", 2 ] ],
+    "revert_to": "power_armor_helmet_basic",
+    "use_action": {
+      "type": "set_transformed",
+      "dependencies": "POWERARMOR_EXO",
+      "menu_text": "Turn off",
+      "msg": "The %s powers down.",
+      "target": "power_armor_helmet_basic"
+    },
+    "covers": [ "head", "eyes", "mouth" ],
+    "encumbrance": 10
   },
   {
     "id": "power_armor_helmet_heavy",
-    "type": "ARMOR",
+    "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "heavy power armor helmet" },
     "description": "A power armor helmet designed for use with the DoubleTech Power Armor, Mk. II-H.  This improved design is heavier than the Mk. I helmet, but cooler, and offers better environmental protection.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
@@ -177,15 +249,55 @@
     "coverage": 100,
     "encumbrance": 60,
     "warmth": 60,
-    "power_armor": true,
     "material_thickness": 16,
     "environmental_protection": 16,
     "qualities": [ [ "GLARE", 2 ] ],
-    "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER", "SUN_GLASSES" ]
+    "use_action": {
+      "type": "set_transformed",
+      "dependencies": "POWERARMOR_EXO",
+      "msg": "The %s seals shut and beeps once.",
+      "target": "power_armor_helmet_heavy_on",
+      "need_worn": true,
+      "active": true
+    },
+    "flags": [ "USE_UPS", "NAT_UPS", "POWERARMOR_EXTERNAL", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "SUN_GLASSES" ]
+  },
+  {
+    "id": "power_armor_helmet_heavy_on",
+    "copy-from": "power_armor_helmet_heavy",
+    "repairs_like": "power_armor_helmet_heavy",
+    "looks_like": "power_armor_helmet_heavy",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "heavy power armor helmet (on)", "str_pl": "heavy power armor helmets (on)" },
+    "description": "A power armor helmet designed for use with the DoubleTech Power Armor, Mk. II-H.  This improved design is heavier than the Mk. I helmet, but cooler, and offers better environmental protection.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.  It is turned on and continually drawing power.",
+    "flags": [
+      "USE_UPS",
+      "NAT_UPS",
+      "POWERARMOR_EXTERNAL",
+      "WATCH",
+      "WATERPROOF",
+      "STURDY",
+      "PARTIAL_DEAF",
+      "THERMOMETER",
+      "SUN_GLASSES",
+      "CLIMATE_CONTROL",
+      "TRADER_AVOID"
+    ],
+    "qualities": [ [ "GLARE", 2 ] ],
+    "revert_to": "power_armor_helmet_heavy",
+    "use_action": {
+      "type": "set_transformed",
+      "dependencies": "POWERARMOR_EXO",
+      "menu_text": "Turn off",
+      "msg": "The %s powers down.",
+      "target": "power_armor_helmet_heavy"
+    },
+    "covers": [ "head", "eyes", "mouth" ],
+    "encumbrance": 20
   },
   {
     "id": "power_armor_helmet_light",
-    "type": "ARMOR",
+    "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "light power armor helmet" },
     "description": "A power armor helmet designed for use with the DoubleTech Power Armor, Mk. II-L.  This improved design is lighter and cooler than the Mk. I helmet.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
@@ -203,11 +315,50 @@
     "coverage": 100,
     "encumbrance": 40,
     "warmth": 60,
-    "power_armor": true,
     "material_thickness": 8,
     "environmental_protection": 16,
+    "use_action": {
+      "type": "set_transformed",
+      "dependencies": "POWERARMOR_EXO",
+      "msg": "The %s seals shut and beeps once.",
+      "target": "power_armor_helmet_light_on",
+      "need_worn": true,
+      "active": true
+    },
     "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "WATCH", "WATERPROOF", "STURDY", "THERMOMETER", "SUN_GLASSES" ]
+    "flags": [ "USE_UPS", "NAT_UPS", "POWERARMOR_EXTERNAL", "WATERPROOF", "STURDY", "SUN_GLASSES" ]
+  },
+  {
+    "id": "power_armor_helmet_light_on",
+    "copy-from": "power_armor_helmet_light",
+    "repairs_like": "power_armor_helmet_light",
+    "looks_like": "power_armor_helmet_light",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "light power armor helmet (on)", "str_pl": "light power armor helmets (on)" },
+    "description": "A power armor helmet designed for use with the DoubleTech Power Armor, Mk. II-L.  This improved design is lighter and cooler than the Mk. I helmet.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.  It is turned on and continually drawing power.",
+    "flags": [
+      "USE_UPS",
+      "NAT_UPS",
+      "POWERARMOR_EXTERNAL",
+      "WATCH",
+      "WATERPROOF",
+      "STURDY",
+      "THERMOMETER",
+      "SUN_GLASSES",
+      "CLIMATE_CONTROL",
+      "TRADER_AVOID"
+    ],
+    "qualities": [ [ "GLARE", 1 ] ],
+    "revert_to": "power_armor_helmet_light",
+    "use_action": {
+      "type": "set_transformed",
+      "dependencies": "POWERARMOR_EXO",
+      "menu_text": "Turn off",
+      "msg": "The %s powers down.",
+      "target": "power_armor_helmet_light"
+    },
+    "covers": [ "head", "eyes", "mouth" ],
+    "encumbrance": 0
   },
   {
     "id": "power_armor_light",
@@ -225,16 +376,23 @@
     "symbol": "[",
     "looks_like": "depowered_armor",
     "color": "dark_gray",
-    "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+    "covers": [ "torso", "arms", "hands", "legs", "feet" ],
     "coverage": 100,
     "encumbrance": 40,
     "warmth": 60,
-    "power_armor": true,
     "material_thickness": 8,
     "environmental_protection": 16,
-    "ammo": "battery",
-    "use_action": { "type": "transform", "msg": "The %s engages.", "target": "power_armor_light_on", "active": true },
-    "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
+    "use_action": {
+      "type": "set_transform",
+      "turn_off": false,
+      "flag": "POWERARMOR_EXTERNAL",
+      "msg": "The %s engages.",
+      "target": "power_armor_light_on",
+      "active": true,
+      "set_charges": 4,
+      "set_charges_msg": "You need a UPS or a bionic armor interface to power this."
+    },
+    "flags": [ "USE_UPS", "NAT_UPS", "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
   },
   {
     "id": "power_armor_light_on",
@@ -244,11 +402,19 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "field combat exoskeleton (on)", "str_pl": "field combat exoskeletons (on)" },
     "description": "A suit of DoubleTech Power Armor, Mk. II-L.  This model offers several improvements over the Mk. I, most notably the reduced weight.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.  It is turned on and continually drawing power.  Use it to turn it off.",
-    "flags": [ "USE_UPS", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "TRADER_AVOID" ],
+    "flags": [ "USE_UPS", "NAT_UPS", "POWERARMOR_EXO", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "CLIMATE_CONTROL", "TRADER_AVOID" ],
     "power_draw": 4000000,
     "revert_to": "power_armor_light",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s armor disengages.", "target": "power_armor_light" },
-    "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+    "use_action": {
+      "type": "set_transform",
+      "turn_off": true,
+      "flag": "POWERARMOR_EXTERNAL",
+      "menu_text": "Turn off",
+      "msg": "The %s disengages.",
+      "target": "power_armor_light"
+    },
+    "covers": [ "torso", "arms", "hands", "legs", "feet" ],
+    "encumbrance": 0
   },
   {
     "id": "armguard_bone",

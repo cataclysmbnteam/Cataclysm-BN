@@ -662,7 +662,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Power Armor Interface CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "Interfaces the user's bionic power system with the internal charging port on suits of power armor, allowing them to draw from the user's bionic power banks.",
+    "description": "Interfaces the user's bionic power system with the internal charging port on suits of power armor, allowing them to draw from the user's bionic power banks.  Twice as efficient as using a UPS.",
     "price": 120000,
     "weight": "500 g",
     "difficulty": 1,
@@ -674,7 +674,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Power Armor Mk. II Interface CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "Interfaces the user's bionic power system with the internal charging port on suits of power armor, allowing them to draw from the user's bionic power banks.  Twice as efficient as the Mk. I model.  The Mk. II was designed by DoubleTech Inc., to meet the popularity of the Mk. II power armor series.",
+    "description": "Interfaces the user's bionic power system with the internal charging port on suits of power armor, allowing them to draw from the user's bionic power banks.  Four times as efficient as using a UPS, the Mk. II was designed by DoubleTech Inc., to meet the popularity of the Mk. II power armor series.",
     "price": 1000000,
     "weight": "400 g",
     "difficulty": 8

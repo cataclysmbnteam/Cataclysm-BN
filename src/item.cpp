@@ -136,6 +136,7 @@ static const itype_id itype_plut_cell( "plut_cell" );
 static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_tuned_mechanism( "tuned_mechanism" );
 static const itype_id itype_UPS( "UPS" );
+static const itype_id itype_bio_armor( "bio_armor" );
 static const itype_id itype_waterproof_gunmod( "waterproof_gunmod" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_acid( "water_acid" );
@@ -226,6 +227,9 @@ static const std::string flag_NO_UNLOAD( "NO_UNLOAD" );
 static const std::string flag_OUTER( "OUTER" );
 static const std::string flag_OVERSIZE( "OVERSIZE" );
 static const std::string flag_PERSONAL( "PERSONAL" );
+static const std::string flag_POWERARMOR_EXO( "POWERARMOR_EXO" );
+static const std::string flag_POWERARMOR_EXTERNAL( "POWERARMOR_EXTERNAL" );
+static const std::string flag_POWERARMOR_MOD( "POWERARMOR_MOD" );
 static const std::string flag_PROCESSING( "PROCESSING" );
 static const std::string flag_PROCESSING_RESULT( "PROCESSING_RESULT" );
 static const std::string flag_PULPED( "PULPED" );
@@ -261,6 +265,7 @@ static const std::string flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
 static const std::string flag_UNDERSIZE( "UNDERSIZE" );
 static const std::string flag_USES_BIONIC_POWER( "USES_BIONIC_POWER" );
 static const std::string flag_USE_UPS( "USE_UPS" );
+static const std::string flag_NAT_UPS( "NAT_UPS" );
 static const std::string flag_VARSIZE( "VARSIZE" );
 static const std::string flag_VEHICLE( "VEHICLE" );
 static const std::string flag_WAIST( "WAIST" );
@@ -826,7 +831,8 @@ bool item::swap_side()
 
 bool item::is_worn_only_with( const item &it ) const
 {
-    return is_power_armor() && it.is_power_armor() && it.covers( bp_torso );
+    return( ( has_flag( flag_POWERARMOR_EXTERNAL ) || has_flag( flag_POWERARMOR_MOD ) ) &&
+            it.has_flag( flag_POWERARMOR_EXO ) );
 }
 
 item item::in_its_container() const
@@ -2808,16 +2814,15 @@ void item::armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *pa
                                   _( "* This item can be worn on <info>either side</info> of "
                                      "the body." ) ) );
     }
-    if( is_power_armor() && parts->test( iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR ) ) {
-        info.push_back( iteminfo( "DESCRIPTION",
-                                  _( "* This gear is a part of power armor." ) ) );
+    if( ( is_power_armor() ) &&
+        parts->test( iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR ) ) {
         if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR_RADIATIONHINT ) ) {
-            if( covers( bp_head ) ) {
+            if( covers( bp_head ) && has_flag( flag_POWERARMOR_EXTERNAL ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* When worn with a power armor suit, it will "
                                              "<good>fully protect</good> you from "
                                              "<info>radiation</info>." ) ) );
-            } else {
+            } else if( has_flag( flag_POWERARMOR_EXO ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* When worn with a power armor helmet, it will "
                                              "<good>fully protect</good> you from " "<info>radiation</info>." ) ) );
@@ -3596,11 +3601,15 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     armor_fit_info( info, parts, batch, debug );
 
     if( is_tool() ) {
+        if( is_power_armor() && parts->test( iteminfo_parts::DESCRIPTION_BIONIC_ARMOR_INTERFACE ) ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      _( "* This tool can draw power from a <info>Bionic Armor Interface</info>" ) ) );
+        }
         if( has_flag( flag_USE_UPS ) && parts->test( iteminfo_parts::DESCRIPTION_RECHARGE_UPSMODDED ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "* This tool has been modified to use a <info>universal "
-                                         "power supply</info> and is <neutral>not compatible"
-                                         "</neutral> with <info>standard batteries</info>." ) ) );
+                                      _( "* This tool uses a <info>universal power supply</info> "
+                                         "and is <neutral>not compatible</neutral> with "
+                                         "<info>standard batteries</info>." ) ) );
         } else if( has_flag( flag_RECHARGE ) && has_flag( flag_NO_RELOAD ) &&
                    parts->test( iteminfo_parts::DESCRIPTION_RECHARGE_NORELOAD ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
@@ -4184,6 +4193,43 @@ void item::on_wear( Character &p )
                   !p.worn_with_flag( flag_SPLINT, bodypart_id( "arm_r" ) ) ) ) {
                 set_side( side::RIGHT );
             }
+        } else if( has_flag( flag_POWERARMOR_MOD ) ) {
+            // for power armor mods, wear on side with least mods
+            std::vector< std::pair< body_part, int > > mod_parts;
+            body_part bp = num_bp;
+            bodypart_str_id bpid;
+            int lhs = 0;
+            int rhs = 0;
+            for( std::size_t i = 0; i < static_cast< body_part >( num_bp ) ; ++i ) {
+                bp = static_cast< body_part >( i );
+                if( get_covered_body_parts().test( bp ) ) {
+                    mod_parts.emplace_back( bp, 0 );
+                }
+            }
+            for( auto &elem : p.worn ) {
+                for( std::pair< body_part, int > &mod_parts : mod_parts ) {
+                    bpid = convert_bp( mod_parts.first );
+                    if( elem.get_covered_body_parts().test( mod_parts.first ) &&
+                        elem.has_flag( flag_POWERARMOR_MOD ) ) {
+                        if( elem.is_sided() && elem.get_side() == bpid->part_side ) {
+                            mod_parts.second++;
+                            continue;
+                        }
+                        mod_parts.second++;
+                    }
+                }
+            }
+            for( std::pair< body_part, int > &mod_parts : mod_parts ) {
+                bpid = convert_bp( mod_parts.first );
+                if( bpid->part_side == side::LEFT && mod_parts.second > lhs ) {
+                    add_msg( _( "left" ) );
+                    lhs = mod_parts.second;
+                } else if( bpid->part_side == side::RIGHT && mod_parts.second > rhs ) {
+                    add_msg( _( "right" ) );
+                    rhs = mod_parts.second;
+                }
+            }
+            set_side( ( lhs > rhs ) ? side::RIGHT : side::LEFT );
         } else {
             // for sided items wear the item on the side which results in least encumbrance
             int lhs = 0;
@@ -4204,6 +4250,25 @@ void item::on_wear( Character &p )
         }
     }
 
+    if( type->can_use( "set_transformed" ) ) {
+        bool transform = false;
+        const set_transformed_iuse *actor = dynamic_cast<const set_transformed_iuse *>
+                                            ( this->get_use( "set_transformed" )->get_actor_ptr() );
+        if( actor == nullptr ) {
+            debugmsg( "iuse_actor type descriptor and actual type mismatch" );
+            return;
+        }
+        std::string transform_flag = actor->dependencies;
+        for( const auto &elem : p.worn ) {
+            if( elem.has_flag( transform_flag ) && elem.active != active ) {
+                transform = true;
+            }
+        }
+        if( transform && actor->restricted ) {
+            actor->bypass( *p.as_player(), *this, false, p.pos() );
+        }
+    }
+
     // TODO: artifacts currently only work with the player character
     if( &p == &g->u && type->artifact ) {
         g->add_artifact_messages( type->artifact->effects_worn );
@@ -4221,6 +4286,17 @@ void item::on_takeoff( Character &p )
 
     if( is_sided() ) {
         set_side( side::BOTH );
+    }
+
+    // if power armor, no power_draw and active, shut down.
+    if( type->can_use( "set_transformed" ) && active ) {
+        const set_transformed_iuse *actor = dynamic_cast<const set_transformed_iuse *>
+                                            ( this->get_use( "set_transformed" )->get_actor_ptr() );
+        if( actor == nullptr ) {
+            debugmsg( "iuse_actor type descriptor and actual type mismatch" );
+            return;
+        }
+        actor->bypass( *p.as_player(), *this, false, p.pos() );
     }
 }
 
@@ -4536,7 +4612,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         }
     }
 
-    if( is_tool() && has_flag( flag_USE_UPS ) ) {
+    if( is_tool() && has_flag( flag_USE_UPS ) && !has_flag( flag_NAT_UPS ) ) {
         tagtext += _( " (UPS)" );
     }
     if( is_tool() && has_flag( flag_HEATS_FOOD ) ) {
@@ -5555,11 +5631,8 @@ int item::get_base_env_resist_w_filter() const
 
 bool item::is_power_armor() const
 {
-    const islot_armor *t = find_armor_data();
-    if( t == nullptr ) {
-        return is_pet_armor() ? type->pet_armor->power_armor : false;
-    }
-    return t->power_armor;
+    return ( has_flag( flag_POWERARMOR_EXO ) || has_flag( flag_POWERARMOR_EXTERNAL ) ||
+             has_flag( flag_POWERARMOR_MOD ) );
 }
 
 int item::get_encumber( const Character &p ) const
@@ -7757,7 +7830,16 @@ int item::units_remaining( const Character &ch, int limit ) const
     }
 
     int res = ammo_remaining();
-    if( res < limit && has_flag( flag_USE_UPS ) ) {
+    if( res < limit && is_power_armor() ) {
+        if( ch.as_player()->can_interface_armor() && has_flag( flag_USE_UPS ) ) {
+            res += std::max( ch.charges_of( itype_UPS, limit - res ), ch.charges_of( itype_bio_armor,
+                             limit - res ) );
+        } else if( ch.as_player()->can_interface_armor() ) {
+            res += ch.charges_of( itype_bio_armor, limit - res );
+        } else {
+            res += ch.charges_of( itype_UPS, limit - res );
+        }
+    } else if( res < limit && has_flag( flag_USE_UPS ) ) {
         res += ch.charges_of( itype_UPS, limit - res );
     }
 
@@ -9215,6 +9297,35 @@ bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
 
 bool item::process_tool( player *carrier, const tripoint &pos )
 {
+    // items with iuse set_transformed which are restricted turn off if not attached to their dependency.
+    if( type->can_use( "set_transformed" ) ) {
+        const set_transformed_iuse *actor = dynamic_cast<const set_transformed_iuse *>
+                                            ( this->get_use( "set_transformed" )->get_actor_ptr() );
+        if( actor == nullptr ) {
+            debugmsg( "iuse_actor type descriptor and actual type mismatch" );
+            return false;
+        }
+        if( actor->restricted ) {
+            if( !carrier ) {
+                actor->bypass( carrier != nullptr ? *carrier : g->u, *this, false, pos );
+                return false;
+            } else {
+                bool active = false;
+                std::string transform_flag = actor->dependencies;
+                for( const auto &elem : carrier->worn ) {
+                    if( elem.active && elem.has_flag( transform_flag ) ) {
+                        active = true;
+                        break;
+                    }
+                }
+                if( !active ) {
+                    actor->bypass( carrier != nullptr ? *carrier : g->u, *this, false, pos );
+                    return false;
+                }
+            }
+        }
+    }
+
     int energy = 0;
     if( type->tool->turns_per_charge > 0 &&
         to_turn<int>( calendar::turn ) % type->tool->turns_per_charge == 0 ) {
@@ -9228,8 +9339,15 @@ bool item::process_tool( player *carrier, const tripoint &pos )
     }
     energy -= ammo_consume( energy, pos );
 
+    // for power armor pieces, try to use power armor interface first.
+    if( carrier && is_power_armor() && carrier->can_interface_armor() ) {
+        if( carrier->use_charges_if_avail( itype_bio_armor, energy ) ) {
+            energy = 0;
+        }
+    }
+
     // for items in player possession if insufficient charges within tool try UPS
-    if( carrier && has_flag( flag_USE_UPS ) ) {
+    if( carrier && ( has_flag( flag_USE_UPS ) ) ) {
         if( carrier->use_charges_if_avail( itype_UPS, energy ) ) {
             energy = 0;
         }
@@ -9237,8 +9355,42 @@ bool item::process_tool( player *carrier, const tripoint &pos )
 
     // if insufficient available charges shutdown the tool
     if( energy > 0 ) {
-        if( carrier && has_flag( flag_USE_UPS ) ) {
-            carrier->add_msg_if_player( m_info, _( "You need an UPS to run the %s!" ), tname() );
+        if( carrier ) {
+            if( is_power_armor() ) {
+                if( has_flag( flag_USE_UPS ) ) {
+                    carrier->add_msg_if_player( m_info, _( "You need a UPS or Bionic Power Interface to run the %s!" ),
+                                                tname() );
+                } else {
+                    carrier->add_msg_if_player( m_info, _( "You need a Bionic Power Interface to run the %s!" ),
+                                                tname() );
+                }
+            } else if( has_flag( flag_USE_UPS ) ) {
+                carrier->add_msg_if_player( m_info, _( "You need a UPS to run the %s!" ), tname() );
+            }
+        }
+        if( carrier && type->can_use( "set_transform" ) ) {
+            const set_transform_iuse *actor = dynamic_cast<const set_transform_iuse *>
+                                              ( this->get_use( "set_transform" )->get_actor_ptr() );
+            if( actor == nullptr ) {
+                debugmsg( "iuse_actor type descriptor and actual type mismatch." );
+                return false;
+            }
+            std::string transformed_flag = actor->flag;
+            for( auto &elem : carrier->worn ) {
+                if( elem.active && elem.has_flag( transformed_flag ) ) {
+                    if( !elem.type->can_use( "set_transformed" ) ) {
+                        debugmsg( "Expected set_transformed function" );
+                        return false;
+                    }
+                    const set_transformed_iuse *actor = dynamic_cast<const set_transformed_iuse *>
+                                                        ( elem.get_use( "set_transformed" )->get_actor_ptr() );
+                    if( actor == nullptr ) {
+                        debugmsg( "iuse_actor type descriptor and actual type mismatch" );
+                        return false;
+                    }
+                    actor->bypass( *carrier, elem, false, pos );
+                }
+            }
         }
 
         // invoking the object can convert the item to another type

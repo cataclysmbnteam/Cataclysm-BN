@@ -1011,6 +1011,16 @@
   },
   {
     "type": "item_action",
+    "id": "set_transform",
+    "name": { "str": "Activate" }
+  },
+  {
+    "type": "item_action",
+    "id": "set_transformed",
+    "name": { "str": "Activate" }
+  },
+  {
+    "type": "item_action",
     "id": "explosion",
     "name": { "str": "Activate" }
   },
@@ -1058,11 +1068,6 @@
     "type": "item_action",
     "id": "unfold_vehicle",
     "name": { "str": "Unfold" }
-  },
-  {
-    "type": "item_action",
-    "id": "ups_based_armor",
-    "name": { "str": "Activate/deactivate" }
   },
   {
     "type": "item_action",

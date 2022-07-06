@@ -185,6 +185,7 @@ static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_power_storage( "bio_power_storage" );
 static const itype_id itype_power_storage_mkII( "bio_power_storage_mkII" );
+static const itype_id itype_bio_armor( "bio_armor" );
 
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_dodge( "dodge" );
@@ -335,6 +336,9 @@ static const std::string flag_PERPETUAL( "PERPETUAL" );
 static const std::string flag_PERSONAL( "PERSONAL" );
 static const flag_str_id flag_POCKETS( "POCKETS" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
+static const std::string flag_POWERARMOR_EXO( "POWERARMOR_EXO" );
+static const std::string flag_POWERARMOR_EXTERNAL( "POWERARMOR_EXTERNAL" );
+static const std::string flag_POWERARMOR_MOD( "POWERARMOR_MOD" );
 static const std::string flag_POWERARMOR_COMPATIBLE( "POWERARMOR_COMPATIBLE" );
 static const std::string flag_RESTRICT_HANDS( "RESTRICT_HANDS" );
 static const std::string flag_SEMITANGIBLE( "SEMITANGIBLE" );
@@ -348,6 +352,7 @@ static const std::string flag_SWIM_GOGGLES( "SWIM_GOGGLES" );
 static const std::string flag_UNDERSIZE( "UNDERSIZE" );
 static const std::string flag_USE_UPS( "USE_UPS" );
 static const flag_str_id flag_CLIMATE_CONTROL( "CLIMATE_CONTROL" );
+static const flag_str_id flag_BIONIC_ARMOR_INTERFACE( "BIONIC_ARMOR_INTERFACE" );
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
 static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
@@ -2982,38 +2987,101 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
     if( it.is_power_armor() ) {
         for( auto &elem : worn ) {
             if( ( elem.get_covered_body_parts() & it.get_covered_body_parts() ).any() &&
-                !elem.has_flag( flag_POWERARMOR_COMPATIBLE ) ) {
+                !elem.has_flag( flag_POWERARMOR_COMPATIBLE ) && !elem.is_power_armor() ) {
                 return ret_val<bool>::make_failure( _( "Can't wear power armor over other gear!" ) );
+            } else if( elem.has_flag( flag_POWERARMOR_EXO ) && it.has_flag( flag_POWERARMOR_EXO ) ) {
+                return ret_val<bool>::make_failure( _( "Can't wear multiple exoskeletons!" ) );
             }
         }
-        if( !it.covers( bp_torso ) ) {
-            bool power_armor = false;
-            if( !worn.empty() ) {
-                for( auto &elem : worn ) {
-                    if( elem.is_power_armor() ) {
-                        power_armor = true;
-                        break;
+        if( !it.has_flag( flag_POWERARMOR_EXO ) && !is_wearing_power_armor() ) {
+            return ret_val<bool>::make_failure(
+                       _( "You can only wear power armor components with power armor!" ) );
+        }
+        if( it.has_flag( flag_POWERARMOR_EXTERNAL ) ) {
+            for( auto &elem : worn ) {
+                if( elem.has_flag( flag_POWERARMOR_EXO ) &&
+                    ( elem.get_covered_body_parts() & it.get_covered_body_parts() ).any() ) {
+                    return ret_val<bool>::make_failure( _( "Can't wear externals over an exoskeleton!" ) );
+                } else if( elem.has_flag( flag_POWERARMOR_EXTERNAL ) &&
+                           ( elem.get_covered_body_parts() & it.get_covered_body_parts() ).any() ) {
+                    return ret_val<bool>::make_failure( _( "Can't wear externals over one another!" ) );
+                }
+            }
+        }
+        if( it.has_flag( flag_POWERARMOR_MOD ) ) {
+            int max_layer = 2;
+            std::vector< std::pair< body_part, int > > mod_parts;
+            std::vector< std::pair< body_part, bool > > attachments;
+            body_part bp = num_bp;
+            bodypart_str_id bpid;
+            bool lhs = false;
+            bool rhs = false;
+            for( std::size_t i = 0; i < static_cast< body_part >( num_bp ); ++i ) {
+                bp = static_cast< body_part >( i );
+                if( it.get_covered_body_parts().test( bp ) ) {
+                    mod_parts.emplace_back( bp, 0 );
+                    attachments.emplace_back( bp, false );
+                }
+            }
+            for( auto &elem : worn ) {
+                // To check if there's an external/exoskeleton for the mod to attach to.
+                for( std::pair< body_part, bool > &attachments : attachments ) {
+                    if( elem.get_covered_body_parts().test( attachments.first ) &&
+                        ( elem.has_flag( flag_POWERARMOR_EXO ) || elem.has_flag( flag_POWERARMOR_EXTERNAL ) ) ) {
+                        if( elem.is_sided() && elem.get_side() == bpid->part_side ) {
+                            attachments.second = true;
+                        } else {
+                            attachments.second = true;
+                        }
+                    }
+                }
+                // To check how many mods are on a given part.
+                for( std::pair< body_part, int > &mod_parts : mod_parts ) {
+                    bpid = convert_bp( mod_parts.first );
+                    if( elem.get_covered_body_parts().test( mod_parts.first ) &&
+                        elem.has_flag( flag_POWERARMOR_MOD ) ) {
+                        if( elem.is_sided() && elem.get_side() == bpid->part_side ) {
+                            mod_parts.second++;
+                        } else {
+                            mod_parts.second++;
+                        }
                     }
                 }
             }
-            if( !power_armor ) {
-                return ret_val<bool>::make_failure(
-                           _( "You can only wear power armor components with power armor!" ) );
+            for( std::pair< body_part, bool > &attachments : attachments ) {
+                if( !attachments.second ) {
+                    return ret_val<bool>::make_failure( _( "Nothing to attach the mod to!" ) );
+                }
             }
-        }
-
-        for( auto &i : worn ) {
-            if( i.is_power_armor() && i.typeId() == it.typeId() ) {
-                return ret_val<bool>::make_failure( _( "Can't wear more than one %s!" ), it.tname() );
+            for( std::pair< body_part, int > &mod_parts : mod_parts ) {
+                bpid = convert_bp( mod_parts.first );
+                if( static_cast< body_part >( mod_parts.first ) == bp_torso ) {
+                    max_layer = 3;
+                }
+                if( mod_parts.second >= max_layer ) {
+                    if( !it.is_sided() || bpid->part_side == side::BOTH ) {
+                        return ret_val<bool>::make_failure( _( "Can't wear any more mods on that body part!" ) );
+                    } else {
+                        if( bpid->part_side == side::LEFT ) {
+                            lhs = true;
+                        } else {
+                            rhs = true;
+                        }
+                        if( lhs && rhs ) {
+                            return ret_val<bool>::make_failure( _( "No more space for that mod!" ) );
+                        }
+                    }
+                }
             }
         }
     } else {
         // Only headgear can be worn with power armor, except other power armor components.
         // You can't wear headgear if power armor helmet is already sitting on your head.
-        bool has_helmet = false;
-        if( !it.has_flag( flag_POWERARMOR_COMPATIBLE ) && ( ( is_wearing_power_armor( &has_helmet ) &&
-                ( has_helmet || !( it.covers( bp_head ) || it.covers( bp_mouth ) || it.covers( bp_eyes ) ) ) ) ) ) {
-            return ret_val<bool>::make_failure( _( "Can't wear %s with power armor!" ), it.tname() );
+        for( auto &elem : worn ) {
+            if( !it.has_flag( flag_POWERARMOR_COMPATIBLE ) && ( is_wearing_power_armor() &&
+                    ( elem.get_covered_body_parts() & it.get_covered_body_parts() ).any() ) ) {
+                return ret_val<bool>::make_failure( _( "Can't wear %s with power armor!" ), it.tname() );
+            }
         }
     }
 
@@ -3047,7 +3115,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
 
     if( it.covers( bp_head ) &&
         !it.has_flag( flag_HELMET_COMPAT ) && !it.has_flag( flag_SKINTIGHT ) &&
-        !it.has_flag( flag_PERSONAL ) &&
+        !it.has_flag( flag_PERSONAL ) && !it.is_power_armor() &&
         !it.has_flag( flag_AURA ) && !it.has_flag( flag_SEMITANGIBLE ) && !it.has_flag( flag_OVERSIZE ) &&
         is_wearing_helmet() ) {
         return ret_val<bool>::make_failure( wearing_something_on( bodypart_id( "head" ) ),
@@ -3069,6 +3137,40 @@ ret_val<bool> Character::can_unwield( const item &it ) const
 {
     if( it.has_flag( "NO_UNWIELD" ) ) {
         return ret_val<bool>::make_failure( _( "You cannot unwield your %s." ), it.tname() );
+    }
+
+    return ret_val<bool>::make_success();
+}
+
+ret_val<bool> Character::can_swap( const item &it ) const
+{
+    if( it.has_flag( flag_POWERARMOR_MOD ) ) {
+        int max_layer = 2;
+        std::vector< std::pair< body_part, int > > mod_parts;
+        body_part bp = num_bp;
+        bodypart_str_id bpid;
+        for( std::size_t i = 0; i < static_cast< body_part >( num_bp ); ++i ) {
+            bp = static_cast< body_part >( i );
+            bpid = convert_bp( bp );
+            if( it.get_covered_body_parts().test( bp ) && bpid->part_side != side::BOTH ) {
+                mod_parts.emplace_back( bp, 0 );
+            }
+        }
+        for( auto &elem : worn ) {
+            for( std::pair< body_part, int > &mod_parts : mod_parts ) {
+                bpid = convert_bp( mod_parts.first );
+                if( elem.get_covered_body_parts().test( bpid->opposite_part->token ) &&
+                    elem.has_flag( flag_POWERARMOR_MOD ) ) {
+                    mod_parts.second++;
+                }
+            }
+        }
+        for( std::pair< body_part, int > &mod_parts : mod_parts ) {
+            bpid = convert_bp( mod_parts.first );
+            if( mod_parts.second >= max_layer ) {
+                return ret_val<bool>::make_failure( _( "There is no space on the opposite side!" ) );
+            }
+        }
     }
 
     return ret_val<bool>::make_success();
@@ -3576,6 +3678,14 @@ hint_rating Character::rate_action_change_side( const item &it ) const
 
 bool Character::change_side( item &it, bool interactive )
 {
+    const auto ret = can_swap( it );
+    if( !ret.success() ) {
+        if( interactive ) {
+            add_msg_if_player( m_info, "%s", ret.c_str() );
+        }
+        return false;
+    }
+
     if( !it.swap_side() ) {
         if( interactive ) {
             add_msg_player_or_npc( m_info,
@@ -3615,7 +3725,7 @@ bool Character::change_side( item_location &loc, bool interactive )
 static void layer_item( std::array<encumbrance_data, num_bp> &vals,
                         const item &it,
                         std::array<layer_level, num_bp> &highest_layer_so_far,
-                        bool power_armor, const Character &c )
+                        const Character &c )
 {
     const auto item_layer = it.get_layer();
     int encumber_val = it.get_encumber( c );
@@ -3631,9 +3741,9 @@ static void layer_item( std::array<encumbrance_data, num_bp> &vals,
         encumber_val = 0;
         layering_encumbrance = 0;
     }
-
-    const int armorenc = !power_armor || !it.is_power_armor() ?
-                         encumber_val : std::max( 0, encumber_val - 40 );
+    if( it.has_flag( "COMPACT" ) ) {
+        layering_encumbrance = 0;
+    }
 
     body_part_set covered_parts = it.get_covered_body_parts();
     for( const body_part bp : all_body_parts ) {
@@ -3650,7 +3760,7 @@ static void layer_item( std::array<encumbrance_data, num_bp> &vals,
             vals[bp].layer( penalty_layer, layering_encumbrance );
         }
 
-        vals[bp].armor_encumbrance += armorenc;
+        vals[bp].armor_encumbrance += encumber_val;
     }
 }
 
@@ -3661,14 +3771,18 @@ bool Character::is_wearing_power_armor( bool *hasHelmet ) const
         if( !elem.is_power_armor() ) {
             continue;
         }
-        if( hasHelmet == nullptr ) {
-            // found power armor, helmet not requested, cancel loop
-            return true;
+        if( elem.has_flag( flag_POWERARMOR_EXO ) ) {
+            result = true;
+            if( hasHelmet == nullptr ) {
+                // found power armor, helmet not requested, cancel loop
+                return true;
+            }
         }
         // found power armor, continue search for helmet
-        result = true;
         if( elem.covers( bp_head ) ) {
-            *hasHelmet = true;
+            if( hasHelmet != nullptr ) {
+                *hasHelmet = true;
+            }
             return true;
         }
     }
@@ -3678,7 +3792,7 @@ bool Character::is_wearing_power_armor( bool *hasHelmet ) const
 bool Character::is_wearing_active_power_armor() const
 {
     for( const auto &w : worn ) {
-        if( w.is_power_armor() && w.active ) {
+        if( w.has_flag( flag_POWERARMOR_EXO ) && w.active ) {
             return true;
         }
     }
@@ -3707,9 +3821,6 @@ bool Character::in_climate_control()
         return true;
     }
     for( auto &w : worn ) {
-        if( w.active && w.is_power_armor() ) {
-            return true;
-        }
         if( w.has_flag( flag_CLIMATE_CONTROL.str() ) ) {
             return true;
         }
@@ -3849,16 +3960,15 @@ void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals,
     std::fill( highest_layer_so_far.begin(), highest_layer_so_far.end(),
                PERSONAL_LAYER );
 
-    const bool power_armored = is_wearing_active_power_armor();
     for( auto w_it = worn.begin(); w_it != worn.end(); ++w_it ) {
         if( w_it == new_item_position ) {
-            layer_item( vals, new_item, highest_layer_so_far, power_armored, *this );
+            layer_item( vals, new_item, highest_layer_so_far, *this );
         }
-        layer_item( vals, *w_it, highest_layer_so_far, power_armored, *this );
+        layer_item( vals, *w_it, highest_layer_so_far, *this );
     }
 
     if( worn.end() == new_item_position && !new_item.is_null() ) {
-        layer_item( vals, new_item, highest_layer_so_far, power_armored, *this );
+        layer_item( vals, new_item, highest_layer_so_far, *this );
     }
 
     // make sure values are sane
@@ -7334,6 +7444,30 @@ bool Character::has_enough_charges( const item &it, bool show_msg ) const
     if( !it.is_tool() || !it.ammo_required() ) {
         return true;
     }
+    if( it.is_power_armor() ) {
+        if( ( as_player()->can_interface_armor() && has_charges( itype_bio_armor, it.ammo_required() ) ) ||
+            ( it.has_flag( flag_USE_UPS ) && has_charges( itype_UPS, it.ammo_required() ) ) ||
+            it.ammo_sufficient() ) {
+            return true;
+        }
+
+        if( show_msg ) {
+            if( it.has_flag( flag_USE_UPS ) ) {
+                add_msg_if_player( m_info,
+                                   vgettext( "Your %s needs %d charge, from some UPS or a Bionic Power Interface.",
+                                             "Your %s needs %d charges, from some UPS or a Bionic Power Interface.",
+                                             it.ammo_required() ),
+                                   it.tname(), it.ammo_required() );
+            } else {
+                add_msg_if_player( m_info,
+                                   vgettext( "Your %s needs %d charge, from a Bionic Power Interface.",
+                                             "Your %s needs %d charges, from a Bionic Power Interface.",
+                                             it.ammo_required() ),
+                                   it.tname(), it.ammo_required() );
+            }
+        }
+        return false;
+    }
     if( it.has_flag( flag_USE_UPS ) ) {
         if( has_charges( itype_UPS, it.ammo_required() ) || it.ammo_sufficient() ) {
             return true;
@@ -7389,6 +7523,16 @@ bool Character::consume_charges( item &used, int qty )
     if( used.is_tool() && !used.ammo_required() ) {
         i_rem( &used );
         return true;
+    }
+
+    if( used.is_power_armor() ) {
+        if( used.charges >= qty ) {
+            used.ammo_consume( qty, pos() );
+        } else if( as_player()->can_interface_armor() && has_charges( itype_bio_armor, qty ) ) {
+            use_charges( itype_bio_armor, qty );
+        } else {
+            use_charges( itype_UPS, qty );
+        }
     }
 
     // USE_UPS never occurs on base items but is instead added by the UPS tool mod
@@ -8161,7 +8305,7 @@ bool Character::armor_absorb( damage_unit &du, item &armor )
     } else {
         // Sturdy items and power armors never take chip damage.
         // Other armors have 0.5% of getting damaged from hits below their armor value.
-        if( armor.has_flag( flag_STURDY ) || armor.is_power_armor() || !one_in( 200 ) ) {
+        if( armor.has_flag( flag_STURDY ) || !one_in( 200 ) ) {
             return false;
         }
     }
@@ -9435,6 +9579,20 @@ bool Character::has_charges( const itype_id &it, int quantity,
         auto mons = mounted_creature.get();
         return quantity <= mons->battery_item->ammo_remaining();
     }
+    if( it == itype_bio_armor ) {
+        int mod_qty = 0;
+        float efficiency = 1;
+        for( const bionic &bio : *my_bionics ) {
+            if( bio.powered && bio.info().has_flag( flag_BIONIC_ARMOR_INTERFACE ) ) {
+                efficiency = std::max( efficiency, bio.info().fuel_efficiency );
+            }
+        }
+        if( efficiency == 1 ) {
+            debugmsg( "Player lacks a bionic armor interface with fuel efficiency field." );
+        }
+        mod_qty = quantity / efficiency;
+        return ( has_power() && get_power_level() >= units::from_kilojoule( mod_qty ) );
+    }
     return charges_of( it, quantity, filter ) == quantity;
 }
 
@@ -9486,6 +9644,21 @@ std::list<item> Character::use_charges( const itype_id &what, int qty,
         use_fire( qty );
         return res;
 
+    } else if( what == itype_bio_armor ) {
+        float mod_qty = 0;
+        float efficiency = 1;
+        for( const bionic &bio : *my_bionics ) {
+            if( bio.powered && bio.info().has_flag( flag_BIONIC_ARMOR_INTERFACE ) ) {
+                efficiency = std::max( efficiency, bio.info().fuel_efficiency );
+            }
+        }
+        if( efficiency == 1 ) {
+            debugmsg( "Player lacks a bionic armor interface with fuel efficiency field." );
+        }
+        mod_qty = qty / efficiency;
+        mod_power_level( units::from_kilojoule( -mod_qty ) );
+        return res;
+
     } else if( what == itype_UPS ) {
         if( is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) &&
             mounted_creature.get()->battery_item ) {
@@ -9515,6 +9688,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty,
             qty -= std::min( qty, ups );
         }
         return res;
+
     }
 
     std::vector<item *> del;

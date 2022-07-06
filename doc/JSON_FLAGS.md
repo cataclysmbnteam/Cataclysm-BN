@@ -260,6 +260,9 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```PARTIAL_DEAF``` Reduces the volume of sounds to a safe level.
 - ```PERSONAL``` This item goes in the personal aura layer, intended for metaphysical effects.
 - ```POCKETS``` Increases warmth for hands if the player's hands are cold and the player is wielding nothing.
+- ```POWERARMOR_EXO``` Marks the item as the main exoskeleton for power armor.
+- ```POWERARMOR_EXTERNAL``` Marks the item as external pieces that cover body parts the exoskeleton doesn't.
+- ```POWERARMOR_MOD``` Marks the item as a power armour mod that is worn onto an exoskeleton/external piece.
 - ```POWERARMOR_COMPATIBLE``` Makes item compatible with power armor despite other parameters causing failure.
 - ```PSYSHIELD_PARTIAL``` 25% chance to protect against fear_paralyze monster attack when worn.
 - ```RAD_PROOF``` This piece of clothing completely protects you from radiation.
@@ -271,6 +274,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```ROLLER_QUAD```The medium choice between ROLLER_INLINE and ROLLER_ONE, while it is more stable, and moves faster, it also has a harsher non-flat terrain penalty then ROLLER_ONE.
 - ```ROLLER_INLINE``` Faster, but less stable overall, the penalty for non-flat terrain is even harsher.
 - ```SEMITANGIBLE``` Prevents the item from participating in the encumbrance system when worn.
+- ```COMPACT``` Prevents the item from participating in the layering encumbrance system when worn.
 - ```SKINTIGHT``` Undergarment layer.
 - ```SLOWS_MOVEMENT``` This piece of clothing multiplies move cost by 1.1.
 - ```SLOWS_THIRST``` This piece of clothing multiplies the rate at which the player grows thirsty by 0.70.
@@ -1295,6 +1299,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```SAFECRACK``` This item can be used to unlock safes.
 - ```USES_BIONIC_POWER``` The item has no charges of its own, and runs off of the player's bionic power.
 - ```USE_UPS``` Item is charges from an UPS / it uses the charges of an UPS instead of its own.
+- ```NAT_UPS``` Silences the (UPS) suffix from USE_UPS.
 - ```WATER_EXTINGUISH``` Is extinguishable in water or under precipitation. Converts items (requires "reverts_to" or use_action "transform" to be set).
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
 - ```WIND_EXTINGUISH``` This item will be extinguished by the wind.
