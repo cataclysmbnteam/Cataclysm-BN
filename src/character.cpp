@@ -2993,11 +2993,9 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
                 return ret_val<bool>::make_failure( _( "Can't wear multiple exoskeletons!" ) );
             }
         }
-        if( !it.has_flag( flag_POWERARMOR_EXO ) ) {
-            if( !is_wearing_power_armor() ) {
-                return ret_val<bool>::make_failure(
-                           _( "You can only wear power armor components with power armor!" ) );
-            }
+        if( !it.has_flag( flag_POWERARMOR_EXO ) && !is_wearing_power_armor() ) {
+            return ret_val<bool>::make_failure(
+                       _( "You can only wear power armor components with power armor!" ) );
         }
         if( it.has_flag( flag_POWERARMOR_EXTERNAL ) ) {
             for( auto &elem : worn ) {
