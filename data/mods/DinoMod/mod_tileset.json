@@ -1,7 +1,7 @@
 [
   {
     "type": "mod_tileset",
-    "compatibility": [ "UNDEAD_PEOPLE_BASE", "UNDEAD_PEOPLE", "MshockRealXotto", "MSX++DEAD_PEOPLE" ],
+    "compatibility": [ "UNDEAD_PEOPLE_BASE", "UNDEAD_PEOPLE", "MshockRealXotto", "MSX++DEAD_PEOPLE", "MSXotto+" ],
     "tiles-new": [
       {
         "file": "DinoMod_normal.png",
@@ -18,7 +18,9 @@
           { "id": "mon_velociraptor", "fg": 10, "bg": 1, "rotates": false },
           { "id": "corpse_mon_velociraptor", "fg": 11, "rotates": true },
           { "id": "mon_titanis", "fg": 12, "bg": 1, "rotates": false },
-          { "id": "corpse_mon_titanis", "fg": 13, "rotates": true }
+          { "id": "corpse_mon_titanis", "fg": 13, "rotates": true },
+          { "id": "mon_zeinonychus_shady", "fg": 14, "rotates": true },
+          { "id": "rid_mon_pentaceratops", "fg": 15, "rotates": true }
         ],
         "//": "range 1 to 16",
         "sprite_width": 32,
@@ -93,7 +95,14 @@
           { "id": "mon_utahraptor", "fg": 85, "rotates": false },
           { "id": "corpse_mon_utahraptor", "fg": 86, "rotates": false },
           { "id": "mon_zyrannosaurus", "fg": 87, "rotates": false },
-          { "id": "corpse_mon_zyrannosaurus", "fg": 88, "rotates": false }
+          { "id": "corpse_mon_zyrannosaurus", "fg": 88, "rotates": false },
+          { "id": "mon_pachyrhinosaurus", "fg": 89, "rotates": false },
+          { "id": "corpse_mon_pachyrhinosaurus", "fg": 90, "rotates": false },
+          { "id": "rid_mon_pachyrhinosaurus", "fg": 91, "rotates": false },
+          { "id": "mon_zutahraptor_shady", "fg": 92, "rotates": false },
+          { "id": "mon_zalbertosaurus", "fg": 93, "rotates": false },
+          { "id": "mon_zriceratops", "fg": 94, "rotates": false },
+          { "id": "mon_pentaceratops", "fg": 95, "rotates": false }
         ],
         "//": "range 33 to 96",
         "sprite_width": 64,
@@ -107,7 +116,12 @@
           { "id": "mon_apatosaurus", "fg": 97, "rotates": false },
           { "id": "corpse_mon_apatosaurus", "fg": 98, "rotates": false },
           { "id": "mon_diplodocus", "fg": 99, "rotates": false },
-          { "id": "corpse_mon_diplodocus", "fg": 100, "rotates": false }
+          { "id": "corpse_mon_diplodocus", "fg": 100, "rotates": false },
+          { "id": "mon_zyrannosaurus_shady", "fg": 101, "rotates": false },
+          { "id": "mon_zallosaurus_shady", "fg": 102, "rotates": false },
+          { "id": "mon_zacrocanthosaurus_shady", "fg": 103, "rotates": false },
+          { "id": "mon_zalbertosaurus_shady", "fg": 104, "rotates": false },
+          { "id": "mon_brontosaurusy", "fg": 105, "rotates": false }
         ],
         "//": "range 97 to 112",
         "sprite_width": 160,
