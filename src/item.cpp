@@ -4914,6 +4914,10 @@ units::mass item::weight( bool include_contents, bool integral ) const
         ret += links.weight();
     }
 
+    if( magazine_current() != nullptr ) {
+        ret += std::max( magazine_current()->weight(), 0_gram );
+    }
+
     // reduce weight for sawn-off weapons capped to the apportioned weight of the barrel
     if( gunmod_find( itype_barrel_small ) ) {
         const units::volume b = type->gun->barrel_length;
