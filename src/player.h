@@ -456,8 +456,10 @@ class player : public Character
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
         bool can_sleep();
 
-        /** Uses morale and other factors to return the player's focus target goto value */
-        int calc_focus_equilibrium( bool ignore_pain = false ) const;
+        /** Calculates the player's morale cap due to fatigue */
+        int calc_fatigue_cap() const;
+        /** Uses morale, pain and fatigue to return the player's focus target goto value */
+        int calc_focus_equilibrium() const;
         /** Calculates actual focus gain/loss value from focus equilibrium*/
         int calc_focus_change() const;
         /** Uses calc_focus_change to update the player's current focus */
