@@ -958,7 +958,7 @@
     "looks_like": "kirpan",
     "weight": "374 g",
     "volume": "500 ml",
-    "weapon_category": [ "KNIVES" ]
+    "weapon_category": [ "KNIVES" ],
     "price": 900,
     "price_postapoc": 50,
     "bashing": 1,

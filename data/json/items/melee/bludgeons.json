@@ -142,7 +142,7 @@
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -20 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_AXE" ],
-    "weapon_category": [ "HOOKING_WEAPONRY" ],
+    "weapon_category": [ "HOOKING_WEAPONRY" ]
   },
   {
     "id": "battleaxe_fake",
@@ -971,9 +971,9 @@
     "description": "A stout knotty stick with a large knob at the top that has been left to cure in a chimney.  A traditional Irish weapon, the shillelagh was originally used for settling disputes in a gentlemanly manner.  The knob has been hollowed and filled with molten heavy metal to pack more of a punch.",
     "price": 30000,
     "material": [ "lead", "wood" ],
-    "techniques": [ "WBLOCK_1", "SWEEP" ]
+    "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
-    "weapon_category": [ "BATONS, "FENCING_WEAPONRY" ],
+    "weapon_category": [ "BATONS", "FENCING_WEAPONRY" ],
     "weight": "1135 g",
     "volume": "1500 ml",
     "bashing": 30,

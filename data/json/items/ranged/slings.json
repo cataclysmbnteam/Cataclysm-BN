@@ -68,7 +68,7 @@
       "SHEATH_SPEAR",
       "ALWAYS_TWOHAND"
     ],
-    "weapon_category": [ "QUARTERSTAVES" ]
+    "weapon_category": [ "QUARTERSTAVES" ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "skill": "throw",
     "ammo": "rock",
