@@ -22,7 +22,8 @@
     "bashing": 2,
     "cutting": 10,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 25 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ]
+    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "weapon_category": [ "KNIVES" ]
   },
   {
     "id": "knife_steak",
@@ -38,7 +39,8 @@
     "bashing": 2,
     "cutting": 7,
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 15 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ]
+    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "weapon_category": [ "KNIVES" ]
   },
   {
     "id": "knife_paring",
@@ -71,7 +73,8 @@
     "bashing": 1,
     "cutting": 10,
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 10 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ]
+    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "weapon_category": [ "KNIVES" ]
   },
   {
     "id": "knife_carving",
@@ -87,7 +90,8 @@
     "bashing": 1,
     "cutting": 8,
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 22 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ]
+    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "weapon_category": [ "KNIVES" ]
   },
   {
     "id": "knife_bread",

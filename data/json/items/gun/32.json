@@ -35,7 +35,8 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazine_well": "250 ml",
-    "magazines": [ [ "32", [ "sigp230mag" ] ] ]
+    "magazines": [ [ "32", [ "sigp230mag" ] ] ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
   },
   {
     "id": "skorpion_61",
@@ -115,7 +116,8 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazine_well": "250 ml",
-    "magazines": [ [ "32", [ "ppkmag" ] ] ]
+    "magazines": [ [ "32", [ "ppkmag" ] ] ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
   },
   {
     "id": "kp32",

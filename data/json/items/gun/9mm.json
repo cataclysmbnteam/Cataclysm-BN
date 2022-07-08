@@ -130,7 +130,8 @@
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 380,
     "magazine_well": "250 ml",
-    "magazines": [ [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ] ] ]
+    "magazines": [ [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ] ] ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
   },
   {
     "id": "hk_mp5",
@@ -348,7 +349,8 @@
     "durability": 7,
     "min_cycle_recoil": 450,
     "magazine_well": "250 ml",
-    "magazines": [ [ "9mm", [ "m9mag", "m9bigmag" ] ] ]
+    "magazines": [ [ "9mm", [ "m9mag", "m9bigmag" ] ] ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
   },
   {
     "id": "px4",
@@ -553,7 +555,8 @@
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 450,
     "magazine_well": "250 ml",
-    "magazines": [ [ "9mm", [ "usp9mag" ] ] ]
+    "magazines": [ [ "9mm", [ "usp9mag" ] ] ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
   },
   {
     "id": "uzi",
@@ -619,7 +622,8 @@
     "min_cycle_recoil": 380,
     "magazine_well": "250 ml",
     "//2": "Glock 17s cannot load a 15 round magazine. See http://guns-of-fun.com/portals/0/LiveContent/Mounts/Glock-Mags-Comp.jpg and #33038",
-    "magazines": [ [ "9mm", [ "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd", "glockbigmag" ] ] ]
+    "magazines": [ [ "9mm", [ "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd", "glockbigmag" ] ] ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
   },
   {
     "id": "glock_18c",
@@ -671,7 +675,8 @@
     "durability": 6,
     "min_cycle_recoil": 450,
     "magazine_well": "250 ml",
-    "magazines": [ [ "9mm", [ "p320mag_17rd_9x19mm" ] ] ]
+    "magazines": [ [ "9mm", [ "p320mag_17rd_9x19mm" ] ] ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
   },
   {
     "id": "hi_power_9mm",
@@ -692,7 +697,9 @@
     "dispersion": 480,
     "durability": 8,
     "magazine_well": "250 ml",
-    "magazines": [ [ "9mm", [ "bhp9mag_13rd", "bhp9mag_15rd" ] ] ]
+    "magazines": [ [ "9mm", [ "bhp9mag_13rd", "bhp9mag_15rd" ] ] ],
+    "min_cycle_recoil": 450,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
   },
   {
     "id": "walther_p38",
@@ -713,7 +720,8 @@
     "dispersion": 480,
     "durability": 8,
     "magazine_well": "250 ml",
-    "magazines": [ [ "9mm", [ "p38mag" ] ] ]
+    "magazines": [ [ "9mm", [ "p38mag" ] ] ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
   },
   {
     "id": "walther_ppq_9mm",
@@ -733,7 +741,9 @@
     "dispersion": 480,
     "durability": 9,
     "magazine_well": "250 ml",
-    "magazines": [ [ "9mm", [ "ppq9mag_10rd", "ppq9mag_15rd", "ppq9mag_17rd" ] ] ]
+    "magazines": [ [ "9mm", [ "ppq9mag_10rd", "ppq9mag_15rd", "ppq9mag_17rd" ] ] ],
+    "min_cycle_recoil": 450,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
   },
   {
     "id": "hptc9",
@@ -775,7 +785,9 @@
     "dispersion": 480,
     "durability": 8,
     "magazine_well": "250 ml",
-    "magazines": [ [ "9mm", [ "cz75mag_12rd", "cz75mag_20rd", "cz75mag_26rd" ] ] ]
+    "magazines": [ [ "9mm", [ "cz75mag_12rd", "cz75mag_20rd", "cz75mag_26rd" ] ] ],
+    "min_cycle_recoil": 450,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
   },
   {
     "id": "walther_ccp",
@@ -796,6 +808,8 @@
     "dispersion": 480,
     "durability": 8,
     "magazine_well": "250 ml",
-    "magazines": [ [ "9mm", [ "ccpmag" ] ] ]
+    "magazines": [ [ "9mm", [ "ccpmag" ] ] ],
+    "min_cycle_recoil": 450,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
   }
 ]

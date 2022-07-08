@@ -74,6 +74,7 @@
     ],
     "magazine_well": "250 ml",
     "magazines": [ [ "5x50", [ "5x50_50_mag", "5x50_100_mag" ] ] ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
   }
 ]

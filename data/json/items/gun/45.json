@@ -101,6 +101,7 @@
     "ammo": "45",
     "dispersion": 480,
     "durability": 7,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "min_cycle_recoil": 540,
     "blackpowder_tolerance": 48,
     "magazine_well": "250 ml",
@@ -317,6 +318,7 @@
     "price_postapoc": 2500,
     "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "built_in_mods": [ "match_trigger" ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "magazines": [ [ "45", [ "usp45mag" ] ] ]
   },
   {
@@ -349,7 +351,8 @@
     "dispersion": 480,
     "durability": 9,
     "magazine_well": "250 ml",
-    "magazines": [ [ "45", [ "ppq45mag" ] ] ]
+    "magazines": [ [ "45", [ "ppq45mag" ] ] ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
   },
   {
     "id": "hptjhp",
@@ -370,7 +373,8 @@
     "dispersion": 480,
     "durability": 7,
     "magazine_well": "250 ml",
-    "magazines": [ [ "45", [ "hptjhpmag" ] ] ]
+    "magazines": [ [ "45", [ "hptjhpmag" ] ] ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
   },
   {
     "id": "glock_21",

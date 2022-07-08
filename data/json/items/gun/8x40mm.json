@@ -172,7 +172,8 @@
     ],
     "magazine_well": "500 ml",
     "magazines": [ [ "8x40mm", [ "8x40_50_mag", "8x40_100_mag" ] ] ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "weapon_category": [ "AUTOMATIC_RIFLES" ]
   },
   {
     "id": "rm614_lmg",
@@ -245,6 +246,7 @@
     ],
     "magazine_well": "500 ml",
     "magazines": [ [ "8x40mm", [ "8x40_100_mag", "8x40_50_mag", "8x40_250_mag" ] ] ],
+    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
   },
   {
@@ -280,6 +282,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "WATERPROOF_GUN", "RELOAD_ONE", "NEVER_JAMS" ]
+    "flags": [ "WATERPROOF_GUN", "RELOAD_ONE", "NEVER_JAMS" ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
   }
 ]

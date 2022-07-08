@@ -117,6 +117,7 @@
     "material": [ "aluminum" ],
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
+    "weapon_category": [ "BATONS" ],
     "use_action": { "menu_text": "Collapse", "type": "transform", "target": "baton", "msg": "You collapse your baton." },
     "volume": "750 ml",
     "bashing": 18,
@@ -345,6 +346,7 @@
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_2", "RAPID", "PRECISE" ],
     "flags": [ "DURABLE_MELEE" ],
+    "weapon_category": [ "BATONS" ],
     "volume": "600 ml",
     "bashing": 8,
     "price": 1000
@@ -848,6 +850,7 @@
     "material": [ "aluminum", "plastic" ],
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
+    "weapon_category": [ "BATONS" ],
     "use_action": { "menu_text": "Retract", "type": "transform", "target": "PR24-retracted", "msg": "You collapse your PR-24 baton." },
     "volume": "2 L",
     "bashing": 20,
@@ -1035,7 +1038,8 @@
         [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
-    "magazine_well": "500 ml"
+    "magazine_well": "500 ml",
+    "weapon_category": [ "BATONS" ]
   },
   {
     "id": "shocktonfa_on",
@@ -1046,7 +1050,8 @@
     "revert_to": "shocktonfa_off",
     "use_action": "SHOCKTONFA_ON",
     "flags": [ "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "BELT_CLIP" ],
-    "magazine_well": "500 ml"
+    "magazine_well": "500 ml",
+    "weapon_category": [ "BATONS" ]
   },
   {
     "type": "GENERIC",
@@ -1062,6 +1067,7 @@
     "material": "plastic",
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
+    "weapon_category": [ "BATONS" ],
     "volume": "2 L",
     "bashing": 20,
     "price": 19500
@@ -1080,6 +1086,7 @@
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
+    "weapon_category": [ "BATONS" ],
     "volume": "2 L",
     "bashing": 20,
     "price": 19500

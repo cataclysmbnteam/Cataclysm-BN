@@ -51,7 +51,8 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 270,
-    "magazines": [ [ "380", [ "fn1910mag" ] ] ]
+    "magazines": [ [ "380", [ "fn1910mag" ] ] ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ]
   },
   {
     "id": "rugerlcp",
