@@ -3025,40 +3025,40 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
             }
             for( auto &elem : worn ) {
                 // To check if there's an external/exoskeleton for the mod to attach to.
-                for( std::pair< body_part, bool > &attachments : attachments ) {
-                    if( elem.get_covered_body_parts().test( attachments.first ) &&
+                for( std::pair< body_part, bool > &attachment : attachments ) {
+                    if( elem.get_covered_body_parts().test( attachment.first ) &&
                         ( elem.has_flag( flag_POWERARMOR_EXO ) || elem.has_flag( flag_POWERARMOR_EXTERNAL ) ) ) {
                         if( elem.is_sided() && elem.get_side() == bpid->part_side ) {
-                            attachments.second = true;
+                            attachment.second = true;
                         } else {
-                            attachments.second = true;
+                            attachment.second = true;
                         }
                     }
                 }
                 // To check how many mods are on a given part.
-                for( std::pair< body_part, int > &mod_parts : mod_parts ) {
-                    bpid = convert_bp( mod_parts.first );
-                    if( elem.get_covered_body_parts().test( mod_parts.first ) &&
+                for( std::pair< body_part, int > &mod_part : mod_parts ) {
+                    bpid = convert_bp( mod_part.first );
+                    if( elem.get_covered_body_parts().test( mod_part.first ) &&
                         elem.has_flag( flag_POWERARMOR_MOD ) ) {
                         if( elem.is_sided() && elem.get_side() == bpid->part_side ) {
-                            mod_parts.second++;
+                            mod_part.second++;
                         } else {
-                            mod_parts.second++;
+                            mod_part.second++;
                         }
                     }
                 }
             }
-            for( std::pair< body_part, bool > &attachments : attachments ) {
-                if( !attachments.second ) {
+            for( std::pair< body_part, bool > &attachment : attachments ) {
+                if( !attachment.second ) {
                     return ret_val<bool>::make_failure( _( "Nothing to attach the mod to!" ) );
                 }
             }
-            for( std::pair< body_part, int > &mod_parts : mod_parts ) {
-                bpid = convert_bp( mod_parts.first );
-                if( static_cast< body_part >( mod_parts.first ) == bp_torso ) {
+            for( std::pair< body_part, int > &mod_part : mod_parts ) {
+                bpid = convert_bp( mod_part.first );
+                if( static_cast< body_part >( mod_part.first ) == bp_torso ) {
                     max_layer = 3;
                 }
-                if( mod_parts.second >= max_layer ) {
+                if( mod_part.second >= max_layer ) {
                     if( !it.is_sided() || bpid->part_side == side::BOTH ) {
                         return ret_val<bool>::make_failure( _( "Can't wear any more mods on that body part!" ) );
                     } else {
@@ -3157,17 +3157,17 @@ ret_val<bool> Character::can_swap( const item &it ) const
             }
         }
         for( auto &elem : worn ) {
-            for( std::pair< body_part, int > &mod_parts : mod_parts ) {
-                bpid = convert_bp( mod_parts.first );
+            for( std::pair< body_part, int > &mod_part : mod_parts ) {
+                bpid = convert_bp( mod_part.first );
                 if( elem.get_covered_body_parts().test( bpid->opposite_part->token ) &&
                     elem.has_flag( flag_POWERARMOR_MOD ) ) {
-                    mod_parts.second++;
+                    mod_part.second++;
                 }
             }
         }
-        for( std::pair< body_part, int > &mod_parts : mod_parts ) {
-            bpid = convert_bp( mod_parts.first );
-            if( mod_parts.second >= max_layer ) {
+        for( std::pair< body_part, int > &mod_part : mod_parts ) {
+            bpid = convert_bp( mod_part.first );
+            if( mod_part.second >= max_layer ) {
                 return ret_val<bool>::make_failure( _( "There is no space on the opposite side!" ) );
             }
         }
