@@ -4207,26 +4207,26 @@ void item::on_wear( Character &p )
                 }
             }
             for( auto &elem : p.worn ) {
-                for( std::pair< body_part, int > &mod_parts : mod_parts ) {
-                    bpid = convert_bp( mod_parts.first );
-                    if( elem.get_covered_body_parts().test( mod_parts.first ) &&
+                for( std::pair< body_part, int > &mod_part : mod_parts ) {
+                    bpid = convert_bp( mod_part.first );
+                    if( elem.get_covered_body_parts().test( mod_part.first ) &&
                         elem.has_flag( flag_POWERARMOR_MOD ) ) {
                         if( elem.is_sided() && elem.get_side() == bpid->part_side ) {
-                            mod_parts.second++;
+                            mod_part.second++;
                             continue;
                         }
-                        mod_parts.second++;
+                        mod_part.second++;
                     }
                 }
             }
-            for( std::pair< body_part, int > &mod_parts : mod_parts ) {
-                bpid = convert_bp( mod_parts.first );
-                if( bpid->part_side == side::LEFT && mod_parts.second > lhs ) {
+            for( std::pair< body_part, int > &mod_part : mod_parts ) {
+                bpid = convert_bp( mod_part.first );
+                if( bpid->part_side == side::LEFT && mod_part.second > lhs ) {
                     add_msg( _( "left" ) );
-                    lhs = mod_parts.second;
-                } else if( bpid->part_side == side::RIGHT && mod_parts.second > rhs ) {
+                    lhs = mod_part.second;
+                } else if( bpid->part_side == side::RIGHT && mod_part.second > rhs ) {
                     add_msg( _( "right" ) );
-                    rhs = mod_parts.second;
+                    rhs = mod_part.second;
                 }
             }
             set_side( ( lhs > rhs ) ? side::RIGHT : side::LEFT );
