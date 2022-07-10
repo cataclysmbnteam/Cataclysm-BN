@@ -448,7 +448,7 @@ construction_id construction_menu( const bool blueprint )
 
                 // display required skill and difficulty
                 if( current_con->required_skills.empty() ) {
-                    add_line( _( "N/A" ) );
+                    add_line( _( "No skills required." ) );
                 } else {
                     std::string current_line = _( "Required skills: " ) + enumerate_as_string(
                                                    current_con->required_skills.begin(), current_con->required_skills.end(),
