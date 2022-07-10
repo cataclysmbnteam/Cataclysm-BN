@@ -3632,8 +3632,14 @@ void map::destroy( const tripoint &p, const bool silent )
 {
     // Break if it takes more than 25 destructions to remove to prevent infinite loops
     // Example: A bashes to B, B bashes to A leads to A->B->A->...
+
+    // If we were destroying a floor, allow destroying floors
+    // If we were destroying something unpassable, destroy only that
+    bool was_impassable = impassable( p );
     int count = 0;
-    while( count <= 25 && bash( p, 999, silent, true ).success ) {
+    while( count <= 25
+           && bash( p, 999, silent, true ).success
+           && ( !was_impassable || impassable( p ) ) ) {
         count++;
     }
 }
