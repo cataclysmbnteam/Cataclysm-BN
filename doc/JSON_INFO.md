@@ -44,6 +44,7 @@ Use the `Home` key to return to the top.
       - [`traits`](#-traits-)
     + [Recipes](#recipes)
     + [Constructions](#constructions)
+    + [Construction groups](#construction-groups)
     + [Scent Types](#scent_types)
     + [Scores and Achievements](#scores-and-achievements)
       - [`event_transformation`](#event_transformation)
@@ -1106,13 +1107,19 @@ request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657) and the
 
 ### Constructions
 ```C++
-"description": "Spike Pit",                                         // Description string displayed in the construction menu
+"group": "spike_pit",                                               // Construction group, used to provide description and group related constructions in UI (e.g. different stages of some construction).
 "category": "DIG",                                                  // Construction category
 "required_skills": [ [ "survival", 1 ] ],                           // Skill levels required to undertake construction
-"time": "30 m",                                                         // Time required to complete construction. Integers will be read as minutes or a time string can be used.
+"time": "30 m",                                                     // Time required to complete construction. Integers will be read as minutes or a time string can be used.
 "components": [ [ [ "spear_wood", 4 ], [ "pointy_stick", 4 ] ] ],   // Items used in construction
 "pre_terrain": "t_pit",                                             // Required terrain to build on
 "post_terrain": "t_pit_spiked"                                      // Terrain type after construction is complete
+```
+
+### Construction groups
+```C++
+"id": "build_wooden_door",            // Group identifier
+"name": "Build Wooden Door",          // Description string displayed in the construction menu
 ```
 
 ### Scent_types
