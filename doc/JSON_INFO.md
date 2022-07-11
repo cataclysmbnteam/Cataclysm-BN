@@ -1634,6 +1634,10 @@ See also VEHICLE_JSON.md
     [ "9mm", [ "glockmag" ] ]                // The first magazine specified for each ammo type is the default
     [ "45", [ "m1911mag", "m1911bigmag" ] ],
 ],
+"milling": {                                 // Optional. If given, the item can be milled in a water/wind mill.
+  "into": "flour",                           // The item id of the product.
+  "conversion_rate": 4                       // Number of products per item consumed. At a conversion_rate of 4, 1 item is milled into 4 product. Only accepts integers.
+},
 "explode_in_fire": true,                     // Should the item explode if set on fire
 "explosion": {                               // Physical explosion data
   "damage": 10,                              // Damage the explosion deals to player at epicenter. Damage is halved above 50% radius.

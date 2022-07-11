@@ -826,6 +826,13 @@ struct conditional_name {
     translation name;
 };
 
+class islot_milling
+{
+    public:
+        itype_id into_;
+        int conversion_rate_;
+};
+
 struct itype {
         friend class Item_factory;
 
@@ -856,6 +863,7 @@ struct itype {
         cata::value_ptr<islot_seed> seed;
         cata::value_ptr<islot_artifact> artifact;
         cata::value_ptr<relic> relic_data;
+        cata::value_ptr<islot_milling> milling_data;
         /*@}*/
 
     private:
