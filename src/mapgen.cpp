@@ -227,8 +227,11 @@ class mapgen_basic_container
         weighted_int_list<std::shared_ptr<mapgen_function>> weights_;
 
     public:
-        int add( const std::shared_ptr<mapgen_function> ptr ) {
+        int add( const std::shared_ptr<mapgen_function> &ptr ) {
             assert( ptr );
+            if( std::find( mapgens_.begin(), mapgens_.end(), ptr ) != mapgens_.end() ) {
+                debugmsg( "Adding duplicate mapgen to container!" );
+            }
             mapgens_.push_back( ptr );
             return mapgens_.size() - 1;
         }
@@ -423,20 +426,18 @@ static void set_mapgen_defer( const JsonObject &jsi, const std::string &member,
  * load a single mapgen json structure; this can be inside an overmap_terrain, or on it's own.
  */
 std::shared_ptr<mapgen_function>
-load_mapgen_function( const JsonObject &jio, const std::string &id_base, const point &offset,
+load_mapgen_function( const JsonObject &jio, const std::string &/*id_base*/, const point &offset,
                       const point &total )
 {
     int mgweight = jio.get_int( "weight", 1000 );
-    std::shared_ptr<mapgen_function> ret;
     if( mgweight <= 0 || jio.get_bool( "disabled", false ) ) {
         jio.allow_omitted_members();
         return nullptr; // nothing
     }
     const std::string mgtype = jio.get_string( "method" );
     if( mgtype == "builtin" ) {
-        if( const auto ptr = get_mapgen_cfunction( jio.get_string( "name" ) ) ) {
-            ret = std::make_shared<mapgen_function_builtin>( ptr, mgweight );
-            oter_mapgen.add( id_base, ret );
+        if( const building_gen_pointer ptr = get_mapgen_cfunction( jio.get_string( "name" ) ) ) {
+            return std::make_shared<mapgen_function_builtin>( ptr, mgweight );
         } else {
             jio.throw_error( "function does not exist", "name" );
         }
@@ -444,12 +445,20 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base, const p
         JsonObject jo = jio.get_object( "object" );
         const json_source_location jsrc = jo.get_source_location();
         jo.allow_omitted_members();
-        ret = std::make_shared<mapgen_function_json>( jsrc, mgweight, offset, total );
-        oter_mapgen.add( id_base, ret );
+        return std::make_shared<mapgen_function_json>(
+                   jsrc, mgweight, offset, total );
     } else {
         jio.throw_error( R"(invalid value: must be "builtin" or "json")", "method" );
     }
-    return ret;
+}
+
+void load_and_add_mapgen_function( const JsonObject &jio, const std::string &id_base,
+                                   const point &offset, const point &total )
+{
+    std::shared_ptr<mapgen_function> f = load_mapgen_function( jio, id_base, offset, total );
+    if( f ) {
+        oter_mapgen.add( id_base, f );
+    }
 }
 
 static void load_nested_mapgen( const JsonObject &jio, const std::string &id_base )
@@ -506,10 +515,7 @@ void load_mapgen( const JsonObject &jo )
             point total( ja.get_array( 0 ).size(), ja.size() );
             for( JsonArray row_items : ja ) {
                 for( const std::string mapgenid : row_items ) {
-                    const auto mgfunc = load_mapgen_function( jo, mapgenid, offset, total );
-                    if( mgfunc ) {
-                        oter_mapgen.add( mapgenid, mgfunc );
-                    }
+                    load_and_add_mapgen_function( jo, mapgenid, offset, total );
                     offset.x++;
                 }
                 offset.y++;
@@ -531,7 +537,7 @@ void load_mapgen( const JsonObject &jo )
             }
         }
     } else if( jo.has_string( "om_terrain" ) ) {
-        load_mapgen_function( jo, jo.get_string( "om_terrain" ), point_zero, point_one );
+        load_and_add_mapgen_function( jo, jo.get_string( "om_terrain" ), point_zero, point_one );
     } else if( jo.has_string( "nested_mapgen_id" ) ) {
         load_nested_mapgen( jo, jo.get_string( "nested_mapgen_id" ) );
     } else if( jo.has_string( "update_mapgen_id" ) ) {
