@@ -31,6 +31,7 @@
 #include "string_formatter.h"
 #include "teleport.h"
 #include "translations.h"
+#include "uistate.h"
 #include "weather.h"
 #include "vitamin.h"
 #include <algorithm>
@@ -602,7 +603,7 @@ void player::hardcoded_effects( effect &it )
                 MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
                                                        GROUP_NETHER );
                 g->place_critter_at( spawn_details.name, dest );
-                if( g->u.sees( dest ) ) {
+                if( uistate.distraction_hostile_spotted && g->u.sees( dest ) ) {
                     g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
                                                         _( "A monster appears nearby!" ) );
                     add_msg_if_player( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );
@@ -679,7 +680,7 @@ void player::hardcoded_effects( effect &it )
                     MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
                                                            GROUP_NETHER );
                     g->place_critter_at( spawn_details.name, dest );
-                    if( g->u.sees( dest ) ) {
+                    if( uistate.distraction_hostile_spotted && g->u.sees( dest ) ) {
                         g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
                                                             _( "A monster appears nearby!" ) );
                         add_msg( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );

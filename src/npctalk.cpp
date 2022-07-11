@@ -76,6 +76,7 @@
 #include "units.h"
 #include "units_utility.h"
 #include "value_ptr.h"
+#include "uistate.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -886,7 +887,7 @@ void npc::talk_to_u( bool radio_contact )
         return;
     }
 
-    if( !g->u.has_effect( effect_under_op ) ) {
+    if( uistate.distraction_conversation && !g->u.has_effect( effect_under_op ) ) {
         g->cancel_activity_or_ignore_query( distraction_type::talked_to,
                                             string_format( _( "%s talked to you." ), name ) );
     }

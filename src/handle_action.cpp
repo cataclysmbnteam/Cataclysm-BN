@@ -28,6 +28,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "debug_menu.h"
+#include "distraction_manager.h"
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
@@ -2322,6 +2323,10 @@ bool game::handle_action()
 
             case ACTION_SAFEMODE:
                 get_safemode().show();
+                break;
+                
+            case ACTION_DISTRACTION_MANAGER:
+                get_distraction_manager().show();
                 break;
 
             case ACTION_COLOR:

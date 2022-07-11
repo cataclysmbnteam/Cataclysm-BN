@@ -1072,7 +1072,8 @@ void weather_manager::update_weather()
         // Check weather every few turns, instead of every turn.
         // TODO: predict when the weather changes and use that time.
         nextweather = calendar::turn + 5_minutes;
-        if( weather_id != old_weather && weather_id->dangerous &&
+        if( uistate.distraction_weather_change &&
+            weather_id != old_weather && weather_id->dangerous &&
             g->get_levz() >= 0 && get_map().is_outside( g->u.pos() )
             && !g->u.has_activity( ACT_WAIT_WEATHER ) ) {
             g->cancel_activity_or_ignore_query( distraction_type::weather_change,
