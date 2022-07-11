@@ -715,7 +715,8 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
     }
 
     for( const trait_id &mut : get_mutations() ) {
-        if( !food.made_of_any( mut.obj().can_only_eat ) && !mut.obj().can_only_eat.empty() ) {
+        if( !food.made_of_any( mut.obj().can_only_eat ) && !mut.obj().can_only_eat.empty() &&
+            !food.has_flag( flag_NO_INGEST ) ) {
             return ret_val<edible_rating>::make_failure( edible_rating::inedible_mutation,
                     _( "You can't eat this." ) );
         }
