@@ -24,6 +24,7 @@
 #include "clzones.h"
 #include "colony.h"
 #include "construction.h"
+#include "construction_partial.h"
 #include "creature.h"
 #include "debug.h"
 #include "drop_token.h"

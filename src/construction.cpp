@@ -1,4 +1,5 @@
 #include "construction.h"
+#include "construction_partial.h"
 
 #include <algorithm>
 #include <array>

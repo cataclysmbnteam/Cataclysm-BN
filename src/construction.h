@@ -10,7 +10,7 @@
 #include <utility>
 #include <vector>
 
-#include "item.h"
+#include "calendar.h"
 #include "optional.h"
 #include "translations.h"
 #include "type_id.h"
@@ -27,12 +27,6 @@ class window;
 class JsonObject;
 class nc_color;
 struct tripoint;
-
-struct partial_con {
-    int counter = 0;
-    std::list<item> components = {};
-    construction_id id = construction_id( -1 );
-};
 
 struct build_reqs {
     std::map<skill_id, int> skills;
