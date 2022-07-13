@@ -1039,7 +1039,7 @@ void Character::suffer_from_other_mutations()
         calendar::once_every( 2_hours ) ) {
         if( !has_morale( MORALE_KILLER_NEED_TO_KILL ) ) {
             const translation snip = SNIPPET.random_from_category( "killer_withdrawal" ).value_or(
-                translation() );
+                                         translation() );
             add_msg_if_player( m_bad, "%s", snip );
         }
         add_morale( MORALE_KILLER_NEED_TO_KILL, -1, -30, 24_hours, 24_hours );
