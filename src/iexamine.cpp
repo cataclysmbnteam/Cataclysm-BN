@@ -5714,13 +5714,15 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
                 for( const item &it : items_here ) {
                     if( it.typeId() == itype_fake_milling_item ) {
                         pop += "\n" + colorize( _( "You see that the milling process is not yet complete." ),
-                                c_red ) + "\n";
+                                                c_red ) + "\n";
                         continue;
                     }
                     mill_list[it] += it.count();
                 }
-                for( auto it_mill = mill_list.begin(); it_mill!= mill_list.end(); ++it_mill ) {
-                    pop += "-> " + item::nname( it_mill->first.typeId(), it_mill->first.count() ) + ( ( it_mill->second > 1 ) ? " (" + std::to_string( it_mill->second ) + ")\n" : "\n" );
+                for( auto it_mill = mill_list.begin(); it_mill != mill_list.end(); ++it_mill ) {
+                    pop += "-> " + item::nname( it_mill->first.typeId(),
+                                                it_mill->first.count() ) + ( ( it_mill->second > 1 ) ? " (" + std::to_string(
+                                                            it_mill->second ) + ")\n" : "\n" );
                 }
             }
             popup( pop, PF_NONE );
