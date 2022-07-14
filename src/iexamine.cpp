@@ -5308,7 +5308,7 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
         if( it.type->milling_data ) {
             it.calc_rot_while_processing( milling_time );
             const islot_milling &mdata = *it.type->milling_data;
-            item result( mdata.into_, start_time + milling_time, it.charges * mdata.conversion_rate_ );
+            item result( mdata.into_, start_time + milling_time, it.count() * mdata.conversion_rate_ );
             result.components.push_back( it );
             // copied from item::inherit_flags, which can not be called here because it requires a recipe.
             for( const std::string &f : it.type->item_tags ) {
@@ -5533,7 +5533,7 @@ static void mill_load_food( player &p, const tripoint &examp,
     }
 
     if( comps.empty() ) {
-        p.add_msg_if_player( _( "You don't have any products that can be milled." ) );
+        p.add_msg_if_player( _( "You don't have any materials that can be milled." ) );
         return;
     }
 
@@ -5710,13 +5710,17 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
             if( items_here.empty() ) {
                 pop += _( "…that it is empty." );
             } else {
+                std::map<item, int> mill_list;
                 for( const item &it : items_here ) {
                     if( it.typeId() == itype_fake_milling_item ) {
-                        pop += "\n" + colorize( _( "You see some grains that are not yet milled to fine flour." ),
-                                                c_red ) + "\n";
+                        pop += "\n" + colorize( _( "You see that the milling process is not yet complete." ),
+                                c_red ) + "\n";
                         continue;
                     }
-                    pop += "-> " + item::nname( it.typeId(), it.charges ) + " (" + std::to_string( it.charges ) + ")\n";
+                    mill_list[it] += it.count();
+                }
+                for( auto it_mill = mill_list.begin(); it_mill!= mill_list.end(); ++it_mill ) {
+                    pop += "-> " + item::nname( it_mill->first.typeId(), it_mill->first.count() ) + ( ( it_mill->second > 1 ) ? " (" + std::to_string( it_mill->second ) + ")\n" : "\n" );
                 }
             }
             popup( pop, PF_NONE );
