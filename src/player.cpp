@@ -4407,15 +4407,15 @@ bool player::query_yn( const std::string &mes ) const
     return ::query_yn( mes );
 }
 
-int player::calc_fatigue_cap() const
+int calc_fatigue_cap( const player &p )
 {
-    if( get_fatigue() >= fatigue_levels::massive ) {
+    if( p.get_fatigue() >= fatigue_levels::massive ) {
         return 20;
-    } else if( get_fatigue() >= fatigue_levels::exhausted ) {
+    } else if( p.get_fatigue() >= fatigue_levels::exhausted ) {
         return 40;
-    } else if( get_fatigue() >= fatigue_levels::dead_tired ) {
+    } else if( p.get_fatigue() >= fatigue_levels::dead_tired ) {
         return 60;
-    } else if( get_fatigue() >= fatigue_levels::tired ) {
+    } else if( p.get_fatigue() >= fatigue_levels::tired ) {
         return 80;
     }
     return 0;
@@ -4445,8 +4445,8 @@ int player::calc_focus_equilibrium() const
     }
 
     // as baseline morale is 100, calc_fatigue_cap() has to -100 to apply accurate penalties.
-    if( calc_fatigue_cap() != 0 && eff_morale > calc_fatigue_cap() - 100 ) {
-        eff_morale = calc_fatigue_cap() - 100;
+    if( calc_fatigue_cap( *this ) != 0 && eff_morale > calc_fatigue_cap( *this ) - 100 ) {
+        eff_morale = calc_fatigue_cap( *this ) - 100;
     }
 
     if( eff_morale < -99 ) {

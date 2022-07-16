@@ -456,8 +456,6 @@ class player : public Character
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
         bool can_sleep();
 
-        /** Calculates the player's morale cap due to fatigue */
-        int calc_fatigue_cap() const;
         /** Uses morale, pain and fatigue to return the player's focus target goto value */
         int calc_focus_equilibrium() const;
         /** Calculates actual focus gain/loss value from focus equilibrium*/
@@ -778,5 +776,8 @@ class player : public Character
         /** Stamp of skills. @ref learned_recipes are valid only with this set of skills. */
         mutable decltype( _skills ) valid_autolearn_skills;
 };
+
+/** Calculates the player's morale cap due to fatigue */
+int calc_fatigue_cap( const player &p );
 
 #endif // CATA_SRC_PLAYER_H

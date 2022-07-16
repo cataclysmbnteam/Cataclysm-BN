@@ -986,7 +986,7 @@ void avatar::disp_morale()
 {
     int equilibrium = calc_focus_equilibrium();
 
-    int fatigue_cap = calc_fatigue_cap();
+    int fatigue_cap = calc_fatigue_cap( *this );
 
     int pain_penalty = has_trait( trait_CENOBITE ) ? 0 : get_perceived_pain();
 
