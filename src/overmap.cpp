@@ -1921,10 +1921,14 @@ static void elevate_bridges(
     const std::string &bridge_overpass_id,
     const std::string &bridge_under_id,
     const std::string &bridgehead_ground_id,
-    const std::string &bridgehead_ramp_id )
+    const std::string &bridgehead_ramp_id,
+    const std::string &bridge_flat_ew_id,
+    const std::string &bridge_flat_ns_id
+)
 {
-    // Check bridgeheads
+    // Check bridgeheads and 1-tile-long bridges
     std::vector<std::pair<point_om_omt, om_direction::type>> bridgehead_points;
+    std::set<point_om_omt> flatten_points;
     for( const point_om_omt &bp : bridge_points ) {
         tripoint_om_omt bp_om( bp, 0 );
 
@@ -1943,10 +1947,25 @@ static void elevate_bridges(
         if( is_bridge_fwd ^ is_bridge_bck ) {
             om_direction::type ramp_facing = is_bridge_fwd ? om_direction::opposite( dir ) : dir;
             bridgehead_points.emplace_back( bp, ramp_facing );
+        } else if( !is_bridge_fwd && !is_bridge_bck ) {
+            flatten_points.emplace( bp );
+        }
+    }
+    // Flatten 1-tile-long bridges
+    for( const point_om_omt &bp : flatten_points ) {
+        tripoint_om_omt p( bp, 0 );
+        om_direction::type rot = oter_get_rotation_dir( om.ter( p ) );
+        if( rot == om_direction::type::east || rot == om_direction::type::west ) {
+            om.ter_set( p, oter_id( bridge_flat_ew_id ) );
+        } else {
+            om.ter_set( p, oter_id( bridge_flat_ns_id ) );
         }
     }
     // Put bridge points
     for( const point_om_omt &bp : bridge_points ) {
+        if( flatten_points.count( bp ) != 0 ) {
+            continue;
+        }
         tripoint_om_omt p( bp, 0 );
         const std::string &rot_sfx = oter_get_rotation_string( om.ter( p ) );
         om.ter_set( p + tripoint_above, oter_id( bridge_overpass_id + rot_sfx ) );
@@ -1996,11 +2015,15 @@ bool overmap::generate_over( const int z )
         }
     }
 
-    elevate_bridges( *this, bridge_points,
-                     "bridge_road",
-                     "bridge_under",
-                     "bridgehead_ground",
-                     "bridgehead_ramp" );
+    elevate_bridges(
+        *this, bridge_points,
+        "bridge_road",
+        "bridge_under",
+        "bridgehead_ground",
+        "bridgehead_ramp",
+        "road_ew",
+        "road_ns"
+    );
 
     return requires_over;
 }
