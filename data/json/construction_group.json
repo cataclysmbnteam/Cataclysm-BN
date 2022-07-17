@@ -846,6 +846,11 @@
   },
   {
     "type": "construction_group",
+    "id": "extrude_resin_door",
+    "name": "Extrude Resin Door"
+  },
+  {
+    "type": "construction_group",
     "id": "extrude_resin_lattice",
     "name": "Extrude Resin Lattice"
   },

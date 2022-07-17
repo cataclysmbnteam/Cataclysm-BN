@@ -3465,6 +3465,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_door_resin",
+    "group": "extrude_resin_door",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "120 m",
+    "qualities": [ { "id": "SMOOTH", "level": 1 } ],
+    "components": [ [ [ "alien_pod_resin", 2 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_resin_hole_c"
+  },
+  {
+    "type": "construction",
     "id": "constr_leanto",
     "group": "build_pine_lean_to",
     "category": "CONSTRUCT",
