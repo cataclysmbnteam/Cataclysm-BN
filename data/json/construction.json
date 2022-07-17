@@ -3502,6 +3502,19 @@
   },
   {
     "type": "construction",
+    "id": "constr_t_floor_for_basecamp",
+    "group": "",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10m",
+    "on_display": false,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "pre_flags": [ "DIGGABLE", "FLAT" ],
+    "dark_craftable": true,
+    "post_terrain": "t_floor"
+  },
+  {
+    "type": "construction",
     "id": "constr_pit_shallow",
     "group": "dig_a_shallow_pit",
     "category": "CONSTRUCT",

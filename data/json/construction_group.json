@@ -1,6 +1,11 @@
 [
   {
     "type": "construction_group",
+    "id": "",
+    "name": ""
+  },
+  {
+    "type": "construction_group",
     "id": "add_mattress_to_bed_frame",
     "name": "Add Mattress to Bed Frame"
   },
