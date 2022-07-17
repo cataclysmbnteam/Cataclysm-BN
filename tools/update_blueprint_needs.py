@@ -101,6 +101,8 @@ def main(argv):
                           and "type" in obj and obj["type"] == "recipe"
                           and ("result" in obj or "abstract" in obj)):
                             continue
+                        if "obsolete" in obj and obj["obsolete"] == True:
+                            continue
                         ident = None;
                         if "abstract" in obj:
                             ident = obj["abstract"]
