@@ -694,26 +694,6 @@ bool player::purifiable( const trait_id &flag ) const
     return flag->purifiable;
 }
 
-/// Returns a randomly selected dream
-std::string player::get_category_dream( const std::string &cat,
-                                        int strength ) const
-{
-    std::vector<dream> valid_dreams;
-    //Pull the list of dreams
-    for( auto &i : dreams ) {
-        //Pick only the ones matching our desired category and strength
-        if( ( i.category == cat ) && ( i.strength == strength ) ) {
-            // Put the valid ones into our list
-            valid_dreams.push_back( i );
-        }
-    }
-    if( valid_dreams.empty() ) {
-        return "";
-    }
-    const dream &selected_dream = random_entry( valid_dreams );
-    return random_entry( selected_dream.messages() );
-}
-
 std::list<item *> player::get_artifact_items()
 {
     std::list<item *> art_items;

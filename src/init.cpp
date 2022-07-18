@@ -62,6 +62,7 @@
 #include "mongroup.h"
 #include "monstergenerator.h"
 #include "morale_types.h"
+#include "mutation_data.h"
 #include "mutation.h"
 #include "npc.h"
 #include "npc_class.h"
@@ -251,7 +252,7 @@ void DynamicDataLoader::initialize()
     add( "profession_item_substitutions", &profession::load_item_substitutions );
     add( "skill", &Skill::load_skill );
     add( "skill_display_type", &SkillDisplayType::load );
-    add( "dream", &dream::load );
+    add( "dream", &dreams::load );
     add( "mutation_category", &mutation_category_trait::load );
     add( "mutation_type", &load_mutation_type );
     add( "mutation", &mutation_branch::load_trait );
@@ -539,7 +540,7 @@ void DynamicDataLoader::unload_data()
     construction_categories::reset();
     Creature::reset_hit_range();
     disease_type::reset();
-    dreams.clear();
+    dreams::clear();
     emit::reset();
     enchantment::reset();
     event_statistic::reset();

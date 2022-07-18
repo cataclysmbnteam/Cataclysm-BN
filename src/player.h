@@ -171,8 +171,6 @@ class player : public Character
          *  Defaults to true
          */
         bool purifiable( const trait_id &flag ) const;
-        /** Returns a dream's description selected randomly from the player's highest mutation category */
-        std::string get_category_dream( const std::string &cat, int strength ) const;
 
         /** Generates and handles the UI for player interaction with installed bionics */
         void power_bionics();
