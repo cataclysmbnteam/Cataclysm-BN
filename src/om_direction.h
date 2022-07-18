@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_OM_DIRECTION_H
 #define CATA_SRC_OM_DIRECTION_H
 
+#include <climits>
 #include <array>
 #include <string>
 
