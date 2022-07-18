@@ -2311,6 +2311,7 @@ void inventory_drop_selector::set_chosen_drop_count( inventory_entry &entry, siz
     }
 
     // TODO: Avoid rebuild!
+    implied_cache_dirty = true;
     rebuild();
     // on_change( entry );
 }
@@ -2408,6 +2409,7 @@ caching_drop_preset::get_implied_drops() const
 void inventory_drop_selector::rebuild()
 {
     if( !implied_cache_dirty ) {
+        printf( "Not rebuilding!\n" );
         return;
     }
 
@@ -2424,7 +2426,8 @@ void inventory_drop_selector::rebuild()
         move_cost_sum += ai.consumed_moves;
     }
 
-    decltype( implied_drops ) old_implied_drops = std::move( implied_drops );
+    const decltype( implied_drops ) old_implied_drops = std::move( implied_drops );
+    implied_drops = decltype(implied_drops)();
 
     std::unordered_map<const item *, const inventory_entry *> item_to_entry;
     auto all_columns = get_all_columns();
@@ -2467,6 +2470,11 @@ void inventory_drop_selector::rebuild()
         if( entry_in_new == implied_drops.end() ||
             entry_in_new->second.selected != maybe_removed.second.selected ) {
             printf( "removed %s\n", maybe_removed.first->display_name().c_str() );
+            auto iter = item_to_entry.find( maybe_removed.first );
+            if( iter == item_to_entry.end() ) {
+                debugmsg( "WTF" );
+                return;
+            }
             const inventory_entry &ie = *item_to_entry.at( maybe_removed.first );
             on_change( ie );
         }
@@ -2476,6 +2484,11 @@ void inventory_drop_selector::rebuild()
         if( entry_in_old == implied_drops.end() ||
             entry_in_old->second.selected != maybe_added.second.selected ) {
             printf( "added %s\n", maybe_added.first->display_name().c_str() );
+            auto iter = item_to_entry.find( maybe_added.first );
+            if( iter == item_to_entry.end() ) {
+                debugmsg( "WTF" );
+                return;
+            }
             const inventory_entry &ie = *item_to_entry.at( maybe_added.first );
             on_change( ie );
         }
