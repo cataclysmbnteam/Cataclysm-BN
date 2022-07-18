@@ -64,6 +64,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
+#include "map_functions.h"
 #include "mapdata.h"
 #include "material.h"
 #include "messages.h"
@@ -4568,7 +4569,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
             }
 
             const bool has_grapnel = p.has_amount( itype_grapnel, 1 );
-            const int climb_cost = p.climbing_cost( where, examp );
+            const int climb_cost = map_funcs::climbing_cost( here, where, examp );
             const auto fall_mod = p.fall_damage_mod();
             std::string query_str = vgettext( "Looks like %d story.  Jump down?",
                                               "Looks like %d stories.  Jump down?",

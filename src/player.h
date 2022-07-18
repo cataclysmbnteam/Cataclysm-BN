@@ -258,14 +258,6 @@ class player : public Character
         /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
         bool uncanny_dodge() override;
 
-        /**
-         * Checks both the neighborhoods of from and to for climbable surfaces,
-         * returns move cost of climbing from `from` to `to`.
-         * 0 means climbing is not possible.
-         * Return value can depend on the orientation of the terrain.
-         */
-        int climbing_cost( const tripoint &from, const tripoint &to ) const;
-
         // ranged.cpp
         /** Execute a throw */
         dealt_projectile_attack throw_item( const tripoint &target, const item &to_throw,

@@ -102,6 +102,7 @@
 #include "map.h"
 #include "map_item_stack.h"
 #include "map_iterator.h"
+#include "map_functions.h"
 #include "map_selector.h"
 #include "mapbuffer.h"
 #include "mapdata.h"
@@ -10552,7 +10553,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             }
         }
 
-        const int cost = u.climbing_cost( u.pos(), stairs );
+        const int cost = map_funcs::climbing_cost( m, u.pos(), stairs );
 
         if( cost == 0 ) {
             if( u.has_trait( trait_WEB_ROPE ) )  {

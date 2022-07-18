@@ -4327,22 +4327,6 @@ bool player::uncanny_dodge()
     return false;
 }
 
-int player::climbing_cost( const tripoint &from, const tripoint &to ) const
-{
-    if( !g->m.valid_move( from, to, false, true ) ) {
-        return 0;
-    }
-
-    const int diff = g->m.climb_difficulty( from );
-
-    if( diff > 5 ) {
-        return 0;
-    }
-
-    return 50 + diff * 100;
-    // TODO: All sorts of mutations, equipment weight etc.
-}
-
 void player::environmental_revert_effect()
 {
     addictions.clear();
