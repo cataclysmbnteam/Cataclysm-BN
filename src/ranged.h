@@ -119,6 +119,9 @@ void print_dmg_msg( Creature &target, Creature *source, const dealt_damage_insta
  */
 void prompt_select_default_ammo_for( avatar &u, const item &w );
 
+/** Returns true if a gun misfires, jams, or has other problems, else returns false. */
+bool handle_gun_damage( Character &shooter, item &it );
+
 } // namespace ranged
 
 #endif // CATA_SRC_RANGED_H

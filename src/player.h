@@ -210,9 +210,6 @@ class player : public Character
          */
         dispersion_sources get_weapon_dispersion( const item &obj ) const;
 
-        /** Returns true if a gun misfires, jams, or has other problems, else returns false */
-        bool handle_gun_damage( item &it );
-
         /** How many moves does it take to aim gun to the target accuracy. */
         int gun_engagement_moves( const item &gun, int target = 0, int start = MAX_RECOIL ) const;
 
