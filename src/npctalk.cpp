@@ -21,6 +21,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_functions.h"
 #include "character_id.h"
 #include "clzones.h"
 #include "color.h"
@@ -922,10 +923,12 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
                    beta->name );
     }
     if( topic == "TALK_SEDATED" ) {
+        int firstaid_lvl = get_player_character().get_skill_level( skill_id( "firstaid" ) );
+        time_duration dur = character_funcs::estimate_effect_dur( firstaid_lvl, effect_narcosis, 15_minutes,
+                            6, *beta );
         return string_format(
                    _( "%1$s is sedated and can't be moved or woken up until the medication or sedation wears off.\nYou estimate it will wear off in %2$s." ),
-                   beta->name, to_string_approx( g->u.estimate_effect_dur( skill_id( "firstaid" ), effect_narcosis,
-                           15_minutes, 6, *beta ) ) );
+                   beta->name, to_string_approx( dur ) );
     }
 
     const auto &p = beta; // for compatibility, later replace it in the code below

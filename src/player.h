@@ -144,11 +144,6 @@ class player : public Character
         /** Handles and displays detailed character info for the '@' screen */
         void disp_info();
 
-        /**Estimate effect duration based on player relevant skill*/
-        time_duration estimate_effect_dur( const skill_id &relevant_skill, const efftype_id &effect,
-                                           const time_duration &error_magnitude,
-                                           int threshold, const Creature &target ) const;
-
         /** Resets movement points and applies other non-idempotent changes */
         void process_turn() override;
         /** Calculates the various speed bonuses we will get from mutations, etc. */
@@ -299,11 +294,6 @@ class player : public Character
         /** Returns list of artifacts in player inventory. **/
         std::list<item *> get_artifact_items();
 
-        /** Siphons fuel (if available) from the specified vehicle into container or
-         * similar via @ref game::handle_liquid. May start a player activity.
-         */
-        void siphon( vehicle &veh, const itype_id &desired_liquid );
-
         /** used for drinking from hands, returns how many charges were consumed */
         int drink_from_hands( item &water );
         /** Used for eating object at pos, returns true if object is removed from inventory (last charge was consumed) */
@@ -314,8 +304,6 @@ class player : public Character
 
         /** Used for eating entered comestible, returns true if comestible is successfully eaten */
         bool eat( item &food, bool force = false );
-        /** Handles the enjoyability value for a book. **/
-        int book_fun_for( const item &book, const player &p ) const;
 
         int get_lift_assist() const;
 
@@ -432,7 +420,6 @@ class player : public Character
         /** Starts activity to install toolmod */
         void toolmod_add( item_location tool, item_location mod );
 
-        bool fun_to_read( const item &book ) const;
         /** Note that we've read a book at least once. **/
         virtual bool has_identified( const itype_id &item_id ) const = 0;
 

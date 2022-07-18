@@ -19,6 +19,7 @@
 #include "catacharset.h"
 #include "character.h"
 #include "character_id.h"
+#include "character_functions.h"
 #include "character_martial_arts.h"
 #include "clzones.h"
 #include "color.h"
@@ -258,7 +259,7 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
         return nullptr;
     }
     const auto &type = book.type->book;
-    if( !fun_to_read( book ) && !has_morale_to_read() ) {
+    if( !character_funcs::is_fun_to_read( *this, book ) && !has_morale_to_read() ) {
         // Low morale still permits skimming
         reasons.emplace_back( _( "What's the point of studying?  (Your morale is too low!)" ) );
         return nullptr;
@@ -314,7 +315,7 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
         } else if( !elem->sees( *this ) ) {
             reasons.push_back( string_format( _( "%s could read that to you, but they can't see you." ),
                                               elem->disp_name() ) );
-        } else if( !elem->fun_to_read( book ) && !elem->has_morale_to_read() ) {
+        } else if( !character_funcs::is_fun_to_read( *elem, book ) && !elem->has_morale_to_read() ) {
             // Low morale still permits skimming
             reasons.push_back( string_format( _( "%s morale is too low!" ), elem->disp_name( true ) ) );
         } else if( elem->is_blind() ) {
@@ -337,7 +338,7 @@ int avatar::time_to_read( const item &book, const player &reader, const player *
     const skill_id &skill = type->skill;
     // The reader's reading speed has an effect only if they're trying to understand the book as they read it
     // Reading speed is assumed to be how well you learn from books (as opposed to hands-on experience)
-    const bool try_understand = reader.fun_to_read( book ) ||
+    const bool try_understand = character_funcs::is_fun_to_read( reader, book ) ||
                                 reader.get_skill_level( skill ) < type->level;
     int reading_speed = try_understand ? std::max( reader.read_speed(), read_speed() ) : read_speed();
     if( learner ) {
@@ -416,9 +417,10 @@ bool avatar::read( item_location loc, const bool continuous )
     auto candidates = get_crafting_helpers();
     for( npc *elem : candidates ) {
         const int lvl = elem->get_skill_level( skill );
-        const bool skill_req = ( elem->fun_to_read( it ) && ( !skill || lvl >= type->req ) ) ||
+        const bool is_fun_to_read = character_funcs::is_fun_to_read( *elem, it );
+        const bool skill_req = ( is_fun_to_read && ( !skill || lvl >= type->req ) ) ||
                                ( skill && lvl < type->level && lvl >= type->req );
-        const bool morale_req = elem->fun_to_read( it ) || elem->has_morale_to_read();
+        const bool morale_req = is_fun_to_read || elem->has_morale_to_read();
 
         if( !skill_req && elem != reader ) {
             if( skill && lvl < type->req ) {
@@ -620,17 +622,17 @@ bool avatar::read( item_location loc, const bool continuous )
     // Reinforce any existing morale bonus/penalty, so it doesn't decay
     // away while you read more.
     const time_duration decay_start = 1_turns * time_taken / 1000;
-    std::set<player *> apply_morale = { this };
+    std::set<Character *> apply_morale = { this };
     for( const auto &elem : learners ) {
         apply_morale.insert( elem.first );
     }
     for( const auto &elem : fun_learners ) {
         apply_morale.insert( elem.first );
     }
-    for( player *elem : apply_morale ) {
-        //Fun bonuses for spritual and To Serve Man are no longer calculated here.
-        elem->add_morale( MORALE_BOOK, 0, book_fun_for( it, *elem ) * 15, decay_start + 30_minutes,
-                          decay_start, false, it.type );
+    for( Character *ch : apply_morale ) {
+        int fun = character_funcs::get_book_fun_for( *ch, it );
+        ch->add_morale( MORALE_BOOK, 0, fun * 15, decay_start + 30_minutes,
+                        decay_start, false, it.type );
     }
 
     return true;
@@ -670,8 +672,9 @@ static void skim_book_msg( const item &book, avatar &u )
         add_msg( m_info, _( "Requires intelligence of %d to easily read." ), reading->intel );
     }
     //It feels wrong to use a pointer to *this, but I can't find any other player pointers in this method.
-    if( u.book_fun_for( book, u ) != 0 ) {
-        add_msg( m_info, _( "Reading this book affects your morale by %d" ), u.book_fun_for( book, u ) );
+    if( character_funcs::get_book_fun_for( u, book ) != 0 ) {
+        add_msg( m_info, _( "Reading this book affects your morale by %d" ),
+                 character_funcs::get_book_fun_for( u, book ) );
     }
 
     if( book.type->use_methods.count( "MA_MANUAL" ) ) {
@@ -759,10 +762,9 @@ void avatar::do_read( item_location loc )
     for( auto &elem : learners ) {
         player *learner = elem.first;
 
-        if( book_fun_for( book, *learner ) != 0 ) {
-            //Fun bonus is no longer calculated here.
-            learner->add_morale( MORALE_BOOK, book_fun_for( book, *learner ) * 5, book_fun_for( book,
-                                 *learner ) * 15, 1_hours, 30_minutes, true,
+        int book_fun_for = character_funcs::get_book_fun_for( *learner, book );
+        if( book_fun_for != 0 ) {
+            learner->add_morale( MORALE_BOOK, book_fun_for * 5, book_fun_for * 15, 1_hours, 30_minutes, true,
                                  book.type );
         }
 

@@ -119,7 +119,6 @@ static const efftype_id effect_weed_high( "weed_high" );
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_brass_catcher( "brass_catcher" );
-static const itype_id itype_cookbook_human( "cookbook_human" );
 static const itype_id itype_large_repairkit( "large_repairkit" );
 static const itype_id itype_plut_cell( "plut_cell" );
 static const itype_id itype_small_repairkit( "small_repairkit" );
@@ -132,7 +131,6 @@ static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 
 static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
-static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_CF_HAIR( "CF_HAIR" );
 static const trait_id trait_CHITIN2( "CHITIN2" );
@@ -158,7 +156,6 @@ static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
 static const trait_id trait_INSOMNIA( "INSOMNIA" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
 static const trait_id trait_LIGHTFUR( "LIGHTFUR" );
-static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
 static const trait_id trait_LUPINE_FUR( "LUPINE_FUR" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_MOREPAIN2( "MORE_PAIN2" );
@@ -177,14 +174,11 @@ static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
-static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_QUILLS( "QUILLS" );
-static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SAVANT( "SAVANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SLIMY( "SLIMY" );
 static const trait_id trait_SPINES( "SPINES" );
-static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STIMBOOST( "STIMBOOST" );
 static const trait_id trait_STRONGSTOMACH( "STRONGSTOMACH" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
@@ -637,20 +631,6 @@ void player::mod_stat( const std::string &stat, float modifier )
         // Fall through to the creature method.
         Character::mod_stat( stat, modifier );
     }
-}
-
-time_duration player::estimate_effect_dur( const skill_id &relevant_skill,
-        const efftype_id &target_effect, const time_duration &error_magnitude,
-        int threshold, const Creature &target ) const
-{
-    const time_duration zero_duration = 0_turns;
-
-    int skill_lvl = get_skill_level( relevant_skill );
-
-    time_duration estimate = std::max( zero_duration, target.get_effect_dur( target_effect ) +
-                                       rng( -1, 1 ) * error_magnitude *
-                                       rng( 0, std::max( 0, threshold - skill_lvl ) ) );
-    return estimate;
 }
 
 bool player::has_conflicting_trait( const trait_id &flag ) const
@@ -1355,21 +1335,6 @@ int player::hp_percentage() const
     }
 
     return ( 100 * total_cur ) / total_max;
-}
-
-void player::siphon( vehicle &veh, const itype_id &desired_liquid )
-{
-    auto qty = veh.fuel_left( desired_liquid );
-    if( qty <= 0 ) {
-        add_msg( m_bad, _( "There is not enough %s left to siphon it." ),
-                 item::nname( desired_liquid ) );
-        return;
-    }
-
-    item liquid( desired_liquid, calendar::turn, qty );
-    if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, &veh ) ) {
-        veh.drain( desired_liquid, qty - liquid.charges );
-    }
 }
 
 void player::add_pain_msg( int val, body_part bp ) const
@@ -3620,48 +3585,6 @@ void player::toolmod_add( item_location tool, item_location mod )
     assign_activity( activity_id( "ACT_TOOLMOD_ADD" ), 1, -1 );
     activity.targets.emplace_back( std::move( tool ) );
     activity.targets.emplace_back( std::move( mod ) );
-}
-
-bool player::fun_to_read( const item &book ) const
-{
-    // If you don't have a problem with eating humans, To Serve Man becomes rewarding
-    if( ( has_trait( trait_CANNIBAL ) || has_trait( trait_PSYCHOPATH ) ||
-          has_trait( trait_SAPIOVORE ) ) &&
-        book.typeId() == itype_cookbook_human ) {
-        return true;
-    } else if( has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
-        return true;
-    } else {
-        return book_fun_for( book, *this ) > 0;
-    }
-}
-
-int player::book_fun_for( const item &book, const player &p ) const
-{
-    int fun_bonus = book.type->book->fun;
-    if( !book.is_book() ) {
-        debugmsg( "called avatar::book_fun_for with non-book" );
-        return 0;
-    }
-
-    // If you don't have a problem with eating humans, To Serve Man becomes rewarding
-    if( ( p.has_trait( trait_CANNIBAL ) || p.has_trait( trait_PSYCHOPATH ) ||
-          p.has_trait( trait_SAPIOVORE ) ) &&
-        book.typeId() == itype_cookbook_human ) {
-        fun_bonus = std::abs( fun_bonus );
-    } else if( p.has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
-        fun_bonus = std::abs( fun_bonus * 3 );
-    }
-
-    if( has_trait( trait_LOVES_BOOKS ) ) {
-        fun_bonus++;
-    }
-
-    if( fun_bonus > 1 && book.get_chapters() > 0 && book.get_remaining_chapters( p ) == 0 ) {
-        fun_bonus /= 2;
-    }
-
-    return fun_bonus;
 }
 
 bool player::studied_all_recipes( const itype &book ) const
