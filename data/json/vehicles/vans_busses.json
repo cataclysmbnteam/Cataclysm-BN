@@ -1957,7 +1957,7 @@
       { "x": -11, "y": 2, "part": "windshield" },
       { "x": -11, "y": 3, "part": "frame_horizontal" },
       { "x": -11, "y": 3, "part": "beeper" },
-      { "x": -11, "y": 3, "part": "board_se" }
+      { "x": -11, "y": 3, "part": "board_se" },
       { "x": 0, "y": 0, "parts": [ "frame_cross", "seat", "seatbelt", "roof", "controls" ] },
       { "x": 0, "y": 0, "parts": [ "dashboard", "vehicle_alarm", "vehicle_clock", "horn_car" ] },
       { "x": 0, "y": -1, "parts": [ "frame_vertical_left", "windshield_vertical_left", "roof" ] },
