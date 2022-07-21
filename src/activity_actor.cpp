@@ -406,7 +406,8 @@ void dig_activity_actor::do_turn( player_activity &, Character & )
 
 void dig_activity_actor::finish( player_activity &act, Character &who )
 {
-    const bool grave = g->m.ter( location ) == t_grave;
+    map &here = get_map();
+    const bool grave = here.ter( location ) == t_grave;
 
     if( grave ) {
         if( one_in( 10 ) ) {
@@ -418,11 +419,11 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
             };
 
             g->place_critter_at( random_entry( monids ), byproducts_location );
-            g->m.furn_set( location, f_coffin_o );
+            here.furn_set( location, f_coffin_o );
             who.add_msg_if_player( m_warning, _( "Something crawls out of the coffin!" ) );
         } else {
-            g->m.spawn_item( location, itype_bone_human, rng( 5, 15 ) );
-            g->m.furn_set( location, f_coffin_c );
+            here.spawn_item( location, itype_bone_human, rng( 5, 15 ) );
+            here.furn_set( location, f_coffin_c );
         }
         std::vector<item *> dropped = g->m.place_items( item_group_id( "allclothes" ), 50, location,
                                       location, false,
@@ -438,10 +439,10 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
         g->events().send<event_type::exhumes_grave>( who.getID() );
     }
 
-    g->m.ter_set( location, ter_id( result_terrain ) );
+    here.ter_set( location, ter_id( result_terrain ) );
 
     for( int i = 0; i < byproducts_count; i++ ) {
-        g->m.spawn_items( byproducts_location,
+        here.spawn_items( byproducts_location,
                           item_group::items_from( item_group_id( byproducts_item_group ),
                                   calendar::turn ) );
     }
@@ -454,7 +455,7 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
         who.add_msg_if_player( m_good, _( "You finish exhuming a grave." ) );
     } else {
         who.add_msg_if_player( m_good, _( "You finish digging the %s." ),
-                               g->m.ter( location ).obj().name() );
+                               here.ter( location ).obj().name() );
     }
 
     act.set_to_null();
@@ -508,11 +509,11 @@ void dig_channel_activity_actor::do_turn( player_activity &, Character & )
 
 void dig_channel_activity_actor::finish( player_activity &act, Character &who )
 {
-
-    g->m.ter_set( location, ter_id( result_terrain ) );
+    map &here = get_map();
+    here.ter_set( location, ter_id( result_terrain ) );
 
     for( int i = 0; i < byproducts_count; i++ ) {
-        g->m.spawn_items( byproducts_location,
+        here.spawn_items( byproducts_location,
                           item_group::items_from( item_group_id( byproducts_item_group ),
                                   calendar::turn ) );
     }
@@ -521,7 +522,7 @@ void dig_channel_activity_actor::finish( player_activity &act, Character &who )
     who.mod_thirst( 5 );
     who.mod_fatigue( 10 );
     who.add_msg_if_player( m_good, _( "You finish digging up %s." ),
-                           g->m.ter( location ).obj().name() );
+                           here.ter( location ).obj().name() );
 
     act.set_to_null();
 }
@@ -665,8 +666,9 @@ static hack_result hack_attempt( Character &who, const bool using_bionic )
 static hack_type get_hack_type( tripoint examp )
 {
     hack_type type = HACK_NULL;
-    const furn_t &xfurn_t = g->m.furn( examp ).obj();
-    const ter_t &xter_t = g->m.ter( examp ).obj();
+    const map &here = get_map();
+    const furn_t &xfurn_t = here.furn( examp ).obj();
+    const ter_t &xter_t = here.ter( examp ).obj();
     if( xter_t.examine == &iexamine::pay_gas || xfurn_t.examine == &iexamine::pay_gas ) {
         type = HACK_GAS;
     } else if( xter_t.examine == &iexamine::cardreader || xfurn_t.examine == &iexamine::cardreader ) {
@@ -686,6 +688,7 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
 {
     tripoint examp = act.placement;
     hack_type type = get_hack_type( examp );
+    map &here = get_map();
     switch( hack_attempt( who, using_bionic ) ) {
         case HACK_UNABLE:
             who.add_msg_if_player( _( "You cannot hack this." ) );
@@ -723,14 +726,14 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
                 }
             } else if( type == HACK_SAFE ) {
                 who.add_msg_if_player( m_good, _( "The door on the safe swings open." ) );
-                g->m.furn_set( examp, furn_str_id( "f_safe_o" ) );
+                here.furn_set( examp, furn_str_id( "f_safe_o" ) );
             } else if( type == HACK_DOOR ) {
                 who.add_msg_if_player( _( "You activate the panel!" ) );
                 who.add_msg_if_player( m_good, _( "The nearby doors unlock." ) );
-                g->m.ter_set( examp, t_card_reader_broken );
-                for( const tripoint &tmp : g->m.points_in_radius( ( examp ), 3 ) ) {
-                    if( g->m.ter( tmp ) == t_door_metal_locked ) {
-                        g->m.ter_set( tmp, t_door_metal_c );
+                here.ter_set( examp, t_card_reader_broken );
+                for( const tripoint &tmp : here.points_in_radius( ( examp ), 3 ) ) {
+                    if( here.ter( tmp ) == t_door_metal_locked ) {
+                        here.ter_set( tmp, t_door_metal_c );
                     }
                 }
             }
