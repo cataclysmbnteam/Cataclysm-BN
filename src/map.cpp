@@ -3757,7 +3757,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         const ammo_effect &ae = *ae_id;
         if( ae.trail_field_type ) {
             if( x_in_y( ae.trail_chance, 100 ) ) {
-                g->m.add_field( p, ae.trail_field_type, rng( ae.trail_intensity_min, ae.trail_intensity_max ) );
+                add_field( p, ae.trail_field_type, rng( ae.trail_intensity_min, ae.trail_intensity_max ) );
             }
         }
     }
