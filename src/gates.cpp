@@ -74,7 +74,7 @@ struct gate_data {
 
 gate_id get_gate_id( const tripoint &pos )
 {
-    return gate_id( g->m.ter( pos ).id().str() );
+    return gate_id( get_map().ter( pos ).id().str() );
 }
 
 generic_factory<gate_data> gates_data( "gate type" );
@@ -131,7 +131,7 @@ void gate_data::check() const
 
 bool gate_data::is_suitable_wall( const tripoint &pos ) const
 {
-    const auto wid = g->m.ter( pos );
+    const auto wid = get_map().ter( pos );
     const auto iter = std::find_if( walls.begin(), walls.end(), [ wid ]( const ter_str_id & wall ) {
         return wall.id() == wid;
     } );
@@ -179,6 +179,7 @@ void gates::open_gate( const tripoint &pos )
     bool close = false;
     bool fail = false;
 
+    map &here = get_map();
     for( const point &wall_offset : four_adjacent_offsets ) {
         const tripoint wall_pos = pos + wall_offset;
 
@@ -195,7 +196,7 @@ void gates::open_gate( const tripoint &pos )
 
             if( !open ) { // Closing the gate...
                 tripoint cur_pos = gate_pos;
-                while( g->m.ter( cur_pos ) == gate.floor.id() ) {
+                while( here.ter( cur_pos ) == gate.floor.id() ) {
                     fail = !g->forced_door_closing( cur_pos, gate.door.id(), gate.bash_dmg ) || fail;
                     close = !fail;
                     cur_pos += gate_offset;
@@ -205,10 +206,10 @@ void gates::open_gate( const tripoint &pos )
             if( !close ) { // Opening the gate...
                 tripoint cur_pos = gate_pos;
                 while( true ) {
-                    const ter_id ter = g->m.ter( cur_pos );
+                    const ter_id ter = here.ter( cur_pos );
 
                     if( ter == gate.door.id() ) {
-                        g->m.ter_set( cur_pos, gate.floor.id() );
+                        here.ter_set( cur_pos, gate.floor.id() );
                         open = !fail;
                     } else if( ter != gate.floor.id() ) {
                         break;
