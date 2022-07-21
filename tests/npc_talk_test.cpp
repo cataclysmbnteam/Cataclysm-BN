@@ -43,7 +43,7 @@ static const trait_id trait_PROF_SWAT( "PROF_SWAT" );
 static npc &create_test_talker()
 {
     const string_id<npc_template> test_talker( "test_talker" );
-    const character_id model_id = g->m.place_npc( point( 25, 25 ), test_talker, true );
+    const character_id model_id = get_map().place_npc( point( 25, 25 ), test_talker, true );
     g->load_npcs();
 
     npc *model_npc = g->find_npc( model_id );
@@ -96,16 +96,17 @@ static npc &prep_test( dialogue &d )
 {
     clear_avatar();
     clear_vehicles();
-    REQUIRE_FALSE( g->u.in_vehicle );
+    avatar &player_character = get_avatar();
+    REQUIRE_FALSE( player_character.in_vehicle );
 
     const tripoint test_origin( 15, 15, 0 );
-    g->u.setpos( test_origin );
+    player_character.setpos( test_origin );
 
     g->faction_manager_ptr->create_if_needed();
 
     npc &talker_npc = create_test_talker();
 
-    d.alpha = &g->u;
+    d.alpha = &player_character;
     d.beta = &talker_npc;
 
     return talker_npc;
@@ -136,10 +137,11 @@ TEST_CASE( "npc_talk_stats", "[npc_talk]" )
     dialogue d;
     prep_test( d );
 
-    g->u.str_cur = 8;
-    g->u.dex_cur = 8;
-    g->u.int_cur = 8;
-    g->u.per_cur = 8;
+    avatar &player_character = get_avatar();
+    player_character.str_cur = 8;
+    player_character.dex_cur = 8;
+    player_character.int_cur = 8;
+    player_character.per_cur = 8;
 
     d.add_topic( "TALK_TEST_SIMPLE_STATS" );
     gen_response_lines( d, 5 );
@@ -148,10 +150,10 @@ TEST_CASE( "npc_talk_stats", "[npc_talk]" )
     CHECK( d.responses[2].text == "This is a dexterity test response." );
     CHECK( d.responses[3].text == "This is an intelligence test response." );
     CHECK( d.responses[4].text == "This is a perception test response." );
-    g->u.str_cur = 6;
-    g->u.dex_cur = 6;
-    g->u.int_cur = 6;
-    g->u.per_cur = 6;
+    player_character.str_cur = 6;
+    player_character.dex_cur = 6;
+    player_character.int_cur = 6;
+    player_character.per_cur = 6;
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
 
@@ -171,14 +173,15 @@ TEST_CASE( "npc_talk_skills", "[npc_talk]" )
 
     const skill_id skill( "driving" );
 
-    g->u.set_skill_level( skill, 8 );
+    avatar &player_character = get_avatar();
+    player_character.set_skill_level( skill, 8 );
 
     d.add_topic( "TALK_TEST_SIMPLE_SKILLS" );
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a driving test response." );
 
-    g->u.set_skill_level( skill, 6 );
+    player_character.set_skill_level( skill, 6 );
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
 
@@ -193,20 +196,21 @@ TEST_CASE( "npc_talk_wearing_and_trait", "[npc_talk]" )
     dialogue d;
     npc &talker_npc = prep_test( d );
 
-    for( trait_id tr : g->u.get_mutations() ) {
-        g->u.unset_mutation( tr );
+    avatar &player_character = get_avatar();
+    for( const trait_id &tr : player_character.get_mutations() ) {
+        player_character.unset_mutation( tr );
     }
 
     d.add_topic( "TALK_TEST_WEARING_AND_TRAIT" );
     gen_response_lines( d, 1 );
 
     CHECK( d.responses[0].text == "This is a basic test response." );
-    g->u.toggle_trait( trait_id( "ELFA_EARS" ) );
+    player_character.toggle_trait( trait_id( "ELFA_EARS" ) );
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a trait test response." );
     CHECK( d.responses[2].text == "This is a short trait test response." );
-    g->u.wear_item( item( "badge_marshal" ) );
+    player_character.wear_item( item( "badge_marshal" ) );
     gen_response_lines( d, 4 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a trait test response." );
@@ -220,16 +224,16 @@ TEST_CASE( "npc_talk_wearing_and_trait", "[npc_talk]" )
     CHECK( d.responses[3].text == "This is a wearing test response." );
     CHECK( d.responses[4].text == "This is a npc trait test response." );
     CHECK( d.responses[5].text == "This is a npc short trait test response." );
-    g->u.toggle_trait( trait_id( "ELFA_EARS" ) );
+    player_character.toggle_trait( trait_id( "ELFA_EARS" ) );
     talker_npc.toggle_trait( trait_id( "ELFA_EARS" ) );
-    g->u.toggle_trait( trait_id( "PSYCHOPATH" ) );
+    player_character.toggle_trait( trait_id( "PSYCHOPATH" ) );
     talker_npc.toggle_trait( trait_id( "SAPIOVORE" ) );
     gen_response_lines( d, 4 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a wearing test response." );
     CHECK( d.responses[2].text == "This is a trait flags test response." );
     CHECK( d.responses[3].text == "This is a npc trait flags test response." );
-    g->u.toggle_trait( trait_id( "PSYCHOPATH" ) );
+    player_character.toggle_trait( trait_id( "PSYCHOPATH" ) );
     talker_npc.toggle_trait( trait_id( "SAPIOVORE" ) );
 }
 
@@ -237,6 +241,7 @@ TEST_CASE( "npc_talk_effect", "[npc_talk]" )
 {
     dialogue d;
     npc &talker_npc = prep_test( d );
+    avatar &player_character = get_avatar();
 
     d.add_topic( "TALK_TEST_EFFECT" );
     gen_response_lines( d, 1 );
@@ -245,7 +250,7 @@ TEST_CASE( "npc_talk_effect", "[npc_talk]" )
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is an npc effect test response." );
-    g->u.add_effect( effect_gave_quest_item, 9999_turns );
+    player_character.add_effect( effect_gave_quest_item, 9999_turns );
     d.gen_responses( d.topic_stack.back() );
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
@@ -257,13 +262,14 @@ TEST_CASE( "npc_talk_service", "[npc_talk]" )
 {
     dialogue d;
     npc &talker_npc = prep_test( d );
+    avatar &player_character = get_avatar();
 
     d.add_topic( "TALK_TEST_SERVICE" );
-    g->u.cash = 0;
+    player_character.cash = 0;
     talker_npc.add_effect( effect_currently_busy, 9999_turns );
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    g->u.cash = 800;
+    player_character.cash = 800;
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a cash test response." );
@@ -462,25 +468,26 @@ TEST_CASE( "npc_talk_switch", "[npc_talk]" )
 {
     dialogue d;
     prep_test( d );
+    avatar &player_character = get_avatar();
 
     d.add_topic( "TALK_TEST_SWITCH" );
-    g->u.cash = 1000;
+    player_character.cash = 1000;
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is an switch 1 test response." );
     CHECK( d.responses[2].text == "This is another basic test response." );
-    g->u.cash = 100;
+    player_character.cash = 100;
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is an switch 2 test response." );
     CHECK( d.responses[2].text == "This is another basic test response." );
-    g->u.cash = 10;
+    player_character.cash = 10;
     gen_response_lines( d, 4 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is an switch default 1 test response." );
     CHECK( d.responses[2].text == "This is an switch default 2 test response." );
     CHECK( d.responses[3].text == "This is another basic test response." );
-    g->u.cash = 0;
+    player_character.cash = 0;
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is an switch default 2 test response." );
@@ -491,13 +498,14 @@ TEST_CASE( "npc_talk_or", "[npc_talk]" )
 {
     dialogue d;
     npc &talker_npc = prep_test( d );
+    avatar &player_character = get_avatar();
 
     d.add_topic( "TALK_TEST_OR" );
-    g->u.cash = 0;
+    player_character.cash = 0;
     talker_npc.add_effect( effect_currently_busy, 9999_turns );
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    g->u.toggle_trait( trait_id( "ELFA_EARS" ) );
+    player_character.toggle_trait( trait_id( "ELFA_EARS" ) );
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is an or trait test response." );
@@ -507,12 +515,13 @@ TEST_CASE( "npc_talk_and", "[npc_talk]" )
 {
     dialogue d;
     npc &talker_npc = prep_test( d );
+    avatar &player_character = get_avatar();
 
-    g->u.toggle_trait( trait_id( "ELFA_EARS" ) );
+    player_character.toggle_trait( trait_id( "ELFA_EARS" ) );
     d.add_topic( "TALK_TEST_AND" );
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    g->u.cash = 800;
+    player_character.cash = 800;
     talker_npc.remove_effect( effect_currently_busy );
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
@@ -523,14 +532,15 @@ TEST_CASE( "npc_talk_nested", "[npc_talk]" )
 {
     dialogue d;
     npc &talker_npc = prep_test( d );
+    avatar &player_character = get_avatar();
 
     d.add_topic( "TALK_TEST_NESTED" );
     talker_npc.add_effect( effect_currently_busy, 9999_turns );
-    g->u.cash = 0;
+    player_character.cash = 0;
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    g->u.cash = 800;
-    g->u.int_cur = 11;
+    player_character.cash = 800;
+    player_character.int_cur = 11;
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a complex nested test response." );
@@ -539,8 +549,9 @@ TEST_CASE( "npc_talk_nested", "[npc_talk]" )
 TEST_CASE( "npc_talk_conditionals", "[npc_talk]" )
 {
     dialogue d;
+    avatar &player_character = get_avatar();
     prep_test( d );
-    g->u.cash = 800;
+    player_character.cash = 800;
 
     d.add_topic( "TALK_TEST_TRUE_FALSE_CONDITIONAL" );
     gen_response_lines( d, 3 );
@@ -552,7 +563,7 @@ TEST_CASE( "npc_talk_conditionals", "[npc_talk]" )
     CHECK( trial_success == true );
     talk_effect_t &trial_effect = trial_success ? chosen.success : chosen.failure;
     CHECK( trial_effect.next_topic.id == "TALK_TEST_TRUE_CONDITION_NEXT" );
-    g->u.cash = 0;
+    player_character.cash = 0;
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a true/false false response." );
@@ -591,10 +602,11 @@ TEST_CASE( "npc_talk_effects_advanced", "[npc_talk]" )
 {
     dialogue d;
     npc &talker_npc = prep_test( d );
+    avatar &player_character = get_avatar();
 
-    g->u.int_cur = 8;
-    g->u.cash = 1000;
-    g->u.remove_items_with( []( const item & it ) {
+    player_character.int_cur = 8;
+    player_character.cash = 1000;
+    player_character.remove_items_with( []( const item & it ) {
         return it.get_category().get_id() == item_category_id( "books" ) ||
                it.get_category().get_id() == item_category_id( "food" ) ||
                it.typeId() == itype_id( "bottle_glass" );
@@ -616,11 +628,11 @@ TEST_CASE( "npc_talk_effects_advanced", "[npc_talk]" )
         d.add_topic( "TALK_TEST_EFFECTS_CHAREFFECTS" );
         gen_response_lines( d, 5 );
         // add and remove effect
-        REQUIRE_FALSE( g->u.has_effect( effect_infection ) );
+        REQUIRE_FALSE( player_character.has_effect( effect_infection ) );
         talk_effect_t &effects = d.responses[1].success;
         effects.apply( d );
-        CHECK( g->u.has_effect( effect_infection ) );
-        CHECK( g->u.get_effect_dur( effect_infection ) == time_duration::from_turns( 10 ) );
+        CHECK( player_character.has_effect( effect_infection ) );
+        CHECK( player_character.get_effect_dur( effect_infection ) == time_duration::from_turns( 10 ) );
         REQUIRE_FALSE( talker_npc.has_effect( effect_infection ) );
         effects = d.responses[2].success;
         effects.apply( d );
@@ -628,7 +640,7 @@ TEST_CASE( "npc_talk_effects_advanced", "[npc_talk]" )
         CHECK( talker_npc.get_effect( effect_infection ).is_permanent() );
         effects = d.responses[3].success;
         effects.apply( d );
-        CHECK_FALSE( g->u.has_effect( effect_infection ) );
+        CHECK_FALSE( player_character.has_effect( effect_infection ) );
         effects = d.responses[4].success;
         effects.apply( d );
         CHECK_FALSE( talker_npc.has_effect( effect_infection ) );
@@ -638,17 +650,17 @@ TEST_CASE( "npc_talk_effects_advanced", "[npc_talk]" )
         d.add_topic( "TALK_TEST_EFFECTS_CHARTRAIT" );
         gen_response_lines( d, 5 );
         // add and remove trait
-        REQUIRE_FALSE( g->u.has_trait( trait_PROF_FED ) );
+        REQUIRE_FALSE( player_character.has_trait( trait_PROF_FED ) );
         talk_effect_t &effects = d.responses[1].success;
         effects.apply( d );
-        CHECK( g->u.has_trait( trait_PROF_FED ) );
+        CHECK( player_character.has_trait( trait_PROF_FED ) );
         REQUIRE_FALSE( talker_npc.has_trait( trait_PROF_FED ) );
         effects = d.responses[2].success;
         effects.apply( d );
         CHECK( talker_npc.has_trait( trait_PROF_FED ) );
         effects = d.responses[3].success;
         effects.apply( d );
-        CHECK_FALSE( g->u.has_trait( trait_PROF_FED ) );
+        CHECK_FALSE( player_character.has_trait( trait_PROF_FED ) );
         effects = d.responses[4].success;
         effects.apply( d );
         CHECK_FALSE( talker_npc.has_trait( trait_PROF_FED ) );
@@ -659,23 +671,23 @@ TEST_CASE( "npc_talk_effects_advanced", "[npc_talk]" )
         gen_response_lines( d, 4 );
         // buying and spending
         talker_npc.op_of_u.owed = 1000;
-        REQUIRE_FALSE( has_beer_bottle( g->u, 2 ) );
+        REQUIRE_FALSE( has_beer_bottle( player_character, 2 ) );
         REQUIRE( talker_npc.op_of_u.owed == 1000 );
-        REQUIRE( g->u.cash == 1000 );
+        REQUIRE( player_character.cash == 1000 );
         talk_effect_t &effects = d.responses[1].success;
         effects.apply( d );
         CHECK( talker_npc.op_of_u.owed == 500 );
-        CHECK( has_beer_bottle( g->u, 2 ) );
-        REQUIRE_FALSE( has_item( g->u, "bottle_plastic", 1 ) );
+        CHECK( has_beer_bottle( player_character, 2 ) );
+        REQUIRE_FALSE( has_item( player_character, "bottle_plastic", 1 ) );
         effects = d.responses[2].success;
         effects.apply( d );
-        CHECK( has_item( g->u, "bottle_plastic", 1 ) );
+        CHECK( has_item( player_character, "bottle_plastic", 1 ) );
         // No price specified means gift
         CHECK( talker_npc.op_of_u.owed == 500 );
         effects = d.responses[3].success;
         effects.apply( d );
         // Ecash should NOT be used for trade or to settle a debt
-        CHECK( g->u.cash == 500 );
+        CHECK( player_character.cash == 500 );
         CHECK( talker_npc.op_of_u.owed == 500 );
     }
 
@@ -683,17 +695,17 @@ TEST_CASE( "npc_talk_effects_advanced", "[npc_talk]" )
         d.add_topic( "TALK_TEST_EFFECTS_CHAIN" );
         gen_response_lines( d, 2 );
         // effect chains
-        REQUIRE_FALSE( g->u.has_effect( effect_infected ) );
+        REQUIRE_FALSE( player_character.has_effect( effect_infected ) );
         REQUIRE_FALSE( talker_npc.has_effect( effect_infected ) );
-        REQUIRE_FALSE( g->u.has_trait( trait_PROF_SWAT ) );
+        REQUIRE_FALSE( player_character.has_trait( trait_PROF_SWAT ) );
         REQUIRE_FALSE( talker_npc.has_trait( trait_PROF_SWAT ) );
         talk_effect_t &effects = d.responses[1].success;
         effects.apply( d );
-        CHECK( g->u.has_effect( effect_infected ) );
-        CHECK( g->u.get_effect_dur( effect_infected ) == time_duration::from_turns( 10 ) );
+        CHECK( player_character.has_effect( effect_infected ) );
+        CHECK( player_character.get_effect_dur( effect_infected ) == time_duration::from_turns( 10 ) );
         CHECK( talker_npc.has_effect( effect_infected ) );
         CHECK( talker_npc.get_effect( effect_infected ).is_permanent() );
-        CHECK( g->u.has_trait( trait_PROF_SWAT ) );
+        CHECK( player_character.has_trait( trait_PROF_SWAT ) );
         CHECK( talker_npc.has_trait( trait_PROF_SWAT ) );
         CHECK( talker_npc.op_of_u.owed == 0 );
         CHECK( talker_npc.get_attitude() == NPCATT_KILL );
@@ -720,10 +732,10 @@ TEST_CASE( "npc_talk_effects_advanced", "[npc_talk]" )
     }
 
     SECTION( "has_item" ) {
-        give_item( g->u, "beer", 2 );
-        give_item( g->u, "bottle_glass", 1 );
-        give_item( g->u, "manual_speech", 1 );
-        give_item( g->u, "dnd_handbook", 1 );
+        give_item( player_character, "beer", 2 );
+        give_item( player_character, "bottle_glass", 1 );
+        give_item( player_character, "manual_speech", 1 );
+        give_item( player_character, "dnd_handbook", 1 );
 
         d.add_topic( "TALK_TEST_HAS_ITEM" );
         gen_response_lines( d, 7 );
@@ -738,10 +750,10 @@ TEST_CASE( "npc_talk_effects_advanced", "[npc_talk]" )
     }
 
     SECTION( "item_repeat" ) {
-        give_item( g->u, "beer", 2 );
-        give_item( g->u, "bottle_glass", 1 );
-        give_item( g->u, "manual_speech", 1 );
-        give_item( g->u, "dnd_handbook", 1 );
+        give_item( player_character, "beer", 2 );
+        give_item( player_character, "bottle_glass", 1 );
+        give_item( player_character, "manual_speech", 1 );
+        give_item( player_character, "dnd_handbook", 1 );
 
         d.add_topic( "TALK_TEST_ITEM_REPEAT" );
         gen_response_lines( d, 8 );
@@ -763,21 +775,22 @@ TEST_CASE( "npc_talk_effects_advanced", "[npc_talk]" )
     }
 
     SECTION( "sell_and_consume" ) {
-        give_item( g->u, "beer", 2 );
-        give_item( g->u, "bottle_glass", 1 );
-        give_item( g->u, "bottle_plastic", 1 );
+        give_item( player_character, "beer", 2 );
+        give_item( player_character, "bottle_glass", 1 );
+        give_item( player_character, "bottle_plastic", 1 );
 
         // test sell and consume
         d.add_topic( "TALK_TEST_EFFECTS_SELL_CONSUME" );
         gen_response_lines( d, 5 );
-        REQUIRE( g->u.cash == 1000 );
-        REQUIRE( has_item( g->u, "bottle_plastic", 1 ) );
-        REQUIRE( has_beer_bottle( g->u, 2 ) );
-        REQUIRE( g->u.wield( g->u.i_at( g->u.inv.position_by_type( itype_id( "bottle_glass" ) ) ) ) );
+        REQUIRE( player_character.cash == 1000 );
+        REQUIRE( has_item( player_character, "bottle_plastic", 1 ) );
+        REQUIRE( has_beer_bottle( player_character, 2 ) );
+        REQUIRE( player_character.wield( player_character.i_at( player_character.inv.position_by_type(
+                                             itype_id( "bottle_glass" ) ) ) ) );
         talk_effect_t &effects = d.responses[1].success;
         effects.apply( d );
-        CHECK_FALSE( has_item( g->u, "bottle_plastic", 1 ) );
-        CHECK_FALSE( has_item( g->u, "beer", 1 ) );
+        CHECK_FALSE( has_item( player_character, "bottle_plastic", 1 ) );
+        CHECK_FALSE( has_item( player_character, "beer", 1 ) );
         CHECK( has_item( talker_npc, "bottle_plastic", 1 ) );
         CHECK( has_item( talker_npc, "beer", 2 ) );
         effects = d.responses[2].success;
@@ -786,13 +799,13 @@ TEST_CASE( "npc_talk_effects_advanced", "[npc_talk]" )
         CHECK( has_item( talker_npc, "beer", 1 ) );
         effects = d.responses[3].success;
         effects.apply( d );
-        CHECK( has_item( g->u, "beer", 1 ) );
+        CHECK( has_item( player_character, "beer", 1 ) );
         effects = d.responses[4].success;
         effects.apply( d );
-        CHECK( has_item( g->u, "beer", 0 ) );
-        CHECK_FALSE( has_item( g->u, "beer", 1 ) );
+        CHECK( has_item( player_character, "beer", 0 ) );
+        CHECK_FALSE( has_item( player_character, "beer", 1 ) );
         // Ecash should NOT be used for trade
-        REQUIRE( g->u.cash == 1000 );
+        REQUIRE( player_character.cash == 1000 );
     }
 }
 
@@ -911,13 +924,14 @@ TEST_CASE( "npc_talk_bionics", "[npc_talk]" )
 {
     dialogue d;
     npc &talker_npc = prep_test( d );
+    avatar &player_character = get_avatar();
 
-    g->u.clear_bionics();
+    player_character.clear_bionics();
     talker_npc.clear_bionics();
     d.add_topic( "TALK_TEST_BIONICS" );
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    g->u.add_bionic( bionic_id( "bio_ads" ) );
+    player_character.add_bionic( bionic_id( "bio_ads" ) );
     talker_npc.add_bionic( bionic_id( "bio_power_storage" ) );
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
@@ -931,72 +945,73 @@ TEST_CASE( "npc_talk_effects", "[npc_talk]" )
 
     dialogue d;
     npc &talker_npc = prep_test( d );
+    avatar &player_character = get_avatar();
 
     // Speaker effects test use cash for simplicity
-    g->u.cash = 10000;
-    CHECK( g->u.cash == 10000 );
+    player_character.cash = 10000;
+    CHECK( player_character.cash == 10000 );
 
     SECTION( "simple" ) {
         d.add_topic( "TALK_TEST_SPEAKER_EFFECT_SIMPLE" );
         d.apply_speaker_effects( d.topic_stack.back() );
-        REQUIRE( g->u.cash == 9500 );
+        REQUIRE( player_character.cash == 9500 );
         d.apply_speaker_effects( d.topic_stack.back() );
-        REQUIRE( g->u.cash == 9000 );
+        REQUIRE( player_character.cash == 9000 );
 
         SECTION( "simple_conditional" ) {
             d.add_topic( "TALK_TEST_SPEAKER_EFFECT_SIMPLE_CONDITIONAL" );
             d.apply_speaker_effects( d.topic_stack.back() );
-            REQUIRE( g->u.cash == 8500 );
+            REQUIRE( player_character.cash == 8500 );
             d.apply_speaker_effects( d.topic_stack.back() );
-            REQUIRE( g->u.cash == 8500 );
+            REQUIRE( player_character.cash == 8500 );
         }
     }
 
     SECTION( "sentinel" ) {
         d.add_topic( "TALK_TEST_SPEAKER_EFFECT_SENTINEL" );
         d.apply_speaker_effects( d.topic_stack.back() );
-        REQUIRE( g->u.cash == 9500 );
+        REQUIRE( player_character.cash == 9500 );
         d.apply_speaker_effects( d.topic_stack.back() );
-        REQUIRE( g->u.cash == 9500 );
+        REQUIRE( player_character.cash == 9500 );
 
         SECTION( "sentinel_conditional" ) {
             d.add_topic( "TALK_TEST_SPEAKER_EFFECT_SENTINEL_CONDITIONAL" );
             d.apply_speaker_effects( d.topic_stack.back() );
-            REQUIRE( g->u.cash == 9000 );
+            REQUIRE( player_character.cash == 9000 );
             d.apply_speaker_effects( d.topic_stack.back() );
-            REQUIRE( g->u.cash == 9000 );
+            REQUIRE( player_character.cash == 9000 );
         }
     }
 
     SECTION( "compound" ) {
         d.add_topic( "TALK_TEST_SPEAKER_EFFECT_COMPOUND" );
         d.apply_speaker_effects( d.topic_stack.back() );
-        REQUIRE( g->u.cash == 9000 );
+        REQUIRE( player_character.cash == 9000 );
         d.apply_speaker_effects( d.topic_stack.back() );
-        REQUIRE( g->u.cash == 8000 );
+        REQUIRE( player_character.cash == 8000 );
 
         SECTION( "compound_conditional" ) {
             d.add_topic( "TALK_TEST_SPEAKER_EFFECT_COMPOUND_CONDITIONAL" );
             d.apply_speaker_effects( d.topic_stack.back() );
-            REQUIRE( g->u.cash == 6500 );
+            REQUIRE( player_character.cash == 6500 );
             d.apply_speaker_effects( d.topic_stack.back() );
-            REQUIRE( g->u.cash == 6000 );
+            REQUIRE( player_character.cash == 6000 );
         }
     }
 
     SECTION( "compound_sentinel" ) {
         d.add_topic( "TALK_TEST_SPEAKER_EFFECT_COMPOUND_SENTINEL" );
         d.apply_speaker_effects( d.topic_stack.back() );
-        REQUIRE( g->u.cash == 9250 );
+        REQUIRE( player_character.cash == 9250 );
         d.apply_speaker_effects( d.topic_stack.back() );
-        REQUIRE( g->u.cash == 8750 );
+        REQUIRE( player_character.cash == 8750 );
 
         SECTION( "sentinel_conditional" ) {
             d.add_topic( "TALK_TEST_SPEAKER_EFFECT_COMPOUND_SENTINEL_CONDITIONAL" );
             d.apply_speaker_effects( d.topic_stack.back() );
-            REQUIRE( g->u.cash == 8000 );
+            REQUIRE( player_character.cash == 8000 );
             d.apply_speaker_effects( d.topic_stack.back() );
-            REQUIRE( g->u.cash == 8000 );
+            REQUIRE( player_character.cash == 8000 );
         }
     }
 

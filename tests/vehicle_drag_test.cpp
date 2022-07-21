@@ -32,20 +32,22 @@ static void clear_game_drag( const ter_id &terrain )
     clear_npcs();
     clear_avatar();
 
+    avatar &player_character = get_avatar();
     // Move player somewhere safe
-    CHECK( !g->u.in_vehicle );
-    g->u.setpos( tripoint_zero );
+    CHECK( !player_character.in_vehicle );
+    player_character.setpos( tripoint_zero );
     // Blind the player to avoid needless drawing-related overhead
-    g->u.add_effect( effect_blind, 365_days, num_bp );
+    player_character.add_effect( effect_blind, 365_days, num_bp );
     // Make sure the ST is 8 so that muscle powered results are consistent
-    g->u.str_cur = 8;
+    player_character.str_cur = 8;
 
     clear_vehicles();
     build_test_map( terrain );
 
+    map &here = get_map();
     // hard force a rebuild of caches
-    g->m.shift( point_south );
-    g->m.shift( point_north );
+    here.shift( point_south );
+    here.shift( point_north );
 }
 
 static vehicle *setup_drag_test( const vproto_id &veh_id )
