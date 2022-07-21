@@ -10,12 +10,15 @@
 #include "calendar.h"
 #include "enums.h"
 #include "optional.h"
-#include "omdata.h"
+#include "om_direction.h"
 #include "type_id.h"
 
+class item;
 class JsonObject;
 class JsonOut;
-class item;
+struct oter_t;
+class overmap_connection;
+class overmap_special;
 
 struct advanced_inv_pane_save_state {
     public:

@@ -57,6 +57,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmap_location.h"
+#include "overmap_special.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "path_info.h"

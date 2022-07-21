@@ -31,6 +31,7 @@
 #include "optional.h"
 #include "overmap.h"
 #include "overmap_connection.h"
+#include "overmap_special.h"
 #include "overmap_types.h"
 #include "popup.h"
 #include "rng.h"

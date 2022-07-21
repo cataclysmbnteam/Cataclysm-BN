@@ -5,15 +5,9 @@
 #include <string>
 #include <vector>
 
-#include "int_id.h"
-#include "string_id.h"
+#include "type_id.h"
 
 class JsonObject;
-struct oter_t;
-struct oter_type_t;
-
-using oter_type_id = int_id<oter_type_t>;
-using oter_type_str_id = string_id<oter_type_t>;
 
 struct overmap_location {
     public:
@@ -22,13 +16,13 @@ struct overmap_location {
         void finalize();
 
         // Test if oter meets the terrain restrictions.
-        bool test( const int_id<oter_t> &oter ) const;
+        bool test( const oter_id &oter ) const;
         std::vector<oter_type_id> get_all_terrains() const;
         oter_type_id get_random_terrain() const;
 
     public:
         // Used by generic_factory
-        string_id<overmap_location> id;
+        overmap_location_id id;
         bool was_loaded = false;
 
     private:

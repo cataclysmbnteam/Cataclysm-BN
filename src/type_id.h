@@ -113,6 +113,19 @@ struct oter_t;
 using oter_id = int_id<oter_t>;
 using oter_str_id = string_id<oter_t>;
 
+struct oter_type_t;
+using oter_type_id = int_id<oter_type_t>;
+using oter_type_str_id = string_id<oter_type_t>;
+
+class overmap_connection;
+using overmap_connection_id = string_id<overmap_connection>;
+
+struct overmap_location;
+using overmap_location_id = string_id<overmap_location>;
+
+class overmap_special;
+using overmap_special_id = string_id<overmap_special>;
+
 class recipe;
 using recipe_id = string_id<recipe>;
 
