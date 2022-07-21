@@ -848,7 +848,7 @@
       { "y": 2, "x": -5, "parts": [ "hdframe_vertical_2", "seat" ] },
       { "y": 1, "x": -5, "parts": [ "hdframe_horizontal", "aisle_vertical" ] },
       { "y": 0, "x": -5, "parts": [ "hdframe_vertical_2", "seat" ] },
-      { "y": -1, "x": -5, "parts": [ "hdframe_vertical", "hdhalfboard_vertical", "plating_military" ] }
+      { "y": -1, "x": -5, "parts": [ "hdframe_vertical", "hdhalfboard_vertical", "plating_military" ] },
       { "x": 0, "y": 0, "parts": [ "hdframe_cross", { "fuel": "jp8", "part": "tank" } ] },
       { "x": 0, "y": 0, "parts": [ "hdroof", "seat", "seatbelt", "controls", "dashboard" ] },
       { "x": 0, "y": 0, "parts": [ "vehicle_clock", "horn_big" ] },
