@@ -1113,7 +1113,7 @@
       { "x": -2, "y": 1, "part": "door_trunk" },
       { "x": -2, "y": 2, "part": "xlframe_horizontal" },
       { "x": -2, "y": 2, "part": "xlhalfboard_se" },
-      { "x": -2, "y": 2, "parts": [ "wheel_mount_medium", "wheel_slick" ] }
+      { "x": -2, "y": 2, "parts": [ "wheel_mount_medium", "wheel_slick" ] },
       { "x": 0, "y": 0, "parts": [ "xlframe_cross", "seat_leather", "seatbelt", "controls" ] },
       { "x": 0, "y": 0, "parts": [ "stereo", "dashboard", "vehicle_alarm", "horn_car", "roof" ] },
       { "x": 0, "y": -1, "parts": [ "xlframe_vertical_left", "door_sw" ] },
