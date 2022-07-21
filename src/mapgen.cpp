@@ -5634,11 +5634,9 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units
     veh->sm_pos = ms_to_sm_remain( p_ms );
     veh->pos = p_ms.xy();
     veh->place_spawn_items();
-    veh->face.init( dir );
-    veh->turn_dir = dir;
     // for backwards compatibility, we always spawn with a pivot point of (0,0) so
     // that the mount at (0,0) is located at the spawn position.
-    veh->precalc_mounts( 0, dir, point() );
+    veh->set_facing_and_pivot( dir, point_zero, false );
     //debugmsg("adding veh: %d, sm: %d,%d,%d, pos: %d, %d", veh, veh->smx, veh->smy, veh->smz, veh->posx, veh->posy);
     std::unique_ptr<vehicle> placed_vehicle_up =
         add_vehicle_to_map( std::move( veh ), merge_wrecks );
@@ -5679,6 +5677,9 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
 
     //When hitting a wall, only smash the vehicle once (but walls many times)
     bool needs_smashing = false;
+
+    veh->attach();
+    veh->refresh_position();
 
     for( std::vector<int>::const_iterator part = frame_indices.begin();
          part != frame_indices.end(); part++ ) {
@@ -5854,7 +5855,7 @@ void map::rotate( int turns, const bool setpos_safe )
         }
     }
 
-    clear_vehicle_cache( abs_sub.z );
+    clear_vehicle_cache( );
     clear_vehicle_list( abs_sub.z );
 
     // Move the submaps around.
@@ -5888,7 +5889,7 @@ void map::rotate( int turns, const bool setpos_safe )
             update_vehicle_list( sm, abs_sub.z );
         }
     }
-    reset_vehicle_cache( abs_sub.z );
+    reset_vehicle_cache( );
 
     // rotate zones
     zone_manager &mgr = zone_manager::get_manager();

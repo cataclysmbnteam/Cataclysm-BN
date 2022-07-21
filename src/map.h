@@ -740,8 +740,8 @@ class map
         void add_vehicle_to_cache( vehicle * );
         void clear_vehicle_point_from_cache( vehicle *veh, const tripoint &pt );
         void update_vehicle_cache( vehicle *, int old_zlevel );
-        void reset_vehicle_cache( int zlev );
-        void clear_vehicle_cache( int zlev );
+        void reset_vehicle_cache( );
+        void clear_vehicle_cache( );
         void clear_vehicle_list( int zlev );
         void update_vehicle_list( const submap *to, int zlev );
         //Returns true if vehicle zones are dirty and need to be recached
@@ -778,12 +778,10 @@ class map
         void unboard_vehicle( const tripoint &p, bool dead_passenger = false );
         // Change vehicle coordinates and move vehicle's driver along.
         // WARNING: not checking collisions!
-        // optionally: include a list of parts to displace instead of the entire vehicle
-        bool displace_vehicle( vehicle &veh, const tripoint &dp, bool adjust_pos = true,
-                               const std::set<int> &parts_to_move = {} );
-        // make sure a vehicle that is split across z-levels is properly supported
-        // calls displace_vehicle() and shouldn't be called from displace_vehicle
-        void level_vehicle( vehicle &veh );
+        bool displace_vehicle( vehicle &veh, const tripoint &dp );
+
+        // Shift the vehicle's z-level without moving any parts
+        void shift_vehicle_z( vehicle &veh, int z_shift );
         // move water under wheels. true if moved
         bool displace_water( const tripoint &dp );
 
