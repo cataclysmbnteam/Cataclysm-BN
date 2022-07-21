@@ -617,7 +617,7 @@
         "y": -1,
         "x": -3,
         "parts": [ "hdframe_sw", "hdboard_sw", "plating_military", "wheel_mount_heavy", "wheel_armor" ]
-      }
+      },
       { "x": -1, "y": 2, "parts": [ "hdframe_cross", "seat", "seatbelt", "hdroof" ] },
       { "x": -1, "y": 3, "parts": [ "hdframe_vertical_right", "hddoor_right" ] },
       { "x": -2, "y": -1, "parts": [ "hdframe_vertical_left", "hdboard_vertical_left" ] },
@@ -710,7 +710,7 @@
         "y": -1,
         "x": -3,
         "parts": [ "hdframe_sw", "hdboard_sw", "plating_military", "wheel_mount_heavy", "wheel_armor" ]
-      }
+      },
       { "x": 0, "y": 0, "parts": [ "hdframe_cross", "hdroof" ] },
       { "x": 0, "y": 0, "parts": [ { "fuel": "jp8", "part": "tank" }, "controls", "dashboard" ] },
       { "x": 0, "y": 0, "parts": [ "vehicle_clock", "horn_big", "seat", "seatbelt" ] },
