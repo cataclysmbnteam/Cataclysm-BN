@@ -333,15 +333,16 @@ class player : public Character
         int get_lift_assist() const;
 
         bool list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
-                        bool empty = true ) const;
+                        bool include_empty_mags = true, bool include_potential = false ) const;
         /**
          * Select suitable ammo with which to reload the item
          * @param base Item to select ammo for
-         * @param prompt force display of the menu even if only one choice
-         * @param empty allow selection of empty magazines
+         * @param prompt Force display of the menu even if only one choice
+         * @param include_empty_mags Allow selection of empty magazines
+         * @param include_potential Include ammo that can potentially be used, but not right now
          */
         item::reload_option select_ammo( const item &base, bool prompt = false,
-                                         bool empty = true ) const;
+                                         bool include_empty_mags = true, bool include_potential = false ) const;
 
         /** Select ammo from the provided options */
         item::reload_option select_ammo( const item &base, std::vector<item::reload_option> opts ) const;
@@ -455,8 +456,8 @@ class player : public Character
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
         bool can_sleep();
 
-        /** Uses morale and other factors to return the player's focus target goto value */
-        int calc_focus_equilibrium( bool ignore_pain = false ) const;
+        /** Uses morale, pain and fatigue to return the player's focus target goto value */
+        int calc_focus_equilibrium() const;
         /** Calculates actual focus gain/loss value from focus equilibrium*/
         int calc_focus_change() const;
         /** Uses calc_focus_change to update the player's current focus */
@@ -775,5 +776,8 @@ class player : public Character
         /** Stamp of skills. @ref learned_recipes are valid only with this set of skills. */
         mutable decltype( _skills ) valid_autolearn_skills;
 };
+
+/** Calculates the player's morale cap due to fatigue */
+int calc_fatigue_cap( const player &p );
 
 #endif // CATA_SRC_PLAYER_H

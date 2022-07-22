@@ -170,11 +170,12 @@ static std::map<const Creature *, int> do_blast( const tripoint &p, const float 
     static const int x_offset[10] = { -1, 1,  0, 0,  1, -1, -1, 1, 0, 0 };
     static const int y_offset[10] = { 0, 0, -1, 1, -1,  1, -1, 1, 0, 0 };
     static const int z_offset[10] = { 0, 0,  0, 0,  0,  0,  0, 0, 1, -1 };
-    const size_t max_index = g->m.has_zlevels() ? 10 : 8;
+    map &here = get_map();
+    const size_t max_index = here.has_zlevels() ? 10 : 8;
 
     std::map<const Creature *, int> blasted;
 
-    g->m.bash( p, fire ? power : ( 2 * power ), true, false, false );
+    here.bash( p, fire ? power : ( 2 * power ), true, false, false );
 
     std::priority_queue< std::pair<float, tripoint>, std::vector< std::pair<float, tripoint> >, pair_greater_cmp_first >
     open;
@@ -199,7 +200,7 @@ static std::map<const Creature *, int> do_blast( const tripoint &p, const float 
             continue;
         }
 
-        if( g->m.impassable( pt ) && pt != p ) {
+        if( here.impassable( pt ) && pt != p ) {
             // Don't propagate further
             continue;
         }
@@ -207,26 +208,26 @@ static std::map<const Creature *, int> do_blast( const tripoint &p, const float 
         // Iterate over all neighbors. Bash all of them, propagate to some
         for( size_t i = 0; i < max_index; i++ ) {
             tripoint dest( pt + tripoint( x_offset[i], y_offset[i], z_offset[i] ) );
-            if( closed.count( dest ) != 0 || !g->m.inbounds( dest ) ) {
+            if( closed.count( dest ) != 0 || !here.inbounds( dest ) ) {
                 continue;
             }
 
             if( z_offset[i] == 0 ) {
                 // Horizontal - no floor bashing
-                g->m.bash( dest, force, true, false, false );
+                here.bash( dest, force, true, false, false );
             } else if( z_offset[i] > 0 ) {
                 // Should actually bash through the floor first, but that's not really possible yet
-                g->m.bash( dest, force, true, false, true );
-            } else if( !g->m.valid_move( pt, dest, false, true ) ) {
+                here.bash( dest, force, true, false, true );
+            } else if( !here.valid_move( pt, dest, false, true ) ) {
                 // Only bash through floor if it doesn't exist
                 // Bash the current tile's floor, not the one's below
-                g->m.bash( pt, force, true, false, true );
+                here.bash( pt, force, true, false, true );
             }
 
             float next_dist = distance;
             next_dist += ( x_offset[i] == 0 || y_offset[i] == 0 ) ? tile_dist : diag_dist;
             if( z_offset[i] != 0 ) {
-                if( !g->m.valid_move( pt, dest, false, true ) ) {
+                if( !here.valid_move( pt, dest, false, true ) ) {
                     continue;
                 }
 
@@ -243,7 +244,7 @@ static std::map<const Creature *, int> do_blast( const tripoint &p, const float 
     // Draw the explosion
     std::map<tripoint, nc_color> explosion_colors;
     for( auto &pt : closed ) {
-        if( g->m.impassable( pt ) ) {
+        if( here.impassable( pt ) ) {
             continue;
         }
 
@@ -268,21 +269,21 @@ static std::map<const Creature *, int> do_blast( const tripoint &p, const float 
             continue;
         }
 
-        g->m.smash_items( pt, force, _( "force of the explosion" ), true );
+        here.smash_items( pt, force, _( "force of the explosion" ), true );
 
         if( fire ) {
             int intensity = 1 + ( force > 10.0f ) + ( force > 30.0f );
 
-            if( !g->m.has_zlevels() && g->m.is_outside( pt ) && intensity == 2 ) {
+            if( !here.has_zlevels() && here.is_outside( pt ) && intensity == 2 ) {
                 // In 3D mode, it would have fire fields above, which would then fall
                 // and fuel the fire on this tile
                 intensity++;
             }
 
-            g->m.add_field( pt, fd_fire, intensity );
+            here.add_field( pt, fd_fire, intensity );
         }
 
-        if( const optional_vpart_position vp = g->m.veh_at( pt ) ) {
+        if( const optional_vpart_position vp = here.veh_at( pt ) ) {
             // TODO: Make this weird unit used by vehicle::damage more sensible
             vp->vehicle().damage( vp->part_index(), force, fire ? DT_HEAT : DT_BASH, false );
         }
@@ -612,12 +613,13 @@ static std::map<const Creature *, int> shrapnel( const tripoint &src, const proj
     float obstacle_cache[MAPSIZE_X][MAPSIZE_Y] = {};
     float visited_cache[MAPSIZE_X][MAPSIZE_Y] = {};
 
+    map &here = get_map();
     // TODO: Calculate range based on max effective range for projectiles.
     // Basically bisect between 0 and map diameter using shrapnel_calc().
     // Need to update shadowcasting to support limiting range without adjusting initial distance.
-    const tripoint_range<tripoint> area = g->m.points_on_zlevel( src.z );
+    const tripoint_range<tripoint> area = here.points_on_zlevel( src.z );
 
-    g->m.build_obstacle_cache( area.min(), area.max() + tripoint_south_east, obstacle_cache );
+    here.build_obstacle_cache( area.min(), area.max() + tripoint_south_east, obstacle_cache );
 
     // Shadowcasting normally ignores the origin square,
     // so apply it manually to catch monsters standing on the explosive.
@@ -668,12 +670,12 @@ static std::map<const Creature *, int> shrapnel( const tripoint &src, const proj
             }
             damaged[critter] = damage_taken;
         }
-        if( g->m.impassable( target ) ) {
+        if( here.impassable( target ) ) {
             int damage = proj.impact.total_damage();
-            if( optional_vpart_position vp = g->m.veh_at( target ) ) {
+            if( optional_vpart_position vp = here.veh_at( target ) ) {
                 vp->vehicle().damage( vp->part_index(), damage / 100 );
             } else {
-                g->m.bash( target, damage / 100, true );
+                here.bash( target, damage / 100, true );
             }
         }
     }
@@ -800,6 +802,7 @@ void flashbang( const tripoint &p, bool player_immune, const std::string &exp_na
 void explosion_funcs::flashbang( const queued_explosion &qe )
 {
     const tripoint &p = qe.pos;
+    map &here = get_map();
 
     draw_explosion( p, 8, c_white, qe.graphics_name );
     int dist = rl_dist( g->u.pos(), p );
@@ -807,7 +810,7 @@ void explosion_funcs::flashbang( const queued_explosion &qe )
         if( !g->u.has_bionic( bio_ears ) && !g->u.is_wearing( itype_rm13_armor_on ) ) {
             g->u.add_effect( effect_deaf, time_duration::from_turns( 40 - dist * 4 ) );
         }
-        if( g->m.sees( g->u.pos(), p, 8 ) ) {
+        if( here.sees( g->u.pos(), p, 8 ) ) {
             int flash_mod = 0;
             if( g->u.has_trait( trait_PER_SLIME ) ) {
                 if( one_in( 2 ) ) {
@@ -835,7 +838,7 @@ void explosion_funcs::flashbang( const queued_explosion &qe )
             if( dist <= 4 ) {
                 critter.add_effect( effect_stunned, time_duration::from_turns( 10 - dist ) );
             }
-            if( critter.has_flag( MF_SEES ) && g->m.sees( critter.pos(), p, 8 ) ) {
+            if( critter.has_flag( MF_SEES ) && here.sees( critter.pos(), p, 8 ) ) {
                 critter.add_effect( effect_blind, time_duration::from_turns( 18 - dist ) );
             }
             if( critter.has_flag( MF_HEARS ) ) {
@@ -910,9 +913,9 @@ void emp_blast( const tripoint &p )
     map &here = get_map();
     Character &u = get_player_character();
     const bool sight = u.sees( p );
-    if( g->m.has_flag( "CONSOLE", p ) ) {
+    if( here.has_flag( "CONSOLE", p ) ) {
         if( sight ) {
-            add_msg( _( "The %s is rendered non-functional!" ), g->m.tername( p ) );
+            add_msg( _( "The %s is rendered non-functional!" ), here.tername( p ) );
         }
         here.ter_set( p, t_console_broken );
         return;
@@ -1039,6 +1042,7 @@ void resonance_cascade( const tripoint &p )
 
 void explosion_funcs::resonance_cascade( const queued_explosion &qe )
 {
+    map &here = get_map();
     const tripoint &p = qe.pos;
 
     const time_duration maxglow = time_duration::from_turns( 100 - 5 * trig_dist( p, g->u.pos() ) );
@@ -1090,7 +1094,7 @@ void explosion_funcs::resonance_cascade( const queued_explosion &qe )
                                     break;
                             }
                             if( !one_in( 3 ) ) {
-                                g->m.add_field( dest + point( k, l ), type, 3 );
+                                here.add_field( dest + point( k, l ), type, 3 );
                             }
                         }
                     }
@@ -1100,11 +1104,11 @@ void explosion_funcs::resonance_cascade( const queued_explosion &qe )
                 case  8:
                 case  9:
                 case 10:
-                    g->m.trap_set( dest, tr_portal );
+                    here.trap_set( dest, tr_portal );
                     break;
                 case 11:
                 case 12:
-                    g->m.trap_set( dest, tr_goo );
+                    here.trap_set( dest, tr_goo );
                     break;
                 case 13:
                 case 14:
@@ -1116,7 +1120,7 @@ void explosion_funcs::resonance_cascade( const queued_explosion &qe )
                 case 16:
                 case 17:
                 case 18:
-                    g->m.destroy( dest );
+                    here.destroy( dest );
                     break;
                 case 19: {
                     explosion_data ex;

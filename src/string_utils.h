@@ -41,6 +41,8 @@ bool match_include_exclude( const std::string &text, std::string filter );
 
 /**
  * \brief Returns true if s1 starts with s2
+ *
+ * TODO: Switch to starts_with method of std::string when we move to C++20
  */
 bool string_starts_with( const std::string &s1, const std::string &s2 );
 
@@ -48,6 +50,8 @@ bool string_starts_with( const std::string &s1, const std::string &s2 );
  * Returns true if s1 starts with s2.
  * This version accepts constant string literals and is ≈1.5 times faster than std::string version.
  * Note: N is (size+1) for null-terminated strings.
+ *
+ * TODO: Maybe switch to std::string::starts_with + std::string_view when we move to C++20
  */
 template <std::size_t N>
 inline bool string_starts_with( const std::string &s1, const char( &s2 )[N] )
@@ -57,6 +61,8 @@ inline bool string_starts_with( const std::string &s1, const char( &s2 )[N] )
 
 /**
  * \brief Returns true if s1 ends with s2
+ *
+ * TODO: Switch to ends_with method of std::string when we move to C++20
  */
 bool string_ends_with( const std::string &s1, const std::string &s2 );
 
@@ -64,6 +70,8 @@ bool string_ends_with( const std::string &s1, const std::string &s2 );
  *  Returns true iff s1 ends with s2.
  *  This version accepts constant string literals and is ≈1.5 times faster than std::string version.
  *  Note: N is (size+1) for null-terminated strings.
+ *
+ * TODO: Maybe switch to std::string::ends_with + std::string_view when we move to C++20
  */
 template <std::size_t N>
 inline bool string_ends_with( const std::string &s1, const char( &s2 )[N] )

@@ -11,10 +11,10 @@
     "id": "bio_ads",
     "type": "bionic",
     "name": { "str": "Active Defense System" },
-    "description": "A thin forcefield surrounds your body, continually draining power.  Anything attempting to penetrate this field has a chance of being deflected at the cost of energy, reducing their ability to deal damage.  Bullets will be deflected more than melee weapons and those in turn more than massive objects.",
+    "description": "This bionic charges a forcefield around your body that deflects incoming attacks.  Bullets are heavily deflected, piercing well deflected, slashing moderately deflected and bashing barely deflected.  This bionic charges at half speed for 3 turns after being hit, and doesn't consume power when fully charged.",
     "occupied_bodyparts": [ [ "torso", 10 ], [ "head", 1 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 2 ], [ "leg_r", 2 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
-    "act_cost": "10 kJ",
+    "act_cost": "5 kJ",
     "react_cost": "10 kJ",
     "time": 1
   },
@@ -769,21 +769,19 @@
     "id": "bio_power_armor_interface",
     "type": "bionic",
     "name": { "str": "Power Armor Interface" },
-    "description": "Interfaces your power system with the internal charging port on suits of power armor, allowing them to draw from your bionic power banks.",
+    "description": "Interfaces your bionic power system with the internal charging port on suits of power armor, allowing them to draw from the user's bionic power banks.  Twice as efficient as using a UPS.",
     "occupied_bodyparts": [ [ "torso", 4 ], [ "head", 1 ] ],
     "flags": [ "BIONIC_ARMOR_INTERFACE", "BIONIC_TOGGLED" ],
-    "react_cost": "1 kJ",
-    "time": 1
+    "fuel_efficiency": 2
   },
   {
     "id": "bio_power_armor_interface_mkII",
     "type": "bionic",
     "name": { "str": "Power Armor Interface Mk. II" },
-    "description": "Interfaces your power system with the internal charging port on suits of power armor, allowing them to draw from your bionic power banks.  Twice as efficient as the Mk. I model.",
+    "description": "Interfaces your bionic power system with the internal charging port on suits of power armor, allowing them to draw from the user's bionic power banks.  Four times as efficient as using a UPS, the Mk. II was designed by DoubleTech Inc., to meet the popularity of the Mk. II power armor series.",
     "occupied_bodyparts": [ [ "torso", 3 ], [ "head", 2 ] ],
     "flags": [ "BIONIC_ARMOR_INTERFACE", "BIONIC_TOGGLED" ],
-    "react_cost": "500 J",
-    "time": 1
+    "fuel_efficiency": 4
   },
   {
     "id": "bio_power_storage",

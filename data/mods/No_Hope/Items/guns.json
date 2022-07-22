@@ -89,8 +89,8 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "ammo_effects": [ "PLASMA", "EXPLOSIVE", "FLAME", "NEVER_JAMS" ],
-    "flags": [ "NO_UNLOAD", "PYROMANIAC_WEAPON" ]
+    "ammo_effects": [ "PLASMA", "EXPLOSIVE", "FLAME" ],
+    "flags": [ "NO_UNLOAD", "PYROMANIAC_WEAPON", "NEVER_JAMS" ]
   },
   {
     "id": "l_sp_45",

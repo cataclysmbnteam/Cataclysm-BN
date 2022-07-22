@@ -400,6 +400,7 @@ void map::process_fields_in_submap( submap *const current_submap,
     // Just to avoid typing that long string for a temp value.
     field_entry *tmpfld = nullptr;
 
+    map &here = get_map();
     tripoint thep;
     thep.z = submap.z;
 
@@ -854,7 +855,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                 if( cur_fd_type_id == fd_fungal_haze ) {
                     if( one_in( 10 - 2 * cur.get_field_intensity() ) ) {
                         // Haze'd terrain
-                        fungal_effects( *g, g->m ).spread_fungus( p );
+                        fungal_effects( *g, here ).spread_fungus( p );
                     }
                 }
 

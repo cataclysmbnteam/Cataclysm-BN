@@ -292,6 +292,23 @@ void Item_factory::finalize_pre( itype &obj )
             }
         }
     }
+    const auto check_ammo_effects = []( const itype_id & id, std::set<ammo_effect_str_id> &effects ) {
+        for( auto iter = effects.begin(); iter != effects.end(); ) {
+            const ammo_effect_str_id &ae_id = *iter;
+            if( ae_id.is_valid() ) {
+                iter++;
+            } else {
+                debugmsg( "%s has unknown ammo_effect %s, removing", id, ae_id );
+                iter = effects.erase( iter );
+            }
+        }
+    };
+    if( obj.gun ) {
+        check_ammo_effects( obj.id, obj.gun->ammo_effects );
+    }
+    if( obj.gunmod ) {
+        check_ammo_effects( obj.id, obj.gunmod->ammo_effects );
+    }
 
     // Helper for ammo migration in following sections
     auto migrate_ammo_set = [&]( std::set<ammotype> &ammoset ) {
@@ -1040,6 +1057,8 @@ void Item_factory::init()
     add_actor( std::make_unique<cauterize_actor>() );
     add_actor( std::make_unique<consume_drug_iuse>() );
     add_actor( std::make_unique<delayed_transform_iuse>() );
+    add_actor( std::make_unique<set_transform_iuse>() );
+    add_actor( std::make_unique<set_transformed_iuse>() );
     add_actor( std::make_unique<enzlave_actor>() );
     add_actor( std::make_unique<explosion_iuse>() );
     add_actor( std::make_unique<firestarter_actor>() );
@@ -1061,7 +1080,6 @@ void Item_factory::init()
     add_actor( std::make_unique<reveal_map_actor>() );
     add_actor( std::make_unique<salvage_actor>() );
     add_actor( std::make_unique<unfold_vehicle_iuse>() );
-    add_actor( std::make_unique<ups_based_armor_actor>() );
     add_actor( std::make_unique<place_trap_actor>() );
     add_actor( std::make_unique<emit_actor>() );
     add_actor( std::make_unique<saw_barrel_actor>() );
@@ -1235,6 +1253,11 @@ void Item_factory::check_definitions() const
         }
         if( type->can_use( "MA_MANUAL" ) && !type->book ) {
             msg += "has use_action MA_MANUAL but is not a book\n";
+        }
+        if( type->milling_data ) {
+            if( !has_template( type->milling_data->into_ ) ) {
+                msg += "type to mill into is invalid: " + type->milling_data->into_.str() + "\n";
+            }
         }
         if( type->ammo ) {
             if( !type->ammo->type && type->ammo->type != ammotype( "NULL" ) ) {
@@ -1645,6 +1668,12 @@ void Item_factory::load( islot_artifact &slot, const JsonObject &jo, const std::
     load_optional_enum_array( slot.effects_worn, jo, "effects_worn" );
 }
 
+void Item_factory::load( islot_milling &slot, const JsonObject &jo, const std::string & )
+{
+    assign( jo, "into", slot.into_ );
+    assign( jo, "conversion_rate", slot.conversion_rate_ );
+}
+
 void islot_ammo::load( const JsonObject &jo )
 {
     mandatory( jo, was_loaded, "ammo_type", type );
@@ -1838,7 +1867,6 @@ void Item_factory::load( islot_armor &slot, const JsonObject &jo, const std::str
     assign( jo, "storage", slot.storage, strict, 0_ml );
     assign( jo, "weight_capacity_modifier", slot.weight_capacity_modifier );
     assign( jo, "weight_capacity_bonus", slot.weight_capacity_bonus, strict, 0_gram );
-    assign( jo, "power_armor", slot.power_armor, strict );
     assign( jo, "valid_mods", slot.valid_mods, strict );
 
     assign_coverage_from_json( jo, "covers", slot.covers, slot.sided );
@@ -1855,7 +1883,6 @@ void Item_factory::load( islot_pet_armor &slot, const JsonObject &jo, const std:
     assign( jo, "environmental_protection", slot.env_resist, strict, 0 );
     assign( jo, "environmental_protection_with_filter", slot.env_resist_w_filter, strict, 0 );
     assign( jo, "storage", slot.storage, strict, 0_ml );
-    assign( jo, "power_armor", slot.power_armor, strict );
 }
 
 void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::string &src )
@@ -2590,6 +2617,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     load_slot_optional( def.brewable, jo, "brewable", src );
     load_slot_optional( def.fuel, jo, "fuel", src );
     load_slot_optional( def.relic_data, jo, "relic_data", src );
+    load_slot_optional( def.milling_data, jo, "milling", src );
 
     // optional gunmod slot may also specify mod data
     if( jo.has_member( "gunmod_data" ) ) {

@@ -193,7 +193,7 @@ void basecamp::define_camp( const tripoint_abs_omt &p, const std::string &camp_t
         e.cur_level = -1;
         e.pos = omt_pos;
         expansions[base_camps::base_dir] = e;
-        const std::string direction = oter_get_rotation_string( omt_ref );
+        const std::string &direction = oter_get_rotation_string( omt_ref );
         const oter_id bcid( direction.empty() ? "faction_base_camp_0" : "faction_base_camp_new_0" +
                             direction );
         overmap_buffer.ter_set( omt_pos, bcid );
@@ -609,7 +609,7 @@ void basecamp::form_crafting_inventory( map &target_map )
     const tripoint &dump_spot = get_dumping_spot();
     const tripoint &origin = target_map.getlocal( dump_spot );
     auto &mgr = zone_manager::get_manager();
-    if( g->m.check_vehicle_zones( g->get_levz() ) ) {
+    if( get_map().check_vehicle_zones( g->get_levz() ) ) {
         mgr.cache_vzones();
     }
     if( mgr.has_near( zone_type_camp_storage, dump_spot, 60 ) ) {
@@ -670,7 +670,7 @@ void basecamp::form_crafting_inventory()
         target_map.load( project_to<coords::sm>( omt_pos ), false );
         form_crafting_inventory( target_map );
     } else {
-        form_crafting_inventory( g->m );
+        form_crafting_inventory( get_map() );
     }
 }
 
@@ -747,7 +747,7 @@ bool basecamp_action_components::choose_components()
 
 void basecamp_action_components::consume_components()
 {
-    map *target_map = &g->m;
+    map *target_map = &get_map();
     if( base_.by_radio ) {
         map_ = std::make_unique<tinymap>();
         // TODO: fix point types

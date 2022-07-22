@@ -20,7 +20,7 @@
     "phase": "liquid",
     "container": "bottle_plastic",
     "quench": 50,
-    "ammo_data": { "ammo_type": "water" },
+    "ammo_data": { "ammo_type": "water", "effects": [ "RECOVER_10" ] },
     "flags": [ "EATEN_COLD", "UNSAFE_CONSUME" ],
     "use_action": "BLECH_BECAUSE_UNCLEAN"
   }

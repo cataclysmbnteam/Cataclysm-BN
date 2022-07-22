@@ -1,0 +1,67 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_fragile_roof",
+    "name": "fragile roof",
+    "description": "A roof that is destroyed more easily than the other kind of roof.  But when destroyed, it turns into that other kind, so is it really the weaker one?",
+    "looks_like": "t_flat_roof",
+    "symbol": ".",
+    "color": "red",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "FLAT" ],
+    "bash": {
+      "str_min": 1,
+      "str_max": 1,
+      "ter_set": "t_strong_roof",
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "bash_below": true
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_strong_roof",
+    "name": "strong roof",
+    "description": "A roof that is so tough, it could stop a nuke.  Only an omnipotent being can destroy it.",
+    "looks_like": "t_flat_roof",
+    "symbol": ".",
+    "color": "blue",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "FLAT" ],
+    "bash": { "str_min": 999, "str_max": 999, "sound": "crash!", "sound_fail": "whump!", "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_fragile_wall",
+    "copy-from": "t_wall",
+    "name": "fragile wall",
+    "description": "A fragile wall that has a fragile roof above it.  It's easy to destroy it from the side, but not from above.",
+    "symbol": "LINE_OXOX",
+    "color": "red",
+    "move_cost": 0,
+    "roof": "t_fragile_roof",
+    "bash": { "str_min": 1, "str_max": 1, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_null" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_fragile_floor",
+    "copy-from": "t_floor",
+    "name": "fragile floor",
+    "description": "A fragile floor that has a fragile roof above it.  When bashed down, it turns into strong floor.",
+    "symbol": ".",
+    "color": "red",
+    "roof": "t_fragile_roof",
+    "bash": { "sound": "SMASH!", "ter_set": "t_strong_floor", "str_min": 1, "str_max": 1 }
+  },
+  {
+    "type": "terrain",
+    "id": "t_strong_floor",
+    "copy-from": "t_floor",
+    "name": "strong floor",
+    "description": "A strong floor that has a strong roof above it.",
+    "symbol": ".",
+    "color": "green",
+    "roof": "t_strong_roof",
+    "bash": { "sound": "SMASH!", "ter_set": "t_null", "str_min": 1000, "str_max": 1000 }
+  }
+]

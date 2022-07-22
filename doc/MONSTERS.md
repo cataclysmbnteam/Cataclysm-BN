@@ -257,6 +257,13 @@ What field the monster emits and how often it does so. Time duration can use str
 
 Number of hitpoints regenerated per turn.
 
+## "regeneration_modifiers"
+( array of objects consisting of effect, base_mod (float) and scaling_mod (float), optional )
+"regeneration_modifiers": [ { "effect": "on_fire", "base_mod": -0.3, "scaling_mod": -0.15 } ],
+
+What effects (if any) affect the monster's regeneration positively/negatively.
+The mods stack additively (Intensity 2 on_fire produces a multiplier of 0.45) but are applied multiplicatively.
+
 ## "regenerates_in_dark"
 (boolean, optional)
 

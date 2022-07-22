@@ -1506,10 +1506,14 @@ void debug()
                     veh_cond_menu.query();
 
                     if( veh_cond_menu.ret >= 0 && veh_cond_menu.ret < 3 ) {
-                        // TODO: Allow picking this when add_vehicle has 3d argument
-                        vehicle *veh = g->m.add_vehicle( selected_opt, dest, -90_degrees, 100, veh_cond_menu.ret - 1 );
-                        if( veh != nullptr ) {
-                            g->m.board_vehicle( dest, &u );
+                        int dir = 0;
+                        if( query_int( dir, -90, _( "Vehicle direction (in degrees): " ) ) ) {
+                            vehicle *veh = g->m.add_vehicle( selected_opt, dest,
+                                                             normalize( units::from_degrees( dir ) ),
+                                                             100, veh_cond_menu.ret - 1 );
+                            if( veh != nullptr ) {
+                                g->m.board_vehicle( dest, &u );
+                            }
                         }
                     }
                 }
@@ -1960,34 +1964,9 @@ void debug()
         }
         break;
 
-        case DEBUG_SAVE_SCREENSHOT: {
-#if defined(TILES)
-            // check that the current '<world>/screenshots' directory exists
-            std::stringstream map_directory;
-            map_directory << g->get_world_base_save_path() << "/screenshots/";
-            assure_dir_exist( map_directory.str() );
-
-            // build file name: <map_dir>/screenshots/[<character_name>]_<date>.png
-            // Date format is a somewhat ISO-8601 compliant GMT time date (except for some characters that wouldn't pass on most file systems like ':').
-            std::time_t time = std::time( nullptr );
-            std::stringstream date_buffer;
-            date_buffer << std::put_time( std::gmtime( &time ), "%F_%H-%M-%S_%z" );
-            const auto tmp_file_name = string_format( "[%s]_%s.png", g->u.get_name(), date_buffer.str() );
-
-            std::string file_name = ensure_valid_file_name( tmp_file_name );
-            auto current_file_path = map_directory.str() + file_name;
-
-            // Take a screenshot of the viewport.
-            if( g->take_screenshot( current_file_path ) ) {
-                popup( _( "Successfully saved your screenshot to: %s" ), map_directory.str() );
-            } else {
-                popup( _( "An error occurred while trying to save the screenshot." ) );
-            }
-#else
-            popup( _( "This binary was not compiled with tiles support." ) );
-#endif
-        }
-        break;
+        case DEBUG_SAVE_SCREENSHOT:
+            g->queue_screenshot = true;
+            break;
 
         case DEBUG_GAME_REPORT: {
             // generate a game report, useful for bug reporting.

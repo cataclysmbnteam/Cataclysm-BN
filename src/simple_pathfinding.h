@@ -7,7 +7,7 @@
 
 #include "coordinates.h"
 #include "enums.h"
-#include "omdata.h"
+#include "om_direction.h"
 #include "optional.h"
 #include "point.h"
 

@@ -1798,8 +1798,6 @@ void player::process_items()
     } );
 
     // Active item processing done, now we're recharging.
-    item *cloak = nullptr;
-    item *power_armor = nullptr;
     std::vector<item *> active_worn_items;
     bool weapon_active = weapon.has_flag( "USE_UPS" ) &&
                          weapon.charges < weapon.type->maximum_charges();
@@ -1823,15 +1821,6 @@ void player::process_items()
             w.charges < w.type->maximum_charges() ) {
             active_worn_items.push_back( &w );
         }
-        if( w.active ) {
-            if( cloak == nullptr && w.has_flag( "ACTIVE_CLOAKING" ) ) {
-                cloak = &w;
-            }
-            // Only the main power armor item can be active, the other ones (hauling frame, helmet) aren't.
-            if( power_armor == nullptr && w.is_power_armor() ) {
-                power_armor = &w;
-            }
-        }
         // Necessary for UPS in Aftershock - check worn items for charge
         const itype_id &identifier = w.typeId();
         if( identifier == itype_UPS_off ) {
@@ -1851,41 +1840,6 @@ void player::process_items()
         ch_UPS += units::to_kilojoule( get_power_level() );
     }
     int ch_UPS_used = 0;
-    if( cloak != nullptr ) {
-        if( ch_UPS >= 20 ) {
-            use_charges( itype_UPS, 20 );
-            ch_UPS -= 20;
-            if( ch_UPS < 200 && one_in( 3 ) ) {
-                add_msg_if_player( m_warning, _( "Your cloaking flickers for a moment!" ) );
-            }
-        } else if( ch_UPS > 0 ) {
-            use_charges( itype_UPS, ch_UPS );
-            return;
-        } else {
-            add_msg_if_player( m_bad,
-                               _( "Your cloaking flickers and becomes opaque." ) );
-            // Bypass the "you deactivate the ..." message
-            cloak->active = false;
-            return;
-        }
-    }
-
-    // For powered armor, an armor-powering bionic should always be preferred over UPS usage.
-    if( power_armor != nullptr ) {
-        const int power_cost = 4;
-        bool bio_powered = can_interface_armor() && has_power();
-        // Bionic power costs are handled elsewhere.
-        if( !bio_powered ) {
-            if( ch_UPS >= power_cost ) {
-                use_charges( itype_UPS, power_cost );
-                ch_UPS -= power_cost;
-            } else {
-                // Deactivate armor here, bypassing the usual deactivation message.
-                add_msg_if_player( m_warning, _( "Your power armor disengages." ) );
-                power_armor->active = false;
-            }
-        }
-    }
 
     // Load all items that use the UPS to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
@@ -2433,7 +2387,7 @@ item::reload_option player::select_ammo( const item &base,
 }
 
 bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
-                        bool empty ) const
+                        bool include_empty_mags, bool include_potential ) const
 {
     auto opts = base.gunmods();
     opts.push_back( &base );
@@ -2451,7 +2405,7 @@ bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo
     bool ammo_match_found = false;
     int ammo_search_range = is_mounted() ? -1 : 1;
     for( const auto e : opts ) {
-        for( item_location &ammo : find_ammo( *e, empty, ammo_search_range ) ) {
+        for( const item_location &ammo : find_ammo( *e, include_empty_mags, ammo_search_range ) ) {
             // don't try to unload frozen liquids
             if( ammo->is_watertight_container() && ammo->contents_made_of( SOLID ) ) {
                 continue;
@@ -2459,24 +2413,27 @@ bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo
             auto id = ( ammo->is_ammo_container() || ammo->is_container() )
                       ? ammo->contents.front().typeId()
                       : ammo->typeId();
-            if( e->can_reload_with( id ) ) {
+            const bool can_reload_with = e->can_reload_with( id );
+            if( can_reload_with ) {
                 // Speedloaders require an empty target.
-                if( !ammo->has_flag( "SPEEDLOADER" ) || e->ammo_remaining() < 1 ) {
+                if( include_potential || !ammo->has_flag( "SPEEDLOADER" ) || e->ammo_remaining() < 1 ) {
                     ammo_match_found = true;
                 }
             }
-            if( can_reload( *e, id ) || e->has_flag( "RELOAD_AND_SHOOT" ) ) {
-                ammo_list.emplace_back( this, e, &base, std::move( ammo ) );
+            if( ( include_potential && can_reload_with )
+                || can_reload( *e, id ) || e->has_flag( "RELOAD_AND_SHOOT" ) ) {
+                ammo_list.emplace_back( this, e, &base, ammo );
             }
         }
     }
     return ammo_match_found;
 }
 
-item::reload_option player::select_ammo( const item &base, bool prompt, bool empty ) const
+item::reload_option player::select_ammo( const item &base, bool prompt,
+        bool include_empty_mags, bool include_potential ) const
 {
     std::vector<item::reload_option> ammo_list;
-    bool ammo_match_found = list_ammo( base, ammo_list, empty );
+    const bool ammo_match_found = list_ammo( base, ammo_list, include_empty_mags, include_potential );
 
     if( ammo_list.empty() ) {
         if( !is_npc() ) {
@@ -4450,7 +4407,21 @@ bool player::query_yn( const std::string &mes ) const
     return ::query_yn( mes );
 }
 
-int player::calc_focus_equilibrium( bool ignore_pain ) const
+int calc_fatigue_cap( const player &p )
+{
+    if( p.get_fatigue() >= fatigue_levels::massive ) {
+        return 20;
+    } else if( p.get_fatigue() >= fatigue_levels::exhausted ) {
+        return 40;
+    } else if( p.get_fatigue() >= fatigue_levels::dead_tired ) {
+        return 60;
+    } else if( p.get_fatigue() >= fatigue_levels::tired ) {
+        return 80;
+    }
+    return 0;
+}
+
+int player::calc_focus_equilibrium() const
 {
     int focus_equilibrium = 100;
 
@@ -4469,8 +4440,13 @@ int player::calc_focus_equilibrium( bool ignore_pain ) const
     int eff_morale = get_morale_level();
     // Factor in perceived pain, since it's harder to rest your mind while your body hurts.
     // Cenobites don't mind, though
-    if( !ignore_pain && !has_trait( trait_CENOBITE ) ) {
+    if( !has_trait( trait_CENOBITE ) ) {
         eff_morale = eff_morale - get_perceived_pain();
+    }
+
+    // as baseline morale is 100, calc_fatigue_cap() has to -100 to apply accurate penalties.
+    if( calc_fatigue_cap( *this ) != 0 && eff_morale > calc_fatigue_cap( *this ) - 100 ) {
+        eff_morale = calc_fatigue_cap( *this ) - 100;
     }
 
     if( eff_morale < -99 ) {
@@ -4535,14 +4511,6 @@ int player::calc_focus_change() const
 
     gain *= base_change;
 
-    // Fatigue will incrementally decrease any focus above related cap
-    if( ( get_fatigue() >= fatigue_levels::tired && focus_pool > 100 ) ||
-        ( get_fatigue() >= fatigue_levels::dead_tired && focus_pool > 75 ) ||
-        ( get_fatigue() >= fatigue_levels::exhausted && focus_pool > 50 ) ||
-        ( get_fatigue() >= fatigue_levels::massive && focus_pool > 25 ) ) {
-
-        gain = std::min( gain, -1 );
-    }
     return gain;
 }
 

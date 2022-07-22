@@ -1,0 +1,41 @@
+name: Generate Documentation
+
+permissions:
+  contents: write
+
+on:
+  push:
+    branches: [upload]
+  workflow_dispatch:
+
+jobs:
+  documentation:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v3
+
+      - name: cache css
+        id: cache-css
+        uses: actions/cache@v3
+        with:
+          key: doxygen-css-cache
+          path: ./doxygen_doc/doxygen-awesome-css
+
+      - if: ${{ steps.cache-css.outputs.cache-hit != 'true' }}
+        name: download css
+        run: |
+          git clone https://github.com/jothepro/doxygen-awesome-css ./doxygen_doc/doxygen-awesome-css
+      - name: run doxygen
+        uses: mattnotmitt/doxygen-action@v1.9.2
+        with:
+          working-directory: .
+          doxyfile-path: ./doxygen_doc/Doxyfile
+          # additional-packages: font-fira-code
+
+      - name: deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./doxygen_doc/html/

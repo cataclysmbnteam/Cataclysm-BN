@@ -44,8 +44,6 @@
 #include "ui_manager.h"
 #include "weather.h"
 
-class overmap_connection;
-
 #if defined(__ANDROID__)
 #include "input.h"
 

@@ -649,6 +649,11 @@ class game
         * @returns `true` if the screenshot generation was successful, `false` otherwise.
         */
         bool take_screenshot( const std::string &file_path ) const;
+        /** Saves a screenshot of the current viewport, as a PNG file. Filesystem location is derived from the current world and character.
+        * @note: Only works for SDL/TILES (otherwise the function returns `false`). A window (more precisely, a viewport) must already exist and the SDL renderer must be valid.
+        * @returns `true` if the screenshot generation was successful, `false` otherwise.
+        */
+        bool take_screenshot() const;
 
         /**
          * The top left corner of the reality bubble (in submaps coordinates). This is the same
@@ -1059,6 +1064,7 @@ class game
         bool fullscreen = false;
         bool was_fullscreen = false;
         bool auto_travel_mode = false;
+        bool queue_screenshot = false;
         safe_mode_type safe_mode;
         int turnssincelastmon = 0; // needed for auto run mode
 

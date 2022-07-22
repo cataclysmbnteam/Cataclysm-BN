@@ -13,7 +13,6 @@
 #include "character.h"
 #include "colony.h"
 #include "debug.h"
-#include "game.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
@@ -37,11 +36,14 @@ static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_toolset( "toolset" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
+static const itype_id itype_bio_armor( "bio_armor" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 
 static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_ups( "bio_ups" );
+
+static const flag_str_id flag_BIONIC_ARMOR_INTERFACE( "BIONIC_ARMOR_INTERFACE" );
 /** @relates visitable */
 template <typename T>
 item *visitable<T>::find_parent( const item &it )
@@ -467,13 +469,13 @@ VisitResponse visitable<map_cursor>::visit_items(
     const std::function<VisitResponse( item *, item * )> &func )
 {
     auto cur = static_cast<map_cursor *>( this );
-
+    map &here = get_map();
     // skip inaccessible items
-    if( g->m.has_flag( "SEALED", *cur ) && !g->m.has_flag( "LIQUIDCONT", *cur ) ) {
+    if( here.has_flag( "SEALED", *cur ) && !here.has_flag( "LIQUIDCONT", *cur ) ) {
         return VisitResponse::NEXT;
     }
 
-    for( auto &e : g->m.i_at( *cur ) ) {
+    for( item &e : here.i_at( *cur ) ) {
         if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
@@ -716,14 +718,15 @@ std::list<item> visitable<map_cursor>::remove_items_with( const
         return res;
     }
 
-    if( !g->m.inbounds( *cur ) ) {
+    map &here = get_map();
+    if( !here.inbounds( *cur ) ) {
         debugmsg( "cannot remove items from map: cursor out-of-bounds" );
         return res;
     }
 
     // fetch the appropriate item stack
     point offset;
-    submap *sub = g->m.get_submap_at( *cur, offset );
+    submap *sub = here.get_submap_at( *cur, offset );
     cata::colony<item> &stack = sub->get_items( offset );
 
     for( auto iter = stack.begin(); iter != stack.end(); ) {
@@ -749,7 +752,7 @@ std::list<item> visitable<map_cursor>::remove_items_with( const
             ++iter;
         }
     }
-    g->m.update_submap_active_item_status( *cur );
+    here.update_submap_active_item_status( *cur );
     return res;
 }
 
@@ -987,6 +990,23 @@ int visitable<Character>::charges_of( const itype_id &what, int limit,
         } else {
             return 0;
         }
+    }
+
+    if( what == itype_bio_armor ) {
+        float efficiency = 1;
+        int power_charges = 0;
+
+        for( const bionic &bio : *self->my_bionics ) {
+            if( bio.powered && bio.info().has_flag( flag_BIONIC_ARMOR_INTERFACE ) ) {
+                efficiency = std::max( efficiency, bio.info().fuel_efficiency );
+            }
+        }
+        if( efficiency == 1 ) {
+            debugmsg( "Character lacks a bionic armor interface with fuel efficiency field." );
+        }
+        power_charges = units::to_kilojoule( self->as_player()->get_power_level() ) * efficiency;
+
+        return std::min( power_charges, limit );
     }
 
     if( what == itype_UPS ) {
