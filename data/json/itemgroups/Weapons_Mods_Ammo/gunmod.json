@@ -41,7 +41,8 @@
       [ "shot_suppressor", 10 ],
       [ "u_shotgun", 60 ],
       [ "waterproof_gunmod", 40 ],
-      [ "retool_ar15_300blk", 40 ]
+      [ "retool_ar15_300blk", 40 ],
+	  [ "lwfeed", 30 ]
     ]
   },
   {
