@@ -83,11 +83,11 @@ static void check_wreckage( int zlevel )
     const tripoint test_origin( 60, 60, zlevel );
     const tripoint vehicle_origin = test_origin;
 
-    vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "bicycle" ), vehicle_origin, 0_degrees, 0, 0 );
+    vehicle *veh_ptr = get_map().add_vehicle( vproto_id( "bicycle" ), vehicle_origin, 0_degrees, 0, 0 );
     REQUIRE( veh_ptr != nullptr );
 
-    vehicle *veh_ptr2 = g->m.add_vehicle( vproto_id( "car" ), vehicle_origin + tripoint_north_west,
-                                          0_degrees, 0, 0 );
+    vehicle *veh_ptr2 = get_map().add_vehicle( vproto_id( "car" ), vehicle_origin + tripoint_north_west,
+                        0_degrees, 0, 0 );
     REQUIRE( veh_ptr2 != nullptr );
 
     INFO( veh_ptr2->name );
