@@ -67,6 +67,7 @@
     "blackpowder_tolerance": 56,
     "clip_size": 6,
     "built_in_mods": [ "lead_holo_sight", "lead_laser_sight" ],
+    "extend": { "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ] },
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "sights", 1 ],
@@ -101,6 +102,7 @@
     "blackpowder_tolerance": 32,
     "clip_size": 12,
     "built_in_mods": [ "lead_holo_sight", "lead_laser_sight" ],
+    "extend": { "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ] },
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "brass catcher", 1 ],
