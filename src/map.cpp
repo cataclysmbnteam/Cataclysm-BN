@@ -2351,8 +2351,9 @@ bool map::has_flag_ter_or_furn( const ter_bitflags flag, const tripoint &p ) con
     point l;
     submap *const current_submap = get_submap_at( p, l );
 
-    return current_submap->get_ter( l ).obj().has_flag( flag ) ||
-           current_submap->get_furn( l ).obj().has_flag( flag );
+    return current_submap && //FIXME: can be null during mapgen
+           ( current_submap->get_ter( l ).obj().has_flag( flag ) ||
+             current_submap->get_furn( l ).obj().has_flag( flag ) );
 }
 
 // End of 3D flags
