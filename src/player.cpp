@@ -18,6 +18,7 @@
 #include "bionics.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character_effects.h"
 #include "character_martial_arts.h"
 #include "clzones.h"
 #include "craft_command.h"
@@ -154,7 +155,6 @@ static const trait_id trait_FUR( "FUR" );
 static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
 static const trait_id trait_INSOMNIA( "INSOMNIA" );
-static const trait_id trait_INT_SLIME( "INT_SLIME" );
 static const trait_id trait_LIGHTFUR( "LIGHTFUR" );
 static const trait_id trait_LUPINE_FUR( "LUPINE_FUR" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
@@ -211,39 +211,6 @@ static const bionic_id bio_soporific( "bio_soporific" );
 static const bionic_id bio_speed( "bio_speed" );
 static const bionic_id bio_syringe( "bio_syringe" );
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
-
-stat_mod player::get_pain_penalty() const
-{
-    stat_mod ret;
-    int pain = get_perceived_pain();
-    if( pain <= 0 ) {
-        return ret;
-    }
-
-    int stat_penalty = std::floor( std::pow( pain, 0.8f ) / 10.0f );
-
-    bool ceno = has_trait( trait_CENOBITE );
-    if( !ceno ) {
-        ret.strength = stat_penalty;
-        ret.dexterity = stat_penalty;
-    }
-
-    if( !has_trait( trait_INT_SLIME ) ) {
-        ret.intelligence = stat_penalty;
-    } else {
-        ret.intelligence = pain / 5;
-    }
-
-    ret.perception = stat_penalty * 2 / 3;
-
-    ret.speed = std::pow( pain, 0.7f );
-    if( ceno ) {
-        ret.speed /= 2;
-    }
-
-    ret.speed = std::min( ret.speed, 30 );
-    return ret;
-}
 
 player::player()
 {
@@ -460,36 +427,6 @@ void player::process_turn()
     }
 }
 
-int player::kcal_speed_penalty() const
-{
-    static const std::vector<std::pair<float, float>> starv_thresholds = { {
-            std::make_pair( 0.0f, -90.0f ),
-            std::make_pair( 0.1f, -50.f ),
-            std::make_pair( 0.3f, -25.0f ),
-            std::make_pair( 0.5f, 0.0f )
-        }
-    };
-    if( get_kcal_percent() > 0.95f ) {
-        return 0;
-    } else {
-        return std::round( multi_lerp( starv_thresholds, get_kcal_percent() ) );
-    }
-}
-
-int player::thirst_speed_penalty( int thirst )
-{
-    // We die at 1200 thirst
-    // Start by dropping speed really fast, but then level it off a bit
-    static const std::vector<std::pair<float, float>> thirst_thresholds = {{
-            std::make_pair( static_cast<float>( thirst_levels::very_thirsty ), 0.0f ),
-            std::make_pair( static_cast<float>( thirst_levels::dehydrated ), -25.0f ),
-            std::make_pair( static_cast<float>( thirst_levels::parched ), -50.0f ),
-            std::make_pair( static_cast<float>( thirst_levels::dead ), -75.0f )
-        }
-    };
-    return static_cast<int>( multi_lerp( thirst_thresholds, thirst ) );
-}
-
 void player::recalc_speed_bonus()
 {
     // Minus some for weight...
@@ -499,13 +436,13 @@ void player::recalc_speed_bonus()
     }
     mod_speed_bonus( -carry_penalty );
 
-    mod_speed_bonus( -get_pain_penalty().speed );
+    mod_speed_bonus( -character_effects::get_pain_penalty( *this ).speed );
 
     if( get_thirst() > thirst_levels::very_thirsty ) {
-        mod_speed_bonus( thirst_speed_penalty( get_thirst() ) );
+        mod_speed_bonus( character_effects::get_thirst_speed_penalty( get_thirst() ) );
     }
     // when underweight, you get slower. cumulative with hunger
-    mod_speed_bonus( kcal_speed_penalty() );
+    mod_speed_bonus( character_effects::get_kcal_speed_penalty( get_kcal_percent() ) );
 
     for( const auto &maps : *effects ) {
         for( auto &i : maps.second ) {
@@ -4462,7 +4399,7 @@ void player::reset_stats()
 
     // Pain
     if( get_perceived_pain() > 0 ) {
-        const auto ppen = get_pain_penalty();
+        const stat_mod ppen = character_effects::get_pain_penalty( *this );
         mod_str_bonus( -ppen.strength );
         mod_dex_bonus( -ppen.dexterity );
         mod_int_bonus( -ppen.intelligence );

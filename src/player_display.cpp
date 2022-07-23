@@ -12,6 +12,7 @@
 #include "bionics.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character_effects.h"
 #include "debug.h"
 #include "effect.h"
 #include "game.h"
@@ -775,20 +776,20 @@ static void draw_speed_tab( const catacurses::window &w_speed,
                    pgettext( "speed penalty", "Overburdened        -%2d%%" ), pen );
         line++;
     }
-    pen = you.get_pain_penalty().speed;
+    pen = character_effects::get_pain_penalty( you ).speed;
     if( pen >= 1 ) {
         mvwprintz( w_speed, point( 1, line ), c_red,
                    pgettext( "speed penalty", "Pain                -%2d%%" ), pen );
         line++;
     }
     if( you.get_thirst() > thirst_levels::very_thirsty ) {
-        pen = std::abs( player::thirst_speed_penalty( you.get_thirst() ) );
+        pen = std::abs( character_effects::get_thirst_speed_penalty( you.get_thirst() ) );
         mvwprintz( w_speed, point( 1, line ), c_red,
                    pgettext( "speed penalty", "Thirst              -%2d%%" ), pen );
         line++;
     }
-    if( you.kcal_speed_penalty() < 0 ) {
-        pen = std::abs( you.kcal_speed_penalty() );
+    if( character_effects::get_kcal_speed_penalty( you.get_kcal_percent() ) < 0 ) {
+        pen = std::abs( character_effects::get_kcal_speed_penalty( you.get_kcal_percent() ) );
         //~ %s: Starving/Underfed (already left-justified), %2d: speed penalty
         mvwprintz( w_speed, point( 1, line ), c_red, pgettext( "speed penalty", "%s-%2d%%" ),
                    left_justify( _( "Starving" ), 20 ), pen );
@@ -1072,7 +1073,7 @@ void player::disp_info()
         }
     }
     if( get_perceived_pain() > 0 ) {
-        const auto ppen = get_pain_penalty();
+        const auto ppen = character_effects::get_pain_penalty( *this );
         std::string pain_text;
         const auto add_if = [&]( const int amount, const char *const name ) {
             if( amount > 0 ) {

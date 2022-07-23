@@ -1,4 +1,5 @@
 #include "character_functions.h"
+#include "character_effects.h"
 
 #include "calendar.h"
 #include "character.h"
@@ -9,6 +10,8 @@
 #include "vehicle.h"
 
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
+static const trait_id trait_CENOBITE( "CENOBITE" );
+static const trait_id trait_INT_SLIME( "INT_SLIME" );
 static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
@@ -94,3 +97,71 @@ int get_book_fun_for( const Character &ch, const item &book )
 }
 
 } // namespace character_funcs
+
+namespace character_effects
+{
+
+stat_mod get_pain_penalty( const Character &ch )
+{
+    stat_mod ret;
+    int pain = ch.get_perceived_pain();
+    if( pain <= 0 ) {
+        return ret;
+    }
+
+    int stat_penalty = std::floor( std::pow( pain, 0.8f ) / 10.0f );
+
+    bool ceno = ch.has_trait( trait_CENOBITE );
+    if( !ceno ) {
+        ret.strength = stat_penalty;
+        ret.dexterity = stat_penalty;
+    }
+
+    if( !ch.has_trait( trait_INT_SLIME ) ) {
+        ret.intelligence = stat_penalty;
+    } else {
+        ret.intelligence = pain / 5;
+    }
+
+    ret.perception = stat_penalty * 2 / 3;
+
+    ret.speed = std::pow( pain, 0.7f );
+    if( ceno ) {
+        ret.speed /= 2;
+    }
+
+    ret.speed = std::min( ret.speed, 30 );
+    return ret;
+}
+
+int get_kcal_speed_penalty( float kcal_percent )
+{
+    static const std::vector<std::pair<float, float>> starv_thresholds = { {
+            std::make_pair( 0.0f, -90.0f ),
+            std::make_pair( 0.1f, -50.f ),
+            std::make_pair( 0.3f, -25.0f ),
+            std::make_pair( 0.5f, 0.0f )
+        }
+    };
+    if( kcal_percent > 0.95f ) {
+        return 0;
+    } else {
+        return std::round( multi_lerp( starv_thresholds, kcal_percent ) );
+    }
+}
+
+int get_thirst_speed_penalty( int thirst )
+{
+    // We die at 1200 thirst
+    // Start by dropping speed really fast, but then level it off a bit
+    static const std::vector<std::pair<float, float>> thirst_thresholds = {{
+            std::make_pair( static_cast<float>( thirst_levels::very_thirsty ), 0.0f ),
+            std::make_pair( static_cast<float>( thirst_levels::dehydrated ), -25.0f ),
+            std::make_pair( static_cast<float>( thirst_levels::parched ), -50.0f ),
+            std::make_pair( static_cast<float>( thirst_levels::dead ), -75.0f )
+        }
+    };
+    return static_cast<int>( multi_lerp( thirst_thresholds, thirst ) );
+}
+
+} // namespace character_effects

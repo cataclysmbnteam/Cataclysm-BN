@@ -79,15 +79,6 @@ template<>
 struct ret_val<edible_rating>::default_failure : public
     std::integral_constant<edible_rating, edible_rating::inedible> {};
 
-struct stat_mod {
-    int strength = 0;
-    int dexterity = 0;
-    int intelligence = 0;
-    int perception = 0;
-
-    int speed = 0;
-};
-
 struct needs_rates {
     float thirst = 0.0f;
     float hunger = 0.0f;
@@ -477,11 +468,7 @@ class player : public Character
         bool add_faction_warning( const faction_id &id );
         int current_warnings_fac( const faction_id &id );
         bool beyond_final_warning( const faction_id &id );
-        /** Returns the effect of pain on stats */
-        stat_mod get_pain_penalty() const;
-        int kcal_speed_penalty() const;
-        /** Returns the penalty to speed from thirst */
-        static int thirst_speed_penalty( int thirst );
+
         /** This handles giving xp for a skill */
         void practice( const skill_id &id, int amount, int cap = 99, bool suppress_warning = false );
         /** This handles warning the player that there current activity will not give them xp */
