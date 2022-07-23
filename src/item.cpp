@@ -26,6 +26,7 @@
 #include "catacharset.h"
 #include "character.h"
 #include "character_id.h"
+#include "character_encumbrance.h"
 #include "character_functions.h"
 #include "character_martial_arts.h"
 #include "character_stat.h"
@@ -4239,15 +4240,15 @@ void item::on_wear( Character &p )
             int lhs = 0;
             int rhs = 0;
             set_side( side::LEFT );
-            const auto left_enc = p.get_encumbrance( *this );
+            const char_encumbrance_data left_enc = p.get_encumbrance( *this );
             for( const body_part bp : all_body_parts ) {
-                lhs += left_enc[bp].encumbrance;
+                lhs += left_enc.elems[bp].encumbrance;
             }
 
             set_side( side::RIGHT );
-            const auto right_enc = p.get_encumbrance( *this );
+            const char_encumbrance_data right_enc = p.get_encumbrance( *this );
             for( const body_part bp : all_body_parts ) {
-                rhs += right_enc[bp].encumbrance;
+                rhs += right_enc.elems[bp].encumbrance;
             }
 
             set_side( lhs <= rhs ? side::LEFT : side::RIGHT );

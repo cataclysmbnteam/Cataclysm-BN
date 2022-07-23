@@ -1,4 +1,5 @@
 #include "character.h"
+#include "character_encumbrance.h"
 
 #include <algorithm>
 #include <cctype>
@@ -24,6 +25,7 @@
 #include "clzones.h"
 #include "colony.h"
 #include "construction.h"
+#include "consumption.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "debug.h"
@@ -3624,18 +3626,18 @@ bool Character::has_nv()
 
 void Character::reset_encumbrance()
 {
-    encumbrance_cache = calc_encumbrance();
+    *encumbrance_cache = calc_encumbrance();
 }
 
-std::array<encumbrance_data, num_bp> Character::calc_encumbrance() const
+char_encumbrance_data Character::calc_encumbrance() const
 {
     return calc_encumbrance( item() );
 }
 
-std::array<encumbrance_data, num_bp> Character::calc_encumbrance( const item &new_item ) const
+char_encumbrance_data Character::calc_encumbrance( const item &new_item ) const
 {
 
-    std::array<encumbrance_data, num_bp> enc;
+    char_encumbrance_data enc;
 
     item_encumb( enc, new_item );
     mut_cbm_encumb( enc );
@@ -3659,19 +3661,19 @@ units::mass Character::get_weight() const
     return ret;
 }
 
-std::array<encumbrance_data, num_bp> Character::get_encumbrance() const
+char_encumbrance_data Character::get_encumbrance() const
 {
-    return encumbrance_cache;
+    return *encumbrance_cache;
 }
 
-std::array<encumbrance_data, num_bp> Character::get_encumbrance( const item &new_item ) const
+char_encumbrance_data Character::get_encumbrance( const item &new_item ) const
 {
     return calc_encumbrance( new_item );
 }
 
 int Character::extraEncumbrance( const layer_level level, const int bp ) const
 {
-    return encumbrance_cache[bp].layer_penalty_details[static_cast<int>( level )].total;
+    return encumbrance_cache->elems[bp].layer_penalty_details[static_cast<int>( level )].total;
 }
 
 hint_rating Character::rate_action_change_side( const item &it ) const
@@ -3733,7 +3735,7 @@ bool Character::change_side( item_location &loc, bool interactive )
     return change_side( *loc, interactive );
 }
 
-static void layer_item( std::array<encumbrance_data, num_bp> &vals,
+static void layer_item( char_encumbrance_data &vals,
                         const item &it,
                         std::array<layer_level, num_bp> &highest_layer_so_far,
                         const Character &c )
@@ -3768,10 +3770,10 @@ static void layer_item( std::array<encumbrance_data, num_bp> &vals,
         // within it that would normally be worn outside of it.
         for( layer_level penalty_layer = item_layer;
              penalty_layer <= highest_layer_so_far[bp]; ++penalty_layer ) {
-            vals[bp].layer( penalty_layer, layering_encumbrance );
+            vals.elems[bp].layer( penalty_layer, layering_encumbrance );
         }
 
-        vals[bp].armor_encumbrance += encumber_val;
+        vals.elems[bp].armor_encumbrance += encumber_val;
     }
 }
 
@@ -3950,12 +3952,11 @@ std::list<item>::iterator Character::position_to_wear_new_item( const item &new_
  * This is currently handled by each of these articles of clothing
  * being on a different layer and/or body part, therefore accumulating no encumbrance.
  */
-void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals,
-                             const item &new_item ) const
+void Character::item_encumb( char_encumbrance_data &vals, const item &new_item ) const
 {
 
     // reset all layer data
-    vals = std::array<encumbrance_data, num_bp>();
+    vals = char_encumbrance_data();
 
     // Figure out where new_item would be worn
     std::list<item>::const_iterator new_item_position = worn.end();
@@ -3985,7 +3986,7 @@ void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals,
 
     // make sure values are sane
     for( const body_part bp : all_body_parts ) {
-        encumbrance_data &elem = vals[bp];
+        encumbrance_data &elem = vals.elems[bp];
 
         elem.armor_encumbrance = std::max( 0, elem.armor_encumbrance );
 
@@ -3996,38 +3997,38 @@ void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals,
 
 int Character::encumb( body_part bp ) const
 {
-    return encumbrance_cache[bp].encumbrance;
+    return encumbrance_cache->elems[bp].encumbrance;
 }
 
-static void apply_mut_encumbrance( std::array<encumbrance_data, num_bp> &vals,
+static void apply_mut_encumbrance( char_encumbrance_data &vals,
                                    const trait_id &mut,
                                    const body_part_set &oversize )
 {
     for( const std::pair<const body_part, int> &enc : mut->encumbrance_always ) {
-        vals[enc.first].encumbrance += enc.second;
+        vals.elems[enc.first].encumbrance += enc.second;
     }
 
     for( const std::pair<const body_part, int> &enc : mut->encumbrance_covered ) {
         if( !oversize.test( enc.first ) ) {
-            vals[enc.first].encumbrance += enc.second;
+            vals.elems[enc.first].encumbrance += enc.second;
         }
     }
 }
 
-void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) const
+void Character::mut_cbm_encumb( char_encumbrance_data &vals ) const
 {
 
     for( const bionic_id &bid : get_bionics() ) {
         for( const std::pair<const bodypart_str_id, int> &element : bid->encumbrance ) {
-            vals[element.first->token].encumbrance += element.second;
+            vals.elems[element.first->token].encumbrance += element.second;
         }
     }
 
     if( has_active_bionic( bio_shock_absorber ) ) {
-        for( auto &val : vals ) {
+        for( auto &val : vals.elems ) {
             val.encumbrance += 3; // Slight encumbrance to all parts except eyes
         }
-        vals[bp_eyes].encumbrance -= 3;
+        vals.elems[bp_eyes].encumbrance -= 3;
     }
 
     // Lower penalty for bps covered only by XL armor

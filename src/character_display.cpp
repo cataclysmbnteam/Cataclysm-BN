@@ -13,6 +13,7 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character_effects.h"
+#include "character_encumbrance.h"
 #include "debug.h"
 #include "effect.h"
 #include "game.h"
@@ -60,11 +61,11 @@ static body_part other_part( body_part bp )
 static bool should_combine_bps( const Character &ch, body_part l, body_part r,
                                 const item *selected_clothing )
 {
-    const auto enc_data = ch.get_encumbrance();
+    const char_encumbrance_data enc_data = ch.get_encumbrance();
     return l != r && // are different parts
            l == other_part( r ) && r == other_part( l ) && // are complementary parts
            // same encumberance & temperature
-           enc_data[l] == enc_data[r] &&
+           enc_data.elems[l] == enc_data.elems[r] &&
            temperature_print_rescaling( ch.temp_conv[l] ) == temperature_print_rescaling( ch.temp_conv[r] ) &&
            // selected_clothing covers both or neither parts
            ( !selected_clothing || ( selected_clothing->covers( l ) == selected_clothing->covers( r ) ) );
@@ -110,7 +111,7 @@ void character_display::print_encumbrance( const catacurses::window &win, const 
      *** for displaying triple digit encumbrance, due to new encumbrance system.    ***
      *** If the player wants to see the total without having to do them maths, the  ***
      *** armor layers ui shows everything they want :-) -Davek                      ***/
-    const auto enc_data = ch.get_encumbrance();
+    const char_encumbrance_data enc_data = ch.get_encumbrance();
     for( int i = 0; i < height; ++i ) {
         int thisline = firstline + i;
         if( thisline < 0 ) {
@@ -121,7 +122,7 @@ void character_display::print_encumbrance( const catacurses::window &win, const 
         }
         const body_part bp = bps[thisline].first;
         const bool combine = bps[thisline].second;
-        const encumbrance_data &e = enc_data[bp];
+        const encumbrance_data &e = enc_data.elems[bp];
         const bool highlighted = selected_clothing ? selected_clothing->covers( bp ) : false;
         std::string out = body_part_name_as_heading( bp, combine ? 2 : 1 );
         if( utf8_width( out ) > 7 ) {
