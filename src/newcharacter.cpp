@@ -175,6 +175,28 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
     }
 }
 
+/**
+ * Check if the given player can pick this job with the given amount
+ * of points.
+ *
+ * @return true, if player can pick profession. Otherwise - false.
+ */
+static bool can_pick_prof( const profession &prof, const player &u, int points )
+{
+    return prof.point_cost() - u.prof->point_cost() <= points;
+}
+
+static void learn_spells( const profession &prof, avatar &you )
+{
+    for( const std::pair<spell_id, int> spell_pair : prof.spells() ) {
+        you.magic->learn_spell( spell_pair.first, you, true );
+        spell &sp = you.magic->get_spell( spell_pair.first );
+        while( sp.get_level() < spell_pair.second && !sp.is_max_level() ) {
+            sp.gain_level();
+        }
+    }
+}
+
 void avatar::randomize( const bool random_scenario, points_left &points, bool play_now )
 {
     const int max_stat_points = points.is_freeform() ? 20 : MAX_STAT;
@@ -606,7 +628,7 @@ bool avatar::create( character_type type, const std::string &tempname )
         }
     }
 
-    prof->learn_spells( *this );
+    learn_spells( *prof, *this );
 
     // Ensure that persistent morale effects (e.g. Optimist) are present at the start.
     apply_persistent_morale();
@@ -1396,7 +1418,7 @@ tab_direction set_profession( avatar &u, points_left &points,
         werase( w_description );
         if( cur_id_is_valid ) {
             int netPointCost = sorted_profs[cur_id]->point_cost() - u.prof->point_cost();
-            bool can_pick = sorted_profs[cur_id]->can_pick( u, points.skill_points_left() );
+            bool can_pick = can_pick_prof( *sorted_profs[cur_id], u, points.skill_points_left() );
             const std::string clear_line( getmaxx( w ) - 2, ' ' );
 
             // Clear the bottom of the screen and header.

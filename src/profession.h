@@ -106,7 +106,6 @@ class profession
         StartingSkillList skills() const;
 
         std::map<spell_id, int> spells() const;
-        void learn_spells( avatar &you ) const;
 
         /**
          * Check if this type of profession has a certain flag set.
@@ -115,13 +114,6 @@ class profession
          */
         bool has_flag( const std::string &flag ) const;
 
-        /**
-         * Check if the given player can pick this job with the given amount
-         * of points.
-         *
-         * @return true, if player can pick profession. Otherwise - false.
-         */
-        bool can_pick( const player &u, int points ) const;
         bool is_locked_trait( const trait_id &trait ) const;
         bool is_forbidden_trait( const trait_id &trait ) const;
         std::vector<trait_id> get_locked_traits() const;
