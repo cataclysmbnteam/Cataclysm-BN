@@ -1333,12 +1333,12 @@ struct {
     bool sort_by_points = true;
     bool male = false;
     /** @related player */
-    bool operator()( const string_id<profession> &a, const string_id<profession> &b ) {
+    bool operator()( const profession_id &a, const profession_id &b ) {
         // The generic ("Unemployed") profession should be listed first.
-        const profession *gen = profession::generic();
-        if( &b.obj() == gen ) {
+        const profession_id &gen = profession::generic();
+        if( b == gen ) {
             return false;
-        } else if( &a.obj() == gen ) {
+        } else if( a == gen ) {
             return true;
         }
 
@@ -1462,7 +1462,7 @@ tab_direction set_profession( avatar &u, points_left &points,
             mvwprintz( w, point( 2, 5 + i - iStartPos ), c_light_gray,
                        "                                             " ); // Clear the line
             nc_color col;
-            if( u.prof != &sorted_profs[i].obj() ) {
+            if( u.prof != sorted_profs[i] ) {
                 col = ( cur_id_is_valid && sorted_profs[i] == sorted_profs[cur_id] ? h_light_gray : c_light_gray );
             } else {
                 col = ( cur_id_is_valid &&
@@ -1642,7 +1642,7 @@ tab_direction set_profession( avatar &u, points_left &points,
 
             // Select the current profession, if possible.
             for( int i = 0; i < profs_length; ++i ) {
-                if( sorted_profs[i] == u.prof->ident() ) {
+                if( sorted_profs[i] == u.prof ) {
                     cur_id = i;
                     break;
                 }
@@ -1682,7 +1682,7 @@ tab_direction set_profession( avatar &u, points_left &points,
                 u.toggle_trait( old_trait );
             }
             const int netPointCost = sorted_profs[cur_id]->point_cost() - u.prof->point_cost();
-            u.prof = &sorted_profs[cur_id].obj();
+            u.prof = sorted_profs[cur_id];
             // Add traits for the new profession (and perhaps scenario, if, for example,
             // both the scenario and old profession require the same trait)
             u.add_traits( points );
@@ -3016,8 +3016,9 @@ void reset_scenario( avatar &u, const scenario *scen )
 {
     auto psorter = profession_sorter;
     psorter.sort_by_points = true;
-    const auto permitted = scen->permitted_professions();
-    const auto default_prof = *std::min_element( permitted.begin(), permitted.end(), psorter );
+    const std::vector<profession_id> permitted = scen->permitted_professions();
+    const profession_id &default_prof = *std::min_element( permitted.begin(), permitted.end(),
+                                        psorter );
 
     u.random_start_location = true;
     u.str_max = 8;
@@ -3025,7 +3026,7 @@ void reset_scenario( avatar &u, const scenario *scen )
     u.int_max = 8;
     u.per_max = 8;
     g->scen = scen;
-    u.prof = &default_prof.obj();
+    u.prof = default_prof;
     for( auto &t : u.get_mutations() ) {
         if( t.obj().hp_modifier != 0 ) {
             u.toggle_trait( t );

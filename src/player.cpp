@@ -262,8 +262,6 @@ player::player()
     cash = 0;
     scent = 500;
     male = true;
-    prof = profession::has_initialized() ? profession::generic() :
-           nullptr; //workaround for a potential structural limitation, see player::create
 
     start_location = start_location_id( "sloc_shelter" );
     moves = 100;

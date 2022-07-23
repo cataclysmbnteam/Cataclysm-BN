@@ -400,6 +400,11 @@ void Character::load( const JsonObject &data )
     data.read( "base_age", init_age );
     data.read( "base_height", init_height );
 
+    if( !data.read( "profession", prof ) || !prof.is_valid() ) {
+        // We are likely an older profession which has since been removed so just set to default.
+        // This is only cosmetic after game start.
+        prof = profession::generic();
+    }
     data.read( "custom_profession", custom_profession );
 
     // needs
@@ -650,6 +655,9 @@ void Character::store( JsonOut &json ) const
     json.member( "base_age", init_age );
     json.member( "base_height", init_height );
 
+    if( prof.is_valid() ) {
+        json.member( "profession", prof );
+    }
     json.member( "custom_profession", custom_profession );
 
     // health
@@ -936,10 +944,6 @@ void avatar::store( JsonOut &json ) const
 {
     player::store( json );
 
-    // player-specific specifics
-    if( prof != nullptr ) {
-        json.member( "profession", prof->ident() );
-    }
     if( g->scen != nullptr ) {
         json.member( "scenario", g->scen->ident() );
     }
@@ -1002,14 +1006,6 @@ void avatar::deserialize( JsonIn &jsin )
 void avatar::load( const JsonObject &data )
 {
     player::load( data );
-
-    std::string prof_ident = "(null)";
-    if( data.read( "profession", prof_ident ) && string_id<profession>( prof_ident ).is_valid() ) {
-        prof = &string_id<profession>( prof_ident ).obj();
-    } else {
-        //We are likely an older profession which has since been removed so just set to default.  This is only cosmetic after game start.
-        prof = profession::generic();
-    }
 
     data.read( "controlling_vehicle", controlling_vehicle );
 

@@ -69,6 +69,7 @@
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "player.h"
+#include "profession.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "scent_map.h"
@@ -427,6 +428,7 @@ Character::Character() :
 
     name.clear();
     custom_profession.clear();
+    prof = profession::generic();
 
     *path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, true, true, false, true };
 

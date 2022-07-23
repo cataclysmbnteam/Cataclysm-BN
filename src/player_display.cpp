@@ -900,7 +900,7 @@ static void draw_tip( const catacurses::window &w_tip, const player &you,
             //~ player info window: 1s - name, 2s - gender, 3s - Prof or Mutation name
             mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s | %3$s" ), you.name,
                        you.male ? _( "Male" ) : _( "Female" ), race );
-        } else if( you.prof == nullptr || you.prof == profession::generic() ) {
+        } else if( !you.prof.is_valid() || you.prof == profession::generic() ) {
             // Regular person. Nothing interesting.
             //~ player info window: 1s - name, 2s - gender '|' - field separator.
             mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s" ), you.name,

@@ -42,7 +42,7 @@ class profession
         friend class generic_factory<profession>;
 
     private:
-        string_id<profession> id;
+        profession_id id;
         bool was_loaded = false;
 
         translation _name_male;
@@ -83,7 +83,7 @@ class profession
         static void load_item_substitutions( const JsonObject &jo );
 
         // these should be the only ways used to get at professions
-        static const profession *generic(); // points to the generic, default profession
+        static const profession_id &generic(); // gives id of generic, default profession
         static const std::vector<profession> &get_all();
 
         static bool has_initialized();
@@ -94,7 +94,7 @@ class profession
         /** Check that item/CBM/addiction/skill definitions are valid. */
         void check_definition() const;
 
-        const string_id<profession> &ident() const;
+        const profession_id &ident() const;
         std::string gender_appropriate_name( bool male ) const;
         std::string description( bool male ) const;
         signed int point_cost() const;

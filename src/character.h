@@ -611,6 +611,7 @@ class Character : public Creature, public visitable<Character>
 
         double recoil = MAX_RECOIL;
 
+        profession_id prof;
         std::string custom_profession;
 
         /** Returns true if the player is able to use a miss recovery technique */

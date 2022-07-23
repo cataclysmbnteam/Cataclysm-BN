@@ -23,7 +23,7 @@
 namespace
 {
 generic_factory<profession> all_profs( "profession" );
-const string_id<profession> generic_profession_id( "unemployed" );
+const profession_id generic_profession_id( "unemployed" );
 } // namespace
 
 static class json_item_substitution
@@ -245,9 +245,9 @@ void profession::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
 }
 
-const profession *profession::generic()
+const profession_id &profession::generic()
 {
-    return &generic_profession_id.obj();
+    return generic_profession_id;
 }
 
 const std::vector<profession> &profession::get_all()
@@ -339,7 +339,7 @@ bool profession::has_initialized()
     return generic_profession_id.is_valid();
 }
 
-const string_id<profession> &profession::ident() const
+const profession_id &profession::ident() const
 {
     return id;
 }
