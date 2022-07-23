@@ -856,7 +856,7 @@ int player::fire_gun( const tripoint &target, const int max_shots, item &gun )
             add_msg_if_player( _( "You cycle your %s manually." ), gun.tname() );
         }
 
-        if( !handle_gun_damage( *this, gun ) ) {
+        if( !ranged::handle_gun_damage( *this, gun ) ) {
             break;
         }
 
