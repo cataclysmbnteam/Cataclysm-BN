@@ -47,6 +47,7 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
+#include "character_display.h"
 #include "character_martial_arts.h"
 #include "clzones.h"
 #include "colony.h"
@@ -2063,7 +2064,7 @@ void game::handle_key_blocking_activity()
             cancel_activity_query( _( "Confirm:" ) );
         }
     } else if( action == "player_data" ) {
-        u.disp_info();
+        character_display::disp_info( u );
     } else if( action == "messages" ) {
         Messages::display_messages();
     } else if( action == "help" ) {

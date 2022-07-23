@@ -176,11 +176,14 @@ class avatar : public player
         int get_int_base() const override;
         int get_per_base() const override;
 
-        void upgrade_stat_prompt( const character_stat &stat_name );
         // how many points are available to upgrade via STK
         int free_upgrade_points() const;
         // how much "kill xp" you have
         int kill_xp() const;
+        // how much "kill xp" needed for next point (empty if reached max level)
+        cata::optional<int> kill_xp_for_next_point() const;
+        // upgrade stat from kills
+        void upgrade_stat( character_stat stat );
 
         faction *get_faction() const override;
         // Set in npc::talk_to_you for use in further NPC interactions

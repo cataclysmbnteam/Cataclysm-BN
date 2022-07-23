@@ -132,9 +132,6 @@ class player : public Character
         // by default save all contained info
         virtual void serialize( JsonOut &jsout ) const = 0;
 
-        /** Handles and displays detailed character info for the '@' screen */
-        void disp_info();
-
         /** Resets movement points and applies other non-idempotent changes */
         void process_turn() override;
         /** Calculates the various speed bonuses we will get from mutations, etc. */
@@ -691,9 +688,6 @@ class player : public Character
 
         /** Search surrounding squares for traps (and maybe other things in the future). */
         void search_surroundings();
-        // formats and prints encumbrance info to specified window
-        void print_encumbrance( const catacurses::window &win, int line = -1,
-                                const item *selected_clothing = nullptr ) const;
 
         using Character::query_yn;
         bool query_yn( const std::string &mes ) const override;

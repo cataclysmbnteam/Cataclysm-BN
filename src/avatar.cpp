@@ -1044,62 +1044,34 @@ int avatar::free_upgrade_points() const
     return lvl - str_upgrade - dex_upgrade - int_upgrade - per_upgrade;
 }
 
-void avatar::upgrade_stat_prompt( const character_stat &stat )
+cata::optional<int> avatar::kill_xp_for_next_point() const
 {
-    const int free_points = free_upgrade_points();
-
-    if( free_points <= 0 ) {
-        auto it = std::lower_bound( xp_cutoffs.begin(), xp_cutoffs.end(), kill_xp() );
-        if( it == xp_cutoffs.end() ) {
-            popup( _( "You've already reached maximum level." ) );
-        } else {
-            popup( _( "Needs %d more experience to gain next level." ),
-                   *it - kill_xp() );
-        }
-        return;
+    auto it = std::lower_bound( xp_cutoffs.begin(), xp_cutoffs.end(), kill_xp() );
+    if( it == xp_cutoffs.end() ) {
+        return cata::nullopt;
+    } else {
+        return *it - kill_xp();
     }
+}
 
-    std::string stat_string;
+void avatar::upgrade_stat( character_stat stat )
+{
     switch( stat ) {
         case character_stat::STRENGTH:
-            stat_string = _( "strength" );
+            str_upgrade++;
             break;
         case character_stat::DEXTERITY:
-            stat_string = _( "dexterity" );
+            dex_upgrade++;
             break;
         case character_stat::INTELLIGENCE:
-            stat_string = _( "intelligence" );
+            int_upgrade++;
             break;
         case character_stat::PERCEPTION:
-            stat_string = _( "perception" );
+            per_upgrade++;
             break;
         case character_stat::DUMMY_STAT:
-            stat_string = _( "invalid stat" );
             debugmsg( "Tried to use invalid stat" );
             break;
-        default:
-            return;
-    }
-
-    if( query_yn( _( "Are you sure you want to raise %s?  %d points available." ), stat_string,
-                  free_points ) ) {
-        switch( stat ) {
-            case character_stat::STRENGTH:
-                str_upgrade++;
-                break;
-            case character_stat::DEXTERITY:
-                dex_upgrade++;
-                break;
-            case character_stat::INTELLIGENCE:
-                int_upgrade++;
-                break;
-            case character_stat::PERCEPTION:
-                per_upgrade++;
-                break;
-            case character_stat::DUMMY_STAT:
-                debugmsg( "Tried to use invalid stat" );
-                break;
-        }
     }
 }
 
