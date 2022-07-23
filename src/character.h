@@ -77,6 +77,8 @@ struct points_left;
 struct trap;
 template <typename E> struct enum_traits;
 
+enum class character_stat : char;
+
 #define MAX_CLAIRVOYANCE 40
 
 enum vision_modes {
@@ -246,14 +248,6 @@ struct consumption_event {
     }
     void serialize( JsonOut &json ) const;
     void deserialize( JsonIn &jsin );
-};
-
-enum class character_stat : char {
-    STRENGTH,
-    DEXTERITY,
-    INTELLIGENCE,
-    PERCEPTION,
-    DUMMY_STAT
 };
 
 class Character : public Creature, public visitable<Character>
@@ -2277,13 +2271,6 @@ class Character : public Creature, public visitable<Character>
 };
 
 Character &get_player_character();
-
-template<>
-struct enum_traits<character_stat> {
-    static constexpr character_stat last = character_stat::DUMMY_STAT;
-};
-/**Get translated name of a stat*/
-std::string get_stat_name( character_stat Stat );
 
 // TODO: Move to its own file (it's not Character-specific)
 namespace vision

@@ -20,6 +20,7 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "character_martial_arts.h"
+#include "character_stat.h"
 #include "colony.h"
 #include "color.h"
 #include "consistency_report.h"

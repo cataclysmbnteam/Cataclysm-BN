@@ -21,6 +21,7 @@
 #include "character_id.h"
 #include "character_functions.h"
 #include "character_martial_arts.h"
+#include "character_stat.h"
 #include "clzones.h"
 #include "color.h"
 #include "debug.h"
