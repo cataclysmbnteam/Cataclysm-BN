@@ -569,7 +569,7 @@
       "time": "30 m",
       "skills": [ [ "electronics", 1 ] ],
       "inline": {
-        "tools": [ [ [ "soldering_iron", 20 ] ] ],
+        "using": [ [ "soldering_standard", 20 ] ],
         "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
         "components": [ [ [ "forge", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ]
       }
