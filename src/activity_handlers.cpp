@@ -1764,26 +1764,29 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
 void activity_handlers::generic_game_do_turn( player_activity *act, player *p )
 {
     item &game_item = *act->targets.front();
-    int energy = 0;
 
     // Consume battery charges for every minute spent playing
     if( calendar::once_every( 1_minutes ) ) {
         if( game_item.ammo_required() ) {
-            energy = game_item.ammo_required();
+            int energy = game_item.ammo_required();
             energy -= game_item.ammo_consume( energy, p->pos() );
             if( energy > 0 && game_item.has_flag( flag_USE_UPS ) ) {
                 if( p->use_charges_if_avail( itype_UPS, energy ) ) {
                     energy = 0;
                 }
             }
-        }
-        if( !energy ) {
-            // In practice this grants a 32 point morale bonus due to decay
-            p->add_morale( MORALE_GAME, 8, 60 );
+            if( !energy ) {
+                // In practice this grants a 32 point morale bonus due to decay
+                p->add_morale( MORALE_GAME, 8, 60 );
+                return;
+            }
         } else {
-            act->moves_left = 0;
-            add_msg( m_info, _( "The %s runs out of batteries." ), game_item.tname() );
+            // In practice this grants an 18 point morale bonus due to decay
+            p->add_morale( MORALE_GAME, 6, 60 );
+            return;
         }
+        act->moves_left = 0;
+        add_msg( m_info, _( "The %s runs out of batteries." ), game_item.tname() );
     }
 }
 
