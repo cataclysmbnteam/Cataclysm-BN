@@ -9732,6 +9732,7 @@ int iuse::play_game( player *p, item *it, bool t, const tripoint & )
         p->add_msg_if_player( _( "You start playing." ) );
         p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 30_minutes ), -1,
                             p->get_item_position( it ), "gaming" );
+        p->activity.targets.push_back( item_location( *p, it ) );
     }
     return 0;
 }

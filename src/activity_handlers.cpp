@@ -1764,14 +1764,17 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
 void activity_handlers::generic_game_do_turn( player_activity *act, player *p )
 {
     item &game_item = *act->targets.front();
+    int energy = 0;
 
     // Consume battery charges for every minute spent playing
     if( calendar::once_every( 1_minutes ) ) {
-        int energy = game_item.ammo_required();
-        energy -= game_item.ammo_consume( energy, p->pos() );
-        if( energy > 0 && game_item.has_flag( flag_USE_UPS ) ) {
-            if( p->use_charges_if_avail( itype_UPS, energy ) ) {
-                energy = 0;
+        if( game_item.ammo_required() ) {
+            energy = game_item.ammo_required();
+            energy -= game_item.ammo_consume( energy, p->pos() );
+            if( energy > 0 && game_item.has_flag( flag_USE_UPS ) ) {
+                if( p->use_charges_if_avail( itype_UPS, energy ) ) {
+                    energy = 0;
+                }
             }
         }
         if( !energy ) {
