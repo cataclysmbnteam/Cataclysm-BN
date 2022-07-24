@@ -374,9 +374,9 @@ const profession_id &scenario::weighted_random_profession() const
     }
 
     while( true ) {
-        const string_id<profession> &candidate = random_entry_ref( choices );
+        const profession_id &candidate = random_entry_ref( choices );
         if( x_in_y( 2, 2 + std::abs( candidate->point_cost() ) ) ) {
-            return candidate;
+            return candidate->ident();
         }
     }
     return profession::generic(); // Suppress warnings
