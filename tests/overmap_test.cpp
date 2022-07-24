@@ -10,6 +10,7 @@
 #include "numeric_interval.h"
 #include "omdata.h"
 #include "overmap.h"
+#include "overmap_special.h"
 #include "overmap_types.h"
 #include "overmapbuffer.h"
 #include "point.h"

@@ -144,18 +144,19 @@ player_activity veh_interact::serialize_activity()
 
     // if we're working on an existing part, use that part as the reference point
     // otherwise (e.g. installing a new frame), just use part 0
-    const point q = veh->coord_translate( pt ? pt->mount : veh->part( 0 ).mount );
+    const tripoint q = g->m.getabs( veh->global_part_pos3( pt ? *pt : veh->part( 0 ) ) );
     const vehicle_part *vpt = pt ? pt : &veh->part( 0 );
     for( const tripoint &p : veh->get_points( true ) ) {
         res.coord_set.insert( g->m.getabs( p ) );
     }
-    res.values.push_back( g->m.getabs( veh->global_pos3() ).x + q.x );    // values[0]
-    res.values.push_back( g->m.getabs( veh->global_pos3() ).y + q.y );    // values[1]
+    res.values.push_back( q.x );   // values[0]
+    res.values.push_back( q.y );   // values[1]
     res.values.push_back( dd.x );   // values[2]
     res.values.push_back( dd.y );   // values[3]
     res.values.push_back( -dd.x );   // values[4]
     res.values.push_back( -dd.y );   // values[5]
     res.values.push_back( veh->index_of_part( vpt ) ); // values[6]
+    res.values.push_back( q.z );   // values[7]
     res.str_values.push_back( vp->get_id().str() );
     res.targets.emplace_back( std::move( target ) );
 
@@ -2992,7 +2993,7 @@ void veh_interact::complete_vehicle( player &p )
 
     map &here = get_map();
     optional_vpart_position vp = here.veh_at( here.getlocal( tripoint( p.activity.values[0],
-                                 p.activity.values[1], p.posz() ) ) );
+                                 p.activity.values[1], p.activity.values[7] ) ) );
     if( !vp ) {
         // so the vehicle could have lost some of its parts from other NPCS works during this player/NPCs activity.
         // check the vehicle points that were stored at beginning of activity.
@@ -3229,9 +3230,8 @@ void veh_interact::complete_vehicle( player &p )
             if( veh->part_count() < 2 ) {
                 p.add_msg_if_player( _( "You completely dismantle the %s." ), veh->name );
                 p.activity.set_to_null();
-                int veh_z = veh->sm_pos.z;
                 here.destroy_vehicle( veh );
-                here.reset_vehicle_cache( veh_z );
+                here.reset_vehicle_cache( );
             } else {
                 point mount = veh->part( vehicle_part ).mount;
                 const tripoint &part_pos = veh->global_part_pos3( vehicle_part );

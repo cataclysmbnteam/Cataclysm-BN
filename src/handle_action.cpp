@@ -390,7 +390,7 @@ input_context game::get_player_input( std::string &action )
 inline static void rcdrive( const point &d )
 {
     player &u = g->u;
-    map &m = g->m;
+    map &here = get_map();
     std::string car_location_string = u.get_value( "remote_controlling" );
 
     if( car_location_string.empty() ) {
@@ -417,17 +417,17 @@ inline static void rcdrive( const point &d )
     item *rc_car = rc_items[0];
 
     tripoint dest( c + d );
-    if( m.impassable( dest ) || !m.can_put_items_ter_furn( dest ) ||
-        m.has_furn( dest ) ) {
+    if( here.impassable( dest ) || !here.can_put_items_ter_furn( dest ) ||
+        here.has_furn( dest ) ) {
         sounds::sound( dest, 7, sounds::sound_t::combat,
                        _( "sound of a collision with an obstacle." ), true, "misc", "rc_car_hits_obstacle" );
         return;
-    } else if( !m.add_item_or_charges( dest, *rc_car ).is_null() ) {
+    } else if( !here.add_item_or_charges( dest, *rc_car ).is_null() ) {
         tripoint src( c );
         //~ Sound of moving a remote controlled car
         sounds::sound( src, 6, sounds::sound_t::movement, _( "zzz…" ), true, "misc", "rc_car_drives" );
         u.moves -= 50;
-        m.i_rem( src, rc_car );
+        here.i_rem( src, rc_car );
 
         u.set_value( "remote_controlling", serialize_wrapper( [&]( JsonOut & jo ) {
             dest.serialize( jo );
@@ -445,8 +445,9 @@ static void pldrive( const tripoint &p )
     vehicle *veh = g->remoteveh();
     bool remote = true;
     int part = -1;
+    map &here = get_map();
     if( !veh ) {
-        if( const optional_vpart_position vp = g->m.veh_at( u.pos() ) ) {
+        if( const optional_vpart_position vp = here.veh_at( u.pos() ) ) {
             veh = &vp->vehicle();
             part = vp->part_index();
         }
@@ -455,10 +456,6 @@ static void pldrive( const tripoint &p )
     if( !veh ) {
         debugmsg( "game::pldrive error: can't find vehicle!  Drive mode is now off." );
         u.in_vehicle = false;
-        return;
-    }
-    if( veh->is_on_ramp && p.x != 0 ) {
-        add_msg( m_bad, _( "You can't turn the vehicle while on a ramp." ) );
         return;
     }
     if( !remote ) {
@@ -482,7 +479,7 @@ static void pldrive( const tripoint &p )
             return;
         }
     }
-    if( p.z != 0 && !g->m.has_zlevels() ) {
+    if( p.z != 0 && !here.has_zlevels() ) {
         u.add_msg_if_player( m_info, _( "This vehicle doesn't look very airworthy." ) );
         return;
     }
@@ -510,8 +507,6 @@ inline static void pldrive( point d )
 static void open()
 {
     player &u = g->u;
-    map &m = g->m;
-
     const cata::optional<tripoint> openp_ = choose_adjacent_highlight( _( "Open where?" ),
                                             pgettext( "no door, gate, curtain, etc.", "There is nothing that can be opened nearby." ),
                                             ACTION_OPEN, false );
@@ -520,14 +515,15 @@ static void open()
         return;
     }
     const tripoint openp = *openp_;
+    map &here = get_map();
 
     u.moves -= 100;
 
-    if( const optional_vpart_position vp = m.veh_at( openp ) ) {
+    if( const optional_vpart_position vp = here.veh_at( openp ) ) {
         vehicle *const veh = &vp->vehicle();
         int openable = veh->next_part_to_open( vp->part_index() );
         if( openable >= 0 ) {
-            const vehicle *player_veh = veh_pointer_or_null( m.veh_at( u.pos() ) );
+            const vehicle *player_veh = veh_pointer_or_null( here.veh_at( u.pos() ) );
             bool outside = !player_veh || player_veh != veh;
             if( !outside ) {
                 if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
@@ -567,12 +563,12 @@ static void open()
         return;
     }
 
-    bool didit = m.open_door( openp, !m.is_outside( u.pos() ) );
+    bool didit = here.open_door( openp, !here.is_outside( u.pos() ) );
 
     if( !didit ) {
-        const ter_str_id tid = m.ter( openp ).id();
+        const ter_str_id tid = here.ter( openp ).id();
 
-        if( m.has_flag( flag_LOCKED, openp ) ) {
+        if( here.has_flag( flag_LOCKED, openp ) ) {
             add_msg( m_info, _( "The door is locked!" ) );
             return;
         } else if( tid.obj().close ) {
@@ -591,7 +587,7 @@ static void close()
     if( const cata::optional<tripoint> pnt = choose_adjacent_highlight( _( "Close where?" ),
             pgettext( "no door, gate, etc.", "There is nothing that can be closed nearby." ),
             ACTION_CLOSE, false ) ) {
-        doors::close_door( g->m, g->u, *pnt );
+        doors::close_door( get_map(), g->u, *pnt );
     }
 }
 
@@ -599,13 +595,13 @@ static void close()
 static void grab()
 {
     avatar &you = g->u;
-    map &m = g->m;
+    map &here = get_map();
 
     if( you.get_grab_type() != OBJECT_NONE ) {
-        if( const optional_vpart_position vp = m.veh_at( you.pos() + you.grab_point ) ) {
+        if( const optional_vpart_position vp = here.veh_at( you.pos() + you.grab_point ) ) {
             add_msg( _( "You release the %s." ), vp->vehicle().name );
-        } else if( m.has_furn( you.pos() + you.grab_point ) ) {
-            add_msg( _( "You release the %s." ), m.furnname( you.pos() + you.grab_point ) );
+        } else if( here.has_furn( you.pos() + you.grab_point ) ) {
+            add_msg( _( "You release the %s." ), here.furnname( you.pos() + you.grab_point ) );
         }
 
         you.grab( OBJECT_NONE );
@@ -624,22 +620,22 @@ static void grab()
         you.grab( OBJECT_NONE );
         return;
     }
-    if( const optional_vpart_position vp = m.veh_at( grabp ) ) {
+    if( const optional_vpart_position vp = here.veh_at( grabp ) ) {
         if( !vp->vehicle().handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
             return;
         }
         you.grab( OBJECT_VEHICLE, grabp - you.pos() );
         add_msg( _( "You grab the %s." ), vp->vehicle().name );
-    } else if( m.has_furn( grabp ) ) { // If not, grab furniture if present
-        if( !m.furn( grabp ).obj().is_movable() ) {
-            add_msg( _( "You can not grab the %s" ), m.furnname( grabp ) );
+    } else if( here.has_furn( grabp ) ) { // If not, grab furniture if present
+        if( !here.furn( grabp ).obj().is_movable() ) {
+            add_msg( _( "You can not grab the %s" ), here.furnname( grabp ) );
             return;
         }
         you.grab( OBJECT_FURNITURE, grabp - you.pos() );
-        if( !m.can_move_furniture( grabp, &you ) ) {
-            add_msg( _( "You grab the %s. It feels really heavy." ), m.furnname( grabp ) );
+        if( !here.can_move_furniture( grabp, &you ) ) {
+            add_msg( _( "You grab the %s. It feels really heavy." ), here.furnname( grabp ) );
         } else {
-            add_msg( _( "You grab the %s." ), m.furnname( grabp ) );
+            add_msg( _( "You grab the %s." ), here.furnname( grabp ) );
         }
     } else { // TODO: grab mob? Captured squirrel = pet (or meat that stays fresh longer).
         add_msg( m_info, _( "There's nothing to grab there!" ) );
@@ -649,18 +645,18 @@ static void grab()
 static void haul()
 {
     player &u = g->u;
-    map &m = g->m;
+    map &here = get_map();
 
     if( u.is_hauling() ) {
         u.stop_hauling();
     } else {
-        if( m.veh_at( u.pos() ) ) {
+        if( here.veh_at( u.pos() ) ) {
             add_msg( m_info, _( "You cannot haul inside vehicles." ) );
-        } else if( m.has_flag( TFLAG_DEEP_WATER, u.pos() ) ) {
+        } else if( here.has_flag( TFLAG_DEEP_WATER, u.pos() ) ) {
             add_msg( m_info, _( "You cannot haul while in deep water." ) );
-        } else if( !m.can_put_items( u.pos() ) ) {
+        } else if( !here.can_put_items( u.pos() ) ) {
             add_msg( m_info, _( "You cannot haul items here." ) );
-        } else if( !m.has_items( u.pos() ) ) {
+        } else if( !here.has_items( u.pos() ) ) {
             add_msg( m_info, _( "There are no items to haul here." ) );
         } else {
             u.start_hauling();
@@ -671,7 +667,7 @@ static void haul()
 static void smash()
 {
     player &u = g->u;
-    map &m = g->m;
+    map &here = get_map();
     if( u.is_mounted() ) {
         auto mons = u.mounted_creature.get();
         if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
@@ -696,7 +692,7 @@ static void smash()
         smashskill = u.str_cur + u.weapon.damage_melee( DT_BASH );
     }
 
-    const bool allow_floor_bash = m.has_zlevels();
+    const bool allow_floor_bash = here.has_zlevels();
     const cata::optional<tripoint> smashp_ = choose_adjacent( _( "Smash where?" ), allow_floor_bash );
     if( !smashp_ ) {
         return;
@@ -719,7 +715,7 @@ static void smash()
             crit->use_mech_power( -3 );
         }
     }
-    for( std::pair<const field_type_id, field_entry> &fd_to_smsh : m.field_at( smashp ) ) {
+    for( std::pair<const field_type_id, field_entry> &fd_to_smsh : here.field_at( smashp ) ) {
         const map_bash_info &bash_info = fd_to_smsh.first->bash_info;
         if( bash_info.str_min == -1 ) {
             continue;
@@ -730,8 +726,8 @@ static void smash()
         } else if( smashskill >= rng( bash_info.str_min, bash_info.str_max ) ) {
             sounds::sound( smashp, bash_info.sound_vol.value_or( -1 ),
                            sounds::sound_t::combat, bash_info.sound, true, "smash", "field" );
-            m.remove_field( smashp, fd_to_smsh.first );
-            m.spawn_items( smashp, item_group::items_from( bash_info.drop_group, calendar::turn ) );
+            here.remove_field( smashp, fd_to_smsh.first );
+            here.spawn_items( smashp, item_group::items_from( bash_info.drop_group, calendar::turn ) );
             u.mod_moves( - bash_info.fd_bash_move_cost );
             add_msg( m_info, bash_info.field_bash_msg_success.translated() );
             return;
@@ -743,7 +739,7 @@ static void smash()
     }
 
     bool should_pulp = false;
-    for( const item &it : m.i_at( smashp ) ) {
+    for( const item &it : here.i_at( smashp ) ) {
         if( it.is_corpse() && it.damage() < it.max_damage() && it.can_revive() ) {
             if( it.get_mtype()->bloodType()->has_acid ) {
                 if( query_yn( _( "Are you sure you want to pulp an acid filled corpse?" ) ) ) {
@@ -760,7 +756,7 @@ static void smash()
     if( should_pulp ) {
         // do activity forever. ACT_PULP stops itself
         u.assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
-        u.activity.placement = m.getabs( smashp );
+        u.activity.placement = here.getabs( smashp );
         return; // don't smash terrain if we've smashed a corpse
     }
 
@@ -770,7 +766,7 @@ static void smash()
             return;
         }
     }
-    didit = m.bash( smashp, smashskill, false, false, smash_floor ).did_bash;
+    didit = here.bash( smashp, smashskill, false, false, smash_floor ).did_bash;
     if( didit ) {
         if( !mech_smash ) {
             u.handle_melee_wear( u.weapon );
@@ -798,17 +794,17 @@ static void smash()
         }
         u.moves -= move_cost;
 
-        if( smashskill < m.bash_resistance( smashp ) && one_in( 10 ) ) {
-            if( m.has_furn( smashp ) && m.furn( smashp ).obj().bash.str_min != -1 ) {
+        if( smashskill < here.bash_resistance( smashp ) && one_in( 10 ) ) {
+            if( here.has_furn( smashp ) && here.furn( smashp ).obj().bash.str_min != -1 ) {
                 // %s is the smashed furniture
-                add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), m.furnname( smashp ) );
+                add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), here.furnname( smashp ) );
             } else {
                 // %s is the smashed terrain
-                add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), m.tername( smashp ) );
+                add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), here.tername( smashp ) );
             }
         }
 
-        if( !m.has_floor_or_support( u.pos() ) ) {
+        if( !here.has_floor_or_support( u.pos() ) ) {
             cata::optional<tripoint> to_safety;
             while( true ) {
                 to_safety = choose_direction( _( "Floor below destroyed!  Move where?" ) );
@@ -830,7 +826,7 @@ static void smash()
             }
             if( !to_safety ) {
                 // HACK! We should have a "fall down" function instead of invoking ledge trap
-                m.creature_on_trap( u, false );
+                here.creature_on_trap( u, false );
             }
         }
     } else {
@@ -864,9 +860,10 @@ static void wait()
     uilist as_m;
     player &u = g->u;
     bool setting_alarm = false;
+    map &here = get_map();
 
-    if( u.controlling_vehicle && ( g->m.veh_at( u.pos() )->vehicle().velocity ||
-                                   g->m.veh_at( u.pos() )->vehicle().cruise_velocity ) ) {
+    if( u.controlling_vehicle && ( here.veh_at( u.pos() )->vehicle().velocity ||
+                                   here.veh_at( u.pos() )->vehicle().cruise_velocity ) ) {
         popup( _( "You can't pass time while controlling a moving vehicle." ) );
         return;
     }
@@ -1319,15 +1316,16 @@ static void reach_attack( avatar &you )
 static void fire()
 {
     avatar &u = g->u;
+    map &here = get_map();
 
     // Use vehicle turret or draw a pistol from a holster if unarmed
     if( !u.is_armed() ) {
 
-        const optional_vpart_position vp = g->m.veh_at( u.pos() );
+        const optional_vpart_position vp = here.veh_at( u.pos() );
 
         turret_data turret;
         if( vp && ( turret = vp->vehicle().turret_query( u.pos() ) ) ) {
-            avatar_action::fire_turret_manual( g->u, g->m, turret );
+            avatar_action::fire_turret_manual( u, here, turret );
             return;
         }
 

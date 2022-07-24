@@ -543,7 +543,7 @@ bool can_butcher_at( const tripoint &p )
     // TODO: unify this with game::butcher
     const int factor = g->u.max_quality( qual_BUTCHER );
     const int factorD = g->u.max_quality( qual_CUT_FINE );
-    map_stack items = g->m.i_at( p );
+    map_stack items = get_map().i_at( p );
     bool has_item = false;
     bool has_corpse = false;
 
@@ -562,8 +562,9 @@ bool can_butcher_at( const tripoint &p )
 
 bool can_move_vertical_at( const tripoint &p, int movez )
 {
+    map &here = get_map();
     // TODO: unify this with game::move_vertical
-    if( g->m.has_flag( flag_SWIMMABLE, p ) && g->m.has_flag( TFLAG_DEEP_WATER, p ) ) {
+    if( here.has_flag( flag_SWIMMABLE, p ) && here.has_flag( TFLAG_DEEP_WATER, p ) ) {
         if( movez == -1 ) {
             return !g->u.is_underwater() && !g->u.worn_with_flag( flag_FLOTATION );
         } else {
@@ -572,9 +573,9 @@ bool can_move_vertical_at( const tripoint &p, int movez )
     }
 
     if( movez == -1 ) {
-        return g->m.has_flag( flag_GOES_DOWN, p );
+        return here.has_flag( flag_GOES_DOWN, p );
     } else {
-        return g->m.has_flag( flag_GOES_UP, p );
+        return here.has_flag( flag_GOES_UP, p );
     }
 }
 
@@ -611,25 +612,27 @@ bool can_examine_at( const tripoint &p )
 static bool can_pickup_at( const tripoint &p )
 {
     bool veh_has_items = false;
-    const optional_vpart_position vp = g->m.veh_at( p );
+    map &here = get_map();
+    const optional_vpart_position vp = here.veh_at( p );
     if( vp ) {
         const int cargo_part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO", false );
         veh_has_items = cargo_part >= 0 && !vp->vehicle().get_items( cargo_part ).empty();
     }
-    return g->m.has_items( p ) || veh_has_items;
+    return here.has_items( p ) || veh_has_items;
 }
 
 bool can_interact_at( action_id action, const tripoint &p )
 {
+    map &here = get_map();
     switch( action ) {
         case ACTION_OPEN:
-            return g->m.open_door( p, !g->m.is_outside( g->u.pos() ), true );
+            return here.open_door( p, !here.is_outside( g->u.pos() ), true );
         case ACTION_CLOSE: {
-            const optional_vpart_position vp = g->m.veh_at( p );
+            const optional_vpart_position vp = here.veh_at( p );
             return ( vp &&
                      vp->vehicle().next_part_to_close( vp->part_index(),
-                             veh_pointer_or_null( g->m.veh_at( g->u.pos() ) ) != &vp->vehicle() ) >= 0 ) ||
-                   g->m.close_door( p, !g->m.is_outside( g->u.pos() ), true );
+                             veh_pointer_or_null( here.veh_at( g->u.pos() ) ) != &vp->vehicle() ) >= 0 ) ||
+                   here.close_door( p, !here.is_outside( g->u.pos() ), true );
         }
         case ACTION_BUTCHER:
             return can_butcher_at( p );
@@ -685,15 +688,16 @@ action_id handle_action_menu()
         action_weightings[ACTION_TOGGLE_CROUCH] = 300;
     }
 
+    map &here = get_map();
     // Check if we're on a vehicle, if so, vehicle controls should be top.
-    if( g->m.veh_at( g->u.pos() ) ) {
+    if( here.veh_at( g->u.pos() ) ) {
         // Make it 300 to prioritize it before examining the vehicle.
         action_weightings[ACTION_CONTROL_VEHICLE] = 300;
     }
 
     // Check if we can perform one of our actions on nearby terrain. If so,
     // display that action at the top of the list.
-    for( const tripoint &pos : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+    for( const tripoint &pos : here.points_in_radius( g->u.pos(), 1 ) ) {
         if( pos != g->u.pos() ) {
             // Check for actions that work on nearby tiles
             if( can_interact_at( ACTION_OPEN, pos ) ) {
@@ -1026,8 +1030,9 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         const bool allow_vertical )
 {
     std::vector<tripoint> valid;
+    map &here = get_map();
     if( allowed ) {
-        for( const tripoint &pos : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+        for( const tripoint &pos : here.points_in_radius( g->u.pos(), 1 ) ) {
             if( allowed( pos ) ) {
                 valid.emplace_back( pos );
             }
@@ -1046,7 +1051,7 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
     if( !valid.empty() ) {
         hilite_cb = make_shared_fast<game::draw_callback_t>( [&]() {
             for( const tripoint &pos : valid ) {
-                g->m.drawsq( g->w_terrain, pos, drawsq_params().highlight( true ) );
+                here.drawsq( g->w_terrain, pos, drawsq_params().highlight( true ) );
             }
         } );
         g->add_draw_callback( hilite_cb );

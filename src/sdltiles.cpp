@@ -57,6 +57,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmap_location.h"
+#include "overmap_special.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
@@ -2780,6 +2781,7 @@ static void CheckMessages()
                     actions_remove.insert( ACTION_CYCLE_MOVE );
                 }
 
+                map &here = get_map();
                 // Check if we can perform one of our actions on nearby terrain. If so,
                 // display that action at the top of the list.
                 for( int dx = -1; dx <= 1; dx++ ) {
@@ -2791,7 +2793,7 @@ static void CheckMessages()
 
                         // Check if we're near a vehicle, if so, vehicle controls should be top.
                         {
-                            const optional_vpart_position vp = g->m.veh_at( pos );
+                            const optional_vpart_position vp = here.veh_at( pos );
                             vehicle *const veh = veh_pointer_or_null( vp );
                             if( veh ) {
                                 const int veh_part = vp ? vp->part_index() : -1;

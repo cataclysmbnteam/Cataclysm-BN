@@ -252,7 +252,7 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
     }
 
     // Check for conditions that immediately disqualify the player from reading:
-    const optional_vpart_position vp = g->m.veh_at( pos() );
+    const optional_vpart_position vp = get_map().veh_at( pos() );
     if( vp && vp->vehicle().player_in_control( *this ) ) {
         reasons.emplace_back( _( "It's a bad idea to read while driving!" ) );
         return nullptr;
@@ -986,27 +986,11 @@ void avatar::disp_morale()
 {
     int equilibrium = calc_focus_equilibrium();
 
-    int fatigue_penalty = 0;
-    if( get_fatigue() >= fatigue_levels::massive && equilibrium > 20 ) {
-        fatigue_penalty = equilibrium - 20;
-        equilibrium = 20;
-    } else if( get_fatigue() >= fatigue_levels::exhausted && equilibrium > 40 ) {
-        fatigue_penalty = equilibrium - 40;
-        equilibrium = 40;
-    } else if( get_fatigue() >= fatigue_levels::dead_tired && equilibrium > 60 ) {
-        fatigue_penalty = equilibrium - 60;
-        equilibrium = 60;
-    } else if( get_fatigue() >= fatigue_levels::tired && equilibrium > 80 ) {
-        fatigue_penalty = equilibrium - 80;
-        equilibrium = 80;
-    }
+    int fatigue_cap = calc_fatigue_cap( *this );
 
-    int pain_penalty = 0;
-    if( get_perceived_pain() && !has_trait( trait_CENOBITE ) ) {
-        pain_penalty = calc_focus_equilibrium( true ) - equilibrium - fatigue_penalty;
-    }
+    int pain_penalty = has_trait( trait_CENOBITE ) ? 0 : get_perceived_pain();
 
-    morale->display( equilibrium, pain_penalty, fatigue_penalty );
+    morale->display( equilibrium, pain_penalty, fatigue_cap );
 }
 
 int avatar::get_str_base() const

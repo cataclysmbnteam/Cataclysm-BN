@@ -26,11 +26,12 @@ static const efftype_id effect_blind( "blind" );
 
 static void reset_player()
 {
+    avatar &player_character = get_avatar();
     // Move player somewhere safe
-    REQUIRE( !g->u.in_vehicle );
-    g->u.setpos( tripoint_zero );
+    REQUIRE( !player_character.in_vehicle );
+    player_character.setpos( tripoint_zero );
     // Blind the player to avoid needless drawing-related overhead
-    g->u.add_effect( effect_blind, 365_days, num_bp );
+    player_character.add_effect( effect_blind, 365_days, num_bp );
 }
 
 TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
@@ -38,10 +39,11 @@ TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
     reset_player();
     build_test_map( ter_id( "t_pavement" ) );
     clear_vehicles();
+    map &here = get_map();
 
     SECTION( "vehicle with reactor" ) {
         const tripoint reactor_origin = tripoint( 10, 10, 0 );
-        vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "reactor_test" ), reactor_origin, 0_degrees, 0, 0 );
+        vehicle *veh_ptr = here.add_vehicle( vproto_id( "reactor_test" ), reactor_origin, 0_degrees, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
 
         REQUIRE( !veh_ptr->reactors.empty() );
@@ -69,7 +71,7 @@ TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
 
     SECTION( "vehicle with solar panels" ) {
         const tripoint solar_origin = tripoint( 5, 5, 0 );
-        vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "solar_panel_test" ), solar_origin, 0_degrees, 0,
+        vehicle *veh_ptr = here.add_vehicle( vproto_id( "solar_panel_test" ), solar_origin, 0_degrees, 0,
                                              0 );
         REQUIRE( veh_ptr != nullptr );
 
@@ -131,10 +133,11 @@ TEST_CASE( "maximum reverse velocity", "[vehicle][power][reverse]" )
     reset_player();
     build_test_map( ter_id( "t_pavement" ) );
     clear_vehicles();
+    map &here = get_map();
 
     GIVEN( "a scooter with combustion engine and charged battery" ) {
         const tripoint origin = tripoint( 10, 0, 0 );
-        vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "scooter_test" ), origin, 0_degrees, 0, 0 );
+        vehicle *veh_ptr = here.add_vehicle( vproto_id( "scooter_test" ), origin, 0_degrees, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
         veh_ptr->charge_battery( 500 );
         REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) == 500 );
@@ -159,7 +162,7 @@ TEST_CASE( "maximum reverse velocity", "[vehicle][power][reverse]" )
 
     GIVEN( "a scooter with an electric motor and charged battery" ) {
         const tripoint origin = tripoint( 15, 0, 0 );
-        vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "scooter_electric_test" ), origin, 0_degrees, 0,
+        vehicle *veh_ptr = here.add_vehicle( vproto_id( "scooter_electric_test" ), origin, 0_degrees, 0,
                                              0 );
         REQUIRE( veh_ptr != nullptr );
         veh_ptr->charge_battery( 5000 );

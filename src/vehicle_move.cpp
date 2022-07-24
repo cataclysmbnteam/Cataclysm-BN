@@ -40,6 +40,7 @@
 #include "units_utility.h"
 #include "veh_type.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
 
 #define dbg(x) DebugLogFL((x),DC::Map)
 
@@ -1010,7 +1011,8 @@ bool vehicle::check_heli_descend( player &p )
             return false;
         }
         const optional_vpart_position ovp = here.veh_at( below );
-        if( here.impassable_ter_furn( below ) || ovp || g->critter_at( below ) ) {
+        if( here.impassable_ter_furn( below ) || here.has_flag_ter_or_furn( TFLAG_RAMP_DOWN, below ) ||
+            ovp || g->critter_at( below ) ) {
             p.add_msg_if_player( m_bad,
                                  _( "It would be unsafe to try and land when there are obstacles below you." ) );
             return false;
@@ -1036,6 +1038,10 @@ bool vehicle::check_heli_ascend( player &p )
     }
     if( velocity > 0 && !is_flying_in_air() ) {
         p.add_msg_if_player( m_bad, _( "It would be unsafe to try and take off while you are moving." ) );
+        return false;
+    }
+    if( !is_flying_in_air() && check_on_ramp() ) {
+        p.add_msg_if_player( m_bad, _( "It would be unsafe to try and take off from an uneven surface." ) );
         return false;
     }
     map &here = get_map();
@@ -1410,51 +1416,111 @@ vehicle *vehicle::act_on_map()
     return here.move_vehicle( *this, dp, mdir );
 }
 
-bool vehicle::level_vehicle()
+void vehicle::shift_zlevel()
 {
     map &here = get_map();
-    if( !here.has_zlevels() || ( is_flying && is_rotorcraft() ) ) {
-        return true;
+    int center = part_at( point_zero );
+
+    int z_shift = 0;
+    if( center == -1 ) {
+        //no center part, fall back to slower terrain check
+        auto global_center = mount_to_tripoint( point_zero );
+        if( here.has_flag( TFLAG_RAMP_DOWN, global_center ) ) {
+            z_shift = -1;
+        } else if( here.has_flag( TFLAG_RAMP_UP, global_center ) ) {
+            z_shift = 1;
+        }
+    } else {
+        z_shift = parts[center].precalc[0].z;
     }
-    // make sure that all parts are either supported across levels or on the same level
-    std::map<int, bool> no_support;
-    for( vehicle_part &prt : parts ) {
-        if( prt.info().location != part_location_structure ) {
+
+    if( z_shift != 0 ) {
+        here.shift_vehicle_z( *this, z_shift );
+    }
+}
+
+bool vehicle::check_on_ramp( int idir, const tripoint &offset ) const
+{
+    for( auto &prt : get_all_parts() ) {
+        tripoint partPoint = global_pos3() + offset + prt.part().precalc[idir];
+
+        if( g->m.has_flag( TFLAG_RAMP_UP, partPoint ) || g->m.has_flag( TFLAG_RAMP_DOWN, partPoint ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void vehicle::adjust_zlevel( int idir, const tripoint &offset )
+{
+    //We don't need to do anything if we're not on a ramp
+    //unless position 0 is outside the vehicle then there may be a ramp in between
+    if( part_at( point_zero ) != -1 && !check_on_ramp( idir, offset ) ) {
+        return;
+    }
+
+    // when a vehicle part enters the low end of a down ramp, or the high end of an up ramp,
+    // it immediately translates down or up a z-level, respectively, ending up on the low
+    // end of an up ramp or high end of a down ramp, respectively.  The two ends are set
+    // past each other, like so:
+    // (side view)  z+1   Rdh RDl
+    //              z+0   RUh Rul
+    // A vehicle moving left to right on z+1 drives down to z+0 by entering the ramp down low end.
+    // A vehicle moving right to left on z+0 drives up to z+1 by entering the ramp up high end.
+    // A vehicle moving left to right on z+0 should ideally collide into a wall before entering
+    //   the ramp up high end, but even if it does, it briefly transitions to z+1 before returning
+    //   to z0 by entering the ramp down low end.
+    // A vehicle moving right to left on z+1 drives down to z+0 by entering the ramp down low end,
+    //   then immediately returns to z+1 by entering the ramp up high end.
+    // When a vehicle's central point transitions a z-level via a ramp, all other pre-calc points
+    // make the opposite transition, so that points that were above an ascending pivot point are
+    // now level with it, and parts that were level with an ascending pivot point are now below
+    // it.
+
+    auto &m = get_map();
+    tripoint global_pos = global_pos3();
+
+    tripoint new_center = global_pos + offset;
+
+    if( m.has_flag( TFLAG_RAMP_DOWN, new_center ) ) {
+        new_center.z--;
+    } else if( m.has_flag( TFLAG_RAMP_UP, new_center ) ) {
+        new_center.z++;
+    }
+
+    std::map<point, int> z_cache;
+
+    //Draw a line from the center to each part, going up and down ramps as we do
+    for( auto &prt : get_all_parts() ) {
+        tripoint part_point = global_pos + offset + prt.part().precalc[idir];
+
+        auto cache_entry = z_cache.find( part_point.xy() );
+        if( cache_entry != z_cache.end() ) {
+            prt.part().precalc[idir].z = cache_entry->second;
             continue;
         }
-        const tripoint part_pos = global_part_pos3( prt );
-        if( no_support.find( part_pos.z ) == no_support.end() ) {
-            no_support[part_pos.z] = part_pos.z > -OVERMAP_DEPTH;
-        }
-        if( no_support[part_pos.z] ) {
-            no_support[part_pos.z] = here.has_flag_ter_or_furn( TFLAG_NO_FLOOR, part_pos ) &&
-                                     !here.supports_above( part_pos + tripoint_below );
-        }
-    }
-    std::set<int> dropped_parts;
-    // if it's unsupported but on the same level, just let it fall
-    bool center_drop = false;
-    bool adjust_level = false;
-    if( no_support.size() > 1 ) {
-        for( int zlevel = -OVERMAP_DEPTH; zlevel <= OVERMAP_DEPTH; zlevel++ ) {
-            if( no_support.find( zlevel ) == no_support.end() || !no_support[zlevel] ) {
-                continue;
+
+        tripoint line = new_center;
+        while( line.xy() != part_point.xy() ) {
+            if( line.x < part_point.x ) {
+                line.x++;
+            } else if( line.x > part_point.x ) {
+                line.x--;
             }
-            center_drop |= global_pos3().z == zlevel;
-            adjust_level = true;
-            // drop unsupported parts 1 zlevel
-            for( size_t prt = 0; prt < parts.size(); prt++ ) {
-                if( global_part_pos3( prt ).z == zlevel ) {
-                    dropped_parts.insert( static_cast<int>( prt ) );
-                }
+            if( line.y < part_point.y ) {
+                line.y++;
+            } else if( line.y > part_point.y ) {
+                line.y--;
+            }
+            if( m.has_flag( TFLAG_RAMP_UP, line ) ) {
+                line.z += 1;
+            }
+            if( m.has_flag( TFLAG_RAMP_DOWN, line ) ) {
+                line.z -= 1;
             }
         }
-    }
-    if( adjust_level ) {
-        here.displace_vehicle( *this, tripoint_below, center_drop, dropped_parts );
-        return false;
-    } else {
-        return true;
+        prt.part().precalc[idir].z = line.z - global_pos.z;
+        z_cache[part_point.xy()] = line.z - global_pos.z;
     }
 }
 

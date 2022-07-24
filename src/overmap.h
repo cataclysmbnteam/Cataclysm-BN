@@ -40,6 +40,9 @@ class map_extra;
 class monster;
 class npc;
 class overmap_connection;
+class overmap_special;
+class overmap_special_batch;
+struct om_special_sectors;
 struct regional_settings;
 template <typename E> struct enum_traits;
 
@@ -133,56 +136,6 @@ struct map_layer {
     bool explored[OMAPX][OMAPY];
     std::vector<om_note> notes;
     std::vector<om_map_extra> extras;
-};
-
-struct om_special_sectors {
-    std::vector<point_om_omt> sectors;
-    int sector_width;
-};
-
-// Wrapper around an overmap special to track progress of placing specials.
-struct overmap_special_placement {
-    int instances_placed;
-    const overmap_special *special_details;
-};
-
-// A batch of overmap specials to place.
-class overmap_special_batch
-{
-    public:
-        overmap_special_batch( const point_abs_om &origin ) : origin_overmap( origin ) {}
-        overmap_special_batch( const point_abs_om &origin,
-                               const std::vector<const overmap_special *> &specials ) :
-            origin_overmap( origin ) {
-            std::transform( specials.begin(), specials.end(),
-            std::back_inserter( placements ), []( const overmap_special * elem ) {
-                return overmap_special_placement{ 0, elem };
-            } );
-        }
-
-        // Wrapper methods that make overmap_special_batch act like
-        // the underlying vector of overmap placements.
-        std::vector<overmap_special_placement>::iterator begin() {
-            return placements.begin();
-        }
-        std::vector<overmap_special_placement>::iterator end() {
-            return placements.end();
-        }
-        std::vector<overmap_special_placement>::iterator erase(
-            std::vector<overmap_special_placement>::iterator pos ) {
-            return placements.erase( pos );
-        }
-        bool empty() {
-            return placements.empty();
-        }
-
-        point_abs_om get_origin() const {
-            return origin_overmap;
-        }
-
-    private:
-        std::vector<overmap_special_placement> placements;
-        point_abs_om origin_overmap;
 };
 
 static const std::map<std::string, oter_flags> oter_flags_map = {
@@ -363,7 +316,7 @@ class overmap
         std::vector<basecamp> camps;
         std::vector<city> cities;
         std::vector<lab> labs;
-        std::map<string_id<overmap_connection>, std::vector<tripoint_om_omt>> connections_out;
+        std::map<overmap_connection_id, std::vector<tripoint_om_omt>> connections_out;
         cata::optional<basecamp *> find_camp( const point_abs_omt &p );
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
         void insert_npc( shared_ptr_fast<npc> who );
@@ -559,12 +512,6 @@ bool is_river_or_lake( const oter_id &ter );
 */
 bool is_ot_match( const std::string &name, const oter_id &oter,
                   ot_match_type match_type );
-
-/**
-* Gets a collection of sectors and their width for usage in placing overmap specials.
-* @param sector_width used to divide the OMAPX by OMAPY map into sectors.
-*/
-om_special_sectors get_sectors( int sector_width );
 
 /**
 * Returns the string of oter without any directional suffix

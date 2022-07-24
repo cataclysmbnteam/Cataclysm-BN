@@ -532,14 +532,14 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_firestation1_forge",
-    "description": "Let's build a fabrication workshop.",
+    "description": "Let's build a charcoal fabrication workshop.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "skill_used": "fabrication",
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmc_firestation1_forge",
-    "blueprint_name": "build a metalworking forge",
+    "blueprint_name": "build a charcoal metalworking forge",
     "blueprint_requires": [ { "id": "fbmc_firestation1_smoking" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_forge" }, { "id": "blacksmith_recipes_1" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_forge" } ],
@@ -548,6 +548,31 @@
       "time": "2 h",
       "skills": [ [ "fabrication", 4 ] ],
       "inline": { "tools": [  ], "qualities": [  ], "components": [ [ [ "material_soil", 3 ] ], [ [ "rock", 40 ] ] ] }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_firestation1_grid_forge",
+    "description": "Let's build an electric fabrication workshop.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_firestation1_grid_forge",
+    "blueprint_name": "build a grid metalworking forge",
+    "blueprint_requires": [ { "id": "fbmc_firestation1_smoking" } ],
+    "blueprint_provides": [ { "id": "fbmc_firestation1_forge" }, { "id": "blacksmith_recipes_1" } ],
+    "blueprint_excludes": [ { "id": "fbmc_firestation1_forge" } ],
+    "blueprint_resources": [ "fake_gridforge", "hammer" ],
+    "blueprint_needs": {
+      "time": "30 m",
+      "skills": [ [ "electronics", 1 ] ],
+      "inline": {
+        "tools": [ [ [ "soldering_iron", 20 ] ] ],
+        "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+        "components": [ [ [ "forge", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ]
+      }
     }
   },
   {

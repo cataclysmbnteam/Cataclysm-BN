@@ -70,6 +70,7 @@
 #include "overmap.h"
 #include "overmap_connection.h"
 #include "overmap_location.h"
+#include "overmap_special.h"
 #include "profession.h"
 #include "recipe_dictionary.h"
 #include "recipe_groups.h"
