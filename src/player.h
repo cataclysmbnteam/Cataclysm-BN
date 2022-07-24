@@ -778,6 +778,6 @@ class player : public Character
 };
 
 /** Calculates the player's morale cap due to fatigue */
-int calc_fatigue_cap( const player &p );
+int calc_fatigue_cap( const int &fatigue );
 
 #endif // CATA_SRC_PLAYER_H
