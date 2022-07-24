@@ -30,7 +30,7 @@ void disp_info( Character &ch );
 /**
  * Handles upgrade of avatar stats.
  */
-void upgrade_stat_prompt( avatar &ch, const character_stat &stat );
+void upgrade_stat_prompt( avatar &you, const character_stat &stat );
 
 } // namespace character_display
 
