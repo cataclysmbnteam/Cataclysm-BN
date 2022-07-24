@@ -569,9 +569,9 @@
       "time": "30 m",
       "skills": [ [ "electronics", 1 ] ],
       "inline": {
-        "using": [ [ "soldering_standard", 20 ] ],
-        "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
-        "components": [ [ [ "forge", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ]
+        "tools": [ [ [ "fake_gridsolderingiron", 20 ], [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
+        "qualities": [ [ { "id": "SCREW" } ] ],
+        "components": [ [ [ "cable", 5 ] ], [ [ "forge", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 25 ] ] ]
       }
     }
   },
