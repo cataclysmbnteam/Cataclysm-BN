@@ -1761,10 +1761,26 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-void activity_handlers::generic_game_do_turn( player_activity * /*act*/, player *p )
+void activity_handlers::generic_game_do_turn( player_activity *act, player *p )
 {
+    item &game_item = *act->targets.front();
+
+    // Consume battery charges for every minute spent playing
     if( calendar::once_every( 1_minutes ) ) {
-        p->add_morale( MORALE_GAME, 4, 60 );
+        int energy = game_item.ammo_required();
+        energy -= game_item.ammo_consume( energy, p->pos() );
+        if( energy > 0 && game_item.has_flag( flag_USE_UPS ) ) {
+            if( p->use_charges_if_avail( itype_UPS, energy ) ) {
+                energy = 0;
+            }
+        }
+        if( !energy ) {
+            // In practice this grants a 32 point morale bonus due to decay
+            p->add_morale( MORALE_GAME, 8, 60 );
+        } else {
+            act->moves_left = 0;
+            add_msg( m_info, _( "The %s runs out of batteries." ), game_item.tname() );
+        }
     }
 }
 
@@ -1774,18 +1790,15 @@ void activity_handlers::game_do_turn( player_activity *act, player *p )
 
     // Consume battery charges for every minute spent playing
     if( calendar::once_every( 1_minutes ) ) {
-        bool fail = false;
-        int const ammo_required = game_item.ammo_required();
-        if( game_item.has_flag( flag_USE_UPS ) ) {
-            fail = !p->use_charges_if_avail( itype_UPS, ammo_required );
-        } else {
-            fail = game_item.ammo_consume( ammo_required, p->pos() ) == 0;
+        int energy = game_item.ammo_required();
+        energy -= game_item.ammo_consume( energy, p->pos() );
+        if( energy > 0 && game_item.has_flag( flag_USE_UPS ) ) {
+            if( p->use_charges_if_avail( itype_UPS, energy ) ) {
+                energy = 0;
+            }
         }
-
-        if( !fail ) {
-            //1 points/min, almost 2 hours to fill
-            p->add_morale( MORALE_GAME, 1, 100 );
-        } else {
+        // Morale boost from game is handled in iuse::portable_game
+        if( energy ) {
             act->moves_left = 0;
             add_msg( m_info, _( "The %s runs out of batteries." ), game_item.tname() );
         }
