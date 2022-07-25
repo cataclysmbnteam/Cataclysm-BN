@@ -402,7 +402,7 @@
   {
     "type": "recipe",
     "result": "ammolink223",
-    "charges": 10,
+    "charges": 100,
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
@@ -414,12 +414,12 @@
     "book_learn": [ [ "manual_rifle", 3 ], [ "recipe_bullets", 3 ] ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "tongs", -1 ] ] ],
     "using": [ [ "forging_standard", 3 ] ],
-    "components": [ [ [ "sheet_metal", 1 ], [ "sheet_metal_small", 24 ] ] ]
+    "components": [ [ [ "sheet_metal_small", 3 ] ] ]
   },
   {
     "type": "recipe",
     "result": "ammolink308",
-    "charges": 10,
+    "charges": 100,
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
@@ -431,12 +431,12 @@
     "book_learn": [ [ "manual_rifle", 3 ], [ "recipe_bullets", 3 ] ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "tongs", -1 ] ] ],
     "using": [ [ "forging_standard", 3 ] ],
-    "components": [ [ [ "sheet_metal", 1 ], [ "sheet_metal_small", 24 ] ] ]
+    "components": [ [ [ "sheet_metal_small", 3 ] ] ]
   },
   {
     "type": "recipe",
     "result": "ammolink50",
-    "charges": 10,
+    "charges": 100,
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
@@ -448,12 +448,12 @@
     "book_learn": [ [ "manual_rifle", 3 ], [ "recipe_bullets", 3 ] ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "tongs", -1 ] ] ],
     "using": [ [ "forging_standard", 3 ] ],
-    "components": [ [ [ "sheet_metal", 1 ], [ "sheet_metal_small", 24 ] ] ]
+    "components": [ [ [ "sheet_metal_small", 3 ] ] ]
   },
   {
     "type": "recipe",
     "result": "ammolink40mm",
-    "charges": 10,
+    "charges": 100,
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
@@ -465,6 +465,6 @@
     "book_learn": [ [ "recipe_bullets", 4 ] ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "tongs", -1 ] ] ],
     "using": [ [ "forging_standard", 4 ] ],
-    "components": [ [ [ "sheet_metal", 2 ], [ "sheet_metal_small", 48 ] ] ]
+    "components": [ [ [ "sheet_metal_small", 12 ] ] ]
   }
 ]
