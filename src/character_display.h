@@ -23,7 +23,10 @@ void print_encumbrance( const catacurses::window &win, const Character &ch, int 
                         const item *selected_clothing = nullptr );
 
 /**
- * Handles and displays detailed character info for the '@' screen.
+ * @brief Handles and displays detailed character info for the '@' screen.
+ * 
+ * @param ch Character to display info for. Has to be non-const reference
+ * to allow toggling skills and upgrading stats for stats-through-x mods.
  */
 void disp_info( Character &ch );
 
