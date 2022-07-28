@@ -16,19 +16,18 @@
 #include "translations.h"
 
 bool play_videogame( const std::string &function_name,
-                     std::map<std::string, std::string> &game_data,
+                     std::string &end_message,
                      int &score )
 {
-    if( function_name.empty() ) {
-        score = 15;
+    if( function_name == "null" ) {
+        score = 30;
         return true; // generic game
     }
     if( function_name == "robot_finds_kitten" ) {
         robot_finds_kitten findkitten;
         bool foundkitten = findkitten.ret;
         if( foundkitten ) {
-            game_data["end_message"] = _( "You found kitten!" );
-            game_data["moraletype"] = "MORALE_GAME_FOUND_KITTEN";
+            end_message = _( "You found kitten!" );
             score = 30;
         }
 
@@ -71,12 +70,8 @@ bool play_videogame( const std::string &function_name,
 
         return true;
     } else {
-        score = -5;
-        /* morale/activity workaround >.> */
-        game_data["end_message"] = string_format(
-                                       _( "You struggle to get '%s' working, and finally give up to play minesweeper." ),
-                                       function_name );
-        // TODO: better messages in morale system //  game_data["moraletype"]="MORALE_GAME_SOFTWARE_PROBLEM";
+        debugmsg( "Invalid function_name for play_videogame." );
+        score = 0;
         return false;
     }
 }
