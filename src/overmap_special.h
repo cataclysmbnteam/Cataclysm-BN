@@ -49,7 +49,6 @@ struct overmap_special_terrain {
     overmap_special_terrain() = default;
     tripoint p;
     oter_str_id terrain;
-    std::set<std::string> flags;
     std::set<overmap_location_id> locations;
 
     void deserialize( const JsonObject &jo );

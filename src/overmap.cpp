@@ -430,7 +430,6 @@ void overmap_special_terrain::deserialize( const JsonObject &jo )
 {
     mandatory( jo, false, "point", p );
     mandatory( jo, false, "overmap", terrain );
-    optional( jo, false, "flags", flags );
     optional( jo, false, "locations", locations );
 }
 
