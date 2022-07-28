@@ -2103,11 +2103,18 @@ int game::inventory_item_menu( item_location locThisItem,
         std::vector<iteminfo> vDummy;
 
         const bool bHPR = get_auto_pickup().has_rule( &oThisItem );
-        const bool cant_unwield_weapon = u.weapon.has_flag( "NO_UNWIELD" );
-        const bool cant_drop_this = cant_unwield_weapon && u.is_wielding( oThisItem );
-        const hint_rating rate_wield_item = cant_unwield_weapon ? hint_rating::cant :
+        const bool is_wielded = u.is_wielding( oThisItem );
+        const bool cant_unwield_if_weapon = is_wielded && !u.can_unwield( oThisItem ).success();
+        const bool cant_unwield_existing_weapon = u.is_armed() && !u.can_unwield( u.weapon ).success();
+        const bool cant_takeoff_if_worn = u.is_wearing( oThisItem ) &&
+                                          !u.can_takeoff( oThisItem ).success();
+        const bool cant_dispose_of = cant_unwield_if_weapon || cant_takeoff_if_worn;
+        const bool cant_acquare = cant_unwield_existing_weapon || cant_takeoff_if_worn;
+        const hint_rating rate_unwield_item = cant_dispose_of ? hint_rating::cant :
+                                              hint_rating::good;
+        const hint_rating rate_wield_item = cant_acquare ? hint_rating::cant :
                                             hint_rating::good;
-        const hint_rating rate_drop_item = cant_drop_this ? hint_rating::cant :
+        const hint_rating rate_drop_item = cant_dispose_of ? hint_rating::cant :
                                            hint_rating::good;
 
         uilist action_menu;
@@ -2132,7 +2139,11 @@ int game::inventory_item_menu( item_location locThisItem,
         addentry( 'R', pgettext( "action", "read" ), u.rate_action_read( oThisItem ) );
         addentry( 'E', pgettext( "action", "eat" ), u.rate_action_eat( oThisItem ) );
         addentry( 'W', pgettext( "action", "wear" ), u.rate_action_wear( oThisItem ) );
-        addentry( 'w', pgettext( "action", "wield" ), rate_wield_item );
+        if( is_wielded ) {
+            addentry( 'w', pgettext( "action", "unwield" ), rate_unwield_item );
+        } else {
+            addentry( 'w', pgettext( "action", "wield" ), rate_wield_item );
+        }
         addentry( 't', pgettext( "action", "throw" ), rate_drop_item );
         addentry( 'c', pgettext( "action", "change side" ), u.rate_action_change_side( oThisItem ) );
         addentry( 'T', pgettext( "action", "take off" ), u.rate_action_takeoff( oThisItem ) );

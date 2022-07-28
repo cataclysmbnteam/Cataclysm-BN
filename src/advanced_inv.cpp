@@ -870,6 +870,10 @@ bool advanced_inventory::move_all_items( bool nested_call )
             for( size_t idx = 0; idx < g->u.worn.size(); ++idx, ++iter ) {
                 item &it = *iter;
 
+                if( !g->u.can_takeoff( it ).success() ) {
+                    continue;
+                }
+
                 if( !spane.is_filtered( it ) ) {
                     item_location loc( g->u, &it );
                     if( it.is_favorite ) {
@@ -1259,8 +1263,14 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
         // if worn, we need to fix with the worn index number (starts at -2, as -1 is weapon)
         int idx = srcarea == AIM_INVENTORY ? sitem->idx : player::worn_position_to_index( sitem->idx );
 
-        if( srcarea == AIM_WORN && destarea == AIM_INVENTORY ) {
-            // this is ok because worn items are never stacked (can't move more than 1).
+        // worn items are never stacked, so this should check out
+        assert( sitem->items.size() == 1 );
+        ret_val<bool> takeoff_rv = g->u.can_takeoff( *sitem->items.front() );
+        if( !takeoff_rv.success() ) {
+            add_msg( m_info, "%s", takeoff_rv.c_str() );
+            // exit so that the action can be carried out
+            exit = true;
+        } else if( srcarea == AIM_WORN && destarea == AIM_INVENTORY ) {
             g->u.takeoff( idx );
 
             // exit so that the action can be carried out

@@ -1396,7 +1396,7 @@ class Character : public Creature, public visitable<Character>
 
         void drop_invalid_inventory();
         /** Returns all items that must be taken off before taking off this item */
-        std::list<item *> get_dependent_worn_items( const item &it );
+        std::list<item *> get_dependent_worn_items( const item &it ) const;
         /** Drops an item to the specified location */
         void drop( item_location loc, const tripoint &where );
         virtual void drop( const drop_locations &what, const tripoint &target, bool stash = false );
@@ -1412,6 +1412,8 @@ class Character : public Creature, public visitable<Character>
 
         // --------------- Clothing Stuff ---------------
         /** Returns true if the player is wearing the item. */
+        bool is_wearing( const item &itm ) const;
+        /** Returns true if the player is wearing an item of this type. */
         bool is_wearing( const itype_id &it ) const;
         /** Returns true if the player is wearing the item on the given body part. */
         bool is_wearing_on_bp( const itype_id &it, const bodypart_id &bp ) const;

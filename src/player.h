@@ -354,7 +354,7 @@ class player : public Character
          * Check player capable of taking off an item.
          * @param it Thing to be taken off
          */
-        ret_val<bool> can_takeoff( const item &it, const std::list<item> *res = nullptr );
+        ret_val<bool> can_takeoff( const item &it, const std::list<item> *res = nullptr ) const;
 
         /**
          * Check player capable of wielding an item.
