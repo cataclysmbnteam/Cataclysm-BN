@@ -10,20 +10,22 @@
 // return face index that has this size or below
 static int test_face_size( const std::string &f, int size, int faceIndex )
 {
-    const TTF_Font_Ptr fnt( TTF_OpenFontIndex( f.c_str(), size, faceIndex ) );
-    if( fnt ) {
-        char *style = TTF_FontFaceStyleName( fnt.get() );
-        if( style != nullptr ) {
-            int faces = TTF_FontFaces( fnt.get() );
-            for( int i = faces - 1; i >= 0; i-- ) {
-                const TTF_Font_Ptr tf( TTF_OpenFontIndex( f.c_str(), size, i ) );
-                char *ts = nullptr;
-                if( tf ) {
-                    if( nullptr != ( ts = TTF_FontFaceStyleName( tf.get() ) ) ) {
-                        if( lcequal( ts, style ) && TTF_FontHeight( tf.get() ) <= size ) {
-                            return i;
-                        }
-                    }
+    const TTF_Font_Ptr font( TTF_OpenFontIndex( f.c_str(), size, faceIndex ) );
+    if( font ) {
+        const char *font_style = TTF_FontFaceStyleName( font.get() );
+        if( font_style != nullptr ) {
+            int num_faces = TTF_FontFaces( font.get() );
+            for( int face_i = num_faces - 1; face_i >= 0; face_i-- ) {
+                const TTF_Font_Ptr face( TTF_OpenFontIndex( f.c_str(), size, face_i ) );
+                if( !face ) {
+                    continue;
+                }
+                const char *face_style = TTF_FontFaceStyleName( face.get() );
+                if( !face_style ) {
+                    continue;
+                }
+                if( lcequal( face_style, font_style ) && TTF_FontHeight( face.get() ) <= size ) {
+                    return face_i;
                 }
             }
         }
