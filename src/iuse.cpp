@@ -4389,6 +4389,7 @@ int iuse::portable_game( player *p, item *it, bool t, const tripoint & )
         return 0;
     } else if( it->units_remaining( *p ) < ( it->ammo_required() * 15 ) ) {
         p->add_msg_if_player( m_info, _( "You don't have enough charges to play." ) );
+        return 0;
     } else {
         std::string loaded_software = "robot_finds_kitten";
 
