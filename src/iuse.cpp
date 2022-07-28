@@ -9715,7 +9715,7 @@ int iuse::play_game( player *p, item *it, bool t, const tripoint & )
 
     if( query_yn( _( "Play a game with the %s?" ), it->tname() ) ) {
         p->add_msg_if_player( _( "You start playing." ) );
-        p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 15_minutes ), -1,
+        p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 30_minutes ), -1,
                             p->get_item_position( it ), "gaming" );
     }
     return 0;
