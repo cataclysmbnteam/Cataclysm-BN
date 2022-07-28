@@ -1064,6 +1064,23 @@ def extract(state, item):
         if "sound_fail" in bash:
             writestr(state, bash["sound_fail"])
             wrote = True
+    if "pry" in item:
+        pry = item["pry"]
+        if "sound" in pry:
+            writestr(state, pry["sound"])
+            wrote = True
+        if "break_sound" in pry:
+            writestr(state, pry["break_sound"])
+            wrote = True
+        if "success_message" in pry:
+            writestr(state, pry["success_message"])
+            wrote = True
+        if "fail_message" in pry:
+            writestr(state, pry["fail_message"])
+            wrote = True
+        if "break_message" in pry:
+            writestr(state, pry["break_message"])
+            wrote = True
     if "seed_data" in item:
         seed_data = item["seed_data"]
         writestr(state, seed_data["plant_name"])
