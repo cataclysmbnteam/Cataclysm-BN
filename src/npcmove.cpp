@@ -208,17 +208,25 @@ bool compare_sound_alert( const dangerous_sound &sound_a, const dangerous_sound 
 static bool clear_shot_reach( const tripoint &from, const tripoint &to, bool check_ally = true )
 {
     std::vector<tripoint> path = line_to( from, to );
+    tripoint target_point = path.back();
     path.pop_back();
+    if( path.empty() ) {
+        return true;
+    }
+    tripoint &last_point = path[0];
     for( const tripoint &p : path ) {
         Creature *inter = g->critter_at( p );
         if( check_ally && inter != nullptr ) {
             return false;
         } else if( get_map().impassable( p ) ) {
             return false;
+        } else if( get_map().obstructed_by_vehicle_rotation( last_point, p ) ) {
+            return false;
         }
+        last_point = p;
     }
 
-    return true;
+    return !get_map().obstructed_by_vehicle_rotation( last_point, target_point );
 }
 
 tripoint npc::good_escape_direction( bool include_pos )

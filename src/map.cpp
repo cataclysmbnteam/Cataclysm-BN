@@ -8153,7 +8153,7 @@ void map::do_vehicle_caching( int z )
     for( vehicle *v : ch.vehicle_list ) {
         for( const vpart_reference &vp : v->get_all_parts() ) {
             const tripoint &part_pos = v->global_part_pos3( vp.part() );
-            if( !inbounds( part_pos.xy() ) ) {
+            if( !inbounds( part_pos.xy() ) || vp.part().removed ) {
                 continue;
             }
             vehicle_caching_internal( get_cache( part_pos.z ), vp, v );
