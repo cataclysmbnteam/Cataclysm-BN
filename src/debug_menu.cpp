@@ -453,7 +453,7 @@ void spawn_nested_mapgen()
         ( *ptr )->nest( md, local_ms.xy() );
         target_map.save();
         g->load_npcs();
-        g->m.invalidate_map_cache( g->get_levz() );
+        here.invalidate_map_cache( g->get_levz() );
     }
 }
 
@@ -1508,11 +1508,11 @@ void debug()
                     if( veh_cond_menu.ret >= 0 && veh_cond_menu.ret < 3 ) {
                         int dir = 0;
                         if( query_int( dir, -90, _( "Vehicle direction (in degrees): " ) ) ) {
-                            vehicle *veh = g->m.add_vehicle( selected_opt, dest,
-                                                             normalize( units::from_degrees( dir ) ),
-                                                             100, veh_cond_menu.ret - 1 );
+                            vehicle *veh = m.add_vehicle( selected_opt, dest,
+                                                          normalize( units::from_degrees( dir ) ),
+                                                          100, veh_cond_menu.ret - 1 );
                             if( veh != nullptr ) {
-                                g->m.board_vehicle( dest, &u );
+                                m.board_vehicle( dest, &u );
                             }
                         }
                     }
@@ -1906,7 +1906,7 @@ void debug()
                     mx_map.load( where_sm.raw(), false );
                     MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm.raw() );
                     g->load_npcs();
-                    g->m.invalidate_map_cache( g->get_levz() );
+                    m.invalidate_map_cache( g->get_levz() );
                 }
             }
             break;

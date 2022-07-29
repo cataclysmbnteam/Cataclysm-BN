@@ -204,6 +204,7 @@ float workbench_crafting_speed_multiplier( const item &craft, const bench_locati
     const units::volume &craft_volume = craft.volume();
 
     // The whole block below is so ugly because all the benches have different structs with same content
+    map &here = get_map();
     switch( bench.type ) {
         case bench_type::hands: {
             const furn_t &f = string_id<furn_t>( "f_fake_bench_hands" ).obj();
@@ -221,9 +222,9 @@ float workbench_crafting_speed_multiplier( const item &craft, const bench_locati
         }
         break;
         case bench_type::furniture:
-            if( g->m.furn( bench.position ).obj().workbench ) {
+            if( here.furn( bench.position ).obj().workbench ) {
                 // Furniture workbench
-                const furn_t &f = g->m.furn( bench.position ).obj();
+                const furn_t &f = here.furn( bench.position ).obj();
                 multiplier = f.workbench->multiplier;
                 allowed_mass = f.workbench->allowed_mass;
                 allowed_volume = f.workbench->allowed_volume;
@@ -232,7 +233,7 @@ float workbench_crafting_speed_multiplier( const item &craft, const bench_locati
             }
             break;
         case bench_type::vehicle:
-            if( const cata::optional<vpart_reference> vp = g->m.veh_at(
+            if( const cata::optional<vpart_reference> vp = here.veh_at(
                         bench.position ).part_with_feature( "WORKBENCH", true ) ) {
                 // Vehicle workbench
                 const vpart_info &vp_info = vp->part().info();
@@ -414,6 +415,7 @@ bool player::check_eligible_containers_for_crafting( const recipe &rec, int batc
     all.insert( all.end(), res.begin(), res.end() );
     all.insert( all.end(), bps.begin(), bps.end() );
 
+    map &here = get_map();
     for( const item &prod : all ) {
         if( !prod.made_of( LIQUID ) ) {
             continue;
@@ -439,7 +441,7 @@ bool player::check_eligible_containers_for_crafting( const recipe &rec, int batc
 
         // also check if we're currently in a vehicle that has the necessary storage
         if( charges_to_store > 0 ) {
-            if( optional_vpart_position vp = g->m.veh_at( pos() ) ) {
+            if( optional_vpart_position vp = here.veh_at( pos() ) ) {
                 const itype_id &ftype = prod.typeId();
                 int fuel_cap = vp->vehicle().fuel_capacity( ftype );
                 int fuel_amnt = vp->vehicle().fuel_left( ftype );
@@ -492,21 +494,22 @@ std::vector<const item *> player::get_eligible_containers_for_crafting() const
         }
     }
 
+    map &here = get_map();
     // get all potential containers within PICKUP_RANGE tiles including vehicles
     for( const tripoint &loc : closest_points_first( pos(), PICKUP_RANGE ) ) {
         // can not reach this -> can not access its contents
-        if( pos() != loc && !g->m.clear_path( pos(), loc, PICKUP_RANGE, 1, 100 ) ) {
+        if( pos() != loc && !here.clear_path( pos(), loc, PICKUP_RANGE, 1, 100 ) ) {
             continue;
         }
-        if( g->m.accessible_items( loc ) ) {
-            for( const auto &it : g->m.i_at( loc ) ) {
+        if( here.accessible_items( loc ) ) {
+            for( const auto &it : here.i_at( loc ) ) {
                 if( is_container_eligible_for_crafting( it, true ) ) {
                     conts.emplace_back( &it );
                 }
             }
         }
 
-        if( const cata::optional<vpart_reference> vp = g->m.veh_at( loc ).part_with_feature( "CARGO",
+        if( const cata::optional<vpart_reference> vp = here.veh_at( loc ).part_with_feature( "CARGO",
                 true ) ) {
             for( const auto &it : vp->vehicle().get_items( vp->part_index() ) ) {
                 if( is_container_eligible_for_crafting( it, false ) ) {
@@ -648,7 +651,7 @@ static item_location set_item_map( const tripoint &loc, item &newit )
     // Includes loc
     for( const tripoint &tile : closest_points_first( loc, 2 ) ) {
         // Pass false to disallow overflow, null_item_reference indicates failure.
-        item *it_on_map = &g->m.add_item_or_charges( tile, newit, false );
+        item *it_on_map = &get_map().add_item_or_charges( tile, newit, false );
         if( it_on_map != &null_item_reference() ) {
             return item_location( map_cursor( tile ), it_on_map );
         }
@@ -662,7 +665,8 @@ static item_location set_item_map( const tripoint &loc, item &newit )
  */
 static item_location set_item_map_or_vehicle( const player &p, const tripoint &loc, item &newit )
 {
-    if( const cata::optional<vpart_reference> vp = g->m.veh_at( loc ).part_with_feature( "CARGO",
+    map &here = get_map();
+    if( const cata::optional<vpart_reference> vp = here.veh_at( loc ).part_with_feature( "CARGO",
             false ) ) {
 
         if( const cata::optional<vehicle_stack::iterator> it = vp->vehicle().add_item( vp->part_index(),
@@ -684,8 +688,8 @@ static item_location set_item_map_or_vehicle( const player &p, const tripoint &l
         return set_item_map( loc, newit );
 
     } else {
-        if( g->m.has_furn( loc ) ) {
-            const furn_t &workbench = g->m.furn( loc ).obj();
+        if( here.has_furn( loc ) ) {
+            const furn_t &workbench = here.furn( loc ).obj();
             p.add_msg_player_or_npc(
                 pgettext( "item, furniture", "You put the %1$s on the %2$s." ),
                 pgettext( "item, furniture", "<npcname> puts the %1$s on the %2$s." ),
@@ -1487,7 +1491,7 @@ static void empty_buckets( player &p )
 std::list<item> player::consume_items( const comp_selection<item_comp> &is, int batch,
                                        const std::function<bool( const item & )> &filter )
 {
-    return consume_items( g->m, is, batch, filter, pos(), PICKUP_RANGE );
+    return consume_items( get_map(), is, batch, filter, pos(), PICKUP_RANGE );
 }
 
 std::list<item> player::consume_items( map &m, const comp_selection<item_comp> &is, int batch,
@@ -1818,7 +1822,7 @@ bool player::craft_consume_tools( item &craft, int mulitplier, bool start_craft 
 
 void player::consume_tools( const comp_selection<tool_comp> &tool, int batch )
 {
-    consume_tools( g->m, tool, batch, pos(), PICKUP_RANGE );
+    consume_tools( get_map(), tool, batch, pos(), PICKUP_RANGE );
 }
 
 /* we use this if we selected the tool earlier */
@@ -2033,7 +2037,7 @@ void player::disassemble_all( bool one_pass )
     assign_activity( ACT_DISASSEMBLE, 0 );
 
     bool found_any = false;
-    for( item &it : g->m.i_at( pos() ) ) {
+    for( item &it : get_map().i_at( pos() ) ) {
         if( disassemble( item_location( map_cursor( pos() ), &it ), false ) ) {
             found_any = true;
         }
