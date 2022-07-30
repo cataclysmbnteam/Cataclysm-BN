@@ -2473,12 +2473,12 @@ bool Character::i_add_or_drop( item &it, int qty )
     return retval;
 }
 
-std::list<item *> Character::get_dependent_worn_items( const item &it )
+std::list<item *> Character::get_dependent_worn_items( const item &it ) const
 {
     std::list<item *> dependent;
     // Adds dependent worn items recursively
     const std::function<void( const item &it )> add_dependent = [&]( const item & it ) {
-        for( item &wit : worn ) {
+        for( const item &wit : worn ) {
             if( &wit == &it || !wit.is_worn_only_with( it ) ) {
                 continue;
             }
@@ -2488,7 +2488,7 @@ std::list<item *> Character::get_dependent_worn_items( const item &it )
             } );
             if( iter == dependent.end() ) { // Not in the list yet
                 add_dependent( wit );
-                dependent.push_back( &wit );
+                dependent.push_back( const_cast<item *>( & wit ) );
             }
         }
     };
@@ -2505,6 +2505,13 @@ void Character::drop( item_location loc, const tripoint &where )
     item &oThisItem = *loc;
     if( is_wielding( oThisItem ) ) {
         const auto ret = can_unwield( *loc );
+
+        if( !ret.success() ) {
+            add_msg( m_info, "%s", ret.c_str() );
+            return;
+        }
+    } else if( is_wearing( oThisItem ) ) {
+        const auto ret = as_player()->can_takeoff( *loc );
 
         if( !ret.success() ) {
             add_msg( m_info, "%s", ret.c_str() );
@@ -3226,6 +3233,16 @@ bool Character::has_artifact_with( const art_effect_passive effect ) const
 bool Character::is_wielding( const item &target ) const
 {
     return &weapon == &target;
+}
+
+bool Character::is_wearing( const item &itm ) const
+{
+    for( auto &i : worn ) {
+        if( &i == &itm ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool Character::is_wearing( const itype_id &it ) const

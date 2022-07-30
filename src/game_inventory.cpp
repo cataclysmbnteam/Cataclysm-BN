@@ -1471,7 +1471,14 @@ drop_locations game_menus::inv::multidrop( player &p )
     p.inv.restack( p );
 
     const inventory_filter_preset preset( [ &p ]( const item_location & location ) {
-        return p.can_unwield( *location ).success();
+        const item &itm = *location;
+        if( p.is_wielding( itm ) ) {
+            return p.can_unwield( itm ).success();
+        } else if( p.is_wearing( itm ) ) {
+            return p.can_takeoff( itm ).success();
+        } else {
+            return true;
+        }
     } );
 
     inventory_drop_selector inv_s( p, preset );

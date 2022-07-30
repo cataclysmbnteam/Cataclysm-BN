@@ -599,14 +599,19 @@ std::list<item> obtain_and_tokenize_items( player &p, std::list<act_item> &items
 
         if( !try_rebuild_if_needed( ait.loc ) ) {
             debugmsg( "Lost target item of ACT_DROP" );
-            items.pop_back();
+            items.pop_front();
             return res;
         }
 
         p.mod_moves( -ait.consumed_moves );
 
         if( p.is_worn( *ait.loc ) ) {
-            p.takeoff( *ait.loc, &res );
+            if( !p.takeoff( *ait.loc, &res ) ) {
+                // Skip item if failed to take it off
+                debugmsg( "Failed to obtain worn target item of ACT_DROP" );
+                items.pop_front();
+                continue;
+            }
         } else if( ait.loc->count_by_charges() ) {
             res.push_back( p.reduce_charges( const_cast<item *>( &*ait.loc ), ait.count ) );
         } else {

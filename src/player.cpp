@@ -2926,7 +2926,7 @@ hint_rating player::rate_action_takeoff( const item &it ) const
         return hint_rating::cant;
     }
 
-    if( is_worn( it ) ) {
+    if( is_worn( it ) && can_takeoff( it ).success() ) {
         return hint_rating::good;
     }
 
@@ -2950,7 +2950,7 @@ bool player::can_lift( int lift_strength_required ) const
     return str + npc_str >= lift_strength_required;
 }
 
-ret_val<bool> player::can_takeoff( const item &it, const std::list<item> *res )
+ret_val<bool> player::can_takeoff( const item &it, const std::list<item> *res ) const
 {
     auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( const item & wit ) {
         return &it == &wit;
