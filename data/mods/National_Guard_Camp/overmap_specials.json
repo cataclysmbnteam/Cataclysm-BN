@@ -433,7 +433,7 @@
       { "point": [ 4, 9, -1 ], "overmap": "national_guard_camp_b1_203_north" },
       { "point": [ 5, 9, -1 ], "overmap": "national_guard_camp_b1_204_north" }
     ],
-    "connections": [ { "point": [ 8, 11, 0 ], "terrain": "road" } ],
+    "connections": [ { "point": [ 8, 11, 0 ], "connection": "local_road" } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 1, 5 ],
     "city_sizes": [ 1, 12 ],
