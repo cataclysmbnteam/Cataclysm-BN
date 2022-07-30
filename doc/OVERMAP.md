@@ -302,7 +302,7 @@ level value and then only specify it for individual entries that differ.
       { "point": [ 0, 1, 0 ], "overmap": "campground_2a_north" },
       { "point": [ 1, 1, 0 ], "overmap": "campground_2b_north" }
     ],
-    "connections": [ { "point": [ 1, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 0, 0 ] } ],
+    "connections": [ { "point": [ 1, -1, 0 ], "connection": "local_road", "from": [ 1, 0, 0 ] } ],
     "locations": [ "forest" ],
     "city_distance": [ 10, -1 ],
     "city_sizes": [ 3, 12 ],
@@ -326,8 +326,7 @@ level value and then only specify it for individual entries that differ.
 |  Identifier  |                                           Description                                              |
 | ------------ | -------------------------------------------------------------------------------------------------- |
 | `point`      | `[ x, y, z]` of the connection end point. Cannot overlap an overmap terrain entry for the special. |
-| `terrain`    | Will go away in favor of `connection` eventually. Use `road`, `subway`, `sewer`, etc.              |
-| `connection` | Id of the `overmap_connection` to build. Optional for now, but you should specify it explicitly.   |
+| `connection` | Id of the `overmap_connection` to build.                                                           |
 | `from`       | Optional point `[ x, y, z]` within the special to treat as the origin of the connection.           |
 
 ## City Building
