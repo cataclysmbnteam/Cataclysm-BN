@@ -108,7 +108,7 @@ static const efftype_id effect_recover( "recover" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
 
-static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
+static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
 
 static const bionic_id bio_syringe( "bio_syringe" );
 
@@ -4326,13 +4326,8 @@ ret_val<bool> install_bionic_actor::can_use( const Character &p, const item &it,
         !p.has_trait( trait_DEBUG_BIONICS ) ) {
         return ret_val<bool>::make_failure( _( "You can't self-install bionics." ) );
     } else if( !p.has_trait( trait_DEBUG_BIONICS ) ) {
-        if( it.has_flag( "FILTHY" ) ) {
-            return ret_val<bool>::make_failure( _( "You can't install a filthy CBM!" ) );
-        } else if( it.has_flag( "NO_STERILE" ) ) {
+        if( it.has_fault( fault_bionic_nonsterile ) ) {
             return ret_val<bool>::make_failure( _( "This CBM is not sterile, you can't install it." ) );
-        } else if( it.has_fault( fault_bionic_salvaged ) ) {
-            return ret_val<bool>::make_failure(
-                       _( "This CBM is already deployed.  You need to reset it to factory state." ) );
         } else if( units::energy_max - p.get_max_power_level() < bid->capacity ) {
             return ret_val<bool>::make_failure( _( "Max power capacity already reached" ) );
         }

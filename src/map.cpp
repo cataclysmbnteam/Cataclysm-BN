@@ -105,6 +105,7 @@ static const ammo_effect_str_id ammo_effect_LASER( "LASER" );
 static const ammo_effect_str_id ammo_effect_LIGHTNING( "LIGHTNING" );
 static const ammo_effect_str_id ammo_effect_PLASMA( "PLASMA" );
 
+static const itype_id itype_autoclave( "autoclave" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_chemistry_set( "chemistry_set" );
 static const itype_id itype_dehydrator( "dehydrator" );
@@ -4487,31 +4488,6 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
         }
     }
 
-    const bool autoclave_here = cur_veh.part_flag( part, VPFLAG_AUTOCLAVE ) &&
-                                cur_veh.is_part_on( part );
-    bool autoclave_finished = false;
-    if( autoclave_here ) {
-        for( auto &n : cur_veh.get_items( part ) ) {
-            const time_duration cycle_time = 90_minutes;
-            const time_duration time_left = cycle_time - n.age();
-            static const std::string no_sterile( "NO_STERILE" );
-            if( time_left <= 0_turns ) {
-                if( !n.has_flag( "NO_PACKED" ) ) {
-                    n.unset_flag( no_sterile );
-                }
-                autoclave_finished = true;
-                cur_veh.part( part ).enabled = false;
-            } else if( calendar::once_every( 15_minutes ) ) {
-                add_msg( _( "It should take %d minutes to finish sterilising items in the %s." ),
-                         to_minutes<int>( time_left ) + 1, cur_veh.name );
-                break;
-            }
-        }
-        if( autoclave_finished ) {
-            add_msg( _( "The autoclave in the %s has finished its cycle." ), cur_veh.name );
-        }
-    }
-
     const int recharge_part_idx = cur_veh.part_with_feature( part, VPFLAG_RECHARGE, true );
     static const vehicle_part null_part;
     const vehicle_part &recharge_part = recharge_part_idx >= 0 ?
@@ -4973,6 +4949,7 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
         const cata::optional<vpart_reference> forgepart = vp.part_with_feature( "FORGE", true );
         const cata::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN", true );
         const cata::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB", true );
+        const cata::optional<vpart_reference> autoclavepart = vp.part_with_feature( "AUTOCLAVE", true );
         const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO", true );
 
         if( kpart ) { // we have a faucet, now to see what to drain
@@ -5090,6 +5067,24 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
             // TODO: add a sane birthday arg
             item tmp( type, calendar::start_of_cataclysm );
             tmp.charges = chempart->vehicle().drain( ftype, quantity );
+            quantity -= tmp.charges;
+            ret.push_back( tmp );
+
+            if( quantity == 0 ) {
+                return ret;
+            }
+        }
+
+        if( autoclavepart ) { // we have an autoclave, now to see what to drain
+            itype_id ftype = itype_id::NULL_ID();
+
+            if( type == itype_autoclave ) {
+                ftype = itype_battery;
+            }
+
+            // TODO: add a sane birthday arg
+            item tmp( type, calendar::start_of_cataclysm );
+            tmp.charges = autoclavepart->vehicle().drain( ftype, quantity );
             quantity -= tmp.charges;
             ret.push_back( tmp );
 

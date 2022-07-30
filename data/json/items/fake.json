@@ -172,6 +172,12 @@
     "ranged_damage": { "damage_type": "stab", "amount": 30 }
   },
   {
+    "id": "fake_autoclave",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": "laboratory autoclave"
+  },
+  {
     "id": "fake_centrifuge",
     "copy-from": "fake_item",
     "type": "TOOL",
@@ -281,6 +287,15 @@
     "name": { "str": "grid electrolysis kit" },
     "sub": "electrolysis_kit",
     "max_charges": 2500,
+    "flags": [ "USES_GRID_POWER" ]
+  },
+  {
+    "id": "gridautoclave",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "grid autoclave" },
+    "sub": "autoclave",
+    "max_charges": 1000,
     "flags": [ "USES_GRID_POWER" ]
   }
 ]

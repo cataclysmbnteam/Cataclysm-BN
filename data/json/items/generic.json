@@ -2315,7 +2315,6 @@
     "volume": "1 ml",
     "price": 5,
     "price_postapoc": 100,
-    "use_action": "PACK_CBM",
     "to_hit": -1,
     "material": [ "plastic", "paper" ],
     "symbol": "]",

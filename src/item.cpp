@@ -120,6 +120,7 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_weed_high( "weed_high" );
 
 static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
+static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
 
 static const gun_mode_id gun_mode_REACH( "REACH" );
 
@@ -217,12 +218,10 @@ static const std::string flag_NEVER_JAMS( "NEVER_JAMS" );
 static const std::string flag_NONCONDUCTIVE( "NONCONDUCTIVE" );
 static const std::string flag_NO_DISPLAY( "NO_DISPLAY" );
 static const std::string flag_NO_DROP( "NO_DROP" );
-static const std::string flag_NO_PACKED( "NO_PACKED" );
 static const std::string flag_NO_PARASITES( "NO_PARASITES" );
 static const std::string flag_NO_RELOAD( "NO_RELOAD" );
 static const std::string flag_NO_REPAIR( "NO_REPAIR" );
 static const std::string flag_NO_SALVAGE( "NO_SALVAGE" );
-static const std::string flag_NO_STERILE( "NO_STERILE" );
 static const std::string flag_NO_UNLOAD( "NO_UNLOAD" );
 static const std::string flag_OUTER( "OUTER" );
 static const std::string flag_OVERSIZE( "OVERSIZE" );
@@ -3227,12 +3226,6 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     }
     insert_separation_line( info );
 
-    if( is_bionic() && has_flag( flag_NO_STERILE ) ) {
-        info.push_back( iteminfo( "DESCRIPTION",
-                                  _( "* This bionic is <bad>not sterile</bad>, use an <info>autoclave</info> and an <info>autoclave pouch</info> to sterilize it. " ) ) );
-    }
-    insert_separation_line( info );
-
     const bionic_id bid = type->bionic->id;
     const std::vector<itype_id> &fuels = bid->fuel_opts;
     if( !fuels.empty() ) {
@@ -4048,7 +4041,7 @@ nc_color item::color_in_inventory( const player &p ) const
     } else if( is_bionic() ) {
         if( !p.has_bionic( type->bionic->id ) ) {
             ret = p.bionic_installation_issues( type->bionic->id ).empty() ? c_green : c_red;
-        } else if( !has_flag( flag_NO_STERILE ) ) {
+        } else if( !has_fault( fault_bionic_nonsterile ) ) {
             ret = c_dark_gray;
         }
     } else if( has_flag( flag_LEAK_DAM ) && has_flag( flag_RADIOACTIVE ) && damage() > 0 ) {
@@ -4604,12 +4597,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( is_filthy() ) {
         tagtext += _( " (filthy)" );
     }
-    if( is_bionic() && !has_flag( flag_NO_PACKED ) ) {
-        if( !has_flag( flag_NO_STERILE ) ) {
-            tagtext += _( " (sterile)" );
-        } else {
-            tagtext += _( " (packed)" );
-        }
+    if( is_bionic() && !has_fault( fault_bionic_nonsterile ) ) {
+        tagtext += _( " (sterile)" );
     }
 
     if( is_tool() && has_flag( flag_USE_UPS ) && !has_flag( flag_NAT_UPS ) ) {

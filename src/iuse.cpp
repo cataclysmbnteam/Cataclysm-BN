@@ -8372,97 +8372,9 @@ static bool multicooker_hallu( player &p )
 
 }
 
-int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
+int iuse::autoclave( player *p, item *, bool, const tripoint &pos )
 {
-    if( t ) {
-        if( !it->units_sufficient( *p ) ) {
-            add_msg( m_bad, _( "The autoclave ran out of battery and stopped before completing its cycle." ) );
-            it->active = false;
-            it->erase_var( "CYCLETIME" );
-            return 0;
-        }
-
-        int Cycle_time = it->get_var( "CYCLETIME", 0 );
-        Cycle_time -= 1;
-        if( Cycle_time <= 0 ) {
-            it->active = false;
-            it->erase_var( "CYCLETIME" );
-            it->visit_items( []( item * bio ) {
-                if( bio->is_bionic() && !bio->has_flag( "NO_PACKED" ) ) {
-                    bio->unset_flag( "NO_STERILE" );
-                }
-                return VisitResponse::NEXT;
-            } );
-        } else {
-            it->set_var( "CYCLETIME", Cycle_time );
-        }
-    } else if( !it->active ) {
-        if( p->is_underwater() ) {
-            p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-            return 0;
-        }
-
-        bool empty = true;
-        item *clean_cbm = it->contents.get_item_with(
-        []( const item & it ) {
-            return it.is_bionic();
-        } );
-
-        if( clean_cbm ) {
-            empty = false;
-            if( query_yn( _( "Autoclave already contains a CBM.  Do you want to remove it?" ) ) ) {
-                g->m.add_item( pos, *clean_cbm );
-                it->remove_item( *clean_cbm );
-                if( !query_yn( _( "Do you want to use the autoclave?" ) ) ) {
-                    return 0;
-                }
-                empty = true;
-            }
-        }
-
-        //Using power_draw seem to consume random amount of battery so +100 to be safe
-        static const int power_need = ( ( it->type->tool->power_draw / 1000 ) * to_seconds<int>
-                                        ( 90_minutes ) ) / 1000 + 100;
-        if( power_need > it->ammo_remaining() ) {
-            popup( _( "The autoclave doesn't have enough battery for one cycle.  You need at least %s charges." ),
-                   power_need );
-            return 0;
-        }
-
-        item_location to_sterile;
-        if( empty ) {
-            to_sterile = game_menus::inv::sterilize_cbm( *p );
-            if( !to_sterile ) {
-                return 0;
-            }
-        }
-
-        if( query_yn( _( "Start the autoclave?" ) ) ) {
-            auto reqs = *requirement_id( "autoclave_item" );
-            for( const auto &e : reqs.get_components() ) {
-                p->consume_items( e, 1, is_crafting_component );
-            }
-            for( const auto &e : reqs.get_tools() ) {
-                p->consume_tools( e );
-            }
-            p->invalidate_crafting_inventory();
-
-            if( empty ) {
-                const item *cbm = to_sterile.get_item();
-                it->put_in( *cbm );
-                to_sterile.remove_item();
-            }
-
-            it->activate();
-            it->set_var( "CYCLETIME", to_seconds<int>( 90_minutes ) ); // one cycle
-            return it->type->charges_to_use();
-        }
-    } else {
-        int Cycle_time = it->get_var( "CYCLETIME", 0 );
-        add_msg( _( "The cycle will be completed in %s." ),
-                 to_string( time_duration::from_seconds( Cycle_time ) ) );
-    }
-
+    iexamine::autoclave_empty( *p, pos );
     return 0;
 }
 

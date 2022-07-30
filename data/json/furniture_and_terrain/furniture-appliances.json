@@ -1183,5 +1183,36 @@
         "transform": { "id": "f_minifreezer", "msg": "The minifreezer shuts down." }
       }
     ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_gridautoclave",
+    "name": "grid autoclave",
+    "description": "This thing is basically an extremely high tech laundry machine or dishwasher.  It steams things at temperatures that will kill almost anything.  It could be used to mend faulty bionics that need sterilization.",
+    "symbol": "0",
+    "color": "light_blue_white",
+    "move_cost_mod": 3,
+    "coverage": 60,
+    "crafting_pseudo_item": "gridautoclave",
+    "required_str": -1,
+    "looks_like": "f_autoclave",
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "EASY_DECONSTRUCT" ],
+    "examine_action": "autoclave_empty",
+    "deconstruct": {
+      "items": [ { "item": "autoclave", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
+    },
+    "bash": {
+      "str_min": 40,
+      "str_max": 80,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 1 ] }
+      ]
+    }
   }
 ]
