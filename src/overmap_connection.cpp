@@ -100,7 +100,8 @@ bool overmap_connection::has( const oter_id &oter ) const
 
 void overmap_connection::load( const JsonObject &jo, const std::string & )
 {
-    mandatory( jo, false, "subtypes", subtypes );
+    mandatory( jo, was_loaded, "default_terrain", default_terrain );
+    mandatory( jo, was_loaded, "subtypes", subtypes );
 }
 
 void overmap_connection::check() const
@@ -127,12 +128,15 @@ void overmap_connection::finalize()
     cached_subtypes.resize( overmap_terrains::get_all().size() );
 }
 
-void overmap_connections::load( const JsonObject &jo, const std::string &src )
+namespace overmap_connections
+{
+
+void load( const JsonObject &jo, const std::string &src )
 {
     connections.load( jo, src );
 }
 
-void overmap_connections::finalize()
+void finalize()
 {
     connections.finalize();
     for( const auto &elem : connections.get_all() ) {
@@ -140,28 +144,30 @@ void overmap_connections::finalize()
     }
 }
 
-void overmap_connections::check_consistency()
+void check_consistency()
 {
     connections.check();
 }
 
-void overmap_connections::reset()
+void reset()
 {
     connections.reset();
 }
 
-overmap_connection_id overmap_connections::guess_for( const oter_id &oter_id )
+overmap_connection_id guess_for( const oter_id &oter )
 {
     const auto &all = connections.get_all();
     const auto iter = std::find_if( all.cbegin(),
-    all.cend(), [&oter_id]( const overmap_connection & elem ) {
-        return elem.pick_subtype_for( oter_id ) != nullptr;
+    all.cend(), [&oter]( const overmap_connection & elem ) {
+        return elem.pick_subtype_for( oter ) != nullptr;
     } );
 
     return iter != all.cend() ? iter->id : overmap_connection_id::NULL_ID();
 }
 
-overmap_connection_id overmap_connections::guess_for( const oter_type_id &oter_id )
+overmap_connection_id guess_for( const oter_type_id &oter )
 {
-    return guess_for( oter_id->get_first() );
+    return guess_for( oter->get_first() );
 }
+
+} // namespace overmap_connections

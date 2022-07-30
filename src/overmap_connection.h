@@ -58,6 +58,8 @@ class overmap_connection
         overmap_connection_id id;
         bool was_loaded = false;
 
+        oter_type_str_id default_terrain;
+
     private:
         struct cache {
             const subtype *value = nullptr;
@@ -79,8 +81,8 @@ void finalize();
 void check_consistency();
 void reset();
 
-overmap_connection_id guess_for( const oter_type_id &oter_id );
-overmap_connection_id guess_for( const oter_id &oter_id );
+overmap_connection_id guess_for( const oter_type_id &oter );
+overmap_connection_id guess_for( const oter_id &oter );
 
 } // namespace overmap_connections
 
