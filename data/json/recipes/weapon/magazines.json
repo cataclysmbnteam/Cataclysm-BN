@@ -402,6 +402,7 @@
   {
     "type": "recipe",
     "result": "ammolink223",
+    "byproducts": [ [ "scrap", 50 ] ],
     "charges": 10,
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
@@ -419,6 +420,7 @@
   {
     "type": "recipe",
     "result": "ammolink308",
+    "byproducts": [ [ "scrap", 50 ] ],
     "charges": 10,
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
@@ -436,6 +438,7 @@
   {
     "type": "recipe",
     "result": "ammolink50",
+    "byproducts": [ [ "scrap", 50 ] ],
     "charges": 10,
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
@@ -453,6 +456,7 @@
   {
     "type": "recipe",
     "result": "ammolink40mm",
+    "byproducts": [ [ "scrap", 90 ] ],
     "charges": 10,
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
