@@ -194,9 +194,9 @@ struct pry_result {
     // sound message made on breakage, if breakable is true
     translation break_sound;
     // Messages for succeeding or failing pry attempt, and breakage
-    std::string success_message;
-    std::string fail_message;
-    std::string break_message;
+    translation success_message;
+    translation fail_message;
+    translation break_message;
     pry_result();
     enum map_object_type {
         furniture = 0,
