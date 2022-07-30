@@ -4407,7 +4407,7 @@ bool player::query_yn( const std::string &mes ) const
     return ::query_yn( mes );
 }
 
-int calc_fatigue_cap( const int &fatigue )
+int calc_fatigue_cap( int fatigue )
 {
     if( fatigue >= fatigue_levels::massive ) {
         return 20;
