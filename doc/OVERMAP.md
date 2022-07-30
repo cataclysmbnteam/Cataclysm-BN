@@ -382,11 +382,12 @@ by the frequency assigned to the city building within the `region_settings`. Con
 
 ### Fields
 
-| Identifier |                                           Description                                           |
-| ---------- | ----------------------------------------------------------------------------------------------- |
-| `type`     | Must be "overmap_connection".                                                                   |
-| `id`       | Unique id.                                                                                      |
-| `subtypes` | List of entries used to determine valid locations, terrain cost, and resulting overmap terrain. |
+|     Identifier    |                                           Description                                           |
+| ----------------- | ----------------------------------------------------------------------------------------------- |
+| `type`            | Must be "overmap_connection".                                                                   |
+| `id`              | Unique id.                                                                                      |
+| `default_terrain` | Default `overmap_terrain` to use for undirected connections and existance checks.               |
+| `subtypes`        | List of entries used to determine valid locations, terrain cost, and resulting overmap terrain. |
 
 
 ### Example
