@@ -963,6 +963,8 @@ static bool vehicle_activity( player &p, const tripoint &src_loc, int vpindex, c
     // values[6]
     p.activity.values.push_back( veh->index_of_part( &veh->part( vpindex ) ) );
     p.activity.str_values.push_back( vp.get_id().str() );
+    // values[7]
+    p.activity.values.push_back( here.getabs( src_loc ).z );
     // this would only be used for refilling tasks
     item_location target;
     p.activity.targets.emplace_back( std::move( target ) );
