@@ -29,6 +29,7 @@ const size_t size = all.size();
 const std::array<std::string, 4> all_suffixes = {{ "_north", "_east", "_south", "_west" }};
 const std::string invalid_dir_suffix;
 const std::array<int, 4> all_cw_rotations = {{ 0, 1, 2, 3 }};
+const std::array<int, 4> all_ccw_rotations = { { 0, 3, 2, 1 } };
 const int invalid_dir_rotations = 0;
 
 /** Returns directional suffix associated with the value, e.g. _north or _west. */
@@ -48,6 +49,16 @@ constexpr int get_num_cw_rotations( type dir )
         return invalid_dir_rotations;
     } else {
         return all_cw_rotations[static_cast<size_t>( dir )];
+    }
+}
+
+/** Returns number of counterclockwise rotations needed to reach this direction from 'north'. */
+constexpr int get_num_ccw_rotations( type dir )
+{
+    if( dir == type::invalid ) {
+        return invalid_dir_rotations;
+    } else {
+        return all_ccw_rotations[static_cast<size_t>( dir )];
     }
 }
 
