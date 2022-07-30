@@ -4387,8 +4387,8 @@ int iuse::portable_game( player *p, item *it, bool t, const tripoint & )
     if( p->has_trait( trait_ILLITERATE ) ) {
         p->add_msg_if_player( m_info, _( "You're illiterate!" ) );
         return 0;
-    } else if( it->units_remaining( *p ) < it->ammo_required() ) {
-        p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
+    } else if( it->units_remaining( *p ) < ( it->ammo_required() * 15 ) ) {
+        p->add_msg_if_player( m_info, _( "You don't have enough charges to play." ) );
         return 0;
     } else {
         std::string loaded_software = "robot_finds_kitten";
@@ -4431,34 +4431,21 @@ int iuse::portable_game( player *p, item *it, bool t, const tripoint & )
         const int moves = to_moves<int>( 15_minutes );
 
         p->add_msg_if_player( _( "You play on your %s for a while." ), it->tname() );
-        if( loaded_software == "null" ) {
-            p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), -1,
-                                p->get_item_position( it ), "gaming" );
-            return 0;
-        }
         p->assign_activity( ACT_GAME, moves, -1, 0, "gaming" );
         p->activity.targets.push_back( item_location( *p, it ) );
-        std::map<std::string, std::string> game_data;
-        game_data.clear();
+        std::string end_message;
+        end_message.clear();
         int game_score = 0;
 
-        play_videogame( loaded_software, game_data, game_score );
+        play_videogame( loaded_software, end_message, game_score );
 
-        if( game_data.find( "end_message" ) != game_data.end() ) {
-            p->add_msg_if_player( game_data["end_message"] );
+        if( !end_message.empty() ) {
+            p->add_msg_if_player( end_message );
         }
 
         if( game_score != 0 ) {
-            if( game_data.find( "moraletype" ) != game_data.end() ) {
-                std::string moraletype = game_data.find( "moraletype" )->second;
-                if( moraletype == "MORALE_GAME_FOUND_KITTEN" ) {
-                    p->add_morale( MORALE_GAME_FOUND_KITTEN, game_score, 110 );
-                } /*else if ( ...*/
-            } else {
-                p->add_morale( MORALE_GAME, game_score, 110 );
-            }
+            p->add_morale( MORALE_GAME, game_score, 60, 2_hours, 30_minutes, true );
         }
-
     }
     return 0;
 }
@@ -9729,7 +9716,7 @@ int iuse::play_game( player *p, item *it, bool t, const tripoint & )
 
     if( query_yn( _( "Play a game with the %s?" ), it->tname() ) ) {
         p->add_msg_if_player( _( "You start playing." ) );
-        p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), -1,
+        p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 30_minutes ), -1,
                             p->get_item_position( it ), "gaming" );
     }
     return 0;

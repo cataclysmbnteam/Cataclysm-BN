@@ -69,7 +69,6 @@ const morale_type MORALE_PERM_OPTIMIST( "morale_perm_optimist" );
 const morale_type MORALE_PERM_BADTEMPER( "morale_perm_badtemper" );
 const morale_type MORALE_PERM_CONSTRAINED( "morale_perm_constrained" );
 const morale_type MORALE_PERM_NOMAD( "morale_perm_nomad" );
-const morale_type MORALE_GAME_FOUND_KITTEN( "morale_game_found_kitten" );
 const morale_type MORALE_HAIRCUT( "morale_haircut" );
 const morale_type MORALE_SHAVE( "morale_shave" );
 const morale_type MORALE_CHAT( "morale_chat" );
