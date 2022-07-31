@@ -2034,7 +2034,7 @@ class Character : public Creature, public visitable<Character>
         bool check_and_recover_morale();
 
         /** Handles the enjoyability value for a comestible. First value is enjoyability, second is cap. **/
-        std::pair<int, int> fun_for( const item &comest ) const;
+        std::pair<int, int> fun_for( const item &comest, bool bioblock = true ) const;
 
         /** Handles a large number of timers decrementing and other randomized effects */
         void suffer();
