@@ -355,7 +355,7 @@
     "color": "magenta",
     "skill": "shotgun",
     "ammo": [ "40" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": 20 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 15 },
     "dispersion": 855,
     "durability": 6,
     "clip_size": 1,
