@@ -1222,71 +1222,69 @@
   },
   {
     "id": "bn_bio_solar",
-    "type": "bionic",
-    "name": { "str": "Solar Panels" },
-    "description": "Installed on your back is a set of retractable, reinforced solar panels resembling angular butterfly wings.  When in direct sunlight, they will automatically deploy and slowly recharge your power level.",
-    "occupied_bodyparts": [ [ "torso", 10 ] ],
-    "fuel_options": [ "sunlight" ],
-    "fuel_efficiency": 1.0,
-    "time": 1,
-    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ]
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Solar Panels CBM" },
+    "description": "Installed on your back is a set of retractable solar panels.  When in direct sunlight, they will automatically deploy and slowly recharge your power level.",
+    "price": 350000,
+    "difficulty": 4
   },
   {
     "id": "afs_bio_wind_turbine",
-    "type": "bionic",
-    "name": { "str": "Wind Turbines" },
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Wind Turbine CBM" },
     "description": "Installed on your body is a set of small retractable wind turbines.  When activated, they will deploy and slowly harvest wind power to recharge your power level.",
-    "occupied_bodyparts": [ [ "torso", 10 ] ],
-    "fuel_options": [ "wind" ],
-    "fuel_efficiency": 0.25,
-    "time": 1,
-    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ]
+    "price": 350000,
+    "difficulty": 4
   },
   {
     "id": "afs_bio_missiles",
-    "type": "bionic",
-    "//": "Watch those wrist rockets!",
-    "name": { "str": "Deployable Grenade Launcher" },
-    "description": "Your right hand can fold inward to reveal a mechanism capable of igniting and firing 40mm grenades across medium distances.",
-    "occupied_bodyparts": [ [ "hand_r", 3 ] ],
-    "fake_item": "afs_bionic_rocket",
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "NO_UNWIELD" ],
-    "act_cost": 5
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Deployable Grenade Launcher CBM" },
+    "description": "A small, folding tube that attaches to your right arm.  Once implanted, it can serve as a portable, integrated tool for firing 40mm grenades and canisters.",
+    "price": 100000,
+    "difficulty": 5
   },
   {
     "id": "afs_bio_linguistic_coprocessor",
-    "type": "bionic",
-    "name": { "str": "Linguistic Coprocessor" },
-    "description": "The left hemisphere of your brain has been augmented with a microcomputer that moderately increases the speed that language and written words are processed, granting a 15% increase to reading speed.",
-    "occupied_bodyparts": [ [ "head", 2 ] ]
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Linguistic Coprocessor CBM" },
+    "description": "A microcomputer installed into the left hemisphere of your brain to increase the speed that it processes language.  When installed, it provides a passive boost to reading speed.",
+    "price": 100000,
+    "price_postapoc": 50000,
+    "difficulty": 5
   },
   {
     "id": "afs_bio_dopamine_stimulators",
-    "type": "bionic",
-    "name": { "str": "Dopamine Stimulators" },
-    "description": "Tiny cybernetic stimulators have been installed throughout your ventral tegmental area, and trigger at set intervals using bionic power.  This slowly releases a stream of reward chemicals and hormones into your brain, inducing a state of euphoria that notably elevates mood.",
-    "occupied_bodyparts": [ [ "head", 5 ] ],
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
-    "act_cost": 5,
-    "react_cost": 5,
-    "time": 200
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Dopamine Stimulators CBM" },
+    "description": "A set of tiny bionic nerve stimulators that install into the reward center of your brain.  When run with bionic power, it periodically releases a hit of dopamine and other reward chemicals, inducing a state of euphoria and suppressing fear.",
+    "price": 1000000,
+    "price_postapoc": 100000,
+    "difficulty": 8
   },
   {
     "id": "afs_bio_cranialbomb",
-    "type": "bionic",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
     "name": { "str": "Cranium Bomb" },
-    "description": "You've worked for some nasty people.  People who installed a bomb at the top of your spine.  They are all dead now but there is unfortunately a dead man switch if you don't check in roughly every thirty days.  You need this out and fast.",
-    "occupied_bodyparts": [ [ "head", 2 ] ]
+    "description": "A bomb installed where your spine meets your brain stem.  It's on a timer from installation and you don't have the codes to reset the timer.",
+    "price": 0,
+    "price_postapoc": 0,
+    "difficulty": 8
   },
   {
-    "type": "bionic",
     "id": "afs_bio_skullgun",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
     "name": { "str": "Skullgun CBM" },
-    "description": "Concealed in your head is a single shot .40 pistol with magnetic bullet accelerator.  Activate the bionic to fire and reload the skullgun.",
-    "occupied_bodyparts": [ [ "head", 5 ] ],
-    "encumbrance": [ [ "head", 5 ] ],
-    "act_cost": "35 J",
-    "fake_item": "bio_skullgun_gun",
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "NO_UNWIELD" ]
+    "description": "Concealed in your head is a single shot .40 pistol.  Activate the bionic to fire and reload the skullgun.",
+    "price": 100000,
+    "price_postapoc": 1500,
+    "difficulty": 5
   }
 ]
