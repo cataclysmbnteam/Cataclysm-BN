@@ -704,12 +704,12 @@ class map
         /**
          * Checks if a rotated vehicle is blocking diagonal movement, tripoints must be adjacent
          */
-        bool obstructed_by_vehicle_rotation( const tripoint &from, const tripoint &to );
+        bool obstructed_by_vehicle_rotation( const tripoint &from, const tripoint &to ) const;
 
         /**
          * Checks if a rotated vehicle is blocking diagonal vision, tripoints must be adjacent
          */
-        bool obscured_by_vehicle_rotation( const tripoint &from, const tripoint &to );
+        bool obscured_by_vehicle_rotation( const tripoint &from, const tripoint &to ) const;
 
         /**
          * Populates a vector of points that are reachable within a number of steps from a

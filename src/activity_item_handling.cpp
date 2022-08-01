@@ -1025,7 +1025,7 @@ std::vector<tripoint> route_adjacent( const player &p, const tripoint &dest )
     map &here = get_map();
 
     for( const tripoint &tp : here.points_in_radius( dest, 1 ) ) {
-        if( tp != p.pos() && here.passable( tp ) ) {
+        if( tp != p.pos() && here.passable( tp ) && !here.obstructed_by_vehicle_rotation( dest, tp ) ) {
             passable_tiles.emplace( tp );
         }
     }

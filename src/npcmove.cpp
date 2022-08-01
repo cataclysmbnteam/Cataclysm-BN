@@ -2704,8 +2704,8 @@ static cata::optional<tripoint> nearest_passable( const tripoint &p, const tripo
     const tripoint & r ) {
         return rl_dist( closest_to, l ) < rl_dist( closest_to, r );
     } );
-    auto iter = std::find_if( candidates.begin(), candidates.end(), [&here]( const tripoint & pt ) {
-        return here.passable( pt );
+    auto iter = std::find_if( candidates.begin(), candidates.end(), [&here, &p]( const tripoint & pt ) {
+        return here.passable( pt ) && !here.obstructed_by_vehicle_rotation( p, pt );
     } );
     if( iter != candidates.end() ) {
         return *iter;
@@ -3003,13 +3003,16 @@ void npc::pick_up_item()
     }
 
     const int dist_to_pickup = rl_dist( pos(), wanted_item_pos );
-    if( dist_to_pickup > 1 && !path.empty() ) {
+
+    bool cant_reach = dist_to_pickup > 1 ||
+                      get_map().obstructed_by_vehicle_rotation( pos(), wanted_item_pos );
+    if( cant_reach && !path.empty() ) {
         add_msg( m_debug, "Moving; [%d, %d, %d] => [%d, %d, %d]",
                  posx(), posy(), posz(), path[0].x, path[0].y, path[0].z );
 
         move_to_next();
         return;
-    } else if( dist_to_pickup > 1 && path.empty() ) {
+    } else if( cant_reach && path.empty() ) {
         add_msg( m_debug, "Can't find path" );
         // This can happen, always do something
         fetching_item = false;

@@ -1217,7 +1217,8 @@ tripoint monster::scent_move()
             continue;
         }
         if( g->m.valid_move( pos(), dest, can_bash, true ) &&
-            ( can_move_to( dest ) || ( dest == g->u.pos() ) ||
+            ( ( can_move_to( dest ) && !get_map().obstructed_by_vehicle_rotation( pos(), dest ) ) ||
+              ( dest == g->u.pos() ) ||
               ( can_bash && g->m.bash_rating( bash_estimate(), dest ) > 0 ) ) ) {
             if( ( !fleeing && smell > bestsmell ) || ( fleeing && smell < bestsmell ) ) {
                 smoves.clear();
@@ -1766,7 +1767,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
 
         // Pushing into cars/windows etc. is harder
         const int movecost_penalty = g->m.move_cost( dest ) - 2;
-        if( movecost_penalty <= -2 ) {
+        if( movecost_penalty <= -2 || get_map().obstructed_by_vehicle_rotation( p, dest ) ) {
             // Can't push into unpassable terrain
             continue;
         }

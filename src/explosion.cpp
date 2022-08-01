@@ -440,7 +440,7 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &blast_cente
     for( const dist_point_pair &pair : blast_map ) {
         float distance;
         tripoint position;
-        tripoint last_position = position;
+        tripoint last_position = blast_center;
         std::tie( distance, position ) = pair;
 
         const std::vector<tripoint> line_of_movement = line_to( blast_center, position );

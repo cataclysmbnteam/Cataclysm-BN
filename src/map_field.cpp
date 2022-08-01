@@ -927,7 +927,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                             while( tries < 10 && cur.get_field_age() < 5_minutes && cur.get_field_intensity() > 1 ) {
                                 pnt.x = p.x + rng( -1, 1 );
                                 pnt.y = p.y + rng( -1, 1 );
-                                if( passable( pnt ) ) {
+                                if( passable( pnt ) && !obstructed_by_vehicle_rotation( p, pnt ) ) {
                                     add_field( pnt, fd_electricity, 1, cur.get_field_age() + 1_turns );
                                     cur.set_field_intensity( cur.get_field_intensity() - 1 );
                                     tries = 0;
@@ -947,11 +947,12 @@ void map::process_fields_in_submap( submap *const current_submap,
                             if( valid.empty() ) {
                                 tripoint dst( p + point( rng( -1, 1 ), rng( -1, 1 ) ) );
                                 field_entry *elec = get_field( dst ).find_field( fd_electricity );
-                                if( passable( dst ) && elec != nullptr &&
+                                bool pass = passable( dst ) && !obstructed_by_vehicle_rotation( p, dst );
+                                if( pass && elec != nullptr &&
                                     elec->get_field_intensity() < 3 ) {
                                     elec->set_field_intensity( elec->get_field_intensity() + 1 );
                                     cur.set_field_intensity( cur.get_field_intensity() - 1 );
-                                } else if( passable( dst ) ) {
+                                } else if( pass ) {
                                     add_field( dst, fd_electricity, 1, cur.get_field_age() + 1_turns );
                                 }
                                 cur.set_field_intensity( cur.get_field_intensity() - 1 );
@@ -1996,8 +1997,9 @@ void map::propagate_field( const tripoint &center, const field_type_id &type, in
                     closed.insert( pt );
                     continue;
                 }
-
-                open.push( { static_cast<float>( rl_dist( center, pt ) ), pt } );
+                if( !obstructed_by_vehicle_rotation( gp.second, pt ) ) {
+                    open.push( { static_cast<float>( rl_dist( center, pt ) ), pt } );
+                }
             }
         }
     }

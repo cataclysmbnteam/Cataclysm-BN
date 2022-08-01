@@ -5491,15 +5491,27 @@ void map::add_splatter_trail( const field_type_id &type, const tripoint &from,
     if( !type.id() ) {
         return;
     }
-    const auto trail = line_to( from, to );
+    auto trail = line_to( from, to );
     int remainder = trail.size();
-    for( const auto &elem : trail ) {
+    tripoint last_point = from;
+    for( tripoint &elem : trail ) {
         add_splatter( type, elem );
         remainder--;
+        if( obstructed_by_vehicle_rotation( last_point, elem ) ) {
+            if( one_in( 2 ) ) {
+                elem.x = last_point.x;
+                add_splatter( type, elem, remainder );
+            } else {
+                elem.y = last_point.y;
+                add_splatter( type, elem, remainder );
+            }
+            return;
+        }
         if( impassable( elem ) ) { // Blood splatters stop at walls.
             add_splatter( type, elem, remainder );
             return;
         }
+        last_point = elem;
     }
 }
 
@@ -6131,16 +6143,20 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range,
 
     // Ugly `if` for now
     if( !fov_3d || F.z == T.z ) {
+
+        point last_point = F.xy();
         bresenham( F.xy(), T.xy(), bresenham_slope,
-        [this, &visible, &T]( const point & new_point ) {
+        [this, &visible, &T, &last_point]( const point & new_point ) {
             // Exit before checking the last square, it's still visible even if opaque.
             if( new_point.x == T.x && new_point.y == T.y ) {
                 return false;
             }
-            if( !this->is_transparent( tripoint( new_point, T.z ) ) ) {
+            if( !this->is_transparent( tripoint( new_point, T.z ) ) ||
+                obscured_by_vehicle_rotation( tripoint( last_point, T.z ), tripoint( new_point, T.z ) ) ) {
                 visible = false;
                 return false;
             }
+            last_point = new_point;
             return true;
         } );
         skew_vision_cache.insert( 100000, key, visible ? 1 : 0 );
@@ -6158,7 +6174,7 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range,
 
         // TODO: Allow transparent floors (and cache them!)
         if( new_point.z == last_point.z ) {
-            if( !this->is_transparent( new_point ) ) {
+            if( !this->is_transparent( new_point ) || obscured_by_vehicle_rotation( last_point, new_point ) ) {
                 visible = false;
                 return false;
             }
@@ -6371,18 +6387,23 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
             return false; // Out of range!
         }
         bool is_clear = true;
+        point last_point = f.xy();
         bresenham( f.xy(), t.xy(), 0,
-        [this, &is_clear, cost_min, cost_max, &t]( const point & new_point ) {
+        [this, &is_clear, cost_min, cost_max, &t, &last_point]( const point & new_point ) {
             // Exit before checking the last square, it's still reachable even if it is an obstacle.
             if( new_point.x == t.x && new_point.y == t.y ) {
                 return false;
             }
 
             const int cost = this->move_cost( new_point );
-            if( cost < cost_min || cost > cost_max ) {
+            if( cost < cost_min || cost > cost_max ||
+                get_map().obstructed_by_vehicle_rotation( tripoint( last_point, t.z ), tripoint( new_point,
+                        t.z ) ) ) {
                 is_clear = false;
                 return false;
             }
+
+            last_point = new_point;
             return true;
         } );
         return is_clear;
@@ -6404,7 +6425,8 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
         // We have to check a weird case where the move is both vertical and horizontal
         if( new_point.z == last_point.z ) {
             const int cost = move_cost( new_point );
-            if( cost < cost_min || cost > cost_max ) {
+            if( cost < cost_min || cost > cost_max ||
+                get_map().obstructed_by_vehicle_rotation( last_point, new_point ) ) {
                 is_clear = false;
                 return false;
             }
@@ -6413,14 +6435,16 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
             const int max_z = std::max( new_point.z, last_point.z );
             if( !has_floor_or_support( {new_point.xy(), max_z} ) ) {
                 const int cost = move_cost( {new_point.xy(), last_point.z} );
-                if( cost > cost_min && cost < cost_max ) {
+                if( cost > cost_min && cost < cost_max &&
+                    !get_map().obstructed_by_vehicle_rotation( last_point, new_point ) ) {
                     this_clear = true;
                 }
             }
 
             if( !this_clear && has_floor_or_support( {last_point.xy(), max_z} ) ) {
                 const int cost = move_cost( {last_point.xy(), new_point.z} );
-                if( cost > cost_min && cost < cost_max ) {
+                if( cost > cost_min && cost < cost_max &&
+                    !get_map().obstructed_by_vehicle_rotation( last_point, new_point ) ) {
                     this_clear = true;
                 }
             }
@@ -6437,7 +6461,7 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
     return is_clear;
 }
 
-bool map::obstructed_by_vehicle_rotation( const tripoint &from, const tripoint &to )
+bool map::obstructed_by_vehicle_rotation( const tripoint &from, const tripoint &to ) const
 {
     const optional_vpart_position vp0 = veh_at( from );
     vehicle *const veh0 = veh_pointer_or_null( vp0 );
@@ -6460,7 +6484,7 @@ bool map::obstructed_by_vehicle_rotation( const tripoint &from, const tripoint &
 }
 
 
-bool map::obscured_by_vehicle_rotation( const tripoint &from, const tripoint &to )
+bool map::obscured_by_vehicle_rotation( const tripoint &from, const tripoint &to ) const
 {
     const optional_vpart_position vp0 = veh_at( from );
     vehicle *const veh0 = veh_pointer_or_null( vp0 );
