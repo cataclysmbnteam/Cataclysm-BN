@@ -10351,7 +10351,7 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
     tripoint pt = c->pos();
     tripoint prev_point = pt;
     bool force_next = false;
-    tripoint next_forced = tripoint_zero;
+    tripoint next_forced;
     while( range > 0 ) {
         c->underwater = false;
         // TODO: Check whenever it is actually in the viewport

@@ -283,7 +283,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
     // Add cw and ccw legs
     if( delta_side == 0 ) { // delta is already axis aligned, only need straight lines
         // cw leg
-        point prev_point = point_zero;
+        point prev_point;
         for( const point &p : line_to( point_zero, unit_cw_perp_axis * cw_len ) ) {
             base_line.reset( p );
             if( !test( source + p, source + prev_point ) ) {
@@ -306,7 +306,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
         }
     } else if( delta_side == 1 ) { // delta is cw of primary axis
         // ccw leg is behind perp axis
-        point prev_point = point_zero;
+        point prev_point;
         for( const point &p : line_to( point_zero, unit_cw_perp_axis * -ccw_len ) ) {
             base_line.reset( p );
 
@@ -338,7 +338,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
         }
     } else if( delta_side == -1 ) { // delta is ccw of primary axis
         // ccw leg is before perp axis
-        point prev_point = point_zero;
+        point prev_point;
         for( const point &p : line_to( point_zero, unit_cw_perp_axis * -ccw_len ) ) {
             base_line.reset( p );
 
