@@ -177,5 +177,26 @@
     "modes": [ [ "DEFAULT", "semi", 1, "NPC_AVOID" ] ],
     "clip_size": 6,
     "flags": [ "MOUNTED_GUN" ]
+  },
+  {
+    "id": "afs_bionic_rocket",
+    "type": "GUN",
+    "name": { "str": "deployed grenade launcher" },
+    "description": "A grenade launcher mounted onto your right-hand wrist.  Less powerful than a proper grenade launcher, but infinitely more portable, and quick to reload.",
+    "volume": "2250 ml",
+    "price": 0,
+    "to_hit": -2,
+    "bashing": 9,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "looks_like": "bio_int_enhancer",
+    "color": "magenta",
+    "skill": "launcher",
+    "ammo": [ "40x46mm", "40x53mm" ],
+    "dispersion": 290,
+    "durability": 6,
+    "clip_size": 1,
+    "reload": 150,
+    "flags": [ "NEVER_JAMS", "NO_UNWIELD", "TRADER_AVOID" ]
   }
 ]
