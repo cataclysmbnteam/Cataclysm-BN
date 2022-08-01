@@ -119,7 +119,7 @@
       [ "bio_torsionratchet", 10 ],
       [ "bio_cable", 10 ],
       [ "bn_bio_solar", 10 ],
-      [ "afs_bio_wind_turbine", 5 ], 
+      [ "afs_bio_wind_turbine", 5 ],
       [ "afs_bio_linguistic_coprocessor", 8 ]
     ]
   },
@@ -187,7 +187,7 @@
       [ "bio_weight", 10 ],
       [ "bio_jointservo", 10 ],
       [ "bio_shotgun", 10 ],
-      [ "bio_blaster", 5 ], 
+      [ "bio_blaster", 5 ],
       [ "afs_bio_skullgun", 2 ]
     ]
   },
@@ -361,7 +361,7 @@
       [ "bio_adrenaline", 20 ],
       [ "bio_ods", 10 ],
       [ "bio_weight", 15 ],
-      [ "afs_bio_missiles", 10 ], 
+      [ "afs_bio_missiles", 10 ],
       [ "afs_bio_dopamine_stimulators", 15 ]
     ]
   },
