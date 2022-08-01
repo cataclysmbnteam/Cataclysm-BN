@@ -12,6 +12,7 @@
 #include <array>
 #include <string>
 
+#include "cube_direction.h"
 #include "flat_set.h"
 #include "memory_fast.h"
 #include "omdata.h"
@@ -78,7 +79,7 @@ struct overmap_special_terrain : overmap_special_locations {
 struct overmap_special_connection {
     tripoint p;
     std::optional<tripoint> from;
-    om_direction::type initial_dir = om_direction::type::invalid;
+    cube_direction initial_dir = cube_direction::last;
     overmap_connection_id connection;
     bool existing = false;
 
