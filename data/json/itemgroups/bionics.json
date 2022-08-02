@@ -96,7 +96,6 @@
       [ "afs_bio_missiles", 10 ],
       [ "afs_bio_linguistic_coprocessor", 10 ],
       [ "afs_bio_dopamine_stimulators", 10 ],
-      [ "afs_bio_skullgun", 5 ],
       [ "bio_blaster", 5 ]
     ]
   },
@@ -187,8 +186,7 @@
       [ "bio_weight", 10 ],
       [ "bio_jointservo", 10 ],
       [ "bio_shotgun", 10 ],
-      [ "bio_blaster", 5 ],
-      [ "afs_bio_skullgun", 2 ]
+      [ "bio_blaster", 5 ]
     ]
   },
   {
@@ -256,8 +254,7 @@
       [ "bn_bio_solar", 15 ],
       [ "afs_bio_wind_turbine", 10 ],
       [ "afs_bio_missiles", 10 ],
-      [ "afs_bio_dopamine_stimulators", 10 ],
-      [ "afs_bio_skullgun", 2 ]
+      [ "afs_bio_dopamine_stimulators", 10 ]
     ]
   },
   {
@@ -279,7 +276,6 @@
       [ "bio_shotgun", 10 ],
       [ "bio_shock", 10 ],
       [ "bio_targeting", 10 ],
-      [ "afs_bio_skullgun", 10 ],
       [ "bio_blaster", 10 ]
     ]
   },
