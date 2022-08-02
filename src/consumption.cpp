@@ -518,7 +518,7 @@ std::pair<int, int> Character::fun_for( const item &comest, const bool bioblock 
         }
     }
 
-    if( bioblock == true && fun < 0 && has_active_bionic( bio_taste_blocker ) &&
+    if( bioblock && fun < 0 && has_active_bionic( bio_taste_blocker ) &&
         get_power_level() > units::from_kilojoule( -fun ) ) {
         fun = 0;
     }
