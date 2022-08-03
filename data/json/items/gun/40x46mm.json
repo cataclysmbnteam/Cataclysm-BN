@@ -193,10 +193,10 @@
     "color": "magenta",
     "skill": "launcher",
     "ammo": [ "40x46mm", "40x53mm" ],
-    "dispersion": 290,
+    "dispersion": 90,
     "durability": 6,
-    "clip_size": 1,
+    "clip_size": 3,
     "reload": 150,
-    "flags": [ "NEVER_JAMS", "NO_UNWIELD", "TRADER_AVOID" ]
+    "flags": [ "NEVER_JAMS", "NO_UNWIELD", "TRADER_AVOID", "RELOAD_ONE" ]
   }
 ]
