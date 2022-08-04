@@ -430,15 +430,39 @@ void overmap_special_terrain::deserialize( const JsonObject &jo )
 {
     mandatory( jo, false, "point", p );
     mandatory( jo, false, "overmap", terrain );
-    optional( jo, false, "flags", flags );
     optional( jo, false, "locations", locations );
 }
 
 void overmap_special_connection::deserialize( const JsonObject &jo )
 {
     mandatory( jo, false, "point", p );
-    optional( jo, false, "connection", connection );
-    optional( jo, false, "terrain", terrain );
+    if( jo.has_string( "terrain" ) ) {
+        // Legacy migration.
+        // TODO: remove after BN 0.F or 0.E (or whatever it's gonna be)
+        if( json_report_strict ) {
+            try {
+                jo.throw_error( "Defining connection by terrain is deprecated, use explicit 'connection' instead.",
+                                "terrain" );
+            } catch( const JsonError &e ) {
+                debugmsg( "%s", e.what() );
+            }
+        }
+
+        if( !jo.has_member( "connection" ) ) {
+            std::string t = jo.get_string( "terrain" );
+            if( t == "sewer" ) {
+                connection = overmap_connection_id( "sewer_tunnel" );
+            } else if( t == "subway" ) {
+                connection = overmap_connection_id( "subway_tunnel" );
+            } else if( t == "forest_trail" ) {
+                connection = overmap_connection_id( "forest_trail" );
+            } else {
+                connection = overmap_connection_id( "local_road" );
+            }
+        }
+    } else {
+        mandatory( jo, false, "connection", connection );
+    }
     optional( jo, false, "existing", existing );
     optional( jo, false, "from", from );
 }
@@ -1008,19 +1032,6 @@ void overmap_special::finalize()
     }
 
     for( auto &elem : connections ) {
-        const auto &oter = get_terrain_at( elem.p );
-        if( !elem.terrain && oter.terrain ) {
-            elem.terrain = oter.terrain->get_type_id();    // Defaulted.
-        }
-
-        // If the connection type hasn't been specified, we'll guess for them.
-        // The guess isn't always right (hence guessing) in the case where
-        // multiple connections types can be made on a single location type,
-        // e.g. both roads and forest trails can be placed on "forest" locations.
-        if( elem.connection.is_null() ) {
-            elem.connection = overmap_connections::guess_for( elem.terrain );
-        }
-
         // If the connection has a "from" hint specified, then figure out what the
         // resulting direction from the hinted location to the connection point is,
         // and use that as the intial direction to be passed off to the connection
@@ -1092,16 +1103,15 @@ void overmap_special::check() const
     }
 
     for( const auto &elem : connections ) {
-        const auto &oter = get_terrain_at( elem.p );
-        if( !elem.terrain ) {
-            debugmsg( "In overmap special \"%s\", connection [%d,%d,%d] doesn't have a terrain.",
-                      id.c_str(), elem.p.x, elem.p.y, elem.p.z );
-        } else if( !elem.existing && !elem.terrain->has_flag( line_drawing ) ) {
-            debugmsg( "In overmap special \"%s\", connection [%d,%d,%d] \"%s\" isn't drawn with lines.",
-                      id.c_str(), elem.p.x, elem.p.y, elem.p.z, elem.terrain.c_str() );
-        } else if( oter.terrain && !oter.terrain->type_is( elem.terrain ) ) {
-            debugmsg( "In overmap special \"%s\", connection [%d,%d,%d] overwrites \"%s\".",
-                      id.c_str(), elem.p.x, elem.p.y, elem.p.z, oter.terrain.c_str() );
+        const overmap_special_terrain &ter = get_terrain_at( elem.p );
+        if( !ter.terrain.is_null() ) {
+            debugmsg( "In overmap special \"%s\", connection at %s overwrites terrain.",
+                      id, elem.p.to_string() );
+        }
+
+        if( !elem.connection.is_valid() ) {
+            debugmsg( "In overmap special \"%s\", connection at %s has invalid id \"%s\".",
+                      id, elem.p.to_string(), elem.connection );
         }
 
         if( elem.from ) {
@@ -1117,8 +1127,8 @@ void overmap_special::check() const
                 case direction::WEST:
                     continue;
                 default:
-                    debugmsg( "In overmap special \"%s\", connection [%d,%d,%d] is not directly north, east, south or west of the defined \"from\" [%d,%d,%d].",
-                              id.c_str(), elem.p.x, elem.p.y, elem.p.z, elem.from->x, elem.from->y, elem.from->z );
+                    debugmsg( "In overmap special \"%s\", connection %s is not directly north, east, south or west of the defined \"from\" %s.",
+                              id, elem.p.to_string(), elem.from->to_string() );
                     break;
             }
         }
@@ -4227,7 +4237,7 @@ om_direction::type overmap::random_special_rotation( const overmap_special &spec
             }
             const oter_id &oter = ter( rp );
 
-            if( is_ot_match( con.terrain.str(), oter, ot_match_type::type ) ) {
+            if( belongs_to_connection( con.connection, oter ) ) {
                 ++score; // Found another one satisfied connection.
             } else if( !oter || con.existing || !con.connection->pick_subtype_for( oter ) ) {
                 valid = false;
@@ -5028,4 +5038,9 @@ int oter_get_rotations( const oter_id &oter )
 const std::string &oter_get_rotation_string( const oter_id &oter )
 {
     return om_direction::get_suffix( oter_get_rotation_dir( oter ) );
+}
+
+bool belongs_to_connection( const overmap_connection_id &id, const oter_id &oter )
+{
+    return is_ot_match( id->default_terrain.str(), oter, ot_match_type::type );
 }

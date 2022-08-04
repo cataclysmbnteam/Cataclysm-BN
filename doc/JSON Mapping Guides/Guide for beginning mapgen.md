@@ -433,10 +433,10 @@ Example:
       { "point": [ 0, 1, -1 ], "overmap": "pump_station_5_north" }
     ],
     "connections": [
-      { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] },
-      { "point": [ 1, -1, -1 ], "terrain": "sewer", "connection": "sewer_tunnel", "from": [ 0, -1, -1 ] },
-      { "point": [ -1, -1, -1 ], "terrain": "sewer", "connection": "sewer_tunnel", "from": [ 0, -1, -1 ] },
-      { "point": [ -1, 1, -1 ], "terrain": "sewer", "connection": "sewer_tunnel", "from": [ 0, 1, -1 ] }
+      { "point": [ 0, -1, 0 ], "connection": "local_road", "from": [ 0, 0, 0 ] },
+      { "point": [ 1, -1, -1 ], "connection": "sewer_tunnel", "from": [ 0, -1, -1 ] },
+      { "point": [ -1, -1, -1 ], "connection": "sewer_tunnel", "from": [ 0, -1, -1 ] },
+      { "point": [ -1, 1, -1 ], "connection": "sewer_tunnel", "from": [ 0, 1, -1 ] }
     ],
     "locations": [ "land" ],
     "city_distance": [ 1, 4 ],

@@ -108,7 +108,7 @@
       { "point": [ 2, 3, -1 ], "overmap": "bandit_tower_ublc_north" },
       { "point": [ 3, 3, -1 ], "overmap": "bandit_tower_ubrc_north" }
     ],
-    "connections": [ { "point": [ 0, -2, 0 ], "terrain": "road" } ],
+    "connections": [ { "point": [ 0, -2, 0 ], "connection": "local_road" } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 1, -1 ],
     "city_sizes": [ 1, 20 ],

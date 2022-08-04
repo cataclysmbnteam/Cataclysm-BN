@@ -31,10 +31,6 @@ struct MonsterGroup;
 
 using overmap_land_use_code_id = string_id<overmap_land_use_code>;
 class JsonObject;
-class overmap_special_batch;
-class overmap_special;
-
-using overmap_special_id = string_id<overmap_special>;
 
 static const overmap_land_use_code_id land_use_code_forest( "forest" );
 static const overmap_land_use_code_id land_use_code_wetland( "wetland" );

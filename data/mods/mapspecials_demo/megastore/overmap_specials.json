@@ -42,7 +42,7 @@
       { "point": [ 1, 2, 2 ], "overmap": "mega_3be_north" },
       { "point": [ 2, 2, 2 ], "overmap": "mega_3brc_north" }
     ],
-    "connections": [ { "point": [ 1, 5, 0 ], "terrain": "road", "existing": true } ],
+    "connections": [ { "point": [ 1, 5, 0 ], "connection": "local_road", "existing": true } ],
     "locations": [ "land" ],
     "city_distance": [ 8, 20 ],
     "city_sizes": [ 1, 12 ],
