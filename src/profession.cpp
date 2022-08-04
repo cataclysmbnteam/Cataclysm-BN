@@ -6,7 +6,6 @@
 #include <map>
 
 #include "addiction.h"
-#include "avatar.h"
 #include "calendar.h"
 #include "debug.h"
 #include "flat_set.h"
@@ -16,9 +15,7 @@
 #include "item_group.h"
 #include "itype.h"
 #include "json.h"
-#include "magic.h"
 #include "options.h"
-#include "player.h"
 #include "pldata.h"
 #include "translations.h"
 #include "type_id.h"
@@ -26,7 +23,7 @@
 namespace
 {
 generic_factory<profession> all_profs( "profession" );
-const string_id<profession> generic_profession_id( "unemployed" );
+const profession_id generic_profession_id( "unemployed" );
 } // namespace
 
 static class json_item_substitution
@@ -248,9 +245,9 @@ void profession::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
 }
 
-const profession *profession::generic()
+const profession_id &profession::generic()
 {
-    return &generic_profession_id.obj();
+    return generic_profession_id;
 }
 
 const std::vector<profession> &profession::get_all()
@@ -342,7 +339,7 @@ bool profession::has_initialized()
     return generic_profession_id.is_valid();
 }
 
-const string_id<profession> &profession::ident() const
+const profession_id &profession::ident() const
 {
     return id;
 }
@@ -501,11 +498,6 @@ bool profession::has_flag( const std::string &flag ) const
     return flags.count( flag ) != 0;
 }
 
-bool profession::can_pick( const player &u, const int points ) const
-{
-    return point_cost() - u.prof->point_cost() <= points;
-}
-
 bool profession::is_locked_trait( const trait_id &trait ) const
 {
     return std::find( _starting_traits.begin(), _starting_traits.end(), trait ) !=
@@ -520,17 +512,6 @@ bool profession::is_forbidden_trait( const trait_id &trait ) const
 std::map<spell_id, int> profession::spells() const
 {
     return _starting_spells;
-}
-
-void profession::learn_spells( avatar &you ) const
-{
-    for( const std::pair<spell_id, int> spell_pair : spells() ) {
-        you.magic->learn_spell( spell_pair.first, you, true );
-        spell &sp = you.magic->get_spell( spell_pair.first );
-        while( sp.get_level() < spell_pair.second && !sp.is_max_level() ) {
-            sp.gain_level();
-        }
-    }
 }
 
 // item_substitution stuff:

@@ -26,7 +26,10 @@
 #include "catacharset.h"
 #include "character.h"
 #include "character_id.h"
+#include "character_encumbrance.h"
+#include "character_functions.h"
 #include "character_martial_arts.h"
+#include "character_stat.h"
 #include "clothing_mod.h"
 #include "clzones.h"
 #include "color.h"
@@ -2842,6 +2845,8 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         return;
     }
 
+    Character &character = get_player_character();
+
     insert_separation_line( info );
     const islot_book &book = *type->book;
     // Some things about a book you CAN tell by it's cover.
@@ -2899,11 +2904,11 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                   _( "Requires <info>intelligence of</info> <num> to easily "
                                      "read." ), iteminfo::lower_is_better, book.intel ) );
     }
-    if( g->u.book_fun_for( *this, g->u ) != 0 &&
+    if( character_funcs::get_book_fun_for( character, *this ) != 0 &&
         parts->test( iteminfo_parts::BOOK_MORALECHANGE ) ) {
         info.push_back( iteminfo( "BOOK", "",
                                   _( "Reading this book affects your morale by <num>" ),
-                                  iteminfo::show_plus, g->u.book_fun_for( *this, g->u ) ) );
+                                  iteminfo::show_plus, character_funcs::get_book_fun_for( character, *this ) ) );
     }
     if( parts->test( iteminfo_parts::BOOK_TIMEPERCHAPTER ) ) {
         std::string fmt = vgettext(
@@ -4228,15 +4233,15 @@ void item::on_wear( Character &p )
             int lhs = 0;
             int rhs = 0;
             set_side( side::LEFT );
-            const auto left_enc = p.get_encumbrance( *this );
+            const char_encumbrance_data left_enc = p.get_encumbrance( *this );
             for( const body_part bp : all_body_parts ) {
-                lhs += left_enc[bp].encumbrance;
+                lhs += left_enc.elems[bp].encumbrance;
             }
 
             set_side( side::RIGHT );
-            const auto right_enc = p.get_encumbrance( *this );
+            const char_encumbrance_data right_enc = p.get_encumbrance( *this );
             for( const body_part bp : all_body_parts ) {
-                rhs += right_enc[bp].encumbrance;
+                rhs += right_enc.elems[bp].encumbrance;
             }
 
             set_side( lhs <= rhs ? side::LEFT : side::RIGHT );
@@ -6922,21 +6927,21 @@ int item::get_chapters() const
     return type->book->chapters;
 }
 
-int item::get_remaining_chapters( const player &u ) const
+int item::get_remaining_chapters( const Character &ch ) const
 {
-    const std::string var = string_format( "remaining-chapters-%d", u.getID().get_value() );
+    const std::string var = string_format( "remaining-chapters-%d", ch.getID().get_value() );
     return get_var( var, get_chapters() );
 }
 
-void item::mark_chapter_as_read( const player &u )
+void item::mark_chapter_as_read( const Character &ch )
 {
-    const std::string var = string_format( "remaining-chapters-%d", u.getID().get_value() );
+    const std::string var = string_format( "remaining-chapters-%d", ch.getID().get_value() );
     if( type->book && type->book->chapters == 0 ) {
         // books without chapters will always have remaining chapters == 0, so we don't need to store them
         erase_var( var );
         return;
     }
-    const int remain = std::max( 0, get_remaining_chapters( u ) - 1 );
+    const int remain = std::max( 0, get_remaining_chapters( ch ) - 1 );
     set_var( var, remain );
 }
 

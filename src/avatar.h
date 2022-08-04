@@ -176,11 +176,14 @@ class avatar : public player
         int get_int_base() const override;
         int get_per_base() const override;
 
-        void upgrade_stat_prompt( const character_stat &stat_name );
         // how many points are available to upgrade via STK
         int free_upgrade_points() const;
         // how much "kill xp" you have
         int kill_xp() const;
+        // how much "kill xp" needed for next point (empty if reached max level)
+        cata::optional<int> kill_xp_for_next_point() const;
+        // upgrade stat from kills
+        void upgrade_stat( character_stat stat );
 
         faction *get_faction() const override;
         // Set in npc::talk_to_you for use in further NPC interactions
@@ -250,30 +253,5 @@ class avatar : public player
 };
 
 avatar &get_avatar();
-
-struct points_left {
-    int stat_points = 0;
-    int trait_points = 0;
-    int skill_points = 0;
-
-    enum point_limit : int {
-        FREEFORM = 0,
-        ONE_POOL,
-        MULTI_POOL,
-        TRANSFER,
-    };
-    point_limit limit = point_limit::FREEFORM;
-
-    points_left();
-    void init_from_options();
-    // Highest amount of points to spend on stats without points going invalid
-    int stat_points_left() const;
-    int trait_points_left() const;
-    int skill_points_left() const;
-    bool is_freeform();
-    bool is_valid();
-    bool has_spare();
-    std::string to_string();
-};
 
 #endif // CATA_SRC_AVATAR_H

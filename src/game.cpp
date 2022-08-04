@@ -47,6 +47,7 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
+#include "character_display.h"
 #include "character_martial_arts.h"
 #include "clzones.h"
 #include "colony.h"
@@ -102,6 +103,7 @@
 #include "map.h"
 #include "map_item_stack.h"
 #include "map_iterator.h"
+#include "map_functions.h"
 #include "map_selector.h"
 #include "mapbuffer.h"
 #include "mapdata.h"
@@ -2062,7 +2064,7 @@ void game::handle_key_blocking_activity()
             cancel_activity_query( _( "Confirm:" ) );
         }
     } else if( action == "player_data" ) {
-        u.disp_info();
+        character_display::disp_info( u );
     } else if( action == "messages" ) {
         Messages::display_messages();
     } else if( action == "help" ) {
@@ -10563,7 +10565,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             }
         }
 
-        const int cost = u.climbing_cost( u.pos(), stairs );
+        const int cost = map_funcs::climbing_cost( m, u.pos(), stairs );
 
         if( cost == 0 ) {
             if( u.has_trait( trait_WEB_ROPE ) )  {

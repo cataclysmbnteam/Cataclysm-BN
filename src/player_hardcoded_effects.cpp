@@ -21,6 +21,7 @@
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
+#include "mutation_data.h"
 #include "player_activity.h"
 #include "pldata.h"
 #include "rng.h"
@@ -1075,7 +1076,7 @@ void player::hardcoded_effects( effect &it )
             //Once every 6 / 3 / 2 hours, with a bit of randomness
             if( calendar::once_every( 6_hours / strength ) && one_in( 3 ) ) {
                 // Select a dream
-                std::string dream = get_category_dream( highcat, strength );
+                std::string dream = dreams::get_random_for_category( highcat, strength );
                 if( !dream.empty() ) {
                     add_msg_if_player( dream );
                 }

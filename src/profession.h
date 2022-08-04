@@ -42,7 +42,7 @@ class profession
         friend class generic_factory<profession>;
 
     private:
-        string_id<profession> id;
+        profession_id id;
         bool was_loaded = false;
 
         translation _name_male;
@@ -83,7 +83,7 @@ class profession
         static void load_item_substitutions( const JsonObject &jo );
 
         // these should be the only ways used to get at professions
-        static const profession *generic(); // points to the generic, default profession
+        static const profession_id &generic(); // gives id of generic, default profession
         static const std::vector<profession> &get_all();
 
         static bool has_initialized();
@@ -94,7 +94,7 @@ class profession
         /** Check that item/CBM/addiction/skill definitions are valid. */
         void check_definition() const;
 
-        const string_id<profession> &ident() const;
+        const profession_id &ident() const;
         std::string gender_appropriate_name( bool male ) const;
         std::string description( bool male ) const;
         signed int point_cost() const;
@@ -106,7 +106,6 @@ class profession
         StartingSkillList skills() const;
 
         std::map<spell_id, int> spells() const;
-        void learn_spells( avatar &you ) const;
 
         /**
          * Check if this type of profession has a certain flag set.
@@ -115,13 +114,6 @@ class profession
          */
         bool has_flag( const std::string &flag ) const;
 
-        /**
-         * Check if the given player can pick this job with the given amount
-         * of points.
-         *
-         * @return true, if player can pick profession. Otherwise - false.
-         */
-        bool can_pick( const player &u, int points ) const;
         bool is_locked_trait( const trait_id &trait ) const;
         bool is_forbidden_trait( const trait_id &trait ) const;
         std::vector<trait_id> get_locked_traits() const;

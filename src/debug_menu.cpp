@@ -30,6 +30,7 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
+#include "character_display.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "color.h"
@@ -929,7 +930,7 @@ void character_edit_menu( Character &c )
         }
         break;
         case edit_character::status:
-            p.disp_info();
+            character_display::disp_info( p );
             break;
         case edit_character::mission_add: {
             uilist types;

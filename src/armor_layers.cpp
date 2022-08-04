@@ -11,6 +11,7 @@
 #include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h" // used for utf8_width()
+#include "character_display.h"
 #include "debug.h"
 #include "enums.h"
 #include "game.h"
@@ -627,7 +628,8 @@ void player::sort_armor()
         }
 
         mvwprintz( w_encumb, point_east, c_white, _( "Encumbrance and Warmth" ) );
-        print_encumbrance( w_encumb, -1, ( leftListSize > 0 ) ? &*tmp_worn[leftListIndex] : nullptr );
+        character_display::print_encumbrance( w_encumb, *this, -1,
+                                              ( leftListSize > 0 ) ? &*tmp_worn[leftListIndex] : nullptr );
 
         // Right header
         mvwprintz( w_sort_right, point_zero, c_light_gray, _( "(Innermost)" ) );

@@ -137,7 +137,7 @@ TEST_CASE( "starting_items", "[slow]" )
         for( const auto &pair : scen_prof_combos ) {
             g->scen = pair.first;
             for( const string_id<profession> &prof : pair.second ) {
-                g->u.prof = &prof.obj();
+                g->u.prof = prof;
                 if( !try_set_traits( traits ) ) {
                     continue; // Trait conflict: this prof/scen/trait combo is impossible to attain
                 }

@@ -18,6 +18,7 @@
 #include "calendar.h"
 #include "catacharset.h"
 #include "character.h"
+#include "character_display.h"
 #include "character_martial_arts.h"
 #include "clzones.h"
 #include "color.h"
@@ -2267,7 +2268,7 @@ bool game::handle_action()
                 return false;
 
             case ACTION_PL_INFO:
-                u.disp_info();
+                character_display::disp_info( u );
                 break;
 
             case ACTION_MAP:

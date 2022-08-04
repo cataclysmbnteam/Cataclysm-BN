@@ -10,6 +10,7 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "character_functions.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
@@ -71,8 +72,8 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
             REQUIRE_FALSE( dummy.has_trait( trait_LOVES_BOOKS ) );
 
             THEN( "the book is a normal amount of fun" ) {
-                CHECK( dummy.fun_to_read( book ) == true );
-                CHECK( dummy.book_fun_for( book, dummy ) == book_fun );
+                CHECK( character_funcs::is_fun_to_read( dummy, book ) == true );
+                CHECK( character_funcs::get_book_fun_for( dummy, book ) == book_fun );
             }
         }
 
@@ -81,8 +82,8 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
             REQUIRE( dummy.has_trait( trait_LOVES_BOOKS ) );
 
             THEN( "the book is extra fun" ) {
-                CHECK( dummy.fun_to_read( book ) == true );
-                CHECK( dummy.book_fun_for( book, dummy ) == book_fun + 1 );
+                CHECK( character_funcs::is_fun_to_read( dummy, book ) == true );
+                CHECK( character_funcs::get_book_fun_for( dummy, book ) == book_fun + 1 );
             }
         }
     }
@@ -98,8 +99,8 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
             REQUIRE_FALSE( dummy.has_trait( trait_SPIRITUAL ) );
 
             THEN( "the book is a normal amount of fun" ) {
-                CHECK( dummy.fun_to_read( book ) == true );
-                CHECK( dummy.book_fun_for( book, dummy ) == book_fun );
+                CHECK( character_funcs::is_fun_to_read( dummy, book ) == true );
+                CHECK( character_funcs::get_book_fun_for( dummy, book ) == book_fun );
             }
         }
 
@@ -108,8 +109,8 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
             REQUIRE( dummy.has_trait( trait_SPIRITUAL ) );
 
             THEN( "the book is thrice the fun" ) {
-                CHECK( dummy.fun_to_read( book ) == true );
-                CHECK( dummy.book_fun_for( book, dummy ) == book_fun * 3 );
+                CHECK( character_funcs::is_fun_to_read( dummy, book ) == true );
+                CHECK( character_funcs::get_book_fun_for( dummy, book ) == book_fun * 3 );
             }
         }
     }

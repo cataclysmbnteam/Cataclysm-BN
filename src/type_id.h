@@ -126,6 +126,9 @@ using overmap_location_id = string_id<overmap_location>;
 class overmap_special;
 using overmap_special_id = string_id<overmap_special>;
 
+class profession;
+using profession_id = string_id<profession>;
+
 class recipe;
 using recipe_id = string_id<recipe>;
 

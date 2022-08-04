@@ -1304,7 +1304,7 @@ void Creature::process_effects()
     }
 }
 
-bool Creature::resists_effect( const effect &e )
+bool Creature::resists_effect( const effect &e ) const
 {
     for( auto &i : e.get_resist_effects() ) {
         if( has_effect( i ) ) {

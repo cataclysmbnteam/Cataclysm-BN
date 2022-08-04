@@ -18,6 +18,7 @@
 #include "bionics.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character_effects.h"
 #include "character_martial_arts.h"
 #include "clzones.h"
 #include "craft_command.h"
@@ -119,7 +120,6 @@ static const efftype_id effect_weed_high( "weed_high" );
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_brass_catcher( "brass_catcher" );
-static const itype_id itype_cookbook_human( "cookbook_human" );
 static const itype_id itype_large_repairkit( "large_repairkit" );
 static const itype_id itype_plut_cell( "plut_cell" );
 static const itype_id itype_small_repairkit( "small_repairkit" );
@@ -132,7 +132,6 @@ static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 
 static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
-static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_CF_HAIR( "CF_HAIR" );
 static const trait_id trait_CHITIN2( "CHITIN2" );
@@ -156,9 +155,7 @@ static const trait_id trait_FUR( "FUR" );
 static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
 static const trait_id trait_INSOMNIA( "INSOMNIA" );
-static const trait_id trait_INT_SLIME( "INT_SLIME" );
 static const trait_id trait_LIGHTFUR( "LIGHTFUR" );
-static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
 static const trait_id trait_LUPINE_FUR( "LUPINE_FUR" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_MOREPAIN2( "MORE_PAIN2" );
@@ -177,14 +174,11 @@ static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
-static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_QUILLS( "QUILLS" );
-static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SAVANT( "SAVANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SLIMY( "SLIMY" );
 static const trait_id trait_SPINES( "SPINES" );
-static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STIMBOOST( "STIMBOOST" );
 static const trait_id trait_STRONGSTOMACH( "STRONGSTOMACH" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
@@ -218,39 +212,6 @@ static const bionic_id bio_speed( "bio_speed" );
 static const bionic_id bio_syringe( "bio_syringe" );
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 
-stat_mod player::get_pain_penalty() const
-{
-    stat_mod ret;
-    int pain = get_perceived_pain();
-    if( pain <= 0 ) {
-        return ret;
-    }
-
-    int stat_penalty = std::floor( std::pow( pain, 0.8f ) / 10.0f );
-
-    bool ceno = has_trait( trait_CENOBITE );
-    if( !ceno ) {
-        ret.strength = stat_penalty;
-        ret.dexterity = stat_penalty;
-    }
-
-    if( !has_trait( trait_INT_SLIME ) ) {
-        ret.intelligence = stat_penalty;
-    } else {
-        ret.intelligence = pain / 5;
-    }
-
-    ret.perception = stat_penalty * 2 / 3;
-
-    ret.speed = std::pow( pain, 0.7f );
-    if( ceno ) {
-        ret.speed /= 2;
-    }
-
-    ret.speed = std::min( ret.speed, 30 );
-    return ret;
-}
-
 player::player()
 {
     str_cur = 8;
@@ -268,8 +229,6 @@ player::player()
     cash = 0;
     scent = 500;
     male = true;
-    prof = profession::has_initialized() ? profession::generic() :
-           nullptr; //workaround for a potential structural limitation, see player::create
 
     start_location = start_location_id( "sloc_shelter" );
     moves = 100;
@@ -468,36 +427,6 @@ void player::process_turn()
     }
 }
 
-int player::kcal_speed_penalty() const
-{
-    static const std::vector<std::pair<float, float>> starv_thresholds = { {
-            std::make_pair( 0.0f, -90.0f ),
-            std::make_pair( 0.1f, -50.f ),
-            std::make_pair( 0.3f, -25.0f ),
-            std::make_pair( 0.5f, 0.0f )
-        }
-    };
-    if( get_kcal_percent() > 0.95f ) {
-        return 0;
-    } else {
-        return std::round( multi_lerp( starv_thresholds, get_kcal_percent() ) );
-    }
-}
-
-int player::thirst_speed_penalty( int thirst )
-{
-    // We die at 1200 thirst
-    // Start by dropping speed really fast, but then level it off a bit
-    static const std::vector<std::pair<float, float>> thirst_thresholds = {{
-            std::make_pair( static_cast<float>( thirst_levels::very_thirsty ), 0.0f ),
-            std::make_pair( static_cast<float>( thirst_levels::dehydrated ), -25.0f ),
-            std::make_pair( static_cast<float>( thirst_levels::parched ), -50.0f ),
-            std::make_pair( static_cast<float>( thirst_levels::dead ), -75.0f )
-        }
-    };
-    return static_cast<int>( multi_lerp( thirst_thresholds, thirst ) );
-}
-
 void player::recalc_speed_bonus()
 {
     // Minus some for weight...
@@ -507,13 +436,13 @@ void player::recalc_speed_bonus()
     }
     mod_speed_bonus( -carry_penalty );
 
-    mod_speed_bonus( -get_pain_penalty().speed );
+    mod_speed_bonus( -character_effects::get_pain_penalty( *this ).speed );
 
     if( get_thirst() > thirst_levels::very_thirsty ) {
-        mod_speed_bonus( thirst_speed_penalty( get_thirst() ) );
+        mod_speed_bonus( character_effects::get_thirst_speed_penalty( get_thirst() ) );
     }
     // when underweight, you get slower. cumulative with hunger
-    mod_speed_bonus( kcal_speed_penalty() );
+    mod_speed_bonus( character_effects::get_kcal_speed_penalty( get_kcal_percent() ) );
 
     for( const auto &maps : *effects ) {
         for( auto &i : maps.second ) {
@@ -639,20 +568,6 @@ void player::mod_stat( const std::string &stat, float modifier )
     }
 }
 
-time_duration player::estimate_effect_dur( const skill_id &relevant_skill,
-        const efftype_id &target_effect, const time_duration &error_magnitude,
-        int threshold, const Creature &target ) const
-{
-    const time_duration zero_duration = 0_turns;
-
-    int skill_lvl = get_skill_level( relevant_skill );
-
-    time_duration estimate = std::max( zero_duration, target.get_effect_dur( target_effect ) +
-                                       rng( -1, 1 ) * error_magnitude *
-                                       rng( 0, std::max( 0, threshold - skill_lvl ) ) );
-    return estimate;
-}
-
 bool player::has_conflicting_trait( const trait_id &flag ) const
 {
     return ( has_opposite_trait( flag ) || has_lower_trait( flag ) || has_higher_trait( flag ) ||
@@ -692,26 +607,6 @@ bool player::has_same_type_trait( const trait_id &flag ) const
 bool player::purifiable( const trait_id &flag ) const
 {
     return flag->purifiable;
-}
-
-/// Returns a randomly selected dream
-std::string player::get_category_dream( const std::string &cat,
-                                        int strength ) const
-{
-    std::vector<dream> valid_dreams;
-    //Pull the list of dreams
-    for( auto &i : dreams ) {
-        //Pick only the ones matching our desired category and strength
-        if( ( i.category == cat ) && ( i.strength == strength ) ) {
-            // Put the valid ones into our list
-            valid_dreams.push_back( i );
-        }
-    }
-    if( valid_dreams.empty() ) {
-        return "";
-    }
-    const dream &selected_dream = random_entry( valid_dreams );
-    return random_entry( selected_dream.messages() );
 }
 
 std::list<item *> player::get_artifact_items()
@@ -1375,21 +1270,6 @@ int player::hp_percentage() const
     }
 
     return ( 100 * total_cur ) / total_max;
-}
-
-void player::siphon( vehicle &veh, const itype_id &desired_liquid )
-{
-    auto qty = veh.fuel_left( desired_liquid );
-    if( qty <= 0 ) {
-        add_msg( m_bad, _( "There is not enough %s left to siphon it." ),
-                 item::nname( desired_liquid ) );
-        return;
-    }
-
-    item liquid( desired_liquid, calendar::turn, qty );
-    if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, &veh ) ) {
-        veh.drain( desired_liquid, qty - liquid.charges );
-    }
 }
 
 void player::add_pain_msg( int val, body_part bp ) const
@@ -3642,48 +3522,6 @@ void player::toolmod_add( item_location tool, item_location mod )
     activity.targets.emplace_back( std::move( mod ) );
 }
 
-bool player::fun_to_read( const item &book ) const
-{
-    // If you don't have a problem with eating humans, To Serve Man becomes rewarding
-    if( ( has_trait( trait_CANNIBAL ) || has_trait( trait_PSYCHOPATH ) ||
-          has_trait( trait_SAPIOVORE ) ) &&
-        book.typeId() == itype_cookbook_human ) {
-        return true;
-    } else if( has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
-        return true;
-    } else {
-        return book_fun_for( book, *this ) > 0;
-    }
-}
-
-int player::book_fun_for( const item &book, const player &p ) const
-{
-    int fun_bonus = book.type->book->fun;
-    if( !book.is_book() ) {
-        debugmsg( "called avatar::book_fun_for with non-book" );
-        return 0;
-    }
-
-    // If you don't have a problem with eating humans, To Serve Man becomes rewarding
-    if( ( p.has_trait( trait_CANNIBAL ) || p.has_trait( trait_PSYCHOPATH ) ||
-          p.has_trait( trait_SAPIOVORE ) ) &&
-        book.typeId() == itype_cookbook_human ) {
-        fun_bonus = std::abs( fun_bonus );
-    } else if( p.has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
-        fun_bonus = std::abs( fun_bonus * 3 );
-    }
-
-    if( has_trait( trait_LOVES_BOOKS ) ) {
-        fun_bonus++;
-    }
-
-    if( fun_bonus > 1 && book.get_chapters() > 0 && book.get_remaining_chapters( p ) == 0 ) {
-        fun_bonus /= 2;
-    }
-
-    return fun_bonus;
-}
-
 bool player::studied_all_recipes( const itype &book ) const
 {
     if( !book.book ) {
@@ -4327,22 +4165,6 @@ bool player::uncanny_dodge()
     return false;
 }
 
-int player::climbing_cost( const tripoint &from, const tripoint &to ) const
-{
-    if( !g->m.valid_move( from, to, false, true ) ) {
-        return 0;
-    }
-
-    const int diff = g->m.climb_difficulty( from );
-
-    if( diff > 5 ) {
-        return 0;
-    }
-
-    return 50 + diff * 100;
-    // TODO: All sorts of mutations, equipment weight etc.
-}
-
 void player::environmental_revert_effect()
 {
     addictions.clear();
@@ -4578,7 +4400,7 @@ void player::reset_stats()
 
     // Pain
     if( get_perceived_pain() > 0 ) {
-        const auto ppen = get_pain_penalty();
+        const stat_mod ppen = character_effects::get_pain_penalty( *this );
         mod_str_bonus( -ppen.strength );
         mod_dex_bonus( -ppen.dexterity );
         mod_int_bonus( -ppen.intelligence );

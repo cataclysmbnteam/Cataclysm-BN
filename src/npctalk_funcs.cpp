@@ -15,6 +15,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character_id.h"
+#include "character_display.h"
 #include "character_martial_arts.h"
 #include "debug.h"
 #include "enums.h"
@@ -432,7 +433,7 @@ void talk_function::wake_up( npc &p )
 
 void talk_function::reveal_stats( npc &p )
 {
-    p.disp_info();
+    character_display::disp_info( p );
 }
 
 void talk_function::end_conversation( npc &p )

@@ -11,6 +11,7 @@
 #include "bionics.h"
 #include "character.h"
 #include "character_id.h"
+#include "consumption.h"
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
@@ -75,7 +76,7 @@ void clear_character( player &dummy, bool debug_storage )
     // Clear stomach and then eat a nutritious meal to normalize stomach
     // contents (needs to happen before clear_morale).
     dummy.stomach.empty();
-    dummy.consumption_history.clear();
+    dummy.consumption_history->elems.clear();
     item food( "debug_nutrition" );
     dummy.eat( food );
 

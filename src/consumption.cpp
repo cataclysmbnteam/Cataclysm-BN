@@ -1,4 +1,5 @@
 #include "player.h" // IWYU pragma: associated
+#include "consumption.h" // IWYU pragma: associated
 
 #include <algorithm>
 #include <array>
@@ -482,7 +483,7 @@ std::pair<int, int> Character::fun_for( const item &comest ) const
 
     // Food is less enjoyable when eaten too often.
     if( fun > 0 || comest.has_flag( flag_NEGATIVE_MONOTONY_OK ) ) {
-        for( const consumption_event &event : consumption_history ) {
+        for( const consumption_event &event : consumption_history->elems ) {
             if( event.time > calendar::turn - 2_days && event.type_id == comest.typeId() &&
                 event.component_hash == comest.make_component_hash() ) {
                 fun -= comest.get_comestible()->monotony_penalty;
@@ -986,10 +987,10 @@ bool player::eat( item &food, bool force )
         }
     }
 
-    consumption_history.emplace_back( food );
+    consumption_history->elems.emplace_back( food );
     // Clean out consumption_history so it doesn't get bigger than needed.
-    while( consumption_history.front().time < calendar::turn - 2_days ) {
-        consumption_history.pop_front();
+    while( consumption_history->elems.front().time < calendar::turn - 2_days ) {
+        consumption_history->elems.pop_front();
     }
 
     return true;
@@ -1530,4 +1531,10 @@ item &Character::get_consumable_from( item &it ) const
     // Since it's not const.
     null_comestible = item();
     return null_comestible;
+}
+
+consumption_event::consumption_event( const item &food ) : time( calendar::turn )
+{
+    type_id = food.typeId();
+    component_hash = food.make_component_hash();
 }

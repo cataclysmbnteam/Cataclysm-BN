@@ -15,6 +15,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_functions.h"
 #include "character_martial_arts.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -1000,7 +1001,7 @@ class read_inventory_preset final: public inventory_selector_preset
                 return unlearned > 0 ? std::to_string( unlearned ) : std::string();
             }, _( "RECIPES" ), unknown );
             append_cell( [ &p ]( const item_location & loc ) -> std::string {
-                return good_bad_none( p.book_fun_for( *loc, p ) );
+                return good_bad_none( character_funcs::get_book_fun_for( p, *loc ) );
             }, _( "FUN" ), unknown );
 
             append_cell( [ this, &p, unknown ]( const item_location & loc ) -> std::string {
