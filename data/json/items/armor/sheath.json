@@ -133,7 +133,7 @@
       "type": "holster",
       "holster_prompt": "Sheath sword",
       "holster_msg": "You sheath your %s",
-      "max_volume": "2 L",
+      "max_volume": "3 L",
       "flags": [ "SHEATH_SWORD" ]
     },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
