@@ -1396,16 +1396,6 @@ npc_action npc::method_of_attack()
         }
     }
 
-    // TODO: Needs a check for transparent but non-passable tiles on the way
-    if( !modes.empty() && sees( *critter ) && aim_per_move( weapon, recoil ) > 0 &&
-        confident_shoot_range( weapon, get_most_accurate_sight( weapon ) ) >= dist ) {
-        add_msg( m_debug, "%s is aiming", disp_name() );
-        if( critter->is_player() && player_character.sees( *this ) ) {
-            add_msg( m_bad, _( "%s takes aim at you!" ), disp_name() );
-        }
-        return npc_aim;
-    }
-
     // if the best mode is within the confident range try for a shot
     if( !modes.empty() && sees( *critter ) && has_los &&
         confident_gun_mode_range( modes[ 0 ].second, cur_recoil ) >= dist ) {
@@ -1446,6 +1436,15 @@ npc_action npc::method_of_attack()
         }
     }
 
+    // TODO: Needs a check for transparent but non-passable tiles on the way
+    if( !modes.empty() && sees( *critter ) && aim_per_move( weapon, recoil ) > 0 &&
+        confident_shoot_range( weapon, get_most_accurate_sight( weapon ) ) >= dist ) {
+        add_msg( m_debug, "%s is aiming", disp_name() );
+        if( critter->is_player() && player_character.sees( *this ) ) {
+            add_msg( m_bad, _( "%s takes aim at you!" ), disp_name() );
+        }
+        return npc_aim;
+    }
     add_msg( m_debug, "%s can't figure out what to do", disp_name() );
     return ( dont_move || !same_z ) ? npc_undecided : npc_melee;
 }
@@ -2656,7 +2655,6 @@ void npc::worker_downtime()
 void npc::move_pause()
 
 {
-    recoil = MAX_RECOIL;
 
     // make sure we're using the best weapon
     if( calendar::once_every( 1_hours ) ) {
@@ -2674,6 +2672,8 @@ void npc::move_pause()
         pause();
         return;
     }
+
+    recoil = MAX_RECOIL;
 
     // Stop, drop, and roll
     if( has_effect( effect_onfire ) ) {
