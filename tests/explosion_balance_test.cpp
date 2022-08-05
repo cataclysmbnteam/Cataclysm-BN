@@ -253,6 +253,8 @@ TEST_CASE( "rotated_vehicle_walls_block_explosions" )
 
     here.add_vehicle( vproto_id( "apc" ), origin, -45_degrees, 0, 0 );
 
+    here.build_map_cache( 0 );
+
     tripoint mon_origin = origin + tripoint( -2, 1, 0 );
 
     monster &s = spawn_test_monster( "mon_squirrel", mon_origin );

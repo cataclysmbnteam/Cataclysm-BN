@@ -28,9 +28,6 @@ void old_scent_map_update( const tripoint &center, map &m,
 
     std::array<std::array<char, MAPSIZE_Y>, MAPSIZE_X> monkey;
 
-    diagonal_blocks monkey2[MAPSIZE_X][MAPSIZE_Y];
-
-
     // for loop constants
     const int scentmap_minx = center.x - SCENT_RADIUS;
     const int scentmap_maxx = center.x + SCENT_RADIUS;
@@ -43,7 +40,7 @@ void old_scent_map_update( const tripoint &center, map &m,
 
     // The new scent flag searching function. Should be wayyy faster than the old one.
     m.scent_blockers( monkey, point( scentmap_minx - 1, scentmap_miny - 1 ),
-                      point( scentmap_maxx + 1, scentmap_maxy + 1 ), monkey2 );
+                      point( scentmap_maxx + 1, scentmap_maxy + 1 ) );
 
     for( int x = 0; x < MAPSIZE_X; x++ ) {
         for( int y = 0; y < MAPSIZE_Y; y++ ) {

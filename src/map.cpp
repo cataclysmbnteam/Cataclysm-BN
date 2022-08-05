@@ -6397,8 +6397,8 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
 
             const int cost = this->move_cost( new_point );
             if( cost < cost_min || cost > cost_max ||
-                get_map().obstructed_by_vehicle_rotation( tripoint( last_point, t.z ), tripoint( new_point,
-                        t.z ) ) ) {
+                obstructed_by_vehicle_rotation( tripoint( last_point, t.z ), tripoint( new_point,
+                                                t.z ) ) ) {
                 is_clear = false;
                 return false;
             }
@@ -6426,7 +6426,7 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
         if( new_point.z == last_point.z ) {
             const int cost = move_cost( new_point );
             if( cost < cost_min || cost > cost_max ||
-                get_map().obstructed_by_vehicle_rotation( last_point, new_point ) ) {
+                obstructed_by_vehicle_rotation( last_point, new_point ) ) {
                 is_clear = false;
                 return false;
             }
@@ -6436,7 +6436,7 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
             if( !has_floor_or_support( {new_point.xy(), max_z} ) ) {
                 const int cost = move_cost( {new_point.xy(), last_point.z} );
                 if( cost > cost_min && cost < cost_max &&
-                    !get_map().obstructed_by_vehicle_rotation( last_point, new_point ) ) {
+                    !obstructed_by_vehicle_rotation( last_point, new_point ) ) {
                     this_clear = true;
                 }
             }
@@ -6444,7 +6444,7 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
             if( !this_clear && has_floor_or_support( {last_point.xy(), max_z} ) ) {
                 const int cost = move_cost( {last_point.xy(), new_point.z} );
                 if( cost > cost_min && cost < cost_max &&
-                    !get_map().obstructed_by_vehicle_rotation( last_point, new_point ) ) {
+                    !obstructed_by_vehicle_rotation( last_point, new_point ) ) {
                     this_clear = true;
                 }
             }
@@ -6463,46 +6463,74 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
 
 bool map::obstructed_by_vehicle_rotation( const tripoint &from, const tripoint &to ) const
 {
-    const optional_vpart_position vp0 = veh_at( from );
-    vehicle *const veh0 = veh_pointer_or_null( vp0 );
-    const optional_vpart_position vp1 = veh_at( to );
-    vehicle *const veh1 = veh_pointer_or_null( vp1 );
+    if( !inbounds( from ) || !inbounds( to ) ) {
+        return false;
+    }
 
-    if( veh1 != nullptr ) {
-        point veh1p = veh1->tripoint_to_mount( from );
-        if( !veh1->allowed_move( veh1p, vp1->mount() ) ) {
+    if( from.z != to.z ) {
+        //Split it into two checks, one for each z level
+        tripoint flattened = {from.xy(), to.z};
+        if( obstructed_by_vehicle_rotation( flattened, to ) ) {
             return true;
         }
     }
-    if( veh0 != nullptr && veh1 != veh0 ) {
-        point veh0p = veh0->tripoint_to_mount( to );
-        if( !veh0->allowed_move( vp0->mount(), veh0p ) ) {
-            return true;
-        }
+
+    point delta = to.xy() - from.xy();
+
+    auto cache = get_cache( from.z ).vehicle_obstructed_cache;
+
+    if( delta == point_north_west ) {
+        return cache[from.x][from.y].nw;
     }
+
+    if( delta == point_north_east ) {
+        return cache[from.x][from.y].ne;
+    }
+
+    if( delta == point_south_west ) {
+        return cache[to.x][to.y].ne;
+    }
+    if( delta == point_south_east ) {
+        return cache[to.x][to.y].nw;
+    }
+
     return false;
 }
 
 
 bool map::obscured_by_vehicle_rotation( const tripoint &from, const tripoint &to ) const
 {
-    const optional_vpart_position vp0 = veh_at( from );
-    vehicle *const veh0 = veh_pointer_or_null( vp0 );
-    const optional_vpart_position vp1 = veh_at( to );
-    vehicle *const veh1 = veh_pointer_or_null( vp1 );
+    if( !inbounds( from ) || !inbounds( to ) ) {
+        return false;
+    }
 
-    if( veh1 != nullptr ) {
-        point veh1p = veh1->tripoint_to_mount( from );
-        if( !veh1->allowed_light( veh1p, vp1->mount() ) ) {
+    if( from.z != to.z ) {
+        //Split it into two checks, one for each z level
+        tripoint flattened = {from.xy(), to.z};
+        if( obscured_by_vehicle_rotation( flattened, to ) ) {
             return true;
         }
     }
-    if( veh0 != nullptr && veh1 != veh0 ) {
-        point veh0p = veh0->tripoint_to_mount( to );
-        if( !veh0->allowed_light( vp0->mount(), veh0p ) ) {
-            return true;
-        }
+
+    point delta = to.xy() - from.xy();
+
+    auto cache = get_cache( from.z ).vehicle_obscured_cache;
+
+    if( delta == point_north_west ) {
+        return cache[from.x][from.y].nw;
     }
+
+    if( delta == point_north_east ) {
+        return cache[from.x][from.y].ne;
+    }
+
+    if( delta == point_south_west ) {
+        return cache[to.x][to.y].ne;
+    }
+    if( delta == point_south_east ) {
+        return cache[to.x][to.y].nw;
+    }
+
     return false;
 }
 
@@ -7872,68 +7900,8 @@ void map::build_outside_cache( const int zlev )
     ch.outside_cache_dirty = false;
 }
 
-void map::build_vehicle_rotation_obstacles_cache( const tripoint &start, const tripoint &end,
-        diagonal_blocks( & blocked_obstacle_cache )[MAPSIZE_X][MAPSIZE_Y] )
-{
-
-    diagonal_blocks fill = {false, false};
-    std::fill_n( &blocked_obstacle_cache[0][0], MAPSIZE_X * MAPSIZE_Y, fill );
-
-    auto set_blocked = [&blocked_obstacle_cache]( vehicle & veh, const tripoint from ) {
-        auto from_mount = veh.tripoint_to_mount( from );
-        for( int dx = -1; dx <= 1; dx += 2 ) {
-            for( int dy = -1; dy <= 1; dy += 2 ) {
-
-                auto t = veh.tripoint_to_mount( from + point( dx, dy ) );
-
-                if( !veh.allowed_move( from_mount, t ) ) {
-                    if( dy == -1 && dx == -1 ) {
-                        blocked_obstacle_cache[from.x][from.y].nw = true;
-                    } else if( dy == -1 && dx == 1 ) {
-                        blocked_obstacle_cache[from.x][from.y].ne = true;
-                    } else if( dy == 1 && dx == -1 ) {
-                        if( from.x == 0 || from.y == MAPSIZE_Y - 1 ) {
-                            continue;
-                        }
-                        blocked_obstacle_cache[from.x - 1][from.y + 1].ne = true;
-                    } else {
-                        if( from.x == MAPSIZE_X - 1 || from.y == MAPSIZE_Y - 1 ) {
-                            continue;
-                        }
-                        blocked_obstacle_cache[from.x + 1][from.y + 1].nw = true;
-                    }
-                }
-            }
-        }
-    };
-
-
-    VehicleList vehs = get_vehicles( start, end );
-    const inclusive_cuboid<tripoint> bounds( start, end );
-    for( auto &v : vehs ) {
-        for( const vpart_reference &vp : v.v->get_all_parts() ) {
-            tripoint p = v.pos + vp.part().precalc[0];
-            if( p.z != start.z ) {
-                break;
-            }
-            if( !bounds.contains( p ) ) {
-                continue;
-            }
-
-            for( int dx = -1; dx <= 1; dx += 2 ) {
-                set_blocked( *v.v, p + tripoint( dx, 0, 0 ) );
-            }
-
-            for( int dy = -1; dy <= 1; dy += 2 ) {
-                set_blocked( *v.v, p + tripoint( 0, dy, 0 ) );
-            }
-        }
-    }
-}
-
 void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
-                                float( &obstacle_cache )[MAPSIZE_X][MAPSIZE_Y],
-                                diagonal_blocks( & blocked_obstacle_cache )[MAPSIZE_X][MAPSIZE_Y] )
+                                float( &obstacle_cache )[MAPSIZE_X][MAPSIZE_Y] )
 {
     const point min_submap{ std::max( 0, start.x / SEEX ), std::max( 0, start.y / SEEY ) };
     const point max_submap{
@@ -7983,7 +7951,6 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
         }
     }
 
-    build_vehicle_rotation_obstacles_cache( start, end, blocked_obstacle_cache );
 }
 
 bool map::build_floor_cache( const int zlev )
@@ -8112,7 +8079,8 @@ static void vehicle_caching_internal( level_cache &zch, const vpart_reference &v
     auto &outside_cache = zch.outside_cache;
     auto &transparency_cache = zch.transparency_cache;
     auto &floor_cache = zch.floor_cache;
-    auto &blocked_cache = zch.blocked_cache;
+    auto &obscured_cache = zch.vehicle_obscured_cache;
+    auto &obstructed_cache = zch.vehicle_obstructed_cache;
 
     const size_t part = vp.part_index();
     const tripoint &part_pos =  v->global_part_pos3( vp.part() );
@@ -8136,28 +8104,39 @@ static void vehicle_caching_internal( level_cache &zch, const vpart_reference &v
         floor_cache[part_pos.x][part_pos.y] = true;
     }
 
-    for( int my = -1; my <= 1; my += 2 ) {
-        for( int mx = -1; mx <= 1; mx += 2 ) {
+    point t = v->tripoint_to_mount( part_pos + point_north_west );
+    if( !v->allowed_light( t, vp.mount() ) ) {
+        obscured_cache[part_pos.x][part_pos.y].nw = true;
+    }
+    if( !v->allowed_move( t, vp.mount() ) ) {
+        obstructed_cache[part_pos.x][part_pos.y].nw = true;
+    }
 
-            point t = v->tripoint_to_mount( part_pos + point( mx, my ) );
+    t = v->tripoint_to_mount( part_pos + point_north_east );
+    if( !v->allowed_light( t, vp.mount() ) ) {
+        obscured_cache[part_pos.x][part_pos.y].ne = true;
+    }
+    if( !v->allowed_move( t, vp.mount() ) ) {
+        obstructed_cache[part_pos.x][part_pos.y].ne = true;
+    }
 
-            if( !v->allowed_light( t, vp.mount() ) ) {
-                if( my == -1 && mx == -1 ) {
-                    blocked_cache[part_pos.x][part_pos.y].nw = true;
-                } else if( my == -1 && mx == 1 ) {
-                    blocked_cache[part_pos.x][part_pos.y].ne = true;
-                } else if( my == 1 && mx == -1 ) {
-                    if( part_pos.x == 0 || part_pos.y == MAPSIZE_Y - 1 ) {
-                        continue;
-                    }
-                    blocked_cache[part_pos.x - 1][part_pos.y + 1].ne = true;
-                } else {
-                    if( part_pos.x == MAPSIZE_X - 1 || part_pos.y == MAPSIZE_Y - 1 ) {
-                        continue;
-                    }
-                    blocked_cache[part_pos.x + 1][part_pos.y + 1].nw = true;
-                }
-            }
+    if( part_pos.x > 0 && part_pos.y < MAPSIZE_Y - 1 ) {
+        t = v->tripoint_to_mount( part_pos + point_south_west );
+        if( !v->allowed_light( t, vp.mount() ) ) {
+            obscured_cache[part_pos.x - 1][part_pos.y + 1].ne = true;
+        }
+        if( !v->allowed_move( t, vp.mount() ) ) {
+            obstructed_cache[part_pos.x - 1][part_pos.y + 1].ne = true;
+        }
+    }
+
+    if( part_pos.x < MAPSIZE_X - 1 && part_pos.y < MAPSIZE_Y - 1 ) {
+        t = v->tripoint_to_mount( part_pos + point_south_east );
+        if( !v->allowed_light( t, vp.mount() ) ) {
+            obscured_cache[part_pos.x + 1][part_pos.y + 1].nw = true;
+        }
+        if( !v->allowed_move( t, vp.mount() ) ) {
+            obstructed_cache[part_pos.x + 1][part_pos.y + 1].nw = true;
         }
     }
 }
@@ -8202,7 +8181,10 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         seen_cache_dirty |= ( build_floor_cache( z ) && affects_seen_cache );
         seen_cache_dirty |= get_cache( z ).seen_cache_dirty && affects_seen_cache;
         diagonal_blocks fill = {false, false};
-        std::uninitialized_fill_n( &( get_cache( z ).blocked_cache[0][0] ), MAPSIZE_X * MAPSIZE_Y, fill );
+        std::uninitialized_fill_n( &( get_cache( z ).vehicle_obscured_cache[0][0] ), MAPSIZE_X * MAPSIZE_Y,
+                                   fill );
+        std::uninitialized_fill_n( &( get_cache( z ).vehicle_obstructed_cache[0][0] ),
+                                   MAPSIZE_X * MAPSIZE_Y, fill );
     }
     // needs a separate pass as it changes the caches on neighbour z-levels (e.g. floor_cache);
     // otherwise such changes might be overwritten by main cache-building logic
@@ -8515,8 +8497,7 @@ void map::function_over( const tripoint &start, const tripoint &end, Functor fun
 }
 
 void map::scent_blockers( std::array<std::array<char, MAPSIZE_X>, MAPSIZE_Y> &scent_transfer,
-                          const point &min, const point &max,
-                          diagonal_blocks( & blocked_obstacle_cache )[MAPSIZE_X][MAPSIZE_Y] )
+                          const point &min, const point &max )
 {
     auto reduce = TFLAG_REDUCE_SCENT;
     auto block = TFLAG_NO_SCENT;
@@ -8563,9 +8544,6 @@ void map::scent_blockers( std::array<std::array<char, MAPSIZE_X>, MAPSIZE_Y> &sc
             }
         }
     }
-
-    build_vehicle_rotation_obstacles_cache( tripoint( min, abs_sub.z ), tripoint( max, abs_sub.z ),
-                                            blocked_obstacle_cache );
 }
 
 tripoint_range<tripoint> map::points_in_rectangle( const tripoint &from, const tripoint &to ) const
@@ -8712,7 +8690,8 @@ level_cache::level_cache()
     std::fill_n( &floor_cache[0][0], map_dimensions, false );
     std::fill_n( &transparency_cache[0][0], map_dimensions, 0.0f );
     diagonal_blocks fill = {false, false};
-    std::fill_n( &blocked_cache[0][0], map_dimensions, fill );
+    std::fill_n( &vehicle_obscured_cache[0][0], map_dimensions, fill );
+    std::fill_n( &vehicle_obstructed_cache[0][0], map_dimensions, fill );
     std::fill_n( &vision_transparency_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &seen_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &camera_cache[0][0], map_dimensions, 0.0f );

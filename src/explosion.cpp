@@ -618,16 +618,18 @@ static std::map<const Creature *, int> shrapnel( const tripoint &src, const proj
 
     float obstacle_cache[MAPSIZE_X][MAPSIZE_Y] = {};
     float visited_cache[MAPSIZE_X][MAPSIZE_Y] = {};
-    diagonal_blocks blocked_cache[MAPSIZE_X][MAPSIZE_Y] = {};
 
     map &here = get_map();
+
+    diagonal_blocks( &blocked_cache )[MAPSIZE_X][MAPSIZE_Y] = here.access_cache(
+                src.z ).vehicle_obstructed_cache;
+
     // TODO: Calculate range based on max effective range for projectiles.
     // Basically bisect between 0 and map diameter using shrapnel_calc().
     // Need to update shadowcasting to support limiting range without adjusting initial distance.
     const tripoint_range<tripoint> area = here.points_on_zlevel( src.z );
 
-    here.build_obstacle_cache( area.min(), area.max() + tripoint_south_east, obstacle_cache,
-                               blocked_cache );
+    here.build_obstacle_cache( area.min(), area.max() + tripoint_south_east, obstacle_cache );
 
     // Shadowcasting normally ignores the origin square,
     // so apply it manually to catch monsters standing on the explosive.

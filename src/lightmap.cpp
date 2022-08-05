@@ -1287,7 +1287,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
     float ( &transparency_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.vision_transparency_cache;
     float ( &seen_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.seen_cache;
     float ( &camera_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.camera_cache;
-    diagonal_blocks( &blocked_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.blocked_cache;
+    diagonal_blocks( &blocked_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.vehicle_obscured_cache;
 
     constexpr float light_transparency_solid = LIGHT_TRANSPARENCY_SOLID;
     constexpr int map_dimensions = MAPSIZE_X * MAPSIZE_Y;
@@ -1320,7 +1320,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             transparency_caches[z + OVERMAP_DEPTH] = &cur_cache.vision_transparency_cache;
             seen_caches[z + OVERMAP_DEPTH] = &cur_cache.seen_cache;
             floor_caches[z + OVERMAP_DEPTH] = &cur_cache.floor_cache;
-            blocked_caches[z + OVERMAP_DEPTH] = &cur_cache.blocked_cache;
+            blocked_caches[z + OVERMAP_DEPTH] = &cur_cache.vehicle_obscured_cache;
             std::uninitialized_fill_n(
                 &cur_cache.seen_cache[0][0], map_dimensions, light_transparency_solid );
             cur_cache.seen_cache_dirty = false;
@@ -1426,7 +1426,7 @@ void map::apply_light_source( const tripoint &p, float luminance )
     float ( &sm )[MAPSIZE_X][MAPSIZE_Y] = cache.sm;
     float ( &transparency_cache )[MAPSIZE_X][MAPSIZE_Y] = cache.transparency_cache;
     float ( &light_source_buffer )[MAPSIZE_X][MAPSIZE_Y] = cache.light_source_buffer;
-    diagonal_blocks( &blocked_cache )[MAPSIZE_X][MAPSIZE_Y] = cache.blocked_cache;
+    diagonal_blocks( &blocked_cache )[MAPSIZE_X][MAPSIZE_Y] = cache.vehicle_obscured_cache;
 
     const point p2( p.xy() );
 
@@ -1507,7 +1507,7 @@ void map::apply_directional_light( const tripoint &p, int direction, float lumin
     auto &cache = get_cache( p.z );
     four_quadrants( &lm )[MAPSIZE_X][MAPSIZE_Y] = cache.lm;
     float ( &transparency_cache )[MAPSIZE_X][MAPSIZE_Y] = cache.transparency_cache;
-    diagonal_blocks( &blocked_cache )[MAPSIZE_X][MAPSIZE_Y] = cache.blocked_cache;
+    diagonal_blocks( &blocked_cache )[MAPSIZE_X][MAPSIZE_Y] = cache.vehicle_obscured_cache;
 
     if( direction == 90 ) {
         castLight < 1, 0, 0, -1, float, four_quadrants, light_calc, light_check,

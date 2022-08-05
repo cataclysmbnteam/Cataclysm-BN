@@ -329,7 +329,10 @@ struct level_cache {
 
     // true when light entering a tile diagonally is blocked by the walls of a turned vehicle. The direction is the direction that the light must be travelling.
     // check the nw value of x+1, y+1 to find the se value of a tile and the ne of x-1, y+1 for sw
-    diagonal_blocks blocked_cache[MAPSIZE_X][MAPSIZE_Y];
+    diagonal_blocks vehicle_obscured_cache[MAPSIZE_X][MAPSIZE_Y];
+
+    // same as above but for obstruction rather than light
+    diagonal_blocks vehicle_obstructed_cache[MAPSIZE_X][MAPSIZE_Y];
 
     // stores "adjusted transparency" of the tiles
     // initial values derived from transparency_cache, uses same units
@@ -1512,8 +1515,7 @@ class map
          * Should be way faster than if done in `game.cpp` using public map functions.
          */
         void scent_blockers( std::array<std::array<char, MAPSIZE_X>, MAPSIZE_Y> &scent_transfer,
-                             const point &min, const point &max,
-                             diagonal_blocks( & blocked_obstacle_cache )[MAPSIZE_X][MAPSIZE_Y] );
+                             const point &min, const point &max );
 
         // Computers
         computer *computer_at( const tripoint &p );
@@ -1594,12 +1596,7 @@ class map
         void build_map_cache( int zlev, bool skip_lightmap = false );
         // Unlike the other caches, this populates a supplied cache instead of an internal cache.
         void build_obstacle_cache( const tripoint &start, const tripoint &end,
-                                   float( &obstacle_cache )[MAPSIZE_X][MAPSIZE_Y],
-                                   diagonal_blocks( &blocked_obstacle_cache )[MAPSIZE_X][MAPSIZE_Y] );
-
-        //populates a supplied cache with diagonal obstructions due to vehicle rotation
-        void build_vehicle_rotation_obstacles_cache( const tripoint &start, const tripoint &end,
-                diagonal_blocks( & blocked_obstacle_cache )[MAPSIZE_X][MAPSIZE_Y] );
+                                   float( &obstacle_cache )[MAPSIZE_X][MAPSIZE_Y] );
 
         vehicle *add_vehicle( const vgroup_id &type, const tripoint &p, units::angle dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,

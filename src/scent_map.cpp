@@ -166,7 +166,8 @@ void scent_map::update( const tripoint &center, map &m )
     std::array < std::array < int, 3 + SCENT_RADIUS * 2 >, 1 + SCENT_RADIUS * 2 > sum_3_scent_y;
     std::array < std::array < char, 3 + SCENT_RADIUS * 2 >, 1 + SCENT_RADIUS * 2 > squares_used_y;
 
-    diagonal_blocks blocked_cache[MAPSIZE_X][MAPSIZE_Y];
+    diagonal_blocks( &blocked_cache )[MAPSIZE_X][MAPSIZE_Y] = m.access_cache(
+                center.z ).vehicle_obstructed_cache;
 
     // for loop constants
     const int scentmap_minx = center.x - SCENT_RADIUS;
@@ -176,7 +177,7 @@ void scent_map::update( const tripoint &center, map &m )
 
     // The new scent flag searching function. Should be wayyy faster than the old one.
     m.scent_blockers( scent_transfer, point( scentmap_minx - 1, scentmap_miny - 1 ),
-                      point( scentmap_maxx + 1, scentmap_maxy + 1 ), blocked_cache );
+                      point( scentmap_maxx + 1, scentmap_maxy + 1 ) );
 
     for( int x = 0; x < SCENT_RADIUS * 2 + 3; ++x ) {
         sum_3_scent_y[0][x] = 0;
