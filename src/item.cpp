@@ -1500,6 +1500,12 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         info.push_back( iteminfo( "BASE", _( "Category: " ),
                                   "<header>" + get_category().name() + "</header>" ) );
     }
+    if( !type->weapon_category.empty() && parts->test( iteminfo_parts::WEAPON_CATEGORY ) ) {
+        const std::string weapon_categories = enumerate_as_string( type->weapon_category,
+                                              enumeration_conjunction::none );
+        info.push_back( iteminfo( "BASE", _( "Weapon Category: " ),
+                                  "<header>" + weapon_categories + "</header>" ) );
+    }
 
     if( parts->test( iteminfo_parts::DESCRIPTION ) ) {
         insert_separation_line( info );

@@ -23,6 +23,8 @@ enum class iteminfo_parts : size_t {
     BASE_AMOUNT,
     BASE_DEBUG,
 
+    WEAPON_CATEGORY,
+
     MED_JOY,
     MED_PORTIONS,
     MED_STIMULATION,
