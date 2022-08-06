@@ -1242,48 +1242,45 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
                            *squares[destarea].get_container( to_vehicle ) ) ) {
             return false;
         }
-    } else if( srcarea == AIM_INVENTORY && destarea == AIM_WORN ) {
+    } else if( srcarea == AIM_INVENTORY ) {
 
         // make sure advanced inventory is reopened after activity completion.
         do_return_entry();
 
-        g->u.assign_activity( ACT_WEAR );
+        if( destarea == AIM_WORN ) {
+            g->u.assign_activity( ACT_WEAR );
 
-        g->u.activity.targets.emplace_back( g->u, sitem->items.front() );
-        g->u.activity.values.push_back( amount_to_move );
+            g->u.activity.targets.emplace_back( g->u, sitem->items.front() );
+            g->u.activity.values.push_back( amount_to_move );
+        } else {
+            item *itm = &g->u.i_at( sitem->idx );
 
+            drop_locations to_move = { drop_location( item_location( g->u, itm ), amount_to_move ) };
+            g->u.assign_activity( drop_activity_actor( g->u, to_move, !to_vehicle, squares[destarea].off ) );
+        }
         // exit so that the activity can be carried out
         exit = true;
 
-    } else if( srcarea == AIM_INVENTORY || srcarea == AIM_WORN ) {
+    } else if( srcarea == AIM_WORN ) {
 
         // make sure advanced inventory is reopened after activity completion.
         do_return_entry();
 
-        // if worn, we need to fix with the worn index number (starts at -2, as -1 is weapon)
-        int idx = srcarea == AIM_INVENTORY ? sitem->idx : player::worn_position_to_index( sitem->idx );
-
         // worn items are never stacked, so this should check out
         assert( sitem->items.size() == 1 );
-        ret_val<bool> takeoff_rv = g->u.can_takeoff( *sitem->items.front() );
+        item *itm = sitem->items.front();
+        ret_val<bool> takeoff_rv = g->u.can_takeoff( *itm );
         if( !takeoff_rv.success() ) {
             add_msg( m_info, "%s", takeoff_rv.c_str() );
-            // exit so that the action can be carried out
-            exit = true;
-        } else if( srcarea == AIM_WORN && destarea == AIM_INVENTORY ) {
-            g->u.takeoff( idx );
-
-            // exit so that the action can be carried out
-            exit = true;
+        } else if( destarea == AIM_INVENTORY ) {
+            g->u.takeoff( *itm );
         } else {
-            // important if item is worn
-            if( g->u.can_unwield( g->u.i_at( idx ) ).success() ) {
-                drop_locations to_move = { drop_location( item_location( g->u, &g->u.i_at( idx ) ), amount_to_move ) };
-                g->u.assign_activity( drop_activity_actor( g->u, to_move, !to_vehicle, squares[destarea].off ) );
-                // exit so that the activity can be carried out
-                exit = true;
-            }
+            drop_locations to_move = { drop_location( item_location( g->u, itm ), amount_to_move ) };
+            g->u.assign_activity( drop_activity_actor( g->u, to_move, !to_vehicle, squares[destarea].off ) );
         }
+        // exit so that the activity can be carried out
+        exit = true;
+
     } else {
         // from map/vehicle: start ACT_PICKUP or ACT_MOVE_ITEMS as necessary
         // Make sure advanced inventory is reopened after activity completion.
