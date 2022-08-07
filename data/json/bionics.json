@@ -1247,7 +1247,7 @@
     "id": "bio_blaster",
     "type": "bionic",
     "name": { "str": "Fusion Blaster Arm" },
-    "description": "Your left arm has been surgically replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray.  However, you are unable to use or carry two-handed items, and your strength limits what you can use with your one hand.",
+    "description": "Heavy-duty fusion blaster was integrated ino your left arm!  You may use your energy banks to fire a damaging heat ray.",
     "occupied_bodyparts": [ [ "arm_l", 20 ], [ "hand_l", 5 ] ],
     "act_cost": 50,
     "fake_item": "bio_blaster_gun",
