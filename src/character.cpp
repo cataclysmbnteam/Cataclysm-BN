@@ -3425,7 +3425,7 @@ int Character::read_speed( bool return_stat_effect ) const
     int ret = to_moves<int>( 1_minutes ) - to_moves<int>( 3_seconds ) * ( intel - 8 );
 
     if( has_bionic( afs_bio_linguistic_coprocessor ) ) { // Aftershock
-        ret *= .85;
+        ret *= .75;
     }
 
     ret *= mutation_value( "reading_speed_multiplier" );

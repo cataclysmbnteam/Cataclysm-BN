@@ -1229,7 +1229,7 @@
     "id": "afs_bio_linguistic_coprocessor",
     "type": "bionic",
     "name": { "str": "Linguistic Coprocessor" },
-    "description": "The left hemisphere of your brain has been augmented with a microcomputer that moderately increases the speed that language and written words are processed, granting a 15% increase to reading speed.",
+    "description": "The left hemisphere of your brain has been augmented with a microcomputer that moderately increases the speed that language and written words are processed, granting a 25% increase to reading speed.",
     "occupied_bodyparts": [ [ "head", 2 ] ]
   },
   {
