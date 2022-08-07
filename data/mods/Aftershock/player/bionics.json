@@ -26,7 +26,7 @@
     "type": "bionic",
     "//": "Watch those wrist rockets!",
     "name": { "str": "Deployable Grenade Launcher" },
-    "description": "Your right hand can fold inward to reveal a mechanism capable of igniting and firing 40mm grenades across medium distances with great accuracy due built in ballistic calculator.",,
+    "description": "Your right hand can fold inward to reveal a mechanism capable of igniting and firing 40mm grenades across medium distances with great accuracy due built in ballistic calculator.",
     "occupied_bodyparts": [ [ "hand_r", 3 ] ],
     "fake_item": "afs_bionic_rocket",
     "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "NO_UNWIELD" ],
