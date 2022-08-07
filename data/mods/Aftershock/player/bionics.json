@@ -26,7 +26,7 @@
     "type": "bionic",
     "//": "Watch those wrist rockets!",
     "name": { "str": "Deployable Grenade Launcher" },
-    "description": "Your right hand can fold inward to reveal a mechanism capable of igniting and firing 40mm grenades across medium distances.",
+    "description": "Your right hand can fold inward to reveal a mechanism capable of igniting and firing 40mm grenades across medium distances with great accuracy due built in ballistic calculator.",,
     "occupied_bodyparts": [ [ "hand_r", 3 ] ],
     "fake_item": "afs_bionic_rocket",
     "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "NO_UNWIELD" ],
@@ -36,7 +36,7 @@
     "id": "afs_bio_linguistic_coprocessor",
     "type": "bionic",
     "name": { "str": "Linguistic Coprocessor" },
-    "description": "The left hemisphere of your brain has been augmented with a microcomputer that moderately increases the speed that language and written words are processed, granting a 15% increase to reading speed.",
+    "description": "The left hemisphere of your brain has been augmented with a microcomputer that moderately increases the speed that language and written words are processed, granting a 25% increase to reading speed.",
     "occupied_bodyparts": [ [ "head", 2 ] ]
   },
   {

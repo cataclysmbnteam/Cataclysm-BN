@@ -22,7 +22,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": { "str": "Deployable Grenade Launcher CBM" },
-    "description": "A small, folding tube that attaches to your right arm.  Once implanted, it can serve as a portable, integrated tool for firing 40mm grenades and canisters.",
+    "description": "A small, grenade launcher that attaches to your right arm.  Once implanted, it can serve as a portable, integrated tool for firing 40mm grenades and canisters.  Built in balistic calculator improves accuracy.",
     "price": 100000,
     "difficulty": 5
   },
