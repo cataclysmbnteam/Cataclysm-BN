@@ -145,7 +145,6 @@ static const skill_id skill_mechanics( "mechanics" );
 static const bionic_id bio_adrenaline( "bio_adrenaline" );
 static const bionic_id bio_advreactor( "bio_advreactor" );
 static const bionic_id bio_ads( "bio_ads" );
-static const bionic_id bio_blaster( "bio_blaster" );
 static const bionic_id bio_blood_anal( "bio_blood_anal" );
 static const bionic_id bio_blood_filter( "bio_blood_filter" );
 static const bionic_id bio_cqb( "bio_cqb" );
@@ -1920,12 +1919,6 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
 
     if( !has_bionic( b_id ) ) {
         popup( _( "%s don't have this bionic installed." ), disp_name() );
-        return false;
-    }
-
-    if( b_id == bio_blaster ) {
-        popup( _( "Removing %s Fusion Blaster Arm would leave %s with a useless stump." ),
-               disp_name( true ), disp_name() );
         return false;
     }
 
