@@ -13,6 +13,7 @@
 #include "point.h"
 #include "string_formatter.h"
 #include "type_id.h"
+#include "map.h"
 
 #define dbg(x) DebugLogFL((x),DC::Game)
 
@@ -30,6 +31,109 @@ shared_ptr_fast<monster> Creature_tracker::find( const tripoint &pos ) const
         }
     }
     return nullptr;
+}
+
+static inline mfaction_id effective_faction( const monster &critter )
+{
+    static const mfaction_str_id playerfaction( "player" );
+    return critter.friendly == 0 ? critter.faction : playerfaction;
+}
+
+static inline size_t submap_offset( const point &pos )
+{
+    return pos.x / SEEX + MAPSIZE * ( pos.y / SEEY );
+}
+
+
+std::vector<std::set<weak_ptr_fast<monster>, Creature_tracker::weak_ptr_comparator>*>
+Creature_tracker::find_in_area( mfaction_id faction, const tripoint &center, const int radius )
+{
+    std::vector<std::set<weak_ptr_fast<monster>, Creature_tracker::weak_ptr_comparator>*> result;
+
+    int range = ( ( radius - 1 ) / SEEX ) + 1;
+
+    std::array<std::set<weak_ptr_fast<monster>, Creature_tracker::weak_ptr_comparator>, MAPSIZE *MAPSIZE>
+    &fmap = monster_faction_map_[faction];
+
+    size_t sm = submap_offset( center.xy() );
+
+    for( int dx = -range; dx <= range; dx++ ) {
+        if( center.x + dx * SEEX < 0 || center.x + dx * SEEX >= MAPSIZE_X ) {
+            continue;
+        }
+
+        for( int dy = -range; dy <= range; dy++ ) {
+            if( center.y + dy * SEEY < 0 || center.y + dy * SEEY >= MAPSIZE_Y ) {
+                continue;
+            }
+
+            size_t submap = sm + dx + dy * MAPSIZE;
+
+            if( !fmap[submap].empty() ) {
+                result.push_back( &( fmap[ submap ] ) );
+            }
+        }
+    }
+    return result;
+}
+
+std::vector<std::set<weak_ptr_fast<monster>, Creature_tracker::weak_ptr_comparator>*>
+Creature_tracker::find_at_range( mfaction_id faction, const tripoint &center, const int range )
+{
+    std::vector<std::set<weak_ptr_fast<monster>, Creature_tracker::weak_ptr_comparator>*> result;
+
+    std::array<std::set<weak_ptr_fast<monster>, Creature_tracker::weak_ptr_comparator>, MAPSIZE *MAPSIZE>
+    &fmap = monster_faction_map_[faction];
+
+    size_t sm = submap_offset( center.xy() );
+    for( int dx = -range; dx <= range; dx++ ) {
+
+        if( center.x + dx * SEEX < 0 || center.x + dx * SEEY >= MAPSIZE_X ) {
+            continue;
+        }
+
+        if( center.y + range * SEEY < MAPSIZE_Y ) {
+            size_t submap = sm + dx + range * MAPSIZE;
+            if( !fmap[submap].empty() ) {
+                result.push_back( &( fmap[submap] ) );
+            }
+        }
+
+        if( range == 0 ) {
+            return result;
+        }
+
+        if( center.y - range * SEEY >= 0 ) {
+            size_t submap = sm + dx - range * MAPSIZE;
+
+            if( !fmap[submap].empty() ) {
+                result.push_back( &( fmap[submap] ) );
+            }
+        }
+    }
+
+    for( int dy = -range + 1; dy <= range - 1; dy++ ) {
+
+        if( center.y + dy * SEEY < 0 || center.y + dy * SEEY >= MAPSIZE_Y ) {
+            continue;
+        }
+
+        if( center.x + range * SEEX < MAPSIZE_X ) {
+            size_t submap = sm + range + dy * MAPSIZE;
+            if( !fmap[submap].empty() ) {
+                result.push_back( &( fmap[submap] ) );
+            }
+        }
+
+        if( center.x - range * SEEX >= 0 ) {
+            size_t submap = sm - range + dy * MAPSIZE;
+
+            if( !fmap[submap].empty() ) {
+                result.push_back( &( fmap[submap] ) );
+            }
+        }
+    }
+    return result;
 }
 
 int Creature_tracker::temporary_id( const monster &critter ) const
@@ -96,13 +200,14 @@ void Creature_tracker::add_to_faction_map( shared_ptr_fast<monster> critter_ptr 
     assert( critter_ptr );
     monster &critter = *critter_ptr;
 
-    // Only 1 faction per mon at the moment.
-    if( critter.friendly == 0 ) {
-        monster_faction_map_[ critter.faction ].insert( critter_ptr );
-    } else {
-        static const mfaction_str_id playerfaction( "player" );
-        monster_faction_map_[ playerfaction ].insert( critter_ptr );
+    tripoint pos = critter.pos();
+
+    if( !get_map().inbounds( pos ) ) {
+        return;
     }
+
+    monster_faction_map_[ effective_faction( critter ) ][submap_offset( pos.xy() )].insert(
+        critter_ptr );
 }
 
 size_t Creature_tracker::size() const
@@ -135,12 +240,25 @@ bool Creature_tracker::update_pos( const monster &critter, const tripoint &new_p
     [&]( const shared_ptr_fast<monster> &ptr ) {
         return ptr.get() == &critter;
     } );
+
+    const tripoint &old_pos = critter.pos();
     if( iter != monsters_list.end() ) {
-        monsters_by_location.erase( critter.pos() );
+        monsters_by_location.erase( old_pos );
         monsters_by_location[new_pos] = *iter;
+
+        int old_offset = submap_offset( old_pos.xy() );
+        int new_offset = submap_offset( new_pos.xy() );
+        if( old_offset != new_offset ) {
+            if( get_map().inbounds( old_pos ) ) {
+                monster_faction_map_[ effective_faction( critter ) ][old_offset].erase( *iter );
+            }
+
+            if( get_map().inbounds( new_pos ) ) {
+                monster_faction_map_[ effective_faction( critter ) ][new_offset].insert( *iter );
+            }
+        }
         return true;
     } else {
-        const tripoint &old_pos = critter.pos();
         // We're changing the x/y/z coordinates of a zombie that hasn't been added
         // to the game yet. `add` will update monsters_by_location for us.
         debugmsg( "update_zombie_pos: no %s at %d,%d,%d (moving to %d,%d,%d)",
@@ -182,13 +300,16 @@ void Creature_tracker::remove( const monster &critter )
         return;
     }
 
-    for( auto &pair : monster_faction_map_ ) {
-        const auto fac_iter = pair.second.find( *iter );
-        if( fac_iter != pair.second.end() ) {
-            // Need to do this manually because the shared pointer containing critter is kept valid
-            // within removed_ and so the weak pointer in monster_faction_map_ is also valid.
-            pair.second.erase( fac_iter );
-            break;
+    const tripoint pos = critter.pos();
+    if( get_map().inbounds( pos ) ) {
+        for( auto &pair : monster_faction_map_ ) {
+            const auto fac_iter = pair.second[submap_offset( pos.xy() )].find( *iter );
+            if( fac_iter != pair.second[submap_offset( pos.xy() )].end() ) {
+                // Need to do this manually because the shared pointer containing critter is kept valid
+                // within removed_ and so the weak pointer in monster_faction_map_ is also valid.
+                pair.second[submap_offset( pos.xy() )].erase( fac_iter );
+                break;
+            }
         }
     }
     remove_from_location_map( critter );
@@ -248,6 +369,20 @@ void Creature_tracker::swap_positions( monster &first, monster &second )
     }
     if( second_ptr ) {
         monsters_by_location[second.pos()] = second_ptr;
+    }
+
+    size_t first_offset = submap_offset( first.pos().xy() );
+    size_t second_offset = submap_offset( second.pos().xy() );
+    if( first_offset != second_offset && get_map().inbounds( first.pos() ) &&
+        get_map().inbounds( second.pos() ) ) {
+        if( first_ptr ) {
+            monster_faction_map_[effective_faction( first )][second_offset].erase( first_ptr );
+            monster_faction_map_[effective_faction( first )][first_offset].insert( first_ptr );
+        }
+        if( second_ptr ) {
+            monster_faction_map_[effective_faction( second )][first_offset].erase( second_ptr );
+            monster_faction_map_[effective_faction( second )][second_offset].insert( second_ptr );
+        }
     }
 }
 

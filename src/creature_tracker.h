@@ -11,6 +11,7 @@
 #include "memory_fast.h"
 #include "point.h"
 #include "type_id.h"
+#include "game_constants.h"
 
 class JsonIn;
 class JsonOut;
@@ -18,9 +19,7 @@ class monster;
 
 class Creature_tracker
 {
-    private:
-
-        void add_to_faction_map( shared_ptr_fast<monster> critter );
+    public:
 
         class weak_ptr_comparator
         {
@@ -30,8 +29,11 @@ class Creature_tracker
                     return lhs.lock().get() < rhs.lock().get();
                 }
         };
+    private:
 
-        std::unordered_map<mfaction_id, std::set<weak_ptr_fast<monster>, weak_ptr_comparator>>
+        void add_to_faction_map( shared_ptr_fast<monster> critter );
+
+        std::unordered_map<mfaction_id, std::array<std::set<weak_ptr_fast<monster>, weak_ptr_comparator>, MAPSIZE *MAPSIZE>>
                 monster_faction_map_;
 
         /**
@@ -49,6 +51,21 @@ class Creature_tracker
          * Dead monsters are ignored and not returned.
          */
         shared_ptr_fast<monster> find( const tripoint &pos ) const;
+
+        /**
+         * Returns a list of all monsters of a faction that are on submaps that could be within radius of the center.
+         * This isn't accurate but it's fast, good for culling.
+         */
+        std::vector<std::set<weak_ptr_fast<monster>, weak_ptr_comparator>*>
+        find_in_area( mfaction_id faction, const tripoint &center, const int radius );
+
+        /**
+        * Returns a list of all monsters of a faction that are on submaps at a specific range around the center.
+        * This allows for searches to spread outwards.
+        */
+        std::vector<std::set<weak_ptr_fast<monster>, Creature_tracker::weak_ptr_comparator>*>
+        find_at_range( mfaction_id faction, const tripoint &center, const int range );
+
         /**
          * Returns a temporary id of the given monster (which must exist in the tracker).
          * The id is valid until monsters are added or removed from the tracker.

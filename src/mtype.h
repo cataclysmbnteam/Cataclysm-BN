@@ -236,6 +236,7 @@ struct mtype {
 
         void add_regeneration_modifier( JsonObject inner, const std::string &src );
 
+        void add_to_stats( m_flag flag ) const;
     public:
         mtype_id id;
 
@@ -380,7 +381,12 @@ struct mtype {
         // Used to fetch the properly pluralized monster type name
         std::string nname( unsigned int quantity = 1 ) const;
         bool has_special_attack( const std::string &attack_name ) const;
-        bool has_flag( m_flag flag ) const;
+        inline bool has_flag( m_flag flag ) const {
+#if !defined(RELEASE)
+            add_to_stats( flag );
+#endif
+            return flags[flag];
+        }
         void set_flag( m_flag flag, bool state = true );
         bool made_of( const material_id &material ) const;
         bool made_of_any( const std::set<material_id> &materials ) const;

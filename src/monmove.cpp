@@ -277,24 +277,25 @@ void monster::wander_to( const tripoint &p, int f )
     wandf = f;
 }
 
-float monster::rate_target( Creature &c, float best, bool smart ) const
+FastDistanceApproximation monster::rate_target( Creature &c, FastDistanceApproximation best,
+        bool smart ) const
 {
-    const auto d = rl_dist_fast( pos(), c.pos() );
+    const FastDistanceApproximation d = rl_dist_fast( pos(), c.pos() );
     if( d <= 0 ) {
-        return FLT_MAX;
+        return FastDistanceApproximation::max();
     }
 
     // Check a very common and cheap case first
     if( !smart && d >= best ) {
-        return FLT_MAX;
+        return FastDistanceApproximation::max();
     }
 
     if( !sees( c ) ) {
-        return FLT_MAX;
+        return FastDistanceApproximation::max();
     }
 
     if( !smart ) {
-        return int( d );
+        return d;
     }
 
     float power = c.power_rating();
@@ -305,22 +306,23 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
     }
 
     if( power > 0 ) {
-        return int( d ) / power;
+        return d / power;
     }
 
-    return FLT_MAX;
+    return FastDistanceApproximation::max();
 }
 
 void monster::plan()
 {
-    const auto &factions = g->critter_tracker->factions();
 
     // Bots are more intelligent than most living stuff
     bool smart_planning = has_flag( MF_PRIORITIZE_TARGETS );
     Creature *target = nullptr;
     int max_sight_range = std::max( type->vision_day, type->vision_night );
     // 8.6f is rating for tank drone 60 tiles away, moose 16 or boomer 33
-    float dist = !smart_planning ? max_sight_range : 8.6f;
+    FastDistanceApproximation dist = !smart_planning ? FastDistanceApproximation::from_distance(
+                                         max_sight_range ) :
+                                     FastDistanceApproximation::from_distance( 8.6f );
     bool fleeing = false;
     bool docile = friendly != 0 && has_effect( effect_docile );
     bool waiting = has_effect( effect_ai_waiting );
@@ -376,7 +378,7 @@ void monster::plan()
     } else if( friendly != 0 && !docile && !waiting ) {
         for( monster &tmp : g->all_monsters() ) {
             if( tmp.friendly == 0 ) {
-                float rating = rate_target( tmp, dist, smart_planning );
+                FastDistanceApproximation rating = rate_target( tmp, dist, smart_planning );
                 if( rating < dist ) {
                     target = &tmp;
                     dist = rating;
@@ -405,7 +407,7 @@ void monster::plan()
             continue;
         }
 
-        float rating = rate_target( who, dist, smart_planning );
+        FastDistanceApproximation rating = rate_target( who, dist, smart_planning );
         bool fleeing_from = is_fleeing( who );
         if( rating == dist && ( fleeing || attitude( &who ) == MATT_ATTACK ) ) {
             ++valid_targets;
@@ -444,38 +446,52 @@ void monster::plan()
             }
         }
     }
-
+    const auto &factions = g->critter_tracker->factions();
     fleeing = fleeing || ( mood == MATT_FLEE );
     if( friendly == 0 ) {
+
+        //This is unused when smart_planning is on
+        FastDistanceApproximation max_dist = dist / 12;
+
         for( const auto &fac : factions ) {
             auto faction_att = faction.obj().attitude( fac.first );
             if( faction_att == MFA_NEUTRAL || faction_att == MFA_FRIENDLY ) {
                 continue;
             }
-
-            for( const weak_ptr_fast<monster> &weak : fac.second ) {
-                const shared_ptr_fast<monster> shared = weak.lock();
-                if( !shared ) {
-                    continue;
-                }
-                monster &mon = *shared;
-                float rating = rate_target( mon, dist, smart_planning );
-                if( rating == dist ) {
-                    ++valid_targets;
-                    if( one_in( valid_targets ) ) {
-                        target = &mon;
+            int cur_dist = 0;
+            do {
+                //If smart planning is on we only do a single iteration of everything within 60 tiles
+                //Otherwise we search outwards from the center, decreasing the max distance whenever we find something
+                auto mon_list = smart_planning ? g->critter_tracker->find_in_area( fac.first, pos(), 60 ) :
+                                g->critter_tracker->find_at_range( fac.first, pos(), cur_dist );
+                for( auto mid : mon_list ) {
+                    for( const weak_ptr_fast<monster> &weak : *mid ) {
+                        const shared_ptr_fast<monster> shared = weak.lock();
+                        if( !shared ) {
+                            continue;
+                        }
+                        monster &mon = *shared;
+                        FastDistanceApproximation rating = rate_target( mon, dist, smart_planning );
+                        if( rating == dist ) {
+                            ++valid_targets;
+                            if( one_in( valid_targets ) ) {
+                                target = &mon;
+                            }
+                        }
+                        if( rating < dist ) {
+                            target = &mon;
+                            dist = rating;
+                            max_dist = dist / 12;
+                            valid_targets = 1;
+                        }
+                        if( rating <= 5 ) {
+                            anger += angers_hostile_near;
+                            morale -= fears_hostile_near;
+                        }
                     }
                 }
-                if( rating < dist ) {
-                    target = &mon;
-                    dist = rating;
-                    valid_targets = 1;
-                }
-                if( rating <= 5 ) {
-                    anger += angers_hostile_near;
-                    morale -= fears_hostile_near;
-                }
-            }
+                cur_dist++;
+            } while( !smart_planning &&  max_dist >= cur_dist - 1 );
         }
     }
 
@@ -492,26 +508,30 @@ void monster::plan()
     }
     swarms = swarms && target == nullptr; // Only swarm if we have no target
     if( group_morale || swarms ) {
-        for( const weak_ptr_fast<monster> &weak : myfaction_iter->second ) {
-            const shared_ptr_fast<monster> shared = weak.lock();
-            if( !shared ) {
-                continue;
-            }
-            monster &mon = *shared;
-            float rating = rate_target( mon, dist, smart_planning );
-            if( group_morale && rating <= 10 ) {
-                morale += 10 - rating;
-            }
-            if( swarms ) {
-                if( rating < 5 ) { // Too crowded here
-                    wander_pos.x = posx() * rng( 1, 3 ) - mon.posx();
-                    wander_pos.y = posy() * rng( 1, 3 ) - mon.posy();
-                    wandf = 2;
-                    target = nullptr;
-                    // Swarm to the furthest ally you can see
-                } else if( rating < FLT_MAX && rating > dist && wandf <= 0 ) {
-                    target = &mon;
-                    dist = rating;
+
+        auto mon_list = g->critter_tracker->find_in_area( myfaction_iter->first, pos(), dist.to_int() );
+        for( auto mid : mon_list ) {
+            for( const weak_ptr_fast<monster> &weak : *mid ) {
+                const shared_ptr_fast<monster> shared = weak.lock();
+                if( !shared ) {
+                    continue;
+                }
+                monster &mon = *shared;
+                FastDistanceApproximation rating = rate_target( mon, dist, smart_planning );
+                if( group_morale && rating <= 10 ) {
+                    morale += 10 - rating.to_int();
+                }
+                if( swarms ) {
+                    if( rating < 5 ) { // Too crowded here
+                        wander_pos.x = posx() * rng( 1, 3 ) - mon.posx();
+                        wander_pos.y = posy() * rng( 1, 3 ) - mon.posy();
+                        wandf = 2;
+                        target = nullptr;
+                        // Swarm to the furthest ally you can see
+                    } else if( !rating.is_max() && rating > dist && wandf <= 0 ) {
+                        target = &mon;
+                        dist = rating;
+                    }
                 }
             }
         }

@@ -900,7 +900,13 @@ bool monster::can_climb() const
 
 bool monster::digging() const
 {
-    return digs() || ( can_dig() && underwater );
+    cata::optional<bool> cached = digging_cache.get();
+    if( cached ) {
+        return *cached;
+    }
+    bool res = digs() || ( can_dig() && underwater );
+    digging_cache.set( res );
+    return res;
 }
 
 bool monster::can_dig() const
@@ -938,9 +944,19 @@ bool monster::can_act() const
 int monster::sight_range( const int light_level ) const
 {
     // Non-aquatic monsters can't see much when submerged
-    if( !can_see() || effect_cache[VISION_IMPAIRED] ||
-        ( underwater && !swims() && !has_flag( MF_AQUATIC ) && !digging() ) ) {
-        return 1;
+    cata::optional<bool> impared_cached = sight_impared_cache.get();
+    if( !impared_cached ) {
+
+        bool impared = !can_see() || effect_cache[VISION_IMPAIRED] ||
+                       ( underwater && !swims() && !has_flag( MF_AQUATIC ) && !digging() );
+        sight_impared_cache.set( impared );
+        if( impared ) {
+            return 1;
+        }
+    } else {
+        if( *impared_cached ) {
+            return 1;
+        }
     }
     static const int default_daylight = default_daylight_level();
     if( light_level == 0 ) {
@@ -948,10 +964,17 @@ int monster::sight_range( const int light_level ) const
     } else if( light_level == default_daylight ) {
         return type->vision_day;
     }
+
+    cata::optional<int> range_cached = sight_range_cache.get();
+    if( range_cached ) {
+        return *range_cached;
+    }
+
     int range = light_level * type->vision_day + ( default_daylight - light_level ) *
                 type->vision_night;
     range /= default_daylight;
 
+    sight_range_cache.set( range );
     return range;
 }
 

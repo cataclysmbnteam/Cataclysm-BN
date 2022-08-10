@@ -27,6 +27,7 @@
 #include "units.h"
 #include "value_ptr.h"
 #include "visitable.h"
+#include "cata_utility.h"
 
 class Character;
 class JsonIn;
@@ -38,6 +39,7 @@ class player;
 struct dealt_projectile_attack;
 struct pathfinding_settings;
 struct trap;
+struct FastDistanceApproximation;
 
 enum class mon_trigger;
 
@@ -215,7 +217,8 @@ class monster : public Creature, public visitable<monster>
         // the route.  Give up after f steps.
 
         // How good of a target is given creature (checks for visibility)
-        float rate_target( Creature &c, float best, bool smart = false ) const;
+        FastDistanceApproximation rate_target( Creature &c, FastDistanceApproximation best,
+                                               bool smart = false ) const;
         void plan();
         void move(); // Actual movement
         void footsteps( const tripoint &p ); // noise made by movement
@@ -572,6 +575,10 @@ class monster : public Creature, public visitable<monster>
 
         player *find_dragged_foe();
         void nursebot_operate( player *dragged_foe );
+
+        mutable one_turn_cache<bool> digging_cache;
+        mutable one_turn_cache<bool> sight_impared_cache;
+        mutable one_turn_cache<int> sight_range_cache;
 
     protected:
         void store( JsonOut &json ) const;

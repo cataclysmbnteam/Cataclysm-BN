@@ -181,28 +181,73 @@ inline int rl_dist( const point &a, const point &b )
 struct FastDistanceApproximation {
     private:
         int value;
+        inline constexpr FastDistanceApproximation( int value ) : value( value ) { }
     public:
-        inline FastDistanceApproximation( int value ) : value( value ) { }
-        template<typename T>
-        inline bool operator<=( const T &rhs ) const {
-            if( trigdist ) {
-                return value <= rhs * rhs;
-            }
-            return value <= rhs;
+
+        friend FastDistanceApproximation trig_dist_fast( const tripoint &loc1, const tripoint &loc2 );
+        friend FastDistanceApproximation square_dist_fast( const tripoint &loc1, const tripoint &loc2 );
+
+        inline static FastDistanceApproximation from_distance( int value ) {
+            return FastDistanceApproximation( value * value );
         }
-        template<typename T>
-        inline bool operator>=( const T &rhs ) const {
-            if( trigdist ) {
-                return value >= rhs * rhs;
-            }
-            return value >= rhs;
+
+        inline static FastDistanceApproximation from_distance( float value ) {
+            return FastDistanceApproximation( value * value );
         }
-        inline operator int() const {
+
+        inline static constexpr FastDistanceApproximation max() {
+            return FastDistanceApproximation( INT_MAX );
+        }
+
+#define FDA_SQUARED_COND( op )\
+    template<typename T> inline bool operator op ( const T &rhs ) const {\
+        if( trigdist ){\
+            return value op (rhs * rhs);\
+        }\
+        return value op rhs;\
+    }\
+    template<>\
+    inline bool operator op<FastDistanceApproximation>( const FastDistanceApproximation &rhs ) const {\
+        return value op rhs.value;\
+    }\
+
+#define FDA_SQUARED_OP( op ) \
+    template<typename T> inline FastDistanceApproximation operator op ( const T &rhs ) const {\
+        if( trigdist ){\
+            return FastDistanceApproximation(value op (rhs * rhs));\
+        }\
+        return FastDistanceApproximation(value op rhs);\
+    }\
+    template<>\
+    inline FastDistanceApproximation operator op<FastDistanceApproximation>( const FastDistanceApproximation &rhs ) const {\
+        return FastDistanceApproximation(value op rhs.value);\
+    }\
+
+        //Take care that x..b == sqrt(x^2..b^2) for all x and b >=0, so no addition etc
+        FDA_SQUARED_COND( <= )
+        FDA_SQUARED_COND( < )
+        FDA_SQUARED_COND( >= )
+        FDA_SQUARED_COND( > )
+        FDA_SQUARED_COND( == )
+        FDA_SQUARED_COND( != )
+
+        FDA_SQUARED_OP( / )
+        FDA_SQUARED_OP( * )
+
+#undef FDA_SQUARED_COND
+#undef FDA_SQUARED_OP
+
+        inline int to_int() const {
             if( trigdist ) {
                 return std::sqrt( value );
             }
             return value;
         }
+
+        inline bool is_max() const {
+            return value == INT_MAX;
+        }
+
 };
 
 inline FastDistanceApproximation trig_dist_fast( const tripoint &loc1, const tripoint &loc2 )

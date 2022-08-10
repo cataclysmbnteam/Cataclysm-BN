@@ -10,6 +10,25 @@
 #include <memory>
 #include <type_traits>
 
+#include "calendar.h"
+#include "optional.h"
+
+template<typename T>
+struct one_turn_cache {
+    time_point set_at = calendar::start_of_cataclysm;
+    T value;
+    inline cata::optional<T> get() {
+        if( set_at == calendar::turn ) {
+            return cata::optional<T>( value );
+        }
+        return cata::nullopt;
+    }
+    inline void set( T to ) {
+        value = to;
+        set_at = calendar::turn;
+    }
+};
+
 /**
  * Greater-than comparison operator; required by the sort interface
  */
