@@ -1,27 +1,5 @@
 [
   {
-    "id": "adv_UPS_off",
-    "type": "TOOL_ARMOR",
-    "category": "tools",
-    "name": { "str": "advanced UPS", "str_pl": "advanced UPS's" },
-    "description": "This is an advanced version of the unified power supply, or UPS.  Designed for military use to power advanced weapons, it uses plutonium fuel cells which provide better efficiency, but are not rechargeable.  It can power many household electronics as well.",
-    "weight": "453 g",
-    "volume": "2 L",
-    "price": 560000,
-    "price_postapoc": 3000,
-    "to_hit": -1,
-    "bashing": 8,
-    "material": [ "aluminum", "plastic" ],
-    "symbol": ";",
-    "color": "light_green",
-    "coverage": 5,
-    "encumbrance": 2,
-    "covers": [ "leg_either" ],
-    "ammo": "plutonium",
-    "max_charges": 2500,
-    "flags": [ "IS_UPS", "WAIST", "FRAGILE", "OVERSIZE" ]
-  },
-  {
     "id": "camera",
     "type": "TOOL",
     "category": "tools",
@@ -503,31 +481,6 @@
     "flags": [ "WATCH", "LIGHT_20", "TRADER_AVOID", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
-    "id": "UPS_off",
-    "type": "TOOL_ARMOR",
-    "category": "tools",
-    "name": { "str": "UPS", "str_pl": "UPS's" },
-    "description": "This is a unified power supply, or UPS.  It is a civilian evolution of a military project.  Designed to power advanced weapons and armor, the civilian version serves as a portable power bank and inverter for many household electronics.",
-    "weight": "680 g",
-    "volume": "2500 ml",
-    "price": 280000,
-    "price_postapoc": 1500,
-    "to_hit": -1,
-    "bashing": 8,
-    "material": [ "aluminum", "plastic" ],
-    "symbol": ";",
-    "color": "light_gray",
-    "coverage": 5,
-    "encumbrance": 2,
-    "covers": [ "leg_either" ],
-    "ammo": "battery",
-    "magazines": [
-      [ "battery", [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
-    ],
-    "magazine_well": "1500 ml",
-    "flags": [ "IS_UPS", "WAIST", "FRAGILE", "OVERSIZE" ]
-  },
-  {
     "id": "vibrator",
     "type": "TOOL",
     "category": "tools",
@@ -612,5 +565,52 @@
     "use_action": "NOTE_BIONICS",
     "revert_to": "bionic_scanner",
     "revert_msg": "The %s shuts down."
+  },
+  {
+    "id": "adv_UPS_off",
+    "type": "TOOL_ARMOR",
+    "category": "tools",
+    "name": { "str": "advanced UPS", "str_pl": "advanced UPS's" },
+    "description": "This is an advanced version of the unified power supply, or UPS.  Designed for military use to power advanced weapons, it uses plutonium fuel cells which provide better efficiency, but are not rechargeable.  It can power many household electronics as well.",
+    "weight": "453 g",
+    "volume": "2 L",
+    "price": 560000,
+    "price_postapoc": 3000,
+    "to_hit": -1,
+    "bashing": 8,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ";",
+    "color": "light_green",
+    "coverage": 5,
+    "encumbrance": 2,
+    "covers": [ "leg_either" ],
+    "ammo": "plutonium",
+    "max_charges": 2500,
+    "flags": [ "IS_UPS", "WAIST", "FRAGILE", "OVERSIZE" ]
+  },
+  {
+    "id": "UPS_off",
+    "type": "TOOL_ARMOR",
+    "category": "tools",
+    "name": { "str": "UPS", "str_pl": "UPS's" },
+    "description": "This is a unified power supply, or UPS.  It is a civilian evolution of a military project.  Designed to power advanced weapons and armor, the civilian version serves as a portable power bank and inverter for many household electronics.",
+    "weight": "680 g",
+    "volume": "2500 ml",
+    "price": 280000,
+    "price_postapoc": 1500,
+    "to_hit": -1,
+    "bashing": 8,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "coverage": 5,
+    "encumbrance": 2,
+    "covers": [ "leg_either" ],
+    "ammo": "battery",
+    "magazines": [
+      [ "battery", [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
+    ],
+    "magazine_well": "1500 ml",
+    "flags": [ "IS_UPS", "WAIST", "FRAGILE", "OVERSIZE" ]
   }
 ]
