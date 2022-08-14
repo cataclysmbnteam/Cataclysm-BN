@@ -411,6 +411,14 @@ if (USE_HOME_DIR)
     add_definitions(-DUSE_HOME_DIR)
 endif ()
 
+find_program(CCACHE_FOUND ccache)
+if (CCACHE_FOUND AND CATA_CCACHE)
+    set(CMAKE_C_COMPILER_LAUNCHER ccache)
+    set(CMAKE_CXX_COMPILER_LAUNCHER ccache)
+    set(CMAKE_C_LINKER_LAUNCHER ccache)
+    set(CMAKE_CXX_LINKER_LAUNCHER ccache)
+endif ()
+
 add_subdirectory(src)
 add_subdirectory(data)
 add_subdirectory(lang)
@@ -429,15 +437,6 @@ configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
 add_custom_target(uninstall "${CMAKE_COMMAND}" -P
                             "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
 
-find_program(CCACHE_FOUND ccache)
-if (CCACHE_FOUND AND CATA_CCACHE)
-    set(CMAKE_C_COMPILER_LAUNCHER ccache)
-    set(CMAKE_CXX_COMPILER_LAUNCHER ccache)
-    set(CMAKE_C_LINKER_LAUNCHER ccache)
-    set(CMAKE_CXX_LINKER_LAUNCHER ccache)
-endif ()
-
 if (USE_UNITY_BUILD)
     set_property(GLOBAL PROPERTY UNITY_BUILD ON)
 endif ()
-# vim:noet
