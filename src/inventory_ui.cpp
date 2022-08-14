@@ -2162,7 +2162,8 @@ inventory_drop_selector::inventory_drop_selector( player &p,
     ctxt.allow_text_entry = true;
 #endif
 
-    rebuild();
+    caching_preset.set_implied_drops( implied_drops );
+    caching_preset.move_cost_sum = move_cost_sum;
 }
 
 inventory_drop_selector::~inventory_drop_selector() = default;
@@ -2194,7 +2195,7 @@ void inventory_drop_selector::process_selected( int count,
 
 drop_locations inventory_drop_selector::execute()
 {
-    rebuild( );
+    rebuild();
 
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
 
@@ -2362,12 +2363,8 @@ inventory_selector::stats inventory_drop_selector::get_raw_stats() const
 void inventory_drop_selector::on_change( const inventory_entry &entry )
 {
     // TODO: Remove
-    implied_cache_dirty = true;
+    // implied_cache_dirty = true;
     rebuild();
-    // TODO: Refresh only those which changed status
-    for( inventory_column *col : get_all_columns() ) {
-        col->clear_cell_cache();
-    }
 
     for( auto &elem : get_all_columns() ) {
         if( elem != &get_selection_column() ) {
@@ -2375,6 +2372,11 @@ void inventory_drop_selector::on_change( const inventory_entry &entry )
         }
     }
     refresh_active_column();
+
+    // TODO: Refresh only those which changed status
+    for( inventory_column *col : get_all_columns() ) {
+        col->clear_cell_cache();
+    }
     // Not using base::on_change, because we are not informing one of the column of changes
     // TODO: Less ugly way of doing it
 }
@@ -2413,6 +2415,8 @@ void inventory_drop_selector::rebuild()
         return;
     }
 
+    printf( "\nRebuilding\n" );
+
     implied_cache_dirty = false;
 
     const drop_locations &locations = convert_to_locations( u, dropping );
@@ -2426,14 +2430,16 @@ void inventory_drop_selector::rebuild()
         move_cost_sum += ai.consumed_moves;
     }
 
-    const decltype( implied_drops ) old_implied_drops = std::move( implied_drops );
-    implied_drops = decltype(implied_drops)();
+    implied_drops.clear();
+    // HACK! Manually clearing selection column because we want to populate it by hand
+    selection_column &sel_col = get_selection_column();
+    sel_col.clear();
 
-    std::unordered_map<const item *, const inventory_entry *> item_to_entry;
+    std::unordered_map<const item *, inventory_entry> item_to_entry;
     auto all_columns = get_all_columns();
-    printf( "\n%lu columns\n", all_columns.size() );
+    printf( "%lu columns\n", all_columns.size() );
     for( const inventory_column *ic : all_columns ) {
-        if( ic == &get_selection_column() ) {
+        if( ic == &sel_col ) {
             continue;
         }
         const std::vector<inventory_entry *> entries_in_column =
@@ -2452,6 +2458,8 @@ void inventory_drop_selector::rebuild()
                 }
             }
 
+            printf( "%s %d/%d\n", entry->any_item()->display_name().c_str(), matching_count, total_count );
+
             if( matching_count > total_count ) {
                 debugmsg( "Dropped item count > total item count (somehow)" );
                 implied_cache_dirty = true;
@@ -2460,45 +2468,42 @@ void inventory_drop_selector::rebuild()
             } else {
                 const item *it = &*entry->any_item();
                 implied_drops[it] = count_out_of( matching_count, total_count );
-                item_to_entry[it] = entry;
+                item_to_entry[it] = *entry;
             }
         }
     }
 
-    for( const auto &maybe_removed : old_implied_drops ) {
-        const auto entry_in_new = implied_drops.find( maybe_removed.first );
-        if( entry_in_new == implied_drops.end() ||
-            entry_in_new->second.selected != maybe_removed.second.selected ) {
-            printf( "removed %s\n", maybe_removed.first->display_name().c_str() );
-            auto iter = item_to_entry.find( maybe_removed.first );
-            if( iter == item_to_entry.end() ) {
-                debugmsg( "WTF" );
-                return;
-            }
-            const inventory_entry &ie = *item_to_entry.at( maybe_removed.first );
-            on_change( ie );
-        }
-    }
     for( const auto &maybe_added : implied_drops ) {
-        const auto entry_in_old = old_implied_drops.find( maybe_added.first );
-        if( entry_in_old == implied_drops.end() ||
-            entry_in_old->second.selected != maybe_added.second.selected ) {
-            printf( "added %s\n", maybe_added.first->display_name().c_str() );
-            auto iter = item_to_entry.find( maybe_added.first );
-            if( iter == item_to_entry.end() ) {
-                debugmsg( "WTF" );
-                return;
-            }
-            const inventory_entry &ie = *item_to_entry.at( maybe_added.first );
-            on_change( ie );
+        printf( "added %s\n", maybe_added.first->display_name().c_str() );
+        auto iter = item_to_entry.find( maybe_added.first );
+        if( iter == item_to_entry.end() ) {
+            debugmsg( "WTF" );
+            return;
+        }
+        const inventory_entry &ie = item_to_entry.at( maybe_added.first );
+        // sel_col.on_change( ie );
+        // on_change( ie );
+
+        // This is a copypaste of on_change
+        for( auto &elem : get_all_columns() ) {
+            elem->on_change( ie );
+        }
+        inventory_entry ie_modified = ie;
+        ie_modified.chosen_count = implied_drops.at( maybe_added.first ).selected;
+        sel_col.on_change( ie_modified );
+        refresh_active_column();
+
+        // TODO: Refresh only those which changed status
+        for( inventory_column *col : get_all_columns() ) {
+            col->clear_cell_cache();
         }
     }
 
 
     // If our cache is empty but inventory isn't, something went wrong
-    if( implied_drops.empty() && !u.weapon.is_null() && !u.worn.empty() && u.inv.size() != 0 ) {
+    if( implied_drops.empty() && ( !u.weapon.is_null() || !u.worn.empty() || u.inv.size() != 0 ) ) {
         // TODO: Prevent this from happening
-        debugmsg( "AAAAA!" );
+        debugmsg( "Shouldn't be empty, but is!" );
         implied_cache_dirty = true;
     }
 
@@ -2510,6 +2515,7 @@ nc_color caching_drop_preset::get_color( const inventory_entry &entry ) const
 {
     if( implied_drops == nullptr ) {
         debugmsg( "Data not set" );
+        return c_blue_red;
     }
     if( !entry.is_item() ) {
         return inventory_selector_preset::get_color( entry );

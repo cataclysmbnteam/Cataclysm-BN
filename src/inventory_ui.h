@@ -674,11 +674,14 @@ class inventory_multiselector : public inventory_selector
                                  const std::unique_ptr<inventory_column> selection_col );
     protected:
         void rearrange_columns( size_t client_width ) override;
-        const inventory_column &get_selection_column() {
+        selection_column &get_selection_column() {
+            return *selection_col;
+        }
+        const selection_column &get_selection_column() const {
             return *selection_col;
         }
     private:
-        std::unique_ptr<inventory_column> selection_col;
+        std::unique_ptr<selection_column> selection_col;
 };
 
 class inventory_compare_selector : public inventory_multiselector
@@ -775,7 +778,7 @@ class inventory_drop_selector : public inventory_multiselector
 
         mutable std::unordered_map<const item *, count_out_of> implied_drops;
         mutable int move_cost_sum = -1;
-        mutable bool implied_cache_dirty = true;
+        mutable bool implied_cache_dirty = false;
 
 };
 

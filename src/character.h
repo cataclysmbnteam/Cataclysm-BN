@@ -1336,7 +1336,6 @@ class Character : public Creature, public visitable<Character>
 
         void drop_invalid_inventory();
         /** Returns all items that must be taken off before taking off this item */
-        std::list<item *> get_dependent_worn_items( const item &it ) const;
         std::list<const item *> get_dependent_worn_items( const item &it ) const;
         /** Drops an item to the specified location */
         void drop( item_location loc, const tripoint &where );
