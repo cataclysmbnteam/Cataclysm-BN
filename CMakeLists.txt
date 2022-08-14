@@ -2,7 +2,12 @@ cmake_minimum_required(VERSION 3.21)
 
 project(CataclysmBN)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/CMakeModules)
+list(APPEND CMAKE_MODULE_PATH
+        ${CMAKE_SOURCE_DIR}/CMakeModules)
+if (NOT VCPKG_MANIFEST_MODE)
+    list(APPEND CMAKE_MODULE_PATH
+            ${CMAKE_SOURCE_DIR}/CMakeModules/Find)
+endif()
 
 include(AstyleFormatSource)
 
