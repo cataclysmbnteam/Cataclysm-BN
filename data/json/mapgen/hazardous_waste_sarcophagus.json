@@ -143,7 +143,7 @@
         "r": { "item": "trash_cart", "chance": 50 },
         "d": { "item": "office", "chance": 50 },
         "c": { "item": "office_supplies", "chance": 60 },
-        "b": { "item": "lab_bookshelves", "chance": 60 },
+        "b": { "item": "lab_bookshelves", "chance": 60, "repeat": 2 },
         "l": { "item": "cleaning", "chance": 85, "repeat": 2 },
         "F": { "item": "office_paper", "chance": 50 }
       },
