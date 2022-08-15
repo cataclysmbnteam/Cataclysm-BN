@@ -825,7 +825,8 @@ void cast_zlight_segment(
         return;
     }
 
-    constexpr quadrant quad = quadrant_from_x_y( -xx - xy, -yx - yy );
+
+    constexpr quadrant quad = quadrant_from_x_y( xx + xy, yx + yy );
 
     const auto check_blocked = [ =, &blocked_caches]( const tripoint & p ) -> bool{
         switch( quad )
@@ -845,6 +846,37 @@ void cast_zlight_segment(
                          ( *blocked_caches[p.z + OVERMAP_DEPTH] )[p.x - 1][p.y + 1].ne );
                 break;
         }
+    };
+
+
+    constexpr direction dir = xy < 0 ? direction::EAST :
+                              xy > 0 ? direction::WEST :
+                              yy < 0 ? direction::SOUTH :
+                              direction::NORTH;
+
+    const auto check_blocked_contra = [ =, &blocked_caches]( const tripoint & p ) -> bool{
+        switch( dir )
+        {
+            case direction::EAST:
+                return ( *blocked_caches[p.z + OVERMAP_DEPTH] )[p.x][p.y].ne ||
+                ( p.x < MAPSIZE_X - 1 && p.y < MAPSIZE_Y - 1 &&
+                  ( *blocked_caches[p.z + OVERMAP_DEPTH] )[p.x + 1][p.y + 1].nw );
+            case direction::WEST:
+                return ( *blocked_caches[p.z + OVERMAP_DEPTH] )[p.x][p.y].nw ||
+                ( p.x > 1 && p.y < MAPSIZE_Y - 1 &&
+                  ( *blocked_caches[p.z + OVERMAP_DEPTH] )[p.x - 1][p.y + 1].ne );
+            case direction::SOUTH:
+                return ( p.x < MAPSIZE_X - 1 && p.y < MAPSIZE_Y - 1 &&
+                         ( *blocked_caches[p.z + OVERMAP_DEPTH] )[p.x + 1][p.y + 1].nw ) ||
+                ( p.x > 1 && p.y < MAPSIZE_Y - 1 &&
+                  ( *blocked_caches[p.z + OVERMAP_DEPTH] )[p.x - 1][p.y + 1].ne );
+            case direction::NORTH:
+                return ( *blocked_caches[p.z + OVERMAP_DEPTH] )[p.x][p.y].nw ||
+                ( *blocked_caches[p.z + OVERMAP_DEPTH] )[p.x][p.y].ne;
+            default:
+                return false;
+        }
+        return false;
     };
 
 
@@ -877,8 +909,11 @@ void cast_zlight_segment(
             }
 
             bool started_span = false;
+            bool vehicle_blocked = false;
             const int z_index = current.z + OVERMAP_DEPTH;
-            for( delta.x = 0; delta.x <= distance; delta.x++ ) {
+
+
+            for( delta.x = 0; delta.x <= distance && !vehicle_blocked; delta.x++ ) {
                 current.x = offset.x + delta.x * xx + delta.y * xy + delta.z * xz;
                 current.y = offset.y + delta.x * yx + delta.y * yy + delta.z * yz;
                 float trailing_edge_minor = ( delta.x - 0.5f ) / ( delta.y + 0.5f );
@@ -890,6 +925,13 @@ void cast_zlight_segment(
                     continue;
                 } else if( end_minor < trailing_edge_minor ) {
                     break;
+                }
+
+                //This is a nasty hack to work around pillars not casting any shadow when you're adjacent to them
+                if( delta.x == 0 && check_blocked_contra( current ) ) {
+                    //leading edge of previous tile in the y direction with an epsilon
+                    start_minor = ( delta.x + 0.5f ) / ( delta.y - 1.4999f );
+                    continue;
                 }
 
                 T new_transparency = ( *input_arrays[z_index] )[current.x][current.y];
@@ -917,7 +959,12 @@ void cast_zlight_segment(
                 const int dist = rl_dist( tripoint_zero, delta ) + offset_distance;
                 last_intensity = calc( numerator, cumulative_transparency, dist );
 
-                if( !floor_block && !check_blocked( current ) ) {
+                if( check_blocked( current ) ) {
+                    vehicle_blocked = true;
+                    continue;
+                }
+
+                if( !floor_block ) {
                     ( *output_caches[z_index] )[current.x][current.y] =
                         std::max( ( *output_caches[z_index] )[current.x][current.y], last_intensity );
                 }
@@ -1004,7 +1051,7 @@ void cast_zlight_segment(
                 new_start_minor = leading_edge_minor;
             }
 
-            if( !check( current_transparency, last_intensity ) ) {
+            if( !check( current_transparency, last_intensity ) || vehicle_blocked ) {
                 start_major = leading_edge_major;
             }
         }
