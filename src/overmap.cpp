@@ -3520,8 +3520,8 @@ bool overmap::build_lab( const tripoint_om_omt &p, lab &l, int s,
         }
     }
 
-    // 4th story of labs is a candidate for lab escape, as long as there's no train or finale.
-    if( prefix.empty() && p.z() == -4 && train_odds == 0 && numstairs > 0 ) {
+    // 4th story of labs and down are candidates for lab escape, as long as there's no train or finale.
+    if( prefix.empty() && p.z() <= -4 && train_odds == 0 && numstairs > 0 ) {
         tripoint_om_omt cell;
         int tries = 0;
         int adjacent_labs = 0;

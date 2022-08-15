@@ -637,8 +637,8 @@
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "lab_stairs" } ],
     "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road" } ],
     "locations": [ "wilderness" ],
-    "city_distance": [ 10, -1 ],
-    "occurrences": [ 30, 100 ],
+    "city_distance": [ 4, -1 ],
+    "occurrences": [ 50, 100 ],
     "flags": [ "LAB", "UNIQUE" ]
   },
   {
@@ -647,8 +647,8 @@
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "lab_stairs" }, { "point": [ 3, 1, 0 ], "overmap": "anthill" } ],
     "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road" } ],
     "locations": [ "wilderness" ],
-    "city_distance": [ 10, -1 ],
-    "occurrences": [ 10, 100 ],
+    "city_distance": [ 4, -1 ],
+    "occurrences": [ 30, 100 ],
     "flags": [ "ANT", "UNIQUE" ],
     "spawns": { "group": "GROUP_ANT", "population": [ 1000, 2000 ], "radius": [ 10, 30 ] }
   },
@@ -710,7 +710,7 @@
     "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road" } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 10, -1 ],
-    "occurrences": [ 10, 100 ],
+    "occurrences": [ 50, 100 ],
     "flags": [ "LAB", "UNIQUE" ]
   },
   {
@@ -982,7 +982,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 10, 40 ],
     "city_sizes": [ 4, -1 ],
-    "occurrences": [ 10, 100 ],
+    "occurrences": [ 30, 100 ],
     "flags": [ "LAB", "UNIQUE" ]
   },
   {
