@@ -1744,77 +1744,42 @@ tab_direction set_skills( avatar &u, points_left &points )
     ui.on_screen_resize( init_windows );
 
     auto sorted_skills = Skill::get_skills_sorted_by( []( const Skill & a, const Skill & b ) {
-        return localized_compare( a.name(), b.name() );
+        return localized_compare( std::make_pair( a.display_category(), a.name() ),
+                                  std::make_pair( b.display_category(), b.name() ) );
     } );
 
-    std::stable_sort( sorted_skills.begin(), sorted_skills.end(),
-    []( const Skill * a, const Skill * b ) {
-        return a->display_category() < b->display_category();
-    } );
-
-    std::vector<std::pair<skill_displayType_id, const Skill *>> skill_list;
+    skill_displayType_id current_category = skill_displayType_id::NULL_ID();
+    int display_line = 0;
+    std::vector<std::pair<const Skill *, int>> skill_list;
     for( const Skill *skl : sorted_skills ) {
-        if( skill_list.empty() ) {
-            skill_list.emplace_back( skl->display_category(), nullptr );
+        if( current_category != skl->display_category() ) {
+            current_category = skl->display_category();
+            display_line++;
         }
-
-        if( skl->display_category() == skill_list.back().first ) {
-            skill_list.emplace_back( skl->display_category(), skl );
-        } else {
-            skill_list.emplace_back( skl->display_category(), nullptr );
-            skill_list.emplace_back( skl->display_category(), skl );
-        }
+        skill_list.emplace_back( skl, display_line );
+        display_line++;
     }
 
     const int num_skills = skill_list.size();
-    int cur_offset = 1;
+    int cur_offset = 0;
     int cur_pos = 0;
-    const Skill *currentSkill = nullptr;
+    const Skill *currentSkill = skill_list[cur_pos].first;
     int selected = 0;
 
-    const int scroll_rate = num_skills > 20 ? 5 : 2;
-    auto get_next = [&]( bool go_up, bool fast_scroll ) {
-        bool invalid = true;
-        while( invalid ) {
-            if( fast_scroll ) {
-                if( go_up ) {
-                    if( cur_pos == 0 ) {
-                        cur_pos = num_skills - 1;
-                    } else if( cur_pos <= scroll_rate ) {
-                        cur_pos = 0;
-                    } else {
-                        cur_pos += -scroll_rate;
-                    }
-                } else {
-                    if( cur_pos == num_skills - 1 ) {
-                        cur_pos = 0;
-                    } else if( cur_pos + scroll_rate >= num_skills ) {
-                        cur_pos = num_skills - 1;
-                    } else {
-                        cur_pos += +scroll_rate;
-                    }
-                }
-            } else {
-                if( go_up ) {
-                    cur_pos--;
-                    if( cur_pos < 0 ) {
-                        cur_pos = num_skills - 1;
-                    }
-                } else {
-                    cur_pos++;
-                    if( cur_pos >= num_skills ) {
-                        cur_pos = 0;
-                    }
-                }
+    auto get_next = [&]( bool go_up ) {
+        if( go_up ) {
+            cur_pos--;
+            if( cur_pos < 0 ) {
+                cur_pos = num_skills - 1;
             }
-            currentSkill = skill_list[cur_pos].second;
-            if( currentSkill ) {
-                invalid = false;
+        } else {
+            cur_pos++;
+            if( cur_pos >= num_skills ) {
+                cur_pos = 0;
             }
         }
+        currentSkill = skill_list[cur_pos].first;
     };
-
-    get_next( false, false );
 
     input_context ctxt( "NEW_CHAR_SKILLS" );
     ctxt.register_cardinal();
@@ -1931,19 +1896,24 @@ tab_direction set_skills( avatar &u, points_left &points )
                         point( getmaxx( w ) - 1, 5 ), BORDER_COLOR, true );
 
         calcStartPos( cur_offset, cur_pos, iContentHeight, num_skills );
+        current_category = skill_displayType_id::NULL_ID();
         for( int i = cur_offset; i < num_skills && i - cur_offset < iContentHeight; ++i ) {
-            const int y = 5 + i - cur_offset;
-            const skill_displayType_id &display_type = skill_list[i].first;
-            const Skill *thisSkill = skill_list[i].second;
-            // Clear the line
+            const int y = 5 + skill_list[i].second - cur_offset;
+            const skill_displayType_id &display_type = skill_list[i].first->display_category();
+            const Skill *thisSkill = skill_list[i].first;
+            if( current_category != display_type ) {
+                current_category = display_type;
+                // Clear the line
+                mvwprintz( w, point( 2, y - 1 ), c_light_gray, std::string( getmaxx( w ) - 3, ' ' ) );
+                mvwprintz( w, point( 2, y - 1 ), c_yellow, display_type->display_string() );
+            }
+            // Clear the line. 2 for x-coord just in case a category is there for whatever reason.
             mvwprintz( w, point( 2, y ), c_light_gray, std::string( getmaxx( w ) - 3, ' ' ) );
-            if( !thisSkill ) {
-                mvwprintz( w, point( 2, y ), c_yellow, display_type->display_string() );
-            } else if( u.get_skill_level( thisSkill->ident() ) == 0 ) {
-                mvwprintz( w, point( 2, y ),
+            if( u.get_skill_level( thisSkill->ident() ) == 0 ) {
+                mvwprintz( w, point( 4, y ),
                            ( i == cur_pos ? h_light_gray : c_light_gray ), thisSkill->name() );
             } else {
-                mvwprintz( w, point( 2, y ),
+                mvwprintz( w, point( 4, y ),
                            ( i == cur_pos ? hilite( COL_SKILL_USED ) : COL_SKILL_USED ),
                            thisSkill->name() );
                 wprintz( w, ( i == cur_pos ? hilite( COL_SKILL_USED ) : COL_SKILL_USED ),
@@ -1964,19 +1934,13 @@ tab_direction set_skills( avatar &u, points_left &points )
         wnoutrefresh( w_description );
     } );
 
-
-
     do {
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
         if( action == "DOWN" ) {
-            get_next( false, false );
+            get_next( false );
         } else if( action == "UP" ) {
-            get_next( true, false );
-        } else if( action == "PAGE_DOWN" ) {
-            get_next( false, true );
-        } else if( action == "PAGE_UP" ) {
-            get_next( true, true );
+            get_next( true );
         } else if( action == "LEFT" ) {
             const int level = u.get_skill_level( currentSkill->ident() );
             if( level > 0 ) {
@@ -2552,33 +2516,36 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         mvwprintz( w_skills, point_zero, COL_HEADER, _( "Skills:" ) );
 
         auto skillslist = Skill::get_skills_sorted_by( [&]( const Skill & a, const Skill & b ) {
-            const int level_a = you.get_skill_level_object( a.ident() ).exercised_level();
-            const int level_b = you.get_skill_level_object( b.ident() ).exercised_level();
-            return localized_compare( std::make_pair( -level_a, a.name() ),
-                                      std::make_pair( -level_b, b.name() ) );
+            return localized_compare( std::make_pair( a.display_category(), a.name() ),
+                                      std::make_pair( b.display_category(), b.name() ) );
         } );
 
         int line = 1;
         bool has_skills = false;
         profession::StartingSkillList list_skills = you.prof->skills();
+        skill_displayType_id currentcategory = skill_displayType_id::NULL_ID();
         for( auto &elem : skillslist ) {
             int level = you.get_skill_level( elem->ident() );
 
             if( points.limit != points_left::TRANSFER ) {
-                profession::StartingSkillList::iterator i = list_skills.begin();
-                while( i != list_skills.end() ) {
-                    if( i->first == ( elem )->ident() ) {
-                        level += i->second;
+                for( auto &prof_skill : you.prof->skills() ) {
+                    if( prof_skill.first == elem->ident() ) {
+                        level += static_cast<int>( prof_skill.second );
                         break;
                     }
-                    ++i;
                 }
             }
 
             if( level > 0 ) {
-                mvwprintz( w_skills, point( 0, line ), c_light_gray,
+                if( currentcategory != elem->display_category() ) {
+                    currentcategory = elem->display_category();
+                    mvwprintz( w_skills, point( 0, line ), c_yellow, elem->display_category()->display_string() );
+                    line++;
+                }
+                mvwprintz( w_skills, point( 2, line ), c_light_gray,
                            elem->name() + ":" );
-                mvwprintz( w_skills, point( 23, line ), c_light_gray, "%-2d", static_cast<int>( level ) );
+                mvwprintz( w_skills, point( 25, line ), c_light_gray, "%-2d",
+                           static_cast<int>( level ) );
                 line++;
                 has_skills = true;
             }
