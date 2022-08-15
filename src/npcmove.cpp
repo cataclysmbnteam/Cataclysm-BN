@@ -2655,7 +2655,6 @@ void npc::worker_downtime()
 void npc::move_pause()
 
 {
-
     // make sure we're using the best weapon
     if( calendar::once_every( 1_hours ) ) {
         deactivate_bionic_by_id( bio_soporific );
