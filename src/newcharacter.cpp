@@ -1505,14 +1505,25 @@ tab_direction set_profession( avatar &u, points_left &points,
             }
 
             // Profession skills
-            const auto prof_skills = sorted_profs[cur_id]->skills();
+            std::vector<std::pair<skill_id, int>> prof_skills = sorted_profs[cur_id]->skills();
+            std::stable_sort( prof_skills.begin(), prof_skills.end(),
+            []( const std::pair<skill_id, int> &a, const std::pair<skill_id, int> &b ) {
+                return localized_compare( std::make_pair( a.first->display_category(), a.first->name() ),
+                                          std::make_pair( b.first->display_category(), b.first->name() ) );
+            } );
             buffer += colorize( _( "Profession skills:" ), c_light_blue ) + "\n";
             if( prof_skills.empty() ) {
                 buffer += pgettext( "set_profession_skill", "None" ) + std::string( "\n" );
             } else {
+                skill_displayType_id cur_category = skill_displayType_id::NULL_ID();
                 for( const auto &sl : prof_skills ) {
+                    if( cur_category != sl.first->display_category() ) {
+                        cur_category = sl.first->display_category();
+                        buffer += colorize( string_format( sl.first->display_category()->display_string() ),
+                                            c_yellow ) + "\n";
+                    }
                     const auto format = pgettext( "set_profession_skill", "%1$s (%2$d)" );
-                    buffer += string_format( format, sl.first.obj().name(), sl.second ) + "\n";
+                    buffer += "  " + string_format( format, sl.first.obj().name(), sl.second ) + "\n";
                 }
             }
 
