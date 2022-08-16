@@ -179,7 +179,6 @@ static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_torsionratchet( "bio_torsionratchet" );
 static const bionic_id bio_water_extractor( "bio_water_extractor" );
 static const bionic_id bionic_TOOLS_EXTEND( "bio_tools_extend" );
-// Aftershock stuff!
 static const bionic_id afs_bio_dopamine_stimulators( "afs_bio_dopamine_stimulators" );
 
 static const trait_id trait_CENOBITE( "CENOBITE" );
@@ -1727,7 +1726,6 @@ void Character::process_bionic( int b )
             bio.energy_stored = 150_kJ;
         }
     } else if( bio.id == afs_bio_dopamine_stimulators ) {
-        // Aftershock
         add_morale( MORALE_FEELING_GOOD, 20, 20, 30_minutes, 20_minutes, true );
     }
 }
