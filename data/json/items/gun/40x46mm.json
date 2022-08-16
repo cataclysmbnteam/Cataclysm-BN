@@ -182,7 +182,7 @@
     "id": "afs_bionic_rocket",
     "type": "GUN",
     "name": { "str": "deployed grenade launcher" },
-    "description": "A grenade launcher mounted onto your right-hand wrist.  Contains built it ballisctic calculator, adaptive caliber mechanism and quick to reload.",
+    "description": "A grenade launcher mounted onto your right-hand wrist.  It contains integrated ballistic calculator and quick load mechanism.  Adaptive caliber allow to load most types grenades.",
     "volume": "2250 ml",
     "price": 0,
     "to_hit": -2,
