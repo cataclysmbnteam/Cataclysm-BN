@@ -1927,8 +1927,9 @@ tab_direction set_skills( avatar &u, points_left &points )
                 mvwprintz( w, point( 4, y ),
                            ( i == cur_pos ? hilite( COL_SKILL_USED ) : COL_SKILL_USED ),
                            thisSkill->name() );
-                wprintz( w, ( i == cur_pos ? hilite( COL_SKILL_USED ) : COL_SKILL_USED ),
-                         " ( %d )", u.get_skill_level( thisSkill->ident() ) );
+                mvwprintz( w, point( 20, y ),
+                           ( i == cur_pos ? hilite( COL_SKILL_USED ) : COL_SKILL_USED ),
+                           " ( %d )", u.get_skill_level( thisSkill->ident() ) );
             }
             for( auto &prof_skill : u.prof->skills() ) {
                 if( prof_skill.first == thisSkill->ident() ) {
