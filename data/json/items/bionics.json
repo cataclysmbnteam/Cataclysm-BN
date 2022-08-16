@@ -1263,7 +1263,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": { "str": "Fusion Blaster Arm CBM" },
-    "description": "Heavy-duty fusion blaster was integrated ino your left arm!  You may use your energy banks to fire a damaging heat ray.",
+    "description": "Heavy-duty fusion blaster was integrated into your left arm!  You may use your energy banks to fire a damaging heat ray.",
     "price": 220000,
     "difficulty": 3
   }
