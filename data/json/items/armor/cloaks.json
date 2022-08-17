@@ -193,7 +193,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "FB51 optical cloak (on)", "str_pl": "FB51 optical cloaks (on)" },
     "description": "A plastic cloak embedded with cameras and LEDs that will render you fully invisible to normal vision when powered and worn.  You must be carrying a unified power supply, or UPS, to use it.  Activate to toggle visibility.",
-    "flags": [ "USE_UPS", "OVERSIZE", "HOOD", "WATERPROOF", "OUTER", "VARSIZE", "ACTIVE_CLOAKING", "TRADER_AVOID" ],
+    "extend": { "flags": [ "ACTIVE_CLOAKING", "TRADER_AVOID" ] },
     "power_draw": 20000000,
     "revert_to": "optical_cloak",
     "use_action": {
