@@ -2161,7 +2161,7 @@ inventory_drop_selector::inventory_drop_selector( player &p,
     // allow user to type a drop number without dismissing virtual keyboard after each keypress
     ctxt.allow_text_entry = true;
 #endif
-
+    implied_cache_dirty = true;
     caching_preset.set_implied_drops( implied_drops );
     caching_preset.move_cost_sum = move_cost_sum;
 }
@@ -2195,15 +2195,16 @@ void inventory_drop_selector::process_selected( int count,
 
 drop_locations inventory_drop_selector::execute()
 {
-    rebuild();
-
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
+    // Need an extra redraw to populate the menu before drop cache
+    ui_manager::redraw();
+    select_position( get_selection_position() );
+    rebuild();
 
     int count = 0;
     avatar &u = get_avatar();
     while( true ) {
         ui_manager::redraw();
-        // select_position( get_selection_position() );
 
         const inventory_input input = get_input();
 
@@ -2392,7 +2393,8 @@ struct item_location_hasher {
 int caching_drop_preset::get_move_cost_sum() const
 {
     if( move_cost_sum < 0 ) {
-        debugmsg( "Data not set" );
+        return 0;
+        // debugmsg( "Data not set" );
     }
 
     return move_cost_sum;
