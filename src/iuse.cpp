@@ -683,7 +683,8 @@ int iuse::fungicide( player *p, item *it, bool, const tripoint & )
             if( dest == p->pos() ) {
                 continue;
             }
-            if( g->m.passable( dest ) && x_in_y( spore_count, 8 ) ) {
+            if( g->m.passable( dest ) && !get_map().obstructed_by_vehicle_rotation( p->pos(), dest ) &&
+                x_in_y( spore_count, 8 ) ) {
                 if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
                     monster &critter = *mon_ptr;
                     if( g->u.sees( dest ) &&

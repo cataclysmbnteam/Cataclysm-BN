@@ -4604,6 +4604,8 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
     // TODO: make the force parameter actually do something.
     // the header file says higher force causes more damage.
     // perhaps that is what it should do?
+
+    // TODO: refactor this so it's not copy/pasted 3 times
     tripoint tp = traj.front();
     if( !critter_at( tp ) ) {
         debugmsg( _( "Nothing at (%d,%d,%d) to knockback!" ), tp.x, tp.y, tp.z );
@@ -4616,7 +4618,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
             add_msg( _( "%s was stunned!" ), targ->name() );
         }
         for( size_t i = 1; i < traj.size(); i++ ) {
-            if( m.impassable( traj[i].xy() ) ) {
+            if( m.impassable( traj[i].xy() ) || m.obstructed_by_vehicle_rotation( tp, traj[i] ) ) {
                 targ->setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
@@ -4667,6 +4669,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                     add_msg( _( "The %s flops around and dies!" ), targ->name() );
                 }
             }
+            tp = traj[i];
         }
     } else if( npc *const targ = critter_at<npc>( tp ) ) {
         if( stun > 0 ) {
@@ -4674,7 +4677,8 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
             add_msg( _( "%s was stunned!" ), targ->name );
         }
         for( size_t i = 1; i < traj.size(); i++ ) {
-            if( m.impassable( traj[i].xy() ) ) { // oops, we hit a wall!
+            if( m.impassable( traj[i].xy() ) ||
+                m.obstructed_by_vehicle_rotation( tp, traj[i] ) ) {  // oops, we hit a wall!
                 targ->setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
@@ -4731,6 +4735,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                 break;
             }
             targ->setpos( traj[i] );
+            tp = traj[i];
         }
     } else if( u.pos() == tp ) {
         if( stun > 0 ) {
@@ -4741,7 +4746,8 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                      stun );
         }
         for( size_t i = 1; i < traj.size(); i++ ) {
-            if( m.impassable( traj[i] ) ) { // oops, we hit a wall!
+            if( m.impassable( traj[i] ) ||
+                m.obstructed_by_vehicle_rotation( tp, traj[i] ) ) { // oops, we hit a wall!
                 u.setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
@@ -4809,6 +4815,8 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
             } else {
                 u.setpos( traj[i] );
             }
+
+            tp = traj[i];
         }
     }
 }
@@ -5931,7 +5939,7 @@ void game::peek()
         return;
     }
 
-    if( m.impassable( u.pos() + *p ) ) {
+    if( m.impassable( u.pos() + *p ) || m.obstructed_by_vehicle_rotation( u.pos(), u.pos() + *p ) ) {
         return;
     }
 
@@ -10331,7 +10339,6 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
         return;
     }
 
-    int steps = 0;
     bool thru = true;
     const bool is_u = ( c == &u );
     // Don't animate critters getting bashed if animations are off
@@ -10342,15 +10349,35 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
     tileray tdir( dir );
     int range = flvel / 10;
     tripoint pt = c->pos();
+    tripoint prev_point = pt;
+    bool force_next = false;
+    tripoint next_forced;
     while( range > 0 ) {
         c->underwater = false;
         // TODO: Check whenever it is actually in the viewport
         // or maybe even just redraw the changed tiles
         bool seen = is_u || u.sees( *c ); // To avoid redrawing when not seen
-        tdir.advance();
-        pt.x = c->posx() + tdir.dx();
-        pt.y = c->posy() + tdir.dy();
+        if( force_next ) {
+            pt = next_forced;
+            force_next = false;
+        } else {
+            tdir.advance();
+            pt.x = c->posx() + tdir.dx();
+            pt.y = c->posy() + tdir.dy();
+        }
         float force = 0;
+
+        if( m.obstructed_by_vehicle_rotation( prev_point, pt ) ) {
+            //We process the intervening tile on this iteration and then the current tile on the next
+            next_forced = pt;
+            force_next = true;
+            if( one_in( 2 ) ) {
+                pt.x = prev_point.x;
+            } else {
+                pt.y = prev_point.y;
+            }
+        }
+
 
         if( monster *const mon_ptr = critter_at<monster>( pt ) ) {
             monster &critter = *mon_ptr;
@@ -10415,8 +10442,11 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
             // although at lower velocity
             break;
         }
-        range--;
-        steps++;
+        //Vehicle wall tiles don't count for range
+        if( !force_next ) {
+            range--;
+        }
+        prev_point = pt;
         if( animate && ( seen || u.sees( *c ) ) ) {
             invalidate_main_ui_adaptor();
             ui_manager::redraw_invalidated();

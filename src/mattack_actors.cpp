@@ -47,6 +47,10 @@ static bool is_adjacent( const monster &z, const Creature &target )
         return false;
     }
 
+    if( !z.can_squeeze_to( target.pos() ) ) {
+        return false;
+    }
+
     return z.posz() == target.posz();
 }
 
@@ -118,11 +122,13 @@ bool leap_actor::call( monster &z ) const
         bool blocked_path = false;
         // check if monster has a clear path to the proposed point
         std::vector<tripoint> line = here.find_clear_path( z.pos(), dest );
+        tripoint prev_point = z.pos();
         for( auto &i : line ) {
-            if( here.impassable( i ) ) {
+            if( here.impassable( i ) || here.obstructed_by_vehicle_rotation( prev_point, i ) ) {
                 blocked_path = true;
                 break;
             }
+            prev_point = i;
         }
         // don't leap into water if you could drown (#38038)
         if( z.is_aquatic_danger( dest ) ) {

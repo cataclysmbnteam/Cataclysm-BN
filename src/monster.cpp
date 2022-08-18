@@ -1386,6 +1386,10 @@ void monster::melee_attack( Creature &target, float accuracy )
         return;
     }
 
+    if( !can_squeeze_to( target.pos() ) ) {
+        return;
+    }
+
     if( target.is_player() ||
         ( target.is_npc() && g->u.attitude_to( target ) == A_FRIENDLY ) ) {
         // Make us a valid target for a few turns

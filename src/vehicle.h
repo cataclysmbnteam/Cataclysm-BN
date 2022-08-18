@@ -1001,6 +1001,9 @@ class vehicle
         int avail_part_with_feature( const point &pt, const std::string &f, bool unbroken ) const;
         int avail_part_with_feature( int p, vpart_bitflags f, bool unbroken ) const;
 
+        int obstacle_at_position( const point &pos ) const;
+        int opaque_at_position( const point &pos ) const;
+
         /**
          *  Check if vehicle has at least one unbroken part with specified flag
          *  @param flag Specified flag to search parts for
@@ -1073,12 +1076,16 @@ class vehicle
         // Translate mount coordinates "p" into tile coordinates "q" using given pivot direction and anchor
         void coord_translate( units::angle dir, const point &pivot, const point &p,
                               tripoint &q ) const;
-        // Translate mount coordinates "p" into tile coordinates "q" using given tileray and anchor
-        // should be faster than previous call for repeated translations
-        void coord_translate( tileray tdir, const point &pivot, const point &p, tripoint &q ) const;
+
+        // Translate rotated tile coordinates "p" into mount coordinates "q" using given pivot direction and anchor
+        void coord_translate_reverse( units::angle dir, const point &pivot, const tripoint &p,
+                                      point &q ) const;
 
         tripoint mount_to_tripoint( const point &mount ) const;
         tripoint mount_to_tripoint( const point &mount, const point &offset ) const;
+
+        //Translate tile coordinates into mount coordinates
+        point tripoint_to_mount( const tripoint &p ) const;
 
         // Seek a vehicle part which obstructs tile with given coordinates relative to vehicle position
         int part_at( const point &dp ) const;
@@ -1216,6 +1223,9 @@ class vehicle
          * Mark mass caches and pivot cache as dirty
          */
         void invalidate_mass();
+
+        //Converts angles into turning increments
+        static int angle_to_increment( units::angle dir );
 
         // get the total mass of vehicle, including cargo and passengers
         units::mass total_mass() const;
@@ -1737,6 +1747,16 @@ class vehicle
         void use_harness( int part, const tripoint &pos );
 
         void interact_with( const tripoint &pos, int interact_part );
+
+        //Check if a movement is blocked, must be adjacent points
+        bool allowed_move( const point &from, const point &to ) const;
+
+        //Check if light is blocked, must be adjacent points
+        bool allowed_light( const point &from, const point &to ) const;
+
+        //Checks if the conditional holds for tiles that can be skipped due to rotation
+        bool check_rotated_intervening( const point &from, const point &to, bool( *check )( const vehicle *,
+                                        const point & ) ) const;
 
         std::string disp_name() const;
 

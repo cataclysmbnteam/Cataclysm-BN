@@ -293,6 +293,9 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         const auto &pf_cache = get_pathfinding_cache_ref( cur.z );
         const auto cur_special = pf_cache.special[cur.x][cur.y];
 
+        int cur_part;
+        const vehicle *cur_veh = veh_at_internal( cur, cur_part );
+
         // 7 3 5
         // 1 . 2
         // 6 4 8
@@ -339,6 +342,18 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                 if( cost == 0 && rating <= 0 && ( !doors || !terrain.open || !furniture.open ) && veh == nullptr &&
                     climb_cost <= 0 ) {
                     layer.state[index] = ASL_CLOSED; // Close it so that next time we won't try to calculate costs
+                    continue;
+                }
+
+                if( cur_veh &&
+                    !cur_veh->allowed_move( cur_veh->tripoint_to_mount( cur ), cur_veh->tripoint_to_mount( p ) ) ) {
+                    //Trying to squeeze through a vehicle hole, skip this movement but don't close the tile as other paths may lead to it
+                    continue;
+                }
+
+                if( veh && veh != cur_veh &&
+                    !veh->allowed_move( veh->tripoint_to_mount( cur ), veh->tripoint_to_mount( p ) ) ) {
+                    //Same as above but moving into rather than out of a vehicle
                     continue;
                 }
 

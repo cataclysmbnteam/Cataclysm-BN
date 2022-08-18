@@ -1205,6 +1205,21 @@ void player::knock_back_to( const tripoint &to )
         return;
     }
 
+    if( rl_dist( pos(), to ) < 2 && get_map().obstructed_by_vehicle_rotation( pos(), to ) ) {
+        tripoint intervening = to;
+        if( one_in( 2 ) ) {
+            intervening.x = pos().x;
+        } else {
+            intervening.y = pos().y;
+        }
+
+        apply_damage( nullptr, bodypart_id( "torso" ), 3 );
+        add_effect( effect_stunned, 2_turns );
+        add_msg_player_or_npc( _( "You bounce off a %s!" ), _( "<npcname> bounces off a %s!" ),
+                               g->m.obstacle_name( intervening ) );
+        return;
+    }
+
     // First, see if we hit a monster
     if( monster *const critter = g->critter_at<monster>( to ) ) {
         deal_damage( critter, bodypart_id( "torso" ), damage_instance( DT_BASH, critter->type->size ) );

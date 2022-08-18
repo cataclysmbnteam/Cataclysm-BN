@@ -97,14 +97,16 @@ static bool between_or_on( const point &a0, const point &a1, const point &d, con
 }
 // Builds line until obstructed or outside of region bound by near and far lines. Stores result in set
 static void build_line( spell_detail::line_iterable line, const tripoint &source,
-                        const point &delta, const point &delta_perp, bool ( *test )( const tripoint & ),
+                        const point &delta, const point &delta_perp, bool ( *test )( const tripoint &, const tripoint & ),
                         std::set<tripoint> &result )
 {
+    tripoint last_point = source;
     while( between_or_on( point_zero, delta, delta_perp, line.get() ) ) {
-        if( !test( source + line.get() ) ) {
+        if( !test( source + line.get(), last_point ) ) {
             break;
         }
         result.emplace( source + line.get() );
+        last_point = source + line.get();
         line.next();
     }
 }
@@ -163,10 +165,13 @@ static bool in_spell_aoe( const tripoint &start, const tripoint &end, const int 
         return true;
     }
     const std::vector<tripoint> trajectory = line_to( start, end );
+    tripoint last_point = start;
     for( const tripoint &pt : trajectory ) {
-        if( g->m.impassable( pt ) && !g->m.has_flag( "THIN_OBSTACLE", pt ) ) {
+        if( ( g->m.impassable( pt ) && !g->m.has_flag( "THIN_OBSTACLE", pt ) ) ||
+            g->m.obstructed_by_vehicle_rotation( pt, last_point ) ) {
             return false;
         }
+        last_point = pt;
     }
     return true;
 }
@@ -202,12 +207,15 @@ std::set<tripoint> spell_effect::spell_effect_cone( const spell &sp, const tripo
     }
     for( const tripoint &ep : end_points ) {
         std::vector<tripoint> trajectory = line_to( source, ep );
+        tripoint last_point = source;
         for( const tripoint &tp : trajectory ) {
-            if( ignore_walls || g->m.passable( tp ) || g->m.has_flag( "THIN_OBSTACLE", tp ) ) {
+            if( ignore_walls || ( !g->m.obstructed_by_vehicle_rotation( tp, last_point ) &&
+                                  ( g->m.passable( tp ) || g->m.has_flag( "THIN_OBSTACLE", tp ) ) ) ) {
                 targets.emplace( tp );
             } else {
                 break;
             }
+            last_point = tp;
         }
     }
     // we don't want to hit ourselves in the blast!
@@ -215,13 +223,14 @@ std::set<tripoint> spell_effect::spell_effect_cone( const spell &sp, const tripo
     return targets;
 }
 
-static bool test_always_true( const tripoint & )
+static bool test_always_true( const tripoint &, const tripoint & )
 {
     return true;
 }
-static bool test_passable( const tripoint &p )
+static bool test_passable( const tripoint &p, const tripoint &prev )
 {
-    return ( g->m.passable( p ) || g->m.has_flag( "THIN_OBSTACLE", p ) );
+    return ( !g->m.obstructed_by_vehicle_rotation( prev, p ) && ( g->m.passable( p ) ||
+             g->m.has_flag( "THIN_OBSTACLE", p ) ) );
 }
 
 std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoint &source,
@@ -254,7 +263,8 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
     // is delta aligned with, cw, or ccw of primary axis
     int delta_side = spell_detail::side_of( point_zero, axis_delta, delta );
 
-    bool ( *test )( const tripoint & ) = ignore_walls ? test_always_true : test_passable;
+    bool ( *test )( const tripoint &,
+                    const tripoint & ) = ignore_walls ? test_always_true : test_passable;
 
     // Canonical path from source to target, offset to local space
     std::vector<point> path_to_target = line_to( point_zero, delta );
@@ -273,25 +283,30 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
     // Add cw and ccw legs
     if( delta_side == 0 ) { // delta is already axis aligned, only need straight lines
         // cw leg
+        point prev_point;
         for( const point &p : line_to( point_zero, unit_cw_perp_axis * cw_len ) ) {
             base_line.reset( p );
-            if( !test( source + p ) ) {
+            if( !test( source + p, source + prev_point ) ) {
                 break;
             }
 
             spell_detail::build_line( base_line, source, delta, delta_perp, test, result );
+            prev_point = p;
         }
         // ccw leg
+        prev_point = point_zero;
         for( const point &p : line_to( point_zero, unit_cw_perp_axis * -ccw_len ) ) {
             base_line.reset( p );
-            if( !test( source + p ) ) {
+            if( !test( source + p, source + prev_point ) ) {
                 break;
             }
 
             spell_detail::build_line( base_line, source, delta, delta_perp, test, result );
+            prev_point = p;
         }
     } else if( delta_side == 1 ) { // delta is cw of primary axis
         // ccw leg is behind perp axis
+        point prev_point;
         for( const point &p : line_to( point_zero, unit_cw_perp_axis * -ccw_len ) ) {
             base_line.reset( p );
 
@@ -299,11 +314,13 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
             while( spell_detail::side_of( point_zero, delta_perp, base_line.get() ) == 1 ) {
                 base_line.next();
             }
-            if( !test( source + p ) ) {
+            if( !test( source + p, source + prev_point ) ) {
                 break;
             }
             spell_detail::build_line( base_line, source, delta, delta_perp, test, result );
+            prev_point = p;
         }
+        prev_point = point_zero;
         // cw leg is before perp axis
         for( const point &p : line_to( point_zero, unit_cw_perp_axis * cw_len ) ) {
             base_line.reset( p );
@@ -313,13 +330,15 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
                 base_line.prev();
             }
             base_line.next();
-            if( !test( source + p ) ) {
+            if( !test( source + p, source + prev_point ) ) {
                 break;
             }
             spell_detail::build_line( base_line, source, delta, delta_perp, test, result );
+            prev_point = p;
         }
     } else if( delta_side == -1 ) { // delta is ccw of primary axis
         // ccw leg is before perp axis
+        point prev_point;
         for( const point &p : line_to( point_zero, unit_cw_perp_axis * -ccw_len ) ) {
             base_line.reset( p );
 
@@ -328,11 +347,13 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
                 base_line.prev();
             }
             base_line.next();
-            if( !test( source + p ) ) {
+            if( !test( source + p, source + prev_point ) ) {
                 break;
             }
             spell_detail::build_line( base_line, source, delta, delta_perp, test, result );
+            prev_point = p;
         }
+        prev_point = point_zero;
         // cw leg is behind perp axis
         for( const point &p : line_to( point_zero, unit_cw_perp_axis * cw_len ) ) {
             base_line.reset( p );
@@ -341,10 +362,11 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
             while( spell_detail::side_of( point_zero, delta_perp, base_line.get() ) == 1 ) {
                 base_line.next();
             }
-            if( !test( source + p ) ) {
+            if( !test( source + p, source + prev_point ) ) {
                 break;
             }
             spell_detail::build_line( base_line, source, delta, delta_perp, test, result );
+            prev_point = p;
         }
     }
 
@@ -471,8 +493,10 @@ void spell_effect::projectile_attack( const spell &sp, Creature &caster,
                                       const tripoint &target )
 {
     std::vector<tripoint> trajectory = line_to( caster.pos(), target );
+    tripoint prev_point = caster.pos();
     for( std::vector<tripoint>::iterator iter = trajectory.begin(); iter != trajectory.end(); iter++ ) {
-        if( g->m.impassable( *iter ) && !g->m.has_flag( "THIN_OBSTACLE", *iter ) ) {
+        if( ( g->m.impassable( *iter ) && !g->m.has_flag( "THIN_OBSTACLE", *iter ) ) ||
+            g->m.obstructed_by_vehicle_rotation( prev_point, *iter ) ) {
             if( iter != trajectory.begin() ) {
                 target_attack( sp, caster, *( iter - 1 ) );
             } else {
@@ -480,6 +504,7 @@ void spell_effect::projectile_attack( const spell &sp, Creature &caster,
             }
             return;
         }
+        prev_point = *iter;
     }
     target_attack( sp, caster, trajectory.back() );
 }
@@ -549,6 +574,8 @@ int area_expander::run( const tripoint &center )
     // Number of nodes expanded.
     int expanded = 0;
 
+    map &here = get_map();
+
     while( !frontier.empty() ) {
         int best_index = frontier.top();
         frontier.pop();
@@ -557,7 +584,8 @@ int area_expander::run( const tripoint &center )
         for( size_t i = 0; i < 8; i++ ) {
             tripoint pt = best.position + point( x_offset[ i ], y_offset[ i ] );
 
-            if( g->m.impassable( pt ) && !g->m.has_flag( "THIN_OBSTACLE", pt ) ) {
+            if( ( here.impassable( pt ) && !here.has_flag( "THIN_OBSTACLE", pt ) ) ||
+                here.obstructed_by_vehicle_rotation( best.position, pt ) ) {
                 continue;
             }
 

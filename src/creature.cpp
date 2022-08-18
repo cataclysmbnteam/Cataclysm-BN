@@ -222,12 +222,15 @@ bool Creature::sees( const Creature &critter ) const
         return ch == nullptr || !ch->is_invisible();
     };
 
+    map &here = get_map();
     const Character *ch = critter.as_character();
     const int wanted_range = rl_dist( pos(), critter.pos() );
-    map &here = get_map();
-    // Can always see adjacent monsters on the same level.
+    // Can always see adjacent monsters on the same level, unless they're through a vehicle wall.
     // We also bypass lighting for vertically adjacent monsters, but still check for floors.
     if( wanted_range <= 1 && ( posz() == critter.posz() || here.sees( pos(), critter.pos(), 1 ) ) ) {
+        if( here.obscured_by_vehicle_rotation( pos(), critter.pos() ) ) {
+            return false;
+        }
         return visible( ch );
     } else if( ( wanted_range > 1 && critter.digging() ) ||
                ( critter.has_flag( MF_NIGHT_INVISIBILITY ) && here.light_at( critter.pos() ) <= lit_level::LOW ) ||

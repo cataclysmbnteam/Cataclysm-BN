@@ -1719,16 +1719,17 @@ int time_to_attack( const Character &p, const itype &firing )
 
 static void cycle_action( item &weap, const tripoint &pos )
 {
+    map &here = get_map();
     // eject casings and linkages in random direction avoiding walls using player position as fallback
     std::vector<tripoint> tiles = closest_points_first( pos, 1 );
     tiles.erase( tiles.begin() );
-    tiles.erase( std::remove_if( tiles.begin(), tiles.end(), [&]( const tripoint & e ) {
-        return !g->m.passable( e );
+    tiles.erase( std::remove_if( tiles.begin(), tiles.end(), [&pos, &here]( const tripoint & e ) {
+        return !here.passable( e ) || here.obstructed_by_vehicle_rotation( pos, e );
     } ), tiles.end() );
     tripoint eject = tiles.empty() ? pos : random_entry( tiles );
 
     // for turrets try and drop casings or linkages directly to any CARGO part on the same tile
-    const optional_vpart_position vp = g->m.veh_at( pos );
+    const optional_vpart_position vp = here.veh_at( pos );
     std::vector<vehicle_part *> cargo;
     if( vp && weap.has_flag( "VEHICLE" ) ) {
         cargo = vp->vehicle().get_parts_at( pos, "CARGO", part_status_flag::any );
@@ -1740,7 +1741,7 @@ static void cycle_action( item &weap, const tripoint &pos )
             weap.put_in( item( casing ).set_flag( "CASING" ) );
         } else {
             if( cargo.empty() ) {
-                g->m.add_item_or_charges( eject, item( casing ) );
+                here.add_item_or_charges( eject, item( casing ) );
             } else {
                 vp->vehicle().add_item( *cargo.front(), item( casing ) );
             }
@@ -1758,7 +1759,7 @@ static void cycle_action( item &weap, const tripoint &pos )
             linkage.set_flag( "CASING" );
             weap.put_in( linkage );
         } else if( cargo.empty() ) {
-            g->m.add_item_or_charges( eject, linkage );
+            here.add_item_or_charges( eject, linkage );
         } else {
             vp->vehicle().add_item( *cargo.front(), linkage );
         }
@@ -2092,21 +2093,31 @@ std::vector<Creature *> targetable_creatures( const Character &c, const int rang
             return false;
         }
 
+        map &here = get_map();
+
         // TODO: It should use projectile passability checks when finding path, not vision checks.
-        std::vector<tripoint> path = g->m.find_clear_path( c.pos(), critter.pos() );
+        std::vector<tripoint> path = here.find_clear_path( c.pos(), critter.pos() );
+        tripoint prev_point = c.pos();
         for( const tripoint &point : path )
         {
-            if( g->m.passable( point ) ) {
+            if( here.obstructed_by_vehicle_rotation( prev_point, point ) ) {
+                //Blocked by a rotated vehicle's walls
+                return false;
+            }
+
+            prev_point = point;
+
+            if( here.passable( point ) ) {
                 // If it's passable, it doesn't block bullets
                 continue;
             }
 
-            const vehicle *veh_at_point = veh_pointer_or_null( g->m.veh_at( point ) );
+            const vehicle *veh_at_point = veh_pointer_or_null( here.veh_at( point ) );
             if( veh_at_point && veh_at_point != veh_from_turret ) {
                 // Vehicles don't have impassable-but-shootable-through parts
                 return false;
             }
-            if( !g->m.has_flag_ter( TFLAG_TRANSPARENT, point ) ) {
+            if( !here.has_flag_ter( TFLAG_TRANSPARENT, point ) ) {
                 // If it's transparent, it's either glass (fine) or reinforced glass (not fine)
                 // Hack it with the more common case for now
                 // TODO: Handle armored glass

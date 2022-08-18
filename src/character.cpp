@@ -7876,7 +7876,7 @@ tripoint Character::adjacent_tile() const
                 }
             }
 
-            if( dangerous_fields == 0 ) {
+            if( dangerous_fields == 0 && ! get_map().obstructed_by_vehicle_rotation( pos(), p ) ) {
                 ret.push_back( p );
             }
         }

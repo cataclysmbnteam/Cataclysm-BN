@@ -627,6 +627,7 @@ void player::reach_attack( const tripoint &p )
         force_technique = matec_id( "WHIP_DISARM" );
     }
 
+    map &here = get_map();
     Creature *critter = g->critter_at( p );
     // Original target size, used when there are monsters in front of our target
     int target_size = critter != nullptr ? ( critter->get_size() + 1 ) : 2;
@@ -639,6 +640,7 @@ void player::reach_attack( const tripoint &p )
     int skill = std::min( 10, get_skill_level( skill_stabbing ) );
     int t = 0;
     std::vector<tripoint> path = line_to( pos(), p, t, 0 );
+    tripoint last_point = pos();
     path.pop_back(); // Last point is our critter
     for( const tripoint &path_point : path ) {
         // Possibly hit some unintended target instead
@@ -651,18 +653,45 @@ void player::reach_attack( const tripoint &p )
             // Even if we miss here, low roll means weapon is pushed away or something like that
             critter = inter;
             break;
+        } else if( here.obstructed_by_vehicle_rotation( last_point, path_point ) ) {
+            tripoint rand = path_point;
+            if( one_in( 2 ) ) {
+                rand.x = last_point.x;
+            } else {
+                rand.y = last_point.y;
+            }
+
+            here.bash( rand, str_cur + weapon.damage_melee( DT_BASH ) );
+            handle_melee_wear( weapon );
+            mod_moves( -move_cost );
+            return;
             /** @EFFECT_STABBING increases ability to reach attack through fences */
-        } else if( g->m.impassable( path_point ) &&
+        } else if( here.impassable( path_point ) &&
                    // Fences etc. Spears can stab through those
                    !( weapon.has_flag( "SPEAR" ) &&
                       g->m.has_flag( "THIN_OBSTACLE", path_point ) &&
                       x_in_y( skill, 10 ) ) ) {
             /** @EFFECT_STR increases bash effects when reach attacking past something */
-            g->m.bash( path_point, str_cur + weapon.damage_melee( DT_BASH ) );
+            here.bash( path_point, str_cur + weapon.damage_melee( DT_BASH ) );
             handle_melee_wear( weapon );
             mod_moves( -move_cost );
             return;
         }
+        last_point = path_point;
+    }
+
+    if( here.obstructed_by_vehicle_rotation( last_point, p ) ) {
+        tripoint rand = p;
+        if( one_in( 2 ) ) {
+            rand.x = last_point.x;
+        } else {
+            rand.y = last_point.y;
+        }
+
+        here.bash( rand, str_cur + weapon.damage_melee( DT_BASH ) );
+        handle_melee_wear( weapon );
+        mod_moves( -move_cost );
+        return;
     }
 
     if( critter == nullptr ) {

@@ -241,3 +241,34 @@ TEST_CASE( "shrapnel at max grenade range", "[grenade],[explosion]" )
         }
     }
 }
+
+TEST_CASE( "rotated_vehicle_walls_block_explosions" )
+{
+    clear_map_and_put_player_underground();
+    tripoint origin( 60, 60, 0 );
+
+    item grenade( "can_bomb_act" );
+
+    map &here = get_map();
+
+    here.add_vehicle( vproto_id( "apc" ), origin, -45_degrees, 0, 0 );
+
+    here.build_map_cache( 0 );
+
+    tripoint mon_origin = origin + tripoint( -2, 1, 0 );
+
+    monster &s = spawn_test_monster( "mon_squirrel", mon_origin );
+
+    REQUIRE( veh_pointer_or_null( here.veh_at( mon_origin ) ) != nullptr );
+
+    tripoint explode_at = mon_origin + tripoint_north_west;
+
+    REQUIRE( veh_pointer_or_null( here.veh_at( explode_at ) ) == nullptr );
+
+    set_off_explosion( grenade, explode_at );
+
+    const monster *m = g->critter_at<monster>( mon_origin );
+    REQUIRE( m != nullptr );
+    CHECK( m == &s );
+    CHECK( m->get_hp() == m->get_hp_max() );
+}

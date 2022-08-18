@@ -130,22 +130,36 @@ static void scatter_chunks( const itype_id &chunk_name, int chunk_amt, monster &
     // can't have more items in a pile than total items
     pile_size = std::min( chunk_amt, pile_size );
     distance = std::abs( distance );
+    map &here = get_map();
     const item chunk( chunk_name, calendar::turn, pile_size );
     for( int i = 0; i < chunk_amt; i += pile_size ) {
         bool drop_chunks = true;
         tripoint tarp( z.pos() + point( rng( -distance, distance ), rng( -distance, distance ) ) );
         const auto traj = line_to( z.pos(), tarp );
-
+        tripoint prev_point = z.pos();
         for( size_t j = 0; j < traj.size(); j++ ) {
             tarp = traj[j];
-            if( one_in( 2 ) && z.bloodType() ) {
-                g->m.add_splatter( z.bloodType(), tarp );
-            } else if( z.gibType() ) {
-                g->m.add_splatter( z.gibType(), tarp, rng( 1, j + 1 ) );
+
+            bool obstructed = false;
+            if( here.obstructed_by_vehicle_rotation( prev_point, tarp ) ) {
+                if( one_in( 2 ) ) {
+                    tarp.x = prev_point.x;
+                } else {
+                    tarp.y = prev_point.y;
+                }
+                obstructed = true;
             }
-            if( g->m.impassable( tarp ) ) {
-                g->m.bash( tarp, distance );
-                if( g->m.impassable( tarp ) ) {
+
+            if( one_in( 2 ) && z.bloodType() ) {
+                here.add_splatter( z.bloodType(), tarp );
+            } else if( z.gibType() ) {
+                here.add_splatter( z.gibType(), tarp, rng( 1, j + 1 ) );
+            }
+
+
+            if( here.impassable( tarp ) ) {
+                here.bash( tarp, distance );
+                if( here.impassable( tarp ) ) {
                     // Target is obstacle, not destroyed by bashing,
                     // stop trajectory in front of it, if this is the first
                     // point (e.g. wall adjacent to monster), don't drop anything on it
@@ -157,9 +171,14 @@ static void scatter_chunks( const itype_id &chunk_name, int chunk_amt, monster &
                     break;
                 }
             }
+            //Don't lower j until after it's used in bashing
+            if( obstructed ) {
+                j--;
+            }
+            prev_point = tarp;
         }
         if( drop_chunks ) {
-            g->m.add_item_or_charges( tarp, chunk );
+            here.add_item_or_charges( tarp, chunk );
         }
     }
 }
@@ -366,7 +385,7 @@ void mdeath::fungus( monster &z )
 
     fungal_effects fe( *g, g->m );
     for( const tripoint &sporep : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
-        if( g->m.impassable( sporep ) ) {
+        if( g->m.impassable( sporep ) && !get_map().obstructed_by_vehicle_rotation( z.pos(), sporep ) ) {
             continue;
         }
         // z is dead, don't credit it with the kill
@@ -607,11 +626,13 @@ void mdeath::focused_beam( monster &z )
         tripoint p( p2, z.posz() );
 
         std::vector <tripoint> traj = line_to( z.pos(), p, 0, 0 );
+        tripoint last_point = z.pos();
         for( auto &elem : traj ) {
-            if( !g->m.is_transparent( elem ) ) {
+            if( !g->m.is_transparent( elem ) || get_map().obscured_by_vehicle_rotation( last_point, elem ) ) {
                 break;
             }
             g->m.add_field( elem, fd_dazzling, 2 );
+            last_point = elem;
         }
     }
 
