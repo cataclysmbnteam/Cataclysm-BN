@@ -526,10 +526,11 @@ std::list<const_act_item> reorder_for_dropping( const Character &p, const drop_l
     []( units::volume acc, const const_act_item & ait ) {
         return acc + ait.loc->get_storage();
     } );
-    std::set<int> inv_indices;
-    std::transform( inv.begin(), inv.end(), std::inserter( inv_indices, inv_indices.begin() ),
+    std::map<int, int> intentional_drops_by_position;
+    std::transform( inv.begin(), inv.end(),
+                    std::inserter( intentional_drops_by_position, intentional_drops_by_position.end() ),
     [&p]( const const_act_item & ait ) {
-        return p.get_item_position( &*ait.loc );
+        return std::make_pair( p.get_item_position( &*ait.loc ), ait.count );
     } );
 
     units::volume excessive_volume = p.volume_carried() - dropped_inv_contents
@@ -538,17 +539,26 @@ std::list<const_act_item> reorder_for_dropping( const Character &p, const drop_l
         const_invslice old_inv = p.inv.const_slice();
         for( size_t i = 0; i < old_inv.size() && excessive_volume > 0_ml; i++ ) {
             // TODO: Reimplement random dropping?
-            if( inv_indices.count( i ) != 0 ) {
-                continue;
-            }
+            // We possibly processed some of those items already, so we must skip those
+            auto iter = intentional_drops_by_position.find( i );
+            int to_skip = iter != intentional_drops_by_position.end() ?
+                          iter->second :
+                          0;
             const std::list<item> &inv_stack = *old_inv[i];
             for( const item &item : inv_stack ) {
-                // Note: zero cost, but won't be contained on drop
-                const_act_item to_drop = const_act_item( item_location::make_const( p, &item ), item.count(), 0 );
-                inv.push_back( to_drop );
-                excessive_volume -= to_drop.loc->volume();
-                if( excessive_volume <= 0_ml ) {
-                    break;
+                int min = std::min( item.count(), to_skip );
+                to_skip = std::max( 0, to_skip - min );
+                if( to_skip == 0 ) {
+                    // Note: zero cost, but won't be contained on drop
+                    // Dropping the same item twice causes problems due to same item ptr
+                    // so we drop the full item instead
+                    // TODO: Split dropped item into intentional and implied parts, if both are present
+                    const_act_item to_drop = const_act_item( item_location::make_const( p, &item ), item.count(), 0 );
+                    inv.push_back( to_drop );
+                    excessive_volume -= to_drop.loc->volume();
+                    if( excessive_volume <= 0_ml ) {
+                        break;
+                    }
                 }
             }
         }

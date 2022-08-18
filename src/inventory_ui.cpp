@@ -2392,32 +2392,20 @@ struct item_location_hasher {
 
 int caching_drop_preset::get_move_cost_sum() const
 {
-    if( move_cost_sum < 0 ) {
-        return 0;
-        // debugmsg( "Data not set" );
-    }
-
     return move_cost_sum;
 }
 
 const std::unordered_map<const item *, count_out_of> &
 caching_drop_preset::get_implied_drops() const
 {
-    if( implied_drops == nullptr ) {
-        debugmsg( "Data not set" );
-    }
-
     return *implied_drops;
 }
 
 void inventory_drop_selector::rebuild()
 {
     if( !implied_cache_dirty ) {
-        printf( "Not rebuilding!\n" );
         return;
     }
-
-    printf( "\nRebuilding\n" );
 
     implied_cache_dirty = false;
 
@@ -2439,7 +2427,6 @@ void inventory_drop_selector::rebuild()
 
     std::unordered_map<const item *, inventory_entry> item_to_entry;
     auto all_columns = get_all_columns();
-    printf( "%lu columns\n", all_columns.size() );
     for( const inventory_column *ic : all_columns ) {
         if( ic == &sel_col ) {
             continue;
@@ -2448,7 +2435,7 @@ void inventory_drop_selector::rebuild()
         ic->get_entries( []( const inventory_entry & ie ) {
             return ie.is_item();
         } );
-        printf( "%lu entries\n", entries_in_column.size() );
+
         for( inventory_entry *entry : entries_in_column ) {
             int matching_count = 0;
             int total_count = 0;
@@ -2459,8 +2446,6 @@ void inventory_drop_selector::rebuild()
                     matching_count += iter->second;
                 }
             }
-
-            printf( "%s %d/%d\n", entry->any_item()->display_name().c_str(), matching_count, total_count );
 
             if( matching_count > total_count ) {
                 debugmsg( "Dropped item count > total item count (somehow)" );
@@ -2475,24 +2460,36 @@ void inventory_drop_selector::rebuild()
         }
     }
 
-    for( const auto &maybe_added : implied_drops ) {
-        printf( "added %s\n", maybe_added.first->display_name().c_str() );
-        auto iter = item_to_entry.find( maybe_added.first );
+    for( const std::pair<const item *, count_out_of> &one_drop : implied_drops ) {
+        auto iter = item_to_entry.find( one_drop.first );
         if( iter == item_to_entry.end() ) {
             debugmsg( "WTF" );
             return;
         }
-        const inventory_entry &ie = item_to_entry.at( maybe_added.first );
+        // TODO: `at` is unsafe
+        const inventory_entry &ie = item_to_entry.at( one_drop.first );
+        const count_out_of full_count = implied_drops.at( one_drop.first );
+        auto iter_dropping = dropping.find( one_drop.first );
+        size_t selected_count = iter_dropping != dropping.end() ?
+                                iter_dropping->second :
+                                0;
         // sel_col.on_change( ie );
         // on_change( ie );
 
-        // This is a copypaste of on_change
-        for( auto &elem : get_all_columns() ) {
-            elem->on_change( ie );
+        if( selected_count > 0 ) {
+            inventory_entry only_selected = ie;
+            only_selected.chosen_count = selected_count;
+            for( auto &elem : get_all_columns() ) {
+                elem->on_change( only_selected );
+            }
         }
-        inventory_entry ie_modified = ie;
-        ie_modified.chosen_count = implied_drops.at( maybe_added.first ).selected;
-        sel_col.on_change( ie_modified );
+
+        if( full_count.selected > selected_count ) {
+            // TODO: Make selection column not override category!
+            inventory_entry only_implied = inventory_entry( ie, &*implied_cat );
+            only_implied.chosen_count = full_count.selected - selected_count;
+            sel_col.on_change( only_implied );
+        }
         refresh_active_column();
 
         // TODO: Refresh only those which changed status
