@@ -1760,6 +1760,7 @@ tab_direction set_skills( avatar &u, points_left &points )
     } );
 
     skill_displayType_id current_category = skill_displayType_id::NULL_ID();
+    // Actual line that the skill takes up.
     int display_line = 0;
     std::vector<std::pair<const Skill *, int>> skill_list;
     for( const Skill *skl : sorted_skills ) {
@@ -1906,19 +1907,23 @@ tab_direction set_skills( avatar &u, points_left &points )
         draw_scrollbar( w, selected, iContentHeight, iLines,
                         point( getmaxx( w ) - 1, 5 ), BORDER_COLOR, true );
 
-        calcStartPos( cur_offset, cur_pos, iContentHeight, num_skills );
+        calcStartPos( cur_offset, skill_list[cur_pos].second, iContentHeight, display_line );
         current_category = skill_displayType_id::NULL_ID();
-        for( int i = cur_offset; i < num_skills && i - cur_offset < iContentHeight; ++i ) {
+        for( int i = 0; i < num_skills && skill_list[i].second - cur_offset < iContentHeight; ++i ) {
             const int y = 5 + skill_list[i].second - cur_offset;
+            // Necessary because cur_offset doesn't indicate the first object to read. A bit hacky.
+            if( y < 5 ) {
+                continue;
+            }
             const skill_displayType_id &display_type = skill_list[i].first->display_category();
             const Skill *thisSkill = skill_list[i].first;
-            if( current_category != display_type ) {
-                current_category = display_type;
+            if( current_category != display_type && y - 1 >= 5 ) {
                 // Clear the line
                 mvwprintz( w, point( 2, y - 1 ), c_light_gray, std::string( getmaxx( w ) - 3, ' ' ) );
                 mvwprintz( w, point( 2, y - 1 ), c_yellow, display_type->display_string() );
+                current_category = display_type;
             }
-            // Clear the line. 2 for x-coord just in case a category is there for whatever reason.
+            // Clear the line. 2 for x-coord because category names will be scrolled over.
             mvwprintz( w, point( 2, y ), c_light_gray, std::string( getmaxx( w ) - 3, ' ' ) );
             if( u.get_skill_level( thisSkill->ident() ) == 0 ) {
                 mvwprintz( w, point( 4, y ),
@@ -1940,7 +1945,7 @@ tab_direction set_skills( avatar &u, points_left &points )
             }
         }
 
-        draw_scrollbar( w, cur_pos, iContentHeight, num_skills, point( 0, 5 ) );
+        draw_scrollbar( w, skill_list[cur_pos].second, iContentHeight, display_line, point( 0, 5 ) );
 
         wnoutrefresh( w );
         wnoutrefresh( w_description );
