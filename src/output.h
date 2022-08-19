@@ -496,6 +496,13 @@ enum PopupFlags {
     PF_FULLSCREEN  = 1 << 3,
 };
 
+enum class ScrollDirection : int {
+    UP,
+    DOWN,
+    FAST_UP,
+    FAST_DOWN
+};
+
 template<typename ...Args>
 inline int popup_getkey( const char *const mes, Args &&... args )
 {
