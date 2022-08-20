@@ -1778,26 +1778,6 @@ tab_direction set_skills( avatar &u, points_left &points )
     const Skill *currentSkill = skill_list[cur_pos].first;
     int selected = 0;
 
-    auto get_next = [&]( ScrollDirection direction ) {
-        switch( direction ) {
-            case ScrollDirection::UP:
-                cur_pos--;
-                if( cur_pos < 0 ) {
-                    cur_pos = num_skills - 1;
-                }
-                break;
-            case ScrollDirection::DOWN:
-                cur_pos++;
-                if( cur_pos >= num_skills ) {
-                    cur_pos = 0;
-                }
-                break;
-            default:
-                break;
-        }
-        currentSkill = skill_list[cur_pos].first;
-    };
-
     input_context ctxt( "NEW_CHAR_SKILLS" );
     ctxt.register_cardinal();
     ctxt.register_action( "SCROLL_DOWN" );
@@ -1960,9 +1940,17 @@ tab_direction set_skills( avatar &u, points_left &points )
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
         if( action == "DOWN" ) {
-            get_next( ScrollDirection::DOWN );
+            cur_pos++;
+            if( cur_pos >= num_skills ) {
+                cur_pos = 0;
+            }
+            currentSkill = skill_list[cur_pos].first;
         } else if( action == "UP" ) {
-            get_next( ScrollDirection::UP );
+            cur_pos--;
+            if( cur_pos < 0 ) {
+                cur_pos = num_skills - 1;
+            }
+            currentSkill = skill_list[cur_pos].first;
         } else if( action == "LEFT" ) {
             const int level = u.get_skill_level( currentSkill->ident() );
             if( level > 0 ) {
