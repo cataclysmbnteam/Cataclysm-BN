@@ -6247,7 +6247,8 @@ int map::coverage( const tripoint &p ) const
     if( const auto vp = veh_at( p ) ) {
         if( vp->obstacle_at_part() ) {
             return 60;
-        } else if( !vp->part_with_feature( VPFLAG_AISLE, true ) ) {
+        } else if( !vp->part_with_feature( VPFLAG_AISLE, true ) &&
+                   !vp->part_with_feature( "PROTRUSION", true ) ) {
             return 45;
         }
     }
@@ -8234,9 +8235,8 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
     for( int z = minz; z <= maxz; z++ ) {
         do_vehicle_caching( z );
     }
-    for( int z = minz; z <= maxz; z++ ) {
-        seen_cache_dirty |= build_vision_transparency_cache( z );
-    }
+
+    seen_cache_dirty |= build_vision_transparency_cache( );
 
     if( seen_cache_dirty ) {
         skew_vision_cache.clear();
@@ -8736,7 +8736,6 @@ level_cache::level_cache()
     diagonal_blocks fill = {false, false};
     std::fill_n( &vehicle_obscured_cache[0][0], map_dimensions, fill );
     std::fill_n( &vehicle_obstructed_cache[0][0], map_dimensions, fill );
-    std::fill_n( &vision_transparency_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &seen_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &camera_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &visibility_cache[0][0], map_dimensions, lit_level::DARK );

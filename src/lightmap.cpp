@@ -164,34 +164,62 @@ bool map::build_transparency_cache( const int zlev )
     return true;
 }
 
-bool map::build_vision_transparency_cache( const int zlev )
+bool map::build_vision_transparency_cache( )
 {
-    auto &map_cache = get_cache( zlev );
-    auto &transparency_cache = map_cache.transparency_cache;
-    auto &vision_transparency_cache = map_cache.vision_transparency_cache;
-
-    memcpy( &vision_transparency_cache, &transparency_cache, sizeof( transparency_cache ) );
-
     const tripoint &p = g->u.pos();
-
-    if( p.z != zlev ) {
-        return false;
-    }
 
     bool dirty = false;
 
-    bool is_crouching = g->u.movement_mode_is( CMM_CROUCH );
-    for( const tripoint &loc : points_in_radius( p, 1 ) ) {
-        if( loc == p ) {
-            // The tile player is standing on should always be visible
-            vision_transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
-        } else if( is_crouching && coverage( loc ) >= 30 ) {
-            // If we're crouching behind an obstacle, we can't see past it.
-            vision_transparency_cache[loc.x][loc.y] = LIGHT_TRANSPARENCY_SOLID;
-            dirty = true;
-        }
-    }
+    if( g->u.movement_mode_is( CMM_CROUCH ) ) {
 
+        const auto check_vehicle_coverage = []( const vehicle * veh, const point & p ) -> bool {
+            return veh->obstacle_at_position( p ) == -1 && ( veh->part_with_feature( p,  "AISLE", true ) != -1 || veh->part_with_feature( p,  "PROTRUSION", true ) != -1 );
+        };
+
+        const optional_vpart_position player_vp = veh_at( p );
+
+        point player_mount;
+        if( player_vp ) {
+            player_mount = player_vp->vehicle().tripoint_to_mount( p );
+        }
+
+        int i = 0;
+        for( const point &adjacent : eight_adjacent_offsets ) {
+            vision_transparency_cache[i] = VISION_ADJUST_NONE;
+
+            // If we're crouching behind an obstacle, we can't see past it.
+            if( coverage( adjacent + p ) >= 30 ) {
+                dirty = true;
+                vision_transparency_cache[i] = VISION_ADJUST_SOLID;
+            } else {
+                if( std::find( four_diagonal_offsets.begin(), four_diagonal_offsets.end(),
+                               adjacent ) != four_diagonal_offsets.end() ) {
+                    const optional_vpart_position adjacent_vp = veh_at( p + adjacent );
+
+                    point adjacent_mount;
+                    if( adjacent_vp ) {
+                        adjacent_mount = adjacent_vp->vehicle().tripoint_to_mount( p );
+                    }
+
+                    if( ( player_vp &&
+                          !player_vp->vehicle().check_rotated_intervening( player_mount,
+                                  player_vp->vehicle().tripoint_to_mount( p + adjacent ),
+                                  check_vehicle_coverage ) )
+                        || ( adjacent_vp && ( !player_vp ||  &( player_vp->vehicle() ) != &( adjacent_vp->vehicle() ) ) &&
+                             !adjacent_vp->vehicle().check_rotated_intervening( adjacent_vp->vehicle().tripoint_to_mount(
+                                         p ), adjacent_vp->vehicle().tripoint_to_mount( p + adjacent ),
+                                     check_vehicle_coverage ) ) ) {
+                        dirty = true;
+                        vision_transparency_cache[ i ] = VISION_ADJUST_HIDDEN;
+                    }
+                }
+            }
+
+            i++;
+        }
+    } else {
+        std::fill_n( &vision_transparency_cache[0], 8, VISION_ADJUST_NONE );
+    }
     return dirty;
 }
 
@@ -642,8 +670,7 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
     const bool obstructed = vis <= LIGHT_TRANSPARENCY_SOLID + 0.1;
 
     auto is_opaque = [&map_cache]( const point & p ) {
-        return map_cache.transparency_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID &&
-               map_cache.vision_transparency_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID;
+        return map_cache.transparency_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID && g->u.pos().xy() != p;
     };
 
     const bool p_opaque = is_opaque( p.xy() );
@@ -1277,6 +1304,76 @@ castLightAll<float, float, shrapnel_calc, shrapnel_check,
     const diagonal_blocks( &blocked_array )[MAPSIZE_X][MAPSIZE_Y],
     const point &offset, int offsetDistance, float numerator );
 
+
+//Alters the vision caches to the player specific version, the restore caches will be filled so it can be undone with restore_vision_transparency_cache
+static void apply_vision_transparency_cache( const tripoint &center,
+        float ( &transparency_cache )[MAPSIZE_X][MAPSIZE_Y],
+        vision_adjustment( &vision_transparency_cache )[8],
+        diagonal_blocks( &blocked_cache )[MAPSIZE_X][MAPSIZE_Y],
+        float ( &vision_restore_cache )[9], bool ( &blocked_restore_cache )[8] )
+{
+    const map &here = get_map();
+
+    int i = 0;
+    for( const point &adjacent : eight_adjacent_offsets ) {
+        const tripoint p = center + adjacent;
+        if( !here.inbounds( p ) ) {
+            continue;
+        }
+        vision_restore_cache[i] = transparency_cache[p.x][p.y];
+        if( vision_transparency_cache[i] == VISION_ADJUST_SOLID ) {
+            transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_SOLID;
+        } else if( vision_transparency_cache[i] == VISION_ADJUST_HIDDEN ) {
+
+            if( std::find( four_diagonal_offsets.begin(), four_diagonal_offsets.end(),
+                           adjacent ) == four_diagonal_offsets.end() ) {
+                debugmsg( "Hidden tile not on a diagonal" );
+                continue;
+            }
+
+            bool &relevant_blocked = adjacent == point_north_east ? blocked_cache[center.x][center.y].ne :
+                                     adjacent == point_south_east ? blocked_cache[p.x][p.y].nw :
+                                     adjacent == point_south_west ? blocked_cache[p.x][p.y].ne :
+                                     /* point_north_west */ blocked_cache[center.x][center.y].nw;
+
+            //We only set the restore cache if we actually flip the bit
+            blocked_restore_cache[i] = !relevant_blocked;
+
+            relevant_blocked = true;
+        }
+        i++;
+    }
+    vision_restore_cache[8] = transparency_cache[center.x][center.y];
+}
+
+static void restore_vision_transparency_cache( const tripoint &center,
+        float ( &transparency_cache )[MAPSIZE_X][MAPSIZE_Y],
+        diagonal_blocks( &blocked_cache )[MAPSIZE_X][MAPSIZE_Y],
+        float ( &vision_restore_cache )[9], bool ( &blocked_restore_cache )[8] )
+{
+    const map &here = get_map();
+
+    int i = 0;
+    for( const point &adjacent : eight_adjacent_offsets ) {
+        const tripoint p = center + adjacent;
+        if( !here.inbounds( p ) ) {
+            continue;
+        }
+        transparency_cache[p.x][p.y] = vision_restore_cache[i];
+
+        if( blocked_restore_cache[i] ) {
+            bool &relevant_blocked = adjacent == point_north_east ? blocked_cache[center.x][center.y].ne :
+                                     adjacent == point_south_east ? blocked_cache[p.x][p.y].nw :
+                                     adjacent == point_south_west ? blocked_cache[p.x][p.y].ne :
+                                     /* point_north_west */ blocked_cache[center.x][center.y].nw;
+            relevant_blocked = false;
+        }
+
+        i++;
+    }
+    transparency_cache[center.x][center.y] = vision_restore_cache[8];
+}
+
 /**
  * Calculates the Field Of View for the provided map from the given x, y
  * coordinates. Returns a lightmap for a result where the values represent a
@@ -1292,7 +1389,7 @@ castLightAll<float, float, shrapnel_calc, shrapnel_check,
 void map::build_seen_cache( const tripoint &origin, const int target_z )
 {
     auto &map_cache = get_cache( target_z );
-    float ( &transparency_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.vision_transparency_cache;
+    float ( &transparency_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.transparency_cache;
     float ( &seen_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.seen_cache;
     float ( &camera_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.camera_cache;
     diagonal_blocks( &blocked_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.vehicle_obscured_cache;
@@ -1301,6 +1398,14 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
     constexpr int map_dimensions = MAPSIZE_X * MAPSIZE_Y;
     std::uninitialized_fill_n(
         &camera_cache[0][0], map_dimensions, light_transparency_solid );
+
+    float vision_restore_cache [9] = {0};
+    bool blocked_restore_cache[8] = {false};
+
+    if( origin.z == target_z ) {
+        apply_vision_transparency_cache( g->u.pos(), transparency_cache, vision_transparency_cache,
+                                         blocked_cache, vision_restore_cache, blocked_restore_cache );
+    }
 
     if( !fov_3d ) {
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
@@ -1325,7 +1430,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         array_of_grids_of < const diagonal_blocks > blocked_caches;
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
             auto &cur_cache = get_cache( z );
-            transparency_caches[z + OVERMAP_DEPTH] = &cur_cache.vision_transparency_cache;
+            transparency_caches[z + OVERMAP_DEPTH] = &cur_cache.transparency_cache;
             seen_caches[z + OVERMAP_DEPTH] = &cur_cache.seen_cache;
             floor_caches[z + OVERMAP_DEPTH] = &cur_cache.floor_cache;
             blocked_caches[z + OVERMAP_DEPTH] = &cur_cache.vehicle_obscured_cache;
@@ -1338,6 +1443,11 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         }
         cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
             seen_caches, transparency_caches, floor_caches, blocked_caches, origin, 0, 1.0 );
+    }
+
+    if( origin.z == target_z ) {
+        restore_vision_transparency_cache( g->u.pos(), transparency_cache, blocked_cache,
+                                           vision_restore_cache, blocked_restore_cache );
     }
 
     const optional_vpart_position vp = veh_at( origin );
