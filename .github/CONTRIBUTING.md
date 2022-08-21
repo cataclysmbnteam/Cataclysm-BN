@@ -101,7 +101,7 @@ http://www.stack.nl/~dimitri/doxygen/manual/faq.html
 
         $ cd Cataclysm-BN
         # Changes the active directory in the prompt to the newly cloned "Cataclysm-BN" directory
-        $ git remote add -f upstream https://github.com/CleverRaven/Cataclysm-BN.git
+        $ git remote add -f upstream https://github.com/cataclysmbnteam/Cataclysm-BN.git
         # Assigns the original repository to a remote called "upstream"
 
 For further details about commit message guidelines please visit:
