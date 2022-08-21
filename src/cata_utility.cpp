@@ -53,7 +53,7 @@ int modulo( int v, int m )
     // but this is supposed to be mathematical modulo: 0 <= v%m < m,
     const int r = v % m;
     // Adding m in that (and only that) case.
-    return r >= 0 ? r : r + m;
+    return r >= 0 ? r : r + ( m * ( 1 - r / m ) );
 }
 
 bool isBetween( int test, int down, int up )
