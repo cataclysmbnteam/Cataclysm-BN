@@ -1747,15 +1747,9 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
         case C_VEHICLE_PART: {
             cata::optional<tile_lookup_res> ret;
             // vehicle parts start with vp_ for their tiles, but not their IDs
-            const vpart_id base_vpid( id.substr( 3 ) );
-            if( !base_vpid.is_valid() ) {
-                return cata::nullopt;
-            }
-            return find_tile_looks_like( "vp_" + base_vpid.obj().looks_like, category,
-                                         looks_like_jumps_limit - 1 );
             const vpart_id new_vpid( id.substr( 3 ) );
             // check the base id for a vehicle with variant parts
-            vpart_id base_vpid;
+			vpart_id base_vpid
             std::string variant_id;
             std::tie( base_vpid, variant_id ) = get_vpart_id_variant( new_vpid );
             if( base_vpid.is_valid() ) {
