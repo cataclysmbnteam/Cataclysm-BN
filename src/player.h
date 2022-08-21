@@ -140,21 +140,6 @@ class player : public Character
         /** Maintains body wetness and handles the rate at which the player dries */
         void update_body_wetness( const w_point &weather );
 
-        /** Returns true if the player has a conflicting trait to the entered trait
-         *  Uses has_opposite_trait(), has_lower_trait(), and has_higher_trait() to determine conflicts.
-         */
-        bool has_conflicting_trait( const trait_id &flag ) const;
-        /** Returns true if the player has a trait which upgrades into the entered trait */
-        bool has_lower_trait( const trait_id &flag ) const;
-        /** Returns true if the player has a trait which is an upgrade of the entered trait */
-        bool has_higher_trait( const trait_id &flag ) const;
-        /** Returns true if the player has a trait that shares a type with the entered trait */
-        bool has_same_type_trait( const trait_id &flag ) const;
-        /** Returns true if the entered trait may be purified away
-         *  Defaults to true
-         */
-        bool purifiable( const trait_id &flag ) const;
-
         /** Generates and handles the UI for player interaction with installed bionics */
         void power_bionics();
         void power_mutations();

@@ -1122,7 +1122,7 @@ static void do_purify( player &p )
     num_cured = std::min( 4, num_cured );
     for( int i = 0; i < num_cured && !valid.empty(); i++ ) {
         const trait_id id = random_entry_removed( valid );
-        if( p.purifiable( id ) ) {
+        if( id->purifiable ) {
             p.remove_mutation( id );
         } else {
             p.add_msg_if_player( m_warning, _( "You feel a slight itching inside, but it passes." ) );
@@ -1168,7 +1168,7 @@ int iuse::purify_iv( player *p, item *it, bool, const tripoint & )
     }
     for( int i = 0; i < num_cured && !valid.empty(); i++ ) {
         const trait_id id = random_entry_removed( valid );
-        if( p->purifiable( id ) ) {
+        if( id->purifiable ) {
             p->remove_mutation( id );
         } else {
             p->add_msg_if_player( m_warning, _( "You feel a distinct burning inside, but it passes." ) );
@@ -1197,7 +1197,7 @@ int iuse::purify_smart( player *p, item *it, bool, const tripoint & )
     for( auto &traits_iter : mutation_branch::get_all() ) {
         if( p->has_trait( traits_iter.id ) &&
             !p->has_base_trait( traits_iter.id ) &&
-            p->purifiable( traits_iter.id ) ) {
+            traits_iter.id->purifiable ) {
             //Looks for active mutation
             valid.push_back( traits_iter.id );
             valid_names.push_back( traits_iter.id->name() );

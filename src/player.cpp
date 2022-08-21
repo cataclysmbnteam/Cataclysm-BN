@@ -568,47 +568,6 @@ void player::mod_stat( const std::string &stat, float modifier )
     }
 }
 
-bool player::has_conflicting_trait( const trait_id &flag ) const
-{
-    return ( has_opposite_trait( flag ) || has_lower_trait( flag ) || has_higher_trait( flag ) ||
-             has_same_type_trait( flag ) );
-}
-
-bool player::has_lower_trait( const trait_id &flag ) const
-{
-    for( auto &i : flag->prereqs ) {
-        if( has_trait( i ) || has_lower_trait( i ) ) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool player::has_higher_trait( const trait_id &flag ) const
-{
-    for( auto &i : flag->replacements ) {
-        if( has_trait( i ) || has_higher_trait( i ) ) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool player::has_same_type_trait( const trait_id &flag ) const
-{
-    for( auto &i : get_mutations_in_types( flag->types ) ) {
-        if( has_trait( i ) && flag != i ) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool player::purifiable( const trait_id &flag ) const
-{
-    return flag->purifiable;
-}
-
 std::list<item *> player::get_artifact_items()
 {
     std::list<item *> art_items;

@@ -675,11 +675,6 @@ class Character : public Creature, public visitable<Character>
         std::map<bodypart_id, int> get_armor_fire( const std::map<bodypart_id, std::vector<const item *>>
                 &clothing_map ) const;
         // --------------- Mutation Stuff ---------------
-        // In newcharacter.cpp
-        /** Returns the id of a random starting trait that costs >= 0 points */
-        trait_id random_good_trait();
-        /** Returns the id of a random starting trait that costs < 0 points */
-        trait_id random_bad_trait();
 
         // In mutation.cpp
         /** Returns true if the player has the entered trait */
@@ -688,6 +683,8 @@ class Character : public Creature, public visitable<Character>
         bool has_base_trait( const trait_id &b ) const;
         /** Returns true if player has a trait with a flag */
         bool has_trait_flag( const std::string &b ) const;
+        /** Returns true if character has a trait which cancels the entered trait. */
+        bool has_opposite_trait( const trait_id &flag ) const;
         /** Returns the trait id with the given invlet, or an empty string if no trait has that invlet */
         trait_id trait_by_invlet( int ch ) const;
 
@@ -1497,12 +1494,6 @@ class Character : public Creature, public visitable<Character>
         void clear_skills();
         /** Empties the trait and mutations lists */
         void clear_mutations();
-        /**
-         * Adds mandatory scenario and profession traits unless you already have them
-         * And if you do already have them, refunds the points for the trait
-         */
-        void add_traits();
-        void add_traits( points_left &points );
         /** Returns true if the player has crossed a mutation threshold
          *  Player can only cross one mutation threshold.
          */
@@ -1710,8 +1701,6 @@ class Character : public Creature, public visitable<Character>
         void on_stat_change( const std::string &stat, int value ) override;
         /** Returns an unoccupied, safe adjacent point. If none exists, returns player position. */
         tripoint adjacent_tile() const;
-        /** Returns true if the player has a trait which cancels the entered trait */
-        bool has_opposite_trait( const trait_id &flag ) const;
         /** Removes "sleep" and "lying_down" */
         void wake_up();
         // how loud a character can shout. based on mutations and clothing
