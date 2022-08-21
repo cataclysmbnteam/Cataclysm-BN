@@ -6,8 +6,8 @@
 #include <string>
 
 #include "avatar.h"
+#include "avatar_action.h"
 #include "calendar.h"
-#include "game.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
@@ -25,7 +25,7 @@ static const itype_id itype_glockmag( "glockmag" );
 TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
 {
     const time_point bday = calendar::start_of_cataclysm;
-    player &dummy = g->u;
+    avatar &dummy = get_avatar();
 
     clear_avatar();
     // Make sure the player doesn't drop anything :P
@@ -48,7 +48,7 @@ TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
 TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun]" )
 {
     const time_point bday = calendar::start_of_cataclysm;
-    player &dummy = g->u;
+    avatar &dummy = get_avatar();
 
     clear_avatar();
     // Make sure the player doesn't drop anything :P
@@ -84,7 +84,7 @@ TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun
 TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
 {
     const time_point bday = calendar::start_of_cataclysm;
-    player &dummy = g->u;
+    avatar &dummy = get_avatar();
 
     clear_avatar();
     // Make sure the player doesn't drop anything :P
@@ -109,7 +109,7 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
     item &glock = dummy.i_at( gun_pos );
     // We're expecting the magazine to end up in the inventory.
     item_location glock_loc( dummy, &glock );
-    REQUIRE( g->unload( glock_loc ) );
+    REQUIRE( dummy.unload( glock_loc ) );
     int magazine_pos = dummy.inv.position_by_type( itype_glockmag );
     REQUIRE( magazine_pos != INT_MIN );
     item &magazine = dummy.inv.find_item( magazine_pos );
@@ -135,7 +135,7 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
 static void reload_a_revolver( player &dummy, item &gun, item &ammo )
 {
     while( gun.ammo_remaining() < gun.ammo_capacity() ) {
-        g->reload_weapon( false );
+        avatar_action::reload_weapon( false );
         REQUIRE( dummy.activity );
         process_activity( dummy );
         CHECK( gun.ammo_remaining() > 0 );
@@ -146,7 +146,7 @@ static void reload_a_revolver( player &dummy, item &gun, item &ammo )
 TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
 {
     const time_point bday = calendar::start_of_cataclysm;
-    player &dummy = g->u;
+    avatar &dummy = get_avatar();
 
     clear_avatar();
     // Make sure the player doesn't drop anything :P
@@ -155,7 +155,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
     GIVEN( "an unarmed player" ) {
         REQUIRE( !dummy.is_armed() );
         WHEN( "the player triggers auto reload" ) {
-            g->reload_weapon( false );
+            avatar_action::reload_weapon( false );
             THEN( "No activity is generated" ) {
                 CHECK( !dummy.activity );
             }
@@ -173,7 +173,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
         WHEN( "the player triggers auto reload until the revolver is full" ) {
             reload_a_revolver( dummy, dummy.weapon, ammo );
             WHEN( "the player triggers auto reload again" ) {
-                g->reload_weapon( false );
+                avatar_action::reload_weapon( false );
                 THEN( "no activity is generated" ) {
                     CHECK( !dummy.activity );
                 }
@@ -188,7 +188,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
                 WHEN( "the player triggers auto reload until the second revolver is full" ) {
                     reload_a_revolver( dummy, gun2, ammo );
                     WHEN( "the player triggers auto reload again" ) {
-                        g->reload_weapon( false );
+                        avatar_action::reload_weapon( false );
                         THEN( "no activity is generated" ) {
                             CHECK( !dummy.activity );
                         }
@@ -213,7 +213,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
         REQUIRE( dummy.weapon.ammo_remaining() == 0 );
 
         WHEN( "the player triggers auto reload" ) {
-            g->reload_weapon( false );
+            avatar_action::reload_weapon( false );
             REQUIRE( dummy.activity );
             process_activity( dummy );
 
@@ -222,7 +222,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
                 CHECK( mag.contents.front().type == ammo.type );
             }
             WHEN( "the player triggers auto reload again" ) {
-                g->reload_weapon( false );
+                avatar_action::reload_weapon( false );
                 REQUIRE( dummy.activity );
                 process_activity( dummy );
 
@@ -230,7 +230,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
                     CHECK( dummy.weapon.ammo_remaining() > 0 );
                 }
                 WHEN( "the player triggers auto reload again" ) {
-                    g->reload_weapon( false );
+                    avatar_action::reload_weapon( false );
                     THEN( "No activity is generated" ) {
                         CHECK( !dummy.activity );
                     }
@@ -245,7 +245,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
             REQUIRE( mag2.ammo_remaining() == 0 );
 
             WHEN( "the player triggers auto reload" ) {
-                g->reload_weapon( false );
+                avatar_action::reload_weapon( false );
                 REQUIRE( dummy.activity );
                 process_activity( dummy );
 
@@ -254,7 +254,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
                     CHECK( mag.contents.front().type == ammo.type );
                 }
                 WHEN( "the player triggers auto reload again" ) {
-                    g->reload_weapon( false );
+                    avatar_action::reload_weapon( false );
                     REQUIRE( dummy.activity );
                     process_activity( dummy );
 
@@ -262,7 +262,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
                         CHECK( dummy.weapon.ammo_remaining() > 0 );
                     }
                     WHEN( "the player triggers auto reload again" ) {
-                        g->reload_weapon( false );
+                        avatar_action::reload_weapon( false );
                         REQUIRE( dummy.activity );
                         process_activity( dummy );
 
@@ -271,7 +271,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
                             CHECK( mag2.contents.front().type == ammo.type );
                         }
                         WHEN( "the player triggers auto reload again" ) {
-                            g->reload_weapon( false );
+                            avatar_action::reload_weapon( false );
                             THEN( "No activity is generated" ) {
                                 CHECK( !dummy.activity );
                             }

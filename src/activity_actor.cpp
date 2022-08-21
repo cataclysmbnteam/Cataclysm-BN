@@ -167,7 +167,7 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
         if( reload_requested ) {
             // Reload the gun / select different arrows
             // May assign ACT_RELOAD
-            g->reload_wielded( true );
+            avatar_action::reload_wielded( true );
         }
         return;
     }

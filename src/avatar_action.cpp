@@ -17,6 +17,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
+#include "character_martial_arts.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -30,6 +31,7 @@
 #include "item.h"
 #include "item_contents.h"
 #include "item_location.h"
+#include "iuse_actor.h"
 #include "itype.h"
 #include "line.h"
 #include "map.h"
@@ -1037,8 +1039,301 @@ void avatar_action::use_item( avatar &you, item_location &loc )
     you.invalidate_crafting_inventory();
 }
 
-// Opens up a menu to Unload a container, gun, or tool
-// If it's a gun, some gunmods can also be loaded
+void avatar_action::wield()
+{
+    item_location loc = game_menus::inv::wield( get_avatar() );
+
+    if( loc ) {
+        wield( loc );
+    } else {
+        add_msg( _( "Never mind." ) );
+    }
+}
+
+void avatar_action::wield( item_location &loc )
+{
+    avatar &u = get_avatar();
+    map &here = get_map();
+    if( u.is_armed() ) {
+        const bool is_unwielding = u.is_wielding( *loc );
+        const auto ret = u.can_unwield( *loc );
+
+        if( !ret.success() ) {
+            add_msg( m_info, "%s", ret.c_str() );
+        }
+
+        u.unwield();
+
+        if( is_unwielding ) {
+            if( !u.martial_arts_data->selected_is_none() ) {
+                u.martial_arts_data->martialart_use_message( u );
+            }
+            return;
+        }
+    }
+
+    const auto ret = u.can_wield( *loc );
+    if( !ret.success() ) {
+        add_msg( m_info, "%s", ret.c_str() );
+    }
+
+    // Need to do this here because holster_actor::use() checks if/where the item is worn
+    item &target = *loc.get_item();
+    if( target.get_use( "holster" ) && !target.contents.empty() ) {
+        //~ %1$s: weapon name, %2$s: holster name
+        if( query_yn( pgettext( "holster", "Draw %1$s from %2$s?" ), target.get_contained().tname(),
+                      target.tname() ) ) {
+            u.invoke_item( &target );
+            return;
+        }
+    }
+
+    // Can't use loc.obtain() here because that would cause things to spill.
+    item to_wield = *loc.get_item();
+    item_location::type location_type = loc.where();
+    tripoint pos = loc.position();
+    int worn_index = INT_MIN;
+    if( u.is_worn( *loc.get_item() ) ) {
+        auto ret = u.can_takeoff( *loc.get_item() );
+        if( !ret.success() ) {
+            add_msg( m_info, "%s", ret.c_str() );
+            return;
+        }
+        int item_pos = u.get_item_position( loc.get_item() );
+        if( item_pos != INT_MIN ) {
+            worn_index = Character::worn_position_to_index( item_pos );
+        }
+    }
+    loc.remove_item();
+    if( !u.wield( to_wield ) ) {
+        switch( location_type ) {
+            case item_location::type::container:
+                // this will not cause things to spill, as it is inside another item
+                loc = loc.obtain( u );
+                wield( loc );
+                break;
+            case item_location::type::character:
+                if( worn_index != INT_MIN ) {
+                    auto it = u.worn.begin();
+                    std::advance( it, worn_index );
+                    u.worn.insert( it, to_wield );
+                } else {
+                    u.i_add( to_wield );
+                }
+                break;
+            case item_location::type::map:
+                here.add_item( pos, to_wield );
+                break;
+            case item_location::type::vehicle: {
+                const cata::optional<vpart_reference> vp = here.veh_at( pos ).part_with_feature( "CARGO", false );
+                // If we fail to return the item to the vehicle for some reason, add it to the map instead.
+                if( !vp || !( vp->vehicle().add_item( vp->part_index(), to_wield ) ) ) {
+                    here.add_item( pos, to_wield );
+                }
+                break;
+            }
+            case item_location::type::invalid:
+                debugmsg( "Failed wield from invalid item location" );
+                break;
+        }
+        return;
+    }
+}
+
+static item::reload_option favorite_ammo_or_select(
+    const player &u, const item &it, bool empty, bool prompt )
+{
+    const_cast<item_location &>( u.ammo_location ).make_dirty();
+    if( u.ammo_location ) {
+        std::vector<item::reload_option> ammo_list;
+        if( u.list_ammo( it, ammo_list, empty ) ) {
+            const auto is_favorite_and_compatible = [&it, &u]( const item::reload_option & opt ) {
+                return opt.ammo == u.ammo_location && it.can_reload_with( opt.ammo->typeId() );
+            };
+            auto iter = std::find_if( ammo_list.begin(), ammo_list.end(), is_favorite_and_compatible );
+            if( iter != ammo_list.end() ) {
+                return *iter;
+            }
+        }
+    }
+    return u.select_ammo( it, prompt, empty );
+}
+
+void avatar_action::reload( item_location &loc, bool prompt, bool empty )
+{
+    avatar &u = get_avatar();
+    u.ammo_location.make_dirty();
+    item *it = loc.get_item();
+
+    // bows etc. do not need to reload. select favorite ammo for them instead
+    if( it->has_flag( "RELOAD_AND_SHOOT" ) ) {
+        ranged::prompt_select_default_ammo_for( u, *it );
+        return;
+    }
+
+    switch( u.rate_action_reload( *it ) ) {
+        case hint_rating::iffy:
+            if( ( it->is_ammo_container() || it->is_magazine() ) && it->ammo_remaining() > 0 &&
+                it->ammo_remaining() == it->ammo_capacity() ) {
+                add_msg( m_info, _( "The %s is already fully loaded!" ), it->tname() );
+                return;
+            }
+            if( it->is_ammo_belt() ) {
+                const auto &linkage = it->type->magazine->linkage;
+                if( linkage && !u.has_charges( *linkage, 1 ) ) {
+                    add_msg( m_info, _( "You need at least one %s to reload the %s!" ),
+                             item::nname( *linkage, 1 ), it->tname() );
+                    return;
+                }
+            }
+            if( it->is_watertight_container() && it->is_container_full() ) {
+                add_msg( m_info, _( "The %s is already full!" ), it->tname() );
+                return;
+            }
+
+        // intentional fall-through
+
+        case hint_rating::cant:
+            add_msg( m_info, _( "You can't reload a %s!" ), it->tname() );
+            return;
+
+        case hint_rating::good:
+            break;
+    }
+
+    bool use_loc = true;
+    if( !it->has_flag( "ALLOWS_REMOTE_USE" ) ) {
+        it = loc.obtain( u ).get_item();
+        use_loc = false;
+    }
+
+    // for holsters and ammo pouches try to reload any contained item
+    if( it->type->can_use( "holster" ) && !it->contents.empty() ) {
+        it = &it->contents.front();
+    }
+
+    // for bandoliers we currently defer to iuse_actor methods
+    if( it->is_bandolier() ) {
+        auto ptr = dynamic_cast<const bandolier_actor *>
+                   ( it->type->get_use( "bandolier" )->get_actor_ptr() );
+        ptr->reload( u, *it );
+        return;
+    }
+
+    item::reload_option opt = favorite_ammo_or_select( u, *it, empty, prompt );
+
+    if( opt.ammo.get_item() == nullptr ) {
+        return;
+    }
+
+    if( opt ) {
+        int moves = opt.moves();
+        if( it->get_var( "dirt", 0 ) > 7800 ) {
+            add_msg( m_warning, _( "You struggle to reload the fouled %s." ), it->tname() );
+            moves += 2500;
+        }
+
+        u.assign_activity( activity_id( "ACT_RELOAD" ), moves, opt.qty() );
+        if( use_loc ) {
+            u.activity.targets.emplace_back( loc );
+        } else {
+            u.activity.targets.emplace_back( u, const_cast<item *>( opt.target ) );
+        }
+        u.activity.targets.push_back( std::move( opt.ammo ) );
+    }
+}
+
+void avatar_action::reload_item()
+{
+    item_location item_loc = g->inv_map_splice( [&]( const item & it ) {
+        return get_avatar().rate_action_reload( it ) == hint_rating::good;
+    }, _( "Reload item" ), 1, _( "You have nothing to reload." ) );
+
+    if( !item_loc ) {
+        add_msg( _( "Never mind." ) );
+        return;
+    }
+
+    reload( item_loc );
+}
+
+void avatar_action::reload_wielded( bool prompt )
+{
+    avatar &u = get_avatar();
+    if( u.weapon.is_null() || !u.weapon.is_reloadable() ) {
+        add_msg( _( "You aren't holding something you can reload." ) );
+        return;
+    }
+    item_location item_loc = item_location( u, &u.weapon );
+    reload( item_loc, prompt );
+}
+
+void avatar_action::reload_weapon( bool try_everything )
+{
+    // As a special streamlined activity, hitting reload repeatedly should:
+    // Reload wielded gun
+    // First reload a magazine if necessary.
+    // Then load said magazine into gun.
+    // Reload magazines that are compatible with the current gun.
+    // Reload other guns in inventory.
+    // Reload misc magazines in inventory.
+    avatar &u = get_avatar();
+    map &here = get_map();
+    std::vector<item_location> reloadables = u.find_reloadables();
+    std::sort( reloadables.begin(), reloadables.end(),
+    [&u]( const item_location & a, const item_location & b ) {
+        const item *ap = a.get_item();
+        const item *bp = b.get_item();
+        // Current wielded weapon comes first.
+        if( u.is_wielding( *bp ) ) {
+            return false;
+        }
+        if( u.is_wielding( *ap ) ) {
+            return true;
+        }
+        // Second sort by affiliation with wielded gun
+        const std::set<itype_id> compatible_magazines = u.weapon.magazine_compatible();
+        const bool mag_ap = compatible_magazines.count( ap->typeId() ) > 0;
+        const bool mag_bp = compatible_magazines.count( bp->typeId() ) > 0;
+        if( mag_ap != mag_bp ) {
+            return mag_ap;
+        }
+        // Third sort by gun vs magazine,
+        if( ap->is_gun() != bp->is_gun() ) {
+            return ap->is_gun();
+        }
+        // Finally sort by speed to reload.
+        return ( ap->get_reload_time() * ( ap->ammo_capacity() - ap->ammo_remaining() ) ) <
+               ( bp->get_reload_time() * ( bp->ammo_capacity() - bp->ammo_remaining() ) );
+    } );
+    for( item_location &candidate : reloadables ) {
+        std::vector<item::reload_option> ammo_list;
+        u.list_ammo( *candidate.get_item(), ammo_list, false );
+        if( !ammo_list.empty() ) {
+            reload( candidate, false, false );
+            return;
+        }
+    }
+    // Just for testing, bail out here to avoid unwanted side effects.
+    if( !try_everything ) {
+        return;
+    }
+    // If we make it here and haven't found anything to reload, start looking elsewhere.
+    vehicle *veh = veh_pointer_or_null( here.veh_at( u.pos() ) );
+    turret_data turret;
+    if( veh && ( turret = veh->turret_query( u.pos() ) ) && turret.can_reload() ) {
+        item::reload_option opt = u.select_ammo( *turret.base(), true );
+        if( opt ) {
+            u.assign_activity( activity_id( "ACT_RELOAD" ), opt.moves(), opt.qty() );
+            u.activity.targets.emplace_back( turret.base() );
+            u.activity.targets.push_back( std::move( opt.ammo ) );
+        }
+        return;
+    }
+
+    reload_item();
+}
+
 void avatar_action::unload( avatar &you )
 {
     item_location loc = g->inv_map_splice( [&you]( const item & it ) {

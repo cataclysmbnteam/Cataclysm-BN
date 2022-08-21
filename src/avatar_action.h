@@ -41,6 +41,28 @@ void autoattack( avatar &you, map &m );
 
 void mend( avatar &you, item_location loc );
 
+/** Prompt to wield some item. */
+void wield();
+/** Wield specified item. */
+void wield( item_location &loc );
+
+/** Reload specified item. */
+void reload( item_location &loc, bool prompt = false, bool empty = true );
+/** Prompt to reload some item. */
+void reload_item();
+/** Reload wielded item. */
+void reload_wielded( bool prompt = false );
+/** Reload a wielded gun/tool */
+void reload_weapon( bool try_everything = true );
+
+/**
+ * @brief Prompts to unload some item.
+ *
+ * The item can be a container, gun or tool.
+ * If it's a gun, some gunmods can also be loaded.
+ */
+void unload( avatar &you );
+
 /**
  * Checks if the weapon is valid and if the player meets certain conditions for firing it.
  * Used for validating ACT_AIM and turret weapon
@@ -67,8 +89,6 @@ void fire_turret_manual( avatar &you, map &m, turret_data &turret );
 // Throw an item  't'
 void plthrow( avatar &you, item_location loc,
               const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );
-
-void unload( avatar &you );
 
 // Use item; also tries E,R,W  'a'
 void use_item( avatar &you, item_location &loc );
