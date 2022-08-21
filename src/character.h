@@ -1484,8 +1484,6 @@ class Character : public Creature, public visitable<Character>
 
         std::string extended_description() const override;
 
-        // In newcharacter.cpp
-        void empty_skills();
         /** Returns a random name from NAMES_* */
         void pick_name( bool bUseDefault = false );
         /** Get the idents of all base traits. */
@@ -1495,6 +1493,8 @@ class Character : public Creature, public visitable<Character>
         const std::bitset<NUM_VISION_MODES> &get_vision_modes() const {
             return vision_mode_cache;
         }
+        /** Clear the skills map, setting all levels to 0 */
+        void clear_skills();
         /** Empties the trait and mutations lists */
         void clear_mutations();
         /**

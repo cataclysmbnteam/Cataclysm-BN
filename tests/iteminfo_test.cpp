@@ -382,7 +382,7 @@ TEST_CASE( "food freshness and lifetime", "[item][iteminfo][food]" )
     iteminfo_query q = q_vec( { iteminfo_parts::FOOD_ROT } );
 
     // Ensure test character has no skill estimating spoilage
-    g->u.empty_skills();
+    g->u.clear_skills();
     REQUIRE_FALSE( g->u.can_estimate_rot() );
 
     SECTION( "food is fresh" ) {
@@ -539,7 +539,7 @@ TEST_CASE( "show available recipes with item as an ingredient", "[item][iteminfo
 
     GIVEN( "character has a potassium iodide tablet and no skill" ) {
         item &iodine = g->u.i_add( item( "iodine" ) );
-        g->u.empty_skills();
+        g->u.clear_skills();
 
         THEN( "nothing is craftable from it" ) {
             test_info_equals(

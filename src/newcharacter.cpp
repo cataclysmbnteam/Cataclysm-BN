@@ -2848,7 +2848,7 @@ void Character::clear_mutations()
     cached_mutations.clear();
 }
 
-void Character::empty_skills()
+void Character::clear_skills()
 {
     for( auto &sk : *_skills ) {
         sk.second.level( 0 );
@@ -3035,7 +3035,7 @@ void reset_scenario( avatar &u, const scenario *scen )
     }
     u.clear_mutations();
     u.recalc_hp();
-    u.empty_skills();
+    u.clear_skills();
     u.add_traits();
 }
 
