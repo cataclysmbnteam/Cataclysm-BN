@@ -4183,7 +4183,7 @@ double vehicle::lift_thrust_of_rotorcraft( const bool fuelled, const bool safe )
 
     const double power_load {engine_power / rotor_area};
     const double lift_thrust = coeffiicient * engine_power * std::pow( power_load, exponentiation );
-    add_msg( m_debug, "lift thrust(N) of %s: %f, rotor area (m^2): %f, engine power (w): %f",
+    add_msg( m_debug, "lift thrust(N) of %s: %f, rotor area (m^2): %f, engine power (w): %i",
              name, lift_thrust, rotor_area, engine_power );
     return lift_thrust;
 }
