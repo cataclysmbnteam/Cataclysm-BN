@@ -3057,5 +3057,145 @@
     "id": "CHANGE_PROFESSION_NAME",
     "name": "Change profession name",
     "bindings": [ { "input_method": "keyboard", "key": "*" } ]
+  },
+  {
+    "id": "ACTIVATE",
+    "type": "keybinding",
+    "category": "INVENTORY_ITEM",
+    "name": "Activate",
+    "bindings": [ { "input_method": "keyboard", "key": "a" } ]
+  },
+  {
+    "id": "READ",
+    "type": "keybinding",
+    "category": "INVENTORY_ITEM",
+    "name": "Read",
+    "bindings": [ { "input_method": "keyboard", "key": "R" } ]
+  },
+  {
+    "id": "EAT",
+    "type": "keybinding",
+    "category": "INVENTORY_ITEM",
+    "name": "Eat",
+    "bindings": [ { "input_method": "keyboard", "key": "E" } ]
+  },
+  {
+    "id": "WEAR",
+    "type": "keybinding",
+    "category": "INVENTORY_ITEM",
+    "name": "Wear",
+    "bindings": [ { "input_method": "keyboard", "key": "W" } ]
+  },
+  {
+    "id": "WIELD",
+    "type": "keybinding",
+    "category": "INVENTORY_ITEM",
+    "name": "Wield",
+    "bindings": [ { "input_method": "keyboard", "key": "w" } ]
+  },
+  {
+    "id": "UNWIELD",
+    "type": "keybinding",
+    "category": "INVENTORY_ITEM",
+    "name": "Unwield",
+    "bindings": [ { "input_method": "keyboard", "key": "w" } ]
+  },
+  {
+    "id": "THROW",
+    "type": "keybinding",
+    "category": "INVENTORY_ITEM",
+    "name": "Throw",
+    "bindings": [ { "input_method": "keyboard", "key": "t" } ]
+  },
+  {
+    "id": "CHANGE_SIDE",
+    "type": "keybinding",
+    "category": "INVENTORY_ITEM",
+    "name": "Change side",
+    "bindings": [ { "input_method": "keyboard", "key": "c" } ]
+  },
+  {
+    "id": "TAKE_OFF",
+    "type": "keybinding",
+    "category": "INVENTORY_ITEM",
+    "name": "Take off",
+    "bindings": [ { "input_method": "keyboard", "key": "T" } ]
+  },
+  {
+    "id": "DROP",
+    "type": "keybinding",
+    "category": "INVENTORY_ITEM",
+    "name": "Drop",
+    "bindings": [ { "input_method": "keyboard", "key": "d" } ]
+  },
+  {
+    "id": "UNLOAD",
+    "type": "keybinding",
+    "category": "INVENTORY_ITEM",
+    "name": "Unload",
+    "bindings": [ { "input_method": "keyboard", "key": "u" } ]
+  },
+  {
+    "id": "RELOAD",
+    "type": "keybinding",
+    "category": "INVENTORY_ITEM",
+    "name": "Reload",
+    "bindings": [ { "input_method": "keyboard", "key": "r" } ]
+  },
+  {
+    "id": "PART_RELOAD",
+    "type": "keybinding",
+    "category": "INVENTORY_ITEM",
+    "name": "Part reload",
+    "bindings": [ { "input_method": "keyboard", "key": "p" } ]
+  },
+  {
+    "id": "MEND",
+    "type": "keybinding",
+    "category": "INVENTORY_ITEM",
+    "name": "Mend",
+    "bindings": [ { "input_method": "keyboard", "key": "m" } ]
+  },
+  {
+    "id": "DISASSEMBLE",
+    "type": "keybinding",
+    "category": "INVENTORY_ITEM",
+    "name": "Disassemble",
+    "bindings": [ { "input_method": "keyboard", "key": "D" } ]
+  },
+  {
+    "id": "FAVORITE_ADD",
+    "type": "keybinding",
+    "category": "INVENTORY_ITEM",
+    "name": "Favorite",
+    "bindings": [ { "input_method": "keyboard", "key": "f" } ]
+  },
+  {
+    "id": "FAVORITE_REMOVE",
+    "type": "keybinding",
+    "category": "INVENTORY_ITEM",
+    "name": "Unfavorite",
+    "bindings": [ { "input_method": "keyboard", "key": "f" } ]
+  },
+  {
+    "id": "REASSIGN",
+    "type": "keybinding",
+    "category": "INVENTORY_ITEM",
+    "name": "Reassign",
+    "bindings": [ { "input_method": "keyboard", "key": "=" } ]
+  },
+  {
+    "id": "AUTOPICKUP_ADD",
+    "type": "keybinding",
+    "category": "INVENTORY_ITEM",
+    "name": "Autopickup (add)",
+    "bindings": [ { "input_method": "keyboard", "key": "+" } ]
+  },
+  {
+    "id": "AUTOPICKUP_REMOVE",
+    "type": "keybinding",
+    "category": "INVENTORY_ITEM",
+    "name": "Autopickup (remove)",
+    "bindings": [ { "input_method": "keyboard", "key": "-" } ]
   }
 ]

@@ -22,6 +22,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "enums.h"
+#include "examine_item_menu.h"
 #include "game.h"
 #include "input.h"
 #include "inventory.h"
@@ -229,9 +230,6 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
 
 void game_menus::inv::common( avatar &you )
 {
-    // Return to inventory menu on those inputs
-    static const std::set<int> loop_options = { { '\0', '=', 'f' } };
-
     inventory_pick_selector inv_s( you );
 
     inv_s.set_title( _( "Inventory" ) );
@@ -239,8 +237,7 @@ void game_menus::inv::common( avatar &you )
                         _( "Item hotkeys assigned: <color_light_gray>%d</color>/<color_light_gray>%d</color>" ),
                         you.allocated_invlets().count(), inv_chars.size() ) );
 
-    int res = 0;
-
+    bool started_action = false;
     do {
         you.inv.restack( you );
         inv_s.clear_items();
@@ -257,8 +254,15 @@ void game_menus::inv::common( avatar &you )
             }
         }
 
-        res = g->inventory_item_menu( location );
-    } while( loop_options.count( res ) != 0 );
+        const auto func_pos_x = []() {
+            return 0;
+        };
+        const auto func_width = []() {
+            return 50;
+        };
+        started_action = examine_item_menu::run( location, func_pos_x, func_width,
+                         examine_item_menu::menu_pos_t::right );
+    } while( !started_action );
 }
 
 item_location game_menus::inv::titled_filter_menu( item_filter filter, avatar &you,

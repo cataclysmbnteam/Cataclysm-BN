@@ -608,21 +608,6 @@ class game
 
         void draw_trail_to_square( const tripoint &t, bool bDrawX );
 
-        enum inventory_item_menu_positon {
-            RIGHT_TERMINAL_EDGE,
-            LEFT_OF_INFO,
-            RIGHT_OF_INFO,
-            LEFT_TERMINAL_EDGE,
-        };
-        int inventory_item_menu( item_location locThisItem,
-        const std::function<int()> &startx = []() {
-            return 0;
-        },
-        const std::function<int()> &width = []() {
-            return 50;
-        },
-        inventory_item_menu_positon position = RIGHT_OF_INFO );
-
         /** Custom-filtered menu for inventory and nearby items and those that within specified radius */
         item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
                                       const std::string &none_message = "" );

@@ -23,6 +23,7 @@
 #include "color.h"
 #include "debug.h"
 #include "enums.h"
+#include "examine_item_menu.h"
 #include "game.h"
 #include "game_constants.h"
 #include "ime.h"
@@ -1320,8 +1321,11 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
         // "return to AIM".
         do_return_entry();
         assert( g->u.has_activity( ACT_ADV_INVENTORY ) );
-        ret = g->inventory_item_menu( loc, info_startx, info_width,
-                                      src == advanced_inventory::side::left ? game::LEFT_OF_INFO : game::RIGHT_OF_INFO );
+
+        examine_item_menu::run( loc, info_startx, info_width,
+                                src == advanced_inventory::side::left ?
+                                examine_item_menu::menu_pos_t::left :
+                                examine_item_menu::menu_pos_t::right );
         if( !g->u.has_activity( ACT_ADV_INVENTORY ) ) {
             exit = true;
         } else {
