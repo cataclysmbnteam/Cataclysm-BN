@@ -929,40 +929,8 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         loc = item_location( you, &you.weapon );
     }
 
-    // Shift our position to our "peeking" position, so that the UI
-    // for picking a throw point lets us target the location we couldn't
-    // otherwise see.
-    const tripoint original_player_position = you.pos();
-    if( blind_throw_from_pos ) {
-        you.setpos( *blind_throw_from_pos );
-    }
-
-    target_handler::trajectory trajectory = target_handler::mode_throw( you, *loc,
-                                            blind_throw_from_pos.has_value() );
-
-    // If we previously shifted our position, put ourselves back now that we've picked our target.
-    if( blind_throw_from_pos ) {
-        you.setpos( original_player_position );
-    }
-
-    if( trajectory.empty() ) {
-        return;
-    }
-
-    if( &*loc != &you.weapon ) {
-        // This is to represent "implicit offhand wielding"
-        int extra_cost = you.item_handling_cost( *loc, true, INVENTORY_HANDLING_PENALTY / 2 );
-        you.mod_moves( -extra_cost );
-    }
-
-    if( loc->count_by_charges() && loc->charges > 1 ) {
-        loc->mod_charges( -1 );
-        thrown.charges = 1;
-    } else {
-        loc.remove_item();
-    }
-    you.throw_item( trajectory.back(), thrown, blind_throw_from_pos );
-    g->reenter_fullscreen();
+    throw_activity_actor actor( loc, blind_throw_from_pos );
+    you.assign_activity( actor, false );
 }
 
 static void make_active( item_location loc )
