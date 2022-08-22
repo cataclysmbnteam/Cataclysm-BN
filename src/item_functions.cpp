@@ -32,11 +32,7 @@ bool can_be_unloaded( const item &itm )
         return false;
     }
 
-    if( itm.ammo_remaining() > 0 || itm.casings_count() > 0 ) {
-        return true;
-    }
-
-    return false;
+    return itm.ammo_remaining() > 0 || itm.casings_count() > 0;
 }
 
 } // namespace item_funcs
