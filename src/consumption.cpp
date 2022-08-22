@@ -1253,24 +1253,6 @@ bool Character::consume_effects( item &food )
     return true;
 }
 
-hint_rating Character::rate_action_eat( const item &it ) const
-{
-    if( !can_consume( it ) ) {
-        return hint_rating::cant;
-    }
-
-    const auto rating = will_eat( it );
-    if( rating.success() ) {
-        return hint_rating::good;
-    } else if( rating.value() == edible_rating::inedible ||
-               rating.value() == edible_rating::inedible_mutation ) {
-
-        return hint_rating::cant;
-    }
-
-    return hint_rating::iffy;
-}
-
 bool Character::can_feed_reactor_with( const item &it ) const
 {
     static const std::set<ammotype> acceptable = {{

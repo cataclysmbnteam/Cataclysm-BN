@@ -451,16 +451,6 @@ class player : public Character
          * if they will potentially have enough light when player gets there */
         float fine_detail_vision_mod( const tripoint &p = tripoint_zero ) const;
 
-        /** Used to determine player feedback on item use for the inventory code.
-         *  rates usability lower for non-tools (books, etc.) */
-        hint_rating rate_action_use( const item &it ) const;
-        hint_rating rate_action_wear( const item &it ) const;
-        hint_rating rate_action_takeoff( const item &it ) const;
-        hint_rating rate_action_reload( const item &it ) const;
-        hint_rating rate_action_unload( const item &it ) const;
-        hint_rating rate_action_mend( const item &it ) const;
-        hint_rating rate_action_disassemble( const item &it );
-
         //returns true if the warning is now beyond final and results in hostility.
         bool add_faction_warning( const faction_id &id );
         int current_warnings_fac( const faction_id &id );

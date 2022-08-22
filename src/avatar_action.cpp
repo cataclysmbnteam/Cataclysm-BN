@@ -29,6 +29,7 @@
 #include "int_id.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_functions.h"
 #include "item_contents.h"
 #include "item_location.h"
 #include "iuse_actor.h"
@@ -1127,6 +1128,17 @@ static item::reload_option favorite_ammo_or_select(
     return u.select_ammo( it, prompt, empty );
 }
 
+static bool can_reload_item_or_mods( const avatar &you, const item &itm )
+{
+    for( const item *mod : itm.gunmods() ) {
+        if( can_reload_item_or_mods( you, *mod ) ) {
+            return true;
+        }
+    }
+    return itm.is_reloadable() && you.can_reload( itm );
+}
+
+
 void avatar_action::reload( item_location &loc, bool prompt, bool empty )
 {
     avatar &u = get_avatar();
@@ -1139,34 +1151,26 @@ void avatar_action::reload( item_location &loc, bool prompt, bool empty )
         return;
     }
 
-    switch( u.rate_action_reload( *it ) ) {
-        case hint_rating::iffy:
-            if( ( it->is_ammo_container() || it->is_magazine() ) && it->ammo_remaining() > 0 &&
-                it->ammo_remaining() == it->ammo_capacity() ) {
-                add_msg( m_info, _( "The %s is already fully loaded!" ), it->tname() );
-                return;
-            }
-            if( it->is_ammo_belt() ) {
-                const auto &linkage = it->type->magazine->linkage;
-                if( linkage && !u.has_charges( *linkage, 1 ) ) {
-                    add_msg( m_info, _( "You need at least one %s to reload the %s!" ),
-                             item::nname( *linkage, 1 ), it->tname() );
-                    return;
-                }
-            }
-            if( it->is_watertight_container() && it->is_container_full() ) {
-                add_msg( m_info, _( "The %s is already full!" ), it->tname() );
-                return;
-            }
-
-        // intentional fall-through
-
-        case hint_rating::cant:
-            add_msg( m_info, _( "You can't reload a %s!" ), it->tname() );
+    if( !can_reload_item_or_mods( u, *it ) ) {
+        if( ( it->is_ammo_container() || it->is_magazine() ) && it->ammo_remaining() > 0 &&
+            it->ammo_remaining() == it->ammo_capacity() ) {
+            add_msg( m_info, _( "The %s is already fully loaded!" ), it->tname() );
             return;
-
-        case hint_rating::good:
-            break;
+        }
+        if( it->is_ammo_belt() ) {
+            const auto &linkage = it->type->magazine->linkage;
+            if( linkage && !u.has_charges( *linkage, 1 ) ) {
+                add_msg( m_info, _( "You need at least one %s to reload the %s!" ),
+                         item::nname( *linkage, 1 ), it->tname() );
+                return;
+            }
+        }
+        if( it->is_watertight_container() && it->is_container_full() ) {
+            add_msg( m_info, _( "The %s is already full!" ), it->tname() );
+            return;
+        }
+        add_msg( m_info, _( "You can't reload a %s!" ), it->tname() );
+        return;
     }
 
     bool use_loc = true;
@@ -1213,8 +1217,8 @@ void avatar_action::reload( item_location &loc, bool prompt, bool empty )
 
 void avatar_action::reload_item()
 {
-    item_location item_loc = g->inv_map_splice( [&]( const item & it ) {
-        return get_avatar().rate_action_reload( it ) == hint_rating::good;
+    item_location item_loc = g->inv_map_splice( []( const item & it ) {
+        return can_reload_item_or_mods( get_avatar(), it );
     }, _( "Reload item" ), 1, _( "You have nothing to reload." ) );
 
     if( !item_loc ) {
@@ -1304,8 +1308,8 @@ void avatar_action::reload_weapon( bool try_everything )
 
 void avatar_action::unload( avatar &you )
 {
-    item_location loc = g->inv_map_splice( [&you]( const item & it ) {
-        return you.rate_action_unload( it ) == hint_rating::good;
+    item_location loc = g->inv_map_splice( []( const item & it ) {
+        return item_funcs::can_be_unloaded( it );
     }, _( "Unload item" ), 1, _( "You have nothing to unload." ) );
 
     if( !loc ) {

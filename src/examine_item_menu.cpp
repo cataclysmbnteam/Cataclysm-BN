@@ -1,13 +1,19 @@
 #include "examine_item_menu.h"
 
+#include <vector>
+#include <string>
+
 #include "auto_pickup.h"
 #include "avatar_action.h"
 #include "avatar.h"
 #include "game_inventory.h"
 #include "input.h"
 #include "item.h"
+#include "item_functions.h"
+#include "itype.h"
 #include "messages.h"
 #include "output.h"
+#include "recipe_dictionary.h"
 #include "ui_manager.h"
 #include "ui.h"
 
@@ -103,22 +109,22 @@ bool run(
         }
     };
 
-    add_entry( "ACTIVATE", you.rate_action_use( itm ), [&]() {
+    add_entry( "ACTIVATE", rate_action_use( you, itm ), [&]() {
         avatar_action::use_item( you, loc );
         return true;
     } );
 
-    add_entry( "READ", you.rate_action_read( itm ), [&]() {
+    add_entry( "READ", rate_action_read( you, itm ), [&]() {
         you.read( loc );
         return true;
     } );
 
-    add_entry( "EAT", you.rate_action_eat( itm ), [&]() {
+    add_entry( "EAT", rate_action_eat( you, itm ), [&]() {
         avatar_action::eat( you, loc );
         return true;
     } );
 
-    add_entry( "WEAR", you.rate_action_wear( itm ), [&]() {
+    add_entry( "WEAR", rate_action_wear( you, itm ), [&]() {
         you.wear( itm );
         return true;
     } );
@@ -140,12 +146,12 @@ bool run(
         return true;
     } );
 
-    add_entry( "CHANGE_SIDE", you.rate_action_change_side( itm ), [&]() {
+    add_entry( "CHANGE_SIDE", rate_action_change_side( you, itm ), [&]() {
         you.change_side( loc );
         return true;
     } );
 
-    add_entry( "TAKE_OFF", you.rate_action_takeoff( itm ), [&]() {
+    add_entry( "TAKE_OFF", rate_action_takeoff( you, itm ), [&]() {
         you.takeoff( itm );
         return true;
     } );
@@ -155,27 +161,27 @@ bool run(
         return true;
     } );
 
-    add_entry( "UNLOAD", you.rate_action_unload( itm ), [&]() {
+    add_entry( "UNLOAD", rate_action_unload( you, itm ), [&]() {
         you.unload( loc );
         return true;
     } );
 
-    add_entry( "RELOAD", you.rate_action_reload( itm ), [&]() {
+    add_entry( "RELOAD", rate_action_reload( you, itm ), [&]() {
         avatar_action::reload( loc );
         return true;
     } );
 
-    add_entry( "PART_RELOAD", you.rate_action_reload( itm ), [&]() {
+    add_entry( "PART_RELOAD", rate_action_reload( you, itm ), [&]() {
         avatar_action::reload( loc, true );
         return true;
     } );
 
-    add_entry( "MEND", you.rate_action_mend( itm ), [&]() {
+    add_entry( "MEND", rate_action_mend( you, itm ), [&]() {
         avatar_action::mend( you, loc );
         return true;
     } );
 
-    add_entry( "DISASSEMBLE", you.rate_action_disassemble( itm ), [&]() {
+    add_entry( "DISASSEMBLE", rate_action_disassemble( you, itm ), [&]() {
         you.disassemble( loc, false );
         return true;
     } );
@@ -276,6 +282,150 @@ bool run(
         }
     }
     return ret_val;
+}
+
+hint_rating rate_action_use( const avatar &you, const item &it )
+{
+    if( it.is_tool() ) {
+        return it.ammo_sufficient() ? hint_rating::good : hint_rating::iffy;
+    } else if( it.is_gunmod() ) {
+        /** @EFFECT_GUN >0 allows rating estimates for gun modifications */
+        if( you.get_skill_level( skill_id( "gun" ) ) == 0 ) {
+            return hint_rating::iffy;
+        } else {
+            return hint_rating::good;
+        }
+    } else if( it.is_food() || it.is_medication() || it.is_book() || it.is_armor() ) {
+        // The rating is subjective, could be argued as hint_rating::cant or hint_rating::good as well
+        return hint_rating::iffy;
+    } else if( it.type->has_use() ) {
+        return hint_rating::good;
+    } else if( !it.is_container_empty() ) {
+        return rate_action_use( you, it.get_contained() );
+    }
+
+    return hint_rating::cant;
+}
+
+hint_rating rate_action_read( const avatar &you, const item &it )
+{
+    if( !it.is_book() ) {
+        return hint_rating::cant;
+    }
+
+    if( !you.has_identified( it.typeId() ) ) {
+        return hint_rating::good;
+    }
+
+    std::vector<std::string> dummy;
+    return you.get_book_reader( it, dummy ) == nullptr ? hint_rating::iffy : hint_rating::good;
+}
+
+hint_rating rate_action_eat( const avatar &you, const item &it )
+{
+    if( !you.can_consume( it ) ) {
+        return hint_rating::cant;
+    }
+
+    const ret_val<edible_rating> rating = you.will_eat( it );
+    if( rating.success() ) {
+        return hint_rating::good;
+    } else if( rating.value() == edible_rating::inedible ||
+               rating.value() == edible_rating::inedible_mutation ) {
+
+        return hint_rating::cant;
+    }
+
+    return hint_rating::iffy;
+}
+
+hint_rating rate_action_wear( const avatar &you, const item &it )
+{
+    if( !it.is_armor() ) {
+        return hint_rating::cant;
+    }
+
+    if( you.is_wearing( it ) ) {
+        return hint_rating::iffy;
+    }
+
+    return you.can_wear( it ).success() ? hint_rating::good : hint_rating::iffy;
+}
+
+hint_rating rate_action_change_side( const avatar &you, const item &it )
+{
+    if( !you.is_worn( it ) ) {
+        return hint_rating::iffy;
+    }
+
+    if( !it.is_sided() ) {
+        return hint_rating::cant;
+    }
+
+    return hint_rating::good;
+}
+
+hint_rating rate_action_takeoff( const avatar &you, const item &it )
+{
+    if( !it.is_armor() ) {
+        return hint_rating::cant;
+    }
+
+    if( you.is_worn( it ) && you.can_takeoff( it ).success() ) {
+        return hint_rating::good;
+    }
+
+    return hint_rating::iffy;
+}
+
+hint_rating rate_action_reload( const avatar &you, const item &it )
+{
+    hint_rating res = hint_rating::cant;
+
+    // Guns may contain additional reloadable mods so check these first
+    for( const auto mod : it.gunmods() ) {
+        switch( rate_action_reload( you, *mod ) ) {
+            case hint_rating::good:
+                return hint_rating::good;
+
+            case hint_rating::cant:
+                continue;
+
+            case hint_rating::iffy:
+                res = hint_rating::iffy;
+        }
+    }
+
+    if( !it.is_reloadable() ) {
+        return res;
+    }
+
+    return you.can_reload( it ) ? hint_rating::good : hint_rating::iffy;
+}
+
+hint_rating rate_action_unload( const avatar &/*you*/, const item &it )
+{
+    return item_funcs::can_be_unloaded( it ) ? hint_rating::good : hint_rating::cant;
+}
+
+hint_rating rate_action_mend( const avatar &/*you*/, const item &it )
+{
+    // TODO: check also if item damage could be repaired via a tool
+    if( !it.faults.empty() ) {
+        return hint_rating::good;
+    }
+    return it.faults_potential().empty() ? hint_rating::cant : hint_rating::iffy;
+}
+
+hint_rating rate_action_disassemble( avatar &you, const item &it )
+{
+    if( you.can_disassemble( it, you.crafting_inventory() ).success() ) {
+        return hint_rating::good; // possible
+    } else if( recipe_dictionary::get_uncraft( it.typeId() ) ) {
+        return hint_rating::iffy; // potentially possible but we currently lack requirements
+    } else {
+        return hint_rating::cant; // never possible
+    }
 }
 
 } // namespace examine_item_menu

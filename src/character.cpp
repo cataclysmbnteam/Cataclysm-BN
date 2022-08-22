@@ -3695,19 +3695,6 @@ int Character::extraEncumbrance( const layer_level level, const int bp ) const
     return encumbrance_cache->elems[bp].layer_penalty_details[static_cast<int>( level )].total;
 }
 
-hint_rating Character::rate_action_change_side( const item &it ) const
-{
-    if( !is_worn( it ) ) {
-        return hint_rating::iffy;
-    }
-
-    if( !it.is_sided() ) {
-        return hint_rating::cant;
-    }
-
-    return hint_rating::good;
-}
-
 bool Character::change_side( item &it, bool interactive )
 {
     const auto ret = can_swap( it );
