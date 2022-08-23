@@ -279,7 +279,7 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
     } else if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
                !has_effect( effect_contacts ) && !has_bionic( bio_eye_optic ) ) {
         reasons.emplace_back( _( "Your eyes won't focus without reading glasses." ) );
-    } else if( fine_detail_vision_mod() > 4 ) {
+    } else if( !character_funcs::can_see_fine_details( *this ) ) {
         // Too dark to read only applies if the player can read to himself
         reasons.emplace_back( _( "It's too dark to read!" ) );
         return nullptr;
@@ -309,7 +309,8 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
                    !elem->has_effect( effect_contacts ) ) {
             reasons.push_back( string_format( _( "%s needs reading glasses!" ),
                                               elem->disp_name() ) );
-        } else if( std::min( fine_detail_vision_mod(), elem->fine_detail_vision_mod() ) > 4 ) {
+        } else if( !character_funcs::fine_detail_vision_mod( *this ) &&
+                   !character_funcs::fine_detail_vision_mod( *elem ) ) {
             reasons.push_back( string_format(
                                    _( "It's too dark for %s to read!" ),
                                    elem->disp_name() ) );
@@ -347,7 +348,8 @@ int avatar::time_to_read( const item &book, const player &reader, const player *
     }
 
     int retval = type->time * reading_speed;
-    retval *= std::min( fine_detail_vision_mod(), reader.fine_detail_vision_mod() );
+    retval *= std::min( character_funcs::fine_detail_vision_mod( *this ),
+                        character_funcs::fine_detail_vision_mod( reader ) );
 
     const int effective_int = std::min( { get_int(), reader.get_int(), learner ? learner->get_int() : INT_MAX } );
     if( type->intel > effective_int && !reader.has_trait( trait_PROF_DICEMASTER ) ) {
@@ -591,7 +593,11 @@ bool avatar::read( item_location loc, const bool continuous )
         }
     }
 
-    if( std::min( fine_detail_vision_mod(), reader->fine_detail_vision_mod() ) > 1.0 ) {
+    const float vision_mod = std::min(
+                                 character_funcs::fine_detail_vision_mod( *this ),
+                                 character_funcs::fine_detail_vision_mod( *reader )
+                             );
+    if( vision_mod > character_funcs::FINE_VISION_PERFECT ) {
         add_msg( m_warning,
                  _( "It's difficult for %s to see fine details right now.  Reading will take longer than usual." ),
                  reader->disp_name() );

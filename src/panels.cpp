@@ -20,6 +20,7 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
+#include "character_functions.h"
 #include "character_martial_arts.h"
 #include "character_oracle.h"
 #include "color.h"
@@ -1413,7 +1414,7 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
     }
     // display lighting
     const std::pair<std::string, nc_color> ll = get_light_level(
-                get_avatar().fine_detail_vision_mod() );
+                character_funcs::fine_detail_vision_mod( get_avatar() ) );
     mvwprintz( w, point( 1, 2 ), c_light_gray, "%s ", _( "Light:" ) );
     wprintz( w, ll.second, ll.first );
 
@@ -1609,7 +1610,7 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
     }
     // display lighting
     const std::pair<std::string, nc_color> ll = get_light_level(
-                get_avatar().fine_detail_vision_mod() );
+                character_funcs::fine_detail_vision_mod( get_avatar() ) );
     mvwprintz( w, point( 8, 4 ), ll.second, ll.first );
     // wind
     const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
@@ -1958,7 +1959,7 @@ static void draw_lighting_classic( const avatar &u, const catacurses::window &w 
     werase( w );
 
     const std::pair<std::string, nc_color> ll = get_light_level(
-                get_avatar().fine_detail_vision_mod() );
+                character_funcs::fine_detail_vision_mod( get_avatar() ) );
     mvwprintz( w, point_zero, c_light_gray, _( "Lighting:" ) );
     mvwprintz( w, point( 10, 0 ), ll.second, ll.first );
 

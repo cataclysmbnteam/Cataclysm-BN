@@ -1089,7 +1089,7 @@ static void draw_can_craft_indicator( const catacurses::window &w, const recipe 
 {
     const avatar &u = get_avatar();
     // Draw text
-    if( u.lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
+    if( lighting_crafting_speed_multiplier( u, rec ) <= 0.0f ) {
         right_print( w, 0, 1, i_red, _( "too dark to craft" ) );
     } else if( crafting_speed_multiplier( u, rec, false ) <= 0.0f ) {
         // Technically not always only too sad, but must be too sad

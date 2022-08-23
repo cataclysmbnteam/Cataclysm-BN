@@ -48,6 +48,7 @@
 #include "catacharset.h"
 #include "character.h"
 #include "character_display.h"
+#include "character_functions.h"
 #include "character_martial_arts.h"
 #include "clzones.h"
 #include "colony.h"
@@ -8429,7 +8430,8 @@ static void add_disassemblables( uilist &menu,
 // Butchery sub-menu and time calculation
 static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, int corpse = -1 )
 {
-    const inventory &inv = g->u.crafting_inventory();
+    avatar &you = get_avatar();
+    const inventory &inv = you.crafting_inventory();
 
     const int factor = inv.max_quality( quality_id( "BUTCHER" ) );
     const std::string msg_inv = factor > INT_MIN
@@ -8454,14 +8456,14 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
     };
     auto info_on_action = [&]( butcher_type type ) {
         int corpse_index = corpse == -1 ? 0 : corpse;
-        butchery_setup setup = consider_butchery( *corpses[corpse_index], g->u, type );
+        butchery_setup setup = consider_butchery( *corpses[corpse_index], you, type );
         std::string out;
         for( const std::string &problem : setup.problems ) {
             out += "\n" + colorize( problem, c_red );
         }
         return out;
     };
-    const bool enough_light = g->u.fine_detail_vision_mod() <= 4;
+    const bool enough_light = character_funcs::can_see_fine_details( you );
 
     bool has_skin = false;
     bool has_organs = false;
@@ -8551,25 +8553,25 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
     smenu.query();
     switch( smenu.ret ) {
         case BUTCHER:
-            g->u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, true );
+            you.assign_activity( activity_id( "ACT_BUTCHER" ), 0, true );
             break;
         case BUTCHER_FULL:
-            g->u.assign_activity( activity_id( "ACT_BUTCHER_FULL" ), 0, true );
+            you.assign_activity( activity_id( "ACT_BUTCHER_FULL" ), 0, true );
             break;
         case F_DRESS:
-            g->u.assign_activity( activity_id( "ACT_FIELD_DRESS" ), 0, true );
+            you.assign_activity( activity_id( "ACT_FIELD_DRESS" ), 0, true );
             break;
         case SKIN:
-            g->u.assign_activity( activity_id( "ACT_SKIN" ), 0, true );
+            you.assign_activity( activity_id( "ACT_SKIN" ), 0, true );
             break;
         case QUARTER:
-            g->u.assign_activity( activity_id( "ACT_QUARTER" ), 0, true );
+            you.assign_activity( activity_id( "ACT_QUARTER" ), 0, true );
             break;
         case DISMEMBER:
-            g->u.assign_activity( activity_id( "ACT_DISMEMBER" ), 0, true );
+            you.assign_activity( activity_id( "ACT_DISMEMBER" ), 0, true );
             break;
         case DISSECT:
-            g->u.assign_activity( activity_id( "ACT_DISSECT" ), 0, true );
+            you.assign_activity( activity_id( "ACT_DISSECT" ), 0, true );
             break;
         default:
             return;

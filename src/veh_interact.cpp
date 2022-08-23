@@ -21,6 +21,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character_functions.h"
 #include "character_id.h"
 #include "clzones.h"
 #include "debug.h"
@@ -536,6 +537,7 @@ void veh_interact::cache_tool_availability_update_lifting( const tripoint &world
  */
 task_reason veh_interact::cant_do( char mode )
 {
+    const avatar &you = get_avatar();
     bool enough_morale = true;
     bool valid_target = false;
     bool has_tools = false;
@@ -546,26 +548,26 @@ task_reason veh_interact::cant_do( char mode )
     switch( mode ) {
         case 'i':
             // install mode
-            enough_morale = g->u.has_morale_to_craft();
+            enough_morale = you.has_morale_to_craft();
             valid_target = !can_mount.empty() && 0 == veh->tags.count( "convertible" );
             //tool checks processed later
-            enough_light = g->u.fine_detail_vision_mod() <= 4;
+            enough_light = character_funcs::can_see_fine_details( you );
             has_tools = true;
             break;
 
         case 'r':
             // repair mode
-            enough_morale = g->u.has_morale_to_craft();
+            enough_morale = you.has_morale_to_craft();
             valid_target = !need_repair.empty() && cpart >= 0;
             // checked later
             has_tools = true;
-            enough_light = g->u.fine_detail_vision_mod() <= 4;
+            enough_light = character_funcs::can_see_fine_details( you );
             break;
 
         case 'm': {
             // mend mode
-            enough_morale = g->u.has_morale_to_craft();
-            const bool toggling = g->u.has_trait( trait_DEBUG_HS );
+            enough_morale = you.has_morale_to_craft();
+            const bool toggling = you.has_trait( trait_DEBUG_HS );
             valid_target = std::any_of( vpr.begin(), vpr.end(), [toggling]( const vpart_reference & pt ) {
                 if( toggling ) {
                     return pt.part().is_available() && !pt.part().faults_potential().empty();
@@ -573,7 +575,7 @@ task_reason veh_interact::cant_do( char mode )
                     return pt.part().is_available() && !pt.part().faults().empty();
                 }
             } );
-            enough_light = g->u.fine_detail_vision_mod() <= 4;
+            enough_light = character_funcs::can_see_fine_details( you );
             // checked later
             has_tools = true;
         }
@@ -588,13 +590,13 @@ task_reason veh_interact::cant_do( char mode )
 
         case 'o':
             // remove mode
-            enough_morale = g->u.has_morale_to_craft();
+            enough_morale = you.has_morale_to_craft();
             valid_target = cpart >= 0 && 0 == veh->tags.count( "convertible" );
             part_free = parts_here.size() > 1 || ( cpart >= 0 && veh->can_unmount( cpart ) );
             //tool and skill checks processed later
             has_tools = true;
             has_skill = true;
-            enough_light = g->u.fine_detail_vision_mod() <= 4;
+            enough_light = character_funcs::can_see_fine_details( you );
             break;
 
         case 's':
@@ -606,7 +608,7 @@ task_reason veh_interact::cant_do( char mode )
                     break;
                 }
             }
-            has_tools = g->u.has_quality( qual_HOSE );
+            has_tools = you.has_quality( qual_HOSE );
             break;
 
         case 'd':
@@ -651,7 +653,7 @@ task_reason veh_interact::cant_do( char mode )
             return UNKNOWN_TASK;
     }
 
-    if( std::abs( veh->velocity ) > 100 || g->u.controlling_vehicle ) {
+    if( std::abs( veh->velocity ) > 100 || you.controlling_vehicle ) {
         return MOVING_VEHICLE;
     }
     if( !valid_target ) {

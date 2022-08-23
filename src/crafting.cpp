@@ -22,6 +22,7 @@
 #include "character.h"
 #include "colony.h"
 #include "color.h"
+#include "character_functions.h"
 #include "craft_command.h"
 #include "crafting_gui.h"
 #include "debug.h"
@@ -59,6 +60,7 @@
 #include "requirements.h"
 #include "ret_val.h"
 #include "rng.h"
+#include "skill.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "string_input_popup.h"
@@ -105,18 +107,17 @@ static const std::string flag_VARSIZE( "VARSIZE" );
 
 class basecamp;
 
-void drop_or_handle( const item &newit, player &p );
 static std::pair<bench_type, float> best_bench_here( const item &craft, const tripoint &loc,
         bool can_lift );
 
-static bool crafting_allowed( const player &p, const recipe &rec )
+static bool crafting_allowed( const Character &who, const recipe &rec )
 {
-    if( p.morale_crafting_speed_multiplier( rec ) <= 0.0f ) {
+    if( morale_crafting_speed_multiplier( who, rec ) <= 0.0f ) {
         add_msg( m_info, _( "Your morale is too low to craft such a difficult thing…" ) );
         return false;
     }
 
-    if( p.lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
+    if( lighting_crafting_speed_multiplier( who, rec ) <= 0.0f ) {
         add_msg( m_info, _( "You can't see to craft!" ) );
         return false;
     }
@@ -128,37 +129,41 @@ static bool crafting_allowed( const player &p, const recipe &rec )
     return true;
 }
 
-float player::lighting_craft_speed_multiplier( const recipe &rec ) const
+float lighting_crafting_speed_multiplier( const Character &who, const recipe &rec )
 {
-    // negative is bright, 0 is just bright enough, positive is dark, +7.0f is pitch black
-    float darkness = fine_detail_vision_mod() - 4.0f;
-    if( darkness <= 0.0f ) {
-        return 1.0f; // it's bright, go for it
+    if( character_funcs::can_see_fine_details( who ) ) {
+        return 1.0f;
     }
-    bool rec_blind = rec.has_flag( flag_BLIND_HARD ) || rec.has_flag( flag_BLIND_EASY );
-    if( darkness > 0 && !rec_blind ) {
-        return 0.0f; // it's dark and this recipe can't be crafted in the dark
-    }
+
+    const SkillLevelMap &char_skills = who.get_all_skills();
+    int skill_bonus = char_skills.exceeds_recipe_requirements( rec );
+
+    // This value whould be within [0,1]
+    const float darkness =
+        (
+            character_funcs::fine_detail_vision_mod( who ) -
+            character_funcs::FINE_VISION_THRESHOLD
+        ) / 7.0f;
+
     if( rec.has_flag( flag_BLIND_EASY ) ) {
         // 100% speed in well lit area at skill+0
         // 25% speed in pitch black at skill+0
         // skill+2 removes speed penalty
-        return 1.0f - ( darkness / ( 7.0f / 0.75f ) ) * std::max( 0,
-                2 - exceeds_recipe_requirements( rec ) ) / 2.0f;
-    }
-    if( rec.has_flag( flag_BLIND_HARD ) && exceeds_recipe_requirements( rec ) >= 2 ) {
+        return 1.0f - darkness * 0.75f * std::max( 0, 2 - skill_bonus ) / 2.0f;
+    } else if( rec.has_flag( flag_BLIND_HARD ) && skill_bonus >= 2 ) {
         // 100% speed in well lit area at skill+2
         // 25% speed in pitch black at skill+2
         // skill+8 removes speed penalty
-        return 1.0f - ( darkness / ( 7.0f / 0.75f ) ) * std::max( 0,
-                8 - exceeds_recipe_requirements( rec ) ) / 6.0f;
+        return 1.0f - darkness * 0.75f * std::max( 0, 8 - skill_bonus ) / 6.0f;
+    } else {
+        // Needs proper vision or the character is not skilled enough
+        return 0.0f;
     }
-    return 0.0f; // it's dark and you could craft this if you had more skill
 }
 
-float player::morale_crafting_speed_multiplier( const recipe &rec ) const
+float morale_crafting_speed_multiplier( const Character &who, const recipe &rec )
 {
-    int morale = get_morale_level();
+    int morale = who.get_morale_level();
     if( morale >= 0 ) {
         // No bonus for being happy yet
         return 1.0f;
@@ -167,9 +172,9 @@ float player::morale_crafting_speed_multiplier( const recipe &rec ) const
     // Harder jobs are more frustrating, even when skilled
     // For each skill where skill=difficulty, multiply effective morale by 200%
     float morale_mult = std::max( 1.0f, 2.0f * rec.difficulty / std::max( 1,
-                                  get_skill_level( rec.skill_used ) ) );
-    for( const auto &pr : rec.required_skills ) {
-        morale_mult *= std::max( 1.0f, 2.0f * pr.second / std::max( 1, get_skill_level( pr.first ) ) );
+                                  who.get_skill_level( rec.skill_used ) ) );
+    for( const std::pair<const skill_id, int> &pr : rec.required_skills ) {
+        morale_mult *= std::max( 1.0f, 2.0f * pr.second / std::max( 1, who.get_skill_level( pr.first ) ) );
     }
 
     // Halve speed at -50 effective morale, quarter at -150
@@ -259,10 +264,10 @@ float workbench_crafting_speed_multiplier( const item &craft, const bench_locati
     return multiplier;
 }
 
-float crafting_speed_multiplier( const player &p, const recipe &rec, bool in_progress )
+float crafting_speed_multiplier( const Character &who, const recipe &rec, bool in_progress )
 {
-    const float result = p.morale_crafting_speed_multiplier( rec ) *
-                         p.lighting_craft_speed_multiplier( rec );
+    const float result = morale_crafting_speed_multiplier( who, rec ) *
+                         lighting_crafting_speed_multiplier( who, rec );
     // Can't start if we'd need 300% time, but we can still finish the job
     if( !in_progress && result < 0.33f ) {
         return 0.0f;
@@ -275,7 +280,8 @@ float crafting_speed_multiplier( const player &p, const recipe &rec, bool in_pro
     return result;
 }
 
-float crafting_speed_multiplier( const player &p, const item &craft, const bench_location &bench )
+float crafting_speed_multiplier( const Character &who, const item &craft,
+                                 const bench_location &bench )
 {
     if( !craft.is_craft() ) {
         debugmsg( "Can't calculate crafting speed multiplier of non-craft '%s'", craft.tname() );
@@ -284,43 +290,43 @@ float crafting_speed_multiplier( const player &p, const item &craft, const bench
 
     const recipe &rec = craft.get_making();
 
-    const float light_multi = p.lighting_craft_speed_multiplier( rec );
+    const float light_multi = lighting_crafting_speed_multiplier( who, rec );
     const float bench_multi = workbench_crafting_speed_multiplier( craft, bench );
-    const float morale_multi = p.morale_crafting_speed_multiplier( rec );
+    const float morale_multi = morale_crafting_speed_multiplier( who, rec );
 
     const float total_multi = light_multi * bench_multi * morale_multi;
 
     if( light_multi <= 0.0f ) {
-        p.add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );
+        who.add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );
         return 0.0f;
     }
     if( bench_multi <= 0.1f || ( bench_multi <= 0.33f && total_multi <= 0.2f ) ) {
-        p.add_msg_if_player( m_bad, _( "The %s is too large and/or heavy to work on.  You may want to"
-                                       " use a workbench or a smaller batch size" ), craft.tname() );
+        who.add_msg_if_player( m_bad, _( "The %s is too large and/or heavy to work on.  You may want to"
+                                         " use a workbench or a smaller batch size" ), craft.tname() );
         return 0.0f;
     }
     if( morale_multi <= 0.2f || ( morale_multi <= 0.33f && total_multi <= 0.2f ) ) {
-        p.add_msg_if_player( m_bad, _( "Your morale is too low to continue crafting." ) );
+        who.add_msg_if_player( m_bad, _( "Your morale is too low to continue crafting." ) );
         return 0.0f;
     }
 
     // If we're working below 20% speed, just give up
     if( total_multi <= 0.2f ) {
-        p.add_msg_if_player( m_bad, _( "You are too frustrated to continue and just give up." ) );
+        who.add_msg_if_player( m_bad, _( "You are too frustrated to continue and just give up." ) );
         return 0.0f;
     }
 
     if( calendar::once_every( 1_hours ) && total_multi < 0.75f ) {
         if( light_multi <= 0.5f ) {
-            p.add_msg_if_player( m_bad, _( "You can't see well and are working slowly." ) );
+            who.add_msg_if_player( m_bad, _( "You can't see well and are working slowly." ) );
         }
         if( bench_multi <= 0.5f ) {
-            p.add_msg_if_player( m_bad,
-                                 _( "The %s is to large and/or heavy to work on comfortably.  You are"
-                                    " working slowly." ), craft.tname() );
+            who.add_msg_if_player( m_bad,
+                                   _( "The %s is to large and/or heavy to work on comfortably.  You are"
+                                      " working slowly." ), craft.tname() );
         }
         if( morale_multi <= 0.5f ) {
-            p.add_msg_if_player( m_bad, _( "You can't focus and are working slowly." ) );
+            who.add_msg_if_player( m_bad, _( "You can't focus and are working slowly." ) );
         }
     }
 
@@ -1470,6 +1476,17 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
     return selected;
 }
 
+static void drop_or_handle( const item &newit, Character &who )
+{
+    if( newit.made_of( LIQUID ) && who.is_avatar() ) {
+        // TODO: what about NPCs?
+        liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
+    } else {
+        item tmp( newit );
+        who.as_player()->i_add_or_drop( tmp );
+    }
+}
+
 // Prompts player to empty all newly-unsealed containers in inventory
 // Called after something that might have opened containers (making them buckets) but not emptied them
 static void empty_buckets( player &p )
@@ -1865,7 +1882,7 @@ ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) c
     }
 
     // check sufficient light
-    if( lighting_craft_speed_multiplier( r ) == 0.0f ) {
+    if( lighting_crafting_speed_multiplier( *this, r ) == 0.0f ) {
         return ret_val<bool>::make_failure( _( "You can't see to craft!" ) );
     }
 
@@ -1984,7 +2001,7 @@ bool player::disassemble( item_location target, bool interactive )
         for( const auto &component : components ) {
             list += "- " + component.to_string() + "\n";
         }
-        if( !r.learn_by_disassembly.empty() && !knows_recipe( &r ) && can_decomp_learn( r ) ) {
+        if( !knows_recipe( &r ) && can_learn_by_disassembly( r ) ) {
             if( !query_yn(
                     _( "Disassembling the %s may yield:\n%s\nReally disassemble?\nYou feel you may be able to understand this object's construction.\n" ),
                     colorize( obj.tname(), obj.color_in_inventory() ),
@@ -2259,7 +2276,7 @@ void player::complete_disassemble( item_location &target, const recipe &dis )
     put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, drop_items );
 
     if( !dis.learn_by_disassembly.empty() && !knows_recipe( &dis ) ) {
-        if( can_decomp_learn( dis ) ) {
+        if( can_learn_by_disassembly( dis ) ) {
             // TODO: make this depend on intelligence
             if( one_in( 4 ) ) {
                 // TODO: change to forward an id or a reference
@@ -2276,30 +2293,20 @@ void player::complete_disassemble( item_location &target, const recipe &dis )
     }
 }
 
-void remove_ammo( std::list<item> &dis_items, player &p )
+void remove_ammo( std::list<item> &dis_items, Character &who )
 {
     for( auto &dis_item : dis_items ) {
-        remove_ammo( dis_item, p );
+        remove_ammo( dis_item, who );
     }
 }
 
-void drop_or_handle( const item &newit, player &p )
+void remove_ammo( item &dis_item, Character &who )
 {
-    if( newit.made_of( LIQUID ) && p.is_player() ) { // TODO: what about NPCs?
-        liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
-    } else {
-        item tmp( newit );
-        p.i_add_or_drop( tmp );
-    }
-}
-
-void remove_ammo( item &dis_item, player &p )
-{
-    dis_item.remove_items_with( [&p]( const item & it ) {
+    dis_item.remove_items_with( [&who]( const item & it ) {
         if( it.is_irremovable() ) {
             return false;
         }
-        drop_or_handle( it, p );
+        drop_or_handle( it, who );
         return true;
     } );
 
@@ -2309,7 +2316,7 @@ void remove_ammo( item &dis_item, player &p )
     if( dis_item.is_gun() && !dis_item.ammo_current().is_null() ) {
         item ammodrop( dis_item.ammo_current(), calendar::turn );
         ammodrop.charges = dis_item.charges;
-        drop_or_handle( ammodrop, p );
+        drop_or_handle( ammodrop, who );
         dis_item.charges = 0;
     }
     if( dis_item.is_tool() && dis_item.charges > 0 && !dis_item.ammo_current().is_null() ) {
@@ -2318,7 +2325,7 @@ void remove_ammo( item &dis_item, player &p )
         if( dis_item.ammo_current() == itype_plut_cell ) {
             ammodrop.charges /= PLUTONIUM_CHARGES;
         }
-        drop_or_handle( ammodrop, p );
+        drop_or_handle( ammodrop, who );
         dis_item.charges = 0;
     }
 }

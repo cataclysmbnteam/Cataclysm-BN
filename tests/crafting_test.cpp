@@ -13,6 +13,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "character_functions.h"
 #include "coordinate_conversions.h"
 #include "craft_command.h"
 #include "crafting.h"
@@ -319,28 +320,29 @@ static time_point midday = calendar::turn_zero + 12_hours;
 static int actually_test_craft( const recipe_id &rid, const std::vector<item> &tools,
                                 int interrupt_after_turns )
 {
+    avatar &you = get_avatar();
     prep_craft( rid, tools, true );
     set_time( midday ); // Ensure light for crafting
     const recipe &rec = rid.obj();
-    REQUIRE( g->u.morale_crafting_speed_multiplier( rec ) == 1.0 );
-    REQUIRE( g->u.lighting_craft_speed_multiplier( rec ) == 1.0 );
-    REQUIRE( !g->u.activity );
+    REQUIRE( morale_crafting_speed_multiplier( you, rec ) == 1.0 );
+    REQUIRE( lighting_crafting_speed_multiplier( you, rec ) == 1.0 );
+    REQUIRE( !you.activity );
 
     // This really shouldn't be needed, but for some reason the tests fail for mingw builds without it
-    g->u.learn_recipe( &rec );
-    REQUIRE( g->u.has_recipe( &rec, g->u.crafting_inventory(), g->u.get_crafting_helpers() ) != -1 );
+    you.learn_recipe( &rec );
+    REQUIRE( you.has_recipe( &rec, you.crafting_inventory(), you.get_crafting_helpers() ) != -1 );
 
-    g->u.make_craft( rid, 1 );
-    REQUIRE( g->u.activity );
-    REQUIRE( g->u.activity.id() == activity_id( "ACT_CRAFT" ) );
+    you.make_craft( rid, 1 );
+    REQUIRE( you.activity );
+    REQUIRE( you.activity.id() == activity_id( "ACT_CRAFT" ) );
     int turns = 0;
-    while( g->u.activity.id() == activity_id( "ACT_CRAFT" ) ) {
+    while( you.activity.id() == activity_id( "ACT_CRAFT" ) ) {
         if( turns >= interrupt_after_turns ) {
             set_time( midnight ); // Kill light to interrupt crafting
         }
         ++turns;
-        g->u.moves = 100;
-        g->u.activity.do_turn( g->u );
+        you.moves = 100;
+        you.activity.do_turn( you );
     }
     return turns;
 }
@@ -593,7 +595,7 @@ TEST_CASE( "debug hammerspace", "[crafting]" )
         // TODO: Debug vision should handle this part
         dummy.toggle_trait( trait_DEBUG_STORAGE );
         dummy.i_add( item( itype_id( "atomic_lamp" ) ) );
-        REQUIRE( dummy.fine_detail_vision_mod() < 4.0f );
+        REQUIRE( character_funcs::can_see_fine_details( dummy ) );
 
         WHEN( "The character tries to craft a no-dachi" ) {
             craft_command command( &*test_recipe, 1, false, &dummy );
