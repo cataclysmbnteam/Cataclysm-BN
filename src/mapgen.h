@@ -73,8 +73,7 @@ struct jmapgen_int {
      * Throws is the json is malformed (e.g. a string not an integer, but does not throw
      * if the member is just missing (the default values are used instead).
      */
-    jmapgen_int( const JsonObject &jo, const std::string &tag, const int &def_val,
-                 const int &def_valmax );
+    jmapgen_int( const JsonObject &jo, const std::string &tag, int def_val, int def_valmax );
 
     int get() const;
 };
