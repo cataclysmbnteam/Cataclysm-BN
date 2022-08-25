@@ -1258,6 +1258,9 @@ void Item_factory::check_definitions() const
             if( !has_template( type->milling_data->into_ ) ) {
                 msg += "type to mill into is invalid: " + type->milling_data->into_.str() + "\n";
             }
+            if( !type->milling_data->into_->count_by_charges() ) {
+                msg += "type to mill into must be counted by charges: " + type->milling_data->into_.str() + "\n";
+            }
         }
         if( type->ammo ) {
             if( !type->ammo->type && type->ammo->type != ammotype( "NULL" ) ) {
