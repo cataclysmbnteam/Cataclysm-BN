@@ -540,11 +540,17 @@ class cata_tiles
          * Initialize the current tileset (load tile images, load mapping), using the current
          * tileset as it is set in the options.
          * @param tileset_id Ident of the tileset, as it appears in the options.
+         * @param mod_list List of active world mods, for correct caching behavior.
          * @param precheck If true, only loads the meta data of the tileset (tile dimensions).
          * @param force If true, forces loading the tileset even if it is already loaded.
          * @throw std::exception On any error.
          */
-        void load_tileset( const std::string &tileset_id, bool precheck = false, bool force = false );
+        void load_tileset(
+            const std::string &tileset_id,
+            const std::vector<mod_id> &mod_list,
+            bool precheck = false,
+            bool force = false
+        );
         /**
          * Reinitializes the current tileset, like @ref init, but using the original screen information.
          * @throw std::exception On any error.
@@ -592,7 +598,10 @@ class cata_tiles
         /** Variables */
         const SDL_Renderer_Ptr &renderer;
         const GeometryRenderer_Ptr &geometry;
+        /** Currently loaded tileset. */
         std::unique_ptr<tileset> tileset_ptr;
+        /** List of mods with which @ref tileset_ptr was loaded. */
+        std::vector<mod_id> tileset_mod_list_stamp;
 
         int tile_height = 0;
         int tile_width = 0;

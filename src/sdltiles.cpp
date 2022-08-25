@@ -71,6 +71,7 @@
 #include "uistate.h"
 #include "ui_manager.h"
 #include "wcwidth.h"
+#include "worldfactory.h"
 
 #if defined(__linux__)
 #   include <cstdlib> // getenv()/setenv()
@@ -3536,7 +3537,8 @@ void catacurses::init_interface()
     dbg( DL::Info ) << "Initializing SDL Tiles context";
     tilecontext = std::make_unique<cata_tiles>( renderer, geometry );
     try {
-        tilecontext->load_tileset( get_option<std::string>( "TILES" ), true );
+        std::vector<mod_id> dummy;
+        tilecontext->load_tileset( get_option<std::string>( "TILES" ), dummy, true );
     } catch( const std::exception &err ) {
         dbg( DL::Error ) << "failed to check for tileset: " << err.what();
         // use_tiles is the cached value of the USE_TILES option.
@@ -3575,7 +3577,10 @@ void load_tileset()
     if( !tilecontext || !use_tiles ) {
         return;
     }
-    tilecontext->load_tileset( get_option<std::string>( "TILES" ) );
+    tilecontext->load_tileset(
+        get_option<std::string>( "TILES" ),
+        world_generator->active_world->active_mod_order
+    );
     tilecontext->do_tile_loading_report();
 }
 

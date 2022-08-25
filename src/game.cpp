@@ -525,7 +525,12 @@ void game::reload_tileset()
 #if defined(TILES)
     try {
         tilecontext->reinit();
-        tilecontext->load_tileset( get_option<std::string>( "TILES" ), false, true );
+        std::vector<mod_id> dummy;
+        tilecontext->load_tileset(
+            get_option<std::string>( "TILES" ),
+            world_generator->active_world ? world_generator->active_world->active_mod_order : dummy,
+            false, true
+        );
         tilecontext->do_tile_loading_report();
     } catch( const std::exception &err ) {
         popup( _( "Loading the tileset failed: %s" ), err.what() );

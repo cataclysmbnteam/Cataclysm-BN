@@ -2085,6 +2085,11 @@ void options_manager::add_options_debug()
          false
        );
 
+    add( "FORCE_TILESET_RELOAD", "debug", translate_marker( "Force tileset reload" ),
+         translate_marker( "If false, the game will keep tileset in memory after first load to speed up subsequent loadings of game data.  Enable this if you're working on a tileset for the game or a mod." ),
+         false
+       );
+
     add_empty_line();
 
     add_option_group( "debug", Group( "debug_log", to_translation( "Logging" ),
@@ -2622,7 +2627,14 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
         //try and keep SDL calls limited to source files that deal specifically with them
         try {
             tilecontext->reinit();
-            tilecontext->load_tileset( get_option<std::string>( "TILES" ), false, force_tile_change );
+            std::vector<mod_id> dummy;
+
+            tilecontext->load_tileset(
+                get_option<std::string>( "TILES" ),
+                ingame ? world_generator->active_world->active_mod_order : dummy,
+                false,
+                force_tile_change
+            );
             //game_ui::init_ui is called when zoom is changed
             g->reset_zoom();
             g->mark_main_ui_adaptor_resize();
