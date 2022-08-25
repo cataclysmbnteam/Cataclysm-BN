@@ -3692,6 +3692,14 @@ void overmap::build_mine( const tripoint_om_omt &origin, int s )
         s = 2;
     }
     tripoint_om_omt p = origin;
+    // Don't overwrite existing mapgen
+    while( ter( p ) != empty_rock ) {
+        if( one_in( 2 ) ) {
+            p.x() += rng( 0, 1 ) * 2 - 1;
+        } else {
+            p.y() += rng( 0, 1 ) * 2 - 1;
+        }
+    }
     while( built < s ) {
         ter_set( p, mine );
         std::vector<tripoint_om_omt> next;
