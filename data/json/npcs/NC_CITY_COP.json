@@ -102,7 +102,6 @@
       { "item": "antiparasitic", "prob": 3 },
       { "item": "survnote", "prob": 1 },
       { "item": "diazepam", "prob": 4 },
-      { "item": "flu_shot", "prob": 5 },
       { "item": "syringe", "prob": 8 },
       { "item": "pills_sleep", "prob": 15 },
       { "item": "oxycodone", "prob": 4 },
