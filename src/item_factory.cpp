@@ -934,7 +934,6 @@ void Item_factory::init()
     // Obsolete
     add_iuse( "FLUMED", &iuse::flumed );
     add_iuse( "FLUSLEEP", &iuse::flusleep );
-    add_iuse( "FLU_VACCINE", &iuse::flu_vaccine );
     add_iuse( "FOODPERSON", &iuse::foodperson );
     add_iuse( "FUNGICIDE", &iuse::fungicide );
     add_iuse( "GASMASK", &iuse::gasmask,
