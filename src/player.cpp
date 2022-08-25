@@ -3241,6 +3241,14 @@ void player::use( int inventory_position )
     use( loc );
 }
 
+static bool is_pet_food( const item &itm )
+{
+    return itm.type->can_use( "DOGFOOD" ) ||
+           itm.type->can_use( "CATFOOD" ) ||
+           itm.type->can_use( "BIRDFOOD" ) ||
+           itm.type->can_use( "CATTLEFODDER" );
+}
+
 void player::use( item_location loc )
 {
     item &used = *loc.get_item();
@@ -3259,11 +3267,11 @@ void player::use( item_location loc )
         }
         invoke_item( &used, loc.position() );
 
-    } else if( used.type->can_use( "DOGFOOD" ) ||
-               used.type->can_use( "CATFOOD" ) ||
-               used.type->can_use( "BIRDFOOD" ) ||
-               used.type->can_use( "CATTLEFODDER" ) ) {
+    } else if( is_pet_food( used ) ) {
         invoke_item( &used, loc.position() );
+
+    } else if( !used.is_container_empty() && is_pet_food( used.get_contained() ) ) {
+        unload( loc );
 
     } else if( !used.is_craft() && ( used.is_medication() || ( !used.type->has_use() &&
                                      ( used.is_food() ||
