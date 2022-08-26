@@ -110,10 +110,10 @@ static void test_drop_implications( player &u,
     size_t expected_bottle_count_min = pack.get_total_capacity() / filler.volume();
     size_t expected_bottle_count_max = expected_bottle_count_min + 1;
     THEN( "Expected number of bottles is predicted to be dropped" ) {
-        const selection_column *selection = nullptr;
+        const selection_column_base *selection = nullptr;
         for( const inventory_column *col : ui.get_all_columns() ) {
             // Horrible!
-            const selection_column *cast_col = dynamic_cast<const selection_column *>( col );
+            const selection_column_base *cast_col = dynamic_cast<const selection_column_base *>( col );
             if( cast_col != nullptr ) {
                 selection = cast_col;
                 break;
@@ -174,10 +174,10 @@ static void test_drop_colors( player &u,
     size_t expected_bottle_count_min = pack.get_total_capacity() / filler.volume();
     size_t expected_bottle_count_max = expected_bottle_count_min + 1;
     THEN( "Expected number of bottles is predicted to be dropped" ) {
-        const selection_column *selection = nullptr;
+        const selection_column_base *selection = nullptr;
         for( const inventory_column *col : ui.get_all_columns() ) {
             // Horrible!
-            const selection_column *cast_col = dynamic_cast<const selection_column *>( col );
+            const selection_column_base *cast_col = dynamic_cast<const selection_column_base *>( col );
             if( cast_col != nullptr ) {
                 selection = cast_col;
                 break;

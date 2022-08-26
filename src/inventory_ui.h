@@ -22,6 +22,7 @@
 #include "item_location.h"
 #include "memory_fast.h"
 #include "pimpl.h"
+#include "type_id.h"
 #include "units.h"
 
 class Character;
@@ -411,11 +412,11 @@ class inventory_column
         size_t visible_cells() const;
 };
 
-class selection_column : public inventory_column
+class selection_column_base : public inventory_column
 {
     public:
-        selection_column( const std::string &id, const std::string &name );
-        ~selection_column() override;
+        selection_column_base( const std::string &id, const std::string &name );
+        ~selection_column_base() override;
 
         bool activatable() const override {
             return inventory_column::activatable() && pages_count() > 1;
@@ -434,9 +435,41 @@ class selection_column : public inventory_column
             // Intentionally ignore mode change.
         }
 
-    private:
+        virtual void tmp() = 0;
+
+        void reselect_last();
+
+    protected:
         const pimpl<item_category> selected_cat;
+
+    private:
         inventory_entry last_changed;
+};
+
+class single_category_selection_column : public selection_column_base
+{
+    public:
+        single_category_selection_column( const std::string &id, const std::string &name );
+        ~single_category_selection_column() override;
+
+        void on_change( const inventory_entry &entry ) override;
+
+        void tmp() override {}
+};
+
+class multicategory_selection_column : public selection_column_base
+{
+    public:
+        multicategory_selection_column( const std::string &id, const std::string &name,
+                                        const std::set<item_category_id> &category_whitelist );
+        ~multicategory_selection_column() override;
+
+        void on_change( const inventory_entry &entry ) override;
+
+        void tmp() override {}
+
+    private:
+        std::set<item_category_id> category_whitelist;
 };
 
 class inventory_selector
@@ -671,17 +704,17 @@ class inventory_multiselector : public inventory_selector
         inventory_multiselector( player &p, const inventory_selector_preset &preset = default_preset,
                                  const std::string &selection_column_title = "" );
         inventory_multiselector( player &p, const inventory_selector_preset &preset,
-                                 const std::unique_ptr<inventory_column> selection_col );
+                                 std::unique_ptr<selection_column_base> &&selection_col );
     protected:
         void rearrange_columns( size_t client_width ) override;
-        selection_column &get_selection_column() {
+        selection_column_base &get_selection_column() {
             return *selection_col;
         }
-        const selection_column &get_selection_column() const {
+        const selection_column_base &get_selection_column() const {
             return *selection_col;
         }
     private:
-        std::unique_ptr<selection_column> selection_col;
+        std::unique_ptr<selection_column_base> selection_col;
 };
 
 class inventory_compare_selector : public inventory_multiselector

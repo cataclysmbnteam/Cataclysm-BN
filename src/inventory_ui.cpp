@@ -987,13 +987,14 @@ void inventory_column::clear_cell_cache() const
     entries_cell_cache.clear();
 }
 
-selection_column::selection_column( const std::string &id, const std::string &name ) :
-    inventory_column( selection_preset ),
-    selected_cat( id, no_translation( name ), 0 ) {}
+selection_column_base::selection_column_base( const std::string &id, const std::string &name )
+    : inventory_column( selection_preset )
+    , selected_cat( id, no_translation( name ), 0 )
+{}
 
-selection_column::~selection_column() = default;
+selection_column_base::~selection_column_base() = default;
 
-void selection_column::reset_width( const std::vector<inventory_column *> &all_columns )
+void selection_column_base::reset_width( const std::vector<inventory_column *> &all_columns )
 {
     inventory_column::reset_width( all_columns );
 
@@ -1002,7 +1003,7 @@ void selection_column::reset_width( const std::vector<inventory_column *> &all_c
     };
 
     for( const inventory_column *const col : all_columns ) {
-        if( col && !dynamic_cast<const selection_column *>( col ) ) {
+        if( col && !dynamic_cast<const selection_column_base *>( col ) ) {
             for( const inventory_entry *const ent : col->get_entries( always_yes ) ) {
                 if( ent ) {
                     expand_to_fit( *ent );
@@ -1012,7 +1013,7 @@ void selection_column::reset_width( const std::vector<inventory_column *> &all_c
     }
 }
 
-void selection_column::prepare_paging( const std::string &filter )
+void selection_column_base::prepare_paging( const std::string &filter )
 {
     inventory_column::prepare_paging( filter );
 
@@ -1021,19 +1022,12 @@ void selection_column::prepare_paging( const std::string &filter )
         expand_to_fit( entries.back() );
     }
 
-    if( !last_changed.is_null() ) {
-        const auto iter = std::find( entries.begin(), entries.end(), last_changed );
-        if( iter != entries.end() ) {
-            select( std::distance( entries.begin(), iter ), scroll_direction::FORWARD );
-        }
-        last_changed = inventory_entry();
-    }
+    reselect_last();
 }
 
-void selection_column::on_change( const inventory_entry &entry )
+void selection_column_base::on_change( const inventory_entry &entry )
 {
-    inventory_entry my_entry( entry, &*selected_cat );
-
+    const inventory_entry my_entry = entry;
     auto iter = std::find( entries.begin(), entries.end(), my_entry );
 
     if( iter == entries.end() ) {
@@ -1056,6 +1050,49 @@ void selection_column::on_change( const inventory_entry &entry )
         }
 
         clear_cell_cache();
+    }
+}
+
+void selection_column_base::reselect_last()
+{
+    if( !last_changed.is_null() ) {
+        const auto iter = std::find( entries.begin(), entries.end(), last_changed );
+        if( iter != entries.end() ) {
+            select( std::distance( entries.begin(), iter ), scroll_direction::FORWARD );
+        }
+        last_changed = inventory_entry();
+    }
+}
+
+single_category_selection_column::single_category_selection_column( const std::string &id,
+        const std::string &name )
+    : selection_column_base( id, name )
+{}
+single_category_selection_column::~single_category_selection_column()
+{}
+
+void single_category_selection_column::on_change( const inventory_entry &entry )
+{
+    inventory_entry my_entry( entry, &*selected_cat );
+    selection_column_base::on_change( my_entry );
+}
+
+multicategory_selection_column::multicategory_selection_column( const std::string &id,
+        const std::string &name, const std::set<item_category_id> &category_whitelist )
+    : selection_column_base( id, name )
+    , category_whitelist( category_whitelist )
+{
+}
+multicategory_selection_column::~multicategory_selection_column() {}
+
+void multicategory_selection_column::on_change( const inventory_entry &entry )
+{
+    const item_category *category = entry.get_category_ptr();
+    if( category != nullptr && category_whitelist.count( category->get_id() ) != 0 ) {
+        selection_column_base::on_change( entry );
+    } else {
+        inventory_entry my_entry( entry, &*selected_cat );
+        selection_column_base::on_change( my_entry );
     }
 }
 
@@ -1944,8 +1981,17 @@ item_location inventory_pick_selector::execute()
 inventory_multiselector::inventory_multiselector( player &p,
         const inventory_selector_preset &preset,
         const std::string &selection_column_title ) :
+    inventory_multiselector( p, preset,
+                             std::make_unique<single_category_selection_column>( "SELECTION_COLUMN", selection_column_title ) )
+
+{
+}
+
+inventory_multiselector::inventory_multiselector( player &p,
+        const inventory_selector_preset &preset,
+        std::unique_ptr<selection_column_base> &&selection_col ) :
     inventory_selector( p, preset ),
-    selection_col( new selection_column( "SELECTION_COLUMN", selection_column_title ) )
+    selection_col( std::move( selection_col ) )
 {
     ctxt.register_action( "RIGHT", to_translation( "Mark/unmark selected item" ) );
     ctxt.register_action( "DROP_NON_FAVORITE", to_translation( "Mark/unmark non-favorite items" ) );
@@ -2422,7 +2468,7 @@ void inventory_drop_selector::rebuild()
 
     implied_drops.clear();
     // HACK! Manually clearing selection column because we want to populate it by hand
-    selection_column &sel_col = get_selection_column();
+    selection_column_base &sel_col = get_selection_column();
     sel_col.clear();
 
     std::unordered_map<const item *, inventory_entry> item_to_entry;
