@@ -247,7 +247,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     int num_gtraits = 0;
     int num_btraits = 0;
     int tries = 0;
-    add_traits( points ); // adds mandatory profession/scenario traits.
+    newcharacter::add_traits( *this, points ); // adds mandatory profession/scenario traits.
     for( const trait_id &mut : get_mutations() ) {
         const mutation_branch &mut_info = mut.obj();
         if( mut_info.profession ) {
@@ -271,12 +271,12 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
         if( num_btraits < max_trait_points && one_in( 3 ) ) {
             tries = 0;
             do {
-                rn = random_bad_trait();
+                rn = newcharacter::random_bad_trait();
                 tries++;
             } while( ( has_trait( rn ) || num_btraits - rn->points > max_trait_points ) &&
                      tries < 5 );
 
-            if( tries < 5 && !has_conflicting_trait( rn ) ) {
+            if( tries < 5 && !newcharacter::has_conflicting_trait( *this, rn ) ) {
                 toggle_trait( rn );
                 points.trait_points -= rn->points;
                 num_btraits -= rn->points;
@@ -323,10 +323,11 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
             case 3:
             case 4:
                 if( allow_traits ) {
-                    rn = random_good_trait();
+                    rn = newcharacter::random_good_trait();
                     auto &mdata = rn.obj();
                     if( !has_trait( rn ) && points.trait_points_left() >= mdata.points &&
-                        num_gtraits + mdata.points <= max_trait_points && !has_conflicting_trait( rn ) ) {
+                        num_gtraits + mdata.points <= max_trait_points &&
+                        !newcharacter::has_conflicting_trait( *this, rn ) ) {
                         toggle_trait( rn );
                         points.trait_points -= mdata.points;
                         num_gtraits += mdata.points;
@@ -1080,7 +1081,7 @@ tab_direction set_traits( avatar &u, points_left &points )
     const auto recalc_display_cache = [&]() {
         for( int page = 0; page < used_pages; page++ ) {
             for( trait_entry &entry : vStartingTraits[page] ) {
-                entry.conflicts = u.has_conflicting_trait( entry.id );
+                entry.conflicts = newcharacter::has_conflicting_trait( u, entry.id );
                 entry.avatar_has = u.has_trait( entry.id );
             }
         }
@@ -1276,7 +1277,7 @@ tab_direction set_traits( avatar &u, points_left &points )
                     popup( _( "Your profession of %s prevents you from removing this trait." ),
                            u.prof->gender_appropriate_name( u.male ) );
                 }
-            } else if( u.has_conflicting_trait( cur_trait ) ) {
+            } else if( newcharacter::has_conflicting_trait( u, cur_trait ) ) {
                 popup( _( "You already picked a conflicting trait!" ) );
             } else if( g->scen->is_forbidden_trait( cur_trait ) ) {
                 popup( _( "The scenario you picked prevents you from taking this trait!" ) );
@@ -1686,7 +1687,7 @@ tab_direction set_profession( avatar &u, points_left &points,
             u.prof = sorted_profs[cur_id];
             // Add traits for the new profession (and perhaps scenario, if, for example,
             // both the scenario and old profession require the same trait)
-            u.add_traits( points );
+            newcharacter::add_traits( u, points );
             points.skill_points -= netPointCost;
         } else if( action == "CHANGE_GENDER" ) {
             u.male = !u.male;
@@ -2848,37 +2849,36 @@ void Character::clear_mutations()
     cached_mutations.clear();
 }
 
-void Character::empty_skills()
+void Character::clear_skills()
 {
     for( auto &sk : *_skills ) {
         sk.second.level( 0 );
     }
 }
 
-void Character::add_traits()
+void newcharacter::add_traits( Character &ch )
 {
     points_left points = points_left();
-    add_traits( points );
+    add_traits( ch, points );
 }
 
-void Character::add_traits( points_left &points )
+void newcharacter::add_traits( Character &ch, points_left &points )
 {
-    // TODO: get rid of using g->u here, use `this` instead
-    for( const trait_id &tr : g->u.prof->get_locked_traits() ) {
-        if( !has_trait( tr ) ) {
-            toggle_trait( tr );
+    for( const trait_id &tr : ch.prof->get_locked_traits() ) {
+        if( !ch.has_trait( tr ) ) {
+            ch.toggle_trait( tr );
         } else {
             points.trait_points += tr->points;
         }
     }
     for( const trait_id &tr : g->scen->get_locked_traits() ) {
-        if( !has_trait( tr ) ) {
-            toggle_trait( tr );
+        if( !ch.has_trait( tr ) ) {
+            ch.toggle_trait( tr );
         }
     }
 }
 
-trait_id Character::random_good_trait()
+trait_id newcharacter::random_good_trait()
 {
     std::vector<trait_id> vTraitsGood;
 
@@ -2891,7 +2891,7 @@ trait_id Character::random_good_trait()
     return random_entry( vTraitsGood );
 }
 
-trait_id Character::random_bad_trait()
+trait_id newcharacter::random_bad_trait()
 {
     std::vector<trait_id> vTraitsBad;
 
@@ -3035,8 +3035,8 @@ void reset_scenario( avatar &u, const scenario *scen )
     }
     u.clear_mutations();
     u.recalc_hp();
-    u.empty_skills();
-    u.add_traits();
+    u.clear_skills();
+    newcharacter::add_traits( u );
 }
 
 points_left::points_left()
@@ -3125,3 +3125,46 @@ std::string points_left::to_string()
         return _( "Freeform" );
     }
 }
+
+namespace newcharacter
+{
+
+bool has_conflicting_trait( const Character &ch, const trait_id &t )
+{
+    return ch.has_opposite_trait( t ) ||
+           has_lower_trait( ch, t ) ||
+           has_higher_trait( ch, t ) ||
+           has_same_type_trait( ch, t ) ;
+}
+
+bool has_lower_trait( const Character &ch, const trait_id &t )
+{
+    for( const trait_id &it : t->prereqs ) {
+        if( ch.has_trait( it ) || has_lower_trait( ch, it ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool has_higher_trait( const Character &ch, const trait_id &t )
+{
+    for( const trait_id &it : t->replacements ) {
+        if( ch.has_trait( it ) || has_higher_trait( ch, it ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool has_same_type_trait( const Character &ch, const trait_id &t )
+{
+    for( const trait_id &it : get_mutations_in_types( t->types ) ) {
+        if( ch.has_trait( it ) && t != it ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+} // namespace newcharacter

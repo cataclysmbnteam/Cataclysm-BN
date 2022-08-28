@@ -17,6 +17,7 @@
 #include "item.h"
 #include "item_contents.h"
 #include "itype.h"
+#include "newcharacter.h"
 #include "optional.h"
 #include "pldata.h"
 #include "profession.h"
@@ -50,15 +51,15 @@ static std::vector<trait_id> next_subset( const std::vector<trait_id> &set )
     return ret;
 }
 
-static bool try_set_traits( const std::vector<trait_id> &traits )
+static bool try_set_traits( Character &ch, const std::vector<trait_id> &traits )
 {
-    g->u.clear_mutations();
-    g->u.add_traits(); // mandatory prof/scen traits
+    ch.clear_mutations();
+    newcharacter::add_traits( ch ); // mandatory prof/scen traits
     for( const trait_id &tr : traits ) {
-        if( g->u.has_conflicting_trait( tr ) || !g->scen->traitquery( tr ) ) {
+        if( newcharacter::has_conflicting_trait( ch, tr ) || !g->scen->traitquery( tr ) ) {
             return false;
-        } else if( !g->u.has_trait( tr ) ) {
-            g->u.set_mutation( tr );
+        } else if( !ch.has_trait( tr ) ) {
+            ch.set_mutation( tr );
         }
     }
     return true;
@@ -128,7 +129,9 @@ TEST_CASE( "starting_items", "[slow]" )
 
     std::set<failure> failures;
 
-    g->u = get_sanitized_player();
+    avatar &ch = get_avatar();
+
+    ch = get_sanitized_player();
     // Avoid false positives from ingredients like salt and cornmeal.
     const avatar control = get_sanitized_player();
 
@@ -137,15 +140,15 @@ TEST_CASE( "starting_items", "[slow]" )
         for( const auto &pair : scen_prof_combos ) {
             g->scen = pair.first;
             for( const string_id<profession> &prof : pair.second ) {
-                g->u.prof = prof;
-                if( !try_set_traits( traits ) ) {
+                ch.prof = prof;
+                if( !try_set_traits( ch, traits ) ) {
                     continue; // Trait conflict: this prof/scen/trait combo is impossible to attain
                 }
                 for( int i = 0; i < 2; i++ ) {
-                    g->u.worn.clear();
-                    g->u.reset_encumbrance();
-                    g->u.male = i == 0;
-                    std::list<item> items = prof->items( g->u.male, traits );
+                    ch.worn.clear();
+                    ch.reset_encumbrance();
+                    ch.male = i == 0;
+                    std::list<item> items = prof->items( ch.male, traits );
                     for( const item &it : items ) {
                         const std::list<const item *> it_contents = it.contents.all_items_top();
                         for( const item *top_content_item : it_contents ) {
@@ -155,11 +158,11 @@ TEST_CASE( "starting_items", "[slow]" )
 
                     for( const item &it : items ) {
                         const bool is_food =  !it.is_seed() && it.is_food() &&
-                                              !g->u.can_eat( it ).success() && control.can_eat( it ).success();
-                        const bool is_armor = it.is_armor() && !g->u.wear_item( it, false );
+                                              !ch.can_eat( it ).success() && control.can_eat( it ).success();
+                        const bool is_armor = it.is_armor() && !ch.wear_item( it, false );
                         // Seeds don't count- they're for growing things, not eating
                         if( is_food || is_armor ) {
-                            failures.insert( failure{ prof->ident(), g->u.get_mutations(), it.typeId(), is_food ? "Couldn't eat it" : "Couldn't wear it." } );
+                            failures.insert( failure{ prof->ident(), ch.get_mutations(), it.typeId(), is_food ? "Couldn't eat it" : "Couldn't wear it." } );
                         }
 
                         const bool is_holster = it.is_armor() && it.type->get_use( "holster" );
@@ -167,7 +170,7 @@ TEST_CASE( "starting_items", "[slow]" )
                             const item &holstered_it = it.get_contained();
                             const bool empty_holster = holstered_it.is_null();
                             if( !empty_holster && !it.can_holster( holstered_it, true ) ) {
-                                failures.insert( failure{ prof->ident(), g->u.get_mutations(), it.typeId(), "Couldn't put item back to holster" } );
+                                failures.insert( failure{ prof->ident(), ch.get_mutations(), it.typeId(), "Couldn't put item back to holster" } );
                             }
                         }
                     }

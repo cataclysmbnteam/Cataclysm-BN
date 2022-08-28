@@ -84,7 +84,7 @@ void clear_character( player &dummy, bool debug_storage )
     // and sets hunger, thirst, fatigue and such to zero
     dummy.environmental_revert_effect();
 
-    dummy.empty_skills();
+    dummy.clear_skills();
     dummy.clear_morale();
     dummy.activity.set_to_null();
     dummy.reset_chargen_attributes();
