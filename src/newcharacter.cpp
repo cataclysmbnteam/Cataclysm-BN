@@ -2530,7 +2530,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         int line = 1;
         bool has_skills = false;
         profession::StartingSkillList list_skills = you.prof->skills();
-        skill_displayType_id currentcategory = skill_displayType_id::NULL_ID();
+        skill_displayType_id last_category = skill_displayType_id::NULL_ID();
         for( auto &elem : skillslist ) {
             int level = you.get_skill_level( elem->ident() );
 
@@ -2544,8 +2544,8 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             }
 
             if( level > 0 ) {
-                if( currentcategory != elem->display_category() ) {
-                    currentcategory = elem->display_category();
+                if( last_category != elem->display_category() ) {
+                    last_category = elem->display_category();
                     mvwprintz( w_skills, point( 0, line ), c_yellow, elem->display_category()->display_string() );
                     line++;
                 }
