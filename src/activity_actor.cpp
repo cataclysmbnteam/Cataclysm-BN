@@ -258,6 +258,7 @@ bool aim_activity_actor::load_RAS_weapon()
         you.ammo_location.make_dirty();
         if( !you.ammo_location )
         {
+            you.ammo_location = item_location();
             return false;
         }
         if( !gun->can_reload_with( you.ammo_location->typeId() ) )

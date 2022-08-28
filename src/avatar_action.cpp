@@ -1124,6 +1124,8 @@ static item::reload_option favorite_ammo_or_select(
                 return *iter;
             }
         }
+    } else {
+        const_cast<item_location &>( u.ammo_location ) = item_location();
     }
     return u.select_ammo( it, prompt, empty );
 }
