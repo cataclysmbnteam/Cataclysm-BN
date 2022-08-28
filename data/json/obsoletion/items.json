@@ -4324,5 +4324,20 @@
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "flu_shot",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": "flu shot",
+    "description": "Pharmaceutical flu shot designed for mass vaccinations, still in the packaging.  Purported to provide immunity to influenza.",
+    "weight": "12 g",
+    "volume": "10ml",
+    "price": 5000,
+    "price_postapoc": 1500,
+    "material": "plastic",
+    "symbol": "!",
+    "color": "magenta",
+    "flags": [ "NO_INGEST", "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE" ]
   }
 ]

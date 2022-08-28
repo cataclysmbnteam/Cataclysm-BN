@@ -863,13 +863,6 @@ int iuse::vaccine( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-int iuse::flu_vaccine( player *p, item *it, bool, const tripoint & )
-{
-    p->add_msg_if_player( _( "You empty." ) );
-    item syringe( "syringe", it->birthday() );
-    return it->type->charges_to_use();
-}
-
 int iuse::antiasthmatic( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( m_good,
