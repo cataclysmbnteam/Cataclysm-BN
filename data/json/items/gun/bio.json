@@ -103,5 +103,27 @@
     "loudness": 5,
     "ammo_effects": [ "SHOT" ],
     "flags": [ "NEVER_JAMS", "TRADER_AVOID" ]
+  },
+  {
+    "id": "bio_blaster_gun",
+    "type": "GUN",
+    "name": { "str": "fusion blaster" },
+    "description": "this a pseudo item",
+    "volume": "3 L",
+    "price": 0,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "magenta",
+    "skill": "rifle",
+    "range": 30,
+    "ranged_damage": { "damage_type": "heat", "amount": 22, "armor_penetration": 30 },
+    "dispersion": 30,
+    "durability": 10,
+    "loudness": 12,
+    "modes": [ [ "DEFAULT", "single shot", 1 ], [ "burst", "triple shot", 3 ] ],
+    "reload": 500,
+    "built_in_mods": [ "bio_powershot" ],
+    "ammo_effects": [ "PLASMA" ],
+    "flags": [ "NEVER_JAMS", "TRADER_AVOID" ]
   }
 ]

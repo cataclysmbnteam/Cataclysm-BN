@@ -388,15 +388,6 @@
     "rating": "good"
   },
   {
-    "id": "bio_blaster",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Fusion Blaster Arm CBM" },
-    "description": "Your left arm has been replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray.  However, you are unable to use or carry two-handed items, and your strength limits what you can use with your one hand.",
-    "price": 220000,
-    "difficulty": 3
-  },
-  {
     "id": "bio_furnace",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",

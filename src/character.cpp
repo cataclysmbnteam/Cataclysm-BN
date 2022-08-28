@@ -216,7 +216,6 @@ static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
 static const bionic_id bio_ads( "bio_ads" );
-static const bionic_id bio_blaster( "bio_blaster" );
 static const bionic_id bio_blindfold( "bio_blindfold" );
 static const bionic_id bio_climate( "bio_climate" );
 static const bionic_id bio_earplugs( "bio_earplugs" );
@@ -1296,9 +1295,6 @@ int Character::get_working_arm_count() const
     }
     if( !is_limb_disabled( bodypart_id( "arm_r" ) ) ) {
         limb_count++;
-    }
-    if( has_bionic( bio_blaster ) && limb_count > 0 ) {
-        limb_count--;
     }
 
     return limb_count;
@@ -3429,8 +3425,8 @@ int Character::read_speed( bool return_stat_effect ) const
     /** @EFFECT_INT increases reading speed by 3s per level above 8*/
     int ret = to_moves<int>( 1_minutes ) - to_moves<int>( 3_seconds ) * ( intel - 8 );
 
-    if( has_bionic( afs_bio_linguistic_coprocessor ) ) { // Aftershock
-        ret *= .85;
+    if( has_bionic( afs_bio_linguistic_coprocessor ) ) {
+        ret *= .75;
     }
 
     ret *= mutation_value( "reading_speed_multiplier" );
