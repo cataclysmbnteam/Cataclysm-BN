@@ -1892,9 +1892,9 @@ tab_direction set_skills( avatar &u, points_left &points )
         draw_scrollbar( w, selected, iContentHeight, iLines,
                         point( getmaxx( w ) - 1, 5 ), BORDER_COLOR, true );
 
-        calcStartPos( cur_offset, skill_list[cur_pos].second, iContentHeight, display_line );
+        calcStartPos( cur_offset, skill_list[cur_pos].second - 1, iContentHeight - 1, display_line - 1 );
         current_category = skill_displayType_id::NULL_ID();
-        for( int i = 0; i < num_skills && skill_list[i].second - cur_offset < iContentHeight; ++i ) {
+        for( int i = 0; i < num_skills && skill_list[i].second - cur_offset - 1 < iContentHeight; ++i ) {
             const int y = 5 + skill_list[i].second - cur_offset;
             // Necessary because cur_offset doesn't indicate the first object to read. A bit hacky.
             if( y < 5 ) {
@@ -1908,18 +1908,20 @@ tab_direction set_skills( avatar &u, points_left &points )
                 mvwprintz( w, point( 2, y - 1 ), c_yellow, display_type->display_string() );
                 current_category = display_type;
             }
-            // Clear the line. 2 for x-coord because category names will be scrolled over.
-            mvwprintz( w, point( 2, y ), c_light_gray, std::string( getmaxx( w ) - 3, ' ' ) );
-            if( u.get_skill_level( thisSkill->ident() ) == 0 ) {
-                mvwprintz( w, point( 4, y ),
-                           ( i == cur_pos ? h_light_gray : c_light_gray ), thisSkill->name() );
-            } else {
-                mvwprintz( w, point( 4, y ),
-                           ( i == cur_pos ? hilite( COL_SKILL_USED ) : COL_SKILL_USED ),
-                           thisSkill->name() );
-                mvwprintz( w, point( 20, y ),
-                           ( i == cur_pos ? hilite( COL_SKILL_USED ) : COL_SKILL_USED ),
-                           " ( %d )", u.get_skill_level( thisSkill->ident() ) );
+            if( y < iContentHeight + 5 ) {
+                // Clear the line. 2 for x-coord because category names will be scrolled over.
+                mvwprintz( w, point( 2, y ), c_light_gray, std::string( getmaxx( w ) - 3, ' ' ) );
+                if( u.get_skill_level( thisSkill->ident() ) == 0 ) {
+                    mvwprintz( w, point( 4, y ),
+                               ( i == cur_pos ? h_light_gray : c_light_gray ), thisSkill->name() );
+                } else {
+                    mvwprintz( w, point( 4, y ),
+                               ( i == cur_pos ? hilite( COL_SKILL_USED ) : COL_SKILL_USED ),
+                               thisSkill->name() );
+                    mvwprintz( w, point( 20, y ),
+                               ( i == cur_pos ? hilite( COL_SKILL_USED ) : COL_SKILL_USED ),
+                               " (%d)", u.get_skill_level( thisSkill->ident() ) );
+                }
             }
             for( auto &prof_skill : u.prof->skills() ) {
                 if( prof_skill.first == thisSkill->ident() ) {
@@ -1930,7 +1932,8 @@ tab_direction set_skills( avatar &u, points_left &points )
             }
         }
 
-        draw_scrollbar( w, skill_list[cur_pos].second, iContentHeight, display_line, point( 0, 5 ) );
+        draw_scrollbar( w, skill_list[cur_pos].second - 1, iContentHeight - 1, display_line - 1, point( 0,
+                        5 ) );
 
         wnoutrefresh( w );
         wnoutrefresh( w_description );
