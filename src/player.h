@@ -429,12 +429,6 @@ class player : public Character
         bool bio_soporific_powered_at_last_sleep_check = false;
 
     public:
-        /** Returns a value from 1.0 to 5.0 that acts as a multiplier
-         * for the time taken to perform tasks that require detail vision,
-         * above 4.0 means these activities cannot be performed.
-         * takes pos as a parameter so that remote spots can be judged
-         * if they will potentially have enough light when player gets there */
-        float fine_detail_vision_mod( const tripoint &p = tripoint_zero ) const;
 
         /** Used to determine player feedback on item use for the inventory code.
          *  rates usability lower for non-tools (books, etc.) */
@@ -498,16 +492,10 @@ class player : public Character
         // Returns -1 to indicate recipe not found, otherwise difficulty to learn.
         int has_recipe( const recipe *r, const inventory &crafting_inv,
                         const std::vector<npc *> &helpers ) const;
-        bool knows_recipe( const recipe *rec ) const;
-        void learn_recipe( const recipe *rec );
-        int exceeds_recipe_requirements( const recipe &rec ) const;
         bool has_recipe_requirements( const recipe &rec ) const;
-        bool can_decomp_learn( const recipe &rec ) const;
 
         bool studied_all_recipes( const itype &book ) const;
 
-        /** Returns all known recipes. */
-        const recipe_subset &get_learned_recipes() const;
         /** Returns all recipes that are known from the books (either in inventory or nearby). */
         recipe_subset get_recipes_from_books( const inventory &crafting_inv,
                                               recipe_filter filter = nullptr ) const;
@@ -521,9 +509,6 @@ class player : public Character
                                              const std::vector<npc *> *helpers = nullptr,
                                              recipe_filter filter = nullptr ) const;
 
-        // crafting.cpp
-        float morale_crafting_speed_multiplier( const recipe &rec ) const;
-        float lighting_craft_speed_multiplier( const recipe &rec ) const;
         /** For use with in progress crafts */
         int available_assistant_count( const recipe &rec ) const;
         /**
@@ -706,14 +691,6 @@ class player : public Character
 
         /** warnings from a faction about bad behavior */
         std::map<faction_id, std::pair<int, time_point>> warning_record;
-
-    protected:
-
-        /** Subset of learned recipes. Needs to be mutable for lazy initialization. */
-        mutable pimpl<recipe_subset> learned_recipes;
-
-        /** Stamp of skills. @ref learned_recipes are valid only with this set of skills. */
-        mutable decltype( _skills ) valid_autolearn_skills;
 };
 
 /** Calculates the player's morale cap due to fatigue */

@@ -28,6 +28,7 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
+#include "character_functions.h"
 #include "colony.h"
 #include "flag.h"
 #include "color.h"
@@ -3749,7 +3750,7 @@ void iexamine::trap( player &p, const tripoint &examp )
     if( tr.loadid == tr_unfinished_construction || here.partial_con_at( examp ) ) {
         partial_con *pc = here.partial_con_at( examp );
         if( pc ) {
-            if( g->u.fine_detail_vision_mod() > 4 && !g->u.has_trait( trait_DEBUG_HS ) ) {
+            if( !character_funcs::can_see_fine_details( p ) && !p.has_trait( trait_DEBUG_HS ) ) {
                 add_msg( m_info, _( "It is too dark to construct right now." ) );
                 return;
             }
@@ -3759,7 +3760,7 @@ void iexamine::trap( player &p, const tripoint &examp )
                 if( query_yn( _( "Cancel construction?" ) ) ) {
                     here.disarm_trap( examp );
                     for( const item &it : pc->components ) {
-                        here.add_item_or_charges( g->u.pos(), it );
+                        here.add_item_or_charges( p.pos(), it );
                     }
                     here.partial_con_remove( examp );
                     return;
@@ -3767,8 +3768,8 @@ void iexamine::trap( player &p, const tripoint &examp )
                     return;
                 }
             } else {
-                g->u.assign_activity( ACT_BUILD );
-                g->u.activity.placement = here.getabs( examp );
+                p.assign_activity( ACT_BUILD );
+                p.activity.placement = here.getabs( examp );
                 return;
             }
         } else {

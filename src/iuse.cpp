@@ -28,6 +28,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_functions.h"
 #include "character_martial_arts.h"
 #include "colony.h"
 #include "color.h"
@@ -5880,16 +5881,18 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
     /** @EFFECT_MECHANICS >=8 allows accurizing ranged weapons */
     const std::string startdurability = fix.durability_indicator( true );
     std::string resultdurability;
+    const float vision_mod = character_funcs::fine_detail_vision_mod( *p );
+    // TODO: this may render player unable to move for minutes, and so should start an activity instead
     if( fix.damage() <= 0 ) {
         sounds::sound( p->pos(), 6, sounds::sound_t::activity, "crunch", true, "tool", "repair_kit" );
-        p->moves -= to_moves<int>( 20_seconds * p->fine_detail_vision_mod() );
+        p->moves -= to_moves<int>( 20_seconds * vision_mod );
         p->practice( skill_mechanics, 10 );
         fix.mod_damage( -itype::damage_scale );
         p->add_msg_if_player( m_good, _( "You accurize your %s." ), fix.tname( 1, false ) );
 
     } else if( fix.damage() > itype::damage_scale ) {
         sounds::sound( p->pos(), 8, sounds::sound_t::activity, "crunch", true, "tool", "repair_kit" );
-        p->moves -= to_moves<int>( 10_seconds * p->fine_detail_vision_mod() );
+        p->moves -= to_moves<int>( 10_seconds * vision_mod );
         p->practice( skill_mechanics, 10 );
         fix.mod_damage( -itype::damage_scale );
         resultdurability = fix.durability_indicator( true );
@@ -5898,7 +5901,7 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
 
     } else {
         sounds::sound( p->pos(), 8, sounds::sound_t::activity, "crunch", true, "tool", "repair_kit" );
-        p->moves -= to_moves<int>( 5_seconds * p->fine_detail_vision_mod() );
+        p->moves -= to_moves<int>( 5_seconds * vision_mod );
         p->practice( skill_mechanics, 10 );
         fix.set_damage( 0 );
         resultdurability = fix.durability_indicator( true );
@@ -9391,7 +9394,7 @@ static int wash_items( player *p, bool soft_items, bool hard_items );
 
 int iuse::wash_soft_items( player *p, item *, bool, const tripoint & )
 {
-    if( p->fine_detail_vision_mod() > 4 ) {
+    if( !character_funcs::can_see_fine_details( *p ) ) {
         p->add_msg_if_player( _( "You can't see to do that!" ) );
         return 0;
     }
@@ -9412,7 +9415,7 @@ int iuse::wash_soft_items( player *p, item *, bool, const tripoint & )
 
 int iuse::wash_hard_items( player *p, item *, bool, const tripoint & )
 {
-    if( p->fine_detail_vision_mod() > 4 ) {
+    if( !character_funcs::can_see_fine_details( *p ) ) {
         p->add_msg_if_player( _( "You can't see to do that!" ) );
         return 0;
     }
@@ -9433,7 +9436,7 @@ int iuse::wash_hard_items( player *p, item *, bool, const tripoint & )
 
 int iuse::wash_all_items( player *p, item *, bool, const tripoint & )
 {
-    if( p->fine_detail_vision_mod() > 4 ) {
+    if( !character_funcs::can_see_fine_details( *p ) ) {
         p->add_msg_if_player( _( "You can't see to do that!" ) );
         return 0;
     }

@@ -23,6 +23,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_functions.h"
 #include "character_martial_arts.h"
 #include "clzones.h"
 #include "colony.h"
@@ -3316,12 +3317,13 @@ void activity_handlers::cracking_do_turn( player_activity *act, player *p )
 void activity_handlers::repair_item_do_turn( player_activity *act, player *p )
 {
     // Moves are decremented based on a combination of speed and good vision (not in the dark, farsighted, etc)
-    const int effective_moves = p->moves / p->fine_detail_vision_mod();
+    const float vision_mod = character_funcs::fine_detail_vision_mod( *p );
+    const int effective_moves = p->moves / vision_mod;
     if( effective_moves <= act->moves_left ) {
         act->moves_left -= effective_moves;
         p->moves = 0;
     } else {
-        p->moves -= act->moves_left * p->fine_detail_vision_mod();
+        p->moves -= act->moves_left * vision_mod;
         act->moves_left = 0;
     }
 }
@@ -4783,7 +4785,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 
 void activity_handlers::study_spell_do_turn( player_activity *act, player *p )
 {
-    if( p->fine_detail_vision_mod() > 4 ) {
+    if( character_funcs::can_see_fine_details( *p ) ) {
         act->values[2] = -1;
         act->moves_left = 0;
         return;

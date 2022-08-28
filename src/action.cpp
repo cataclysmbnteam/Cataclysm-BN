@@ -11,6 +11,7 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
+#include "crafting.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -540,20 +541,21 @@ int hotkey_for_action( action_id action, const bool restrict_to_printable )
 
 bool can_butcher_at( const tripoint &p )
 {
+    avatar &you = get_avatar();
     // TODO: unify this with game::butcher
-    const int factor = g->u.max_quality( qual_BUTCHER );
-    const int factorD = g->u.max_quality( qual_CUT_FINE );
+    const int factor = you.max_quality( qual_BUTCHER );
+    const int factorD = you.max_quality( qual_CUT_FINE );
     map_stack items = get_map().i_at( p );
     bool has_item = false;
     bool has_corpse = false;
 
-    const inventory &crafting_inv = g->u.crafting_inventory();
+    const inventory &crafting_inv = you.crafting_inventory();
     for( item &items_it : items ) {
         if( items_it.is_corpse() ) {
             if( factor != INT_MIN  || factorD != INT_MIN ) {
                 has_corpse = true;
             }
-        } else if( g->u.can_disassemble( items_it, crafting_inv ).success() ) {
+        } else if( you.can_disassemble( items_it, crafting_inv ).success() ) {
             has_item = true;
         }
     }

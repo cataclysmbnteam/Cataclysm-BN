@@ -72,6 +72,7 @@
 #include "pathfinding.h"
 #include "player.h"
 #include "profession.h"
+#include "recipe_dictionary.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "scent_map.h"
@@ -10564,4 +10565,37 @@ bool Character::defer_move( const tripoint &next )
     auto_move_route.insert( auto_move_route.begin(), next );
     next_expected_position = pos();
     return true;
+}
+
+const recipe_subset &Character::get_learned_recipes() const
+{
+    if( *_skills != *autolearn_skills_stamp ) {
+        for( const auto &r : recipe_dict.all_autolearn() ) {
+            if( meets_skill_requirements( r->autolearn_requirements ) ) {
+                learned_recipes->include( r );
+            }
+        }
+        *autolearn_skills_stamp = *_skills;
+    }
+
+    return *learned_recipes;
+}
+
+bool Character::knows_recipe( const recipe *rec ) const
+{
+    return get_learned_recipes().contains( *rec );
+}
+
+void Character::learn_recipe( const recipe *const rec )
+{
+    if( rec->never_learn ) {
+        return;
+    }
+    learned_recipes->include( rec );
+}
+
+bool Character::can_learn_by_disassembly( const recipe &rec ) const
+{
+    return !rec.learn_by_disassembly.empty() &&
+           meets_skill_requirements( rec.learn_by_disassembly );
 }

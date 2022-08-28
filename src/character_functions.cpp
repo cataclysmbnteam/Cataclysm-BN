@@ -13,9 +13,13 @@ static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
 static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
+static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
+
+static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_darkness( "darkness" );
 
 static const itype_id itype_cookbook_human( "cookbook_human" );
 
@@ -94,6 +98,42 @@ int get_book_fun_for( const Character &ch, const item &book )
     }
 
     return fun_bonus;
+}
+
+float fine_detail_vision_mod( const Character &who )
+{
+    return fine_detail_vision_mod( who, who.pos() );
+}
+
+float fine_detail_vision_mod( const Character &who, const tripoint &p )
+{
+    // PER_SLIME_OK implies you can get enough eyes around the bile
+    // that you can generally see.  There still will be the haze, but
+    // it's annoying rather than limiting.
+    if( who.is_blind() ||
+        ( ( who.has_effect( effect_boomered ) || who.has_effect( effect_darkness ) ) &&
+          !who.has_trait( trait_PER_SLIME_OK ) ) ) {
+        return 11.0;
+    }
+    // Scale linearly as light level approaches LIGHT_AMBIENT_LIT.
+    // If we're actually a source of light, assume we can direct it where we need it.
+    // Therefore give a hefty bonus relative to ambient light.
+    float own_light = std::max( 1.0f, LIGHT_AMBIENT_LIT - who.active_light() - 2.0f );
+
+    // Same calculation as above, but with a result 3 lower.
+    float ambient_light = std::max( 1.0f, LIGHT_AMBIENT_LIT - get_map().ambient_light_at( p ) + 1.0f );
+
+    return std::min( own_light, ambient_light );
+}
+
+bool can_see_fine_details( const Character &who )
+{
+    return can_see_fine_details( who, who.pos() );
+}
+
+bool can_see_fine_details( const Character &who, const tripoint &p )
+{
+    return fine_detail_vision_mod( who, p ) <= FINE_VISION_THRESHOLD;
 }
 
 } // namespace character_funcs

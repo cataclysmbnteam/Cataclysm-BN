@@ -601,6 +601,9 @@ void Character::load( const JsonObject &data )
         member.read( ( *_skills )[skill_id( member.name() )] );
     }
 
+    data.read( "learned_recipes", *learned_recipes );
+    autolearn_skills_stamp->clear(); // Invalidates the cache
+
     on_stat_change( "thirst", thirst );
     on_stat_change( "stored_calories", stored_calories );
     on_stat_change( "fatigue", fatigue );
@@ -745,6 +748,10 @@ void Character::store( JsonOut &json ) const
         json.member( pair.first.str(), pair.second );
     }
     json.end_object();
+
+    // npc: unimplemented, potentially useful
+    json.member( "learned_recipes", *learned_recipes );
+    autolearn_skills_stamp->clear(); // Invalidates the cache
 
     // npc; unimplemented
     if( power_level < 1_kJ ) {
@@ -978,9 +985,6 @@ void avatar::store( JsonOut &json ) const
     json.member( "int_upgrade", std::abs( int_upgrade ) );
     json.member( "per_upgrade", std::abs( per_upgrade ) );
 
-    // npc: unimplemented, potentially useful
-    json.member( "learned_recipes", *learned_recipes );
-
     // Player only, books they have read at least once.
     json.member( "items_identified", items_identified );
 
@@ -1071,9 +1075,6 @@ void avatar::load( const JsonObject &data )
         }
         g->scen = generic_scenario;
     }
-
-    data.read( "learned_recipes", *learned_recipes );
-    valid_autolearn_skills->clear(); // Invalidates the cache
 
     items_identified.clear();
     data.read( "items_identified", items_identified );

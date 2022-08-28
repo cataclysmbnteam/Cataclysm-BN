@@ -62,6 +62,7 @@ class ma_technique;
 class known_magic;
 class player;
 class player_morale;
+class recipe_subset;
 class vehicle;
 class monster;
 class weather_manager;
@@ -1961,6 +1962,13 @@ class Character : public Creature, public visitable<Character>
                                              int radius = PICKUP_RANGE, bool clear_path = true );
         void invalidate_crafting_inventory();
 
+        /** Returns all known recipes. */
+        const recipe_subset &get_learned_recipes() const;
+
+        bool knows_recipe( const recipe *rec ) const;
+        void learn_recipe( const recipe *rec );
+        bool can_learn_by_disassembly( const recipe &rec ) const;
+
         /** Checks permanent morale for consistency and recovers it when an inconsistency is found. */
         bool check_and_recover_morale();
 
@@ -2091,7 +2099,12 @@ class Character : public Creature, public visitable<Character>
         void load( const JsonObject &data );
 
         // --------------- Values ---------------
+        /** Character skills. */
         pimpl<SkillLevelMap> _skills;
+        /** Stamp of character skills. @ref learned_recipes are valid only with this set of skills. */
+        mutable pimpl<SkillLevelMap> autolearn_skills_stamp;
+        /** Subset of learned recipes. Needs to be mutable for lazy initialization. */
+        mutable pimpl<recipe_subset> learned_recipes;
 
         // Cached vision values.
         std::bitset<NUM_VISION_MODES> vision_mode_cache;

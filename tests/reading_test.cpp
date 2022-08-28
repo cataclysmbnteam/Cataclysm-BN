@@ -190,7 +190,7 @@ TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
 
         // Get some light
         dummy.i_add( item( "atomic_lamp" ) );
-        REQUIRE( dummy.fine_detail_vision_mod() == 1 );
+        REQUIRE( character_funcs::fine_detail_vision_mod( dummy ) == character_funcs::FINE_VISION_PERFECT );
 
         WHEN( "player has average intelligence" ) {
             dummy.int_max = 8;
@@ -253,7 +253,7 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
 
     SECTION( "you cannot read in darkness" ) {
         dummy.add_env_effect( efftype_id( "darkness" ), bp_eyes, 3, 1_hours );
-        REQUIRE( dummy.fine_detail_vision_mod() > 4 );
+        REQUIRE( !character_funcs::can_see_fine_details( dummy ) );
 
         CHECK( dummy.get_book_reader( child, reasons ) == nullptr );
         expect_reasons = { "It's too dark to read!" };
@@ -268,7 +268,7 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
 
         // Get some light
         dummy.i_add( item( "atomic_lamp" ) );
-        REQUIRE( dummy.fine_detail_vision_mod() == 1 );
+        REQUIRE( character_funcs::fine_detail_vision_mod( dummy ) == character_funcs::FINE_VISION_PERFECT );
 
         THEN( "you cannot read while illiterate" ) {
             dummy.toggle_trait( trait_ILLITERATE );

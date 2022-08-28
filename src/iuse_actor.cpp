@@ -22,6 +22,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_functions.h"
 #include "character_id.h"
 #include "clothing_mod.h"
 #include "crafting.h"
@@ -1345,7 +1346,7 @@ int reveal_map_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_msg_if_player( _( "You should read your %s when you get to the surface." ),
                              it.tname() );
         return 0;
-    } else if( p.fine_detail_vision_mod() > 4 ) {
+    } else if( !character_funcs::can_see_fine_details( p ) ) {
         p.add_msg_if_player( _( "It's too dark to read." ) );
         return 0;
     }
@@ -2473,7 +2474,7 @@ void learn_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
 
 int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
 {
-    if( p.fine_detail_vision_mod() > 4 ) {
+    if( !character_funcs::can_see_fine_details( p ) ) {
         p.add_msg_if_player( _( "It's too dark to read." ) );
         return 0;
     }
@@ -3038,7 +3039,7 @@ bool repair_item_actor::can_use_tool( const player &p, const item &tool, bool pr
         }
         return false;
     }
-    if( p.fine_detail_vision_mod() > 4 ) {
+    if( !character_funcs::can_see_fine_details( p ) ) {
         if( print_msg ) {
             p.add_msg_if_player( m_info, _( "You can't see to do that!" ) );
         }
@@ -4728,7 +4729,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
         return 0;
     }
 
-    if( p.fine_detail_vision_mod() > 4 ) {
+    if( !character_funcs::can_see_fine_details( p ) ) {
         add_msg( m_info, _( "You can't see to sew!" ) );
         return 0;
     }
@@ -4894,7 +4895,8 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
 
     std::vector<item_comp> comps;
     comps.push_back( item_comp( repair_item, items_needed ) );
-    p.moves -= to_moves<int>( 30_seconds * p.fine_detail_vision_mod() );
+    // TODO: this may take up to 2 minutes, and so should start an activity instead
+    p.moves -= to_moves<int>( 30_seconds * character_funcs::fine_detail_vision_mod( p ) );
     p.practice( used_skill, items_needed * 3 + 3 );
     /** @EFFECT_TAILOR randomly improves clothing modification efforts */
     int rn = dice( 3, 2 + p.get_skill_level( used_skill ) ); // Skill
