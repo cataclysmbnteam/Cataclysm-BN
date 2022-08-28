@@ -1032,101 +1032,35 @@ void cast_zlight_segment(
     }
 }
 
-template<typename T, T( *calc )( const T &, const T &, const int & ),
-         bool( *check )( const T &, const T & ),
-         T( *accumulate )( const T &, const T &, const int & )>
-void cast_zlight(
-    const array_of_grids_of<T> &output_caches,
-    const array_of_grids_of<const T> &input_arrays,
-    const array_of_grids_of<const bool> &floor_caches,
-    const array_of_grids_of < const diagonal_blocks > &blocked_caches,
-    const tripoint &origin, const int offset_distance, const T numerator )
-{
-    // Down
-    cast_zlight_segment < 0, 1, 0, 1, 0, 0, -1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, blocked_caches, origin, offset_distance, numerator );
-    cast_zlight_segment < 1, 0, 0, 0, 1, 0, -1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, blocked_caches, origin, offset_distance, numerator );
-
-    cast_zlight_segment < 0, -1, 0, 1, 0, 0, -1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, blocked_caches, origin, offset_distance, numerator );
-    cast_zlight_segment < -1, 0, 0, 0, 1, 0, -1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, blocked_caches, origin, offset_distance, numerator );
-
-    cast_zlight_segment < 0, 1, 0, -1, 0, 0, -1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, blocked_caches, origin, offset_distance, numerator );
-    cast_zlight_segment < 1, 0, 0, 0, -1, 0, -1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, blocked_caches, origin, offset_distance, numerator );
-
-    cast_zlight_segment < 0, -1, 0, -1, 0, 0, -1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, blocked_caches, origin, offset_distance, numerator );
-    cast_zlight_segment < -1, 0, 0, 0, -1, 0, -1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, blocked_caches, origin, offset_distance, numerator );
-
-    // Up
-    cast_zlight_segment<0, 1, 0, 1, 0, 0, 1, T, calc, check, accumulate>(
-        output_caches, input_arrays, floor_caches, blocked_caches, origin, offset_distance, numerator );
-    cast_zlight_segment<1, 0, 0, 0, 1, 0, 1, T, calc, check, accumulate>(
-        output_caches, input_arrays, floor_caches, blocked_caches, origin, offset_distance, numerator );
-
-    cast_zlight_segment < 0, -1, 0, 1, 0, 0, 1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, blocked_caches, origin, offset_distance, numerator );
-    cast_zlight_segment < -1, 0, 0, 0, 1, 0, 1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, blocked_caches, origin, offset_distance, numerator );
-
-    cast_zlight_segment < 0, 1, 0, -1, 0, 0, 1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, blocked_caches, origin, offset_distance, numerator );
-    cast_zlight_segment < 1, 0, 0, 0, -1, 0, 1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, blocked_caches, origin, offset_distance, numerator );
-
-    cast_zlight_segment < 0, -1, 0, -1, 0, 0, 1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, blocked_caches, origin, offset_distance, numerator );
-    cast_zlight_segment < -1, 0, 0, 0, -1, 0, 1, T, calc, check, accumulate > (
-        output_caches, input_arrays, floor_caches, blocked_caches, origin, offset_distance, numerator );
-}
-
-// I can't figure out how to make implicit instantiation work when the parameters of
-// the template-supplied function pointers are involved, so I'm explicitly instantiating instead.
-template void
-cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
-    const array_of_grids_of<float> &output_caches,
-    const array_of_grids_of<const float> &input_arrays,
-    const array_of_grids_of<const bool> &floor_caches,
-    const array_of_grids_of < const diagonal_blocks > &blocked_caches,
-    const tripoint &origin, int offset_distance, float numerator );
-
-template void
-cast_zlight<float, shrapnel_calc, shrapnel_check, accumulate_fragment_cloud>
-(
-    const array_of_grids_of<float> &output_caches,
-    const array_of_grids_of<const float> &input_arrays,
-    const array_of_grids_of<const bool> &floor_caches,
-    const array_of_grids_of < const diagonal_blocks > &blocked_caches,
-    const tripoint &origin, int offset_distance, float numerator );
-
 template<int xx, int xy, int yx, int yy, typename T, typename Out,
          T( *calc )( const T &, const T &, const int & ),
          bool( *check )( const T &, const T & ),
          void( *update_output )( Out &, const T &, quadrant ),
-         T( *accumulate )( const T &, const T &, const int & )>
+         T( *accumulate )( const T &, const T &, const int & ),
+         bool compare( const point &, void * ),
+         void start_block( const point &, const T, const float, const float, const int, void * ),
+         void end_block( const int, void * )>
 void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
                 const T( &input_array )[MAPSIZE_X][MAPSIZE_Y],
                 const diagonal_blocks( &blocked_array )[MAPSIZE_X][MAPSIZE_Y],
                 const point &offset, int offsetDistance,
                 T numerator = VISIBILITY_FULL,
-                int row = 1, float start = 1.0f, float end = 0.0f,
-                T cumulative_transparency = LIGHT_TRANSPARENCY_OPEN_AIR );
+                int row = 1, int limit = 60, float start = 1.0f, float end = 0.0f,
+                T cumulative_transparency = LIGHT_TRANSPARENCY_OPEN_AIR, void *extra = nullptr );
 
 template<int xx, int xy, int yx, int yy, typename T, typename Out,
          T( *calc )( const T &, const T &, const int & ),
          bool( *check )( const T &, const T & ),
          void( *update_output )( Out &, const T &, quadrant ),
-         T( *accumulate )( const T &, const T &, const int & )>
+         T( *accumulate )( const T &, const T &, const int & ),
+         bool compare( const point &, void * ),
+         void start_block( const point &, const T, const float, const float, const int, void * ),
+         void end_block( const int, void * )>
 void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
                 const T( &input_array )[MAPSIZE_X][MAPSIZE_Y],
                 const diagonal_blocks( &blocked_array )[MAPSIZE_X][MAPSIZE_Y],
                 const point &offset, const int offsetDistance, const T numerator,
-                const int row, float start, const float end, T cumulative_transparency )
+                const int row, int limit, float start, const float end, T cumulative_transparency, void *extra )
 {
     constexpr quadrant quad = quadrant_from_x_y( -xx - xy, -yx - yy );
 
@@ -1148,11 +1082,13 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
     };
 
     float newStart = 0.0f;
-    float radius = 60.0f - offsetDistance;
+    float radius = limit - offsetDistance;
     if( start < end ) {
         return;
     }
     T last_intensity = 0.0;
+    bool last_compare = false;
+    bool started_block = false;
     tripoint delta;
     for( int distance = row; distance <= radius; distance++ ) {
         delta.y = -distance;
@@ -1176,12 +1112,22 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
                 break;
             }
 
-            if( check_blocked( current ) ) {
-                continue;
-            }
+
             if( !started_row ) {
                 started_row = true;
                 current_transparency = input_array[ current.x ][ current.y ];
+                last_compare = compare( current, extra );
+            }
+
+            if( !started_block ) {
+                start_block( current, current_transparency, start, end, distance, extra );
+                started_block = true;
+            }
+
+            if( check_blocked( current ) ) {
+                end_block( distance, extra );
+                started_block = false;
+                continue;
             }
 
             const int dist = rl_dist( tripoint_zero, delta ) + offsetDistance;
@@ -1196,20 +1142,26 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
                 update_output( output_cache[current.x][current.y], last_intensity, quad );
             }
 
-            if( new_transparency == current_transparency ) {
+            bool comp = compare( current, extra );
+
+            if( new_transparency == current_transparency && comp == last_compare ) {
                 newStart = leadingEdge;
                 continue;
             }
+
+            end_block( distance, extra );
+
             // Only cast recursively if previous span was not opaque.
             if( check( current_transparency, last_intensity ) ) {
-                castLight<xx, xy, yx, yy, T, Out, calc, check, update_output, accumulate>(
+                castLight<xx, xy, yx, yy, T, Out, calc, check, update_output, accumulate, compare, start_block, end_block>
+                (
                     output_cache, input_array, blocked_array, offset, offsetDistance,
-                    numerator, distance + 1, start, trailingEdge,
-                    accumulate( cumulative_transparency, current_transparency, distance ) );
+                    numerator, distance + 1, limit, start, trailingEdge,
+                    accumulate( cumulative_transparency, current_transparency, distance ), extra );
             }
             // The new span starts at the leading edge of the previous square if it is opaque,
             // and at the trailing edge of the current square if it is transparent.
-            if( !check( current_transparency, last_intensity ) ) {
+            if( !check( current_transparency, last_intensity ) || current_transparency < new_transparency ) {
                 start = newStart;
             } else {
                 // Note this is the same slope as the recursive call we just made.
@@ -1221,13 +1173,18 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
             }
             current_transparency = new_transparency;
             newStart = leadingEdge;
+            started_block = false;
         }
         if( !check( current_transparency, last_intensity ) ) {
             // If we reach the end of the span with terrain being opaque, we don't iterate further.
+            radius = distance;
             break;
         }
         // Cumulative average of the transparency values encountered.
         cumulative_transparency = accumulate( cumulative_transparency, current_transparency, distance );
+    }
+    if( started_block ) {
+        end_block( radius, extra );
     }
 }
 
@@ -1240,25 +1197,33 @@ void castLightAll( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
                    const diagonal_blocks( &blocked_array )[MAPSIZE_X][MAPSIZE_Y],
                    const point &offset, int offsetDistance, T numerator )
 {
-    castLight<0, 1, 1, 0, T, Out, calc, check, update_output, accumulate>(
+    castLight<0, 1, 1, 0, T, Out, calc, check, update_output, accumulate, noop_compare, noop_start_block, noop_end_block >
+    (
         output_cache, input_array, blocked_array, offset, offsetDistance, numerator );
-    castLight<1, 0, 0, 1, T, Out, calc, check, update_output, accumulate>(
-        output_cache, input_array, blocked_array, offset, offsetDistance, numerator );
-
-    castLight < 0, -1, 1, 0, T, Out, calc, check, update_output, accumulate > (
-        output_cache, input_array, blocked_array, offset, offsetDistance, numerator );
-    castLight < -1, 0, 0, 1, T, Out, calc, check, update_output, accumulate > (
+    castLight<1, 0, 0, 1, T, Out, calc, check, update_output, accumulate, noop_compare, noop_start_block, noop_end_block >
+    (
         output_cache, input_array, blocked_array, offset, offsetDistance, numerator );
 
-    castLight < 0, 1, -1, 0, T, Out, calc, check, update_output, accumulate > (
-        output_cache, input_array, blocked_array, offset, offsetDistance, numerator );
-    castLight < 1, 0, 0, -1, T, Out, calc, check, update_output, accumulate > (
-        output_cache, input_array, blocked_array, offset, offsetDistance, numerator );
+    castLight < 0, -1, 1, 0, T, Out, calc, check, update_output, accumulate, noop_compare,
+              noop_start_block, noop_end_block  > (
+                  output_cache, input_array, blocked_array, offset, offsetDistance, numerator );
+    castLight < -1, 0, 0, 1, T, Out, calc, check, update_output, accumulate, noop_compare,
+              noop_start_block, noop_end_block  > (
+                  output_cache, input_array, blocked_array, offset, offsetDistance, numerator );
 
-    castLight < 0, -1, -1, 0, T, Out, calc, check, update_output, accumulate > (
-        output_cache, input_array, blocked_array, offset, offsetDistance, numerator );
-    castLight < -1, 0, 0, -1, T, Out, calc, check, update_output, accumulate > (
-        output_cache, input_array, blocked_array, offset, offsetDistance, numerator );
+    castLight < 0, 1, -1, 0, T, Out, calc, check, update_output, accumulate, noop_compare,
+              noop_start_block, noop_end_block  > (
+                  output_cache, input_array, blocked_array, offset, offsetDistance, numerator );
+    castLight < 1, 0, 0, -1, T, Out, calc, check, update_output, accumulate, noop_compare,
+              noop_start_block, noop_end_block  > (
+                  output_cache, input_array, blocked_array, offset, offsetDistance, numerator );
+
+    castLight < 0, -1, -1, 0, T, Out, calc, check, update_output, accumulate, noop_compare,
+              noop_start_block, noop_end_block  > (
+                  output_cache, input_array, blocked_array, offset, offsetDistance, numerator );
+    castLight < -1, 0, 0, -1, T, Out, calc, check, update_output, accumulate, noop_compare,
+              noop_start_block, noop_end_block  > (
+                  output_cache, input_array, blocked_array, offset, offsetDistance, numerator );
 }
 
 template void castLightAll<float, four_quadrants, sight_calc, sight_check,
@@ -1276,6 +1241,222 @@ castLightAll<float, float, shrapnel_calc, shrapnel_check,
     const float( &input_array )[MAPSIZE_X][MAPSIZE_Y],
     const diagonal_blocks( &blocked_array )[MAPSIZE_X][MAPSIZE_Y],
     const point &offset, int offsetDistance, float numerator );
+
+
+struct zlight_extra {
+    const float ( &next_level )[MAPSIZE_X][MAPSIZE_Y];
+    const bool ( &floor_cache )[MAPSIZE_X][MAPSIZE_Y];
+    struct {
+        float start;
+        float end;
+        uint8_t distance;
+        uint8_t limit;
+        bool floor;
+        float transparency;
+    } blocks[1800];
+    size_t blockCount;
+
+    zlight_extra( const float ( &nl )[MAPSIZE_X][MAPSIZE_Y],
+                  const bool ( &fc )[MAPSIZE_X][MAPSIZE_Y] ) : next_level( nl ), floor_cache( fc ), blockCount( 0 ) { };
+};
+
+static inline bool check_floor( const point &current,
+                                const float ( &next_level )[MAPSIZE_X][MAPSIZE_Y],
+                                const bool ( &floor_cache )[MAPSIZE_X][MAPSIZE_Y] )
+{
+    return floor_cache[current.x][current.y] ||
+           next_level[current.x][current.y] == LIGHT_TRANSPARENCY_SOLID;
+}
+
+inline void zlight_start_block( const point &current, const float transparency,
+                                const float start, const float end,
+                                const int distance, void *extra )
+{
+    zlight_extra *zlight = static_cast<zlight_extra *>( extra );
+    auto &cur_block = zlight->blocks[zlight->blockCount];
+
+    cur_block.transparency = transparency;
+    cur_block.distance = distance;
+    cur_block.start = start;
+    cur_block.end = end;
+    cur_block.floor = check_floor( current, zlight->next_level, zlight->floor_cache );
+}
+
+inline bool zlight_compare( const point &coord, void *extra )
+{
+    zlight_extra *zlight = static_cast<zlight_extra *>( extra );
+    return check_floor( coord, zlight->next_level, zlight->floor_cache );
+}
+
+inline void zlight_end_block( const int distance, void *extra )
+{
+    zlight_extra *zlight = static_cast<zlight_extra *>( extra );
+    auto &cur_block = zlight->blocks[zlight->blockCount];
+    if( !cur_block.floor && cur_block.transparency > LIGHT_TRANSPARENCY_SOLID ) {
+        cur_block.limit = distance;
+        zlight->blockCount++;
+    }
+}
+
+template<int xx, int xy, int xz, int yx, int yy, int yz, int zz, typename T,
+         T( *calc )( const T &, const T &, const int & ),
+         bool( *check )( const T &, const T & ),
+         T( *accumulate )( const T &, const T &, const int & )>
+void cast_zlight_segment_new(
+    const array_of_grids_of<T> &output_caches,
+    const array_of_grids_of<const T> &input_arrays,
+    const array_of_grids_of<const bool> &floor_caches,
+    const array_of_grids_of <const diagonal_blocks> &blocked_caches,
+    const tripoint &offset, int offset_distance,
+    T numerator = 1.0f, int row = 0,
+    float start_major = 0.0f, float end_major = 1.0f,
+    float start_minor = 1.0f, float end_minor = 0.0f,
+    T cumulative_transparency = LIGHT_TRANSPARENCY_OPEN_AIR );
+
+template<int xx, int xy, int xz, int yx, int yy, int yz, int zz, typename T,
+         T( *calc )( const T &, const T &, const int & ),
+         bool( *check )( const T &, const T & ),
+         T( *accumulate )( const T &, const T &, const int & )>
+void cast_zlight_segment_new(
+    const array_of_grids_of<T> &output_caches,
+    const array_of_grids_of<const T> &input_arrays,
+    const array_of_grids_of<const bool> &floor_caches,
+    const array_of_grids_of < const diagonal_blocks > &blocked_caches,
+    const tripoint &offset, const int offset_distance,
+    const T numerator, int row,
+    float start_major, const float end_major,
+    float start_minor, const float end_minor,
+    T cumulative_transparency )
+{
+
+    //The proportion of a tile that counts for vision
+    constexpr float live_space = 0.75;
+
+    if( start_major > end_major ) {
+        return;
+    }
+
+    int offset_z_index = offset.z + OVERMAP_DEPTH;
+    int z_index = offset_z_index + row * zz;
+    while( row <= fov_3d_z_range && z_index >= 0 && z_index < OVERMAP_LAYERS ) {
+
+        if( row == fov_3d_z_range || z_index + zz < 0 || z_index + zz >= OVERMAP_LAYERS ) {
+            //This is the last layer. Don't bother collecting anything for the next one, just normal casts.
+
+            //TODO
+        }
+
+        //TODO! This is ub until the above section is filled in
+        auto next_level = input_arrays[z_index + ( zz > 0 ? 1 : -1 )];
+
+        zlight_extra extra( *next_level, *( floor_caches[z_index + ( zz > 0 ? 1 : 0 )] ) );
+
+        int y_row = std::max( 1.0, 1 + ( ( row - 0.5 ) / end_major ) );
+        int y_limit = std::min( 60.0, ( row + live_space - 0.5 ) / start_major );
+
+        castLight<xx, xy, yx, yy, T, T, calc, check, update_light, accumulate, zlight_compare, zlight_start_block, zlight_end_block>
+        (
+            *( output_caches[z_index] ), *( input_arrays[z_index] ), *( blocked_caches[z_index] ), offset.xy(),
+            offset_distance, numerator, y_row, y_limit, start_minor, end_minor, cumulative_transparency, &extra
+        );
+
+        if( extra.blockCount == 1 &&  extra.blocks[0].distance == y_row &&
+            extra.blocks[0].limit == y_limit ) {
+            assert( extra.blocks[0].start == start_minor );
+            assert( extra.blocks[0].end == end_minor );
+
+            //Just continue on
+        } else {
+            for( size_t i = 0; i < extra.blockCount; i++ ) {
+
+                float new_start = std::max( start_major,
+                                            static_cast< float>( ( row + 0.5 ) / ( extra.blocks[i].limit + 0.5 ) ) );
+                float new_end = std::min( end_major,
+                                          static_cast<float>( ( row + 0.5 ) / ( extra.blocks[i].distance - 0.5 ) ) );
+
+                cast_zlight_segment_new<xx, xy, xz, yx, yy, yz, zz, T, calc, check, accumulate>(
+                    output_caches, input_arrays, floor_caches, blocked_caches, offset, offset_distance, numerator,
+                    row + 1, new_start, new_end, extra.blocks[i].start, extra.blocks[i].end, cumulative_transparency );
+            }
+            return;
+        }
+
+        row++;
+        z_index += zz;
+    }
+}
+
+template<typename T, T( *calc )( const T &, const T &, const int & ),
+         bool( *check )( const T &, const T & ),
+         T( *accumulate )( const T &, const T &, const int & )>
+void cast_zlight(
+    const array_of_grids_of<T> &output_caches,
+    const array_of_grids_of<const T> &input_arrays,
+    const array_of_grids_of<const bool> &floor_caches,
+    const array_of_grids_of < const diagonal_blocks > &blocked_caches,
+    const tripoint &origin, const int offset_distance, const T numerator )
+{
+    // Down
+    cast_zlight_segment_new < 0, 1, 0, 1, 0, 0, -1, T, calc, check, accumulate > (
+        output_caches, input_arrays, floor_caches, blocked_caches, origin, offset_distance, numerator );
+    cast_zlight_segment_new < 1, 0, 0, 0, 1, 0, -1, T, calc, check, accumulate > (
+        output_caches, input_arrays, floor_caches, blocked_caches, origin, offset_distance, numerator );
+
+    cast_zlight_segment_new < 0, -1, 0, 1, 0, 0, -1, T, calc, check, accumulate > (
+        output_caches, input_arrays, floor_caches, blocked_caches, origin, offset_distance, numerator );
+    cast_zlight_segment_new < -1, 0, 0, 0, 1, 0, -1, T, calc, check, accumulate > (
+        output_caches, input_arrays, floor_caches, blocked_caches, origin, offset_distance, numerator );
+
+    cast_zlight_segment_new < 0, 1, 0, -1, 0, 0, -1, T, calc, check, accumulate > (
+        output_caches, input_arrays, floor_caches, blocked_caches, origin, offset_distance, numerator );
+    cast_zlight_segment_new < 1, 0, 0, 0, -1, 0, -1, T, calc, check, accumulate > (
+        output_caches, input_arrays, floor_caches, blocked_caches, origin, offset_distance, numerator );
+
+    cast_zlight_segment_new < 0, -1, 0, -1, 0, 0, -1, T, calc, check, accumulate > (
+        output_caches, input_arrays, floor_caches, blocked_caches, origin, offset_distance, numerator );
+    cast_zlight_segment_new < -1, 0, 0, 0, -1, 0, -1, T, calc, check, accumulate > (
+        output_caches, input_arrays, floor_caches, blocked_caches, origin, offset_distance, numerator );
+
+    // Up
+    cast_zlight_segment_new<0, 1, 0, 1, 0, 0, 1, T, calc, check, accumulate>(
+        output_caches, input_arrays, floor_caches, blocked_caches, origin, offset_distance, numerator );
+    cast_zlight_segment_new<1, 0, 0, 0, 1, 0, 1, T, calc, check, accumulate>(
+        output_caches, input_arrays, floor_caches, blocked_caches, origin, offset_distance, numerator );
+
+    cast_zlight_segment_new < 0, -1, 0, 1, 0, 0, 1, T, calc, check, accumulate > (
+        output_caches, input_arrays, floor_caches, blocked_caches, origin, offset_distance, numerator );
+    cast_zlight_segment_new < -1, 0, 0, 0, 1, 0, 1, T, calc, check, accumulate > (
+        output_caches, input_arrays, floor_caches, blocked_caches, origin, offset_distance, numerator );
+
+    cast_zlight_segment_new < 0, 1, 0, -1, 0, 0, 1, T, calc, check, accumulate > (
+        output_caches, input_arrays, floor_caches, blocked_caches, origin, offset_distance, numerator );
+    cast_zlight_segment_new < 1, 0, 0, 0, -1, 0, 1, T, calc, check, accumulate > (
+        output_caches, input_arrays, floor_caches, blocked_caches, origin, offset_distance, numerator );
+
+    cast_zlight_segment_new < 0, -1, 0, -1, 0, 0, 1, T, calc, check, accumulate > (
+        output_caches, input_arrays, floor_caches, blocked_caches, origin, offset_distance, numerator );
+    cast_zlight_segment_new < -1, 0, 0, 0, -1, 0, 1, T, calc, check, accumulate > (
+        output_caches, input_arrays, floor_caches, blocked_caches, origin, offset_distance, numerator );
+}
+
+// I can't figure out how to make implicit instantiation work when the parameters of
+// the template-supplied function pointers are involved, so I'm explicitly instantiating instead.
+template void
+cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
+    const array_of_grids_of<float> &output_caches,
+    const array_of_grids_of<const float> &input_arrays,
+    const array_of_grids_of<const bool> &floor_caches,
+    const array_of_grids_of < const diagonal_blocks > &blocked_caches,
+    const tripoint &origin, int offset_distance, float numerator );
+
+template void
+cast_zlight<float, shrapnel_calc, shrapnel_check, accumulate_fragment_cloud>
+(
+    const array_of_grids_of<float> &output_caches,
+    const array_of_grids_of<const float> &input_arrays,
+    const array_of_grids_of<const bool> &floor_caches,
+    const array_of_grids_of < const diagonal_blocks > &blocked_caches,
+    const tripoint &origin, int offset_distance, float numerator );
 
 /**
  * Calculates the Field Of View for the provided map from the given x, y
@@ -1415,14 +1596,14 @@ float fastexp( float x )
     return u.f / v.f;
 }
 
-static float light_calc( const float &numerator, const float &transparency,
-                         const int &distance )
+float light_calc( const float &numerator, const float &transparency,
+                  const int &distance )
 {
     // Light needs inverse square falloff in addition to attenuation.
     return numerator  / ( fastexp( transparency * distance ) * distance );
 }
 
-static bool light_check( const float &transparency, const float &intensity )
+bool light_check( const float &transparency, const float &intensity )
 {
     return transparency > LIGHT_TRANSPARENCY_SOLID && intensity > LIGHT_AMBIENT_LOW;
 }
@@ -1473,37 +1654,45 @@ void map::apply_light_source( const tripoint &p, float luminance )
 
     if( north ) {
         castLight < 1, 0, 0, -1, float, four_quadrants, light_calc, light_check,
-                  update_light_quadrants, accumulate_transparency > (
+                  update_light_quadrants, accumulate_transparency, noop_compare, noop_start_block,
+                  noop_end_block > (
                       lm, transparency_cache, blocked_cache, p2, 0, luminance );
         castLight < -1, 0, 0, -1, float, four_quadrants, light_calc, light_check,
-                  update_light_quadrants, accumulate_transparency > (
+                  update_light_quadrants, accumulate_transparency, noop_compare, noop_start_block,
+                  noop_end_block > (
                       lm, transparency_cache, blocked_cache, p2, 0, luminance );
     }
 
     if( east ) {
         castLight < 0, -1, 1, 0, float, four_quadrants, light_calc, light_check,
-                  update_light_quadrants, accumulate_transparency > (
+                  update_light_quadrants, accumulate_transparency, noop_compare, noop_start_block,
+                  noop_end_block > (
                       lm, transparency_cache, blocked_cache, p2, 0, luminance );
         castLight < 0, -1, -1, 0, float, four_quadrants, light_calc, light_check,
-                  update_light_quadrants, accumulate_transparency > (
+                  update_light_quadrants, accumulate_transparency, noop_compare, noop_start_block,
+                  noop_end_block > (
                       lm, transparency_cache, blocked_cache, p2, 0, luminance );
     }
 
     if( south ) {
         castLight<1, 0, 0, 1, float, four_quadrants, light_calc, light_check,
-                  update_light_quadrants, accumulate_transparency>(
+                  update_light_quadrants, accumulate_transparency, noop_compare, noop_start_block, noop_end_block>
+                  (
                       lm, transparency_cache, blocked_cache, p2, 0, luminance );
         castLight < -1, 0, 0, 1, float, four_quadrants, light_calc, light_check,
-                  update_light_quadrants, accumulate_transparency > (
+                  update_light_quadrants, accumulate_transparency, noop_compare, noop_start_block,
+                  noop_end_block > (
                       lm, transparency_cache, blocked_cache, p2, 0, luminance );
     }
 
     if( west ) {
         castLight<0, 1, 1, 0, float, four_quadrants, light_calc, light_check,
-                  update_light_quadrants, accumulate_transparency>(
+                  update_light_quadrants, accumulate_transparency, noop_compare, noop_start_block, noop_end_block>
+                  (
                       lm, transparency_cache, blocked_cache, p2, 0, luminance );
         castLight < 0, 1, -1, 0, float, four_quadrants, light_calc, light_check,
-                  update_light_quadrants, accumulate_transparency > (
+                  update_light_quadrants, accumulate_transparency, noop_compare, noop_start_block,
+                  noop_end_block > (
                       lm, transparency_cache, blocked_cache, p2, 0, luminance );
     }
 }
@@ -1519,31 +1708,39 @@ void map::apply_directional_light( const tripoint &p, int direction, float lumin
 
     if( direction == 90 ) {
         castLight < 1, 0, 0, -1, float, four_quadrants, light_calc, light_check,
-                  update_light_quadrants, accumulate_transparency > (
+                  update_light_quadrants, accumulate_transparency, noop_compare, noop_start_block,
+                  noop_end_block > (
                       lm, transparency_cache, blocked_cache, p2, 0, luminance );
         castLight < -1, 0, 0, -1, float, four_quadrants, light_calc, light_check,
-                  update_light_quadrants, accumulate_transparency > (
+                  update_light_quadrants, accumulate_transparency, noop_compare, noop_start_block,
+                  noop_end_block > (
                       lm, transparency_cache, blocked_cache, p2, 0, luminance );
     } else if( direction == 0 ) {
         castLight < 0, -1, 1, 0, float, four_quadrants, light_calc, light_check,
-                  update_light_quadrants, accumulate_transparency > (
+                  update_light_quadrants, accumulate_transparency, noop_compare, noop_start_block,
+                  noop_end_block > (
                       lm, transparency_cache, blocked_cache, p2, 0, luminance );
         castLight < 0, -1, -1, 0, float, four_quadrants, light_calc, light_check,
-                  update_light_quadrants, accumulate_transparency > (
+                  update_light_quadrants, accumulate_transparency, noop_compare, noop_start_block,
+                  noop_end_block > (
                       lm, transparency_cache, blocked_cache, p2, 0, luminance );
     } else if( direction == 270 ) {
         castLight<1, 0, 0, 1, float, four_quadrants, light_calc, light_check,
-                  update_light_quadrants, accumulate_transparency>(
+                  update_light_quadrants, accumulate_transparency, noop_compare, noop_start_block, noop_end_block>
+                  (
                       lm, transparency_cache, blocked_cache, p2, 0, luminance );
         castLight < -1, 0, 0, 1, float, four_quadrants, light_calc, light_check,
-                  update_light_quadrants, accumulate_transparency > (
+                  update_light_quadrants, accumulate_transparency, noop_compare, noop_start_block,
+                  noop_end_block > (
                       lm, transparency_cache, blocked_cache, p2, 0, luminance );
     } else if( direction == 180 ) {
         castLight<0, 1, 1, 0, float, four_quadrants, light_calc, light_check,
-                  update_light_quadrants, accumulate_transparency>(
+                  update_light_quadrants, accumulate_transparency, noop_compare, noop_start_block, noop_end_block>
+                  (
                       lm, transparency_cache, blocked_cache, p2, 0, luminance );
         castLight < 0, 1, -1, 0, float, four_quadrants, light_calc, light_check,
-                  update_light_quadrants, accumulate_transparency > (
+                  update_light_quadrants, accumulate_transparency, noop_compare, noop_start_block,
+                  noop_end_block > (
                       lm, transparency_cache, blocked_cache, p2, 0, luminance );
     }
 }

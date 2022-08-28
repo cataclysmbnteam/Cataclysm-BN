@@ -104,6 +104,15 @@ inline float accumulate_transparency( const float &cumulative_transparency,
     return ( ( distance - 1 ) * cumulative_transparency + current_transparency ) / distance;
 }
 
+inline bool noop_compare( const point &, void * )
+{
+    return true;
+}
+template <typename T>
+inline void noop_start_block( const point &, const T, const float, const float, const int,
+                              void * ) {}
+inline void noop_end_block( const int, void * ) {}
+
 template<typename T, typename Out, T( *calc )( const T &, const T &, const int & ),
          bool( *check )( const T &, const T & ),
          void( *update_output )( Out &, const T &, quadrant ),
