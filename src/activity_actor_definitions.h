@@ -33,6 +33,8 @@ class aim_activity_actor : public activity_actor
         tripoint initial_view_offset;
         /** Target UI requested to abort aiming */
         bool aborted = false;
+        /** RELOAD_AND_SHOOT weapon is kept loaded by the activity */
+        bool loaded_RAS_weapon = false;
         /**
          * Target UI requested to abort aiming and reload weapon
          * Implies aborted = true
