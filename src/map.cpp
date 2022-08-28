@@ -5468,7 +5468,7 @@ void map::remove_field( const tripoint &p, const field_type_id &field_to_remove 
 
 void map::add_splatter( const field_type_id &type, const tripoint &where, int intensity )
 {
-    if( intensity <= 0 ) {
+    if( !type.id() || intensity <= 0 ) {
         return;
     }
     if( type.obj().is_splattering ) {
