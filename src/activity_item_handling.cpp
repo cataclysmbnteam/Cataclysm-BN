@@ -20,6 +20,7 @@
 #include "avatar_action.h"
 #include "calendar.h"
 #include "character.h"
+#include "character_functions.h"
 #include "clzones.h"
 #include "colony.h"
 #include "construction.h"
@@ -1025,7 +1026,7 @@ std::vector<tripoint> route_adjacent( const player &p, const tripoint &dest )
     map &here = get_map();
 
     for( const tripoint &tp : here.points_in_radius( dest, 1 ) ) {
-        if( tp != p.pos() && here.passable( tp ) ) {
+        if( tp != p.pos() && here.passable( tp ) && !here.obstructed_by_vehicle_rotation( dest, tp ) ) {
             passable_tiles.emplace( tp );
         }
     }
@@ -2611,7 +2612,7 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
         if( here.dangerous_field_at( set_pt ) ) {
             it2 = src_set.erase( it2 );
             // remove tiles in darkness, if we aren't lit-up ourselves
-        } else if( !dark_capable && p.fine_detail_vision_mod( set_pt ) > 4.0 ) {
+        } else if( !dark_capable && !character_funcs::can_see_fine_details( p, set_pt ) ) {
             it2 = src_set.erase( it2 );
         } else if( act_id == ACT_MULTIPLE_FISH ) {
             const ter_id terrain_id = here.ter( set_pt );
@@ -3024,7 +3025,7 @@ bool generic_multi_activity_handler( player_activity &act, player &p, bool check
         if( activity_to_restore != ACT_TIDY_UP &&
             activity_to_restore != ACT_MOVE_LOOT &&
             activity_to_restore != ACT_FETCH_REQUIRED &&
-            p.fine_detail_vision_mod( p.pos() ) > 4.0 ) {
+            !character_funcs::can_see_fine_details( p ) ) {
             p.add_msg_if_player( m_info, _( "It is too dark to work here." ) );
             return false;
         }

@@ -990,22 +990,6 @@
     "flags": [ "NO_INGEST", "NPC_SAFE" ]
   },
   {
-    "id": "flu_shot",
-    "type": "COMESTIBLE",
-    "comestible_type": "MED",
-    "name": "flu shot",
-    "description": "Pharmaceutical flu shot designed for mass vaccinations, still in the packaging.  Purported to provide immunity to influenza.",
-    "weight": "12 g",
-    "volume": "10ml",
-    "price": 5000,
-    "price_postapoc": 1500,
-    "material": "plastic",
-    "symbol": "!",
-    "color": "magenta",
-    "use_action": "FLU_VACCINE",
-    "flags": [ "NO_INGEST", "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE" ]
-  },
-  {
     "id": "gum",
     "type": "COMESTIBLE",
     "comestible_type": "MED",

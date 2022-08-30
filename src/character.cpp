@@ -1,4 +1,5 @@
 #include "character.h"
+#include "character_encumbrance.h"
 
 #include <algorithm>
 #include <cctype>
@@ -20,9 +21,11 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character_martial_arts.h"
+#include "character_stat.h"
 #include "clzones.h"
 #include "colony.h"
 #include "construction.h"
+#include "consumption.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "debug.h"
@@ -68,6 +71,8 @@
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "player.h"
+#include "profession.h"
+#include "recipe_dictionary.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "scent_map.h"
@@ -212,7 +217,6 @@ static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
 static const bionic_id bio_ads( "bio_ads" );
-static const bionic_id bio_blaster( "bio_blaster" );
 static const bionic_id bio_blindfold( "bio_blindfold" );
 static const bionic_id bio_climate( "bio_climate" );
 static const bionic_id bio_earplugs( "bio_earplugs" );
@@ -428,6 +432,7 @@ Character::Character() :
 
     name.clear();
     custom_profession.clear();
+    prof = profession::generic();
 
     *path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, true, true, false, true };
 
@@ -1291,9 +1296,6 @@ int Character::get_working_arm_count() const
     }
     if( !is_limb_disabled( bodypart_id( "arm_r" ) ) ) {
         limb_count++;
-    }
-    if( has_bionic( bio_blaster ) && limb_count > 0 ) {
-        limb_count--;
     }
 
     return limb_count;
@@ -3424,8 +3426,8 @@ int Character::read_speed( bool return_stat_effect ) const
     /** @EFFECT_INT increases reading speed by 3s per level above 8*/
     int ret = to_moves<int>( 1_minutes ) - to_moves<int>( 3_seconds ) * ( intel - 8 );
 
-    if( has_bionic( afs_bio_linguistic_coprocessor ) ) { // Aftershock
-        ret *= .85;
+    if( has_bionic( afs_bio_linguistic_coprocessor ) ) {
+        ret *= .75;
     }
 
     ret *= mutation_value( "reading_speed_multiplier" );
@@ -3640,18 +3642,18 @@ bool Character::has_nv()
 
 void Character::reset_encumbrance()
 {
-    encumbrance_cache = calc_encumbrance();
+    *encumbrance_cache = calc_encumbrance();
 }
 
-std::array<encumbrance_data, num_bp> Character::calc_encumbrance() const
+char_encumbrance_data Character::calc_encumbrance() const
 {
     return calc_encumbrance( item() );
 }
 
-std::array<encumbrance_data, num_bp> Character::calc_encumbrance( const item &new_item ) const
+char_encumbrance_data Character::calc_encumbrance( const item &new_item ) const
 {
 
-    std::array<encumbrance_data, num_bp> enc;
+    char_encumbrance_data enc;
 
     item_encumb( enc, new_item );
     mut_cbm_encumb( enc );
@@ -3675,19 +3677,19 @@ units::mass Character::get_weight() const
     return ret;
 }
 
-std::array<encumbrance_data, num_bp> Character::get_encumbrance() const
+char_encumbrance_data Character::get_encumbrance() const
 {
-    return encumbrance_cache;
+    return *encumbrance_cache;
 }
 
-std::array<encumbrance_data, num_bp> Character::get_encumbrance( const item &new_item ) const
+char_encumbrance_data Character::get_encumbrance( const item &new_item ) const
 {
     return calc_encumbrance( new_item );
 }
 
 int Character::extraEncumbrance( const layer_level level, const int bp ) const
 {
-    return encumbrance_cache[bp].layer_penalty_details[static_cast<int>( level )].total;
+    return encumbrance_cache->elems[bp].layer_penalty_details[static_cast<int>( level )].total;
 }
 
 hint_rating Character::rate_action_change_side( const item &it ) const
@@ -3749,7 +3751,7 @@ bool Character::change_side( item_location &loc, bool interactive )
     return change_side( *loc, interactive );
 }
 
-static void layer_item( std::array<encumbrance_data, num_bp> &vals,
+static void layer_item( char_encumbrance_data &vals,
                         const item &it,
                         std::array<layer_level, num_bp> &highest_layer_so_far,
                         const Character &c )
@@ -3784,10 +3786,10 @@ static void layer_item( std::array<encumbrance_data, num_bp> &vals,
         // within it that would normally be worn outside of it.
         for( layer_level penalty_layer = item_layer;
              penalty_layer <= highest_layer_so_far[bp]; ++penalty_layer ) {
-            vals[bp].layer( penalty_layer, layering_encumbrance );
+            vals.elems[bp].layer( penalty_layer, layering_encumbrance );
         }
 
-        vals[bp].armor_encumbrance += encumber_val;
+        vals.elems[bp].armor_encumbrance += encumber_val;
     }
 }
 
@@ -3966,12 +3968,11 @@ std::list<item>::iterator Character::position_to_wear_new_item( const item &new_
  * This is currently handled by each of these articles of clothing
  * being on a different layer and/or body part, therefore accumulating no encumbrance.
  */
-void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals,
-                             const item &new_item ) const
+void Character::item_encumb( char_encumbrance_data &vals, const item &new_item ) const
 {
 
     // reset all layer data
-    vals = std::array<encumbrance_data, num_bp>();
+    vals = char_encumbrance_data();
 
     // Figure out where new_item would be worn
     std::list<item>::const_iterator new_item_position = worn.end();
@@ -4001,7 +4002,7 @@ void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals,
 
     // make sure values are sane
     for( const body_part bp : all_body_parts ) {
-        encumbrance_data &elem = vals[bp];
+        encumbrance_data &elem = vals.elems[bp];
 
         elem.armor_encumbrance = std::max( 0, elem.armor_encumbrance );
 
@@ -4012,38 +4013,38 @@ void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals,
 
 int Character::encumb( body_part bp ) const
 {
-    return encumbrance_cache[bp].encumbrance;
+    return encumbrance_cache->elems[bp].encumbrance;
 }
 
-static void apply_mut_encumbrance( std::array<encumbrance_data, num_bp> &vals,
+static void apply_mut_encumbrance( char_encumbrance_data &vals,
                                    const trait_id &mut,
                                    const body_part_set &oversize )
 {
     for( const std::pair<const body_part, int> &enc : mut->encumbrance_always ) {
-        vals[enc.first].encumbrance += enc.second;
+        vals.elems[enc.first].encumbrance += enc.second;
     }
 
     for( const std::pair<const body_part, int> &enc : mut->encumbrance_covered ) {
         if( !oversize.test( enc.first ) ) {
-            vals[enc.first].encumbrance += enc.second;
+            vals.elems[enc.first].encumbrance += enc.second;
         }
     }
 }
 
-void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) const
+void Character::mut_cbm_encumb( char_encumbrance_data &vals ) const
 {
 
     for( const bionic_id &bid : get_bionics() ) {
         for( const std::pair<const bodypart_str_id, int> &element : bid->encumbrance ) {
-            vals[element.first->token].encumbrance += element.second;
+            vals.elems[element.first->token].encumbrance += element.second;
         }
     }
 
     if( has_active_bionic( bio_shock_absorber ) ) {
-        for( auto &val : vals ) {
+        for( auto &val : vals.elems ) {
             val.encumbrance += 3; // Slight encumbrance to all parts except eyes
         }
-        vals[bp_eyes].encumbrance -= 3;
+        vals.elems[bp_eyes].encumbrance -= 3;
     }
 
     // Lower penalty for bps covered only by XL armor
@@ -7872,7 +7873,7 @@ tripoint Character::adjacent_tile() const
                 }
             }
 
-            if( dangerous_fields == 0 ) {
+            if( dangerous_fields == 0 && ! get_map().obstructed_by_vehicle_rotation( pos(), p ) ) {
                 ret.push_back( p );
             }
         }
@@ -10564,4 +10565,37 @@ bool Character::defer_move( const tripoint &next )
     auto_move_route.insert( auto_move_route.begin(), next );
     next_expected_position = pos();
     return true;
+}
+
+const recipe_subset &Character::get_learned_recipes() const
+{
+    if( *_skills != *autolearn_skills_stamp ) {
+        for( const auto &r : recipe_dict.all_autolearn() ) {
+            if( meets_skill_requirements( r->autolearn_requirements ) ) {
+                learned_recipes->include( r );
+            }
+        }
+        *autolearn_skills_stamp = *_skills;
+    }
+
+    return *learned_recipes;
+}
+
+bool Character::knows_recipe( const recipe *rec ) const
+{
+    return get_learned_recipes().contains( *rec );
+}
+
+void Character::learn_recipe( const recipe *const rec )
+{
+    if( rec->never_learn ) {
+        return;
+    }
+    learned_recipes->include( rec );
+}
+
+bool Character::can_learn_by_disassembly( const recipe &rec ) const
+{
+    return !rec.learn_by_disassembly.empty() &&
+           meets_skill_requirements( rec.learn_by_disassembly );
 }

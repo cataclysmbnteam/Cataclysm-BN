@@ -33,7 +33,7 @@
     "id": "drugs_misc",
     "type": "item_group",
     "//": "Drugs not contained within any other category",
-    "items": [ [ "bfipowder", 100 ], [ "dayquil", 50 ], [ "flu_shot", 50 ], [ "nyquil", 50 ], [ "vaccine_shot", 50 ] ]
+    "items": [ [ "bfipowder", 100 ], [ "dayquil", 50 ], [ "nyquil", 50 ], [ "vaccine_shot", 50 ] ]
   },
   {
     "id": "drugs_pharmacy",
@@ -144,7 +144,6 @@
       [ "antiparasitic", 3 ],
       [ "survnote", 1 ],
       [ "diazepam", 4 ],
-      [ "flu_shot", 5 ],
       [ "syringe", 8 ]
     ]
   },

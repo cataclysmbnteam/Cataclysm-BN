@@ -114,7 +114,6 @@
       [ "stethoscope", 50 ],
       [ "thermometer", 50 ],
       [ "vaccine_shot", 50 ],
-      [ "flu_shot", 50 ],
       [ "disinfectant", 35 ]
     ]
   },
@@ -131,7 +130,6 @@
       [ "denat_alcohol", 100 ],
       [ "thermometer", 50 ],
       [ "vaccine_shot", 50 ],
-      [ "flu_shot", 50 ],
       [ "disinfectant", 35 ]
     ]
   },

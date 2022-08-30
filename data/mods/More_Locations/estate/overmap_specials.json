@@ -93,7 +93,7 @@
       { "point": [ 1, 4, -1 ], "overmap": "estate_ube_north" },
       { "point": [ 5, 4, -1 ], "overmap": "estate_ube_north" }
     ],
-    "connections": [ { "point": [ 3, -1, 0 ], "terrain": "road" } ],
+    "connections": [ { "point": [ 3, -1, 0 ], "connection": "local_road" } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 10, -1 ],
     "city_sizes": [ 1, 20 ],

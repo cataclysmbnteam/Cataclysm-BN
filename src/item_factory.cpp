@@ -934,7 +934,6 @@ void Item_factory::init()
     // Obsolete
     add_iuse( "FLUMED", &iuse::flumed );
     add_iuse( "FLUSLEEP", &iuse::flusleep );
-    add_iuse( "FLU_VACCINE", &iuse::flu_vaccine );
     add_iuse( "FOODPERSON", &iuse::foodperson );
     add_iuse( "FUNGICIDE", &iuse::fungicide );
     add_iuse( "GASMASK", &iuse::gasmask,
@@ -1257,6 +1256,9 @@ void Item_factory::check_definitions() const
         if( type->milling_data ) {
             if( !has_template( type->milling_data->into_ ) ) {
                 msg += "type to mill into is invalid: " + type->milling_data->into_.str() + "\n";
+            }
+            if( !type->milling_data->into_->count_by_charges() ) {
+                msg += "type to mill into must be counted by charges: " + type->milling_data->into_.str() + "\n";
             }
         }
         if( type->ammo ) {

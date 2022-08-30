@@ -1219,5 +1219,52 @@
     "description": "Part of the autodoc's 'Cyborg Identity Package', this bionic gives the user a creepy robot voice.",
     "weight": "100 g",
     "difficulty": 5
+  },
+  {
+    "id": "bn_bio_solar",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Solar Panels CBM" },
+    "description": "Installed on your back is a set of retractable solar panels.  When in direct sunlight, they will automatically deploy and slowly recharge your power level.",
+    "price": 350000,
+    "difficulty": 4
+  },
+  {
+    "id": "afs_bio_missiles",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Deployable Grenade Launcher CBM" },
+    "description": "Your right hand can fold inward to reveal a mechanism capable of igniting and firing 40mm grenades across medium distances with great accuracy due built in ballistic calculator.",
+    "price": 100000,
+    "difficulty": 5
+  },
+  {
+    "id": "afs_bio_linguistic_coprocessor",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Linguistic Coprocessor CBM" },
+    "description": "A microcomputer installed into the left hemisphere of your brain to increase the speed that it processes language.  When installed, it provides a passive boost to reading speed.",
+    "price": 100000,
+    "price_postapoc": 50000,
+    "difficulty": 5
+  },
+  {
+    "id": "afs_bio_dopamine_stimulators",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Dopamine Stimulators CBM" },
+    "description": "A set of tiny bionic nerve stimulators that install into the reward center of your brain.  When run with bionic power, it periodically releases a hit of dopamine and other reward chemicals, inducing a state of euphoria and suppressing fear.",
+    "price": 1000000,
+    "price_postapoc": 100000,
+    "difficulty": 8
+  },
+  {
+    "id": "bio_blaster",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Fusion Blaster Arm CBM" },
+    "description": "Heavy-duty fusion blaster was integrated into your left arm!  You may use your energy banks to fire a damaging heat ray.",
+    "price": 220000,
+    "difficulty": 3
   }
 ]

@@ -246,6 +246,13 @@ bool monster::can_reach_to( const tripoint &p ) const
     return true;
 }
 
+bool monster::can_squeeze_to( const tripoint &p ) const
+{
+    map &m = get_map();
+
+    return !m.obstructed_by_vehicle_rotation( pos(), p );
+}
+
 bool monster::can_move_to( const tripoint &p ) const
 {
     return can_reach_to( p ) && will_move_to( p );
@@ -801,7 +808,7 @@ void monster::move()
     bool try_to_move = false;
     for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
         if( dest != pos() ) {
-            if( can_move_to( dest ) &&
+            if( can_move_to( dest ) && can_squeeze_to( dest ) &&
                 g->critter_at( dest, true ) == nullptr ) {
                 try_to_move = true;
                 break;
@@ -964,7 +971,7 @@ void monster::move()
             // Try to shove vehicle out of the way
             shove_vehicle( destination, candidate );
             // Bail out if we can't move there and we can't bash.
-            if( !pathed && !can_move_to( candidate ) ) {
+            if( !pathed && ( !can_move_to( candidate ) || !can_squeeze_to( candidate ) ) ) {
                 if( !can_bash ) {
                     continue;
                 }
@@ -1210,7 +1217,8 @@ tripoint monster::scent_move()
             continue;
         }
         if( g->m.valid_move( pos(), dest, can_bash, true ) &&
-            ( can_move_to( dest ) || ( dest == g->u.pos() ) ||
+            ( ( can_move_to( dest ) && !get_map().obstructed_by_vehicle_rotation( pos(), dest ) ) ||
+              ( dest == g->u.pos() ) ||
               ( can_bash && g->m.bash_rating( bash_estimate(), dest ) > 0 ) ) ) {
             if( ( !fleeing && smell > bestsmell ) || ( fleeing && smell < bestsmell ) ) {
                 smoves.clear();
@@ -1540,6 +1548,10 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         return false;
     }
 
+    if( !can_squeeze_to( destination ) ) {
+        return false;
+    }
+
     // Make sure that we can move there, unless force is true.
     if( !force && !can_move_to( destination ) ) {
         return false;
@@ -1755,7 +1767,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
 
         // Pushing into cars/windows etc. is harder
         const int movecost_penalty = g->m.move_cost( dest ) - 2;
-        if( movecost_penalty <= -2 ) {
+        if( movecost_penalty <= -2 || get_map().obstructed_by_vehicle_rotation( p, dest ) ) {
             // Can't push into unpassable terrain
             continue;
         }

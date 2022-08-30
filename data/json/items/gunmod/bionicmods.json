@@ -15,7 +15,7 @@
     "gun_data": {
       "skill": "rifle",
       "range": 30,
-      "ranged_damage": { "damage_type": "bullet", "amount": 1 },
+      "ranged_damage": { "damage_type": "heat", "amount": 22 },
       "ammo_effects": [ "PLASMA", "EXPLOSIVE", "FLAME" ],
       "durability": 10
     },

@@ -288,6 +288,12 @@ struct drawsq_params {
         //@}
 };
 
+//This is included in the global namespace rather than within level_cache as c++ doesn't allow forward declarations within a namespace
+struct diagonal_blocks {
+    bool nw;
+    bool ne;
+};
+
 struct level_cache {
     // Zeros all relevant values
     level_cache();
@@ -320,6 +326,13 @@ struct level_cache {
     // stores cached transparency of the tiles
     // units: "transparency" (see LIGHT_TRANSPARENCY_OPEN_AIR)
     float transparency_cache[MAPSIZE_X][MAPSIZE_Y];
+
+    // true when light entering a tile diagonally is blocked by the walls of a turned vehicle. The direction is the direction that the light must be travelling.
+    // check the nw value of x+1, y+1 to find the se value of a tile and the ne of x-1, y+1 for sw
+    diagonal_blocks vehicle_obscured_cache[MAPSIZE_X][MAPSIZE_Y];
+
+    // same as above but for obstruction rather than light
+    diagonal_blocks vehicle_obstructed_cache[MAPSIZE_X][MAPSIZE_Y];
 
     // stores "adjusted transparency" of the tiles
     // initial values derived from transparency_cache, uses same units
@@ -583,7 +596,7 @@ class map
         void spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
                          const time_duration &outdoor_age_speedup, scent_block &sblk );
         void create_hot_air( const tripoint &p, int intensity );
-        bool gas_can_spread_to( field_entry &cur, const maptile &dst );
+        bool gas_can_spread_to( field_entry &cur, const tripoint &src, const tripoint &dst );
         void gas_spread_to( field_entry &cur, maptile &dst, const tripoint &p );
         int burn_body_part( player &u, field_entry &cur, body_part bp, int scale );
     public:
@@ -690,6 +703,16 @@ class map
          */
         bool clear_path( const tripoint &f, const tripoint &t, int range,
                          int cost_min, int cost_max ) const;
+
+        /**
+         * Checks if a rotated vehicle is blocking diagonal movement, tripoints must be adjacent
+         */
+        bool obstructed_by_vehicle_rotation( const tripoint &from, const tripoint &to ) const;
+
+        /**
+         * Checks if a rotated vehicle is blocking diagonal vision, tripoints must be adjacent
+         */
+        bool obscured_by_vehicle_rotation( const tripoint &from, const tripoint &to ) const;
 
         /**
          * Populates a vector of points that are reachable within a number of steps from a
@@ -1491,8 +1514,7 @@ class map
          * Build the map of scent-resistant tiles.
          * Should be way faster than if done in `game.cpp` using public map functions.
          */
-        void scent_blockers( std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &blocks_scent,
-                             std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &reduces_scent,
+        void scent_blockers( std::array<std::array<char, MAPSIZE_X>, MAPSIZE_Y> &scent_transfer,
                              const point &min, const point &max );
 
         // Computers

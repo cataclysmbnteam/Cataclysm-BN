@@ -1,6 +1,7 @@
 #include "catch/catch.hpp"
 
 #include "avatar.h"
+#include "character_effects.h"
 #include "player_helpers.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -47,7 +48,7 @@ static void pain_penalty_test( player &guy, int pain, int speed_exp )
     guy.set_painkiller( 0 );
     REQUIRE( guy.get_painkiller() == 0 );
     REQUIRE( guy.get_perceived_pain() == pain );
-    REQUIRE( guy.get_pain_penalty().speed == penalty );
+    REQUIRE( character_effects::get_pain_penalty( guy ).speed == penalty );
 
     advance_turn( guy );
 

@@ -90,7 +90,12 @@
       [ "bio_jointservo", 10 ],
       [ "bio_shotgun", 10 ],
       [ "bio_taste_blocker", 10 ],
-      [ "bio_soporific", 10 ]
+      [ "bio_soporific", 10 ],
+      [ "bn_bio_solar", 10 ],
+      [ "afs_bio_missiles", 10 ],
+      [ "afs_bio_linguistic_coprocessor", 10 ],
+      [ "afs_bio_dopamine_stimulators", 10 ],
+      [ "bio_blaster", 5 ]
     ]
   },
   {
@@ -110,7 +115,9 @@
       [ "bio_ethanol", 10 ],
       [ "bio_watch", 10 ],
       [ "bio_torsionratchet", 10 ],
-      [ "bio_cable", 10 ]
+      [ "bio_cable", 10 ],
+      [ "bn_bio_solar", 10 ],
+      [ "afs_bio_linguistic_coprocessor", 10 ]
     ]
   },
   {
@@ -176,7 +183,9 @@
       [ "bio_cable", 10 ],
       [ "bio_weight", 10 ],
       [ "bio_jointservo", 10 ],
-      [ "bio_shotgun", 10 ]
+      [ "bio_shotgun", 10 ],
+      [ "bio_blaster", 5 ],
+      [ "afs_bio_dopamine_stimulators", 10 ]
     ]
   },
   {
@@ -240,7 +249,10 @@
       [ "bio_meteorologist", 10 ],
       [ "bio_cable", 10 ],
       [ "bio_jointservo", 20 ],
-      [ "bio_shotgun", 10 ]
+      [ "bio_shotgun", 10 ],
+      [ "bn_bio_solar", 15 ],
+      [ "afs_bio_missiles", 10 ],
+      [ "afs_bio_dopamine_stimulators", 10 ]
     ]
   },
   {
@@ -261,7 +273,9 @@
       [ "bio_railgun", 10 ],
       [ "bio_shotgun", 10 ],
       [ "bio_shock", 10 ],
-      [ "bio_targeting", 10 ]
+      [ "bio_targeting", 10 ],
+      [ "bio_blaster", 10 ],
+      [ "afs_bio_missiles", 10 ]
     ]
   },
   {
@@ -282,7 +296,8 @@
       [ "bio_nanobots", 10 ],
       [ "bio_ods", 10 ],
       [ "bio_shock_absorber", 10 ],
-      [ "bio_uncanny_dodge", 10 ]
+      [ "bio_uncanny_dodge", 10 ],
+      [ "afs_bio_dopamine_stimulators", 10 ]
     ]
   },
   {
@@ -341,7 +356,9 @@
       [ "bio_chain_lightning", 15 ],
       [ "bio_adrenaline", 20 ],
       [ "bio_ods", 10 ],
-      [ "bio_weight", 15 ]
+      [ "bio_weight", 15 ],
+      [ "afs_bio_missiles", 10 ],
+      [ "afs_bio_dopamine_stimulators", 15 ]
     ]
   },
   {
@@ -399,7 +416,9 @@
       [ "bio_painkiller", 10 ],
       [ "bio_time_freeze", 4 ],
       [ "bio_teleport", 4 ],
-      [ "bio_probability_travel", 4 ]
+      [ "bio_probability_travel", 4 ],
+      [ "afs_bio_linguistic_coprocessor", 10 ],
+      [ "afs_bio_dopamine_stimulators", 10 ]
     ]
   },
   {

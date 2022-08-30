@@ -526,11 +526,6 @@
   },
   {
     "type": "item_action",
-    "id": "FLU_VACCINE",
-    "name": { "str": "Inject" }
-  },
-  {
-    "type": "item_action",
     "id": "FOODPERSON",
     "name": { "str": "Activate" }
   },

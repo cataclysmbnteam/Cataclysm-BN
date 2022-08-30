@@ -350,7 +350,7 @@
     "clip_size": 8,
     "reload": 450,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "REACH", "em field saw", 5, [ "MELEE", "REACH_ATTACK" ] ] ],
-    "ammo_effects": [ "LIGHTNING", "MESSY" ],
+    "ammo_effects": [ "LIGHTNING" ],
     "flags": [ "NEVER_JAMS", "NON-FOULING" ]
   }
 ]

@@ -1,4 +1,5 @@
 #include "avatar.h" // IWYU pragma: associated
+#include "newcharacter.h" // IWYU pragma: associated
 
 #include <algorithm>
 #include <array>
@@ -175,6 +176,28 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
     }
 }
 
+/**
+ * Check if the given player can pick this job with the given amount
+ * of points.
+ *
+ * @return true, if player can pick profession. Otherwise - false.
+ */
+static bool can_pick_prof( const profession &prof, const player &u, int points )
+{
+    return prof.point_cost() - u.prof->point_cost() <= points;
+}
+
+static void learn_spells( const profession &prof, avatar &you )
+{
+    for( const std::pair<spell_id, int> spell_pair : prof.spells() ) {
+        you.magic->learn_spell( spell_pair.first, you, true );
+        spell &sp = you.magic->get_spell( spell_pair.first );
+        while( sp.get_level() < spell_pair.second && !sp.is_max_level() ) {
+            sp.gain_level();
+        }
+    }
+}
+
 void avatar::randomize( const bool random_scenario, points_left &points, bool play_now )
 {
     const int max_stat_points = points.is_freeform() ? 20 : MAX_STAT;
@@ -224,7 +247,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     int num_gtraits = 0;
     int num_btraits = 0;
     int tries = 0;
-    add_traits( points ); // adds mandatory profession/scenario traits.
+    newcharacter::add_traits( *this, points ); // adds mandatory profession/scenario traits.
     for( const trait_id &mut : get_mutations() ) {
         const mutation_branch &mut_info = mut.obj();
         if( mut_info.profession ) {
@@ -248,12 +271,12 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
         if( num_btraits < max_trait_points && one_in( 3 ) ) {
             tries = 0;
             do {
-                rn = random_bad_trait();
+                rn = newcharacter::random_bad_trait();
                 tries++;
             } while( ( has_trait( rn ) || num_btraits - rn->points > max_trait_points ) &&
                      tries < 5 );
 
-            if( tries < 5 && !has_conflicting_trait( rn ) ) {
+            if( tries < 5 && !newcharacter::has_conflicting_trait( *this, rn ) ) {
                 toggle_trait( rn );
                 points.trait_points -= rn->points;
                 num_btraits -= rn->points;
@@ -300,10 +323,11 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
             case 3:
             case 4:
                 if( allow_traits ) {
-                    rn = random_good_trait();
+                    rn = newcharacter::random_good_trait();
                     auto &mdata = rn.obj();
                     if( !has_trait( rn ) && points.trait_points_left() >= mdata.points &&
-                        num_gtraits + mdata.points <= max_trait_points && !has_conflicting_trait( rn ) ) {
+                        num_gtraits + mdata.points <= max_trait_points &&
+                        !newcharacter::has_conflicting_trait( *this, rn ) ) {
                         toggle_trait( rn );
                         points.trait_points -= mdata.points;
                         num_gtraits += mdata.points;
@@ -606,7 +630,7 @@ bool avatar::create( character_type type, const std::string &tempname )
         }
     }
 
-    prof->learn_spells( *this );
+    learn_spells( *prof, *this );
 
     // Ensure that persistent morale effects (e.g. Optimist) are present at the start.
     apply_persistent_morale();
@@ -1057,7 +1081,7 @@ tab_direction set_traits( avatar &u, points_left &points )
     const auto recalc_display_cache = [&]() {
         for( int page = 0; page < used_pages; page++ ) {
             for( trait_entry &entry : vStartingTraits[page] ) {
-                entry.conflicts = u.has_conflicting_trait( entry.id );
+                entry.conflicts = newcharacter::has_conflicting_trait( u, entry.id );
                 entry.avatar_has = u.has_trait( entry.id );
             }
         }
@@ -1253,7 +1277,7 @@ tab_direction set_traits( avatar &u, points_left &points )
                     popup( _( "Your profession of %s prevents you from removing this trait." ),
                            u.prof->gender_appropriate_name( u.male ) );
                 }
-            } else if( u.has_conflicting_trait( cur_trait ) ) {
+            } else if( newcharacter::has_conflicting_trait( u, cur_trait ) ) {
                 popup( _( "You already picked a conflicting trait!" ) );
             } else if( g->scen->is_forbidden_trait( cur_trait ) ) {
                 popup( _( "The scenario you picked prevents you from taking this trait!" ) );
@@ -1311,12 +1335,12 @@ struct {
     bool sort_by_points = true;
     bool male = false;
     /** @related player */
-    bool operator()( const string_id<profession> &a, const string_id<profession> &b ) {
+    bool operator()( const profession_id &a, const profession_id &b ) {
         // The generic ("Unemployed") profession should be listed first.
-        const profession *gen = profession::generic();
-        if( &b.obj() == gen ) {
+        const profession_id &gen = profession::generic();
+        if( b == gen ) {
             return false;
-        } else if( &a.obj() == gen ) {
+        } else if( a == gen ) {
             return true;
         }
 
@@ -1396,7 +1420,7 @@ tab_direction set_profession( avatar &u, points_left &points,
         werase( w_description );
         if( cur_id_is_valid ) {
             int netPointCost = sorted_profs[cur_id]->point_cost() - u.prof->point_cost();
-            bool can_pick = sorted_profs[cur_id]->can_pick( u, points.skill_points_left() );
+            bool can_pick = can_pick_prof( *sorted_profs[cur_id], u, points.skill_points_left() );
             const std::string clear_line( getmaxx( w ) - 2, ' ' );
 
             // Clear the bottom of the screen and header.
@@ -1440,7 +1464,7 @@ tab_direction set_profession( avatar &u, points_left &points,
             mvwprintz( w, point( 2, 5 + i - iStartPos ), c_light_gray,
                        "                                             " ); // Clear the line
             nc_color col;
-            if( u.prof != &sorted_profs[i].obj() ) {
+            if( u.prof != sorted_profs[i] ) {
                 col = ( cur_id_is_valid && sorted_profs[i] == sorted_profs[cur_id] ? h_light_gray : c_light_gray );
             } else {
                 col = ( cur_id_is_valid &&
@@ -1620,7 +1644,7 @@ tab_direction set_profession( avatar &u, points_left &points,
 
             // Select the current profession, if possible.
             for( int i = 0; i < profs_length; ++i ) {
-                if( sorted_profs[i] == u.prof->ident() ) {
+                if( sorted_profs[i] == u.prof ) {
                     cur_id = i;
                     break;
                 }
@@ -1660,10 +1684,10 @@ tab_direction set_profession( avatar &u, points_left &points,
                 u.toggle_trait( old_trait );
             }
             const int netPointCost = sorted_profs[cur_id]->point_cost() - u.prof->point_cost();
-            u.prof = &sorted_profs[cur_id].obj();
+            u.prof = sorted_profs[cur_id];
             // Add traits for the new profession (and perhaps scenario, if, for example,
             // both the scenario and old profession require the same trait)
-            u.add_traits( points );
+            newcharacter::add_traits( u, points );
             points.skill_points -= netPointCost;
         } else if( action == "CHANGE_GENDER" ) {
             u.male = !u.male;
@@ -2825,37 +2849,36 @@ void Character::clear_mutations()
     cached_mutations.clear();
 }
 
-void Character::empty_skills()
+void Character::clear_skills()
 {
     for( auto &sk : *_skills ) {
         sk.second.level( 0 );
     }
 }
 
-void Character::add_traits()
+void newcharacter::add_traits( Character &ch )
 {
     points_left points = points_left();
-    add_traits( points );
+    add_traits( ch, points );
 }
 
-void Character::add_traits( points_left &points )
+void newcharacter::add_traits( Character &ch, points_left &points )
 {
-    // TODO: get rid of using g->u here, use `this` instead
-    for( const trait_id &tr : g->u.prof->get_locked_traits() ) {
-        if( !has_trait( tr ) ) {
-            toggle_trait( tr );
+    for( const trait_id &tr : ch.prof->get_locked_traits() ) {
+        if( !ch.has_trait( tr ) ) {
+            ch.toggle_trait( tr );
         } else {
             points.trait_points += tr->points;
         }
     }
     for( const trait_id &tr : g->scen->get_locked_traits() ) {
-        if( !has_trait( tr ) ) {
-            toggle_trait( tr );
+        if( !ch.has_trait( tr ) ) {
+            ch.toggle_trait( tr );
         }
     }
 }
 
-trait_id Character::random_good_trait()
+trait_id newcharacter::random_good_trait()
 {
     std::vector<trait_id> vTraitsGood;
 
@@ -2868,7 +2891,7 @@ trait_id Character::random_good_trait()
     return random_entry( vTraitsGood );
 }
 
-trait_id Character::random_bad_trait()
+trait_id newcharacter::random_bad_trait()
 {
     std::vector<trait_id> vTraitsBad;
 
@@ -2994,8 +3017,9 @@ void reset_scenario( avatar &u, const scenario *scen )
 {
     auto psorter = profession_sorter;
     psorter.sort_by_points = true;
-    const auto permitted = scen->permitted_professions();
-    const auto default_prof = *std::min_element( permitted.begin(), permitted.end(), psorter );
+    const std::vector<profession_id> permitted = scen->permitted_professions();
+    const profession_id &default_prof = *std::min_element( permitted.begin(), permitted.end(),
+                                        psorter );
 
     u.random_start_location = true;
     u.str_max = 8;
@@ -3003,7 +3027,7 @@ void reset_scenario( avatar &u, const scenario *scen )
     u.int_max = 8;
     u.per_max = 8;
     g->scen = scen;
-    u.prof = &default_prof.obj();
+    u.prof = default_prof;
     for( auto &t : u.get_mutations() ) {
         if( t.obj().hp_modifier != 0 ) {
             u.toggle_trait( t );
@@ -3011,6 +3035,136 @@ void reset_scenario( avatar &u, const scenario *scen )
     }
     u.clear_mutations();
     u.recalc_hp();
-    u.empty_skills();
-    u.add_traits();
+    u.clear_skills();
+    newcharacter::add_traits( u );
 }
+
+points_left::points_left()
+{
+    limit = MULTI_POOL;
+    init_from_options();
+}
+
+void points_left::init_from_options()
+{
+    stat_points = get_option<int>( "INITIAL_STAT_POINTS" );
+    trait_points = get_option<int>( "INITIAL_TRAIT_POINTS" );
+    skill_points = get_option<int>( "INITIAL_SKILL_POINTS" );
+}
+
+// Highest amount of points to spend on stats without points going invalid
+int points_left::stat_points_left() const
+{
+    switch( limit ) {
+        case FREEFORM:
+        case ONE_POOL:
+            return stat_points + trait_points + skill_points;
+        case MULTI_POOL:
+            return std::min( trait_points_left(),
+                             stat_points + std::min( 0, trait_points + skill_points ) );
+        case TRANSFER:
+            return 0;
+    }
+
+    return 0;
+}
+
+int points_left::trait_points_left() const
+{
+    switch( limit ) {
+        case FREEFORM:
+        case ONE_POOL:
+            return stat_points + trait_points + skill_points;
+        case MULTI_POOL:
+            return stat_points + trait_points + std::min( 0, skill_points );
+        case TRANSFER:
+            return 0;
+    }
+
+    return 0;
+}
+
+int points_left::skill_points_left() const
+{
+    return stat_points + trait_points + skill_points;
+}
+
+bool points_left::is_freeform()
+{
+    return limit == FREEFORM;
+}
+
+bool points_left::is_valid()
+{
+    return is_freeform() ||
+           ( stat_points_left() >= 0 && trait_points_left() >= 0 &&
+             skill_points_left() >= 0 );
+}
+
+bool points_left::has_spare()
+{
+    return !is_freeform() && is_valid() && skill_points_left() > 0;
+}
+
+std::string points_left::to_string()
+{
+    if( limit == MULTI_POOL ) {
+        return string_format(
+                   _( "Points left: <color_%s>%d</color>%c<color_%s>%d</color>%c<color_%s>%d</color>=<color_%s>%d</color>" ),
+                   stat_points_left() >= 0 ? "light_gray" : "red", stat_points,
+                   trait_points >= 0 ? '+' : '-',
+                   trait_points_left() >= 0 ? "light_gray" : "red", std::abs( trait_points ),
+                   skill_points >= 0 ? '+' : '-',
+                   skill_points_left() >= 0 ? "light_gray" : "red", std::abs( skill_points ),
+                   is_valid() ? "light_gray" : "red", stat_points + trait_points + skill_points );
+    } else if( limit == ONE_POOL ) {
+        return string_format( _( "Points left: %4d" ), skill_points_left() );
+    } else if( limit == TRANSFER ) {
+        return _( "Character Transfer: No changes can be made." );
+    } else {
+        return _( "Freeform" );
+    }
+}
+
+namespace newcharacter
+{
+
+bool has_conflicting_trait( const Character &ch, const trait_id &t )
+{
+    return ch.has_opposite_trait( t ) ||
+           has_lower_trait( ch, t ) ||
+           has_higher_trait( ch, t ) ||
+           has_same_type_trait( ch, t ) ;
+}
+
+bool has_lower_trait( const Character &ch, const trait_id &t )
+{
+    for( const trait_id &it : t->prereqs ) {
+        if( ch.has_trait( it ) || has_lower_trait( ch, it ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool has_higher_trait( const Character &ch, const trait_id &t )
+{
+    for( const trait_id &it : t->replacements ) {
+        if( ch.has_trait( it ) || has_higher_trait( ch, it ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool has_same_type_trait( const Character &ch, const trait_id &t )
+{
+    for( const trait_id &it : get_mutations_in_types( t->types ) ) {
+        if( ch.has_trait( it ) && t != it ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+} // namespace newcharacter

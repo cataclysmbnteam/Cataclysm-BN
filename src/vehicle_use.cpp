@@ -14,6 +14,7 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "clzones.h"
+#include "character_functions.h"
 #include "color.h"
 #include "debug.h"
 #include "enums.h"
@@ -2058,7 +2059,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             return;
         }
         case FILL_CONTAINER: {
-            g->u.siphon( *this, itype_water_clean );
+            character_funcs::siphon( get_player_character(), *this, itype_water_clean );
             return;
         }
         case DRINK: {

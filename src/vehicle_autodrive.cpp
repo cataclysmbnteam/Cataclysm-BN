@@ -577,7 +577,9 @@ void vehicle::autodrive_controller::compute_coordinates()
 vehicle_profile vehicle::autodrive_controller::compute_profile( orientation facing ) const
 {
     vehicle_profile ret;
-    tileray tdir( to_angle( facing ) );
+
+    auto angle = to_angle( facing );
+    tileray tdir( angle );
     ret.tdir = tdir;
     std::map<int, std::pair<int, int>> extent_map;
     const point pivot = driven_veh.pivot_point();
@@ -586,7 +588,7 @@ vehicle_profile vehicle::autodrive_controller::compute_profile( orientation faci
             continue;
         }
         tripoint pos;
-        driven_veh.coord_translate( tdir, pivot, part.mount, pos );
+        driven_veh.coord_translate( angle, pivot, part.mount, pos );
         if( extent_map.find( pos.y ) == extent_map.end() ) {
             extent_map[pos.y] = { pos.x, pos.x };
         } else {
@@ -609,7 +611,7 @@ vehicle_profile vehicle::autodrive_controller::compute_profile( orientation faci
         const int radius = ( diameter + 1 ) / 2;
         if( radius > 0 ) {
             tripoint pos;
-            driven_veh.coord_translate( tdir, pivot, part.mount, pos );
+            driven_veh.coord_translate( angle, pivot, part.mount, pos );
             for( tripoint pt : points_in_radius( pos, radius ) ) {
                 ret.occupied_zone.emplace_back( pt.xy() );
             }

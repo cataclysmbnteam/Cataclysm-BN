@@ -1,4 +1,4 @@
-#include "player.h" // IWYU pragma: associated
+#include "character_display.h" // IWYU pragma: associated
 
 #include <algorithm>
 #include <array>
@@ -12,6 +12,8 @@
 #include "bionics.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character_effects.h"
+#include "character_encumbrance.h"
 #include "debug.h"
 #include "effect.h"
 #include "game.h"
@@ -56,20 +58,20 @@ static body_part other_part( body_part bp )
     return static_cast<body_part>( bp_aiOther[bp] );
 }
 
-static bool should_combine_bps( const player &p, body_part l, body_part r,
+static bool should_combine_bps( const Character &ch, body_part l, body_part r,
                                 const item *selected_clothing )
 {
-    const auto enc_data = p.get_encumbrance();
+    const char_encumbrance_data enc_data = ch.get_encumbrance();
     return l != r && // are different parts
            l == other_part( r ) && r == other_part( l ) && // are complementary parts
            // same encumberance & temperature
-           enc_data[l] == enc_data[r] &&
-           temperature_print_rescaling( p.temp_conv[l] ) == temperature_print_rescaling( p.temp_conv[r] ) &&
+           enc_data.elems[l] == enc_data.elems[r] &&
+           temperature_print_rescaling( ch.temp_conv[l] ) == temperature_print_rescaling( ch.temp_conv[r] ) &&
            // selected_clothing covers both or neither parts
            ( !selected_clothing || ( selected_clothing->covers( l ) == selected_clothing->covers( r ) ) );
 }
 
-static std::vector<std::pair<body_part, bool>> list_and_combine_bps( const player &p,
+static std::vector<std::pair<body_part, bool>> list_and_combine_bps( const Character &ch,
         const item *selected_clothing )
 {
     // bool represents whether the part has been combined with its other half
@@ -79,7 +81,7 @@ static std::vector<std::pair<body_part, bool>> list_and_combine_bps( const playe
         if( other_part( other_part( bp ) ) != bp ) {
             debugmsg( "Bodypart %d has more than one other half!", bp );
         }
-        if( should_combine_bps( p, bp, other_part( bp ), selected_clothing ) ) {
+        if( should_combine_bps( ch, bp, other_part( bp ), selected_clothing ) ) {
             if( bp < other_part( bp ) ) {
                 // only add the earlier one
                 bps.emplace_back( bp, true );
@@ -91,12 +93,11 @@ static std::vector<std::pair<body_part, bool>> list_and_combine_bps( const playe
     return bps;
 }
 
-void player::print_encumbrance( const catacurses::window &win, const int line,
-                                const item *const selected_clothing ) const
+void character_display::print_encumbrance( const catacurses::window &win, const Character &ch,
+        const int line, const item *selected_clothing )
 {
     // bool represents whether the part has been combined with its other half
-    const std::vector<std::pair<body_part, bool>> bps = list_and_combine_bps( *this,
-            selected_clothing );
+    const std::vector<std::pair<body_part, bool>> bps = list_and_combine_bps( ch, selected_clothing );
 
     // width/height excluding title & scrollbar
     const int height = getmaxy( win ) - 1;
@@ -110,7 +111,7 @@ void player::print_encumbrance( const catacurses::window &win, const int line,
      *** for displaying triple digit encumbrance, due to new encumbrance system.    ***
      *** If the player wants to see the total without having to do them maths, the  ***
      *** armor layers ui shows everything they want :-) -Davek                      ***/
-    const auto enc_data = get_encumbrance();
+    const char_encumbrance_data enc_data = ch.get_encumbrance();
     for( int i = 0; i < height; ++i ) {
         int thisline = firstline + i;
         if( thisline < 0 ) {
@@ -121,7 +122,7 @@ void player::print_encumbrance( const catacurses::window &win, const int line,
         }
         const body_part bp = bps[thisline].first;
         const bool combine = bps[thisline].second;
-        const encumbrance_data &e = enc_data[bp];
+        const encumbrance_data &e = enc_data.elems[bp];
         const bool highlighted = selected_clothing ? selected_clothing->covers( bp ) : false;
         std::string out = body_part_name_as_heading( bp, combine ? 2 : 1 );
         if( utf8_width( out ) > 7 ) {
@@ -142,8 +143,8 @@ void player::print_encumbrance( const catacurses::window &win, const int line,
         // take into account the new encumbrance system for layers
         mvwprintz( win, point( 12, 1 + i ), encumb_color( e.encumbrance ), "%-3d", e.layer_penalty );
         // print warmth, tethered to right hand side of the window
-        mvwprintz( win, point( width - 6, 1 + i ), bodytemp_color( bp ), "(% 3d)",
-                   temperature_print_rescaling( temp_conv[bp] ) );
+        mvwprintz( win, point( width - 6, 1 + i ), ch.bodytemp_color( bp ), "(% 3d)",
+                   temperature_print_rescaling( ch.temp_conv[bp] ) );
     }
 
     if( draw_scrollbar ) {
@@ -196,7 +197,7 @@ static std::string dodge_skill_text( double mod )
     return string_format( _( "Dodge skill: <color_white>%+.1f</color>\n" ), mod );
 }
 
-static int get_encumbrance( const player &p, body_part bp, bool combine )
+static int get_encumbrance( const Character &p, body_part bp, bool combine )
 {
     // Body parts that can't combine with anything shouldn't print double values on combine
     // This shouldn't happen, but handle this, just in case
@@ -204,7 +205,7 @@ static int get_encumbrance( const player &p, body_part bp, bool combine )
     return p.encumb( bp ) * ( ( combine && combines_with_other ) ? 2 : 1 );
 }
 
-static std::string get_encumbrance_description( const player &p, body_part bp, bool combine )
+static std::string get_encumbrance_description( const Character &p, body_part bp, bool combine )
 {
     std::string s;
 
@@ -315,7 +316,7 @@ static player_display_tab prev_tab( const player_display_tab tab )
 }
 
 static void draw_stats_tab( const catacurses::window &w_stats,
-                            const player &you, const unsigned int line, const player_display_tab curtab )
+                            const Character &you, const unsigned int line, const player_display_tab curtab )
 {
     werase( w_stats );
     const nc_color title_col = curtab == player_display_tab::stats ? h_light_gray : c_light_gray;
@@ -367,7 +368,7 @@ static void draw_stats_tab( const catacurses::window &w_stats,
 }
 
 static void draw_stats_info( const catacurses::window &w_info,
-                             const player &you, const unsigned int line )
+                             const Character &you, const unsigned int line )
 {
     werase( w_info );
     nc_color col_temp = c_light_gray;
@@ -442,22 +443,22 @@ static void draw_stats_info( const catacurses::window &w_info,
 }
 
 static void draw_encumbrance_tab( const catacurses::window &w_encumb,
-                                  const player &you, const unsigned int line, const player_display_tab curtab )
+                                  const Character &you, const unsigned int line, const player_display_tab curtab )
 {
     werase( w_encumb );
     const bool is_current_tab = curtab == player_display_tab::encumbrance;
     const nc_color title_col = is_current_tab ? h_light_gray : c_light_gray;
     center_print( w_encumb, 0, title_col, _( title_ENCUMB ) );
     if( is_current_tab ) {
-        you.print_encumbrance( w_encumb, line );
+        character_display::print_encumbrance( w_encumb, you, line );
     } else {
-        you.print_encumbrance( w_encumb );
+        character_display::print_encumbrance( w_encumb, you );
     }
     wnoutrefresh( w_encumb );
 }
 
 static void draw_encumbrance_info( const catacurses::window &w_info,
-                                   const player &you, const unsigned int line )
+                                   const Character &you, const unsigned int line )
 {
     const std::vector<std::pair<body_part, bool>> bps = list_and_combine_bps( you, nullptr );
 
@@ -527,7 +528,7 @@ static void draw_traits_info( const catacurses::window &w_info, const unsigned i
 }
 
 static void draw_bionics_tab( const catacurses::window &w_bionics,
-                              const player &you, const unsigned int line, const player_display_tab curtab,
+                              const Character &you, const unsigned int line, const player_display_tab curtab,
                               const std::vector<bionic> &bionicslist, const size_t bionics_win_size_y )
 {
     werase( w_bionics );
@@ -638,7 +639,7 @@ struct HeaderSkill {
 };
 
 static void draw_skills_tab( const catacurses::window &w_skills,
-                             player &you, unsigned int line, const player_display_tab curtab,
+                             Character &you, unsigned int line, const player_display_tab curtab,
                              std::vector<HeaderSkill> &skillslist,
                              const size_t skill_win_size_y )
 {
@@ -757,7 +758,7 @@ static void draw_skills_info( const catacurses::window &w_info, unsigned int lin
 }
 
 static void draw_speed_tab( const catacurses::window &w_speed,
-                            const player &you,
+                            const Character &you,
                             const std::map<std::string, int> &speed_effects )
 {
     werase( w_speed );
@@ -775,20 +776,20 @@ static void draw_speed_tab( const catacurses::window &w_speed,
                    pgettext( "speed penalty", "Overburdened        -%2d%%" ), pen );
         line++;
     }
-    pen = you.get_pain_penalty().speed;
+    pen = character_effects::get_pain_penalty( you ).speed;
     if( pen >= 1 ) {
         mvwprintz( w_speed, point( 1, line ), c_red,
                    pgettext( "speed penalty", "Pain                -%2d%%" ), pen );
         line++;
     }
     if( you.get_thirst() > thirst_levels::very_thirsty ) {
-        pen = std::abs( player::thirst_speed_penalty( you.get_thirst() ) );
+        pen = std::abs( character_effects::get_thirst_speed_penalty( you.get_thirst() ) );
         mvwprintz( w_speed, point( 1, line ), c_red,
                    pgettext( "speed penalty", "Thirst              -%2d%%" ), pen );
         line++;
     }
-    if( you.kcal_speed_penalty() < 0 ) {
-        pen = std::abs( you.kcal_speed_penalty() );
+    if( character_effects::get_kcal_speed_penalty( you.get_kcal_percent() ) < 0 ) {
+        pen = std::abs( character_effects::get_kcal_speed_penalty( you.get_kcal_percent() ) );
         //~ %s: Starving/Underfed (already left-justified), %2d: speed penalty
         mvwprintz( w_speed, point( 1, line ), c_red, pgettext( "speed penalty", "%s-%2d%%" ),
                    left_justify( _( "Starving" ), 20 ), pen );
@@ -858,7 +859,7 @@ static void draw_speed_tab( const catacurses::window &w_speed,
     wnoutrefresh( w_speed );
 }
 
-static void draw_info_window( const catacurses::window &w_info, const player &you,
+static void draw_info_window( const catacurses::window &w_info, const Character &you,
                               const unsigned int line, const player_display_tab curtab,
                               const std::vector<trait_id> &traitslist,
                               const std::vector<bionic> &bionicslist,
@@ -889,7 +890,7 @@ static void draw_info_window( const catacurses::window &w_info, const player &yo
     }
 }
 
-static void draw_tip( const catacurses::window &w_tip, const player &you,
+static void draw_tip( const catacurses::window &w_tip, const Character &you,
                       const std::string &race, const input_context &ctxt )
 {
     werase( w_tip );
@@ -900,7 +901,7 @@ static void draw_tip( const catacurses::window &w_tip, const player &you,
             //~ player info window: 1s - name, 2s - gender, 3s - Prof or Mutation name
             mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s | %3$s" ), you.name,
                        you.male ? _( "Male" ) : _( "Female" ), race );
-        } else if( you.prof == nullptr || you.prof == profession::generic() ) {
+        } else if( !you.prof.is_valid() || you.prof == profession::generic() ) {
             // Regular person. Nothing interesting.
             //~ player info window: 1s - name, 2s - gender '|' - field separator.
             mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s" ), you.name,
@@ -921,7 +922,7 @@ static void draw_tip( const catacurses::window &w_tip, const player &you,
     wnoutrefresh( w_tip );
 }
 
-static bool handle_player_display_action( player &you, unsigned int &line,
+static bool handle_player_display_action( Character &you, unsigned int &line,
         player_display_tab &curtab, input_context &ctxt,
         const ui_adaptor &ui_tip, const ui_adaptor &ui_info,
         const ui_adaptor &ui_stats, const ui_adaptor &ui_encumb,
@@ -1029,7 +1030,7 @@ static bool handle_player_display_action( player &you, unsigned int &line,
                 break;
             case player_display_tab::stats:
                 if( line < 4 && get_option<bool>( "STATS_THROUGH_KILLS" ) && you.is_avatar() ) {
-                    you.as_avatar()->upgrade_stat_prompt( static_cast<character_stat>( line ) );
+                    character_display::upgrade_stat_prompt( *you.as_avatar(), static_cast<character_stat>( line ) );
                 }
                 invalidate_tab( curtab );
                 break;
@@ -1059,10 +1060,10 @@ static bool handle_player_display_action( player &you, unsigned int &line,
     return done;
 }
 
-void player::disp_info()
+void character_display::disp_info( Character &ch )
 {
     std::vector<std::pair<std::string, std::string>> effect_name_and_text;
-    for( auto &elem : *effects ) {
+    for( auto &elem : ch.get_all_effects() ) {
         for( auto &_effect_it : elem.second ) {
             const std::string tmp = _effect_it.second.disp_name();
             if( _effect_it.second.is_removed() || tmp.empty() ) {
@@ -1071,8 +1072,8 @@ void player::disp_info()
             effect_name_and_text.push_back( { tmp, _effect_it.second.disp_desc() } );
         }
     }
-    if( get_perceived_pain() > 0 ) {
-        const auto ppen = get_pain_penalty();
+    if( ch.get_perceived_pain() > 0 ) {
+        const auto ppen = character_effects::get_pain_penalty( ch );
         std::string pain_text;
         const auto add_if = [&]( const int amount, const char *const name ) {
             if( amount > 0 ) {
@@ -1087,7 +1088,7 @@ void player::disp_info()
         effect_name_and_text.push_back( { _( "Pain" ), pain_text } );
     }
 
-    const float bmi = this->bmi();
+    const float bmi = ch.bmi();
 
     if( bmi < character_weight_category::underweight ) {
         std::string starvation_name;
@@ -1116,28 +1117,28 @@ void player::disp_info()
         effect_name_and_text.push_back( { starvation_name, starvation_text } );
     }
 
-    if( ( has_trait( trait_id( "TROGLO" ) ) && g->is_in_sunlight( pos() ) &&
+    if( ( ch.has_trait( trait_id( "TROGLO" ) ) && g->is_in_sunlight( ch.pos() ) &&
           get_weather().weather_id->sun_intensity >= sun_intensity_type::high ) ||
-        ( has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( pos() ) &&
+        ( ch.has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( ch.pos() ) &&
           get_weather().weather_id->sun_intensity < sun_intensity_type::high )
       ) {
         effect_name_and_text.push_back( { _( "In Sunlight" ),
                                           _( "The sunlight irritates you.\n"
                                              "Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" )
                                         } );
-    } else if( has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( pos() ) ) {
+    } else if( ch.has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( ch.pos() ) ) {
         effect_name_and_text.push_back( { _( "In Sunlight" ),
                                           _( "The sunlight irritates you badly.\n"
                                              "Strength - 2;    Dexterity - 2;    Intelligence - 2;    Perception - 2" )
                                         } );
-    } else if( has_trait( trait_id( "TROGLO3" ) ) && g->is_in_sunlight( pos() ) ) {
+    } else if( ch.has_trait( trait_id( "TROGLO3" ) ) && g->is_in_sunlight( ch.pos() ) ) {
         effect_name_and_text.push_back( { _( "In Sunlight" ),
                                           _( "The sunlight irritates you terribly.\n"
                                              "Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" )
                                         } );
     }
 
-    for( auto &elem : addictions ) {
+    for( auto &elem : ch.addictions ) {
         if( elem.sated < 0_turns && elem.intensity >= MIN_ADDICTION_LEVEL ) {
             effect_name_and_text.push_back( { addiction_name( elem ), addiction_text( elem ) } );
         }
@@ -1145,11 +1146,11 @@ void player::disp_info()
 
     const unsigned int effect_win_size_y = 1 + static_cast<unsigned>( effect_name_and_text.size() );
 
-    std::vector<trait_id> traitslist = get_mutations( false );
+    std::vector<trait_id> traitslist = ch.get_mutations( false );
     std::sort( traitslist.begin(), traitslist.end(), trait_display_sort );
     const unsigned int trait_win_size_y_max = 1 + static_cast<unsigned>( traitslist.size() );
 
-    std::vector<bionic> bionicslist = *my_bionics;
+    std::vector<bionic> bionicslist = *ch.my_bionics;
     const unsigned int bionics_win_size_y_max = 2 + bionicslist.size();
 
     const std::vector<const Skill *> player_skill = Skill::get_skills_sorted_by(
@@ -1205,9 +1206,9 @@ void player::disp_info()
     // Post-humanity trumps your pre-Cataclysm life
     // Unless you have a custom profession.
     std::string race;
-    if( custom_profession.empty() ) {
-        if( crossed_threshold() ) {
-            for( const trait_id &mut : get_mutations() ) {
+    if( ch.custom_profession.empty() ) {
+        if( ch.crossed_threshold() ) {
+            for( const trait_id &mut : ch.get_mutations() ) {
                 const mutation_branch &mdata = mut.obj();
                 if( mdata.threshold ) {
                     race = mdata.name();
@@ -1227,13 +1228,10 @@ void player::disp_info()
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     std::map<std::string, int> speed_effects;
-    for( auto &elem : *effects ) {
+    for( auto &elem : ch.get_all_effects() ) {
         for( std::pair<const bodypart_str_id, effect> &_effect_it : elem.second ) {
             effect &it = _effect_it.second;
-            if( it.is_removed() ) {
-                continue;
-            }
-            bool reduced = resists_effect( it );
+            bool reduced = ch.resists_effect( it );
             int move_adjust = it.get_mod( "SPEED", reduced );
             if( move_adjust != 0 ) {
                 const std::string dis_text = it.get_speed_name();
@@ -1255,7 +1253,7 @@ void player::disp_info()
     } );
     ui_tip.mark_resize();
     ui_tip.on_redraw( [&]( const ui_adaptor & ) {
-        draw_tip( w_tip, *this, race, ctxt );
+        draw_tip( w_tip, ch, race, ctxt );
     } );
 
     catacurses::window w_stats;
@@ -1279,7 +1277,7 @@ void player::disp_info()
     ui_stats.on_redraw( [&]( const ui_adaptor & ) {
         borders.draw_border( w_stats_border );
         wnoutrefresh( w_stats_border );
-        draw_stats_tab( w_stats, *this, line, curtab );
+        draw_stats_tab( w_stats, ch, line, curtab );
     } );
 
     unsigned int trait_win_size_y = 0;
@@ -1325,7 +1323,7 @@ void player::disp_info()
     ui_bionics.on_redraw( [&]( const ui_adaptor & ) {
         borders.draw_border( w_bionics_border );
         wnoutrefresh( w_bionics_border );
-        draw_bionics_tab( w_bionics, *this, line, curtab, bionicslist, bionics_win_size_y );
+        draw_bionics_tab( w_bionics, ch, line, curtab, bionicslist, bionics_win_size_y );
     } );
 
     catacurses::window w_encumb;
@@ -1342,7 +1340,7 @@ void player::disp_info()
     ui_encumb.on_redraw( [&]( const ui_adaptor & ) {
         borders.draw_border( w_encumb_border );
         wnoutrefresh( w_encumb_border );
-        draw_encumbrance_tab( w_encumb, *this, line, curtab );
+        draw_encumbrance_tab( w_encumb, ch, line, curtab );
     } );
 
     catacurses::window w_effects;
@@ -1381,7 +1379,7 @@ void player::disp_info()
     ui_speed.on_redraw( [&]( const ui_adaptor & ) {
         borders.draw_border( w_speed_border );
         wnoutrefresh( w_speed_border );
-        draw_speed_tab( w_speed, *this, speed_effects );
+        draw_speed_tab( w_speed, ch, speed_effects );
     } );
 
     unsigned int skill_win_size_y = 0;
@@ -1407,7 +1405,7 @@ void player::disp_info()
     ui_skills.on_redraw( [&]( const ui_adaptor & ) {
         borders.draw_border( w_skills_border );
         wnoutrefresh( w_skills_border );
-        draw_skills_tab( w_skills, *this, line, curtab, skillslist, skill_win_size_y );
+        draw_skills_tab( w_skills, ch, line, curtab, skillslist, skill_win_size_y );
     } );
 
     catacurses::window w_info;
@@ -1427,7 +1425,7 @@ void player::disp_info()
     ui_info.on_redraw( [&]( const ui_adaptor & ) {
         borders.draw_border( w_info_border );
         wnoutrefresh( w_info_border );
-        draw_info_window( w_info, *this, line, curtab,
+        draw_info_window( w_info, ch, line, curtab,
                           traitslist, bionicslist, effect_name_and_text, skillslist );
     } );
 
@@ -1436,8 +1434,50 @@ void player::disp_info()
     do {
         ui_manager::redraw_invalidated();
 
-        done = handle_player_display_action( *this, line, curtab, ctxt, ui_tip, ui_info,
+        done = handle_player_display_action( ch, line, curtab, ctxt, ui_tip, ui_info,
                                              ui_stats, ui_encumb, ui_traits, ui_bionics, ui_effects, ui_skills,
                                              traitslist, bionicslist, effect_name_and_text, skillslist );
     } while( !done );
+}
+
+void character_display::upgrade_stat_prompt( avatar &you, const character_stat &stat )
+{
+    const int free_points = you.free_upgrade_points();
+
+    if( free_points <= 0 ) {
+        cata::optional<int> xp_remains = you.kill_xp_for_next_point();
+        if( !xp_remains ) {
+            popup( _( "You've already reached maximum level." ) );
+        } else {
+            popup( _( "Needs %d more experience to gain next level." ), *xp_remains );
+        }
+        return;
+    }
+
+    std::string stat_string;
+    switch( stat ) {
+        case character_stat::STRENGTH:
+            stat_string = _( "strength" );
+            break;
+        case character_stat::DEXTERITY:
+            stat_string = _( "dexterity" );
+            break;
+        case character_stat::INTELLIGENCE:
+            stat_string = _( "intelligence" );
+            break;
+        case character_stat::PERCEPTION:
+            stat_string = _( "perception" );
+            break;
+        case character_stat::DUMMY_STAT:
+            stat_string = _( "invalid stat" );
+            debugmsg( "Tried to use invalid stat" );
+            break;
+        default:
+            return;
+    }
+
+    if( query_yn( _( "Are you sure you want to raise %s?  %d points available." ), stat_string,
+                  free_points ) ) {
+        you.upgrade_stat( stat );
+    }
 }

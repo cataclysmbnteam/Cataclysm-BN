@@ -10,6 +10,7 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "character_functions.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
@@ -71,8 +72,8 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
             REQUIRE_FALSE( dummy.has_trait( trait_LOVES_BOOKS ) );
 
             THEN( "the book is a normal amount of fun" ) {
-                CHECK( dummy.fun_to_read( book ) == true );
-                CHECK( dummy.book_fun_for( book, dummy ) == book_fun );
+                CHECK( character_funcs::is_fun_to_read( dummy, book ) == true );
+                CHECK( character_funcs::get_book_fun_for( dummy, book ) == book_fun );
             }
         }
 
@@ -81,8 +82,8 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
             REQUIRE( dummy.has_trait( trait_LOVES_BOOKS ) );
 
             THEN( "the book is extra fun" ) {
-                CHECK( dummy.fun_to_read( book ) == true );
-                CHECK( dummy.book_fun_for( book, dummy ) == book_fun + 1 );
+                CHECK( character_funcs::is_fun_to_read( dummy, book ) == true );
+                CHECK( character_funcs::get_book_fun_for( dummy, book ) == book_fun + 1 );
             }
         }
     }
@@ -98,8 +99,8 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
             REQUIRE_FALSE( dummy.has_trait( trait_SPIRITUAL ) );
 
             THEN( "the book is a normal amount of fun" ) {
-                CHECK( dummy.fun_to_read( book ) == true );
-                CHECK( dummy.book_fun_for( book, dummy ) == book_fun );
+                CHECK( character_funcs::is_fun_to_read( dummy, book ) == true );
+                CHECK( character_funcs::get_book_fun_for( dummy, book ) == book_fun );
             }
         }
 
@@ -108,8 +109,8 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
             REQUIRE( dummy.has_trait( trait_SPIRITUAL ) );
 
             THEN( "the book is thrice the fun" ) {
-                CHECK( dummy.fun_to_read( book ) == true );
-                CHECK( dummy.book_fun_for( book, dummy ) == book_fun * 3 );
+                CHECK( character_funcs::is_fun_to_read( dummy, book ) == true );
+                CHECK( character_funcs::get_book_fun_for( dummy, book ) == book_fun * 3 );
             }
         }
     }
@@ -189,7 +190,7 @@ TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
 
         // Get some light
         dummy.i_add( item( "atomic_lamp" ) );
-        REQUIRE( dummy.fine_detail_vision_mod() == 1 );
+        REQUIRE( character_funcs::fine_detail_vision_mod( dummy ) == character_funcs::FINE_VISION_PERFECT );
 
         WHEN( "player has average intelligence" ) {
             dummy.int_max = 8;
@@ -252,7 +253,7 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
 
     SECTION( "you cannot read in darkness" ) {
         dummy.add_env_effect( efftype_id( "darkness" ), bp_eyes, 3, 1_hours );
-        REQUIRE( dummy.fine_detail_vision_mod() > 4 );
+        REQUIRE( !character_funcs::can_see_fine_details( dummy ) );
 
         CHECK( dummy.get_book_reader( child, reasons ) == nullptr );
         expect_reasons = { "It's too dark to read!" };
@@ -267,7 +268,7 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
 
         // Get some light
         dummy.i_add( item( "atomic_lamp" ) );
-        REQUIRE( dummy.fine_detail_vision_mod() == 1 );
+        REQUIRE( character_funcs::fine_detail_vision_mod( dummy ) == character_funcs::FINE_VISION_PERFECT );
 
         THEN( "you cannot read while illiterate" ) {
             dummy.toggle_trait( trait_ILLITERATE );

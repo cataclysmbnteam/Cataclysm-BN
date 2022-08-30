@@ -208,7 +208,8 @@ static std::map<const Creature *, int> do_blast( const tripoint &p, const float 
         // Iterate over all neighbors. Bash all of them, propagate to some
         for( size_t i = 0; i < max_index; i++ ) {
             tripoint dest( pt + tripoint( x_offset[i], y_offset[i], z_offset[i] ) );
-            if( closed.count( dest ) != 0 || !here.inbounds( dest ) ) {
+            if( closed.count( dest ) != 0 || !here.inbounds( dest ) ||
+                here.obstructed_by_vehicle_rotation( pt, dest ) ) {
                 continue;
             }
 
@@ -439,11 +440,16 @@ static std::map<const Creature *, int> do_blast_new( const tripoint &blast_cente
     for( const dist_point_pair &pair : blast_map ) {
         float distance;
         tripoint position;
+        tripoint last_position = blast_center;
         std::tie( distance, position ) = pair;
 
         const std::vector<tripoint> line_of_movement = line_to( blast_center, position );
         const bool has_obstacles = std::any_of( line_of_movement.begin(),
-        line_of_movement.end(), [position]( tripoint ray_position ) {
+        line_of_movement.end(), [position, &last_position]( tripoint ray_position ) {
+            if( get_map().obstructed_by_vehicle_rotation( last_position, ray_position ) ) {
+                return true;
+            }
+            last_position = ray_position;
             return ray_position != position && get_map().impassable( ray_position );
         } );
 
@@ -614,6 +620,10 @@ static std::map<const Creature *, int> shrapnel( const tripoint &src, const proj
     float visited_cache[MAPSIZE_X][MAPSIZE_Y] = {};
 
     map &here = get_map();
+
+    diagonal_blocks( &blocked_cache )[MAPSIZE_X][MAPSIZE_Y] = here.access_cache(
+                src.z ).vehicle_obstructed_cache;
+
     // TODO: Calculate range based on max effective range for projectiles.
     // Basically bisect between 0 and map diameter using shrapnel_calc().
     // Need to update shadowcasting to support limiting range without adjusting initial distance.
@@ -631,7 +641,8 @@ static std::map<const Creature *, int> shrapnel( const tripoint &src, const proj
     const int offset_distance = 60 - 1 - fragment.range;
     castLightAll<float, float, shrapnel_calc, shrapnel_check,
                  update_fragment_cloud, accumulate_fragment_cloud>
-                 ( visited_cache, obstacle_cache, src.xy(), offset_distance, fragment.range + 1.0f );
+                 ( visited_cache, obstacle_cache, blocked_cache, src.xy(),
+                   offset_distance, fragment.range + 1.0f );
 
     // Now visited_caches are populated with density and velocity of fragments.
     for( const tripoint &target : area ) {

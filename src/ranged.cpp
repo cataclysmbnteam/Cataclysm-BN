@@ -586,7 +586,7 @@ int player::gun_engagement_moves( const item &gun, int target, int start ) const
     return mv;
 }
 
-bool player::handle_gun_damage( item &it )
+bool ranged::handle_gun_damage( Character &shooter, item &it )
 {
     // Below item (maximum dirt possible) should be greater than or equal to dirt range in item_group.cpp. Also keep in mind that monster drops can have specific ranges and these should be below the max!
     const double dirt_max_dbl = 10000;
@@ -608,14 +608,14 @@ bool player::handle_gun_damage( item &it )
     if( !it.has_flag( flag_NEVER_JAMS ) &&
         x_in_y( dirt_dbl * dirt_dbl * dirt_dbl,
                 1000000000000.0 ) ) {
-        add_msg_player_or_npc(
+        shooter.add_msg_player_or_npc(
             _( "Your %s misfires with a muffled click!" ),
             _( "<npcname>'s %s misfires with a muffled click!" ),
             it.tname() );
         // at high dirt levels the chance to misfire gets to significant levels. 10,000 is max and 7800 is quite high so above that the player gets some relief in the form of exchanging time for some dirt reduction. Basically jiggling the parts loose to remove some dirt and get a few more shots out.
         if( dirt_dbl >
             7800 ) {
-            add_msg_player_or_npc(
+            shooter.add_msg_player_or_npc(
                 _( "Perhaps taking the ammo out of your %s and reloading will help." ),
                 _( "Perhaps taking the ammo out of <npcname>'s %s and reloading will help." ),
                 it.tname() );
@@ -628,10 +628,11 @@ bool player::handle_gun_damage( item &it )
     // and so are immune to this effect, note also that WATERPROOF_GUN status does not
     // mean the gun will actually be accurate underwater.
     int effective_durability = firing.durability;
-    if( is_underwater() && !it.has_flag( "WATERPROOF_GUN" ) && one_in( effective_durability ) ) {
-        add_msg_player_or_npc( _( "Your %s misfires with a wet click!" ),
-                               _( "<npcname>'s %s misfires with a wet click!" ),
-                               it.tname() );
+    if( shooter.is_underwater() && !it.has_flag( "WATERPROOF_GUN" ) &&
+        one_in( effective_durability ) ) {
+        shooter.add_msg_player_or_npc( _( "Your %s misfires with a wet click!" ),
+                                       _( "<npcname>'s %s misfires with a wet click!" ),
+                                       it.tname() );
         return false;
         // Here we check for a chance for the weapon to suffer a mechanical malfunction.
         // Note that some weapons never jam up 'NEVER_JAMS' and thus are immune to this
@@ -639,17 +640,17 @@ bool player::handle_gun_damage( item &it )
         // a chance of mechanical failure between 1/(64*3) and 1/(1024*3) on any given shot.
         // the malfunction can't cause damage
     } else if( one_in( ( 2 << effective_durability ) * 3 ) && !it.has_flag( flag_NEVER_JAMS ) ) {
-        add_msg_player_or_npc( _( "Your %s malfunctions!" ),
-                               _( "<npcname>'s %s malfunctions!" ),
-                               it.tname() );
+        shooter.add_msg_player_or_npc( _( "Your %s malfunctions!" ),
+                                       _( "<npcname>'s %s malfunctions!" ),
+                                       it.tname() );
         return false;
         // Here we check for a chance for the weapon to suffer a misfire due to
         // using player-made 'RECYCLED' bullets. Note that not all forms of
         // player-made ammunition have this effect.
     } else if( curammo_effects.count( ammo_effect_RECYCLED ) && one_in( 256 ) ) {
-        add_msg_player_or_npc( _( "Your %s misfires with a muffled click!" ),
-                               _( "<npcname>'s %s misfires with a muffled click!" ),
-                               it.tname() );
+        shooter.add_msg_player_or_npc( _( "Your %s misfires with a muffled click!" ),
+                                       _( "<npcname>'s %s misfires with a muffled click!" ),
+                                       it.tname() );
         return false;
         // Here we check for a chance for attached mods to get damaged if they are flagged as 'CONSUMABLE'.
         // This is mostly for crappy handmade expedient stuff  or things that rarely receive damage during normal usage.
@@ -676,14 +677,14 @@ bool player::handle_gun_damage( item &it )
                 }
                 if( one_in( modconsume ) ) {
                     if( mod->mod_damage( dmgamt ) ) {
-                        add_msg_player_or_npc( m_bad, _( "Your attached %s is destroyed by your shot!" ),
-                                               _( "<npcname>'s attached %s is destroyed by their shot!" ),
-                                               mod->tname() );
-                        i_rem( mod );
+                        shooter.add_msg_player_or_npc( m_bad, _( "Your attached %s is destroyed by your shot!" ),
+                                                       _( "<npcname>'s attached %s is destroyed by their shot!" ),
+                                                       mod->tname() );
+                        shooter.i_rem( mod );
                     } else if( it.damage() > initstate ) {
-                        add_msg_player_or_npc( m_bad, _( "Your attached %s is damaged by your shot!" ),
-                                               _( "<npcname>'s %s is damaged by their shot!" ),
-                                               mod->tname() );
+                        shooter.add_msg_player_or_npc( m_bad, _( "Your attached %s is damaged by your shot!" ),
+                                                       _( "<npcname>'s %s is damaged by their shot!" ),
+                                                       mod->tname() );
                     }
                 }
             }
@@ -691,9 +692,9 @@ bool player::handle_gun_damage( item &it )
     }
     if( it.has_fault( fault_gun_unlubricated ) &&
         x_in_y( dirt_dbl, dirt_max_dbl ) ) {
-        add_msg_player_or_npc( m_bad, _( "Your %s emits a grimace-inducing screech!" ),
-                               _( "<npcname>'s %s emits a grimace-inducing screech!" ),
-                               it.tname() );
+        shooter.add_msg_player_or_npc( m_bad, _( "Your %s emits a grimace-inducing screech!" ),
+                                       _( "<npcname>'s %s emits a grimace-inducing screech!" ),
+                                       it.tname() );
         it.inc_damage();
     }
     if( ( ( !curammo_effects.count( ammo_effect_NON_FOULING ) && !it.has_flag( flag_NON_FOULING ) ) ||
@@ -704,9 +705,9 @@ bool player::handle_gun_damage( item &it )
             if( ( ( it.ammo_data()->ammo->recoil < firing.min_cycle_recoil ) ||
                   ( it.has_fault( fault_gun_unlubricated ) && one_in( 16 ) ) ) &&
                 it.faults_potential().count( fault_gun_chamber_spent ) ) {
-                add_msg_player_or_npc( m_bad, _( "Your %s fails to cycle!" ),
-                                       _( "<npcname>'s %s fails to cycle!" ),
-                                       it.tname() );
+                shooter.add_msg_player_or_npc( m_bad, _( "Your %s fails to cycle!" ),
+                                               _( "<npcname>'s %s fails to cycle!" ),
+                                               it.tname() );
                 it.faults.insert( fault_gun_chamber_spent );
                 // Don't return false in this case; this shot happens, follow-up ones won't.
             }
@@ -743,9 +744,9 @@ bool player::handle_gun_damage( item &it )
     if( dirt_dbl > 5000 &&
         x_in_y( dirt_dbl * dirt_dbl * dirt_dbl,
                 5555555555555 ) ) {
-        add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the high pressure!" ),
-                               _( "<npcname>'s %s is damaged by the high pressure!" ),
-                               it.tname() );
+        shooter.add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the high pressure!" ),
+                                       _( "<npcname>'s %s is damaged by the high pressure!" ),
+                                       it.tname() );
         // Don't increment until after the message
         it.inc_damage();
     }
@@ -855,7 +856,7 @@ int player::fire_gun( const tripoint &target, const int max_shots, item &gun )
             add_msg_if_player( _( "You cycle your %s manually." ), gun.tname() );
         }
 
-        if( !handle_gun_damage( gun ) ) {
+        if( !ranged::handle_gun_damage( *this, gun ) ) {
             break;
         }
 
@@ -1718,16 +1719,17 @@ int time_to_attack( const Character &p, const itype &firing )
 
 static void cycle_action( item &weap, const tripoint &pos )
 {
+    map &here = get_map();
     // eject casings and linkages in random direction avoiding walls using player position as fallback
     std::vector<tripoint> tiles = closest_points_first( pos, 1 );
     tiles.erase( tiles.begin() );
-    tiles.erase( std::remove_if( tiles.begin(), tiles.end(), [&]( const tripoint & e ) {
-        return !g->m.passable( e );
+    tiles.erase( std::remove_if( tiles.begin(), tiles.end(), [&pos, &here]( const tripoint & e ) {
+        return !here.passable( e ) || here.obstructed_by_vehicle_rotation( pos, e );
     } ), tiles.end() );
     tripoint eject = tiles.empty() ? pos : random_entry( tiles );
 
     // for turrets try and drop casings or linkages directly to any CARGO part on the same tile
-    const optional_vpart_position vp = g->m.veh_at( pos );
+    const optional_vpart_position vp = here.veh_at( pos );
     std::vector<vehicle_part *> cargo;
     if( vp && weap.has_flag( "VEHICLE" ) ) {
         cargo = vp->vehicle().get_parts_at( pos, "CARGO", part_status_flag::any );
@@ -1739,7 +1741,7 @@ static void cycle_action( item &weap, const tripoint &pos )
             weap.put_in( item( casing ).set_flag( "CASING" ) );
         } else {
             if( cargo.empty() ) {
-                g->m.add_item_or_charges( eject, item( casing ) );
+                here.add_item_or_charges( eject, item( casing ) );
             } else {
                 vp->vehicle().add_item( *cargo.front(), item( casing ) );
             }
@@ -1757,7 +1759,7 @@ static void cycle_action( item &weap, const tripoint &pos )
             linkage.set_flag( "CASING" );
             weap.put_in( linkage );
         } else if( cargo.empty() ) {
-            g->m.add_item_or_charges( eject, linkage );
+            here.add_item_or_charges( eject, linkage );
         } else {
             vp->vehicle().add_item( *cargo.front(), linkage );
         }
@@ -2091,21 +2093,31 @@ std::vector<Creature *> targetable_creatures( const Character &c, const int rang
             return false;
         }
 
+        map &here = get_map();
+
         // TODO: It should use projectile passability checks when finding path, not vision checks.
-        std::vector<tripoint> path = g->m.find_clear_path( c.pos(), critter.pos() );
+        std::vector<tripoint> path = here.find_clear_path( c.pos(), critter.pos() );
+        tripoint prev_point = c.pos();
         for( const tripoint &point : path )
         {
-            if( g->m.passable( point ) ) {
+            if( here.obstructed_by_vehicle_rotation( prev_point, point ) ) {
+                //Blocked by a rotated vehicle's walls
+                return false;
+            }
+
+            prev_point = point;
+
+            if( here.passable( point ) ) {
                 // If it's passable, it doesn't block bullets
                 continue;
             }
 
-            const vehicle *veh_at_point = veh_pointer_or_null( g->m.veh_at( point ) );
+            const vehicle *veh_at_point = veh_pointer_or_null( here.veh_at( point ) );
             if( veh_at_point && veh_at_point != veh_from_turret ) {
                 // Vehicles don't have impassable-but-shootable-through parts
                 return false;
             }
-            if( !g->m.has_flag_ter( TFLAG_TRANSPARENT, point ) ) {
+            if( !here.has_flag_ter( TFLAG_TRANSPARENT, point ) ) {
                 // If it's transparent, it's either glass (fine) or reinforced glass (not fine)
                 // Hack it with the more common case for now
                 // TODO: Handle armored glass

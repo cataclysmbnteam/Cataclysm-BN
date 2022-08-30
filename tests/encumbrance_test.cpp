@@ -10,6 +10,7 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "character.h"
+#include "character_encumbrance.h"
 #include "game.h"
 #include "item.h"
 #include "material.h"
@@ -36,7 +37,7 @@ static void test_encumbrance_on(
         p.worn.push_back( i );
     }
     p.reset_encumbrance();
-    encumbrance_data enc = p.get_encumbrance()[ get_body_part_token( body_part ) ];
+    encumbrance_data enc = p.get_encumbrance().elems[ get_body_part_token( body_part ) ];
     CHECK( enc.encumbrance == expected_encumbrance );
 }
 

@@ -8,16 +8,6 @@
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
   },
   {
-    "id": "bio_blaster",
-    "type": "bionic",
-    "name": { "str": "Fusion Blaster Arm" },
-    "description": "Your left arm has been surgically replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray.  However, you are unable to use or carry two-handed items, and your strength limits what you can use with your one hand.",
-    "occupied_bodyparts": [ [ "arm_l", 20 ], [ "hand_l", 5 ] ],
-    "act_cost": 50,
-    "fake_item": "bio_blaster_gun",
-    "flags": [ "BIONIC_GUN" ]
-  },
-  {
     "id": "fertilizer_bomb",
     "type": "TOOL",
     "category": "weapons",
@@ -133,28 +123,6 @@
       "install": { "skills": [ [ "mechanics", 6 ], [ "electronics", 6 ] ], "time": 10000 },
       "removal": { "skills": [ [ "mechanics", 4 ] ] }
     }
-  },
-  {
-    "id": "bio_blaster_gun",
-    "type": "GUN",
-    "name": { "str": "fusion blaster" },
-    "description": "this a pseudo item",
-    "volume": "3 L",
-    "price": 0,
-    "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "magenta",
-    "skill": "rifle",
-    "range": 30,
-    "ranged_damage": { "damage_type": "stab", "amount": 22, "armor_penetration": 15 },
-    "dispersion": 30,
-    "durability": 10,
-    "loudness": 12,
-    "modes": [ [ "DEFAULT", "single shot", 1 ], [ "burst", "triple shot", 3 ] ],
-    "reload": 500,
-    "built_in_mods": [ "bio_powershot" ],
-    "ammo_effects": [ "PLASMA" ],
-    "flags": [ "NEVER_JAMS", "TRADER_AVOID" ]
   },
   {
     "id": "unbio_blaster_gun",

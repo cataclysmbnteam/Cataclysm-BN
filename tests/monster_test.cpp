@@ -328,3 +328,22 @@ TEST_CASE( "monster_speed_trig", "[speed]" )
     trigdist = true;
     monster_check();
 }
+
+TEST_CASE( "monster_move_through_vehicle_holes" )
+{
+    clear_map_and_put_player_underground();
+    tripoint origin( 60, 60, 0 );
+
+    get_map().add_vehicle( vproto_id( "apc" ), origin, -45_degrees, 0, 0 );
+
+    tripoint mon_origin = origin + tripoint( -2, 1, 0 );
+    monster &zombie = spawn_test_monster( "mon_zombie", mon_origin );
+    zombie.move_to( mon_origin + tripoint_north_west, false, false, 0.0f );
+
+    const monster *m = g->critter_at<monster>( mon_origin );
+    CHECK( m != nullptr );
+
+    const monster *m2 = g->critter_at<monster>( mon_origin + tripoint_north_west );
+    CHECK( m2 == nullptr );
+
+}

@@ -28,6 +28,7 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
+#include "character_functions.h"
 #include "colony.h"
 #include "flag.h"
 #include "color.h"
@@ -65,6 +66,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
+#include "map_functions.h"
 #include "mapdata.h"
 #include "material.h"
 #include "messages.h"
@@ -3748,7 +3750,7 @@ void iexamine::trap( player &p, const tripoint &examp )
     if( tr.loadid == tr_unfinished_construction || here.partial_con_at( examp ) ) {
         partial_con *pc = here.partial_con_at( examp );
         if( pc ) {
-            if( g->u.fine_detail_vision_mod() > 4 && !g->u.has_trait( trait_DEBUG_HS ) ) {
+            if( !character_funcs::can_see_fine_details( p ) && !p.has_trait( trait_DEBUG_HS ) ) {
                 add_msg( m_info, _( "It is too dark to construct right now." ) );
                 return;
             }
@@ -3758,7 +3760,7 @@ void iexamine::trap( player &p, const tripoint &examp )
                 if( query_yn( _( "Cancel construction?" ) ) ) {
                     here.disarm_trap( examp );
                     for( const item &it : pc->components ) {
-                        here.add_item_or_charges( g->u.pos(), it );
+                        here.add_item_or_charges( p.pos(), it );
                     }
                     here.partial_con_remove( examp );
                     return;
@@ -3766,8 +3768,8 @@ void iexamine::trap( player &p, const tripoint &examp )
                     return;
                 }
             } else {
-                g->u.assign_activity( ACT_BUILD );
-                g->u.activity.placement = here.getabs( examp );
+                p.assign_activity( ACT_BUILD );
+                p.activity.placement = here.getabs( examp );
                 return;
             }
         } else {
@@ -4518,7 +4520,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
             }
 
             const bool has_grapnel = p.has_amount( itype_grapnel, 1 );
-            const int climb_cost = p.climbing_cost( where, examp );
+            const int climb_cost = map_funcs::climbing_cost( here, where, examp );
             const auto fall_mod = p.fall_damage_mod();
             std::string query_str = vgettext( "Looks like %d story.  Jump down?",
                                               "Looks like %d stories.  Jump down?",
@@ -5322,7 +5324,7 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
         if( it.type->milling_data ) {
             it.calc_rot_while_processing( milling_time );
             const islot_milling &mdata = *it.type->milling_data;
-            item result( mdata.into_, start_time + milling_time, it.charges * mdata.conversion_rate_ );
+            item result( mdata.into_, start_time + milling_time, it.count() * mdata.conversion_rate_ );
             result.components.push_back( it );
             // copied from item::inherit_flags, which can not be called here because it requires a recipe.
             for( const std::string &f : it.type->item_tags ) {
@@ -5549,7 +5551,7 @@ static void mill_load_food( player &p, const tripoint &examp,
     }
 
     if( comps.empty() ) {
-        p.add_msg_if_player( _( "You don't have any products that can be milled." ) );
+        p.add_msg_if_player( _( "You don't have any materials that can be milled." ) );
         return;
     }
 
@@ -5728,13 +5730,19 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
             if( items_here.empty() ) {
                 pop += _( "…that it is empty." );
             } else {
+                std::map<item, int> mill_list;
                 for( const item &it : items_here ) {
                     if( it.typeId() == itype_fake_milling_item ) {
-                        pop += "\n" + colorize( _( "You see some grains that are not yet milled to fine flour." ),
+                        pop += "\n" + colorize( _( "You see that the milling process is not yet complete." ),
                                                 c_red ) + "\n";
                         continue;
                     }
-                    pop += "-> " + item::nname( it.typeId(), it.charges ) + " (" + std::to_string( it.charges ) + ")\n";
+                    mill_list[it] += it.count();
+                }
+                for( auto it_mill : mill_list ) {
+                    pop += "-> " + item::nname( it_mill.first.typeId(),
+                                                it_mill.first.count() ) + ( ( it_mill.second > 1 ) ? " (" + std::to_string(
+                                                            it_mill.second ) + ")\n" : "\n" );
                 }
             }
             popup( pop, PF_NONE );

@@ -11,6 +11,7 @@
 #include "action.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "character_functions.h"
 #include "colony.h"
 #include "color.h"
 #include "construction_category.h"
@@ -831,7 +832,7 @@ bool player_can_build( player &p, const inventory &inv, const construction &con 
 
 bool player_can_see_to_build( player &p, const std::string &desc )
 {
-    if( p.fine_detail_vision_mod() < 4 || p.has_trait( trait_DEBUG_HS ) ) {
+    if( character_funcs::can_see_fine_details( p ) || p.has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
     std::vector<construction *> cons = constructions_by_desc( desc );

@@ -388,15 +388,6 @@
     "rating": "good"
   },
   {
-    "id": "bio_blaster",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Fusion Blaster Arm CBM" },
-    "description": "Your left arm has been replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray.  However, you are unable to use or carry two-handed items, and your strength limits what you can use with your one hand.",
-    "price": 220000,
-    "difficulty": 3
-  },
-  {
     "id": "bio_furnace",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -4333,5 +4324,20 @@
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "flu_shot",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": "flu shot",
+    "description": "Pharmaceutical flu shot designed for mass vaccinations, still in the packaging.  Purported to provide immunity to influenza.",
+    "weight": "12 g",
+    "volume": "10ml",
+    "price": 5000,
+    "price_postapoc": 1500,
+    "material": "plastic",
+    "symbol": "!",
+    "color": "magenta",
+    "flags": [ "NO_INGEST", "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE" ]
   }
 ]

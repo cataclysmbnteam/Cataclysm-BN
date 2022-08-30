@@ -29,6 +29,7 @@
 #include "loading_ui.h"
 #include "mapbuffer.h"
 #include "mapsharing.h"
+#include "newcharacter.h"
 #include "optional.h"
 #include "options.h"
 #include "output.h"

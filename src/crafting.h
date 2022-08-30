@@ -35,17 +35,23 @@ struct bench_location {
 template<typename Type>
 struct comp_selection;
 
-// removes any (removable) ammo from the item and stores it in the
-// players inventory.
-void remove_ammo( item &dis_item, player &p );
-// same as above but for each item in the list
-void remove_ammo( std::list<item> &dis_items, player &p );
+/**
+ * @brief Removes any (removable) ammo and stores it in character's inventory.
+ */
+void remove_ammo( item &dis_item, Character &who );
+/**
+ * @brief Removes any (removable) ammo from each item and stores it in character's inventory.
+ */
+void remove_ammo( std::list<item> &dis_items, Character &who );
 
 bench_location find_best_bench( const player &p, const item &craft );
 
 float workbench_crafting_speed_multiplier( const item &craft, const bench_location &bench );
-float crafting_speed_multiplier( const player &p, const recipe &rec, bool in_progress );
-float crafting_speed_multiplier( const player &p, const item &craft, const bench_location &bench );
+float morale_crafting_speed_multiplier( const Character &who, const recipe &rec );
+float lighting_crafting_speed_multiplier( const Character &who, const recipe &rec );
+float crafting_speed_multiplier( const Character &who, const recipe &rec, bool in_progress );
+float crafting_speed_multiplier( const Character &who, const item &craft,
+                                 const bench_location &bench );
 void complete_craft( player &p, item &craft, const bench_location &bench );
 
 namespace crafting

@@ -540,25 +540,6 @@ void overmap::unserialize( std::istream &fin, const std::string &file_path )
                     }
                 }
             }
-        } else if( name == "roads_out" ) {
-            // Legacy data, superceded by that stored in the "connections_out" member. A load and save
-            // cycle will migrate this to "connections_out".
-            std::vector<tripoint_om_omt> &roads_out =
-                connections_out[string_id<overmap_connection>( "local_road" )];
-            jsin.start_array();
-            while( !jsin.end_array() ) {
-                jsin.start_object();
-                tripoint_om_omt new_road;
-                while( !jsin.end_object() ) {
-                    std::string road_member_name = jsin.get_member_name();
-                    if( road_member_name == "x" ) {
-                        jsin.read( new_road.x() );
-                    } else if( road_member_name == "y" ) {
-                        jsin.read( new_road.y() );
-                    }
-                }
-                roads_out.push_back( new_road );
-            }
         } else if( name == "radios" ) {
             jsin.start_array();
             while( !jsin.end_array() ) {

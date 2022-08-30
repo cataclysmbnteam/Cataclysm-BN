@@ -15,6 +15,7 @@
 #include "bodypart.h"
 #include "character.h"
 #include "character_id.h"
+#include "character_functions.h"
 #include "character_martial_arts.h"
 #include "clzones.h"
 #include "coordinate_conversions.h"
@@ -864,7 +865,7 @@ bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
     } else if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( "FIX_FARSIGHT" ) &&
                !has_effect( effect_contacts ) && !has_bionic( bio_eye_optic ) ) {
         fail_reasons.emplace_back( _( "I can't read without my glasses." ) );
-    } else if( fine_detail_vision_mod() > 4 ) {
+    } else if( !character_funcs::can_see_fine_details( *this ) ) {
         // Too dark to read only applies if the player can read to himself
         fail_reasons.emplace_back( _( "It's too dark to read!" ) );
         return false;
@@ -878,12 +879,15 @@ int npc::time_to_read( const item &book, const player &reader ) const
     const skill_id &skill = type->skill;
     // The reader's reading speed has an effect only if they're trying to understand the book as they read it
     // Reading speed is assumed to be how well you learn from books (as opposed to hands-on experience)
-    const bool try_understand = reader.fun_to_read( book ) ||
+    const bool try_understand = character_funcs::is_fun_to_read( reader, book ) ||
                                 reader.get_skill_level( skill ) < type->level;
     int reading_speed = try_understand ? std::max( reader.read_speed(), read_speed() ) : read_speed();
 
     int retval = type->time * reading_speed;
-    retval *= std::min( fine_detail_vision_mod(), reader.fine_detail_vision_mod() );
+    retval *= std::min(
+                  character_funcs::fine_detail_vision_mod( *this ),
+                  character_funcs::fine_detail_vision_mod( reader )
+              );
 
     if( type->intel > reader.get_int() && !reader.has_trait( trait_PROF_DICEMASTER ) ) {
         retval += type->time * ( type->intel - reader.get_int() ) * 100;
@@ -910,10 +914,9 @@ void npc::finish_read( item_location loc )
     const bool display_messages = my_fac->id == faction_id( "your_followers" ) && g->u.sees( pos() );
     bool continuous = false; //whether to continue reading or not
 
-    if( book_fun_for( book, *this ) != 0 ) {
-        //Fun bonus is no longer calculated here.
-        add_morale( MORALE_BOOK, book_fun_for( book, *this ) * 5, book_fun_for( book,
-                    *this ) * 15, 1_hours, 30_minutes, true,
+    int book_fun_for = character_funcs::get_book_fun_for( *this, book );
+    if( book_fun_for != 0 ) {
+        add_morale( MORALE_BOOK, book_fun_for * 5, book_fun_for * 15, 1_hours, 30_minutes, true,
                     book.type );
     }
 

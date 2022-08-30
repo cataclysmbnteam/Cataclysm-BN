@@ -28,6 +28,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_functions.h"
 #include "character_martial_arts.h"
 #include "colony.h"
 #include "color.h"
@@ -278,6 +279,7 @@ static const itype_id itype_thermometer( "thermometer" );
 static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_soiled( "towel_soiled" );
 static const itype_id itype_towel_wet( "towel_wet" );
+static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
@@ -683,7 +685,8 @@ int iuse::fungicide( player *p, item *it, bool, const tripoint & )
             if( dest == p->pos() ) {
                 continue;
             }
-            if( g->m.passable( dest ) && x_in_y( spore_count, 8 ) ) {
+            if( g->m.passable( dest ) && !get_map().obstructed_by_vehicle_rotation( p->pos(), dest ) &&
+                x_in_y( spore_count, 8 ) ) {
                 if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
                     monster &critter = *mon_ptr;
                     if( g->u.sees( dest ) &&
@@ -857,13 +860,6 @@ int iuse::vaccine( player *p, item *it, bool, const tripoint & )
     p->mod_pain( 3 );
     item syringe( "syringe", it->birthday() );
     p->i_add( syringe );
-    return it->type->charges_to_use();
-}
-
-int iuse::flu_vaccine( player *p, item *it, bool, const tripoint & )
-{
-    p->add_msg_if_player( _( "You empty." ) );
-    item syringe( "syringe", it->birthday() );
     return it->type->charges_to_use();
 }
 
@@ -1121,7 +1117,7 @@ static void do_purify( player &p )
     num_cured = std::min( 4, num_cured );
     for( int i = 0; i < num_cured && !valid.empty(); i++ ) {
         const trait_id id = random_entry_removed( valid );
-        if( p.purifiable( id ) ) {
+        if( id->purifiable ) {
             p.remove_mutation( id );
         } else {
             p.add_msg_if_player( m_warning, _( "You feel a slight itching inside, but it passes." ) );
@@ -1167,7 +1163,7 @@ int iuse::purify_iv( player *p, item *it, bool, const tripoint & )
     }
     for( int i = 0; i < num_cured && !valid.empty(); i++ ) {
         const trait_id id = random_entry_removed( valid );
-        if( p->purifiable( id ) ) {
+        if( id->purifiable ) {
             p->remove_mutation( id );
         } else {
             p->add_msg_if_player( m_warning, _( "You feel a distinct burning inside, but it passes." ) );
@@ -1196,7 +1192,7 @@ int iuse::purify_smart( player *p, item *it, bool, const tripoint & )
     for( auto &traits_iter : mutation_branch::get_all() ) {
         if( p->has_trait( traits_iter.id ) &&
             !p->has_base_trait( traits_iter.id ) &&
-            p->purifiable( traits_iter.id ) ) {
+            traits_iter.id->purifiable ) {
             //Looks for active mutation
             valid.push_back( traits_iter.id );
             valid_names.push_back( traits_iter.id->name() );
@@ -2276,6 +2272,8 @@ int iuse::noise_emitter_on( player *p, item *it, bool t, const tripoint &pos )
 // Ugly and uses variables that shouldn't be public
 int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
 {
+    const bool possess = p->has_item( *it );
+
     if( !t ) {
         it->deactivate( p, true );
         return 0;
@@ -2286,7 +2284,7 @@ int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
     }
     map &here = get_map();
 
-    if( !it->ammo_sufficient() ) {
+    if( !p->has_enough_charges( *it, false ) ) {
         it->deactivate( p, true );
         return 0;
     }
@@ -2307,7 +2305,14 @@ int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
                 }
             }
 
-            if( static_cast<int>( cbms.size() ) > it->ammo_consume( cbms.size(), pos ) ) {
+            int charges = static_cast<int>( cbms.size() );
+            charges -= it->ammo_consume( charges, pos );
+            if( possess && it->has_flag( "USE_UPS" ) ) {
+                if( p->use_charges_if_avail( itype_UPS, charges ) ) {
+                    charges = 0;
+                }
+            }
+            if( charges > 0 ) {
                 it->deactivate( p, true );
                 return 0;
             }
@@ -5869,16 +5874,18 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
     /** @EFFECT_MECHANICS >=8 allows accurizing ranged weapons */
     const std::string startdurability = fix.durability_indicator( true );
     std::string resultdurability;
+    const float vision_mod = character_funcs::fine_detail_vision_mod( *p );
+    // TODO: this may render player unable to move for minutes, and so should start an activity instead
     if( fix.damage() <= 0 ) {
         sounds::sound( p->pos(), 6, sounds::sound_t::activity, "crunch", true, "tool", "repair_kit" );
-        p->moves -= to_moves<int>( 20_seconds * p->fine_detail_vision_mod() );
+        p->moves -= to_moves<int>( 20_seconds * vision_mod );
         p->practice( skill_mechanics, 10 );
         fix.mod_damage( -itype::damage_scale );
         p->add_msg_if_player( m_good, _( "You accurize your %s." ), fix.tname( 1, false ) );
 
     } else if( fix.damage() > itype::damage_scale ) {
         sounds::sound( p->pos(), 8, sounds::sound_t::activity, "crunch", true, "tool", "repair_kit" );
-        p->moves -= to_moves<int>( 10_seconds * p->fine_detail_vision_mod() );
+        p->moves -= to_moves<int>( 10_seconds * vision_mod );
         p->practice( skill_mechanics, 10 );
         fix.mod_damage( -itype::damage_scale );
         resultdurability = fix.durability_indicator( true );
@@ -5887,7 +5894,7 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
 
     } else {
         sounds::sound( p->pos(), 8, sounds::sound_t::activity, "crunch", true, "tool", "repair_kit" );
-        p->moves -= to_moves<int>( 5_seconds * p->fine_detail_vision_mod() );
+        p->moves -= to_moves<int>( 5_seconds * vision_mod );
         p->practice( skill_mechanics, 10 );
         fix.set_damage( 0 );
         resultdurability = fix.durability_indicator( true );
@@ -9380,7 +9387,7 @@ static int wash_items( player *p, bool soft_items, bool hard_items );
 
 int iuse::wash_soft_items( player *p, item *, bool, const tripoint & )
 {
-    if( p->fine_detail_vision_mod() > 4 ) {
+    if( !character_funcs::can_see_fine_details( *p ) ) {
         p->add_msg_if_player( _( "You can't see to do that!" ) );
         return 0;
     }
@@ -9401,7 +9408,7 @@ int iuse::wash_soft_items( player *p, item *, bool, const tripoint & )
 
 int iuse::wash_hard_items( player *p, item *, bool, const tripoint & )
 {
-    if( p->fine_detail_vision_mod() > 4 ) {
+    if( !character_funcs::can_see_fine_details( *p ) ) {
         p->add_msg_if_player( _( "You can't see to do that!" ) );
         return 0;
     }
@@ -9422,7 +9429,7 @@ int iuse::wash_hard_items( player *p, item *, bool, const tripoint & )
 
 int iuse::wash_all_items( player *p, item *, bool, const tripoint & )
 {
-    if( p->fine_detail_vision_mod() > 4 ) {
+    if( !character_funcs::can_see_fine_details( *p ) ) {
         p->add_msg_if_player( _( "You can't see to do that!" ) );
         return 0;
     }

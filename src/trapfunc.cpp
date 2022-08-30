@@ -1032,25 +1032,29 @@ static bool sinkhole_safety_roll( player *p, const itype_id &itemname, const int
     ///\EFFECT_DEX increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
 
     ///\EFFECT_THROW increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
+
+    map &here = get_map();
+
     const int throwing_skill_level = p->get_skill_level( skill_throw );
     const int roll = rng( throwing_skill_level, throwing_skill_level + p->str_cur + p->dex_cur );
     if( roll < diff ) {
         p->add_msg_if_player( m_bad, _( "You fail to attach it…" ) );
         p->use_amount( itemname, 1 );
-        g->m.spawn_item( random_neighbor( p->pos() ), itemname );
+        here.spawn_item( random_neighbor( p->pos() ), itemname );
         return false;
     }
 
     std::vector<tripoint> safe;
     for( const tripoint &tmp : g->m.points_in_radius( p->pos(), 1 ) ) {
-        if( g->m.passable( tmp ) && g->m.tr_at( tmp ).loadid != tr_pit ) {
+        if( here.passable( tmp ) && !here.obstructed_by_vehicle_rotation( p->pos(), tmp ) &&
+            here.tr_at( tmp ).loadid != tr_pit ) {
             safe.push_back( tmp );
         }
     }
     if( safe.empty() ) {
         p->add_msg_if_player( m_bad, _( "There's nowhere to pull yourself to, and you sink!" ) );
         p->use_amount( itemname, 1 );
-        g->m.spawn_item( random_neighbor( p->pos() ), itemname );
+        here.spawn_item( random_neighbor( p->pos() ), itemname );
         return false;
     } else {
         p->add_msg_player_or_npc( m_good, _( "You pull yourself to safety!" ),

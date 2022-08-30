@@ -78,3 +78,25 @@ TEST_CASE( "monsters shouldn't see through floors", "[vision]" )
     CHECK( distant.sees( sky ) );
     fov_3d = old_fov_3d;
 }
+
+TEST_CASE( "monsters_dont_see_through_vehicle_holes", "[vision]" )
+{
+    calendar::turn = midday;
+    clear_map_and_put_player_underground();
+    tripoint origin( 60, 60, 0 );
+
+    get_map().add_vehicle( vproto_id( "apc" ), origin, -45_degrees, 0, 0 );
+    get_map().build_map_cache( 0 );
+
+    tripoint mon_origin = origin + tripoint( -2, 1, 0 );
+
+    monster &inside = spawn_test_monster( "mon_zombie", mon_origin );
+
+    tripoint second_origin = mon_origin + tripoint_north_west;
+
+    monster &outside = spawn_test_monster( "mon_zombie", second_origin );
+
+    CHECK( !inside.sees( outside ) );
+    CHECK( !outside.sees( inside ) );
+
+}

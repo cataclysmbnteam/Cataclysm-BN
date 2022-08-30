@@ -11,6 +11,7 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
+#include "crafting.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -540,20 +541,21 @@ int hotkey_for_action( action_id action, const bool restrict_to_printable )
 
 bool can_butcher_at( const tripoint &p )
 {
+    avatar &you = get_avatar();
     // TODO: unify this with game::butcher
-    const int factor = g->u.max_quality( qual_BUTCHER );
-    const int factorD = g->u.max_quality( qual_CUT_FINE );
+    const int factor = you.max_quality( qual_BUTCHER );
+    const int factorD = you.max_quality( qual_CUT_FINE );
     map_stack items = get_map().i_at( p );
     bool has_item = false;
     bool has_corpse = false;
 
-    const inventory &crafting_inv = g->u.crafting_inventory();
+    const inventory &crafting_inv = you.crafting_inventory();
     for( item &items_it : items ) {
         if( items_it.is_corpse() ) {
             if( factor != INT_MIN  || factorD != INT_MIN ) {
                 has_corpse = true;
             }
-        } else if( g->u.can_disassemble( items_it, crafting_inv ).success() ) {
+        } else if( you.can_disassemble( items_it, crafting_inv ).success() ) {
             has_item = true;
         }
     }
@@ -699,7 +701,11 @@ action_id handle_action_menu()
     // display that action at the top of the list.
     for( const tripoint &pos : here.points_in_radius( g->u.pos(), 1 ) ) {
         if( pos != g->u.pos() ) {
-            // Check for actions that work on nearby tiles
+            // Check for actions that work on nearby tiles, skipping tiles blocked by vehicles
+            if( here.obstructed_by_vehicle_rotation( g->u.pos(), pos ) ) {
+                continue;
+            }
+
             if( can_interact_at( ACTION_OPEN, pos ) ) {
                 action_weightings[ACTION_OPEN] = 200;
             }
@@ -1013,7 +1019,17 @@ cata::optional<tripoint> choose_direction( const std::string &message, const boo
 cata::optional<tripoint> choose_adjacent( const std::string &message, const bool allow_vertical )
 {
     const cata::optional<tripoint> dir = choose_direction( message, allow_vertical );
-    return dir ? *dir + g->u.pos() : dir;
+
+    if( !dir ) {
+        return cata::nullopt;
+    }
+
+    if( get_map().obstructed_by_vehicle_rotation( g->u.pos(), *dir + g->u.pos() ) ) {
+        add_msg( _( "You can't reach through that vehicle's wall." ) );
+        return cata::nullopt;
+    }
+
+    return *dir + g->u.pos();
 }
 
 cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
@@ -1033,7 +1049,7 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
     map &here = get_map();
     if( allowed ) {
         for( const tripoint &pos : here.points_in_radius( g->u.pos(), 1 ) ) {
-            if( allowed( pos ) ) {
+            if( !here.obstructed_by_vehicle_rotation( g->u.pos(), pos ) && allowed( pos ) ) {
                 valid.emplace_back( pos );
             }
         }
