@@ -68,6 +68,7 @@ static const skill_id skill_firstaid( "firstaid" );
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 
 static const bionic_id bio_painkiller( "bio_painkiller" );
+static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
@@ -510,10 +511,14 @@ class comestible_inventory_preset : public inventory_selector_preset
 
             append_cell( [ &p, this ]( const item_location & loc ) {
                 const item &it = get_consumable_item( loc );
-                if( it.has_flag( flag_MUSHY ) ) {
-                    return highlight_good_bad_none( p.fun_for( get_consumable_item( loc ) ).first );
+                const int consume_fun = p.fun_for( get_consumable_item( loc ) ).first;
+                if( consume_fun < 0 && p.has_active_bionic( bio_taste_blocker ) &&
+                    p.get_power_level() > units::from_kilojoule( -consume_fun ) ) {
+                    return string_format( "<color_light_gray>[%d]</color>", consume_fun );
+                } else if( it.has_flag( flag_MUSHY ) ) {
+                    return highlight_good_bad_none( consume_fun );
                 } else {
-                    return good_bad_none( p.fun_for( get_consumable_item( loc ) ).first );
+                    return good_bad_none( consume_fun );
                 }
             }, _( "JOY" ) );
 

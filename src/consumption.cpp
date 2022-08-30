@@ -461,7 +461,7 @@ int Character::nutrition_for( const item &comest ) const
     return compute_effective_nutrients( comest ).kcal / islot_comestible::kcal_per_nutr;
 }
 
-std::pair<int, int> Character::fun_for( const item &comest, const bool bioblock ) const
+std::pair<int, int> Character::fun_for( const item &comest ) const
 {
     if( !comest.is_comestible() ) {
         return std::pair<int, int>( 0, 0 );
@@ -516,11 +516,6 @@ std::pair<int, int> Character::fun_for( const item &comest, const bool bioblock 
                 fun = fun * 3 / 2;
             }
         }
-    }
-
-    if( bioblock && fun < 0 && has_active_bionic( bio_taste_blocker ) &&
-        get_power_level() > units::from_kilojoule( -fun ) ) {
-        fun = 0;
     }
 
     return { static_cast< int >( fun ), static_cast< int >( fun_max ) };
@@ -951,10 +946,6 @@ bool player::eat( item &food, bool force )
         use_charges( food.get_comestible()->tool, 1 );
     }
 
-    if( has_active_bionic( bio_taste_blocker ) ) {
-        mod_power_level( units::from_kilojoule( std::min( 0, fun_for( food, false ).first ) ) );
-    }
-
     if( food.has_flag( flag_FUNGAL_VECTOR ) && !has_trait( trait_M_IMMUNE ) ) {
         add_effect( effect_fungus, 1_turns, num_bp );
     }
@@ -1076,8 +1067,13 @@ void Character::modify_morale( item &food, int nutr )
 
     std::pair<int, int> fun = fun_for( food );
     if( fun.first < 0 ) {
-        add_morale( MORALE_FOOD_BAD, fun.first, fun.second, morale_time, morale_time / 2, false,
-                    food.type );
+        if( has_active_bionic( bio_taste_blocker ) &&
+            get_power_level() > units::from_kilojoule( -fun.first ) ) {
+            mod_power_level( units::from_kilojoule( std::min( 0, fun_for( food ).first ) ) );
+        } else {
+            add_morale( MORALE_FOOD_BAD, fun.first, fun.second, morale_time, morale_time / 2, false,
+                        food.type );
+        }
     } else if( fun.first > 0 ) {
         add_morale( MORALE_FOOD_GOOD, fun.first, fun.second, morale_time, morale_time / 2, false,
                     food.type );
