@@ -3203,6 +3203,35 @@
   },
   {
     "type": "mutation",
+    "id": "PAINREC1",
+    "name": { "str": "Pain Recovery" },
+    "points": 1,
+    "description": "You recover from pain slightly faster than normal.",
+    "changes_to": [ "PAINREC2" ],
+    "pain_recovery": 0.3
+  },
+  {
+    "type": "mutation",
+    "id": "PAINREC2",
+    "name": { "str": "Quick Pain Recovery" },
+    "points": 3,
+    "description": "You recover from pain faster than normal.",
+    "prereqs": [ "PAINREC1" ],
+    "changes_to": [ "PAINREC3" ],
+    "pain_recovery": 0.6
+  },
+  {
+    "type": "mutation",
+    "id": "PAINREC3",
+    "name": { "str": "Very Quick Pain Recovery" },
+    "points": 5,
+    "description": "You recover from pain much faster than normal.",
+    "prereqs": [ "PAINREC2" ],
+    "category": [ "MEDICAL" ],
+    "pain_recovery": 1.0
+  },
+  {
+    "type": "mutation",
     "id": "MUT_TOUGH2",
     "name": { "str": "Solidly Built" },
     "points": 3,

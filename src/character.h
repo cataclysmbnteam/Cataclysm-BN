@@ -2154,7 +2154,6 @@ class Character : public Creature, public visitable<Character>
         void suffer_from_chemimbalance();
         void suffer_from_schizophrenia();
         void suffer_from_asthma( int current_stim );
-        void suffer_from_pain();
         void suffer_in_sunlight();
         void suffer_from_sunburn();
         void suffer_from_other_mutations();

@@ -4562,7 +4562,8 @@ void Character::regen( int rate_multiplier )
 {
     int pain_ticks = rate_multiplier;
     while( get_pain() > 0 && pain_ticks-- > 0 ) {
-        mod_pain( -roll_remainder( 0.2f + get_pain() / 50.0f ) );
+        mod_pain( -roll_remainder( ( 0.2f + get_pain() / 50.0f ) * ( 1.0f +
+                                   mutation_value( "pain_recovery" ) ) ) );
     }
 
     float rest = rest_quality();
@@ -6723,6 +6724,7 @@ float calc_mutation_value_multiplicative( const std::vector<const mutation_branc
 
 static const std::map<std::string, std::function <float( std::vector<const mutation_branch *> )>>
 mutation_value_map = {
+    { "pain_recovery", calc_mutation_value<&mutation_branch::pain_recovery> },
     { "healing_awake", calc_mutation_value<&mutation_branch::healing_awake> },
     { "healing_resting", calc_mutation_value<&mutation_branch::healing_resting> },
     { "mending_modifier", calc_mutation_value<&mutation_branch::mending_modifier> },

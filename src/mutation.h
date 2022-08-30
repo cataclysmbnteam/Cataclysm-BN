@@ -110,6 +110,8 @@ struct mutation_branch {
         int bodytemp_min = 0;
         int bodytemp_max = 0;
         int bodytemp_sleep = 0;
+        // Pain Recovery per turn:
+        float pain_recovery = 0.0f;
         // Healing per turn
         float healing_awake = 0.0f;
         float healing_resting = 0.0f;
