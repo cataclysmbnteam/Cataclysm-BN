@@ -13,6 +13,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "morale_types.h"
 
 static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 
@@ -248,7 +249,6 @@ TEST_CASE( "fun for food eaten too often", "[fun_for][food][monotony]" )
 TEST_CASE( "fun for bionic bio taste blocker", "[fun_for][food][bionic]" )
 {
     avatar dummy;
-    std::pair<int, int> actual_fun;
 
     GIVEN( "food that tastes bad" ) {
         item garlic( "garlic" );
@@ -268,8 +268,8 @@ TEST_CASE( "fun for bionic bio taste blocker", "[fun_for][food][bionic]" )
                 REQUIRE_FALSE( dummy.get_power_level() > units::from_kilojoule( std::abs( garlic_fun ) ) );
 
                 THEN( "the bad taste remains" ) {
-                    actual_fun = dummy.fun_for( garlic );
-                    CHECK( actual_fun.first == garlic_fun );
+                    dummy.eat( garlic );
+                    CHECK( dummy.get_morale( MORALE_FOOD_BAD ) == garlic_fun );
                 }
             }
 
@@ -279,8 +279,8 @@ TEST_CASE( "fun for bionic bio taste blocker", "[fun_for][food][bionic]" )
                 REQUIRE( dummy.get_power_level() > units::from_kilojoule( std::abs( garlic_fun ) ) );
 
                 THEN( "the bad taste is nullified" ) {
-                    actual_fun = dummy.fun_for( garlic );
-                    CHECK( actual_fun.first == 0 );
+                    dummy.eat( garlic );
+                    CHECK( dummy.get_morale( MORALE_FOOD_BAD ) == 0 );
                 }
             }
         }
