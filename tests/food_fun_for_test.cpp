@@ -108,6 +108,17 @@ TEST_CASE( "fun for cat food", "[fun_for][food][cat][feline]" )
                 actual_fun = dummy.fun_for( catfood );
                 CHECK( actual_fun.first > 0 );
             }
+
+            WHEN( "cat food is rotten" ) {
+                // food rot > 1.0 is rotten
+                catfood.set_relative_rot( 1.5 );
+                REQUIRE( catfood.rotten() );
+
+                THEN( "they dislike rotten cat food" ) {
+                    actual_fun = dummy.fun_for( catfood );
+                    CHECK( actual_fun.first < 0 );
+                }
+            }
         }
     }
 }
@@ -138,6 +149,17 @@ TEST_CASE( "fun for dog food", "[fun_for][food][dog][lupine]" )
             THEN( "they like dog food" ) {
                 actual_fun = dummy.fun_for( dogfood );
                 CHECK( actual_fun.first > 0 );
+            }
+
+            WHEN( "dog food is rotten" ) {
+                // food rot > 1.0 is rotten
+                dogfood.set_relative_rot( 1.5 );
+                REQUIRE( dogfood.rotten() );
+
+                THEN( "they dislike rotten dog food" ) {
+                    actual_fun = dummy.fun_for( dogfood );
+                    CHECK( actual_fun.first < 0 );
+                }
             }
         }
     }
@@ -280,7 +302,7 @@ TEST_CASE( "fun for bionic bio taste blocker", "[fun_for][food][bionic]" )
 
                 THEN( "the bad taste is nullified" ) {
                     dummy.eat( garlic );
-                    CHECK( dummy.get_morale( MORALE_FOOD_BAD ) == 0 );
+                    CHECK( !dummy.get_morale( MORALE_FOOD_BAD ) );
                 }
             }
         }

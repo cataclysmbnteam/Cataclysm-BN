@@ -469,26 +469,27 @@ std::pair<int, int> Character::fun_for( const item &comest ) const
     }
 
     // As float to avoid rounding too many times
-    float fun;
+    float fun = comest.get_comestible_fun();
     float fun_max;
-    // Rotten food should be pretty disgusting
+
+    // Lupines/Felines like dog/cat food. Won't skip the rotting check.
+    // This is specifically so that Lupines/Felines don't get the harsher
+    //    morale penalties from rotting cat/dog food.
+    if( ( comest.has_flag( flag_LUPINE ) && has_trait( trait_THRESH_LUPINE ) ) ||
+        ( comest.has_flag( flag_FELINE ) && has_trait( trait_THRESH_FELINE ) ) ) {
+        if( fun < 0 ) {
+            fun = -fun / 2;
+        }
+    }
+
     const float relative_rot = comest.get_relative_rot();
+
     if( relative_rot > 1.0f && !has_trait( trait_SAPROPHAGE ) && !has_trait( trait_SAPROVORE ) ) {
-        // The same as eating raw meat as a normal human being.
-        // If it tastes worse unrotten, go with that instead.
-        fun = std::min( comest.get_comestible_fun(), -10 );
+        // Rotten food should be pretty disgusting.
+        // Baseline minumum is the same as eating raw meat as a normal human being.
+        fun = std::min( fun - 5, -10.0f );
         fun_max = fun * 6;
     } else {
-        fun = comest.get_comestible_fun();
-
-        if( ( comest.has_flag( flag_LUPINE ) && has_trait( trait_THRESH_LUPINE ) ) ||
-            ( comest.has_flag( flag_FELINE ) && has_trait( trait_THRESH_FELINE ) ) ) {
-            if( fun < 0 ) {
-                fun = -fun;
-                fun /= 2;
-            }
-        }
-
         // Food is less enjoyable when eaten too often.
         if( fun > 0 || comest.has_flag( flag_NEGATIVE_MONOTONY_OK ) ) {
             for( const consumption_event &event : consumption_history->elems ) {
