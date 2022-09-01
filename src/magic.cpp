@@ -1436,7 +1436,10 @@ int known_magic::max_mana( const Character &guy ) const
     float mut_add = guy.mutation_value( "mana_modifier" );
     int natural_cap = std::max( 0.0f, ( ( mana_base + int_bonus ) * mut_mul ) + mut_add );
 
-    int bp_penalty = units::to_kilojoule( guy.get_power_level() );
+    int bp_penalty = std::round( std::max( 0.0f,
+                                           units::to_kilojoule( guy.get_power_level() ) *
+                                           guy.mutation_value( "bionic_mana_penalty" )
+                                         ) );
     int ench_bonus = guy.bonus_from_enchantments( natural_cap, enchant_vals::mod::MANA_CAP, true );
 
     return std::max( 0, natural_cap - bp_penalty + ench_bonus );
