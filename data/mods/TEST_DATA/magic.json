@@ -120,5 +120,16 @@
     "base_casting_time": 100,
     "base_energy_cost": 100,
     "energy_source": "MANA"
+  },
+  {
+    "id": "TEST_BIO_MANA_COMPAT",
+    "type": "mutation",
+    "name": { "str": "Debug mana compat" },
+    "points": 1,
+    "starting_trait": true,
+    "purifiable": true,
+    "valid": true,
+    "description": "Debug mutation.",
+    "bionic_mana_penalty": 0.5
   }
 ]

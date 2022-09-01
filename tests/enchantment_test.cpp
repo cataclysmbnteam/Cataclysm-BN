@@ -473,6 +473,7 @@ struct mana_test_case {
     int idx;
     int intellect;
     units::energy power_level;
+    bool has_mut;
     int norm_cap;
     int exp_cap;
     double norm_regen_amt_8h;
@@ -480,12 +481,17 @@ struct mana_test_case {
 };
 
 static const std::vector<mana_test_case> mana_test_data = {{
-        {0, 8, 0_kJ, 1000, 800, 1000.0, 560.0},
-        {1, 12, 0_kJ, 1400, 1080, 1400.0, 686.0},
-        {2, 8, 250_kJ, 750, 450, 750.0, 385.0},
-        {3, 12, 250_kJ, 1150, 830, 1150.0, 581.0},
-        {4, 8, 1250_kJ, 0, 0, 0.0, 0.0},
-        {5, 16, 1250_kJ, 550, 110, 550.0, 77.0},
+        {0, 8, 0_kJ, false, 1000, 800, 1000.0, 560.0},
+        {1, 12, 0_kJ, false, 1400, 1080, 1400.0, 686.0},
+        {2, 8, 250_kJ, false, 750, 450, 750.0, 385.0},
+        {3, 12, 250_kJ, false, 1150, 830, 1150.0, 581.0},
+        {4, 8, 1250_kJ, false, 0, 0, 0.0, 0.0},
+        {5, 16, 1250_kJ, false, 550, 110, 550.0, 77.0},
+        // Having the mutation halves the penalty
+        {2, 8, 500_kJ, true, 750, 450, 750.0, 385.0},
+        {3, 12, 500_kJ, true, 1150, 830, 1150.0, 581.0},
+        {4, 8, 2500_kJ, true, 0, 0, 0.0, 0.0},
+        {5, 16, 2500_kJ, true, 550, 110, 550.0, 77.0},
     }
 };
 
@@ -497,8 +503,8 @@ static void tests_mana_pool( Character &guy, const mana_test_case &t )
     guy.recalculate_enchantment_cache();
     advance_turn( guy );
 
-    guy.set_max_power_level( 2000_kJ );
-    REQUIRE( guy.get_max_power_level() == 2000_kJ );
+    guy.set_max_power_level( 20000_kJ );
+    REQUIRE( guy.get_max_power_level() == 20000_kJ );
 
     guy.set_power_level( t.power_level );
     REQUIRE( guy.get_power_level() == t.power_level );
@@ -544,6 +550,11 @@ static void tests_mana_pool_section( const mana_test_case &t )
     clear_map();
     Character &guy = get_player_character();
     clear_character( *guy.as_player(), true );
+
+    CAPTURE( t.has_mut );
+    if( t.has_mut ) {
+        guy.toggle_trait( trait_id( "TEST_BIO_MANA_COMPAT" ) );
+    }
 
     tests_mana_pool( guy, t );
 }
