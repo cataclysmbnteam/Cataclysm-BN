@@ -1893,6 +1893,9 @@ tab_direction set_skills( avatar &u, points_left &points )
         draw_scrollbar( w, selected, iContentHeight, iLines,
                         point( getmaxx( w ) - 1, 5 ), BORDER_COLOR, true );
 
+        // skill_list[cur_pos].second - 1 so the first skill is considered the first item on scrollbar.
+        // display_line - 1 and iContentHeight - 1 compensates for the offset by the prior.
+        // same application in the draw_scrolbar function later.
         calcStartPos( cur_offset, skill_list[cur_pos].second - 1, iContentHeight - 1, display_line - 1 );
         current_category = skill_displayType_id::NULL_ID();
         for( int i = 0; i < num_skills && skill_list[i].second - cur_offset - 1 < iContentHeight; ++i ) {
