@@ -1871,10 +1871,12 @@ void vehicle::use_bike_rack( int part )
 // Handles interactions with a vehicle in the examine menu.
 void vehicle::interact_with( const tripoint &pos, int interact_part )
 {
+    avatar &you = get_avatar();
+    map &here = get_map();
     std::vector<std::string> menu_items;
     std::vector<uilist_entry> options_message;
-    const bool has_items_on_ground = g->m.sees_some_items( pos, g->u );
-    const bool items_are_sealed = g->m.has_flag( "SEALED", pos );
+    const bool has_items_on_ground = here.sees_some_items( pos, g->u );
+    const bool items_are_sealed = here.has_flag( "SEALED", pos );
 
     auto turret = turret_query( pos );
 
@@ -2003,7 +2005,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         choice = selectmenu.ret;
     }
     if( choice != EXAMINE && choice != TRACK && choice != GET_ITEMS_ON_GROUND ) {
-        if( !handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+        if( !handle_potential_theft( you ) ) {
             return;
         }
     }
@@ -2015,7 +2017,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         auto capacity = pseudo.ammo_capacity( true );
         auto qty = capacity - discharge_battery( capacity );
         pseudo.ammo_set( itype_battery, qty );
-        g->u.invoke_item( &pseudo );
+        you.invoke_item( &pseudo );
         charge_battery( pseudo.ammo_remaining() );
         return true;
     };
@@ -2043,11 +2045,11 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             return;
         }
         case USE_TOWEL: {
-            iuse::towel_common( &g->u, nullptr, false );
+            iuse::towel_common( &you, nullptr, false );
             return;
         }
         case USE_AUTOCLAVE: {
-            iexamine::autoclave_empty( get_avatar(), pos );
+            iexamine::autoclave_empty( you, pos );
             return;
         }
         case USE_WASHMACHINE: {
@@ -2059,14 +2061,14 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             return;
         }
         case FILL_CONTAINER: {
-            character_funcs::siphon( get_player_character(), *this, itype_water_clean );
+            character_funcs::siphon( you, *this, itype_water_clean );
             return;
         }
         case DRINK: {
             item water( itype_water_clean, calendar::start_of_cataclysm );
-            if( g->u.eat( water ) ) {
+            if( you.eat( water ) ) {
                 drain( itype_water_clean, 1 );
-                g->u.moves -= 250;
+                you.moves -= 250;
             }
             return;
         }
@@ -2074,7 +2076,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             if( veh_tool( itype_welder ) ) {
                 // HACK: Evil hack incoming
                 activity_handlers::repair_activity_hack::patch_activity_for_vehicle_welder(
-                    g->u.activity,
+                    you.activity,
                     pos, *this, interact_part
                 );
             }
@@ -2109,15 +2111,15 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         }
         case UNLOAD_TURRET: {
             item_location loc = turret.base();
-            g->unload( loc );
+            you.unload( loc );
             return;
         }
         case RELOAD_TURRET: {
-            item::reload_option opt = g->u.select_ammo( *turret.base(), true );
+            item::reload_option opt = you.select_ammo( *turret.base(), true );
             if( opt ) {
-                g->u.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
-                g->u.activity.targets.emplace_back( turret.base() );
-                g->u.activity.targets.push_back( std::move( opt.ammo ) );
+                you.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
+                you.activity.targets.emplace_back( turret.base() );
+                you.activity.targets.push_back( std::move( opt.ammo ) );
             }
             return;
         }

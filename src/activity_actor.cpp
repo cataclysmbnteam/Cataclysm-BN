@@ -167,7 +167,7 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
         if( reload_requested ) {
             // Reload the gun / select different arrows
             // May assign ACT_RELOAD
-            g->reload_wielded( true );
+            avatar_action::reload_wielded( true );
         }
         return;
     }
@@ -1029,6 +1029,80 @@ std::unique_ptr<activity_actor> stash_activity_actor::deserialize( JsonIn &jsin 
     return actor.clone();
 }
 
+void throw_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    // Make copies of relevant values since the class would
+    // not be available after act.set_to_null()
+    item_location target = target_loc;
+    cata::optional<tripoint> blind_throw_pos = blind_throw_from_pos;
+
+    // Stop the activity. Whether we will or will not throw doesn't matter.
+    act.set_to_null();
+
+    if( !who.is_avatar() ) {
+        // Sanity check
+        debugmsg( "ACT_THROW is not applicable for NPCs." );
+        return;
+    }
+
+    // Shift our position to our "peeking" position, so that the UI
+    // for picking a throw point lets us target the location we couldn't
+    // otherwise see.
+    const tripoint original_player_position = who.pos();
+    if( blind_throw_pos ) {
+        who.setpos( *blind_throw_pos );
+    }
+
+    target_handler::trajectory trajectory = target_handler::mode_throw( *who.as_avatar(), *target,
+                                            blind_throw_pos.has_value() );
+
+    // If we previously shifted our position, put ourselves back now that we've picked our target.
+    if( blind_throw_pos ) {
+        who.setpos( original_player_position );
+    }
+
+    if( trajectory.empty() ) {
+        return;
+    }
+
+    if( &*target != &who.weapon ) {
+        // This is to represent "implicit offhand wielding"
+        int extra_cost = who.item_handling_cost( *target, true, INVENTORY_HANDLING_PENALTY / 2 );
+        who.mod_moves( -extra_cost );
+    }
+
+    item thrown = *target.get_item();
+    if( target->count_by_charges() && target->charges > 1 ) {
+        target->mod_charges( -1 );
+        thrown.charges = 1;
+    } else {
+        target.remove_item();
+    }
+    who.as_player()->throw_item( trajectory.back(), thrown, blind_throw_pos );
+}
+
+void throw_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "target_loc", target_loc );
+    jsout.member( "blind_throw_from_pos", blind_throw_from_pos );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> throw_activity_actor::deserialize( JsonIn &jsin )
+{
+    throw_activity_actor actor;
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "target_loc", actor.target_loc );
+    data.read( "blind_throw_from_pos", actor.blind_throw_from_pos );
+
+    return actor.clone();
+}
+
 void wash_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
@@ -1068,6 +1142,7 @@ deserialize_functions = {
     { activity_id( "ACT_OPEN_GATE" ), &open_gate_activity_actor::deserialize },
     { activity_id( "ACT_PICKUP" ), &pickup_activity_actor::deserialize },
     { activity_id( "ACT_STASH" ), &stash_activity_actor::deserialize },
+    { activity_id( "ACT_THROW" ), &throw_activity_actor::deserialize },
     { activity_id( "ACT_WASH" ), &wash_activity_actor::deserialize },
 };
 } // namespace activity_actors
