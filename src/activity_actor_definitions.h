@@ -37,6 +37,8 @@ class aim_activity_actor : public activity_actor
         bool aborted = false;
         /** RELOAD_AND_SHOOT weapon is kept loaded by the activity */
         bool loaded_RAS_weapon = false;
+        /** if true abort if no targets are available when re-entering aiming ui after shooting */
+        bool abort_if_no_targets = false;
         /**
          * Target UI requested to abort aiming and reload weapon
          * Implies aborted = true

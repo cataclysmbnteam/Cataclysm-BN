@@ -1521,6 +1521,11 @@ void options_manager::add_options_interface()
          true
        );
 
+    add( "AIM_AFTER_FIRING", "interface", to_translation( "Reaim after firing" ),
+         to_translation( "If true, after firing automatically aim again if targets are available." ),
+         true
+       );
+
     add( "QUERY_KEYBIND_REMOVAL", "interface", translate_marker( "Query on keybinding removal" ),
          translate_marker( "If true, will query before removing a keybinding from a hotkey." ),
          true
