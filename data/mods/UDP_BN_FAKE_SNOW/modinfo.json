@@ -1,0 +1,11 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "UDP_BN_FAKE_SNOW",
+    "name": "MSX Fake Snow",
+    "authors": [ "SomeDeadGuy" ],
+    "description": "Covers outdoor tiles with fake snow graphics.",
+    "category": "graphical",
+    "dependencies": [ "dda" ]
+  }
+]
