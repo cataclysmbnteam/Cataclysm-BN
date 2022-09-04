@@ -757,5 +757,13 @@
     "suspendable": false,
     "based_on": "neither",
     "no_resume": true
+  },
+  {
+    "id": "ACT_THROW",
+    "type": "activity_type",
+    "verb": "throwing",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
   }
 ]

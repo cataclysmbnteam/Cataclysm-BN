@@ -470,57 +470,54 @@ std::pair<int, int> Character::fun_for( const item &comest ) const
 
     // As float to avoid rounding too many times
     float fun = comest.get_comestible_fun();
-    // Rotten food should be pretty disgusting
-    const float relative_rot = comest.get_relative_rot();
-    if( relative_rot > 1.0f && !has_trait( trait_SAPROPHAGE ) && !has_trait( trait_SAPROVORE ) ) {
-        fun -= 10;
-        if( fun > 0 ) {
-            fun *= 0.5f;
-        } else {
-            fun *= 2.0f;
-        }
-    }
+    float fun_max;
 
-    // Food is less enjoyable when eaten too often.
-    if( fun > 0 || comest.has_flag( flag_NEGATIVE_MONOTONY_OK ) ) {
-        for( const consumption_event &event : consumption_history->elems ) {
-            if( event.time > calendar::turn - 2_days && event.type_id == comest.typeId() &&
-                event.component_hash == comest.make_component_hash() ) {
-                fun -= comest.get_comestible()->monotony_penalty;
-                // This effect can't drop fun below 0, unless the food has the right flag.
-                // 0 is the lowest we'll go, no need to keep looping.
-                if( fun <= 0 && !comest.has_flag( flag_NEGATIVE_MONOTONY_OK ) ) {
-                    fun = 0;
-                    break;
-                }
-            }
-        }
-    }
-
-    float fun_max = fun < 0 ? fun * 6 : fun * 3;
-
+    // Lupines/Felines like dog/cat food. Won't skip the rotting check.
+    // This is specifically so that Lupines/Felines don't get the harsher
+    //    morale penalties from rotting cat/dog food.
     if( ( comest.has_flag( flag_LUPINE ) && has_trait( trait_THRESH_LUPINE ) ) ||
         ( comest.has_flag( flag_FELINE ) && has_trait( trait_THRESH_FELINE ) ) ) {
         if( fun < 0 ) {
-            fun = -fun;
-            fun /= 2;
+            fun = -fun / 2;
         }
     }
 
-    if( has_trait( trait_GOURMAND ) ) {
-        if( fun < -1 ) {
-            fun_max = fun;
-            fun /= 2;
-        } else if( fun > 0 ) {
-            fun_max *= 3;
-            fun = fun * 3 / 2;
-        }
-    }
+    const float relative_rot = comest.get_relative_rot();
 
-    if( has_active_bionic( bio_taste_blocker ) && comest.get_comestible_fun() < 0 &&
-        get_power_level() > units::from_kilojoule( -comest.get_comestible_fun() ) &&
-        fun < 0 ) {
-        fun = 0;
+    if( relative_rot > 1.0f && !has_trait( trait_SAPROPHAGE ) && !has_trait( trait_SAPROVORE ) ) {
+        // Rotten food should be pretty disgusting.
+        // Baseline minumum is the same as eating raw meat as a normal human being.
+        fun = std::min( fun - 5, -10.0f );
+        fun_max = fun * 6;
+    } else {
+        // Food is less enjoyable when eaten too often.
+        if( fun > 0 || comest.has_flag( flag_NEGATIVE_MONOTONY_OK ) ) {
+            for( const consumption_event &event : consumption_history->elems ) {
+                if( event.time > calendar::turn - 2_days && event.type_id == comest.typeId() &&
+                    event.component_hash == comest.make_component_hash() ) {
+                    fun -= comest.get_comestible()->monotony_penalty;
+                    // This effect can't drop fun below 0, unless the food has the right flag.
+                    // 0 is the lowest we'll go, no need to keep looping.
+                    if( fun <= 0 && !comest.has_flag( flag_NEGATIVE_MONOTONY_OK ) ) {
+                        fun = 0;
+                        break;
+                    }
+                }
+            }
+        }
+
+        fun_max = fun < 0 ? fun * 6 : fun * 3;
+
+        // I'd assume since gourmands are just big eaters they still can't stand rotten food.
+        if( has_trait( trait_GOURMAND ) ) {
+            if( fun < -1 ) {
+                fun_max = fun;
+                fun /= 2;
+            } else if( fun > 0 ) {
+                fun_max *= 3;
+                fun = fun * 3 / 2;
+            }
+        }
     }
 
     return { static_cast< int >( fun ), static_cast< int >( fun_max ) };
@@ -951,10 +948,6 @@ bool player::eat( item &food, bool force )
         use_charges( food.get_comestible()->tool, 1 );
     }
 
-    if( has_active_bionic( bio_taste_blocker ) ) {
-        mod_power_level( units::from_kilojoule( std::min( 0, food.get_comestible_fun() ) ) );
-    }
-
     if( food.has_flag( flag_FUNGAL_VECTOR ) && !has_trait( trait_M_IMMUNE ) ) {
         add_effect( effect_fungus, 1_turns, num_bp );
     }
@@ -1076,8 +1069,13 @@ void Character::modify_morale( item &food, int nutr )
 
     std::pair<int, int> fun = fun_for( food );
     if( fun.first < 0 ) {
-        add_morale( MORALE_FOOD_BAD, fun.first, fun.second, morale_time, morale_time / 2, false,
-                    food.type );
+        if( has_active_bionic( bio_taste_blocker ) &&
+            get_power_level() > units::from_kilojoule( -fun.first ) ) {
+            mod_power_level( units::from_kilojoule( std::min( 0, fun_for( food ).first ) ) );
+        } else {
+            add_morale( MORALE_FOOD_BAD, fun.first, fun.second, morale_time, morale_time / 2, false,
+                        food.type );
+        }
     } else if( fun.first > 0 ) {
         add_morale( MORALE_FOOD_GOOD, fun.first, fun.second, morale_time, morale_time / 2, false,
                     food.type );
@@ -1251,24 +1249,6 @@ bool Character::consume_effects( item &food )
     }
 
     return true;
-}
-
-hint_rating Character::rate_action_eat( const item &it ) const
-{
-    if( !can_consume( it ) ) {
-        return hint_rating::cant;
-    }
-
-    const auto rating = will_eat( it );
-    if( rating.success() ) {
-        return hint_rating::good;
-    } else if( rating.value() == edible_rating::inedible ||
-               rating.value() == edible_rating::inedible_mutation ) {
-
-        return hint_rating::cant;
-    }
-
-    return hint_rating::iffy;
 }
 
 bool Character::can_feed_reactor_with( const item &it ) const

@@ -7,7 +7,7 @@
 #include <vector>
 
 #include "avatar.h"
-#include "game.h"
+#include "avatar_action.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
@@ -50,5 +50,5 @@ TEST_CASE( "reload_on_vehicle_cargo", "[magazine] [visitable] [item] [item_locat
     item_location item_on_vehicle = item_location( vc, const_cast<item *>( it ) );
     REQUIRE( item_on_vehicle );
 
-    g->reload( item_on_vehicle, false, false );
+    avatar_action::reload( item_on_vehicle, false, false );
 }

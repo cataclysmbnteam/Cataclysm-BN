@@ -4785,7 +4785,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 
 void activity_handlers::study_spell_do_turn( player_activity *act, player *p )
 {
-    if( character_funcs::can_see_fine_details( *p ) ) {
+    if( !character_funcs::can_see_fine_details( *p ) ) {
         act->values[2] = -1;
         act->moves_left = 0;
         return;

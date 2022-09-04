@@ -1598,7 +1598,7 @@ bool salvage_actor::try_to_cut_up( player &p, item &it ) const
     // There must be some historical significance to these items.
     if( !it.is_salvageable() ) {
         add_msg( m_info, _( "Can't salvage anything from %s." ), it.tname() );
-        if( p.rate_action_disassemble( it ) != hint_rating::cant ) {
+        if( recipe_dictionary::get_uncraft( it.typeId() ) ) {
             add_msg( m_info, _( "Try disassembling the %s instead." ), it.tname() );
         }
         return false;
@@ -2987,7 +2987,7 @@ int ammobelt_actor::use( player &p, item &, bool, const tripoint & ) const
     item mag( belt );
     mag.ammo_unset();
 
-    if( p.rate_action_reload( mag ) != hint_rating::good ) {
+    if( !p.can_reload( mag ) ) {
         p.add_msg_if_player( _( "Insufficient ammunition to assemble %s" ), mag.tname() );
         return 0;
     }

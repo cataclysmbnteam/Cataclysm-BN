@@ -608,21 +608,6 @@ class game
 
         void draw_trail_to_square( const tripoint &t, bool bDrawX );
 
-        enum inventory_item_menu_positon {
-            RIGHT_TERMINAL_EDGE,
-            LEFT_OF_INFO,
-            RIGHT_OF_INFO,
-            LEFT_TERMINAL_EDGE,
-        };
-        int inventory_item_menu( item_location locThisItem,
-        const std::function<int()> &startx = []() {
-            return 0;
-        },
-        const std::function<int()> &width = []() {
-            return 50;
-        },
-        inventory_item_menu_positon position = RIGHT_OF_INFO );
-
         /** Custom-filtered menu for inventory and nearby items and those that within specified radius */
         item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
                                       const std::string &none_message = "" );
@@ -833,19 +818,10 @@ class game
         void drop_in_direction(); // Drop w/ direction  'D'
 
         void butcher(); // Butcher a corpse  'B'
-
-        // TODO: Remove this public, it's only for debug...
     public:
-        void reload( item_location &loc, bool prompt = false, bool empty = true );
-    public:
-        void reload_item(); // Reload an item
-        void reload_wielded( bool prompt = false );
-        void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
         point place_player( const tripoint &dest );
         void place_player_overmap( const tripoint_abs_omt &om_dest );
-
-        bool unload( item_location loc ); // Unload a gun/tool  'U'
 
         unsigned int get_seed() const;
 
@@ -861,9 +837,6 @@ class game
         std::vector<std::string> get_dangerous_tile( const tripoint &dest_loc ) const;
         bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
     private:
-        void wield();
-        void wield( item_location &loc );
-
         void chat(); // Talk to a nearby NPC  'C'
 
         // Internal methods to show "look around" info

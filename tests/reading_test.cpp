@@ -11,7 +11,6 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "character_functions.h"
-#include "game.h"
 #include "item.h"
 #include "itype.h"
 #include "map.h"
@@ -402,7 +401,7 @@ TEST_CASE( "Losing book during reading", "[reading][book]" )
     clear_map();
     clear_avatar();
     set_time( calendar::turn_zero + 12_hours );
-    avatar &u = g->u;
+    avatar &u = get_avatar();
     SECTION( "Book in inventory" ) {
         item &alpha = u.i_add( item( "novel_western" ) );
         item_location loc( u, &alpha );
@@ -410,14 +409,14 @@ TEST_CASE( "Losing book during reading", "[reading][book]" )
     }
 
     SECTION( "Book below player" ) {
-        item &alpha = g->m.add_item( u.pos(), item( "novel_western" ) );
+        item &alpha = get_map().add_item( u.pos(), item( "novel_western" ) );
         REQUIRE( !alpha.is_null() );
         item_location loc( map_cursor( u.pos() ), &alpha );
         destroyed_book_test_helper( u, loc );
     }
 
     SECTION( "Book in car" ) {
-        vehicle *veh = g->m.add_vehicle( vproto_id( "car" ), u.pos(), 0_degrees, 0, 0 );
+        vehicle *veh = get_map().add_vehicle( vproto_id( "car" ), u.pos(), 0_degrees, 0, 0 );
         REQUIRE( veh != nullptr );
         int part = veh->part_with_feature( point_zero, "CARGO", true );
         REQUIRE( part >= 0 );
