@@ -379,6 +379,14 @@ std::string recipe::get_consistency_error() const
         return "specifies charges but result is not counted by charges";
     }
 
+    if( charges && result_mult != 1 ) {
+        return "specifies both charges and result_mult";
+    }
+
+    if( result_mult != 1 && reversible ) {
+        return "is reversible, so can't use result_mult";
+    }
+
     const auto is_invalid_bp = []( const std::pair<itype_id, int> &elem ) {
         return !elem.first.is_valid();
     };
