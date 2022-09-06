@@ -70,6 +70,8 @@ static const double min_ratio_to_center = 0.85;
 /** These categories should keep their original order and can't be re-sorted by inventory presets */
 static const std::set<std::string> ordered_categories = {{ "ITEMS_WORN" }};
 
+static const item_category_id item_category_IMPLIED( "IMPLIED" );
+
 constexpr int max_chosen_count = std::numeric_limits<int>::max();
 
 struct navigation_mode_data {
@@ -1020,6 +1022,18 @@ void selection_column_base::prepare_paging( const std::string &filter )
     if( entries.empty() ) { // Category must always persist
         entries.emplace_back( &*selected_cat );
         expand_to_fit( entries.back() );
+    }
+
+    // Prepend entries by their category
+    item_category_id last_category;
+    for( auto iter = entries.begin(); iter != entries.end(); iter++ ) {
+        const item_category_id entry_category_id = iter->get_category_ptr()->get_id();
+        if( iter->is_category() ) {
+            last_category = entry_category_id;
+        } else if( entry_category_id != last_category ) {
+            iter = entries.insert( iter, iter->get_category_ptr() );
+            last_category = entry_category_id;
+        }
     }
 
     reselect_last();
@@ -1983,7 +1997,6 @@ inventory_multiselector::inventory_multiselector( player &p,
         const std::string &selection_column_title ) :
     inventory_multiselector( p, preset,
                              std::make_unique<single_category_selection_column>( "SELECTION_COLUMN", selection_column_title ) )
-
 {
 }
 
@@ -1999,7 +2012,7 @@ inventory_multiselector::inventory_multiselector( player &p,
     for( auto &elem : get_all_columns() ) {
         elem->set_multiselect( true );
     }
-    append_column( *selection_col );
+    append_column( *this->selection_col );
 }
 
 void inventory_multiselector::rearrange_columns( size_t client_width )
@@ -2198,10 +2211,19 @@ inventory_selector::stats inventory_iuse_selector::get_raw_stats() const
 
 inventory_drop_selector::inventory_drop_selector( player &p,
         const caching_drop_preset &preset ) :
-    inventory_multiselector( p, preset, _( "ITEMS TO DROP" ) ),
-    caching_preset( preset ),
-    // TODO: Better name
-    implied_cat( "IMPLIED", translation::to_translation( "inventory category", "implied" ), 0 )
+    inventory_multiselector( p,
+                             preset,
+                             std::make_unique<multicategory_selection_column>( "SELECTION_COLUMN", _( "ITEMS TO DROP" ),
+                                     std::set<item_category_id>
+{
+    item_category_IMPLIED
+} ) ),
+caching_preset( preset ),
+// TODO: Better name
+implied_cat( item_category_IMPLIED,
+             // TODO: Good name for the category
+             translation::to_translation( "inventory category", "IMPLIED DROPS" ),
+             1000 )
 {
 #if defined(__ANDROID__)
     // allow user to type a drop number without dismissing virtual keyboard after each keypress
@@ -2519,8 +2541,6 @@ void inventory_drop_selector::rebuild()
         size_t selected_count = iter_dropping != dropping.end() ?
                                 iter_dropping->second :
                                 0;
-        // sel_col.on_change( ie );
-        // on_change( ie );
 
         if( selected_count > 0 ) {
             inventory_entry only_selected = ie;
@@ -2538,10 +2558,12 @@ void inventory_drop_selector::rebuild()
         }
         refresh_active_column();
 
-        // TODO: Refresh only those which changed status
-        for( inventory_column *col : get_all_columns() ) {
-            col->clear_cell_cache();
-        }
+
+    }
+    // TODO: Refresh only those which changed status
+    for( inventory_column *col : get_all_columns() ) {
+        col->clear_cell_cache();
+        col->prepare_paging();
     }
 
 
