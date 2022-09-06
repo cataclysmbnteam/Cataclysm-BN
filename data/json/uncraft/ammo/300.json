@@ -13,6 +13,6 @@
       [ [ "gunpowder", 16 ] ],
       [ [ "copper", 4 ] ]
     ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "charges": 1
   }
 ]
