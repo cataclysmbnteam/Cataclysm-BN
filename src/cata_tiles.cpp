@@ -1376,10 +1376,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 const auto low_override = draw_below_override.find( pos );
                 const bool low_overridden = low_override != draw_below_override.end();
                 if( low_overridden ? !low_override->second :
-                    ( ( ( in_map_bounds && here.dont_draw_lower_floor( pos ) )
-                        || ( !in_map_bounds && ( has_memory_at( pos ) || pos.z <= 0 ) ) )
-                      || ( fov_3d && in_map_bounds && ll != lit_level::BLANK
-                           && here.access_cache( z - 1 ).visibility_cache[pos.x][pos.y] == lit_level::BLANK ) ) ) {
+                    ( in_map_bounds && ( here.dont_draw_lower_floor( pos ) || has_memory_at( pos ) ) )
+                    || ( !in_map_bounds && ( has_memory_at( pos ) || pos.z <= 0 ) ) ) {
                     // invisible to normal eyes
                     bool invisible[5];
                     invisible[0] = false;
@@ -1432,50 +1430,63 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         }
     }
 
-    const std::array<decltype( &cata_tiles::draw_furniture ), 4> base_drawing_layers = {{
-            &cata_tiles::draw_terrain, &cata_tiles::draw_furniture, &cata_tiles::draw_graffiti, &cata_tiles::draw_trap
-        }
-    };
-    const std::array<decltype( &cata_tiles::draw_furniture ), 3> zlevel_drawing_layers = {{
-            &cata_tiles::draw_field_or_item, &cata_tiles::draw_vpart, &cata_tiles::draw_critter_at
-        }
-    };
-    const std::array<decltype( &cata_tiles::draw_furniture ), 2> final_drawing_layers = {{
-            &cata_tiles::draw_zone_mark, &cata_tiles::draw_zombie_revival_indicators
-        }
-    };
-
     auto compare_z = [&]( tile_render_info a, tile_render_info b ) -> bool {
         return ( a.pos.z < b.pos.z );
     };
 
     std::stable_sort( draw_points.begin(), draw_points.end(), compare_z );
 
+    const std::array<decltype( &cata_tiles::draw_furniture ), 4> base_drawing_layers = {{
+            &cata_tiles::draw_terrain, &cata_tiles::draw_furniture, &cata_tiles::draw_graffiti, &cata_tiles::draw_trap
+        }
+    };
+
     for( decltype( &cata_tiles::draw_furniture ) f : base_drawing_layers ) {
-        for( auto &p : draw_points ) {
+        for( tile_render_info &p : draw_points ) {
             ( this->*f )( p.pos, p.ll, p.height_3d, p.invisible, center.z - p.pos.z );
         }
     }
+    struct zlevel_layer {
+        bool hide_unseen;
+        decltype( &cata_tiles::draw_furniture ) function;
+    };
+
+    const std::array < zlevel_layer, 3 > zlevel_drawing_layers = {{
+            {true, &cata_tiles::draw_field_or_item}, {false, &cata_tiles::draw_vpart}, {true, &cata_tiles::draw_critter_at}
+        }
+    };
 
     for( int z = min_z; z <= center.z; z++ ) {
-        for( decltype( &cata_tiles::draw_furniture ) f : zlevel_drawing_layers ) {
-            for( auto &p : draw_points ) {
+        for( const zlevel_layer &f : zlevel_drawing_layers ) {
+            for( tile_render_info &p : draw_points ) {
                 if( p.pos.z > z ) {
                     break;
                 }
-
-                ( this->*f )( {p.pos.xy(), z}, p.ll, p.height_3d, p.invisible, center.z - z );
+                const auto &ch = here.access_cache( z );
+                if( here.inbounds( p.pos ) ) {
+                    if( !f.hide_unseen || ch.visibility_cache[p.pos.x][p.pos.y] != lit_level::BLANK ) {
+                        const bool ( invis )[5] = {false, false, false, false, false};
+                        ( this->*( f.function ) )( {p.pos.xy(), z}, p.ll, p.height_3d, invis, center.z - z );
+                    }
+                } else {
+                    ( this->*( f.function ) )( {p.pos.xy(), z}, p.ll, p.height_3d, p.invisible, center.z - z );
+                }
             }
         }
     }
 
+    const std::array<decltype( &cata_tiles::draw_furniture ), 2> final_drawing_layers = {{
+            &cata_tiles::draw_zone_mark, &cata_tiles::draw_zombie_revival_indicators
+        }
+    };
+
     for( decltype( &cata_tiles::draw_furniture ) f : final_drawing_layers ) {
-        for( auto &p : draw_points ) {
+        for( tile_render_info &p : draw_points ) {
             ( this->*f )( p.pos, p.ll, p.height_3d, p.invisible, 0 );
         }
     }
     // display number of monsters to spawn in mapgen preview
-    for( const auto &p : draw_points ) {
+    for( const tile_render_info &p : draw_points ) {
         const auto mon_override = monster_override.find( p.pos );
         if( mon_override != monster_override.end() ) {
             const int count = std::get<1>( mon_override->second );
@@ -2775,7 +2786,7 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
         int rotation = 0;
         get_tile_values( tr.to_i(), neighborhood, subtile, rotation );
         const std::string trname = tr.id().str();
-        if( here.check_seen_cache( p ) ) {
+        if( here.check_seen_cache( p ) && tr != tr_ledge ) {
             g->u.memorize_tile( here.getabs( p ), trname, subtile, rotation );
         }
         // draw the actual trap if there's no override
@@ -2837,6 +2848,9 @@ bool cata_tiles::draw_graffiti( const tripoint &p, const lit_level ll, int &heig
 bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int &height_3d,
                                      const bool ( &invisible )[5], int z_drop )
 {
+    if( !fov_3d && z_drop > 0 ) {
+        return false;
+    }
     const auto fld_override = field_override.find( p );
     const bool fld_overridden = fld_override != field_override.end();
     map &here = get_map();
@@ -2976,6 +2990,9 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
 bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3d,
                                   const bool ( &invisible )[5], int z_drop )
 {
+    if( !fov_3d && z_drop > 0 ) {
+        return false;
+    }
     bool result;
     bool is_player;
     bool sees_player;
