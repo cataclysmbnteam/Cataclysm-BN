@@ -817,3 +817,16 @@ int recipe::makes_amount() const
     // return either charges * mult or 1
     return makes ? makes * result_mult : 1 ;
 }
+
+int recipe::disassembly_batch_size() const
+{
+    if( !result_->count_by_charges() ) {
+        return 1;
+    } else if( charges.has_value() ) {
+        return *charges;
+    } else if( has_flag( "UNCRAFT_SINGLE_CHARGE" ) ) {
+        return 1;
+    } else {
+        return result_->charges_default();
+    }
+}

@@ -4,6 +4,7 @@
 
 #include "activity_actor.h"
 
+#include "coordinates.h"
 #include "item_handling_util.h"
 #include "item_location.h"
 #include "memory_fast.h"
@@ -224,6 +225,40 @@ class dig_channel_activity_actor : public activity_actor
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
+class disassemble_activity_actor : public activity_actor
+{
+    private:
+        std::vector<iuse_location> targets;
+        tripoint_abs_ms pos;
+        bool recursive = false;
+
+    public:
+        disassemble_activity_actor() = default;
+        disassemble_activity_actor(
+            std::vector<iuse_location> &&targets,
+            tripoint_abs_ms pos,
+            bool recursive
+        ) : targets( std::move( targets ) ), pos( pos ), recursive( recursive ) {}
+        ~disassemble_activity_actor() = default;
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_DISASSEMBLE" );
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &, Character & ) override {};
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<disassemble_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+
+        bool try_start_single( player_activity &act, Character &who );
 };
 
 class drop_activity_actor : public activity_actor

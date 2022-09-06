@@ -57,6 +57,7 @@
 #include "construction.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
+#include "crafting.h"
 #include "creature_tracker.h"
 #include "cursesport.h"
 #include "damage.h"
@@ -8432,7 +8433,7 @@ void game::butcher()
             if( ( salvage_tool_index != INT_MIN ) && salvage_iuse->valid_to_cut_up( *it ) ) {
                 salvageables.push_back( it );
             }
-            if( u.can_disassemble( *it, crafting_inv ).success() ) {
+            if( crafting::can_disassemble( u, *it, crafting_inv ).success() ) {
                 disassembles.push_back( it );
             } else if( !first_item_without_tools ) {
                 first_item_without_tools = &*it;
@@ -8455,7 +8456,7 @@ void game::butcher()
         if( first_item_without_tools ) {
             add_msg( m_info, _( "You don't have the necessary tools to disassemble any items here." ) );
             // Just for the "You need x to disassemble y" messages
-            const auto ret = u.can_disassemble( *first_item_without_tools, crafting_inv );
+            const auto ret = crafting::can_disassemble( u, *first_item_without_tools, crafting_inv );
             if( !ret.success() ) {
                 add_msg( m_info, "%s", ret.c_str() );
             }
@@ -8585,10 +8586,10 @@ void game::butcher()
                     }
                     break;
                 case MULTIDISASSEMBLE_ONE:
-                    u.disassemble_all( true );
+                    crafting::disassemble_all( u, false );
                     break;
                 case MULTIDISASSEMBLE_ALL:
-                    u.disassemble_all( false );
+                    crafting::disassemble_all( u, true );
                     break;
                 default:
                     debugmsg( "Invalid butchery type: %d", indexer_index );
@@ -8603,7 +8604,7 @@ void game::butcher()
         case BUTCHER_DISASSEMBLE: {
             // Pick index of first item in the disassembly stack
             item *const target = &*disassembly_stacks[indexer_index].first;
-            u.disassemble( item_location( map_cursor( u.pos() ), target ), true );
+            crafting::disassemble( u, item_location( map_cursor( u.pos() ), target ) );
         }
         break;
         case BUTCHER_SALVAGE: {
