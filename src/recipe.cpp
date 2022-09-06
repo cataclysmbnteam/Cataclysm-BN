@@ -352,6 +352,28 @@ void recipe::finalize()
             autolearn_requirements[ skill_used ] = difficulty;
         }
     }
+
+    {
+        auto it = flags.find( "UNCRAFT_SINGLE_CHARGE" );
+        if( it != flags.end() ) {
+            flags.erase( it );
+            charges = 1;
+            if( json_report_strict || !result_->count_by_charges() ) {
+                debugmsg( "recipe %s uses obsolete flag UNCRAFT_SINGLE_CHARGE, replace with \"charges\": 1",
+                          ident() );
+            }
+        }
+    }
+    {
+        auto it = flags.find( "UNCRAFT_BY_QUANTITY" );
+        if( it != flags.end() ) {
+            flags.erase( it );
+            if( json_report_strict ) {
+                debugmsg( "recipe %s uses obsolete flag UNCRAFT_BY_QUANTITY",
+                          ident() );
+            }
+        }
+    }
 }
 
 void recipe::add_requirements( const std::vector<std::pair<requirement_id, int>> &reqs )
@@ -824,8 +846,6 @@ int recipe::disassembly_batch_size() const
         return 1;
     } else if( charges.has_value() ) {
         return *charges;
-    } else if( has_flag( "UNCRAFT_SINGLE_CHARGE" ) ) {
-        return 1;
     } else {
         return result_->charges_default();
     }
