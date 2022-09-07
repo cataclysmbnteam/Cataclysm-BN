@@ -125,7 +125,7 @@
         "$": "t_floor_noroof"
       },
       "furniture": { "!": "f_table", "$": "f_table" },
-      "place_loot": [ { "item": "television", "x": 8, "y": 21 } ]
+      "place_loot": [ { "item": "television", "x": 15, "y": 2 } ]
     }
   },
   {
