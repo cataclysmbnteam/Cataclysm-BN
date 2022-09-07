@@ -47,5 +47,60 @@
       [ "crt_backpack", 8 ],
       [ "crt_laser_pistol", 1 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "army_personal_locker",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "crt_la_boots", "prob": 20 },
+      { "item": "crt_chestrig", "prob": 10 },
+      { "item": "crt_legguard", "prob": 20 },
+      { "item": "crt_armguard", "prob": 20 },
+      { "item": "crt_iduster", "prob": 10 },
+      { "item": "ds_monitor", "prob": 5 },
+      { "item": "ds_armor", "prob": 5 },
+      { "item": "army_top", "prob": 50 },
+      { "item": "crt_aarmor", "prob": 5 },
+      { "item": "crt_legrig", "prob": 20 },
+      { "item": "crt_earmor", "prob": 5 },
+      { "item": "crt_earmor_boots", "prob": 5 },
+      { "item": "crt_sarmor", "prob": 5 },
+      { "item": "crt_warmor", "prob": 5 },
+      { "item": "crt_dress_pants", "prob": 30 },
+      { "item": "crt_dress_shoes", "prob": 30 },
+      { "item": "crt_rec_gloves", "prob": 20 },
+      { "item": "crt_rec_duster", "prob": 10 },
+      { "item": "crt_rec_hat", "prob": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "military",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "crt_laser_gatling", "prob": 5 },
+      { "item": "crt_laser_carbine", "prob": 1 },
+      { "item": "crt_energy_rifle", "prob": 1 },
+      { "item": "crt_cqb_si", "prob": 3 },
+      { "item": "crt_fire_glove", "prob": 2 },
+      { "item": "pelletgun", "prob": 1 },
+      { "item": "ds_plasma_cutter", "prob": 1 },
+      { "item": "ds_rivet_gun", "prob": 10 },
+      { "item": "ds_line_gun", "prob": 2 },
+      { "item": "ds_pulse_rifle", "prob": 90 },
+      { "item": "ds_ripper", "prob": 15 },
+      { "item": "crt_canteen", "prob": 10 },
+      { "item": "crt_em_vest", "prob": 50 },
+      { "item": "crt_gasmask", "prob": 20 },
+      { "item": "crt_mess_kit", "prob": 5 },
+      { "item": "knife_crt", "prob": 5 },
+      { "item": "crt_knuckledusters", "prob": 4 },
+      { "item": "sword_crt", "prob": 146 },
+      { "item": "blade_crt", "prob": 14 },
+      { "item": "crt_hatchet", "prob": 2 },
+      { "item": "crt_etool", "prob": 7 },
+      { "item": "crt_nstick", "prob": 50 }
+    ]
   }
 ]
