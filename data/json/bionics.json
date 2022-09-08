@@ -118,7 +118,7 @@
     "id": "bio_shotgun",
     "type": "bionic",
     "name": { "str": "Shotgun Arm" },
-    "description": "Concealed in your left arm is a single shot 12 gauge shotgun.  Activate the bionic to fire and reload the shotgun.",
+    "description": "Concealed in your left arm is a 12 gauge shotgun.  Activate the bionic to fire and reload the shotgun.",
     "occupied_bodyparts": [ [ "arm_l", 15 ] ],
     "encumbrance": [ [ "arm_l", 5 ] ],
     "act_cost": "50 J",
