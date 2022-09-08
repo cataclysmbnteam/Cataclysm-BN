@@ -4,7 +4,7 @@
     "looks_like": "remington_870",
     "type": "GUN",
     "name": { "str": "bionic shotgun" },
-    "description": "Bionic one-shot retracting shotgun integrated with your arm.",
+    "description": "Bionic retracting shotgun integrated with your arm.",
     "volume": "103 ml",
     "price": 0,
     "to_hit": -2,
@@ -14,12 +14,13 @@
     "color": "magenta",
     "skill": "shotgun",
     "ammo": "shot",
-    "ranged_damage": { "damage_type": "bullet", "amount": -6 },
-    "dispersion": 855,
+    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
+    "dispersion": 500,
     "durability": 6,
-    "clip_size": 1,
+    "clip_size": 4,
+    "modes": [ [ "DEFAULT", "single shot", 1 ], [ "burst", "double", 2 ] ],
     "reload": 200,
-    "flags": [ "NEVER_JAMS", "NO_DROP", "RELOAD_EJECT", "NO_UNWIELD", "TRADER_AVOID" ]
+    "flags": [ "NEVER_JAMS", "NO_DROP", "RELOAD_EJECT", "NO_UNWIELD", "TRADER_AVOID", "RELOAD_ONE" ]
   },
   {
     "id": "bio_emp_gun",
