@@ -78,7 +78,7 @@
     "components": [ [ [ "chem_black_powder", 6 ] ] ]
   },
   {
-    "result": "rifle_huge_ball",
+    "result": "sniper_ball",
     "type": "recipe",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_RIFLE",
@@ -87,10 +87,54 @@
     "skills_required": [ "gun", 6 ],
     "time": "2 m",
     "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 5 ] ],
+    "book_learn": [ [ "recipe_bullets", 5 ], [ "mag_rifle", 6 ] ],
+    "charges": 1,
+    "using": [ [ "req_sniper", 1 ], [ "bullet_forming", 4 ], [ "ammo_bullet", 8 ] ],
+    "components": [ [ [ "gunpowder", 10 ] ], [ [ "copper", 4 ] ] ]
+  },
+  {
+    "result": "bp_sniper_ball",
+    "type": "recipe",
+    "copy-from": "sniper_ball",
+    "reversible": true,
+    "components": [ [ [ "chem_black_powder", 10 ] ], [ [ "copper", 4 ] ] ]
+  },
+  {
+    "result": "sniper_jhp",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "gun", 5 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "recipe_bullets", 4 ], [ "mag_rifle", 5 ] ],
+    "charges": 1,
+    "using": [ [ "req_sniper", 1 ], [ "bullet_forming", 4 ], [ "ammo_bullet", 8 ] ],
+    "components": [ [ [ "gunpowder", 10 ] ] ]
+  },
+  {
+    "result": "bp_sniper_jhp",
+    "type": "recipe",
+    "copy-from": "sniper_jhp",
+    "reversible": true,
+    "components": [ [ [ "chem_black_powder", 10 ] ] ]
+  },
+  {
+    "result": "rifle_huge_ball",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "skills_required": [ "gun", 7 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "recipe_bullets", 6 ] ],
     "charges": 1,
     "using": [ [ "req_rifle_huge", 1 ], [ "bullet_forming", 18 ], [ "ammo_bullet", 12 ] ],
-    "components": [ [ [ "gunpowder", 30 ] ] ]
+    "components": [ [ [ "gunpowder", 30 ] ], [ [ "copper", 6 ] ] ]
   },
   {
     "result": "bp_rifle_huge_ball",
@@ -105,11 +149,11 @@
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_RIFLE",
     "skill_used": "fabrication",
-    "difficulty": 5,
-    "skills_required": [ "gun", 5 ],
+    "difficulty": 6,
+    "skills_required": [ "gun", 6 ],
     "time": "2 m",
     "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 4 ] ],
+    "book_learn": [ [ "recipe_bullets", 5 ] ],
     "charges": 1,
     "using": [ [ "req_rifle_huge", 1 ], [ "bullet_forming", 18 ], [ "ammo_bullet", 12 ] ],
     "components": [ [ [ "gunpowder", 30 ] ] ]

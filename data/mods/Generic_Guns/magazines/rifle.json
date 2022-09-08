@@ -21,14 +21,5 @@
     "description": "A 30 round standard capacity magazine for service rifles, cheaper than the cost of a meal due to its adoption by nearly every other common rifle.  They're made of aluminum and were originally meant to be dispsoable, so they're not the most durable; don't let them get damaged.",
     "delete": { "ammo_type": "308" },
     "ammo_type": "ammo_rifle"
-  },
-  {
-    "id": "rifle_sniper_mag",
-    "copy-from": "m2010mag",
-    "type": "MAGAZINE",
-    "name": { "str": "compact rifle magazine" },
-    "description": "A short 5 round steel magazine compatible with nearly every common rifle.  Although it has a low capacity it is easy to store and quick to reload.",
-    "delete": { "ammo_type": "308" },
-    "ammo_type": "ammo_rifle"
   }
 ]

@@ -1,7 +1,7 @@
 [
   {
     "id": "pistol_tiny_casing",
-    "copy-from": "32_casing",
+    "copy-from": "22_casing",
     "type": "GENERIC",
     "name": "tiny pistol casing",
     "description": "An empty casing from a tiny pistol round."
@@ -22,10 +22,17 @@
   },
   {
     "id": "rifle_casing",
-    "copy-from": "308_casing",
+    "copy-from": "223_casing",
     "type": "GENERIC",
     "name": { "str": "rifle casing" },
     "description": "An empty casing from a rifle round."
+  },
+  {
+    "id": "sniper_casing",
+    "copy-from": "308_casing",
+    "type": "GENERIC",
+    "name": { "str": "sniper casing" },
+    "description": "An empty casing from a sniper round."
   },
   {
     "id": "rifle_huge_casing",
