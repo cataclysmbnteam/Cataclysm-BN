@@ -64,6 +64,22 @@
     "components": [ [ [ "lead", 4 ] ], [ [ "gunpowder", 6 ] ] ]
   },
   {
+    "result": "sniper_ball",
+    "copy-from": "ammo_cartridge",
+    "type": "uncraft",
+    "using": [ [ "req_sniper", 1 ] ],
+    "qualities": [ { "id": "PULL", "level": 2 } ],
+    "components": [ [ [ "lead", 8 ] ], [ [ "gunpowder", 10 ] ], [ [ "copper", 4 ] ] ]
+  },
+  {
+    "result": "sniper_jhp",
+    "copy-from": "ammo_cartridge",
+    "type": "uncraft",
+    "using": [ [ "req_sniper", 1 ] ],
+    "qualities": [ { "id": "PULL", "level": 2 } ],
+    "components": [ [ [ "lead", 8 ] ], [ [ "gunpowder", 10 ] ] ]
+  },
+  {
     "result": "rifle_huge_ball",
     "copy-from": "ammo_cartridge",
     "type": "uncraft",

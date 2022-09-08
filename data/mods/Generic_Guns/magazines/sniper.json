@@ -1,0 +1,11 @@
+[
+  {
+    "id": "rifle_sniper_mag",
+    "copy-from": "m2010mag",
+    "type": "MAGAZINE",
+    "name": { "str": "sniper magazine" },
+    "description": "A short 5 round steel magazine compatible with nearly every common rifle.  Although it has a low capacity it is easy to store and quick to reload.",
+    "delete": { "ammo_type": "308" },
+    "ammo_type": "ammo_sniper"
+  }
+]
