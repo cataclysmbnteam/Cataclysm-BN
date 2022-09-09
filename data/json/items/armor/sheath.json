@@ -129,13 +129,14 @@
     "color": "brown",
     "covers": [ "leg_either" ],
     "coverage": 15,
-    "encumbrance": 2,
+    "rigid": false,
+    "max_encumbrance": 4,
     "material_thickness": 1,
     "use_action": {
       "type": "holster",
       "holster_prompt": "Sheath sword",
       "holster_msg": "You sheath your %s",
-      "max_volume": "2 L",
+      "max_volume": "2750 ml",
       "flags": [ "SHEATH_SWORD" ]
     },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
