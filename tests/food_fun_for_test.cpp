@@ -302,7 +302,7 @@ TEST_CASE( "fun for bionic bio taste blocker", "[fun_for][food][bionic]" )
 
                 THEN( "the bad taste is nullified" ) {
                     dummy.eat( garlic );
-                    CHECK( !dummy.get_morale( MORALE_FOOD_BAD ) );
+                    CHECK( dummy.get_morale( MORALE_FOOD_BAD ) == 0 );
                 }
             }
         }
