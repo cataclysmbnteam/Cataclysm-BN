@@ -3756,9 +3756,13 @@ void ranged::prompt_select_default_ammo_for( avatar &u, const item &w )
     item::reload_option opt = u.select_ammo( w, false, true, true );
     if( opt ) {
         if( u.ammo_location && opt.ammo == u.ammo_location ) {
+            u.add_msg_if_player( _( "Cleared ammo preferences for %s." ), w.tname() );
             u.ammo_location = item_location();
-        } else {
+        } else if( u.has_item( *opt.ammo ) ) {
+            u.add_msg_if_player( _( "Selected %s as default ammo for %s." ), opt.ammo->tname(), w.tname() );
             u.ammo_location = opt.ammo;
+        } else {
+            u.add_msg_if_player( _( "You don't have that ammo on you." ) );
         }
     }
 }

@@ -201,6 +201,7 @@ void aim_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "snap_to_target", snap_to_target );
     jsout.member( "shifting_view", shifting_view );
     jsout.member( "initial_view_offset", initial_view_offset );
+    jsout.member( "loaded_RAS_weapon", loaded_RAS_weapon );
 
     jsout.end_object();
 }
@@ -220,6 +221,7 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
     data.read( "snap_to_target", actor.snap_to_target );
     data.read( "shifting_view", actor.shifting_view );
     data.read( "initial_view_offset", actor.initial_view_offset );
+    data.read( "loaded_RAS_weapon", actor.loaded_RAS_weapon );
 
     return actor.clone();
 }
@@ -258,6 +260,7 @@ bool aim_activity_actor::load_RAS_weapon()
         you.ammo_location.make_dirty();
         if( !you.ammo_location )
         {
+            you.ammo_location = item_location();
             return false;
         }
         if( !gun->can_reload_with( you.ammo_location->typeId() ) )
@@ -291,6 +294,7 @@ bool aim_activity_actor::load_RAS_weapon()
     reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
 
     you.moves -= reload_time;
+    loaded_RAS_weapon = true;
     return true;
 }
 
@@ -299,7 +303,7 @@ void aim_activity_actor::unload_RAS_weapon()
     // Unload reload-and-shoot weapons to avoid leaving bows pre-loaded with arrows
     avatar &you = get_avatar();
     item *weapon = get_weapon();
-    if( !weapon ) {
+    if( !weapon || !loaded_RAS_weapon ) {
         return;
     }
 
@@ -316,6 +320,8 @@ void aim_activity_actor::unload_RAS_weapon()
             you.moves = moves_before_unload;
         }
     }
+
+    loaded_RAS_weapon = false;
 }
 
 void autodrive_activity_actor::start( player_activity &act, Character &who )
