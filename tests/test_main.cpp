@@ -157,6 +157,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     g->u.create( character_type::NOW );
 
     g->m = map( get_option<bool>( "ZLEVELS" ) );
+    disable_mapgen = true;
 
     overmap_special_batch empty_specials( point_abs_om{} );
     overmap_buffer.create_custom_overmap( point_abs_om{}, empty_specials );
@@ -243,6 +244,7 @@ struct CataListener : Catch::TestEventListenerBase {
         TestEventListenerBase::sectionStarting( sectionInfo );
         // Initialize the cata RNG with the Catch seed for reproducible tests
         rng_set_engine_seed( m_config->rngSeed() );
+        disable_mapgen = true;
     }
 
     bool assertionEnded( Catch::AssertionStats const &assertionStats ) override {

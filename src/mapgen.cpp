@@ -338,7 +338,7 @@ class mapgen_factory
         }
         /// @see mapgen_basic_container::generate
         bool generate( mapgendata &dat, const std::string &key, const int hardcoded_weight = 0 ) const {
-            const auto iter = mapgens_.find( key );
+            const auto iter = mapgens_.find( disable_mapgen ? "test" : key );
             if( iter == mapgens_.end() ) {
                 return false;
             }
