@@ -551,6 +551,7 @@
     "material": [ "rubber", "steel" ],
     "coverage": 3,
     "rigid": true,
+    "encumbrance": 0,
     "flags": [ "POWERARMOR_MOD", "COMPACT", "WATERPROOF", "STURDY", "WAIST" ]
   },
   {

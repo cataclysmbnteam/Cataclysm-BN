@@ -130,6 +130,7 @@
     "covers": [ "leg_either" ],
     "coverage": 15,
     "rigid": false,
+    "encumbrance": 2,
     "max_encumbrance": 4,
     "material_thickness": 1,
     "use_action": {
