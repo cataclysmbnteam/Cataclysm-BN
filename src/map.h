@@ -92,6 +92,10 @@ template<typename T>
 struct weighted_int_list;
 struct rl_vec2d;
 
+
+/** Causes all generated maps to be empty grass and prevents saved maps from being loaded, used by the test suite */
+extern bool disable_mapgen;
+
 namespace cata
 {
 template <class T> class poly_serialized;

@@ -198,6 +198,10 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
         return;
     }
 
+    if( disable_mapgen ) {
+        return;
+    }
+
     // Don't create the directory if it would be empty
     assure_dir_exist( dirname );
     write_to_file( filename, [&]( std::ostream & fout ) {

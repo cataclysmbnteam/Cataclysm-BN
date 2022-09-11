@@ -9,6 +9,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "test",
+    "name": "test",
+    "sym": ".",
+    "color": "green",
+    "mapgen": [ { "method": "builtin", "name": "test" } ],
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "crater",
     "name": "crater",
     "sym": "O",
