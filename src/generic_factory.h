@@ -134,7 +134,13 @@ class generic_factory
             } while( version == INVALID_VERSION );
         }
 
+        bool _is_finalized = false;
+
     protected:
+        void set_finalized( bool val ) {
+            _is_finalized = val;
+        }
+
         std::vector<T> list;
         std::unordered_map<string_id<T>, int_id<T>> map;
         std::unordered_map<std::string, T> abstracts;
@@ -196,6 +202,13 @@ class generic_factory
               id_member_name( id_member_name ),
               alias_member_name( alias_member_name ),
               dummy_obj() {
+        }
+
+        /**
+         * Returns whether the factory has been finalized.
+         */
+        bool is_finalized() const {
+            return _is_finalized;
         }
 
         /**
@@ -358,6 +371,10 @@ class generic_factory
 
         /** Finalize all entries (derived classes should chain to this method) */
         virtual void finalize() {
+            if( _is_finalized ) {
+                debugmsg( "Attempted to finalize %s factory multiple times.", type_name );
+            }
+
             DynamicDataLoader::get_instance().load_deferred( deferred );
             abstracts.clear();
 
@@ -365,6 +382,7 @@ class generic_factory
             for( size_t i = 0; i < list.size(); i++ ) {
                 list[i].id.set_cid_version( static_cast<int>( i ), version );
             }
+            set_finalized( true );
         }
 
         /**
@@ -392,6 +410,7 @@ class generic_factory
          * Postcondition: `size() == 0`
          */
         void reset() {
+            set_finalized( false );
             inc_version();
             list.clear();
             map.clear();
