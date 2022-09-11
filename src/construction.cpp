@@ -1605,30 +1605,24 @@ void construction::load( const JsonObject &jo, const std::string &/*src*/ )
             { "done_ramp_high", construct::done_ramp_high }
         }
     };
-    std::map<std::string, std::function<void( const tripoint & )>> explain_fail_map;
-    if( jo.has_string( "pre_special" ) &&
-        jo.get_string( "pre_special" ) == std::string( "check_deconstruct" ) ) {
-        explain_fail_map[""] = construct::failure_deconstruct;
-    } else {
-        explain_fail_map[""] = construct::failure_standard;
-    }
 
     auto pre_special_reader = typed_flag_reader<std::function<bool( const tripoint & )>>
                               ( pre_special_map, "pre_special function" );
     optional( jo, was_loaded, "pre_special", pre_special, pre_special_reader );
 
+    explain_failure = construct::failure_standard;
     if( jo.has_string( "pre_special" ) ) {
         std::string s = jo.get_string( "pre_special" );
         pre_special_is_valid_for_dirt = s == "" || s == "check_empty" || s == "check_support";
+
+        if( s == "check_deconstruct" ) {
+            explain_failure = construct::failure_deconstruct;
+        }
     }
 
     auto post_special_reader = typed_flag_reader<std::function<void( const tripoint & )>>
                                ( post_special_map, "post_special function" );
     optional( jo, was_loaded, "post_special", post_special, post_special_reader );
-
-    auto explain_failure_reader = typed_flag_reader<std::function<void( const tripoint & )>>
-                                  ( explain_fail_map, "explain_failure function" );
-    optional( jo, was_loaded, "explain_failure", explain_failure, explain_failure_reader );
 
     optional( jo, was_loaded, "vehicle_start", vehicle_start );
     optional( jo, was_loaded, "on_display", on_display );
