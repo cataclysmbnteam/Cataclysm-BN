@@ -951,13 +951,13 @@
     "type": "item_group",
     "id": "museum_armor_pet",
     "items": [
-      [ "chainmail_armor_horse", 30 ],
-      [ "leather_armor_horse", 30 ],
-      [ "leatherbone_armor_horse", 30 ],
+      [ "chainmail_armor_medium_quadruped", 30 ],
+      [ "leather_armor_medium_quadruped", 30 ],
+      [ "leatherbone_armor_medium_quadruped", 30 ],
       [ "saddlebag", 30 ],
-      [ "chainmail_harness_dog", 30 ],
-      [ "leather_harness_dog", 30 ],
-      [ "leatherbone_harness_dog", 30 ]
+      [ "chainmail_armor_small_quadruped", 30 ],
+      [ "leather_armor_small_quadruped", 30 ],
+      [ "leatherbone_armor_small_quadruped", 30 ]
     ]
   },
   {

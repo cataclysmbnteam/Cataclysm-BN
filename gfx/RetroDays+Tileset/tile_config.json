@@ -4642,7 +4642,7 @@
           "rotates": false
         },
         { "id": "bokken", "fg": 1543, "rotates": false },
-        { "id": "kevlar_harness", "fg": 1544, "rotates": false },
+        { "id": "kevlar_armor_small_quadruped", "fg": 1544, "rotates": false },
         { "id": "ceramic_armor", "fg": 1545, "rotates": false },
         { "id": "kevlar_plate", "fg": 1546, "rotates": false },
         { "id": "khopesh", "fg": 1547, "rotates": false },

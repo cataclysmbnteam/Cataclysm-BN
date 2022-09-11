@@ -40,7 +40,7 @@
         "l": [
           { "item": "pet_carrier", "chance": 10 },
           { "item": "dog_whistle", "chance": 10 },
-          { "item": "kevlar_harness", "chance": 10 },
+          { "item": "kevlar_armor_small_quadruped", "chance": 10 },
           { "item": "leather_collar", "chance": 10 }
         ],
         "x": { "item": "dogfood", "amount": [ 10, 20 ] }
