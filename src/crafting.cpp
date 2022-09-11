@@ -2007,6 +2007,7 @@ static disass_prompt_result prompt_disassemble_in_seq( avatar &you, const item &
         msg += "\n";
         msg += _( "Really disassemble?\n" );
         if( !query_yn( msg ) ) {
+            add_msg( _( "Never mind." ) );
             return res;
         }
     }
@@ -2035,6 +2036,7 @@ static disass_prompt_result prompt_disassemble_in_seq( avatar &you, const item &
             int result = num_batches;
             popup_input.title( title ).description( descr ).edit( result );
             if( popup_input.canceled() || result <= 0 ) {
+                add_msg( _( "Never mind." ) );
                 return res;
             }
             res.batches = std::min( result, num_batches );
@@ -2055,7 +2057,6 @@ static bool prompt_disassemble_single( avatar &you, item_location target, bool i
     disass_prompt_result res = prompt_disassemble_in_seq( you, *target, interactive, false );
 
     if( !res.success ) {
-        add_msg( _( "Never mind." ) );
         return false;
     }
 
