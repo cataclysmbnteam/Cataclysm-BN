@@ -224,21 +224,11 @@ void finalize()
 {
     all_constructions.finalize();
 
-    /*
-    constructions.erase( std::remove_if( constructions.begin(), constructions.end(),
-    [&]( const construction & c ) {
-        return c.requirements->is_blacklisted();
-    } ), constructions.end() );
-
-    construction_id_map.clear();
-    for( size_t i = 0; i < constructions.size(); i++ ) {
-        constructions[i].id = construction_id( i );
-        construction_id_map.emplace( constructions[i].str_id, constructions[i].id );
-    }
-    */
-
     constructions_sorted.resize( all_constructions.get_all().size() );
     for( const construction &c : all_constructions.get_all() ) {
+        if( c.is_blacklisted() ) {
+            continue;
+        }
         constructions_sorted.push_back( c.id.id() );
     }
     std::sort( constructions_sorted.begin(), constructions_sorted.end(),
@@ -1741,6 +1731,11 @@ float construction::time_scale() const
     } else {
         return get_option<int>( "CONSTRUCTION_SCALING" ) / 100.0;
     }
+}
+
+bool construction::is_blacklisted() const
+{
+    return requirements->is_blacklisted();
 }
 
 int construction::adjusted_time() const

@@ -24,6 +24,7 @@ void construction_sequence::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "elems", elems );
     optional( jo, was_loaded, "post_terrain", post_terrain );
     optional( jo, was_loaded, "post_furniture", post_furniture );
+    optional( jo, was_loaded, "blacklisted", blacklisted );
 }
 
 void construction_sequence::check() const
@@ -84,6 +85,9 @@ void finalize()
 
     // Validate explicit sequences
     for( const construction_sequence &seq : all_sequences.get_all() ) {
+        if( seq.blacklisted ) {
+            continue;
+        }
         if( !seq.post_furniture.is_empty() && !seq.post_furniture.is_valid() ) {
             debugmsg( R"(Construction sequence "%s" defines invalid post_furniture "%s".)",
                       seq.id, seq.post_furniture );
@@ -104,6 +108,12 @@ void finalize()
             for( const construction_str_id &c_id : seq.elems ) {
                 if( !c_id.is_valid() ) {
                     debugmsg( R"(Construction sequence "%s" contains invalid construction id "%s".)",
+                              seq.id, c_id );
+                    constr_ok = false;
+                    break;
+                }
+                if( c_id->is_blacklisted() ) {
+                    debugmsg( R"(Construction sequence "%s" contains blacklisted construction id "%s".)",
                               seq.id, c_id );
                     constr_ok = false;
                     break;

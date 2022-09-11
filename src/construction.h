@@ -95,6 +95,8 @@ struct construction {
         // Result of construction scaling option
         float time_scale() const;
 
+        bool is_blacklisted() const;
+
         // If true, the requirements are generated during finalization
         bool vehicle_start = false;
 

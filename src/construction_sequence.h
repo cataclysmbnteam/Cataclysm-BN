@@ -20,6 +20,8 @@ struct construction_sequence {
 
     ter_str_id post_terrain;
     furn_str_id post_furniture;
+
+    bool blacklisted = false;
 };
 
 namespace construction_sequences
