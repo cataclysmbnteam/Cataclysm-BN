@@ -580,6 +580,13 @@ bool disassemble_activity_actor::try_start_single( player_activity &act, Charact
     const item &itm = *target.loc;
     const recipe &dis = recipe_dictionary::get_uncraft( itm.typeId() );
 
+    // Have to check here again in case we ran out of tools
+    const ret_val<bool> can_do = crafting::can_disassemble( who, itm, who.crafting_inventory() );
+    if( !can_do.success() ) {
+        who.add_msg_if_player( m_info, "%s", can_do.c_str() );
+        return false;
+    }
+
     int moves_needed = dis.time * target.count;
 
     act.moves_total = moves_needed;
