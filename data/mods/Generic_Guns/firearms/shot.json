@@ -31,7 +31,7 @@
     "name": "tactical shotgun",
     "ammo": "ammo_shot",
     "description": "A detachable magazine fed shotgun, mostly oriented towards overly enthusiastic civilians.  Featuring rails and a menacing black appearance, this sort of shotgun doesn't really look like it has a sporting use.  The magazines reduce lengthy reloading times associated with shotguns.  Though known for being somewhat finicky, these can be tuned to run with some reliability.",
-    "magazines": [ [ "ammo_shot", [ "shot_mag" ] ] ]
+    "magazines": [ [ "ammo_shot", [ "shot_mag", "shot_mag_hc" ] ] ]
   },
   {
     "id": "bio_shotgun_gun",

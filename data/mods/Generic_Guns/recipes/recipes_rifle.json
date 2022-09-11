@@ -34,74 +34,135 @@
     "components": [ [ [ "chem_black_powder", 5 ] ], [ [ "paper", 1 ] ] ]
   },
   {
-    "result": "reloaded_rifle_ball",
+    "result": "rifle_ball",
     "type": "recipe",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_RIFLE",
     "skill_used": "fabrication",
-    "difficulty": 3,
-    "skills_required": [ "gun", 1 ],
+    "difficulty": 5,
+    "skills_required": [ "gun", 5 ],
     "time": "2 m",
     "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 4 ] ],
+    "book_learn": [ [ "recipe_bullets", 4 ], [ "mag_rifle", 5 ] ],
     "charges": 1,
-    "reversible": true,
-    "using": [ [ "req_rifle", 1 ], [ "bullet_forming", 9 ], [ "ammo_bullet", 6 ] ],
-    "components": [ [ [ "gunpowder", 12 ] ] ]
+    "using": [ [ "req_rifle", 1 ], [ "bullet_forming", 4 ], [ "ammo_bullet", 4 ] ],
+    "components": [ [ [ "gunpowder", 6 ] ], [ [ "copper", 2 ] ] ]
   },
   {
     "result": "bp_rifle_ball",
     "type": "recipe",
-    "copy-from": "reloaded_rifle_ball",
-    "components": [ [ [ "chem_black_powder", 12 ] ] ]
+    "copy-from": "rifle_ball",
+    "reversible": true,
+    "components": [ [ [ "chem_black_powder", 6 ] ], [ [ "copper", 2 ] ] ]
   },
   {
-    "result": "reloaded_rifle_AP",
-    "type": "recipe",
-    "copy-from": "reloaded_rifle_ball",
-    "using": [ [ "req_rifle", 1 ], [ "req_penetrator", 1 ], [ "bullet_forming", 9 ], [ "ammo_bullet", 6 ] ],
-    "components": [ [ [ "gunpowder", 12 ] ], [ [ "copper", 3 ] ] ]
-  },
-  {
-    "result": "bp_rifle_AP",
-    "type": "recipe",
-    "copy-from": "reloaded_rifle_AP",
-    "components": [ [ [ "chem_black_powder", 12 ] ], [ [ "copper", 3 ] ] ]
-  },
-  {
-    "result": "reloaded_rifle_huge_ball",
+    "result": "rifle_jhp",
     "type": "recipe",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_RIFLE",
     "skill_used": "fabrication",
-    "difficulty": 8,
+    "difficulty": 4,
+    "skills_required": [ "gun", 4 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_rifle", 4 ] ],
+    "charges": 1,
+    "using": [ [ "req_rifle", 1 ], [ "bullet_forming", 4 ], [ "ammo_bullet", 4 ] ],
+    "components": [ [ [ "gunpowder", 6 ] ] ]
+  },
+  {
+    "result": "bp_rifle_jhp",
+    "type": "recipe",
+    "copy-from": "rifle_jhp",
+    "reversible": true,
+    "components": [ [ [ "chem_black_powder", 6 ] ] ]
+  },
+  {
+    "result": "sniper_ball",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "skills_required": [ "gun", 6 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "recipe_bullets", 5 ], [ "mag_rifle", 6 ] ],
+    "charges": 1,
+    "using": [ [ "req_sniper", 1 ], [ "bullet_forming", 4 ], [ "ammo_bullet", 8 ] ],
+    "components": [ [ [ "gunpowder", 10 ] ], [ [ "copper", 4 ] ] ]
+  },
+  {
+    "result": "bp_sniper_ball",
+    "type": "recipe",
+    "copy-from": "sniper_ball",
+    "reversible": true,
+    "components": [ [ [ "chem_black_powder", 10 ] ], [ [ "copper", 4 ] ] ]
+  },
+  {
+    "result": "sniper_jhp",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "gun", 5 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "recipe_bullets", 4 ], [ "mag_rifle", 5 ] ],
+    "charges": 1,
+    "using": [ [ "req_sniper", 1 ], [ "bullet_forming", 4 ], [ "ammo_bullet", 8 ] ],
+    "components": [ [ [ "gunpowder", 10 ] ] ]
+  },
+  {
+    "result": "bp_sniper_jhp",
+    "type": "recipe",
+    "copy-from": "sniper_jhp",
+    "reversible": true,
+    "components": [ [ [ "chem_black_powder", 10 ] ] ]
+  },
+  {
+    "result": "rifle_huge_ball",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 7,
     "skills_required": [ "gun", 7 ],
     "time": "2 m",
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "recipe_bullets", 6 ] ],
     "charges": 1,
-    "reversible": true,
     "using": [ [ "req_rifle_huge", 1 ], [ "bullet_forming", 18 ], [ "ammo_bullet", 12 ] ],
-    "components": [ [ [ "gunpowder", 30 ] ] ]
+    "components": [ [ [ "gunpowder", 30 ] ], [ [ "copper", 6 ] ] ]
   },
   {
     "result": "bp_rifle_huge_ball",
     "type": "recipe",
-    "copy-from": "reloaded_rifle_huge_ball",
+    "copy-from": "rifle_huge_ball",
+    "reversible": true,
+    "components": [ [ [ "chem_black_powder", 30 ] ], [ [ "copper", 5 ] ] ]
+  },
+  {
+    "result": "rifle_huge_jhp",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "skills_required": [ "gun", 6 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "recipe_bullets", 5 ] ],
+    "charges": 1,
+    "using": [ [ "req_rifle_huge", 1 ], [ "bullet_forming", 18 ], [ "ammo_bullet", 12 ] ],
+    "components": [ [ [ "gunpowder", 30 ] ] ]
+  },
+  {
+    "result": "bp_rifle_huge_jhp",
+    "type": "recipe",
+    "copy-from": "rifle_huge_jhp",
+    "reversible": true,
     "components": [ [ [ "chem_black_powder", 30 ] ] ]
-  },
-  {
-    "result": "reloaded_rifle_huge_AP",
-    "type": "recipe",
-    "copy-from": "reloaded_rifle_huge_ball",
-    "using": [ [ "req_rifle_huge", 1 ], [ "req_penetrator", 1 ], [ "bullet_forming", 21 ], [ "ammo_bullet", 12 ] ],
-    "components": [ [ [ "gunpowder", 30 ] ], [ [ "copper", 6 ], [ "rifle_casing", 1 ] ] ]
-  },
-  {
-    "result": "bp_rifle_huge_AP",
-    "type": "recipe",
-    "copy-from": "reloaded_rifle_huge_ball",
-    "using": [ [ "req_rifle_huge", 1 ], [ "req_penetrator", 1 ], [ "bullet_forming", 21 ], [ "ammo_bullet", 12 ] ],
-    "components": [ [ [ "gunpowder", 30 ] ], [ [ "copper", 6 ], [ "rifle_casing", 1 ] ] ]
   }
 ]

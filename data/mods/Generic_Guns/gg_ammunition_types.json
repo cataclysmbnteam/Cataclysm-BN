@@ -36,6 +36,13 @@
   },
   {
     "type": "ammunition_type",
+    "id": "ammo_sniper",
+    "//": "any rifle ammo with range over 45.",
+    "name": "sniper ammo",
+    "default": "sniper_ball"
+  },
+  {
+    "type": "ammunition_type",
     "id": "ammo_rifle_huge",
     "//": "ammo from .375 H&H to .50BMG. Migrate anything stronger to as-yet unimplemented light cannon ammo",
     "name": "huge rifle ammo",

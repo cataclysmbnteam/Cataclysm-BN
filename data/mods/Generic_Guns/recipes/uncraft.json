@@ -1,0 +1,146 @@
+[
+  {
+    "result": "tiny_pistol_ball",
+    "copy-from": "ammo_cartridge",
+    "type": "uncraft",
+    "using": [ [ "req_pistol_tiny", 1 ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [ [ [ "lead", 1 ] ], [ [ "gunpowder", 2 ] ], [ [ "copper", 1 ] ] ]
+  },
+  {
+    "result": "tiny_pistol_jhp",
+    "copy-from": "ammo_cartridge",
+    "type": "uncraft",
+    "using": [ [ "req_pistol_tiny", 1 ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [ [ [ "lead", 1 ] ], [ [ "gunpowder", 2 ] ] ]
+  },
+  {
+    "result": "pistol_ball",
+    "copy-from": "ammo_cartridge",
+    "type": "uncraft",
+    "using": [ [ "req_pistol", 1 ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder", 4 ] ], [ [ "copper", 2 ] ] ]
+  },
+  {
+    "result": "pistol_jhp",
+    "copy-from": "ammo_cartridge",
+    "type": "uncraft",
+    "using": [ [ "req_pistol", 1 ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder", 4 ] ] ]
+  },
+  {
+    "result": "pistol_magnum_ball",
+    "copy-from": "ammo_cartridge",
+    "type": "uncraft",
+    "using": [ [ "req_pistol_magnum", 1 ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [ [ [ "lead", 4 ] ], [ [ "gunpowder", 6 ] ], [ [ "copper", 2 ] ] ]
+  },
+  {
+    "result": "pistol_magnum_jhp",
+    "copy-from": "ammo_cartridge",
+    "type": "uncraft",
+    "using": [ [ "req_pistol_magnum", 1 ] ],
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [ [ [ "lead", 4 ] ], [ [ "gunpowder", 6 ] ] ]
+  },
+  {
+    "result": "rifle_ball",
+    "copy-from": "ammo_cartridge",
+    "type": "uncraft",
+    "using": [ [ "req_rifle", 1 ] ],
+    "qualities": [ { "id": "PULL", "level": 2 } ],
+    "components": [ [ [ "lead", 4 ] ], [ [ "gunpowder", 6 ] ], [ [ "copper", 2 ] ] ]
+  },
+  {
+    "result": "rifle_jhp",
+    "copy-from": "ammo_cartridge",
+    "type": "uncraft",
+    "using": [ [ "req_rifle", 1 ] ],
+    "qualities": [ { "id": "PULL", "level": 2 } ],
+    "components": [ [ [ "lead", 4 ] ], [ [ "gunpowder", 6 ] ] ]
+  },
+  {
+    "result": "sniper_ball",
+    "copy-from": "ammo_cartridge",
+    "type": "uncraft",
+    "using": [ [ "req_sniper", 1 ] ],
+    "qualities": [ { "id": "PULL", "level": 2 } ],
+    "components": [ [ [ "lead", 8 ] ], [ [ "gunpowder", 10 ] ], [ [ "copper", 4 ] ] ]
+  },
+  {
+    "result": "sniper_jhp",
+    "copy-from": "ammo_cartridge",
+    "type": "uncraft",
+    "using": [ [ "req_sniper", 1 ] ],
+    "qualities": [ { "id": "PULL", "level": 2 } ],
+    "components": [ [ [ "lead", 8 ] ], [ [ "gunpowder", 10 ] ] ]
+  },
+  {
+    "result": "rifle_huge_ball",
+    "copy-from": "ammo_cartridge",
+    "type": "uncraft",
+    "using": [ [ "req_rifle_huge", 1 ] ],
+    "qualities": [ { "id": "PULL", "level": 2 } ],
+    "components": [ [ [ "lead", 12 ] ], [ [ "gunpowder", 30 ] ], [ [ "copper", 6 ] ] ]
+  },
+  {
+    "result": "rifle_huge_jhp",
+    "copy-from": "ammo_cartridge",
+    "type": "uncraft",
+    "using": [ [ "req_rifle_huge", 1 ] ],
+    "qualities": [ { "id": "PULL", "level": 2 } ],
+    "components": [ [ [ "lead", 12 ] ], [ [ "gunpowder", 30 ] ] ]
+  },
+  {
+    "result": "shot_buck",
+    "copy-from": "ammo_cartridge",
+    "type": "uncraft",
+    "using": [ [ "req_shot", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "gunpowder", 6 ] ], [ [ "lead", 10 ] ] ]
+  },
+  {
+    "result": "shot_bean",
+    "copy-from": "ammo_cartridge",
+    "type": "uncraft",
+    "using": [ [ "req_shot", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "gunpowder", 3 ] ], [ [ "rubber_slug", 1 ] ] ]
+  },
+  {
+    "result": "shot_fowl",
+    "copy-from": "ammo_cartridge",
+    "type": "uncraft",
+    "using": [ [ "req_shot", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "gunpowder", 3 ] ], [ [ "lead", 10 ] ] ]
+  },
+  {
+    "result": "shot_pyro",
+    "copy-from": "ammo_cartridge",
+    "type": "uncraft",
+    "using": [ [ "req_shot", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "gunpowder", 3 ] ], [ [ "magnesium", 5 ] ] ]
+  },
+  {
+    "result": "shot_dart",
+    "copy-from": "ammo_cartridge",
+    "type": "uncraft",
+    "using": [ [ "req_shot", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "gunpowder", 6 ] ], [ [ "combatnail", 10 ] ] ]
+  },
+  {
+    "result": "shot_foster",
+    "copy-from": "ammo_cartridge",
+    "type": "uncraft",
+    "using": [ [ "req_shot", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "gunpowder", 6 ] ], [ [ "lead", 20 ] ] ]
+  }
+]

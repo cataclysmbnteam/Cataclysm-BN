@@ -4,12 +4,17 @@
     "copy-from": "saiga10mag",
     "type": "MAGAZINE",
     "name": "shotgun box magazine",
-    "capacity": 8,
-    "material": "plastic",
-    "reliability": 6,
-    "description": "An 8 round box magazine for tactical shotguns.  Shotshells tend to not work well in box magazines due to their plastic hulls and the compression from the magazine spring.",
+    "description": "An 10 round box magazine for tactical shotguns.  Shotshells tend to not work well in box magazines due to their plastic hulls and the compression from the magazine spring.",
     "delete": { "ammo_type": "shot" },
     "ammo_type": "ammo_shot"
+  },
+  {
+    "id": "shot_mag_hc",
+    "copy-from": "shot_mag",
+    "type": "MAGAZINE",
+    "name": "high capacity shotgun box magazine",
+    "description": "An 20 round box magazine for tactical shotguns.  Shotshells tend to not work well in box magazines due to their plastic hulls and the compression from the magazine spring.",
+    "proportional": { "weight": 1.5, "volume": 1.7, "price": 1.8, "price_postapoc": 2.2, "capacity": 2.0 }
   },
   {
     "id": "shot_speedloader",
