@@ -594,6 +594,11 @@ bool disassemble_activity_actor::try_start_single( player_activity &act, Charact
     return true;
 }
 
+int disassemble_activity_actor::calc_num_targets() const
+{
+    return static_cast<int>( targets.size() );
+}
+
 void disassemble_activity_actor::start( player_activity &act, Character &who )
 {
     if( !who.is_avatar() ) {
@@ -602,6 +607,7 @@ void disassemble_activity_actor::start( player_activity &act, Character &who )
     } else if( !try_start_single( act, who ) ) {
         act.set_to_null();
     }
+    initial_num_targets = calc_num_targets();
 }
 
 void disassemble_activity_actor::finish( player_activity &act, Character &who )
@@ -635,6 +641,7 @@ void disassemble_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "targets", targets );
     jsout.member( "pos", pos );
     jsout.member( "recursive", recursive );
+    jsout.member( "initial_num_targets", initial_num_targets );
 
     jsout.end_object();
 }
@@ -648,8 +655,33 @@ std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonIn 
     data.read( "targets", actor.targets );
     data.read( "pos", actor.pos );
     data.read( "recursive", actor.recursive );
+    data.read( "initial_num_targets", actor.initial_num_targets );
 
     return actor.clone();
+}
+
+act_progress_message disassemble_activity_actor::get_progress_message(
+    const player_activity &act, const Character & ) const
+{
+    std::string msg;
+
+    const int percentage = ( ( act.moves_total - act.moves_left ) * 100 ) / act.moves_total;
+
+    msg = string_format( "%d%%", percentage );
+
+    if( initial_num_targets != 1 ) {
+        constexpr int width = 20; // An arbitrary value
+        std::string item_name_trimmed = trim_by_length( targets.front().loc->display_name(), width );
+
+        msg += string_format(
+                   _( "\n%d out of %d, working on %-20s" ),
+                   initial_num_targets - calc_num_targets() + 1,
+                   initial_num_targets,
+                   item_name_trimmed
+               );
+    }
+
+    return act_progress_message::make_extra_info( std::move( msg ) );
 }
 
 drop_activity_actor::drop_activity_actor( Character &ch, const drop_locations &items,
