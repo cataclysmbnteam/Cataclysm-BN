@@ -6,11 +6,6 @@
   },
   {
     "type": "construction_group",
-    "id": "cut_grass",
-    "name": "Cut Grass"
-  },
-  {
-    "type": "construction_group",
     "id": "makeshift_wall",
     "name": "Makeshift Wall"
   }
