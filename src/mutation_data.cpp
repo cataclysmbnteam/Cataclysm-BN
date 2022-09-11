@@ -374,6 +374,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         vitamin_absorb_multi.emplace( material_id( pair.get_string( 0 ) ), vit );
     }
 
+    optional( jo, was_loaded, "pain_recovery", pain_recovery, 0.0f );
     optional( jo, was_loaded, "healing_awake", healing_awake, 0.0f );
     optional( jo, was_loaded, "healing_resting", healing_resting, 0.0f );
     optional( jo, was_loaded, "mending_modifier", mending_modifier, 1.0f );
