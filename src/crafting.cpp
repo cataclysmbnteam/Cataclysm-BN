@@ -77,7 +77,6 @@
 #include "vpart_position.h"
 
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
-static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 
 static const efftype_id effect_contacts( "contacts" );
 
