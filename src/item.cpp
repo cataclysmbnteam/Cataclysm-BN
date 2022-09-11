@@ -1227,14 +1227,13 @@ item::sizing item::get_sizing( const Character &p, bool wearable ) const
 
 }
 
-static int get_base_env_resist(const item& it)
+static int get_base_env_resist( const item &it )
 {
-    const islot_armor* t = it.find_armor_data();
-    if (t == nullptr) {
-        if (it.is_pet_armor()) {
+    const islot_armor *t = it.find_armor_data();
+    if( t == nullptr ) {
+        if( it.is_pet_armor() ) {
             return it.type->pet_armor->env_resist * it.get_relative_health();
-        }
-        else {
+        } else {
             return 0;
         }
     }
