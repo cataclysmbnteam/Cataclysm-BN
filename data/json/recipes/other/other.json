@@ -392,5 +392,22 @@
       [ [ "cable", 5 ] ],
       [ [ "pilot_light", 1 ] ]
     ]
+  },
+  {
+    "result": "sarcophagus_access_code",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "computer",
+    "difficulty": 10,
+    "time": "1 h 20 m",
+    "book_learn": [ [ "sa_cryptology_key", 10 ] ],
+    "tools": [
+      [ [ "software_hacking", -1 ] ],
+      [ [ "laptop", -1 ], [ "control_laptop", -1 ] ],
+      [ [ "sa_cryptology_key", -1 ] ],
+      [ [ "black_box", -1 ] ]
+    ],
+    "components": [ [ [ "paper", 1 ] ] ]
   }
 ]
