@@ -126,7 +126,7 @@ void override_build_times( time_duration time );
 cata::optional<construction_id> construction_menu( bool blueprint );
 void complete_construction( Character &ch );
 bool can_construct( const construction &con, const tripoint &p );
-bool player_can_build( Character &p, const inventory &inv, const construction &con );
+bool player_can_build( Character &ch, const inventory &inv, const construction &con );
 
 void get_build_reqs_for_furn_ter_ids( const recipe_id &rid,
                                       const std::pair<std::map<ter_id, int>,
