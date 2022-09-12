@@ -579,6 +579,7 @@
       "houses": {
         "2storyModern01": 5,
         "2storyModern02": 50,
+        "2StoryModern03": 50,
         "house_w_1": 50,
         "house_two_story_basement": 50,
         "house_crack1": 5,
@@ -639,7 +640,6 @@
         "house_31": 50,
         "house_32": 50,
         "house_33": 50,
-        "house_34": 50,
         "house_garage": 50,
         "house_garage2": 50,
         "house_garage3": 50,
