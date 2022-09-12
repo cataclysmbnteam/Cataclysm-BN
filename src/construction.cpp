@@ -1606,23 +1606,41 @@ void construction::load( const JsonObject &jo, const std::string &/*src*/ )
         }
     };
 
-    auto pre_special_reader = typed_flag_reader<std::function<bool( const tripoint & )>>
-                              ( pre_special_map, "pre_special function" );
-    optional( jo, was_loaded, "pre_special", pre_special, pre_special_reader );
+    if( !explain_failure ) {
+        explain_failure = construct::failure_standard;
+    }
 
-    explain_failure = construct::failure_standard;
-    if( jo.has_string( "pre_special" ) ) {
-        std::string s = jo.get_string( "pre_special" );
-        pre_special_is_valid_for_dirt = s == "" || s == "check_empty" || s == "check_support";
-
-        if( s == "check_deconstruct" ) {
-            explain_failure = construct::failure_deconstruct;
+    {
+        std::string s;
+        optional( jo, was_loaded, "pre_special", s );
+        if( !pre_special || !s.empty() ) {
+            auto it = pre_special_map.find( s );
+            if( it != pre_special_map.end() ) {
+                pre_special = it->second;
+                pre_special_is_valid_for_dirt = s == "" || s == "check_empty" || s == "check_support";
+                if( s == "check_deconstruct" ) {
+                    explain_failure = construct::failure_deconstruct;
+                } else {
+                    explain_failure = construct::failure_standard;
+                }
+            } else {
+                debugmsg( "Unknown pre_special function \"%s\"", s );
+            }
         }
     }
 
-    auto post_special_reader = typed_flag_reader<std::function<void( const tripoint & )>>
-                               ( post_special_map, "post_special function" );
-    optional( jo, was_loaded, "post_special", post_special, post_special_reader );
+    {
+        std::string s;
+        optional( jo, was_loaded, "post_special", s );
+        if( !post_special || !s.empty() ) {
+            auto it = post_special_map.find( s );
+            if( it != post_special_map.end() ) {
+                post_special = it->second;
+            } else {
+                debugmsg( "Unknown post_special function \"%s\"", s );
+            }
+        }
+    }
 
     optional( jo, was_loaded, "vehicle_start", vehicle_start, false );
     optional( jo, was_loaded, "on_display", on_display, true );
