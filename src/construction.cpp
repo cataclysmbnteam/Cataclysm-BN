@@ -1624,9 +1624,9 @@ void construction::load( const JsonObject &jo, const std::string &/*src*/ )
                                ( post_special_map, "post_special function" );
     optional( jo, was_loaded, "post_special", post_special, post_special_reader );
 
-    optional( jo, was_loaded, "vehicle_start", vehicle_start );
-    optional( jo, was_loaded, "on_display", on_display );
-    optional( jo, was_loaded, "dark_craftable", dark_craftable );
+    optional( jo, was_loaded, "vehicle_start", vehicle_start, false );
+    optional( jo, was_loaded, "on_display", on_display, true );
+    optional( jo, was_loaded, "dark_craftable", dark_craftable, false );
 }
 
 void construction::check() const
