@@ -1556,7 +1556,9 @@ void construction::load( const JsonObject &jo, const std::string &/*src*/ )
 
     const requirement_id req_id( "inline_construction_" + id.str() );
     requirement_data::load_requirement( jo, req_id );
-    requirements = req_id;
+    if( requirements.is_empty() || !req_id->is_empty() ) {
+        requirements = req_id;
+    }
 
     if( jo.has_string( "using" ) ) {
         reqs_using = { { requirement_id( jo.get_string( "using" ) ), 1} };
