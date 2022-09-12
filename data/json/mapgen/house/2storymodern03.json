@@ -5,7 +5,7 @@
     "weight": 250,
     "method": "json",
     "object": {
-      "palettes": [ "standard_domestic_palette",  "standard_domestic_basement_palette" ],
+      "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
       "fill_ter": "t_floor",
       "rows": [
         "^^^^^^^^^^^^^^^^^^^^^^^^",
@@ -38,7 +38,7 @@
         "m": "t_thconc_floor",
         "g": "t_thconc_floor",
         "U": "t_thconc_floor",
-"b": "t_thconc_floor",
+        "b": "t_thconc_floor",
         ",": "t_carpet_red",
         "d": "t_carpet_red",
         "I": "t_carpet_red",
@@ -57,7 +57,7 @@
     "weight": 250,
     "method": "json",
     "object": {
-      "palettes": [ "standard_domestic_palette",   "standard_domestic_lino_bathroom" ],
+      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "fill_ter": "t_floor_waxed",
       "rows": [
         ".--.....................",
@@ -87,16 +87,12 @@
       ],
       "terrain": {
         "#": "t_concrete_wall",
-		"¶": "t_door_glass_c",
+        "¶": "t_door_glass_c",
         "_": "t_linoleum_gray",
         "%": [ [ "t_shrub", 2 ], "t_shrub_strawberry", "t_shrub_blueberry" ],
         "[": [ [ "t_region_tree_nut", 5 ], [ "t_region_tree_shade", 4 ], [ "t_region_tree_fruit", 2 ] ],
-		",": "t_shrub_lilac",
-		
-		
-        
+        ",": "t_shrub_lilac",
         "`": "t_thconc_floor",
-        
         "U": "t_thconc_floor",
         "q": "t_thconc_floor",
         "/": "t_carpet_yellow",
@@ -115,7 +111,7 @@
     "weight": 250,
     "method": "json",
     "object": {
-      "palettes": [ "standard_domestic_palette",   "standard_domestic_lino_bathroom" ],
+      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "fill_ter": "t_floor_waxed",
       "rows": [
         "........................",
@@ -145,7 +141,7 @@
       ],
       "terrain": {
         "#": "t_concrete_wall",
-		".": "t_open_air",
+        ".": "t_open_air",
         "_": "t_linoleum_gray",
         "(": "t_shingle_flat_roof",
         "¶": "t_door_glass_c",
@@ -153,8 +149,8 @@
         ",": "t_floor_noroof",
         "₸": "t_floor_noroof"
       },
-      "furniture": { "!": "f_table", "₸": "f_deckchair", "C": "f_table"  },
-      "items": { "!": { "item": "table_foyer", "chance": 50 } , "C": { "item": "nightstand", "chance": 30 } }
+      "furniture": { "!": "f_table", "₸": "f_deckchair", "C": "f_table" },
+      "items": { "!": { "item": "table_foyer", "chance": 50 }, "C": { "item": "nightstand", "chance": 30 } }
     }
   },
   {
