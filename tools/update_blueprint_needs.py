@@ -2,6 +2,7 @@
 
 import getopt
 import json
+import glob
 import os
 import re
 import subprocess
@@ -17,6 +18,15 @@ def print_help():
           "    --action=<value>    what to do with reported inconsistencies. (optional)\n"
           "                            update: update with suggested requirements (default)\n"
           "                            suppress: suppress inconsistency warnings\n")
+
+def dump_json_and_lint(content, path):
+    with open(path, 'w', encoding='utf-8') as fs:
+        json.dump(content, fs, indent=2)
+    json_formatter_name = glob.glob(
+        'tools/format/json_formatter.[ec]*')
+    assert len(json_formatter_name) == 1
+    subprocess.run([json_formatter_name[0], path],
+                stdout=subprocess.DEVNULL)
 
 def main(argv):
     try:
@@ -119,9 +129,7 @@ def main(argv):
                                 changed = True
                                 print("updating {}".format(json_path))
                 if changed:
-                    with open(json_path, 'w', encoding='utf-8') as fs:
-                        json.dump(content, fs, indent=2)
-                    subprocess.run(["tools/format/json_formatter.cgi", json_path], stdout=subprocess.DEVNULL)
+                    dump_json_and_lint(content, json_path)
 
 if __name__ == "__main__":
     main(sys.argv[1:])
