@@ -1833,21 +1833,14 @@ void get_build_reqs_for_furn_ter_ids( const recipe_id &rid,
         add_builds( *seq, furn_data.second );
     }
 
-    const auto add_reqs = [&]( const requirement_id & id, int count ) {
-        if( total_reqs.reqs.find( id ) == total_reqs.reqs.end() ) {
-            total_reqs.reqs[id] = 0;
-        }
-        total_reqs.reqs[id] += count;
-    };
-
     for( const auto &build_data : total_builds ) {
         const construction &build = build_data.first.obj();
         const int count = build_data.second;
         total_reqs.time += to_moves<int>( build.time ) * count;
-        add_reqs( build.requirements, count );
-        for( const auto &using_rq : build.reqs_using ) {
-            add_reqs( using_rq.first, using_rq.second * count );
+        if( total_reqs.reqs.find( build.requirements ) == total_reqs.reqs.end() ) {
+            total_reqs.reqs[build.requirements] = 0;
         }
+        total_reqs.reqs[build.requirements] += count;
         for( const auto &req_skill : build.required_skills ) {
             if( total_reqs.skills.find( req_skill.first ) == total_reqs.skills.end() ) {
                 total_reqs.skills[req_skill.first] = req_skill.second;
