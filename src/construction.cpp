@@ -487,7 +487,7 @@ cata::optional<construction_id> construction_menu( const bool blueprint )
                         result_descr = current_con->post_furniture.obj().description.translated();
                     }
 
-                    if( options.size() ) {
+                    if( options.size() > 1 ) {
                         std::string current_line = string_format( _( "Stage/Variant #%d: " ), stage_counter );
                         current_line += colorize( result_name, color_title );
                         add_line( current_line );
