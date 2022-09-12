@@ -191,6 +191,7 @@ void load( const JsonObject &jo, const std::string &src )
 void reset()
 {
     all_constructions.reset();
+    constructions_sorted.clear();
 }
 
 void check_consistency()
