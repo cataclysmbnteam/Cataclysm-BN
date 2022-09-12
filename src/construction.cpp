@@ -69,7 +69,6 @@ static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" 
 
 static const construction_category_id construction_category_ALL( "ALL" );
 static const construction_category_id construction_category_FILTER( "FILTER" );
-static const construction_category_id construction_category_REPAIR( "REPAIR" );
 
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_nail( "nail" );
@@ -82,7 +81,6 @@ static const trap_str_id tr_practice_target( "tr_practice_target" );
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 static const skill_id skill_electronics( "electronics" );
-static const skill_id skill_fabrication( "fabrication" );
 
 static const quality_id qual_CUT( "CUT" );
 
@@ -137,7 +135,7 @@ void failure_deconstruct( const tripoint & );
 namespace
 {
 generic_factory<construction> all_constructions( "construction" );
-static std::vector<construction_id> constructions_sorted;
+std::vector<construction_id> constructions_sorted;
 } // namespace
 
 IMPLEMENT_STRING_AND_INT_IDS( construction, all_constructions )
@@ -145,9 +143,9 @@ IMPLEMENT_STRING_AND_INT_IDS( construction, all_constructions )
 // Helper functions, nobody but us needs to call these.
 static bool can_construct( const construction_group_str_id &group );
 static bool can_construct( const construction &con );
-static bool player_can_build( Character &p, const inventory &inv,
+static bool player_can_build( Character &ch, const inventory &inv,
                               const construction_group_str_id &group );
-static bool player_can_see_to_build( Character &p, const construction_group_str_id &group );
+static bool player_can_see_to_build( Character &ch, const construction_group_str_id &group );
 static void place_construction( const construction_group_str_id &group );
 
 // Color standardization for string streams
@@ -1625,7 +1623,7 @@ void construction::load( const JsonObject &jo, const std::string &/*src*/ )
             auto it = pre_special_map.find( s );
             if( it != pre_special_map.end() ) {
                 pre_special = it->second;
-                pre_special_is_valid_for_dirt = s == "" || s == "check_empty" || s == "check_support";
+                pre_special_is_valid_for_dirt = s.empty() || s == "check_empty" || s == "check_support";
                 if( s == "check_deconstruct" ) {
                     explain_failure = construct::failure_deconstruct;
                 } else {
