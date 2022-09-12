@@ -175,8 +175,8 @@ class blueprint_options : public zone_options, public mark_option
         }
 
         construction_id get_final_construction(
-            const std::vector<construction> &list_constructions,
-            const construction_id &idx,
+            const std::vector<construction_id> &list_constructions,
+            const construction_id &id,
             std::set<construction_id> &skip_index );
 
         bool query_at_creation() override;

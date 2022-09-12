@@ -36,7 +36,7 @@
     "pre_special": "check_empty",
     "post_flags": [ "keep_items" ],
     "dark_craftable": true,
-    "post_terrain": "f_ground_crafting_spot"
+    "post_furniture": "f_ground_crafting_spot"
   },
   {
     "type": "construction",
@@ -116,7 +116,7 @@
     "components": [ [ [ "wooden_bead", 2000 ] ], [ [ "stick_long", 1 ] ], [ [ "string_36", 20 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_terrain": "t_door_frame",
-    "post_terrain": "f_beaded_door"
+    "post_furniture": "f_beaded_door"
   },
   {
     "type": "construction",
@@ -821,7 +821,7 @@
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "dark_craftable": true,
-    "post_terrain": "f_sandbag_half"
+    "post_furniture": "f_sandbag_half"
   },
   {
     "type": "construction",
@@ -833,9 +833,9 @@
     "time": "20 m",
     "components": [ [ [ "sandbag", 20 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
-    "pre_terrain": "f_sandbag_half",
+    "pre_furniture": "f_sandbag_half",
     "dark_craftable": true,
-    "post_terrain": "f_sandbag_wall"
+    "post_furniture": "f_sandbag_wall"
   },
   {
     "type": "construction",
@@ -849,7 +849,7 @@
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "dark_craftable": true,
-    "post_terrain": "f_earthbag_half"
+    "post_furniture": "f_earthbag_half"
   },
   {
     "type": "construction",
@@ -861,9 +861,9 @@
     "time": "20 m",
     "components": [ [ [ "earthbag", 20 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
-    "pre_terrain": "f_earthbag_half",
+    "pre_furniture": "f_earthbag_half",
     "dark_craftable": true,
-    "post_terrain": "f_earthbag_wall"
+    "post_furniture": "f_earthbag_wall"
   },
   {
     "type": "construction",
@@ -1549,9 +1549,9 @@
     "//": "You can re-use the lid and most of the nails",
     "components": [ [ [ "nail", 6 ] ] ],
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
-    "pre_terrain": "f_crate_o",
+    "pre_furniture": "f_crate_o",
     "post_flags": [ "keep_items" ],
-    "post_terrain": "f_crate_c"
+    "post_furniture": "f_crate_c"
   },
   {
     "type": "construction",
@@ -1563,7 +1563,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
     "components": [ [ [ "wood_sheet", 2 ], [ "wood_panel", 4 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 24 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_crate_o"
+    "post_furniture": "f_crate_o"
   },
   {
     "type": "construction",
@@ -1580,7 +1580,7 @@
       [ [ "nail", 24 ] ]
     ],
     "pre_special": "check_empty",
-    "post_terrain": "f_coffin_o"
+    "post_furniture": "f_coffin_o"
   },
   {
     "type": "construction",
@@ -1591,8 +1591,8 @@
     "time": "10 m",
     "components": [ [ [ "nail", 6 ] ] ],
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
-    "pre_terrain": "f_coffin_o",
-    "post_terrain": "f_coffin_c",
+    "pre_furniture": "f_coffin_o",
+    "post_furniture": "f_coffin_c",
     "post_flags": [ "keep_items" ]
   },
   {
@@ -1605,7 +1605,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "rock", 20 ], [ "2x4", 2 ] ] ],
     "pre_flags": "DIGGABLE",
-    "pre_terrain": "f_coffin_c",
+    "pre_furniture": "f_coffin_c",
     "post_flags": [ "keep_items" ],
     "post_terrain": "t_grave_new",
     "post_special": "done_grave"
@@ -1620,7 +1620,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "2x4", 4 ], [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_bulletin"
+    "post_furniture": "f_bulletin"
   },
   {
     "type": "construction",
@@ -1632,7 +1632,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "2x4", 4 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_dresser"
+    "post_furniture": "f_dresser"
   },
   {
     "type": "construction",
@@ -1644,7 +1644,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "2x4", 6 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "nail", 16 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_bookcase"
+    "post_furniture": "f_bookcase"
   },
   {
     "type": "construction",
@@ -1656,7 +1656,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "2x4", 14 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "nail", 20 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_entertainment_center"
+    "post_furniture": "f_entertainment_center"
   },
   {
     "type": "construction",
@@ -1668,7 +1668,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ] ],
     "components": [ [ [ "sheet_metal", 2 ] ], [ [ "pipe", 8 ] ], [ [ "lock", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_locker"
+    "post_furniture": "f_locker"
   },
   {
     "type": "construction",
@@ -1680,7 +1680,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "2x4", 6 ] ], [ [ "wood_sheet", 2 ], [ "wood_panel", 4 ] ], [ [ "nail", 40 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_rack_wood"
+    "post_furniture": "f_rack_wood"
   },
   {
     "type": "construction",
@@ -1692,7 +1692,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ] ],
     "components": [ [ [ "pipe", 12 ] ], [ [ "sheet_metal", 2 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_rack"
+    "post_furniture": "f_rack"
   },
   {
     "type": "construction",
@@ -1704,7 +1704,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ] ],
     "components": [ [ [ "pipe", 12 ] ], [ [ "sheet_metal", 8 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_warehouse_shelf"
+    "post_furniture": "f_warehouse_shelf"
   },
   {
     "type": "construction",
@@ -1716,7 +1716,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 3 ] ], [ [ "nail", 8 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_rack_coat"
+    "post_furniture": "f_rack_coat"
   },
   {
     "type": "construction",
@@ -1728,7 +1728,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
     "components": [ [ [ "2x4", 3 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "nail", 8 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_cupboard"
+    "post_furniture": "f_cupboard"
   },
   {
     "type": "construction",
@@ -1740,7 +1740,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "nail", 8 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_counter"
+    "post_furniture": "f_counter"
   },
   {
     "type": "construction",
@@ -1752,7 +1752,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "2x4", 4 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_table"
+    "post_furniture": "f_table"
   },
   {
     "type": "construction",
@@ -1764,7 +1764,7 @@
     "components": [ [ [ "w_table", 1 ] ] ],
     "pre_special": "check_empty",
     "dark_craftable": true,
-    "post_terrain": "f_table"
+    "post_furniture": "f_table"
   },
   {
     "type": "construction",
@@ -1776,7 +1776,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_coffee_table"
+    "post_furniture": "f_coffee_table"
   },
   {
     "type": "construction",
@@ -1788,7 +1788,7 @@
     "using": [ [ "welding_standard", 5 ] ],
     "components": [ [ [ "pipe", 8 ] ], [ [ "sheet_metal", 2 ] ], [ [ "sheet_metal_small", 4 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_workbench"
+    "post_furniture": "f_workbench"
   },
   {
     "type": "construction",
@@ -1800,7 +1800,7 @@
     "components": [ [ [ "workbench", 1 ] ] ],
     "pre_special": "check_empty",
     "dark_craftable": true,
-    "post_terrain": "f_workbench"
+    "post_furniture": "f_workbench"
   },
   {
     "type": "construction",
@@ -1812,7 +1812,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_chair"
+    "post_furniture": "f_chair"
   },
   {
     "type": "construction",
@@ -1824,7 +1824,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_stool"
+    "post_furniture": "f_stool"
   },
   {
     "type": "construction",
@@ -1836,7 +1836,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 10 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_bench"
+    "post_furniture": "f_bench"
   },
   {
     "type": "construction",
@@ -1852,7 +1852,7 @@
       [ [ "sheet", 2 ], [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ]
     ],
     "pre_special": "check_empty",
-    "post_terrain": "f_makeshift_bed"
+    "post_furniture": "f_makeshift_bed"
   },
   {
     "type": "construction",
@@ -1865,7 +1865,7 @@
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "dark_craftable": true,
-    "post_terrain": "f_straw_bed"
+    "post_furniture": "f_straw_bed"
   },
   {
     "type": "construction",
@@ -1878,7 +1878,7 @@
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "dark_craftable": true,
-    "post_terrain": "f_leaves_pile"
+    "post_furniture": "f_leaves_pile"
   },
   {
     "type": "construction",
@@ -1890,7 +1890,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 10 ] ], [ [ "mattress", 1 ], [ "down_mattress", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_bed"
+    "post_furniture": "f_bed"
   },
   {
     "type": "construction",
@@ -1907,7 +1907,7 @@
       [ [ "mattress", 2 ], [ "down_mattress", 2 ] ]
     ],
     "pre_special": "check_empty",
-    "post_terrain": "f_bunkbed"
+    "post_furniture": "f_bunkbed"
   },
   {
     "type": "construction",
@@ -1919,7 +1919,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 10 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_bed_frame"
+    "post_furniture": "f_bed_frame"
   },
   {
     "type": "construction",
@@ -1929,9 +1929,9 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 m",
     "components": [ [ [ "mattress", 1 ], [ "down_mattress", 1 ] ] ],
-    "pre_terrain": "f_bed_frame",
+    "pre_furniture": "f_bed_frame",
     "dark_craftable": true,
-    "post_terrain": "f_bed"
+    "post_furniture": "f_bed"
   },
   {
     "type": "construction",
@@ -1943,7 +1943,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "2x4", 10 ] ], [ [ "nail", 8 ] ], [ [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_armchair"
+    "post_furniture": "f_armchair"
   },
   {
     "type": "construction",
@@ -1955,7 +1955,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 10 ] ], [ [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_sofa"
+    "post_furniture": "f_sofa"
   },
   {
     "type": "construction",
@@ -1967,7 +1967,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 1 ], [ "wood_panel", 1 ] ], [ [ "2x4", 2 ] ], [ [ "nail", 6 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_sign"
+    "post_furniture": "f_sign"
   },
   {
     "type": "construction",
@@ -1979,7 +1979,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "rock", 40 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_fireplace"
+    "post_furniture": "f_fireplace"
   },
   {
     "type": "construction",
@@ -1991,7 +1991,7 @@
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ] ],
     "components": [ [ [ "metal_tank", 1 ] ], [ [ "pipe", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_woodstove"
+    "post_furniture": "f_woodstove"
   },
   {
     "type": "construction",
@@ -2003,7 +2003,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "2x4", 14 ] ], [ [ "nail", 12 ] ], [ [ "sheet_metal_small", 12 ] ], [ [ "water_faucet", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_fvat_empty"
+    "post_furniture": "f_fvat_empty"
   },
   {
     "type": "construction",
@@ -2015,7 +2015,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "2x4", 18 ] ], [ [ "nail", 14 ] ], [ [ "sheet_metal", 1 ] ], [ [ "water_faucet", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_wood_keg"
+    "post_furniture": "f_wood_keg"
   },
   {
     "type": "construction",
@@ -2033,7 +2033,7 @@
     ],
     "components": [ [ [ "metal_tank", 4 ] ], [ [ "water_faucet", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_standing_tank"
+    "post_furniture": "f_standing_tank"
   },
   {
     "type": "construction",
@@ -2046,7 +2046,7 @@
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "dark_craftable": true,
-    "post_terrain": "f_forge"
+    "post_furniture": "f_forge"
   },
   {
     "type": "construction",
@@ -2059,7 +2059,7 @@
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "dark_craftable": true,
-    "post_terrain": "f_still"
+    "post_furniture": "f_still"
   },
   {
     "type": "construction",
@@ -2068,7 +2068,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "480 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "rock", 40 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
     "pre_terrain": "t_pit",
     "post_terrain": "t_covered_well"
@@ -2095,7 +2095,7 @@
     "components": [ [ [ "straw_pile", 40 ], [ "withered", 40 ] ], [ [ "rope_30", 1 ], [ "rope_makeshift_30", 1 ], [ "vine_30", 1 ] ] ],
     "pre_special": "check_empty",
     "dark_craftable": true,
-    "post_terrain": "f_hay"
+    "post_furniture": "f_hay"
   },
   {
     "type": "construction",
@@ -2107,7 +2107,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ], [ { "id": "CUT", "level": 1 } ] ],
     "components": [ [ [ "2x4", 8 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "nail", 24 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_desk"
+    "post_furniture": "f_desk"
   },
   {
     "type": "construction",
@@ -2119,7 +2119,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ], [ { "id": "SAW_M", "level": 1 } ] ],
     "components": [ [ [ "2x4", 10 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "nail", 24 ] ], [ [ "pipe", 2 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_wardrobe"
+    "post_furniture": "f_wardrobe"
   },
   {
     "type": "construction",
@@ -2142,7 +2142,7 @@
       [ [ "hard_plate", 1 ] ]
     ],
     "pre_special": "check_empty",
-    "post_terrain": "f_safe_o"
+    "post_furniture": "f_safe_o"
   },
   {
     "type": "construction",
@@ -2155,7 +2155,7 @@
     "using": [ [ "welding_standard", 15 ] ],
     "components": [ [ [ "frame", 4 ] ], [ [ "sheet_metal", 16 ] ], [ [ "steel_lump", 2 ], [ "steel_chunk", 8 ], [ "scrap", 40 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_dumpster"
+    "post_furniture": "f_dumpster"
   },
   {
     "type": "construction",
@@ -2168,7 +2168,7 @@
     "using": [ [ "welding_standard", 1 ] ],
     "components": [ [ [ "sheet_metal", 1 ] ], [ [ "2x4", 2 ] ], [ [ "nail", 5 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_mailbox"
+    "post_furniture": "f_mailbox"
   },
   {
     "type": "construction",
@@ -2712,7 +2712,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
     "components": [ [ [ "2x4", 6 ] ], [ [ "nail", 12 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_barricade_road"
+    "post_furniture": "f_barricade_road"
   },
   {
     "type": "construction",
@@ -2812,7 +2812,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "water_mill", 1 ] ] ],
     "pre_terrain": "t_water_moving_sh",
-    "post_terrain": "f_water_mill"
+    "post_furniture": "f_water_mill"
   },
   {
     "type": "construction",
@@ -2825,7 +2825,7 @@
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "components": [ [ [ "wind_mill", 1 ] ] ],
     "pre_terrain": "t_pit_shallow",
-    "post_terrain": "f_wind_mill"
+    "post_furniture": "f_wind_mill"
   },
   {
     "type": "construction",
@@ -2849,7 +2849,7 @@
     "time": "25 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
     "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 36 ] ], [ [ "pebble", 200 ] ], [ [ "material_soil", 75 ] ] ],
-    "post_terrain": "f_planter"
+    "post_furniture": "f_planter"
   },
   {
     "type": "construction",
@@ -2994,7 +2994,7 @@
     "components": [ [ [ "rock", 40 ] ], [ [ "material_soil", 2 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
-    "post_terrain": "f_kiln_empty"
+    "post_furniture": "f_kiln_empty"
   },
   {
     "type": "construction",
@@ -3006,7 +3006,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
     "components": [ [ [ "metal_tank", 4 ] ], [ [ "pipe", 4 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_kiln_metal_empty"
+    "post_furniture": "f_kiln_metal_empty"
   },
   {
     "type": "construction",
@@ -3019,7 +3019,7 @@
     "components": [ [ [ "stick", 16 ], [ "2x4", 16 ] ], [ [ "rock", 8 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
-    "post_terrain": "f_smoking_rack"
+    "post_furniture": "f_smoking_rack"
   },
   {
     "type": "construction",
@@ -3031,7 +3031,7 @@
     "components": [ [ [ "rock", 40 ] ], [ [ "material_soil", 3 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
-    "post_terrain": "f_forge_rock"
+    "post_furniture": "f_forge_rock"
   },
   {
     "type": "construction",
@@ -3048,7 +3048,7 @@
     ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
-    "post_terrain": "f_clay_kiln"
+    "post_furniture": "f_clay_kiln"
   },
   {
     "type": "construction",
@@ -3143,7 +3143,7 @@
     ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
-    "post_terrain": "f_butcher_rack"
+    "post_furniture": "f_butcher_rack"
   },
   {
     "type": "construction",
@@ -3258,7 +3258,7 @@
       [ [ "down_blanket", 3 ], [ "blanket", 3 ], [ "fur_blanket", 3 ] ]
     ],
     "pre_terrain": "t_floor",
-    "post_terrain": "f_pillow_fort"
+    "post_furniture": "f_pillow_fort"
   },
   {
     "type": "construction",
@@ -3275,7 +3275,7 @@
       [ [ "plastic_sheet", 1 ] ],
       [ [ "duct_tape", 4 ] ]
     ],
-    "post_terrain": "f_cardboard_fort"
+    "post_furniture": "f_cardboard_fort"
   },
   {
     "type": "construction",
@@ -3289,7 +3289,7 @@
     "pre_note": "Can be deconstructed without tools.",
     "pre_terrain": "t_dirt",
     "dark_craftable": true,
-    "post_terrain": "f_firering"
+    "post_furniture": "f_firering"
   },
   {
     "type": "construction",
@@ -3318,7 +3318,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ] ],
     "components": [ [ [ "grip_hook", 1 ] ], [ [ "chain", 1 ] ] ],
     "pre_special": "check_support",
-    "post_terrain": "f_hanging_meathook"
+    "post_furniture": "f_hanging_meathook"
   },
   {
     "type": "construction",
@@ -3330,7 +3330,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 6 ] ], [ [ "nail", 10 ] ], [ [ "hinge", 2 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_counter_gate_c"
+    "post_furniture": "f_counter_gate_c"
   },
   {
     "type": "construction",
@@ -3565,7 +3565,7 @@
       [ [ "mortar_build", 10 ] ]
     ],
     "pre_special": "check_empty",
-    "post_terrain": "f_arcfurnace_empty"
+    "post_furniture": "f_arcfurnace_empty"
   },
   {
     "type": "construction",
@@ -3579,7 +3579,7 @@
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "2x4", 4 ] ], [ [ "leather", 12 ] ], [ [ "scrap", 20 ] ], [ [ "wire", 8 ] ] ],
     "pre_flags": [ "FLAT" ],
-    "post_terrain": "f_bellows"
+    "post_furniture": "f_bellows"
   },
   {
     "type": "construction",
@@ -3593,7 +3593,7 @@
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "metal_tank", 2 ] ], [ [ "water_faucet", 2 ] ], [ [ "anvil", 1 ] ], [ [ "chain", 4 ] ], [ [ "pipe", 3 ] ] ],
     "pre_flags": [ "FLAT" ],
-    "post_terrain": "f_drophammer"
+    "post_furniture": "f_drophammer"
   },
   {
     "type": "construction",
@@ -3661,7 +3661,7 @@
     "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
     "components": [ [ [ "log", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_logstool"
+    "post_furniture": "f_logstool"
   },
   {
     "type": "construction",
@@ -3673,7 +3673,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "stick", 4 ], [ "log", 1 ] ], [ [ "nail", 20 ] ], [ [ "pine_bough", 8 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_decorative_tree"
+    "post_furniture": "f_decorative_tree"
   },
   {
     "type": "construction",
@@ -4147,7 +4147,7 @@
     "components": [ [ [ "steel_chunk", 5 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "pipe", 4 ] ], [ [ "solar_panel", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_solar_unit"
+    "post_furniture": "f_solar_unit"
   },
   {
     "type": "construction",
@@ -4161,7 +4161,7 @@
     "components": [ [ [ "steel_chunk", 5 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "pipe", 4 ] ], [ [ "solar_panel_v2", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_solar_unit_v2"
+    "post_furniture": "f_solar_unit_v2"
   },
   {
     "type": "construction",
@@ -4181,7 +4181,7 @@
     ],
     "pre_note": "Will only work if constructed in a building with an electric grid.",
     "pre_special": "check_empty",
-    "post_terrain": "f_battery"
+    "post_furniture": "f_battery"
   },
   {
     "type": "construction",
@@ -4201,7 +4201,7 @@
     ],
     "pre_note": "Will only work if constructed in a building with an electric grid.",
     "pre_special": "check_empty",
-    "post_terrain": "f_battery_large"
+    "post_furniture": "f_battery_large"
   },
   {
     "type": "construction",
@@ -4221,7 +4221,7 @@
     ],
     "pre_note": "Will only work if constructed in a building with an electric grid.",
     "pre_special": "check_empty",
-    "post_terrain": "f_battery_huge"
+    "post_furniture": "f_battery_huge"
   },
   {
     "type": "construction",
@@ -4234,7 +4234,7 @@
     "components": [ [ [ "oven", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_oven"
+    "post_furniture": "f_oven"
   },
   {
     "type": "construction",
@@ -4247,7 +4247,7 @@
     "components": [ [ [ "fridge", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_fridge"
+    "post_furniture": "f_fridge"
   },
   {
     "type": "construction",
@@ -4257,8 +4257,8 @@
     "category": "FURN",
     "time": "1 m",
     "dark_craftable": true,
-    "pre_terrain": "f_fridge_on",
-    "post_terrain": "f_fridge_off"
+    "pre_furniture": "f_fridge_on",
+    "post_furniture": "f_fridge_off"
   },
   {
     "type": "construction",
@@ -4268,8 +4268,8 @@
     "category": "FURN",
     "time": "1 m",
     "dark_craftable": true,
-    "pre_terrain": "f_fridge_off",
-    "post_terrain": "f_fridge_on"
+    "pre_furniture": "f_fridge_off",
+    "post_furniture": "f_fridge_on"
   },
   {
     "type": "construction",
@@ -4282,7 +4282,7 @@
     "components": [ [ [ "minifreezer", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_minifreezer"
+    "post_furniture": "f_minifreezer"
   },
   {
     "type": "construction",
@@ -4292,8 +4292,8 @@
     "category": "FURN",
     "time": "1 m",
     "dark_craftable": true,
-    "pre_terrain": "f_minifreezer_on",
-    "post_terrain": "f_minifreezer_off"
+    "pre_furniture": "f_minifreezer_on",
+    "post_furniture": "f_minifreezer_off"
   },
   {
     "type": "construction",
@@ -4303,8 +4303,8 @@
     "category": "FURN",
     "time": "1 m",
     "dark_craftable": true,
-    "pre_terrain": "f_minifreezer_off",
-    "post_terrain": "f_minifreezer_on"
+    "pre_furniture": "f_minifreezer_off",
+    "post_furniture": "f_minifreezer_on"
   },
   {
     "type": "construction",
@@ -4318,7 +4318,7 @@
     "components": [ [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid.",
     "pre_special": "check_empty",
-    "post_terrain": "f_cable_connector"
+    "post_furniture": "f_cable_connector"
   },
   {
     "type": "construction",
@@ -4332,7 +4332,7 @@
     "components": [ [ [ "cable", 5 ] ], [ [ "battery_charger", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in a building with an electric grid.",
     "pre_special": "check_empty",
-    "post_terrain": "f_charger"
+    "post_furniture": "f_charger"
   },
   {
     "type": "construction",
@@ -4346,7 +4346,7 @@
     "components": [ [ [ "welder", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_gridwelder"
+    "post_furniture": "f_gridwelder"
   },
   {
     "type": "construction",
@@ -4360,7 +4360,7 @@
     "components": [ [ [ "weldrig", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_welderrig"
+    "post_furniture": "f_welderrig"
   },
   {
     "type": "construction",
@@ -4374,7 +4374,7 @@
     "components": [ [ [ "forge", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_gridforge"
+    "post_furniture": "f_gridforge"
   },
   {
     "type": "construction",
@@ -4388,7 +4388,7 @@
     "components": [ [ [ "kiln", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_gridkiln"
+    "post_furniture": "f_gridkiln"
   },
   {
     "type": "construction",
@@ -4402,7 +4402,7 @@
     "components": [ [ [ "electrolysis_kit", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_gridelectrolysis_kit"
+    "post_furniture": "f_gridelectrolysis_kit"
   },
   {
     "type": "construction",
@@ -4416,7 +4416,7 @@
     "components": [ [ [ "autoclave", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_gridautoclave"
+    "post_furniture": "f_gridautoclave"
   },
   {
     "type": "construction",
@@ -4430,7 +4430,7 @@
     "components": [ [ [ "dehydrator", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_griddehydrator"
+    "post_furniture": "f_griddehydrator"
   },
   {
     "type": "construction",
@@ -4444,7 +4444,7 @@
     "components": [ [ [ "food_processor", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_gridfood_processor"
+    "post_furniture": "f_gridfood_processor"
   },
   {
     "type": "construction",
@@ -4458,7 +4458,7 @@
     "components": [ [ [ "vac_sealer", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_gridvac_sealer"
+    "post_furniture": "f_gridvac_sealer"
   },
   {
     "type": "construction",
@@ -4472,7 +4472,7 @@
     "components": [ [ [ "kitchen_unit", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_rvoven"
+    "post_furniture": "f_rvoven"
   },
   {
     "type": "construction",
@@ -4486,7 +4486,7 @@
     "components": [ [ [ "soldering_iron", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_gridsolderingiron"
+    "post_furniture": "f_gridsolderingiron"
   },
   {
     "type": "construction",
@@ -4544,7 +4544,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ] ],
     "components": [ [ [ "autodoc", 1 ] ], [ [ "power_supply", 2 ] ], [ [ "heavy_battery_cell", 2 ] ], [ [ "cable", 40 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_autodoc"
+    "post_furniture": "f_autodoc"
   },
   {
     "type": "construction",
@@ -4556,7 +4556,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ] ],
     "components": [ [ [ "autodoc_couch", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_autodoc_couch"
+    "post_furniture": "f_autodoc_couch"
   },
   {
     "type": "construction",
@@ -4569,6 +4569,6 @@
     "components": [ [ [ "cable", 2 ] ], [ [ "power_supply", 1 ] ], [ [ "light_bulb", 1 ] ], [ [ "steel_lump", 1 ] ], [ [ "pipe", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_terrain": "f_floor_lamp_off"
+    "post_furniture": "f_floor_lamp_off"
   }
 ]

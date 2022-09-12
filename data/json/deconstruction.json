@@ -787,8 +787,8 @@
     "time": "90 m",
     "using": [ [ "object_deconstruction_advanced", 1 ] ],
     "byproducts": [ { "item": "rock", "count": [ 35, 40 ] } ],
-    "pre_terrain": "f_fireplace",
-    "post_terrain": "f_null",
+    "pre_furniture": "f_fireplace",
+    "post_furniture": "f_null",
     "group": "advanced_object_deconstruction"
   }
 ]

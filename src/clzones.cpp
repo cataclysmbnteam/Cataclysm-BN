@@ -211,54 +211,53 @@ bool zone_options::is_valid( const zone_type_id &type, const zone_options &optio
 }
 
 construction_id blueprint_options::get_final_construction(
-    const std::vector<construction> &list_constructions,
-    const construction_id &idx,
+    const std::vector<construction_id> &list_constructions,
+    const construction_id &id,
     std::set<construction_id> &skip_index
 )
 {
-    const construction &con = idx.obj();
-    if( con.post_terrain.empty() ) {
-        return idx;
+    if( id->post_terrain.is_empty() && id->post_furniture.is_empty() ) {
+        return id;
     }
 
-    for( int i = 0; i < static_cast<int>( list_constructions.size() ); ++i ) {
-        if( construction_id( i ) == idx || skip_index.find( construction_id( i ) ) != skip_index.end() ) {
+    for( const construction_id &c_id : list_constructions ) {
+        if( c_id == id || skip_index.find( c_id ) != skip_index.end() ) {
             continue;
         }
-        const construction &con_next = list_constructions[i];
-        if( con.group == con_next.group &&
-            con.post_terrain == con_next.pre_terrain ) {
-            skip_index.insert( idx );
-            return get_final_construction( list_constructions, construction_id( i ), skip_index );
+        const construction &c = *c_id;
+        if( id->group == c.group &&
+            ( id->post_terrain == c.pre_terrain || id->post_furniture == c.pre_furniture ) ) {
+            skip_index.insert( id );
+            return get_final_construction( list_constructions, c_id, skip_index );
         }
     }
 
-    return idx;
+    return id;
 }
 
 blueprint_options::query_con_result blueprint_options::query_con()
 {
-    construction_id con_index = construction_menu( true );
-    if( con_index.is_valid() ) {
-        const std::vector<construction> &list_constructions = get_constructions();
-        std::set<construction_id> skip_index;
-        con_index = get_final_construction( list_constructions, con_index, skip_index );
-
-        const construction &chosen = con_index.obj();
-
-        const construction_group_str_id &chosen_group = chosen.group;
-        const std::string &chosen_mark = chosen.post_terrain;
-
-        if( con_index != index || chosen_group != group || chosen_mark != mark ) {
-            group = chosen_group;
-            mark = chosen_mark;
-            index = con_index;
-            return changed;
-        } else {
-            return successful;
-        }
-    } else {
+    cata::optional<construction_id> con_index = construction_menu( true );
+    if( !con_index ) {
         return canceled;
+    }
+    const std::vector<construction_id> &list_constructions = constructions::get_all_sorted();
+    std::set<construction_id> skip_index;
+    con_index = get_final_construction( list_constructions, *con_index, skip_index );
+
+    const construction &chosen = con_index->obj();
+
+    const construction_group_str_id &chosen_group = chosen.group;
+    const std::string &chosen_mark = chosen.post_terrain.is_empty() ?
+                                     chosen.post_furniture.str() : chosen.post_terrain.str();
+
+    if( *con_index != index || chosen_group != group || chosen_mark != mark ) {
+        group = chosen_group;
+        mark = chosen_mark;
+        index = *con_index;
+        return changed;
+    } else {
+        return successful;
     }
 }
 
