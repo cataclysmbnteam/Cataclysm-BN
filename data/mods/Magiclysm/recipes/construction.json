@@ -15,6 +15,6 @@
       [ [ "sheet", 2 ] ]
     ],
     "pre_special": "check_empty",
-    "post_terrain": "f_magiclysm_translocator_gate"
+    "post_furniture": "f_magiclysm_translocator_gate"
   }
 ]
