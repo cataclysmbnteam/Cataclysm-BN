@@ -85,6 +85,7 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
 {
     static const std::map<std::string, building_gen_pointer> pointers = { {
             { "null",             &mapgen_null },
+            { "test",             &mapgen_test },
             { "crater",           &mapgen_crater },
             { "field",            &mapgen_field },
             { "forest",           &mapgen_forest },
@@ -185,6 +186,16 @@ void mapgen_null( mapgendata &dat )
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
             dat.m.ter_set( point( i, j ), t_null );
+            dat.m.set_radiation( point( i, j ), 0 );
+        }
+    }
+}
+
+void mapgen_test( mapgendata &dat )
+{
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
+            dat.m.ter_set( point( i, j ), t_grass );
             dat.m.set_radiation( point( i, j ), 0 );
         }
     }

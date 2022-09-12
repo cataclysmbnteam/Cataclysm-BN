@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 suffix=`date|md5sum|awk '{print $1}'`
 tpchr=/tmp/_pchr_$suffix.hpp

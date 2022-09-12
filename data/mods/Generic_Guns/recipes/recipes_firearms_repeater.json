@@ -71,11 +71,13 @@
     "tools": [
       [
         [ "rifle_ball", -1 ],
+        [ "rifle_jhp", -1 ],
         [ "rifle_AP", -1 ],
         [ "reloaded_rifle_ball", -1 ],
         [ "reloaded_rifle_AP", -1 ],
         [ "bp_rifle_ball", -1 ],
         [ "bp_rifle_AP", -1 ],
+        [ "bp_rifle_jhp", -1 ],
         [ "rifle_casing", -1 ]
       ]
     ],

@@ -84,7 +84,7 @@
       {
         "text": "About those jobs…",
         "topic": "TALK_MISSION_LIST_ASSIGNED",
-        "condition": "has_many_assigned_mission"
+        "condition": "has_many_assigned_missions"
       },
       {
         "text": "Who are you?",
