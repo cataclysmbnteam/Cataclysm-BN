@@ -74,15 +74,15 @@
     "id": "military",
     "subtype": "distribution",
     "entries": [
-      { "item": "crt_fire_glove", "prob": 2 },
+      { "item": "crt_fire_glove", "prob": 5 },
       { "item": "ds_ripper", "prob": 10 },
       { "item": "crt_em_vest", "prob": 50 },
       { "item": "knife_crt", "prob": 5 },
       { "item": "crt_knuckledusters", "prob": 5 },
-      { "item": "sword_crt", "prob": 146 },
-      { "item": "blade_crt", "prob": 14 },
-      { "item": "crt_hatchet", "prob": 2 },
-      { "item": "crt_nstick", "prob": 50 }
+      { "item": "sword_crt", "prob": 15 },
+      { "item": "blade_crt", "prob": 15 },
+      { "item": "crt_hatchet", "prob": 10 },
+      { "item": "crt_nstick", "prob": 10 }
     ]
   },
   {
@@ -90,14 +90,14 @@
     "id": "guns_energy",
     "//": "Assorted factory crafted energy weapons.",
     "items": [
-      { "item": "ds_pulse_rifle", "prob": 30 },
+      { "item": "ds_pulse_rifle", "prob": 20 },
       { "item": "ds_line_gun", "prob": 10 },
-      { "item": "v29", "prob": 70 },
+      { "item": "v29", "prob": 25 },
       { "item": "plasma_gun", "prob": 10 },
       { "item": "crt_laser_gatling", "prob": 5 },
-      { "item": "crt_laser_carbine", "prob": 1 },
-      { "item": "crt_energy_rifle", "prob": 1 },
-      { "item": "ds_plasma_cutter", "prob": 1 },
+      { "item": "crt_laser_carbine", "prob": 15 },
+      { "item": "crt_energy_rifle", "prob": 10 },
+      { "item": "ds_plasma_cutter", "prob": 15 },
       { "item": "ds_rivet_gun", "prob": 10 }
     ]
   },
@@ -128,11 +128,6 @@
   {
     "type": "item_group",
     "id": "mil_accessories",
-    "items": [
-      [ "crt_mess_kit", 10 ],
-      [ "crt_etool", 15 ],
-      [ "crt_canteen", 1 ],
-      [ "crt_gasmask", 1 ]
-    ]
+    "items": [ [ "crt_mess_kit", 10 ], [ "crt_etool", 15 ], [ "crt_canteen", 10 ], [ "crt_gasmask", 10 ] ]
   }
 ]
