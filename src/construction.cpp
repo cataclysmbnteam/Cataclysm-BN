@@ -224,6 +224,11 @@ void finalize()
 {
     all_constructions.finalize();
 
+    for( const construction &c_it : all_constructions.get_all() ) {
+        construction &c = const_cast<construction &>( c_it );
+        c.finalize();
+    }
+
     constructions_sorted.resize( all_constructions.get_all().size() );
     for( const construction &c : all_constructions.get_all() ) {
         if( c.is_blacklisted() ) {
