@@ -52,7 +52,7 @@
     "weight": "3 g",
     "bashing": 1,
     "ammo_type": "blunderbuss",
-    "//": "Same armor penetration as slug, minus the armor multiplier penalty."
+    "//": "Same armor penetration as slug, minus the armor multiplier penalty.",
     "damage": { "damage_type": "stab", "amount": 53, "armor_penetration": 14 },
     "range": 10,
     "recoil": 840,
