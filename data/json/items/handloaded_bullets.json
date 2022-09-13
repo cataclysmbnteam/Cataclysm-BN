@@ -13,7 +13,7 @@
     "weight": "3 g",
     "bashing": 1,
     "ammo_type": "blunderbuss",
-    "damage": { "damage_type": "stab", "amount": 60, "armor_penetration": 8 },
+    "damage": { "damage_type": "stab", "amount": 48, "armor_penetration": 14, "armor_multiplier": 2.0 },
     "range": 12,
     "dispersion": 60,
     "recoil": 840,
@@ -33,7 +33,7 @@
     "weight": "2 g",
     "bashing": 1,
     "ammo_type": "blunderbuss",
-    "damage": { "damage_type": "stab", "amount": 60 },
+    "damage": { "damage_type": "stab", "amount": 60, "armor_multiplier": 2.0 },
     "range": 6,
     "recoil": 780,
     "effects": [ "COOKOFF", "SHOT", "RECYCLED" ]
@@ -52,7 +52,8 @@
     "weight": "3 g",
     "bashing": 1,
     "ammo_type": "blunderbuss",
-    "damage": { "damage_type": "stab", "amount": 53, "armor_penetration": 12 },
+    "//": "Same armor penetration as slug, minus the armor multiplier penalty."
+    "damage": { "damage_type": "stab", "amount": 53, "armor_penetration": 14 },
     "range": 10,
     "recoil": 840,
     "effects": [ "COOKOFF", "SHOT", "RECYCLED" ]

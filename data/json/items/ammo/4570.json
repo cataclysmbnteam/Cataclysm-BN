@@ -17,7 +17,8 @@
     "ammo_type": "4570",
     "casing": "4570_casing",
     "range": 48,
-    "damage": { "damage_type": "bullet", "amount": 57, "armor_penetration": 3 },
+    "//": "Balanced as FMJ, half the expected armor penetration.",
+    "damage": { "damage_type": "bullet", "amount": 57, "armor_penetration": 16 },
     "dispersion": 20,
     "recoil": 4300,
     "effects": [ "COOKOFF" ]
@@ -32,7 +33,8 @@
     "price_postapoc": 600,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 10,
-    "relative": { "range": 2, "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": 7 }, "recoil": 300 }
+    "//": "Balanced as +P, 75% of the expected armor penetration.",
+    "relative": { "range": 2, "damage": { "damage_type": "bullet", "amount": 14, "armor_penetration": 8 }, "recoil": 300 }
   },
   {
     "id": "4570_low",
@@ -43,6 +45,6 @@
     "price": 250,
     "price_postapoc": 400,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "relative": { "range": -8, "damage": { "damage_type": "bullet", "amount": -14, "armor_penetration": -2 }, "recoil": -900 }
+    "relative": { "range": -8, "damage": { "damage_type": "bullet", "amount": -14, "armor_penetration": -16 }, "recoil": -900 }
   }
 ]

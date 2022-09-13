@@ -141,7 +141,8 @@
     "price": 1500,
     "price_postapoc": 4000,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "damage": { "damage_type": "bullet", "amount": 39, "armor_penetration": 8 },
+    "//": "Balanced as FMJ, with armor penetration half expected value.",
+    "damage": { "damage_type": "bullet", "amount": 48, "armor_penetration": 14 },
     "relative": { "range": 12 },
     "proportional": { "dispersion": 1.3 },
     "delete": { "effects": [ "SHOT" ] }
