@@ -35,7 +35,7 @@
   },
   {
     "id": "pipe_combination_gun",
-    "copy-from": "rifle_home-made",
+    "copy-from": "rifle_home_made",
     "type": "GUN",
     "color": "brown",
     "name": { "str": "pipe combination gun" },

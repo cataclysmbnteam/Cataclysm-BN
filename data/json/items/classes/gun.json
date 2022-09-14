@@ -189,7 +189,7 @@
     "name": { "str": "fully automatic rifle" }
   },
   {
-    "abstract": "rifle_home-made",
+    "abstract": "rifle_home_made",
     "copy-from": "rifle_base",
     "type": "GUN",
     "name": { "str": "home-made rifle" },
