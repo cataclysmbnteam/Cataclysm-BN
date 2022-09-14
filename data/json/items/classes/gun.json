@@ -13,16 +13,6 @@
     "handling": 30
   },
   {
-    "abstract": "gun_rivetch",
-    "copy-from": "gun_base",
-    "type": "GUN",
-    "name": { "str": "rivetech gun" },
-    "durability": 9,
-    "ammo": "8x40mm",
-    "color": "dark_gray",
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
-  },
-  {
     "abstract": "flamethrower_base",
     "copy-from": "gun_base",
     "type": "GUN",
