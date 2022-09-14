@@ -6,7 +6,6 @@
     "name": { "str": "base gun" },
     "symbol": "(",
     "durability": 8,
-    "bashing": 12,
     "to_hit": -1,
     "color": "light_gray",
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
@@ -32,6 +31,7 @@
     "type": "GUN",
     "name": { "str": "base launcher" },
     "looks_like": "m79",
+    "bashing": 12,
     "to_hit": -3,
     "skill": "launcher",
     "modes": [ [ "DEFAULT", "single", 1, "NPC_AVOID" ] ],
@@ -137,6 +137,7 @@
     "type": "GUN",
     "name": { "str": "base rifle" },
     "looks_like": "ar15",
+    "bashing": 12,
     "skill": "rifle",
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -219,6 +220,7 @@
     "type": "GUN",
     "name": { "str": "base shotgun" },
     "skill": "shotgun",
+    "bashing": 12,
     "looks_like": "remington_870",
     "ammo": "shot",
     "valid_mod_locations": [
