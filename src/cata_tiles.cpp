@@ -1482,7 +1482,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
     for( decltype( &cata_tiles::draw_furniture ) f : final_drawing_layers ) {
         for( tile_render_info &p : draw_points ) {
-            ( this->*f )( p.pos, p.ll, p.height_3d, p.invisible, 0 );
+            ( this->*f )( {p.pos.xy(), center.z}, p.ll, p.height_3d, p.invisible, 0 );
         }
     }
     // display number of monsters to spawn in mapgen preview

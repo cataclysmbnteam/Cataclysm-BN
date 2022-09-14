@@ -7004,20 +7004,26 @@ std::vector<map_item_stack> game::find_nearby_items( int iRadius )
         return ret;
     }
 
-    for( auto &points_p_it : closest_points_first( u.pos(), iRadius ) ) {
-        if( points_p_it.y >= u.posy() - iRadius && points_p_it.y <= u.posy() + iRadius &&
-            u.sees( points_p_it ) &&
-            m.sees_some_items( points_p_it, u ) ) {
+    int range = fov_3d ? fov_3d_z_range : 0;
+    int center_z = u.pos().z;
 
-            for( auto &elem : m.i_at( points_p_it ) ) {
-                const std::string name = elem.tname();
-                const tripoint relative_pos = points_p_it - u.pos();
+    for( int i = 0; i <= range * 2; i++ ) {
+        int z = i % 2 ? center_z - i / 2 : center_z + i / 2;
+        for( auto &points_p_it : closest_points_first( {u.pos().xy(), z}, iRadius ) ) {
+            if( points_p_it.y >= u.posy() - iRadius && points_p_it.y <= u.posy() + iRadius &&
+                u.sees( points_p_it ) &&
+                m.sees_some_items( points_p_it, u ) ) {
 
-                if( std::find( item_order.begin(), item_order.end(), name ) == item_order.end() ) {
-                    item_order.push_back( name );
-                    temp_items[name] = map_item_stack( &elem, relative_pos );
-                } else {
-                    temp_items[name].add_at_pos( &elem, relative_pos );
+                for( auto &elem : m.i_at( points_p_it ) ) {
+                    const std::string name = elem.tname();
+                    const tripoint relative_pos = points_p_it - u.pos();
+
+                    if( std::find( item_order.begin(), item_order.end(), name ) == item_order.end() ) {
+                        item_order.push_back( name );
+                        temp_items[name] = map_item_stack( &elem, relative_pos );
+                    } else {
+                        temp_items[name].add_at_pos( &elem, relative_pos );
+                    }
                 }
             }
         }
