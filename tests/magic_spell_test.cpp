@@ -7,6 +7,7 @@
 
 #include "player_helpers.h"
 #include "map_helpers.h"
+#include "state_helpers.h"
 
 // Magic Spell tests
 // -----------------
@@ -37,6 +38,7 @@
 //
 TEST_CASE( "spell name", "[magic][spell][name]" )
 {
+    clear_all_state();
     // Test spells from data/mods/TEST_DATA/magic.json
     spell_id pew_id( "test_spell_pew" );
     spell_id lava_id( "test_spell_lava" );
@@ -68,6 +70,7 @@ TEST_CASE( "spell name", "[magic][spell][name]" )
 
 TEST_CASE( "spell level", "[magic][spell][level]" )
 {
+    clear_all_state();
     spell_id pew_id( "test_spell_pew" );
 
     const spell_type &pew_type = pew_id.obj();
@@ -110,6 +113,7 @@ static int spell_xp_to_next_level( const spell_id sp_id, const int from_level )
 
 TEST_CASE( "experience to gain spell levels", "[magic][spell][level][xp]" )
 {
+    clear_all_state();
     spell_id pew_id( "test_spell_pew" );
     spell_id lava_id( "test_spell_lava" );
     int level_1_xp = 0;
@@ -234,6 +238,7 @@ static int spell_damage( const spell_id sp_id, const int spell_level )
 
 TEST_CASE( "spell damage", "[magic][spell][damage]" )
 {
+    clear_all_state();
     spell_id pew_id( "test_spell_pew" );
     const spell_type &pew_type = pew_id.obj();
 
@@ -286,6 +291,7 @@ static std::string spell_duration_string( const spell_id sp_id, const int spell_
 
 TEST_CASE( "spell duration", "[magic][spell][duration]" )
 {
+    clear_all_state();
     spell_id lava_id( "test_spell_lava" );
     const spell_type &lava_type = lava_id.obj();
 
@@ -352,6 +358,7 @@ static int spell_range( const spell_id sp_id, const int spell_level )
 
 TEST_CASE( "spell range", "[magic][spell][range]" )
 {
+    clear_all_state();
     spell_id pew_id( "test_spell_pew" );
     const spell_type &pew_type = pew_id.obj();
 
@@ -406,6 +413,7 @@ static int spell_aoe( const spell_id sp_id, const int spell_level )
 
 TEST_CASE( "spell area of effect", "[magic][spell][aoe]" )
 {
+    clear_all_state();
     spell_id lava_id( "test_spell_lava" );
     const spell_type &lava_type = lava_id.obj();
 
@@ -457,9 +465,7 @@ TEST_CASE( "spell area of effect", "[magic][spell][aoe]" )
 // spell_effect::target_attack
 TEST_CASE( "spell effect - target_attack", "[magic][spell][effect][target_attack]" )
 {
-    // World setup
-    clear_map();
-
+    clear_all_state();
     // Locations for avatar and monster
     const tripoint dummy_loc = { 60, 60, 0 };
     const tripoint mummy_loc = { 62, 60, 0 };
@@ -512,8 +518,7 @@ TEST_CASE( "spell effect - target_attack", "[magic][spell][effect][target_attack
 // spell_effect::spawn_summoned_monster
 TEST_CASE( "spell effect - summon", "[magic][spell][effect][summon]" )
 {
-    clear_map();
-
+    clear_all_state();
     // Avatar/spellcaster and summoned mummy locations
     const tripoint dummy_loc = { 60, 60, 0 };
     const tripoint mummy_loc = { 61, 60, 0 };
@@ -540,6 +545,7 @@ TEST_CASE( "spell effect - summon", "[magic][spell][effect][summon]" )
 // spell_effect::recover_energy
 TEST_CASE( "spell effect - recover_energy", "[magic][spell][effect][recover_energy]" )
 {
+    clear_all_state();
     // Takes recovery amount from sp.damage
     // Takes energy source from sp.effect_data
 
@@ -559,8 +565,6 @@ TEST_CASE( "spell effect - recover_energy", "[magic][spell][effect][recover_ener
     // Yer a wizard, ya dummy
     player &dummy = g->u;
     clear_character( dummy );
-    clear_map();
-
     SECTION( "recover stamina" ) {
         spell_id montage_id( "test_spell_montage" );
         const spell_type &montage_type = montage_id.obj();

@@ -14,6 +14,7 @@
 #include "itype.h"
 #include "map.h"
 #include "point.h"
+#include "state_helpers.h"
 #include "string_id.h"
 #include "type_id.h"
 #include "units.h"
@@ -62,6 +63,7 @@ static const vpart_info *biggest_tank( const ammotype &ammo )
 
 TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [.]" )
 {
+    clear_all_state();
     map &here = get_map();
     avatar &player_character = get_avatar();
     for( auto e : turret_types() ) {

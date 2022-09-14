@@ -22,6 +22,7 @@
 #include "player_helpers.h"
 #include "point.h"
 #include "shadowcasting.h"
+#include "state_helpers.h"
 #include "type_id.h"
 #include "weather.h"
 #include "vehicle.h"
@@ -62,8 +63,6 @@ static void full_map_test( const std::vector<std::string> &setup,
 
     Character &player_character = get_player_character();
     g->place_player( tripoint( 60, 60, 0 ) );
-    clear_avatar();
-    clear_map();
     get_weather().weather_id = weather_type_id( "clear" );
     g->reset_light_level();
 
@@ -363,6 +362,7 @@ static const time_point midday = calendar::turn_zero + 12_hours;
 
 TEST_CASE( "vision_daylight", "[shadowcasting][vision]" )
 {
+    clear_all_state();
     vision_test_case t {
         {
             "   ",
@@ -383,6 +383,7 @@ TEST_CASE( "vision_daylight", "[shadowcasting][vision]" )
 
 TEST_CASE( "vision_day_indoors", "[shadowcasting][vision]" )
 {
+    clear_all_state();
     vision_test_case t {
         {
             "###",
@@ -403,6 +404,7 @@ TEST_CASE( "vision_day_indoors", "[shadowcasting][vision]" )
 
 TEST_CASE( "vision_light_shining_in", "[shadowcasting][vision]" )
 {
+    clear_all_state();
     vision_test_case t {
         {
             "##########",
@@ -428,6 +430,7 @@ TEST_CASE( "vision_light_shining_in", "[shadowcasting][vision]" )
 
 TEST_CASE( "vision_no_lights", "[shadowcasting][vision]" )
 {
+    clear_all_state();
     vision_test_case t {
         {
             "   ",
@@ -446,6 +449,7 @@ TEST_CASE( "vision_no_lights", "[shadowcasting][vision]" )
 
 TEST_CASE( "vision_utility_light", "[shadowcasting][vision]" )
 {
+    clear_all_state();
     vision_test_case t {
         {
             " L ",
@@ -466,6 +470,7 @@ TEST_CASE( "vision_utility_light", "[shadowcasting][vision]" )
 
 TEST_CASE( "vision_wall_obstructs_light", "[shadowcasting][vision]" )
 {
+    clear_all_state();
     vision_test_case t {
         {
             " L ",
@@ -486,6 +491,7 @@ TEST_CASE( "vision_wall_obstructs_light", "[shadowcasting][vision]" )
 
 TEST_CASE( "vision_wall_can_be_lit_by_player", "[shadowcasting][vision]" )
 {
+    clear_all_state();
     vision_test_case t {
         {
             " V",
@@ -510,6 +516,7 @@ TEST_CASE( "vision_wall_can_be_lit_by_player", "[shadowcasting][vision]" )
 
 TEST_CASE( "vision_crouching_blocks_vision_but_not_light", "[shadowcasting][vision]" )
 {
+    clear_all_state();
     vision_test_case t {
         {
             "###",
@@ -532,6 +539,7 @@ TEST_CASE( "vision_crouching_blocks_vision_but_not_light", "[shadowcasting][visi
 
 TEST_CASE( "vision_see_wall_in_moonlight", "[shadowcasting][vision][.]" )
 {
+    clear_all_state();
     const time_point full_moon = calendar::turn_zero + calendar::season_length() / 6;
     // Verify that I've picked the full_moon time correctly.
     CHECK( get_moon_phase( full_moon ) == MOON_FULL );
@@ -561,6 +569,7 @@ TEST_CASE( "vision_see_wall_in_moonlight", "[shadowcasting][vision][.]" )
 
 TEST_CASE( "nv_range_math_correct", "[vision]" )
 {
+    clear_all_state();
     for( int i = 0; i < 80; i++ ) {
         float threshold = vision::threshold_for_nv_range( i );
         // minus, because LIGHT_RANGE is for luminosity at a distance
@@ -572,6 +581,7 @@ TEST_CASE( "nv_range_math_correct", "[vision]" )
 
 TEST_CASE( "vision_single_tile_skylight", "[shadowcasting][vision]" )
 {
+    clear_all_state();
     /**
      * Light shines through the single-tile hole in the roof. Apparent light should be symmetrical.
      */
@@ -611,6 +621,7 @@ TEST_CASE( "vision_single_tile_skylight", "[shadowcasting][vision]" )
 
 TEST_CASE( "vision_player_opaque_neighbors_still_visible_night", "[shadowcasting][vision]" )
 {
+    clear_all_state();
     /**
      *  Even when stating inside the opaque wall and surrounded by opaque walls,
      *  you should see yourself and immediate surrounding.
@@ -641,6 +652,7 @@ TEST_CASE( "vision_player_opaque_neighbors_still_visible_night", "[shadowcasting
 TEST_CASE( "vision_see_out_of_vehicle", "[shadowcasting][vision]" )
 {
 
+    clear_all_state();
     vision_test_case t {
         {
             "                 ",
@@ -674,6 +686,7 @@ TEST_CASE( "vision_see_out_of_vehicle", "[shadowcasting][vision]" )
 TEST_CASE( "vision_see_into_vehicle", "[shadowcasting][vision]" )
 {
 
+    clear_all_state();
     vision_test_case t {
         {
             "                 ",

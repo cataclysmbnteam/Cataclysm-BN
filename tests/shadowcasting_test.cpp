@@ -15,6 +15,7 @@
 #include "point.h"
 #include "rng.h"
 #include "shadowcasting.h"
+#include "state_helpers.h"
 #include "string_formatter.h"
 
 // Constants setting the ratio of set to unset tiles.
@@ -494,6 +495,7 @@ static void run_spot_check( const grid_overlay &test_case, const grid_overlay &e
 
 TEST_CASE( "shadowcasting_slope_inversion_regression_test", "[shadowcasting]" )
 {
+    clear_all_state();
     grid_overlay test_case( { 7, 8 }, LIGHT_TRANSPARENCY_OPEN_AIR );
     test_case.data = {
         {T, T, T, T, T, T, T, T, T, T},
@@ -529,6 +531,7 @@ TEST_CASE( "shadowcasting_slope_inversion_regression_test", "[shadowcasting]" )
 
 TEST_CASE( "shadowcasting_pillar_behavior_cardinally_adjacent", "[shadowcasting]" )
 {
+    clear_all_state();
     grid_overlay test_case( { 1, 4 }, LIGHT_TRANSPARENCY_OPEN_AIR );
     test_case.data = {
         {T, T, T, T, T, T, T, T, T},
@@ -560,6 +563,7 @@ TEST_CASE( "shadowcasting_pillar_behavior_cardinally_adjacent", "[shadowcasting]
 
 TEST_CASE( "shadowcasting_pillar_behavior_2_1_diagonal_gap", "[shadowcasting]" )
 {
+    clear_all_state();
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     grid_overlay test_case( { 1, 1 }, LIGHT_TRANSPARENCY_OPEN_AIR );
     test_case.data = {
@@ -593,6 +597,7 @@ TEST_CASE( "shadowcasting_pillar_behavior_2_1_diagonal_gap", "[shadowcasting]" )
 
 TEST_CASE( "shadowcasting_vision_along_a_wall", "[shadowcasting]" )
 {
+    clear_all_state();
     grid_overlay test_case( { 8, 2 }, LIGHT_TRANSPARENCY_OPEN_AIR );
     test_case.data = {
         {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
@@ -624,31 +629,37 @@ TEST_CASE( "shadowcasting_vision_along_a_wall", "[shadowcasting]" )
 // Some random edge cases aren't matching.
 TEST_CASE( "shadowcasting_runoff", "[.]" )
 {
+    clear_all_state();
     shadowcasting_runoff( 1 );
 }
 
 TEST_CASE( "shadowcasting_performance", "[.]" )
 {
+    clear_all_state();
     shadowcasting_runoff( 100000 );
 }
 
 TEST_CASE( "shadowcasting_3d_2d", "[.]" )
 {
+    clear_all_state();
     shadowcasting_3d_2d( 1 );
 }
 
 TEST_CASE( "shadowcasting_3d_2d_performance", "[.]" )
 {
+    clear_all_state();
     shadowcasting_3d_2d( 100000 );
 }
 
 TEST_CASE( "shadowcasting_float_quad_equivalence", "[shadowcasting]" )
 {
+    clear_all_state();
     shadowcasting_float_quad( 1 );
 }
 
 TEST_CASE( "shadowcasting_float_quad_performance", "[.]" )
 {
+    clear_all_state();
     shadowcasting_float_quad( 1000000 );
     shadowcasting_float_quad( 1000000, 100 );
 }
@@ -656,5 +667,6 @@ TEST_CASE( "shadowcasting_float_quad_performance", "[.]" )
 // I'm not sure this will ever work.
 TEST_CASE( "bresenham_vs_shadowcasting", "[.]" )
 {
+    clear_all_state();
     shadowcasting_runoff( 1, true );
 }

@@ -22,6 +22,7 @@
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "skill.h"
+#include "state_helpers.h"
 #include "type_id.h"
 #include "value_ptr.h"
 #include "vehicle.h"
@@ -36,6 +37,7 @@ static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 
 TEST_CASE( "identifying unread books", "[reading][book][identify]" )
 {
+    clear_all_state();
     avatar dummy;
 
     GIVEN( "player has some unidentified books" ) {
@@ -59,6 +61,7 @@ TEST_CASE( "identifying unread books", "[reading][book][identify]" )
 
 TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
 {
+    clear_all_state();
     avatar dummy;
 
     GIVEN( "a fun book" ) {
@@ -117,6 +120,7 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
 
 TEST_CASE( "character reading speed", "[reading][character][speed]" )
 {
+    clear_all_state();
     avatar dummy;
 
     // Note: read_speed() returns number of moves;
@@ -161,6 +165,7 @@ TEST_CASE( "character reading speed", "[reading][character][speed]" )
 
 TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
 {
+    clear_all_state();
     avatar dummy;
 
     // Easy, medium, and hard books
@@ -233,6 +238,7 @@ TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
 
 TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
 {
+    clear_all_state();
     avatar dummy;
     std::vector<std::string> reasons;
     std::vector<std::string> expect_reasons;
@@ -322,6 +328,7 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
 // Now that's an ugly test
 TEST_CASE( "Learning recipes from books", "[reading][book][recipe]" )
 {
+    clear_all_state();
     avatar dummy;
     item &alpha = dummy.i_add( item( "recipe_alpha" ) );
     auto mutagen_iter = std::find_if( recipe_dict.begin(),
@@ -398,8 +405,7 @@ static void destroyed_book_test_helper( avatar &u, item_location loc )
 
 TEST_CASE( "Losing book during reading", "[reading][book]" )
 {
-    clear_map();
-    clear_avatar();
+    clear_all_state();
     set_time( calendar::turn_zero + 12_hours );
     avatar &u = get_avatar();
     SECTION( "Book in inventory" ) {

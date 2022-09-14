@@ -1,5 +1,7 @@
 #include "map_helpers.h"
 
+#include "catch/catch.hpp"
+
 #include <cassert>
 #include <memory>
 #include <string>
@@ -12,9 +14,11 @@
 #include "game.h"
 #include "game_constants.h"
 #include "map.h"
+#include "mapbuffer.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "npc.h"
+#include "overmapbuffer.h"
 #include "point.h"
 #include "type_id.h"
 
@@ -86,6 +90,12 @@ void clear_items( const int zlevel )
     }
 }
 
+void clear_overmap()
+{
+    MAPBUFFER.reset();
+    overmap_buffer.clear();
+}
+
 void clear_map()
 {
     // Clearing all z-levels is rather slow, so just clear the ones I know the
@@ -102,9 +112,8 @@ void clear_map()
     }
 }
 
-void clear_map_and_put_player_underground()
+void put_player_underground()
 {
-    clear_map();
     // Make sure the player doesn't block the path of the monster being tested.
     g->u.setpos( { 0, 0, -2 } );
 }
@@ -112,7 +121,7 @@ void clear_map_and_put_player_underground()
 monster &spawn_test_monster( const std::string &monster_type, const tripoint &start )
 {
     monster *const added = g->place_critter_at( mtype_id( monster_type ), start );
-    assert( added );
+    REQUIRE( added );
     return *added;
 }
 
