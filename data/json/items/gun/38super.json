@@ -2,7 +2,6 @@
   {
     "id": "af2011a1_38super",
     "copy-from": "pistol_base",
-    "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str_sp": "AF2011A1 .38 Super" },
     "description": "A double-barrel semi-automatic pistol of Italian origin, firing two bullets per shot, a derivative of the M1911 pistol.",
@@ -40,7 +39,6 @@
   {
     "id": "m1911a1_38super",
     "copy-from": "pistol_base",
-    "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str": "M1911A1" },
     "description": "The M1911A1 is an extremely popular pistol known for its reliability.  This one is chambered for .38 Super.",
@@ -51,10 +49,8 @@
     "to_hit": -2,
     "bashing": 12,
     "material": [ "steel", "plastic" ],
-    "symbol": "(",
     "color": "light_gray",
     "ammo": "38super",
-    "dispersion": 480,
     "durability": 7,
     "magazine_well": "250 ml",
     "magazines": [ [ "38super", [ "m1911mag_10rd_38super" ] ] ]

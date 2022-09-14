@@ -1,23 +1,18 @@
 [
   {
     "id": "blunderbuss",
-    "looks_like": "remington_870",
+    "copy-from": "shotgun_base",
     "type": "GUN",
-    "reload_noise_volume": 10,
     "name": { "str": "blunderbuss", "str_pl": "blunderbusses" },
     "description": "A homemade version of a crude precursor to the shotgun.  Able to fire just about anything you put down the barrel, but it will degrade pretty quick.",
     "weight": "8267 g",
     "volume": "3 L",
     "price": 15000,
     "price_postapoc": 1000,
-    "to_hit": -1,
     "ascii_picture": "blunderbuss",
-    "bashing": 12,
     "material": [ "steel", "wood" ],
-    "symbol": "(",
     "color": "brown",
     "ammo": "blunderbuss",
-    "skill": "shotgun",
     "dispersion": 855,
     "durability": 3,
     "loudness": 200,
@@ -31,6 +26,7 @@
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "faults": [  ]
   }
 ]
