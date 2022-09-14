@@ -58,7 +58,7 @@
   },
   {
     "id": "cx4",
-    "copy-from": "rifle_base",    
+    "copy-from": "rifle_base",
     "type": "GUN",
     "name": { "str": "Cx4 Storm" },
     "description": "A small pistol caliber carbine designed for police use and civilian self-defense, the Cx4 Storm uses magazines that are interchangeable with other Beretta 9x19mm handguns.",

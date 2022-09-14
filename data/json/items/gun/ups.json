@@ -31,7 +31,7 @@
     ],
     "ammo_effects": [ "DRAW_LASER_BEAM", "EMP" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ],
-    "faults": []
+    "faults": [  ]
   },
   {
     "id": "gatling_mech_laser",
@@ -57,7 +57,7 @@
     "modes": [ [ "DEFAULT", "3 rd.", 3 ], [ "BURST", "5 rd.", 5 ], [ "AUTO", "high auto", 15 ] ],
     "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "INCENDIARY" ],
     "flags": [ "NO_UNLOAD", "NEVER_JAMS", "NO_UNWIELD", "NO_SALVAGE", "NO_REPAIR", "UNBREAKABLE_MELEE", "NON-FOULING" ],
-    "faults": []
+    "faults": [  ]
   },
   {
     "id": "recon_mech_laser",
@@ -91,7 +91,7 @@
       "NON-FOULING",
       "NEEDS_NO_LUBE"
     ],
-    "faults": []
+    "faults": [  ]
   },
   {
     "id": "laser_cannon",
@@ -125,7 +125,7 @@
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
     "flags": [ "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ],
-    "faults": []
+    "faults": [  ]
   },
   {
     "id": "laser_cannon_turret_fake",
@@ -166,7 +166,7 @@
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ],
-    "faults": []
+    "faults": [  ]
   },
   {
     "id": "v29",
@@ -200,6 +200,6 @@
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ],
-    "faults": []
+    "faults": [  ]
   }
 ]

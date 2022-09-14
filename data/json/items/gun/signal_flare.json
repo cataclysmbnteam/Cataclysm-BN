@@ -26,6 +26,6 @@
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS", "RELOAD_EJECT", "PYROMANIAC_WEAPON" ],
-    "faults": []
+    "faults": [  ]
   }
 ]
