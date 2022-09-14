@@ -235,6 +235,7 @@
     "volume": "470 ml",
     "price": 80000,
     "price_postapoc": 2250,
+    "to_hit": 0,
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
     "ammo": "45",

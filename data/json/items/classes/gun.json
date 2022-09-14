@@ -17,6 +17,8 @@
     "type": "GUN",
     "reload_noise": "slosh.",
     "name": { "str": "base flamethrower" },
+    "looks_like": "m79",
+    "bashing": 10,
     "skill": "launcher",
     "ammo": "flammable",
     "ammo_effects": [ "FLARE" ],
@@ -138,6 +140,7 @@
     "looks_like": "ar15",
     "bashing": 12,
     "skill": "rifle",
+    "handling": 20,
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -152,8 +155,7 @@
       [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
-    ],
-    "handling": 20
+    ]
   },
   {
     "abstract": "rifle_manual",
@@ -278,6 +280,7 @@
     "bashing": 10,
     "ascii_picture": "hk_mp5a2",
     "skill": "smg",
+    "handling": 30,
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "barrel", 1 ],

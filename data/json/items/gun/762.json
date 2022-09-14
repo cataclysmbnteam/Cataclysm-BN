@@ -33,7 +33,7 @@
   },
   {
     "id": "arx160",
-    "copy-from": "rifle_auto",
+    "copy-from": "rifle_manual",
     "type": "GUN",
     "name": { "str_sp": "Beretta ARX-160" },
     "//": "Total unloaded weight of gun 3000 grams.  Current weight of folding stock 200 grams.",
@@ -51,25 +51,11 @@
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
     "barrel_length": "250 ml",
     "default_mods": [ "folding_stock" ],
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
-    ],
     "magazines": [ [ "762", [ "akmag30", "akmag10", "akmag20", "akmag40" ] ] ]
   },
   {
     "id": "sks",
-    "copy-from": "rifle_auto",
+    "copy-from": "rifle_manual",
     "type": "GUN",
     "name": { "str": "SKS" },
     "description": "Developed by the Soviets in 1945, this rifle was quickly replaced by the full-auto AK47.  However, due to its superb accuracy, low recoil and deployable integrated bayonet, this gun maintains immense popularity.",
@@ -86,20 +72,6 @@
     "clip_size": 10,
     "barrel_length": "500 ml",
     "built_in_mods": [ "inter_bayonet" ],
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
-    ],
     "magazines": [ [ "762", [ "762x39_clip" ] ] ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
   },

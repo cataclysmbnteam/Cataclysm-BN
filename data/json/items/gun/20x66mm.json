@@ -43,6 +43,7 @@
     "volume": "1750 ml",
     "price": 1320000,
     "price_postapoc": 10000,
+    "bashing": 11,
     "material": [ "superalloy", "ceramic" ],
     "color": "dark_gray",
     "ammo": "20x66mm",
