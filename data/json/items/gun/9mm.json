@@ -104,10 +104,8 @@
   {
     "id": "hk_mp5",
     "//": "Tileset whitelist for SMGs",
+    "copy-from": "smg_base",
     "type": "GUN",
-    "skill": "smg",
-    "symbol": "(",
-    "reload_noise_volume": 10,
     "name": { "str": "H&K MP5A2" },
     "description": "The Heckler & Koch MP5 is one of the most widely-used submachine guns in the world, and has been adopted by special police forces and militaries alike.  Its high degree of accuracy and low recoil are universally praised.",
     "weight": "2730 g",
@@ -115,7 +113,6 @@
     "price": 280000,
     "price_postapoc": 3500,
     "to_hit": -2,
-    "ascii_picture": "hk_mp5a2",
     "material": [ "steel", "plastic" ],
     "color": "dark_gray",
     "ammo": "9mm",
@@ -354,6 +351,7 @@
     "blackpowder_tolerance": 24,
     "min_cycle_recoil": 380,
     "modes": [ [ "DEFAULT", "burst", 5 ] ],
+    "handling": 40,
     "loudness": 25,
     "barrel_length": "250 ml",
     "magazines": [ [ "9mm", [ "survivor9mm_mag", "stenmag" ] ] ]
@@ -378,6 +376,7 @@
     "durability": 5,
     "blackpowder_tolerance": 24,
     "min_cycle_recoil": 450,
+    "handling": 40,
     "modes": [ [ "DEFAULT", "burst", 4 ] ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -410,6 +409,7 @@
     "dispersion": 520,
     "durability": 6,
     "min_cycle_recoil": 450,
+    "handling": 40,
     "modes": [ [ "DEFAULT", "burst", 4 ] ],
     "magazine_well": "250 ml",
     "magazines": [ [ "9mm", [ "tec9mag" ] ] ]

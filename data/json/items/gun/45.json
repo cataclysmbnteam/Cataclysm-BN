@@ -140,6 +140,7 @@
     "modes": [ [ "DEFAULT", "burst", 5 ] ],
     "loudness": 25,
     "barrel_length": "250 ml",
+    "handling": 40,
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "barrel", 1 ],

@@ -9,7 +9,7 @@
     "to_hit": -1,
     "color": "light_gray",
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "handling": 30
+    "handling": 15
   },
   {
     "abstract": "flamethrower_base",
@@ -47,7 +47,6 @@
     "looks_like": "glock_17",
     "skill": "pistol",
     "bashing": 8,
-    "handling": 15,
     "dispersion": 480,
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -153,7 +152,8 @@
       [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
-    ]
+    ],
+    "handling": 20
   },
   {
     "abstract": "rifle_manual",
@@ -223,6 +223,7 @@
     "bashing": 12,
     "looks_like": "remington_870",
     "ammo": "shot",
+    "handling": 30,
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -275,7 +276,7 @@
     "type": "GUN",
     "name": { "str": "base SMG" },
     "bashing": 10,
-    "looks_like": "hk_mp5",
+    "ascii_picture": "hk_mp5a2",
     "skill": "smg",
     "valid_mod_locations": [
       [ "accessories", 3 ],
