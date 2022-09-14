@@ -54,6 +54,7 @@
     "loudness": 12,
     "ups_charges": 20,
     "reload": 0,
+    "handling": 40,
     "modes": [ [ "DEFAULT", "3 rd.", 3 ], [ "BURST", "5 rd.", 5 ], [ "AUTO", "high auto", 15 ] ],
     "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "INCENDIARY" ],
     "flags": [ "NO_UNLOAD", "NEVER_JAMS", "NO_UNWIELD", "NO_SALVAGE", "NO_REPAIR", "UNBREAKABLE_MELEE", "NON-FOULING" ],

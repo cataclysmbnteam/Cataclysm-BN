@@ -350,8 +350,8 @@
     "durability": 4,
     "blackpowder_tolerance": 24,
     "min_cycle_recoil": 380,
-    "modes": [ [ "DEFAULT", "burst", 5 ] ],
     "handling": 40,
+    "modes": [ [ "DEFAULT", "burst", 5 ] ],
     "loudness": 25,
     "barrel_length": "250 ml",
     "magazines": [ [ "9mm", [ "survivor9mm_mag", "stenmag" ] ] ]

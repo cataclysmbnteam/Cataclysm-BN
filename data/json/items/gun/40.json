@@ -141,6 +141,7 @@
     "durability": 4,
     "blackpowder_tolerance": 24,
     "min_cycle_recoil": 425,
+    "handling": 40,
     "modes": [ [ "DEFAULT", "burst", 5 ] ],
     "loudness": 25,
     "barrel_length": "250 ml",
