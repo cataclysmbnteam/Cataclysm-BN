@@ -52,14 +52,22 @@ char vehicle::part_sym( const int p, const bool exact ) const
 // similar to part_sym(int p) but for use when drawing SDL tiles. Called only by cata_tiles
 // during draw_vpart vector returns at least 1 element, max of 2 elements. If 2 elements the
 // second denotes if it is open or damaged
-vpart_id vehicle::part_id_string( const int p, char &part_mod ) const
+vpart_id vehicle::part_id_string( const int p, bool roof, char &part_mod ) const
 {
     part_mod = 0;
     if( p < 0 || p >= static_cast<int>( parts.size() ) || parts[p].removed ) {
         return vpart_id::NULL_ID();
     }
 
-    int displayed_part = part_displayed_at( parts[p].mount );
+    int displayed_part = -1;
+
+    if( roof ) {
+        displayed_part = roof_at_part( p );
+    }
+    if( displayed_part < 0 || displayed_part >= static_cast<int>( parts.size() ) ||
+        parts[ displayed_part ].removed ) {
+        displayed_part = part_displayed_at( parts[p].mount );
+    }
     if( displayed_part < 0 || displayed_part >= static_cast<int>( parts.size() ) ||
         parts[ displayed_part ].removed ) {
         return vpart_id::NULL_ID();
