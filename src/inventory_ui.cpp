@@ -987,6 +987,8 @@ size_t inventory_column::visible_cells() const
 void inventory_column::clear_cell_cache() const
 {
     entries_cell_cache.clear();
+    // TODO: Remove hack before merging
+    const_cast<inventory_column *>( this )->paging_is_valid = false;
 }
 
 selection_column_base::selection_column_base( const std::string &id, const std::string &name )
@@ -2505,8 +2507,8 @@ void inventory_drop_selector::rebuild()
         } );
 
         for( inventory_entry *entry : entries_in_column ) {
-            int matching_count = 0;
-            int total_count = 0;
+            size_t matching_count = 0;
+            size_t total_count = 0;
             for( const item_location &loc : entry->locations ) {
                 total_count += loc->count();
                 auto iter = drop_counts.find( loc );
@@ -2515,14 +2517,22 @@ void inventory_drop_selector::rebuild()
                 }
             }
 
-            if( matching_count > total_count ) {
-                debugmsg( "Dropped item count > total item count (somehow)" );
+            const item *it = &*entry->any_item();
+            auto iter_dropping = dropping.find( it );
+            size_t selected_count = iter_dropping != dropping.end() ?
+                                    iter_dropping->second :
+                                    0;
+
+            size_t implied_drop_count = total_count - selected_count;
+
+            if( selected_count + implied_drop_count > total_count ) {
+                debugmsg( "Dropped item count > total item count" );
                 implied_cache_dirty = true;
                 implied_drops.clear();
                 return;
             } else {
                 const item *it = &*entry->any_item();
-                implied_drops[it] = count_out_of( matching_count, total_count );
+                implied_drops[it] = count_out_of( implied_drop_count, total_count );
                 item_to_entry[it] = *entry;
             }
         }
@@ -2531,12 +2541,12 @@ void inventory_drop_selector::rebuild()
     for( const std::pair<const item *, count_out_of> &one_drop : implied_drops ) {
         auto iter = item_to_entry.find( one_drop.first );
         if( iter == item_to_entry.end() ) {
-            debugmsg( "WTF" );
+            debugmsg( "Couldn't locate item to drop in cache" );
             return;
         }
         // TODO: `at` is unsafe
         const inventory_entry &ie = item_to_entry.at( one_drop.first );
-        const count_out_of full_count = implied_drops.at( one_drop.first );
+        const count_out_of implied_count = implied_drops.at( one_drop.first );
         auto iter_dropping = dropping.find( one_drop.first );
         size_t selected_count = iter_dropping != dropping.end() ?
                                 iter_dropping->second :
@@ -2550,10 +2560,9 @@ void inventory_drop_selector::rebuild()
             }
         }
 
-        if( full_count.selected > selected_count ) {
-            // TODO: Make selection column not override category!
+        if( implied_count.selected > 0 ) {
             inventory_entry only_implied = inventory_entry( ie, &*implied_cat );
-            only_implied.chosen_count = full_count.selected - selected_count;
+            only_implied.chosen_count = implied_count.selected;
             sel_col.on_change( only_implied );
         }
         refresh_active_column();
@@ -2564,14 +2573,6 @@ void inventory_drop_selector::rebuild()
     for( inventory_column *col : get_all_columns() ) {
         col->clear_cell_cache();
         col->prepare_paging();
-    }
-
-
-    // If our cache is empty but inventory isn't, something went wrong
-    if( implied_drops.empty() && ( !u.weapon.is_null() || !u.worn.empty() || u.inv.size() != 0 ) ) {
-        // TODO: Prevent this from happening
-        debugmsg( "Shouldn't be empty, but is!" );
-        implied_cache_dirty = true;
     }
 
     caching_preset.set_implied_drops( implied_drops );
@@ -2612,11 +2613,6 @@ excluded_stacks inventory_drop_selector::get_implied_drops() const
     excluded_stacks result;
     for( const auto &pr : implied_drops ) {
         result[pr.first] = pr.second.selected;
-        /*
-        for( const item_location &loc : pr.first->locations ) {
-            result[&*loc] = pr.second.selected;
-        }
-        */
     }
 
     return result;
