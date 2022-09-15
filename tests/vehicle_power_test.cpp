@@ -23,7 +23,6 @@
 
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_plut_cell( "plut_cell" );
-static const efftype_id effect_blind( "blind" );
 
 TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
 {
