@@ -352,6 +352,28 @@ void recipe::finalize()
             autolearn_requirements[ skill_used ] = difficulty;
         }
     }
+
+    {
+        auto it = flags.find( "UNCRAFT_SINGLE_CHARGE" );
+        if( it != flags.end() ) {
+            flags.erase( it );
+            charges = 1;
+            if( json_report_strict || !result_->count_by_charges() ) {
+                debugmsg( "recipe %s uses obsolete flag UNCRAFT_SINGLE_CHARGE, replace with \"charges\": 1",
+                          ident() );
+            }
+        }
+    }
+    {
+        auto it = flags.find( "UNCRAFT_BY_QUANTITY" );
+        if( it != flags.end() ) {
+            flags.erase( it );
+            if( json_report_strict ) {
+                debugmsg( "recipe %s uses obsolete flag UNCRAFT_BY_QUANTITY",
+                          ident() );
+            }
+        }
+    }
 }
 
 void recipe::add_requirements( const std::vector<std::pair<requirement_id, int>> &reqs )
@@ -377,6 +399,14 @@ std::string recipe::get_consistency_error() const
 
     if( charges && !item::count_by_charges( result_ ) ) {
         return "specifies charges but result is not counted by charges";
+    }
+
+    if( charges && result_mult != 1 ) {
+        return "specifies both charges and result_mult";
+    }
+
+    if( result_mult != 1 && reversible ) {
+        return "is reversible, so can't use result_mult";
     }
 
     const auto is_invalid_bp = []( const std::pair<itype_id, int> &elem ) {
@@ -808,4 +838,15 @@ int recipe::makes_amount() const
     }
     // return either charges * mult or 1
     return makes ? makes * result_mult : 1 ;
+}
+
+int recipe::disassembly_batch_size() const
+{
+    if( !result_->count_by_charges() ) {
+        return 1;
+    } else if( charges.has_value() ) {
+        return *charges;
+    } else {
+        return result_->charges_default();
+    }
 }

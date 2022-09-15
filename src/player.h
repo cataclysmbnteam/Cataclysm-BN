@@ -559,18 +559,6 @@ class player : public Character
          * multiple steps of incremental skill gain simultaneously if needed.
          */
         void craft_skill_gain( const item &craft, const int &multiplier );
-        /**
-         * Check if the player can disassemble an item using the current crafting inventory
-         * @param obj Object to check for disassembly
-         * @param inv current crafting inventory
-         */
-        ret_val<bool> can_disassemble( const item &obj, const inventory &inv ) const;
-
-        bool disassemble();
-        bool disassemble( item_location target, bool interactive = true );
-        void disassemble_all( bool one_pass ); // Disassemble all items on the tile
-        void complete_disassemble();
-        void complete_disassemble( item_location &target, const recipe &dis );
 
         const requirement_data *select_requirements(
             const std::vector<const requirement_data *> &, int batch, const inventory &,

@@ -13,7 +13,7 @@
       [ [ "gunpowder", 10 ] ],
       [ [ "copper", 3 ] ]
     ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "charges": 1
   },
   {
     "result": "762_51_incendiary",
@@ -30,6 +30,6 @@
       [ [ "gunpowder", 10 ] ],
       [ [ "copper", 3 ] ]
     ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "charges": 1
   }
 ]

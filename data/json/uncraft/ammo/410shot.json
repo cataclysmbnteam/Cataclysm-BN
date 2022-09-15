@@ -7,6 +7,6 @@
     "time": "1 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "410shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder", 5 ] ], [ [ "lead", 5 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "charges": 1
   }
 ]

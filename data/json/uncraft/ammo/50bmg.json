@@ -14,7 +14,7 @@
       [ [ "gunpowder", 30 ] ],
       [ [ "copper", 6 ] ]
     ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "charges": 1
   },
   {
     "result": "50bmg",
@@ -30,7 +30,7 @@
       [ [ "gunpowder", 30 ] ],
       [ [ "copper", 6 ] ]
     ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "charges": 1
   },
   {
     "result": "50ss",
@@ -46,6 +46,6 @@
       [ [ "copper", 6 ] ],
       [ [ "scrap", 1 ] ]
     ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "charges": 1
   }
 ]
