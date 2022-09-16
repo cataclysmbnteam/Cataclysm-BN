@@ -10,7 +10,7 @@
     "price": 150,
     "//": "It's little more than a piece of slightly shaped leather",
     "material": "leather",
-    "extend": { "flags": [ "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELT_CLIP" ] },
+    "extend": { "flags": [ "PRIMITIVE_RANGED_WEAPON", "BELT_CLIP" ] },
     "ammo": "pebble",
     "weight": "96 g",
     "volume": "250 ml",
@@ -32,17 +32,7 @@
     "price": 150,
     "//": "The staff sling,consists of a staff with a short sling at one end. ",
     "material": [ "wood", "leather" ],
-    "extend": {
-      "flags": [
-        "RELOAD_AND_SHOOT",
-        "PRIMITIVE_RANGED_WEAPON",
-        "BELTED",
-        "DURABLE_MELEE",
-        "NONCONDUCTIVE",
-        "SHEATH_SPEAR",
-        "ALWAYS_TWOHAND"
-      ]
-    },
+    "extend": { "flags": [ "PRIMITIVE_RANGED_WEAPON", "BELTED", "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ] },
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "ammo": "rock",
     "weight": "2000 g",

@@ -4,7 +4,7 @@
     "type": "GUN",
     "name": { "str": "base range weapon" },
     "symbol": "(",
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS", "RELOAD_AND_SHOOT" ],
     "clip_size": 1,
     "ammo_effects": [ "NEVER_MISFIRES" ]
   },
@@ -28,7 +28,7 @@
     "skill": "archery",
     "ammo": "pebble",
     "valid_mod_locations": [ [ "grip mount", 1 ], [ "underbarrel mount", 1 ] ],
-    "extend": { "flags": [ "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELT_CLIP" ] }
+    "extend": { "flags": [ "PRIMITIVE_RANGED_WEAPON", "BELT_CLIP" ] }
   },
   {
     "abstract": "throwing_weapon_base",
