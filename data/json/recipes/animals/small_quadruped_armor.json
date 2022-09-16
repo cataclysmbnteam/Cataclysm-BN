@@ -33,6 +33,18 @@
     "components": [ [ [ "link_sheet", 5 ] ], [ [ "chain_link", 131 ] ], [ [ "wire", 1 ] ], [ [ "fur", 6 ], [ "leather", 6 ] ] ]
   },
   {
+    "result": "kevlar_armor_small_quadruped",
+    "type": "recipe",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_CANINE ARMOR",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "time": "70 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 63 ] ],
+    "components": [ [ [ "kevlar_plate", 18 ] ], [ [ "rag", 14 ] ], [ [ "leather", 8 ] ] ]
+  },
+  {
     "result": "leather_armor_small_quadruped",
     "type": "recipe",
     "copy-from": "vest_leather",

@@ -1665,5 +1665,80 @@
     "id": "mutant_offal_cooked",
     "type": "MIGRATION",
     "replace": "offal_cooked"
+  },
+  {
+    "id": "kevlar_harness",
+    "type": "MIGRATION",
+    "replace": "kevlar_armor_small_quadruped"
+  },
+  {
+    "id": "acidchitin_harness_dog",
+    "type": "MIGRATION",
+    "replace": "acidchitin_armor_small_quadruped"
+  },
+  {
+    "id": "chitin_harness_dog",
+    "type": "MIGRATION",
+    "replace": "chitin_armor_small_quadruped"
+  },
+  {
+    "id": "chainmail_harness_dog",
+    "type": "MIGRATION",
+    "replace": "chainmail_armor_small_quadruped"
+  },
+  {
+    "id": "leather_harness_dog",
+    "type": "MIGRATION",
+    "replace": "leather_armor_small_quadruped"
+  },
+  {
+    "id": "leatherbone_harness_dog",
+    "type": "MIGRATION",
+    "replace": "leatherbone_armor_small_quadruped"
+  },
+  {
+    "id": "rubber_harness_dog",
+    "type": "MIGRATION",
+    "replace": "rubber_armor_small_quadruped"
+  },
+  {
+    "id": "superalloy_harness_dog",
+    "type": "MIGRATION",
+    "replace": "superalloy_armor_small_quadruped"
+  },
+  {
+    "id": "kevlar_armor_horse",
+    "type": "MIGRATION",
+    "replace": "kevlar_armor_medium_quadruped"
+  },
+  {
+    "id": "acidchitin_armor_horse",
+    "type": "MIGRATION",
+    "replace": "acidchitin_armor_medium_quadruped"
+  },
+  {
+    "id": "chitin_armor_horse",
+    "type": "MIGRATION",
+    "replace": "chitin_armor_medium_quadruped"
+  },
+  {
+    "id": "chainmail_armor_horse",
+    "type": "MIGRATION",
+    "replace": "chainmail_armor_medium_quadruped"
+  },
+  {
+    "id": "leather_armor_horse",
+    "type": "MIGRATION",
+    "replace": "leather_armor_medium_quadruped"
+  },
+  {
+    "id": "leatherbone_armor_horse",
+    "type": "MIGRATION",
+    "replace": "leatherbone_armor_medium_quadruped"
+  },
+  {
+    "id": "rubber_armor_horse",
+    "type": "MIGRATION",
+    "replace": "rubber_armor_medium_quadruped"
   }
 ]
