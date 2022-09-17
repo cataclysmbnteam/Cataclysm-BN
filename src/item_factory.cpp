@@ -72,7 +72,6 @@ static const ammo_effect_str_id ammo_effect_FRAG( "FRAG" );
 static const ammo_effect_str_id ammo_effect_INCENDIARY( "INCENDIARY" );
 static const ammo_effect_str_id ammo_effect_NAPALM( "NAPALM" );
 static const ammo_effect_str_id ammo_effect_NAPALM_BIG( "NAPALM_BIG" );
-static const ammo_effect_str_id ammo_effect_NEVER_MISFIRES( "NEVER_MISFIRES" );
 static const ammo_effect_str_id ammo_effect_SMOKE( "SMOKE" );
 static const ammo_effect_str_id ammo_effect_SMOKE_BIG( "SMOKE_BIG" );
 static const ammo_effect_str_id ammo_effect_TOXICGAS( "TOXICGAS" );
