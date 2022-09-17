@@ -1466,7 +1466,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 if( here.inbounds( p.pos ) ) {
                     if( !f.hide_unseen || ch.visibility_cache[p.pos.x][p.pos.y] != lit_level::BLANK ) {
                         const bool ( invis )[5] = {false, false, false, false, false};
-                        ( this->*( f.function ) )( {p.pos.xy(), z}, p.ll, p.height_3d, invis, center.z - z );
+                        ( this->*( f.function ) )( {p.pos.xy(), z}, p.ll, p.height_3d, z == p.pos.z ? p.invisible : invis,
+                                                   center.z - z );
                     }
                 } else {
                     ( this->*( f.function ) )( {p.pos.xy(), z}, p.ll, p.height_3d, p.invisible, center.z - z );
