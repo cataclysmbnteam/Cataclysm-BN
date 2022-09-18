@@ -160,7 +160,7 @@
     "method": "json",
     "object": {
       "palettes": [ "roof_palette" ],
-      "fill_ter": "t_open_air",
+      "fill_ter": "t_flat_roof",
       "rows": [
         "                        ",
         "                        ",
