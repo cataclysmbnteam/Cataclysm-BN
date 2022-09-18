@@ -1194,6 +1194,12 @@ cast_zlight<float, shrapnel_calc, shrapnel_check, accumulate_fragment_cloud>
     const array_of_grids_of < const diagonal_blocks > &blocked_caches,
     const tripoint &origin, int offset_distance, float numerator );
 
+//Without this GCC will throw warnings if you try to check template_parameter==nullptr
+static inline bool eq_nullptr_gcc_hack( const void *check )
+{
+    return check == nullptr;
+}
+
 template<int xx, int xy, int yx, int yy, typename T, typename Out,
          T( *calc )( const T &, const T &, const int & ),
          bool( *check )( const T &, const T & ),
@@ -1208,6 +1214,8 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
                 T numerator = VISIBILITY_FULL,
                 int row = 1, float start = 1.0f, float end = 0.0f,
                 T cumulative_transparency = LIGHT_TRANSPARENCY_OPEN_AIR );
+
+
 
 template<int xx, int xy, int yx, int yy, typename T, typename Out,
          T( *calc )( const T &, const T &, const int & ),
@@ -1278,9 +1286,7 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
                 started_row = true;
                 current_transparency = input_array[ current.x ][ current.y ];
             }
-
-
-            if( lookup != nullptr ) {
+            if( !eq_nullptr_gcc_hack( lookup ) ) {
                 //Only use fast dist on fast paths, it's slower otherwise. Floating point conversion thing maybe?
                 const int dist = fast_rl_dist<21, 4>( delta ) + offsetDistance;
                 last_intensity = lookup_calc( numerator, lookup->values[dist], dist );
@@ -1309,7 +1315,7 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
             // Only cast recursively if previous span was not opaque.
             if( check( current_transparency, last_intensity ) ) {
                 //Are we moving off a fast path?
-                if( lookup != nullptr && current_transparency != lookup->transparency ) {
+                if( !eq_nullptr_gcc_hack( lookup ) && current_transparency != lookup->transparency ) {
 
                     castLight < xx, xy, yx, yy, T, Out, calc, check, update_output, accumulate, nullptr, nullptr >
                     (
@@ -1318,7 +1324,7 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
                         accumulate( lookup->transparency, current_transparency, distance ) );
                 } else {
                     T recursive_transparency = cumulative_transparency;
-                    if( lookup == nullptr ) {
+                    if( eq_nullptr_gcc_hack( lookup ) ) {
                         recursive_transparency = accumulate( cumulative_transparency, current_transparency, distance );
                     }
 
@@ -1350,8 +1356,7 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
         }
 
         //We can't iterate normally if we're coming off a fast path, we have to recur
-        if( lookup != nullptr && current_transparency != lookup->transparency ) {
-
+        if( !eq_nullptr_gcc_hack( lookup ) && current_transparency != lookup->transparency ) {
             castLight<xx, xy, yx, yy, T, Out, calc, check, update_output, accumulate, nullptr, nullptr>
             (
                 output_cache, input_array, blocked_array, offset, offsetDistance,
@@ -1361,7 +1366,7 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
         }
 
         // Cumulative average of the transparency values encountered, not needed on fast paths
-        if( lookup == nullptr ) {
+        if( eq_nullptr_gcc_hack( lookup ) ) {
             cumulative_transparency = accumulate( cumulative_transparency, current_transparency, distance );
         }
     }
