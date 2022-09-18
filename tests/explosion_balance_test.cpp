@@ -19,6 +19,7 @@
 #include "map_helpers.h"
 #include "monster.h"
 #include "point.h"
+#include "state_helpers.h"
 #include "string_id.h"
 #include "test_statistics.h"
 #include "type_id.h"
@@ -51,7 +52,8 @@ static void check_lethality( const std::string &explosive_id, const int range, f
     int total_hp = 0;
     do {
         // Clear map
-        clear_map_and_put_player_underground();
+        clear_map();
+        put_player_underground();
         // Spawn some monsters in a circle.
         tripoint origin( 30, 30, 0 );
         int num_subjects_this_time = 0;
@@ -113,8 +115,7 @@ static std::vector<int> get_part_hp( vehicle *veh )
 static void check_vehicle_damage( const std::string &explosive_id, const std::string &vehicle_id,
                                   const int range )
 {
-    // Clear map
-    clear_map_and_put_player_underground();
+    put_player_underground();
     tripoint origin( 30, 30, 0 );
 
     vehicle *target_vehicle = get_map().add_vehicle( vproto_id( vehicle_id ), origin, 0_degrees,
@@ -148,18 +149,21 @@ static void check_vehicle_damage( const std::string &explosive_id, const std::st
 
 TEST_CASE( "grenade_lethality", "[.],[grenade],[explosion],[balance],[slow]" )
 {
+    clear_all_state();
     check_lethality( "grenade_act", 5, 0.95, 0.06, outcome_type::Kill );
     check_lethality( "grenade_act", 15, 0.40, 0.06, outcome_type::Casualty );
 }
 
 TEST_CASE( "grenade_vs_vehicle", "[grenade],[explosion],[balance]" )
 {
+    clear_all_state();
     check_vehicle_damage( "grenade_act", "car", 5 );
 }
 
 TEST_CASE( "shrapnel behind wall", "[grenade],[explosion],[balance]" )
 {
-    clear_map_and_put_player_underground();
+    clear_all_state();
+    put_player_underground();
     tripoint origin( 30, 30, 0 );
 
     item grenade( "can_bomb_act" );
@@ -189,7 +193,8 @@ TEST_CASE( "shrapnel behind wall", "[grenade],[explosion],[balance]" )
 
 TEST_CASE( "shrapnel at huge range", "[grenade],[explosion]" )
 {
-    clear_map_and_put_player_underground();
+    clear_all_state();
+    put_player_underground();
     tripoint origin;
 
     item grenade( "debug_shrapnel_blast" );
@@ -210,7 +215,8 @@ TEST_CASE( "shrapnel at huge range", "[grenade],[explosion]" )
 
 TEST_CASE( "shrapnel at max grenade range", "[grenade],[explosion]" )
 {
-    clear_map_and_put_player_underground();
+    clear_all_state();
+    put_player_underground();
     tripoint origin( 60, 60, 0 );
 
     item grenade( "can_bomb_act" );
@@ -244,7 +250,8 @@ TEST_CASE( "shrapnel at max grenade range", "[grenade],[explosion]" )
 
 TEST_CASE( "rotated_vehicle_walls_block_explosions" )
 {
-    clear_map_and_put_player_underground();
+    clear_all_state();
+    put_player_underground();
     tripoint origin( 60, 60, 0 );
 
     item grenade( "can_bomb_act" );

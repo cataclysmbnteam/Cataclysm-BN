@@ -21,6 +21,7 @@
 #include "units.h"
 #include "hash_utils.h"
 #include "overmapbuffer.h"
+#include "state_helpers.h"
 #include "vpart_position.h"
 
 static weather_type_id WEATHER_CLOUDY = weather_type_id( "cloudy" );
@@ -283,8 +284,7 @@ static void guarantee_neutral_weather( const player &p, weather_manager &weather
 
 TEST_CASE( "Player body temperatures within expected bounds.", "[bodytemp][slow]" )
 {
-    clear_map();
-    clear_avatar();
+    clear_all_state();
     player &dummy = get_avatar();
     guarantee_neutral_weather( dummy, get_weather() );
 
@@ -370,8 +370,7 @@ static void print_temperatures( const std::array<units::temperature, bodytemps.s
 
 TEST_CASE( "Find air temperatures for given body temperatures.", "[.][bodytemp]" )
 {
-    clear_map();
-    clear_avatar();
+    clear_all_state();
     player &dummy = get_avatar();
     guarantee_neutral_weather( dummy, get_weather() );
 
@@ -446,8 +445,7 @@ static void test_water_temperature_spread( player &p, const std::array<int, 7> &
 
 TEST_CASE( "Player body temperatures in water.", "[.][bodytemp]" )
 {
-    clear_map();
-    clear_avatar();
+    clear_all_state();
     player &dummy = get_avatar();
 
     const tripoint &pos = dummy.pos();
@@ -501,8 +499,7 @@ static void hypothermia_check( player &p, int water_temperature, time_duration e
 
 TEST_CASE( "Water hypothermia check.", "[.][bodytemp]" )
 {
-    clear_map();
-    clear_avatar();
+    clear_all_state();
     player &dummy = get_avatar();
 
     const tripoint &pos = dummy.pos();
@@ -530,9 +527,8 @@ TEST_CASE( "Water hypothermia check.", "[.][bodytemp]" )
 
 TEST_CASE( "player_move_through_vehicle_holes" )
 {
-    clear_map();
-    clear_avatar();
 
+    clear_all_state();
     player &dummy = get_avatar();
 
     const tripoint &pos = dummy.pos();

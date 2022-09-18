@@ -14,10 +14,12 @@
 #include "overmap_types.h"
 #include "overmapbuffer.h"
 #include "point.h"
+#include "state_helpers.h"
 #include "type_id.h"
 
 TEST_CASE( "set_and_get_overmap_scents" )
 {
+    clear_all_state();
     std::unique_ptr<overmap> test_overmap = std::make_unique<overmap>( point_abs_om() );
 
     // By default there are no scents set.
@@ -38,6 +40,7 @@ TEST_CASE( "set_and_get_overmap_scents" )
 
 TEST_CASE( "default_overmap_generation_always_succeeds", "[slow]" )
 {
+    clear_all_state();
     int overmaps_to_construct = 10;
     for( const point_abs_om &candidate_addr : closest_points_first( point_abs_om(), 10 ) ) {
         // Skip populated overmaps.
@@ -60,6 +63,7 @@ TEST_CASE( "default_overmap_generation_always_succeeds", "[slow]" )
 
 TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin", "[slow]" )
 {
+    clear_all_state();
     const point_abs_om origin{};
 
     overmap_special mandatory;
@@ -132,11 +136,13 @@ static void do_lab_finale_test()
 
 TEST_CASE( "Exactly one endgame lab finale is generated in 0,0 overmap", "[overmap][slow]" )
 {
+    clear_all_state();
     do_lab_finale_test();
 }
 
 TEST_CASE( "Brute force default batch generation to check for RNG bugs", "[.][overmap][slow]" )
 {
+    clear_all_state();
     for( size_t i = 0; i < 100; i++ ) {
         do_lab_finale_test();
     }
@@ -144,6 +150,7 @@ TEST_CASE( "Brute force default batch generation to check for RNG bugs", "[.][ov
 
 TEST_CASE( "is_ot_match", "[overmap][terrain]" )
 {
+    clear_all_state();
     SECTION( "exact match" ) {
         // Matches the complete string
         CHECK( is_ot_match( "forest", oter_id( "forest" ), ot_match_type::exact ) );

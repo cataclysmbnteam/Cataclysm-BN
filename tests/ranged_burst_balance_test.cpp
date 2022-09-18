@@ -5,6 +5,7 @@
 #include "npc.h"
 #include "item.h"
 #include "ranged.h"
+#include "state_helpers.h"
 
 static constexpr tripoint shooter_pos( 60, 60, 0 );
 static const std::string flag_BIPOD( "BIPOD" );
@@ -54,6 +55,7 @@ static void check_burst_penalty( const Character &shooter, const std::string &gu
 
 TEST_CASE( "unskilled_burst_no_mods", "[ranged] [balance]" )
 {
+    clear_all_state();
     standard_npc shooter( "Shooter", shooter_pos, {}, 0, 8, 8, 8, 8 );
     // .22 SMG - the lightest burst (from a firearm) expected to be in the game
     check_burst_penalty( shooter, "american_180", 0 );
@@ -71,6 +73,7 @@ TEST_CASE( "unskilled_burst_no_mods", "[ranged] [balance]" )
 
 TEST_CASE( "average_burst_no_mods", "[ranged] [balance]" )
 {
+    clear_all_state();
     standard_npc shooter( "Shooter", shooter_pos, {}, 5, 10, 8, 8, 8 );
     check_burst_penalty( shooter, "american_180", 0 );
     check_burst_penalty( shooter, "calico", 25 );
@@ -83,6 +86,7 @@ TEST_CASE( "average_burst_no_mods", "[ranged] [balance]" )
 // Near the best achievable by an unmodified human
 TEST_CASE( "great_burst_no_mods", "[ranged] [balance]" )
 {
+    clear_all_state();
     standard_npc shooter( "Shooter", shooter_pos, {}, 10, 14, 14, 14, 14 );
     check_burst_penalty( shooter, "american_180", 0 );
     check_burst_penalty( shooter, "calico", 4 );
@@ -94,6 +98,7 @@ TEST_CASE( "great_burst_no_mods", "[ranged] [balance]" )
 
 TEST_CASE( "average_burst_bipod", "[ranged] [balance]" )
 {
+    clear_all_state();
     standard_npc shooter( "Shooter", shooter_pos, {}, 5, 10, 8, 8, 8 );
     check_burst_penalty( shooter, "m249", {}, 40, true );
     check_burst_penalty( shooter, "m240", {}, 90, true );
@@ -103,6 +108,7 @@ TEST_CASE( "average_burst_bipod", "[ranged] [balance]" )
 
 TEST_CASE( "average_burst_modded", "[ranged] [balance]" )
 {
+    clear_all_state();
     const std::vector<std::string> modset = {"adjustable_stock", "suppressor", "pistol_grip", "grip_mod"};
     standard_npc shooter( "Shooter", shooter_pos, {}, 5, 10, 8, 8, 8 );
     check_burst_penalty( shooter, "american_180", modset, 0 );

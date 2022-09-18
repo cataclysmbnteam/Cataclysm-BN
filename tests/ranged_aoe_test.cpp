@@ -9,6 +9,7 @@
 #include "map_helpers.h"
 #include "overmapbuffer.h"
 #include "game.h"
+#include "state_helpers.h"
 
 static void shape_coverage_vs_distance_no_obstacle( const shape_factory_impl &c,
         const tripoint &origin, const tripoint &end )
@@ -46,7 +47,7 @@ static void shape_coverage_vs_distance_no_obstacle( const shape_factory_impl &c,
 
 TEST_CASE( "expected shape coverage mass test", "[shape]" )
 {
-    clear_map();
+    clear_all_state();
     cone_factory c( 15_degrees, 10.0 );
     const tripoint origin( 60, 60, 0 );
     for( const tripoint &end : points_in_radius<tripoint>( origin, 5 ) ) {
@@ -59,7 +60,7 @@ TEST_CASE( "expected shape coverage mass test", "[shape]" )
 
 TEST_CASE( "expected shape coverage without obstacles", "[shape]" )
 {
-    clear_map();
+    clear_all_state();
     cone_factory c( 22.5_degrees, 10.0 );
     const tripoint origin( 60, 60, 0 );
     const tripoint offset( 5, 5, 0 );
@@ -77,7 +78,7 @@ TEST_CASE( "expected shape coverage without obstacles", "[shape]" )
 
 TEST_CASE( "expected shape coverage through windows", "[shape]" )
 {
-    clear_map();
+    clear_all_state();
     cone_factory c( 22.5_degrees, 10.0 );
     const tripoint origin( 60, 60, 0 );
     const tripoint offset( 5, 0, 0 );
@@ -98,8 +99,8 @@ TEST_CASE( "expected shape coverage through windows", "[shape]" )
 
 TEST_CASE( "character using birdshot against another character", "[shape][ranged]" )
 {
+    clear_all_state();
     REQUIRE( get_map().has_zlevels() );
-    clear_map();
     get_player_character().setpos( {60, 60, -2} );
 
     const tripoint shooter_pos( 60, 60, 0 );

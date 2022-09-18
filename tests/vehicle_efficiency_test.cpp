@@ -23,6 +23,7 @@
 #include "map_helpers.h"
 #include "point.h"
 #include "player_helpers.h"
+#include "state_helpers.h"
 #include "string_formatter.h"
 #include "test_statistics.h"
 #include "type_id.h"
@@ -402,6 +403,7 @@ std::vector<std::string> vehs_to_test = {{
  **/
 TEST_CASE( "vehicle_find_efficiency", "[.]" )
 {
+    clear_all_state();
     for( const std::string &veh : vehs_to_test ) {
         find_efficiency( veh );
     }
@@ -410,6 +412,7 @@ TEST_CASE( "vehicle_find_efficiency", "[.]" )
 /** This is even less of a test. It generates C++ lines for the actual test below */
 TEST_CASE( "make_vehicle_efficiency_case", "[.]" )
 {
+    clear_all_state();
     const float acceptable = 1.25;
     std::map<std::string, int> forward_distance;
     for( const std::string &veh : vehs_to_test ) {
@@ -429,6 +432,7 @@ TEST_CASE( "make_vehicle_efficiency_case", "[.]" )
 // Fix test for electric vehicles
 TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
 {
+    clear_all_state();
     test_vehicle( "beetle", 815669, 431300, 338700, 95610, 68060 );
     test_vehicle( "car", 1120618, 617500, 386100, 52730, 25170 );
     test_vehicle( "car_sports", 1154214, 352600, 267600, 36790, 22350 );

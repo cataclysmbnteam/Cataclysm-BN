@@ -18,6 +18,7 @@
 #include "player.h"
 #include "player_helpers.h"
 #include "string_id.h"
+#include "state_helpers.h"
 #include "weather.h"
 
 namespace behavior
@@ -43,6 +44,7 @@ static behavior::node_t make_test_node( std::string goal, const behavior::status
 
 TEST_CASE( "behavior_tree", "[behavior]" )
 {
+    clear_all_state();
     behavior::status_t cold_state = behavior::running;
     behavior::status_t thirsty_state = behavior::running;
     behavior::status_t hungry_state = behavior::running;
@@ -143,7 +145,7 @@ TEST_CASE( "behavior_tree", "[behavior]" )
 // Make assertions about loaded behaviors.
 TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
 {
-    clear_map();
+    clear_all_state();
     behavior::tree npc_needs;
     npc_needs.add( &string_id<behavior::node_t>( "npc_needs" ).obj() );
     npc &test_npc = spawn_npc( { 50, 50 }, "test_talker" );
@@ -190,6 +192,7 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
 
 TEST_CASE( "check_monster_behavior_tree", "[monster][behavior]" )
 {
+    clear_all_state();
     behavior::tree monster_goals;
     monster_goals.add( &string_id<behavior::node_t>( "monster_special" ).obj() );
     monster &test_monster = spawn_test_monster( "mon_zombie", { 5, 5, 0 } );

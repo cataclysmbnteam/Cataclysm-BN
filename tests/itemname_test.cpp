@@ -8,9 +8,11 @@
 #include "game.h"
 #include "item.h"
 #include "type_id.h"
+#include "state_helpers.h"
 
 TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
 {
+    clear_all_state();
     GIVEN( "player is a normal size" ) {
         g->u.clear_mutations();
 

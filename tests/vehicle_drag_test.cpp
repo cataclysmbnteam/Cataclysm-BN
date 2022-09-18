@@ -13,6 +13,7 @@
 #include "map_helpers.h"
 #include "point.h"
 #include "player_helpers.h"
+#include "state_helpers.h"
 #include "string_formatter.h"
 #include "test_statistics.h"
 #include "type_id.h"
@@ -218,6 +219,7 @@ std::vector<std::string> vehs_to_test_drag = {
 /** This is even less of a test. It generates C++ lines for the actual test below */
 TEST_CASE( "vehicle_drag_calc_baseline", "[.]" )
 {
+    clear_all_state();
     for( const std::string &veh : vehs_to_test_drag ) {
         test_drag( vproto_id( veh ) );
     }
@@ -227,6 +229,7 @@ TEST_CASE( "vehicle_drag_calc_baseline", "[.]" )
 // coeffs are dimensionless, speeds are 100ths of mph, so 6101 is 61.01 mph
 TEST_CASE( "vehicle_drag", "[vehicle] [engine]" )
 {
+    clear_all_state();
     test_vehicle_drag( "bicycle", 0.609525, 0.017205, 43.304167, 2355, 3078 );
     test_vehicle_drag( "bicycle_electric", 0.609525, 0.027581, 69.420833, 2753, 3268 );
     test_vehicle_drag( "motorcycle", 0.609525, 0.569952, 254.820312, 7296, 8687 );
