@@ -72,7 +72,6 @@ static const ammo_effect_str_id ammo_effect_FRAG( "FRAG" );
 static const ammo_effect_str_id ammo_effect_INCENDIARY( "INCENDIARY" );
 static const ammo_effect_str_id ammo_effect_NAPALM( "NAPALM" );
 static const ammo_effect_str_id ammo_effect_NAPALM_BIG( "NAPALM_BIG" );
-static const ammo_effect_str_id ammo_effect_NEVER_MISFIRES( "NEVER_MISFIRES" );
 static const ammo_effect_str_id ammo_effect_SMOKE( "SMOKE" );
 static const ammo_effect_str_id ammo_effect_SMOKE_BIG( "SMOKE_BIG" );
 static const ammo_effect_str_id ammo_effect_TOXICGAS( "TOXICGAS" );
@@ -464,14 +463,6 @@ void Item_factory::finalize_pre( itype &obj )
         }
 
         obj.gun->reload_noise = _( obj.gun->reload_noise );
-
-        // TODO: Move to jsons?
-        if( obj.gun->skill_used == skill_id( "archery" ) ||
-            obj.gun->skill_used == skill_id( "throw" ) ) {
-            obj.item_tags.insert( "WATERPROOF_GUN" );
-            obj.item_tags.insert( "NEVER_JAMS" );
-            obj.gun->ammo_effects.insert( ammo_effect_NEVER_MISFIRES );
-        }
     }
 
     set_allergy_flags( obj );
