@@ -316,10 +316,18 @@ tile_type &tileset::create_tile_type( const std::string &id, tile_type &&new_til
     return inserted_tile;
 }
 
-void cata_tiles::load_tileset( const std::string &tileset_id, const bool precheck,
-                               const bool force )
+void cata_tiles::load_tileset(
+    const std::string &tileset_id,
+    const std::vector<mod_id> &mod_list,
+    const bool precheck,
+    const bool force
+)
 {
-    if( tileset_ptr && tileset_ptr->get_tileset_id() == tileset_id && !force ) {
+    if( !force && tileset_ptr &&
+        !get_option<bool>( "FORCE_TILESET_RELOAD" ) &&
+        tileset_ptr->get_tileset_id() == tileset_id &&
+        tileset_mod_list_stamp == mod_list
+      ) {
         return;
     }
     // TODO: move into clear or somewhere else.
@@ -332,6 +340,7 @@ void cata_tiles::load_tileset( const std::string &tileset_id, const bool prechec
     tileset_loader loader( *new_tileset_ptr, renderer );
     loader.load( tileset_id, precheck );
     tileset_ptr = std::move( new_tileset_ptr );
+    tileset_mod_list_stamp = mod_list;
 
     set_draw_scale( 16 );
 
