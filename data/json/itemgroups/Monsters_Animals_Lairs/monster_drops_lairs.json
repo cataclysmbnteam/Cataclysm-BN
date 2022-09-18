@@ -346,7 +346,7 @@
     "type": "item_group",
     "id": "dog_cop",
     "subtype": "distribution",
-    "entries": [ { "item": "kevlar_harness", "prob": 1 } ]
+    "entries": [ { "item": "kevlar_armor_small_quadruped", "prob": 1 } ]
   },
   {
     "type": "item_group",
