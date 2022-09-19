@@ -2672,8 +2672,6 @@ void npc::move_pause()
         return;
     }
 
-    recoil = MAX_RECOIL;
-
     // Stop, drop, and roll
     if( has_effect( effect_onfire ) ) {
         pause();
