@@ -68,7 +68,7 @@
     "type": "martial_art",
     "id": "style_barbaran",
     "name": { "str": "Barbaran Montante" },
-    "description": "The Barbaran Montante originated in 16th century Spain and focuses on overcoming thick armor with heavy weaponry and sweeping blows, transferring kinetic energy through armor and into vulnerable organs and bones.",
+    "description": "The Barbaran Montante originated in 16th century Spain and focuses on overcoming thick armor with heavy weaponry and sweeping blows, transferring kinetic energy through armor and into vulnerable organs and bones. This style concentrates on the modern use of two handed swords but could be adapted to other types of two handed weaponry.",
     "initiate": [
       "You heft your weapon, stretch your shoulders, and slide into the Represa.",
       "%s rolls their shoulders and prepares to duel."
@@ -128,14 +128,14 @@
       {
         "id": "buff_barbaran_onpause",
         "name": "Vulgar Preparation",
-        "description": "You prepare for the final crushing strike.\n\nAccuracy increased by 15% of Strength, Armor penetration increased by 225% of Strength.\nLasts 1 turn.",
+        "description": "You prepare for the final crushing strike.\n\nAccuracy increased by 15% of Strength, Armor penetration increased by 125% of Strength.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "melee", "level": 4 } ],
         "melee_allowed": true,
         "flat_bonuses": [
           { "stat": "hit", "scaling-stat": "str", "scale": 0.15 },
-          { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 2.25 },
-          { "stat": "arpen", "type": "cut", "scaling-stat": "str", "scale": 2.25 },
-          { "stat": "arpen", "type": "stab", "scaling-stat": "str", "scale": 2.25 }
+          { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 1.25 },
+          { "stat": "arpen", "type": "cut", "scaling-stat": "str", "scale": 1.25 },
+          { "stat": "arpen", "type": "stab", "scaling-stat": "str", "scale": 1.25 }
         ],
         "buff_duration": 1
       }
